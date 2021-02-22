@@ -38,10 +38,10 @@ namespace ZuneUI
 
         public override void Cancel()
         {
-            if (this.CurrentPage is MobileWirelessSyncWizardPage currentPage)
-                currentPage.OnCancel();
-            if (this.CurrentPage is MobileWirelessSyncErrorPage currentPage)
-                currentPage.OnCancel();
+            if (this.CurrentPage is MobileWirelessSyncWizardPage currentWizardPage)
+                currentWizardPage.OnCancel();
+            if (this.CurrentPage is MobileWirelessSyncErrorPage currentErrorPage)
+                currentErrorPage.OnCancel();
             base.Cancel();
         }
     }

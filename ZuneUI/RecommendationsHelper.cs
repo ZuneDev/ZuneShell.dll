@@ -74,9 +74,9 @@ namespace ZuneUI
 
         public static int GetKeyValueInt(IDictionary dictionary, object key, int defaultValue)
         {
-            num = defaultValue;
-            if (dictionary == null || !dictionary.Contains(key) || !(dictionary[key] is int num))
-                ;
+            int num = defaultValue;
+            if (dictionary != null && dictionary.Contains(key) && dictionary[key] is int val)
+                num = val;
             return num;
         }
 

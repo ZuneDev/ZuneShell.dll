@@ -349,20 +349,20 @@ namespace ZuneUI
             if (count <= 0)
                 return;
             MediaType mediaType1 = MediaType.Undefined;
-            if (items[0] is LibraryDataProviderItemBase providerItemBase)
+            if (items[0] is LibraryDataProviderItemBase providerItemBaseA)
             {
-                if (providerItemBase.TypeName == "Artist")
+                if (providerItemBaseA.TypeName == "Artist")
                     mediaType1 = MediaType.Artist;
-                else if (providerItemBase.TypeName == "Album")
+                else if (providerItemBaseA.TypeName == "Album")
                     mediaType1 = MediaType.Album;
-                else if (providerItemBase.TypeName == "Genre")
+                else if (providerItemBaseA.TypeName == "Genre")
                     mediaType1 = MediaType.Genre;
             }
             if (mediaType1 == MediaType.Artist || mediaType1 == MediaType.Genre || mediaType1 == MediaType.Album)
             {
                 IList list = (IList)new ArrayList(count);
-                foreach (LibraryDataProviderItemBase providerItemBase in (IEnumerable)items)
-                    list.Add((object)(int)providerItemBase.GetProperty("LibraryId"));
+                foreach (LibraryDataProviderItemBase providerItemBaseB in (IEnumerable)items)
+                    list.Add((int)providerItemBaseB.GetProperty("LibraryId"));
                 bool singleAlbum = list.Count == 1;
                 if ((mediaType1 == MediaType.Artist || mediaType1 == MediaType.Genre) && list.Count == 1)
                 {

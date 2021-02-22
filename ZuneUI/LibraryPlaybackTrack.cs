@@ -221,7 +221,7 @@ namespace ZuneUI
             this._hasIncrementedSkipCount = false;
             this._lastStoredBookmark = 0L;
             this._duration = playbackWrapper.Duration;
-            if (this._mediaType == MediaType.PodcastEpisode || this._mediaType == MediaType.Video)
+            if (this._mediaType == ZuneUI.MediaType.PodcastEpisode || this._mediaType == ZuneUI.MediaType.Video)
             {
                 LibraryPlaybackTrack.PodcastVideoLengthGroup videoLengthGroup = LibraryPlaybackTrack.PodcastVideoLengthGroup.Long;
                 while (videoLengthGroup > LibraryPlaybackTrack.PodcastVideoLengthGroup.Short && this._duration <= LibraryPlaybackTrack.c_podcastVideoLengths[(int)videoLengthGroup])
@@ -236,7 +236,7 @@ namespace ZuneUI
                     if (this._lastStoredBookmark > 200000000L)
                         this._hasIncrementedPlayCount = true;
                 }
-                if (this._mediaType == MediaType.PodcastEpisode)
+                if (this._mediaType == ZuneUI.MediaType.PodcastEpisode)
                 {
                     if (this.IsVideo)
                         SQMLog.Log(SQMDataId.PodcastVideoEpisodePlayed, 1);
@@ -247,13 +247,13 @@ namespace ZuneUI
             EMediaTypes MediaType;
             switch (this.MediaType)
             {
-                case MediaType.Track:
+                case ZuneUI.MediaType.Track:
                     MediaType = EMediaTypes.eMediaTypeAudio;
                     break;
-                case MediaType.Video:
+                case ZuneUI.MediaType.Video:
                     MediaType = EMediaTypes.eMediaTypeVideo;
                     break;
-                case MediaType.PodcastEpisode:
+                case ZuneUI.MediaType.PodcastEpisode:
                     MediaType = EMediaTypes.eMediaTypePodcastEpisode;
                     break;
                 default:

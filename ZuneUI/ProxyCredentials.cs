@@ -75,10 +75,10 @@ namespace ZuneUI
             if (this._inputDialog != null)
             {
                 this._inputDialog.Dispose();
-                this._inputDialog = (ProxySignIn)null;
+                this._inputDialog = null;
             }
             this._credentials = (UserCredentialRequestArguments)args;
-            this._inputDialog = new ProxySignIn(this._credentials, new EventHandler(((NetworkSignInCredentials)this).OnDialogSignIn), new EventHandler(((NetworkSignInCredentials)this).OnDialogCanceled));
+            this._inputDialog = new ProxySignIn(this._credentials, new EventHandler(OnDialogSignIn), new EventHandler(OnDialogCanceled));
             this._inputDialog.Show();
             this._lastUIPathPrompted = ZuneShell.DefaultInstance.CurrentPage.UIPath;
         }
@@ -92,11 +92,11 @@ namespace ZuneUI
 
         public override void Dispose()
         {
-            UserCredentialManager.Instance.SetCredentialHandler((UserCredentialHandler)null);
+            UserCredentialManager.Instance.SetCredentialHandler(null);
             if (this._inputDialog != null)
             {
                 this._inputDialog.Dispose();
-                this._inputDialog = (ProxySignIn)null;
+                this._inputDialog = null;
             }
             base.Dispose();
         }

@@ -41,13 +41,15 @@ namespace ZuneUI
 
         public static bool CanCreateAttachment(object obj)
         {
+            DataProviderObject dataProviderObject = null;
             MediaType mediaType = MediaType.Undefined;
             Guid guid = Guid.Empty;
             int num = -1;
             bool flag = false;
             switch (obj)
             {
-                case DataProviderObject dataProviderObject:
+                case DataProviderObject _:
+                    dataProviderObject = (DataProviderObject)obj;
                     object property1 = dataProviderObject.GetProperty("ZuneMediaId");
                     if (property1 != null)
                         guid = (Guid)property1;

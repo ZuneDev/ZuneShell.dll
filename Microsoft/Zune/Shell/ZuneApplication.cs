@@ -205,10 +205,10 @@ namespace Microsoft.Zune.Shell
             }
             if (args[(object)"link"] is string link && !ZuneUI.Shell.IgnoreAppNavigationsArgs)
                 ZuneUI.Shell.ProcessExternalLink(link);
-            if (args[(object)"ripcd"] is string path && !ZuneUI.Shell.IgnoreAppNavigationsArgs)
-                CDAccess.HandleDiskFromAutoplay(path, CDAction.Rip);
-            if (args[(object)"playcd"] is string path && !ZuneUI.Shell.IgnoreAppNavigationsArgs)
-                CDAccess.HandleDiskFromAutoplay(path, CDAction.Play);
+            if (args[(object)"ripcd"] is string playCdPath && !ZuneUI.Shell.IgnoreAppNavigationsArgs)
+                CDAccess.HandleDiskFromAutoplay(playCdPath, CDAction.Rip);
+            if (args[(object)"playcd"] is string ripCdPath && !ZuneUI.Shell.IgnoreAppNavigationsArgs)
+                CDAccess.HandleDiskFromAutoplay(ripCdPath, CDAction.Play);
             if (args[(object)"playmedia"] is string initialUrl && !ZuneUI.Shell.IgnoreAppNavigationsArgs)
                 ZuneApplication.RegisterNewFileEnumeration(new LaunchFromShellHelper("play", initialUrl));
             if (args[(object)"shellhlp_v2"] is string taskName && !ZuneUI.Shell.IgnoreAppNavigationsArgs)

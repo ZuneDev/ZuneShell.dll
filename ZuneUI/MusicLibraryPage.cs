@@ -549,7 +549,7 @@ namespace ZuneUI
         private void ShowContentTypesChanged(object sender, EventArgs e)
         {
             if (!this.ShowContentTypes.Value)
-                this.DrmStateMask = DrmStateMask.All();
+                this.DrmStateMask = ZuneUI.DrmStateMask.All();
             ClientConfiguration.Shell.ShowContentTypes = this.ShowContentTypes.Value;
         }
 
@@ -640,7 +640,7 @@ namespace ZuneUI
         {
             if (!(ZuneShell.DefaultInstance.CurrentPage is LibraryPage currentPage))
                 return;
-            currentPage.DrmStateMask = DrmStateMask.All();
+            currentPage.DrmStateMask = ZuneUI.DrmStateMask.All();
             SQMLog.Log(SQMDataId.LibraryContentTypeAllClicks, 1);
         }
 
@@ -648,7 +648,7 @@ namespace ZuneUI
         {
             if (!(ZuneShell.DefaultInstance.CurrentPage is LibraryPage currentPage))
                 return;
-            currentPage.DrmStateMask = DrmStateMask.Personal();
+            currentPage.DrmStateMask = ZuneUI.DrmStateMask.Personal();
             SQMLog.Log(SQMDataId.LibraryContentTypePersonalClicks, 1);
         }
 
@@ -656,7 +656,7 @@ namespace ZuneUI
         {
             if (!(ZuneShell.DefaultInstance.CurrentPage is LibraryPage currentPage))
                 return;
-            currentPage.DrmStateMask = DrmStateMask.Protected();
+            currentPage.DrmStateMask = ZuneUI.DrmStateMask.Protected();
             SQMLog.Log(SQMDataId.LibraryContentTypeProtectedClicks, 1);
         }
 
@@ -664,7 +664,7 @@ namespace ZuneUI
         {
             if (!(ZuneShell.DefaultInstance.CurrentPage is LibraryPage currentPage))
                 return;
-            currentPage.DrmStateMask = DrmStateMask.ZunePass();
+            currentPage.DrmStateMask = ZuneUI.DrmStateMask.ZunePass();
             SQMLog.Log(SQMDataId.LibraryContentTypeZunePassClicks, 1);
         }
 
@@ -710,7 +710,7 @@ namespace ZuneUI
             if (this.NavigationArguments != null)
             {
                 MusicLibraryPage._preferredContentType = MusicLibraryPage._showContentTypesAll;
-                this.DrmStateMask = DrmStateMask.All();
+                this.DrmStateMask = ZuneUI.DrmStateMask.All();
                 if (this.NavigationArguments.Contains((object)"ViewOverrideId"))
                 {
                     MusicLibraryView navigationArgument = (MusicLibraryView)this.NavigationArguments[(object)"ViewOverrideId"];

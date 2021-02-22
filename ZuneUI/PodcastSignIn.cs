@@ -38,7 +38,7 @@ namespace ZuneUI
           : base(signInHandler, cancelHandler, "res://ZuneShellResources!PodcastDialogs.uix#PodcastSignInDialogUI")
         {
             this._credentials = credentials;
-            this.Cancel.Invoked += new EventHandler(((NetworkSignInDialogHelper)this).OnInvoked);
+            this.Cancel.Invoked += new EventHandler(this.OnInvoked);
             this._seriesTitle = this._credentials.SubscriptionMediaId <= 0 ? string.Empty : PlaylistManager.GetFieldValue<string>(this._credentials.SubscriptionMediaId, EListType.ePodcastList, 344, string.Empty);
             this._title = Shell.LoadString(StringId.IDS_PODCAST_SIGN_IN_TITLE);
             Uri uri = new Uri(this._credentials.TargetUrl);

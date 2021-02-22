@@ -57,7 +57,7 @@ namespace ZuneUI
                 this._inputDialog.Dispose();
                 this._inputDialog = (PodcastSignIn)null;
             }
-            this._inputDialog = new PodcastSignIn((SubscriptonCredentialRequestArguments)args, new EventHandler(((NetworkSignInCredentials)this).OnDialogSignIn), new EventHandler(((NetworkSignInCredentials)this).OnDialogCanceled));
+            this._inputDialog = new PodcastSignIn((SubscriptonCredentialRequestArguments)args, new EventHandler(OnDialogSignIn), new EventHandler(OnDialogCanceled));
             this._inputDialog.Show();
         }
 

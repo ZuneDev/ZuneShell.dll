@@ -29,9 +29,11 @@ namespace Microsoft.Zune.PerfTrace
             this._traceHandle = 0UL;
             this._registrationHandle = 0UL;
             RegistryKey registryKey = Registry.LocalMachine.OpenSubKey(regPath);
-            num = 1;
-            if (registryKey == null || !(registryKey.GetValue("EtwEnabled") is int num))
-                ;
+            int num = 1;
+            if (registryKey != null && registryKey.GetValue("EtwEnabled") is int val)
+            {
+                num = val;
+            }
             if (num <= 0)
             {
                 this._enabled = false;
@@ -247,14 +249,14 @@ namespace Microsoft.Zune.PerfTrace
             if (data0 != null)
             {
                 ++num2;
-                EtwTraceProvider.MofField* mofField = (EtwTraceProvider.MofField*)((UIntPtr) & baseEvent.UserData + (UIntPtr)num3++ * (UIntPtr)sizeof(EtwTraceProvider.MofField));
+                EtwTraceProvider.MofField* mofField = (EtwTraceProvider.MofField*)( & baseEvent.UserData + num3++ * sizeof(EtwTraceProvider.MofField));
                 if ((str10 = this.ProcessOneObject(data0, mofField, ptr, ref offSet)) != null)
                     num1 |= 1;
             }
             if (data1 != null)
             {
                 ++num2;
-                EtwTraceProvider.MofField* mofField = (EtwTraceProvider.MofField*)((UIntPtr) & baseEvent.UserData + (UIntPtr)num3++ * (UIntPtr)sizeof(EtwTraceProvider.MofField));
+                EtwTraceProvider.MofField* mofField = (EtwTraceProvider.MofField*)( & baseEvent.UserData + num3++ * sizeof(EtwTraceProvider.MofField));
                 ptr = chPtr1 + offSet;
                 if ((str9 = this.ProcessOneObject(data1, mofField, ptr, ref offSet)) != null)
                     num1 |= 2;
@@ -262,7 +264,7 @@ namespace Microsoft.Zune.PerfTrace
             if (data2 != null)
             {
                 ++num2;
-                EtwTraceProvider.MofField* mofField = (EtwTraceProvider.MofField*)((UIntPtr) & baseEvent.UserData + (UIntPtr)num3++ * (UIntPtr)sizeof(EtwTraceProvider.MofField));
+                EtwTraceProvider.MofField* mofField = (EtwTraceProvider.MofField*)( & baseEvent.UserData + num3++ * sizeof(EtwTraceProvider.MofField));
                 ptr = chPtr1 + offSet;
                 if ((str8 = this.ProcessOneObject(data2, mofField, ptr, ref offSet)) != null)
                     num1 |= 4;
@@ -270,7 +272,7 @@ namespace Microsoft.Zune.PerfTrace
             if (data3 != null)
             {
                 ++num2;
-                EtwTraceProvider.MofField* mofField = (EtwTraceProvider.MofField*)((UIntPtr) & baseEvent.UserData + (UIntPtr)num3++ * (UIntPtr)sizeof(EtwTraceProvider.MofField));
+                EtwTraceProvider.MofField* mofField = (EtwTraceProvider.MofField*)( & baseEvent.UserData + num3++ * sizeof(EtwTraceProvider.MofField));
                 ptr = chPtr1 + offSet;
                 if ((str7 = this.ProcessOneObject(data3, mofField, ptr, ref offSet)) != null)
                     num1 |= 8;
@@ -278,7 +280,7 @@ namespace Microsoft.Zune.PerfTrace
             if (data4 != null)
             {
                 ++num2;
-                EtwTraceProvider.MofField* mofField = (EtwTraceProvider.MofField*)((UIntPtr) & baseEvent.UserData + (UIntPtr)num3++ * (UIntPtr)sizeof(EtwTraceProvider.MofField));
+                EtwTraceProvider.MofField* mofField = (EtwTraceProvider.MofField*)( & baseEvent.UserData + num3++ * sizeof(EtwTraceProvider.MofField));
                 ptr = chPtr1 + offSet;
                 if ((str6 = this.ProcessOneObject(data4, mofField, ptr, ref offSet)) != null)
                     num1 |= 16;
@@ -286,7 +288,7 @@ namespace Microsoft.Zune.PerfTrace
             if (data5 != null)
             {
                 ++num2;
-                EtwTraceProvider.MofField* mofField = (EtwTraceProvider.MofField*)((UIntPtr) & baseEvent.UserData + (UIntPtr)num3++ * (UIntPtr)sizeof(EtwTraceProvider.MofField));
+                EtwTraceProvider.MofField* mofField = (EtwTraceProvider.MofField*)( & baseEvent.UserData + num3++ * sizeof(EtwTraceProvider.MofField));
                 ptr = chPtr1 + offSet;
                 if ((str5 = this.ProcessOneObject(data5, mofField, ptr, ref offSet)) != null)
                     num1 |= 32;
@@ -294,7 +296,7 @@ namespace Microsoft.Zune.PerfTrace
             if (data6 != null)
             {
                 ++num2;
-                EtwTraceProvider.MofField* mofField = (EtwTraceProvider.MofField*)((UIntPtr) & baseEvent.UserData + (UIntPtr)num3++ * (UIntPtr)sizeof(EtwTraceProvider.MofField));
+                EtwTraceProvider.MofField* mofField = (EtwTraceProvider.MofField*)( & baseEvent.UserData + num3++ * sizeof(EtwTraceProvider.MofField));
                 ptr = chPtr1 + offSet;
                 if ((str4 = this.ProcessOneObject(data6, mofField, ptr, ref offSet)) != null)
                     num1 |= 64;
@@ -302,7 +304,7 @@ namespace Microsoft.Zune.PerfTrace
             if (data7 != null)
             {
                 ++num2;
-                EtwTraceProvider.MofField* mofField = (EtwTraceProvider.MofField*)((UIntPtr) & baseEvent.UserData + (UIntPtr)num3++ * (UIntPtr)sizeof(EtwTraceProvider.MofField));
+                EtwTraceProvider.MofField* mofField = (EtwTraceProvider.MofField*)( & baseEvent.UserData + num3++ * sizeof(EtwTraceProvider.MofField));
                 ptr = chPtr1 + offSet;
                 if ((str3 = this.ProcessOneObject(data7, mofField, ptr, ref offSet)) != null)
                     num1 |= 128;
@@ -310,7 +312,7 @@ namespace Microsoft.Zune.PerfTrace
             if (data8 != null)
             {
                 uint num4 = num2 + 1U;
-                EtwTraceProvider.MofField* mofField = (EtwTraceProvider.MofField*)((UIntPtr) & baseEvent.UserData + (UIntPtr)num3++ * (UIntPtr)sizeof(EtwTraceProvider.MofField));
+                EtwTraceProvider.MofField* mofField = (EtwTraceProvider.MofField*)( & baseEvent.UserData + num3++ * sizeof(EtwTraceProvider.MofField));
                 ptr = chPtr1 + offSet;
                 if ((str2 = this.ProcessOneObject(data8, mofField, ptr, ref offSet)) != null)
                     num1 |= 256;

@@ -83,12 +83,12 @@ namespace ZuneXml
 
         protected override void BeginExecute()
         {
-            if (this.GetProperty("SendPassportTicket") is bool property)
-                this._passportTicketType = property ? EPassportPolicyId.MBI : EPassportPolicyId.None;
-            if (this.GetProperty("SendSecurePassportTicket") is bool property)
-                this._passportTicketType = property ? EPassportPolicyId.MBI_SSL : EPassportPolicyId.None;
-            if (this.GetProperty("RefreshOnCacheExpire") is bool property)
-                this._refreshOnCacheExpire = property;
+            if (this.GetProperty("SendPassportTicket") is bool passportProperty)
+                this._passportTicketType = passportProperty ? EPassportPolicyId.MBI : EPassportPolicyId.None;
+            if (this.GetProperty("SendSecurePassportTicket") is bool securePassportProperty)
+                this._passportTicketType = securePassportProperty ? EPassportPolicyId.MBI_SSL : EPassportPolicyId.None;
+            if (this.GetProperty("RefreshOnCacheExpire") is bool expireProperty)
+                this._refreshOnCacheExpire = expireProperty;
             string resourceUri = this.GetResourceUri();
             string postBody = this.GetPostBody();
             if (string.IsNullOrEmpty(resourceUri))

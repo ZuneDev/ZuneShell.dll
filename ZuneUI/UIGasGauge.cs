@@ -24,7 +24,8 @@ namespace ZuneUI
                 this._gauge.CategorySpaceUsedUpdatedEvent += new CategorySpaceUsedUpdatedHandler(this.OnCategorySpaceUpdated);
                 this._gauge.ReservedSpaceUpdatedEvent += new ReservedSpaceUpdatedHandler(this.OnReservedSpaceUpdated);
             }
-            if (!(owner is UIDevice uiDevice) && owner is SyncGroupList syncGroupList)
+            UIDevice uiDevice = owner as UIDevice;
+            if (uiDevice == null && owner is SyncGroupList syncGroupList)
                 uiDevice = syncGroupList.Device;
             if (uiDevice == null)
                 return;
