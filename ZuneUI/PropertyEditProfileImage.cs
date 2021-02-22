@@ -30,9 +30,9 @@ namespace ZuneUI
 
         public void Commit(ProfileImage image)
         {
-            if (ComposerHelper.ManageProfileImage(image, new MessagingCallback(this.OnCommitComplete), (object)image))
+            if (ComposerHelper.ManageProfileImage(image, new MessagingCallback(this.OnCommitComplete), image))
                 return;
-            this.OnCommitComplete(HRESULT._E_FAIL, (object)image);
+            this.OnCommitComplete(HRESULT._E_FAIL, image);
         }
 
         private void OnCommitCompleteDeferred(object args)
@@ -40,20 +40,20 @@ namespace ZuneUI
             HRESULT hresult = (HRESULT)((object[])args)[0];
             ProfileImage profileImage = ((object[])args)[1] as ProfileImage;
             if (this.CommitComplete != null)
-                this.CommitComplete((object)this, (EventArgs)null);
+                this.CommitComplete(this, null);
             this.FirePropertyChanged("CommitComplete");
             if (hresult.IsError)
             {
-                this.LastImage = (ProfileImage)null;
+                this.LastImage = null;
                 Shell.ShowErrorDialog(hresult.Int, Shell.LoadString(StringId.IDS_PROFILE_EDIT_IMAGE_FAIL_TITLE));
             }
             else
                 this.LastImage = profileImage;
         }
 
-        private void OnCommitComplete(HRESULT hr, object state) => Application.DeferredInvoke(new DeferredInvokeHandler(this.OnCommitCompleteDeferred), (object)new object[2]
+        private void OnCommitComplete(HRESULT hr, object state) => Application.DeferredInvoke(new DeferredInvokeHandler(this.OnCommitCompleteDeferred), new object[2]
         {
-      (object) hr,
+       hr,
       state
         });
     }

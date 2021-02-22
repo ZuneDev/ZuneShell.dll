@@ -11,10 +11,10 @@ namespace ZuneXml
     public class AppTitleComparer : PropertyComparer<string>
     {
         public AppTitleComparer()
-          : base(new Converter<object, string>(AppTitleComparer.GetSortTitle), false)
+          : base(new Converter<object, string>(GetSortTitle), false)
         {
         }
 
-        private static string GetSortTitle(object o) => !(o is App app) ? (string)null : app.SortTitle;
+        private static string GetSortTitle(object o) => !(o is App app) ? null : app.SortTitle;
     }
 }

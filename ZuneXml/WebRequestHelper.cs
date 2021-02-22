@@ -30,7 +30,7 @@ namespace ZuneXml
                     request.Authorization = "WLID1.0 " + passportTicket;
             }
             request.AcceptGZipEncoding = acceptGZipEncoding;
-            request.AcceptLanguage = WebRequestHelper.Locale;
+            request.AcceptLanguage = Locale;
         }
 
         public static HttpWebRequest ConstructWebRequest(
@@ -54,7 +54,7 @@ namespace ZuneXml
             HttpWebRequest request = HttpWebRequest.Create(requestUri);
             request.KeepAlive = fKeepAlive;
             request.CancelOnShutdown = true;
-            WebRequestHelper.SetCommonHeaders(request, passportTicketType, cachePolicy, acceptGZipEncoding);
+            SetCommonHeaders(request, passportTicketType, cachePolicy, acceptGZipEncoding);
             int num1 = TraceSwitches.DataProviderSwitch.TraceWarning ? 1 : 0;
             return request;
         }
@@ -72,9 +72,9 @@ namespace ZuneXml
             request.CachePolicy = cachePolicy;
             request.Method = "POST";
             request.ContentType = "application/x-www-form-urlencoded";
-            WebRequestHelper.SetCommonHeaders(request, passportTicketType, cachePolicy, acceptGZipEncoding);
+            SetCommonHeaders(request, passportTicketType, cachePolicy, acceptGZipEncoding);
             byte[] bytes = new ASCIIEncoding().GetBytes(requestBody);
-            request.ContentLength = (long)bytes.Length;
+            request.ContentLength = bytes.Length;
             request.GetRequestStream().Write(bytes, 0, bytes.Length);
             int num = TraceSwitches.DataProviderSwitch.TraceWarning ? 1 : 0;
             return request;
@@ -84,9 +84,9 @@ namespace ZuneXml
         {
             get
             {
-                if (WebRequestHelper.AcceptLanguage == null)
-                    WebRequestHelper.AcceptLanguage = CultureInfo.CurrentUICulture.Name;
-                return WebRequestHelper.AcceptLanguage;
+                if (AcceptLanguage == null)
+                    AcceptLanguage = CultureInfo.CurrentUICulture.Name;
+                return AcceptLanguage;
             }
         }
     }

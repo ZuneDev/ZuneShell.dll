@@ -16,7 +16,7 @@ namespace ZuneXml
         {
             get
             {
-                string str = (string)null;
+                string str = null;
                 MiniArtist primaryArtist = this.PrimaryArtist;
                 if (primaryArtist != null)
                 {

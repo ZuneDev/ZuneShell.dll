@@ -21,7 +21,7 @@ namespace ZuneUI
         {
             if (showDevice)
             {
-                Deviceland.InitDevicePage((ZunePage)this);
+                Deviceland.InitDevicePage(this);
                 this.PivotPreference = Shell.MainFrame.Device.Friends;
                 this.ShowComputerIcon = ComputerIconState.Show;
             }
@@ -30,7 +30,7 @@ namespace ZuneUI
             this.TransportControlStyle = TransportControlStyle.Music;
             this.PlaybackContext = PlaybackContext.Music;
             this.IsRootPage = true;
-            this.UI = FriendsPage.FriendsPageTemplate;
+            this.UI = FriendsPageTemplate;
             this.UIPath = "Social\\Friends";
             this._friendsPanel = new FriendsPanel(this);
         }
@@ -61,7 +61,7 @@ namespace ZuneUI
         {
             get
             {
-                string str = (string)null;
+                string str = null;
                 if (!this.ShowDeviceContents)
                     str = SignIn.Instance.ZuneTag;
                 else if (SyncControls.Instance.CurrentDevice.IsValid)

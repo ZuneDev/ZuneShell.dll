@@ -29,13 +29,13 @@ namespace ZuneUI
         {
             get
             {
-                if (ProxyCredentials._instance == null)
-                    ProxyCredentials._instance = new ProxyCredentials();
-                return ProxyCredentials._instance;
+                if (_instance == null)
+                    _instance = new ProxyCredentials();
+                return _instance;
             }
         }
 
-        public static bool HasInstance => ProxyCredentials._instance != null;
+        public static bool HasInstance => _instance != null;
 
         public void Reset()
         {
@@ -60,10 +60,10 @@ namespace ZuneUI
             else if (!Application.IsApplicationThread && this._dialogClosed == null)
             {
                 this._dialogClosed = new EventWaitHandle(false, EventResetMode.ManualReset);
-                Application.DeferredInvoke(new DeferredInvokeHandler(this.ShowDialog), (object)args);
+                Application.DeferredInvoke(new DeferredInvokeHandler(this.ShowDialog), args);
                 this._dialogClosed.WaitOne();
                 this._dialogClosed.Close();
-                this._dialogClosed = (EventWaitHandle)null;
+                this._dialogClosed = null;
             }
             return this._completed;
         }

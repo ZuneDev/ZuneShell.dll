@@ -45,7 +45,7 @@ namespace ZuneUI
                 }
                 else if (this.TrackModel.CanPurchase)
                 {
-                    this.Description = string.Format(Shell.LoadString(StringId.IDS_BUY), (object)this.TrackModel.PointsPrice);
+                    this.Description = string.Format(Shell.LoadString(StringId.IDS_BUY), TrackModel.PointsPrice);
                     this.Available = true;
                     this.HasPoints = this.TrackModel.HasPoints;
                 }
@@ -65,7 +65,7 @@ namespace ZuneUI
                     this.Available = true;
                 }
             }
-            if (this.TrackModel.CanPurchase || !((HRESULT)Download.Instance.GetErrorCode(this.Id) == HRESULT._NS_E_MEDIA_NOT_PURCHASED))
+            if (this.TrackModel.CanPurchase || !(Download.Instance.GetErrorCode(this.Id) == HRESULT._NS_E_MEDIA_NOT_PURCHASED))
                 return;
             Download.Instance.SetErrorCode(this.Id, HRESULT._S_OK.Int);
         }

@@ -18,24 +18,24 @@ namespace ZuneUI
         {
             get
             {
-                if (BasicAccountInfoPropertyEditor.s_dataProviderProperties == null)
-                    BasicAccountInfoPropertyEditor.s_dataProviderProperties = new PropertyDescriptor[4]
+                if (s_dataProviderProperties == null)
+                    s_dataProviderProperties = new PropertyDescriptor[4]
                     {
-            (PropertyDescriptor) BasicAccountInfoPropertyEditor.s_Country,
-            (PropertyDescriptor) BasicAccountInfoPropertyEditor.s_Language,
-            (PropertyDescriptor) BasicAccountInfoPropertyEditor.s_Birthday,
-            (PropertyDescriptor) BasicAccountInfoPropertyEditor.s_PostalCode
+             s_Country,
+             s_Language,
+             s_Birthday,
+             s_PostalCode
                     };
-                return BasicAccountInfoPropertyEditor.s_dataProviderProperties;
+                return s_dataProviderProperties;
             }
         }
 
-        public static PropertyDescriptor Country => (PropertyDescriptor)BasicAccountInfoPropertyEditor.s_Country;
+        public static PropertyDescriptor Country => s_Country;
 
-        public static PropertyDescriptor Language => (PropertyDescriptor)BasicAccountInfoPropertyEditor.s_Language;
+        public static PropertyDescriptor Language => s_Language;
 
-        public static PropertyDescriptor Birthday => (PropertyDescriptor)BasicAccountInfoPropertyEditor.s_Birthday;
+        public static PropertyDescriptor Birthday => s_Birthday;
 
-        public static PropertyDescriptor PostalCode => (PropertyDescriptor)BasicAccountInfoPropertyEditor.s_PostalCode;
+        public static PropertyDescriptor PostalCode => s_PostalCode;
     }
 }

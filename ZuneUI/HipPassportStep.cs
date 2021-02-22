@@ -24,7 +24,7 @@ namespace ZuneUI
                 this.Description = Shell.LoadString(StringId.IDS_ACCOUNT_CREATION_PARENTAL_INPUT_HEAD);
             else
                 this.Description = Shell.LoadString(StringId.IDS_ACCOUNT_CREATION_PASSPORT_STEP);
-            this.Initialize((WizardPropertyEditor)new HipPropertyEditor());
+            this.Initialize(new HipPropertyEditor());
         }
 
         public WinLiveInformation WinLiveHip
@@ -60,7 +60,7 @@ namespace ZuneUI
                 if (this._errorMappings == null)
                 {
                     this._errorMappings = new Dictionary<int, PropertyDescriptor>(1);
-                    this._errorMappings.Add(HRESULT._NS_E_WINLIVE_HIP_SOLUTION_INVALID.Int, (PropertyDescriptor)null);
+                    this._errorMappings.Add(HRESULT._NS_E_WINLIVE_HIP_SOLUTION_INVALID.Int, null);
                 }
                 return this._errorMappings;
             }
@@ -77,23 +77,23 @@ namespace ZuneUI
 
         protected override void OnActivate()
         {
-            this.SetCommittedValue(HipPropertyEditor.HipCharacters, (object)"");
+            this.SetCommittedValue(HipPropertyEditor.HipCharacters, "");
             if (this._firstView)
             {
                 this._firstView = false;
                 this.WinLiveHip = this.CreatePassportStep.WinLiveInformation;
             }
             else
-                this.WinLiveHip = (WinLiveInformation)null;
+                this.WinLiveHip = null;
             this.ServiceActivationRequestsDone = this.WinLiveHip != null;
             if (this.ServiceActivationRequestsDone)
                 return;
-            this.StartActivationRequests((object)this.State.BasicAccountInfoStep.SelectedLocale);
+            this.StartActivationRequests(State.BasicAccountInfoStep.SelectedLocale);
         }
 
-        internal override ErrorMapperResult GetMappedErrorDescriptionAndUrl(HRESULT hr) => Microsoft.Zune.ErrorMapperApi.ErrorMapperApi.GetMappedErrorDescriptionAndUrl(hr.Int, eErrorCondition.eEC_WinLive);
+        internal override ErrorMapperResult GetMappedErrorDescriptionAndUrl(HRESULT hr) => ErrorMapperApi.GetMappedErrorDescriptionAndUrl(hr.Int, eErrorCondition.eEC_WinLive);
 
-        protected override void OnStartActivationRequests(object state) => this.EndActivationRequests((object)this.ObtainWinLiveHip(state as string));
+        protected override void OnStartActivationRequests(object state) => this.EndActivationRequests(this.ObtainWinLiveHip(state as string));
 
         protected override void OnEndActivationRequests(object args)
         {
@@ -105,9 +105,9 @@ namespace ZuneUI
 
         private WinLiveInformation ObtainWinLiveHip(string local)
         {
-            WinLiveInformation information1 = (WinLiveInformation)null;
-            ServiceError serviceError = (ServiceError)null;
-            HRESULT information2 = this.State.WinLiveSignup.GetInformation(local, Microsoft.Zune.Service.EHipType.Image, out information1, out serviceError);
+            WinLiveInformation information1 = null;
+            ServiceError serviceError = null;
+            HRESULT information2 = this.State.WinLiveSignup.GetInformation(local, EHipType.Image, out information1, out serviceError);
             if (information2.IsError)
                 this.SetError(information2, serviceError);
             return information1;

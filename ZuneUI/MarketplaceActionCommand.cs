@@ -118,7 +118,7 @@ namespace ZuneUI
         {
             if (!this.Downloading)
                 return;
-            ZuneShell.DefaultInstance.Execute("Marketplace\\Downloads\\Home", (IDictionary)null);
+            ZuneShell.DefaultInstance.Execute("Marketplace\\Downloads\\Home", null);
         }
 
         public virtual void UpdateState()
@@ -134,13 +134,13 @@ namespace ZuneUI
                 int dbMediaId;
                 if (ZuneApplication.Service.InVisibleCollection(this.Id, this.ContentType, out dbMediaId))
                 {
-                    this.Description = ZuneUI.Shell.LoadString(StringId.IDS_INCOLLECTION);
+                    this.Description = Shell.LoadString(StringId.IDS_INCOLLECTION);
                     this.Available = true;
                     this.CollectionId = dbMediaId;
                 }
                 else if (ZuneApplication.Service.InHiddenCollection(this.Id, this.ContentType))
                 {
-                    this.Description = ZuneUI.Shell.LoadString(this.AddToCollectionStringId);
+                    this.Description = Shell.LoadString(this.AddToCollectionStringId);
                     this.Available = true;
                 }
                 else if (ZuneApplication.Service.IsDownloading(this.Id, this.ContentType, out fIsDownloadPending, out fIsHidden) && (!fIsHidden || this.ShowHiddenProgress))
@@ -149,7 +149,7 @@ namespace ZuneUI
                     this.Available = true;
                     if (fIsDownloadPending)
                     {
-                        this.Description = ZuneUI.Shell.LoadString(StringId.IDS_PENDING);
+                        this.Description = Shell.LoadString(StringId.IDS_PENDING);
                     }
                     else
                     {
@@ -161,13 +161,13 @@ namespace ZuneUI
                 }
                 else
                 {
-                    this.Description = ZuneUI.Shell.LoadString(StringId.IDS_NOT_AVAILABLE);
+                    this.Description = Shell.LoadString(StringId.IDS_NOT_AVAILABLE);
                     this.Available = false;
                 }
             }
             else
             {
-                this.Description = ZuneUI.Shell.LoadString(StringId.IDS_NOT_AVAILABLE);
+                this.Description = Shell.LoadString(StringId.IDS_NOT_AVAILABLE);
                 this.Available = false;
             }
             this.DownloadingHidden = fIsHidden;
@@ -180,9 +180,9 @@ namespace ZuneUI
             this.UpdateProgress(trackId, percent);
             this.HasPoints = false;
             if (this.SecondsToProgressivePlayback == 0 && this.AllowPlay)
-                this.Description = ZuneUI.Shell.LoadString(StringId.IDS_PLAY_SONG);
+                this.Description = Shell.LoadString(StringId.IDS_PLAY_SONG);
             else
-                this.Description = string.Format(ZuneUI.Shell.LoadString(StringId.IDS_DOWNLOAD_PROGRESS), (object)(int)percent);
+                this.Description = string.Format(Shell.LoadString(StringId.IDS_DOWNLOAD_PROGRESS), (int)percent);
             this.Downloading = true;
             this.Available = true;
         }
@@ -194,7 +194,7 @@ namespace ZuneUI
             if (hr == HRESULT._E_PENDING && (!this.DownloadingHidden || this.ShowHiddenProgress))
             {
                 this.HasPoints = false;
-                this.Description = ZuneUI.Shell.LoadString(StringId.IDS_PENDING);
+                this.Description = Shell.LoadString(StringId.IDS_PENDING);
                 this.Downloading = true;
                 this.Available = true;
             }

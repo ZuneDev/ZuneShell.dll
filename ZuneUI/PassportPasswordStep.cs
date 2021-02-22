@@ -40,7 +40,7 @@ namespace ZuneUI
                 this.DetailDescription = Shell.LoadString(StringId.IDS_ACCOUNT_CREATION_CREDENTIALS_HEADER);
             }
             this.DetailDescription = Shell.LoadString(StringId.IDS_ACCOUNT_CREATION_CREDENTIALS_HEADER);
-            this.Initialize((WizardPropertyEditor)new PassportPasswordPropertyEditor());
+            this.Initialize(new PassportPasswordPropertyEditor());
         }
 
         public override string UI => "res://ZuneShellResources!CreatePassport.uix#PassportPasswordStep";
@@ -103,7 +103,7 @@ namespace ZuneUI
             get => this.GetCommittedValue(PassportPasswordPropertyEditor.Email) as string;
             internal set
             {
-                this.SetCommittedValue(PassportPasswordPropertyEditor.Email, (object)value);
+                this.SetCommittedValue(PassportPasswordPropertyEditor.Email, value);
                 this.FirePropertyChanged(nameof(CommittedEmail));
             }
         }
@@ -113,7 +113,7 @@ namespace ZuneUI
             get => this.GetCommittedValue(PassportPasswordPropertyEditor.Password) as string;
             internal set
             {
-                this.SetCommittedValue(PassportPasswordPropertyEditor.Password, (object)value);
+                this.SetCommittedValue(PassportPasswordPropertyEditor.Password, value);
                 this.FirePropertyChanged(nameof(CommittedPassword));
             }
         }
@@ -246,7 +246,7 @@ namespace ZuneUI
             string committedEmail = this.CommittedEmail;
             if (committedValue != committedEmail || string.IsNullOrEmpty(committedPassword))
             {
-                this.PassportIdentity = (PassportIdentity)null;
+                this.PassportIdentity = null;
                 this.CommittedEmail = committedValue;
                 this.CommittedPassword = string.Empty;
             }
@@ -264,18 +264,18 @@ namespace ZuneUI
                 this.IsUnsupportedAccount = false;
                 this.IsUnsupportedRegion = false;
                 this.IsUpgradeNeeded = false;
-                this.StartDeactivationRequests((object)new PassportPasswordStep.ServiceData()
+                this.StartDeactivationRequests(new ServiceData()
                 {
                     Password = this.UncommittedPassword,
                     Email = this.UncommittedEmail,
-                    PassportIdentity = (this.UncommittedPassword != this.CommittedPassword || this.UncommittedEmail != this.CommittedEmail ? (PassportIdentity)null : this.PassportIdentity)
+                    PassportIdentity = (this.UncommittedPassword != this.CommittedPassword || this.UncommittedEmail != this.CommittedEmail ? null : this.PassportIdentity)
                 });
                 this.LoadStatus = Shell.LoadString(StringId.IDS_ACCOUNT_SIGNING_INTO_WINDOWS_LIVE);
                 return false;
             }
             if (!SignIn.Instance.SigningIn || this.ParentAccount)
             {
-                this.LoadStatus = (string)null;
+                this.LoadStatus = null;
                 return base.OnMovingNext();
             }
             this.LoadStatus = Shell.LoadString(StringId.IDS_PLEASE_WAIT);
@@ -284,14 +284,14 @@ namespace ZuneUI
 
         protected override void OnStartDeactivationRequests(object state)
         {
-            PassportPasswordStep.ServiceData serviceData = (PassportPasswordStep.ServiceData)state;
+            ServiceData serviceData = (ServiceData)state;
             this.ValidatePassportAccount(ref serviceData);
-            this.EndDeactivationRequests((object)serviceData);
+            this.EndDeactivationRequests(serviceData);
         }
 
         protected override void OnEndDeactivationRequests(object args)
         {
-            PassportPasswordStep.ServiceData serviceData = (PassportPasswordStep.ServiceData)args;
+            ServiceData serviceData = (ServiceData)args;
             this.PassportIdentity = serviceData.PassportIdentity;
             if (this.PassportIdentity == null || this.ParentAccount)
                 return;
@@ -304,19 +304,19 @@ namespace ZuneUI
             this.State.SetPrivacySettings(this.ExistingAccountUser.AccountUserType);
         }
 
-        private void ValidatePassportAccount(ref PassportPasswordStep.ServiceData serviceData)
+        private void ValidatePassportAccount(ref ServiceData serviceData)
         {
             HRESULT hr = HRESULT._S_OK;
             if (serviceData.PassportIdentity == null)
                 hr = AccountManagementHelper.GetPassportIdentity(serviceData.Email, serviceData.Password, out serviceData.PassportIdentity);
             if (hr.IsSuccess)
             {
-                ServiceError serviceError = (ServiceError)null;
+                ServiceError serviceError = null;
                 this.State.AccountManagement.GetAccount(serviceData.PassportIdentity, out serviceData.ExistingAccountUser, out serviceError);
             }
             if (!hr.IsError)
                 return;
-            this.SetError(hr, (ServiceError)null);
+            this.SetError(hr, null);
         }
 
         private void OnSignInStatusUpdatedEvent(object sender, EventArgs e)
@@ -346,7 +346,7 @@ namespace ZuneUI
                 SignIn.Instance.SignInStatusUpdatedEvent -= new EventHandler(this.OnSignInStatusUpdatedEvent);
                 if (flag)
                 {
-                    this.SetError(SignIn.Instance.SignInError, (ServiceError)null);
+                    this.SetError(SignIn.Instance.SignInError, null);
                     this.NavigateToErrorHandler();
                 }
                 else if (this._owner.CurrentPage == this)

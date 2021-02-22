@@ -24,7 +24,7 @@ namespace ZuneUI
             this.TransportControlStyle = TransportControlStyle.None;
             this.NotificationAreaVisible = false;
             this.TransportControlsVisible = false;
-            this.PivotPreference = (Node)Shell.SettingsFrame.Wizard.FUE;
+            this.PivotPreference = Shell.SettingsFrame.Wizard.FUE;
         }
 
         protected override void OnNavigatedToWorker()
@@ -44,7 +44,7 @@ namespace ZuneUI
 
         protected override void OnDispose(bool disposing)
         {
-            DeviceManagement.SetupDevice = (UIDevice)null;
+            DeviceManagement.SetupDevice = null;
             SingletonModelItem<UIDeviceList>.Instance.AllowDeviceConnections = true;
             base.OnDispose(disposing);
         }

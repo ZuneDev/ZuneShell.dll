@@ -27,7 +27,7 @@ namespace ZuneUI
         internal UIFirmwareRestorer(FirmwareRestorer restorer, bool inRecoveryMode)
         {
             this._restorer = restorer;
-            this._lastFirmwareRestoreErrorInfo = (FirmwareUpdateErrorInfo)null;
+            this._lastFirmwareRestoreErrorInfo = null;
             this._inRecoveryMode = inRecoveryMode;
         }
 
@@ -54,7 +54,7 @@ namespace ZuneUI
             this.IsCheckingForRestorePoints = false;
         }
 
-        private void OnRefreshRestorePointCollectionComplete(object data) => Application.DeferredInvoke((DeferredInvokeHandler)delegate
+        private void OnRefreshRestorePointCollectionComplete(object data) => Application.DeferredInvoke(delegate
        {
            FirmwareRestorePointCollection restorePointCollection = (FirmwareRestorePointCollection)data;
            if (restorePointCollection != null && restorePointCollection.Count > 0)
@@ -64,7 +64,7 @@ namespace ZuneUI
            }
            else
            {
-               this._restorePoint = (FirmwareRestorePoint)null;
+               this._restorePoint = null;
                this.LastRefreshRestorePointResult = HRESULT._ZUNE_E_NO_AVAILABLE_RESTORE_POINT;
            }
            this.NeedsCollectionRefresh = false;
@@ -167,7 +167,7 @@ namespace ZuneUI
             }
         }
 
-        public string LastFirmwareRestoreErrorWebHelpUrl => this._lastFirmwareRestoreErrorInfo == null || string.IsNullOrEmpty(this._lastFirmwareRestoreErrorInfo.Url) ? (string)null : this._lastFirmwareRestoreErrorInfo.Url;
+        public string LastFirmwareRestoreErrorWebHelpUrl => this._lastFirmwareRestoreErrorInfo == null || string.IsNullOrEmpty(this._lastFirmwareRestoreErrorInfo.Url) ? null : this._lastFirmwareRestoreErrorInfo.Url;
 
         public bool IsOnBatteryPower
         {
@@ -192,7 +192,7 @@ namespace ZuneUI
             if (this.RestoreInProgress)
                 return;
             this.RestoreInProgress = true;
-            this._lastFirmwareRestoreErrorInfo = (FirmwareUpdateErrorInfo)null;
+            this._lastFirmwareRestoreErrorInfo = null;
             this.LastRestoreResult = this._restorer.StartFirmwareRestore(this.RestorePoint, new DeferredInvokeHandler(this.OnFirmwareRestoreStepBegin), new DeferredInvokeHandler(this.OnFirmwareRestoreStepProgress), new DeferredInvokeHandler(this.OnFirmwareRestoreCompleted));
             if (this.LastRestoreResult.IsError)
                 this.RestoreInProgress = false;
@@ -200,21 +200,21 @@ namespace ZuneUI
                 Shell.IgnoreAppNavigationsArgs = true;
         }
 
-        private void OnFirmwareRestoreStepBegin(object data) => Application.DeferredInvoke((DeferredInvokeHandler)delegate
+        private void OnFirmwareRestoreStepBegin(object data) => Application.DeferredInvoke(delegate
        {
            if (!this.RestoreInProgress)
                return;
            this.CurrentStep = ((FirmwareUpdateBeginArgs)data).Step;
        }, data);
 
-        private void OnFirmwareRestoreStepProgress(object data) => Application.DeferredInvoke((DeferredInvokeHandler)delegate
+        private void OnFirmwareRestoreStepProgress(object data) => Application.DeferredInvoke(delegate
        {
            if (!this.RestoreInProgress)
                return;
            this.CurrentStep = ((FirmwareUpdateProgressArgs)data).Step;
        }, data);
 
-        private void OnFirmwareRestoreCompleted(object data) => Application.DeferredInvoke((DeferredInvokeHandler)delegate
+        private void OnFirmwareRestoreCompleted(object data) => Application.DeferredInvoke(delegate
        {
            if (!this.RestoreInProgress)
                return;
@@ -222,7 +222,7 @@ namespace ZuneUI
            switch (processCompleteArgs.Action)
            {
                case CompletionAction.Complete:
-                   this.CurrentStep = (UpdateStep)null;
+                   this.CurrentStep = null;
                    this.NeedsCollectionRefresh = true;
                    this.RestoreInProgress = false;
                    this._fCancelInProgress = false;

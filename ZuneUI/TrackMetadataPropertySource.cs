@@ -20,9 +20,9 @@ namespace ZuneUI
         {
             get
             {
-                if (TrackMetadataPropertySource._instance == null)
-                    TrackMetadataPropertySource._instance = (PropertySource)new TrackMetadataPropertySource();
-                return TrackMetadataPropertySource._instance;
+                if (_instance == null)
+                    _instance = new TrackMetadataPropertySource();
+                return _instance;
             }
         }
 
@@ -31,20 +31,20 @@ namespace ZuneUI
             TrackMetadata trackMetadata = media as TrackMetadata;
             string descriptorName = property.DescriptorName;
             if (descriptorName == MetadataEditMedia.s_Title.DescriptorName)
-                return (object)trackMetadata.TrackTitle;
+                return trackMetadata.TrackTitle;
             if (descriptorName == MetadataEditMedia.s_Artist.DescriptorName)
-                return (object)trackMetadata.TrackArtist;
+                return trackMetadata.TrackArtist;
             if (descriptorName == MetadataEditMedia.s_Genre.DescriptorName)
-                return (object)trackMetadata.Genre;
+                return trackMetadata.Genre;
             if (descriptorName == MetadataEditMedia.s_Composer.DescriptorName)
-                return (object)trackMetadata.Composer;
+                return trackMetadata.Composer;
             if (descriptorName == MetadataEditMedia.s_Conductor.DescriptorName)
-                return (object)trackMetadata.Conductor;
+                return trackMetadata.Conductor;
             if (descriptorName == MetadataEditMedia.s_TrackNumber.DescriptorName)
-                return (object)trackMetadata.TrackNumber;
+                return trackMetadata.TrackNumber;
             if (descriptorName == MetadataEditMedia.s_DiscNumber.DescriptorName)
-                return (object)trackMetadata.DiscNumber;
-            return descriptorName == MetadataEditMedia.s_MediaId.DescriptorName ? (object)trackMetadata.MediaId : (object)null;
+                return trackMetadata.DiscNumber;
+            return descriptorName == MetadataEditMedia.s_MediaId.DescriptorName ? trackMetadata.MediaId : (object)null;
         }
 
         public override void Set(object media, PropertyDescriptor property, object value)

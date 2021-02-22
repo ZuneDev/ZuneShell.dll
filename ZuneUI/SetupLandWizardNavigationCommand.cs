@@ -14,12 +14,12 @@ namespace ZuneUI
         private SetupLandPage _page;
 
         public SetupLandWizardNavigationCommand(SetupLandPage page)
-          : base((IModelItemOwner)null, (string)null, (EventHandler)null)
+          : base(null, null, null)
           => this._page = page;
 
         protected override void OnInvoked()
         {
-            ZuneShell.DefaultInstance.NavigateToPage((ZunePage)this._page);
+            ZuneShell.DefaultInstance.NavigateToPage(_page);
             base.OnInvoked();
         }
     }

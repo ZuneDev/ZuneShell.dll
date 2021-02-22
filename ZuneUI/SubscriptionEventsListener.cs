@@ -25,15 +25,15 @@ namespace ZuneUI
         {
             get
             {
-                if (SubscriptionEventsListener.m_instance == null)
+                if (m_instance == null)
                 {
-                    lock (SubscriptionEventsListener.myLock)
+                    lock (myLock)
                     {
-                        if (SubscriptionEventsListener.m_instance == null)
-                            SubscriptionEventsListener.m_instance = new SubscriptionEventsListener();
+                        if (m_instance == null)
+                            m_instance = new SubscriptionEventsListener();
                     }
                 }
-                return SubscriptionEventsListener.m_instance;
+                return m_instance;
             }
         }
 
@@ -45,54 +45,54 @@ namespace ZuneUI
 
         public event EventHandler SubscriptionChanged;
 
-        private void OnForegroundSubscriptionChanged(SubscriptonEventArguments args) => Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredOnForegroundSubscriptionChanged), (object)args, DeferredInvokePriority.Normal);
+        private void OnForegroundSubscriptionChanged(SubscriptonEventArguments args) => Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredOnForegroundSubscriptionChanged), args, DeferredInvokePriority.Normal);
 
         private void DeferredOnForegroundSubscriptionChanged(object args)
         {
             SubscriptonEventArguments subscriptonEventArguments = (SubscriptonEventArguments)args;
             if (subscriptonEventArguments.Action != SubscriptionAction.Unsubscribed && subscriptonEventArguments.UserInitiated && (subscriptonEventArguments.MediaType == EMediaTypes.eMediaTypePodcastSeries || subscriptonEventArguments.MediaType == EMediaTypes.eMediaTypePlaylist))
             {
-                if (SubscriptionEventsListener._notification == null)
+                if (_notification == null)
                 {
-                    SubscriptionEventsListener._notification = new MessageNotification(NotificationTask.Podcast, NotificationState.Normal);
+                    _notification = new MessageNotification(NotificationTask.Podcast, NotificationState.Normal);
                     NotificationArea.Instance.RemoveAll(NotificationTask.Podcast, NotificationState.Completed);
-                    NotificationArea.Instance.Add((Notification)SubscriptionEventsListener._notification);
+                    NotificationArea.Instance.Add(_notification);
                 }
-                SubscriptionEventsListener._notification.SubMessage = subscriptonEventArguments.SubscriptionTitle;
+                _notification.SubMessage = subscriptonEventArguments.SubscriptionTitle;
                 switch (subscriptonEventArguments.Action)
                 {
                     case SubscriptionAction.Subscribed:
                         if (EMediaTypes.eMediaTypePodcastSeries == subscriptonEventArguments.MediaType)
-                            SubscriptionEventsListener._notification.Message = Shell.LoadString(StringId.IDS_PODCAST_SUBSCRIBED_NOTIFICATION);
+                            _notification.Message = Shell.LoadString(StringId.IDS_PODCAST_SUBSCRIBED_NOTIFICATION);
                         else if (EMediaTypes.eMediaTypePlaylist == subscriptonEventArguments.MediaType)
-                            SubscriptionEventsListener._notification.Message = Shell.LoadString(StringId.IDS_CHANNEL_SUBSCRIBED_NOTIFICATION);
-                        SubscriptionEventsListener._notification.Type = NotificationState.OneShot;
-                        SubscriptionEventsListener._notification = (MessageNotification)null;
+                            _notification.Message = Shell.LoadString(StringId.IDS_CHANNEL_SUBSCRIBED_NOTIFICATION);
+                        _notification.Type = NotificationState.OneShot;
+                        _notification = null;
                         break;
                     case SubscriptionAction.RefreshStarted:
                         if (EMediaTypes.eMediaTypePodcastSeries == subscriptonEventArguments.MediaType)
-                            SubscriptionEventsListener._notification.Message = Shell.LoadString(StringId.IDS_PODCAST_REFRESH_START_NOTIFICATION);
+                            _notification.Message = Shell.LoadString(StringId.IDS_PODCAST_REFRESH_START_NOTIFICATION);
                         else if (EMediaTypes.eMediaTypePlaylist == subscriptonEventArguments.MediaType)
-                            SubscriptionEventsListener._notification.Message = Shell.LoadString(StringId.IDS_CHANNEL_REFRESH_START_NOTIFICATION);
-                        SubscriptionEventsListener._notification.Type = NotificationState.Normal;
+                            _notification.Message = Shell.LoadString(StringId.IDS_CHANNEL_REFRESH_START_NOTIFICATION);
+                        _notification.Type = NotificationState.Normal;
                         break;
                     case SubscriptionAction.RefreshFinished:
                         if (EMediaTypes.eMediaTypePodcastSeries == subscriptonEventArguments.MediaType)
-                            SubscriptionEventsListener._notification.Message = Shell.LoadString(StringId.IDS_PODCAST_REFRESH_END_NOTIFICATION);
+                            _notification.Message = Shell.LoadString(StringId.IDS_PODCAST_REFRESH_END_NOTIFICATION);
                         else if (EMediaTypes.eMediaTypePlaylist == subscriptonEventArguments.MediaType)
-                            SubscriptionEventsListener._notification.Message = Shell.LoadString(StringId.IDS_CHANNEL_REFRESH_END_NOTIFICATION);
-                        SubscriptionEventsListener._notification.Type = NotificationState.Completed;
-                        SubscriptionEventsListener._notification = (MessageNotification)null;
+                            _notification.Message = Shell.LoadString(StringId.IDS_CHANNEL_REFRESH_END_NOTIFICATION);
+                        _notification.Type = NotificationState.Completed;
+                        _notification = null;
                         break;
                     default:
                         return;
                 }
             }
             if (this.PropertyChanged != null)
-                this.PropertyChanged((object)this, new PropertyChangedEventArgs("SubscriptionChanged"));
+                this.PropertyChanged(this, new PropertyChangedEventArgs("SubscriptionChanged"));
             if (this.SubscriptionChanged == null)
                 return;
-            this.SubscriptionChanged((object)this, new EventArgs());
+            this.SubscriptionChanged(this, new EventArgs());
         }
     }
 }

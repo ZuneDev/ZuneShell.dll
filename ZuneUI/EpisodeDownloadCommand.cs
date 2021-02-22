@@ -31,7 +31,7 @@ namespace ZuneUI
         {
             if (episode is SubscriptionDataProviderItem)
                 ((SubscriptionDataProviderItem)episode).SaveToLibrary();
-            EpisodeDownloadCommand.DownloadEpisode((int)episode.GetProperty("SeriesId"), (int)episode.GetProperty("LibraryId"));
+            DownloadEpisode((int)episode.GetProperty("SeriesId"), (int)episode.GetProperty("LibraryId"));
         }
 
         public static void DownloadEpisode(int seriesId, int episodeId)
@@ -53,7 +53,7 @@ namespace ZuneUI
                 case EDownloadTaskState.DLTaskPending:
                 case EDownloadTaskState.DLTaskDownloading:
                 case EDownloadTaskState.DLTaskPaused:
-                    ZuneShell.DefaultInstance.Execute("Marketplace\\Downloads\\Home", (IDictionary)null);
+                    ZuneShell.DefaultInstance.Execute("Marketplace\\Downloads\\Home", null);
                     break;
                 case EDownloadTaskState.DLTaskComplete:
                     PodcastLibraryPage.FindInCollection((int)this.m_episode.GetProperty("SeriesId"), (int)this.m_episode.GetProperty("LibraryId"));
@@ -61,7 +61,7 @@ namespace ZuneUI
                 default:
                     if (this.m_requireSignIn && !SignIn.Instance.SignedIn || this.m_explicit && ZuneApplication.Service.BlockExplicitContent())
                         break;
-                    EpisodeDownloadCommand.DownloadEpisode(this.m_episode);
+                    DownloadEpisode(this.m_episode);
                     this.Refresh();
                     break;
             }
@@ -99,7 +99,7 @@ namespace ZuneUI
         {
             if (downloadState != EDownloadTaskState.DLTaskComplete)
                 return base.GetDownloadString(downloadState);
-            return this.m_downloadType == EItemDownloadType.eDownloadTypeAutomatic ? ZuneUI.Shell.LoadString(StringId.IDS_AUTOMATIC) : ZuneUI.Shell.LoadString(StringId.IDS_INCOLLECTION);
+            return this.m_downloadType == EItemDownloadType.eDownloadTypeAutomatic ? Shell.LoadString(StringId.IDS_AUTOMATIC) : Shell.LoadString(StringId.IDS_INCOLLECTION);
         }
 
         public static int ConvertDownloadStatusToInt(EItemDownloadState type) => (int)type;

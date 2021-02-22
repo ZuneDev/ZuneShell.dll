@@ -20,13 +20,13 @@ namespace ZuneUI
                 num = ((ISearchableList)this.Source).SearchForString(str);
             else if (this.Source is ArrayList)
             {
-                num = ((ArrayList)this.Source).BinarySearch((object)str, ToStringCaseInsensitiveComparer.Instance);
+                num = ((ArrayList)this.Source).BinarySearch(str, ToStringCaseInsensitiveComparer.Instance);
                 if (num < 0)
                     num = ~num;
             }
             else if (this.Source is Array)
             {
-                num = Array.BinarySearch((Array)this.Source, (object)str, ToStringCaseInsensitiveComparer.Instance);
+                num = Array.BinarySearch((Array)this.Source, str, ToStringCaseInsensitiveComparer.Instance);
                 if (num < 0)
                     num = ~num;
             }

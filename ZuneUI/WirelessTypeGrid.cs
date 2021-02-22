@@ -24,7 +24,7 @@ namespace ZuneUI
             if (this._iColumn > 0)
             {
                 while (this._iColumn < this._cColumns)
-                    this.AddItem(new WirelessNetworkTypeCommand((IModelItemOwner)null, (string)null, (EventHandler)null, (WlanAuthCipherPair)null));
+                    this.AddItem(new WirelessNetworkTypeCommand(null, null, null, null));
             }
             this._iColumn = 0;
         }

@@ -9,7 +9,7 @@ namespace ZuneUI
     public class DeviceRollbackErrorPage : WizardErrorPage
     {
         internal DeviceRollbackErrorPage(DeviceRollbackWizard wizard)
-          : base((Wizard)wizard)
+          : base(wizard)
           => this.Description = Shell.LoadString(StringId.IDS_DEVICE_RESTORE_ERROR_TITLE);
 
         public override string UI => "res://ZuneShellResources!DeviceRollback.uix#DeviceRollbackErrorPage";

@@ -10,6 +10,6 @@ namespace ZuneUI
 {
     public class PhotoNavigationCommandHandler : DeviceAwareNavigationHandler
     {
-        protected override ZunePage GetPage(IDictionary args) => (ZunePage)new PhotoLibraryPage(this.ShowDeviceContents);
+        protected override ZunePage GetPage(IDictionary args) => new PhotoLibraryPage(this.ShowDeviceContents);
     }
 }

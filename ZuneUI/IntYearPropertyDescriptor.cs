@@ -20,15 +20,15 @@ namespace ZuneUI
         public override string ConvertToString(object value)
         {
             if (value == null)
-                return (string)null;
+                return null;
             int num = (int)value;
-            return num < 0 ? (string)null : num.ToString();
+            return num < 0 ? null : num.ToString();
         }
 
         public override object ConvertFromString(string value)
         {
             int result;
-            return int.TryParse(value, out result) ? (object)result : (object)0;
+            return int.TryParse(value, out result) ? result : (object)0;
         }
     }
 }

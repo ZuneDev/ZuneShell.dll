@@ -21,9 +21,9 @@ namespace ZuneUI
         internal void Initialize(WizardPropertyEditorPage page)
         {
             this._page = page;
-            this.Initialize((IList)new object[1]
+            this.Initialize(new object[1]
             {
-        (object) page
+         page
             }, this.PropertyDescriptors);
         }
     }

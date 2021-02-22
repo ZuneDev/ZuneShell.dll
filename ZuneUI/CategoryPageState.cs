@@ -17,7 +17,7 @@ namespace ZuneUI
             if (CategoryPage.EntryPage != null)
                 return this._page;
             this.Release();
-            return (IPage)null;
+            return null;
         }
 
         public void Release() => this._page.Release();

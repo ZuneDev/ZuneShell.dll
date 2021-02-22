@@ -12,7 +12,7 @@ namespace ZuneUI
     {
         private MusicLibraryView _view;
 
-        protected override ZunePage GetPage(IDictionary args) => (ZunePage)new MusicLibraryPage(this.ShowDeviceContents, this._view);
+        protected override ZunePage GetPage(IDictionary args) => new MusicLibraryPage(this.ShowDeviceContents, this._view);
 
         public MusicLibraryView View
         {

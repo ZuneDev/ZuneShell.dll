@@ -43,7 +43,7 @@ namespace ZuneUI
                 throw new InvalidOperationException("This is a one trick pony, sorry.");
             if (this._loadQueued)
                 return;
-            Application.DeferredInvoke(new DeferredInvokeHandler(this.LoadFonts), (object)null);
+            Application.DeferredInvoke(new DeferredInvokeHandler(this.LoadFonts), null);
             this._loadQueued = true;
         }
 

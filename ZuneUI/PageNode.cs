@@ -15,10 +15,10 @@ namespace ZuneUI
         private GetPageCallback _handler;
 
         public PageNode(Experience owner, StringId id, GetPageCallback handler, SQMDataId sqmDataID)
-          : base(owner, id, (string)null, sqmDataID)
+          : base(owner, id, null, sqmDataID)
           => this._handler = handler;
 
-        protected override void Execute(Shell shell) => this.Invoke((IDictionary)null);
+        protected override void Execute(Shell shell) => this.Invoke(null);
 
         public void Invoke(IDictionary commandArgs)
         {

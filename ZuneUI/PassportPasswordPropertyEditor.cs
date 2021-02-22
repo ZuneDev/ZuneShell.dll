@@ -16,18 +16,18 @@ namespace ZuneUI
         {
             get
             {
-                if (PassportPasswordPropertyEditor.s_dataProviderProperties == null)
-                    PassportPasswordPropertyEditor.s_dataProviderProperties = new PropertyDescriptor[2]
+                if (s_dataProviderProperties == null)
+                    s_dataProviderProperties = new PropertyDescriptor[2]
                     {
-            PassportPasswordPropertyEditor.s_Email,
-            PassportPasswordPropertyEditor.s_Password
+            s_Email,
+            s_Password
                     };
-                return PassportPasswordPropertyEditor.s_dataProviderProperties;
+                return s_dataProviderProperties;
             }
         }
 
-        public static PropertyDescriptor Password => PassportPasswordPropertyEditor.s_Password;
+        public static PropertyDescriptor Password => s_Password;
 
-        public static PropertyDescriptor Email => PassportPasswordPropertyEditor.s_Email;
+        public static PropertyDescriptor Email => s_Email;
     }
 }

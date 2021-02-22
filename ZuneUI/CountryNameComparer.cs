@@ -17,9 +17,9 @@ namespace ZuneUI
         {
             get
             {
-                if (CountryNameComparer.s_instance == null)
-                    CountryNameComparer.s_instance = new CountryNameComparer();
-                return (IComparer<string>)CountryNameComparer.s_instance;
+                if (s_instance == null)
+                    s_instance = new CountryNameComparer();
+                return s_instance;
             }
         }
 

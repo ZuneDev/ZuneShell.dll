@@ -18,17 +18,17 @@ namespace ZuneUI
         public static void Split(IList tracks)
         {
             bool flag = false;
-            foreach (DataProviderObject track in (IEnumerable)tracks)
+            foreach (DataProviderObject track in tracks)
             {
-                if ((long)(track.GetProperty("FileCount") ?? (object)0) > 1L)
+                if ((long)(track.GetProperty("FileCount") ?? 0) > 1L)
                 {
-                    HRESULT hresult = SplitAudioTrack.Split((int)(track.GetProperty("LibraryId") ?? (object)-1));
+                    HRESULT hresult = Split((int)(track.GetProperty("LibraryId") ?? -1));
                     flag |= hresult.IsError;
                 }
             }
             if (!flag)
                 return;
-            MessageBox.Show(Shell.LoadString(StringId.IDS_GENERIC_ERROR), Shell.LoadString(StringId.IDS_SHOW_DUPLICATES_FAILED), (EventHandler)null);
+            MessageBox.Show(Shell.LoadString(StringId.IDS_GENERIC_ERROR), Shell.LoadString(StringId.IDS_SHOW_DUPLICATES_FAILED), null);
         }
 
         private static HRESULT Split(int libraryId)
@@ -39,7 +39,7 @@ namespace ZuneUI
             }
             catch (COMException ex)
             {
-                return (HRESULT)ex.ErrorCode;
+                return ex.ErrorCode;
             }
             return HRESULT._S_OK;
         }

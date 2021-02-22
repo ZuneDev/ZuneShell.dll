@@ -35,21 +35,21 @@ namespace ZuneUI
             {
                 if (this._nodes == null)
                 {
-                    this._nodes = new ArrayListDataSet((IModelItemOwner)this);
+                    this._nodes = new ArrayListDataSet(this);
                     if (FeatureEnablement.IsFeatureEnabled(Features.ePicks))
-                        this._nodes.Add((object)this.Recommendations);
+                        this._nodes.Add(Recommendations);
                     if (FeatureEnablement.IsFeatureEnabled(Features.eMusic))
-                        this._nodes.Add((object)this.Music);
+                        this._nodes.Add(Music);
                     if (FeatureEnablement.IsFeatureEnabled(Features.eVideos))
-                        this._nodes.Add((object)this.Videos);
+                        this._nodes.Add(Videos);
                     if (FeatureEnablement.IsFeatureEnabled(Features.ePodcasts))
-                        this._nodes.Add((object)this.Podcasts);
+                        this._nodes.Add(Podcasts);
                     if (FeatureEnablement.IsFeatureEnabled(Features.eChannels))
-                        this._nodes.Add((object)this.Channels);
+                        this._nodes.Add(Channels);
                     if (FeatureEnablement.IsFeatureEnabled(Features.eGames) || FeatureEnablement.IsFeatureEnabled(Features.eApps))
-                        this._nodes.Add((object)this.Apps);
+                        this._nodes.Add(Apps);
                 }
-                return (IList)this._nodes;
+                return _nodes;
             }
         }
 
@@ -66,7 +66,7 @@ namespace ZuneUI
             get
             {
                 if (this._recommendations == null)
-                    this._recommendations = new Node((Experience)this, StringId.IDS_RECOMMENDATIONS_PIVOT, "Marketplace\\Recommendations\\Home", SQMDataId.MarketplaceRecommendationsClicks);
+                    this._recommendations = new Node(this, StringId.IDS_RECOMMENDATIONS_PIVOT, "Marketplace\\Recommendations\\Home", SQMDataId.MarketplaceRecommendationsClicks);
                 return this._recommendations;
             }
         }
@@ -76,7 +76,7 @@ namespace ZuneUI
             get
             {
                 if (this._music == null)
-                    this._music = new Node((Experience)this, StringId.IDS_MUSIC_PIVOT, "Marketplace\\Music\\Home", SQMDataId.MarketplaceMusicClicks);
+                    this._music = new Node(this, StringId.IDS_MUSIC_PIVOT, "Marketplace\\Music\\Home", SQMDataId.MarketplaceMusicClicks);
                 return this._music;
             }
         }
@@ -86,7 +86,7 @@ namespace ZuneUI
             get
             {
                 if (this._videos == null)
-                    this._videos = new Node((Experience)this, StringId.IDS_VIDEO_PIVOT, "Marketplace\\Videos\\Home", SQMDataId.MarketplaceVideosClicks);
+                    this._videos = new Node(this, StringId.IDS_VIDEO_PIVOT, "Marketplace\\Videos\\Home", SQMDataId.MarketplaceVideosClicks);
                 return this._videos;
             }
         }
@@ -96,7 +96,7 @@ namespace ZuneUI
             get
             {
                 if (this._podcasts == null)
-                    this._podcasts = new Node((Experience)this, StringId.IDS_PODCASTS_PIVOT, "Marketplace\\Podcasts\\Home", SQMDataId.MarketplacePodcastsClicks);
+                    this._podcasts = new Node(this, StringId.IDS_PODCASTS_PIVOT, "Marketplace\\Podcasts\\Home", SQMDataId.MarketplacePodcastsClicks);
                 return this._podcasts;
             }
         }
@@ -106,7 +106,7 @@ namespace ZuneUI
             get
             {
                 if (this._apps == null)
-                    this._apps = new Node((Experience)this, StringId.IDS_APPS_PIVOT, "Marketplace\\Apps\\Home", SQMDataId.Invalid);
+                    this._apps = new Node(this, StringId.IDS_APPS_PIVOT, "Marketplace\\Apps\\Home", SQMDataId.Invalid);
                 return this._apps;
             }
         }
@@ -116,7 +116,7 @@ namespace ZuneUI
             get
             {
                 if (this._channels == null)
-                    this._channels = new Node((Experience)this, StringId.IDS_CHANNELS_PIVOT, "Marketplace\\Channels\\Home", SQMDataId.MarketplaceChannelsClicks);
+                    this._channels = new Node(this, StringId.IDS_CHANNELS_PIVOT, "Marketplace\\Channels\\Home", SQMDataId.MarketplaceChannelsClicks);
                 return this._channels;
             }
         }
@@ -126,7 +126,7 @@ namespace ZuneUI
             get
             {
                 if (this._cart == null)
-                    this._cart = new Node((Experience)this, StringId.IDS_CART_PIVOT, "Marketplace\\Cart", SQMDataId.MarketplaceCartClicks);
+                    this._cart = new Node(this, StringId.IDS_CART_PIVOT, "Marketplace\\Cart", SQMDataId.MarketplaceCartClicks);
                 return this._cart;
             }
         }
@@ -136,7 +136,7 @@ namespace ZuneUI
             get
             {
                 if (this._downloads == null)
-                    this._downloads = new Node((Experience)this, StringId.IDS_DOWNLOADS_PIVOT, "Marketplace\\Downloads\\Home", SQMDataId.MarketplaceDownloadsClicks);
+                    this._downloads = new Node(this, StringId.IDS_DOWNLOADS_PIVOT, "Marketplace\\Downloads\\Home", SQMDataId.MarketplaceDownloadsClicks);
                 return this._downloads;
             }
         }
@@ -176,7 +176,7 @@ namespace ZuneUI
                 return;
             this.Downloads.Available = show;
             if (show)
-                this.NodesList.Add((object)this.Downloads);
+                this.NodesList.Add(Downloads);
             else
                 this.NodesList.RemoveAt(nodeIndex);
         }
@@ -193,7 +193,7 @@ namespace ZuneUI
                 int index = this.GetNodeIndex(this.Downloads);
                 if (index == -1)
                     index = this.NodesList.Count;
-                this.NodesList.Insert(index, (object)this.Cart);
+                this.NodesList.Insert(index, Cart);
             }
             else
                 this.NodesList.RemoveAt(nodeIndex);

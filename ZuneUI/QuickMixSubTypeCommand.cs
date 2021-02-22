@@ -13,7 +13,7 @@ namespace ZuneUI
     public class QuickMixSubTypeCommand : Command
     {
         public QuickMixSubTypeCommand(string description, EQuickMixType type, QuickMixSession session)
-          : base((IModelItemOwner)null, description, (EventHandler)null)
+          : base(null, description, null)
           => this.Available = session.GetQuickMixTypeAvailable(type);
     }
 }

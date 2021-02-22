@@ -79,15 +79,15 @@ namespace ZuneUI
         {
             get
             {
-                if (SignIn.s_instance == null)
+                if (s_instance == null)
                 {
-                    lock (SignIn.s_cs)
+                    lock (s_cs)
                     {
-                        if (SignIn.s_instance == null)
-                            SignIn.s_instance = new SignIn();
+                        if (s_instance == null)
+                            s_instance = new SignIn();
                     }
                 }
-                return SignIn.s_instance;
+                return s_instance;
             }
         }
 
@@ -186,7 +186,7 @@ namespace ZuneUI
             get
             {
                 if (this.m_lastSignedInUsername == null && this.LastSignedInUserId > 0)
-                    this.m_lastSignedInUsername = SignIn.GetPassportIdFromUserId(this.LastSignedInUserId);
+                    this.m_lastSignedInUsername = GetPassportIdFromUserId(this.LastSignedInUserId);
                 return this.m_lastSignedInUsername;
             }
             private set
@@ -651,9 +651,9 @@ namespace ZuneUI
 
         private void UpdateMaxWindowsPhoneVersion()
         {
-            if (this.MaxConnectedPhoneVersion == (Version)null)
+            if (this.MaxConnectedPhoneVersion == null)
                 this.MaxWindowsPhoneVersion = this.MaxRegisteredPhoneVersion;
-            else if (this.MaxRegisteredPhoneVersion == (Version)null)
+            else if (this.MaxRegisteredPhoneVersion == null)
                 this.MaxWindowsPhoneVersion = this.MaxConnectedPhoneVersion;
             else
                 this.MaxWindowsPhoneVersion = this.MaxRegisteredPhoneVersion > this.MaxConnectedPhoneVersion ? this.MaxRegisteredPhoneVersion : this.MaxConnectedPhoneVersion;
@@ -688,8 +688,8 @@ namespace ZuneUI
         private string GetWindowsPhoneClientType(Version phoneVersion)
         {
             string strPhoneOsVersion = string.Empty;
-            if (phoneVersion != (Version)null)
-                strPhoneOsVersion = string.Format("{0}.{1}", (object)phoneVersion.Major, (object)phoneVersion.Minor);
+            if (phoneVersion != null)
+                strPhoneOsVersion = string.Format("{0}.{1}", phoneVersion.Major, phoneVersion.Minor);
             return Microsoft.Zune.Service.Service.Instance.GetPhoneClientType(strPhoneOsVersion);
         }
 
@@ -701,7 +701,7 @@ namespace ZuneUI
 
         private Version GetConnectedPhoneFirmwareVersion()
         {
-            Version version = (Version)null;
+            Version version = null;
             UIDevice connectedPaidAppDevice = ApplicationMarketplaceHelper.FindConnectedPaidAppDevice();
             if (connectedPaidAppDevice != UIDeviceList.NullDevice && connectedPaidAppDevice.Class == DeviceClass.WindowsPhone)
             {
@@ -736,13 +736,13 @@ namespace ZuneUI
 
         private void UpdatedAssociatedPhoneVersion(object argsUNUSED)
         {
-            Version version1 = (Version)null;
-            foreach (Microsoft.Zune.Configuration.TunerInfo appStoreDevices in (IEnumerable<Microsoft.Zune.Configuration.TunerInfo>)this.TunerHandler.GetAppStoreDevicesList())
+            Version version1 = null;
+            foreach (TunerInfo appStoreDevices in this.TunerHandler.GetAppStoreDevicesList())
             {
                 if (appStoreDevices.TunerType == TunerType.MobileDevice)
                 {
                     Version version2 = new Version(appStoreDevices.TunerVersion);
-                    if (version1 == (Version)null || version2 > version1)
+                    if (version1 == null || version2 > version1)
                         version1 = version2;
                 }
             }
@@ -757,7 +757,7 @@ namespace ZuneUI
 
         public bool RememberUsername(string strUsername)
         {
-            bool flag = this.PersistedUsernames != null && this.PersistedUsernames.Contains((object)strUsername);
+            bool flag = this.PersistedUsernames != null && this.PersistedUsernames.Contains(strUsername);
             if (!flag)
                 flag = !this.PasswordRequired(strUsername);
             return flag;
@@ -797,7 +797,7 @@ namespace ZuneUI
 
         public void SwitchToUser(string strUsername)
         {
-            Guid guidFromPassportId = SignIn.GetGuidFromPassportId(strUsername);
+            Guid guidFromPassportId = GetGuidFromPassportId(strUsername);
             int iUserId = 0;
             if (!ZuneApplication.Service.SetLastSignedInUserGuid(ref guidFromPassportId, out iUserId))
                 return;
@@ -831,11 +831,11 @@ namespace ZuneUI
         public void RemovePersistedUsername(string persistedUsername)
         {
             ZuneApplication.Service.RemovePersistedUsername(persistedUsername);
-            int idFromPassportId = SignIn.GetUserIdFromPassportId(persistedUsername);
+            int idFromPassportId = GetUserIdFromPassportId(persistedUsername);
             if (idFromPassportId > 0)
                 UserManager.Instance.CleanupUserData(idFromPassportId);
-            this.PersistedUsernames = (IList)null;
-            if (!SignIn.TagsMatch(this.ZuneTag, SignIn.GetZuneTagFromPassportId(persistedUsername)))
+            this.PersistedUsernames = null;
+            if (!TagsMatch(this.ZuneTag, GetZuneTagFromPassportId(persistedUsername)))
                 return;
             this.SignOut(true);
         }
@@ -844,18 +844,18 @@ namespace ZuneUI
 
         public static bool LiveIdsMatch(string liveId1, string liveId2) => StringHelper.CaseInsensitiveCompare(liveId1, liveId2);
 
-        public bool IsSignedInUser(string zuneTag) => this.SignedIn && SignIn.TagsMatch(zuneTag, this.m_zunetag);
+        public bool IsSignedInUser(string zuneTag) => this.SignedIn && TagsMatch(zuneTag, this.m_zunetag);
 
-        public bool IsSignedInLiveId(string liveId) => this.SignedIn && SignIn.LiveIdsMatch(liveId, this.SignedInUsername);
+        public bool IsSignedInLiveId(string liveId) => this.SignedIn && LiveIdsMatch(liveId, this.SignedInUsername);
 
-        public bool IsLastSignedInLiveId(string liveId) => SignIn.LiveIdsMatch(liveId, this.LastSignedInUsername);
+        public bool IsLastSignedInLiveId(string liveId) => LiveIdsMatch(liveId, this.LastSignedInUsername);
 
         private static object GetUserFieldValues(
           int userId,
           SchemaMap columnIndex,
           object defaultValue)
         {
-            object obj = (object)null;
+            object obj = null;
             if (userId > 0)
             {
                 int[] columnIndexes = new int[1]
@@ -879,7 +879,7 @@ namespace ZuneUI
                         this.m_familySettings = new FamilySettings(this.LastSignedInUserId);
                 }
                 else
-                    this.m_familySettings = (FamilySettings)null;
+                    this.m_familySettings = null;
                 return this.m_familySettings;
             }
             private set
@@ -889,11 +889,11 @@ namespace ZuneUI
             }
         }
 
-        public static string GetPassportIdFromUserId(int userId) => SignIn.GetUserFieldValues(userId, SchemaMap.kiIndex_PassportID, (object)string.Empty) as string;
+        public static string GetPassportIdFromUserId(int userId) => GetUserFieldValues(userId, SchemaMap.kiIndex_PassportID, string.Empty) as string;
 
-        public static Guid GetGuidFromPassportId(string passportId) => SignIn.GetGuidFromUserId(SignIn.GetUserIdFromPassportId(passportId));
+        public static Guid GetGuidFromPassportId(string passportId) => GetGuidFromUserId(GetUserIdFromPassportId(passportId));
 
-        public static Guid GetGuidFromUserId(int userId) => SignIn.GetUserFieldValues(userId, SchemaMap.kiIndex_ZuneMediaID, (object)Guid.Empty) is Guid userFieldValues ? userFieldValues : Guid.Empty;
+        public static Guid GetGuidFromUserId(int userId) => GetUserFieldValues(userId, SchemaMap.kiIndex_ZuneMediaID, Guid.Empty) is Guid userFieldValues ? userFieldValues : Guid.Empty;
 
         public static int GetUserIdFromPassportId(string passportId)
         {
@@ -903,26 +903,26 @@ namespace ZuneUI
             return userId;
         }
 
-        public static string GetZuneTagFromPassportId(string passportId) => SignIn.GetZuneTagFromUserId(SignIn.GetUserIdFromPassportId(passportId));
+        public static string GetZuneTagFromPassportId(string passportId) => GetZuneTagFromUserId(GetUserIdFromPassportId(passportId));
 
-        public static string GetZuneTagFromUserId(int userId) => SignIn.GetUserFieldValues(userId, SchemaMap.kiIndex_ZuneTag, (object)string.Empty) as string;
+        public static string GetZuneTagFromUserId(int userId) => GetUserFieldValues(userId, SchemaMap.kiIndex_ZuneTag, string.Empty) as string;
 
-        public static string GetImagePathFromPassportId(string passportId) => SignIn.GetImagePathFromUserId(SignIn.GetUserIdFromPassportId(passportId));
+        public static string GetImagePathFromPassportId(string passportId) => GetImagePathFromUserId(GetUserIdFromPassportId(passportId));
 
         public static string GetImagePathFromUserId(int userId)
         {
-            string str = SignIn.GetUserFieldValues(userId, SchemaMap.kiIndex_ArtUrl, (object)string.Empty) as string;
+            string str = GetUserFieldValues(userId, SchemaMap.kiIndex_ArtUrl, string.Empty) as string;
             if (!string.IsNullOrEmpty(str) && !str.StartsWith("file://"))
                 str = "file://" + str;
             return str;
         }
 
-        public static Image GetImageFromPassportId(string passportId) => SignIn.GetImageFromUserId(SignIn.GetUserIdFromPassportId(passportId));
+        public static Image GetImageFromPassportId(string passportId) => GetImageFromUserId(GetUserIdFromPassportId(passportId));
 
         public static Image GetImageFromUserId(int userId)
         {
-            Image image = (Image)null;
-            string imagePathFromUserId = SignIn.GetImagePathFromUserId(userId);
+            Image image = null;
+            string imagePathFromUserId = GetImagePathFromUserId(userId);
             if (!string.IsNullOrEmpty(imagePathFromUserId))
             {
                 bool antialiasEdges = Application.RenderingType != RenderingType.GDI;
@@ -931,24 +931,24 @@ namespace ZuneUI
             return image;
         }
 
-        public static void ErrorMessageRegionInvalid() => ErrorDialogInfo.Show(HRESULT._NS_E_SIGNIN_INVALID_REGION.Int, ZuneUI.Shell.LoadString(StringId.IDS_SIGNIN_REGION_INVALID_TITLE), ZuneUI.Shell.LoadString(StringId.IDS_SIGNIN_REGION_INVALID_MESSAGE));
+        public static void ErrorMessageRegionInvalid() => ErrorDialogInfo.Show(HRESULT._NS_E_SIGNIN_INVALID_REGION.Int, Shell.LoadString(StringId.IDS_SIGNIN_REGION_INVALID_TITLE), Shell.LoadString(StringId.IDS_SIGNIN_REGION_INVALID_MESSAGE));
 
         internal void SetError(HRESULT hrError)
         {
-            ErrorMapperResult descriptionAndUrl = Microsoft.Zune.ErrorMapperApi.ErrorMapperApi.GetMappedErrorDescriptionAndUrl(hrError.Int, eErrorCondition.eEC_SignIn);
-            this.SignInTermsOfServiceErrorForChild = HRESULT._ZUNE_E_SIGNIN_TERMS_OF_SERVICE_CHILD == (HRESULT)descriptionAndUrl.Hr;
-            this.SignInTermsOfServiceError = HRESULT._NS_E_SIGNIN_TERMS_OF_SERVICE == (HRESULT)descriptionAndUrl.Hr;
-            this.SignInRegionMismatchError = HRESULT._NS_E_SIGNIN_INVALID_REGION == (HRESULT)descriptionAndUrl.Hr;
-            this.SignInHttpGoneError = HRESULT._NS_E_SIGNIN_HTTP_GONE == (HRESULT)descriptionAndUrl.Hr;
-            this.SignInCredentialsError = HRESULT._NS_E_SERVER_ACCESSDENIED == (HRESULT)descriptionAndUrl.Hr || HRESULT._NS_E_PASSPORT_LOGIN_FAILED == (HRESULT)descriptionAndUrl.Hr || HRESULT._NS_E_SUBSCRIPTIONSERVICE_LOGIN_FAILED == (HRESULT)descriptionAndUrl.Hr || HRESULT._NS_E_INVALID_USERNAME_AND_PASSWORD == (HRESULT)descriptionAndUrl.Hr;
-            this.SignInNoZuneAccountError = HRESULT._ZEST_E_UNAUTHENTICATED == (HRESULT)descriptionAndUrl.Hr;
-            this.SignInError = (HRESULT)descriptionAndUrl.Hr;
-            this.SignInErrorMessage = this.SignInTermsOfServiceError || this.SignInTermsOfServiceErrorForChild ? (string)null : descriptionAndUrl.Description;
-            this.SignInErrorWebHelpUrl = this.SignInTermsOfServiceError || this.SignInTermsOfServiceErrorForChild ? (string)null : descriptionAndUrl.WebHelpUrl;
+            ErrorMapperResult descriptionAndUrl = ErrorMapperApi.GetMappedErrorDescriptionAndUrl(hrError.Int, eErrorCondition.eEC_SignIn);
+            this.SignInTermsOfServiceErrorForChild = HRESULT._ZUNE_E_SIGNIN_TERMS_OF_SERVICE_CHILD == descriptionAndUrl.Hr;
+            this.SignInTermsOfServiceError = HRESULT._NS_E_SIGNIN_TERMS_OF_SERVICE == descriptionAndUrl.Hr;
+            this.SignInRegionMismatchError = HRESULT._NS_E_SIGNIN_INVALID_REGION == descriptionAndUrl.Hr;
+            this.SignInHttpGoneError = HRESULT._NS_E_SIGNIN_HTTP_GONE == descriptionAndUrl.Hr;
+            this.SignInCredentialsError = HRESULT._NS_E_SERVER_ACCESSDENIED == descriptionAndUrl.Hr || HRESULT._NS_E_PASSPORT_LOGIN_FAILED == descriptionAndUrl.Hr || HRESULT._NS_E_SUBSCRIPTIONSERVICE_LOGIN_FAILED == descriptionAndUrl.Hr || HRESULT._NS_E_INVALID_USERNAME_AND_PASSWORD == descriptionAndUrl.Hr;
+            this.SignInNoZuneAccountError = HRESULT._ZEST_E_UNAUTHENTICATED == descriptionAndUrl.Hr;
+            this.SignInError = descriptionAndUrl.Hr;
+            this.SignInErrorMessage = this.SignInTermsOfServiceError || this.SignInTermsOfServiceErrorForChild ? null : descriptionAndUrl.Description;
+            this.SignInErrorWebHelpUrl = this.SignInTermsOfServiceError || this.SignInTermsOfServiceErrorForChild ? null : descriptionAndUrl.WebHelpUrl;
             this.SigningIn = false;
             if (this.SignInStatusUpdatedEvent == null)
                 return;
-            this.SignInStatusUpdatedEvent((object)this, EventArgs.Empty);
+            this.SignInStatusUpdatedEvent(this, EventArgs.Empty);
         }
 
         internal void UpdateState()
@@ -960,8 +960,8 @@ namespace ZuneUI
             this.SigningIn = !this.SignedIn && ZuneApplication.Service.IsSigningIn();
             this.SignedInUsername = ZuneApplication.Service.GetSignedInUsername();
             this.SignedInGeoId = ZuneApplication.Service.GetSignedInGeoId();
-            this.SignInErrorMessage = (string)null;
-            this.SignInErrorWebHelpUrl = (string)null;
+            this.SignInErrorMessage = null;
+            this.SignInErrorWebHelpUrl = null;
             this.SignInError = HRESULT._S_OK;
             this.SignInTermsOfServiceError = false;
             this.SignInTermsOfServiceErrorForChild = false;
@@ -973,9 +973,9 @@ namespace ZuneUI
             this.UpdatePointsBalance();
             this.UpdateSubscriptionFreeTrackBalance();
             this.UpdateSubscriptionFreeTrackExpiration();
-            this.FamilySettings = (FamilySettings)null;
-            this.LastSignedInUsername = (string)null;
-            this.CountryCode = (string)null;
+            this.FamilySettings = null;
+            this.LastSignedInUsername = null;
+            this.CountryCode = null;
             if (this.SignedIn)
             {
                 int iUserId;
@@ -993,31 +993,31 @@ namespace ZuneUI
                     if (strArray.Length >= 2)
                         this.CountryCode = strArray[1];
                 }
-                this.PersistedUsernames = (IList)null;
+                this.PersistedUsernames = null;
                 if (this.TunerHandler.CanQueryTunerList())
                     this.TunerHandler.RefreshTunerList();
             }
             else
             {
-                this.ZuneTag = SignIn.GetZuneTagFromUserId(this.LastSignedInUserId);
+                this.ZuneTag = GetZuneTagFromUserId(this.LastSignedInUserId);
                 this.IsParentallyControlled = false;
                 this.IsLightWeight = false;
-                this.MaxRegisteredPhoneVersion = (Version)null;
+                this.MaxRegisteredPhoneVersion = null;
                 this.MaxConnectedPhoneVersion = this.GetConnectedPhoneFirmwareVersion();
                 this.UpdateMaxWindowsPhoneVersion();
             }
             this.UpdateSubscriptionState();
             this.UpdateStateAsyncStart();
             if (this.SignInStatusUpdatedEvent != null)
-                this.SignInStatusUpdatedEvent((object)this, EventArgs.Empty);
+                this.SignInStatusUpdatedEvent(this, EventArgs.Empty);
             this.Initialized = true;
         }
 
-        private void UpdateStateAsyncStart() => ThreadPool.QueueUserWorkItem(new WaitCallback(this.UpdateStateAsync), (object)new object[3]
+        private void UpdateStateAsyncStart() => ThreadPool.QueueUserWorkItem(new WaitCallback(this.UpdateStateAsync), new object[3]
         {
-      (object) this.m_zuneTile,
-      (object) this.m_zuneTilePath,
-      (object) this.LastSignedInUserId
+       m_zuneTile,
+       m_zuneTilePath,
+       LastSignedInUserId
         });
 
         private void UpdateStateAsync(object args)
@@ -1025,7 +1025,7 @@ namespace ZuneUI
             object[] objArray = (object[])args;
             Image image1 = objArray[0] as Image;
             string str = objArray[1] as string;
-            string imagePathFromUserId = SignIn.GetImagePathFromUserId((int)objArray[2]);
+            string imagePathFromUserId = GetImagePathFromUserId((int)objArray[2]);
             Image image2 = image1;
             if (imagePathFromUserId != str)
             {
@@ -1035,11 +1035,11 @@ namespace ZuneUI
                     image2 = new Image(imagePathFromUserId, ProfileImage.DefaultTileSize.Width, ProfileImage.DefaultTileSize.Height, false, antialiasEdges);
                 }
                 else
-                    image2 = (Image)null;
+                    image2 = null;
             }
-            objArray[0] = (object)image2;
-            objArray[1] = (object)imagePathFromUserId;
-            Application.DeferredInvoke(new DeferredInvokeHandler(this.UpdateStateAsyncEnd), (object)objArray, DeferredInvokePriority.Low);
+            objArray[0] = image2;
+            objArray[1] = imagePathFromUserId;
+            Application.DeferredInvoke(new DeferredInvokeHandler(this.UpdateStateAsyncEnd), objArray, DeferredInvokePriority.Low);
         }
 
         private void UpdateStateAsyncEnd(object args)
@@ -1059,8 +1059,8 @@ namespace ZuneUI
             if (this.SignedIn)
             {
                 dateTime1 = ZuneApplication.Service.GetSubscriptionFreeTrackExpiration();
-                DateTime dateTime2 = !(dateTime1 >= DateTime.MinValue.Add(SignIn.s_subscriptionFreeTrackFirstExpireWarning)) ? DateTime.MinValue : dateTime1.Subtract(SignIn.s_subscriptionFreeTrackFirstExpireWarning);
-                DateTime dateTime3 = !(dateTime1 >= DateTime.MinValue.Add(SignIn.s_subscriptionFreeTrackSecondExpireWarning)) ? DateTime.MinValue : dateTime1.Subtract(SignIn.s_subscriptionFreeTrackSecondExpireWarning);
+                DateTime dateTime2 = !(dateTime1 >= DateTime.MinValue.Add(s_subscriptionFreeTrackFirstExpireWarning)) ? DateTime.MinValue : dateTime1.Subtract(s_subscriptionFreeTrackFirstExpireWarning);
+                DateTime dateTime3 = !(dateTime1 >= DateTime.MinValue.Add(s_subscriptionFreeTrackSecondExpireWarning)) ? DateTime.MinValue : dateTime1.Subtract(s_subscriptionFreeTrackSecondExpireWarning);
                 flag1 = dateTime2 <= DateTime.UtcNow;
                 flag2 = dateTime3 <= DateTime.UtcNow;
             }
@@ -1083,7 +1083,7 @@ namespace ZuneUI
                 this.SubscriptionRenewalId = ZuneApplication.Service.GetSubscriptionRenewalOfferId();
                 if (ZuneApplication.Service.SubscriptionPendingCancel() || this.SubscriptionRenewalId == 0UL)
                 {
-                    dateTime = !(this.SubscriptionEndDate >= DateTime.MinValue.Add(SignIn.s_subscriptionEndingWarning)) ? DateTime.MinValue : this.SubscriptionEndDate.Subtract(SignIn.s_subscriptionEndingWarning);
+                    dateTime = !(this.SubscriptionEndDate >= DateTime.MinValue.Add(s_subscriptionEndingWarning)) ? DateTime.MinValue : this.SubscriptionEndDate.Subtract(s_subscriptionEndingWarning);
                     flag1 = !this.SignedInWithSubscription && this.SubscriptionHasEndDate && this.SubscriptionEndDate <= DateTime.Today;
                     flag2 = this.SignedInWithSubscription && this.SubscriptionHasEndDate && this.SubscriptionEndDate >= DateTime.Today;
                 }
@@ -1111,7 +1111,7 @@ namespace ZuneUI
         {
             if (this.LastSignedInUserId <= 0)
                 return;
-            string imagePathFromUserId = SignIn.GetImagePathFromUserId(this.LastSignedInUserId);
+            string imagePathFromUserId = GetImagePathFromUserId(this.LastSignedInUserId);
             if (!string.IsNullOrEmpty(imagePathFromUserId))
             {
                 bool antialiasEdges = Application.RenderingType != RenderingType.GDI;
@@ -1123,12 +1123,12 @@ namespace ZuneUI
         public void OnManualSignIn(HRESULT hr)
         {
             if (hr.IsSuccess || hr == HRESULT._E_ABORT)
-                Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredUpdateStatus), (object)null);
+                Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredUpdateStatus), null);
             else
-                Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredSetError), (object)hr);
+                Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredSetError), hr);
         }
 
-        public void OnAutomaticSignIn(HRESULT hr) => Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredUpdateStatus), (object)null);
+        public void OnAutomaticSignIn(HRESULT hr) => Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredUpdateStatus), null);
 
         private void DeferredUpdateStatus(object args) => this.UpdateState();
 
@@ -1138,7 +1138,7 @@ namespace ZuneUI
         {
             if (this.AutomaticSignIn())
                 return;
-            Application.DeferredInvoke((DeferredInvokeHandler)delegate
+            Application.DeferredInvoke(delegate
            {
                this.UpdateState();
            }, DeferredInvokePriority.Low);

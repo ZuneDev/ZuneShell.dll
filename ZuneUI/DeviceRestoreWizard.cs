@@ -12,12 +12,12 @@ namespace ZuneUI
 
         public DeviceRestoreWizard()
         {
-            this.AddPage((WizardPage)new DeviceRestoreConfirmationPage(this));
-            this.AddPage((WizardPage)new DeviceRestoreBatteryPowerPage(this));
-            this.AddPage((WizardPage)new DeviceRestoreSyncingPage(this));
-            this.AddPage((WizardPage)new DeviceRestoreProgressPage(this));
-            this.AddPage((WizardPage)new DeviceRestoreSummaryPage(this));
-            this.AddPage((WizardPage)new DeviceRestoreErrorPage(this));
+            this.AddPage(new DeviceRestoreConfirmationPage(this));
+            this.AddPage(new DeviceRestoreBatteryPowerPage(this));
+            this.AddPage(new DeviceRestoreSyncingPage(this));
+            this.AddPage(new DeviceRestoreProgressPage(this));
+            this.AddPage(new DeviceRestoreSummaryPage(this));
+            this.AddPage(new DeviceRestoreErrorPage(this));
         }
 
         public UIFirmwareRestorer UIFirmwareRestorer

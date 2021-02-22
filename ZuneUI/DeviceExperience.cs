@@ -33,15 +33,15 @@ namespace ZuneUI
             {
                 if (this._nodes == null)
                 {
-                    this._nodes = new ArrayListDataSet((IModelItemOwner)this);
-                    this._nodes.Add((object)this.Status);
-                    this._nodes.Add((object)this.Music);
-                    this._nodes.Add((object)this.Videos);
-                    this._nodes.Add((object)this.Photos);
-                    this._nodes.Add((object)this.Podcasts);
+                    this._nodes = new ArrayListDataSet(this);
+                    this._nodes.Add(Status);
+                    this._nodes.Add(Music);
+                    this._nodes.Add(Videos);
+                    this._nodes.Add(Photos);
+                    this._nodes.Add(Podcasts);
                     this.UpdateDeviceDependentPivots();
                 }
-                return (IList)this._nodes;
+                return _nodes;
             }
         }
 
@@ -50,7 +50,7 @@ namespace ZuneUI
             get
             {
                 if (this._status == null)
-                    this._status = new Node((Experience)this, StringId.IDS_SYNC_STATUS_PIVOT, "Device\\Status", SQMDataId.DeviceStatusClicks);
+                    this._status = new Node(this, StringId.IDS_SYNC_STATUS_PIVOT, "Device\\Status", SQMDataId.DeviceStatusClicks);
                 return this._status;
             }
         }
@@ -60,7 +60,7 @@ namespace ZuneUI
             get
             {
                 if (this._friends == null)
-                    this._friends = new Node((Experience)this, StringId.IDS_FRIENDS_PIVOT, "Device\\Friends", SQMDataId.DeviceFriendsClicks);
+                    this._friends = new Node(this, StringId.IDS_FRIENDS_PIVOT, "Device\\Friends", SQMDataId.DeviceFriendsClicks);
                 return this._friends;
             }
         }
@@ -100,19 +100,19 @@ namespace ZuneUI
         private void UpdateDeviceDependentPivots()
         {
             UIDevice currentDevice = SyncControls.Instance.CurrentDevice;
-            if (this.NodesList.Contains((object)this.Applications))
-                this.NodesList.Remove((object)this.Applications);
-            if (this.NodesList.Contains((object)this.Friends))
-                this.NodesList.Remove((object)this.Friends);
-            if (this.NodesList.Contains((object)this.Channels))
-                this.NodesList.Remove((object)this.Channels);
+            if (this.NodesList.Contains(Applications))
+                this.NodesList.Remove(Applications);
+            if (this.NodesList.Contains(Friends))
+                this.NodesList.Remove(Friends);
+            if (this.NodesList.Contains(Channels))
+                this.NodesList.Remove(Channels);
             if (FeatureEnablement.IsFeatureEnabled(Features.eSocial) && currentDevice.SupportsUserCards)
-                this.NodesList.Add((object)this.Friends);
+                this.NodesList.Add(Friends);
             if (FeatureEnablement.IsFeatureEnabled(Features.eChannels) && currentDevice.SupportsChannels)
-                this.NodesList.Add((object)this.Channels);
+                this.NodesList.Add(Channels);
             if (!FeatureEnablement.IsFeatureEnabled(Features.eGames) || !currentDevice.SupportsSyncApplications)
                 return;
-            this.NodesList.Add((object)this.Applications);
+            this.NodesList.Add(Applications);
         }
 
         public override string DefaultUIPath => "Device\\Status";

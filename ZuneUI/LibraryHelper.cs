@@ -10,6 +10,6 @@ namespace ZuneUI
 {
     public static class LibraryHelper
     {
-        public static Guid GetZuneMediaId(MediaType type, int libraryId) => PlaylistManager.GetFieldValue<Guid>(libraryId, PlaylistManager.MediaTypeToListType(type), 233, Guid.Empty);
+        public static Guid GetZuneMediaId(MediaType type, int libraryId) => PlaylistManager.GetFieldValue(libraryId, PlaylistManager.MediaTypeToListType(type), 233, Guid.Empty);
     }
 }

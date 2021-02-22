@@ -16,9 +16,9 @@ namespace Microsoft.Zune.Shell
         {
             get
             {
-                if (TraceSwitches.collectionSwitch == null)
-                    TraceSwitches.collectionSwitch = new ZuneTraceSwitch("Collection", "Collection page traces");
-                return TraceSwitches.collectionSwitch;
+                if (collectionSwitch == null)
+                    collectionSwitch = new ZuneTraceSwitch("Collection", "Collection page traces");
+                return collectionSwitch;
             }
         }
 
@@ -26,9 +26,9 @@ namespace Microsoft.Zune.Shell
         {
             get
             {
-                if (TraceSwitches.shellSwitch == null)
-                    TraceSwitches.shellSwitch = new ZuneTraceSwitch("Shell", "Shell traces");
-                return TraceSwitches.shellSwitch;
+                if (shellSwitch == null)
+                    shellSwitch = new ZuneTraceSwitch("Shell", "Shell traces");
+                return shellSwitch;
             }
         }
 
@@ -36,9 +36,9 @@ namespace Microsoft.Zune.Shell
         {
             get
             {
-                if (TraceSwitches.dataProviderSwitch == null)
-                    TraceSwitches.dataProviderSwitch = new ZuneTraceSwitch("DataProvider", "Data provider traces");
-                return TraceSwitches.dataProviderSwitch;
+                if (dataProviderSwitch == null)
+                    dataProviderSwitch = new ZuneTraceSwitch("DataProvider", "Data provider traces");
+                return dataProviderSwitch;
             }
         }
     }

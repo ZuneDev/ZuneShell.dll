@@ -19,15 +19,15 @@ namespace ZuneUI
 
         protected virtual void AddPages()
         {
-            this.AddPage((WizardPage)new DeviceUpdateCheckingPage(this));
-            this.AddPage((WizardPage)new DeviceUpdateEULAPage(this));
-            this.AddPage((WizardPage)new DeviceUpdateBatteryPowerPage(this));
-            this.AddPage((WizardPage)new DeviceUpdateGuestWarningPage(this));
-            this.AddPage((WizardPage)new DeviceUpdateSyncingPage(this));
-            this.AddPage((WizardPage)new DeviceUpdateDiskSpaceErrorPage(this));
-            this.AddPage((WizardPage)new DeviceUpdateProgressPage(this));
-            this.AddPage((WizardPage)new DeviceUpdateSummaryPage(this));
-            this.AddPage((WizardPage)new DeviceUpdateErrorPage(this));
+            this.AddPage(new DeviceUpdateCheckingPage(this));
+            this.AddPage(new DeviceUpdateEULAPage(this));
+            this.AddPage(new DeviceUpdateBatteryPowerPage(this));
+            this.AddPage(new DeviceUpdateGuestWarningPage(this));
+            this.AddPage(new DeviceUpdateSyncingPage(this));
+            this.AddPage(new DeviceUpdateDiskSpaceErrorPage(this));
+            this.AddPage(new DeviceUpdateProgressPage(this));
+            this.AddPage(new DeviceUpdateSummaryPage(this));
+            this.AddPage(new DeviceUpdateErrorPage(this));
         }
 
         public UIFirmwareUpdater UIFirmwareUpdater

@@ -53,11 +53,11 @@ namespace ZuneUI
         private static List<string> s_tvGenres;
         private static List<string> s_otherGenres;
 
-        public static IList CannedTVGenres => (IList)GenreMetadataHelper.EnsureGenres(ref GenreMetadataHelper.s_tvGenres, GenreMetadataHelper.s_tvGenreIds);
+        public static IList CannedTVGenres => EnsureGenres(ref s_tvGenres, s_tvGenreIds);
 
-        public static IList CannedMovieGenres => (IList)GenreMetadataHelper.EnsureGenres(ref GenreMetadataHelper.s_movieGenres, GenreMetadataHelper.s_movieGenreIds);
+        public static IList CannedMovieGenres => EnsureGenres(ref s_movieGenres, s_movieGenreIds);
 
-        public static IList CannedOtherGenres => (IList)GenreMetadataHelper.EnsureGenres(ref GenreMetadataHelper.s_otherGenres, GenreMetadataHelper.s_otherGenreIds);
+        public static IList CannedOtherGenres => EnsureGenres(ref s_otherGenres, s_otherGenreIds);
 
         private static List<string> EnsureGenres(ref List<string> genres, StringId[] genreIds)
         {

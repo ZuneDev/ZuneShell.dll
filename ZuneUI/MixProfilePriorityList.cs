@@ -15,6 +15,6 @@ namespace ZuneUI
         {
         }
 
-        public override void AddList(IList sourceList, string reason, int maxItems) => this.AddList(sourceList, reason, maxItems, new MixPriorityList.GetItemPriorityDelegate(MixResultProfile.GetItemPriority), new MixPriorityList.CreateItemInstanceDelegate(MixResultProfile.CreateInstance));
+        public override void AddList(IList sourceList, string reason, int maxItems) => this.AddList(sourceList, reason, maxItems, new GetItemPriorityDelegate(MixResultProfile.GetItemPriority), new CreateItemInstanceDelegate(MixResultProfile.CreateInstance));
     }
 }

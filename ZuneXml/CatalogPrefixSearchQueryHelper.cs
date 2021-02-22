@@ -16,7 +16,7 @@ namespace ZuneXml
         internal static ZuneServiceQueryHelper ConstructPrefixSearchQueryHelper(
           ZuneServiceQuery query)
         {
-            return (ZuneServiceQueryHelper)new CatalogPrefixSearchQueryHelper(query);
+            return new CatalogPrefixSearchQueryHelper(query);
         }
 
         internal CatalogPrefixSearchQueryHelper(ZuneServiceQuery query)
@@ -28,7 +28,7 @@ namespace ZuneXml
         {
             string property1 = (string)this.Query.GetProperty("Prefix");
             if (!Search.Instance.IsValidKeyword(property1))
-                return (string)null;
+                return null;
             string endPointUri = Microsoft.Zune.Service.Service.GetEndPointUri(this._endPoint);
             StringBuilder stringBuilder = new StringBuilder(128);
             stringBuilder.Append(endPointUri);

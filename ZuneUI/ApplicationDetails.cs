@@ -35,24 +35,24 @@ namespace ZuneUI
         };
         private static object[] DefaultFieldValues = new object[8]
         {
-      (object) string.Empty,
-      (object) string.Empty,
-      (object) string.Empty,
-      (object) string.Empty,
-      (object) 0L,
-      (object) string.Empty,
-      (object) string.Empty,
-      (object) string.Empty
+       string.Empty,
+       string.Empty,
+       string.Empty,
+       string.Empty,
+       0L,
+       string.Empty,
+       string.Empty,
+       string.Empty
         };
 
         public static void Populate(object dataContainer, int libraryId)
         {
             DataProviderObject dataProviderObject = (DataProviderObject)dataContainer;
-            object[] fieldValues = (object[])ApplicationDetails.DefaultFieldValues.Clone();
+            object[] fieldValues = (object[])DefaultFieldValues.Clone();
             bool[] isEmptyValues = new bool[fieldValues.Length];
-            ZuneLibrary.GetFieldValues(libraryId, EListType.eAppList, ApplicationDetails.ColumnIndices.Length, ApplicationDetails.ColumnIndices, fieldValues, isEmptyValues, PlaylistManager.Instance.QueryContext);
-            for (int index = 0; index < ApplicationDetails.ColumnIndices.Length; ++index)
-                dataProviderObject.SetProperty(ApplicationDetails.DataProperties[index], fieldValues[index]);
+            ZuneLibrary.GetFieldValues(libraryId, EListType.eAppList, ColumnIndices.Length, ColumnIndices, fieldValues, isEmptyValues, PlaylistManager.Instance.QueryContext);
+            for (int index = 0; index < ColumnIndices.Length; ++index)
+                dataProviderObject.SetProperty(DataProperties[index], fieldValues[index]);
         }
     }
 }

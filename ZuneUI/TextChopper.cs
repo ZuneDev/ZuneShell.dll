@@ -44,7 +44,7 @@ namespace ZuneUI
                         }
                         int num3 = text.IndexOf('>', num1);
                         if (num3 == -1)
-                            throw new TextChopper.TextChopperException("Missing closing > in tag for string : " + text);
+                            throw new TextChopperException("Missing closing > in tag for string : " + text);
                         string str1 = text.Substring(num1, num3 - num1 + 1);
                         if (str1[1] == '/')
                             stringList.RemoveAt(stringList.Count - 1);
@@ -56,7 +56,7 @@ namespace ZuneUI
                     {
                         if (num2 == 0)
                         {
-                            num2 = Math.Min(maxChunkSize <= minChunkSize ? minChunkSize : TextChopper._random.Next(minChunkSize, maxChunkSize), text.Length - num1);
+                            num2 = Math.Min(maxChunkSize <= minChunkSize ? minChunkSize : _random.Next(minChunkSize, maxChunkSize), text.Length - num1);
                             foreach (string str in stringList)
                                 stringBuilder.Append(str);
                             flag = true;
@@ -67,7 +67,7 @@ namespace ZuneUI
                         {
                             int num4 = text.IndexOf(';', num1);
                             if (num4 == -1)
-                                throw new TextChopper.TextChopperException("Missing closing ; in escaped text for string : " + text);
+                                throw new TextChopperException("Missing closing ; in escaped text for string : " + text);
                             int length = num4 - num1 + 1;
                             str1 = text.Substring(num1, length);
                             num3 = length;

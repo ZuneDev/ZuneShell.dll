@@ -98,14 +98,14 @@ namespace ZuneUI
             };
             if (this._isExpanded)
             {
-                this.ParentList.Device.DeleteAndExclude((IList)mediaIdAndTypeArray);
+                this.ParentList.Device.DeleteAndExclude(mediaIdAndTypeArray);
             }
             else
             {
-                this.ParentList.Device.RemoveSyncRule((IList)mediaIdAndTypeArray);
+                this.ParentList.Device.RemoveSyncRule(mediaIdAndTypeArray);
                 if (!this.IsComplex)
                     return;
-                Shell.DeleteMedia((IList)new List<MediaIdAndType>(1)
+                Shell.DeleteMedia(new List<MediaIdAndType>(1)
         {
           new MediaIdAndType(this.ID, MediaType.Playlist)
         }, false);
@@ -216,7 +216,7 @@ namespace ZuneUI
                         break;
                 }
                 if (listType != EListType.eDeviceContentList)
-                    this._title = string.Format(format, (object)PlaylistManager.GetFieldValue<string>(this.ID, listType, (int)schemaMap, Shell.LoadString(StringId.IDS_GENERIC_ERROR)));
+                    this._title = string.Format(format, PlaylistManager.GetFieldValue(this.ID, listType, (int)schemaMap, Shell.LoadString(StringId.IDS_GENERIC_ERROR)));
             }
             this.FirePropertyChanged("Title");
         }

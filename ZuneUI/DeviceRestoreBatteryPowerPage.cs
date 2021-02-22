@@ -9,7 +9,7 @@ namespace ZuneUI
     public class DeviceRestoreBatteryPowerPage : WizardPage
     {
         internal DeviceRestoreBatteryPowerPage(DeviceRestoreWizard wizard)
-          : base((Wizard)wizard)
+          : base(wizard)
           => this.Description = Shell.LoadString(StringId.IDS_AC_POWER_WARNING_TITLE);
 
         public override bool IsEnabled

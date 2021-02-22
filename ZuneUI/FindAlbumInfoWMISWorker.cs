@@ -30,7 +30,7 @@ namespace ZuneUI
           int hr,
           AlbumMetadata albumMetadata)
         {
-            Application.DeferredInvoke((DeferredInvokeHandler)delegate
+            Application.DeferredInvoke(delegate
            {
                if (hr == 0)
                {
@@ -39,7 +39,7 @@ namespace ZuneUI
                }
                else
                    this.Status = DataProviderQueryStatus.Error;
-           }, (object)null);
+           }, null);
         }
 
         public AlbumMetadata Metadata

@@ -26,10 +26,10 @@ namespace ZuneUI
             {
                 if (this._nodes == null)
                 {
-                    this._nodes = new ArrayListDataSet((IModelItemOwner)this);
-                    this._nodes.Add((object)this.Default);
+                    this._nodes = new ArrayListDataSet(this);
+                    this._nodes.Add(Default);
                 }
-                return (IList)this._nodes;
+                return _nodes;
             }
         }
 
@@ -38,7 +38,7 @@ namespace ZuneUI
             get
             {
                 if (this._default == null)
-                    this._default = new Node((Experience)this, this.DefaultUIPath, SQMDataId.QuickPlayClicks);
+                    this._default = new Node(this, this.DefaultUIPath, SQMDataId.QuickPlayClicks);
                 return this._default;
             }
         }

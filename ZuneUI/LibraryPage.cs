@@ -39,14 +39,14 @@ namespace ZuneUI
 
         public LibraryPage(bool showDeviceContents, MediaType mediaType)
         {
-            this.UI = LibraryPage.LibraryTemplate;
+            this.UI = LibraryTemplate;
             this.ShowDeviceContents = showDeviceContents;
             this._mediaType = mediaType;
-            this._escapePressed = new Command((IModelItemOwner)this);
+            this._escapePressed = new Command(this);
             this._tracker = new QueryTracker();
             this._tracker.PropertyChanged += new PropertyChangedEventHandler(this.TrackerPropertyChanged);
             this._drmStateMask = ZuneUI.DrmStateMask.All();
-            this._showContentTypes = new BooleanChoice((IModelItemOwner)this);
+            this._showContentTypes = new BooleanChoice(this);
         }
 
         public Choice Views
@@ -137,21 +137,21 @@ namespace ZuneUI
             this.CanAddMedia = false;
             if (this.ShowDeviceContents)
                 return;
-            ArrayList tempFilenames = new ArrayList((ICollection)filenames);
+            ArrayList tempFilenames = new ArrayList(filenames);
             CanAddMediaArgs args = new CanAddMediaArgs();
             this._canAddMediaArgs = args;
-            ThreadPool.QueueUserWorkItem((WaitCallback)(ignored =>
+            ThreadPool.QueueUserWorkItem(ignored =>
            {
-               bool canAddMedia = ZuneApplication.CanAddMedia((IList)tempFilenames, this.MediaType, args);
+               bool canAddMedia = ZuneApplication.CanAddMedia(tempFilenames, this.MediaType, args);
                if (args.Aborted)
                    return;
-               Application.DeferredInvoke((DeferredInvokeHandler)delegate
+               Application.DeferredInvoke(delegate
          {
-                 if (args.Aborted)
-                     return;
-                 this.CanAddMedia = canAddMedia;
-             }, (object)null);
-           }));
+             if (args.Aborted)
+                 return;
+             this.CanAddMedia = canAddMedia;
+         }, null);
+           });
         }
 
         public void StopCheckingCanAddMedia()
@@ -159,27 +159,27 @@ namespace ZuneUI
             if (this._canAddMediaArgs == null)
                 return;
             this._canAddMediaArgs.Aborted = true;
-            this._canAddMediaArgs = (CanAddMediaArgs)null;
+            this._canAddMediaArgs = null;
         }
 
         public virtual void AddMedia(IList filenames)
         {
-            ArrayList tempFilenames = new ArrayList((ICollection)filenames);
-            ThreadPool.QueueUserWorkItem((WaitCallback)(o =>
+            ArrayList tempFilenames = new ArrayList(filenames);
+            ThreadPool.QueueUserWorkItem(o =>
            {
-               if (ZuneApplication.AddMedia((IList)tempFilenames, this.MediaType))
+               if (ZuneApplication.AddMedia(tempFilenames, this.MediaType))
                    return;
-               Application.DeferredInvoke((DeferredInvokeHandler)delegate
+               Application.DeferredInvoke(delegate
          {
-                 NotificationArea.Instance.Add((Notification)new MessageNotification(ZuneUI.Shell.LoadString(StringId.IDS_LIBRARY_ADD_FILE_FAILED), NotificationTask.Library, NotificationState.OneShot)
-                 {
-                     SubMessage = ZuneUI.Shell.LoadString(StringId.IDS_LIBRARY_ADD_FILE_FAILED_SUBMESSAGE)
-                 });
-             }, (object)null);
-           }));
+             NotificationArea.Instance.Add(new MessageNotification(Shell.LoadString(StringId.IDS_LIBRARY_ADD_FILE_FAILED), NotificationTask.Library, NotificationState.OneShot)
+             {
+                 SubMessage = Shell.LoadString(StringId.IDS_LIBRARY_ADD_FILE_FAILED_SUBMESSAGE)
+             });
+         }, null);
+           });
         }
 
-        public override IPageState SaveAndRelease() => (IPageState)new DevicePivotManagingPageState((IDeviceContentsPage)this);
+        public override IPageState SaveAndRelease() => new DevicePivotManagingPageState(this);
 
         public static void BlockUpdatesFromDBList(
           IList list,
@@ -201,11 +201,11 @@ namespace ZuneUI
         public override void InvokeSettings()
         {
             if (this.ShowDeviceContents)
-                ZuneUI.Shell.SettingsFrame.Settings.Device.Invoke();
+                Shell.SettingsFrame.Settings.Device.Invoke();
             else if (this.MediaType == MediaType.Photo)
-                ZuneUI.Shell.SettingsFrame.Settings.Software.Invoke(SettingCategories.Photo);
+                Shell.SettingsFrame.Settings.Software.Invoke(SettingCategories.Photo);
             else if (this.MediaType == MediaType.PodcastEpisode || this.MediaType == MediaType.Podcast)
-                ZuneUI.Shell.SettingsFrame.Settings.Software.Invoke(SettingCategories.Podcast);
+                Shell.SettingsFrame.Settings.Software.Invoke(SettingCategories.Podcast);
             else
                 base.InvokeSettings();
         }

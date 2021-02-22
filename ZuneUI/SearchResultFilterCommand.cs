@@ -18,7 +18,7 @@ namespace ZuneUI
           ModelItem owner,
           string description,
           SearchResultFilterType type)
-          : base((IModelItemOwner)owner, description, (EventHandler)null)
+          : base(owner, description, null)
         {
             this._type = type;
         }

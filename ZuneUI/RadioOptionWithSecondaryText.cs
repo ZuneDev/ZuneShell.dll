@@ -14,7 +14,7 @@ namespace ZuneUI
         private string _secondaryText;
 
         public RadioOptionWithSecondaryText(IModelItemOwner owner, string text, string secondaryText)
-          : base(owner, text, (EventHandler)null)
+          : base(owner, text, null)
           => this._secondaryText = secondaryText;
 
         public string SecondaryText => this._secondaryText;

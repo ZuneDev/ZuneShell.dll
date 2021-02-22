@@ -28,12 +28,12 @@ namespace ZuneUI
 
         public ZuneShell()
         {
-            this._pageStack = new PageStack((IModelItemOwner)this);
+            this._pageStack = new PageStack(this);
             this._pageStack.PropertyChanged += new PropertyChangedEventHandler(this.OnPageStackPropertyChanged);
-            this._navigateBackCommand = new Command((IModelItemOwner)this, Shell.LoadString(StringId.IDS_NAVIGATE_BACK), new EventHandler(this.OnClickNavigateBack));
+            this._navigateBackCommand = new Command(this, Shell.LoadString(StringId.IDS_NAVIGATE_BACK), new EventHandler(this.OnClickNavigateBack));
             this._pageStack.MaximumStackSize = 1024U;
-            this._pageStack.NavigateToPage((IPage)new StartupPage());
-            ZuneShell.DefaultInstance = this;
+            this._pageStack.NavigateToPage(new StartupPage());
+            DefaultInstance = this;
         }
 
         protected override void OnDispose(bool disposing)
@@ -41,9 +41,9 @@ namespace ZuneUI
             if (disposing)
                 this.DisposeManagement();
             base.OnDispose(disposing);
-            if (!disposing || ZuneShell.DefaultInstance != this)
+            if (!disposing || DefaultInstance != this)
                 return;
-            ZuneShell.DefaultInstance = (ZuneShell)null;
+            DefaultInstance = null;
         }
 
         public Command NavigateBackCommand => this._navigateBackCommand;
@@ -109,8 +109,8 @@ namespace ZuneUI
 
         public static ZuneShell DefaultInstance
         {
-            get => ZuneShell.s_defaultInstance;
-            private set => ZuneShell.s_defaultInstance = ZuneShell.s_defaultInstance == null || value == null ? value : throw new InvalidOperationException("Should only have one static shell instance.");
+            get => s_defaultInstance;
+            private set => s_defaultInstance = s_defaultInstance == null || value == null ? value : throw new InvalidOperationException("Should only have one static shell instance.");
         }
 
         public bool NavigationsPending => this._navigationsToPagePending > 0;
@@ -119,14 +119,14 @@ namespace ZuneUI
         {
             lock (this.thisLock)
                 ++this._navigationsToPagePending;
-            Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredNavigateToPage), (object)page);
+            Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredNavigateToPage), page);
         }
 
         private void DeferredNavigateToPage(object args)
         {
             ZunePage zunePage = (ZunePage)args;
-            if (this.CurrentPage == null || this.CurrentPage.CanNavigateForwardTo((IZunePage)zunePage))
-                this._pageStack.NavigateToPage((IPage)zunePage);
+            if (this.CurrentPage == null || this.CurrentPage.CanNavigateForwardTo(zunePage))
+                this._pageStack.NavigateToPage(zunePage);
             else
                 zunePage.Release();
             lock (this.thisLock)
@@ -135,7 +135,7 @@ namespace ZuneUI
 
         public void NavigateBack() => this.NavigateBack(false);
 
-        public void NavigateBack(bool bypassPage) => Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredNavigateBack), (object)bypassPage);
+        public void NavigateBack(bool bypassPage) => Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredNavigateBack), bypassPage);
 
         private void DeferredNavigateBack(object args)
         {
@@ -151,13 +151,13 @@ namespace ZuneUI
             this._commandHandler.Execute(command, commandArguments);
         }
 
-        public void LaunchHelp() => this.Execute(InternetConnection.Instance.IsConnected ? "Web\\" + CultureHelper.GetHelpUrl() : "Help\\" + Shell.LoadString(StringId.IDS_ZUNECLIENT_LOCALE) + "\\help.htm", (IDictionary)null);
+        public void LaunchHelp() => this.Execute(InternetConnection.Instance.IsConnected ? "Web\\" + CultureHelper.GetHelpUrl() : "Help\\" + Shell.LoadString(StringId.IDS_ZUNECLIENT_LOCALE) + "\\help.htm", null);
 
         public Management Management
         {
             get
             {
-                if (this._management == null && ZuneShell.DefaultInstance != null)
+                if (this._management == null && DefaultInstance != null)
                     this._management = new Management();
                 return this._management;
             }
@@ -168,7 +168,7 @@ namespace ZuneUI
             if (this._management == null)
                 return;
             this._management.Dispose();
-            this._management = (Management)null;
+            this._management = null;
         }
 
         public static MediaType MapStringToMediaType(string typeName) => (MediaType)LibraryDataProvider.NameToMediaType(typeName);

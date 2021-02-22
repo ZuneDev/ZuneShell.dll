@@ -19,7 +19,7 @@ namespace ZuneUI
         {
             if (this._breadcrumbs == null)
             {
-                this._breadcrumbs = (IList<Breadcrumb>)new List<Breadcrumb>();
+                this._breadcrumbs = new List<Breadcrumb>();
                 breadcrumb.Active = true;
             }
             this._breadcrumbs.Add(breadcrumb);

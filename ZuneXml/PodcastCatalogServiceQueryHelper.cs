@@ -13,7 +13,7 @@ namespace ZuneXml
         internal static ZuneServiceQueryHelper ConstructPodcastCatalogQueryHelper(
           ZuneServiceQuery query)
         {
-            return (ZuneServiceQueryHelper)new PodcastCatalogServiceQueryHelper(query);
+            return new PodcastCatalogServiceQueryHelper(query);
         }
 
         internal PodcastCatalogServiceQueryHelper(ZuneServiceQuery query)
@@ -34,17 +34,17 @@ namespace ZuneXml
             base.AppendStuffAfterRepresentation(requestUri, ref fFirst);
             string property1 = (string)this.Query.GetProperty("PodcastType");
             if (!string.IsNullOrEmpty(property1))
-                ZuneServiceQueryHelper.AppendParam(requestUri, "type", property1, ref fFirst);
+                AppendParam(requestUri, "type", property1, ref fFirst);
             string property2 = (string)this.Query.GetProperty("PodcastUrl");
             if (string.IsNullOrEmpty(property2))
                 return;
-            ZuneServiceQueryHelper.AppendParam(requestUri, "url", property2, ref fFirst);
+            AppendParam(requestUri, "url", property2, ref fFirst);
         }
 
         internal override string GetQueryPostBody()
         {
             string property = (string)this.Query.GetProperty("PostUrl");
-            return !string.IsNullOrEmpty(property) ? "URL=" + property : (string)null;
+            return !string.IsNullOrEmpty(property) ? "URL=" + property : null;
         }
     }
 }

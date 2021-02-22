@@ -137,7 +137,7 @@ namespace ZuneXml
                 if (this._internalStack == null)
                     this._internalStack = new Stack(2);
                 this._parentDepth += this._currentReader.Depth;
-                this._internalStack.Push((object)this._currentReader);
+                this._internalStack.Push(_currentReader);
             }
             else
                 this._parentDepth = 0;
@@ -156,7 +156,7 @@ namespace ZuneXml
             }
             else
             {
-                this._currentReader = (XmlTextReader)null;
+                this._currentReader = null;
                 this._parentDepth = 0;
             }
         }

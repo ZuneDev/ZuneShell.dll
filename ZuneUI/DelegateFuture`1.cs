@@ -8,9 +8,9 @@ namespace ZuneUI
 {
     public class DelegateFuture<T> : FutureBase<T>
     {
-        private ZuneUI.CalculateValue<T> _delegate;
+        private CalculateValue<T> _delegate;
 
-        public DelegateFuture(ZuneUI.CalculateValue<T> calculateMethod) => this._delegate = calculateMethod;
+        public DelegateFuture(CalculateValue<T> calculateMethod) => this._delegate = calculateMethod;
 
         protected override T CalculateValue() => this._delegate();
     }

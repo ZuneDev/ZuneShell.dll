@@ -36,7 +36,7 @@ namespace ZuneXml
                 bool flag = false;
                 if (!this.InCollection && this.MediaInstances != null)
                 {
-                    foreach (MediaInstance mediaInstance in (IEnumerable)this.MediaInstances)
+                    foreach (MediaInstance mediaInstance in MediaInstances)
                     {
                         flag = mediaInstance.IsDownloadable;
                         if (!flag)
@@ -69,7 +69,7 @@ namespace ZuneXml
           DataProviderQuery owner,
           object objectTypeCookie)
         {
-            return (XmlDataProviderObject)new TrackDownloadHistory(owner, objectTypeCookie);
+            return new TrackDownloadHistory(owner, objectTypeCookie);
         }
 
         internal TrackDownloadHistory(DataProviderQuery owner, object resultTypeCookie)
@@ -86,55 +86,55 @@ namespace ZuneXml
             switch (propertyName)
             {
                 case "Actionable":
-                    return (object)this.Actionable;
+                    return Actionable;
                 case "UserRating":
-                    return (object)this.UserRating;
+                    return UserRating;
                 case "LibraryId":
-                    return (object)this.LibraryId;
+                    return LibraryId;
                 case "PointsPrice":
-                    return (object)this.PointsPrice;
+                    return PointsPrice;
                 case "HasPoints":
-                    return (object)this.HasPoints;
+                    return HasPoints;
                 case "CanPlay":
-                    return (object)this.CanPlay;
+                    return CanPlay;
                 case "CanPreview":
-                    return (object)this.CanPreview;
+                    return CanPreview;
                 case "CanSubscriptionPlay":
-                    return (object)this.CanSubscriptionPlay;
+                    return CanSubscriptionPlay;
                 case "CanDownload":
-                    return (object)this.CanDownload;
+                    return CanDownload;
                 case "CanPurchase":
-                    return (object)this.CanPurchase;
+                    return CanPurchase;
                 case "CanPurchaseFree":
-                    return (object)this.CanPurchaseFree;
+                    return CanPurchaseFree;
                 case "CanPurchaseMP3":
-                    return (object)this.CanPurchaseMP3;
+                    return CanPurchaseMP3;
                 case "CanPurchaseAlbumOnly":
-                    return (object)this.CanPurchaseAlbumOnly;
+                    return CanPurchaseAlbumOnly;
                 case "CanPurchaseSubscriptionFree":
-                    return (object)this.CanPurchaseSubscriptionFree;
+                    return CanPurchaseSubscriptionFree;
                 case "CanSync":
-                    return (object)this.CanSync;
+                    return CanSync;
                 case "CanBurn":
-                    return (object)this.CanBurn;
+                    return CanBurn;
                 case "InCollection":
-                    return (object)this.InCollection;
+                    return InCollection;
                 case "IsDownloading":
-                    return (object)this.IsDownloading;
+                    return IsDownloading;
                 case "IsParentallyBlocked":
-                    return (object)this.IsParentallyBlocked;
+                    return IsParentallyBlocked;
                 case "Ordinal":
-                    return (object)this.Ordinal;
+                    return Ordinal;
                 case "SortTitle":
-                    return (object)this.SortTitle;
+                    return SortTitle;
                 case "ImageId":
-                    return (object)this.ImageId;
+                    return ImageId;
                 case "Rights":
-                    return (object)this.Rights;
+                    return Rights;
                 case "Artists":
-                    return (object)this.Artists;
+                    return Artists;
                 case "Popularity":
-                    return (object)this.Popularity;
+                    return Popularity;
                 default:
                     return base.GetProperty(propertyName);
             }

@@ -72,8 +72,8 @@ namespace ZuneUI
         protected override void OnDispose(bool disposing)
         {
             base.OnDispose(disposing);
-            SignIn.Instance.TempPasswordStorage = (string)null;
-            WirelessSync.Instance = (WirelessSync)null;
+            SignIn.Instance.TempPasswordStorage = null;
+            WirelessSync.Instance = null;
             SignIn.Instance.SignInStatusUpdatedEvent -= new EventHandler(this.OnSignInStatusUpdatedEvent);
         }
 
@@ -108,63 +108,63 @@ namespace ZuneUI
             Management management = ZuneShell.DefaultInstance.Management;
             if (management.HasPendingCommits)
             {
-                Command yesCommand = new Command((IModelItemOwner)null, Shell.LoadString(StringId.IDS_DIALOG_YES), (EventHandler)null);
-                yesCommand.Invoked += (EventHandler)((sender, args) =>
+                Command yesCommand = new Command(null, Shell.LoadString(StringId.IDS_DIALOG_YES), null);
+                yesCommand.Invoked += (sender, args) =>
                {
                    management.CommitListSave();
-                   DeviceManagement.NavigateToWizardMode(node, category);
-               });
-                Command noCommand = new Command((IModelItemOwner)null, Shell.LoadString(StringId.IDS_DIALOG_NO), (EventHandler)null);
-                noCommand.Invoked += (EventHandler)((sender, args) =>
+                   NavigateToWizardMode(node, category);
+               };
+                Command noCommand = new Command(null, Shell.LoadString(StringId.IDS_DIALOG_NO), null);
+                noCommand.Invoked += (sender, args) =>
                {
-                   management.CommitList = (CommitListHashtable)null;
-                   DeviceManagement.NavigateToWizardMode(node, category);
-               });
-                MessageBox.Show(Shell.LoadString(StringId.IDS_SAVE_CHANGES_DIALOG_TITLE), Shell.LoadString(StringId.IDS_SAVE_CHANGES_ON_BACK_DIALOG_TEXT), yesCommand, noCommand, (BooleanChoice)null);
+                   management.CommitList = null;
+                   NavigateToWizardMode(node, category);
+               };
+                MessageBox.Show(Shell.LoadString(StringId.IDS_SAVE_CHANGES_DIALOG_TITLE), Shell.LoadString(StringId.IDS_SAVE_CHANGES_ON_BACK_DIALOG_TEXT), yesCommand, noCommand, null);
             }
             else
             {
-                DeviceManagement.NavigatingToWizard = true;
+                NavigatingToWizard = true;
                 if (Shell.SettingsFrame.IsCurrent && !Shell.SettingsFrame.Wizard.FUE.IsCurrent)
                     management.CurrentCategoryPage.CancelAndExit();
-                Application.DeferredInvoke((DeferredInvokeHandler)delegate
+                Application.DeferredInvoke(delegate
                {
                    if (category != null)
                        node.Invoke(category);
                    else
                        node.Invoke();
-               }, (object)null);
+               }, null);
             }
         }
 
         public static UIDevice SetupDevice
         {
-            get => DeviceManagement._setupDevice;
+            get => _setupDevice;
             set
             {
-                if (DeviceManagement._setupDevice == value)
+                if (_setupDevice == value)
                     return;
                 if (value == null)
                 {
-                    DeviceManagement._setupQueueHandlingLocked = false;
-                    DeviceManagement.SetupQueue.Remove((object)DeviceManagement._setupDevice.ID);
+                    _setupQueueHandlingLocked = false;
+                    SetupQueue.Remove(_setupDevice.ID);
                 }
-                DeviceManagement._setupDevice = value;
-                if (DeviceManagement._setupDevice == null || Shell.SettingsFrame.IsCurrent)
+                _setupDevice = value;
+                if (_setupDevice == null || Shell.SettingsFrame.IsCurrent)
                     return;
-                PhoneBrandingStringMap.Instance.BrandingEnabled = DeviceManagement._setupDevice.SupportsBrandingType(DeviceBranding.WindowsPhone);
-                KinBrandingStringMap.Instance.BrandingEnabled = DeviceManagement._setupDevice.SupportsBrandingType(DeviceBranding.Kin);
+                PhoneBrandingStringMap.Instance.BrandingEnabled = _setupDevice.SupportsBrandingType(DeviceBranding.WindowsPhone);
+                KinBrandingStringMap.Instance.BrandingEnabled = _setupDevice.SupportsBrandingType(DeviceBranding.Kin);
             }
         }
 
         internal static void HandleSetupQueue()
         {
-            if (DeviceManagement._setupQueueHandlingLocked)
+            if (_setupQueueHandlingLocked)
                 return;
-            DeviceManagement._setupQueueHandlingLocked = true;
-            DeviceManagement.SetupDevice = (UIDevice)null;
+            _setupQueueHandlingLocked = true;
+            SetupDevice = null;
             List<int> intList = new List<int>();
-            foreach (DictionaryEntry setup in (Hashtable)DeviceManagement.SetupQueue)
+            foreach (DictionaryEntry setup in SetupQueue)
             {
                 UIDevice uiDevice = (UIDevice)setup.Value;
                 if (!uiDevice.IsConnectedToClient)
@@ -173,73 +173,73 @@ namespace ZuneUI
                 }
                 else
                 {
-                    DeviceManagement.SetupDevice = uiDevice;
+                    SetupDevice = uiDevice;
                     break;
                 }
             }
             foreach (int num in intList)
-                DeviceManagement.SetupQueue.Remove((object)num);
-            if (DeviceManagement.SetupDevice == null)
-                DeviceManagement._setupQueueHandlingLocked = false;
+                SetupQueue.Remove(num);
+            if (SetupDevice == null)
+                _setupQueueHandlingLocked = false;
             else
-                DeviceManagement.HandleCurrentSetupDevice();
+                HandleCurrentSetupDevice();
         }
 
         public static void HandleCurrentSetupDevice()
         {
-            if (DeviceManagement.SetupDevice == null)
+            if (SetupDevice == null)
                 return;
-            if (DeviceManagement.SetupDevice.SupportsOOBECompleted)
+            if (SetupDevice.SupportsOOBECompleted)
             {
-                if (!DeviceManagement.SetupDevice.OOBECompleted)
+                if (!SetupDevice.OOBECompleted)
                 {
-                    SingletonModelItem<UIDeviceList>.Instance.HideDevice(DeviceManagement.SetupDevice);
-                    DeviceManagement.ShowDeviceOOBEIncompleteDialog();
-                    DeviceManagement.SetupDevice = (UIDevice)null;
+                    SingletonModelItem<UIDeviceList>.Instance.HideDevice(SetupDevice);
+                    ShowDeviceOOBEIncompleteDialog();
+                    SetupDevice = null;
                     return;
                 }
-                DeviceManagement.HideDeviceOOBEIncompleteDialog();
+                HideDeviceOOBEIncompleteDialog();
             }
-            if (DeviceManagement.SetupDevice.RequiresClientUpdate)
+            if (SetupDevice.RequiresClientUpdate)
             {
-                SingletonModelItem<UIDeviceList>.Instance.HideDevice(DeviceManagement.SetupDevice);
-                MessageBox.Show(Shell.LoadString(StringId.IDS_CLIENT_UPDATE_HEADER), Shell.LoadString(StringId.IDS_CLIENT_UPDATE_DESC), (EventHandler)((sender, args) => ClientUpdate.Instance.InvokeClientUpdate()));
-                DeviceManagement.SetupDevice = (UIDevice)null;
+                SingletonModelItem<UIDeviceList>.Instance.HideDevice(SetupDevice);
+                MessageBox.Show(Shell.LoadString(StringId.IDS_CLIENT_UPDATE_HEADER), Shell.LoadString(StringId.IDS_CLIENT_UPDATE_DESC), (sender, args) => ClientUpdate.Instance.InvokeClientUpdate());
+                SetupDevice = null;
             }
-            else if (!UIDeviceList.IsSuitableForConnection(DeviceManagement.SetupDevice))
+            else if (!UIDeviceList.IsSuitableForConnection(SetupDevice))
             {
-                if (DeviceManagement.SetupDevice.RequiresAutoRestore)
-                    ZuneShell.DefaultInstance.NavigateToPage((ZunePage)new AutoRestoreLandPage());
+                if (SetupDevice.RequiresAutoRestore)
+                    ZuneShell.DefaultInstance.NavigateToPage(new AutoRestoreLandPage());
                 else
-                    ZuneShell.DefaultInstance.NavigateToPage((ZunePage)new FirstConnectLandPage());
+                    ZuneShell.DefaultInstance.NavigateToPage(new FirstConnectLandPage());
             }
             else
             {
-                UIFirmwareUpdater uiFirmwareUpdater = DeviceManagement.SetupDevice.UIFirmwareUpdater;
+                UIFirmwareUpdater uiFirmwareUpdater = SetupDevice.UIFirmwareUpdater;
                 if (uiFirmwareUpdater != null)
                 {
-                    bool launchWizardIfUpdatesFound = DeviceManagement.SetupDevice.SupportsBrandingType(DeviceBranding.WindowsPhone);
-                    uiFirmwareUpdater.StartCheckForUpdates(DeviceManagement.SetupDevice.RequiresFirmwareUpdate, launchWizardIfUpdatesFound);
+                    bool launchWizardIfUpdatesFound = SetupDevice.SupportsBrandingType(DeviceBranding.WindowsPhone);
+                    uiFirmwareUpdater.StartCheckForUpdates(SetupDevice.RequiresFirmwareUpdate, launchWizardIfUpdatesFound);
                 }
-                DeviceManagement.EndDeviceHandling(false, true);
+                EndDeviceHandling(false, true);
             }
         }
 
         public static void HideSetupDevice()
         {
-            SingletonModelItem<UIDeviceList>.Instance.HideDevice(DeviceManagement.SetupDevice);
-            DeviceManagement.SetupDevice = (UIDevice)null;
+            SingletonModelItem<UIDeviceList>.Instance.HideDevice(SetupDevice);
+            SetupDevice = null;
         }
 
         public void SetupComplete(bool navigateToLandingPage)
         {
-            if (DeviceManagement.SetupDevice == null)
+            if (SetupDevice == null)
                 return;
             if (this.ActiveDevice.IsValid)
             {
                 this.ActiveDevice.PromptForAccountLinkage = true;
                 SyncControls.Instance.ChangeIntoSetupDevice = false;
-                DeviceManagement.EndDeviceHandling(true, navigateToLandingPage);
+                EndDeviceHandling(true, navigateToLandingPage);
                 ZuneShell.DefaultInstance.Management.DisposeDeviceManagement(false);
             }
             else
@@ -248,15 +248,15 @@ namespace ZuneUI
 
         private static void EndDeviceHandling(bool comingOutOfFirstConnect, bool navigateToLandingPage)
         {
-            if (DeviceManagement.SetupDevice == null)
+            if (SetupDevice == null)
                 return;
-            DeviceManagement.SetupDevice.Enumerate();
+            SetupDevice.Enumerate();
             SyncControls instance = SyncControls.Instance;
             if (!Shell.SettingsFrame.IsCurrent || comingOutOfFirstConnect)
-                instance.SetCurrentDeviceIfNecessary(DeviceManagement.SetupDevice, comingOutOfFirstConnect);
-            if (!DeviceManagement.SetupDevice.IsGuest && DeviceManagement.SetupDevice.HasFailedLogin)
-                instance.AddDeviceToFailedSignInQueue(DeviceManagement.SetupDevice);
-            if (DeviceManagement.SetupDevice.SupportsBrandingType(DeviceBranding.WindowsPhone) || DeviceManagement.SetupDevice.SupportsBrandingType(DeviceBranding.Kin))
+                instance.SetCurrentDeviceIfNecessary(SetupDevice, comingOutOfFirstConnect);
+            if (!SetupDevice.IsGuest && SetupDevice.HasFailedLogin)
+                instance.AddDeviceToFailedSignInQueue(SetupDevice);
+            if (SetupDevice.SupportsBrandingType(DeviceBranding.WindowsPhone) || SetupDevice.SupportsBrandingType(DeviceBranding.Kin))
             {
                 instance.ShowPhoneWelcomeMessage = true;
                 ClientConfiguration.Devices.HasPhoneBeenConnected = true;
@@ -264,24 +264,24 @@ namespace ZuneUI
             if (navigateToLandingPage && comingOutOfFirstConnect && !(ZuneShell.DefaultInstance.CurrentPage is Deviceland))
                 Shell.MainFrame.Device.Invoke();
             instance.ShowSyncInstructionsToast = true;
-            if (DeviceManagement.DeviceConnectionHandled != null)
-                DeviceManagement.DeviceConnectionHandled((object)null, new DeviceConnectionHandledEventArgs(DeviceManagement.SetupDevice, comingOutOfFirstConnect));
-            DeviceManagement.SetupDevice = (UIDevice)null;
+            if (DeviceConnectionHandled != null)
+                DeviceConnectionHandled(null, new DeviceConnectionHandledEventArgs(SetupDevice, comingOutOfFirstConnect));
+            SetupDevice = null;
         }
 
         internal static void ShowDeviceOOBEIncompleteDialog()
         {
-            if (DeviceManagement._deviceOOBEIncompleteDialog != null)
+            if (_deviceOOBEIncompleteDialog != null)
                 return;
-            DeviceManagement._deviceOOBEIncompleteDialog = MessageBox.Show(Shell.LoadString(StringId.IDS_PHONE_OOBE_INCOMPLETE_TITLE), Shell.LoadString(StringId.IDS_PHONE_OOBE_INCOMPLETE_DESCRIPTION), (EventHandler)null, (EventHandler)null, (EventHandler)null, (EventHandler)((sender, args) => DeviceManagement.HideDeviceOOBEIncompleteDialog()), (BooleanChoice)null);
+            _deviceOOBEIncompleteDialog = MessageBox.Show(Shell.LoadString(StringId.IDS_PHONE_OOBE_INCOMPLETE_TITLE), Shell.LoadString(StringId.IDS_PHONE_OOBE_INCOMPLETE_DESCRIPTION), null, null, null, (sender, args) => HideDeviceOOBEIncompleteDialog(), null);
         }
 
         internal static void HideDeviceOOBEIncompleteDialog()
         {
-            if (DeviceManagement._deviceOOBEIncompleteDialog == null)
+            if (_deviceOOBEIncompleteDialog == null)
                 return;
-            DeviceManagement._deviceOOBEIncompleteDialog.Hide();
-            DeviceManagement._deviceOOBEIncompleteDialog = (MessageBox)null;
+            _deviceOOBEIncompleteDialog.Hide();
+            _deviceOOBEIncompleteDialog = null;
         }
 
         public Choice MusicSyncChoice
@@ -405,12 +405,12 @@ namespace ZuneUI
 
         private Choice GenerateSyncModeChoice(SyncCategory syncType)
         {
-            Choice choice = new Choice((IModelItemOwner)this);
+            Choice choice = new Choice(this);
             List<SyncModeOptionPair> syncModeOptionPairList = new List<SyncModeOptionPair>();
             string name1 = "";
             string name2 = "";
-            string name3 = (string)null;
-            EventHandler eventHandler = (EventHandler)null;
+            string name3 = null;
+            EventHandler eventHandler = null;
             switch (syncType)
             {
                 case SyncCategory.Music:
@@ -464,26 +464,26 @@ namespace ZuneUI
             }
             bool flag1 = this.ActiveDevice.IsSyncAllFor(syncType, true);
             bool flag2 = !string.IsNullOrEmpty(name3) && this.ActiveDevice.IsManualFor(syncType, true);
-            choice.Options = (IList)syncModeOptionPairList;
+            choice.Options = syncModeOptionPairList;
             choice.ChosenIndex = flag2 ? 2 : (flag1 ? 0 : 1);
             if (eventHandler != null)
                 choice.ChosenChanged += eventHandler;
             return choice;
         }
 
-        private void HandleMusicSyncOptionChanged(object sender, EventArgs args) => ZuneShell.DefaultInstance.Management.CommitList[(object)new ProxySettingDelegate(this.OnMusicSyncChoiceCommit)] = (object)this.CommitDeviceID;
+        private void HandleMusicSyncOptionChanged(object sender, EventArgs args) => ZuneShell.DefaultInstance.Management.CommitList[new ProxySettingDelegate(this.OnMusicSyncChoiceCommit)] = CommitDeviceID;
 
         private void OnMusicSyncChoiceCommit(object data) => this.OnCategorySyncChoiceCommit(SyncCategory.Music, ((SyncModeOptionPair)this._musicSyncChoice.ChosenValue).Mode);
 
-        private void HandleVideoSyncOptionChanged(object sender, EventArgs args) => ZuneShell.DefaultInstance.Management.CommitList[(object)new ProxySettingDelegate(this.OnVideoSyncChoiceCommit)] = (object)this.CommitDeviceID;
+        private void HandleVideoSyncOptionChanged(object sender, EventArgs args) => ZuneShell.DefaultInstance.Management.CommitList[new ProxySettingDelegate(this.OnVideoSyncChoiceCommit)] = CommitDeviceID;
 
         private void OnVideoSyncChoiceCommit(object data) => this.OnCategorySyncChoiceCommit(SyncCategory.Video, ((SyncModeOptionPair)this._videoSyncChoice.ChosenValue).Mode);
 
-        private void HandlePhotoSyncOptionChanged(object sender, EventArgs args) => ZuneShell.DefaultInstance.Management.CommitList[(object)new ProxySettingDelegate(this.OnPhotoSyncChoiceCommit)] = (object)this.CommitDeviceID;
+        private void HandlePhotoSyncOptionChanged(object sender, EventArgs args) => ZuneShell.DefaultInstance.Management.CommitList[new ProxySettingDelegate(this.OnPhotoSyncChoiceCommit)] = CommitDeviceID;
 
         private void OnPhotoSyncChoiceCommit(object data) => this.OnCategorySyncChoiceCommit(SyncCategory.Photo, ((SyncModeOptionPair)this._photoSyncChoice.ChosenValue).Mode);
 
-        private void HandlePodcastSyncOptionChanged(object sender, EventArgs args) => ZuneShell.DefaultInstance.Management.CommitList[(object)new ProxySettingDelegate(this.OnPodcastSyncChoiceCommit)] = (object)this.CommitDeviceID;
+        private void HandlePodcastSyncOptionChanged(object sender, EventArgs args) => ZuneShell.DefaultInstance.Management.CommitList[new ProxySettingDelegate(this.OnPodcastSyncChoiceCommit)] = CommitDeviceID;
 
         private void OnPodcastSyncChoiceCommit(object data) => this.OnCategorySyncChoiceCommit(SyncCategory.Podcast, ((SyncModeOptionPair)this._podcastSyncChoice.ChosenValue).Mode);
 
@@ -491,7 +491,7 @@ namespace ZuneUI
         {
             if (((SyncModeOptionPair)this._friendSyncChoice.ChosenValue).Mode == SyncMode.SyncAll)
                 UIDevice.WarnUserAboutFriendSyncSize();
-            ZuneShell.DefaultInstance.Management.CommitList[(object)new ProxySettingDelegate(this.OnFriendSyncChoiceCommit)] = (object)this.CommitDeviceID;
+            ZuneShell.DefaultInstance.Management.CommitList[new ProxySettingDelegate(this.OnFriendSyncChoiceCommit)] = CommitDeviceID;
         }
 
         private void OnFriendSyncChoiceCommit(object data)
@@ -501,7 +501,7 @@ namespace ZuneUI
             this.OnCategorySyncChoiceCommit(SyncCategory.Friend, ((SyncModeOptionPair)this._friendSyncChoice.ChosenValue).Mode);
         }
 
-        private void HandleChannelSyncOptionChanged(object sender, EventArgs args) => ZuneShell.DefaultInstance.Management.CommitList[(object)new ProxySettingDelegate(this.OnChannelSyncChoiceCommit)] = (object)this.CommitDeviceID;
+        private void HandleChannelSyncOptionChanged(object sender, EventArgs args) => ZuneShell.DefaultInstance.Management.CommitList[new ProxySettingDelegate(this.OnChannelSyncChoiceCommit)] = CommitDeviceID;
 
         private void OnChannelSyncChoiceCommit(object data)
         {
@@ -510,7 +510,7 @@ namespace ZuneUI
             this.OnCategorySyncChoiceCommit(SyncCategory.Channel, ((SyncModeOptionPair)this._channelSyncChoice.ChosenValue).Mode);
         }
 
-        private void HandleApplicationSyncOptionChanged(object sender, EventArgs args) => ZuneShell.DefaultInstance.Management.CommitList[(object)new ProxySettingDelegate(this.OnApplicationSyncChoiceCommit)] = (object)this.CommitDeviceID;
+        private void HandleApplicationSyncOptionChanged(object sender, EventArgs args) => ZuneShell.DefaultInstance.Management.CommitList[new ProxySettingDelegate(this.OnApplicationSyncChoiceCommit)] = CommitDeviceID;
 
         private void OnApplicationSyncChoiceCommit(object data) => this.OnCategorySyncChoiceCommit(SyncCategory.Application, ((SyncModeOptionPair)this._applicationSyncChoice.ChosenValue).Mode);
 
@@ -530,7 +530,7 @@ namespace ZuneUI
             CategoryPage currentCategoryPage = ZuneShell.DefaultInstance.Management.CurrentCategoryPage;
         }
 
-        public void FormatCurrentDevice() => MessageBox.Show(Shell.LoadString(StringId.IDS_FORMAT_DIALOG_TITLE), Shell.LoadString(StringId.IDS_FORMAT_DIALOG_TEXT), new EventHandler(this.ConfirmedFormatDevice), (EventHandler)null);
+        public void FormatCurrentDevice() => MessageBox.Show(Shell.LoadString(StringId.IDS_FORMAT_DIALOG_TITLE), Shell.LoadString(StringId.IDS_FORMAT_DIALOG_TEXT), new EventHandler(this.ConfirmedFormatDevice), null);
 
         private void ConfirmedFormatDevice(object sender, EventArgs e)
         {
@@ -543,7 +543,7 @@ namespace ZuneUI
             get
             {
                 if (this._formatNotifier == null)
-                    this._formatNotifier = new Command((IModelItemOwner)this);
+                    this._formatNotifier = new Command(this);
                 return this._formatNotifier;
             }
         }
@@ -554,9 +554,9 @@ namespace ZuneUI
             {
                 if (this._dontSyncDislikedContent == null)
                 {
-                    this._dontSyncDislikedContent = new BooleanChoice((IModelItemOwner)this, Shell.LoadString(StringId.IDS_DONT_SYNC_DISLIKED_CONTENT));
+                    this._dontSyncDislikedContent = new BooleanChoice(this, Shell.LoadString(StringId.IDS_DONT_SYNC_DISLIKED_CONTENT));
                     this._dontSyncDislikedContent.Value = this.ActiveDevice.ExcludeDislikedContent;
-                    this._dontSyncDislikedContent.ChosenChanged += (EventHandler)((sender, args) => ZuneShell.DefaultInstance.Management.CommitList[(object)new ProxySettingDelegate(this.OnDontSyncDislikedContentChoiceCommit)] = (object)this.CommitDeviceID);
+                    this._dontSyncDislikedContent.ChosenChanged += (sender, args) => ZuneShell.DefaultInstance.Management.CommitList[new ProxySettingDelegate(this.OnDontSyncDislikedContentChoiceCommit)] = CommitDeviceID;
                 }
                 return this._dontSyncDislikedContent;
             }
@@ -570,14 +570,14 @@ namespace ZuneUI
             {
                 if (this._deleteAfterReverseSyncChoice == null)
                 {
-                    this._deleteAfterReverseSyncOptions = (IList<Command>)new List<Command>();
-                    this._deleteAfterReverseSyncOptions.Add(new Command((IModelItemOwner)this, Shell.LoadString(StringId.IDS_PHOTOS_SETTINGS_LEAVE_AFTER_REVERSE_SYNC), (EventHandler)null));
-                    this._deleteAfterReverseSyncOptions.Add(new Command((IModelItemOwner)this, Shell.LoadString(StringId.IDS_PHOTOS_SETTINGS_DELETE_AFTER_REVERSE_SYNC), (EventHandler)null));
-                    this._deleteAfterReverseSyncChoice = new Choice((IModelItemOwner)this);
+                    this._deleteAfterReverseSyncOptions = new List<Command>();
+                    this._deleteAfterReverseSyncOptions.Add(new Command(this, Shell.LoadString(StringId.IDS_PHOTOS_SETTINGS_LEAVE_AFTER_REVERSE_SYNC), null));
+                    this._deleteAfterReverseSyncOptions.Add(new Command(this, Shell.LoadString(StringId.IDS_PHOTOS_SETTINGS_DELETE_AFTER_REVERSE_SYNC), null));
+                    this._deleteAfterReverseSyncChoice = new Choice(this);
                     this._deleteAfterReverseSyncChoice.Options = (IList)this._deleteAfterReverseSyncOptions;
                     this._deleteAfterReverseSyncChoice.DefaultIndex = this.ActiveDevice.DeletePicsFromPhoneAfterReverseSync ? 1 : 0;
                     this._deleteAfterReverseSyncChoice.DefaultValue();
-                    this._deleteAfterReverseSyncChoice.ChosenChanged += (EventHandler)((sender, args) => ZuneShell.DefaultInstance.Management.CommitList[(object)new ProxySettingDelegate(this.OnDeleteAfterReverseSyncCommit)] = (object)this.CommitDeviceID);
+                    this._deleteAfterReverseSyncChoice.ChosenChanged += (sender, args) => ZuneShell.DefaultInstance.Management.CommitList[new ProxySettingDelegate(this.OnDeleteAfterReverseSyncCommit)] = CommitDeviceID;
                 }
                 return this._deleteAfterReverseSyncChoice;
             }
@@ -601,10 +601,10 @@ namespace ZuneUI
                     if (this._friendlyNameOnDevice != value)
                     {
                         this._friendlyNameOnDevice = value;
-                        ZuneShell.DefaultInstance.Management.CommitList[(object)new ProxySettingDelegate(this.OnFriendlyNameOnDeviceCommit)] = (object)this.CommitDeviceID;
+                        ZuneShell.DefaultInstance.Management.CommitList[new ProxySettingDelegate(this.OnFriendlyNameOnDeviceCommit)] = CommitDeviceID;
                         this.FirePropertyChanged(nameof(FriendlyNameOnDevice));
                     }
-                    this.ErrorMessage = (string)null;
+                    this.ErrorMessage = null;
                 }
                 else
                     this.ErrorMessage = errorMessage;
@@ -630,7 +630,7 @@ namespace ZuneUI
                 errorMessage = Shell.LoadString(StringId.IDS_DEVICE_NAME_INVALID_CHARS);
                 return false;
             }
-            errorMessage = (string)null;
+            errorMessage = null;
             return true;
         }
 
@@ -668,27 +668,27 @@ namespace ZuneUI
             {
                 if (this._enableMarketplaceChoice == null)
                 {
-                    this._enableMarketplaceChoice = new Choice((IModelItemOwner)this);
-                    this._enableMarketplaceChoice.Options = (IList)new Command[2]
+                    this._enableMarketplaceChoice = new Choice(this);
+                    this._enableMarketplaceChoice.Options = (new Command[2]
                     {
-            new Command((IModelItemOwner) this, Shell.LoadString(StringId.IDS_SKIP_FOR_NOW_OPTION), (EventHandler) null),
-            new Command((IModelItemOwner) this, Shell.LoadString(StringId.IDS_ENABLE_ZUNE_MARKETPLACE_OPTION), (EventHandler) null)
-                    };
-                    this._marketplaceCredentials = new MarketplaceCredentialsForDevice((string)null, (string)null, this.ActiveDevice.PurchaseEnabled, !Shell.SettingsFrame.Wizard.IsCurrent && !string.IsNullOrEmpty(this.ActiveDevice.ZuneTag), this.ActiveDevice.ZuneTag, this._enableMarketplaceChoice);
+            new Command( this, Shell.LoadString(StringId.IDS_SKIP_FOR_NOW_OPTION),  null),
+            new Command( this, Shell.LoadString(StringId.IDS_ENABLE_ZUNE_MARKETPLACE_OPTION),  null)
+                    });
+                    this._marketplaceCredentials = new MarketplaceCredentialsForDevice(null, null, this.ActiveDevice.PurchaseEnabled, !Shell.SettingsFrame.Wizard.IsCurrent && !string.IsNullOrEmpty(this.ActiveDevice.ZuneTag), this.ActiveDevice.ZuneTag, this._enableMarketplaceChoice);
                     if (Shell.SettingsFrame.Wizard.IsCurrent)
                     {
                         this.MarketplaceCredentials.Email = SignIn.GetPassportIdFromUserId(SignIn.Instance.LastSignedInUserId);
                         this._enableMarketplaceChoice.DefaultIndex = string.IsNullOrEmpty(this.MarketplaceCredentials.Email) ? 0 : 1;
-                        ZuneShell.DefaultInstance.Management.CommitList[(object)new ProxySettingDelegate(this.OnMarketplaceCredentialsCommit)] = (object)this.CommitDeviceID;
+                        ZuneShell.DefaultInstance.Management.CommitList[new ProxySettingDelegate(this.OnMarketplaceCredentialsCommit)] = CommitDeviceID;
                     }
                     else
                         this._enableMarketplaceChoice.DefaultIndex = string.IsNullOrEmpty(this.ActiveDevice.ZuneTag) ? 0 : 1;
                     this._enableMarketplaceChoice.DefaultValue();
-                    this._enableMarketplaceChoice.ChosenChanged += (EventHandler)((sender, args) =>
+                    this._enableMarketplaceChoice.ChosenChanged += (sender, args) =>
                    {
-                       ZuneShell.DefaultInstance.Management.CommitList[(object)new ProxySettingDelegate(this.OnMarketplaceCredentialsCommit)] = (object)this.CommitDeviceID;
+                       ZuneShell.DefaultInstance.Management.CommitList[new ProxySettingDelegate(this.OnMarketplaceCredentialsCommit)] = CommitDeviceID;
                        this.FirePropertyChanged(nameof(EnableMarketplaceChoice));
-                   });
+                   };
                 }
                 return this._enableMarketplaceChoice;
             }
@@ -744,9 +744,9 @@ namespace ZuneUI
             {
                 if (this._enableMarketplacePurchase == null)
                 {
-                    this._enableMarketplacePurchase = new BooleanChoice((IModelItemOwner)this, Shell.LoadString(StringId.IDS_ENABLE_DEVICE_PURCHASE));
+                    this._enableMarketplacePurchase = new BooleanChoice(this, Shell.LoadString(StringId.IDS_ENABLE_DEVICE_PURCHASE));
                     this._enableMarketplacePurchase.Value = this.MarketplaceCredentials.PurchaseEnabled;
-                    this._enableMarketplacePurchase.ChosenChanged += (EventHandler)((sender, args) => this.MarketplaceCredentials.PurchaseEnabled = this._enableMarketplacePurchase.Value);
+                    this._enableMarketplacePurchase.ChosenChanged += (sender, args) => this.MarketplaceCredentials.PurchaseEnabled = this._enableMarketplacePurchase.Value;
                 }
                 return this._enableMarketplacePurchase;
             }
@@ -792,7 +792,7 @@ namespace ZuneUI
                 this.MarketplaceCredentials.UserGuid = SignIn.Instance.UserGuid;
             }
             if (!Shell.SettingsFrame.Wizard.IsCurrent)
-                this.OnMarketplaceCredentialsCommit((object)null);
+                this.OnMarketplaceCredentialsCommit(null);
             this.ValidatingCredentials = false;
             this.FirePropertyChanged("MarketplaceCredentials");
         }
@@ -808,12 +808,12 @@ namespace ZuneUI
             get
             {
                 Management management = ZuneShell.DefaultInstance.Management;
-                if (management.CommitList.ContainsValue((object)"OnSyncPartnershipCommit"))
+                if (management.CommitList.ContainsValue("OnSyncPartnershipCommit"))
                     return DeviceRelationship.Permanent;
                 DeviceRelationship deviceRelationship = this.ActiveDevice.Relationship;
                 if (this.ActiveDevice.IsValid && deviceRelationship == DeviceRelationship.None)
                 {
-                    management.CommitList[(object)new ProxySettingDelegate(this.OnSyncPartnershipCommit)] = (object)"OnSyncPartnershipCommit";
+                    management.CommitList[new ProxySettingDelegate(this.OnSyncPartnershipCommit)] = "OnSyncPartnershipCommit";
                     deviceRelationship = DeviceRelationship.Permanent;
                 }
                 return deviceRelationship;
@@ -823,11 +823,11 @@ namespace ZuneUI
                 Management management = ZuneShell.DefaultInstance.Management;
                 if (value == DeviceRelationship.Permanent)
                 {
-                    management.CommitList[(object)new ProxySettingDelegate(this.OnSyncPartnershipCommit)] = (object)"OnSyncPartnershipCommit";
+                    management.CommitList[new ProxySettingDelegate(this.OnSyncPartnershipCommit)] = "OnSyncPartnershipCommit";
                 }
                 else
                 {
-                    management.CommitList[(object)new ProxySettingDelegate(this.OnSyncPartnershipCommit)] = (object)null;
+                    management.CommitList[new ProxySettingDelegate(this.OnSyncPartnershipCommit)] = null;
                     this.ActiveDevice.Relationship = value;
                 }
                 this.FirePropertyChanged(nameof(DevicePartnership));
@@ -870,7 +870,7 @@ namespace ZuneUI
                     if (this._transcodeSizeLimit != result)
                     {
                         this._transcodeSizeLimit = result;
-                        ZuneShell.DefaultInstance.Management.CommitList[(object)new ProxySettingDelegate(this.OnTranscodeSizeLimitCommit)] = (object)this.CommitDeviceID;
+                        ZuneShell.DefaultInstance.Management.CommitList[new ProxySettingDelegate(this.OnTranscodeSizeLimitCommit)] = CommitDeviceID;
                     }
                 }
                 this.FirePropertyChanged(nameof(TranscodeSizeLimit));
@@ -909,7 +909,7 @@ namespace ZuneUI
                 if (!(this._cameraRollDestinationPath != value))
                     return;
                 this._cameraRollDestinationPath = value;
-                ZuneShell.DefaultInstance.Management.CommitList[(object)new ProxySettingDelegate(this.OnCameraRollDestinationPathCommit)] = (object)this.CommitDeviceID;
+                ZuneShell.DefaultInstance.Management.CommitList[new ProxySettingDelegate(this.OnCameraRollDestinationPathCommit)] = CommitDeviceID;
                 this.FirePropertyChanged(nameof(CameraRollDestinationPath));
             }
         }
@@ -929,7 +929,7 @@ namespace ZuneUI
                 if (!(this._savedFolderDestinationPath != value))
                     return;
                 this._savedFolderDestinationPath = value;
-                ZuneShell.DefaultInstance.Management.CommitList[(object)new ProxySettingDelegate(this.OnSavedFolderDestinationPathCommit)] = (object)this.CommitDeviceID;
+                ZuneShell.DefaultInstance.Management.CommitList[new ProxySettingDelegate(this.OnSavedFolderDestinationPathCommit)] = CommitDeviceID;
                 this.FirePropertyChanged(nameof(SavedFolderDestinationPath));
             }
         }
@@ -952,7 +952,7 @@ namespace ZuneUI
                 if (this._transcodeInBG == value)
                     return;
                 this._transcodeInBG = value;
-                ZuneShell.DefaultInstance.Management.CommitList[(object)new ProxySettingDelegate(this.OnTranscodeInBGCommit)] = (object)null;
+                ZuneShell.DefaultInstance.Management.CommitList[new ProxySettingDelegate(this.OnTranscodeInBGCommit)] = null;
                 this.FirePropertyChanged(nameof(TranscodeInBG));
                 this._transcodeInBGIsSet = true;
             }
@@ -960,13 +960,13 @@ namespace ZuneUI
 
         private void OnTranscodeInBGCommit(object data) => ClientConfiguration.Transcode.BackgroundTranscode = this._transcodeInBG;
 
-        public void ChangeTranscodeFolder() => FolderBrowseDialog.Show("", (DeferredInvokeHandler)(args =>
+        public void ChangeTranscodeFolder() => FolderBrowseDialog.Show("", args =>
        {
            if (args == null)
                return;
-           ZuneShell.DefaultInstance.Management.CommitList[(object)new ProxySettingDelegate(this.OnChangeTranscodeFolderCommit)] = (object)null;
+           ZuneShell.DefaultInstance.Management.CommitList[new ProxySettingDelegate(this.OnChangeTranscodeFolderCommit)] = null;
            this.TranscodedFilesCachePath = (string)args;
-       }), true);
+       }, true);
 
         private void OnChangeTranscodeFolderCommit(object data) => SingletonModelItem<UIDeviceList>.Instance.TranscodedFilesCachePath = this._transcodedFilesCachePath;
 
@@ -984,13 +984,13 @@ namespace ZuneUI
         {
             if (!this.ActiveDevice.IsValid)
                 return;
-            FolderBrowseDialog.Show("", (DeferredInvokeHandler)(args =>
+            FolderBrowseDialog.Show("", args =>
            {
                if (args == null)
                    return;
-               ZuneShell.DefaultInstance.Management.CommitList[(object)new ProxySettingDelegate(this.OnChangeCameraRollDestinationPathCommit)] = (object)this.CommitDeviceID;
+               ZuneShell.DefaultInstance.Management.CommitList[new ProxySettingDelegate(this.OnChangeCameraRollDestinationPathCommit)] = CommitDeviceID;
                this.CameraRollDestinationPath = (string)args;
-           }), true);
+           }, true);
         }
 
         private void OnChangeCameraRollDestinationPathCommit(object data) => this.ActiveDevice.CameraRollDestinationPath = this._transcodedFilesCachePath;
@@ -1001,15 +1001,15 @@ namespace ZuneUI
             {
                 if (this._imageQualitySyncChoice == null)
                 {
-                    this._imageQualitySyncOptions = (IList<Command>)new List<Command>();
-                    this._imageQualitySyncOptions.Add(new Command((IModelItemOwner)this, Shell.LoadString(StringId.IDS_PHOTOS_SETTINGS_QUALITY_DEFAULT), (EventHandler)null));
-                    this._imageQualitySyncOptions.Add(new Command((IModelItemOwner)this, Shell.LoadString(StringId.IDS_PHOTOS_SETTINGS_QUALITY_ORIGINAL), (EventHandler)null));
-                    this._imageQualitySyncOptions.Add(new Command((IModelItemOwner)this, Shell.LoadString(StringId.IDS_PHOTOS_SETTINGS_QUALITY_VGA), (EventHandler)null));
-                    this._imageQualitySyncChoice = new Choice((IModelItemOwner)this);
+                    this._imageQualitySyncOptions = new List<Command>();
+                    this._imageQualitySyncOptions.Add(new Command(this, Shell.LoadString(StringId.IDS_PHOTOS_SETTINGS_QUALITY_DEFAULT), null));
+                    this._imageQualitySyncOptions.Add(new Command(this, Shell.LoadString(StringId.IDS_PHOTOS_SETTINGS_QUALITY_ORIGINAL), null));
+                    this._imageQualitySyncOptions.Add(new Command(this, Shell.LoadString(StringId.IDS_PHOTOS_SETTINGS_QUALITY_VGA), null));
+                    this._imageQualitySyncChoice = new Choice(this);
                     this._imageQualitySyncChoice.Options = (IList)this._imageQualitySyncOptions;
                     this._imageQualitySyncChoice.DefaultIndex = this.ActiveDevice.ImageTranscodeQuality > ETranscodePhotoSetting.tsPhotoSettingDevicePreferred ? (int)this.ActiveDevice.ImageTranscodeQuality : 0;
                     this._imageQualitySyncChoice.DefaultValue();
-                    this._imageQualitySyncChoice.ChosenChanged += (EventHandler)((sender, args) => ZuneShell.DefaultInstance.Management.CommitList[(object)new ProxySettingDelegate(this.OnImageQualitySyncChoiceCommit)] = (object)this.CommitDeviceID);
+                    this._imageQualitySyncChoice.ChosenChanged += (sender, args) => ZuneShell.DefaultInstance.Management.CommitList[new ProxySettingDelegate(this.OnImageQualitySyncChoiceCommit)] = CommitDeviceID;
                 }
                 return this._imageQualitySyncChoice;
             }
@@ -1030,14 +1030,14 @@ namespace ZuneUI
             {
                 if (this._audioConversionChoice == null)
                 {
-                    this._audioConversionOptions = (IList<Command>)new List<Command>();
-                    this._audioConversionOptions.Add(new Command((IModelItemOwner)this, Shell.LoadString(StringId.IDS_TRANSCODE_AUDIO_NOSUPPORT_OPTION), (EventHandler)null));
-                    this._audioConversionOptions.Add(new Command((IModelItemOwner)this, Shell.LoadString(StringId.IDS_TRANSCODE_AUDIO_EXCEEDS_OPTION), (EventHandler)null));
-                    this._audioConversionChoice = new Choice((IModelItemOwner)this);
+                    this._audioConversionOptions = new List<Command>();
+                    this._audioConversionOptions.Add(new Command(this, Shell.LoadString(StringId.IDS_TRANSCODE_AUDIO_NOSUPPORT_OPTION), null));
+                    this._audioConversionOptions.Add(new Command(this, Shell.LoadString(StringId.IDS_TRANSCODE_AUDIO_EXCEEDS_OPTION), null));
+                    this._audioConversionChoice = new Choice(this);
                     this._audioConversionChoice.Options = (IList)this._audioConversionOptions;
                     this._audioConversionChoice.DefaultIndex = this.ActiveDevice.AudioTranscodeLimit > 0 ? 1 : 0;
                     this._audioConversionChoice.DefaultValue();
-                    this._audioConversionChoice.ChosenChanged += (EventHandler)((sender, args) => ZuneShell.DefaultInstance.Management.CommitList[(object)new ProxySettingDelegate(this.OnAudioConversionChoiceCommit)] = (object)this.CommitDeviceID);
+                    this._audioConversionChoice.ChosenChanged += (sender, args) => ZuneShell.DefaultInstance.Management.CommitList[new ProxySettingDelegate(this.OnAudioConversionChoiceCommit)] = CommitDeviceID;
                 }
                 return this._audioConversionChoice;
             }
@@ -1063,7 +1063,7 @@ namespace ZuneUI
                 if (!(this._audioThresholdBitRate != value))
                     return;
                 this._audioThresholdBitRate = value;
-                ZuneShell.DefaultInstance.Management.CommitList[(object)new ProxySettingDelegate(this.OnAudioConversionChoiceCommit)] = (object)this.CommitDeviceID;
+                ZuneShell.DefaultInstance.Management.CommitList[new ProxySettingDelegate(this.OnAudioConversionChoiceCommit)] = CommitDeviceID;
                 this.FirePropertyChanged(nameof(AudioThresholdBitRate));
             }
         }
@@ -1081,7 +1081,7 @@ namespace ZuneUI
                 if (!(this._audioTargetBitRate != value))
                     return;
                 this._audioTargetBitRate = value;
-                ZuneShell.DefaultInstance.Management.CommitList[(object)new ProxySettingDelegate(this.OnAudioConversionChoiceCommit)] = (object)this.CommitDeviceID;
+                ZuneShell.DefaultInstance.Management.CommitList[new ProxySettingDelegate(this.OnAudioConversionChoiceCommit)] = CommitDeviceID;
                 this.FirePropertyChanged(nameof(AudioTargetBitRate));
             }
         }
@@ -1106,14 +1106,14 @@ namespace ZuneUI
             {
                 if (this._videoConversionChoice == null)
                 {
-                    this._videoConversionOptions = (IList<Command>)new List<Command>();
-                    this._videoConversionOptions.Add(new Command((IModelItemOwner)this, Shell.LoadString(StringId.IDS_TRANSCODE_VIDEO_PLAYBACK_OPTION), (EventHandler)null));
-                    this._videoConversionOptions.Add(new Command((IModelItemOwner)this, Shell.LoadString(StringId.IDS_TRANSCODE_VIDEO_TV_OUT_OPTION), (EventHandler)null));
-                    this._videoConversionChoice = new Choice((IModelItemOwner)this);
+                    this._videoConversionOptions = new List<Command>();
+                    this._videoConversionOptions.Add(new Command(this, Shell.LoadString(StringId.IDS_TRANSCODE_VIDEO_PLAYBACK_OPTION), null));
+                    this._videoConversionOptions.Add(new Command(this, Shell.LoadString(StringId.IDS_TRANSCODE_VIDEO_TV_OUT_OPTION), null));
+                    this._videoConversionChoice = new Choice(this);
                     this._videoConversionChoice.Options = (IList)this._videoConversionOptions;
                     this._videoConversionChoice.DefaultIndex = this.ActiveDevice.OptimizeVideoForTV ? 1 : 0;
                     this._videoConversionChoice.DefaultValue();
-                    this._videoConversionChoice.ChosenChanged += (EventHandler)((sender, args) => ZuneShell.DefaultInstance.Management.CommitList[(object)new ProxySettingDelegate(this.OnVideoConversionChoiceCommit)] = (object)this.CommitDeviceID);
+                    this._videoConversionChoice.ChosenChanged += (sender, args) => ZuneShell.DefaultInstance.Management.CommitList[new ProxySettingDelegate(this.OnVideoConversionChoiceCommit)] = CommitDeviceID;
                 }
                 return this._videoConversionChoice;
             }
@@ -1134,9 +1134,9 @@ namespace ZuneUI
             {
                 if (this._bitRateList == null)
                 {
-                    this._bitRateList = (IList<Command>)new List<Command>(this._defaultBitRates.Length);
+                    this._bitRateList = new List<Command>(this._defaultBitRates.Length);
                     for (int index = 0; index < this._defaultBitRates.Length; ++index)
-                        this._bitRateList.Add(new Command((IModelItemOwner)null, this._defaultBitRates[index].ToString(), (EventHandler)null));
+                        this._bitRateList.Add(new Command(null, this._defaultBitRates[index].ToString(), null));
                 }
                 return this._bitRateList;
             }
@@ -1147,14 +1147,14 @@ namespace ZuneUI
             get
             {
                 if (float.IsNaN(this._reservedSpaceOnDevice))
-                    this._reservedSpaceOnDevice = (float)this.ActiveDevice.PercentReserved;
+                    this._reservedSpaceOnDevice = ActiveDevice.PercentReserved;
                 return this._reservedSpaceOnDevice;
             }
             set
             {
-                if ((double)this._reservedSpaceOnDevice == (double)value)
+                if (_reservedSpaceOnDevice == (double)value)
                     return;
-                ZuneShell.DefaultInstance.Management.CommitList[(object)new ProxySettingDelegate(this.OnReservedSpaceOnDeviceCommit)] = (object)this.CommitDeviceID;
+                ZuneShell.DefaultInstance.Management.CommitList[new ProxySettingDelegate(this.OnReservedSpaceOnDeviceCommit)] = CommitDeviceID;
                 this._reservedSpaceOnDevice = value;
             }
         }
@@ -1166,7 +1166,7 @@ namespace ZuneUI
             get
             {
                 if (this._syncGroups == null)
-                    this._syncGroups = this.ActiveDevice.GenerateSyncGroupList((IModelItemOwner)this, false);
+                    this._syncGroups = this.ActiveDevice.GenerateSyncGroupList(this, false);
                 return this._syncGroups;
             }
         }
@@ -1177,9 +1177,9 @@ namespace ZuneUI
             {
                 if (this._privacyChoice == null)
                 {
-                    this._privacyChoice = new BooleanChoice((IModelItemOwner)this, Shell.LoadString(StringId.IDS_DEVICE_USAGE_DATA_CHECK));
+                    this._privacyChoice = new BooleanChoice(this, Shell.LoadString(StringId.IDS_DEVICE_USAGE_DATA_CHECK));
                     this._privacyChoice.Value = this.ActiveDevice.EnableWatson;
-                    this._privacyChoice.ChosenChanged += (EventHandler)((sender, args) => ZuneShell.DefaultInstance.Management.CommitList[(object)new ProxySettingDelegate(this.OnPrivacyChoiceCommit)] = (object)this.CommitDeviceID);
+                    this._privacyChoice.ChosenChanged += (sender, args) => ZuneShell.DefaultInstance.Management.CommitList[new ProxySettingDelegate(this.OnPrivacyChoiceCommit)] = CommitDeviceID;
                 }
                 return this._privacyChoice;
             }
@@ -1190,7 +1190,7 @@ namespace ZuneUI
         public void AutomatePrivacy(bool enable)
         {
             this.ActiveDevice.EnableWatson = enable;
-            ZuneShell.DefaultInstance.Management.CommitList[(object)new ProxySettingDelegate(this.OnPrivacyChoiceCommit)] = (object)this.CommitDeviceID;
+            ZuneShell.DefaultInstance.Management.CommitList[new ProxySettingDelegate(this.OnPrivacyChoiceCommit)] = CommitDeviceID;
         }
 
         private int CommitDeviceID => !this.ActiveDevice.IsGuest ? this.ActiveDevice.ID : -1;

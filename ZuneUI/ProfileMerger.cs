@@ -12,34 +12,34 @@ namespace ZuneUI
 {
     public static class ProfileMerger
     {
-        public static IList Merge(IList profiles1, IList profiles2, bool matchesOnly) => ProfileMerger.Merge(profiles1, profiles2, matchesOnly, (IComparer)new DataProviderPropertyComparer()
+        public static IList Merge(IList profiles1, IList profiles2, bool matchesOnly) => Merge(profiles1, profiles2, matchesOnly, new DataProviderPropertyComparer()
         {
             PropertyName = "ZuneTag"
-        }, new ProfileMerger.MergeObjects(ProfileMerger.MergeProfile));
+        }, new MergeObjects(MergeProfile));
 
-        public static IList MergeWithFriends(IList profiles, IList friends, bool matchesOnly) => ProfileMerger.Merge(profiles, friends, matchesOnly, (IComparer)new DataProviderPropertyComparer()
+        public static IList MergeWithFriends(IList profiles, IList friends, bool matchesOnly) => Merge(profiles, friends, matchesOnly, new DataProviderPropertyComparer()
         {
             PropertyName = "ZuneTag"
-        }, new ProfileMerger.MergeObjects(ProfileMerger.MergeWithFriend));
+        }, new MergeObjects(MergeWithFriend));
 
         public static ProfileCardData MergeWithFriends(
           DataProviderObject profile,
           IList friends)
         {
-            return ProfileMerger.MergeWithFriends((IList)new object[1]
+            return MergeWithFriends(new object[1]
             {
-        (object) profile
+         profile
             }, friends, false)[0] as ProfileCardData;
         }
 
-        public static object MergeProfile(object item1, object item2) => (object)ProfileCardData.Create(item1, item2);
+        public static object MergeProfile(object item1, object item2) => ProfileCardData.Create(item1, item2);
 
         private static object MergeWithFriend(object profile, object friend)
         {
             ProfileCardData profileCardData = ProfileCardData.Create(profile, friend);
             if (friend != null)
                 profileCardData.IsFriend = true;
-            return (object)profileCardData;
+            return profileCardData;
         }
 
         private static IList Merge(
@@ -47,7 +47,7 @@ namespace ZuneUI
           IList list2,
           bool matchesOnly,
           IComparer comparer,
-          ProfileMerger.MergeObjects mergeDelegate)
+          MergeObjects mergeDelegate)
         {
             ArrayList arrayList;
             if (list1 != null && list2 != null)
@@ -60,10 +60,10 @@ namespace ZuneUI
                     bool flag = false;
                     for (int index2 = num; index2 < list2.Count; ++index2)
                     {
-                        if (!hashtable.ContainsKey((object)index2) && comparer.Compare(list1[index1], list2[index2]) == 0)
+                        if (!hashtable.ContainsKey(index2) && comparer.Compare(list1[index1], list2[index2]) == 0)
                         {
                             arrayList.Add(mergeDelegate(list1[index1], list2[index2]));
-                            hashtable.Add((object)index2, (object)true);
+                            hashtable.Add(index2, true);
                             if (num == index2)
                                 ++num;
                             flag = true;
@@ -71,18 +71,18 @@ namespace ZuneUI
                         }
                     }
                     if (!flag && !matchesOnly)
-                        arrayList.Add(mergeDelegate(list1[index1], (object)null));
+                        arrayList.Add(mergeDelegate(list1[index1], null));
                 }
             }
             else if (!matchesOnly && list1 != null)
             {
                 arrayList = new ArrayList(list1.Count);
-                foreach (object obj in (IEnumerable)list1)
-                    arrayList.Add(mergeDelegate(obj, (object)null));
+                foreach (object obj in list1)
+                    arrayList.Add(mergeDelegate(obj, null));
             }
             else
                 arrayList = new ArrayList();
-            return (IList)arrayList;
+            return arrayList;
         }
 
         public delegate object MergeObjects(object item1, object item2);

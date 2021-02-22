@@ -15,8 +15,8 @@ namespace ZuneUI
         private IList _selectedPlaylistIds;
 
         internal PlaylistContentsPanel(LibraryPage page)
-          : base((IModelItemOwner)page)
-          => this.UI = PlaylistContentsPanel.PanelTemplate;
+          : base(page)
+          => this.UI = PanelTemplate;
 
         public override MediaType MediaType => MediaType.PlaylistContentItem;
 

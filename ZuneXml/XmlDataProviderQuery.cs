@@ -42,7 +42,7 @@ namespace ZuneXml
             this._keepAlive = true;
             this._ignoreNamespacePrefix = true;
             this._ignoreDuplicateGenerationRequests = true;
-            this.Result = (object)XmlDataProviderObjectFactory.CreateObject((DataProviderQuery)this, this.ResultTypeCookie);
+            this.Result = XmlDataProviderObjectFactory.CreateObject(this, this.ResultTypeCookie);
         }
 
         protected override void OnDispose()
@@ -52,7 +52,7 @@ namespace ZuneXml
                 return;
             this._autoRefreshTimer.Stop();
             this._autoRefreshTimer.Dispose();
-            this._autoRefreshTimer = (Microsoft.Iris.Timer)null;
+            this._autoRefreshTimer = null;
         }
 
         public object ErrorCode => this._errorCode;
@@ -111,26 +111,26 @@ namespace ZuneXml
 
         internal void GetDataFromResource(string uri, string body, bool fNewGeneration)
         {
-            XmlDataProviderQuery.GetDataFromResourceArgs fromResourceArgs = new XmlDataProviderQuery.GetDataFromResourceArgs(uri, body, fNewGeneration);
+            GetDataFromResourceArgs fromResourceArgs = new GetDataFromResourceArgs(uri, body, fNewGeneration);
             if (Application.IsApplicationThread)
-                this.GetDataFromResource((object)fromResourceArgs);
+                this.GetDataFromResource(fromResourceArgs);
             else
-                Application.DeferredInvoke(new DeferredInvokeHandler(this.GetDataFromResource), (object)fromResourceArgs);
+                Application.DeferredInvoke(new DeferredInvokeHandler(this.GetDataFromResource), fromResourceArgs);
         }
 
         private void GetDataFromResource(object obj)
         {
-            XmlDataProviderQuery.GetDataFromResourceArgs fromResourceArgs = (XmlDataProviderQuery.GetDataFromResourceArgs)obj;
+            GetDataFromResourceArgs fromResourceArgs = (GetDataFromResourceArgs)obj;
             string requestUri = fromResourceArgs.Uri;
             string requestBody = fromResourceArgs.Body;
             bool newGeneration = fromResourceArgs.NewGeneration;
             string property1 = (string)this.GetProperty("LocalSortBy");
             bool fPaged = this.GetProperty("Paged") is bool property2 && property2;
-            XmlDataProviderObject result = (XmlDataProviderObject)null;
+            XmlDataProviderObject result = null;
             if (newGeneration)
             {
                 ++this._requestGeneration;
-                result = XmlDataProviderObjectFactory.CreateObject((DataProviderQuery)this, this.ResultTypeCookie);
+                result = XmlDataProviderObjectFactory.CreateObject(this, this.ResultTypeCookie);
                 if (property1 != null)
                     result.ChangeListSort(property1);
             }
@@ -143,22 +143,22 @@ namespace ZuneXml
             this._lastUri = requestUri;
             this.SetWorkerStatus(this._requestGeneration, DataProviderQueryStatus.RequestingData);
             bool flag = false;
-            string localUri = (string)null;
+            string localUri = null;
             if (!flag)
-                ThreadPool.QueueUserWorkItem((WaitCallback)(arg =>
+                ThreadPool.QueueUserWorkItem(arg =>
                {
                    int requestGeneration = (int)arg;
                    Microsoft.Zune.Service.HttpWebRequest httpWebRequest = this.ConstructWebRequest(requestUri, requestBody);
-                   XmlDataProviderQuery.RequestArgs requestArgs = new XmlDataProviderQuery.RequestArgs(requestGeneration, requestUri, requestBody, localUri, result, fPaged, DateTime.Now, Environment.TickCount, httpWebRequest.CachePolicy);
-                   httpWebRequest.GetResponseAsync(new AsyncRequestComplete(this.OnRequestComplete), (object)requestArgs);
-               }), (object)this._requestGeneration);
-            Microsoft.Zune.PerfTrace.PerfTrace.TraceUICollectionEvent(UICollectionEvent.DataProviderQueryBegin, this._lastUri);
+                   RequestArgs requestArgs = new RequestArgs(requestGeneration, requestUri, requestBody, localUri, result, fPaged, DateTime.Now, Environment.TickCount, httpWebRequest.CachePolicy);
+                   httpWebRequest.GetResponseAsync(new AsyncRequestComplete(this.OnRequestComplete), requestArgs);
+               }, _requestGeneration);
+            PerfTrace.TraceUICollectionEvent(UICollectionEvent.DataProviderQueryBegin, this._lastUri);
         }
 
         private void OnRequestComplete(Microsoft.Zune.Service.HttpWebResponse response, object requestArgs)
         {
-            XmlDataProviderQuery.RequestArgs requestArgs1 = (XmlDataProviderQuery.RequestArgs)requestArgs;
-            Stream xmlStream = (Stream)null;
+            RequestArgs requestArgs1 = (RequestArgs)requestArgs;
+            Stream xmlStream = null;
             try
             {
                 xmlStream = response.StatusCode == HttpStatusCode.OK ? response.GetResponseStream() : throw new HttpWebException(response);
@@ -171,18 +171,18 @@ namespace ZuneXml
             {
                 if (ex is HttpWebException)
                 {
-                    object statusCode = (object)((HttpWebException)ex).Response.StatusCode;
+                    object statusCode = ((HttpWebException)ex).Response.StatusCode;
                     this.SetWorkerStatus(requestArgs1.m_requestGeneration, DataProviderQueryStatus.Error, statusCode);
                 }
                 else
-                    this.SetWorkerStatus(requestArgs1.m_requestGeneration, DataProviderQueryStatus.Error, (object)null);
+                    this.SetWorkerStatus(requestArgs1.m_requestGeneration, DataProviderQueryStatus.Error, null);
                 int num = TraceSwitches.DataProviderSwitch.TraceWarning ? 1 : 0;
             }
             finally
             {
                 xmlStream?.Close();
                 response.Close();
-                Microsoft.Zune.PerfTrace.PerfTrace.TraceUICollectionEvent(UICollectionEvent.DataProviderQueryComplete, this._lastUri);
+                PerfTrace.TraceUICollectionEvent(UICollectionEvent.DataProviderQueryComplete, this._lastUri);
             }
         }
 
@@ -199,7 +199,7 @@ namespace ZuneXml
             int num1 = 0;
             int num2 = 0;
             bool flag1 = false;
-            XmlDataProviderReader xmlReader = (XmlDataProviderReader)null;
+            XmlDataProviderReader xmlReader = null;
             try
             {
                 num1 = Environment.TickCount - tcStart;
@@ -207,7 +207,7 @@ namespace ZuneXml
                 StringBuilder stringBuilder = new StringBuilder(80);
                 int[] numArray = new int[20];
                 xmlReader = new XmlDataProviderReader(xmlStream);
-                List<XmlDataProviderQuery.XPathMatch> xpathMatchList = new List<XmlDataProviderQuery.XPathMatch>(2);
+                List<XPathMatch> xpathMatchList = new List<XPathMatch>(2);
                 bool flag2 = false;
                 int num3 = TraceSwitches.DataProviderSwitch.TraceVerbose ? 1 : 0;
                 XmlNodeType xmlNodeType = XmlNodeType.None;
@@ -241,7 +241,7 @@ namespace ZuneXml
                         {
                             do
                             {
-                                attributes[(object)xmlReader.Name] = (object)xmlReader.Value;
+                                attributes[xmlReader.Name] = xmlReader.Value;
                             }
                             while (xmlReader.MoveToNextAttribute());
                         }
@@ -249,28 +249,28 @@ namespace ZuneXml
                         if (xpathMatchList.Count > 0)
                         {
                             flag1 = true;
-                            string xmlValue = (string)null;
+                            string xmlValue = null;
                             if (xmlReader.Read() && (xmlNodeType = xmlReader.NodeType) == XmlNodeType.Text)
                             {
                                 xmlNodeType = XmlNodeType.None;
                                 xmlValue = xmlReader.Value;
                             }
-                            XmlDataProviderQuery.ProcessXPathMatches(xpathMatchList, attributes, xmlValue, xmlReader);
+                            ProcessXPathMatches(xpathMatchList, attributes, xmlValue, xmlReader);
                         }
-                        foreach (string key in (IEnumerable)attributes.Keys)
+                        foreach (string key in attributes.Keys)
                         {
                             result.ProcessXPath(str + "@" + key, attributes, xpathMatchList);
                             if (xpathMatchList.Count > 0)
                             {
                                 flag1 = true;
-                                XmlDataProviderQuery.ProcessXPathMatches(xpathMatchList, attributes, (string)null, (XmlDataProviderReader)null);
+                                ProcessXPathMatches(xpathMatchList, attributes, null, null);
                             }
                         }
                     }
                 }
                 if (!flag2)
                 {
-                    Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredSetResult), (object)new XmlDataProviderQuery.DeferredSetResultArgs(requestGeneration, result));
+                    Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredSetResult), new DeferredSetResultArgs(requestGeneration, result));
                     this.SetWorkerStatus(requestGeneration, DataProviderQueryStatus.Complete);
                     if (TraceSwitches.DataProviderSwitch.TraceWarning)
                     {
@@ -281,7 +281,7 @@ namespace ZuneXml
             }
             catch (Exception ex)
             {
-                Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredSetResult), (object)new XmlDataProviderQuery.DeferredSetResultArgs(requestGeneration, result));
+                Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredSetResult), new DeferredSetResultArgs(requestGeneration, result));
                 this.SetWorkerStatus(requestGeneration, DataProviderQueryStatus.Error);
                 throw ex;
             }
@@ -308,12 +308,12 @@ namespace ZuneXml
                         if (xmlReader.Name == "rel")
                             flag = xmlReader.Value == "next";
                         else if (xmlReader.Name == "href" && flag && !string.IsNullOrEmpty(xmlReader.Value))
-                            return (IPageInfo)new LinkPageInfo(XmlDataProviderQuery.ConstructLinkUrl(requestUri, xmlReader.Value), requestBody);
+                            return new LinkPageInfo(ConstructLinkUrl(requestUri, xmlReader.Value), requestBody);
                     }
                     while (xmlReader.MoveToNextAttribute());
                 }
             }
-            return (IPageInfo)null;
+            return null;
         }
 
         private Microsoft.Zune.Service.HttpWebRequest ConstructWebRequest(
@@ -325,7 +325,7 @@ namespace ZuneXml
 
         private static string ConstructLinkUrl(string baseUrl, string relativeUrl)
         {
-            string str = (string)null;
+            string str = null;
             if (relativeUrl.StartsWith("http://", StringComparison.InvariantCultureIgnoreCase))
             {
                 str = relativeUrl;
@@ -344,16 +344,16 @@ namespace ZuneXml
         }
 
         private static void ProcessXPathMatches(
-          List<XmlDataProviderQuery.XPathMatch> xpathMatches,
+          List<XPathMatch> xpathMatches,
           Hashtable attributes,
           string xmlValue,
           XmlDataProviderReader xmlReader)
         {
-            foreach (XmlDataProviderQuery.XPathMatch xpathMatch in xpathMatches)
+            foreach (XPathMatch xpathMatch in xpathMatches)
             {
                 string str = xmlValue;
                 if (xpathMatch.matchingAttributeName != null)
-                    str = (string)attributes[(object)xpathMatch.matchingAttributeName];
+                    str = (string)attributes[xpathMatch.matchingAttributeName];
                 if (xpathMatch.encodedXml && str != null && xmlReader != null)
                     xmlReader.PushElement(str);
                 else if (str != null)
@@ -362,24 +362,24 @@ namespace ZuneXml
             xpathMatches.Clear();
         }
 
-        protected void SetWorkerStatus(int requestGeneration, DataProviderQueryStatus eStatus) => this.SetWorkerStatus(requestGeneration, eStatus, (object)null);
+        protected void SetWorkerStatus(int requestGeneration, DataProviderQueryStatus eStatus) => this.SetWorkerStatus(requestGeneration, eStatus, null);
 
         protected void SetWorkerStatus(
           int requestGeneration,
           DataProviderQueryStatus eStatus,
           object errorCode)
         {
-            Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredSetStatus), (object)new XmlDataProviderQuery.DeferredSetStatusArgs(requestGeneration, eStatus, errorCode));
+            Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredSetStatus), new DeferredSetStatusArgs(requestGeneration, eStatus, errorCode));
         }
 
         private void DeferredSetStatus(object args)
         {
-            if (!(args is XmlDataProviderQuery.DeferredSetStatusArgs deferredSetStatusArgs) || deferredSetStatusArgs.m_requestGeneration != this._requestGeneration)
+            if (!(args is DeferredSetStatusArgs deferredSetStatusArgs) || deferredSetStatusArgs.m_requestGeneration != this._requestGeneration)
                 return;
             this.Status = deferredSetStatusArgs.m_eStatus;
-            this._errorCode = this.Status != DataProviderQueryStatus.Error ? (object)null : deferredSetStatusArgs.m_errorCode;
+            this._errorCode = this.Status != DataProviderQueryStatus.Error ? null : deferredSetStatusArgs.m_errorCode;
             if (this.Status == DataProviderQueryStatus.Error)
-                this._lastUri = (string)null;
+                this._lastUri = null;
             if (this.Result == null || this.Status != DataProviderQueryStatus.Complete)
                 return;
             ((XmlDataProviderObject)this.Result).OnQueryComplete();
@@ -389,7 +389,7 @@ namespace ZuneXml
         {
             if (!this._refreshOnCacheExpire)
                 return;
-            Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredSetAutoRefreshTimer), (object)expires);
+            Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredSetAutoRefreshTimer), expires);
         }
 
         private void DeferredSetAutoRefreshTimer(object args)
@@ -399,24 +399,24 @@ namespace ZuneXml
             if (dateTime == DateTime.MaxValue || dateTime <= utcNow)
             {
                 int refreshQueryFallback = ClientConfiguration.Service.AutoRefreshQueryFallback;
-                dateTime = utcNow.AddMilliseconds((double)refreshQueryFallback);
+                dateTime = utcNow.AddMilliseconds(refreshQueryFallback);
             }
             if (!(dateTime != DateTime.MaxValue))
                 return;
             if (this._autoRefreshTimer == null)
             {
                 this._autoRefreshTimer = new Microsoft.Iris.Timer();
-                this._autoRefreshTimer.Tick += (EventHandler)((sender, eventArgs) =>
+                this._autoRefreshTimer.Tick += (sender, eventArgs) =>
                {
                    this._autoRefreshTimer.Stop();
                    this.Refresh();
-               });
+               };
             }
             int num1 = new Random().Next(1, 300000);
             if (dateTime > utcNow)
             {
                 long num2 = dateTime.Subtract(utcNow).Ticks / 10000L;
-                if (num2 > (long)(int.MaxValue - num1))
+                if (num2 > int.MaxValue - num1)
                     num1 += 900000;
                 else
                     num1 += (int)num2;
@@ -428,12 +428,12 @@ namespace ZuneXml
 
         private void DeferredSetResult(object argsObj)
         {
-            if (!(argsObj is XmlDataProviderQuery.DeferredSetResultArgs deferredSetResultArgs) || deferredSetResultArgs.m_requestGeneration != this._requestGeneration)
+            if (!(argsObj is DeferredSetResultArgs deferredSetResultArgs) || deferredSetResultArgs.m_requestGeneration != this._requestGeneration)
                 return;
             deferredSetResultArgs.m_result.TransferToAppThread();
             if (this.Result == deferredSetResultArgs.m_result)
                 return;
-            this.Result = (object)deferredSetResultArgs.m_result;
+            this.Result = deferredSetResultArgs.m_result;
         }
 
         private class GetDataFromResourceArgs

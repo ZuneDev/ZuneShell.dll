@@ -22,7 +22,7 @@ namespace ZuneUI
         {
             if (!((Shell)ZuneShell.DefaultInstance).PlaySounds)
                 return;
-            string pszSound = (string)null;
+            string pszSound = null;
             switch (soundId)
             {
                 case SoundId.DownloadComplete:
@@ -43,9 +43,9 @@ namespace ZuneUI
             uint fdwSound = 262151;
             if (Environment.OSVersion.Version.Major >= 6)
                 fdwSound |= 2097152U;
-            if (SoundHelper.s_hModZuneShellResources == IntPtr.Zero)
-                SoundHelper.s_hModZuneShellResources = SoundHelper.LoadLibraryEx("ZuneShellResources.dll", IntPtr.Zero, 2U);
-            SoundHelper.PlaySound(pszSound, SoundHelper.s_hModZuneShellResources, fdwSound);
+            if (s_hModZuneShellResources == IntPtr.Zero)
+                s_hModZuneShellResources = LoadLibraryEx("ZuneShellResources.dll", IntPtr.Zero, 2U);
+            PlaySound(pszSound, s_hModZuneShellResources, fdwSound);
         }
 
         [DllImport("kernel32.dll", CharSet = CharSet.Unicode)]

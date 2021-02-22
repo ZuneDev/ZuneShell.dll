@@ -12,7 +12,7 @@ namespace ZuneUI
     {
         public NowPlayingLand()
         {
-            this.BackgroundUI = NowPlayingLand.LandBackgroundUI;
+            this.BackgroundUI = LandBackgroundUI;
             this.UIPath = "NowPlaying";
         }
 
@@ -28,7 +28,7 @@ namespace ZuneUI
             bool exitOnPlaybackStopped = false;
             if (currentTrack != null && currentTrack.IsVideo)
                 exitOnPlaybackStopped = true;
-            NowPlayingLand.NavigateToLand(false, exitOnPlaybackStopped);
+            NavigateToLand(false, exitOnPlaybackStopped);
         }
 
         public static void NavigateToLand(bool showMix, bool exitOnPlaybackStopped)
@@ -38,7 +38,7 @@ namespace ZuneUI
             NowPlayingLand nowPlayingLand = new NowPlayingLand();
             nowPlayingLand.ShowMixOnEntry = showMix;
             nowPlayingLand.ExitOnPlaybackStopped = exitOnPlaybackStopped;
-            ZuneShell.DefaultInstance.NavigateToPage((ZunePage)nowPlayingLand);
+            ZuneShell.DefaultInstance.NavigateToPage(nowPlayingLand);
             SQMLog.Log(SQMDataId.NowPlayingClicks, 1);
         }
 

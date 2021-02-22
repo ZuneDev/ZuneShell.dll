@@ -16,9 +16,9 @@ namespace ZuneUI
 
         internal static void Show(string ui, EventHandler handler) => new ConfirmCloseDialog(ui, handler).Show();
 
-        public static void ShowDefault() => ConfirmCloseDialog.ShowDefault("res://ZuneShellResources!ConfirmClose.uix#ConfirmCloseContentUI");
+        public static void ShowDefault() => ShowDefault("res://ZuneShellResources!ConfirmClose.uix#ConfirmCloseContentUI");
 
-        public static void ShowDefault(string ui) => ConfirmCloseDialog.Show(ui, new EventHandler(ConfirmCloseDialog.ForceCloseHandler));
+        public static void ShowDefault(string ui) => Show(ui, new EventHandler(ForceCloseHandler));
 
         private static void ForceCloseHandler(object sender, EventArgs args) => Application.Window.ForceClose();
 
@@ -26,6 +26,6 @@ namespace ZuneUI
           : base(ui)
           => this._handler = handler;
 
-        public void Close() => this._handler((object)this, (EventArgs)null);
+        public void Close() => this._handler(this, null);
     }
 }

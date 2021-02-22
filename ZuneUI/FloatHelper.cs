@@ -10,6 +10,6 @@ namespace ZuneUI
 {
     public class FloatHelper
     {
-        public static int Round(float val) => (int)Math.Round((double)val);
+        public static int Round(float val) => (int)Math.Round(val);
     }
 }

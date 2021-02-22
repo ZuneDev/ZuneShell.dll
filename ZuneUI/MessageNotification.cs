@@ -12,7 +12,7 @@ namespace ZuneUI
         private string _subMessage;
 
         public MessageNotification(NotificationTask taskType, NotificationState notificationType)
-          : this((string)null, (string)null, taskType, notificationType, 0)
+          : this(null, null, taskType, notificationType, 0)
         {
         }
 
@@ -20,7 +20,7 @@ namespace ZuneUI
           NotificationTask taskType,
           NotificationState notificationType,
           int displayTime)
-          : this((string)null, (string)null, taskType, notificationType, displayTime)
+          : this(null, null, taskType, notificationType, displayTime)
         {
         }
 
@@ -28,7 +28,7 @@ namespace ZuneUI
           string message,
           NotificationTask taskType,
           NotificationState notificationType)
-          : this(message, (string)null, taskType, notificationType, 0)
+          : this(message, null, taskType, notificationType, 0)
         {
         }
 
@@ -37,7 +37,7 @@ namespace ZuneUI
           NotificationTask taskType,
           NotificationState notificationType,
           int displayTime)
-          : this(message, (string)null, taskType, notificationType, displayTime)
+          : this(message, null, taskType, notificationType, displayTime)
         {
         }
 

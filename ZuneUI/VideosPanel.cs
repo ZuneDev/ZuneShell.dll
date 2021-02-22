@@ -12,7 +12,7 @@ namespace ZuneUI
     public class VideosPanel : ListPanel
     {
         internal VideosPanel(VideoLibraryPage library)
-          : base((IModelItemOwner)library)
+          : base(library)
         {
         }
 

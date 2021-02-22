@@ -14,7 +14,7 @@ namespace ZuneXml
           DataProviderQuery owner,
           object objectTypeCookie)
         {
-            return (XmlDataProviderObject)new Mood(owner, objectTypeCookie);
+            return new Mood(owner, objectTypeCookie);
         }
 
         internal Mood(DataProviderQuery owner, object resultTypeCookie)

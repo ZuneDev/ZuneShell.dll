@@ -14,12 +14,12 @@ namespace ZuneUI
 
         public NewletterSettingsWizard()
         {
-            this._editPrivacyInfoStep = new EditPrivacyInfoStep((Wizard)this, this.State, false, PrivacyInfoSettings.AllowMicrosoftCommunications);
-            this._finishStep = new AccountManagementFinishStep((Wizard)this, this.State, Shell.LoadString(StringId.IDS_ACCOUNT_FINISHED_DESCRIPTION), this.State.PrivacyInfoStep.DetailDescription);
-            this._errorStep = new AccountManagementErrorPage((Wizard)this, Shell.LoadString(StringId.IDS_ACCOUNT_NEWSLTR_UPDATE_ERROR_TITLE), Shell.LoadString(StringId.IDS_ACCOUNT_NEWSLTR_UPDATE_ERROR_DESC));
-            this.AddPage((WizardPage)this._editPrivacyInfoStep);
-            this.AddPage((WizardPage)this._finishStep);
-            this.AddPage((WizardPage)this._errorStep);
+            this._editPrivacyInfoStep = new EditPrivacyInfoStep(this, this.State, false, PrivacyInfoSettings.AllowMicrosoftCommunications);
+            this._finishStep = new AccountManagementFinishStep(this, this.State, Shell.LoadString(StringId.IDS_ACCOUNT_FINISHED_DESCRIPTION), this.State.PrivacyInfoStep.DetailDescription);
+            this._errorStep = new AccountManagementErrorPage(this, Shell.LoadString(StringId.IDS_ACCOUNT_NEWSLTR_UPDATE_ERROR_TITLE), Shell.LoadString(StringId.IDS_ACCOUNT_NEWSLTR_UPDATE_ERROR_DESC));
+            this.AddPage(_editPrivacyInfoStep);
+            this.AddPage(_finishStep);
+            this.AddPage(_errorStep);
         }
 
         protected override void OnAsyncCommitCompleted(bool success)

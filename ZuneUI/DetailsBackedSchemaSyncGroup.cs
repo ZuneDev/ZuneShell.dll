@@ -32,7 +32,7 @@ namespace ZuneUI
             this._view = view;
             this._index = -1;
             this._inOverfill = inOverfill;
-            this._resortTimer = new Timer((IModelItemOwner)this);
+            this._resortTimer = new Timer(this);
             this._resortTimer.AutoRepeat = false;
             this._resortTimer.Tick += new EventHandler(this.OnResortTimerTick);
             this._resortTimer.Interval = 527;

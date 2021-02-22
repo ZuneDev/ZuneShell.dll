@@ -27,34 +27,34 @@ namespace ZuneUI
         public VideoLibraryPage(bool showDevice, VideoLibraryView desiredView)
           : base(showDevice, MediaType.Video)
         {
-            this.UI = VideoLibraryPage.LibraryTemplate;
+            this.UI = LibraryTemplate;
             this.UIPath = "Collection\\Videos\\Default";
             if (showDevice)
             {
                 this.PivotPreference = Shell.MainFrame.Device.Videos;
-                Deviceland.InitDevicePage((ZunePage)this);
+                Deviceland.InitDevicePage(this);
             }
             else
                 this.PivotPreference = Shell.MainFrame.Collection.Videos;
             this.IsRootPage = true;
             if (!this.ShowDeviceContents)
             {
-                this.Views = (Choice)new NotifyChoice((IModelItemOwner)this);
-                this.Views.Options = (IList)new VideoLibraryPage.ViewCommand[6]
+                this.Views = new NotifyChoice(this);
+                this.Views.Options = (new ViewCommand[6]
                 {
-          new VideoLibraryPage.ViewCommand((IModelItemOwner) this.Views, Shell.LoadString(StringId.IDS_COLLECTION_VIDEO_ALL_PIVOT), VideoLibraryView.All),
-          new VideoLibraryPage.ViewCommand((IModelItemOwner) this.Views, Shell.LoadString(StringId.IDS_COLLECTION_VIDEO_TV_PIVOT), VideoLibraryView.TV),
-          new VideoLibraryPage.ViewCommand((IModelItemOwner) this.Views, Shell.LoadString(StringId.IDS_COLLECTION_VIDEO_MUSIC_PIVOT), VideoLibraryView.Music),
-          new VideoLibraryPage.ViewCommand((IModelItemOwner) this.Views, Shell.LoadString(StringId.IDS_COLLECTION_VIDEO_MOVIES_PIVOT), VideoLibraryView.Movies),
-          new VideoLibraryPage.ViewCommand((IModelItemOwner) this.Views, Shell.LoadString(StringId.IDS_COLLECTION_VIDEO_OTHER_PIVOT), VideoLibraryView.Other),
-          new VideoLibraryPage.ViewCommand((IModelItemOwner) this.Views, Shell.LoadString(StringId.IDS_COLLECTION_VIDEO_PERSONAL_PIVOT), VideoLibraryView.Personal)
-                };
+          new ViewCommand( Views, Shell.LoadString(StringId.IDS_COLLECTION_VIDEO_ALL_PIVOT), VideoLibraryView.All),
+          new ViewCommand( Views, Shell.LoadString(StringId.IDS_COLLECTION_VIDEO_TV_PIVOT), VideoLibraryView.TV),
+          new ViewCommand( Views, Shell.LoadString(StringId.IDS_COLLECTION_VIDEO_MUSIC_PIVOT), VideoLibraryView.Music),
+          new ViewCommand( Views, Shell.LoadString(StringId.IDS_COLLECTION_VIDEO_MOVIES_PIVOT), VideoLibraryView.Movies),
+          new ViewCommand( Views, Shell.LoadString(StringId.IDS_COLLECTION_VIDEO_OTHER_PIVOT), VideoLibraryView.Other),
+          new ViewCommand( Views, Shell.LoadString(StringId.IDS_COLLECTION_VIDEO_PERSONAL_PIVOT), VideoLibraryView.Personal)
+                });
                 int num = -1;
                 if (desiredView != VideoLibraryView.Invalid)
                 {
                     for (int index = 0; index < this.Views.Options.Count; ++index)
                     {
-                        if (desiredView == ((VideoLibraryPage.ViewCommand)this.Views.Options[index]).View)
+                        if (desiredView == ((ViewCommand)this.Views.Options[index]).View)
                         {
                             num = index;
                             break;
@@ -77,22 +77,22 @@ namespace ZuneUI
         {
             ClientConfiguration.Shell.VideoCollectionView = this.Views.ChosenIndex;
             this.FirePropertyChanged("View");
-            this.SelectedVideo = (object)null;
-            this.SelectedVideoIds = (IList)null;
+            this.SelectedVideo = null;
+            this.SelectedVideoIds = null;
         }
 
         public VideoLibraryView View
         {
-            get => this.ShowDeviceContents ? VideoLibraryView.All : ((VideoLibraryPage.ViewCommand)this.Views.ChosenValue).View;
+            get => this.ShowDeviceContents ? VideoLibraryView.All : ((ViewCommand)this.Views.ChosenValue).View;
             private set
             {
                 if (this.ShowDeviceContents)
                     return;
-                foreach (VideoLibraryPage.ViewCommand option in (IEnumerable)this.Views.Options)
+                foreach (ViewCommand option in Views.Options)
                 {
                     if (option.View == value)
                     {
-                        this.Views.ChosenValue = (object)option;
+                        this.Views.ChosenValue = option;
                         break;
                     }
                 }
@@ -154,15 +154,15 @@ namespace ZuneUI
         {
             if (this.NavigationArguments != null)
             {
-                if (this.NavigationArguments.Contains((object)"ViewOverrideId"))
-                    this.View = (VideoLibraryView)this.NavigationArguments[(object)"ViewOverrideId"];
-                this._selectedVideoIds = (IList)null;
-                if (this.NavigationArguments.Contains((object)"VideoLibraryId"))
-                    this._selectedVideoIds = (IList)new int[1]
+                if (this.NavigationArguments.Contains("ViewOverrideId"))
+                    this.View = (VideoLibraryView)this.NavigationArguments["ViewOverrideId"];
+                this._selectedVideoIds = null;
+                if (this.NavigationArguments.Contains("VideoLibraryId"))
+                    this._selectedVideoIds = (new int[1]
                     {
-            (int) this.NavigationArguments[(object) "VideoLibraryId"]
-                    };
-                this.NavigationArguments = (IDictionary)null;
+            (int) this.NavigationArguments[ "VideoLibraryId"]
+                    });
+                this.NavigationArguments = null;
             }
             base.OnNavigatedToWorker();
         }
@@ -172,7 +172,7 @@ namespace ZuneUI
         protected override void OnNavigatedAwayWorker(IPage destination)
         {
             base.OnNavigatedAwayWorker(destination);
-            this.SelectedVideo = (object)null;
+            this.SelectedVideo = null;
         }
 
         public override IPageState SaveAndRelease()
@@ -181,15 +181,15 @@ namespace ZuneUI
             return base.SaveAndRelease();
         }
 
-        public static void FindInCollection(int videoId) => ZuneShell.DefaultInstance.Execute("Collection\\Videos\\Default", (IDictionary)new Hashtable()
+        public static void FindInCollection(int videoId) => ZuneShell.DefaultInstance.Execute("Collection\\Videos\\Default", new Hashtable()
     {
       {
-        (object) "VideoLibraryId",
-        (object) videoId
+         "VideoLibraryId",
+         videoId
       },
       {
-        (object) "ViewOverrideId",
-        (object) VideoLibraryView.All
+         "ViewOverrideId",
+         VideoLibraryView.All
       }
     });
 
@@ -200,7 +200,7 @@ namespace ZuneUI
             private VideoLibraryView _view;
 
             public ViewCommand(IModelItemOwner owner, string description, VideoLibraryView view)
-              : base(owner, description, (EventHandler)null)
+              : base(owner, description, null)
               => this._view = view;
 
             public VideoLibraryView View => this._view;

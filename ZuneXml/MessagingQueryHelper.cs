@@ -16,7 +16,7 @@ namespace ZuneXml
         internal static ZuneServiceQueryHelper ConstructMessagingQueryHelper(
           ZuneServiceQuery query)
         {
-            return (ZuneServiceQueryHelper)new MessagingQueryHelper(query);
+            return new MessagingQueryHelper(query);
         }
 
         internal MessagingQueryHelper(ZuneServiceQuery query)
@@ -31,9 +31,9 @@ namespace ZuneXml
         {
             string property1 = (string)this.Query.GetProperty("ZuneTag");
             if (string.IsNullOrEmpty(property1))
-                return (string)null;
+                return null;
             string property2 = (string)this.Query.GetProperty("RequestType");
-            return string.IsNullOrEmpty(property2) ? (string)null : UrlHelper.MakeUrl(string.Format("{0}/messaging/{1}/inbox/{2}", (object)Microsoft.Zune.Service.Service.GetEndPointUri(this._endPoint), (object)property1.ToLower(), (object)property2));
+            return string.IsNullOrEmpty(property2) ? null : UrlHelper.MakeUrl(string.Format("{0}/messaging/{1}/inbox/{2}", Service.GetEndPointUri(this._endPoint), property1.ToLower(), property2));
         }
     }
 }

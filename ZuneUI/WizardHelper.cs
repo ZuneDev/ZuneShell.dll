@@ -18,17 +18,17 @@ namespace ZuneUI
         private Command _finishCommand;
 
         public WizardHelper()
-          : this((EventHandler)null)
+          : this(null)
         {
         }
 
         public WizardHelper(EventHandler cancelCommandHandler)
         {
-            this._backCommand = new Command((IModelItemOwner)this);
+            this._backCommand = new Command(this);
             this._backCommand.Description = Shell.LoadString(StringId.IDS_BACK_BUTTON);
-            this._nextCommand = new Command((IModelItemOwner)this);
+            this._nextCommand = new Command(this);
             this._nextCommand.Description = Shell.LoadString(StringId.IDS_NEXT_BUTTON);
-            this._finishCommand = new Command((IModelItemOwner)this);
+            this._finishCommand = new Command(this);
             this._finishCommand.Description = Shell.LoadString(StringId.IDS_FINISH_BUTTON);
             if (cancelCommandHandler == null)
                 return;

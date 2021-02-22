@@ -30,7 +30,7 @@ namespace ZuneUI
           string initialPath,
           Command doneCommand)
         {
-            return FileOpenDialog.Show(title, initialPath, (string[])null, doneCommand);
+            return Show(title, initialPath, null, doneCommand);
         }
 
         public static FileOpenDialog Show(
@@ -40,15 +40,15 @@ namespace ZuneUI
           Command doneCommand)
         {
             FileOpenDialog dialog = new FileOpenDialog();
-            FileOpenDialog.Show(title, initialPath, fileFilters, (DeferredInvokeHandler)(args =>
+            Show(title, initialPath, fileFilters, args =>
            {
                dialog.FilePath = (string)args;
                doneCommand?.Invoke();
-           }));
+           });
             return dialog;
         }
 
-        public static void Show(string title, string initialPath, DeferredInvokeHandler callback) => FileOpenDialog.Show(title, initialPath, (string[])null, callback);
+        public static void Show(string title, string initialPath, DeferredInvokeHandler callback) => Show(title, initialPath, null, callback);
 
         public static void Show(
           string title,
@@ -57,9 +57,9 @@ namespace ZuneUI
           DeferredInvokeHandler callback)
         {
             IntPtr winHandle = Application.Window.Handle;
-            Thread thread = new Thread((ParameterizedThreadStart)(args =>
+            Thread thread = new Thread(args =>
            {
-               FileOpenDialog.OpenFileName ofn = new FileOpenDialog.OpenFileName(winHandle);
+               OpenFileName ofn = new OpenFileName(winHandle);
                try
                {
                    if (!string.IsNullOrEmpty(title))
@@ -68,16 +68,16 @@ namespace ZuneUI
                        ofn.lpstrInitialDir = initialPath;
                    if (fileFilters != null)
                        ofn.lpstrFilter = string.Join("\0", fileFilters) + "\0";
-                   string str = (string)null;
-                   if (FileOpenDialog.GetOpenFileName(ofn))
+                   string str = null;
+                   if (GetOpenFileName(ofn))
                        str = Marshal.PtrToStringUni(ofn.lpstrFile);
-                   Application.DeferredInvoke(callback, (object)str);
+                   Application.DeferredInvoke(callback, str);
                }
                finally
                {
                    ofn?.Dispose();
                }
-           }));
+           });
             thread.TrySetApartmentState(ApartmentState.STA);
             thread.Start();
         }
@@ -85,7 +85,7 @@ namespace ZuneUI
         public static string MyPicturesPath => Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
 
         [DllImport("comdlg32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        private static extern bool GetOpenFileName([In, Out] FileOpenDialog.OpenFileName ofn);
+        private static extern bool GetOpenFileName([In, Out] OpenFileName ofn);
 
         private delegate IntPtr WndProc(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
 
@@ -111,7 +111,7 @@ namespace ZuneUI
             public short nFileExtension;
             public string lpstrDefExt;
             public IntPtr lCustData;
-            public FileOpenDialog.WndProc lpfnHook;
+            public WndProc lpfnHook;
             public string lpTemplateName;
             public IntPtr pvReserved;
             public int dwReserved;
@@ -129,7 +129,7 @@ namespace ZuneUI
                 this.lCustData = IntPtr.Zero;
                 this.pvReserved = IntPtr.Zero;
                 this.hwndOwner = handle;
-                this.lStructSize = Marshal.SizeOf(typeof(FileOpenDialog.OpenFileName));
+                this.lStructSize = Marshal.SizeOf(typeof(OpenFileName));
             }
 
             public void Dispose() => Marshal.FreeHGlobal(this.lpstrFile);

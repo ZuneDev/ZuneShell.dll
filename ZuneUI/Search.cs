@@ -35,13 +35,13 @@ namespace ZuneUI
         {
             get
             {
-                if (Search._singletonInstance == null)
-                    Search._singletonInstance = new Search();
-                return Search._singletonInstance;
+                if (_singletonInstance == null)
+                    _singletonInstance = new Search();
+                return _singletonInstance;
             }
         }
 
-        internal static bool HasInstance => Search._singletonInstance != null;
+        internal static bool HasInstance => _singletonInstance != null;
 
         private Search()
         {
@@ -109,8 +109,8 @@ namespace ZuneUI
             {
                 if (this._filterList == null)
                 {
-                    this._filterList = new Choice((IModelItemOwner)this);
-                    this._filterList.Options = (IList)new ArrayListDataSet();
+                    this._filterList = new Choice(this);
+                    this._filterList.Options = new ArrayListDataSet();
                     this._filterList.ChosenChanged += new EventHandler(this.FilterListChosenChanged);
                     this.UpdateFiltersList();
                 }
@@ -133,29 +133,29 @@ namespace ZuneUI
         {
             if (this._filterList == null)
                 return;
-            if (Search._searchResultFilterCommandTypes == null)
+            if (_searchResultFilterCommandTypes == null)
             {
-                Search._searchResultFilterCommandTypes = new List<SearchResultFilterCommand>();
-                Search._searchResultFilterCommandTypes.Add(SearchResultFilter.All);
-                Search._searchResultFilterCommandTypes.Add(SearchResultFilter.Artists);
-                Search._searchResultFilterCommandTypes.Add(SearchResultFilter.Albums);
-                Search._searchResultFilterCommandTypes.Add(SearchResultFilter.Tracks);
-                Search._searchResultFilterCommandTypes.Add(SearchResultFilter.MusicVideos);
-                Search._searchResultFilterCommandTypes.Add(SearchResultFilter.TVShows);
-                Search._searchResultFilterCommandTypes.Add(SearchResultFilter.Movies);
-                Search._searchResultFilterCommandTypes.Add(SearchResultFilter.OtherVideo);
-                Search._searchResultFilterCommandTypes.Add(SearchResultFilter.Podcasts);
-                Search._searchResultFilterCommandTypes.Add(SearchResultFilter.Playlists);
-                Search._searchResultFilterCommandTypes.Add(SearchResultFilter.Channels);
-                Search._searchResultFilterCommandTypes.Add(SearchResultFilter.WindowsPhoneApps);
-                Search._searchResultFilterCommandTypes.Add(SearchResultFilter.Profile);
+                _searchResultFilterCommandTypes = new List<SearchResultFilterCommand>();
+                _searchResultFilterCommandTypes.Add(SearchResultFilter.All);
+                _searchResultFilterCommandTypes.Add(SearchResultFilter.Artists);
+                _searchResultFilterCommandTypes.Add(SearchResultFilter.Albums);
+                _searchResultFilterCommandTypes.Add(SearchResultFilter.Tracks);
+                _searchResultFilterCommandTypes.Add(SearchResultFilter.MusicVideos);
+                _searchResultFilterCommandTypes.Add(SearchResultFilter.TVShows);
+                _searchResultFilterCommandTypes.Add(SearchResultFilter.Movies);
+                _searchResultFilterCommandTypes.Add(SearchResultFilter.OtherVideo);
+                _searchResultFilterCommandTypes.Add(SearchResultFilter.Podcasts);
+                _searchResultFilterCommandTypes.Add(SearchResultFilter.Playlists);
+                _searchResultFilterCommandTypes.Add(SearchResultFilter.Channels);
+                _searchResultFilterCommandTypes.Add(SearchResultFilter.WindowsPhoneApps);
+                _searchResultFilterCommandTypes.Add(SearchResultFilter.Profile);
             }
             this._filterList.Options.Clear();
-            for (int index = 0; index < Search._searchResultFilterCommandTypes.Count; ++index)
+            for (int index = 0; index < _searchResultFilterCommandTypes.Count; ++index)
             {
-                SearchResultFilterCommand filterCommandType = Search._searchResultFilterCommandTypes[index];
+                SearchResultFilterCommand filterCommandType = _searchResultFilterCommandTypes[index];
                 if (filterCommandType.HasResults)
-                    this._filterList.Options.Add((object)filterCommandType);
+                    this._filterList.Options.Add(filterCommandType);
             }
         }
 
@@ -213,7 +213,7 @@ namespace ZuneUI
             get
             {
                 if (this._searchFocusHotkey == null)
-                    this._searchFocusHotkey = new Command((IModelItemOwner)this);
+                    this._searchFocusHotkey = new Command(this);
                 return this._searchFocusHotkey;
             }
         }
@@ -226,7 +226,7 @@ namespace ZuneUI
                 if (!(this._keywords != value) || string.IsNullOrEmpty(value))
                     return;
                 this._keywords = value;
-                this._processedKeywords = (string[])null;
+                this._processedKeywords = null;
                 this.FirePropertyChanged(nameof(Keywords));
             }
         }
@@ -241,7 +241,7 @@ namespace ZuneUI
 
         public Command Executed => this._executeCommand;
 
-        public SearchKeywordLink KeywordLink => (SearchKeywordLink)this.KeywordLinkTable[(object)this.Keywords.ToLower()];
+        public SearchKeywordLink KeywordLink => (SearchKeywordLink)this.KeywordLinkTable[this.Keywords.ToLower()];
 
         private Hashtable KeywordLinkTable
         {
@@ -256,7 +256,7 @@ namespace ZuneUI
                     })
                     {
                         for (int index = 0; index < searchKeywordLink.Keywords.Length; ++index)
-                            this._keywordLinkTable[(object)searchKeywordLink.Keywords[index].ToLower().Trim()] = (object)searchKeywordLink;
+                            this._keywordLinkTable[searchKeywordLink.Keywords[index].ToLower().Trim()] = searchKeywordLink;
                     }
                 }
                 return this._keywordLinkTable;
@@ -273,8 +273,8 @@ namespace ZuneUI
 
         private bool IsValidCjkCharacter(char c)
         {
-            ushort num = (ushort)c;
-            return num >= (ushort)12352 && (num > (ushort)12351 && num < (ushort)12544 || num > (ushort)13311 && num < (ushort)19904 || (num > (ushort)19967 && num < (ushort)40960 || num > (ushort)44031 && num < (ushort)55216));
+            ushort num = c;
+            return num >= 12352 && (num > 12351 && num < 12544 || num > 13311 && num < 19904 || (num > 19967 && num < 40960 || num > 44031 && num < 55216));
         }
 
         public string FormatResult(string keywordStyle, string item0, string item1)
@@ -311,9 +311,9 @@ namespace ZuneUI
                 case 1:
                     return list[0];
                 case 2:
-                    return string.Format(Shell.LoadString(StringId.IDS_FOUND_ITEM_BUTTON1), (object)list[0], (object)list[1]);
+                    return string.Format(Shell.LoadString(StringId.IDS_FOUND_ITEM_BUTTON1), list[0], list[1]);
                 case 3:
-                    return string.Format(Shell.LoadString(StringId.IDS_FOUND_ITEM_BUTTON2), (object)list[0], (object)list[1], (object)list[2]);
+                    return string.Format(Shell.LoadString(StringId.IDS_FOUND_ITEM_BUTTON2), list[0], list[1], list[2]);
                 default:
                     return "";
             }
@@ -325,17 +325,17 @@ namespace ZuneUI
             if (target == null)
                 return "";
             StringBuilder stringBuilder = new StringBuilder(target.Length + styleName.Length * 4 + 10);
-            List<Search.IndexRange> keywords = this.FindKeywords(this.ProcessKeywords(), target);
+            List<IndexRange> keywords = this.FindKeywords(this.ProcessKeywords(), target);
             for (int index = 0; index < keywords.Count; ++index)
             {
-                Search.IndexRange indexRange = keywords[index];
+                IndexRange indexRange = keywords[index];
                 if (indexRange.indexStart > startIndex)
                 {
                     string str = target.Substring(startIndex, indexRange.indexStart - startIndex);
                     stringBuilder.Append(SecurityElement.Escape(str));
                 }
                 string str1 = target.Substring(indexRange.indexStart, indexRange.indexEnd - indexRange.indexStart);
-                stringBuilder.Append(string.Format("<{0}>{1}</{0}>", (object)styleName, (object)SecurityElement.Escape(str1)));
+                stringBuilder.Append(string.Format("<{0}>{1}</{0}>", styleName, SecurityElement.Escape(str1)));
                 startIndex = indexRange.indexEnd;
             }
             if (startIndex < target.Length)
@@ -346,13 +346,13 @@ namespace ZuneUI
             return stringBuilder.ToString();
         }
 
-        private List<Search.IndexRange> FindKeywords(string[] keywords, string text)
+        private List<IndexRange> FindKeywords(string[] keywords, string text)
         {
             StringBuilder stringBuilder = new StringBuilder(text.Length);
             for (int index = 0; index < text.Length; ++index)
                 stringBuilder.Append(this.MapAccentedChar(text[index]));
             string str = stringBuilder.ToString();
-            List<Search.IndexRange> rangeList = new List<Search.IndexRange>();
+            List<IndexRange> rangeList = new List<IndexRange>();
             foreach (string keyword in keywords)
             {
                 int startIndex = 0;
@@ -365,7 +365,7 @@ namespace ZuneUI
                         char c2 = num + keyword.Length < str.Length ? str[num + keyword.Length] : ' ';
                         if (!char.IsLetterOrDigit(c1) && (keyword.Length >= 2 || !char.IsLetterOrDigit(c2)))
                         {
-                            Search.IndexRange keyRange;
+                            IndexRange keyRange;
                             keyRange.indexStart = num;
                             keyRange.indexEnd = num + keyword.Length;
                             this.AddRange(keyRange, rangeList);
@@ -380,15 +380,15 @@ namespace ZuneUI
             return rangeList;
         }
 
-        private void CollapseRanges(List<Search.IndexRange> rangeList)
+        private void CollapseRanges(List<IndexRange> rangeList)
         {
             for (int index1 = 0; index1 < rangeList.Count; ++index1)
             {
                 int index2 = index1 + 1;
                 while (index2 < rangeList.Count)
                 {
-                    Search.IndexRange range1 = rangeList[index1];
-                    Search.IndexRange range2 = rangeList[index2];
+                    IndexRange range1 = rangeList[index1];
+                    IndexRange range2 = rangeList[index2];
                     if (range1.indexEnd > range2.indexStart)
                     {
                         if (range1.indexEnd >= range2.indexEnd)
@@ -408,12 +408,12 @@ namespace ZuneUI
             }
         }
 
-        private void AddRange(Search.IndexRange keyRange, List<Search.IndexRange> rangeList)
+        private void AddRange(IndexRange keyRange, List<IndexRange> rangeList)
         {
             int index;
             for (index = 0; index < rangeList.Count; ++index)
             {
-                Search.IndexRange range = rangeList[index];
+                IndexRange range = rangeList[index];
                 if (keyRange.indexStart <= range.indexStart)
                     break;
             }
@@ -472,7 +472,7 @@ namespace ZuneUI
                 }, StringSplitOptions.RemoveEmptyEntries);
                 if (flag)
                 {
-                    Array.Resize<string>(ref this._processedKeywords, this._processedKeywords.Length + 1);
+                    Array.Resize(ref this._processedKeywords, this._processedKeywords.Length + 1);
                     this._processedKeywords[this._processedKeywords.Length - 1] = this._keywords;
                 }
             }

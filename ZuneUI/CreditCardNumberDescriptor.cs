@@ -27,13 +27,13 @@ namespace ZuneUI
 
         public override string ConvertToString(object value) => value == null ? string.Empty : value as string;
 
-        public override object ConvertFromString(string value) => value == null ? (object)string.Empty : (object)this.RemoveSeperators(value);
+        public override object ConvertFromString(string value) => value == null ? string.Empty : this.RemoveSeperators(value);
 
         public override bool IsValidInternal(string value)
         {
             if (string.IsNullOrEmpty(value))
                 return !this.Required;
-            return this._allowSeperators ? CreditCardNumberDescriptor.s_numbersWithSeperatorsRegex.IsMatch(value) : CreditCardNumberDescriptor.s_numbersRegex.IsMatch(value);
+            return this._allowSeperators ? s_numbersWithSeperatorsRegex.IsMatch(value) : s_numbersRegex.IsMatch(value);
         }
 
         private string RemoveSeperators(string value)

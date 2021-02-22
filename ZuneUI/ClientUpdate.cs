@@ -17,9 +17,9 @@ namespace ZuneUI
         {
             get
             {
-                if (ClientUpdate.singletonInstance == null)
-                    ClientUpdate.singletonInstance = new ClientUpdate();
-                return ClientUpdate.singletonInstance;
+                if (singletonInstance == null)
+                    singletonInstance = new ClientUpdate();
+                return singletonInstance;
             }
         }
 
@@ -30,7 +30,7 @@ namespace ZuneUI
         public void InvokeClientUpdate()
         {
             SoftwareUpdates.Instance.InstallUpdates();
-            DeviceManagement.SetupDevice = (UIDevice)null;
+            DeviceManagement.SetupDevice = null;
         }
 
         public void ClientUpdateSkipped() => DeviceManagement.HideSetupDevice();

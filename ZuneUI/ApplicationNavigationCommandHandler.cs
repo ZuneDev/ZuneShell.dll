@@ -10,6 +10,6 @@ namespace ZuneUI
 {
     public class ApplicationNavigationCommandHandler : DeviceAwareNavigationHandler
     {
-        protected override ZunePage GetPage(IDictionary args) => (ZunePage)new ApplicationLibraryPage(this.ShowDeviceContents);
+        protected override ZunePage GetPage(IDictionary args) => new ApplicationLibraryPage(this.ShowDeviceContents);
     }
 }

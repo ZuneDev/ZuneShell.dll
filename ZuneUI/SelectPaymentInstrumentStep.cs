@@ -35,7 +35,7 @@ namespace ZuneUI
                 return;
             this._helper.PropertyChanged -= new PropertyChangedEventHandler(this.HelperPropertyChanged);
             this._helper.Dispose();
-            this._helper = (PaymentInstrumentHelper)null;
+            this._helper = null;
         }
 
         public override string UI => "res://ZuneShellResources!AccountInfo.uix#SelectPaymentInstrumentStep";
@@ -71,7 +71,7 @@ namespace ZuneUI
             else if (this._committedCreditCard != null && this.State.SelectBillingOfferStep.PointsOffersOnly)
                 this.NextTextOverride = Shell.LoadString(StringId.IDS_BILLING_BUY_BTN);
             else
-                this.NextTextOverride = (string)null;
+                this.NextTextOverride = null;
         }
 
         public IList CreditCards => this._helper.CreditCards;
@@ -105,7 +105,7 @@ namespace ZuneUI
             {
                 if (!(args.PropertyName == "ErrorCode") || !this._helper.ErrorCode.IsError)
                     return;
-                this.SetError(this._helper.ErrorCode, (ServiceError)null);
+                this.SetError(this._helper.ErrorCode, null);
             }
         }
     }

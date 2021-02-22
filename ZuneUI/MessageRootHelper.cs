@@ -15,9 +15,9 @@ namespace ZuneUI
 
         public static void SetRead(DataProviderObject message, bool read) => ((MessageRoot)message).Status = read ? nameof(read) : "unread";
 
-        public static string UiType(DataProviderObject message) => MessageRootHelper.GetTypeInfo(message).UIText;
+        public static string UiType(DataProviderObject message) => GetTypeInfo(message).UIText;
 
-        public static string DetailsTemplate(DataProviderObject message) => MessageRootHelper.GetTypeInfo(message).DetailsTemplate;
+        public static string DetailsTemplate(DataProviderObject message) => GetTypeInfo(message).DetailsTemplate;
 
         private static MessageTypeInfo GetTypeInfo(DataProviderObject message) => MessageTypeInfo.GetMessageType(((MessageRoot)message).Type);
     }

@@ -20,8 +20,8 @@ namespace ZuneUI
 
         public static string GetDisplayPattern(string cultureString)
         {
-            string str1 = (string)null;
-            CultureInfo cultureInfo = (CultureInfo)null;
+            string str1 = null;
+            CultureInfo cultureInfo = null;
             if (!string.IsNullOrEmpty(cultureString))
             {
                 try
@@ -52,19 +52,19 @@ namespace ZuneUI
             if (culture != null)
             {
                 string format = Regex.Replace(Regex.Replace(culture.DateTimeFormat.ShortDatePattern, "M{1,2}", "M"), "d{1,2}", "d");
-                flag = DateTime.TryParseExact(dateTimeString, format, (IFormatProvider)culture, DateTimeStyles.None, out dateTime);
+                flag = DateTime.TryParseExact(dateTimeString, format, culture, DateTimeStyles.None, out dateTime);
             }
             return flag;
         }
 
-        public static string ToString(DateTime dateTime, DateTimeFormatType format) => DateTimeHelper.ToString(dateTime, (string)null, format);
+        public static string ToString(DateTime dateTime, DateTimeFormatType format) => ToString(dateTime, null, format);
 
         public static string ToString(
           DateTime dateTime,
           string cultureString,
           DateTimeFormatType format)
         {
-            string str = (string)null;
+            string str = null;
             CultureInfo culture = CultureHelper.GetCulture(cultureString);
             try
             {
@@ -97,12 +97,12 @@ namespace ZuneUI
                         default:
                             throw new ArgumentException();
                     }
-                    str = dateTime.ToString(format1, (IFormatProvider)culture);
+                    str = dateTime.ToString(format1, culture);
                 }
             }
             catch (ArgumentOutOfRangeException ex)
             {
-                str = DateTimeHelper._unknown;
+                str = _unknown;
             }
             return str;
         }

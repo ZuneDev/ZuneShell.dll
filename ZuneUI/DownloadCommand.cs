@@ -43,7 +43,7 @@ namespace ZuneUI
                 if (this.m_downloadState == EDownloadTaskState.DLTaskDownloading)
                     this.UpdateDownloadTask();
             }
-            this.UpdateCommandState((object)null);
+            this.UpdateCommandState(null);
         }
 
         protected abstract EDownloadTaskState GetDownloadState();
@@ -59,7 +59,7 @@ namespace ZuneUI
                     break;
                 case EDownloadTaskState.DLTaskDownloading:
                 case EDownloadTaskState.DLTaskPaused:
-                    str = string.Format(Shell.LoadString(StringId.IDS_DOWNLOAD_PROGRESS), (object)this.m_progress.ToString());
+                    str = string.Format(Shell.LoadString(StringId.IDS_DOWNLOAD_PROGRESS), this.m_progress.ToString());
                     break;
                 case EDownloadTaskState.DLTaskComplete:
                     str = Shell.LoadString(StringId.IDS_INCOLLECTION);
@@ -81,7 +81,7 @@ namespace ZuneUI
                 if (this.m_downloadTask == null)
                     return;
                 this.m_downloadTask.OnProgressChanged -= this.m_progressHandler;
-                this.m_downloadTask = (DownloadTask)null;
+                this.m_downloadTask = null;
             }
         }
 
@@ -99,7 +99,7 @@ namespace ZuneUI
                         {
                             if (this.m_downloadState != EDownloadTaskState.DLTaskPendingAttach)
                             {
-                                this.m_downloadTask = (DownloadTask)null;
+                                this.m_downloadTask = null;
                                 this.m_downloadState = this.GetDownloadState();
                             }
                         }
@@ -114,7 +114,7 @@ namespace ZuneUI
             this.Description = this.GetDownloadString(this.m_downloadState);
             this.Available = this.m_downloadState != EDownloadTaskState.DLTaskComplete;
             if (this.m_downloadState == EDownloadTaskState.DLTaskDownloading || this.m_downloadState == EDownloadTaskState.DLTaskPaused)
-                this.Progress = (float)this.m_progress / 100f;
+                this.Progress = m_progress / 100f;
             else
                 this.Progress = -1f;
         }

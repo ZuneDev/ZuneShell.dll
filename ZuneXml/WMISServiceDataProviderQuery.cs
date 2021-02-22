@@ -20,7 +20,7 @@ namespace ZuneXml
         private string m_strPostBody;
         private bool _endpointsInitialized;
 
-        internal static DataProviderQuery ConstructWmisQuery(object queryTypeCookie) => (DataProviderQuery)new WMISServiceDataProviderQuery(queryTypeCookie);
+        internal static DataProviderQuery ConstructWmisQuery(object queryTypeCookie) => new WMISServiceDataProviderQuery(queryTypeCookie);
 
         public WMISServiceDataProviderQuery(object queryTypeCookie)
           : base(queryTypeCookie)
@@ -36,17 +36,17 @@ namespace ZuneXml
 
         private void BackgroundInitializeWMISEndpointCollection(object unused)
         {
-            HRESULT hresult = (HRESULT)ZuneApplication.Service.InitializeWMISEndpointCollection();
+            HRESULT hresult = ZuneApplication.Service.InitializeWMISEndpointCollection();
             if (hresult.IsSuccess)
             {
                 this._endpointsInitialized = true;
-                Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredInvokeBeginExecute), (object)null);
+                Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredInvokeBeginExecute), null);
             }
             else
             {
                 ++this._requestGeneration;
                 this.SetWorkerStatus(this._requestGeneration, DataProviderQueryStatus.RequestingData);
-                this.SetWorkerStatus(this._requestGeneration, DataProviderQueryStatus.Error, (object)hresult);
+                this.SetWorkerStatus(this._requestGeneration, DataProviderQueryStatus.Error, hresult);
             }
         }
 
@@ -58,7 +58,7 @@ namespace ZuneXml
 
         private string BuildServiceUri(int chunkStart, int chunkSize)
         {
-            this.m_strPostBody = (string)null;
+            this.m_strPostBody = null;
             string property1 = (string)this.GetProperty("SearchString");
             string property2 = (string)this.GetProperty("artistId");
             string property3 = (string)this.GetProperty("albumId");
@@ -80,7 +80,7 @@ namespace ZuneXml
             else
             {
                 if (string.IsNullOrEmpty(property3))
-                    return (string)null;
+                    return null;
                 strEndPointName = WMISEndpointIds.WMISEID_GetAlbumDetailsByAlbumId;
                 paramName = "albumId";
                 paramValue1 = property3;
@@ -89,7 +89,7 @@ namespace ZuneXml
             }
             string wmisEndPointUri = ZuneApplication.Service.GetWMISEndPointUri(strEndPointName);
             if (string.IsNullOrEmpty(wmisEndPointUri))
-                return (string)null;
+                return null;
             UriBuilder uriBuilder = new UriBuilder(wmisEndPointUri);
             StringBuilder args = new StringBuilder();
             UrlHelper.AppendParam(true, args, paramName, paramValue1);
@@ -106,7 +106,7 @@ namespace ZuneXml
             };
             foreach (string str in strArray)
             {
-                string paramValue2 = (string)null;
+                string paramValue2 = null;
                 object property4 = this.GetProperty(str);
                 if (property4 != null)
                     paramValue2 = property4.ToString();

@@ -17,7 +17,7 @@ namespace ZuneUI
 
         public static ProfilePage CreateInstance(IDictionary args)
         {
-            string zuneTag = args != null ? args[(object)"ZuneTag"] as string : (string)null;
+            string zuneTag = args != null ? args["ZuneTag"] as string : null;
             return new ProfilePage(string.IsNullOrEmpty(zuneTag) || SignIn.Instance.IsSignedInUser(zuneTag) ? Shell.MainFrame.Social.Me : Shell.MainFrame.Social.Friends);
         }
 
@@ -25,9 +25,9 @@ namespace ZuneUI
         {
             this.PivotPreference = pivotPreference;
             this.IsRootPage = pivotPreference == Shell.MainFrame.Social.Me;
-            this.UI = ProfilePage.ProfilePageTemplate;
+            this.UI = ProfilePageTemplate;
             this.UIPath = "Social\\Profile";
-            this.BackgroundUI = ProfilePage.ProfileBackgroundTemplate;
+            this.BackgroundUI = ProfileBackgroundTemplate;
             this.TransportControlStyle = TransportControlStyle.Music;
             this.PlaybackContext = PlaybackContext.Music;
             SignIn.Instance.SignInStatusUpdatedEvent += new EventHandler(this.OnSignedInStatusChange);
@@ -44,23 +44,23 @@ namespace ZuneUI
         {
             if (!SignIn.Instance.SignedIn || this.PivotPreference != Shell.MainFrame.Social.Me)
                 return;
-            this.CreateProfilePanel((string)null, ProfileCategories.RecentlyPlayed, Guid.Empty, 0, (string)null);
+            this.CreateProfilePanel(null, ProfileCategories.RecentlyPlayed, Guid.Empty, 0, null);
         }
 
         protected override void OnNavigatedToWorker()
         {
-            string zuneTag = this.NavigationArguments != null ? this.NavigationArguments[(object)"ZuneTag"] as string : (string)null;
-            string selectedFriendTag = this.NavigationArguments != null ? this.NavigationArguments[(object)"FriendTag"] as string : (string)null;
+            string zuneTag = this.NavigationArguments != null ? this.NavigationArguments["ZuneTag"] as string : null;
+            string selectedFriendTag = this.NavigationArguments != null ? this.NavigationArguments["FriendTag"] as string : null;
             Category profilePivot = ProfileCategories.RecentlyPlayed;
-            object obj1 = this.NavigationArguments != null ? this.NavigationArguments[(object)"Pivot"] : (object)null;
+            object obj1 = this.NavigationArguments != null ? this.NavigationArguments["Pivot"] : null;
             if (obj1 != null)
                 profilePivot = (Category)obj1;
             int chosenSortFriends = 0;
-            object obj2 = this.NavigationArguments != null ? this.NavigationArguments[(object)"ChosenIndexSortFriends"] : (object)null;
+            object obj2 = this.NavigationArguments != null ? this.NavigationArguments["ChosenIndexSortFriends"] : null;
             if (obj2 != null)
                 chosenSortFriends = (int)obj2;
             Guid playlistTrack = Guid.Empty;
-            object obj3 = this.NavigationArguments != null ? this.NavigationArguments[(object)"PlaylistTrack"] : (object)null;
+            object obj3 = this.NavigationArguments != null ? this.NavigationArguments["PlaylistTrack"] : null;
             if (obj3 != null)
                 playlistTrack = (Guid)obj3;
             this.CreateProfilePanel(zuneTag, profilePivot, playlistTrack, chosenSortFriends, selectedFriendTag);
@@ -76,9 +76,9 @@ namespace ZuneUI
         {
             if (this.PivotPreference == Shell.MainFrame.Social.Me)
             {
-                zuneTag = (string)null;
+                zuneTag = null;
                 if (this.NavigationArguments != null)
-                    this.NavigationArguments.Remove((object)"ZuneTag");
+                    this.NavigationArguments.Remove("ZuneTag");
             }
             this.ProfilePanel = new ProfilePanel(this, zuneTag, profilePivot, playlistTrack, chosenSortFriends, selectedFriendTag);
         }
@@ -102,7 +102,7 @@ namespace ZuneUI
             ProfilePageState profilePageState = new ProfilePageState(this);
             this._profilePanel.Release();
             this.Dispose();
-            return (IPageState)profilePageState;
+            return profilePageState;
         }
 
         public static void NavigateTo(
@@ -126,14 +126,14 @@ namespace ZuneUI
             if (flag)
                 return;
             Hashtable hashtable = new Hashtable();
-            hashtable.Add((object)"ZuneTag", (object)zuneTag);
+            hashtable.Add("ZuneTag", zuneTag);
             if (profilePivot != null)
-                hashtable.Add((object)"Pivot", (object)profilePivot);
+                hashtable.Add("Pivot", profilePivot);
             if (!GuidHelper.IsEmpty(track))
-                hashtable.Add((object)"PlaylistTrack", (object)track);
+                hashtable.Add("PlaylistTrack", track);
             if (!string.IsNullOrEmpty(serviceContext))
-                hashtable.Add((object)"ServiceContext", (object)serviceContext);
-            ZuneShell.DefaultInstance.Execute("Social\\Profile", (IDictionary)hashtable);
+                hashtable.Add("ServiceContext", serviceContext);
+            ZuneShell.DefaultInstance.Execute("Social\\Profile", hashtable);
         }
     }
 }

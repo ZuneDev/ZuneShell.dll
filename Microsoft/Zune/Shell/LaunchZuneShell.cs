@@ -15,20 +15,20 @@ namespace Microsoft.Zune.Shell
     [ComDefaultInterface(typeof(ILaunchZuneShell))]
     public sealed class LaunchZuneShell : ILaunchZuneShell
     {
-        private static LaunchZuneShell.LaunchDelegate s_launch;
+        private static LaunchDelegate s_launch;
         private static string s_args;
         private static IntPtr s_hWndSplashScreen;
 
         [STAThread]
         public IntPtr GetLaunchDelegate(string args, IntPtr hWndSplashScreen)
         {
-            LaunchZuneShell.s_args = args;
-            LaunchZuneShell.s_hWndSplashScreen = hWndSplashScreen;
-            LaunchZuneShell.s_launch = new LaunchZuneShell.LaunchDelegate(this.LaunchZuneShellHelper);
-            return Marshal.GetFunctionPointerForDelegate((Delegate)LaunchZuneShell.s_launch);
+            s_args = args;
+            s_hWndSplashScreen = hWndSplashScreen;
+            s_launch = new LaunchDelegate(this.LaunchZuneShellHelper);
+            return Marshal.GetFunctionPointerForDelegate(s_launch);
         }
 
-        private int LaunchZuneShellHelper() => ZuneApplication.Launch(LaunchZuneShell.s_args, LaunchZuneShell.s_hWndSplashScreen);
+        private int LaunchZuneShellHelper() => ZuneApplication.Launch(s_args, s_hWndSplashScreen);
 
         public IntPtr GetRenderWindow() => ZuneApplication.GetRenderWindow();
 

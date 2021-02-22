@@ -18,9 +18,9 @@ namespace ZuneUI
         {
         }
 
-        static PhoneBrandingStringMap() => PhoneBrandingStringMap._instance.Initialize();
+        static PhoneBrandingStringMap() => _instance.Initialize();
 
-        public static PhoneBrandingStringMap Instance => PhoneBrandingStringMap._instance;
+        public static PhoneBrandingStringMap Instance => _instance;
 
         public bool BrandingEnabled
         {

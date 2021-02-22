@@ -33,7 +33,7 @@ namespace ZuneUI
 
         public event EventHandler NavigatedAway;
 
-        public virtual IPageState SaveAndRelease() => (IPageState)new InstancePageState((IPage)this);
+        public virtual IPageState SaveAndRelease() => new InstancePageState(this);
 
         public virtual void Release() => this.Dispose();
 
@@ -42,7 +42,7 @@ namespace ZuneUI
             this.IsCurrentPage = true;
             if (this.NavigatedTo == null)
                 return;
-            this.NavigatedTo((object)this, EventArgs.Empty);
+            this.NavigatedTo(this, EventArgs.Empty);
         }
 
         protected virtual void OnNavigatedAwayWorker(IPage destination)
@@ -50,7 +50,7 @@ namespace ZuneUI
             this.IsCurrentPage = false;
             if (this.NavigatedAway == null)
                 return;
-            this.NavigatedAway((object)this, EventArgs.Empty);
+            this.NavigatedAway(this, EventArgs.Empty);
         }
     }
 }

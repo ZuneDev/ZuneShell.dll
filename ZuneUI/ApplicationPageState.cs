@@ -9,13 +9,13 @@ namespace ZuneUI
     public class ApplicationPageState : DevicePivotManagingPageState
     {
         public ApplicationPageState(ApplicationLibraryPage page)
-          : base((IDeviceContentsPage)page)
+          : base(page)
         {
         }
 
         public override IPage RestoreAndRelease()
         {
-            IPage page = (IPage)null;
+            IPage page = null;
             if (!this.Page.ShowDeviceContents || SyncControls.Instance.CurrentDevice.SupportsSyncApplications)
                 page = base.RestoreAndRelease();
             return page;

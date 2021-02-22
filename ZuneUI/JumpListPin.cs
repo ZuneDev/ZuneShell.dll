@@ -67,11 +67,11 @@ namespace ZuneUI
             set => this._userId = value;
         }
 
-        public override string ToString() => string.Format("{0}~{1}~{2}~{3}~{4}", (object)this.IsQuickMix, (object)this.IsMarketplace, (object)(int)this.Type, (object)this.UserID, (object)this.ID);
+        public override string ToString() => string.Format("{0}~{1}~{2}~{3}~{4}", IsQuickMix, IsMarketplace, (int)this.Type, UserID, ID);
 
         public static JumpListPin Parse(string pinString)
         {
-            JumpListPin jumpListPin = (JumpListPin)null;
+            JumpListPin jumpListPin = null;
             string[] strArray = pinString.Split('~');
             bool result1;
             bool result2;

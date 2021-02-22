@@ -35,7 +35,7 @@ namespace ZuneUI
                     this.Downloading = true;
                     if (fIsDownloadPending)
                     {
-                        this.Description = ZuneUI.Shell.LoadString(StringId.IDS_PENDING);
+                        this.Description = Shell.LoadString(StringId.IDS_PENDING);
                     }
                     else
                     {
@@ -48,13 +48,13 @@ namespace ZuneUI
                 }
                 else
                 {
-                    this.Description = ZuneUI.Shell.LoadString(StringId.IDS_DOWNLOAD);
+                    this.Description = Shell.LoadString(StringId.IDS_DOWNLOAD);
                     this.Downloading = false;
                 }
             }
             else
             {
-                this.Description = ZuneUI.Shell.LoadString(StringId.IDS_NOT_AVAILABLE);
+                this.Description = Shell.LoadString(StringId.IDS_NOT_AVAILABLE);
                 this.Available = false;
             }
         }

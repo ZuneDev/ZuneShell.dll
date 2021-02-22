@@ -18,7 +18,7 @@ namespace ZuneUI
         private uint _maxStackSize;
 
         public PageStack()
-          : this((IModelItemOwner)null)
+          : this(null)
         {
         }
 
@@ -32,15 +32,15 @@ namespace ZuneUI
             {
                 if (this._currentPage != null)
                 {
-                    this._currentPage.OnNavigatedAway((IPage)null);
+                    this._currentPage.OnNavigatedAway(null);
                     this._currentPage.Release();
-                    this._currentPage = (IPage)null;
+                    this._currentPage = null;
                 }
                 if (this._pageStack != null)
                 {
                     foreach (IPageState page in this._pageStack)
                         page.Release();
-                    this._pageStack = (ArrayList)null;
+                    this._pageStack = null;
                 }
             }
             base.OnDispose(disposing);
@@ -89,7 +89,7 @@ namespace ZuneUI
 
         public void NavigateBack()
         {
-            IPage page1 = (IPage)null;
+            IPage page1 = null;
             while (this.CanNavigateBack && page1 == null)
             {
                 int index = this._pageStack.Count - 1;
@@ -115,7 +115,7 @@ namespace ZuneUI
             IPageState pageState = page != null ? page.SaveAndRelease() : throw new ArgumentNullException(nameof(page));
             if (pageState == null)
                 return;
-            this._pageStack.Add((object)pageState);
+            this._pageStack.Add(pageState);
             if (this._pageStack.Count != 1)
                 return;
             this.FirePropertyChanged("CanNavigateBack");

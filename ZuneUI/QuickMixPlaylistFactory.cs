@@ -35,14 +35,14 @@ namespace ZuneUI
             TimeSpan maxBatchTimeout = TimeSpan.FromMilliseconds(5000.0);
             int[] seedMediaIds = new int[1] { mediaId };
             this._mode = mode;
-            Microsoft.Zune.QuickMix.QuickMix instance = Microsoft.Zune.QuickMix.QuickMix.Instance;
+            QuickMix instance = QuickMix.Instance;
             hr = instance.CreateSession(this._mode, seedMediaIds, (EMediaTypes)mediaType, out this._quickMixSession);
             if (!hr.IsSuccess)
                 return;
             this._shouldDisposeSession = true;
             if (this._mode != EQuickMixMode.eQuickMixModeSimilarArtists)
-                Microsoft.Zune.PerfTrace.PerfTrace.TraceUICollectionEvent(UICollectionEvent.QuickMixBegin, "");
-            hr = this._quickMixSession.GetSimilarMedia((uint)ClientConfiguration.QuickMix.DefaultPlaylistLength, maxBatchTimeout, new SimilarMediaBatchHandler(this.SimilarBatchHandler), new Microsoft.Zune.QuickMix.BatchEndHandler(this.BatchEndHandler));
+                PerfTrace.TraceUICollectionEvent(UICollectionEvent.QuickMixBegin, "");
+            hr = this._quickMixSession.GetSimilarMedia((uint)ClientConfiguration.QuickMix.DefaultPlaylistLength, maxBatchTimeout, new SimilarMediaBatchHandler(this.SimilarBatchHandler), new BatchEndHandler(this.BatchEndHandler));
         }
 
         private QuickMixPlaylistFactory(
@@ -54,12 +54,12 @@ namespace ZuneUI
         {
             TimeSpan maxBatchTimeout = TimeSpan.FromMilliseconds(10000.0);
             this._mode = mode;
-            Microsoft.Zune.QuickMix.QuickMix instance = Microsoft.Zune.QuickMix.QuickMix.Instance;
-            hr = instance.CreateSession(this._mode, serviceMediaId, (EMediaTypes)mediaType, (string)null, out this._quickMixSession);
+            QuickMix instance = QuickMix.Instance;
+            hr = instance.CreateSession(this._mode, serviceMediaId, (EMediaTypes)mediaType, null, out this._quickMixSession);
             if (!hr.IsSuccess)
                 return;
             this._shouldDisposeSession = true;
-            hr = this._quickMixSession.GetSimilarMedia((uint)ClientConfiguration.QuickMix.DefaultPlaylistLength, maxBatchTimeout, new SimilarMediaBatchHandler(this.SimilarBatchHandler), new Microsoft.Zune.QuickMix.BatchEndHandler(this.BatchEndHandler));
+            hr = this._quickMixSession.GetSimilarMedia((uint)ClientConfiguration.QuickMix.DefaultPlaylistLength, maxBatchTimeout, new SimilarMediaBatchHandler(this.SimilarBatchHandler), new BatchEndHandler(this.BatchEndHandler));
         }
 
         private QuickMixPlaylistFactory(QuickMixSession quickMixSession)
@@ -76,14 +76,14 @@ namespace ZuneUI
             if (!this._shouldDisposeSession || this._quickMixSession == null)
                 return;
             this._quickMixSession.Dispose();
-            this._quickMixSession = (QuickMixSession)null;
+            this._quickMixSession = null;
         }
 
         public static QuickMixPlaylistFactory CreateInstance(
           int mediaId,
           MediaType mediaType)
         {
-            return QuickMixPlaylistFactory.CreateInstance(mediaId, EQuickMixMode.eQuickMixModePlaylist, mediaType);
+            return CreateInstance(mediaId, EQuickMixMode.eQuickMixModePlaylist, mediaType);
         }
 
         public static QuickMixPlaylistFactory CreateInstance(
@@ -93,7 +93,7 @@ namespace ZuneUI
         {
             HRESULT hr;
             QuickMixPlaylistFactory mixPlaylistFactory = new QuickMixPlaylistFactory(mediaId, mediaType, mode, out hr);
-            return hr.IsSuccess ? mixPlaylistFactory : (QuickMixPlaylistFactory)null;
+            return hr.IsSuccess ? mixPlaylistFactory : null;
         }
 
         public static QuickMixPlaylistFactory CreateInstance(
@@ -103,7 +103,7 @@ namespace ZuneUI
         {
             HRESULT hr;
             QuickMixPlaylistFactory mixPlaylistFactory = new QuickMixPlaylistFactory(serviceMediaId, mediaType, mode, out hr);
-            return hr.IsSuccess ? mixPlaylistFactory : (QuickMixPlaylistFactory)null;
+            return hr.IsSuccess ? mixPlaylistFactory : null;
         }
 
         public static QuickMixPlaylistFactory CreateInstance(
@@ -135,28 +135,28 @@ namespace ZuneUI
             return new PlaylistResult(playlistId, hr);
         }
 
-        private void BatchEndHandler(HRESULT hrAsync) => Application.DeferredInvoke((DeferredInvokeHandler)delegate
+        private void BatchEndHandler(HRESULT hrAsync) => Application.DeferredInvoke(delegate
        {
            this._hrCreation = hrAsync;
            this.Ready = true;
            if (this._mode == EQuickMixMode.eQuickMixModeSimilarArtists)
                return;
-           Microsoft.Zune.PerfTrace.PerfTrace.TraceUICollectionEvent(UICollectionEvent.QuickMixComplete, "");
-       }, (object)null);
+           PerfTrace.TraceUICollectionEvent(UICollectionEvent.QuickMixComplete, "");
+       }, null);
 
-        private void SimilarBatchHandler(IList itemList) => Application.DeferredInvoke((DeferredInvokeHandler)delegate
+        private void SimilarBatchHandler(IList itemList) => Application.DeferredInvoke(delegate
        {
            if (this._mode != EQuickMixMode.eQuickMixModeSimilarArtists)
                return;
            if (this._similarArtistStrings == null)
                this._similarArtistStrings = new List<string>();
-           foreach (QuickMixItem quickMixItem in (IEnumerable)itemList)
+           foreach (QuickMixItem quickMixItem in itemList)
                this._similarArtistStrings.Add(quickMixItem.ArtistName);
            if (this._similarArtistStrings.Count <= 10)
                return;
            this.Ready = true;
-       }, (object)null);
+       }, null);
 
-        public IList SimilarArtists => (IList)this._similarArtistStrings;
+        public IList SimilarArtists => _similarArtistStrings;
     }
 }

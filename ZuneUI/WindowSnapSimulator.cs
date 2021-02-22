@@ -17,8 +17,8 @@ namespace ZuneUI
         private const float c_hotspotPercentage = 0.015f;
         private Window _window;
         private bool _isInitialized;
-        private List<WindowSnapSimulator.Monitor> _monitors;
-        private WindowSnapSimulator.IHotspot _currentHotspot;
+        private List<Monitor> _monitors;
+        private IHotspot _currentHotspot;
         private bool _isSnapping;
 
         public void Phase3Init() => this.Initialize();
@@ -44,10 +44,10 @@ namespace ZuneUI
 
         private void InitializeMonitors()
         {
-            this._monitors = new List<WindowSnapSimulator.Monitor>();
+            this._monitors = new List<Monitor>();
             foreach (MonitorSize detectMonitor in new MonitorDetector().DetectMonitors())
             {
-                WindowSnapSimulator.Monitor monitor = new WindowSnapSimulator.Monitor(detectMonitor);
+                Monitor monitor = new Monitor(detectMonitor);
                 int width = Math.Max((monitor.Right - monitor.Left + 1) / 2, Shell.MinimumWindowWidth);
                 int height = Math.Max(monitor.Bottom - monitor.Top + 1, Shell.MinimumWindowHeight);
                 monitor.LeftSnap.Position = new WindowPosition(monitor.Left, monitor.Top);
@@ -57,7 +57,7 @@ namespace ZuneUI
                 this._monitors.Add(monitor);
             }
             this._monitors.Sort();
-            foreach (WindowSnapSimulator.Monitor monitor in this._monitors)
+            foreach (Monitor monitor in this._monitors)
                 monitor.InitializeHotspots(this._monitors, 0.015f);
         }
 
@@ -114,16 +114,16 @@ namespace ZuneUI
                 return;
             if (this._window.WindowState == WindowState.Maximized)
                 this._window.WindowState = WindowState.Normal;
-            WindowSnapSimulator.Monitor windowMonitor = this.GetWindowMonitor();
+            Monitor windowMonitor = this.GetWindowMonitor();
             switch (this.GetWindowSnappedness(windowMonitor))
             {
-                case WindowSnapSimulator.WindowSnappedness.Unsnapped:
+                case WindowSnappedness.Unsnapped:
                     this.Snap(windowMonitor.LeftSnap);
                     break;
-                case WindowSnapSimulator.WindowSnappedness.Left:
+                case WindowSnappedness.Left:
                     this.Snap(this.FindPreviousMonitor(windowMonitor).RightSnap);
                     break;
-                case WindowSnapSimulator.WindowSnappedness.Right:
+                case WindowSnappedness.Right:
                     this.Unsnap(windowMonitor);
                     break;
             }
@@ -135,16 +135,16 @@ namespace ZuneUI
                 return;
             if (this._window.WindowState == WindowState.Maximized)
                 this._window.WindowState = WindowState.Normal;
-            WindowSnapSimulator.Monitor windowMonitor = this.GetWindowMonitor();
+            Monitor windowMonitor = this.GetWindowMonitor();
             switch (this.GetWindowSnappedness(windowMonitor))
             {
-                case WindowSnapSimulator.WindowSnappedness.Unsnapped:
+                case WindowSnappedness.Unsnapped:
                     this.Snap(windowMonitor.RightSnap);
                     break;
-                case WindowSnapSimulator.WindowSnappedness.Left:
+                case WindowSnappedness.Left:
                     this.Unsnap(windowMonitor);
                     break;
-                case WindowSnapSimulator.WindowSnappedness.Right:
+                case WindowSnappedness.Right:
                     this.Snap(this.FindNextMonitor(windowMonitor).LeftSnap);
                     break;
             }
@@ -154,19 +154,19 @@ namespace ZuneUI
         {
             if (!this.IsInitialized)
                 return;
-            WindowSnapSimulator.Monitor windowMonitor = this.GetWindowMonitor();
-            WindowSnapSimulator.WindowSnappedness windowSnappedness = this.GetWindowSnappedness(windowMonitor);
-            WindowSnapSimulator.Monitor destinationMonitor = (WindowSnapSimulator.Monitor)null;
+            Monitor windowMonitor = this.GetWindowMonitor();
+            WindowSnappedness windowSnappedness = this.GetWindowSnappedness(windowMonitor);
+            Monitor destinationMonitor = null;
             if (!OSVersion.IsWin7())
                 destinationMonitor = this.FindPreviousMonitor(windowMonitor);
             switch (windowSnappedness)
             {
-                case WindowSnapSimulator.WindowSnappedness.Unsnapped:
+                case WindowSnappedness.Unsnapped:
                     if (OSVersion.IsWin7())
                         break;
                     this.MoveWindowToMonitor(windowMonitor, this._window.Position, destinationMonitor);
                     break;
-                case WindowSnapSimulator.WindowSnappedness.Left:
+                case WindowSnappedness.Left:
                     if (OSVersion.IsWin7())
                     {
                         this.Snap(windowMonitor.LeftSnap);
@@ -174,7 +174,7 @@ namespace ZuneUI
                     }
                     this.Snap(destinationMonitor.LeftSnap);
                     break;
-                case WindowSnapSimulator.WindowSnappedness.Right:
+                case WindowSnappedness.Right:
                     if (OSVersion.IsWin7())
                     {
                         this.Snap(windowMonitor.RightSnap);
@@ -189,19 +189,19 @@ namespace ZuneUI
         {
             if (!this.IsInitialized)
                 return;
-            WindowSnapSimulator.Monitor windowMonitor = this.GetWindowMonitor();
-            WindowSnapSimulator.WindowSnappedness windowSnappedness = this.GetWindowSnappedness(windowMonitor);
-            WindowSnapSimulator.Monitor destinationMonitor = (WindowSnapSimulator.Monitor)null;
+            Monitor windowMonitor = this.GetWindowMonitor();
+            WindowSnappedness windowSnappedness = this.GetWindowSnappedness(windowMonitor);
+            Monitor destinationMonitor = null;
             if (!OSVersion.IsWin7())
                 destinationMonitor = this.FindNextMonitor(windowMonitor);
             switch (windowSnappedness)
             {
-                case WindowSnapSimulator.WindowSnappedness.Unsnapped:
+                case WindowSnappedness.Unsnapped:
                     if (OSVersion.IsWin7())
                         break;
                     this.MoveWindowToMonitor(windowMonitor, this._window.Position, destinationMonitor);
                     break;
-                case WindowSnapSimulator.WindowSnappedness.Left:
+                case WindowSnappedness.Left:
                     if (OSVersion.IsWin7())
                     {
                         this.Snap(windowMonitor.LeftSnap);
@@ -209,7 +209,7 @@ namespace ZuneUI
                     }
                     this.Snap(destinationMonitor.LeftSnap);
                     break;
-                case WindowSnapSimulator.WindowSnappedness.Right:
+                case WindowSnappedness.Right:
                     if (OSVersion.IsWin7())
                     {
                         this.Snap(windowMonitor.RightSnap);
@@ -237,12 +237,12 @@ namespace ZuneUI
                 this._currentHotspot = this.GetWindowMonitor(x, y).GetHotspotForCursor(x, y);
             }
             else
-                this._currentHotspot = (WindowSnapSimulator.IHotspot)null;
+                this._currentHotspot = null;
         }
 
         public bool ReactToDrag()
         {
-            WindowSnapSimulator.IHotspot hotspot = (WindowSnapSimulator.IHotspot)null;
+            IHotspot hotspot = null;
             if (this.IsInitialized)
             {
                 int x = 0;
@@ -262,12 +262,12 @@ namespace ZuneUI
             return hotspot != null;
         }
 
-        public void DragEnded() => this._currentHotspot = (WindowSnapSimulator.IHotspot)null;
+        public void DragEnded() => this._currentHotspot = null;
 
         public void SetWindowPosition(int left, int top, int width, int height)
         {
             this.Initialize();
-            WindowSnapSimulator.Monitor windowMonitor = this.GetWindowMonitor(left + width / 2, top + height / 2);
+            Monitor windowMonitor = this.GetWindowMonitor(left + width / 2, top + height / 2);
             if (windowMonitor != null)
             {
                 if (width > windowMonitor.Right - windowMonitor.Left)
@@ -287,7 +287,7 @@ namespace ZuneUI
             this._window.ClientSize = new WindowSize(width, height);
         }
 
-        private void Snap(WindowSnapSimulator.WindowPlacement placement)
+        private void Snap(WindowPlacement placement)
         {
             if (!this.IsInitialized)
                 return;
@@ -295,14 +295,14 @@ namespace ZuneUI
             this._window.ClientSize = placement.Size;
         }
 
-        private void Unsnap(WindowSnapSimulator.Monitor monitor)
+        private void Unsnap(Monitor monitor)
         {
             if (!this.IsSnapping || !this.IsInitialized)
                 return;
             Shell defaultInstance = (Shell)ZuneShell.DefaultInstance;
             WindowPosition windowPosition = new WindowPosition(defaultInstance.NormalWindowPosition.X, defaultInstance.NormalWindowPosition.Y);
             WindowSize size = new WindowSize(defaultInstance.NormalWindowSize.Width, defaultInstance.NormalWindowSize.Height);
-            WindowSnapSimulator.Monitor windowMonitor = this.GetWindowMonitor(windowPosition, size);
+            Monitor windowMonitor = this.GetWindowMonitor(windowPosition, size);
             if (monitor == windowMonitor)
                 this._window.Position = windowPosition;
             else
@@ -311,17 +311,17 @@ namespace ZuneUI
         }
 
         private void MoveWindowToMonitor(
-          WindowSnapSimulator.Monitor currentMonitor,
+          Monitor currentMonitor,
           WindowPosition currentPosition,
-          WindowSnapSimulator.Monitor destinationMonitor)
+          Monitor destinationMonitor)
         {
             int num1 = destinationMonitor.Left - currentMonitor.Left;
             int num2 = destinationMonitor.Top - currentMonitor.Top;
             this._window.Position = new WindowPosition(currentPosition.X + num1, currentPosition.Y + num2);
         }
 
-        private WindowSnapSimulator.Monitor FindNextMonitor(
-          WindowSnapSimulator.Monitor monitor)
+        private Monitor FindNextMonitor(
+          Monitor monitor)
         {
             int index = this._monitors.IndexOf(monitor) + 1;
             if (index >= this._monitors.Count)
@@ -329,8 +329,8 @@ namespace ZuneUI
             return this._monitors[index];
         }
 
-        private WindowSnapSimulator.Monitor FindPreviousMonitor(
-          WindowSnapSimulator.Monitor monitor)
+        private Monitor FindPreviousMonitor(
+          Monitor monitor)
         {
             int index = this._monitors.IndexOf(monitor) - 1;
             if (index < 0)
@@ -338,39 +338,39 @@ namespace ZuneUI
             return this._monitors[index];
         }
 
-        private WindowSnapSimulator.WindowSnappedness GetWindowSnappedness(
-          WindowSnapSimulator.Monitor monitor)
+        private WindowSnappedness GetWindowSnappedness(
+          Monitor monitor)
         {
-            WindowSnapSimulator.WindowSnappedness windowSnappedness = WindowSnapSimulator.WindowSnappedness.Ineligible;
+            WindowSnappedness windowSnappedness = WindowSnappedness.Ineligible;
             if (this.IsInitialized && this._window.WindowState != WindowState.Maximized && this._window.WindowState != WindowState.Minimized)
-                windowSnappedness = !(this._window.Position == monitor.LeftSnap.Position) || !(this._window.ClientSize == monitor.LeftSnap.Size) ? (!(this._window.Position == monitor.RightSnap.Position) || !(this._window.ClientSize == monitor.RightSnap.Size) ? WindowSnapSimulator.WindowSnappedness.Unsnapped : WindowSnapSimulator.WindowSnappedness.Right) : WindowSnapSimulator.WindowSnappedness.Left;
+                windowSnappedness = !(this._window.Position == monitor.LeftSnap.Position) || !(this._window.ClientSize == monitor.LeftSnap.Size) ? (!(this._window.Position == monitor.RightSnap.Position) || !(this._window.ClientSize == monitor.RightSnap.Size) ? WindowSnappedness.Unsnapped : WindowSnappedness.Right) : WindowSnappedness.Left;
             return windowSnappedness;
         }
 
-        private WindowSnapSimulator.Monitor GetWindowMonitor() => this.GetWindowMonitor(this._window.Position, this._window.ClientSize);
+        private Monitor GetWindowMonitor() => this.GetWindowMonitor(this._window.Position, this._window.ClientSize);
 
-        private WindowSnapSimulator.Monitor GetWindowMonitor(
-          WindowSnapSimulator.WindowPlacement placement)
+        private Monitor GetWindowMonitor(
+          WindowPlacement placement)
         {
             return this.GetWindowMonitor(placement.Position, placement.Size);
         }
 
-        private WindowSnapSimulator.Monitor GetWindowMonitor(
+        private Monitor GetWindowMonitor(
           WindowPosition position,
           WindowSize size)
         {
             return this.GetWindowMonitor(position.X + size.Width / 2, position.Y + size.Height / 2);
         }
 
-        private WindowSnapSimulator.Monitor GetWindowMonitor(int x, int y)
+        private Monitor GetWindowMonitor(int x, int y)
         {
-            WindowSnapSimulator.Monitor monitor1 = (WindowSnapSimulator.Monitor)null;
+            Monitor monitor1 = null;
             if (this.IsInitialized)
             {
                 if (this._monitors.Count > 1)
                 {
                     int num1 = int.MaxValue;
-                    foreach (WindowSnapSimulator.Monitor monitor2 in this._monitors)
+                    foreach (Monitor monitor2 in this._monitors)
                     {
                         int num2 = 0;
                         int num3 = 0;
@@ -403,8 +403,8 @@ namespace ZuneUI
             {
                 switch (this.GetWindowSnappedness(this.GetWindowMonitor()))
                 {
-                    case WindowSnapSimulator.WindowSnappedness.Left:
-                    case WindowSnapSimulator.WindowSnappedness.Right:
+                    case WindowSnappedness.Left:
+                    case WindowSnappedness.Right:
                         flag = true;
                         break;
                 }
@@ -419,7 +419,7 @@ namespace ZuneUI
             this.UpdateIsSnapping();
         }
 
-        private void OnWin7KeypressDetected(WindowPositionKeys key) => Application.DeferredInvoke((DeferredInvokeHandler)delegate
+        private void OnWin7KeypressDetected(WindowPositionKeys key) => Application.DeferredInvoke(delegate
        {
            switch (key)
            {
@@ -441,13 +441,13 @@ namespace ZuneUI
                    this.ShiftMonitorRight();
                    break;
            }
-       }, (object)null);
+       }, null);
 
-        private void OnMonitorChangeDetected() => Application.DeferredInvoke((DeferredInvokeHandler)delegate
+        private void OnMonitorChangeDetected() => Application.DeferredInvoke(delegate
        {
            this.Unsnap();
            this.InitializeMonitors();
-       }, (object)null);
+       }, null);
 
         private enum WindowSnappedness
         {
@@ -475,21 +475,21 @@ namespace ZuneUI
             }
         }
 
-        private class Monitor : IComparable<WindowSnapSimulator.Monitor>
+        private class Monitor : IComparable<Monitor>
         {
             private MonitorSize _dimensions;
-            private WindowSnapSimulator.WindowPlacement _leftSnap;
-            private WindowSnapSimulator.WindowPlacement _rightSnap;
+            private WindowPlacement _leftSnap;
+            private WindowPlacement _rightSnap;
             private int _hotspotSize;
-            private WindowSnapSimulator.IHotspot _topHotspot;
-            private WindowSnapSimulator.IHotspot _leftHotspot;
-            private WindowSnapSimulator.IHotspot _rightHotspot;
+            private IHotspot _topHotspot;
+            private IHotspot _leftHotspot;
+            private IHotspot _rightHotspot;
 
             public Monitor(MonitorSize dimensions)
             {
                 this._dimensions = dimensions;
-                this.LeftSnap = new WindowSnapSimulator.WindowPlacement();
-                this.RightSnap = new WindowSnapSimulator.WindowPlacement();
+                this.LeftSnap = new WindowPlacement();
+                this.RightSnap = new WindowPlacement();
             }
 
             public int Left => this._dimensions.WorkArea.Left;
@@ -500,27 +500,27 @@ namespace ZuneUI
 
             public int Bottom => this._dimensions.WorkArea.Bottom;
 
-            public WindowSnapSimulator.WindowPlacement LeftSnap
+            public WindowPlacement LeftSnap
             {
                 get => this._leftSnap;
                 private set => this._leftSnap = value;
             }
 
-            public WindowSnapSimulator.WindowPlacement RightSnap
+            public WindowPlacement RightSnap
             {
                 get => this._rightSnap;
                 private set => this._rightSnap = value;
             }
 
             public void InitializeHotspots(
-              List<WindowSnapSimulator.Monitor> monitorList,
+              List<Monitor> monitorList,
               float hotspotSizePercentage)
             {
-                this._hotspotSize = (int)((double)((this.Right - this.Left + 1 + (this.Bottom - this.Top + 1)) / 2) * (double)hotspotSizePercentage);
+                this._hotspotSize = (int)((this.Right - this.Left + 1 + (this.Bottom - this.Top + 1)) / 2 * (double)hotspotSizePercentage);
                 bool flag1 = true;
                 bool flag2 = true;
                 bool flag3 = true;
-                foreach (WindowSnapSimulator.Monitor monitor in monitorList)
+                foreach (Monitor monitor in monitorList)
                 {
                     RECT totalArea = monitor._dimensions.TotalArea;
                     if (totalArea.Top + 1 == this.Top)
@@ -531,19 +531,19 @@ namespace ZuneUI
                         flag3 = false;
                 }
                 if (flag1)
-                    this._topHotspot = (WindowSnapSimulator.IHotspot)new WindowSnapSimulator.MaximizeHotspot();
+                    this._topHotspot = new MaximizeHotspot();
                 if (flag2)
-                    this._leftHotspot = (WindowSnapSimulator.IHotspot)new WindowSnapSimulator.PlacementHotspot(this.LeftSnap);
+                    this._leftHotspot = new PlacementHotspot(this.LeftSnap);
                 if (!flag3)
                     return;
-                this._rightHotspot = (WindowSnapSimulator.IHotspot)new WindowSnapSimulator.PlacementHotspot(this.RightSnap);
+                this._rightHotspot = new PlacementHotspot(this.RightSnap);
             }
 
-            public WindowSnapSimulator.IHotspot GetHotspotForCursor(
+            public IHotspot GetHotspotForCursor(
               int cursorX,
               int cursorY)
             {
-                WindowSnapSimulator.IHotspot hotspot = (WindowSnapSimulator.IHotspot)null;
+                IHotspot hotspot = null;
                 if (cursorY <= this.Top + this._hotspotSize && this._topHotspot != null)
                     hotspot = this._topHotspot;
                 else if (cursorX <= this.Left + this._hotspotSize)
@@ -553,7 +553,7 @@ namespace ZuneUI
                 return hotspot;
             }
 
-            public int CompareTo(WindowSnapSimulator.Monitor other)
+            public int CompareTo(Monitor other)
             {
                 int num = this.Top.CompareTo(other.Top);
                 return num == 0 ? this.Left.CompareTo(other.Left) : num;
@@ -565,18 +565,18 @@ namespace ZuneUI
             void Snap();
         }
 
-        private class MaximizeHotspot : WindowSnapSimulator.IHotspot
+        private class MaximizeHotspot : IHotspot
         {
-            public void Snap() => SingletonModelItem<WindowSnapSimulator>.Instance.ShiftUp();
+            public void Snap() => Instance.ShiftUp();
         }
 
-        private class PlacementHotspot : WindowSnapSimulator.IHotspot
+        private class PlacementHotspot : IHotspot
         {
-            private WindowSnapSimulator.WindowPlacement _placement;
+            private WindowPlacement _placement;
 
-            public PlacementHotspot(WindowSnapSimulator.WindowPlacement placement) => this._placement = placement;
+            public PlacementHotspot(WindowPlacement placement) => this._placement = placement;
 
-            public void Snap() => SingletonModelItem<WindowSnapSimulator>.Instance.Snap(this._placement);
+            public void Snap() => Instance.Snap(this._placement);
         }
     }
 }

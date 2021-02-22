@@ -34,7 +34,7 @@ namespace ZuneUI
         public override object ConvertFromString(string value)
         {
             int result;
-            return int.TryParse(value, out result) ? (object)result : (object)0;
+            return int.TryParse(value, out result) ? result : (object)0;
         }
 
         public override bool IsValidInternal(string value)

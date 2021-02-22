@@ -55,7 +55,7 @@ namespace ZuneUI
         public override HRESULT GetURI(out string uri)
         {
             HRESULT hresult = HRESULT._S_OK;
-            string uriOut = (string)null;
+            string uriOut = null;
             if (!ZuneApplication.Service.InCompleteCollection(this._zuneMediaId, EContentType.Video) && !string.IsNullOrEmpty(this._uri))
             {
                 uriOut = this._uri;

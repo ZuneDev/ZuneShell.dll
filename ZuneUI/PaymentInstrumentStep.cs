@@ -26,9 +26,9 @@ namespace ZuneUI
             bool flag = !this.IsEnabled;
             if (!flag && this.CommittedCreditCard != null)
             {
-                string paymentId = (string)null;
+                string paymentId = null;
                 ServiceError serviceError;
-                HRESULT hr = (HRESULT)Microsoft.Zune.Service.Service.Instance.AddPaymentInstrument((PaymentInstrument)this.CommittedCreditCard, out paymentId, out serviceError);
+                HRESULT hr = Service.Instance.AddPaymentInstrument(CommittedCreditCard, out paymentId, out serviceError);
                 if (hr.IsError)
                 {
                     this.SetError(hr, serviceError);
@@ -50,7 +50,7 @@ namespace ZuneUI
                 this._firstView = false;
                 string committedValue1 = this.State.ContactInfoStep.GetCommittedValue(BaseContactInfoPropertyEditor.FirstName) as string;
                 string committedValue2 = this.State.ContactInfoStep.GetCommittedValue(BaseContactInfoPropertyEditor.LastName) as string;
-                this.SetCommittedValue(PaymentInstrumentPropertyEditor.AccountHolderName, (object)string.Format(Shell.LoadString(StringId.IDS_ACCOUNT_CREATION_NAME_FORMAT), (object)committedValue1, (object)committedValue2));
+                this.SetCommittedValue(PaymentInstrumentPropertyEditor.AccountHolderName, string.Format(Shell.LoadString(StringId.IDS_ACCOUNT_CREATION_NAME_FORMAT), committedValue1, committedValue2));
                 this.SetCommittedValue(PaymentInstrumentPropertyEditor.City, this.State.ContactInfoStep.GetCommittedValue(ContactInfoPropertyEditor.City));
                 this.SetCommittedValue(PaymentInstrumentPropertyEditor.Country, this.State.ContactInfoStep.GetCommittedValue(ContactInfoPropertyEditor.Country));
                 this.SetCommittedValue(PaymentInstrumentPropertyEditor.District, this.State.ContactInfoStep.GetCommittedValue(ContactInfoPropertyEditor.District));

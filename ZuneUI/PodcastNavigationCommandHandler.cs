@@ -10,6 +10,6 @@ namespace ZuneUI
 {
     public class PodcastNavigationCommandHandler : DeviceAwareNavigationHandler
     {
-        protected override ZunePage GetPage(IDictionary args) => (ZunePage)new PodcastLibraryPage(this.ShowDeviceContents);
+        protected override ZunePage GetPage(IDictionary args) => new PodcastLibraryPage(this.ShowDeviceContents);
     }
 }

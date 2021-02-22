@@ -12,7 +12,7 @@ namespace ZuneUI
     {
         protected override ZunePage GetPage(IDictionary args)
         {
-            ZunePage zunePage = (ZunePage)new CartPage();
+            ZunePage zunePage = new CartPage();
             zunePage.UIPath = this.UIPath;
             return zunePage;
         }

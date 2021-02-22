@@ -22,7 +22,7 @@ namespace ZuneUI
             this.m_downloadState = this.m_downloadTask.GetState();
             this.m_downloadTask.OnProgressChanged += new DownloadProgressHandler(this.OnProgressChanged);
             this.Available = false;
-            this.UpdateState((object)null);
+            this.UpdateState(null);
         }
 
         protected override void OnDispose(bool disposing)
@@ -31,7 +31,7 @@ namespace ZuneUI
             if (!disposing || this.m_downloadTask == null)
                 return;
             this.m_downloadTask.OnProgressChanged -= new DownloadProgressHandler(this.OnProgressChanged);
-            this.m_downloadTask = (DownloadTask)null;
+            this.m_downloadTask = null;
         }
 
         protected Microsoft.Zune.Service.EContentType ContentType
@@ -116,7 +116,7 @@ namespace ZuneUI
             }
         }
 
-        private void OnProgressChanged(DownloadEventArguments args) => Application.DeferredInvoke(new DeferredInvokeHandler(this.UpdateState), (object)args, DeferredInvokePriority.Normal);
+        private void OnProgressChanged(DownloadEventArguments args) => Application.DeferredInvoke(new DeferredInvokeHandler(this.UpdateState), args, DeferredInvokePriority.Normal);
 
         private void UpdateState(object args)
         {
@@ -145,11 +145,11 @@ namespace ZuneUI
                     if (this.SecondsToProgressivePlayback == 0)
                         this.Description = Shell.LoadString(StringId.IDS_PLAY_SONG);
                     else
-                        this.Description = string.Format(Shell.LoadString(StringId.IDS_DOWNLOAD_PROGRESS), (object)(int)progress);
+                        this.Description = string.Format(Shell.LoadString(StringId.IDS_DOWNLOAD_PROGRESS), (int)progress);
                     this.Available = true;
                     break;
                 case EDownloadTaskState.DLTaskPaused:
-                    this.Description = string.Format(Shell.LoadString(StringId.IDS_DOWNLOAD_PROGRESS), (object)(int)progress);
+                    this.Description = string.Format(Shell.LoadString(StringId.IDS_DOWNLOAD_PROGRESS), (int)progress);
                     this.Progress = progress / 100f;
                     this.Available = false;
                     break;

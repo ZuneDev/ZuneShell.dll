@@ -21,17 +21,17 @@ namespace ZuneUI
 
         public static void CheckMarketplaceCulture()
         {
-            if (CultureHelper.s_marketplaceCultureChecked)
+            if (s_marketplaceCultureChecked)
                 return;
             string marketplaceCulture1 = FeatureEnablement.GetMarketplaceCulture();
             if (string.IsNullOrEmpty(marketplaceCulture1))
                 return;
-            CultureHelper.s_marketplaceCultureChecked = true;
-            string strB = (string)null;
+            s_marketplaceCultureChecked = true;
+            string strB = null;
             if (marketplaceCulture1.Length > 1)
                 strB = marketplaceCulture1.Substring(0, 2);
             string strA1 = CultureInfo.CurrentUICulture.ToString();
-            string strA2 = (string)null;
+            string strA2 = null;
             if (strA1.Length > 1)
                 strA2 = strA1.Substring(0, 2);
             bool flag1 = 0 == string.Compare(strA2, strB, StringComparison.InvariantCultureIgnoreCase);
@@ -48,7 +48,7 @@ namespace ZuneUI
             ClientConfiguration.Shell.LastClientCulture = strA1;
             if (flag1 || !flag2 && !flag3)
                 return;
-            MessageBox.Show(Shell.LoadString(StringId.IDS_MARKETPLACE_CULTURE_MISMATCH_TITLE), Shell.LoadString(StringId.IDS_MARKETPLACE_CULTURE_MISMATCH), (EventHandler)null);
+            MessageBox.Show(Shell.LoadString(StringId.IDS_MARKETPLACE_CULTURE_MISMATCH_TITLE), Shell.LoadString(StringId.IDS_MARKETPLACE_CULTURE_MISMATCH), null);
         }
 
         public static void CheckValidRegionAndLanguage()
@@ -80,14 +80,14 @@ namespace ZuneUI
 
         public static bool IsEnUs()
         {
-            bool flag1 = Thread.CurrentThread.CurrentUICulture.Equals((object)new CultureInfo("en-US"));
+            bool flag1 = Thread.CurrentThread.CurrentUICulture.Equals(new CultureInfo("en-US"));
             bool flag2 = StringHelper.IsEqualCaseInsensitive(FeatureEnablement.GetRegion(), "US");
             return flag1 && flag2;
         }
 
         public static bool UseAlternateStyling()
         {
-            if (!CultureHelper.useAlternateStyling.HasValue)
+            if (!useAlternateStyling.HasValue)
             {
                 switch (CultureInfo.CurrentUICulture.LCID)
                 {
@@ -102,14 +102,14 @@ namespace ZuneUI
                     case 4100:
                     case 5124:
                     case 31748:
-                        CultureHelper.useAlternateStyling = new bool?(true);
+                        useAlternateStyling = new bool?(true);
                         break;
                     default:
-                        CultureHelper.useAlternateStyling = new bool?(false);
+                        useAlternateStyling = new bool?(false);
                         break;
                 }
             }
-            return CultureHelper.useAlternateStyling.Value;
+            return useAlternateStyling.Value;
         }
 
         public static uint GeoId() => FeatureEnablement.GetGeoId();
@@ -141,7 +141,7 @@ namespace ZuneUI
             string uri = Shell.LoadString(StringId.IDS_WWW_ZUNE_NET_SUPPORT_URL);
             string lynxCulture = FeatureEnablement.GetLynxCulture();
             if (!string.IsNullOrEmpty(lynxCulture))
-                uri = CultureHelper.AppendFwlinkCulture(uri, lynxCulture);
+                uri = AppendFwlinkCulture(uri, lynxCulture);
             StringBuilder args = new StringBuilder(uri);
             string uiPath = ZuneShell.DefaultInstance.CurrentPage.UIPath;
             if (!string.IsNullOrEmpty(uiPath))
@@ -162,27 +162,27 @@ namespace ZuneUI
             string uri = Shell.LoadString(StringId.IDS_PRIVACY_STATEMENT_URL);
             string lynxCulture = FeatureEnablement.GetLynxCulture();
             if (!string.IsNullOrEmpty(lynxCulture))
-                uri = CultureHelper.AppendFwlinkCulture(uri, lynxCulture);
+                uri = AppendFwlinkCulture(uri, lynxCulture);
             return uri;
         }
 
         public static string AppendFwlinkCulture(string uri, int lcid)
         {
             if (lcid >= 0)
-                uri = string.Format("{0}&clcid=0x{1:x}", (object)uri, (object)lcid);
+                uri = string.Format("{0}&clcid=0x{1:x}", uri, lcid);
             return uri;
         }
 
         public static string AppendFwlinkCulture(string uri, string culture)
         {
             if (!string.IsNullOrEmpty(culture))
-                uri = CultureHelper.AppendFwlinkCulture(uri, CultureHelper.GetLCIDFromCultureString(culture, false));
+                uri = AppendFwlinkCulture(uri, GetLCIDFromCultureString(culture, false));
             return uri;
         }
 
         public static string AppendFwlinkCulture(string uri)
         {
-            uri = CultureHelper.AppendFwlinkCulture(uri, CultureHelper.GetLCIDFromCultureString((string)null, true));
+            uri = AppendFwlinkCulture(uri, GetLCIDFromCultureString(null, true));
             return uri;
         }
 
@@ -190,25 +190,25 @@ namespace ZuneUI
         {
             string lynxCulture = FeatureEnablement.GetLynxCulture();
             if (!string.IsNullOrEmpty(lynxCulture))
-                uri = CultureHelper.AppendFwlinkCulture(uri, lynxCulture);
+                uri = AppendFwlinkCulture(uri, lynxCulture);
             return uri;
         }
 
-        public static string AppendLynxCultureQueryString(string uri) => CultureHelper.AppendLynxCultureQueryString(uri, false);
+        public static string AppendLynxCultureQueryString(string uri) => AppendLynxCultureQueryString(uri, false);
 
         public static string AppendLynxCultureQueryString(string uri, bool first)
         {
             string lynxCulture = FeatureEnablement.GetLynxCulture();
             if (string.IsNullOrEmpty(lynxCulture))
                 return uri;
-            return first ? string.Format("{0}?culture={1}", (object)uri, (object)lynxCulture) : string.Format("{0}&culture={1}", (object)uri, (object)lynxCulture);
+            return first ? string.Format("{0}?culture={1}", uri, lynxCulture) : string.Format("{0}&culture={1}", uri, lynxCulture);
         }
 
         internal static string GetDefaultCountry() => FeatureEnablement.GetRegion();
 
         internal static string GetDefaultLanguage()
         {
-            string str = (string)null;
+            string str = null;
             CultureInfo currentUiCulture = CultureInfo.CurrentUICulture;
             if (currentUiCulture != null)
                 str = currentUiCulture.TwoLetterISOLanguageName;
@@ -217,7 +217,7 @@ namespace ZuneUI
 
         public static CultureInfo GetCulture(string cultureString)
         {
-            CultureInfo cultureInfo = (CultureInfo)null;
+            CultureInfo cultureInfo = null;
             if (!string.IsNullOrEmpty(cultureString))
             {
                 try

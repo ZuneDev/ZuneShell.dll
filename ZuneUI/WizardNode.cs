@@ -13,13 +13,13 @@ namespace ZuneUI
         private Wizard _wizard;
 
         public WizardNode(Experience owner, Wizard wizard, SQMDataId sqmDataID)
-          : base(owner, (string)null, sqmDataID)
+          : base(owner, null, sqmDataID)
           => this._wizard = wizard;
 
         protected override void Execute(Shell shell)
         {
-            WizardZunePage wizardZunePage = new WizardZunePage((Node)this, this._wizard);
-            shell.NavigateToPage((ZunePage)wizardZunePage);
+            WizardZunePage wizardZunePage = new WizardZunePage(this, this._wizard);
+            shell.NavigateToPage(wizardZunePage);
         }
     }
 }

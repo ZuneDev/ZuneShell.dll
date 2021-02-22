@@ -27,18 +27,18 @@ namespace ZuneUI
             if (showDevice)
             {
                 this.PivotPreference = Shell.MainFrame.Device.Channels;
-                Deviceland.InitDevicePage((ZunePage)this);
+                Deviceland.InitDevicePage(this);
                 this.ShowComputerIcon = ComputerIconState.Show;
             }
             else
             {
-                this.DetailsPanel = (LibraryPanel)new ChannelDetailsPanel(this);
+                this.DetailsPanel = new ChannelDetailsPanel(this);
                 this.PivotPreference = Shell.MainFrame.Collection.Channels;
             }
             this.IsRootPage = true;
             this.UIPath = "Collection\\Channels";
-            this.SeriesPanel = (SubscriptionSeriesPanel)new ChannelSeriesPanel(this);
-            this.EpisodePanel = (SubscriptionEpisodePanel)new ChannelEpisodePanel(this);
+            this.SeriesPanel = new ChannelSeriesPanel(this);
+            this.EpisodePanel = new ChannelEpisodePanel(this);
             this.TransportControlStyle = TransportControlStyle.Music;
             this.PlaybackContext = PlaybackContext.Music;
         }
@@ -51,9 +51,9 @@ namespace ZuneUI
 
         protected override StringId SubscriptionErrorStringId => StringId.IDS_PLAYLIST_SUBSCRIPTION_ERROR;
 
-        public static Guid GetZuneMediaId(int seriesId) => SubscriptionLibraryPage.GetZuneMediaId(seriesId, EListType.ePlaylistList);
+        public static Guid GetZuneMediaId(int seriesId) => GetZuneMediaId(seriesId, EListType.ePlaylistList);
 
-        public static void FindInCollection(int seriesId) => ChannelLibraryPage.FindInCollection(seriesId, -1);
+        public static void FindInCollection(int seriesId) => FindInCollection(seriesId, -1);
 
         public static void FindInCollection(int seriesId, int libraryId)
         {
@@ -61,17 +61,17 @@ namespace ZuneUI
                 return;
             Hashtable hashtable = new Hashtable();
             if (seriesId > 0)
-                hashtable.Add((object)"SeriesLibraryId", (object)seriesId);
+                hashtable.Add("SeriesLibraryId", seriesId);
             if (libraryId > 0)
-                hashtable.Add((object)"EpisodeLibraryId", (object)libraryId);
-            ZuneShell.DefaultInstance.Execute("Collection\\Channels", (IDictionary)hashtable);
+                hashtable.Add("EpisodeLibraryId", libraryId);
+            ZuneShell.DefaultInstance.Execute("Collection\\Channels", hashtable);
         }
 
-        public static void SaveAsPlaylist(int playlistId) => PlaylistManager.Instance.SavePlaylistAsStatic(playlistId, new PlaylistAsyncOperationCompleted(ChannelLibraryPage.SaveAsPlaylistCompleted));
+        public static void SaveAsPlaylist(int playlistId) => PlaylistManager.Instance.SavePlaylistAsStatic(playlistId, new PlaylistAsyncOperationCompleted(SaveAsPlaylistCompleted));
 
-        public static void SaveAsPlaylistCompleted(HRESULT hr) => Application.DeferredInvoke((DeferredInvokeHandler)delegate
+        public static void SaveAsPlaylistCompleted(HRESULT hr) => Application.DeferredInvoke(delegate
        {
-           NotificationArea.Instance.Add((Notification)new MessageNotification(!hr.IsSuccess ? ChannelLibraryPage._saveAsPlaylistMessageFailure : ChannelLibraryPage._saveAsPlaylistMessageSuccess, NotificationTask.Library, NotificationState.Completed));
-       }, (object)null);
+           NotificationArea.Instance.Add(new MessageNotification(!hr.IsSuccess ? _saveAsPlaylistMessageFailure : _saveAsPlaylistMessageSuccess, NotificationTask.Library, NotificationState.Completed));
+       }, null);
     }
 }

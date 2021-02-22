@@ -24,7 +24,7 @@ namespace ZuneUI
 
         protected override StringId SubscriptionErrorStringId => StringId.IDS_PODCAST_SUBSCRIPTION_ERROR;
 
-        public static Guid GetZuneMediaId(int seriesId) => SubscriptionLibraryPage.GetZuneMediaId(seriesId, EListType.ePodcastList);
+        public static Guid GetZuneMediaId(int seriesId) => GetZuneMediaId(seriesId, EListType.ePodcastList);
 
         public PodcastLibraryPage(bool showDevice)
           : base(showDevice, MediaType.Podcast)
@@ -33,15 +33,15 @@ namespace ZuneUI
             if (showDevice)
             {
                 this.PivotPreference = Shell.MainFrame.Device.Podcasts;
-                Deviceland.InitDevicePage((ZunePage)this);
+                Deviceland.InitDevicePage(this);
             }
             else
                 this.PivotPreference = Shell.MainFrame.Collection.Podcasts;
             this.IsRootPage = true;
-            this.SeriesPanel = new SubscriptionSeriesPanel((SubscriptionLibraryPage)this);
-            this.EpisodePanel = new SubscriptionEpisodePanel((SubscriptionLibraryPage)this);
+            this.SeriesPanel = new SubscriptionSeriesPanel(this);
+            this.EpisodePanel = new SubscriptionEpisodePanel(this);
             if (!showDevice)
-                this.DetailsPanel = (LibraryPanel)new SubscriptionDetailsPanel((SubscriptionLibraryPage)this);
+                this.DetailsPanel = new SubscriptionDetailsPanel(this);
             this.m_markAllAsPlayed = new MenuItemCommand(Shell.LoadString(StringId.IDS_PODCAST_MARK_AS_PLAYED_MENUITEM));
             this.m_markAllAsUnplayed = new MenuItemCommand(Shell.LoadString(StringId.IDS_PODCAST_MARK_AS_UNPLAYED_MENUITEM));
             this.TransportControlStyle = TransportControlStyle.Music;
@@ -49,7 +49,7 @@ namespace ZuneUI
             this.ShowPlaylistIcon = false;
         }
 
-        public static void FindInCollection(int seriesId) => PodcastLibraryPage.FindInCollection(seriesId, -1);
+        public static void FindInCollection(int seriesId) => FindInCollection(seriesId, -1);
 
         public static void FindInCollection(int seriesId, int libraryId)
         {
@@ -57,10 +57,10 @@ namespace ZuneUI
                 return;
             Hashtable hashtable = new Hashtable();
             if (seriesId > 0)
-                hashtable.Add((object)"SeriesLibraryId", (object)seriesId);
+                hashtable.Add("SeriesLibraryId", seriesId);
             if (libraryId > 0)
-                hashtable.Add((object)"EpisodeLibraryId", (object)libraryId);
-            ZuneShell.DefaultInstance.Execute("Collection\\Podcasts", (IDictionary)hashtable);
+                hashtable.Add("EpisodeLibraryId", libraryId);
+            ZuneShell.DefaultInstance.Execute("Collection\\Podcasts", hashtable);
         }
     }
 }

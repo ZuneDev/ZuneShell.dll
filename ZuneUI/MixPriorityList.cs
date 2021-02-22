@@ -13,16 +13,16 @@ namespace ZuneUI
     public abstract class MixPriorityList
     {
         private MixResult _mixResultSeed;
-        private System.Collections.Generic.List<MixPriorityList.PriorityResult> _list;
+        private System.Collections.Generic.List<PriorityResult> _list;
         private System.Collections.Generic.List<MixResult> _sortedList;
 
         protected MixPriorityList(MixResult mixResultSeed)
         {
-            this._list = new System.Collections.Generic.List<MixPriorityList.PriorityResult>();
+            this._list = new System.Collections.Generic.List<PriorityResult>();
             this._mixResultSeed = mixResultSeed;
         }
 
-        public void Add(DataProviderObject item, string reason) => this.AddList((IList)new System.Collections.Generic.List<DataProviderObject>()
+        public void Add(DataProviderObject item, string reason) => this.AddList(new System.Collections.Generic.List<DataProviderObject>()
     {
       item
     }, reason, 1);
@@ -37,10 +37,10 @@ namespace ZuneUI
                 {
                     this._sortedList = new System.Collections.Generic.List<MixResult>(this._list.Count);
                     this._list.Sort();
-                    foreach (MixPriorityList.PriorityResult priorityResult in this._list)
+                    foreach (PriorityResult priorityResult in this._list)
                         this._sortedList.Add(priorityResult.Result);
                 }
-                return (IList)this._sortedList;
+                return _sortedList;
             }
         }
 
@@ -48,11 +48,11 @@ namespace ZuneUI
           IList sourceList,
           string reason,
           int maxItems,
-          MixPriorityList.GetItemPriorityDelegate getItemPriorityDelegate,
-          MixPriorityList.CreateItemInstanceDelegate createItemInstanceDelegate)
+          GetItemPriorityDelegate getItemPriorityDelegate,
+          CreateItemInstanceDelegate createItemInstanceDelegate)
         {
             int startPriority = 0;
-            foreach (DataProviderObject source in (IEnumerable)sourceList)
+            foreach (DataProviderObject source in sourceList)
             {
                 if (this.Add(createItemInstanceDelegate(source, reason), getItemPriorityDelegate(source, startPriority)))
                     ++startPriority;
@@ -70,7 +70,7 @@ namespace ZuneUI
                 flag = SignIn.Instance.IsSignedInUser(newResult.Id);
             if (!flag)
             {
-                foreach (MixPriorityList.PriorityResult priorityResult in this._list)
+                foreach (PriorityResult priorityResult in this._list)
                 {
                     if (newResult.IsDuplicate(priorityResult.Result))
                     {
@@ -81,8 +81,8 @@ namespace ZuneUI
             }
             if (!flag)
             {
-                this._list.Add(new MixPriorityList.PriorityResult(priority, newResult));
-                this._sortedList = (System.Collections.Generic.List<MixResult>)null;
+                this._list.Add(new PriorityResult(priority, newResult));
+                this._sortedList = null;
             }
             return !flag;
         }
@@ -98,7 +98,7 @@ namespace ZuneUI
                 this.Result = result;
             }
 
-            public int CompareTo(object obj) => this.Priority - (obj as MixPriorityList.PriorityResult).Priority;
+            public int CompareTo(object obj) => this.Priority - (obj as PriorityResult).Priority;
         }
 
         protected delegate int GetItemPriorityDelegate(DataProviderObject item, int startPriority);

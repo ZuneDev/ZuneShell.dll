@@ -25,9 +25,9 @@ namespace ZuneUI
         {
             get
             {
-                if (AccountCountryList.s_instance == null)
-                    AccountCountryList.s_instance = new AccountCountryList();
-                return AccountCountryList.s_instance;
+                if (s_instance == null)
+                    s_instance = new AccountCountryList();
+                return s_instance;
             }
         }
 
@@ -35,13 +35,13 @@ namespace ZuneUI
         {
             get
             {
-                string[] array = (string[])null;
+                string[] array = null;
                 if (this._countries != null)
                 {
                     array = new string[this._countries.Keys.Count];
                     this._countries.Keys.CopyTo(array, 0);
                 }
-                return (IList)array;
+                return array;
             }
         }
 
@@ -49,7 +49,7 @@ namespace ZuneUI
 
         public AccountCountry GetCountry(string abbreviation)
         {
-            AccountCountry accountCountry = (AccountCountry)null;
+            AccountCountry accountCountry = null;
             if (this._countries != null && abbreviation != null && this._countries.ContainsKey(abbreviation))
                 accountCountry = this._countries[abbreviation];
             return accountCountry;
@@ -64,8 +64,8 @@ namespace ZuneUI
             bool flag = true;
             if (this._countries == null)
             {
-                CountryBaseDetails[] countryDetails = Microsoft.Zune.Service.Service.Instance.GetCountryDetails();
-                SortedDictionary<string, AccountCountry> sortedDictionary = (SortedDictionary<string, AccountCountry>)null;
+                CountryBaseDetails[] countryDetails = Service.Instance.GetCountryDetails();
+                SortedDictionary<string, AccountCountry> sortedDictionary = null;
                 if (countryDetails != null && countryDetails.Length > 0)
                 {
                     sortedDictionary = new SortedDictionary<string, AccountCountry>(CountryNameComparer.Instance);
@@ -75,10 +75,10 @@ namespace ZuneUI
                 if (sortedDictionary == null || sortedDictionary.Count == 0)
                     flag = false;
                 else
-                    this._countries = (IDictionary<string, AccountCountry>)sortedDictionary;
+                    this._countries = sortedDictionary;
             }
             if (flag)
-                Application.DeferredInvoke(new DeferredInvokeHandler(this.NotifyLoaded), (object)null);
+                Application.DeferredInvoke(new DeferredInvokeHandler(this.NotifyLoaded), null);
             return flag;
         }
 

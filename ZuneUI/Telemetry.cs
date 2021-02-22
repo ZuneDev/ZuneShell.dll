@@ -54,9 +54,9 @@ namespace ZuneUI
         {
             get
             {
-                if (Telemetry.m_instance == null)
-                    Telemetry.m_instance = new Telemetry();
-                return Telemetry.m_instance;
+                if (m_instance == null)
+                    m_instance = new Telemetry();
+                return m_instance;
             }
         }
 
@@ -64,13 +64,13 @@ namespace ZuneUI
         {
             this.m_queue = new Queue<TelemetryInfo>();
             this.m_sqmToEventMap = new Hashtable();
-            this.m_sqmToEventMap[(object)SQMDataId.AutoPlaylistCreations] = (object)new DatapointInfo(ETelemetryEvent.eTelemetryEventBuildPlaylist);
-            this.m_sqmToEventMap[(object)SQMDataId.NowPlayingClicks] = (object)new DatapointInfo(ETelemetryEvent.eTelemetryEventNowPlaying);
-            this.m_sqmToEventMap[(object)SQMDataId.QuickMixPlaylistCreates] = (object)new DatapointInfo(ETelemetryEvent.eTelemetryEventQuickMix);
-            this.m_sqmToEventMap[(object)SQMDataId.MixViewTime] = (object)new DatapointInfo(ETelemetryEvent.eTelemetryEventMixView, "MixViewTime", true);
-            this.m_sqmToEventMap[(object)SQMDataId.NowPlayingMusicViewTime] = (object)new DatapointInfo(ETelemetryEvent.eTelemetryEventPlayback, "PlaybackAudio", true);
-            this.m_sqmToEventMap[(object)SQMDataId.NowPlayingVideoViewTime] = (object)new DatapointInfo(ETelemetryEvent.eTelemetryEventPlayback, "PlaybackVideo", true);
-            this.m_sqmToEventMap[(object)SQMDataId.NowPlayingPhotoViewTime] = (object)new DatapointInfo(ETelemetryEvent.eTelemetryEventPlayback, "PlaybackPhoto", true);
+            this.m_sqmToEventMap[SQMDataId.AutoPlaylistCreations] = new DatapointInfo(ETelemetryEvent.eTelemetryEventBuildPlaylist);
+            this.m_sqmToEventMap[SQMDataId.NowPlayingClicks] = new DatapointInfo(ETelemetryEvent.eTelemetryEventNowPlaying);
+            this.m_sqmToEventMap[SQMDataId.QuickMixPlaylistCreates] = new DatapointInfo(ETelemetryEvent.eTelemetryEventQuickMix);
+            this.m_sqmToEventMap[SQMDataId.MixViewTime] = new DatapointInfo(ETelemetryEvent.eTelemetryEventMixView, "MixViewTime", true);
+            this.m_sqmToEventMap[SQMDataId.NowPlayingMusicViewTime] = new DatapointInfo(ETelemetryEvent.eTelemetryEventPlayback, "PlaybackAudio", true);
+            this.m_sqmToEventMap[SQMDataId.NowPlayingVideoViewTime] = new DatapointInfo(ETelemetryEvent.eTelemetryEventPlayback, "PlaybackVideo", true);
+            this.m_sqmToEventMap[SQMDataId.NowPlayingPhotoViewTime] = new DatapointInfo(ETelemetryEvent.eTelemetryEventPlayback, "PlaybackPhoto", true);
         }
 
         internal void StartUpload()
@@ -80,7 +80,7 @@ namespace ZuneUI
                 this.m_uploadAllowed = true;
                 if (this.m_queue.Count <= 0)
                     return;
-                Application.DeferredInvoke(new DeferredInvokeHandler(this.ProcessQueue), (object)null, DeferredInvokePriority.Low);
+                Application.DeferredInvoke(new DeferredInvokeHandler(this.ProcessQueue), null, DeferredInvokePriority.Low);
             }
         }
 
@@ -91,7 +91,7 @@ namespace ZuneUI
             {
                 foreach (DictionaryEntry dictionaryEntry in args)
                 {
-                    if (dictionaryEntry.Key is string && Array.IndexOf<string>(Telemetry._supportedTags, (string)dictionaryEntry.Key) != -1 && (dictionaryEntry.Value is string || dictionaryEntry.Value is Guid || dictionaryEntry.Value is int))
+                    if (dictionaryEntry.Key is string && Array.IndexOf(_supportedTags, (string)dictionaryEntry.Key) != -1 && (dictionaryEntry.Value is string || dictionaryEntry.Value is Guid || dictionaryEntry.Value is int))
                         hashtable.Add(dictionaryEntry.Key, dictionaryEntry.Value);
                 }
             }
@@ -103,22 +103,22 @@ namespace ZuneUI
             if (command == null)
                 return;
             Hashtable hashtable = this.FilterPageArgs(args);
-            this.QueueTelemetry(new TelemetryInfo(ETelemetryEvent.eTelemetryEventUndefined, command, (IDictionary)hashtable, false));
+            this.QueueTelemetry(new TelemetryInfo(ETelemetryEvent.eTelemetryEventUndefined, command, hashtable, false));
         }
 
         public void ReportPlaybackTime(int timeData)
         {
             if (timeData <= 0)
                 return;
-            this.QueueTelemetry(new TelemetryInfo(ETelemetryEvent.eTelemetryEventPlayback, "", (IDictionary)new Hashtable()
+            this.QueueTelemetry(new TelemetryInfo(ETelemetryEvent.eTelemetryEventPlayback, "", new Hashtable()
       {
         {
-          (object) "@Data",
-          (object) timeData
+           "@Data",
+           timeData
         },
         {
-          (object) "@EventType",
-          (object) "CumulativePlaybackTime"
+           "@EventType",
+           "CumulativePlaybackTime"
         }
       }, true));
         }
@@ -127,23 +127,23 @@ namespace ZuneUI
         {
             SQMDataId id = datapoint.id;
             bool flag = datapoint.action == SQMAction.Add || datapoint.action == SQMAction.Inc;
-            if (id == SQMDataId.Invalid || !flag || !this.m_sqmToEventMap.ContainsKey((object)id))
+            if (id == SQMDataId.Invalid || !flag || !this.m_sqmToEventMap.ContainsKey(id))
                 return;
             Hashtable hashtable = new Hashtable();
-            DatapointInfo sqmToEvent = (DatapointInfo)this.m_sqmToEventMap[(object)id];
+            DatapointInfo sqmToEvent = (DatapointInfo)this.m_sqmToEventMap[id];
             if (sqmToEvent.IsSession)
             {
-                hashtable.Add((object)"@Data", (object)nData);
-                hashtable.Add((object)"@EventType", (object)sqmToEvent.TypeName);
+                hashtable.Add("@Data", nData);
+                hashtable.Add("@EventType", sqmToEvent.TypeName);
             }
-            this.QueueTelemetry(new TelemetryInfo(sqmToEvent.Event, "", (IDictionary)hashtable, sqmToEvent.IsSession));
+            this.QueueTelemetry(new TelemetryInfo(sqmToEvent.Event, "", hashtable, sqmToEvent.IsSession));
         }
 
-        public void ReportSearch(string search) => this.QueueTelemetry(new TelemetryInfo(ETelemetryEvent.eTelemetryEventUndefined, "Search", (IDictionary)new Hashtable()
+        public void ReportSearch(string search) => this.QueueTelemetry(new TelemetryInfo(ETelemetryEvent.eTelemetryEventUndefined, "Search", new Hashtable()
     {
       {
-        (object) "zune_query",
-        (object) search
+         "zune_query",
+         search
       }
     }, false));
 
@@ -153,8 +153,8 @@ namespace ZuneUI
                 return;
             string uri = "PageLoadTime";
             Hashtable hashtable = this.FilterPageArgs(args);
-            hashtable.Add((object)pageUri, (object)pageLoadTime);
-            this.QueueTelemetry(new TelemetryInfo(ETelemetryEvent.eTelemetryEventUndefined, uri, (IDictionary)hashtable, false));
+            hashtable.Add(pageUri, pageLoadTime);
+            this.QueueTelemetry(new TelemetryInfo(ETelemetryEvent.eTelemetryEventUndefined, uri, hashtable, false));
         }
 
         private void QueueTelemetry(TelemetryInfo info)
@@ -164,13 +164,13 @@ namespace ZuneUI
                 this.m_queue.Enqueue(info);
                 if (!this.m_uploadAllowed || this.m_queue.Count != 1)
                     return;
-                Application.DeferredInvoke(new DeferredInvokeHandler(this.ProcessQueue), (object)null, DeferredInvokePriority.Low);
+                Application.DeferredInvoke(new DeferredInvokeHandler(this.ProcessQueue), null, DeferredInvokePriority.Low);
             }
         }
 
         private void ProcessQueue(object state)
         {
-            TelemetryInfo telemetryInfo = (TelemetryInfo)null;
+            TelemetryInfo telemetryInfo = null;
             bool flag;
             lock (this.m_queue)
             {
@@ -179,30 +179,30 @@ namespace ZuneUI
                 flag = this.m_queue.Count > 0;
             }
             if (telemetryInfo != null)
-                this.SendTelemetry((object)telemetryInfo);
+                this.SendTelemetry(telemetryInfo);
             if (!flag)
                 return;
-            Application.DeferredInvoke(new DeferredInvokeHandler(this.ProcessQueue), (object)null, DeferredInvokePriority.Low);
+            Application.DeferredInvoke(new DeferredInvokeHandler(this.ProcessQueue), null, DeferredInvokePriority.Low);
         }
 
-        private void SendTelemetryInfo(TelemetryInfo info) => Application.DeferredInvoke(new DeferredInvokeHandler(this.SendTelemetry), (object)info, DeferredInvokePriority.Low);
+        private void SendTelemetryInfo(TelemetryInfo info) => Application.DeferredInvoke(new DeferredInvokeHandler(this.SendTelemetry), info, DeferredInvokePriority.Low);
 
         private void SendTelemetry(object state)
         {
             TelemetryInfo telemetryInfo = (TelemetryInfo)state;
-            telemetryInfo.Args.Add((object)"@epochTime", (object)telemetryInfo.elapsedTime);
+            telemetryInfo.Args.Add("@epochTime", telemetryInfo.elapsedTime);
             if (telemetryInfo.fSessionDatapoint)
             {
-                int int32 = Convert.ToInt32(telemetryInfo.Args[(object)"@Data"]);
-                string key = telemetryInfo.Args[(object)"@EventType"].ToString();
+                int int32 = Convert.ToInt32(telemetryInfo.Args["@Data"]);
+                string key = telemetryInfo.Args["@EventType"].ToString();
                 TelemetryAPI.AddToSessionEvent(telemetryInfo.eEvent, key, int32);
             }
             else if (telemetryInfo.eEvent == ETelemetryEvent.eTelemetryEventUndefined)
                 TelemetryAPI.SendDatapoint(telemetryInfo.dcsUri, telemetryInfo.Args);
-            else if (telemetryInfo.Args.Contains((object)"@EventType"))
-                TelemetryAPI.SendEvent(telemetryInfo.eEvent, telemetryInfo.Args[(object)"@EventType"].ToString());
+            else if (telemetryInfo.Args.Contains("@EventType"))
+                TelemetryAPI.SendEvent(telemetryInfo.eEvent, telemetryInfo.Args["@EventType"].ToString());
             else
-                TelemetryAPI.SendEvent(telemetryInfo.eEvent, (string)null);
+                TelemetryAPI.SendEvent(telemetryInfo.eEvent, null);
         }
     }
 }

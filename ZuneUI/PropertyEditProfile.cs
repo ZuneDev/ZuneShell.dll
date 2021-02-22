@@ -28,34 +28,34 @@ namespace ZuneUI
         protected void Initialize(DataProviderObject profile)
         {
             this._profile = profile;
-            if (PropertyEditProfile.s_dataProviderProperties == null)
-                PropertyEditProfile.s_dataProviderProperties = new PropertyDescriptor[4]
+            if (s_dataProviderProperties == null)
+                s_dataProviderProperties = new PropertyDescriptor[4]
                 {
-          (PropertyDescriptor) PropertyEditProfile.s_Biography,
-          (PropertyDescriptor) PropertyEditProfile.s_DisplayName,
-          (PropertyDescriptor) PropertyEditProfile.s_Location,
-          (PropertyDescriptor) PropertyEditProfile.s_Status
+           s_Biography,
+           s_DisplayName,
+           s_Location,
+           s_Status
                 };
-            this.Initialize((IList)new object[1]
+            this.Initialize(new object[1]
             {
-        (object) this._profile
-            }, PropertyEditProfile.s_dataProviderProperties);
+         _profile
+            }, s_dataProviderProperties);
         }
 
         public override void Commit()
         {
             base.Commit();
-            foreach (ProfilePropertyDescriptor providerProperty in PropertyEditProfile.s_dataProviderProperties)
+            foreach (ProfilePropertyDescriptor providerProperty in s_dataProviderProperties)
             {
-                MetadataEditProperty property = this.GetProperty((PropertyDescriptor)providerProperty);
+                MetadataEditProperty property = this.GetProperty(providerProperty);
                 if (property.Modified)
-                    ComposerHelper.ManageProfile(providerProperty.ServiceName, providerProperty.GetServiceValue(property.Value), new MessagingCallback(this.OnCommitComplete), (object)property);
+                    ComposerHelper.ManageProfile(providerProperty.ServiceName, providerProperty.GetServiceValue(property.Value), new MessagingCallback(this.OnCommitComplete), property);
             }
         }
 
         public void Undo()
         {
-            foreach (PropertyDescriptor providerProperty in PropertyEditProfile.s_dataProviderProperties)
+            foreach (PropertyDescriptor providerProperty in s_dataProviderProperties)
             {
                 MetadataEditProperty property = this.GetProperty(providerProperty);
                 property.Value = property.OriginalValue;
@@ -86,18 +86,18 @@ namespace ZuneUI
             metadataEditProperty.Modified = false;
         }
 
-        private void OnCommitComplete(HRESULT hr, object state) => Application.DeferredInvoke(new DeferredInvokeHandler(this.OnCommitCompleteDeferred), (object)new object[2]
+        private void OnCommitComplete(HRESULT hr, object state) => Application.DeferredInvoke(new DeferredInvokeHandler(this.OnCommitCompleteDeferred), new object[2]
         {
-      (object) hr,
+       hr,
       state
         });
 
-        public static ProfileMultiLinePropertyDescriptor Biography => PropertyEditProfile.s_Biography;
+        public static ProfileMultiLinePropertyDescriptor Biography => s_Biography;
 
-        public static ProfilePropertyDescriptor DisplayName => PropertyEditProfile.s_DisplayName;
+        public static ProfilePropertyDescriptor DisplayName => s_DisplayName;
 
-        public static ProfilePropertyDescriptor Location => PropertyEditProfile.s_Location;
+        public static ProfilePropertyDescriptor Location => s_Location;
 
-        public static ProfilePropertyDescriptor Status => PropertyEditProfile.s_Status;
+        public static ProfilePropertyDescriptor Status => s_Status;
     }
 }

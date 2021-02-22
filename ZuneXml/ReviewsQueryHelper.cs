@@ -13,7 +13,7 @@ namespace ZuneXml
         internal static ZuneServiceQueryHelper ConstructReviewsQueryHelper(
           ZuneServiceQuery query)
         {
-            return (ZuneServiceQueryHelper)new ReviewsQueryHelper(query);
+            return new ReviewsQueryHelper(query);
         }
 
         internal ReviewsQueryHelper(ZuneServiceQuery query)

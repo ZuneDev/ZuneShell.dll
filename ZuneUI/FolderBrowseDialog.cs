@@ -27,34 +27,34 @@ namespace ZuneUI
         private static readonly IntPtr NoValidation = IntPtr.Zero;
         private static readonly IntPtr ValidateWritable = new IntPtr(1);
 
-        public static void Show(string title, DeferredInvokeHandler callback) => FolderBrowseDialog.Show(title, callback, false);
+        public static void Show(string title, DeferredInvokeHandler callback) => Show(title, callback, false);
 
         public static void Show(string title, DeferredInvokeHandler callback, bool validate)
         {
             IntPtr winHandle = Application.Window.Handle;
-            Thread thread = new Thread((ParameterizedThreadStart)(args =>
+            Thread thread = new Thread(args =>
            {
-               FolderBrowseDialog.BROWSEINFO bi = new FolderBrowseDialog.BROWSEINFO();
+               BROWSEINFO bi = new BROWSEINFO();
                bi.hwndOwner = winHandle;
                bi.pidlRoot = IntPtr.Zero;
                bi.pszDisplayName = new string(' ', 261);
                if (!string.IsNullOrEmpty(title))
                    bi.pszTitle = title;
                bi.ulFlags = 112U;
-               bi.lpfn = new FolderBrowseDialog.BFFCALLBACK(FolderBrowseDialog.Validate);
-               bi.lParam = validate ? FolderBrowseDialog.ValidateWritable : FolderBrowseDialog.NoValidation;
+               bi.lpfn = new BFFCALLBACK(Validate);
+               bi.lParam = validate ? ValidateWritable : NoValidation;
                bi.iImage = 0;
-               IntPtr num = FolderBrowseDialog.SHBrowseForFolder(ref bi);
-               string str = (string)null;
+               IntPtr num = SHBrowseForFolder(ref bi);
+               string str = null;
                if (num != IntPtr.Zero)
                {
                    StringBuilder Path = new StringBuilder(261);
-                   if (FolderBrowseDialog.SHGetPathFromIDList(num, Path) != 0)
+                   if (SHGetPathFromIDList(num, Path) != 0)
                        str = Path.ToString();
                }
                Marshal.FreeCoTaskMem(num);
-               Application.DeferredInvoke(callback, (object)str);
-           }));
+               Application.DeferredInvoke(callback, str);
+           });
             thread.TrySetApartmentState(ApartmentState.STA);
             thread.Start();
         }
@@ -64,13 +64,13 @@ namespace ZuneUI
             switch (uMsg)
             {
                 case 2:
-                    if (lpData == FolderBrowseDialog.ValidateWritable)
+                    if (lpData == ValidateWritable)
                     {
                         bool lParam1 = false;
                         StringBuilder Path = new StringBuilder(260);
-                        if (FolderBrowseDialog.SHGetPathFromIDList(lParam, Path) != 0)
-                            lParam1 = FolderBrowseDialog.CanWriteToFolder(Path.ToString());
-                        FolderBrowseDialog.SendMessage(hwnd, 1125, 0, lParam1);
+                        if (SHGetPathFromIDList(lParam, Path) != 0)
+                            lParam1 = CanWriteToFolder(Path.ToString());
+                        SendMessage(hwnd, 1125, 0, lParam1);
                         break;
                     }
                     break;
@@ -85,17 +85,17 @@ namespace ZuneUI
             try
             {
                 string pathRoot = Path.GetPathRoot(folder);
-                if (pathRoot.Length == 1 || pathRoot.Length >= 2 && (int)pathRoot[1] == (int)Path.VolumeSeparatorChar)
+                if (pathRoot.Length == 1 || pathRoot.Length >= 2 && pathRoot[1] == Path.VolumeSeparatorChar)
                 {
                     DriveInfo driveInfo = new DriveInfo(pathRoot);
                     if (driveInfo.DriveType == DriveType.CDRom || driveInfo.DriveType == DriveType.Removable)
                         return false;
                 }
                 StringBuilder tmpFileName = new StringBuilder(260);
-                if (FolderBrowseDialog.GetTempFileName(folder, "tmp", 0U, tmpFileName) == 0U)
+                if (GetTempFileName(folder, "tmp", 0U, tmpFileName) == 0U)
                     return false;
                 using (FileStream fileStream = File.Create(tmpFileName.ToString(), 2, FileOptions.DeleteOnClose))
-                    fileStream.WriteByte((byte)65);
+                    fileStream.WriteByte(65);
                 return true;
             }
             catch (Exception ex)
@@ -105,7 +105,7 @@ namespace ZuneUI
         }
 
         [DllImport("Shell32.dll", CharSet = CharSet.Auto)]
-        private static extern IntPtr SHBrowseForFolder(ref FolderBrowseDialog.BROWSEINFO bi);
+        private static extern IntPtr SHBrowseForFolder(ref BROWSEINFO bi);
 
         [DllImport("Shell32.dll", CharSet = CharSet.Auto)]
         private static extern int SHGetPathFromIDList(IntPtr pidl, [Out] StringBuilder Path);
@@ -133,7 +133,7 @@ namespace ZuneUI
             public string pszTitle;
             public uint ulFlags;
             [MarshalAs(UnmanagedType.FunctionPtr)]
-            public FolderBrowseDialog.BFFCALLBACK lpfn;
+            public BFFCALLBACK lpfn;
             public IntPtr lParam;
             public int iImage;
         }

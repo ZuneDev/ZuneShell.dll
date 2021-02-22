@@ -44,7 +44,7 @@ namespace ZuneUI
             if (SignIn.Instance.SignedInWithSubscription)
                 ZuneApplication.Service.GetSubscriptionDetails(SignIn.Instance.SubscriptionId, new GetBillingOffersCompleteCallback(this.OnGetCurrentSubscriptionComplete), new GetBillingOffersErrorCallback(this.OnGetCurrentSubscriptionError));
             else
-                this.CurrentSubscription = (BillingOffer)null;
+                this.CurrentSubscription = null;
         }
 
         public void GetRenewalSubscription()
@@ -54,7 +54,7 @@ namespace ZuneUI
             if (SignIn.Instance.SignedInWithSubscription && subscriptionRenewalId != 0UL)
                 ZuneApplication.Service.GetSubscriptionDetails(subscriptionRenewalId, new GetBillingOffersCompleteCallback(this.OnGetRenewalSubscriptionComplete), new GetBillingOffersErrorCallback(this.OnGetRenewalSubscriptionError));
             else
-                this.RenewalSubscription = (BillingOffer)null;
+                this.RenewalSubscription = null;
         }
 
         public void Purchase(BillingOffer billingOffer, PaymentInstrument paymentInstrument)
@@ -86,13 +86,13 @@ namespace ZuneUI
         {
             if (HRESULT._NS_E_BILLING_LIGHTWEIGHT_ACCOUNT == hr)
                 return true;
-            ErrorMapperResult descriptionAndUrl = Microsoft.Zune.ErrorMapperApi.ErrorMapperApi.GetMappedErrorDescriptionAndUrl(hr.Int);
+            ErrorMapperResult descriptionAndUrl = ErrorMapperApi.GetMappedErrorDescriptionAndUrl(hr.Int);
             return HRESULT._NS_E_BILLING_LIGHTWEIGHT_ACCOUNT.Int == descriptionAndUrl.Hr;
         }
 
-        public IList PointsOffers => this.m_pointsOffers == null ? (IList)null : this.m_pointsOffers.Items;
+        public IList PointsOffers => this.m_pointsOffers == null ? null : this.m_pointsOffers.Items;
 
-        public IList Subscriptions => this.m_subscriptionOffers == null ? (IList)null : this.m_subscriptionOffers.Items;
+        public IList Subscriptions => this.m_subscriptionOffers == null ? null : this.m_subscriptionOffers.Items;
 
         public BillingOffer CurrentSubscription
         {
@@ -132,60 +132,60 @@ namespace ZuneUI
 
         private void SetError(HRESULT hrError) => this.ErrorCode = hrError;
 
-        private void OnGetSubscriptionsComplete(BillingOfferCollection subscriptions) => Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredGetSubscriptionsComplete), (object)subscriptions);
+        private void OnGetSubscriptionsComplete(BillingOfferCollection subscriptions) => Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredGetSubscriptionsComplete), subscriptions);
 
-        private void OnGetSubscriptionsError(HRESULT hrError) => Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredSetError), (object)hrError);
+        private void OnGetSubscriptionsError(HRESULT hrError) => Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredSetError), hrError);
 
-        private void OnGetCurrentSubscriptionComplete(BillingOfferCollection subscriptions) => Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredGetSubsciptionComplete), (object)new object[3]
+        private void OnGetCurrentSubscriptionComplete(BillingOfferCollection subscriptions) => Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredGetSubsciptionComplete), new object[3]
         {
-      (object) EBillingOfferType.Subscription,
-      (object) SignIn.Instance.SubscriptionRenewalId,
-      (object) subscriptions
+       EBillingOfferType.Subscription,
+       SignIn.Instance.SubscriptionRenewalId,
+       subscriptions
         });
 
         private void OnGetCurrentSubscriptionError(HRESULT hrError)
         {
-            Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredSetError), (object)hrError);
-            Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredGetSubsciptionComplete), (object)new object[3]
+            Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredSetError), hrError);
+            Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredGetSubsciptionComplete), new object[3]
             {
-        (object) EBillingOfferType.Subscription,
-        (object) SignIn.Instance.SubscriptionRenewalId,
+         EBillingOfferType.Subscription,
+         SignIn.Instance.SubscriptionRenewalId,
         null
             });
         }
 
-        private void OnGetRenewalSubscriptionComplete(BillingOfferCollection subscriptions) => Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredGetSubsciptionComplete), (object)new object[3]
+        private void OnGetRenewalSubscriptionComplete(BillingOfferCollection subscriptions) => Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredGetSubsciptionComplete), new object[3]
         {
-      (object) EBillingOfferType.Renewal,
-      (object) SignIn.Instance.SubscriptionRenewalId,
-      (object) subscriptions
+       EBillingOfferType.Renewal,
+       SignIn.Instance.SubscriptionRenewalId,
+       subscriptions
         });
 
         private void OnGetRenewalSubscriptionError(HRESULT hrError)
         {
-            Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredSetError), (object)hrError);
-            Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredGetSubsciptionComplete), (object)new object[3]
+            Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredSetError), hrError);
+            Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredGetSubsciptionComplete), new object[3]
             {
-        (object) EBillingOfferType.Renewal,
-        (object) SignIn.Instance.SubscriptionRenewalId,
+         EBillingOfferType.Renewal,
+         SignIn.Instance.SubscriptionRenewalId,
         null
             });
         }
 
-        private void OnGetPointsOffersComplete(BillingOfferCollection pointsOffers) => Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredGetPointsOffersComplete), (object)pointsOffers);
+        private void OnGetPointsOffersComplete(BillingOfferCollection pointsOffers) => Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredGetPointsOffersComplete), pointsOffers);
 
-        private void OnGetPointsOffersError(HRESULT hrError) => Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredSetError), (object)hrError);
+        private void OnGetPointsOffersError(HRESULT hrError) => Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredSetError), hrError);
 
-        private void OnPurchaseSubscriptionComplete(HRESULT hrError) => Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredPurchaseComplete), (object)new object[2]
+        private void OnPurchaseSubscriptionComplete(HRESULT hrError) => Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredPurchaseComplete), new object[2]
         {
-      (object) hrError,
-      (object) true
+       hrError,
+       true
         });
 
-        private void OnPurchasePointsComplete(HRESULT hrError) => Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredPurchaseComplete), (object)new object[2]
+        private void OnPurchasePointsComplete(HRESULT hrError) => Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredPurchaseComplete), new object[2]
         {
-      (object) hrError,
-      (object) false
+       hrError,
+       false
         });
 
         private void DeferredGetSubscriptionsComplete(object args)
@@ -210,7 +210,7 @@ namespace ZuneUI
             EBillingOfferType eBillingOfferType = (EBillingOfferType)objArray[0];
             ulong id = (ulong)objArray[1];
             BillingOfferCollection billingOfferCollection = objArray[2] as BillingOfferCollection;
-            BillingOffer billingOffer = (BillingOffer)null;
+            BillingOffer billingOffer = null;
             if (billingOfferCollection != null && billingOfferCollection.Items != null && billingOfferCollection.Items.Count > 0)
                 billingOffer = billingOfferCollection.Items[0] as BillingOffer;
             if (billingOffer == null && SignIn.Instance.SignedInWithSubscription)
@@ -251,7 +251,7 @@ namespace ZuneUI
             {
                 this.SetError(hrError);
                 if (this.PurchaseFailed != null)
-                    this.PurchaseFailed((object)this, (EventArgs)null);
+                    this.PurchaseFailed(this, null);
                 this.FirePropertyChanged("PurchaseFailed");
             }
             else
@@ -259,7 +259,7 @@ namespace ZuneUI
                 if (flag)
                     SignIn.Instance.RefreshAccount();
                 if (this.PurchaseComplete != null)
-                    this.PurchaseComplete((object)this, (EventArgs)null);
+                    this.PurchaseComplete(this, null);
                 this.FirePropertyChanged("PurchaseComplete");
             }
         }
@@ -274,12 +274,12 @@ namespace ZuneUI
             if (this.m_subscriptionOffers != null)
             {
                 this.m_subscriptionOffers.Dispose();
-                this.m_subscriptionOffers = (BillingOfferCollection)null;
+                this.m_subscriptionOffers = null;
             }
             if (this.m_pointsOffers == null)
                 return;
             this.m_pointsOffers.Dispose();
-            this.m_pointsOffers = (BillingOfferCollection)null;
+            this.m_pointsOffers = null;
         }
     }
 }

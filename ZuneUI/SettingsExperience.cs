@@ -53,14 +53,14 @@ namespace ZuneUI
             {
                 if (this._nodes == null)
                 {
-                    this._nodes = new ArrayListDataSet((IModelItemOwner)this);
-                    this._nodes.Add((object)this.Software);
+                    this._nodes = new ArrayListDataSet(this);
+                    this._nodes.Add(Software);
                     if (FeatureEnablement.IsFeatureEnabled(Features.eDevice))
-                        this._nodes.Add((object)this.Device);
+                        this._nodes.Add(Device);
                     if (FeatureEnablement.IsFeatureEnabled(Features.eSignInAvailable))
-                        this._nodes.Add((object)this.Account);
+                        this._nodes.Add(Account);
                 }
-                return (IList)this._nodes;
+                return _nodes;
             }
         }
 
@@ -69,7 +69,7 @@ namespace ZuneUI
             get
             {
                 if (this._software == null)
-                    this._software = new CategoryPageNode((Experience)this, StringId.IDS_SOFTWARE_PIVOT, (IList)new Category[11]
+                    this._software = new CategoryPageNode(this, StringId.IDS_SOFTWARE_PIVOT, new Category[11]
                     {
             SettingCategories.Collection,
             SettingCategories.Filetype,
@@ -99,7 +99,7 @@ namespace ZuneUI
                     this._nameYourDevice = SettingCategories.NameDevice;
                     categoryList.Add(this._nameYourDevice);
                     categoryList.Add(SettingCategories.MoreOnWeb);
-                    if (SettingsExperience.ShouldShowDeviceMarketplaceCategory)
+                    if (ShouldShowDeviceMarketplaceCategory)
                         categoryList.Add(SettingCategories.DeviceMarketplace);
                     categoryList.Add(SettingCategories.FirmwareUpdate);
                     categoryList.Add(SettingCategories.WirelessSetup);
@@ -107,7 +107,7 @@ namespace ZuneUI
                     categoryList.Add(SettingCategories.Transcoding);
                     categoryList.Add(SettingCategories.SpaceReservation);
                     categoryList.Add(SettingCategories.DevicePrivacy);
-                    this._device = new CategoryPageNode((Experience)this, StringId.IDS_DEVICE_PIVOT, (IList)categoryList, SQMDataId.Invalid, true, false);
+                    this._device = new CategoryPageNode(this, StringId.IDS_DEVICE_PIVOT, categoryList, SQMDataId.Invalid, true, false);
                 }
                 return this._device;
             }
@@ -130,7 +130,7 @@ namespace ZuneUI
                         if (FeatureEnablement.IsFeatureEnabled(Features.eSubscription))
                             categoryList.Add(SettingCategories.SubscriptionHistory);
                     }
-                    this._account = new CategoryPageNode((Experience)this, StringId.IDS_ACCOUNT_PIVOT, (IList)categoryList, SQMDataId.Invalid, true, false);
+                    this._account = new CategoryPageNode(this, StringId.IDS_ACCOUNT_PIVOT, categoryList, SQMDataId.Invalid, true, false);
                 }
                 return this._account;
             }
@@ -140,7 +140,7 @@ namespace ZuneUI
         {
             IList nodesList = this.NodesList;
             bool flag = false;
-            foreach (object obj in (IEnumerable)nodesList)
+            foreach (object obj in nodesList)
             {
                 if (obj == this.Device)
                 {
@@ -154,12 +154,12 @@ namespace ZuneUI
             if (show)
             {
                 if (nodesList.Count > 1 && nodesList[0] == this.Software)
-                    nodesList.Insert(1, (object)this.Device);
+                    nodesList.Insert(1, Device);
                 else
-                    nodesList.Add((object)this.Device);
+                    nodesList.Add(Device);
             }
             else
-                nodesList.Remove((object)this.Device);
+                nodesList.Remove(Device);
         }
 
         public static bool ShouldShowDeviceMarketplaceCategory => FeatureEnablement.IsFeatureEnabled(Features.eMarketplace) || FeatureEnablement.IsFeatureEnabled(Features.eSocial);

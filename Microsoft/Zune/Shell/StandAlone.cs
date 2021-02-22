@@ -18,7 +18,7 @@ namespace Microsoft.Zune.Shell
         public static Hashtable Startup(string[] args, string defaultCommandLineSwitch)
         {
             WindowSize windowSize = new WindowSize(1012, 693);
-            string str = (string)null;
+            string str = null;
             bool flag1 = false;
             bool flag2 = false;
             Hashtable hashtable = new Hashtable();
@@ -43,7 +43,7 @@ namespace Microsoft.Zune.Shell
                         case "size":
                             try
                             {
-                                windowSize = StandAlone.ParseSize(commandLineArgument.Value);
+                                windowSize = ParseSize(commandLineArgument.Value);
                                 break;
                             }
                             catch (FormatException ex)
@@ -71,7 +71,7 @@ namespace Microsoft.Zune.Shell
                                 break;
                             }
                         default:
-                            hashtable[(object)commandLineArgument.Name] = (object)commandLineArgument.Value;
+                            hashtable[commandLineArgument.Name] = commandLineArgument.Value;
                             break;
                     }
                 }
@@ -96,7 +96,7 @@ namespace Microsoft.Zune.Shell
             Application.AnimationsEnabled = ClientConfiguration.GeneralSettings.AnimationsEnabled;
             Application.Initialize();
             Application.Window.InitialClientSize = windowSize;
-            object obj = Registry.GetValue(ZuneUI.Shell.SettingsRegistryPath, "WindowPosition", (object)null);
+            object obj = Registry.GetValue(ZuneUI.Shell.SettingsRegistryPath, "WindowPosition", null);
             if (obj != null)
             {
                 if (obj is string)
@@ -118,7 +118,7 @@ namespace Microsoft.Zune.Shell
             Application.Window.ShowWindowFrame = flag1;
             Application.Window.SetBackgroundColor(ZuneUI.Shell.WindowColorFromRGB(ClientConfiguration.Shell.BackgroundColor));
             if (!flag2)
-                Application.DeferredInvoke((DeferredInvokeHandler)delegate
+                Application.DeferredInvoke(delegate
                {
                    Windowing.ForceSetForegroundWindow(Application.Window.Handle);
                }, DeferredInvokePriority.Low);
@@ -143,7 +143,7 @@ namespace Microsoft.Zune.Shell
             Application.Run(initialLoadComplete);
             if (TaskbarPlayer.Instance.ToolbarVisible)
                 return;
-            Registry.SetValue(ZuneUI.Shell.SettingsRegistryPath, "WindowPosition", (object)Application.Window.GetSavedPosition(true));
+            Registry.SetValue(ZuneUI.Shell.SettingsRegistryPath, "WindowPosition", Application.Window.GetSavedPosition(true));
         }
 
         public static void Shutdown() => Application.Shutdown();

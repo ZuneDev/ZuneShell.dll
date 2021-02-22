@@ -34,25 +34,25 @@ namespace ZuneUI
             byte[] bytes = Encoding.Unicode.GetBytes(key);
             try
             {
-                if (!CryptoHelper.CryptAcquireContext(out this.m_hCryptoProvider, (string)null, (string)null, 1U, 4026531840U))
+                if (!CryptAcquireContext(out this.m_hCryptoProvider, null, null, 1U, 4026531840U))
                 {
                     int lastWin32Error = Marshal.GetLastWin32Error();
                     if (-2146893802 != lastWin32Error)
                         throw new Win32Exception(lastWin32Error);
-                    if (!CryptoHelper.CryptAcquireContext(out this.m_hCryptoProvider, (string)null, (string)null, 1U, 4026531848U))
+                    if (!CryptAcquireContext(out this.m_hCryptoProvider, null, null, 1U, 4026531848U))
                         throw new Win32Exception(Marshal.GetLastWin32Error());
                 }
-                if (!CryptoHelper.CryptCreateHash(this.m_hCryptoProvider, 32771U, IntPtr.Zero, 0U, out phHash))
+                if (!CryptCreateHash(this.m_hCryptoProvider, 32771U, IntPtr.Zero, 0U, out phHash))
                     throw new Win32Exception(Marshal.GetLastWin32Error());
-                if (!CryptoHelper.CryptHashData(phHash, bytes, (uint)bytes.Length, 0U))
+                if (!CryptHashData(phHash, bytes, (uint)bytes.Length, 0U))
                     throw new Win32Exception(Marshal.GetLastWin32Error());
-                if (!CryptoHelper.CryptDeriveKey(this.m_hCryptoProvider, 26625U, phHash, 8388608U, out this.m_hKey))
+                if (!CryptDeriveKey(this.m_hCryptoProvider, 26625U, phHash, 8388608U, out this.m_hKey))
                     throw new Win32Exception(Marshal.GetLastWin32Error());
             }
             finally
             {
                 if (phHash != IntPtr.Zero)
-                    CryptoHelper.CryptDestroyHash(phHash);
+                    CryptDestroyHash(phHash);
             }
         }
 
@@ -60,7 +60,7 @@ namespace ZuneUI
         {
             byte[] bytes = Encoding.Unicode.GetBytes(data);
             uint length = (uint)bytes.Length;
-            if (!CryptoHelper.CryptEncrypt(this.m_hKey, IntPtr.Zero, true, 0U, bytes, ref length, length))
+            if (!CryptEncrypt(this.m_hKey, IntPtr.Zero, true, 0U, bytes, ref length, length))
                 throw new Win32Exception(Marshal.GetLastWin32Error());
             return Convert.ToBase64String(bytes);
         }
@@ -69,7 +69,7 @@ namespace ZuneUI
         {
             byte[] numArray = Convert.FromBase64String(data);
             uint length = (uint)numArray.Length;
-            if (!CryptoHelper.CryptDecrypt(this.m_hKey, IntPtr.Zero, true, 0U, numArray, ref length))
+            if (!CryptDecrypt(this.m_hKey, IntPtr.Zero, true, 0U, numArray, ref length))
                 throw new Win32Exception(Marshal.GetLastWin32Error());
             return Encoding.Unicode.GetString(numArray);
         }
@@ -77,16 +77,16 @@ namespace ZuneUI
         public void Dispose()
         {
             this.Dispose(true);
-            GC.SuppressFinalize((object)this);
+            GC.SuppressFinalize(this);
         }
 
         public void Dispose(bool disposing)
         {
             if (IntPtr.Zero != this.m_hKey)
-                CryptoHelper.CryptDestroyKey(this.m_hKey);
+                CryptDestroyKey(this.m_hKey);
             if (!(IntPtr.Zero != this.m_hCryptoProvider))
                 return;
-            CryptoHelper.CryptReleaseContext(this.m_hCryptoProvider, 0U);
+            CryptReleaseContext(this.m_hCryptoProvider, 0U);
         }
 
         ~CryptoHelper() => this.Dispose(false);

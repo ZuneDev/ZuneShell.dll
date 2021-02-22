@@ -30,7 +30,7 @@ namespace ZuneUI
             get
             {
                 if (this._commandArguments == null)
-                    this.CommandArguments = (IDictionary)new Hashtable();
+                    this.CommandArguments = new Hashtable();
                 return this._commandArguments;
             }
             set

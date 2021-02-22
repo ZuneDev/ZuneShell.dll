@@ -18,19 +18,19 @@ namespace ZuneUI
         private WlanProfileList _computerProfiles;
         private WlanProfile _connectedNetwork;
 
-        public WlanProfile ConnectedNetwork => this.Finished ? this._connectedNetwork : (WlanProfile)null;
+        public WlanProfile ConnectedNetwork => this.Finished ? this._connectedNetwork : null;
 
         private void ResetState()
         {
             if (!this.Idle && !this.Finished)
                 return;
             this._computerProfiles = new WlanProfileList();
-            this._connectedNetwork = (WlanProfile)null;
+            this._connectedNetwork = null;
         }
 
         public WirelessStateResults StartOperation(
           UIDevice device,
-          AsyncOperation.AOComplete completeFunc)
+          AOComplete completeFunc)
         {
             this.ResetState();
             return this.StartOperation(device, completeFunc, this._getConnectedNetworkStates);
@@ -47,10 +47,10 @@ namespace ZuneUI
 
         protected override void EndOperation(WirelessStateResults result)
         {
-            this._connectedNetwork = (WlanProfile)null;
+            this._connectedNetwork = null;
             if (this._computerProfiles == null)
                 return;
-            foreach (WlanProfile computerProfile in (List<WlanProfile>)this._computerProfiles)
+            foreach (WlanProfile computerProfile in _computerProfiles)
             {
                 if (computerProfile.Connected)
                 {

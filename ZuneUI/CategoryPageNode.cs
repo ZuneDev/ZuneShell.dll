@@ -24,12 +24,12 @@ namespace ZuneUI
           SQMDataId sqmDataID,
           bool allowBackNavigation,
           bool hideDeviceOnCancel)
-          : base(owner, id, (string)null, sqmDataID)
+          : base(owner, id, null, sqmDataID)
         {
             this._allowBackNavigation = allowBackNavigation;
             this._hideDeviceOnCancel = hideDeviceOnCancel;
             bool flag = false;
-            foreach (Category category in (IEnumerable)categories)
+            foreach (Category category in categories)
             {
                 if (category == null)
                     flag = true;
@@ -37,19 +37,19 @@ namespace ZuneUI
             if (flag)
             {
                 List<Category> categoryList = new List<Category>(categories.Count);
-                foreach (Category category in (IEnumerable)categories)
+                foreach (Category category in categories)
                 {
                     if (category != null)
                         categoryList.Add(category);
                 }
-                categories = (IList)categoryList.ToArray();
+                categories = categoryList.ToArray();
             }
             this._categories = categories;
         }
 
-        protected override void Execute(Shell shell) => this.Invoke((Category)this._categories[0], (IDictionary)null);
+        protected override void Execute(Shell shell) => this.Invoke((Category)this._categories[0], null);
 
-        public void Invoke(Category category) => this.Invoke(category, (IDictionary)null);
+        public void Invoke(Category category) => this.Invoke(category, null);
 
         public void Invoke(Category category, IDictionary commandArgs)
         {
@@ -60,7 +60,7 @@ namespace ZuneUI
             categoryPage.CurrentCategory = category;
             if (commandArgs != null)
                 categoryPage.NavigationArguments = commandArgs;
-            defaultInstance.NavigateToPage((ZunePage)categoryPage);
+            defaultInstance.NavigateToPage(categoryPage);
         }
 
         public IList Categories => this._categories;

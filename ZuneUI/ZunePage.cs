@@ -35,21 +35,21 @@ namespace ZuneUI
 
         public ZunePage()
         {
-            this.SetBit(ZunePage.Bits.ShowDeviceIcon, true);
-            this.SetBit(ZunePage.Bits.ShowPlaylistIcon, true);
-            this.SetBit(ZunePage.Bits.ShowCDIcon, true);
-            this.SetBit(ZunePage.Bits.ShowBackArrow, true);
-            this.SetBit(ZunePage.Bits.NotificationAreaVisible, true);
-            this.SetBit(ZunePage.Bits.TransportControlsVisible, true);
-            this.SetBit(ZunePage.Bits.ShowLogo, true);
-            this.SetBit(ZunePage.Bits.ShowPivots, true);
-            this.SetBit(ZunePage.Bits.ShowSearch, true);
-            this.SetBit(ZunePage.Bits.ShowSettings, true);
-            this.SetBit(ZunePage.Bits.ShowAppBackground, true);
-            this.SetBit(ZunePage.Bits.TakeFocusOnNavigate, true);
-            this.SetBit(ZunePage.Bits.ShowNowPlayingBackgroundOnIdle, true);
-            this.SetBit(ZunePage.Bits.CanEnterCompactMode, true);
-            this.SetBit(ZunePage.Bits.NoStackPage, false);
+            this.SetBit(Bits.ShowDeviceIcon, true);
+            this.SetBit(Bits.ShowPlaylistIcon, true);
+            this.SetBit(Bits.ShowCDIcon, true);
+            this.SetBit(Bits.ShowBackArrow, true);
+            this.SetBit(Bits.NotificationAreaVisible, true);
+            this.SetBit(Bits.TransportControlsVisible, true);
+            this.SetBit(Bits.ShowLogo, true);
+            this.SetBit(Bits.ShowPivots, true);
+            this.SetBit(Bits.ShowSearch, true);
+            this.SetBit(Bits.ShowSettings, true);
+            this.SetBit(Bits.ShowAppBackground, true);
+            this.SetBit(Bits.TakeFocusOnNavigate, true);
+            this.SetBit(Bits.ShowNowPlayingBackgroundOnIdle, true);
+            this.SetBit(Bits.CanEnterCompactMode, true);
+            this.SetBit(Bits.NoStackPage, false);
             this._showComputerIcon = ComputerIconState.Hide;
             this._transportStyle = TransportControlStyle.Music;
             this._playbackContext = PlaybackContext.None;
@@ -119,10 +119,10 @@ namespace ZuneUI
         {
             if (disposing)
             {
-                this.UI = (string)null;
-                this.BackgroundUI = (string)null;
-                this.BottomBarUI = (string)null;
-                this.OverlayUI = (string)null;
+                this.UI = null;
+                this.BackgroundUI = null;
+                this.BottomBarUI = null;
+                this.OverlayUI = null;
             }
             base.OnDispose(disposing);
         }
@@ -131,10 +131,10 @@ namespace ZuneUI
         {
             if (this._overlayState == null)
                 this._overlayState = new Hashtable(1);
-            this._overlayState[(object)overlayKey] = state;
+            this._overlayState[overlayKey] = state;
         }
 
-        public object GetOverlayState(string overlayKey) => this._overlayState != null ? this._overlayState[(object)overlayKey] : (object)null;
+        public object GetOverlayState(string overlayKey) => this._overlayState != null ? this._overlayState[overlayKey] : null;
 
         public IDictionary NavigationArguments
         {
@@ -156,10 +156,10 @@ namespace ZuneUI
 
         public bool ShowBackArrow
         {
-            get => this.GetBit(ZunePage.Bits.ShowBackArrow);
+            get => this.GetBit(Bits.ShowBackArrow);
             set
             {
-                if (!this.ChangeBit(ZunePage.Bits.ShowBackArrow, value))
+                if (!this.ChangeBit(Bits.ShowBackArrow, value))
                     return;
                 this.FirePropertyChanged(nameof(ShowBackArrow));
             }
@@ -167,10 +167,10 @@ namespace ZuneUI
 
         public bool ShowDeviceIcon
         {
-            get => this.GetBit(ZunePage.Bits.ShowDeviceIcon);
+            get => this.GetBit(Bits.ShowDeviceIcon);
             set
             {
-                if (!this.ChangeBit(ZunePage.Bits.ShowDeviceIcon, value))
+                if (!this.ChangeBit(Bits.ShowDeviceIcon, value))
                     return;
                 this.FirePropertyChanged(nameof(ShowDeviceIcon));
             }
@@ -178,10 +178,10 @@ namespace ZuneUI
 
         public bool ShowPlaylistIcon
         {
-            get => this.GetBit(ZunePage.Bits.ShowPlaylistIcon);
+            get => this.GetBit(Bits.ShowPlaylistIcon);
             set
             {
-                if (!this.ChangeBit(ZunePage.Bits.ShowPlaylistIcon, value))
+                if (!this.ChangeBit(Bits.ShowPlaylistIcon, value))
                     return;
                 this.FirePropertyChanged(nameof(ShowPlaylistIcon));
             }
@@ -189,10 +189,10 @@ namespace ZuneUI
 
         public bool ShowCDIcon
         {
-            get => this.GetBit(ZunePage.Bits.ShowCDIcon);
+            get => this.GetBit(Bits.ShowCDIcon);
             set
             {
-                if (!this.ChangeBit(ZunePage.Bits.ShowCDIcon, value))
+                if (!this.ChangeBit(Bits.ShowCDIcon, value))
                     return;
                 this.FirePropertyChanged(nameof(ShowCDIcon));
             }
@@ -200,10 +200,10 @@ namespace ZuneUI
 
         public bool ShowNowPlayingX
         {
-            get => this.GetBit(ZunePage.Bits.ShowNowPlayingX);
+            get => this.GetBit(Bits.ShowNowPlayingX);
             set
             {
-                if (!this.ChangeBit(ZunePage.Bits.ShowNowPlayingX, value))
+                if (!this.ChangeBit(Bits.ShowNowPlayingX, value))
                     return;
                 this.FirePropertyChanged(nameof(ShowNowPlayingX));
             }
@@ -211,10 +211,10 @@ namespace ZuneUI
 
         public bool ShowNowPlayingBackgroundOnIdle
         {
-            get => this.GetBit(ZunePage.Bits.ShowNowPlayingBackgroundOnIdle);
+            get => this.GetBit(Bits.ShowNowPlayingBackgroundOnIdle);
             set
             {
-                if (!this.ChangeBit(ZunePage.Bits.ShowNowPlayingBackgroundOnIdle, value))
+                if (!this.ChangeBit(Bits.ShowNowPlayingBackgroundOnIdle, value))
                     return;
                 this.FirePropertyChanged(nameof(ShowNowPlayingBackgroundOnIdle));
             }
@@ -222,10 +222,10 @@ namespace ZuneUI
 
         public bool CanEnterCompactMode
         {
-            get => this.GetBit(ZunePage.Bits.CanEnterCompactMode);
+            get => this.GetBit(Bits.CanEnterCompactMode);
             set
             {
-                if (!this.ChangeBit(ZunePage.Bits.CanEnterCompactMode, value))
+                if (!this.ChangeBit(Bits.CanEnterCompactMode, value))
                     return;
                 this.FirePropertyChanged(nameof(CanEnterCompactMode));
             }
@@ -233,10 +233,10 @@ namespace ZuneUI
 
         public bool NoStackPage
         {
-            get => this.GetBit(ZunePage.Bits.NoStackPage);
+            get => this.GetBit(Bits.NoStackPage);
             set
             {
-                if (!this.ChangeBit(ZunePage.Bits.NoStackPage, value))
+                if (!this.ChangeBit(Bits.NoStackPage, value))
                     return;
                 this.FirePropertyChanged(nameof(NoStackPage));
             }
@@ -244,10 +244,10 @@ namespace ZuneUI
 
         public bool NotificationAreaVisible
         {
-            get => this.GetBit(ZunePage.Bits.NotificationAreaVisible);
+            get => this.GetBit(Bits.NotificationAreaVisible);
             set
             {
-                if (!this.ChangeBit(ZunePage.Bits.NotificationAreaVisible, value))
+                if (!this.ChangeBit(Bits.NotificationAreaVisible, value))
                     return;
                 this.FirePropertyChanged(nameof(NotificationAreaVisible));
             }
@@ -255,10 +255,10 @@ namespace ZuneUI
 
         public bool TransportControlsVisible
         {
-            get => this.GetBit(ZunePage.Bits.TransportControlsVisible);
+            get => this.GetBit(Bits.TransportControlsVisible);
             set
             {
-                if (!this.ChangeBit(ZunePage.Bits.TransportControlsVisible, value))
+                if (!this.ChangeBit(Bits.TransportControlsVisible, value))
                     return;
                 this.FirePropertyChanged(nameof(TransportControlsVisible));
             }
@@ -266,10 +266,10 @@ namespace ZuneUI
 
         public bool AutoHideToolbars
         {
-            get => this.GetBit(ZunePage.Bits.AutoHideToolbars);
+            get => this.GetBit(Bits.AutoHideToolbars);
             set
             {
-                if (!this.ChangeBit(ZunePage.Bits.AutoHideToolbars, value))
+                if (!this.ChangeBit(Bits.AutoHideToolbars, value))
                     return;
                 this.FirePropertyChanged(nameof(AutoHideToolbars));
             }
@@ -277,10 +277,10 @@ namespace ZuneUI
 
         public bool ShowAppBackground
         {
-            get => this.GetBit(ZunePage.Bits.ShowAppBackground);
+            get => this.GetBit(Bits.ShowAppBackground);
             set
             {
-                if (!this.ChangeBit(ZunePage.Bits.ShowAppBackground, value))
+                if (!this.ChangeBit(Bits.ShowAppBackground, value))
                     return;
                 this.FirePropertyChanged(nameof(ShowAppBackground));
             }
@@ -300,10 +300,10 @@ namespace ZuneUI
 
         public bool ShowingVideoPreview
         {
-            get => this.GetBit(ZunePage.Bits.ShowingVideoPreview);
+            get => this.GetBit(Bits.ShowingVideoPreview);
             set
             {
-                if (!this.ChangeBit(ZunePage.Bits.ShowingVideoPreview, value))
+                if (!this.ChangeBit(Bits.ShowingVideoPreview, value))
                     return;
                 this.FirePropertyChanged(nameof(ShowingVideoPreview));
             }
@@ -311,32 +311,32 @@ namespace ZuneUI
 
         public bool ShowLogo
         {
-            get => this.GetBit(ZunePage.Bits.ShowLogo);
-            set => this.SetBit(ZunePage.Bits.ShowLogo, value);
+            get => this.GetBit(Bits.ShowLogo);
+            set => this.SetBit(Bits.ShowLogo, value);
         }
 
         public bool ShowPivots
         {
-            get => this.GetBit(ZunePage.Bits.ShowPivots);
-            set => this.ChangeBit(ZunePage.Bits.ShowPivots, value);
+            get => this.GetBit(Bits.ShowPivots);
+            set => this.ChangeBit(Bits.ShowPivots, value);
         }
 
         public bool ShowSearch
         {
-            get => this.GetBit(ZunePage.Bits.ShowSearch);
-            set => this.SetBit(ZunePage.Bits.ShowSearch, value);
+            get => this.GetBit(Bits.ShowSearch);
+            set => this.SetBit(Bits.ShowSearch, value);
         }
 
         public bool ShowSettings
         {
-            get => this.GetBit(ZunePage.Bits.ShowSettings);
-            set => this.SetBit(ZunePage.Bits.ShowSettings, value);
+            get => this.GetBit(Bits.ShowSettings);
+            set => this.SetBit(Bits.ShowSettings, value);
         }
 
         public bool TakeFocusOnNavigate
         {
-            get => this.GetBit(ZunePage.Bits.TakeFocusOnNavigate);
-            set => this.SetBit(ZunePage.Bits.TakeFocusOnNavigate, value);
+            get => this.GetBit(Bits.TakeFocusOnNavigate);
+            set => this.SetBit(Bits.TakeFocusOnNavigate, value);
         }
 
         public TransportControlStyle TransportControlStyle
@@ -371,8 +371,8 @@ namespace ZuneUI
 
         public bool IsRootPage
         {
-            get => this.GetBit(ZunePage.Bits.IsRootPage);
-            set => this.SetBit(ZunePage.Bits.IsRootPage, value);
+            get => this.GetBit(Bits.IsRootPage);
+            set => this.SetBit(Bits.IsRootPage, value);
         }
 
         public object TemporaryPageState
@@ -391,10 +391,10 @@ namespace ZuneUI
 
         public bool ShouldHandleBack
         {
-            get => this.GetBit(ZunePage.Bits.ShouldHandleBack);
+            get => this.GetBit(Bits.ShouldHandleBack);
             set
             {
-                if (!this.ChangeBit(ZunePage.Bits.ShouldHandleBack, value))
+                if (!this.ChangeBit(Bits.ShouldHandleBack, value))
                     return;
                 this.FirePropertyChanged(nameof(ShouldHandleBack));
             }
@@ -402,10 +402,10 @@ namespace ZuneUI
 
         public bool ShouldHandleEscape
         {
-            get => this.GetBit(ZunePage.Bits.ShouldHandleEscape);
+            get => this.GetBit(Bits.ShouldHandleEscape);
             set
             {
-                if (!this.ChangeBit(ZunePage.Bits.ShouldHandleEscape, value))
+                if (!this.ChangeBit(Bits.ShouldHandleEscape, value))
                     return;
                 this.FirePropertyChanged(nameof(ShouldHandleEscape));
             }
@@ -420,7 +420,7 @@ namespace ZuneUI
             if (!this.ShouldHandleBack)
                 return false;
             if (this.BackHandled != null)
-                this.BackHandled((object)this, EventArgs.Empty);
+                this.BackHandled(this, EventArgs.Empty);
             this.FirePropertyChanged("BackHandled");
             return true;
         }
@@ -430,7 +430,7 @@ namespace ZuneUI
             if (!this.ShouldHandleEscape)
                 return false;
             if (this.EscapeHandled != null)
-                this.EscapeHandled((object)this, EventArgs.Empty);
+                this.EscapeHandled(this, EventArgs.Empty);
             this.FirePropertyChanged("EscapeHandled");
             return true;
         }
@@ -442,7 +442,7 @@ namespace ZuneUI
         public void RefreshPage()
         {
             if (this.Refresh != null)
-                this.Refresh((object)this, EventArgs.Empty);
+                this.Refresh(this, EventArgs.Empty);
             this.FirePropertyChanged("Refresh");
         }
 
@@ -465,7 +465,7 @@ namespace ZuneUI
         {
             if (this._navigateAwayCommand != null)
                 this._navigateAwayCommand.Invoke();
-            this.TemporaryPageState = (object)null;
+            this.TemporaryPageState = null;
             base.OnNavigatedAwayWorker(destination);
         }
 
@@ -474,7 +474,7 @@ namespace ZuneUI
             if (!this.NoStackPage)
                 return base.SaveAndRelease();
             this.Release();
-            return (IPageState)null;
+            return null;
         }
 
         public Command ReleaseCommand
@@ -513,11 +513,11 @@ namespace ZuneUI
             }
         }
 
-        private bool GetBit(ZunePage.Bits lookupBit) => this._bits[(int)lookupBit];
+        private bool GetBit(Bits lookupBit) => this._bits[(int)lookupBit];
 
-        private void SetBit(ZunePage.Bits changeBit, bool value) => this._bits[(int)changeBit] = value;
+        private void SetBit(Bits changeBit, bool value) => this._bits[(int)changeBit] = value;
 
-        private bool ChangeBit(ZunePage.Bits bit, bool value)
+        private bool ChangeBit(Bits bit, bool value)
         {
             if (this._bits[(int)bit] == value)
                 return false;

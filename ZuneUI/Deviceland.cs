@@ -14,7 +14,7 @@ namespace ZuneUI
             this.UI = "res://ZuneShellResources!DeviceSummary.uix#DeviceSummary";
             this.UIPath = "Device\\Summary";
             this.IsRootPage = true;
-            Deviceland.InitDevicePage((ZunePage)this);
+            InitDevicePage(this);
             this.ShowComputerIcon = ComputerIconState.Show;
         }
 
@@ -41,11 +41,11 @@ namespace ZuneUI
             Management management = ZuneShell.DefaultInstance.Management;
             if (management.AlertedDeviceCategory == null)
                 return;
-            management.AlertedDeviceCategory = (Category)null;
-            ZuneShell.DefaultInstance.NavigateToPage((ZunePage)new FirstConnectLandPage());
+            management.AlertedDeviceCategory = null;
+            ZuneShell.DefaultInstance.NavigateToPage(new FirstConnectLandPage());
         }
 
-        public override IPageState SaveAndRelease() => (IPageState)new DevicePivotManagingPageState((IDeviceContentsPage)this);
+        public override IPageState SaveAndRelease() => new DevicePivotManagingPageState(this);
 
         bool IDeviceContentsPage.ShowDeviceContents => true;
     }

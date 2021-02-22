@@ -40,7 +40,7 @@ namespace ZuneXml
           DataProviderQuery owner,
           object objectTypeCookie)
         {
-            return (XmlDataProviderObject)new App(owner, objectTypeCookie);
+            return new App(owner, objectTypeCookie);
         }
 
         internal App(DataProviderQuery owner, object resultTypeCookie)
@@ -77,21 +77,21 @@ namespace ZuneXml
             switch (propertyName)
             {
                 case "Price":
-                    return (object)this.Price;
+                    return Price;
                 case "DisplayPrice":
-                    return (object)this.DisplayPrice;
+                    return DisplayPrice;
                 case "DisplayPriceFull":
-                    return (object)this.DisplayPriceFull;
+                    return DisplayPriceFull;
                 case "DisplayPriceTrial":
-                    return (object)this.DisplayPriceTrial;
+                    return DisplayPriceTrial;
                 case "CanPurchase":
-                    return (object)this.CanPurchase;
+                    return CanPurchase;
                 case "CanPurchaseFull":
-                    return (object)this.CanPurchaseFull;
+                    return CanPurchaseFull;
                 case "CanPurchaseTrial":
-                    return (object)this.CanPurchaseTrial;
+                    return CanPurchaseTrial;
                 case "CanDownload":
-                    return (object)this.CanDownload;
+                    return CanDownload;
                 default:
                     return base.GetProperty(propertyName);
             }

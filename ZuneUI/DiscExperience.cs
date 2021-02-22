@@ -21,14 +21,14 @@ namespace ZuneUI
         {
         }
 
-        public override IList NodesList => (IList)this._nodes;
+        public override IList NodesList => _nodes;
 
         public CDAlbumCommand BurnList
         {
             get
             {
                 if (this._burnList == null)
-                    this._burnList = new CDAlbumCommand((Experience)this, StringId.IDS_PLAYLIST_BURN_LIST);
+                    this._burnList = new CDAlbumCommand(this, StringId.IDS_PLAYLIST_BURN_LIST);
                 return this._burnList;
             }
         }
@@ -38,7 +38,7 @@ namespace ZuneUI
             get
             {
                 if (this._noCD == null)
-                    this._noCD = new CDAlbumCommand((Experience)this, StringId.IDS_NO_CD);
+                    this._noCD = new CDAlbumCommand(this, StringId.IDS_NO_CD);
                 return this._noCD;
             }
         }
@@ -52,15 +52,15 @@ namespace ZuneUI
         public void RecalculateAvailableNodes()
         {
             this._nodes.Clear();
-            foreach (CDAlbumCommand cd in (ListDataSet)CDAccess.Instance.CDs)
+            foreach (CDAlbumCommand cd in CDAccess.Instance.CDs)
             {
                 if (cd != null && cd.TOC != null)
-                    this._nodes.Add((object)cd);
+                    this._nodes.Add(cd);
             }
             if (CDAccess.Instance.BurnListId >= 0)
-                this._nodes.Add((object)this.BurnList);
+                this._nodes.Add(BurnList);
             if (this._nodes.Count == 0)
-                this._nodes.Add((object)this.NoCD);
+                this._nodes.Add(NoCD);
             this.UpdateShowDisc();
         }
 
@@ -73,7 +73,7 @@ namespace ZuneUI
                 if (!(ZuneShell.DefaultInstance.CurrentPage is CDLand currentPage))
                     return;
                 bool flag = false;
-                if (currentPage.Album.CDDevice != null && (int)currentPage.Album.CDDevice.DrivePath == (int)changedLetter)
+                if (currentPage.Album.CDDevice != null && currentPage.Album.CDDevice.DrivePath == changedLetter)
                     flag = true;
                 if (!flag && (!mediaArrived || !this.NoCD.IsCurrent))
                     return;
@@ -83,11 +83,11 @@ namespace ZuneUI
             {
                 if (!mediaArrived)
                     return;
-                foreach (CDAlbumCommand nodes2 in (IEnumerable)this.NodesList)
+                foreach (CDAlbumCommand nodes2 in NodesList)
                 {
-                    if (nodes2.CDDevice != null && (int)nodes2.CDDevice.DrivePath == (int)changedLetter)
+                    if (nodes2.CDDevice != null && nodes2.CDDevice.DrivePath == changedLetter)
                     {
-                        this.Nodes.ChosenValue = (object)nodes2;
+                        this.Nodes.ChosenValue = nodes2;
                         break;
                     }
                 }

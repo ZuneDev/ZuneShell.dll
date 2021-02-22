@@ -27,9 +27,9 @@ namespace ZuneUI
                 if (this._experiences == null)
                     this._experiences = new Experience[1]
                     {
-            (Experience) this.Settings
+             Settings
                     };
-                return (IList)this._experiences;
+                return _experiences;
             }
         }
 
@@ -38,7 +38,7 @@ namespace ZuneUI
             get
             {
                 if (this._settings == null)
-                    this._settings = new SettingsExperience((Frame)this);
+                    this._settings = new SettingsExperience(this);
                 return this._settings;
             }
         }
@@ -48,7 +48,7 @@ namespace ZuneUI
             get
             {
                 if (this._wizard == null)
-                    this._wizard = new WizardExperience((Frame)this);
+                    this._wizard = new WizardExperience(this);
                 return this._wizard;
             }
         }

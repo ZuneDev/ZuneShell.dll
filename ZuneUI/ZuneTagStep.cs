@@ -19,7 +19,7 @@ namespace ZuneUI
           : base(owner, state, parentAccount)
         {
             this.Description = Shell.LoadString(StringId.IDS_ACCOUNT_CREATION_ZUNE_TAG_HEADER);
-            this.Initialize((WizardPropertyEditor)new ZuneTagPropertyEditor());
+            this.Initialize(new ZuneTagPropertyEditor());
         }
 
         public override string UI => "res://ZuneShellResources!AccountInfo.uix#ZuneTagStep";
@@ -56,9 +56,9 @@ namespace ZuneUI
                 if (this._errorMappings == null)
                 {
                     this._errorMappings = new Dictionary<int, PropertyDescriptor>(3);
-                    this._errorMappings.Add(HRESULT._ZEST_E_ACCOUNT_ZUNETAG_OCCUPIED.Int, (PropertyDescriptor)null);
-                    this._errorMappings.Add(HRESULT._ZEST_E_INVALID_ARG_ZUNETAG.Int, (PropertyDescriptor)null);
-                    this._errorMappings.Add(HRESULT._ZEST_E_ZUNETAG_OFFENSIVE.Int, (PropertyDescriptor)null);
+                    this._errorMappings.Add(HRESULT._ZEST_E_ACCOUNT_ZUNETAG_OCCUPIED.Int, null);
+                    this._errorMappings.Add(HRESULT._ZEST_E_INVALID_ARG_ZUNETAG.Int, null);
+                    this._errorMappings.Add(HRESULT._ZEST_E_ZUNETAG_OFFENSIVE.Int, null);
                 }
                 return this._errorMappings;
             }
@@ -74,9 +74,9 @@ namespace ZuneUI
         {
             string uncommittedValue = this.GetUncommittedValue(ZuneTagPropertyEditor.ZuneTag) as string;
             string committedValue = this.GetCommittedValue(ZuneTagPropertyEditor.ZuneTag) as string;
-            if (uncommittedValue == committedValue || this.TagSuggestions != null && this.TagSuggestions.Contains((object)uncommittedValue))
+            if (uncommittedValue == committedValue || this.TagSuggestions != null && this.TagSuggestions.Contains(uncommittedValue))
             {
-                this.TagSuggestions = (IList)null;
+                this.TagSuggestions = null;
                 this.ServiceDeactivationRequestsDone = true;
             }
             if (this.ServiceDeactivationRequestsDone)
@@ -86,21 +86,21 @@ namespace ZuneUI
                 this.ServiceDeactivationRequestsDone = false;
                 return false;
             }
-            ZuneTagStep.ServiceData serviceData;
+            ServiceData serviceData;
             serviceData.ZuneTag = uncommittedValue;
             serviceData.CountryCode = this.State.BasicAccountInfoStep.SelectedCountry;
-            this.StartDeactivationRequests((object)serviceData);
+            this.StartDeactivationRequests(serviceData);
             return false;
         }
 
-        protected override void OnStartDeactivationRequests(object state) => this.EndDeactivationRequests((object)this.ValidateUniqueZuneTag((ZuneTagStep.ServiceData)state));
+        protected override void OnStartDeactivationRequests(object state) => this.EndDeactivationRequests(this.ValidateUniqueZuneTag((ServiceData)state));
 
         protected override void OnEndDeactivationRequests(object args) => this.TagSuggestions = args as IList;
 
-        private IList ValidateUniqueZuneTag(ZuneTagStep.ServiceData serviceData)
+        private IList ValidateUniqueZuneTag(ServiceData serviceData)
         {
-            ServiceError serviceError = (ServiceError)null;
-            IList suggestedNames = (IList)null;
+            ServiceError serviceError = null;
+            IList suggestedNames = null;
             HRESULT hr = this.State.AccountManagement.ReserveZuneTag(serviceData.ZuneTag, serviceData.CountryCode, out suggestedNames, out serviceError);
             if (hr.IsError && hr != HRESULT._ZEST_E_ACCOUNT_ZUNETAG_OCCUPIED)
                 this.SetError(hr, serviceError);

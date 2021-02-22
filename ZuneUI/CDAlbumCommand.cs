@@ -25,7 +25,7 @@ namespace ZuneUI
         private BurnableCD _burnCD;
 
         public CDAlbumCommand(Experience owner, StringId id)
-          : base(owner, id, (string)null, SQMDataId.DiscTitleClicks)
+          : base(owner, id, null, SQMDataId.DiscTitleClicks)
         {
         }
 
@@ -34,7 +34,7 @@ namespace ZuneUI
           CDAccess cdAccess,
           ZuneLibraryCDDevice device,
           bool insertedDuringSession)
-          : base(owner, (string)null, SQMDataId.DiscTitleClicks)
+          : base(owner, null, SQMDataId.DiscTitleClicks)
         {
             this._cdAccess = cdAccess;
             this._device = device;
@@ -50,12 +50,12 @@ namespace ZuneUI
             if (this._burnCD != null)
             {
                 this._burnCD.Dispose();
-                this._burnCD = (BurnableCD)null;
+                this._burnCD = null;
             }
             if (this._device == null)
                 return;
             this._device.Dispose();
-            this._device = (ZuneLibraryCDDevice)null;
+            this._device = null;
         }
 
         public int RipCount
@@ -96,7 +96,7 @@ namespace ZuneUI
                 this._trackCount = value;
                 if (value == 0)
                 {
-                    this._trackList = (CDAlbumTrack[])null;
+                    this._trackList = null;
                     this.RipCount = 0;
                 }
                 else
@@ -158,7 +158,7 @@ namespace ZuneUI
             }
         }
 
-        public CDAlbumTrack GetTrack(int trackIndex) => this._trackList == null ? (CDAlbumTrack)null : this._trackList[trackIndex];
+        public CDAlbumTrack GetTrack(int trackIndex) => this._trackList == null ? null : this._trackList[trackIndex];
 
         public void ToggleRipAll()
         {
@@ -231,6 +231,6 @@ namespace ZuneUI
             this.IsRipping = false;
         }
 
-        protected override void Execute(Shell shell) => shell.NavigateToPage((ZunePage)new CDLand(this));
+        protected override void Execute(Shell shell) => shell.NavigateToPage(new CDLand(this));
     }
 }

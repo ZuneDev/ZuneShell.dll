@@ -59,13 +59,13 @@ namespace ZuneUI
 
         private void SetWarning(UserCredentialRequestArguments credentials)
         {
-            string str = (string)null;
+            string str = null;
             if (!credentials.IsAuthenticationSchemeSafe)
                 str = this.AuthSchemeToString(credentials.AuthScheme);
             if (str != null)
-                this._warning = string.Format(Shell.LoadString(StringId.IDS_PODCAST_SIGN_IN_INSECURE_AUTH_WARNING), (object)str);
+                this._warning = string.Format(Shell.LoadString(StringId.IDS_PODCAST_SIGN_IN_INSECURE_AUTH_WARNING), str);
             else
-                this._warning = (string)null;
+                this._warning = null;
         }
     }
 }

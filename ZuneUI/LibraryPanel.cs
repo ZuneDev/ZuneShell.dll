@@ -14,7 +14,7 @@ namespace ZuneUI
         private LibraryPage _libraryPage;
 
         public LibraryPanel()
-          : this((IModelItemOwner)null)
+          : this(null)
         {
         }
 

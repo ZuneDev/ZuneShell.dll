@@ -19,12 +19,12 @@ namespace ZuneUI
         {
         }
 
-        public override string ConvertToString(object value) => value != null ? StringFormatHelper.FormatYear((DateTime)value, this.UnknownString) : (string)null;
+        public override string ConvertToString(object value) => value != null ? StringFormatHelper.FormatYear((DateTime)value, this.UnknownString) : null;
 
         public override object ConvertFromString(string value)
         {
             DateTime dateTime;
-            return StringParserHelper.TryParseDate(value, out dateTime) ? (object)dateTime : (object)null;
+            return StringParserHelper.TryParseDate(value, out dateTime) ? dateTime : (object)null;
         }
 
         public override bool IsValidInternal(string value)

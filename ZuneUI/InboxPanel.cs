@@ -11,7 +11,7 @@ namespace ZuneUI
     public class InboxPanel : ListPanel
     {
         internal InboxPanel(InboxPage page)
-          : base((IModelItemOwner)page)
+          : base(page)
         {
         }
     }

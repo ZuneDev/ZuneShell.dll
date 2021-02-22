@@ -11,7 +11,7 @@ namespace ZuneUI
     public class MusicLibraryListPanelBase : ListPanel
     {
         internal MusicLibraryListPanelBase(MusicLibraryPage libraryPage)
-          : base((IModelItemOwner)libraryPage)
+          : base(libraryPage)
         {
         }
 

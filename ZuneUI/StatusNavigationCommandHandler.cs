@@ -10,6 +10,6 @@ namespace ZuneUI
 {
     public class StatusNavigationCommandHandler : NavigationCommandHandlerBase
     {
-        protected override ZunePage GetPage(IDictionary args) => (ZunePage)new Deviceland();
+        protected override ZunePage GetPage(IDictionary args) => new Deviceland();
     }
 }

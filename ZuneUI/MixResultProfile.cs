@@ -21,7 +21,7 @@ namespace ZuneUI
         {
             MixResultProfile mixResultProfile = new MixResultProfile();
             Guid? property = (Guid?)dataProviderObject.GetProperty("UserGuid");
-            mixResultProfile.Initialize(MixResultType.Profile, reason, (string)(dataProviderObject.GetProperty("ZuneTag") ?? (object)""), "", property.HasValue ? property.Value.ToString() : "", (string)(dataProviderObject.GetProperty("TileUrl") ?? (object)""), Guid.Empty, dataProviderObject);
+            mixResultProfile.Initialize(MixResultType.Profile, reason, (string)(dataProviderObject.GetProperty("ZuneTag") ?? ""), "", property.HasValue ? property.Value.ToString() : "", (string)(dataProviderObject.GetProperty("TileUrl") ?? ""), Guid.Empty, dataProviderObject);
             return mixResultProfile;
         }
 

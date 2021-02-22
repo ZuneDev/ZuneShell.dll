@@ -21,8 +21,8 @@ namespace ZuneUI
 
         public void GetPaymentInstruments()
         {
-            this.m_defaultPaymentInstrument = (PaymentInstrument)null;
-            this.m_creditCards = (CreditCardCollection)null;
+            this.m_defaultPaymentInstrument = null;
+            this.m_creditCards = null;
             this.ErrorCode = HRESULT._S_OK;
             ZuneApplication.Service.GetPaymentInstruments(new GetPaymentInstrumentsCompleteCallback(this.OnGetPaymentInstrumentsSuccess), new GetPaymentInstrumentsErrorCallback(this.OnGetPaymentInstrumnetsError));
         }
@@ -33,7 +33,7 @@ namespace ZuneUI
             ZuneApplication.Service.AddPaymentInstrument(paymentInstrument, new AddPaymentInstrumentCompleteCallback(this.OnAddPaymentInstrumentSuccess), new AddPaymentInstrumentErrorCallback(this.OnAddPaymentInstrumnetError));
         }
 
-        public IList CreditCards => this.m_creditCards == null ? (IList)null : this.m_creditCards.Items;
+        public IList CreditCards => this.m_creditCards == null ? null : this.m_creditCards.Items;
 
         public PaymentInstrument Default
         {
@@ -93,28 +93,28 @@ namespace ZuneUI
 
         private void CalculateDefault()
         {
-            CreditCard creditCard1 = (CreditCard)null;
+            CreditCard creditCard1 = null;
             if (this.NewCreditCard != null)
                 creditCard1 = this.NewCreditCard;
             else if (this.CreditCards != null && this.CreditCards.Count > 0)
             {
                 DateTime now = DateTime.Now;
-                foreach (CreditCard creditCard2 in (IEnumerable)this.CreditCards)
+                foreach (CreditCard creditCard2 in CreditCards)
                 {
                     if (creditCard2.ExpirationDate.Year > now.Year || creditCard2.ExpirationDate.Year == now.Year && creditCard2.ExpirationDate.Month >= now.Month)
                         creditCard1 = creditCard2;
                 }
             }
-            this.Default = (PaymentInstrument)creditCard1;
+            this.Default = creditCard1;
         }
 
-        private void OnGetPaymentInstrumentsSuccess(CreditCardCollection creditCards) => Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredGetPaymentInstrumentsSuccess), (object)creditCards);
+        private void OnGetPaymentInstrumentsSuccess(CreditCardCollection creditCards) => Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredGetPaymentInstrumentsSuccess), creditCards);
 
-        private void OnGetPaymentInstrumnetsError(HRESULT hrError) => Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredGetPaymentInstrumentsError), (object)hrError);
+        private void OnGetPaymentInstrumnetsError(HRESULT hrError) => Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredGetPaymentInstrumentsError), hrError);
 
-        private void OnAddPaymentInstrumentSuccess(PaymentInstrument paymentInstrument) => Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredAddPaymentInstrumentSuccess), (object)paymentInstrument);
+        private void OnAddPaymentInstrumentSuccess(PaymentInstrument paymentInstrument) => Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredAddPaymentInstrumentSuccess), paymentInstrument);
 
-        private void OnAddPaymentInstrumnetError(HRESULT hrError) => Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredAddPaymentInstrumentError), (object)hrError);
+        private void OnAddPaymentInstrumnetError(HRESULT hrError) => Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredAddPaymentInstrumentError), hrError);
 
         private void DeferredGetPaymentInstrumentsSuccess(object args)
         {
@@ -142,13 +142,13 @@ namespace ZuneUI
             if (!disposing || this.m_creditCards == null)
                 return;
             this.m_creditCards.Dispose();
-            this.m_creditCards = (CreditCardCollection)null;
+            this.m_creditCards = null;
         }
 
         private void OnGetPaymentInstrumentsCompleted()
         {
             if (this.GetPaymentInstrumentsCompleted != null)
-                this.GetPaymentInstrumentsCompleted((object)this, (EventArgs)null);
+                this.GetPaymentInstrumentsCompleted(this, null);
             this.FirePropertyChanged("GetPaymentInstrumentsCompleted");
         }
     }

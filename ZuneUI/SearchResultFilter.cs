@@ -28,12 +28,12 @@ namespace ZuneUI
         {
             get
             {
-                if (SearchResultFilter._all == null)
+                if (_all == null)
                 {
-                    SearchResultFilter._all = SearchResultFilter.CreateSearchResultFilterCommand(Shell.LoadString(StringId.IDS_SEARCH_FILTER_ALL), SearchResultFilterType.All);
-                    SearchResultFilter._all.HasResults = true;
+                    _all = CreateSearchResultFilterCommand(Shell.LoadString(StringId.IDS_SEARCH_FILTER_ALL), SearchResultFilterType.All);
+                    _all.HasResults = true;
                 }
-                return SearchResultFilter._all;
+                return _all;
             }
         }
 
@@ -41,9 +41,9 @@ namespace ZuneUI
         {
             get
             {
-                if (SearchResultFilter._artists == null)
-                    SearchResultFilter._artists = SearchResultFilter.CreateSearchResultFilterCommand(Shell.LoadString(StringId.IDS_SEARCH_FILTER_ARTISTS), SearchResultFilterType.Artist);
-                return SearchResultFilter._artists;
+                if (_artists == null)
+                    _artists = CreateSearchResultFilterCommand(Shell.LoadString(StringId.IDS_SEARCH_FILTER_ARTISTS), SearchResultFilterType.Artist);
+                return _artists;
             }
         }
 
@@ -51,9 +51,9 @@ namespace ZuneUI
         {
             get
             {
-                if (SearchResultFilter._albums == null)
-                    SearchResultFilter._albums = SearchResultFilter.CreateSearchResultFilterCommand(Shell.LoadString(StringId.IDS_SEARCH_FILTER_ALBUMS), SearchResultFilterType.Album);
-                return SearchResultFilter._albums;
+                if (_albums == null)
+                    _albums = CreateSearchResultFilterCommand(Shell.LoadString(StringId.IDS_SEARCH_FILTER_ALBUMS), SearchResultFilterType.Album);
+                return _albums;
             }
         }
 
@@ -61,9 +61,9 @@ namespace ZuneUI
         {
             get
             {
-                if (SearchResultFilter._tracks == null)
-                    SearchResultFilter._tracks = SearchResultFilter.CreateSearchResultFilterCommand(Shell.LoadString(StringId.IDS_SEARCH_FILTER_SONGS), SearchResultFilterType.Track);
-                return SearchResultFilter._tracks;
+                if (_tracks == null)
+                    _tracks = CreateSearchResultFilterCommand(Shell.LoadString(StringId.IDS_SEARCH_FILTER_SONGS), SearchResultFilterType.Track);
+                return _tracks;
             }
         }
 
@@ -71,9 +71,9 @@ namespace ZuneUI
         {
             get
             {
-                if (SearchResultFilter._musicVideos == null)
-                    SearchResultFilter._musicVideos = SearchResultFilter.CreateSearchResultFilterCommand(Shell.LoadString(StringId.IDS_SEARCH_FILTER_MUSIC_VIDEOS), SearchResultFilterType.MusicVideo);
-                return SearchResultFilter._musicVideos;
+                if (_musicVideos == null)
+                    _musicVideos = CreateSearchResultFilterCommand(Shell.LoadString(StringId.IDS_SEARCH_FILTER_MUSIC_VIDEOS), SearchResultFilterType.MusicVideo);
+                return _musicVideos;
             }
         }
 
@@ -81,9 +81,9 @@ namespace ZuneUI
         {
             get
             {
-                if (SearchResultFilter._tvShows == null)
-                    SearchResultFilter._tvShows = SearchResultFilter.CreateSearchResultFilterCommand(Shell.LoadString(StringId.IDS_SEARCH_FILTER_TV_SHOWS), SearchResultFilterType.TV);
-                return SearchResultFilter._tvShows;
+                if (_tvShows == null)
+                    _tvShows = CreateSearchResultFilterCommand(Shell.LoadString(StringId.IDS_SEARCH_FILTER_TV_SHOWS), SearchResultFilterType.TV);
+                return _tvShows;
             }
         }
 
@@ -91,9 +91,9 @@ namespace ZuneUI
         {
             get
             {
-                if (SearchResultFilter._movies == null)
-                    SearchResultFilter._movies = SearchResultFilter.CreateSearchResultFilterCommand(Shell.LoadString(StringId.IDS_SEARCH_FILTER_MOVIES), SearchResultFilterType.Movie);
-                return SearchResultFilter._movies;
+                if (_movies == null)
+                    _movies = CreateSearchResultFilterCommand(Shell.LoadString(StringId.IDS_SEARCH_FILTER_MOVIES), SearchResultFilterType.Movie);
+                return _movies;
             }
         }
 
@@ -101,9 +101,9 @@ namespace ZuneUI
         {
             get
             {
-                if (SearchResultFilter._otherVideo == null)
-                    SearchResultFilter._otherVideo = SearchResultFilter.CreateSearchResultFilterCommand(Shell.LoadString(StringId.IDS_SEARCH_FILTER_OTHER_VIDEO), SearchResultFilterType.OtherVideo);
-                return SearchResultFilter._otherVideo;
+                if (_otherVideo == null)
+                    _otherVideo = CreateSearchResultFilterCommand(Shell.LoadString(StringId.IDS_SEARCH_FILTER_OTHER_VIDEO), SearchResultFilterType.OtherVideo);
+                return _otherVideo;
             }
         }
 
@@ -111,9 +111,9 @@ namespace ZuneUI
         {
             get
             {
-                if (SearchResultFilter._podcasts == null)
-                    SearchResultFilter._podcasts = SearchResultFilter.CreateSearchResultFilterCommand(Shell.LoadString(StringId.IDS_SEARCH_FILTER_PODCASTS), SearchResultFilterType.Podcast);
-                return SearchResultFilter._podcasts;
+                if (_podcasts == null)
+                    _podcasts = CreateSearchResultFilterCommand(Shell.LoadString(StringId.IDS_SEARCH_FILTER_PODCASTS), SearchResultFilterType.Podcast);
+                return _podcasts;
             }
         }
 
@@ -121,9 +121,9 @@ namespace ZuneUI
         {
             get
             {
-                if (SearchResultFilter._playlists == null)
-                    SearchResultFilter._playlists = SearchResultFilter.CreateSearchResultFilterCommand(Shell.LoadString(StringId.IDS_SEARCH_FILTER_PLAYLISTS), SearchResultFilterType.Playlist);
-                return SearchResultFilter._playlists;
+                if (_playlists == null)
+                    _playlists = CreateSearchResultFilterCommand(Shell.LoadString(StringId.IDS_SEARCH_FILTER_PLAYLISTS), SearchResultFilterType.Playlist);
+                return _playlists;
             }
         }
 
@@ -131,9 +131,9 @@ namespace ZuneUI
         {
             get
             {
-                if (SearchResultFilter._channels == null)
-                    SearchResultFilter._channels = SearchResultFilter.CreateSearchResultFilterCommand(Shell.LoadString(StringId.IDS_SEARCH_FILTER_CHANNELS), SearchResultFilterType.Channel);
-                return SearchResultFilter._channels;
+                if (_channels == null)
+                    _channels = CreateSearchResultFilterCommand(Shell.LoadString(StringId.IDS_SEARCH_FILTER_CHANNELS), SearchResultFilterType.Channel);
+                return _channels;
             }
         }
 
@@ -141,9 +141,9 @@ namespace ZuneUI
         {
             get
             {
-                if (SearchResultFilter._profile == null)
-                    SearchResultFilter._profile = SearchResultFilter.CreateSearchResultFilterCommand(Shell.LoadString(StringId.IDS_SEARCH_FILTER_SOCIAL_USERS), SearchResultFilterType.Profile);
-                return SearchResultFilter._profile;
+                if (_profile == null)
+                    _profile = CreateSearchResultFilterCommand(Shell.LoadString(StringId.IDS_SEARCH_FILTER_SOCIAL_USERS), SearchResultFilterType.Profile);
+                return _profile;
             }
         }
 
@@ -151,9 +151,9 @@ namespace ZuneUI
         {
             get
             {
-                if (SearchResultFilter._windowsPhoneApps == null)
-                    SearchResultFilter._windowsPhoneApps = SearchResultFilter.CreateSearchResultFilterCommand(Shell.LoadString(StringId.IDS_SEARCH_FILTER_WINDOWS_PHONE_APPS), SearchResultFilterType.WindowsPhoneApp);
-                return SearchResultFilter._windowsPhoneApps;
+                if (_windowsPhoneApps == null)
+                    _windowsPhoneApps = CreateSearchResultFilterCommand(Shell.LoadString(StringId.IDS_SEARCH_FILTER_WINDOWS_PHONE_APPS), SearchResultFilterType.WindowsPhoneApp);
+                return _windowsPhoneApps;
             }
         }
 
@@ -161,7 +161,7 @@ namespace ZuneUI
           string description,
           SearchResultFilterType type)
         {
-            return new SearchResultFilterCommand((ModelItem)Search.Instance, description, type);
+            return new SearchResultFilterCommand(Search.Instance, description, type);
         }
     }
 }

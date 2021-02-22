@@ -22,41 +22,41 @@ namespace ZuneUI
         {
             get
             {
-                if (ContactInfoPropertyEditor.s_dataProviderProperties == null)
-                    ContactInfoPropertyEditor.s_dataProviderProperties = new PropertyDescriptor[13]
+                if (s_dataProviderProperties == null)
+                    s_dataProviderProperties = new PropertyDescriptor[13]
                     {
-            (PropertyDescriptor) BaseContactInfoPropertyEditor.s_FirstName,
-            (PropertyDescriptor) BaseContactInfoPropertyEditor.s_LastName,
-            (PropertyDescriptor) ContactInfoPropertyEditor.s_Street1,
-            (PropertyDescriptor) ContactInfoPropertyEditor.s_Street2,
-            (PropertyDescriptor) ContactInfoPropertyEditor.s_City,
-            (PropertyDescriptor) ContactInfoPropertyEditor.s_District,
-            (PropertyDescriptor) ContactInfoPropertyEditor.s_State,
-            (PropertyDescriptor) ContactInfoPropertyEditor.s_Country,
-            (PropertyDescriptor) ContactInfoPropertyEditor.s_PostalCode,
-            (PropertyDescriptor) BaseContactInfoPropertyEditor.s_PhoneNumber,
-            (PropertyDescriptor) BaseContactInfoPropertyEditor.s_PhoneExtension,
-            (PropertyDescriptor) BaseContactInfoPropertyEditor.s_Email,
-            (PropertyDescriptor) ContactInfoPropertyEditor.s_Language
+             s_FirstName,
+             s_LastName,
+             s_Street1,
+             s_Street2,
+             s_City,
+             s_District,
+             s_State,
+             s_Country,
+             s_PostalCode,
+             s_PhoneNumber,
+             s_PhoneExtension,
+             s_Email,
+             s_Language
                     };
-                return ContactInfoPropertyEditor.s_dataProviderProperties;
+                return s_dataProviderProperties;
             }
         }
 
-        public static PropertyDescriptor Street1 => (PropertyDescriptor)ContactInfoPropertyEditor.s_Street1;
+        public static PropertyDescriptor Street1 => s_Street1;
 
-        public static PropertyDescriptor Street2 => (PropertyDescriptor)ContactInfoPropertyEditor.s_Street2;
+        public static PropertyDescriptor Street2 => s_Street2;
 
-        public static PropertyDescriptor City => (PropertyDescriptor)ContactInfoPropertyEditor.s_City;
+        public static PropertyDescriptor City => s_City;
 
-        public static PropertyDescriptor District => (PropertyDescriptor)ContactInfoPropertyEditor.s_District;
+        public static PropertyDescriptor District => s_District;
 
-        public static PropertyDescriptor State => (PropertyDescriptor)ContactInfoPropertyEditor.s_State;
+        public static PropertyDescriptor State => s_State;
 
-        public static PropertyDescriptor Country => (PropertyDescriptor)ContactInfoPropertyEditor.s_Country;
+        public static PropertyDescriptor Country => s_Country;
 
-        public static PropertyDescriptor PostalCode => (PropertyDescriptor)ContactInfoPropertyEditor.s_PostalCode;
+        public static PropertyDescriptor PostalCode => s_PostalCode;
 
-        public static PropertyDescriptor Language => (PropertyDescriptor)ContactInfoPropertyEditor.s_Language;
+        public static PropertyDescriptor Language => s_Language;
     }
 }

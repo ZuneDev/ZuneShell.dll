@@ -12,9 +12,9 @@ namespace ZuneUI
 
         public MobileWirelessSyncWizard()
         {
-            this.AddPage((WizardPage)new MobileWirelessSyncConfirmPage((Wizard)this));
-            this.AddPage((WizardPage)new MobileWirelessSyncSummaryPage((Wizard)this));
-            this.AddPage((WizardPage)new MobileWirelessSyncErrorPage((Wizard)this));
+            this.AddPage(new MobileWirelessSyncConfirmPage(this));
+            this.AddPage(new MobileWirelessSyncSummaryPage(this));
+            this.AddPage(new MobileWirelessSyncErrorPage(this));
         }
 
         protected override void OnSetError(HRESULT hr, object state)

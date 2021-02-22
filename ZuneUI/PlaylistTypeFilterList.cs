@@ -12,7 +12,7 @@ namespace ZuneUI
 {
     public class PlaylistTypeFilterList : FilterList
     {
-        private IList _typesToInclude = PlaylistTypeFilterList.AllTypes;
+        private IList _typesToInclude = AllTypes;
         private static int[] _allTypes = new int[0];
 
         public IList TypesToInclude
@@ -30,14 +30,14 @@ namespace ZuneUI
 
         protected override bool ShouldIncludeItem(int sourceIndex, int targetIndex, object item)
         {
-            if (this.TypesToInclude == PlaylistTypeFilterList.AllTypes)
+            if (this.TypesToInclude == AllTypes)
                 return true;
             if (this.TypesToInclude == null || this.TypesToInclude.Count <= 0 || !(item is DataProviderObject dataProviderObject))
                 return false;
             object property = dataProviderObject.GetProperty("PlaylistType");
-            return property != null && property is int && this.TypesToInclude.Contains((object)(PlaylistType)property);
+            return property != null && property is int && this.TypesToInclude.Contains((PlaylistType)property);
         }
 
-        public static IList AllTypes => (IList)PlaylistTypeFilterList._allTypes;
+        public static IList AllTypes => _allTypes;
     }
 }

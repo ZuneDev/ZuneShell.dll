@@ -14,7 +14,7 @@ namespace ZuneUI
         private bool _supportsJumpInList;
 
         public SortCommand()
-          : this((string)null, (string)null, false)
+          : this(null, null, false)
         {
         }
 

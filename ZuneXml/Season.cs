@@ -24,7 +24,7 @@ namespace ZuneXml
           DataProviderQuery owner,
           object objectTypeCookie)
         {
-            return (XmlDataProviderObject)new Season(owner, objectTypeCookie);
+            return new Season(owner, objectTypeCookie);
         }
 
         internal Season(DataProviderQuery owner, object resultTypeCookie)
@@ -55,7 +55,7 @@ namespace ZuneXml
             switch (propertyName)
             {
                 case "IsPriceDiscounted":
-                    return (object)this.IsPriceDiscounted;
+                    return IsPriceDiscounted;
                 default:
                     return base.GetProperty(propertyName);
             }

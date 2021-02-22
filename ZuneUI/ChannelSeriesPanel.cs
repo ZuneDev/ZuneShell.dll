@@ -9,7 +9,7 @@ namespace ZuneUI
     public class ChannelSeriesPanel : SubscriptionSeriesPanel
     {
         public ChannelSeriesPanel(ChannelLibraryPage page)
-          : base((SubscriptionLibraryPage)page)
+          : base(page)
         {
         }
 

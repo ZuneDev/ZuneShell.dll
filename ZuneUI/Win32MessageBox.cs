@@ -20,13 +20,13 @@ namespace ZuneUI
           DeferredInvokeHandler callback)
         {
             IntPtr winHandle = Application.Window.Handle;
-            new Thread((ParameterizedThreadStart)(args =>
+            new Thread(args =>
            {
-               int num = Win32MessageBox.MessageBox(winHandle, text, caption, type);
+               int num = MessageBox(winHandle, text, caption, type);
                if (callback == null)
                    return;
-               Application.DeferredInvoke(callback, (object)num);
-           })).Start();
+               Application.DeferredInvoke(callback, num);
+           }).Start();
         }
 
         [DllImport("user32.dll", CharSet = CharSet.Auto)]

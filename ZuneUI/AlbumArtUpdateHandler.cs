@@ -38,7 +38,7 @@ namespace ZuneUI
             if (this._neverShowPasteMessage != null)
             {
                 this._neverShowPasteMessage.Dispose();
-                this._neverShowPasteMessage = (BooleanChoice)null;
+                this._neverShowPasteMessage = null;
             }
             base.OnDispose(disposing);
         }
@@ -54,7 +54,7 @@ namespace ZuneUI
                     return;
                 this._path = value;
                 this.FirePropertyChanged(nameof(Path));
-                this.Image = (Image)null;
+                this.Image = null;
             }
         }
 
@@ -92,22 +92,22 @@ namespace ZuneUI
         public void Start(bool allowPaste)
         {
             this.Done = false;
-            this.Path = (string)null;
-            if (allowPaste && AlbumArtUpdateHandler.CanPaste())
+            this.Path = null;
+            if (allowPaste && CanPaste())
             {
                 if (ZuneShell.DefaultInstance.Management.ConfirmPasteAlbumArt)
                 {
                     if (this._neverShowPasteMessage == null)
-                        this._neverShowPasteMessage = new BooleanChoice((IModelItemOwner)this, Shell.LoadString(StringId.IDS_DONT_SHOW_THIS_MESSAGE_AGAIN));
-                    string str = (string)null;
+                        this._neverShowPasteMessage = new BooleanChoice(this, Shell.LoadString(StringId.IDS_DONT_SHOW_THIS_MESSAGE_AGAIN));
+                    string str = null;
                     if (this.Album is DataProviderObject album)
                         str = album.GetProperty("Title") as string;
-                    string message = !string.IsNullOrEmpty(str) ? string.Format(Shell.LoadString(StringId.IDS_CONFIRM_PASTE_ALBUM_ART), (object)str) : Shell.LoadString(StringId.IDS_CONFIRM_PASTE_ALBUM_ART_NO_NAME);
+                    string message = !string.IsNullOrEmpty(str) ? string.Format(Shell.LoadString(StringId.IDS_CONFIRM_PASTE_ALBUM_ART), str) : Shell.LoadString(StringId.IDS_CONFIRM_PASTE_ALBUM_ART_NO_NAME);
                     this._neverShowPasteMessage.Value = false;
-                    MessageBox.Show(Shell.LoadString(StringId.IDS_CONFIRM_PASTE_ALBUM_ART_TITLE), message, (EventHandler)null, new EventHandler(this.ConfirmPaste), (EventHandler)null, (EventHandler)null, this._neverShowPasteMessage);
+                    MessageBox.Show(Shell.LoadString(StringId.IDS_CONFIRM_PASTE_ALBUM_ART_TITLE), message, null, new EventHandler(this.ConfirmPaste), null, null, this._neverShowPasteMessage);
                 }
                 else
-                    this.ConfirmPaste((object)this, (EventArgs)null);
+                    this.ConfirmPaste(this, null);
             }
             else
                 this.BrowseForArt();
@@ -117,7 +117,7 @@ namespace ZuneUI
         {
             bool flag = Clipboard.ContainsData(ClipboardDataType.Image);
             if (!flag && Clipboard.ContainsData(ClipboardDataType.FileDropList))
-                flag = AlbumArtUpdateHandler.GetClipboardFile() != null;
+                flag = GetClipboardFile() != null;
             return flag;
         }
 
@@ -125,11 +125,11 @@ namespace ZuneUI
         {
       Shell.LoadString(StringId.IDS_ALBUM_ART_DIALOG_ALL_PICTURES),
       "*.bmp;*.jpg;*.jpeg;*.gif;*.png;*.dib"
-        }, (DeferredInvokeHandler)(args =>
+        }, args =>
    {
-            this.Path = (string)args;
-            this.Done = true;
-        }));
+       this.Path = (string)args;
+       this.Done = true;
+   });
 
         private void ConfirmPaste(object sender, EventArgs args)
         {
@@ -152,7 +152,7 @@ namespace ZuneUI
                     flag = album.SetNewThumbnail(image);
                 if (!flag)
                 {
-                    string clipboardFile = AlbumArtUpdateHandler.GetClipboardFile();
+                    string clipboardFile = GetClipboardFile();
                     if (clipboardFile != null)
                     {
                         this.Path = clipboardFile;
@@ -170,14 +170,14 @@ namespace ZuneUI
             {
                 foreach (string str in fileDropList)
                 {
-                    foreach (string supportedExtension in AlbumArtUpdateHandler._supportedExtensions)
+                    foreach (string supportedExtension in _supportedExtensions)
                     {
                         if (str.EndsWith(supportedExtension, StringComparison.InvariantCultureIgnoreCase))
                             return str;
                     }
                 }
             }
-            return (string)null;
+            return null;
         }
     }
 }

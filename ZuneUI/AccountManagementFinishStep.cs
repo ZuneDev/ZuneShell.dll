@@ -13,7 +13,7 @@ namespace ZuneUI
         private string _oldDescription;
 
         public AccountManagementFinishStep(Wizard owner, AccountManagementWizardState state)
-          : this(owner, state, (string)null)
+          : this(owner, state, null)
         {
         }
 
@@ -21,7 +21,7 @@ namespace ZuneUI
           Wizard owner,
           AccountManagementWizardState state,
           string description)
-          : this(owner, state, description, (string)null)
+          : this(owner, state, description, null)
         {
             this.Description = description;
         }

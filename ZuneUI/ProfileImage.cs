@@ -60,7 +60,7 @@ namespace ZuneUI
         {
             get
             {
-                string str = (string)null;
+                string str = null;
                 int startIndex = -1;
                 if (!string.IsNullOrEmpty(this.Source))
                     startIndex = this.Source.IndexOf('!') + 1;
@@ -78,9 +78,9 @@ namespace ZuneUI
             {
                 int num = 0;
                 if (this.m_type == ProfileImageType.Background)
-                    num = ProfileImage.DefaultBackgroundSize.Width;
+                    num = DefaultBackgroundSize.Width;
                 else if (this.m_type == ProfileImageType.Tile)
-                    num = ProfileImage.DefaultTileSize.Width;
+                    num = DefaultTileSize.Width;
                 return num;
             }
         }
@@ -91,9 +91,9 @@ namespace ZuneUI
             {
                 int num = 0;
                 if (this.m_type == ProfileImageType.Background)
-                    num = ProfileImage.DefaultBackgroundSize.Height;
+                    num = DefaultBackgroundSize.Height;
                 else if (this.m_type == ProfileImageType.Tile)
-                    num = ProfileImage.DefaultTileSize.Height;
+                    num = DefaultTileSize.Height;
                 return num;
             }
         }
@@ -102,9 +102,9 @@ namespace ZuneUI
         {
             get
             {
-                if (ProfileImage.s_defaultTileSize == null)
-                    ProfileImage.s_defaultTileSize = new Size(64, 64);
-                return ProfileImage.s_defaultTileSize;
+                if (s_defaultTileSize == null)
+                    s_defaultTileSize = new Size(64, 64);
+                return s_defaultTileSize;
             }
         }
 
@@ -112,9 +112,9 @@ namespace ZuneUI
         {
             get
             {
-                if (ProfileImage.s_defaultBackgroundSize == null)
-                    ProfileImage.s_defaultBackgroundSize = new Size(535, 196);
-                return ProfileImage.s_defaultBackgroundSize;
+                if (s_defaultBackgroundSize == null)
+                    s_defaultBackgroundSize = new Size(535, 196);
+                return s_defaultBackgroundSize;
             }
         }
 

@@ -43,7 +43,7 @@ namespace ZuneUI
             string endPointUri = Microsoft.Zune.Service.Service.GetEndPointUri(Microsoft.Zune.Service.EServiceEndpointId.SEID_Messaging);
             string zuneTag = SignIn.Instance.ZuneTag;
             Uri.EscapeDataString(",");
-            string errorMessage = (string)null;
+            string errorMessage = null;
             HRESULT hresult = HRESULT._S_OK;
             bool flag = true;
             bool wishlist = false;
@@ -67,7 +67,7 @@ namespace ZuneUI
             if (!SignIn.Instance.SignedIn || string.IsNullOrEmpty(endPointUri) || string.IsNullOrEmpty(zuneTag))
                 flag = false;
             if (flag)
-                flag = this.Send(string.Format("{0}/messaging/{1}/send", (object)endPointUri, (object)Uri.EscapeDataString(zuneTag)), attachment, wishlist);
+                flag = this.Send(string.Format("{0}/messaging/{1}/send", endPointUri, Uri.EscapeDataString(zuneTag)), attachment, wishlist);
             if (!flag)
                 this.OnSendCompleted(hresult.IsError ? hresult : HRESULT._NS_E_MESSAGING_CLIENT_ERROR, errorMessage, wishlist);
             return flag;
@@ -80,11 +80,11 @@ namespace ZuneUI
             {
                 PropertySetAttachment propertySetAttachment = (PropertySetAttachment)attachment;
                 string recipientString = this.CreateRecipientString(false);
-                flag = MessagingService.Instance.Compose(requestUrl, this.Message, recipientString, propertySetAttachment.RequestType, propertySetAttachment.PropertySet, new MessagingCallback(this.OnSendCompletedAsync), (object)wishlist);
+                flag = MessagingService.Instance.Compose(requestUrl, this.Message, recipientString, propertySetAttachment.RequestType, propertySetAttachment.PropertySet, new MessagingCallback(this.OnSendCompletedAsync), wishlist);
             }
             else
             {
-                string strMessage = (string)null;
+                string strMessage = null;
                 try
                 {
                     strMessage = this.CreateUrlEncodedString(attachment);
@@ -93,7 +93,7 @@ namespace ZuneUI
                 {
                 }
                 if (strMessage != null)
-                    flag = MessagingService.Instance.Compose(requestUrl, strMessage, new MessagingCallback(this.OnSendCompletedAsync), (object)wishlist);
+                    flag = MessagingService.Instance.Compose(requestUrl, strMessage, new MessagingCallback(this.OnSendCompletedAsync), wishlist);
             }
             if (flag && attachment != null)
                 attachment.LogSend();
@@ -103,10 +103,10 @@ namespace ZuneUI
         public static bool ManageFriend(FriendAction action, string zuneTag)
         {
             bool flag = !string.IsNullOrEmpty(zuneTag);
-            string strPostUrl = (string)null;
+            string strPostUrl = null;
             if (flag)
             {
-                strPostUrl = ComposerHelper.CreateOperationUri("friends");
+                strPostUrl = CreateOperationUri("friends");
                 flag = strPostUrl != null;
             }
             if (flag)
@@ -116,9 +116,9 @@ namespace ZuneUI
 
         public bool ManageFavorites(FavoritesAction action, MediaType mediaType, IList favorites)
         {
-            string str1 = (string)null;
-            string str2 = (string)null;
-            string operationUri = ComposerHelper.CreateOperationUri("playlists/BuiltIn-FavoriteTracks");
+            string str1 = null;
+            string str2 = null;
+            string operationUri = CreateOperationUri("playlists/BuiltIn-FavoriteTracks");
             bool flag = operationUri != null;
             switch (action)
             {
@@ -149,7 +149,7 @@ namespace ZuneUI
                         stringBuilder.Append(',');
                     stringBuilder.Append(favorites[index].ToString());
                 }
-                flag = MessagingService.Instance.ManageFavorites(action, operationUri, stringBuilder.ToString(), new MessagingCallback(this.OnFavoritesManagementCompletedAsync), (object)new ComposerHelper.FavoritesManagementState(action, favorites.Count));
+                flag = MessagingService.Instance.ManageFavorites(action, operationUri, stringBuilder.ToString(), new MessagingCallback(this.OnFavoritesManagementCompletedAsync), new FavoritesManagementState(action, favorites.Count));
             }
             return flag;
         }
@@ -161,10 +161,10 @@ namespace ZuneUI
           object state)
         {
             bool flag = !string.IsNullOrEmpty(fieldName);
-            string strProfileUrl = (string)null;
+            string strProfileUrl = null;
             if (flag)
             {
-                strProfileUrl = ComposerHelper.CreateOperationUri(fieldName);
+                strProfileUrl = CreateOperationUri(fieldName);
                 flag = strProfileUrl != null;
             }
             if (flag)
@@ -178,14 +178,14 @@ namespace ZuneUI
           object state)
         {
             bool flag = !string.IsNullOrEmpty(image.TypeName);
-            string strProfileImageUrl = (string)null;
+            string strProfileImageUrl = null;
             if (flag)
             {
-                strProfileImageUrl = ComposerHelper.CreateOperationUri(image.TypeName);
+                strProfileImageUrl = CreateOperationUri(image.TypeName);
                 flag = strProfileImageUrl != null;
             }
             if (flag)
-                flag = image.Image == null ? image.ResourceId != null && MessagingService.Instance.ManageProfileImage(strProfileImageUrl, image.ResourceId, callback, state) : MessagingService.Instance.ManageProfileImage(strProfileImageUrl, (SafeBitmap)image.Image, callback, state);
+                flag = image.Image == null ? image.ResourceId != null && MessagingService.Instance.ManageProfileImage(strProfileImageUrl, image.ResourceId, callback, state) : MessagingService.Instance.ManageProfileImage(strProfileImageUrl, image.Image, callback, state);
             if (flag)
             {
                 if (image.Type == ProfileImageType.Background)
@@ -198,22 +198,22 @@ namespace ZuneUI
 
         public static string CreateOperationUri(string operation)
         {
-            string zuneTagOrGuid = (string)null;
+            string zuneTagOrGuid = null;
             Guid userGuid = SignIn.Instance.UserGuid;
             if (!GuidHelper.IsEmpty(userGuid))
                 zuneTagOrGuid = userGuid.ToString();
-            return ComposerHelper.CreateOperationUri(operation, zuneTagOrGuid);
+            return CreateOperationUri(operation, zuneTagOrGuid);
         }
 
-        public static string GetUserTileUri(string zuneTag) => ComposerHelper.CreateOperationUri("usertile", zuneTag);
+        public static string GetUserTileUri(string zuneTag) => CreateOperationUri("usertile", zuneTag);
 
         public static string CreateOperationUri(string operation, string zuneTagOrGuid)
         {
             if (string.IsNullOrEmpty(zuneTagOrGuid))
-                return (string)null;
+                return null;
             string endPointUri = Microsoft.Zune.Service.Service.GetEndPointUri(operation == "comments" ? Microsoft.Zune.Service.EServiceEndpointId.SEID_Comments : Microsoft.Zune.Service.EServiceEndpointId.SEID_SocialApi);
             if (string.IsNullOrEmpty(endPointUri))
-                return (string)null;
+                return null;
             zuneTagOrGuid = Uri.EscapeUriString(zuneTagOrGuid);
             StringBuilder stringBuilder = new StringBuilder(endPointUri);
             stringBuilder.Append("/members");
@@ -326,7 +326,7 @@ namespace ZuneUI
             if (disposing && this._recipientHelper != null)
             {
                 this._recipientHelper.Dispose();
-                this._recipientHelper = (RecipientHelper)null;
+                this._recipientHelper = null;
             }
             base.OnDispose(disposing);
         }
@@ -337,7 +337,7 @@ namespace ZuneUI
             {
                 if (wishlist)
                 {
-                    ErrorMapperResult descriptionAndUrl = Microsoft.Zune.ErrorMapperApi.ErrorMapperApi.GetMappedErrorDescriptionAndUrl(hr.Int, eErrorCondition.eEC_Cart);
+                    ErrorMapperResult descriptionAndUrl = ErrorMapperApi.GetMappedErrorDescriptionAndUrl(hr.Int, eErrorCondition.eEC_Cart);
                     ErrorDialogInfo.Show(descriptionAndUrl.Hr, Shell.LoadString(StringId.IDS_CART_CANT_ADD_ITEMS), descriptionAndUrl.Description);
                 }
                 else
@@ -348,7 +348,7 @@ namespace ZuneUI
             {
                 this._sendSucceeded.Invoke();
                 if (!wishlist)
-                    NotificationArea.Instance.Add((Notification)new MessageNotification(Shell.LoadString(StringId.IDS_MESSAGE_SENT_NOTIFICATION), NotificationTask.Messaging, NotificationState.OneShot));
+                    NotificationArea.Instance.Add(new MessageNotification(Shell.LoadString(StringId.IDS_MESSAGE_SENT_NOTIFICATION), NotificationTask.Messaging, NotificationState.OneShot));
                 else
                     ++Shell.MainFrame.Marketplace.CartItemsCount;
             }
@@ -356,29 +356,29 @@ namespace ZuneUI
 
         private void OnSendCompleted(object obj)
         {
-            ComposerHelper.SendCompletedParams sendCompletedParams = (ComposerHelper.SendCompletedParams)obj;
-            this.OnSendCompleted(sendCompletedParams.HR, (string)null, sendCompletedParams.Wishlist);
+            SendCompletedParams sendCompletedParams = (SendCompletedParams)obj;
+            this.OnSendCompleted(sendCompletedParams.HR, null, sendCompletedParams.Wishlist);
         }
 
         private void OnSendCompletedAsync(HRESULT hr, object state)
         {
             bool wishlist = (bool)state;
-            Application.DeferredInvoke(new DeferredInvokeHandler(this.OnSendCompleted), (object)new ComposerHelper.SendCompletedParams(hr, wishlist));
+            Application.DeferredInvoke(new DeferredInvokeHandler(this.OnSendCompleted), new SendCompletedParams(hr, wishlist));
         }
 
         private void OnFavoritesManagementCompleted(object obj)
         {
-            if (!(obj is ComposerHelper.FavoritesManagementState favoritesManagementState) || favoritesManagementState.Action != FavoritesAction.Add || !favoritesManagementState.MgmtOperationResult.IsSuccess)
+            if (!(obj is FavoritesManagementState favoritesManagementState) || favoritesManagementState.Action != FavoritesAction.Add || !favoritesManagementState.MgmtOperationResult.IsSuccess)
                 return;
-            NotificationArea.Instance.Add((Notification)new MessageNotification(string.Format(Shell.LoadString(favoritesManagementState.FavoritesCount == 1 ? StringId.IDS_FAVORITE_MGMT_NOTIFICATION : StringId.IDS_FAVORITES_MGMT_NOTIFICATION), (object)favoritesManagementState.FavoritesCount), NotificationTask.Messaging, NotificationState.OneShot));
+            NotificationArea.Instance.Add(new MessageNotification(string.Format(Shell.LoadString(favoritesManagementState.FavoritesCount == 1 ? StringId.IDS_FAVORITE_MGMT_NOTIFICATION : StringId.IDS_FAVORITES_MGMT_NOTIFICATION), favoritesManagementState.FavoritesCount), NotificationTask.Messaging, NotificationState.OneShot));
         }
 
         private void OnFavoritesManagementCompletedAsync(HRESULT hr, object state)
         {
-            if (!(state is ComposerHelper.FavoritesManagementState favoritesManagementState))
+            if (!(state is FavoritesManagementState favoritesManagementState))
                 return;
             favoritesManagementState.MgmtOperationResult = hr;
-            Application.DeferredInvoke(new DeferredInvokeHandler(this.OnFavoritesManagementCompleted), (object)favoritesManagementState);
+            Application.DeferredInvoke(new DeferredInvokeHandler(this.OnFavoritesManagementCompleted), favoritesManagementState);
         }
 
         private class SendCompletedParams

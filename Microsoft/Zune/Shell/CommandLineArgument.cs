@@ -30,7 +30,7 @@ namespace Microsoft.Zune.Shell
             {
                 if (string.IsNullOrEmpty(arArg))
                     throw new ArgumentException(nameof(arArgs));
-                string str = (string)null;
+                string str = null;
                 string name;
                 if (arArg[0] == '-' || arArg[0] == '/')
                     name = arArg.Substring(1, arArg.Length - 1);

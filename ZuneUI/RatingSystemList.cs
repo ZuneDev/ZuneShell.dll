@@ -25,9 +25,9 @@ namespace ZuneUI
         {
             get
             {
-                if (RatingSystemList.s_instance == null)
-                    RatingSystemList.s_instance = new RatingSystemList();
-                return RatingSystemList.s_instance;
+                if (s_instance == null)
+                    s_instance = new RatingSystemList();
+                return s_instance;
             }
         }
 
@@ -35,13 +35,13 @@ namespace ZuneUI
         {
             get
             {
-                string[] array = (string[])null;
+                string[] array = null;
                 if (this._ratings != null)
                 {
                     array = new string[this._ratings.Keys.Count];
                     this._ratings.Keys.CopyTo(array, 0);
                 }
-                return (IList)array;
+                return array;
             }
         }
 
@@ -58,7 +58,7 @@ namespace ZuneUI
             bool flag = true;
             if (this._ratings == null)
             {
-                RatingSystemBase[] ratingSystems = Microsoft.Zune.Service.Service.Instance.GetRatingSystems();
+                RatingSystemBase[] ratingSystems = Service.Instance.GetRatingSystems();
                 if (ratingSystems != null && ratingSystems.Length > 0)
                 {
                     Dictionary<string, RatingSystem> dictionary = new Dictionary<string, RatingSystem>(ratingSystems.Length);
@@ -70,11 +70,11 @@ namespace ZuneUI
                     if (dictionary == null || dictionary.Count == 0)
                         flag = false;
                     else
-                        this._ratings = (IDictionary<string, RatingSystem>)dictionary;
+                        this._ratings = dictionary;
                 }
             }
             if (flag)
-                Application.DeferredInvoke(new DeferredInvokeHandler(this.NotifyLoaded), (object)null);
+                Application.DeferredInvoke(new DeferredInvokeHandler(this.NotifyLoaded), null);
             return flag;
         }
 

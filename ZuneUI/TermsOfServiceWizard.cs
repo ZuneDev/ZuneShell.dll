@@ -17,8 +17,8 @@ namespace ZuneUI
         {
             this.RequiresSignIn = false;
             this.State.PassportPasswordParentStep.DetailDescription = Shell.LoadString(StringId.IDS_ACCOUNT_TOS_STEP_PARENT_NEEDED);
-            this._finishStep = new TermsOfServiceFinishStep((Wizard)this, this.State);
-            this._errorStep = new AccountManagementErrorPage((Wizard)this, Shell.LoadString(StringId.IDS_ACCOUNT_TOS_ERROR_TITLE), Shell.LoadString(StringId.IDS_ACCOUNT_TOS_ERROR_DESC));
+            this._finishStep = new TermsOfServiceFinishStep(this, this.State);
+            this._errorStep = new AccountManagementErrorPage(this, Shell.LoadString(StringId.IDS_ACCOUNT_TOS_ERROR_TITLE), Shell.LoadString(StringId.IDS_ACCOUNT_TOS_ERROR_DESC));
             SignIn.Instance.SignInStatusUpdatedEvent += new EventHandler(this.OnSignInStatusUpdatedEvent);
         }
 
@@ -53,12 +53,12 @@ namespace ZuneUI
             this.Username = username;
             this.Password = password;
             this.ChildAccount = childAccount;
-            this.AddPage((WizardPage)this.State.PassportPasswordParentStep);
-            this.AddPage((WizardPage)this.State.TermsOfServiceStep);
-            this.AddPage((WizardPage)this.State.PrivacyInfoParentStep);
-            this.AddPage((WizardPage)this.State.PrivacyInfoStep);
-            this.AddPage((WizardPage)this._finishStep);
-            this.AddPage((WizardPage)this._errorStep);
+            this.AddPage(State.PassportPasswordParentStep);
+            this.AddPage(State.TermsOfServiceStep);
+            this.AddPage(State.PrivacyInfoParentStep);
+            this.AddPage(State.PrivacyInfoStep);
+            this.AddPage(_finishStep);
+            this.AddPage(_errorStep);
         }
 
         protected override void OnAsyncCommitCompleted(bool success)

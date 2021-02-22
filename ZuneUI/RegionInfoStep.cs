@@ -25,9 +25,9 @@ namespace ZuneUI
         public RegionInfoStep(Wizard owner, AccountManagementWizardState state, bool parentAccount)
           : base(owner, state, parentAccount)
         {
-            RegionInfoStep._supportedCountries = (IList)null;
-            this._supportedLanguages = (IList)null;
-            this._supportedStates = (IList)null;
+            _supportedCountries = null;
+            this._supportedLanguages = null;
+            this._supportedStates = null;
         }
 
         protected override void OnDispose(bool disposing)
@@ -74,7 +74,7 @@ namespace ZuneUI
                 string selectedCountry = this.SelectedCountry;
                 string selectedLanguage = this.SelectedLanguage;
                 if (!string.IsNullOrEmpty(selectedCountry) && !string.IsNullOrEmpty(selectedLanguage))
-                    str = string.Format("{0}-{1}", (object)selectedLanguage, (object)selectedCountry);
+                    str = string.Format("{0}-{1}", selectedLanguage, selectedCountry);
                 return str;
             }
             set
@@ -83,7 +83,7 @@ namespace ZuneUI
                     return;
                 string language;
                 string country;
-                RegionInfoStep.GetLanguageAndCountry(value, out language, out country);
+                GetLanguageAndCountry(value, out language, out country);
                 this.SelectedLanguage = language;
                 this.SelectedCountry = country;
             }
@@ -91,35 +91,35 @@ namespace ZuneUI
 
         public string SelectedCountry
         {
-            get => this.CountryDescriptor != null ? this.GetUncommittedValue(this.CountryDescriptor) as string : (string)null;
+            get => this.CountryDescriptor != null ? this.GetUncommittedValue(this.CountryDescriptor) as string : null;
             set
             {
                 if (this.CountryDescriptor == null || !(this.GetCommittedValue(this.CountryDescriptor) as string != value))
                     return;
-                this.SetCommittedValue(this.CountryDescriptor, (object)value);
+                this.SetCommittedValue(this.CountryDescriptor, value);
             }
         }
 
         public string SelectedLanguage
         {
-            get => this.LanguageDescriptor != null ? this.GetUncommittedValue(this.LanguageDescriptor) as string : (string)null;
+            get => this.LanguageDescriptor != null ? this.GetUncommittedValue(this.LanguageDescriptor) as string : null;
             set
             {
                 if (this.LanguageDescriptor == null)
                     return;
-                this.SetCommittedValue(this.LanguageDescriptor, (object)value);
+                this.SetCommittedValue(this.LanguageDescriptor, value);
             }
         }
 
         public string SelectedState
         {
-            get => this.StateDescriptor != null ? this.GetUncommittedValue(this.StateDescriptor) as string : (string)null;
+            get => this.StateDescriptor != null ? this.GetUncommittedValue(this.StateDescriptor) as string : null;
             set
             {
-                bool flag = this.SupportedStates == null || this.SupportedStates.Count == 0 || this.SupportedStates.Contains((object)value);
+                bool flag = this.SupportedStates == null || this.SupportedStates.Count == 0 || this.SupportedStates.Contains(value);
                 if (this.StateDescriptor == null || !flag)
                     return;
-                this.SetCommittedValue(this.StateDescriptor, (object)value);
+                this.SetCommittedValue(this.StateDescriptor, value);
             }
         }
 
@@ -131,13 +131,13 @@ namespace ZuneUI
 
         public IList SupportedCountries
         {
-            get => RegionInfoStep._supportedCountries;
+            get => _supportedCountries;
             protected set
             {
-                if (RegionInfoStep._supportedCountries == value)
+                if (_supportedCountries == value)
                     return;
-                RegionInfoStep._supportedCountries = value;
-                string str = this.SelectBestCountry(RegionInfoStep._supportedCountries, this.SelectedCountry);
+                _supportedCountries = value;
+                string str = this.SelectBestCountry(_supportedCountries, this.SelectedCountry);
                 if (str != null)
                     this.SelectedCountry = str;
                 this.FirePropertyChanged(nameof(SupportedCountries));
@@ -167,9 +167,9 @@ namespace ZuneUI
                 if (this._supportedStates == value)
                     return;
                 this._supportedStates = value;
-                string str = (string)null;
+                string str = null;
                 if (this._supportedStates != null && this._supportedStates.Count > 0)
-                    str = !this._supportedStates.Contains((object)this.SelectedState) ? this._supportedStates[0] as string : this.SelectedState;
+                    str = !this._supportedStates.Contains(SelectedState) ? this._supportedStates[0] as string : this.SelectedState;
                 if (str != null)
                     this.SelectedState = str;
                 this.FirePropertyChanged(nameof(SupportedStates));
@@ -178,31 +178,31 @@ namespace ZuneUI
 
         public IList GetCountryDisplayNames()
         {
-            List<string> stringList = (List<string>)null;
-            if (RegionInfoStep._supportedCountries != null)
+            List<string> stringList = null;
+            if (_supportedCountries != null)
             {
-                stringList = new List<string>(RegionInfoStep._supportedCountries.Count);
-                foreach (string supportedCountry in (IEnumerable)RegionInfoStep._supportedCountries)
+                stringList = new List<string>(_supportedCountries.Count);
+                foreach (string supportedCountry in _supportedCountries)
                     stringList.Add(CountryHelper.GetDisplayName(supportedCountry));
             }
-            return (IList)stringList;
+            return stringList;
         }
 
         public IList GetLanguageDisplayNames()
         {
-            List<string> stringList = (List<string>)null;
+            List<string> stringList = null;
             if (this._supportedLanguages != null)
             {
                 stringList = new List<string>(this._supportedLanguages.Count);
-                foreach (string supportedLanguage in (IEnumerable)this._supportedLanguages)
+                foreach (string supportedLanguage in _supportedLanguages)
                     stringList.Add(LanguageHelper.GetDisplayName(supportedLanguage));
             }
-            return (IList)stringList;
+            return stringList;
         }
 
         public IList GetStateDisplayNames()
         {
-            IList list = (IList)null;
+            IList list = null;
             AccountCountry country = AccountCountryList.Instance.GetCountry(this.SelectedCountry);
             if (country != null)
                 list = country.States;
@@ -214,8 +214,8 @@ namespace ZuneUI
           out string language,
           out string country)
         {
-            language = (string)null;
-            country = (string)null;
+            language = null;
+            country = null;
             if (string.IsNullOrEmpty(locale))
                 return;
             try
@@ -239,17 +239,17 @@ namespace ZuneUI
         protected override void OnActivate()
         {
             this.IntializeOnce();
-            RegionInfoStep.RegionServiceData regionServiceData = new RegionInfoStep.RegionServiceData();
+            RegionServiceData regionServiceData = new RegionServiceData();
             regionServiceData.SelectedCountry = this.SelectedCountry;
             regionServiceData.SelectedLanguage = this.SelectedLanguage;
-            regionServiceData.SupportedStates = this._loadStates ? this.SupportedStates : (IList)new ArrayList(0);
-            regionServiceData.SupportedLanguages = this._loadLanguages ? this.SupportedLanguages : (IList)new ArrayList(0);
+            regionServiceData.SupportedStates = this._loadStates ? this.SupportedStates : new ArrayList(0);
+            regionServiceData.SupportedLanguages = this._loadLanguages ? this.SupportedLanguages : new ArrayList(0);
             if (!string.IsNullOrEmpty(regionServiceData.SelectedCountry))
                 regionServiceData.SupportedCountries = this.SupportedCountries;
             this.ServiceActivationRequestsDone = this.ServiceActivationRequestsDone && regionServiceData.SupportedStates != null && regionServiceData.SupportedLanguages != null && regionServiceData.SupportedCountries != null;
             if (this.ServiceActivationRequestsDone)
                 return;
-            this.StartActivationRequests((object)regionServiceData);
+            this.StartActivationRequests(regionServiceData);
         }
 
         private void IntializeOnce()
@@ -290,7 +290,7 @@ namespace ZuneUI
             if (refreshLanguagesStates)
                 this.RefreshLanguagesStates();
             if (this.WizardPropertyEditor != null && this.StateDescriptor != null)
-                this.WizardPropertyEditor.SetPropertyState(this.StateDescriptor, (object)this.SelectedCountry);
+                this.WizardPropertyEditor.SetPropertyState(this.StateDescriptor, SelectedCountry);
             this.OnCountryChanged();
         }
 
@@ -311,21 +311,21 @@ namespace ZuneUI
         protected void RefreshLanguagesStates()
         {
             if (this.WizardPropertyEditor != null && this.StateDescriptor != null)
-                this.WizardPropertyEditor.SetPropertyState(this.StateDescriptor, (object)this.SelectedCountry);
+                this.WizardPropertyEditor.SetPropertyState(this.StateDescriptor, SelectedCountry);
             if (!this.ServiceActivationRequestsDone)
                 return;
-            this.SupportedLanguages = (IList)null;
-            this.SupportedStates = (IList)null;
+            this.SupportedLanguages = null;
+            this.SupportedStates = null;
             this.Activate();
         }
 
         protected override void OnStartActivationRequests(object state)
         {
-            RegionInfoStep.RegionServiceData regionServiceData = (RegionInfoStep.RegionServiceData)state;
+            RegionServiceData regionServiceData = (RegionServiceData)state;
             if (regionServiceData.SupportedCountries == null)
             {
                 regionServiceData.SupportedCountries = this.ObtainSupportedCountries();
-                regionServiceData.SelectedCountry = regionServiceData.SupportedCountries == null || regionServiceData.SupportedCountries.Count == 0 ? (string)null : this.SelectBestCountry(regionServiceData.SupportedCountries, regionServiceData.SelectedCountry);
+                regionServiceData.SelectedCountry = regionServiceData.SupportedCountries == null || regionServiceData.SupportedCountries.Count == 0 ? null : this.SelectBestCountry(regionServiceData.SupportedCountries, regionServiceData.SelectedCountry);
             }
             if (regionServiceData.SupportedLanguages == null)
             {
@@ -334,12 +334,12 @@ namespace ZuneUI
             }
             if (regionServiceData.SupportedStates == null)
                 regionServiceData.SupportedStates = this.ObtainSupportedStates(regionServiceData.SelectedCountry);
-            this.EndActivationRequests((object)regionServiceData);
+            this.EndActivationRequests(regionServiceData);
         }
 
         protected override void OnEndActivationRequests(object args)
         {
-            RegionInfoStep.RegionServiceData regionServiceData = (RegionInfoStep.RegionServiceData)args;
+            RegionServiceData regionServiceData = (RegionServiceData)args;
             if (regionServiceData.SupportedCountries != null)
                 this.SupportedCountries = regionServiceData.SupportedCountries;
             if (regionServiceData.SupportedLanguages != null)
@@ -348,33 +348,33 @@ namespace ZuneUI
                 this.SupportedStates = regionServiceData.SupportedStates;
             if (regionServiceData.SupportedCountries != null && (regionServiceData.SupportedLanguages != null || !this.LoadLanguages))
                 return;
-            this.SetError(HRESULT._E_FAIL, (ServiceError)null);
+            this.SetError(HRESULT._E_FAIL, null);
             this.NavigateToErrorHandler();
         }
 
-        private IList ObtainSupportedCountries() => AccountCountryList.Instance.LoadDataOnWorkerThread() ? AccountCountryList.Instance.CountryAbbreviations : (IList)null;
+        private IList ObtainSupportedCountries() => AccountCountryList.Instance.LoadDataOnWorkerThread() ? AccountCountryList.Instance.CountryAbbreviations : null;
 
         private IList ObtainSupportedLanguages(string country)
         {
             AccountCountry country1 = AccountCountryList.Instance.GetCountry(country);
-            return country1 == null || country1.LanguageAbbreviations == null ? (IList)new ArrayList(0) : (IList)country1.LanguageAbbreviations;
+            return country1 == null || country1.LanguageAbbreviations == null ? new ArrayList(0) : (IList)country1.LanguageAbbreviations;
         }
 
         private IList ObtainSupportedStates(string country)
         {
             AccountCountry country1 = AccountCountryList.Instance.GetCountry(country);
-            return country1 == null || country1.StatesAbbreviations == null ? (IList)new List<string>(0) : country1.StatesAbbreviations;
+            return country1 == null || country1.StatesAbbreviations == null ? new List<string>(0) : country1.StatesAbbreviations;
         }
 
         private string SelectBestCountry(IList supportedCountries, string currentCountry)
         {
-            string str = (string)null;
+            string str = null;
             if (supportedCountries != null && supportedCountries.Count > 0)
             {
                 str = currentCountry;
                 if (string.IsNullOrEmpty(str))
                     str = CultureHelper.GetDefaultCountry();
-                if (!supportedCountries.Contains((object)str))
+                if (!supportedCountries.Contains(str))
                     str = supportedCountries[0] as string;
             }
             return str;
@@ -382,13 +382,13 @@ namespace ZuneUI
 
         private string SelectBestLanguage(IList supportedLanguage, string currentLanguage)
         {
-            string str = (string)null;
+            string str = null;
             if (supportedLanguage != null && supportedLanguage.Count > 0)
             {
                 str = currentLanguage;
                 if (string.IsNullOrEmpty(str))
                     str = CultureHelper.GetDefaultLanguage();
-                if (!supportedLanguage.Contains((object)str))
+                if (!supportedLanguage.Contains(str))
                     str = supportedLanguage[0] as string;
             }
             return str;

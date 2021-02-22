@@ -23,11 +23,11 @@ namespace ZuneXml
         public int Compare(object x, object y)
         {
             int comparisonResult = 0;
-            if (!PropertyComparer<TPropertyType>.IsNullComparison(x, y, out comparisonResult))
+            if (!IsNullComparison(x, y, out comparisonResult))
             {
                 TPropertyType propertyType = this._propertyGetter(x);
                 TPropertyType other = this._propertyGetter(y);
-                if (!PropertyComparer<TPropertyType>.IsNullComparison((object)propertyType, (object)other, out comparisonResult))
+                if (!IsNullComparison(propertyType, other, out comparisonResult))
                     comparisonResult = propertyType.CompareTo(other);
             }
             if (this._sortDescending)

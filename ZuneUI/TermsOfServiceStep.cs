@@ -23,7 +23,7 @@ namespace ZuneUI
         {
             this.NextTextOverride = Shell.LoadString(StringId.IDS_I_ACCEPT_BUTTON);
             this.Description = Shell.LoadString(StringId.IDS_ACCOUNT_TOS_STEP_TITLE);
-            this.Initialize((WizardPropertyEditor)null);
+            this.Initialize(null);
         }
 
         public override string UI => "res://ZuneShellResources!AccountInfo.uix#TermsOfServiceStep";
@@ -111,7 +111,7 @@ namespace ZuneUI
             this.ServiceActivationRequestsDone = this.TermsOfService != null && this.PassportIdentity != null;
             if (this.ServiceActivationRequestsDone)
                 return;
-            this.StartActivationRequests((object)new TermsOfServiceStep.TermsOfServiceData()
+            this.StartActivationRequests(new TermsOfServiceData()
             {
                 Username = this.Username,
                 Password = this.Password
@@ -121,14 +121,14 @@ namespace ZuneUI
         protected override void OnStartActivationRequests(object state)
         {
             HRESULT hr = HRESULT._S_OK;
-            TermsOfServiceStep.TermsOfServiceData termsOfServiceData = (TermsOfServiceStep.TermsOfServiceData)state;
+            TermsOfServiceData termsOfServiceData = (TermsOfServiceData)state;
             if (hr.IsSuccess)
                 hr = AccountManagementHelper.GetPassportIdentity(termsOfServiceData.Username, termsOfServiceData.Password, out termsOfServiceData.PassportIdentity);
-            ServiceError serviceError = (ServiceError)null;
+            ServiceError serviceError = null;
             if (hr.IsSuccess)
                 hr = this.State.AccountManagement.GetAccount(termsOfServiceData.PassportIdentity, out termsOfServiceData.AccountUser, out serviceError);
-            string language = (string)null;
-            string country = (string)null;
+            string language = null;
+            string country = null;
             if (hr.IsSuccess)
             {
                 RegionInfoStep.GetLanguageAndCountry(termsOfServiceData.AccountUser.Locale, out language, out country);
@@ -139,18 +139,18 @@ namespace ZuneUI
                 hr = this.State.AccountManagement.GetTermsOfService(language, country, out termsOfServiceData.TermsOfService);
             if (hr.IsError)
                 this.SetError(hr, serviceError);
-            this.EndActivationRequests((object)termsOfServiceData);
+            this.EndActivationRequests(termsOfServiceData);
         }
 
         protected override void OnEndActivationRequests(object args)
         {
-            TermsOfServiceStep.TermsOfServiceData termsOfServiceData = (TermsOfServiceStep.TermsOfServiceData)args;
+            TermsOfServiceData termsOfServiceData = (TermsOfServiceData)args;
             this.TermsOfService = termsOfServiceData.TermsOfService;
             this.PassportIdentity = termsOfServiceData.PassportIdentity;
             if (termsOfServiceData.AccountUser == null)
                 return;
-            this.TermsOfServiceUrl = TermsOfServiceStep.GetTermsOfServiceUrl(termsOfServiceData.AccountUser.Locale);
-            this.PrivacyUrl = TermsOfServiceStep.GetPrivacyUrl(termsOfServiceData.AccountUser.Locale);
+            this.TermsOfServiceUrl = GetTermsOfServiceUrl(termsOfServiceData.AccountUser.Locale);
+            this.PrivacyUrl = GetPrivacyUrl(termsOfServiceData.AccountUser.Locale);
             this.State.PrivacyInfoParentStep.CommittedSettings = termsOfServiceData.AccountUser.AccountSettings;
             this.State.PrivacyInfoStep.CommittedSettings = termsOfServiceData.AccountUser.AccountSettings;
             this.State.SetPrivacySettings(termsOfServiceData.AccountUser.AccountUserType);
@@ -158,7 +158,7 @@ namespace ZuneUI
                 return;
             this.State.PassportPasswordParentStep.ForceEnable = true;
             int num = -1;
-            foreach (object page in (IEnumerable)this._owner.Pages)
+            foreach (object page in _owner.Pages)
             {
                 ++num;
                 if (page == this.State.PassportPasswordParentStep)

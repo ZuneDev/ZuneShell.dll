@@ -15,7 +15,7 @@ namespace ZuneUI
           IList list2,
           bool matchesOnly,
           IComparer comparer,
-          ListHelper.MergeObjects mergeDelegate)
+          MergeObjects mergeDelegate)
         {
             ArrayList arrayList = new ArrayList();
             if (list1 != null && list2 != null)
@@ -34,20 +34,20 @@ namespace ZuneUI
                         }
                     }
                     if (!flag && !matchesOnly)
-                        arrayList.Add(mergeDelegate(list1[index1], (object)null));
+                        arrayList.Add(mergeDelegate(list1[index1], null));
                 }
                 if (!matchesOnly)
                 {
-                    foreach (object obj in (IEnumerable)list2)
-                        arrayList.Add(mergeDelegate(obj, (object)null));
+                    foreach (object obj in list2)
+                        arrayList.Add(mergeDelegate(obj, null));
                 }
             }
             else if (!matchesOnly && (list1 != null || list2 != null))
             {
-                foreach (object obj in list1 != null ? (IEnumerable)list1 : (IEnumerable)list2)
-                    arrayList.Add(mergeDelegate(obj, (object)null));
+                foreach (object obj in list1 != null ? list1 : list2)
+                    arrayList.Add(mergeDelegate(obj, null));
             }
-            return (IList)arrayList;
+            return arrayList;
         }
 
         public delegate object MergeObjects(object item1, object item2);

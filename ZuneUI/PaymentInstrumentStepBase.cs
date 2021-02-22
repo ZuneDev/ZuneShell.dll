@@ -27,7 +27,7 @@ namespace ZuneUI
                 this.Description = Shell.LoadString(StringId.IDS_ACCOUNT_CREATION_PARENT_AGE_HEADER);
             else
                 this.Description = Shell.LoadString(StringId.IDS_BILLING_EDIT_CC_ADD_HEADER);
-            this.Initialize((WizardPropertyEditor)new PaymentInstrumentPropertyEditor());
+            this.Initialize(new PaymentInstrumentPropertyEditor());
         }
 
         public override string UI => "res://ZuneShellResources!AccountInfo.uix#PaymentInstrumentStep";
@@ -63,12 +63,12 @@ namespace ZuneUI
                     this._errorMappings.Add(HRESULT._ZEST_E_CREDITCARD_ADDRESS_STREET1_INVALID.Int, PaymentInstrumentPropertyEditor.Street1);
                     this._errorMappings.Add(HRESULT._ZEST_E_CREDITCARD_PARENTPHONE_INVALID.Int, PaymentInstrumentPropertyEditor.PhoneNumber);
                     this._errorMappings.Add(HRESULT._ZEST_E_INVALID_ARG_PARENT_PHONE_INVALID.Int, PaymentInstrumentPropertyEditor.PhoneNumber);
-                    this._errorMappings.Add(HRESULT._ZEST_E_CREDITCARD_ADD_FAILED.Int, (PropertyDescriptor)null);
-                    this._errorMappings.Add(HRESULT._ZEST_E_CREDITCARD_VALIDATE_FAILED.Int, (PropertyDescriptor)null);
-                    this._errorMappings.Add(HRESULT._ZEST_E_CREDITCARD_INVALID.Int, (PropertyDescriptor)null);
-                    this._errorMappings.Add(HRESULT._ZEST_E_CREDITCARD_ADDRESS_INVALID.Int, (PropertyDescriptor)null);
-                    this._errorMappings.Add(HRESULT._ZEST_E_LIVEACCOUNT_PAYMENT_INSTRUMENT_INVALID.Int, (PropertyDescriptor)null);
-                    this._errorMappings.Add(HRESULT._ZEST_E_LIVEACCOUNT_ADDRESS_INVALID.Int, (PropertyDescriptor)null);
+                    this._errorMappings.Add(HRESULT._ZEST_E_CREDITCARD_ADD_FAILED.Int, null);
+                    this._errorMappings.Add(HRESULT._ZEST_E_CREDITCARD_VALIDATE_FAILED.Int, null);
+                    this._errorMappings.Add(HRESULT._ZEST_E_CREDITCARD_INVALID.Int, null);
+                    this._errorMappings.Add(HRESULT._ZEST_E_CREDITCARD_ADDRESS_INVALID.Int, null);
+                    this._errorMappings.Add(HRESULT._ZEST_E_LIVEACCOUNT_PAYMENT_INSTRUMENT_INVALID.Int, null);
+                    this._errorMappings.Add(HRESULT._ZEST_E_LIVEACCOUNT_ADDRESS_INVALID.Int, null);
                 }
                 return this._errorMappings;
             }
@@ -78,14 +78,14 @@ namespace ZuneUI
         {
             if (this.WizardPropertyEditor == null)
                 return;
-            this.WizardPropertyEditor.SetPropertyState(PaymentInstrumentPropertyEditor.AccountHolderName, (object)this.SelectedCountry);
-            this.WizardPropertyEditor.SetPropertyState(PaymentInstrumentPropertyEditor.Street1, (object)this.SelectedCountry);
-            this.WizardPropertyEditor.SetPropertyState(PaymentInstrumentPropertyEditor.Street2, (object)this.SelectedCountry);
-            this.WizardPropertyEditor.SetPropertyState(PaymentInstrumentPropertyEditor.City, (object)this.SelectedCountry);
-            this.WizardPropertyEditor.SetPropertyState(PaymentInstrumentPropertyEditor.State, (object)this.SelectedCountry);
-            this.WizardPropertyEditor.SetPropertyState(PaymentInstrumentPropertyEditor.PostalCode, (object)this.SelectedCountry);
-            this.WizardPropertyEditor.SetPropertyState(PaymentInstrumentPropertyEditor.PhoneNumber, (object)this.SelectedCountry);
-            this.WizardPropertyEditor.SetPropertyState(PaymentInstrumentPropertyEditor.PhoneExtension, (object)this.SelectedCountry);
+            this.WizardPropertyEditor.SetPropertyState(PaymentInstrumentPropertyEditor.AccountHolderName, SelectedCountry);
+            this.WizardPropertyEditor.SetPropertyState(PaymentInstrumentPropertyEditor.Street1, SelectedCountry);
+            this.WizardPropertyEditor.SetPropertyState(PaymentInstrumentPropertyEditor.Street2, SelectedCountry);
+            this.WizardPropertyEditor.SetPropertyState(PaymentInstrumentPropertyEditor.City, SelectedCountry);
+            this.WizardPropertyEditor.SetPropertyState(PaymentInstrumentPropertyEditor.State, SelectedCountry);
+            this.WizardPropertyEditor.SetPropertyState(PaymentInstrumentPropertyEditor.PostalCode, SelectedCountry);
+            this.WizardPropertyEditor.SetPropertyState(PaymentInstrumentPropertyEditor.PhoneNumber, SelectedCountry);
+            this.WizardPropertyEditor.SetPropertyState(PaymentInstrumentPropertyEditor.PhoneExtension, SelectedCountry);
         }
 
         protected CreditCard CreateCreditCard()

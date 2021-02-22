@@ -49,9 +49,9 @@ namespace ZuneUI
         {
             get
             {
-                if (SettingCategories._accountLinks == null)
-                    SettingCategories._accountLinks = new Category(StringId.IDS_ACCOUNT_MENU_ITEM, "res://ZuneShellResources!ManagementAccount.uix");
-                return SettingCategories._accountLinks;
+                if (_accountLinks == null)
+                    _accountLinks = new Category(StringId.IDS_ACCOUNT_MENU_ITEM, "res://ZuneShellResources!ManagementAccount.uix");
+                return _accountLinks;
             }
         }
 
@@ -59,9 +59,9 @@ namespace ZuneUI
         {
             get
             {
-                if (SettingCategories._burn == null)
-                    SettingCategories._burn = new Category(StringId.IDS_BURN_MENU_ITEM, "res://ZuneShellResources!ManagementBurn.uix");
-                return SettingCategories._burn;
+                if (_burn == null)
+                    _burn = new Category(StringId.IDS_BURN_MENU_ITEM, "res://ZuneShellResources!ManagementBurn.uix");
+                return _burn;
             }
         }
 
@@ -69,9 +69,9 @@ namespace ZuneUI
         {
             get
             {
-                if (SettingCategories._display == null)
-                    SettingCategories._display = new Category(StringId.IDS_DISPLAY_MENU_ITEM, "res://ZuneShellResources!ManagementDisplay.uix");
-                return SettingCategories._display;
+                if (_display == null)
+                    _display = new Category(StringId.IDS_DISPLAY_MENU_ITEM, "res://ZuneShellResources!ManagementDisplay.uix");
+                return _display;
             }
         }
 
@@ -79,9 +79,9 @@ namespace ZuneUI
         {
             get
             {
-                if (SettingCategories._collection == null)
-                    SettingCategories._collection = new Category(StringId.IDS_COLLECTION_MENU_ITEM, "res://ZuneShellResources!ManagementCollection.uix");
-                return SettingCategories._collection;
+                if (_collection == null)
+                    _collection = new Category(StringId.IDS_COLLECTION_MENU_ITEM, "res://ZuneShellResources!ManagementCollection.uix");
+                return _collection;
             }
         }
 
@@ -89,9 +89,9 @@ namespace ZuneUI
         {
             get
             {
-                if (SettingCategories._devices == null)
-                    SettingCategories._devices = new Category(StringId.IDS_MARKETPLACE_MENU_ITEM, "res://ZuneShellResources!ManagementDevices.uix");
-                return SettingCategories._devices;
+                if (_devices == null)
+                    _devices = new Category(StringId.IDS_MARKETPLACE_MENU_ITEM, "res://ZuneShellResources!ManagementDevices.uix");
+                return _devices;
             }
         }
 
@@ -99,9 +99,9 @@ namespace ZuneUI
         {
             get
             {
-                if (SettingCategories._filetype == null)
-                    SettingCategories._filetype = new Category(StringId.IDS_FILE_TYPE_MENU_ITEM, "res://ZuneShellResources!ManagementFileTypes.uix");
-                return SettingCategories._filetype;
+                if (_filetype == null)
+                    _filetype = new Category(StringId.IDS_FILE_TYPE_MENU_ITEM, "res://ZuneShellResources!ManagementFileTypes.uix");
+                return _filetype;
             }
         }
 
@@ -109,9 +109,9 @@ namespace ZuneUI
         {
             get
             {
-                if (SettingCategories._firmwareUpdate == null)
-                    SettingCategories._firmwareUpdate = new Category(StringId.IDS_FIRMWARE_UPDATE_HEADER, "res://ZuneShellResources!DeviceFirmware.uix#Default");
-                return SettingCategories._firmwareUpdate;
+                if (_firmwareUpdate == null)
+                    _firmwareUpdate = new Category(StringId.IDS_FIRMWARE_UPDATE_HEADER, "res://ZuneShellResources!DeviceFirmware.uix#Default");
+                return _firmwareUpdate;
             }
         }
 
@@ -119,9 +119,9 @@ namespace ZuneUI
         {
             get
             {
-                if (SettingCategories._general == null)
-                    SettingCategories._general = new Category(StringId.IDS_GENERAL_MENU_ITEM, "res://ZuneShellResources!ManagementGeneral.uix");
-                return SettingCategories._general;
+                if (_general == null)
+                    _general = new Category(StringId.IDS_GENERAL_MENU_ITEM, "res://ZuneShellResources!ManagementGeneral.uix");
+                return _general;
             }
         }
 
@@ -129,9 +129,9 @@ namespace ZuneUI
         {
             get
             {
-                if (SettingCategories._nameDevice == null)
-                    SettingCategories._nameDevice = new Category(StringId.IDS_NAME_ZUNE_HEADER, "res://ZuneShellResources!DeviceName.uix#Default");
-                return SettingCategories._nameDevice;
+                if (_nameDevice == null)
+                    _nameDevice = new Category(StringId.IDS_NAME_ZUNE_HEADER, "res://ZuneShellResources!DeviceName.uix#Default");
+                return _nameDevice;
             }
         }
 
@@ -139,9 +139,9 @@ namespace ZuneUI
         {
             get
             {
-                if (SettingCategories._deviceMarketplace == null)
-                    SettingCategories._deviceMarketplace = new Category(StringId.IDS_ENABLE_MARKETPLACE_ON_DEVICE_HEADER, "res://ZuneShellResources!DeviceMarketplace.uix#Default");
-                return SettingCategories._deviceMarketplace;
+                if (_deviceMarketplace == null)
+                    _deviceMarketplace = new Category(StringId.IDS_ENABLE_MARKETPLACE_ON_DEVICE_HEADER, "res://ZuneShellResources!DeviceMarketplace.uix#Default");
+                return _deviceMarketplace;
             }
         }
 
@@ -149,9 +149,9 @@ namespace ZuneUI
         {
             get
             {
-                if (SettingCategories._photo == null)
-                    SettingCategories._photo = new Category(StringId.IDS_PHOTO_MENU_ITEM, "res://ZuneShellResources!ManagementPhoto.uix");
-                return SettingCategories._photo;
+                if (_photo == null)
+                    _photo = new Category(StringId.IDS_PHOTO_MENU_ITEM, "res://ZuneShellResources!ManagementPhoto.uix");
+                return _photo;
             }
         }
 
@@ -159,9 +159,9 @@ namespace ZuneUI
         {
             get
             {
-                if (SettingCategories._podcast == null)
-                    SettingCategories._podcast = new Category(StringId.IDS_PODCAST_MENU_ITEM, "res://ZuneShellResources!ManagementPodcast.uix");
-                return SettingCategories._podcast;
+                if (_podcast == null)
+                    _podcast = new Category(StringId.IDS_PODCAST_MENU_ITEM, "res://ZuneShellResources!ManagementPodcast.uix");
+                return _podcast;
             }
         }
 
@@ -169,9 +169,9 @@ namespace ZuneUI
         {
             get
             {
-                if (SettingCategories._purchaseHistory == null)
-                    SettingCategories._purchaseHistory = new Category(StringId.IDS_BILLING_PURCHASE_HISTORY_HEADER, "res://ZuneShellResources!ManagementPurchases.uix", false);
-                return SettingCategories._purchaseHistory;
+                if (_purchaseHistory == null)
+                    _purchaseHistory = new Category(StringId.IDS_BILLING_PURCHASE_HISTORY_HEADER, "res://ZuneShellResources!ManagementPurchases.uix", false);
+                return _purchaseHistory;
             }
         }
 
@@ -179,9 +179,9 @@ namespace ZuneUI
         {
             get
             {
-                if (SettingCategories._privacy == null)
-                    SettingCategories._privacy = new Category(StringId.IDS_PRIVACY_MENU_ITEM, "res://ZuneShellResources!ManagementPrivacy.uix");
-                return SettingCategories._privacy;
+                if (_privacy == null)
+                    _privacy = new Category(StringId.IDS_PRIVACY_MENU_ITEM, "res://ZuneShellResources!ManagementPrivacy.uix");
+                return _privacy;
             }
         }
 
@@ -189,9 +189,9 @@ namespace ZuneUI
         {
             get
             {
-                if (SettingCategories._rentalHistory == null)
-                    SettingCategories._rentalHistory = new Category(StringId.IDS_BILLING_RENTAL_HISTORY_HEADER, "res://ZuneShellResources!ManagementRentals.uix", false);
-                return SettingCategories._rentalHistory;
+                if (_rentalHistory == null)
+                    _rentalHistory = new Category(StringId.IDS_BILLING_RENTAL_HISTORY_HEADER, "res://ZuneShellResources!ManagementRentals.uix", false);
+                return _rentalHistory;
             }
         }
 
@@ -199,9 +199,9 @@ namespace ZuneUI
         {
             get
             {
-                if (SettingCategories._rip == null)
-                    SettingCategories._rip = new Category(StringId.IDS_RIP_MENU_ITEM, "res://ZuneShellResources!ManagementRip.uix");
-                return SettingCategories._rip;
+                if (_rip == null)
+                    _rip = new Category(StringId.IDS_RIP_MENU_ITEM, "res://ZuneShellResources!ManagementRip.uix");
+                return _rip;
             }
         }
 
@@ -209,9 +209,9 @@ namespace ZuneUI
         {
             get
             {
-                if (SettingCategories._metadata == null)
-                    SettingCategories._metadata = new Category(FeatureEnablement.IsFeatureEnabled(Features.eSocial) ? StringId.IDS_METADATA_AND_RATINGS_MENU_ITEM : StringId.IDS_METADATA_MENU_ITEM, "res://ZuneShellResources!ManagementMetadata.uix");
-                return SettingCategories._metadata;
+                if (_metadata == null)
+                    _metadata = new Category(FeatureEnablement.IsFeatureEnabled(Features.eSocial) ? StringId.IDS_METADATA_AND_RATINGS_MENU_ITEM : StringId.IDS_METADATA_MENU_ITEM, "res://ZuneShellResources!ManagementMetadata.uix");
+                return _metadata;
             }
         }
 
@@ -219,9 +219,9 @@ namespace ZuneUI
         {
             get
             {
-                if (SettingCategories._sharing == null)
-                    SettingCategories._sharing = new Category(StringId.IDS_SHARING_MENU_ITEM, "res://ZuneShellResources!ManagementSharing.uix");
-                return SettingCategories._sharing;
+                if (_sharing == null)
+                    _sharing = new Category(StringId.IDS_SHARING_MENU_ITEM, "res://ZuneShellResources!ManagementSharing.uix");
+                return _sharing;
             }
         }
 
@@ -229,9 +229,9 @@ namespace ZuneUI
         {
             get
             {
-                if (SettingCategories._pictureVideo == null)
-                    SettingCategories._pictureVideo = new Category(StringId.IDS_DEVICE_SETTINGS_PICTURES, "res://ZuneShellResources!DevicePictureVideo.uix#Default");
-                return SettingCategories._pictureVideo;
+                if (_pictureVideo == null)
+                    _pictureVideo = new Category(StringId.IDS_DEVICE_SETTINGS_PICTURES, "res://ZuneShellResources!DevicePictureVideo.uix#Default");
+                return _pictureVideo;
             }
         }
 
@@ -239,9 +239,9 @@ namespace ZuneUI
         {
             get
             {
-                if (SettingCategories._moreOneWeb == null)
-                    SettingCategories._moreOneWeb = new Category(StringId.IDS_DEVICE_SETTINGS_MORE_ON_WEB, "res://ZuneShellResources!DeviceMoreOnWeb.uix#Default");
-                return SettingCategories._moreOneWeb;
+                if (_moreOneWeb == null)
+                    _moreOneWeb = new Category(StringId.IDS_DEVICE_SETTINGS_MORE_ON_WEB, "res://ZuneShellResources!DeviceMoreOnWeb.uix#Default");
+                return _moreOneWeb;
             }
         }
 
@@ -249,9 +249,9 @@ namespace ZuneUI
         {
             get
             {
-                if (SettingCategories._spaceReservation == null)
-                    SettingCategories._spaceReservation = new Category(StringId.IDS_DEVICE_SETTINGS_RESERVATION, "res://ZuneShellResources!DeviceSpaceReservation.uix#Default");
-                return SettingCategories._spaceReservation;
+                if (_spaceReservation == null)
+                    _spaceReservation = new Category(StringId.IDS_DEVICE_SETTINGS_RESERVATION, "res://ZuneShellResources!DeviceSpaceReservation.uix#Default");
+                return _spaceReservation;
             }
         }
 
@@ -259,9 +259,9 @@ namespace ZuneUI
         {
             get
             {
-                if (SettingCategories._subscriptionHistory == null)
-                    SettingCategories._subscriptionHistory = new Category(StringId.IDS_BILLING_DOWNLOAD_HISTORY_HEADER, "res://ZuneShellResources!ManagementSubscription.uix", false);
-                return SettingCategories._subscriptionHistory;
+                if (_subscriptionHistory == null)
+                    _subscriptionHistory = new Category(StringId.IDS_BILLING_DOWNLOAD_HISTORY_HEADER, "res://ZuneShellResources!ManagementSubscription.uix", false);
+                return _subscriptionHistory;
             }
         }
 
@@ -269,9 +269,9 @@ namespace ZuneUI
         {
             get
             {
-                if (SettingCategories._syncGroups == null)
-                    SettingCategories._syncGroups = new Category(StringId.IDS_SYNC_GROUPS_SETTINGS_HEADER, "res://ZuneShellResources!DeviceSyncGroups.uix#SyncGroups", false);
-                return SettingCategories._syncGroups;
+                if (_syncGroups == null)
+                    _syncGroups = new Category(StringId.IDS_SYNC_GROUPS_SETTINGS_HEADER, "res://ZuneShellResources!DeviceSyncGroups.uix#SyncGroups", false);
+                return _syncGroups;
             }
         }
 
@@ -279,9 +279,9 @@ namespace ZuneUI
         {
             get
             {
-                if (SettingCategories._syncOptions == null)
-                    SettingCategories._syncOptions = new Category(StringId.IDS_SYNC_OPTIONS_HEADER, "res://ZuneShellResources!DeviceSyncOptions.uix#Default", false);
-                return SettingCategories._syncOptions;
+                if (_syncOptions == null)
+                    _syncOptions = new Category(StringId.IDS_SYNC_OPTIONS_HEADER, "res://ZuneShellResources!DeviceSyncOptions.uix#Default", false);
+                return _syncOptions;
             }
         }
 
@@ -289,9 +289,9 @@ namespace ZuneUI
         {
             get
             {
-                if (SettingCategories._transcoding == null)
-                    SettingCategories._transcoding = new Category(StringId.IDS_TRANSCODING_HEADER, "res://ZuneShellResources!DeviceTranscode.uix#Default");
-                return SettingCategories._transcoding;
+                if (_transcoding == null)
+                    _transcoding = new Category(StringId.IDS_TRANSCODING_HEADER, "res://ZuneShellResources!DeviceTranscode.uix#Default");
+                return _transcoding;
             }
         }
 
@@ -299,9 +299,9 @@ namespace ZuneUI
         {
             get
             {
-                if (SettingCategories._wirelessSetup == null)
-                    SettingCategories._wirelessSetup = new Category(StringId.IDS_WIRELESS_SYNC_HEADER, "res://ZuneShellResources!DeviceWirelessSync.uix#Default");
-                return SettingCategories._wirelessSetup;
+                if (_wirelessSetup == null)
+                    _wirelessSetup = new Category(StringId.IDS_WIRELESS_SYNC_HEADER, "res://ZuneShellResources!DeviceWirelessSync.uix#Default");
+                return _wirelessSetup;
             }
         }
 
@@ -309,9 +309,9 @@ namespace ZuneUI
         {
             get
             {
-                if (SettingCategories._wirelessSetupMobile == null)
-                    SettingCategories._wirelessSetupMobile = new Category(StringId.IDS_WIRELESS_SYNC_HEADER, "res://ZuneShellResources!DeviceWirelessSync.uix#MobileDefault");
-                return SettingCategories._wirelessSetupMobile;
+                if (_wirelessSetupMobile == null)
+                    _wirelessSetupMobile = new Category(StringId.IDS_WIRELESS_SYNC_HEADER, "res://ZuneShellResources!DeviceWirelessSync.uix#MobileDefault");
+                return _wirelessSetupMobile;
             }
         }
 
@@ -319,9 +319,9 @@ namespace ZuneUI
         {
             get
             {
-                if (SettingCategories._wirelessSetupDevice == null)
-                    SettingCategories._wirelessSetupDevice = new Category(StringId.IDS_WIRELESS_SYNC_HEADER, "res://ZuneShellResources!DeviceWirelessSync.uix#DeviceDefault");
-                return SettingCategories._wirelessSetupDevice;
+                if (_wirelessSetupDevice == null)
+                    _wirelessSetupDevice = new Category(StringId.IDS_WIRELESS_SYNC_HEADER, "res://ZuneShellResources!DeviceWirelessSync.uix#DeviceDefault");
+                return _wirelessSetupDevice;
             }
         }
 
@@ -329,9 +329,9 @@ namespace ZuneUI
         {
             get
             {
-                if (SettingCategories._wirelessSetupComplete == null)
-                    SettingCategories._wirelessSetupComplete = new Category(StringId.IDS_WIRELESS_SYNC_HEADER, "res://ZuneShellResources!DeviceWirelessSync.uix#WirelessSyncComplete");
-                return SettingCategories._wirelessSetupComplete;
+                if (_wirelessSetupComplete == null)
+                    _wirelessSetupComplete = new Category(StringId.IDS_WIRELESS_SYNC_HEADER, "res://ZuneShellResources!DeviceWirelessSync.uix#WirelessSyncComplete");
+                return _wirelessSetupComplete;
             }
         }
 
@@ -339,9 +339,9 @@ namespace ZuneUI
         {
             get
             {
-                if (SettingCategories._wirelessSetupManual == null)
-                    SettingCategories._wirelessSetupManual = new Category(StringId.IDS_WIRELESS_SYNC_HEADER, "res://ZuneShellResources!DeviceWirelessSync.uix#WirelessSyncManual");
-                return SettingCategories._wirelessSetupManual;
+                if (_wirelessSetupManual == null)
+                    _wirelessSetupManual = new Category(StringId.IDS_WIRELESS_SYNC_HEADER, "res://ZuneShellResources!DeviceWirelessSync.uix#WirelessSyncManual");
+                return _wirelessSetupManual;
             }
         }
 
@@ -349,9 +349,9 @@ namespace ZuneUI
         {
             get
             {
-                if (SettingCategories._wirelessSetupNotConfigured == null)
-                    SettingCategories._wirelessSetupNotConfigured = new Category(StringId.IDS_WIRELESS_SYNC_HEADER, "res://ZuneShellResources!DeviceWirelessSync.uix#WirelessSyncNotConfigured");
-                return SettingCategories._wirelessSetupNotConfigured;
+                if (_wirelessSetupNotConfigured == null)
+                    _wirelessSetupNotConfigured = new Category(StringId.IDS_WIRELESS_SYNC_HEADER, "res://ZuneShellResources!DeviceWirelessSync.uix#WirelessSyncNotConfigured");
+                return _wirelessSetupNotConfigured;
             }
         }
 
@@ -359,9 +359,9 @@ namespace ZuneUI
         {
             get
             {
-                if (SettingCategories._wirelessSetupCurrentConfig == null)
-                    SettingCategories._wirelessSetupCurrentConfig = new Category(StringId.IDS_WIRELESS_SYNC_HEADER, "res://ZuneShellResources!DeviceWirelessSync.uix#WirelessSyncCurrentConfig");
-                return SettingCategories._wirelessSetupCurrentConfig;
+                if (_wirelessSetupCurrentConfig == null)
+                    _wirelessSetupCurrentConfig = new Category(StringId.IDS_WIRELESS_SYNC_HEADER, "res://ZuneShellResources!DeviceWirelessSync.uix#WirelessSyncCurrentConfig");
+                return _wirelessSetupCurrentConfig;
             }
         }
 
@@ -369,9 +369,9 @@ namespace ZuneUI
         {
             get
             {
-                if (SettingCategories._wirelessSetupDeviceBusy == null)
-                    SettingCategories._wirelessSetupDeviceBusy = new Category(StringId.IDS_WIRELESS_SYNC_HEADER, "res://ZuneShellResources!DeviceWirelessSync.uix#WirelessSyncDeviceBusy");
-                return SettingCategories._wirelessSetupDeviceBusy;
+                if (_wirelessSetupDeviceBusy == null)
+                    _wirelessSetupDeviceBusy = new Category(StringId.IDS_WIRELESS_SYNC_HEADER, "res://ZuneShellResources!DeviceWirelessSync.uix#WirelessSyncDeviceBusy");
+                return _wirelessSetupDeviceBusy;
             }
         }
 
@@ -379,9 +379,9 @@ namespace ZuneUI
         {
             get
             {
-                if (SettingCategories._devicePrivacy == null)
-                    SettingCategories._devicePrivacy = new Category(StringId.IDS_DEVICE_PRIVACY_MENU_ITEM, "res://ZuneShellResources!DevicePrivacy.uix#Default");
-                return SettingCategories._devicePrivacy;
+                if (_devicePrivacy == null)
+                    _devicePrivacy = new Category(StringId.IDS_DEVICE_PRIVACY_MENU_ITEM, "res://ZuneShellResources!DevicePrivacy.uix#Default");
+                return _devicePrivacy;
             }
         }
     }

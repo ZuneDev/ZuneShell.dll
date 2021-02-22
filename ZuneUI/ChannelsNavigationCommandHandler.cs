@@ -10,6 +10,6 @@ namespace ZuneUI
 {
     public class ChannelsNavigationCommandHandler : DeviceAwareNavigationHandler
     {
-        protected override ZunePage GetPage(IDictionary args) => (ZunePage)new ChannelLibraryPage(this.ShowDeviceContents);
+        protected override ZunePage GetPage(IDictionary args) => new ChannelLibraryPage(this.ShowDeviceContents);
     }
 }

@@ -13,11 +13,11 @@ namespace ZuneUI
 
         public ContactInformationWizard()
         {
-            this._finishStep = new AccountManagementFinishStep((Wizard)this, this.State, Shell.LoadString(StringId.IDS_ACCOUNT_FINISHED_DESCRIPTION), this.State.ContactInfoStep.DetailDescription);
-            this._errorStep = new AccountManagementErrorPage((Wizard)this, Shell.LoadString(StringId.IDS_ACCOUNT_CONTACT_INFO_ERROR_TITLE), Shell.LoadString(StringId.IDS_ACCOUNT_CONTACT_INFO_ERROR_DESC));
-            this.AddPage((WizardPage)this.State.ContactInfoStep);
-            this.AddPage((WizardPage)this._finishStep);
-            this.AddPage((WizardPage)this._errorStep);
+            this._finishStep = new AccountManagementFinishStep(this, this.State, Shell.LoadString(StringId.IDS_ACCOUNT_FINISHED_DESCRIPTION), this.State.ContactInfoStep.DetailDescription);
+            this._errorStep = new AccountManagementErrorPage(this, Shell.LoadString(StringId.IDS_ACCOUNT_CONTACT_INFO_ERROR_TITLE), Shell.LoadString(StringId.IDS_ACCOUNT_CONTACT_INFO_ERROR_DESC));
+            this.AddPage(State.ContactInfoStep);
+            this.AddPage(_finishStep);
+            this.AddPage(_errorStep);
         }
 
         protected override void OnAsyncCommitCompleted(bool success)

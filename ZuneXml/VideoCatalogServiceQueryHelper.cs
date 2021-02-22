@@ -11,7 +11,7 @@ namespace ZuneXml
         internal static ZuneServiceQueryHelper ConstructVideoCatalogQuery(
           ZuneServiceQuery query)
         {
-            return (ZuneServiceQueryHelper)new VideoCatalogServiceQueryHelper(query);
+            return new VideoCatalogServiceQueryHelper(query);
         }
 
         internal VideoCatalogServiceQueryHelper(ZuneServiceQuery query)

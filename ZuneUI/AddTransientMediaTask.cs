@@ -64,7 +64,7 @@ namespace ZuneUI
                 }
                 else
                 {
-                    this.TaskFunction((object)null);
+                    this.TaskFunction(null);
                     dbMediaId = this._dbMediaId;
                     fFileAlreadyExists = this._fFileAlreadyExists;
                     flag = this._fAddSuccessful;

@@ -19,9 +19,9 @@ namespace ZuneUI
         {
             get
             {
-                if (FeaturesChanged.m_instance == null)
-                    FeaturesChanged.m_instance = new FeaturesChanged();
-                return FeaturesChanged.m_instance;
+                if (m_instance == null)
+                    m_instance = new FeaturesChanged();
+                return m_instance;
             }
         }
 
@@ -46,7 +46,7 @@ namespace ZuneUI
             {
                 if (this.m_featuresHaveChanged || !value)
                     return;
-                MessageBox.Show(Shell.LoadString(StringId.IDS_FEATURESCHANGED_TITLE), Shell.LoadString(StringId.IDS_FEATURESCHANGED_CONTENT), (EventHandler)null);
+                MessageBox.Show(Shell.LoadString(StringId.IDS_FEATURESCHANGED_TITLE), Shell.LoadString(StringId.IDS_FEATURESCHANGED_CONTENT), null);
                 this.m_featuresHaveChanged = value;
             }
         }

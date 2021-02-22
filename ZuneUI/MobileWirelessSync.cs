@@ -17,7 +17,7 @@ namespace ZuneUI
         private int _errorCode = HRESULT._S_OK.Int;
 
         public MobileWirelessSync(UIDevice endpoint)
-          : base((IModelItemOwner)ZuneShell.DefaultInstance.Management.DeviceManagement)
+          : base(ZuneShell.DefaultInstance.Management.DeviceManagement)
           => this._mobileDevice = endpoint;
 
         public string MediaSyncSSID

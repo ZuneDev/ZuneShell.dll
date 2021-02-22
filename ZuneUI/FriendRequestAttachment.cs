@@ -13,9 +13,9 @@ namespace ZuneUI
         public const string RequestTypeString = "friendrequest";
 
         public FriendRequestAttachment()
-          : base(Guid.Empty, (string)null, (string)null, (string)null)
+          : base(Guid.Empty, null, null, null)
         {
-            this.AttachmentUI = (string)null;
+            this.AttachmentUI = null;
             this.Description = Shell.LoadString(StringId.IDS_COMPOSE_MESSAGE_FRIENDREQUEST_ATTACHMENT);
         }
 

@@ -12,20 +12,20 @@ namespace ZuneUI
     {
         private static PropertyDescriptor[] s_properties = new PropertyDescriptor[12]
         {
-      (PropertyDescriptor) MetadataEditMedia.s_Title,
-      MetadataEditMedia.s_TitleYomi,
-      (PropertyDescriptor) MetadataEditMedia.s_Artist,
-      MetadataEditMedia.s_Genre,
-      MetadataEditMedia.s_Conductor,
-      MetadataEditMedia.s_Composer,
-      (PropertyDescriptor) MetadataEditMedia.s_Category,
-      MetadataEditMedia.s_SeriesTitle,
-      (PropertyDescriptor) MetadataEditMedia.s_SeasonNumber,
-      (PropertyDescriptor) MetadataEditMedia.s_EpisodeNumber,
-      (PropertyDescriptor) MetadataEditMedia.s_ReleaseDate,
-      MetadataEditMedia.s_Description
+       s_Title,
+      s_TitleYomi,
+       s_Artist,
+      s_Genre,
+      s_Conductor,
+      s_Composer,
+       s_Category,
+      s_SeriesTitle,
+       s_SeasonNumber,
+       s_EpisodeNumber,
+       s_ReleaseDate,
+      s_Description
         };
 
-        public MetadataEditVideo(IList videoList) => this.Initialize(videoList, MetadataEditVideo.s_properties);
+        public MetadataEditVideo(IList videoList) => this.Initialize(videoList, s_properties);
     }
 }

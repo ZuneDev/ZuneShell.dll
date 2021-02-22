@@ -34,24 +34,24 @@ namespace ZuneUI
                     if (this._notificationList[index] != null)
                         this._notificationList[index].Dispose();
                 }
-                this._currentNotification = (Notification)null;
+                this._currentNotification = null;
                 if (this._overrideNotification != null)
                 {
                     this._overrideNotification.Dispose();
-                    this._overrideNotification = (Notification)null;
+                    this._overrideNotification = null;
                 }
             }
             base.OnDispose(disposing);
-            NotificationArea._singletonInstance = (NotificationArea)null;
+            _singletonInstance = null;
         }
 
         public static NotificationArea Instance
         {
             get
             {
-                if (NotificationArea._singletonInstance == null)
-                    NotificationArea._singletonInstance = new NotificationArea((IModelItemOwner)ZuneShell.DefaultInstance);
-                return NotificationArea._singletonInstance;
+                if (_singletonInstance == null)
+                    _singletonInstance = new NotificationArea(ZuneShell.DefaultInstance);
+                return _singletonInstance;
             }
         }
 
@@ -81,7 +81,7 @@ namespace ZuneUI
             {
                 if (this._timer == null)
                 {
-                    this._timer = new Timer((IModelItemOwner)this, "Notification Area Change Timer");
+                    this._timer = new Timer(this, "Notification Area Change Timer");
                     this._timer.Interval = 600000;
                     this._timer.AutoRepeat = true;
                     this._timer.Tick += new EventHandler(this.OnTick);
@@ -131,7 +131,7 @@ namespace ZuneUI
         {
             if (notification == null || this._overrideNotification != notification)
                 return;
-            this.Override((Notification)null);
+            this.Override(null);
             if (!this.NotificationsReady)
                 return;
             this.TickTimer.Start();
@@ -141,7 +141,7 @@ namespace ZuneUI
         {
             this.TickTimer.Stop();
             this._notificationList.Clear();
-            this.CurrentNotification = (Notification)null;
+            this.CurrentNotification = null;
         }
 
         public void RemoveAll(NotificationTask taskType, NotificationState notificationType)
@@ -156,7 +156,7 @@ namespace ZuneUI
                     this._notificationList.RemoveAt(index);
                     if (!this.NotificationsReady)
                     {
-                        this.CurrentNotification = (Notification)null;
+                        this.CurrentNotification = null;
                         this.TickTimer.Stop();
                     }
                 }
@@ -173,7 +173,7 @@ namespace ZuneUI
                 notification.Dispose();
             if (this.NotificationsReady)
                 return;
-            this.CurrentNotification = (Notification)null;
+            this.CurrentNotification = null;
             this.TickTimer.Stop();
         }
 

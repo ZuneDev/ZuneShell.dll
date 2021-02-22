@@ -21,9 +21,9 @@ namespace ZuneUI
         {
             get
             {
-                if (RadioStationHelper._instance == null)
-                    RadioStationHelper._instance = new RadioStationHelper();
-                return RadioStationHelper._instance;
+                if (_instance == null)
+                    _instance = new RadioStationHelper();
+                return _instance;
             }
         }
 
@@ -79,9 +79,9 @@ namespace ZuneUI
                 foreach (string subKeyName in registryKey.GetSubKeyNames())
                 {
                     string keyName = "HKEY_CURRENT_USER\\Software\\Microsoft\\Zune\\Radio\\" + subKeyName;
-                    string SourceURL = (string)Registry.GetValue(keyName, "SourceURL", (object)"");
-                    string ImagePath = (string)Registry.GetValue(keyName, "Image", (object)"");
-                    this.stationList.Add((object)new RadioStation(subKeyName, SourceURL, ImagePath));
+                    string SourceURL = (string)Registry.GetValue(keyName, "SourceURL", "");
+                    string ImagePath = (string)Registry.GetValue(keyName, "Image", "");
+                    this.stationList.Add(new RadioStation(subKeyName, SourceURL, ImagePath));
                 }
             }
             this.FirePropertyChanged("StationList");

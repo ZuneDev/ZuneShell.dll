@@ -26,26 +26,26 @@ namespace ZuneUI
 
         public static MessageTypeInfo GetMessageType(string serviceType)
         {
-            if (MessageTypeInfo.s_MessageTypes == null)
+            if (s_MessageTypes == null)
             {
-                MessageTypeInfo.s_MessageTypes = new Hashtable(17);
-                MessageTypeInfo.s_MessageTypes.Add((object)"album", (object)new MessageTypeInfo(StringId.IDS_TYPE_ALBUM, "res://ZuneShellResources!InboxTrackDetails.uix#AlbumDetailsUI"));
-                MessageTypeInfo.s_MessageTypes.Add((object)"card", (object)new MessageTypeInfo(StringId.IDS_TYPE_CARD, "res://ZuneShellResources!InboxProfileDetails.uix#CardDetailsUI"));
-                MessageTypeInfo.s_MessageTypes.Add((object)"forums", (object)new MessageTypeInfo(StringId.IDS_TYPE_FORUM, "res://ZuneShellResources!InboxTextDetails.uix#ForumDetailsUI"));
-                MessageTypeInfo.s_MessageTypes.Add((object)"friendrequest", (object)new MessageTypeInfo(StringId.IDS_TYPE_FRIENDREQUEST, "res://ZuneShellResources!InboxProfileDetails.uix#FriendRequestUI"));
-                MessageTypeInfo.s_MessageTypes.Add((object)"message", (object)new MessageTypeInfo(StringId.IDS_TYPE_TEXT, "res://ZuneShellResources!InboxTextDetails.uix#TextDetailsUI"));
-                MessageTypeInfo.s_MessageTypes.Add((object)"musicvideo", (object)new MessageTypeInfo(StringId.IDS_TYPE_MUSICVIDEO, "res://ZuneShellResources!InboxTextDetails.uix#UnknownDetails"));
-                MessageTypeInfo.s_MessageTypes.Add((object)"notification", (object)new MessageTypeInfo(StringId.IDS_TYPE_NOTIFICATION, "res://ZuneShellResources!InboxTextDetails.uix#NotificationDetailsUI"));
-                MessageTypeInfo.s_MessageTypes.Add((object)"photos", (object)new MessageTypeInfo(StringId.IDS_TYPE_PHOTOS, "res://ZuneShellResources!InboxPhotoDetails.uix#PhotoDetailsUI"));
-                MessageTypeInfo.s_MessageTypes.Add((object)"playlist", (object)new MessageTypeInfo(StringId.IDS_TYPE_PLAYLIST, "res://ZuneShellResources!InboxTrackDetails.uix#PlaylistDetailsUI"));
-                MessageTypeInfo.s_MessageTypes.Add((object)"podcast", (object)new MessageTypeInfo(StringId.IDS_TYPE_PODCASTSERIES, "res://ZuneShellResources!InboxPodcastDetails.uix#PodcastDetailsUI"));
-                MessageTypeInfo.s_MessageTypes.Add((object)"song", (object)new MessageTypeInfo(StringId.IDS_TYPE_SONG, "res://ZuneShellResources!InboxTrackDetails.uix#TrackDetailsUI"));
-                MessageTypeInfo.s_MessageTypes.Add((object)"video", (object)new MessageTypeInfo(StringId.IDS_TYPE_VIDEO, "res://ZuneShellResources!InboxVideoDetails.uix#EpisodeMessageDetailsUI"));
-                MessageTypeInfo.s_MessageTypes.Add((object)"movie", (object)new MessageTypeInfo(StringId.IDS_TYPE_VIDEO, "res://ZuneShellResources!InboxVideoDetails.uix#MovieDetailsUI"));
-                MessageTypeInfo.s_MessageTypes.Add((object)"movietrailer", (object)new MessageTypeInfo(StringId.IDS_TYPE_VIDEO, "res://ZuneShellResources!InboxVideoDetails.uix#TrailerDetailsUI"));
-                MessageTypeInfo.s_MessageTypes.Add((object)"", (object)new MessageTypeInfo(StringId.IDS_TYPE_UNKNOWN, "res://ZuneShellResources!InboxTextDetails.uix#UnknownDetails"));
+                s_MessageTypes = new Hashtable(17);
+                s_MessageTypes.Add("album", new MessageTypeInfo(StringId.IDS_TYPE_ALBUM, "res://ZuneShellResources!InboxTrackDetails.uix#AlbumDetailsUI"));
+                s_MessageTypes.Add("card", new MessageTypeInfo(StringId.IDS_TYPE_CARD, "res://ZuneShellResources!InboxProfileDetails.uix#CardDetailsUI"));
+                s_MessageTypes.Add("forums", new MessageTypeInfo(StringId.IDS_TYPE_FORUM, "res://ZuneShellResources!InboxTextDetails.uix#ForumDetailsUI"));
+                s_MessageTypes.Add("friendrequest", new MessageTypeInfo(StringId.IDS_TYPE_FRIENDREQUEST, "res://ZuneShellResources!InboxProfileDetails.uix#FriendRequestUI"));
+                s_MessageTypes.Add("message", new MessageTypeInfo(StringId.IDS_TYPE_TEXT, "res://ZuneShellResources!InboxTextDetails.uix#TextDetailsUI"));
+                s_MessageTypes.Add("musicvideo", new MessageTypeInfo(StringId.IDS_TYPE_MUSICVIDEO, "res://ZuneShellResources!InboxTextDetails.uix#UnknownDetails"));
+                s_MessageTypes.Add("notification", new MessageTypeInfo(StringId.IDS_TYPE_NOTIFICATION, "res://ZuneShellResources!InboxTextDetails.uix#NotificationDetailsUI"));
+                s_MessageTypes.Add("photos", new MessageTypeInfo(StringId.IDS_TYPE_PHOTOS, "res://ZuneShellResources!InboxPhotoDetails.uix#PhotoDetailsUI"));
+                s_MessageTypes.Add("playlist", new MessageTypeInfo(StringId.IDS_TYPE_PLAYLIST, "res://ZuneShellResources!InboxTrackDetails.uix#PlaylistDetailsUI"));
+                s_MessageTypes.Add("podcast", new MessageTypeInfo(StringId.IDS_TYPE_PODCASTSERIES, "res://ZuneShellResources!InboxPodcastDetails.uix#PodcastDetailsUI"));
+                s_MessageTypes.Add("song", new MessageTypeInfo(StringId.IDS_TYPE_SONG, "res://ZuneShellResources!InboxTrackDetails.uix#TrackDetailsUI"));
+                s_MessageTypes.Add("video", new MessageTypeInfo(StringId.IDS_TYPE_VIDEO, "res://ZuneShellResources!InboxVideoDetails.uix#EpisodeMessageDetailsUI"));
+                s_MessageTypes.Add("movie", new MessageTypeInfo(StringId.IDS_TYPE_VIDEO, "res://ZuneShellResources!InboxVideoDetails.uix#MovieDetailsUI"));
+                s_MessageTypes.Add("movietrailer", new MessageTypeInfo(StringId.IDS_TYPE_VIDEO, "res://ZuneShellResources!InboxVideoDetails.uix#TrailerDetailsUI"));
+                s_MessageTypes.Add("", new MessageTypeInfo(StringId.IDS_TYPE_UNKNOWN, "res://ZuneShellResources!InboxTextDetails.uix#UnknownDetails"));
             }
-            return (MessageTypeInfo)(MessageTypeInfo.s_MessageTypes[(object)serviceType] ?? MessageTypeInfo.s_MessageTypes[(object)""]);
+            return (MessageTypeInfo)(s_MessageTypes[serviceType] ?? s_MessageTypes[""]);
         }
     }
 }

@@ -9,7 +9,7 @@ namespace ZuneUI
     public class CartItemsAvailableInMarketplaceComparer : CartItemsComparer
     {
         public CartItemsAvailableInMarketplaceComparer(bool sortAscending)
-          : base(sortAscending, (GetCartItemPropertyDelegate)null)
+          : base(sortAscending, null)
         {
         }
     }

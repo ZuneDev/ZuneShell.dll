@@ -32,28 +32,28 @@ namespace ZuneUI
             this.CollectionId = (int)this.Model.GetProperty("MediaId");
             if (this.CanAddToCollection)
             {
-                this.Description = ZuneUI.Shell.LoadString(StringId.IDS_ADD_TO_COLLECTION);
+                this.Description = Shell.LoadString(StringId.IDS_ADD_TO_COLLECTION);
                 this.Available = true;
             }
             else if (this.CanFindInCollection)
             {
-                this.Description = ZuneUI.Shell.LoadString(StringId.IDS_INCOLLECTION);
+                this.Description = Shell.LoadString(StringId.IDS_INCOLLECTION);
                 this.Available = true;
             }
             else if (ZuneApplication.Service.IsDownloading(this.Id, EContentType.MusicTrack, out fIsDownloadPending, out fIsHidden))
             {
-                this.Description = ZuneUI.Shell.LoadString(StringId.IDS_PENDING);
+                this.Description = Shell.LoadString(StringId.IDS_PENDING);
                 this.Downloading = true;
                 this.Available = true;
             }
             else if (this.CanDownload)
             {
-                this.Description = ZuneUI.Shell.LoadString(StringId.IDS_DOWNLOAD);
+                this.Description = Shell.LoadString(StringId.IDS_DOWNLOAD);
                 this.Available = true;
             }
             else if (this.CanPurchase)
             {
-                this.Description = ZuneUI.Shell.LoadString(StringId.IDS_PURCHASE_BUTTON);
+                this.Description = Shell.LoadString(StringId.IDS_PURCHASE_BUTTON);
                 this.Available = true;
             }
             else

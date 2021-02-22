@@ -51,16 +51,16 @@ namespace ZuneUI
         {
             this._installFirmware = false;
             this._installGames = false;
-            this._updateCollection = (UpdatePackageCollection)null;
+            this._updateCollection = null;
             this._isUpdateAvailable = false;
             this._isCheckingForUpdates = false;
             this._updateInProgress = false;
-            this._currentStep = (UpdateStep)null;
+            this._currentStep = null;
             this._lastCheckForUpdatesResult = HRESULT._S_OK;
             this._lastCheckForDiskSpaceResult = HRESULT._S_OK;
-            this._lastCheckForUpdateErrorInfo = (FirmwareUpdateErrorInfo)null;
+            this._lastCheckForUpdateErrorInfo = null;
             this._lastUpdateResult = HRESULT._S_OK;
-            this._lastFirmwareUpdateErrorInfo = (FirmwareUpdateErrorInfo)null;
+            this._lastFirmwareUpdateErrorInfo = null;
             this._isSoftFailure = false;
             this._canCancel = true;
             this._needsCollectionRefresh = true;
@@ -71,7 +71,7 @@ namespace ZuneUI
             this._estimatedUpdateTimeInProgress = false;
             this._requiresSyncBeforeUpdate = false;
             this._updateOption = FirmwareUpdateOption.None;
-            this._diskSpaceInfo = (CheckDiskSpaceArgs)null;
+            this._diskSpaceInfo = null;
             this.FirePropertyChanged("IsUpdateAvailable");
         }
 
@@ -80,9 +80,9 @@ namespace ZuneUI
             if (disposing)
             {
                 this._updater.Dispose();
-                this._updater = (FirmwareUpdater)null;
-                this.UpdateCollection = (UpdatePackageCollection)null;
-                this.CurrentStep = (UpdateStep)null;
+                this._updater = null;
+                this.UpdateCollection = null;
+                this.CurrentStep = null;
             }
             base.OnDispose(disposing);
         }
@@ -184,7 +184,7 @@ namespace ZuneUI
             if (this.IsCheckingForUpdates || this._estimatedUpdateTimeInProgress || (this._updateCollection == null || this._updateCollection.FirmwarePackage == null))
                 return;
             this._estimatedUpdateTimeInProgress = true;
-            ThreadPool.QueueUserWorkItem(new WaitCallback(this.EstimatedUpdateTimeCalculationWorker), (object)null);
+            ThreadPool.QueueUserWorkItem(new WaitCallback(this.EstimatedUpdateTimeCalculationWorker), null);
         }
 
         private void EstimatedUpdateTimeCalculationWorker(object args)
@@ -200,11 +200,11 @@ namespace ZuneUI
                     estimatedTime = (int)updateEstimatedTime.TotalMinutes;
                 }
             }
-            Application.DeferredInvoke((DeferredInvokeHandler)delegate
+            Application.DeferredInvoke(delegate
            {
                this.UpdateEstimatedTime = estimatedTime;
                this._estimatedUpdateTimeInProgress = false;
-           }, (object)null);
+           }, null);
         }
 
         public void StartCheckForUpdates(bool forceServerRequest, bool launchWizardIfUpdatesFound)
@@ -214,23 +214,23 @@ namespace ZuneUI
             if (this._device.AllowChainedUpdates && !forceServerRequest)
             {
                 if (this.IsUpdateAvailable && launchWizardIfUpdatesFound)
-                    Application.DeferredInvoke((DeferredInvokeHandler)delegate
+                    Application.DeferredInvoke(delegate
                    {
-                       ZuneShell.DefaultInstance.NavigateToPage((ZunePage)new DeviceUpdateLandPage());
-                   }, (object)null);
+                       ZuneShell.DefaultInstance.NavigateToPage(new DeviceUpdateLandPage());
+                   }, null);
                 else
-                    Application.DeferredInvoke((DeferredInvokeHandler)delegate
+                    Application.DeferredInvoke(delegate
                    {
                        this._device.AllowChainedUpdates = false;
                        this._device.NavigateToDeviceSummaryAfterUpdate = false;
                        Shell.MainFrame.Device.Invoke();
-                   }, (object)null);
+                   }, null);
             }
             else
             {
                 this.ResetState();
                 this.IsCheckingForUpdates = true;
-                this._lastCheckForUpdateErrorInfo = (FirmwareUpdateErrorInfo)null;
+                this._lastCheckForUpdateErrorInfo = null;
                 this._launchWizardIfUpdatesFound = launchWizardIfUpdatesFound;
                 this.LastCheckForUpdatesResult = this._updater.StartCheckForUpdates(forceServerRequest, new DeferredInvokeHandler(this.OnCheckForUpdatesComplete));
                 if (!this.LastCheckForUpdatesResult.IsError)
@@ -239,7 +239,7 @@ namespace ZuneUI
             }
         }
 
-        private void OnCheckForUpdatesComplete(object data) => Application.DeferredInvoke((DeferredInvokeHandler)delegate
+        private void OnCheckForUpdatesComplete(object data) => Application.DeferredInvoke(delegate
        {
            CheckForUpdatesArgs checkForUpdatesArgs = (CheckForUpdatesArgs)data;
            this.LastCheckForUpdatesResult = checkForUpdatesArgs.ErrorInfo.HrStatus;
@@ -252,24 +252,24 @@ namespace ZuneUI
                this.IsUpdateAvailable = this.UpdateCollection != null && this.UpdateCollection.Count > 0;
            }
            else
-               this.UpdateCollection = (UpdatePackageCollection)null;
+               this.UpdateCollection = null;
            this.NeedsCollectionRefresh = false;
            this.IsCheckingForUpdates = false;
            if (!this.IsUpdateAvailable || !this._launchWizardIfUpdatesFound || ZuneShell.DefaultInstance.CurrentPage is QuickplayPage && ClientConfiguration.FUE.ShowArtistChooser || (ZuneShell.DefaultInstance.Management.CurrentCategoryPage != null && ZuneShell.DefaultInstance.Management.CurrentCategoryPage.IsWizard || (Shell.SettingsFrame.IsCurrent || ZuneShell.DefaultInstance.CurrentPage is SetupLandPage)))
                return;
-           ZuneShell.DefaultInstance.NavigateToPage((ZunePage)new DeviceUpdateLandPage());
+           ZuneShell.DefaultInstance.NavigateToPage(new DeviceUpdateLandPage());
        }, data);
 
         public void StartCheckForDiskSpace()
         {
-            this._diskSpaceInfo = (CheckDiskSpaceArgs)null;
+            this._diskSpaceInfo = null;
             this.LastCheckForDiskSpaceResult = this._updater.StartCheckForDiskSpace(new DeferredInvokeHandler(this.OnCheckForDiskSpaceComplete));
         }
 
-        private void OnCheckForDiskSpaceComplete(object data) => Application.DeferredInvoke((DeferredInvokeHandler)delegate
+        private void OnCheckForDiskSpaceComplete(object data) => Application.DeferredInvoke(delegate
        {
            CheckDiskSpaceArgs checkDiskSpaceArgs = (CheckDiskSpaceArgs)data;
-           this.LastCheckForDiskSpaceResult = (HRESULT)checkDiskSpaceArgs.HrStatus;
+           this.LastCheckForDiskSpaceResult = checkDiskSpaceArgs.HrStatus;
            this.DiskSpaceInfo = checkDiskSpaceArgs;
        }, data);
 
@@ -278,9 +278,9 @@ namespace ZuneUI
             if (this.UpdateInProgress)
                 return;
             this.UpdateInProgress = true;
-            this._currentStep = (UpdateStep)null;
+            this._currentStep = null;
             this._lastUpdateResult = HRESULT._S_OK;
-            this._lastFirmwareUpdateErrorInfo = (FirmwareUpdateErrorInfo)null;
+            this._lastFirmwareUpdateErrorInfo = null;
             this._canCancel = true;
             this._rollbackStarted = false;
             this.LastUpdateResult = this._updater.StartFirmwareUpdate(this._updateCollection, new DeferredInvokeHandler(this.OnFirmwareUpdateStepBegin), new DeferredInvokeHandler(this.OnFirmwareUpdateStepProgress), new DeferredInvokeHandler(this.OnFirmwareUpdateCompleted), this.UpdateOption);
@@ -290,21 +290,21 @@ namespace ZuneUI
                 Shell.IgnoreAppNavigationsArgs = true;
         }
 
-        private void OnFirmwareUpdateStepBegin(object data) => Application.DeferredInvoke((DeferredInvokeHandler)delegate
+        private void OnFirmwareUpdateStepBegin(object data) => Application.DeferredInvoke(delegate
        {
            if (!this.UpdateInProgress)
                return;
            this.CurrentStep = ((FirmwareUpdateBeginArgs)data).Step;
        }, data);
 
-        private void OnFirmwareUpdateStepProgress(object data) => Application.DeferredInvoke((DeferredInvokeHandler)delegate
+        private void OnFirmwareUpdateStepProgress(object data) => Application.DeferredInvoke(delegate
        {
            if (!this.UpdateInProgress)
                return;
            this.CurrentStep = ((FirmwareUpdateProgressArgs)data).Step;
        }, data);
 
-        private void OnFirmwareUpdateCompleted(object data) => Application.DeferredInvoke((DeferredInvokeHandler)delegate
+        private void OnFirmwareUpdateCompleted(object data) => Application.DeferredInvoke(delegate
        {
            if (!this.UpdateInProgress)
                return;
@@ -321,7 +321,7 @@ namespace ZuneUI
                    this.RollbackStarted = true;
                    break;
                case CompletionAction.Complete:
-                   this.CurrentStep = (UpdateStep)null;
+                   this.CurrentStep = null;
                    this.CanCancel = true;
                    this.NeedsCollectionRefresh = true;
                    this.UpdateInProgress = false;
@@ -358,9 +358,9 @@ namespace ZuneUI
             }
         }
 
-        public string LastCheckForUpdateErrorOverrideDescription => this._lastCheckForUpdateErrorInfo == null || string.IsNullOrEmpty(this._lastCheckForUpdateErrorInfo.Description) ? (string)null : this._lastCheckForUpdateErrorInfo.Description;
+        public string LastCheckForUpdateErrorOverrideDescription => this._lastCheckForUpdateErrorInfo == null || string.IsNullOrEmpty(this._lastCheckForUpdateErrorInfo.Description) ? null : this._lastCheckForUpdateErrorInfo.Description;
 
-        public string LastCheckForUpdateErrorWebHelpUrl => this._lastCheckForUpdateErrorInfo == null || string.IsNullOrEmpty(this._lastCheckForUpdateErrorInfo.Url) ? (string)null : this._lastCheckForUpdateErrorInfo.Url;
+        public string LastCheckForUpdateErrorWebHelpUrl => this._lastCheckForUpdateErrorInfo == null || string.IsNullOrEmpty(this._lastCheckForUpdateErrorInfo.Url) ? null : this._lastCheckForUpdateErrorInfo.Url;
 
         public HRESULT LastUpdateResult
         {
@@ -375,9 +375,9 @@ namespace ZuneUI
             }
         }
 
-        public string LastFirmwareUpdateErrorOverrideDescription => this._lastFirmwareUpdateErrorInfo == null || string.IsNullOrEmpty(this._lastFirmwareUpdateErrorInfo.Description) ? (string)null : this._lastFirmwareUpdateErrorInfo.Description;
+        public string LastFirmwareUpdateErrorOverrideDescription => this._lastFirmwareUpdateErrorInfo == null || string.IsNullOrEmpty(this._lastFirmwareUpdateErrorInfo.Description) ? null : this._lastFirmwareUpdateErrorInfo.Description;
 
-        public string LastFirmwareUpdateErrorWebHelpUrl => this._lastFirmwareUpdateErrorInfo == null || string.IsNullOrEmpty(this._lastFirmwareUpdateErrorInfo.Url) ? (string)null : this._lastFirmwareUpdateErrorInfo.Url;
+        public string LastFirmwareUpdateErrorWebHelpUrl => this._lastFirmwareUpdateErrorInfo == null || string.IsNullOrEmpty(this._lastFirmwareUpdateErrorInfo.Url) ? null : this._lastFirmwareUpdateErrorInfo.Url;
 
         public bool IsSoftFailure
         {
@@ -438,7 +438,7 @@ namespace ZuneUI
         {
             get
             {
-                string str = (string)null;
+                string str = null;
                 if (this._updateCollection != null)
                 {
                     FirmwareUpdatePackage firmwarePackage = this._updateCollection.FirmwarePackage;
@@ -453,7 +453,7 @@ namespace ZuneUI
         {
             get
             {
-                string str = (string)null;
+                string str = null;
                 if (this._updateCollection != null)
                 {
                     FirmwareUpdatePackage firmwarePackage = this._updateCollection.FirmwarePackage;
@@ -468,7 +468,7 @@ namespace ZuneUI
         {
             get
             {
-                string str = (string)null;
+                string str = null;
                 if (this._updateCollection != null)
                 {
                     FirmwareUpdatePackage firmwarePackage = this._updateCollection.FirmwarePackage;

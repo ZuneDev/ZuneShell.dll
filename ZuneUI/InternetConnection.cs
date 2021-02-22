@@ -21,9 +21,9 @@ namespace ZuneUI
         {
             get
             {
-                if (InternetConnection._instance == null)
-                    InternetConnection._instance = new InternetConnection();
-                return InternetConnection._instance;
+                if (_instance == null)
+                    _instance = new InternetConnection();
+                return _instance;
             }
         }
 

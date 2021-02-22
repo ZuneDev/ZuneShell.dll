@@ -15,12 +15,12 @@ namespace Microsoft.Zune.Shell
         private string _context;
 
         public ZuneShellException(string message)
-          : this(message, (string)null)
+          : this(message, null)
         {
         }
 
         public ZuneShellException(string message, string context)
-          : base(ZuneShellException.PrepareMessage(message, context))
+          : base(PrepareMessage(message, context))
           => this._context = context;
 
         protected ZuneShellException(SerializationInfo info, StreamingContext context)

@@ -48,22 +48,22 @@ namespace ZuneUI
             {
                 this._metadataMgr.FileAdded -= new OnFileAddedHandler(this.OnFileAdded);
                 this._metadataMgr.Dispose();
-                this._metadataMgr = (MetadataMgrNotifications)null;
+                this._metadataMgr = null;
             }
             if (this._timerOnEndUpdates == null)
                 return;
             this._timerOnEndUpdates.Tick -= new EventHandler(this.OnEndUpdatesTick);
             this._timerOnEndUpdates.Dispose();
-            this._timerOnEndUpdates = (Timer)null;
+            this._timerOnEndUpdates = null;
         }
 
         public static MetadataNotifications Instance
         {
             get
             {
-                if (MetadataNotifications._singletonInstance == null)
-                    MetadataNotifications._singletonInstance = new MetadataNotifications((IModelItemOwner)ZuneShell.DefaultInstance);
-                return MetadataNotifications._singletonInstance;
+                if (_singletonInstance == null)
+                    _singletonInstance = new MetadataNotifications(ZuneShell.DefaultInstance);
+                return _singletonInstance;
             }
         }
 
@@ -96,7 +96,7 @@ namespace ZuneUI
             }
             if (!flag)
                 return;
-            Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredFileAddedStatus), (object)null, new TimeSpan(0, 0, 0, 0, milliseconds));
+            Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredFileAddedStatus), null, new TimeSpan(0, 0, 0, 0, milliseconds));
         }
 
         private void DeferredFileAddedStatus(object obj)
@@ -115,12 +115,12 @@ namespace ZuneUI
                 return;
             if (this._libraryNotification == null)
             {
-                this._libraryNotification = new MessageNotification(MetadataNotifications._libraryActiveImportMessage, NotificationTask.Library, NotificationState.Normal);
+                this._libraryNotification = new MessageNotification(_libraryActiveImportMessage, NotificationTask.Library, NotificationState.Normal);
                 NotificationArea.Instance.RemoveAll(NotificationTask.Library, NotificationState.Completed);
-                NotificationArea.Instance.Add((Notification)this._libraryNotification);
+                NotificationArea.Instance.Add(_libraryNotification);
                 this.FirePropertyChanged("Importing");
             }
-            this._libraryNotification.SubMessage = string.Format(MetadataNotifications._libraryAddFileMessage, (object)addCount);
+            this._libraryNotification.SubMessage = string.Format(_libraryAddFileMessage, addCount);
         }
 
         private void OnEndUpdatesTick(object sender, EventArgs args)
@@ -131,63 +131,63 @@ namespace ZuneUI
                 addCount = this._addCount;
                 this._addCount = 0;
             }
-            NotificationArea.Instance.Replace((Notification)this._libraryNotification, (Notification)new MessageNotification(MetadataNotifications._libraryFileChangeCompleteMessage, string.Format(MetadataNotifications._libraryAddFileMessage, (object)addCount), NotificationTask.Library, NotificationState.Completed));
-            this._libraryNotification = (MessageNotification)null;
+            NotificationArea.Instance.Replace(_libraryNotification, new MessageNotification(_libraryFileChangeCompleteMessage, string.Format(_libraryAddFileMessage, addCount), NotificationTask.Library, NotificationState.Completed));
+            this._libraryNotification = null;
             this.FirePropertyChanged("Importing");
         }
 
-        private void OnBeginMetadataLifecycle() => Application.DeferredInvoke((DeferredInvokeHandler)delegate
+        private void OnBeginMetadataLifecycle() => Application.DeferredInvoke(delegate
        {
            if (this.IsDisposed)
                return;
            this._updatingMetadata = true;
-       }, (object)null);
+       }, null);
 
-        private void OnEndMetadataLifecycle() => Application.DeferredInvoke((DeferredInvokeHandler)delegate
+        private void OnEndMetadataLifecycle() => Application.DeferredInvoke(delegate
        {
            if (this.IsDisposed)
                return;
            if (this._updateMetadataNotification != null && this._updateMetadataNotification.Type != NotificationState.Completed)
            {
-               NotificationArea.Instance.Replace((Notification)this._updateMetadataNotification, (Notification)new MessageNotification("Metadata update completed", NotificationTask.Library, NotificationState.Completed));
-               this._updateMetadataNotification = (MessageNotification)null;
+               NotificationArea.Instance.Replace(_updateMetadataNotification, new MessageNotification("Metadata update completed", NotificationTask.Library, NotificationState.Completed));
+               this._updateMetadataNotification = null;
            }
            this._updatingMetadata = false;
-       }, (object)null);
+       }, null);
 
         private void OnMetadataUpdate(IntPtr artistPtr, IntPtr albumPtr)
         {
             string artist = Marshal.PtrToStringUni(artistPtr);
             string album = Marshal.PtrToStringUni(albumPtr);
-            Application.DeferredInvoke((DeferredInvokeHandler)delegate
+            Application.DeferredInvoke(delegate
            {
                if (this.IsDisposed || !this._updatingMetadata)
                    return;
                if (this._updateMetadataNotification == null)
                {
-                   this._updateMetadataNotification = new MessageNotification(MetadataNotifications._metadataUpdateMessage, NotificationTask.Library, NotificationState.Normal);
+                   this._updateMetadataNotification = new MessageNotification(_metadataUpdateMessage, NotificationTask.Library, NotificationState.Normal);
                    NotificationArea.Instance.RemoveAll(NotificationTask.Library, NotificationState.Completed);
-                   NotificationArea.Instance.Add((Notification)this._updateMetadataNotification);
+                   NotificationArea.Instance.Add(_updateMetadataNotification);
                }
-               this._updateMetadataNotification.SubMessage = string.Format(MetadataNotifications._metadataUpdateInfoMessage, (object)artist, (object)album);
-           }, (object)null);
+               this._updateMetadataNotification.SubMessage = string.Format(_metadataUpdateInfoMessage, artist, album);
+           }, null);
         }
 
         private void OnFileDeleteFailed(IntPtr fileUrlPtr)
         {
             string strFileUrl = Marshal.PtrToStringUni(fileUrlPtr);
-            Application.DeferredInvoke((DeferredInvokeHandler)delegate
+            Application.DeferredInvoke(delegate
            {
                if (this.IsDisposed || !this._updatingMetadata)
                    return;
                if (this._updateMetadataNotification == null)
                {
-                   this._updateMetadataNotification = new MessageNotification(MetadataNotifications._metadataUpdateMessage, NotificationTask.Library, NotificationState.Normal);
+                   this._updateMetadataNotification = new MessageNotification(_metadataUpdateMessage, NotificationTask.Library, NotificationState.Normal);
                    NotificationArea.Instance.RemoveAll(NotificationTask.Library, NotificationState.Completed);
-                   NotificationArea.Instance.Add((Notification)this._updateMetadataNotification);
+                   NotificationArea.Instance.Add(_updateMetadataNotification);
                }
-               this._updateMetadataNotification.SubMessage = string.Format(MetadataNotifications._libraryFileDeleteFailedMessage, (object)strFileUrl);
-           }, (object)null);
+               this._updateMetadataNotification.SubMessage = string.Format(_libraryFileDeleteFailedMessage, strFileUrl);
+           }, null);
         }
     }
 }

@@ -9,7 +9,7 @@ namespace ZuneUI
     public class SyncOverrideNotification : MessageNotification
     {
         public SyncOverrideNotification()
-          : this((string)null)
+          : this(null)
         {
         }
 

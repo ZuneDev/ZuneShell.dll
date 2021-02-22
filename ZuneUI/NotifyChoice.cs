@@ -15,7 +15,7 @@ namespace ZuneUI
         private InvokePolicy _invokePolicy;
 
         public NotifyChoice()
-          : this((IModelItemOwner)null)
+          : this(null)
         {
         }
 
@@ -40,7 +40,7 @@ namespace ZuneUI
             base.ValidateOptionsListWorker(potentialOptions);
             if (potentialOptions == null)
                 return;
-            foreach (object potentialOption in (IEnumerable)potentialOptions)
+            foreach (object potentialOption in potentialOptions)
             {
                 if (!(potentialOption is Command))
                     throw new ArgumentException("Contents must be of type Command");

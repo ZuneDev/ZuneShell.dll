@@ -29,7 +29,7 @@ namespace ZuneXml
                 VideoHistory videoHistory = (VideoHistory)dataObject;
                 if (videoHistory.MediaInstances != null)
                 {
-                    foreach (MediaInstance mediaInstance in (IEnumerable)videoHistory.MediaInstances)
+                    foreach (MediaInstance mediaInstance in videoHistory.MediaInstances)
                     {
                         if (mediaInstance.LicenseRight == "Rent" || mediaInstance.LicenseRight == "RentStream")
                         {

@@ -9,7 +9,7 @@ namespace ZuneUI
     public abstract class DeviceRestorePage : WizardPage
     {
         protected DeviceRestorePage(DeviceRestoreWizard wizard)
-          : base((ZuneUI.Wizard)wizard)
+          : base(wizard)
         {
         }
 

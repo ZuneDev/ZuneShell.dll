@@ -26,7 +26,7 @@ namespace ZuneUI
           LibraryPlaybackTrack track,
           int thumbnailMaxWidth,
           int thumbnailMaxHeight)
-          : this(track, thumbnailMaxWidth, thumbnailMaxHeight, (ICommand)null)
+          : this(track, thumbnailMaxWidth, thumbnailMaxHeight, null)
         {
         }
 
@@ -36,7 +36,7 @@ namespace ZuneUI
           int thumbnailMaxHeight,
           ICommand onAsyncUpdateAlbumArtUrlCompleted)
         {
-            this._onAsyncUpdateAlbumArtUrlCompleted = onAsyncUpdateAlbumArtUrlCompleted == null ? (ICommand)new Command((IModelItemOwner)this) : onAsyncUpdateAlbumArtUrlCompleted;
+            this._onAsyncUpdateAlbumArtUrlCompleted = onAsyncUpdateAlbumArtUrlCompleted == null ? new Command(this) : onAsyncUpdateAlbumArtUrlCompleted;
             if (track.MediaType == MediaType.Track)
             {
                 this._trackId = track.MediaId;
@@ -44,8 +44,8 @@ namespace ZuneUI
                 int[] columnIndexes1 = new int[2] { 11, 78 };
                 object[] fieldValues1 = new object[2]
                 {
-          (object) -1,
-          (object) -1
+           -1,
+           -1
                 };
                 ZuneLibrary.GetFieldValues(this._trackId, EListType.eTrackList, columnIndexes1.Length, columnIndexes1, fieldValues1, PlaylistManager.Instance.QueryContext);
                 int albumId = (int)fieldValues1[0];
@@ -57,13 +57,13 @@ namespace ZuneUI
                     ZuneLibrary.GetFieldValues(albumId, EListType.eAlbumList, columnIndexes2.Length, columnIndexes2, fieldValues2, PlaylistManager.Instance.QueryContext);
                     this._albumTitle = (string)fieldValues2[0];
                     this._zuneMediaId = GuidHelper.CreateFromString((string)fieldValues2[1]);
-                    ThreadPool.QueueUserWorkItem((WaitCallback)(args =>
+                    ThreadPool.QueueUserWorkItem(args =>
                    {
                        string str = LibraryDataProviderItemBase.GetArtUrl(albumId, "Album", false);
                        if (!string.IsNullOrEmpty(str))
                            str = "file://" + str;
-                       Application.DeferredInvoke(new DeferredInvokeHandler(this.AsyncUpdateAlbumArtUrl), (object)str);
-                   }), (object)null);
+                       Application.DeferredInvoke(new DeferredInvokeHandler(this.AsyncUpdateAlbumArtUrl), str);
+                   }, null);
                 }
                 if (iMediaId < 0)
                     return;
@@ -79,7 +79,7 @@ namespace ZuneUI
                 int[] columnIndexes1 = new int[2] { 311, 24 };
                 object[] fieldValues1 = new object[2]
                 {
-          (object) -1,
+           -1,
           null
                 };
                 ZuneLibrary.GetFieldValues(this._trackId, EListType.ePodcastEpisodeList, columnIndexes1.Length, columnIndexes1, fieldValues1, PlaylistManager.Instance.QueryContext);
@@ -108,13 +108,13 @@ namespace ZuneUI
                     this._albumTitle = (string)fieldValues[2];
                 if (Application.RenderingType != RenderingType.GDI)
                     return;
-                ThreadPool.QueueUserWorkItem((WaitCallback)(args =>
+                ThreadPool.QueueUserWorkItem(args =>
                {
                    string artUrl = LibraryDataProviderItemBase.GetArtUrl(this._trackId, "Video", false);
                    if (string.IsNullOrEmpty(artUrl))
                        return;
-                   Application.DeferredInvoke(new DeferredInvokeHandler(this.AsyncUpdateThumbnailUrl), (object)("file://" + artUrl));
-               }), (object)null);
+                   Application.DeferredInvoke(new DeferredInvokeHandler(this.AsyncUpdateThumbnailUrl), "file://" + artUrl);
+               }, null);
             }
         }
 

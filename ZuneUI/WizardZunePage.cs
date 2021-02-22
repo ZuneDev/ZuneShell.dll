@@ -45,7 +45,7 @@ namespace ZuneUI
             {
                 if (this._backCommand == null)
                 {
-                    this._backCommand = new Command((IModelItemOwner)this);
+                    this._backCommand = new Command(this);
                     this._backCommand.Description = Shell.LoadString(StringId.IDS_BACK_BUTTON);
                 }
                 return this._backCommand;
@@ -58,7 +58,7 @@ namespace ZuneUI
             {
                 if (this._nextCommand == null)
                 {
-                    this._nextCommand = new Command((IModelItemOwner)this);
+                    this._nextCommand = new Command(this);
                     this._nextCommand.Description = Shell.LoadString(StringId.IDS_NEXT_BUTTON);
                 }
                 return this._nextCommand;
@@ -71,7 +71,7 @@ namespace ZuneUI
             {
                 if (this._finishCommand == null)
                 {
-                    this._finishCommand = new Command((IModelItemOwner)this);
+                    this._finishCommand = new Command(this);
                     this._finishCommand.Description = Shell.LoadString(StringId.IDS_FINISH_BUTTON);
                 }
                 return this._finishCommand;
@@ -84,7 +84,7 @@ namespace ZuneUI
             {
                 if (this._cancelCommand == null)
                 {
-                    this._cancelCommand = new Command((IModelItemOwner)this);
+                    this._cancelCommand = new Command(this);
                     this._cancelCommand.Description = Shell.LoadString(StringId.IDS_CANCEL_BUTTON);
                 }
                 return this._cancelCommand;

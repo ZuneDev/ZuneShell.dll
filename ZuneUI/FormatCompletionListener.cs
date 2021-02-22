@@ -16,7 +16,7 @@ namespace ZuneUI
 
         public FormatCompletionListener()
         {
-            this._completed = new Command((IModelItemOwner)this);
+            this._completed = new Command(this);
             SyncControls.Instance.PropertyChanged += new PropertyChangedEventHandler(this.OnDeviceChanged);
             this._device = SyncControls.Instance.CurrentDevice;
             this.SetCurrentDevice();

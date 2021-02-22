@@ -23,16 +23,16 @@ namespace ZuneXml
         internal override string GetResourceUri()
         {
             StringBuilder requestUri = new StringBuilder(128);
-            requestUri.Append(Microsoft.Zune.Service.Service.GetEndPointUri(EServiceEndpointId.SEID_CommerceV2));
+            requestUri.Append(Service.GetEndPointUri(EServiceEndpointId.SEID_CommerceV2));
             requestUri.Append(this._api);
             bool fFirst = true;
-            ZuneServiceQueryHelper.AppendParam(requestUri, "tunerType", "zunePCClient", ref fFirst);
+            AppendParam(requestUri, "tunerType", "zunePCClient", ref fFirst);
             if (this.Query.GetProperty("MediaType") is string property)
-                ZuneServiceQueryHelper.AppendParam(requestUri, "mediaTypeOrCategory", property, ref fFirst);
-            ZuneServiceQueryHelper.AppendParam(requestUri, "startIndex", "1", ref fFirst);
+                AppendParam(requestUri, "mediaTypeOrCategory", property, ref fFirst);
+            AppendParam(requestUri, "startIndex", "1", ref fFirst);
             object property1 = this.Query.GetProperty("ChunkSize");
             if (property1 is int)
-                ZuneServiceQueryHelper.AppendParam(requestUri, "chunkSize", property1.ToString(), ref fFirst);
+                AppendParam(requestUri, "chunkSize", property1.ToString(), ref fFirst);
             return requestUri.ToString();
         }
 

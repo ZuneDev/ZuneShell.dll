@@ -19,7 +19,7 @@ namespace ZuneUI
             ArrayList arrayList1 = new ArrayList(items.Count);
             ArrayList arrayList2 = new ArrayList(items.Count);
             Microsoft.Zune.Service.EDownloadFlags eDownloadFlags = Microsoft.Zune.Service.EDownloadFlags.None;
-            string str = (string)null;
+            string str = null;
             for (int index = 0; index < items.Count; ++index)
             {
                 if (items[index] is DownloadTask task)
@@ -42,11 +42,11 @@ namespace ZuneUI
                                     {
                                         eDownloadFlags = propertyInt;
                                         str = property;
-                                        arrayList2.Add((object)task);
+                                        arrayList2.Add(task);
                                         DownloadManager.Instance.RemoveFailed(task);
                                         continue;
                                     }
-                                    arrayList1.Add((object)task);
+                                    arrayList1.Add(task);
                                     continue;
                                 case Microsoft.Zune.Service.EContentType.PodcastEpisode:
                                     EpisodeDownloadCommand.DownloadEpisode(task.GetPropertyInt("SubscriptionId"), task.GetPropertyInt("MediaId"));
@@ -61,8 +61,8 @@ namespace ZuneUI
                 }
             }
             if (arrayList2.Count > 0)
-                Download.Instance.DownloadContent((IList)arrayList2, eDownloadFlags, str);
-            DownloadManagerHelper.RetryDownloading((IList)arrayList1);
+                Download.Instance.DownloadContent(arrayList2, eDownloadFlags, str);
+            RetryDownloading(arrayList1);
         }
     }
 }

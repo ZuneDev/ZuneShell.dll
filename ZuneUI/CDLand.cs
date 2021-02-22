@@ -15,7 +15,7 @@ namespace ZuneUI
         public CDLand(CDAlbumCommand album)
         {
             this._album = album;
-            this.PivotPreference = (Node)album;
+            this.PivotPreference = album;
             this.IsRootPage = true;
             this.UI = "res://ZuneShellResources!CDView.uix#CDView";
             this.ShowCDIcon = false;
@@ -23,7 +23,7 @@ namespace ZuneUI
             this.ShowPlaylistIcon = false;
             this.ShowNowPlayingBackgroundOnIdle = false;
             this.PlaybackContext = PlaybackContext.Music;
-            this._burnListPanel = new PlaylistContentsPanel((LibraryPage)this);
+            this._burnListPanel = new PlaylistContentsPanel(this);
         }
 
         public override void InvokeSettings()
@@ -34,7 +34,7 @@ namespace ZuneUI
                 Shell.SettingsFrame.Settings.Software.Invoke(SettingCategories.Rip);
         }
 
-        public override IPageState SaveAndRelease() => (IPageState)new CDLandPageState((IPage)this);
+        public override IPageState SaveAndRelease() => new CDLandPageState(this);
 
         protected override void OnDispose(bool disposing)
         {

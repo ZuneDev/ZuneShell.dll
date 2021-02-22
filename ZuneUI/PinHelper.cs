@@ -11,7 +11,7 @@ namespace ZuneUI
 {
     public class PinHelper
     {
-        public static int AddPin(int id, EMediaTypes mediaType, int userId) => PinHelper.AddPin(EPinType.ePinTypeGeneric, -1, id, mediaType, userId);
+        public static int AddPin(int id, EMediaTypes mediaType, int userId) => AddPin(EPinType.ePinTypeGeneric, -1, id, mediaType, userId);
 
         public static int AddPin(
           EPinType pinType,
@@ -32,7 +32,7 @@ namespace ZuneUI
           string description,
           int userId)
         {
-            return PinHelper.AddPin(EPinType.ePinTypeGeneric, description, -1, moniker, mediaType, userId);
+            return AddPin(EPinType.ePinTypeGeneric, description, -1, moniker, mediaType, userId);
         }
 
         public static int AddPin(

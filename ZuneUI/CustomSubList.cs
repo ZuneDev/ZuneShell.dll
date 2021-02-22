@@ -16,7 +16,7 @@ namespace ZuneUI
         public static void AssignSplits(CustomSubList list, IList inList)
         {
             List<int> intList = new List<int>(inList.Count);
-            foreach (object obj in (IEnumerable)inList)
+            foreach (object obj in inList)
             {
                 if (obj is int num)
                     intList.Add(num);

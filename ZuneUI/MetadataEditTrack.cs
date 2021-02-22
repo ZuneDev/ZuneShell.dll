@@ -13,48 +13,48 @@ namespace ZuneUI
     {
         private static PropertyDescriptor[] s_dataProviderProperties = new PropertyDescriptor[14]
         {
-      (PropertyDescriptor) MetadataEditMedia.s_Title,
-      MetadataEditMedia.s_TrackArtist,
-      MetadataEditMedia.s_TrackArtistList,
-      MetadataEditMedia.s_Genre,
-      MetadataEditMedia.s_Conductor,
-      MetadataEditMedia.s_Composer,
-      (PropertyDescriptor) MetadataEditMedia.s_TrackReleaseYear,
-      (PropertyDescriptor) MetadataEditMedia.s_AlbumTitle,
-      (PropertyDescriptor) MetadataEditMedia.s_AlbumArtist,
-      (PropertyDescriptor) MetadataEditMedia.s_TrackNumber,
-      (PropertyDescriptor) MetadataEditMedia.s_DiscNumber,
-      (PropertyDescriptor) MetadataEditMedia.s_MediaId,
-      MetadataEditMedia.s_TitleYomi,
-      MetadataEditMedia.s_ArtistYomi
+       s_Title,
+      s_TrackArtist,
+      s_TrackArtistList,
+      s_Genre,
+      s_Conductor,
+      s_Composer,
+       s_TrackReleaseYear,
+       s_AlbumTitle,
+       s_AlbumArtist,
+       s_TrackNumber,
+       s_DiscNumber,
+       s_MediaId,
+      s_TitleYomi,
+      s_ArtistYomi
         };
         private static PropertyDescriptor[] s_trackMetadataProperties = new PropertyDescriptor[14]
         {
-      (PropertyDescriptor) MetadataEditMedia.s_Title,
-      MetadataEditMedia.s_TrackArtist,
-      MetadataEditMedia.s_TrackArtistList,
-      MetadataEditMedia.s_Genre,
-      MetadataEditMedia.s_Conductor,
-      MetadataEditMedia.s_Composer,
-      (PropertyDescriptor) MetadataEditMedia.s_ReleaseYear,
-      (PropertyDescriptor) MetadataEditMedia.s_AlbumTitle,
-      (PropertyDescriptor) MetadataEditMedia.s_AlbumArtist,
-      (PropertyDescriptor) MetadataEditMedia.s_TrackNumber,
-      (PropertyDescriptor) MetadataEditMedia.s_DiscNumber,
-      (PropertyDescriptor) MetadataEditMedia.s_MediaId,
-      MetadataEditMedia.s_TitleYomi,
-      MetadataEditMedia.s_ArtistYomi
+       s_Title,
+      s_TrackArtist,
+      s_TrackArtistList,
+      s_Genre,
+      s_Conductor,
+      s_Composer,
+       s_ReleaseYear,
+       s_AlbumTitle,
+       s_AlbumArtist,
+       s_TrackNumber,
+       s_DiscNumber,
+       s_MediaId,
+      s_TitleYomi,
+      s_ArtistYomi
         };
 
         public MetadataEditTrack(TrackMetadata trackMetadata)
         {
             this._source = TrackMetadataPropertySource.Instance;
-            this.Initialize((IList)new object[1]
+            this.Initialize(new object[1]
             {
-        (object) trackMetadata
-            }, MetadataEditTrack.s_trackMetadataProperties);
+         trackMetadata
+            }, s_trackMetadataProperties);
         }
 
-        public MetadataEditTrack(IList trackList) => this.Initialize(trackList, MetadataEditTrack.s_dataProviderProperties);
+        public MetadataEditTrack(IList trackList) => this.Initialize(trackList, s_dataProviderProperties);
     }
 }

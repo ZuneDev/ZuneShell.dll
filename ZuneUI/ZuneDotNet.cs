@@ -12,21 +12,21 @@ namespace ZuneUI
 {
     public static class ZuneDotNet
     {
-        public static string GetViewTrackUri(string trackId) => ZuneDotNet.GetViewUri(trackId, "track");
+        public static string GetViewTrackUri(string trackId) => GetViewUri(trackId, "track");
 
-        public static void ViewTrack(Guid trackId) => ZuneShell.DefaultInstance.Execute(ZuneDotNet.GetViewTrackUri(trackId.ToString()), (IDictionary)null);
+        public static void ViewTrack(Guid trackId) => ZuneShell.DefaultInstance.Execute(GetViewTrackUri(trackId.ToString()), null);
 
-        public static string GetViewAlbumUri(string albumId) => ZuneDotNet.GetViewUri(albumId, "album");
+        public static string GetViewAlbumUri(string albumId) => GetViewUri(albumId, "album");
 
-        public static void ViewAlbum(Guid albumId) => ZuneShell.DefaultInstance.Execute(ZuneDotNet.GetViewAlbumUri(albumId.ToString()), (IDictionary)null);
+        public static void ViewAlbum(Guid albumId) => ZuneShell.DefaultInstance.Execute(GetViewAlbumUri(albumId.ToString()), null);
 
-        public static string GetViewArtistUri(string artistId) => ZuneDotNet.GetViewUri(artistId, "artist");
+        public static string GetViewArtistUri(string artistId) => GetViewUri(artistId, "artist");
 
-        public static void ViewArtist(Guid artistId) => ZuneShell.DefaultInstance.Execute(ZuneDotNet.GetViewArtistUri(artistId.ToString()), (IDictionary)null);
+        public static void ViewArtist(Guid artistId) => ZuneShell.DefaultInstance.Execute(GetViewArtistUri(artistId.ToString()), null);
 
-        public static string GetViewPodcastSeriesUri(string podcastSeriesId) => ZuneDotNet.GetViewUri(podcastSeriesId, "podcastSeries");
+        public static string GetViewPodcastSeriesUri(string podcastSeriesId) => GetViewUri(podcastSeriesId, "podcastSeries");
 
-        public static void ViewPodcastSeries(Guid podcastSeriesId) => ZuneShell.DefaultInstance.Execute(ZuneDotNet.GetViewPodcastSeriesUri(podcastSeriesId.ToString()), (IDictionary)null);
+        public static void ViewPodcastSeries(Guid podcastSeriesId) => ZuneShell.DefaultInstance.Execute(GetViewPodcastSeriesUri(podcastSeriesId.ToString()), null);
 
         private static string GetViewUri(string id, string type)
         {

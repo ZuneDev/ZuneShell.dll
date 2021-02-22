@@ -89,7 +89,7 @@ namespace ZuneUI
             this.CommentMessage = message;
             this.CommentId = Guid.Empty;
             this.CommentUpdated = DateTime.UtcNow;
-            StringBuilder stringBuilder = new StringBuilder(Microsoft.Zune.Service.Service.GetEndPointUri(EServiceEndpointId.SEID_Comments));
+            StringBuilder stringBuilder = new StringBuilder(Service.GetEndPointUri(EServiceEndpointId.SEID_Comments));
             stringBuilder.Append("/members/");
             stringBuilder.Append(Uri.EscapeDataString(recipient));
             stringBuilder.Append("/comments");
@@ -102,18 +102,18 @@ namespace ZuneUI
         {
             if (!(commentId != Guid.Empty) || !SignIn.Instance.SignedIn)
                 return;
-            StringBuilder stringBuilder = new StringBuilder(Microsoft.Zune.Service.Service.GetEndPointUri(EServiceEndpointId.SEID_Comments));
+            StringBuilder stringBuilder = new StringBuilder(Service.GetEndPointUri(EServiceEndpointId.SEID_Comments));
             stringBuilder.Append("/members/");
             stringBuilder.Append(Uri.EscapeDataString(profileTag));
             stringBuilder.Append("/comments/");
             stringBuilder.Append(Uri.EscapeDataString(commentId.ToString()));
-            MessagingService.Instance.DeleteComment(stringBuilder.ToString(), profileTag, (MessagingCallback)null);
+            MessagingService.Instance.DeleteComment(stringBuilder.ToString(), profileTag, null);
         }
 
-        private void OnAddCommentCompleted(HRESULT hr, Guid commentId) => Application.DeferredInvoke(new DeferredInvokeHandler(this.OnAddCommentCompletedDeferred), (object)new object[2]
+        private void OnAddCommentCompleted(HRESULT hr, Guid commentId) => Application.DeferredInvoke(new DeferredInvokeHandler(this.OnAddCommentCompletedDeferred), new object[2]
         {
-      (object) hr,
-      (object) commentId
+       hr,
+       commentId
         });
 
         private void OnAddCommentCompletedDeferred(object args)

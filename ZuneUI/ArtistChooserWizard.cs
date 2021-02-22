@@ -10,7 +10,7 @@ namespace ZuneUI
     {
         private bool _errorOccurred;
 
-        public ArtistChooserWizard() => this.AddPage((WizardPage)new ArtistChooserWizardPage(this));
+        public ArtistChooserWizard() => this.AddPage(new ArtistChooserWizardPage(this));
 
         public bool ErrorOccurred
         {

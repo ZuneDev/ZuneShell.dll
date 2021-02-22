@@ -14,7 +14,7 @@ namespace ZuneUI
         private SyncGroupList _parentList;
 
         public SyncGroup(SyncGroupList parentList)
-          : base((IModelItemOwner)parentList)
+          : base(parentList)
           => this._parentList = parentList;
 
         public abstract string Title { get; }

@@ -16,15 +16,15 @@ namespace ZuneUI
 
         public IPage RestoreAndRelease()
         {
-            if ((double)DownloadManager.Instance.Percentage >= 100.0)
+            if (DownloadManager.Instance.Percentage >= 100.0)
                 this.Release();
-            return (IPage)this._page;
+            return _page;
         }
 
         public void Release()
         {
             this._page.Release();
-            this._page = (DownloadsPage)null;
+            this._page = null;
         }
 
         public bool CanBeTrimmed => true;

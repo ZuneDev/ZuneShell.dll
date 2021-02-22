@@ -39,18 +39,18 @@ namespace ZuneUI
             {
                 if (this._nodes == null)
                 {
-                    this._nodes = new ArrayListDataSet((IModelItemOwner)this);
-                    this._nodes.Add((object)this.Music);
-                    this._nodes.Add((object)this.Videos);
-                    this._nodes.Add((object)this.Photos);
-                    this._nodes.Add((object)this.Podcasts);
+                    this._nodes = new ArrayListDataSet(this);
+                    this._nodes.Add(Music);
+                    this._nodes.Add(Videos);
+                    this._nodes.Add(Photos);
+                    this._nodes.Add(Podcasts);
                     if (FeatureEnablement.IsFeatureEnabled(Features.eChannels))
-                        this._nodes.Add((object)this.Channels);
+                        this._nodes.Add(Channels);
                     if (FeatureEnablement.IsFeatureEnabled(Features.eRadio))
-                        this._nodes.Add((object)this.Radio);
+                        this._nodes.Add(Radio);
                     this.UpdateApplicationPivot();
                 }
-                return (IList)this._nodes;
+                return _nodes;
             }
         }
 
@@ -59,7 +59,7 @@ namespace ZuneUI
             get
             {
                 if (this._music == null)
-                    this._music = new Node((Experience)this, StringId.IDS_MUSIC_PIVOT, this._isDevice ? "Device\\Music" : "Collection\\Music\\Default", this._isDevice ? SQMDataId.DeviceMusicClicks : SQMDataId.CollectionMusicClicks);
+                    this._music = new Node(this, StringId.IDS_MUSIC_PIVOT, this._isDevice ? "Device\\Music" : "Collection\\Music\\Default", this._isDevice ? SQMDataId.DeviceMusicClicks : SQMDataId.CollectionMusicClicks);
                 return this._music;
             }
         }
@@ -69,7 +69,7 @@ namespace ZuneUI
             get
             {
                 if (this._videos == null)
-                    this._videos = new Node((Experience)this, StringId.IDS_VIDEO_PIVOT, this._isDevice ? "Device\\Videos" : "Collection\\Videos\\Default", this._isDevice ? SQMDataId.DeviceVideoClicks : SQMDataId.CollectionVideoClicks);
+                    this._videos = new Node(this, StringId.IDS_VIDEO_PIVOT, this._isDevice ? "Device\\Videos" : "Collection\\Videos\\Default", this._isDevice ? SQMDataId.DeviceVideoClicks : SQMDataId.CollectionVideoClicks);
                 return this._videos;
             }
         }
@@ -79,7 +79,7 @@ namespace ZuneUI
             get
             {
                 if (this._photos == null)
-                    this._photos = new Node((Experience)this, StringId.IDS_PICTURES_PIVOT, this._isDevice ? "Device\\Photos" : "Collection\\Photos", this._isDevice ? SQMDataId.DevicePicturesClicks : SQMDataId.CollectionPicturesClicks);
+                    this._photos = new Node(this, StringId.IDS_PICTURES_PIVOT, this._isDevice ? "Device\\Photos" : "Collection\\Photos", this._isDevice ? SQMDataId.DevicePicturesClicks : SQMDataId.CollectionPicturesClicks);
                 return this._photos;
             }
         }
@@ -89,7 +89,7 @@ namespace ZuneUI
             get
             {
                 if (this._podcasts == null)
-                    this._podcasts = new Node((Experience)this, StringId.IDS_PODCASTS_PIVOT, this._isDevice ? "Device\\Podcasts" : "Collection\\Podcasts", this._isDevice ? SQMDataId.DevicePodcastsClicks : SQMDataId.CollectionPodcastsClicks);
+                    this._podcasts = new Node(this, StringId.IDS_PODCASTS_PIVOT, this._isDevice ? "Device\\Podcasts" : "Collection\\Podcasts", this._isDevice ? SQMDataId.DevicePodcastsClicks : SQMDataId.CollectionPodcastsClicks);
                 return this._podcasts;
             }
         }
@@ -99,7 +99,7 @@ namespace ZuneUI
             get
             {
                 if (this._channels == null)
-                    this._channels = new Node((Experience)this, StringId.IDS_CHANNELS_PIVOT, this._isDevice ? "Device\\Channels" : "Collection\\Channels", this._isDevice ? SQMDataId.DeviceChannelsClicks : SQMDataId.CollectionChannelsClicks);
+                    this._channels = new Node(this, StringId.IDS_CHANNELS_PIVOT, this._isDevice ? "Device\\Channels" : "Collection\\Channels", this._isDevice ? SQMDataId.DeviceChannelsClicks : SQMDataId.CollectionChannelsClicks);
                 return this._channels;
             }
         }
@@ -109,7 +109,7 @@ namespace ZuneUI
             get
             {
                 if (this._applications == null)
-                    this._applications = new Node((Experience)this, StringId.IDS_APPS_PIVOT, this._isDevice ? "Device\\Applications" : "Collection\\Applications", SQMDataId.Invalid);
+                    this._applications = new Node(this, StringId.IDS_APPS_PIVOT, this._isDevice ? "Device\\Applications" : "Collection\\Applications", SQMDataId.Invalid);
                 return this._applications;
             }
         }
@@ -119,7 +119,7 @@ namespace ZuneUI
             get
             {
                 if (this._radio == null)
-                    this._radio = new Node((Experience)this, StringId.IDS_RADIO_PIVOT, this._isDevice ? "Device\\Radio" : "Collection\\Radio", SQMDataId.Invalid);
+                    this._radio = new Node(this, StringId.IDS_RADIO_PIVOT, this._isDevice ? "Device\\Radio" : "Collection\\Radio", SQMDataId.Invalid);
                 return this._radio;
             }
         }
@@ -129,7 +129,7 @@ namespace ZuneUI
             get
             {
                 if (this._downloads == null)
-                    this._downloads = new Node((Experience)this, StringId.IDS_DOWNLOADS_PIVOT, "Collection\\Downloads", SQMDataId.MarketplaceDownloadsClicks);
+                    this._downloads = new Node(this, StringId.IDS_DOWNLOADS_PIVOT, "Collection\\Downloads", SQMDataId.MarketplaceDownloadsClicks);
                 return this._downloads;
             }
         }
@@ -138,15 +138,15 @@ namespace ZuneUI
         {
             if (FeatureEnablement.IsFeatureEnabled(Features.eGames) && ClientConfiguration.Shell.ShowApplicationPivot)
             {
-                if (this.NodesList.Contains((object)this.Applications))
+                if (this.NodesList.Contains(Applications))
                     return;
-                this.NodesList.Add((object)this.Applications);
+                this.NodesList.Add(Applications);
             }
             else
             {
-                if (!this.NodesList.Contains((object)this.Applications))
+                if (!this.NodesList.Contains(Applications))
                     return;
-                this.NodesList.Remove((object)this.Applications);
+                this.NodesList.Remove(Applications);
             }
         }
 
@@ -158,7 +158,7 @@ namespace ZuneUI
                 return;
             this.Downloads.Available = show;
             if (show)
-                this.NodesList.Add((object)this.Downloads);
+                this.NodesList.Add(Downloads);
             else
                 this.NodesList.RemoveAt(nodeIndex);
         }

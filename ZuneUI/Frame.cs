@@ -25,7 +25,7 @@ namespace ZuneUI
             {
                 if (this._experiences == null)
                 {
-                    this._experiences = new Choice((IModelItemOwner)this);
+                    this._experiences = new Choice(this);
                     this._experiences.Options = this.ExperiencesList;
                 }
                 return this._experiences;

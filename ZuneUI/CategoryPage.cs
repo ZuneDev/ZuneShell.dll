@@ -25,14 +25,14 @@ namespace ZuneUI
         private static CategoryPage _entryPage;
         private bool _hideDeviceOnCancel;
 
-        internal static CategoryPage EntryPage => CategoryPage._entryPage;
+        internal static CategoryPage EntryPage => _entryPage;
 
         public CategoryPage(CategoryPageNode node)
         {
             this.UI = "res://ZuneShellResources!Management.uix";
             this.BackgroundUI = "res://ZuneShellResources!Management.uix#Background";
             this.TransportControlStyle = TransportControlStyle.None;
-            this.PivotPreference = (Node)node;
+            this.PivotPreference = node;
             this.ShowCDIcon = false;
             this.ShowDeviceIcon = false;
             this.ShowPlaylistIcon = false;
@@ -42,13 +42,13 @@ namespace ZuneUI
             this.CanEnterCompactMode = false;
             this.NotificationAreaVisible = false;
             this.TransportControlsVisible = false;
-            if (CategoryPage._entryPage == null)
-                CategoryPage._entryPage = this;
+            if (_entryPage == null)
+                _entryPage = this;
             this._node = node;
             if (node.Experience == Shell.SettingsFrame.Wizard)
                 this._isWizard = true;
             this._hideDeviceOnCancel = node.HideDeviceOnCancel;
-            this._menu = new Choice((IModelItemOwner)this);
+            this._menu = new Choice(this);
             this._menu.Options = node.Categories;
             this._menu.ChosenChanged += new EventHandler(this.CurrentCategoryChosenChanged);
             this.ShowBackArrow = node.AllowBackNavigation;
@@ -60,7 +60,7 @@ namespace ZuneUI
             {
                 this._menu.ChosenChanged -= new EventHandler(this.CurrentCategoryChosenChanged);
                 this._menu.Dispose();
-                this._menu = (Choice)null;
+                this._menu = null;
             }
             base.OnDispose(disposing);
         }
@@ -84,7 +84,7 @@ namespace ZuneUI
                     if (this._currentCategory == value)
                         return;
                     this._currentCategory = value;
-                    int num = this._menu.Options.IndexOf((object)value);
+                    int num = this._menu.Options.IndexOf(value);
                     if (num != -1)
                     {
                         this._menu.ChosenIndex = num;
@@ -101,7 +101,7 @@ namespace ZuneUI
             if (defaultInstance.DeferredNavigateCategory != null)
             {
                 Category navigateCategory = defaultInstance.DeferredNavigateCategory;
-                defaultInstance.DeferredNavigateCategory = (Category)null;
+                defaultInstance.DeferredNavigateCategory = null;
                 this.CurrentCategory = navigateCategory;
             }
             else
@@ -109,7 +109,7 @@ namespace ZuneUI
                 if (defaultInstance.DeferredNavigateNode == null)
                     return;
                 Node deferredNavigateNode = defaultInstance.DeferredNavigateNode;
-                defaultInstance.DeferredNavigateNode = (Node)null;
+                defaultInstance.DeferredNavigateNode = null;
                 deferredNavigateNode.Invoke();
             }
         }
@@ -121,42 +121,42 @@ namespace ZuneUI
                 return;
             Management management = ZuneShell.DefaultInstance.Management;
             management.RemoveNSSDeviceListChangeEvent();
-            management.CurrentCategoryPage = (CategoryPage)null;
+            management.CurrentCategoryPage = null;
         }
 
         protected override void OnNavigatedToWorker()
         {
-            if (this.NavigationArguments != null && this.NavigationArguments.Contains((object)"Host"))
+            if (this.NavigationArguments != null && this.NavigationArguments.Contains("Host"))
             {
-                this._menu.ChosenValue = (object)(Category)this.NavigationArguments[(object)"Host"];
-                this.NavigationArguments.Remove((object)"Host");
+                this._menu.ChosenValue = (Category)this.NavigationArguments["Host"];
+                this.NavigationArguments.Remove("Host");
             }
             ZuneShell.DefaultInstance.Management.CurrentCategoryPage = this;
-            if (!CategoryPage._inSettings)
+            if (!_inSettings)
             {
-                CategoryPage._inSettings = true;
+                _inSettings = true;
                 this.PauseSyncIfNecessary();
             }
             base.OnNavigatedToWorker();
         }
 
-        public override IPageState SaveAndRelease() => (IPageState)new CategoryPageState((IPage)this);
+        public override IPageState SaveAndRelease() => new CategoryPageState(this);
 
         public override bool HandleBack()
         {
-            bool flag = CategoryPage._entryPage == this;
+            bool flag = _entryPage == this;
             if (flag && ZuneShell.DefaultInstance.Management.HasPendingCommits)
             {
-                Command yesCommand = new Command((IModelItemOwner)this, Shell.LoadString(StringId.IDS_DIALOG_YES), (EventHandler)null);
-                yesCommand.Invoked += (EventHandler)((sender, args) => this.SaveAndExit());
-                Command noCommand = new Command((IModelItemOwner)this, Shell.LoadString(StringId.IDS_DIALOG_NO), (EventHandler)null);
-                noCommand.Invoked += (EventHandler)((sender, args) => this.CancelAndExit());
-                MessageBox.Show(Shell.LoadString(StringId.IDS_SAVE_CHANGES_DIALOG_TITLE), Shell.LoadString(StringId.IDS_SAVE_CHANGES_ON_BACK_DIALOG_TEXT), yesCommand, noCommand, (BooleanChoice)null);
+                Command yesCommand = new Command(this, Shell.LoadString(StringId.IDS_DIALOG_YES), null);
+                yesCommand.Invoked += (sender, args) => this.SaveAndExit();
+                Command noCommand = new Command(this, Shell.LoadString(StringId.IDS_DIALOG_NO), null);
+                noCommand.Invoked += (sender, args) => this.CancelAndExit();
+                MessageBox.Show(Shell.LoadString(StringId.IDS_SAVE_CHANGES_DIALOG_TITLE), Shell.LoadString(StringId.IDS_SAVE_CHANGES_ON_BACK_DIALOG_TEXT), yesCommand, noCommand, null);
                 return true;
             }
             if (!flag)
                 return false;
-            CategoryPage._entryPage = (CategoryPage)null;
+            _entryPage = null;
             this.CancelAndExit();
             return true;
         }
@@ -261,17 +261,17 @@ namespace ZuneUI
 
         public override void Exit()
         {
-            CategoryPage._entryPage = (CategoryPage)null;
+            _entryPage = null;
             if (!this.InFUE)
                 ZuneShell.DefaultInstance.NavigateBack();
             this.RestartSyncIfNecessary();
-            CategoryPage._inSettings = false;
+            _inSettings = false;
             DeviceManagement.NavigatingToWizard = false;
             if (ZuneShell.DefaultInstance != null)
                 ZuneShell.DefaultInstance.DisposeManagement();
             ZuneShell.DefaultInstance.NavigationLocked = false;
             ZuneShell.DefaultInstance.Management.DeviceManagement.SetupComplete(false);
-            Application.DeferredInvoke((DeferredInvokeHandler)delegate
+            Application.DeferredInvoke(delegate
            {
                DeviceManagement.HandleSetupQueue();
            }, DeferredInvokePriority.Low);
@@ -301,7 +301,7 @@ namespace ZuneUI
             if (SyncControls.Instance.ChangeIntoSetupDevice)
             {
                 SyncControls.Instance.ChangeIntoSetupDevice = false;
-                DeviceManagement.SetupDevice = (UIDevice)null;
+                DeviceManagement.SetupDevice = null;
             }
             else
                 DeviceManagement.HideSetupDevice();

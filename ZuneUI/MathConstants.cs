@@ -14,7 +14,7 @@ namespace ZuneUI
 
         public static float HalfPI => 1.570796f;
 
-        public static float DegreeToRadian(float value) => (float)((double)value / 180.0 * Math.PI);
+        public static float DegreeToRadian(float value) => (float)(value / 180.0 * Math.PI);
 
         public static float E => 2.718282f;
     }

@@ -75,7 +75,7 @@ namespace ZuneUI
           IList guidVideoIds,
           IList guidAppIds)
         {
-            this.GetOffers(guidAlbumIds, guidTrackIds, guidVideoIds, guidAppIds, false, (IDictionary)null);
+            this.GetOffers(guidAlbumIds, guidTrackIds, guidVideoIds, guidAppIds, false, null);
         }
 
         public void GetOffers(
@@ -85,7 +85,7 @@ namespace ZuneUI
           IList guidAppIds,
           bool subscriptionFreeTracksOnly)
         {
-            this.GetOffers(guidAlbumIds, guidTrackIds, guidVideoIds, guidAppIds, subscriptionFreeTracksOnly, (IDictionary)null);
+            this.GetOffers(guidAlbumIds, guidTrackIds, guidVideoIds, guidAppIds, subscriptionFreeTracksOnly, null);
         }
 
         public void GetOffers(
@@ -101,13 +101,13 @@ namespace ZuneUI
             if (this.RentVideos)
                 deviceEndpointId = this.RentDeviceEndpointId;
             if (mapIdToContext == null)
-                mapIdToContext = (IDictionary)new Hashtable();
+                mapIdToContext = new Hashtable();
             this.UpdateContextMap(guidAlbumIds, guidTrackIds, mapIdToContext);
-            Microsoft.Zune.Service.EGetOffersFlags eGetOffersFlags = Microsoft.Zune.Service.EGetOffersFlags.None;
+            EGetOffersFlags eGetOffersFlags = EGetOffersFlags.None;
             if (this.PurchaseSeason)
-                eGetOffersFlags |= Microsoft.Zune.Service.EGetOffersFlags.SeasonPurchase;
+                eGetOffersFlags |= EGetOffersFlags.SeasonPurchase;
             if (subscriptionFreeTracksOnly)
-                eGetOffersFlags |= Microsoft.Zune.Service.EGetOffersFlags.SubscriptionFreeTracks;
+                eGetOffersFlags |= EGetOffersFlags.SubscriptionFreeTracks;
             ZuneApplication.Service.GetOffers(guidAlbumIds, guidTrackIds, guidVideoIds, guidAppIds, mapIdToContext, eGetOffersFlags, deviceEndpointId, new GetOffersCompleteCallback(this.OnGetOffersComplete), new GetOffersErrorCallback(this.OnGetOffersError));
         }
 
@@ -117,32 +117,32 @@ namespace ZuneUI
           IDictionary mapIdToContext)
         {
             ZunePage currentPage = ZuneShell.DefaultInstance.CurrentPage;
-            if (currentPage.NavigationArguments == null || !currentPage.NavigationArguments.Contains((object)"ReferrerContext"))
+            if (currentPage.NavigationArguments == null || !currentPage.NavigationArguments.Contains("ReferrerContext"))
                 return;
-            string navigationArgument = (string)currentPage.NavigationArguments[(object)"ReferrerContext"];
+            string navigationArgument = (string)currentPage.NavigationArguments["ReferrerContext"];
             Guid guid1 = Guid.Empty;
             Guid guid2 = Guid.Empty;
             Guid guid3 = Guid.Empty;
-            if (currentPage.NavigationArguments.Contains((object)"ReferrerTrackId"))
-                guid1 = (Guid)currentPage.NavigationArguments[(object)"ReferrerTrackId"];
-            else if (currentPage.NavigationArguments.Contains((object)"ReferrerAlbumId"))
-                guid2 = (Guid)currentPage.NavigationArguments[(object)"ReferrerAlbumId"];
-            else if (currentPage.NavigationArguments.Contains((object)"ReferrerArtistId"))
-                guid3 = (Guid)currentPage.NavigationArguments[(object)"ReferrerArtistId"];
+            if (currentPage.NavigationArguments.Contains("ReferrerTrackId"))
+                guid1 = (Guid)currentPage.NavigationArguments["ReferrerTrackId"];
+            else if (currentPage.NavigationArguments.Contains("ReferrerAlbumId"))
+                guid2 = (Guid)currentPage.NavigationArguments["ReferrerAlbumId"];
+            else if (currentPage.NavigationArguments.Contains("ReferrerArtistId"))
+                guid3 = (Guid)currentPage.NavigationArguments["ReferrerArtistId"];
             if (guidAlbumIds != null)
             {
-                foreach (Guid guidAlbumId in (IEnumerable)guidAlbumIds)
+                foreach (Guid guidAlbumId in guidAlbumIds)
                 {
-                    if (!mapIdToContext.Contains((object)guidAlbumId) && (guid3 != Guid.Empty || guid1 != Guid.Empty || guid2 == guidAlbumId))
-                        mapIdToContext[(object)guidAlbumId] = (object)navigationArgument;
+                    if (!mapIdToContext.Contains(guidAlbumId) && (guid3 != Guid.Empty || guid1 != Guid.Empty || guid2 == guidAlbumId))
+                        mapIdToContext[guidAlbumId] = navigationArgument;
                 }
             }
             if (guidTrackIds == null)
                 return;
-            foreach (Guid guidTrackId in (IEnumerable)guidTrackIds)
+            foreach (Guid guidTrackId in guidTrackIds)
             {
-                if (!mapIdToContext.Contains((object)guidTrackId) && (guid3 != Guid.Empty || guid2 != Guid.Empty || guid1 == guidTrackId))
-                    mapIdToContext[(object)guidTrackId] = (object)navigationArgument;
+                if (!mapIdToContext.Contains(guidTrackId) && (guid3 != Guid.Empty || guid2 != Guid.Empty || guid1 == guidTrackId))
+                    mapIdToContext[guidTrackId] = navigationArgument;
             }
         }
 
@@ -161,13 +161,13 @@ namespace ZuneUI
 
         public void PurchaseOffers(PaymentInstrument payment)
         {
-            this.ErrorMessage = (string)null;
-            this.ErrorWebHelpUrl = (string)null;
+            this.ErrorMessage = null;
+            this.ErrorWebHelpUrl = null;
             ZuneApplication.Service.PurchaseOffers(payment, this.m_albumOfferCollection, this.m_trackOfferCollection, this.m_videoOfferCollection, this.m_appOfferCollection, this.PurchaseOffersFlags, new PurchaseOffersCompleteHandler(this.OnPurchaseOffersComplete));
             if (this.RentVideos)
-                this.Status = ZuneUI.Shell.LoadString(StringId.IDS_PURCHASE_RENTAL_IN_PROGRESS);
+                this.Status = Shell.LoadString(StringId.IDS_PURCHASE_RENTAL_IN_PROGRESS);
             else
-                this.Status = ZuneUI.Shell.LoadString(StringId.IDS_PURCHASE_IN_PROGRESS);
+                this.Status = Shell.LoadString(StringId.IDS_PURCHASE_IN_PROGRESS);
         }
 
         public void ResumePurchase(string purchaseHandle, string token) => ZuneApplication.Service.ResumePurchase(purchaseHandle, token, new AsyncCompleteHandler(this.OnResumePurchaseComplete));
@@ -463,10 +463,10 @@ namespace ZuneUI
                 this.m_videoOfferCollection.Items.Clear();
                 this.m_appOfferCollection.Items.Clear();
                 this.UpdateOffers(this.m_albumOfferCollection, this.m_trackOfferCollection, this.m_videoOfferCollection, this.m_appOfferCollection, 0);
-                this.AlbumOffers = (IList)null;
-                this.TrackOffers = (IList)null;
-                this.VideoOffers = (IList)null;
-                this.AppOffers = (IList)null;
+                this.AlbumOffers = null;
+                this.TrackOffers = null;
+                this.VideoOffers = null;
+                this.AppOffers = null;
             }
             this.RentDeviceId = deviceId;
             this.RentDeviceEndpointId = deviceEndpointId;
@@ -708,24 +708,24 @@ namespace ZuneUI
             if (this.AlbumOffers != null && this.TrackOffers != null && (this.VideoOffers != null && this.AppOffers != null))
             {
                 if (this.AlbumOffers.Count == 0 && this.TrackOffers.Count == 0 && (this.VideoOffers.Count == 0 && this.AppOffers.Count == 0))
-                    this.Status = ZuneUI.Shell.LoadString(StringId.IDS_PURCHASE_NO_ITEMS);
+                    this.Status = Shell.LoadString(StringId.IDS_PURCHASE_NO_ITEMS);
                 else if (this.PurchasingPoints)
-                    this.Status = ZuneUI.Shell.LoadString(StringId.IDS_PURCHASE_POINTS_IN_PROGRESS);
+                    this.Status = Shell.LoadString(StringId.IDS_PURCHASE_POINTS_IN_PROGRESS);
                 else if (this.InsufficientPoints)
                 {
                     this.CalculateBestPointsOffer();
-                    this.Status = ZuneUI.Shell.LoadString(StringId.IDS_PURCHASE_INSUFFICIENT_POINTS);
+                    this.Status = Shell.LoadString(StringId.IDS_PURCHASE_INSUFFICIENT_POINTS);
                 }
                 else
-                    this.Status = this.TotalSubscriptionFreeTracks <= 0 ? (!this.MultipleResolutionOptions ? this.ConditionsOfPurchase : string.Format(ZuneUI.Shell.LoadString(this.PurchaseHD ? StringId.IDS_PURCHASE_HD_DESC_AND_CONDITIONS : StringId.IDS_PURCHASE_SD_DESC_AND_CONDITIONS), (object)this.ConditionsOfPurchase)) : (!this.SubscriptionFreeTracksOnly ? string.Format(ZuneUI.Shell.LoadString(StringId.IDS_PURCHASE_FREE_TRACKS_AND_NO_REFUNDS), (object)this.TotalSubscriptionFreeTracks) : ZuneUI.Shell.LoadString(StringId.IDS_PURCHASE_SUGGESTED_SONGS_NOTICE));
+                    this.Status = this.TotalSubscriptionFreeTracks <= 0 ? (!this.MultipleResolutionOptions ? this.ConditionsOfPurchase : string.Format(Shell.LoadString(this.PurchaseHD ? StringId.IDS_PURCHASE_HD_DESC_AND_CONDITIONS : StringId.IDS_PURCHASE_SD_DESC_AND_CONDITIONS), ConditionsOfPurchase)) : (!this.SubscriptionFreeTracksOnly ? string.Format(Shell.LoadString(StringId.IDS_PURCHASE_FREE_TRACKS_AND_NO_REFUNDS), TotalSubscriptionFreeTracks) : Shell.LoadString(StringId.IDS_PURCHASE_SUGGESTED_SONGS_NOTICE));
             }
             else
-                this.Status = ZuneUI.Shell.LoadString(StringId.IDS_PURCHASE_CALC_TOTAL);
+                this.Status = Shell.LoadString(StringId.IDS_PURCHASE_CALC_TOTAL);
             bool flag1 = false;
             bool flag2 = false;
             if (this.AlbumOffers != null)
             {
-                foreach (AlbumOffer albumOffer in (IEnumerable)this.AlbumOffers)
+                foreach (AlbumOffer albumOffer in AlbumOffers)
                 {
                     if (!albumOffer.InCollection)
                     {
@@ -738,7 +738,7 @@ namespace ZuneUI
             }
             if (this.TrackOffers != null)
             {
-                foreach (TrackOffer trackOffer in (IEnumerable)this.TrackOffers)
+                foreach (TrackOffer trackOffer in TrackOffers)
                 {
                     if (!trackOffer.InCollection)
                     {
@@ -751,7 +751,7 @@ namespace ZuneUI
             }
             if (this.VideoOffers != null)
             {
-                foreach (VideoOffer videoOffer in (IEnumerable)this.VideoOffers)
+                foreach (VideoOffer videoOffer in VideoOffers)
                 {
                     if (!videoOffer.InCollection)
                     {
@@ -764,7 +764,7 @@ namespace ZuneUI
             }
             if (this.AppOffers != null)
             {
-                foreach (AppOffer appOffer in (IEnumerable)this.AppOffers)
+                foreach (AppOffer appOffer in AppOffers)
                 {
                     if (!appOffer.InCollection)
                     {
@@ -784,20 +784,20 @@ namespace ZuneUI
             get
             {
                 string empty = string.Empty;
-                string str = this.VideoOffers.Count <= 0 || this.RentVideos ? ZuneUI.Shell.LoadString(StringId.IDS_PURCHASE_NO_REFUNDS) : ((this.VideoExpirationDate - DateTime.UtcNow).Days <= 365 ? string.Format(ZuneUI.Shell.LoadString(StringId.IDS_PURCHASE_NO_REFUNDS_KNOWN_BLACKOUT), (object)this.VideoExpirationDate.ToLocalTime().ToShortDateString()) : ZuneUI.Shell.LoadString(StringId.IDS_PURCHASE_NO_REFUNDS_UNKNOWN_BLACKOUT));
-                return !string.IsNullOrEmpty(this.AdditionalStatus) ? string.Format("{0} {1}", (object)str, (object)this.AdditionalStatus) : str;
+                string str = this.VideoOffers.Count <= 0 || this.RentVideos ? Shell.LoadString(StringId.IDS_PURCHASE_NO_REFUNDS) : ((this.VideoExpirationDate - DateTime.UtcNow).Days <= 365 ? string.Format(Shell.LoadString(StringId.IDS_PURCHASE_NO_REFUNDS_KNOWN_BLACKOUT), this.VideoExpirationDate.ToLocalTime().ToShortDateString()) : Shell.LoadString(StringId.IDS_PURCHASE_NO_REFUNDS_UNKNOWN_BLACKOUT));
+                return !string.IsNullOrEmpty(this.AdditionalStatus) ? string.Format("{0} {1}", str, AdditionalStatus) : str;
             }
         }
 
         private void CalculateBestPointsOffer()
         {
-            BillingOffer billingOffer1 = (BillingOffer)null;
+            BillingOffer billingOffer1 = null;
             if (this.m_pointsOffers != null)
             {
                 int num = this.TotalPoints - this.PointsBalance;
-                foreach (BillingOffer billingOffer2 in (IEnumerable)this.m_pointsOffers.Items)
+                foreach (BillingOffer billingOffer2 in m_pointsOffers.Items)
                 {
-                    if ((long)billingOffer2.Points >= (long)num && (billingOffer1 == null || billingOffer1.Points > billingOffer2.Points))
+                    if (billingOffer2.Points >= num && (billingOffer1 == null || billingOffer1.Points > billingOffer2.Points))
                         billingOffer1 = billingOffer2;
                 }
             }
@@ -806,25 +806,25 @@ namespace ZuneUI
 
         private void SetError(HRESULT hrError)
         {
-            ErrorMapperResult descriptionAndUrl = Microsoft.Zune.ErrorMapperApi.ErrorMapperApi.GetMappedErrorDescriptionAndUrl(hrError.Int, eErrorCondition.eEC_Purchase);
+            ErrorMapperResult descriptionAndUrl = ErrorMapperApi.GetMappedErrorDescriptionAndUrl(hrError.Int, eErrorCondition.eEC_Purchase);
             this.ErrorMessage = descriptionAndUrl.Description;
             this.ErrorWebHelpUrl = descriptionAndUrl.WebHelpUrl;
             this.CanPurchase = false;
             this.CanDownload = false;
-            this.Status = (string)null;
+            this.Status = null;
         }
 
-        private void OnGetBalancesComplete(int pointsBalance, int freeTrackBalance) => Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredGetBalancesComplete), (object)new int[2]
+        private void OnGetBalancesComplete(int pointsBalance, int freeTrackBalance) => Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredGetBalancesComplete), new int[2]
         {
       pointsBalance,
       freeTrackBalance
         });
 
-        private void OnGetBalancesError(HRESULT hrError) => Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredGetBalancesError), (object)hrError);
+        private void OnGetBalancesError(HRESULT hrError) => Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredGetBalancesError), hrError);
 
-        private void OnGetPointsOffersComplete(BillingOfferCollection pointsOffers) => Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredGetPointsOffersComplete), (object)pointsOffers);
+        private void OnGetPointsOffersComplete(BillingOfferCollection pointsOffers) => Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredGetPointsOffersComplete), pointsOffers);
 
-        private void OnGetPointsOffersError(HRESULT hrError) => Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredGetPointsOffersError), (object)hrError);
+        private void OnGetPointsOffersError(HRESULT hrError) => Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredGetPointsOffersError), hrError);
 
         private void OnGetOffersComplete(
           AlbumOfferCollection albumOffers,
@@ -833,19 +833,19 @@ namespace ZuneUI
           AppOfferCollection appOffers,
           int subscriptionFreeTracks)
         {
-            Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredGetOffersComplete), (object)new object[5]
+            Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredGetOffersComplete), new object[5]
             {
-        (object) albumOffers,
-        (object) trackOffers,
-        (object) videoOffers,
-        (object) appOffers,
-        (object) subscriptionFreeTracks
+         albumOffers,
+         trackOffers,
+         videoOffers,
+         appOffers,
+         subscriptionFreeTracks
             });
         }
 
-        private void OnGetOffersError(HRESULT hrError) => Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredSetError), (object)hrError);
+        private void OnGetOffersError(HRESULT hrError) => Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredSetError), hrError);
 
-        private void OnResumePurchaseComplete(HRESULT hr) => this.OnPurchaseOffersComplete(hr, (string)null, (string)null);
+        private void OnResumePurchaseComplete(HRESULT hr) => this.OnPurchaseOffersComplete(hr, null, null);
 
         private void OnPurchaseOffersComplete(HRESULT hr, string redirectUrl, string handle)
         {
@@ -854,39 +854,39 @@ namespace ZuneUI
             if (hr.IsSuccess)
             {
                 ArrayList arrayList = new ArrayList(this.AlbumOffers.Count + this.TrackOffers.Count + this.VideoOffers.Count + this.AppOffers.Count);
-                VideoPlaybackTrack videoPlaybackTrack = (VideoPlaybackTrack)null;
-                foreach (AlbumOffer albumOffer in (IEnumerable)this.AlbumOffers)
-                    arrayList.Add((object)albumOffer);
-                foreach (TrackOffer trackOffer in (IEnumerable)this.TrackOffers)
-                    arrayList.Add((object)trackOffer);
-                foreach (VideoOffer videoOffer in (IEnumerable)this.VideoOffers)
+                VideoPlaybackTrack videoPlaybackTrack = null;
+                foreach (AlbumOffer albumOffer in AlbumOffers)
+                    arrayList.Add(albumOffer);
+                foreach (TrackOffer trackOffer in TrackOffers)
+                    arrayList.Add(trackOffer);
+                foreach (VideoOffer videoOffer in VideoOffers)
                 {
-                    arrayList.Add((object)videoOffer);
+                    arrayList.Add(videoOffer);
                     if (videoOffer.IsStream && videoPlaybackTrack == null)
-                        videoPlaybackTrack = new VideoPlaybackTrack(videoOffer.Id, videoOffer.Title, (string)null, (string)null, false, true, false, false, false, videoOffer.IsHD ? VideoDefinitionEnum.HD : VideoDefinitionEnum.SD);
+                        videoPlaybackTrack = new VideoPlaybackTrack(videoOffer.Id, videoOffer.Title, null, null, false, true, false, false, false, videoOffer.IsHD ? VideoDefinitionEnum.HD : VideoDefinitionEnum.SD);
                 }
-                foreach (AppOffer appOffer in (IEnumerable)this.AppOffers)
-                    arrayList.Add((object)appOffer);
+                foreach (AppOffer appOffer in AppOffers)
+                    arrayList.Add(appOffer);
                 if (this.StreamVideos && videoPlaybackTrack != null)
-                    Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredPlayPurchasedStreams), (object)videoPlaybackTrack);
-                Microsoft.Zune.Service.EDownloadFlags eDownloadFlags = Microsoft.Zune.Service.EDownloadFlags.None;
+                    Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredPlayPurchasedStreams), videoPlaybackTrack);
+                EDownloadFlags eDownloadFlags = EDownloadFlags.None;
                 if (this.RentVideos)
                 {
-                    eDownloadFlags |= Microsoft.Zune.Service.EDownloadFlags.Rental;
+                    eDownloadFlags |= EDownloadFlags.Rental;
                     if (this.RentDeviceId > 0)
-                        eDownloadFlags |= Microsoft.Zune.Service.EDownloadFlags.DeviceLicensed;
+                        eDownloadFlags |= EDownloadFlags.DeviceLicensed;
                 }
                 if (this.StreamVideos)
-                    eDownloadFlags |= Microsoft.Zune.Service.EDownloadFlags.Stream;
+                    eDownloadFlags |= EDownloadFlags.Stream;
                 if (this.PurchaseHD)
-                    eDownloadFlags |= Microsoft.Zune.Service.EDownloadFlags.HD;
-                Download.Instance.DownloadContent((IList)arrayList, eDownloadFlags, this.RentDeviceEndpointId, new EventHandler(this.OnDownloadsAllPending));
+                    eDownloadFlags |= EDownloadFlags.HD;
+                Download.Instance.DownloadContent(arrayList, eDownloadFlags, this.RentDeviceEndpointId, new EventHandler(this.OnDownloadsAllPending));
             }
             else
-                Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredSetError), (object)hr);
+                Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredSetError), hr);
         }
 
-        private void OnDownloadsAllPending(object sender, EventArgs e) => Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredDownloadsAllPending), (object)null);
+        private void OnDownloadsAllPending(object sender, EventArgs e) => Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredDownloadsAllPending), null);
 
         private void OnPointsPurchaseCompletedOrFailed(object sender, EventArgs args)
         {
@@ -925,8 +925,8 @@ namespace ZuneUI
             this.m_videoOfferCollection = videos;
             this.m_appOfferCollection = apps;
             this.TotalSubscriptionFreeTracks = totalSubscriptionFreeTracks;
-            this.AlbumOffers = this.m_albumOfferCollection != null ? this.m_albumOfferCollection.Items : (IList)null;
-            this.TrackOffers = this.m_trackOfferCollection != null ? this.m_trackOfferCollection.Items : (IList)null;
+            this.AlbumOffers = this.m_albumOfferCollection != null ? this.m_albumOfferCollection.Items : null;
+            this.TrackOffers = this.m_trackOfferCollection != null ? this.m_trackOfferCollection.Items : null;
             this.UpdateAppOffers();
             this.UpdateVideoOffers();
             this.CalculateTotal();
@@ -935,24 +935,24 @@ namespace ZuneUI
 
         private void UpdateAppOffers()
         {
-            IList list = (IList)null;
+            IList list = null;
             if (this.m_appOfferCollection != null && this.m_appOfferCollection.Items != null)
             {
-                list = (IList)new ArrayList(this.m_appOfferCollection.Items.Count);
+                list = new ArrayList(this.m_appOfferCollection.Items.Count);
                 if (this.PurchaseTrials)
                 {
-                    foreach (AppOffer appOffer in (IEnumerable)this.m_appOfferCollection.Items)
+                    foreach (AppOffer appOffer in m_appOfferCollection.Items)
                     {
                         if (appOffer.IsTrialPurchase)
-                            list.Add((object)appOffer);
+                            list.Add(appOffer);
                     }
                 }
                 else
                 {
-                    foreach (AppOffer appOffer in (IEnumerable)this.m_appOfferCollection.Items)
+                    foreach (AppOffer appOffer in m_appOfferCollection.Items)
                     {
                         if (!appOffer.IsTrialPurchase)
-                            list.Add((object)appOffer);
+                            list.Add(appOffer);
                     }
                 }
             }
@@ -962,10 +962,10 @@ namespace ZuneUI
         private void UpdateVideoOffers()
         {
             bool flag = false;
-            IList list1 = this.m_videoOfferCollection != null ? this.m_videoOfferCollection.Items : (IList)null;
+            IList list1 = this.m_videoOfferCollection != null ? this.m_videoOfferCollection.Items : null;
             if (list1 != null)
             {
-                foreach (VideoOffer videoOffer in (IEnumerable)list1)
+                foreach (VideoOffer videoOffer in list1)
                 {
                     if (videoOffer.PreviouslyPurchased && !videoOffer.IsRental)
                         flag = true;
@@ -975,7 +975,7 @@ namespace ZuneUI
             int num2 = 0;
             if (list1 != null)
             {
-                foreach (VideoOffer videoOffer in (IEnumerable)list1)
+                foreach (VideoOffer videoOffer in list1)
                 {
                     if (videoOffer.IsRental == this.RentVideos && (!this.RentVideos || !flag))
                     {
@@ -993,7 +993,7 @@ namespace ZuneUI
             int num4 = 0;
             if (list1 != null)
             {
-                foreach (VideoOffer videoOffer in (IEnumerable)list1)
+                foreach (VideoOffer videoOffer in list1)
                 {
                     if (videoOffer.IsRental == this.RentVideos && videoOffer.IsStream == this.StreamVideos && (!this.RentVideos || !flag))
                     {
@@ -1007,20 +1007,20 @@ namespace ZuneUI
             this.MultipleResolutionOptions = num3 > 0 && num4 > 0;
             if (!this.MultipleResolutionOptions && list1 != null)
                 this.PurchaseHD = num3 > 0;
-            IList list2 = (IList)null;
+            IList list2 = null;
             if (list1 != null)
             {
-                list2 = (IList)new ArrayList(this.PurchaseHD ? num3 : num4);
-                foreach (VideoOffer videoOffer in (IEnumerable)list1)
+                list2 = new ArrayList(this.PurchaseHD ? num3 : num4);
+                foreach (VideoOffer videoOffer in list1)
                 {
                     if (videoOffer.IsRental == this.RentVideos && videoOffer.IsStream == this.StreamVideos && videoOffer.IsHD == this.PurchaseHD && (!this.RentVideos || !flag))
-                        list2.Add((object)videoOffer);
+                        list2.Add(videoOffer);
                 }
             }
             this.VideoExpirationDate = DateTime.MaxValue;
             if (list2 != null)
             {
-                foreach (VideoOffer videoOffer in (IEnumerable)list2)
+                foreach (VideoOffer videoOffer in list2)
                 {
                     DateTime? expirationDate = videoOffer.ExpirationDate;
                     DateTime? nullable = expirationDate;
@@ -1037,7 +1037,7 @@ namespace ZuneUI
             int num = 0;
             if (this.m_videoOfferCollection != null)
             {
-                foreach (VideoOffer videoOffer in (IEnumerable)this.m_videoOfferCollection.Items)
+                foreach (VideoOffer videoOffer in m_videoOfferCollection.Items)
                 {
                     if (videoOffer.IsRental == isRental && videoOffer.IsStream == isStream && (videoOffer.IsHD == isHD && !videoOffer.InCollection) && !videoOffer.PreviouslyPurchased)
                         num += videoOffer.PriceInfo.PointsPrice;
@@ -1051,12 +1051,12 @@ namespace ZuneUI
             int num = -1;
             bool flag = false;
             double price = -1.0;
-            string str1 = (string)null;
-            string str2 = (string)null;
-            string currencyCode = (string)null;
+            string str1 = null;
+            string str2 = null;
+            string currencyCode = null;
             if (this.AlbumOffers != null)
             {
-                foreach (AlbumOffer albumOffer in (IEnumerable)this.AlbumOffers)
+                foreach (AlbumOffer albumOffer in AlbumOffers)
                 {
                     if (!albumOffer.InCollection && !albumOffer.PreviouslyPurchased)
                     {
@@ -1068,7 +1068,7 @@ namespace ZuneUI
             }
             if (this.TrackOffers != null)
             {
-                foreach (TrackOffer trackOffer in (IEnumerable)this.TrackOffers)
+                foreach (TrackOffer trackOffer in TrackOffers)
                 {
                     if (!trackOffer.InCollection && !trackOffer.PreviouslyPurchased)
                     {
@@ -1081,7 +1081,7 @@ namespace ZuneUI
             }
             if (this.VideoOffers != null)
             {
-                foreach (VideoOffer videoOffer in (IEnumerable)this.VideoOffers)
+                foreach (VideoOffer videoOffer in VideoOffers)
                 {
                     if (!videoOffer.InCollection && !videoOffer.PreviouslyPurchased)
                     {
@@ -1093,7 +1093,7 @@ namespace ZuneUI
             }
             if (this.AppOffers != null)
             {
-                foreach (AppOffer appOffer in (IEnumerable)this.AppOffers)
+                foreach (AppOffer appOffer in AppOffers)
                 {
                     if (!appOffer.InCollection && !appOffer.PreviouslyPurchased)
                     {
@@ -1103,7 +1103,7 @@ namespace ZuneUI
                             price = 0.0;
                         }
                         else
-                            str2 = (string)null;
+                            str2 = null;
                         price += appOffer.PriceInfo.CurrencyPrice;
                         if (currencyCode == null || currencyCode.Equals(appOffer.PriceInfo.CurrencyCode, StringComparison.InvariantCultureIgnoreCase))
                             currencyCode = appOffer.PriceInfo.CurrencyCode;
@@ -1111,14 +1111,14 @@ namespace ZuneUI
                 }
             }
             if (num > -1)
-                str1 = string.Format(ZuneUI.Shell.LoadString(StringId.IDS_POINTS_TOTAL_FORMAT), (object)num);
+                str1 = string.Format(Shell.LoadString(StringId.IDS_POINTS_TOTAL_FORMAT), num);
             if (price > -1.0 && str2 == null)
                 str2 = StringFormatHelper.FormatPrice(price, currencyCode);
             if (price > 0.0 && !string.IsNullOrEmpty(str2))
             {
                 string taxString = FeatureEnablement.GetTaxString();
                 if (!string.IsNullOrEmpty(taxString))
-                    str2 = string.Format(ZuneUI.Shell.LoadString(StringId.IDS_CURRENCY_WITH_TAX), (object)str2, (object)taxString);
+                    str2 = string.Format(Shell.LoadString(StringId.IDS_CURRENCY_WITH_TAX), str2, taxString);
             }
             this.TotalPoints = num;
             this.TotalCurrencyPrice = price;
@@ -1165,12 +1165,12 @@ namespace ZuneUI
             if (this.SubscriptionFreeTrackBalance > 0 && (this.TrackOffers != null && this.TrackOffers.Count > 0 || this.AlbumOffers != null && this.AlbumOffers.Count > 0))
                 SignIn.Instance.UpdateSubscriptionFreeTrackBalance();
             ClientConfiguration.Service.PurchaseHD = this.PurchaseHD;
-            if (Purchase.PurchaseEvent == null)
+            if (PurchaseEvent == null)
                 return;
-            Purchase.PurchaseEvent((object)this, EventArgs.Empty);
+            PurchaseEvent(this, EventArgs.Empty);
         }
 
-        private void DeferredPlayPurchasedStreams(object args) => SingletonModelItem<TransportControls>.Instance.PlayItem((object)(VideoPlaybackTrack)args);
+        private void DeferredPlayPurchasedStreams(object args) => SingletonModelItem<TransportControls>.Instance.PlayItem((VideoPlaybackTrack)args);
 
         protected override void OnDispose(bool disposing)
         {
@@ -1180,47 +1180,47 @@ namespace ZuneUI
             if (this.m_albumOfferCollection != null)
             {
                 this.m_albumOfferCollection.Dispose();
-                this.m_albumOfferCollection = (AlbumOfferCollection)null;
+                this.m_albumOfferCollection = null;
             }
             if (this.m_trackOfferCollection != null)
             {
                 this.m_trackOfferCollection.Dispose();
-                this.m_trackOfferCollection = (TrackOfferCollection)null;
+                this.m_trackOfferCollection = null;
             }
             if (this.m_videoOfferCollection != null)
             {
                 this.m_videoOfferCollection.Dispose();
-                this.m_videoOfferCollection = (VideoOfferCollection)null;
+                this.m_videoOfferCollection = null;
             }
             if (this.m_appOfferCollection != null)
             {
                 this.m_appOfferCollection.Dispose();
-                this.m_appOfferCollection = (AppOfferCollection)null;
+                this.m_appOfferCollection = null;
             }
             if (this.m_pointsHelper != null)
             {
                 this.m_pointsHelper.Dispose();
-                this.m_pointsHelper = (BillingOfferHelper)null;
+                this.m_pointsHelper = null;
             }
             if (this.m_pointsOffers == null)
                 return;
             this.m_pointsOffers.Dispose();
-            this.m_pointsOffers = (BillingOfferCollection)null;
+            this.m_pointsOffers = null;
         }
 
-        private Microsoft.Zune.Service.EPurchaseOffersFlags PurchaseOffersFlags
+        private EPurchaseOffersFlags PurchaseOffersFlags
         {
             get
             {
-                Microsoft.Zune.Service.EPurchaseOffersFlags epurchaseOffersFlags = Microsoft.Zune.Service.EPurchaseOffersFlags.None;
+                EPurchaseOffersFlags epurchaseOffersFlags = EPurchaseOffersFlags.None;
                 if (this.PurchaseHD)
-                    epurchaseOffersFlags |= Microsoft.Zune.Service.EPurchaseOffersFlags.PurchaseHD;
+                    epurchaseOffersFlags |= EPurchaseOffersFlags.PurchaseHD;
                 if (this.RentVideos)
-                    epurchaseOffersFlags |= Microsoft.Zune.Service.EPurchaseOffersFlags.RentVideos;
+                    epurchaseOffersFlags |= EPurchaseOffersFlags.RentVideos;
                 if (this.StreamVideos)
-                    epurchaseOffersFlags |= Microsoft.Zune.Service.EPurchaseOffersFlags.StreamVideos;
+                    epurchaseOffersFlags |= EPurchaseOffersFlags.StreamVideos;
                 if (this.PurchaseTrials)
-                    epurchaseOffersFlags |= Microsoft.Zune.Service.EPurchaseOffersFlags.PurchaseTrials;
+                    epurchaseOffersFlags |= EPurchaseOffersFlags.PurchaseTrials;
                 return epurchaseOffersFlags;
             }
         }

@@ -18,7 +18,7 @@ namespace ZuneUI
         }
 
         public NamedStringOption(string description, string value)
-          : base((IModelItemOwner)null, description, (EventHandler)null)
+          : base(null, description, null)
           => this._value = value;
 
         public string Value

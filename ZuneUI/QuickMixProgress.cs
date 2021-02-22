@@ -17,27 +17,27 @@ namespace ZuneUI
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public QuickMixProgress() => Microsoft.Zune.QuickMix.QuickMix.Instance.OnProgress += new QuickMixProgressHandler(this.UpdateProgress);
+        public QuickMixProgress() => QuickMix.Instance.OnProgress += new QuickMixProgressHandler(this.UpdateProgress);
 
         protected void FirePropertyChanged(string propertyName)
         {
             if (this.PropertyChanged == null)
                 return;
-            this.PropertyChanged((object)this, new PropertyChangedEventArgs(propertyName));
+            this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private void UpdateProgress(float progress, int secondsLeft) => Application.DeferredInvoke((DeferredInvokeHandler)delegate
+        private void UpdateProgress(float progress, int secondsLeft) => Application.DeferredInvoke(delegate
        {
            this.Progress = progress;
            this.SecondsLeft = secondsLeft;
-       }, (object)null);
+       }, null);
 
         public float Progress
         {
             get => this._progress;
             private set
             {
-                if ((double)value == (double)this._progress)
+                if (value == (double)this._progress)
                     return;
                 this._progress = value;
                 this.FirePropertyChanged(nameof(Progress));

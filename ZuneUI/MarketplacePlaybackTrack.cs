@@ -56,7 +56,7 @@ namespace ZuneUI
 
         public override HRESULT GetURI(out string uri)
         {
-            string uriOut = (string)null;
+            string uriOut = null;
             if (ZuneApplication.Service.InCompleteCollection(this._zuneMediaId, Microsoft.Zune.Service.EContentType.MusicTrack))
                 ZuneApplication.Service.GetContentUri(this._zuneMediaId, Microsoft.Zune.Service.EContentType.MusicTrack, Microsoft.Zune.Service.EContentUriFlags.FallbackToPreview, out uriOut, out Guid _);
             if (string.IsNullOrEmpty(uriOut))
@@ -89,7 +89,7 @@ namespace ZuneUI
                 UsageDataService.ReportTrackSubscriptionPlayback(this._zuneMediaId, this._context);
                 if (this.MediaType != MediaType.Track)
                     return;
-                ++ZuneUI.Shell.MainFrame.Social.PlayCount;
+                ++Shell.MainFrame.Social.PlayCount;
             }
             else
                 UsageDataService.ReportTrackPreviewPlayback(this._zuneMediaId, this._context);

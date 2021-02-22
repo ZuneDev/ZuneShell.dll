@@ -18,27 +18,27 @@ namespace ZuneUI
         public override object ConvertFromString(string value)
         {
             string str = SignIn.Instance.SignedIn ? SignIn.Instance.CountryCode : RegionInfo.CurrentRegion.TwoLetterISORegionName;
-            return this.ConvertFromString(value, (object)str);
+            return this.ConvertFromString(value, str);
         }
 
         public override object ConvertFromString(string value, object country)
         {
-            string str = (string)null;
+            string str = null;
             AccountCountry country1 = AccountCountryList.Instance.GetCountry(country as string);
             if (country1 != null)
                 str = country1.GetStateAbbreviation(value);
-            return (object)str ?? (object)value;
+            return str ?? (object)value;
         }
 
         public override string ConvertToString(object value)
         {
             string str = SignIn.Instance.SignedIn ? SignIn.Instance.CountryCode : RegionInfo.CurrentRegion.TwoLetterISORegionName;
-            return this.ConvertToString(value, (object)str);
+            return this.ConvertToString(value, str);
         }
 
         public override string ConvertToString(object value, object country)
         {
-            string str = (string)null;
+            string str = null;
             AccountCountry country1 = AccountCountryList.Instance.GetCountry(country as string);
             if (country1 != null)
                 str = country1.GetState(value as string);

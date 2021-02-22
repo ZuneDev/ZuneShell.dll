@@ -14,6 +14,6 @@ namespace ZuneUI
           : base(owner, state, Shell.LoadString(StringId.IDS_ACCOUNT_FINISHED_DESCRIPTION))
           => this.RequireSignIn = true;
 
-        protected override bool OnCommitChanges() => this.State.PurchaseBillingOffer(this.State.SelectBillingOfferStep.SelectedBillingOffer, this.State.SelectPaymentInstrumentStep.CommittedCreditCard != null ? (PaymentInstrument)this.State.SelectPaymentInstrumentStep.CommittedCreditCard : (PaymentInstrument)this.State.PaymentInstrumentStep.CommittedCreditCard);
+        protected override bool OnCommitChanges() => this.State.PurchaseBillingOffer(this.State.SelectBillingOfferStep.SelectedBillingOffer, this.State.SelectPaymentInstrumentStep.CommittedCreditCard != null ? State.SelectPaymentInstrumentStep.CommittedCreditCard : State.PaymentInstrumentStep.CommittedCreditCard);
     }
 }

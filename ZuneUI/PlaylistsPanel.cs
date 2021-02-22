@@ -14,8 +14,8 @@ namespace ZuneUI
         private IList _selectedIds;
 
         internal PlaylistsPanel(MusicLibraryPage page)
-          : base((IModelItemOwner)page)
-          => this.UI = PlaylistsPanel.PanelTemplate;
+          : base(page)
+          => this.UI = PanelTemplate;
 
         public override IList SelectedLibraryIds
         {

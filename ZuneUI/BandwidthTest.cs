@@ -39,7 +39,7 @@ namespace ZuneUI
             base.OnDispose(disposing);
             if (!disposing || this.m_bandwidthTestInterop == null)
                 return;
-            this.m_bandwidthTestInterop = (BandwidthTestInterop)null;
+            this.m_bandwidthTestInterop = null;
         }
 
         public int BandwidthTestProgressPercent
@@ -139,7 +139,7 @@ namespace ZuneUI
             if (this.m_bandwidthTestInterop == null || !this.IsBandwidthTestRunning)
                 return;
             this.m_bandwidthTestInterop.Cancel();
-            this.m_bandwidthTestInterop = (BandwidthTestInterop)null;
+            this.m_bandwidthTestInterop = null;
             this.IsBandwidthTestCanceled = true;
             this.IsBandwidthTestRunning = false;
             if (!DownloadManager.Instance.IsQueuePaused)
@@ -162,11 +162,11 @@ namespace ZuneUI
             SQMLog.LogToStream(SQMDataId.BandwidthTestResultAndDecision, (uint)this.BandwidthTestResult, (uint)chosenHDSDChoice);
         }
 
-        private void StartGettingContentUri() => ThreadPool.QueueUserWorkItem((WaitCallback)(args => Application.DeferredInvoke(new DeferredInvokeHandler(this.OnGotContentUri), (object)this.GetContentUri())), (object)null);
+        private void StartGettingContentUri() => ThreadPool.QueueUserWorkItem(args => Application.DeferredInvoke(new DeferredInvokeHandler(this.OnGotContentUri), this.GetContentUri()), null);
 
         private string GetContentUri()
         {
-            string uriOut = (string)null;
+            string uriOut = null;
             if (this.m_videoOffers[0] is VideoOffer videoOffer)
             {
                 if (!ZuneApplication.Service.InCompleteCollection(videoOffer.Id, EContentType.Video) && !string.IsNullOrEmpty(this.m_uri))
@@ -204,9 +204,9 @@ namespace ZuneUI
             this.m_bandwidthTestInterop.Start(uri, testTimeout);
         }
 
-        private void OnBandwidthTestUpdate(object sender, BandwidthUpdateArgs args) => Application.DeferredInvoke(new DeferredInvokeHandler(this.OnBandwidthTestUpdateOnApp), (object)args);
+        private void OnBandwidthTestUpdate(object sender, BandwidthUpdateArgs args) => Application.DeferredInvoke(new DeferredInvokeHandler(this.OnBandwidthTestUpdateOnApp), args);
 
-        private void OnBandwidthTestError(object sender, BandwidthTestErrorArgs args) => Application.DeferredInvoke(new DeferredInvokeHandler(this.OnBandwidthTestErrorOnApp), (object)args);
+        private void OnBandwidthTestError(object sender, BandwidthTestErrorArgs args) => Application.DeferredInvoke(new DeferredInvokeHandler(this.OnBandwidthTestErrorOnApp), args);
 
         private void OnBandwidthTestUpdateOnApp(object obj)
         {
@@ -232,7 +232,7 @@ namespace ZuneUI
                     this.BandwidthTestProgressPercent = 100;
                     this.IsBandwidthTestCompleted = true;
                     this.IsBandwidthTestRunning = false;
-                    this.m_bandwidthTestInterop = (BandwidthTestInterop)null;
+                    this.m_bandwidthTestInterop = null;
                     if (this.BandwidthTestResult == BandwidthCapacity.None)
                         SQMLog.Log(SQMDataId.BandwidthTestDoesnotMeetMin, 1);
                     if (this.m_fIsRetried && this.BandwidthTestResult != this.m_lastTestResult)
@@ -248,7 +248,7 @@ namespace ZuneUI
             this.IsBandwidthTestRunning = false;
             if (DownloadManager.Instance.IsQueuePaused)
                 DownloadManager.Instance.ResumeQueue();
-            this.m_bandwidthTestInterop = (BandwidthTestInterop)null;
+            this.m_bandwidthTestInterop = null;
             if (((BandwidthTestErrorArgs)obj).ErrorCode != -2147023436)
                 return;
             ShipAssert.Assert(false);

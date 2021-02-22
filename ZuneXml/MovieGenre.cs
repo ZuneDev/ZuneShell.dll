@@ -14,7 +14,7 @@ namespace ZuneXml
           DataProviderQuery owner,
           object objectTypeCookie)
         {
-            return (XmlDataProviderObject)new MovieGenre(owner, objectTypeCookie);
+            return new MovieGenre(owner, objectTypeCookie);
         }
 
         internal MovieGenre(DataProviderQuery owner, object resultTypeCookie)

@@ -58,7 +58,7 @@ namespace ZuneUI
                 string str = string.Empty;
                 try
                 {
-                    string path1 = (string)((Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\Windows Live\\Movie Maker") ?? Registry.LocalMachine.OpenSubKey("SOFTWARE\\Wow6432Node\\Microsoft\\Windows Live\\Movie Maker")) ?? throw new Exception("Could not open registry key")).GetValue("InstallLocation", (object)string.Empty);
+                    string path1 = (string)((Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\Windows Live\\Movie Maker") ?? Registry.LocalMachine.OpenSubKey("SOFTWARE\\Wow6432Node\\Microsoft\\Windows Live\\Movie Maker")) ?? throw new Exception("Could not open registry key")).GetValue("InstallLocation", string.Empty);
                     if (!string.IsNullOrEmpty(path1))
                         str = Path.Combine(path1, "MovieMaker.exe");
                 }
@@ -69,35 +69,35 @@ namespace ZuneUI
             }
         }
 
-        public static void PlaySlideShow(int folderId, int startIndex) => PhotoUtilities.PlaySlideShow(folderId, string.Empty, startIndex);
+        public static void PlaySlideShow(int folderId, int startIndex) => PlaySlideShow(folderId, string.Empty, startIndex);
 
         public static void PlaySlideShow(int folderId, string sort, int startIndex)
         {
-            SlideShowState slideShowState = new SlideShowState((IModelItemOwner)null);
+            SlideShowState slideShowState = new SlideShowState(null);
             SlideshowLand slideshowLand = new SlideshowLand();
             slideshowLand.SlideShowState = slideShowState;
             slideShowState.Sort = sort;
             slideShowState.Index = startIndex >= 0 ? startIndex : 0;
             slideShowState.FolderId = folderId;
-            ZuneShell.DefaultInstance.NavigateToPage((ZunePage)slideshowLand);
+            ZuneShell.DefaultInstance.NavigateToPage(slideshowLand);
         }
 
         public static void ViewInPhotoGallery(string path)
         {
-            if (!PhotoUtilities.IsPhotoGalleryAvailable)
+            if (!IsPhotoGalleryAvailable)
                 return;
             try
             {
                 string str = string.Empty;
                 if (!string.IsNullOrEmpty(path))
-                    str = !File.Exists(path) ? string.Format(Shell.LoadString(StringId.IDS_PHOTOS_PHOTO_GALLERY_OPEN_FOLDER), (object)path, (object)path) : string.Format(Shell.LoadString(StringId.IDS_PHOTOS_PHOTO_GALLERY_OPEN_FILE), (object)Path.GetDirectoryName(path), (object)path);
-                if (string.IsNullOrEmpty(PhotoUtilities.PhotoGalleryExecutablePath))
+                    str = !File.Exists(path) ? string.Format(Shell.LoadString(StringId.IDS_PHOTOS_PHOTO_GALLERY_OPEN_FOLDER), path, path) : string.Format(Shell.LoadString(StringId.IDS_PHOTOS_PHOTO_GALLERY_OPEN_FILE), Path.GetDirectoryName(path), path);
+                if (string.IsNullOrEmpty(PhotoGalleryExecutablePath))
                     return;
                 new Process()
                 {
                     StartInfo = {
-            FileName = PhotoUtilities.PhotoGalleryExecutablePath,
-            WorkingDirectory = Path.GetDirectoryName(PhotoUtilities.PhotoGalleryExecutablePath),
+            FileName = PhotoGalleryExecutablePath,
+            WorkingDirectory = Path.GetDirectoryName(PhotoGalleryExecutablePath),
             Arguments = str
           }
                 }.Start();
@@ -111,9 +111,9 @@ namespace ZuneUI
             }
         }
 
-        public static bool IsPhotoGalleryAvailable => !OSVersion.IsXP() && PhotoUtilities.IsPhotoGalleryInstalled;
+        public static bool IsPhotoGalleryAvailable => !OSVersion.IsXP() && IsPhotoGalleryInstalled;
 
-        public static bool IsMovieMakerAvailable => !OSVersion.IsXP() && PhotoUtilities.IsMovieMakerInstalled;
+        public static bool IsMovieMakerAvailable => !OSVersion.IsXP() && IsMovieMakerInstalled;
 
         public static string WriteMovieMakerMedia(IList mediaFiles)
         {
@@ -126,7 +126,7 @@ namespace ZuneUI
             {
                 xmlWriter.WriteStartElement("MovieMaker");
                 xmlWriter.WriteStartElement("Content");
-                foreach (string mediaFile in (IEnumerable)mediaFiles)
+                foreach (string mediaFile in mediaFiles)
                 {
                     xmlWriter.WriteStartElement("ContentFile");
                     xmlWriter.WriteAttributeString("Filename", mediaFile);
@@ -146,20 +146,20 @@ namespace ZuneUI
 
         public static void LaunchMovieMaker(IList mediaFiles)
         {
-            if (!PhotoUtilities.IsMovieMakerAvailable)
+            if (!IsMovieMakerAvailable)
                 return;
-            string str = PhotoUtilities.WriteMovieMakerMedia(mediaFiles);
+            string str = WriteMovieMakerMedia(mediaFiles);
             string format = Shell.LoadString(StringId.IDS_PHOTOS_MOVIE_MAKER_ARGS);
             try
             {
-                if (string.IsNullOrEmpty(PhotoUtilities.MovieMakerExecutablePath))
+                if (string.IsNullOrEmpty(MovieMakerExecutablePath))
                     return;
                 new Process()
                 {
                     StartInfo = {
-            FileName = PhotoUtilities.MovieMakerExecutablePath,
-            WorkingDirectory = Path.GetDirectoryName(PhotoUtilities.MovieMakerExecutablePath),
-            Arguments = string.Format(format, (object) str)
+            FileName = MovieMakerExecutablePath,
+            WorkingDirectory = Path.GetDirectoryName(MovieMakerExecutablePath),
+            Arguments = string.Format(format,  str)
           }
                 }.Start();
                 SQMLog.Log(SQMDataId.LaunchMovieMaker, 1);

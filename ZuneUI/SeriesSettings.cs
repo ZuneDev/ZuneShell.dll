@@ -33,21 +33,21 @@ namespace ZuneUI
             this.keepEpisodesOriginalValue = (uint)ClientConfiguration.Series.PodcastDefaultKeepEpisodes;
             this.playbackOrderOriginalValue = (ESeriesPlaybackOrder)ClientConfiguration.Series.PodcastDefaultPlaybackOrder;
             this.m_subscriptionManager.GetManagementSettings(this.m_seriesId, out this.keepEpisodesOriginalValue, out this.playbackOrderOriginalValue);
-            this.m_keepEpisodesChoice = new Choice((IModelItemOwner)this);
-            this.m_keepEpisodesChoice.Options = (IList)NamedIntOption.PodcastKeepOptions;
+            this.m_keepEpisodesChoice = new Choice(this);
+            this.m_keepEpisodesChoice.Options = NamedIntOption.PodcastKeepOptions;
             NamedIntOption.SelectOptionByValue(this.m_keepEpisodesChoice, (int)this.keepEpisodesOriginalValue);
-            this.m_playbackChoice = new Choice((IModelItemOwner)this);
-            this.m_playbackChoice.Options = (IList)NamedIntOption.PodcastPlaybackOptions;
+            this.m_playbackChoice = new Choice(this);
+            this.m_playbackChoice.Options = NamedIntOption.PodcastPlaybackOptions;
             NamedIntOption.SelectOptionByValue(this.m_playbackChoice, (int)this.playbackOrderOriginalValue);
-            this.m_syncChoice = new Choice((IModelItemOwner)this);
-            this.m_syncChoice.Options = (IList)NamedIntOption.PodcastSyncOptions;
+            this.m_syncChoice = new Choice(this);
+            this.m_syncChoice.Options = NamedIntOption.PodcastSyncOptions;
             if (this.m_device.IsValid)
             {
                 this.syncRuleOriginalValue = this.m_device.GetPodcastSyncLimit(this.m_seriesId);
                 NamedIntOption.SelectOptionByValue(this.m_syncChoice, (int)this.syncRuleOriginalValue);
             }
-            this.m_keepEpisodesChoicePerPhone = new Choice((IModelItemOwner)this);
-            this.m_keepEpisodesChoicePerPhone.Options = (IList)NamedIntOption.PodcastKeepOptions;
+            this.m_keepEpisodesChoicePerPhone = new Choice(this);
+            this.m_keepEpisodesChoicePerPhone.Options = NamedIntOption.PodcastKeepOptions;
             if (!this.m_device.IsValid)
                 return;
             this.keepEpisodesPerPhoneOriginalValue = this.m_device.GetPodcastSyncLimitWithValue(this.m_seriesId);

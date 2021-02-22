@@ -35,9 +35,9 @@ namespace ZuneUI
         {
             get
             {
-                if (SoftwareUpdates.m_instance == null)
-                    SoftwareUpdates.m_instance = new SoftwareUpdates();
-                return SoftwareUpdates.m_instance;
+                if (m_instance == null)
+                    m_instance = new SoftwareUpdates();
+                return m_instance;
             }
         }
 
@@ -73,7 +73,7 @@ namespace ZuneUI
         {
             if (!this.CheckingForUpdates)
             {
-                this._lastUpdateCheckResult = (UpdateCheckEventArguments)null;
+                this._lastUpdateCheckResult = null;
                 this.CheckingForUpdates = true;
                 this.m_userInitiatedUpdate = isUserInitiated;
                 UpdateManager.Instance.BeginUpdateCheck(new UpdateProgressHandler(this.UpdateCheckCallback));
@@ -88,7 +88,7 @@ namespace ZuneUI
         public void CancelCheckForUpdates()
         {
             UpdateManager.Instance.CancelUpdateCheck();
-            SoftwareUpdates.Instance.CheckingForUpdates = false;
+            Instance.CheckingForUpdates = false;
         }
 
         public void InstallUpdates()
@@ -124,7 +124,7 @@ namespace ZuneUI
         private void OnInstallInitiated()
         {
             if (this.InstallInitiated != null)
-                this.InstallInitiated((object)this, (EventArgs)null);
+                this.InstallInitiated(this, null);
             this.FirePropertyChanged("InstallInitiated");
         }
 
@@ -133,7 +133,7 @@ namespace ZuneUI
             this.CheckOsUpgrade();
             DateTime lastUpdateCheck = ClientConfiguration.Shell.LastUpdateCheck;
             uint num = Math.Min((uint)MachineConfiguration.Setup.UpdateCheckFrequency, 14U);
-            if ((long)Math.Abs((DateTime.UtcNow - lastUpdateCheck).Days) >= (long)num && !Fue.Instance.IsFirstLaunch && !Shell.SettingsFrame.Wizard.IsCurrent)
+            if (Math.Abs((DateTime.UtcNow - lastUpdateCheck).Days) >= num && !Fue.Instance.IsFirstLaunch && !Shell.SettingsFrame.Wizard.IsCurrent)
             {
                 this.m_backgroundCheck = true;
                 this.CheckForUpdates(false);
@@ -161,7 +161,7 @@ namespace ZuneUI
             this.CheckingForUpdates = false;
         }
 
-        private void UpdateCheckCallback(UpdateCheckEventArguments args) => Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredUpdateCheckCallback), (object)args, DeferredInvokePriority.Normal);
+        private void UpdateCheckCallback(UpdateCheckEventArguments args) => Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredUpdateCheckCallback), args, DeferredInvokePriority.Normal);
 
         private void CheckOsUpgrade()
         {
@@ -170,19 +170,19 @@ namespace ZuneUI
             if (num <= osVersion)
                 return;
             if (osVersion < 600 && MachineConfiguration.HME.CurrentSharingUID != 0)
-                ThreadPool.QueueUserWorkItem(new WaitCallback(this.RepairNetworkSharingService), (object)num);
+                ThreadPool.QueueUserWorkItem(new WaitCallback(this.RepairNetworkSharingService), num);
             if (osVersion >= 601 || num < 601)
                 return;
-            ThreadPool.QueueUserWorkItem(new WaitCallback(this.CreatePodcastLibraryTemplate), (object)num);
+            ThreadPool.QueueUserWorkItem(new WaitCallback(this.CreatePodcastLibraryTemplate), num);
         }
 
         private void RepairNetworkSharingService(object state)
         {
             int num = (int)state;
             HMESettings hmeSettings = new HMESettings();
-            HRESULT hresult = (HRESULT)hmeSettings.Init();
+            HRESULT hresult = hmeSettings.Init();
             if (hresult.IsSuccess)
-                hresult = (HRESULT)hmeSettings.RepairSharing();
+                hresult = hmeSettings.RepairSharing();
             if (!hresult.IsSuccess)
                 return;
             MachineConfiguration.Setup.OSVersion = num;
@@ -212,7 +212,7 @@ namespace ZuneUI
             string str5 = localTime.Hour.ToString();
             string ietfLanguageTag = CultureInfo.CurrentUICulture.IetfLanguageTag;
             string installationSource = MachineConfiguration.Setup.InstallationSource;
-            string pid = SoftwareUpdates.PID;
+            string pid = PID;
             string version1 = (string)registryKey.GetValue("CurrentVersion");
             string oldVersion = MachineConfiguration.Setup.OldVersion;
             string str6 = string.Empty;
@@ -288,7 +288,7 @@ namespace ZuneUI
             {
                 Microsoft.Zune.Service.HttpWebRequest httpWebRequest = Microsoft.Zune.Service.HttpWebRequest.Create(new Uri(stringBuilder.ToString()));
                 httpWebRequest.CancelOnShutdown = true;
-                httpWebRequest.GetResponseAsync(new AsyncRequestComplete(this.OnRequestComplete), (object)null);
+                httpWebRequest.GetResponseAsync(new AsyncRequestComplete(this.OnRequestComplete), null);
             }
             catch (Exception ex)
             {

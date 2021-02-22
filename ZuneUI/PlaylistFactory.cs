@@ -47,7 +47,7 @@ namespace ZuneUI
         {
             if (this.PropertyChanged == null)
                 return;
-            this.PropertyChanged((object)this, new PropertyChangedEventArgs(propertyName));
+            this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

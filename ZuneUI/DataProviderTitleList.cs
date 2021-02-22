@@ -15,12 +15,12 @@ namespace ZuneUI
     {
         private List<DataProviderObject> _dataProviders = new List<DataProviderObject>();
 
-        public IList DataProviders => (IList)this._dataProviders;
+        public IList DataProviders => _dataProviders;
 
         public void InitializeDataProviders(IList list)
         {
             this._dataProviders = new List<DataProviderObject>();
-            foreach (object obj in (IEnumerable)list)
+            foreach (object obj in list)
                 this._dataProviders.Add(obj as DataProviderObject);
         }
 
@@ -49,7 +49,7 @@ namespace ZuneUI
 
         public void Remove(object value)
         {
-            int index = this.IndexOf((object)(value as string));
+            int index = this.IndexOf(value as string);
             if (index < 0)
                 return;
             this._dataProviders.RemoveAt(index);

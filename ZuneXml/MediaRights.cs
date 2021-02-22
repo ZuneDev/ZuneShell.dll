@@ -18,13 +18,13 @@ namespace ZuneXml
         {
             if (FeatureEnablement.IsFeatureEnabled(Features.eMarketplace) && this.Rights != null)
             {
-                foreach (Right right in (IEnumerable)this.Rights)
+                foreach (Right right in Rights)
                 {
                     if (clientType == right.ClientTypeEnum && priceType == right.PriceTypeEnum && Guid.Empty != right.OfferId)
                         return right;
                 }
             }
-            return (Right)null;
+            return null;
         }
 
         internal Right GetOfferRight(
@@ -34,13 +34,13 @@ namespace ZuneXml
         {
             if (FeatureEnablement.IsFeatureEnabled(Features.eMarketplace) && this.Rights != null)
             {
-                foreach (Right right1 in (IEnumerable)this.Rights)
+                foreach (Right right1 in Rights)
                 {
                     if (right == right1.RightEnum && clientType == right1.ClientTypeEnum && (priceType == right1.PriceTypeEnum && Guid.Empty != right1.OfferId))
                         return right1;
                 }
             }
-            return (Right)null;
+            return null;
         }
 
         internal Right GetOfferRight(
@@ -50,13 +50,13 @@ namespace ZuneXml
         {
             if (FeatureEnablement.IsFeatureEnabled(Features.eMusic) && this.Rights != null)
             {
-                foreach (Right right1 in (IEnumerable)this.Rights)
+                foreach (Right right1 in Rights)
                 {
                     if (right == right1.RightEnum && priceType == right1.PriceTypeEnum && (encoding == right1.AudioEncodingEnum && right1.OfferId != Guid.Empty))
                         return right1;
                 }
             }
-            return (Right)null;
+            return null;
         }
 
         internal bool HasOfferRights(
@@ -81,7 +81,7 @@ namespace ZuneXml
         {
             if (FeatureEnablement.IsFeatureEnabled(Features.eMarketplace) && this.Rights != null)
             {
-                foreach (Right right in (IEnumerable)this.Rights)
+                foreach (Right right in Rights)
                 {
                     if (clientType == right.ClientTypeEnum)
                         return true;
@@ -94,7 +94,7 @@ namespace ZuneXml
         {
             if (FeatureEnablement.IsFeatureEnabled(Features.eMarketplace) && this.Rights != null)
             {
-                foreach (Right right1 in (IEnumerable)this.Rights)
+                foreach (Right right1 in Rights)
                 {
                     if (right == right1.RightEnum && clientType == right1.ClientTypeEnum)
                         return true;
@@ -107,7 +107,7 @@ namespace ZuneXml
         {
             if (FeatureEnablement.IsFeatureEnabled(Features.eMusic) && this.Rights != null)
             {
-                foreach (Right right1 in (IEnumerable)this.Rights)
+                foreach (Right right1 in Rights)
                 {
                     if (right == right1.RightEnum && encoding == right1.AudioEncodingEnum)
                         return true;
@@ -131,14 +131,14 @@ namespace ZuneXml
                 }
                 if (this.Rights != null)
                 {
-                    foreach (Right right1 in (IEnumerable)this.Rights)
+                    foreach (Right right1 in Rights)
                     {
                         if (right == right1.RightEnum && priceType == right1.PriceTypeEnum && (definition == right1.VideoDefinitionEnum || definition == VideoDefinitionEnum.None) && (right1.VideoResolutionEnum != VideoResolutionEnum.VR_1080P || right1.RightEnum != MediaRightsEnum.Purchase))
                             return right1;
                     }
                 }
             }
-            return (Right)null;
+            return null;
         }
 
         internal bool HasRights(
@@ -160,11 +160,11 @@ namespace ZuneXml
         {
             if (FeatureEnablement.IsFeatureEnabled(Features.eMarketplace) && this.IsAssociatedFeatureEnabled(right) && this.Rights != null)
             {
-                foreach (Right right1 in (IEnumerable)this.Rights)
+                foreach (Right right1 in Rights)
                 {
                     if (right == right1.RightEnum && definition1 == right1.VideoDefinitionEnum && priceType == right1.PriceTypeEnum)
                     {
-                        foreach (Right right2 in (IEnumerable)this.Rights)
+                        foreach (Right right2 in Rights)
                         {
                             if (right1 != right2 && right == right2.RightEnum && (definition2 == right2.VideoDefinitionEnum && priceType == right2.PriceTypeEnum) && right1.OfferId == right2.OfferId)
                                 return right2;
@@ -172,7 +172,7 @@ namespace ZuneXml
                     }
                 }
             }
-            return (Right)null;
+            return null;
         }
 
         private bool IsAssociatedFeatureEnabled(MediaRightsEnum right)
@@ -196,7 +196,7 @@ namespace ZuneXml
         {
             if (FeatureEnablement.IsFeatureEnabled(Features.eMarketplace) && this.Rights != null)
             {
-                foreach (Right right in (IEnumerable)this.Rights)
+                foreach (Right right in Rights)
                 {
                     if (this.IsAssociatedFeatureEnabled(right.RightEnum))
                         return true;
@@ -207,10 +207,10 @@ namespace ZuneXml
 
         internal string GetCompId()
         {
-            string str = (string)null;
+            string str = null;
             if (this.Rights != null)
             {
-                foreach (Right right in (IEnumerable)this.Rights)
+                foreach (Right right in Rights)
                 {
                     string providerCode = right.ProviderCode;
                     if (!string.IsNullOrEmpty(providerCode))
@@ -229,7 +229,7 @@ namespace ZuneXml
             get
             {
                 List<string> stringList = new List<string>();
-                foreach (Right right in (IEnumerable)this.Rights)
+                foreach (Right right in Rights)
                 {
                     if (this.IsAssociatedFeatureEnabled(right.RightEnum) && (right.VideoDefinitionEnum == VideoDefinitionEnum.HD || right.VideoDefinitionEnum == VideoDefinitionEnum.SD) && right.PriceTypeEnum == PriceTypeEnum.Points)
                     {
@@ -238,7 +238,7 @@ namespace ZuneXml
                             stringList.Add(language);
                     }
                 }
-                return (IList)stringList;
+                return stringList;
             }
         }
 
@@ -246,7 +246,7 @@ namespace ZuneXml
           DataProviderQuery owner,
           object objectTypeCookie)
         {
-            return (XmlDataProviderObject)new MediaRights(owner, objectTypeCookie);
+            return new MediaRights(owner, objectTypeCookie);
         }
 
         internal MediaRights(DataProviderQuery owner, object resultTypeCookie)
@@ -261,7 +261,7 @@ namespace ZuneXml
             switch (propertyName)
             {
                 case "Languages":
-                    return (object)this.Languages;
+                    return Languages;
                 default:
                     return base.GetProperty(propertyName);
             }

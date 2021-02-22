@@ -17,24 +17,24 @@ namespace ZuneUI
         public AccountCreationWizard()
         {
             this.RequiresSignIn = false;
-            this.AddPage((WizardPage)this.State.EmailSelectionStep);
-            this.AddPage((WizardPage)this.State.PassportPasswordStep);
-            this.AddPage((WizardPage)this.State.BasicAccountInfoStep);
-            this.AddPage((WizardPage)this.State.CreatePassportStep);
-            this.AddPage((WizardPage)this.State.HipPassportStep);
-            this.AddPage((WizardPage)this.State.EmailSelectionParentStep);
-            this.AddPage((WizardPage)this.State.PassportPasswordParentStep);
-            this.AddPage((WizardPage)this.State.CreatePassportParentStep);
-            this.AddPage((WizardPage)this.State.HipPassportParentStep);
-            this.AddPage((WizardPage)this.State.ContactInfoParentStep);
-            this.AddPage((WizardPage)this.State.PaymentInstrumentParentStep);
-            this.AddPage((WizardPage)this.State.PrivacyInfoParentStep);
-            this.AddPage((WizardPage)this.State.PrivacyInfoStep);
-            this.AddPage((WizardPage)this.State.ZuneTagStep);
-            this._finishStep = new AccountCreationFinishStep((Wizard)this, this.State);
-            this.AddPage((WizardPage)this._finishStep);
-            this._errorStep = new AccountManagementErrorPage((Wizard)this, Shell.LoadString(StringId.IDS_ACCOUNT_CREATION_ERROR_TITLE), Shell.LoadString(StringId.IDS_ACCOUNT_CREATION_ERROR_DESC));
-            this.AddPage((WizardPage)this._errorStep);
+            this.AddPage(State.EmailSelectionStep);
+            this.AddPage(State.PassportPasswordStep);
+            this.AddPage(State.BasicAccountInfoStep);
+            this.AddPage(State.CreatePassportStep);
+            this.AddPage(State.HipPassportStep);
+            this.AddPage(State.EmailSelectionParentStep);
+            this.AddPage(State.PassportPasswordParentStep);
+            this.AddPage(State.CreatePassportParentStep);
+            this.AddPage(State.HipPassportParentStep);
+            this.AddPage(State.ContactInfoParentStep);
+            this.AddPage(State.PaymentInstrumentParentStep);
+            this.AddPage(State.PrivacyInfoParentStep);
+            this.AddPage(State.PrivacyInfoStep);
+            this.AddPage(State.ZuneTagStep);
+            this._finishStep = new AccountCreationFinishStep(this, this.State);
+            this.AddPage(_finishStep);
+            this._errorStep = new AccountManagementErrorPage(this, Shell.LoadString(StringId.IDS_ACCOUNT_CREATION_ERROR_TITLE), Shell.LoadString(StringId.IDS_ACCOUNT_CREATION_ERROR_DESC));
+            this.AddPage(_errorStep);
         }
 
         public void InitializeDefaults(
@@ -84,7 +84,7 @@ namespace ZuneUI
         protected override bool OnStart()
         {
             this.CurrentPageIndex = -1;
-            AccountCreationWizard.AccountCreationInProgress = true;
+            AccountCreationInProgress = true;
             return base.OnStart();
         }
 
@@ -101,24 +101,24 @@ namespace ZuneUI
 
         public override void Cancel()
         {
-            AccountCreationWizard.WizardClosed(true);
+            WizardClosed(true);
             base.Cancel();
         }
 
         public static bool AccountCreationInProgress
         {
-            get => AccountCreationWizard._inProgress;
-            private set => AccountCreationWizard._inProgress = value;
+            get => _inProgress;
+            private set => _inProgress = value;
         }
 
         public static void WizardClosed(bool isCancelled)
         {
-            if (!AccountCreationWizard.AccountCreationInProgress)
+            if (!AccountCreationInProgress)
                 return;
-            AccountCreationWizard.AccountCreationInProgress = false;
-            if (isCancelled || AccountCreationWizard.CreationCompleted == null)
+            AccountCreationInProgress = false;
+            if (isCancelled || CreationCompleted == null)
                 return;
-            AccountCreationWizard.CreationCompleted((object)null, (EventArgs)null);
+            CreationCompleted(null, null);
         }
 
         public static event EventHandler CreationCompleted;

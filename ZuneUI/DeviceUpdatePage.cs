@@ -9,7 +9,7 @@ namespace ZuneUI
     public abstract class DeviceUpdatePage : WizardPage
     {
         protected DeviceUpdatePage(DeviceUpdateWizard wizard)
-          : base((ZuneUI.Wizard)wizard)
+          : base(wizard)
         {
         }
 

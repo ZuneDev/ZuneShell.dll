@@ -25,9 +25,9 @@ namespace ZuneUI
             for (uint index = 0; index < localAlbum.TrackCount; ++index)
             {
                 TrackMetadata track = localAlbum.GetTrack(index);
-                GroupedList optionsForTrack = FindAlbumInfoHelper.GetOptionsForTrack(track, mergedAlbum, wmisAlbumTrackCount);
-                int fromAlbumMetadata = FindAlbumInfoHelper.GetTrackIndexFromAlbumMetadata(mergedAlbum, track.MediaId);
-                int selectedMatchIndex = (long)fromAlbumMetadata < (long)wmisAlbumTrackCount ? fromAlbumMetadata + 1 : -1;
+                GroupedList optionsForTrack = GetOptionsForTrack(track, mergedAlbum, wmisAlbumTrackCount);
+                int fromAlbumMetadata = GetTrackIndexFromAlbumMetadata(mergedAlbum, track.MediaId);
+                int selectedMatchIndex = fromAlbumMetadata < wmisAlbumTrackCount ? fromAlbumMetadata + 1 : -1;
                 SongMatchData songMatchData = new SongMatchData(mergedAlbum, track, optionsForTrack, fromAlbumMetadata, selectedMatchIndex);
                 songMatchDataList.Add(songMatchData);
             }
@@ -72,7 +72,7 @@ namespace ZuneUI
                 TrackMetadata = track,
                 Original = true
             });
-            for (int index = 0; (long)index < (long)wmisAlbumTrackCount; ++index)
+            for (int index = 0; index < wmisAlbumTrackCount; ++index)
                 trackOptionGroupItemList.Add(new TrackOptionGroupItem()
                 {
                     TrackMetadata = mergedAlbum.GetTrack((uint)index),
@@ -80,8 +80,8 @@ namespace ZuneUI
                 });
             return new GroupedList()
             {
-                Comparer = (IComparer)new TrackOptionsComparer(),
-                Source = (IList)trackOptionGroupItemList
+                Comparer = new TrackOptionsComparer(),
+                Source = trackOptionGroupItemList
             };
         }
     }

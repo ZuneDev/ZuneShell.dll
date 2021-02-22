@@ -27,22 +27,22 @@ namespace Microsoft.Zune.Util
 
         public static void Log(SQMDataId sqmDataId, int nData)
         {
-            SQMDataPoint dataPoint = SQMLog.FindDataPoint(sqmDataId);
+            SQMDataPoint dataPoint = FindDataPoint(sqmDataId);
             if (dataPoint.id == SQMDataId.Invalid)
                 return;
             switch (dataPoint.action)
             {
                 case SQMAction.Add:
-                    SQMLog.SQMAddWrapper(dataPoint.GetName(), nData);
+                    SQMAddWrapper(dataPoint.GetName(), nData);
                     break;
                 case SQMAction.Inc:
-                    SQMLog.SQMAddWrapper(dataPoint.GetName(), 1);
+                    SQMAddWrapper(dataPoint.GetName(), 1);
                     break;
                 case SQMAction.SetFlag:
-                    SQMLog.SQMSetFlagWrapper(dataPoint.GetName(), nData != 0);
+                    SQMSetFlagWrapper(dataPoint.GetName(), nData != 0);
                     break;
                 case SQMAction.SetBits:
-                    SQMLog.SQMSetBitsWrapper(dataPoint.GetName(), (uint)nData);
+                    SQMSetBitsWrapper(dataPoint.GetName(), (uint)nData);
                     break;
                 default:
                     throw new ArgumentException("Datapoint " + dataPoint.GetName() + " is not a simple DWORD-type datapoint.  Use LogToStream for stream-type datapoints.");
@@ -52,7 +52,7 @@ namespace Microsoft.Zune.Util
 
         public static void LogToStream(SQMDataId sqmDataId, params string[] args)
         {
-            SQMDataPoint dataPoint = SQMLog.FindDataPoint(sqmDataId);
+            SQMDataPoint dataPoint = FindDataPoint(sqmDataId);
             if (dataPoint.id == SQMDataId.Invalid)
                 return;
             if (dataPoint.action != SQMAction.MixedStream)
@@ -62,34 +62,34 @@ namespace Microsoft.Zune.Util
             if (args.Length != dataPoint.argCount)
                 throw new ArgumentException("Passed-in arg count doesn't match datapoint declaration: " + dataPoint.GetName(), "args.Length");
             if (args.Length == 1)
-                SQMLog.SQMAddToStream(dataPoint.GetName(), SQMLog.c_rgSPTArrayAllStrings, (uint)args.Length, args[0]);
+                SQMAddToStream(dataPoint.GetName(), c_rgSPTArrayAllStrings, (uint)args.Length, args[0]);
             else if (args.Length == 2)
-                SQMLog.SQMAddToStream(dataPoint.GetName(), SQMLog.c_rgSPTArrayAllStrings, (uint)args.Length, args[0], args[1]);
+                SQMAddToStream(dataPoint.GetName(), c_rgSPTArrayAllStrings, (uint)args.Length, args[0], args[1]);
             else if (args.Length == 3)
-                SQMLog.SQMAddToStream(dataPoint.GetName(), SQMLog.c_rgSPTArrayAllStrings, (uint)args.Length, args[0], args[1], args[2]);
+                SQMAddToStream(dataPoint.GetName(), c_rgSPTArrayAllStrings, (uint)args.Length, args[0], args[1], args[2]);
             else if (args.Length == 4)
-                SQMLog.SQMAddToStream(dataPoint.GetName(), SQMLog.c_rgSPTArrayAllStrings, (uint)args.Length, args[0], args[1], args[2], args[3]);
+                SQMAddToStream(dataPoint.GetName(), c_rgSPTArrayAllStrings, (uint)args.Length, args[0], args[1], args[2], args[3]);
             else if (args.Length == 5)
-                SQMLog.SQMAddToStream(dataPoint.GetName(), SQMLog.c_rgSPTArrayAllStrings, (uint)args.Length, args[0], args[1], args[2], args[3], args[4]);
+                SQMAddToStream(dataPoint.GetName(), c_rgSPTArrayAllStrings, (uint)args.Length, args[0], args[1], args[2], args[3], args[4]);
             else if (args.Length == 6)
-                SQMLog.SQMAddToStream(dataPoint.GetName(), SQMLog.c_rgSPTArrayAllStrings, (uint)args.Length, args[0], args[1], args[2], args[3], args[4], args[5]);
+                SQMAddToStream(dataPoint.GetName(), c_rgSPTArrayAllStrings, (uint)args.Length, args[0], args[1], args[2], args[3], args[4], args[5]);
             else if (args.Length == 7)
-                SQMLog.SQMAddToStream(dataPoint.GetName(), SQMLog.c_rgSPTArrayAllStrings, (uint)args.Length, args[0], args[1], args[2], args[3], args[4], args[5], args[6]);
+                SQMAddToStream(dataPoint.GetName(), c_rgSPTArrayAllStrings, (uint)args.Length, args[0], args[1], args[2], args[3], args[4], args[5], args[6]);
             else if (args.Length == 8)
             {
-                SQMLog.SQMAddToStream(dataPoint.GetName(), SQMLog.c_rgSPTArrayAllStrings, (uint)args.Length, args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7]);
+                SQMAddToStream(dataPoint.GetName(), c_rgSPTArrayAllStrings, (uint)args.Length, args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7]);
             }
             else
             {
                 if (args.Length != 9)
                     return;
-                SQMLog.SQMAddToStream(dataPoint.GetName(), SQMLog.c_rgSPTArrayAllStrings, (uint)args.Length, args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8]);
+                SQMAddToStream(dataPoint.GetName(), c_rgSPTArrayAllStrings, (uint)args.Length, args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8]);
             }
         }
 
         public static void LogToStream(SQMDataId sqmDataId, params uint[] args)
         {
-            SQMDataPoint dataPoint = SQMLog.FindDataPoint(sqmDataId);
+            SQMDataPoint dataPoint = FindDataPoint(sqmDataId);
             if (dataPoint.id == SQMDataId.Invalid)
                 return;
             if (dataPoint.action != SQMAction.NumStream)
@@ -99,28 +99,28 @@ namespace Microsoft.Zune.Util
             if (args.Length != dataPoint.argCount)
                 throw new ArgumentException("Passed-in arg count doesn't match datapoint declaration: " + dataPoint.GetName(), "args.Length");
             if (args.Length == 1)
-                SQMLog.SQMAddNumbersToStream(dataPoint.GetName(), (uint)args.Length, args[0]);
+                SQMAddNumbersToStream(dataPoint.GetName(), (uint)args.Length, args[0]);
             else if (args.Length == 2)
-                SQMLog.SQMAddNumbersToStream(dataPoint.GetName(), (uint)args.Length, args[0], args[1]);
+                SQMAddNumbersToStream(dataPoint.GetName(), (uint)args.Length, args[0], args[1]);
             else if (args.Length == 3)
-                SQMLog.SQMAddNumbersToStream(dataPoint.GetName(), (uint)args.Length, args[0], args[1], args[2]);
+                SQMAddNumbersToStream(dataPoint.GetName(), (uint)args.Length, args[0], args[1], args[2]);
             else if (args.Length == 4)
-                SQMLog.SQMAddNumbersToStream(dataPoint.GetName(), (uint)args.Length, args[0], args[1], args[2], args[3]);
+                SQMAddNumbersToStream(dataPoint.GetName(), (uint)args.Length, args[0], args[1], args[2], args[3]);
             else if (args.Length == 5)
-                SQMLog.SQMAddNumbersToStream(dataPoint.GetName(), (uint)args.Length, args[0], args[1], args[2], args[3], args[4]);
+                SQMAddNumbersToStream(dataPoint.GetName(), (uint)args.Length, args[0], args[1], args[2], args[3], args[4]);
             else if (args.Length == 6)
-                SQMLog.SQMAddNumbersToStream(dataPoint.GetName(), (uint)args.Length, args[0], args[1], args[2], args[3], args[4], args[5]);
+                SQMAddNumbersToStream(dataPoint.GetName(), (uint)args.Length, args[0], args[1], args[2], args[3], args[4], args[5]);
             else if (args.Length == 7)
-                SQMLog.SQMAddNumbersToStream(dataPoint.GetName(), (uint)args.Length, args[0], args[1], args[2], args[3], args[4], args[5], args[6]);
+                SQMAddNumbersToStream(dataPoint.GetName(), (uint)args.Length, args[0], args[1], args[2], args[3], args[4], args[5], args[6]);
             else if (args.Length == 8)
             {
-                SQMLog.SQMAddNumbersToStream(dataPoint.GetName(), (uint)args.Length, args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7]);
+                SQMAddNumbersToStream(dataPoint.GetName(), (uint)args.Length, args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7]);
             }
             else
             {
                 if (args.Length != 9)
                     return;
-                SQMLog.SQMAddNumbersToStream(dataPoint.GetName(), (uint)args.Length, args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8]);
+                SQMAddNumbersToStream(dataPoint.GetName(), (uint)args.Length, args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8]);
             }
         }
 

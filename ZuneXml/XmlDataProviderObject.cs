@@ -24,15 +24,15 @@ namespace ZuneXml
         public XmlDataProviderObject(DataProviderQuery owner, object resultTypeCookie)
           : base(owner, resultTypeCookie)
         {
-            foreach (DataProviderMapping dataProviderMapping in (IEnumerable<DataProviderMapping>)this.Mappings.Values)
+            foreach (DataProviderMapping dataProviderMapping in Mappings.Values)
             {
                 string propertyTypeName = dataProviderMapping.PropertyTypeName;
                 if (!this.IsXmlValueType(propertyTypeName))
                 {
                     if (propertyTypeName == "List")
-                        this.SetProperty(dataProviderMapping.PropertyName, (object)new XmlDataVirtualList(this.Owner, dataProviderMapping.UnderlyingCollectionTypeCookie));
+                        this.SetProperty(dataProviderMapping.PropertyName, new XmlDataVirtualList(this.Owner, dataProviderMapping.UnderlyingCollectionTypeCookie));
                     else
-                        this.SetProperty(dataProviderMapping.PropertyName, (object)XmlDataProviderObjectFactory.CreateObject(this.Owner, dataProviderMapping.PropertyTypeCookie));
+                        this.SetProperty(dataProviderMapping.PropertyName, XmlDataProviderObjectFactory.CreateObject(this.Owner, dataProviderMapping.PropertyTypeCookie));
                 }
             }
         }
@@ -41,8 +41,8 @@ namespace ZuneXml
         {
             get
             {
-                IPageInfo pageInfo = (IPageInfo)null;
-                foreach (DataProviderMapping dataProviderMapping in (IEnumerable<DataProviderMapping>)this.Mappings.Values)
+                IPageInfo pageInfo = null;
+                foreach (DataProviderMapping dataProviderMapping in Mappings.Values)
                 {
                     if (dataProviderMapping.PropertyTypeName == "List")
                     {
@@ -58,7 +58,7 @@ namespace ZuneXml
             }
             set
             {
-                foreach (DataProviderMapping dataProviderMapping in (IEnumerable<DataProviderMapping>)this.Mappings.Values)
+                foreach (DataProviderMapping dataProviderMapping in Mappings.Values)
                 {
                     if (dataProviderMapping.PropertyTypeName == "List")
                     {
@@ -75,7 +75,7 @@ namespace ZuneXml
             get
             {
                 bool flag = false;
-                foreach (DataProviderMapping dataProviderMapping in (IEnumerable<DataProviderMapping>)this.Mappings.Values)
+                foreach (DataProviderMapping dataProviderMapping in Mappings.Values)
                 {
                     if (dataProviderMapping.PropertyTypeName == "List")
                     {
@@ -91,7 +91,7 @@ namespace ZuneXml
             }
             set
             {
-                foreach (DataProviderMapping dataProviderMapping in (IEnumerable<DataProviderMapping>)this.Mappings.Values)
+                foreach (DataProviderMapping dataProviderMapping in Mappings.Values)
                 {
                     if (dataProviderMapping.PropertyTypeName == "List")
                     {
@@ -105,7 +105,7 @@ namespace ZuneXml
 
         public override object GetProperty(string propertyName)
         {
-            object obj = (object)null;
+            object obj = null;
             if (this._propertyValues != null && this._propertyValues.TryGetValue(propertyName, out obj))
                 return obj;
             DataProviderMapping dataProviderMapping;
@@ -120,23 +120,23 @@ namespace ZuneXml
                 {
                     string propertyTypeName = dataProviderMapping.PropertyTypeName;
                     if (propertyTypeName == "String")
-                        obj = (object)string.Empty;
+                        obj = string.Empty;
                     else if (propertyTypeName == "Int32")
-                        obj = (object)0;
+                        obj = 0;
                     else if (propertyTypeName == "Int64")
-                        obj = (object)0;
+                        obj = 0;
                     else if (propertyTypeName == "DateTime")
-                        obj = (object)new DateTime(0L);
+                        obj = new DateTime(0L);
                     else if (propertyTypeName == "TimeSpan")
-                        obj = (object)new TimeSpan(0L);
+                        obj = new TimeSpan(0L);
                     else if (propertyTypeName == "Guid")
-                        obj = (object)Guid.Empty;
+                        obj = Guid.Empty;
                     else if (propertyTypeName == "Boolean")
-                        obj = (object)false;
+                        obj = false;
                     else if (propertyTypeName == "Double")
-                        obj = (object)0.0;
+                        obj = 0.0;
                     else if (propertyTypeName == "Single")
-                        obj = (object)0.0f;
+                        obj = 0.0f;
                 }
             }
             if (obj != null)
@@ -149,7 +149,7 @@ namespace ZuneXml
 
         public override void SetProperty(string propertyName, object value)
         {
-            if (!this.EnsureValuesDictionary() && this._propertyValues.ContainsKey(propertyName) && object.Equals(this._propertyValues[propertyName], value))
+            if (!this.EnsureValuesDictionary() && this._propertyValues.ContainsKey(propertyName) && Equals(this._propertyValues[propertyName], value))
                 return;
             this._propertyValues[propertyName] = value;
             this.FirePropertyChanged(propertyName);
@@ -159,7 +159,7 @@ namespace ZuneXml
         {
             object property = this.GetProperty("LibraryId");
             mediaId = property == null ? -1 : (int)property;
-            mediaType = XmlDataProviderObject.NameToMediaType(this.TypeName);
+            mediaType = NameToMediaType(this.TypeName);
         }
 
         public static EMediaTypes NameToMediaType(string typeName)
@@ -187,29 +187,29 @@ namespace ZuneXml
           DataProviderMapping propertyMapping,
           string stringValue)
         {
-            object obj = (object)stringValue;
+            object obj = stringValue;
             string propertyName = propertyMapping.PropertyName;
             string propertyTypeName = propertyMapping.PropertyTypeName;
             try
             {
                 if (propertyTypeName == "Int32")
-                    obj = (object)int.Parse(stringValue);
+                    obj = int.Parse(stringValue);
                 else if (propertyTypeName == "Int64")
-                    obj = (object)long.Parse(stringValue);
+                    obj = long.Parse(stringValue);
                 else if (propertyTypeName == "TimeSpan")
-                    obj = (object)XmlConvert.ToTimeSpan(stringValue);
+                    obj = XmlConvert.ToTimeSpan(stringValue);
                 else if (propertyTypeName == "DateTime")
-                    obj = (object)XmlConvert.ToDateTime(stringValue, XmlDateTimeSerializationMode.Utc);
+                    obj = XmlConvert.ToDateTime(stringValue, XmlDateTimeSerializationMode.Utc);
                 else if (propertyTypeName == "Guid")
-                    obj = !stringValue.StartsWith(XmlDataProviderObject._strUuidPrefix1) ? (!stringValue.StartsWith(XmlDataProviderObject._strUuidPrefix2) ? (object)new Guid(stringValue) : (object)new Guid(stringValue.Substring(XmlDataProviderObject._strUuidPrefix2.Length))) : (object)new Guid(stringValue.Substring(XmlDataProviderObject._strUuidPrefix1.Length));
+                    obj = !stringValue.StartsWith(_strUuidPrefix1) ? (!stringValue.StartsWith(_strUuidPrefix2) ? new Guid(stringValue) : (object)new Guid(stringValue.Substring(_strUuidPrefix2.Length))) : new Guid(stringValue.Substring(_strUuidPrefix1.Length));
                 else if (propertyTypeName == "Boolean")
-                    obj = (object)bool.Parse(stringValue);
+                    obj = bool.Parse(stringValue);
                 else if (propertyTypeName == "Double")
-                    obj = (object)double.Parse(stringValue, (IFormatProvider)CultureInfo.InvariantCulture);
+                    obj = double.Parse(stringValue, CultureInfo.InvariantCulture);
                 else if (propertyTypeName == "Single")
-                    obj = (object)float.Parse(stringValue, (IFormatProvider)CultureInfo.InvariantCulture);
+                    obj = float.Parse(stringValue, CultureInfo.InvariantCulture);
                 else if (propertyTypeName != "String")
-                    obj = (object)null;
+                    obj = null;
                 this.SetProperty(propertyName, obj);
             }
             catch (FormatException ex)
@@ -226,11 +226,11 @@ namespace ZuneXml
           List<XmlDataProviderQuery.XPathMatch> matches)
         {
             bool flag1 = false;
-            foreach (DataProviderMapping propertyMapping in (IEnumerable<DataProviderMapping>)this.Mappings.Values)
+            foreach (DataProviderMapping propertyMapping in Mappings.Values)
             {
                 string tailXPath;
                 string matchingAttributeName;
-                if (propertyMapping.Source != null && XmlDataProviderObject.MatchesXPath(currentXPath, attributes, propertyMapping.Source, out tailXPath, out matchingAttributeName))
+                if (propertyMapping.Source != null && MatchesXPath(currentXPath, attributes, propertyMapping.Source, out tailXPath, out matchingAttributeName))
                 {
                     string propertyTypeName = propertyMapping.PropertyTypeName;
                     bool flag2 = string.IsNullOrEmpty(tailXPath);
@@ -296,11 +296,11 @@ namespace ZuneXml
           out string matchingAttributeName)
         {
             tailXPath = string.Empty;
-            matchingAttributeName = (string)null;
+            matchingAttributeName = null;
             string sourceXPath;
             string condAttrName;
             string condAttrValue;
-            if (!XmlDataProviderObject.SplitScriptSource(scriptSource, out sourceXPath, out condAttrName, out condAttrValue) || condAttrName != null && (!(attributes[(object)condAttrName] is string attribute) || condAttrValue != attribute) || (!xpathCheck.StartsWith(sourceXPath) || xpathCheck.Length > sourceXPath.Length && xpathCheck[sourceXPath.Length] != '/' && xpathCheck[sourceXPath.Length] != '@'))
+            if (!SplitScriptSource(scriptSource, out sourceXPath, out condAttrName, out condAttrValue) || condAttrName != null && (!(attributes[condAttrName] is string attribute) || condAttrValue != attribute) || (!xpathCheck.StartsWith(sourceXPath) || xpathCheck.Length > sourceXPath.Length && xpathCheck[sourceXPath.Length] != '/' && xpathCheck[sourceXPath.Length] != '@'))
                 return false;
             int num = sourceXPath.IndexOf('@');
             if (num >= 0)
@@ -320,8 +320,8 @@ namespace ZuneXml
           out string condAttrValue)
         {
             sourceXPath = scriptSource;
-            condAttrName = (string)null;
-            condAttrValue = (string)null;
+            condAttrName = null;
+            condAttrValue = null;
             int length1 = scriptSource.IndexOf('[');
             if (length1 < 0)
                 return true;

@@ -22,7 +22,7 @@ namespace ZuneUI
         public MousePosition()
         {
             this._invokeOutstanding = false;
-            this._checkPostion = new System.Threading.Timer(new TimerCallback(this.CheckPosition), (object)null, 0, 16);
+            this._checkPostion = new System.Threading.Timer(new TimerCallback(this.CheckPosition), null, 0, 16);
         }
 
         private void CheckPosition(object state)
@@ -32,11 +32,11 @@ namespace ZuneUI
             this._invokeOutstanding = true;
             int x;
             int y;
-            MousePosition.GetCursorScreenPosition(out x, out y);
-            Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredUpdatePosition), (object)new object[2]
+            GetCursorScreenPosition(out x, out y);
+            Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredUpdatePosition), new object[2]
             {
-        (object) x,
-        (object) y
+         x,
+         y
             });
         }
 
@@ -46,7 +46,7 @@ namespace ZuneUI
             int num1 = (int)objArray[0];
             int num2 = (int)objArray[1];
             RECT lpRect;
-            if (!MousePosition.GetWindowRect(ZuneApplication.GetRenderWindow(), out lpRect))
+            if (!GetWindowRect(ZuneApplication.GetRenderWindow(), out lpRect))
             {
                 lpRect.Left = 0;
                 lpRect.Top = 0;
@@ -88,8 +88,8 @@ namespace ZuneUI
 
         public static void GetCursorScreenPosition(out int x, out int y)
         {
-            MousePosition.POINT lpPoint;
-            if (MousePosition.GetCursorPos(out lpPoint))
+            POINT lpPoint;
+            if (GetCursorPos(out lpPoint))
             {
                 x = lpPoint.X;
                 y = lpPoint.Y;
@@ -99,7 +99,7 @@ namespace ZuneUI
         }
 
         [DllImport("User32.dll")]
-        private static extern bool GetCursorPos(out MousePosition.POINT lpPoint);
+        private static extern bool GetCursorPos(out POINT lpPoint);
 
         [DllImport("User32.dll")]
         private static extern bool GetWindowRect(IntPtr hwnd, out RECT lpRect);

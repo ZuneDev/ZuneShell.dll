@@ -16,23 +16,23 @@ namespace ZuneUI
         {
             get
             {
-                if (ContactInfoParentPropertyEditor.s_dataProviderProperties == null)
-                    ContactInfoParentPropertyEditor.s_dataProviderProperties = new PropertyDescriptor[7]
+                if (s_dataProviderProperties == null)
+                    s_dataProviderProperties = new PropertyDescriptor[7]
                     {
-            (PropertyDescriptor) BaseContactInfoPropertyEditor.s_FirstName,
-            (PropertyDescriptor) BaseContactInfoPropertyEditor.s_LastName,
-            (PropertyDescriptor) BaseContactInfoPropertyEditor.s_PhoneNumber,
-            (PropertyDescriptor) BaseContactInfoPropertyEditor.s_PhoneExtension,
-            (PropertyDescriptor) BaseContactInfoPropertyEditor.s_Email,
-            (PropertyDescriptor) ContactInfoParentPropertyEditor.s_Birthday,
-            (PropertyDescriptor) ContactInfoParentPropertyEditor.s_Country
+             s_FirstName,
+             s_LastName,
+             s_PhoneNumber,
+             s_PhoneExtension,
+             s_Email,
+             s_Birthday,
+             s_Country
                     };
-                return ContactInfoParentPropertyEditor.s_dataProviderProperties;
+                return s_dataProviderProperties;
             }
         }
 
-        public static PropertyDescriptor Birthday => (PropertyDescriptor)ContactInfoParentPropertyEditor.s_Birthday;
+        public static PropertyDescriptor Birthday => s_Birthday;
 
-        public static PropertyDescriptor Country => (PropertyDescriptor)ContactInfoParentPropertyEditor.s_Country;
+        public static PropertyDescriptor Country => s_Country;
     }
 }

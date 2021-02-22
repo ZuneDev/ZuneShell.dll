@@ -130,8 +130,8 @@ namespace ZuneUI
             MediaType mediaType = MediaType.Undefined;
             Guid zuneMediaId = Guid.Empty;
             VideoCategory videoCategory = VideoCategory.Other;
-            string title = (string)null;
-            string url = (string)null;
+            string title = null;
+            string url = null;
             int num = -1;
             if (dataProviderObject != null)
             {
@@ -163,10 +163,10 @@ namespace ZuneUI
                         break;
                 }
             }
-            return Attachment.CreateAttachment(zuneMediaId, mediaType, num, title, url, videoCategory, MovieType.Other);
+            return CreateAttachment(zuneMediaId, mediaType, num, title, url, videoCategory, MovieType.Other);
         }
 
-        public static Attachment CreateAttachment(Guid zuneMediaId, MediaType mediaType) => Attachment.CreateAttachment(zuneMediaId, mediaType, -1, (string)null);
+        public static Attachment CreateAttachment(Guid zuneMediaId, MediaType mediaType) => CreateAttachment(zuneMediaId, mediaType, -1, null);
 
         public static Attachment CreateAttachment(
           Guid zuneMediaId,
@@ -174,7 +174,7 @@ namespace ZuneUI
           int libraryId,
           string title)
         {
-            return Attachment.CreateAttachment(zuneMediaId, mediaType, libraryId, title, (string)null, VideoCategory.Other, MovieType.Other);
+            return CreateAttachment(zuneMediaId, mediaType, libraryId, title, null, VideoCategory.Other, MovieType.Other);
         }
 
         public static Attachment CreateAttachment(
@@ -184,7 +184,7 @@ namespace ZuneUI
           VideoCategory videoCategory,
           MovieType movieType)
         {
-            return Attachment.CreateAttachment(zuneMediaId, mediaType, -1, title, (string)null, videoCategory, movieType);
+            return CreateAttachment(zuneMediaId, mediaType, -1, title, null, videoCategory, movieType);
         }
 
         private static Attachment CreateAttachment(
@@ -196,10 +196,10 @@ namespace ZuneUI
           VideoCategory videoCategory,
           MovieType movieType)
         {
-            Attachment attachment = (Attachment)null;
+            Attachment attachment = null;
             if (libraryId != -1 && mediaType == MediaType.Playlist)
             {
-                attachment = (Attachment)new CollectionPlaylistAttachment((string)null, title, (string)null, libraryId, (IList)null);
+                attachment = new CollectionPlaylistAttachment(null, title, null, libraryId, null);
             }
             else
             {
@@ -208,7 +208,7 @@ namespace ZuneUI
                     case MediaType.Track:
                         if (zuneMediaId != Guid.Empty)
                         {
-                            attachment = (Attachment)new TrackAttachment(zuneMediaId, title, (string)null, (string)null);
+                            attachment = new TrackAttachment(zuneMediaId, title, null, null);
                             break;
                         }
                         break;
@@ -218,10 +218,10 @@ namespace ZuneUI
                             switch (videoCategory)
                             {
                                 case VideoCategory.TV:
-                                    attachment = (Attachment)new EpisodeAttachment(zuneMediaId, title, (string)null, (string)null);
+                                    attachment = new EpisodeAttachment(zuneMediaId, title, null, null);
                                     break;
                                 case VideoCategory.Movies:
-                                    attachment = movieType != MovieType.Trailer ? (Attachment)new MovieAttachment(zuneMediaId, title, (string)null) : (Attachment)new TrailerAttachment(zuneMediaId, title, (string)null);
+                                    attachment = movieType != MovieType.Trailer ? new MovieAttachment(zuneMediaId, title, null) : (Attachment)new TrailerAttachment(zuneMediaId, title, null);
                                     break;
                             }
                         }
@@ -231,21 +231,21 @@ namespace ZuneUI
                     case MediaType.Playlist:
                         if (zuneMediaId != Guid.Empty)
                         {
-                            attachment = (Attachment)new PlaylistAttachment(zuneMediaId, title, (string)null);
+                            attachment = new PlaylistAttachment(zuneMediaId, title, null);
                             break;
                         }
                         break;
                     case MediaType.Album:
                         if (zuneMediaId != Guid.Empty)
                         {
-                            attachment = (Attachment)new AlbumAttachment(zuneMediaId, title, (string)null, (string)null, Guid.Empty);
+                            attachment = new AlbumAttachment(zuneMediaId, title, null, null, Guid.Empty);
                             break;
                         }
                         break;
                     case MediaType.Podcast:
                         if (zuneMediaId != Guid.Empty || !string.IsNullOrEmpty(url))
                         {
-                            attachment = (Attachment)new PodcastAttachment(zuneMediaId, title, (string)null, url, (string)null);
+                            attachment = new PodcastAttachment(zuneMediaId, title, null, url, null);
                             break;
                         }
                         break;
@@ -258,14 +258,14 @@ namespace ZuneUI
           object message,
           object messageDetails)
         {
-            return Attachment.CreateAttachmentFromMessage(message as MessageRoot, messageDetails as MessageDetails);
+            return CreateAttachmentFromMessage(message as MessageRoot, messageDetails as MessageDetails);
         }
 
         private static Attachment CreateAttachmentFromMessage(
           MessageRoot message,
           MessageDetails messageDetails)
         {
-            Attachment attachment = (Attachment)null;
+            Attachment attachment = null;
             if (message != null)
             {
                 string type = message.Type;
@@ -274,25 +274,25 @@ namespace ZuneUI
                     switch (type)
                     {
                         case "album":
-                            attachment = (Attachment)new AlbumAttachment(message.MediaId, (string)null, (string)null, (string)null, Guid.Empty);
+                            attachment = new AlbumAttachment(message.MediaId, null, null, null, Guid.Empty);
                             break;
                         case "playlist":
-                            attachment = (Attachment)new PlaylistAttachment(message.MediaId, (string)null, (string)null);
+                            attachment = new PlaylistAttachment(message.MediaId, null, null);
                             break;
                         case "podcast":
-                            attachment = (Attachment)new PodcastAttachment(message.MediaId, (string)null, (string)null, (string)null, (string)null);
+                            attachment = new PodcastAttachment(message.MediaId, null, null, null, null);
                             break;
                         case "song":
-                            attachment = (Attachment)new TrackAttachment(message.MediaId, (string)null, (string)null, (string)null);
+                            attachment = new TrackAttachment(message.MediaId, null, null, null);
                             break;
                         case "video":
-                            attachment = (Attachment)new EpisodeAttachment(message.MediaId, (string)null, (string)null, (string)null);
+                            attachment = new EpisodeAttachment(message.MediaId, null, null, null);
                             break;
                         case "movie":
-                            attachment = (Attachment)new MovieAttachment(message.MediaId, (string)null, (string)null);
+                            attachment = new MovieAttachment(message.MediaId, null, null);
                             break;
                         case "movietrailer":
-                            attachment = (Attachment)new TrailerAttachment(message.MediaId, (string)null, (string)null);
+                            attachment = new TrailerAttachment(message.MediaId, null, null);
                             break;
                     }
                 }
@@ -301,10 +301,10 @@ namespace ZuneUI
                     if (messageDetails.PodcastMediaId != Guid.Empty)
                     {
                         if (type == "podcast")
-                            attachment = (Attachment)new PodcastAttachment(messageDetails.PodcastMediaId, (string)null, (string)null, (string)null, (string)null);
+                            attachment = new PodcastAttachment(messageDetails.PodcastMediaId, null, null, null, null);
                     }
                     else if (!string.IsNullOrEmpty(messageDetails.ZuneTag) && type == "card")
-                        attachment = (Attachment)new ProfileAttachment(messageDetails.ZuneTag, (string)null, (string)null);
+                        attachment = new ProfileAttachment(messageDetails.ZuneTag, null, null);
                 }
             }
             return attachment;
@@ -315,7 +315,7 @@ namespace ZuneUI
           MediaType mediaType,
           bool wishlist)
         {
-            Attachment attachment = Attachment.CreateAttachment(id, mediaType);
+            Attachment attachment = CreateAttachment(id, mediaType);
             if (attachment != null)
                 attachment.Wishlist = wishlist;
             return attachment;
@@ -439,7 +439,7 @@ namespace ZuneUI
 
         public virtual bool IsValid(out string errorMessage)
         {
-            errorMessage = (string)null;
+            errorMessage = null;
             return true;
         }
     }

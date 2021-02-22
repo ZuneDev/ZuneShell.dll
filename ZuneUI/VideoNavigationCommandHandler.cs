@@ -12,7 +12,7 @@ namespace ZuneUI
     {
         private VideoLibraryView _view = VideoLibraryView.Invalid;
 
-        protected override ZunePage GetPage(IDictionary args) => (ZunePage)new VideoLibraryPage(this.ShowDeviceContents, this._view);
+        protected override ZunePage GetPage(IDictionary args) => new VideoLibraryPage(this.ShowDeviceContents, this._view);
 
         public VideoLibraryView View
         {

@@ -24,13 +24,13 @@ namespace ZuneUI
         {
             get
             {
-                if (ShellMessagingNotifier._instance == null)
-                    ShellMessagingNotifier._instance = new ShellMessagingNotifier();
-                return ShellMessagingNotifier._instance;
+                if (_instance == null)
+                    _instance = new ShellMessagingNotifier();
+                return _instance;
             }
         }
 
-        public static bool HasInstance => ShellMessagingNotifier._instance != null;
+        public static bool HasInstance => _instance != null;
 
         private ShellMessagingNotifier()
         {
@@ -46,7 +46,7 @@ namespace ZuneUI
                 this._messagingNotifier.OnDeviceMessagesPosted -= new DeviceItemsPostedHandler(this.OnDeviceMessagesPostedAsync);
                 this._messagingNotifier.OnDeviceCartItemsPosted -= new DeviceItemsPostedHandler(this.OnDeviceCartItemsPostedAsync);
                 this._messagingNotifier.Dispose();
-                this._messagingNotifier = (MessagingNotifier)null;
+                this._messagingNotifier = null;
             }
             base.OnDispose(disposing);
         }
@@ -55,9 +55,9 @@ namespace ZuneUI
 
         public int NewDeviceMessageCount => this._newDeviceMessageCount;
 
-        private void OnDeviceCartItemsPostedAsync(int iNewDeviceCartItems) => Application.DeferredInvoke(new DeferredInvokeHandler(this.OnDeviceCartItemsPosted), (object)iNewDeviceCartItems);
+        private void OnDeviceCartItemsPostedAsync(int iNewDeviceCartItems) => Application.DeferredInvoke(new DeferredInvokeHandler(this.OnDeviceCartItemsPosted), iNewDeviceCartItems);
 
-        private void OnDeviceMessagesPostedAsync(int iNewDeviceMessages) => Application.DeferredInvoke(new DeferredInvokeHandler(this.OnDeviceMessagesPosted), (object)iNewDeviceMessages);
+        private void OnDeviceMessagesPostedAsync(int iNewDeviceMessages) => Application.DeferredInvoke(new DeferredInvokeHandler(this.OnDeviceMessagesPosted), iNewDeviceMessages);
 
         private void OnDeviceCartItemsPosted(object args)
         {
@@ -73,11 +73,11 @@ namespace ZuneUI
 
         public static int PersistedCartItemsCount
         {
-            get => ClientConfiguration.Service.GetIntProperty(string.Format("{0}", (object)ClientConfiguration.Service.LastSignedInUserGuid), 0);
-            set => ClientConfiguration.Service.SetIntProperty(string.Format("{0}", (object)ClientConfiguration.Service.LastSignedInUserGuid), value);
+            get => ClientConfiguration.Service.GetIntProperty(string.Format("{0}", ClientConfiguration.Service.LastSignedInUserGuid), 0);
+            set => ClientConfiguration.Service.SetIntProperty(string.Format("{0}", ClientConfiguration.Service.LastSignedInUserGuid), value);
         }
 
-        public static int CartItemsToUploadCount => new MessagingUserGuidConfiguration(RegistryHive.CurrentUser, ClientConfiguration.Messaging.ConfigurationPath, string.Format("{0}", (object)ClientConfiguration.Service.LastSignedInUserGuid)).CartItemsToUploadCount;
+        public static int CartItemsToUploadCount => new MessagingUserGuidConfiguration(RegistryHive.CurrentUser, ClientConfiguration.Messaging.ConfigurationPath, string.Format("{0}", ClientConfiguration.Service.LastSignedInUserGuid)).CartItemsToUploadCount;
 
         public IList LiveMessageItems
         {

@@ -16,7 +16,7 @@ namespace ZuneUI
         private object _selectedItem;
 
         public ListPanel()
-          : this((IModelItemOwner)null)
+          : this(null)
         {
         }
 
@@ -67,7 +67,7 @@ namespace ZuneUI
             int num2 = 0;
             if (this.Content != null)
             {
-                foreach (object obj in (IEnumerable)this.Content)
+                foreach (object obj in Content)
                 {
                     if (obj is LibraryDataProviderItemBase providerItemBase && (int)providerItemBase.GetProperty("LibraryId") == libraryIdToFind)
                     {
@@ -88,17 +88,17 @@ namespace ZuneUI
                 arrayList1 = new ArrayList(this.SelectedLibraryIds.Count);
                 if (!this.IsContentDisposed())
                 {
-                    ArrayList arrayList2 = new ArrayList((ICollection)this.SelectedLibraryIds);
+                    ArrayList arrayList2 = new ArrayList(SelectedLibraryIds);
                     int num = 0;
-                    foreach (object obj in (IEnumerable)this.Content)
+                    foreach (object obj in Content)
                     {
                         if (obj is LibraryDataProviderItemBase providerItemBase)
                         {
                             int property = (int)providerItemBase.GetProperty("LibraryId");
-                            if (arrayList2.Contains((object)property))
+                            if (arrayList2.Contains(property))
                             {
-                                arrayList1.Add((object)num);
-                                arrayList2.Remove((object)property);
+                                arrayList1.Add(num);
+                                arrayList2.Remove(property);
                                 if (arrayList2.Count == 0)
                                     break;
                             }
@@ -109,12 +109,12 @@ namespace ZuneUI
             }
             else
                 arrayList1 = new ArrayList();
-            return (IList)arrayList1;
+            return arrayList1;
         }
 
         internal override void Release()
         {
-            this.Content = (IList)null;
+            this.Content = null;
             base.Release();
         }
 

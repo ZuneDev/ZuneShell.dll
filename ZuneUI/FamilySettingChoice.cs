@@ -47,12 +47,12 @@ namespace ZuneUI
 
         public FamilySettingValue GetSettingValueById(int value)
         {
-            foreach (FamilySettingValue choice in (IEnumerable)this.Choices)
+            foreach (FamilySettingValue choice in Choices)
             {
                 if (choice.Value == value)
                     return choice;
             }
-            return (FamilySettingValue)null;
+            return null;
         }
 
         public FamilySettingValue SettingValue
@@ -60,9 +60,9 @@ namespace ZuneUI
             get => (FamilySettingValue)this.ChosenValue;
             set
             {
-                if (!this.Options.Contains((object)value))
+                if (!this.Options.Contains(value))
                     return;
-                this.ChosenValue = (object)value;
+                this.ChosenValue = value;
             }
         }
     }

@@ -10,6 +10,6 @@ namespace ZuneUI
 {
     public class QuickplayNavigationCommandHandler : NavigationCommandHandlerBase
     {
-        protected override ZunePage GetPage(IDictionary args) => (ZunePage)new QuickplayPage();
+        protected override ZunePage GetPage(IDictionary args) => new QuickplayPage();
     }
 }

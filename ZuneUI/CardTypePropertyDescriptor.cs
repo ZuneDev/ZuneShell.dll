@@ -21,7 +21,7 @@ namespace ZuneUI
 
         public override string ConvertToString(object value) => value == null ? CreditCardHelper.CardTypeToString(CreditCardType.Unknown) : CreditCardHelper.CardTypeToString((CreditCardType)value);
 
-        public override object ConvertFromString(string value) => (object)CreditCardHelper.CardTypeFromString(value);
+        public override object ConvertFromString(string value) => CreditCardHelper.CardTypeFromString(value);
 
         public override bool IsValidInternal(string value) => !StringParserHelper.IsNullOrEmptyOrBlank(value);
     }

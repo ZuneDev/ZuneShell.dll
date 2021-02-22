@@ -121,14 +121,14 @@ namespace ZuneUI
 
         internal virtual Dictionary<int, PropertyDescriptor> ErrorPropertyMappings => (Dictionary<int, PropertyDescriptor>)null;
 
-        internal virtual ErrorMapperResult GetMappedErrorDescriptionAndUrl(HRESULT hr) => Microsoft.Zune.ErrorMapperApi.ErrorMapperApi.GetMappedErrorDescriptionAndUrl(hr.Int, eErrorCondition.eEC_None);
+        internal virtual ErrorMapperResult GetMappedErrorDescriptionAndUrl(HRESULT hr) => ErrorMapperApi.GetMappedErrorDescriptionAndUrl(hr.Int, eErrorCondition.eEC_None);
 
-        internal void SetError(HRESULT hr, ServiceError serviceError) => this._owner.SetError(hr, (object)new AccountManagementErrorState(this.ParentAccount, serviceError));
+        internal void SetError(HRESULT hr, ServiceError serviceError) => this._owner.SetError(hr, new AccountManagementErrorState(this.ParentAccount, serviceError));
 
         internal bool HandleError()
         {
             HRESULT error = this._owner.Error;
-            AccountManagementErrorState errorState = (AccountManagementErrorState)null;
+            AccountManagementErrorState errorState = null;
             if (this._owner is AccountManagementWizard)
                 errorState = ((AccountManagementWizard)this._owner).LastErrorState;
             bool flag = error.IsSuccess && errorState == null;
@@ -147,15 +147,15 @@ namespace ZuneUI
             bool flag2 = (errorState == null || errorState.ParentAccount == this.ParentAccount) && this.IsEnabled;
             if (!flag1 && flag2)
             {
-                if (this.SetExternalPropertyError(hr, (string)null))
+                if (this.SetExternalPropertyError(hr, null))
                     flag1 = true;
                 if (errorState != null && errorState.ServiceError != null)
                 {
-                    if (this.SetExternalPropertyError(errorState.ServiceError.RootError, (string)null))
+                    if (this.SetExternalPropertyError(errorState.ServiceError.RootError, null))
                         flag1 = true;
                     if (errorState.ServiceError.PropertyErrors != null)
                     {
-                        foreach (PropertyError propertyError in (IEnumerable<PropertyError>)errorState.ServiceError.PropertyErrors)
+                        foreach (PropertyError propertyError in errorState.ServiceError.PropertyErrors)
                         {
                             if (this.SetExternalPropertyError(propertyError.Hr, propertyError.Name))
                                 flag1 = true;
@@ -194,16 +194,16 @@ namespace ZuneUI
         {
             if (this.ServiceDeactivationRequestsDone)
             {
-                this.StatusMessage = (string)null;
+                this.StatusMessage = null;
                 return base.OnMovingNext();
             }
-            this.StartDeactivationRequests((object)null);
+            this.StartDeactivationRequests(null);
             return false;
         }
 
         protected bool SetExternalPropertyError(HRESULT hr, string propertyName)
         {
-            string str = (string)null;
+            string str = null;
             bool flag = false;
             if (hr.IsError && this.ErrorPropertyMappings != null)
             {
@@ -227,7 +227,7 @@ namespace ZuneUI
         {
             if (this.ServiceActivationRequestsDone)
                 return;
-            this.StartActivationRequests((object)null);
+            this.StartActivationRequests(null);
         }
 
         protected void StartActivationRequests(object state)
@@ -240,7 +240,7 @@ namespace ZuneUI
 
         private void AsyncStartActivationRequests(object state) => this.OnStartActivationRequests(state);
 
-        protected virtual void OnStartActivationRequests(object state) => this.EndActivationRequests((object)null);
+        protected virtual void OnStartActivationRequests(object state) => this.EndActivationRequests(null);
 
         protected void EndActivationRequests(object args) => Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredEndActivationRequests), args);
 
@@ -259,14 +259,14 @@ namespace ZuneUI
         {
             if (this.ServiceRequestWorking)
                 return;
-            this.StatusMessage = (string)null;
+            this.StatusMessage = null;
             this.ServiceRequestWorking = true;
             ThreadPool.QueueUserWorkItem(new WaitCallback(this.AsyncStartDeactivationRequests), state);
         }
 
         private void AsyncStartDeactivationRequests(object state) => this.OnStartDeactivationRequests(state);
 
-        protected virtual void OnStartDeactivationRequests(object state) => this.EndDeactivationRequests((object)null);
+        protected virtual void OnStartDeactivationRequests(object state) => this.EndDeactivationRequests(null);
 
         protected void EndDeactivationRequests(object args) => Application.DeferredInvoke(new DeferredInvokeHandler(this.DerferredEndDeactivationRequests), args);
 

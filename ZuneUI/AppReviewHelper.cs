@@ -25,9 +25,9 @@ namespace ZuneUI
 
         public event EventHandler ReviewPostFailed;
 
-        public static float MaxRating => AppReviewHelper.s_maxRating;
+        public static float MaxRating => s_maxRating;
 
-        public static float MinRating => AppReviewHelper.s_minRating;
+        public static float MinRating => s_minRating;
 
         public HRESULT LastError
         {
@@ -55,13 +55,13 @@ namespace ZuneUI
 
         public void AddReview(Guid mediaId, float rating, string title, string text)
         {
-            if (mediaId == Guid.Empty || (double)rating < (double)AppReviewHelper.MinRating || (double)rating > (double)AppReviewHelper.MaxRating)
+            if (mediaId == Guid.Empty || rating < (double)MinRating || rating > (double)MaxRating)
                 this.OnReviewPostFailed(HRESULT._ZUNE_E_ADD_REVIEW_FAILED);
             else
-                Microsoft.Zune.Service.Service.Instance.PostAppReview(mediaId, title, text, (int)rating, new AsyncCompleteHandler(this.OnPostAddReviewComplete));
+                Service.Instance.PostAppReview(mediaId, title, text, (int)rating, new AsyncCompleteHandler(this.OnPostAddReviewComplete));
         }
 
-        private void OnPostAddReviewComplete(HRESULT hr) => Application.DeferredInvoke(new DeferredInvokeHandler(this.HandleAddReviewResponse), (object)hr, DeferredInvokePriority.Normal);
+        private void OnPostAddReviewComplete(HRESULT hr) => Application.DeferredInvoke(new DeferredInvokeHandler(this.HandleAddReviewResponse), hr, DeferredInvokePriority.Normal);
 
         private void Reset()
         {
@@ -84,20 +84,20 @@ namespace ZuneUI
         {
             if (this._accountManagement == null)
                 this._accountManagement = new AccountManagement();
-            if (!this._accountManagement.GetAccount((PassportIdentity)null, new GetAccountCompleteCallback(this.OnGetAccountSuccess), new AccountManagementErrorCallback(this.OnGetAccountError)).IsError)
+            if (!this._accountManagement.GetAccount(null, new GetAccountCompleteCallback(this.OnGetAccountSuccess), new AccountManagementErrorCallback(this.OnGetAccountError)).IsError)
                 return;
-            Application.DeferredInvoke(new DeferredInvokeHandler(this.HandleGetAccountComplete), (object)string.Empty, DeferredInvokePriority.Normal);
+            Application.DeferredInvoke(new DeferredInvokeHandler(this.HandleGetAccountComplete), string.Empty, DeferredInvokePriority.Normal);
         }
 
         private void OnGetAccountSuccess(AccountUser accountUser)
         {
             string str = string.Empty;
             if (accountUser != null)
-                str = string.Format(Shell.LoadString(StringId.IDS_ACCOUNT_CREATION_NAME_FORMAT), (object)accountUser.FirstName, (object)accountUser.LastName);
-            Application.DeferredInvoke(new DeferredInvokeHandler(this.HandleGetAccountComplete), (object)str, DeferredInvokePriority.Normal);
+                str = string.Format(Shell.LoadString(StringId.IDS_ACCOUNT_CREATION_NAME_FORMAT), accountUser.FirstName, accountUser.LastName);
+            Application.DeferredInvoke(new DeferredInvokeHandler(this.HandleGetAccountComplete), str, DeferredInvokePriority.Normal);
         }
 
-        private void OnGetAccountError(HRESULT hr, ServiceError serviceError) => Application.DeferredInvoke(new DeferredInvokeHandler(this.HandleGetAccountComplete), (object)string.Empty, DeferredInvokePriority.Normal);
+        private void OnGetAccountError(HRESULT hr, ServiceError serviceError) => Application.DeferredInvoke(new DeferredInvokeHandler(this.HandleGetAccountComplete), string.Empty, DeferredInvokePriority.Normal);
 
         private void HandleGetAccountComplete(object args)
         {
@@ -108,7 +108,7 @@ namespace ZuneUI
         private void OnReviewPosted()
         {
             if (this.ReviewPosted != null)
-                this.ReviewPosted((object)this, (EventArgs)null);
+                this.ReviewPosted(this, null);
             this.FirePropertyChanged("ReviewPosted");
         }
 
@@ -116,7 +116,7 @@ namespace ZuneUI
         {
             this.LastError = hr;
             if (this.ReviewPostFailed != null)
-                this.ReviewPostFailed((object)this, (EventArgs)null);
+                this.ReviewPostFailed(this, null);
             this.FirePropertyChanged("ReviewPostFailed");
         }
     }

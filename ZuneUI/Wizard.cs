@@ -27,7 +27,7 @@ namespace ZuneUI
 
         protected Wizard()
         {
-            this._settings = (IDictionary<ProxySettingDelegate, object>)null;
+            this._settings = null;
             this._pages = new List<WizardPage>();
             this._currentPageIndex = -1;
             this._error = HRESULT._S_OK;
@@ -42,7 +42,7 @@ namespace ZuneUI
                     page.Dispose();
                 if (this._settings != null)
                 {
-                    foreach (object obj in (IEnumerable<object>)this._settings.Values)
+                    foreach (object obj in _settings.Values)
                     {
                         if (obj is IDisposable)
                             ((IDisposable)obj).Dispose();
@@ -75,13 +75,13 @@ namespace ZuneUI
             this.AddPage(page);
         }
 
-        public IList Breadcrumbs => this._breadcrumbFactory == null ? (IList)null : this._breadcrumbFactory.Breadcrumbs;
+        public IList Breadcrumbs => this._breadcrumbFactory == null ? null : this._breadcrumbFactory.Breadcrumbs;
 
         public void MarkBreadcrumbsComplete()
         {
             if (this.Breadcrumbs == null)
                 return;
-            foreach (Breadcrumb breadcrumb in (IEnumerable)this.Breadcrumbs)
+            foreach (Breadcrumb breadcrumb in Breadcrumbs)
                 breadcrumb.Complete = true;
         }
 
@@ -141,7 +141,7 @@ namespace ZuneUI
             return flag;
         }
 
-        public IList Pages => (IList)this._pages.AsReadOnly();
+        public IList Pages => this._pages.AsReadOnly();
 
         public HRESULT Error
         {
@@ -159,7 +159,7 @@ namespace ZuneUI
 
         public void ShowErrorPage(HRESULT hr)
         {
-            this.SetError(hr, (object)null);
+            this.SetError(hr, null);
             this.ErrorPageIsEnabled = true;
             this.MoveNext();
         }
@@ -237,14 +237,14 @@ namespace ZuneUI
                 return false;
             if (this._settings != null)
             {
-                foreach (ProxySettingDelegate key in (IEnumerable<ProxySettingDelegate>)this._settings.Keys)
+                foreach (ProxySettingDelegate key in _settings.Keys)
                     key(this._settings[key]);
                 this.ClearSettings();
             }
             return true;
         }
 
-        public bool AsyncCommitChanges() => this.CanCommitChanges && ThreadPool.QueueUserWorkItem(new WaitCallback(this.AsyncCommitChangesPrivate), (object)this._currentPageIndex);
+        public bool AsyncCommitChanges() => this.CanCommitChanges && ThreadPool.QueueUserWorkItem(new WaitCallback(this.AsyncCommitChangesPrivate), _currentPageIndex);
 
         private void AsyncCommitChangesPrivate(object state)
         {
@@ -260,7 +260,7 @@ namespace ZuneUI
             }
             if (!this.OnCommitChanges())
                 num = currentPageIndex;
-            Application.DeferredInvoke(new DeferredInvokeHandler(this.OnAsyncCommitCompletedPrivate), (object)num);
+            Application.DeferredInvoke(new DeferredInvokeHandler(this.OnAsyncCommitCompletedPrivate), num);
         }
 
         private void OnAsyncCommitCompletedPrivate(object args)
@@ -271,7 +271,7 @@ namespace ZuneUI
             {
                 if (this._settings != null)
                 {
-                    foreach (ProxySettingDelegate key in (IEnumerable<ProxySettingDelegate>)this._settings.Keys)
+                    foreach (ProxySettingDelegate key in _settings.Keys)
                         key(this._settings[key]);
                     this.ClearSettings();
                 }
@@ -314,7 +314,7 @@ namespace ZuneUI
 
         public bool HasPages => this._pages.Count > 0;
 
-        public WizardPage CurrentPage => this._pages.Count != 0 && this._currentPageIndex >= 0 ? this._pages[this._currentPageIndex] : (WizardPage)null;
+        public WizardPage CurrentPage => this._pages.Count != 0 && this._currentPageIndex >= 0 ? this._pages[this._currentPageIndex] : null;
 
         public int CurrentPageIndex
         {
@@ -343,13 +343,13 @@ namespace ZuneUI
         public virtual void RecordSetting(ProxySettingDelegate proxy, object data)
         {
             if (this._settings == null)
-                this._settings = (IDictionary<ProxySettingDelegate, object>)new Dictionary<ProxySettingDelegate, object>();
+                this._settings = new Dictionary<ProxySettingDelegate, object>();
             this._settings[proxy] = data;
         }
 
         public virtual void CancelSettings() => this.ClearSettings();
 
-        public void ResetError() => this.SetError(HRESULT._S_OK, (object)null);
+        public void ResetError() => this.SetError(HRESULT._S_OK, null);
 
         public void SetError(HRESULT hr, object state)
         {
@@ -359,9 +359,9 @@ namespace ZuneUI
                 this.OnSetError(hr, state);
             }
             else
-                Application.DeferredInvoke(new DeferredInvokeHandler(this.AsyncSetError), (object)new object[2]
+                Application.DeferredInvoke(new DeferredInvokeHandler(this.AsyncSetError), new object[2]
                 {
-          (object) hr,
+           hr,
           state
                 });
         }
@@ -377,7 +377,7 @@ namespace ZuneUI
             if (this._settings == null)
                 return;
             this._settings.Clear();
-            this._settings = (IDictionary<ProxySettingDelegate, object>)null;
+            this._settings = null;
         }
 
         private void CancelInvokedHandler(object sender, EventArgs args) => this.Cancel();

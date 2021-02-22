@@ -40,22 +40,22 @@ namespace ZuneUI
             switch (engineState)
             {
                 case ESyncEngineState.sesUpdatingContent:
-                    format = SyncNotification._updating;
+                    format = _updating;
                     break;
                 case ESyncEngineState.sesDeletingFilesNotInSyncSet:
                 case ESyncEngineState.sesDeletingFilesByUserRequest:
-                    format = SyncNotification._deleting;
+                    format = _deleting;
                     break;
                 case ESyncEngineState.sesWaitingForTranscode:
-                    format = SyncNotification._transcoding;
+                    format = _transcoding;
                     break;
                 case ESyncEngineState.sesDirectSyncNotStarted:
                 case ESyncEngineState.sesDirectSyncCalculating:
                 case ESyncEngineState.sesDirectSyncDownloading:
-                    format = !string.IsNullOrEmpty(title) || !string.IsNullOrEmpty(group) ? SyncNotification._syncing : SyncNotification._tunnelling;
+                    format = !string.IsNullOrEmpty(title) || !string.IsNullOrEmpty(group) ? _syncing : _tunnelling;
                     break;
                 default:
-                    format = SyncNotification._syncing;
+                    format = _syncing;
                     break;
             }
             string str1;
@@ -69,10 +69,10 @@ namespace ZuneUI
             {
                 string str2 = group;
                 if (str2.Length > 15)
-                    str2 = string.Format(SyncNotification._ellipsis, (object)str2.Substring(0, 15).Trim());
-                str1 = string.Format(SyncNotification._group, (object)str2, (object)title);
+                    str2 = string.Format(_ellipsis, str2.Substring(0, 15).Trim());
+                str1 = string.Format(_group, str2, title);
             }
-            this.SubMessage = string.Format(format, (object)str1);
+            this.SubMessage = string.Format(format, str1);
         }
 
         public void Complete(ESyncEventReason reason)
@@ -81,7 +81,7 @@ namespace ZuneUI
             if (reason == ESyncEventReason.eSyncEventFailed || reason == ESyncEventReason.eSyncEventInvalid)
             {
                 this.Message = Shell.LoadString(StringId.IDS_SYNC_ERROR_NOTIFICATION);
-                this.SubMessage = (string)null;
+                this.SubMessage = null;
             }
             else
             {
@@ -93,9 +93,9 @@ namespace ZuneUI
                 if (freeSpace <= 0L)
                     return;
                 if (freeSpace < SyncControls.DevicelandGigabyte)
-                    this.SubMessage = string.Format(Shell.LoadString(StringId.IDS_FREE_SPACE_REMAINING_IN_MB), (object)(float)((double)freeSpace / (double)SyncControls.DevicelandMegabyte));
+                    this.SubMessage = string.Format(Shell.LoadString(StringId.IDS_FREE_SPACE_REMAINING_IN_MB), (float)(freeSpace / (double)SyncControls.DevicelandMegabyte));
                 else
-                    this.SubMessage = string.Format(Shell.LoadString(StringId.IDS_FREE_SPACE_REMAINING_IN_GB), (object)(float)((double)freeSpace / (double)SyncControls.DevicelandGigabyte));
+                    this.SubMessage = string.Format(Shell.LoadString(StringId.IDS_FREE_SPACE_REMAINING_IN_GB), (float)(freeSpace / (double)SyncControls.DevicelandGigabyte));
             }
         }
 

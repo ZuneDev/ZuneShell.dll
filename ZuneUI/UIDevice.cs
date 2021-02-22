@@ -23,25 +23,25 @@ namespace ZuneUI
     public class UIDevice : ModelItem
     {
         private IDeviceIconSet _iconSet;
-        private static readonly UIDevice.INewRuleMessageType[] _newRuleMessageLookupTable = new UIDevice.INewRuleMessageType[11]
+        private static readonly INewRuleMessageType[] _newRuleMessageLookupTable = new INewRuleMessageType[11]
         {
-      (UIDevice.INewRuleMessageType) new UIDevice.NewRuleMessageType(MediaType.Track, StringId.IDS_ADDED_1_TRACK, StringId.IDS_ADDED_N_TRACKS),
-      (UIDevice.INewRuleMessageType) new UIDevice.NewRuleMessageType(MediaType.Album, StringId.IDS_ADDED_1_ALBUM, StringId.IDS_ADDED_N_ALBUMS),
-      (UIDevice.INewRuleMessageType) new UIDevice.NewRuleMessageType(MediaType.Artist, StringId.IDS_ADDED_1_ARTIST, StringId.IDS_ADDED_N_ARTISTS),
-      (UIDevice.INewRuleMessageType) new UIDevice.NewRuleMessageType(MediaType.Genre, StringId.IDS_ADDED_1_GENRE, StringId.IDS_ADDED_N_GENRES),
-      (UIDevice.INewRuleMessageType) new UIDevice.NewRuleMessageType(MediaType.Playlist, StringId.IDS_ADDED_1_PLAYLIST, StringId.IDS_ADDED_N_PLAYLISTS),
-      (UIDevice.INewRuleMessageType) new UIDevice.NewRuleMessageType(MediaType.Video, StringId.IDS_ADDED_1_VIDEO, StringId.IDS_ADDED_N_VIDEOS),
-      (UIDevice.INewRuleMessageType) new UIDevice.NewRuleMessageType(MediaType.Photo, StringId.IDS_ADDED_1_PHOTO, StringId.IDS_ADDED_N_PHOTOS),
-      (UIDevice.INewRuleMessageType) new UIDevice.NewRuleMessageType(MediaType.MediaFolder, StringId.IDS_ADDED_1_FOLDER, StringId.IDS_ADDED_N_FOLDERS),
-      (UIDevice.INewRuleMessageType) new UIDevice.NewRuleMessageType(MediaType.PodcastEpisode, StringId.IDS_ADDED_1_PODCAST_EPISODE, StringId.IDS_ADDED_N_PODCAST_EPISODES),
-      (UIDevice.INewRuleMessageType) new UIDevice.NewRuleMessageType(MediaType.Podcast, StringId.IDS_ADDED_1_PODCAST, StringId.IDS_ADDED_N_PODCASTS),
-      (UIDevice.INewRuleMessageType) new UIDevice.NewRuleMessageType(MediaType.UserCard, StringId.IDS_ADDED_1_FRIEND, StringId.IDS_ADDED_N_FRIENDS)
+       new NewRuleMessageType(MediaType.Track, StringId.IDS_ADDED_1_TRACK, StringId.IDS_ADDED_N_TRACKS),
+       new NewRuleMessageType(MediaType.Album, StringId.IDS_ADDED_1_ALBUM, StringId.IDS_ADDED_N_ALBUMS),
+       new NewRuleMessageType(MediaType.Artist, StringId.IDS_ADDED_1_ARTIST, StringId.IDS_ADDED_N_ARTISTS),
+       new NewRuleMessageType(MediaType.Genre, StringId.IDS_ADDED_1_GENRE, StringId.IDS_ADDED_N_GENRES),
+       new NewRuleMessageType(MediaType.Playlist, StringId.IDS_ADDED_1_PLAYLIST, StringId.IDS_ADDED_N_PLAYLISTS),
+       new NewRuleMessageType(MediaType.Video, StringId.IDS_ADDED_1_VIDEO, StringId.IDS_ADDED_N_VIDEOS),
+       new NewRuleMessageType(MediaType.Photo, StringId.IDS_ADDED_1_PHOTO, StringId.IDS_ADDED_N_PHOTOS),
+       new NewRuleMessageType(MediaType.MediaFolder, StringId.IDS_ADDED_1_FOLDER, StringId.IDS_ADDED_N_FOLDERS),
+       new NewRuleMessageType(MediaType.PodcastEpisode, StringId.IDS_ADDED_1_PODCAST_EPISODE, StringId.IDS_ADDED_N_PODCAST_EPISODES),
+       new NewRuleMessageType(MediaType.Podcast, StringId.IDS_ADDED_1_PODCAST, StringId.IDS_ADDED_N_PODCASTS),
+       new NewRuleMessageType(MediaType.UserCard, StringId.IDS_ADDED_1_FRIEND, StringId.IDS_ADDED_N_FRIENDS)
         };
-        private static readonly UIDevice.INewRuleMessageType _channelNewRuleMessage = (UIDevice.INewRuleMessageType)new UIDevice.NewRuleMessageType(MediaType.Playlist, StringId.IDS_ADDED_1_CHANNEL, StringId.IDS_ADDED_N_CHANNELS);
-        private static readonly UIDevice.INewRuleMessageType _genericNewRuleMessage = (UIDevice.INewRuleMessageType)new UIDevice.NewRuleMessageType(MediaType.Undefined, StringId.IDS_ADDED_1_ITEM, StringId.IDS_ADDED_N_ITEMS);
+        private static readonly INewRuleMessageType _channelNewRuleMessage = new NewRuleMessageType(MediaType.Playlist, StringId.IDS_ADDED_1_CHANNEL, StringId.IDS_ADDED_N_CHANNELS);
+        private static readonly INewRuleMessageType _genericNewRuleMessage = new NewRuleMessageType(MediaType.Undefined, StringId.IDS_ADDED_1_ITEM, StringId.IDS_ADDED_N_ITEMS);
         private static bool _isOosDialogVisible;
-        private static string _syncStatusTitleDivider = ZuneUI.Shell.LoadString(StringId.IDS_SYNCITEM_TITLE_SEPARATOR);
-        private static string _syncStatusDatumDivider = ZuneUI.Shell.LoadString(StringId.IDS_SYNCITEM_METADATUM_SEPARATOR);
+        private static string _syncStatusTitleDivider = Shell.LoadString(StringId.IDS_SYNCITEM_TITLE_SEPARATOR);
+        private static string _syncStatusDatumDivider = Shell.LoadString(StringId.IDS_SYNCITEM_METADATUM_SEPARATOR);
         private UIFirmwareUpdater _firmwareUpdater;
         private UIFirmwareRestorer _firmwareRestorer;
         private Device _device;
@@ -82,7 +82,7 @@ namespace ZuneUI
             }
         }
 
-        private void ReloadIconSet() => this.IconSet = (IDeviceIconSet)null;
+        private void ReloadIconSet() => this.IconSet = null;
 
         private void SetDeviceIconSetCallback(IDeviceIconSet iconSet) => this.IconSet = iconSet;
 
@@ -125,25 +125,25 @@ namespace ZuneUI
                 this._device.AssociateWlanDeviceCompleteEvent += new AssociateWlanDeviceCompleteHandler(this.OnAssociateWlanCompleted);
                 this._device.GetWlanProfilesCompleteEvent += new GetWlanProfilesCompleteHandler(this.OnGetWlanProfilesCompleted);
                 this._device.GetDeviceWlanNetworksCompleteEvent += new GetDeviceWlanNetworksCompleteHandler(this.OnGetDeviceWlanVisibleNetworksCompleted);
-                this._actualGasGauge = new UIGasGauge((IModelItemOwner)this, this._device.ActualGasGauge);
-                this._predictedGasGauge = new UIGasGauge((IModelItemOwner)this, this._device.PredictedGasGauge);
+                this._actualGasGauge = new UIGasGauge(this, this._device.ActualGasGauge);
+                this._predictedGasGauge = new UIGasGauge(this, this._device.PredictedGasGauge);
                 if (this._device.PredictedGasGauge != null)
                     this._device.PredictedGasGauge.DeviceOverflowEvent += new DeviceOverflowHandler(this.OnDeviceOverfill);
                 EEndpointStatus currentStatus = this._device.DeviceStatus;
                 if (currentStatus != EEndpointStatus.eEndpointStatusUndefined)
-                    Application.DeferredInvoke((DeferredInvokeHandler)delegate
+                    Application.DeferredInvoke(delegate
                    {
                        this.HandleDeviceState(currentStatus, HRESULT._S_OK);
-                   }, (object)null);
+                   }, null);
             }
             else
             {
-                this._actualGasGauge = new UIGasGauge((IModelItemOwner)this, (GasGauge)null);
-                this._predictedGasGauge = new UIGasGauge((IModelItemOwner)this, (GasGauge)null);
+                this._actualGasGauge = new UIGasGauge(this, null);
+                this._predictedGasGauge = new UIGasGauge(this, null);
             }
-            this._syncBegun = new Command((IModelItemOwner)this);
-            this._syncProgressed = new Command((IModelItemOwner)this);
-            this._syncCompleted = new Command((IModelItemOwner)this);
+            this._syncBegun = new Command(this);
+            this._syncProgressed = new Command(this);
+            this._syncCompleted = new Command(this);
         }
 
         protected override void OnDispose(bool disposing)
@@ -218,7 +218,7 @@ namespace ZuneUI
                 bool fHasCapability = false;
                 HRESULT hresult = HRESULT._S_OK;
                 if (this.IsValid)
-                    hresult = (HRESULT)this._device.GetCapability(EEndpointCapability.eEndpointCapabilityInstallFirmwareGames, ref fHasCapability);
+                    hresult = this._device.GetCapability(EEndpointCapability.eEndpointCapabilityInstallFirmwareGames, ref fHasCapability);
                 return hresult.IsSuccess && fHasCapability;
             }
         }
@@ -230,7 +230,7 @@ namespace ZuneUI
                 bool fHasCapability = false;
                 HRESULT hresult = HRESULT._S_OK;
                 if (this.IsValid)
-                    hresult = (HRESULT)this._device.GetCapability(EEndpointCapability.eEndpointCapabilityLiveId, ref fHasCapability);
+                    hresult = this._device.GetCapability(EEndpointCapability.eEndpointCapabilityLiveId, ref fHasCapability);
                 return hresult.IsSuccess && fHasCapability;
             }
         }
@@ -242,7 +242,7 @@ namespace ZuneUI
                 bool fHasCapability = false;
                 HRESULT hresult = HRESULT._S_OK;
                 if (this.IsValid)
-                    hresult = (HRESULT)this._device.GetCapability(EEndpointCapability.eEndpointCapabilityOOBECompleted, ref fHasCapability);
+                    hresult = this._device.GetCapability(EEndpointCapability.eEndpointCapabilityOOBECompleted, ref fHasCapability);
                 return hresult.IsSuccess && fHasCapability;
             }
         }
@@ -267,7 +267,7 @@ namespace ZuneUI
                 bool fHasCapability = false;
                 HRESULT hresult = HRESULT._S_OK;
                 if (this.IsValid)
-                    hresult = (HRESULT)this._device.GetCapability(EEndpointCapability.eEndpointCapabilitySyncApps, ref fHasCapability);
+                    hresult = this._device.GetCapability(EEndpointCapability.eEndpointCapabilitySyncApps, ref fHasCapability);
                 return hresult.IsSuccess && fHasCapability;
             }
         }
@@ -279,7 +279,7 @@ namespace ZuneUI
                 bool fHasCapability = false;
                 HRESULT hresult = HRESULT._S_OK;
                 if (this.IsValid)
-                    hresult = (HRESULT)this._device.GetCapability(EEndpointCapability.eEndpointCapabilityPaidApps, ref fHasCapability);
+                    hresult = this._device.GetCapability(EEndpointCapability.eEndpointCapabilityPaidApps, ref fHasCapability);
                 return hresult.IsSuccess && fHasCapability;
             }
         }
@@ -293,7 +293,7 @@ namespace ZuneUI
                 bool fHasCapability = false;
                 HRESULT hresult = HRESULT._S_OK;
                 if (this.IsValid)
-                    hresult = (HRESULT)this._device.GetCapability(EEndpointCapability.eEndpointCapabilityHdVideo, ref fHasCapability);
+                    hresult = this._device.GetCapability(EEndpointCapability.eEndpointCapabilityHdVideo, ref fHasCapability);
                 return hresult.IsSuccess && fHasCapability;
             }
         }
@@ -305,7 +305,7 @@ namespace ZuneUI
                 bool fHasCapability = false;
                 HRESULT hresult = HRESULT._S_OK;
                 if (this.IsValid)
-                    hresult = (HRESULT)this._device.GetCapability(EEndpointCapability.eEndpointCapabilityWireless, ref fHasCapability);
+                    hresult = this._device.GetCapability(EEndpointCapability.eEndpointCapabilityWireless, ref fHasCapability);
                 return hresult.IsSuccess && fHasCapability;
             }
         }
@@ -317,7 +317,7 @@ namespace ZuneUI
                 bool fHasCapability = true;
                 HRESULT hresult = HRESULT._S_OK;
                 if (this.IsValid)
-                    hresult = (HRESULT)this._device.GetCapability(EEndpointCapability.eEndpointCapabilityWirelessSetupMethod1, ref fHasCapability);
+                    hresult = this._device.GetCapability(EEndpointCapability.eEndpointCapabilityWirelessSetupMethod1, ref fHasCapability);
                 return hresult.IsSuccess && fHasCapability;
             }
         }
@@ -329,7 +329,7 @@ namespace ZuneUI
                 bool fHasCapability = true;
                 HRESULT hresult = HRESULT._S_OK;
                 if (this.IsValid)
-                    hresult = (HRESULT)this._device.GetCapability(EEndpointCapability.eEndpointCapabilityWirelessSetupMethod2, ref fHasCapability);
+                    hresult = this._device.GetCapability(EEndpointCapability.eEndpointCapabilityWirelessSetupMethod2, ref fHasCapability);
                 return hresult.IsSuccess && fHasCapability;
             }
         }
@@ -341,7 +341,7 @@ namespace ZuneUI
                 bool fHasCapability = false;
                 HRESULT hresult = HRESULT._S_OK;
                 if (this.IsValid)
-                    hresult = (HRESULT)this._device.GetCapability(EEndpointCapability.eEndpointCapabilityFirmwareUpdate, ref fHasCapability);
+                    hresult = this._device.GetCapability(EEndpointCapability.eEndpointCapabilityFirmwareUpdate, ref fHasCapability);
                 return hresult.IsSuccess && fHasCapability;
             }
         }
@@ -353,7 +353,7 @@ namespace ZuneUI
                 bool fHasCapability = false;
                 HRESULT hresult = HRESULT._S_OK;
                 if (this.IsValid)
-                    hresult = (HRESULT)this._device.GetCapability(EEndpointCapability.eEndpointCapabilityMyPhoneLinks, ref fHasCapability);
+                    hresult = this._device.GetCapability(EEndpointCapability.eEndpointCapabilityMyPhoneLinks, ref fHasCapability);
                 return hresult.IsSuccess && fHasCapability;
             }
         }
@@ -365,7 +365,7 @@ namespace ZuneUI
                 bool fHasCapability = false;
                 HRESULT hresult = HRESULT._S_OK;
                 if (this.IsValid)
-                    hresult = (HRESULT)this._device.GetCapability(EEndpointCapability.eEndpointCapabilityRental, ref fHasCapability);
+                    hresult = this._device.GetCapability(EEndpointCapability.eEndpointCapabilityRental, ref fHasCapability);
                 return hresult.IsSuccess && fHasCapability;
             }
         }
@@ -377,7 +377,7 @@ namespace ZuneUI
                 bool fHasCapability = false;
                 HRESULT hresult = HRESULT._S_OK;
                 if (this.IsValid)
-                    hresult = (HRESULT)this._device.GetCapability(EEndpointCapability.eEndpointCapabilityCloudSync, ref fHasCapability);
+                    hresult = this._device.GetCapability(EEndpointCapability.eEndpointCapabilityCloudSync, ref fHasCapability);
                 return hresult.IsSuccess && fHasCapability;
             }
         }
@@ -389,7 +389,7 @@ namespace ZuneUI
                 bool fHasCapability = false;
                 HRESULT hresult = HRESULT._S_OK;
                 if (this.IsValid)
-                    hresult = (HRESULT)this._device.GetCapability(EEndpointCapability.eEndpointCapabilityCloudSync, ref fHasCapability);
+                    hresult = this._device.GetCapability(EEndpointCapability.eEndpointCapabilityCloudSync, ref fHasCapability);
                 return hresult.IsSuccess && fHasCapability;
             }
         }
@@ -401,7 +401,7 @@ namespace ZuneUI
                 bool fHasCapability = true;
                 HRESULT hresult = HRESULT._S_OK;
                 if (this.IsValid)
-                    hresult = (HRESULT)this._device.GetCapability(EEndpointCapability.eEndpointCapabilityFormat, ref fHasCapability);
+                    hresult = this._device.GetCapability(EEndpointCapability.eEndpointCapabilityFormat, ref fHasCapability);
                 return hresult.IsSuccess && fHasCapability;
             }
         }
@@ -413,7 +413,7 @@ namespace ZuneUI
                 bool fHasCapability = false;
                 HRESULT hresult = HRESULT._S_OK;
                 if (this.IsValid)
-                    hresult = (HRESULT)this._device.GetCapability(EEndpointCapability.eEndpointCapabilityZuneTagLinking, ref fHasCapability);
+                    hresult = this._device.GetCapability(EEndpointCapability.eEndpointCapabilityZuneTagLinking, ref fHasCapability);
                 return hresult.IsSuccess && fHasCapability;
             }
         }
@@ -425,7 +425,7 @@ namespace ZuneUI
                 bool fHasCapability = false;
                 HRESULT hresult = HRESULT._S_OK;
                 if (this.IsValid)
-                    hresult = (HRESULT)this._device.GetCapability(EEndpointCapability.eEndpointCapabilityUsageData, ref fHasCapability);
+                    hresult = this._device.GetCapability(EEndpointCapability.eEndpointCapabilityUsageData, ref fHasCapability);
                 return hresult.IsSuccess && fHasCapability;
             }
         }
@@ -436,7 +436,7 @@ namespace ZuneUI
         {
             get
             {
-                string str = (string)null;
+                string str = null;
                 if (this.IsValid)
                     str = this._device.PicturesVideosViewText;
                 return str ?? string.Empty;
@@ -447,7 +447,7 @@ namespace ZuneUI
         {
             get
             {
-                string str = (string)null;
+                string str = null;
                 if (this.IsValid)
                     str = this._device.PicturesVideosViewUrl;
                 return str ?? string.Empty;
@@ -462,7 +462,7 @@ namespace ZuneUI
         {
             get
             {
-                string strManufacturer = (string)null;
+                string strManufacturer = null;
                 if (this.IsValid)
                     this._device.GetManufacturer(ref strManufacturer);
                 return strManufacturer ?? string.Empty;
@@ -473,7 +473,7 @@ namespace ZuneUI
         {
             get
             {
-                string strModelName = (string)null;
+                string strModelName = null;
                 if (this.IsValid)
                     this._device.GetModelName(ref strModelName);
                 return strModelName ?? string.Empty;
@@ -572,7 +572,7 @@ namespace ZuneUI
 
         public bool HasFailedSync => this.LastSyncError.IsError;
 
-        public string PivotDescription => ZuneUI.Shell.LoadString(StringId.IDS_DEVICE_PIVOT);
+        public string PivotDescription => Shell.LoadString(StringId.IDS_DEVICE_PIVOT);
 
         public bool IsWirelessSyncEnabled
         {
@@ -635,9 +635,9 @@ namespace ZuneUI
             get
             {
                 if (!this.IsValid)
-                    return ZuneUI.Shell.LoadString(StringId.IDS_NO_DEVICE);
-                string strName = (string)null;
-                return !((HRESULT)this._device.GetFriendlyName(ref strName)).IsSuccess ? ZuneUI.Shell.LoadString(StringId.IDS_SYNC_DEFAULT_DEVICE_WORD) : strName;
+                    return Shell.LoadString(StringId.IDS_NO_DEVICE);
+                string strName = null;
+                return !((HRESULT)this._device.GetFriendlyName(ref strName)).IsSuccess ? Shell.LoadString(StringId.IDS_SYNC_DEFAULT_DEVICE_WORD) : strName;
             }
             set
             {
@@ -1030,7 +1030,7 @@ namespace ZuneUI
             {
                 if (this._formatSanityTimer == null)
                 {
-                    this._formatSanityTimer = new Microsoft.Iris.Timer((IModelItemOwner)this);
+                    this._formatSanityTimer = new Microsoft.Iris.Timer(this);
                     this._formatSanityTimer.Interval = 60000;
                     this._formatSanityTimer.AutoRepeat = false;
                     this._formatSanityTimer.Tick += new EventHandler(this.FormatSanityFailed);
@@ -1229,7 +1229,7 @@ namespace ZuneUI
             }, (object) null);*/
         }
 
-        public void AddPlaylistSyncRule(int dbPlaylistId) => this.AddSyncRule((IList)new MediaIdAndType[1]
+        public void AddPlaylistSyncRule(int dbPlaylistId) => this.AddSyncRule(new MediaIdAndType[1]
         {
       new MediaIdAndType(dbPlaylistId, MediaType.Playlist)
         });
@@ -1241,14 +1241,14 @@ namespace ZuneUI
             SyncEventArgs args = new SyncEventArgs();
             args.Device = this._device;
             MediaIdAndType[] threadSafeItems = this.GenerateThreadSafeDatabaseItems(items);
-            ThreadPool.QueueUserWorkItem((WaitCallback)delegate
+            ThreadPool.QueueUserWorkItem(delegate
            {
-               LibraryDataProvider.ActOnItems((IList)threadSafeItems, BulkItemAction.RemoveSyncRules, (EventArgs)args);
-               Application.DeferredInvoke((DeferredInvokeHandler)delegate
+               LibraryDataProvider.ActOnItems(threadSafeItems, BulkItemAction.RemoveSyncRules, args);
+               Application.DeferredInvoke(delegate
          {
-                 this.BeginSync(true, false);
-             }, (object)null);
-           }, (object)null);
+             this.BeginSync(true, false);
+         }, null);
+           }, null);
         }
 
         public void Exclude(IList items)
@@ -1259,7 +1259,7 @@ namespace ZuneUI
             args.Device = this._device;
             MediaIdAndType[] threadSafeItems = this.GenerateThreadSafeDatabaseItems(items);
             bool shouldBeginSyncAfter = false;
-            foreach (object obj in (IEnumerable)items)
+            foreach (object obj in items)
             {
                 if (obj is LibraryDataProviderItemBase providerItemBase)
                 {
@@ -1279,16 +1279,16 @@ namespace ZuneUI
                 shouldBeginSyncAfter = true;
                 break;
             }
-            ThreadPool.QueueUserWorkItem((WaitCallback)delegate
+            ThreadPool.QueueUserWorkItem(delegate
            {
-               LibraryDataProvider.ActOnItems((IList)threadSafeItems, BulkItemAction.ExcludeFromSync, (EventArgs)args);
+               LibraryDataProvider.ActOnItems(threadSafeItems, BulkItemAction.ExcludeFromSync, args);
                if (!shouldBeginSyncAfter)
                    return;
-               Application.DeferredInvoke((DeferredInvokeHandler)delegate
+               Application.DeferredInvoke(delegate
          {
-                 this.BeginSync(true, false);
-             }, (object)null);
-           }, (object)null);
+             this.BeginSync(true, false);
+         }, null);
+           }, null);
         }
 
         public void Unexclude(IList items)
@@ -1298,14 +1298,14 @@ namespace ZuneUI
             SyncEventArgs args = new SyncEventArgs();
             args.Device = this._device;
             MediaIdAndType[] threadSafeItems = this.GenerateThreadSafeDatabaseItems(items);
-            ThreadPool.QueueUserWorkItem((WaitCallback)delegate
+            ThreadPool.QueueUserWorkItem(delegate
            {
-               LibraryDataProvider.ActOnItems((IList)threadSafeItems, BulkItemAction.UnexcludeFromSync, (EventArgs)args);
-               Application.DeferredInvoke((DeferredInvokeHandler)delegate
+               LibraryDataProvider.ActOnItems(threadSafeItems, BulkItemAction.UnexcludeFromSync, args);
+               Application.DeferredInvoke(delegate
          {
-                 this.BeginSync(true, false);
-             }, (object)null);
-           }, (object)null);
+             this.BeginSync(true, false);
+         }, null);
+           }, null);
         }
 
         public void DeleteAndExclude(IList items)
@@ -1315,20 +1315,20 @@ namespace ZuneUI
             DeferrableSyncEventArgs args = new DeferrableSyncEventArgs();
             args.Device = this._device;
             MediaIdAndType[] threadSafeItems = this.GenerateThreadSafeDatabaseItems(items);
-            ThreadPool.QueueUserWorkItem((WaitCallback)delegate
+            ThreadPool.QueueUserWorkItem(delegate
            {
-               LibraryDataProvider.ActOnItems((IList)threadSafeItems, BulkItemAction.DeleteFromDevice, (EventArgs)args);
-           }, (object)null);
+               LibraryDataProvider.ActOnItems(threadSafeItems, BulkItemAction.DeleteFromDevice, args);
+           }, null);
         }
 
         public SyncGroupList GenerateSyncGroupList(
           IModelItemOwner owner,
           bool expandSyncAllEntries)
         {
-            SyncRulesView syncRulesView = (SyncRulesView)null;
+            SyncRulesView syncRulesView = null;
             if (this.IsValid)
             {
-                HRESULT snapshot = (HRESULT)this._device.Rules.GenerateSnapshot(expandSyncAllEntries, ref syncRulesView);
+                HRESULT snapshot = this._device.Rules.GenerateSnapshot(expandSyncAllEntries, ref syncRulesView);
             }
             return new SyncGroupList(owner, this, syncRulesView, expandSyncAllEntries);
         }
@@ -1401,21 +1401,21 @@ namespace ZuneUI
             {
                 DeferrableSyncEventArgs deferrableSyncEventArgs = new DeferrableSyncEventArgs();
                 deferrableSyncEventArgs.Device = this._device;
-                LibraryDataProvider.ActOnItems(items, BulkItemAction.ReverseSync, (EventArgs)deferrableSyncEventArgs);
+                LibraryDataProvider.ActOnItems(items, BulkItemAction.ReverseSync, deferrableSyncEventArgs);
                 if (deferrableSyncEventArgs.Status == ESyncOperationStatus.osDeferred)
                     return false;
             }
             return true;
         }
 
-        public HRESULT Enumerate() => !this.IsConnectedToClient ? HRESULT._E_UNEXPECTED : (HRESULT)this._device.StartEnumeration();
+        public HRESULT Enumerate() => !this.IsConnectedToClient ? HRESULT._E_UNEXPECTED : this._device.StartEnumeration();
 
         public HRESULT Format()
         {
             if (!this.IsConnectedToClient)
                 return HRESULT._E_UNEXPECTED;
             this.IsFormatting = true;
-            return (HRESULT)this._device.Format();
+            return this._device.Format();
         }
 
         public HRESULT DeleteAllGuestContent()
@@ -1423,17 +1423,17 @@ namespace ZuneUI
             if (!this.IsConnectedToClient)
                 return HRESULT._E_UNEXPECTED;
             ESyncOperationStatus operationStatus = ESyncOperationStatus.osInvalid;
-            return (HRESULT)this._device.DeleteAllGuestContent(ref operationStatus);
+            return this._device.DeleteAllGuestContent(ref operationStatus);
         }
 
-        public HRESULT ForceAppUpdate() => !this.IsConnectedToClient ? HRESULT._E_UNEXPECTED : (HRESULT)this._device.ForceAppUpdate();
+        public HRESULT ForceAppUpdate() => !this.IsConnectedToClient ? HRESULT._E_UNEXPECTED : this._device.ForceAppUpdate();
 
         public HRESULT ClearAccountAssociation()
         {
             HRESULT hresult = HRESULT._E_UNEXPECTED;
             if (this.IsConnectedToClient)
             {
-                hresult = (HRESULT)this._device.ClearUserGuidandZuneTag();
+                hresult = this._device.ClearUserGuidandZuneTag();
                 int num = this.HasFailedLogin ? 1 : 0;
                 this.FirePropertyChanged("UserId");
                 this.FirePropertyChanged("ZuneTag");
@@ -1447,7 +1447,7 @@ namespace ZuneUI
             HRESULT hresult = HRESULT._E_UNEXPECTED;
             if (this.IsConnectedToClient)
             {
-                hresult = (HRESULT)this._device.SetUserGuidandZuneTag(guid, tag);
+                hresult = this._device.SetUserGuidandZuneTag(guid, tag);
                 if (hresult.IsSuccess)
                     hresult = this.SetGeoId();
                 int num = this.HasFailedLogin ? 1 : 0;
@@ -1461,9 +1461,9 @@ namespace ZuneUI
         {
             if (!this.IsConnectedToClient)
                 return;
-            SecureString secureUsername = ZuneUI.Shell.MakeSecureString(username, true);
-            SecureString securePassword = ZuneUI.Shell.MakeSecureString(password, true);
-            ThreadPool.QueueUserWorkItem((WaitCallback)delegate
+            SecureString secureUsername = Shell.MakeSecureString(username, true);
+            SecureString securePassword = Shell.MakeSecureString(password, true);
+            ThreadPool.QueueUserWorkItem(delegate
            {
                this._device.SetMarketplaceCredentials(secureUsername, securePassword);
            });
@@ -1477,34 +1477,34 @@ namespace ZuneUI
                 uint num = CultureHelper.GeoId();
                 if (!CultureHelper.IsValidGeoId(num))
                     num = 0U;
-                hresult = (HRESULT)this._device.SetGeoId(num);
+                hresult = this._device.SetGeoId(num);
             }
             return hresult;
         }
 
-        public HRESULT RemoveWiFiAssociation() => !this.IsConnectedToClient ? HRESULT._E_UNEXPECTED : (HRESULT)this._device.UnassociateWlanDevice();
+        public HRESULT RemoveWiFiAssociation() => !this.IsConnectedToClient ? HRESULT._E_UNEXPECTED : this._device.UnassociateWlanDevice();
 
-        public HRESULT SetWiFiProfileList(WlanProfileList list) => !this.IsConnectedToClient ? HRESULT._E_UNEXPECTED : (HRESULT)this._device.SetWlanProfileList(list);
+        public HRESULT SetWiFiProfileList(WlanProfileList list) => !this.IsConnectedToClient ? HRESULT._E_UNEXPECTED : this._device.SetWlanProfileList(list);
 
-        public HRESULT GetWiFiProfileList(ref WlanProfileList list) => !this.IsConnectedToClient ? HRESULT._E_UNEXPECTED : (HRESULT)this._device.GetWlanProfileList(ref list);
+        public HRESULT GetWiFiProfileList(ref WlanProfileList list) => !this.IsConnectedToClient ? HRESULT._E_UNEXPECTED : this._device.GetWlanProfileList(ref list);
 
-        public HRESULT SendWiFiProfiles() => !this.IsConnectedToClient ? HRESULT._E_UNEXPECTED : (HRESULT)this._device.SetDeviceWlanProfiles();
+        public HRESULT SendWiFiProfiles() => !this.IsConnectedToClient ? HRESULT._E_UNEXPECTED : this._device.SetDeviceWlanProfiles();
 
-        public HRESULT ReceiveWiFiProfiles() => !this.IsConnectedToClient ? HRESULT._E_UNEXPECTED : (HRESULT)this._device.GetDeviceWlanProfiles();
+        public HRESULT ReceiveWiFiProfiles() => !this.IsConnectedToClient ? HRESULT._E_UNEXPECTED : this._device.GetDeviceWlanProfiles();
 
-        public HRESULT TestWiFi() => !this.IsConnectedToClient ? HRESULT._E_UNEXPECTED : (HRESULT)this._device.TestDeviceWlan();
+        public HRESULT TestWiFi() => !this.IsConnectedToClient ? HRESULT._E_UNEXPECTED : this._device.TestDeviceWlan();
 
-        public HRESULT CancelWiFiTest() => !this.IsConnectedToClient ? HRESULT._E_UNEXPECTED : (HRESULT)this._device.CancelTestDeviceWlan();
+        public HRESULT CancelWiFiTest() => !this.IsConnectedToClient ? HRESULT._E_UNEXPECTED : this._device.CancelTestDeviceWlan();
 
-        public HRESULT AssociateWiFi() => !this.IsConnectedToClient ? HRESULT._E_UNEXPECTED : (HRESULT)this._device.AssociateWlanDevice();
+        public HRESULT AssociateWiFi() => !this.IsConnectedToClient ? HRESULT._E_UNEXPECTED : this._device.AssociateWlanDevice();
 
-        public HRESULT LoadComputerWiFiProfiles() => !this.IsConnectedToClient ? HRESULT._E_UNEXPECTED : (HRESULT)this._device.GetWlanProfiles();
+        public HRESULT LoadComputerWiFiProfiles() => !this.IsConnectedToClient ? HRESULT._E_UNEXPECTED : this._device.GetWlanProfiles();
 
-        public HRESULT ScanForWiFiNetworks() => !this.IsConnectedToClient ? HRESULT._E_UNEXPECTED : (HRESULT)this._device.GetDeviceWlanNetworks();
+        public HRESULT ScanForWiFiNetworks() => !this.IsConnectedToClient ? HRESULT._E_UNEXPECTED : this._device.GetDeviceWlanNetworks();
 
-        public HRESULT GetDisconnectedWiFiUUID(ref string uuid) => !this.IsValid ? HRESULT._E_UNEXPECTED : (HRESULT)this._device.GetDisconnectedWlanDeviceUuid(ref uuid);
+        public HRESULT GetDisconnectedWiFiUUID(ref string uuid) => !this.IsValid ? HRESULT._E_UNEXPECTED : this._device.GetDisconnectedWlanDeviceUuid(ref uuid);
 
-        public HRESULT UnassociateWiFiUUID(string uuid) => !this.IsValid ? HRESULT._E_UNEXPECTED : (HRESULT)this._device.UnassociateWlanDeviceUuid(uuid);
+        public HRESULT UnassociateWiFiUUID(string uuid) => !this.IsValid ? HRESULT._E_UNEXPECTED : this._device.UnassociateWlanDeviceUuid(uuid);
 
         public bool WirelessEnableRequiresElevation()
         {
@@ -1514,15 +1514,15 @@ namespace ZuneUI
             return Environment.OSVersion.Version.Major >= 6 && !bEnabled;
         }
 
-        public HRESULT GetWiFiAuthorizationCipherList(ref WlanAuthCipherPairList list) => !this.IsConnectedToClient ? HRESULT._E_UNEXPECTED : (HRESULT)this._device.GetWlanDeviceAuthCipherPairList(ref list);
+        public HRESULT GetWiFiAuthorizationCipherList(ref WlanAuthCipherPairList list) => !this.IsConnectedToClient ? HRESULT._E_UNEXPECTED : this._device.GetWlanDeviceAuthCipherPairList(ref list);
 
-        public HRESULT GetWifiConnectedSSID(ref string connectedSSID) => !this.IsConnectedToClient ? HRESULT._E_UNEXPECTED : (HRESULT)this._device.GetDeviceWlanConnectedSSID(ref connectedSSID);
+        public HRESULT GetWifiConnectedSSID(ref string connectedSSID) => !this.IsConnectedToClient ? HRESULT._E_UNEXPECTED : this._device.GetDeviceWlanConnectedSSID(ref connectedSSID);
 
-        public HRESULT IsWlanDeviceDisabled(ref bool disabled) => !this.IsConnectedToClient ? HRESULT._E_UNEXPECTED : (HRESULT)this._device.IsWlanDeviceDisabled(ref disabled);
+        public HRESULT IsWlanDeviceDisabled(ref bool disabled) => !this.IsConnectedToClient ? HRESULT._E_UNEXPECTED : this._device.IsWlanDeviceDisabled(ref disabled);
 
-        public HRESULT GetWifiMediaSyncSSID(ref string mediaSyncSSID) => !this.IsConnectedToClient ? HRESULT._E_UNEXPECTED : (HRESULT)this._device.GetDeviceWlanMediaSyncSSID(ref mediaSyncSSID);
+        public HRESULT GetWifiMediaSyncSSID(ref string mediaSyncSSID) => !this.IsConnectedToClient ? HRESULT._E_UNEXPECTED : this._device.GetDeviceWlanMediaSyncSSID(ref mediaSyncSSID);
 
-        public HRESULT SetWifiMediaSyncSSID(string mediaSyncSSID) => !this.IsConnectedToClient ? HRESULT._E_UNEXPECTED : (HRESULT)this._device.SetDeviceWlanMediaSyncSSID(mediaSyncSSID);
+        public HRESULT SetWifiMediaSyncSSID(string mediaSyncSSID) => !this.IsConnectedToClient ? HRESULT._E_UNEXPECTED : this._device.SetDeviceWlanMediaSyncSSID(mediaSyncSSID);
 
         public override bool Equals(object obj) => obj is UIDevice uiDevice ? this._device == uiDevice._device : base.Equals(obj);
 
@@ -1555,15 +1555,15 @@ namespace ZuneUI
             }
         }
 
-        private void OnNameChange(Device device, string newName) => Application.DeferredInvoke((DeferredInvokeHandler)delegate
+        private void OnNameChange(Device device, string newName) => Application.DeferredInvoke(delegate
        {
            if (this.IsDisposed)
                return;
            this.FirePropertyChanged("Name");
            this.FirePropertyChanged("NameXMLEscaped");
-       }, (object)null);
+       }, null);
 
-        private void OnDeviceOverfill(GasGauge gasGauge) => Application.DeferredInvoke((DeferredInvokeHandler)delegate
+        private void OnDeviceOverfill(GasGauge gasGauge) => Application.DeferredInvoke(delegate
        {
            if (this.IsDisposed)
                return;
@@ -1573,49 +1573,49 @@ namespace ZuneUI
            ZuneShell shell = ZuneShell.DefaultInstance;
            if (shell.CurrentPage is PlaybackPage)
                shell.NavigateBack();
-           if (shell.CurrentPage is DialogPage || UIDevice._isOosDialogVisible)
+           if (shell.CurrentPage is DialogPage || _isOosDialogVisible)
                return;
-           UIDevice._isOosDialogVisible = true;
+           _isOosDialogVisible = true;
            if (this.IsGuest)
            {
-               MessageBox.Show(ZuneUI.Shell.LoadString(StringId.IDS_DEVICE_OUT_OF_SPACE_TITLE), string.Format(ZuneUI.Shell.LoadString(StringId.IDS_GUEST_OUT_OF_SPACE_MESSAGE), (object)this.Name), (EventHandler)null, (EventHandler)null, (EventHandler)null, (EventHandler)delegate
+               MessageBox.Show(Shell.LoadString(StringId.IDS_DEVICE_OUT_OF_SPACE_TITLE), string.Format(Shell.LoadString(StringId.IDS_GUEST_OUT_OF_SPACE_MESSAGE), Name), null, null, null, delegate
        {
-               UIDevice._isOosDialogVisible = false;
-           });
+           _isOosDialogVisible = false;
+       });
            }
            else
            {
-               Command okCommand = new Command((IModelItemOwner)this, ZuneUI.Shell.LoadString(StringId.IDS_HANDLE_DEVICE_OUT_OF_SPACE_BUTTON), (EventHandler)delegate
+               Command okCommand = new Command(this, Shell.LoadString(StringId.IDS_HANDLE_DEVICE_OUT_OF_SPACE_BUTTON), delegate
           {
-               shell.NavigateToPage((ZunePage)new DeviceOverfillLand(this));
-               UIDevice._isOosDialogVisible = false;
-           });
-               MessageBox.Show(ZuneUI.Shell.LoadString(StringId.IDS_DEVICE_OUT_OF_SPACE_TITLE), string.Format(ZuneUI.Shell.LoadString(StringId.IDS_DEVICE_OUT_OF_SPACE_MESSAGE), (object)this.Name), okCommand, (string)null, (EventHandler)delegate
+              shell.NavigateToPage(new DeviceOverfillLand(this));
+              _isOosDialogVisible = false;
+          });
+               MessageBox.Show(Shell.LoadString(StringId.IDS_DEVICE_OUT_OF_SPACE_TITLE), string.Format(Shell.LoadString(StringId.IDS_DEVICE_OUT_OF_SPACE_MESSAGE), Name), okCommand, null, delegate
          {
-               UIDevice._isOosDialogVisible = false;
-           }, false);
+             _isOosDialogVisible = false;
+         }, false);
            }
-       }, (object)null);
+       }, null);
 
-        private void OnDeviceStatusChanged(Device device, int rawHR, EEndpointStatus endpointStatus) => Application.DeferredInvoke((DeferredInvokeHandler)delegate
+        private void OnDeviceStatusChanged(Device device, int rawHR, EEndpointStatus endpointStatus) => Application.DeferredInvoke(delegate
        {
            if (this.IsDisposed)
                return;
-           this.HandleDeviceState(endpointStatus, (HRESULT)rawHR);
-       }, (object)null);
+           this.HandleDeviceState(endpointStatus, rawHR);
+       }, null);
 
-        private void OnFormatPhase1Completed(Device device, int rawHR) => Application.DeferredInvoke((DeferredInvokeHandler)delegate
+        private void OnFormatPhase1Completed(Device device, int rawHR) => Application.DeferredInvoke(delegate
        {
            if (this.IsDisposed)
                return;
-           HRESULT hr = (HRESULT)rawHR;
+           HRESULT hr = rawHR;
            if (hr.IsError)
                this.OnFormatCompleted(hr);
            else
                this.FormatSanityTimer.Start();
-       }, (object)null);
+       }, null);
 
-        private void OnSyncBegun(Device device) => Application.DeferredInvoke((DeferredInvokeHandler)delegate
+        private void OnSyncBegun(Device device) => Application.DeferredInvoke(delegate
        {
            if (this.IsDisposed)
                return;
@@ -1629,7 +1629,7 @@ namespace ZuneUI
                this.UserStoppedLastSync = false;
            this.LastSyncStartTimestring = this.GenerateSyncTimestring();
            this.FirePropertyChanged("LastSyncTime");
-       }, (object)null);
+       }, null);
 
         private void OnSyncProgressed(
           Device device,
@@ -1640,31 +1640,31 @@ namespace ZuneUI
           string title,
           ESyncEngineState engineState)
         {
-            Application.DeferredInvoke((DeferredInvokeHandler)delegate
+            Application.DeferredInvoke(delegate
            {
                if (this.IsDisposed)
                    return;
                if (this.SyncProgress != null)
                    this.SyncProgress.UpdateProgress((int)percent, (int)percentItem, (int)percentTitle, group, title, engineState);
                this.SyncProgressed.Invoke();
-           }, (object)null);
+           }, null);
         }
 
-        private void OnSyncCompleted(Device device, ESyncEventReason reason) => Application.DeferredInvoke((DeferredInvokeHandler)delegate
+        private void OnSyncCompleted(Device device, ESyncEventReason reason) => Application.DeferredInvoke(delegate
        {
            if (this.IsDisposed)
                return;
            if (this.SyncProgress != null)
            {
                this.SyncProgress.Complete(reason);
-               this.SyncProgress = (SyncNotification)null;
+               this.SyncProgress = null;
                this.LastSyncError = reason != ESyncEventReason.eSyncEventSucceeded ? HRESULT._E_FAIL : HRESULT._S_OK;
            }
            this.IsSyncing = false;
            this.SyncProgressed.Invoke();
            this.SyncCompleted.Invoke();
            this.FirePropertyChanged("LastSyncTime");
-       }, (object)null);
+       }, null);
 
         private void FormatSanityFailed(object sender, EventArgs e)
         {
@@ -1674,67 +1674,67 @@ namespace ZuneUI
             SingletonModelItem<UIDeviceList>.Instance.HideDevice(this);
         }
 
-        private void OnUnassociateWlanCompleted(Device device, int hr) => Application.DeferredInvoke((DeferredInvokeHandler)delegate
+        private void OnUnassociateWlanCompleted(Device device, int hr) => Application.DeferredInvoke(delegate
        {
            if (this.IsDisposed)
                return;
            this.UpdateWirelessSyncEnabled();
            if (this.WiFiRemovalCompletedEvent == null)
                return;
-           this.WiFiRemovalCompletedEvent((object)this, new FallibleEventArgs((HRESULT)hr));
-       }, (object)null);
+           this.WiFiRemovalCompletedEvent(this, new FallibleEventArgs(hr));
+       }, null);
 
-        private void OnSetDeviceWlanProfilesCompleted(Device device, int hr) => Application.DeferredInvoke((DeferredInvokeHandler)delegate
+        private void OnSetDeviceWlanProfilesCompleted(Device device, int hr) => Application.DeferredInvoke(delegate
        {
            if (this.IsDisposed)
                return;
            this.UpdateWirelessSyncEnabled();
            if (this.WiFiProfilesSentEvent == null)
                return;
-           this.WiFiProfilesSentEvent((object)this, new FallibleEventArgs((HRESULT)hr));
-       }, (object)null);
+           this.WiFiProfilesSentEvent(this, new FallibleEventArgs(hr));
+       }, null);
 
-        private void OnGetDeviceWlanProfilesCompleted(Device device, int hr) => Application.DeferredInvoke((DeferredInvokeHandler)delegate
+        private void OnGetDeviceWlanProfilesCompleted(Device device, int hr) => Application.DeferredInvoke(delegate
        {
            if (this.IsDisposed || this.WiFiProfilesReceivedEvent == null)
                return;
-           this.WiFiProfilesReceivedEvent((object)this, new FallibleEventArgs((HRESULT)hr));
-       }, (object)null);
+           this.WiFiProfilesReceivedEvent(this, new FallibleEventArgs(hr));
+       }, null);
 
-        private void OnTestWlanCompleted(Device device, WlanTestResultCode result, int hr) => Application.DeferredInvoke((DeferredInvokeHandler)delegate
+        private void OnTestWlanCompleted(Device device, WlanTestResultCode result, int hr) => Application.DeferredInvoke(delegate
        {
            this.UpdateWirelessSyncEnabled();
            if (this.IsDisposed || this.WiFiTestCompletedEvent == null)
                return;
-           this.WiFiTestCompletedEvent((object)this, new FallibleEventArgs((HRESULT)hr));
-       }, (object)null);
+           this.WiFiTestCompletedEvent(this, new FallibleEventArgs(hr));
+       }, null);
 
-        private void OnAssociateWlanCompleted(Device device, int hr) => Application.DeferredInvoke((DeferredInvokeHandler)delegate
+        private void OnAssociateWlanCompleted(Device device, int hr) => Application.DeferredInvoke(delegate
        {
            this.UpdateWirelessSyncEnabled();
            if (this.IsDisposed || this.WiFiAssociationCompletedEvent == null)
                return;
-           this.WiFiAssociationCompletedEvent((object)this, new FallibleEventArgs((HRESULT)hr));
-       }, (object)null);
+           this.WiFiAssociationCompletedEvent(this, new FallibleEventArgs(hr));
+       }, null);
 
-        private void OnGetWlanProfilesCompleted(Device device, int hr) => Application.DeferredInvoke((DeferredInvokeHandler)delegate
+        private void OnGetWlanProfilesCompleted(Device device, int hr) => Application.DeferredInvoke(delegate
        {
            if (this.IsDisposed || this.ComputerWiFiProfilesLoadedEvent == null)
                return;
-           this.ComputerWiFiProfilesLoadedEvent((object)this, new FallibleEventArgs((HRESULT)hr));
-       }, (object)null);
+           this.ComputerWiFiProfilesLoadedEvent(this, new FallibleEventArgs(hr));
+       }, null);
 
-        private void OnGetDeviceWlanVisibleNetworksCompleted(Device device, int hr) => Application.DeferredInvoke((DeferredInvokeHandler)delegate
+        private void OnGetDeviceWlanVisibleNetworksCompleted(Device device, int hr) => Application.DeferredInvoke(delegate
        {
            if (this.IsDisposed || this.WiFiScanCompletedEvent == null)
                return;
-           this.WiFiScanCompletedEvent((object)this, new FallibleEventArgs((HRESULT)hr));
-       }, (object)null);
+           this.WiFiScanCompletedEvent(this, new FallibleEventArgs(hr));
+       }, null);
 
         private void ReleaseFirmwareObjects()
         {
-            this.UIFirmwareUpdater = (UIFirmwareUpdater)null;
-            this.UIFirmwareRestorer = (UIFirmwareRestorer)null;
+            this.UIFirmwareUpdater = null;
+            this.UIFirmwareRestorer = null;
         }
 
         private void MaterializeMarketplaceMedia(IList items)
@@ -1819,11 +1819,11 @@ namespace ZuneUI
                     ClientConfiguration.FeaturesOverride.Device = 1;
                     FeatureEnablement.ForceFeatureOn(Features.eDevice);
                 }
-                Application.DeferredInvoke((DeferredInvokeHandler)delegate
+                Application.DeferredInvoke(delegate
                {
-                   ZuneUI.Shell.MainFrame.Device.UpdateShowDevice();
-                   ZuneUI.Shell.SettingsFrame.Settings.ShowDevice(true);
-               }, (object)null);
+                   Shell.MainFrame.Device.UpdateShowDevice();
+                   Shell.SettingsFrame.Settings.ShowDevice(true);
+               }, null);
             }
             if (connectedToClient != this.IsConnectedToClient)
             {
@@ -1856,7 +1856,7 @@ namespace ZuneUI
             {
                 case EEndpointStatus.eEndpointStatusUndefined:
                     this.HidePinUnlockDialog(false);
-                    MessageBox.Show(ZuneUI.Shell.LoadString(StringId.IDS_PHONE_TLS_ERROR_TITLE), ZuneUI.Shell.LoadString(StringId.IDS_PHONE_TLS_ERROR_TEXT), (EventHandler)null);
+                    MessageBox.Show(Shell.LoadString(StringId.IDS_PHONE_TLS_ERROR_TITLE), Shell.LoadString(StringId.IDS_PHONE_TLS_ERROR_TEXT), null);
                     break;
                 case EEndpointStatus.eEndpointStatusNotPresent:
                     this.ShowPinUnlockDialog();
@@ -1867,12 +1867,12 @@ namespace ZuneUI
                 case EEndpointStatus.eEndpointStatusAuthenticationRequired:
                     if (!hr.IsSuccess)
                     {
-                        MessageBox.Show(ZuneUI.Shell.LoadString(StringId.IDS_DEVICE_ENUMERATION_FAILED_TITLE), ZuneUI.Shell.LoadString(StringId.IDS_DEVICE_ENUMERATION_FAILED_BODY), (EventHandler)null);
+                        MessageBox.Show(Shell.LoadString(StringId.IDS_DEVICE_ENUMERATION_FAILED_TITLE), Shell.LoadString(StringId.IDS_DEVICE_ENUMERATION_FAILED_BODY), null);
                         SingletonModelItem<UIDeviceList>.Instance.HideDevice(this);
                     }
                     if (this.EnumeratedEvent == null)
                         break;
-                    this.EnumeratedEvent((object)this, new FallibleEventArgs(hr));
+                    this.EnumeratedEvent(this, new FallibleEventArgs(hr));
                     break;
                 case EEndpointStatus.eEndpointStatusAuthenticationCompleted:
                     if (this.IsFormatting)
@@ -1886,7 +1886,7 @@ namespace ZuneUI
                     this.ForceAppUpdate();
                     break;
                 case EEndpointStatus.eEndpointStatusDetectingProxy:
-                    MessageBox.Show(ZuneUI.Shell.LoadString(StringId.IDS_PHONE_NO_IP_TITLE), ZuneUI.Shell.LoadString(StringId.IDS_PHONE_NO_IP_TEXT), (EventHandler)null);
+                    MessageBox.Show(Shell.LoadString(StringId.IDS_PHONE_NO_IP_TITLE), Shell.LoadString(StringId.IDS_PHONE_NO_IP_TEXT), null);
                     break;
             }
         }
@@ -1900,7 +1900,7 @@ namespace ZuneUI
                 {
                     int hrLogin = 0;
                     if (((HRESULT)this._device.GetAndResetLastLoginError(ref hrLogin)).IsSuccess)
-                        hresult = (HRESULT)hrLogin;
+                        hresult = hrLogin;
                 }
                 this.LastFailedLoginError = hresult;
             }
@@ -1910,7 +1910,7 @@ namespace ZuneUI
                 {
                     this.SyncProgress.SyncCanceled = true;
                     this.SyncProgress.Complete(ESyncEventReason.eSyncEventSucceeded);
-                    this.SyncProgress = (SyncNotification)null;
+                    this.SyncProgress = null;
                 }
                 this.ReleaseFirmwareObjects();
             }
@@ -1918,8 +1918,8 @@ namespace ZuneUI
                 this.ActualGasGauge.Dispose();
             if (this.PredictedGasGauge != null)
                 this.PredictedGasGauge.Dispose();
-            this.ActualGasGauge = new UIGasGauge((IModelItemOwner)this, this._device.ActualGasGauge);
-            this.PredictedGasGauge = new UIGasGauge((IModelItemOwner)this, this._device.PredictedGasGauge);
+            this.ActualGasGauge = new UIGasGauge(this, this._device.ActualGasGauge);
+            this.PredictedGasGauge = new UIGasGauge(this, this._device.PredictedGasGauge);
             if (this._device.PredictedGasGauge != null)
             {
                 this._device.PredictedGasGauge.DeviceOverflowEvent -= new DeviceOverflowHandler(this.OnDeviceOverfill);
@@ -1941,7 +1941,7 @@ namespace ZuneUI
             this.IsFormatting = false;
             if (this.FormatCompletedEvent == null)
                 return;
-            this.FormatCompletedEvent((object)this, new FallibleEventArgs(hr));
+            this.FormatCompletedEvent(this, new FallibleEventArgs(hr));
         }
 
         private bool ShouldSuppressConnectionNotifications()
@@ -1956,7 +1956,7 @@ namespace ZuneUI
             bool flag = false;
             if (this.IsConnectedToClient)
             {
-                string mediaSyncSSID = (string)null;
+                string mediaSyncSSID = null;
                 bool disabled = false;
                 HRESULT hresult = this.IsWlanDeviceDisabled(ref disabled);
                 if (hresult.IsSuccess)
@@ -1971,7 +1971,7 @@ namespace ZuneUI
         {
             if (this._pinUnlockMessageBox == null)
             {
-                this._pinUnlockMessageBox = MessageBox.Show(ZuneUI.Shell.LoadString(StringId.IDS_PHONE_PIN_UNLOCK_TITLE), ZuneUI.Shell.LoadString(StringId.IDS_PHONE_PIN_UNLOCK_TEXT), (Command)null, ZuneUI.Shell.LoadString(StringId.IDS_CANCEL_BUTTON), new EventHandler(this.PinUnlockCancelled), false);
+                this._pinUnlockMessageBox = MessageBox.Show(Shell.LoadString(StringId.IDS_PHONE_PIN_UNLOCK_TITLE), Shell.LoadString(StringId.IDS_PHONE_PIN_UNLOCK_TEXT), null, Shell.LoadString(StringId.IDS_CANCEL_BUTTON), new EventHandler(this.PinUnlockCancelled), false);
             }
             else
             {
@@ -1989,12 +1989,12 @@ namespace ZuneUI
                 this._pinUnlockMessageBox.Hide();
             else
                 this._pinUnlockMessageBox.Cancel.Invoke();
-            this._pinUnlockMessageBox = (MessageBox)null;
+            this._pinUnlockMessageBox = null;
         }
 
         private void PinUnlockCancelled(object sender, EventArgs args) => SingletonModelItem<UIDeviceList>.Instance.HideDevice(this);
 
-        private string GenerateSyncTimestring() => DateTime.UtcNow.ToString("yyyy-MM-dd HH\\:mm\\:ss.fff", (IFormatProvider)CultureInfo.CreateSpecificCulture("en-US"));
+        private string GenerateSyncTimestring() => DateTime.UtcNow.ToString("yyyy-MM-dd HH\\:mm\\:ss.fff", CultureInfo.CreateSpecificCulture("en-US"));
 
         private bool SupportsSyncCategory(SyncCategory category)
         {
@@ -2037,31 +2037,31 @@ namespace ZuneUI
         {
             if (!ClientConfiguration.MediaStore.AlertSyncAllFriendsBehavior)
                 return;
-            BooleanChoice neverAlertSyncAllFriendsBehavior = new BooleanChoice((IModelItemOwner)ZuneShell.DefaultInstance, ZuneUI.Shell.LoadString(StringId.IDS_DONT_SHOW_THIS_MESSAGE_AGAIN));
+            BooleanChoice neverAlertSyncAllFriendsBehavior = new BooleanChoice(ZuneShell.DefaultInstance, Shell.LoadString(StringId.IDS_DONT_SHOW_THIS_MESSAGE_AGAIN));
             neverAlertSyncAllFriendsBehavior.Value = false;
-            neverAlertSyncAllFriendsBehavior.ChosenChanged += (EventHandler)delegate
+            neverAlertSyncAllFriendsBehavior.ChosenChanged += delegate
            {
                ClientConfiguration.MediaStore.AlertSyncAllFriendsBehavior = !neverAlertSyncAllFriendsBehavior.Value;
            };
-            MessageBox.Show(ZuneUI.Shell.LoadString(StringId.IDS_SYNC_FRIENDS_NOTICE_TITLE), ZuneUI.Shell.LoadString(StringId.IDS_SYNC_FRIENDS_NOTICE), (Command)null, neverAlertSyncAllFriendsBehavior);
+            MessageBox.Show(Shell.LoadString(StringId.IDS_SYNC_FRIENDS_NOTICE_TITLE), Shell.LoadString(StringId.IDS_SYNC_FRIENDS_NOTICE), null, neverAlertSyncAllFriendsBehavior);
         }
 
         public static string FormatSyncStatus(object title, IList metadata)
         {
-            string str1 = (title ?? (object)string.Empty).ToString();
+            string str1 = (title ?? string.Empty).ToString();
             bool flag = false;
-            foreach (object obj in (IEnumerable)metadata)
+            foreach (object obj in metadata)
             {
-                string str2 = (obj ?? (object)string.Empty).ToString();
+                string str2 = (obj ?? string.Empty).ToString();
                 if (!string.IsNullOrEmpty(str2))
                 {
                     if (flag)
                     {
-                        str1 += UIDevice._syncStatusDatumDivider;
+                        str1 += _syncStatusDatumDivider;
                     }
                     else
                     {
-                        str1 += UIDevice._syncStatusTitleDivider;
+                        str1 += _syncStatusTitleDivider;
                         flag = true;
                     }
                     str1 += str2;
@@ -2073,8 +2073,8 @@ namespace ZuneUI
         public static string FormatDeviceClass(DeviceClass deviceClass)
         {
             if (deviceClass == DeviceClass.ZuneHD)
-                return ZuneUI.Shell.LoadString(StringId.IDS_AppsZuneHDDeviceName);
-            return deviceClass == DeviceClass.WindowsPhone ? ZuneUI.Shell.LoadString(StringId.IDS_AppsWindowsPhoneDeviceName) : ZuneUI.Shell.LoadString(StringId.IDS_GENERIC_ERROR);
+                return Shell.LoadString(StringId.IDS_AppsZuneHDDeviceName);
+            return deviceClass == DeviceClass.WindowsPhone ? Shell.LoadString(StringId.IDS_AppsWindowsPhoneDeviceName) : Shell.LoadString(StringId.IDS_GENERIC_ERROR);
         }
 
         public static DeviceClass ToDeviceClass(int deviceClass) => (DeviceClass)deviceClass;
@@ -2098,7 +2098,7 @@ namespace ZuneUI
             string GetMessageForCount(int count);
         }
 
-        protected class NewRuleMessageType : UIDevice.INewRuleMessageType
+        protected class NewRuleMessageType : INewRuleMessageType
         {
             private MediaType _type;
             private string _singular;
@@ -2107,8 +2107,8 @@ namespace ZuneUI
             public NewRuleMessageType(MediaType type, StringId singular, StringId plural)
             {
                 this._type = type;
-                this._singular = ZuneUI.Shell.LoadString(singular);
-                this._plural = ZuneUI.Shell.LoadString(plural);
+                this._singular = Shell.LoadString(singular);
+                this._plural = Shell.LoadString(plural);
             }
 
             public MediaType Type => this._type;
@@ -2117,7 +2117,7 @@ namespace ZuneUI
 
             public string PluralMessage => this._plural;
 
-            public string GetMessageForCount(int count) => count == 1 ? this.SingularMessage : string.Format(this.PluralMessage, (object)count);
+            public string GetMessageForCount(int count) => count == 1 ? this.SingularMessage : string.Format(this.PluralMessage, count);
         }
     }
 }

@@ -14,7 +14,7 @@ namespace ZuneUI
         private bool _hasRichLayout;
 
         public RichLayoutCommand(IModelItemOwner owner, string description, bool hasRichLayout)
-          : base(owner, description, (EventHandler)null)
+          : base(owner, description, null)
           => this._hasRichLayout = hasRichLayout;
 
         public bool HasRichLayout => this._hasRichLayout;

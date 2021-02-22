@@ -10,6 +10,6 @@ namespace ZuneUI
 {
     public class RadioNavigationCommandHandler : NavigationCommandHandlerBase
     {
-        protected override ZunePage GetPage(IDictionary args) => (ZunePage)new RadioPage();
+        protected override ZunePage GetPage(IDictionary args) => new RadioPage();
     }
 }

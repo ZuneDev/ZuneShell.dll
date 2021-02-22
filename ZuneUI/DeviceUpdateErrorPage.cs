@@ -9,7 +9,7 @@ namespace ZuneUI
     public class DeviceUpdateErrorPage : WizardErrorPage
     {
         internal DeviceUpdateErrorPage(DeviceUpdateWizard wizard)
-          : base((Wizard)wizard)
+          : base(wizard)
           => this.Description = Shell.LoadString(StringId.IDS_FIRMWARE_UPDATE_ERROR_TITLE);
 
         public override string UI => "res://ZuneShellResources!DeviceUpdate.uix#DeviceUpdateErrorPage";

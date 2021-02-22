@@ -21,7 +21,7 @@ namespace ZuneUI
             this._mediaData = mediaData;
         }
 
-        public DataProviderObject RawData => (DataProviderObject)this._rawData;
+        public DataProviderObject RawData => _rawData;
 
         public DataProviderObject MediaData
         {
@@ -35,15 +35,15 @@ namespace ZuneUI
             }
         }
 
-        public static ProfileBadge.GroupingComparer CreateGroupingComparer() => new ProfileBadge.GroupingComparer();
+        public static GroupingComparer CreateGroupingComparer() => new GroupingComparer();
 
         public class GroupingComparer : IComparer
         {
             public int Compare(object x, object y)
             {
                 int num = -1;
-                BadgeData badgeData1 = (BadgeData)null;
-                BadgeData badgeData2 = (BadgeData)null;
+                BadgeData badgeData1 = null;
+                BadgeData badgeData2 = null;
                 if (x is ProfileBadge)
                     badgeData1 = ((ProfileBadge)x)._rawData;
                 else if (x is BadgeData)

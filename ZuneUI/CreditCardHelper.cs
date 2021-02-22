@@ -16,17 +16,17 @@ namespace ZuneUI
         private static string[] s_SupportedCardTypeStrs;
         private static string[] s_JpnSupportedCardTypeStrs;
 
-        public static string CardTypeToString(CreditCardType cardType) => CreditCardHelper.CardTypeToString((int)cardType);
+        public static string CardTypeToString(CreditCardType cardType) => CardTypeToString((int)cardType);
 
         public static string CardTypeToString(int cardType)
         {
-            string[] creditCardMappings = CreditCardHelper.CreditCardMappings;
-            return cardType >= 0 && cardType < creditCardMappings.Length ? creditCardMappings[cardType] : (string)null;
+            string[] creditCardMappings = CreditCardMappings;
+            return cardType >= 0 && cardType < creditCardMappings.Length ? creditCardMappings[cardType] : null;
         }
 
         public static CreditCardType CardTypeFromString(string cardTypeStr)
         {
-            string[] creditCardMappings = CreditCardHelper.CreditCardMappings;
+            string[] creditCardMappings = CreditCardMappings;
             for (int index = 0; index < creditCardMappings.Length; ++index)
             {
                 if (creditCardMappings[index] == cardTypeStr)
@@ -39,27 +39,27 @@ namespace ZuneUI
         {
             get
             {
-                if (CreditCardHelper.s_SupportedCardTypeStrs == null || CreditCardHelper.s_JpnSupportedCardTypeStrs == null)
+                if (s_SupportedCardTypeStrs == null || s_JpnSupportedCardTypeStrs == null)
                 {
-                    string[] creditCardMappings = CreditCardHelper.CreditCardMappings;
-                    CreditCardHelper.s_SupportedCardTypeStrs = new string[4]
+                    string[] creditCardMappings = CreditCardMappings;
+                    s_SupportedCardTypeStrs = new string[4]
                     {
             creditCardMappings[2],
             creditCardMappings[3],
             creditCardMappings[1],
             creditCardMappings[0]
                     };
-                    CreditCardHelper.s_JpnSupportedCardTypeStrs = new string[4]
+                    s_JpnSupportedCardTypeStrs = new string[4]
                     {
             creditCardMappings[2],
             creditCardMappings[1],
             creditCardMappings[0],
             creditCardMappings[4]
                     };
-                    Array.Sort<string>(CreditCardHelper.s_SupportedCardTypeStrs);
-                    Array.Sort<string>(CreditCardHelper.s_JpnSupportedCardTypeStrs);
+                    Array.Sort(s_SupportedCardTypeStrs);
+                    Array.Sort(s_JpnSupportedCardTypeStrs);
                 }
-                return SignIn.Instance.SignedIn && string.Compare(SignIn.Instance.CountryCode, "JP", StringComparison.OrdinalIgnoreCase) == 0 ? (IList)CreditCardHelper.s_JpnSupportedCardTypeStrs : (IList)CreditCardHelper.s_SupportedCardTypeStrs;
+                return SignIn.Instance.SignedIn && string.Compare(SignIn.Instance.CountryCode, "JP", StringComparison.OrdinalIgnoreCase) == 0 ? s_JpnSupportedCardTypeStrs : s_SupportedCardTypeStrs;
             }
         }
 
@@ -67,8 +67,8 @@ namespace ZuneUI
         {
             get
             {
-                if (CreditCardHelper.s_CardTypeStrs == null)
-                    CreditCardHelper.s_CardTypeStrs = new string[7]
+                if (s_CardTypeStrs == null)
+                    s_CardTypeStrs = new string[7]
                     {
             Shell.LoadString(StringId.IDS_BILLING_CC_VISA),
             Shell.LoadString(StringId.IDS_BILLING_CC_MASTERCARD),
@@ -78,7 +78,7 @@ namespace ZuneUI
             Shell.LoadString(StringId.IDS_BILLING_CC_DINERS),
             Shell.LoadString(StringId.IDS_BILLING_CC_KLCC)
                     };
-                return CreditCardHelper.s_CardTypeStrs;
+                return s_CardTypeStrs;
             }
         }
     }

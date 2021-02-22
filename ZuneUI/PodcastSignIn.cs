@@ -39,7 +39,7 @@ namespace ZuneUI
         {
             this._credentials = credentials;
             this.Cancel.Invoked += new EventHandler(this.OnInvoked);
-            this._seriesTitle = this._credentials.SubscriptionMediaId <= 0 ? string.Empty : PlaylistManager.GetFieldValue<string>(this._credentials.SubscriptionMediaId, EListType.ePodcastList, 344, string.Empty);
+            this._seriesTitle = this._credentials.SubscriptionMediaId <= 0 ? string.Empty : PlaylistManager.GetFieldValue(this._credentials.SubscriptionMediaId, EListType.ePodcastList, 344, string.Empty);
             this._title = Shell.LoadString(StringId.IDS_PODCAST_SIGN_IN_TITLE);
             Uri uri = new Uri(this._credentials.TargetUrl);
             this._hostName = uri.Scheme + Uri.SchemeDelimiter + uri.Host;
@@ -47,7 +47,7 @@ namespace ZuneUI
             this._credentials.Credential = new NetworkCredential();
             this._credentials.Credential.UserName = this._credentials.LastUserName;
             if (this._credentials.LastError < 0)
-                this.SetError((HRESULT)this._credentials.LastError);
+                this.SetError(_credentials.LastError);
             this.SetWarning(credentials);
         }
 
@@ -59,13 +59,13 @@ namespace ZuneUI
 
         private void SetWarning(SubscriptonCredentialRequestArguments credentials)
         {
-            string str = (string)null;
+            string str = null;
             if (!credentials.IsAuthenticationSchemeSafe)
                 str = this.AuthSchemeToString(credentials.AuthScheme);
             if (str != null)
-                this._warning = string.Format(Shell.LoadString(StringId.IDS_PODCAST_SIGN_IN_INSECURE_AUTH_WARNING), (object)str);
+                this._warning = string.Format(Shell.LoadString(StringId.IDS_PODCAST_SIGN_IN_INSECURE_AUTH_WARNING), str);
             else
-                this._warning = (string)null;
+                this._warning = null;
         }
     }
 }

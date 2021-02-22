@@ -14,7 +14,7 @@ namespace ZuneXml
           DataProviderQuery owner,
           object objectTypeCookie)
         {
-            return (XmlDataProviderObject)new VideoCategory(owner, objectTypeCookie);
+            return new VideoCategory(owner, objectTypeCookie);
         }
 
         internal VideoCategory(DataProviderQuery owner, object resultTypeCookie)

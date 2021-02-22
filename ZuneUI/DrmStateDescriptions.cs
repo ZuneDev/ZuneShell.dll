@@ -17,30 +17,30 @@ namespace ZuneUI
         private static string _protectedDescription = Shell.LoadString(StringId.IDS_DRM_HEADER_PROTECTED);
         private static string _unknownDescription = Shell.LoadString(StringId.IDS_DRM_HEADER_UNKNOWN);
 
-        public static string GetAudioDescription(int stateId) => DrmStateDescriptions.GetDescription(MediaType.Track, (DrmState)stateId);
+        public static string GetAudioDescription(int stateId) => GetDescription(MediaType.Track, (DrmState)stateId);
 
-        public static string GetVideoDescription(int stateId) => DrmStateDescriptions.GetDescription(MediaType.Video, (DrmState)stateId);
+        public static string GetVideoDescription(int stateId) => GetDescription(MediaType.Video, (DrmState)stateId);
 
         public static string GetDescription(MediaType mediaType, DrmState state)
         {
             switch (state)
             {
                 case DrmState.Unknown:
-                    return DrmStateDescriptions._unknownDescription;
+                    return _unknownDescription;
                 case DrmState.NoLicense:
-                    return DrmStateDescriptions._noLicenseDescription;
+                    return _noLicenseDescription;
                 case DrmState.Expired:
-                    return MediaType.Track == mediaType ? DrmStateDescriptions._subscriptionExpiredDescription : DrmStateDescriptions._rentalDescription;
+                    return MediaType.Track == mediaType ? _subscriptionExpiredDescription : _rentalDescription;
                 case DrmState.DeviceLicense:
-                    return DrmStateDescriptions._rentalDescription;
+                    return _rentalDescription;
                 case DrmState.Expiring:
-                    return MediaType.Track == mediaType ? DrmStateDescriptions._subscriptionDescription : DrmStateDescriptions._rentalDescription;
+                    return MediaType.Track == mediaType ? _subscriptionDescription : _rentalDescription;
                 case DrmState.Protected:
-                    return MediaType.Track == mediaType ? DrmStateDescriptions._protectedDescription : DrmStateDescriptions._purchasedDescription;
+                    return MediaType.Track == mediaType ? _protectedDescription : _purchasedDescription;
                 case DrmState.Free:
-                    return DrmStateDescriptions._personalDescription;
+                    return _personalDescription;
                 default:
-                    return DrmStateDescriptions._unknownDescription;
+                    return _unknownDescription;
             }
         }
     }

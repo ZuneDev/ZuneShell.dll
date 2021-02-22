@@ -11,7 +11,7 @@ namespace ZuneUI
 {
     public static class Win32Window
     {
-        public static void Close(IntPtr hWnd) => Win32Window.PostMessage(hWnd, 16, 0, false);
+        public static void Close(IntPtr hWnd) => PostMessage(hWnd, 16, 0, false);
 
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         private static extern bool PostMessage(IntPtr hWnd, int msg, int wParam, bool lParam);

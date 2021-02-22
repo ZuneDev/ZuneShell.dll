@@ -57,16 +57,16 @@ namespace ZuneUI
 
         public override IPageState SaveAndRelease()
         {
-            IPageState pageState = (IPageState)null;
+            IPageState pageState = null;
             if (this._saveToBackStack)
             {
                 if (this._sharedInstance)
                 {
-                    pageState = (IPageState)new InstancePageState((IPage)this);
+                    pageState = new InstancePageState(this);
                 }
                 else
                 {
-                    pageState = (IPageState)new TestPageState(this.Description, this.UI, this.BackgroundUI, this.CanBeTrimmed);
+                    pageState = new TestPageState(this.Description, this.UI, this.BackgroundUI, this.CanBeTrimmed);
                     this.Release();
                 }
             }

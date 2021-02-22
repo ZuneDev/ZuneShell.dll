@@ -58,9 +58,9 @@ namespace ZuneUI
             get => this.ChosenValue is PrivacySettingValue ? (PrivacySettingValue)this.ChosenValue : PrivacySettingValue.Unknown;
             set
             {
-                if (this.Options.Contains((object)value))
+                if (this.Options.Contains(value))
                 {
-                    this.ChosenValue = (object)value;
+                    this.ChosenValue = value;
                 }
                 else
                 {
@@ -79,13 +79,13 @@ namespace ZuneUI
         {
             get
             {
-                if (PrivacySettingChoice.s_allowDenyChoices == null)
+                if (s_allowDenyChoices == null)
                 {
-                    PrivacySettingChoice.s_allowDenyChoices = (IList)new ArrayList(2);
-                    PrivacySettingChoice.s_allowDenyChoices.Add((object)PrivacySettingValue.Allow);
-                    PrivacySettingChoice.s_allowDenyChoices.Add((object)PrivacySettingValue.Deny);
+                    s_allowDenyChoices = new ArrayList(2);
+                    s_allowDenyChoices.Add(PrivacySettingValue.Allow);
+                    s_allowDenyChoices.Add(PrivacySettingValue.Deny);
                 }
-                return PrivacySettingChoice.s_allowDenyChoices;
+                return s_allowDenyChoices;
             }
         }
 
@@ -93,14 +93,14 @@ namespace ZuneUI
         {
             get
             {
-                if (PrivacySettingChoice.s_allowFriendsDenyChoices == null)
+                if (s_allowFriendsDenyChoices == null)
                 {
-                    PrivacySettingChoice.s_allowFriendsDenyChoices = (IList)new ArrayList(3);
-                    PrivacySettingChoice.s_allowFriendsDenyChoices.Add((object)PrivacySettingValue.Allow);
-                    PrivacySettingChoice.s_allowFriendsDenyChoices.Add((object)PrivacySettingValue.FriendsOnly);
-                    PrivacySettingChoice.s_allowFriendsDenyChoices.Add((object)PrivacySettingValue.Deny);
+                    s_allowFriendsDenyChoices = new ArrayList(3);
+                    s_allowFriendsDenyChoices.Add(PrivacySettingValue.Allow);
+                    s_allowFriendsDenyChoices.Add(PrivacySettingValue.FriendsOnly);
+                    s_allowFriendsDenyChoices.Add(PrivacySettingValue.Deny);
                 }
-                return PrivacySettingChoice.s_allowFriendsDenyChoices;
+                return s_allowFriendsDenyChoices;
             }
         }
     }

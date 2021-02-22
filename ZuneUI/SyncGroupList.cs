@@ -34,7 +34,7 @@ namespace ZuneUI
         private SchemaSyncGroup _application;
         private SchemaSyncGroup _audiobook;
         private SchemaSyncGroup _guest;
-        private System.Collections.Generic.List<SchemaSyncGroup> _schemas;
+        private List<SchemaSyncGroup> _schemas;
 
         public SyncGroupList(
           IModelItemOwner parent,
@@ -48,40 +48,40 @@ namespace ZuneUI
             this._inOverfill = inOverfill;
             this._inManagement = parent is DeviceManagement;
             this._commitDelegate = new ProxySettingDelegate(this.CommitChanges);
-            this._gauge = this._snapshot == null ? new UIGasGauge((IModelItemOwner)this, (MicrosoftZuneLibrary.GasGauge)null) : new UIGasGauge((IModelItemOwner)this, this._snapshot.PredictedGasGauge);
-            this._existingRulesList = new Dictionary<SyncRuleDetails, SyncGroup>((IEqualityComparer<SyncRuleDetails>)new SyncGroupList.SyncRuleDetailsHasher());
+            this._gauge = this._snapshot == null ? new UIGasGauge(this, null) : new UIGasGauge(this, this._snapshot.PredictedGasGauge);
+            this._existingRulesList = new Dictionary<SyncRuleDetails, SyncGroup>(new SyncRuleDetailsHasher());
             this._complexRulesList = new Dictionary<int, SyncGroup>();
-            this._schemas = new System.Collections.Generic.List<SchemaSyncGroup>(8);
-            this._music = (SchemaSyncGroup)new DetailsBackedSchemaSyncGroup(this, this._snapshot, SyncCategory.Music, this._inOverfill);
+            this._schemas = new List<SchemaSyncGroup>(8);
+            this._music = new DetailsBackedSchemaSyncGroup(this, this._snapshot, SyncCategory.Music, this._inOverfill);
             this._schemas.Add(this._music);
-            this._video = (SchemaSyncGroup)new DetailsBackedSchemaSyncGroup(this, this._snapshot, SyncCategory.Video, this._inOverfill);
+            this._video = new DetailsBackedSchemaSyncGroup(this, this._snapshot, SyncCategory.Video, this._inOverfill);
             this._schemas.Add(this._video);
-            this._photo = (SchemaSyncGroup)new DetailsBackedSchemaSyncGroup(this, this._snapshot, SyncCategory.Photo, this._inOverfill);
+            this._photo = new DetailsBackedSchemaSyncGroup(this, this._snapshot, SyncCategory.Photo, this._inOverfill);
             this._schemas.Add(this._photo);
-            this._podcast = (SchemaSyncGroup)new DetailsBackedSchemaSyncGroup(this, this._snapshot, SyncCategory.Podcast, this._inOverfill);
+            this._podcast = new DetailsBackedSchemaSyncGroup(this, this._snapshot, SyncCategory.Podcast, this._inOverfill);
             this._schemas.Add(this._podcast);
             if (this.Device.UserId != 0)
             {
                 if (FeatureEnablement.IsFeatureEnabled(Features.eSocial) && device.SupportsUserCards)
                 {
-                    this._friend = (SchemaSyncGroup)new DetailsBackedSchemaSyncGroup(this, this._snapshot, SyncCategory.Friend, this._inOverfill);
+                    this._friend = new DetailsBackedSchemaSyncGroup(this, this._snapshot, SyncCategory.Friend, this._inOverfill);
                     this._schemas.Add(this._friend);
                 }
                 if (FeatureEnablement.IsFeatureEnabled(Features.eChannels) && device.SupportsChannels)
                 {
-                    this._channel = (SchemaSyncGroup)new DetailsBackedSchemaSyncGroup(this, this._snapshot, SyncCategory.Channel, this._inOverfill);
+                    this._channel = new DetailsBackedSchemaSyncGroup(this, this._snapshot, SyncCategory.Channel, this._inOverfill);
                     this._schemas.Add(this._channel);
                 }
             }
             if (FeatureEnablement.IsFeatureEnabled(Features.eGames) && this.Device.SupportsSyncApplications)
             {
-                this._application = (SchemaSyncGroup)new DetailsBackedSchemaSyncGroup(this, this._snapshot, SyncCategory.Application, this._inOverfill);
+                this._application = new DetailsBackedSchemaSyncGroup(this, this._snapshot, SyncCategory.Application, this._inOverfill);
                 this._schemas.Add(this._application);
             }
             if (this.InOverfill)
             {
-                this._guest = (SchemaSyncGroup)new GuestSchemaSyncGroup(this, this.GasGauge.GuestSpace);
-                this._audiobook = (SchemaSyncGroup)new DetailsBackedSchemaSyncGroup(this, this._snapshot, SyncCategory.Audiobook, this._inOverfill);
+                this._guest = new GuestSchemaSyncGroup(this, this.GasGauge.GuestSpace);
+                this._audiobook = new DetailsBackedSchemaSyncGroup(this, this._snapshot, SyncCategory.Audiobook, this._inOverfill);
                 this._schemas.Add(this._audiobook);
             }
             if (this._snapshot == null)
@@ -107,7 +107,7 @@ namespace ZuneUI
                 if (!this._committed)
                 {
                     if (this._inManagement)
-                        ZuneShell.DefaultInstance.Management.CommitList.Remove((object)this._commitDelegate);
+                        ZuneShell.DefaultInstance.Management.CommitList.Remove(_commitDelegate);
                     this.CancelChanges();
                 }
             }
@@ -118,7 +118,7 @@ namespace ZuneUI
 
         public bool InOverfill => this._inOverfill;
 
-        public System.Collections.Generic.List<SchemaSyncGroup> List
+        public List<SchemaSyncGroup> List
         {
             get => this._schemas;
             private set
@@ -155,22 +155,22 @@ namespace ZuneUI
                 case SyncCategory.Guest:
                     return this._guest;
                 default:
-                    return (SchemaSyncGroup)null;
+                    return null;
             }
         }
 
         public void AddNewComplexSyncGroup(int playlistID)
         {
             NewComplexSyncGroup complexSyncGroup = new NewComplexSyncGroup(this, playlistID);
-            this.AddSyncGroup((SyncGroup)complexSyncGroup);
+            this.AddSyncGroup(complexSyncGroup);
             if (this.GetGroupForSchema(complexSyncGroup.Type) is DetailsBackedSchemaSyncGroup groupForSchema)
                 groupForSchema.IsExpanded = true;
             if (!this._inManagement)
                 return;
-            ZuneShell.DefaultInstance.Management.CommitList[(object)this._commitDelegate] = (object)this._device.ID;
+            ZuneShell.DefaultInstance.Management.CommitList[_commitDelegate] = _device.ID;
         }
 
-        public void DeleteGroup(SyncGroup group) => this.DeleteGroups((IList)new SyncGroup[1]
+        public void DeleteGroup(SyncGroup group) => this.DeleteGroups(new SyncGroup[1]
         {
       group
         });
@@ -181,7 +181,7 @@ namespace ZuneUI
                 return;
             if (groupList.Count == 1)
             {
-                MessageBox.Show(Shell.LoadString(StringId.IDS_REMOVE_SYNC_GROUP_DIALOG_TITLE), string.Format(Shell.LoadString(StringId.IDS_REMOVE_SINGLE_SYNC_GROUP_DIALOG_TEXT), (object)((SyncGroup)groupList[0]).Title), (EventHandler)delegate
+                MessageBox.Show(Shell.LoadString(StringId.IDS_REMOVE_SYNC_GROUP_DIALOG_TITLE), string.Format(Shell.LoadString(StringId.IDS_REMOVE_SINGLE_SYNC_GROUP_DIALOG_TEXT), ((SyncGroup)groupList[0]).Title), delegate
              {
                  this.DeleteGroupsConfirmed(groupList);
              });
@@ -190,7 +190,7 @@ namespace ZuneUI
             {
                 if (groupList.Count <= 1)
                     return;
-                MessageBox.Show(Shell.LoadString(StringId.IDS_REMOVE_SYNC_GROUP_DIALOG_TITLE), Shell.LoadString(StringId.IDS_REMOVE_MULTIPLE_SYNC_GROUP_DIALOG_TEXT), (EventHandler)delegate
+                MessageBox.Show(Shell.LoadString(StringId.IDS_REMOVE_SYNC_GROUP_DIALOG_TITLE), Shell.LoadString(StringId.IDS_REMOVE_MULTIPLE_SYNC_GROUP_DIALOG_TEXT), delegate
                {
                    this.DeleteGroupsConfirmed(groupList);
                });
@@ -201,8 +201,8 @@ namespace ZuneUI
         {
             if (groupList == null)
                 return;
-            System.Collections.Generic.List<SyncCategory> syncCategoryList = new System.Collections.Generic.List<SyncCategory>();
-            foreach (object group in (IEnumerable)groupList)
+            List<SyncCategory> syncCategoryList = new List<SyncCategory>();
+            foreach (object group in groupList)
             {
                 if (group is SyncGroup syncGroup)
                 {
@@ -212,7 +212,7 @@ namespace ZuneUI
                 }
             }
             if (this._inManagement)
-                ZuneShell.DefaultInstance.Management.CommitList[(object)this._commitDelegate] = (object)this._device.ID;
+                ZuneShell.DefaultInstance.Management.CommitList[_commitDelegate] = _device.ID;
             foreach (SyncCategory schema in syncCategoryList)
             {
                 if (this.GetGroupForSchema(schema) is DetailsBackedSchemaSyncGroup groupForSchema)
@@ -231,7 +231,7 @@ namespace ZuneUI
             }
             if (!this._inManagement)
                 return;
-            ZuneShell.DefaultInstance.Management.CommitList[(object)this._commitDelegate] = (object)this._device.ID;
+            ZuneShell.DefaultInstance.Management.CommitList[_commitDelegate] = _device.ID;
         }
 
         public void CommitChanges(object throwaway)
@@ -249,7 +249,7 @@ namespace ZuneUI
                 schema.CancelChanges();
         }
 
-        private void ItemUpdated(SyncRulesView syncRulesView, int iItem) => Application.DeferredInvoke((DeferredInvokeHandler)delegate
+        private void ItemUpdated(SyncRulesView syncRulesView, int iItem) => Application.DeferredInvoke(delegate
        {
            if (this.IsDisposed)
                return;
@@ -261,14 +261,14 @@ namespace ZuneUI
            if (key.allMedia || !(this.GetGroupForSchema(existingRules.Type) is DetailsBackedSchemaSyncGroup groupForSchema))
                return;
            groupForSchema.Sort(false);
-       }, (object)null);
+       }, null);
 
-        private void ItemAdded(SyncRulesView syncRulesView, int iItem) => Application.DeferredInvoke((DeferredInvokeHandler)delegate
+        private void ItemAdded(SyncRulesView syncRulesView, int iItem) => Application.DeferredInvoke(delegate
        {
            if (this.IsDisposed || this._existingRulesList.ContainsKey(syncRulesView.GetItem(iItem)))
                return;
            this.AddExistingSyncGroup(iItem);
-       }, (object)null);
+       }, null);
 
         private void AddExistingSyncGroup(int indexInRulesSnapshot)
         {
@@ -279,7 +279,7 @@ namespace ZuneUI
             {
                 if (!(this.GetGroupForSchema((SyncCategory)key.syncCategory) is DetailsBackedSchemaSyncGroup groupForSchema))
                     return;
-                this._existingRulesList.Add(key, (SyncGroup)groupForSchema);
+                this._existingRulesList.Add(key, groupForSchema);
                 groupForSchema.AssignDetails(indexInRulesSnapshot);
             }
             else
@@ -289,8 +289,8 @@ namespace ZuneUI
                 if (!this.InOverfill && isExpandedEntry)
                     return;
                 ExistingSyncGroup existingSyncGroup = new ExistingSyncGroup(this, this._snapshot, indexInRulesSnapshot, isExpandedEntry);
-                this._existingRulesList.Add(key, (SyncGroup)existingSyncGroup);
-                this.AddSyncGroup((SyncGroup)existingSyncGroup);
+                this._existingRulesList.Add(key, existingSyncGroup);
+                this.AddSyncGroup(existingSyncGroup);
             }
         }
 

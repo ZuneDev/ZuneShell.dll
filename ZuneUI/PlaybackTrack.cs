@@ -88,14 +88,14 @@ namespace ZuneUI
         {
         }
 
-        public override string ToString() => string.Format("TRACK[{0}]: {1}", (object)this._playbackID, (object)this.Title);
+        public override string ToString() => string.Format("TRACK[{0}]: {1}", _playbackID, Title);
 
         private void AcquirePlaybackID()
         {
-            this._playbackID = ++PlaybackTrack.s_nextPlaybackID;
+            this._playbackID = ++s_nextPlaybackID;
             if (this._playbackID != 0)
                 return;
-            this._playbackID = ++PlaybackTrack.s_nextPlaybackID;
+            this._playbackID = ++s_nextPlaybackID;
         }
 
         [OnDeserialized]

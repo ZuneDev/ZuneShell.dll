@@ -16,7 +16,7 @@ namespace ZuneUI
         {
             if (this.PropertyChanged == null)
                 return;
-            this.PropertyChanged((object)this, (PropertyChangedEventArgs)new MetadataPropertyChangedEventArgs(propertyName, propogate));
+            this.PropertyChanged(this, new MetadataPropertyChangedEventArgs(propertyName, propogate));
         }
     }
 }

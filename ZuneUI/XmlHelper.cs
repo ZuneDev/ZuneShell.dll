@@ -31,7 +31,7 @@ namespace ZuneUI
         public static string Strip(string text)
         {
             if (text != null)
-                text = XmlHelper._xmlRegex.Replace(text, string.Empty);
+                text = _xmlRegex.Replace(text, string.Empty);
             return text;
         }
     }

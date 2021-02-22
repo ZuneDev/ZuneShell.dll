@@ -13,7 +13,7 @@ namespace ZuneUI
     public class MetadataEditMedia
     {
         public static PropertyDescriptor s_TrackArtist = new PropertyDescriptor("ArtistName", Shell.LoadString(StringId.IDS_EMI_MULTIPLEARTISTS), "");
-        public static PropertyDescriptor s_TrackArtistList = (PropertyDescriptor)new StringListPropertyDescriptor("ContributingArtistNames", Shell.LoadString(StringId.IDS_EMI_MULTIPLEARTISTS), "");
+        public static PropertyDescriptor s_TrackArtistList = new StringListPropertyDescriptor("ContributingArtistNames", Shell.LoadString(StringId.IDS_EMI_MULTIPLEARTISTS), "");
         public static NonBlankPropertyDescriptor s_Artist = new NonBlankPropertyDescriptor("ArtistName", Shell.LoadString(StringId.IDS_EMI_MULTIPLEARTISTS), "");
         public static PropertyDescriptor s_ArtistYomi = new PropertyDescriptor("ArtistNameYomi", "", "");
         public static NonBlankPropertyDescriptor s_Title = new NonBlankPropertyDescriptor("Title", Shell.LoadString(StringId.IDS_EMI_MULTIPLETITLES), "");
@@ -47,8 +47,8 @@ namespace ZuneUI
         protected void Initialize(IList mediaList, PropertyDescriptor[] properties)
         {
             this._mediaList = mediaList;
-            this._properties = (IList)properties;
-            foreach (PropertyDescriptor property in (IEnumerable)this._properties)
+            this._properties = properties;
+            foreach (PropertyDescriptor property in _properties)
                 this._propertyMap[property] = this.CreatePropertyFromMedia(this._mediaList, property);
         }
 
@@ -56,7 +56,7 @@ namespace ZuneUI
 
         public MetadataEditProperty GetProperty(string descriptorName)
         {
-            MetadataEditProperty metadataEditProperty1 = (MetadataEditProperty)null;
+            MetadataEditProperty metadataEditProperty1 = null;
             foreach (MetadataEditProperty metadataEditProperty2 in this._propertyMap.Values)
             {
                 if (metadataEditProperty2.Descriptor.DescriptorName.Equals(descriptorName, StringComparison.InvariantCultureIgnoreCase))
@@ -70,7 +70,7 @@ namespace ZuneUI
 
         public object GetPropertyData(PropertyDescriptor descriptor)
         {
-            object obj = (object)null;
+            object obj = null;
             MetadataEditProperty property = this.GetProperty(descriptor);
             if (property != null)
                 obj = property.ConvertToData();
@@ -95,7 +95,7 @@ namespace ZuneUI
 
         public virtual void Commit()
         {
-            foreach (PropertyDescriptor property1 in (IEnumerable)this._properties)
+            foreach (PropertyDescriptor property1 in _properties)
             {
                 MetadataEditProperty property2 = this._propertyMap[property1];
                 if (property2.Modified)
@@ -103,7 +103,7 @@ namespace ZuneUI
             }
             if (!this._source.NeedsCommit)
                 return;
-            foreach (object media in (IEnumerable)this._mediaList)
+            foreach (object media in _mediaList)
                 this._source.Commit(media);
         }
 
@@ -134,7 +134,7 @@ namespace ZuneUI
           PropertyDescriptor descriptor)
         {
             string str = descriptor.UnknownString;
-            foreach (object media in (IEnumerable)this._mediaList)
+            foreach (object media in _mediaList)
             {
                 object obj = this._source.Get(media, descriptor);
                 string newString = descriptor.ConvertToString(obj) ?? descriptor.UnknownString;
@@ -145,7 +145,7 @@ namespace ZuneUI
 
         private void SetPropertyToMedia(MetadataEditProperty property)
         {
-            foreach (object media in (IEnumerable)this._mediaList)
+            foreach (object media in _mediaList)
                 this._source.Set(media, property.Descriptor, property.Descriptor.ConvertFromString(property.Value, property.State));
         }
 
@@ -160,56 +160,56 @@ namespace ZuneUI
             return str;
         }
 
-        public static PropertyDescriptor TrackArtistDescriptor => MetadataEditMedia.s_TrackArtist;
+        public static PropertyDescriptor TrackArtistDescriptor => s_TrackArtist;
 
-        public static PropertyDescriptor TrackArtistListDescriptor => MetadataEditMedia.s_TrackArtistList;
+        public static PropertyDescriptor TrackArtistListDescriptor => s_TrackArtistList;
 
-        public static PropertyDescriptor ArtistDescriptor => (PropertyDescriptor)MetadataEditMedia.s_Artist;
+        public static PropertyDescriptor ArtistDescriptor => s_Artist;
 
-        public static PropertyDescriptor ArtistYomiDescriptor => MetadataEditMedia.s_ArtistYomi;
+        public static PropertyDescriptor ArtistYomiDescriptor => s_ArtistYomi;
 
-        public static PropertyDescriptor TitleDescriptor => (PropertyDescriptor)MetadataEditMedia.s_Title;
+        public static PropertyDescriptor TitleDescriptor => s_Title;
 
-        public static PropertyDescriptor TitleYomiDescriptor => MetadataEditMedia.s_TitleYomi;
+        public static PropertyDescriptor TitleYomiDescriptor => s_TitleYomi;
 
-        public static PropertyDescriptor ReleaseYearDescriptor => (PropertyDescriptor)MetadataEditMedia.s_ReleaseYear;
+        public static PropertyDescriptor ReleaseYearDescriptor => s_ReleaseYear;
 
-        public static PropertyDescriptor TrackReleaseYearDescriptor => (PropertyDescriptor)MetadataEditMedia.s_TrackReleaseYear;
+        public static PropertyDescriptor TrackReleaseYearDescriptor => s_TrackReleaseYear;
 
-        public static PropertyDescriptor DiscNumberDescriptor => (PropertyDescriptor)MetadataEditMedia.s_DiscNumber;
+        public static PropertyDescriptor DiscNumberDescriptor => s_DiscNumber;
 
-        public static PropertyDescriptor TrackNumberDescriptor => (PropertyDescriptor)MetadataEditMedia.s_TrackNumber;
+        public static PropertyDescriptor TrackNumberDescriptor => s_TrackNumber;
 
-        public static PropertyDescriptor SeriesTitleDescriptor => MetadataEditMedia.s_SeriesTitle;
+        public static PropertyDescriptor SeriesTitleDescriptor => s_SeriesTitle;
 
-        public static PropertyDescriptor SeasonNumberDescriptor => (PropertyDescriptor)MetadataEditMedia.s_SeasonNumber;
+        public static PropertyDescriptor SeasonNumberDescriptor => s_SeasonNumber;
 
-        public static PropertyDescriptor EpisodeNumberDescriptor => (PropertyDescriptor)MetadataEditMedia.s_EpisodeNumber;
+        public static PropertyDescriptor EpisodeNumberDescriptor => s_EpisodeNumber;
 
-        public static PropertyDescriptor AlbumTitleDescriptor => (PropertyDescriptor)MetadataEditMedia.s_AlbumTitle;
+        public static PropertyDescriptor AlbumTitleDescriptor => s_AlbumTitle;
 
-        public static PropertyDescriptor AlbumTitleYomiDescriptor => MetadataEditMedia.s_AlbumTitleYomi;
+        public static PropertyDescriptor AlbumTitleYomiDescriptor => s_AlbumTitleYomi;
 
-        public static PropertyDescriptor AlbumArtistDescriptor => (PropertyDescriptor)MetadataEditMedia.s_AlbumArtist;
+        public static PropertyDescriptor AlbumArtistDescriptor => s_AlbumArtist;
 
-        public static PropertyDescriptor AlbumArtistYomiDescriptor => MetadataEditMedia.s_AlbumArtistYomi;
+        public static PropertyDescriptor AlbumArtistYomiDescriptor => s_AlbumArtistYomi;
 
-        public static PropertyDescriptor ComposerDescriptor => MetadataEditMedia.s_Composer;
+        public static PropertyDescriptor ComposerDescriptor => s_Composer;
 
-        public static PropertyDescriptor ConductorDescriptor => MetadataEditMedia.s_Conductor;
+        public static PropertyDescriptor ConductorDescriptor => s_Conductor;
 
-        public static PropertyDescriptor GenreDescriptor => MetadataEditMedia.s_Genre;
+        public static PropertyDescriptor GenreDescriptor => s_Genre;
 
-        public static PropertyDescriptor CategoryDescriptor => (PropertyDescriptor)MetadataEditMedia.s_Category;
+        public static PropertyDescriptor CategoryDescriptor => s_Category;
 
-        public static PropertyDescriptor ReleaseDateDescriptor => (PropertyDescriptor)MetadataEditMedia.s_ReleaseDate;
+        public static PropertyDescriptor ReleaseDateDescriptor => s_ReleaseDate;
 
-        public static PropertyDescriptor DescriptionDescriptor => MetadataEditMedia.s_Description;
+        public static PropertyDescriptor DescriptionDescriptor => s_Description;
 
-        public static PropertyDescriptor CoverUrlDescriptor => MetadataEditMedia.s_CoverUrl;
+        public static PropertyDescriptor CoverUrlDescriptor => s_CoverUrl;
 
-        public static PropertyDescriptor TrackCountDescriptor => (PropertyDescriptor)MetadataEditMedia.s_TrackCount;
+        public static PropertyDescriptor TrackCountDescriptor => s_TrackCount;
 
-        public static PropertyDescriptor MediaIdDescriptor => (PropertyDescriptor)MetadataEditMedia.s_MediaId;
+        public static PropertyDescriptor MediaIdDescriptor => s_MediaId;
     }
 }

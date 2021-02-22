@@ -15,12 +15,12 @@ namespace ZuneUI
           string multiValueString,
           string unknownString,
           bool required)
-          : base(name, multiValueString, unknownString, 1000, required, (object)CultureInfo.CurrentCulture.TwoLetterISOLanguageName)
+          : base(name, multiValueString, unknownString, 1000, required, CultureInfo.CurrentCulture.TwoLetterISOLanguageName)
         {
-            this.DefaultValue = (object)CultureHelper.GetDefaultLanguage();
+            this.DefaultValue = CultureHelper.GetDefaultLanguage();
         }
 
-        public override object ConvertFromString(string value) => (object)LanguageHelper.GetAbbreviation(value);
+        public override object ConvertFromString(string value) => LanguageHelper.GetAbbreviation(value);
 
         public override string ConvertToString(object value) => LanguageHelper.GetDisplayName(value as string);
     }

@@ -13,7 +13,7 @@ namespace ZuneXml
         internal static ZuneServiceQueryHelper ConstructTopListenersQueryHelper(
           ZuneServiceQuery query)
         {
-            return (ZuneServiceQueryHelper)new TopListenersQueryHelper(query);
+            return new TopListenersQueryHelper(query);
         }
 
         internal TopListenersQueryHelper(ZuneServiceQuery query)
@@ -23,7 +23,7 @@ namespace ZuneXml
         internal override string GetResourceUri()
         {
             string property = (string)this.Query.GetProperty("ArtistId");
-            return string.IsNullOrEmpty(property) ? (string)null : string.Format("{0}/music/artist/{1}/toplisteners", (object)Microsoft.Zune.Service.Service.GetEndPointUri(EServiceEndpointId.SEID_SocialApi), (object)property.ToLower());
+            return string.IsNullOrEmpty(property) ? null : string.Format("{0}/music/artist/{1}/toplisteners", Service.GetEndPointUri(EServiceEndpointId.SEID_SocialApi), property.ToLower());
         }
     }
 }

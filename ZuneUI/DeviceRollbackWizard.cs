@@ -12,9 +12,9 @@ namespace ZuneUI
 
         public DeviceRollbackWizard()
         {
-            this.AddPage((WizardPage)new DeviceRollbackProgressPage(this));
-            this.AddPage((WizardPage)new DeviceRollbackSummaryPage(this));
-            this.AddPage((WizardPage)new DeviceRollbackErrorPage(this));
+            this.AddPage(new DeviceRollbackProgressPage(this));
+            this.AddPage(new DeviceRollbackSummaryPage(this));
+            this.AddPage(new DeviceRollbackErrorPage(this));
         }
 
         public UIFirmwareUpdater UIFirmwareUpdater

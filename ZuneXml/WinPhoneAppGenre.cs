@@ -14,7 +14,7 @@ namespace ZuneXml
           DataProviderQuery owner,
           object objectTypeCookie)
         {
-            return (XmlDataProviderObject)new WinPhoneAppGenre(owner, objectTypeCookie);
+            return new WinPhoneAppGenre(owner, objectTypeCookie);
         }
 
         internal WinPhoneAppGenre(DataProviderQuery owner, object resultTypeCookie)

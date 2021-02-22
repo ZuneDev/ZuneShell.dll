@@ -39,7 +39,7 @@ namespace ZuneUI
             string previousText = Shell.LoadString(StringId.IDS_PREVIOUS);
             string nextText = Shell.LoadString(StringId.IDS_NEXT);
             IntPtr windowHandle = Application.Window.Handle;
-            ThreadPool.QueueUserWorkItem((WaitCallback)delegate
+            ThreadPool.QueueUserWorkItem(delegate
            {
                Win7ShellManager.Instance.BeginThumbBarSession(windowHandle, out this._thumbBar);
                Win7ShellManager.Instance.OnThumbBarButtonPress += new ThumbBarButtonPressHandler(this.OnThumbButtonPressed);
@@ -57,12 +57,12 @@ namespace ZuneUI
                this._next.Tooltip = nextText;
                this._thumbBar.CreateButton(out this._rating);
                this._rating.UniqueID = 3U;
-               Application.DeferredInvoke((DeferredInvokeHandler)delegate
+               Application.DeferredInvoke(delegate
          {
-                 this._thumbBarInitializationComplete = true;
-                 this.UpdateButtonStatus();
-             }, (object)null);
-           }, (object)null);
+             this._thumbBarInitializationComplete = true;
+             this.UpdateButtonStatus();
+         }, null);
+           }, null);
         }
 
         private bool IsCurrentTrackRatable()
@@ -87,7 +87,7 @@ namespace ZuneUI
             this.UpdateButtonStatus();
         }
 
-        private void OnThumbButtonPressed(uint uniqueID) => Application.DeferredInvoke((DeferredInvokeHandler)delegate
+        private void OnThumbButtonPressed(uint uniqueID) => Application.DeferredInvoke(delegate
        {
            TransportControls instance = SingletonModelItem<TransportControls>.Instance;
            switch (uniqueID)
@@ -115,14 +115,14 @@ namespace ZuneUI
                    this.UpdateButtonStatus();
                    break;
            }
-       }, (object)null);
+       }, null);
 
         private void UpdateButtonStatus()
         {
             if (!this._thumbBarInitializationComplete)
                 return;
             TransportControls instance = SingletonModelItem<TransportControls>.Instance;
-            ThumbBarButtons.UpdateThumbBarJob updateThumbBarJob = new ThumbBarButtons.UpdateThumbBarJob();
+            UpdateThumbBarJob updateThumbBarJob = new UpdateThumbBarJob();
             updateThumbBarJob.Cookie = Interlocked.Increment(ref this._lastUpdateJobCookie);
             updateThumbBarJob.IsPlaying = instance.Playing;
             updateThumbBarJob.CanPlay = instance.Play.Available;
@@ -132,12 +132,12 @@ namespace ZuneUI
             updateThumbBarJob.IsCurrentTrackRatable = this.IsCurrentTrackRatable();
             if (instance.CurrentTrack != null)
                 updateThumbBarJob.CurrentTrackRating = instance.CurrentTrack.UserRating;
-            ThreadPool.QueueUserWorkItem(new WaitCallback(this.UpdateButtonStatusWorker), (object)updateThumbBarJob);
+            ThreadPool.QueueUserWorkItem(new WaitCallback(this.UpdateButtonStatusWorker), updateThumbBarJob);
         }
 
         private void UpdateButtonStatusWorker(object data)
         {
-            if (!(data is ThumbBarButtons.UpdateThumbBarJob updateThumbBarJob))
+            if (!(data is UpdateThumbBarJob updateThumbBarJob))
                 return;
             lock (this._updateJobLock)
             {
@@ -146,13 +146,13 @@ namespace ZuneUI
                 if (updateThumbBarJob.IsPlaying)
                 {
                     this._playPause.IsEnabled = updateThumbBarJob.CanPause;
-                    this._playPause.Tooltip = ThumbBarButtons.s_pauseTooltip;
+                    this._playPause.Tooltip = s_pauseTooltip;
                     this._playPause.Icon = ThumbBarButtonIcons.eThumbBarButtonIconPause;
                 }
                 else
                 {
                     this._playPause.IsEnabled = updateThumbBarJob.CanPlay;
-                    this._playPause.Tooltip = ThumbBarButtons.s_playTooltip;
+                    this._playPause.Tooltip = s_playTooltip;
                     this._playPause.Icon = updateThumbBarJob.CanPlay ? ThumbBarButtonIcons.eThumbBarButtonIconPlay : ThumbBarButtonIcons.eThumbBarButtonIconPlayDisabled;
                 }
                 this._previous.IsEnabled = updateThumbBarJob.CanGoBack;
@@ -168,17 +168,17 @@ namespace ZuneUI
                     this._rating.IsHidden = false;
                     if (updateThumbBarJob.CurrentTrackRating == 0)
                     {
-                        this._rating.Tooltip = ThumbBarButtons.s_unratedTooltip;
+                        this._rating.Tooltip = s_unratedTooltip;
                         this._rating.Icon = ThumbBarButtonIcons.eThumbBarButtonIconUnrated;
                     }
                     else if (updateThumbBarJob.CurrentTrackRating <= 5)
                     {
-                        this._rating.Tooltip = ThumbBarButtons.s_hateItTooltip;
+                        this._rating.Tooltip = s_hateItTooltip;
                         this._rating.Icon = ThumbBarButtonIcons.eThumbBarButtonIconHateIt;
                     }
                     else
                     {
-                        this._rating.Tooltip = ThumbBarButtons.s_loveItTooltip;
+                        this._rating.Tooltip = s_loveItTooltip;
                         this._rating.Icon = ThumbBarButtonIcons.eThumbBarButtonIconLoveIt;
                     }
                 }

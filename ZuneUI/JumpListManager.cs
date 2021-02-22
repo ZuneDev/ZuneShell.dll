@@ -37,16 +37,16 @@ namespace ZuneUI
         private static object _updateJobLock = new object();
 
         public JumpListManager()
-          : base((IModelItemOwner)SingletonModelItem<TransportControls>.Instance)
+          : base(SingletonModelItem<TransportControls>.Instance)
         {
-            this._updatePins = new Command((IModelItemOwner)this);
+            this._updatePins = new Command(this);
             this._pinListsHaveBeenSetAtLeastOnce = false;
             this._finalCommitHasBeenCompleted = false;
             this._showResumeNowPlaying = false;
-            this._resumeNowPlayingName = ZuneUI.Shell.LoadString(StringId.IDS_JUMP_LIST_RESUME_NOWPLAYING);
-            this._shuffleAllName = ZuneUI.Shell.LoadString(StringId.IDS_JUMP_LIST_SHUFFLE_ALL);
-            this._pinCategoryName = ZuneUI.Shell.LoadString(StringId.IDS_JUMP_LIST_QUICKPLAY_CATEGORY);
-            this._quickMixCategoryName = ZuneUI.Shell.LoadString(StringId.IDS_JUMP_LIST_QUICKMIX_CATEGORY);
+            this._resumeNowPlayingName = Shell.LoadString(StringId.IDS_JUMP_LIST_RESUME_NOWPLAYING);
+            this._shuffleAllName = Shell.LoadString(StringId.IDS_JUMP_LIST_SHUFFLE_ALL);
+            this._pinCategoryName = Shell.LoadString(StringId.IDS_JUMP_LIST_QUICKPLAY_CATEGORY);
+            this._quickMixCategoryName = Shell.LoadString(StringId.IDS_JUMP_LIST_QUICKMIX_CATEGORY);
             SingletonModelItem<TransportControls>.Instance.PropertyChanged += new PropertyChangedEventHandler(this.OnTransportControlsPropertyChanged);
             ZuneApplication.Closing += new EventHandler(this.OnApplicationClosing);
         }
@@ -113,8 +113,8 @@ namespace ZuneUI
         {
             if (!OSVersion.IsWin7() || !this._pinListsHaveBeenSetAtLeastOnce || this._finalCommitHasBeenCompleted)
                 return;
-            JumpListManager.UpdateJumpListJob updateJumpListJob = new JumpListManager.UpdateJumpListJob();
-            updateJumpListJob.Cookie = Interlocked.Increment(ref JumpListManager._lastUpdateJobCookie);
+            UpdateJumpListJob updateJumpListJob = new UpdateJumpListJob();
+            updateJumpListJob.Cookie = Interlocked.Increment(ref _lastUpdateJobCookie);
             updateJumpListJob.ShowResumeNowPlaying = this._showResumeNowPlaying;
             updateJumpListJob.ResumeNowPlayingName = this._resumeNowPlayingName;
             updateJumpListJob.ShuffleAllName = this._shuffleAllName;
@@ -126,25 +126,25 @@ namespace ZuneUI
             updateJumpListJob.QuickMixList = new JumpListPin[this._quickMixList.Count];
             for (int index = 0; index < this._quickMixList.Count; ++index)
                 updateJumpListJob.QuickMixList[index] = new JumpListPin((JumpListPin)this._quickMixList[index]);
-            ThreadPool.QueueUserWorkItem(new WaitCallback(JumpListManager.UpdateJumpListWorker), (object)updateJumpListJob);
+            ThreadPool.QueueUserWorkItem(new WaitCallback(UpdateJumpListWorker), updateJumpListJob);
         }
 
         private static void UpdateJumpListWorker(object data)
         {
-            if (!(data is JumpListManager.UpdateJumpListJob updateJumpListJob))
+            if (!(data is UpdateJumpListJob updateJumpListJob))
                 return;
-            lock (JumpListManager._updateJobLock)
+            lock (_updateJobLock)
             {
-                if (JumpListManager._lastUpdateJobCookie != updateJumpListJob.Cookie)
+                if (_lastUpdateJobCookie != updateJumpListJob.Cookie)
                     return;
-                List<JumpListEntry> disallowedDestinationList = (List<JumpListEntry>)null;
+                List<JumpListEntry> disallowedDestinationList = null;
                 JumpListSession session;
-                HRESULT hresult = (HRESULT)Win7ShellManager.Instance.BeginJumpListSession(out session);
+                HRESULT hresult = Win7ShellManager.Instance.BeginJumpListSession(out session);
                 if (hresult.IsSuccess)
-                    hresult = (HRESULT)session.GetDisallowedDestinations(out disallowedDestinationList);
+                    hresult = session.GetDisallowedDestinations(out disallowedDestinationList);
                 if (hresult.IsSuccess)
                 {
-                    List<string> disallowedCommandLineArguments = disallowedDestinationList.ConvertAll<string>((Converter<JumpListEntry, string>)(rawEntry => rawEntry.CommandLineArguments));
+                    List<string> disallowedCommandLineArguments = disallowedDestinationList.ConvertAll(rawEntry => rawEntry.CommandLineArguments);
                     JumpListEntry task;
                     if (updateJumpListJob.ShowResumeNowPlaying)
                     {
@@ -163,14 +163,14 @@ namespace ZuneUI
                         session.CreateCategory(out category);
                         category.Name = updateJumpListJob.PinCategoryName;
                         for (int index = 0; index < 6 && index < updateJumpListJob.PinList.Length; ++index)
-                            JumpListManager.PopulateJumpListIfPossible(category, updateJumpListJob.PinList[index], -12, disallowedCommandLineArguments);
+                            PopulateJumpListIfPossible(category, updateJumpListJob.PinList[index], -12, disallowedCommandLineArguments);
                     }
                     if (updateJumpListJob.QuickMixList != null && updateJumpListJob.QuickMixList.Length > 0)
                     {
                         session.CreateCategory(out category);
                         category.Name = updateJumpListJob.QuickMixCategoryName;
                         for (int index = 0; index < 5 && index < updateJumpListJob.QuickMixList.Length; ++index)
-                            JumpListManager.PopulateJumpListIfPossible(category, updateJumpListJob.QuickMixList[index], -13, disallowedCommandLineArguments);
+                            PopulateJumpListIfPossible(category, updateJumpListJob.QuickMixList[index], -13, disallowedCommandLineArguments);
                     }
                     session.Commit();
                 }
@@ -185,7 +185,7 @@ namespace ZuneUI
           int iconIndex,
           List<string> disallowedCommandLineArguments)
         {
-            string str = string.Format("/playpin:{0}", (object)pin.ToString());
+            string str = string.Format("/playpin:{0}", pin.ToString());
             if (disallowedCommandLineArguments.Contains(str))
                 return;
             JumpListEntry destination;

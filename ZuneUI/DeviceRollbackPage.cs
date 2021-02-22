@@ -9,7 +9,7 @@ namespace ZuneUI
     public abstract class DeviceRollbackPage : WizardPage
     {
         protected DeviceRollbackPage(DeviceRollbackWizard wizard)
-          : base((ZuneUI.Wizard)wizard)
+          : base(wizard)
         {
         }
 

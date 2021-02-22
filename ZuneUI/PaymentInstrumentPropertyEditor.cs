@@ -30,60 +30,60 @@ namespace ZuneUI
         {
             get
             {
-                if (PaymentInstrumentPropertyEditor.s_dataProviderProperties == null)
-                    PaymentInstrumentPropertyEditor.s_dataProviderProperties = new PropertyDescriptor[16]
+                if (s_dataProviderProperties == null)
+                    s_dataProviderProperties = new PropertyDescriptor[16]
                     {
-            (PropertyDescriptor) PaymentInstrumentPropertyEditor.s_Street1,
-            (PropertyDescriptor) PaymentInstrumentPropertyEditor.s_Street2,
-            (PropertyDescriptor) PaymentInstrumentPropertyEditor.s_City,
-            (PropertyDescriptor) PaymentInstrumentPropertyEditor.s_District,
-            (PropertyDescriptor) PaymentInstrumentPropertyEditor.s_State,
-            (PropertyDescriptor) PaymentInstrumentPropertyEditor.s_PostalCode,
-            (PropertyDescriptor) PaymentInstrumentPropertyEditor.s_PhoneNumber,
-            (PropertyDescriptor) PaymentInstrumentPropertyEditor.s_PhoneExtension,
-            (PropertyDescriptor) PaymentInstrumentPropertyEditor.s_CardType,
-            (PropertyDescriptor) PaymentInstrumentPropertyEditor.s_AccountHolderName,
-            (PropertyDescriptor) PaymentInstrumentPropertyEditor.s_AccountNumber,
-            (PropertyDescriptor) PaymentInstrumentPropertyEditor.s_CcvNumber,
-            (PropertyDescriptor) PaymentInstrumentPropertyEditor.s_ExpirationDate,
-            (PropertyDescriptor) PaymentInstrumentPropertyEditor.s_Country,
-            (PropertyDescriptor) PaymentInstrumentPropertyEditor.s_Language,
-            (PropertyDescriptor) PaymentInstrumentPropertyEditor.s_Email
+             s_Street1,
+             s_Street2,
+             s_City,
+             s_District,
+             s_State,
+             s_PostalCode,
+             s_PhoneNumber,
+             s_PhoneExtension,
+             s_CardType,
+             s_AccountHolderName,
+             s_AccountNumber,
+             s_CcvNumber,
+             s_ExpirationDate,
+             s_Country,
+             s_Language,
+             s_Email
                     };
-                return PaymentInstrumentPropertyEditor.s_dataProviderProperties;
+                return s_dataProviderProperties;
             }
         }
 
-        public static PropertyDescriptor Street1 => (PropertyDescriptor)PaymentInstrumentPropertyEditor.s_Street1;
+        public static PropertyDescriptor Street1 => s_Street1;
 
-        public static PropertyDescriptor Street2 => (PropertyDescriptor)PaymentInstrumentPropertyEditor.s_Street2;
+        public static PropertyDescriptor Street2 => s_Street2;
 
-        public static PropertyDescriptor City => (PropertyDescriptor)PaymentInstrumentPropertyEditor.s_City;
+        public static PropertyDescriptor City => s_City;
 
-        public static PropertyDescriptor District => (PropertyDescriptor)PaymentInstrumentPropertyEditor.s_District;
+        public static PropertyDescriptor District => s_District;
 
-        public static PropertyDescriptor State => (PropertyDescriptor)PaymentInstrumentPropertyEditor.s_State;
+        public static PropertyDescriptor State => s_State;
 
-        public static PropertyDescriptor PostalCode => (PropertyDescriptor)PaymentInstrumentPropertyEditor.s_PostalCode;
+        public static PropertyDescriptor PostalCode => s_PostalCode;
 
-        public static PropertyDescriptor PhoneNumber => (PropertyDescriptor)PaymentInstrumentPropertyEditor.s_PhoneNumber;
+        public static PropertyDescriptor PhoneNumber => s_PhoneNumber;
 
-        public static PropertyDescriptor PhoneExtension => (PropertyDescriptor)PaymentInstrumentPropertyEditor.s_PhoneExtension;
+        public static PropertyDescriptor PhoneExtension => s_PhoneExtension;
 
-        public static PropertyDescriptor CardType => (PropertyDescriptor)PaymentInstrumentPropertyEditor.s_CardType;
+        public static PropertyDescriptor CardType => s_CardType;
 
-        public static PropertyDescriptor AccountHolderName => (PropertyDescriptor)PaymentInstrumentPropertyEditor.s_AccountHolderName;
+        public static PropertyDescriptor AccountHolderName => s_AccountHolderName;
 
-        public static PropertyDescriptor AccountNumber => (PropertyDescriptor)PaymentInstrumentPropertyEditor.s_AccountNumber;
+        public static PropertyDescriptor AccountNumber => s_AccountNumber;
 
-        public static PropertyDescriptor CcvNumber => (PropertyDescriptor)PaymentInstrumentPropertyEditor.s_CcvNumber;
+        public static PropertyDescriptor CcvNumber => s_CcvNumber;
 
-        public static PropertyDescriptor ExpirationDate => (PropertyDescriptor)PaymentInstrumentPropertyEditor.s_ExpirationDate;
+        public static PropertyDescriptor ExpirationDate => s_ExpirationDate;
 
-        public static PropertyDescriptor Country => (PropertyDescriptor)PaymentInstrumentPropertyEditor.s_Country;
+        public static PropertyDescriptor Country => s_Country;
 
-        public static PropertyDescriptor Language => (PropertyDescriptor)PaymentInstrumentPropertyEditor.s_Language;
+        public static PropertyDescriptor Language => s_Language;
 
-        public static PropertyDescriptor Email => (PropertyDescriptor)PaymentInstrumentPropertyEditor.s_Email;
+        public static PropertyDescriptor Email => s_Email;
     }
 }

@@ -21,7 +21,7 @@ namespace ZuneUI
             this._divider = "\\";
         }
 
-        public IDictionary Handlers => (IDictionary)this._handlers;
+        public IDictionary Handlers => _handlers;
 
         public string Divider
         {
@@ -34,7 +34,7 @@ namespace ZuneUI
             string prefix;
             string suffix;
             this.SplitCommand(command, out prefix, out suffix);
-            ICommandHandler commandHandler = (ICommandHandler)null;
+            ICommandHandler commandHandler = null;
             if (this._handlers.ContainsKey(prefix))
                 commandHandler = this._handlers[prefix];
             if (commandHandler == null)
@@ -48,7 +48,7 @@ namespace ZuneUI
             if (length < 0)
             {
                 prefix = command;
-                suffix = (string)null;
+                suffix = null;
             }
             else
             {

@@ -22,27 +22,27 @@ namespace ZuneXml
         private string _collectionName;
         private string _url;
 
-        public static DataProviderQuery ConstructQuery(object queryTypeCookie) => (DataProviderQuery)new InboxImageQuery(queryTypeCookie);
+        public static DataProviderQuery ConstructQuery(object queryTypeCookie) => new InboxImageQuery(queryTypeCookie);
 
         public InboxImageQuery(object queryTypeCookie)
           : base(queryTypeCookie)
-          => this.Result = (object)new InboxImageDataProviderObject((DataProviderQuery)this, this.ResultTypeCookie);
+          => this.Result = new InboxImageDataProviderObject(this, this.ResultTypeCookie);
 
         public override void SetProperty(string propertyName, object value)
         {
-            if (propertyName == InboxImageQuery.PropertyName_Title)
+            if (propertyName == PropertyName_Title)
             {
                 this._title = (string)value;
                 this.UpdateLibraryState();
             }
-            else if (propertyName == InboxImageQuery.PropertyName_CollectionName)
+            else if (propertyName == PropertyName_CollectionName)
             {
                 this._collectionName = (string)value;
                 this.UpdateLibraryState();
             }
             else
             {
-                if (!(propertyName == InboxImageQuery.PropertyName_URL))
+                if (!(propertyName == PropertyName_URL))
                     throw new ApplicationException("unexpected property name");
                 this._url = (string)value;
                 this.BeginExecute();
@@ -51,11 +51,11 @@ namespace ZuneXml
 
         public override object GetProperty(string propertyName)
         {
-            if (propertyName == InboxImageQuery.PropertyName_Title)
-                return (object)this._title;
-            if (propertyName == InboxImageQuery.PropertyName_CollectionName)
-                return (object)this._collectionName;
-            return propertyName == InboxImageQuery.PropertyName_URL ? (object)this._url : (object)null;
+            if (propertyName == PropertyName_Title)
+                return _title;
+            if (propertyName == PropertyName_CollectionName)
+                return _collectionName;
+            return propertyName == PropertyName_URL ? _url : null;
         }
 
         protected override void BeginExecute()
@@ -64,8 +64,8 @@ namespace ZuneXml
             if (string.IsNullOrEmpty(this._url) || !(this.Result is InboxImageDataProviderObject result))
                 return;
             this.SetWorkerStatus(DataProviderQueryStatus.RequestingData);
-            InboxImageQuery.RequestArgs requestArgs = new InboxImageQuery.RequestArgs(this._url, result, Environment.TickCount);
-            WebRequestHelper.ConstructWebRequest(this._url, EPassportPolicyId.MBI_SSL, HttpRequestCachePolicy.Default, true, false).GetResponseAsync(new AsyncRequestComplete(this.OnRequestComplete), (object)requestArgs);
+            RequestArgs requestArgs = new RequestArgs(this._url, result, Environment.TickCount);
+            WebRequestHelper.ConstructWebRequest(this._url, EPassportPolicyId.MBI_SSL, HttpRequestCachePolicy.Default, true, false).GetResponseAsync(new AsyncRequestComplete(this.OnRequestComplete), requestArgs);
         }
 
         protected override void OnDispose()
@@ -92,7 +92,7 @@ namespace ZuneXml
                 return;
             try
             {
-                System.IO.File.Delete(imagePath);
+                File.Delete(imagePath);
             }
             catch (Exception ex)
             {
@@ -101,12 +101,12 @@ namespace ZuneXml
 
         private void OnRequestComplete(Microsoft.Zune.Service.HttpWebResponse response, object requestArgs)
         {
-            InboxImageQuery.RequestArgs requestArgs1 = (InboxImageQuery.RequestArgs)requestArgs;
+            RequestArgs requestArgs1 = (RequestArgs)requestArgs;
             string requestUri = requestArgs1.m_requestUri;
             InboxImageDataProviderObject result = requestArgs1.m_result;
             int tcStart = requestArgs1.m_tcStart;
-            Stream stream = (Stream)null;
-            FileStream fileStream = (FileStream)null;
+            Stream stream = null;
+            FileStream fileStream = null;
             try
             {
                 stream = response.StatusCode == HttpStatusCode.OK ? response.GetResponseStream() : throw new HttpWebException(response);
@@ -121,7 +121,7 @@ namespace ZuneXml
                     fileStream.Write(buffer, 0, count);
                 fileStream.Close();
                 result.ImagePath = tempFileName;
-                Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredSetResult), (object)new InboxImageQuery.DeferredSetResultArgs(result));
+                Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredSetResult), new DeferredSetResultArgs(result));
                 this.SetWorkerStatus(DataProviderQueryStatus.Complete);
                 int tickCount2 = Environment.TickCount;
             }
@@ -136,23 +136,23 @@ namespace ZuneXml
             }
         }
 
-        private void SetWorkerStatus(DataProviderQueryStatus eStatus) => Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredSetStatus), (object)new InboxImageQuery.DeferredSetStatusArgs(eStatus));
+        private void SetWorkerStatus(DataProviderQueryStatus eStatus) => Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredSetStatus), new DeferredSetStatusArgs(eStatus));
 
         private void DeferredSetStatus(object args)
         {
-            if (!(args is InboxImageQuery.DeferredSetStatusArgs deferredSetStatusArgs))
+            if (!(args is DeferredSetStatusArgs deferredSetStatusArgs))
                 return;
             this.Status = deferredSetStatusArgs.m_eStatus;
         }
 
         private void DeferredSetResult(object argsObj)
         {
-            if (!(argsObj is InboxImageQuery.DeferredSetResultArgs deferredSetResultArgs))
+            if (!(argsObj is DeferredSetResultArgs deferredSetResultArgs))
                 return;
             deferredSetResultArgs.m_result.TransferToAppThread();
             if (this.Result == deferredSetResultArgs.m_result)
                 return;
-            this.Result = (object)deferredSetResultArgs.m_result;
+            this.Result = deferredSetResultArgs.m_result;
         }
 
         private class RequestArgs

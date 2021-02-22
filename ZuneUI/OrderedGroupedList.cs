@@ -12,7 +12,7 @@ namespace ZuneUI
     public class OrderedGroupedList : SearchableGroupedList
     {
         public OrderedGroupedList(IList source, IComparer comparer, int count)
-          : base((IList)null, comparer, count)
+          : base(null, comparer, count)
           => this.Reorder(source, count);
 
         protected override void OnDispose(bool disposing)
@@ -24,11 +24,11 @@ namespace ZuneUI
 
         public void Reorder(IList source, int count)
         {
-            ArrayListDataSet arrayListDataSet = (ArrayListDataSet)null;
+            ArrayListDataSet arrayListDataSet = null;
             if (source != null)
             {
                 arrayListDataSet = new ArrayListDataSet();
-                arrayListDataSet.CopyFrom((IEnumerable)source);
+                arrayListDataSet.CopyFrom(source);
                 int newIndex;
                 for (int itemIndex = 0; itemIndex < arrayListDataSet.Count; itemIndex = newIndex + 1)
                 {
@@ -46,7 +46,7 @@ namespace ZuneUI
             }
             if (this.Source is ArrayListDataSet)
                 ((ModelItem)this.Source).Dispose();
-            this.SetSource((IList)arrayListDataSet, count);
+            this.SetSource(arrayListDataSet, count);
         }
     }
 }

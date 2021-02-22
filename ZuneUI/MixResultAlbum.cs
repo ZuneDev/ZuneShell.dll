@@ -24,14 +24,14 @@ namespace ZuneUI
             Album album = (Album)dataProviderObject;
             MiniArtist primaryArtist = album.PrimaryArtist;
             string secondaryText = primaryArtist != null ? primaryArtist.Title : string.Empty;
-            mixResultAlbum.Initialize(MixResultType.Album, reason, album.Title ?? string.Empty, secondaryText, album.Id.ToString(), string.Empty, album.ImageId, (DataProviderObject)null);
+            mixResultAlbum.Initialize(MixResultType.Album, reason, album.Title ?? string.Empty, secondaryText, album.Id.ToString(), string.Empty, album.ImageId, null);
             return mixResultAlbum;
         }
 
         public static MixResultAlbum CreateInstance(LibraryAlbumInfo libraryAlbumInfo)
         {
             MixResultAlbum mixResultAlbum = new MixResultAlbum();
-            mixResultAlbum.Initialize(MixResultType.Album, string.Empty, libraryAlbumInfo.AlbumTitle, libraryAlbumInfo.ArtistName, libraryAlbumInfo.ZuneMediaId.ToString(), libraryAlbumInfo.AlbumArtUrl, Guid.Empty, (DataProviderObject)null);
+            mixResultAlbum.Initialize(MixResultType.Album, string.Empty, libraryAlbumInfo.AlbumTitle, libraryAlbumInfo.ArtistName, libraryAlbumInfo.ZuneMediaId.ToString(), libraryAlbumInfo.AlbumArtUrl, Guid.Empty, null);
             return mixResultAlbum;
         }
 
@@ -40,13 +40,13 @@ namespace ZuneUI
             int num = startPriority;
             Album album = (Album)item;
             if (!album.Actionable)
-                num += MixResultAlbum.NonActionablePriorityBump;
+                num += NonActionablePriorityBump;
             if ((album.Title ?? string.Empty).ToLowerInvariant().Contains("karaoke"))
-                num += MixResultAlbum.KaraokePriorityBump;
+                num += KaraokePriorityBump;
             return num;
         }
 
-        internal override bool IsDuplicate(MixResult compareTo) => base.IsDuplicate(compareTo) || string.Compare(this.SecondaryText, compareTo.SecondaryText, StringComparison.InvariantCultureIgnoreCase) == 0 && string.Compare(MixResultAlbum.GetComparableAlbumName(this.PrimaryText), MixResultAlbum.GetComparableAlbumName(compareTo.PrimaryText), StringComparison.InvariantCultureIgnoreCase) == 0;
+        internal override bool IsDuplicate(MixResult compareTo) => base.IsDuplicate(compareTo) || string.Compare(this.SecondaryText, compareTo.SecondaryText, StringComparison.InvariantCultureIgnoreCase) == 0 && string.Compare(GetComparableAlbumName(this.PrimaryText), GetComparableAlbumName(compareTo.PrimaryText), StringComparison.InvariantCultureIgnoreCase) == 0;
 
         public static string GetComparableAlbumName(string albumName)
         {

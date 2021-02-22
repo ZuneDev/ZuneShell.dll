@@ -16,7 +16,7 @@ namespace ZuneUI
         {
             if (this._page.ShowDeviceContents)
                 Shell.MainFrame.ShowDevice(true);
-            return (IPage)this._page;
+            return _page;
         }
 
         public void Release() => this._page.Release();

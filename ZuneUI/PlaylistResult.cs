@@ -22,9 +22,9 @@ namespace ZuneUI
             else
             {
                 this._playlistId = PlaylistManager.InvalidPlaylistId;
-                if ((HRESULT)hr.Int == HRESULT._DB_E_RESOURCEEXISTS)
+                if (hr.Int == HRESULT._DB_E_RESOURCEEXISTS)
                     this._error = PlaylistError.NameExists;
-                else if ((HRESULT)hr.Int == HRESULT._DB_E_BADPARAMETERNAME)
+                else if (hr.Int == HRESULT._DB_E_BADPARAMETERNAME)
                     this._error = PlaylistError.InvalidName;
                 else
                     this._error = PlaylistError.Other;

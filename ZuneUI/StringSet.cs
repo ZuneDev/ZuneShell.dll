@@ -13,7 +13,7 @@ namespace ZuneUI
     {
         private SortedDictionary<string, object> _set = new SortedDictionary<string, object>();
 
-        public void Add(string s) => this._set[s] = (object)null;
+        public void Add(string s) => this._set[s] = null;
 
         public void Clear() => this._set.Clear();
 
@@ -22,7 +22,7 @@ namespace ZuneUI
             List<string> stringList = new List<string>(this._set.Count);
             foreach (KeyValuePair<string, object> keyValuePair in this._set)
                 stringList.Add(keyValuePair.Key);
-            return (IList)stringList;
+            return stringList;
         }
     }
 }

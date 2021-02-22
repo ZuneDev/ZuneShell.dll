@@ -54,21 +54,21 @@ namespace ZuneUI
         public PhotoLibraryPage(bool showDevice)
           : base(showDevice, MediaType.Photo)
         {
-            this.UI = PhotoLibraryPage.LibraryTemplate;
+            this.UI = LibraryTemplate;
             this.UIPath = "Collection\\Photos";
             if (showDevice)
             {
-                this.PivotPreference = ZuneUI.Shell.MainFrame.Device.Photos;
-                Deviceland.InitDevicePage((ZunePage)this);
+                this.PivotPreference = Shell.MainFrame.Device.Photos;
+                Deviceland.InitDevicePage(this);
             }
             else
-                this.PivotPreference = ZuneUI.Shell.MainFrame.Collection.Photos;
+                this.PivotPreference = Shell.MainFrame.Collection.Photos;
             this.IsRootPage = true;
             this._photosPanel = new PhotosPanel(this);
             this._photoFolderPanel = new PhotoFolderPanel(this);
             this.ShowPlaylistIcon = false;
             this.TransportControlStyle = TransportControlStyle.Photo;
-            this._slideShowState = new SlideShowState((IModelItemOwner)this);
+            this._slideShowState = new SlideShowState(this);
             this._expandedFolderIds = new Dictionary<int, bool>();
             this._refreshFolderIds = new Dictionary<int, bool>();
             this._refreshPictures = new Command();
@@ -102,7 +102,7 @@ namespace ZuneUI
             this.FirePropertyChanged("ScrollingToFolder");
             if (this.ScrollingToFolder == null)
                 return;
-            this.ScrollingToFolder((object)this, new EventArgs());
+            this.ScrollingToFolder(this, new EventArgs());
         }
 
         public void ExpandFolder(int id)
@@ -113,7 +113,7 @@ namespace ZuneUI
             this.FirePropertyChanged("ExpandedFolders");
             if (this.ExpandedFolders == null)
                 return;
-            this.ExpandedFolders((object)this, new EventArgs());
+            this.ExpandedFolders(this, new EventArgs());
         }
 
         public void CollapseFolder(int id)
@@ -124,7 +124,7 @@ namespace ZuneUI
             this.FirePropertyChanged("ExpandedFolders");
             if (this.ExpandedFolders == null)
                 return;
-            this.ExpandedFolders((object)this, new EventArgs());
+            this.ExpandedFolders(this, new EventArgs());
         }
 
         public bool FolderIsExpanded(int id) => this._expandedFolderIds.ContainsKey(id);
@@ -145,7 +145,7 @@ namespace ZuneUI
             this.FirePropertyChanged("RefreshingFolders");
             if (this.RefreshingFolders == null)
                 return;
-            this.RefreshingFolders((object)this, new EventArgs());
+            this.RefreshingFolders(this, new EventArgs());
         }
 
         public bool FolderHasRefreshPending(int id) => this._refreshFolderIds.ContainsKey(id);
@@ -349,15 +349,15 @@ namespace ZuneUI
         public string GetNextAvailableAlbumName(IList childList)
         {
             if (childList == null)
-                return ZuneUI.Shell.LoadString(StringId.IDS_NEW_ALBUM_NAME);
+                return Shell.LoadString(StringId.IDS_NEW_ALBUM_NAME);
             Dictionary<string, bool> dictionary = new Dictionary<string, bool>();
-            foreach (DataProviderObject child in (IEnumerable)childList)
+            foreach (DataProviderObject child in childList)
                 dictionary.Add(((string)child.GetProperty("Title")).ToLowerInvariant(), true);
             string str1 = string.Empty;
             for (int index = 1; index < int.MaxValue; ++index)
             {
                 string empty = string.Empty;
-                string str2 = index != 1 ? string.Format(ZuneUI.Shell.LoadString(StringId.IDS_NEW_ALBUM_NAME_MULTIPLE), (object)index) : ZuneUI.Shell.LoadString(StringId.IDS_NEW_ALBUM_NAME);
+                string str2 = index != 1 ? string.Format(Shell.LoadString(StringId.IDS_NEW_ALBUM_NAME_MULTIPLE), index) : Shell.LoadString(StringId.IDS_NEW_ALBUM_NAME);
                 if (!dictionary.ContainsKey(str2.ToLowerInvariant()))
                 {
                     str1 = str2;
@@ -374,7 +374,7 @@ namespace ZuneUI
             Management management = ZuneShell.DefaultInstance.Management;
             Dictionary<string, bool> dictionary = new Dictionary<string, bool>();
             bool flag = false;
-            foreach (object path in (IEnumerable)paths)
+            foreach (object path in paths)
             {
                 string str = path as string;
                 if (!string.IsNullOrEmpty(str) && !dictionary.ContainsKey(str))
@@ -417,9 +417,9 @@ namespace ZuneUI
             }
             else
             {
-                foreach (string filename in (IEnumerable)filenames)
+                foreach (string filename in filenames)
                     stringList.Add(filename);
-                base.CheckCanAddMedia((IList)stringList);
+                base.CheckCanAddMedia(stringList);
             }
         }
 
@@ -431,13 +431,13 @@ namespace ZuneUI
             this._foldersToMonitor = this.GetFoldersToMonitor(filenames, ref empty);
             if (!string.IsNullOrEmpty(empty))
                 this._foldersToMonitor[empty] = true;
-            Command yesCommand = new Command((IModelItemOwner)this);
-            yesCommand.Invoked += (EventHandler)delegate
+            Command yesCommand = new Command(this);
+            yesCommand.Invoked += delegate
            {
                if (this._foldersToMonitor == null || this._foldersToMonitor.Count == 0)
                    return;
-               List<string> stringList = new List<string>((IEnumerable<string>)this._foldersToMonitor.Keys);
-               stringList.Sort((IComparer<string>)StringComparer.CurrentCultureIgnoreCase);
+               List<string> stringList = new List<string>(_foldersToMonitor.Keys);
+               stringList.Sort(StringComparer.CurrentCultureIgnoreCase);
                Management management = ZuneShell.DefaultInstance.Management;
                foreach (string path in stringList)
                {
@@ -447,8 +447,8 @@ namespace ZuneUI
                        management.AddMonitoredFolder(management.MonitoredPhotoFolders, path, true);
                }
            };
-            yesCommand.Description = ZuneUI.Shell.LoadString(StringId.IDS_PHOTO_ADD_FOLDER_BUTTON);
-            MessageBox.Show(ZuneUI.Shell.LoadString(StringId.IDS_PHOTO_ADD_FOLDER_TITLE), ZuneUI.Shell.LoadString(StringId.IDS_PHOTO_ADD_FOLDER_DESCRIPTION), yesCommand, (Command)null, (BooleanChoice)null);
+            yesCommand.Description = Shell.LoadString(StringId.IDS_PHOTO_ADD_FOLDER_BUTTON);
+            MessageBox.Show(Shell.LoadString(StringId.IDS_PHOTO_ADD_FOLDER_TITLE), Shell.LoadString(StringId.IDS_PHOTO_ADD_FOLDER_DESCRIPTION), yesCommand, null, null);
         }
 
         protected override void OnNavigatedAwayWorker(IPage destination)
@@ -466,20 +466,20 @@ namespace ZuneUI
             {
                 int nMediaId = -1;
                 int nFolderId = -1;
-                if (this.NavigationArguments.Contains((object)"PhotoLibraryId"))
-                    nMediaId = (int)this.NavigationArguments[(object)"PhotoLibraryId"];
-                if (this.NavigationArguments.Contains((object)"FolderId"))
+                if (this.NavigationArguments.Contains("PhotoLibraryId"))
+                    nMediaId = (int)this.NavigationArguments["PhotoLibraryId"];
+                if (this.NavigationArguments.Contains("FolderId"))
                 {
-                    int navigationArgument = (int)this.NavigationArguments[(object)"FolderId"];
+                    int navigationArgument = (int)this.NavigationArguments["FolderId"];
                     if (navigationArgument > -1)
                         nFolderId = navigationArgument;
                 }
-                this._selectedPhotoIds = (IList)null;
+                this._selectedPhotoIds = null;
                 if (nMediaId > -1)
-                    this._selectedPhotoIds = (IList)new int[1]
+                    this._selectedPhotoIds = (new int[1]
                     {
             nMediaId
-                    };
+                    });
                 if (nMediaId > -1 && nFolderId == -1)
                 {
                     PhotoManager.Instance.FindPhotoContainer(nMediaId, out nFolderId);
@@ -490,7 +490,7 @@ namespace ZuneUI
                     this.PendingFolderToExpandToRoot = nFolderId;
                     this.FolderId = nFolderId;
                 }
-                this.NavigationArguments = (IDictionary)null;
+                this.NavigationArguments = null;
             }
             base.OnNavigatedToWorker();
         }
@@ -500,10 +500,10 @@ namespace ZuneUI
             if (photoId >= 0 && folderId < 0)
                 folderId = -1;
             Hashtable hashtable = new Hashtable();
-            hashtable.Add((object)"FolderId", (object)folderId);
+            hashtable.Add("FolderId", folderId);
             if (photoId >= 0)
-                hashtable.Add((object)"PhotoLibraryId", (object)photoId);
-            ZuneShell.DefaultInstance.Execute("Collection\\Photos", (IDictionary)hashtable);
+                hashtable.Add("PhotoLibraryId", photoId);
+            ZuneShell.DefaultInstance.Execute("Collection\\Photos", hashtable);
         }
 
         public override IPageState SaveAndRelease()
@@ -539,13 +539,13 @@ namespace ZuneUI
                 return;
             }
             ZuneShell.DefaultInstance.Management.RemoveChildMonitoredFolders(property, true);
-            Application.DeferredInvoke((DeferredInvokeHandler)delegate
+            Application.DeferredInvoke(delegate
            {
                if (!PhotoManager.Instance.RenameFolder(id, folderName).IsSuccess)
                    return;
                this.RefreshFolder(parentId);
                this.RefreshPictures.Invoke();
-           }, (object)null);
+           }, null);
         }
 
         public void MoveFolder(DataProviderObject source, DataProviderObject target)
@@ -578,7 +578,7 @@ namespace ZuneUI
             ZuneShell.DefaultInstance.Management.RemoveChildMonitoredFolders(sourceFolderPath, true);
             int[] sourceIds = new int[1] { sourceId };
             string resultantFolderPath = Path.Combine(targetFolderPath, Path.GetFileName(sourceFolderPath));
-            Application.DeferredInvoke((DeferredInvokeHandler)delegate
+            Application.DeferredInvoke(delegate
            {
                if (!PhotoManager.Instance.Move(sourceIds, EMediaTypes.eMediaTypeFolder, targetId).IsSuccess)
                    return;
@@ -586,28 +586,28 @@ namespace ZuneUI
                this.RefreshFolder(sourceParentId);
                ZuneApplication.ZuneLibrary.AddGrovelerScanDirectory(resultantFolderPath, EMediaTypes.eMediaTypeImage);
                this.RefreshFolder(targetId);
-           }, (object)null);
+           }, null);
         }
 
         public void Import(IList shellItems, int destinationFolderId)
         {
-            foreach (object shellItem in (IEnumerable)shellItems)
+            foreach (object shellItem in shellItems)
             {
                 string path = shellItem as string;
                 if (!string.IsNullOrEmpty(path) && destinationFolderId > 0)
                 {
                     if (File.Exists(path) && ZuneApplication.ZuneLibrary.CanAddMedia(path, EMediaTypes.eMediaTypeImage))
-                        Application.DeferredInvoke((DeferredInvokeHandler)delegate
+                        Application.DeferredInvoke(delegate
                        {
                            PhotoManager.Instance.Import(path, EMediaTypes.eMediaTypeImage, destinationFolderId);
                            this.FolderId = destinationFolderId;
                            this.RefreshPictures.Invoke();
-                       }, (object)null);
+                       }, null);
                     else if (Directory.Exists(path))
                     {
                         if (this.FindFolder(path) > 0)
                             ZuneShell.DefaultInstance.Management.RemoveChildMonitoredFolders(path, true);
-                        Application.DeferredInvoke((DeferredInvokeHandler)delegate
+                        Application.DeferredInvoke(delegate
                        {
                            if (!PhotoManager.Instance.Import(path, EMediaTypes.eMediaTypeFolder, destinationFolderId).IsSuccess || destinationFolderId <= 0)
                                return;
@@ -615,7 +615,7 @@ namespace ZuneUI
                            this.FolderId = destinationFolderId;
                            this.RefreshFolder(destinationFolderId);
                            this.ExpandFolder(destinationFolderId);
-                       }, (object)null);
+                       }, null);
                     }
                 }
             }
@@ -641,11 +641,11 @@ namespace ZuneUI
                 DataProviderObject sourceDataProvider = (DataProviderObject)sourceDataProviderList[index];
                 sourceIds[index] = (int)sourceDataProvider.GetProperty("LibraryId");
             }
-            Application.DeferredInvoke((DeferredInvokeHandler)delegate
+            Application.DeferredInvoke(delegate
            {
                PhotoManager.Instance.Move(sourceIds, EMediaTypes.eMediaTypeImage, targetId);
                this.RefreshPictures.Invoke();
-           }, (object)null);
+           }, null);
         }
 
         public int CreateFolder(string name, int targetId)
@@ -669,7 +669,7 @@ namespace ZuneUI
                     return false;
                 DirectoryInfo directoryInfo1 = new DirectoryInfo(treePath);
                 DirectoryInfo directoryInfo2 = new DirectoryInfo(dropPath);
-                if ((directoryInfo1.FullName + (object)Path.DirectorySeparatorChar).IndexOf(directoryInfo2.FullName + (object)Path.DirectorySeparatorChar, StringComparison.CurrentCultureIgnoreCase) >= 0)
+                if ((directoryInfo1.FullName + Path.DirectorySeparatorChar).IndexOf(directoryInfo2.FullName + Path.DirectorySeparatorChar, StringComparison.CurrentCultureIgnoreCase) >= 0)
                     return false;
                 if (string.Compare(directoryInfo1.FullName, directoryInfo2.Parent.FullName, StringComparison.CurrentCultureIgnoreCase) == 0)
                     return false;
@@ -699,7 +699,7 @@ namespace ZuneUI
                                 flag = false;
                             }
                             else
-                                this._invalidPathCharacters += string.Format(" {0}", (object)invalidFileNameChars[index]);
+                                this._invalidPathCharacters += string.Format(" {0}", invalidFileNameChars[index]);
                         }
                     }
                 }

@@ -19,7 +19,7 @@ namespace ZuneUI
         public QuickMixSessionManager(int playlistId)
         {
             this._playlistId = playlistId;
-            Microsoft.Zune.QuickMix.QuickMix.Instance.CreateSession(EQuickMixMode.eQuickMixModePlaylist, new int[1]
+            QuickMix.Instance.CreateSession(EQuickMixMode.eQuickMixModePlaylist, new int[1]
             {
         playlistId
             }, EMediaTypes.eMediaTypePlaylist, out this._quickMixSession);
@@ -46,21 +46,21 @@ namespace ZuneUI
             if (this._quickMixSession != null)
             {
                 this._quickMixSession.Dispose();
-                this._quickMixSession = (QuickMixSession)null;
+                this._quickMixSession = null;
             }
             base.OnDispose(disposing);
         }
 
         public void Refresh(bool deepRefresh)
         {
-            if (this._quickMixSession == null || this.IsRefreshing || !this._quickMixSession.Refresh(TimeSpan.FromMilliseconds(5000.0), deepRefresh, (SimilarMediaBatchHandler)null, new BatchEndHandler(this.RefreshedHandler)).IsSuccess)
+            if (this._quickMixSession == null || this.IsRefreshing || !this._quickMixSession.Refresh(TimeSpan.FromMilliseconds(5000.0), deepRefresh, null, new BatchEndHandler(this.RefreshedHandler)).IsSuccess)
                 return;
             this.IsRefreshing = true;
         }
 
-        private void RefreshedHandler(HRESULT hrAsync) => Application.DeferredInvoke((DeferredInvokeHandler)delegate
+        private void RefreshedHandler(HRESULT hrAsync) => Application.DeferredInvoke(delegate
        {
            this.IsRefreshing = false;
-       }, (object)null);
+       }, null);
     }
 }

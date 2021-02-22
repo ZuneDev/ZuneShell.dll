@@ -14,7 +14,7 @@ namespace ZuneUI
         private string _title;
 
         internal MessageDetailsPanel(LibraryPage page, bool showHeaderAndFooter)
-          : base((IModelItemOwner)page)
+          : base(page)
         {
         }
 
@@ -27,7 +27,7 @@ namespace ZuneUI
                     return;
                 this._selectedItem = value;
                 this.FirePropertyChanged(nameof(SelectedItem));
-                this.Title = (string)null;
+                this.Title = null;
             }
         }
 

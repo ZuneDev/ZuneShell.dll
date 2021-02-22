@@ -65,62 +65,62 @@ namespace ZuneUI
             DataProviderObject dataProviderObject = (DataProviderObject)dataContainer;
             object[] fieldValues = new object[19]
             {
-        (object) string.Empty,
-        (object) TimeSpan.Zero,
-        (object) 0,
-        (object) 0,
-        (object) string.Empty,
-        (object) string.Empty,
-        (object) string.Empty,
-        (object) new ArrayList(),
-        (object) string.Empty,
-        (object) string.Empty,
-        (object) DateTime.MinValue,
-        (object) 0,
-        (object) 0,
-        (object) string.Empty,
-        (object) string.Empty,
-        (object) string.Empty,
-        (object) string.Empty,
-        (object) 0L,
-        (object) string.Empty
+         string.Empty,
+         TimeSpan.Zero,
+         0,
+         0,
+         string.Empty,
+         string.Empty,
+         string.Empty,
+         new ArrayList(),
+         string.Empty,
+         string.Empty,
+         DateTime.MinValue,
+         0,
+         0,
+         string.Empty,
+         string.Empty,
+         string.Empty,
+         string.Empty,
+         0L,
+         string.Empty
             };
             bool[] isEmptyValues = new bool[fieldValues.Length];
-            ZuneLibrary.GetFieldValues(libraryId, EListType.eTrackList, TrackDetails.ColumnIndexes.Length, TrackDetails.ColumnIndexes, fieldValues, isEmptyValues, PlaylistManager.Instance.QueryContext);
-            for (int index = 0; index < TrackDetails.ColumnIndexes.Length; ++index)
+            ZuneLibrary.GetFieldValues(libraryId, EListType.eTrackList, ColumnIndexes.Length, ColumnIndexes, fieldValues, isEmptyValues, PlaylistManager.Instance.QueryContext);
+            for (int index = 0; index < ColumnIndexes.Length; ++index)
             {
-                if (TrackDetails.ColumnIndexes[index] == 177)
-                    fieldValues[index] = (object)MediaDescriptions.Map((MediaType)fieldValues[index]);
-                dataProviderObject.SetProperty(TrackDetails.DataProperties[index], fieldValues[index]);
+                if (ColumnIndexes[index] == 177)
+                    fieldValues[index] = MediaDescriptions.Map((MediaType)fieldValues[index]);
+                dataProviderObject.SetProperty(DataProperties[index], fieldValues[index]);
             }
         }
 
-        public static string GetGenreHelper(DataProviderObject item) => PlaylistManager.GetFieldValue<string>((int)item.GetProperty("LibraryId"), EListType.eTrackList, 398, "");
+        public static string GetGenreHelper(DataProviderObject item) => PlaylistManager.GetFieldValue((int)item.GetProperty("LibraryId"), EListType.eTrackList, 398, "");
 
-        public static void SetGenreHelper(DataProviderObject item, string genre) => PlaylistManager.SetFieldValue<string>((int)item.GetProperty("LibraryId"), EListType.eTrackList, 398, genre);
+        public static void SetGenreHelper(DataProviderObject item, string genre) => PlaylistManager.SetFieldValue((int)item.GetProperty("LibraryId"), EListType.eTrackList, 398, genre);
 
-        public static Guid GetServiceId(int mediaId) => PlaylistManager.GetFieldValue<Guid>(mediaId, EListType.eTrackList, 451, Guid.Empty);
+        public static Guid GetServiceId(int mediaId) => PlaylistManager.GetFieldValue(mediaId, EListType.eTrackList, 451, Guid.Empty);
 
-        public static string ContributingArtistListToString(IList artists) => TrackDetails.ContributingArtistListToString(artists, TrackDetails._contributingArtistFormat);
+        public static string ContributingArtistListToString(IList artists) => ContributingArtistListToString(artists, _contributingArtistFormat);
 
         private static string ContributingArtistListToString(IList artists, string format)
         {
             string str = "";
             if (artists != null)
             {
-                foreach (string artist in (IEnumerable)artists)
-                    str = str.Length != 0 ? string.Format(format, (object)str, (object)artist) : artist;
+                foreach (string artist in artists)
+                    str = str.Length != 0 ? string.Format(format, str, artist) : artist;
             }
             return str;
         }
 
-        public static IList ContributingArtistStringToList(string contributingArtists) => TrackDetails.ContributingArtistStringToList(contributingArtists, TrackDetails._contributingArtistSeperator);
+        public static IList ContributingArtistStringToList(string contributingArtists) => ContributingArtistStringToList(contributingArtists, _contributingArtistSeperator);
 
         private static IList ContributingArtistStringToList(
           string contributingArtists,
           string separator)
         {
-            ArrayList arrayList = (ArrayList)null;
+            ArrayList arrayList = null;
             foreach (string str1 in contributingArtists.Split(separator.ToCharArray(0, 1)))
             {
                 string str2 = str1.Trim();
@@ -128,10 +128,10 @@ namespace ZuneUI
                 {
                     if (arrayList == null)
                         arrayList = new ArrayList();
-                    arrayList.Add((object)str2);
+                    arrayList.Add(str2);
                 }
             }
-            return (IList)arrayList;
+            return arrayList;
         }
     }
 }

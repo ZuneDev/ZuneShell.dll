@@ -18,17 +18,17 @@ namespace ZuneUI
 {
     public class CDAccess : ModelItem
     {
-        private static string _ripCompleteMessage = ZuneUI.Shell.LoadString(StringId.IDS_RIP_COMPLETE_NOTIFICATION);
-        private static string _ripCanceledMessage = ZuneUI.Shell.LoadString(StringId.IDS_RIP_CANCELED_NOTIFICATION);
-        private static string _ripFailedMessage = ZuneUI.Shell.LoadString(StringId.IDS_RIP_FAILED_NOTIFICATION);
-        private static string _ripProgressMessage = ZuneUI.Shell.LoadString(StringId.IDS_RIP_PROGRESS_NOTIFICATION);
-        private static string _ripCurrentMessage = ZuneUI.Shell.LoadString(StringId.IDS_RIP_CURRENT_NOTIFICATION);
+        private static string _ripCompleteMessage = Shell.LoadString(StringId.IDS_RIP_COMPLETE_NOTIFICATION);
+        private static string _ripCanceledMessage = Shell.LoadString(StringId.IDS_RIP_CANCELED_NOTIFICATION);
+        private static string _ripFailedMessage = Shell.LoadString(StringId.IDS_RIP_FAILED_NOTIFICATION);
+        private static string _ripProgressMessage = Shell.LoadString(StringId.IDS_RIP_PROGRESS_NOTIFICATION);
+        private static string _ripCurrentMessage = Shell.LoadString(StringId.IDS_RIP_CURRENT_NOTIFICATION);
         private static CDAccess _singletonInstance;
         private static bool s_phase2Complete = false;
         private ZuneLibraryCDDeviceList _cdDeviceList;
         private ArrayListDataSet _CDs;
         private IList _discardedCDs;
-        private CDAccess.AutoplayInfo _pendingAutoPlay;
+        private AutoplayInfo _pendingAutoPlay;
         private ZuneLibraryCDRecorder _recorder;
         private bool _isRipping;
         private ProgressNotification _ripNotification;
@@ -51,28 +51,28 @@ namespace ZuneUI
         private CDAccess()
         {
             this._CDs = new ArrayListDataSet();
-            if (!CDAccess.s_phase2Complete)
+            if (!s_phase2Complete)
                 return;
             this.Initialize();
         }
 
         public static void Phase2Catchup()
         {
-            CDAccess.s_phase2Complete = true;
-            if (CDAccess.Instance == null)
+            s_phase2Complete = true;
+            if (Instance == null)
                 return;
-            CDAccess.Instance.Initialize();
+            Instance.Initialize();
         }
 
         private void Initialize()
         {
             this._cdDeviceList = ZuneApplication.ZuneLibrary.GetCDDeviceList();
-            DiscExperience disc = ZuneUI.Shell.MainFrame.Disc;
+            DiscExperience disc = Shell.MainFrame.Disc;
             if (this._cdDeviceList != null)
             {
                 this._cdDeviceList.MediaChangedHandler += new OnMediaChangedHandler(this.OnMediaChanged);
                 for (int index = 0; index < this._cdDeviceList.Count; ++index)
-                    this._CDs.Add((object)null);
+                    this._CDs.Add(null);
             }
             disc.RecalculateAvailableNodes();
             this._recorder = ZuneApplication.ZuneLibrary.GetRecorder();
@@ -91,15 +91,15 @@ namespace ZuneUI
                 {
                     this._cdDeviceList.MediaChangedHandler -= new OnMediaChangedHandler(this.OnMediaChanged);
                     int num = (int)this._cdDeviceList.Release();
-                    this._cdDeviceList = (ZuneLibraryCDDeviceList)null;
+                    this._cdDeviceList = null;
                 }
                 if (this._recorder != null)
                 {
                     this._recorder.RecordStopHandler -= new OnRecordStopHandler(this.OnRecordStop);
                     this._recorder.RecordProgressHandler -= new OnRecordProgressHandler(this.OnRecordProgress);
-                    this._recorder = (ZuneLibraryCDRecorder)null;
+                    this._recorder = null;
                 }
-                foreach (CDAlbumCommand cd in (ListDataSet)this._CDs)
+                foreach (CDAlbumCommand cd in _CDs)
                     cd?.Dispose();
                 this._CDs.Clear();
             }
@@ -112,9 +112,9 @@ namespace ZuneUI
         {
             get
             {
-                if (CDAccess._singletonInstance == null)
-                    CDAccess._singletonInstance = new CDAccess();
-                return CDAccess._singletonInstance;
+                if (_singletonInstance == null)
+                    _singletonInstance = new CDAccess();
+                return _singletonInstance;
             }
         }
 
@@ -126,15 +126,15 @@ namespace ZuneUI
             char upperInvariant = char.ToUpperInvariant(path[num - 1]);
             if (upperInvariant < 'A' || upperInvariant > 'Z')
                 return;
-            CDAccess.HandleDiskFromAutoplay(upperInvariant, action);
+            HandleDiskFromAutoplay(upperInvariant, action);
         }
 
         public static void HandleDiskFromAutoplay(char driveLetter, CDAction action)
         {
-            CDAlbumCommand cdAlbumCommand = (CDAlbumCommand)null;
-            foreach (CDAlbumCommand cd in (ListDataSet)CDAccess.Instance.CDs)
+            CDAlbumCommand cdAlbumCommand = null;
+            foreach (CDAlbumCommand cd in Instance.CDs)
             {
-                if (cd != null && (int)cd.CDDevice.DrivePath == (int)driveLetter)
+                if (cd != null && cd.CDDevice.DrivePath == driveLetter)
                 {
                     cdAlbumCommand = cd;
                     break;
@@ -142,7 +142,7 @@ namespace ZuneUI
             }
             if (cdAlbumCommand == null)
             {
-                CDAccess.Instance._pendingAutoPlay = new CDAccess.AutoplayInfo(driveLetter, action);
+                Instance._pendingAutoPlay = new AutoplayInfo(driveLetter, action);
             }
             else
             {
@@ -250,17 +250,17 @@ namespace ZuneUI
         {
             if (this._burnListId >= 0 && this._hasBurnedBurnList && !this._isBurnListEmpty)
             {
-                Command yesCommand = new Command((IModelItemOwner)null, ZuneUI.Shell.LoadString(StringId.IDS_CREATE_BURN_LIST_YES_CREATE), (EventHandler)null);
-                yesCommand.Invoked += (EventHandler)delegate
+                Command yesCommand = new Command(null, Shell.LoadString(StringId.IDS_CREATE_BURN_LIST_YES_CREATE), null);
+                yesCommand.Invoked += delegate
                {
                    this.AddToBurnPlaylist(items, true);
                };
-                Command noCommand = new Command((IModelItemOwner)null, ZuneUI.Shell.LoadString(StringId.IDS_CREATE_BURN_LIST_NO_ADD), (EventHandler)null);
-                noCommand.Invoked += (EventHandler)delegate
+                Command noCommand = new Command(null, Shell.LoadString(StringId.IDS_CREATE_BURN_LIST_NO_ADD), null);
+                noCommand.Invoked += delegate
                {
                    this.AddToBurnPlaylist(items, false);
                };
-                MessageBox.Show(ZuneUI.Shell.LoadString(StringId.IDS_CREATE_BURN_LIST_DIALOG_TITLE), ZuneUI.Shell.LoadString(StringId.IDS_CREATE_BURN_LIST_QUESTION), yesCommand, noCommand, (BooleanChoice)null);
+                MessageBox.Show(Shell.LoadString(StringId.IDS_CREATE_BURN_LIST_DIALOG_TITLE), Shell.LoadString(StringId.IDS_CREATE_BURN_LIST_QUESTION), yesCommand, noCommand, null);
             }
             else
                 this.AddToBurnPlaylist(items, false);
@@ -272,8 +272,8 @@ namespace ZuneUI
             int playlist = (int)PlaylistManager.Instance.AddToPlaylist(this._burnListId, items, false);
             this._hasBurnedBurnList = false;
             this._isBurnListEmpty = false;
-            ZuneUI.Shell.MainFrame.Disc.RecalculateAvailableNodes();
-            ZuneUI.Shell.MainFrame.Disc.Nodes.ChosenValue = (object)ZuneUI.Shell.MainFrame.Disc.BurnList;
+            Shell.MainFrame.Disc.RecalculateAvailableNodes();
+            Shell.MainFrame.Disc.Nodes.ChosenValue = Shell.MainFrame.Disc.BurnList;
         }
 
         public int BurnListId => this._burnListId;
@@ -284,7 +284,7 @@ namespace ZuneUI
         {
             get
             {
-                foreach (CDAlbumCommand cd in (ListDataSet)this._CDs)
+                foreach (CDAlbumCommand cd in _CDs)
                 {
                     if (cd != null && cd.IsMediaLoaded && (cd.TOC != null || cd.CanWrite))
                         return true;
@@ -297,9 +297,9 @@ namespace ZuneUI
         {
             if (this._burnListId >= 0 && !forceCreate)
                 return;
-            this._burnListId = PlaylistManager.Instance.CreatePlaylist(ZuneUI.Shell.LoadString(StringId.IDS_PLAYLIST_BURN_LIST), true).PlaylistId;
+            this._burnListId = PlaylistManager.Instance.CreatePlaylist(Shell.LoadString(StringId.IDS_PLAYLIST_BURN_LIST), true).PlaylistId;
             this._isBurnListEmpty = true;
-            ZuneUI.Shell.MainFrame.Disc.RecalculateAvailableNodes();
+            Shell.MainFrame.Disc.RecalculateAvailableNodes();
             this.FirePropertyChanged("BurnListId");
         }
 
@@ -340,9 +340,9 @@ namespace ZuneUI
             this._activeBurnCD.CancelBurn();
         }
 
-        public BurnSessionItem GetBurnItemByPlaylistContentId(int playlistContentId) => this._activeBurnCD != null ? this._activeBurnCD.GetBurnItemByPlaylistContentId(playlistContentId) : (BurnSessionItem)null;
+        public BurnSessionItem GetBurnItemByPlaylistContentId(int playlistContentId) => this._activeBurnCD != null ? this._activeBurnCD.GetBurnItemByPlaylistContentId(playlistContentId) : null;
 
-        public string TimeSpanToStringForBurnTime(TimeSpan time) => string.Format("{1:0}{0}{2:00}", (object)CultureInfo.CurrentCulture.DateTimeFormat.TimeSeparator, (object)(int)time.TotalMinutes, (object)time.Seconds);
+        public string TimeSpanToStringForBurnTime(TimeSpan time) => string.Format("{1:0}{0}{2:00}", CultureInfo.CurrentCulture.DateTimeFormat.TimeSeparator, (int)time.TotalMinutes, time.Seconds);
 
         public event EventHandler MediaChanged;
 
@@ -354,35 +354,35 @@ namespace ZuneUI
 
         private void OnMediaChanged(char driveLetter, bool fMediaArrived)
         {
-            CDAccess.ChangeInfo changeInfo = new CDAccess.ChangeInfo(driveLetter, fMediaArrived);
+            ChangeInfo changeInfo = new ChangeInfo(driveLetter, fMediaArrived);
             for (int idx = 0; idx < this._cdDeviceList.Count; ++idx)
             {
                 ZuneLibraryCDDevice zuneLibraryCdDevice = this._cdDeviceList.GetItem(idx);
-                if ((int)zuneLibraryCdDevice.DrivePath == (int)changeInfo.DriveLetter)
+                if (zuneLibraryCdDevice.DrivePath == changeInfo.DriveLetter)
                 {
                     changeInfo.Index = idx;
                     changeInfo.Device = zuneLibraryCdDevice;
                     break;
                 }
             }
-            this.WaitForDrive((object)changeInfo);
+            this.WaitForDrive(changeInfo);
         }
 
         private void WaitForDrive(object arg)
         {
-            CDAccess.ChangeInfo changeInfo = (CDAccess.ChangeInfo)arg;
+            ChangeInfo changeInfo = (ChangeInfo)arg;
             if (changeInfo.Device == null || !changeInfo.MediaArrived || changeInfo.Device.IsDriveReady)
-                Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredOnMediaChanged), (object)changeInfo);
+                Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredOnMediaChanged), changeInfo);
             else
-                Application.DeferredInvoke(new DeferredInvokeHandler(this.WaitForDrive), (object)changeInfo, TimeSpan.FromMilliseconds(500.0));
+                Application.DeferredInvoke(new DeferredInvokeHandler(this.WaitForDrive), changeInfo, TimeSpan.FromMilliseconds(500.0));
         }
 
         private void DeferredOnMediaChanged(object arg)
         {
-            CDAccess.ChangeInfo changeInfo = (CDAccess.ChangeInfo)arg;
+            ChangeInfo changeInfo = (ChangeInfo)arg;
             ZuneLibraryCDDevice device = changeInfo.Device;
             int index = changeInfo.Index;
-            bool flag = (int)this._activeDriveLetter == (int)changeInfo.DriveLetter && !changeInfo.MediaArrived;
+            bool flag = _activeDriveLetter == changeInfo.DriveLetter && !changeInfo.MediaArrived;
             if (device != null)
             {
                 CDAlbumCommand cd = (CDAlbumCommand)this._CDs[index];
@@ -393,15 +393,15 @@ namespace ZuneUI
                 }
                 if (cd == null || !changeInfo.MediaArrived || device.TOC != cd.TOC)
                 {
-                    CDAlbumCommand cdAlbumCommand = (CDAlbumCommand)null;
+                    CDAlbumCommand cdAlbumCommand = null;
                     if (changeInfo.MediaArrived)
-                        cdAlbumCommand = new CDAlbumCommand((Experience)ZuneUI.Shell.MainFrame.Disc, this, device, true);
-                    this._CDs[index] = (object)cdAlbumCommand;
+                        cdAlbumCommand = new CDAlbumCommand(Shell.MainFrame.Disc, this, device, true);
+                    this._CDs[index] = cdAlbumCommand;
                     if (cd != null)
                     {
                         if (this._discardedCDs == null)
-                            this._discardedCDs = (IList)new List<object>();
-                        this._discardedCDs.Add((object)cd);
+                            this._discardedCDs = new List<object>();
+                        this._discardedCDs.Add(cd);
                     }
                     if (cdAlbumCommand == null)
                         device.Dispose();
@@ -411,10 +411,10 @@ namespace ZuneUI
                 else
                     device.Dispose();
             }
-            if (this._pendingAutoPlay != null && (int)this._pendingAutoPlay.DriveLetter == (int)changeInfo.DriveLetter)
+            if (this._pendingAutoPlay != null && _pendingAutoPlay.DriveLetter == changeInfo.DriveLetter)
             {
-                CDAccess.HandleDiskFromAutoplay(this._pendingAutoPlay.DriveLetter, this._pendingAutoPlay.Action);
-                this._pendingAutoPlay = (CDAccess.AutoplayInfo)null;
+                HandleDiskFromAutoplay(this._pendingAutoPlay.DriveLetter, this._pendingAutoPlay.Action);
+                this._pendingAutoPlay = null;
             }
             if (flag && this._activeBurnCD != null)
             {
@@ -425,14 +425,14 @@ namespace ZuneUI
                 this._activeDriveLetter = char.MinValue;
             }
             this.UpdateBurnState();
-            ZuneUI.Shell.MainFrame.Disc.UpdateNodes(this, changeInfo.DriveLetter, changeInfo.MediaArrived);
+            Shell.MainFrame.Disc.UpdateNodes(this, changeInfo.DriveLetter, changeInfo.MediaArrived);
             this.NotifyMediaChanged();
         }
 
         private void UpdateBurnState()
         {
-            BurnableCD burnableCd = (BurnableCD)null;
-            foreach (CDAlbumCommand cd in (ListDataSet)this._CDs)
+            BurnableCD burnableCd = null;
+            foreach (CDAlbumCommand cd in _CDs)
             {
                 if (cd != null && cd.CanWrite)
                 {
@@ -456,7 +456,7 @@ namespace ZuneUI
             this.FirePropertyChanged("MediaChanged");
             if (this.MediaChanged == null)
                 return;
-            this.MediaChanged((object)this, new EventArgs());
+            this.MediaChanged(this, new EventArgs());
         }
 
         internal void StartRip(int trackCount)
@@ -475,7 +475,7 @@ namespace ZuneUI
                 this.UpdateMessage(false);
         }
 
-        private void OnRecordProgress(string strSourceUrl, int percentComplete) => Application.DeferredInvoke((DeferredInvokeHandler)delegate
+        private void OnRecordProgress(string strSourceUrl, int percentComplete) => Application.DeferredInvoke(delegate
        {
            this._ripTrackProgress = percentComplete;
            this.UpdateMessage(true);
@@ -484,9 +484,9 @@ namespace ZuneUI
                return;
            trackBySourceUrl.RipState = RipState.InProgress;
            trackBySourceUrl.PercentComplete = percentComplete;
-       }, (object)null);
+       }, null);
 
-        private void OnRecordStop(string strSourceUrl, int hr) => Application.DeferredInvoke((DeferredInvokeHandler)delegate
+        private void OnRecordStop(string strSourceUrl, int hr) => Application.DeferredInvoke(delegate
        {
            ++this._ripCurrentTrack;
            this._ripTrackProgress = 0;
@@ -495,7 +495,7 @@ namespace ZuneUI
            RipState ripState = RipState.InLibrary;
            if (trackBySourceUrl != null)
            {
-               if ((HRESULT)hr == HRESULT._E_ABORT)
+               if (hr == HRESULT._E_ABORT)
                    ripState = RipState.Incomplete;
                else if (hr < 0)
                {
@@ -523,7 +523,7 @@ namespace ZuneUI
            }
            else
                this.UpdateMessage(false);
-       }, (object)null);
+       }, null);
 
         public ProgressNotification Notification
         {
@@ -546,18 +546,18 @@ namespace ZuneUI
                 switch (ripState)
                 {
                     case RipState.Incomplete:
-                        this._ripNotification.Message = CDAccess._ripCanceledMessage;
+                        this._ripNotification.Message = _ripCanceledMessage;
                         break;
                     case RipState.Error:
-                        this._ripNotification.Message = CDAccess._ripFailedMessage;
+                        this._ripNotification.Message = _ripFailedMessage;
                         break;
                     default:
-                        this._ripNotification.Message = CDAccess._ripCompleteMessage;
+                        this._ripNotification.Message = _ripCompleteMessage;
                         this._ripNotification.Percentage = 100;
                         break;
                 }
-                this._ripNotification.SubMessage = (string)null;
-                this.Notification = (ProgressNotification)null;
+                this._ripNotification.SubMessage = null;
+                this.Notification = null;
             }
             SoundHelper.Play(SoundId.RipComplete);
         }
@@ -566,12 +566,12 @@ namespace ZuneUI
         {
             if (this._ripNotification == null)
             {
-                this.Notification = new ProgressNotification(CDAccess._ripProgressMessage, NotificationTask.Rip, NotificationState.Normal, 0);
+                this.Notification = new ProgressNotification(_ripProgressMessage, NotificationTask.Rip, NotificationState.Normal, 0);
             }
             else
             {
                 this._ripNotification.Type = NotificationState.Normal;
-                this._ripNotification.Message = CDAccess._ripProgressMessage;
+                this._ripNotification.Message = _ripProgressMessage;
             }
             int num = 0;
             if (this._ripTotalTracks != 0)
@@ -580,7 +580,7 @@ namespace ZuneUI
                 return;
             this._ripPercent = num;
             this._ripNotification.Percentage = num;
-            this._ripNotification.SubMessage = string.Format(CDAccess._ripCurrentMessage, (object)this._ripCurrentTrack, (object)this._ripTotalTracks);
+            this._ripNotification.SubMessage = string.Format(_ripCurrentMessage, _ripCurrentTrack, _ripTotalTracks);
         }
 
         private CDAlbumTrack GetTrackBySourceUrl(string strSourceUrl)
@@ -592,10 +592,10 @@ namespace ZuneUI
             for (int itemIndex = 0; itemIndex < this.CDs.Count; ++itemIndex)
             {
                 CDAlbumCommand cd = (CDAlbumCommand)this.CDs[itemIndex];
-                if (cd != null && (int)cd.CDDevice.DrivePath == (int)zuneLibraryCdDevice.DrivePath)
-                    return cd.CDDevice.IsMediaLoaded ? cd.GetTrack(num3 - 1) : (CDAlbumTrack)null;
+                if (cd != null && cd.CDDevice.DrivePath == zuneLibraryCdDevice.DrivePath)
+                    return cd.CDDevice.IsMediaLoaded ? cd.GetTrack(num3 - 1) : null;
             }
-            return (CDAlbumTrack)null;
+            return null;
         }
 
         private class AutoplayInfo

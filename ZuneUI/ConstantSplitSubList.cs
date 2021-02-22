@@ -29,7 +29,7 @@ namespace ZuneUI
         protected override List<int> GetSplits()
         {
             if (this.Source == null)
-                return (List<int>)null;
+                return null;
             int capacity = this.Source.Count / this._splitSize;
             List<int> intList = new List<int>(capacity);
             for (int index = 0; index < capacity; ++index)

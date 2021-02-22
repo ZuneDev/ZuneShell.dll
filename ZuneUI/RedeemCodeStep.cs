@@ -29,7 +29,7 @@ namespace ZuneUI
         {
             this.Description = Shell.LoadString(StringId.IDS_BILLING_PREPAID_CODE_TITLE);
             this.DetailDescription = Shell.LoadString(StringId.IDS_BILLING_PREPAID_CODE_HEADER);
-            WizardPropertyEditor wizardPropertyEditor = (WizardPropertyEditor)new RedeemCodePropertyEditor();
+            WizardPropertyEditor wizardPropertyEditor = new RedeemCodePropertyEditor();
             this._redeemMediaCommand = new Command();
             this.Initialize(wizardPropertyEditor);
         }
@@ -125,7 +125,7 @@ namespace ZuneUI
         {
             get
             {
-                BillingOffer billingOffer = (BillingOffer)null;
+                BillingOffer billingOffer = null;
                 if (this.TokenDetails != null)
                 {
                     if (this.TokenDetails.TokenType == ETokenType.Points)
@@ -187,7 +187,7 @@ namespace ZuneUI
 
         public Command RedeemMediaCommand => this._redeemMediaCommand;
 
-        public string MediaTitle => this._videoOffers != null && this._videoOffers.Items.Count > 0 ? ((Offer)this._videoOffers.Items[0]).Title : (string)null;
+        public string MediaTitle => this._videoOffers != null && this._videoOffers.Items.Count > 0 ? ((Offer)this._videoOffers.Items[0]).Title : null;
 
         public bool IsMediaRental => this._videoOffers != null && this.VideoOffers.Items.Count > 0 && ((VideoOffer)this.VideoOffers.Items[0]).IsRental;
 
@@ -197,7 +197,7 @@ namespace ZuneUI
             {
                 if (this._videoOffers != null)
                 {
-                    foreach (VideoOffer videoOffer in (IEnumerable)this._videoOffers.Items)
+                    foreach (VideoOffer videoOffer in _videoOffers.Items)
                     {
                         if (!videoOffer.IsHD)
                             return true;
@@ -213,7 +213,7 @@ namespace ZuneUI
             {
                 if (this._videoOffers != null)
                 {
-                    foreach (VideoOffer videoOffer in (IEnumerable)this._videoOffers.Items)
+                    foreach (VideoOffer videoOffer in _videoOffers.Items)
                     {
                         if (videoOffer.IsHD)
                             return true;
@@ -225,12 +225,12 @@ namespace ZuneUI
 
         public string CreateRedeemCodeUrl(bool returnArguments)
         {
-            string endPointUri = Microsoft.Zune.Service.Service.GetEndPointUri(EServiceEndpointId.SEID_AccountManagement);
+            string endPointUri = Service.GetEndPointUri(EServiceEndpointId.SEID_AccountManagement);
             string urlPath = endPointUri + "/client/RedeemCode.ashx";
             string str1;
             if (returnArguments)
             {
-                string str2 = Microsoft.Zune.Service.Service.GetEndPointUri(EServiceEndpointId.SEID_ZuneNet) + "/social/articles/backtosoftware.htm";
+                string str2 = Service.GetEndPointUri(EServiceEndpointId.SEID_ZuneNet) + "/social/articles/backtosoftware.htm";
                 str1 = UrlHelper.MakeUrl(endPointUri + "/client/RedeemCode.ashx", "ru", str2, "aru", str2);
             }
             else
@@ -250,15 +250,15 @@ namespace ZuneUI
             string committedValue = this.GetCommittedValue(RedeemCodePropertyEditor.Code) as string;
             if (!uncommittedValue.Equals(committedValue, StringComparison.InvariantCultureIgnoreCase))
             {
-                this.TokenDetails = (TokenDetails)null;
+                this.TokenDetails = null;
                 this.TokenExpired = false;
                 this.TokenClientTypes = EClientTypeFlags.None;
-                this.ConfirmedTokenDetails = (TokenDetails)null;
+                this.ConfirmedTokenDetails = null;
                 this.ServiceDeactivationRequestsDone = false;
-                this.AlbumOffers = (AlbumOfferCollection)null;
-                this.TrackOffers = (TrackOfferCollection)null;
-                this.VideoOffers = (VideoOfferCollection)null;
-                this.AppOffers = (AppOfferCollection)null;
+                this.AlbumOffers = null;
+                this.TrackOffers = null;
+                this.VideoOffers = null;
+                this.AppOffers = null;
             }
             if (this.ServiceDeactivationRequestsDone)
             {
@@ -266,7 +266,7 @@ namespace ZuneUI
                 {
                     if (!this.TokenSupported)
                     {
-                        ZuneShell.DefaultInstance.Execute("Web\\" + this.CreateRedeemCodeUrl(true), (IDictionary)null);
+                        ZuneShell.DefaultInstance.Execute("Web\\" + this.CreateRedeemCodeUrl(true), null);
                         this._owner.Cancel();
                         return false;
                     }
@@ -281,23 +281,23 @@ namespace ZuneUI
                     this.ConfirmedTokenDetails = this.TokenDetails;
                 return false;
             }
-            this.StartDeactivationRequests((object)uncommittedValue);
+            this.StartDeactivationRequests(uncommittedValue);
             this.WizardPropertyEditor.Commit();
             return false;
         }
 
         protected override void OnStartDeactivationRequests(object state)
         {
-            RedeemCodeStep.ServiceData serviceData = this.VerifyToken(state as string);
+            ServiceData serviceData = this.VerifyToken(state as string);
             if (!serviceData.TokenInvalid && serviceData.TokenDetails.TokenType == ETokenType.Media)
-                Microsoft.Zune.Service.Service.Instance.GetOfferDetails(serviceData.TokenDetails.MediaOfferId, new GetOfferDetailsCompleteCallback(this.OnGetOfferDetailsSuccess), new GetOfferDetailsErrorCallback(this.OnGetOfferDetailsError), (object)serviceData);
+                Service.Instance.GetOfferDetails(serviceData.TokenDetails.MediaOfferId, new GetOfferDetailsCompleteCallback(this.OnGetOfferDetailsSuccess), new GetOfferDetailsErrorCallback(this.OnGetOfferDetailsError), serviceData);
             else
-                this.EndDeactivationRequests((object)serviceData);
+                this.EndDeactivationRequests(serviceData);
         }
 
         protected override void OnEndDeactivationRequests(object args)
         {
-            RedeemCodeStep.ServiceData serviceData = (RedeemCodeStep.ServiceData)args;
+            ServiceData serviceData = (ServiceData)args;
             this.TokenClientTypes = serviceData.TokenClientTypes;
             this.TokenDetails = serviceData.TokenDetails;
             this.TokenInvalid = serviceData.TokenInvalid;
@@ -308,10 +308,10 @@ namespace ZuneUI
             this.AppOffers = serviceData.AppOffers;
         }
 
-        private RedeemCodeStep.ServiceData VerifyToken(string token)
+        private ServiceData VerifyToken(string token)
         {
-            RedeemCodeStep.ServiceData serviceData = new RedeemCodeStep.ServiceData();
-            if (((HRESULT)Microsoft.Zune.Service.Service.Instance.VerifyToken(token, out serviceData.TokenDetails)).IsError)
+            ServiceData serviceData = new ServiceData();
+            if (((HRESULT)Service.Instance.VerifyToken(token, out serviceData.TokenDetails)).IsError)
                 serviceData.TokenInvalid = true;
             return serviceData;
         }
@@ -329,17 +329,17 @@ namespace ZuneUI
             }
             else
             {
-                RedeemCodeStep.ServiceData serviceData = (RedeemCodeStep.ServiceData)state;
-                this.ZeroOfferPoints((IEnumerable)albums.Items);
-                this.ZeroOfferPoints((IEnumerable)tracks.Items);
-                this.ZeroOfferPoints((IEnumerable)videos.Items);
+                ServiceData serviceData = (ServiceData)state;
+                this.ZeroOfferPoints(albums.Items);
+                this.ZeroOfferPoints(tracks.Items);
+                this.ZeroOfferPoints(videos.Items);
                 serviceData.AlbumOffers = albums;
                 serviceData.TrackOffers = tracks;
                 serviceData.VideoOffers = videos;
                 serviceData.TokenClientTypes = clientTypes;
                 serviceData.TokenExpired = this.IsTokenExpired(albums.Items, tracks.Items, videos.Items);
-                serviceData.AppOffers = Microsoft.Zune.Service.Service.Instance.CreateEmptyAppCollection();
-                this.EndDeactivationRequests((object)serviceData);
+                serviceData.AppOffers = Service.Instance.CreateEmptyAppCollection();
+                this.EndDeactivationRequests(serviceData);
             }
         }
 
@@ -347,7 +347,7 @@ namespace ZuneUI
         {
             if (albums != null && albums.Count > 0 || tracks != null && tracks.Count > 0 || (videos == null || videos.Count <= 0))
                 return false;
-            foreach (VideoOffer video in (IEnumerable)videos)
+            foreach (VideoOffer video in videos)
             {
                 if (!video.ExpirationDate.HasValue || video.ExpirationDate.Value > DateTime.UtcNow)
                     return false;
@@ -357,10 +357,10 @@ namespace ZuneUI
 
         private void OnGetOfferDetailsError(HRESULT hr, object state)
         {
-            RedeemCodeStep.ServiceData serviceData = (RedeemCodeStep.ServiceData)state;
+            ServiceData serviceData = (ServiceData)state;
             if (hr.IsError)
                 serviceData.TokenInvalid = true;
-            this.EndDeactivationRequests((object)serviceData);
+            this.EndDeactivationRequests(serviceData);
         }
 
         private void ZeroOfferPoints(IEnumerable offers)

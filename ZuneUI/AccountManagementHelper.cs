@@ -15,7 +15,7 @@ namespace ZuneUI
           string password,
           out PassportIdentity passportIdentity)
         {
-            return Microsoft.Zune.Service.Service.Instance.AuthenticatePassport(username, password, EPassportPolicyId.MBI_SSL, out passportIdentity);
+            return Service.Instance.AuthenticatePassport(username, password, EPassportPolicyId.MBI_SSL, out passportIdentity);
         }
     }
 }

@@ -16,7 +16,7 @@ namespace ZuneUI
 
         public PlaybackPage()
         {
-            this.UI = PlaybackPage.LandUI;
+            this.UI = LandUI;
             this.ShowAppBackground = false;
             this.ShowBackArrow = true;
             this.ShowCDIcon = false;

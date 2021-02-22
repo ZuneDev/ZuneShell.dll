@@ -45,7 +45,7 @@ namespace ZuneUI
             get
             {
                 if (this._basicAccountInfoStep == null)
-                    this._basicAccountInfoStep = new BasicAccountInfoStep((Wizard)this._wizard, this, false);
+                    this._basicAccountInfoStep = new BasicAccountInfoStep(_wizard, this, false);
                 return this._basicAccountInfoStep;
             }
         }
@@ -55,7 +55,7 @@ namespace ZuneUI
             get
             {
                 if (this._contactInfoStep == null)
-                    this._contactInfoStep = new EditContactInfoStep((Wizard)this._wizard, this);
+                    this._contactInfoStep = new EditContactInfoStep(_wizard, this);
                 return this._contactInfoStep;
             }
         }
@@ -65,7 +65,7 @@ namespace ZuneUI
             get
             {
                 if (this._contactInfoParentStep == null)
-                    this._contactInfoParentStep = new ContactInfoParentStep((Wizard)this._wizard, this);
+                    this._contactInfoParentStep = new ContactInfoParentStep(_wizard, this);
                 return this._contactInfoParentStep;
             }
         }
@@ -75,7 +75,7 @@ namespace ZuneUI
             get
             {
                 if (this._createPassportStep == null)
-                    this._createPassportStep = new CreatePassportStep((Wizard)this._wizard, this, false);
+                    this._createPassportStep = new CreatePassportStep(_wizard, this, false);
                 return this._createPassportStep;
             }
         }
@@ -85,7 +85,7 @@ namespace ZuneUI
             get
             {
                 if (this._createPassportParentStep == null)
-                    this._createPassportParentStep = new CreatePassportStep((Wizard)this._wizard, this, true);
+                    this._createPassportParentStep = new CreatePassportStep(_wizard, this, true);
                 return this._createPassportParentStep;
             }
         }
@@ -95,7 +95,7 @@ namespace ZuneUI
             get
             {
                 if (this._emailSelectionStep == null)
-                    this._emailSelectionStep = new EmailSelectionStep((Wizard)this._wizard, this, false);
+                    this._emailSelectionStep = new EmailSelectionStep(_wizard, this, false);
                 return this._emailSelectionStep;
             }
         }
@@ -105,7 +105,7 @@ namespace ZuneUI
             get
             {
                 if (this._emailSelectionParentStep == null)
-                    this._emailSelectionParentStep = new EmailSelectionStep((Wizard)this._wizard, this, true);
+                    this._emailSelectionParentStep = new EmailSelectionStep(_wizard, this, true);
                 return this._emailSelectionParentStep;
             }
         }
@@ -115,7 +115,7 @@ namespace ZuneUI
             get
             {
                 if (this._hipPassportStep == null)
-                    this._hipPassportStep = new HipPassportStep((Wizard)this._wizard, this, false);
+                    this._hipPassportStep = new HipPassportStep(_wizard, this, false);
                 return this._hipPassportStep;
             }
         }
@@ -125,7 +125,7 @@ namespace ZuneUI
             get
             {
                 if (this._hipPassportParentStep == null)
-                    this._hipPassportParentStep = new HipPassportStep((Wizard)this._wizard, this, true);
+                    this._hipPassportParentStep = new HipPassportStep(_wizard, this, true);
                 return this._hipPassportParentStep;
             }
         }
@@ -135,7 +135,7 @@ namespace ZuneUI
             get
             {
                 if (this._passportPasswordStep == null)
-                    this._passportPasswordStep = new PassportPasswordStep((Wizard)this._wizard, this, false);
+                    this._passportPasswordStep = new PassportPasswordStep(_wizard, this, false);
                 return this._passportPasswordStep;
             }
         }
@@ -145,7 +145,7 @@ namespace ZuneUI
             get
             {
                 if (this._passportPasswordParentStep == null)
-                    this._passportPasswordParentStep = new PassportPasswordStep((Wizard)this._wizard, this, true);
+                    this._passportPasswordParentStep = new PassportPasswordStep(_wizard, this, true);
                 return this._passportPasswordParentStep;
             }
         }
@@ -155,7 +155,7 @@ namespace ZuneUI
             get
             {
                 if (this._paymentInstrumentStep == null)
-                    this._paymentInstrumentStep = new PaymentInstrumentStep((Wizard)this._wizard, this, false);
+                    this._paymentInstrumentStep = new PaymentInstrumentStep(_wizard, this, false);
                 return this._paymentInstrumentStep;
             }
         }
@@ -165,7 +165,7 @@ namespace ZuneUI
             get
             {
                 if (this._paymentInstrumentParentStep == null)
-                    this._paymentInstrumentParentStep = new ParentPaymentIntrumentStep((Wizard)this._wizard, this);
+                    this._paymentInstrumentParentStep = new ParentPaymentIntrumentStep(_wizard, this);
                 return this._paymentInstrumentParentStep;
             }
         }
@@ -175,7 +175,7 @@ namespace ZuneUI
             get
             {
                 if (this._privacyInfoStep == null)
-                    this._privacyInfoStep = new PrivacyInfoStep((Wizard)this._wizard, this, false, PrivacyInfoSettings.None);
+                    this._privacyInfoStep = new PrivacyInfoStep(_wizard, this, false, PrivacyInfoSettings.None);
                 return this._privacyInfoStep;
             }
         }
@@ -185,7 +185,7 @@ namespace ZuneUI
             get
             {
                 if (this._privacyInfoParentStep == null)
-                    this._privacyInfoParentStep = new PrivacyInfoStep((Wizard)this._wizard, this, true, PrivacyInfoSettings.None);
+                    this._privacyInfoParentStep = new PrivacyInfoStep(_wizard, this, true, PrivacyInfoSettings.None);
                 return this._privacyInfoParentStep;
             }
         }
@@ -195,7 +195,7 @@ namespace ZuneUI
             get
             {
                 if (this._termsOfServiceStep == null)
-                    this._termsOfServiceStep = new TermsOfServiceStep((Wizard)this._wizard, this, false);
+                    this._termsOfServiceStep = new TermsOfServiceStep(_wizard, this, false);
                 return this._termsOfServiceStep;
             }
         }
@@ -205,7 +205,7 @@ namespace ZuneUI
             get
             {
                 if (this._zuneTagStep == null)
-                    this._zuneTagStep = new ZuneTagStep((Wizard)this._wizard, this, false);
+                    this._zuneTagStep = new ZuneTagStep(_wizard, this, false);
                 return this._zuneTagStep;
             }
         }
@@ -215,7 +215,7 @@ namespace ZuneUI
             get
             {
                 if (this._selectBillingOfferStep == null)
-                    this._selectBillingOfferStep = new SelectBillingOfferStep((Wizard)this._wizard, this);
+                    this._selectBillingOfferStep = new SelectBillingOfferStep(_wizard, this);
                 return this._selectBillingOfferStep;
             }
         }
@@ -225,7 +225,7 @@ namespace ZuneUI
             get
             {
                 if (this._selectPaymentInstrumentStep == null)
-                    this._selectPaymentInstrumentStep = new SelectPaymentInstrumentStep((Wizard)this._wizard, this, false);
+                    this._selectPaymentInstrumentStep = new SelectPaymentInstrumentStep(_wizard, this, false);
                 return this._selectPaymentInstrumentStep;
             }
         }
@@ -235,7 +235,7 @@ namespace ZuneUI
             get
             {
                 if (this._confirmationStep == null)
-                    this._confirmationStep = new ConfirmationStep((Wizard)this._wizard, this, false);
+                    this._confirmationStep = new ConfirmationStep(_wizard, this, false);
                 return this._confirmationStep;
             }
         }
@@ -245,7 +245,7 @@ namespace ZuneUI
             get
             {
                 if (this._listAndAddPaymentInstrumentStep == null)
-                    this._listAndAddPaymentInstrumentStep = new ListAndAddPaymentInstrumentStep((Wizard)this._wizard, this, false);
+                    this._listAndAddPaymentInstrumentStep = new ListAndAddPaymentInstrumentStep(_wizard, this, false);
                 return this._listAndAddPaymentInstrumentStep;
             }
         }
@@ -255,7 +255,7 @@ namespace ZuneUI
             get
             {
                 if (this._redeemCodeStep == null)
-                    this._redeemCodeStep = new RedeemCodeStep((Wizard)this._wizard, this);
+                    this._redeemCodeStep = new RedeemCodeStep(_wizard, this);
                 return this._redeemCodeStep;
             }
         }
@@ -317,7 +317,7 @@ namespace ZuneUI
         internal bool UpgradeZuneAccount(bool includeAccountSettings, PassportIdentity passportIdentity)
         {
             PassportIdentity passportIdentity1 = this.GetParentPassportIdentity();
-            AccountSettings accountSettings = (AccountSettings)null;
+            AccountSettings accountSettings = null;
             if (includeAccountSettings)
             {
                 if (this.PrivacyInfoParentStep.IsEnabled)
@@ -329,11 +329,11 @@ namespace ZuneUI
                 else
                     accountSettings = this.PrivacyInfoStep.CommittedSettings;
             }
-            ServiceError serviceError = (ServiceError)null;
+            ServiceError serviceError = null;
             HRESULT hr = this.AccountManagement.UpgradeAccount(passportIdentity, accountSettings, passportIdentity1, out serviceError);
             bool isSuccess = hr.IsSuccess;
             if (!isSuccess)
-                this._wizard.SetError(hr, (object)new AccountManagementErrorState(false, serviceError));
+                this._wizard.SetError(hr, new AccountManagementErrorState(false, serviceError));
             return isSuccess;
         }
 
@@ -351,7 +351,7 @@ namespace ZuneUI
             string selectedLocale = this.BasicAccountInfoStep.SelectedLocale;
             DateTime? committedValue2 = (DateTime?)this.BasicAccountInfoStep.GetCommittedValue(BasicAccountInfoPropertyEditor.Birthday);
             PassportIdentity passportIdentity2 = this.GetParentPassportIdentity();
-            CreditCard parentCreditCard = (CreditCard)null;
+            CreditCard parentCreditCard = null;
             AccountSettings committedSettings;
             if (this.BasicAccountInfoStep.IsParentAccountNeeded || this.PassportPasswordStep.IsParentAccountNeeded)
             {
@@ -364,11 +364,11 @@ namespace ZuneUI
                 committedSettings = this.PrivacyInfoStep.CommittedSettings;
             Address address = new Address();
             address.PostalCode = this.BasicAccountInfoStep.GetCommittedValue(BasicAccountInfoPropertyEditor.PostalCode) as string;
-            ServiceError serviceError = (ServiceError)null;
+            ServiceError serviceError = null;
             HRESULT account = this.AccountManagement.CreateAccount(passportIdentity1, committedValue1, selectedLocale, committedValue2.Value, string.Empty, string.Empty, emailAddress, address, committedSettings, passportIdentity2, parentCreditCard, out serviceError);
             bool isSuccess = account.IsSuccess;
             if (!isSuccess)
-                this._wizard.SetError(account, (object)new AccountManagementErrorState(false, serviceError));
+                this._wizard.SetError(account, new AccountManagementErrorState(false, serviceError));
             return isSuccess;
         }
 
@@ -376,19 +376,19 @@ namespace ZuneUI
           BillingOffer billingOffer,
           PaymentInstrument paymentInstrument)
         {
-            HRESULT hr = (HRESULT)Microsoft.Zune.Service.Service.Instance.PurchaseBillingOffer(billingOffer, paymentInstrument);
+            HRESULT hr = Service.Instance.PurchaseBillingOffer(billingOffer, paymentInstrument);
             if (hr.IsError)
-                this._wizard.SetError(hr, (object)null);
-            else if (billingOffer.OfferType == Microsoft.Zune.Service.EBillingOfferType.Subscription || billingOffer.OfferType == Microsoft.Zune.Service.EBillingOfferType.Trial || billingOffer.OfferType == Microsoft.Zune.Service.EBillingOfferType.Renewal)
+                this._wizard.SetError(hr, null);
+            else if (billingOffer.OfferType == EBillingOfferType.Subscription || billingOffer.OfferType == EBillingOfferType.Trial || billingOffer.OfferType == EBillingOfferType.Renewal)
                 SignIn.Instance.RefreshAccount();
             return hr.IsSuccess;
         }
 
-        internal bool RedeemCode() => this.PurchaseBillingOffer(this.RedeemCodeStep.MatchingBillingOffer, (PaymentInstrument)this.RedeemCodeStep.TokenDetails);
+        internal bool RedeemCode() => this.PurchaseBillingOffer(this.RedeemCodeStep.MatchingBillingOffer, RedeemCodeStep.TokenDetails);
 
         private PassportIdentity GetPassportIdentity()
         {
-            PassportIdentity passportIdentity = (PassportIdentity)null;
+            PassportIdentity passportIdentity = null;
             if (this.PassportPasswordStep.IsEnabled)
                 passportIdentity = this.PassportPasswordStep.PassportIdentity;
             else
@@ -398,7 +398,7 @@ namespace ZuneUI
 
         private PassportIdentity GetParentPassportIdentity()
         {
-            PassportIdentity passportIdentity = (PassportIdentity)null;
+            PassportIdentity passportIdentity = null;
             if (this.PassportPasswordParentStep.IsEnabled)
                 passportIdentity = this.PassportPasswordParentStep.PassportIdentity;
             else if (this.CreatePassportParentStep.CreatedPassport)

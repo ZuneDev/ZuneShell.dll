@@ -26,7 +26,7 @@ namespace ZuneUI
                 this.Description = Shell.LoadString(StringId.IDS_ACCOUNT_CREATION_PARENTAL_INPUT_HEAD);
             else
                 this.Description = Shell.LoadString(StringId.IDS_ACCOUNT_CREATION_EMAIL_STEP);
-            this.Initialize((WizardPropertyEditor)new EmailSelectionPropertyEditor());
+            this.Initialize(new EmailSelectionPropertyEditor());
         }
 
         public override string UI => "res://ZuneShellResources!CreatePassport.uix#EmailSelectionStep";
@@ -49,7 +49,7 @@ namespace ZuneUI
             get => this.GetUncommittedValue(EmailSelectionPropertyEditor.Email) as string;
             internal set
             {
-                this.SetCommittedValue(EmailSelectionPropertyEditor.Email, (object)value);
+                this.SetCommittedValue(EmailSelectionPropertyEditor.Email, value);
                 this.FirePropertyChanged(nameof(Email));
             }
         }
@@ -139,7 +139,7 @@ namespace ZuneUI
             }
         }
 
-        internal override ErrorMapperResult GetMappedErrorDescriptionAndUrl(HRESULT hr) => Microsoft.Zune.ErrorMapperApi.ErrorMapperApi.GetMappedErrorDescriptionAndUrl(hr.Int, eErrorCondition.eEC_WinLive);
+        internal override ErrorMapperResult GetMappedErrorDescriptionAndUrl(HRESULT hr) => ErrorMapperApi.GetMappedErrorDescriptionAndUrl(hr.Int, eErrorCondition.eEC_WinLive);
 
         private CreatePassportStep CreatePassportStep => !this.ParentAccount ? this.State.CreatePassportStep : this.State.CreatePassportParentStep;
 
@@ -172,20 +172,20 @@ namespace ZuneUI
                 this.ServiceDeactivationRequestsDone = true;
             if (this.ServiceDeactivationRequestsDone)
                 return base.OnMovingNext();
-            this.StartDeactivationRequests((object)this.Email);
+            this.StartDeactivationRequests(Email);
             return false;
         }
 
-        protected override void OnStartDeactivationRequests(object state) => this.EndDeactivationRequests((object)this.ValidatePassportId(state as string));
+        protected override void OnStartDeactivationRequests(object state) => this.EndDeactivationRequests(this.ValidatePassportId(state as string));
 
         protected override void OnEndDeactivationRequests(object args) => this.IsEmailPassportId = (bool)args;
 
         private bool ValidatePassportId(string email)
         {
             bool flag = false;
-            ServiceError serviceError = (ServiceError)null;
+            ServiceError serviceError = null;
             WinLiveAvailableInformation information;
-            HRESULT hr = this.State.WinLiveSignup.CheckAvailableSigninName(email, false, (string)null, (string)null, out information, out serviceError);
+            HRESULT hr = this.State.WinLiveSignup.CheckAvailableSigninName(email, false, null, null, out information, out serviceError);
             if (hr.IsError)
                 this.SetError(hr, serviceError);
             else

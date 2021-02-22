@@ -94,15 +94,15 @@ namespace ZuneUI
             {
                 int num = -1;
                 int mediaId = -1;
-                if (this.NavigationArguments.Contains((object)"SeriesLibraryId"))
-                    num = (int)this.NavigationArguments[(object)"SeriesLibraryId"];
-                if (this.NavigationArguments.Contains((object)"EpisodeLibraryId"))
-                    mediaId = (int)this.NavigationArguments[(object)"EpisodeLibraryId"];
+                if (this.NavigationArguments.Contains("SeriesLibraryId"))
+                    num = (int)this.NavigationArguments["SeriesLibraryId"];
+                if (this.NavigationArguments.Contains("EpisodeLibraryId"))
+                    mediaId = (int)this.NavigationArguments["EpisodeLibraryId"];
                 if (num <= 0 && mediaId > 0)
-                    num = PlaylistManager.GetFieldValue<int>(mediaId, this.SeriesListType, 311, -1);
+                    num = PlaylistManager.GetFieldValue(mediaId, this.SeriesListType, 311, -1);
                 this.SelectedSeriesId = num;
                 this.SelectedEpisodeId = mediaId;
-                this.NavigationArguments = (IDictionary)null;
+                this.NavigationArguments = null;
             }
             base.OnNavigatedToWorker();
         }
@@ -111,8 +111,8 @@ namespace ZuneUI
         {
             this.m_seriesPanel.Release();
             this.m_episodePanel.Release();
-            this.m_seriesPanel.SelectedItem = (object)null;
-            this.m_episodePanel.SelectedItem = (object)null;
+            this.m_seriesPanel.SelectedItem = null;
+            this.m_episodePanel.SelectedItem = null;
             return base.SaveAndRelease();
         }
 
@@ -138,7 +138,7 @@ namespace ZuneUI
             {
                 Uri result;
                 Uri.TryCreate(link, UriKind.Absolute, out result);
-                if (!(result != (Uri)null) || !(result.Scheme == Uri.UriSchemeHttp) && !(result.Scheme == Uri.UriSchemeHttps))
+                if (!(result != null) || !(result.Scheme == Uri.UriSchemeHttp) && !(result.Scheme == Uri.UriSchemeHttps))
                     return;
                 Process.Start(link);
             }
@@ -149,7 +149,7 @@ namespace ZuneUI
 
         public void Unsubscribe(int seriesId, bool deleteContent)
         {
-            HRESULT hresult = (HRESULT)this.m_subscriptionManager.Unsubscribe(seriesId, this.SeriesMediaType, deleteContent);
+            HRESULT hresult = this.m_subscriptionManager.Unsubscribe(seriesId, this.SeriesMediaType, deleteContent);
             if (hresult.IsSuccess)
                 this.SeriesState = 1;
             else
@@ -158,7 +158,7 @@ namespace ZuneUI
 
         public void Resubscribe(int seriesId)
         {
-            HRESULT hresult = (HRESULT)this.m_subscriptionManager.Subscribe(seriesId, this.SeriesMediaType);
+            HRESULT hresult = this.m_subscriptionManager.Subscribe(seriesId, this.SeriesMediaType);
             if (hresult.IsSuccess)
                 this.SeriesState = 0;
             else
@@ -185,7 +185,7 @@ namespace ZuneUI
         {
             Guid guid = Guid.Empty;
             if (seriesId > 0)
-                guid = PlaylistManager.GetFieldValue<Guid>(seriesId, listType, 451, Guid.Empty);
+                guid = PlaylistManager.GetFieldValue(seriesId, listType, 451, Guid.Empty);
             return guid;
         }
 
@@ -199,7 +199,7 @@ namespace ZuneUI
                 this.SelectedEpisodeId = -1;
                 if (this.EpisodePanel != null)
                 {
-                    this.EpisodePanel.SelectedItem = (object)null;
+                    this.EpisodePanel.SelectedItem = null;
                     this.EpisodePanel.SelectedLibraryIds.Clear();
                 }
                 this.m_selectedSeriesId = value;

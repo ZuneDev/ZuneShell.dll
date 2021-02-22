@@ -22,7 +22,7 @@ namespace ZuneUI
         {
             string subscriptionDirectory = ZuneApplication.Service.GetSubscriptionDirectory();
             if (string.IsNullOrEmpty(subscriptionDirectory))
-                MessageBox.Show(ZuneUI.Shell.LoadString(StringId.IDS_ACCOUNT_CLEAR_SUB_FAIL_TITLE), ZuneUI.Shell.LoadString(StringId.IDS_ACCOUNT_CLEAR_SUB_NO_DIRECTORY), (EventHandler)null);
+                MessageBox.Show(Shell.LoadString(StringId.IDS_ACCOUNT_CLEAR_SUB_FAIL_TITLE), Shell.LoadString(StringId.IDS_ACCOUNT_CLEAR_SUB_NO_DIRECTORY), null);
             else
                 new DeleteSubscriptionDownloadsDialog(subscriptionDirectory).Show();
         }
@@ -49,9 +49,9 @@ namespace ZuneUI
           : base("res://ZuneShellResources!ManagementAccount.uix#DeleteSubscriptionDownloadsDialogContentUI")
         {
             this.m_enabled = true;
-            this.m_title = ZuneUI.Shell.LoadString(StringId.IDS_ACCOUNT_CLEAR_SUBSCRIPTION_TITLE);
-            this.Description = string.Format(ZuneUI.Shell.LoadString(StringId.IDS_ACCOUNT_CLEAR_SUBSCRIPTION_CONFIRM), (object)subscriptionDirectory);
-            this.m_delete = new Command((IModelItemOwner)this, ZuneUI.Shell.LoadString(StringId.IDS_DIALOG_OK), new EventHandler(this.OnDeleteInvoked));
+            this.m_title = Shell.LoadString(StringId.IDS_ACCOUNT_CLEAR_SUBSCRIPTION_TITLE);
+            this.Description = string.Format(Shell.LoadString(StringId.IDS_ACCOUNT_CLEAR_SUBSCRIPTION_CONFIRM), subscriptionDirectory);
+            this.m_delete = new Command(this, Shell.LoadString(StringId.IDS_DIALOG_OK), new EventHandler(this.OnDeleteInvoked));
             this.Cancel.Invoked += new EventHandler(this.OnCancel);
         }
 
@@ -65,7 +65,7 @@ namespace ZuneUI
             ZuneApplication.Service.DeleteSubscriptionDownloads(new AsyncCompleteHandler(this.OnDeleteComplete));
         }
 
-        private void OnDeleteComplete(HRESULT hr) => Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredDeleteCompleteEvent), (object)hr);
+        private void OnDeleteComplete(HRESULT hr) => Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredDeleteCompleteEvent), hr);
 
         private void DeferredDeleteCompleteEvent(object arg)
         {
@@ -74,7 +74,7 @@ namespace ZuneUI
             this.Hide();
             if (!hresult.IsError)
                 return;
-            ZuneUI.Shell.ShowErrorDialog(hresult.Int, StringId.IDS_ACCOUNT_CLEAR_SUB_FAIL_TITLE, StringId.IDS_ACCOUNT_CLEAR_SUB_FAIL_MESSAGE);
+            Shell.ShowErrorDialog(hresult.Int, StringId.IDS_ACCOUNT_CLEAR_SUB_FAIL_TITLE, StringId.IDS_ACCOUNT_CLEAR_SUB_FAIL_MESSAGE);
         }
     }
 }

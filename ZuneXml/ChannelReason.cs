@@ -14,7 +14,7 @@ namespace ZuneXml
           DataProviderQuery owner,
           object objectTypeCookie)
         {
-            return (XmlDataProviderObject)new ChannelReason(owner, objectTypeCookie);
+            return new ChannelReason(owner, objectTypeCookie);
         }
 
         internal ChannelReason(DataProviderQuery owner, object resultTypeCookie)

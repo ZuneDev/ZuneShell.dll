@@ -12,7 +12,7 @@ namespace ZuneUI
           Wizard owner,
           AccountManagementWizardState state,
           string description)
-          : base(owner, state, description, (string)null)
+          : base(owner, state, description, null)
         {
         }
 

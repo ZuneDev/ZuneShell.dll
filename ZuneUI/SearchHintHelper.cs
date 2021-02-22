@@ -53,7 +53,7 @@ namespace ZuneUI
             }
         }
 
-        public void ClearResultsByType(SearchHintResultType resultType) => this._resultsCache[(object)resultType] = (object)new List<string>();
+        public void ClearResultsByType(SearchHintResultType resultType) => this._resultsCache[resultType] = new List<string>();
 
         public virtual void MergeResults(IList queryResults, SearchHintResultType resultType)
         {
@@ -64,15 +64,15 @@ namespace ZuneUI
             {
                 DataProviderObject queryResult = queryResults[index] as DataProviderObject;
                 string property = (string)queryResult.GetProperty("Title");
-                if (!string.IsNullOrEmpty(property) && !providerTitleList.Contains((object)property) && (!this.FilterForKeyword || this.ContainsKeyword(property)))
-                    providerTitleList.DataProviders.Add((object)queryResult);
+                if (!string.IsNullOrEmpty(property) && !providerTitleList.Contains(property) && (!this.FilterForKeyword || this.ContainsKeyword(property)))
+                    providerTitleList.DataProviders.Add(queryResult);
             }
-            this._resultsCache[(object)resultType] = (object)providerTitleList;
+            this._resultsCache[resultType] = providerTitleList;
             ++this._resultsQueueCount;
-            Application.DeferredInvoke((DeferredInvokeHandler)delegate
+            Application.DeferredInvoke(delegate
            {
                this.HandleResultsQueue();
-           }, (object)null);
+           }, null);
         }
 
         private bool ContainsKeyword(string title)
@@ -103,15 +103,15 @@ namespace ZuneUI
             foreach (DictionaryEntry dictionaryEntry in this._resultsCache)
             {
                 DataProviderTitleList providerTitleList = dictionaryEntry.Value as DataProviderTitleList;
-                this._mergedTitles.InitializeDataProviders(ListHelper.Merge(this._mergedTitles.DataProviders, providerTitleList == null ? (IList)null : providerTitleList.DataProviders, false, (IComparer)new SearchResultDataComparer(), new ListHelper.MergeObjects(this.MergeSearchResultDataDelegate)));
+                this._mergedTitles.InitializeDataProviders(ListHelper.Merge(this._mergedTitles.DataProviders, providerTitleList == null ? null : providerTitleList.DataProviders, false, new SearchResultDataComparer(), new ListHelper.MergeObjects(this.MergeSearchResultDataDelegate)));
             }
-            Application.DeferredInvoke((DeferredInvokeHandler)delegate
+            Application.DeferredInvoke(delegate
            {
                this.HandleResultsQueue();
-           }, (object)null);
+           }, null);
             this._updateTimer.Enabled = true;
         }
 
-        private void OnUpdateTimerTick(object sender, EventArgs args) => this.Options = (IList)this._mergedTitles;
+        private void OnUpdateTimerTick(object sender, EventArgs args) => this.Options = _mergedTitles;
     }
 }

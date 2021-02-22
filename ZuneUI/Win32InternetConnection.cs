@@ -13,10 +13,10 @@ namespace ZuneUI
     {
         [DllImport("wininet.dll", SetLastError = true)]
         private static extern bool InternetGetConnectedState(
-          out Win32InternetConnection.InternetGetConnectedStateFlags Description,
+          out InternetGetConnectedStateFlags Description,
           int ReservedValue);
 
-        public static bool IsConnected => Win32InternetConnection.InternetGetConnectedState(out Win32InternetConnection.InternetGetConnectedStateFlags _, 0);
+        public static bool IsConnected => InternetGetConnectedState(out InternetGetConnectedStateFlags _, 0);
 
         [Flags]
         private enum InternetGetConnectedStateFlags

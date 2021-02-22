@@ -11,43 +11,43 @@ namespace Microsoft.Zune.PerfTrace
     public sealed class PerfTrace
     {
         private static readonly EtwTraceProvider _EventProvider;
-        internal static readonly Guid ZUNE_ETW_CONTROL_GUID = new Guid(1496399467U, (ushort)53017, (ushort)20072, (byte)142, (byte)243, (byte)135, (byte)107, (byte)12, (byte)8, (byte)232, (byte)1);
-        internal static readonly Guid PERFTRACE_LAUNCHEVENT_GUID = new Guid(1815200785, (short)23272, (short)18087, (byte)190, (byte)166, (byte)76, (byte)236, (byte)117, (byte)51, (byte)196, (byte)218);
-        internal static readonly Guid PerftraceUICollectionGuid = new Guid(235915657U, (ushort)37778, (ushort)18043, (byte)146, (byte)252, (byte)128, (byte)212, (byte)193, (byte)153, (byte)154, (byte)151);
+        internal static readonly Guid ZUNE_ETW_CONTROL_GUID = new Guid(1496399467U, 53017, 20072, 142, 243, 135, 107, 12, 8, 232, 1);
+        internal static readonly Guid PERFTRACE_LAUNCHEVENT_GUID = new Guid(1815200785, 23272, 18087, 190, 166, 76, 236, 117, 51, 196, 218);
+        internal static readonly Guid PerftraceUICollectionGuid = new Guid(235915657U, 37778, 18043, 146, 252, 128, 212, 193, 153, 154, 151);
 
         private PerfTrace()
         {
         }
 
-        static PerfTrace() => Microsoft.Zune.PerfTrace.PerfTrace._EventProvider = new EtwTraceProvider(Microsoft.Zune.PerfTrace.PerfTrace.ZUNE_ETW_CONTROL_GUID, "SOFTWARE\\Microsoft\\Zune");
+        static PerfTrace() => _EventProvider = new EtwTraceProvider(ZUNE_ETW_CONTROL_GUID, "SOFTWARE\\Microsoft\\Zune");
 
         internal static bool IsEnabled(
           EtwTraceProvider provider,
-          Microsoft.Zune.PerfTrace.PerfTrace.Flags flag,
-          Microsoft.Zune.PerfTrace.PerfTrace.Level level)
+          Flags flag,
+          Level level)
         {
-            return (uint)level <= (uint)provider.Level && provider.IsEnabled && (flag & (Microsoft.Zune.PerfTrace.PerfTrace.Flags)provider.Flags) > ~Microsoft.Zune.PerfTrace.PerfTrace.Flags.All;
+            return (uint)level <= provider.Level && provider.IsEnabled && (flag & (Flags)provider.Flags) > ~Flags.All;
         }
 
-        internal static bool IsEnabled(Microsoft.Zune.PerfTrace.PerfTrace.Flags flags, Microsoft.Zune.PerfTrace.PerfTrace.Level level) => Microsoft.Zune.PerfTrace.PerfTrace.IsEnabled(Microsoft.Zune.PerfTrace.PerfTrace._EventProvider, flags, level);
+        internal static bool IsEnabled(Flags flags, Level level) => IsEnabled(_EventProvider, flags, level);
 
-        internal static bool IsEnabled(Microsoft.Zune.PerfTrace.PerfTrace.Flags flags) => Microsoft.Zune.PerfTrace.PerfTrace.IsEnabled(Microsoft.Zune.PerfTrace.PerfTrace._EventProvider, flags, Microsoft.Zune.PerfTrace.PerfTrace.Level.Normal);
+        internal static bool IsEnabled(Flags flags) => IsEnabled(_EventProvider, flags, Level.Normal);
 
-        public static void PERFTRACE_LAUNCHEVENT(Microsoft.Zune.PerfTrace.PerfTrace.LAUNCH_EVENT launchEvent, uint data)
+        public static void PERFTRACE_LAUNCHEVENT(LAUNCH_EVENT launchEvent, uint data)
         {
-            if (!Microsoft.Zune.PerfTrace.PerfTrace.IsEnabled(Microsoft.Zune.PerfTrace.PerfTrace.Flags.Launch, Microsoft.Zune.PerfTrace.PerfTrace.Level.Normal))
+            if (!IsEnabled(Flags.Launch, Level.Normal))
                 return;
-            Microsoft.Zune.PerfTrace.PerfTrace._EventProvider.TraceEvent((byte)4, Microsoft.Zune.PerfTrace.PerfTrace.PERFTRACE_LAUNCHEVENT_GUID, (byte)launchEvent, (object)data);
+            _EventProvider.TraceEvent(4, PERFTRACE_LAUNCHEVENT_GUID, (byte)launchEvent, data);
         }
 
         public static void TraceUICollectionEvent(UICollectionEvent traceEvent, string eventDetail)
         {
-            if (!Microsoft.Zune.PerfTrace.PerfTrace.IsEnabled(Microsoft.Zune.PerfTrace.PerfTrace.Flags.Collection, Microsoft.Zune.PerfTrace.PerfTrace.Level.Normal))
+            if (!IsEnabled(Flags.Collection, Level.Normal))
                 return;
-            Microsoft.Zune.PerfTrace.PerfTrace._EventProvider.TraceEvent((byte)4, Microsoft.Zune.PerfTrace.PerfTrace.PerftraceUICollectionGuid, (byte)traceEvent, (object)eventDetail);
+            _EventProvider.TraceEvent(4, PerftraceUICollectionGuid, (byte)traceEvent, eventDetail);
         }
 
-        [System.Flags]
+        [Flags]
         internal enum Flags : uint
         {
             DB_Mutex = 1,

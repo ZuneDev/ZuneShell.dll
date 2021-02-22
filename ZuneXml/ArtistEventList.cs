@@ -25,14 +25,14 @@ namespace ZuneXml
 
         private IList FilterConcerts()
         {
-            IList list = (IList)null;
+            IList list = null;
             if (this.Items != null && this.Items.Count > 0)
             {
-                list = (IList)new ArrayList(this.Items.Count);
-                foreach (ArtistEvent artistEvent in (IEnumerable)this.Items)
+                list = new ArrayList(this.Items.Count);
+                foreach (ArtistEvent artistEvent in Items)
                 {
                     if (artistEvent.Type == "Concert")
-                        list.Add((object)artistEvent);
+                        list.Add(artistEvent);
                 }
             }
             return list;
@@ -42,7 +42,7 @@ namespace ZuneXml
           DataProviderQuery owner,
           object objectTypeCookie)
         {
-            return (XmlDataProviderObject)new ArtistEventList(owner, objectTypeCookie);
+            return new ArtistEventList(owner, objectTypeCookie);
         }
 
         internal ArtistEventList(DataProviderQuery owner, object resultTypeCookie)
@@ -57,7 +57,7 @@ namespace ZuneXml
             switch (propertyName)
             {
                 case "Concerts":
-                    return (object)this.Concerts;
+                    return Concerts;
                 default:
                     return base.GetProperty(propertyName);
             }

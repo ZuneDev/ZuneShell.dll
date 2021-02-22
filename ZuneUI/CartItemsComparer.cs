@@ -32,7 +32,7 @@ namespace ZuneUI
             CartItem cartItem2 = y as CartItem;
             if (cartItem1 == null || cartItem2 == null)
                 return 0;
-            int num = ((IComparable)cartItem1.AvailableInMarketplace).CompareTo((object)cartItem2.AvailableInMarketplace);
+            int num = cartItem1.AvailableInMarketplace.CompareTo((object)cartItem2.AvailableInMarketplace);
             if (num != 0)
                 return -num;
             if (this.PropertyDelegate != null)

@@ -14,33 +14,33 @@ namespace ZuneXml
         private static IDictionary<object, ConstructObject> _mapMarkupCookieToConstructor;
         private static IDictionary<string, object> _mapTypeNameToMarkupCookie;
 
-        public static void ClearBindings() => XmlDataProviderObjectFactory._mapMarkupCookieToConstructor = (IDictionary<object, ConstructObject>)null;
+        public static void ClearBindings() => _mapMarkupCookieToConstructor = null;
 
         public static void Bind(string typeName, object markupTypeCookie)
         {
-            if (XmlDataProviderObjectFactory._mapTypeNameToMarkupCookie == null)
-                XmlDataProviderObjectFactory._mapTypeNameToMarkupCookie = (IDictionary<string, object>)new Dictionary<string, object>(40);
-            XmlDataProviderObjectFactory._mapTypeNameToMarkupCookie[typeName] = markupTypeCookie;
+            if (_mapTypeNameToMarkupCookie == null)
+                _mapTypeNameToMarkupCookie = new Dictionary<string, object>(40);
+            _mapTypeNameToMarkupCookie[typeName] = markupTypeCookie;
         }
 
         private static void RegisterTypeConstructor(string typeName, ConstructObject constructor)
         {
-            object key = XmlDataProviderObjectFactory._mapTypeNameToMarkupCookie[typeName];
-            if (XmlDataProviderObjectFactory._mapMarkupCookieToConstructor == null)
-                XmlDataProviderObjectFactory._mapMarkupCookieToConstructor = (IDictionary<object, ConstructObject>)new Dictionary<object, ConstructObject>(40);
-            XmlDataProviderObjectFactory._mapMarkupCookieToConstructor[key] = constructor;
+            object key = _mapTypeNameToMarkupCookie[typeName];
+            if (_mapMarkupCookieToConstructor == null)
+                _mapMarkupCookieToConstructor = new Dictionary<object, ConstructObject>(40);
+            _mapMarkupCookieToConstructor[key] = constructor;
         }
 
         internal static ConstructObject GetConstructor(object objectTypeCookie)
         {
-            if (XmlDataProviderObjectFactory._mapMarkupCookieToConstructor == null)
+            if (_mapMarkupCookieToConstructor == null)
             {
-                XmlDataProviderObjectFactory.RegisterTypeConstructors();
-                XmlDataProviderObjectFactory._mapTypeNameToMarkupCookie = (IDictionary<string, object>)null;
+                RegisterTypeConstructors();
+                _mapTypeNameToMarkupCookie = null;
             }
-            ConstructObject constructObject = (ConstructObject)null;
-            if (XmlDataProviderObjectFactory._mapMarkupCookieToConstructor.ContainsKey(objectTypeCookie))
-                constructObject = XmlDataProviderObjectFactory._mapMarkupCookieToConstructor[objectTypeCookie];
+            ConstructObject constructObject = null;
+            if (_mapMarkupCookieToConstructor.ContainsKey(objectTypeCookie))
+                constructObject = _mapMarkupCookieToConstructor[objectTypeCookie];
             return constructObject;
         }
 
@@ -48,70 +48,70 @@ namespace ZuneXml
           DataProviderQuery owner,
           object objectTypeCookie)
         {
-            ConstructObject constructor = XmlDataProviderObjectFactory.GetConstructor(objectTypeCookie);
+            ConstructObject constructor = GetConstructor(objectTypeCookie);
             return constructor != null ? constructor(owner, objectTypeCookie) : new XmlDataProviderObject(owner, objectTypeCookie);
         }
 
         internal static void RegisterTypeConstructors()
         {
-            XmlDataProviderObjectFactory.RegisterTypeConstructor("BadgeData", new ConstructObject(BadgeData.ConstructBadgeDataObject));
-            XmlDataProviderObjectFactory.RegisterTypeConstructor("TrackPurchaseHistory", new ConstructObject(TrackPurchaseHistory.ConstructTrackPurchaseHistoryObject));
-            XmlDataProviderObjectFactory.RegisterTypeConstructor("AppCapabilities", new ConstructObject(AppCapabilities.ConstructAppCapabilitiesObject));
-            XmlDataProviderObjectFactory.RegisterTypeConstructor("Artist", new ConstructObject(Artist.ConstructArtistObject));
-            XmlDataProviderObjectFactory.RegisterTypeConstructor("PlaylistTrack", new ConstructObject(PlaylistTrack.ConstructPlaylistTrackObject));
-            XmlDataProviderObjectFactory.RegisterTypeConstructor("ZuneHDApp", new ConstructObject(ZuneHDApp.ConstructZuneHDAppObject));
-            XmlDataProviderObjectFactory.RegisterTypeConstructor("MessageDetails", new ConstructObject(MessageDetails.ConstructMessageDetailsObject));
-            XmlDataProviderObjectFactory.RegisterTypeConstructor("Season", new ConstructObject(Season.ConstructSeasonObject));
-            XmlDataProviderObjectFactory.RegisterTypeConstructor("MusicVideo", new ConstructObject(MusicVideo.ConstructMusicVideoObject));
-            XmlDataProviderObjectFactory.RegisterTypeConstructor("MediaInstance", new ConstructObject(MediaInstance.ConstructMediaInstanceObject));
-            XmlDataProviderObjectFactory.RegisterTypeConstructor("SeriesCategory", new ConstructObject(SeriesCategory.ConstructSeriesCategoryObject));
-            XmlDataProviderObjectFactory.RegisterTypeConstructor("RecommendedTrack", new ConstructObject(RecommendedTrack.ConstructRecommendedTrackObject));
-            XmlDataProviderObjectFactory.RegisterTypeConstructor("AppCapability", new ConstructObject(AppCapability.ConstructAppCapabilityObject));
-            XmlDataProviderObjectFactory.RegisterTypeConstructor("MovieGenre", new ConstructObject(MovieGenre.ConstructMovieGenreObject));
-            XmlDataProviderObjectFactory.RegisterTypeConstructor("MarketplaceRadioStation", new ConstructObject(MarketplaceRadioStation.ConstructMarketplaceRadioStationObject));
-            XmlDataProviderObjectFactory.RegisterTypeConstructor("RecommendedAlbum", new ConstructObject(RecommendedAlbum.ConstructRecommendedAlbumObject));
-            XmlDataProviderObjectFactory.RegisterTypeConstructor("Episode", new ConstructObject(Episode.ConstructEpisodeObject));
-            XmlDataProviderObjectFactory.RegisterTypeConstructor("AppMediaRights", new ConstructObject(AppMediaRights.ConstructAppMediaRightsObject));
-            XmlDataProviderObjectFactory.RegisterTypeConstructor("Movie", new ConstructObject(Movie.ConstructMovieObject));
-            XmlDataProviderObjectFactory.RegisterTypeConstructor("Track", new ConstructObject(Track.ConstructTrackObject));
-            XmlDataProviderObjectFactory.RegisterTypeConstructor("Right", new ConstructObject(Right.ConstructRightObject));
-            XmlDataProviderObjectFactory.RegisterTypeConstructor("Album", new ConstructObject(Album.ConstructAlbumObject));
-            XmlDataProviderObjectFactory.RegisterTypeConstructor("MovieStudio", new ConstructObject(MovieStudio.ConstructMovieStudioObject));
-            XmlDataProviderObjectFactory.RegisterTypeConstructor("Review", new ConstructObject(Review.ConstructReviewObject));
-            XmlDataProviderObjectFactory.RegisterTypeConstructor("AppGenre", new ConstructObject(AppGenre.ConstructAppGenreObject));
-            XmlDataProviderObjectFactory.RegisterTypeConstructor("ReviewListEntry", new ConstructObject(ReviewListEntry.ConstructReviewListEntryObject));
-            XmlDataProviderObjectFactory.RegisterTypeConstructor("ChannelReason", new ConstructObject(ChannelReason.ConstructChannelReasonObject));
-            XmlDataProviderObjectFactory.RegisterTypeConstructor("MiniAlbum", new ConstructObject(MiniAlbum.ConstructMiniAlbumObject));
-            XmlDataProviderObjectFactory.RegisterTypeConstructor("ZuneHDAppData", new ConstructObject(ZuneHDAppData.ConstructZuneHDAppDataObject));
-            XmlDataProviderObjectFactory.RegisterTypeConstructor("ArtistEvent", new ConstructObject(ArtistEvent.ConstructArtistEventObject));
-            XmlDataProviderObjectFactory.RegisterTypeConstructor("AppData", new ConstructObject(AppData.ConstructAppDataObject));
-            XmlDataProviderObjectFactory.RegisterTypeConstructor("WinPhoneAppPurchaseHistory", new ConstructObject(WinPhoneAppPurchaseHistory.ConstructWinPhoneAppPurchaseHistoryObject));
-            XmlDataProviderObjectFactory.RegisterTypeConstructor("Series", new ConstructObject(Series.ConstructSeriesObject));
-            XmlDataProviderObjectFactory.RegisterTypeConstructor("VideoCategory", new ConstructObject(VideoCategory.ConstructVideoCategoryObject));
-            XmlDataProviderObjectFactory.RegisterTypeConstructor("MessageRoot", new ConstructObject(MessageRoot.ConstructMessageRootObject));
-            XmlDataProviderObjectFactory.RegisterTypeConstructor("App", new ConstructObject(App.ConstructAppObject));
-            XmlDataProviderObjectFactory.RegisterTypeConstructor("Genre", new ConstructObject(Genre.ConstructGenreObject));
-            XmlDataProviderObjectFactory.RegisterTypeConstructor("VideoHistory", new ConstructObject(VideoHistory.ConstructVideoHistoryObject));
-            XmlDataProviderObjectFactory.RegisterTypeConstructor("WinPhoneAppGenre", new ConstructObject(WinPhoneAppGenre.ConstructWinPhoneAppGenreObject));
-            XmlDataProviderObjectFactory.RegisterTypeConstructor("ChannelTrack", new ConstructObject(ChannelTrack.ConstructChannelTrackObject));
-            XmlDataProviderObjectFactory.RegisterTypeConstructor("ZuneHDAppGenre", new ConstructObject(ZuneHDAppGenre.ConstructZuneHDAppGenreObject));
-            XmlDataProviderObjectFactory.RegisterTypeConstructor("ProfileTrack", new ConstructObject(ProfileTrack.ConstructProfileTrackObject));
-            XmlDataProviderObjectFactory.RegisterTypeConstructor("WinPhoneAppData", new ConstructObject(WinPhoneAppData.ConstructWinPhoneAppDataObject));
-            XmlDataProviderObjectFactory.RegisterTypeConstructor("TrackDownloadHistory", new ConstructObject(TrackDownloadHistory.ConstructTrackDownloadHistoryObject));
-            XmlDataProviderObjectFactory.RegisterTypeConstructor("PodcastSeries", new ConstructObject(PodcastSeries.ConstructPodcastSeriesObject));
-            XmlDataProviderObjectFactory.RegisterTypeConstructor("MiniArtist", new ConstructObject(MiniArtist.ConstructMiniArtistObject));
-            XmlDataProviderObjectFactory.RegisterTypeConstructor("WinPhoneApp", new ConstructObject(WinPhoneApp.ConstructWinPhoneAppObject));
-            XmlDataProviderObjectFactory.RegisterTypeConstructor("Mood", new ConstructObject(Mood.ConstructMoodObject));
-            XmlDataProviderObjectFactory.RegisterTypeConstructor("MediaRights", new ConstructObject(MediaRights.ConstructMediaRightsObject));
-            XmlDataProviderObjectFactory.RegisterTypeConstructor("Reason", new ConstructObject(Reason.ConstructReasonObject));
-            XmlDataProviderObjectFactory.RegisterTypeConstructor("AppScreenshot", new ConstructObject(AppScreenshot.ConstructAppScreenshotObject));
-            XmlDataProviderObjectFactory.RegisterTypeConstructor("ZplTrack", new ConstructObject(ZplTrack.ConstructZplTrackObject));
-            XmlDataProviderObjectFactory.RegisterTypeConstructor("Network", new ConstructObject(Network.ConstructNetworkObject));
-            XmlDataProviderObjectFactory.RegisterTypeConstructor("RecommendedArtist", new ConstructObject(RecommendedArtist.ConstructRecommendedArtistObject));
-            XmlDataProviderObjectFactory.RegisterTypeConstructor("MovieTrailer", new ConstructObject(MovieTrailer.ConstructMovieTrailerObject));
-            XmlDataProviderObjectFactory.RegisterTypeConstructor("ArtistEventList", new ConstructObject(ArtistEventList.ConstructArtistEventListObject));
-            XmlDataProviderObjectFactory.RegisterTypeConstructor("Short", new ConstructObject(Short.ConstructShortObject));
-            XmlDataProviderObjectFactory.RegisterTypeConstructor("Contributor", new ConstructObject(Contributor.ConstructContributorObject));
+            RegisterTypeConstructor("BadgeData", new ConstructObject(BadgeData.ConstructBadgeDataObject));
+            RegisterTypeConstructor("TrackPurchaseHistory", new ConstructObject(TrackPurchaseHistory.ConstructTrackPurchaseHistoryObject));
+            RegisterTypeConstructor("AppCapabilities", new ConstructObject(AppCapabilities.ConstructAppCapabilitiesObject));
+            RegisterTypeConstructor("Artist", new ConstructObject(Artist.ConstructArtistObject));
+            RegisterTypeConstructor("PlaylistTrack", new ConstructObject(PlaylistTrack.ConstructPlaylistTrackObject));
+            RegisterTypeConstructor("ZuneHDApp", new ConstructObject(ZuneHDApp.ConstructZuneHDAppObject));
+            RegisterTypeConstructor("MessageDetails", new ConstructObject(MessageDetails.ConstructMessageDetailsObject));
+            RegisterTypeConstructor("Season", new ConstructObject(Season.ConstructSeasonObject));
+            RegisterTypeConstructor("MusicVideo", new ConstructObject(MusicVideo.ConstructMusicVideoObject));
+            RegisterTypeConstructor("MediaInstance", new ConstructObject(MediaInstance.ConstructMediaInstanceObject));
+            RegisterTypeConstructor("SeriesCategory", new ConstructObject(SeriesCategory.ConstructSeriesCategoryObject));
+            RegisterTypeConstructor("RecommendedTrack", new ConstructObject(RecommendedTrack.ConstructRecommendedTrackObject));
+            RegisterTypeConstructor("AppCapability", new ConstructObject(AppCapability.ConstructAppCapabilityObject));
+            RegisterTypeConstructor("MovieGenre", new ConstructObject(MovieGenre.ConstructMovieGenreObject));
+            RegisterTypeConstructor("MarketplaceRadioStation", new ConstructObject(MarketplaceRadioStation.ConstructMarketplaceRadioStationObject));
+            RegisterTypeConstructor("RecommendedAlbum", new ConstructObject(RecommendedAlbum.ConstructRecommendedAlbumObject));
+            RegisterTypeConstructor("Episode", new ConstructObject(Episode.ConstructEpisodeObject));
+            RegisterTypeConstructor("AppMediaRights", new ConstructObject(AppMediaRights.ConstructAppMediaRightsObject));
+            RegisterTypeConstructor("Movie", new ConstructObject(Movie.ConstructMovieObject));
+            RegisterTypeConstructor("Track", new ConstructObject(Track.ConstructTrackObject));
+            RegisterTypeConstructor("Right", new ConstructObject(Right.ConstructRightObject));
+            RegisterTypeConstructor("Album", new ConstructObject(Album.ConstructAlbumObject));
+            RegisterTypeConstructor("MovieStudio", new ConstructObject(MovieStudio.ConstructMovieStudioObject));
+            RegisterTypeConstructor("Review", new ConstructObject(Review.ConstructReviewObject));
+            RegisterTypeConstructor("AppGenre", new ConstructObject(AppGenre.ConstructAppGenreObject));
+            RegisterTypeConstructor("ReviewListEntry", new ConstructObject(ReviewListEntry.ConstructReviewListEntryObject));
+            RegisterTypeConstructor("ChannelReason", new ConstructObject(ChannelReason.ConstructChannelReasonObject));
+            RegisterTypeConstructor("MiniAlbum", new ConstructObject(MiniAlbum.ConstructMiniAlbumObject));
+            RegisterTypeConstructor("ZuneHDAppData", new ConstructObject(ZuneHDAppData.ConstructZuneHDAppDataObject));
+            RegisterTypeConstructor("ArtistEvent", new ConstructObject(ArtistEvent.ConstructArtistEventObject));
+            RegisterTypeConstructor("AppData", new ConstructObject(AppData.ConstructAppDataObject));
+            RegisterTypeConstructor("WinPhoneAppPurchaseHistory", new ConstructObject(WinPhoneAppPurchaseHistory.ConstructWinPhoneAppPurchaseHistoryObject));
+            RegisterTypeConstructor("Series", new ConstructObject(Series.ConstructSeriesObject));
+            RegisterTypeConstructor("VideoCategory", new ConstructObject(VideoCategory.ConstructVideoCategoryObject));
+            RegisterTypeConstructor("MessageRoot", new ConstructObject(MessageRoot.ConstructMessageRootObject));
+            RegisterTypeConstructor("App", new ConstructObject(App.ConstructAppObject));
+            RegisterTypeConstructor("Genre", new ConstructObject(Genre.ConstructGenreObject));
+            RegisterTypeConstructor("VideoHistory", new ConstructObject(VideoHistory.ConstructVideoHistoryObject));
+            RegisterTypeConstructor("WinPhoneAppGenre", new ConstructObject(WinPhoneAppGenre.ConstructWinPhoneAppGenreObject));
+            RegisterTypeConstructor("ChannelTrack", new ConstructObject(ChannelTrack.ConstructChannelTrackObject));
+            RegisterTypeConstructor("ZuneHDAppGenre", new ConstructObject(ZuneHDAppGenre.ConstructZuneHDAppGenreObject));
+            RegisterTypeConstructor("ProfileTrack", new ConstructObject(ProfileTrack.ConstructProfileTrackObject));
+            RegisterTypeConstructor("WinPhoneAppData", new ConstructObject(WinPhoneAppData.ConstructWinPhoneAppDataObject));
+            RegisterTypeConstructor("TrackDownloadHistory", new ConstructObject(TrackDownloadHistory.ConstructTrackDownloadHistoryObject));
+            RegisterTypeConstructor("PodcastSeries", new ConstructObject(PodcastSeries.ConstructPodcastSeriesObject));
+            RegisterTypeConstructor("MiniArtist", new ConstructObject(MiniArtist.ConstructMiniArtistObject));
+            RegisterTypeConstructor("WinPhoneApp", new ConstructObject(WinPhoneApp.ConstructWinPhoneAppObject));
+            RegisterTypeConstructor("Mood", new ConstructObject(Mood.ConstructMoodObject));
+            RegisterTypeConstructor("MediaRights", new ConstructObject(MediaRights.ConstructMediaRightsObject));
+            RegisterTypeConstructor("Reason", new ConstructObject(Reason.ConstructReasonObject));
+            RegisterTypeConstructor("AppScreenshot", new ConstructObject(AppScreenshot.ConstructAppScreenshotObject));
+            RegisterTypeConstructor("ZplTrack", new ConstructObject(ZplTrack.ConstructZplTrackObject));
+            RegisterTypeConstructor("Network", new ConstructObject(Network.ConstructNetworkObject));
+            RegisterTypeConstructor("RecommendedArtist", new ConstructObject(RecommendedArtist.ConstructRecommendedArtistObject));
+            RegisterTypeConstructor("MovieTrailer", new ConstructObject(MovieTrailer.ConstructMovieTrailerObject));
+            RegisterTypeConstructor("ArtistEventList", new ConstructObject(ArtistEventList.ConstructArtistEventListObject));
+            RegisterTypeConstructor("Short", new ConstructObject(Short.ConstructShortObject));
+            RegisterTypeConstructor("Contributor", new ConstructObject(Contributor.ConstructContributorObject));
         }
     }
 }

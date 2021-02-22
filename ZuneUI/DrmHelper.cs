@@ -65,8 +65,8 @@ namespace ZuneUI
             return flag;
         }
 
-        public static void ShowDeviceRentalError() => ZuneUI.Shell.ShowErrorDialog(HRESULT._NS_E_DRM_DEVICE_RENTAL_LICENSE.Int, StringId.IDS_PLAYBACK_ERROR);
+        public static void ShowDeviceRentalError() => Shell.ShowErrorDialog(HRESULT._NS_E_DRM_DEVICE_RENTAL_LICENSE.Int, StringId.IDS_PLAYBACK_ERROR);
 
-        public static void ShowRentalExpiredError() => ZuneUI.Shell.ShowErrorDialog(HRESULT._NS_E_DRM_RENTAL_LICENSE_EXPIRED.Int, StringId.IDS_PLAYBACK_ERROR);
+        public static void ShowRentalExpiredError() => Shell.ShowErrorDialog(HRESULT._NS_E_DRM_RENTAL_LICENSE_EXPIRED.Int, StringId.IDS_PLAYBACK_ERROR);
     }
 }

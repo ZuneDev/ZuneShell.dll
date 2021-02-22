@@ -34,7 +34,7 @@ namespace ZuneUI
             testPage.UI = this._mainUI;
             testPage.BackgroundUI = this._backgroundUI;
             this.Release();
-            return (IPage)testPage;
+            return testPage;
         }
 
         public void Release() => this._isInvalid = true;

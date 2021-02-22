@@ -49,7 +49,7 @@ namespace ZuneUI
 
         public override bool IsValidInternal(string value, object state)
         {
-            string pattern = (string)null;
+            string pattern = null;
             AccountCountry accountCountry = this.GetAccountCountry(state);
             if (accountCountry == null)
                 return true;
@@ -76,7 +76,7 @@ namespace ZuneUI
 
         private AccountCountry GetAccountCountry(object state)
         {
-            AccountCountry accountCountry = (AccountCountry)null;
+            AccountCountry accountCountry = null;
             if (state != null)
                 accountCountry = AccountCountryList.Instance.GetCountry(state as string);
             return accountCountry;

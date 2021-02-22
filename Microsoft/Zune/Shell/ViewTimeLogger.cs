@@ -13,9 +13,9 @@ namespace Microsoft.Zune.Shell
     {
         private bool _inCompactMode;
         private bool _shutdown;
-        private ViewTimeLogger.LogHelper _compactModeLog = new ViewTimeLogger.LogHelper(SQMDataId.CompactModeViewTime);
-        private ViewTimeLogger.LogHelper _mixViewLog = new ViewTimeLogger.LogHelper(SQMDataId.MixViewTime);
-        private ViewTimeLogger.LogHelper _collectionViewLog;
+        private LogHelper _compactModeLog = new LogHelper(SQMDataId.CompactModeViewTime);
+        private LogHelper _mixViewLog = new LogHelper(SQMDataId.MixViewTime);
+        private LogHelper _collectionViewLog;
         private static ViewTimeLogger _viewTimeLogger;
 
         private ViewTimeLogger()
@@ -35,9 +35,9 @@ namespace Microsoft.Zune.Shell
         {
             get
             {
-                if (ViewTimeLogger._viewTimeLogger == null)
-                    ViewTimeLogger._viewTimeLogger = new ViewTimeLogger();
-                return ViewTimeLogger._viewTimeLogger;
+                if (_viewTimeLogger == null)
+                    _viewTimeLogger = new ViewTimeLogger();
+                return _viewTimeLogger;
             }
         }
 
@@ -46,11 +46,11 @@ namespace Microsoft.Zune.Shell
             if (this._collectionViewLog != null && viewSQMId != this._collectionViewLog.LogId)
             {
                 this._collectionViewLog.Stop();
-                this._collectionViewLog = (ViewTimeLogger.LogHelper)null;
+                this._collectionViewLog = null;
             }
             if (viewSQMId == SQMDataId.Invalid || this._collectionViewLog != null)
                 return;
-            this._collectionViewLog = new ViewTimeLogger.LogHelper(viewSQMId);
+            this._collectionViewLog = new LogHelper(viewSQMId);
             if (this._inCompactMode)
                 return;
             this._collectionViewLog.Start();

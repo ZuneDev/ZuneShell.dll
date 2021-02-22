@@ -18,8 +18,8 @@ namespace ZuneUI
         public DeviceOverfillLand(UIDevice device)
         {
             this._device = device;
-            this._list = this.Device.GenerateSyncGroupList((IModelItemOwner)this, true);
-            Deviceland.InitDevicePage((ZunePage)this);
+            this._list = this.Device.GenerateSyncGroupList(this, true);
+            Deviceland.InitDevicePage(this);
             this.ShowBackArrow = false;
             this.ShowComputerIcon = ComputerIconState.Hide;
             this.ShowNowPlayingX = false;
@@ -60,7 +60,7 @@ namespace ZuneUI
 
         public override void Save()
         {
-            this.List.CommitChanges((object)null);
+            this.List.CommitChanges(null);
             if (this._deviceWasLocked)
                 return;
             this.Device.IsLockedAgainstSyncing = false;

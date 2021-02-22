@@ -35,6 +35,6 @@ namespace ZuneUI
             return (value == null || this._maxTrimmedLength >= value.Length) && base.IsValidInternal(value);
         }
 
-        public override object ConvertFromString(string value) => (object)this.GetServiceValue(base.ConvertFromString(value) as string);
+        public override object ConvertFromString(string value) => this.GetServiceValue(base.ConvertFromString(value) as string);
     }
 }

@@ -32,16 +32,16 @@ namespace ZuneUI
             {
                 if (this._experiences == null)
                 {
-                    this._experiences = new ArrayListDataSet((IModelItemOwner)this);
+                    this._experiences = new ArrayListDataSet(this);
                     if (FeatureEnablement.IsFeatureEnabled(Features.eQuickplay))
-                        this._experiences.Add((object)this.Quickplay);
-                    this._experiences.Add((object)this.Collection);
+                        this._experiences.Add(Quickplay);
+                    this._experiences.Add(Collection);
                     if (FeatureEnablement.IsFeatureEnabled(Features.eMarketplace))
-                        this._experiences.Add((object)this.Marketplace);
+                        this._experiences.Add(Marketplace);
                     if (FeatureEnablement.IsFeatureEnabled(Features.eSocial))
-                        this._experiences.Add((object)this.Social);
+                        this._experiences.Add(Social);
                 }
-                return (IList)this._experiences;
+                return _experiences;
             }
         }
 
@@ -50,7 +50,7 @@ namespace ZuneUI
             get
             {
                 if (this._quickplay == null)
-                    this._quickplay = new QuickplayExperience((Frame)this);
+                    this._quickplay = new QuickplayExperience(this);
                 return this._quickplay;
             }
         }
@@ -60,7 +60,7 @@ namespace ZuneUI
             get
             {
                 if (this._collection == null)
-                    this._collection = new CollectionExperience((Frame)this);
+                    this._collection = new CollectionExperience(this);
                 return this._collection;
             }
         }
@@ -70,7 +70,7 @@ namespace ZuneUI
             get
             {
                 if (this._marketplace == null)
-                    this._marketplace = new MarketplaceExperience((Frame)this);
+                    this._marketplace = new MarketplaceExperience(this);
                 return this._marketplace;
             }
         }
@@ -80,7 +80,7 @@ namespace ZuneUI
             get
             {
                 if (this._social == null)
-                    this._social = new SocialExperience((Frame)this);
+                    this._social = new SocialExperience(this);
                 return this._social;
             }
         }
@@ -91,7 +91,7 @@ namespace ZuneUI
             {
                 if (this._device == null)
                 {
-                    this._device = new DeviceExperience((Frame)this);
+                    this._device = new DeviceExperience(this);
                     this._device.UpdateShowDevice();
                 }
                 return this._device;
@@ -103,7 +103,7 @@ namespace ZuneUI
             get
             {
                 if (this._test == null)
-                    this._test = new TestExperience((Frame)this);
+                    this._test = new TestExperience(this);
                 return this._test;
             }
         }
@@ -114,7 +114,7 @@ namespace ZuneUI
             {
                 if (this._disc == null)
                 {
-                    this._disc = new DiscExperience((Frame)this);
+                    this._disc = new DiscExperience(this);
                     IList experiencesList = this.ExperiencesList;
                     if (experiencesList == null || experiencesList[experiencesList.Count - 1] != this._disc)
                         this._disc.Available = false;
@@ -134,12 +134,12 @@ namespace ZuneUI
             if (show)
             {
                 if (experiencesList[index] == this.Disc)
-                    experiencesList.Insert(index, (object)this.Device);
+                    experiencesList.Insert(index, Device);
                 else
-                    experiencesList.Add((object)this.Device);
+                    experiencesList.Add(Device);
             }
             else
-                experiencesList.Remove((object)this.Device);
+                experiencesList.Remove(Device);
         }
 
         internal void ShowDisc(bool show)
@@ -151,7 +151,7 @@ namespace ZuneUI
                 return;
             this.Disc.Available = show;
             if (show)
-                experiencesList.Add((object)this.Disc);
+                experiencesList.Add(Disc);
             else
                 experiencesList.RemoveAt(index);
         }
@@ -159,7 +159,7 @@ namespace ZuneUI
         internal void ShowTest(bool show)
         {
             IList experiencesList = this.ExperiencesList;
-            bool flag = experiencesList.Contains((object)this.Test);
+            bool flag = experiencesList.Contains(Test);
             int index = experiencesList.Count - 1;
             while (index >= 0 && (experiencesList[index] == this.Disc || experiencesList[index] == this.Device))
                 --index;
@@ -167,9 +167,9 @@ namespace ZuneUI
                 return;
             this.Test.Available = show;
             if (show)
-                experiencesList.Insert(index + 1, (object)this.Test);
+                experiencesList.Insert(index + 1, Test);
             else
-                experiencesList.Remove((object)this.Test);
+                experiencesList.Remove(Test);
         }
     }
 }

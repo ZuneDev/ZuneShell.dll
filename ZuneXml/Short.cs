@@ -15,7 +15,7 @@ namespace ZuneXml
           DataProviderQuery owner,
           object objectTypeCookie)
         {
-            return (XmlDataProviderObject)new Short(owner, objectTypeCookie);
+            return new Short(owner, objectTypeCookie);
         }
 
         internal Short(DataProviderQuery owner, object resultTypeCookie)
@@ -56,47 +56,47 @@ namespace ZuneXml
             switch (propertyName)
             {
                 case "PointsPrice":
-                    return (object)this.PointsPrice;
+                    return PointsPrice;
                 case "HasPreview":
-                    return (object)this.HasPreview;
+                    return HasPreview;
                 case "CanPreview":
-                    return (object)this.CanPreview;
+                    return CanPreview;
                 case "CanSubscriptionPlay":
-                    return (object)this.CanSubscriptionPlay;
+                    return CanSubscriptionPlay;
                 case "CanPurchase":
-                    return (object)this.CanPurchase;
+                    return CanPurchase;
                 case "CanPurchaseHD":
-                    return (object)this.CanPurchaseHD;
+                    return CanPurchaseHD;
                 case "CanPurchaseSD":
-                    return (object)this.CanPurchaseSD;
+                    return CanPurchaseSD;
                 case "CanPurchaseSeason":
-                    return (object)this.CanPurchaseSeason;
+                    return CanPurchaseSeason;
                 case "CanPurchaseSeasonHD":
-                    return (object)this.CanPurchaseSeasonHD;
+                    return CanPurchaseSeasonHD;
                 case "CanPurchaseSeasonSD":
-                    return (object)this.CanPurchaseSeasonSD;
+                    return CanPurchaseSeasonSD;
                 case "CanRent":
-                    return (object)this.CanRent;
+                    return CanRent;
                 case "CanRentHD":
-                    return (object)this.CanRentHD;
+                    return CanRentHD;
                 case "CanRentSD":
-                    return (object)this.CanRentSD;
+                    return CanRentSD;
                 case "CanPurchaseAlbumOnly":
-                    return (object)this.CanPurchaseAlbumOnly;
+                    return CanPurchaseAlbumOnly;
                 case "CanSync":
-                    return (object)this.CanSync;
+                    return CanSync;
                 case "InCollection":
-                    return (object)this.InCollection;
+                    return InCollection;
                 case "InCollectionShortcut":
-                    return (object)this.InCollectionShortcut;
+                    return InCollectionShortcut;
                 case "IsDownloading":
-                    return (object)this.IsDownloading;
+                    return IsDownloading;
                 case "IsParentallyBlocked":
-                    return (object)this.IsParentallyBlocked;
+                    return IsParentallyBlocked;
                 case "PrimaryArtist":
-                    return (object)this.PrimaryArtist;
+                    return PrimaryArtist;
                 case "Artists":
-                    return (object)this.Artists;
+                    return Artists;
                 default:
                     return base.GetProperty(propertyName);
             }

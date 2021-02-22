@@ -133,7 +133,7 @@ namespace ZuneUI
           long llNewSchemaSpace,
           long llNewFreeSpace)
         {
-            Application.DeferredInvoke((DeferredInvokeHandler)delegate
+            Application.DeferredInvoke(delegate
            {
                if (this.IsDisposed)
                    return;
@@ -170,7 +170,7 @@ namespace ZuneUI
                        this.FirePropertyChanged("GuestSpace");
                        break;
                }
-           }, (object)null);
+           }, null);
         }
 
         private void OnReservedSpaceUpdated(
@@ -178,7 +178,7 @@ namespace ZuneUI
           long llNewReservedSpace,
           long llNewFreeSpace)
         {
-            Application.DeferredInvoke((DeferredInvokeHandler)delegate
+            Application.DeferredInvoke(delegate
            {
                if (this.IsDisposed)
                    return;
@@ -186,7 +186,7 @@ namespace ZuneUI
                this.FirePropertyChanged("UsedSpace");
                this.FirePropertyChanged("FreeSpace");
                this.FirePropertyChanged("OtherSpace");
-           }, (object)null);
+           }, null);
         }
     }
 }

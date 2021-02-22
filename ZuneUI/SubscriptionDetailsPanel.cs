@@ -11,7 +11,7 @@ namespace ZuneUI
     public class SubscriptionDetailsPanel : LibraryPanel
     {
         public SubscriptionDetailsPanel(SubscriptionLibraryPage page)
-          : base((IModelItemOwner)page)
+          : base(page)
         {
         }
     }

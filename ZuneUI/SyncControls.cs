@@ -31,15 +31,15 @@ namespace ZuneUI
         private MessageBox _currentUnlinkedDeviceDialog;
         private bool _showSyncInstructionsToast;
         private bool _displayWirelessSyncBanner;
-        private static string _sizeInKB = ZuneUI.Shell.LoadString(StringId.IDS_GAS_GAUGE_SIZE_IN_KB);
-        private static string _sizeInMB = ZuneUI.Shell.LoadString(StringId.IDS_GAS_GAUGE_SIZE_IN_MB);
-        private static string _sizeInGB = ZuneUI.Shell.LoadString(StringId.IDS_GAS_GAUGE_SIZE_IN_GB);
+        private static string _sizeInKB = Shell.LoadString(StringId.IDS_GAS_GAUGE_SIZE_IN_KB);
+        private static string _sizeInMB = Shell.LoadString(StringId.IDS_GAS_GAUGE_SIZE_IN_MB);
+        private static string _sizeInGB = Shell.LoadString(StringId.IDS_GAS_GAUGE_SIZE_IN_GB);
         private static long _devicelandKilobyte = 1024;
-        private static long _devicelandMegabyte = SyncControls.DevicelandKilobyte * SyncControls.DevicelandKilobyte;
-        private static long _devicelandGigabyte = SyncControls.DevicelandMegabyte * SyncControls.DevicelandKilobyte;
+        private static long _devicelandMegabyte = DevicelandKilobyte * DevicelandKilobyte;
+        private static long _devicelandGigabyte = DevicelandMegabyte * DevicelandKilobyte;
         private static SyncControls s_singletonInstance;
-        private static string _unlinkedDeviceNagDialogTitle = ZuneUI.Shell.LoadString(StringId.IDS_DIALOG_TITLE_LINK_TO_SYNC_FRIENDS);
-        private static string _unlinkedDeviceNagDialogMessageBase = ZuneUI.Shell.LoadString(StringId.IDS_DIALOG_TEXT_LINK_TO_SYNC_FRIENDS);
+        private static string _unlinkedDeviceNagDialogTitle = Shell.LoadString(StringId.IDS_DIALOG_TITLE_LINK_TO_SYNC_FRIENDS);
+        private static string _unlinkedDeviceNagDialogMessageBase = Shell.LoadString(StringId.IDS_DIALOG_TEXT_LINK_TO_SYNC_FRIENDS);
 
         private SyncControls(IModelItemOwner owner)
           : base(owner)
@@ -66,12 +66,12 @@ namespace ZuneUI
                     this._deviceList.DeviceRemovedEvent -= new DeviceListEventHandler(this.OnDeviceRemoved);
                     this._deviceList.DeviceConnectedEvent -= new DeviceListEventHandler(this.OnDeviceConnected);
                     this._deviceList.DeviceDisconnectedEvent -= new DeviceListEventHandler(this.OnDeviceDisconnected);
-                    this._deviceList = (UIDeviceList)null;
+                    this._deviceList = null;
                 }
                 if (this._downloadTasks != null)
                 {
                     this._downloadTasks.ActiveDownloads.PropertyChanged -= new PropertyChangedEventHandler(this.OnDownloadPropertyChanged);
-                    this._downloadTasks = (DownloadTaskList)null;
+                    this._downloadTasks = null;
                 }
                 SignIn.Instance.PropertyChanged -= new PropertyChangedEventHandler(this.SignInPropertyChanged);
                 AccountCreationWizard.CreationCompleted -= new EventHandler(this.AccountCreationFinished);
@@ -155,7 +155,7 @@ namespace ZuneUI
             get
             {
                 if (this._deviceSignInFailureEvent == null)
-                    this._deviceSignInFailureEvent = new Command((IModelItemOwner)this);
+                    this._deviceSignInFailureEvent = new Command(this);
                 return this._deviceSignInFailureEvent;
             }
         }
@@ -191,14 +191,14 @@ namespace ZuneUI
                 device = UIDeviceList.NullDevice;
             if (this._canonicalNameToMakeActive != null && device.CanonicalName != null && device.CanonicalName.StartsWith(this._canonicalNameToMakeActive))
             {
-                this._canonicalNameToMakeActive = (string)null;
+                this._canonicalNameToMakeActive = null;
                 if ((!(ZuneShell.DefaultInstance.CurrentPage is QuickplayPage) || !ClientConfiguration.FUE.ShowArtistChooser) && (ZuneShell.DefaultInstance.Management.CurrentCategoryPage == null || !ZuneShell.DefaultInstance.Management.CurrentCategoryPage.IsWizard))
-                    ZuneShell.DefaultInstance.NavigateToPage((ZunePage)new Deviceland());
+                    ZuneShell.DefaultInstance.NavigateToPage(new Deviceland());
             }
             if (device == this.CurrentDevice)
                 return;
-            Management management = (Management)null;
-            CategoryPage categoryPage = (CategoryPage)null;
+            Management management = null;
+            CategoryPage categoryPage = null;
             if (ZuneShell.DefaultInstance != null)
                 management = ZuneShell.DefaultInstance.Management;
             if (management != null)
@@ -242,7 +242,7 @@ namespace ZuneUI
             this.ShowUnlinkedDeviceNagDialogIfNecessary();
         }
 
-        public UIDevice FindNewActiveDevice() => this.FindNewActiveDevice((UIDevice)null);
+        public UIDevice FindNewActiveDevice() => this.FindNewActiveDevice(null);
 
         public UIDevice FindNewActiveDevice(UIDevice excludedDevice)
         {
@@ -251,14 +251,14 @@ namespace ZuneUI
                 if (device != excludedDevice)
                     return device;
             }
-            return (UIDevice)null;
+            return null;
         }
 
         public void DeleteCurrentDevice()
         {
             if (!this.CurrentDevice.IsValid)
                 return;
-            MessageBox.Show(ZuneUI.Shell.LoadString(StringId.IDS_DELETE_DIALOG_TITLE), ZuneUI.Shell.LoadString(StringId.IDS_DELETE_DIALOG_TEXT), new EventHandler(this.ConfirmedDeleteDevice));
+            MessageBox.Show(Shell.LoadString(StringId.IDS_DELETE_DIALOG_TITLE), Shell.LoadString(StringId.IDS_DELETE_DIALOG_TEXT), new EventHandler(this.ConfirmedDeleteDevice));
         }
 
         private void ConfirmedDeleteDevice(object sender, EventArgs e)
@@ -273,13 +273,13 @@ namespace ZuneUI
         {
             if (this.CurrentDevice == null)
                 return;
-            string message = this.CurrentDevice.SupportsBrandingType(DeviceBranding.WindowsPhone) ? ZuneUI.Shell.LoadString(StringId.IDS_PHONE_FORGET_DEVICE_DIALOG_CONTENT) : ZuneUI.Shell.LoadString(StringId.IDS_FORGET_DEVICE_DIALOG_CONTENT);
+            string message = this.CurrentDevice.SupportsBrandingType(DeviceBranding.WindowsPhone) ? Shell.LoadString(StringId.IDS_PHONE_FORGET_DEVICE_DIALOG_CONTENT) : Shell.LoadString(StringId.IDS_FORGET_DEVICE_DIALOG_CONTENT);
             ZuneShell.DefaultInstance.Management.CommitList.RemoveByIntValue(this.CurrentDevice.ID);
             HRESULT hresult = this._deviceList.DeleteDevice(this.CurrentDevice);
             if (hresult.IsError)
-                ZuneUI.Shell.ShowErrorDialog(hresult.Int, StringId.IDS_DELETE_DEVICE_FAILED);
+                Shell.ShowErrorDialog(hresult.Int, StringId.IDS_DELETE_DEVICE_FAILED);
             else
-                MessageBox.Show(ZuneUI.Shell.LoadString(StringId.IDS_FORGET_DEVICE_DIALOG_TITLE), message, (EventHandler)null);
+                MessageBox.Show(Shell.LoadString(StringId.IDS_FORGET_DEVICE_DIALOG_TITLE), message, null);
         }
 
         public void PromptForAccountLinkage() => this.ShowUnlinkedDeviceNagDialog(false);
@@ -323,34 +323,34 @@ namespace ZuneUI
 
         public void HandleFailedSignInDeviceGuidMismatch()
         {
-            string message = string.IsNullOrEmpty(this.CurrentFailedSignInDevice.ZuneTag) ? string.Format(ZuneUI.Shell.LoadString(StringId.IDS_DEVICE_CREDS_GUID_MISMATCH_TEXT_UNKNONW_ZUNETAG), (object)this.CurrentFailedSignInDevice.Name, (object)SignIn.Instance.ZuneTag) : string.Format(ZuneUI.Shell.LoadString(StringId.IDS_DEVICE_CREDS_GUID_MISMATCH_TEXT), (object)this.CurrentFailedSignInDevice.Name, (object)this.CurrentFailedSignInDevice.ZuneTag, (object)SignIn.Instance.ZuneTag);
-            MessageBox.Show(ZuneUI.Shell.LoadString(StringId.IDS_DEVICE_CREDS_GUID_MISMATCH_TITLE), message, new Command((IModelItemOwner)this, ZuneUI.Shell.LoadString(StringId.IDS_ENTER_CREDENTIALS), (EventHandler)delegate
+            string message = string.IsNullOrEmpty(this.CurrentFailedSignInDevice.ZuneTag) ? string.Format(Shell.LoadString(StringId.IDS_DEVICE_CREDS_GUID_MISMATCH_TEXT_UNKNONW_ZUNETAG), CurrentFailedSignInDevice.Name, SignIn.Instance.ZuneTag) : string.Format(Shell.LoadString(StringId.IDS_DEVICE_CREDS_GUID_MISMATCH_TEXT), CurrentFailedSignInDevice.Name, CurrentFailedSignInDevice.ZuneTag, SignIn.Instance.ZuneTag);
+            MessageBox.Show(Shell.LoadString(StringId.IDS_DEVICE_CREDS_GUID_MISMATCH_TITLE), message, new Command(this, Shell.LoadString(StringId.IDS_ENTER_CREDENTIALS), delegate
           {
               this.DeviceSignInFailureEvent.Invoke();
-          }), (string)null, (EventHandler)delegate
+          }), null, delegate
     {
-              this.IgnoreFailedSignInDevice();
-          }, true);
+        this.IgnoreFailedSignInDevice();
+    }, true);
         }
 
         private void ShowFailedSignInMessageBox()
         {
-            string message = string.IsNullOrEmpty(this.CurrentFailedSignInDevice.ZuneTag) ? string.Format(ZuneUI.Shell.LoadString(StringId.IDS_DEVICE_SIGN_IN_FAILURE_TEXT_UNKNONW_ZUNETAG), (object)this.CurrentFailedSignInDevice.Name) : string.Format(ZuneUI.Shell.LoadString(StringId.IDS_DEVICE_SIGN_IN_FAILURE_TEXT), (object)this.CurrentFailedSignInDevice.Name, (object)this.CurrentFailedSignInDevice.ZuneTag);
-            MessageBox.Show(ZuneUI.Shell.LoadString(StringId.IDS_DEVICE_SIGN_IN_FAILURE_TITLE), message, new Command((IModelItemOwner)this, ZuneUI.Shell.LoadString(StringId.IDS_ENTER_CREDENTIALS), (EventHandler)delegate
+            string message = string.IsNullOrEmpty(this.CurrentFailedSignInDevice.ZuneTag) ? string.Format(Shell.LoadString(StringId.IDS_DEVICE_SIGN_IN_FAILURE_TEXT_UNKNONW_ZUNETAG), CurrentFailedSignInDevice.Name) : string.Format(Shell.LoadString(StringId.IDS_DEVICE_SIGN_IN_FAILURE_TEXT), CurrentFailedSignInDevice.Name, CurrentFailedSignInDevice.ZuneTag);
+            MessageBox.Show(Shell.LoadString(StringId.IDS_DEVICE_SIGN_IN_FAILURE_TITLE), message, new Command(this, Shell.LoadString(StringId.IDS_ENTER_CREDENTIALS), delegate
           {
               this.DeviceSignInFailureEvent.Invoke();
-          }), (string)null, (EventHandler)delegate
+          }), null, delegate
     {
-              this.IgnoreFailedSignInDevice();
-          }, true);
+        this.IgnoreFailedSignInDevice();
+    }, true);
         }
 
         private void OnFUECompleted(object sender, EventArgs args)
         {
             Fue.FUECompleted -= new EventHandler(this.OnFUECompleted);
             if (this._deferredArrivalDevice != null)
-                this.OnDeviceConnected((object)null, new DeviceListEventArgs(this._deferredArrivalDevice));
-            this._deferredArrivalDevice = (UIDevice)null;
+                this.OnDeviceConnected(null, new DeviceListEventArgs(this._deferredArrivalDevice));
+            this._deferredArrivalDevice = null;
         }
 
         private void OnDeviceConnected(object sender, DeviceListEventArgs args)
@@ -366,7 +366,7 @@ namespace ZuneUI
             }
             else
             {
-                DeviceManagement.SetupQueue[(object)args.Device.ID] = (object)args.Device;
+                DeviceManagement.SetupQueue[args.Device.ID] = args.Device;
                 if (ClientConfiguration.Devices.ConnectionsUntilWirelessSyncBannerDisplay > 0)
                     --ClientConfiguration.Devices.ConnectionsUntilWirelessSyncBannerDisplay;
                 this.UpdateWirelessSyncBannerDisplay();
@@ -377,7 +377,7 @@ namespace ZuneUI
         {
             if (this._deferredArrivalDevice == args.Device)
             {
-                this._deferredArrivalDevice = (UIDevice)null;
+                this._deferredArrivalDevice = null;
                 Fue.FUECompleted -= new EventHandler(this.OnFUECompleted);
             }
             else
@@ -397,7 +397,7 @@ namespace ZuneUI
                 }
                 if (DeviceManagement.SetupDevice != args.Device)
                     return;
-                ZuneShell.DefaultInstance.Management.AlertedDeviceCategory = (Category)null;
+                ZuneShell.DefaultInstance.Management.AlertedDeviceCategory = null;
             }
         }
 
@@ -469,13 +469,13 @@ namespace ZuneUI
             this.HideUnlinkedDeviceNagDialog();
             SQMLog.Log(SQMDataId.UnlinkedDeviceNagDialogShow, 1);
             UIDevice device = this.CurrentDevice;
-            BooleanChoice optOutChoice = (BooleanChoice)null;
-            Command okCommand = new Command((IModelItemOwner)this, DialogHelper.DialogYes, (EventHandler)delegate
+            BooleanChoice optOutChoice = null;
+            Command okCommand = new Command(this, DialogHelper.DialogYes, delegate
           {
               SQMLog.Log(SQMDataId.UnlinkedDeviceNagDialogYes, 1);
-              ZuneUI.Shell.SettingsFrame.Settings.Device.Invoke(SettingCategories.DeviceMarketplace);
+              Shell.SettingsFrame.Settings.Device.Invoke(SettingCategories.DeviceMarketplace);
           });
-            EventHandler cancelCommand = (EventHandler)delegate
+            EventHandler cancelCommand = delegate
            {
                SQMLog.Log(SQMDataId.UnlinkedDeviceNagDialogNo, 1);
                if (optOutChoice == null || optOutChoice.Value)
@@ -486,13 +486,13 @@ namespace ZuneUI
             {
                 optOutChoice = new BooleanChoice();
                 optOutChoice.Value = !device.PromptForAccountLinkage;
-                optOutChoice.ChosenChanged += (EventHandler)delegate
+                optOutChoice.ChosenChanged += delegate
                {
                    device.PromptForAccountLinkage = !optOutChoice.Value;
                };
-                optOutChoice.Description = ZuneUI.Shell.LoadString(StringId.IDS_DONT_SHOW_THIS_MESSAGE_AGAIN);
+                optOutChoice.Description = Shell.LoadString(StringId.IDS_DONT_SHOW_THIS_MESSAGE_AGAIN);
             }
-            this._currentUnlinkedDeviceDialog = MessageBox.Show(SyncControls._unlinkedDeviceNagDialogTitle, string.Format(SyncControls._unlinkedDeviceNagDialogMessageBase, (object)device.Name), DialogHelper.DialogNo, true, okCommand, (Command)null, (Command)null, cancelCommand, optOutChoice);
+            this._currentUnlinkedDeviceDialog = MessageBox.Show(_unlinkedDeviceNagDialogTitle, string.Format(_unlinkedDeviceNagDialogMessageBase, device.Name), DialogHelper.DialogNo, true, okCommand, null, null, cancelCommand, optOutChoice);
         }
 
         private void HideUnlinkedDeviceNagDialog()
@@ -516,52 +516,52 @@ namespace ZuneUI
         {
             totalSize = Math.Max(totalSize, 1L);
             size = Math.Max(size, 0L);
-            return Math.Max((int)Math.Min((long)maxWidth * size / totalSize, (long)(maxWidth - margins)), 0);
+            return Math.Max((int)Math.Min(maxWidth * size / totalSize, maxWidth - margins), 0);
         }
 
-        public static long DevicelandKilobyte => SyncControls._devicelandKilobyte;
+        public static long DevicelandKilobyte => _devicelandKilobyte;
 
-        public static long DevicelandMegabyte => SyncControls._devicelandMegabyte;
+        public static long DevicelandMegabyte => _devicelandMegabyte;
 
-        public static long DevicelandGigabyte => SyncControls._devicelandGigabyte;
+        public static long DevicelandGigabyte => _devicelandGigabyte;
 
         public static string FormatLongAsSize(long sizeInBytes)
         {
-            if (sizeInBytes < SyncControls.DevicelandMegabyte && sizeInBytes != 0L)
-                return string.Format(SyncControls._sizeInKB, (object)(float)((double)sizeInBytes / (double)SyncControls.DevicelandKilobyte));
-            return sizeInBytes < SyncControls.DevicelandGigabyte ? string.Format(SyncControls._sizeInMB, (object)(float)((double)sizeInBytes / (double)SyncControls.DevicelandMegabyte)) : string.Format(SyncControls._sizeInGB, (object)(float)((double)sizeInBytes / (double)SyncControls.DevicelandGigabyte));
+            if (sizeInBytes < DevicelandMegabyte && sizeInBytes != 0L)
+                return string.Format(_sizeInKB, (float)(sizeInBytes / (double)DevicelandKilobyte));
+            return sizeInBytes < DevicelandGigabyte ? string.Format(_sizeInMB, (float)(sizeInBytes / (double)DevicelandMegabyte)) : string.Format(_sizeInGB, (float)(sizeInBytes / (double)DevicelandGigabyte));
         }
 
-        public void BrowseAndReplaceMedia(IList items, int mediaType) => FileOpenDialog.Show(ZuneUI.Shell.LoadString(StringId.IDS_OPEN_FILE_DIALOG_TITLE), ZuneShell.DefaultInstance.Management.MediaFolder, (DeferredInvokeHandler)(args =>
+        public void BrowseAndReplaceMedia(IList items, int mediaType) => FileOpenDialog.Show(Shell.LoadString(StringId.IDS_OPEN_FILE_DIALOG_TITLE), ZuneShell.DefaultInstance.Management.MediaFolder, args =>
        {
            string path = (string)args;
            if (string.IsNullOrEmpty(path))
                return;
-           ZuneUI.Shell.DeleteMedia(items, false);
-           Application.DeferredInvoke((DeferredInvokeHandler)delegate
+           Shell.DeleteMedia(items, false);
+           Application.DeferredInvoke(delegate
        {
-             try
-             {
-                 if (!ZuneApplication.ZuneLibrary.CanAddMedia(path, (EMediaTypes)mediaType))
-                     return;
-                 ZuneApplication.ZuneLibrary.AddMedia(path);
-             }
-             catch (UnauthorizedAccessException ex)
-             {
-             }
-             catch (IOException ex)
-             {
-             }
-         }, (object)null);
-       }));
+           try
+           {
+               if (!ZuneApplication.ZuneLibrary.CanAddMedia(path, (EMediaTypes)mediaType))
+                   return;
+               ZuneApplication.ZuneLibrary.AddMedia(path);
+           }
+           catch (UnauthorizedAccessException ex)
+           {
+           }
+           catch (IOException ex)
+           {
+           }
+       }, null);
+       });
 
         public static SyncControls Instance
         {
             get
             {
-                if (SyncControls.s_singletonInstance == null)
-                    SyncControls.s_singletonInstance = new SyncControls((IModelItemOwner)ZuneShell.DefaultInstance);
-                return SyncControls.s_singletonInstance;
+                if (s_singletonInstance == null)
+                    s_singletonInstance = new SyncControls(ZuneShell.DefaultInstance);
+                return s_singletonInstance;
             }
         }
     }

@@ -16,12 +16,12 @@ namespace ZuneUI
         public RedeemCodeWizard()
         {
             this.State.ContactInfoStep.LightWeightOnly = true;
-            this._finishStep = new RedeemCodeFinishStep((Wizard)this, this.State);
-            this._errorStep = new AccountManagementErrorPage((Wizard)this, Shell.LoadString(StringId.IDS_BILLING_PREPAID_CODE_ERROR_TITLE), Shell.LoadString(StringId.IDS_BILLING_PREPAID_CODE_ERROR_DESC));
-            this.AddPage((WizardPage)this.State.RedeemCodeStep);
-            this.AddPage((WizardPage)this.State.ContactInfoStep);
-            this.AddPage((WizardPage)this._finishStep);
-            this.AddPage((WizardPage)this._errorStep);
+            this._finishStep = new RedeemCodeFinishStep(this, this.State);
+            this._errorStep = new AccountManagementErrorPage(this, Shell.LoadString(StringId.IDS_BILLING_PREPAID_CODE_ERROR_TITLE), Shell.LoadString(StringId.IDS_BILLING_PREPAID_CODE_ERROR_DESC));
+            this.AddPage(State.RedeemCodeStep);
+            this.AddPage(State.ContactInfoStep);
+            this.AddPage(_finishStep);
+            this.AddPage(_errorStep);
         }
 
         protected override void OnAsyncCommitCompleted(bool success)
@@ -32,10 +32,10 @@ namespace ZuneUI
             switch (this.State.RedeemCodeStep.ConfirmedTokenDetails != null ? this.State.RedeemCodeStep.ConfirmedTokenDetails.TokenType : ETokenType.Unknown)
             {
                 case ETokenType.Points:
-                    this._finishStep.ClosingMessage = string.Format(Shell.LoadString(StringId.IDS_BILLING_PREPAID_CODE_POINTS_SUCCESS), (object)this.State.RedeemCodeStep.ConfirmedTokenDetails.OfferName);
+                    this._finishStep.ClosingMessage = string.Format(Shell.LoadString(StringId.IDS_BILLING_PREPAID_CODE_POINTS_SUCCESS), State.RedeemCodeStep.ConfirmedTokenDetails.OfferName);
                     break;
                 case ETokenType.Subscription:
-                    this._finishStep.ClosingMessage = string.Format(Shell.LoadString(StringId.IDS_BILLING_PREPAID_CODE_PASS_SUCCESS), (object)this.State.RedeemCodeStep.ConfirmedTokenDetails.OfferName);
+                    this._finishStep.ClosingMessage = string.Format(Shell.LoadString(StringId.IDS_BILLING_PREPAID_CODE_PASS_SUCCESS), State.RedeemCodeStep.ConfirmedTokenDetails.OfferName);
                     break;
                 default:
                     this._finishStep.ClosingMessage = Shell.LoadString(StringId.IDS_BILLING_PREPAID_CODE_DEFAULT_SUCCESS);

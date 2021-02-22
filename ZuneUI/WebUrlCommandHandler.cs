@@ -16,8 +16,8 @@ namespace ZuneUI
         public void Execute(string command, IDictionary commandArgs)
         {
             EPassportPolicyId ePassportPolicy = EPassportPolicyId.None;
-            if (commandArgs != null && commandArgs.Contains((object)"PassportPolicyId"))
-                ePassportPolicy = (EPassportPolicyId)commandArgs[(object)"PassportPolicyId"];
+            if (commandArgs != null && commandArgs.Contains("PassportPolicyId"))
+                ePassportPolicy = (EPassportPolicyId)commandArgs["PassportPolicyId"];
             else if (SignIn.Instance.SignedIn)
             {
                 Uri uri = new Uri(command, UriKind.Absolute);

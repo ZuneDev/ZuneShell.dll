@@ -24,7 +24,7 @@ namespace ZuneUI
         public SlideShowState(IModelItemOwner owner)
           : base(owner)
         {
-            this._navigate = new Command((IModelItemOwner)this);
+            this._navigate = new Command(this);
             this._photoIds = new List<int>();
         }
 

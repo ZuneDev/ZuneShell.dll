@@ -15,15 +15,15 @@ namespace ZuneUI
         {
             get
             {
-                if (RedeemCodePropertyEditor.s_dataProviderProperties == null)
-                    RedeemCodePropertyEditor.s_dataProviderProperties = new PropertyDescriptor[1]
+                if (s_dataProviderProperties == null)
+                    s_dataProviderProperties = new PropertyDescriptor[1]
                     {
-            (PropertyDescriptor) RedeemCodePropertyEditor.s_code
+             s_code
                     };
-                return RedeemCodePropertyEditor.s_dataProviderProperties;
+                return s_dataProviderProperties;
             }
         }
 
-        public static PropertyDescriptor Code => (PropertyDescriptor)RedeemCodePropertyEditor.s_code;
+        public static PropertyDescriptor Code => s_code;
     }
 }

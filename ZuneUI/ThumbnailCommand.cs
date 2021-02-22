@@ -15,7 +15,7 @@ namespace ZuneUI
         private Image _image;
 
         public ThumbnailCommand()
-          : this((IModelItemOwner)null)
+          : this(null)
         {
         }
 

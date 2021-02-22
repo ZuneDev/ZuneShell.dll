@@ -10,6 +10,6 @@ namespace ZuneUI
 {
     public class PlaylistNavigationCommandHandler : DeviceAwareNavigationHandler
     {
-        protected override ZunePage GetPage(IDictionary args) => (ZunePage)new MusicLibraryPage(this.ShowDeviceContents, MusicLibraryView.Playlist);
+        protected override ZunePage GetPage(IDictionary args) => new MusicLibraryPage(this.ShowDeviceContents, MusicLibraryView.Playlist);
     }
 }

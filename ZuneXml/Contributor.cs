@@ -15,7 +15,7 @@ namespace ZuneXml
           DataProviderQuery owner,
           object objectTypeCookie)
         {
-            return (XmlDataProviderObject)new Contributor(owner, objectTypeCookie);
+            return new Contributor(owner, objectTypeCookie);
         }
 
         internal Contributor(DataProviderQuery owner, object resultTypeCookie)

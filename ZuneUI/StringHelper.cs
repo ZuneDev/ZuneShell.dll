@@ -15,7 +15,7 @@ namespace ZuneUI
         public static string[] Split(string value, string splitPattern)
         {
             if (string.IsNullOrEmpty(value))
-                return (string[])null;
+                return null;
             return value.Split(new string[1] { splitPattern }, StringSplitOptions.RemoveEmptyEntries);
         }
 

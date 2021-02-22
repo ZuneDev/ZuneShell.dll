@@ -29,8 +29,8 @@ namespace ZuneUI
         protected override void OnActivate()
         {
             this.SelectedCountry = this.State.BasicAccountInfoStep.SelectedCountry;
-            this.SetCommittedValue(PaymentInstrumentPropertyEditor.Country, (object)this.SelectedCountry);
-            this.SetCommittedValue(PaymentInstrumentPropertyEditor.Language, (object)this.State.BasicAccountInfoStep.SelectedLanguage);
+            this.SetCommittedValue(PaymentInstrumentPropertyEditor.Country, SelectedCountry);
+            this.SetCommittedValue(PaymentInstrumentPropertyEditor.Language, State.BasicAccountInfoStep.SelectedLanguage);
             this.SetCommittedValue(PaymentInstrumentPropertyEditor.Email, this.State.ContactInfoParentStep.GetCommittedValue(BaseContactInfoPropertyEditor.Email));
             base.OnActivate();
             this.ServiceDeactivationRequestsDone = false;
@@ -43,9 +43,9 @@ namespace ZuneUI
                 string committedValue1 = this.State.ContactInfoParentStep.GetCommittedValue(BaseContactInfoPropertyEditor.FirstName) as string;
                 string committedValue2 = this.State.ContactInfoParentStep.GetCommittedValue(BaseContactInfoPropertyEditor.LastName) as string;
                 string format = Shell.LoadString(StringId.IDS_ACCOUNT_CREATION_NAME_FORMAT);
-                property1.Value = string.Format(format, (object)committedValue1, (object)committedValue2);
+                property1.Value = string.Format(format, committedValue1, committedValue2);
             }
-            property4.State = (object)this.SelectedCountry;
+            property4.State = SelectedCountry;
             if (string.IsNullOrEmpty(property4.Value))
                 property4.Value = this.State.BasicAccountInfoStep.GetCommittedValue(BasicAccountInfoPropertyEditor.PostalCode) as string;
             if (string.IsNullOrEmpty(property2.Value))
@@ -59,27 +59,27 @@ namespace ZuneUI
         {
             if (this.ServiceDeactivationRequestsDone)
                 return base.OnMovingNext();
-            ParentPaymentIntrumentStep.ServiceData serviceData;
+            ServiceData serviceData;
             serviceData.PassportIdentity = this.State.PassportPasswordParentStep.PassportIdentity;
             serviceData.CreditCard = this.CreateCreditCard();
             serviceData.CreditCard.ContactFirstName = this.State.ContactInfoParentStep.GetCommittedValue(BaseContactInfoPropertyEditor.FirstName) as string;
             serviceData.CreditCard.ContactLastName = this.State.ContactInfoParentStep.GetCommittedValue(BaseContactInfoPropertyEditor.LastName) as string;
-            this.StartDeactivationRequests((object)serviceData);
+            this.StartDeactivationRequests(serviceData);
             return false;
         }
 
         protected override void OnStartDeactivationRequests(object state)
         {
-            ParentPaymentIntrumentStep.ServiceData serviceData = (ParentPaymentIntrumentStep.ServiceData)state;
-            CreditCard creditCard = (CreditCard)null;
+            ServiceData serviceData = (ServiceData)state;
+            CreditCard creditCard = null;
             if (this.IsValidCreditCard(serviceData))
                 creditCard = serviceData.CreditCard;
-            this.EndDeactivationRequests((object)creditCard);
+            this.EndDeactivationRequests(creditCard);
         }
 
         protected override void OnEndDeactivationRequests(object args) => this.CommittedCreditCard = (CreditCard)args;
 
-        private bool IsValidCreditCard(ParentPaymentIntrumentStep.ServiceData serviceData)
+        private bool IsValidCreditCard(ServiceData serviceData)
         {
             bool flag = true;
             if (serviceData.PassportIdentity != null)

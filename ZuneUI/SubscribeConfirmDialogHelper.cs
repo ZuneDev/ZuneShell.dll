@@ -26,7 +26,7 @@ namespace ZuneUI
                 this.m_feedTitle = feedUrl;
         }
 
-        private void ShowDialog() => MessageBox.Show(Shell.LoadString(StringId.IDS_PODCAST_CONFIRM_DIALOG_TITLE), string.Format(Shell.LoadString(StringId.IDS_PODCAST_CONFIRM_DIALOG_MESSAGE), (object)this.m_feedTitle), new EventHandler(this.OnConfirm));
+        private void ShowDialog() => MessageBox.Show(Shell.LoadString(StringId.IDS_PODCAST_CONFIRM_DIALOG_TITLE), string.Format(Shell.LoadString(StringId.IDS_PODCAST_CONFIRM_DIALOG_MESSAGE), m_feedTitle), new EventHandler(this.OnConfirm));
 
         private void OnConfirm(object sender, EventArgs args)
         {
@@ -34,12 +34,12 @@ namespace ZuneUI
             int subscriptionMediaId = -1;
             if (!instance.FindByUrl(this.m_feedUrl, EMediaTypes.eMediaTypePodcastSeries, out subscriptionMediaId, out bool _))
             {
-                HRESULT hresult = (HRESULT)instance.Subscribe(this.m_feedUrl, this.m_feedTitle, Guid.Empty, false, EMediaTypes.eMediaTypePodcastSeries, ESubscriptionSource.eSubscriptionSourceProtocolHandler, out subscriptionMediaId);
+                HRESULT hresult = instance.Subscribe(this.m_feedUrl, this.m_feedTitle, Guid.Empty, false, EMediaTypes.eMediaTypePodcastSeries, ESubscriptionSource.eSubscriptionSourceProtocolHandler, out subscriptionMediaId);
                 if (hresult.IsSuccess)
                 {
-                    string endPointUri = Microsoft.Zune.Service.Service.GetEndPointUri(Microsoft.Zune.Service.EServiceEndpointId.SEID_RootCatalog);
+                    string endPointUri = Service.GetEndPointUri(EServiceEndpointId.SEID_RootCatalog);
                     if (!string.IsNullOrEmpty(endPointUri) && !string.IsNullOrEmpty(this.m_feedUrl) && this.m_feedUrl.Length < 1024)
-                        WebRequestHelper.ConstructWebPostRequest(endPointUri + "/podcast", "URL=" + this.m_feedUrl, EPassportPolicyId.None, HttpRequestCachePolicy.Default, true, false).GetResponseAsync(new AsyncRequestComplete(this.OnRequestComplete), (object)null);
+                        WebRequestHelper.ConstructWebPostRequest(endPointUri + "/podcast", "URL=" + this.m_feedUrl, EPassportPolicyId.None, HttpRequestCachePolicy.Default, true, false).GetResponseAsync(new AsyncRequestComplete(this.OnRequestComplete), null);
                 }
                 else
                     ErrorDialogInfo.Show(hresult.Int, Shell.LoadString(StringId.IDS_PODCAST_SUBSCRIPTION_ERROR));

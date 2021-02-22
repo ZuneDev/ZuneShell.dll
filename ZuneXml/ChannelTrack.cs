@@ -15,7 +15,7 @@ namespace ZuneXml
           DataProviderQuery owner,
           object objectTypeCookie)
         {
-            return (XmlDataProviderObject)new ChannelTrack(owner, objectTypeCookie);
+            return new ChannelTrack(owner, objectTypeCookie);
         }
 
         internal ChannelTrack(DataProviderQuery owner, object resultTypeCookie)
@@ -30,47 +30,47 @@ namespace ZuneXml
             switch (propertyName)
             {
                 case "Actionable":
-                    return (object)this.Actionable;
+                    return Actionable;
                 case "UserRating":
-                    return (object)this.UserRating;
+                    return UserRating;
                 case "LibraryId":
-                    return (object)this.LibraryId;
+                    return LibraryId;
                 case "PointsPrice":
-                    return (object)this.PointsPrice;
+                    return PointsPrice;
                 case "HasPoints":
-                    return (object)this.HasPoints;
+                    return HasPoints;
                 case "CanPlay":
-                    return (object)this.CanPlay;
+                    return CanPlay;
                 case "CanPreview":
-                    return (object)this.CanPreview;
+                    return CanPreview;
                 case "CanSubscriptionPlay":
-                    return (object)this.CanSubscriptionPlay;
+                    return CanSubscriptionPlay;
                 case "CanDownload":
-                    return (object)this.CanDownload;
+                    return CanDownload;
                 case "CanPurchase":
-                    return (object)this.CanPurchase;
+                    return CanPurchase;
                 case "CanPurchaseFree":
-                    return (object)this.CanPurchaseFree;
+                    return CanPurchaseFree;
                 case "CanPurchaseMP3":
-                    return (object)this.CanPurchaseMP3;
+                    return CanPurchaseMP3;
                 case "CanPurchaseAlbumOnly":
-                    return (object)this.CanPurchaseAlbumOnly;
+                    return CanPurchaseAlbumOnly;
                 case "CanPurchaseSubscriptionFree":
-                    return (object)this.CanPurchaseSubscriptionFree;
+                    return CanPurchaseSubscriptionFree;
                 case "CanSync":
-                    return (object)this.CanSync;
+                    return CanSync;
                 case "CanBurn":
-                    return (object)this.CanBurn;
+                    return CanBurn;
                 case "InCollection":
-                    return (object)this.InCollection;
+                    return InCollection;
                 case "IsDownloading":
-                    return (object)this.IsDownloading;
+                    return IsDownloading;
                 case "IsParentallyBlocked":
-                    return (object)this.IsParentallyBlocked;
+                    return IsParentallyBlocked;
                 case "Ordinal":
-                    return (object)this.Ordinal;
+                    return Ordinal;
                 case "ImageId":
-                    return (object)this.ImageId;
+                    return ImageId;
                 default:
                     return base.GetProperty(propertyName);
             }

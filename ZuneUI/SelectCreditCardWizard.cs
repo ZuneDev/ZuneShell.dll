@@ -17,16 +17,16 @@ namespace ZuneUI
         public SelectCreditCardWizard()
         {
             this.State.ContactInfoStep.LightWeightOnly = true;
-            this._finishStep = (AccountManagementFinishStep)new SelectCreditCardFinishStep((Wizard)this, this.State, Shell.LoadString(StringId.IDS_ACCOUNT_FINISHED_DESCRIPTION));
-            this._errorStep = new AccountManagementErrorPage((Wizard)this, Shell.LoadString(StringId.IDS_ACCOUNT_ADD_CC_TO_ACCOUNT_ERROR_TITLE), Shell.LoadString(StringId.IDS_ACCOUNT_ADD_CC_TO_ACCOUNT_ERROR_DESC));
+            this._finishStep = new SelectCreditCardFinishStep(this, this.State, Shell.LoadString(StringId.IDS_ACCOUNT_FINISHED_DESCRIPTION));
+            this._errorStep = new AccountManagementErrorPage(this, Shell.LoadString(StringId.IDS_ACCOUNT_ADD_CC_TO_ACCOUNT_ERROR_TITLE), Shell.LoadString(StringId.IDS_ACCOUNT_ADD_CC_TO_ACCOUNT_ERROR_DESC));
             this._finishStep.FinishTextOverride = Shell.LoadString(StringId.IDS_PURCHASE_BUTTON);
             PaymentInstrumentStep paymentInstrumentStep = this.State.PaymentInstrumentStep;
             paymentInstrumentStep.NextTextOverride = Shell.LoadString(StringId.IDS_OK_BUTTON);
-            this.AddPage((WizardPage)this.State.ContactInfoStep);
-            this.AddPage((WizardPage)this.State.SelectPaymentInstrumentStep);
-            this.AddPage((WizardPage)paymentInstrumentStep);
-            this.AddPage((WizardPage)this._finishStep);
-            this.AddPage((WizardPage)this._errorStep);
+            this.AddPage(State.ContactInfoStep);
+            this.AddPage(State.SelectPaymentInstrumentStep);
+            this.AddPage(paymentInstrumentStep);
+            this.AddPage(_finishStep);
+            this.AddPage(_errorStep);
         }
 
         public CreditCard SelectedCreditCard
@@ -56,7 +56,7 @@ namespace ZuneUI
                 if (this.State.SelectPaymentInstrumentStep.CommittedCreditCard == null)
                     return;
                 this.SelectedCreditCard = this.State.SelectPaymentInstrumentStep.CommittedCreditCard;
-                this._finishStep.ClosingMessage = string.Format(Shell.LoadString(StringId.IDS_PURCHASE_SELECTED_PAYMENT_METHOD), (object)this.State.SelectPaymentInstrumentStep.CommittedCreditCard.ToString());
+                this._finishStep.ClosingMessage = string.Format(Shell.LoadString(StringId.IDS_PURCHASE_SELECTED_PAYMENT_METHOD), this.State.SelectPaymentInstrumentStep.CommittedCreditCard.ToString());
             }
         }
     }

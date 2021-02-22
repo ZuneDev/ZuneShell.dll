@@ -36,7 +36,7 @@ namespace ZuneUI
                 object property2 = dataProviderObject2.GetProperty(this.PropertyName);
                 if (property1 is IComparable comparable)
                     return comparable.CompareTo(property2);
-                if (object.Equals(property1, property2))
+                if (Equals(property1, property2))
                     return 0;
             }
             return 1;

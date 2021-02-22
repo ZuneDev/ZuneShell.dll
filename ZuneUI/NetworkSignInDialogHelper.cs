@@ -29,12 +29,12 @@ namespace ZuneUI
           string contentUI)
           : base(contentUI)
         {
-            this._signInCommand = new Command((IModelItemOwner)this, Shell.LoadString(StringId.IDS_DIALOG_OK), new EventHandler(this.OnInvoked));
+            this._signInCommand = new Command(this, Shell.LoadString(StringId.IDS_DIALOG_OK), new EventHandler(this.OnInvoked));
             if (signInHandler != null)
                 this._signInCommand.Invoked += signInHandler;
             if (cancelHandler != null)
                 this.Cancel.Invoked += cancelHandler;
-            this._rememberPassword = new BooleanChoice((IModelItemOwner)this, Shell.LoadString(StringId.IDS_PODCAST_SIGN_IN_SAVE));
+            this._rememberPassword = new BooleanChoice(this, Shell.LoadString(StringId.IDS_PODCAST_SIGN_IN_SAVE));
         }
 
         public string Title => this._title;
@@ -67,19 +67,19 @@ namespace ZuneUI
             if (this._rememberPassword != null)
             {
                 this._rememberPassword.Dispose();
-                this._rememberPassword = (BooleanChoice)null;
+                this._rememberPassword = null;
             }
             if (this._signInCommand == null)
                 return;
             this._signInCommand.Dispose();
-            this._signInCommand = (Command)null;
+            this._signInCommand = null;
         }
 
         protected void SetError(HRESULT hrError)
         {
             if (!hrError.IsError)
                 return;
-            ErrorMapperResult descriptionAndUrl = Microsoft.Zune.ErrorMapperApi.ErrorMapperApi.GetMappedErrorDescriptionAndUrl(hrError.Int);
+            ErrorMapperResult descriptionAndUrl = ErrorMapperApi.GetMappedErrorDescriptionAndUrl(hrError.Int);
             if (descriptionAndUrl == null)
                 return;
             this._error = descriptionAndUrl.Description;
@@ -99,7 +99,7 @@ namespace ZuneUI
                 case AuthenticationSchemes.Basic:
                     return Shell.LoadString(StringId.IDS_PODCAST_SIGN_IN_BASIC_AUTH);
                 default:
-                    return (string)null;
+                    return null;
             }
         }
     }

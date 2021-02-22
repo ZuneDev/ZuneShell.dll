@@ -18,7 +18,7 @@ namespace ZuneUI
       317,
       181,
       175,
-      (int) byte.MaxValue,
+       byte.MaxValue,
       254,
       68
         };
@@ -39,21 +39,21 @@ namespace ZuneUI
             DataProviderObject dataProviderObject = (DataProviderObject)dataContainer;
             object[] fieldValues = new object[8]
             {
-        (object) string.Empty,
-        (object) 0,
-        (object) string.Empty,
-        (object) string.Empty,
-        (object) string.Empty,
-        (object) 0,
-        (object) 0,
-        (object) string.Empty
+         string.Empty,
+         0,
+         string.Empty,
+         string.Empty,
+         string.Empty,
+         0,
+         0,
+         string.Empty
             };
-            ZuneLibrary.GetFieldValues(libraryId, EListType.ePhotoList, PhotoDetails.ColumnIndexes.Length, PhotoDetails.ColumnIndexes, fieldValues, PlaylistManager.Instance.QueryContext);
-            for (int index = 0; index < PhotoDetails.ColumnIndexes.Length; ++index)
+            ZuneLibrary.GetFieldValues(libraryId, EListType.ePhotoList, ColumnIndexes.Length, ColumnIndexes, fieldValues, PlaylistManager.Instance.QueryContext);
+            for (int index = 0; index < ColumnIndexes.Length; ++index)
             {
-                if (PhotoDetails.ColumnIndexes[index] == 177)
-                    fieldValues[index] = (object)MediaDescriptions.Map((MediaType)fieldValues[index]);
-                dataProviderObject.SetProperty(PhotoDetails.DataProperties[index], fieldValues[index]);
+                if (ColumnIndexes[index] == 177)
+                    fieldValues[index] = MediaDescriptions.Map((MediaType)fieldValues[index]);
+                dataProviderObject.SetProperty(DataProperties[index], fieldValues[index]);
             }
         }
     }

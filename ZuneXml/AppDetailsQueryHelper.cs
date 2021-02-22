@@ -29,7 +29,7 @@ namespace ZuneXml
             string property = (string)this.Query.GetProperty("Version");
             if (string.IsNullOrEmpty(property))
                 return;
-            ZuneServiceQueryHelper.AppendParam(requestUri, "version", property, ref fFirst);
+            AppendParam(requestUri, "version", property, ref fFirst);
         }
     }
 }

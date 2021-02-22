@@ -20,21 +20,21 @@ namespace ZuneUI
         private SQMDataId _sqmCountID;
 
         public Node(Experience owner, string command, SQMDataId sqmCountID)
-          : base((IModelItemOwner)owner, (string)null, (EventHandler)null)
+          : base(owner, null, null)
         {
             this._command = command;
             this._sqmCountID = sqmCountID;
         }
 
         public Node(Experience owner, StringId id, string command, SQMDataId sqmCountID)
-          : base((IModelItemOwner)owner, Shell.LoadString(id), (EventHandler)null)
+          : base(owner, Shell.LoadString(id), null)
         {
             this._command = command;
             this._sqmCountID = sqmCountID;
         }
 
         public Node(Experience owner, string name, string command)
-          : base((IModelItemOwner)owner, name, (EventHandler)null)
+          : base(owner, name, null)
         {
             this._command = command;
             this._sqmCountID = SQMDataId.Invalid;
@@ -88,7 +88,7 @@ namespace ZuneUI
             }
         }
 
-        protected virtual void Execute(Shell shell) => shell.Execute(this._command, (IDictionary)null);
+        protected virtual void Execute(Shell shell) => shell.Execute(this._command, null);
 
         private void ShellPropertyChanged(object sender, PropertyChangedEventArgs args)
         {

@@ -15,7 +15,7 @@ namespace ZuneXml
         internal static ZuneServiceQueryHelper ConstructSocialQueryHelper(
           ZuneServiceQuery query)
         {
-            return (ZuneServiceQueryHelper)new SocialQueryHelper(query);
+            return new SocialQueryHelper(query);
         }
 
         internal SocialQueryHelper(ZuneServiceQuery query)
@@ -23,11 +23,11 @@ namespace ZuneXml
         {
         }
 
-        internal override object GetComputedProperty(string propertyName) => propertyName == "URI" ? (object)this.GetResourceUri() : base.GetComputedProperty(propertyName);
+        internal override object GetComputedProperty(string propertyName) => propertyName == "URI" ? this.GetResourceUri() : base.GetComputedProperty(propertyName);
 
         internal override string GetResourceUri()
         {
-            string zuneTagOrGuid = (string)null;
+            string zuneTagOrGuid = null;
             Guid? property1 = (Guid?)this.Query.GetProperty("UserGuid");
             if (property1.HasValue && property1.Value != Guid.Empty)
                 zuneTagOrGuid = property1.Value.ToString().ToUpper();

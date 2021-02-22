@@ -16,7 +16,7 @@ namespace ZuneXml
         internal static ZuneServiceQueryHelper ConstructSearchQueryHelper(
           ZuneServiceQuery query)
         {
-            return (ZuneServiceQueryHelper)new CatalogSearchQueryHelper(query);
+            return new CatalogSearchQueryHelper(query);
         }
 
         internal CatalogSearchQueryHelper(ZuneServiceQuery query)
@@ -29,7 +29,7 @@ namespace ZuneXml
             string property1 = (string)this.Query.GetProperty("ResourceType");
             string property2 = (string)this.Query.GetProperty("Keywords");
             if (string.IsNullOrEmpty(property1) || string.IsNullOrEmpty(property2))
-                return (string)null;
+                return null;
             string endPointUri = Microsoft.Zune.Service.Service.GetEndPointUri(this._endPoint);
             StringBuilder stringBuilder = new StringBuilder(128);
             stringBuilder.Append(endPointUri);

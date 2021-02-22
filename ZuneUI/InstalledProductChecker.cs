@@ -29,8 +29,8 @@ namespace ZuneUI
             string productCode;
             do
             {
-                productCode = InstalledProductChecker.EnumRelatedProducts(guid.ToString("B"), index);
-                if (!string.IsNullOrEmpty(productCode) && InstalledProductChecker.GetProductVersionMajor(productCode) >= minVersionMajor && InstalledProductChecker.GetProductVersionMinor(productCode) >= minVersionMinor)
+                productCode = EnumRelatedProducts(guid.ToString("B"), index);
+                if (!string.IsNullOrEmpty(productCode) && GetProductVersionMajor(productCode) >= minVersionMajor && GetProductVersionMinor(productCode) >= minVersionMinor)
                     return true;
                 ++index;
             }
@@ -38,19 +38,19 @@ namespace ZuneUI
             return false;
         }
 
-        public static string GetProductName(string productCode) => InstalledProductChecker.GetProductInfo(productCode, "ProductName");
+        public static string GetProductName(string productCode) => GetProductInfo(productCode, "ProductName");
 
         public static int GetProductVersionMajor(string productCode)
         {
             int result;
-            int.TryParse(InstalledProductChecker.GetProductInfo(productCode, "VersionMajor"), out result);
+            int.TryParse(GetProductInfo(productCode, "VersionMajor"), out result);
             return result;
         }
 
         public static int GetProductVersionMinor(string productCode)
         {
             int result;
-            int.TryParse(InstalledProductChecker.GetProductInfo(productCode, "VersionMinor"), out result);
+            int.TryParse(GetProductInfo(productCode, "VersionMinor"), out result);
             return result;
         }
 
@@ -58,13 +58,13 @@ namespace ZuneUI
         {
             int size = 512;
             StringBuilder valueBuffer = new StringBuilder(size);
-            return (HRESULT)InstalledProductChecker.MsiGetProductInfo(productCode, property, valueBuffer, ref size) != HRESULT._S_OK ? string.Empty : valueBuffer.ToString();
+            return MsiGetProductInfo(productCode, property, valueBuffer, ref size) != HRESULT._S_OK ? string.Empty : valueBuffer.ToString();
         }
 
         public static string EnumRelatedProducts(string upgradeCode, int index)
         {
             StringBuilder productCodeBuffer = new StringBuilder(39);
-            return (HRESULT)InstalledProductChecker.MsiEnumRelatedProducts(upgradeCode, 0, index, productCodeBuffer) != HRESULT._S_OK ? string.Empty : productCodeBuffer.ToString();
+            return MsiEnumRelatedProducts(upgradeCode, 0, index, productCodeBuffer) != HRESULT._S_OK ? string.Empty : productCodeBuffer.ToString();
         }
 
         [DllImport("msi.dll")]

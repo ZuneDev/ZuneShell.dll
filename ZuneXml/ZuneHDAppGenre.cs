@@ -14,7 +14,7 @@ namespace ZuneXml
           DataProviderQuery owner,
           object objectTypeCookie)
         {
-            return (XmlDataProviderObject)new ZuneHDAppGenre(owner, objectTypeCookie);
+            return new ZuneHDAppGenre(owner, objectTypeCookie);
         }
 
         internal ZuneHDAppGenre(DataProviderQuery owner, object resultTypeCookie)

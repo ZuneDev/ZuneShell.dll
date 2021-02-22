@@ -22,7 +22,7 @@ namespace ZuneUI
         }
 
         public MarketplaceReportFavouriteArtistsCommand(IModelItem owner)
-          : base((IModelItemOwner)owner)
+          : base(owner)
         {
         }
 
@@ -66,13 +66,13 @@ namespace ZuneUI
 
         protected override void OnInvoked() => Microsoft.Zune.Service.Service.Instance.ReportFavouriteArtists(this.m_userId, this.m_artists, new AsyncCompleteHandler(this.OnCompleteHandler));
 
-        private void OnCompleteHandler(HRESULT hr) => Application.DeferredInvoke(new DeferredInvokeHandler(this.OnCompleteHandler), (object)hr);
+        private void OnCompleteHandler(HRESULT hr) => Application.DeferredInvoke(new DeferredInvokeHandler(this.OnCompleteHandler), hr);
 
         private void OnCompleteHandler(object arg)
         {
             this.LastError = (HRESULT)arg;
             if (this.Completed != null)
-                this.Completed((object)this, (EventArgs)null);
+                this.Completed(this, null);
             this.FirePropertyChanged("Completed");
             if (!this.LastError.IsError)
                 return;

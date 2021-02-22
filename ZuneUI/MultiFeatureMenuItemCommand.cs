@@ -30,9 +30,9 @@ namespace ZuneUI
             if (this._hidden == -1)
             {
                 this._hidden = 0;
-                foreach (object feature in (IEnumerable)this._features)
+                foreach (object feature in _features)
                 {
-                    if (feature is global::Features eFeature && !FeatureEnablement.IsFeatureEnabled(eFeature))
+                    if (feature is Features eFeature && !FeatureEnablement.IsFeatureEnabled(eFeature))
                     {
                         this._hidden = 1;
                         break;

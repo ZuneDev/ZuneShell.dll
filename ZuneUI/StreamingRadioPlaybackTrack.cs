@@ -31,7 +31,7 @@ namespace ZuneUI
 
         public override HRESULT GetURI(out string uri)
         {
-            string str = (string)null;
+            string str = null;
             if (this._playlist == null && this._originalUri != null)
                 this._playlist = RadioStationManager.Instance.GetRadioPlaylist(this._originalUri);
             if (this._playlist != null)

@@ -13,7 +13,7 @@ namespace ZuneUI
         private bool available = true;
 
         internal BooleanInputChoice(ModelItem owner, string description, bool isAvailable)
-          : base((IModelItemOwner)owner, description)
+          : base(owner, description)
           => this.Available = isAvailable;
 
         public bool Available

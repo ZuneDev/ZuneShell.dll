@@ -37,7 +37,7 @@ namespace ZuneUI
           string unknownString,
           int maxTextLength,
           bool required)
-          : this(name, multiValueString, unknownString, maxTextLength, required, (object)null)
+          : this(name, multiValueString, unknownString, maxTextLength, required, null)
         {
         }
 
@@ -46,12 +46,12 @@ namespace ZuneUI
           string multiValueString,
           string unknownString,
           int maxTextLength)
-          : this(name, multiValueString, unknownString, maxTextLength, false, (object)null)
+          : this(name, multiValueString, unknownString, maxTextLength, false, null)
         {
         }
 
         public PropertyDescriptor(string name, string multiValueString, string unknownString)
-          : this(name, multiValueString, unknownString, 1000, false, (object)null)
+          : this(name, multiValueString, unknownString, 1000, false, null)
         {
         }
 
@@ -60,7 +60,7 @@ namespace ZuneUI
           string multiValueString,
           string unknownString,
           bool required)
-          : this(name, multiValueString, unknownString, 1000, required, (object)null)
+          : this(name, multiValueString, unknownString, 1000, required, null)
         {
             this._required = required;
         }
@@ -71,7 +71,7 @@ namespace ZuneUI
 
         public virtual object ConvertFromString(string value, object state) => this.ConvertFromString(value);
 
-        public virtual object ConvertFromString(string value) => value != null ? (object)value.Trim() : (object)null;
+        public virtual object ConvertFromString(string value) => value != null ? value.Trim() : null;
 
         public bool IsValid(string value, object state)
         {

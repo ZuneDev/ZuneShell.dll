@@ -15,80 +15,80 @@ namespace ZuneUI
     internal static class DeviceIconSetFactory
     {
         private const int _reasonableMaximumSurfaceSize = 1024;
-        private static List<DeviceIconSetFactory.DeviceIconSetBuilder> _builders = new List<DeviceIconSetFactory.DeviceIconSetBuilder>();
-        private static DeviceIconSetFactory.DeviceIconSizeConstraint _backgroundConstraint = new DeviceIconSetFactory.DeviceIconSizeConstraint(2, 1023, 2, 1023);
-        private static DeviceIconSetFactory.DeviceIconSizeConstraint _largeConstraint = new DeviceIconSetFactory.DeviceIconSizeConstraint(100, 225, 265, 400);
-        private static DeviceIconSetFactory.DeviceIconSizeConstraint _mediumConstraint = new DeviceIconSetFactory.DeviceIconSizeConstraint(50, 110, 50, 200);
-        private static DeviceIconSetFactory.DeviceIconSizeConstraint _smallConstraint = new DeviceIconSetFactory.DeviceIconSizeConstraint(15, 42, 25, 49);
-        private static DeviceIconSetFactory.DeviceIconSet _defaultIconSet = new DeviceIconSetFactory.DeviceIconSet((ISimpleDeviceIconSet)new DeviceIconSetFactory.SimpleIconSet(new Image("res://ZuneShellResources!DefaultDevice.Large.Default.png"), new Image("res://ZuneShellResources!DefaultDevice.Large.Disconnected.png")), (ISimpleDeviceIconSet)new DeviceIconSetFactory.SimpleIconSet(new Image("res://ZuneShellResources!DefaultDevice.Medium.Default.png"), new Image("res://ZuneShellResources!DefaultDevice.Medium.Unsupported.png")), (IInteractiveDeviceIconSet)new DeviceIconSetFactory.InteractiveIconSet((IBackgroundAwareDeviceIconSet)new DeviceIconSetFactory.BackgroundAwareIconSet((ISimpleDeviceIconSet)new DeviceIconSetFactory.SimpleIconSet(new Image("res://ZuneShellResources!DefaultDevice.Connected.Default.png"), new Image("res://ZuneShellResources!DefaultDevice.Disconnected.Default.png")), (ISimpleDeviceIconSet)new DeviceIconSetFactory.SimpleIconSet(new Image("res://ZuneShellResources!DefaultDevice.Connected.Default.Dark.png"), new Image("res://ZuneShellResources!DefaultDevice.Disconnected.Default.Dark.png"))), (IBackgroundAwareDeviceIconSet)new DeviceIconSetFactory.BackgroundAwareIconSet((ISimpleDeviceIconSet)new DeviceIconSetFactory.SimpleIconSet(new Image("res://ZuneShellResources!DefaultDevice.Connected.Hover.png"), new Image("res://ZuneShellResources!DefaultDevice.Disconnected.Hover.png")), (ISimpleDeviceIconSet)new DeviceIconSetFactory.SimpleIconSet(new Image("res://ZuneShellResources!DefaultDevice.Connected.Hover.Dark.png"), new Image("res://ZuneShellResources!DefaultDevice.Disconnected.Hover.Dark.png"))), (IBackgroundAwareDeviceIconSet)new DeviceIconSetFactory.BackgroundAwareIconSet((ISimpleDeviceIconSet)new DeviceIconSetFactory.SimpleIconSet(new Image("res://ZuneShellResources!DefaultDevice.Connected.Drag.png"), new Image("res://ZuneShellResources!DefaultDevice.Disconnected.Drag.png")), (ISimpleDeviceIconSet)new DeviceIconSetFactory.SimpleIconSet(new Image("res://ZuneShellResources!DefaultDevice.Connected.Drag.Dark.png"), new Image("res://ZuneShellResources!DefaultDevice.Disconnected.Drag.Dark.png"))), (IBackgroundAwareDeviceIconSet)new DeviceIconSetFactory.BackgroundAwareIconSet((ISimpleDeviceIconSet)new DeviceIconSetFactory.SimpleIconSet(new Image("res://ZuneShellResources!DefaultDevice.Connected.Click.png"), new Image("res://ZuneShellResources!DefaultDevice.Disconnected.Click.png")), (ISimpleDeviceIconSet)new DeviceIconSetFactory.SimpleIconSet(new Image("res://ZuneShellResources!DefaultDevice.Connected.Click.Dark.png"), new Image("res://ZuneShellResources!DefaultDevice.Disconnected.Click.Dark.png"))), (IBackgroundAwareDeviceIconSet)new DeviceIconSetFactory.BackgroundAwareIconSet((ISimpleDeviceIconSet)new DeviceIconSetFactory.SimpleIconSet(new Image("res://ZuneShellResources!DefaultDevice.Connected.Syncing.png"), new Image("res://ZuneShellResources!DefaultDevice.Connected.Syncing.png")), (ISimpleDeviceIconSet)new DeviceIconSetFactory.SimpleIconSet(new Image("res://ZuneShellResources!DefaultDevice.Connected.Syncing.Dark.png"), new Image("res://ZuneShellResources!DefaultDevice.Connected.Syncing.Dark.png")))), new Image("res://ZuneShellResources!DefaultDevice.Background.png"), (IColorSet)new DeviceIconSetFactory.ColorSet((IDeviceColor)new DeviceIconSetFactory.DeviceColor((byte)87, (byte)87, (byte)87), (IDeviceColor)new DeviceIconSetFactory.DeviceColor((byte)0, (byte)0, (byte)2), (IDeviceColor)new DeviceIconSetFactory.DeviceColor((byte)0, (byte)0, (byte)2), (IDeviceColor)new DeviceIconSetFactory.DeviceColor((byte)0, (byte)0, (byte)2)));
-        private static DeviceIconSetFactory.DeviceIconSet _unloadedIconSet = new DeviceIconSetFactory.DeviceIconSet((ISimpleDeviceIconSet)new DeviceIconSetFactory.SimpleIconSet(new Image("res://ZuneShellResources!Unloaded.Large.Default.png"), new Image("res://ZuneShellResources!Unloaded.Large.Disconnected.png")), (ISimpleDeviceIconSet)new DeviceIconSetFactory.SimpleIconSet(new Image("res://ZuneShellResources!Unloaded.Medium.Default.png"), new Image("res://ZuneShellResources!Unloaded.Medium.Unsupported.png")), (IInteractiveDeviceIconSet)new DeviceIconSetFactory.InteractiveIconSet((IBackgroundAwareDeviceIconSet)new DeviceIconSetFactory.BackgroundAwareIconSet((ISimpleDeviceIconSet)new DeviceIconSetFactory.SimpleIconSet(new Image("res://ZuneShellResources!Unloaded.Connected.Default.png"), new Image("res://ZuneShellResources!Unloaded.Disconnected.Default.png")), (ISimpleDeviceIconSet)new DeviceIconSetFactory.SimpleIconSet(new Image("res://ZuneShellResources!Unloaded.Connected.Default.Dark.png"), new Image("res://ZuneShellResources!Unloaded.Disconnected.Default.Dark.png"))), (IBackgroundAwareDeviceIconSet)new DeviceIconSetFactory.BackgroundAwareIconSet((ISimpleDeviceIconSet)new DeviceIconSetFactory.SimpleIconSet(new Image("res://ZuneShellResources!Unloaded.Connected.Hover.png"), new Image("res://ZuneShellResources!Unloaded.Disconnected.Hover.png")), (ISimpleDeviceIconSet)new DeviceIconSetFactory.SimpleIconSet(new Image("res://ZuneShellResources!Unloaded.Connected.Hover.Dark.png"), new Image("res://ZuneShellResources!Unloaded.Disconnected.Hover.Dark.png"))), (IBackgroundAwareDeviceIconSet)new DeviceIconSetFactory.BackgroundAwareIconSet((ISimpleDeviceIconSet)new DeviceIconSetFactory.SimpleIconSet(new Image("res://ZuneShellResources!Unloaded.Connected.Drag.png"), new Image("res://ZuneShellResources!Unloaded.Disconnected.Drag.png")), (ISimpleDeviceIconSet)new DeviceIconSetFactory.SimpleIconSet(new Image("res://ZuneShellResources!Unloaded.Connected.Drag.Dark.png"), new Image("res://ZuneShellResources!Unloaded.Disconnected.Drag.Dark.png"))), (IBackgroundAwareDeviceIconSet)new DeviceIconSetFactory.BackgroundAwareIconSet((ISimpleDeviceIconSet)new DeviceIconSetFactory.SimpleIconSet(new Image("res://ZuneShellResources!Unloaded.Connected.Click.png"), new Image("res://ZuneShellResources!Unloaded.Disconnected.Click.png")), (ISimpleDeviceIconSet)new DeviceIconSetFactory.SimpleIconSet(new Image("res://ZuneShellResources!Unloaded.Connected.Click.Dark.png"), new Image("res://ZuneShellResources!Unloaded.Disconnected.Click.Dark.png"))), (IBackgroundAwareDeviceIconSet)new DeviceIconSetFactory.BackgroundAwareIconSet((ISimpleDeviceIconSet)new DeviceIconSetFactory.SimpleIconSet(new Image("res://ZuneShellResources!Unloaded.Connected.Syncing.png"), new Image("res://ZuneShellResources!Unloaded.Connected.Syncing.png")), (ISimpleDeviceIconSet)new DeviceIconSetFactory.SimpleIconSet(new Image("res://ZuneShellResources!Unloaded.Connected.Syncing.Dark.png"), new Image("res://ZuneShellResources!Unloaded.Connected.Syncing.Dark.png")))), new Image("res://ZuneShellResources!Unloaded.Background.png"), (IColorSet)new DeviceIconSetFactory.ColorSet((IDeviceColor)new DeviceIconSetFactory.DeviceColor((byte)87, (byte)87, (byte)87), (IDeviceColor)new DeviceIconSetFactory.DeviceColor((byte)0, (byte)0, (byte)2), (IDeviceColor)new DeviceIconSetFactory.DeviceColor((byte)0, (byte)0, (byte)2), (IDeviceColor)new DeviceIconSetFactory.DeviceColor((byte)0, (byte)0, (byte)2)));
+        private static List<DeviceIconSetBuilder> _builders = new List<DeviceIconSetBuilder>();
+        private static DeviceIconSizeConstraint _backgroundConstraint = new DeviceIconSizeConstraint(2, 1023, 2, 1023);
+        private static DeviceIconSizeConstraint _largeConstraint = new DeviceIconSizeConstraint(100, 225, 265, 400);
+        private static DeviceIconSizeConstraint _mediumConstraint = new DeviceIconSizeConstraint(50, 110, 50, 200);
+        private static DeviceIconSizeConstraint _smallConstraint = new DeviceIconSizeConstraint(15, 42, 25, 49);
+        private static DeviceIconSet _defaultIconSet = new DeviceIconSet(new SimpleIconSet(new Image("res://ZuneShellResources!DefaultDevice.Large.Default.png"), new Image("res://ZuneShellResources!DefaultDevice.Large.Disconnected.png")), new SimpleIconSet(new Image("res://ZuneShellResources!DefaultDevice.Medium.Default.png"), new Image("res://ZuneShellResources!DefaultDevice.Medium.Unsupported.png")), new InteractiveIconSet(new BackgroundAwareIconSet(new SimpleIconSet(new Image("res://ZuneShellResources!DefaultDevice.Connected.Default.png"), new Image("res://ZuneShellResources!DefaultDevice.Disconnected.Default.png")), new SimpleIconSet(new Image("res://ZuneShellResources!DefaultDevice.Connected.Default.Dark.png"), new Image("res://ZuneShellResources!DefaultDevice.Disconnected.Default.Dark.png"))), new BackgroundAwareIconSet(new SimpleIconSet(new Image("res://ZuneShellResources!DefaultDevice.Connected.Hover.png"), new Image("res://ZuneShellResources!DefaultDevice.Disconnected.Hover.png")), new SimpleIconSet(new Image("res://ZuneShellResources!DefaultDevice.Connected.Hover.Dark.png"), new Image("res://ZuneShellResources!DefaultDevice.Disconnected.Hover.Dark.png"))), new BackgroundAwareIconSet(new SimpleIconSet(new Image("res://ZuneShellResources!DefaultDevice.Connected.Drag.png"), new Image("res://ZuneShellResources!DefaultDevice.Disconnected.Drag.png")), new SimpleIconSet(new Image("res://ZuneShellResources!DefaultDevice.Connected.Drag.Dark.png"), new Image("res://ZuneShellResources!DefaultDevice.Disconnected.Drag.Dark.png"))), new BackgroundAwareIconSet(new SimpleIconSet(new Image("res://ZuneShellResources!DefaultDevice.Connected.Click.png"), new Image("res://ZuneShellResources!DefaultDevice.Disconnected.Click.png")), new SimpleIconSet(new Image("res://ZuneShellResources!DefaultDevice.Connected.Click.Dark.png"), new Image("res://ZuneShellResources!DefaultDevice.Disconnected.Click.Dark.png"))), new BackgroundAwareIconSet(new SimpleIconSet(new Image("res://ZuneShellResources!DefaultDevice.Connected.Syncing.png"), new Image("res://ZuneShellResources!DefaultDevice.Connected.Syncing.png")), new SimpleIconSet(new Image("res://ZuneShellResources!DefaultDevice.Connected.Syncing.Dark.png"), new Image("res://ZuneShellResources!DefaultDevice.Connected.Syncing.Dark.png")))), new Image("res://ZuneShellResources!DefaultDevice.Background.png"), new ColorSet(new DeviceColor(87, 87, 87), new DeviceColor(0, 0, 2), new DeviceColor(0, 0, 2), new DeviceColor(0, 0, 2)));
+        private static DeviceIconSet _unloadedIconSet = new DeviceIconSet(new SimpleIconSet(new Image("res://ZuneShellResources!Unloaded.Large.Default.png"), new Image("res://ZuneShellResources!Unloaded.Large.Disconnected.png")), new SimpleIconSet(new Image("res://ZuneShellResources!Unloaded.Medium.Default.png"), new Image("res://ZuneShellResources!Unloaded.Medium.Unsupported.png")), new InteractiveIconSet(new BackgroundAwareIconSet(new SimpleIconSet(new Image("res://ZuneShellResources!Unloaded.Connected.Default.png"), new Image("res://ZuneShellResources!Unloaded.Disconnected.Default.png")), new SimpleIconSet(new Image("res://ZuneShellResources!Unloaded.Connected.Default.Dark.png"), new Image("res://ZuneShellResources!Unloaded.Disconnected.Default.Dark.png"))), new BackgroundAwareIconSet(new SimpleIconSet(new Image("res://ZuneShellResources!Unloaded.Connected.Hover.png"), new Image("res://ZuneShellResources!Unloaded.Disconnected.Hover.png")), new SimpleIconSet(new Image("res://ZuneShellResources!Unloaded.Connected.Hover.Dark.png"), new Image("res://ZuneShellResources!Unloaded.Disconnected.Hover.Dark.png"))), new BackgroundAwareIconSet(new SimpleIconSet(new Image("res://ZuneShellResources!Unloaded.Connected.Drag.png"), new Image("res://ZuneShellResources!Unloaded.Disconnected.Drag.png")), new SimpleIconSet(new Image("res://ZuneShellResources!Unloaded.Connected.Drag.Dark.png"), new Image("res://ZuneShellResources!Unloaded.Disconnected.Drag.Dark.png"))), new BackgroundAwareIconSet(new SimpleIconSet(new Image("res://ZuneShellResources!Unloaded.Connected.Click.png"), new Image("res://ZuneShellResources!Unloaded.Disconnected.Click.png")), new SimpleIconSet(new Image("res://ZuneShellResources!Unloaded.Connected.Click.Dark.png"), new Image("res://ZuneShellResources!Unloaded.Disconnected.Click.Dark.png"))), new BackgroundAwareIconSet(new SimpleIconSet(new Image("res://ZuneShellResources!Unloaded.Connected.Syncing.png"), new Image("res://ZuneShellResources!Unloaded.Connected.Syncing.png")), new SimpleIconSet(new Image("res://ZuneShellResources!Unloaded.Connected.Syncing.Dark.png"), new Image("res://ZuneShellResources!Unloaded.Connected.Syncing.Dark.png")))), new Image("res://ZuneShellResources!Unloaded.Background.png"), new ColorSet(new DeviceColor(87, 87, 87), new DeviceColor(0, 0, 2), new DeviceColor(0, 0, 2), new DeviceColor(0, 0, 2)));
 
         public static IDeviceIconSet BuildDeviceIconSet(
           DeviceAssetSet assetSet,
-          DeviceIconSetFactory.DeviceIconSetConstructionCompletedCallback callback)
+          DeviceIconSetConstructionCompletedCallback callback)
         {
-            DeviceIconSetFactory.DeviceIconSetBuilder builder = new DeviceIconSetFactory.DeviceIconSetBuilder();
-            DeviceIconSetFactory._builders.Add(builder);
-            builder.BuildIconSet(assetSet, (DeviceIconSetFactory.DeviceIconSetConstructionCompletedCallback)(result =>
+            DeviceIconSetBuilder builder = new DeviceIconSetBuilder();
+            _builders.Add(builder);
+            builder.BuildIconSet(assetSet, result =>
            {
                callback(result);
-               DeviceIconSetFactory._builders.Remove(builder);
-           }));
-            return DeviceIconSetFactory.UnloadedIconSet;
+               _builders.Remove(builder);
+           });
+            return UnloadedIconSet;
         }
 
-        public static IDeviceIconSet DefaultIconSet => (IDeviceIconSet)DeviceIconSetFactory._defaultIconSet;
+        public static IDeviceIconSet DefaultIconSet => _defaultIconSet;
 
-        private static IDeviceIconSet UnloadedIconSet => (IDeviceIconSet)DeviceIconSetFactory._unloadedIconSet;
+        private static IDeviceIconSet UnloadedIconSet => _unloadedIconSet;
 
         internal delegate void DeviceIconSetConstructionCompletedCallback(IDeviceIconSet iconSet);
 
         private class DeviceIconSetBuilder
         {
             private DeviceAssetSet _assetSet;
-            private DeviceIconSetFactory.DeviceIconSetConstructionCompletedCallback _callback;
-            private DeviceIconSetFactory.DeviceIconSetBuilder.ImageListLoaderAndVerifier _loader;
+            private DeviceIconSetConstructionCompletedCallback _callback;
+            private ImageListLoaderAndVerifier _loader;
             private IInteractiveDeviceIconSet _smallImageSubset;
-            private DeviceIconSetFactory.DeviceIconSetBuilder.DetailedImages _detailedImageSubset;
-            private DeviceIconSetFactory.DeviceIconSetBuilder.BackgroundImageAndColors _backgroundImageAndColorSubset;
-            private static readonly DeviceIconSetFactory.DeviceIconSetBuilder.ImageIdAndConstraint[] _smallImagesToLoad = new DeviceIconSetFactory.DeviceIconSetBuilder.ImageIdAndConstraint[18]
+            private DetailedImages _detailedImageSubset;
+            private BackgroundImageAndColors _backgroundImageAndColorSubset;
+            private static readonly ImageIdAndConstraint[] _smallImagesToLoad = new ImageIdAndConstraint[18]
             {
-        new DeviceIconSetFactory.DeviceIconSetBuilder.ImageIdAndConstraint(DeviceAssetImages.eDeviceAssetImageConnectedDefault, DeviceIconSetFactory._smallConstraint),
-        new DeviceIconSetFactory.DeviceIconSetBuilder.ImageIdAndConstraint(DeviceAssetImages.eDeviceAssetImageDisconnectedDefault, DeviceIconSetFactory._smallConstraint),
-        new DeviceIconSetFactory.DeviceIconSetBuilder.ImageIdAndConstraint(DeviceAssetImages.eDeviceAssetImageConnectedDefaultDark, DeviceIconSetFactory._smallConstraint),
-        new DeviceIconSetFactory.DeviceIconSetBuilder.ImageIdAndConstraint(DeviceAssetImages.eDeviceAssetImageDisconnectedDefaultDark, DeviceIconSetFactory._smallConstraint),
-        new DeviceIconSetFactory.DeviceIconSetBuilder.ImageIdAndConstraint(DeviceAssetImages.eDeviceAssetImageConnectedHover, DeviceIconSetFactory._smallConstraint),
-        new DeviceIconSetFactory.DeviceIconSetBuilder.ImageIdAndConstraint(DeviceAssetImages.eDeviceAssetImageDisconnectedHover, DeviceIconSetFactory._smallConstraint),
-        new DeviceIconSetFactory.DeviceIconSetBuilder.ImageIdAndConstraint(DeviceAssetImages.eDeviceAssetImageConnectedHoverDark, DeviceIconSetFactory._smallConstraint),
-        new DeviceIconSetFactory.DeviceIconSetBuilder.ImageIdAndConstraint(DeviceAssetImages.eDeviceAssetImageDisconnectedHoverDark, DeviceIconSetFactory._smallConstraint),
-        new DeviceIconSetFactory.DeviceIconSetBuilder.ImageIdAndConstraint(DeviceAssetImages.eDeviceAssetImageConnectedDrag, DeviceIconSetFactory._smallConstraint),
-        new DeviceIconSetFactory.DeviceIconSetBuilder.ImageIdAndConstraint(DeviceAssetImages.eDeviceAssetImageDisconnectedDrag, DeviceIconSetFactory._smallConstraint),
-        new DeviceIconSetFactory.DeviceIconSetBuilder.ImageIdAndConstraint(DeviceAssetImages.eDeviceAssetImageConnectedDragDark, DeviceIconSetFactory._smallConstraint),
-        new DeviceIconSetFactory.DeviceIconSetBuilder.ImageIdAndConstraint(DeviceAssetImages.eDeviceAssetImageDisconnectedDragDark, DeviceIconSetFactory._smallConstraint),
-        new DeviceIconSetFactory.DeviceIconSetBuilder.ImageIdAndConstraint(DeviceAssetImages.eDeviceAssetImageConnectedClick, DeviceIconSetFactory._smallConstraint),
-        new DeviceIconSetFactory.DeviceIconSetBuilder.ImageIdAndConstraint(DeviceAssetImages.eDeviceAssetImageDisconnectedClick, DeviceIconSetFactory._smallConstraint),
-        new DeviceIconSetFactory.DeviceIconSetBuilder.ImageIdAndConstraint(DeviceAssetImages.eDeviceAssetImageConnectedClickDark, DeviceIconSetFactory._smallConstraint),
-        new DeviceIconSetFactory.DeviceIconSetBuilder.ImageIdAndConstraint(DeviceAssetImages.eDeviceAssetImageDisconnectedClickDark, DeviceIconSetFactory._smallConstraint),
-        new DeviceIconSetFactory.DeviceIconSetBuilder.ImageIdAndConstraint(DeviceAssetImages.eDeviceAssetImageConnectedSyncing, DeviceIconSetFactory._smallConstraint),
-        new DeviceIconSetFactory.DeviceIconSetBuilder.ImageIdAndConstraint(DeviceAssetImages.eDeviceAssetImageConnectedSyncingDark, DeviceIconSetFactory._smallConstraint)
+        new ImageIdAndConstraint(DeviceAssetImages.eDeviceAssetImageConnectedDefault, _smallConstraint),
+        new ImageIdAndConstraint(DeviceAssetImages.eDeviceAssetImageDisconnectedDefault, _smallConstraint),
+        new ImageIdAndConstraint(DeviceAssetImages.eDeviceAssetImageConnectedDefaultDark, _smallConstraint),
+        new ImageIdAndConstraint(DeviceAssetImages.eDeviceAssetImageDisconnectedDefaultDark, _smallConstraint),
+        new ImageIdAndConstraint(DeviceAssetImages.eDeviceAssetImageConnectedHover, _smallConstraint),
+        new ImageIdAndConstraint(DeviceAssetImages.eDeviceAssetImageDisconnectedHover, _smallConstraint),
+        new ImageIdAndConstraint(DeviceAssetImages.eDeviceAssetImageConnectedHoverDark, _smallConstraint),
+        new ImageIdAndConstraint(DeviceAssetImages.eDeviceAssetImageDisconnectedHoverDark, _smallConstraint),
+        new ImageIdAndConstraint(DeviceAssetImages.eDeviceAssetImageConnectedDrag, _smallConstraint),
+        new ImageIdAndConstraint(DeviceAssetImages.eDeviceAssetImageDisconnectedDrag, _smallConstraint),
+        new ImageIdAndConstraint(DeviceAssetImages.eDeviceAssetImageConnectedDragDark, _smallConstraint),
+        new ImageIdAndConstraint(DeviceAssetImages.eDeviceAssetImageDisconnectedDragDark, _smallConstraint),
+        new ImageIdAndConstraint(DeviceAssetImages.eDeviceAssetImageConnectedClick, _smallConstraint),
+        new ImageIdAndConstraint(DeviceAssetImages.eDeviceAssetImageDisconnectedClick, _smallConstraint),
+        new ImageIdAndConstraint(DeviceAssetImages.eDeviceAssetImageConnectedClickDark, _smallConstraint),
+        new ImageIdAndConstraint(DeviceAssetImages.eDeviceAssetImageDisconnectedClickDark, _smallConstraint),
+        new ImageIdAndConstraint(DeviceAssetImages.eDeviceAssetImageConnectedSyncing, _smallConstraint),
+        new ImageIdAndConstraint(DeviceAssetImages.eDeviceAssetImageConnectedSyncingDark, _smallConstraint)
             };
-            private static readonly DeviceIconSetFactory.DeviceIconSetBuilder.ImageIdAndConstraint[] _detailedImagesToLoad = new DeviceIconSetFactory.DeviceIconSetBuilder.ImageIdAndConstraint[4]
+            private static readonly ImageIdAndConstraint[] _detailedImagesToLoad = new ImageIdAndConstraint[4]
             {
-        new DeviceIconSetFactory.DeviceIconSetBuilder.ImageIdAndConstraint(DeviceAssetImages.eDeviceAssetImageMediumDefault, DeviceIconSetFactory._mediumConstraint),
-        new DeviceIconSetFactory.DeviceIconSetBuilder.ImageIdAndConstraint(DeviceAssetImages.eDeviceAssetImageMediumUnsupported, DeviceIconSetFactory._mediumConstraint),
-        new DeviceIconSetFactory.DeviceIconSetBuilder.ImageIdAndConstraint(DeviceAssetImages.eDeviceAssetImageLargeDefault, DeviceIconSetFactory._largeConstraint),
-        new DeviceIconSetFactory.DeviceIconSetBuilder.ImageIdAndConstraint(DeviceAssetImages.eDeviceAssetImageLargeDisconnected, DeviceIconSetFactory._largeConstraint)
+        new ImageIdAndConstraint(DeviceAssetImages.eDeviceAssetImageMediumDefault, _mediumConstraint),
+        new ImageIdAndConstraint(DeviceAssetImages.eDeviceAssetImageMediumUnsupported, _mediumConstraint),
+        new ImageIdAndConstraint(DeviceAssetImages.eDeviceAssetImageLargeDefault, _largeConstraint),
+        new ImageIdAndConstraint(DeviceAssetImages.eDeviceAssetImageLargeDisconnected, _largeConstraint)
             };
-            private static readonly DeviceIconSetFactory.DeviceIconSetBuilder.ImageIdAndConstraint[] _backgroundImagesToLoad = new DeviceIconSetFactory.DeviceIconSetBuilder.ImageIdAndConstraint[1]
+            private static readonly ImageIdAndConstraint[] _backgroundImagesToLoad = new ImageIdAndConstraint[1]
             {
-        new DeviceIconSetFactory.DeviceIconSetBuilder.ImageIdAndConstraint(DeviceAssetImages.eDeviceAssetImageBackground, DeviceIconSetFactory._backgroundConstraint)
+        new ImageIdAndConstraint(DeviceAssetImages.eDeviceAssetImageBackground, _backgroundConstraint)
             };
 
-            public DeviceIconSetBuilder() => this._loader = new DeviceIconSetFactory.DeviceIconSetBuilder.ImageListLoaderAndVerifier();
+            public DeviceIconSetBuilder() => this._loader = new ImageListLoaderAndVerifier();
 
             public void BuildIconSet(
               DeviceAssetSet assetSet,
-              DeviceIconSetFactory.DeviceIconSetConstructionCompletedCallback callback)
+              DeviceIconSetConstructionCompletedCallback callback)
             {
                 if (!Application.IsApplicationThread)
                     throw new Exception("DeviceIconSet loading is only supported on the application thread.  This feature is not thread-safe.");
@@ -100,26 +100,26 @@ namespace ZuneUI
                     throw new ArgumentNullException(nameof(callback));
                 this._assetSet = assetSet;
                 this._callback = callback;
-                Application.DeferredInvoke((DeferredInvokeHandler)delegate
+                Application.DeferredInvoke(delegate
                {
                    this.LoadSmallImages();
-               }, (object)null);
+               }, null);
             }
 
             private void End()
             {
-                DeviceIconSetFactory.DeviceIconSetConstructionCompletedCallback callback = this._callback;
-                IDeviceIconSet result = (IDeviceIconSet)null;
-                result = this._smallImageSubset == null || this._detailedImageSubset == null || this._backgroundImageAndColorSubset == null ? DeviceIconSetFactory.DefaultIconSet : (IDeviceIconSet)new DeviceIconSetFactory.DeviceIconSet(this._detailedImageSubset.LargeImages, this._detailedImageSubset.MediumImages, this._smallImageSubset, this._backgroundImageAndColorSubset.BackgroundImage, this._backgroundImageAndColorSubset.Colors);
-                Application.DeferredInvoke((DeferredInvokeHandler)delegate
+                DeviceIconSetConstructionCompletedCallback callback = this._callback;
+                IDeviceIconSet result = null;
+                result = this._smallImageSubset == null || this._detailedImageSubset == null || this._backgroundImageAndColorSubset == null ? DefaultIconSet : new DeviceIconSet(this._detailedImageSubset.LargeImages, this._detailedImageSubset.MediumImages, this._smallImageSubset, this._backgroundImageAndColorSubset.BackgroundImage, this._backgroundImageAndColorSubset.Colors);
+                Application.DeferredInvoke(delegate
                {
                    callback(result);
-               }, (object)null);
-                this._assetSet = (DeviceAssetSet)null;
-                this._callback = (DeviceIconSetFactory.DeviceIconSetConstructionCompletedCallback)null;
+               }, null);
+                this._assetSet = null;
+                this._callback = null;
             }
 
-            private void LoadSmallImages() => this._loader.LoadAndVerify((IList<string>)this._assetSet.ImageUris, (IList<DeviceIconSetFactory.DeviceIconSetBuilder.ImageIdAndConstraint>)DeviceIconSetFactory.DeviceIconSetBuilder._smallImagesToLoad, new DeviceIconSetFactory.DeviceIconSetBuilder.ImageListLoaderAndVerifier.LoadAndVerificationCompletedHandler(this.SmallCustomImageLoadComplete));
+            private void LoadSmallImages() => this._loader.LoadAndVerify(_assetSet.ImageUris, _smallImagesToLoad, new ImageListLoaderAndVerifier.LoadAndVerificationCompletedHandler(this.SmallCustomImageLoadComplete));
 
             private void SmallCustomImageLoadComplete(IDictionary<DeviceAssetImages, Image> images)
             {
@@ -129,22 +129,22 @@ namespace ZuneUI
                     this.LoadDetailedImages();
                 }
                 else
-                    this._loader.LoadAndVerify((IList<string>)this._assetSet.DefaultImageUris, (IList<DeviceIconSetFactory.DeviceIconSetBuilder.ImageIdAndConstraint>)DeviceIconSetFactory.DeviceIconSetBuilder._smallImagesToLoad, new DeviceIconSetFactory.DeviceIconSetBuilder.ImageListLoaderAndVerifier.LoadAndVerificationCompletedHandler(this.SmallDefaultImageLoadComplete));
+                    this._loader.LoadAndVerify(_assetSet.DefaultImageUris, _smallImagesToLoad, new ImageListLoaderAndVerifier.LoadAndVerificationCompletedHandler(this.SmallDefaultImageLoadComplete));
             }
 
             private void SmallDefaultImageLoadComplete(IDictionary<DeviceAssetImages, Image> images)
             {
-                this._smallImageSubset = images == null ? DeviceIconSetFactory.DefaultIconSet.Small : this.ConstructSmallImageSubset(images);
+                this._smallImageSubset = images == null ? DefaultIconSet.Small : this.ConstructSmallImageSubset(images);
                 this.LoadDetailedImages();
             }
 
             private IInteractiveDeviceIconSet ConstructSmallImageSubset(
               IDictionary<DeviceAssetImages, Image> images)
             {
-                return (IInteractiveDeviceIconSet)new DeviceIconSetFactory.InteractiveIconSet((IBackgroundAwareDeviceIconSet)new DeviceIconSetFactory.BackgroundAwareIconSet((ISimpleDeviceIconSet)new DeviceIconSetFactory.SimpleIconSet(images[DeviceAssetImages.eDeviceAssetImageConnectedDefault], images[DeviceAssetImages.eDeviceAssetImageDisconnectedDefault]), (ISimpleDeviceIconSet)new DeviceIconSetFactory.SimpleIconSet(images[DeviceAssetImages.eDeviceAssetImageConnectedDefaultDark], images[DeviceAssetImages.eDeviceAssetImageDisconnectedDefaultDark])), (IBackgroundAwareDeviceIconSet)new DeviceIconSetFactory.BackgroundAwareIconSet((ISimpleDeviceIconSet)new DeviceIconSetFactory.SimpleIconSet(images[DeviceAssetImages.eDeviceAssetImageConnectedHover], images[DeviceAssetImages.eDeviceAssetImageDisconnectedHover]), (ISimpleDeviceIconSet)new DeviceIconSetFactory.SimpleIconSet(images[DeviceAssetImages.eDeviceAssetImageConnectedHoverDark], images[DeviceAssetImages.eDeviceAssetImageDisconnectedHoverDark])), (IBackgroundAwareDeviceIconSet)new DeviceIconSetFactory.BackgroundAwareIconSet((ISimpleDeviceIconSet)new DeviceIconSetFactory.SimpleIconSet(images[DeviceAssetImages.eDeviceAssetImageConnectedDrag], images[DeviceAssetImages.eDeviceAssetImageDisconnectedDrag]), (ISimpleDeviceIconSet)new DeviceIconSetFactory.SimpleIconSet(images[DeviceAssetImages.eDeviceAssetImageConnectedDragDark], images[DeviceAssetImages.eDeviceAssetImageDisconnectedDragDark])), (IBackgroundAwareDeviceIconSet)new DeviceIconSetFactory.BackgroundAwareIconSet((ISimpleDeviceIconSet)new DeviceIconSetFactory.SimpleIconSet(images[DeviceAssetImages.eDeviceAssetImageConnectedClick], images[DeviceAssetImages.eDeviceAssetImageDisconnectedClick]), (ISimpleDeviceIconSet)new DeviceIconSetFactory.SimpleIconSet(images[DeviceAssetImages.eDeviceAssetImageConnectedClickDark], images[DeviceAssetImages.eDeviceAssetImageDisconnectedClickDark])), (IBackgroundAwareDeviceIconSet)new DeviceIconSetFactory.BackgroundAwareIconSet((ISimpleDeviceIconSet)new DeviceIconSetFactory.SimpleIconSet(images[DeviceAssetImages.eDeviceAssetImageConnectedSyncing], images[DeviceAssetImages.eDeviceAssetImageConnectedSyncing]), (ISimpleDeviceIconSet)new DeviceIconSetFactory.SimpleIconSet(images[DeviceAssetImages.eDeviceAssetImageConnectedSyncingDark], images[DeviceAssetImages.eDeviceAssetImageConnectedSyncingDark])));
+                return new InteractiveIconSet(new BackgroundAwareIconSet(new SimpleIconSet(images[DeviceAssetImages.eDeviceAssetImageConnectedDefault], images[DeviceAssetImages.eDeviceAssetImageDisconnectedDefault]), new SimpleIconSet(images[DeviceAssetImages.eDeviceAssetImageConnectedDefaultDark], images[DeviceAssetImages.eDeviceAssetImageDisconnectedDefaultDark])), new BackgroundAwareIconSet(new SimpleIconSet(images[DeviceAssetImages.eDeviceAssetImageConnectedHover], images[DeviceAssetImages.eDeviceAssetImageDisconnectedHover]), new SimpleIconSet(images[DeviceAssetImages.eDeviceAssetImageConnectedHoverDark], images[DeviceAssetImages.eDeviceAssetImageDisconnectedHoverDark])), new BackgroundAwareIconSet(new SimpleIconSet(images[DeviceAssetImages.eDeviceAssetImageConnectedDrag], images[DeviceAssetImages.eDeviceAssetImageDisconnectedDrag]), new SimpleIconSet(images[DeviceAssetImages.eDeviceAssetImageConnectedDragDark], images[DeviceAssetImages.eDeviceAssetImageDisconnectedDragDark])), new BackgroundAwareIconSet(new SimpleIconSet(images[DeviceAssetImages.eDeviceAssetImageConnectedClick], images[DeviceAssetImages.eDeviceAssetImageDisconnectedClick]), new SimpleIconSet(images[DeviceAssetImages.eDeviceAssetImageConnectedClickDark], images[DeviceAssetImages.eDeviceAssetImageDisconnectedClickDark])), new BackgroundAwareIconSet(new SimpleIconSet(images[DeviceAssetImages.eDeviceAssetImageConnectedSyncing], images[DeviceAssetImages.eDeviceAssetImageConnectedSyncing]), new SimpleIconSet(images[DeviceAssetImages.eDeviceAssetImageConnectedSyncingDark], images[DeviceAssetImages.eDeviceAssetImageConnectedSyncingDark])));
             }
 
-            private void LoadDetailedImages() => this._loader.LoadAndVerify((IList<string>)this._assetSet.ImageUris, (IList<DeviceIconSetFactory.DeviceIconSetBuilder.ImageIdAndConstraint>)DeviceIconSetFactory.DeviceIconSetBuilder._detailedImagesToLoad, new DeviceIconSetFactory.DeviceIconSetBuilder.ImageListLoaderAndVerifier.LoadAndVerificationCompletedHandler(this.DetailedCustomImageLoadComplete));
+            private void LoadDetailedImages() => this._loader.LoadAndVerify(_assetSet.ImageUris, _detailedImagesToLoad, new ImageListLoaderAndVerifier.LoadAndVerificationCompletedHandler(this.DetailedCustomImageLoadComplete));
 
             private void DetailedCustomImageLoadComplete(IDictionary<DeviceAssetImages, Image> images)
             {
@@ -154,22 +154,22 @@ namespace ZuneUI
                     this.LoadBackgroundImageAndColors();
                 }
                 else
-                    this._loader.LoadAndVerify((IList<string>)this._assetSet.DefaultImageUris, (IList<DeviceIconSetFactory.DeviceIconSetBuilder.ImageIdAndConstraint>)DeviceIconSetFactory.DeviceIconSetBuilder._detailedImagesToLoad, new DeviceIconSetFactory.DeviceIconSetBuilder.ImageListLoaderAndVerifier.LoadAndVerificationCompletedHandler(this.DetailedDefaultImageLoadComplete));
+                    this._loader.LoadAndVerify(_assetSet.DefaultImageUris, _detailedImagesToLoad, new ImageListLoaderAndVerifier.LoadAndVerificationCompletedHandler(this.DetailedDefaultImageLoadComplete));
             }
 
             private void DetailedDefaultImageLoadComplete(IDictionary<DeviceAssetImages, Image> images)
             {
-                this._detailedImageSubset = images == null ? new DeviceIconSetFactory.DeviceIconSetBuilder.DetailedImages(DeviceIconSetFactory.DefaultIconSet.Medium, DeviceIconSetFactory.DefaultIconSet.Large) : this.ConstructDetailedImageSubset(images);
+                this._detailedImageSubset = images == null ? new DetailedImages(DefaultIconSet.Medium, DefaultIconSet.Large) : this.ConstructDetailedImageSubset(images);
                 this.LoadBackgroundImageAndColors();
             }
 
-            private DeviceIconSetFactory.DeviceIconSetBuilder.DetailedImages ConstructDetailedImageSubset(
+            private DetailedImages ConstructDetailedImageSubset(
               IDictionary<DeviceAssetImages, Image> images)
             {
-                return new DeviceIconSetFactory.DeviceIconSetBuilder.DetailedImages((ISimpleDeviceIconSet)new DeviceIconSetFactory.SimpleIconSet(images[DeviceAssetImages.eDeviceAssetImageMediumDefault], images[DeviceAssetImages.eDeviceAssetImageMediumUnsupported]), (ISimpleDeviceIconSet)new DeviceIconSetFactory.SimpleIconSet(images[DeviceAssetImages.eDeviceAssetImageLargeDefault], images[DeviceAssetImages.eDeviceAssetImageLargeDisconnected]));
+                return new DetailedImages(new SimpleIconSet(images[DeviceAssetImages.eDeviceAssetImageMediumDefault], images[DeviceAssetImages.eDeviceAssetImageMediumUnsupported]), new SimpleIconSet(images[DeviceAssetImages.eDeviceAssetImageLargeDefault], images[DeviceAssetImages.eDeviceAssetImageLargeDisconnected]));
             }
 
-            private void LoadBackgroundImageAndColors() => this._loader.LoadAndVerify((IList<string>)this._assetSet.ImageUris, (IList<DeviceIconSetFactory.DeviceIconSetBuilder.ImageIdAndConstraint>)DeviceIconSetFactory.DeviceIconSetBuilder._backgroundImagesToLoad, new DeviceIconSetFactory.DeviceIconSetBuilder.ImageListLoaderAndVerifier.LoadAndVerificationCompletedHandler(this.BackgroundCustomImageLoadComplete));
+            private void LoadBackgroundImageAndColors() => this._loader.LoadAndVerify(_assetSet.ImageUris, _backgroundImagesToLoad, new ImageListLoaderAndVerifier.LoadAndVerificationCompletedHandler(this.BackgroundCustomImageLoadComplete));
 
             private void BackgroundCustomImageLoadComplete(IDictionary<DeviceAssetImages, Image> images)
             {
@@ -179,29 +179,29 @@ namespace ZuneUI
                     this.End();
                 }
                 else
-                    this._loader.LoadAndVerify((IList<string>)this._assetSet.DefaultImageUris, (IList<DeviceIconSetFactory.DeviceIconSetBuilder.ImageIdAndConstraint>)DeviceIconSetFactory.DeviceIconSetBuilder._backgroundImagesToLoad, new DeviceIconSetFactory.DeviceIconSetBuilder.ImageListLoaderAndVerifier.LoadAndVerificationCompletedHandler(this.BackgroundDefaultImageLoadComplete));
+                    this._loader.LoadAndVerify(_assetSet.DefaultImageUris, _backgroundImagesToLoad, new ImageListLoaderAndVerifier.LoadAndVerificationCompletedHandler(this.BackgroundDefaultImageLoadComplete));
             }
 
             private void BackgroundDefaultImageLoadComplete(IDictionary<DeviceAssetImages, Image> images)
             {
-                this._backgroundImageAndColorSubset = images == null ? new DeviceIconSetFactory.DeviceIconSetBuilder.BackgroundImageAndColors(DeviceIconSetFactory.DefaultIconSet.Background, DeviceIconSetFactory.DefaultIconSet.Colors) : this.ConstructBackgroundImageAndColorsSubset(images);
+                this._backgroundImageAndColorSubset = images == null ? new BackgroundImageAndColors(DefaultIconSet.Background, DefaultIconSet.Colors) : this.ConstructBackgroundImageAndColorsSubset(images);
                 this.End();
             }
 
-            private DeviceIconSetFactory.DeviceIconSetBuilder.BackgroundImageAndColors ConstructBackgroundImageAndColorsSubset(
+            private BackgroundImageAndColors ConstructBackgroundImageAndColorsSubset(
               IDictionary<DeviceAssetImages, Image> images)
             {
-                return new DeviceIconSetFactory.DeviceIconSetBuilder.BackgroundImageAndColors(images[DeviceAssetImages.eDeviceAssetImageBackground], (IColorSet)new DeviceIconSetFactory.ColorSet((IDeviceColor)new DeviceIconSetFactory.DeviceColor(this._assetSet.Colors[0]), (IDeviceColor)new DeviceIconSetFactory.DeviceColor(this._assetSet.Colors[1]), (IDeviceColor)new DeviceIconSetFactory.DeviceColor(this._assetSet.Colors[2]), (IDeviceColor)new DeviceIconSetFactory.DeviceColor(this._assetSet.Colors[3])));
+                return new BackgroundImageAndColors(images[DeviceAssetImages.eDeviceAssetImageBackground], new ColorSet(new DeviceColor(this._assetSet.Colors[0]), new DeviceColor(this._assetSet.Colors[1]), new DeviceColor(this._assetSet.Colors[2]), new DeviceColor(this._assetSet.Colors[3])));
             }
 
             private class ImageIdAndConstraint
             {
                 private DeviceAssetImages _id;
-                private DeviceIconSetFactory.DeviceIconSizeConstraint _constraint;
+                private DeviceIconSizeConstraint _constraint;
 
                 public ImageIdAndConstraint(
                   DeviceAssetImages id,
-                  DeviceIconSetFactory.DeviceIconSizeConstraint constraint)
+                  DeviceIconSizeConstraint constraint)
                 {
                     this._id = id;
                     this._constraint = constraint;
@@ -209,7 +209,7 @@ namespace ZuneUI
 
                 public DeviceAssetImages ID => this._id;
 
-                public DeviceIconSetFactory.DeviceIconSizeConstraint Constraint => this._constraint;
+                public DeviceIconSizeConstraint Constraint => this._constraint;
             }
 
             private class DetailedImages
@@ -247,16 +247,16 @@ namespace ZuneUI
             private class ImageListLoaderAndVerifier
             {
                 private IList<string> _paths;
-                private IList<DeviceIconSetFactory.DeviceIconSetBuilder.ImageIdAndConstraint> _imagesToLoad;
-                private DeviceIconSetFactory.DeviceIconSetBuilder.ImageListLoaderAndVerifier.LoadAndVerificationCompletedHandler _callback;
+                private IList<ImageIdAndConstraint> _imagesToLoad;
+                private LoadAndVerificationCompletedHandler _callback;
                 private int _asynchronousLoadsRemaining;
                 private bool _imagesAreValid;
                 private Dictionary<DeviceAssetImages, Image> _images;
 
                 public void LoadAndVerify(
                   IList<string> paths,
-                  IList<DeviceIconSetFactory.DeviceIconSetBuilder.ImageIdAndConstraint> imagesToLoad,
-                  DeviceIconSetFactory.DeviceIconSetBuilder.ImageListLoaderAndVerifier.LoadAndVerificationCompletedHandler callback)
+                  IList<ImageIdAndConstraint> imagesToLoad,
+                  LoadAndVerificationCompletedHandler callback)
                 {
                     if (!Application.IsApplicationThread)
                         throw new Exception("DeviceIconSet loading is only supported on the application thread.  This feature is not thread-safe.");
@@ -273,17 +273,17 @@ namespace ZuneUI
                     this._callback = callback;
                     this._asynchronousLoadsRemaining = 0;
                     this._imagesAreValid = true;
-                    this._images = new Dictionary<DeviceAssetImages, Image>(23, (IEqualityComparer<DeviceAssetImages>)DeviceIconSetFactory.DeviceIconSetBuilder.DeviceAssetImagesEqualityComparer.Instance);
-                    Application.DeferredInvoke((DeferredInvokeHandler)delegate
+                    this._images = new Dictionary<DeviceAssetImages, Image>(23, DeviceAssetImagesEqualityComparer.Instance);
+                    Application.DeferredInvoke(delegate
                    {
                        this.LoadAndVerifyWorker();
-                   }, (object)null);
+                   }, null);
                 }
 
                 private void LoadAndVerifyWorker()
                 {
                     int num = 0;
-                    foreach (DeviceIconSetFactory.DeviceIconSetBuilder.ImageIdAndConstraint imageIdAndConstraint in (IEnumerable<DeviceIconSetFactory.DeviceIconSetBuilder.ImageIdAndConstraint>)this._imagesToLoad)
+                    foreach (ImageIdAndConstraint imageIdAndConstraint in _imagesToLoad)
                     {
                         if (this.LoadAndVerifyImage(imageIdAndConstraint.ID, imageIdAndConstraint.Constraint))
                             ++num;
@@ -295,7 +295,7 @@ namespace ZuneUI
 
                 private bool LoadAndVerifyImage(
                   DeviceAssetImages imageId,
-                  DeviceIconSetFactory.DeviceIconSizeConstraint constraint)
+                  DeviceIconSizeConstraint constraint)
                 {
                     int index = (int)imageId;
                     bool flag1 = false;
@@ -314,7 +314,7 @@ namespace ZuneUI
                         }
                         else
                         {
-                            Image tempImage = (Image)null;
+                            Image tempImage = null;
                             bool flag2 = false;
                             try
                             {
@@ -333,8 +333,8 @@ namespace ZuneUI
                                 if (flag2)
                                 {
                                     DeviceAssetImages tempImageId = imageId;
-                                    DeviceIconSetFactory.DeviceIconSizeConstraint tempConstraint = constraint;
-                                    tempImage.ImageLoadComplete += (ImageLoadCompleteHandler)delegate
+                                    DeviceIconSizeConstraint tempConstraint = constraint;
+                                    tempImage.ImageLoadComplete += delegate
                                    {
                                        this.VerifyImage(tempImage, tempImageId, tempConstraint);
                                        this.DecrementAsynchronousLoadsRemaining();
@@ -359,9 +359,9 @@ namespace ZuneUI
                 private void VerifyImage(
                   Image image,
                   DeviceAssetImages imageId,
-                  DeviceIconSetFactory.DeviceIconSizeConstraint constraint)
+                  DeviceIconSizeConstraint constraint)
                 {
-                    if (DeviceIconSetFactory.DeviceIconSetBuilder.ImageListLoaderAndVerifier.ImageFitsConstraint(image, constraint))
+                    if (ImageFitsConstraint(image, constraint))
                         this._images[imageId] = image;
                     else
                         this._imagesAreValid = false;
@@ -383,28 +383,28 @@ namespace ZuneUI
                 {
                     if (this._asynchronousLoadsRemaining != 0)
                         return;
-                    Application.DeferredInvoke((DeferredInvokeHandler)delegate
+                    Application.DeferredInvoke(delegate
                    {
                        this.LoadingComplete();
-                   }, (object)null);
+                   }, null);
                 }
 
                 private void LoadingComplete()
                 {
-                    DeviceIconSetFactory.DeviceIconSetBuilder.ImageListLoaderAndVerifier.LoadAndVerificationCompletedHandler callback = this._callback;
-                    IDictionary<DeviceAssetImages, Image> result = this._imagesAreValid ? (IDictionary<DeviceAssetImages, Image>)this._images : (IDictionary<DeviceAssetImages, Image>)null;
-                    Application.DeferredInvoke((DeferredInvokeHandler)delegate
+                    LoadAndVerificationCompletedHandler callback = this._callback;
+                    IDictionary<DeviceAssetImages, Image> result = this._imagesAreValid ? _images : null;
+                    Application.DeferredInvoke(delegate
                    {
                        callback(result);
-                   }, (object)null);
-                    this._paths = (IList<string>)null;
-                    this._imagesToLoad = (IList<DeviceIconSetFactory.DeviceIconSetBuilder.ImageIdAndConstraint>)null;
-                    this._callback = (DeviceIconSetFactory.DeviceIconSetBuilder.ImageListLoaderAndVerifier.LoadAndVerificationCompletedHandler)null;
+                   }, null);
+                    this._paths = null;
+                    this._imagesToLoad = null;
+                    this._callback = null;
                 }
 
                 private static bool ImageFitsConstraint(
                   Image image,
-                  DeviceIconSetFactory.DeviceIconSizeConstraint constraint)
+                  DeviceIconSizeConstraint constraint)
                 {
                     return image != null && constraint != null && (image.Width >= constraint.MinWidth && image.Width <= constraint.MaxWidth) && image.Height >= constraint.MinHeight && image.Height <= constraint.MaxHeight;
                 }
@@ -415,7 +415,7 @@ namespace ZuneUI
 
             private class DeviceAssetImagesEqualityComparer : IEqualityComparer<DeviceAssetImages>
             {
-                public static DeviceIconSetFactory.DeviceIconSetBuilder.DeviceAssetImagesEqualityComparer Instance = new DeviceIconSetFactory.DeviceIconSetBuilder.DeviceAssetImagesEqualityComparer();
+                public static DeviceAssetImagesEqualityComparer Instance = new DeviceAssetImagesEqualityComparer();
 
                 private DeviceAssetImagesEqualityComparer()
                 {
@@ -520,16 +520,16 @@ namespace ZuneUI
 
             public DeviceColor(uint packedColor)
             {
-                this._r = (float)(int)((packedColor & 16711680U) >> 16) / (float)byte.MaxValue;
-                this._g = (float)(int)((packedColor & 65280U) >> 8) / (float)byte.MaxValue;
-                this._b = (float)((int)packedColor & (int)byte.MaxValue) / (float)byte.MaxValue;
+                this._r = (int)((packedColor & 16711680U) >> 16) / (float)byte.MaxValue;
+                this._g = (int)((packedColor & 65280U) >> 8) / (float)byte.MaxValue;
+                this._b = ((int)packedColor & byte.MaxValue) / (float)byte.MaxValue;
             }
 
             public DeviceColor(byte r, byte g, byte b)
             {
-                this._r = (float)r / 250f;
-                this._g = (float)g / 250f;
-                this._b = (float)b / 250f;
+                this._r = r / 250f;
+                this._g = g / 250f;
+                this._b = b / 250f;
             }
 
             public DeviceColor(float r, float g, float b)

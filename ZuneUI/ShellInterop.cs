@@ -14,14 +14,14 @@ namespace ZuneUI
     {
         public static void OpenFolderAndSelectItem(string path)
         {
-            Thread thread = new Thread((ParameterizedThreadStart)(args =>
+            Thread thread = new Thread(args =>
            {
                IntPtr ppidl;
-               if (ShellInterop.SHParseDisplayName(path, IntPtr.Zero, out ppidl, 0, IntPtr.Zero) != 0)
+               if (SHParseDisplayName(path, IntPtr.Zero, out ppidl, 0, IntPtr.Zero) != 0)
                    return;
-               ShellInterop.SHOpenFolderAndSelectItems(ppidl, 0, IntPtr.Zero, 0);
-               ShellInterop.ILFree(ppidl);
-           }));
+               SHOpenFolderAndSelectItems(ppidl, 0, IntPtr.Zero, 0);
+               ILFree(ppidl);
+           });
             thread.TrySetApartmentState(ApartmentState.STA);
             thread.Start();
         }

@@ -16,14 +16,14 @@ namespace ZuneUI
 
         public static int ProfilePlayCount
         {
-            get => ProfileDataHelper.GetSetPlayCountCache(-1);
-            set => ProfileDataHelper.GetSetPlayCountCache(value);
+            get => GetSetPlayCountCache(-1);
+            set => GetSetPlayCountCache(value);
         }
 
         public static DateTime CommentsLastRead
         {
-            get => ProfileDataHelper.GetCommentsLastRead();
-            set => ProfileDataHelper.SetCommentsLastRead(value);
+            get => GetCommentsLastRead();
+            set => SetCommentsLastRead(value);
         }
 
         private static SocialUserGuidConfiguration GetSocialUserGuidConfiguration(
@@ -32,16 +32,16 @@ namespace ZuneUI
             return new SocialUserGuidConfiguration(RegistryHive.CurrentUser, ClientConfiguration.Social.ConfigurationPath, userGuid);
         }
 
-        public static void InitializePlayCountCache() => ProfileDataHelper.GetSetPlayCountCache(ClientConfiguration.Service.LastSignedInUserGuid, -1, true);
+        public static void InitializePlayCountCache() => GetSetPlayCountCache(ClientConfiguration.Service.LastSignedInUserGuid, -1, true);
 
-        private static int GetSetPlayCountCache(int newValue) => ProfileDataHelper.GetSetPlayCountCache(ClientConfiguration.Service.LastSignedInUserGuid, newValue, false);
+        private static int GetSetPlayCountCache(int newValue) => GetSetPlayCountCache(ClientConfiguration.Service.LastSignedInUserGuid, newValue, false);
 
         private static int GetSetPlayCountCache(string userGuid, int newValue, bool clearStaleCache)
         {
             int num = -1;
             if (!string.IsNullOrEmpty(userGuid) && userGuid != Guid.Empty.ToString())
             {
-                SocialUserGuidConfiguration guidConfiguration = ProfileDataHelper.GetSocialUserGuidConfiguration(userGuid);
+                SocialUserGuidConfiguration guidConfiguration = GetSocialUserGuidConfiguration(userGuid);
                 num = guidConfiguration.ProfilePlayCount;
                 bool flag = false;
                 if (num < newValue)
@@ -59,23 +59,23 @@ namespace ZuneUI
             return num;
         }
 
-        private static DateTime GetCommentsLastRead() => ProfileDataHelper.GetCommentsLastRead(ClientConfiguration.Service.LastSignedInUserGuid);
+        private static DateTime GetCommentsLastRead() => GetCommentsLastRead(ClientConfiguration.Service.LastSignedInUserGuid);
 
         private static DateTime GetCommentsLastRead(string userGuid)
         {
             DateTime dateTime = DateTime.MinValue;
             if (!string.IsNullOrEmpty(userGuid) && userGuid != Guid.Empty.ToString())
-                dateTime = ProfileDataHelper.GetSocialUserGuidConfiguration(userGuid).ProfileCommentsLastRead;
+                dateTime = GetSocialUserGuidConfiguration(userGuid).ProfileCommentsLastRead;
             return dateTime;
         }
 
-        private static void SetCommentsLastRead(DateTime commentsLastRead) => ProfileDataHelper.SetCommentsLastRead(ClientConfiguration.Service.LastSignedInUserGuid, commentsLastRead);
+        private static void SetCommentsLastRead(DateTime commentsLastRead) => SetCommentsLastRead(ClientConfiguration.Service.LastSignedInUserGuid, commentsLastRead);
 
         private static void SetCommentsLastRead(string userGuid, DateTime commentsLastRead)
         {
             if (string.IsNullOrEmpty(userGuid) || !(userGuid != Guid.Empty.ToString()))
                 return;
-            ProfileDataHelper.GetSocialUserGuidConfiguration(userGuid).ProfileCommentsLastRead = commentsLastRead;
+            GetSocialUserGuidConfiguration(userGuid).ProfileCommentsLastRead = commentsLastRead;
         }
     }
 }

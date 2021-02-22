@@ -15,7 +15,7 @@ namespace ZuneUI
 {
     public class UrlHelper
     {
-        private static string _endPoint = (string)null;
+        private static string _endPoint = null;
         private static Size[] _acceptableValues = new Size[25]
         {
       new Size(1920, 1080),
@@ -91,17 +91,17 @@ namespace ZuneUI
       40
         };
 
-        public static string GetReturnUrl() => Microsoft.Zune.Service.Service.GetEndPointUri(EServiceEndpointId.SEID_ZuneNet) + Shell.LoadString(StringId.IDS_RETURN_URL);
+        public static string GetReturnUrl() => Service.GetEndPointUri(EServiceEndpointId.SEID_ZuneNet) + Shell.LoadString(StringId.IDS_RETURN_URL);
 
         public static string MakeUrlWithReturnParams(string urlPath)
         {
-            string returnUrl = UrlHelper.GetReturnUrl();
-            return UrlHelper.MakeUrl(urlPath, "ru", returnUrl, "aru", returnUrl);
+            string returnUrl = GetReturnUrl();
+            return MakeUrl(urlPath, "ru", returnUrl, "aru", returnUrl);
         }
 
-        public static string MakeUrl(string urlPath) => UrlHelper.MakeUrlEx(urlPath, (string[])null);
+        public static string MakeUrl(string urlPath) => MakeUrlEx(urlPath, null);
 
-        public static string MakeUrl(string urlPath, string paramName1, string paramValue1) => UrlHelper.MakeUrlEx(urlPath, paramName1, paramValue1);
+        public static string MakeUrl(string urlPath, string paramName1, string paramValue1) => MakeUrlEx(urlPath, paramName1, paramValue1);
 
         public static string MakeUrl(
           string urlPath,
@@ -110,7 +110,7 @@ namespace ZuneUI
           string paramName2,
           string paramValue2)
         {
-            return UrlHelper.MakeUrlEx(urlPath, paramName1, paramValue1, paramName2, paramValue2);
+            return MakeUrlEx(urlPath, paramName1, paramValue1, paramName2, paramValue2);
         }
 
         public static string MakeUrl(
@@ -122,7 +122,7 @@ namespace ZuneUI
           string paramName3,
           string paramValue3)
         {
-            return UrlHelper.MakeUrlEx(urlPath, paramName1, paramValue1, paramName2, paramValue2, paramName3, paramValue3);
+            return MakeUrlEx(urlPath, paramName1, paramValue1, paramName2, paramValue2, paramName3, paramValue3);
         }
 
         public static string MakeUrl(
@@ -136,7 +136,7 @@ namespace ZuneUI
           string paramName4,
           string paramValue4)
         {
-            return UrlHelper.MakeUrlEx(urlPath, paramName1, paramValue1, paramName2, paramValue2, paramName3, paramValue3, paramName4, paramValue4);
+            return MakeUrlEx(urlPath, paramName1, paramValue1, paramName2, paramValue2, paramName3, paramValue3, paramName4, paramValue4);
         }
 
         public static string MakeUrlEx(string urlPath, params string[] args)
@@ -146,7 +146,7 @@ namespace ZuneUI
             if (args != null && args.Length > 0)
             {
                 for (int index = 0; index + 1 < args.Length; index += 2)
-                    UrlHelper.AppendParam(index == 0, args1, args[index], args[index + 1]);
+                    AppendParam(index == 0, args1, args[index], args[index + 1]);
             }
             return args1.ToString();
         }
@@ -205,11 +205,11 @@ namespace ZuneUI
         private static void FindMatchingHeight(ref int width, out int height)
         {
             int index = 0;
-            while (index < UrlHelper._acceptableWidths.Length - 1 && width <= UrlHelper._acceptableWidths[index + 1])
+            while (index < _acceptableWidths.Length - 1 && width <= _acceptableWidths[index + 1])
                 ++index;
-            width = UrlHelper._acceptableWidths[index];
+            width = _acceptableWidths[index];
             height = 0;
-            foreach (Size acceptableValue in UrlHelper._acceptableValues)
+            foreach (Size acceptableValue in _acceptableValues)
             {
                 if (acceptableValue.Width == width)
                 {
@@ -222,11 +222,11 @@ namespace ZuneUI
         private static void FindMatchingWidth(out int width, ref int height)
         {
             int index = 0;
-            while (index < UrlHelper._acceptableHeights.Length - 1 && height <= UrlHelper._acceptableHeights[index + 1])
+            while (index < _acceptableHeights.Length - 1 && height <= _acceptableHeights[index + 1])
                 ++index;
-            height = UrlHelper._acceptableHeights[index];
+            height = _acceptableHeights[index];
             width = 0;
-            foreach (Size acceptableValue in UrlHelper._acceptableValues)
+            foreach (Size acceptableValue in _acceptableValues)
             {
                 if (acceptableValue.Height == height)
                 {
@@ -246,27 +246,27 @@ namespace ZuneUI
                     height = ImageConstants.Default.Height;
                 }
                 else
-                    UrlHelper.FindMatchingWidth(out width, ref height);
+                    FindMatchingWidth(out width, ref height);
             }
             else if (height == 0)
             {
-                UrlHelper.FindMatchingHeight(ref width, out height);
+                FindMatchingHeight(ref width, out height);
             }
             else
             {
                 int index = 0;
-                while (index < UrlHelper._acceptableValues.Length - 1 && width <= UrlHelper._acceptableValues[index + 1].Width)
+                while (index < _acceptableValues.Length - 1 && width <= _acceptableValues[index + 1].Width)
                     ++index;
-                width = UrlHelper._acceptableValues[index].Width;
-                while (index < UrlHelper._acceptableValues.Length - 1 && width == UrlHelper._acceptableValues[index + 1].Width && height <= UrlHelper._acceptableValues[index + 1].Height)
+                width = _acceptableValues[index].Width;
+                while (index < _acceptableValues.Length - 1 && width == _acceptableValues[index + 1].Width && height <= _acceptableValues[index + 1].Height)
                     ++index;
-                height = UrlHelper._acceptableValues[index].Height;
+                height = _acceptableValues[index].Height;
             }
         }
 
-        public static string MakeCatalogImageUri(Guid imageId) => UrlHelper.MakeCatalogImageUri(imageId, 0, 0);
+        public static string MakeCatalogImageUri(Guid imageId) => MakeCatalogImageUri(imageId, 0, 0);
 
-        public static string MakeCatalogImageUri(Guid imageId, int width, int height) => UrlHelper.MakeCatalogImageUri(imageId, width, height, ImageIdType.ImageId, ImageRequested.PrimaryImage);
+        public static string MakeCatalogImageUri(Guid imageId, int width, int height) => MakeCatalogImageUri(imageId, width, height, ImageIdType.ImageId, ImageRequested.PrimaryImage);
 
         public static string MakeCatalogImageUri(
           Guid imageId,
@@ -275,7 +275,7 @@ namespace ZuneUI
           ImageIdType imageIdType,
           ImageRequested requestedImage)
         {
-            return UrlHelper.MakeCatalogImageUri(imageId, width, height, imageIdType, requestedImage, false, false);
+            return MakeCatalogImageUri(imageId, width, height, imageIdType, requestedImage, false, false);
         }
 
         public static string MakeCatalogImageUri(
@@ -287,31 +287,31 @@ namespace ZuneUI
           bool forceImageResize,
           bool ignoreZeroLengths)
         {
-            if (UrlHelper._endPoint == null)
-                UrlHelper._endPoint = Microsoft.Zune.Service.Service.GetEndPointUri(EServiceEndpointId.SEID_ImageCatalog);
+            if (_endPoint == null)
+                _endPoint = Service.GetEndPointUri(EServiceEndpointId.SEID_ImageCatalog);
             string empty = string.Empty;
             string urlPath;
             switch (imageIdType)
             {
                 case ImageIdType.MovieId:
-                    urlPath = string.Format("{0}/movie/{1}/{2}", (object)UrlHelper._endPoint, (object)imageId.ToString(), (object)requestedImage.ToString());
+                    urlPath = string.Format("{0}/movie/{1}/{2}", _endPoint, imageId.ToString(), requestedImage.ToString());
                     break;
                 case ImageIdType.ArtistId:
-                    urlPath = string.Format("{0}/music/artist/{1}/{2}", (object)UrlHelper._endPoint, (object)imageId.ToString(), (object)requestedImage.ToString());
+                    urlPath = string.Format("{0}/music/artist/{1}/{2}", _endPoint, imageId.ToString(), requestedImage.ToString());
                     break;
                 case ImageIdType.MovieTrailerId:
-                    urlPath = string.Format("{0}/movieTrailer/{1}/{2}", (object)UrlHelper._endPoint, (object)imageId.ToString(), (object)requestedImage.ToString());
+                    urlPath = string.Format("{0}/movieTrailer/{1}/{2}", _endPoint, imageId.ToString(), requestedImage.ToString());
                     break;
                 case ImageIdType.ParentalRatingId:
-                    urlPath = string.Format("{0}/apps/{1}/ratingImage", (object)Microsoft.Zune.Service.Service.GetEndPointUri(EServiceEndpointId.SEID_RootCatalog), (object)imageId.ToString());
+                    urlPath = string.Format("{0}/apps/{1}/ratingImage", Service.GetEndPointUri(EServiceEndpointId.SEID_RootCatalog), imageId.ToString());
                     break;
                 default:
-                    urlPath = string.Format("{0}/image/{1}", (object)UrlHelper._endPoint, (object)imageId.ToString());
+                    urlPath = string.Format("{0}/image/{1}", _endPoint, imageId.ToString());
                     break;
             }
             List<string> stringList = new List<string>();
             if (forceImageResize)
-                stringList.AddRange((IEnumerable<string>)new string[2]
+                stringList.AddRange(new string[2]
                 {
           "resize",
           "true"
@@ -319,20 +319,20 @@ namespace ZuneUI
             int width1 = width;
             int height1 = height;
             if (width1 != ImageConstants.NowPlaying.Width && height1 != ImageConstants.NowPlaying.Height)
-                UrlHelper.CalculateImageUriSize(ref width1, ref height1);
+                CalculateImageUriSize(ref width1, ref height1);
             if (width > 0 || !ignoreZeroLengths)
-                stringList.AddRange((IEnumerable<string>)new string[2]
+                stringList.AddRange(new string[2]
                 {
           nameof (width),
           width1.ToString()
                 });
             if (height > 0 || !ignoreZeroLengths)
-                stringList.AddRange((IEnumerable<string>)new string[2]
+                stringList.AddRange(new string[2]
                 {
           nameof (height),
           height1.ToString()
                 });
-            return UrlHelper.MakeUrlEx(urlPath, stringList.ToArray());
+            return MakeUrlEx(urlPath, stringList.ToArray());
         }
     }
 }

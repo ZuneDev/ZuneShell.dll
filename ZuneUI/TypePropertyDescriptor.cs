@@ -15,6 +15,6 @@ namespace ZuneUI
 
         public override string ConvertToString(object value) => VideoDescriptions.GetDescription((int)value);
 
-        public override object ConvertFromString(string value) => (object)(int)VideoDescriptions.GetCategory(value);
+        public override object ConvertFromString(string value) => (int)VideoDescriptions.GetCategory(value);
     }
 }

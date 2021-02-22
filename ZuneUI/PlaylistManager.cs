@@ -27,8 +27,8 @@ namespace ZuneUI
     {
         private const int DefaultAutoRefreshFreq = 7;
         private const PlaylistLimitType DefaultPlaylistLimitType = PlaylistLimitType.Count;
-        private static object s_invalidMediaId = (object)-1;
-        private static object s_invalidMediaType = (object)MediaType.Undefined;
+        private static object s_invalidMediaId = -1;
+        private static object s_invalidMediaType = MediaType.Undefined;
         private static char[] s_autoPlaylistSplitChars = new char[1]
         {
       ';'
@@ -43,9 +43,9 @@ namespace ZuneUI
         {
             get
             {
-                if (PlaylistManager._instance == null)
-                    PlaylistManager._instance = new PlaylistManager();
-                return PlaylistManager._instance;
+                if (_instance == null)
+                    _instance = new PlaylistManager();
+                return _instance;
             }
         }
 
@@ -53,13 +53,13 @@ namespace ZuneUI
         {
             this._playlistManagerInterop = Microsoft.Zune.Playlist.PlaylistManager.Instance;
             this._queryContext = new QueryPropertyBag();
-            this._queryContext.SetValue("QueryView", (object)0);
+            this._queryContext.SetValue("QueryView", 0);
         }
 
         protected override void OnDispose(bool fDisposing)
         {
             base.OnDispose(fDisposing);
-            this._queryContext = (QueryPropertyBag)null;
+            this._queryContext = null;
         }
 
         public PlaylistResult CreatePlaylist(string title) => this.CreatePlaylist(title, CreatePlaylistOption.None);
@@ -79,7 +79,7 @@ namespace ZuneUI
         public PlaylistResult CreatePlaylist(string title, CreatePlaylistOption options)
         {
             int playlistId;
-            HRESULT playlist = this._playlistManagerInterop.CreatePlaylist(title, (string)null, (ValueType)null, options, out playlistId);
+            HRESULT playlist = this._playlistManagerInterop.CreatePlaylist(title, null, null, options, out playlistId);
             return new PlaylistResult(playlistId, playlist);
         }
 
@@ -93,7 +93,7 @@ namespace ZuneUI
 
         public PlaylistResult GetPlaylistByServiceMediaId(Guid serviceMediaId)
         {
-            int playlistId = PlaylistManager.InvalidPlaylistId;
+            int playlistId = InvalidPlaylistId;
             HRESULT byServiceMediaId = this._playlistManagerInterop.GetPlaylistByServiceMediaId(serviceMediaId, out playlistId);
             return new PlaylistResult(playlistId, byServiceMediaId);
         }
@@ -104,7 +104,7 @@ namespace ZuneUI
           IList items)
         {
             int playlistId;
-            HRESULT playlist1 = this._playlistManagerInterop.CreatePlaylist(title, (string)null, (ValueType)serviceMediaId, CreatePlaylistOption.RenameOnConflict, out playlistId);
+            HRESULT playlist1 = this._playlistManagerInterop.CreatePlaylist(title, null, serviceMediaId, CreatePlaylistOption.RenameOnConflict, out playlistId);
             if (playlist1.IsError)
                 return new PlaylistResult(playlistId, playlist1);
             PlaylistError playlist2 = this.AddToPlaylist(playlistId, items);
@@ -135,11 +135,11 @@ namespace ZuneUI
             {
                 int startIndex = 0;
                 List<PlaybackTrack> playbackTrackList = new List<PlaybackTrack>(capacity);
-                bool flag = playlistId == PlaylistManager.NowPlayingId;
+                bool flag = playlistId == NowPlayingId;
                 bool materializeMarketplaceTracks = !flag;
                 bool allowVideo = playlistId == CDAccess.Instance.BurnListId;
                 bool allowPictures = allowVideo;
-                PlaylistManager.AddItemsToTrackList(items, (IList)playbackTrackList, ref startIndex, allowVideo, allowPictures, materializeMarketplaceTracks, (ContainerPlayMarker)null);
+                AddItemsToTrackList(items, playbackTrackList, ref startIndex, allowVideo, allowPictures, materializeMarketplaceTracks, null);
                 count = playbackTrackList.Count;
                 if (count > 0)
                 {
@@ -155,10 +155,10 @@ namespace ZuneUI
                                 mediaTypeIds[index] = (int)libraryPlaybackTrack.MediaType;
                             }
                         }
-                        if (this._playlistManagerInterop.AddMediaToPlaylist(playlistId, mediaIds.Length, mediaIds, mediaTypeIds, -1, (int[])null).IsError)
+                        if (this._playlistManagerInterop.AddMediaToPlaylist(playlistId, mediaIds.Length, mediaIds, mediaTypeIds, -1, null).IsError)
                         {
                             if (playlistId == this.DefaultPlaylistId)
-                                this.DefaultPlaylistId = PlaylistManager.InvalidPlaylistId;
+                                this.DefaultPlaylistId = InvalidPlaylistId;
                             return PlaylistError.InvalidId;
                         }
                     }
@@ -175,17 +175,17 @@ namespace ZuneUI
 
         public void NotifyItemsAdded(int playlistId, int count)
         {
-            string playlistName = PlaylistManager.GetPlaylistName(playlistId);
-            this.ShowNewNotification(count <= 0 ? string.Format(ZuneUI.Shell.LoadString(StringId.IDS_PLAYLIST_NEW_DEFAULT), (object)playlistName) : (count != 1 ? string.Format(ZuneUI.Shell.LoadString(StringId.IDS_PLAYLIST_ADDED_N_ITEMS), (object)count, (object)playlistName) : string.Format(ZuneUI.Shell.LoadString(StringId.IDS_PLAYLIST_ADDED_1_ITEM), (object)playlistName)));
+            string playlistName = GetPlaylistName(playlistId);
+            this.ShowNewNotification(count <= 0 ? string.Format(Shell.LoadString(StringId.IDS_PLAYLIST_NEW_DEFAULT), playlistName) : (count != 1 ? string.Format(Shell.LoadString(StringId.IDS_PLAYLIST_ADDED_N_ITEMS), count, playlistName) : string.Format(Shell.LoadString(StringId.IDS_PLAYLIST_ADDED_1_ITEM), playlistName)));
         }
 
-        public void NotifyAutoPlaylistCreated() => this.ShowNewNotification(ZuneUI.Shell.LoadString(StringId.IDS_AUTOPLAYLIST_CREATED));
+        public void NotifyAutoPlaylistCreated() => this.ShowNewNotification(Shell.LoadString(StringId.IDS_AUTOPLAYLIST_CREATED));
 
         private void ShowNewNotification(string message)
         {
             if (this._notification != null && !this._notification.IsDisposed)
                 NotificationArea.Instance.Remove(this._notification);
-            this._notification = (Notification)new MessageNotification(message, NotificationTask.EditPlaylist, NotificationState.OneShot, 5000);
+            this._notification = new MessageNotification(message, NotificationTask.EditPlaylist, NotificationState.OneShot, 5000);
             NotificationArea.Instance.Add(this._notification);
         }
 
@@ -216,28 +216,28 @@ namespace ZuneUI
         public void SetSubType(int playlistId, int subtype)
         {
             SQMLog.LogToStream(SQMDataId.PlaylistSubType, (uint)subtype);
-            PlaylistManager.SetFieldValue<int>(playlistId, EListType.ePlaylistList, 324, subtype);
+            SetFieldValue(playlistId, EListType.ePlaylistList, 324, subtype);
         }
 
         public void SetLimitType(int playlistId, int type)
         {
             SQMLog.LogToStream(SQMDataId.PlaylistLimitType, (uint)type);
-            PlaylistManager.SetFieldValue<int>(playlistId, EListType.ePlaylistList, 220, type);
+            SetFieldValue(playlistId, EListType.ePlaylistList, 220, type);
         }
 
         public void SetLimitValue(int playlistId, int value, int type)
         {
             SQMLog.LogToStream((SQMDataId)(type == 0 ? 205 : 206), (uint)value);
-            PlaylistManager.SetFieldValue<int>(playlistId, EListType.ePlaylistList, 221, value);
+            SetFieldValue(playlistId, EListType.ePlaylistList, 221, value);
         }
 
         public void SetAutoRefresh(int playlistId, bool enable)
         {
             SQMLog.Log(SQMDataId.PlaylistAutoRefresh, enable ? 1 : 0);
-            PlaylistManager.SetFieldValue<bool>(playlistId, EListType.ePlaylistList, 25, enable);
+            SetFieldValue(playlistId, EListType.ePlaylistList, 25, enable);
         }
 
-        public void SetAutoRefreshFreq(int playlistId, int freq) => PlaylistManager.SetFieldValue<int>(playlistId, EListType.ePlaylistList, 26, freq);
+        public void SetAutoRefreshFreq(int playlistId, int freq) => SetFieldValue(playlistId, EListType.ePlaylistList, 26, freq);
 
         public PlaylistResult RefreshAutoPlaylist(int playlistId)
         {
@@ -270,54 +270,54 @@ namespace ZuneUI
             }
         }
 
-        public string DefaultPlaylistName => PlaylistManager.GetPlaylistName(this._defaultPlaylistId);
+        public string DefaultPlaylistName => GetPlaylistName(this._defaultPlaylistId);
 
         public void ValidateDefaultPlaylist()
         {
             if (this.DefaultPlaylistId < 0)
                 return;
-            if (string.IsNullOrEmpty(PlaylistManager.GetFieldValue<string>(this.DefaultPlaylistId, EListType.ePlaylistList, 317, (string)null)))
-                this.DefaultPlaylistId = PlaylistManager.InvalidPlaylistId;
+            if (string.IsNullOrEmpty(GetFieldValue(this.DefaultPlaylistId, EListType.ePlaylistList, 317, (string)null)))
+                this.DefaultPlaylistId = InvalidPlaylistId;
             else
                 this.FirePropertyChanged("DefaultPlaylistName");
         }
 
         public static string GetPlaylistName(int playlistId)
         {
-            if (playlistId == PlaylistManager.NowPlayingId)
-                return ZuneUI.Shell.LoadString(StringId.IDS_NOW_PLAYING);
-            return playlistId >= 0 ? PlaylistManager.GetFieldValue<string>(playlistId, EListType.ePlaylistList, 344, string.Empty) : (string)null;
+            if (playlistId == NowPlayingId)
+                return Shell.LoadString(StringId.IDS_NOW_PLAYING);
+            return playlistId >= 0 ? GetFieldValue(playlistId, EListType.ePlaylistList, 344, string.Empty) : null;
         }
 
-        public static bool GetPlaylistAutoRefresh(int playlistId) => playlistId >= 0 && PlaylistManager.GetFieldValue<bool>(playlistId, EListType.ePlaylistList, 25, false);
+        public static bool GetPlaylistAutoRefresh(int playlistId) => playlistId >= 0 && GetFieldValue(playlistId, EListType.ePlaylistList, 25, false);
 
-        public static int GetPlaylistAutoRefreshFreq(int playlistId) => playlistId >= 0 ? PlaylistManager.GetFieldValue<int>(playlistId, EListType.ePlaylistList, 26, 7) : 7;
+        public static int GetPlaylistAutoRefreshFreq(int playlistId) => playlistId >= 0 ? GetFieldValue(playlistId, EListType.ePlaylistList, 26, 7) : 7;
 
         public Choice GetSubTypeChoice(QuickMixSessionManager manager)
         {
             List<Command> commandList = new List<Command>();
-            commandList.Add((Command)new QuickMixSubTypeCommand(ZuneUI.Shell.LoadString(StringId.IDS_QUICKMIXPLAYLIST_LOCAL_CONTENT_ONLY), EQuickMixType.eQuickMixTypeLocal, manager.QuickMixSession));
+            commandList.Add(new QuickMixSubTypeCommand(Shell.LoadString(StringId.IDS_QUICKMIXPLAYLIST_LOCAL_CONTENT_ONLY), EQuickMixType.eQuickMixTypeLocal, manager.QuickMixSession));
             if (FeatureEnablement.IsFeatureEnabled(Features.eQuickMixZmp))
             {
-                commandList.Add((Command)new QuickMixSubTypeCommand(ZuneUI.Shell.LoadString(StringId.IDS_QUICKMIXPLAYLIST_MIXED_CONTENT), EQuickMixType.eQuickMixTypeMixed, manager.QuickMixSession));
-                commandList.Add((Command)new QuickMixSubTypeCommand(ZuneUI.Shell.LoadString(StringId.IDS_QUICKMIXPLAYLIST_MP_CONTENT_ONLY), EQuickMixType.eQuickMixTypeRadio, manager.QuickMixSession));
+                commandList.Add(new QuickMixSubTypeCommand(Shell.LoadString(StringId.IDS_QUICKMIXPLAYLIST_MIXED_CONTENT), EQuickMixType.eQuickMixTypeMixed, manager.QuickMixSession));
+                commandList.Add(new QuickMixSubTypeCommand(Shell.LoadString(StringId.IDS_QUICKMIXPLAYLIST_MP_CONTENT_ONLY), EQuickMixType.eQuickMixTypeRadio, manager.QuickMixSession));
             }
-            return new Choice() { Options = (IList)commandList };
+            return new Choice() { Options = commandList };
         }
 
-        public static int GetSubType(int playlistId) => playlistId >= 0 ? PlaylistManager.GetFieldValue<int>(playlistId, EListType.ePlaylistList, 324, 0) : -1;
+        public static int GetSubType(int playlistId) => playlistId >= 0 ? GetFieldValue(playlistId, EListType.ePlaylistList, 324, 0) : -1;
 
-        public static int GetLimitType(int playlistId) => playlistId >= 0 ? PlaylistManager.GetFieldValue<int>(playlistId, EListType.ePlaylistList, 220, 2) : 2;
+        public static int GetLimitType(int playlistId) => playlistId >= 0 ? GetFieldValue(playlistId, EListType.ePlaylistList, 220, 2) : 2;
 
-        public static int GetLimitValue(int playlistId) => playlistId >= 0 ? PlaylistManager.GetFieldValue<int>(playlistId, EListType.ePlaylistList, 221, 0) : 0;
+        public static int GetLimitValue(int playlistId) => playlistId >= 0 ? GetFieldValue(playlistId, EListType.ePlaylistList, 221, 0) : 0;
 
-        public static int GetPlaylistType(int playlistId) => playlistId >= 0 ? PlaylistManager.GetFieldValue<int>(playlistId, EListType.ePlaylistList, 265, 0) : 0;
+        public static int GetPlaylistType(int playlistId) => playlistId >= 0 ? GetFieldValue(playlistId, EListType.ePlaylistList, 265, 0) : 0;
 
         public static bool IsChannel(int playlistId)
         {
             if (playlistId >= 0)
             {
-                switch ((PlaylistType)PlaylistManager.GetPlaylistType(playlistId))
+                switch ((PlaylistType)GetPlaylistType(playlistId))
                 {
                     case PlaylistType.Channel:
                     case PlaylistType.PersonalChannel:
@@ -360,24 +360,24 @@ namespace ZuneUI
             }
             if (mediaType1 == MediaType.Artist || mediaType1 == MediaType.Genre || mediaType1 == MediaType.Album)
             {
-                IList list = (IList)new ArrayList(count);
-                foreach (LibraryDataProviderItemBase providerItemBaseB in (IEnumerable)items)
+                IList list = new ArrayList(count);
+                foreach (LibraryDataProviderItemBase providerItemBaseB in items)
                     list.Add((int)providerItemBaseB.GetProperty("LibraryId"));
                 bool singleAlbum = list.Count == 1;
                 if ((mediaType1 == MediaType.Artist || mediaType1 == MediaType.Genre) && list.Count == 1)
                 {
-                    ZuneQueryList zuneQueryList = mediaType1 != MediaType.Artist ? ZuneApplication.ZuneLibrary.GetAlbumsByGenres(list, (string)null) : ZuneApplication.ZuneLibrary.GetAlbumsByArtists(list, (string)null);
+                    ZuneQueryList zuneQueryList = mediaType1 != MediaType.Artist ? ZuneApplication.ZuneLibrary.GetAlbumsByGenres(list, null) : ZuneApplication.ZuneLibrary.GetAlbumsByArtists(list, null);
                     int num2 = (int)zuneQueryList.AddRef();
                     singleAlbum = zuneQueryList.Count == 1;
                     int num3 = (int)zuneQueryList.Release();
                     zuneQueryList.Dispose();
                 }
-                string sort = (string)null;
+                string sort = null;
                 if (ZuneShell.DefaultInstance.CurrentPage is MusicLibraryPage currentPage)
                     sort = currentPage.GetSort(singleAlbum, mediaType1);
                 if (sort == null)
                     sort = "+WM/TrackNumber";
-                ZuneQueryList zuneQueryList1 = (ZuneQueryList)null;
+                ZuneQueryList zuneQueryList1 = null;
                 switch (mediaType1)
                 {
                     case MediaType.Album:
@@ -406,20 +406,20 @@ namespace ZuneUI
                         containerPlayMarker.MediaType = mediaType1;
                     }
                     LibraryPlaybackTrack libraryPlaybackTrack = new LibraryPlaybackTrack((int)uniqueIds[index], MediaType.Track, containerPlayMarker);
-                    tracks.Add((object)libraryPlaybackTrack);
+                    tracks.Add(libraryPlaybackTrack);
                 }
                 int num6 = (int)zuneQueryList1.Release();
                 zuneQueryList1.Dispose();
             }
             else
             {
-                bool flag1 = PlaylistManager.CanFastAddList(items);
-                ArrayList arrayList = (ArrayList)null;
+                bool flag1 = CanFastAddList(items);
+                ArrayList arrayList = null;
                 int num2 = count;
                 bool flag2 = false;
                 if (flag1)
                 {
-                    arrayList = PlaylistManager.GetUniqueIdsFromList(items);
+                    arrayList = GetUniqueIdsFromList(items);
                     if (arrayList != null)
                         num2 = arrayList.Count;
                     else
@@ -431,7 +431,7 @@ namespace ZuneUI
                         startIndex = tracks.Count;
                     if (flag1)
                     {
-                        PlaylistManager.AddLibraryDataProviderItemToTrackList((int)arrayList[index], MediaType.Track, tracks, allowVideo, allowPictures, containerPlayMarkerOverride);
+                        AddLibraryDataProviderItemToTrackList((int)arrayList[index], MediaType.Track, tracks, allowVideo, allowPictures, containerPlayMarkerOverride);
                     }
                     else
                     {
@@ -442,28 +442,28 @@ namespace ZuneUI
                                 int mediaId = -1;
                                 EMediaTypes mediaType2 = EMediaTypes.eMediaTypeInvalid;
                                 (obj as LibraryDataProviderItemBase).GetMediaIdAndType(out mediaId, out mediaType2);
-                                PlaylistManager.AddLibraryDataProviderItemToTrackList(mediaId, (MediaType)mediaType2, tracks, allowVideo, allowPictures, containerPlayMarkerOverride);
+                                AddLibraryDataProviderItemToTrackList(mediaId, (MediaType)mediaType2, tracks, allowVideo, allowPictures, containerPlayMarkerOverride);
                                 continue;
                             case SubscriptionDataProviderItem _:
-                                PlaylistManager.AddSubscriptionDataProviderItemToTrackList((SubscriptionDataProviderItem)obj, tracks, allowVideo, allowPictures);
+                                AddSubscriptionDataProviderItemToTrackList((SubscriptionDataProviderItem)obj, tracks, allowVideo, allowPictures);
                                 continue;
                             case DataProviderObject _:
                                 bool blockedExplicitContent = false;
-                                PlaylistManager.AddDataProviderObjectToTrackList((DataProviderObject)obj, tracks, materializeMarketplaceTracks, containerPlayMarkerOverride, out blockedExplicitContent);
+                                AddDataProviderObjectToTrackList((DataProviderObject)obj, tracks, materializeMarketplaceTracks, containerPlayMarkerOverride, out blockedExplicitContent);
                                 flag2 |= blockedExplicitContent;
                                 continue;
                             case FileEntry _:
-                                PlaylistManager.AddFileEntryToTrackList((FileEntry)obj, tracks, allowVideo, allowPictures, materializeMarketplaceTracks, containerPlayMarkerOverride);
+                                AddFileEntryToTrackList((FileEntry)obj, tracks, allowVideo, allowPictures, materializeMarketplaceTracks, containerPlayMarkerOverride);
                                 continue;
                             case LibraryPlaybackTrack _:
                             case VideoPlaybackTrack _:
-                                PlaylistManager.AddLibraryOrVideoPlaybackTrackToTrackList(obj, tracks);
+                                AddLibraryOrVideoPlaybackTrackToTrackList(obj, tracks);
                                 continue;
                             case MarketplacePlaybackTrack _:
-                                PlaylistManager.AddMarketplacePlaybackTrackToTrackList((MarketplacePlaybackTrack)obj, tracks, materializeMarketplaceTracks);
+                                AddMarketplacePlaybackTrackToTrackList((MarketplacePlaybackTrack)obj, tracks, materializeMarketplaceTracks);
                                 continue;
                             case QuickMixItem _:
-                                PlaylistManager.AddQuickMixItemToTrackList((QuickMixItem)obj, tracks, containerPlayMarkerOverride);
+                                AddQuickMixItemToTrackList((QuickMixItem)obj, tracks, containerPlayMarkerOverride);
                                 continue;
                             default:
                                 continue;
@@ -473,9 +473,9 @@ namespace ZuneUI
                 if (!flag2)
                     return;
                 if (SignIn.Instance.SignedIn)
-                    MessageBox.Show(ZuneUI.Shell.LoadString(StringId.IDS_ExplicitErrorHeading), ZuneUI.Shell.LoadString(StringId.IDS_ExplicitNeedAdult), (EventHandler)null);
+                    MessageBox.Show(Shell.LoadString(StringId.IDS_ExplicitErrorHeading), Shell.LoadString(StringId.IDS_ExplicitNeedAdult), null);
                 else
-                    MessageBox.Show(ZuneUI.Shell.LoadString(StringId.IDS_ExplicitErrorHeading), ZuneUI.Shell.LoadString(StringId.IDS_ExplicitMustLogin), (EventHandler)null);
+                    MessageBox.Show(Shell.LoadString(StringId.IDS_ExplicitErrorHeading), Shell.LoadString(StringId.IDS_ExplicitMustLogin), null);
             }
         }
 
@@ -489,7 +489,7 @@ namespace ZuneUI
 
         private static ArrayList GetUniqueIdsFromList(IList list)
         {
-            ArrayList arrayList = (ArrayList)null;
+            ArrayList arrayList = null;
             if (list is LibraryVirtualList libraryVirtualList)
                 arrayList = libraryVirtualList.GetUniqueIds();
             return arrayList;
@@ -511,9 +511,9 @@ namespace ZuneUI
                 case MediaType.Video:
                 case MediaType.Photo:
                 case MediaType.PodcastEpisode:
-                    if (!PlaylistManager.CanEnqueue(libraryId, mediaType, allowVideo, allowPictures))
+                    if (!CanEnqueue(libraryId, mediaType, allowVideo, allowPictures))
                         break;
-                    ContainerPlayMarker containerPlayMarker1 = (ContainerPlayMarker)null;
+                    ContainerPlayMarker containerPlayMarker1 = null;
                     if (mediaType == MediaType.Track)
                     {
                         if (containerPlayMarkerOverride != null)
@@ -527,7 +527,7 @@ namespace ZuneUI
                             containerPlayMarker1.LibraryId = -1;
                         }
                     }
-                    tracks.Add((object)new LibraryPlaybackTrack(libraryId, mediaType, containerPlayMarker1));
+                    tracks.Add(new LibraryPlaybackTrack(libraryId, mediaType, containerPlayMarker1));
                     break;
                 case MediaType.Playlist:
                     ZuneQueryList tracksByPlaylist = ZuneApplication.ZuneLibrary.GetTracksByPlaylist(0, libraryId, EQuerySortType.eQuerySortOrderAscending, 437U);
@@ -535,15 +535,15 @@ namespace ZuneUI
                     ContainerPlayMarker containerPlayMarker2 = new ContainerPlayMarker();
                     containerPlayMarker2.LibraryId = libraryId;
                     containerPlayMarker2.MediaType = MediaType.Playlist;
-                    containerPlayMarker2.PlaylistType = (PlaylistType)PlaylistManager.GetPlaylistType(libraryId);
-                    containerPlayMarker2.PlaylistSubType = PlaylistManager.GetSubType(libraryId);
+                    containerPlayMarker2.PlaylistType = (PlaylistType)GetPlaylistType(libraryId);
+                    containerPlayMarker2.PlaylistSubType = GetSubType(libraryId);
                     int count = tracksByPlaylist.Count;
-                    for (uint index = 0; (long)index < (long)count; ++index)
+                    for (uint index = 0; index < count; ++index)
                     {
-                        int fieldValue1 = (int)tracksByPlaylist.GetFieldValue(index, typeof(int), 233U, PlaylistManager.s_invalidMediaId);
-                        int fieldValue2 = (int)tracksByPlaylist.GetFieldValue(index, typeof(int), 234U, PlaylistManager.s_invalidMediaType);
+                        int fieldValue1 = (int)tracksByPlaylist.GetFieldValue(index, typeof(int), 233U, s_invalidMediaId);
+                        int fieldValue2 = (int)tracksByPlaylist.GetFieldValue(index, typeof(int), 234U, s_invalidMediaType);
                         if (fieldValue1 != -1)
-                            tracks.Add((object)new LibraryPlaybackTrack(fieldValue1, (MediaType)fieldValue2, containerPlayMarker2));
+                            tracks.Add(new LibraryPlaybackTrack(fieldValue1, (MediaType)fieldValue2, containerPlayMarker2));
                     }
                     int num2 = (int)tracksByPlaylist.Release();
                     tracksByPlaylist.Dispose();
@@ -558,9 +558,9 @@ namespace ZuneUI
           bool allowPictures)
         {
             int property = (int)podcastEpisode.GetProperty("LibraryId");
-            if (!PlaylistManager.CanEnqueue(property, MediaType.PodcastEpisode, allowVideo, allowPictures))
+            if (!CanEnqueue(property, MediaType.PodcastEpisode, allowVideo, allowPictures))
                 return;
-            tracks.Add((object)new LibraryPlaybackTrack(property, MediaType.PodcastEpisode, (ContainerPlayMarker)null));
+            tracks.Add(new LibraryPlaybackTrack(property, MediaType.PodcastEpisode, null));
         }
 
         private static void AddDataProviderObjectToTrackList(
@@ -587,13 +587,13 @@ namespace ZuneUI
                         dbMediaId = ZuneApplication.ZuneLibrary.AddTrack(track.Id, track.AlbumId, track.TrackNumber, track.Title, track.Duration, track.AlbumTitle, track.Artist, track.PrimaryGenre.Title);
                     if (dbMediaId >= 0)
                     {
-                        tracks.Add((object)new LibraryPlaybackTrack(dbMediaId, MediaType.Track, (ContainerPlayMarker)null));
+                        tracks.Add(new LibraryPlaybackTrack(dbMediaId, MediaType.Track, null));
                     }
                     else
                     {
                         if (!track.CanPlay)
                             return;
-                        tracks.Add((object)new MarketplacePlaybackTrack(track.CanSubscriptionPlay, track.Id, track.Title, track.Duration, track.AlbumTitle, track.Artist, track.TrackNumber, track.PrimaryGenre.Title, track.AlbumId, track.ReferrerContext));
+                        tracks.Add(new MarketplacePlaybackTrack(track.CanSubscriptionPlay, track.Id, track.Title, track.Duration, track.AlbumTitle, track.Artist, track.TrackNumber, track.PrimaryGenre.Title, track.AlbumId, track.ReferrerContext));
                     }
                 }
             }
@@ -603,13 +603,13 @@ namespace ZuneUI
                 if (video.IsParentallyBlocked && !video.InCollection)
                     blockedExplicitContent = true;
                 else
-                    tracks.Add((object)new VideoPlaybackTrack(video.Id, video.Title, (string)null, (string)null, false, false, false, true, false, VideoDefinitionEnum.None));
+                    tracks.Add(new VideoPlaybackTrack(video.Id, video.Title, null, null, false, false, false, true, false, VideoDefinitionEnum.None));
             }
             else
             {
                 if (!(dpItem.TypeName == "RadioStation"))
                     return;
-                tracks.Add((object)new StreamingRadioPlaybackTrack((string)dpItem.GetProperty("SourceURL"), (string)dpItem.GetProperty("Title"), MediaType.Track));
+                tracks.Add(new StreamingRadioPlaybackTrack((string)dpItem.GetProperty("SourceURL"), (string)dpItem.GetProperty("Title"), MediaType.Track));
             }
         }
 
@@ -626,14 +626,14 @@ namespace ZuneUI
             int dbMediaId;
             bool fFileAlreadyExists;
             bool fTimedout;
-            bool flag1 = AddTransientMediaTask.AddTransientMediaWithTimeout(file.Path, (MediaType)file.MediaType, TimeSpan.FromSeconds((double)ClientConfiguration.GeneralSettings.AccessMediaHangTimeoutSec), out dbMediaId, out fFileAlreadyExists, out fTimedout);
+            bool flag1 = AddTransientMediaTask.AddTransientMediaWithTimeout(file.Path, (MediaType)file.MediaType, TimeSpan.FromSeconds(ClientConfiguration.GeneralSettings.AccessMediaHangTimeoutSec), out dbMediaId, out fFileAlreadyExists, out fTimedout);
             if (fTimedout)
-                MessageBox.Show(ZuneUI.Shell.LoadString(StringId.IDS_GENERIC_ERROR), ZuneUI.Shell.LoadString(StringId.IDS_PLAYLIST_MEDIA_NOTACCESSIBLE), (EventHandler)null);
+                MessageBox.Show(Shell.LoadString(StringId.IDS_GENERIC_ERROR), Shell.LoadString(StringId.IDS_PLAYLIST_MEDIA_NOTACCESSIBLE), null);
             else if (flag1 && !fFileAlreadyExists)
             {
-                if (!PlaylistManager.CanEnqueue(dbMediaId, (MediaType)file.MediaType, allowVideo, allowPictures))
+                if (!CanEnqueue(dbMediaId, (MediaType)file.MediaType, allowVideo, allowPictures))
                     return;
-                tracks.Add((object)new LibraryPlaybackTrack(dbMediaId, (MediaType)file.MediaType, (ContainerPlayMarker)null));
+                tracks.Add(new LibraryPlaybackTrack(dbMediaId, (MediaType)file.MediaType, null));
             }
             else
             {
@@ -644,10 +644,10 @@ namespace ZuneUI
                     Guid zuneMediaId = Guid.Empty;
                     string title = string.Empty;
                     bool isHD = false;
-                    PlaylistManager.GetVideoValues(dbMediaId, out type, out zuneMediaId, out title, out isHD);
+                    GetVideoValues(dbMediaId, out type, out zuneMediaId, out title, out isHD);
                     if (type == MediaType.VideoMBR)
                     {
-                        tracks.Add((object)new VideoPlaybackTrack(zuneMediaId, title, (string)null, (string)null, false, true, false, false, false, isHD ? VideoDefinitionEnum.HD : VideoDefinitionEnum.SD));
+                        tracks.Add(new VideoPlaybackTrack(zuneMediaId, title, null, null, false, true, false, false, false, isHD ? VideoDefinitionEnum.HD : VideoDefinitionEnum.SD));
                         flag2 = true;
                     }
                 }
@@ -661,7 +661,7 @@ namespace ZuneUI
                 catch (ArgumentException ex)
                 {
                 }
-                tracks.Add((object)new StreamingPlaybackTrack(file.Path, str, (MediaType)file.MediaType));
+                tracks.Add(new StreamingPlaybackTrack(file.Path, str, (MediaType)file.MediaType));
             }
         }
 
@@ -679,7 +679,7 @@ namespace ZuneUI
                 dbMediaId = ZuneApplication.ZuneLibrary.AddTrack(marketplacePlaybackTrack.ZuneMediaId, marketplacePlaybackTrack.AlbumId, marketplacePlaybackTrack.TrackNumber, marketplacePlaybackTrack.Title, marketplacePlaybackTrack.Duration, marketplacePlaybackTrack.Album, marketplacePlaybackTrack.Artist, marketplacePlaybackTrack.Genre);
             if (dbMediaId < 0)
                 return;
-            tracks.Add((object)new LibraryPlaybackTrack(dbMediaId, MediaType.Track, (ContainerPlayMarker)null));
+            tracks.Add(new LibraryPlaybackTrack(dbMediaId, MediaType.Track, null));
         }
 
         private static void AddQuickMixItemToTrackList(
@@ -689,7 +689,7 @@ namespace ZuneUI
         {
             if (quickMixItem == null)
                 return;
-            tracks.Add((object)new LibraryPlaybackTrack(quickMixItem.MediaId, MediaType.Track, containerPlayMarkerOverride));
+            tracks.Add(new LibraryPlaybackTrack(quickMixItem.MediaId, MediaType.Track, containerPlayMarkerOverride));
         }
 
         internal QueryPropertyBag QueryContext
@@ -697,7 +697,7 @@ namespace ZuneUI
             get
             {
                 if (this._queryContext != null)
-                    this._queryContext.SetValue("UserId", (object)SignIn.Instance.LastSignedInUserId);
+                    this._queryContext.SetValue("UserId", SignIn.Instance.LastSignedInUserId);
                 return this._queryContext;
             }
         }
@@ -707,17 +707,17 @@ namespace ZuneUI
             int[] columnIndexes = new int[1] { atom };
             object[] fieldValues = new object[1]
             {
-        (object) defaultValue
+         defaultValue
             };
-            ZuneLibrary.GetFieldValues(mediaId, listType, 1, columnIndexes, fieldValues, PlaylistManager.Instance.QueryContext);
+            ZuneLibrary.GetFieldValues(mediaId, listType, 1, columnIndexes, fieldValues, Instance.QueryContext);
             return (T)fieldValues[0];
         }
 
         public static void SetFieldValue<T>(int mediaId, EListType listType, int atom, T value)
         {
             int[] columnIndexes = new int[1] { atom };
-            object[] fieldValues = new object[1] { (object)value };
-            ZuneLibrary.SetFieldValues(mediaId, listType, 1, columnIndexes, fieldValues, PlaylistManager.Instance.QueryContext);
+            object[] fieldValues = new object[1] { value };
+            ZuneLibrary.SetFieldValues(mediaId, listType, 1, columnIndexes, fieldValues, Instance.QueryContext);
         }
 
         public static bool IsVideo(int mediaId, MediaType mediaType)
@@ -727,7 +727,7 @@ namespace ZuneUI
                 case MediaType.Video:
                     return true;
                 case MediaType.PodcastEpisode:
-                    if (PlaylistManager.GetFieldValue<MediaType>(mediaId, EListType.ePodcastEpisodeList, 161, MediaType.Undefined) == MediaType.Video)
+                    if (GetFieldValue(mediaId, EListType.ePodcastEpisodeList, 161, MediaType.Undefined) == MediaType.Video)
                         return true;
                     break;
             }
@@ -744,12 +744,12 @@ namespace ZuneUI
             int[] columnIndexes = new int[4] { 177, 451, 344, 440 };
             object[] fieldValues = new object[4]
             {
-        (object) MediaType.Undefined,
-        (object) Guid.Empty,
-        (object) string.Empty,
-        (object) VideoDefinition.Unknown
+         MediaType.Undefined,
+         Guid.Empty,
+         string.Empty,
+         VideoDefinition.Unknown
             };
-            ZuneLibrary.GetFieldValues(dbMediaId, EListType.eVideoList, columnIndexes.Length, columnIndexes, fieldValues, PlaylistManager.Instance.QueryContext);
+            ZuneLibrary.GetFieldValues(dbMediaId, EListType.eVideoList, columnIndexes.Length, columnIndexes, fieldValues, Instance.QueryContext);
             type = (MediaType)fieldValues[0];
             zuneMediaId = (Guid)fieldValues[1];
             title = (string)fieldValues[2];
@@ -767,19 +767,19 @@ namespace ZuneUI
                 case MediaType.Photo:
                     return allowPictures;
                 case MediaType.PodcastEpisode:
-                    if (PlaylistManager.GetFieldValue<EItemDownloadState>(mediaId, EListType.ePodcastEpisodeList, 145, EItemDownloadState.eDownloadStateNone) != EItemDownloadState.eDownloadStateDownloaded)
+                    if (GetFieldValue(mediaId, EListType.ePodcastEpisodeList, 145, EItemDownloadState.eDownloadStateNone) != EItemDownloadState.eDownloadStateDownloaded)
                         return false;
                     break;
             }
-            return allowVideo || !PlaylistManager.IsVideo(mediaId, mediaType);
+            return allowVideo || !IsVideo(mediaId, mediaType);
         }
 
         public static bool IsInCollection(int mediaId, MediaType mediaType)
         {
-            EListType listType = PlaylistManager.MediaTypeToListType(mediaType);
+            EListType listType = MediaTypeToListType(mediaType);
             if (listType == EListType.eListTypeCount)
                 return false;
-            string fieldValue = PlaylistManager.GetFieldValue<string>(mediaId, listType, 317, (string)null);
+            string fieldValue = GetFieldValue(mediaId, listType, 317, (string)null);
             bool flag = false;
             if (!string.IsNullOrEmpty(fieldValue) && !fieldValue.StartsWith("zunecd://"))
                 flag = true;
@@ -791,9 +791,9 @@ namespace ZuneUI
             bool flag = false;
             if (mediaId != -1)
             {
-                EListType listType = PlaylistManager.MediaTypeToListType(mediaType);
+                EListType listType = MediaTypeToListType(mediaType);
                 if (listType != EListType.eListTypeCount)
-                    flag = PlaylistManager.GetFieldValue<bool>(mediaId, listType, 204, false);
+                    flag = GetFieldValue(mediaId, listType, 204, false);
             }
             return flag;
         }
@@ -825,16 +825,16 @@ namespace ZuneUI
             }
         }
 
-        public static int GetPlaylistId(int contentItemId) => PlaylistManager.GetFieldValue<int>(contentItemId, EListType.ePlaylistContentList, 263, -1);
+        public static int GetPlaylistId(int contentItemId) => GetFieldValue(contentItemId, EListType.ePlaylistContentList, 263, -1);
 
         public static List<string> SplitAutoPlaylistValue(string value)
         {
-            List<string> stringList = (List<string>)null;
+            List<string> stringList = null;
             if (value != null)
             {
                 if (value.IndexOf(';') >= 0)
                 {
-                    string[] strArray = value.Split(PlaylistManager.s_autoPlaylistSplitChars, StringSplitOptions.RemoveEmptyEntries);
+                    string[] strArray = value.Split(s_autoPlaylistSplitChars, StringSplitOptions.RemoveEmptyEntries);
                     foreach (string str1 in strArray)
                     {
                         string str2 = str1.Trim();

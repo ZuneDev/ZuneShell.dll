@@ -31,8 +31,8 @@ namespace ZuneUI
 
         public static ProfileCardData Create(object item1, object item2)
         {
-            LibraryDataProviderListItem libraryData = (LibraryDataProviderListItem)null;
-            XmlDataProviderObject serviceData = (XmlDataProviderObject)null;
+            LibraryDataProviderListItem libraryData = null;
+            XmlDataProviderObject serviceData = null;
             if (item1 is LibraryDataProviderListItem)
                 libraryData = (LibraryDataProviderListItem)item1;
             else if (item1 is XmlDataProviderObject)
@@ -76,9 +76,9 @@ namespace ZuneUI
             }
         }
 
-        public DataProviderObject LibraryData => (DataProviderObject)this._libraryData;
+        public DataProviderObject LibraryData => _libraryData;
 
-        public DataProviderObject ServiceData => (DataProviderObject)this._serviceData;
+        public DataProviderObject ServiceData => _serviceData;
 
         public ProfileInterests ProfileInterests
         {
@@ -105,12 +105,12 @@ namespace ZuneUI
 
         public static object GetDataProviderObject(object data)
         {
-            object obj = (object)null;
+            object obj = null;
             switch (data)
             {
                 case ProfileCardData _:
                     ProfileCardData profileCardData = (ProfileCardData)data;
-                    obj = profileCardData.ServiceData == null ? (object)profileCardData.LibraryData : (object)profileCardData.ServiceData;
+                    obj = profileCardData.ServiceData == null ? profileCardData.LibraryData : profileCardData.ServiceData;
                     break;
                 case DataProviderObject _:
                     obj = data;
@@ -121,11 +121,11 @@ namespace ZuneUI
 
         public static object GetLibraryDataProviderListItem(object data)
         {
-            object obj = (object)null;
+            object obj = null;
             switch (data)
             {
                 case ProfileCardData _:
-                    obj = (object)((ProfileCardData)data).LibraryData;
+                    obj = ((ProfileCardData)data).LibraryData;
                     break;
                 case LibraryDataProviderListItem _:
                     obj = data;
@@ -136,11 +136,11 @@ namespace ZuneUI
 
         public static object GetXmlDataProviderObject(object data)
         {
-            object obj = (object)null;
+            object obj = null;
             switch (data)
             {
                 case ProfileCardData _:
-                    obj = (object)((ProfileCardData)data).ServiceData;
+                    obj = ((ProfileCardData)data).ServiceData;
                     break;
                 case XmlDataProviderObject _:
                     obj = data;

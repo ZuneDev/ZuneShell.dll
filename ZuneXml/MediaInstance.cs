@@ -47,7 +47,7 @@ namespace ZuneXml
           DataProviderQuery owner,
           object objectTypeCookie)
         {
-            return (XmlDataProviderObject)new MediaInstance(owner, objectTypeCookie);
+            return new MediaInstance(owner, objectTypeCookie);
         }
 
         internal MediaInstance(DataProviderQuery owner, object resultTypeCookie)
@@ -68,11 +68,11 @@ namespace ZuneXml
             switch (propertyName)
             {
                 case "HasPurchased":
-                    return (object)this.HasPurchased;
+                    return HasPurchased;
                 case "HasPurchasedTrial":
-                    return (object)this.HasPurchasedTrial;
+                    return HasPurchasedTrial;
                 case "HasPurchasedBeta":
-                    return (object)this.HasPurchasedBeta;
+                    return HasPurchasedBeta;
                 default:
                     return base.GetProperty(propertyName);
             }

@@ -25,12 +25,12 @@ namespace ZuneUI
         public ApplicationLibraryPage(bool showDevice)
           : base(showDevice, MediaType.Application)
         {
-            this.UI = ApplicationLibraryPage.LibraryTemplate;
+            this.UI = LibraryTemplate;
             if (showDevice)
             {
                 this.UIPath = "Device\\Applications";
                 this.PivotPreference = Shell.MainFrame.Device.Applications;
-                Deviceland.InitDevicePage((ZunePage)this);
+                Deviceland.InitDevicePage(this);
             }
             else
             {
@@ -74,12 +74,12 @@ namespace ZuneUI
         {
             if (this.NavigationArguments != null)
             {
-                if (this.NavigationArguments.Contains((object)"ApplicationLibraryId"))
-                    this._selectedApplicationIDs = (IList)new int[1]
+                if (this.NavigationArguments.Contains("ApplicationLibraryId"))
+                    this._selectedApplicationIDs = (new int[1]
                     {
-            (int) this.NavigationArguments[(object) "ApplicationLibraryId"]
-                    };
-                this.NavigationArguments = (IDictionary)null;
+            (int) this.NavigationArguments[ "ApplicationLibraryId"]
+                    });
+                this.NavigationArguments = null;
             }
             base.OnNavigatedToWorker();
         }
@@ -87,14 +87,14 @@ namespace ZuneUI
         protected override void OnNavigatedAwayWorker(IPage destination)
         {
             base.OnNavigatedAwayWorker(destination);
-            this.SelectedApplication = (object)null;
+            this.SelectedApplication = null;
         }
 
-        public static void FindInCollection(int applicationId) => ZuneShell.DefaultInstance.Execute("Collection\\Applications", (IDictionary)new Hashtable()
+        public static void FindInCollection(int applicationId) => ZuneShell.DefaultInstance.Execute("Collection\\Applications", new Hashtable()
     {
       {
-        (object) "ApplicationLibraryId",
-        (object) applicationId
+         "ApplicationLibraryId",
+         applicationId
       }
     });
 
@@ -102,20 +102,20 @@ namespace ZuneUI
         {
             if (string.IsNullOrEmpty(serviceVersionString))
                 return false;
-            Version version = (Version)null;
-            return ApplicationLibraryPage.TryParseVersion(serviceVersionString, out version) && ApplicationLibraryPage.DoesApplicationNeedUpdate(applicationId, version);
+            Version version = null;
+            return TryParseVersion(serviceVersionString, out version) && DoesApplicationNeedUpdate(applicationId, version);
         }
 
         public static bool DoesApplicationNeedUpdate(int applicationId, Version serviceVersion)
         {
-            if ((Version)null == serviceVersion)
+            if (null == serviceVersion)
                 return false;
             bool flag = false;
-            string fieldValue = PlaylistManager.GetFieldValue<string>(applicationId, EListType.eAppList, 376, (string)null);
+            string fieldValue = PlaylistManager.GetFieldValue(applicationId, EListType.eAppList, 376, (string)null);
             if (!string.IsNullOrEmpty(fieldValue))
             {
-                Version version = (Version)null;
-                if (ApplicationLibraryPage.TryParseVersion(fieldValue, out version) && version < serviceVersion)
+                Version version = null;
+                if (TryParseVersion(fieldValue, out version) && version < serviceVersion)
                     flag = true;
             }
             return flag;
@@ -124,7 +124,7 @@ namespace ZuneUI
         private static bool TryParseVersion(string versionString, out Version version)
         {
             bool flag = false;
-            version = (Version)null;
+            version = null;
             try
             {
                 version = new Version(versionString);
@@ -142,7 +142,7 @@ namespace ZuneUI
             return flag;
         }
 
-        public override IPageState SaveAndRelease() => (IPageState)new ApplicationPageState(this);
+        public override IPageState SaveAndRelease() => new ApplicationPageState(this);
 
         private static string LibraryTemplate => "res://ZuneShellResources!ApplicationLibrary.uix#ApplicationLibrary";
     }

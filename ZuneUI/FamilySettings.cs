@@ -17,7 +17,7 @@ namespace ZuneUI
         public FamilySettings(int userId)
         {
             this._userId = userId;
-            this._settings = (Dictionary<string, FamilySetting>)null;
+            this._settings = null;
             this.ReloadSettings();
         }
 

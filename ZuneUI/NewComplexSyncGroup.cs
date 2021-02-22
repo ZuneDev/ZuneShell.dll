@@ -55,7 +55,7 @@ namespace ZuneUI
         public override void CommitChanges()
         {
             if (this.IsActive)
-                this.ParentList.Device.AddSyncRule((IList)new MediaIdAndType[1]
+                this.ParentList.Device.AddSyncRule(new MediaIdAndType[1]
                 {
           new MediaIdAndType(this.ID, MediaType.Playlist)
                 });
@@ -63,7 +63,7 @@ namespace ZuneUI
                 this.CancelChanges();
         }
 
-        public override void CancelChanges() => Shell.DeleteMedia((IList)new List<MediaIdAndType>(1)
+        public override void CancelChanges() => Shell.DeleteMedia(new List<MediaIdAndType>(1)
     {
       new MediaIdAndType(this.ID, MediaType.Playlist)
     }, false);

@@ -11,7 +11,7 @@ namespace ZuneXml
     public class AppReleaseDateComparer : PropertyComparer<DateTime>
     {
         public AppReleaseDateComparer()
-          : base(new Converter<object, DateTime>(AppReleaseDateComparer.GetReleaseDate), true)
+          : base(new Converter<object, DateTime>(GetReleaseDate), true)
         {
         }
 

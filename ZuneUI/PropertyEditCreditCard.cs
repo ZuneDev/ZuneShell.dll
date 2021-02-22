@@ -36,55 +36,55 @@ namespace ZuneUI
         protected void Initialize(CreditCard creditCard)
         {
             this._creditCard = creditCard;
-            if (PropertyEditCreditCard.s_dataProviderProperties == null)
-                PropertyEditCreditCard.s_dataProviderProperties = new PropertyDescriptor[13]
+            if (s_dataProviderProperties == null)
+                s_dataProviderProperties = new PropertyDescriptor[13]
                 {
-          (PropertyDescriptor) PropertyEditCreditCard.s_Street1,
-          (PropertyDescriptor) PropertyEditCreditCard.s_Street2,
-          (PropertyDescriptor) PropertyEditCreditCard.s_City,
-          (PropertyDescriptor) PropertyEditCreditCard.s_District,
-          (PropertyDescriptor) PropertyEditCreditCard.s_State,
-          (PropertyDescriptor) PropertyEditCreditCard.s_PostalCode,
-          (PropertyDescriptor) PropertyEditCreditCard.s_PhoneNumber,
-          (PropertyDescriptor) PropertyEditCreditCard.s_PhoneExtension,
-          (PropertyDescriptor) PropertyEditCreditCard.s_CardType,
-          (PropertyDescriptor) PropertyEditCreditCard.s_AccountHolderName,
-          (PropertyDescriptor) PropertyEditCreditCard.s_AccountNumber,
-          (PropertyDescriptor) PropertyEditCreditCard.s_CcvNumber,
-          (PropertyDescriptor) PropertyEditCreditCard.s_ExpirationDate
+           s_Street1,
+           s_Street2,
+           s_City,
+           s_District,
+           s_State,
+           s_PostalCode,
+           s_PhoneNumber,
+           s_PhoneExtension,
+           s_CardType,
+           s_AccountHolderName,
+           s_AccountNumber,
+           s_CcvNumber,
+           s_ExpirationDate
                 };
-            this.Initialize((IList)new object[1]
+            this.Initialize(new object[1]
             {
-        (object) creditCard
-            }, PropertyEditCreditCard.s_dataProviderProperties);
+         creditCard
+            }, s_dataProviderProperties);
         }
 
         public CreditCard CreditCard => this._creditCard;
 
-        public static PropertyDescriptor Street1 => (PropertyDescriptor)PropertyEditCreditCard.s_Street1;
+        public static PropertyDescriptor Street1 => s_Street1;
 
-        public static PropertyDescriptor Street2 => (PropertyDescriptor)PropertyEditCreditCard.s_Street2;
+        public static PropertyDescriptor Street2 => s_Street2;
 
-        public static PropertyDescriptor City => (PropertyDescriptor)PropertyEditCreditCard.s_City;
+        public static PropertyDescriptor City => s_City;
 
-        public static PropertyDescriptor District => (PropertyDescriptor)PropertyEditCreditCard.s_District;
+        public static PropertyDescriptor District => s_District;
 
-        public static PropertyDescriptor State => (PropertyDescriptor)PropertyEditCreditCard.s_State;
+        public static PropertyDescriptor State => s_State;
 
-        public static PropertyDescriptor PostalCode => (PropertyDescriptor)PropertyEditCreditCard.s_PostalCode;
+        public static PropertyDescriptor PostalCode => s_PostalCode;
 
-        public static PropertyDescriptor PhoneNumber => (PropertyDescriptor)PropertyEditCreditCard.s_PhoneNumber;
+        public static PropertyDescriptor PhoneNumber => s_PhoneNumber;
 
-        public static PropertyDescriptor PhoneExtension => (PropertyDescriptor)PropertyEditCreditCard.s_PhoneExtension;
+        public static PropertyDescriptor PhoneExtension => s_PhoneExtension;
 
-        public static PropertyDescriptor CardType => (PropertyDescriptor)PropertyEditCreditCard.s_CardType;
+        public static PropertyDescriptor CardType => s_CardType;
 
-        public static PropertyDescriptor AccountHolderName => (PropertyDescriptor)PropertyEditCreditCard.s_AccountHolderName;
+        public static PropertyDescriptor AccountHolderName => s_AccountHolderName;
 
-        public static PropertyDescriptor AccountNumber => (PropertyDescriptor)PropertyEditCreditCard.s_AccountNumber;
+        public static PropertyDescriptor AccountNumber => s_AccountNumber;
 
-        public static PropertyDescriptor CcvNumber => (PropertyDescriptor)PropertyEditCreditCard.s_CcvNumber;
+        public static PropertyDescriptor CcvNumber => s_CcvNumber;
 
-        public static PropertyDescriptor ExpirationDate => (PropertyDescriptor)PropertyEditCreditCard.s_ExpirationDate;
+        public static PropertyDescriptor ExpirationDate => s_ExpirationDate;
     }
 }

@@ -20,24 +20,24 @@ namespace ZuneUI
         {
             this.PivotPreference = Shell.MainFrame.Marketplace.Cart;
             this.IsRootPage = true;
-            this.UI = CartPage.CartPageTemplate;
-            this._refreshPageCommand = new Command((IModelItemOwner)this);
+            this.UI = CartPageTemplate;
+            this._refreshPageCommand = new Command(this);
             this._cartPanel = new CartPanel(this);
         }
 
         public override IPageState SaveAndRelease()
         {
             if (this.IsEmptyCart)
-                return (IPageState)null;
+                return null;
             if (this.CartPanel.SelectedItem != null)
             {
                 if (this.NavigationArguments == null)
-                    this.NavigationArguments = (IDictionary)new Hashtable(1);
-                this.NavigationArguments[(object)"MessageId"] = (object)this.CartPanel.SelectedItem.MessagingId;
-                this.CartPanel.SelectedItem = (CartItem)null;
+                    this.NavigationArguments = new Hashtable(1);
+                this.NavigationArguments["MessageId"] = CartPanel.SelectedItem.MessagingId;
+                this.CartPanel.SelectedItem = null;
             }
             else
-                this.NavigationArguments = (IDictionary)null;
+                this.NavigationArguments = null;
             this._cartPanel.Release();
             return base.SaveAndRelease();
         }

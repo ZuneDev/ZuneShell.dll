@@ -14,7 +14,7 @@ namespace ZuneXml
           DataProviderQuery owner,
           object objectTypeCookie)
         {
-            return (XmlDataProviderObject)new AppMediaRights(owner, objectTypeCookie);
+            return new AppMediaRights(owner, objectTypeCookie);
         }
 
         internal AppMediaRights(DataProviderQuery owner, object resultTypeCookie)
@@ -27,7 +27,7 @@ namespace ZuneXml
             switch (propertyName)
             {
                 case "Languages":
-                    return (object)this.Languages;
+                    return Languages;
                 default:
                     return base.GetProperty(propertyName);
             }

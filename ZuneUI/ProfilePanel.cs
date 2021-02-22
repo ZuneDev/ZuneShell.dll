@@ -33,7 +33,7 @@ namespace ZuneUI
           Guid playlistTrack,
           int chosenSortFriends,
           string selectedFriendTag)
-          : base((IModelItemOwner)page)
+          : base(page)
         {
             this._zuneTag = zuneTag;
             this._selectedPivot = profilePivot;
@@ -135,7 +135,7 @@ namespace ZuneUI
                 if (this._profileData == value)
                     return;
                 this._profileData = value;
-                this._propertyEditProfile = (PropertyEditProfile)null;
+                this._propertyEditProfile = null;
                 this.FirePropertyChanged(nameof(ProfileData));
                 this.FirePropertyChanged("PropertyEditProfile");
             }
@@ -205,7 +205,7 @@ namespace ZuneUI
             int num2 = 0;
             if (this._friends != null && !string.IsNullOrEmpty(tagToFind))
             {
-                foreach (object friend in (IEnumerable)this._friends)
+                foreach (object friend in _friends)
                 {
                     if (friend is ProfileCardData profileCardData && SignIn.TagsMatch(profileCardData.ZuneTag, tagToFind))
                     {

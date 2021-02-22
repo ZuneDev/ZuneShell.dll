@@ -28,38 +28,38 @@ namespace ZuneUI
         private static Size _feature16x9Size = new Size(853, 480);
         private static Size _defaultSize = new Size(320, 320);
 
-        public static Size Default => ImageConstants._defaultSize;
+        public static Size Default => _defaultSize;
 
-        public static Size NowPlaying => ImageConstants._nowPlayingSize;
+        public static Size NowPlaying => _nowPlayingSize;
 
-        public static Size SmallAlbum => ImageConstants._smallAlbumSize;
+        public static Size SmallAlbum => _smallAlbumSize;
 
-        public static Size MediumAlbum => ImageConstants._mediumAlbumSize;
+        public static Size MediumAlbum => _mediumAlbumSize;
 
-        public static Size LargeAlbum => ImageConstants._largeAlbumSize;
+        public static Size LargeAlbum => _largeAlbumSize;
 
-        public static Size ChannelTile => ImageConstants._channelTileSize;
+        public static Size ChannelTile => _channelTileSize;
 
-        public static Size SmallMusicVideoTile => ImageConstants._smallMusicVideoTileSize;
+        public static Size SmallMusicVideoTile => _smallMusicVideoTileSize;
 
-        public static Size LargeMusicVideoTile => ImageConstants._largeMusicVideoTileSize;
+        public static Size LargeMusicVideoTile => _largeMusicVideoTileSize;
 
-        public static Size SmallArtistTile => ImageConstants._smallArtistTileSize;
+        public static Size SmallArtistTile => _smallArtistTileSize;
 
-        public static Size LargeArtistTile => ImageConstants._largeArtistTileSize;
+        public static Size LargeArtistTile => _largeArtistTileSize;
 
-        public static Size MediumAppsTile => ImageConstants._mediumAppsTileSize;
+        public static Size MediumAppsTile => _mediumAppsTileSize;
 
-        public static Size LargeAppsTile => ImageConstants._largeAppsTileSize;
+        public static Size LargeAppsTile => _largeAppsTileSize;
 
-        public static Size PlaylistTile => ImageConstants._playlistTileSize;
+        public static Size PlaylistTile => _playlistTileSize;
 
-        public static Size Feature1x1 => ImageConstants._feature1x1Size;
+        public static Size Feature1x1 => _feature1x1Size;
 
-        public static Size Feature4x3Small => ImageConstants._feature4x3SmallSize;
+        public static Size Feature4x3Small => _feature4x3SmallSize;
 
-        public static Size Feature4x3 => ImageConstants._feature4x3Size;
+        public static Size Feature4x3 => _feature4x3Size;
 
-        public static Size Feature16x9 => ImageConstants._feature16x9Size;
+        public static Size Feature16x9 => _feature16x9Size;
     }
 }

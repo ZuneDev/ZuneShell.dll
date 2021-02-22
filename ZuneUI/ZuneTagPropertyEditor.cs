@@ -9,21 +9,21 @@ namespace ZuneUI
     public class ZuneTagPropertyEditor : WizardPropertyEditor
     {
         private static PropertyDescriptor[] s_dataProviderProperties;
-        public static PropertyDescriptor s_ZuneTag = (PropertyDescriptor)new ZuneTagPropertyDescriptor(nameof(ZuneTag), string.Empty, string.Empty);
+        public static PropertyDescriptor s_ZuneTag = new ZuneTagPropertyDescriptor(nameof(ZuneTag), string.Empty, string.Empty);
 
         public override PropertyDescriptor[] PropertyDescriptors
         {
             get
             {
-                if (ZuneTagPropertyEditor.s_dataProviderProperties == null)
-                    ZuneTagPropertyEditor.s_dataProviderProperties = new PropertyDescriptor[1]
+                if (s_dataProviderProperties == null)
+                    s_dataProviderProperties = new PropertyDescriptor[1]
                     {
-            ZuneTagPropertyEditor.s_ZuneTag
+            s_ZuneTag
                     };
-                return ZuneTagPropertyEditor.s_dataProviderProperties;
+                return s_dataProviderProperties;
             }
         }
 
-        public static PropertyDescriptor ZuneTag => ZuneTagPropertyEditor.s_ZuneTag;
+        public static PropertyDescriptor ZuneTag => s_ZuneTag;
     }
 }

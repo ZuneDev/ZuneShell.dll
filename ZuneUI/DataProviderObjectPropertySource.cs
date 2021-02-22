@@ -20,13 +20,13 @@ namespace ZuneUI
         {
             get
             {
-                if (DataProviderObjectPropertySource._instance == null)
-                    DataProviderObjectPropertySource._instance = (PropertySource)new DataProviderObjectPropertySource();
-                return DataProviderObjectPropertySource._instance;
+                if (_instance == null)
+                    _instance = new DataProviderObjectPropertySource();
+                return _instance;
             }
         }
 
-        public override object Get(object media, PropertyDescriptor property) => !(media is DataProviderObject dataProviderObject) ? (object)null : dataProviderObject.GetProperty(property.DescriptorName);
+        public override object Get(object media, PropertyDescriptor property) => !(media is DataProviderObject dataProviderObject) ? null : dataProviderObject.GetProperty(property.DescriptorName);
 
         public override void Set(object media, PropertyDescriptor property, object value)
         {

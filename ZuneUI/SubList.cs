@@ -56,12 +56,12 @@ namespace ZuneUI
                     int val1 = splits[index];
                     int begin = Math.Min(num2, num1);
                     int end = Math.Min(val1, num1);
-                    listList.Add((IList)new SubList.SubListSection((IModelItemOwner)this, begin, end, this._source));
+                    listList.Add(new SubListSection(this, begin, end, this._source));
                     num2 = end;
                 }
             }
             if (num2 < num1 || num1 == 0)
-                listList.Add((IList)new SubList.SubListSection((IModelItemOwner)this, num2, num1, this._source));
+                listList.Add(new SubListSection(this, num2, num1, this._source));
             this.SubLists = listList;
         }
 
@@ -81,7 +81,7 @@ namespace ZuneUI
             private IList _source;
 
             public SubListSection(IModelItemOwner owner, int begin, int end, IList source)
-              : base(owner, false, (ItemCountHandler)null)
+              : base(owner, false, null)
             {
                 this._begin = begin;
                 this._end = end;

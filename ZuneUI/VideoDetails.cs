@@ -52,34 +52,34 @@ namespace ZuneUI
       "DrmState",
       "ZuneMediaId"
         };
-        private static string _actorFormat = ZuneUI.Shell.LoadString(StringId.IDS_ACTORS_SEPARATION_FORMAT);
-        private static string _directorFormat = ZuneUI.Shell.LoadString(StringId.IDS_DIRECTORS_SEPARATION_FORMAT);
-        private static string _daysExpirationFormat = ZuneUI.Shell.LoadString(StringId.IDS_VIDEO_EXPIRATION_DAYS);
-        private static string _hoursExpirationFormat = ZuneUI.Shell.LoadString(StringId.IDS_VIDEO_EXPIRATION_HOURS);
-        private static string _deviceRentalFormat = ZuneUI.Shell.LoadString(StringId.IDS_VIDEO_DEVICE_RENTAL_FORMAT);
+        private static string _actorFormat = Shell.LoadString(StringId.IDS_ACTORS_SEPARATION_FORMAT);
+        private static string _directorFormat = Shell.LoadString(StringId.IDS_DIRECTORS_SEPARATION_FORMAT);
+        private static string _daysExpirationFormat = Shell.LoadString(StringId.IDS_VIDEO_EXPIRATION_DAYS);
+        private static string _hoursExpirationFormat = Shell.LoadString(StringId.IDS_VIDEO_EXPIRATION_HOURS);
+        private static string _deviceRentalFormat = Shell.LoadString(StringId.IDS_VIDEO_DEVICE_RENTAL_FORMAT);
 
-        public static string ActorListToString(IList artists) => VideoDetails.ContributingArtistListToString(artists, VideoDetails._actorFormat);
+        public static string ActorListToString(IList artists) => ContributingArtistListToString(artists, _actorFormat);
 
-        public static string DirectorListToString(IList directors) => VideoDetails.ContributingArtistListToString(directors, VideoDetails._directorFormat);
+        public static string DirectorListToString(IList directors) => ContributingArtistListToString(directors, _directorFormat);
 
         private static string ContributingArtistListToString(IList artists, string format)
         {
             string str = "";
             if (artists != null)
             {
-                foreach (string artist in (IEnumerable)artists)
-                    str = str.Length != 0 ? string.Format(format, (object)str, (object)artist) : artist;
+                foreach (string artist in artists)
+                    str = str.Length != 0 ? string.Format(format, str, artist) : artist;
             }
             return str;
         }
 
         public static IList DeviceRentalStatusList(Guid zuneMediaId)
         {
-            IList list = (IList)new List<string>();
+            IList list = new List<string>();
             foreach (UIDevice uiDevice in SingletonModelItem<UIDeviceList>.Instance)
             {
-                if (ZuneApplication.Service.InCompleteCollection(zuneMediaId, Microsoft.Zune.Service.EContentType.Video, uiDevice.EndpointId))
-                    list.Add((object)string.Format(VideoDetails._deviceRentalFormat, (object)uiDevice.Name.ToUpper()));
+                if (ZuneApplication.Service.InCompleteCollection(zuneMediaId, EContentType.Video, uiDevice.EndpointId))
+                    list.Add(string.Format(_deviceRentalFormat, uiDevice.Name.ToUpper()));
             }
             return list;
         }
@@ -94,12 +94,12 @@ namespace ZuneUI
             switch (drmState)
             {
                 case 20:
-                    str = ZuneUI.Shell.LoadString(StringId.IDS_VIDEO_EXPIRED);
+                    str = Shell.LoadString(StringId.IDS_VIDEO_EXPIRED);
                     break;
                 case 26:
                     if (!string.IsNullOrEmpty(fileName))
                     {
-                        DRMInfo drmInfo = fileType != 43 ? ZuneApplication.Service.GetFileDRMInfo(fileName) : ZuneApplication.Service.GetMediaDRMInfo(zuneMediaId, Microsoft.Zune.Service.EContentType.Video);
+                        DRMInfo drmInfo = fileType != 43 ? ZuneApplication.Service.GetFileDRMInfo(fileName) : ZuneApplication.Service.GetMediaDRMInfo(zuneMediaId, EContentType.Video);
                         if (drmInfo != null)
                         {
                             if (drmInfo.ValidLicense && drmInfo.HasExpiryDate)
@@ -108,15 +108,15 @@ namespace ZuneUI
                                 if (drmInfo.ExpiryDate.CompareTo(localTime) > 0)
                                 {
                                     TimeSpan timeSpan = drmInfo.ExpiryDate.Subtract(localTime);
-                                    str = timeSpan.TotalHours < 49.0 ? (timeSpan.TotalHours < 2.0 ? (timeSpan.TotalHours < 1.0 ? ZuneUI.Shell.LoadString(StringId.IDS_VIDEO_EXPIRATION_MINUTES) : ZuneUI.Shell.LoadString(StringId.IDS_VIDEO_EXPIRATION_ONEHOUR)) : string.Format(VideoDetails._hoursExpirationFormat, (object)(int)timeSpan.TotalHours)) : string.Format(VideoDetails._daysExpirationFormat, (object)timeSpan.Days);
+                                    str = timeSpan.TotalHours < 49.0 ? (timeSpan.TotalHours < 2.0 ? (timeSpan.TotalHours < 1.0 ? Shell.LoadString(StringId.IDS_VIDEO_EXPIRATION_MINUTES) : Shell.LoadString(StringId.IDS_VIDEO_EXPIRATION_ONEHOUR)) : string.Format(_hoursExpirationFormat, (int)timeSpan.TotalHours)) : string.Format(_daysExpirationFormat, timeSpan.Days);
                                     break;
                                 }
-                                str = ZuneUI.Shell.LoadString(StringId.IDS_VIDEO_EXPIRED);
+                                str = Shell.LoadString(StringId.IDS_VIDEO_EXPIRED);
                                 break;
                             }
                             if (drmInfo.LicenseExpired)
                             {
-                                str = ZuneUI.Shell.LoadString(StringId.IDS_VIDEO_EXPIRED);
+                                str = Shell.LoadString(StringId.IDS_VIDEO_EXPIRED);
                                 break;
                             }
                             break;
@@ -133,28 +133,28 @@ namespace ZuneUI
             DataProviderObject dataProviderObject = (DataProviderObject)dataContainer;
             object[] fieldValues = new object[15]
             {
-        (object) string.Empty,
-        (object) TimeSpan.Zero,
-        (object) 0,
-        (object) 0,
-        (object) string.Empty,
-        (object) string.Empty,
-        (object) string.Empty,
-        (object) 0,
-        (object) 0,
-        (object) string.Empty,
-        (object) 0L,
-        (object) string.Empty,
-        (object) 0,
-        (object) 0,
-        (object) Guid.Empty
+         string.Empty,
+         TimeSpan.Zero,
+         0,
+         0,
+         string.Empty,
+         string.Empty,
+         string.Empty,
+         0,
+         0,
+         string.Empty,
+         0L,
+         string.Empty,
+         0,
+         0,
+         Guid.Empty
             };
-            ZuneLibrary.GetFieldValues(libraryId, EListType.eVideoList, VideoDetails.ColumnIndexes.Length, VideoDetails.ColumnIndexes, fieldValues, PlaylistManager.Instance.QueryContext);
-            for (int index = 0; index < VideoDetails.ColumnIndexes.Length; ++index)
+            ZuneLibrary.GetFieldValues(libraryId, EListType.eVideoList, ColumnIndexes.Length, ColumnIndexes, fieldValues, PlaylistManager.Instance.QueryContext);
+            for (int index = 0; index < ColumnIndexes.Length; ++index)
             {
-                if (VideoDetails.ColumnIndexes[index] == 177)
-                    dataProviderObject.SetProperty("MediaType", (object)MediaDescriptions.Map((MediaType)fieldValues[index]));
-                dataProviderObject.SetProperty(VideoDetails.DataProperties[index], fieldValues[index]);
+                if (ColumnIndexes[index] == 177)
+                    dataProviderObject.SetProperty("MediaType", MediaDescriptions.Map((MediaType)fieldValues[index]));
+                dataProviderObject.SetProperty(DataProperties[index], fieldValues[index]);
             }
         }
     }

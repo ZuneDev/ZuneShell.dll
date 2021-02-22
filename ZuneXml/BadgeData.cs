@@ -11,7 +11,7 @@ namespace ZuneXml
 {
     internal class BadgeData : XmlDataProviderObject
     {
-        internal int TypeId => (int)BadgeData.GetBadgeType(this);
+        internal int TypeId => (int)GetBadgeType(this);
 
         internal static BadgeType GetBadgeType(BadgeData badgeData)
         {
@@ -62,7 +62,7 @@ namespace ZuneXml
           DataProviderQuery owner,
           object objectTypeCookie)
         {
-            return (XmlDataProviderObject)new BadgeData(owner, objectTypeCookie);
+            return new BadgeData(owner, objectTypeCookie);
         }
 
         internal BadgeData(DataProviderQuery owner, object resultTypeCookie)
@@ -87,7 +87,7 @@ namespace ZuneXml
             switch (propertyName)
             {
                 case "TypeId":
-                    return (object)this.TypeId;
+                    return TypeId;
                 default:
                     return base.GetProperty(propertyName);
             }

@@ -34,7 +34,7 @@ namespace ZuneUI
         public override void Cancel()
         {
             base.Cancel();
-            if (this.Idle || this.Finished || this._setProfileStates[AsyncOperation._iCurrentState] != WirelessStates.TestDeviceProfile)
+            if (this.Idle || this.Finished || this._setProfileStates[_iCurrentState] != WirelessStates.TestDeviceProfile)
                 return;
             this._device.CancelWiFiTest();
         }
@@ -45,16 +45,16 @@ namespace ZuneUI
                 return;
             this._attemptingName = profile.SSID;
             this._attemptingProfile = profile;
-            this._deviceProfile = (WlanProfile)null;
+            this._deviceProfile = null;
             this._fProfileSaved = false;
-            this._wlanTestResult = (string)null;
+            this._wlanTestResult = null;
             this._wlanTestResultCode = HRESULT._S_OK;
             this._restore.Reset();
         }
 
         public WirelessStateResults StartOperation(
           UIDevice device,
-          AsyncOperation.AOComplete completeFunc,
+          AOComplete completeFunc,
           WlanProfile newProfile)
         {
             if (newProfile == null)
@@ -106,17 +106,17 @@ namespace ZuneUI
                 if (result == WirelessStateResults.Canceled)
                 {
                     this._error = Shell.LoadString(StringId.IDS_WIRELESS_SYNC_SETUP_CANCELED);
-                    this._detailedError = (string)null;
+                    this._detailedError = null;
                     this._hr = HRESULT._S_OK;
                 }
                 else if (this._attemptingProfile != null)
-                    this._error = string.Format(Shell.LoadString(StringId.IDS_WIRELESS_SYNC_SETUP_FAILED), (object)this._attemptingProfile.SSID);
+                    this._error = string.Format(Shell.LoadString(StringId.IDS_WIRELESS_SYNC_SETUP_FAILED), _attemptingProfile.SSID);
                 else
                     this._error = Shell.LoadString(StringId.IDS_WIRELESS_SYNC_SETUP_FAILED_GENERIC);
             }
             else if (!string.IsNullOrEmpty(this._wlanTestResult))
             {
-                this._error = string.Format(Shell.LoadString(StringId.IDS_WIRELESS_SYNC_TEST_FAILED), (object)this._attemptingProfile.SSID);
+                this._error = string.Format(Shell.LoadString(StringId.IDS_WIRELESS_SYNC_TEST_FAILED), _attemptingProfile.SSID);
                 this._detailedError = this._wlanTestResult;
                 this._hr = this._wlanTestResultCode;
             }
@@ -162,7 +162,7 @@ namespace ZuneUI
             {
                 WlanProfileList list = new WlanProfileList();
                 hr = this._device.GetWiFiProfileList(ref list);
-                this._deviceProfile = list.Count <= 0 ? (WlanProfile)null : list[0];
+                this._deviceProfile = list.Count <= 0 ? null : list[0];
             }
             if (hr.IsSuccess)
                 this.StepComplete(WirelessStateResults.Success);

@@ -30,7 +30,7 @@ namespace ZuneUI
         protected override void OnInvoked()
         {
             if (this._url != null)
-                WebHelpCommand.ShellExecute(IntPtr.Zero, "open", this._url, (string)null, (string)null, 1);
+                ShellExecute(IntPtr.Zero, "open", this._url, null, null, 1);
             base.OnInvoked();
         }
 

@@ -17,9 +17,9 @@ namespace ZuneUI
         {
             get
             {
-                if (StringCaseInsensitiveComparer.s_instance == null)
-                    StringCaseInsensitiveComparer.s_instance = new StringCaseInsensitiveComparer();
-                return (IComparer<string>)StringCaseInsensitiveComparer.s_instance;
+                if (s_instance == null)
+                    s_instance = new StringCaseInsensitiveComparer();
+                return s_instance;
             }
         }
 

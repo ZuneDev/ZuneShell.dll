@@ -21,9 +21,9 @@ namespace ZuneUI
         {
             get
             {
-                if (CreditCardPropertySource._instance == null)
-                    CreditCardPropertySource._instance = (PropertySource)new CreditCardPropertySource();
-                return CreditCardPropertySource._instance;
+                if (_instance == null)
+                    _instance = new CreditCardPropertySource();
+                return _instance;
             }
         }
 
@@ -32,32 +32,32 @@ namespace ZuneUI
             CreditCard creditCard = media as CreditCard;
             string descriptorName = property.DescriptorName;
             if (creditCard == null)
-                return (object)null;
+                return null;
             if (descriptorName == PropertyEditCreditCard.s_Street1.DescriptorName)
-                return (object)creditCard.Address.Street1;
+                return creditCard.Address.Street1;
             if (descriptorName == PropertyEditCreditCard.s_Street2.DescriptorName)
-                return (object)creditCard.Address.Street2;
+                return creditCard.Address.Street2;
             if (descriptorName == PropertyEditCreditCard.s_City.DescriptorName)
-                return (object)creditCard.Address.City;
+                return creditCard.Address.City;
             if (descriptorName == PropertyEditCreditCard.s_District.DescriptorName)
-                return (object)creditCard.Address.District;
+                return creditCard.Address.District;
             if (descriptorName == PropertyEditCreditCard.s_State.DescriptorName)
-                return (object)creditCard.Address.State;
+                return creditCard.Address.State;
             if (descriptorName == PropertyEditCreditCard.s_PostalCode.DescriptorName)
-                return (object)creditCard.Address.PostalCode;
+                return creditCard.Address.PostalCode;
             if (descriptorName == PropertyEditCreditCard.s_CardType.DescriptorName)
-                return (object)creditCard.CreditCardType;
+                return creditCard.CreditCardType;
             if (descriptorName == PropertyEditCreditCard.s_AccountHolderName.DescriptorName)
-                return (object)creditCard.AccountHolderName;
+                return creditCard.AccountHolderName;
             if (descriptorName == PropertyEditCreditCard.s_AccountNumber.DescriptorName)
-                return (object)creditCard.AccountNumber;
+                return creditCard.AccountNumber;
             if (descriptorName == PropertyEditCreditCard.s_CcvNumber.DescriptorName)
-                return (object)creditCard.CCVNumber;
+                return creditCard.CCVNumber;
             if (descriptorName == PropertyEditCreditCard.s_ExpirationDate.DescriptorName)
-                return (object)creditCard.ExpirationDate;
+                return creditCard.ExpirationDate;
             if (descriptorName == PropertyEditCreditCard.s_PhoneExtension.DescriptorName)
-                return (object)creditCard.PhoneExtension;
-            return descriptorName == PropertyEditCreditCard.s_PhoneNumber.DescriptorName ? (object)PropertyEditCreditCard.s_PhoneNumber.Combine(creditCard.PhonePrefix, creditCard.PhoneNumber) : (object)null;
+                return creditCard.PhoneExtension;
+            return descriptorName == PropertyEditCreditCard.s_PhoneNumber.DescriptorName ? PropertyEditCreditCard.s_PhoneNumber.Combine(creditCard.PhonePrefix, creditCard.PhoneNumber) : null;
         }
 
         public override void Set(object media, PropertyDescriptor property, object value)

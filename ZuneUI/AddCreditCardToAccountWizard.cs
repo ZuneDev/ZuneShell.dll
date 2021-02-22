@@ -14,16 +14,16 @@ namespace ZuneUI
         public AddCreditCardToAccountWizard()
         {
             this.State.ContactInfoStep.LightWeightOnly = true;
-            this._finishStep = new AccountManagementFinishStep((Wizard)this, this.State, Shell.LoadString(StringId.IDS_ACCOUNT_FINISHED_DESCRIPTION));
-            this._errorStep = new AccountManagementErrorPage((Wizard)this, Shell.LoadString(StringId.IDS_ACCOUNT_ADD_CC_TO_ACCOUNT_ERROR_TITLE), Shell.LoadString(StringId.IDS_ACCOUNT_ADD_CC_TO_ACCOUNT_ERROR_DESC));
+            this._finishStep = new AccountManagementFinishStep(this, this.State, Shell.LoadString(StringId.IDS_ACCOUNT_FINISHED_DESCRIPTION));
+            this._errorStep = new AccountManagementErrorPage(this, Shell.LoadString(StringId.IDS_ACCOUNT_ADD_CC_TO_ACCOUNT_ERROR_TITLE), Shell.LoadString(StringId.IDS_ACCOUNT_ADD_CC_TO_ACCOUNT_ERROR_DESC));
             PaymentInstrumentStep paymentInstrumentStep = this.State.PaymentInstrumentStep;
             paymentInstrumentStep.NextTextOverride = Shell.LoadString(StringId.IDS_OK_BUTTON);
             paymentInstrumentStep.DetailDescription = Shell.LoadString(StringId.IDS_BILLING_ADD_CC_TO_ACCOUNT_DESC);
-            this.AddPage((WizardPage)this.State.ContactInfoStep);
-            this.AddPage((WizardPage)this.State.ListAndAddPaymentInstrumentStep);
-            this.AddPage((WizardPage)paymentInstrumentStep);
-            this.AddPage((WizardPage)this._finishStep);
-            this.AddPage((WizardPage)this._errorStep);
+            this.AddPage(State.ContactInfoStep);
+            this.AddPage(State.ListAndAddPaymentInstrumentStep);
+            this.AddPage(paymentInstrumentStep);
+            this.AddPage(_finishStep);
+            this.AddPage(_errorStep);
         }
 
         public bool HideOnComplete

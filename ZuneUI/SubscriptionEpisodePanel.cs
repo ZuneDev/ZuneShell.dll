@@ -13,10 +13,10 @@ namespace ZuneUI
     {
         private ArrayList _selectedLibraryIds = new ArrayList();
 
-        public override IList SelectedLibraryIds => (IList)this._selectedLibraryIds;
+        public override IList SelectedLibraryIds => _selectedLibraryIds;
 
         public SubscriptionEpisodePanel(SubscriptionLibraryPage page)
-          : base((IModelItemOwner)page)
+          : base(page)
         {
         }
     }

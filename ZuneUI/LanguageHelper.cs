@@ -13,7 +13,7 @@ namespace ZuneUI
     {
         internal static string GetDisplayLanguageName(string languageCode)
         {
-            string str = (string)null;
+            string str = null;
             try
             {
                 if (!string.IsNullOrEmpty(languageCode))
@@ -21,7 +21,7 @@ namespace ZuneUI
                     CultureInfo cultureInfo = CultureInfo.CreateSpecificCulture(languageCode);
                     while (!cultureInfo.IsNeutralCulture)
                         cultureInfo = cultureInfo.Parent;
-                    str = LanguageHelper.GetDisplayName(cultureInfo.ToString());
+                    str = GetDisplayName(cultureInfo.ToString());
                 }
             }
             catch (ArgumentException ex)

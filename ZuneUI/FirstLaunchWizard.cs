@@ -12,11 +12,11 @@ namespace ZuneUI
     {
         public FirstLaunchWizard()
         {
-            this.AddPage((WizardPage)new FirstLaunchWelcomePage((Wizard)this));
-            this.AddPage((WizardPage)new FirstLaunchMonitoredFoldersPage((Wizard)this));
-            this.AddPage((WizardPage)new FirstLaunchDownloadFoldersPage((Wizard)this));
-            this.AddPage((WizardPage)new FirstLaunchFileTypesPage((Wizard)this));
-            this.AddPage((WizardPage)new FirstLaunchPrivacyPage((Wizard)this));
+            this.AddPage(new FirstLaunchWelcomePage(this));
+            this.AddPage(new FirstLaunchMonitoredFoldersPage(this));
+            this.AddPage(new FirstLaunchDownloadFoldersPage(this));
+            this.AddPage(new FirstLaunchFileTypesPage(this));
+            this.AddPage(new FirstLaunchPrivacyPage(this));
         }
 
         public override bool CanCommitChanges

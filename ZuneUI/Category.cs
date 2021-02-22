@@ -28,7 +28,7 @@ namespace ZuneUI
         }
 
         public Category(StringId titleID, string target, bool allowScrolling, SQMDataId sqmCountID)
-          : base((IModelItemOwner)null, Shell.LoadString(titleID))
+          : base(null, Shell.LoadString(titleID))
         {
             this._target = target;
             this._allowScrolling = allowScrolling;

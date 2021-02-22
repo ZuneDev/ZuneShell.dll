@@ -14,7 +14,7 @@ namespace ZuneUI
         private ServiceError serviceError;
 
         public AccountManagementErrorPage(Wizard owner, string description, string detailedDescription)
-          : base(owner, (AccountManagementWizardState)null, false)
+          : base(owner, null, false)
         {
             this.Description = description;
             this.DetailDescription = detailedDescription;

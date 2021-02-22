@@ -18,7 +18,7 @@ namespace ZuneUI
         private List<QueryStatus> _listStatus;
         private DataProviderQueryStatus _status;
         private string _busyString;
-        private List<QueryTracker.QueryReference> _queries;
+        private List<QueryReference> _queries;
         private Dictionary<DataProviderQueryStatus, int> _statusPriority;
         private Dictionary<DataProviderQueryStatus, int> _statusCount;
         private List<object> _errorCodes;
@@ -27,7 +27,7 @@ namespace ZuneUI
 
         public QueryTracker()
         {
-            this._queries = new List<QueryTracker.QueryReference>();
+            this._queries = new List<QueryReference>();
             this._handler = new PropertyChangedEventHandler(this.QueryPropertyChanged);
             this._statusPriority = new Dictionary<DataProviderQueryStatus, int>();
             this._statusPriority[DataProviderQueryStatus.Error] = 0;
@@ -122,10 +122,10 @@ namespace ZuneUI
 
         public void Register(string name, DataProviderQuery query, string busyString)
         {
-            INotifyPropertyChanged notifyPropertyChanged = (INotifyPropertyChanged)query;
+            INotifyPropertyChanged notifyPropertyChanged = query;
             if (notifyPropertyChanged != null)
                 notifyPropertyChanged.PropertyChanged += this._handler;
-            this._queries.Add(new QueryTracker.QueryReference(name, query, busyString));
+            this._queries.Add(new QueryReference(name, query, busyString));
             this.FirePropertyChanged("QueryCount");
             this.EnqueueStatusCheck();
         }
@@ -141,7 +141,7 @@ namespace ZuneUI
         {
             if (this._deferredStatusCheck)
                 return;
-            Application.DeferredInvoke(new DeferredInvokeHandler(this.CheckStatus), (object)null);
+            Application.DeferredInvoke(new DeferredInvokeHandler(this.CheckStatus), null);
             this._deferredStatusCheck = true;
         }
 
@@ -152,10 +152,10 @@ namespace ZuneUI
             int num1 = this._statusPriority[key];
             this._statusCount = new Dictionary<DataProviderQueryStatus, int>();
             List<QueryStatus> queryStatusList = new List<QueryStatus>();
-            List<QueryTracker.QueryReference> queryReferenceList = new List<QueryTracker.QueryReference>();
-            List<object> objectList = (List<object>)null;
-            string str = (string)null;
-            foreach (QueryTracker.QueryReference query1 in this._queries)
+            List<QueryReference> queryReferenceList = new List<QueryReference>();
+            List<object> objectList = null;
+            string str = null;
+            foreach (QueryReference query1 in this._queries)
             {
                 DataProviderQuery query2 = query1.Value;
                 if (query2 == null)
@@ -166,7 +166,7 @@ namespace ZuneUI
                 }
                 else
                 {
-                    object errorCode = QueryTracker.GetErrorCode(query2);
+                    object errorCode = GetErrorCode(query2);
                     if (errorCode != null)
                     {
                         if (objectList == null)
@@ -190,7 +190,7 @@ namespace ZuneUI
                         str = query1.BusyString;
                 }
             }
-            foreach (QueryTracker.QueryReference queryReference in queryReferenceList)
+            foreach (QueryReference queryReference in queryReferenceList)
             {
                 this._queries.Remove(queryReference);
                 this.FirePropertyChanged("QueryCount");
@@ -204,7 +204,7 @@ namespace ZuneUI
             this.FirePropertyChanged("IdleCount");
         }
 
-        public static object GetErrorCode(DataProviderQuery query) => query is XmlDataProviderQuery dataProviderQuery ? dataProviderQuery.ErrorCode : (object)null;
+        public static object GetErrorCode(DataProviderQuery query) => query is XmlDataProviderQuery dataProviderQuery ? dataProviderQuery.ErrorCode : null;
 
         public static bool Is404(object errorCode) => errorCode is HttpStatusCode.NotFound;
 
@@ -221,7 +221,7 @@ namespace ZuneUI
             public QueryReference(string name, DataProviderQuery value, string busyString)
             {
                 this._name = name;
-                this._value = new WeakReference((object)value);
+                this._value = new WeakReference(value);
                 this._busyString = busyString;
             }
 

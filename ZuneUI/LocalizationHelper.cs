@@ -16,7 +16,7 @@ namespace ZuneUI
         {
             try
             {
-                string fileName = LocalizationHelper.GetLocalizedFolderPath(path);
+                string fileName = GetLocalizedFolderPath(path);
                 FileInfo fileInfo = new FileInfo(fileName);
                 if (!string.IsNullOrEmpty(fileInfo.Name))
                     fileName = fileInfo.Name;

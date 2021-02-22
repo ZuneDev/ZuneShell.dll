@@ -13,7 +13,7 @@ namespace ZuneUI
         private DateTimeKind timeZoneOverride;
 
         public DatePropertyDescriptor(string name, string multiValueString, string unknownString)
-          : base(name, multiValueString, unknownString, 1000, false, (object)DateTime.MinValue)
+          : base(name, multiValueString, unknownString, 1000, false, DateTime.MinValue)
         {
         }
 
@@ -22,7 +22,7 @@ namespace ZuneUI
           string multiValueString,
           string unknownString,
           DateTimeKind timeZoneOverride)
-          : base(name, multiValueString, unknownString, 1000, false, (object)DateTime.MinValue)
+          : base(name, multiValueString, unknownString, 1000, false, DateTime.MinValue)
         {
             this.timeZoneOverride = timeZoneOverride;
         }
@@ -32,7 +32,7 @@ namespace ZuneUI
           string multiValueString,
           string unknownString,
           bool required)
-          : base(name, multiValueString, unknownString, 1000, required, (object)DateTime.MinValue)
+          : base(name, multiValueString, unknownString, 1000, required, DateTime.MinValue)
         {
         }
 
@@ -41,7 +41,7 @@ namespace ZuneUI
         public override object ConvertFromString(string value)
         {
             DateTime dateTime;
-            return StringParserHelper.TryParseDate(value, this.timeZoneOverride, out dateTime) ? (object)dateTime : (object)DateTime.MinValue;
+            return StringParserHelper.TryParseDate(value, this.timeZoneOverride, out dateTime) ? dateTime : (object)DateTime.MinValue;
         }
 
         public override bool IsValidInternal(string value) => StringParserHelper.IsNullOrEmptyOrBlank(value) || StringParserHelper.TryParseDate(value, out DateTime _);

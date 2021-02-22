@@ -19,7 +19,7 @@ namespace ZuneUI
         private Timer _deviceArrivalTimer;
         private int _deviceArrivalTimerInterval = 10000;
         private bool _phoneDisconnected;
-        private static string _commonAppDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), ZuneUI.Shell.LoadString(StringId.IDS_APPDATAFOLDERNAME).TrimStart('\\'));
+        private static string _commonAppDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), Shell.LoadString(StringId.IDS_APPDATAFOLDERNAME).TrimStart('\\'));
         private static string _customFirstLaunchMovieUri = ClientConfiguration.FUE.FirstLaunchVideo;
         private bool _playbackFailed;
         private FirstLaunchWizardType _wizardType = FirstLaunchWizardType.Undefined;
@@ -142,30 +142,30 @@ namespace ZuneUI
         public void InvokePlayback()
         {
             string str = string.Empty;
-            if (!string.IsNullOrEmpty(FirstLaunchLandPage._customFirstLaunchMovieUri))
-                str = FirstLaunchLandPage._customFirstLaunchMovieUri;
+            if (!string.IsNullOrEmpty(_customFirstLaunchMovieUri))
+                str = _customFirstLaunchMovieUri;
             else
                 this.PlaybackFailed = true;
             if (!string.IsNullOrEmpty(str))
             {
                 Uri uri = new Uri(str);
-                PlaybackTrack playbackTrack = (PlaybackTrack)null;
+                PlaybackTrack playbackTrack = null;
                 if (uri.IsLoopback)
                 {
                     if (this.VideoExists(str))
                     {
                         int mediaId = ZuneApplication.ZuneLibrary.AddMedia(str);
                         if (mediaId != -1)
-                            playbackTrack = (PlaybackTrack)new LibraryPlaybackTrack(mediaId, MediaType.Video, (ContainerPlayMarker)null);
+                            playbackTrack = new LibraryPlaybackTrack(mediaId, MediaType.Video, null);
                     }
                     else
                         this.PlaybackFailed = true;
                 }
                 else
-                    playbackTrack = (PlaybackTrack)new VideoPlaybackTrack(Guid.Empty, "", (string)null, str, false, true, false, false, false, VideoDefinitionEnum.HD);
+                    playbackTrack = new VideoPlaybackTrack(Guid.Empty, "", null, str, false, true, false, false, false, VideoDefinitionEnum.HD);
                 if (playbackTrack == null)
                     return;
-                SingletonModelItem<TransportControls>.Instance.PlayItem((object)playbackTrack, PlayNavigationOptions.None);
+                SingletonModelItem<TransportControls>.Instance.PlayItem(playbackTrack, PlayNavigationOptions.None);
             }
             else
                 this.PlaybackFailed = true;

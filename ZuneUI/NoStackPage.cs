@@ -11,7 +11,7 @@ namespace ZuneUI
         public override IPageState SaveAndRelease()
         {
             this.Release();
-            return (IPageState)null;
+            return null;
         }
     }
 }

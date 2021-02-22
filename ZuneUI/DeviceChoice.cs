@@ -13,7 +13,7 @@ namespace ZuneUI
     public class DeviceChoice : Choice
     {
         public DeviceChoice()
-          : this((IModelItemOwner)null)
+          : this(null)
         {
         }
 
@@ -58,12 +58,12 @@ namespace ZuneUI
         private void BuildOptions()
         {
             UIDeviceList instance = SingletonModelItem<UIDeviceList>.Instance;
-            this.Options = (IList)new ArrayListDataSet((IModelItemOwner)this);
+            this.Options = new ArrayListDataSet(this);
             foreach (UIDevice uiDevice in instance)
             {
-                this.Options.Add((object)uiDevice);
+                this.Options.Add(uiDevice);
                 if (uiDevice == SyncControls.Instance.CurrentDevice)
-                    this.ChosenValue = (object)uiDevice;
+                    this.ChosenValue = uiDevice;
             }
         }
 

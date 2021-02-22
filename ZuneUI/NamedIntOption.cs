@@ -18,7 +18,7 @@ namespace ZuneUI
         private int _value;
 
         public NamedIntOption(IModelItemOwner owner, string description, int value)
-          : base(owner, description, (EventHandler)null)
+          : base(owner, description, null)
           => this._value = value;
 
         public int Value => this._value;
@@ -39,26 +39,26 @@ namespace ZuneUI
         {
             get
             {
-                if (NamedIntOption._keepOptions == null)
+                if (_keepOptions == null)
                 {
                     string format = Shell.LoadString(StringId.IDS_KEEP_N_OPTION);
-                    NamedIntOption._keepOptions = new NamedIntOption[12]
+                    _keepOptions = new NamedIntOption[12]
                     {
-            new NamedIntOption((IModelItemOwner) null, Shell.LoadString(StringId.IDS_KEEP_0_OPTION), 0),
-            new NamedIntOption((IModelItemOwner) null, Shell.LoadString(StringId.IDS_KEEP_1_OPTION), 1),
-            new NamedIntOption((IModelItemOwner) null, string.Format(format, (object) 2), 2),
-            new NamedIntOption((IModelItemOwner) null, string.Format(format, (object) 3), 3),
-            new NamedIntOption((IModelItemOwner) null, string.Format(format, (object) 4), 4),
-            new NamedIntOption((IModelItemOwner) null, string.Format(format, (object) 5), 5),
-            new NamedIntOption((IModelItemOwner) null, string.Format(format, (object) 6), 6),
-            new NamedIntOption((IModelItemOwner) null, string.Format(format, (object) 7), 7),
-            new NamedIntOption((IModelItemOwner) null, string.Format(format, (object) 8), 8),
-            new NamedIntOption((IModelItemOwner) null, string.Format(format, (object) 9), 9),
-            new NamedIntOption((IModelItemOwner) null, string.Format(format, (object) 10), 10),
-            new NamedIntOption((IModelItemOwner) null, Shell.LoadString(StringId.IDS_KEEP_ALL_OPTION), -1)
+            new NamedIntOption( null, Shell.LoadString(StringId.IDS_KEEP_0_OPTION), 0),
+            new NamedIntOption( null, Shell.LoadString(StringId.IDS_KEEP_1_OPTION), 1),
+            new NamedIntOption( null, string.Format(format,  2), 2),
+            new NamedIntOption( null, string.Format(format,  3), 3),
+            new NamedIntOption( null, string.Format(format,  4), 4),
+            new NamedIntOption( null, string.Format(format,  5), 5),
+            new NamedIntOption( null, string.Format(format,  6), 6),
+            new NamedIntOption( null, string.Format(format,  7), 7),
+            new NamedIntOption( null, string.Format(format,  8), 8),
+            new NamedIntOption( null, string.Format(format,  9), 9),
+            new NamedIntOption( null, string.Format(format,  10), 10),
+            new NamedIntOption( null, Shell.LoadString(StringId.IDS_KEEP_ALL_OPTION), -1)
                     };
                 }
-                return NamedIntOption._keepOptions;
+                return _keepOptions;
             }
         }
 
@@ -66,13 +66,13 @@ namespace ZuneUI
         {
             get
             {
-                if (NamedIntOption._playbackOptions == null)
-                    NamedIntOption._playbackOptions = new NamedIntOption[2]
+                if (_playbackOptions == null)
+                    _playbackOptions = new NamedIntOption[2]
                     {
-            new NamedIntOption((IModelItemOwner) null, Shell.LoadString(StringId.IDS_NEWEST_FIRST_OPTION), 0),
-            new NamedIntOption((IModelItemOwner) null, Shell.LoadString(StringId.IDS_OLDEST_FIRST_OPTION), 1)
+            new NamedIntOption( null, Shell.LoadString(StringId.IDS_NEWEST_FIRST_OPTION), 0),
+            new NamedIntOption( null, Shell.LoadString(StringId.IDS_OLDEST_FIRST_OPTION), 1)
                     };
-                return NamedIntOption._playbackOptions;
+                return _playbackOptions;
             }
         }
 
@@ -80,15 +80,15 @@ namespace ZuneUI
         {
             get
             {
-                if (NamedIntOption._syncOptions == null)
-                    NamedIntOption._syncOptions = new NamedIntOption[4]
+                if (_syncOptions == null)
+                    _syncOptions = new NamedIntOption[4]
                     {
-            new NamedIntOption((IModelItemOwner) null, Shell.LoadString(StringId.IDS_SYNC_UNPLAYED_OPTION), 2),
-            new NamedIntOption((IModelItemOwner) null, Shell.LoadString(StringId.IDS_SYNC_ALL_DOWNLOADED_OPTION), 0),
-            new NamedIntOption((IModelItemOwner) null, Shell.LoadString(StringId.IDS_SYNC_FIRST_UNPLAYED_OPTION), 3),
-            new NamedIntOption((IModelItemOwner) null, Shell.LoadString(StringId.IDS_SYNC_NONE_OPTION), 4)
+            new NamedIntOption( null, Shell.LoadString(StringId.IDS_SYNC_UNPLAYED_OPTION), 2),
+            new NamedIntOption( null, Shell.LoadString(StringId.IDS_SYNC_ALL_DOWNLOADED_OPTION), 0),
+            new NamedIntOption( null, Shell.LoadString(StringId.IDS_SYNC_FIRST_UNPLAYED_OPTION), 3),
+            new NamedIntOption( null, Shell.LoadString(StringId.IDS_SYNC_NONE_OPTION), 4)
                     };
-                return NamedIntOption._syncOptions;
+                return _syncOptions;
             }
         }
 
@@ -96,15 +96,15 @@ namespace ZuneUI
         {
             get
             {
-                if (NamedIntOption._screenGraphicsOptions == null)
-                    NamedIntOption._screenGraphicsOptions = new NamedIntOption[4]
+                if (_screenGraphicsOptions == null)
+                    _screenGraphicsOptions = new NamedIntOption[4]
                     {
-            new NamedIntOption((IModelItemOwner) null, Shell.LoadString(StringId.IDS_SCREEN_GRAPHICS_BASIC), 0),
-            new NamedIntOption((IModelItemOwner) null, Shell.LoadString(StringId.IDS_SCREEN_GRAPHICS_ADVANCED), 1),
-            new NamedIntOption((IModelItemOwner) null, Shell.LoadString(StringId.IDS_SCREEN_GRAPHICS_ADVANCED_ANIMATION), 2),
-            new NamedIntOption((IModelItemOwner) null, Shell.LoadString(StringId.IDS_SCREEN_GRAPHICS_PREMIUM), 3)
+            new NamedIntOption( null, Shell.LoadString(StringId.IDS_SCREEN_GRAPHICS_BASIC), 0),
+            new NamedIntOption( null, Shell.LoadString(StringId.IDS_SCREEN_GRAPHICS_ADVANCED), 1),
+            new NamedIntOption( null, Shell.LoadString(StringId.IDS_SCREEN_GRAPHICS_ADVANCED_ANIMATION), 2),
+            new NamedIntOption( null, Shell.LoadString(StringId.IDS_SCREEN_GRAPHICS_PREMIUM), 3)
                     };
-                return NamedIntOption._screenGraphicsOptions;
+                return _screenGraphicsOptions;
             }
         }
     }

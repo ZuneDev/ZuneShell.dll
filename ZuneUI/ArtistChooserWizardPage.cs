@@ -9,7 +9,7 @@ namespace ZuneUI
     public class ArtistChooserWizardPage : WizardPage
     {
         internal ArtistChooserWizardPage(ArtistChooserWizard wizard)
-          : base((ZuneUI.Wizard)wizard)
+          : base(wizard)
           => this.Description = Shell.LoadString(StringId.IDS_ArtistChooserTitle);
 
         protected ArtistChooserWizard Wizard => (ArtistChooserWizard)this._owner;

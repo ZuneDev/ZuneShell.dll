@@ -30,14 +30,14 @@ namespace ZuneUI
             {
                 if (this._welcomeOptionsChoice == null)
                 {
-                    this._welcomeOptionsChoice = new Choice((IModelItemOwner)this);
-                    this._welcomeOptionsChoice.Options = (IList)new Command[2]
+                    this._welcomeOptionsChoice = new Choice(this);
+                    this._welcomeOptionsChoice.Options = (new Command[2]
                     {
-            (Command) new RadioOptionWithSecondaryText((IModelItemOwner) this, Shell.LoadString(StringId.IDS_PHONE_WELCOME_DEFAULT_HEADER), Shell.LoadString(StringId.IDS_PHONE_WELCOME_DEFAULT_TEXT)),
-            (Command) new RadioOptionWithSecondaryText((IModelItemOwner) this, Shell.LoadString(StringId.IDS_PHONE_WELCOME_CONFIG_HEADER), Shell.LoadString(StringId.IDS_PHONE_WELCOME_CONFIG_TEXT))
-                    };
+             new RadioOptionWithSecondaryText( this, Shell.LoadString(StringId.IDS_PHONE_WELCOME_DEFAULT_HEADER), Shell.LoadString(StringId.IDS_PHONE_WELCOME_DEFAULT_TEXT)),
+             new RadioOptionWithSecondaryText( this, Shell.LoadString(StringId.IDS_PHONE_WELCOME_CONFIG_HEADER), Shell.LoadString(StringId.IDS_PHONE_WELCOME_CONFIG_TEXT))
+                    });
                     this._welcomeOptionsChoice.Clear();
-                    this._welcomeOptionsChoice.ChosenChanged += (EventHandler)((sender, args) => ((FirstLaunchForPhoneWizard)this._owner).IsSoftwareSettingsEnabled = this._welcomeOptionsChoice.ChosenIndex == 1);
+                    this._welcomeOptionsChoice.ChosenChanged += (sender, args) => ((FirstLaunchForPhoneWizard)this._owner).IsSoftwareSettingsEnabled = this._welcomeOptionsChoice.ChosenIndex == 1;
                 }
                 return this._welcomeOptionsChoice;
             }

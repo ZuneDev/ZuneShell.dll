@@ -16,16 +16,16 @@ namespace ZuneUI
         protected string _error;
         protected string _detailedError;
         protected HRESULT _hr;
-        private AsyncOperation.AOComplete _completeFunc;
+        private AOComplete _completeFunc;
         private WirelessStates[] _states;
         private bool _fListening;
         private bool _fTryToCancel;
         private bool _fCanceled;
         protected static int _iCurrentState = -1;
 
-        public string Error => this.Finished ? this._error : (string)null;
+        public string Error => this.Finished ? this._error : null;
 
-        public string DetailedError => this.Finished ? this._detailedError : (string)null;
+        public string DetailedError => this.Finished ? this._detailedError : null;
 
         public HRESULT Hr => this.Finished ? this._hr : HRESULT._E_PENDING;
 
@@ -52,13 +52,13 @@ namespace ZuneUI
         {
         }
 
-        protected bool Idle => AsyncOperation._iCurrentState == -1;
+        protected bool Idle => _iCurrentState == -1;
 
-        protected bool Finished => AsyncOperation._iCurrentState == -2;
+        protected bool Finished => _iCurrentState == -2;
 
         protected WirelessStateResults StartOperation(
           UIDevice device,
-          AsyncOperation.AOComplete completeFunc,
+          AOComplete completeFunc,
           WirelessStates[] states)
         {
             WirelessStateResults result = WirelessStateResults.Error;
@@ -68,7 +68,7 @@ namespace ZuneUI
             this._device = device;
             this._states = states;
             this._completeFunc = completeFunc;
-            AsyncOperation._iCurrentState = 0;
+            _iCurrentState = 0;
             if (device.IsConnectedToClient)
             {
                 this.AddListenersInternal();
@@ -81,7 +81,7 @@ namespace ZuneUI
 
         protected void StepComplete(WirelessStateResults result)
         {
-            ++AsyncOperation._iCurrentState;
+            ++_iCurrentState;
             if (result == WirelessStateResults.Success)
                 result = this.DoNextStep();
             if (result == WirelessStateResults.Success)
@@ -92,7 +92,7 @@ namespace ZuneUI
         protected void ClearResult()
         {
             this._hr = HRESULT._S_OK;
-            this._detailedError = (string)null;
+            this._detailedError = null;
         }
 
         protected void SetResult(HRESULT hr)
@@ -100,8 +100,8 @@ namespace ZuneUI
             this._hr = hr;
             if (!hr.IsError)
                 return;
-            ErrorMapperResult descriptionAndUrl = Microsoft.Zune.ErrorMapperApi.ErrorMapperApi.GetMappedErrorDescriptionAndUrl(hr.Int);
-            if ((long)descriptionAndUrl.Hr == (long)(uint)HRESULT._E_FAIL.Int || (long)descriptionAndUrl.Hr == (long)(uint)HRESULT._NS_E_WMP_UNKNOWN_ERROR.Int)
+            ErrorMapperResult descriptionAndUrl = ErrorMapperApi.GetMappedErrorDescriptionAndUrl(hr.Int);
+            if (descriptionAndUrl.Hr == (uint)HRESULT._E_FAIL.Int || descriptionAndUrl.Hr == (uint)HRESULT._NS_E_WMP_UNKNOWN_ERROR.Int)
                 return;
             this._detailedError = descriptionAndUrl.Description;
         }
@@ -112,21 +112,21 @@ namespace ZuneUI
             if (result == WirelessStateResults.Canceled)
                 this._fCanceled = true;
             this.EndOperation(result);
-            AsyncOperation._iCurrentState = -2;
+            _iCurrentState = -2;
             if (this._completeFunc != null)
                 this._completeFunc(result == WirelessStateResults.Finished);
-            AsyncOperation._iCurrentState = -1;
+            _iCurrentState = -1;
         }
 
         private WirelessStateResults DoNextStep()
         {
-            if (AsyncOperation._iCurrentState == this._states.Length)
+            if (_iCurrentState == this._states.Length)
                 return WirelessStateResults.Finished;
-            if (AsyncOperation._iCurrentState > this._states.Length)
+            if (_iCurrentState > this._states.Length)
                 return WirelessStateResults.Error;
             if (this._fTryToCancel)
                 return WirelessStateResults.Canceled;
-            WirelessStateResults result = this.DoStep(this._states[AsyncOperation._iCurrentState]);
+            WirelessStateResults result = this.DoStep(this._states[_iCurrentState]);
             if (result != WirelessStateResults.Success)
                 this.EndOperationInternal(result);
             return result;
@@ -136,8 +136,8 @@ namespace ZuneUI
         {
             if (!this.Idle && !this.Finished)
                 return;
-            this._error = (string)null;
-            this._detailedError = (string)null;
+            this._error = null;
+            this._detailedError = null;
             this._fTryToCancel = false;
             this._fCanceled = false;
             this._fListening = false;

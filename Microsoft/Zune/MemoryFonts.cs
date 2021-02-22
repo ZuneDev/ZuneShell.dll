@@ -19,19 +19,19 @@ namespace Microsoft.Zune
             IntPtr instanceHandle = IntPtr.Zero;
             try
             {
-                instanceHandle = MemoryFonts.LoadLibraryEx(resourceDllName, IntPtr.Zero, 2U);
+                instanceHandle = LoadLibraryEx(resourceDllName, IntPtr.Zero, 2U);
                 if (instanceHandle == IntPtr.Zero)
                     return false;
-                IntPtr resource = MemoryFonts.FindResource(instanceHandle, fontResourceName, (IntPtr)10);
+                IntPtr resource = FindResource(instanceHandle, fontResourceName, (IntPtr)10);
                 if (resource == IntPtr.Zero)
                     return false;
-                IntPtr resourceHandle = MemoryFonts.LoadResource(instanceHandle, resource);
-                return !(resourceHandle == IntPtr.Zero) && !(MemoryFonts.AddFontMemResourceEx(MemoryFonts.LockResource(resourceHandle), MemoryFonts.SizeofResource(instanceHandle, resource), IntPtr.Zero, out uint _) == IntPtr.Zero);
+                IntPtr resourceHandle = LoadResource(instanceHandle, resource);
+                return !(resourceHandle == IntPtr.Zero) && !(AddFontMemResourceEx(LockResource(resourceHandle), SizeofResource(instanceHandle, resource), IntPtr.Zero, out uint _) == IntPtr.Zero);
             }
             finally
             {
                 if (instanceHandle != IntPtr.Zero)
-                    MemoryFonts.FreeLibrary(instanceHandle);
+                    FreeLibrary(instanceHandle);
             }
         }
 

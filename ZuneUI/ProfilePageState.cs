@@ -31,17 +31,17 @@ namespace ZuneUI
         public ProfilePage Restore()
         {
             Hashtable hashtable = new Hashtable();
-            hashtable[(object)"ZuneTag"] = (object)this._zuneTag;
-            hashtable[(object)"Pivot"] = (object)this._profilePivot;
-            hashtable[(object)"ChosenIndexSortFriends"] = (object)this._chosenIndexSortFriends;
-            hashtable[(object)"FriendTag"] = (object)this._selectedFriendTag;
-            hashtable[(object)"PlaylistTrack"] = (object)this._selectedPlaylistTrack;
+            hashtable["ZuneTag"] = _zuneTag;
+            hashtable["Pivot"] = _profilePivot;
+            hashtable["ChosenIndexSortFriends"] = _chosenIndexSortFriends;
+            hashtable["FriendTag"] = _selectedFriendTag;
+            hashtable["PlaylistTrack"] = _selectedPlaylistTrack;
             ProfilePage profilePage = new ProfilePage(this._pivotPreference);
-            profilePage.NavigationArguments = (IDictionary)hashtable;
+            profilePage.NavigationArguments = hashtable;
             return profilePage;
         }
 
-        public IPage RestoreAndRelease() => (IPage)this.Restore();
+        public IPage RestoreAndRelease() => this.Restore();
 
         public void Release()
         {

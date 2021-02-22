@@ -34,7 +34,7 @@ namespace ZuneUI
             this.Me,
             this.Inbox
                     };
-                return (IList)this._nodes;
+                return _nodes;
             }
         }
 
@@ -43,7 +43,7 @@ namespace ZuneUI
             get
             {
                 if (this._friends == null)
-                    this._friends = new Node((Experience)this, StringId.IDS_FRIENDS_PIVOT, "Social\\Friends", SQMDataId.SocialFriendsClicks);
+                    this._friends = new Node(this, StringId.IDS_FRIENDS_PIVOT, "Social\\Friends", SQMDataId.SocialFriendsClicks);
                 return this._friends;
             }
         }
@@ -53,7 +53,7 @@ namespace ZuneUI
             get
             {
                 if (this._me == null)
-                    this._me = new Node((Experience)this, StringId.IDS_PROFILE_PIVOT, "Social\\Profile", SQMDataId.SocialProfileClicks);
+                    this._me = new Node(this, StringId.IDS_PROFILE_PIVOT, "Social\\Profile", SQMDataId.SocialProfileClicks);
                 return this._me;
             }
         }
@@ -63,7 +63,7 @@ namespace ZuneUI
             get
             {
                 if (this._inbox == null)
-                    this._inbox = new Node((Experience)this, StringId.IDS_INBOX_PIVOT, "Social\\Inbox", SQMDataId.SocialInboxClicks);
+                    this._inbox = new Node(this, StringId.IDS_INBOX_PIVOT, "Social\\Inbox", SQMDataId.SocialInboxClicks);
                 return this._inbox;
             }
         }
@@ -79,7 +79,7 @@ namespace ZuneUI
                 {
                     this.FirePropertyChanged("MessagesArrived");
                     if (this.MessagesArrived != null)
-                        this.MessagesArrived((object)this, (EventArgs)null);
+                        this.MessagesArrived(this, null);
                 }
                 this._messageCount = value;
                 this.FirePropertyChanged(nameof(MessageCount));

@@ -39,17 +39,17 @@ namespace ZuneUI
             if (endDate >= DateTime.Today)
             {
                 this.m_title = Shell.LoadString(StringId.IDS_BILLING_SUBSCRIPTION_ENDING_TITLE);
-                this.Description = string.Format(Shell.LoadString(StringId.IDS_BILLING_SUBSCRIPTION_ENDING_WARNING), (object)endDate);
+                this.Description = string.Format(Shell.LoadString(StringId.IDS_BILLING_SUBSCRIPTION_ENDING_WARNING), endDate);
             }
             else
             {
                 this.m_title = Shell.LoadString(StringId.IDS_BILLING_SUBSCRIPTION_ENDED_TITLE);
                 this.Description = Shell.LoadString(StringId.IDS_BILLING_SUBSCRIPTION_ENDED_WARNING);
             }
-            this.m_subscribe = new Command((IModelItemOwner)this, Shell.LoadString(StringId.IDS_BILLING_RENEW_SUBSCRIPTION), new EventHandler(this.OnSubscribe));
-            this.m_delete = new Command((IModelItemOwner)this, Shell.LoadString(StringId.IDS_ACCOUNT_CLEAR_SUBSCRIPTION_BUTTON), new EventHandler(this.OnDeleteInvoked));
+            this.m_subscribe = new Command(this, Shell.LoadString(StringId.IDS_BILLING_RENEW_SUBSCRIPTION), new EventHandler(this.OnSubscribe));
+            this.m_delete = new Command(this, Shell.LoadString(StringId.IDS_ACCOUNT_CLEAR_SUBSCRIPTION_BUTTON), new EventHandler(this.OnDeleteInvoked));
             this.Cancel.Invoked += new EventHandler(this.OnCancel);
-            this.m_neverShowAgain = new BooleanChoice((IModelItemOwner)this, Shell.LoadString(StringId.IDS_DONT_SHOW_THIS_MESSAGE_AGAIN));
+            this.m_neverShowAgain = new BooleanChoice(this, Shell.LoadString(StringId.IDS_DONT_SHOW_THIS_MESSAGE_AGAIN));
             this.m_neverShowAgain.Value = false;
             this.m_neverShowAgain.ChosenChanged += new EventHandler(this.OnNeverShowAgain);
         }
@@ -60,7 +60,7 @@ namespace ZuneUI
 
         private void OnSubscribe(object sender, EventArgs args)
         {
-            ZuneShell.DefaultInstance.Execute("Settings\\Account\\PurchaseSubscription", (IDictionary)null);
+            ZuneShell.DefaultInstance.Execute("Settings\\Account\\PurchaseSubscription", null);
             this.Hide();
         }
 

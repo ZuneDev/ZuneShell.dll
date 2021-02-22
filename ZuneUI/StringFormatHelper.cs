@@ -15,11 +15,11 @@ namespace ZuneUI
 
         private static string Format(DateTime date, string format, string unknown) => date == DateTime.MinValue ? unknown : date.ToString(format);
 
-        public static string Format(DateTime date, string format) => StringFormatHelper.Format(date, format, StringFormatHelper._unknown);
+        public static string Format(DateTime date, string format) => Format(date, format, _unknown);
 
-        public static string FormatShortDate(DateTime date, string unknown) => StringFormatHelper.Format(date, StringFormatHelper.ShortDateFormat, unknown);
+        public static string FormatShortDate(DateTime date, string unknown) => Format(date, ShortDateFormat, unknown);
 
-        public static string FormatShortDate(DateTime date) => StringFormatHelper.FormatShortDate(date, StringFormatHelper._unknown);
+        public static string FormatShortDate(DateTime date) => FormatShortDate(date, _unknown);
 
         public static string ShortDateFormat => "d";
 
@@ -27,9 +27,9 @@ namespace ZuneUI
 
         public static string ShortTimeFormat => "t";
 
-        public static string FormatYear(DateTime date, string unknown) => StringFormatHelper.Format(date, StringFormatHelper.YearFormat, unknown);
+        public static string FormatYear(DateTime date, string unknown) => Format(date, YearFormat, unknown);
 
-        public static string FormatYear(DateTime date) => StringFormatHelper.FormatYear(date, StringFormatHelper._unknown);
+        public static string FormatYear(DateTime date) => FormatYear(date, _unknown);
 
         public static string YearFormat => "yyyy";
 
@@ -70,7 +70,7 @@ namespace ZuneUI
                     }
                 }
             }
-            return string.Format((IFormatProvider)cultureInfo, "{0:c}", (object)price);
+            return string.Format(cultureInfo, "{0:c}", (object)price);
         }
     }
 }

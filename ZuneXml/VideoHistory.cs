@@ -47,7 +47,7 @@ namespace ZuneXml
                 bool flag = false;
                 if (!this.InCollection && this.MediaInstances != null)
                 {
-                    foreach (MediaInstance mediaInstance in (IEnumerable)this.MediaInstances)
+                    foreach (MediaInstance mediaInstance in MediaInstances)
                     {
                         if ((mediaInstance.RightEnum == MediaRightsEnum.AlbumPurchase || mediaInstance.RightEnum == MediaRightsEnum.Purchase || (mediaInstance.RightEnum == MediaRightsEnum.SeasonPurchase || mediaInstance.RightEnum == MediaRightsEnum.Rent)) && (mediaInstance.VideoDefinitionEnum == VideoDefinitionEnum.HD && mediaInstance.VideoResolutionEnum == VideoResolutionEnum.VR_720P))
                         {
@@ -70,7 +70,7 @@ namespace ZuneXml
                 bool flag = false;
                 if (!this.InCollection && this.MediaInstances != null)
                 {
-                    foreach (MediaInstance mediaInstance in (IEnumerable)this.MediaInstances)
+                    foreach (MediaInstance mediaInstance in MediaInstances)
                     {
                         if ((mediaInstance.RightEnum == MediaRightsEnum.AlbumPurchase || mediaInstance.RightEnum == MediaRightsEnum.Purchase || (mediaInstance.RightEnum == MediaRightsEnum.SeasonPurchase || mediaInstance.RightEnum == MediaRightsEnum.Rent)) && (mediaInstance.VideoDefinitionEnum == VideoDefinitionEnum.XD || mediaInstance.VideoDefinitionEnum == VideoDefinitionEnum.SD || mediaInstance.VideoDefinitionEnum == VideoDefinitionEnum.HD && mediaInstance.VideoResolutionEnum == VideoResolutionEnum.VR_720P))
                         {
@@ -130,7 +130,7 @@ namespace ZuneXml
           DataProviderQuery owner,
           object objectTypeCookie)
         {
-            return (XmlDataProviderObject)new VideoHistory(owner, objectTypeCookie);
+            return new VideoHistory(owner, objectTypeCookie);
         }
 
         internal VideoHistory(DataProviderQuery owner, object resultTypeCookie)
@@ -163,63 +163,63 @@ namespace ZuneXml
             switch (propertyName)
             {
                 case "CanDownload":
-                    return (object)this.CanDownload;
+                    return CanDownload;
                 case "CanDownloadHD":
-                    return (object)this.CanDownloadHD;
+                    return CanDownloadHD;
                 case "IsTVSeason":
-                    return (object)this.IsTVSeason;
+                    return IsTVSeason;
                 case "ReleaseDate":
-                    return (object)this.ReleaseDate;
+                    return ReleaseDate;
                 case "Duration":
-                    return (object)this.Duration;
+                    return Duration;
                 case "PointsPrice":
-                    return (object)this.PointsPrice;
+                    return PointsPrice;
                 case "HasPreview":
-                    return (object)this.HasPreview;
+                    return HasPreview;
                 case "CanPreview":
-                    return (object)this.CanPreview;
+                    return CanPreview;
                 case "CanSubscriptionPlay":
-                    return (object)this.CanSubscriptionPlay;
+                    return CanSubscriptionPlay;
                 case "CanPurchase":
-                    return (object)this.CanPurchase;
+                    return CanPurchase;
                 case "CanPurchaseHD":
-                    return (object)this.CanPurchaseHD;
+                    return CanPurchaseHD;
                 case "CanPurchaseSD":
-                    return (object)this.CanPurchaseSD;
+                    return CanPurchaseSD;
                 case "CanPurchaseSeason":
-                    return (object)this.CanPurchaseSeason;
+                    return CanPurchaseSeason;
                 case "CanPurchaseSeasonHD":
-                    return (object)this.CanPurchaseSeasonHD;
+                    return CanPurchaseSeasonHD;
                 case "CanPurchaseSeasonSD":
-                    return (object)this.CanPurchaseSeasonSD;
+                    return CanPurchaseSeasonSD;
                 case "CanRent":
-                    return (object)this.CanRent;
+                    return CanRent;
                 case "CanRentHD":
-                    return (object)this.CanRentHD;
+                    return CanRentHD;
                 case "CanRentSD":
-                    return (object)this.CanRentSD;
+                    return CanRentSD;
                 case "CanPurchaseAlbumOnly":
-                    return (object)this.CanPurchaseAlbumOnly;
+                    return CanPurchaseAlbumOnly;
                 case "CanSync":
-                    return (object)this.CanSync;
+                    return CanSync;
                 case "InCollection":
-                    return (object)this.InCollection;
+                    return InCollection;
                 case "InCollectionShortcut":
-                    return (object)this.InCollectionShortcut;
+                    return InCollectionShortcut;
                 case "IsDownloading":
-                    return (object)this.IsDownloading;
+                    return IsDownloading;
                 case "IsParentallyBlocked":
-                    return (object)this.IsParentallyBlocked;
+                    return IsParentallyBlocked;
                 case "SortTitle":
-                    return (object)this.SortTitle;
+                    return SortTitle;
                 case "ImageId":
-                    return (object)this.ImageId;
+                    return ImageId;
                 case "Rights":
-                    return (object)this.Rights;
+                    return Rights;
                 case "Artists":
-                    return (object)this.Artists;
+                    return Artists;
                 case "Popularity":
-                    return (object)this.Popularity;
+                    return Popularity;
                 default:
                     return base.GetProperty(propertyName);
             }

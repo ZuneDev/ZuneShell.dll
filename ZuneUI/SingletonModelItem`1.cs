@@ -13,7 +13,7 @@ namespace ZuneUI
         private static T _singletonInstance;
 
         protected SingletonModelItem()
-          : this((IModelItemOwner)ZuneShell.DefaultInstance)
+          : this(ZuneShell.DefaultInstance)
         {
         }
 
@@ -26,9 +26,9 @@ namespace ZuneUI
         {
             get
             {
-                if ((object)SingletonModelItem<T>._singletonInstance == null)
-                    SingletonModelItem<T>._singletonInstance = new T();
-                return SingletonModelItem<T>._singletonInstance;
+                if (_singletonInstance == null)
+                    _singletonInstance = new T();
+                return _singletonInstance;
             }
         }
     }

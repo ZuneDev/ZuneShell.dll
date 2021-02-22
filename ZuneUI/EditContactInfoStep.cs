@@ -23,7 +23,7 @@ namespace ZuneUI
             this._lightWeightOnly = false;
             this.Description = Shell.LoadString(StringId.IDS_ACCOUNT_CREATION_CONTACT_HEAD);
             this.DetailDescription = Shell.LoadString(StringId.IDS_ACCOUNT_EDIT_CONTACT_INFO_DETAIL);
-            WizardPropertyEditor wizardPropertyEditor = (WizardPropertyEditor)new ContactInfoPropertyEditor();
+            WizardPropertyEditor wizardPropertyEditor = new ContactInfoPropertyEditor();
             this.RequireSignIn = true;
             this.Initialize(wizardPropertyEditor);
         }
@@ -63,9 +63,9 @@ namespace ZuneUI
                     this._errorMappings = new Dictionary<int, PropertyDescriptor>(2);
                     this._errorMappings.Add(HRESULT._ZEST_E_INVALID_POSTALCODE.Int, ContactInfoPropertyEditor.PostalCode);
                     this._errorMappings.Add(HRESULT._ZEST_E_LIVEACCOUNT_INVALIDPHONE.Int, BaseContactInfoPropertyEditor.PhoneNumber);
-                    this._errorMappings.Add(HRESULT._ZUNE_E_UPDATE_ACCOUNT_INFO_FAILED.Int, (PropertyDescriptor)null);
-                    this._errorMappings.Add(HRESULT._ZEST_E_LIVEACCOUNT_ADDRESS_INVALID.Int, (PropertyDescriptor)null);
-                    this._errorMappings.Add(HRESULT._ZEST_E_INVALID_ARG_CONTACT_INFO.Int, (PropertyDescriptor)null);
+                    this._errorMappings.Add(HRESULT._ZUNE_E_UPDATE_ACCOUNT_INFO_FAILED.Int, null);
+                    this._errorMappings.Add(HRESULT._ZEST_E_LIVEACCOUNT_ADDRESS_INVALID.Int, null);
+                    this._errorMappings.Add(HRESULT._ZEST_E_INVALID_ARG_CONTACT_INFO.Int, null);
                 }
                 return this._errorMappings;
             }
@@ -85,15 +85,15 @@ namespace ZuneUI
                 if (this._accountUser == value)
                     return;
                 this._accountUser = value;
-                this.SetCommittedValue(ContactInfoPropertyEditor.City, (object)this.AccountUser.Address.City);
-                this.SetCommittedValue(ContactInfoPropertyEditor.District, (object)this.AccountUser.Address.District);
-                this.SetCommittedValue(ContactInfoPropertyEditor.PostalCode, (object)this.AccountUser.Address.PostalCode);
-                this.SetCommittedValue(ContactInfoPropertyEditor.Street1, (object)this.AccountUser.Address.Street1);
-                this.SetCommittedValue(ContactInfoPropertyEditor.Street2, (object)this.AccountUser.Address.Street2);
-                this.SetCommittedValue(BaseContactInfoPropertyEditor.FirstName, (object)this.AccountUser.FirstName);
-                this.SetCommittedValue(BaseContactInfoPropertyEditor.LastName, (object)this.AccountUser.LastName);
-                this.SetCommittedValue(BaseContactInfoPropertyEditor.Email, (object)this.AccountUser.Email);
-                this.SetCommittedValue(BaseContactInfoPropertyEditor.PhoneNumber, (object)this.AccountUser.PhoneNumber);
+                this.SetCommittedValue(ContactInfoPropertyEditor.City, AccountUser.Address.City);
+                this.SetCommittedValue(ContactInfoPropertyEditor.District, AccountUser.Address.District);
+                this.SetCommittedValue(ContactInfoPropertyEditor.PostalCode, AccountUser.Address.PostalCode);
+                this.SetCommittedValue(ContactInfoPropertyEditor.Street1, AccountUser.Address.Street1);
+                this.SetCommittedValue(ContactInfoPropertyEditor.Street2, AccountUser.Address.Street2);
+                this.SetCommittedValue(BaseContactInfoPropertyEditor.FirstName, AccountUser.FirstName);
+                this.SetCommittedValue(BaseContactInfoPropertyEditor.LastName, AccountUser.LastName);
+                this.SetCommittedValue(BaseContactInfoPropertyEditor.Email, AccountUser.Email);
+                this.SetCommittedValue(BaseContactInfoPropertyEditor.PhoneNumber, AccountUser.PhoneNumber);
                 this.SelectedLocale = this.AccountUser.Locale;
                 this.SelectedState = this.AccountUser.Address.State;
                 this.FirePropertyChanged(nameof(AccountUser));
@@ -104,16 +104,16 @@ namespace ZuneUI
         {
             if (this.WizardPropertyEditor == null)
                 return;
-            this.WizardPropertyEditor.SetPropertyState(BaseContactInfoPropertyEditor.FirstName, (object)this.SelectedCountry);
-            this.WizardPropertyEditor.SetPropertyState(BaseContactInfoPropertyEditor.LastName, (object)this.SelectedCountry);
-            this.WizardPropertyEditor.SetPropertyState(ContactInfoPropertyEditor.Street1, (object)this.SelectedCountry);
-            this.WizardPropertyEditor.SetPropertyState(ContactInfoPropertyEditor.Street2, (object)this.SelectedCountry);
-            this.WizardPropertyEditor.SetPropertyState(ContactInfoPropertyEditor.City, (object)this.SelectedCountry);
-            this.WizardPropertyEditor.SetPropertyState(ContactInfoPropertyEditor.District, (object)this.SelectedCountry);
-            this.WizardPropertyEditor.SetPropertyState(ContactInfoPropertyEditor.State, (object)this.SelectedCountry);
-            this.WizardPropertyEditor.SetPropertyState(ContactInfoPropertyEditor.PostalCode, (object)this.SelectedCountry);
-            this.WizardPropertyEditor.SetPropertyState(BaseContactInfoPropertyEditor.PhoneNumber, (object)this.SelectedCountry);
-            this.WizardPropertyEditor.SetPropertyState(BaseContactInfoPropertyEditor.PhoneExtension, (object)this.SelectedCountry);
+            this.WizardPropertyEditor.SetPropertyState(BaseContactInfoPropertyEditor.FirstName, SelectedCountry);
+            this.WizardPropertyEditor.SetPropertyState(BaseContactInfoPropertyEditor.LastName, SelectedCountry);
+            this.WizardPropertyEditor.SetPropertyState(ContactInfoPropertyEditor.Street1, SelectedCountry);
+            this.WizardPropertyEditor.SetPropertyState(ContactInfoPropertyEditor.Street2, SelectedCountry);
+            this.WizardPropertyEditor.SetPropertyState(ContactInfoPropertyEditor.City, SelectedCountry);
+            this.WizardPropertyEditor.SetPropertyState(ContactInfoPropertyEditor.District, SelectedCountry);
+            this.WizardPropertyEditor.SetPropertyState(ContactInfoPropertyEditor.State, SelectedCountry);
+            this.WizardPropertyEditor.SetPropertyState(ContactInfoPropertyEditor.PostalCode, SelectedCountry);
+            this.WizardPropertyEditor.SetPropertyState(BaseContactInfoPropertyEditor.PhoneNumber, SelectedCountry);
+            this.WizardPropertyEditor.SetPropertyState(BaseContactInfoPropertyEditor.PhoneExtension, SelectedCountry);
         }
 
         protected override bool OnCommitChanges()
@@ -121,7 +121,7 @@ namespace ZuneUI
             bool flag = true;
             if (this.AccountUser != null)
             {
-                ServiceError serviceError = (ServiceError)null;
+                ServiceError serviceError = null;
                 this.AccountUser.Address.City = this.GetCommittedValue(ContactInfoPropertyEditor.City) as string;
                 this.AccountUser.Address.District = this.GetCommittedValue(ContactInfoPropertyEditor.District) as string;
                 this.AccountUser.Address.PostalCode = this.GetCommittedValue(ContactInfoPropertyEditor.PostalCode) as string;
@@ -132,9 +132,9 @@ namespace ZuneUI
                 this.AccountUser.Email = this.GetCommittedValue(BaseContactInfoPropertyEditor.Email) as string;
                 this.AccountUser.PhoneNumber = this.GetCommittedValue(BaseContactInfoPropertyEditor.PhoneNumber) as string;
                 this.AccountUser.Address.State = this.SelectedState;
-                this.AccountUser.AccountSettings = (AccountSettings)null;
+                this.AccountUser.AccountSettings = null;
                 this.AccountUser.ParentPassportIdentity = this.State.PassportPasswordParentStep.PassportIdentity;
-                HRESULT hr = this.State.AccountManagement.SetAccount((PassportIdentity)null, this.AccountUser, out serviceError);
+                HRESULT hr = this.State.AccountManagement.SetAccount(null, this.AccountUser, out serviceError);
                 if (hr.IsSuccess)
                 {
                     SignIn.Instance.RefreshAccount();
@@ -157,7 +157,7 @@ namespace ZuneUI
         protected override void OnStartActivationRequests(object state)
         {
             AccountUser accountUser = this.ObtainAccountUser();
-            RegionInfoStep.RegionServiceData regionServiceData = (RegionInfoStep.RegionServiceData)state;
+            RegionServiceData regionServiceData = (RegionServiceData)state;
             if (accountUser != null && accountUser.Locale != null && regionServiceData.SelectedCountry == null)
             {
                 string[] strArray = accountUser.Locale.Split('-');
@@ -165,7 +165,7 @@ namespace ZuneUI
                     regionServiceData.SelectedCountry = strArray[1];
             }
             base.OnStartActivationRequests(state);
-            this.EndActivationRequests((object)accountUser);
+            this.EndActivationRequests(accountUser);
         }
 
         protected override void OnEndActivationRequests(object args)
@@ -180,12 +180,12 @@ namespace ZuneUI
 
         private AccountUser ObtainAccountUser()
         {
-            AccountUser accountUser = (AccountUser)null;
-            ServiceError serviceError = (ServiceError)null;
-            HRESULT account = this.State.AccountManagement.GetAccount((PassportIdentity)null, out accountUser, out serviceError);
+            AccountUser accountUser = null;
+            ServiceError serviceError = null;
+            HRESULT account = this.State.AccountManagement.GetAccount(null, out accountUser, out serviceError);
             if (account.IsError)
             {
-                accountUser = (AccountUser)null;
+                accountUser = null;
                 this.SetError(account, serviceError);
             }
             return accountUser;

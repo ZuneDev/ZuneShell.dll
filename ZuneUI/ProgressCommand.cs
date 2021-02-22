@@ -28,7 +28,7 @@ namespace ZuneUI
         }
 
         public ProgressCommand(IModelItem owner)
-          : base((IModelItemOwner)owner)
+          : base(owner)
         {
         }
 
@@ -51,7 +51,7 @@ namespace ZuneUI
             get => this.m_progress;
             set
             {
-                if ((double)this.m_progress == (double)value)
+                if (m_progress == (double)value)
                     return;
                 this.m_progress = value;
                 this.FirePropertyChanged(nameof(Progress));
@@ -63,7 +63,7 @@ namespace ZuneUI
             get => this.m_progressivePlaybackPoint;
             private set
             {
-                if ((double)this.m_progressivePlaybackPoint == (double)value)
+                if (m_progressivePlaybackPoint == (double)value)
                     return;
                 this.m_progressivePlaybackPoint = value;
                 this.FirePropertyChanged(nameof(ProgressivePlaybackPoint));
@@ -102,8 +102,8 @@ namespace ZuneUI
         {
             if (this.m_downloadTask == null)
                 this.m_downloadTask = DownloadManager.Instance.GetTask(taskId.ToString());
-            else if (taskId == Guid.Empty && (double)percent < 0.0)
-                this.m_downloadTask = (DownloadTask)null;
+            else if (taskId == Guid.Empty && percent < 0.0)
+                this.m_downloadTask = null;
             float num1 = 0.0f;
             int num2 = -1;
             int num3 = -1;
@@ -124,11 +124,11 @@ namespace ZuneUI
                             num5 = 1;
                         if (this.AllowProgressivePlayback)
                         {
-                            int num6 = (int)((fileSizeForPlayback - bytesDownloaded) / (long)num5);
+                            int num6 = (int)((fileSizeForPlayback - bytesDownloaded) / num5);
                             num3 = (num4 > num6 ? num4 : num6) + this.m_secondsToPlaybackThreshold;
                             if (num3 > 0)
                             {
-                                num1 = percent + (100f - percent) * (float)num3 / (float)num2;
+                                num1 = percent + (100f - percent) * num3 / num2;
                                 this.m_secondsToPlaybackThreshold = 10;
                             }
                             else
@@ -160,10 +160,10 @@ namespace ZuneUI
             ulong bytesDownloaded = this.m_downloadTask.GetBytesDownloaded();
             if (finalFileSize <= 0UL || bytesDownloaded <= this.CalculateMinimumFileSizeForPlayback(finalFileSize, propertyInt))
                 return;
-            string uri = string.Format("zuneprogdl://{0}?duration={1}&size={2}", (object)tempFileName, (object)propertyInt, (object)finalFileSize);
+            string uri = string.Format("zuneprogdl://{0}?duration={1}&size={2}", tempFileName, propertyInt, finalFileSize);
             string property1 = this.m_downloadTask.GetProperty("Title");
             string property2 = this.m_downloadTask.GetProperty("Artist");
-            SingletonModelItem<TransportControls>.Instance.PlayItem((object)new VideoPlaybackTrack(new Guid(this.m_downloadTask.GetProperty("ServiceId")), property1, property2, uri, true, false, false, false, false, VideoDefinitionEnum.None), PlayNavigationOptions.NavigateToNowPlaying);
+            SingletonModelItem<TransportControls>.Instance.PlayItem(new VideoPlaybackTrack(new Guid(this.m_downloadTask.GetProperty("ServiceId")), property1, property2, uri, true, false, false, false, false, VideoDefinitionEnum.None), PlayNavigationOptions.NavigateToNowPlaying);
         }
 
         private ulong CalculateMinimumFileSizeForPlayback(ulong finalSize, int finalDuration)

@@ -17,7 +17,7 @@ namespace ZuneUI
         internal override bool OnMovingNext()
         {
             DeviceManagement deviceManagement = ZuneShell.DefaultInstance.Management.DeviceManagement;
-            if (deviceManagement.EnableMarketplaceChoice.ChosenIndex == 0 || (HRESULT)deviceManagement.MarketplaceCredentials.hr == HRESULT._S_OK)
+            if (deviceManagement.EnableMarketplaceChoice.ChosenIndex == 0 || deviceManagement.MarketplaceCredentials.hr == HRESULT._S_OK)
                 return base.OnMovingNext();
             deviceManagement.CredentialValidationRequested = true;
             return false;

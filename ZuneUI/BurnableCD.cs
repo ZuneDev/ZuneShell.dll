@@ -58,8 +58,8 @@ namespace ZuneUI
             base.OnDispose(fDisposing);
             if (!fDisposing)
                 return;
-            this._device = (ZuneLibraryCDDevice)null;
-            this._cdAccess = (CDAccess)null;
+            this._device = null;
+            this._cdAccess = null;
         }
 
         internal bool IsWriteable => this._device.IsWriteable;
@@ -70,7 +70,7 @@ namespace ZuneUI
 
         public char DriveLetter => this._device.DrivePath;
 
-        public TimeSpan TimeAvailable => TimeSpan.FromSeconds((double)this._device.TimeAvailable);
+        public TimeSpan TimeAvailable => TimeSpan.FromSeconds(_device.TimeAvailable);
 
         public long SpaceAvailable => this._device.SpaceAvailable;
 
@@ -88,7 +88,7 @@ namespace ZuneUI
             this._playlistId = playlistId;
             this._burnTitle = burnTitle;
             this._downloadsComplete = false;
-            this._burnProgressMessage = this._cdAccess.IsAudioBurn ? BurnableCD.s_burnProgressMessage : BurnableCD.s_burnProgressDataMessage;
+            this._burnProgressMessage = this._cdAccess.IsAudioBurn ? s_burnProgressMessage : s_burnProgressDataMessage;
             for (int index = 0; index < burnListItems.Count; ++index)
             {
                 DataProviderObject burnListItem = (DataProviderObject)burnListItems[index];
@@ -100,7 +100,7 @@ namespace ZuneUI
             this.UpdateMessage();
         }
 
-        public void ClearBurnItems() => this._items = (List<BurnSessionItem>)null;
+        public void ClearBurnItems() => this._items = null;
 
         public void StartBurn()
         {
@@ -191,11 +191,11 @@ namespace ZuneUI
             }
             if (hr.IsError)
             {
-                Application.DeferredInvoke((DeferredInvokeHandler)delegate
+                Application.DeferredInvoke(delegate
                {
                    this.OnSessionError(hr.Int);
                    this.NotifyBurnStopped();
-               }, (object)null);
+               }, null);
             }
             else
             {
@@ -234,13 +234,13 @@ namespace ZuneUI
             {
                 foreach (BurnSessionItem burnSessionItem in this._items)
                     burnSessionItem.BurnCanceled = true;
-                this._items = (List<BurnSessionItem>)null;
+                this._items = null;
             }
             this._isBurning = false;
             this._burnCanceling = false;
             this._sessionFinalizing = false;
             this._playlistId = PlaylistManager.InvalidPlaylistId;
-            this._burnTitle = (string)null;
+            this._burnTitle = null;
             this._cdAccess.IsBurning = false;
         }
 
@@ -259,7 +259,7 @@ namespace ZuneUI
             if (this._progressTimer != null)
             {
                 this._progressTimer.Dispose();
-                this._progressTimer = (Timer)null;
+                this._progressTimer = null;
             }
             this.ShowCompletedMessage();
         }
@@ -294,10 +294,10 @@ namespace ZuneUI
                         return burnSessionItem;
                 }
             }
-            return (BurnSessionItem)null;
+            return null;
         }
 
-        private void OnItemProgress(int index, EBurnProgressStatus eStatus, int nPercent) => Application.DeferredInvoke((DeferredInvokeHandler)delegate
+        private void OnItemProgress(int index, EBurnProgressStatus eStatus, int nPercent) => Application.DeferredInvoke(delegate
        {
            bool flag = false;
            if (0 <= index && index < this._items.Count)
@@ -323,9 +323,9 @@ namespace ZuneUI
            if (!flag)
                return;
            this.UpdateMessage();
-       }, (object)null);
+       }, null);
 
-        private void OnItemError(int index, int hrError) => Application.DeferredInvoke((DeferredInvokeHandler)delegate
+        private void OnItemError(int index, int hrError) => Application.DeferredInvoke(delegate
        {
            if (index == -1)
            {
@@ -337,7 +337,7 @@ namespace ZuneUI
                    return;
                this._items[index].ErrorCode = hrError;
            }
-       }, (object)null);
+       }, null);
 
         private void OnSessionError(int hrError)
         {
@@ -361,7 +361,7 @@ namespace ZuneUI
             Shell.ShowErrorDialog(hrError, StringId.IDS_BURN_FAILED);
         }
 
-        private void OnSessionProgress(int lSessionTimeRemaining, int lSessionTotalTime) => Application.DeferredInvoke((DeferredInvokeHandler)delegate
+        private void OnSessionProgress(int lSessionTimeRemaining, int lSessionTotalTime) => Application.DeferredInvoke(delegate
        {
            this._sessionTotalTime = lSessionTotalTime * 1000;
            this._sessionTimeRemaining = lSessionTimeRemaining * 1000;
@@ -379,7 +379,7 @@ namespace ZuneUI
                this._progressTimer.Tick += new EventHandler(this.OnSimulatedSessionProgress);
            }
            this._progressTimer.Interval = this._simulatedTickInterval;
-       }, (object)null);
+       }, null);
 
         private void OnSimulatedSessionProgress(object sender, EventArgs args)
         {
@@ -387,7 +387,7 @@ namespace ZuneUI
             this.UpdateMessage();
         }
 
-        private void OnBurnStateChanged(EBurnState eBurnState) => Application.DeferredInvoke((DeferredInvokeHandler)delegate
+        private void OnBurnStateChanged(EBurnState eBurnState) => Application.DeferredInvoke(delegate
        {
            if (eBurnState != EBurnState.ebsStopped)
                return;
@@ -401,7 +401,7 @@ namespace ZuneUI
                    return;
                this.CompleteErase();
            }
-       }, (object)null);
+       }, null);
 
         private ProgressNotification Notification
         {
@@ -415,7 +415,7 @@ namespace ZuneUI
 
         private void UpdateMessage()
         {
-            string message = this._isBurning ? BurnableCD.s_burnStartedMessage : BurnableCD.s_eraseStartedMessage;
+            string message = this._isBurning ? s_burnStartedMessage : s_eraseStartedMessage;
             if (this._burnNotification == null)
             {
                 this.Notification = new ProgressNotification(message, NotificationTask.Burn, NotificationState.Normal, 0);
@@ -434,13 +434,13 @@ namespace ZuneUI
             if (!this._isBurning)
                 return;
             if (this._burnCanceling)
-                this._burnNotification.SubMessage = BurnableCD.s_burnCancelingMessage;
+                this._burnNotification.SubMessage = s_burnCancelingMessage;
             else if (this._sessionFinalizing)
-                this._burnNotification.SubMessage = BurnableCD.s_burnFinalizingMessage;
+                this._burnNotification.SubMessage = s_burnFinalizingMessage;
             else if (this._sessionCurrentTrackNumber == 0)
-                this._burnNotification.SubMessage = BurnableCD.s_burnPreparingMessage;
+                this._burnNotification.SubMessage = s_burnPreparingMessage;
             else
-                this._burnNotification.SubMessage = string.Format(this._burnProgressMessage, (object)this._sessionCurrentTrackNumber, (object)this._items.Count);
+                this._burnNotification.SubMessage = string.Format(this._burnProgressMessage, _sessionCurrentTrackNumber, _items.Count);
         }
 
         private void ShowCompletedMessage()
@@ -451,19 +451,19 @@ namespace ZuneUI
                 if (this._isBurning)
                 {
                     if (this._burnCanceling)
-                        this._burnNotification.Message = BurnableCD.s_burnCanceledMessage;
+                        this._burnNotification.Message = s_burnCanceledMessage;
                     else if (this._burnError.IsSuccess)
                     {
-                        this._burnNotification.Message = BurnableCD.s_burnSucceededMessage;
+                        this._burnNotification.Message = s_burnSucceededMessage;
                         this._burnNotification.Percentage = 100;
                     }
                     else
-                        this._burnNotification.Message = BurnableCD.s_burnFailedMessage;
+                        this._burnNotification.Message = s_burnFailedMessage;
                 }
                 else
-                    this._burnNotification.Message = BurnableCD.s_eraseFinishedMessage;
-                this._burnNotification.SubMessage = (string)null;
-                this.Notification = (ProgressNotification)null;
+                    this._burnNotification.Message = s_eraseFinishedMessage;
+                this._burnNotification.SubMessage = null;
+                this.Notification = null;
             }
             SoundHelper.Play(SoundId.BurnComplete);
         }

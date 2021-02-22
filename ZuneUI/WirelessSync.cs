@@ -57,22 +57,22 @@ namespace ZuneUI
         {
             get
             {
-                if (WirelessSync._singletonInstance == null)
-                    WirelessSync._singletonInstance = new WirelessSync();
-                return WirelessSync._singletonInstance;
+                if (_singletonInstance == null)
+                    _singletonInstance = new WirelessSync();
+                return _singletonInstance;
             }
             set
             {
-                if (WirelessSync._singletonInstance == value)
+                if (_singletonInstance == value)
                     return;
-                WirelessSync._singletonInstance = value;
+                _singletonInstance = value;
             }
         }
 
         private UIDevice ActiveDevice => SyncControls.Instance.CurrentDeviceOverride;
 
         private WirelessSync()
-          : base((IModelItemOwner)ZuneShell.DefaultInstance.Management.DeviceManagement)
+          : base(ZuneShell.DefaultInstance.Management.DeviceManagement)
         {
         }
 
@@ -82,13 +82,13 @@ namespace ZuneUI
             {
                 if (this._existingNetworkChoice == null)
                 {
-                    this._existingNetworkChoice = new Choice((IModelItemOwner)this);
-                    this._existingNetworkChoice.Options = (IList)new Command[2]
+                    this._existingNetworkChoice = new Choice(this);
+                    this._existingNetworkChoice.Options = (new Command[2]
                     {
-            new Command((IModelItemOwner) this, Shell.LoadString(StringId.IDS_WIRELESS_USE_CONNECTED_YES), (EventHandler) null),
-            new Command((IModelItemOwner) this, Shell.LoadString(StringId.IDS_WIRELESS_USE_CONNECTED_NO), (EventHandler) null)
-                    };
-                    this._existingNetworkChoice.ChosenChanged += (EventHandler)((sender, args) => this.FirePropertyChanged(nameof(ExistingNetworkChoice)));
+            new Command( this, Shell.LoadString(StringId.IDS_WIRELESS_USE_CONNECTED_YES),  null),
+            new Command( this, Shell.LoadString(StringId.IDS_WIRELESS_USE_CONNECTED_NO),  null)
+                    });
+                    this._existingNetworkChoice.ChosenChanged += (sender, args) => this.FirePropertyChanged(nameof(ExistingNetworkChoice));
                 }
                 return this._existingNetworkChoice;
             }
@@ -119,7 +119,7 @@ namespace ZuneUI
         {
             WlanProfile wirelessDeviceProfile = this.WirelessDeviceProfile;
             string str = Shell.LoadString(StringId.IDS_TYPE_UNKNOWN);
-            foreach (WirelessType wirelessRadioGroupItem in WirelessSync.wirelessRadioGroupItems)
+            foreach (WirelessType wirelessRadioGroupItem in wirelessRadioGroupItems)
             {
                 if (wirelessDeviceProfile.Auth == wirelessRadioGroupItem.Type.Auth && wirelessDeviceProfile.Cipher == wirelessRadioGroupItem.Type.Cipher)
                     str = wirelessRadioGroupItem.Description;
@@ -135,7 +135,7 @@ namespace ZuneUI
                 for (int index = 0; index < this.wirelessNetworkTypesChoice.Options.Count; ++index)
                 {
                     WirelessNetworkTypeCommand option = this.wirelessNetworkTypesChoice.Options[index] as WirelessNetworkTypeCommand;
-                    WlanAuthCipherPair wlanAuthCipherPair = (WlanAuthCipherPair)null;
+                    WlanAuthCipherPair wlanAuthCipherPair = null;
                     if (option != null)
                         wlanAuthCipherPair = option.NetworkType;
                     if (wlanAuthCipherPair != null && wlanAuthCipherPair.Auth == auth && (wlanAuthCipherPair.Cipher == cipher || this.IsWEP(wlanAuthCipherPair.Cipher) && this.IsWEP(cipher)))
@@ -150,7 +150,7 @@ namespace ZuneUI
 
         public WirelessStateResults RequestWirelessNetworksList()
         {
-            this.wirelessDeviceErrorDescription = (string)null;
+            this.wirelessDeviceErrorDescription = null;
             this.wirelessDeviceErrorCaption = Shell.LoadString(StringId.IDS_WIRELESS_SNIFF_FAILED);
             this.wirelessDeviceErrorCode = HRESULT._S_OK;
             WirelessStateResults result = this.wirelessGetNetworkListHelper.StartOperation(this.ActiveDevice, new AsyncOperation.AOComplete(this.GetNetworkListDone));
@@ -183,8 +183,8 @@ namespace ZuneUI
             ArrayListDataSet arrayListDataSet = new ArrayListDataSet();
             if (success && networkList != null)
             {
-                foreach (WlanProfile profile in (List<WlanProfile>)networkList)
-                    arrayListDataSet.Add((object)new WlanCommand(profile));
+                foreach (WlanProfile profile in networkList)
+                    arrayListDataSet.Add(new WlanCommand(profile));
             }
             if (!success)
             {
@@ -202,7 +202,7 @@ namespace ZuneUI
         {
             WirelessStateResults result = WirelessStateResults.Error;
             WlanProfile wirelessProfileToSave = this.wirelessProfileToSave;
-            this.wirelessDeviceErrorDescription = (string)null;
+            this.wirelessDeviceErrorDescription = null;
             this.wirelessDeviceErrorCaption = Shell.LoadString(StringId.IDS_WIRELESS_SYNC_POST_SETUP_FAILED);
             this.wirelessDeviceErrorCode = HRESULT._S_OK;
             this.wirelessDeviceCanceled = false;
@@ -212,7 +212,7 @@ namespace ZuneUI
                 this.WirelessHandleDeviceBusy(result);
             }
             if (result != WirelessStateResults.Success)
-                this.wirelessDeviceErrorDescription = wirelessProfileToSave == null ? Shell.LoadString(StringId.IDS_WIRELESS_SYNC_SETUP_FAILED_GENERIC) : string.Format(Shell.LoadString(StringId.IDS_WIRELESS_SYNC_SETUP_FAILED), (object)wirelessProfileToSave.SSID);
+                this.wirelessDeviceErrorDescription = wirelessProfileToSave == null ? Shell.LoadString(StringId.IDS_WIRELESS_SYNC_SETUP_FAILED_GENERIC) : string.Format(Shell.LoadString(StringId.IDS_WIRELESS_SYNC_SETUP_FAILED), wirelessProfileToSave.SSID);
             return result;
         }
 
@@ -227,7 +227,7 @@ namespace ZuneUI
         public WlanCommand CreateWlanCommand(string name, object networkType, string key)
         {
             WlanProfile wlanProfile = this.CreateWlanProfile(name, networkType, key);
-            return wlanProfile != null ? new WlanCommand(wlanProfile) : (WlanCommand)null;
+            return wlanProfile != null ? new WlanCommand(wlanProfile) : null;
         }
 
         public void ClearWirelessOnDevice() => this.RequestClearWirelessOnDevice(new AsyncOperation.AOComplete(this.ClearWirelessOnDeviceDone), true);
@@ -251,7 +251,7 @@ namespace ZuneUI
             }
             else
             {
-                string uuid = (string)null;
+                string uuid = null;
                 HRESULT hresult = this.ActiveDevice.GetDisconnectedWiFiUUID(ref uuid);
                 if (hresult.IsError)
                     this.ClearWirelessOnDeviceForForgetDone(hresult.IsSuccess);
@@ -270,7 +270,7 @@ namespace ZuneUI
             if (success)
                 SyncControls.Instance.DeleteCurrentDeviceWorker();
             else
-                MessageBox.Show(Shell.LoadString(StringId.IDS_WIRELESS_CLEAR_UUID_FAILED_TITLE), Shell.LoadString(StringId.IDS_WIRELESS_CLEAR_UUID_FAILED), (EventHandler)null);
+                MessageBox.Show(Shell.LoadString(StringId.IDS_WIRELESS_CLEAR_UUID_FAILED_TITLE), Shell.LoadString(StringId.IDS_WIRELESS_CLEAR_UUID_FAILED), null);
             this.WirelessUnblockPage();
         }
 
@@ -278,7 +278,7 @@ namespace ZuneUI
           AsyncOperation.AOComplete completeFunc,
           bool fIgnoreErrors)
         {
-            this.wirelessDeviceErrorDescription = (string)null;
+            this.wirelessDeviceErrorDescription = null;
             this.wirelessDeviceErrorCaption = Shell.LoadString(StringId.IDS_WIRELESS_SYNC_PRE_SETUP_FAILED);
             this.wirelessDeviceErrorCode = HRESULT._S_OK;
             WirelessStateResults wirelessStateResults;
@@ -350,18 +350,18 @@ namespace ZuneUI
             get
             {
                 WlanAuthCipherPairList list = new WlanAuthCipherPairList();
-                IList<WirelessNetworkTypeCommand> networkTypeCommandList = (IList<WirelessNetworkTypeCommand>)new List<WirelessNetworkTypeCommand>();
+                IList<WirelessNetworkTypeCommand> networkTypeCommandList = new List<WirelessNetworkTypeCommand>();
                 if (this.ActiveDevice.IsConnectedToClient)
                     this.ActiveDevice.GetWiFiAuthorizationCipherList(ref list);
-                foreach (WirelessType wirelessRadioGroupItem in WirelessSync.wirelessRadioGroupItems)
+                foreach (WirelessType wirelessRadioGroupItem in wirelessRadioGroupItems)
                 {
                     if (wirelessRadioGroupItem.DisplayType && (wirelessRadioGroupItem.AlwaysSupported || this.DeviceSupportsType(list, wirelessRadioGroupItem.Type)))
                     {
-                        WirelessNetworkTypeCommand networkTypeCommand = new WirelessNetworkTypeCommand((IModelItemOwner)this, wirelessRadioGroupItem.Description, (EventHandler)null, wirelessRadioGroupItem.Type);
+                        WirelessNetworkTypeCommand networkTypeCommand = new WirelessNetworkTypeCommand(this, wirelessRadioGroupItem.Description, null, wirelessRadioGroupItem.Type);
                         networkTypeCommandList.Add(networkTypeCommand);
                     }
                 }
-                this.wirelessNetworkTypesChoice = new Choice((IModelItemOwner)this);
+                this.wirelessNetworkTypesChoice = new Choice(this);
                 this.wirelessNetworkTypesChoice.Options = (IList)networkTypeCommandList;
                 return this.wirelessNetworkTypesChoice;
             }
@@ -369,7 +369,7 @@ namespace ZuneUI
 
         public WirelessStateResults RequestDeviceWirelessProfile()
         {
-            this.wirelessDeviceErrorDescription = (string)null;
+            this.wirelessDeviceErrorDescription = null;
             this.wirelessDeviceErrorCaption = Shell.LoadString(StringId.IDS_WIRELESS_SYNC_WLAN_UUID_FAILED);
             this.wirelessDeviceErrorCode = HRESULT._S_OK;
             WirelessStateResults result = this.wirelessDeviceProfileHelper.StartOperation(this.ActiveDevice, new AsyncOperation.AOComplete(this.GetDeviceWirelessProfileDone));
@@ -387,7 +387,7 @@ namespace ZuneUI
             }
             else
             {
-                this.WirelessDeviceProfile = (WlanProfile)null;
+                this.WirelessDeviceProfile = null;
                 if (string.IsNullOrEmpty(this.wirelessDeviceErrorDescription))
                     this.wirelessDeviceErrorDescription = this.wirelessDeviceProfileHelper.Error;
                 if (!(this.wirelessDeviceErrorCode == HRESULT._S_OK))
@@ -398,7 +398,7 @@ namespace ZuneUI
 
         public WirelessStateResults RequestConnectedWirelessNetwork()
         {
-            this.wirelessDeviceErrorDescription = (string)null;
+            this.wirelessDeviceErrorDescription = null;
             this.wirelessDeviceErrorCaption = Shell.LoadString(StringId.IDS_WIRELESS_SYNC_PRE_SETUP_FAILED);
             this.wirelessDeviceErrorCode = HRESULT._S_OK;
             this.wirelessGetConnectedProfileResult = HRESULT._S_OK;
@@ -407,7 +407,7 @@ namespace ZuneUI
             return result;
         }
 
-        public string ConnectedWirelessNetwork => this.wirelessConnectedProfile != null ? this.wirelessConnectedProfile.SSID : (string)null;
+        public string ConnectedWirelessNetwork => this.wirelessConnectedProfile != null ? this.wirelessConnectedProfile.SSID : null;
 
         public void GetConnectedNetworkDone(bool success)
         {
@@ -421,7 +421,7 @@ namespace ZuneUI
             else
             {
                 this.wirelessGetConnectedProfileResult = this.wirelessGetConnectedNetworkHelper.Hr;
-                this.wirelessConnectedProfile = (WlanProfile)null;
+                this.wirelessConnectedProfile = null;
                 if (string.IsNullOrEmpty(this.wirelessDeviceErrorDescription))
                     this.wirelessDeviceErrorDescription = this.wirelessGetConnectedNetworkHelper.Error;
                 if (this.wirelessDeviceErrorCode == HRESULT._S_OK)
@@ -450,12 +450,12 @@ namespace ZuneUI
             if (string.IsNullOrEmpty(name) || networkTypeCommand == null || (networkTypeCommand.NetworkType == null || this.ActiveDevice == null))
             {
                 this.wirelessDeviceErrorDescription = Shell.LoadString(StringId.IDS_WIRELESS_SYNC_SETUP_FAILED_GENERIC);
-                return (WlanProfile)null;
+                return null;
             }
             HRESULT authorizationCipherList = this.ActiveDevice.GetWiFiAuthorizationCipherList(ref list);
             if (authorizationCipherList.IsSuccess)
             {
-                foreach (WlanAuthCipherPair wlanAuthCipherPair in (List<WlanAuthCipherPair>)list)
+                foreach (WlanAuthCipherPair wlanAuthCipherPair in list)
                 {
                     if (wlanAuthCipherPair.Auth == networkTypeCommand.NetworkType.Auth && wlanAuthCipherPair.Cipher == networkTypeCommand.NetworkType.Cipher)
                     {
@@ -466,14 +466,14 @@ namespace ZuneUI
             }
             if (!flag)
             {
-                this.wirelessDeviceErrorDescription = string.Format(Shell.LoadString(StringId.IDS_WIRELESS_ERROR_UNSUPPORTED_AUTH), (object)name);
+                this.wirelessDeviceErrorDescription = string.Format(Shell.LoadString(StringId.IDS_WIRELESS_ERROR_UNSUPPORTED_AUTH), name);
                 this.wirelessDeviceErrorCode = authorizationCipherList;
-                return (WlanProfile)null;
+                return null;
             }
             if (string.IsNullOrEmpty(name))
             {
                 this.wirelessDeviceErrorDescription = Shell.LoadString(StringId.IDS_WIRELESS_ERROR_INVALID_NAME);
-                return (WlanProfile)null;
+                return null;
             }
             return new WlanProfile()
             {
@@ -492,7 +492,7 @@ namespace ZuneUI
           WlanAuthCipherPairList supportedList,
           WlanAuthCipherPair displayType)
         {
-            foreach (WlanAuthCipherPair supported in (List<WlanAuthCipherPair>)supportedList)
+            foreach (WlanAuthCipherPair supported in supportedList)
             {
                 if (displayType.Cipher == WirelessCiphers.WEP)
                 {
@@ -520,7 +520,7 @@ namespace ZuneUI
             if (this.wirelessBlockedPage == null)
                 return false;
             Management.NavigateToCategory(this.wirelessBlockedPage);
-            this.wirelessBlockedPage = (Category)null;
+            this.wirelessBlockedPage = null;
             return true;
         }
     }

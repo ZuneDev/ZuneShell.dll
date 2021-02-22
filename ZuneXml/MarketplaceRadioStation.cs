@@ -16,7 +16,7 @@ namespace ZuneXml
           DataProviderQuery owner,
           object objectTypeCookie)
         {
-            return (XmlDataProviderObject)new MarketplaceRadioStation(owner, objectTypeCookie);
+            return new MarketplaceRadioStation(owner, objectTypeCookie);
         }
 
         internal MarketplaceRadioStation(DataProviderQuery owner, object resultTypeCookie)

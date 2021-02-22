@@ -12,10 +12,10 @@ namespace ZuneUI
 
         public WirelessSyncWizard()
         {
-            this.AddPage((WizardPage)new WirelessSyncUseExistingPage(this));
-            this.AddPage((WizardPage)new WirelessSyncChooseNetworkPage(this));
-            this.AddPage((WizardPage)new WirelessSyncSummaryPage(this));
-            this.AddPage((WizardPage)new WirelessSyncErrorPage(this));
+            this.AddPage(new WirelessSyncUseExistingPage(this));
+            this.AddPage(new WirelessSyncChooseNetworkPage(this));
+            this.AddPage(new WirelessSyncSummaryPage(this));
+            this.AddPage(new WirelessSyncErrorPage(this));
         }
 
         public string ProgressText

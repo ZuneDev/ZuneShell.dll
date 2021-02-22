@@ -30,9 +30,9 @@ namespace ZuneUI
         {
             get
             {
-                if (Fue.singletonInstance == null)
-                    Fue.singletonInstance = new Fue();
-                return Fue.singletonInstance;
+                if (singletonInstance == null)
+                    singletonInstance = new Fue();
+                return singletonInstance;
             }
         }
 
@@ -51,7 +51,7 @@ namespace ZuneUI
             set
             {
                 this.errorMessage = value;
-                ZuneUI.Shell.ShowErrorDialog(0, this.errorMessage);
+                Shell.ShowErrorDialog(0, this.errorMessage);
             }
         }
 
@@ -81,7 +81,7 @@ namespace ZuneUI
         {
             if (!FeatureEnablement.IsFeatureEnabled(Features.eQuickplay))
                 return;
-            ClientConfiguration.Shell.StartupPage = ZuneUI.Shell.MainFrame.Quickplay.DefaultUIPath;
+            ClientConfiguration.Shell.StartupPage = Shell.MainFrame.Quickplay.DefaultUIPath;
             ClientConfiguration.Quickplay.ShowFUE = true;
             ClientConfiguration.Quickplay.CheckUseCount = true;
             ClientConfiguration.Quickplay.UnusedCount = 0;
@@ -96,22 +96,22 @@ namespace ZuneUI
             if (!this.fileTypeAssociationsAreSet)
                 ZuneShell.DefaultInstance.Management.SaveFileTypesAsDefault();
             ZuneShell.DefaultInstance.NavigateBack();
-            SQMLog.LogToStream(SQMDataId.LanguageLocale, ZuneUI.Shell.LoadString(StringId.IDS_ZUNECLIENT_LOCALE));
+            SQMLog.LogToStream(SQMDataId.LanguageLocale, Shell.LoadString(StringId.IDS_ZUNECLIENT_LOCALE));
             SQMLog.Log(SQMDataId.DXModeEnabled, Application.RenderingType == RenderingType.DX9 ? 1 : 0);
             ClientConfiguration.SQM.SQMLaunchIndex = 0;
             this.StartJobs();
-            if (Fue.FUECompleted == null)
+            if (FUECompleted == null)
                 return;
-            Fue.FUECompleted((object)Fue.Instance, EventArgs.Empty);
+            FUECompleted(Instance, EventArgs.Empty);
         }
 
         public void CompleteMigration()
         {
             this.InitializeQuickplayConfig();
             ZuneShell.DefaultInstance.NavigateBack();
-            if (Fue.FUECompleted == null)
+            if (FUECompleted == null)
                 return;
-            Fue.FUECompleted((object)Fue.Instance, EventArgs.Empty);
+            FUECompleted(Instance, EventArgs.Empty);
         }
 
         public void ProxyDefaultPaths()
@@ -127,26 +127,26 @@ namespace ZuneUI
             string videoMediaFolder;
             string photoMediaFolder;
             string podcastMediaFolder;
-            HRESULT knownFolders = (HRESULT)ZuneApplication.ZuneLibrary.GetKnownFolders(out music, out videos, out pictures, out podcasts, out string[] _, out ripFolder, out videoMediaFolder, out photoMediaFolder, out podcastMediaFolder, out string _);
+            HRESULT knownFolders = ZuneApplication.ZuneLibrary.GetKnownFolders(out music, out videos, out pictures, out podcasts, out string[] _, out ripFolder, out videoMediaFolder, out photoMediaFolder, out podcastMediaFolder, out string _);
             if (ClientConfiguration.Groveler.MonitoredAudioFolders == null)
             {
                 for (int index = 0; index < music.Length; ++index)
-                    management.MonitoredAudioFolders.Add((object)music[index]);
+                    management.MonitoredAudioFolders.Add(music[index]);
             }
             if (ClientConfiguration.Groveler.MonitoredPhotoFolders == null)
             {
                 for (int index = 0; index < pictures.Length; ++index)
-                    management.MonitoredPhotoFolders.Add((object)pictures[index]);
+                    management.MonitoredPhotoFolders.Add(pictures[index]);
             }
             if (ClientConfiguration.Groveler.MonitoredVideoFolders == null)
             {
                 for (int index = 0; index < videos.Length; ++index)
-                    management.MonitoredVideoFolders.Add((object)videos[index]);
+                    management.MonitoredVideoFolders.Add(videos[index]);
             }
             if (ClientConfiguration.Groveler.MonitoredPodcastFolders == null)
             {
                 for (int index = 0; index < podcasts.Length; ++index)
-                    management.MonitoredPodcastFolders.Add((object)podcasts[index]);
+                    management.MonitoredPodcastFolders.Add(podcasts[index]);
             }
             management.MediaFolder = string.IsNullOrEmpty(ClientConfiguration.Groveler.RipDirectory) ? ripFolder : ClientConfiguration.Groveler.RipDirectory;
             management.VideoMediaFolder = string.IsNullOrEmpty(ClientConfiguration.Groveler.VideoMediaFolder) ? videoMediaFolder : ClientConfiguration.Groveler.VideoMediaFolder;
@@ -166,15 +166,15 @@ namespace ZuneUI
             string videoMediaFolder;
             string photoMediaFolder;
             string podcastMediaFolder;
-            HRESULT knownFolders = (HRESULT)ZuneApplication.ZuneLibrary.GetKnownFolders(out music, out videos, out pictures, out podcasts, out string[] _, out ripFolder, out videoMediaFolder, out photoMediaFolder, out podcastMediaFolder, out string _);
+            HRESULT knownFolders = ZuneApplication.ZuneLibrary.GetKnownFolders(out music, out videos, out pictures, out podcasts, out string[] _, out ripFolder, out videoMediaFolder, out photoMediaFolder, out podcastMediaFolder, out string _);
             if (ClientConfiguration.Groveler.MonitoredAudioFolders == null)
-                ClientConfiguration.Groveler.MonitoredAudioFolders = (IList<string>)music;
+                ClientConfiguration.Groveler.MonitoredAudioFolders = music;
             if (ClientConfiguration.Groveler.MonitoredPhotoFolders == null)
-                ClientConfiguration.Groveler.MonitoredPhotoFolders = (IList<string>)pictures;
+                ClientConfiguration.Groveler.MonitoredPhotoFolders = pictures;
             if (ClientConfiguration.Groveler.MonitoredVideoFolders == null)
-                ClientConfiguration.Groveler.MonitoredVideoFolders = (IList<string>)videos;
+                ClientConfiguration.Groveler.MonitoredVideoFolders = videos;
             if (ClientConfiguration.Groveler.MonitoredPodcastFolders == null)
-                ClientConfiguration.Groveler.MonitoredPodcastFolders = (IList<string>)podcasts;
+                ClientConfiguration.Groveler.MonitoredPodcastFolders = podcasts;
             if (string.IsNullOrEmpty(ClientConfiguration.Groveler.RipDirectory) && !string.IsNullOrEmpty(ripFolder))
                 ClientConfiguration.Groveler.RipDirectory = ripFolder;
             if (string.IsNullOrEmpty(ClientConfiguration.Groveler.VideoMediaFolder) && !string.IsNullOrEmpty(videoMediaFolder))
@@ -215,7 +215,7 @@ namespace ZuneUI
             {
                 if (this._renderPromptTimer == null)
                 {
-                    this._renderPromptTimer = new Timer((IModelItemOwner)this);
+                    this._renderPromptTimer = new Timer(this);
                     this._renderPromptTimer.Interval = this.RenderPromptInterval;
                     this._renderPromptTimer.AutoRepeat = false;
                     this._renderPromptTimer.Tick += new EventHandler(this.RenderPromptTimeout);
@@ -228,7 +228,7 @@ namespace ZuneUI
         {
             if (Application.RenderingType == RenderingType.GDI)
                 return;
-            Win32MessageBox.Show(ZuneUI.Shell.LoadString(StringId.IDS_RENDER_PROMPT), ZuneUI.Shell.LoadString(StringId.IDS_RENDER_PROMPT_CAPTION), Win32MessageBoxType.MB_YESNO | Win32MessageBoxType.MB_ICONQUESTION, (DeferredInvokeHandler)(args =>
+            Win32MessageBox.Show(Shell.LoadString(StringId.IDS_RENDER_PROMPT), Shell.LoadString(StringId.IDS_RENDER_PROMPT_CAPTION), Win32MessageBoxType.MB_YESNO | Win32MessageBoxType.MB_ICONQUESTION, args =>
            {
                switch ((int)args)
                {
@@ -237,10 +237,10 @@ namespace ZuneUI
                        break;
                    case 7:
                        ClientConfiguration.GeneralSettings.RenderingType = 0;
-                       Win32MessageBox.Show(ZuneUI.Shell.LoadString(StringId.IDS_RENDER_PROMPT_RESTART), ZuneUI.Shell.LoadString(StringId.IDS_RENDER_PROMPT_CAPTION), Win32MessageBoxType.MB_ICONASTERISK, (DeferredInvokeHandler)(args2 => Application.Window.Close()));
+                       Win32MessageBox.Show(Shell.LoadString(StringId.IDS_RENDER_PROMPT_RESTART), Shell.LoadString(StringId.IDS_RENDER_PROMPT_CAPTION), Win32MessageBoxType.MB_ICONASTERISK, args2 => Application.Window.Close());
                        break;
                }
-           }));
+           });
         }
     }
 }

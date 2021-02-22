@@ -15,7 +15,7 @@ namespace ZuneUI
         protected override void OnDispose(bool disposing)
         {
             base.OnDispose(disposing);
-            Application.DeferredInvoke((DeferredInvokeHandler)delegate
+            Application.DeferredInvoke(delegate
            {
                SyncControls.Instance.CurrentDeviceOverride.Enumerate();
                DeviceManagement.HandleSetupQueue();

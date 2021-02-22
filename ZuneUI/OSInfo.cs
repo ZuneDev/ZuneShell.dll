@@ -12,17 +12,17 @@ namespace ZuneUI
     {
         private const uint SPI_GETKEYBOARDSPEED = 10;
         private const uint SPI_GETKEYBOARDDELAY = 22;
-        private static int s_defaultKeyDelay = OSInfo.GetDefaultKeyDelay();
-        private static int s_defaultKeyRepeat = OSInfo.GetDefaultKeyRepeat();
+        private static int s_defaultKeyDelay = GetDefaultKeyDelay();
+        private static int s_defaultKeyRepeat = GetDefaultKeyRepeat();
 
-        public static int DefaultKeyDelay => OSInfo.s_defaultKeyDelay;
+        public static int DefaultKeyDelay => s_defaultKeyDelay;
 
-        public static int DefaultKeyRepeat => OSInfo.s_defaultKeyRepeat;
+        public static int DefaultKeyRepeat => s_defaultKeyRepeat;
 
         private static int GetDefaultKeyDelay()
         {
             int pParam;
-            if (!OSInfo.SystemParametersInfo(22U, 0U, out pParam, 0))
+            if (!SystemParametersInfo(22U, 0U, out pParam, 0))
                 pParam = 1;
             return (pParam + 1) * 250;
         }
@@ -30,7 +30,7 @@ namespace ZuneUI
         private static int GetDefaultKeyRepeat()
         {
             int pParam;
-            if (!OSInfo.SystemParametersInfo(10U, 0U, out pParam, 0))
+            if (!SystemParametersInfo(10U, 0U, out pParam, 0))
                 pParam = 1;
             return 31000 / (62 + 28 * pParam);
         }

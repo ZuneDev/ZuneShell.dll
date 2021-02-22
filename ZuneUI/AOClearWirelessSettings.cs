@@ -25,7 +25,7 @@ namespace ZuneUI
 
         public WirelessStateResults StartOperation(
           UIDevice device,
-          AsyncOperation.AOComplete completeFunc,
+          AOComplete completeFunc,
           bool fIgnoreErrors)
         {
             this.ResetState(fIgnoreErrors);

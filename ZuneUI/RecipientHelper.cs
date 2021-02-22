@@ -21,7 +21,7 @@ namespace ZuneUI
         {
             this._validRecipients = new List<string>();
             this.Entry = string.Empty;
-            this.ErrorMessage = (string)null;
+            this.ErrorMessage = null;
         }
 
         public static bool ValidZuneTag(string tag) => ZuneTagHelper.IsValid(tag);
@@ -42,7 +42,7 @@ namespace ZuneUI
             }
         }
 
-        public IList ValidRecipients => (IList)this._validRecipients;
+        public IList ValidRecipients => _validRecipients;
 
         private bool Validate(string entry, bool allowEmailRecipients)
         {
@@ -51,13 +51,13 @@ namespace ZuneUI
             this._validRecipients.Clear();
             if (entry != null)
             {
-                string[] strArray = entry.Split(AutoCompleteHelper.s_entrySeparators);
+                string[] strArray = entry.Split(s_entrySeparators);
                 for (int index = 0; index < strArray.Length; ++index)
                 {
                     string str = strArray[index].Trim();
                     if (str.Length != 0)
                     {
-                        if (!RecipientHelper.ValidZuneTag(str) && (!allowEmailRecipients || !RecipientHelper.ValidEmail(str)))
+                        if (!ValidZuneTag(str) && (!allowEmailRecipients || !ValidEmail(str)))
                         {
                             flag = false;
                             if (index != 0)
@@ -69,10 +69,10 @@ namespace ZuneUI
                     }
                 }
             }
-            this.ErrorMessage = flag ? (string)null : string.Format(Shell.LoadString(allowEmailRecipients ? StringId.IDS_COMPOSE_MESSAGE_ERROR_FRIENDS : StringId.IDS_COMPOSE_MESSAGE_ERROR_FRIENDS_NO_EMAIL), (object)stringBuilder.ToString());
+            this.ErrorMessage = flag ? null : string.Format(Shell.LoadString(allowEmailRecipients ? StringId.IDS_COMPOSE_MESSAGE_ERROR_FRIENDS : StringId.IDS_COMPOSE_MESSAGE_ERROR_FRIENDS_NO_EMAIL), stringBuilder.ToString());
             return flag;
         }
 
-        public static IList MakeStringList() => (IList)new List<string>();
+        public static IList MakeStringList() => new List<string>();
     }
 }

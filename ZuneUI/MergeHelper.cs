@@ -15,28 +15,28 @@ namespace ZuneUI
     {
         public static void MergeArtistsToArtist(string targetArtist, IList sourceArtists)
         {
-            IList artistIds = (IList)new ArrayList(sourceArtists.Count);
-            foreach (LibraryDataProviderListItem sourceArtist in (IEnumerable)sourceArtists)
-                artistIds.Add((object)(int)sourceArtist.GetProperty("LibraryId"));
-            ZuneQueryList albumsByArtists = ZuneApplication.ZuneLibrary.GetAlbumsByArtists(artistIds, (string)null);
+            IList artistIds = new ArrayList(sourceArtists.Count);
+            foreach (LibraryDataProviderListItem sourceArtist in sourceArtists)
+                artistIds.Add((int)sourceArtist.GetProperty("LibraryId"));
+            ZuneQueryList albumsByArtists = ZuneApplication.ZuneLibrary.GetAlbumsByArtists(artistIds, null);
             int num1 = (int)albumsByArtists.AddRef();
             uint count = (uint)albumsByArtists.Count;
             for (uint index = 0; index < count; ++index)
-                albumsByArtists.SetFieldValue(index, 380U, (object)targetArtist);
+                albumsByArtists.SetFieldValue(index, 380U, targetArtist);
             int num2 = (int)albumsByArtists.Release();
             albumsByArtists.Dispose();
         }
 
         public static void MergeAlbumsToArtist(string targetArtist, IList sourceAlbums)
         {
-            foreach (DataProviderObject sourceAlbum in (IEnumerable)sourceAlbums)
-                sourceAlbum.SetProperty("ArtistName", (object)targetArtist);
+            foreach (DataProviderObject sourceAlbum in sourceAlbums)
+                sourceAlbum.SetProperty("ArtistName", targetArtist);
         }
 
         public static void MergeTracksToArtist(string targetArtist, IList sourceTracks)
         {
-            foreach (DataProviderObject sourceTrack in (IEnumerable)sourceTracks)
-                sourceTrack.SetProperty("AlbumArtistName", (object)targetArtist);
+            foreach (DataProviderObject sourceTrack in sourceTracks)
+                sourceTrack.SetProperty("AlbumArtistName", targetArtist);
         }
 
         public static void MergeAlbumsToAlbum(
@@ -44,10 +44,10 @@ namespace ZuneUI
           string targetAlbumArtistName,
           IList sourceAlbums)
         {
-            foreach (LibraryDataProviderListItem sourceAlbum in (IEnumerable)sourceAlbums)
+            foreach (LibraryDataProviderListItem sourceAlbum in sourceAlbums)
             {
-                sourceAlbum.SetProperty("ArtistName", (object)targetAlbumArtistName);
-                sourceAlbum.SetProperty("Title", (object)targetAlbumTitle);
+                sourceAlbum.SetProperty("ArtistName", targetAlbumArtistName);
+                sourceAlbum.SetProperty("Title", targetAlbumTitle);
             }
         }
 
@@ -56,37 +56,37 @@ namespace ZuneUI
           string targetAlbumArtistName,
           IList sourceTracks)
         {
-            foreach (LibraryDataProviderListItem sourceTrack in (IEnumerable)sourceTracks)
+            foreach (LibraryDataProviderListItem sourceTrack in sourceTracks)
             {
-                sourceTrack.SetProperty("AlbumArtistName", (object)targetAlbumArtistName);
-                sourceTrack.SetProperty("AlbumName", (object)targetAlbumTitle);
+                sourceTrack.SetProperty("AlbumArtistName", targetAlbumArtistName);
+                sourceTrack.SetProperty("AlbumName", targetAlbumTitle);
             }
         }
 
         public static void MergeTracksToGenre(string targetGenre, IList sourceTracks)
         {
-            foreach (DataProviderObject sourceTrack in (IEnumerable)sourceTracks)
-                sourceTrack.SetProperty("Genre", (object)targetGenre);
+            foreach (DataProviderObject sourceTrack in sourceTracks)
+                sourceTrack.SetProperty("Genre", targetGenre);
         }
 
         public static void MergeAlbumsToGenre(string targetGenre, IList sourceAlbums)
         {
-            IList albumIds = (IList)new ArrayList(sourceAlbums.Count);
-            foreach (LibraryDataProviderListItem sourceAlbum in (IEnumerable)sourceAlbums)
-                albumIds.Add((object)(int)sourceAlbum.GetProperty("LibraryId"));
-            ZuneQueryList tracksByAlbums = ZuneApplication.ZuneLibrary.GetTracksByAlbums(albumIds, (string)null);
+            IList albumIds = new ArrayList(sourceAlbums.Count);
+            foreach (LibraryDataProviderListItem sourceAlbum in sourceAlbums)
+                albumIds.Add((int)sourceAlbum.GetProperty("LibraryId"));
+            ZuneQueryList tracksByAlbums = ZuneApplication.ZuneLibrary.GetTracksByAlbums(albumIds, null);
             int num1 = (int)tracksByAlbums.AddRef();
             uint count = (uint)tracksByAlbums.Count;
             for (uint index = 0; index < count; ++index)
-                tracksByAlbums.SetFieldValue(index, 398U, (object)targetGenre);
+                tracksByAlbums.SetFieldValue(index, 398U, targetGenre);
             int num2 = (int)tracksByAlbums.Release();
             tracksByAlbums.Dispose();
         }
 
         public static void MergeGenresToGenre(string targetGenre, IList sourceGenres)
         {
-            foreach (DataProviderObject sourceGenre in (IEnumerable)sourceGenres)
-                sourceGenre.SetProperty("Title", (object)targetGenre);
+            foreach (DataProviderObject sourceGenre in sourceGenres)
+                sourceGenre.SetProperty("Title", targetGenre);
         }
     }
 }

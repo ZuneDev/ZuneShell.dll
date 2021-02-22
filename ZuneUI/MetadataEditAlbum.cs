@@ -19,25 +19,25 @@ namespace ZuneUI
     {
         private static PropertyDescriptor[] s_properties = new PropertyDescriptor[9]
         {
-      (PropertyDescriptor) MetadataEditMedia.s_Title,
-      MetadataEditMedia.s_AlbumTitleYomi,
-      (PropertyDescriptor) MetadataEditMedia.s_Artist,
-      MetadataEditMedia.s_AlbumArtistYomi,
-      MetadataEditMedia.s_Genre,
-      MetadataEditMedia.s_Conductor,
-      MetadataEditMedia.s_Composer,
-      (PropertyDescriptor) MetadataEditMedia.s_ReleaseYear,
-      MetadataEditMedia.s_CoverUrl
+       s_Title,
+      s_AlbumTitleYomi,
+       s_Artist,
+      s_AlbumArtistYomi,
+      s_Genre,
+      s_Conductor,
+      s_Composer,
+       s_ReleaseYear,
+      s_CoverUrl
         };
-        private List<PropertyDescriptor> _linkedProperties = new List<PropertyDescriptor>((IEnumerable<PropertyDescriptor>)new PropertyDescriptor[3]
+        private List<PropertyDescriptor> _linkedProperties = new List<PropertyDescriptor>(new PropertyDescriptor[3]
         {
-      MetadataEditMedia.s_Genre,
-      MetadataEditMedia.s_Conductor,
-      MetadataEditMedia.s_Composer
+      s_Genre,
+      s_Conductor,
+      s_Composer
         });
         private List<MetadataEditTrack> _trackList = new List<MetadataEditTrack>();
 
-        public MetadataEditAlbum(AlbumMetadata albumMetadata) => this.InitializeFromMetadataList(new List<AlbumMetadata>((IEnumerable<AlbumMetadata>)new AlbumMetadata[1]
+        public MetadataEditAlbum(AlbumMetadata albumMetadata) => this.InitializeFromMetadataList(new List<AlbumMetadata>(new AlbumMetadata[1]
         {
       albumMetadata
         }));
@@ -47,7 +47,7 @@ namespace ZuneUI
             List<AlbumMetadata> albumMetadataList = new List<AlbumMetadata>(albumList.Count);
             try
             {
-                foreach (DataProviderObject album in (IEnumerable)albumList)
+                foreach (DataProviderObject album in albumList)
                 {
                     AlbumMetadata albumMetadata = ZuneApplication.ZuneLibrary.GetAlbumMetadata((int)album.GetProperty("LibraryId"));
                     albumMetadataList.Add(albumMetadata);
@@ -57,7 +57,7 @@ namespace ZuneUI
             {
                 this._creationFailed = true;
                 albumMetadataList.Clear();
-                MessageBox.Show(ZuneUI.Shell.LoadString(StringId.IDS_EMI_UPDATEFAILED_TITLE), ZuneUI.Shell.LoadString(StringId.IDS_EMI_UPDATEFAILED), (EventHandler)null);
+                MessageBox.Show(Shell.LoadString(StringId.IDS_EMI_UPDATEFAILED_TITLE), Shell.LoadString(StringId.IDS_EMI_UPDATEFAILED), null);
             }
             this.InitializeFromMetadataList(albumMetadataList);
         }
@@ -65,7 +65,7 @@ namespace ZuneUI
         private void InitializeFromMetadataList(List<AlbumMetadata> albumMetadataList)
         {
             this._source = AlbumMetadataPropertySource.Instance;
-            this.Initialize((IList)albumMetadataList, MetadataEditAlbum.s_properties);
+            this.Initialize(albumMetadataList, s_properties);
             foreach (AlbumMetadata albumMetadata in albumMetadataList)
             {
                 for (uint index = 0; index < albumMetadata.TrackCount; ++index)
@@ -142,15 +142,15 @@ namespace ZuneUI
         public IList GetTracks(bool filterAndSort)
         {
             if (!filterAndSort)
-                return (IList)this._trackList;
+                return _trackList;
             List<MetadataEditTrack> metadataEditTrackList = new List<MetadataEditTrack>();
             foreach (MetadataEditTrack track in this._trackList)
             {
-                if (track.GetProperty((PropertyDescriptor)MetadataEditMedia.s_MediaId).Value != "-1")
+                if (track.GetProperty(s_MediaId).Value != "-1")
                     metadataEditTrackList.Add(track);
             }
-            metadataEditTrackList.Sort((IComparer<MetadataEditTrack>)new TrackComparer());
-            return (IList)metadataEditTrackList;
+            metadataEditTrackList.Sort(new TrackComparer());
+            return metadataEditTrackList;
         }
 
         public int GetFirstInvalidTrackIndex()

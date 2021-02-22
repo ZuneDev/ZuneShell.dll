@@ -16,11 +16,11 @@ namespace ZuneUI
         };
         private WlanProfile _deviceProfile;
 
-        public WlanProfile DeviceProfile => this.Finished ? this._deviceProfile : (WlanProfile)null;
+        public WlanProfile DeviceProfile => this.Finished ? this._deviceProfile : null;
 
         public WirelessStateResults StartOperation(
           UIDevice device,
-          AsyncOperation.AOComplete completeFunc)
+          AOComplete completeFunc)
         {
             this.ResetState();
             return this.StartOperation(device, completeFunc, this._getDeviceProfileStates);
@@ -39,7 +39,7 @@ namespace ZuneUI
 
         protected override void RemoveListeners() => this._device.WiFiProfilesReceivedEvent -= new FallibleEventHandler(this.Device_GetDeviceWlanProfilesCompleteEvent);
 
-        private void ResetState() => this._deviceProfile = (WlanProfile)null;
+        private void ResetState() => this._deviceProfile = null;
 
         private void Device_GetDeviceWlanProfilesCompleteEvent(object sender, FallibleEventArgs args)
         {

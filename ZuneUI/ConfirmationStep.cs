@@ -20,7 +20,7 @@ namespace ZuneUI
         {
             this.Description = Shell.LoadString(StringId.IDS_CONFIRM_SUBSCRIPTION_HEADER);
             this.NextTextOverride = Shell.LoadString(StringId.IDS_BILLING_CONTINUE);
-            this._bulletItems = (ArrayList)null;
+            this._bulletItems = null;
             this._offerType = EBillingOfferType.Unknown;
             this._offerId = 0UL;
             this.RequireSignIn = true;
@@ -72,11 +72,11 @@ namespace ZuneUI
             HRESULT subscriptionDetails = this.State.AccountManagement.GetSubscriptionDetails(this.State.SelectBillingOfferStep.SelectedBillingOffer.Id.ToString(), out bulletStrings);
             if (subscriptionDetails.IsError)
             {
-                bulletStrings = (ArrayList)null;
-                this.SetError(subscriptionDetails, (ServiceError)null);
+                bulletStrings = null;
+                this.SetError(subscriptionDetails, null);
             }
             this._offerId = this.State.SelectBillingOfferStep.SelectedBillingOffer.Id;
-            this.EndActivationRequests((object)bulletStrings);
+            this.EndActivationRequests(bulletStrings);
         }
 
         protected override void OnEndActivationRequests(object args)

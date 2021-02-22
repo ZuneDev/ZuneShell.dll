@@ -26,7 +26,7 @@ namespace ZuneUI
             get
             {
                 if (this._fue == null)
-                    this._fue = new CategoryPageNode((Experience)this, StringId.IDS_SETTINGS_PIVOT, (IList)new Category[3]
+                    this._fue = new CategoryPageNode(this, StringId.IDS_SETTINGS_PIVOT, new Category[3]
                     {
             SettingCategories.Collection,
             SettingCategories.Filetype,
@@ -41,7 +41,7 @@ namespace ZuneUI
             get
             {
                 if (this._wirelessSetup == null)
-                    this._wirelessSetup = new CategoryPageNode((Experience)this, StringId.IDS_SET_UP_YOUR_ZUNE, (IList)new Category[1]
+                    this._wirelessSetup = new CategoryPageNode(this, StringId.IDS_SET_UP_YOUR_ZUNE, new Category[1]
                     {
             SettingCategories.WirelessSetup
                     }, SQMDataId.Invalid, true, false);

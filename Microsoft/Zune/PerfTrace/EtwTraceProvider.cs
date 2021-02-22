@@ -14,7 +14,7 @@ namespace Microsoft.Zune.PerfTrace
     internal class EtwTraceProvider
     {
         private const ushort _version = 0;
-        private EtwTraceProvider.EtwProc _etwProc;
+        private EtwProc _etwProc;
         private ulong _registrationHandle;
         private ulong _traceHandle;
         private byte _level;
@@ -23,7 +23,7 @@ namespace Microsoft.Zune.PerfTrace
 
         internal EtwTraceProvider(Guid controlGuid, string regPath)
         {
-            this._level = (byte)0;
+            this._level = 0;
             this._flags = 0U;
             this._enabled = false;
             this._traceHandle = 0UL;
@@ -46,8 +46,8 @@ namespace Microsoft.Zune.PerfTrace
 
         ~EtwTraceProvider()
         {
-            EtwTraceProvider.UnregisterTraceGuids(this._registrationHandle);
-            GC.KeepAlive((object)this._etwProc);
+            UnregisterTraceGuids(this._registrationHandle);
+            GC.KeepAlive(_etwProc);
         }
 
         internal uint Flags => this._flags;
@@ -64,24 +64,24 @@ namespace Microsoft.Zune.PerfTrace
         {
             try
             {
-                EtwTraceProvider.BaseEvent* baseEventPtr = (EtwTraceProvider.BaseEvent*)byteBuffer;
+                BaseEvent* baseEventPtr = (BaseEvent*)byteBuffer;
                 switch (requestCode)
                 {
                     case 4:
                         this._traceHandle = baseEventPtr->HistoricalContext;
-                        this._flags = (uint)EtwTraceProvider.GetTraceEnableFlags(baseEventPtr->HistoricalContext);
-                        this._level = EtwTraceProvider.GetTraceEnableLevel(baseEventPtr->HistoricalContext);
-                        if (this._flags == 0U && this._level == (byte)0)
+                        this._flags = (uint)GetTraceEnableFlags(baseEventPtr->HistoricalContext);
+                        this._level = GetTraceEnableLevel(baseEventPtr->HistoricalContext);
+                        if (this._flags == 0U && this._level == 0)
                         {
                             this._flags = uint.MaxValue;
-                            this._level = (byte)4;
+                            this._level = 4;
                         }
                         this._enabled = true;
                         break;
                     case 5:
                         this._enabled = false;
                         this._traceHandle = 0UL;
-                        this._level = (byte)0;
+                        this._level = 0;
                         this._flags = 0U;
                         break;
                     default:
@@ -106,17 +106,17 @@ namespace Microsoft.Zune.PerfTrace
 
         private unsafe uint Register(Guid controlGuid)
         {
-            EtwTraceProvider.TraceGuidRegistration guidReg = new EtwTraceProvider.TraceGuidRegistration();
-            Guid guid = new Guid(3029687280U, (ushort)15089, (ushort)18240, (byte)180, (byte)117, (byte)153, (byte)5, (byte)93, (byte)63, (byte)233, (byte)170);
-            this._etwProc = new EtwTraceProvider.EtwProc(this.ControllerChangeCallback);
+            TraceGuidRegistration guidReg = new TraceGuidRegistration();
+            Guid guid = new Guid(3029687280U, 15089, 18240, 180, 117, 153, 5, 93, 63, 233, 170);
+            this._etwProc = new EtwProc(this.ControllerChangeCallback);
             guidReg.Guid = &guid;
-            guidReg.RegHandle = (void*)null;
-            return EtwTraceProvider.RegisterTraceGuids(this._etwProc, (void*)null, ref controlGuid, 1U, ref guidReg, (string)null, (string)null, out this._registrationHandle);
+            guidReg.RegHandle = null;
+            return RegisterTraceGuids(this._etwProc, null, ref controlGuid, 1U, ref guidReg, null, null, out this._registrationHandle);
         }
 
-        internal void TraceEvent(byte level, Guid eventGuid, byte eventType) => this.TraceEvent(level, eventGuid, eventType, (object)null, (object)null);
+        internal void TraceEvent(byte level, Guid eventGuid, byte eventType) => this.TraceEvent(level, eventGuid, eventType, null, null);
 
-        internal void TraceEvent(byte level, Guid eventGuid, byte eventType, object data0) => this.TraceEvent(level, eventGuid, eventType, data0, (object)null);
+        internal void TraceEvent(byte level, Guid eventGuid, byte eventType, object data0) => this.TraceEvent(level, eventGuid, eventType, data0, null);
 
         internal void TraceEvent(
           byte level,
@@ -125,7 +125,7 @@ namespace Microsoft.Zune.PerfTrace
           object data0,
           object data1)
         {
-            int num = (int)this.TraceEvent(level, eventGuid, eventType, data0, data1, (object)null, (object)null, (object)null, (object)null, (object)null, (object)null, (object)null);
+            int num = (int)this.TraceEvent(level, eventGuid, eventType, data0, data1, null, null, null, null, null, null, null);
         }
 
         internal void TraceEvent(
@@ -136,7 +136,7 @@ namespace Microsoft.Zune.PerfTrace
           object data1,
           object data2)
         {
-            int num = (int)this.TraceEvent(level, eventGuid, eventType, data0, data1, data2, (object)null, (object)null, (object)null, (object)null, (object)null, (object)null);
+            int num = (int)this.TraceEvent(level, eventGuid, eventType, data0, data1, data2, null, null, null, null, null, null);
         }
 
         internal void TraceEvent(
@@ -148,7 +148,7 @@ namespace Microsoft.Zune.PerfTrace
           object data2,
           object data3)
         {
-            int num = (int)this.TraceEvent(level, eventGuid, eventType, data0, data1, data2, data3, (object)null, (object)null, (object)null, (object)null, (object)null);
+            int num = (int)this.TraceEvent(level, eventGuid, eventType, data0, data1, data2, data3, null, null, null, null, null);
         }
 
         internal void TraceEvent(
@@ -161,7 +161,7 @@ namespace Microsoft.Zune.PerfTrace
           object data3,
           object data4)
         {
-            int num = (int)this.TraceEvent(level, eventGuid, eventType, data0, data1, data2, data3, data4, (object)null, (object)null, (object)null, (object)null);
+            int num = (int)this.TraceEvent(level, eventGuid, eventType, data0, data1, data2, data3, data4, null, null, null, null);
         }
 
         internal void TraceEvent(
@@ -175,7 +175,7 @@ namespace Microsoft.Zune.PerfTrace
           object data4,
           object data5)
         {
-            int num = (int)this.TraceEvent(level, eventGuid, eventType, data0, data1, data2, data3, data4, data5, (object)null, (object)null, (object)null);
+            int num = (int)this.TraceEvent(level, eventGuid, eventType, data0, data1, data2, data3, data4, data5, null, null, null);
         }
 
         internal void TraceEvent(
@@ -190,7 +190,7 @@ namespace Microsoft.Zune.PerfTrace
           object data5,
           object data6)
         {
-            int num = (int)this.TraceEvent(level, eventGuid, eventType, data0, data1, data2, data3, data4, data5, data6, (object)null, (object)null);
+            int num = (int)this.TraceEvent(level, eventGuid, eventType, data0, data1, data2, data3, data4, data5, data6, null, null);
         }
 
         internal void TraceEvent(
@@ -206,7 +206,7 @@ namespace Microsoft.Zune.PerfTrace
           object data6,
           object data7)
         {
-            int num = (int)this.TraceEvent(level, eventGuid, eventType, data0, data1, data2, data3, data4, data5, data6, data7, (object)null);
+            int num = (int)this.TraceEvent(level, eventGuid, eventType, data0, data1, data2, data3, data4, data5, data6, data7, null);
         }
 
         internal unsafe uint TraceEvent(
@@ -239,24 +239,24 @@ namespace Microsoft.Zune.PerfTrace
             string str8 = str1;
             string str9 = str1;
             string str10 = str1;
-            EtwTraceProvider.BaseEvent baseEvent;
+            BaseEvent baseEvent;
             baseEvent.ClientContext = 0U;
             baseEvent.Flags = 1179648U;
             baseEvent.Guid = eventGuid;
             baseEvent.EventType = evtype;
             baseEvent.Level = level;
-            baseEvent.Version = (ushort)0;
+            baseEvent.Version = 0;
             if (data0 != null)
             {
                 ++num2;
-                EtwTraceProvider.MofField* mofField = (EtwTraceProvider.MofField*)( & baseEvent.UserData + num3++ * sizeof(EtwTraceProvider.MofField));
+                MofField* mofField = &baseEvent.UserData + num3++ * sizeof(MofField);
                 if ((str10 = this.ProcessOneObject(data0, mofField, ptr, ref offSet)) != null)
                     num1 |= 1;
             }
             if (data1 != null)
             {
                 ++num2;
-                EtwTraceProvider.MofField* mofField = (EtwTraceProvider.MofField*)( & baseEvent.UserData + num3++ * sizeof(EtwTraceProvider.MofField));
+                MofField* mofField = &baseEvent.UserData + num3++ * sizeof(MofField);
                 ptr = chPtr1 + offSet;
                 if ((str9 = this.ProcessOneObject(data1, mofField, ptr, ref offSet)) != null)
                     num1 |= 2;
@@ -264,7 +264,7 @@ namespace Microsoft.Zune.PerfTrace
             if (data2 != null)
             {
                 ++num2;
-                EtwTraceProvider.MofField* mofField = (EtwTraceProvider.MofField*)( & baseEvent.UserData + num3++ * sizeof(EtwTraceProvider.MofField));
+                MofField* mofField = &baseEvent.UserData + num3++ * sizeof(MofField);
                 ptr = chPtr1 + offSet;
                 if ((str8 = this.ProcessOneObject(data2, mofField, ptr, ref offSet)) != null)
                     num1 |= 4;
@@ -272,7 +272,7 @@ namespace Microsoft.Zune.PerfTrace
             if (data3 != null)
             {
                 ++num2;
-                EtwTraceProvider.MofField* mofField = (EtwTraceProvider.MofField*)( & baseEvent.UserData + num3++ * sizeof(EtwTraceProvider.MofField));
+                MofField* mofField = &baseEvent.UserData + num3++ * sizeof(MofField);
                 ptr = chPtr1 + offSet;
                 if ((str7 = this.ProcessOneObject(data3, mofField, ptr, ref offSet)) != null)
                     num1 |= 8;
@@ -280,7 +280,7 @@ namespace Microsoft.Zune.PerfTrace
             if (data4 != null)
             {
                 ++num2;
-                EtwTraceProvider.MofField* mofField = (EtwTraceProvider.MofField*)( & baseEvent.UserData + num3++ * sizeof(EtwTraceProvider.MofField));
+                MofField* mofField = &baseEvent.UserData + num3++ * sizeof(MofField);
                 ptr = chPtr1 + offSet;
                 if ((str6 = this.ProcessOneObject(data4, mofField, ptr, ref offSet)) != null)
                     num1 |= 16;
@@ -288,7 +288,7 @@ namespace Microsoft.Zune.PerfTrace
             if (data5 != null)
             {
                 ++num2;
-                EtwTraceProvider.MofField* mofField = (EtwTraceProvider.MofField*)( & baseEvent.UserData + num3++ * sizeof(EtwTraceProvider.MofField));
+                MofField* mofField = &baseEvent.UserData + num3++ * sizeof(MofField);
                 ptr = chPtr1 + offSet;
                 if ((str5 = this.ProcessOneObject(data5, mofField, ptr, ref offSet)) != null)
                     num1 |= 32;
@@ -296,7 +296,7 @@ namespace Microsoft.Zune.PerfTrace
             if (data6 != null)
             {
                 ++num2;
-                EtwTraceProvider.MofField* mofField = (EtwTraceProvider.MofField*)( & baseEvent.UserData + num3++ * sizeof(EtwTraceProvider.MofField));
+                MofField* mofField = &baseEvent.UserData + num3++ * sizeof(MofField);
                 ptr = chPtr1 + offSet;
                 if ((str4 = this.ProcessOneObject(data6, mofField, ptr, ref offSet)) != null)
                     num1 |= 64;
@@ -304,7 +304,7 @@ namespace Microsoft.Zune.PerfTrace
             if (data7 != null)
             {
                 ++num2;
-                EtwTraceProvider.MofField* mofField = (EtwTraceProvider.MofField*)( & baseEvent.UserData + num3++ * sizeof(EtwTraceProvider.MofField));
+                MofField* mofField = &baseEvent.UserData + num3++ * sizeof(MofField);
                 ptr = chPtr1 + offSet;
                 if ((str3 = this.ProcessOneObject(data7, mofField, ptr, ref offSet)) != null)
                     num1 |= 128;
@@ -312,7 +312,7 @@ namespace Microsoft.Zune.PerfTrace
             if (data8 != null)
             {
                 uint num4 = num2 + 1U;
-                EtwTraceProvider.MofField* mofField = (EtwTraceProvider.MofField*)( & baseEvent.UserData + num3++ * sizeof(EtwTraceProvider.MofField));
+                MofField* mofField = &baseEvent.UserData + num3++ * sizeof(MofField);
                 ptr = chPtr1 + offSet;
                 if ((str2 = this.ProcessOneObject(data8, mofField, ptr, ref offSet)) != null)
                     num1 |= 256;
@@ -334,65 +334,65 @@ namespace Microsoft.Zune.PerfTrace
                 if ((num1 & 1) != 0)
                 {
                     (&baseEvent.UserData)[index1].DataLength = (uint)((str10.Length + 1) * 2);
-                    (&baseEvent.UserData)[index1].DataPointer = (void*)chPtr2;
+                    (&baseEvent.UserData)[index1].DataPointer = chPtr2;
                 }
                 int index2 = index1 + 1;
                 if ((num1 & 2) != 0)
                 {
                     (&baseEvent.UserData)[index2].DataLength = (uint)((str9.Length + 1) * 2);
-                    (&baseEvent.UserData)[index2].DataPointer = (void*)chPtr3;
+                    (&baseEvent.UserData)[index2].DataPointer = chPtr3;
                 }
                 int index3 = index2 + 1;
                 if ((num1 & 4) != 0)
                 {
                     (&baseEvent.UserData)[index3].DataLength = (uint)((str8.Length + 1) * 2);
-                    (&baseEvent.UserData)[index3].DataPointer = (void*)chPtr4;
+                    (&baseEvent.UserData)[index3].DataPointer = chPtr4;
                 }
                 int index4 = index3 + 1;
                 if ((num1 & 8) != 0)
                 {
                     (&baseEvent.UserData)[index4].DataLength = (uint)((str7.Length + 1) * 2);
-                    (&baseEvent.UserData)[index4].DataPointer = (void*)chPtr5;
+                    (&baseEvent.UserData)[index4].DataPointer = chPtr5;
                 }
                 int index5 = index4 + 1;
                 if ((num1 & 16) != 0)
                 {
                     (&baseEvent.UserData)[index5].DataLength = (uint)((str6.Length + 1) * 2);
-                    (&baseEvent.UserData)[index5].DataPointer = (void*)chPtr6;
+                    (&baseEvent.UserData)[index5].DataPointer = chPtr6;
                 }
                 int index6 = index5 + 1;
                 if ((num1 & 32) != 0)
                 {
                     (&baseEvent.UserData)[index6].DataLength = (uint)((str5.Length + 1) * 2);
-                    (&baseEvent.UserData)[index6].DataPointer = (void*)chPtr7;
+                    (&baseEvent.UserData)[index6].DataPointer = chPtr7;
                 }
                 int index7 = index6 + 1;
                 if ((num1 & 64) != 0)
                 {
                     (&baseEvent.UserData)[index7].DataLength = (uint)((str4.Length + 1) * 2);
-                    (&baseEvent.UserData)[index7].DataPointer = (void*)chPtr8;
+                    (&baseEvent.UserData)[index7].DataPointer = chPtr8;
                 }
                 int index8 = index7 + 1;
                 if ((num1 & 128) != 0)
                 {
                     (&baseEvent.UserData)[index8].DataLength = (uint)((str3.Length + 1) * 2);
-                    (&baseEvent.UserData)[index8].DataPointer = (void*)chPtr9;
+                    (&baseEvent.UserData)[index8].DataPointer = chPtr9;
                 }
                 int index9 = index8 + 1;
                 if ((num1 & 256) != 0)
                 {
                     (&baseEvent.UserData)[index9].DataLength = (uint)((str2.Length + 1) * 2);
-                    (&baseEvent.UserData)[index9].DataPointer = (void*)chPtr10;
+                    (&baseEvent.UserData)[index9].DataPointer = chPtr10;
                 }
-                baseEvent.BufferSize = (uint)(48 + num3 * sizeof(EtwTraceProvider.MofField));
-                num5 = EtwTraceProvider.TraceEvent(this._traceHandle, (char*)&baseEvent);
+                baseEvent.BufferSize = (uint)(48 + num3 * sizeof(MofField));
+                num5 = TraceEvent(this._traceHandle, (char*)&baseEvent);
             }
             return num5;
         }
 
         private unsafe string ProcessOneObject(
           object data,
-          EtwTraceProvider.MofField* mofField,
+          MofField* mofField,
           char* ptr,
           ref uint offSet)
         {
@@ -401,116 +401,116 @@ namespace Microsoft.Zune.PerfTrace
 
         private unsafe string EncodeObject(
           object data,
-          EtwTraceProvider.MofField* mofField,
+          MofField* mofField,
           char* ptr,
           ref uint offSet)
         {
             if (data == null)
             {
                 mofField->DataLength = 0U;
-                mofField->DataPointer = (void*)null;
-                return (string)null;
+                mofField->DataPointer = null;
+                return null;
             }
             Type type = data.GetType();
             if (type.IsEnum)
-                data = Convert.ChangeType(data, Enum.GetUnderlyingType(type), (IFormatProvider)CultureInfo.InvariantCulture);
+                data = Convert.ChangeType(data, Enum.GetUnderlyingType(type), CultureInfo.InvariantCulture);
             switch (data)
             {
                 case sbyte num:
                     mofField->DataLength = 1U;
                     sbyte* numPtr1 = (sbyte*)ptr;
                     *numPtr1 = num;
-                    mofField->DataPointer = (void*)numPtr1;
+                    mofField->DataPointer = numPtr1;
                     ++offSet;
                     break;
                 case byte num:
                     mofField->DataLength = 1U;
                     byte* numPtr2 = (byte*)ptr;
                     *numPtr2 = num;
-                    mofField->DataPointer = (void*)numPtr2;
+                    mofField->DataPointer = numPtr2;
                     ++offSet;
                     break;
                 case short num:
                     mofField->DataLength = 2U;
                     short* numPtr3 = (short*)ptr;
                     *numPtr3 = num;
-                    mofField->DataPointer = (void*)numPtr3;
+                    mofField->DataPointer = numPtr3;
                     offSet += 2U;
                     break;
                 case ushort num:
                     mofField->DataLength = 2U;
                     ushort* numPtr4 = (ushort*)ptr;
                     *numPtr4 = num;
-                    mofField->DataPointer = (void*)numPtr4;
+                    mofField->DataPointer = numPtr4;
                     offSet += 2U;
                     break;
                 case int num:
                     mofField->DataLength = 4U;
                     int* numPtr5 = (int*)ptr;
                     *numPtr5 = num;
-                    mofField->DataPointer = (void*)numPtr5;
+                    mofField->DataPointer = numPtr5;
                     offSet += 4U;
                     break;
                 case uint num:
                     mofField->DataLength = 4U;
                     uint* numPtr6 = (uint*)ptr;
                     *numPtr6 = num;
-                    mofField->DataPointer = (void*)numPtr6;
+                    mofField->DataPointer = numPtr6;
                     offSet += 4U;
                     break;
                 case long num:
                     mofField->DataLength = 8U;
                     long* numPtr7 = (long*)ptr;
                     *numPtr7 = num;
-                    mofField->DataPointer = (void*)numPtr7;
+                    mofField->DataPointer = numPtr7;
                     offSet += 8U;
                     break;
                 case ulong num:
                     mofField->DataLength = 8U;
                     ulong* numPtr8 = (ulong*)ptr;
                     *numPtr8 = num;
-                    mofField->DataPointer = (void*)numPtr8;
+                    mofField->DataPointer = numPtr8;
                     offSet += 8U;
                     break;
                 case char ch:
                     mofField->DataLength = 2U;
                     char* chPtr = ptr;
                     *chPtr = ch;
-                    mofField->DataPointer = (void*)chPtr;
+                    mofField->DataPointer = chPtr;
                     offSet += 2U;
                     break;
                 case float num:
                     mofField->DataLength = 4U;
                     float* numPtr9 = (float*)ptr;
                     *numPtr9 = num;
-                    mofField->DataPointer = (void*)numPtr9;
+                    mofField->DataPointer = numPtr9;
                     offSet += 4U;
                     break;
                 case double num:
                     mofField->DataLength = 8U;
                     double* numPtr10 = (double*)ptr;
                     *numPtr10 = num;
-                    mofField->DataPointer = (void*)numPtr10;
+                    mofField->DataPointer = numPtr10;
                     offSet += 8U;
                     break;
                 case bool flag:
                     mofField->DataLength = 1U;
                     bool* flagPtr = (bool*)ptr;
                     *flagPtr = flag;
-                    mofField->DataPointer = (void*)flagPtr;
+                    mofField->DataPointer = flagPtr;
                     ++offSet;
                     break;
                 case Decimal num:
                     mofField->DataLength = 16U;
                     Decimal* numPtr11 = (Decimal*)ptr;
                     *numPtr11 = num;
-                    mofField->DataPointer = (void*)numPtr11;
+                    mofField->DataPointer = numPtr11;
                     offSet += 16U;
                     break;
                 default:
                     return data.ToString();
             }
-            return (string)null;
+            return null;
         }
 
         [DllImport("advapi32", CharSet = CharSet.Unicode)]
@@ -521,11 +521,11 @@ namespace Microsoft.Zune.PerfTrace
 
         [DllImport("advapi32", EntryPoint = "RegisterTraceGuidsW", CharSet = CharSet.Unicode)]
         internal static extern unsafe uint RegisterTraceGuids(
-          [In] EtwTraceProvider.EtwProc cbFunc,
+          [In] EtwProc cbFunc,
           [In] void* context,
           [In] ref Guid controlGuid,
           [In] uint guidCount,
-          ref EtwTraceProvider.TraceGuidRegistration guidReg,
+          ref TraceGuidRegistration guidReg,
           [In] string mofImagePath,
           [In] string mofResourceName,
           out ulong regHandle);
@@ -587,7 +587,7 @@ namespace Microsoft.Zune.PerfTrace
             [FieldOffset(44)]
             internal uint Flags;
             [FieldOffset(48)]
-            internal EtwTraceProvider.MofField UserData;
+            internal MofField UserData;
         }
 
         internal unsafe delegate uint EtwProc(

@@ -29,7 +29,7 @@ namespace ZuneUI
             this.LoadLanguages = true;
             this.NextTextOverride = Shell.LoadString(StringId.IDS_I_ACCEPT_BUTTON);
             this.Description = Shell.LoadString(StringId.IDS_ACCOUNT_CREATION_ACCOUNT_INFO_STEP);
-            this.Initialize((WizardPropertyEditor)new BasicAccountInfoPropertyEditor());
+            this.Initialize(new BasicAccountInfoPropertyEditor());
         }
 
         public override bool IsEnabled
@@ -120,9 +120,9 @@ namespace ZuneUI
 
         protected override void OnCountryChanged()
         {
-            this.SetPropertyState(BasicAccountInfoPropertyEditor.PostalCode, (object)this.SelectedCountry);
-            this.SetPropertyState(BasicAccountInfoPropertyEditor.Birthday, (object)this.SelectedLocale);
-            this.TermsOfService = (string)null;
+            this.SetPropertyState(BasicAccountInfoPropertyEditor.PostalCode, SelectedCountry);
+            this.SetPropertyState(BasicAccountInfoPropertyEditor.Birthday, SelectedLocale);
+            this.TermsOfService = null;
             this.TermsOfServiceUrl = TermsOfServiceStep.GetTermsOfServiceUrl(this.SelectedLocale);
             this.PrivacyUrl = TermsOfServiceStep.GetPrivacyUrl(this.SelectedLocale);
             this.SetUncommittedValue(BasicAccountInfoPropertyEditor.Birthday, this.GetCommittedValue(BasicAccountInfoPropertyEditor.Birthday));
@@ -133,8 +133,8 @@ namespace ZuneUI
 
         protected override void OnLanguageChanged()
         {
-            this.SetPropertyState(BasicAccountInfoPropertyEditor.Birthday, (object)this.SelectedLocale);
-            this.TermsOfService = (string)null;
+            this.SetPropertyState(BasicAccountInfoPropertyEditor.Birthday, SelectedLocale);
+            this.TermsOfService = null;
             this.TermsOfServiceUrl = TermsOfServiceStep.GetTermsOfServiceUrl(this.SelectedLocale);
             this.PrivacyUrl = TermsOfServiceStep.GetPrivacyUrl(this.SelectedLocale);
             this.SetUncommittedValue(BasicAccountInfoPropertyEditor.Birthday, this.GetCommittedValue(BasicAccountInfoPropertyEditor.Birthday));
@@ -156,7 +156,7 @@ namespace ZuneUI
             if (this.ServiceDeactivationRequestsDone)
                 return base.OnMovingNext();
             DateTime? uncommittedValue = (DateTime?)this.GetUncommittedValue(BasicAccountInfoPropertyEditor.Birthday);
-            this.StartDeactivationRequests((object)new BasicAccountInfoStep.WorkerThreadData()
+            this.StartDeactivationRequests(new WorkerThreadData()
             {
                 Birthday = uncommittedValue.Value,
                 SelectedCountry = this.SelectedCountry
@@ -164,14 +164,14 @@ namespace ZuneUI
             return false;
         }
 
-        internal override ErrorMapperResult GetMappedErrorDescriptionAndUrl(HRESULT hr) => Microsoft.Zune.ErrorMapperApi.ErrorMapperApi.GetMappedErrorDescriptionAndUrl(hr.Int, eErrorCondition.eEC_WinLive);
+        internal override ErrorMapperResult GetMappedErrorDescriptionAndUrl(HRESULT hr) => ErrorMapperApi.GetMappedErrorDescriptionAndUrl(hr.Int, eErrorCondition.eEC_WinLive);
 
         protected override void OnStartActivationRequests(object state)
         {
             base.OnStartActivationRequests(state);
-            if (!(state is RegionInfoStep.RegionServiceData regionServiceData) || string.IsNullOrEmpty(regionServiceData.SelectedCountry))
+            if (!(state is RegionServiceData regionServiceData) || string.IsNullOrEmpty(regionServiceData.SelectedCountry))
                 return;
-            this.EndActivationRequests((object)this.ObtainTermsOfService(regionServiceData.SelectedLanguage, regionServiceData.SelectedCountry));
+            this.EndActivationRequests(this.ObtainTermsOfService(regionServiceData.SelectedLanguage, regionServiceData.SelectedCountry));
         }
 
         protected override void OnEndActivationRequests(object args)
@@ -184,7 +184,7 @@ namespace ZuneUI
                 base.OnEndActivationRequests(args);
         }
 
-        protected override void OnStartDeactivationRequests(object state) => this.EndDeactivationRequests((object)this.ObtainNewAccountType((BasicAccountInfoStep.WorkerThreadData)state));
+        protected override void OnStartDeactivationRequests(object state) => this.EndDeactivationRequests(this.ObtainNewAccountType((WorkerThreadData)state));
 
         protected override void OnEndDeactivationRequests(object args)
         {
@@ -193,7 +193,7 @@ namespace ZuneUI
         }
 
         private AccountUserType ObtainNewAccountType(
-          BasicAccountInfoStep.WorkerThreadData data)
+          WorkerThreadData data)
         {
             AccountUserType accountUserType = AccountUserType.Unknown;
             AccountCountry country = AccountCountryList.Instance.GetCountry(data.SelectedCountry);
@@ -216,10 +216,10 @@ namespace ZuneUI
 
         private string ObtainTermsOfService(string language, string country)
         {
-            string termsOfService1 = (string)null;
+            string termsOfService1 = null;
             HRESULT termsOfService2 = this.State.AccountManagement.GetTermsOfService(language, country, out termsOfService1);
             if (termsOfService2.IsError)
-                this.SetError(termsOfService2, (ServiceError)null);
+                this.SetError(termsOfService2, null);
             return termsOfService1;
         }
 

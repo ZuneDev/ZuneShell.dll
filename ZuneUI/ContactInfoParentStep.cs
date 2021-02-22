@@ -17,7 +17,7 @@ namespace ZuneUI
         {
             this.NextTextOverride = Shell.LoadString(StringId.IDS_I_ACCEPT_BUTTON);
             this.Description = Shell.LoadString(StringId.IDS_ACCOUNT_CREATION_PARENT_CONTACT_HEAD);
-            this.Initialize((WizardPropertyEditor)new ContactInfoParentPropertyEditor());
+            this.Initialize(new ContactInfoParentPropertyEditor());
         }
 
         public override string UI => "res://ZuneShellResources!AccountInfo.uix#ParentContactInfoStep";
@@ -51,17 +51,17 @@ namespace ZuneUI
         {
             if (this.WizardPropertyEditor == null)
                 return;
-            this.WizardPropertyEditor.SetPropertyState(BaseContactInfoPropertyEditor.FirstName, (object)this.SelectedCountry);
-            this.WizardPropertyEditor.SetPropertyState(BaseContactInfoPropertyEditor.LastName, (object)this.SelectedCountry);
-            this.WizardPropertyEditor.SetPropertyState(BaseContactInfoPropertyEditor.PhoneNumber, (object)this.SelectedCountry);
-            this.WizardPropertyEditor.SetPropertyState(BaseContactInfoPropertyEditor.PhoneExtension, (object)this.SelectedCountry);
+            this.WizardPropertyEditor.SetPropertyState(BaseContactInfoPropertyEditor.FirstName, SelectedCountry);
+            this.WizardPropertyEditor.SetPropertyState(BaseContactInfoPropertyEditor.LastName, SelectedCountry);
+            this.WizardPropertyEditor.SetPropertyState(BaseContactInfoPropertyEditor.PhoneNumber, SelectedCountry);
+            this.WizardPropertyEditor.SetPropertyState(BaseContactInfoPropertyEditor.PhoneExtension, SelectedCountry);
         }
 
         protected override void OnActivate()
         {
             this.SelectedCountry = this.State.BasicAccountInfoStep.SelectedCountry;
             this.ServiceDeactivationRequestsDone = false;
-            this.SetPropertyState(ContactInfoParentPropertyEditor.Birthday, (object)this.State.BasicAccountInfoStep.SelectedLocale);
+            this.SetPropertyState(ContactInfoParentPropertyEditor.Birthday, State.BasicAccountInfoStep.SelectedLocale);
             this.SetUncommittedValue(ContactInfoParentPropertyEditor.Birthday, this.GetCommittedValue(ContactInfoParentPropertyEditor.Birthday));
             MetadataEditProperty property = this.WizardPropertyEditor.GetProperty(BaseContactInfoPropertyEditor.Email);
             if (string.IsNullOrEmpty(property.Value))
@@ -92,11 +92,11 @@ namespace ZuneUI
                 this.ServiceDeactivationRequestsDone = false;
                 return false;
             }
-            this.StartDeactivationRequests((object)((DateTime?)this.GetUncommittedValue(ContactInfoParentPropertyEditor.Birthday)).Value);
+            this.StartDeactivationRequests(((DateTime?)GetUncommittedValue(ContactInfoParentPropertyEditor.Birthday)).Value);
             return false;
         }
 
-        protected override void OnStartDeactivationRequests(object state) => this.EndDeactivationRequests((object)this.ObtainIsAdult((DateTime)state));
+        protected override void OnStartDeactivationRequests(object state) => this.EndDeactivationRequests(this.ObtainIsAdult((DateTime)state));
 
         protected override void OnEndDeactivationRequests(object args) => this.IsAdult = (bool)args;
 

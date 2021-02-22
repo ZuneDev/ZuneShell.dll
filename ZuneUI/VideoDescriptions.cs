@@ -12,10 +12,10 @@ namespace ZuneUI
     public static class VideoDescriptions
     {
         private static string _tvViewHeader = Shell.LoadString(StringId.IDS_COLLECTION_VIDEO_TV);
-        private static string _musicViewHeader = (string)null;
-        private static string _movieViewHeader = (string)null;
-        private static string _otherViewHeader = (string)null;
-        private static string _personalViewHeader = (string)null;
+        private static string _musicViewHeader = null;
+        private static string _movieViewHeader = null;
+        private static string _otherViewHeader = null;
+        private static string _personalViewHeader = null;
         private static string _seriesDescription = Shell.LoadString(StringId.IDS_COLLECTION_VIDEO_TV_SERIES);
         private static string _shortsDescription = Shell.LoadString(StringId.IDS_COLLECTION_VIDEO_TV_SHORTS);
         private static string _newsDescription = Shell.LoadString(StringId.IDS_COLLECTION_VIDEO_TV_NEWS);
@@ -23,77 +23,77 @@ namespace ZuneUI
         private static string _moviesDescription = Shell.LoadString(StringId.IDS_COLLECTION_VIDEO_MOVIES);
         private static string _otherDescription = Shell.LoadString(StringId.IDS_COLLECTION_VIDEO_OTHER);
         private static string _personalDescription = Shell.LoadString(StringId.IDS_COLLECTION_VIDEO_PERSONAL);
-        private static VideoViewCategory _tvCategory = new VideoViewCategory(VideoDescriptions._tvViewHeader, VideoDescriptions._seriesDescription);
-        private static VideoViewCategory _shortsCategory = new VideoViewCategory(VideoDescriptions._tvViewHeader, VideoDescriptions._shortsDescription);
-        private static VideoViewCategory _newsCategory = new VideoViewCategory(VideoDescriptions._tvViewHeader, VideoDescriptions._newsDescription);
-        private static VideoViewCategory _musicCategory = new VideoViewCategory(VideoDescriptions._musicViewHeader, VideoDescriptions._musicDescription);
-        private static VideoViewCategory _moviesCategory = new VideoViewCategory(VideoDescriptions._movieViewHeader, VideoDescriptions._moviesDescription);
-        private static VideoViewCategory _otherCategory = new VideoViewCategory(VideoDescriptions._otherViewHeader, VideoDescriptions._otherDescription);
-        private static VideoViewCategory _personalCategory = new VideoViewCategory(VideoDescriptions._personalViewHeader, VideoDescriptions._personalDescription);
+        private static VideoViewCategory _tvCategory = new VideoViewCategory(_tvViewHeader, _seriesDescription);
+        private static VideoViewCategory _shortsCategory = new VideoViewCategory(_tvViewHeader, _shortsDescription);
+        private static VideoViewCategory _newsCategory = new VideoViewCategory(_tvViewHeader, _newsDescription);
+        private static VideoViewCategory _musicCategory = new VideoViewCategory(_musicViewHeader, _musicDescription);
+        private static VideoViewCategory _moviesCategory = new VideoViewCategory(_movieViewHeader, _moviesDescription);
+        private static VideoViewCategory _otherCategory = new VideoViewCategory(_otherViewHeader, _otherDescription);
+        private static VideoViewCategory _personalCategory = new VideoViewCategory(_personalViewHeader, _personalDescription);
         private static GroupedList _groupedCategories;
 
         public static int GetCategoryId(VideoCategory category) => (int)category;
 
         public static VideoCategory GetCategory(int id) => (VideoCategory)id;
 
-        public static string GetDescription(int categoryId) => VideoDescriptions.GetDescription((VideoCategory)categoryId);
+        public static string GetDescription(int categoryId) => GetDescription((VideoCategory)categoryId);
 
         public static string GetDescription(VideoCategory category)
         {
             switch (category)
             {
                 case VideoCategory.TV:
-                    return VideoDescriptions._seriesDescription;
+                    return _seriesDescription;
                 case VideoCategory.News:
-                    return VideoDescriptions._newsDescription;
+                    return _newsDescription;
                 case VideoCategory.Music:
-                    return VideoDescriptions._musicDescription;
+                    return _musicDescription;
                 case VideoCategory.Movies:
-                    return VideoDescriptions._moviesDescription;
+                    return _moviesDescription;
                 case VideoCategory.Personal:
-                    return VideoDescriptions._personalDescription;
+                    return _personalDescription;
                 case VideoCategory.Shorts:
-                    return VideoDescriptions._shortsDescription;
+                    return _shortsDescription;
                 default:
-                    return VideoDescriptions._otherDescription;
+                    return _otherDescription;
             }
         }
 
         public static VideoCategory GetCategory(string description)
         {
-            if (description == VideoDescriptions._seriesDescription)
+            if (description == _seriesDescription)
                 return VideoCategory.TV;
-            if (description == VideoDescriptions._shortsDescription)
+            if (description == _shortsDescription)
                 return VideoCategory.Shorts;
-            if (description == VideoDescriptions._newsDescription)
+            if (description == _newsDescription)
                 return VideoCategory.News;
-            if (description == VideoDescriptions._musicDescription)
+            if (description == _musicDescription)
                 return VideoCategory.Music;
-            if (description == VideoDescriptions._moviesDescription)
+            if (description == _moviesDescription)
                 return VideoCategory.Movies;
-            return description == VideoDescriptions._personalDescription ? VideoCategory.Personal : VideoCategory.Other;
+            return description == _personalDescription ? VideoCategory.Personal : VideoCategory.Other;
         }
 
         public static GroupedList Categories
         {
             get
             {
-                if (VideoDescriptions._groupedCategories == null)
+                if (_groupedCategories == null)
                 {
-                    VideoDescriptions._groupedCategories = new GroupedList();
-                    VideoDescriptions._groupedCategories.Comparer = (IComparer)new VideoViewCategoryComparer();
-                    VideoDescriptions._groupedCategories.Source = (IList)new VideoViewCategory[7]
+                    _groupedCategories = new GroupedList();
+                    _groupedCategories.Comparer = new VideoViewCategoryComparer();
+                    _groupedCategories.Source = (new VideoViewCategory[7]
                     {
-            VideoDescriptions._tvCategory,
-            VideoDescriptions._shortsCategory,
-            VideoDescriptions._newsCategory,
-            VideoDescriptions._musicCategory,
-            VideoDescriptions._moviesCategory,
-            VideoDescriptions._otherCategory,
-            VideoDescriptions._personalCategory
-                    };
+            _tvCategory,
+            _shortsCategory,
+            _newsCategory,
+            _musicCategory,
+            _moviesCategory,
+            _otherCategory,
+            _personalCategory
+                    });
                 }
-                return VideoDescriptions._groupedCategories;
+                return _groupedCategories;
             }
         }
     }

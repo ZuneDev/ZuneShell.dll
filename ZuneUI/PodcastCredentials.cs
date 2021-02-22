@@ -24,13 +24,13 @@ namespace ZuneUI
         {
             get
             {
-                if (PodcastCredentials._instance == null)
-                    PodcastCredentials._instance = new PodcastCredentials();
-                return PodcastCredentials._instance;
+                if (_instance == null)
+                    _instance = new PodcastCredentials();
+                return _instance;
             }
         }
 
-        public static bool HasInstance => PodcastCredentials._instance != null;
+        public static bool HasInstance => _instance != null;
 
         public override void Phase2Init() => SubscriptionManager.Instance.SetCredentialHandler(EMediaTypes.eMediaTypePodcastSeries, new SubscriptionCredentialHandler(this.GetCredentials));
 
@@ -40,10 +40,10 @@ namespace ZuneUI
             if (!Application.IsApplicationThread && this._dialogClosed == null)
             {
                 this._dialogClosed = new EventWaitHandle(false, EventResetMode.ManualReset);
-                Application.DeferredInvoke(new DeferredInvokeHandler(this.ShowDialog), (object)args);
+                Application.DeferredInvoke(new DeferredInvokeHandler(this.ShowDialog), args);
                 this._dialogClosed.WaitOne();
                 this._dialogClosed.Close();
-                this._dialogClosed = (EventWaitHandle)null;
+                this._dialogClosed = null;
             }
             return this._completed;
         }
@@ -55,7 +55,7 @@ namespace ZuneUI
             if (this._inputDialog != null)
             {
                 this._inputDialog.Dispose();
-                this._inputDialog = (PodcastSignIn)null;
+                this._inputDialog = null;
             }
             this._inputDialog = new PodcastSignIn((SubscriptonCredentialRequestArguments)args, new EventHandler(OnDialogSignIn), new EventHandler(OnDialogCanceled));
             this._inputDialog.Show();
@@ -63,11 +63,11 @@ namespace ZuneUI
 
         public override void Dispose()
         {
-            SubscriptionManager.Instance.SetCredentialHandler(EMediaTypes.eMediaTypePodcastSeries, (SubscriptionCredentialHandler)null);
+            SubscriptionManager.Instance.SetCredentialHandler(EMediaTypes.eMediaTypePodcastSeries, null);
             if (this._inputDialog != null)
             {
                 this._inputDialog.Dispose();
-                this._inputDialog = (PodcastSignIn)null;
+                this._inputDialog = null;
             }
             base.Dispose();
         }

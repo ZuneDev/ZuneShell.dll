@@ -23,7 +23,7 @@ namespace ZuneUI
             if (dataProviderObject.TypeName == "ArtistData")
                 dataProviderObject = (DataProviderObject)dataProviderObject.GetProperty("Item");
             Artist artist = (Artist)dataProviderObject;
-            mixResultArtist.Initialize(MixResultType.Artist, reason, artist.Title ?? string.Empty, string.Empty, artist.Id.ToString(), string.Empty, artist.ImageId, (DataProviderObject)null);
+            mixResultArtist.Initialize(MixResultType.Artist, reason, artist.Title ?? string.Empty, string.Empty, artist.Id.ToString(), string.Empty, artist.ImageId, null);
             return mixResultArtist;
         }
 

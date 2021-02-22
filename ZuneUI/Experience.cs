@@ -18,11 +18,11 @@ namespace ZuneUI
         private SQMDataId _sqmClickId;
 
         public Experience(Frame frameOwner)
-          : base((IModelItemOwner)frameOwner, "", (EventHandler)null)
+          : base(frameOwner, "", null)
           => this._sqmClickId = SQMDataId.Invalid;
 
         public Experience(Frame frameOwner, StringId nameId, SQMDataId SQMClickId)
-          : base((IModelItemOwner)frameOwner, Shell.LoadString(nameId), (EventHandler)null)
+          : base(frameOwner, Shell.LoadString(nameId), null)
           => this._sqmClickId = SQMClickId;
 
         public Choice Nodes
@@ -31,7 +31,7 @@ namespace ZuneUI
             {
                 if (this._nodes == null)
                 {
-                    this._nodes = new Choice((IModelItemOwner)this);
+                    this._nodes = new Choice(this);
                     this._nodes.Options = this.NodesList;
                 }
                 return this._nodes;
@@ -82,7 +82,7 @@ namespace ZuneUI
         {
             if (this.IsCurrent)
                 return;
-            ((Frame)this.Owner).Experiences.ChosenValue = (object)this;
+            ((Frame)this.Owner).Experiences.ChosenValue = this;
             Node node = (Node)this.Nodes.ChosenValue;
             if (node == null && this.NodesList != null && this.NodesList.Count > 0)
                 node = (Node)this.NodesList[0];

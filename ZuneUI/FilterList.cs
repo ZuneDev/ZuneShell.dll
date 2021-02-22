@@ -41,10 +41,10 @@ namespace ZuneUI
 
         protected void ProduceFilteredList()
         {
-            IList list = (IList)null;
+            IList list = null;
             if (this._source != null)
             {
-                list = (IList)new ArrayListDataSet();
+                list = new ArrayListDataSet();
                 for (int index = 0; index < this._source.Count; ++index)
                 {
                     object obj = this._source[index];

@@ -86,13 +86,13 @@ namespace ZuneUI
 
         public bool TopAlbumsFull => this._topAlbums.Count >= 4;
 
-        public IList TopAlbums => (IList)this._topAlbums;
+        public IList TopAlbums => _topAlbums;
 
         private void AddNewTopAlbums(Category category, IList newInterests)
         {
             if (newInterests == null)
                 return;
-            foreach (object newInterest in (IEnumerable)newInterests)
+            foreach (object newInterest in newInterests)
             {
                 if (this.TopAlbumsFull)
                 {
@@ -102,7 +102,7 @@ namespace ZuneUI
                 Track track = newInterest as Track;
                 if (this.CanAddTrack(track))
                 {
-                    this._topAlbums.Add((object)new ProfileTrack(category, (DataProviderObject)track));
+                    this._topAlbums.Add(new ProfileTrack(category, track));
                     this.FirePropertyChanged("TopAlbums");
                 }
             }

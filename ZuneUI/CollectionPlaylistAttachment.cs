@@ -40,7 +40,7 @@ namespace ZuneUI
                 this.FirePropertyChanged("Author");
             if (propertyName == "Title" || propertyName == "Subtitle")
             {
-                this.m_playlistData = (PlaylistMessageData)null;
+                this.m_playlistData = null;
                 this.FirePropertyChanged("PropertySet");
             }
             base.FirePropertyChanged(propertyName);
@@ -58,7 +58,7 @@ namespace ZuneUI
             {
                 if (this.m_playlistData == null)
                     this.m_playlistData = new PlaylistMessageData(this.Title, this.Author, this.Tracks);
-                return (IPropertySetMessageData)this.m_playlistData;
+                return m_playlistData;
             }
         }
 
@@ -90,12 +90,12 @@ namespace ZuneUI
         public override bool IsValid(out string errorMessage)
         {
             bool flag = true;
-            errorMessage = (string)null;
+            errorMessage = null;
             int num = ClientConfiguration.Messaging.MaxSubMessagesPerMessage * ClientConfiguration.Messaging.MaxTracksPerMessage;
             if (this.m_tracks != null && this.m_tracks.Count > num)
             {
                 flag = false;
-                errorMessage = string.Format(Shell.LoadString(StringId.IDS_COMPOSE_MESSAGE_ERROR_TOO_MANY_TRACKS), (object)num);
+                errorMessage = string.Format(Shell.LoadString(StringId.IDS_COMPOSE_MESSAGE_ERROR_TOO_MANY_TRACKS), num);
             }
             return flag;
         }

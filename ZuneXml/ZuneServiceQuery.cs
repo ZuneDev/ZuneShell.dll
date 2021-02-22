@@ -11,35 +11,35 @@ namespace ZuneXml
 {
     internal class ZuneServiceQuery : XmlDataProviderQuery
     {
-        private static IDictionary<string, ZuneServiceQuery.ConstructQueryHelper> _queryTypeToHelper;
+        private static IDictionary<string, ConstructQueryHelper> _queryTypeToHelper;
         private ZuneServiceQueryHelper _helper;
 
         private static void RegisterZuneServiceQueryConstructors(
-          IDictionary<string, ZuneServiceQuery.ConstructQueryHelper> queryTypeToHelper)
+          IDictionary<string, ConstructQueryHelper> queryTypeToHelper)
         {
-            queryTypeToHelper.Add("Marketplace", new ZuneServiceQuery.ConstructQueryHelper(CatalogServiceQueryHelper.ConstructMusicCatalogQueryHelper));
-            queryTypeToHelper.Add("MarketplaceSearch", new ZuneServiceQuery.ConstructQueryHelper(CatalogSearchQueryHelper.ConstructSearchQueryHelper));
-            queryTypeToHelper.Add("Messaging", new ZuneServiceQuery.ConstructQueryHelper(MessagingQueryHelper.ConstructMessagingQueryHelper));
-            queryTypeToHelper.Add("PodcastMarketplace", new ZuneServiceQuery.ConstructQueryHelper(PodcastCatalogServiceQueryHelper.ConstructPodcastCatalogQueryHelper));
-            queryTypeToHelper.Add("PodcastMarketplaceSearch", new ZuneServiceQuery.ConstructQueryHelper(CatalogSearchQueryHelper.ConstructSearchQueryHelper));
-            queryTypeToHelper.Add("PrefixSearch", new ZuneServiceQuery.ConstructQueryHelper(CatalogPrefixSearchQueryHelper.ConstructPrefixSearchQueryHelper));
-            queryTypeToHelper.Add("Recommendations", new ZuneServiceQuery.ConstructQueryHelper(RecommendationsQueryHelper.ConstructRecommendationsQueryHelper));
-            queryTypeToHelper.Add("Social", new ZuneServiceQuery.ConstructQueryHelper(SocialQueryHelper.ConstructSocialQueryHelper));
-            queryTypeToHelper.Add("TopListeners", new ZuneServiceQuery.ConstructQueryHelper(TopListenersQueryHelper.ConstructTopListenersQueryHelper));
-            queryTypeToHelper.Add("UriResource", new ZuneServiceQuery.ConstructQueryHelper(ZuneServiceQueryHelper.ConstructZuneServiceQueryHelper));
-            queryTypeToHelper.Add("VideoMarketplace", new ZuneServiceQuery.ConstructQueryHelper(VideoCatalogServiceQueryHelper.ConstructVideoCatalogQuery));
-            queryTypeToHelper.Add("VideoMarketplaceSearch", new ZuneServiceQuery.ConstructQueryHelper(CatalogSearchQueryHelper.ConstructSearchQueryHelper));
-            queryTypeToHelper.Add("AppDetails", new ZuneServiceQuery.ConstructQueryHelper(AppDetailsQueryHelper.ConstructAppDetailsQueryHelper));
-            queryTypeToHelper.Add("AppGenres", new ZuneServiceQuery.ConstructQueryHelper(AppGenresQueryHelper.ConstructAppGenresQueryHelper));
-            queryTypeToHelper.Add("Reviews", new ZuneServiceQuery.ConstructQueryHelper(ReviewsQueryHelper.ConstructReviewsQueryHelper));
-            queryTypeToHelper.Add("SubscriptionHistory", new ZuneServiceQuery.ConstructQueryHelper(SubscriptionHistoryQueryHelper.ConstructSubscriptionHistoryQueryHelper));
-            queryTypeToHelper.Add("PurchaseHistory", new ZuneServiceQuery.ConstructQueryHelper(PurchaseHistoryQueryHelper.ConstructPurchaseHistoryQueryHelper));
+            queryTypeToHelper.Add("Marketplace", new ConstructQueryHelper(CatalogServiceQueryHelper.ConstructMusicCatalogQueryHelper));
+            queryTypeToHelper.Add("MarketplaceSearch", new ConstructQueryHelper(CatalogSearchQueryHelper.ConstructSearchQueryHelper));
+            queryTypeToHelper.Add("Messaging", new ConstructQueryHelper(MessagingQueryHelper.ConstructMessagingQueryHelper));
+            queryTypeToHelper.Add("PodcastMarketplace", new ConstructQueryHelper(PodcastCatalogServiceQueryHelper.ConstructPodcastCatalogQueryHelper));
+            queryTypeToHelper.Add("PodcastMarketplaceSearch", new ConstructQueryHelper(CatalogSearchQueryHelper.ConstructSearchQueryHelper));
+            queryTypeToHelper.Add("PrefixSearch", new ConstructQueryHelper(CatalogPrefixSearchQueryHelper.ConstructPrefixSearchQueryHelper));
+            queryTypeToHelper.Add("Recommendations", new ConstructQueryHelper(RecommendationsQueryHelper.ConstructRecommendationsQueryHelper));
+            queryTypeToHelper.Add("Social", new ConstructQueryHelper(SocialQueryHelper.ConstructSocialQueryHelper));
+            queryTypeToHelper.Add("TopListeners", new ConstructQueryHelper(TopListenersQueryHelper.ConstructTopListenersQueryHelper));
+            queryTypeToHelper.Add("UriResource", new ConstructQueryHelper(ZuneServiceQueryHelper.ConstructZuneServiceQueryHelper));
+            queryTypeToHelper.Add("VideoMarketplace", new ConstructQueryHelper(VideoCatalogServiceQueryHelper.ConstructVideoCatalogQuery));
+            queryTypeToHelper.Add("VideoMarketplaceSearch", new ConstructQueryHelper(CatalogSearchQueryHelper.ConstructSearchQueryHelper));
+            queryTypeToHelper.Add("AppDetails", new ConstructQueryHelper(AppDetailsQueryHelper.ConstructAppDetailsQueryHelper));
+            queryTypeToHelper.Add("AppGenres", new ConstructQueryHelper(AppGenresQueryHelper.ConstructAppGenresQueryHelper));
+            queryTypeToHelper.Add("Reviews", new ConstructQueryHelper(ReviewsQueryHelper.ConstructReviewsQueryHelper));
+            queryTypeToHelper.Add("SubscriptionHistory", new ConstructQueryHelper(SubscriptionHistoryQueryHelper.ConstructSubscriptionHistoryQueryHelper));
+            queryTypeToHelper.Add("PurchaseHistory", new ConstructQueryHelper(PurchaseHistoryQueryHelper.ConstructPurchaseHistoryQueryHelper));
         }
 
         internal static DataProviderQuery ConstructZuneServiceQuery(
           object queryTypeCookie)
         {
-            return (DataProviderQuery)new ZuneServiceQuery(queryTypeCookie);
+            return new ZuneServiceQuery(queryTypeCookie);
         }
 
         internal ZuneServiceQuery(object queryTypeCookie)
@@ -52,13 +52,13 @@ namespace ZuneXml
             {
                 if (this._helper == null)
                 {
-                    if (ZuneServiceQuery._queryTypeToHelper == null)
+                    if (_queryTypeToHelper == null)
                     {
-                        ZuneServiceQuery._queryTypeToHelper = (IDictionary<string, ZuneServiceQuery.ConstructQueryHelper>)new Dictionary<string, ZuneServiceQuery.ConstructQueryHelper>(17);
-                        ZuneServiceQuery.RegisterZuneServiceQueryConstructors(ZuneServiceQuery._queryTypeToHelper);
+                        _queryTypeToHelper = new Dictionary<string, ConstructQueryHelper>(17);
+                        RegisterZuneServiceQueryConstructors(_queryTypeToHelper);
                     }
                     string property = base.GetProperty("QueryType") as string;
-                    this._helper = ZuneServiceQuery._queryTypeToHelper[property](this);
+                    this._helper = _queryTypeToHelper[property](this);
                 }
                 return this._helper;
             }

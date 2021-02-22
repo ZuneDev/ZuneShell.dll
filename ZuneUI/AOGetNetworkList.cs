@@ -20,7 +20,7 @@ namespace ZuneUI
       WirelessStates.SniffNetworks
         };
 
-        public WlanProfileList NetworkList => this.Finished ? this._networkList : (WlanProfileList)null;
+        public WlanProfileList NetworkList => this.Finished ? this._networkList : null;
 
         private void ResetState()
         {
@@ -33,7 +33,7 @@ namespace ZuneUI
 
         public WirelessStateResults StartOperation(
           UIDevice device,
-          AsyncOperation.AOComplete completeFunc)
+          AOComplete completeFunc)
         {
             this.ResetState();
             return this.StartOperation(device, completeFunc, this._getNetworkListStates);
@@ -65,12 +65,12 @@ namespace ZuneUI
             Dictionary<string, WlanProfile> dictionary = new Dictionary<string, WlanProfile>();
             if (this._deviceNetworks != null)
             {
-                foreach (WlanProfile deviceNetwork in (List<WlanProfile>)this._deviceNetworks)
+                foreach (WlanProfile deviceNetwork in _deviceNetworks)
                 {
                     if (!dictionary.ContainsKey(deviceNetwork.SSID))
                     {
                         WlanProfile wlanProfile = deviceNetwork;
-                        foreach (WlanProfile computerNetwork in (List<WlanProfile>)this._computerNetworks)
+                        foreach (WlanProfile computerNetwork in _computerNetworks)
                         {
                             if (computerNetwork.SSID == deviceNetwork.SSID)
                             {
@@ -85,7 +85,7 @@ namespace ZuneUI
                     }
                 }
             }
-            this._networkList.Sort((IComparer<WlanProfile>)new WlanSignalStrenghComparer());
+            this._networkList.Sort(new WlanSignalStrenghComparer());
         }
 
         protected override void AddListeners()

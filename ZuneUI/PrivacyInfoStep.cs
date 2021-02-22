@@ -37,7 +37,7 @@ namespace ZuneUI
                 this.Description = Shell.LoadString(StringId.IDS_ACCOUNT_CREATION_ZUNE_FAMILY_HEADER);
             else
                 this.Description = Shell.LoadString(StringId.IDS_ACCOUNT_CREATION_ACCOUNT_INFO_STEP);
-            this.Initialize((WizardPropertyEditor)null);
+            this.Initialize(null);
             this.CanNavigateInto = false;
         }
 
@@ -174,10 +174,10 @@ namespace ZuneUI
 
         internal override bool OnMovingNext()
         {
-            string str = (string)null;
+            string str = null;
             if (this.PrivacySettings != null)
             {
-                foreach (PrivacySettingChoice privacySetting in (IEnumerable)this.PrivacySettings)
+                foreach (PrivacySettingChoice privacySetting in PrivacySettings)
                 {
                     if (privacySetting.ChosenValue == null)
                     {
@@ -188,7 +188,7 @@ namespace ZuneUI
             }
             if (this.FamilySettingsChoices != null)
             {
-                foreach (FamilySettingChoice familySettingsChoice in (IEnumerable)this.FamilySettingsChoices)
+                foreach (FamilySettingChoice familySettingsChoice in FamilySettingsChoices)
                 {
                     if (familySettingsChoice.ChosenValue == null)
                     {
@@ -199,10 +199,10 @@ namespace ZuneUI
             }
             if (str == null)
             {
-                this.StatusMessage = (string)null;
+                this.StatusMessage = null;
                 return base.OnMovingNext();
             }
-            this.StatusMessage = string.Format(Shell.LoadString(StringId.IDS_ACCOUNT_CREATION_SELECT_VALUE), (object)str);
+            this.StatusMessage = string.Format(Shell.LoadString(StringId.IDS_ACCOUNT_CREATION_SELECT_VALUE), str);
             return false;
         }
 
@@ -235,8 +235,8 @@ namespace ZuneUI
             this.InitializeSettings();
             if (this.CountrySupportsNewsletterOptions)
                 return;
-            this.AllowMicrosoftCommunications = (BooleanChoice)null;
-            this.AllowPartnerCommunications = (BooleanChoice)null;
+            this.AllowMicrosoftCommunications = null;
+            this.AllowPartnerCommunications = null;
             if ((this.ShowSettings & PrivacyInfoSettings.NoNewsletterSettings) != PrivacyInfoSettings.None)
                 return;
             this._owner.MoveNext();
@@ -253,7 +253,7 @@ namespace ZuneUI
                 this.CommittedSettings.PrivacySettings[PrivacySettingId.UsageCollection] = this.UsageCollection.Value ? PrivacySettingValue.Allow : PrivacySettingValue.Deny;
             if (this._privacySettings != null)
             {
-                foreach (PrivacySettingChoice privacySetting in (IEnumerable)this._privacySettings)
+                foreach (PrivacySettingChoice privacySetting in _privacySettings)
                 {
                     if (privacySetting.SettingId == PrivacySettingId.Unknown)
                         this.SetCommittedSpecialProperties(privacySetting);
@@ -263,7 +263,7 @@ namespace ZuneUI
             }
             if (this.FamilySettingsChoices == null || this.FamilySettingsChoices.Count <= 0)
                 return;
-            foreach (FamilySettingChoice familySettingsChoice in (IEnumerable)this.FamilySettingsChoices)
+            foreach (FamilySettingChoice familySettingsChoice in FamilySettingsChoices)
             {
                 if (familySettingsChoice.SettingValue != null)
                     this.FamilySettings.SetSetting(familySettingsChoice.SettingId, familySettingsChoice.SettingValue.Value, familySettingsChoice.BlockUnrated.Value);
@@ -341,7 +341,7 @@ namespace ZuneUI
                 this.UsageCollection.Value = this.CommittedSettings.PrivacySettings[PrivacySettingId.UsageCollection] == PrivacySettingValue.Allow;
             if (this._privacySettings != null)
             {
-                foreach (PrivacySettingChoice privacySetting in (IEnumerable)this._privacySettings)
+                foreach (PrivacySettingChoice privacySetting in _privacySettings)
                 {
                     if (privacySetting.SettingId == PrivacySettingId.Unknown)
                         this.SetUncommittedSpecialProperties(privacySetting);
@@ -360,8 +360,8 @@ namespace ZuneUI
             }
             if (familySettings == null)
                 return;
-            this.FamilySettings.Settings = new Dictionary<string, FamilySetting>((IDictionary<string, FamilySetting>)familySettings.Settings);
-            foreach (FamilySettingChoice familySettingsChoice in (IEnumerable)this.FamilySettingsChoices)
+            this.FamilySettings.Settings = new Dictionary<string, FamilySetting>(familySettings.Settings);
+            foreach (FamilySettingChoice familySettingsChoice in FamilySettingsChoices)
             {
                 RatingSystemList.Instance.GetRatingSystem(familySettingsChoice.SettingId);
                 if (familySettings.Settings.ContainsKey(familySettingsChoice.SettingId))
@@ -377,7 +377,7 @@ namespace ZuneUI
             get
             {
                 bool flag = false;
-                string abbreviation = (string)null;
+                string abbreviation = null;
                 if (SignIn.Instance.SignedIn)
                     abbreviation = SignIn.Instance.CountryCode;
                 else if (this.State.BasicAccountInfoStep.IsEnabled)
@@ -414,12 +414,12 @@ namespace ZuneUI
 
         private void ResetSettings()
         {
-            this.AllowMicrosoftCommunications = (BooleanChoice)null;
-            this.AllowPartnerCommunications = (BooleanChoice)null;
-            this.UsageCollection = (BooleanChoice)null;
-            this.PrivacySettings = (IList)null;
-            this.FamilySettingsChoices = (IList)null;
-            this.FamilySettings = (FamilySettings)null;
+            this.AllowMicrosoftCommunications = null;
+            this.AllowPartnerCommunications = null;
+            this.UsageCollection = null;
+            this.PrivacySettings = null;
+            this.FamilySettingsChoices = null;
+            this.FamilySettings = null;
             if (this._owner.CurrentPage != this)
                 return;
             this.InitializeSettings();
@@ -430,15 +430,15 @@ namespace ZuneUI
             if (this.IsDisposed)
                 return;
             if ((this.ShowSettings & PrivacyInfoSettings.AllowMicrosoftCommunications) == PrivacyInfoSettings.AllowMicrosoftCommunications && this._allowMicrosoftCommunications == null && this.CountrySupportsNewsletterOptions)
-                this._allowMicrosoftCommunications = new BooleanChoice((IModelItemOwner)this, Shell.LoadString(StringId.IDS_ACCOUNT_CREATION_ZUNE_COMM_DESC));
+                this._allowMicrosoftCommunications = new BooleanChoice(this, Shell.LoadString(StringId.IDS_ACCOUNT_CREATION_ZUNE_COMM_DESC));
             if ((this.ShowSettings & PrivacyInfoSettings.AllowPartnerCommunications) == PrivacyInfoSettings.AllowPartnerCommunications && this._allowPartnerCommunications == null && this.CountrySupportsNewsletterOptions)
-                this._allowPartnerCommunications = new BooleanChoice((IModelItemOwner)this, Shell.LoadString(StringId.IDS_ACCOUNT_CREATION_ZUNE_PARTNER_DESC));
+                this._allowPartnerCommunications = new BooleanChoice(this, Shell.LoadString(StringId.IDS_ACCOUNT_CREATION_ZUNE_PARTNER_DESC));
             bool flag = (this.ShowSettings & PrivacyInfoSettings.NoNewsletterSettings) != PrivacyInfoSettings.None;
             if (this.PrivacySettings == null && flag)
             {
                 ArrayList arrayList = new ArrayList();
                 if ((this.ShowSettings & PrivacyInfoSettings.AllSocial) == PrivacyInfoSettings.AllSocial)
-                    arrayList.Add((object)new PrivacySettingChoice((IModelItemOwner)this, Shell.LoadString(StringId.IDS_ACCOUNT_CREATION_ZUNE_ALL_SOCIAL_DESC), Shell.LoadString(StringId.IDS_ACCOUNT_CREATION_ZUNE_ALL_SOCIAL_HEAD), PrivacySettingChoice.AllowFriendDenyChoices, PrivacySettingId.Unknown, PrivacyInfoSettings.AllSocial));
+                    arrayList.Add(new PrivacySettingChoice(this, Shell.LoadString(StringId.IDS_ACCOUNT_CREATION_ZUNE_ALL_SOCIAL_DESC), Shell.LoadString(StringId.IDS_ACCOUNT_CREATION_ZUNE_ALL_SOCIAL_HEAD), PrivacySettingChoice.AllowFriendDenyChoices, PrivacySettingId.Unknown, PrivacyInfoSettings.AllSocial));
                 if ((this.ShowSettings & PrivacyInfoSettings.AllowExplicitContent) == PrivacyInfoSettings.AllowExplicitContent)
                 {
                     StringId stringId1 = StringId.IDS_ACCOUNT_CREATION_ZUNE_CHILD_EXPLICIT_DESC;
@@ -460,39 +460,39 @@ namespace ZuneUI
                             stringId2 = StringId.IDS_ACCOUNT_CREATION_ZUNE_CHILD_EXPLICIT_HEAD3;
                         }
                     }
-                    arrayList.Add((object)new PrivacySettingChoice((IModelItemOwner)this, Shell.LoadString(stringId1), Shell.LoadString(stringId2), PrivacySettingChoice.AllowDenyChoices, PrivacySettingId.ExplicitContent, PrivacyInfoSettings.AllowExplicitContent, linkDescription, linkUrl));
+                    arrayList.Add(new PrivacySettingChoice(this, Shell.LoadString(stringId1), Shell.LoadString(stringId2), PrivacySettingChoice.AllowDenyChoices, PrivacySettingId.ExplicitContent, PrivacyInfoSettings.AllowExplicitContent, linkDescription, linkUrl));
                 }
                 if ((this.ShowSettings & PrivacyInfoSettings.AllowFriends) == PrivacyInfoSettings.AllowFriends)
-                    arrayList.Add((object)new PrivacySettingChoice((IModelItemOwner)this, Shell.LoadString(StringId.IDS_ACCOUNT_CREATION_ZUNE_CHILD_NEWFRIEND_DESC), Shell.LoadString(StringId.IDS_ACCOUNT_CREATION_ZUNE_CHILD_NEWFRIEND_HEAD), PrivacySettingChoice.AllowDenyChoices, PrivacySettingId.OnlineFriends, PrivacyInfoSettings.AllowFriends));
+                    arrayList.Add(new PrivacySettingChoice(this, Shell.LoadString(StringId.IDS_ACCOUNT_CREATION_ZUNE_CHILD_NEWFRIEND_DESC), Shell.LoadString(StringId.IDS_ACCOUNT_CREATION_ZUNE_CHILD_NEWFRIEND_HEAD), PrivacySettingChoice.AllowDenyChoices, PrivacySettingId.OnlineFriends, PrivacyInfoSettings.AllowFriends));
                 if ((this.ShowSettings & PrivacyInfoSettings.AllowPurchase) == PrivacyInfoSettings.AllowPurchase)
-                    arrayList.Add((object)new PrivacySettingChoice((IModelItemOwner)this, Shell.LoadString(StringId.IDS_ACCOUNT_CREATION_ZUNE_CHILD_PURCHASE_DESC), Shell.LoadString(StringId.IDS_ACCOUNT_CREATION_ZUNE_CHILD_PURCHASE_HEAD), PrivacySettingChoice.AllowDenyChoices, PrivacySettingId.PremiumContent, PrivacyInfoSettings.AllowPurchase));
+                    arrayList.Add(new PrivacySettingChoice(this, Shell.LoadString(StringId.IDS_ACCOUNT_CREATION_ZUNE_CHILD_PURCHASE_DESC), Shell.LoadString(StringId.IDS_ACCOUNT_CREATION_ZUNE_CHILD_PURCHASE_HEAD), PrivacySettingChoice.AllowDenyChoices, PrivacySettingId.PremiumContent, PrivacyInfoSettings.AllowPurchase));
                 if ((this.ShowSettings & PrivacyInfoSettings.Communications) == PrivacyInfoSettings.Communications)
-                    arrayList.Add((object)new PrivacySettingChoice((IModelItemOwner)this, Shell.LoadString(this.ParentAccount ? StringId.IDS_ACCOUNT_CREATION_ZUNE_CHILD_COMM_DESC : StringId.IDS_ACCOUNT_CREATION_ZUNE_SOCIAL_COMM_DESC), Shell.LoadString(StringId.IDS_ACCOUNT_CREATION_ZUNE_SOCIAL_COMM_HEADER), PrivacySettingChoice.AllowFriendDenyChoices, PrivacySettingId.Communication, PrivacyInfoSettings.Communications));
+                    arrayList.Add(new PrivacySettingChoice(this, Shell.LoadString(this.ParentAccount ? StringId.IDS_ACCOUNT_CREATION_ZUNE_CHILD_COMM_DESC : StringId.IDS_ACCOUNT_CREATION_ZUNE_SOCIAL_COMM_DESC), Shell.LoadString(StringId.IDS_ACCOUNT_CREATION_ZUNE_SOCIAL_COMM_HEADER), PrivacySettingChoice.AllowFriendDenyChoices, PrivacySettingId.Communication, PrivacyInfoSettings.Communications));
                 if ((this.ShowSettings & PrivacyInfoSettings.FriendsSharing) == PrivacyInfoSettings.FriendsSharing)
-                    arrayList.Add((object)new PrivacySettingChoice((IModelItemOwner)this, Shell.LoadString(this.ParentAccount ? StringId.IDS_ACCOUNT_CREATION_ZUNE_CHILD_FRIENDS_DESC : StringId.IDS_ACCOUNT_CREATION_ZUNE_FRIENDS_DESC), Shell.LoadString(StringId.IDS_ACCOUNT_CREATION_ZUNE_FRIENDS_HEAD), PrivacySettingChoice.AllowFriendDenyChoices, PrivacySettingId.FriendsListSharing, PrivacyInfoSettings.FriendsSharing));
+                    arrayList.Add(new PrivacySettingChoice(this, Shell.LoadString(this.ParentAccount ? StringId.IDS_ACCOUNT_CREATION_ZUNE_CHILD_FRIENDS_DESC : StringId.IDS_ACCOUNT_CREATION_ZUNE_FRIENDS_DESC), Shell.LoadString(StringId.IDS_ACCOUNT_CREATION_ZUNE_FRIENDS_HEAD), PrivacySettingChoice.AllowFriendDenyChoices, PrivacySettingId.FriendsListSharing, PrivacyInfoSettings.FriendsSharing));
                 if ((this.ShowSettings & PrivacyInfoSettings.MusicSharing) == PrivacyInfoSettings.MusicSharing)
-                    arrayList.Add((object)new PrivacySettingChoice((IModelItemOwner)this, Shell.LoadString(this.ParentAccount ? StringId.IDS_ACCOUNT_CREATION_ZUNE_CHILD_MUSIC_DESC : StringId.IDS_ACCOUNT_CREATION_SOCIAL_PROP_DESC), Shell.LoadString(StringId.IDS_ACCOUNT_CREATION_SOCIAL_PROP_HEADER), PrivacySettingChoice.AllowFriendDenyChoices, PrivacySettingId.MusicSharing, PrivacyInfoSettings.MusicSharing));
+                    arrayList.Add(new PrivacySettingChoice(this, Shell.LoadString(this.ParentAccount ? StringId.IDS_ACCOUNT_CREATION_ZUNE_CHILD_MUSIC_DESC : StringId.IDS_ACCOUNT_CREATION_SOCIAL_PROP_DESC), Shell.LoadString(StringId.IDS_ACCOUNT_CREATION_SOCIAL_PROP_HEADER), PrivacySettingChoice.AllowFriendDenyChoices, PrivacySettingId.MusicSharing, PrivacyInfoSettings.MusicSharing));
                 if ((this.ShowSettings & PrivacyInfoSettings.ProfileCustomization) == PrivacyInfoSettings.ProfileCustomization)
-                    arrayList.Add((object)new PrivacySettingChoice((IModelItemOwner)this, Shell.LoadString(this.ParentAccount ? StringId.IDS_ACCOUNT_CREATION_ZUNE_CHILD_PROFILE_DESC : StringId.IDS_ACCOUNT_CREATION_ZUNE_PROFILE_DESC), Shell.LoadString(StringId.IDS_ACCOUNT_CREATION_ZUNE_PROFILE_HEAD), PrivacySettingChoice.AllowFriendDenyChoices, PrivacySettingId.ProfileCustomization, PrivacyInfoSettings.ProfileCustomization));
+                    arrayList.Add(new PrivacySettingChoice(this, Shell.LoadString(this.ParentAccount ? StringId.IDS_ACCOUNT_CREATION_ZUNE_CHILD_PROFILE_DESC : StringId.IDS_ACCOUNT_CREATION_ZUNE_PROFILE_DESC), Shell.LoadString(StringId.IDS_ACCOUNT_CREATION_ZUNE_PROFILE_HEAD), PrivacySettingChoice.AllowFriendDenyChoices, PrivacySettingId.ProfileCustomization, PrivacyInfoSettings.ProfileCustomization));
                 if ((this.ShowSettings & PrivacyInfoSettings.UsageCollection) == PrivacyInfoSettings.UsageCollection && this._usageCollection == null)
-                    this._usageCollection = new BooleanChoice((IModelItemOwner)this, Shell.LoadString(StringId.IDS_ACCOUNT_CREATION_PERSONALIZE_DESC));
-                this.PrivacySettings = (IList)arrayList;
+                    this._usageCollection = new BooleanChoice(this, Shell.LoadString(StringId.IDS_ACCOUNT_CREATION_PERSONALIZE_DESC));
+                this.PrivacySettings = arrayList;
             }
             if (this.FamilySettingsChoices == null && flag && (RatingSystemList.Instance.RatingSystems != null && (this.ShowSettings & PrivacyInfoSettings.AllowExplicitContent) == PrivacyInfoSettings.AllowExplicitContent))
             {
                 ArrayList arrayList1 = new ArrayList();
-                foreach (string ratingSystem1 in (IEnumerable)RatingSystemList.Instance.RatingSystems)
+                foreach (string ratingSystem1 in RatingSystemList.Instance.RatingSystems)
                 {
                     RatingSystem ratingSystem2 = RatingSystemList.Instance.GetRatingSystem(ratingSystem1);
                     ArrayList arrayList2 = new ArrayList();
                     foreach (RatingValue rating in ratingSystem2.Ratings)
                     {
                         if (!rating.TreatAsUnrated)
-                            arrayList2.Add((object)new FamilySettingValue(ratingSystem2.GetRatingName(rating.Order), rating.Order));
+                            arrayList2.Add(new FamilySettingValue(ratingSystem2.GetRatingName(rating.Order), rating.Order));
                     }
-                    arrayList1.Add((object)new FamilySettingChoice((IModelItemOwner)this, ratingSystem2.Title, ratingSystem2.Description, ratingSystem2.BlockText, ratingSystem2.Name, ratingSystem2.ShowBlockUnrated, (IList)arrayList2));
+                    arrayList1.Add(new FamilySettingChoice(this, ratingSystem2.Title, ratingSystem2.Description, ratingSystem2.BlockText, ratingSystem2.Name, ratingSystem2.ShowBlockUnrated, arrayList2));
                 }
-                this.FamilySettingsChoices = (IList)arrayList1;
+                this.FamilySettingsChoices = arrayList1;
             }
             this.SetUncommittedSettings();
         }

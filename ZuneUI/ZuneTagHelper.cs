@@ -13,8 +13,8 @@ namespace ZuneUI
         private static int s_maxLength = 15;
         private static Regex s_zuneTagRegex = new Regex("^[A-Z]( ?[A-Z0-9]){0,14}$", RegexOptions.IgnoreCase);
 
-        public static bool IsValid(string zuneTag) => !string.IsNullOrEmpty(zuneTag) && ZuneTagHelper.s_zuneTagRegex.IsMatch(zuneTag);
+        public static bool IsValid(string zuneTag) => !string.IsNullOrEmpty(zuneTag) && s_zuneTagRegex.IsMatch(zuneTag);
 
-        public static int MaxLength => ZuneTagHelper.s_maxLength;
+        public static int MaxLength => s_maxLength;
     }
 }

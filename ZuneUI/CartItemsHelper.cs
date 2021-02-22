@@ -25,28 +25,28 @@ namespace ZuneUI
         {
             if (list == null || list.Count == 0)
                 return;
-            IComparer comparer = (IComparer)null;
+            IComparer comparer = null;
             switch (column)
             {
                 case CartItemSortColumn.AvailableInMarketplace:
-                    comparer = (IComparer)new CartItemsAvailableInMarketplaceComparer(sortAscending);
+                    comparer = new CartItemsAvailableInMarketplaceComparer(sortAscending);
                     break;
                 case CartItemSortColumn.SortTitle:
-                    comparer = (IComparer)new CartItemsComparer(sortAscending, new GetCartItemPropertyDelegate(CartItemsComparer.GetCartItemSortTitle));
+                    comparer = new CartItemsComparer(sortAscending, new GetCartItemPropertyDelegate(CartItemsComparer.GetCartItemSortTitle));
                     break;
                 case CartItemSortColumn.ArtistName:
-                    comparer = (IComparer)new CartItemsComparer(sortAscending, new GetCartItemPropertyDelegate(CartItemsComparer.GetCartItemArtistName));
+                    comparer = new CartItemsComparer(sortAscending, new GetCartItemPropertyDelegate(CartItemsComparer.GetCartItemArtistName));
                     break;
                 case CartItemSortColumn.DisplayType:
-                    comparer = (IComparer)new CartItemsComparer(sortAscending, new GetCartItemPropertyDelegate(CartItemsComparer.GetCartItemDisplayType));
+                    comparer = new CartItemsComparer(sortAscending, new GetCartItemPropertyDelegate(CartItemsComparer.GetCartItemDisplayType));
                     break;
             }
             if (comparer == null)
                 return;
             ArrayList arrayList = new ArrayList(list.Count);
-            arrayList.AddRange((ICollection)list);
+            arrayList.AddRange(list);
             arrayList.Sort(comparer);
-            list.Source = (IList)arrayList;
+            list.Source = arrayList;
         }
 
         public static void ErrorMessageCartAlreadyFull() => ErrorDialogInfo.Show(HRESULT._NS_E_CART_FULL.Int, Shell.LoadString(StringId.IDS_CART_FULL));
@@ -56,7 +56,7 @@ namespace ZuneUI
         public static void ErrorMessageMoreCartItemsAvailable(int extraCartItems)
         {
             StringId stringId = extraCartItems == 1 ? StringId.IDS_CART_FULL_MORE_DEVICE_ITEMS_SINGULAR : StringId.IDS_CART_FULL_MORE_DEVICE_ITEMS_PLURAL;
-            ErrorDialogInfo.Show(HRESULT._NS_E_CART_MORE_ITEMS_AVAILABLE.Int, Shell.LoadString(StringId.IDS_CART_FULL), string.Format(Shell.LoadString(stringId), (object)extraCartItems));
+            ErrorDialogInfo.Show(HRESULT._NS_E_CART_MORE_ITEMS_AVAILABLE.Int, Shell.LoadString(StringId.IDS_CART_FULL), string.Format(Shell.LoadString(stringId), extraCartItems));
         }
     }
 }

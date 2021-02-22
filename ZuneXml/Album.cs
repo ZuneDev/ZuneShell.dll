@@ -78,7 +78,7 @@ namespace ZuneXml
           DataProviderQuery owner,
           object objectTypeCookie)
         {
-            return (XmlDataProviderObject)new Album(owner, objectTypeCookie);
+            return new Album(owner, objectTypeCookie);
         }
 
         internal Album(DataProviderQuery owner, object resultTypeCookie)
@@ -127,15 +127,15 @@ namespace ZuneXml
             switch (propertyName)
             {
                 case "PointsPrice":
-                    return (object)this.PointsPrice;
+                    return PointsPrice;
                 case "CanPurchase":
-                    return (object)this.CanPurchase;
+                    return CanPurchase;
                 case "CanPurchaseMP3":
-                    return (object)this.CanPurchaseMP3;
+                    return CanPurchaseMP3;
                 case "InCollection":
-                    return (object)this.InCollection;
+                    return InCollection;
                 case "LibraryId":
-                    return (object)this.LibraryId;
+                    return LibraryId;
                 default:
                     return base.GetProperty(propertyName);
             }

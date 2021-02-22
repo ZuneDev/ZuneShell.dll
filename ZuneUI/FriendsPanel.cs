@@ -12,7 +12,7 @@ namespace ZuneUI
     public class FriendsPanel : ListPanel
     {
         internal FriendsPanel(FriendsPage page)
-          : base((IModelItemOwner)page)
+          : base(page)
         {
         }
 
@@ -22,7 +22,7 @@ namespace ZuneUI
             int num2 = 0;
             if (this.Content != null && !string.IsNullOrEmpty(tagToFind))
             {
-                foreach (object data in (IEnumerable)this.Content)
+                foreach (object data in Content)
                 {
                     if (ProfileCardData.GetDataProviderObject(data) is DataProviderObject dataProviderObject && SignIn.TagsMatch(dataProviderObject.GetProperty("ZuneTag") as string, tagToFind))
                     {

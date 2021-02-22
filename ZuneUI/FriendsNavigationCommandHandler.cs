@@ -10,6 +10,6 @@ namespace ZuneUI
 {
     public class FriendsNavigationCommandHandler : DeviceAwareNavigationHandler
     {
-        protected override ZunePage GetPage(IDictionary args) => (ZunePage)FriendsPage.CreateInstance(this.ShowDeviceContents);
+        protected override ZunePage GetPage(IDictionary args) => FriendsPage.CreateInstance(this.ShowDeviceContents);
     }
 }

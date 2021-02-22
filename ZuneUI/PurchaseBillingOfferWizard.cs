@@ -18,15 +18,15 @@ namespace ZuneUI
             this.State.ContactInfoStep.LightWeightOnly = true;
             this.State.SelectBillingOfferStep.ShowOffers = offerTypes;
             this.State.ConfirmationStep.OfferType = offerTypes;
-            this._finishStep = (AccountManagementFinishStep)new PurchaseBillingOfferFinishStep((Wizard)this, this.State);
-            this._errorStep = new AccountManagementErrorPage((Wizard)this, Shell.LoadString(StringId.IDS_ACCOUNT_PURCHASE_ERROR_TITLE), Shell.LoadString(StringId.IDS_ACCOUNT_PURCHASE_ERROR_DESC));
-            this.AddPage((WizardPage)this.State.SelectBillingOfferStep);
-            this.AddPage((WizardPage)this.State.ContactInfoStep);
-            this.AddPage((WizardPage)this.State.SelectPaymentInstrumentStep);
-            this.AddPage((WizardPage)this.State.PaymentInstrumentStep);
-            this.AddPage((WizardPage)this.State.ConfirmationStep);
-            this.AddPage((WizardPage)this._finishStep);
-            this.AddPage((WizardPage)this._errorStep);
+            this._finishStep = new PurchaseBillingOfferFinishStep(this, this.State);
+            this._errorStep = new AccountManagementErrorPage(this, Shell.LoadString(StringId.IDS_ACCOUNT_PURCHASE_ERROR_TITLE), Shell.LoadString(StringId.IDS_ACCOUNT_PURCHASE_ERROR_DESC));
+            this.AddPage(State.SelectBillingOfferStep);
+            this.AddPage(State.ContactInfoStep);
+            this.AddPage(State.SelectPaymentInstrumentStep);
+            this.AddPage(State.PaymentInstrumentStep);
+            this.AddPage(State.ConfirmationStep);
+            this.AddPage(_finishStep);
+            this.AddPage(_errorStep);
         }
 
         protected override void OnAsyncCommitCompleted(bool success)
@@ -38,9 +38,9 @@ namespace ZuneUI
             if (selectedBillingOffer != null)
             {
                 if (selectedBillingOffer.OfferType == EBillingOfferType.Points)
-                    this._finishStep.ClosingMessage = string.Format(Shell.LoadString(StringId.IDS_BILLING_BUY_POINTS_SUCCESS), (object)selectedBillingOffer.Points);
+                    this._finishStep.ClosingMessage = string.Format(Shell.LoadString(StringId.IDS_BILLING_BUY_POINTS_SUCCESS), selectedBillingOffer.Points);
                 else
-                    this._finishStep.ClosingMessage = string.Format(Shell.LoadString(StringId.IDS_BILLING_BUY_PASS_SUCCESS), (object)selectedBillingOffer.OfferName);
+                    this._finishStep.ClosingMessage = string.Format(Shell.LoadString(StringId.IDS_BILLING_BUY_PASS_SUCCESS), selectedBillingOffer.OfferName);
             }
             else
                 this._finishStep.ClosingMessage = Shell.LoadString(StringId.IDS_ACCOUNT_PURCHASE_SUCCESS_DESC);

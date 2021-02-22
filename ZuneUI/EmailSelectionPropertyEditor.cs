@@ -9,21 +9,21 @@ namespace ZuneUI
     public class EmailSelectionPropertyEditor : WizardPropertyEditor
     {
         private static PropertyDescriptor[] s_dataProviderProperties;
-        public static PropertyDescriptor s_Email = (PropertyDescriptor)new EmailPropertyDescriptor(nameof(Email), string.Empty, string.Empty, true);
+        public static PropertyDescriptor s_Email = new EmailPropertyDescriptor(nameof(Email), string.Empty, string.Empty, true);
 
         public override PropertyDescriptor[] PropertyDescriptors
         {
             get
             {
-                if (EmailSelectionPropertyEditor.s_dataProviderProperties == null)
-                    EmailSelectionPropertyEditor.s_dataProviderProperties = new PropertyDescriptor[1]
+                if (s_dataProviderProperties == null)
+                    s_dataProviderProperties = new PropertyDescriptor[1]
                     {
-            EmailSelectionPropertyEditor.s_Email
+            s_Email
                     };
-                return EmailSelectionPropertyEditor.s_dataProviderProperties;
+                return s_dataProviderProperties;
             }
         }
 
-        public static PropertyDescriptor Email => EmailSelectionPropertyEditor.s_Email;
+        public static PropertyDescriptor Email => s_Email;
     }
 }

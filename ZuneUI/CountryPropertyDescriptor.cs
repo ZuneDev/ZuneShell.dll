@@ -15,10 +15,10 @@ namespace ZuneUI
           bool required)
           : base(name, multiValueString, unknownString, required)
         {
-            this.DefaultValue = (object)CultureHelper.GetDefaultCountry();
+            this.DefaultValue = CultureHelper.GetDefaultCountry();
         }
 
-        public override object ConvertFromString(string value) => (object)CountryHelper.GetAbbreviation(value);
+        public override object ConvertFromString(string value) => CountryHelper.GetAbbreviation(value);
 
         public override string ConvertToString(object value) => CountryHelper.GetDisplayName(value as string);
     }

@@ -13,10 +13,10 @@ namespace ZuneUI
         public static Guid GetMediaGuidForLibraryId(int id, MediaType type)
         {
             if (type == MediaType.PodcastEpisode)
-                id = PlaylistManager.GetFieldValue<int>(id, PlaylistManager.MediaTypeToListType(type), 311, 0);
-            return PlaylistManager.GetFieldValue<Guid>(id, PlaylistManager.MediaTypeToListType(type), 451, Guid.Empty);
+                id = PlaylistManager.GetFieldValue(id, PlaylistManager.MediaTypeToListType(type), 311, 0);
+            return PlaylistManager.GetFieldValue(id, PlaylistManager.MediaTypeToListType(type), 451, Guid.Empty);
         }
 
-        public static string GetEpisodeUrlForLibraryId(int id) => PlaylistManager.GetFieldValue<string>(id, PlaylistManager.MediaTypeToListType(MediaType.PodcastEpisode), 317, string.Empty);
+        public static string GetEpisodeUrlForLibraryId(int id) => PlaylistManager.GetFieldValue(id, PlaylistManager.MediaTypeToListType(MediaType.PodcastEpisode), 317, string.Empty);
     }
 }

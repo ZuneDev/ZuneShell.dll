@@ -21,11 +21,11 @@ namespace ZuneUI
         {
             this.PivotPreference = Shell.MainFrame.Social.Inbox;
             this.IsRootPage = true;
-            this.UI = InboxPage.InboxPageTemplate;
+            this.UI = InboxPageTemplate;
             this.UIPath = "Social\\Inbox";
-            this._refreshPageCommand = new Command((IModelItemOwner)this);
+            this._refreshPageCommand = new Command(this);
             this._inboxPanel = new InboxPanel(this);
-            this._messageDetailsPanel = new MessageDetailsPanel((LibraryPage)this, true);
+            this._messageDetailsPanel = new MessageDetailsPanel(this, true);
         }
 
         public override void InvokeSettings() => Shell.SettingsFrame.Settings.Account.Invoke();
@@ -33,14 +33,14 @@ namespace ZuneUI
         public override IPageState SaveAndRelease()
         {
             if (this.NavigationArguments == null)
-                this.NavigationArguments = (IDictionary)new Hashtable(1);
+                this.NavigationArguments = new Hashtable(1);
             if (this.Details.SelectedItem != null)
             {
-                this.NavigationArguments[(object)"MessageId"] = (object)((MessageRoot)this.Details.SelectedItem).MessagingId;
-                this.Details.SelectedItem = (DataProviderObject)null;
+                this.NavigationArguments["MessageId"] = ((MessageRoot)Details.SelectedItem).MessagingId;
+                this.Details.SelectedItem = null;
             }
             else
-                this.NavigationArguments.Remove((object)"MessageId");
+                this.NavigationArguments.Remove("MessageId");
             this._inboxPanel.Release();
             this._messageDetailsPanel.Release();
             return base.SaveAndRelease();

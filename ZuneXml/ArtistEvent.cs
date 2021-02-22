@@ -15,7 +15,7 @@ namespace ZuneXml
           DataProviderQuery owner,
           object objectTypeCookie)
         {
-            return (XmlDataProviderObject)new ArtistEvent(owner, objectTypeCookie);
+            return new ArtistEvent(owner, objectTypeCookie);
         }
 
         internal ArtistEvent(DataProviderQuery owner, object resultTypeCookie)

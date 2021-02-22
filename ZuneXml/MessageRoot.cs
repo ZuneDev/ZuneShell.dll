@@ -26,7 +26,7 @@ namespace ZuneXml
                 if (this._messageType == value)
                     return;
                 this._messageType = value;
-                this.ContentType = MessageRoot.ToContentType(value);
+                this.ContentType = ToContentType(value);
                 this.FirePropertyChanged(nameof(MessageType));
                 this.FirePropertyChanged("IsSupported");
             }
@@ -100,7 +100,7 @@ namespace ZuneXml
           DataProviderQuery owner,
           object objectTypeCookie)
         {
-            return (XmlDataProviderObject)new MessageRoot(owner, objectTypeCookie);
+            return new MessageRoot(owner, objectTypeCookie);
         }
 
         internal MessageRoot(DataProviderQuery owner, object resultTypeCookie)
@@ -123,7 +123,7 @@ namespace ZuneXml
         internal string Status
         {
             get => (string)base.GetProperty(nameof(Status));
-            set => this.SetProperty(nameof(Status), (object)value);
+            set => this.SetProperty(nameof(Status), value);
         }
 
         internal bool Wishlist => (bool)base.GetProperty(nameof(Wishlist));
@@ -135,9 +135,9 @@ namespace ZuneXml
             switch (propertyName)
             {
                 case "UserTileUrl":
-                    return (object)this.UserTileUrl;
+                    return UserTileUrl;
                 case "IsSupported":
-                    return (object)this.IsSupported;
+                    return IsSupported;
                 default:
                     return base.GetProperty(propertyName);
             }

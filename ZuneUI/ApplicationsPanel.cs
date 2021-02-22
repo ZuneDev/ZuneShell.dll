@@ -12,7 +12,7 @@ namespace ZuneUI
     public class ApplicationsPanel : ListPanel
     {
         internal ApplicationsPanel(ApplicationLibraryPage library)
-          : base((IModelItemOwner)library)
+          : base(library)
         {
         }
 

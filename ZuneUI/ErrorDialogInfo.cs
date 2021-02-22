@@ -18,11 +18,11 @@ namespace ZuneUI
         private string _webHelpUrl;
         private eErrorCondition _condition;
 
-        internal static void Show(int hr, string title) => ErrorDialogInfo.Show(hr, eErrorCondition.eEC_None, title, (string)null);
+        internal static void Show(int hr, string title) => Show(hr, eErrorCondition.eEC_None, title, null);
 
-        internal static void Show(int hr, eErrorCondition condition, string title) => ErrorDialogInfo.Show(hr, condition, title, (string)null);
+        internal static void Show(int hr, eErrorCondition condition, string title) => Show(hr, condition, title, null);
 
-        internal static void Show(int hr, string title, string description) => ErrorDialogInfo.Show(hr, eErrorCondition.eEC_None, title, description);
+        internal static void Show(int hr, string title, string description) => Show(hr, eErrorCondition.eEC_None, title, description);
 
         internal static void Show(int hr, eErrorCondition condition, string title, string description) => new ErrorDialogInfo(hr, condition, title, description).Show();
 
@@ -32,7 +32,7 @@ namespace ZuneUI
             this._title = title;
             this._hrOriginal = hr;
             this._condition = condition;
-            ErrorMapperResult descriptionAndUrl = Microsoft.Zune.ErrorMapperApi.ErrorMapperApi.GetMappedErrorDescriptionAndUrl(this._hrOriginal, this._condition);
+            ErrorMapperResult descriptionAndUrl = ErrorMapperApi.GetMappedErrorDescriptionAndUrl(this._hrOriginal, this._condition);
             this._hr = descriptionAndUrl.Hr;
             this._description = description ?? descriptionAndUrl.Description;
             this._webHelpUrl = descriptionAndUrl.WebHelpUrl;

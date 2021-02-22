@@ -10,6 +10,6 @@ namespace ZuneUI
 {
     public class ProfileNavigationCommandHandler : NavigationCommandHandlerBase
     {
-        protected override ZunePage GetPage(IDictionary args) => (ZunePage)ProfilePage.CreateInstance(args);
+        protected override ZunePage GetPage(IDictionary args) => ProfilePage.CreateInstance(args);
     }
 }

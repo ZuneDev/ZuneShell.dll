@@ -17,7 +17,7 @@ namespace ZuneUI
 
         public bool Split(string value, out string areaCode, out string number)
         {
-            value = PhoneNumberDescriptors.RemoveNonDigits(value);
+            value = RemoveNonDigits(value);
             if (value.Length >= 10)
             {
                 number = value.Substring(value.Length - 7, 7);
@@ -31,7 +31,7 @@ namespace ZuneUI
 
         public string Combine(string areaCode, string number)
         {
-            string str = (string)null;
+            string str = null;
             if (!string.IsNullOrEmpty(number))
             {
                 StringBuilder stringBuilder = new StringBuilder();

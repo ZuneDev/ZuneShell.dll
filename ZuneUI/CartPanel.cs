@@ -13,7 +13,7 @@ namespace ZuneUI
         private CartItem _selectedItem;
 
         public CartPanel(CartPage page)
-          : base((IModelItemOwner)page)
+          : base(page)
         {
         }
 

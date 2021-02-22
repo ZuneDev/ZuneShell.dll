@@ -27,12 +27,12 @@ namespace ZuneUI
             this.IsRootPage = true;
             this.UI = "res://ZuneShellResources!Quickplay.uix#Quickplay";
             this.UIPath = "Quickplay\\Default";
-            this.BackgroundUI = QuickplayPage.LandBackgroundUI;
+            this.BackgroundUI = LandBackgroundUI;
             this.ShowSearch = false;
-            if (QuickplayPage._createdOnce)
+            if (_createdOnce)
                 return;
-            QuickplayPage._createdOnce = true;
-            QuickplayPage._showFUE = ClientConfiguration.Quickplay.ShowFUE;
+            _createdOnce = true;
+            _showFUE = ClientConfiguration.Quickplay.ShowFUE;
             if (!(Shell.SessionStartupPath == Shell.MainFrame.Quickplay.DefaultUIPath))
                 return;
             SQMLog.Log(SQMDataId.QuickPlayAsDefaultStarts, 1);
@@ -96,9 +96,9 @@ namespace ZuneUI
 
         public void Prompt(Experience destinationExperience)
         {
-            Command yesCommand = new Command((IModelItemOwner)null, Shell.LoadString(StringId.IDS_DIALOG_YES), (EventHandler)null);
-            yesCommand.Invoked += (EventHandler)((sender, args) => ClientConfiguration.Shell.StartupPage = destinationExperience.DefaultUIPath);
-            string message = (string)null;
+            Command yesCommand = new Command(null, Shell.LoadString(StringId.IDS_DIALOG_YES), null);
+            yesCommand.Invoked += (sender, args) => ClientConfiguration.Shell.StartupPage = destinationExperience.DefaultUIPath;
+            string message = null;
             if (destinationExperience is CollectionExperience)
                 message = Shell.LoadString(StringId.IDS_QP_CHANGESTARTUPPAGE_COLLECTION);
             else if (destinationExperience is MarketplaceExperience)
@@ -112,7 +112,7 @@ namespace ZuneUI
 
         public static void FUEComplete()
         {
-            if (!QuickplayPage.ShowFUE)
+            if (!ShowFUE)
                 return;
             ClientConfiguration.Quickplay.ShowFUE = false;
         }
@@ -127,7 +127,7 @@ namespace ZuneUI
             return playbackOrder == ESeriesPlaybackOrder.eSeriesPlaybackOrderNewestFirst;
         }
 
-        public static bool ShowFUE => QuickplayPage._showFUE;
+        public static bool ShowFUE => _showFUE;
 
         public bool UserInteracted
         {

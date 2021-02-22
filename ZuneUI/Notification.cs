@@ -24,7 +24,7 @@ namespace ZuneUI
           NotificationTask taskType,
           NotificationState notificationType,
           int displayTime)
-          : base((IModelItemOwner)null)
+          : base(null)
         {
             this._task = taskType;
             this._type = notificationType;

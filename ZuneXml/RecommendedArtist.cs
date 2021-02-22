@@ -15,7 +15,7 @@ namespace ZuneXml
           DataProviderQuery owner,
           object objectTypeCookie)
         {
-            return (XmlDataProviderObject)new RecommendedArtist(owner, objectTypeCookie);
+            return new RecommendedArtist(owner, objectTypeCookie);
         }
 
         internal RecommendedArtist(DataProviderQuery owner, object resultTypeCookie)

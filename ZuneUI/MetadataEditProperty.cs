@@ -101,10 +101,10 @@ namespace ZuneUI
         {
             get
             {
-                string str = (string)null;
+                string str = null;
                 if (this._externalError.IsError)
                 {
-                    ErrorMapperResult descriptionAndUrl = Microsoft.Zune.ErrorMapperApi.ErrorMapperApi.GetMappedErrorDescriptionAndUrl(this._externalError.Int);
+                    ErrorMapperResult descriptionAndUrl = ErrorMapperApi.GetMappedErrorDescriptionAndUrl(this._externalError.Int);
                     if (descriptionAndUrl != null)
                         str = descriptionAndUrl.Description;
                 }

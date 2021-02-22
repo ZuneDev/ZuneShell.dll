@@ -9,7 +9,7 @@ namespace ZuneUI
     public class WirelessSyncSummaryPage : WizardPage
     {
         internal WirelessSyncSummaryPage(WirelessSyncWizard wizard)
-          : base((Wizard)wizard)
+          : base(wizard)
           => this.Description = Shell.LoadString(StringId.IDS_WIRELESS_SYNC_START_CONFIG);
 
         public override string UI => "res://ZuneShellResources!WirelessSync.uix#WirelessSyncSummaryPage";

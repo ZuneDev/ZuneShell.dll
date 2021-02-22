@@ -69,7 +69,7 @@ namespace ZuneUI
             get => this._rating;
             set
             {
-                if ((double)this._rating == (double)value)
+                if (_rating == (double)value)
                     return;
                 this._rating = value;
                 this.FirePropertyChanged(nameof(Rating));

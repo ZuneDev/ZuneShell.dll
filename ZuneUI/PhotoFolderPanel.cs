@@ -12,7 +12,7 @@ namespace ZuneUI
     public class PhotoFolderPanel : ListPanel
     {
         public PhotoFolderPanel(PhotoLibraryPage library)
-          : base((IModelItemOwner)library)
+          : base(library)
         {
         }
 

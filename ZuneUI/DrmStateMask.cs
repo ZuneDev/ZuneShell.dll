@@ -17,20 +17,20 @@ namespace ZuneUI
         public static bool Match(long drmStateMask1, long drmStateMask2)
         {
             if (drmStateMask1 == 0L)
-                drmStateMask1 = DrmStateMask._drmStateMaskUnknown;
+                drmStateMask1 = _drmStateMaskUnknown;
             if (drmStateMask2 == 0L)
-                drmStateMask2 = DrmStateMask._drmStateMaskUnknown;
+                drmStateMask2 = _drmStateMaskUnknown;
             return (drmStateMask1 & drmStateMask2) != 0L;
         }
 
         public static bool IsMixed(long drmStateMask)
         {
             int num = 0;
-            if ((drmStateMask & DrmStateMask._drmStateMaskPersonal) != 0L)
+            if ((drmStateMask & _drmStateMaskPersonal) != 0L)
                 ++num;
-            if ((drmStateMask & DrmStateMask._drmStateMaskProtected) != 0L)
+            if ((drmStateMask & _drmStateMaskProtected) != 0L)
                 ++num;
-            if ((drmStateMask & DrmStateMask._drmStateMaskZunePass) != 0L)
+            if ((drmStateMask & _drmStateMaskZunePass) != 0L)
                 ++num;
             return num > 1;
         }
@@ -39,14 +39,14 @@ namespace ZuneUI
 
         public static long Diff(long drmStateMask1, long drmStateMask2) => drmStateMask1 ^ drmStateMask1 & drmStateMask2;
 
-        public static long All() => DrmStateMask._drmStateMaskAll;
+        public static long All() => _drmStateMaskAll;
 
-        public static long Unknown() => DrmStateMask._drmStateMaskUnknown;
+        public static long Unknown() => _drmStateMaskUnknown;
 
-        public static long Personal() => DrmStateMask._drmStateMaskPersonal;
+        public static long Personal() => _drmStateMaskPersonal;
 
-        public static long Protected() => DrmStateMask._drmStateMaskProtected;
+        public static long Protected() => _drmStateMaskProtected;
 
-        public static long ZunePass() => DrmStateMask._drmStateMaskZunePass;
+        public static long ZunePass() => _drmStateMaskZunePass;
     }
 }

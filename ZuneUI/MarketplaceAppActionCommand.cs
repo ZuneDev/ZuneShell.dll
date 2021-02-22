@@ -58,7 +58,7 @@ namespace ZuneUI
             get
             {
                 if (this._serviceVersionString == null)
-                    this._serviceVersionString = this.Model != null ? (string)this.Model.GetProperty("Version") : (string)null;
+                    this._serviceVersionString = this.Model != null ? (string)this.Model.GetProperty("Version") : null;
                 return this._serviceVersionString;
             }
         }
@@ -86,7 +86,7 @@ namespace ZuneUI
             if ("Model" == property)
             {
                 this.Id = this.Model != null ? (Guid)this.Model.GetProperty("Id") : Guid.Empty;
-                this._serviceVersionString = (string)null;
+                this._serviceVersionString = null;
                 this.FirePropertyChanged("CanDownload");
                 this.FirePropertyChanged("CanPurchaseFull");
                 this.FirePropertyChanged("CanPurchaseTrial");
@@ -123,7 +123,7 @@ namespace ZuneUI
                     if (this.AppData.Price == 0.0)
                         this.Description = Shell.LoadString(StringId.IDS_FREE);
                     else
-                        this.Description = string.Format(Shell.LoadString(StringId.IDS_BUY_CURRENCY), (object)this.AppData.DisplayPriceFull);
+                        this.Description = string.Format(Shell.LoadString(StringId.IDS_BUY_CURRENCY), AppData.DisplayPriceFull);
                     this.Available = true;
                 }
                 else

@@ -52,27 +52,27 @@ namespace ZuneUI
             DataProviderObject dataProviderObject = (DataProviderObject)dataContainer;
             object[] fieldValues = new object[14]
             {
-        (object) string.Empty,
-        (object) string.Empty,
-        (object) string.Empty,
-        (object) string.Empty,
-        (object) DateTime.MinValue,
-        (object) TimeSpan.Zero,
-        (object) EMediaTypes.eMediaTypeAudio,
-        (object) string.Empty,
-        (object) string.Empty,
-        (object) string.Empty,
-        (object) string.Empty,
-        (object) 0L,
-        (object) 0,
-        (object) string.Empty
+         string.Empty,
+         string.Empty,
+         string.Empty,
+         string.Empty,
+         DateTime.MinValue,
+         TimeSpan.Zero,
+         EMediaTypes.eMediaTypeAudio,
+         string.Empty,
+         string.Empty,
+         string.Empty,
+         string.Empty,
+         0L,
+         0,
+         string.Empty
             };
-            ZuneLibrary.GetFieldValues(libraryId, EListType.ePodcastEpisodeList, PodcastEpisodeDetails.ColumnIndexes.Length, PodcastEpisodeDetails.ColumnIndexes, fieldValues, PlaylistManager.Instance.QueryContext);
-            for (int index = 0; index < PodcastEpisodeDetails.ColumnIndexes.Length; ++index)
+            ZuneLibrary.GetFieldValues(libraryId, EListType.ePodcastEpisodeList, ColumnIndexes.Length, ColumnIndexes, fieldValues, PlaylistManager.Instance.QueryContext);
+            for (int index = 0; index < ColumnIndexes.Length; ++index)
             {
-                if (PodcastEpisodeDetails.ColumnIndexes[index] == 177)
-                    fieldValues[index] = (object)MediaDescriptions.Map((MediaType)fieldValues[index]);
-                dataProviderObject.SetProperty(PodcastEpisodeDetails.DataProperties[index], fieldValues[index]);
+                if (ColumnIndexes[index] == 177)
+                    fieldValues[index] = MediaDescriptions.Map((MediaType)fieldValues[index]);
+                dataProviderObject.SetProperty(DataProperties[index], fieldValues[index]);
             }
         }
     }

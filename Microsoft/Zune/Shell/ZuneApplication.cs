@@ -46,15 +46,15 @@ namespace Microsoft.Zune.Shell
 
         public static double ZuneCurrentSettingsVersion => 2.0;
 
-        public static void SetDesktopLockState(bool locked) => ZuneApplication._desktopLocked = locked;
+        public static void SetDesktopLockState(bool locked) => _desktopLocked = locked;
 
-        public static bool IsDesktopLocked => ZuneApplication._desktopLocked;
+        public static bool IsDesktopLocked => _desktopLocked;
 
         public static string DefaultCommandLineParameterSwitch => "PlayMedia";
 
-        public static ZuneLibrary ZuneLibrary => ZuneApplication._zuneLibrary;
+        public static ZuneLibrary ZuneLibrary => _zuneLibrary;
 
-        public static Microsoft.Zune.Service.Service Service => Microsoft.Zune.Service.Service.Instance;
+        public static Service.Service Service => Zune.Service.Service.Instance;
 
         public static event EventHandler Closing;
 
@@ -78,7 +78,7 @@ namespace Microsoft.Zune.Shell
 
         internal static IntPtr GetRenderWindow() => Application.Window.Handle;
 
-        public static void PageLoadComplete() => ZuneApplication._initializationFailsafe.Complete();
+        public static void PageLoadComplete() => _initializationFailsafe.Complete();
 
         private static void CorePhase3Ready(int hr, bool fSuc)
         {
@@ -90,7 +90,7 @@ namespace Microsoft.Zune.Shell
             else
             {
                 SingletonModelItem<WindowSnapSimulator>.Instance.Phase3Init();
-                ZuneApplication.Service.Phase3Initialize();
+                Service.Phase3Initialize();
                 SignIn.Instance.Phase3Init();
                 MetadataNotifications.Instance.Phase2Init();
                 SingletonModelItem<UIDeviceList>.Instance.Phase2Init();
@@ -98,9 +98,9 @@ namespace Microsoft.Zune.Shell
                 SingletonModelItem<TransportControls>.Instance.Phase2Init();
                 SubscriptionEventsListener.Instance.StartListening();
                 SoftwareUpdates.Instance.StartUp();
-                ZuneApplication._interopNotifications = new InteropNotifications();
-                if (ZuneApplication._interopNotifications != null)
-                    ZuneApplication._interopNotifications.ShowErrorDialog += new OnShowErrorDialogHandler(ZuneApplication.OnShowErrorDialog);
+                _interopNotifications = new InteropNotifications();
+                if (_interopNotifications != null)
+                    _interopNotifications.ShowErrorDialog += new OnShowErrorDialogHandler(OnShowErrorDialog);
                 Download.Instance.Phase3Init();
                 SyncControls.Instance.Phase3Init();
                 PodcastCredentials.Instance.Phase2Init();
@@ -112,10 +112,10 @@ namespace Microsoft.Zune.Shell
                     SingletonModelItem<ThumbBarButtons>.Instance.Phase3Init();
                     SingletonModelItem<JumpListManager>.Instance.JumpListPinUpdateRequested.Invoke();
                 }
-                if (!Microsoft.Zune.QuickMix.QuickMix.Instance.IsReady)
+                if (!QuickMix.QuickMix.Instance.IsReady)
                 {
-                    ZuneApplication._quickMixProgress = new QuickMixProgress();
-                    ZuneApplication._quickMixProgress.PropertyChanged += new PropertyChangedEventHandler(ZuneApplication.OnQuickMixPropertyChanged);
+                    _quickMixProgress = new QuickMixProgress();
+                    _quickMixProgress.PropertyChanged += new PropertyChangedEventHandler(OnQuickMixPropertyChanged);
                 }
                 Telemetry.Instance.StartUpload();
                 FeaturesChanged.Instance.StartUp();
@@ -126,159 +126,159 @@ namespace Microsoft.Zune.Shell
 
         private static void Phase2InitializationUIStage(object arg)
         {
-            ZuneApplication._initializationFailsafe.Initialize((DeferredInvokeHandler)delegate
+            _initializationFailsafe.Initialize(delegate
            {
-               ZuneApplication._appInitializationSequencer.UIReady();
+               _appInitializationSequencer.UIReady();
            });
-            ZuneApplication.ProcessAppArgs();
+            ProcessAppArgs();
             Download.Instance.Phase2Init();
             if (!ZuneShell.DefaultInstance.NavigationsPending && ZuneShell.DefaultInstance.CurrentPage is StartupPage)
                 ZuneUI.Shell.NavigateToHomePage();
-            if (ZuneApplication._dbRebuilt)
+            if (_dbRebuilt)
             {
                 string caption = ZuneLibrary.LoadStringFromResource(109U);
                 string text = ZuneLibrary.LoadStringFromResource(110U);
                 if (!string.IsNullOrEmpty(caption) && !string.IsNullOrEmpty(text))
-                    Win32MessageBox.Show(text, caption, Win32MessageBoxType.MB_ICONHAND, (DeferredInvokeHandler)null);
+                    Win32MessageBox.Show(text, caption, Win32MessageBoxType.MB_ICONHAND, null);
             }
-            ZuneApplication._phase2InitComplete = true;
+            _phase2InitComplete = true;
         }
 
         private static void Phase2InitializationWorker(object arg)
         {
-            Win32Window.Close(ZuneApplication._hWndSplashScreen);
+            Win32Window.Close(_hWndSplashScreen);
             int hr;
-            bool flag = ZuneApplication._zuneLibrary.Phase2Initialization(out hr);
-            Application.DeferredInvoke(new DeferredInvokeHandler(ZuneApplication.Phase2InitializationUIStage), (object)new object[2]
+            bool flag = _zuneLibrary.Phase2Initialization(out hr);
+            Application.DeferredInvoke(new DeferredInvokeHandler(Phase2InitializationUIStage), new object[2]
             {
-        (object) hr,
-        (object) flag
+         hr,
+         flag
             });
-            ZuneApplication.ZuneLibrary.CleanupTransientMedia();
-            ZuneApplication._transientTableCleanupComplete.Set();
+            ZuneLibrary.CleanupTransientMedia();
+            _transientTableCleanupComplete.Set();
             SQMLog.Log(SQMDataId.GdiMode, Application.RenderingType == RenderingType.GDI ? 1 : 0);
         }
 
-        private static void Phase2Initialization(object arg) => ThreadPool.QueueUserWorkItem(new WaitCallback(ZuneApplication.Phase2InitializationWorker));
+        private static void Phase2Initialization(object arg) => ThreadPool.QueueUserWorkItem(new WaitCallback(Phase2InitializationWorker));
 
-        public static void ProcessMessageFromCommandLine(string strArgs) => Application.DeferredInvoke(new DeferredInvokeHandler(ZuneApplication.ProcessMessageFromCommandLineDeferred), (object)strArgs, DeferredInvokePriority.Low);
+        public static void ProcessMessageFromCommandLine(string strArgs) => Application.DeferredInvoke(new DeferredInvokeHandler(ProcessMessageFromCommandLineDeferred), strArgs, DeferredInvokePriority.Low);
 
         private static void ProcessMessageFromCommandLineDeferred(object args)
         {
-            string[] arArgs = ZuneApplication.SplitCommandLineArguments((string)args);
+            string[] arArgs = SplitCommandLineArguments((string)args);
             if (arArgs != null)
             {
-                if (ZuneApplication._unprocessedAppArgs == null)
-                    ZuneApplication._unprocessedAppArgs = new List<Hashtable>();
+                if (_unprocessedAppArgs == null)
+                    _unprocessedAppArgs = new List<Hashtable>();
                 Hashtable hashtable = new Hashtable();
-                foreach (CommandLineArgument commandLineArgument in CommandLineArgument.ParseArgs(arArgs, ZuneApplication.DefaultCommandLineParameterSwitch))
-                    hashtable[(object)commandLineArgument.Name] = (object)commandLineArgument.Value;
-                ZuneApplication._unprocessedAppArgs.Add(hashtable);
+                foreach (CommandLineArgument commandLineArgument in CommandLineArgument.ParseArgs(arArgs, DefaultCommandLineParameterSwitch))
+                    hashtable[commandLineArgument.Name] = commandLineArgument.Value;
+                _unprocessedAppArgs.Add(hashtable);
             }
-            if (!ZuneApplication._phase2InitComplete)
+            if (!_phase2InitComplete)
                 return;
-            ZuneApplication.ProcessAppArgs();
+            ProcessAppArgs();
         }
 
         private static void ProcessAppArgs()
         {
-            if (ZuneApplication._unprocessedAppArgs == null)
+            if (_unprocessedAppArgs == null)
                 return;
-            if (ClientConfiguration.FUE.SettingsVersion < ZuneApplication.ZuneCurrentSettingsVersion || Fue.Instance.IsFirstLaunch)
+            if (ClientConfiguration.FUE.SettingsVersion < ZuneCurrentSettingsVersion || Fue.Instance.IsFirstLaunch)
             {
-                Fue.FUECompleted += new EventHandler(ZuneApplication.ProcessAppArgsAfterFUE);
+                Fue.FUECompleted += new EventHandler(ProcessAppArgsAfterFUE);
             }
             else
             {
-                for (int index = 0; index < ZuneApplication._unprocessedAppArgs.Count; ++index)
-                    ZuneApplication.ProcessAppArgs(ZuneApplication._unprocessedAppArgs[index]);
-                ZuneApplication._unprocessedAppArgs = (List<Hashtable>)null;
+                for (int index = 0; index < _unprocessedAppArgs.Count; ++index)
+                    ProcessAppArgs(_unprocessedAppArgs[index]);
+                _unprocessedAppArgs = null;
             }
         }
 
         private static void ProcessAppArgs(Hashtable args)
         {
-            if (args[(object)"device"] is string str && !ZuneApplication._phase2InitComplete)
+            if (args["device"] is string str && !_phase2InitComplete)
             {
                 char[] chArray = new char[1] { '"' };
                 SyncControls.Instance.SetCurrentDeviceByCanonicalName(str.Trim(chArray));
             }
-            if (args[(object)"link"] is string link && !ZuneUI.Shell.IgnoreAppNavigationsArgs)
+            if (args["link"] is string link && !ZuneUI.Shell.IgnoreAppNavigationsArgs)
                 ZuneUI.Shell.ProcessExternalLink(link);
-            if (args[(object)"ripcd"] is string playCdPath && !ZuneUI.Shell.IgnoreAppNavigationsArgs)
+            if (args["ripcd"] is string playCdPath && !ZuneUI.Shell.IgnoreAppNavigationsArgs)
                 CDAccess.HandleDiskFromAutoplay(playCdPath, CDAction.Rip);
-            if (args[(object)"playcd"] is string ripCdPath && !ZuneUI.Shell.IgnoreAppNavigationsArgs)
+            if (args["playcd"] is string ripCdPath && !ZuneUI.Shell.IgnoreAppNavigationsArgs)
                 CDAccess.HandleDiskFromAutoplay(ripCdPath, CDAction.Play);
-            if (args[(object)"playmedia"] is string initialUrl && !ZuneUI.Shell.IgnoreAppNavigationsArgs)
-                ZuneApplication.RegisterNewFileEnumeration(new LaunchFromShellHelper("play", initialUrl));
-            if (args[(object)"shellhlp_v2"] is string taskName && !ZuneUI.Shell.IgnoreAppNavigationsArgs)
+            if (args["playmedia"] is string initialUrl && !ZuneUI.Shell.IgnoreAppNavigationsArgs)
+                RegisterNewFileEnumeration(new LaunchFromShellHelper("play", initialUrl));
+            if (args["shellhlp_v2"] is string taskName && !ZuneUI.Shell.IgnoreAppNavigationsArgs)
             {
-                string marshalledDataObject = args[(object)"dataobject"] as string;
-                string eventName = args[(object)"event"] as string;
+                string marshalledDataObject = args["dataobject"] as string;
+                string eventName = args["event"] as string;
                 if (marshalledDataObject != null && eventName != null)
-                    ZuneApplication.RegisterNewFileEnumeration(new LaunchFromShellHelper(taskName, marshalledDataObject, eventName));
+                    RegisterNewFileEnumeration(new LaunchFromShellHelper(taskName, marshalledDataObject, eventName));
             }
-            if (args.Contains((object)"refreshlicenses"))
-                ZuneApplication.ZuneLibrary.MarkAllDRMFilesAsNeedingLicenseRefresh();
-            if (args.Contains((object)"update"))
+            if (args.Contains("refreshlicenses"))
+                ZuneLibrary.MarkAllDRMFilesAsNeedingLicenseRefresh();
+            if (args.Contains("update"))
                 SoftwareUpdates.Instance.InstallUpdates();
-            if (args.Contains((object)"shuffleall") && !ZuneUI.Shell.IgnoreAppNavigationsArgs)
+            if (args.Contains("shuffleall") && !ZuneUI.Shell.IgnoreAppNavigationsArgs)
                 SingletonModelItem<TransportControls>.Instance.ShuffleAllRequested = true;
-            if (args.Contains((object)"resumenowplaying") && !ZuneUI.Shell.IgnoreAppNavigationsArgs)
+            if (args.Contains("resumenowplaying") && !ZuneUI.Shell.IgnoreAppNavigationsArgs)
                 SingletonModelItem<TransportControls>.Instance.ResumeLastNowPlayingHandler();
-            if (args.Contains((object)"refreshcontentandexit"))
+            if (args.Contains("refreshcontentandexit"))
             {
-                if (!ZuneApplication._phase2InitComplete)
+                if (!_phase2InitComplete)
                 {
                     HRESULT sOk = HRESULT._S_OK;
-                    HRESULT hr = ContentRefreshTask.Instance.StartContentRefresh(new AsyncCompleteHandler(ZuneApplication.OnContentRefreshTaskComplete));
+                    HRESULT hr = ContentRefreshTask.Instance.StartContentRefresh(new AsyncCompleteHandler(OnContentRefreshTaskComplete));
                     if (hr.IsError)
-                        ZuneApplication.OnContentRefreshTaskComplete(hr);
+                        OnContentRefreshTaskComplete(hr);
                 }
                 else
-                    ZuneApplication.ZuneLibrary.MarkAllDRMFilesAsNeedingLicenseRefresh();
+                    ZuneLibrary.MarkAllDRMFilesAsNeedingLicenseRefresh();
             }
-            if (!(args[(object)"playpin"] is string pinString) || ZuneUI.Shell.IgnoreAppNavigationsArgs)
+            if (!(args["playpin"] is string pinString) || ZuneUI.Shell.IgnoreAppNavigationsArgs)
                 return;
             JumpListManager.PlayPin(JumpListPin.Parse(pinString));
         }
 
-        private static void OnContentRefreshTaskComplete(HRESULT hr) => Application.DeferredInvoke(new DeferredInvokeHandler(ZuneApplication.DeferredClose), DeferredInvokePriority.Normal);
+        private static void OnContentRefreshTaskComplete(HRESULT hr) => Application.DeferredInvoke(new DeferredInvokeHandler(DeferredClose), DeferredInvokePriority.Normal);
 
         public static void DeferredClose(object arg) => Application.Window.Close();
 
         private static void ProcessAppArgsAfterFUE(object sender, EventArgs unused)
         {
-            Fue.FUECompleted -= new EventHandler(ZuneApplication.ProcessAppArgsAfterFUE);
-            ZuneApplication.ProcessAppArgs();
+            Fue.FUECompleted -= new EventHandler(ProcessAppArgsAfterFUE);
+            ProcessAppArgs();
         }
 
         private static void RegisterNewFileEnumeration(LaunchFromShellHelper helper)
         {
-            if (ZuneApplication._currentShellCommand != null)
-                ZuneApplication._currentShellCommand.Cancel();
-            ZuneApplication._currentShellCommand = helper;
-            ZuneApplication._currentShellCommand.Go(new DeferredInvokeHandler(ZuneApplication.DataObjectEnumerationComplete));
+            if (_currentShellCommand != null)
+                _currentShellCommand.Cancel();
+            _currentShellCommand = helper;
+            _currentShellCommand.Go(new DeferredInvokeHandler(DataObjectEnumerationComplete));
         }
 
         private static void DataObjectEnumerationComplete(object args)
         {
-            if (args != ZuneApplication._currentShellCommand)
+            if (args != _currentShellCommand)
                 return;
-            string taskName = ZuneApplication._currentShellCommand.TaskName;
+            string taskName = _currentShellCommand.TaskName;
             if (taskName == "play" || taskName == "playasplaylist")
             {
-                List<FileEntry> files = ZuneApplication._currentShellCommand.Files;
-                MediaType mediaType = ZuneApplication.FilterFiles(files);
+                List<FileEntry> files = _currentShellCommand.Files;
+                MediaType mediaType = FilterFiles(files);
                 if (files != null && files.Count > 0 && (mediaType == MediaType.Track || mediaType == MediaType.Video))
                 {
                     PlaybackContext playbackContext = PlaybackContext.Music;
                     if (mediaType == MediaType.Video)
                         playbackContext = PlaybackContext.LibraryVideo;
-                    SingletonModelItem<TransportControls>.Instance.PlayItems((IList)files, playbackContext);
+                    SingletonModelItem<TransportControls>.Instance.PlayItems(files, playbackContext);
                 }
             }
-            ZuneApplication._currentShellCommand = (LaunchFromShellHelper)null;
+            _currentShellCommand = null;
         }
 
         private static MediaType FilterFiles(List<FileEntry> enumeratedFiles)
@@ -320,8 +320,8 @@ namespace Microsoft.Zune.Shell
         private static string[] SplitCommandLineArguments(string arguments)
         {
             if (string.IsNullOrEmpty(arguments))
-                return (string[])null;
-            string[] strArray = (string[])null;
+                return null;
+            string[] strArray = null;
             MatchCollection matchCollection = new Regex("(\\S*?(\\\")([^\\\"])+(\\\"))|[^\\s\"]+").Matches(arguments);
             if (matchCollection.Count > 0)
             {
@@ -335,13 +335,13 @@ namespace Microsoft.Zune.Shell
         [STAThread]
         public static int Launch(string strArgs, IntPtr hWndSplashScreen)
         {
-            Microsoft.Zune.PerfTrace.PerfTrace.PERFTRACE_LAUNCHEVENT(Microsoft.Zune.PerfTrace.PerfTrace.LAUNCH_EVENT.IN_MANAGED_LAUNCH, 0U);
-            Application.ErrorReport += new Microsoft.Iris.ErrorReportHandler(ZuneApplication.ErrorReportHandler);
-            Hashtable hashtable = StandAlone.Startup(ZuneApplication.SplitCommandLineArguments(strArgs), ZuneApplication.DefaultCommandLineParameterSwitch);
+            PerfTrace.PerfTrace.PERFTRACE_LAUNCHEVENT(PerfTrace.PerfTrace.LAUNCH_EVENT.IN_MANAGED_LAUNCH, 0U);
+            Application.ErrorReport += new ErrorReportHandler(ErrorReportHandler);
+            Hashtable hashtable = StandAlone.Startup(SplitCommandLineArguments(strArgs), DefaultCommandLineParameterSwitch);
             if (hashtable != null)
             {
-                ZuneApplication._unprocessedAppArgs = new List<Hashtable>();
-                ZuneApplication._unprocessedAppArgs.Add(hashtable);
+                _unprocessedAppArgs = new List<Hashtable>();
+                _unprocessedAppArgs.Add(hashtable);
             }
             DialogHelper.DialogCancel = ZuneUI.Shell.LoadString(StringId.IDS_DIALOG_CANCEL);
             DialogHelper.DialogYes = ZuneUI.Shell.LoadString(StringId.IDS_DIALOG_YES);
@@ -356,7 +356,7 @@ namespace Microsoft.Zune.Shell
             Application.Name = "Zune";
             Application.Window.Caption = "Zune";
             Application.Window.SetIcon("ZuneShellResources.dll", 1);
-            if (!hashtable.Contains((object)"noshadow"))
+            if (!hashtable.Contains("noshadow"))
             {
                 Image[] images = new Image[4];
                 ImageInset imageInset1 = new ImageInset(26, 0, 30, 0);
@@ -375,24 +375,24 @@ namespace Microsoft.Zune.Shell
                 Application.Window.SetShadowEdgeImages(false, images);
             }
             Application.Window.CloseRequested += new WindowCloseRequestedHandler(CodeDialogManager.Instance.OnWindowCloseRequested);
-            CodeDialogManager.Instance.WindowCloseNotBlocked += new EventHandler(ZuneApplication.OnWindowCloseNotBlocked);
-            Application.Window.SessionConnected += new SessionConnectedHandler(ZuneApplication.OnSessionConnected);
+            CodeDialogManager.Instance.WindowCloseNotBlocked += new EventHandler(OnWindowCloseNotBlocked);
+            Application.Window.SessionConnected += new SessionConnectedHandler(OnSessionConnected);
             string source = "res://ZuneShellResources!Frame.uix#Frame";
-            ZuneApplication._hWndSplashScreen = hWndSplashScreen;
-            ZuneApplication._initializationFailsafe = new InitializationFailsafe();
-            Microsoft.Zune.PerfTrace.PerfTrace.PERFTRACE_LAUNCHEVENT(Microsoft.Zune.PerfTrace.PerfTrace.LAUNCH_EVENT.REQUEST_UI_LOAD, 0U);
+            _hWndSplashScreen = hWndSplashScreen;
+            _initializationFailsafe = new InitializationFailsafe();
+            PerfTrace.PerfTrace.PERFTRACE_LAUNCHEVENT(PerfTrace.PerfTrace.LAUNCH_EVENT.REQUEST_UI_LOAD, 0U);
             Application.Window.RequestLoad(source);
-            Microsoft.Zune.PerfTrace.PerfTrace.PERFTRACE_LAUNCHEVENT(Microsoft.Zune.PerfTrace.PerfTrace.LAUNCH_EVENT.REQUEST_UI_LOAD_COMPLETE, 0U);
+            PerfTrace.PerfTrace.PERFTRACE_LAUNCHEVENT(PerfTrace.PerfTrace.LAUNCH_EVENT.REQUEST_UI_LOAD_COMPLETE, 0U);
             CallbackOnUIThread callbackOnUiThread = new CallbackOnUIThread();
-            ZuneApplication._appInitializationSequencer = new AppInitializationSequencer(new CorePhase2ReadyCallback(ZuneApplication.CorePhase3Ready));
-            ZuneApplication._zuneLibrary = new ZuneLibrary();
-            int num = ZuneApplication._zuneLibrary.Initialize((string)null, out ZuneApplication._dbRebuilt);
+            _appInitializationSequencer = new AppInitializationSequencer(new CorePhase2ReadyCallback(CorePhase3Ready));
+            _zuneLibrary = new ZuneLibrary();
+            int num = _zuneLibrary.Initialize(null, out _dbRebuilt);
             if (num == 0)
             {
-                StandAlone.Run(new DeferredInvokeHandler(ZuneApplication.Phase2Initialization));
+                StandAlone.Run(new DeferredInvokeHandler(Phase2Initialization));
                 Application.Window.CloseRequested -= new WindowCloseRequestedHandler(CodeDialogManager.Instance.OnWindowCloseRequested);
-                CodeDialogManager.Instance.WindowCloseNotBlocked -= new EventHandler(ZuneApplication.OnWindowCloseNotBlocked);
-                Application.Window.SessionConnected -= new SessionConnectedHandler(ZuneApplication.OnSessionConnected);
+                CodeDialogManager.Instance.WindowCloseNotBlocked -= new EventHandler(OnWindowCloseNotBlocked);
+                Application.Window.SessionConnected -= new SessionConnectedHandler(OnSessionConnected);
                 if (Download.IsCreated)
                     Download.Instance.Dispose();
                 ZuneShell.DefaultInstance?.Dispose();
@@ -406,8 +406,8 @@ namespace Microsoft.Zune.Shell
                 WorkerQueue.ShutdownAll();
                 if (ContentRefreshTask.HasInstance)
                     ContentRefreshTask.Instance.Dispose();
-                if (ZuneApplication.Service != null)
-                    ZuneApplication.Service.Dispose();
+                if (Service != null)
+                    Service.Dispose();
                 if (ShellMessagingNotifier.HasInstance)
                     ShellMessagingNotifier.Instance.Dispose();
                 if (MessagingService.HasInstance)
@@ -416,14 +416,14 @@ namespace Microsoft.Zune.Shell
                     FeaturesChangedApi.Instance.Dispose();
                 CDAccess.Instance.Dispose();
                 PlaylistManager.Instance.Dispose();
-                if (ZuneApplication._interopNotifications != null)
+                if (_interopNotifications != null)
                 {
-                    ZuneApplication._interopNotifications.ShowErrorDialog -= new OnShowErrorDialogHandler(ZuneApplication.OnShowErrorDialog);
-                    ZuneApplication._interopNotifications.Dispose();
-                    ZuneApplication._interopNotifications = (InteropNotifications)null;
+                    _interopNotifications.ShowErrorDialog -= new OnShowErrorDialogHandler(OnShowErrorDialog);
+                    _interopNotifications.Dispose();
+                    _interopNotifications = null;
                 }
             }
-            ZuneApplication._zuneLibrary.Dispose();
+            _zuneLibrary.Dispose();
             return num;
         }
 
@@ -440,16 +440,16 @@ namespace Microsoft.Zune.Shell
                 }
             }
             if (num > 0)
-                throw new ZuneShellException("Internal Zune Shell error", string.Format("Scripting errors encountered (Process ID) = {0}\n\n{1}", (object)Process.GetCurrentProcess().Id.ToString((IFormatProvider)CultureInfo.InvariantCulture), (object)str));
+                throw new ZuneShellException("Internal Zune Shell error", string.Format("Scripting errors encountered (Process ID) = {0}\n\n{1}", Process.GetCurrentProcess().Id.ToString(CultureInfo.InvariantCulture), str));
         }
 
         internal static bool CanAddMedia(IList filenames, MediaType mediaType, CanAddMediaArgs args)
         {
-            foreach (string filename in (IEnumerable)filenames)
+            foreach (string filename in filenames)
             {
                 if (args.Aborted)
                     return false;
-                if (ZuneApplication.CanAddMedia(filename, mediaType, args))
+                if (CanAddMedia(filename, mediaType, args))
                     return true;
             }
             return false;
@@ -459,7 +459,7 @@ namespace Microsoft.Zune.Shell
         {
             try
             {
-                return Directory.Exists(filename) ? ZuneApplication.ZuneLibrary.CanAddFromFolder(filename) && (ZuneApplication.CanAddMedia((IList)Directory.GetFiles(filename), mediaType, args) || ZuneApplication.CanAddMedia((IList)Directory.GetDirectories(filename), mediaType, args)) : ZuneApplication.ZuneLibrary.CanAddMedia(filename, (EMediaTypes)mediaType);
+                return Directory.Exists(filename) ? ZuneLibrary.CanAddFromFolder(filename) && (CanAddMedia(Directory.GetFiles(filename), mediaType, args) || CanAddMedia(Directory.GetDirectories(filename), mediaType, args)) : ZuneLibrary.CanAddMedia(filename, (EMediaTypes)mediaType);
             }
             catch (UnauthorizedAccessException ex)
             {
@@ -474,8 +474,8 @@ namespace Microsoft.Zune.Shell
         internal static bool AddMedia(IList filenames, MediaType mediaType)
         {
             bool flag = false;
-            foreach (string filename in (IEnumerable)filenames)
-                flag |= ZuneApplication.AddMedia(filename, mediaType);
+            foreach (string filename in filenames)
+                flag |= AddMedia(filename, mediaType);
             return flag;
         }
 
@@ -486,11 +486,11 @@ namespace Microsoft.Zune.Shell
             {
                 if (Directory.Exists(filename))
                 {
-                    flag = ZuneApplication.AddMedia((IList)Directory.GetFiles(filename), mediaType);
-                    flag |= ZuneApplication.AddMedia((IList)Directory.GetDirectories(filename), mediaType);
+                    flag = AddMedia(Directory.GetFiles(filename), mediaType);
+                    flag |= AddMedia(Directory.GetDirectories(filename), mediaType);
                 }
-                else if (ZuneApplication.ZuneLibrary.CanAddMedia(filename, (EMediaTypes)mediaType))
-                    flag = ZuneApplication.ZuneLibrary.AddMedia(filename) != -1;
+                else if (ZuneLibrary.CanAddMedia(filename, (EMediaTypes)mediaType))
+                    flag = ZuneLibrary.AddMedia(filename) != -1;
             }
             catch (UnauthorizedAccessException ex)
             {
@@ -507,8 +507,8 @@ namespace Microsoft.Zune.Shell
           out int libraryID,
           out bool fFileAlreadyExists)
         {
-            ZuneApplication._transientTableCleanupComplete.WaitOne();
-            return ZuneApplication.ZuneLibrary.AddTransientMedia(filename, (EMediaTypes)mediaType, out libraryID, out fFileAlreadyExists);
+            _transientTableCleanupComplete.WaitOne();
+            return ZuneLibrary.AddTransientMedia(filename, (EMediaTypes)mediaType, out libraryID, out fFileAlreadyExists);
         }
 
         private static void OnWindowCloseNotBlocked(object sender, EventArgs args)
@@ -524,19 +524,19 @@ namespace Microsoft.Zune.Shell
                     ui = "res://ZuneShellResources!ConfirmClose.uix#ConfirmFirmwareUpdateCloseContentUI";
                 else if (flag2)
                     ui = "res://ZuneShellResources!ConfirmClose.uix#ConfirmFirmwareRestoreCloseContentUI";
-                ConfirmCloseDialog.Show(ui, (EventHandler)delegate
+                ConfirmCloseDialog.Show(ui, delegate
                {
-                   ZuneApplication.ForceClose(sender, args);
+                   ForceClose(sender, args);
                });
             }
             else
-                ZuneApplication.ForceClose(sender, args);
+                ForceClose(sender, args);
         }
 
         private static void ForceClose(object sender, EventArgs args)
         {
-            if (ZuneApplication.Closing != null)
-                ZuneApplication.Closing(sender, args);
+            if (Closing != null)
+                Closing(sender, args);
             Application.Window.ForceClose();
         }
 
@@ -547,10 +547,10 @@ namespace Microsoft.Zune.Shell
             SingletonModelItem<TransportControls>.Instance.CloseCurrentSession();
         }
 
-        public static void OnShowErrorDialog(int hr, uint uiStringId) => Application.DeferredInvoke(new DeferredInvokeHandler(ZuneApplication.DeferredShowErrorDialog), (object)new object[2]
+        public static void OnShowErrorDialog(int hr, uint uiStringId) => Application.DeferredInvoke(new DeferredInvokeHandler(DeferredShowErrorDialog), new object[2]
         {
-      (object) hr,
-      (object) uiStringId
+       hr,
+       uiStringId
         });
 
         public static void DeferredShowErrorDialog(object arg)
@@ -561,11 +561,11 @@ namespace Microsoft.Zune.Shell
 
         private static void OnQuickMixPropertyChanged(object Sender, PropertyChangedEventArgs e)
         {
-            if (!(e.PropertyName == "Progress") || (double)ZuneApplication._quickMixProgress.Progress < 100.0)
+            if (!(e.PropertyName == "Progress") || _quickMixProgress.Progress < 100.0)
                 return;
-            NotificationArea.Instance.Add((ZuneUI.Notification)new QuickMixNotification(ZuneUI.Shell.LoadString(StringId.IDS_QUICKMIX_NOTIFICATION_BOOTSTRAP_READY_TITLE), ZuneUI.Shell.LoadString(StringId.IDS_QUICKMIX_NOTIFICATION_BOOTSTRAP_READY_TEXT), NotificationState.Completed, true, 10000));
-            ZuneApplication._quickMixProgress.PropertyChanged -= new PropertyChangedEventHandler(ZuneApplication.OnQuickMixPropertyChanged);
-            ZuneApplication._quickMixProgress = (QuickMixProgress)null;
+            NotificationArea.Instance.Add(new QuickMixNotification(ZuneUI.Shell.LoadString(StringId.IDS_QUICKMIX_NOTIFICATION_BOOTSTRAP_READY_TITLE), ZuneUI.Shell.LoadString(StringId.IDS_QUICKMIX_NOTIFICATION_BOOTSTRAP_READY_TEXT), NotificationState.Completed, true, 10000));
+            _quickMixProgress.PropertyChanged -= new PropertyChangedEventHandler(OnQuickMixPropertyChanged);
+            _quickMixProgress = null;
         }
     }
 }

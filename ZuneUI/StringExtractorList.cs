@@ -41,7 +41,7 @@ namespace ZuneUI
             this.Count = this._source != null ? this._source.Count : 0;
         }
 
-        protected override object OnRequestItem(int index) => (object)this.ExtractString(this._source[index]);
+        protected override object OnRequestItem(int index) => this.ExtractString(this._source[index]);
 
         int ISearchableList.SearchForString(string str) => this._searchableSource != null && this._canSearchForString ? this._searchableSource.SearchForString(str) : -1;
 

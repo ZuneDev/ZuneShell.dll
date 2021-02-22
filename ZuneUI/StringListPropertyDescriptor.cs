@@ -15,8 +15,8 @@ namespace ZuneUI
         {
         }
 
-        public override string ConvertToString(object value) => value != null ? TrackDetails.ContributingArtistListToString((IList)value) : (string)null;
+        public override string ConvertToString(object value) => value != null ? TrackDetails.ContributingArtistListToString((IList)value) : null;
 
-        public override object ConvertFromString(string value) => value != null ? (object)TrackDetails.ContributingArtistStringToList(value) : (object)null;
+        public override object ConvertFromString(string value) => value != null ? TrackDetails.ContributingArtistStringToList(value) : null;
     }
 }

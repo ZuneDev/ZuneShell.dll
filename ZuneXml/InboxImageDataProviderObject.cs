@@ -25,11 +25,11 @@ namespace ZuneXml
 
         public override object GetProperty(string propertyName)
         {
-            if (propertyName == InboxImageDataProviderObject.PropertyName_InLibrary)
-                return (object)this.InLibrary;
-            if (propertyName == InboxImageDataProviderObject.PropertyName_ImagePath)
-                return (object)this.ImagePath;
-            return propertyName == InboxImageDataProviderObject.PropertyName_Photo ? (object)this.Photo : (object)null;
+            if (propertyName == PropertyName_InLibrary)
+                return InLibrary;
+            if (propertyName == PropertyName_ImagePath)
+                return ImagePath;
+            return propertyName == PropertyName_Photo ? Photo : null;
         }
 
         public bool InLibrary
@@ -40,7 +40,7 @@ namespace ZuneXml
                 if (this._inLibrary == value)
                     return;
                 this._inLibrary = value;
-                this.FirePropertyChanged(InboxImageDataProviderObject.PropertyName_InLibrary);
+                this.FirePropertyChanged(PropertyName_InLibrary);
             }
         }
 
@@ -52,7 +52,7 @@ namespace ZuneXml
                 if (!(this._imagePath != value))
                     return;
                 this._imagePath = value;
-                this.FirePropertyChanged(InboxImageDataProviderObject.PropertyName_ImagePath);
+                this.FirePropertyChanged(PropertyName_ImagePath);
             }
         }
 
@@ -68,13 +68,13 @@ namespace ZuneXml
 
         public override void SetProperty(string propertyName, object value)
         {
-            if (propertyName == InboxImageDataProviderObject.PropertyName_InLibrary)
+            if (propertyName == PropertyName_InLibrary)
             {
                 this.InLibrary = (bool)value;
             }
             else
             {
-                if (!(propertyName == InboxImageDataProviderObject.PropertyName_ImagePath))
+                if (!(propertyName == PropertyName_ImagePath))
                     throw new ApplicationException("unexpected property name");
                 this.ImagePath = (string)value;
             }

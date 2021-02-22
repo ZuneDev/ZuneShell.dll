@@ -25,7 +25,7 @@ namespace Microsoft.Zune.Shell
             {
                 int dueTime = 30000;
                 this._onCompleteHandler = onCompleteHandler;
-                this._failsafeTimer = new System.Threading.Timer(new TimerCallback(this.FailsafeCallback), (object)null, dueTime, -1);
+                this._failsafeTimer = new System.Threading.Timer(new TimerCallback(this.FailsafeCallback), null, dueTime, -1);
             }
         }
 

@@ -81,7 +81,7 @@ namespace ZuneUI
             if (this._quickMixSession != null)
             {
                 this._quickMixSession.Dispose();
-                this._quickMixSession = (QuickMixSession)null;
+                this._quickMixSession = null;
             }
             this.CleanupTransientTracks();
         }
@@ -99,14 +99,14 @@ namespace ZuneUI
 
         private void AddQuickMixItemsWorker(IList items)
         {
-            Microsoft.Zune.QuickMix.QuickMix instance = Microsoft.Zune.QuickMix.QuickMix.Instance;
+            QuickMix instance = QuickMix.Instance;
             HRESULT hresult = HRESULT._S_OK;
             EMediaTypes eMediaType = EMediaTypes.eMediaTypeInvalid;
             this._quickMixNoResultsStringId = StringId.IDS_QUICKMIX_ITEM_CREATION_UNAVAILABLE_TEXT;
             if (this._quickMixSession != null)
             {
                 this._quickMixSession.Dispose();
-                this._quickMixSession = (QuickMixSession)null;
+                this._quickMixSession = null;
             }
             NotificationArea.Instance.RemoveAll(NotificationTask.QuickMix, NotificationState.OneShot);
             if (items[0] is Artist artist)
@@ -115,8 +115,8 @@ namespace ZuneUI
                 hresult = instance.CreateSession(EQuickMixMode.eQuickMixModeNowPlaying, artist.Id, EMediaTypes.eMediaTypePersonArtist, artist.Title, out this._quickMixSession);
                 if (hresult.IsSuccess)
                 {
-                    string text = string.Format(ZuneUI.Shell.LoadString(StringId.IDS_QUICKMIX_NOTIFICATION_CREATION_BUSY_ONE_PARAM_TEXT), (object)artist.Title);
-                    this._quickMixCreatingNotification = new QuickMixNotification(ZuneUI.Shell.LoadString(StringId.IDS_QUICKMIX_NOTIFICATION_CREATION_BUSY_TITLE), text, NotificationState.OneShot, false, 15000);
+                    string text = string.Format(Shell.LoadString(StringId.IDS_QUICKMIX_NOTIFICATION_CREATION_BUSY_ONE_PARAM_TEXT), artist.Title);
+                    this._quickMixCreatingNotification = new QuickMixNotification(Shell.LoadString(StringId.IDS_QUICKMIX_NOTIFICATION_CREATION_BUSY_TITLE), text, NotificationState.OneShot, false, 15000);
                     SQMLog.Log(SQMDataId.QuickMixRadioPlays, 1);
                 }
             }
@@ -127,8 +127,8 @@ namespace ZuneUI
                     eMediaType = EMediaTypes.eMediaTypePersonArtist;
                     this._quickMixNoResultsStringId = StringId.IDS_QUICKMIX_ARTIST_CREATION_UNAVAILABLE_TEXT;
                     string property = (string)providerItemBase.GetProperty("Title");
-                    string text = string.Format(ZuneUI.Shell.LoadString(StringId.IDS_QUICKMIX_NOTIFICATION_CREATION_BUSY_ONE_PARAM_TEXT), (object)property);
-                    this._quickMixCreatingNotification = new QuickMixNotification(ZuneUI.Shell.LoadString(StringId.IDS_QUICKMIX_NOTIFICATION_CREATION_BUSY_TITLE), text, NotificationState.OneShot, false, 15000);
+                    string text = string.Format(Shell.LoadString(StringId.IDS_QUICKMIX_NOTIFICATION_CREATION_BUSY_ONE_PARAM_TEXT), property);
+                    this._quickMixCreatingNotification = new QuickMixNotification(Shell.LoadString(StringId.IDS_QUICKMIX_NOTIFICATION_CREATION_BUSY_TITLE), text, NotificationState.OneShot, false, 15000);
                 }
                 else if (providerItemBase.TypeName == "Album")
                 {
@@ -136,8 +136,8 @@ namespace ZuneUI
                     this._quickMixNoResultsStringId = StringId.IDS_QUICKMIX_ALBUM_CREATION_UNAVAILABLE_TEXT;
                     string property1 = (string)providerItemBase.GetProperty("ArtistName");
                     string property2 = (string)providerItemBase.GetProperty("Title");
-                    string text = string.Format(ZuneUI.Shell.LoadString(StringId.IDS_QUICKMIX_NOTIFICATION_CREATION_BUSY_TWO_PARAM_TEXT), (object)property1, (object)property2);
-                    this._quickMixCreatingNotification = new QuickMixNotification(ZuneUI.Shell.LoadString(StringId.IDS_QUICKMIX_NOTIFICATION_CREATION_BUSY_TITLE), text, NotificationState.OneShot, false, 15000);
+                    string text = string.Format(Shell.LoadString(StringId.IDS_QUICKMIX_NOTIFICATION_CREATION_BUSY_TWO_PARAM_TEXT), property1, property2);
+                    this._quickMixCreatingNotification = new QuickMixNotification(Shell.LoadString(StringId.IDS_QUICKMIX_NOTIFICATION_CREATION_BUSY_TITLE), text, NotificationState.OneShot, false, 15000);
                 }
                 else if (providerItemBase.TypeName == "Track")
                 {
@@ -145,8 +145,8 @@ namespace ZuneUI
                     this._quickMixNoResultsStringId = StringId.IDS_QUICKMIX_SONG_CREATION_UNAVAILABLE_TEXT;
                     string property1 = (string)providerItemBase.GetProperty("ArtistName");
                     string property2 = (string)providerItemBase.GetProperty("Title");
-                    string text = string.Format(ZuneUI.Shell.LoadString(StringId.IDS_QUICKMIX_NOTIFICATION_CREATION_BUSY_TWO_PARAM_TEXT), (object)property1, (object)property2);
-                    this._quickMixCreatingNotification = new QuickMixNotification(ZuneUI.Shell.LoadString(StringId.IDS_QUICKMIX_NOTIFICATION_CREATION_BUSY_TITLE), text, NotificationState.OneShot, false, 15000);
+                    string text = string.Format(Shell.LoadString(StringId.IDS_QUICKMIX_NOTIFICATION_CREATION_BUSY_TWO_PARAM_TEXT), property1, property2);
+                    this._quickMixCreatingNotification = new QuickMixNotification(Shell.LoadString(StringId.IDS_QUICKMIX_NOTIFICATION_CREATION_BUSY_TITLE), text, NotificationState.OneShot, false, 15000);
                 }
                 int[] seedMediaIds = new int[1]
                 {
@@ -159,7 +159,7 @@ namespace ZuneUI
             {
                 if (this._quickMixSession != null)
                 {
-                    hresult = this._quickMixSession.GetSimilarMedia((uint)ClientConfiguration.QuickMix.DefaultPlaylistLength, TimeSpan.FromMilliseconds(15000.0), new SimilarMediaBatchHandler(this.SimilarBatchHandler), new Microsoft.Zune.QuickMix.BatchEndHandler(this.BatchEndHandler));
+                    hresult = this._quickMixSession.GetSimilarMedia((uint)ClientConfiguration.QuickMix.DefaultPlaylistLength, TimeSpan.FromMilliseconds(15000.0), new SimilarMediaBatchHandler(this.SimilarBatchHandler), new BatchEndHandler(this.BatchEndHandler));
                     this._quickMixType = this._quickMixSession.GetQuickMixType();
                     this._quickMixSession.GetPlaylistTitle(out this._quickMixTitle);
                 }
@@ -168,23 +168,23 @@ namespace ZuneUI
             }
             if (hresult.IsSuccess)
             {
-                NotificationArea.Instance.Add((Notification)this._quickMixCreatingNotification);
+                NotificationArea.Instance.Add(_quickMixCreatingNotification);
             }
             else
             {
                 if (this._quickMixSession != null)
                 {
                     this._quickMixSession.Dispose();
-                    this._quickMixSession = (QuickMixSession)null;
+                    this._quickMixSession = null;
                 }
-                if ((HRESULT)hresult.Int == HRESULT._ZUNE_E_QUICKMIX_MEDIA_NOT_FOUND)
-                    MessageBox.Show(ZuneUI.Shell.LoadString(StringId.IDS_QUICKMIX_CREATION_UNAVAILABLE_NO_RESULTS_TITLE), ZuneUI.Shell.LoadString(this._quickMixNoResultsStringId), (EventHandler)null);
+                if (hresult.Int == HRESULT._ZUNE_E_QUICKMIX_MEDIA_NOT_FOUND)
+                    MessageBox.Show(Shell.LoadString(StringId.IDS_QUICKMIX_CREATION_UNAVAILABLE_NO_RESULTS_TITLE), Shell.LoadString(this._quickMixNoResultsStringId), null);
                 else
-                    ErrorDialogInfo.Show(hresult.Int, ZuneUI.Shell.LoadString(StringId.IDS_QUICKMIX_CREATION_UNAVAILABLE_NO_RESULTS_TITLE));
+                    ErrorDialogInfo.Show(hresult.Int, Shell.LoadString(StringId.IDS_QUICKMIX_CREATION_UNAVAILABLE_NO_RESULTS_TITLE));
             }
         }
 
-        private void SimilarBatchHandler(IList itemList) => Application.DeferredInvoke((DeferredInvokeHandler)delegate
+        private void SimilarBatchHandler(IList itemList) => Application.DeferredInvoke(delegate
        {
            if (this._quickMixSession == null)
                return;
@@ -199,19 +199,19 @@ namespace ZuneUI
                return;
            this.PlayWhenReady = false;
            SingletonModelItem<TransportControls>.Instance.PlayPendingList();
-       }, (object)null);
+       }, null);
 
-        private void BatchEndHandler(HRESULT hrAsync) => Application.DeferredInvoke((DeferredInvokeHandler)delegate
+        private void BatchEndHandler(HRESULT hrAsync) => Application.DeferredInvoke(delegate
        {
-           NotificationArea.Instance.Remove((Notification)this._quickMixCreatingNotification);
-           this._quickMixCreatingNotification = (QuickMixNotification)null;
+           NotificationArea.Instance.Remove(_quickMixCreatingNotification);
+           this._quickMixCreatingNotification = null;
            if (this._quickMixSession == null || !hrAsync.IsError)
                return;
-           if ((HRESULT)hrAsync.Int == HRESULT._ZUNE_E_QUICKMIX_MEDIA_NOT_FOUND)
-               MessageBox.Show(ZuneUI.Shell.LoadString(StringId.IDS_QUICKMIX_CREATION_UNAVAILABLE_NO_RESULTS_TITLE), ZuneUI.Shell.LoadString(this._quickMixNoResultsStringId), (EventHandler)null);
+           if (hrAsync.Int == HRESULT._ZUNE_E_QUICKMIX_MEDIA_NOT_FOUND)
+               MessageBox.Show(Shell.LoadString(StringId.IDS_QUICKMIX_CREATION_UNAVAILABLE_NO_RESULTS_TITLE), Shell.LoadString(this._quickMixNoResultsStringId), null);
            else
-               ErrorDialogInfo.Show(hrAsync.Int, ZuneUI.Shell.LoadString(StringId.IDS_QUICKMIX_CREATION_UNAVAILABLE_NO_RESULTS_TITLE));
-       }, (object)null);
+               ErrorDialogInfo.Show(hrAsync.Int, Shell.LoadString(StringId.IDS_QUICKMIX_CREATION_UNAVAILABLE_NO_RESULTS_TITLE));
+       }, null);
 
         public ArrayListDataSet TrackList => this._tracks;
 
@@ -294,7 +294,7 @@ namespace ZuneUI
                 if (shuffling)
                     this.RebuildShuffleOrder();
                 else
-                    this._shuffleOrder = (int[])null;
+                    this._shuffleOrder = null;
                 this._indexCurrent = !shuffling ? index : this.FindShuffleIndexFromListIndex(index);
                 this._shuffling = shuffling;
                 this.UpdateTracks();
@@ -316,27 +316,27 @@ namespace ZuneUI
             int num;
             if (track == this._trackNext)
             {
-                num = this.ComputeNextIndex(NowPlayingList.MovingMode.Advancing);
+                num = this.ComputeNextIndex(MovingMode.Advancing);
             }
             else
             {
-                num = this._tracks.IndexOf((object)track);
+                num = this._tracks.IndexOf(track);
                 if (num != -1 && this._shuffling)
                     num = this.FindShuffleIndexFromListIndex(num);
             }
             if (num == -1)
                 return;
-            this.MoveToWorker(num, NowPlayingList.MovingMode.Advancing);
+            this.MoveToWorker(num, MovingMode.Advancing);
         }
 
         public void MoveToTrackIndex(int indexNew)
         {
             if (this._shuffling)
                 indexNew = this.FindShuffleIndexFromListIndex(indexNew);
-            this.MoveToWorker(indexNew, NowPlayingList.MovingMode.Jumping);
+            this.MoveToWorker(indexNew, MovingMode.Jumping);
         }
 
-        public void Advance() => this.MoveToWorker(this.ComputeNextIndex(NowPlayingList.MovingMode.Advancing), NowPlayingList.MovingMode.Advancing);
+        public void Advance() => this.MoveToWorker(this.ComputeNextIndex(MovingMode.Advancing), MovingMode.Advancing);
 
         public bool CanAdvance => this._trackNext != null;
 
@@ -344,40 +344,40 @@ namespace ZuneUI
         {
             if (this._shuffling && this._repeating && this._indexCurrent == this._indexShuffleStart)
                 this.RebuildShuffleOrder(new int?(this._currentRandomSeed - 1));
-            this.MoveToWorker(this.ComputeNextIndex(NowPlayingList.MovingMode.Retreating), NowPlayingList.MovingMode.Retreating);
+            this.MoveToWorker(this.ComputeNextIndex(MovingMode.Retreating), MovingMode.Retreating);
         }
 
         public bool CanRetreat => this._repeating || (!this._shuffling ? this._indexCurrent > 0 : this._indexCurrent != this._indexShuffleStart);
 
-        public int AddItems(IList items) => this.AddItems(items, (ContainerPlayMarker)null);
+        public int AddItems(IList items) => this.AddItems(items, null);
 
         public int AddItems(IList items, ContainerPlayMarker playMarker) => this.AddItemsWorker(items, -1, false, playMarker);
 
         public void ResetForReplay()
         {
-            this._indexCurrent = !this._shuffling ? 0 : NowPlayingList.s_random.Next(this._tracks.Count);
+            this._indexCurrent = !this._shuffling ? 0 : s_random.Next(this._tracks.Count);
             if (this._shuffling)
                 this.RebuildShuffleOrder();
             this.UpdateTracks();
         }
 
-        private void MoveToWorker(int indexNew, NowPlayingList.MovingMode mode)
+        private void MoveToWorker(int indexNew, MovingMode mode)
         {
             this._indexCurrent = indexNew;
             if (this._shuffling)
             {
-                if (mode == NowPlayingList.MovingMode.Advancing && indexNew == this._indexShuffleStart)
+                if (mode == MovingMode.Advancing && indexNew == this._indexShuffleStart)
                     this.RebuildShuffleOrder(new int?(this._currentRandomSeed + 1));
-                else if (mode == NowPlayingList.MovingMode.Jumping)
+                else if (mode == MovingMode.Jumping)
                     this.RebuildShuffleOrder();
             }
             this.UpdateTracks();
             if (!this.CanGetMoreQuickMixTracks() || !this.ListNearingCompletion())
                 return;
-            HRESULT similarMedia = this._quickMixSession.GetSimilarMedia((uint)ClientConfiguration.QuickMix.DefaultPlaylistLength, TimeSpan.FromMilliseconds(15000.0), new SimilarMediaBatchHandler(this.SimilarBatchHandler), new Microsoft.Zune.QuickMix.BatchEndHandler(this.BatchEndHandler));
-            if (!similarMedia.IsError || (HRESULT)similarMedia.Int == HRESULT._ZUNE_E_QUICKMIX_SESSION_IN_USE)
+            HRESULT similarMedia = this._quickMixSession.GetSimilarMedia((uint)ClientConfiguration.QuickMix.DefaultPlaylistLength, TimeSpan.FromMilliseconds(15000.0), new SimilarMediaBatchHandler(this.SimilarBatchHandler), new BatchEndHandler(this.BatchEndHandler));
+            if (!similarMedia.IsError || similarMedia.Int == HRESULT._ZUNE_E_QUICKMIX_SESSION_IN_USE)
                 return;
-            ErrorDialogInfo.Show(similarMedia.Int, ZuneUI.Shell.LoadString(StringId.IDS_QUICKMIX_CREATION_UNAVAILABLE_NO_RESULTS_TITLE));
+            ErrorDialogInfo.Show(similarMedia.Int, Shell.LoadString(StringId.IDS_QUICKMIX_CREATION_UNAVAILABLE_NO_RESULTS_TITLE));
         }
 
         private bool CanGetMoreQuickMixTracks()
@@ -388,11 +388,11 @@ namespace ZuneUI
             return flag;
         }
 
-        private int ComputeNextIndex(NowPlayingList.MovingMode mode) => this.ComputeNextIndex(mode, this._indexCurrent, true);
+        private int ComputeNextIndex(MovingMode mode) => this.ComputeNextIndex(mode, this._indexCurrent, true);
 
-        private int ComputeNextIndex(NowPlayingList.MovingMode mode, int fromIndex, bool allowLooping)
+        private int ComputeNextIndex(MovingMode mode, int fromIndex, bool allowLooping)
         {
-            if (mode != NowPlayingList.MovingMode.Advancing && mode != NowPlayingList.MovingMode.Retreating)
+            if (mode != MovingMode.Advancing && mode != MovingMode.Retreating)
                 return fromIndex;
             int index1;
             if (!this._dontPlayMarketplaceTracks)
@@ -425,18 +425,18 @@ namespace ZuneUI
         }
 
         private int ComputeNextIndexUnfiltered(
-          NowPlayingList.MovingMode mode,
+          MovingMode mode,
           int indexCurrent,
           bool allowLooping)
         {
-            int num = mode != NowPlayingList.MovingMode.Advancing ? indexCurrent - 1 : indexCurrent + 1;
+            int num = mode != MovingMode.Advancing ? indexCurrent - 1 : indexCurrent + 1;
             if (this._shuffling)
             {
                 if (num == this._tracks.Count)
                     num = 0;
                 else if (num == -1)
                     num = this._tracks.Count - 1;
-                if ((mode == NowPlayingList.MovingMode.Advancing && num == this._indexShuffleStart || mode == NowPlayingList.MovingMode.Retreating && num == this._indexShuffleStart - 1) && (!this._repeating || !allowLooping))
+                if ((mode == MovingMode.Advancing && num == this._indexShuffleStart || mode == MovingMode.Retreating && num == this._indexShuffleStart - 1) && (!this._repeating || !allowLooping))
                     num = -1;
             }
             else if (num == this._tracks.Count)
@@ -455,7 +455,7 @@ namespace ZuneUI
             bool flag = false;
             for (int index = 0; index < 3; ++index)
             {
-                fromIndex = this.ComputeNextIndex(NowPlayingList.MovingMode.Advancing, fromIndex, false);
+                fromIndex = this.ComputeNextIndex(MovingMode.Advancing, fromIndex, false);
                 if (fromIndex == -1)
                 {
                     flag = true;
@@ -468,12 +468,12 @@ namespace ZuneUI
 
         internal void UpdateTracks()
         {
-            object obj1 = (object)null;
-            object obj2 = (object)null;
+            object obj1 = null;
+            object obj2 = null;
             if (this._tracks != null && this._indexCurrent != -1)
             {
                 obj1 = this._tracks[this._shuffling ? this._shuffleOrder[this._indexCurrent] : this._indexCurrent];
-                int nextIndex = this.ComputeNextIndex(NowPlayingList.MovingMode.Advancing);
+                int nextIndex = this.ComputeNextIndex(MovingMode.Advancing);
                 if (nextIndex != -1)
                 {
                     if (this._shuffling)
@@ -504,7 +504,7 @@ namespace ZuneUI
             int index1 = !this._shuffling ? this._indexCurrent : this._shuffleOrder[this._indexCurrent];
             if (this._tracks == null)
             {
-                this._shuffleOrder = (int[])null;
+                this._shuffleOrder = null;
             }
             else
             {
@@ -557,7 +557,7 @@ namespace ZuneUI
                     SQMLog.Log(SQMDataId.QuickMixPlaylistPlays, 1);
                 }
             }
-            PlaylistManager.AddItemsToTrackList(items, (IList)arrayListDataSet, ref startIndex, true, false, false, containerPlayMarker);
+            PlaylistManager.AddItemsToTrackList(items, arrayListDataSet, ref startIndex, true, false, false, containerPlayMarker);
             if (arrayListDataSet.Count != 0)
             {
                 bool flag1 = false;
@@ -565,7 +565,7 @@ namespace ZuneUI
                 {
                     this._tracks = new ArrayListDataSet();
                     if (startIndex == -1)
-                        startIndex = !shuffling ? 0 : NowPlayingList.s_random.Next(arrayListDataSet.Count);
+                        startIndex = !shuffling ? 0 : s_random.Next(arrayListDataSet.Count);
                     flag1 = true;
                 }
                 bool flag2 = false;
@@ -602,7 +602,7 @@ namespace ZuneUI
                 if (this._shuffling)
                     this.RebuildShuffleOrder();
                 if (this._quickMixType != EQuickMixType.eQuickMixTypeInvalid)
-                    this.AddReferencesToRemoteTracks((IList)arrayListDataSet);
+                    this.AddReferencesToRemoteTracks(arrayListDataSet);
             }
             this.UpdateTracks();
             return arrayListDataSet.Count;
@@ -614,17 +614,17 @@ namespace ZuneUI
                 return;
             if (this._transientTracksPlaylistId == int.MinValue)
             {
-                PlaylistResult playlist = PlaylistManager.Instance.CreatePlaylist("Now Playing Transient Tracks Playlist [" + (object)NowPlayingList._transientPlaylistCount + "]", true);
-                ++NowPlayingList._transientPlaylistCount;
+                PlaylistResult playlist = PlaylistManager.Instance.CreatePlaylist("Now Playing Transient Tracks Playlist [" + _transientPlaylistCount + "]", true);
+                ++_transientPlaylistCount;
                 this._transientTracksPlaylistId = playlist.PlaylistId;
             }
             List<LibraryPlaybackTrack> libraryPlaybackTrackList = new List<LibraryPlaybackTrack>(tracks.Count);
-            foreach (object track in (IEnumerable)tracks)
+            foreach (object track in tracks)
             {
                 if (track is LibraryPlaybackTrack libraryPlaybackTrack && !libraryPlaybackTrack.IsInVisibleCollection)
                     libraryPlaybackTrackList.Add(libraryPlaybackTrack);
             }
-            int playlist1 = (int)PlaylistManager.Instance.AddToPlaylist(this._transientTracksPlaylistId, (IList)libraryPlaybackTrackList, false, false);
+            int playlist1 = (int)PlaylistManager.Instance.AddToPlaylist(this._transientTracksPlaylistId, libraryPlaybackTrackList, false, false);
         }
 
         public void Reorder(IList indices, int targetIndex)
@@ -633,7 +633,7 @@ namespace ZuneUI
             this._tracks.Reorder(indices, targetIndex);
             if (this._shuffling)
                 this.RebuildShuffleOrder();
-            this._indexCurrent = this._tracks.IndexOf((object)currentTrack);
+            this._indexCurrent = this._tracks.IndexOf(currentTrack);
             if (this._shuffling)
                 this._indexCurrent = this.FindShuffleIndexFromListIndex(this._indexCurrent);
             this.UpdateTracks();
@@ -664,7 +664,7 @@ namespace ZuneUI
 
         public IList GetNextTracks(int count)
         {
-            List<PlaybackTrack> playbackTrackList = (List<PlaybackTrack>)null;
+            List<PlaybackTrack> playbackTrackList = null;
             if (this._tracks != null && this._tracks.Count > 0)
             {
                 playbackTrackList = new List<PlaybackTrack>(count);
@@ -686,7 +686,7 @@ namespace ZuneUI
                         break;
                 }
             }
-            return (IList)playbackTrackList;
+            return playbackTrackList;
         }
 
         [OnSerializing]
@@ -718,15 +718,15 @@ namespace ZuneUI
                 this._tracks = new ArrayListDataSet();
                 foreach (object savedTrack in this._savedTracks)
                     this._tracks.Add(savedTrack);
-                this._savedTracks = (List<PlaybackTrack>)null;
+                this._savedTracks = null;
                 if (this._shuffling)
                     this.RebuildShuffleOrder();
                 this.UpdateTracks();
             }
-            Application.DeferredInvoke((DeferredInvokeHandler)delegate
+            Application.DeferredInvoke(delegate
            {
                SingletonModelItem<TransportControls>.Instance.Shuffling.Value = this._shuffling;
-           }, (object)null);
+           }, null);
         }
 
         [Conditional("DEBUG_NOW_PLAYING_LIST")]

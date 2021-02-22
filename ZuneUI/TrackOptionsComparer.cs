@@ -15,7 +15,7 @@ namespace ZuneUI
         {
             TrackOptionGroupItem trackOptionGroupItem1 = x as TrackOptionGroupItem;
             TrackOptionGroupItem trackOptionGroupItem2 = y as TrackOptionGroupItem;
-            return trackOptionGroupItem1 != null && trackOptionGroupItem2 != null ? ((IComparable)trackOptionGroupItem1.Original).CompareTo((object)trackOptionGroupItem2.Original) : 1;
+            return trackOptionGroupItem1 != null && trackOptionGroupItem2 != null ? trackOptionGroupItem1.Original.CompareTo((object)trackOptionGroupItem2.Original) : 1;
         }
     }
 }

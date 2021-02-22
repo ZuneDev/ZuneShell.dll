@@ -14,7 +14,7 @@ namespace ZuneUI
         public const string RequestTypeString = "playlist";
 
         public PlaylistAttachment(Guid id, string title, string imageUri)
-          : base(id, title, (string)null, imageUri)
+          : base(id, title, null, imageUri)
         {
             this.AttachmentUI = "res://ZuneShellResources!SocialComposer.uix#PlaylistAttachmentUI";
             this.Description = Shell.LoadString(StringId.IDS_COMPOSE_MESSAGE_PLAYLIST_ATTACHMENT);

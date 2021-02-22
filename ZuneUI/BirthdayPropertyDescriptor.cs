@@ -24,7 +24,7 @@ namespace ZuneUI
         {
         }
 
-        public override bool IsValidInternal(string value) => this.IsValidInternal(value, (object)null);
+        public override bool IsValidInternal(string value) => this.IsValidInternal(value, null);
 
         public override string ConvertToString(object value, object state)
         {
@@ -40,7 +40,7 @@ namespace ZuneUI
             DateTime dateTime = DateTime.MinValue;
             string cultureString = state as string;
             DateTimeHelper.TryParse(value, cultureString, out dateTime);
-            return (object)dateTime;
+            return dateTime;
         }
 
         public override bool IsValidInternal(string value, object state)
@@ -64,7 +64,7 @@ namespace ZuneUI
         internal override string GetOverlayString(object state)
         {
             string cultureString = state as string;
-            return !string.IsNullOrEmpty(cultureString) ? DateTimeHelper.GetDisplayPattern(cultureString) : (string)null;
+            return !string.IsNullOrEmpty(cultureString) ? DateTimeHelper.GetDisplayPattern(cultureString) : null;
         }
     }
 }

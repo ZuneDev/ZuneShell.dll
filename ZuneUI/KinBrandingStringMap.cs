@@ -14,9 +14,9 @@ namespace ZuneUI
         {
         }
 
-        static KinBrandingStringMap() => KinBrandingStringMap._instance.Initialize();
+        static KinBrandingStringMap() => _instance.Initialize();
 
-        public static KinBrandingStringMap Instance => KinBrandingStringMap._instance;
+        public static KinBrandingStringMap Instance => _instance;
 
         public override void Initialize()
         {

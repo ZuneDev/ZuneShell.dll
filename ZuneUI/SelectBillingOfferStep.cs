@@ -24,7 +24,7 @@ namespace ZuneUI
             this._offerTypes = EBillingOfferType.Unknown;
             this.SetDescription();
             this.RequireSignIn = true;
-            this.Initialize((WizardPropertyEditor)null);
+            this.Initialize(null);
         }
 
         protected override void OnDispose(bool disposing)
@@ -34,7 +34,7 @@ namespace ZuneUI
                 return;
             this._helper.PropertyChanged -= new PropertyChangedEventHandler(this.HelperPropertyChanged);
             this._helper.Dispose();
-            this._helper = (BillingOfferHelper)null;
+            this._helper = null;
         }
 
         public override string UI => "res://ZuneShellResources!AccountInfo.uix#SelectBillingOfferStep";
@@ -77,10 +77,10 @@ namespace ZuneUI
         {
             get
             {
-                BillingOffer billingOffer = (BillingOffer)null;
+                BillingOffer billingOffer = null;
                 if (this._helper.Subscriptions != null)
                 {
-                    foreach (BillingOffer subscription in (IEnumerable)this._helper.Subscriptions)
+                    foreach (BillingOffer subscription in _helper.Subscriptions)
                     {
                         if (subscription.Trial)
                         {
@@ -149,7 +149,7 @@ namespace ZuneUI
             {
                 if (!(args.PropertyName == "ErrorCode") || !this._helper.ErrorCode.IsError)
                     return;
-                this.SetError(this._helper.ErrorCode, (ServiceError)null);
+                this.SetError(this._helper.ErrorCode, null);
             }
         }
 
@@ -162,7 +162,7 @@ namespace ZuneUI
             else if (this._offerTypes == EBillingOfferType.Points)
                 this.Description = Shell.LoadString(StringId.IDS_BILLING_PURCHASE_POINTS_HEADER);
             else
-                this.Description = (string)null;
+                this.Description = null;
         }
     }
 }

@@ -21,22 +21,22 @@ namespace ZuneUI
 
         protected override void AddPages()
         {
-            this.AddPage((WizardPage)new FirstConnectPhoneIntroPage((Wizard)this), Shell.LoadString(StringId.IDS_BREADCRUMB_INTRODUCTION));
-            this.AddPage((WizardPage)new FirstLaunchForPhoneWelcomePage((Wizard)this), Shell.LoadString(StringId.IDS_BREADCRUMB_SOFTWARE_SETTINGS));
-            this.AddPage((WizardPage)new FirstLaunchMonitoredFoldersPage((Wizard)this));
-            this.AddPage((WizardPage)new FirstLaunchDownloadFoldersPage((Wizard)this));
-            this.AddPage((WizardPage)new FirstLaunchFileTypesPage((Wizard)this));
-            this.AddPage((WizardPage)new FirstLaunchPrivacyPage((Wizard)this));
-            this.AddPage((WizardPage)new FirstConnectDeviceNamePage((Wizard)this), Shell.LoadString(StringId.IDS_BREADCRUMB_PHONE_NAME));
-            this.AddPage((WizardPage)new DeviceUpdateCheckingPage((DeviceUpdateWizard)this), Shell.LoadString(StringId.IDS_BREADCRUMB_PHONE_UPDATE));
-            this.AddPage((WizardPage)new DeviceUpdateEULAPage((DeviceUpdateWizard)this));
-            this.AddPage((WizardPage)new DeviceUpdateBatteryPowerPage((DeviceUpdateWizard)this));
-            this.AddPage((WizardPage)new DeviceUpdateGuestWarningPage((DeviceUpdateWizard)this));
-            this.AddPage((WizardPage)new DeviceUpdateSyncingPage((DeviceUpdateWizard)this));
-            this.AddPage((WizardPage)new DeviceUpdateDiskSpaceErrorPage((DeviceUpdateWizard)this));
-            this.AddPage((WizardPage)new DeviceUpdateProgressPage((DeviceUpdateWizard)this));
-            this.AddPage((WizardPage)new DeviceUpdateSummaryPage((DeviceUpdateWizard)this));
-            this.AddPage((WizardPage)new DeviceUpdateErrorPage((DeviceUpdateWizard)this));
+            this.AddPage(new FirstConnectPhoneIntroPage(this), Shell.LoadString(StringId.IDS_BREADCRUMB_INTRODUCTION));
+            this.AddPage(new FirstLaunchForPhoneWelcomePage(this), Shell.LoadString(StringId.IDS_BREADCRUMB_SOFTWARE_SETTINGS));
+            this.AddPage(new FirstLaunchMonitoredFoldersPage(this));
+            this.AddPage(new FirstLaunchDownloadFoldersPage(this));
+            this.AddPage(new FirstLaunchFileTypesPage(this));
+            this.AddPage(new FirstLaunchPrivacyPage(this));
+            this.AddPage(new FirstConnectDeviceNamePage(this), Shell.LoadString(StringId.IDS_BREADCRUMB_PHONE_NAME));
+            this.AddPage(new DeviceUpdateCheckingPage(this), Shell.LoadString(StringId.IDS_BREADCRUMB_PHONE_UPDATE));
+            this.AddPage(new DeviceUpdateEULAPage(this));
+            this.AddPage(new DeviceUpdateBatteryPowerPage(this));
+            this.AddPage(new DeviceUpdateGuestWarningPage(this));
+            this.AddPage(new DeviceUpdateSyncingPage(this));
+            this.AddPage(new DeviceUpdateDiskSpaceErrorPage(this));
+            this.AddPage(new DeviceUpdateProgressPage(this));
+            this.AddPage(new DeviceUpdateSummaryPage(this));
+            this.AddPage(new DeviceUpdateErrorPage(this));
         }
 
         public bool IsSoftwareSettingsEnabled

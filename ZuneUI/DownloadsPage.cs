@@ -26,6 +26,6 @@ namespace ZuneUI
             this.IsRootPage = true;
         }
 
-        public override IPageState SaveAndRelease() => (IPageState)new DownloadsPageState((IPage)this);
+        public override IPageState SaveAndRelease() => new DownloadsPageState(this);
     }
 }

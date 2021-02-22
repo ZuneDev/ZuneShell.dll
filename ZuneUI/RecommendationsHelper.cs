@@ -28,7 +28,7 @@ namespace ZuneUI
             bool flag1 = false;
             if (tracks != null)
             {
-                foreach (Track track in (IEnumerable)tracks)
+                foreach (Track track in tracks)
                 {
                     if (!(track.Id == Guid.Empty))
                     {
@@ -66,7 +66,7 @@ namespace ZuneUI
 
         public static object GetKeyValue(IDictionary dictionary, object key)
         {
-            object obj = (object)null;
+            object obj = null;
             if (dictionary != null && dictionary.Contains(key))
                 obj = dictionary[key];
             return obj;
@@ -82,35 +82,35 @@ namespace ZuneUI
 
         public static DateTime RecommendationsDate
         {
-            get => RecommendationsHelper.ServiceUserGuidConfiguration.RecommendationsDate.ToUniversalTime();
-            set => RecommendationsHelper.ServiceUserGuidConfiguration.RecommendationsDate = value;
+            get => ServiceUserGuidConfiguration.RecommendationsDate.ToUniversalTime();
+            set => ServiceUserGuidConfiguration.RecommendationsDate = value;
         }
 
         public static DateTime LastRecommendationsShuffleDate
         {
-            get => RecommendationsHelper.ServiceUserGuidConfiguration.RecommendationsRefreshDate.ToUniversalTime();
-            set => RecommendationsHelper.ServiceUserGuidConfiguration.RecommendationsRefreshDate = value;
+            get => ServiceUserGuidConfiguration.RecommendationsRefreshDate.ToUniversalTime();
+            set => ServiceUserGuidConfiguration.RecommendationsRefreshDate = value;
         }
 
         public static TimeSpan RefreshPeriod => new TimeSpan(24, 0, 0);
 
         public static int ShuffleSeed
         {
-            get => RecommendationsHelper.ServiceUserGuidConfiguration.Seed;
-            set => RecommendationsHelper.ServiceUserGuidConfiguration.Seed = value;
+            get => ServiceUserGuidConfiguration.Seed;
+            set => ServiceUserGuidConfiguration.Seed = value;
         }
 
         public static int MaxSongsForYouTrackCount
         {
             get
             {
-                if (RecommendationsHelper._maxSongsForYouTrackCount == 0)
-                    RecommendationsHelper._maxSongsForYouTrackCount = ClientConfiguration.Service.RecommendationsMaxTrackCount;
-                return RecommendationsHelper._maxSongsForYouTrackCount;
+                if (_maxSongsForYouTrackCount == 0)
+                    _maxSongsForYouTrackCount = ClientConfiguration.Service.RecommendationsMaxTrackCount;
+                return _maxSongsForYouTrackCount;
             }
         }
 
-        public static ServiceUserGuidConfiguration ServiceUserGuidConfiguration => new ServiceUserGuidConfiguration(RegistryHive.CurrentUser, ClientConfiguration.Service.ConfigurationPath, string.Format("{0}", (object)ClientConfiguration.Service.LastSignedInUserGuid));
+        public static ServiceUserGuidConfiguration ServiceUserGuidConfiguration => new ServiceUserGuidConfiguration(RegistryHive.CurrentUser, ClientConfiguration.Service.ConfigurationPath, string.Format("{0}", ClientConfiguration.Service.LastSignedInUserGuid));
 
         public static int GetUserRating(DataProviderObject item)
         {
@@ -143,50 +143,50 @@ namespace ZuneUI
 
         public static bool SetArtistUserRating(Guid id, string name, int rating) => ZuneApplication.Service.SetUserArtistRating(SignIn.Instance.LastSignedInUserId, rating, id, name);
 
-        public static string GetRecommendationsEndpoint() => Microsoft.Zune.Service.Service.GetEndPointUri(EServiceEndpointId.SEID_Recommendations);
+        public static string GetRecommendationsEndpoint() => Service.GetEndPointUri(EServiceEndpointId.SEID_Recommendations);
 
         private static List<int> GetUploadedArtistUserList()
         {
-            if (RecommendationsHelper._uploadedArtistList != null)
-                return RecommendationsHelper._uploadedArtistList;
+            if (_uploadedArtistList != null)
+                return _uploadedArtistList;
             string haveUploadedArtists = ClientConfiguration.Picks.UsersWhoHaveUploadedArtists;
             if (!string.IsNullOrEmpty(haveUploadedArtists))
             {
                 string[] strArray = haveUploadedArtists.Split(',');
-                RecommendationsHelper._uploadedArtistList = new List<int>(strArray.Length);
+                _uploadedArtistList = new List<int>(strArray.Length);
                 foreach (string str in strArray)
                 {
                     int result;
                     if (!string.IsNullOrEmpty(str) && int.TryParse(str.Trim(), out result))
-                        RecommendationsHelper._uploadedArtistList.Add(result);
+                        _uploadedArtistList.Add(result);
                 }
             }
-            return RecommendationsHelper._uploadedArtistList;
+            return _uploadedArtistList;
         }
 
         private static void AddUserToArtistUploadList(int userId)
         {
-            if (RecommendationsHelper._uploadedArtistList == null)
-                RecommendationsHelper._uploadedArtistList = new List<int>();
-            foreach (int uploadedArtist in RecommendationsHelper._uploadedArtistList)
+            if (_uploadedArtistList == null)
+                _uploadedArtistList = new List<int>();
+            foreach (int uploadedArtist in _uploadedArtistList)
             {
                 if (uploadedArtist == userId)
                     return;
             }
-            RecommendationsHelper._uploadedArtistList.Add(userId);
+            _uploadedArtistList.Add(userId);
         }
 
         private static void SaveArtistUserListToRegistry()
         {
             string str = string.Empty;
-            foreach (int uploadedArtist in RecommendationsHelper._uploadedArtistList)
-                str = !string.IsNullOrEmpty(str) ? string.Format("{0},{1}", (object)str, (object)uploadedArtist.ToString()) : uploadedArtist.ToString();
+            foreach (int uploadedArtist in _uploadedArtistList)
+                str = !string.IsNullOrEmpty(str) ? string.Format("{0},{1}", str, uploadedArtist.ToString()) : uploadedArtist.ToString();
             ClientConfiguration.Picks.UsersWhoHaveUploadedArtists = str;
         }
 
         public static bool HasUserUploadedArtists(int userId)
         {
-            List<int> uploadedArtistUserList = RecommendationsHelper.GetUploadedArtistUserList();
+            List<int> uploadedArtistUserList = GetUploadedArtistUserList();
             if (uploadedArtistUserList != null)
             {
                 foreach (int num in uploadedArtistUserList)
@@ -200,8 +200,8 @@ namespace ZuneUI
 
         public static void UserHasUploadArtists(int userId)
         {
-            RecommendationsHelper.AddUserToArtistUploadList(userId);
-            RecommendationsHelper.SaveArtistUserListToRegistry();
+            AddUserToArtistUploadList(userId);
+            SaveArtistUserListToRegistry();
         }
     }
 }

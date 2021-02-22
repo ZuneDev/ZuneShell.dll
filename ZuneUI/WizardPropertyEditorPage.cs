@@ -40,7 +40,7 @@ namespace ZuneUI
             this._committedValues.Add(property, property.DefaultValue);
         }
 
-        public object GetCommittedValue(PropertyDescriptor property) => this._committedValues.ContainsKey(property) ? this._committedValues[property] : (object)null;
+        public object GetCommittedValue(PropertyDescriptor property) => this._committedValues.ContainsKey(property) ? this._committedValues[property] : null;
 
         public void SetCommittedValue(PropertyDescriptor property, object value)
         {
@@ -67,7 +67,7 @@ namespace ZuneUI
 
         protected object GetUncommittedValue(PropertyDescriptor property)
         {
-            object obj = (object)null;
+            object obj = null;
             if (this._wizardPropertyEditor != null)
                 obj = this._wizardPropertyEditor.GetPropertyData(property);
             return obj;
@@ -83,7 +83,7 @@ namespace ZuneUI
         protected bool SetExternalError(PropertyDescriptor descriptor, HRESULT hr)
         {
             bool flag = false;
-            MetadataEditProperty metadataEditProperty = (MetadataEditProperty)null;
+            MetadataEditProperty metadataEditProperty = null;
             if (this._wizardPropertyEditor != null)
                 metadataEditProperty = this._wizardPropertyEditor.GetProperty(descriptor);
             if (metadataEditProperty != null)
@@ -97,7 +97,7 @@ namespace ZuneUI
         protected bool SetExternalError(string propertyName, HRESULT hr)
         {
             bool flag = false;
-            MetadataEditProperty metadataEditProperty = (MetadataEditProperty)null;
+            MetadataEditProperty metadataEditProperty = null;
             if (this._wizardPropertyEditor != null)
                 metadataEditProperty = this._wizardPropertyEditor.GetProperty(propertyName);
             if (metadataEditProperty != null)

@@ -14,7 +14,7 @@ namespace ZuneUI
 
         public SlideshowLand()
         {
-            this.BackgroundUI = SlideshowLand.PhotoSlideshowTemplate;
+            this.BackgroundUI = PhotoSlideshowTemplate;
             this.TransportControlStyle = TransportControlStyle.Photo;
             this.AutoHideToolbars = true;
             this.ShowAppBackground = true;

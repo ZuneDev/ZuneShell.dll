@@ -13,8 +13,8 @@ namespace ZuneUI
         private static Regex s_emailRegex = new Regex("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", RegexOptions.IgnoreCase);
         private static Regex s_emailDomainRegex = new Regex("^[A-Z0-9.-]+\\.[A-Z]{2,6}$", RegexOptions.IgnoreCase);
 
-        public static bool IsValid(string email) => !string.IsNullOrEmpty(email) && EmailHelper.s_emailRegex.IsMatch(email);
+        public static bool IsValid(string email) => !string.IsNullOrEmpty(email) && s_emailRegex.IsMatch(email);
 
-        public static bool IsValidDomain(string domain) => !string.IsNullOrEmpty(domain) && EmailHelper.s_emailDomainRegex.IsMatch(domain);
+        public static bool IsValidDomain(string domain) => !string.IsNullOrEmpty(domain) && s_emailDomainRegex.IsMatch(domain);
     }
 }

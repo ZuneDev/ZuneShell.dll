@@ -10,6 +10,6 @@ namespace ZuneUI
 {
     public class InboxNavigationCommandHandler : NavigationCommandHandlerBase
     {
-        protected override ZunePage GetPage(IDictionary args) => (ZunePage)new InboxPage();
+        protected override ZunePage GetPage(IDictionary args) => new InboxPage();
     }
 }

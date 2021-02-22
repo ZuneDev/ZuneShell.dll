@@ -41,7 +41,7 @@ namespace ZuneXml
         {
             get
             {
-                string str = (string)null;
+                string str = null;
                 if (!string.IsNullOrEmpty(this.AudioLocale))
                 {
                     string displayLanguageName1 = LanguageHelper.GetDisplayLanguageName(this.AudioLocale);
@@ -52,7 +52,7 @@ namespace ZuneXml
                         {
                             string displayLanguageName2 = LanguageHelper.GetDisplayLanguageName(this.SubtitleLocale);
                             if (!string.IsNullOrEmpty(displayLanguageName2))
-                                str = string.Format(Shell.LoadString(StringId.IDS_VIDEO_SUBTITLE), (object)displayLanguageName1, (object)displayLanguageName2);
+                                str = string.Format(Shell.LoadString(StringId.IDS_VIDEO_SUBTITLE), displayLanguageName1, displayLanguageName2);
                         }
                     }
                 }
@@ -164,7 +164,7 @@ namespace ZuneXml
           DataProviderQuery owner,
           object objectTypeCookie)
         {
-            return (XmlDataProviderObject)new Right(owner, objectTypeCookie);
+            return new Right(owner, objectTypeCookie);
         }
 
         internal Right(DataProviderQuery owner, object resultTypeCookie)
@@ -209,15 +209,15 @@ namespace ZuneXml
             switch (propertyName)
             {
                 case "HasPoints":
-                    return (object)this.HasPoints;
+                    return HasPoints;
                 case "HasCurrency":
-                    return (object)this.HasCurrency;
+                    return HasCurrency;
                 case "PointsPrice":
-                    return (object)this.PointsPrice;
+                    return PointsPrice;
                 case "CurrencyPrice":
-                    return (object)this.CurrencyPrice;
+                    return CurrencyPrice;
                 case "Language":
-                    return (object)this.Language;
+                    return Language;
                 default:
                     return base.GetProperty(propertyName);
             }

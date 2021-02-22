@@ -18,6 +18,6 @@ namespace ZuneUI
             set => this._collection = value;
         }
 
-        protected override ZunePage GetPage(IDictionary args) => (ZunePage)new DownloadsPage(this._collection);
+        protected override ZunePage GetPage(IDictionary args) => new DownloadsPage(this._collection);
     }
 }

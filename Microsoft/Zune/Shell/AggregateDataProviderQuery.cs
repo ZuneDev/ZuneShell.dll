@@ -15,12 +15,12 @@ namespace Microsoft.Zune.Shell
     {
         private List<DataProviderQuery> _currentQueries = new List<DataProviderQuery>();
 
-        internal static void Register() => Application.RegisterDataProvider("Aggregate", new DataProviderQueryFactory(AggregateDataProviderQuery.ConstructAggregateDataProviderQuery));
+        internal static void Register() => Application.RegisterDataProvider("Aggregate", new DataProviderQueryFactory(ConstructAggregateDataProviderQuery));
 
         internal static DataProviderQuery ConstructAggregateDataProviderQuery(
           object queryTypeCookie)
         {
-            return (DataProviderQuery)new AggregateDataProviderQuery(queryTypeCookie);
+            return new AggregateDataProviderQuery(queryTypeCookie);
         }
 
         protected AggregateDataProviderQuery(object queryTypeCookie)
@@ -36,12 +36,12 @@ namespace Microsoft.Zune.Shell
 
         private void InitializeCurrentQueries()
         {
-            this.Result = (object)null;
+            this.Result = null;
             this.UnsubscribeFromCurrentQueries();
             this._currentQueries.Clear();
             if (this.GetProperty("Queries") is IList property)
             {
-                foreach (object obj in (IEnumerable)property)
+                foreach (object obj in property)
                 {
                     if (obj is DataProviderQuery dataProviderQuery)
                         this._currentQueries.Add(dataProviderQuery);
@@ -94,7 +94,7 @@ namespace Microsoft.Zune.Shell
                 ArrayList arrayList = new ArrayList();
                 foreach (DataProviderQuery currentQuery in this._currentQueries)
                     arrayList.Add(currentQuery.Result);
-                this.Result = (object)arrayList;
+                this.Result = arrayList;
                 this.Status = flag ? DataProviderQueryStatus.Error : DataProviderQueryStatus.Complete;
             }
             else

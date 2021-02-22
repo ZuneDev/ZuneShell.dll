@@ -15,7 +15,7 @@ namespace ZuneXml
           DataProviderQuery owner,
           object objectTypeCookie)
         {
-            return (XmlDataProviderObject)new MiniAlbum(owner, objectTypeCookie);
+            return new MiniAlbum(owner, objectTypeCookie);
         }
 
         internal MiniAlbum(DataProviderQuery owner, object resultTypeCookie)

@@ -24,14 +24,14 @@ namespace ZuneUI
             return result;
         }
 
-        public static int NumberFilter(string input) => StringParserHelper.ParseInt32(StringParserHelper.s_notNumberRegex.Replace(input, string.Empty));
+        public static int NumberFilter(string input) => ParseInt32(s_notNumberRegex.Replace(input, string.Empty));
 
         public static bool TryParseDate(string input, DateTimeKind dateTimeKind, out DateTime dateTime)
         {
             switch (dateTimeKind)
             {
                 case DateTimeKind.Utc:
-                    if (!DateTime.TryParse(input, out dateTime) && !DateTime.TryParse(input, (IFormatProvider)CultureInfo.CurrentCulture.DateTimeFormat, DateTimeStyles.RoundtripKind, out dateTime))
+                    if (!DateTime.TryParse(input, out dateTime) && !DateTime.TryParse(input, CultureInfo.CurrentCulture.DateTimeFormat, DateTimeStyles.RoundtripKind, out dateTime))
                     {
                         int result;
                         if (!int.TryParse(input, out result) || result < 1 || result > 9999)
@@ -42,7 +42,7 @@ namespace ZuneUI
                         dateTime = new DateTime(dateTime.Ticks, DateTimeKind.Utc);
                     return true;
                 case DateTimeKind.Local:
-                    if (!DateTime.TryParse(input, out dateTime) && !DateTime.TryParse(input, (IFormatProvider)CultureInfo.CurrentCulture.DateTimeFormat, DateTimeStyles.RoundtripKind, out dateTime))
+                    if (!DateTime.TryParse(input, out dateTime) && !DateTime.TryParse(input, CultureInfo.CurrentCulture.DateTimeFormat, DateTimeStyles.RoundtripKind, out dateTime))
                     {
                         int result;
                         if (!int.TryParse(input, out result) || result < 1 || result > 9999)
@@ -54,13 +54,13 @@ namespace ZuneUI
                         dateTime = dateTime.ToUniversalTime();
                     return true;
                 default:
-                    return StringParserHelper.TryParseDate(input, out dateTime);
+                    return TryParseDate(input, out dateTime);
             }
         }
 
         public static bool TryParseDate(string input, out DateTime dateTime)
         {
-            if (!DateTime.TryParse(input, out dateTime) && !DateTime.TryParse(input, (IFormatProvider)CultureInfo.CurrentCulture.DateTimeFormat, DateTimeStyles.RoundtripKind, out dateTime))
+            if (!DateTime.TryParse(input, out dateTime) && !DateTime.TryParse(input, CultureInfo.CurrentCulture.DateTimeFormat, DateTimeStyles.RoundtripKind, out dateTime))
             {
                 int result;
                 if (!int.TryParse(input, out result) || result < 1 || result > 9999)
@@ -76,12 +76,12 @@ namespace ZuneUI
         {
             if (input != null)
             {
-                StringBuilder stringBuilder = (StringBuilder)null;
+                StringBuilder stringBuilder = null;
                 int index = 0;
                 int startIndex = 0;
                 for (; index < input.Length; ++index)
                 {
-                    if (StringParserHelper.s_validNumberChars.IndexOf(input[index]) < 0)
+                    if (s_validNumberChars.IndexOf(input[index]) < 0)
                     {
                         if (stringBuilder == null)
                             stringBuilder = new StringBuilder(input);
@@ -116,7 +116,7 @@ namespace ZuneUI
             return result;
         }
 
-        public static IList Split(string source, string splitCharacter) => (IList)source.Split(new string[1]
+        public static IList Split(string source, string splitCharacter) => source.Split(new string[1]
         {
       splitCharacter
         }, StringSplitOptions.None);
@@ -127,7 +127,7 @@ namespace ZuneUI
         {
             if (!string.IsNullOrEmpty(html))
             {
-                StringBuilder stringBuilder = (StringBuilder)null;
+                StringBuilder stringBuilder = null;
                 bool flag = false;
                 for (int index = 0; index < html.Length; ++index)
                 {
@@ -162,7 +162,7 @@ namespace ZuneUI
         {
             if (!string.IsNullOrEmpty(html))
             {
-                StringBuilder stringBuilder = (StringBuilder)null;
+                StringBuilder stringBuilder = null;
                 bool flag = false;
                 for (int index = 0; index < html.Length; ++index)
                 {
@@ -191,10 +191,10 @@ namespace ZuneUI
             string[] strArray = version.Split('.');
             if (strArray.Length < 3)
                 return version;
-            int int32_1 = StringParserHelper.ParseInt32(strArray[0]);
-            int int32_2 = StringParserHelper.ParseInt32(strArray[1]);
-            int int32_3 = StringParserHelper.ParseInt32(strArray[2]);
-            version = int32_1 != 0 ? string.Format(Shell.LoadString(StringId.IDS_FIRMWARE_VERSION_FORMAT), (object)int32_1, (object)int32_2, (object)int32_3) : Shell.LoadString(StringId.IDS_DEVICE_RECOVERY_MODE);
+            int int32_1 = ParseInt32(strArray[0]);
+            int int32_2 = ParseInt32(strArray[1]);
+            int int32_3 = ParseInt32(strArray[2]);
+            version = int32_1 != 0 ? string.Format(Shell.LoadString(StringId.IDS_FIRMWARE_VERSION_FORMAT), int32_1, int32_2, int32_3) : Shell.LoadString(StringId.IDS_DEVICE_RECOVERY_MODE);
             return version;
         }
 
@@ -211,12 +211,12 @@ namespace ZuneUI
                 strArray3 = strArray1;
             else
                 strArray3 = versionB.Split('.');
-            int int32_1 = StringParserHelper.ParseInt32(strArray2[0]);
-            int int32_2 = StringParserHelper.ParseInt32(strArray2[1]);
-            int int32_3 = StringParserHelper.ParseInt32(strArray2[2]);
-            int int32_4 = StringParserHelper.ParseInt32(strArray3[0]);
-            int int32_5 = StringParserHelper.ParseInt32(strArray3[1]);
-            int int32_6 = StringParserHelper.ParseInt32(strArray3[2]);
+            int int32_1 = ParseInt32(strArray2[0]);
+            int int32_2 = ParseInt32(strArray2[1]);
+            int int32_3 = ParseInt32(strArray2[2]);
+            int int32_4 = ParseInt32(strArray3[0]);
+            int int32_5 = ParseInt32(strArray3[1]);
+            int int32_6 = ParseInt32(strArray3[2]);
             int num1 = int32_1.CompareTo(int32_4);
             int num2 = int32_2.CompareTo(int32_5);
             int num3 = int32_3.CompareTo(int32_6);

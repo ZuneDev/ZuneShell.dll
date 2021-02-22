@@ -31,12 +31,12 @@ namespace ZuneXml
         {
             this._owner = owner;
             this._itemTypeCookie = itemTypeCookie;
-            this._itemConstructor = itemTypeCookie == null ? (ConstructObject)null : XmlDataProviderObjectFactory.GetConstructor(itemTypeCookie);
+            this._itemConstructor = itemTypeCookie == null ? null : XmlDataProviderObjectFactory.GetConstructor(itemTypeCookie);
             this._currentIndex = -1;
             this._chunkStartIndex = 0;
-            this._encodedSortBy = (string)null;
-            this._sortAscending = (bool[])null;
-            this._sortBy = (string[])null;
+            this._encodedSortBy = null;
+            this._sortAscending = null;
+            this._sortBy = null;
         }
 
         internal IPageInfo NextPage
@@ -59,7 +59,7 @@ namespace ZuneXml
             }
         }
 
-        protected override object OnRequestItem(int index) => this.Data[(object)index];
+        protected override object OnRequestItem(int index) => this.Data[index];
 
         protected override void OnRequestSlowData(int index)
         {
@@ -77,12 +77,12 @@ namespace ZuneXml
             this._currentIndex = -1;
             if (!(this._owner is XmlDataProviderQuery owner))
                 return;
-            ThreadPool.QueueUserWorkItem(new WaitCallback(XmlDataVirtualList.GetNextChunkThread), (object)new XmlDataVirtualList.GetNextChunkArgs(owner, this.NextPage, this._chunkStartIndex));
+            ThreadPool.QueueUserWorkItem(new WaitCallback(GetNextChunkThread), new GetNextChunkArgs(owner, this.NextPage, this._chunkStartIndex));
         }
 
         private static void GetNextChunkThread(object obj)
         {
-            XmlDataVirtualList.GetNextChunkArgs getNextChunkArgs = (XmlDataVirtualList.GetNextChunkArgs)obj;
+            GetNextChunkArgs getNextChunkArgs = (GetNextChunkArgs)obj;
             string pageUrl = getNextChunkArgs.PageInfo.GetPageUrl(getNextChunkArgs.StartIndex);
             string pagePostBody = getNextChunkArgs.PageInfo.GetPagePostBody(getNextChunkArgs.StartIndex);
             if (string.IsNullOrEmpty(pageUrl))
@@ -108,7 +108,7 @@ namespace ZuneXml
             }
             else
             {
-                IXmlDataProviderObject chunkItem = (IXmlDataProviderObject)this._chunkItems[this._currentIndex];
+                IXmlDataProviderObject chunkItem = this._chunkItems[this._currentIndex];
                 if (chunkItem != null)
                     flag = chunkItem.ProcessXPath(currentXPath, attributes, matches);
             }
@@ -125,7 +125,7 @@ namespace ZuneXml
             foreach (XmlDataProviderObject chunkItem in this._chunkItems)
             {
                 if (!(this._owner is XmlDataProviderQuery owner) || !owner.FilterDataProviderObject(chunkItem))
-                    this.Data[(object)(this._chunkStartIndex + count++)] = (object)chunkItem;
+                    this.Data[this._chunkStartIndex + count++] = chunkItem;
             }
             this.AddRange(count);
             this.Sort();
@@ -148,11 +148,11 @@ namespace ZuneXml
             if (array == null)
                 return;
             for (int index = 0; index < this.Count; ++index)
-                array[index] = (XmlDataProviderObject)this.Data[(object)index];
-            Array.Sort<XmlDataProviderObject>(array, new Comparison<XmlDataProviderObject>(this.CompareUsingSortBy));
+                array[index] = (XmlDataProviderObject)this.Data[index];
+            Array.Sort(array, new Comparison<XmlDataProviderObject>(this.CompareUsingSortBy));
             for (int index = 0; index < this.Count; ++index)
             {
-                this.Data[(object)index] = (object)array[index];
+                this.Data[index] = array[index];
                 this.Modified(index);
             }
         }
@@ -164,8 +164,8 @@ namespace ZuneXml
             {
                 if (!(this._encodedSortBy != value))
                     return;
-                string[] strArray1 = (string[])null;
-                bool[] flagArray = (bool[])null;
+                string[] strArray1 = null;
+                bool[] flagArray = null;
                 if (!string.IsNullOrEmpty(value))
                 {
                     string[] strArray2 = value.Split(',');
@@ -205,7 +205,7 @@ namespace ZuneXml
             int num = 0;
             for (int index = 0; index < this._sortBy.Length; ++index)
             {
-                num = XmlDataVirtualList.Compare(x, y, this._sortBy[index], this._sortAscending[index]);
+                num = Compare(x, y, this._sortBy[index], this._sortAscending[index]);
                 if (num != 0)
                     break;
             }
@@ -224,7 +224,7 @@ namespace ZuneXml
             IComparable comparable2 = property2 as IComparable;
             if (comparable1 == null || comparable2 == null)
                 return 0;
-            int num = comparable1.CompareTo((object)comparable2);
+            int num = comparable1.CompareTo(comparable2);
             return ascending ? num : -num;
         }
 

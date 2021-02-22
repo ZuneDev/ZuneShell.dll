@@ -12,8 +12,8 @@ namespace ZuneUI
     {
         private static int s_subLength = 5;
         private static int s_subCount = 5;
-        private static int s_length = PrepaidCodePropertyDescriptor.s_subLength * PrepaidCodePropertyDescriptor.s_subCount;
-        private static int s_lengthWithDelimiters = PrepaidCodePropertyDescriptor.s_length + PrepaidCodePropertyDescriptor.s_subCount - 1;
+        private static int s_length = s_subLength * s_subCount;
+        private static int s_lengthWithDelimiters = s_length + s_subCount - 1;
         private static string s_delimiter = "-";
 
         public PrepaidCodePropertyDescriptor(
@@ -21,7 +21,7 @@ namespace ZuneUI
           string multiValueString,
           string unknownString,
           bool required)
-          : base(name, multiValueString, unknownString, PrepaidCodePropertyDescriptor.s_lengthWithDelimiters, required)
+          : base(name, multiValueString, unknownString, s_lengthWithDelimiters, required)
         {
         }
 
@@ -29,7 +29,7 @@ namespace ZuneUI
         {
             bool flag = false;
             if (value != null)
-                flag = value.Replace(PrepaidCodePropertyDescriptor.s_delimiter, "").Length == PrepaidCodePropertyDescriptor.s_length;
+                flag = value.Replace(s_delimiter, "").Length == s_length;
             return flag;
         }
 
@@ -37,15 +37,15 @@ namespace ZuneUI
         {
             string str = string.Empty;
             if (value != null)
-                str = PrepaidCodePropertyDescriptor.AddDelimiters(value);
-            return (object)str;
+                str = AddDelimiters(value);
+            return str;
         }
 
-        public override string ConvertToString(object value) => PrepaidCodePropertyDescriptor.AddDelimiters(value as string);
+        public override string ConvertToString(object value) => AddDelimiters(value as string);
 
         public static string AddDelimiters(string value)
         {
-            StringBuilder stringBuilder = new StringBuilder(PrepaidCodePropertyDescriptor.s_length);
+            StringBuilder stringBuilder = new StringBuilder(s_length);
             if (value != null)
             {
                 int num = 0;
@@ -53,8 +53,8 @@ namespace ZuneUI
                 {
                     if (char.IsLetterOrDigit(value[index]))
                     {
-                        if (num % PrepaidCodePropertyDescriptor.s_subLength == 0 && num != 0)
-                            stringBuilder.Append(PrepaidCodePropertyDescriptor.s_delimiter);
+                        if (num % s_subLength == 0 && num != 0)
+                            stringBuilder.Append(s_delimiter);
                         stringBuilder.Append(value[index]);
                         ++num;
                     }

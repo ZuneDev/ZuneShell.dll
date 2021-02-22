@@ -15,7 +15,7 @@ namespace ZuneUI
 
         public MappedError(int hr)
         {
-            ErrorMapperResult descriptionAndUrl = Microsoft.Zune.ErrorMapperApi.ErrorMapperApi.GetMappedErrorDescriptionAndUrl(hr);
+            ErrorMapperResult descriptionAndUrl = ErrorMapperApi.GetMappedErrorDescriptionAndUrl(hr);
             this._text = descriptionAndUrl.Description;
             this._url = descriptionAndUrl.WebHelpUrl;
         }

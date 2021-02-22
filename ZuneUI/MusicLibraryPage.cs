@@ -68,39 +68,39 @@ namespace ZuneUI
         public MusicLibraryPage(bool showDevice, MusicLibraryView desiredView)
           : base(showDevice, MediaType.Track)
         {
-            this.UI = MusicLibraryPage.LibraryTemplate;
+            this.UI = LibraryTemplate;
             this.UIPath = "Collection\\Music";
             this._updatePreferredView = true;
             if (showDevice)
             {
-                this.PivotPreference = ZuneUI.Shell.MainFrame.Device.Music;
-                Deviceland.InitDevicePage((ZunePage)this);
+                this.PivotPreference = Shell.MainFrame.Device.Music;
+                Deviceland.InitDevicePage(this);
             }
             else
-                this.PivotPreference = ZuneUI.Shell.MainFrame.Collection.Music;
+                this.PivotPreference = Shell.MainFrame.Collection.Music;
             this.IsRootPage = true;
-            this.Views = (Choice)new NotifyChoice((IModelItemOwner)this);
+            this.Views = new NotifyChoice(this);
             if (!this.ShowDeviceContents)
-                this.Views.Options = (IList)new MusicLibraryPage.ViewCommand[5]
+                this.Views.Options = (new ViewCommand[5]
                 {
-          new MusicLibraryPage.ViewCommand((IModelItemOwner) this.Views, ZuneUI.Shell.LoadString(StringId.IDS_COLLECTION_BROWSE), new EventHandler(this.ShowArtistPivot), MusicLibraryView.Artist),
-          new MusicLibraryPage.ViewCommand((IModelItemOwner) this.Views, ZuneUI.Shell.LoadString(StringId.IDS_COLLECTION_GENRE), new EventHandler(this.ShowGenrePivot), MusicLibraryView.Genre),
-          new MusicLibraryPage.ViewCommand((IModelItemOwner) this.Views, ZuneUI.Shell.LoadString(StringId.IDS_COLLECTION_ALBUM), new EventHandler(this.ShowAlbumPivot), MusicLibraryView.Album),
-          new MusicLibraryPage.ViewCommand((IModelItemOwner) this.Views, ZuneUI.Shell.LoadString(StringId.IDS_COLLECTION_LIST), new EventHandler(this.ShowSongPivot), MusicLibraryView.Song),
-          new MusicLibraryPage.ViewCommand((IModelItemOwner) this.Views, ZuneUI.Shell.LoadString(StringId.IDS_PLAYLISTS_PIVOT), new EventHandler(this.ShowPlaylistPivot), MusicLibraryView.Playlist)
-                };
+          new ViewCommand( Views, Shell.LoadString(StringId.IDS_COLLECTION_BROWSE), new EventHandler(this.ShowArtistPivot), MusicLibraryView.Artist),
+          new ViewCommand( Views, Shell.LoadString(StringId.IDS_COLLECTION_GENRE), new EventHandler(this.ShowGenrePivot), MusicLibraryView.Genre),
+          new ViewCommand( Views, Shell.LoadString(StringId.IDS_COLLECTION_ALBUM), new EventHandler(this.ShowAlbumPivot), MusicLibraryView.Album),
+          new ViewCommand( Views, Shell.LoadString(StringId.IDS_COLLECTION_LIST), new EventHandler(this.ShowSongPivot), MusicLibraryView.Song),
+          new ViewCommand( Views, Shell.LoadString(StringId.IDS_PLAYLISTS_PIVOT), new EventHandler(this.ShowPlaylistPivot), MusicLibraryView.Playlist)
+                });
             else
-                this.Views.Options = (IList)new MusicLibraryPage.ViewCommand[2]
+                this.Views.Options = (new ViewCommand[2]
                 {
-          new MusicLibraryPage.ViewCommand((IModelItemOwner) this.Views, ZuneUI.Shell.LoadString(StringId.IDS_COLLECTION_BROWSE), new EventHandler(this.ShowArtistPivot), MusicLibraryView.Artist),
-          new MusicLibraryPage.ViewCommand((IModelItemOwner) this.Views, ZuneUI.Shell.LoadString(StringId.IDS_PLAYLISTS_PIVOT), new EventHandler(this.ShowPlaylistPivot), MusicLibraryView.Playlist)
-                };
+          new ViewCommand( Views, Shell.LoadString(StringId.IDS_COLLECTION_BROWSE), new EventHandler(this.ShowArtistPivot), MusicLibraryView.Artist),
+          new ViewCommand( Views, Shell.LoadString(StringId.IDS_PLAYLISTS_PIVOT), new EventHandler(this.ShowPlaylistPivot), MusicLibraryView.Playlist)
+                });
             int num = -1;
             if (desiredView != MusicLibraryView.Invalid)
             {
                 for (int index = 0; index < this.Views.Options.Count; ++index)
                 {
-                    if (desiredView == ((MusicLibraryPage.ViewCommand)this.Views.Options[index]).View)
+                    if (desiredView == ((ViewCommand)this.Views.Options[index]).View)
                     {
                         num = index;
                         break;
@@ -112,18 +112,18 @@ namespace ZuneUI
             this.Views.ChosenChanged += new EventHandler(this.ViewChanged);
             if (num >= 0 && num < this.Views.Options.Count)
                 this.Views.ChosenIndex = num;
-            this.ContentTypes = (Choice)new NotifyChoice((IModelItemOwner)this);
-            this.ContentTypes.Options = (IList)new ArrayListDataSet((IModelItemOwner)this.ContentTypes);
+            this.ContentTypes = new NotifyChoice(this);
+            this.ContentTypes.Options = new ArrayListDataSet(ContentTypes);
             this.ShowContentTypes.Value = ClientConfiguration.Shell.ShowContentTypes;
             this.ShowContentTypes.ChosenChanged += new EventHandler(this.ShowContentTypesChanged);
             this.TransportControlStyle = TransportControlStyle.Music;
             this.PlaybackContext = PlaybackContext.Music;
-            this._createPlaylistCommand = new Command((IModelItemOwner)this, ZuneUI.Shell.LoadString(StringId.IDS_PLAYLIST_DIALOG_CREATEPLAYLIST), (EventHandler)null);
-            this._createAutoPlaylistCommand = new Command((IModelItemOwner)this, ZuneUI.Shell.LoadString(StringId.IDS_CREATEAUTOPLAYLIST_BUTTON), (EventHandler)null);
-            this._albumsChanged = new Command((IModelItemOwner)this);
-            this._albumEdited = new Command((IModelItemOwner)this);
-            this._leftItemClicked = new Command((IModelItemOwner)this);
-            this._albumClicked = new Command((IModelItemOwner)this);
+            this._createPlaylistCommand = new Command(this, Shell.LoadString(StringId.IDS_PLAYLIST_DIALOG_CREATEPLAYLIST), null);
+            this._createAutoPlaylistCommand = new Command(this, Shell.LoadString(StringId.IDS_CREATEAUTOPLAYLIST_BUTTON), null);
+            this._albumsChanged = new Command(this);
+            this._albumEdited = new Command(this);
+            this._leftItemClicked = new Command(this);
+            this._albumClicked = new Command(this);
         }
 
         public MusicLibraryView View
@@ -472,11 +472,11 @@ namespace ZuneUI
                 else
                     ClientConfiguration.Shell.MusicCollectionView = this.Views.ChosenIndex;
             }
-            this._selectedArtistIds = (IList)null;
-            this._selectedGenreIds = (IList)null;
-            this._selectedAlbumIds = (IList)null;
-            this._selectedPlaylist = (object)null;
-            this.ShowPlaylistIcon = !this.ShowDeviceContents && ((MusicLibraryPage.ViewCommand)this.Views.ChosenValue).View != MusicLibraryView.Playlist;
+            this._selectedArtistIds = null;
+            this._selectedGenreIds = null;
+            this._selectedAlbumIds = null;
+            this._selectedPlaylist = null;
+            this.ShowPlaylistIcon = !this.ShowDeviceContents && ((ViewCommand)this.Views.ChosenValue).View != MusicLibraryView.Playlist;
         }
 
         public ArtistsPanel ArtistsPanel
@@ -527,10 +527,10 @@ namespace ZuneUI
                 {
                     this._playlistsPanel = new PlaylistsPanel(this);
                     if (!this.ShowDeviceContents)
-                        this._playlistsPanel.SelectedLibraryIds = (IList)new int[1]
+                        this._playlistsPanel.SelectedLibraryIds = (new int[1]
                         {
               PlaylistManager.Instance.DefaultPlaylistId
-                        };
+                        });
                 }
                 return this._playlistsPanel;
             }
@@ -541,7 +541,7 @@ namespace ZuneUI
             get
             {
                 if (this._playlistContentsPanel == null)
-                    this._playlistContentsPanel = new PlaylistContentsPanel((LibraryPage)this);
+                    this._playlistContentsPanel = new PlaylistContentsPanel(this);
                 return this._playlistContentsPanel;
             }
         }
@@ -553,16 +553,16 @@ namespace ZuneUI
             ClientConfiguration.Shell.ShowContentTypes = this.ShowContentTypes.Value;
         }
 
-        private void ContentTypesChanged(object sender, EventArgs e) => MusicLibraryPage._preferredContentType = (Command)this.ContentTypes.ChosenValue;
+        private void ContentTypesChanged(object sender, EventArgs e) => _preferredContentType = (Command)this.ContentTypes.ChosenValue;
 
         public bool HasContentTypesPersonal
         {
-            get => MusicLibraryPage._hasContentTypesPersonal;
+            get => _hasContentTypesPersonal;
             set
             {
-                if (MusicLibraryPage._hasContentTypesPersonal == value)
+                if (_hasContentTypesPersonal == value)
                     return;
-                MusicLibraryPage._hasContentTypesPersonal = value;
+                _hasContentTypesPersonal = value;
                 this.FirePropertyChanged(nameof(HasContentTypesPersonal));
                 this.UpdateContentTypesPivots();
             }
@@ -570,12 +570,12 @@ namespace ZuneUI
 
         public bool HasContentTypesProtected
         {
-            get => MusicLibraryPage._hasContentTypesProtected;
+            get => _hasContentTypesProtected;
             set
             {
-                if (MusicLibraryPage._hasContentTypesProtected == value)
+                if (_hasContentTypesProtected == value)
                     return;
-                MusicLibraryPage._hasContentTypesProtected = value;
+                _hasContentTypesProtected = value;
                 this.FirePropertyChanged(nameof(HasContentTypesProtected));
                 this.UpdateContentTypesPivots();
             }
@@ -583,12 +583,12 @@ namespace ZuneUI
 
         public bool HasContentTypesZunePass
         {
-            get => MusicLibraryPage._hasContentTypesZunePass;
+            get => _hasContentTypesZunePass;
             set
             {
-                if (MusicLibraryPage._hasContentTypesZunePass == value)
+                if (_hasContentTypesZunePass == value)
                     return;
-                MusicLibraryPage._hasContentTypesZunePass = value;
+                _hasContentTypesZunePass = value;
                 this.FirePropertyChanged(nameof(HasContentTypesZunePass));
                 this.UpdateContentTypesPivots();
             }
@@ -599,39 +599,39 @@ namespace ZuneUI
             if (this.ShowDeviceContents)
                 return;
             int num = 0;
-            if (MusicLibraryPage._hasContentTypesPersonal)
+            if (_hasContentTypesPersonal)
                 ++num;
-            if (MusicLibraryPage._hasContentTypesProtected)
+            if (_hasContentTypesProtected)
                 ++num;
-            if (MusicLibraryPage._hasContentTypesZunePass)
+            if (_hasContentTypesZunePass)
                 ++num;
             this.ContentTypes.Options.Clear();
             if (num > 1)
             {
-                if (MusicLibraryPage._showContentTypesAll == null)
-                    MusicLibraryPage._showContentTypesAll = new Command((IModelItemOwner)null, ZuneUI.Shell.LoadString(StringId.IDS_COLLECTION_CONTENT_TYPES_ALL), new EventHandler(MusicLibraryPage.ShowContentTypesAll));
-                this.ContentTypes.Options.Add((object)MusicLibraryPage._showContentTypesAll);
-                if (MusicLibraryPage._hasContentTypesPersonal)
+                if (_showContentTypesAll == null)
+                    _showContentTypesAll = new Command(null, Shell.LoadString(StringId.IDS_COLLECTION_CONTENT_TYPES_ALL), new EventHandler(ShowContentTypesAll));
+                this.ContentTypes.Options.Add(_showContentTypesAll);
+                if (_hasContentTypesPersonal)
                 {
-                    if (MusicLibraryPage._showContentTypesPersonal == null)
-                        MusicLibraryPage._showContentTypesPersonal = new Command((IModelItemOwner)null, ZuneUI.Shell.LoadString(StringId.IDS_COLLECTION_CONTENT_TYPES_PERSONAL), new EventHandler(MusicLibraryPage.ShowContentTypesPersonal));
-                    this.ContentTypes.Options.Add((object)MusicLibraryPage._showContentTypesPersonal);
+                    if (_showContentTypesPersonal == null)
+                        _showContentTypesPersonal = new Command(null, Shell.LoadString(StringId.IDS_COLLECTION_CONTENT_TYPES_PERSONAL), new EventHandler(ShowContentTypesPersonal));
+                    this.ContentTypes.Options.Add(_showContentTypesPersonal);
                 }
-                if (MusicLibraryPage._hasContentTypesProtected)
+                if (_hasContentTypesProtected)
                 {
-                    if (MusicLibraryPage._showContentTypesProtected == null)
-                        MusicLibraryPage._showContentTypesProtected = new Command((IModelItemOwner)null, ZuneUI.Shell.LoadString(StringId.IDS_COLLECTION_CONTENT_TYPES_PROTECTED), new EventHandler(MusicLibraryPage.ShowContentTypesProtected));
-                    this.ContentTypes.Options.Add((object)MusicLibraryPage._showContentTypesProtected);
+                    if (_showContentTypesProtected == null)
+                        _showContentTypesProtected = new Command(null, Shell.LoadString(StringId.IDS_COLLECTION_CONTENT_TYPES_PROTECTED), new EventHandler(ShowContentTypesProtected));
+                    this.ContentTypes.Options.Add(_showContentTypesProtected);
                 }
-                if (MusicLibraryPage._hasContentTypesZunePass)
+                if (_hasContentTypesZunePass)
                 {
-                    if (MusicLibraryPage._showContentTypesZunePass == null)
-                        MusicLibraryPage._showContentTypesZunePass = new Command((IModelItemOwner)null, ZuneUI.Shell.LoadString(StringId.IDS_COLLECTION_CONTENT_TYPES_ZUNEPASS), new EventHandler(MusicLibraryPage.ShowContentTypesZunePass));
-                    this.ContentTypes.Options.Add((object)MusicLibraryPage._showContentTypesZunePass);
+                    if (_showContentTypesZunePass == null)
+                        _showContentTypesZunePass = new Command(null, Shell.LoadString(StringId.IDS_COLLECTION_CONTENT_TYPES_ZUNEPASS), new EventHandler(ShowContentTypesZunePass));
+                    this.ContentTypes.Options.Add(_showContentTypesZunePass);
                 }
-                if (!this.ContentTypes.Options.Contains((object)MusicLibraryPage._preferredContentType))
-                    MusicLibraryPage._preferredContentType = MusicLibraryPage._showContentTypesAll;
-                this.ContentTypes.ChosenValue = (object)MusicLibraryPage._preferredContentType;
+                if (!this.ContentTypes.Options.Contains(_preferredContentType))
+                    _preferredContentType = _showContentTypesAll;
+                this.ContentTypes.ChosenValue = _preferredContentType;
             }
             this.ShowContentTypes.Value = num > 1;
         }
@@ -709,14 +709,14 @@ namespace ZuneUI
                 this.ContentTypes.ChosenChanged += new EventHandler(this.ContentTypesChanged);
             if (this.NavigationArguments != null)
             {
-                MusicLibraryPage._preferredContentType = MusicLibraryPage._showContentTypesAll;
+                _preferredContentType = _showContentTypesAll;
                 this.DrmStateMask = ZuneUI.DrmStateMask.All();
-                if (this.NavigationArguments.Contains((object)"ViewOverrideId"))
+                if (this.NavigationArguments.Contains("ViewOverrideId"))
                 {
-                    MusicLibraryView navigationArgument = (MusicLibraryView)this.NavigationArguments[(object)"ViewOverrideId"];
+                    MusicLibraryView navigationArgument = (MusicLibraryView)this.NavigationArguments["ViewOverrideId"];
                     for (int index = 0; index < this.Views.Options.Count; ++index)
                     {
-                        if (((MusicLibraryPage.ViewCommand)this.Views.Options[index]).View == navigationArgument)
+                        if (((ViewCommand)this.Views.Options[index]).View == navigationArgument)
                         {
                             bool updatePreferredView = this._updatePreferredView;
                             this._updatePreferredView = false;
@@ -726,39 +726,39 @@ namespace ZuneUI
                         }
                     }
                 }
-                this._selectedArtistIds = (IList)null;
-                if (this.NavigationArguments.Contains((object)"ArtistLibraryId"))
-                    this._selectedArtistIds = (IList)new int[1]
+                this._selectedArtistIds = null;
+                if (this.NavigationArguments.Contains("ArtistLibraryId"))
+                    this._selectedArtistIds = (new int[1]
                     {
-            (int) this.NavigationArguments[(object) "ArtistLibraryId"]
-                    };
-                this._selectedGenreIds = (IList)null;
-                if (this.NavigationArguments.Contains((object)"GenreLibraryId"))
-                    this._selectedGenreIds = (IList)new int[1]
+            (int) this.NavigationArguments[ "ArtistLibraryId"]
+                    });
+                this._selectedGenreIds = null;
+                if (this.NavigationArguments.Contains("GenreLibraryId"))
+                    this._selectedGenreIds = (new int[1]
                     {
-            (int) this.NavigationArguments[(object) "GenreLibraryId"]
-                    };
-                this._selectedAlbumIds = (IList)null;
-                if (this.NavigationArguments.Contains((object)"AlbumLibraryId"))
-                    this._selectedAlbumIds = (IList)new int[1]
+            (int) this.NavigationArguments[ "GenreLibraryId"]
+                    });
+                this._selectedAlbumIds = null;
+                if (this.NavigationArguments.Contains("AlbumLibraryId"))
+                    this._selectedAlbumIds = (new int[1]
                     {
-            (int) this.NavigationArguments[(object) "AlbumLibraryId"]
-                    };
-                this._selectedTrackIds = (IList)null;
-                if (this.NavigationArguments.Contains((object)"TrackLibraryId"))
-                    this._selectedTrackIds = (IList)new int[1]
+            (int) this.NavigationArguments[ "AlbumLibraryId"]
+                    });
+                this._selectedTrackIds = null;
+                if (this.NavigationArguments.Contains("TrackLibraryId"))
+                    this._selectedTrackIds = (new int[1]
                     {
-            (int) this.NavigationArguments[(object) "TrackLibraryId"]
-                    };
-                if (this.NavigationArguments.Contains((object)"PlaylistLibraryId"))
+            (int) this.NavigationArguments[ "TrackLibraryId"]
+                    });
+                if (this.NavigationArguments.Contains("PlaylistLibraryId"))
                 {
-                    this.PlaylistsPanel.SelectedLibraryIds = (IList)new int[1]
+                    this.PlaylistsPanel.SelectedLibraryIds = (new int[1]
                     {
-            (int) this.NavigationArguments[(object) "PlaylistLibraryId"]
-                    };
+            (int) this.NavigationArguments[ "PlaylistLibraryId"]
+                    });
                     this.PlaylistContentsPanel.SelectedLibraryIds = this._selectedTrackIds;
                 }
-                this.NavigationArguments = (IDictionary)null;
+                this.NavigationArguments = null;
             }
             this.UpdateContentTypesPivots();
             base.OnNavigatedToWorker();
@@ -768,7 +768,7 @@ namespace ZuneUI
         {
             ViewTimeLogger.Instance.ViewChanged(SQMDataId.Invalid);
             base.OnNavigatedAwayWorker(destination);
-            this.SelectedPlaylist = (object)null;
+            this.SelectedPlaylist = null;
             if (!this.ShowDeviceContents)
                 this.ContentTypes.ChosenChanged -= new EventHandler(this.ContentTypesChanged);
             PlaylistManager.Instance.ValidateDefaultPlaylist();
@@ -791,49 +791,49 @@ namespace ZuneUI
             return base.SaveAndRelease();
         }
 
-        public static void FindInCollection(int artistId, int albumId, int trackId) => MusicLibraryPage.FindInCollection(artistId, albumId, trackId, true);
+        public static void FindInCollection(int artistId, int albumId, int trackId) => FindInCollection(artistId, albumId, trackId, true);
 
         public static void FindInCollection(int artistId, int albumId, int trackId, bool selectTrack)
         {
             if (trackId >= 0 && albumId < 0)
-                albumId = PlaylistManager.GetFieldValue<int>(trackId, EListType.eTrackList, 11, -1);
+                albumId = PlaylistManager.GetFieldValue(trackId, EListType.eTrackList, 11, -1);
             if (albumId >= 0 && artistId < 0)
-                artistId = PlaylistManager.GetFieldValue<int>(albumId, EListType.eAlbumList, 78, -1);
+                artistId = PlaylistManager.GetFieldValue(albumId, EListType.eAlbumList, 78, -1);
             Hashtable hashtable = new Hashtable();
-            hashtable.Add((object)"AlbumLibraryId", (object)albumId);
-            hashtable.Add((object)"ArtistLibraryId", (object)artistId);
+            hashtable.Add("AlbumLibraryId", albumId);
+            hashtable.Add("ArtistLibraryId", artistId);
             if (selectTrack)
-                hashtable.Add((object)"TrackLibraryId", (object)trackId);
-            hashtable.Add((object)"ViewOverrideId", (object)MusicLibraryView.Artist);
-            ZuneShell.DefaultInstance.Execute("Collection\\Music\\Default", (IDictionary)hashtable);
+                hashtable.Add("TrackLibraryId", trackId);
+            hashtable.Add("ViewOverrideId", MusicLibraryView.Artist);
+            ZuneShell.DefaultInstance.Execute("Collection\\Music\\Default", hashtable);
         }
 
-        public static void FindPlaylistInCollection(int playlistId) => MusicLibraryPage.FindPlaylistInCollection(playlistId, -1, false);
+        public static void FindPlaylistInCollection(int playlistId) => FindPlaylistInCollection(playlistId, -1, false);
 
         public static void FindPlaylistInCollection(int playlistId, int trackId, bool selectTrack)
         {
             Hashtable hashtable = new Hashtable();
-            hashtable.Add((object)"PlaylistLibraryId", (object)playlistId);
-            hashtable.Add((object)"ViewOverrideId", (object)MusicLibraryView.Playlist);
+            hashtable.Add("PlaylistLibraryId", playlistId);
+            hashtable.Add("ViewOverrideId", MusicLibraryView.Playlist);
             if (selectTrack)
-                hashtable.Add((object)"TrackLibraryId", (object)trackId);
-            ZuneShell.DefaultInstance.Execute("Collection\\Music\\Default", (IDictionary)hashtable);
+                hashtable.Add("TrackLibraryId", trackId);
+            ZuneShell.DefaultInstance.Execute("Collection\\Music\\Default", hashtable);
         }
 
-        public static Guid GetArtistZuneMediaId(int dbMediaId) => PlaylistManager.GetFieldValue<Guid>(dbMediaId, EListType.eArtistList, 451, Guid.Empty);
+        public static Guid GetArtistZuneMediaId(int dbMediaId) => PlaylistManager.GetFieldValue(dbMediaId, EListType.eArtistList, 451, Guid.Empty);
 
         public static void NavigateToPlaylistLand()
         {
             if (!(ZuneShell.DefaultInstance.CurrentPage is MusicLibraryPage currentPage))
             {
-                ZuneShell.DefaultInstance.NavigateToPage((ZunePage)new MusicLibraryPage(false, MusicLibraryView.Playlist));
+                ZuneShell.DefaultInstance.NavigateToPage(new MusicLibraryPage(false, MusicLibraryView.Playlist));
             }
             else
             {
                 Choice views = currentPage.Views;
                 for (int index = 0; index < views.Options.Count; ++index)
                 {
-                    if (((MusicLibraryPage.ViewCommand)views.Options[index]).View == MusicLibraryView.Playlist)
+                    if (((ViewCommand)views.Options[index]).View == MusicLibraryView.Playlist)
                     {
                         views.ChosenIndex = index;
                         break;
@@ -862,7 +862,7 @@ namespace ZuneUI
 
             protected override void OnInvoked()
             {
-                Microsoft.Zune.PerfTrace.PerfTrace.TraceUICollectionEvent(UICollectionEvent.MusicLibraryViewCommandInvoked, this.Description);
+                PerfTrace.TraceUICollectionEvent(UICollectionEvent.MusicLibraryViewCommandInvoked, this.Description);
                 base.OnInvoked();
             }
         }

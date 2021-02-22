@@ -27,11 +27,11 @@ namespace ZuneUI
             {
                 if (this._nodes == null)
                 {
-                    this._nodes = new ArrayListDataSet((IModelItemOwner)this);
-                    this._nodes.Add((object)this.StringTester);
-                    this._nodes.Add((object)this.WebHost);
+                    this._nodes = new ArrayListDataSet(this);
+                    this._nodes.Add(StringTester);
+                    this._nodes.Add(WebHost);
                 }
-                return (IList)this._nodes;
+                return _nodes;
             }
         }
 
@@ -40,7 +40,7 @@ namespace ZuneUI
             get
             {
                 if (this._stringTester == null)
-                    this._stringTester = new Node((Experience)this, "string tester", "Test\\StringTester\\Home");
+                    this._stringTester = new Node(this, "string tester", "Test\\StringTester\\Home");
                 return this._stringTester;
             }
         }
@@ -50,7 +50,7 @@ namespace ZuneUI
             get
             {
                 if (this._webHostTester == null)
-                    this._webHostTester = new Node((Experience)this, nameof(WebHost), "Test\\WebHost\\Home");
+                    this._webHostTester = new Node(this, nameof(WebHost), "Test\\WebHost\\Home");
                 return this._webHostTester;
             }
         }

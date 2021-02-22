@@ -17,12 +17,12 @@ namespace ZuneUI
             if (this._page.Album != Shell.MainFrame.Disc.BurnList && this._page.Album != Shell.MainFrame.Disc.NoCD && !this._page.Album.IsMediaLoaded)
             {
                 this._page.Dispose();
-                return (IPage)null;
+                return null;
             }
             if (this._page.Album != Shell.MainFrame.Disc.NoCD || !Shell.MainFrame.Disc.HasCD)
-                return (IPage)this._page;
+                return _page;
             this._page.Dispose();
-            return (IPage)null;
+            return null;
         }
 
         public void Release() => this._page.Release();

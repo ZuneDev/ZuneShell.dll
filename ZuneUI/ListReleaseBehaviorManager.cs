@@ -32,7 +32,7 @@ namespace ZuneUI
             if (this._virtualList == null)
                 return;
             this._virtualList.VisualReleaseBehavior = this._cachedBehavior;
-            this._virtualList = (LibraryVirtualList)null;
+            this._virtualList = null;
         }
     }
 }

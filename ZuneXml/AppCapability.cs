@@ -43,7 +43,7 @@ namespace ZuneXml
           DataProviderQuery owner,
           object objectTypeCookie)
         {
-            return (XmlDataProviderObject)new AppCapability(owner, objectTypeCookie);
+            return new AppCapability(owner, objectTypeCookie);
         }
 
         internal AppCapability(DataProviderQuery owner, object resultTypeCookie)
@@ -62,9 +62,9 @@ namespace ZuneXml
             switch (propertyName)
             {
                 case "NeedDisclosure":
-                    return (object)this.NeedDisclosure;
+                    return NeedDisclosure;
                 case "NeedPrompt":
-                    return (object)this.NeedPrompt;
+                    return NeedPrompt;
                 default:
                     return base.GetProperty(propertyName);
             }

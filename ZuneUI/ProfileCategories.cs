@@ -21,9 +21,9 @@ namespace ZuneUI
         {
             get
             {
-                if (ProfileCategories._badges == null)
-                    ProfileCategories._badges = new Category(StringId.IDS_PROFILE_BADGES_PIVOT, "res://ZuneShellResources!ProfileCategories.uix#ProfileCategoryBadges", false, SQMDataId.SocialViewBadges);
-                return ProfileCategories._badges;
+                if (_badges == null)
+                    _badges = new Category(StringId.IDS_PROFILE_BADGES_PIVOT, "res://ZuneShellResources!ProfileCategories.uix#ProfileCategoryBadges", false, SQMDataId.SocialViewBadges);
+                return _badges;
             }
         }
 
@@ -31,9 +31,9 @@ namespace ZuneUI
         {
             get
             {
-                if (ProfileCategories._biography == null)
-                    ProfileCategories._biography = new Category(StringId.IDS_PROFILE_BIOGRAPHY_PIVOT, "res://ZuneShellResources!ProfileCategories.uix#ProfileCategoryBiography", false, SQMDataId.SocialViewAbout);
-                return ProfileCategories._biography;
+                if (_biography == null)
+                    _biography = new Category(StringId.IDS_PROFILE_BIOGRAPHY_PIVOT, "res://ZuneShellResources!ProfileCategories.uix#ProfileCategoryBiography", false, SQMDataId.SocialViewAbout);
+                return _biography;
             }
         }
 
@@ -41,9 +41,9 @@ namespace ZuneUI
         {
             get
             {
-                if (ProfileCategories._comments == null)
-                    ProfileCategories._comments = new Category(StringId.IDS_PROFILE_COMMENTS_PIVOT, "res://ZuneShellResources!ProfileCategories.uix#ProfileCategoryComments", false, SQMDataId.SocialViewComments);
-                return ProfileCategories._comments;
+                if (_comments == null)
+                    _comments = new Category(StringId.IDS_PROFILE_COMMENTS_PIVOT, "res://ZuneShellResources!ProfileCategories.uix#ProfileCategoryComments", false, SQMDataId.SocialViewComments);
+                return _comments;
             }
         }
 
@@ -51,9 +51,9 @@ namespace ZuneUI
         {
             get
             {
-                if (ProfileCategories._favorites == null)
-                    ProfileCategories._favorites = new Category(StringId.IDS_PROFILE_FAVORITES_PIVOT, "res://ZuneShellResources!ProfileCategories.uix#ProfileCategoryFavorites", false, SQMDataId.SocialViewFavorites);
-                return ProfileCategories._favorites;
+                if (_favorites == null)
+                    _favorites = new Category(StringId.IDS_PROFILE_FAVORITES_PIVOT, "res://ZuneShellResources!ProfileCategories.uix#ProfileCategoryFavorites", false, SQMDataId.SocialViewFavorites);
+                return _favorites;
             }
         }
 
@@ -61,9 +61,9 @@ namespace ZuneUI
         {
             get
             {
-                if (ProfileCategories._lastPlayed == null)
-                    ProfileCategories._lastPlayed = new Category(StringId.IDS_PROFILE_RECENTLY_PLAYED_PIVOT, "res://ZuneShellResources!ProfileCategories.uix#ProfileCategoryRecentlyPlayed", false, SQMDataId.SocialViewRecentPlays);
-                return ProfileCategories._lastPlayed;
+                if (_lastPlayed == null)
+                    _lastPlayed = new Category(StringId.IDS_PROFILE_RECENTLY_PLAYED_PIVOT, "res://ZuneShellResources!ProfileCategories.uix#ProfileCategoryRecentlyPlayed", false, SQMDataId.SocialViewRecentPlays);
+                return _lastPlayed;
             }
         }
 
@@ -71,9 +71,9 @@ namespace ZuneUI
         {
             get
             {
-                if (ProfileCategories._topArtists == null)
-                    ProfileCategories._topArtists = new Category(StringId.IDS_PROFILE_MOST_PLAYED_ARTISTS_PIVOT, "res://ZuneShellResources!ProfileCategories.uix#ProfileCategoryTopArtists", false, SQMDataId.SocialViewTopArtists);
-                return ProfileCategories._topArtists;
+                if (_topArtists == null)
+                    _topArtists = new Category(StringId.IDS_PROFILE_MOST_PLAYED_ARTISTS_PIVOT, "res://ZuneShellResources!ProfileCategories.uix#ProfileCategoryTopArtists", false, SQMDataId.SocialViewTopArtists);
+                return _topArtists;
             }
         }
     }

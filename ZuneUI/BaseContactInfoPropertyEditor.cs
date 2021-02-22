@@ -14,14 +14,14 @@ namespace ZuneUI
         public static CountryFieldValidationPropertyDescriptor s_PhoneExtension = new CountryFieldValidationPropertyDescriptor(nameof(PhoneExtension), CountryFieldValidatorType.PhoneExtension);
         public static EmailPropertyDescriptor s_Email = new EmailPropertyDescriptor(nameof(Email), string.Empty, string.Empty, true);
 
-        public static PropertyDescriptor FirstName => (PropertyDescriptor)BaseContactInfoPropertyEditor.s_FirstName;
+        public static PropertyDescriptor FirstName => s_FirstName;
 
-        public static PropertyDescriptor LastName => (PropertyDescriptor)BaseContactInfoPropertyEditor.s_LastName;
+        public static PropertyDescriptor LastName => s_LastName;
 
-        public static PropertyDescriptor PhoneNumber => (PropertyDescriptor)BaseContactInfoPropertyEditor.s_PhoneNumber;
+        public static PropertyDescriptor PhoneNumber => s_PhoneNumber;
 
-        public static PropertyDescriptor PhoneExtension => (PropertyDescriptor)BaseContactInfoPropertyEditor.s_PhoneExtension;
+        public static PropertyDescriptor PhoneExtension => s_PhoneExtension;
 
-        public static PropertyDescriptor Email => (PropertyDescriptor)BaseContactInfoPropertyEditor.s_Email;
+        public static PropertyDescriptor Email => s_Email;
     }
 }

@@ -18,13 +18,13 @@ namespace ZuneUI
         {
             get
             {
-                if (WizardPropertySource._instance == null)
-                    WizardPropertySource._instance = (PropertySource)new WizardPropertySource();
-                return WizardPropertySource._instance;
+                if (_instance == null)
+                    _instance = new WizardPropertySource();
+                return _instance;
             }
         }
 
-        public override object Get(object model, PropertyDescriptor property) => !(model is WizardPropertyEditorPage propertyEditorPage) ? (object)null : propertyEditorPage.GetCommittedValue(property);
+        public override object Get(object model, PropertyDescriptor property) => !(model is WizardPropertyEditorPage propertyEditorPage) ? null : propertyEditorPage.GetCommittedValue(property);
 
         public override void Set(object model, PropertyDescriptor property, object value)
         {

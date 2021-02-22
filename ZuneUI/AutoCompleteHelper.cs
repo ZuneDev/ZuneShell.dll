@@ -48,7 +48,7 @@ namespace ZuneUI
                 if (this._cursorPosition < this._entry.Length)
                     insert += this._entry.Substring(this._cursorPosition - filterString.Length);
                 else if (this._useEntrySeparator)
-                    insert = string.Format("{0}{1} ", (object)insert, (object)AutoCompleteHelper.s_entrySeparators[0]);
+                    insert = string.Format("{0}{1} ", insert, s_entrySeparators[0]);
                 this.Entry = insert;
             }
             else
@@ -62,11 +62,11 @@ namespace ZuneUI
                 this.Entry = insert;
             else if (!string.IsNullOrEmpty(insert))
             {
-                string str = this.Entry.TrimEnd(AutoCompleteHelper.s_entryTrimmers);
+                string str = this.Entry.TrimEnd(s_entryTrimmers);
                 if (str.Length > 0)
-                    insert = string.Format("{0} {1}{2} ", (object)AutoCompleteHelper.s_entrySeparators[0], (object)insert, (object)AutoCompleteHelper.s_entrySeparators[0]);
+                    insert = string.Format("{0} {1}{2} ", s_entrySeparators[0], insert, s_entrySeparators[0]);
                 else if (this._useEntrySeparator)
-                    insert = string.Format("{0}{1} ", (object)insert, (object)AutoCompleteHelper.s_entrySeparators[0]);
+                    insert = string.Format("{0}{1} ", insert, s_entrySeparators[0]);
                 this.Entry = str + insert;
             }
             return this.Entry;
@@ -148,7 +148,7 @@ namespace ZuneUI
                     index = ((ISearchableList)this._options).SearchForString(filterString);
                 else if (this._options is List<string>)
                 {
-                    index = ((List<string>)this._options).BinarySearch(filterString, (IComparer<string>)StringComparer.CurrentCultureIgnoreCase);
+                    index = ((List<string>)this._options).BinarySearch(filterString, StringComparer.CurrentCultureIgnoreCase);
                     if (index < 0)
                         index = ~index;
                 }
@@ -166,7 +166,7 @@ namespace ZuneUI
                     }
                 }
             }
-            this.FilteredOptions = (IList)stringList;
+            this.FilteredOptions = stringList;
         }
 
         private string GetFilterString()
@@ -174,10 +174,10 @@ namespace ZuneUI
             string str = string.Empty;
             if (this._cursorPosition > 0 && this._entry != null)
             {
-                int num1 = this._entry.LastIndexOfAny(AutoCompleteHelper.s_entrySeparators, this._cursorPosition - 1) + 1;
+                int num1 = this._entry.LastIndexOfAny(s_entrySeparators, this._cursorPosition - 1) + 1;
                 while (num1 < this._entry.Length && char.IsWhiteSpace(this._entry, num1))
                     ++num1;
-                int num2 = this._entry.IndexOfAny(AutoCompleteHelper.s_entrySeparators, num1);
+                int num2 = this._entry.IndexOfAny(s_entrySeparators, num1);
                 int length = num2 <= 0 ? this._entry.Length - num1 : num2 - num1;
                 str = this._entry.Substring(num1, length);
             }

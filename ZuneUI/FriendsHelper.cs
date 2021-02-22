@@ -47,7 +47,7 @@ namespace ZuneUI
 
         private void StopListening() => SubscriptionManager.Instance.OnForegroundSubscriptionChanged -= new SubscriptionEventHandler(this.OnForegroundSubscriptionChanged);
 
-        private void OnForegroundSubscriptionChanged(SubscriptonEventArguments args) => Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredOnForegroundSubscriptionChanged), (object)args, DeferredInvokePriority.Normal);
+        private void OnForegroundSubscriptionChanged(SubscriptonEventArguments args) => Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredOnForegroundSubscriptionChanged), args, DeferredInvokePriority.Normal);
 
         private void DeferredOnForegroundSubscriptionChanged(object args)
         {

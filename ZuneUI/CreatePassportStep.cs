@@ -31,7 +31,7 @@ namespace ZuneUI
                 this.Description = Shell.LoadString(StringId.IDS_ACCOUNT_CREATION_PASSPORT_STEP);
             this._secretAnswerString = Shell.LoadString(StringId.IDS_ACCOUNT_CREATION_SECRET_ANSWER_HELP);
             this.NextTextOverride = Shell.LoadString(StringId.IDS_I_ACCEPT_BUTTON);
-            this.Initialize((WizardPropertyEditor)new CreatePassportPropertyEditor());
+            this.Initialize(new CreatePassportPropertyEditor());
         }
 
         public override string UI => "res://ZuneShellResources!CreatePassport.uix#CreatePassportStep";
@@ -103,9 +103,9 @@ namespace ZuneUI
             {
                 string committedValue1 = this.GetCommittedValue(CreatePassportPropertyEditor.PassportId) as string;
                 string committedValue2 = this.GetCommittedValue(CreatePassportPropertyEditor.PassportDomain) as string;
-                string str = (string)null;
+                string str = null;
                 if (committedValue1 != null && committedValue2 != null)
-                    str = string.Format("{0}@{1}", (object)committedValue1, (object)committedValue2);
+                    str = string.Format("{0}@{1}", committedValue1, committedValue2);
                 return str;
             }
         }
@@ -116,9 +116,9 @@ namespace ZuneUI
             {
                 string uncommittedValue1 = this.GetUncommittedValue(CreatePassportPropertyEditor.PassportId) as string;
                 string uncommittedValue2 = this.GetUncommittedValue(CreatePassportPropertyEditor.PassportDomain) as string;
-                string str = (string)null;
+                string str = null;
                 if (uncommittedValue1 != null && uncommittedValue2 != null)
-                    str = string.Format("{0}@{1}", (object)uncommittedValue1, (object)uncommittedValue2);
+                    str = string.Format("{0}@{1}", uncommittedValue1, uncommittedValue2);
                 return str;
             }
             set
@@ -135,8 +135,8 @@ namespace ZuneUI
                     str1 = value.Substring(0, length);
                     str2 = value.Substring(length + 1);
                 }
-                this.SetCommittedValue(CreatePassportPropertyEditor.PassportId, (object)str1);
-                this.SetCommittedValue(CreatePassportPropertyEditor.PassportDomain, (object)str2);
+                this.SetCommittedValue(CreatePassportPropertyEditor.PassportId, str1);
+                this.SetCommittedValue(CreatePassportPropertyEditor.PassportDomain, str2);
                 this.FirePropertyChanged(nameof(Email));
             }
         }
@@ -168,10 +168,10 @@ namespace ZuneUI
                     this._errorMappings.Add(HRESULT._NS_E_WINLIVE_SECRET_QUESTION_TOO_LONG.Int, CreatePassportPropertyEditor.SecretQuestion);
                     this._errorMappings.Add(HRESULT._NS_E_WINLIVE_SECRET_QUESTION_CONTAINS_ANSWER.Int, CreatePassportPropertyEditor.SecretQuestion);
                     this._errorMappings.Add(HRESULT._NS_E_WINLIVE_SECRET_QUESTION_CONTAINS_PASSWORD.Int, CreatePassportPropertyEditor.SecretQuestion);
-                    this._errorMappings.Add(HRESULT._NS_E_WINLIVE_SECRET_ANSWER_TOO_SHORT.Int, (PropertyDescriptor)CreatePassportPropertyEditor.SecretAnswer);
-                    this._errorMappings.Add(HRESULT._NS_E_WINLIVE_SECRET_ANSWER_TOO_LONG.Int, (PropertyDescriptor)CreatePassportPropertyEditor.SecretAnswer);
-                    this._errorMappings.Add(HRESULT._NS_E_WINLIVE_SECRET_ANSWER_CONTAINS_MEMBER_NAME.Int, (PropertyDescriptor)CreatePassportPropertyEditor.SecretAnswer);
-                    this._errorMappings.Add(HRESULT._NS_E_WINLIVE_SECRET_ANSWER_CONTAINS_PASSWORD.Int, (PropertyDescriptor)CreatePassportPropertyEditor.SecretAnswer);
+                    this._errorMappings.Add(HRESULT._NS_E_WINLIVE_SECRET_ANSWER_TOO_SHORT.Int, CreatePassportPropertyEditor.SecretAnswer);
+                    this._errorMappings.Add(HRESULT._NS_E_WINLIVE_SECRET_ANSWER_TOO_LONG.Int, CreatePassportPropertyEditor.SecretAnswer);
+                    this._errorMappings.Add(HRESULT._NS_E_WINLIVE_SECRET_ANSWER_CONTAINS_MEMBER_NAME.Int, CreatePassportPropertyEditor.SecretAnswer);
+                    this._errorMappings.Add(HRESULT._NS_E_WINLIVE_SECRET_ANSWER_CONTAINS_PASSWORD.Int, CreatePassportPropertyEditor.SecretAnswer);
                 }
                 return this._errorMappings;
             }
@@ -181,13 +181,13 @@ namespace ZuneUI
         {
             get
             {
-                if (CreatePassportStep.s_secretQuestions == null)
+                if (s_secretQuestions == null)
                 {
                     string str = Shell.LoadString(StringId.IDS_ACCOUNT_CREATION_SECRET_QUESTIONS);
                     if (str != null)
-                        CreatePassportStep.s_secretQuestions = (IList)str.Split(';');
+                        s_secretQuestions = str.Split(';');
                 }
-                return CreatePassportStep.s_secretQuestions;
+                return s_secretQuestions;
             }
         }
 
@@ -204,7 +204,7 @@ namespace ZuneUI
             if (!this.ServiceActivationRequestsDone)
             {
                 this._lastLocale = selectedLocale;
-                this.StartActivationRequests((object)selectedLocale);
+                this.StartActivationRequests(selectedLocale);
             }
             else if (this.CreateEmail)
                 this.SetDefaultWindowsLiveDomain();
@@ -227,7 +227,7 @@ namespace ZuneUI
         internal override void Deactivate()
         {
             base.Deactivate();
-            this.SuggestedPassportIds = (IList)null;
+            this.SuggestedPassportIds = null;
         }
 
         internal override bool OnMovingNext()
@@ -238,19 +238,19 @@ namespace ZuneUI
                 this.ServiceDeactivationRequestsDone = true;
             if (this.ServiceDeactivationRequestsDone)
             {
-                if (this.SuggestedPassportIds == null || this.SuggestedPassportIds.Count == 0 || this.SuggestedPassportIds.Contains((object)email))
+                if (this.SuggestedPassportIds == null || this.SuggestedPassportIds.Count == 0 || this.SuggestedPassportIds.Contains(email))
                 {
-                    this.SuggestedPassportIds = (IList)null;
+                    this.SuggestedPassportIds = null;
                     return base.OnMovingNext();
                 }
                 this.ServiceDeactivationRequestsDone = false;
                 return false;
             }
-            this.StartDeactivationRequests((object)email);
+            this.StartDeactivationRequests(email);
             return false;
         }
 
-        internal override ErrorMapperResult GetMappedErrorDescriptionAndUrl(HRESULT hr) => Microsoft.Zune.ErrorMapperApi.ErrorMapperApi.GetMappedErrorDescriptionAndUrl(hr.Int, eErrorCondition.eEC_WinLive);
+        internal override ErrorMapperResult GetMappedErrorDescriptionAndUrl(HRESULT hr) => ErrorMapperApi.GetMappedErrorDescriptionAndUrl(hr.Int, eErrorCondition.eEC_WinLive);
 
         protected override bool OnCommitChanges()
         {
@@ -260,7 +260,7 @@ namespace ZuneUI
                 string email = this.Email;
                 string committedValue1 = this.GetCommittedValue(CreatePassportPropertyEditor.Password1) as string;
                 string committedValue2 = this.GetCommittedValue(CreatePassportPropertyEditor.SecretQuestion) as string;
-                string committedValue3 = this.GetCommittedValue((PropertyDescriptor)CreatePassportPropertyEditor.SecretAnswer) as string;
+                string committedValue3 = this.GetCommittedValue(CreatePassportPropertyEditor.SecretAnswer) as string;
                 string selectedCountry = this.State.BasicAccountInfoStep.SelectedCountry;
                 int languagePreference = 0;
                 string selectedLocale = this.State.BasicAccountInfoStep.SelectedLocale;
@@ -284,7 +284,7 @@ namespace ZuneUI
                     committedValue4 = this.State.HipPassportStep.GetCommittedValue(HipPropertyEditor.HipCharacters) as string;
                     committedValue5 = (DateTime?)this.State.BasicAccountInfoStep.GetCommittedValue(BasicAccountInfoPropertyEditor.Birthday);
                 }
-                ServiceError serviceError = (ServiceError)null;
+                ServiceError serviceError = null;
                 HRESULT account = this.State.WinLiveSignup.CreateAccount(email, committedValue1, committedValue2, committedValue3, selectedCountry, hipChallenge, committedValue4, committedValue5.Value, termsOfServiceVersion, languagePreference, out serviceError);
                 flag = account.IsSuccess;
                 if (flag)
@@ -295,7 +295,7 @@ namespace ZuneUI
             return flag;
         }
 
-        protected override void OnStartActivationRequests(object state) => this.EndActivationRequests((object)this.ObtainWinLiveInformation(state as string));
+        protected override void OnStartActivationRequests(object state) => this.EndActivationRequests(this.ObtainWinLiveInformation(state as string));
 
         protected override void OnEndActivationRequests(object args)
         {
@@ -305,22 +305,22 @@ namespace ZuneUI
                 this.WinLiveInformation = args as WinLiveInformation;
         }
 
-        protected override void OnStartDeactivationRequests(object state) => this.EndDeactivationRequests((object)this.ObtainUniquePassportIds(state as string));
+        protected override void OnStartDeactivationRequests(object state) => this.EndDeactivationRequests(this.ObtainUniquePassportIds(state as string));
 
         protected override void OnEndDeactivationRequests(object args) => this.SuggestedPassportIds = args as IList;
 
         private void SetDefaultWindowsLiveDomain()
         {
-            if (this.GetUncommittedValue(CreatePassportPropertyEditor.PassportDomain) is string uncommittedValue && (this._winLiveInformation.Domains == null || this._winLiveInformation.Domains.Count <= 0 || this._winLiveInformation.Domains.Contains((object)uncommittedValue)))
+            if (this.GetUncommittedValue(CreatePassportPropertyEditor.PassportDomain) is string uncommittedValue && (this._winLiveInformation.Domains == null || this._winLiveInformation.Domains.Count <= 0 || this._winLiveInformation.Domains.Contains(uncommittedValue)))
                 return;
-            this.SetUncommittedValue(CreatePassportPropertyEditor.PassportDomain, (object)(this._winLiveInformation.Domains[0] as string));
+            this.SetUncommittedValue(CreatePassportPropertyEditor.PassportDomain, this._winLiveInformation.Domains[0] as string);
         }
 
         private WinLiveInformation ObtainWinLiveInformation(string locale)
         {
-            WinLiveInformation information1 = (WinLiveInformation)null;
-            ServiceError serviceError = (ServiceError)null;
-            HRESULT information2 = this.State.WinLiveSignup.GetInformation(locale, Microsoft.Zune.Service.EHipType.Image, out information1, out serviceError);
+            WinLiveInformation information1 = null;
+            ServiceError serviceError = null;
+            HRESULT information2 = this.State.WinLiveSignup.GetInformation(locale, EHipType.Image, out information1, out serviceError);
             if (information2.IsError)
                 this.SetError(information2, serviceError);
             return information1;
@@ -328,10 +328,10 @@ namespace ZuneUI
 
         private IList ObtainUniquePassportIds(string email)
         {
-            IList list = (IList)null;
-            ServiceError serviceError = (ServiceError)null;
+            IList list = null;
+            ServiceError serviceError = null;
             WinLiveAvailableInformation information;
-            HRESULT hr = this.State.WinLiveSignup.CheckAvailableSigninName(email, true, (string)null, (string)null, out information, out serviceError);
+            HRESULT hr = this.State.WinLiveSignup.CheckAvailableSigninName(email, true, null, null, out information, out serviceError);
             if (hr.IsError)
                 this.SetError(hr, serviceError);
             else if (!information.Available)

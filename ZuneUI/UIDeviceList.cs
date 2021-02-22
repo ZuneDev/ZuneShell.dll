@@ -44,7 +44,7 @@ namespace ZuneUI
             this._initializationLock = new object();
         }
 
-        public void Phase2Init() => ThreadPool.QueueUserWorkItem((WaitCallback)delegate
+        public void Phase2Init() => ThreadPool.QueueUserWorkItem(delegate
        {
            lock (this._initializationLock)
            {
@@ -56,9 +56,9 @@ namespace ZuneUI
                this._deviceList.Added += new DeviceAddedHandler(this.OnDeviceAdded);
                if (this._deviceList.Initialized)
                    return;
-               HRESULT hresult = (HRESULT)this._deviceList.InitializeAndEnumerate();
+               HRESULT hresult = this._deviceList.InitializeAndEnumerate();
            }
-       }, (object)null);
+       }, null);
 
         protected override void OnDispose(bool disposing)
         {
@@ -79,9 +79,9 @@ namespace ZuneUI
         {
             get
             {
-                if (UIDeviceList._nullDevice == null)
-                    UIDeviceList._nullDevice = new UIDevice((IModelItemOwner)SingletonModelItem<UIDeviceList>.Instance, (Device)null);
-                return UIDeviceList._nullDevice;
+                if (_nullDevice == null)
+                    _nullDevice = new UIDevice(Instance, null);
+                return _nullDevice;
             }
         }
 
@@ -97,14 +97,14 @@ namespace ZuneUI
             HRESULT hresult = HRESULT._E_UNEXPECTED;
             if (this.IsListReady)
             {
-                hresult = (HRESULT)this._uiToDeviceMap[device].ClearCache();
+                hresult = this._uiToDeviceMap[device].ClearCache();
                 if (this.DeviceDisconnectedEvent != null)
                 {
-                    this.DeviceDisconnectedEvent((object)this, new DeviceListEventArgs(device));
+                    this.DeviceDisconnectedEvent(this, new DeviceListEventArgs(device));
                     this.FirePropertyChanged("DeviceDisconnectedEvent");
                 }
                 if (this.DeviceRemovedEvent != null)
-                    this.DeviceRemovedEvent((object)this, new DeviceListEventArgs(device));
+                    this.DeviceRemovedEvent(this, new DeviceListEventArgs(device));
             }
             return hresult;
         }
@@ -122,10 +122,10 @@ namespace ZuneUI
                     return;
                 if (this._deferredUnreadyDevices.Count > 0)
                 {
-                    this._deferredConnectedDevices.AddRange((IEnumerable<UIDevice>)this._deferredUnreadyDevices);
+                    this._deferredConnectedDevices.AddRange(_deferredUnreadyDevices);
                     this._deferredUnreadyDevices.Clear();
                 }
-                Application.DeferredInvoke((DeferredInvokeHandler)delegate
+                Application.DeferredInvoke(delegate
                {
                    this.HandleDeferredConnectedDevices();
                }, DeferredInvokePriority.Low);
@@ -143,7 +143,7 @@ namespace ZuneUI
                 this.FirePropertyChanged(nameof(AllowDeviceConnections));
                 if (!this._allowDeviceConnections)
                     return;
-                Application.DeferredInvoke((DeferredInvokeHandler)delegate
+                Application.DeferredInvoke(delegate
                {
                    this.HandleDeferredConnectedDevices();
                }, DeferredInvokePriority.Low);
@@ -186,7 +186,7 @@ namespace ZuneUI
             }
         }
 
-        public HRESULT ClearTranscodeCache() => !this.IsListReady ? HRESULT._E_UNEXPECTED : (HRESULT)this._deviceList.ClearTranscodeCache();
+        public HRESULT ClearTranscodeCache() => !this.IsListReady ? HRESULT._E_UNEXPECTED : this._deviceList.ClearTranscodeCache();
 
         public IEnumerator<UIDevice> GetEnumerator()
         {
@@ -201,14 +201,14 @@ namespace ZuneUI
             }
         }
 
-        IEnumerator IEnumerable.GetEnumerator() => (IEnumerator)this.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 
-        private void OnDeviceAdded(Device rawDevice) => Application.DeferredInvoke((DeferredInvokeHandler)delegate
+        private void OnDeviceAdded(Device rawDevice) => Application.DeferredInvoke(delegate
        {
            if (this.IsDisposed)
                return;
            this.GetUIDevice(rawDevice);
-       }, (object)null);
+       }, null);
 
         private void OnUIDevicePropertyChanged(object sender, PropertyChangedEventArgs args)
         {
@@ -234,7 +234,7 @@ namespace ZuneUI
         private void OnDeviceValid(UIDevice device)
         {
             if (!device.IsGuest && this.DeviceAddedEvent != null)
-                this.DeviceAddedEvent((object)this, new DeviceListEventArgs(device));
+                this.DeviceAddedEvent(this, new DeviceListEventArgs(device));
             if (!device.SupportsSyncApplications)
                 return;
             ClientConfiguration.Shell.ShowApplicationPivot = true;
@@ -249,7 +249,7 @@ namespace ZuneUI
                     return;
                 this._deferredConnectedDevices.Add(device);
             }
-            else if (!this.AllowUnreadyDevices && !UIDeviceList.IsSuitableForConnection(device))
+            else if (!this.AllowUnreadyDevices && !IsSuitableForConnection(device))
             {
                 if (this._deferredUnreadyDevices.Contains(device))
                     return;
@@ -258,10 +258,10 @@ namespace ZuneUI
             else
             {
                 if (device.IsGuest && this.DeviceAddedEvent != null)
-                    this.DeviceAddedEvent((object)this, new DeviceListEventArgs(device));
+                    this.DeviceAddedEvent(this, new DeviceListEventArgs(device));
                 if (this.DeviceConnectedEvent == null)
                     return;
-                this.DeviceConnectedEvent((object)this, new DeviceListEventArgs(device));
+                this.DeviceConnectedEvent(this, new DeviceListEventArgs(device));
                 this.FirePropertyChanged("DeviceConnectedEvent");
             }
         }
@@ -274,19 +274,19 @@ namespace ZuneUI
                 this._deferredUnreadyDevices.Remove(device);
             if (this.DeviceDisconnectedEvent != null)
             {
-                this.DeviceDisconnectedEvent((object)this, new DeviceListEventArgs(device));
+                this.DeviceDisconnectedEvent(this, new DeviceListEventArgs(device));
                 this.FirePropertyChanged("DeviceDisconnectedEvent");
             }
             if (!device.IsGuest || this.DeviceRemovedEvent == null)
                 return;
-            this.DeviceRemovedEvent((object)this, new DeviceListEventArgs(device));
+            this.DeviceRemovedEvent(this, new DeviceListEventArgs(device));
         }
 
         private UIDevice GetUIDevice(Device device)
         {
             if (!this._deviceToUiMap.ContainsKey(device))
             {
-                UIDevice key = new UIDevice((IModelItemOwner)this, device);
+                UIDevice key = new UIDevice(this, device);
                 this._deviceToUiMap.Add(device, key);
                 this._uiToDeviceMap.Add(key, device);
                 key.PropertyChanged += new PropertyChangedEventHandler(this.OnUIDevicePropertyChanged);

@@ -30,7 +30,7 @@ namespace ZuneUI
             if (this.CommittedSettings != null)
             {
                 HRESULT hr = HRESULT._S_OK;
-                ServiceError serviceError = (ServiceError)null;
+                ServiceError serviceError = null;
                 if (this.PrivacySettings != null && this.PrivacySettings.Count > 0)
                     hr = this.State.AccountManagement.SetPrivacySettings(this.CommittedSettings, this.State.PassportPasswordParentStep.PassportIdentity, out serviceError);
                 if (hr.IsSuccess && this.FamilySettings != null && (this.FamilySettings.Settings != null && this.FamilySettings.Settings.Count > 0))
@@ -57,7 +57,7 @@ namespace ZuneUI
         protected override void OnStartActivationRequests(object state)
         {
             this.InitializeHelpersOnWorkerThread();
-            this.EndActivationRequests((object)this.ObtainAccountUser());
+            this.EndActivationRequests(this.ObtainAccountUser());
         }
 
         protected override void OnEndActivationRequests(object args)
@@ -84,12 +84,12 @@ namespace ZuneUI
 
         private AccountUser ObtainAccountUser()
         {
-            AccountUser accountUser = (AccountUser)null;
-            ServiceError serviceError = (ServiceError)null;
-            HRESULT account = this.State.AccountManagement.GetAccount((PassportIdentity)null, out accountUser, out serviceError);
+            AccountUser accountUser = null;
+            ServiceError serviceError = null;
+            HRESULT account = this.State.AccountManagement.GetAccount(null, out accountUser, out serviceError);
             if (account.IsError)
             {
-                accountUser = (AccountUser)null;
+                accountUser = null;
                 this.SetError(account, serviceError);
             }
             return accountUser;

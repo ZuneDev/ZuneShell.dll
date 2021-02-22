@@ -24,17 +24,17 @@ namespace ZuneUI
         private ProgressNotification m_notification;
         private Dictionary<Guid, int> m_errors = new Dictionary<Guid, int>();
         private Dictionary<Guid, int> m_historyErrors = new Dictionary<Guid, int>();
-        private Microsoft.Zune.Service.EDownloadContextEvent m_clientContextEvent;
+        private EDownloadContextEvent m_clientContextEvent;
         private string m_clientContextEventValue;
         private static Download s_instance;
         private static object s_cs = new object();
-        private static string s_downloadCompleteMessage = ZuneUI.Shell.LoadString(StringId.IDS_DOWNLOAD_COMPLETE_NOTIFICATION);
-        private static string s_downloadFailedMessage = ZuneUI.Shell.LoadString(StringId.IDS_DOWNLOAD_FAILED_NOTIFICATION);
-        private static string s_downloadProgressMessage = ZuneUI.Shell.LoadString(StringId.IDS_DOWNLOAD_PROGRESS_NOTIFICATION);
-        private static string s_downloadCurrentMessage = ZuneUI.Shell.LoadString(StringId.IDS_DOWNLOAD_CURRENT_NOTIFICATION);
-        private static string s_downloadPausedMessage = ZuneUI.Shell.LoadString(StringId.IDS_DOWNLOAD_PAUSED_NOTIFICATION);
-        private static string s_downloadMBRPausedMessage = ZuneUI.Shell.LoadString(StringId.IDS_DOWNLOAD_MBR_PAUSED_NOTIFICATION);
-        private static string s_downloadSignInMessage = ZuneUI.Shell.LoadString(StringId.IDS_DOWNLOAD_SIGNIN_NOTIFICATION);
+        private static string s_downloadCompleteMessage = Shell.LoadString(StringId.IDS_DOWNLOAD_COMPLETE_NOTIFICATION);
+        private static string s_downloadFailedMessage = Shell.LoadString(StringId.IDS_DOWNLOAD_FAILED_NOTIFICATION);
+        private static string s_downloadProgressMessage = Shell.LoadString(StringId.IDS_DOWNLOAD_PROGRESS_NOTIFICATION);
+        private static string s_downloadCurrentMessage = Shell.LoadString(StringId.IDS_DOWNLOAD_CURRENT_NOTIFICATION);
+        private static string s_downloadPausedMessage = Shell.LoadString(StringId.IDS_DOWNLOAD_PAUSED_NOTIFICATION);
+        private static string s_downloadMBRPausedMessage = Shell.LoadString(StringId.IDS_DOWNLOAD_MBR_PAUSED_NOTIFICATION);
+        private static string s_downloadSignInMessage = Shell.LoadString(StringId.IDS_DOWNLOAD_SIGNIN_NOTIFICATION);
 
         public event DownloadEventHandler DownloadEvent;
 
@@ -46,25 +46,25 @@ namespace ZuneUI
         {
             get
             {
-                if (Download.s_instance == null)
+                if (s_instance == null)
                 {
-                    lock (Download.s_cs)
+                    lock (s_cs)
                     {
-                        if (Download.s_instance == null)
-                            Download.s_instance = new Download();
+                        if (s_instance == null)
+                            s_instance = new Download();
                     }
                 }
-                return Download.s_instance;
+                return s_instance;
             }
         }
 
-        public static bool IsCreated => Download.s_instance != null;
+        public static bool IsCreated => s_instance != null;
 
-        public void DownloadContent(IList items, Microsoft.Zune.Service.EDownloadFlags eDownloadFlags) => this.DownloadContent(items, eDownloadFlags, (string)null);
+        public void DownloadContent(IList items, EDownloadFlags eDownloadFlags) => this.DownloadContent(items, eDownloadFlags, null);
 
         internal void DownloadContent(
           IList items,
-          Microsoft.Zune.Service.EDownloadFlags eDownloadFlags,
+          EDownloadFlags eDownloadFlags,
           string deviceEndpointId)
         {
             this.DownloadContent(items, eDownloadFlags, deviceEndpointId, new EventHandler(this.OnAllPending));
@@ -72,15 +72,15 @@ namespace ZuneUI
 
         public void DownloadContent(
           IList items,
-          Microsoft.Zune.Service.EDownloadFlags eDownloadFlags,
+          EDownloadFlags eDownloadFlags,
           string deviceEndpointId,
           EventHandler onAllPending)
         {
             ZuneApplication.Service.Download(items, eDownloadFlags, deviceEndpointId, this.ClientContextEvent, this.ClientContextEventValue, new DownloadEventHandler(this.OnDownloadEvent), new DownloadEventProgressHandler(this.OnDownloadProgressEvent), onAllPending);
-            if ((eDownloadFlags & ~(Microsoft.Zune.Service.EDownloadFlags.CanBeOffline | Microsoft.Zune.Service.EDownloadFlags.Subscription)) != Microsoft.Zune.Service.EDownloadFlags.None)
+            if ((eDownloadFlags & ~(EDownloadFlags.CanBeOffline | EDownloadFlags.Subscription)) != EDownloadFlags.None)
                 return;
             bool flag = ZuneShell.DefaultInstance.CurrentPage is InboxPage;
-            if ((eDownloadFlags & Microsoft.Zune.Service.EDownloadFlags.Subscription) != Microsoft.Zune.Service.EDownloadFlags.None)
+            if ((eDownloadFlags & EDownloadFlags.Subscription) != EDownloadFlags.None)
                 SQMLog.Log(flag ? SQMDataId.InboxDownload : SQMDataId.MarketplaceDownload, 1);
             else
                 SQMLog.Log(flag ? SQMDataId.InboxPurchase : SQMDataId.MarketplacePurchase, 1);
@@ -88,8 +88,8 @@ namespace ZuneUI
 
         public void AddToCollection(IList items)
         {
-            ZuneApplication.Service.Download(items, Microsoft.Zune.Service.EDownloadFlags.Subscription, (string)null, this.ClientContextEvent, this.ClientContextEventValue, new DownloadEventHandler(this.OnDownloadEvent), new DownloadEventProgressHandler(this.OnDownloadProgressEvent), new EventHandler(this.OnAllPending));
-            foreach (object obj in (IEnumerable)items)
+            ZuneApplication.Service.Download(items, EDownloadFlags.Subscription, null, this.ClientContextEvent, this.ClientContextEventValue, new DownloadEventHandler(this.OnDownloadEvent), new DownloadEventProgressHandler(this.OnDownloadProgressEvent), new EventHandler(this.OnAllPending));
+            foreach (object obj in items)
             {
                 if (obj is DataProviderObject)
                 {
@@ -97,7 +97,7 @@ namespace ZuneUI
                     if (dataProviderObject.TypeName == "PlaylistContentItem")
                     {
                         PlaylistManager.GetPlaylistId((int)dataProviderObject.GetProperty("LibraryId"));
-                        UsageDataService.ReportTrackAddToCollection((Guid)dataProviderObject.GetProperty("ZuneMediaId"), PlaylistManager.GetFieldValue<int>((int)dataProviderObject.GetProperty("MediaId"), EListType.eTrackList, 358, 0).ToString());
+                        UsageDataService.ReportTrackAddToCollection((Guid)dataProviderObject.GetProperty("ZuneMediaId"), PlaylistManager.GetFieldValue((int)dataProviderObject.GetProperty("MediaId"), EListType.eTrackList, 358, 0).ToString());
                     }
                     else if (dataProviderObject is Track)
                     {
@@ -108,19 +108,19 @@ namespace ZuneUI
             }
         }
 
-        public bool IsDownloadingOrPending(Guid mediaId, Microsoft.Zune.Service.EContentType eContentType)
+        public bool IsDownloadingOrPending(Guid mediaId, EContentType eContentType)
         {
             bool fPending;
             return this.IsDownloading(mediaId, eContentType, out fPending) || fPending;
         }
 
-        public bool IsDownloading(Guid mediaId, Microsoft.Zune.Service.EContentType eContentType, out bool fPending)
+        public bool IsDownloading(Guid mediaId, EContentType eContentType, out bool fPending)
         {
             bool fIsHidden = false;
             return ZuneApplication.Service.IsDownloading(mediaId, eContentType, out fPending, out fIsHidden);
         }
 
-        public void CancelDownload(Guid mediaId) => ZuneApplication.Service.CancelDownload(mediaId, Microsoft.Zune.Service.EContentType.MusicTrack);
+        public void CancelDownload(Guid mediaId) => ZuneApplication.Service.CancelDownload(mediaId, EContentType.MusicTrack);
 
         public int ErrorCount => this.m_errors.Count;
 
@@ -173,10 +173,10 @@ namespace ZuneUI
         {
             if (this.m_disposed)
                 return;
-            Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredDownloadEvent), (object)new object[2]
+            Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredDownloadEvent), new object[2]
             {
-        (object) mediaId,
-        (object) hr
+         mediaId,
+         hr
             });
         }
 
@@ -184,7 +184,7 @@ namespace ZuneUI
         {
             if (this.m_disposed)
                 return;
-            Application.DeferredInvoke(new DeferredInvokeHandler(this.DefferedAllPending), (object)null);
+            Application.DeferredInvoke(new DeferredInvokeHandler(this.DefferedAllPending), null);
         }
 
         private void DeferredDownloadEvent(object arg)
@@ -206,17 +206,17 @@ namespace ZuneUI
         {
             if (this.DownloadAllPendingEvent == null)
                 return;
-            this.DownloadAllPendingEvent((object)this, (EventArgs)null);
+            this.DownloadAllPendingEvent(this, null);
         }
 
         private void OnDownloadProgressEvent(Guid mediaId, float percent)
         {
             if (this.m_disposed)
                 return;
-            Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredDownloadProgressEvent), (object)new object[2]
+            Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredDownloadProgressEvent), new object[2]
             {
-        (object) mediaId,
-        (object) percent
+         mediaId,
+         percent
             });
         }
 
@@ -237,10 +237,10 @@ namespace ZuneUI
                 if (this.m_notification == value)
                     return;
                 if (this.m_notification != null)
-                    NotificationArea.Instance.Remove((ZuneUI.Notification)this.m_notification);
+                    NotificationArea.Instance.Remove(m_notification);
                 this.m_notification = value;
                 if (this.m_notification != null)
-                    NotificationArea.Instance.Add((ZuneUI.Notification)this.m_notification);
+                    NotificationArea.Instance.Add(m_notification);
                 this.FirePropertyChanged(nameof(Notification));
             }
         }
@@ -264,22 +264,22 @@ namespace ZuneUI
             this.Notification.Type = NotificationState.Completed;
             if (failures)
             {
-                this.Notification.Message = Download.s_downloadFailedMessage;
+                this.Notification.Message = s_downloadFailedMessage;
             }
             else
             {
-                this.Notification.Message = Download.s_downloadCompleteMessage;
+                this.Notification.Message = s_downloadCompleteMessage;
                 this.Notification.Percentage = 100;
             }
-            this.Notification.SubMessage = (string)null;
-            Application.DeferredInvoke(new DeferredInvokeHandler(this.HideCompletedMessage), (object)null, TimeSpan.FromSeconds(5.0));
+            this.Notification.SubMessage = null;
+            Application.DeferredInvoke(new DeferredInvokeHandler(this.HideCompletedMessage), null, TimeSpan.FromSeconds(5.0));
         }
 
         private void HideCompletedMessage(object args)
         {
             if (this.Notification == null || this.Notification.Type != NotificationState.Completed)
                 return;
-            this.Notification = (ProgressNotification)null;
+            this.Notification = null;
         }
 
         private void OnProgressChanged(DownloadManagerUpdateArguments args)
@@ -287,25 +287,25 @@ namespace ZuneUI
             if (this.m_updatePending)
                 return;
             this.m_updatePending = true;
-            Application.DeferredInvoke((DeferredInvokeHandler)delegate
+            Application.DeferredInvoke(delegate
            {
                this.m_updatePending = false;
                int totalItems = DownloadManager.Instance.TotalItems;
                int activeItem = DownloadManager.Instance.ActiveItem;
                if (totalItems == 0)
                {
-                   this.Notification = (ProgressNotification)null;
+                   this.Notification = null;
                }
                else
                {
                    if (this.Notification == null)
                    {
-                       this.Notification = new ProgressNotification(Download.s_downloadProgressMessage, NotificationTask.Download, NotificationState.Normal, 0);
+                       this.Notification = new ProgressNotification(s_downloadProgressMessage, NotificationTask.Download, NotificationState.Normal, 0);
                    }
                    else
                    {
                        this.Notification.Type = NotificationState.Normal;
-                       this.Notification.Message = Download.s_downloadProgressMessage;
+                       this.Notification.Message = s_downloadProgressMessage;
                    }
                    if (DownloadManager.Instance.Finished)
                    {
@@ -314,25 +314,25 @@ namespace ZuneUI
                    else
                    {
                        this.Notification.Percentage = (int)DownloadManager.Instance.Percentage;
-                       this.Notification.SubMessage = string.Format(Download.s_downloadCurrentMessage, (object)activeItem, (object)totalItems);
+                       this.Notification.SubMessage = string.Format(s_downloadCurrentMessage, activeItem, totalItems);
                        if (DownloadManager.Instance.IsQueuePaused)
                        {
                            if (SingletonModelItem<TransportControls>.Instance.IsStreamingVideo)
-                               this.Notification.Message = Download.s_downloadMBRPausedMessage;
+                               this.Notification.Message = s_downloadMBRPausedMessage;
                            else
-                               this.Notification.Message = Download.s_downloadPausedMessage;
+                               this.Notification.Message = s_downloadPausedMessage;
                        }
                        else if (!SignIn.Instance.SignedIn && DownloadManager.Instance.SignInRequired())
-                           this.Notification.Message = Download.s_downloadSignInMessage;
+                           this.Notification.Message = s_downloadSignInMessage;
                    }
                }
                bool show = !DownloadManager.Instance.Finished || DownloadManager.Instance.FailedDownloads.Count > 0 || DownloadManager.Instance.HadFailures;
-               ZuneUI.Shell.MainFrame.Marketplace.UpdateDownloadPivot(show);
-               ZuneUI.Shell.MainFrame.Collection.UpdateDownloadPivot(show);
+               Shell.MainFrame.Marketplace.UpdateDownloadPivot(show);
+               Shell.MainFrame.Collection.UpdateDownloadPivot(show);
                if (show || !(ZuneShell.DefaultInstance.CurrentPage is DownloadsPage))
                    return;
                ZuneShell.DefaultInstance.NavigateBack();
-           }, (object)null);
+           }, null);
         }
 
         private Download()
@@ -350,18 +350,18 @@ namespace ZuneUI
             this.m_disposed = true;
         }
 
-        public Microsoft.Zune.Service.EDownloadContextEvent ClientContextEvent => !this.ShouldTrackUsage() ? Microsoft.Zune.Service.EDownloadContextEvent.Unknown : this.m_clientContextEvent;
+        public EDownloadContextEvent ClientContextEvent => !this.ShouldTrackUsage() ? EDownloadContextEvent.Unknown : this.m_clientContextEvent;
 
-        public string ClientContextEventValue => !this.ShouldTrackUsage() ? (string)null : this.m_clientContextEventValue;
+        public string ClientContextEventValue => !this.ShouldTrackUsage() ? null : this.m_clientContextEventValue;
 
         private bool ShouldTrackUsage() => ClientConfiguration.SQM.UsageTracking && ClientConfiguration.FUE.AcceptedPrivacyStatement;
 
         public void ReportClientContextEvent(
-          Microsoft.Zune.Service.EDownloadContextEvent clientContextEvent,
+          EDownloadContextEvent clientContextEvent,
           Guid clientContextEventValue)
         {
-            Microsoft.Zune.Service.EDownloadContextEvent edownloadContextEvent = Microsoft.Zune.Service.EDownloadContextEvent.Unknown;
-            string str = (string)null;
+            EDownloadContextEvent edownloadContextEvent = EDownloadContextEvent.Unknown;
+            string str = null;
             if (clientContextEventValue != Guid.Empty)
             {
                 edownloadContextEvent = clientContextEvent;

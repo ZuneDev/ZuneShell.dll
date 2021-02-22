@@ -18,8 +18,8 @@ namespace ZuneUI
         {
             List<MonitorSize> monitorSizeList = new List<MonitorSize>();
             this._listInProgress = monitorSizeList;
-            MonitorDetector.EnumDisplayMonitors(IntPtr.Zero, IntPtr.Zero, new MonitorDetector.MonitorEnumProc(this.MonitorEnumerated), IntPtr.Zero);
-            this._listInProgress = (List<MonitorSize>)null;
+            EnumDisplayMonitors(IntPtr.Zero, IntPtr.Zero, new MonitorEnumProc(this.MonitorEnumerated), IntPtr.Zero);
+            this._listInProgress = null;
             return monitorSizeList;
         }
 
@@ -29,9 +29,9 @@ namespace ZuneUI
           [In] ref RECT lprcMonitor,
           IntPtr dwData)
         {
-            MonitorDetector.MONITORINFO lpmi = new MonitorDetector.MONITORINFO();
-            lpmi.cbSize = Marshal.SizeOf((object)lpmi);
-            if (MonitorDetector.GetMonitorInfo(hMonitor, ref lpmi))
+            MONITORINFO lpmi = new MONITORINFO();
+            lpmi.cbSize = Marshal.SizeOf(lpmi);
+            if (GetMonitorInfo(hMonitor, ref lpmi))
             {
                 --lpmi.rcMonitor.Right;
                 --lpmi.rcMonitor.Bottom;
@@ -46,11 +46,11 @@ namespace ZuneUI
         private static extern bool EnumDisplayMonitors(
           IntPtr hdc,
           IntPtr lprcClip,
-          MonitorDetector.MonitorEnumProc lpfnEnum,
+          MonitorEnumProc lpfnEnum,
           IntPtr dwData);
 
         [DllImport("user32.dll")]
-        private static extern bool GetMonitorInfo(IntPtr hMonitor, ref MonitorDetector.MONITORINFO lpmi);
+        private static extern bool GetMonitorInfo(IntPtr hMonitor, ref MONITORINFO lpmi);
 
         private delegate bool MonitorEnumProc(
           IntPtr hMonitor,

@@ -14,7 +14,7 @@ namespace ZuneXml
           DataProviderQuery owner,
           object objectTypeCookie)
         {
-            return (XmlDataProviderObject)new ReviewListEntry(owner, objectTypeCookie);
+            return new ReviewListEntry(owner, objectTypeCookie);
         }
 
         internal ReviewListEntry(DataProviderQuery owner, object resultTypeCookie)

@@ -22,7 +22,7 @@ namespace ZuneXml
           DataProviderQuery owner,
           object objectTypeCookie)
         {
-            return (XmlDataProviderObject)new Series(owner, objectTypeCookie);
+            return new Series(owner, objectTypeCookie);
         }
 
         internal Series(DataProviderQuery owner, object resultTypeCookie)
@@ -59,11 +59,11 @@ namespace ZuneXml
             switch (propertyName)
             {
                 case "Rights":
-                    return (object)this.Rights;
+                    return Rights;
                 case "PrimaryArtist":
-                    return (object)this.PrimaryArtist;
+                    return PrimaryArtist;
                 case "Artists":
-                    return (object)this.Artists;
+                    return Artists;
                 default:
                     return base.GetProperty(propertyName);
             }

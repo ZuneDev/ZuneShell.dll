@@ -21,8 +21,8 @@ namespace ZuneUI
         private string GetString(string id)
         {
             if (string.IsNullOrEmpty(id))
-                return (string)null;
-            return this.Strings.ContainsKey(this.CurrentLanguage) ? (this.Strings[this.CurrentLanguage].ContainsKey(id) ? this.Strings[this.CurrentLanguage][id] : (string)null) : (this.Strings[this.DefaultLanguage].ContainsKey(id) ? this.Strings[this.DefaultLanguage][id] : (string)null);
+                return null;
+            return this.Strings.ContainsKey(this.CurrentLanguage) ? (this.Strings[this.CurrentLanguage].ContainsKey(id) ? this.Strings[this.CurrentLanguage][id] : null) : (this.Strings[this.DefaultLanguage].ContainsKey(id) ? this.Strings[this.DefaultLanguage][id] : null);
         }
 
         public string GetRatingName(int order)
@@ -32,7 +32,7 @@ namespace ZuneUI
                 if (this.Ratings[index].Order == order)
                     return this.GetString(this.Ratings[index].TextId);
             }
-            return (string)null;
+            return null;
         }
 
         public string GetRatingDescription(int order)
@@ -42,7 +42,7 @@ namespace ZuneUI
                 if (this.Ratings[index].Order == order)
                     return this.GetString(this.Ratings[index].DescriptionId);
             }
-            return (string)null;
+            return null;
         }
 
         public string GetRatingToolTip(int order)
@@ -52,7 +52,7 @@ namespace ZuneUI
                 if (this.Ratings[index].Order == order)
                     return this.GetString(this.Ratings[index].ToolTipId);
             }
-            return (string)null;
+            return null;
         }
 
         public new string Title => this.GetString(base.Title);

@@ -25,7 +25,7 @@ namespace ZuneUI
 
         public bool Initialize(long hWndHost, int width, int height)
         {
-            this.m_host.SetNavigationCompleteHandler((NavigationCompleteHandler)(data => Application.DeferredInvoke((DeferredInvokeHandler)delegate
+            this.m_host.SetNavigationCompleteHandler(data => Application.DeferredInvoke(delegate
           {
               this.CurrentUrl = data;
               if (!string.IsNullOrEmpty(this.SuccessUrl) && this.SuccessUrl.Length <= this.m_currentUrl.Length && string.Compare(this.SuccessUrl, this.m_currentUrl.Substring(0, this.SuccessUrl.Length), false) == 0)
@@ -39,15 +39,15 @@ namespace ZuneUI
                       return;
                   this.NavResult = WebHostNavigationResult.FailureUrl;
               }
-          }, (object)data)));
-            this.m_host.SetNavigationErrorHandler((NavigationErrorHandler)((errorUrl, errorCode) =>
+          }, data));
+            this.m_host.SetNavigationErrorHandler((errorUrl, errorCode) =>
            {
                NavErrorData data = new NavErrorData(errorUrl, errorCode);
-               Application.DeferredInvoke((DeferredInvokeHandler)delegate
+               Application.DeferredInvoke(delegate
          {
-                 this.NavigationError = data;
-             }, (object)data);
-           }));
+             this.NavigationError = data;
+         }, data);
+           });
             long num = this.m_host.Initialize(this.InitialUrl, hWndHost, width, height);
             if (num == 0L)
             {
@@ -147,6 +147,6 @@ namespace ZuneUI
             }
         }
 
-        public int PartnerServiceUnknownError => ZuneWebHost.s_partnerServiceUnknownError;
+        public int PartnerServiceUnknownError => s_partnerServiceUnknownError;
     }
 }

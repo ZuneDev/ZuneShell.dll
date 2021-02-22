@@ -12,12 +12,12 @@ namespace ZuneUI
     {
         public FirstConnectWizard()
         {
-            this.AddPage((WizardPage)new FirstConnectDeviceNamePage((Wizard)this));
+            this.AddPage(new FirstConnectDeviceNamePage(this));
             if (FeatureEnablement.IsFeatureEnabled(Features.eSocial) || FeatureEnablement.IsFeatureEnabled(Features.eMarketplace))
-                this.AddPage((WizardPage)new FirstConnectDeviceMarketplacePage((Wizard)this));
-            this.AddPage((WizardPage)new FirstConnectDeviceSyncOptionsPage((Wizard)this));
+                this.AddPage(new FirstConnectDeviceMarketplacePage(this));
+            this.AddPage(new FirstConnectDeviceSyncOptionsPage(this));
             if (this.ActiveDevice.SupportsUsageData)
-                this.AddPage((WizardPage)new FirstConnectDeviceCustomPrivacyPage((Wizard)this));
+                this.AddPage(new FirstConnectDeviceCustomPrivacyPage(this));
             else
                 ZuneShell.DefaultInstance.Management.DeviceManagement.PrivacyChoice.Value = false;
             ZuneShell.DefaultInstance.Management.DeviceManagement.DevicePartnership = DeviceRelationship.Permanent;

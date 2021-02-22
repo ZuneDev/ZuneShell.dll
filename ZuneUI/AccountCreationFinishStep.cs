@@ -51,7 +51,7 @@ namespace ZuneUI
             if (this.State.PassportPasswordStep.CanCreateAccount || this.State.PassportPasswordStep.IsUpgradeNeeded)
                 this.LoadStatus = Shell.LoadString(StringId.IDS_ACCOUNT_CREATION_STATUS_CREATION);
             else
-                this.LoadStatus = (string)null;
+                this.LoadStatus = null;
             base.OnActivate();
         }
 
@@ -59,7 +59,7 @@ namespace ZuneUI
         {
             bool flag = !this.State.PassportPasswordStep.CanCreateAccount ? (!this.State.PassportPasswordStep.IsUpgradeNeeded ? this.State.PassportPasswordStep.IsZuneAccount : this.State.UpgradeZuneAccount(true)) : this.State.CreateZuneAccount();
             if (flag)
-                Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredFireNextStepChanges), (object)null);
+                Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredFireNextStepChanges), null);
             return flag;
         }
 

@@ -26,14 +26,14 @@ namespace ZuneUI
         public SyncabilityHelper(UIDevice device)
         {
             this._device = device ?? UIDeviceList.NullDevice;
-            this._isGuest = new DelegateFuture<bool>((CalculateValue<bool>)(() => this._device.IsGuest));
-            this._userId = new DelegateFuture<int>((CalculateValue<int>)(() => this._device.UserId));
-            this._supportsUserCards = new DelegateFuture<bool>((CalculateValue<bool>)(() => this._device.SupportsUserCards));
-            this._supportsChannels = new DelegateFuture<bool>((CalculateValue<bool>)(() => this._device.SupportsChannels));
-            this._supportsApplications = new DelegateFuture<bool>((CalculateValue<bool>)(() => this._device.SupportsSyncApplications));
-            this._supportsRental = new DelegateFuture<bool>((CalculateValue<bool>)(() => this._device.SupportsRental));
-            this._supportsHD = new DelegateFuture<bool>((CalculateValue<bool>)(() => this._device.SupportsHD));
-            this._isUnlinked = new DelegateFuture<bool>((CalculateValue<bool>)(() => this.UserID == 0));
+            this._isGuest = new DelegateFuture<bool>(() => this._device.IsGuest);
+            this._userId = new DelegateFuture<int>(() => this._device.UserId);
+            this._supportsUserCards = new DelegateFuture<bool>(() => this._device.SupportsUserCards);
+            this._supportsChannels = new DelegateFuture<bool>(() => this._device.SupportsChannels);
+            this._supportsApplications = new DelegateFuture<bool>(() => this._device.SupportsSyncApplications);
+            this._supportsRental = new DelegateFuture<bool>(() => this._device.SupportsRental);
+            this._supportsHD = new DelegateFuture<bool>(() => this._device.SupportsHD);
+            this._isUnlinked = new DelegateFuture<bool>(() => this.UserID == 0);
             this._canSyncUserCards = new DelegateFuture<bool>(new CalculateValue<bool>(this.GetCanSyncUserCards));
             this._canSyncChannels = new DelegateFuture<bool>(new CalculateValue<bool>(this.GetCanSyncChannels));
             this._canSyncApplications = new DelegateFuture<bool>(new CalculateValue<bool>(this.GetCanSyncApplications));

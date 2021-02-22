@@ -23,9 +23,9 @@ namespace ZuneUI
         {
             get
             {
-                if (AlbumMetadataPropertySource._instance == null)
-                    AlbumMetadataPropertySource._instance = (PropertySource)new AlbumMetadataPropertySource();
-                return AlbumMetadataPropertySource._instance;
+                if (_instance == null)
+                    _instance = new AlbumMetadataPropertySource();
+                return _instance;
             }
         }
 
@@ -34,18 +34,18 @@ namespace ZuneUI
             AlbumMetadata albumMetadata = media as AlbumMetadata;
             string descriptorName = property.DescriptorName;
             if (descriptorName == MetadataEditMedia.s_Title.DescriptorName)
-                return (object)albumMetadata.AlbumTitle;
+                return albumMetadata.AlbumTitle;
             if (descriptorName == MetadataEditMedia.s_AlbumTitleYomi.DescriptorName)
-                return (object)albumMetadata.AlbumTitleYomi;
+                return albumMetadata.AlbumTitleYomi;
             if (descriptorName == MetadataEditMedia.s_Artist.DescriptorName)
-                return (object)albumMetadata.AlbumArtist;
+                return albumMetadata.AlbumArtist;
             if (descriptorName == MetadataEditMedia.s_AlbumArtistYomi.DescriptorName)
-                return (object)albumMetadata.AlbumArtistYomi;
+                return albumMetadata.AlbumArtistYomi;
             if (descriptorName == MetadataEditMedia.s_TrackCount.DescriptorName)
-                return (object)albumMetadata.TrackCount;
+                return albumMetadata.TrackCount;
             if (descriptorName == MetadataEditMedia.s_CoverUrl.DescriptorName)
-                return (object)albumMetadata.CoverUrl;
-            return descriptorName == MetadataEditMedia.s_ReleaseYear.DescriptorName ? (object)albumMetadata.ReleaseYear : (object)null;
+                return albumMetadata.CoverUrl;
+            return descriptorName == MetadataEditMedia.s_ReleaseYear.DescriptorName ? albumMetadata.ReleaseYear : (object)null;
         }
 
         public override void Set(object media, PropertyDescriptor property, object value)
@@ -81,7 +81,7 @@ namespace ZuneUI
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ZuneUI.Shell.LoadString(StringId.IDS_EMI_UPDATEFAILED_TITLE), ZuneUI.Shell.LoadString(StringId.IDS_EMI_UPDATEFAILED), (EventHandler)null);
+                MessageBox.Show(Shell.LoadString(StringId.IDS_EMI_UPDATEFAILED_TITLE), Shell.LoadString(StringId.IDS_EMI_UPDATEFAILED), null);
             }
         }
 
