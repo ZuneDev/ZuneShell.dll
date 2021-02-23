@@ -127,9 +127,9 @@ namespace Microsoft.Zune.Shell
         private static void Phase2InitializationUIStage(object arg)
         {
             _initializationFailsafe.Initialize(delegate
-           {
-               _appInitializationSequencer.UIReady();
-           });
+            {
+                _appInitializationSequencer.UIReady();
+            });
             ProcessAppArgs();
             Download.Instance.Phase2Init();
             if (!ZuneShell.DefaultInstance.NavigationsPending && ZuneShell.DefaultInstance.CurrentPage is StartupPage)
@@ -147,12 +147,10 @@ namespace Microsoft.Zune.Shell
         private static void Phase2InitializationWorker(object arg)
         {
             Win32Window.Close(_hWndSplashScreen);
-            int hr;
-            bool flag = _zuneLibrary.Phase2Initialization(out hr);
+            bool flag = _zuneLibrary.Phase2Initialization(out int hr);
             Application.DeferredInvoke(new DeferredInvokeHandler(Phase2InitializationUIStage), new object[2]
             {
-         hr,
-         flag
+                hr, flag
             });
             ZuneLibrary.CleanupTransientMedia();
             _transientTableCleanupComplete.Set();
@@ -356,6 +354,7 @@ namespace Microsoft.Zune.Shell
             Application.Name = "Zune";
             Application.Window.Caption = "Zune";
             Application.Window.SetIcon("ZuneShellResources.dll", 1);
+            Application.Window.AlwaysOnTop = true;
             if (!hashtable.Contains("noshadow"))
             {
                 Image[] images = new Image[4];
@@ -386,8 +385,8 @@ namespace Microsoft.Zune.Shell
             CallbackOnUIThread callbackOnUiThread = new CallbackOnUIThread();
             _appInitializationSequencer = new AppInitializationSequencer(new CorePhase2ReadyCallback(CorePhase3Ready));
             _zuneLibrary = new ZuneLibrary();
-            int num = _zuneLibrary.Initialize(null, out _dbRebuilt);
-            if (num == 0)
+            HRESULT num = _zuneLibrary.Initialize(null, out _dbRebuilt);
+            if (num.IsSuccess)
             {
                 StandAlone.Run(new DeferredInvokeHandler(Phase2Initialization));
                 Application.Window.CloseRequested -= new WindowCloseRequestedHandler(CodeDialogManager.Instance.OnWindowCloseRequested);
@@ -424,7 +423,7 @@ namespace Microsoft.Zune.Shell
                 }
             }
             _zuneLibrary.Dispose();
-            return num;
+            return num.Int;
         }
 
         private static void ErrorReportHandler(Error[] errors)
@@ -549,8 +548,8 @@ namespace Microsoft.Zune.Shell
 
         public static void OnShowErrorDialog(int hr, uint uiStringId) => Application.DeferredInvoke(new DeferredInvokeHandler(DeferredShowErrorDialog), new object[2]
         {
-       hr,
-       uiStringId
+            hr,
+            uiStringId
         });
 
         public static void DeferredShowErrorDialog(object arg)

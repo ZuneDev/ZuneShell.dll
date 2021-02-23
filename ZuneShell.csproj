@@ -40,8 +40,9 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
-    <Reference Include="UIX">
-      <HintPath>lib\UIX.dll</HintPath>
+    <Reference Include="UIX, Version=4.8.0.0, Culture=neutral, PublicKeyToken=ddd0da4d3e678217, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\UIX.dll</HintPath>
     </Reference>
     <Reference Include="UIXControls">
       <HintPath>lib\UIXControls.dll</HintPath>
