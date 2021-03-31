@@ -40,13 +40,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
-    <Reference Include="UIX, Version=4.8.0.0, Culture=neutral, PublicKeyToken=ddd0da4d3e678217, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>.\UIX.dll</HintPath>
-    </Reference>
-    <Reference Include="UIXControls">
-      <HintPath>lib\UIXControls.dll</HintPath>
-    </Reference>
     <Reference Include="ZuneDBApi">
       <HintPath>lib\ZuneDBApi.dll</HintPath>
     </Reference>
@@ -874,6 +867,16 @@
     <Compile Include="ZuneXml\Short.cs" />
     <Compile Include="ZuneXml\Contributor.cs" />
     <Compile Include="AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="UIXControls\UIXControls.csproj">
+      <Project>{56ae007d-b441-4294-8582-d5c63cc1c206}</Project>
+      <Name>UIXControls</Name>
+    </ProjectReference>
+    <ProjectReference Include="UIX\UIX.csproj">
+      <Project>{5681a1bd-b3ec-450b-bf6e-38187204b6be}</Project>
+      <Name>UIX</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
