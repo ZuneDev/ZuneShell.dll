@@ -26,7 +26,7 @@ namespace Microsoft.Iris.Navigation
           bool enteringFlag)
         {
             this._orderModifierValue = 1;
-            if (this.SearchDirection == Direction.Previous && (!enteringFlag || !NavigationItem.IsTabGroup(this.Subject)))
+            if (this.SearchDirection == Direction.Previous && (!enteringFlag || !IsTabGroup(this.Subject)))
                 this._orderModifierValue = -1;
             NavigationItem[] navigationItemArray = new NavigationItem[allChildrenList.Count];
             int num = 0;
@@ -36,6 +36,6 @@ namespace Microsoft.Iris.Navigation
             return navigationItemArray;
         }
 
-        int IComparer.Compare(object a, object b) => this._orderModifierValue * NavigationItem.CompareFocusOrder((NavigationItem)a, (NavigationItem)b);
+        int IComparer.Compare(object a, object b) => this._orderModifierValue * CompareFocusOrder((NavigationItem)a, (NavigationItem)b);
     }
 }

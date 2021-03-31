@@ -268,7 +268,7 @@ namespace Microsoft.Iris.InputHandlers
                 Point point = new Point(info.ScreenX, info.ScreenY);
                 if (this.BeginDragPolicy == BeginDragPolicy.Down)
                 {
-                    this.BeginDrag(relative, relative, point, point, InputHandler.GetModifiers(info.Modifiers));
+                    this.BeginDrag(relative, relative, point, point, GetModifiers(info.Modifiers));
                     info.MarkHandled();
                 }
                 else
@@ -303,12 +303,12 @@ namespace Microsoft.Iris.InputHandlers
                 Point point = new Point(info.ScreenX, info.ScreenY);
                 if (this.Dragging)
                 {
-                    this.InDrag(ui1, point, InputHandler.GetModifiers(info.Modifiers));
+                    this.InDrag(ui1, point, GetModifiers(info.Modifiers));
                     info.MarkHandled();
                 }
                 else if (Math.Abs(point.X - this._initialScreenPosition.X) >= Win32Api.GetSystemMetrics(68) || Math.Abs(point.Y - this._initialScreenPosition.Y) >= Win32Api.GetSystemMetrics(69))
                 {
-                    this.BeginDrag(this._initialPosition, this.TransformToRelative(ui1), this._initialScreenPosition, point, InputHandler.GetModifiers(info.Modifiers));
+                    this.BeginDrag(this._initialPosition, this.TransformToRelative(ui1), this._initialScreenPosition, point, GetModifiers(info.Modifiers));
                     info.MarkHandled();
                 }
             }
@@ -409,7 +409,7 @@ namespace Microsoft.Iris.InputHandlers
             IList added = new List<object>();
             RectangleF uiBounds;
             this.GetDragBounds(out RectangleF _, out uiBounds);
-            DragHandler.GetEventContexts(this.UI, added, null, RectangleF.Zero, uiBounds);
+            GetEventContexts(this.UI, added, null, RectangleF.Zero, uiBounds);
             return added;
         }
 
@@ -434,7 +434,7 @@ namespace Microsoft.Iris.InputHandlers
                 return;
             this._addedContexts = new List<object>();
             this._removedContexts = new List<object>();
-            DragHandler.GetEventContexts(this.UI, _addedContexts, _removedContexts, this.TransformFromRelative(this._contextBounds), uiBounds);
+            GetEventContexts(this.UI, _addedContexts, _removedContexts, this.TransformFromRelative(this._contextBounds), uiBounds);
             this._contextBounds = relativeBounds;
         }
 
@@ -465,7 +465,7 @@ namespace Microsoft.Iris.InputHandlers
                 {
                     RectangleF oldBounds1 = node1.RootItem.Parent.TransformFromAncestor(rootItem.Parent, oldBounds);
                     RectangleF newBounds1 = node1.RootItem.Parent.TransformFromAncestor(rootItem.Parent, newBounds);
-                    DragHandler.GetEventContexts(node1, added, removed, oldBounds1, newBounds1);
+                    GetEventContexts(node1, added, removed, oldBounds1, newBounds1);
                 }
             }
         }

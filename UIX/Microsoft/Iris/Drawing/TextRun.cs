@@ -61,9 +61,9 @@ namespace Microsoft.Iris.Drawing
             this._fontFaceUniqueId = runPacketPtr->fontFaceUniqueId;
             this._lfHeight = runPacketPtr->lf.lfHeight;
             this._lfWeight = runPacketPtr->lf.lfWeight;
-            this.SetBit(TextRun.Bits.Italic, runPacketPtr->lf.lfItalic != 0);
-            this.SetBit(TextRun.Bits.Underline, runPacketPtr->lf.lfUnderline != 0);
-            this.SetBit(TextRun.Bits.Link, (runPacketPtr->dwEffects & 32) != 0);
+            this.SetBit(Bits.Italic, runPacketPtr->lf.lfItalic != 0);
+            this.SetBit(Bits.Underline, runPacketPtr->lf.lfUnderline != 0);
+            this.SetBit(Bits.Link, (runPacketPtr->dwEffects & 32) != 0);
             this._underlineBounds = runPacketPtr->rcUnderlineBounds;
             this._lineNumber = runPacketPtr->nLineNumber;
             this._naturalRunExtent = runPacketPtr->sizeNatural;
@@ -106,9 +106,9 @@ namespace Microsoft.Iris.Drawing
 
         public int FontWeight => this._lfWeight;
 
-        public bool Italic => this.GetBit(TextRun.Bits.Italic);
+        public bool Italic => this.GetBit(Bits.Italic);
 
-        public bool Underline => this.GetBit(TextRun.Bits.Underline);
+        public bool Underline => this.GetBit(Bits.Underline);
 
         public Point RasterizedOffset => new Point(this._rasterizeX - this._naturalX, this._rasterizeY - this._naturalY);
 
@@ -120,14 +120,14 @@ namespace Microsoft.Iris.Drawing
 
         public bool Visible
         {
-            get => this.GetBit(TextRun.Bits.Visible);
-            set => this.SetBit(TextRun.Bits.Visible, value);
+            get => this.GetBit(Bits.Visible);
+            set => this.SetBit(Bits.Visible, value);
         }
 
         public bool IsFragment
         {
-            get => this.GetBit(TextRun.Bits.Fragment);
-            set => this.SetBit(TextRun.Bits.Fragment, value);
+            get => this.GetBit(Bits.Fragment);
+            set => this.SetBit(Bits.Fragment, value);
         }
 
         public Point Position => new Point(this._layoutBounds.X, this._layoutBounds.Y);
@@ -136,7 +136,7 @@ namespace Microsoft.Iris.Drawing
 
         public byte RasterizerConfig => this._rasterizerConfig;
 
-        public bool Link => this.GetBit(TextRun.Bits.Link);
+        public bool Link => this.GetBit(Bits.Link);
 
         public unsafe NativeApi.UnderlineStyle UnderlineStyle
         {

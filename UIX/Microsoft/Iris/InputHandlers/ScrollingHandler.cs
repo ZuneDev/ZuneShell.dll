@@ -149,28 +149,28 @@ namespace Microsoft.Iris.InputHandlers
             if (info.Key != this._currentCampingKey)
                 this.EndCamp();
             Keys key = info.Key;
-            InputHandlerModifiers modifiers = InputHandler.GetModifiers(info.Modifiers);
+            InputHandlerModifiers modifiers = GetModifiers(info.Modifiers);
             KeyHandler.TranslateKey(ref key, ref modifiers, this.Orientation);
             switch (this.ShouldHandleKey(key))
             {
-                case ScrollingHandler.HandleKeyPolicy.None:
+                case HandleKeyPolicy.None:
                     return;
-                case ScrollingHandler.HandleKeyPolicy.Up:
+                case HandleKeyPolicy.Up:
                     this._model.ScrollUp(this._useFocusBehavior);
                     break;
-                case ScrollingHandler.HandleKeyPolicy.Down:
+                case HandleKeyPolicy.Down:
                     this._model.ScrollDown(this._useFocusBehavior);
                     break;
-                case ScrollingHandler.HandleKeyPolicy.PageUp:
+                case HandleKeyPolicy.PageUp:
                     this._model.PageUp(this._useFocusBehavior);
                     break;
-                case ScrollingHandler.HandleKeyPolicy.PageDown:
+                case HandleKeyPolicy.PageDown:
                     this._model.PageDown(this._useFocusBehavior);
                     break;
-                case ScrollingHandler.HandleKeyPolicy.Home:
+                case HandleKeyPolicy.Home:
                     this._model.Home(this._useFocusBehavior);
                     break;
-                case ScrollingHandler.HandleKeyPolicy.End:
+                case HandleKeyPolicy.End:
                     this._model.End(this._useFocusBehavior);
                     break;
             }
@@ -202,9 +202,9 @@ namespace Microsoft.Iris.InputHandlers
             if (info.Key == this._currentCampingKey)
                 this.EndCamp();
             Keys key = info.Key;
-            InputHandlerModifiers modifiers = InputHandler.GetModifiers(info.Modifiers);
+            InputHandlerModifiers modifiers = GetModifiers(info.Modifiers);
             KeyHandler.TranslateKey(ref key, ref modifiers, this.Orientation);
-            if (this.ShouldHandleKey(key) == ScrollingHandler.HandleKeyPolicy.None)
+            if (this.ShouldHandleKey(key) == HandleKeyPolicy.None)
                 return;
             info.MarkHandled();
         }
@@ -263,62 +263,62 @@ namespace Microsoft.Iris.InputHandlers
 
         private ScrollingHandler.HandleKeyPolicy ShouldHandleKey(Keys key)
         {
-            ScrollingHandler.HandleKeyPolicy handleKeyPolicy = ScrollingHandler.HandleKeyPolicy.None;
+            ScrollingHandler.HandleKeyPolicy handleKeyPolicy = HandleKeyPolicy.None;
             switch (key)
             {
                 case Keys.PageUp:
                     if (this._handlePageKeysFlag)
                     {
-                        handleKeyPolicy = ScrollingHandler.HandleKeyPolicy.PageUp;
+                        handleKeyPolicy = HandleKeyPolicy.PageUp;
                         break;
                     }
                     break;
                 case Keys.Next:
                     if (this._handlePageKeysFlag)
                     {
-                        handleKeyPolicy = ScrollingHandler.HandleKeyPolicy.PageDown;
+                        handleKeyPolicy = HandleKeyPolicy.PageDown;
                         break;
                     }
                     break;
                 case Keys.End:
                     if (this._handleHomeEndKeysFlag)
                     {
-                        handleKeyPolicy = ScrollingHandler.HandleKeyPolicy.End;
+                        handleKeyPolicy = HandleKeyPolicy.End;
                         break;
                     }
                     break;
                 case Keys.Home:
                     if (this._handleHomeEndKeysFlag)
                     {
-                        handleKeyPolicy = ScrollingHandler.HandleKeyPolicy.Home;
+                        handleKeyPolicy = HandleKeyPolicy.Home;
                         break;
                     }
                     break;
                 case Keys.Left:
                     if (this._handleDirectionalKeysFlag && this.Orientation == Orientation.Horizontal)
                     {
-                        handleKeyPolicy = this.UI.Zone.Session.IsRtl ? ScrollingHandler.HandleKeyPolicy.Down : ScrollingHandler.HandleKeyPolicy.Up;
+                        handleKeyPolicy = this.UI.Zone.Session.IsRtl ? HandleKeyPolicy.Down : HandleKeyPolicy.Up;
                         break;
                     }
                     break;
                 case Keys.Up:
                     if (this._handleDirectionalKeysFlag && this.Orientation == Orientation.Vertical)
                     {
-                        handleKeyPolicy = ScrollingHandler.HandleKeyPolicy.Up;
+                        handleKeyPolicy = HandleKeyPolicy.Up;
                         break;
                     }
                     break;
                 case Keys.Right:
                     if (this._handleDirectionalKeysFlag && this.Orientation == Orientation.Horizontal)
                     {
-                        handleKeyPolicy = this.UI.Zone.Session.IsRtl ? ScrollingHandler.HandleKeyPolicy.Up : ScrollingHandler.HandleKeyPolicy.Down;
+                        handleKeyPolicy = this.UI.Zone.Session.IsRtl ? HandleKeyPolicy.Up : HandleKeyPolicy.Down;
                         break;
                     }
                     break;
                 case Keys.Down:
                     if (this._handleDirectionalKeysFlag && this.Orientation == Orientation.Vertical)
                     {
-                        handleKeyPolicy = ScrollingHandler.HandleKeyPolicy.Down;
+                        handleKeyPolicy = HandleKeyPolicy.Down;
                         break;
                     }
                     break;

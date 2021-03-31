@@ -94,37 +94,37 @@ namespace Microsoft.Iris.Markup.UIX
             instance = null;
             if (BooleanSchema.Type.IsAssignableFrom(fromType))
             {
-                result = ByteSchema.ConvertFromBoolean(from, out instance);
+                result = ConvertFromBoolean(from, out instance);
                 if (!result.Failed)
                     return result;
             }
             if (DoubleSchema.Type.IsAssignableFrom(fromType))
             {
-                result = ByteSchema.ConvertFromDouble(from, out instance);
+                result = ConvertFromDouble(from, out instance);
                 if (!result.Failed)
                     return result;
             }
             if (Int32Schema.Type.IsAssignableFrom(fromType))
             {
-                result = ByteSchema.ConvertFromInt32(from, out instance);
+                result = ConvertFromInt32(from, out instance);
                 if (!result.Failed)
                     return result;
             }
             if (Int64Schema.Type.IsAssignableFrom(fromType))
             {
-                result = ByteSchema.ConvertFromInt64(from, out instance);
+                result = ConvertFromInt64(from, out instance);
                 if (!result.Failed)
                     return result;
             }
             if (SingleSchema.Type.IsAssignableFrom(fromType))
             {
-                result = ByteSchema.ConvertFromSingle(from, out instance);
+                result = ConvertFromSingle(from, out instance);
                 if (!result.Failed)
                     return result;
             }
             if (StringSchema.Type.IsAssignableFrom(fromType))
             {
-                result = ByteSchema.ConvertFromString(from, out instance);
+                result = ConvertFromString(from, out instance);
                 if (!result.Failed)
                     return result;
             }
@@ -190,27 +190,27 @@ namespace Microsoft.Iris.Markup.UIX
             string parameter1 = (string)parameters[0];
             byte parameter2 = (byte)parameters[1];
             object instanceObj1;
-            return ByteSchema.ConvertFromString(parameter1, out instanceObj1).Failed ? parameter2 : instanceObj1;
+            return ConvertFromString(parameter1, out instanceObj1).Failed ? parameter2 : instanceObj1;
         }
 
-        public static void Pass1Initialize() => ByteSchema.Type = new UIXTypeSchema(19, "Byte", "byte", 153, typeof(byte), UIXTypeFlags.Immutable);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(19, "Byte", "byte", 153, typeof(byte), UIXTypeFlags.Immutable);
 
         public static void Pass2Initialize()
         {
             UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema(19, "ToString", new short[1]
             {
          208
-            }, 208, new InvokeHandler(ByteSchema.CallToStringString), false);
+            }, 208, new InvokeHandler(CallToStringString), false);
             UIXMethodSchema uixMethodSchema2 = new UIXMethodSchema(19, "TryParse", new short[2]
             {
          208,
          19
-            }, 19, new InvokeHandler(ByteSchema.CallTryParseStringByte), true);
-            ByteSchema.Type.Initialize(new DefaultConstructHandler(ByteSchema.Construct), null, null, new MethodSchema[2]
+            }, 19, new InvokeHandler(CallTryParseStringByte), true);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, null, new MethodSchema[2]
             {
          uixMethodSchema1,
          uixMethodSchema2
-            }, null, null, new TypeConverterHandler(ByteSchema.TryConvertFrom), new SupportsTypeConversionHandler(ByteSchema.IsConversionSupported), new EncodeBinaryHandler(ByteSchema.EncodeBinary), new DecodeBinaryHandler(ByteSchema.DecodeBinary), new PerformOperationHandler(ByteSchema.ExecuteOperation), new SupportsOperationHandler(ByteSchema.IsOperationSupported));
+            }, null, null, new TypeConverterHandler(TryConvertFrom), new SupportsTypeConversionHandler(IsConversionSupported), new EncodeBinaryHandler(EncodeBinary), new DecodeBinaryHandler(DecodeBinary), new PerformOperationHandler(ExecuteOperation), new SupportsOperationHandler(IsOperationSupported));
         }
     }
 }

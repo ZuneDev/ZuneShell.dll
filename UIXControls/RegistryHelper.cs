@@ -18,37 +18,37 @@ namespace UIXControls
 
         public static string SettingsRegistryPath
         {
-            get => RegistryHelper.s_settingsRegistryPath;
-            set => RegistryHelper.s_settingsRegistryPath = value;
+            get => s_settingsRegistryPath;
+            set => s_settingsRegistryPath = value;
         }
 
         public static void SaveString(string keyName, string value)
         {
-            if (string.IsNullOrEmpty(RegistryHelper.SettingsRegistryPath))
+            if (string.IsNullOrEmpty(SettingsRegistryPath))
                 return;
-            Registry.SetValue(RegistryHelper.SettingsRegistryPath, keyName, value);
+            Registry.SetValue(SettingsRegistryPath, keyName, value);
         }
 
         public static string GetString(string keyName, string defaultValue)
         {
             string str = null;
-            if (!string.IsNullOrEmpty(RegistryHelper.SettingsRegistryPath))
-                str = Registry.GetValue(RegistryHelper.SettingsRegistryPath, keyName, defaultValue) as string;
+            if (!string.IsNullOrEmpty(SettingsRegistryPath))
+                str = Registry.GetValue(SettingsRegistryPath, keyName, defaultValue) as string;
             return str ?? defaultValue;
         }
 
         public static void SaveInt(string keyName, int value)
         {
-            if (string.IsNullOrEmpty(RegistryHelper.SettingsRegistryPath))
+            if (string.IsNullOrEmpty(SettingsRegistryPath))
                 return;
-            Registry.SetValue(RegistryHelper.SettingsRegistryPath, keyName, value);
+            Registry.SetValue(SettingsRegistryPath, keyName, value);
         }
 
-        public static int GetInt(string keyName, int min, int max, int defaultValue) => string.IsNullOrEmpty(keyName) || string.IsNullOrEmpty(RegistryHelper.SettingsRegistryPath) || (!(Registry.GetValue(RegistryHelper.SettingsRegistryPath, keyName, defaultValue) is int num) || num < min || num > max) ? defaultValue : num;
+        public static int GetInt(string keyName, int min, int max, int defaultValue) => string.IsNullOrEmpty(keyName) || string.IsNullOrEmpty(SettingsRegistryPath) || (!(Registry.GetValue(SettingsRegistryPath, keyName, defaultValue) is int num) || num < min || num > max) ? defaultValue : num;
 
         private static void SaveList(string keyName, IList values, RegistryHelper.ToStringer toString)
         {
-            if (string.IsNullOrEmpty(RegistryHelper.SettingsRegistryPath))
+            if (string.IsNullOrEmpty(SettingsRegistryPath))
                 return;
             StringBuilder stringBuilder = new StringBuilder();
             foreach (object obj in values)
@@ -57,21 +57,21 @@ namespace UIXControls
                     stringBuilder.Append(';');
                 stringBuilder.Append(toString(obj));
             }
-            Registry.SetValue(RegistryHelper.SettingsRegistryPath, keyName, stringBuilder.ToString());
+            Registry.SetValue(SettingsRegistryPath, keyName, stringBuilder.ToString());
         }
 
-        public static void SaveIntList(string keyName, IList values) => RegistryHelper.SaveList(keyName, values, value => ((int)value).ToString(NumberFormatInfo.InvariantInfo));
+        public static void SaveIntList(string keyName, IList values) => SaveList(keyName, values, value => ((int)value).ToString(NumberFormatInfo.InvariantInfo));
 
-        public static void SaveFloatList(string keyName, IList values) => RegistryHelper.SaveList(keyName, values, value => ((float)value).ToString(NumberFormatInfo.InvariantInfo));
+        public static void SaveFloatList(string keyName, IList values) => SaveList(keyName, values, value => ((float)value).ToString(NumberFormatInfo.InvariantInfo));
 
         private static IList GetList(
           string keyName,
           int expectedCount,
           RegistryHelper.TryParser tryParse)
         {
-            if (string.IsNullOrEmpty(RegistryHelper.SettingsRegistryPath))
+            if (string.IsNullOrEmpty(SettingsRegistryPath))
                 return null;
-            string str = Registry.GetValue(RegistryHelper.SettingsRegistryPath, keyName, null) as string;
+            string str = Registry.GetValue(SettingsRegistryPath, keyName, null) as string;
             if (string.IsNullOrEmpty(str))
                 return null;
             string[] strArray = str.Split(';');
@@ -88,7 +88,7 @@ namespace UIXControls
             return arrayList;
         }
 
-        public static IList GetIntList(string keyName, int expectedCount) => RegistryHelper.GetList(keyName, expectedCount, (string s, out object value) =>
+        public static IList GetIntList(string keyName, int expectedCount) => GetList(keyName, expectedCount, (string s, out object value) =>
        {
            int result;
            bool flag = int.TryParse(s, NumberStyles.Integer, NumberFormatInfo.InvariantInfo, out result);
@@ -98,7 +98,7 @@ namespace UIXControls
 
         public static IList GetPositiveIntList(string keyName, int expectedCount)
         {
-            IList list = RegistryHelper.GetIntList(keyName, expectedCount);
+            IList list = GetIntList(keyName, expectedCount);
             if (list != null)
             {
                 foreach (int num in list)
@@ -115,7 +115,7 @@ namespace UIXControls
 
         public static IList GetReorderedIntList(string keyName, int expectedCount)
         {
-            IList list = RegistryHelper.GetIntList(keyName, expectedCount);
+            IList list = GetIntList(keyName, expectedCount);
             if (list != null)
             {
                 BitArray bitArray = new BitArray(expectedCount);
@@ -132,7 +132,7 @@ namespace UIXControls
             return list;
         }
 
-        public static IList GetFloatList(string keyName, int expectedCount) => RegistryHelper.GetList(keyName, expectedCount, (string s, out object value) =>
+        public static IList GetFloatList(string keyName, int expectedCount) => GetList(keyName, expectedCount, (string s, out object value) =>
        {
            float result;
            bool flag = float.TryParse(s, NumberStyles.Float, NumberFormatInfo.InvariantInfo, out result);
@@ -142,7 +142,7 @@ namespace UIXControls
 
         public static IList GetPositionList(string keyName, int expectedCount)
         {
-            IList list = RegistryHelper.GetFloatList(keyName, expectedCount);
+            IList list = GetFloatList(keyName, expectedCount);
             if (list != null)
             {
                 float num1 = 0.0f;

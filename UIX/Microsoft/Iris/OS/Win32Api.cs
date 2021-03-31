@@ -91,7 +91,7 @@ namespace Microsoft.Iris.OS
         public static IntPtr INVALID_HANDLE_VALUE = new IntPtr(-1);
         private static readonly string[] s_rgsMessageNames = new string[0];
 
-        static Win32Api() => Win32Api.InitMessageDump();
+        static Win32Api() => InitMessageDump();
 
         public static void IFWIN32(bool fResult)
         {
@@ -206,21 +206,21 @@ namespace Microsoft.Iris.OS
           IntPtr wParam,
           IntPtr lParam);
 
-        public static string DumpMessage(uint uMsg) => Win32Api.DumpMessageWorker(uMsg) ?? "UNKNOWN MESSAGE";
+        public static string DumpMessage(uint uMsg) => DumpMessageWorker(uMsg) ?? "UNKNOWN MESSAGE";
 
         private static string DumpMessageWorker(uint uMsg)
         {
-            Win32Api.InitMessageDump();
+            InitMessageDump();
             if (uMsg >= s_rgsMessageNames.Length)
                 return null;
-            string rgsMessageName = Win32Api.s_rgsMessageNames[uMsg];
+            string rgsMessageName = s_rgsMessageNames[uMsg];
             if (rgsMessageName != null)
                 return rgsMessageName;
             uint num = uMsg;
             while (uMsg > 0U)
             {
                 --num;
-                rgsMessageName = Win32Api.s_rgsMessageNames[num];
+                rgsMessageName = s_rgsMessageNames[num];
                 if (rgsMessageName != null)
                     break;
             }
@@ -251,7 +251,7 @@ namespace Microsoft.Iris.OS
         public static int GetCaretWidth()
         {
             int pParam;
-            if (!Win32Api.SystemParametersInfo(8198U, 0U, out pParam, 0))
+            if (!SystemParametersInfo(8198U, 0U, out pParam, 0))
                 pParam = 1;
             return pParam;
         }
@@ -265,7 +265,7 @@ namespace Microsoft.Iris.OS
         public static int GetDefaultKeyDelay()
         {
             int pParam;
-            if (!Win32Api.SystemParametersInfo(22U, 0U, out pParam, 0))
+            if (!SystemParametersInfo(22U, 0U, out pParam, 0))
                 pParam = 1;
             return (pParam + 1) * 250;
         }
@@ -273,7 +273,7 @@ namespace Microsoft.Iris.OS
         public static int GetDefaultKeyRepeat()
         {
             int pParam;
-            if (!Win32Api.SystemParametersInfo(10U, 0U, out pParam, 0))
+            if (!SystemParametersInfo(10U, 0U, out pParam, 0))
                 pParam = 1;
             return 31000 / (62 + 28 * pParam);
         }
@@ -281,7 +281,7 @@ namespace Microsoft.Iris.OS
         public static bool GetMenuDropAlignment()
         {
             bool pParam;
-            if (!Win32Api.SystemParametersInfo(27U, 0U, out pParam, 0))
+            if (!SystemParametersInfo(27U, 0U, out pParam, 0))
                 pParam = false;
             return pParam;
         }
@@ -375,7 +375,7 @@ namespace Microsoft.Iris.OS
             public int pt_x;
             public int pt_y;
 
-            public override string ToString() => InvariantString.Format("{0} -> {1}, wp=0x{2,0:x} lp=0x{3,0:x}", Win32Api.DumpMessage(this.message), hwnd, wParam, lParam);
+            public override string ToString() => InvariantString.Format("{0} -> {1}, wp=0x{2,0:x} lp=0x{3,0:x}", DumpMessage(this.message), hwnd, wParam, lParam);
         }
 
         public struct KEYBDINPUT

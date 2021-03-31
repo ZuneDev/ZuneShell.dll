@@ -29,14 +29,14 @@ namespace Microsoft.Iris.Session
         private static DeferredCall AllocateFromCache()
         {
             DeferredCall deferredCall = null;
-            lock (DeferredCall.s_cacheLock)
+            lock (s_cacheLock)
             {
-                if (DeferredCall.s_cachedList != null)
+                if (s_cachedList != null)
                 {
-                    deferredCall = DeferredCall.s_cachedList;
-                    DeferredCall.s_cachedList = (DeferredCall)deferredCall._next;
+                    deferredCall = s_cachedList;
+                    s_cachedList = (DeferredCall)deferredCall._next;
                     deferredCall._next = null;
-                    --DeferredCall.s_cachedCount;
+                    --s_cachedCount;
                 }
             }
             if (deferredCall == null)
@@ -46,16 +46,16 @@ namespace Microsoft.Iris.Session
 
         public static DeferredCall Create(SimpleCallback callback)
         {
-            DeferredCall deferredCall = DeferredCall.AllocateFromCache();
-            deferredCall._callType = DeferredCall.CallType.Simple;
+            DeferredCall deferredCall = AllocateFromCache();
+            deferredCall._callType = CallType.Simple;
             deferredCall._target = callback;
             return deferredCall;
         }
 
         public static DeferredCall Create(DeferredHandler handler, object param)
         {
-            DeferredCall deferredCall = DeferredCall.AllocateFromCache();
-            deferredCall._callType = DeferredCall.CallType.OneParam;
+            DeferredCall deferredCall = AllocateFromCache();
+            deferredCall._callType = CallType.OneParam;
             deferredCall._target = handler;
             deferredCall._param = param;
             return deferredCall;
@@ -66,8 +66,8 @@ namespace Microsoft.Iris.Session
           object sender,
           EventArgs args)
         {
-            DeferredCall deferredCall = DeferredCall.AllocateFromCache();
-            deferredCall._callType = DeferredCall.CallType.Event;
+            DeferredCall deferredCall = AllocateFromCache();
+            deferredCall._callType = CallType.Event;
             deferredCall._target = handler;
             deferredCall._param = sender;
             deferredCall._args = args;
@@ -76,8 +76,8 @@ namespace Microsoft.Iris.Session
 
         public static DeferredCall Create(IDeferredInvokeItem item)
         {
-            DeferredCall deferredCall = DeferredCall.AllocateFromCache();
-            deferredCall._callType = DeferredCall.CallType.RenderItem;
+            DeferredCall deferredCall = AllocateFromCache();
+            deferredCall._callType = CallType.RenderItem;
             deferredCall._param = item;
             return deferredCall;
         }
@@ -86,65 +86,65 @@ namespace Microsoft.Iris.Session
         {
             switch (this._callType)
             {
-                case DeferredCall.CallType.Simple:
+                case CallType.Simple:
                     ((SimpleCallback)this._target)();
                     break;
-                case DeferredCall.CallType.OneParam:
+                case CallType.OneParam:
                     ((DeferredHandler)this._target)(this._param);
                     break;
-                case DeferredCall.CallType.Event:
+                case CallType.Event:
                     ((EventHandler)this._target)(this._param, this._args);
                     break;
-                case DeferredCall.CallType.RenderItem:
+                case CallType.RenderItem:
                     ((IDeferredInvokeItem)this._param).Dispatch();
                     break;
                 default:
                     throw new InvalidOperationException();
             }
-            this._callType = DeferredCall.CallType.None;
+            this._callType = CallType.None;
             this._target = null;
             this._param = null;
             this._args = null;
             this._prev = null;
             this._next = null;
             this._owner = null;
-            lock (DeferredCall.s_cacheLock)
+            lock (s_cacheLock)
             {
-                if (DeferredCall.s_cachedCount >= 100)
+                if (s_cachedCount >= 100)
                     return;
                 this._next = s_cachedList;
-                DeferredCall.s_cachedList = this;
-                ++DeferredCall.s_cachedCount;
+                s_cachedList = this;
+                ++s_cachedCount;
             }
         }
 
         public static void Post(DispatchPriority priority, SimpleCallback callback)
         {
-            QueueItem queueItem = DeferredCall.Create(callback);
+            QueueItem queueItem = Create(callback);
             UIDispatcher.Post(priority, queueItem);
         }
 
         public static void Post(Thread thread, DispatchPriority priority, SimpleCallback callback)
         {
-            QueueItem queueItem = DeferredCall.Create(callback);
+            QueueItem queueItem = Create(callback);
             UIDispatcher.Post(thread, priority, queueItem);
         }
 
         public static void Post(DispatchPriority priority, DeferredHandler handler)
         {
-            QueueItem queueItem = DeferredCall.Create(handler, null);
+            QueueItem queueItem = Create(handler, null);
             UIDispatcher.Post(priority, queueItem);
         }
 
         public static void Post(DispatchPriority priority, DeferredHandler handler, object param)
         {
-            QueueItem queueItem = DeferredCall.Create(handler, param);
+            QueueItem queueItem = Create(handler, param);
             UIDispatcher.Post(priority, queueItem);
         }
 
         public static void Post(TimeSpan delay, DeferredHandler handler, object param)
         {
-            QueueItem queueItem = DeferredCall.Create(handler, param);
+            QueueItem queueItem = Create(handler, param);
             UIDispatcher.Post(delay, queueItem);
         }
 
@@ -154,7 +154,7 @@ namespace Microsoft.Iris.Session
           DeferredHandler handler,
           object param)
         {
-            QueueItem queueItem = DeferredCall.Create(handler, param);
+            QueueItem queueItem = Create(handler, param);
             UIDispatcher.Post(thread, priority, queueItem);
         }
 

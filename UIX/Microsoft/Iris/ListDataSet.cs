@@ -328,12 +328,12 @@ namespace Microsoft.Iris
             add
             {
                 using (this.ThreadValidator)
-                    this.AddEventHandler(ListDataSet.s_listContentsChangedEvent, value);
+                    this.AddEventHandler(s_listContentsChangedEvent, value);
             }
             remove
             {
                 using (this.ThreadValidator)
-                    this.RemoveEventHandler(ListDataSet.s_listContentsChangedEvent, value);
+                    this.RemoveEventHandler(s_listContentsChangedEvent, value);
             }
         }
 
@@ -342,18 +342,18 @@ namespace Microsoft.Iris
             add
             {
                 using (this.ThreadValidator)
-                    this.AddEventHandler(ListDataSet.s_listContentsChangedEvent, ListContentsChangedProxy.Thunk(value));
+                    this.AddEventHandler(s_listContentsChangedEvent, ListContentsChangedProxy.Thunk(value));
             }
             remove
             {
                 using (this.ThreadValidator)
-                    this.RemoveEventHandler(ListDataSet.s_listContentsChangedEvent, ListContentsChangedProxy.Thunk(value));
+                    this.RemoveEventHandler(s_listContentsChangedEvent, ListContentsChangedProxy.Thunk(value));
             }
         }
 
         internal void FireSetChanged(UIListContentsChangeType type, int oldIndex, int newIndex)
         {
-            UIListContentsChangedHandler eventHandler = (UIListContentsChangedHandler)this.GetEventHandler(ListDataSet.s_listContentsChangedEvent);
+            UIListContentsChangedHandler eventHandler = (UIListContentsChangedHandler)this.GetEventHandler(s_listContentsChangedEvent);
             if (eventHandler != null)
             {
                 UIListContentsChangedArgs args = new UIListContentsChangedArgs(type, oldIndex, newIndex);

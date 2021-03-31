@@ -22,9 +22,9 @@ namespace Microsoft.Iris.ViewItems
             set => this._count = value;
         }
 
-        DataCookie ILayoutInput.Data => CountLayoutInput.Data;
+        DataCookie ILayoutInput.Data => Data;
 
-        public static DataCookie Data => CountLayoutInput.s_dataProperty;
+        public static DataCookie Data => s_dataProperty;
 
         public override string ToString() => InvariantString.Format("{0}(Count={1})", this.GetType().Name, _count);
     }

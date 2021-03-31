@@ -23,13 +23,13 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object Construct() => new StackLayoutInput();
 
-        public static void Pass1Initialize() => StackLayoutInputSchema.Type = new UIXTypeSchema(205, "StackLayoutInput", null, 133, typeof(StackLayoutInput), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(205, "StackLayoutInput", null, 133, typeof(StackLayoutInput), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(205, "Priority", 206, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(StackLayoutInputSchema.GetPriority), new SetValueHandler(StackLayoutInputSchema.SetPriority), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(205, "MinimumSize", 195, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(StackLayoutInputSchema.GetMinimumSize), new SetValueHandler(StackLayoutInputSchema.SetMinimumSize), false);
-            StackLayoutInputSchema.Type.Initialize(new DefaultConstructHandler(StackLayoutInputSchema.Construct), null, new PropertySchema[2]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(205, "Priority", 206, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetPriority), new SetValueHandler(SetPriority), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(205, "MinimumSize", 195, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetMinimumSize), new SetValueHandler(SetMinimumSize), false);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[2]
             {
          uixPropertySchema2,
          uixPropertySchema1

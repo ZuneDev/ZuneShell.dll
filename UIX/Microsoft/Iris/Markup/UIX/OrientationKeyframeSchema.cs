@@ -19,12 +19,12 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object Construct() => new OrientationKeyframe();
 
-        public static void Pass1Initialize() => OrientationKeyframeSchema.Type = new UIXTypeSchema(155, "OrientationKeyframe", null, 130, typeof(OrientationKeyframe), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(155, "OrientationKeyframe", null, 130, typeof(OrientationKeyframe), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(155, "Value", 176, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(OrientationKeyframeSchema.GetValue), new SetValueHandler(OrientationKeyframeSchema.SetValue), false);
-            OrientationKeyframeSchema.Type.Initialize(new DefaultConstructHandler(OrientationKeyframeSchema.Construct), null, new PropertySchema[1]
+            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(155, "Value", 176, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetValue), new SetValueHandler(SetValue), false);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[1]
             {
          uixPropertySchema
             }, null, null, null, null, null, null, null, null, null);

@@ -58,6 +58,6 @@ namespace Microsoft.Iris.InputHandlers
             }
         }
 
-        protected bool ShouldHandleEvent(InputHandlerModifiers modifiers) => (this._disallowedModifiers == InputHandlerModifiers.None || !Microsoft.Iris.Library.Bits.TestAnyFlags((uint)modifiers, (uint)this._disallowedModifiers)) && (this._requiredModifiers == InputHandlerModifiers.None || Microsoft.Iris.Library.Bits.TestAllFlags((uint)modifiers, (uint)this._requiredModifiers));
+        protected bool ShouldHandleEvent(InputHandlerModifiers modifiers) => (this._disallowedModifiers == InputHandlerModifiers.None || !Library.Bits.TestAnyFlags((uint)modifiers, (uint)this._disallowedModifiers)) && (this._requiredModifiers == InputHandlerModifiers.None || Library.Bits.TestAllFlags((uint)modifiers, (uint)this._requiredModifiers));
     }
 }

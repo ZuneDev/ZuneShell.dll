@@ -36,14 +36,14 @@ namespace Microsoft.Iris.Markup.UIX
         {
             string str = (string)valueObj;
             instanceObj = null;
-            PlacementMode instance = PlacementModeSchema.StringToInstance(str);
+            PlacementMode instance = StringToInstance(str);
             if (instance == null)
                 return Result.Fail("Unable to convert \"{0}\" to type '{1}'", str, "PlacementMode");
             instanceObj = instance;
             return Result.Success;
         }
 
-        private static object FindCanonicalInstance(string name) => PlacementModeSchema.StringToInstance(name);
+        private static object FindCanonicalInstance(string name) => StringToInstance(name);
 
         private static bool IsConversionSupported(TypeSchema fromType) => StringSchema.Type.IsAssignableFrom(fromType);
 
@@ -56,7 +56,7 @@ namespace Microsoft.Iris.Markup.UIX
             instance = null;
             if (StringSchema.Type.IsAssignableFrom(fromType))
             {
-                result = PlacementModeSchema.ConvertFromString(from, out instance);
+                result = ConvertFromString(from, out instance);
                 if (!result.Failed)
                     return result;
             }
@@ -68,7 +68,7 @@ namespace Microsoft.Iris.Markup.UIX
             string parameter1 = (string)parameters[0];
             PlacementMode parameter2 = (PlacementMode)parameters[1];
             object instanceObj1;
-            return PlacementModeSchema.ConvertFromString(parameter1, out instanceObj1).Failed ? parameter2 : instanceObj1;
+            return ConvertFromString(parameter1, out instanceObj1).Failed ? parameter2 : instanceObj1;
         }
 
         private static PlacementMode StringToInstance(string value)
@@ -94,25 +94,25 @@ namespace Microsoft.Iris.Markup.UIX
             return value == "FollowMouseBottom" ? PlacementMode.FollowMouseBottom : null;
         }
 
-        public static void Pass1Initialize() => PlacementModeSchema.Type = new UIXTypeSchema(157, "PlacementMode", null, 153, typeof(PlacementMode), UIXTypeFlags.Immutable);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(157, "PlacementMode", null, 153, typeof(PlacementMode), UIXTypeFlags.Immutable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(157, "PopupPositions", 138, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(PlacementModeSchema.GetPopupPositions), new SetValueHandler(PlacementModeSchema.SetPopupPositions), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(157, "MouseTarget", 149, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(PlacementModeSchema.GetMouseTarget), new SetValueHandler(PlacementModeSchema.SetMouseTarget), false);
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(157, "PopupPositions", 138, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetPopupPositions), new SetValueHandler(SetPopupPositions), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(157, "MouseTarget", 149, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetMouseTarget), new SetValueHandler(SetMouseTarget), false);
             UIXMethodSchema uixMethodSchema = new UIXMethodSchema(157, "TryParse", new short[2]
             {
          208,
          157
-            }, 157, new InvokeHandler(PlacementModeSchema.CallTryParseStringPlacementMode), true);
-            PlacementModeSchema.Type.Initialize(new DefaultConstructHandler(PlacementModeSchema.Construct), null, new PropertySchema[2]
+            }, 157, new InvokeHandler(CallTryParseStringPlacementMode), true);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[2]
             {
          uixPropertySchema2,
          uixPropertySchema1
             }, new MethodSchema[1]
             {
          uixMethodSchema
-            }, null, new FindCanonicalInstanceHandler(PlacementModeSchema.FindCanonicalInstance), new TypeConverterHandler(PlacementModeSchema.TryConvertFrom), new SupportsTypeConversionHandler(PlacementModeSchema.IsConversionSupported), null, null, null, null);
+            }, null, new FindCanonicalInstanceHandler(FindCanonicalInstance), new TypeConverterHandler(TryConvertFrom), new SupportsTypeConversionHandler(IsConversionSupported), null, null, null, null);
         }
     }
 }

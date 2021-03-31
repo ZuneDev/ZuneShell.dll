@@ -14,25 +14,25 @@ namespace Microsoft.Iris.Drawing
     internal sealed class TextImageCache : ImageCache
     {
         private static TextImageCache s_theOnlyCache;
-        private static readonly DeferredHandler s_dhReschedule = new DeferredHandler(TextImageCache.Reschedule);
+        private static readonly DeferredHandler s_dhReschedule = new DeferredHandler(Reschedule);
         private UISession _session;
         private TextImageCache.ScavengeCallback _callback;
 
         public static void Initialize(UISession session)
         {
-            TextImageCache.s_theOnlyCache = new TextImageCache(session);
-            TextImageCache.s_theOnlyCache.NumItemsToKeep = 500;
-            TextImageCache.s_theOnlyCache.ItemRetainTime = TimeSpan.Zero;
+            s_theOnlyCache = new TextImageCache(session);
+            s_theOnlyCache.NumItemsToKeep = 500;
+            s_theOnlyCache.ItemRetainTime = TimeSpan.Zero;
         }
 
         public static void Uninitialize(UISession session)
         {
-            if (TextImageCache.s_theOnlyCache == null)
+            if (s_theOnlyCache == null)
                 return;
-            TextImageCache.s_theOnlyCache.Dispose();
+            s_theOnlyCache.Dispose();
         }
 
-        public static TextImageCache Instance => TextImageCache.s_theOnlyCache;
+        public static TextImageCache Instance => s_theOnlyCache;
 
         private TextImageCache(UISession session)
           : base(session.RenderSession, nameof(TextImageCache))
@@ -51,7 +51,7 @@ namespace Microsoft.Iris.Drawing
         protected override void ScheduleScavenge()
         {
             if (!this.CleanupPending)
-                DeferredCall.Post(DispatchPriority.Idle, TextImageCache.s_dhReschedule, this);
+                DeferredCall.Post(DispatchPriority.Idle, s_dhReschedule, this);
             base.ScheduleScavenge();
         }
 

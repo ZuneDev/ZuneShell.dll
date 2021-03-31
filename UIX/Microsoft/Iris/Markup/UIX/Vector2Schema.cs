@@ -14,7 +14,7 @@ namespace Microsoft.Iris.Markup.UIX
 {
     internal static class Vector2Schema
     {
-        public static RangeValidator ValidateNotNegative = new RangeValidator(Vector2Schema.RangeValidateNotNegative);
+        public static RangeValidator ValidateNotNegative = new RangeValidator(RangeValidateNotNegative);
         public static UIXTypeSchema Type;
 
         private static object GetX(object instanceObj) => ((Vector2)instanceObj).X;
@@ -41,25 +41,25 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object ConstructXY(object[] parameters)
         {
-            object instanceObj = Vector2Schema.Construct();
-            Vector2Schema.SetX(ref instanceObj, parameters[0]);
-            Vector2Schema.SetY(ref instanceObj, parameters[1]);
+            object instanceObj = Construct();
+            SetX(ref instanceObj, parameters[0]);
+            SetY(ref instanceObj, parameters[1]);
             return instanceObj;
         }
 
         private static Result ConvertFromStringXY(string[] splitString, out object instance)
         {
-            instance = Vector2Schema.Construct();
+            instance = Construct();
             object valueObj1;
             Result result1 = UIXLoadResult.ValidateStringAsValue(splitString[0], SingleSchema.Type, null, out valueObj1);
             if (result1.Failed)
                 return Result.Fail("Problem converting '{0}' ({1})", "Vector2", result1.Error);
-            Vector2Schema.SetX(ref instance, valueObj1);
+            SetX(ref instance, valueObj1);
             object valueObj2;
             Result result2 = UIXLoadResult.ValidateStringAsValue(splitString[1], SingleSchema.Type, null, out valueObj2);
             if (result2.Failed)
                 return Result.Fail("Problem converting '{0}' ({1})", "Vector2", result2.Error);
-            Vector2Schema.SetY(ref instance, valueObj2);
+            SetY(ref instance, valueObj2);
             return result2;
         }
 
@@ -119,19 +119,19 @@ namespace Microsoft.Iris.Markup.UIX
             instance = null;
             if (SingleSchema.Type.IsAssignableFrom(fromType))
             {
-                result = Vector2Schema.ConvertFromSingle(from, out instance);
+                result = ConvertFromSingle(from, out instance);
                 if (!result.Failed)
                     return result;
             }
             if (SizeSchema.Type.IsAssignableFrom(fromType))
             {
-                result = Vector2Schema.ConvertFromSize(from, out instance);
+                result = ConvertFromSize(from, out instance);
                 if (!result.Failed)
                     return result;
             }
             if (StringSchema.Type.IsAssignableFrom(fromType))
             {
-                result = Vector2Schema.ConvertFromString(from, out instance);
+                result = ConvertFromString(from, out instance);
                 if (!result.Failed)
                     return result;
             }
@@ -140,7 +140,7 @@ namespace Microsoft.Iris.Markup.UIX
                 string[] splitString = StringUtility.SplitAndTrim(',', (string)from);
                 if (splitString.Length == 2)
                 {
-                    result = Vector2Schema.ConvertFromStringXY(splitString, out instance);
+                    result = ConvertFromStringXY(splitString, out instance);
                     if (!result.Failed)
                         return result;
                 }
@@ -197,7 +197,7 @@ namespace Microsoft.Iris.Markup.UIX
             string parameter1 = (string)parameters[0];
             Vector2 parameter2 = (Vector2)parameters[1];
             object instanceObj1;
-            return Vector2Schema.ConvertFromString(parameter1, out instanceObj1).Failed ? parameter2 : instanceObj1;
+            return ConvertFromString(parameter1, out instanceObj1).Failed ? parameter2 : instanceObj1;
         }
 
         private static Result RangeValidateNotNegative(object value)
@@ -206,23 +206,23 @@ namespace Microsoft.Iris.Markup.UIX
             return vector2.X < 0.0 || vector2.Y < 0.0 ? Result.Fail("Expecting a non-negative value, but got {0}", vector2.ToString()) : Result.Success;
         }
 
-        public static void Pass1Initialize() => Vector2Schema.Type = new UIXTypeSchema(233, "Vector2", null, 153, typeof(Vector2), UIXTypeFlags.Immutable);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(233, "Vector2", null, 153, typeof(Vector2), UIXTypeFlags.Immutable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(233, "X", 194, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(Vector2Schema.GetX), new SetValueHandler(Vector2Schema.SetX), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(233, "Y", 194, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(Vector2Schema.GetY), new SetValueHandler(Vector2Schema.SetY), false);
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(233, "X", 194, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetX), new SetValueHandler(SetX), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(233, "Y", 194, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetY), new SetValueHandler(SetY), false);
             UIXConstructorSchema constructorSchema = new UIXConstructorSchema(233, new short[2]
             {
          194,
          194
-            }, new ConstructHandler(Vector2Schema.ConstructXY));
+            }, new ConstructHandler(ConstructXY));
             UIXMethodSchema uixMethodSchema = new UIXMethodSchema(233, "TryParse", new short[2]
             {
          208,
          233
-            }, 233, new InvokeHandler(Vector2Schema.CallTryParseStringVector2), true);
-            Vector2Schema.Type.Initialize(new DefaultConstructHandler(Vector2Schema.Construct), new ConstructorSchema[1]
+            }, 233, new InvokeHandler(CallTryParseStringVector2), true);
+            Type.Initialize(new DefaultConstructHandler(Construct), new ConstructorSchema[1]
             {
          constructorSchema
             }, new PropertySchema[2]
@@ -232,7 +232,7 @@ namespace Microsoft.Iris.Markup.UIX
             }, new MethodSchema[1]
             {
          uixMethodSchema
-            }, null, null, new TypeConverterHandler(Vector2Schema.TryConvertFrom), new SupportsTypeConversionHandler(Vector2Schema.IsConversionSupported), new EncodeBinaryHandler(Vector2Schema.EncodeBinary), new DecodeBinaryHandler(Vector2Schema.DecodeBinary), new PerformOperationHandler(Vector2Schema.ExecuteOperation), new SupportsOperationHandler(Vector2Schema.IsOperationSupported));
+            }, null, null, new TypeConverterHandler(TryConvertFrom), new SupportsTypeConversionHandler(IsConversionSupported), new EncodeBinaryHandler(EncodeBinary), new DecodeBinaryHandler(DecodeBinary), new PerformOperationHandler(ExecuteOperation), new SupportsOperationHandler(IsOperationSupported));
         }
     }
 }

@@ -37,14 +37,14 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object Construct() => new InterpolateElement();
 
-        public static void Pass1Initialize() => InterpolateElementSchema.Type = new UIXTypeSchema(119, "InterpolateElement", null, 77, typeof(InterpolateElement), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(119, "InterpolateElement", null, 77, typeof(InterpolateElement), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(119, "Input1", 77, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(InterpolateElementSchema.GetInput1), new SetValueHandler(InterpolateElementSchema.SetInput1), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(119, "Input2", 77, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(InterpolateElementSchema.GetInput2), new SetValueHandler(InterpolateElementSchema.SetInput2), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(119, "Value", 194, -1, ExpressionRestriction.None, false, SingleSchema.Validate0to1, false, new GetValueHandler(InterpolateElementSchema.GetValue), new SetValueHandler(InterpolateElementSchema.SetValue), false);
-            InterpolateElementSchema.Type.Initialize(new DefaultConstructHandler(InterpolateElementSchema.Construct), null, new PropertySchema[3]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(119, "Input1", 77, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetInput1), new SetValueHandler(SetInput1), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(119, "Input2", 77, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetInput2), new SetValueHandler(SetInput2), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(119, "Value", 194, -1, ExpressionRestriction.None, false, SingleSchema.Validate0to1, false, new GetValueHandler(GetValue), new SetValueHandler(SetValue), false);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[3]
             {
          uixPropertySchema1,
          uixPropertySchema2,

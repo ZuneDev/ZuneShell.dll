@@ -40,25 +40,25 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object ConstructBeginEnd(object[] parameters)
         {
-            object instanceObj = SelectionRangeSchema.Construct();
-            SelectionRangeSchema.SetBegin(ref instanceObj, parameters[0]);
-            SelectionRangeSchema.SetEnd(ref instanceObj, parameters[1]);
+            object instanceObj = Construct();
+            SetBegin(ref instanceObj, parameters[0]);
+            SetEnd(ref instanceObj, parameters[1]);
             return instanceObj;
         }
 
         private static Result ConvertFromStringBeginEnd(string[] splitString, out object instance)
         {
-            instance = SelectionRangeSchema.Construct();
+            instance = Construct();
             object valueObj1;
             Result result1 = UIXLoadResult.ValidateStringAsValue(splitString[0], Int32Schema.Type, null, out valueObj1);
             if (result1.Failed)
                 return Result.Fail("Problem converting '{0}' ({1})", "SelectionRange", result1.Error);
-            SelectionRangeSchema.SetBegin(ref instance, valueObj1);
+            SetBegin(ref instance, valueObj1);
             object valueObj2;
             Result result2 = UIXLoadResult.ValidateStringAsValue(splitString[1], Int32Schema.Type, null, out valueObj2);
             if (result2.Failed)
                 return Result.Fail("Problem converting '{0}' ({1})", "SelectionRange", result2.Error);
-            SelectionRangeSchema.SetEnd(ref instance, valueObj2);
+            SetEnd(ref instance, valueObj2);
             return result2;
         }
 
@@ -76,7 +76,7 @@ namespace Microsoft.Iris.Markup.UIX
                 string[] splitString = StringUtility.SplitAndTrim(',', (string)from);
                 if (splitString.Length == 2)
                 {
-                    result = SelectionRangeSchema.ConvertFromStringBeginEnd(splitString, out instance);
+                    result = ConvertFromStringBeginEnd(splitString, out instance);
                     if (!result.Failed)
                         return result;
                 }
@@ -86,19 +86,19 @@ namespace Microsoft.Iris.Markup.UIX
             return result;
         }
 
-        public static void Pass1Initialize() => SelectionRangeSchema.Type = new UIXTypeSchema(187, "SelectionRange", null, 153, typeof(Range), UIXTypeFlags.Immutable);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(187, "SelectionRange", null, 153, typeof(Range), UIXTypeFlags.Immutable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(187, "Begin", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(SelectionRangeSchema.GetBegin), new SetValueHandler(SelectionRangeSchema.SetBegin), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(187, "End", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(SelectionRangeSchema.GetEnd), new SetValueHandler(SelectionRangeSchema.SetEnd), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(187, "IsEmpty", 15, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(SelectionRangeSchema.GetIsEmpty), null, false);
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(187, "Begin", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetBegin), new SetValueHandler(SetBegin), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(187, "End", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetEnd), new SetValueHandler(SetEnd), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(187, "IsEmpty", 15, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetIsEmpty), null, false);
             UIXConstructorSchema constructorSchema = new UIXConstructorSchema(187, new short[2]
             {
          115,
          115
-            }, new ConstructHandler(SelectionRangeSchema.ConstructBeginEnd));
-            SelectionRangeSchema.Type.Initialize(new DefaultConstructHandler(SelectionRangeSchema.Construct), new ConstructorSchema[1]
+            }, new ConstructHandler(ConstructBeginEnd));
+            Type.Initialize(new DefaultConstructHandler(Construct), new ConstructorSchema[1]
             {
          constructorSchema
             }, new PropertySchema[3]
@@ -106,7 +106,7 @@ namespace Microsoft.Iris.Markup.UIX
          uixPropertySchema1,
          uixPropertySchema2,
          uixPropertySchema3
-            }, null, null, null, new TypeConverterHandler(SelectionRangeSchema.TryConvertFrom), new SupportsTypeConversionHandler(SelectionRangeSchema.IsConversionSupported), null, null, null, null);
+            }, null, null, null, new TypeConverterHandler(TryConvertFrom), new SupportsTypeConversionHandler(IsConversionSupported), null, null, null, null);
         }
     }
 }

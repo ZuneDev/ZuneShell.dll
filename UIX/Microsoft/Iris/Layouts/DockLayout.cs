@@ -18,7 +18,7 @@ namespace Microsoft.Iris.Layouts
         private static DockLayoutInput s_defaultLayoutInput = DockLayoutInput.Client;
         private static readonly DataCookie s_dataProperty = DataCookie.ReserveSlot();
 
-        internal static DataCookie DockData => DockLayout.s_dataProperty;
+        internal static DataCookie DockData => s_dataProperty;
 
         public DockLayoutInput DefaultLayoutInput
         {
@@ -61,7 +61,7 @@ namespace Microsoft.Iris.Layouts
                 sz2_1 = Size.Max(size1 - constraint1 + sz2_2, sz2_1);
             }
             if (sz2_1.Width < size1.Width || sz2_1.Height < size1.Height)
-                layoutNode.RequestMoreChildren(DockLayout.s_numberOfAdditionalItemsToRequestAtATime);
+                layoutNode.RequestMoreChildren(s_numberOfAdditionalItemsToRequestAtATime);
             return sz2_1;
         }
 
@@ -116,8 +116,8 @@ namespace Microsoft.Iris.Layouts
 
         private DockLayoutInput GetLayoutInputForNode(ILayoutNode node)
         {
-            if (!(node.GetLayoutInput(DockLayout.s_dataProperty) is DockLayoutInput dockLayoutInput))
-                dockLayoutInput = this._defaultLayoutInput ?? DockLayout.s_defaultLayoutInput;
+            if (!(node.GetLayoutInput(s_dataProperty) is DockLayoutInput dockLayoutInput))
+                dockLayoutInput = this._defaultLayoutInput ?? s_defaultLayoutInput;
             return dockLayoutInput;
         }
     }

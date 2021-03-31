@@ -14,8 +14,8 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object Construct() => new InvColorElement();
 
-        public static void Pass1Initialize() => InvColorSchema.Type = new UIXTypeSchema(124, "InvColor", null, 80, typeof(InvColorElement), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(124, "InvColor", null, 80, typeof(InvColorElement), UIXTypeFlags.None);
 
-        public static void Pass2Initialize() => InvColorSchema.Type.Initialize(new DefaultConstructHandler(InvColorSchema.Construct), null, null, null, null, null, null, null, null, null, null, null);
+        public static void Pass2Initialize() => Type.Initialize(new DefaultConstructHandler(Construct), null, null, null, null, null, null, null, null, null, null, null);
     }
 }

@@ -14,8 +14,8 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object Construct() => new StackLayout();
 
-        public static void Pass1Initialize() => StackLayoutSchema.Type = new UIXTypeSchema(204, "StackLayout", null, 132, typeof(StackLayout), UIXTypeFlags.Immutable);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(204, "StackLayout", null, 132, typeof(StackLayout), UIXTypeFlags.Immutable);
 
-        public static void Pass2Initialize() => StackLayoutSchema.Type.Initialize(new DefaultConstructHandler(StackLayoutSchema.Construct), null, null, null, null, null, null, null, null, null, null, null);
+        public static void Pass2Initialize() => Type.Initialize(new DefaultConstructHandler(Construct), null, null, null, null, null, null, null, null, null, null, null);
     }
 }

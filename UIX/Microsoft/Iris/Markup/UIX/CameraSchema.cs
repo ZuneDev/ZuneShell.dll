@@ -87,29 +87,29 @@ namespace Microsoft.Iris.Markup.UIX
             return null;
         }
 
-        public static void Pass1Initialize() => CameraSchema.Type = new UIXTypeSchema(21, "Camera", null, 153, typeof(Camera), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(21, "Camera", null, 153, typeof(Camera), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(21, "Eye", 234, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(CameraSchema.GetEye), new SetValueHandler(CameraSchema.SetEye), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(21, "At", 234, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(CameraSchema.GetAt), new SetValueHandler(CameraSchema.SetAt), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(21, "Up", 234, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(CameraSchema.GetUp), new SetValueHandler(CameraSchema.SetUp), false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(21, "Zn", 194, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(CameraSchema.GetZn), new SetValueHandler(CameraSchema.SetZn), false);
-            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(21, "EyeAnimation", 104, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(CameraSchema.GetEyeAnimation), new SetValueHandler(CameraSchema.SetEyeAnimation), false);
-            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(21, "AtAnimation", 104, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(CameraSchema.GetAtAnimation), new SetValueHandler(CameraSchema.SetAtAnimation), false);
-            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema(21, "UpAnimation", 104, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(CameraSchema.GetUpAnimation), new SetValueHandler(CameraSchema.SetUpAnimation), false);
-            UIXPropertySchema uixPropertySchema8 = new UIXPropertySchema(21, "ZnAnimation", 104, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(CameraSchema.GetZnAnimation), new SetValueHandler(CameraSchema.SetZnAnimation), false);
-            UIXPropertySchema uixPropertySchema9 = new UIXPropertySchema(21, "Perspective", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(CameraSchema.GetPerspective), new SetValueHandler(CameraSchema.SetPerspective), false);
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(21, "Eye", 234, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetEye), new SetValueHandler(SetEye), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(21, "At", 234, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetAt), new SetValueHandler(SetAt), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(21, "Up", 234, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetUp), new SetValueHandler(SetUp), false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(21, "Zn", 194, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetZn), new SetValueHandler(SetZn), false);
+            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(21, "EyeAnimation", 104, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetEyeAnimation), new SetValueHandler(SetEyeAnimation), false);
+            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(21, "AtAnimation", 104, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetAtAnimation), new SetValueHandler(SetAtAnimation), false);
+            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema(21, "UpAnimation", 104, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetUpAnimation), new SetValueHandler(SetUpAnimation), false);
+            UIXPropertySchema uixPropertySchema8 = new UIXPropertySchema(21, "ZnAnimation", 104, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetZnAnimation), new SetValueHandler(SetZnAnimation), false);
+            UIXPropertySchema uixPropertySchema9 = new UIXPropertySchema(21, "Perspective", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetPerspective), new SetValueHandler(SetPerspective), false);
             UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema(21, "PlayAnimation", new short[1]
             {
          104
-            }, 240, new InvokeHandler(CameraSchema.CallPlayAnimationIAnimation), false);
+            }, 240, new InvokeHandler(CallPlayAnimationIAnimation), false);
             UIXMethodSchema uixMethodSchema2 = new UIXMethodSchema(21, "PlayAnimation", new short[2]
             {
          104,
          11
-            }, 240, new InvokeHandler(CameraSchema.CallPlayAnimationIAnimationAnimationHandle), false);
-            CameraSchema.Type.Initialize(new DefaultConstructHandler(CameraSchema.Construct), null, new PropertySchema[9]
+            }, 240, new InvokeHandler(CallPlayAnimationIAnimationAnimationHandle), false);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[9]
             {
          uixPropertySchema2,
          uixPropertySchema6,

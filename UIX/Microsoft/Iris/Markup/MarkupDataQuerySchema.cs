@@ -42,9 +42,9 @@ namespace Microsoft.Iris.Markup
             base.BuildProperties();
             this._predefinedProperties = new MarkupDataQueryPreDefinedPropertySchema[3]
             {
-        this._resultProperty = new MarkupDataQueryPreDefinedPropertySchema(this, this._resultType != null ? this._resultType :  ObjectSchema.Type, "Result", new GetValueHandler(MarkupDataQuerySchema.GetResultProperty),  null),
-        new MarkupDataQueryPreDefinedPropertySchema(this, UIXLoadResultExports.DataQueryStatusType, "Status", new GetValueHandler(MarkupDataQuerySchema.GetStatusProperty),  null),
-        new MarkupDataQueryPreDefinedPropertySchema(this,  BooleanSchema.Type, "Enabled", new GetValueHandler(MarkupDataQuerySchema.GetEnabledProperty), new SetValueHandler(MarkupDataQuerySchema.SetEnabledProperty))
+        this._resultProperty = new MarkupDataQueryPreDefinedPropertySchema(this, this._resultType != null ? this._resultType :  ObjectSchema.Type, "Result", new GetValueHandler(GetResultProperty),  null),
+        new MarkupDataQueryPreDefinedPropertySchema(this, UIXLoadResultExports.DataQueryStatusType, "Status", new GetValueHandler(GetStatusProperty),  null),
+        new MarkupDataQueryPreDefinedPropertySchema(this,  BooleanSchema.Type, "Enabled", new GetValueHandler(GetEnabledProperty), new SetValueHandler(SetEnabledProperty))
             };
             this._refreshMethod = new MarkupDataQueryRefreshMethodSchema(this);
         }

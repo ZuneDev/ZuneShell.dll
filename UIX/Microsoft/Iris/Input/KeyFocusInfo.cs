@@ -8,12 +8,12 @@ namespace Microsoft.Iris.Input
 {
     internal class KeyFocusInfo : KeyInfo
     {
-        private static InputInfo.InfoType s_poolType = InputInfo.InfoType.KeyFocus;
+        private static InputInfo.InfoType s_poolType = InfoType.KeyFocus;
         private bool _state;
         private ICookedInputSite _other;
         private KeyFocusReason _focusReason;
 
-        static KeyFocusInfo() => InputInfo.SetPoolLimitMode(KeyFocusInfo.s_poolType, true);
+        static KeyFocusInfo() => SetPoolLimitMode(s_poolType, true);
 
         private KeyFocusInfo()
         {
@@ -24,7 +24,7 @@ namespace Microsoft.Iris.Input
           ICookedInputSite other,
           KeyFocusReason focusReason)
         {
-            KeyFocusInfo keyFocusInfo = (KeyFocusInfo)InputInfo.GetFromPool(KeyFocusInfo.s_poolType) ?? new KeyFocusInfo();
+            KeyFocusInfo keyFocusInfo = (KeyFocusInfo)GetFromPool(s_poolType) ?? new KeyFocusInfo();
             keyFocusInfo.Initialize(state, other, focusReason);
             return keyFocusInfo;
         }
@@ -49,6 +49,6 @@ namespace Microsoft.Iris.Input
 
         public KeyFocusReason FocusReason => this._focusReason;
 
-        protected override InputInfo.InfoType PoolType => KeyFocusInfo.s_poolType;
+        protected override InputInfo.InfoType PoolType => s_poolType;
     }
 }

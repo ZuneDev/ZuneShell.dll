@@ -30,23 +30,23 @@ namespace Microsoft.Iris.CodeModel.Cpp
         {
             DllLoadResultFactory.Startup();
             DllProxyServices.Startup();
-            DllLoadResult.LoadIntrinsicTypeData();
+            LoadIntrinsicTypeData();
         }
 
         private static void LoadIntrinsicTypeData()
         {
-            DllLoadResult.s_intrinsicData = new Map<uint, DllLoadResult.IntrinsicTypeData>();
-            DllLoadResult.s_intrinsicData[4294967294U] = new DllLoadResult.IntrinsicTypeData(BooleanSchema.Type);
-            DllLoadResult.s_intrinsicData[4294967293U] = new DllLoadResult.IntrinsicTypeData(ByteSchema.Type);
-            DllLoadResult.s_intrinsicData[4294967292U] = new DllLoadResult.IntrinsicTypeData(DoubleSchema.Type);
-            DllLoadResult.s_intrinsicData[4294967285U] = new DllLoadResult.IntrinsicTypeData(ListSchema.Type, typeof(DllProxyList));
-            DllLoadResult.s_intrinsicData[4294967284U] = new DllLoadResult.IntrinsicTypeData(ImageSchema.Type);
-            DllLoadResult.s_intrinsicData[4294967283U] = new DllLoadResult.IntrinsicTypeData(Int32Schema.Type);
-            DllLoadResult.s_intrinsicData[4294967282U] = new DllLoadResult.IntrinsicTypeData(Int64Schema.Type);
-            DllLoadResult.s_intrinsicData[4294967280U] = new DllLoadResult.IntrinsicTypeData(ObjectSchema.Type);
-            DllLoadResult.s_intrinsicData[4294967279U] = new DllLoadResult.IntrinsicTypeData(SingleSchema.Type);
-            DllLoadResult.s_intrinsicData[4294967278U] = new DllLoadResult.IntrinsicTypeData(StringSchema.Type);
-            DllLoadResult.s_intrinsicData[4294967277U] = new DllLoadResult.IntrinsicTypeData(VoidSchema.Type);
+            s_intrinsicData = new Map<uint, DllLoadResult.IntrinsicTypeData>();
+            s_intrinsicData[4294967294U] = new DllLoadResult.IntrinsicTypeData(BooleanSchema.Type);
+            s_intrinsicData[4294967293U] = new DllLoadResult.IntrinsicTypeData(ByteSchema.Type);
+            s_intrinsicData[4294967292U] = new DllLoadResult.IntrinsicTypeData(DoubleSchema.Type);
+            s_intrinsicData[4294967285U] = new DllLoadResult.IntrinsicTypeData(ListSchema.Type, typeof(DllProxyList));
+            s_intrinsicData[4294967284U] = new DllLoadResult.IntrinsicTypeData(ImageSchema.Type);
+            s_intrinsicData[4294967283U] = new DllLoadResult.IntrinsicTypeData(Int32Schema.Type);
+            s_intrinsicData[4294967282U] = new DllLoadResult.IntrinsicTypeData(Int64Schema.Type);
+            s_intrinsicData[4294967280U] = new DllLoadResult.IntrinsicTypeData(ObjectSchema.Type);
+            s_intrinsicData[4294967279U] = new DllLoadResult.IntrinsicTypeData(SingleSchema.Type);
+            s_intrinsicData[4294967278U] = new DllLoadResult.IntrinsicTypeData(StringSchema.Type);
+            s_intrinsicData[4294967277U] = new DllLoadResult.IntrinsicTypeData(VoidSchema.Type);
         }
 
         public static void Shutdown() => DllProxyServices.Shutdown();
@@ -59,13 +59,13 @@ namespace Microsoft.Iris.CodeModel.Cpp
             return false;
         }
 
-        private bool CheckNativeReturn(uint hr) => DllLoadResult.CheckNativeReturn(hr, "IUIXTypeSchema");
+        private bool CheckNativeReturn(uint hr) => CheckNativeReturn(hr, "IUIXTypeSchema");
 
-        public static void PushContext(LoadResult newContext) => DllLoadResult.s_objectContext = newContext;
+        public static void PushContext(LoadResult newContext) => s_objectContext = newContext;
 
-        public static LoadResult CurrentContext => DllLoadResult.s_objectContext;
+        public static LoadResult CurrentContext => s_objectContext;
 
-        public static void PopContext() => DllLoadResult.s_objectContext = null;
+        public static void PopContext() => s_objectContext = null;
 
         public static TypeSchema MapType(uint typeID)
         {
@@ -78,7 +78,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
                 if (dllLoadResult != null)
                     typeSchema = dllLoadResult.MapLocalType(typeID);
             }
-            else if (DllLoadResult.CurrentContext is DllLoadResult currentContext)
+            else if (CurrentContext is DllLoadResult currentContext)
                 typeSchema = currentContext.MapIntrinsicType(typeID);
             if (typeSchema == null)
                 ErrorManager.ReportError("Unable to find type with ID '0x{0:X8}' in '{1}'", typeID, dllLoadResult != null ? dllLoadResult.Uri : string.Empty);
@@ -91,7 +91,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
                 this._intrinsicTypes = new Map<uint, TypeSchema>();
             TypeSchema typeSchema;
             DllLoadResult.IntrinsicTypeData intrinsicTypeData;
-            if (!this._intrinsicTypes.TryGetValue(typeID, out typeSchema) && DllLoadResult.s_intrinsicData.TryGetValue(typeID, out intrinsicTypeData))
+            if (!this._intrinsicTypes.TryGetValue(typeID, out typeSchema) && s_intrinsicData.TryGetValue(typeID, out intrinsicTypeData))
             {
                 typeSchema = !intrinsicTypeData.DemandCreateTypeSchema ? intrinsicTypeData.FrameworkEquivalent : new DllIntrinsicTypeSchema(this, typeID, intrinsicTypeData.FrameworkEquivalent);
                 this._intrinsicTypes[typeID] = typeSchema;
@@ -113,7 +113,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
             this._status = LoadResultStatus.Loading;
             this._schema = nativeSchema;
             this._loadPass = LoadPass.Invalid;
-            this._component = DllLoadResult.s_nextID++;
+            this._component = s_nextID++;
         }
 
         public override void Load(LoadPass pass)
@@ -291,7 +291,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
 
         public override LoadResultStatus Status => this._status;
 
-        public override LoadResult[] Dependencies => LoadResult.EmptyList;
+        public override LoadResult[] Dependencies => EmptyList;
 
         public override bool Cachable => true;
 
@@ -305,7 +305,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
             else
             {
                 DllLoadResult.IntrinsicTypeData intrinsicTypeData;
-                if (DllLoadResult.s_intrinsicData.TryGetValue(marshalAs, out intrinsicTypeData))
+                if (s_intrinsicData.TryGetValue(marshalAs, out intrinsicTypeData))
                     type = intrinsicTypeData.MarshalAsRuntimeType;
             }
             return type;

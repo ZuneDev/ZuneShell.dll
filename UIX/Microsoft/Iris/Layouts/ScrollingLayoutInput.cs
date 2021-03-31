@@ -110,9 +110,9 @@ namespace Microsoft.Iris.Layouts
             set => this._secondaryScrollIntoView = value;
         }
 
-        DataCookie ILayoutInput.Data => ScrollingLayoutInput.Data;
+        DataCookie ILayoutInput.Data => Data;
 
-        public static DataCookie Data => ScrollingLayoutInput.s_dataProperty;
+        public static DataCookie Data => s_dataProperty;
 
         public override string ToString() => InvariantString.Format("{0}(ScrollAmount={1}, PageAmount={2}, PageStep={3}, Disposition=({4}))", this.GetType().Name, _pendingScrollAmount, _pendingPageCommands, _pageStep, _scrollIntoView);
     }

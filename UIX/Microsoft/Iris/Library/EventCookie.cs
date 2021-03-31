@@ -36,6 +36,6 @@ namespace Microsoft.Iris.Library
 
         internal static uint ToUInt32(EventCookie handle) => handle.m_value;
 
-        public static EventCookie ReserveSlot() => EventCookie.FromUInt32(KeyAllocator.ReserveSlot());
+        public static EventCookie ReserveSlot() => FromUInt32(KeyAllocator.ReserveSlot());
     }
 }

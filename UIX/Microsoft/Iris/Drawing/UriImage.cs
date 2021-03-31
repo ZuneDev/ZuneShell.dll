@@ -41,7 +41,7 @@ namespace Microsoft.Iris.Drawing
             ResourceImageItem resourceImageItem = this.GetResourceFromCache();
             if (resourceImageItem == null)
             {
-                resourceImageItem = new ResourceImageItem(UISession.Default.RenderSession, this.Source, UIImage.ClampSize(this._maximumSize), this.IsFlipped, this._antialiasEdges);
+                resourceImageItem = new ResourceImageItem(UISession.Default.RenderSession, this.Source, ClampSize(this._maximumSize), this.IsFlipped, this._antialiasEdges);
                 resourceImageItem.LoadCompleteHandler += new ContentLoadCompleteHandler(this.OnLoadComplete);
                 ScavengeImageCache.Instance.Add(this._cacheKey, resourceImageItem);
                 this.SetStatus(resourceImageItem.Status);
@@ -54,7 +54,7 @@ namespace Microsoft.Iris.Drawing
 
         private ResourceImageItem GetResourceFromCache()
         {
-            Size maxSize = UIImage.ClampSize(this._maximumSize);
+            Size maxSize = ClampSize(this._maximumSize);
             if (this._cacheKey == null)
                 this._cacheKey = new ImageCacheKey(this.Source, maxSize, this.IsFlipped, this._antialiasEdges);
             return (ResourceImageItem)ScavengeImageCache.Instance.Lookup(this._cacheKey);

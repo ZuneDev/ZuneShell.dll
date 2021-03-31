@@ -78,8 +78,8 @@ namespace Microsoft.Iris.Layouts
                 return;
             SizeF measureData = (SizeF)layoutNode.MeasureData;
             Vector3 scale = new Vector3(measureData.Width, measureData.Height, 1f);
-            slot.View = ScaleLayout.ScaleView(slot.View, measureData);
-            slot.PeripheralView = ScaleLayout.ScaleView(slot.PeripheralView, measureData);
+            slot.View = ScaleView(slot.View, measureData);
+            slot.PeripheralView = ScaleView(slot.PeripheralView, measureData);
             foreach (ILayoutNode layoutChild in layoutNode.LayoutChildren)
                 layoutChild.Arrange(slot, new Rectangle(Point.Zero, layoutChild.DesiredSize), scale, Rotation.Default);
         }

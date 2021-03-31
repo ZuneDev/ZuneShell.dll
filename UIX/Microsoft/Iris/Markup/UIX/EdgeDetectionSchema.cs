@@ -29,12 +29,12 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object Construct() => new EdgeDetectionElement();
 
-        public static void Pass1Initialize() => EdgeDetectionSchema.Type = new UIXTypeSchema(66, "EdgeDetection", null, 80, typeof(EdgeDetectionElement), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(66, "EdgeDetection", null, 80, typeof(EdgeDetectionElement), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(66, "EdgeLimit", 194, -1, ExpressionRestriction.None, false, SingleSchema.Validate0to1, false, new GetValueHandler(EdgeDetectionSchema.GetEdgeLimit), new SetValueHandler(EdgeDetectionSchema.SetEdgeLimit), false);
-            EdgeDetectionSchema.Type.Initialize(new DefaultConstructHandler(EdgeDetectionSchema.Construct), null, new PropertySchema[1]
+            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(66, "EdgeLimit", 194, -1, ExpressionRestriction.None, false, SingleSchema.Validate0to1, false, new GetValueHandler(GetEdgeLimit), new SetValueHandler(SetEdgeLimit), false);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[1]
             {
          uixPropertySchema
             }, null, null, null, null, null, null, null, null, null);

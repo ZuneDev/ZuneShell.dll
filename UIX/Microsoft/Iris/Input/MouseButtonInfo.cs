@@ -10,11 +10,11 @@ namespace Microsoft.Iris.Input
 {
     internal class MouseButtonInfo : MouseActionInfo
     {
-        private static InputInfo.InfoType s_poolType = InputInfo.InfoType.MouseButton;
+        private static InputInfo.InfoType s_poolType = InfoType.MouseButton;
         private bool _doubleClick;
         private bool _state;
 
-        static MouseButtonInfo() => InputInfo.SetPoolLimitMode(MouseButtonInfo.s_poolType, false);
+        static MouseButtonInfo() => SetPoolLimitMode(s_poolType, false);
 
         private MouseButtonInfo()
         {
@@ -32,7 +32,7 @@ namespace Microsoft.Iris.Input
           bool state,
           uint messageID)
         {
-            MouseButtonInfo mouseButtonInfo = (MouseButtonInfo)InputInfo.GetFromPool(MouseButtonInfo.s_poolType) ?? new MouseButtonInfo();
+            MouseButtonInfo mouseButtonInfo = (MouseButtonInfo)GetFromPool(s_poolType) ?? new MouseButtonInfo();
             mouseButtonInfo.Initialize(rawSource, rawNatural, x, y, screenX, screenY, modifiers, button, state, messageID);
             return mouseButtonInfo;
         }
@@ -51,7 +51,7 @@ namespace Microsoft.Iris.Input
         {
             this._state = state;
             this._doubleClick = false;
-            this.Initialize(rawSource, rawNatural, x, y, screenX, screenY, modifiers, MouseButtonInfo.EventTypeForMouseButton(state, button, modifiers), messageID, button, 0);
+            this.Initialize(rawSource, rawNatural, x, y, screenX, screenY, modifiers, EventTypeForMouseButton(state, button, modifiers), messageID, button, 0);
         }
 
         public override InputEventType EventType => this._doubleClick ? InputEventType.MouseDoubleClick : this._eventType;
@@ -73,7 +73,7 @@ namespace Microsoft.Iris.Input
 
         public bool IsDown => this._state;
 
-        protected override InputInfo.InfoType PoolType => MouseButtonInfo.s_poolType;
+        protected override InputInfo.InfoType PoolType => s_poolType;
 
         public override string ToString() => InvariantString.Format("{0}({1}, Button={2})", this.GetType().Name, this._state ? "Down" : "Up", Button);
     }

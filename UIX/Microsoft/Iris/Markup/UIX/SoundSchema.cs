@@ -27,19 +27,19 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object ConstructSource(object[] parameters)
         {
-            object instanceObj = SoundSchema.Construct();
-            SoundSchema.SetSource(ref instanceObj, parameters[0]);
+            object instanceObj = Construct();
+            SetSource(ref instanceObj, parameters[0]);
             return instanceObj;
         }
 
         private static Result ConvertFromStringSource(string[] splitString, out object instance)
         {
-            instance = SoundSchema.Construct();
+            instance = Construct();
             object valueObj;
             Result result = UIXLoadResult.ValidateStringAsValue(splitString[0], StringSchema.Type, null, out valueObj);
             if (result.Failed)
                 return Result.Fail("Problem converting '{0}' ({1})", "Sound", result.Error);
-            SoundSchema.SetSource(ref instance, valueObj);
+            SetSource(ref instance, valueObj);
             return result;
         }
 
@@ -63,7 +63,7 @@ namespace Microsoft.Iris.Markup.UIX
                 string[] splitString = StringUtility.SplitAndTrim(',', (string)from);
                 if (splitString.Length == 1)
                 {
-                    result = SoundSchema.ConvertFromStringSource(splitString, out instance);
+                    result = ConvertFromStringSource(splitString, out instance);
                     if (!result.Failed)
                         return result;
                 }
@@ -73,18 +73,18 @@ namespace Microsoft.Iris.Markup.UIX
             return result;
         }
 
-        public static void Pass1Initialize() => SoundSchema.Type = new UIXTypeSchema(201, "Sound", null, 153, typeof(Sound), UIXTypeFlags.Immutable);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(201, "Sound", null, 153, typeof(Sound), UIXTypeFlags.Immutable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(201, "Source", 208, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(SoundSchema.GetSource), new SetValueHandler(SoundSchema.SetSource), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(201, "SystemSoundEvent", 211, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(SoundSchema.GetSystemSoundEvent), new SetValueHandler(SoundSchema.SetSystemSoundEvent), false);
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(201, "Source", 208, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetSource), new SetValueHandler(SetSource), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(201, "SystemSoundEvent", 211, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetSystemSoundEvent), new SetValueHandler(SetSystemSoundEvent), false);
             UIXConstructorSchema constructorSchema = new UIXConstructorSchema(201, new short[1]
             {
          208
-            }, new ConstructHandler(SoundSchema.ConstructSource));
-            UIXMethodSchema uixMethodSchema = new UIXMethodSchema(201, "Play", null, 240, new InvokeHandler(SoundSchema.CallPlay), false);
-            SoundSchema.Type.Initialize(new DefaultConstructHandler(SoundSchema.Construct), new ConstructorSchema[1]
+            }, new ConstructHandler(ConstructSource));
+            UIXMethodSchema uixMethodSchema = new UIXMethodSchema(201, "Play", null, 240, new InvokeHandler(CallPlay), false);
+            Type.Initialize(new DefaultConstructHandler(Construct), new ConstructorSchema[1]
             {
          constructorSchema
             }, new PropertySchema[2]
@@ -94,7 +94,7 @@ namespace Microsoft.Iris.Markup.UIX
             }, new MethodSchema[1]
             {
          uixMethodSchema
-            }, null, null, new TypeConverterHandler(SoundSchema.TryConvertFrom), new SupportsTypeConversionHandler(SoundSchema.IsConversionSupported), null, null, null, null);
+            }, null, null, new TypeConverterHandler(TryConvertFrom), new SupportsTypeConversionHandler(IsConversionSupported), null, null, null, null);
         }
     }
 }

@@ -698,7 +698,7 @@ namespace Microsoft.Iris
         {
             if (obj is IDisposable disposable)
                 disposable.Dispose();
-            else if (obj != VirtualList.UnavailableItem)
+            else if (obj != UnavailableItem)
                 throw new InvalidOperationException(InvariantString.Format("VirtualList {0} was configured with the {1} ReleaseBehavior.  This is only valid if the contents of the list implement IDisposable.  Unable to dispose object: {2}.", this, _releaseBehavior, obj));
         }
 
@@ -776,12 +776,12 @@ namespace Microsoft.Iris
             add
             {
                 using (this.ThreadValidator)
-                    this.AddEventHandler(VirtualList.s_listContentsChangedEvent, value);
+                    this.AddEventHandler(s_listContentsChangedEvent, value);
             }
             remove
             {
                 using (this.ThreadValidator)
-                    this.RemoveEventHandler(VirtualList.s_listContentsChangedEvent, value);
+                    this.RemoveEventHandler(s_listContentsChangedEvent, value);
             }
         }
 
@@ -790,12 +790,12 @@ namespace Microsoft.Iris
             add
             {
                 using (this.ThreadValidator)
-                    this.AddEventHandler(VirtualList.s_listContentsChangedEvent, ListContentsChangedProxy.Thunk(value));
+                    this.AddEventHandler(s_listContentsChangedEvent, ListContentsChangedProxy.Thunk(value));
             }
             remove
             {
                 using (this.ThreadValidator)
-                    this.RemoveEventHandler(VirtualList.s_listContentsChangedEvent, ListContentsChangedProxy.Thunk(value));
+                    this.RemoveEventHandler(s_listContentsChangedEvent, ListContentsChangedProxy.Thunk(value));
             }
         }
 
@@ -808,7 +808,7 @@ namespace Microsoft.Iris
           int count)
         {
             UIDispatcher.VerifyOnApplicationThread();
-            UIListContentsChangedHandler eventHandler = (UIListContentsChangedHandler)this.GetEventHandler(VirtualList.s_listContentsChangedEvent);
+            UIListContentsChangedHandler eventHandler = (UIListContentsChangedHandler)this.GetEventHandler(s_listContentsChangedEvent);
             if (eventHandler != null)
             {
                 UIListContentsChangedArgs args = new UIListContentsChangedArgs(type, oldIndex, newIndex, count);

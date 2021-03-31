@@ -27,14 +27,14 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object Construct() => new Video();
 
-        public static void Pass1Initialize() => VideoSchema.Type = new UIXTypeSchema(235, "Video", null, 239, typeof(Video), UIXTypeFlags.Disposable);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(235, "Video", null, 239, typeof(Video), UIXTypeFlags.Disposable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(235, "Children", 138, 239, ExpressionRestriction.NoAccess, false, null, true, new GetValueHandler(VideoSchema.GetChildren), null, false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(235, "VideoStream", 238, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(VideoSchema.GetVideoStream), new SetValueHandler(VideoSchema.SetVideoStream), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(235, "LetterboxColor", 35, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(VideoSchema.GetLetterboxColor), new SetValueHandler(VideoSchema.SetLetterboxColor), false);
-            VideoSchema.Type.Initialize(new DefaultConstructHandler(VideoSchema.Construct), null, new PropertySchema[3]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(235, "Children", 138, 239, ExpressionRestriction.NoAccess, false, null, true, new GetValueHandler(GetChildren), null, false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(235, "VideoStream", 238, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetVideoStream), new SetValueHandler(SetVideoStream), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(235, "LetterboxColor", 35, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetLetterboxColor), new SetValueHandler(SetLetterboxColor), false);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[3]
             {
          uixPropertySchema1,
          uixPropertySchema3,

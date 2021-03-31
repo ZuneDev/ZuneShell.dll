@@ -44,14 +44,14 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object Construct() => new PopupPosition();
 
-        public static void Pass1Initialize() => PopupPositionSchema.Type = new UIXTypeSchema(163, "PopupPosition", null, 153, typeof(PopupPosition), UIXTypeFlags.Immutable);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(163, "PopupPosition", null, 153, typeof(PopupPosition), UIXTypeFlags.Immutable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(163, "Target", 118, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(PopupPositionSchema.GetTarget), new SetValueHandler(PopupPositionSchema.SetTarget), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(163, "Popup", 118, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(PopupPositionSchema.GetPopup), new SetValueHandler(PopupPositionSchema.SetPopup), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(163, "Flipped", 89, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(PopupPositionSchema.GetFlipped), new SetValueHandler(PopupPositionSchema.SetFlipped), false);
-            PopupPositionSchema.Type.Initialize(new DefaultConstructHandler(PopupPositionSchema.Construct), null, new PropertySchema[3]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(163, "Target", 118, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetTarget), new SetValueHandler(SetTarget), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(163, "Popup", 118, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetPopup), new SetValueHandler(SetPopup), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(163, "Flipped", 89, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetFlipped), new SetValueHandler(SetFlipped), false);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[3]
             {
          uixPropertySchema3,
          uixPropertySchema2,

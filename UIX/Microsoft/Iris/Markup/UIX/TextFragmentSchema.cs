@@ -20,15 +20,15 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object GetAttributes(object instanceObj) => ((TextFragment)instanceObj).Attributes;
 
-        public static void Pass1Initialize() => TextFragmentSchema.Type = new UIXTypeSchema(215, "TextFragment", null, 153, typeof(TextFragment), UIXTypeFlags.Immutable);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(215, "TextFragment", null, 153, typeof(TextFragment), UIXTypeFlags.Immutable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(215, "Runs", 138, 216, ExpressionRestriction.ReadOnly, false, null, false, new GetValueHandler(TextFragmentSchema.GetRuns), null, false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(215, "TagName", 208, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(TextFragmentSchema.GetTagName), null, false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(215, "Content", 208, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(TextFragmentSchema.GetContent), null, false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(215, "Attributes", 58, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(TextFragmentSchema.GetAttributes), null, false);
-            TextFragmentSchema.Type.Initialize(null, null, new PropertySchema[4]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(215, "Runs", 138, 216, ExpressionRestriction.ReadOnly, false, null, false, new GetValueHandler(GetRuns), null, false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(215, "TagName", 208, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetTagName), null, false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(215, "Content", 208, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetContent), null, false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(215, "Attributes", 58, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetAttributes), null, false);
+            Type.Initialize(null, null, new PropertySchema[4]
             {
          uixPropertySchema4,
          uixPropertySchema3,

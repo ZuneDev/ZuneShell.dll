@@ -69,29 +69,29 @@ namespace Microsoft.Iris.Markup.UIX
             return null;
         }
 
-        public static void Pass1Initialize() => RepeaterSchema.Type = new UIXTypeSchema(173, "Repeater", null, 239, typeof(Repeater), UIXTypeFlags.Disposable);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(173, "Repeater", null, 239, typeof(Repeater), UIXTypeFlags.Disposable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(173, "ContentName", 208, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(RepeaterSchema.GetContentName), new SetValueHandler(RepeaterSchema.SetContentName), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(173, "DividerName", 208, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(RepeaterSchema.GetDividerName), new SetValueHandler(RepeaterSchema.SetDividerName), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(173, "Source", 138, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(RepeaterSchema.GetSource), new SetValueHandler(RepeaterSchema.SetSource), false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(173, "DefaultFocusIndex", 115, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(RepeaterSchema.GetDefaultFocusIndex), new SetValueHandler(RepeaterSchema.SetDefaultFocusIndex), false);
-            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(173, "Content", 239, -1, ExpressionRestriction.NoAccess, false, null, true, null, new SetValueHandler(RepeaterSchema.SetContent), false);
-            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(173, "Divider", 239, -1, ExpressionRestriction.NoAccess, false, null, true, null, new SetValueHandler(RepeaterSchema.SetDivider), false);
-            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema(173, "DiscardOffscreenVisuals", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(RepeaterSchema.GetDiscardOffscreenVisuals), new SetValueHandler(RepeaterSchema.SetDiscardOffscreenVisuals), false);
-            UIXPropertySchema uixPropertySchema8 = new UIXPropertySchema(173, "ContentSelectors", 138, 227, ExpressionRestriction.None, false, null, true, new GetValueHandler(RepeaterSchema.GetContentSelectors), null, false);
-            UIXPropertySchema uixPropertySchema9 = new UIXPropertySchema(173, "MaintainFocusedItemOnSourceChanges", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(RepeaterSchema.GetMaintainFocusedItemOnSourceChanges), new SetValueHandler(RepeaterSchema.SetMaintainFocusedItemOnSourceChanges), false);
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(173, "ContentName", 208, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetContentName), new SetValueHandler(SetContentName), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(173, "DividerName", 208, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetDividerName), new SetValueHandler(SetDividerName), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(173, "Source", 138, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetSource), new SetValueHandler(SetSource), false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(173, "DefaultFocusIndex", 115, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetDefaultFocusIndex), new SetValueHandler(SetDefaultFocusIndex), false);
+            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(173, "Content", 239, -1, ExpressionRestriction.NoAccess, false, null, true, null, new SetValueHandler(SetContent), false);
+            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(173, "Divider", 239, -1, ExpressionRestriction.NoAccess, false, null, true, null, new SetValueHandler(SetDivider), false);
+            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema(173, "DiscardOffscreenVisuals", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetDiscardOffscreenVisuals), new SetValueHandler(SetDiscardOffscreenVisuals), false);
+            UIXPropertySchema uixPropertySchema8 = new UIXPropertySchema(173, "ContentSelectors", 138, 227, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetContentSelectors), null, false);
+            UIXPropertySchema uixPropertySchema9 = new UIXPropertySchema(173, "MaintainFocusedItemOnSourceChanges", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetMaintainFocusedItemOnSourceChanges), new SetValueHandler(SetMaintainFocusedItemOnSourceChanges), false);
             UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema(173, "NavigateIntoIndex", new short[1]
             {
          115
-            }, 240, new InvokeHandler(RepeaterSchema.CallNavigateIntoIndexInt32), false);
+            }, 240, new InvokeHandler(CallNavigateIntoIndexInt32), false);
             UIXMethodSchema uixMethodSchema2 = new UIXMethodSchema(173, "ScrollIndexIntoView", new short[1]
             {
          115
-            }, 240, new InvokeHandler(RepeaterSchema.CallScrollIndexIntoViewInt32), false);
+            }, 240, new InvokeHandler(CallScrollIndexIntoViewInt32), false);
             UIXEventSchema uixEventSchema = new UIXEventSchema(173, "FocusedItemDiscarded");
-            RepeaterSchema.Type.Initialize(new DefaultConstructHandler(RepeaterSchema.Construct), null, new PropertySchema[9]
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[9]
             {
          uixPropertySchema5,
          uixPropertySchema1,

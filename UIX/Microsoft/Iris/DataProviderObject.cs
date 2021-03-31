@@ -50,7 +50,7 @@ namespace Microsoft.Iris
             {
                 if (this._mappings == null)
                 {
-                    lock (DataProviderObject.SynchronizedFindDataMappings)
+                    lock (SynchronizedFindDataMappings)
                     {
                         MarkupDataMapping dataMapping = MarkupDataProvider.FindDataMapping(this._owner != null ? this._owner.ProviderName : string.Empty, this._typeSchema);
                         if (dataMapping.AssemblyDataProviderCookie == null)

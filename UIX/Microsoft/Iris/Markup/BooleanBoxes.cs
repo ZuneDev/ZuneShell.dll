@@ -11,6 +11,6 @@ namespace Microsoft.Iris.Markup
         internal static object TrueBox = true;
         internal static object FalseBox = false;
 
-        internal static object Box(bool value) => value ? BooleanBoxes.TrueBox : BooleanBoxes.FalseBox;
+        internal static object Box(bool value) => value ? TrueBox : FalseBox;
     }
 }

@@ -23,12 +23,12 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object Construct() => new VideoElement();
 
-        public static void Pass1Initialize() => VideoElementSchema.Type = new UIXTypeSchema(236, "VideoElement", null, 77, typeof(VideoElement), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(236, "VideoElement", null, 77, typeof(VideoElement), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(236, "VideoStream", 238, -1, ExpressionRestriction.None, false, null, false, null, new SetValueHandler(VideoElementSchema.SetVideoStream), false);
-            VideoElementSchema.Type.Initialize(new DefaultConstructHandler(VideoElementSchema.Construct), null, new PropertySchema[1]
+            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(236, "VideoStream", 238, -1, ExpressionRestriction.None, false, null, false, null, new SetValueHandler(SetVideoStream), false);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[1]
             {
          uixPropertySchema
             }, null, null, null, null, null, null, null, null, null);

@@ -135,7 +135,7 @@ namespace Microsoft.Iris.Queues
             QueueItem queueItem = null;
             while (mask != 0)
             {
-                int lowestBit = PriorityQueue.FindLowestBit(mask);
+                int lowestBit = FindLowestBit(mask);
                 queueItem = this._queues[lowestBit].GetNextItem();
                 if (queueItem == null)
                 {
@@ -217,7 +217,7 @@ namespace Microsoft.Iris.Queues
                 num += 4;
                 mask >>= 4;
             }
-            return num + PriorityQueue.s_lowestBitInNibble[mask & 15];
+            return num + s_lowestBitInNibble[mask & 15];
         }
 
         public delegate void HookProc(out bool didWork, out bool abort);

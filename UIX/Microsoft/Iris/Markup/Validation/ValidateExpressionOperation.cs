@@ -115,7 +115,7 @@ namespace Microsoft.Iris.Markup.Validation
                 }
                 else
                 {
-                    this.ReportError("Operator '{0}' cannot be applied to operands of dissimilar types '{1}' and '{2}'", ValidateExpressionOperation.GetOperationToken(this._op), this._leftSide.ObjectType.Name, this._rightSide.ObjectType.Name);
+                    this.ReportError("Operator '{0}' cannot be applied to operands of dissimilar types '{1}' and '{2}'", GetOperationToken(this._op), this._leftSide.ObjectType.Name, this._rightSide.ObjectType.Name);
                     return;
                 }
             }
@@ -123,7 +123,7 @@ namespace Microsoft.Iris.Markup.Validation
                 this._foundOperationTargetType = this._leftSide.ObjectType;
             if (!this._foundOperationTargetType.SupportsOperationDeep(this._op))
             {
-                this.ReportError("Operator '{0}' cannot be applied to operand of type '{1}'", ValidateExpressionOperation.GetOperationToken(this._op), this._foundOperationTargetType.Name);
+                this.ReportError("Operator '{0}' cannot be applied to operand of type '{1}'", GetOperationToken(this._op), this._foundOperationTargetType.Name);
             }
             else
             {

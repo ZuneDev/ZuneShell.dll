@@ -31,7 +31,7 @@ namespace Microsoft.Iris.ViewItems
         private string _loadNotifyURI;
         private HostRequestPacket _pendingHostRequest;
         private uint _islandId;
-        private static DeferredHandler s_startRequestHandler = new DeferredHandler(Host.StartSourceRequest);
+        private static DeferredHandler s_startRequestHandler = new DeferredHandler(StartSourceRequest);
 
         public Host()
           : this(null, null)
@@ -109,7 +109,7 @@ namespace Microsoft.Iris.ViewItems
             hostRequestPacket.Properties = properties;
             this._pendingHostRequest = hostRequestPacket;
             this._lastRequestedSource = source;
-            DeferredCall.Post(DispatchPriority.High, Host.s_startRequestHandler, hostRequestPacket);
+            DeferredCall.Post(DispatchPriority.High, s_startRequestHandler, hostRequestPacket);
         }
 
         public void Cancel()
@@ -139,7 +139,7 @@ namespace Microsoft.Iris.ViewItems
                 LoadResult loadResult = null;
                 string uiToCreate = null;
                 if (type == null && source != null)
-                    loadResult = MarkupSystem.Load(Host.CrackSourceUri(source, out uiToCreate), host.InheritedIslandId);
+                    loadResult = MarkupSystem.Load(CrackSourceUri(source, out uiToCreate), host.InheritedIslandId);
                 host.CompleteSourceRequest(source, type, properties, loadResult, uiToCreate);
             }
             finally

@@ -16,8 +16,8 @@ namespace Microsoft.Iris.Session
 
         public static string ApplicationName
         {
-            get => UIApplication.s_applicationName;
-            set => UIApplication.s_applicationName = value;
+            get => s_applicationName;
+            set => s_applicationName = value;
         }
 
         public static void Run() => UIDispatcher.CurrentDispatcher.Run(null);
@@ -31,7 +31,7 @@ namespace Microsoft.Iris.Session
             inputManager.KeyFocusCanBeNull = focusCanBeNullFlag;
             try
             {
-                UIApplication.DoEvents(loop);
+                DoEvents(loop);
             }
             finally
             {
@@ -52,7 +52,7 @@ namespace Microsoft.Iris.Session
         public static Thread StartThreadWithDispatcher(string threadName)
         {
             ManualResetEvent registeredEvent = new ManualResetEvent(false);
-            Thread thread = new Thread(new ParameterizedThreadStart(UIApplication.StartDispatcher));
+            Thread thread = new Thread(new ParameterizedThreadStart(StartDispatcher));
             thread.Name = threadName;
             thread.SetApartmentState(ApartmentState.STA);
             thread.IsBackground = true;

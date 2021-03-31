@@ -60,7 +60,7 @@ namespace Microsoft.Iris.InputHandlers
             this.FireNotification(NotificationID.LostFocus);
         }
 
-        private bool ShouldHandleEvent(KeyFocusInfo info) => Microsoft.Iris.Library.Bits.TestAnyFlags((uint)this.Reason, (uint)FocusHandler.GetFocusChangeReason(info)) && this.ShouldHandleEvent(InputHandler.GetModifiers(UISession.Default.InputManager.Modifiers));
+        private bool ShouldHandleEvent(KeyFocusInfo info) => Library.Bits.TestAnyFlags((uint)this.Reason, (uint)GetFocusChangeReason(info)) && this.ShouldHandleEvent(GetModifiers(UISession.Default.InputManager.Modifiers));
 
         private static FocusChangeReason GetFocusChangeReason(KeyFocusInfo info)
         {

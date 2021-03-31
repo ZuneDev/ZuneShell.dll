@@ -8,9 +8,9 @@ namespace Microsoft.Iris.Input
 {
     internal class MouseMoveInfo : MouseActionInfo
     {
-        private static InputInfo.InfoType s_poolType = InputInfo.InfoType.MouseMove;
+        private static InputInfo.InfoType s_poolType = InfoType.MouseMove;
 
-        static MouseMoveInfo() => InputInfo.SetPoolLimitMode(MouseMoveInfo.s_poolType, true);
+        static MouseMoveInfo() => SetPoolLimitMode(s_poolType, true);
 
         private MouseMoveInfo()
         {
@@ -25,11 +25,11 @@ namespace Microsoft.Iris.Input
           int screenY,
           InputModifiers modifiers)
         {
-            MouseMoveInfo mouseMoveInfo = (MouseMoveInfo)InputInfo.GetFromPool(MouseMoveInfo.s_poolType) ?? new MouseMoveInfo();
+            MouseMoveInfo mouseMoveInfo = (MouseMoveInfo)GetFromPool(s_poolType) ?? new MouseMoveInfo();
             mouseMoveInfo.Initialize(rawSource, rawNatural, x, y, screenX, screenY, modifiers, InputEventType.MouseMove, 512U, MouseButtons.None, 0);
             return mouseMoveInfo;
         }
 
-        protected override InputInfo.InfoType PoolType => MouseMoveInfo.s_poolType;
+        protected override InputInfo.InfoType PoolType => s_poolType;
     }
 }

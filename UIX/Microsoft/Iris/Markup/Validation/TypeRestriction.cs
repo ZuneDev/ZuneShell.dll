@@ -35,8 +35,8 @@ namespace Microsoft.Iris.Markup.Validation
 
         public static void InitializeStatics()
         {
-            TypeRestriction.None = new TypeRestriction(null, null, true);
-            TypeRestriction.NotVoid = new TypeRestriction(VoidSchema.Type, null, false);
+            None = new TypeRestriction(null, null, true);
+            NotVoid = new TypeRestriction(VoidSchema.Type, null, false);
         }
 
         public TypeSchema Primary => this._primary;

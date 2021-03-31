@@ -12,8 +12,8 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        public static void Pass1Initialize() => EffectOperationSchema.Type = new UIXTypeSchema(80, "EffectOperation", null, 73, typeof(EffectOperation), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(80, "EffectOperation", null, 73, typeof(EffectOperation), UIXTypeFlags.None);
 
-        public static void Pass2Initialize() => EffectOperationSchema.Type.Initialize(null, null, null, null, null, null, null, null, null, null, null, null);
+        public static void Pass2Initialize() => Type.Initialize(null, null, null, null, null, null, null, null, null, null, null, null);
     }
 }

@@ -28,15 +28,15 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object Construct() => new object();
 
-        public static void Pass1Initialize() => MappingSchema.Type = new UIXTypeSchema(140, "Mapping", null, -1, typeof(object), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(140, "Mapping", null, -1, typeof(object), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(140, "Property", 208, -1, ExpressionRestriction.NoAccess, false, null, true, null, new SetValueHandler(MappingSchema.SetProperty), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(140, "Source", 208, -1, ExpressionRestriction.NoAccess, false, null, true, null, new SetValueHandler(MappingSchema.SetSource), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(140, "Target", 208, -1, ExpressionRestriction.NoAccess, false, null, true, null, new SetValueHandler(MappingSchema.SetTarget), false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(140, "DefaultValue", 208, -1, ExpressionRestriction.NoAccess, false, null, true, null, new SetValueHandler(MappingSchema.SetDefaultValue), false);
-            MappingSchema.Type.Initialize(new DefaultConstructHandler(MappingSchema.Construct), null, new PropertySchema[4]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(140, "Property", 208, -1, ExpressionRestriction.NoAccess, false, null, true, null, new SetValueHandler(SetProperty), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(140, "Source", 208, -1, ExpressionRestriction.NoAccess, false, null, true, null, new SetValueHandler(SetSource), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(140, "Target", 208, -1, ExpressionRestriction.NoAccess, false, null, true, null, new SetValueHandler(SetTarget), false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(140, "DefaultValue", 208, -1, ExpressionRestriction.NoAccess, false, null, true, null, new SetValueHandler(SetDefaultValue), false);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[4]
             {
          uixPropertySchema4,
          uixPropertySchema1,

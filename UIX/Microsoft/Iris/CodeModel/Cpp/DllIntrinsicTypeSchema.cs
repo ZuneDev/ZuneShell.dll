@@ -18,7 +18,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
             this._baseType = ObjectSchema.Type;
             this._name = InvariantString.Format("<DLL Intrinsic> {0}", equivalentType.Name);
             this._marshalAs = ID;
-            TypeSchema.RegisterOneWayEquivalence(this, equivalentType);
+            RegisterOneWayEquivalence(this, equivalentType);
         }
     }
 }

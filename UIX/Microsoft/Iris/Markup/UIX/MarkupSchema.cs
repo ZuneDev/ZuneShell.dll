@@ -30,19 +30,19 @@ namespace Microsoft.Iris.Markup.UIX
             return parameter == null ? true : BooleanBoxes.Box(parameter is IDisposableObject disposableObject && disposableObject.IsDisposed);
         }
 
-        public static void Pass1Initialize() => MarkupSchema.Type = new UIXTypeSchema(141, "Markup", null, 153, typeof(MarkupServices), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(141, "Markup", null, 153, typeof(MarkupServices), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(141, "Errors", 138, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(MarkupSchema.GetErrors), null, false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(141, "WarningsOnly", 15, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(MarkupSchema.GetWarningsOnly), null, false);
-            UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema(141, "ClearErrors", null, 240, new InvokeHandler(MarkupSchema.CallClearErrors), false);
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(141, "Errors", 138, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetErrors), null, false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(141, "WarningsOnly", 15, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetWarningsOnly), null, false);
+            UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema(141, "ClearErrors", null, 240, new InvokeHandler(CallClearErrors), false);
             UIXEventSchema uixEventSchema = new UIXEventSchema(141, "ErrorsDetected");
             UIXMethodSchema uixMethodSchema2 = new UIXMethodSchema(141, "IsDisposed", new short[1]
             {
          153
-            }, 15, new InvokeHandler(MarkupSchema.CallIsDisposedObject), true);
-            MarkupSchema.Type.Initialize(new DefaultConstructHandler(MarkupSchema.Construct), null, new PropertySchema[2]
+            }, 15, new InvokeHandler(CallIsDisposedObject), true);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[2]
             {
          uixPropertySchema1,
          uixPropertySchema2

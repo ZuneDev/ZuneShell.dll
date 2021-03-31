@@ -27,7 +27,7 @@ namespace Microsoft.Iris.Input
           ICookedInputSite target,
           InputInfo info)
         {
-            InputItem inputItem = InputItem.AllocateFromPool();
+            InputItem inputItem = AllocateFromPool();
             inputItem._manager = manager;
             inputItem._target = target;
             inputItem._info = info;
@@ -37,12 +37,12 @@ namespace Microsoft.Iris.Input
         private static InputItem AllocateFromPool()
         {
             InputItem inputItem = null;
-            if (InputItem.s_cache != null)
+            if (s_cache != null)
             {
-                inputItem = InputItem.s_cache;
-                InputItem.s_cache = (InputItem)inputItem._next;
+                inputItem = s_cache;
+                s_cache = (InputItem)inputItem._next;
                 inputItem._next = null;
-                --InputItem.s_cachedCount;
+                --s_cachedCount;
             }
             if (inputItem == null)
                 inputItem = new InputItem();
@@ -61,11 +61,11 @@ namespace Microsoft.Iris.Input
             this._prev = null;
             this._next = null;
             this._owner = null;
-            if (InputItem.s_cachedCount >= 5)
+            if (s_cachedCount >= 5)
                 return;
             this._next = s_cache;
-            InputItem.s_cache = this;
-            ++InputItem.s_cachedCount;
+            s_cache = this;
+            ++s_cachedCount;
         }
 
         public InputManager Manager => this._manager;

@@ -17,8 +17,8 @@ namespace Microsoft.Iris.Markup
         public static void AddDataMapping(MarkupDataMapping mapping)
         {
             MarkupDataProvider.MappingKey key = new MarkupDataProvider.MappingKey(mapping.TargetType, mapping.Provider);
-            if (!MarkupDataProvider.s_mappings.ContainsKey(key))
-                MarkupDataProvider.s_mappings[key] = mapping;
+            if (!s_mappings.ContainsKey(key))
+                s_mappings[key] = mapping;
             else
                 ErrorManager.ReportError("Data mapping already defined for type '{0}', provider '{1}'", mapping.TargetType.Name, mapping.Provider);
         }
@@ -26,7 +26,7 @@ namespace Microsoft.Iris.Markup
         public static void RemoveDataMapping(MarkupDataMapping mapping)
         {
             MarkupDataProvider.MappingKey key = new MarkupDataProvider.MappingKey(mapping.TargetType, mapping.Provider);
-            MarkupDataProvider.s_mappings.Remove(key);
+            s_mappings.Remove(key);
         }
 
         public static MarkupDataMapping FindDataMapping(
@@ -35,23 +35,23 @@ namespace Microsoft.Iris.Markup
         {
             MarkupDataProvider.MappingKey key = new MarkupDataProvider.MappingKey(typeSchema, providerName);
             MarkupDataMapping markupDataMapping;
-            if (!MarkupDataProvider.s_mappings.TryGetValue(key, out markupDataMapping))
+            if (!s_mappings.TryGetValue(key, out markupDataMapping))
             {
                 markupDataMapping = new MarkupDataMapping(null);
                 markupDataMapping.Provider = providerName;
                 markupDataMapping.TargetType = typeSchema;
-                markupDataMapping.Mappings = MarkupDataProvider.FillInDefaultMappings(typeSchema, null);
-                MarkupDataProvider.s_mappings[key] = markupDataMapping;
+                markupDataMapping.Mappings = FillInDefaultMappings(typeSchema, null);
+                s_mappings[key] = markupDataMapping;
             }
             return markupDataMapping;
         }
 
-        public static void RegisterDataProvider(IDataProvider provider) => MarkupDataProvider.s_providers[provider.Name] = provider;
+        public static void RegisterDataProvider(IDataProvider provider) => s_providers[provider.Name] = provider;
 
         public static IDataProvider GetDataProvider(string providerName)
         {
             IDataProvider dataProvider;
-            return MarkupDataProvider.s_providers.TryGetValue(providerName, out dataProvider) ? dataProvider : null;
+            return s_providers.TryGetValue(providerName, out dataProvider) ? dataProvider : null;
         }
 
         public static object GetDefaultValueForType(TypeSchema type) => type.IsNullAssignable ? null : type.ConstructDefault();
@@ -70,7 +70,7 @@ namespace Microsoft.Iris.Markup
                         entries[property.Name] = new MarkupDataMappingEntry()
                         {
                             Property = property,
-                            DefaultValue = MarkupDataProvider.GetDefaultValueForType(property.PropertyType)
+                            DefaultValue = GetDefaultValueForType(property.PropertyType)
                         };
                 }
             }

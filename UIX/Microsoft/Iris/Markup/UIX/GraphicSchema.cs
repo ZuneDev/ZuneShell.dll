@@ -61,22 +61,22 @@ namespace Microsoft.Iris.Markup.UIX
             return null;
         }
 
-        public static void Pass1Initialize() => GraphicSchema.Type = new UIXTypeSchema(97, "Graphic", null, 239, typeof(Graphic), UIXTypeFlags.Disposable);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(97, "Graphic", null, 239, typeof(Graphic), UIXTypeFlags.Disposable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(97, "Children", 138, 239, ExpressionRestriction.NoAccess, false, null, true, new GetValueHandler(GraphicSchema.GetChildren), null, false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(97, "Content", 105, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GraphicSchema.GetContent), new SetValueHandler(GraphicSchema.SetContent), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(97, "PreloadContent", 105, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GraphicSchema.GetPreloadContent), new SetValueHandler(GraphicSchema.SetPreloadContent), false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(97, "Effect", 78, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GraphicSchema.GetEffect), new SetValueHandler(GraphicSchema.SetEffect), false);
-            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(97, "AcquiringImage", 105, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GraphicSchema.GetAcquiringImage), new SetValueHandler(GraphicSchema.SetAcquiringImage), false);
-            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(97, "ErrorImage", 105, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GraphicSchema.GetErrorImage), new SetValueHandler(GraphicSchema.SetErrorImage), false);
-            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema(97, "SizingPolicy", 199, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GraphicSchema.GetSizingPolicy), new SetValueHandler(GraphicSchema.SetSizingPolicy), false);
-            UIXPropertySchema uixPropertySchema8 = new UIXPropertySchema(97, "StretchingPolicy", 207, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GraphicSchema.GetStretchingPolicy), new SetValueHandler(GraphicSchema.SetStretchingPolicy), false);
-            UIXPropertySchema uixPropertySchema9 = new UIXPropertySchema(97, "HorizontalAlignment", 209, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GraphicSchema.GetHorizontalAlignment), new SetValueHandler(GraphicSchema.SetHorizontalAlignment), false);
-            UIXPropertySchema uixPropertySchema10 = new UIXPropertySchema(97, "VerticalAlignment", 209, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GraphicSchema.GetVerticalAlignment), new SetValueHandler(GraphicSchema.SetVerticalAlignment), false);
-            UIXMethodSchema uixMethodSchema = new UIXMethodSchema(97, "CommitPreload", null, 240, new InvokeHandler(GraphicSchema.CallCommitPreload), false);
-            GraphicSchema.Type.Initialize(new DefaultConstructHandler(GraphicSchema.Construct), null, new PropertySchema[10]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(97, "Children", 138, 239, ExpressionRestriction.NoAccess, false, null, true, new GetValueHandler(GetChildren), null, false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(97, "Content", 105, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetContent), new SetValueHandler(SetContent), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(97, "PreloadContent", 105, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetPreloadContent), new SetValueHandler(SetPreloadContent), false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(97, "Effect", 78, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetEffect), new SetValueHandler(SetEffect), false);
+            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(97, "AcquiringImage", 105, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetAcquiringImage), new SetValueHandler(SetAcquiringImage), false);
+            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(97, "ErrorImage", 105, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetErrorImage), new SetValueHandler(SetErrorImage), false);
+            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema(97, "SizingPolicy", 199, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetSizingPolicy), new SetValueHandler(SetSizingPolicy), false);
+            UIXPropertySchema uixPropertySchema8 = new UIXPropertySchema(97, "StretchingPolicy", 207, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetStretchingPolicy), new SetValueHandler(SetStretchingPolicy), false);
+            UIXPropertySchema uixPropertySchema9 = new UIXPropertySchema(97, "HorizontalAlignment", 209, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetHorizontalAlignment), new SetValueHandler(SetHorizontalAlignment), false);
+            UIXPropertySchema uixPropertySchema10 = new UIXPropertySchema(97, "VerticalAlignment", 209, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetVerticalAlignment), new SetValueHandler(SetVerticalAlignment), false);
+            UIXMethodSchema uixMethodSchema = new UIXMethodSchema(97, "CommitPreload", null, 240, new InvokeHandler(CallCommitPreload), false);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[10]
             {
          uixPropertySchema5,
          uixPropertySchema1,

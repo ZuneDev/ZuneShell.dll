@@ -130,15 +130,15 @@ namespace Microsoft.Iris.Markup.UIX
             instanceObj = color;
         }
 
-        private static object Construct() => ColorSchema.s_Default;
+        private static object Construct() => s_Default;
 
         private static object ConstructAlphaRedGreenBlue(object[] parameters)
         {
-            object instanceObj = ColorSchema.Construct();
-            ColorSchema.SetAlpha(ref instanceObj, parameters[0]);
-            ColorSchema.SetRed(ref instanceObj, parameters[1]);
-            ColorSchema.SetGreen(ref instanceObj, parameters[2]);
-            ColorSchema.SetBlue(ref instanceObj, parameters[3]);
+            object instanceObj = Construct();
+            SetAlpha(ref instanceObj, parameters[0]);
+            SetRed(ref instanceObj, parameters[1]);
+            SetGreen(ref instanceObj, parameters[2]);
+            SetBlue(ref instanceObj, parameters[3]);
             return instanceObj;
         }
 
@@ -146,72 +146,72 @@ namespace Microsoft.Iris.Markup.UIX
           string[] splitString,
           out object instance)
         {
-            instance = ColorSchema.Construct();
+            instance = Construct();
             object valueObj1;
             Result result1 = UIXLoadResult.ValidateStringAsValue(splitString[0], SingleSchema.Type, SingleSchema.Validate0to1, out valueObj1);
             if (result1.Failed)
                 return Result.Fail("Problem converting '{0}' ({1})", "Color", result1.Error);
-            ColorSchema.SetAlpha(ref instance, valueObj1);
+            SetAlpha(ref instance, valueObj1);
             object valueObj2;
             Result result2 = UIXLoadResult.ValidateStringAsValue(splitString[1], SingleSchema.Type, SingleSchema.Validate0to1, out valueObj2);
             if (result2.Failed)
                 return Result.Fail("Problem converting '{0}' ({1})", "Color", result2.Error);
-            ColorSchema.SetRed(ref instance, valueObj2);
+            SetRed(ref instance, valueObj2);
             object valueObj3;
             Result result3 = UIXLoadResult.ValidateStringAsValue(splitString[2], SingleSchema.Type, SingleSchema.Validate0to1, out valueObj3);
             if (result3.Failed)
                 return Result.Fail("Problem converting '{0}' ({1})", "Color", result3.Error);
-            ColorSchema.SetGreen(ref instance, valueObj3);
+            SetGreen(ref instance, valueObj3);
             object valueObj4;
             Result result4 = UIXLoadResult.ValidateStringAsValue(splitString[3], SingleSchema.Type, SingleSchema.Validate0to1, out valueObj4);
             if (result4.Failed)
                 return Result.Fail("Problem converting '{0}' ({1})", "Color", result4.Error);
-            ColorSchema.SetBlue(ref instance, valueObj4);
+            SetBlue(ref instance, valueObj4);
             return result4;
         }
 
         private static object ConstructARGB(object[] parameters)
         {
-            object instanceObj = ColorSchema.Construct();
-            ColorSchema.SetA(ref instanceObj, parameters[0]);
-            ColorSchema.SetR(ref instanceObj, parameters[1]);
-            ColorSchema.SetG(ref instanceObj, parameters[2]);
-            ColorSchema.SetB(ref instanceObj, parameters[3]);
+            object instanceObj = Construct();
+            SetA(ref instanceObj, parameters[0]);
+            SetR(ref instanceObj, parameters[1]);
+            SetG(ref instanceObj, parameters[2]);
+            SetB(ref instanceObj, parameters[3]);
             return instanceObj;
         }
 
         private static Result ConvertFromStringARGB(string[] splitString, out object instance)
         {
-            instance = ColorSchema.Construct();
+            instance = Construct();
             object valueObj1;
             Result result1 = UIXLoadResult.ValidateStringAsValue(splitString[0], ByteSchema.Type, null, out valueObj1);
             if (result1.Failed)
                 return Result.Fail("Problem converting '{0}' ({1})", "Color", result1.Error);
-            ColorSchema.SetA(ref instance, valueObj1);
+            SetA(ref instance, valueObj1);
             object valueObj2;
             Result result2 = UIXLoadResult.ValidateStringAsValue(splitString[1], ByteSchema.Type, null, out valueObj2);
             if (result2.Failed)
                 return Result.Fail("Problem converting '{0}' ({1})", "Color", result2.Error);
-            ColorSchema.SetR(ref instance, valueObj2);
+            SetR(ref instance, valueObj2);
             object valueObj3;
             Result result3 = UIXLoadResult.ValidateStringAsValue(splitString[2], ByteSchema.Type, null, out valueObj3);
             if (result3.Failed)
                 return Result.Fail("Problem converting '{0}' ({1})", "Color", result3.Error);
-            ColorSchema.SetG(ref instance, valueObj3);
+            SetG(ref instance, valueObj3);
             object valueObj4;
             Result result4 = UIXLoadResult.ValidateStringAsValue(splitString[3], ByteSchema.Type, null, out valueObj4);
             if (result4.Failed)
                 return Result.Fail("Problem converting '{0}' ({1})", "Color", result4.Error);
-            ColorSchema.SetB(ref instance, valueObj4);
+            SetB(ref instance, valueObj4);
             return result4;
         }
 
         private static object ConstructRedGreenBlue(object[] parameters)
         {
-            object instanceObj = ColorSchema.Construct();
-            ColorSchema.SetRed(ref instanceObj, parameters[0]);
-            ColorSchema.SetGreen(ref instanceObj, parameters[1]);
-            ColorSchema.SetBlue(ref instanceObj, parameters[2]);
+            object instanceObj = Construct();
+            SetRed(ref instanceObj, parameters[0]);
+            SetGreen(ref instanceObj, parameters[1]);
+            SetBlue(ref instanceObj, parameters[2]);
             return instanceObj;
         }
 
@@ -219,52 +219,52 @@ namespace Microsoft.Iris.Markup.UIX
           string[] splitString,
           out object instance)
         {
-            instance = ColorSchema.Construct();
+            instance = Construct();
             object valueObj1;
             Result result1 = UIXLoadResult.ValidateStringAsValue(splitString[0], SingleSchema.Type, SingleSchema.Validate0to1, out valueObj1);
             if (result1.Failed)
                 return Result.Fail("Problem converting '{0}' ({1})", "Color", result1.Error);
-            ColorSchema.SetRed(ref instance, valueObj1);
+            SetRed(ref instance, valueObj1);
             object valueObj2;
             Result result2 = UIXLoadResult.ValidateStringAsValue(splitString[1], SingleSchema.Type, SingleSchema.Validate0to1, out valueObj2);
             if (result2.Failed)
                 return Result.Fail("Problem converting '{0}' ({1})", "Color", result2.Error);
-            ColorSchema.SetGreen(ref instance, valueObj2);
+            SetGreen(ref instance, valueObj2);
             object valueObj3;
             Result result3 = UIXLoadResult.ValidateStringAsValue(splitString[2], SingleSchema.Type, SingleSchema.Validate0to1, out valueObj3);
             if (result3.Failed)
                 return Result.Fail("Problem converting '{0}' ({1})", "Color", result3.Error);
-            ColorSchema.SetBlue(ref instance, valueObj3);
+            SetBlue(ref instance, valueObj3);
             return result3;
         }
 
         private static object ConstructRGB(object[] parameters)
         {
-            object instanceObj = ColorSchema.Construct();
-            ColorSchema.SetR(ref instanceObj, parameters[0]);
-            ColorSchema.SetG(ref instanceObj, parameters[1]);
-            ColorSchema.SetB(ref instanceObj, parameters[2]);
+            object instanceObj = Construct();
+            SetR(ref instanceObj, parameters[0]);
+            SetG(ref instanceObj, parameters[1]);
+            SetB(ref instanceObj, parameters[2]);
             return instanceObj;
         }
 
         private static Result ConvertFromStringRGB(string[] splitString, out object instance)
         {
-            instance = ColorSchema.Construct();
+            instance = Construct();
             object valueObj1;
             Result result1 = UIXLoadResult.ValidateStringAsValue(splitString[0], ByteSchema.Type, null, out valueObj1);
             if (result1.Failed)
                 return Result.Fail("Problem converting '{0}' ({1})", "Color", result1.Error);
-            ColorSchema.SetR(ref instance, valueObj1);
+            SetR(ref instance, valueObj1);
             object valueObj2;
             Result result2 = UIXLoadResult.ValidateStringAsValue(splitString[1], ByteSchema.Type, null, out valueObj2);
             if (result2.Failed)
                 return Result.Fail("Problem converting '{0}' ({1})", "Color", result2.Error);
-            ColorSchema.SetG(ref instance, valueObj2);
+            SetG(ref instance, valueObj2);
             object valueObj3;
             Result result3 = UIXLoadResult.ValidateStringAsValue(splitString[2], ByteSchema.Type, null, out valueObj3);
             if (result3.Failed)
                 return Result.Fail("Problem converting '{0}' ({1})", "Color", result3.Error);
-            ColorSchema.SetB(ref instance, valueObj3);
+            SetB(ref instance, valueObj3);
             return result3;
         }
 
@@ -281,7 +281,7 @@ namespace Microsoft.Iris.Markup.UIX
             string str = (string)valueObj;
             instanceObj = null;
             uint num;
-            if (!ColorSchema.s_NameToColorMap.TryGetValue(str.ToLowerInvariant(), out num))
+            if (!s_NameToColorMap.TryGetValue(str.ToLowerInvariant(), out num))
                 return Result.Fail("Unable to convert \"{0}\" to type '{1}'", str, "Color");
             Color color = new Color(num);
             instanceObj = color;
@@ -291,7 +291,7 @@ namespace Microsoft.Iris.Markup.UIX
         private static object FindCanonicalInstance(string name)
         {
             uint num;
-            return ColorSchema.s_NameToColorMap.TryGetValue(name.ToLowerInvariant(), out num) ? new Color(num) : (object)null;
+            return s_NameToColorMap.TryGetValue(name.ToLowerInvariant(), out num) ? new Color(num) : (object)null;
         }
 
         private static bool IsConversionSupported(TypeSchema fromType) => StringSchema.Type.IsAssignableFrom(fromType);
@@ -305,7 +305,7 @@ namespace Microsoft.Iris.Markup.UIX
             instance = null;
             if (StringSchema.Type.IsAssignableFrom(fromType))
             {
-                result1 = ColorSchema.ConvertFromString(from, out instance);
+                result1 = ConvertFromString(from, out instance);
                 if (!result1.Failed)
                     return result1;
             }
@@ -315,18 +315,18 @@ namespace Microsoft.Iris.Markup.UIX
                 switch (splitString.Length)
                 {
                     case 3:
-                        Result result2 = ColorSchema.ConvertFromStringRedGreenBlue(splitString, out instance);
+                        Result result2 = ConvertFromStringRedGreenBlue(splitString, out instance);
                         if (!result2.Failed)
                             return result2;
-                        result1 = ColorSchema.ConvertFromStringRGB(splitString, out instance);
+                        result1 = ConvertFromStringRGB(splitString, out instance);
                         if (!result1.Failed)
                             return result1;
                         break;
                     case 4:
-                        Result result3 = ColorSchema.ConvertFromStringAlphaRedGreenBlue(splitString, out instance);
+                        Result result3 = ConvertFromStringAlphaRedGreenBlue(splitString, out instance);
                         if (!result3.Failed)
                             return result3;
-                        result1 = ColorSchema.ConvertFromStringARGB(splitString, out instance);
+                        result1 = ConvertFromStringARGB(splitString, out instance);
                         if (!result1.Failed)
                             return result1;
                         break;
@@ -343,10 +343,10 @@ namespace Microsoft.Iris.Markup.UIX
             string parameter1 = (string)parameters[0];
             Color parameter2 = (Color)parameters[1];
             object instanceObj1;
-            return ColorSchema.ConvertFromString(parameter1, out instanceObj1).Failed ? parameter2 : instanceObj1;
+            return ConvertFromString(parameter1, out instanceObj1).Failed ? parameter2 : instanceObj1;
         }
 
-        static ColorSchema() => ColorSchema.s_NameToColorMap = new Dictionary<string, uint>(153)
+        static ColorSchema() => s_NameToColorMap = new Dictionary<string, uint>(153)
     {
       {
         "aliceblue",
@@ -962,50 +962,50 @@ namespace Microsoft.Iris.Markup.UIX
       }
     };
 
-        public static void Pass1Initialize() => ColorSchema.Type = new UIXTypeSchema(35, "Color", null, 153, typeof(Color), UIXTypeFlags.Immutable);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(35, "Color", null, 153, typeof(Color), UIXTypeFlags.Immutable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(35, "Alpha", 194, -1, ExpressionRestriction.None, false, SingleSchema.Validate0to1, false, new GetValueHandler(ColorSchema.GetAlpha), new SetValueHandler(ColorSchema.SetAlpha), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(35, "Red", 194, -1, ExpressionRestriction.None, false, SingleSchema.Validate0to1, false, new GetValueHandler(ColorSchema.GetRed), new SetValueHandler(ColorSchema.SetRed), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(35, "Green", 194, -1, ExpressionRestriction.None, false, SingleSchema.Validate0to1, false, new GetValueHandler(ColorSchema.GetGreen), new SetValueHandler(ColorSchema.SetGreen), false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(35, "Blue", 194, -1, ExpressionRestriction.None, false, SingleSchema.Validate0to1, false, new GetValueHandler(ColorSchema.GetBlue), new SetValueHandler(ColorSchema.SetBlue), false);
-            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(35, "A", 19, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(ColorSchema.GetA), new SetValueHandler(ColorSchema.SetA), false);
-            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(35, "R", 19, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(ColorSchema.GetR), new SetValueHandler(ColorSchema.SetR), false);
-            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema(35, "G", 19, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(ColorSchema.GetG), new SetValueHandler(ColorSchema.SetG), false);
-            UIXPropertySchema uixPropertySchema8 = new UIXPropertySchema(35, "B", 19, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(ColorSchema.GetB), new SetValueHandler(ColorSchema.SetB), false);
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(35, "Alpha", 194, -1, ExpressionRestriction.None, false, SingleSchema.Validate0to1, false, new GetValueHandler(GetAlpha), new SetValueHandler(SetAlpha), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(35, "Red", 194, -1, ExpressionRestriction.None, false, SingleSchema.Validate0to1, false, new GetValueHandler(GetRed), new SetValueHandler(SetRed), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(35, "Green", 194, -1, ExpressionRestriction.None, false, SingleSchema.Validate0to1, false, new GetValueHandler(GetGreen), new SetValueHandler(SetGreen), false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(35, "Blue", 194, -1, ExpressionRestriction.None, false, SingleSchema.Validate0to1, false, new GetValueHandler(GetBlue), new SetValueHandler(SetBlue), false);
+            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(35, "A", 19, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetA), new SetValueHandler(SetA), false);
+            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(35, "R", 19, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetR), new SetValueHandler(SetR), false);
+            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema(35, "G", 19, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetG), new SetValueHandler(SetG), false);
+            UIXPropertySchema uixPropertySchema8 = new UIXPropertySchema(35, "B", 19, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetB), new SetValueHandler(SetB), false);
             UIXConstructorSchema constructorSchema1 = new UIXConstructorSchema(35, new short[4]
             {
          194,
          194,
          194,
          194
-            }, new ConstructHandler(ColorSchema.ConstructAlphaRedGreenBlue));
+            }, new ConstructHandler(ConstructAlphaRedGreenBlue));
             UIXConstructorSchema constructorSchema2 = new UIXConstructorSchema(35, new short[4]
             {
          19,
          19,
          19,
          19
-            }, new ConstructHandler(ColorSchema.ConstructARGB));
+            }, new ConstructHandler(ConstructARGB));
             UIXConstructorSchema constructorSchema3 = new UIXConstructorSchema(35, new short[3]
             {
          194,
          194,
          194
-            }, new ConstructHandler(ColorSchema.ConstructRedGreenBlue));
+            }, new ConstructHandler(ConstructRedGreenBlue));
             UIXConstructorSchema constructorSchema4 = new UIXConstructorSchema(35, new short[3]
             {
          19,
          19,
          19
-            }, new ConstructHandler(ColorSchema.ConstructRGB));
+            }, new ConstructHandler(ConstructRGB));
             UIXMethodSchema uixMethodSchema = new UIXMethodSchema(35, "TryParse", new short[2]
             {
          208,
          35
-            }, 35, new InvokeHandler(ColorSchema.CallTryParseStringColor), true);
-            ColorSchema.Type.Initialize(new DefaultConstructHandler(ColorSchema.Construct), new ConstructorSchema[4]
+            }, 35, new InvokeHandler(CallTryParseStringColor), true);
+            Type.Initialize(new DefaultConstructHandler(Construct), new ConstructorSchema[4]
             {
          constructorSchema1,
          constructorSchema2,
@@ -1024,7 +1024,7 @@ namespace Microsoft.Iris.Markup.UIX
             }, new MethodSchema[1]
             {
          uixMethodSchema
-            }, null, new FindCanonicalInstanceHandler(ColorSchema.FindCanonicalInstance), new TypeConverterHandler(ColorSchema.TryConvertFrom), new SupportsTypeConversionHandler(ColorSchema.IsConversionSupported), new EncodeBinaryHandler(ColorSchema.EncodeBinary), new DecodeBinaryHandler(ColorSchema.DecodeBinary), null, null);
+            }, null, new FindCanonicalInstanceHandler(FindCanonicalInstance), new TypeConverterHandler(TryConvertFrom), new SupportsTypeConversionHandler(IsConversionSupported), new EncodeBinaryHandler(EncodeBinary), new DecodeBinaryHandler(DecodeBinary), null, null);
         }
     }
 }

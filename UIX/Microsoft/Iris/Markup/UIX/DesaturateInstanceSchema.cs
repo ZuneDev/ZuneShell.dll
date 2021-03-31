@@ -34,16 +34,16 @@ namespace Microsoft.Iris.Markup.UIX
             return null;
         }
 
-        public static void Pass1Initialize() => DesaturateInstanceSchema.Type = new UIXTypeSchema(55, "DesaturateInstance", null, 74, typeof(EffectElementWrapper), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(55, "DesaturateInstance", null, 74, typeof(EffectElementWrapper), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(55, "Desaturate", 194, -1, ExpressionRestriction.None, false, SingleSchema.Validate0to1, false, null, new SetValueHandler(DesaturateInstanceSchema.SetDesaturate), false);
+            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(55, "Desaturate", 194, -1, ExpressionRestriction.None, false, SingleSchema.Validate0to1, false, null, new SetValueHandler(SetDesaturate), false);
             UIXMethodSchema uixMethodSchema = new UIXMethodSchema(55, "PlayDesaturateAnimation", new short[1]
             {
          75
-            }, 240, new InvokeHandler(DesaturateInstanceSchema.CallPlayDesaturateAnimationEffectFloatAnimation), false);
-            DesaturateInstanceSchema.Type.Initialize(null, null, new PropertySchema[1]
+            }, 240, new InvokeHandler(CallPlayDesaturateAnimationEffectFloatAnimation), false);
+            Type.Initialize(null, null, new PropertySchema[1]
             {
          uixPropertySchema
             }, new MethodSchema[1]

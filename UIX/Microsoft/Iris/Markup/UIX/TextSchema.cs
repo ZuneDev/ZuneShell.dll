@@ -118,35 +118,35 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object Construct() => new Text();
 
-        public static void Pass1Initialize() => TextSchema.Type = new UIXTypeSchema(212, "Text", null, 239, typeof(Text), UIXTypeFlags.Disposable);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(212, "Text", null, 239, typeof(Text), UIXTypeFlags.Disposable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(212, "Content", 208, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TextSchema.GetContent), new SetValueHandler(TextSchema.SetContent), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(212, "Font", 93, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TextSchema.GetFont), new SetValueHandler(TextSchema.SetFont), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(212, "Color", 35, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TextSchema.GetColor), new SetValueHandler(TextSchema.SetColor), false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(212, "WordWrap", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TextSchema.GetWordWrap), new SetValueHandler(TextSchema.SetWordWrap), false);
-            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(212, "MaximumLines", 115, -1, ExpressionRestriction.None, false, Int32Schema.ValidateNotNegative, true, new GetValueHandler(TextSchema.GetMaximumLines), new SetValueHandler(TextSchema.SetMaximumLines), false);
-            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(212, "LineAlignment", 137, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TextSchema.GetLineAlignment), new SetValueHandler(TextSchema.SetLineAlignment), false);
-            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema(212, "LineSpacing", 194, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TextSchema.GetLineSpacing), new SetValueHandler(TextSchema.SetLineSpacing), false);
-            UIXPropertySchema uixPropertySchema8 = new UIXPropertySchema(212, "CharacterSpacing", 194, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TextSchema.GetCharacterSpacing), new SetValueHandler(TextSchema.SetCharacterSpacing), false);
-            UIXPropertySchema uixPropertySchema9 = new UIXPropertySchema(212, "EnableKerning", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TextSchema.GetEnableKerning), new SetValueHandler(TextSchema.SetEnableKerning), false);
-            UIXPropertySchema uixPropertySchema10 = new UIXPropertySchema(212, "LastLineBounds", 169, -1, ExpressionRestriction.ReadOnly, false, null, true, new GetValueHandler(TextSchema.GetLastLineBounds), null, false);
-            UIXPropertySchema uixPropertySchema11 = new UIXPropertySchema(212, "FadeSize", 194, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TextSchema.GetFadeSize), new SetValueHandler(TextSchema.SetFadeSize), false);
-            UIXPropertySchema uixPropertySchema12 = new UIXPropertySchema(212, "Style", 220, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TextSchema.GetStyle), new SetValueHandler(TextSchema.SetStyle), false);
-            UIXPropertySchema uixPropertySchema13 = new UIXPropertySchema(212, "NamedStyles", 58, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TextSchema.GetNamedStyles), new SetValueHandler(TextSchema.SetNamedStyles), false);
-            UIXPropertySchema uixPropertySchema14 = new UIXPropertySchema(212, "Fragments", 138, 215, ExpressionRestriction.ReadOnly, false, null, true, new GetValueHandler(TextSchema.GetFragments), null, false);
-            UIXPropertySchema uixPropertySchema15 = new UIXPropertySchema(212, "TextSharpness", 219, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TextSchema.GetTextSharpness), new SetValueHandler(TextSchema.SetTextSharpness), false);
-            UIXPropertySchema uixPropertySchema16 = new UIXPropertySchema(212, "Clipped", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TextSchema.GetClipped), null, false);
-            UIXPropertySchema uixPropertySchema17 = new UIXPropertySchema(212, "ContributesToWidth", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TextSchema.GetContributesToWidth), new SetValueHandler(TextSchema.SetContributesToWidth), false);
-            UIXPropertySchema uixPropertySchema18 = new UIXPropertySchema(212, "BoundsType", 213, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TextSchema.GetBoundsType), new SetValueHandler(TextSchema.SetBoundsType), false);
-            UIXPropertySchema uixPropertySchema19 = new UIXPropertySchema(212, "Effect", 78, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TextSchema.GetEffect), new SetValueHandler(TextSchema.SetEffect), false);
-            UIXPropertySchema uixPropertySchema20 = new UIXPropertySchema(212, "DisableIme", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TextSchema.GetDisableIme), new SetValueHandler(TextSchema.SetDisableIme), false);
-            UIXPropertySchema uixPropertySchema21 = new UIXPropertySchema(212, "HighlightColor", 35, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TextSchema.GetHighlightColor), new SetValueHandler(TextSchema.SetHighlightColor), false);
-            UIXPropertySchema uixPropertySchema22 = new UIXPropertySchema(212, "TextHighlightColor", 35, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TextSchema.GetTextHighlightColor), new SetValueHandler(TextSchema.SetTextHighlightColor), false);
-            UIXPropertySchema uixPropertySchema23 = new UIXPropertySchema(212, "UsePasswordMask", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TextSchema.GetUsePasswordMask), new SetValueHandler(TextSchema.SetUsePasswordMask), false);
-            UIXPropertySchema uixPropertySchema24 = new UIXPropertySchema(212, "PasswordMask", 27, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TextSchema.GetPasswordMask), new SetValueHandler(TextSchema.SetPasswordMask), false);
-            TextSchema.Type.Initialize(new DefaultConstructHandler(TextSchema.Construct), null, new PropertySchema[24]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(212, "Content", 208, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetContent), new SetValueHandler(SetContent), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(212, "Font", 93, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetFont), new SetValueHandler(SetFont), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(212, "Color", 35, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetColor), new SetValueHandler(SetColor), false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(212, "WordWrap", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetWordWrap), new SetValueHandler(SetWordWrap), false);
+            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(212, "MaximumLines", 115, -1, ExpressionRestriction.None, false, Int32Schema.ValidateNotNegative, true, new GetValueHandler(GetMaximumLines), new SetValueHandler(SetMaximumLines), false);
+            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(212, "LineAlignment", 137, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetLineAlignment), new SetValueHandler(SetLineAlignment), false);
+            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema(212, "LineSpacing", 194, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetLineSpacing), new SetValueHandler(SetLineSpacing), false);
+            UIXPropertySchema uixPropertySchema8 = new UIXPropertySchema(212, "CharacterSpacing", 194, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetCharacterSpacing), new SetValueHandler(SetCharacterSpacing), false);
+            UIXPropertySchema uixPropertySchema9 = new UIXPropertySchema(212, "EnableKerning", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetEnableKerning), new SetValueHandler(SetEnableKerning), false);
+            UIXPropertySchema uixPropertySchema10 = new UIXPropertySchema(212, "LastLineBounds", 169, -1, ExpressionRestriction.ReadOnly, false, null, true, new GetValueHandler(GetLastLineBounds), null, false);
+            UIXPropertySchema uixPropertySchema11 = new UIXPropertySchema(212, "FadeSize", 194, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetFadeSize), new SetValueHandler(SetFadeSize), false);
+            UIXPropertySchema uixPropertySchema12 = new UIXPropertySchema(212, "Style", 220, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetStyle), new SetValueHandler(SetStyle), false);
+            UIXPropertySchema uixPropertySchema13 = new UIXPropertySchema(212, "NamedStyles", 58, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetNamedStyles), new SetValueHandler(SetNamedStyles), false);
+            UIXPropertySchema uixPropertySchema14 = new UIXPropertySchema(212, "Fragments", 138, 215, ExpressionRestriction.ReadOnly, false, null, true, new GetValueHandler(GetFragments), null, false);
+            UIXPropertySchema uixPropertySchema15 = new UIXPropertySchema(212, "TextSharpness", 219, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetTextSharpness), new SetValueHandler(SetTextSharpness), false);
+            UIXPropertySchema uixPropertySchema16 = new UIXPropertySchema(212, "Clipped", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetClipped), null, false);
+            UIXPropertySchema uixPropertySchema17 = new UIXPropertySchema(212, "ContributesToWidth", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetContributesToWidth), new SetValueHandler(SetContributesToWidth), false);
+            UIXPropertySchema uixPropertySchema18 = new UIXPropertySchema(212, "BoundsType", 213, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetBoundsType), new SetValueHandler(SetBoundsType), false);
+            UIXPropertySchema uixPropertySchema19 = new UIXPropertySchema(212, "Effect", 78, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetEffect), new SetValueHandler(SetEffect), false);
+            UIXPropertySchema uixPropertySchema20 = new UIXPropertySchema(212, "DisableIme", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetDisableIme), new SetValueHandler(SetDisableIme), false);
+            UIXPropertySchema uixPropertySchema21 = new UIXPropertySchema(212, "HighlightColor", 35, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetHighlightColor), new SetValueHandler(SetHighlightColor), false);
+            UIXPropertySchema uixPropertySchema22 = new UIXPropertySchema(212, "TextHighlightColor", 35, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetTextHighlightColor), new SetValueHandler(SetTextHighlightColor), false);
+            UIXPropertySchema uixPropertySchema23 = new UIXPropertySchema(212, "UsePasswordMask", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetUsePasswordMask), new SetValueHandler(SetUsePasswordMask), false);
+            UIXPropertySchema uixPropertySchema24 = new UIXPropertySchema(212, "PasswordMask", 27, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetPasswordMask), new SetValueHandler(SetPasswordMask), false);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[24]
             {
          uixPropertySchema18,
          uixPropertySchema8,

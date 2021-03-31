@@ -16,20 +16,20 @@ namespace Microsoft.Iris.Markup
         public static LoadResult Read(string uri)
         {
             LoadResult loadResult;
-            LoadResultCache.s_cache.TryGetValue(uri, out loadResult);
+            s_cache.TryGetValue(uri, out loadResult);
             return loadResult;
         }
 
         public static void Write(string uri, LoadResult loadResult)
         {
-            LoadResultCache.s_cache[uri] = loadResult;
+            s_cache[uri] = loadResult;
             loadResult.RegisterUsage(s_cache);
         }
 
         public static void Remove(uint islandId)
         {
             Vector<string> vector = new Vector<string>();
-            foreach (KeyValuePair<string, LoadResult> keyValuePair in LoadResultCache.s_cache)
+            foreach (KeyValuePair<string, LoadResult> keyValuePair in s_cache)
             {
                 LoadResult loadResult = keyValuePair.Value;
                 if ((loadResult.IslandReferences & islandId) > 0U)
@@ -41,17 +41,17 @@ namespace Microsoft.Iris.Markup
                 }
             }
             foreach (string key in vector)
-                LoadResultCache.s_cache.Remove(key);
+                s_cache.Remove(key);
         }
 
         public static void Clear()
         {
-            foreach (LoadResult loadResult in LoadResultCache.s_cache.Values)
+            foreach (LoadResult loadResult in s_cache.Values)
             {
                 loadResult.RemoveAllReferences();
                 loadResult.UnregisterUsage(s_cache);
             }
-            LoadResultCache.s_cache.Clear();
+            s_cache.Clear();
         }
     }
 }

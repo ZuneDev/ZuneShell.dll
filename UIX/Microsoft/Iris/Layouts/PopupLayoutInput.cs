@@ -69,7 +69,7 @@ namespace Microsoft.Iris.Layouts
             set => this._constrainToTarget = value;
         }
 
-        DataCookie ILayoutInput.Data => PopupLayoutInput.Data;
+        DataCookie ILayoutInput.Data => Data;
 
         internal static DataCookie Data => PopupLayout.DataCookie;
 
@@ -111,9 +111,9 @@ namespace Microsoft.Iris.Layouts
         {
             get
             {
-                if (PopupLayoutInput.s_default == null)
-                    PopupLayoutInput.s_default = new PopupLayoutInput();
-                return PopupLayoutInput.s_default;
+                if (s_default == null)
+                    s_default = new PopupLayoutInput();
+                return s_default;
             }
         }
     }

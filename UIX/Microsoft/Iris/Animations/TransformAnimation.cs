@@ -83,7 +83,7 @@ namespace Microsoft.Iris.Animations
             bool flag3 = magnitude != 1.0;
             int filter = (int)this._filter;
             AnimationTemplate anim1 = base.BuildWorker(ref args);
-            TransformAnimation.DumpAnimation(anim1, "Source");
+            DumpAnimation(anim1, "Source");
             if (!flag1 && !flag2 && !flag3)
                 return anim1;
             AnimationTemplate anim2 = (AnimationTemplate)anim1.Clone();
@@ -118,7 +118,7 @@ namespace Microsoft.Iris.Animations
                 if (this.ShouldApplyTransform(keyframe))
                     keyframe.Time *= timeScaleValue;
             }
-            TransformAnimation.DumpAnimation(anim, "Result");
+            DumpAnimation(anim, "Result");
         }
 
         private void ApplyTimeOffset(AnimationTemplate anim, float timeOffsetValue)
@@ -135,7 +135,7 @@ namespace Microsoft.Iris.Animations
             }
             foreach (BaseKeyframe key in arrayList)
                 anim.AddKeyframe(key);
-            TransformAnimation.DumpAnimation(anim, "Result");
+            DumpAnimation(anim, "Result");
         }
 
         private void ApplyMagnitude(AnimationTemplate anim, float magnitudeValue)
@@ -145,7 +145,7 @@ namespace Microsoft.Iris.Animations
                 if (this.ShouldApplyTransform(keyframe))
                     keyframe.MagnifyValue(magnitudeValue);
             }
-            TransformAnimation.DumpAnimation(anim, "Result");
+            DumpAnimation(anim, "Result");
         }
 
         private KeyframeFilter GetKeyframeFilter(BaseKeyframe key)

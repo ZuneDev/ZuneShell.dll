@@ -12,7 +12,7 @@ namespace Microsoft.Iris.Markup.UIX
 {
     internal static class RotateLayoutSchema
     {
-        public static RangeValidator ValidateRightAngle = new RangeValidator(RotateLayoutSchema.RangeValidateRightAngle);
+        public static RangeValidator ValidateRightAngle = new RangeValidator(RangeValidateRightAngle);
         public static UIXTypeSchema Type;
 
         private static object GetAngleDegrees(object instanceObj) => ((RotateLayout)instanceObj).AngleDegrees;
@@ -21,7 +21,7 @@ namespace Microsoft.Iris.Markup.UIX
         {
             RotateLayout rotateLayout = (RotateLayout)instanceObj;
             int num = (int)valueObj;
-            Result result = RotateLayoutSchema.ValidateRightAngle(valueObj);
+            Result result = ValidateRightAngle(valueObj);
             if (result.Failed)
                 ErrorManager.ReportError(result.Error);
             else
@@ -45,12 +45,12 @@ namespace Microsoft.Iris.Markup.UIX
             }
         }
 
-        public static void Pass1Initialize() => RotateLayoutSchema.Type = new UIXTypeSchema(175, "RotateLayout", null, 132, typeof(RotateLayout), UIXTypeFlags.Immutable);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(175, "RotateLayout", null, 132, typeof(RotateLayout), UIXTypeFlags.Immutable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(175, "AngleDegrees", 115, -1, ExpressionRestriction.None, false, RotateLayoutSchema.ValidateRightAngle, false, new GetValueHandler(RotateLayoutSchema.GetAngleDegrees), new SetValueHandler(RotateLayoutSchema.SetAngleDegrees), false);
-            RotateLayoutSchema.Type.Initialize(new DefaultConstructHandler(RotateLayoutSchema.Construct), null, new PropertySchema[1]
+            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(175, "AngleDegrees", 115, -1, ExpressionRestriction.None, false, ValidateRightAngle, false, new GetValueHandler(GetAngleDegrees), new SetValueHandler(SetAngleDegrees), false);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[1]
             {
          uixPropertySchema
             }, null, null, null, null, null, null, null, null, null);

@@ -18,12 +18,12 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object Construct() => new SizeYKeyframe();
 
-        public static void Pass1Initialize() => SizeYKeyframeSchema.Type = new UIXTypeSchema(198, "SizeYKeyframe", null, 130, typeof(SizeYKeyframe), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(198, "SizeYKeyframe", null, 130, typeof(SizeYKeyframe), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(198, "Value", 194, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(SizeYKeyframeSchema.GetValue), new SetValueHandler(SizeYKeyframeSchema.SetValue), false);
-            SizeYKeyframeSchema.Type.Initialize(new DefaultConstructHandler(SizeYKeyframeSchema.Construct), null, new PropertySchema[1]
+            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(198, "Value", 194, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetValue), new SetValueHandler(SetValue), false);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[1]
             {
          uixPropertySchema
             }, null, null, null, null, null, null, null, null, null);

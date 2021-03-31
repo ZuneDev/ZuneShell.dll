@@ -163,7 +163,7 @@ namespace Microsoft.Iris.Navigation
         {
             NavigationItem navigationItem = null;
             if (partition != null && partition.Count > 0)
-                navigationItem = NavigationItem.CreateAreaForSite(new TransientNavigationSite(partition[0].ToString(), this.Subject, partition, this._modeForNewSites, Vector3.Zero, Vector3.Zero), this.SearchDirection, false, true);
+                navigationItem = CreateAreaForSite(new TransientNavigationSite(partition[0].ToString(), this.Subject, partition, this._modeForNewSites, Vector3.Zero, Vector3.Zero), this.SearchDirection, false, true);
             return navigationItem;
         }
 

@@ -46,14 +46,14 @@ namespace Microsoft.Iris.Markup
           TypeSchema[] parameterTypes,
           string[] parameterNames)
         {
-            return MarkupMethodSchema.Build(markupTypeBase, owner, name, returnType, parameterTypes, parameterNames, false);
+            return Build(markupTypeBase, owner, name, returnType, parameterTypes, parameterNames, false);
         }
 
         public static MarkupMethodSchema BuildVirtualThunk(
           TypeSchema markupTypeBase,
           MarkupMethodSchema virtualMethod)
         {
-            return MarkupMethodSchema.Build(markupTypeBase, (MarkupTypeSchema)virtualMethod.Owner, virtualMethod.Name, virtualMethod.ReturnType, virtualMethod.ParameterTypes, virtualMethod.ParameterNames, true);
+            return Build(markupTypeBase, (MarkupTypeSchema)virtualMethod.Owner, virtualMethod.Name, virtualMethod.ReturnType, virtualMethod.ParameterTypes, virtualMethod.ParameterNames, true);
         }
 
         protected MarkupMethodSchema(

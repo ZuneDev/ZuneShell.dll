@@ -24,16 +24,16 @@ namespace Microsoft.Iris.Markup.UIX
             return null;
         }
 
-        public static void Pass1Initialize() => ColorElementInstanceSchema.Type = new UIXTypeSchema(37, "ColorElementInstance", null, 74, typeof(EffectElementWrapper), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(37, "ColorElementInstance", null, 74, typeof(EffectElementWrapper), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(37, "Color", 35, -1, ExpressionRestriction.None, false, null, false, null, new SetValueHandler(ColorElementInstanceSchema.SetColor), false);
+            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(37, "Color", 35, -1, ExpressionRestriction.None, false, null, false, null, new SetValueHandler(SetColor), false);
             UIXMethodSchema uixMethodSchema = new UIXMethodSchema(37, "PlayColorAnimation", new short[1]
             {
          71
-            }, 240, new InvokeHandler(ColorElementInstanceSchema.CallPlayColorAnimationEffectColorAnimation), false);
-            ColorElementInstanceSchema.Type.Initialize(null, null, new PropertySchema[1]
+            }, 240, new InvokeHandler(CallPlayColorAnimationEffectColorAnimation), false);
+            Type.Initialize(null, null, new PropertySchema[1]
             {
          uixPropertySchema
             }, new MethodSchema[1]

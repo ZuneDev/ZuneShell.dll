@@ -143,63 +143,63 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object CallGetEnumerator(object instanceObj, object[] parameters) => ((IEnumerable)instanceObj).GetEnumerator();
 
-        public static void Pass1Initialize() => ListSchema.Type = new UIXTypeSchema(138, "List", null, 153, typeof(IList), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(138, "List", null, 153, typeof(IList), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(138, "Count", 115, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ListSchema.GetCount), null, false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(138, "Source", 138, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ListSchema.GetSource), null, false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(138, "CanSearch", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ListSchema.GetCanSearch), null, false);
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(138, "Count", 115, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetCount), null, false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(138, "Source", 138, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetSource), null, false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(138, "CanSearch", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetCanSearch), null, false);
             UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema(138, "IsNullOrEmpty", new short[1]
             {
          138
-            }, 15, new InvokeHandler(ListSchema.CallIsNullOrEmptyList), true);
+            }, 15, new InvokeHandler(CallIsNullOrEmptyList), true);
             UIXMethodSchema uixMethodSchema2 = new UIXMethodSchema(138, "get_Item", new short[1]
             {
          115
-            }, 153, new InvokeHandler(ListSchema.Callget_ItemInt32), false);
+            }, 153, new InvokeHandler(Callget_ItemInt32), false);
             UIXMethodSchema uixMethodSchema3 = new UIXMethodSchema(138, "set_Item", new short[2]
             {
          115,
          153
-            }, 240, new InvokeHandler(ListSchema.Callset_ItemInt32Object), false);
-            UIXMethodSchema uixMethodSchema4 = new UIXMethodSchema(138, "Clear", null, 240, new InvokeHandler(ListSchema.CallClear), false);
+            }, 240, new InvokeHandler(Callset_ItemInt32Object), false);
+            UIXMethodSchema uixMethodSchema4 = new UIXMethodSchema(138, "Clear", null, 240, new InvokeHandler(CallClear), false);
             UIXMethodSchema uixMethodSchema5 = new UIXMethodSchema(138, "Add", new short[1]
             {
          153
-            }, 240, new InvokeHandler(ListSchema.CallAddObject), false);
+            }, 240, new InvokeHandler(CallAddObject), false);
             UIXMethodSchema uixMethodSchema6 = new UIXMethodSchema(138, "Remove", new short[1]
             {
          153
-            }, 240, new InvokeHandler(ListSchema.CallRemoveObject), false);
+            }, 240, new InvokeHandler(CallRemoveObject), false);
             UIXMethodSchema uixMethodSchema7 = new UIXMethodSchema(138, "Contains", new short[1]
             {
          153
-            }, 15, new InvokeHandler(ListSchema.CallContainsObject), false);
+            }, 15, new InvokeHandler(CallContainsObject), false);
             UIXMethodSchema uixMethodSchema8 = new UIXMethodSchema(138, "IndexOf", new short[1]
             {
          153
-            }, 115, new InvokeHandler(ListSchema.CallIndexOfObject), false);
+            }, 115, new InvokeHandler(CallIndexOfObject), false);
             UIXMethodSchema uixMethodSchema9 = new UIXMethodSchema(138, "Insert", new short[2]
             {
          115,
          153
-            }, 240, new InvokeHandler(ListSchema.CallInsertInt32Object), false);
+            }, 240, new InvokeHandler(CallInsertInt32Object), false);
             UIXMethodSchema uixMethodSchema10 = new UIXMethodSchema(138, "RemoveAt", new short[1]
             {
          115
-            }, 240, new InvokeHandler(ListSchema.CallRemoveAtInt32), false);
+            }, 240, new InvokeHandler(CallRemoveAtInt32), false);
             UIXMethodSchema uixMethodSchema11 = new UIXMethodSchema(138, "SearchForString", new short[1]
             {
          208
-            }, 115, new InvokeHandler(ListSchema.CallSearchForStringString), false);
+            }, 115, new InvokeHandler(CallSearchForStringString), false);
             UIXMethodSchema uixMethodSchema12 = new UIXMethodSchema(138, "Move", new short[2]
             {
          115,
          115
-            }, 240, new InvokeHandler(ListSchema.CallMoveInt32Int32), false);
-            UIXMethodSchema uixMethodSchema13 = new UIXMethodSchema(138, "GetEnumerator", null, 86, new InvokeHandler(ListSchema.CallGetEnumerator), false);
-            ListSchema.Type.Initialize(new DefaultConstructHandler(ListSchema.Construct), null, new PropertySchema[3]
+            }, 240, new InvokeHandler(CallMoveInt32Int32), false);
+            UIXMethodSchema uixMethodSchema13 = new UIXMethodSchema(138, "GetEnumerator", null, 86, new InvokeHandler(CallGetEnumerator), false);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[3]
             {
          uixPropertySchema3,
          uixPropertySchema1,

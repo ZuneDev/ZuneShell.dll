@@ -24,15 +24,15 @@ namespace Microsoft.Iris.Markup.UIX
             return null;
         }
 
-        public static void Pass1Initialize() => MarkupDataQueryInstanceSchema.Type = new UIXTypeSchema(142, "MarkupDataQueryInstance", null, 153, typeof(MarkupDataQuery), UIXTypeFlags.Disposable);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(142, "MarkupDataQueryInstance", null, 153, typeof(MarkupDataQuery), UIXTypeFlags.Disposable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(142, "Status", 47, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(MarkupDataQueryInstanceSchema.GetStatus), null, false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(142, "Result", 143, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(MarkupDataQueryInstanceSchema.GetResult), null, false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(142, "Enabled", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(MarkupDataQueryInstanceSchema.GetEnabled), new SetValueHandler(MarkupDataQueryInstanceSchema.SetEnabled), false);
-            UIXMethodSchema uixMethodSchema = new UIXMethodSchema(142, "Refresh", null, 240, new InvokeHandler(MarkupDataQueryInstanceSchema.CallRefresh), false);
-            MarkupDataQueryInstanceSchema.Type.Initialize(null, null, new PropertySchema[3]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(142, "Status", 47, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetStatus), null, false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(142, "Result", 143, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetResult), null, false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(142, "Enabled", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetEnabled), new SetValueHandler(SetEnabled), false);
+            UIXMethodSchema uixMethodSchema = new UIXMethodSchema(142, "Refresh", null, 240, new InvokeHandler(CallRefresh), false);
+            Type.Initialize(null, null, new PropertySchema[3]
             {
          uixPropertySchema3,
          uixPropertySchema2,

@@ -12,10 +12,10 @@ namespace Microsoft.Iris.Navigation
 {
     internal class NavigationStrip : NavigationItem
     {
-        private static readonly NavigationStrip.CompareFunction s_orderHorizontalMethod = new NavigationStrip.CompareFunction(NavigationStrip.CompareOrderHorizontal);
-        private static readonly NavigationStrip.CompareFunction s_orderVerticalMethod = new NavigationStrip.CompareFunction(NavigationStrip.CompareOrderVertical);
-        private static readonly NavigationStrip.CompareFunction s_distanceHorizontalMethod = new NavigationStrip.CompareFunction(NavigationStrip.CompareDistanceHorizontal);
-        private static readonly NavigationStrip.CompareFunction s_distanceVerticalMethod = new NavigationStrip.CompareFunction(NavigationStrip.CompareDistanceVertical);
+        private static readonly NavigationStrip.CompareFunction s_orderHorizontalMethod = new NavigationStrip.CompareFunction(CompareOrderHorizontal);
+        private static readonly NavigationStrip.CompareFunction s_orderVerticalMethod = new NavigationStrip.CompareFunction(CompareOrderVertical);
+        private static readonly NavigationStrip.CompareFunction s_distanceHorizontalMethod = new NavigationStrip.CompareFunction(CompareDistanceHorizontal);
+        private static readonly NavigationStrip.CompareFunction s_distanceVerticalMethod = new NavigationStrip.CompareFunction(CompareDistanceVertical);
         private NavigationOrientation _orientationValue;
 
         internal NavigationStrip(
@@ -50,10 +50,10 @@ namespace Microsoft.Iris.Navigation
                 switch (searchOrientation)
                 {
                     case NavigationOrientation.Horizontal:
-                        compareMethod = NavigationStrip.s_orderHorizontalMethod;
+                        compareMethod = s_orderHorizontalMethod;
                         break;
                     case NavigationOrientation.Vertical:
-                        compareMethod = NavigationStrip.s_orderVerticalMethod;
+                        compareMethod = s_orderVerticalMethod;
                         break;
                 }
                 switch (this.SearchDirection)
@@ -75,11 +75,11 @@ namespace Microsoft.Iris.Navigation
                 switch (searchOrientation)
                 {
                     case NavigationOrientation.Horizontal:
-                        compareMethod = NavigationStrip.s_distanceVerticalMethod;
+                        compareMethod = s_distanceVerticalMethod;
                         paramValue = center.Y;
                         break;
                     case NavigationOrientation.Vertical:
-                        compareMethod = NavigationStrip.s_distanceHorizontalMethod;
+                        compareMethod = s_distanceHorizontalMethod;
                         paramValue = center.X;
                         break;
                 }

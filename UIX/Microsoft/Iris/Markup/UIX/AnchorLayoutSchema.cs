@@ -32,9 +32,9 @@ namespace Microsoft.Iris.Markup.UIX
         private static object ConstructSizeToHorizontalChildrenSizeToVerticalChildren(
           object[] parameters)
         {
-            object instanceObj = AnchorLayoutSchema.Construct();
-            AnchorLayoutSchema.SetSizeToHorizontalChildren(ref instanceObj, parameters[0]);
-            AnchorLayoutSchema.SetSizeToVerticalChildren(ref instanceObj, parameters[1]);
+            object instanceObj = Construct();
+            SetSizeToHorizontalChildren(ref instanceObj, parameters[0]);
+            SetSizeToVerticalChildren(ref instanceObj, parameters[1]);
             return instanceObj;
         }
 
@@ -42,17 +42,17 @@ namespace Microsoft.Iris.Markup.UIX
           string[] splitString,
           out object instance)
         {
-            instance = AnchorLayoutSchema.Construct();
+            instance = Construct();
             object valueObj1;
             Result result1 = UIXLoadResult.ValidateStringAsValue(splitString[0], BooleanSchema.Type, null, out valueObj1);
             if (result1.Failed)
                 return Result.Fail("Problem converting '{0}' ({1})", "AnchorLayout", result1.Error);
-            AnchorLayoutSchema.SetSizeToHorizontalChildren(ref instance, valueObj1);
+            SetSizeToHorizontalChildren(ref instance, valueObj1);
             object valueObj2;
             Result result2 = UIXLoadResult.ValidateStringAsValue(splitString[1], BooleanSchema.Type, null, out valueObj2);
             if (result2.Failed)
                 return Result.Fail("Problem converting '{0}' ({1})", "AnchorLayout", result2.Error);
-            AnchorLayoutSchema.SetSizeToVerticalChildren(ref instance, valueObj2);
+            SetSizeToVerticalChildren(ref instance, valueObj2);
             return result2;
         }
 
@@ -70,7 +70,7 @@ namespace Microsoft.Iris.Markup.UIX
                 string[] splitString = StringUtility.SplitAndTrim(',', (string)from);
                 if (splitString.Length == 2)
                 {
-                    result = AnchorLayoutSchema.ConvertFromStringSizeToHorizontalChildrenSizeToVerticalChildren(splitString, out instance);
+                    result = ConvertFromStringSizeToHorizontalChildrenSizeToVerticalChildren(splitString, out instance);
                     if (!result.Failed)
                         return result;
                 }
@@ -80,19 +80,19 @@ namespace Microsoft.Iris.Markup.UIX
             return result;
         }
 
-        public static void Pass1Initialize() => AnchorLayoutSchema.Type = new UIXTypeSchema(7, "AnchorLayout", null, 132, typeof(AnchorLayout), UIXTypeFlags.Immutable);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(7, "AnchorLayout", null, 132, typeof(AnchorLayout), UIXTypeFlags.Immutable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(7, "SizeToHorizontalChildren", 15, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(AnchorLayoutSchema.GetSizeToHorizontalChildren), new SetValueHandler(AnchorLayoutSchema.SetSizeToHorizontalChildren), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(7, "SizeToVerticalChildren", 15, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(AnchorLayoutSchema.GetSizeToVerticalChildren), new SetValueHandler(AnchorLayoutSchema.SetSizeToVerticalChildren), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(7, "DefaultChildAlignment", sbyte.MaxValue, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(AnchorLayoutSchema.GetDefaultChildAlignment), new SetValueHandler(AnchorLayoutSchema.SetDefaultChildAlignment), false);
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(7, "SizeToHorizontalChildren", 15, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetSizeToHorizontalChildren), new SetValueHandler(SetSizeToHorizontalChildren), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(7, "SizeToVerticalChildren", 15, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetSizeToVerticalChildren), new SetValueHandler(SetSizeToVerticalChildren), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(7, "DefaultChildAlignment", sbyte.MaxValue, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetDefaultChildAlignment), new SetValueHandler(SetDefaultChildAlignment), false);
             UIXConstructorSchema constructorSchema = new UIXConstructorSchema(7, new short[2]
             {
          15,
          15
-            }, new ConstructHandler(AnchorLayoutSchema.ConstructSizeToHorizontalChildrenSizeToVerticalChildren));
-            AnchorLayoutSchema.Type.Initialize(new DefaultConstructHandler(AnchorLayoutSchema.Construct), new ConstructorSchema[1]
+            }, new ConstructHandler(ConstructSizeToHorizontalChildrenSizeToVerticalChildren));
+            Type.Initialize(new DefaultConstructHandler(Construct), new ConstructorSchema[1]
             {
          constructorSchema
             }, new PropertySchema[3]
@@ -100,7 +100,7 @@ namespace Microsoft.Iris.Markup.UIX
          uixPropertySchema3,
          uixPropertySchema1,
          uixPropertySchema2
-            }, null, null, null, new TypeConverterHandler(AnchorLayoutSchema.TryConvertFrom), new SupportsTypeConversionHandler(AnchorLayoutSchema.IsConversionSupported), null, null, null, null);
+            }, null, null, null, new TypeConverterHandler(TryConvertFrom), new SupportsTypeConversionHandler(IsConversionSupported), null, null, null, null);
         }
     }
 }

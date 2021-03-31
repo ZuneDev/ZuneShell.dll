@@ -20,11 +20,11 @@ namespace Microsoft.Iris.Layouts
     internal class PopupLayout : ILayout
     {
         private const float c_tolerance = 0.01f;
-        private static DeferredHandler s_checkForLayoutChanges = new DeferredHandler(PopupLayout.CheckForLayoutChanges);
+        private static DeferredHandler s_checkForLayoutChanges = new DeferredHandler(CheckForLayoutChanges);
         private Vector<ViewItem> _followMouseSubjects;
         private static readonly DataCookie s_dataProperty = DataCookie.ReserveSlot();
 
-        internal static DataCookie DataCookie => PopupLayout.s_dataProperty;
+        internal static DataCookie DataCookie => s_dataProperty;
 
         public ItemAlignment DefaultChildAlignment => ItemAlignment.Default;
 
@@ -32,7 +32,7 @@ namespace Microsoft.Iris.Layouts
         {
             foreach (ILayoutNode layoutChild in layoutNode.LayoutChildren)
             {
-                if (!(layoutChild.GetLayoutInput(PopupLayout.s_dataProperty) is PopupLayoutInput layoutInput) || !layoutInput.ConstrainToTarget)
+                if (!(layoutChild.GetLayoutInput(s_dataProperty) is PopupLayoutInput layoutInput) || !layoutInput.ConstrainToTarget)
                     layoutChild.Measure(constraint);
             }
             layoutNode.RequestMoreChildren(int.MaxValue);
@@ -48,7 +48,7 @@ namespace Microsoft.Iris.Layouts
                 RectangleF layoutBounds = new RectangleF(PointF.Zero, new SizeF(slot.Bounds.Width, slot.Bounds.Height));
                 foreach (ILayoutNode layoutChild in layoutNode.LayoutChildren)
                 {
-                    if (!(layoutChild.GetLayoutInput(PopupLayout.s_dataProperty) is PopupLayoutInput layoutInput))
+                    if (!(layoutChild.GetLayoutInput(s_dataProperty) is PopupLayoutInput layoutInput))
                         layoutInput = PopupLayoutInput.Default;
                     if (layoutInput.TargetIsFollowMouse)
                         hook = true;
@@ -82,7 +82,7 @@ namespace Microsoft.Iris.Layouts
             PlacementMode placement = layoutInput.Placement;
             if (placement == null || ListUtility.IsNullOrEmpty(placement.PopupPositions))
                 return Point.Zero;
-            PointF[] interestPoints = PopupLayout.InterestPointsFromRect(placementRect);
+            PointF[] interestPoints = InterestPointsFromRect(placementRect);
             PointF[] childInterestPoints = this.GetChildInterestPoints(childNode);
             this.GetBounds(interestPoints);
             RectangleF bounds = this.GetBounds(childInterestPoints);
@@ -151,7 +151,7 @@ namespace Microsoft.Iris.Layouts
                 rectangleF = placementTarget.BoundsRelativeToAncestor(null);
                 flag = true;
                 PopupLayout.PlacementTargetInfo placementTargetInfo = new PopupLayout.PlacementTargetInfo(child, placementTarget, rectangleF);
-                DeferredCall.Post(DispatchPriority.LayoutSync, PopupLayout.s_checkForLayoutChanges, placementTargetInfo);
+                DeferredCall.Post(DispatchPriority.LayoutSync, s_checkForLayoutChanges, placementTargetInfo);
             }
             rectangleF.Offset(layoutInput.Offset.X, layoutInput.Offset.Y);
             if (flag)
@@ -173,7 +173,7 @@ namespace Microsoft.Iris.Layouts
         private PointF[] GetChildInterestPoints(ILayoutNode childNode)
         {
             Size desiredSize = childNode.DesiredSize;
-            return PopupLayout.InterestPointsFromRect(new RectangleF(0.0f, 0.0f, desiredSize.Width, desiredSize.Height));
+            return InterestPointsFromRect(new RectangleF(0.0f, 0.0f, desiredSize.Width, desiredSize.Height));
         }
 
         private static PointF[] InterestPointsFromRect(RectangleF rect) => new PointF[5]

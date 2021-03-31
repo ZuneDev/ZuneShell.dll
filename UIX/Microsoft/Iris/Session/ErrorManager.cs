@@ -17,21 +17,21 @@ namespace Microsoft.Iris.Session
         private static uint s_ignoringErrorsDepth;
         private static bool s_errorBatchPending;
         private static IList s_errors;
-        private static readonly SimpleCallback s_drainErrorQueueHandler = new SimpleCallback(ErrorManager.OnDrainErrorQueue);
+        private static readonly SimpleCallback s_drainErrorQueueHandler = new SimpleCallback(OnDrainErrorQueue);
 
-        public static ErrorWatermark Watermark => new ErrorWatermark(ErrorManager.s_totalErrorsReported);
+        public static ErrorWatermark Watermark => new ErrorWatermark(s_totalErrorsReported);
 
-        public static void EnterContext(object contextObject) => ErrorManager.EnterContext(contextObject, false);
+        public static void EnterContext(object contextObject) => EnterContext(contextObject, false);
 
-        public static void EnterContext(object contextObject, bool ignoreErrors) => ErrorManager.EnterContext(new ErrorManager.Context(contextObject, ignoreErrors));
+        public static void EnterContext(object contextObject, bool ignoreErrors) => EnterContext(new ErrorManager.Context(contextObject, ignoreErrors));
 
-        public static void EnterContext(IErrorContextSource contextSource) => ErrorManager.EnterContext(new ErrorManager.Context(contextSource));
+        public static void EnterContext(IErrorContextSource contextSource) => EnterContext(new ErrorManager.Context(contextSource));
 
         private static void EnterContext(ErrorManager.Context context)
         {
             if (context.IgnoreErrors)
-                ++ErrorManager.s_ignoringErrorsDepth;
-            ErrorManager.s_contextStack.Push(context);
+                ++s_ignoringErrorsDepth;
+            s_contextStack.Push(context);
         }
 
         public static string CurrentContext
@@ -39,43 +39,43 @@ namespace Microsoft.Iris.Session
             get
             {
                 string str = null;
-                if (ErrorManager.s_contextStack.Count != 0)
-                    str = ErrorManager.s_contextStack.Peek().ToString();
+                if (s_contextStack.Count != 0)
+                    str = s_contextStack.Peek().ToString();
                 return str;
             }
         }
 
-        public static bool IgnoringErrors => ErrorManager.s_ignoringErrorsDepth > 0U;
+        public static bool IgnoringErrors => s_ignoringErrorsDepth > 0U;
 
         public static void ExitContext()
         {
-            ErrorManager.Context context = ErrorManager.s_contextStack.Peek();
+            ErrorManager.Context context = s_contextStack.Peek();
             if (context.IgnoreErrors)
             {
-                ErrorManager.s_totalErrorsReported = context.TotalErrorsOnEnter;
-                --ErrorManager.s_ignoringErrorsDepth;
+                s_totalErrorsReported = context.TotalErrorsOnEnter;
+                --s_ignoringErrorsDepth;
             }
-            ErrorManager.s_contextStack.Pop();
+            s_contextStack.Pop();
         }
 
-        public static uint TotalErrorsReported => ErrorManager.s_totalErrorsReported;
+        public static uint TotalErrorsReported => s_totalErrorsReported;
 
         public static event NotifyErrorBatch OnErrors;
 
         public static IList GetErrors()
         {
-            IList errors = ErrorManager.s_errors;
-            ErrorManager.s_errors = null;
+            IList errors = s_errors;
+            s_errors = null;
             return errors;
         }
 
-        public static void ReportError(string message) => ErrorManager.TrackReportWorker(-1, -1, false, message);
+        public static void ReportError(string message) => TrackReportWorker(-1, -1, false, message);
 
-        public static void ReportError(string format, object param) => ErrorManager.TrackReport(-1, -1, false, format, param);
+        public static void ReportError(string format, object param) => TrackReport(-1, -1, false, format, param);
 
-        public static void ReportError(string format, object param1, object param2) => ErrorManager.TrackReport(-1, -1, false, format, param1, param2);
+        public static void ReportError(string format, object param1, object param2) => TrackReport(-1, -1, false, format, param1, param2);
 
-        public static void ReportError(string format, object param1, object param2, object param3) => ErrorManager.TrackReport(-1, -1, false, format, param1, param2, param3);
+        public static void ReportError(string format, object param1, object param2, object param3) => TrackReport(-1, -1, false, format, param1, param2, param3);
 
         public static void ReportError(
           string format,
@@ -84,7 +84,7 @@ namespace Microsoft.Iris.Session
           object param3,
           object param4)
         {
-            ErrorManager.TrackReport(-1, -1, false, format, param1, param2, param3, param4);
+            TrackReport(-1, -1, false, format, param1, param2, param3, param4);
         }
 
         public static void ReportError(
@@ -95,12 +95,12 @@ namespace Microsoft.Iris.Session
           object param4,
           object param5)
         {
-            ErrorManager.TrackReport(-1, -1, false, format, param1, param2, param3, param4, param5);
+            TrackReport(-1, -1, false, format, param1, param2, param3, param4, param5);
         }
 
-        public static void ReportError(int line, int column, string message) => ErrorManager.TrackReportWorker(line, column, false, message);
+        public static void ReportError(int line, int column, string message) => TrackReportWorker(line, column, false, message);
 
-        public static void ReportError(int line, int column, string format, object param) => ErrorManager.TrackReport(line, column, false, format, param);
+        public static void ReportError(int line, int column, string format, object param) => TrackReport(line, column, false, format, param);
 
         public static void ReportError(
           int line,
@@ -109,27 +109,27 @@ namespace Microsoft.Iris.Session
           object param1,
           object param2)
         {
-            ErrorManager.TrackReport(line, column, false, format, param1, param2);
+            TrackReport(line, column, false, format, param1, param2);
         }
 
-        public static void ReportWarning(string message) => ErrorManager.TrackReportWorker(-1, -1, true, message);
+        public static void ReportWarning(string message) => TrackReportWorker(-1, -1, true, message);
 
-        public static void ReportWarning(string format, object param) => ErrorManager.TrackReport(-1, -1, true, format, param);
+        public static void ReportWarning(string format, object param) => TrackReport(-1, -1, true, format, param);
 
-        public static void ReportWarning(string format, object param1, object param2) => ErrorManager.TrackReport(-1, -1, true, format, param1, param2);
+        public static void ReportWarning(string format, object param1, object param2) => TrackReport(-1, -1, true, format, param1, param2);
 
-        public static void ReportWarning(int line, int column, string message) => ErrorManager.TrackReportWorker(line, column, true, message);
+        public static void ReportWarning(int line, int column, string message) => TrackReportWorker(line, column, true, message);
 
-        public static void ReportWarning(int line, int column, string format, object param) => ErrorManager.TrackReport(line, column, true, format, param);
+        public static void ReportWarning(int line, int column, string format, object param) => TrackReport(line, column, true, format, param);
 
         private static void TrackReportWorker(int line, int column, bool warning, string message)
         {
-            if (!ErrorManager.IgnoringErrors)
+            if (!IgnoringErrors)
             {
                 string str = null;
-                if (ErrorManager.s_contextStack.Count != 0)
+                if (s_contextStack.Count != 0)
                 {
-                    ErrorManager.Context context = ErrorManager.s_contextStack.Peek();
+                    ErrorManager.Context context = s_contextStack.Peek();
                     str = context.Description;
                     if (line == -1 && column == -1)
                         context.GetErrorPosition(ref line, ref column);
@@ -140,14 +140,14 @@ namespace Microsoft.Iris.Session
                 errorRecord.Column = column;
                 errorRecord.Warning = warning;
                 errorRecord.Message = message;
-                if (ErrorManager.s_errors == null)
-                    ErrorManager.s_errors = new ArrayList();
-                ErrorManager.s_errors.Add(errorRecord);
-                ErrorManager.QueueNotify();
+                if (s_errors == null)
+                    s_errors = new ArrayList();
+                s_errors.Add(errorRecord);
+                QueueNotify();
             }
             if (warning)
                 return;
-            ++ErrorManager.s_totalErrorsReported;
+            ++s_totalErrorsReported;
         }
 
         public static void TrackReport(
@@ -158,9 +158,9 @@ namespace Microsoft.Iris.Session
           object param)
         {
             string message = null;
-            if (!ErrorManager.IgnoringErrors)
+            if (!IgnoringErrors)
                 message = string.Format(format, param);
-            ErrorManager.TrackReportWorker(line, column, warning, message);
+            TrackReportWorker(line, column, warning, message);
         }
 
         public static void TrackReport(
@@ -172,9 +172,9 @@ namespace Microsoft.Iris.Session
           object param2)
         {
             string message = null;
-            if (!ErrorManager.IgnoringErrors)
+            if (!IgnoringErrors)
                 message = string.Format(format, param1, param2);
-            ErrorManager.TrackReportWorker(line, column, warning, message);
+            TrackReportWorker(line, column, warning, message);
         }
 
         public static void TrackReport(
@@ -187,9 +187,9 @@ namespace Microsoft.Iris.Session
           object param3)
         {
             string message = null;
-            if (!ErrorManager.IgnoringErrors)
+            if (!IgnoringErrors)
                 message = string.Format(format, param1, param2, param3);
-            ErrorManager.TrackReportWorker(line, column, warning, message);
+            TrackReportWorker(line, column, warning, message);
         }
 
         public static void TrackReport(
@@ -203,9 +203,9 @@ namespace Microsoft.Iris.Session
           object param4)
         {
             string message = null;
-            if (!ErrorManager.IgnoringErrors)
+            if (!IgnoringErrors)
                 message = string.Format(format, param1, param2, param3, param4);
-            ErrorManager.TrackReportWorker(line, column, warning, message);
+            TrackReportWorker(line, column, warning, message);
         }
 
         public static void TrackReport(
@@ -220,32 +220,32 @@ namespace Microsoft.Iris.Session
           object param5)
         {
             string message = null;
-            if (!ErrorManager.IgnoringErrors)
+            if (!IgnoringErrors)
                 message = string.Format(format, param1, param2, param3, param4, param5);
-            ErrorManager.TrackReportWorker(line, column, warning, message);
+            TrackReportWorker(line, column, warning, message);
         }
 
         private static void QueueNotify()
         {
-            if (ErrorManager.s_errorBatchPending)
+            if (s_errorBatchPending)
                 return;
             UIDispatcher currentDispatcher = UIDispatcher.CurrentDispatcher;
             if (currentDispatcher != null && currentDispatcher.UISession != null)
             {
-                ErrorManager.s_errorBatchPending = true;
-                DeferredCall.Post(DispatchPriority.AppEventHigh, ErrorManager.s_drainErrorQueueHandler);
+                s_errorBatchPending = true;
+                DeferredCall.Post(DispatchPriority.AppEventHigh, s_drainErrorQueueHandler);
             }
             else
-                ErrorManager.OnDrainErrorQueue();
+                OnDrainErrorQueue();
         }
 
         private static void OnDrainErrorQueue()
         {
-            ErrorManager.s_errorBatchPending = false;
-            IList errors = ErrorManager.GetErrors();
-            if (ErrorManager.OnErrors == null)
+            s_errorBatchPending = false;
+            IList errors = GetErrors();
+            if (OnErrors == null)
                 return;
-            ErrorManager.OnErrors(errors);
+            OnErrors(errors);
         }
 
         internal struct Context
@@ -260,7 +260,7 @@ namespace Microsoft.Iris.Session
                 this._contextObject = contextObject;
                 this._callback = null;
                 this._ignoreErrors = ignoreErrors;
-                this._errorCountOnEnter = ErrorManager.s_totalErrorsReported;
+                this._errorCountOnEnter = s_totalErrorsReported;
             }
 
             public Context(IErrorContextSource contextSource)
@@ -268,7 +268,7 @@ namespace Microsoft.Iris.Session
                 this._callback = contextSource;
                 this._contextObject = null;
                 this._ignoreErrors = false;
-                this._errorCountOnEnter = ErrorManager.s_totalErrorsReported;
+                this._errorCountOnEnter = s_totalErrorsReported;
             }
 
             public string Description

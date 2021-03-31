@@ -10,10 +10,10 @@ namespace Microsoft.Iris.Input
 {
     internal class KeyStateInfo : KeyActionInfo
     {
-        private static InputInfo.InfoType s_poolType = InputInfo.InfoType.KeyState;
+        private static InputInfo.InfoType s_poolType = InfoType.KeyState;
         private Keys _key;
 
-        static KeyStateInfo() => InputInfo.SetPoolLimitMode(KeyStateInfo.s_poolType, false);
+        static KeyStateInfo() => SetPoolLimitMode(s_poolType, false);
 
         private KeyStateInfo()
         {
@@ -30,7 +30,7 @@ namespace Microsoft.Iris.Input
           int scanCode,
           ushort eventFlags)
         {
-            KeyStateInfo keyStateInfo = (KeyStateInfo)InputInfo.GetFromPool(KeyStateInfo.s_poolType) ?? new KeyStateInfo();
+            KeyStateInfo keyStateInfo = (KeyStateInfo)GetFromPool(s_poolType) ?? new KeyStateInfo();
             keyStateInfo.Initialize(action, deviceType, modifiers, repeatCount, key, systemKey, nativeMessageID, scanCode, eventFlags);
             return keyStateInfo;
         }
@@ -52,11 +52,11 @@ namespace Microsoft.Iris.Input
 
         public bool IsRepeatOf(KeyStateInfo other) => other != null && this._key == other._key && this.IsRepeatOf((KeyActionInfo)other);
 
-        public KeyStateInfo MakeRepeatableCopy() => KeyStateInfo.Create(this.Action, this.DeviceType, this.Modifiers, this.RepeatCount, this._key, this.SystemKey, this.NativeMessageID, this.ScanCode, this.KeyboardFlags);
+        public KeyStateInfo MakeRepeatableCopy() => Create(this.Action, this.DeviceType, this.Modifiers, this.RepeatCount, this._key, this.SystemKey, this.NativeMessageID, this.ScanCode, this.KeyboardFlags);
 
         public Keys Key => this._key;
 
-        protected override InputInfo.InfoType PoolType => KeyStateInfo.s_poolType;
+        protected override InputInfo.InfoType PoolType => s_poolType;
 
         public override string ToString() => InvariantString.Format("{0}({1}, Key={2})", this.GetType().Name, Action, _key);
     }

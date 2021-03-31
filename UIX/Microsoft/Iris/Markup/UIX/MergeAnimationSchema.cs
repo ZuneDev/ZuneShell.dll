@@ -20,13 +20,13 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object Construct() => new MergeAnimation();
 
-        public static void Pass1Initialize() => MergeAnimationSchema.Type = new UIXTypeSchema(147, "MergeAnimation", null, 104, typeof(MergeAnimation), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(147, "MergeAnimation", null, 104, typeof(MergeAnimation), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(147, "Sources", 138, 104, ExpressionRestriction.NoAccess, false, null, false, new GetValueHandler(MergeAnimationSchema.GetSources), null, false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(147, "Type", 10, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(MergeAnimationSchema.GetType), new SetValueHandler(MergeAnimationSchema.SetType), false);
-            MergeAnimationSchema.Type.Initialize(new DefaultConstructHandler(MergeAnimationSchema.Construct), null, new PropertySchema[2]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(147, "Sources", 138, 104, ExpressionRestriction.NoAccess, false, null, false, new GetValueHandler(GetSources), null, false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(147, "Type", 10, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetType), new SetValueHandler(SetType), false);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[2]
             {
          uixPropertySchema1,
          uixPropertySchema2

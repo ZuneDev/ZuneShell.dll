@@ -14,8 +14,8 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object Construct() => new TextScrollModel();
 
-        public static void Pass1Initialize() => TextScrollModelSchema.Type = new UIXTypeSchema(218, "TextScrollModel", null, 183, typeof(TextScrollModel), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(218, "TextScrollModel", null, 183, typeof(TextScrollModel), UIXTypeFlags.None);
 
-        public static void Pass2Initialize() => TextScrollModelSchema.Type.Initialize(new DefaultConstructHandler(TextScrollModelSchema.Construct), null, null, null, null, null, null, null, null, null, null, null);
+        public static void Pass2Initialize() => Type.Initialize(new DefaultConstructHandler(Construct), null, null, null, null, null, null, null, null, null, null, null);
     }
 }

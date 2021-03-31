@@ -41,18 +41,18 @@ namespace Microsoft.Iris.Animations
             base.CloneWorker(rawAnimation);
             Animation animation = (Animation)rawAnimation;
             animation.Type = this.Type;
-            if (this.GetBit(Animation.Bits.CenterPointScale))
+            if (this.GetBit(Bits.CenterPointScale))
                 animation.CenterPointPercent = this.CenterPointPercent;
-            if (this.GetBit(Animation.Bits.RotationAxis))
+            if (this.GetBit(Bits.RotationAxis))
                 animation.RotationAxis = this.RotationAxis;
             animation.DisableMouseInput = this.DisableMouseInput;
         }
 
         private void PrepareToPlay(ref AnimationArgs args)
         {
-            if (this.GetBit(Animation.Bits.CenterPointScale))
+            if (this.GetBit(Bits.CenterPointScale))
                 args.ViewItem.VisualCenterPoint = this.CenterPointPercent;
-            if (!this.GetBit(Animation.Bits.RotationAxis))
+            if (!this.GetBit(Bits.RotationAxis))
                 return;
             Rotation visualRotation = args.ViewItem.VisualRotation;
             args.ViewItem.VisualRotation = new Rotation(visualRotation.AngleRadians, this.RotationAxis);
@@ -66,32 +66,32 @@ namespace Microsoft.Iris.Animations
 
         public Vector3 CenterPointPercent
         {
-            get => !this.GetBit(Animation.Bits.CenterPointScale) ? Vector3.Zero : (Vector3)this.GetData(Animation.s_centerPointScaleProperty);
+            get => !this.GetBit(Bits.CenterPointScale) ? Vector3.Zero : (Vector3)this.GetData(s_centerPointScaleProperty);
             set
             {
                 if (!(this.CenterPointPercent != value))
                     return;
-                this.SetData(Animation.s_centerPointScaleProperty, value);
-                this.SetBit(Animation.Bits.CenterPointScale, true);
+                this.SetData(s_centerPointScaleProperty, value);
+                this.SetBit(Bits.CenterPointScale, true);
             }
         }
 
         public Vector3 RotationAxis
         {
-            get => !this.GetBit(Animation.Bits.RotationAxis) ? Rotation.Default.Axis : (Vector3)this.GetData(Animation.s_rotationAxisProperty);
+            get => !this.GetBit(Bits.RotationAxis) ? Rotation.Default.Axis : (Vector3)this.GetData(s_rotationAxisProperty);
             set
             {
                 if (!(this.RotationAxis != value))
                     return;
-                this.SetData(Animation.s_rotationAxisProperty, value);
-                this.SetBit(Animation.Bits.RotationAxis, true);
+                this.SetData(s_rotationAxisProperty, value);
+                this.SetBit(Bits.RotationAxis, true);
             }
         }
 
         public bool DisableMouseInput
         {
-            get => this.GetBit(Animation.Bits.DisableMouseInput);
-            set => this.SetBit(Animation.Bits.DisableMouseInput, value);
+            get => this.GetBit(Bits.DisableMouseInput);
+            set => this.SetBit(Bits.DisableMouseInput, value);
         }
 
         AnimationTemplate IAnimationProvider.Build(

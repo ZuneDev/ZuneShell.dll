@@ -42,15 +42,15 @@ namespace Microsoft.Iris.ViewItems
         private ViewItem _lastMouseFocusedItem;
         private RepeaterContentSelector _contentSelector;
         private LayoutCompleteEventHandler _repeatedItemLayoutComplete;
-        private static ChildFaultedInDelegate s_scrollIndexIntoViewHandler = new ChildFaultedInDelegate(Repeater.ScrollIndexIntoViewItemFaultedIn);
-        private static ChildFaultedInDelegate s_navigateIntoIndexHandler = new ChildFaultedInDelegate(Repeater.NavigateIntoIndexItemFaultedIn);
+        private static ChildFaultedInDelegate s_scrollIndexIntoViewHandler = new ChildFaultedInDelegate(ScrollIndexIntoViewItemFaultedIn);
+        private static ChildFaultedInDelegate s_navigateIntoIndexHandler = new ChildFaultedInDelegate(NavigateIntoIndexItemFaultedIn);
         private static string[] s_repeatedItemParameters = new string[2]
         {
       "RepeatedItem",
       "RepeatedItemIndex"
         };
         private static string c_childIDSentinel = "Repeater child#";
-        private static DeferredHandler s_listContentsChangedHandler = new DeferredHandler(Repeater.AsyncListContentsChangedHandler);
+        private static DeferredHandler s_listContentsChangedHandler = new DeferredHandler(AsyncListContentsChangedHandler);
         private static object s_unavailableObject = new object();
 
         protected override void OnDispose()
@@ -258,7 +258,7 @@ namespace Microsoft.Iris.ViewItems
             }
             else
             {
-                if (Microsoft.Iris.Debug.Trace.IsCategoryEnabled(TraceCategory.Repeating, 5))
+                if (Debug.Trace.IsCategoryEnabled(TraceCategory.Repeating, 5))
                 {
                     int num = this._pendingIndexRequest.HasValue ? 1 : 0;
                 }
@@ -389,7 +389,7 @@ namespace Microsoft.Iris.ViewItems
           int generationValue,
           object dataItemObject)
         {
-            if (dataItemObject == Repeater.UnavailableItem)
+            if (dataItemObject == UnavailableItem)
                 return;
             bool flag = false;
             IVirtualList source = null;
@@ -437,7 +437,7 @@ namespace Microsoft.Iris.ViewItems
           out ViewItem repeatedItem,
           out ViewItem dividerItem)
         {
-            ParameterContext parameterContext = new ParameterContext(Repeater.s_repeatedItemParameters, new object[2]
+            ParameterContext parameterContext = new ParameterContext(s_repeatedItemParameters, new object[2]
             {
         dataItemObject,
          index
@@ -641,7 +641,7 @@ namespace Microsoft.Iris.ViewItems
         private void QueueListContentsChanged(IList senderList, UIListContentsChangedArgs args)
         {
             RepeaterListContentsChangedArgs contentsChangedArgs = new RepeaterListContentsChangedArgs(args, this, this._sourceGeneration);
-            DeferredCall.Post(DispatchPriority.Normal, Repeater.s_listContentsChangedHandler, contentsChangedArgs);
+            DeferredCall.Post(DispatchPriority.Normal, s_listContentsChangedHandler, contentsChangedArgs);
         }
 
         private static void AsyncListContentsChangedHandler(object args)
@@ -907,11 +907,11 @@ namespace Microsoft.Iris.ViewItems
           int dataOldIndex,
           int dataNewIndex)
         {
-            Microsoft.Iris.Library.TreeNode.LinkType lt = Microsoft.Iris.Library.TreeNode.LinkType.Before;
+            Microsoft.Iris.Library.TreeNode.LinkType lt = LinkType.Before;
             if (dataNewIndex > dataOldIndex)
-                lt = Microsoft.Iris.Library.TreeNode.LinkType.Behind;
+                lt = LinkType.Behind;
             ViewItem viewItem = itemFinal.Repeated;
-            if (itemFinal.Divider != null && lt == Microsoft.Iris.Library.TreeNode.LinkType.Before)
+            if (itemFinal.Divider != null && lt == LinkType.Before)
                 viewItem = itemFinal.Divider;
             item.Repeated.MoveNode(viewItem, lt);
             if (this.DividerName != null)
@@ -933,12 +933,12 @@ namespace Microsoft.Iris.ViewItems
                     itemFinal.Divider = item.Divider;
                     item.Divider = null;
                 }
-                divider?.MoveNode(repeated, Microsoft.Iris.Library.TreeNode.LinkType.Before);
+                divider?.MoveNode(repeated, LinkType.Before);
             }
             return true;
         }
 
-        protected override ViewItemID IDForChild(ViewItem childItem) => new ViewItemID((childItem.GetLayoutInput(IndexLayoutInput.Data) as IndexLayoutInput).Index.Value, Repeater.c_childIDSentinel);
+        protected override ViewItemID IDForChild(ViewItem childItem) => new ViewItemID((childItem.GetLayoutInput(IndexLayoutInput.Data) as IndexLayoutInput).Index.Value, c_childIDSentinel);
 
         protected override FindChildResult ChildForID(
           ViewItemID part,
@@ -946,7 +946,7 @@ namespace Microsoft.Iris.ViewItems
         {
             resultItem = null;
             FindChildResult findChildResult = FindChildResult.Failure;
-            if (part.IDValid && part.StringPartValid && part.StringPart == Repeater.c_childIDSentinel)
+            if (part.IDValid && part.StringPartValid && part.StringPart == c_childIDSentinel)
             {
                 resultItem = this.GetRepeatedItemForVirtualIndex(part.ID);
                 findChildResult = resultItem == null || !resultItem.HasVisual ? FindChildResult.PotentiallyFaultIn : FindChildResult.Success;
@@ -978,7 +978,7 @@ namespace Microsoft.Iris.ViewItems
             if (itemForVirtualIndex != null)
                 itemForVirtualIndex.ScrollIntoView();
             else
-                this.FaultInChild(index, Repeater.PendingIndexRequestType.ScrollIndexIntoView, Repeater.s_scrollIndexIntoViewHandler);
+                this.FaultInChild(index, PendingIndexRequestType.ScrollIndexIntoView, s_scrollIndexIntoViewHandler);
         }
 
         private static void ScrollIndexIntoViewItemFaultedIn(ViewItem repeater, ViewItem faultedItem)
@@ -1003,7 +1003,7 @@ namespace Microsoft.Iris.ViewItems
             {
                 if (!allowFaultIn)
                     return;
-                this.FaultInChild(index, Repeater.PendingIndexRequestType.NavigateIntoIndex, Repeater.s_navigateIntoIndexHandler);
+                this.FaultInChild(index, PendingIndexRequestType.NavigateIntoIndex, s_navigateIntoIndexHandler);
             }
         }
 
@@ -1014,7 +1014,7 @@ namespace Microsoft.Iris.ViewItems
             faultedItem.NavigateInto();
         }
 
-        internal override void FaultInChild(ViewItemID child, ChildFaultedInDelegate handler) => this.FaultInChild(child.ID, Repeater.PendingIndexRequestType.FaultInChild, handler);
+        internal override void FaultInChild(ViewItemID child, ChildFaultedInDelegate handler) => this.FaultInChild(child.ID, PendingIndexRequestType.FaultInChild, handler);
 
         private void FaultInChild(
           int virtualIndex,
@@ -1041,13 +1041,13 @@ namespace Microsoft.Iris.ViewItems
         [Conditional("DEBUG")]
         private void DEBUG_DumpRepeatedItems(string st, byte level)
         {
-            if (!Microsoft.Iris.Debug.Trace.IsCategoryEnabled(TraceCategory.Repeating, level))
+            if (!Debug.Trace.IsCategoryEnabled(TraceCategory.Repeating, level))
                 return;
             for (int index = 0; index < this._repeatedViewItems.Count; ++index)
             {
                 Repeater.RepeatedViewItemSet repeatedViewItem = this._repeatedViewItems[index];
             }
-            if (!Microsoft.Iris.Debug.Trace.IsCategoryEnabled(TraceCategory.Repeating, (byte)(level + 1U)))
+            if (!Debug.Trace.IsCategoryEnabled(TraceCategory.Repeating, (byte)(level + 1U)))
                 return;
             foreach (ViewItem child in this.Children)
                 ;
@@ -1056,7 +1056,7 @@ namespace Microsoft.Iris.ViewItems
         [Conditional("DEBUG")]
         private void DEBUG_DumpRepeatedItem(Repeater.RepeatedViewItemSet item, byte level)
         {
-            if (!Microsoft.Iris.Debug.Trace.IsCategoryEnabled(TraceCategory.Repeating, level) || !ListUtility.IsValidIndex(this._source, item.DataIndex))
+            if (!Debug.Trace.IsCategoryEnabled(TraceCategory.Repeating, level) || !ListUtility.IsValidIndex(this._source, item.DataIndex))
                 return;
             this._source[item.DataIndex]?.ToString();
         }
@@ -1076,7 +1076,7 @@ namespace Microsoft.Iris.ViewItems
                 num = list[index].VirtualIndex;
         }
 
-        public static object UnavailableItem => Repeater.s_unavailableObject;
+        public static object UnavailableItem => s_unavailableObject;
 
         public delegate void ContentTypeHandler(object repeatObject, ref string contentName);
 

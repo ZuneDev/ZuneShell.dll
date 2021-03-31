@@ -21,14 +21,14 @@ namespace Microsoft.Iris.Markup
             for (ListenerNodeBase next = this._listenerRoot.Next; next != this._listenerRoot; next = next.Next)
             {
                 Listener listener = (Listener)next;
-                if (object.ReferenceEquals(listener.Watch, id))
+                if (ReferenceEquals(listener.Watch, id))
                     listener.OnNotify();
             }
         }
 
         public void FireThreadSafe(string id)
         {
-            id = NotifyService.CanonicalizeString(id);
+            id = CanonicalizeString(id);
             if (UIDispatcher.IsUIThread)
                 this.Fire(id);
             else
@@ -56,20 +56,20 @@ namespace Microsoft.Iris.Markup
             this._listenerRoot = null;
         }
 
-        public static string CanonicalizeString(string value) => NotifyService.GetCanonicalizedString(value, true);
+        public static string CanonicalizeString(string value) => GetCanonicalizedString(value, true);
 
         private static string GetCanonicalizedString(string value, bool addIfNotFound)
         {
             object obj = null;
-            if (!NotifyService.s_canonicalizedStrings.TryGetValue(value, out obj) && addIfNotFound)
+            if (!s_canonicalizedStrings.TryGetValue(value, out obj) && addIfNotFound)
             {
-                NotifyService.s_canonicalizedStrings[value] = value;
+                s_canonicalizedStrings[value] = value;
                 obj = value;
             }
             return (string)obj;
         }
 
         [Conditional("DEBUG")]
-        public static void AssertIsCanonicalized(string value) => NotifyService.GetCanonicalizedString(value, false);
+        public static void AssertIsCanonicalized(string value) => GetCanonicalizedString(value, false);
     }
 }

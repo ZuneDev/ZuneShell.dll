@@ -24,14 +24,14 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static void SetInterpolation(ref object instanceObj, object valueObj) => ((BaseKeyframe)instanceObj).Interpolation = (Interpolation)valueObj;
 
-        public static void Pass1Initialize() => KeyframeSchema.Type = new UIXTypeSchema(130, "Keyframe", null, 153, typeof(BaseKeyframe), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(130, "Keyframe", null, 153, typeof(BaseKeyframe), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(130, "Time", 194, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(KeyframeSchema.GetTime), new SetValueHandler(KeyframeSchema.SetTime), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(130, "RelativeTo", 171, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(KeyframeSchema.GetRelativeTo), new SetValueHandler(KeyframeSchema.SetRelativeTo), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(130, "Interpolation", 121, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(KeyframeSchema.GetInterpolation), new SetValueHandler(KeyframeSchema.SetInterpolation), false);
-            KeyframeSchema.Type.Initialize(null, null, new PropertySchema[3]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(130, "Time", 194, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetTime), new SetValueHandler(SetTime), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(130, "RelativeTo", 171, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetRelativeTo), new SetValueHandler(SetRelativeTo), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(130, "Interpolation", 121, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetInterpolation), new SetValueHandler(SetInterpolation), false);
+            Type.Initialize(null, null, new PropertySchema[3]
             {
          uixPropertySchema3,
          uixPropertySchema2,

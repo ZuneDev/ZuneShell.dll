@@ -11,9 +11,9 @@ namespace Microsoft.Iris.Input
     internal class MouseWheelInfo : MouseActionInfo
     {
         public const int k_defaultDelta = 120;
-        private static InputInfo.InfoType s_poolType = InputInfo.InfoType.MouseWheel;
+        private static InputInfo.InfoType s_poolType = InfoType.MouseWheel;
 
-        static MouseWheelInfo() => InputInfo.SetPoolLimitMode(MouseWheelInfo.s_poolType, true);
+        static MouseWheelInfo() => SetPoolLimitMode(s_poolType, true);
 
         private MouseWheelInfo()
         {
@@ -29,13 +29,13 @@ namespace Microsoft.Iris.Input
           InputModifiers modifiers,
           int delta)
         {
-            MouseWheelInfo mouseWheelInfo = (MouseWheelInfo)InputInfo.GetFromPool(MouseWheelInfo.s_poolType) ?? new MouseWheelInfo();
+            MouseWheelInfo mouseWheelInfo = (MouseWheelInfo)GetFromPool(s_poolType) ?? new MouseWheelInfo();
             mouseWheelInfo.Initialize(rawSource, rawNatural, x, y, screenX, screenY, modifiers, InputEventType.MouseWheel, 522U, MouseButtons.None, delta);
             return mouseWheelInfo;
         }
 
         public override string ToString() => InvariantString.Format("{0}(Delta={1})", this.GetType().Name, WheelDelta);
 
-        protected override InputInfo.InfoType PoolType => MouseWheelInfo.s_poolType;
+        protected override InputInfo.InfoType PoolType => s_poolType;
     }
 }

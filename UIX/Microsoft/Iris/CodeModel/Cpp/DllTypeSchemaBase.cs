@@ -64,9 +64,9 @@ namespace Microsoft.Iris.CodeModel.Cpp
 
         public override int FindTypeHint => (int)this._typeID;
 
-        public override bool HasDefaultConstructor => this.GetBit(DllTypeSchemaBase.Bits.HasDefaultConstructor);
+        public override bool HasDefaultConstructor => this.GetBit(Bits.HasDefaultConstructor);
 
-        public override bool IsRuntimeImmutable => this.GetBit(DllTypeSchemaBase.Bits.IsRuntimeImmutable);
+        public override bool IsRuntimeImmutable => this.GetBit(Bits.IsRuntimeImmutable);
 
         public override ConstructorSchema FindConstructor(TypeSchema[] parameters)
         {

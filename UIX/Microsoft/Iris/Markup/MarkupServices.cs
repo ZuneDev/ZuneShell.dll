@@ -23,9 +23,9 @@ namespace Microsoft.Iris.Markup
         {
             get
             {
-                if (MarkupServices.s_instance == null)
-                    MarkupServices.s_instance = new MarkupServices();
-                return MarkupServices.s_instance;
+                if (s_instance == null)
+                    s_instance = new MarkupServices();
+                return s_instance;
             }
         }
 

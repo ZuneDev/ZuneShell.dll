@@ -43,16 +43,16 @@ namespace Microsoft.Iris.Markup.UIX
             return null;
         }
 
-        public static void Pass1Initialize() => EditableTextDataSchema.Type = new UIXTypeSchema(68, "EditableTextData", null, 153, typeof(EditableTextData), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(68, "EditableTextData", null, 153, typeof(EditableTextData), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(68, "Value", 208, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(EditableTextDataSchema.GetValue), new SetValueHandler(EditableTextDataSchema.SetValue), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(68, "MaxLength", 115, -1, ExpressionRestriction.None, false, Int32Schema.ValidateNotNegative, true, new GetValueHandler(EditableTextDataSchema.GetMaxLength), new SetValueHandler(EditableTextDataSchema.SetMaxLength), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(68, "ReadOnly", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(EditableTextDataSchema.GetReadOnly), new SetValueHandler(EditableTextDataSchema.SetReadOnly), false);
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(68, "Value", 208, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetValue), new SetValueHandler(SetValue), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(68, "MaxLength", 115, -1, ExpressionRestriction.None, false, Int32Schema.ValidateNotNegative, true, new GetValueHandler(GetMaxLength), new SetValueHandler(SetMaxLength), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(68, "ReadOnly", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetReadOnly), new SetValueHandler(SetReadOnly), false);
             UIXEventSchema uixEventSchema = new UIXEventSchema(68, "Submitted");
-            UIXMethodSchema uixMethodSchema = new UIXMethodSchema(68, "Submit", null, 240, new InvokeHandler(EditableTextDataSchema.CallSubmit), false);
-            EditableTextDataSchema.Type.Initialize(new DefaultConstructHandler(EditableTextDataSchema.Construct), null, new PropertySchema[3]
+            UIXMethodSchema uixMethodSchema = new UIXMethodSchema(68, "Submit", null, 240, new InvokeHandler(CallSubmit), false);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[3]
             {
          uixPropertySchema2,
          uixPropertySchema3,

@@ -12,7 +12,7 @@ namespace Microsoft.Iris.Markup
 {
     internal abstract class MarkupLoadResult : LoadResult
     {
-        private LoadResult[] _dependenciesTable = LoadResult.EmptyList;
+        private LoadResult[] _dependenciesTable = EmptyList;
         private ByteCodeReader _reader;
         protected MarkupBinaryDataTable _binaryDataTable;
         protected MarkupLineNumberTable _lineNumberTable;

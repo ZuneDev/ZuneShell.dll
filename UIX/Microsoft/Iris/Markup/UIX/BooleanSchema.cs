@@ -80,31 +80,31 @@ namespace Microsoft.Iris.Markup.UIX
             instance = null;
             if (DoubleSchema.Type.IsAssignableFrom(fromType))
             {
-                result = BooleanSchema.ConvertFromDouble(from, out instance);
+                result = ConvertFromDouble(from, out instance);
                 if (!result.Failed)
                     return result;
             }
             if (Int32Schema.Type.IsAssignableFrom(fromType))
             {
-                result = BooleanSchema.ConvertFromInt32(from, out instance);
+                result = ConvertFromInt32(from, out instance);
                 if (!result.Failed)
                     return result;
             }
             if (Int64Schema.Type.IsAssignableFrom(fromType))
             {
-                result = BooleanSchema.ConvertFromInt64(from, out instance);
+                result = ConvertFromInt64(from, out instance);
                 if (!result.Failed)
                     return result;
             }
             if (SingleSchema.Type.IsAssignableFrom(fromType))
             {
-                result = BooleanSchema.ConvertFromSingle(from, out instance);
+                result = ConvertFromSingle(from, out instance);
                 if (!result.Failed)
                     return result;
             }
             if (StringSchema.Type.IsAssignableFrom(fromType))
             {
-                result = BooleanSchema.ConvertFromString(from, out instance);
+                result = ConvertFromString(from, out instance);
                 if (!result.Failed)
                     return result;
             }
@@ -152,10 +152,10 @@ namespace Microsoft.Iris.Markup.UIX
             string parameter1 = (string)parameters[0];
             bool parameter2 = (bool)parameters[1];
             object instanceObj1;
-            return BooleanSchema.ConvertFromString(parameter1, out instanceObj1).Failed ? parameter2 : instanceObj1;
+            return ConvertFromString(parameter1, out instanceObj1).Failed ? parameter2 : instanceObj1;
         }
 
-        public static void Pass1Initialize() => BooleanSchema.Type = new UIXTypeSchema(15, "Boolean", "bool", 153, typeof(bool), UIXTypeFlags.Immutable);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(15, "Boolean", "bool", 153, typeof(bool), UIXTypeFlags.Immutable);
 
         public static void Pass2Initialize()
         {
@@ -163,11 +163,11 @@ namespace Microsoft.Iris.Markup.UIX
             {
          208,
          15
-            }, 15, new InvokeHandler(BooleanSchema.CallTryParseStringBoolean), true);
-            BooleanSchema.Type.Initialize(new DefaultConstructHandler(BooleanSchema.Construct), null, null, new MethodSchema[1]
+            }, 15, new InvokeHandler(CallTryParseStringBoolean), true);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, null, new MethodSchema[1]
             {
          uixMethodSchema
-            }, null, null, new TypeConverterHandler(BooleanSchema.TryConvertFrom), new SupportsTypeConversionHandler(BooleanSchema.IsConversionSupported), new EncodeBinaryHandler(BooleanSchema.EncodeBinary), new DecodeBinaryHandler(BooleanSchema.DecodeBinary), new PerformOperationHandler(BooleanSchema.ExecuteOperation), new SupportsOperationHandler(BooleanSchema.IsOperationSupported));
+            }, null, null, new TypeConverterHandler(TryConvertFrom), new SupportsTypeConversionHandler(IsConversionSupported), new EncodeBinaryHandler(EncodeBinary), new DecodeBinaryHandler(DecodeBinary), new PerformOperationHandler(ExecuteOperation), new SupportsOperationHandler(IsOperationSupported));
         }
     }
 }

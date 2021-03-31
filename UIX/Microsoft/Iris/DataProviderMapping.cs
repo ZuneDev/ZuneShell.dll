@@ -25,11 +25,11 @@ namespace Microsoft.Iris
 
         public string PropertyName => this._propertySchema.Name;
 
-        public string PropertyTypeName => DataProviderMapping.GetCanonicalTypeName(this._propertySchema.PropertyType);
+        public string PropertyTypeName => GetCanonicalTypeName(this._propertySchema.PropertyType);
 
         public Type PropertyType => this._assemblyPropertyType;
 
-        public string UnderlyingCollectionTypeName => DataProviderMapping.GetCanonicalTypeName(this._propertySchema.AlternateType);
+        public string UnderlyingCollectionTypeName => GetCanonicalTypeName(this._propertySchema.AlternateType);
 
         public Type UnderlyingCollectionType => this._assemblyAlternateType;
 

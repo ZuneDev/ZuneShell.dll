@@ -111,36 +111,36 @@ namespace Microsoft.Iris.Markup.UIX
             return null;
         }
 
-        public static void Pass1Initialize() => UIStateSchema.Type = new UIXTypeSchema(230, "UIState", null, -1, typeof(UIClass), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(230, "UIState", null, -1, typeof(UIClass), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(230, "CreateInterestOnFocus", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(UIStateSchema.GetCreateInterestOnFocus), new SetValueHandler(UIStateSchema.SetCreateInterestOnFocus), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(230, "Cursor", 44, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(UIStateSchema.GetCursor), new SetValueHandler(UIStateSchema.SetCursor), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(230, "DirectKeyFocus", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(UIStateSchema.GetDirectKeyFocus), null, false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(230, "DirectMouseFocus", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(UIStateSchema.GetDirectMouseFocus), null, false);
-            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(230, "FocusInterestTarget", 239, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(UIStateSchema.GetFocusInterestTarget), new SetValueHandler(UIStateSchema.SetFocusInterestTarget), false);
-            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(230, "FocusInterestTargetMargins", 114, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(UIStateSchema.GetFocusInterestTargetMargins), new SetValueHandler(UIStateSchema.SetFocusInterestTargetMargins), false);
-            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema(230, "KeyFocus", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(UIStateSchema.GetKeyFocus), null, false);
-            UIXPropertySchema uixPropertySchema8 = new UIXPropertySchema(230, "KeyFocusOnMouseDown", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(UIStateSchema.GetKeyFocusOnMouseDown), new SetValueHandler(UIStateSchema.SetKeyFocusOnMouseDown), false);
-            UIXPropertySchema uixPropertySchema9 = new UIXPropertySchema(230, "KeyFocusOnMouseEnter", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(UIStateSchema.GetKeyFocusOnMouseEnter), new SetValueHandler(UIStateSchema.SetKeyFocusOnMouseEnter), false);
-            UIXPropertySchema uixPropertySchema10 = new UIXPropertySchema(230, "KeyInteractive", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(UIStateSchema.GetKeyInteractive), new SetValueHandler(UIStateSchema.SetKeyInteractive), false);
-            UIXPropertySchema uixPropertySchema11 = new UIXPropertySchema(230, "MouseFocus", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(UIStateSchema.GetMouseFocus), null, false);
-            UIXPropertySchema uixPropertySchema12 = new UIXPropertySchema(230, "MouseInteractive", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(UIStateSchema.GetMouseInteractive), new SetValueHandler(UIStateSchema.SetMouseInteractive), false);
-            UIXPropertySchema uixPropertySchema13 = new UIXPropertySchema(230, "Enabled", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(UIStateSchema.GetEnabled), new SetValueHandler(UIStateSchema.SetEnabled), false);
-            UIXPropertySchema uixPropertySchema14 = new UIXPropertySchema(230, "FullyEnabled", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(UIStateSchema.GetFullyEnabled), null, false);
-            UIXPropertySchema uixPropertySchema15 = new UIXPropertySchema(230, "AllowDoubleClicks", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(UIStateSchema.GetAllowDoubleClicks), new SetValueHandler(UIStateSchema.SetAllowDoubleClicks), false);
-            UIXPropertySchema uixPropertySchema16 = new UIXPropertySchema(230, "PaintOrder", 115, -1, ExpressionRestriction.None, false, Int32Schema.ValidateNotNegative, false, new GetValueHandler(UIStateSchema.GetPaintOrder), new SetValueHandler(UIStateSchema.SetPaintOrder), false);
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(230, "CreateInterestOnFocus", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetCreateInterestOnFocus), new SetValueHandler(SetCreateInterestOnFocus), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(230, "Cursor", 44, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetCursor), new SetValueHandler(SetCursor), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(230, "DirectKeyFocus", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetDirectKeyFocus), null, false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(230, "DirectMouseFocus", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetDirectMouseFocus), null, false);
+            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(230, "FocusInterestTarget", 239, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetFocusInterestTarget), new SetValueHandler(SetFocusInterestTarget), false);
+            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(230, "FocusInterestTargetMargins", 114, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetFocusInterestTargetMargins), new SetValueHandler(SetFocusInterestTargetMargins), false);
+            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema(230, "KeyFocus", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetKeyFocus), null, false);
+            UIXPropertySchema uixPropertySchema8 = new UIXPropertySchema(230, "KeyFocusOnMouseDown", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetKeyFocusOnMouseDown), new SetValueHandler(SetKeyFocusOnMouseDown), false);
+            UIXPropertySchema uixPropertySchema9 = new UIXPropertySchema(230, "KeyFocusOnMouseEnter", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetKeyFocusOnMouseEnter), new SetValueHandler(SetKeyFocusOnMouseEnter), false);
+            UIXPropertySchema uixPropertySchema10 = new UIXPropertySchema(230, "KeyInteractive", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetKeyInteractive), new SetValueHandler(SetKeyInteractive), false);
+            UIXPropertySchema uixPropertySchema11 = new UIXPropertySchema(230, "MouseFocus", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetMouseFocus), null, false);
+            UIXPropertySchema uixPropertySchema12 = new UIXPropertySchema(230, "MouseInteractive", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetMouseInteractive), new SetValueHandler(SetMouseInteractive), false);
+            UIXPropertySchema uixPropertySchema13 = new UIXPropertySchema(230, "Enabled", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetEnabled), new SetValueHandler(SetEnabled), false);
+            UIXPropertySchema uixPropertySchema14 = new UIXPropertySchema(230, "FullyEnabled", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetFullyEnabled), null, false);
+            UIXPropertySchema uixPropertySchema15 = new UIXPropertySchema(230, "AllowDoubleClicks", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetAllowDoubleClicks), new SetValueHandler(SetAllowDoubleClicks), false);
+            UIXPropertySchema uixPropertySchema16 = new UIXPropertySchema(230, "PaintOrder", 115, -1, ExpressionRestriction.None, false, Int32Schema.ValidateNotNegative, false, new GetValueHandler(GetPaintOrder), new SetValueHandler(SetPaintOrder), false);
             UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema(230, "DisposeOwnedObject", new short[1]
             {
          153
-            }, 240, new InvokeHandler(UIStateSchema.CallDisposeOwnedObjectObject), false);
-            UIXMethodSchema uixMethodSchema2 = new UIXMethodSchema(230, "NavigateInto", null, 240, new InvokeHandler(UIStateSchema.CallNavigateInto), false);
+            }, 240, new InvokeHandler(CallDisposeOwnedObjectObject), false);
+            UIXMethodSchema uixMethodSchema2 = new UIXMethodSchema(230, "NavigateInto", null, 240, new InvokeHandler(CallNavigateInto), false);
             UIXMethodSchema uixMethodSchema3 = new UIXMethodSchema(230, "NavigateInto", new short[1]
             {
          15
-            }, 240, new InvokeHandler(UIStateSchema.CallNavigateIntoBoolean), false);
-            UIStateSchema.Type.Initialize(null, null, new PropertySchema[16]
+            }, 240, new InvokeHandler(CallNavigateIntoBoolean), false);
+            Type.Initialize(null, null, new PropertySchema[16]
             {
          uixPropertySchema15,
          uixPropertySchema1,

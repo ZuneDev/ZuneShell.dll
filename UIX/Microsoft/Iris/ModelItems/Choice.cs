@@ -26,7 +26,7 @@ namespace Microsoft.Iris.ModelItems
 
         public Choice()
         {
-            this._chosen = Choice.s_noSelectionSentinal;
+            this._chosen = s_noSelectionSentinal;
             this._default = 0;
         }
 
@@ -133,7 +133,7 @@ namespace Microsoft.Iris.ModelItems
             this.FirePrevNextNotifications(hasPreviousValue, hasNextValue);
         }
 
-        public bool HasSelection => this._chosen != Choice.s_noSelectionSentinal && this._options != null;
+        public bool HasSelection => this._chosen != s_noSelectionSentinal && this._options != null;
 
         public bool HasPreviousValue => this.HasPreviousValueWorker(this._wrap);
 
@@ -228,7 +228,7 @@ namespace Microsoft.Iris.ModelItems
 
         object IUIValueRange.ObjectValue => this.ChosenValue;
 
-        public void Clear() => this.SetChosenIndex(Choice.s_noSelectionSentinal);
+        public void Clear() => this.SetChosenIndex(s_noSelectionSentinal);
 
         private void OnListContentsChanged(IList senderList, UIListContentsChangedArgs args)
         {

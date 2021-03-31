@@ -14,12 +14,12 @@ namespace Microsoft.Iris.Markup.UIX
         {
         }
 
-        public static void Pass1Initialize() => AliasSchema.Type = new UIXTypeSchema(2, "Alias", null, -1, typeof(object), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(2, "Alias", null, -1, typeof(object), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(2, "Type", 208, -1, ExpressionRestriction.NoAccess, false, null, true, null, new SetValueHandler(AliasSchema.SetType), false);
-            AliasSchema.Type.Initialize(null, null, new PropertySchema[1]
+            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(2, "Type", 208, -1, ExpressionRestriction.NoAccess, false, null, true, null, new SetValueHandler(SetType), false);
+            Type.Initialize(null, null, new PropertySchema[1]
             {
          uixPropertySchema
             }, null, null, null, null, null, null, null, null, null);

@@ -132,9 +132,9 @@ namespace Microsoft.Iris.InputHandlers
         protected override void OnKeyDown(UIClass ui, KeyStateInfo info)
         {
             Keys key = info.Key;
-            InputHandlerModifiers modifiers = InputHandler.GetModifiers(info.Modifiers);
+            InputHandlerModifiers modifiers = GetModifiers(info.Modifiers);
             if (key != (Keys)this._key)
-                KeyHandler.TranslateKey(ref key, ref modifiers);
+                TranslateKey(ref key, ref modifiers);
             if (!this.KeyMatches(key) || !this.ShouldHandleEvent(modifiers))
                 return;
             bool flag;
@@ -161,9 +161,9 @@ namespace Microsoft.Iris.InputHandlers
         protected override void OnKeyUp(UIClass ui, KeyStateInfo info)
         {
             Keys key = info.Key;
-            InputHandlerModifiers modifiers = InputHandler.GetModifiers(info.Modifiers);
+            InputHandlerModifiers modifiers = GetModifiers(info.Modifiers);
             if (key != (Keys)this._key)
-                KeyHandler.TranslateKey(ref key, ref modifiers);
+                TranslateKey(ref key, ref modifiers);
             if (!this.KeyMatches(key) || !this.ShouldHandleEvent(modifiers))
                 return;
             this._pressing = false;
@@ -192,7 +192,7 @@ namespace Microsoft.Iris.InputHandlers
             return this._key == KeyHandlerKey.Any && candidate != Keys.None;
         }
 
-        public static void TranslateKey(ref Keys key, ref InputHandlerModifiers modifiers) => KeyHandler.TranslateKey(ref key, ref modifiers, Orientation.Horizontal);
+        public static void TranslateKey(ref Keys key, ref InputHandlerModifiers modifiers) => TranslateKey(ref key, ref modifiers, Orientation.Horizontal);
 
         public static void TranslateKey(
           ref Keys key,

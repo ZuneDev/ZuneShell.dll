@@ -43,20 +43,20 @@ namespace Microsoft.Iris.ViewItems
 
         public static void EnsureFallbackImages()
         {
-            if (Graphic.s_AcquiringDefaultImage != null)
+            if (s_AcquiringDefaultImage != null)
                 return;
-            Graphic.s_AcquiringDefaultImage = new UriImage(Graphic.s_AcquiringDefaultImageUri, new Inset(3, 3, 53, 53), Size.Zero, false);
-            Graphic.s_AcquiringDefaultImage.Load();
-            Graphic.s_ErrorDefaultImage = new UriImage(Graphic.s_ErrorDefaultImageUri, new Inset(3, 3, 53, 53), Size.Zero, false);
-            Graphic.s_ErrorDefaultImage.Load();
+            s_AcquiringDefaultImage = new UriImage(s_AcquiringDefaultImageUri, new Inset(3, 3, 53, 53), Size.Zero, false);
+            s_AcquiringDefaultImage.Load();
+            s_ErrorDefaultImage = new UriImage(s_ErrorDefaultImageUri, new Inset(3, 3, 53, 53), Size.Zero, false);
+            s_ErrorDefaultImage.Load();
         }
 
         protected override void OnDispose()
         {
             this.ReleaseInUseImage(this._contentImage, null);
             this.ReleaseInUseImage(this._preloadImage, null);
-            this.ReleaseInUseImage(this.AcquiringImage, Graphic.s_AcquiringDefaultImage);
-            this.ReleaseInUseImage(this.ErrorImage, Graphic.s_ErrorDefaultImage);
+            this.ReleaseInUseImage(this.AcquiringImage, s_AcquiringDefaultImage);
+            this.ReleaseInUseImage(this.ErrorImage, s_ErrorDefaultImage);
             this._preloadImage = null;
             this._contentImage = null;
             this.AsyncLoadCompleteHandler = null;
@@ -97,14 +97,14 @@ namespace Microsoft.Iris.ViewItems
 
         public UIImage AcquiringImage
         {
-            get => this.GetStatusImage(Graphic.s_acquiringImageProperty, Graphic.s_AcquiringDefaultImage);
-            set => this.SetStatusImage(value, NotificationID.AcquiringImage, Graphic.s_acquiringImageProperty, Graphic.s_AcquiringDefaultImage);
+            get => this.GetStatusImage(s_acquiringImageProperty, s_AcquiringDefaultImage);
+            set => this.SetStatusImage(value, NotificationID.AcquiringImage, s_acquiringImageProperty, s_AcquiringDefaultImage);
         }
 
         public UIImage ErrorImage
         {
-            get => this.GetStatusImage(Graphic.s_errorImageProperty, Graphic.s_ErrorDefaultImage);
-            set => this.SetStatusImage(value, NotificationID.ErrorImage, Graphic.s_errorImageProperty, Graphic.s_ErrorDefaultImage);
+            get => this.GetStatusImage(s_errorImageProperty, s_ErrorDefaultImage);
+            set => this.SetStatusImage(value, NotificationID.ErrorImage, s_errorImageProperty, s_ErrorDefaultImage);
         }
 
         public UIImage PreloadContent
@@ -125,7 +125,7 @@ namespace Microsoft.Iris.ViewItems
         private UIImage GetStatusImage(DataCookie cookie, UIImage defaultImage)
         {
             object data = this.GetData(cookie);
-            return data != null ? (data != Graphic.s_NullImage ? (UIImage)data : null) : defaultImage;
+            return data != null ? (data != s_NullImage ? (UIImage)data : null) : defaultImage;
         }
 
         private void SetStatusImage(
@@ -147,7 +147,7 @@ namespace Microsoft.Iris.ViewItems
                 value.AddUser(this);
             }
             else
-                obj = Graphic.s_NullImage;
+                obj = s_NullImage;
             this.ReleaseInUseImage(statusImage, defaultImage);
             this.SetData(cookie, obj);
             this.MarkPaintInvalid();
@@ -307,8 +307,8 @@ namespace Microsoft.Iris.ViewItems
 
         private ContentLoadCompleteHandler AsyncLoadCompleteHandler
         {
-            get => (ContentLoadCompleteHandler)this.GetData(Graphic.s_pendingLoadCompleteHandlerProperty);
-            set => this.SetData(Graphic.s_pendingLoadCompleteHandlerProperty, value);
+            get => (ContentLoadCompleteHandler)this.GetData(s_pendingLoadCompleteHandlerProperty);
+            set => this.SetData(s_pendingLoadCompleteHandlerProperty, value);
         }
 
         public void CommitPreload() => this.Content = this.PreloadContent;

@@ -70,12 +70,12 @@ namespace Microsoft.Iris.Markup
                 for (int index = 0; index < compilands.Length; ++index)
                 {
                     ErrorWatermark watermark2 = ErrorManager.Watermark;
-                    ByteCodeWriter writer = MarkupCompiler.Run((MarkupLoadResult)vector[index], markupBinaryDataTable);
+                    ByteCodeWriter writer = Run((MarkupLoadResult)vector[index], markupBinaryDataTable);
                     if (!watermark2.ErrorsDetected)
-                        MarkupCompiler.SaveCompiledOutput(writer, compilands[index].OutputFileName);
+                        SaveCompiledOutput(writer, compilands[index].OutputFileName);
                 }
                 if (markupBinaryDataTable != null)
-                    MarkupCompiler.SaveCompiledOutput(MarkupCompiler.CompileBinaryDataTable(markupBinaryDataTable), dataTableCompiland.OutputFileName);
+                    SaveCompiledOutput(CompileBinaryDataTable(markupBinaryDataTable), dataTableCompiland.OutputFileName);
             }
             return !watermark1.ErrorsDetected;
         }
@@ -595,7 +595,7 @@ namespace Microsoft.Iris.Markup
             markupLoadResult.SetLineNumberTable(new MarkupLineNumberTable());
             markupLoadResult.LineNumberTable.PrepareForRuntimeUse();
             markupLoadResult.SetObjectSection(new ByteCodeWriter().CreateReader());
-            ByteCodeWriter byteCodeWriter = MarkupCompiler.Run(markupLoadResult, null);
+            ByteCodeWriter byteCodeWriter = Run(markupLoadResult, null);
             markupLoadResult.UnregisterUsage(markupLoadResult);
             return byteCodeWriter;
         }

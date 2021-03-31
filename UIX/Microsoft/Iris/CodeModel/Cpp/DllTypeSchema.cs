@@ -96,7 +96,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
             bool isRuntimeImmutable;
             if (this.CheckNativeReturn(NativeApi.SpIsRuntimeImmutable(this._type, out isRuntimeImmutable)))
             {
-                this.SetBit(DllTypeSchemaBase.Bits.IsRuntimeImmutable, isRuntimeImmutable);
+                this.SetBit(Bits.IsRuntimeImmutable, isRuntimeImmutable);
                 flag = true;
             }
             return flag;
@@ -148,7 +148,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
                         this._constructors[new MethodSignatureKey(constructorSchema.ParameterTypes)] = constructorSchema;
                         if (constructorSchema.ParameterTypes.Length == 0)
                         {
-                            this.SetBit(DllTypeSchemaBase.Bits.HasDefaultConstructor, true);
+                            this.SetBit(Bits.HasDefaultConstructor, true);
                             this._defaultConstructorID = ID;
                         }
                         flag = idVerifier.RegisterID(ID);
@@ -293,7 +293,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
                 case uint.MaxValue:
                     return flag;
                 case 4294967285:
-                    TypeSchema.RegisterOneWayEquivalence(this, ListSchema.Type);
+                    RegisterOneWayEquivalence(this, ListSchema.Type);
                     goto case 4294967281;
                 default:
                     ErrorManager.ReportError("Invalid MarshalAs '{0}' returned from IUIXType::MarshalAs", _marshalAs);
@@ -416,7 +416,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
             if (NativeApi.SUCCEEDED(hr))
                 dllProxyObject = DllProxyObject.Wrap(nativeObject);
             else
-                this.ReportError(hr, DllTypeSchema.ErrorContext.Construct, this, watermark);
+                this.ReportError(hr, ErrorContext.Construct, this, watermark);
             if ((IntPtr)uixVariantPtr != IntPtr.Zero)
                 UIXVariant.CleanupMarshalledObjects(uixVariantPtr, count);
             return dllProxyObject;
@@ -434,7 +434,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
             if (NativeApi.SUCCEEDED(propertyValue2))
                 obj = UIXVariant.GetValue(propertyValue1, this.Owner);
             else
-                this.ReportError(propertyValue2, DllTypeSchema.ErrorContext.PropertyGet, property, watermark);
+                this.ReportError(propertyValue2, ErrorContext.PropertyGet, property, watermark);
             return obj;
         }
 
@@ -449,7 +449,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
             ErrorWatermark watermark = ErrorManager.Watermark;
             uint hr = NativeApi.SpSetPropertyValue(this._type, nativeObject, property.ID, uixVariantPtr);
             if (NativeApi.FAILED(hr))
-                this.ReportError(hr, DllTypeSchema.ErrorContext.PropertySet, property, watermark);
+                this.ReportError(hr, ErrorContext.PropertySet, property, watermark);
             UIXVariant.CleanupMarshalledObject(uixVariantPtr);
         }
 
@@ -475,7 +475,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
             if (NativeApi.SUCCEEDED(hr))
                 obj = UIXVariant.GetValue(returnValue, this.Owner);
             else
-                this.ReportError(hr, DllTypeSchema.ErrorContext.MethodInvoke, method, watermark);
+                this.ReportError(hr, ErrorContext.MethodInvoke, method, watermark);
             if ((IntPtr)uixVariantPtr != IntPtr.Zero)
                 UIXVariant.CleanupMarshalledObjects(uixVariantPtr, count);
             return obj;
@@ -490,7 +490,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
             if (NativeApi.SUCCEEDED(hr))
                 str = DllProxyServices.GetString(nativeStringObject);
             else
-                this.ReportError(hr, DllTypeSchema.ErrorContext.ToString, this, watermark);
+                this.ReportError(hr, ErrorContext.ToString, this, watermark);
             return str;
         }
 
@@ -507,23 +507,23 @@ namespace Microsoft.Iris.CodeModel.Cpp
             string message;
             switch (contextType)
             {
-                case DllTypeSchema.ErrorContext.MethodInvoke:
+                case ErrorContext.MethodInvoke:
                     DllMethodSchema dllMethodSchema = (DllMethodSchema)context;
                     message = string.Format("Error 0x{0:X8} occurred invoking method {1}.{2} from {3}.", hr, dllMethodSchema.Owner.Name, dllMethodSchema.Name, dllMethodSchema.Owner.Owner.Uri);
                     break;
-                case DllTypeSchema.ErrorContext.ToString:
+                case ErrorContext.ToString:
                     DllTypeSchema dllTypeSchema1 = (DllTypeSchema)context;
                     message = string.Format("Error 0x{0:X8} occurred invoking ToString on type {1} from {2}.", hr, dllTypeSchema1.Name, dllTypeSchema1.Owner.Uri);
                     break;
-                case DllTypeSchema.ErrorContext.PropertyGet:
+                case ErrorContext.PropertyGet:
                     DllPropertySchema dllPropertySchema1 = (DllPropertySchema)context;
                     message = string.Format("Error 0x{0:X8} occurred reading property {1}.{2} from {3}.", hr, dllPropertySchema1.Owner.Name, dllPropertySchema1.Name, dllPropertySchema1.Owner.Owner.Uri);
                     break;
-                case DllTypeSchema.ErrorContext.PropertySet:
+                case ErrorContext.PropertySet:
                     DllPropertySchema dllPropertySchema2 = (DllPropertySchema)context;
                     message = string.Format("Error 0x{0:X8} occurred writing property {1}.{2} from {3}.", hr, dllPropertySchema2.Owner.Name, dllPropertySchema2.Name, dllPropertySchema2.Owner.Owner.Uri);
                     break;
-                case DllTypeSchema.ErrorContext.Construct:
+                case ErrorContext.Construct:
                     DllTypeSchema dllTypeSchema2 = (DllTypeSchema)context;
                     message = string.Format("Error 0x{0:X8} occurred constructing object of type {1} from {2}.", hr, dllTypeSchema2.Name, dllTypeSchema2.Owner.Uri);
                     break;

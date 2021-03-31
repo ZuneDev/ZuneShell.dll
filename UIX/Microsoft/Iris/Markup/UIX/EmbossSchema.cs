@@ -18,12 +18,12 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object Construct() => new EmbossElement();
 
-        public static void Pass1Initialize() => EmbossSchema.Type = new UIXTypeSchema(83, "Emboss", null, 80, typeof(EmbossElement), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(83, "Emboss", null, 80, typeof(EmbossElement), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(83, "Direction", 84, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(EmbossSchema.GetDirection), new SetValueHandler(EmbossSchema.SetDirection), false);
-            EmbossSchema.Type.Initialize(new DefaultConstructHandler(EmbossSchema.Construct), null, new PropertySchema[1]
+            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(83, "Direction", 84, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetDirection), new SetValueHandler(SetDirection), false);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[1]
             {
          uixPropertySchema
             }, null, null, null, null, null, null, null, null, null);

@@ -38,7 +38,7 @@ namespace Microsoft.Iris.Input
         private readonly SimpleCallback _refreshHitTargetHandler;
         private UIZone _mouseFocusZone;
         private UIZone _keyFocusZone;
-        private static readonly DeferredHandler s_deliverCoalescedKey = new DeferredHandler(InputManager.DeliverCoalescedKey);
+        private static readonly DeferredHandler s_deliverCoalescedKey = new DeferredHandler(DeliverCoalescedKey);
 
         internal InputManager(UISession session)
         {
@@ -326,7 +326,7 @@ namespace Microsoft.Iris.Input
             if (!this._currentCoalesceUndelivered)
             {
                 this._currentCoalesceUndelivered = true;
-                this._inputQueue.RawInputIdleItem(DeferredCall.Create(InputManager.s_deliverCoalescedKey, this));
+                this._inputQueue.RawInputIdleItem(DeferredCall.Create(s_deliverCoalescedKey, this));
             }
             return true;
         }
@@ -582,7 +582,7 @@ namespace Microsoft.Iris.Input
                         InputManager.ZoneDeliveryInfo newFocusInfo = new InputManager.ZoneDeliveryInfo();
                         if (mouseFocusInfo.State)
                             newFocusInfo = deliveryInfo;
-                        InputManager.ProcessFocusUpdates(InputDeviceType.Mouse, ref this._mouseFocusZone, newFocusInfo, target as ITreeNode);
+                        ProcessFocusUpdates(InputDeviceType.Mouse, ref this._mouseFocusZone, newFocusInfo, target as ITreeNode);
                         this._session.RootZone.UpdateCursor(null);
                     }
                     if (mouseFocusInfo.State && target == mouseFocusInfo.Other)
@@ -594,7 +594,7 @@ namespace Microsoft.Iris.Input
                         InputManager.ZoneDeliveryInfo newFocusInfo = new InputManager.ZoneDeliveryInfo();
                         if (keyFocusInfo.State)
                             newFocusInfo = deliveryInfo;
-                        InputManager.ProcessFocusUpdates(InputDeviceType.Keyboard, ref this._keyFocusZone, newFocusInfo, target as ITreeNode);
+                        ProcessFocusUpdates(InputDeviceType.Keyboard, ref this._keyFocusZone, newFocusInfo, target as ITreeNode);
                     }
                     if (keyFocusInfo.State && target == keyFocusInfo.Other)
                         flag = false;
@@ -615,10 +615,10 @@ namespace Microsoft.Iris.Input
                 return;
             refCurrentFocusZone = newFocusInfo.zone;
             if (refCurrentFocusZone == null)
-                InputManager.UpdateZoneFocusStates(focusType, zone, null, false, null);
+                UpdateZoneFocusStates(focusType, zone, null, false, null);
             if (newFocusInfo.zone == null)
                 return;
-            InputManager.UpdateZoneFocusStates(focusType, newFocusInfo.zone, newFocusInfo.param, true, actualFocus);
+            UpdateZoneFocusStates(focusType, newFocusInfo.zone, newFocusInfo.param, true, actualFocus);
         }
 
         private static void UpdateZoneFocusStates(

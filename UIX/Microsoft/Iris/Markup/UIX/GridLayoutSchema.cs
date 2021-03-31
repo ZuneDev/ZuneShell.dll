@@ -72,20 +72,20 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object Construct() => new GridLayout();
 
-        public static void Pass1Initialize() => GridLayoutSchema.Type = new UIXTypeSchema(99, "GridLayout", null, 132, typeof(GridLayout), UIXTypeFlags.Immutable);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(99, "GridLayout", null, 132, typeof(GridLayout), UIXTypeFlags.Immutable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(99, "Orientation", 154, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GridLayoutSchema.GetOrientation), new SetValueHandler(GridLayoutSchema.SetOrientation), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(99, "AllowWrap", 15, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GridLayoutSchema.GetAllowWrap), new SetValueHandler(GridLayoutSchema.SetAllowWrap), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(99, "ReferenceSize", 195, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GridLayoutSchema.GetReferenceSize), new SetValueHandler(GridLayoutSchema.SetReferenceSize), false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(99, "Spacing", 195, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GridLayoutSchema.GetSpacing), new SetValueHandler(GridLayoutSchema.SetSpacing), false);
-            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(99, "Rows", 115, -1, ExpressionRestriction.None, false, Int32Schema.ValidateNotNegative, false, new GetValueHandler(GridLayoutSchema.GetRows), new SetValueHandler(GridLayoutSchema.SetRows), false);
-            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(99, "Columns", 115, -1, ExpressionRestriction.None, false, Int32Schema.ValidateNotNegative, false, new GetValueHandler(GridLayoutSchema.GetColumns), new SetValueHandler(GridLayoutSchema.SetColumns), false);
-            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema(99, "Repeat", 172, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GridLayoutSchema.GetRepeat), new SetValueHandler(GridLayoutSchema.SetRepeat), false);
-            UIXPropertySchema uixPropertySchema8 = new UIXPropertySchema(99, "RepeatGap", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GridLayoutSchema.GetRepeatGap), new SetValueHandler(GridLayoutSchema.SetRepeatGap), false);
-            UIXPropertySchema uixPropertySchema9 = new UIXPropertySchema(99, "DefaultChildAlignment", sbyte.MaxValue, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GridLayoutSchema.GetDefaultChildAlignment), new SetValueHandler(GridLayoutSchema.SetDefaultChildAlignment), false);
-            GridLayoutSchema.Type.Initialize(new DefaultConstructHandler(GridLayoutSchema.Construct), null, new PropertySchema[9]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(99, "Orientation", 154, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetOrientation), new SetValueHandler(SetOrientation), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(99, "AllowWrap", 15, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetAllowWrap), new SetValueHandler(SetAllowWrap), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(99, "ReferenceSize", 195, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetReferenceSize), new SetValueHandler(SetReferenceSize), false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(99, "Spacing", 195, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetSpacing), new SetValueHandler(SetSpacing), false);
+            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(99, "Rows", 115, -1, ExpressionRestriction.None, false, Int32Schema.ValidateNotNegative, false, new GetValueHandler(GetRows), new SetValueHandler(SetRows), false);
+            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(99, "Columns", 115, -1, ExpressionRestriction.None, false, Int32Schema.ValidateNotNegative, false, new GetValueHandler(GetColumns), new SetValueHandler(SetColumns), false);
+            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema(99, "Repeat", 172, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetRepeat), new SetValueHandler(SetRepeat), false);
+            UIXPropertySchema uixPropertySchema8 = new UIXPropertySchema(99, "RepeatGap", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetRepeatGap), new SetValueHandler(SetRepeatGap), false);
+            UIXPropertySchema uixPropertySchema9 = new UIXPropertySchema(99, "DefaultChildAlignment", sbyte.MaxValue, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetDefaultChildAlignment), new SetValueHandler(SetDefaultChildAlignment), false);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[9]
             {
          uixPropertySchema2,
          uixPropertySchema6,

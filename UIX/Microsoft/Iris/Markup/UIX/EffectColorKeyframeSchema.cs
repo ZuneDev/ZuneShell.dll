@@ -19,12 +19,12 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object Construct() => new EffectColorKeyframe();
 
-        public static void Pass1Initialize() => EffectColorKeyframeSchema.Type = new UIXTypeSchema(72, "EffectColorKeyframe", null, 130, typeof(EffectColorKeyframe), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(72, "EffectColorKeyframe", null, 130, typeof(EffectColorKeyframe), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(72, "Value", 35, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(EffectColorKeyframeSchema.GetValue), new SetValueHandler(EffectColorKeyframeSchema.SetValue), false);
-            EffectColorKeyframeSchema.Type.Initialize(new DefaultConstructHandler(EffectColorKeyframeSchema.Construct), null, new PropertySchema[1]
+            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(72, "Value", 35, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetValue), new SetValueHandler(SetValue), false);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[1]
             {
          uixPropertySchema
             }, null, null, null, null, null, null, null, null, null);

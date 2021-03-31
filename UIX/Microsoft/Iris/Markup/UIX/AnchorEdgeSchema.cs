@@ -46,9 +46,9 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object ConstructIdPercent(object[] parameters)
         {
-            object instanceObj = AnchorEdgeSchema.Construct();
-            AnchorEdgeSchema.SetId(ref instanceObj, parameters[0]);
-            AnchorEdgeSchema.SetPercent(ref instanceObj, parameters[1]);
+            object instanceObj = Construct();
+            SetId(ref instanceObj, parameters[0]);
+            SetPercent(ref instanceObj, parameters[1]);
             return instanceObj;
         }
 
@@ -56,26 +56,26 @@ namespace Microsoft.Iris.Markup.UIX
           string[] splitString,
           out object instance)
         {
-            instance = AnchorEdgeSchema.Construct();
+            instance = Construct();
             object valueObj1;
             Result result1 = UIXLoadResult.ValidateStringAsValue(splitString[0], StringSchema.Type, null, out valueObj1);
             if (result1.Failed)
                 return Result.Fail("Problem converting '{0}' ({1})", "AnchorEdge", result1.Error);
-            AnchorEdgeSchema.SetId(ref instance, valueObj1);
+            SetId(ref instance, valueObj1);
             object valueObj2;
             Result result2 = UIXLoadResult.ValidateStringAsValue(splitString[1], SingleSchema.Type, null, out valueObj2);
             if (result2.Failed)
                 return Result.Fail("Problem converting '{0}' ({1})", "AnchorEdge", result2.Error);
-            AnchorEdgeSchema.SetPercent(ref instance, valueObj2);
+            SetPercent(ref instance, valueObj2);
             return result2;
         }
 
         private static object ConstructIdPercentOffset(object[] parameters)
         {
-            object instanceObj = AnchorEdgeSchema.Construct();
-            AnchorEdgeSchema.SetId(ref instanceObj, parameters[0]);
-            AnchorEdgeSchema.SetPercent(ref instanceObj, parameters[1]);
-            AnchorEdgeSchema.SetOffset(ref instanceObj, parameters[2]);
+            object instanceObj = Construct();
+            SetId(ref instanceObj, parameters[0]);
+            SetPercent(ref instanceObj, parameters[1]);
+            SetOffset(ref instanceObj, parameters[2]);
             return instanceObj;
         }
 
@@ -83,22 +83,22 @@ namespace Microsoft.Iris.Markup.UIX
           string[] splitString,
           out object instance)
         {
-            instance = AnchorEdgeSchema.Construct();
+            instance = Construct();
             object valueObj1;
             Result result1 = UIXLoadResult.ValidateStringAsValue(splitString[0], StringSchema.Type, null, out valueObj1);
             if (result1.Failed)
                 return Result.Fail("Problem converting '{0}' ({1})", "AnchorEdge", result1.Error);
-            AnchorEdgeSchema.SetId(ref instance, valueObj1);
+            SetId(ref instance, valueObj1);
             object valueObj2;
             Result result2 = UIXLoadResult.ValidateStringAsValue(splitString[1], SingleSchema.Type, null, out valueObj2);
             if (result2.Failed)
                 return Result.Fail("Problem converting '{0}' ({1})", "AnchorEdge", result2.Error);
-            AnchorEdgeSchema.SetPercent(ref instance, valueObj2);
+            SetPercent(ref instance, valueObj2);
             object valueObj3;
             Result result3 = UIXLoadResult.ValidateStringAsValue(splitString[2], Int32Schema.Type, null, out valueObj3);
             if (result3.Failed)
                 return Result.Fail("Problem converting '{0}' ({1})", "AnchorEdge", result3.Error);
-            AnchorEdgeSchema.SetOffset(ref instance, valueObj3);
+            SetOffset(ref instance, valueObj3);
             return result3;
         }
 
@@ -117,12 +117,12 @@ namespace Microsoft.Iris.Markup.UIX
                 switch (splitString.Length)
                 {
                     case 2:
-                        result = AnchorEdgeSchema.ConvertFromStringIdPercent(splitString, out instance);
+                        result = ConvertFromStringIdPercent(splitString, out instance);
                         if (!result.Failed)
                             return result;
                         break;
                     case 3:
-                        result = AnchorEdgeSchema.ConvertFromStringIdPercentOffset(splitString, out instance);
+                        result = ConvertFromStringIdPercentOffset(splitString, out instance);
                         if (!result.Failed)
                             return result;
                         break;
@@ -134,29 +134,29 @@ namespace Microsoft.Iris.Markup.UIX
             return result;
         }
 
-        public static void Pass1Initialize() => AnchorEdgeSchema.Type = new UIXTypeSchema(6, "AnchorEdge", null, 153, typeof(AnchorEdge), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(6, "AnchorEdge", null, 153, typeof(AnchorEdge), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(6, "Id", 208, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(AnchorEdgeSchema.GetId), new SetValueHandler(AnchorEdgeSchema.SetId), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(6, "Percent", 194, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(AnchorEdgeSchema.GetPercent), new SetValueHandler(AnchorEdgeSchema.SetPercent), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(6, "Offset", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(AnchorEdgeSchema.GetOffset), new SetValueHandler(AnchorEdgeSchema.SetOffset), false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(6, "MaximumPercent", 194, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(AnchorEdgeSchema.GetMaximumPercent), new SetValueHandler(AnchorEdgeSchema.SetMaximumPercent), false);
-            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(6, "MaximumOffset", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(AnchorEdgeSchema.GetMaximumOffset), new SetValueHandler(AnchorEdgeSchema.SetMaximumOffset), false);
-            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(6, "MinimumPercent", 194, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(AnchorEdgeSchema.GetMinimumPercent), new SetValueHandler(AnchorEdgeSchema.SetMinimumPercent), false);
-            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema(6, "MinimumOffset", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(AnchorEdgeSchema.GetMinimumOffset), new SetValueHandler(AnchorEdgeSchema.SetMinimumOffset), false);
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(6, "Id", 208, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetId), new SetValueHandler(SetId), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(6, "Percent", 194, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetPercent), new SetValueHandler(SetPercent), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(6, "Offset", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetOffset), new SetValueHandler(SetOffset), false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(6, "MaximumPercent", 194, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetMaximumPercent), new SetValueHandler(SetMaximumPercent), false);
+            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(6, "MaximumOffset", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetMaximumOffset), new SetValueHandler(SetMaximumOffset), false);
+            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(6, "MinimumPercent", 194, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetMinimumPercent), new SetValueHandler(SetMinimumPercent), false);
+            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema(6, "MinimumOffset", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetMinimumOffset), new SetValueHandler(SetMinimumOffset), false);
             UIXConstructorSchema constructorSchema1 = new UIXConstructorSchema(6, new short[2]
             {
          208,
          194
-            }, new ConstructHandler(AnchorEdgeSchema.ConstructIdPercent));
+            }, new ConstructHandler(ConstructIdPercent));
             UIXConstructorSchema constructorSchema2 = new UIXConstructorSchema(6, new short[3]
             {
          208,
          194,
          115
-            }, new ConstructHandler(AnchorEdgeSchema.ConstructIdPercentOffset));
-            AnchorEdgeSchema.Type.Initialize(new DefaultConstructHandler(AnchorEdgeSchema.Construct), new ConstructorSchema[2]
+            }, new ConstructHandler(ConstructIdPercentOffset));
+            Type.Initialize(new DefaultConstructHandler(Construct), new ConstructorSchema[2]
             {
          constructorSchema1,
          constructorSchema2
@@ -169,7 +169,7 @@ namespace Microsoft.Iris.Markup.UIX
          uixPropertySchema6,
          uixPropertySchema3,
          uixPropertySchema2
-            }, null, null, null, new TypeConverterHandler(AnchorEdgeSchema.TryConvertFrom), new SupportsTypeConversionHandler(AnchorEdgeSchema.IsConversionSupported), null, null, null, null);
+            }, null, null, null, new TypeConverterHandler(TryConvertFrom), new SupportsTypeConversionHandler(IsConversionSupported), null, null, null, null);
         }
     }
 }

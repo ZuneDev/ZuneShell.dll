@@ -18,38 +18,38 @@ namespace Microsoft.Iris.Drawing
         private const int ARGBBlueShift = 0;
         private readonly uint value;
 
-        public Color(int red, int green, int blue) => this = Color.FromArgb(byte.MaxValue, red, green, blue);
+        public Color(int red, int green, int blue) => this = FromArgb(byte.MaxValue, red, green, blue);
 
-        public Color(float red, float green, float blue) => this = Color.FromArgb(1f, red, green, blue);
+        public Color(float red, float green, float blue) => this = FromArgb(1f, red, green, blue);
 
-        public Color(int alpha, int red, int green, int blue) => this = Color.FromArgb(alpha, red, green, blue);
+        public Color(int alpha, int red, int green, int blue) => this = FromArgb(alpha, red, green, blue);
 
-        public Color(float alpha, float red, float green, float blue) => this = Color.FromArgb(alpha, red, green, blue);
+        public Color(float alpha, float red, float green, float blue) => this = FromArgb(alpha, red, green, blue);
 
         internal Color(uint value) => this.value = value;
 
         public byte R
         {
             get => (byte)(this.Value >> 16 & byte.MaxValue);
-            set => this = Color.FromArgb(A, value, G, B);
+            set => this = FromArgb(A, value, G, B);
         }
 
         public byte G
         {
             get => (byte)(this.Value >> 8 & byte.MaxValue);
-            set => this = Color.FromArgb(A, R, value, B);
+            set => this = FromArgb(A, R, value, B);
         }
 
         public byte B
         {
             get => (byte)(this.Value & byte.MaxValue);
-            set => this = Color.FromArgb(A, R, G, value);
+            set => this = FromArgb(A, R, G, value);
         }
 
         public byte A
         {
             get => (byte)(this.Value >> 24 & byte.MaxValue);
-            set => this = Color.FromArgb(value, R, G, B);
+            set => this = FromArgb(value, R, G, B);
         }
 
         internal void GetArgb(out float a, out float r, out float g, out float b)
@@ -74,22 +74,22 @@ namespace Microsoft.Iris.Drawing
 
         internal static Color FromArgb(int alpha, int red, int green, int blue)
         {
-            Color.CheckByte(alpha, nameof(alpha));
-            Color.CheckByte(red, nameof(red));
-            Color.CheckByte(green, nameof(green));
-            Color.CheckByte(blue, nameof(blue));
-            return new Color(Color.MakeArgb((byte)alpha, (byte)red, (byte)green, (byte)blue));
+            CheckByte(alpha, nameof(alpha));
+            CheckByte(red, nameof(red));
+            CheckByte(green, nameof(green));
+            CheckByte(blue, nameof(blue));
+            return new Color(MakeArgb((byte)alpha, (byte)red, (byte)green, (byte)blue));
         }
 
-        internal static Color FromArgb(float alpha, float red, float green, float blue) => Color.FromArgb(Color.ChannelFromFloat(alpha), Color.ChannelFromFloat(red), Color.ChannelFromFloat(green), Color.ChannelFromFloat(blue));
+        internal static Color FromArgb(float alpha, float red, float green, float blue) => FromArgb(ChannelFromFloat(alpha), ChannelFromFloat(red), ChannelFromFloat(green), ChannelFromFloat(blue));
 
         internal static Color FromArgb(int alpha, Color baseColor)
         {
-            Color.CheckByte(alpha, nameof(alpha));
-            return new Color(Color.MakeArgb((byte)alpha, baseColor.R, baseColor.G, baseColor.B));
+            CheckByte(alpha, nameof(alpha));
+            return new Color(MakeArgb((byte)alpha, baseColor.R, baseColor.G, baseColor.B));
         }
 
-        internal static Color FromArgb(int red, int green, int blue) => Color.FromArgb(byte.MaxValue, red, green, blue);
+        internal static Color FromArgb(int red, int green, int blue) => FromArgb(byte.MaxValue, red, green, blue);
 
         internal float GetValue()
         {

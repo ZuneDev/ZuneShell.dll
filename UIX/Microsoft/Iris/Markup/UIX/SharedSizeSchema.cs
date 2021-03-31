@@ -62,15 +62,15 @@ namespace Microsoft.Iris.Markup.UIX
             return null;
         }
 
-        public static void Pass1Initialize() => SharedSizeSchema.Type = new UIXTypeSchema(190, "SharedSize", null, 153, typeof(SharedSize), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(190, "SharedSize", null, 153, typeof(SharedSize), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(190, "MaximumSize", 195, -1, ExpressionRestriction.None, false, SizeSchema.ValidateNotNegative, true, new GetValueHandler(SharedSizeSchema.GetMaximumSize), new SetValueHandler(SharedSizeSchema.SetMaximumSize), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(190, "MinimumSize", 195, -1, ExpressionRestriction.None, false, SizeSchema.ValidateNotNegative, true, new GetValueHandler(SharedSizeSchema.GetMinimumSize), new SetValueHandler(SharedSizeSchema.SetMinimumSize), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(190, "Size", 195, -1, ExpressionRestriction.None, false, SizeSchema.ValidateNotNegative, true, new GetValueHandler(SharedSizeSchema.GetSize), new SetValueHandler(SharedSizeSchema.SetSize), false);
-            UIXMethodSchema uixMethodSchema = new UIXMethodSchema(190, "AutoSize", null, 240, new InvokeHandler(SharedSizeSchema.CallAutoSize), false);
-            SharedSizeSchema.Type.Initialize(new DefaultConstructHandler(SharedSizeSchema.Construct), null, new PropertySchema[3]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(190, "MaximumSize", 195, -1, ExpressionRestriction.None, false, SizeSchema.ValidateNotNegative, true, new GetValueHandler(GetMaximumSize), new SetValueHandler(SetMaximumSize), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(190, "MinimumSize", 195, -1, ExpressionRestriction.None, false, SizeSchema.ValidateNotNegative, true, new GetValueHandler(GetMinimumSize), new SetValueHandler(SetMinimumSize), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(190, "Size", 195, -1, ExpressionRestriction.None, false, SizeSchema.ValidateNotNegative, true, new GetValueHandler(GetSize), new SetValueHandler(SetSize), false);
+            UIXMethodSchema uixMethodSchema = new UIXMethodSchema(190, "AutoSize", null, 240, new InvokeHandler(CallAutoSize), false);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[3]
             {
          uixPropertySchema1,
          uixPropertySchema2,

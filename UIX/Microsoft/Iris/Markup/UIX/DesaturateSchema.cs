@@ -29,12 +29,12 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object Construct() => new DesaturateElement();
 
-        public static void Pass1Initialize() => DesaturateSchema.Type = new UIXTypeSchema(54, "Desaturate", null, 80, typeof(DesaturateElement), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(54, "Desaturate", null, 80, typeof(DesaturateElement), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(54, "Desaturate", 194, -1, ExpressionRestriction.None, false, SingleSchema.Validate0to1, false, new GetValueHandler(DesaturateSchema.GetDesaturate), new SetValueHandler(DesaturateSchema.SetDesaturate), false);
-            DesaturateSchema.Type.Initialize(new DefaultConstructHandler(DesaturateSchema.Construct), null, new PropertySchema[1]
+            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(54, "Desaturate", 194, -1, ExpressionRestriction.None, false, SingleSchema.Validate0to1, false, new GetValueHandler(GetDesaturate), new SetValueHandler(SetDesaturate), false);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[1]
             {
          uixPropertySchema
             }, null, null, null, null, null, null, null, null, null);

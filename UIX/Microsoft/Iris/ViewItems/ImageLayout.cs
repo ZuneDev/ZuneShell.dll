@@ -53,7 +53,7 @@ namespace Microsoft.Iris.ViewItems
                 size = Size.Min(Size.Max(this._minimumSize, this._sourceExtent), constraint);
             if (this._maintainAspectRatio && this._sourceExtent != Size.Zero && size != this._sourceExtent)
             {
-                Size sz1 = ImageLayout.SmallestFillingFit(this._sourceExtent, size);
+                Size sz1 = SmallestFillingFit(this._sourceExtent, size);
                 if (sz1.Height > constraint.Height || sz1.Width > constraint.Width)
                     sz1 = Size.LargestFit(this._sourceExtent, constraint);
                 size = Size.Min(sz1, constraint);

@@ -196,12 +196,12 @@ namespace Microsoft.Iris.Layouts
                     vector = packet.Dividers;
                 }
                 FlowLayout.Record record1 = vector[dataIndex];
-                if (FlowLayout.Record.IsNullOrEmpty(record1))
+                if (Record.IsNullOrEmpty(record1))
                 {
                     FlowLayout.Record record2 = record1;
                     if (record2 == null)
                         vector[dataIndex] = record2 = new FlowLayout.Record();
-                    record2.Initialize(FlowLayout.RecordSourceType.LayoutNode);
+                    record2.Initialize(RecordSourceType.LayoutNode);
                     if (record2.Nodes == null)
                         record2.Nodes = new Vector<ILayoutNode>(1);
                     record2.Nodes.Add(layoutChild);
@@ -239,7 +239,7 @@ namespace Microsoft.Iris.Layouts
                         if (!this.AllowWrap)
                             majorMinor = new MajorMinor(majorMinor.Major, 0);
                         FlowLayout.Record record = packet.Records[index];
-                        if (!FlowLayout.Record.IsNullOrEmpty(record))
+                        if (!Record.IsNullOrEmpty(record))
                         {
                             record.CachedSize = majorMinor;
                         }
@@ -247,7 +247,7 @@ namespace Microsoft.Iris.Layouts
                         {
                             if (record == null)
                                 packet.Records[index] = record = new FlowLayout.Record();
-                            record.Initialize(FlowLayout.RecordSourceType.SizeCache);
+                            record.Initialize(RecordSourceType.SizeCache);
                             record.Index = index;
                             record.CachedSize = majorMinor;
                         }
@@ -294,7 +294,7 @@ namespace Microsoft.Iris.Layouts
             for (int index = 0; index < packet.Records.Count; ++index)
             {
                 FlowLayout.Record record = packet.Records[index];
-                if (!FlowLayout.Record.IsNullOrEmpty(record))
+                if (!Record.IsNullOrEmpty(record))
                 {
                     if (ListUtility.IsNullOrEmpty(record.Nodes))
                         ++count;
@@ -324,11 +324,11 @@ namespace Microsoft.Iris.Layouts
             for (int index = 0; index < packet.Records.Count; ++index)
             {
                 FlowLayout.Record record = packet.Records[index];
-                if (FlowLayout.Record.IsNullOrEmpty(record))
+                if (Record.IsNullOrEmpty(record))
                 {
                     if (record == null)
                         packet.Records[index] = record = new FlowLayout.Record();
-                    record.Initialize(FlowLayout.RecordSourceType.Fake);
+                    record.Initialize(RecordSourceType.Fake);
                     record.Index = index;
                     record.CachedSize = a;
                 }
@@ -708,7 +708,7 @@ namespace Microsoft.Iris.Layouts
 
             public static bool IsNullOrEmpty(FlowLayout.Record record) => record == null || record.Index == int.MinValue;
 
-            public void Clear() => this.Initialize(FlowLayout.RecordSourceType.Unspecified);
+            public void Clear() => this.Initialize(RecordSourceType.Unspecified);
 
             public void Initialize(FlowLayout.RecordSourceType source)
             {

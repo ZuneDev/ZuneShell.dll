@@ -14,12 +14,12 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static void SetDirection(ref object instanceObj, object valueObj) => ((EffectElementWrapper)instanceObj).SetProperty("Direction", (int)valueObj);
 
-        public static void Pass1Initialize() => EmbossInstanceSchema.Type = new UIXTypeSchema(85, "EmbossInstance", null, 74, typeof(EffectElementWrapper), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(85, "EmbossInstance", null, 74, typeof(EffectElementWrapper), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(85, "Direction", 84, -1, ExpressionRestriction.None, false, null, false, null, new SetValueHandler(EmbossInstanceSchema.SetDirection), false);
-            EmbossInstanceSchema.Type.Initialize(null, null, new PropertySchema[1]
+            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(85, "Direction", 84, -1, ExpressionRestriction.None, false, null, false, null, new SetValueHandler(SetDirection), false);
+            Type.Initialize(null, null, new PropertySchema[1]
             {
          uixPropertySchema
             }, null, null, null, null, null, null, null, null, null);

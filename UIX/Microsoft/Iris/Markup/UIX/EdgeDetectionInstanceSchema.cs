@@ -34,16 +34,16 @@ namespace Microsoft.Iris.Markup.UIX
             return null;
         }
 
-        public static void Pass1Initialize() => EdgeDetectionInstanceSchema.Type = new UIXTypeSchema(67, "EdgeDetectionInstance", null, 74, typeof(EffectElementWrapper), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(67, "EdgeDetectionInstance", null, 74, typeof(EffectElementWrapper), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(67, "EdgeLimit", 194, -1, ExpressionRestriction.None, false, SingleSchema.Validate0to1, false, null, new SetValueHandler(EdgeDetectionInstanceSchema.SetEdgeLimit), false);
+            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(67, "EdgeLimit", 194, -1, ExpressionRestriction.None, false, SingleSchema.Validate0to1, false, null, new SetValueHandler(SetEdgeLimit), false);
             UIXMethodSchema uixMethodSchema = new UIXMethodSchema(67, "PlayEdgeLimitAnimation", new short[1]
             {
          75
-            }, 240, new InvokeHandler(EdgeDetectionInstanceSchema.CallPlayEdgeLimitAnimationEffectFloatAnimation), false);
-            EdgeDetectionInstanceSchema.Type.Initialize(null, null, new PropertySchema[1]
+            }, 240, new InvokeHandler(CallPlayEdgeLimitAnimationEffectFloatAnimation), false);
+            Type.Initialize(null, null, new PropertySchema[1]
             {
          uixPropertySchema
             }, new MethodSchema[1]

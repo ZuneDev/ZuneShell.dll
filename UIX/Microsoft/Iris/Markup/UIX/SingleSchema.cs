@@ -12,9 +12,9 @@ namespace Microsoft.Iris.Markup.UIX
 {
     internal static class SingleSchema
     {
-        public static RangeValidator Validate0to1 = new RangeValidator(SingleSchema.RangeValidate0to1);
-        public static RangeValidator ValidateNotNegative = new RangeValidator(SingleSchema.RangeValidateNotNegative);
-        public static RangeValidator ValidateNotZero = new RangeValidator(SingleSchema.RangeValidateNotZero);
+        public static RangeValidator Validate0to1 = new RangeValidator(RangeValidate0to1);
+        public static RangeValidator ValidateNotNegative = new RangeValidator(RangeValidateNotNegative);
+        public static RangeValidator ValidateNotZero = new RangeValidator(RangeValidateNotZero);
         public static UIXTypeSchema Type;
 
         private static object Construct() => 0.0f;
@@ -96,37 +96,37 @@ namespace Microsoft.Iris.Markup.UIX
             instance = null;
             if (BooleanSchema.Type.IsAssignableFrom(fromType))
             {
-                result = SingleSchema.ConvertFromBoolean(from, out instance);
+                result = ConvertFromBoolean(from, out instance);
                 if (!result.Failed)
                     return result;
             }
             if (ByteSchema.Type.IsAssignableFrom(fromType))
             {
-                result = SingleSchema.ConvertFromByte(from, out instance);
+                result = ConvertFromByte(from, out instance);
                 if (!result.Failed)
                     return result;
             }
             if (DoubleSchema.Type.IsAssignableFrom(fromType))
             {
-                result = SingleSchema.ConvertFromDouble(from, out instance);
+                result = ConvertFromDouble(from, out instance);
                 if (!result.Failed)
                     return result;
             }
             if (Int32Schema.Type.IsAssignableFrom(fromType))
             {
-                result = SingleSchema.ConvertFromInt32(from, out instance);
+                result = ConvertFromInt32(from, out instance);
                 if (!result.Failed)
                     return result;
             }
             if (Int64Schema.Type.IsAssignableFrom(fromType))
             {
-                result = SingleSchema.ConvertFromInt64(from, out instance);
+                result = ConvertFromInt64(from, out instance);
                 if (!result.Failed)
                     return result;
             }
             if (StringSchema.Type.IsAssignableFrom(fromType))
             {
-                result = SingleSchema.ConvertFromString(from, out instance);
+                result = ConvertFromString(from, out instance);
                 if (!result.Failed)
                     return result;
             }
@@ -195,7 +195,7 @@ namespace Microsoft.Iris.Markup.UIX
             string parameter1 = (string)parameters[0];
             float parameter2 = (float)parameters[1];
             object instanceObj1;
-            return SingleSchema.ConvertFromString(parameter1, out instanceObj1).Failed ? parameter2 : instanceObj1;
+            return ConvertFromString(parameter1, out instanceObj1).Failed ? parameter2 : instanceObj1;
         }
 
         private static Result RangeValidate0to1(object value)
@@ -216,24 +216,24 @@ namespace Microsoft.Iris.Markup.UIX
             return num == 0.0 ? Result.Fail("Specified value '{0}' is not valid", num.ToString()) : Result.Success;
         }
 
-        public static void Pass1Initialize() => SingleSchema.Type = new UIXTypeSchema(194, "Single", "float", 153, typeof(float), UIXTypeFlags.Immutable);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(194, "Single", "float", 153, typeof(float), UIXTypeFlags.Immutable);
 
         public static void Pass2Initialize()
         {
             UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema(194, "ToString", new short[1]
             {
          208
-            }, 208, new InvokeHandler(SingleSchema.CallToStringString), false);
+            }, 208, new InvokeHandler(CallToStringString), false);
             UIXMethodSchema uixMethodSchema2 = new UIXMethodSchema(194, "TryParse", new short[2]
             {
          208,
          194
-            }, 194, new InvokeHandler(SingleSchema.CallTryParseStringSingle), true);
-            SingleSchema.Type.Initialize(new DefaultConstructHandler(SingleSchema.Construct), null, null, new MethodSchema[2]
+            }, 194, new InvokeHandler(CallTryParseStringSingle), true);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, null, new MethodSchema[2]
             {
          uixMethodSchema1,
          uixMethodSchema2
-            }, null, null, new TypeConverterHandler(SingleSchema.TryConvertFrom), new SupportsTypeConversionHandler(SingleSchema.IsConversionSupported), new EncodeBinaryHandler(SingleSchema.EncodeBinary), new DecodeBinaryHandler(SingleSchema.DecodeBinary), new PerformOperationHandler(SingleSchema.ExecuteOperation), new SupportsOperationHandler(SingleSchema.IsOperationSupported));
+            }, null, null, new TypeConverterHandler(TryConvertFrom), new SupportsTypeConversionHandler(IsConversionSupported), new EncodeBinaryHandler(EncodeBinary), new DecodeBinaryHandler(DecodeBinary), new PerformOperationHandler(ExecuteOperation), new SupportsOperationHandler(IsOperationSupported));
         }
     }
 }

@@ -60,9 +60,9 @@ namespace Microsoft.Iris.Navigation
                 if (child.Visible)
                 {
                     Direction searchDirection = this.SearchDirection;
-                    if (NavigationItem.IsPreferFocusOrderContainer(child))
+                    if (IsPreferFocusOrderContainer(child))
                         searchDirection = Direction.Next;
-                    NavigationItem itemForSite = NavigationItem.CreateItemForSite(child, searchDirection, false);
+                    NavigationItem itemForSite = CreateItemForSite(child, searchDirection, false);
                     if (itemForSite != null)
                     {
                         int num = childrenList.Add(itemForSite);
@@ -78,11 +78,11 @@ namespace Microsoft.Iris.Navigation
         {
             get
             {
-                if (this._parentItem == null && !NavigationItem.IsBoundingSite(this._subjectSite, this._searchDirection))
+                if (this._parentItem == null && !IsBoundingSite(this._subjectSite, this._searchDirection))
                 {
                     INavigationSite parent = this._subjectSite.Parent;
                     if (parent != null)
-                        this._parentItem = NavigationItem.CreateAreaForSite(parent, this._searchDirection, true, false);
+                        this._parentItem = CreateAreaForSite(parent, this._searchDirection, true, false);
                 }
                 return this._parentItem;
             }
@@ -129,7 +129,7 @@ namespace Microsoft.Iris.Navigation
         {
             if (niA == null || niB == null)
                 return 0;
-            int num = NavigationItem.CompareFocusRanks(niA.FocusRank, niB.FocusRank);
+            int num = CompareFocusRanks(niA.FocusRank, niB.FocusRank);
             if (num != 0)
                 return num;
             int rawChildOrder1 = niA.RawChildOrder;
@@ -142,7 +142,7 @@ namespace Microsoft.Iris.Navigation
         [Conditional("DEBUG")]
         internal void DebugTraceFocusRank()
         {
-            if (!Microsoft.Iris.Debug.Trace.IsCategoryEnabled(TraceCategory.Focus))
+            if (!Debug.Trace.IsCategoryEnabled(TraceCategory.Focus))
                 return;
             int num = 0;
             while (num < this.FocusRank.Length)
@@ -186,20 +186,20 @@ namespace Microsoft.Iris.Navigation
         {
             if (this.Subject != excludeStickyContainerSite)
             {
-                object groupFocusId = NavigationItem.GetGroupFocusId(this.Subject);
+                object groupFocusId = GetGroupFocusId(this.Subject);
                 if (groupFocusId != null)
                 {
                     INavigationSite site = this.Subject.LookupChildById(groupFocusId);
                     if (site != null && site != exclueStickyDestinationSite)
                     {
-                        NavigationItem itemForSite = NavigationItem.CreateItemForSite(site, this.SearchDirection, false);
+                        NavigationItem itemForSite = CreateItemForSite(site, this.SearchDirection, false);
                         if (itemForSite != null && itemForSite.CheckDestination(startRectangleF))
                             return itemForSite;
-                        NavigationItem.SetGroupFocusId(this.Subject, null);
+                        SetGroupFocusId(this.Subject, null);
                     }
                 }
             }
-            if (!depthFirst || NavigationItem.IsPreferContainerFocus(this.Subject))
+            if (!depthFirst || IsPreferContainerFocus(this.Subject))
             {
                 depthFirst = false;
                 if (this.CheckDestination(startRectangleF))
@@ -224,13 +224,13 @@ namespace Microsoft.Iris.Navigation
         {
             object uniqueId = focusSite.UniqueId;
             for (INavigationSite groupSite = focusSite; groupSite != null; groupSite = groupSite.Parent)
-                NavigationItem.SetGroupFocusId(groupSite, uniqueId);
+                SetGroupFocusId(groupSite, uniqueId);
         }
 
         internal static void ClearFocus(INavigationSite startSite)
         {
             for (INavigationSite groupSite = startSite; groupSite != null; groupSite = groupSite.Parent)
-                NavigationItem.SetGroupFocusId(groupSite, null);
+                SetGroupFocusId(groupSite, null);
         }
 
         internal static NavigationItem CreateItemForSite(
@@ -238,7 +238,7 @@ namespace Microsoft.Iris.Navigation
           Direction searchDirection,
           bool mustUseThisSiteFlag)
         {
-            return NavigationItem.CreateItemForSiteWorker(site, searchDirection, mustUseThisSiteFlag);
+            return CreateItemForSiteWorker(site, searchDirection, mustUseThisSiteFlag);
         }
 
         internal static NavigationItem CreateAreaForSite(
@@ -247,7 +247,7 @@ namespace Microsoft.Iris.Navigation
           bool searchAncestorsFlag,
           bool mustUseThisSiteFlag)
         {
-            return NavigationItem.CreateAreaForSiteWorker(targetSite, searchDirection, searchAncestorsFlag, mustUseThisSiteFlag);
+            return CreateAreaForSiteWorker(targetSite, searchDirection, searchAncestorsFlag, mustUseThisSiteFlag);
         }
 
         private static NavigationItem CreateItemForSiteWorker(
@@ -261,7 +261,7 @@ namespace Microsoft.Iris.Navigation
                 return null;
             if (site.Navigability != NavigationClass.None)
                 mustUseThisSiteFlag = true;
-            return NavigationItem.CreateAreaForSiteWorker(site, searchDirection, false, mustUseThisSiteFlag);
+            return CreateAreaForSiteWorker(site, searchDirection, false, mustUseThisSiteFlag);
         }
 
         private static NavigationItem CreateAreaForSiteWorker(
@@ -275,7 +275,7 @@ namespace Microsoft.Iris.Navigation
             if (!targetSite.Visible)
                 return null;
             INavigationSite governSite;
-            NavigationOrientation containerOrientation = NavigationItem.ComputeGoverningContainerOrientation(targetSite, searchDirection, searchAncestorsFlag || mustUseThisSiteFlag, out governSite);
+            NavigationOrientation containerOrientation = ComputeGoverningContainerOrientation(targetSite, searchDirection, searchAncestorsFlag || mustUseThisSiteFlag, out governSite);
             if (governSite != targetSite && !mustUseThisSiteFlag)
             {
                 if (!searchAncestorsFlag)
@@ -322,8 +322,8 @@ namespace Microsoft.Iris.Navigation
           bool searchAncestorsFlag,
           out INavigationSite governSite)
         {
-            NavigationOrientation orientation = NavigationItem.GetAreaDisposition(targetSite, searchDirection);
-            if (!NavigationItem.IsNeutralGoverningOrientation(orientation, searchAncestorsFlag))
+            NavigationOrientation orientation = GetAreaDisposition(targetSite, searchDirection);
+            if (!IsNeutralGoverningOrientation(orientation, searchAncestorsFlag))
             {
                 governSite = targetSite;
             }
@@ -332,7 +332,7 @@ namespace Microsoft.Iris.Navigation
                 governSite = targetSite;
                 for (INavigationSite parent = targetSite.Parent; parent != null; parent = parent.Parent)
                 {
-                    NavigationOrientation areaDisposition = NavigationItem.GetAreaDisposition(parent, searchDirection);
+                    NavigationOrientation areaDisposition = GetAreaDisposition(parent, searchDirection);
                     if (areaDisposition != NavigationOrientation.None)
                     {
                         switch (areaDisposition)
@@ -360,7 +360,7 @@ namespace Microsoft.Iris.Navigation
                                 break;
                         }
                     }
-                    if (!NavigationItem.IsNeutralGoverningOrientation(orientation, searchAncestorsFlag))
+                    if (!IsNeutralGoverningOrientation(orientation, searchAncestorsFlag))
                         goto label_16;
                 }
                 orientation = NavigationOrientation.None;
@@ -388,13 +388,13 @@ namespace Microsoft.Iris.Navigation
           INavigationSite targetSite,
           Direction searchDirection)
         {
-            NavigationOrientation explicitOrientation = NavigationItem.GetExplicitOrientation(targetSite);
+            NavigationOrientation explicitOrientation = GetExplicitOrientation(targetSite);
             if (explicitOrientation != NavigationOrientation.Inherit)
                 return explicitOrientation;
-            NavigationOrientation flowOrientation = NavigationItem.GetFlowOrientation(targetSite, searchDirection);
+            NavigationOrientation flowOrientation = GetFlowOrientation(targetSite, searchDirection);
             if (flowOrientation != NavigationOrientation.Inherit)
                 return flowOrientation;
-            if (targetSite.Parent == null || targetSite.Navigability == NavigationClass.Direct || (NavigationItem.IsBoundingSite(targetSite, searchDirection) || NavigationItem.IsPreferFocusOrderContainer(targetSite)) || (NavigationItem.IsTabGroup(targetSite) || NavigationItem.IsRememberFocus(targetSite) || NavigationItem.IsPreferContainerFocus(targetSite)))
+            if (targetSite.Parent == null || targetSite.Navigability == NavigationClass.Direct || (IsBoundingSite(targetSite, searchDirection) || IsPreferFocusOrderContainer(targetSite)) || (IsTabGroup(targetSite) || IsRememberFocus(targetSite) || IsPreferContainerFocus(targetSite)))
                 return NavigationOrientation.Free;
             return targetSite.IsLogicalJunction ? NavigationOrientation.Inherit : NavigationOrientation.None;
         }
@@ -509,7 +509,7 @@ namespace Microsoft.Iris.Navigation
 
         private static void SetGroupFocusId(INavigationSite groupSite, object uniqueIdObject)
         {
-            if (!NavigationItem.IsRememberFocus(groupSite))
+            if (!IsRememberFocus(groupSite))
                 return;
             groupSite.StateCache = uniqueIdObject;
         }
@@ -517,7 +517,7 @@ namespace Microsoft.Iris.Navigation
         private static object GetGroupFocusId(INavigationSite groupSite)
         {
             object obj = null;
-            if (NavigationItem.IsRememberFocus(groupSite))
+            if (IsRememberFocus(groupSite))
                 obj = groupSite.StateCache;
             return obj;
         }

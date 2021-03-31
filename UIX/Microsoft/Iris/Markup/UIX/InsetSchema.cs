@@ -57,7 +57,7 @@ namespace Microsoft.Iris.Markup.UIX
             instanceObj = inset;
         }
 
-        private static object Construct() => InsetSchema.s_Default;
+        private static object Construct() => s_Default;
 
         private static object ConstructInt32(object[] parameters)
         {
@@ -123,11 +123,11 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object ConstructLeftTopRightBottom(object[] parameters)
         {
-            object instanceObj = InsetSchema.Construct();
-            InsetSchema.SetLeft(ref instanceObj, parameters[0]);
-            InsetSchema.SetTop(ref instanceObj, parameters[1]);
-            InsetSchema.SetRight(ref instanceObj, parameters[2]);
-            InsetSchema.SetBottom(ref instanceObj, parameters[3]);
+            object instanceObj = Construct();
+            SetLeft(ref instanceObj, parameters[0]);
+            SetTop(ref instanceObj, parameters[1]);
+            SetRight(ref instanceObj, parameters[2]);
+            SetBottom(ref instanceObj, parameters[3]);
             return instanceObj;
         }
 
@@ -135,27 +135,27 @@ namespace Microsoft.Iris.Markup.UIX
           string[] splitString,
           out object instance)
         {
-            instance = InsetSchema.Construct();
+            instance = Construct();
             object valueObj1;
             Result result1 = UIXLoadResult.ValidateStringAsValue(splitString[0], Int32Schema.Type, null, out valueObj1);
             if (result1.Failed)
                 return Result.Fail("Problem converting '{0}' ({1})", "Inset", result1.Error);
-            InsetSchema.SetLeft(ref instance, valueObj1);
+            SetLeft(ref instance, valueObj1);
             object valueObj2;
             Result result2 = UIXLoadResult.ValidateStringAsValue(splitString[1], Int32Schema.Type, null, out valueObj2);
             if (result2.Failed)
                 return Result.Fail("Problem converting '{0}' ({1})", "Inset", result2.Error);
-            InsetSchema.SetTop(ref instance, valueObj2);
+            SetTop(ref instance, valueObj2);
             object valueObj3;
             Result result3 = UIXLoadResult.ValidateStringAsValue(splitString[2], Int32Schema.Type, null, out valueObj3);
             if (result3.Failed)
                 return Result.Fail("Problem converting '{0}' ({1})", "Inset", result3.Error);
-            InsetSchema.SetRight(ref instance, valueObj3);
+            SetRight(ref instance, valueObj3);
             object valueObj4;
             Result result4 = UIXLoadResult.ValidateStringAsValue(splitString[3], Int32Schema.Type, null, out valueObj4);
             if (result4.Failed)
                 return Result.Fail("Problem converting '{0}' ({1})", "Inset", result4.Error);
-            InsetSchema.SetBottom(ref instance, valueObj4);
+            SetBottom(ref instance, valueObj4);
             return result4;
         }
 
@@ -170,19 +170,19 @@ namespace Microsoft.Iris.Markup.UIX
             instance = null;
             if (Int32Schema.Type.IsAssignableFrom(fromType))
             {
-                result = InsetSchema.ConvertFromInt32(from, out instance);
+                result = ConvertFromInt32(from, out instance);
                 if (!result.Failed)
                     return result;
             }
             if (SingleSchema.Type.IsAssignableFrom(fromType))
             {
-                result = InsetSchema.ConvertFromSingle(from, out instance);
+                result = ConvertFromSingle(from, out instance);
                 if (!result.Failed)
                     return result;
             }
             if (StringSchema.Type.IsAssignableFrom(fromType))
             {
-                result = InsetSchema.ConvertFromString(from, out instance);
+                result = ConvertFromString(from, out instance);
                 if (!result.Failed)
                     return result;
             }
@@ -191,7 +191,7 @@ namespace Microsoft.Iris.Markup.UIX
                 string[] splitString = StringUtility.SplitAndTrim(',', (string)from);
                 if (splitString.Length == 4)
                 {
-                    result = InsetSchema.ConvertFromStringLeftTopRightBottom(splitString, out instance);
+                    result = ConvertFromStringLeftTopRightBottom(splitString, out instance);
                     if (!result.Failed)
                         return result;
                 }
@@ -242,34 +242,34 @@ namespace Microsoft.Iris.Markup.UIX
             string parameter1 = (string)parameters[0];
             Inset parameter2 = (Inset)parameters[1];
             object instanceObj1;
-            return InsetSchema.ConvertFromString(parameter1, out instanceObj1).Failed ? parameter2 : instanceObj1;
+            return ConvertFromString(parameter1, out instanceObj1).Failed ? parameter2 : instanceObj1;
         }
 
-        public static void Pass1Initialize() => InsetSchema.Type = new UIXTypeSchema(114, "Inset", null, 153, typeof(Inset), UIXTypeFlags.Immutable);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(114, "Inset", null, 153, typeof(Inset), UIXTypeFlags.Immutable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(114, "Left", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(InsetSchema.GetLeft), new SetValueHandler(InsetSchema.SetLeft), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(114, "Top", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(InsetSchema.GetTop), new SetValueHandler(InsetSchema.SetTop), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(114, "Right", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(InsetSchema.GetRight), new SetValueHandler(InsetSchema.SetRight), false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(114, "Bottom", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(InsetSchema.GetBottom), new SetValueHandler(InsetSchema.SetBottom), false);
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(114, "Left", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetLeft), new SetValueHandler(SetLeft), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(114, "Top", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetTop), new SetValueHandler(SetTop), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(114, "Right", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetRight), new SetValueHandler(SetRight), false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(114, "Bottom", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetBottom), new SetValueHandler(SetBottom), false);
             UIXConstructorSchema constructorSchema1 = new UIXConstructorSchema(114, new short[1]
             {
          115
-            }, new ConstructHandler(InsetSchema.ConstructInt32));
+            }, new ConstructHandler(ConstructInt32));
             UIXConstructorSchema constructorSchema2 = new UIXConstructorSchema(114, new short[4]
             {
          115,
          115,
          115,
          115
-            }, new ConstructHandler(InsetSchema.ConstructLeftTopRightBottom));
+            }, new ConstructHandler(ConstructLeftTopRightBottom));
             UIXMethodSchema uixMethodSchema = new UIXMethodSchema(114, "TryParse", new short[2]
             {
          208,
          114
-            }, 114, new InvokeHandler(InsetSchema.CallTryParseStringInset), true);
-            InsetSchema.Type.Initialize(new DefaultConstructHandler(InsetSchema.Construct), new ConstructorSchema[2]
+            }, 114, new InvokeHandler(CallTryParseStringInset), true);
+            Type.Initialize(new DefaultConstructHandler(Construct), new ConstructorSchema[2]
             {
          constructorSchema1,
          constructorSchema2
@@ -282,7 +282,7 @@ namespace Microsoft.Iris.Markup.UIX
             }, new MethodSchema[1]
             {
          uixMethodSchema
-            }, null, null, new TypeConverterHandler(InsetSchema.TryConvertFrom), new SupportsTypeConversionHandler(InsetSchema.IsConversionSupported), new EncodeBinaryHandler(InsetSchema.EncodeBinary), new DecodeBinaryHandler(InsetSchema.DecodeBinary), new PerformOperationHandler(InsetSchema.ExecuteOperation), new SupportsOperationHandler(InsetSchema.IsOperationSupported));
+            }, null, null, new TypeConverterHandler(TryConvertFrom), new SupportsTypeConversionHandler(IsConversionSupported), new EncodeBinaryHandler(EncodeBinary), new DecodeBinaryHandler(DecodeBinary), new PerformOperationHandler(ExecuteOperation), new SupportsOperationHandler(IsOperationSupported));
         }
     }
 }

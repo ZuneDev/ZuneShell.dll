@@ -22,17 +22,17 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object GetIsError(object instanceObj) => BooleanBoxes.Box(((MarkupError)instanceObj).IsError);
 
-        public static void Pass1Initialize() => MarkupErrorSchema.Type = new UIXTypeSchema(144, "MarkupError", null, 153, typeof(MarkupError), UIXTypeFlags.Immutable);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(144, "MarkupError", null, 153, typeof(MarkupError), UIXTypeFlags.Immutable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(144, "Context", 208, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(MarkupErrorSchema.GetContext), null, false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(144, "Message", 208, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(MarkupErrorSchema.GetMessage), null, false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(144, "Uri", 208, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(MarkupErrorSchema.GetUri), null, false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(144, "Line", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(MarkupErrorSchema.GetLine), null, false);
-            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(144, "Column", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(MarkupErrorSchema.GetColumn), null, false);
-            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(144, "IsError", 15, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(MarkupErrorSchema.GetIsError), null, false);
-            MarkupErrorSchema.Type.Initialize(null, null, new PropertySchema[6]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(144, "Context", 208, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetContext), null, false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(144, "Message", 208, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetMessage), null, false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(144, "Uri", 208, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetUri), null, false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(144, "Line", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetLine), null, false);
+            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(144, "Column", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetColumn), null, false);
+            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(144, "IsError", 15, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetIsError), null, false);
+            Type.Initialize(null, null, new PropertySchema[6]
             {
          uixPropertySchema5,
          uixPropertySchema1,

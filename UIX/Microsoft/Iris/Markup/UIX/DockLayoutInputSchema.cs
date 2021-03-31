@@ -19,14 +19,14 @@ namespace Microsoft.Iris.Markup.UIX
         {
             string str = (string)valueObj;
             instanceObj = null;
-            DockLayoutInput instance = DockLayoutInputSchema.StringToInstance(str);
+            DockLayoutInput instance = StringToInstance(str);
             if (instance == null)
                 return Result.Fail("Unable to convert \"{0}\" to type '{1}'", str, "DockLayoutInput");
             instanceObj = instance;
             return Result.Success;
         }
 
-        private static object FindCanonicalInstance(string name) => DockLayoutInputSchema.StringToInstance(name);
+        private static object FindCanonicalInstance(string name) => StringToInstance(name);
 
         private static bool IsConversionSupported(TypeSchema fromType) => StringSchema.Type.IsAssignableFrom(fromType);
 
@@ -39,7 +39,7 @@ namespace Microsoft.Iris.Markup.UIX
             instance = null;
             if (StringSchema.Type.IsAssignableFrom(fromType))
             {
-                result = DockLayoutInputSchema.ConvertFromString(from, out instance);
+                result = ConvertFromString(from, out instance);
                 if (!result.Failed)
                     return result;
             }
@@ -51,7 +51,7 @@ namespace Microsoft.Iris.Markup.UIX
             string parameter1 = (string)parameters[0];
             DockLayoutInput parameter2 = (DockLayoutInput)parameters[1];
             object instanceObj1;
-            return DockLayoutInputSchema.ConvertFromString(parameter1, out instanceObj1).Failed ? parameter2 : instanceObj1;
+            return ConvertFromString(parameter1, out instanceObj1).Failed ? parameter2 : instanceObj1;
         }
 
         private static DockLayoutInput StringToInstance(string value)
@@ -67,7 +67,7 @@ namespace Microsoft.Iris.Markup.UIX
             return value == "Client" ? DockLayoutInput.Client : null;
         }
 
-        public static void Pass1Initialize() => DockLayoutInputSchema.Type = new UIXTypeSchema(60, "DockLayoutInput", null, 133, typeof(DockLayoutInput), UIXTypeFlags.Immutable);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(60, "DockLayoutInput", null, 133, typeof(DockLayoutInput), UIXTypeFlags.Immutable);
 
         public static void Pass2Initialize()
         {
@@ -75,11 +75,11 @@ namespace Microsoft.Iris.Markup.UIX
             {
          208,
          60
-            }, 60, new InvokeHandler(DockLayoutInputSchema.CallTryParseStringDockLayoutInput), true);
-            DockLayoutInputSchema.Type.Initialize(new DefaultConstructHandler(DockLayoutInputSchema.Construct), null, null, new MethodSchema[1]
+            }, 60, new InvokeHandler(CallTryParseStringDockLayoutInput), true);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, null, new MethodSchema[1]
             {
          uixMethodSchema
-            }, null, new FindCanonicalInstanceHandler(DockLayoutInputSchema.FindCanonicalInstance), new TypeConverterHandler(DockLayoutInputSchema.TryConvertFrom), new SupportsTypeConversionHandler(DockLayoutInputSchema.IsConversionSupported), null, null, null, null);
+            }, null, new FindCanonicalInstanceHandler(FindCanonicalInstance), new TypeConverterHandler(TryConvertFrom), new SupportsTypeConversionHandler(IsConversionSupported), null, null, null, null);
         }
     }
 }

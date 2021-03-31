@@ -38,7 +38,7 @@ namespace Microsoft.Iris
             ThreadSafety.InitializeObject(this);
             this._dataMap = new DynamicData();
             this._dataMap.Create();
-            this.SetData(ModelItem.s_descriptionProperty, description);
+            this.SetData(s_descriptionProperty, description);
             this.Owner = owner;
         }
 
@@ -55,7 +55,7 @@ namespace Microsoft.Iris
         ~ModelItem()
         {
             string name = this.GetType().Name;
-            string data = (string)this.GetData(ModelItem.s_descriptionProperty);
+            string data = (string)this.GetData(s_descriptionProperty);
             this.OnDispose(false);
         }
 
@@ -141,7 +141,7 @@ namespace Microsoft.Iris
             get
             {
                 using (this.ThreadValidator)
-                    return (string)this.GetData(ModelItem.s_descriptionProperty);
+                    return (string)this.GetData(s_descriptionProperty);
             }
             set
             {
@@ -149,7 +149,7 @@ namespace Microsoft.Iris
                 {
                     if (!(this.Description != value))
                         return;
-                    this.SetData(ModelItem.s_descriptionProperty, value);
+                    this.SetData(s_descriptionProperty, value);
                     this.FirePropertyChanged(nameof(Description));
                 }
             }
@@ -161,7 +161,7 @@ namespace Microsoft.Iris
             {
                 using (this.ThreadValidator)
                 {
-                    object data = this.GetData(ModelItem.s_uniqueIdProperty);
+                    object data = this.GetData(s_uniqueIdProperty);
                     return data == null ? Guid.Empty : (Guid)data;
                 }
             }
@@ -171,7 +171,7 @@ namespace Microsoft.Iris
                 {
                     if (!(this.UniqueId != value))
                         return;
-                    this.SetData(ModelItem.s_uniqueIdProperty, value);
+                    this.SetData(s_uniqueIdProperty, value);
                     this.FirePropertyChanged(nameof(UniqueId));
                 }
             }
@@ -183,11 +183,11 @@ namespace Microsoft.Iris
             {
                 using (this.ThreadValidator)
                 {
-                    IDictionary dictionary = (IDictionary)this.GetData(ModelItem.s_extraDataProperty);
+                    IDictionary dictionary = (IDictionary)this.GetData(s_extraDataProperty);
                     if (dictionary == null)
                     {
                         dictionary = new HybridDictionary();
-                        this.SetData(ModelItem.s_extraDataProperty, dictionary);
+                        this.SetData(s_extraDataProperty, dictionary);
                     }
                     return dictionary;
                 }
@@ -199,12 +199,12 @@ namespace Microsoft.Iris
             add
             {
                 using (this.ThreadValidator)
-                    this.AddEventHandler(ModelItem.s_propertyChangedEvent, value);
+                    this.AddEventHandler(s_propertyChangedEvent, value);
             }
             remove
             {
                 using (this.ThreadValidator)
-                    this.RemoveEventHandler(ModelItem.s_propertyChangedEvent, value);
+                    this.RemoveEventHandler(s_propertyChangedEvent, value);
             }
         }
 
@@ -215,7 +215,7 @@ namespace Microsoft.Iris
                 if (property == null)
                     throw new ArgumentNullException(nameof(property));
                 this.OnPropertyChanged(property);
-                if (!(this.GetEventHandler(ModelItem.s_propertyChangedEvent) is PropertyChangedEventHandler eventHandler))
+                if (!(this.GetEventHandler(s_propertyChangedEvent) is PropertyChangedEventHandler eventHandler))
                     return;
                 eventHandler(this, new PropertyChangedEventArgs(property));
             }
@@ -261,16 +261,16 @@ namespace Microsoft.Iris
                 return;
             foreach (ModelItem modelItem in ownedObjects)
                 modelItem.Dispose(ModelItemDisposeMode.KeepOwnerReference);
-            this.SetData(ModelItem.s_ownedObjectsProperty, null);
+            this.SetData(s_ownedObjectsProperty, null);
         }
 
         private Vector<ModelItem> GetOwnedObjects(bool createIfNoneFlag)
         {
-            Vector<ModelItem> vector = (Vector<ModelItem>)this.GetData(ModelItem.s_ownedObjectsProperty);
+            Vector<ModelItem> vector = (Vector<ModelItem>)this.GetData(s_ownedObjectsProperty);
             if (vector == null && createIfNoneFlag)
             {
                 vector = new Vector<ModelItem>();
-                this.SetData(ModelItem.s_ownedObjectsProperty, vector);
+                this.SetData(s_ownedObjectsProperty, vector);
             }
             return vector;
         }
@@ -281,7 +281,7 @@ namespace Microsoft.Iris
             {
                 using (this.ThreadValidator)
                 {
-                    object data = this.GetData(ModelItem.s_selectedProperty);
+                    object data = this.GetData(s_selectedProperty);
                     return data != null && (bool)data;
                 }
             }
@@ -291,7 +291,7 @@ namespace Microsoft.Iris
                 {
                     if (this.Selected == value)
                         return;
-                    this.SetData(ModelItem.s_selectedProperty, value);
+                    this.SetData(s_selectedProperty, value);
                     this.FirePropertyChanged(nameof(Selected));
                 }
             }

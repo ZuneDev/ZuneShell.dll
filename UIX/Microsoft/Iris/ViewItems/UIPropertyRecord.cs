@@ -32,6 +32,6 @@ namespace Microsoft.Iris.ViewItems
             return null;
         }
 
-        public static bool IsInList(Vector<UIPropertyRecord> list, string name) => UIPropertyRecord.FindInList(list, name) != null;
+        public static bool IsInList(Vector<UIPropertyRecord> list, string name) => FindInList(list, name) != null;
     }
 }

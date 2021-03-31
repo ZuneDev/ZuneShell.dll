@@ -42,8 +42,8 @@ namespace Microsoft.Iris.Session
         private AnimationManager _animationManager;
         private SoundManager _soundManager;
         private Form _form;
-        private static readonly DeferredHandler s_deferredPlaySound = new DeferredHandler(UISession.DeferredPlaySound);
-        private static readonly DeferredHandler s_deferredPlaySystemSound = new DeferredHandler(UISession.DeferredPlaySystemSound);
+        private static readonly DeferredHandler s_deferredPlaySound = new DeferredHandler(DeferredPlaySound);
+        private static readonly DeferredHandler s_deferredPlaySystemSound = new DeferredHandler(DeferredPlaySystemSound);
 
         public UISession()
           : this(null, null, 0U)
@@ -62,7 +62,7 @@ namespace Microsoft.Iris.Session
             this._applyLayout = new SimpleCallback(this.ApplyLayout);
             this._processPaint = new SimpleCallback(this.ProcessPaint);
             this._inputManager = new InputManager(this);
-            UISession.s_theOnlySession = this;
+            s_theOnlySession = this;
             this._dispatcher = new UIDispatcher(this, handlerTimeout, timeoutSecValue, true);
             int pdwDefaultLayout;
             Win32Api.IFWIN32(Win32Api.GetProcessDefaultLayout(out pdwDefaultLayout));
@@ -125,7 +125,7 @@ namespace Microsoft.Iris.Session
             this._queueSyncLayoutComplete = null;
             this._form = null;
             this._dispatcher.ShutDown(true);
-            UISession.s_theOnlySession = null;
+            s_theOnlySession = null;
             this._effectManager.Dispose();
             this._effectManager = null;
             if (this._engine != null)
@@ -143,13 +143,13 @@ namespace Microsoft.Iris.Session
             RenderApi.DebugModule = null;
         }
 
-        internal bool IsValid => UISession.s_theOnlySession == this;
+        internal bool IsValid => s_theOnlySession == this;
 
         public static void Validate(UISession session)
         {
         }
 
-        public static UISession Default => UISession.s_theOnlySession;
+        public static UISession Default => s_theOnlySession;
 
         public bool IsRtl
         {
@@ -247,7 +247,7 @@ namespace Microsoft.Iris.Session
 
         private void ProcessInitialization()
         {
-            using (UISession.TaskReentrancyDetection.Enter("Initialization"))
+            using (TaskReentrancyDetection.Enter("Initialization"))
             {
                 if (!this.IsValid || !this._initRequestedFlag)
                     return;
@@ -258,7 +258,7 @@ namespace Microsoft.Iris.Session
 
         private void ProcessLayout()
         {
-            using (UISession.TaskReentrancyDetection.Enter("Layout"))
+            using (TaskReentrancyDetection.Enter("Layout"))
             {
                 if (!this.IsValid || !this._layoutRequestedFlag)
                     return;
@@ -277,7 +277,7 @@ namespace Microsoft.Iris.Session
 
         private void ApplyLayout()
         {
-            using (UISession.TaskReentrancyDetection.Enter(nameof(ApplyLayout)))
+            using (TaskReentrancyDetection.Enter(nameof(ApplyLayout)))
             {
                 if (!this.IsValid || !this._applyLayoutRequestedFlag)
                     return;
@@ -288,7 +288,7 @@ namespace Microsoft.Iris.Session
 
         private void ProcessPaint()
         {
-            using (UISession.TaskReentrancyDetection.Enter("Paint"))
+            using (TaskReentrancyDetection.Enter("Paint"))
             {
                 if (!this.IsValid || !this._paintRequestedFlag)
                     return;
@@ -318,9 +318,9 @@ namespace Microsoft.Iris.Session
         {
             UISession.PlaySoundArgs playSoundArgs = new UISession.PlaySoundArgs(this, stSoundSource);
             if (!UIDispatcher.IsUIThread)
-                DeferredCall.Post(DispatchPriority.High, UISession.s_deferredPlaySound, playSoundArgs);
+                DeferredCall.Post(DispatchPriority.High, s_deferredPlaySound, playSoundArgs);
             else
-                UISession.DeferredPlaySound(playSoundArgs);
+                DeferredPlaySound(playSoundArgs);
         }
 
         private static void DeferredPlaySound(object argsObject)
@@ -335,9 +335,9 @@ namespace Microsoft.Iris.Session
         {
             UISession.PlaySystemSoundArgs playSystemSoundArgs = new UISession.PlaySystemSoundArgs(this, systemSoundEvent);
             if (!UIDispatcher.IsUIThread)
-                DeferredCall.Post(DispatchPriority.High, UISession.s_deferredPlaySystemSound, playSystemSoundArgs);
+                DeferredCall.Post(DispatchPriority.High, s_deferredPlaySystemSound, playSystemSoundArgs);
             else
-                UISession.DeferredPlaySystemSound(playSystemSoundArgs);
+                DeferredPlaySystemSound(playSystemSoundArgs);
         }
 
         private static void DeferredPlaySystemSound(object argsObject)
@@ -373,13 +373,13 @@ namespace Microsoft.Iris.Session
 
             public static IDisposable Enter(string task)
             {
-                if (UISession.TaskReentrancyDetection.s_currentTask != null)
+                if (s_currentTask != null)
                     InvariantString.Format("REENTRANCY DETECTED! Attempt to process task '{0}' while already processing '{1}'.", s_currentTask, task);
-                UISession.TaskReentrancyDetection.s_currentTask = task;
+                s_currentTask = task;
                 return s_currentTaskClearer;
             }
 
-            void IDisposable.Dispose() => UISession.TaskReentrancyDetection.s_currentTask = null;
+            void IDisposable.Dispose() => s_currentTask = null;
         }
 
         private class PlaySoundArgs

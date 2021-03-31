@@ -170,14 +170,14 @@ namespace Microsoft.Iris.Drawing
 
         internal static Size MaximumSurfaceSize(UISession session)
         {
-            if (UIImage.s_sizeMaximumSurface.Width == -1)
-                UIImage.s_sizeMaximumSurface = session.RenderSession.GraphicsDevice.MaximumImageSize;
-            return UIImage.s_sizeMaximumSurface;
+            if (s_sizeMaximumSurface.Width == -1)
+                s_sizeMaximumSurface = session.RenderSession.GraphicsDevice.MaximumImageSize;
+            return s_sizeMaximumSurface;
         }
 
         internal static Size ClampSize(Size maxSizeImage)
         {
-            Size size = UIImage.MaximumSurfaceSize(UISession.Default);
+            Size size = MaximumSurfaceSize(UISession.Default);
             if (maxSizeImage.Width == 0 || maxSizeImage.Width > size.Width)
                 maxSizeImage.Width = size.Width;
             if (maxSizeImage.Height == 0 || maxSizeImage.Height > size.Height)

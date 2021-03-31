@@ -8,7 +8,7 @@ namespace Microsoft.Iris.Library
 {
     internal class Math2
     {
-        public static int FindPowerOf2(int value) => Math2.FindPowerOf2(value, 1);
+        public static int FindPowerOf2(int value) => FindPowerOf2(value, 1);
 
         public static int FindPowerOf2(int value, int startValue)
         {

@@ -64,7 +64,7 @@ namespace Microsoft.Iris.Markup.UIX
             instance = null;
             if (StringSchema.Type.IsAssignableFrom(fromType))
             {
-                result = AnchorLayoutInputSchema.ConvertFromString(from, out instance);
+                result = ConvertFromString(from, out instance);
                 if (!result.Failed)
                     return result;
             }
@@ -78,25 +78,25 @@ namespace Microsoft.Iris.Markup.UIX
             string parameter1 = (string)parameters[0];
             AnchorLayoutInput parameter2 = (AnchorLayoutInput)parameters[1];
             object instanceObj1;
-            return AnchorLayoutInputSchema.ConvertFromString(parameter1, out instanceObj1).Failed ? parameter2 : instanceObj1;
+            return ConvertFromString(parameter1, out instanceObj1).Failed ? parameter2 : instanceObj1;
         }
 
-        public static void Pass1Initialize() => AnchorLayoutInputSchema.Type = new UIXTypeSchema(8, "AnchorLayoutInput", null, 133, typeof(AnchorLayoutInput), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(8, "AnchorLayoutInput", null, 133, typeof(AnchorLayoutInput), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(8, "Left", 6, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(AnchorLayoutInputSchema.GetLeft), new SetValueHandler(AnchorLayoutInputSchema.SetLeft), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(8, "Top", 6, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(AnchorLayoutInputSchema.GetTop), new SetValueHandler(AnchorLayoutInputSchema.SetTop), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(8, "Right", 6, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(AnchorLayoutInputSchema.GetRight), new SetValueHandler(AnchorLayoutInputSchema.SetRight), false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(8, "Bottom", 6, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(AnchorLayoutInputSchema.GetBottom), new SetValueHandler(AnchorLayoutInputSchema.SetBottom), false);
-            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(8, "ContributesToWidth", 15, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(AnchorLayoutInputSchema.GetContributesToWidth), new SetValueHandler(AnchorLayoutInputSchema.SetContributesToWidth), false);
-            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(8, "ContributesToHeight", 15, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(AnchorLayoutInputSchema.GetContributesToHeight), new SetValueHandler(AnchorLayoutInputSchema.SetContributesToHeight), false);
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(8, "Left", 6, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetLeft), new SetValueHandler(SetLeft), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(8, "Top", 6, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetTop), new SetValueHandler(SetTop), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(8, "Right", 6, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetRight), new SetValueHandler(SetRight), false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(8, "Bottom", 6, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetBottom), new SetValueHandler(SetBottom), false);
+            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(8, "ContributesToWidth", 15, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetContributesToWidth), new SetValueHandler(SetContributesToWidth), false);
+            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(8, "ContributesToHeight", 15, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetContributesToHeight), new SetValueHandler(SetContributesToHeight), false);
             UIXMethodSchema uixMethodSchema = new UIXMethodSchema(8, "TryParse", new short[2]
             {
          208,
          8
-            }, 8, new InvokeHandler(AnchorLayoutInputSchema.CallTryParseStringAnchorLayoutInput), true);
-            AnchorLayoutInputSchema.Type.Initialize(new DefaultConstructHandler(AnchorLayoutInputSchema.Construct), null, new PropertySchema[6]
+            }, 8, new InvokeHandler(CallTryParseStringAnchorLayoutInput), true);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[6]
             {
          uixPropertySchema4,
          uixPropertySchema6,
@@ -107,7 +107,7 @@ namespace Microsoft.Iris.Markup.UIX
             }, new MethodSchema[1]
             {
          uixMethodSchema
-            }, null, null, new TypeConverterHandler(AnchorLayoutInputSchema.TryConvertFrom), new SupportsTypeConversionHandler(AnchorLayoutInputSchema.IsConversionSupported), null, null, null, null);
+            }, null, null, new TypeConverterHandler(TryConvertFrom), new SupportsTypeConversionHandler(IsConversionSupported), null, null, null, null);
         }
     }
 }

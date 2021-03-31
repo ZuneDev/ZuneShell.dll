@@ -122,19 +122,19 @@ namespace Microsoft.Iris.Markup.UIX
             instance = null;
             if (Int32Schema.Type.IsAssignableFrom(fromType))
             {
-                result = RectangleSchema.ConvertFromInt32(from, out instance);
+                result = ConvertFromInt32(from, out instance);
                 if (!result.Failed)
                     return result;
             }
             if (SingleSchema.Type.IsAssignableFrom(fromType))
             {
-                result = RectangleSchema.ConvertFromSingle(from, out instance);
+                result = ConvertFromSingle(from, out instance);
                 if (!result.Failed)
                     return result;
             }
             if (StringSchema.Type.IsAssignableFrom(fromType))
             {
-                result = RectangleSchema.ConvertFromString(from, out instance);
+                result = ConvertFromString(from, out instance);
                 if (!result.Failed)
                     return result;
             }
@@ -173,31 +173,31 @@ namespace Microsoft.Iris.Markup.UIX
             string parameter1 = (string)parameters[0];
             Rectangle parameter2 = (Rectangle)parameters[1];
             object instanceObj1;
-            return RectangleSchema.ConvertFromString(parameter1, out instanceObj1).Failed ? parameter2 : instanceObj1;
+            return ConvertFromString(parameter1, out instanceObj1).Failed ? parameter2 : instanceObj1;
         }
 
-        public static void Pass1Initialize() => RectangleSchema.Type = new UIXTypeSchema(169, "Rectangle", null, 153, typeof(Rectangle), UIXTypeFlags.Immutable);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(169, "Rectangle", null, 153, typeof(Rectangle), UIXTypeFlags.Immutable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(169, "X", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(RectangleSchema.GetX), new SetValueHandler(RectangleSchema.SetX), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(169, "Y", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(RectangleSchema.GetY), new SetValueHandler(RectangleSchema.SetY), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(169, "Width", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(RectangleSchema.GetWidth), new SetValueHandler(RectangleSchema.SetWidth), false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(169, "Height", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(RectangleSchema.GetHeight), new SetValueHandler(RectangleSchema.SetHeight), false);
-            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(169, "Left", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(RectangleSchema.GetLeft), null, false);
-            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(169, "Top", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(RectangleSchema.GetTop), null, false);
-            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema(169, "Right", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(RectangleSchema.GetRight), null, false);
-            UIXPropertySchema uixPropertySchema8 = new UIXPropertySchema(169, "Bottom", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(RectangleSchema.GetBottom), null, false);
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(169, "X", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetX), new SetValueHandler(SetX), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(169, "Y", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetY), new SetValueHandler(SetY), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(169, "Width", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetWidth), new SetValueHandler(SetWidth), false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(169, "Height", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetHeight), new SetValueHandler(SetHeight), false);
+            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(169, "Left", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetLeft), null, false);
+            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(169, "Top", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetTop), null, false);
+            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema(169, "Right", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetRight), null, false);
+            UIXPropertySchema uixPropertySchema8 = new UIXPropertySchema(169, "Bottom", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetBottom), null, false);
             UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema(169, "Contains", new short[1]
             {
          158
-            }, 15, new InvokeHandler(RectangleSchema.CallContainsPoint), false);
+            }, 15, new InvokeHandler(CallContainsPoint), false);
             UIXMethodSchema uixMethodSchema2 = new UIXMethodSchema(169, "TryParse", new short[2]
             {
          208,
          169
-            }, 169, new InvokeHandler(RectangleSchema.CallTryParseStringRectangle), true);
-            RectangleSchema.Type.Initialize(new DefaultConstructHandler(RectangleSchema.Construct), null, new PropertySchema[8]
+            }, 169, new InvokeHandler(CallTryParseStringRectangle), true);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[8]
             {
          uixPropertySchema8,
          uixPropertySchema4,
@@ -211,7 +211,7 @@ namespace Microsoft.Iris.Markup.UIX
             {
          uixMethodSchema1,
          uixMethodSchema2
-            }, null, null, new TypeConverterHandler(RectangleSchema.TryConvertFrom), new SupportsTypeConversionHandler(RectangleSchema.IsConversionSupported), new EncodeBinaryHandler(RectangleSchema.EncodeBinary), new DecodeBinaryHandler(RectangleSchema.DecodeBinary), new PerformOperationHandler(RectangleSchema.ExecuteOperation), new SupportsOperationHandler(RectangleSchema.IsOperationSupported));
+            }, null, null, new TypeConverterHandler(TryConvertFrom), new SupportsTypeConversionHandler(IsConversionSupported), new EncodeBinaryHandler(EncodeBinary), new DecodeBinaryHandler(DecodeBinary), new PerformOperationHandler(ExecuteOperation), new SupportsOperationHandler(IsOperationSupported));
         }
     }
 }

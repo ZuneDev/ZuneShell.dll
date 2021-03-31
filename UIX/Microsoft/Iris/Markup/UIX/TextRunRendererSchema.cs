@@ -28,14 +28,14 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object Construct() => new TextRunRenderer();
 
-        public static void Pass1Initialize() => TextRunRendererSchema.Type = new UIXTypeSchema(217, "TextRunRenderer", null, 239, typeof(TextRunRenderer), UIXTypeFlags.Disposable);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(217, "TextRunRenderer", null, 239, typeof(TextRunRenderer), UIXTypeFlags.Disposable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(217, "Data", 216, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TextRunRendererSchema.GetData), new SetValueHandler(TextRunRendererSchema.SetData), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(217, "Color", 35, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TextRunRendererSchema.GetColor), new SetValueHandler(TextRunRendererSchema.SetColor), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(217, "Effect", 78, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TextRunRendererSchema.GetEffect), new SetValueHandler(TextRunRendererSchema.SetEffect), false);
-            TextRunRendererSchema.Type.Initialize(new DefaultConstructHandler(TextRunRendererSchema.Construct), null, new PropertySchema[3]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(217, "Data", 216, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetData), new SetValueHandler(SetData), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(217, "Color", 35, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetColor), new SetValueHandler(SetColor), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(217, "Effect", 78, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetEffect), new SetValueHandler(SetEffect), false);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[3]
             {
          uixPropertySchema2,
          uixPropertySchema1,

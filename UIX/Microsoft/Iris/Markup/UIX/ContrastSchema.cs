@@ -29,12 +29,12 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object Construct() => new ContrastElement();
 
-        public static void Pass1Initialize() => ContrastSchema.Type = new UIXTypeSchema(42, "Contrast", null, 80, typeof(ContrastElement), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(42, "Contrast", null, 80, typeof(ContrastElement), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(42, "Contrast", 194, -1, ExpressionRestriction.None, false, SingleSchema.ValidateNotNegative, false, new GetValueHandler(ContrastSchema.GetContrast), new SetValueHandler(ContrastSchema.SetContrast), false);
-            ContrastSchema.Type.Initialize(new DefaultConstructHandler(ContrastSchema.Construct), null, new PropertySchema[1]
+            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(42, "Contrast", 194, -1, ExpressionRestriction.None, false, SingleSchema.ValidateNotNegative, false, new GetValueHandler(GetContrast), new SetValueHandler(SetContrast), false);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[1]
             {
          uixPropertySchema
             }, null, null, null, null, null, null, null, null, null);

@@ -15,7 +15,7 @@ namespace Microsoft.Iris.Markup.Validation
         private ValidateParameter _next;
         public static ValidateParameter EmptyList;
 
-        public static void InitializeStatics() => ValidateParameter.EmptyList = new ValidateParameter();
+        public static void InitializeStatics() => EmptyList = new ValidateParameter();
 
         public ValidateParameter(
           SourceMarkupLoader owner,

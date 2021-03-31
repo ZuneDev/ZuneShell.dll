@@ -18,12 +18,12 @@ namespace Microsoft.Iris.Markup
         private ulong _resultTypeHandle;
         private static MarkupDataQueryHandleTable s_handleTable;
 
-        public static void InitializeStatics() => NativeMarkupDataQuery.s_handleTable = new MarkupDataQueryHandleTable();
+        public static void InitializeStatics() => s_handleTable = new MarkupDataQueryHandleTable();
 
         public NativeMarkupDataQuery(MarkupDataQuerySchema type, NativeDataProviderWrapper provider)
           : base(type)
         {
-            this._handleToMe = NativeMarkupDataQuery.s_handleTable.RegisterProxy(this);
+            this._handleToMe = s_handleTable.RegisterProxy(this);
             this._typeHandle = type.UniqueId;
             this._resultTypeHandle = type.ResultType.UniqueId;
             this._externalQuery = provider.ConstructQuery(type.ProviderName, this._typeHandle, this._resultTypeHandle, this._handleToMe);
@@ -39,7 +39,7 @@ namespace Microsoft.Iris.Markup
         protected override void OnDispose()
         {
             base.OnDispose();
-            NativeMarkupDataQuery.s_handleTable.ReleaseProxy(this._handleToMe);
+            s_handleTable.ReleaseProxy(this._handleToMe);
             int num = (int)NativeApi.SpDataBaseObjectSetInternalHandle(this._externalQuery, 0UL);
             NativeApi.SpReleaseExternalObject(this._externalQuery);
         }
@@ -116,7 +116,7 @@ namespace Microsoft.Iris.Markup
         public static MarkupDataQuery LookupByHandle(ulong handle)
         {
             MarkupDataQuery markupDataQuery;
-            NativeMarkupDataQuery.s_handleTable.LookupByHandle(handle, out markupDataQuery);
+            s_handleTable.LookupByHandle(handle, out markupDataQuery);
             return markupDataQuery;
         }
     }

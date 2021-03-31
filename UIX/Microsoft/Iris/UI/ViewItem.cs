@@ -102,13 +102,13 @@ namespace Microsoft.Iris.UI
         private int _requestedCount;
         private Vector<int> _requestedIndices;
         private ExtendedLayoutOutput _extendedOutputs;
-        private static DeferredHandler s_scrollIntoViewCleanup = new DeferredHandler(ViewItem.CleanUpAfterScrollIntoView);
+        private static DeferredHandler s_scrollIntoViewCleanup = new DeferredHandler(CleanUpAfterScrollIntoView);
 
         public ViewItem()
         {
             this._bits = new BitVector32();
             this._bits2 = new BitVector32();
-            this.SetBit(ViewItem.Bits.LayoutInputVisible, true);
+            this.SetBit(Bits.LayoutInputVisible, true);
             this._layout = DefaultLayout.Instance;
             this._backgroundColor = Color.Transparent;
         }
@@ -122,11 +122,11 @@ namespace Microsoft.Iris.UI
         protected override void OnDispose()
         {
             base.OnDispose();
-            this.RemoveEventHandlers(ViewItem.s_layoutCompleteEvent);
-            this.RemoveEventHandlers(ViewItem.s_paintEvent);
-            this.RemoveEventHandlers(ViewItem.s_paintInvalidEvent);
-            this.RemoveEventHandlers(ViewItem.s_propertyChangedEvent);
-            this.RemoveEventHandlers(ViewItem.s_deepLayoutChangeEvent);
+            this.RemoveEventHandlers(s_layoutCompleteEvent);
+            this.RemoveEventHandlers(s_paintEvent);
+            this.RemoveEventHandlers(s_paintInvalidEvent);
+            this.RemoveEventHandlers(s_propertyChangedEvent);
+            this.RemoveEventHandlers(s_deepLayoutChangeEvent);
             this.SharedSize?.Unregister(this);
             Vector<ActiveSequence> activeAnimations = this.GetActiveAnimations(false);
             if (activeAnimations != null)
@@ -143,12 +143,12 @@ namespace Microsoft.Iris.UI
             this.Effect?.DoneWithRenderEffects(this);
             this._ownerUI = null;
             this._layout = null;
-            if (!this.GetBit(ViewItem.Bits2.HasCamera))
+            if (!this.GetBit(Bits2.HasCamera))
                 return;
-            Camera data = (Camera)this.GetData(ViewItem.s_cameraProperty);
+            Camera data = (Camera)this.GetData(s_cameraProperty);
             if (data == null)
                 return;
-            this.SetData(ViewItem.s_cameraProperty, null);
+            this.SetData(s_cameraProperty, null);
             data.UnregisterUsage(this);
         }
 
@@ -191,92 +191,92 @@ namespace Microsoft.Iris.UI
 
         public Vector2 VisualSize
         {
-            get => this.GetBit(ViewItem.Bits2.HasSizeNoSend) ? (Vector2)this.GetData(ViewItem.s_sizeNoSendProperty) : this._container.Size;
+            get => this.GetBit(Bits2.HasSizeNoSend) ? (Vector2)this.GetData(s_sizeNoSendProperty) : this._container.Size;
             set
             {
-                bool bit = this.GetBit(ViewItem.Bits2.HasSizeNoSend);
+                bool bit = this.GetBit(Bits2.HasSizeNoSend);
                 this._container.SetSize(value, bit);
                 if (bit)
-                    this.SetDynamicValue(value, true, ViewItem.Bits2.HasSizeNoSend, ViewItem.s_sizeNoSendProperty, nameof(VisualSize));
+                    this.SetDynamicValue(value, true, Bits2.HasSizeNoSend, s_sizeNoSendProperty, nameof(VisualSize));
                 this.MarkPaintInvalid();
             }
         }
 
         private Vector2 VisualSizeNoSend
         {
-            set => this.SetDynamicValue(value, false, ViewItem.Bits2.HasSizeNoSend, ViewItem.s_sizeNoSendProperty, "VisualSize");
+            set => this.SetDynamicValue(value, false, Bits2.HasSizeNoSend, s_sizeNoSendProperty, "VisualSize");
         }
 
         public Vector3 VisualPosition
         {
-            get => this.GetBit(ViewItem.Bits2.HasPositionNoSend) ? (Vector3)this.GetData(ViewItem.s_positionNoSendProperty) : this._container.Position;
+            get => this.GetBit(Bits2.HasPositionNoSend) ? (Vector3)this.GetData(s_positionNoSendProperty) : this._container.Position;
             set
             {
-                bool bit = this.GetBit(ViewItem.Bits2.HasPositionNoSend);
+                bool bit = this.GetBit(Bits2.HasPositionNoSend);
                 this._container.SetPosition(value, bit);
                 if (!bit)
                     return;
-                this.SetDynamicValue(value, true, ViewItem.Bits2.HasPositionNoSend, ViewItem.s_positionNoSendProperty, nameof(VisualPosition));
+                this.SetDynamicValue(value, true, Bits2.HasPositionNoSend, s_positionNoSendProperty, nameof(VisualPosition));
             }
         }
 
         private Vector3 VisualPositionNoSend
         {
-            set => this.SetDynamicValue(value, false, ViewItem.Bits2.HasPositionNoSend, ViewItem.s_positionNoSendProperty, "VisualPosition");
+            set => this.SetDynamicValue(value, false, Bits2.HasPositionNoSend, s_positionNoSendProperty, "VisualPosition");
         }
 
         public Vector3 VisualScale
         {
-            get => this.GetBit(ViewItem.Bits2.HasScaleNoSend) ? (Vector3)this.GetData(ViewItem.s_scaleNoSendProperty) : this._container.Scale;
+            get => this.GetBit(Bits2.HasScaleNoSend) ? (Vector3)this.GetData(s_scaleNoSendProperty) : this._container.Scale;
             set
             {
-                bool bit = this.GetBit(ViewItem.Bits2.HasScaleNoSend);
+                bool bit = this.GetBit(Bits2.HasScaleNoSend);
                 this._container.SetScale(value, bit);
                 if (!bit)
                     return;
-                this.SetDynamicValue(value, true, ViewItem.Bits2.HasScaleNoSend, ViewItem.s_scaleNoSendProperty, nameof(VisualScale));
+                this.SetDynamicValue(value, true, Bits2.HasScaleNoSend, s_scaleNoSendProperty, nameof(VisualScale));
             }
         }
 
         private Vector3 VisualScaleNoSend
         {
-            set => this.SetDynamicValue(value, false, ViewItem.Bits2.HasScaleNoSend, ViewItem.s_scaleNoSendProperty, "VisualScale");
+            set => this.SetDynamicValue(value, false, Bits2.HasScaleNoSend, s_scaleNoSendProperty, "VisualScale");
         }
 
         public Rotation VisualRotation
         {
             get
             {
-                if (this.GetBit(ViewItem.Bits2.HasRotationNoSend))
-                    return (Rotation)this.GetData(ViewItem.s_rotationNoSendProperty);
+                if (this.GetBit(Bits2.HasRotationNoSend))
+                    return (Rotation)this.GetData(s_rotationNoSendProperty);
                 AxisAngle rotation = this._container.Rotation;
                 return new Rotation(rotation.Angle, rotation.Axis);
             }
             set
             {
-                bool bit = this.GetBit(ViewItem.Bits2.HasRotationNoSend);
+                bool bit = this.GetBit(Bits2.HasRotationNoSend);
                 this._container.SetRotation(new AxisAngle(value.Axis, value.AngleRadians), bit);
                 if (!bit)
                     return;
-                this.SetDynamicValue(value, true, ViewItem.Bits2.HasRotationNoSend, ViewItem.s_rotationNoSendProperty, nameof(VisualRotation));
+                this.SetDynamicValue(value, true, Bits2.HasRotationNoSend, s_rotationNoSendProperty, nameof(VisualRotation));
             }
         }
 
         private Rotation VisualRotationNoSend
         {
-            set => this.SetDynamicValue(value, false, ViewItem.Bits2.HasRotationNoSend, ViewItem.s_rotationNoSendProperty, "VisualRotation");
+            set => this.SetDynamicValue(value, false, Bits2.HasRotationNoSend, s_rotationNoSendProperty, "VisualRotation");
         }
 
         public float VisualAlpha
         {
-            get => this.GetBit(ViewItem.Bits2.HasAlphaNoSend) ? (float)this.GetData(ViewItem.s_alphaNoSendProperty) : this._container.Alpha;
+            get => this.GetBit(Bits2.HasAlphaNoSend) ? (float)this.GetData(s_alphaNoSendProperty) : this._container.Alpha;
             set
             {
                 bool fullyVisible = this.FullyVisible;
-                bool bit = this.GetBit(ViewItem.Bits2.HasAlphaNoSend);
+                bool bit = this.GetBit(Bits2.HasAlphaNoSend);
                 this._container.SetAlpha(value, bit);
                 if (bit)
-                    this.SetDynamicValue(value, true, ViewItem.Bits2.HasAlphaNoSend, ViewItem.s_alphaNoSendProperty, nameof(VisualAlpha));
+                    this.SetDynamicValue(value, true, Bits2.HasAlphaNoSend, s_alphaNoSendProperty, nameof(VisualAlpha));
                 if (fullyVisible == this.FullyVisible)
                     return;
                 this.OnVisibilityChange();
@@ -288,7 +288,7 @@ namespace Microsoft.Iris.UI
             set
             {
                 bool fullyVisible = this.FullyVisible;
-                this.SetDynamicValue(value, false, ViewItem.Bits2.HasAlphaNoSend, ViewItem.s_alphaNoSendProperty, "VisualAlpha");
+                this.SetDynamicValue(value, false, Bits2.HasAlphaNoSend, s_alphaNoSendProperty, "VisualAlpha");
                 if (fullyVisible == this.FullyVisible)
                     return;
                 this.OnVisibilityChange();
@@ -333,7 +333,7 @@ namespace Microsoft.Iris.UI
         {
             this.UI.UpdateMouseHandling(this);
             this.MarkLayoutInvalid();
-            if (this.GetBit(ViewItem.Bits.OutputSelfDirty))
+            if (this.GetBit(Bits.OutputSelfDirty))
                 this.MarkLayoutOutputDirty(true);
             this.OnEffectiveScaleChange();
         }
@@ -346,13 +346,13 @@ namespace Microsoft.Iris.UI
 
         public void MarkPaintInvalid()
         {
-            if (!this.IsZoned || this.GetBit(ViewItem.Bits.PaintInvalid) || !this.HasVisual)
+            if (!this.IsZoned || this.GetBit(Bits.PaintInvalid) || !this.HasVisual)
                 return;
-            this.SetBit(ViewItem.Bits.PaintInvalid, true);
+            this.SetBit(Bits.PaintInvalid, true);
             if (!this.IsRoot)
                 this.Parent.MarkPaintChildrenInvalid();
             this.Zone.ScheduleUiTask(UiTask.Painting);
-            if (!(this.GetEventHandler(ViewItem.s_paintInvalidEvent) is EventHandler eventHandler))
+            if (!(this.GetEventHandler(s_paintInvalidEvent) is EventHandler eventHandler))
                 return;
             eventHandler(this, EventArgs.Empty);
         }
@@ -361,13 +361,13 @@ namespace Microsoft.Iris.UI
         {
             if (this.ChildrenPaintInvalid)
                 return;
-            this.SetBit(ViewItem.Bits2.PaintChildrenInvalid, true);
+            this.SetBit(Bits2.PaintChildrenInvalid, true);
             if (this.IsRoot)
                 return;
             this.Parent.MarkPaintChildrenInvalid();
         }
 
-        public bool ChildrenPaintInvalid => this.GetBit(ViewItem.Bits2.PaintChildrenInvalid);
+        public bool ChildrenPaintInvalid => this.GetBit(Bits2.PaintChildrenInvalid);
 
         [Conditional("DEBUG")]
         private static void DEBUG_CountPaintInvalid()
@@ -395,7 +395,7 @@ namespace Microsoft.Iris.UI
             {
                 if (!this.HasVisual || !this.Visible)
                     return false;
-                return VisualAlpha > 0.0 || this.GetBit(ViewItem.Bits2.IsAlphaAnimationPlaying);
+                return VisualAlpha > 0.0 || this.GetBit(Bits2.IsAlphaAnimationPlaying);
             }
         }
 
@@ -405,16 +405,16 @@ namespace Microsoft.Iris.UI
             this.PaintSelf(visible);
             if (!this.ChildrenPaintInvalid)
                 return;
-            this.SetBit(ViewItem.Bits2.PaintChildrenInvalid, false);
+            this.SetBit(Bits2.PaintChildrenInvalid, false);
             foreach (ViewItem child in this.Children)
                 child.PaintTree(visible);
         }
 
         private void PaintSelf(bool visible)
         {
-            if (!this.GetBit(ViewItem.Bits.PaintInvalid))
+            if (!this.GetBit(Bits.PaintInvalid))
                 return;
-            this.SetBit(ViewItem.Bits.PaintInvalid, false);
+            this.SetBit(Bits.PaintInvalid, false);
             if (!this.HasVisual)
                 return;
             this.OnPaint(visible);
@@ -422,7 +422,7 @@ namespace Microsoft.Iris.UI
 
         protected virtual void OnPaint(bool visible)
         {
-            if (this.GetEventHandler(ViewItem.s_paintEvent) is ViewItem.PaintHandler eventHandler)
+            if (this.GetEventHandler(s_paintEvent) is ViewItem.PaintHandler eventHandler)
                 eventHandler(this);
             bool flag = visible && this._backgroundColor.A != 0;
             if (flag && this._backgroundSprite == null)
@@ -436,14 +436,14 @@ namespace Microsoft.Iris.UI
 
         public event ViewItem.PaintHandler Paint
         {
-            add => this.AddEventHandler(ViewItem.s_paintEvent, value);
-            remove => this.RemoveEventHandler(ViewItem.s_paintEvent, value);
+            add => this.AddEventHandler(s_paintEvent, value);
+            remove => this.RemoveEventHandler(s_paintEvent, value);
         }
 
         public event EventHandler PaintInvalid
         {
-            add => this.AddEventHandler(ViewItem.s_paintInvalidEvent, value);
-            remove => this.RemoveEventHandler(ViewItem.s_paintInvalidEvent, value);
+            add => this.AddEventHandler(s_paintInvalidEvent, value);
+            remove => this.RemoveEventHandler(s_paintInvalidEvent, value);
         }
 
         protected virtual void DisposeAllContent() => this.DisposeBackgroundContent(true);
@@ -474,9 +474,9 @@ namespace Microsoft.Iris.UI
             get
             {
                 Vector3 vector3 = Vector3.UnitVector;
-                if (this.GetBit(ViewItem.Bits.HasScale))
+                if (this.GetBit(Bits.HasScale))
                 {
-                    object data = this.GetData(ViewItem.s_scaleProperty);
+                    object data = this.GetData(s_scaleProperty);
                     if (data != null)
                         vector3 = (Vector3)data;
                 }
@@ -488,13 +488,13 @@ namespace Microsoft.Iris.UI
                     return;
                 if (value != Vector3.UnitVector)
                 {
-                    this.SetData(ViewItem.s_scaleProperty, value);
-                    this.SetBit(ViewItem.Bits.HasScale, true);
+                    this.SetData(s_scaleProperty, value);
+                    this.SetBit(Bits.HasScale, true);
                 }
-                else if (this.GetBit(ViewItem.Bits.HasScale))
+                else if (this.GetBit(Bits.HasScale))
                 {
-                    this.SetData(ViewItem.s_scaleProperty, null);
-                    this.SetBit(ViewItem.Bits.HasScale, false);
+                    this.SetData(s_scaleProperty, null);
+                    this.SetBit(Bits.HasScale, false);
                 }
                 if (this.HasVisual)
                 {
@@ -516,8 +516,8 @@ namespace Microsoft.Iris.UI
             get
             {
                 float num = 1f;
-                if (this.GetBit(ViewItem.Bits2.HasAlpha))
-                    num = (float)this.GetData(ViewItem.s_alphaProperty);
+                if (this.GetBit(Bits2.HasAlpha))
+                    num = (float)this.GetData(s_alphaProperty);
                 return num;
             }
             set
@@ -527,8 +527,8 @@ namespace Microsoft.Iris.UI
                     return;
                 bool flag = Math2.WithinEpsilon(value, 1f);
                 object obj = flag ? null : (object)value;
-                this.SetData(ViewItem.s_alphaProperty, obj);
-                this.SetBit(ViewItem.Bits2.HasAlpha, !flag);
+                this.SetData(s_alphaProperty, obj);
+                this.SetBit(Bits2.HasAlpha, !flag);
                 if (this.HasVisual)
                 {
                     var args = new AnimationArgs(this)
@@ -549,8 +549,8 @@ namespace Microsoft.Iris.UI
             get
             {
                 Camera camera = null;
-                if (this.GetBit(ViewItem.Bits2.HasCamera))
-                    camera = (Camera)this.GetData(ViewItem.s_cameraProperty);
+                if (this.GetBit(Bits2.HasCamera))
+                    camera = (Camera)this.GetData(s_cameraProperty);
                 return camera;
             }
             set
@@ -559,8 +559,8 @@ namespace Microsoft.Iris.UI
                     return;
                 bool flag = value == null;
                 object obj = flag ? null : (object)value;
-                this.SetData(ViewItem.s_cameraProperty, obj);
-                this.SetBit(ViewItem.Bits2.HasCamera, !flag);
+                this.SetData(s_cameraProperty, obj);
+                this.SetBit(Bits2.HasCamera, !flag);
                 value?.RegisterUsage(this);
                 if (this._container != null)
                     this._container.Camera = value == null ? null : value.APICamera;
@@ -573,8 +573,8 @@ namespace Microsoft.Iris.UI
             get
             {
                 Rotation data = Rotation.Default;
-                if (this.GetBit(ViewItem.Bits2.HasRotation))
-                    data = (Rotation)this.GetData(ViewItem.s_rotationProperty);
+                if (this.GetBit(Bits2.HasRotation))
+                    data = (Rotation)this.GetData(s_rotationProperty);
                 return data;
             }
             set
@@ -583,8 +583,8 @@ namespace Microsoft.Iris.UI
                     return;
                 bool flag = value == Rotation.Default;
                 object obj = flag ? null : (object)value;
-                this.SetData(ViewItem.s_rotationProperty, obj);
-                this.SetBit(ViewItem.Bits2.HasRotation, !flag);
+                this.SetData(s_rotationProperty, obj);
+                this.SetBit(Bits2.HasRotation, !flag);
                 this.FireNotification(NotificationID.Rotation);
                 this.MarkLayoutInvalid();
             }
@@ -595,8 +595,8 @@ namespace Microsoft.Iris.UI
             get
             {
                 Vector3 vector3 = new Vector3();
-                if (this.GetBit(ViewItem.Bits2.HasCenterPointPercent))
-                    vector3 = (Vector3)this.GetData(ViewItem.s_centerPointPercentProperty);
+                if (this.GetBit(Bits2.HasCenterPointPercent))
+                    vector3 = (Vector3)this.GetData(s_centerPointPercentProperty);
                 return vector3;
             }
             set
@@ -605,8 +605,8 @@ namespace Microsoft.Iris.UI
                     return;
                 bool flag = value == new Vector3();
                 object obj = flag ? null : (object)value;
-                this.SetData(ViewItem.s_centerPointPercentProperty, obj);
-                this.SetBit(ViewItem.Bits2.HasCenterPointPercent, !flag);
+                this.SetData(s_centerPointPercentProperty, obj);
+                this.SetBit(Bits2.HasCenterPointPercent, !flag);
                 if (this.HasVisual)
                     this.VisualCenterPoint = value;
                 this.FireNotification(NotificationID.CenterPointPercent);
@@ -618,8 +618,8 @@ namespace Microsoft.Iris.UI
             get
             {
                 uint num = 0;
-                if (this.GetBit(ViewItem.Bits2.HasLayer))
-                    num = (uint)this.GetData(ViewItem.s_layerProperty);
+                if (this.GetBit(Bits2.HasLayer))
+                    num = (uint)this.GetData(s_layerProperty);
                 return num;
             }
             set
@@ -628,8 +628,8 @@ namespace Microsoft.Iris.UI
                     return;
                 bool flag = value == 0U;
                 object obj = flag ? null : (object)value;
-                this.SetData(ViewItem.s_layerProperty, obj);
-                this.SetBit(ViewItem.Bits2.HasLayer, !flag);
+                this.SetData(s_layerProperty, obj);
+                this.SetBit(Bits2.HasLayer, !flag);
                 if (!this.HasVisual)
                     return;
                 this.VisualLayer = value;
@@ -638,15 +638,15 @@ namespace Microsoft.Iris.UI
 
         public EffectClass Effect
         {
-            get => this.GetBit(ViewItem.Bits2.HasEffect) ? (EffectClass)this.GetData(ViewItem.s_effectProperty) : null;
+            get => this.GetBit(Bits2.HasEffect) ? (EffectClass)this.GetData(s_effectProperty) : null;
             set
             {
                 EffectClass effect = this.Effect;
                 if (effect == value)
                     return;
                 effect?.DoneWithRenderEffects(this);
-                this.SetData(ViewItem.s_effectProperty, value);
-                this.SetBit(ViewItem.Bits2.HasEffect, value != null);
+                this.SetData(s_effectProperty, value);
+                this.SetBit(Bits2.HasEffect, value != null);
                 this.OnEffectChanged();
                 this.MarkPaintInvalid();
                 this.FireNotification(NotificationID.Effect);
@@ -668,7 +668,7 @@ namespace Microsoft.Iris.UI
                     Vector3 visualScale = viewItem.VisualScale;
                     hostDisplayScale *= new Vector3(visualScale.X, visualScale.Y, visualScale.Z);
                 }
-                else if (viewItem.GetBit(ViewItem.Bits.HasScale))
+                else if (viewItem.GetBit(Bits.HasScale))
                     hostDisplayScale *= viewItem.Scale;
                 viewItem = viewItem.Parent;
             }
@@ -682,7 +682,7 @@ namespace Microsoft.Iris.UI
 
         internal void NotifyEffectiveScaleChange(bool forceFlag)
         {
-            if (!this.IsZoned || !this.ChangeBit(ViewItem.Bits.ScaleChanged, true) && !forceFlag)
+            if (!this.IsZoned || !this.ChangeBit(Bits.ScaleChanged, true) && !forceFlag)
                 return;
             this.Zone.ScheduleScaleChangeNotifications();
         }
@@ -690,9 +690,9 @@ namespace Microsoft.Iris.UI
         internal void DeliverEffectiveScaleChange(bool parentChangedFlag)
         {
             if (parentChangedFlag)
-                this.SetBit(ViewItem.Bits.ScaleChanged, false);
+                this.SetBit(Bits.ScaleChanged, false);
             else
-                parentChangedFlag = this.ChangeBit(ViewItem.Bits.ScaleChanged, false);
+                parentChangedFlag = this.ChangeBit(Bits.ScaleChanged, false);
             if (parentChangedFlag)
                 this.OnEffectiveScaleChange();
             foreach (ViewItem child in this.Children)
@@ -701,11 +701,11 @@ namespace Microsoft.Iris.UI
 
         public bool Visible
         {
-            get => this.GetBit(ViewItem.Bits.LayoutInputVisible);
+            get => this.GetBit(Bits.LayoutInputVisible);
             set
             {
                 bool fullyVisible = this.FullyVisible;
-                if (!this.ChangeBit(ViewItem.Bits.LayoutInputVisible, value))
+                if (!this.ChangeBit(Bits.LayoutInputVisible, value))
                     return;
                 this.MarkLayoutInvalid();
                 if (fullyVisible != this.FullyVisible)
@@ -718,12 +718,12 @@ namespace Microsoft.Iris.UI
 
         public object MaximumSizeObject
         {
-            get => this.GetBit(ViewItem.Bits.LayoutInputMaxSize) ? this.GetData(ViewItem.s_maxSizeProperty) : Size.ZeroBox;
+            get => this.GetBit(Bits.LayoutInputMaxSize) ? this.GetData(s_maxSizeProperty) : Size.ZeroBox;
             set
             {
                 if (!(this.MaximumSize != (Size)value))
                     return;
-                this.SetLayoutData(ViewItem.s_maxSizeProperty, ViewItem.Bits.LayoutInputMaxSize, value, Size.ZeroBox);
+                this.SetLayoutData(s_maxSizeProperty, Bits.LayoutInputMaxSize, value, Size.ZeroBox);
                 this.FireNotification(NotificationID.MaximumSize);
             }
         }
@@ -732,12 +732,12 @@ namespace Microsoft.Iris.UI
 
         public object MinimumSizeObject
         {
-            get => this.GetBit(ViewItem.Bits.LayoutInputMinSize) ? this.GetData(ViewItem.s_minSizeProperty) : Size.ZeroBox;
+            get => this.GetBit(Bits.LayoutInputMinSize) ? this.GetData(s_minSizeProperty) : Size.ZeroBox;
             set
             {
                 if (!(this.MinimumSize != (Size)value))
                     return;
-                this.SetLayoutData(ViewItem.s_minSizeProperty, ViewItem.Bits.LayoutInputMinSize, value, Size.ZeroBox);
+                this.SetLayoutData(s_minSizeProperty, Bits.LayoutInputMinSize, value, Size.ZeroBox);
                 this.FireNotification(NotificationID.MinimumSize);
                 this.OnMinimumSizeChanged();
             }
@@ -749,24 +749,24 @@ namespace Microsoft.Iris.UI
 
         public ItemAlignment Alignment
         {
-            get => this.GetBit(ViewItem.Bits.LayoutAlignment) ? (ItemAlignment)this.GetData(ViewItem.s_alignmentProperty) : ItemAlignment.Default;
+            get => this.GetBit(Bits.LayoutAlignment) ? (ItemAlignment)this.GetData(s_alignmentProperty) : ItemAlignment.Default;
             set
             {
                 if (!(this.Alignment != value))
                     return;
-                this.SetLayoutData(ViewItem.s_alignmentProperty, ViewItem.Bits.LayoutAlignment, value, ItemAlignment.Default);
+                this.SetLayoutData(s_alignmentProperty, Bits.LayoutAlignment, value, ItemAlignment.Default);
                 this.FireNotification(NotificationID.Alignment);
             }
         }
 
         public ItemAlignment ChildAlignment
         {
-            get => this.GetBit(ViewItem.Bits.LayoutChildAlignment) ? (ItemAlignment)this.GetData(ViewItem.s_childAlignmentProperty) : ItemAlignment.Default;
+            get => this.GetBit(Bits.LayoutChildAlignment) ? (ItemAlignment)this.GetData(s_childAlignmentProperty) : ItemAlignment.Default;
             set
             {
                 if (!(this.ChildAlignment != value))
                     return;
-                this.SetLayoutData(ViewItem.s_childAlignmentProperty, ViewItem.Bits.LayoutChildAlignment, value, ItemAlignment.Default);
+                this.SetLayoutData(s_childAlignmentProperty, Bits.LayoutChildAlignment, value, ItemAlignment.Default);
                 this.FireNotification(NotificationID.ChildAlignment);
             }
         }
@@ -774,7 +774,7 @@ namespace Microsoft.Iris.UI
         internal ItemAlignment GetEffectiveAlignment()
         {
             ItemAlignment alignment = this.Alignment;
-            if (this.Parent != null && (alignment.Horizontal == Microsoft.Iris.Layout.Alignment.Unspecified || alignment.Vertical == Microsoft.Iris.Layout.Alignment.Unspecified))
+            if (this.Parent != null && (alignment.Horizontal == Iris.Layout.Alignment.Unspecified || alignment.Vertical == Iris.Layout.Alignment.Unspecified))
             {
                 alignment = ItemAlignment.Merge(alignment, this.Parent.ChildAlignment);
                 if (this.Parent.Layout != null)
@@ -785,14 +785,14 @@ namespace Microsoft.Iris.UI
 
         public SharedSize SharedSize
         {
-            get => this.GetBit(ViewItem.Bits.LayoutInputSharedSize) ? (SharedSize)this.GetData(ViewItem.s_sharedSizeProperty) : null;
+            get => this.GetBit(Bits.LayoutInputSharedSize) ? (SharedSize)this.GetData(s_sharedSizeProperty) : null;
             set
             {
                 SharedSize sharedSize = this.SharedSize;
                 if (sharedSize == value)
                     return;
                 sharedSize?.Unregister(this);
-                this.SetLayoutData(ViewItem.s_sharedSizeProperty, ViewItem.Bits.LayoutInputSharedSize, value, null);
+                this.SetLayoutData(s_sharedSizeProperty, Bits.LayoutInputSharedSize, value, null);
                 value?.Register(this);
                 this.FireNotification(NotificationID.SharedSize);
             }
@@ -800,36 +800,36 @@ namespace Microsoft.Iris.UI
 
         public SharedSizePolicy SharedSizePolicy
         {
-            get => this.GetBit(ViewItem.Bits.LayoutInputSharedSizePolicy) ? (SharedSizePolicy)this.GetData(ViewItem.s_sharedSizePolicyProperty) : SharedSizePolicy.Default;
+            get => this.GetBit(Bits.LayoutInputSharedSizePolicy) ? (SharedSizePolicy)this.GetData(s_sharedSizePolicyProperty) : SharedSizePolicy.Default;
             set
             {
                 if (this.SharedSizePolicy == value)
                     return;
-                this.SetLayoutData(ViewItem.s_sharedSizePolicyProperty, ViewItem.Bits.LayoutInputSharedSizePolicy, value, SharedSizePolicy.Default);
+                this.SetLayoutData(s_sharedSizePolicyProperty, Bits.LayoutInputSharedSizePolicy, value, SharedSizePolicy.Default);
                 this.FireNotification(NotificationID.SharedSizePolicy);
             }
         }
 
         public Inset Margins
         {
-            get => this.GetInset(ViewItem.s_marginsProperty, ViewItem.Bits.LayoutInputMargins);
+            get => this.GetInset(s_marginsProperty, Bits.LayoutInputMargins);
             set
             {
                 if (!(this.Margins != value))
                     return;
-                this.SetLayoutData(ViewItem.s_marginsProperty, ViewItem.Bits.LayoutInputMargins, value, Inset.Zero);
+                this.SetLayoutData(s_marginsProperty, Bits.LayoutInputMargins, value, Inset.Zero);
                 this.FireNotification(NotificationID.Margins);
             }
         }
 
         public Inset Padding
         {
-            get => this.GetInset(ViewItem.s_paddingProperty, ViewItem.Bits.LayoutInputPadding);
+            get => this.GetInset(s_paddingProperty, Bits.LayoutInputPadding);
             set
             {
                 if (!(this.Padding != value))
                     return;
-                this.SetLayoutData(ViewItem.s_paddingProperty, ViewItem.Bits.LayoutInputPadding, value, Inset.Zero);
+                this.SetLayoutData(s_paddingProperty, Bits.LayoutInputPadding, value, Inset.Zero);
                 this.FireNotification(NotificationID.Padding);
             }
         }
@@ -903,9 +903,9 @@ namespace Microsoft.Iris.UI
         {
             get
             {
-                if (this.ChangeBit(ViewItem.Bits2.HasLayoutOutput, true))
-                    this.SetData(ViewItem.s_layoutOutputProperty, new LayoutOutput(this.LayoutSize));
-                return (LayoutOutput)this.GetData(ViewItem.s_layoutOutputProperty);
+                if (this.ChangeBit(Bits2.HasLayoutOutput, true))
+                    this.SetData(s_layoutOutputProperty, new LayoutOutput(this.LayoutSize));
+                return (LayoutOutput)this.GetData(s_layoutOutputProperty);
             }
         }
 
@@ -921,8 +921,8 @@ namespace Microsoft.Iris.UI
 
         public bool LayoutOffscreen
         {
-            get => this.GetBit(ViewItem.Bits2.LayoutOffscreen);
-            private set => this.SetBit(ViewItem.Bits2.LayoutOffscreen, value);
+            get => this.GetBit(Bits2.LayoutOffscreen);
+            private set => this.SetBit(Bits2.LayoutOffscreen, value);
         }
 
         public int LayoutRequestedCount => this._requestedCount;
@@ -952,8 +952,8 @@ namespace Microsoft.Iris.UI
 
         private bool LayoutContributesToWidth
         {
-            get => this.GetBit(ViewItem.Bits2.ContributesToWidth);
-            set => this.SetBit(ViewItem.Bits2.ContributesToWidth, value);
+            get => this.GetBit(Bits2.ContributesToWidth);
+            set => this.SetBit(Bits2.ContributesToWidth, value);
         }
 
         public Size LayoutMaximumSize
@@ -996,8 +996,8 @@ namespace Microsoft.Iris.UI
 
         public bool IsOffscreen
         {
-            get => this.GetBit(ViewItem.Bits2.IsOffscreen);
-            set => this.SetBit(ViewItem.Bits2.IsOffscreen, value);
+            get => this.GetBit(Bits2.IsOffscreen);
+            set => this.SetBit(Bits2.IsOffscreen, value);
         }
 
         public ILayoutInput LayoutInput
@@ -1005,7 +1005,7 @@ namespace Microsoft.Iris.UI
             set => this.SetLayoutInput(value.Data, value);
         }
 
-        public bool LayoutInvalid => this.GetBit(ViewItem.Bits.LayoutInvalid);
+        public bool LayoutInvalid => this.GetBit(Bits.LayoutInvalid);
 
         public void MarkLayoutInvalid()
         {
@@ -1015,7 +1015,7 @@ namespace Microsoft.Iris.UI
             while (!viewItem.LayoutInvalid)
             {
                 viewItem.ClearLayoutInfo();
-                viewItem.SetBit(ViewItem.Bits.LayoutInvalid, true);
+                viewItem.SetBit(Bits.LayoutInvalid, true);
                 viewItem = viewItem.Parent;
                 if (viewItem == null)
                 {
@@ -1030,7 +1030,7 @@ namespace Microsoft.Iris.UI
 
         private void ClearLayoutInfo()
         {
-            this.SetBit(ViewItem.Bits2.BuiltLayoutChildren, false);
+            this.SetBit(Bits2.BuiltLayoutChildren, false);
             this._visibleChildCount = 0;
             this.Measured = false;
             this._constraint = Size.Zero;
@@ -1041,7 +1041,7 @@ namespace Microsoft.Iris.UI
 
         public void ResetLayoutInvalid()
         {
-            if (!this.ChangeBit(ViewItem.Bits.LayoutInvalid, false))
+            if (!this.ChangeBit(Bits.LayoutInvalid, false))
                 return;
             foreach (ViewItem child in this.Children)
                 child.ResetLayoutInvalid();
@@ -1051,13 +1051,13 @@ namespace Microsoft.Iris.UI
         {
             add
             {
-                if (!this.AddEventHandler(ViewItem.s_deepLayoutChangeEvent, value))
+                if (!this.AddEventHandler(s_deepLayoutChangeEvent, value))
                     return;
                 this.EnableDeepLayoutNotifications(true);
             }
             remove
             {
-                if (!this.RemoveEventHandler(ViewItem.s_deepLayoutChangeEvent, value))
+                if (!this.RemoveEventHandler(s_deepLayoutChangeEvent, value))
                     return;
                 this.EnableDeepLayoutNotifications(false);
             }
@@ -1067,31 +1067,31 @@ namespace Microsoft.Iris.UI
         {
             if (!enableFlag)
             {
-                this.SetBit(ViewItem.Bits.DeepLayoutNotifySelf, false);
+                this.SetBit(Bits.DeepLayoutNotifySelf, false);
             }
             else
             {
-                if (this.GetBit(ViewItem.Bits.DeepLayoutNotifySelf))
+                if (this.GetBit(Bits.DeepLayoutNotifySelf))
                     return;
-                this.SetBit(ViewItem.Bits.DeepLayoutNotifySelf, true);
+                this.SetBit(Bits.DeepLayoutNotifySelf, true);
                 ViewItem viewItem = this;
                 do
                 {
-                    viewItem.SetBit(ViewItem.Bits.DeepLayoutNotifyTree, true);
+                    viewItem.SetBit(Bits.DeepLayoutNotifyTree, true);
                     ViewItem parent = viewItem.Parent;
                     if (parent == null)
                         break;
                     viewItem = parent;
                 }
-                while (!viewItem.GetBit(ViewItem.Bits.DeepLayoutNotifyTree));
+                while (!viewItem.GetBit(Bits.DeepLayoutNotifyTree));
             }
         }
 
         private void BuildLayoutChildren()
         {
-            if (this.GetBit(ViewItem.Bits2.BuiltLayoutChildren))
+            if (this.GetBit(Bits2.BuiltLayoutChildren))
                 return;
-            this.SetBit(ViewItem.Bits2.BuiltLayoutChildren, true);
+            this.SetBit(Bits2.BuiltLayoutChildren, true);
             this._visibleChildCount = 0;
             foreach (ILayoutNode child in this.Children)
             {
@@ -1280,20 +1280,20 @@ namespace Microsoft.Iris.UI
 
         private bool Measured
         {
-            get => this.GetBit(ViewItem.Bits2.Measured);
-            set => this.SetBit(ViewItem.Bits2.Measured, value);
+            get => this.GetBit(Bits2.Measured);
+            set => this.SetBit(Bits2.Measured, value);
         }
 
         private bool Arranged
         {
-            get => this.GetBit(ViewItem.Bits2.Arranged);
-            set => this.SetBit(ViewItem.Bits2.Arranged, value);
+            get => this.GetBit(Bits2.Arranged);
+            set => this.SetBit(Bits2.Arranged, value);
         }
 
         private bool Committed
         {
-            get => this.GetBit(ViewItem.Bits2.Committed);
-            set => this.SetBit(ViewItem.Bits2.Committed, value);
+            get => this.GetBit(Bits2.Committed);
+            set => this.SetBit(Bits2.Committed, value);
         }
 
         [Conditional("DEBUG")]
@@ -1346,9 +1346,9 @@ namespace Microsoft.Iris.UI
                     if (!flag && this.Parent != null)
                     {
                         ViewItem parent = this.Parent;
-                        flag = parent.GetBit(ViewItem.Bits2.KeepAlive) && !parent.DiscardOffscreenVisuals;
+                        flag = parent.GetBit(Bits2.KeepAlive) && !parent.DiscardOffscreenVisuals;
                     }
-                    this.SetBit(ViewItem.Bits2.KeepAlive, flag);
+                    this.SetBit(Bits2.KeepAlive, flag);
                     this.SharedSize?.AccumulateSize(this._location.Size, this.SharedSizePolicy);
                     Inset padding = this.Padding;
                     Size size = padding.Size;
@@ -1370,7 +1370,7 @@ namespace Microsoft.Iris.UI
                     if (((ILayoutNode)this).TryGetAreaOfInterest(AreaOfInterestID.ScrollableRange, out area))
                         location.Union(area.Rectangle);
                     this._visible = location.IntersectsWith(parentSlot.PeripheralView) || flag ? Visibility.Visible : Visibility.ImplicitlyHidden;
-                    this.SetBit(ViewItem.Bits2.LayoutOffscreen, !location.IntersectsWith(parentSlot.View));
+                    this.SetBit(Bits2.LayoutOffscreen, !location.IntersectsWith(parentSlot.View));
                 }
                 this._slot = parentSlot;
                 this._bounds = bounds;
@@ -1399,27 +1399,27 @@ namespace Microsoft.Iris.UI
             int num = this.DesiredSize.GetDimension(orientation);
             switch (alignment.GetAlignment(orientation))
             {
-                case Microsoft.Iris.Layout.Alignment.Unspecified:
-                case Microsoft.Iris.Layout.Alignment.Fill:
+                case Iris.Layout.Alignment.Unspecified:
+                case Iris.Layout.Alignment.Fill:
                     int dimension2 = this.LayoutMaximumSize.GetDimension(orientation);
                     if (dimension2 > 0)
                     {
                         int val2 = dimension2 + this.Margins.Size.GetDimension(orientation);
                         num = Math.Min(dimension1, val2);
-                        goto case Microsoft.Iris.Layout.Alignment.Near;
+                        goto case Iris.Layout.Alignment.Near;
                     }
                     else
                     {
                         num = dimension1;
-                        goto case Microsoft.Iris.Layout.Alignment.Near;
+                        goto case Iris.Layout.Alignment.Near;
                     }
-                case Microsoft.Iris.Layout.Alignment.Near:
+                case Iris.Layout.Alignment.Near:
                     alignmentOffset.SetDimension(orientation, 0);
                     break;
-                case Microsoft.Iris.Layout.Alignment.Center:
+                case Iris.Layout.Alignment.Center:
                     alignmentOffset.SetDimension(orientation, (dimension1 - num) / 2);
                     break;
-                case Microsoft.Iris.Layout.Alignment.Far:
+                case Iris.Layout.Alignment.Far:
                     alignmentOffset.SetDimension(orientation, dimension1 - num);
                     break;
             }
@@ -1511,13 +1511,13 @@ namespace Microsoft.Iris.UI
 
         public void MarkLayoutOutputDirty(bool forceFlag)
         {
-            if (!forceFlag && this.GetBit(ViewItem.Bits.OutputSelfDirty))
+            if (!forceFlag && this.GetBit(Bits.OutputSelfDirty))
                 return;
-            this.SetBit(ViewItem.Bits.OutputSelfDirty, true);
+            this.SetBit(Bits.OutputSelfDirty, true);
             ViewItem viewItem = this;
             do
             {
-                viewItem.SetBit(ViewItem.Bits.OutputTreeDirty, true);
+                viewItem.SetBit(Bits.OutputTreeDirty, true);
                 ViewItem parent = viewItem.Parent;
                 if (parent == null)
                 {
@@ -1526,7 +1526,7 @@ namespace Microsoft.Iris.UI
                 }
                 viewItem = parent;
             }
-            while (!viewItem.GetBit(ViewItem.Bits.OutputTreeDirty));
+            while (!viewItem.GetBit(Bits.OutputTreeDirty));
         }
 
         [Conditional("DEBUG")]
@@ -1538,7 +1538,7 @@ namespace Microsoft.Iris.UI
 
         public void ApplyLayoutOutputs(bool visibilityChanging)
         {
-            if (!visibilityChanging && !this.GetBit(ViewItem.Bits.OutputTreeDirty))
+            if (!visibilityChanging && !this.GetBit(Bits.OutputTreeDirty))
                 return;
             var args = new LayoutApplyParams()
             {
@@ -1552,11 +1552,11 @@ namespace Microsoft.Iris.UI
 
         private void ApplyLayoutOutputWorker(ref ViewItem.LayoutApplyParams selfApplyParams)
         {
-            this.SetBit(ViewItem.Bits.OutputTreeDirty, false);
+            this.SetBit(Bits.OutputTreeDirty, false);
             bool flag1 = false;
-            if (selfApplyParams.visibilityChanging || selfApplyParams.offscreenChanging || this.GetBit(ViewItem.Bits.OutputSelfDirty))
+            if (selfApplyParams.visibilityChanging || selfApplyParams.offscreenChanging || this.GetBit(Bits.OutputSelfDirty))
             {
-                this.SetBit(ViewItem.Bits.OutputSelfDirty, false);
+                this.SetBit(Bits.OutputSelfDirty, false);
                 bool flag2 = false;
                 bool offscreenChange = false;
                 if (this._ownerUI == null)
@@ -1588,7 +1588,7 @@ namespace Microsoft.Iris.UI
             {
                 foreach (ViewItem child in this.Children)
                 {
-                    if (selfApplyParams.visibilityChanging || selfApplyParams.offscreenChanging || child.GetBit(ViewItem.Bits.OutputTreeDirty) || selfApplyParams.deepLayoutChanged && child.GetBit(ViewItem.Bits.DeepLayoutNotifyTree))
+                    if (selfApplyParams.visibilityChanging || selfApplyParams.offscreenChanging || child.GetBit(Bits.OutputTreeDirty) || selfApplyParams.deepLayoutChanged && child.GetBit(Bits.DeepLayoutNotifyTree))
                     {
                         ViewItem.LayoutApplyParams selfApplyParams1 = new ViewItem.LayoutApplyParams();
                         selfApplyParams1.fullyVisible = selfApplyParams.fullyVisible;
@@ -1602,20 +1602,20 @@ namespace Microsoft.Iris.UI
                     }
                 }
             }
-            if (selfApplyParams.deepLayoutChanged && this.GetBit(ViewItem.Bits.DeepLayoutNotifyTree))
+            if (selfApplyParams.deepLayoutChanged && this.GetBit(Bits.DeepLayoutNotifyTree))
             {
-                if (this.GetBit(ViewItem.Bits.DeepLayoutNotifySelf))
+                if (this.GetBit(Bits.DeepLayoutNotifySelf))
                 {
-                    if (this.GetEventHandler(ViewItem.s_deepLayoutChangeEvent) is EventHandler eventHandler)
+                    if (this.GetEventHandler(s_deepLayoutChangeEvent) is EventHandler eventHandler)
                     {
                         eventHandler(this, EventArgs.Empty);
                         selfApplyParams.anyDeepChangesDelivered = true;
                     }
                     else
-                        this.SetBit(ViewItem.Bits.DeepLayoutNotifySelf, false);
+                        this.SetBit(Bits.DeepLayoutNotifySelf, false);
                 }
                 if (!selfApplyParams.anyDeepChangesDelivered)
-                    this.SetBit(ViewItem.Bits.DeepLayoutNotifyTree, false);
+                    this.SetBit(Bits.DeepLayoutNotifyTree, false);
             }
             if (!flag1)
                 return;
@@ -1782,10 +1782,10 @@ namespace Microsoft.Iris.UI
         public void PlayShowAnimation()
         {
             IAnimationProvider ab = null;
-            if (this.GetBit(ViewItem.Bits2.InsideContentChange))
+            if (this.GetBit(Bits2.InsideContentChange))
             {
                 ab = this.GetAnimation(AnimationEventType.ContentChangeShow);
-                this.SetBit(ViewItem.Bits2.InsideContentChange, false);
+                this.SetBit(Bits2.InsideContentChange, false);
             }
             if (ab == null)
                 ab = this.GetAnimation(AnimationEventType.Show);
@@ -1798,7 +1798,7 @@ namespace Microsoft.Iris.UI
         public void PlayHideAnimation(OrphanedVisualCollection orphans)
         {
             IAnimationProvider animationProvider = null;
-            if (this.GetBit(ViewItem.Bits2.InsideContentChange))
+            if (this.GetBit(Bits2.InsideContentChange))
                 animationProvider = this.GetAnimation(AnimationEventType.ContentChangeHide);
             if (animationProvider == null)
                 animationProvider = this.GetAnimation(AnimationEventType.Hide);
@@ -1822,12 +1822,12 @@ namespace Microsoft.Iris.UI
         {
             Vector<ActiveSequence> activeAnimations = this.GetActiveAnimations(false);
             this.TransferAnimationsList(orphans, activeAnimations, new EventHandler(this.OnAnimationComplete));
-            this.SetData(ViewItem.s_activeAnimationsProperty, null);
-            this.SetBit(ViewItem.Bits.ActiveAnimations, false);
+            this.SetData(s_activeAnimationsProperty, null);
+            this.SetBit(Bits.ActiveAnimations, false);
             Vector<ActiveSequence> idleAnimations = this.GetIdleAnimations(false);
             this.TransferAnimationsList(orphans, idleAnimations, new EventHandler(this.OnIdleAnimationComplete));
-            this.SetData(ViewItem.s_idleAnimationsProperty, null);
-            this.SetBit(ViewItem.Bits.IdleAnimations, false);
+            this.SetData(s_idleAnimationsProperty, null);
+            this.SetBit(Bits.IdleAnimations, false);
             this.OnAnimationListChanged();
         }
 
@@ -1848,7 +1848,7 @@ namespace Microsoft.Iris.UI
             }
         }
 
-        public Dictionary<AnimationEventType, IAnimationProvider> GetAnimationSet() => !this.GetBit(ViewItem.Bits.AnimationBuilders) ? null : (Dictionary<AnimationEventType, IAnimationProvider>)this.GetData(ViewItem.s_animationBuildersProperty);
+        public Dictionary<AnimationEventType, IAnimationProvider> GetAnimationSet() => !this.GetBit(Bits.AnimationBuilders) ? null : (Dictionary<AnimationEventType, IAnimationProvider>)this.GetData(s_animationBuildersProperty);
 
         public IAnimationProvider GetAnimation(AnimationEventType type)
         {
@@ -1876,7 +1876,7 @@ namespace Microsoft.Iris.UI
             this.SetAnimationHandle(type, null);
         }
 
-        private Dictionary<AnimationEventType, AnimationHandle> GetAnimationHandleSet() => !this.GetBit(ViewItem.Bits2.AnimationHandles) ? null : (Dictionary<AnimationEventType, AnimationHandle>)this.GetData(ViewItem.s_animationHandlesProperty);
+        private Dictionary<AnimationEventType, AnimationHandle> GetAnimationHandleSet() => !this.GetBit(Bits2.AnimationHandles) ? null : (Dictionary<AnimationEventType, AnimationHandle>)this.GetData(s_animationHandlesProperty);
 
         public AnimationHandle GetAnimationHandle(AnimationEventType type)
         {
@@ -1895,8 +1895,8 @@ namespace Microsoft.Iris.UI
             if (dictionary == null && flag)
             {
                 dictionary = new Dictionary<AnimationEventType, AnimationHandle>();
-                this.SetData(ViewItem.s_animationHandlesProperty, dictionary);
-                this.SetBit(ViewItem.Bits2.AnimationHandles, true);
+                this.SetData(s_animationHandlesProperty, dictionary);
+                this.SetBit(Bits2.AnimationHandles, true);
             }
             if (dictionary == null)
                 return;
@@ -1909,8 +1909,8 @@ namespace Microsoft.Iris.UI
                 dictionary.Remove(type);
                 if (dictionary.Count != 0)
                     return;
-                this.SetData(ViewItem.s_animationHandlesProperty, null);
-                this.SetBit(ViewItem.Bits2.AnimationHandles, false);
+                this.SetData(s_animationHandlesProperty, null);
+                this.SetBit(Bits2.AnimationHandles, false);
             }
         }
 
@@ -1980,8 +1980,8 @@ namespace Microsoft.Iris.UI
             this.OnAnimationListChanged();
             if (activeAnimations.Count == 0)
             {
-                this.SetData(ViewItem.s_activeAnimationsProperty, null);
-                this.SetBit(ViewItem.Bits.ActiveAnimations, false);
+                this.SetData(s_activeAnimationsProperty, null);
+                this.SetBit(Bits.ActiveAnimations, false);
                 this.TryToPlayIdleAnimation();
             }
             if (activeSequence.Template is Animation template && template.DisableMouseInput)
@@ -1998,8 +1998,8 @@ namespace Microsoft.Iris.UI
             this.OnAnimationListChanged();
             if (idleAnimations.Count == 0)
             {
-                this.SetData(ViewItem.s_idleAnimationsProperty, null);
-                this.SetBit(ViewItem.Bits.IdleAnimations, false);
+                this.SetData(s_idleAnimationsProperty, null);
+                this.SetBit(Bits.IdleAnimations, false);
             }
             activeSequence.Dispose(this);
         }
@@ -2055,7 +2055,7 @@ namespace Microsoft.Iris.UI
 
         private void StopActiveAnimations()
         {
-            if (!this.GetBit(ViewItem.Bits.ActiveAnimations))
+            if (!this.GetBit(Bits.ActiveAnimations))
                 return;
             foreach (ActiveSequence activeAnimation in this.GetActiveAnimations(true))
                 activeAnimation.Stop();
@@ -2083,8 +2083,8 @@ namespace Microsoft.Iris.UI
             if (dictionary == null && flag)
             {
                 dictionary = new Dictionary<AnimationEventType, IAnimationProvider>();
-                this.SetData(ViewItem.s_animationBuildersProperty, dictionary);
-                this.SetBit(ViewItem.Bits.AnimationBuilders, true);
+                this.SetData(s_animationBuildersProperty, dictionary);
+                this.SetBit(Bits.AnimationBuilders, true);
             }
             if (dictionary != null)
             {
@@ -2097,8 +2097,8 @@ namespace Microsoft.Iris.UI
                     dictionary.Remove(type);
                     if (dictionary.Count == 0)
                     {
-                        this.SetData(ViewItem.s_animationBuildersProperty, null);
-                        this.SetBit(ViewItem.Bits.AnimationBuilders, false);
+                        this.SetData(s_animationBuildersProperty, null);
+                        this.SetBit(Bits.AnimationBuilders, false);
                     }
                 }
             }
@@ -2106,7 +2106,7 @@ namespace Microsoft.Iris.UI
                 return;
             if (flag)
             {
-                if (this.GetBit(ViewItem.Bits.ActiveAnimations))
+                if (this.GetBit(Bits.ActiveAnimations))
                     return;
                 this.TryToPlayIdleAnimation();
             }
@@ -2114,9 +2114,9 @@ namespace Microsoft.Iris.UI
                 this.StopIdleAnimation();
         }
 
-        private Vector<ActiveSequence> GetActiveAnimations(bool createIfNone) => this.GetAnimationSequence(ViewItem.Bits.ActiveAnimations, ViewItem.s_activeAnimationsProperty, createIfNone);
+        private Vector<ActiveSequence> GetActiveAnimations(bool createIfNone) => this.GetAnimationSequence(Bits.ActiveAnimations, s_activeAnimationsProperty, createIfNone);
 
-        private Vector<ActiveSequence> GetIdleAnimations(bool createIfNone) => this.GetAnimationSequence(ViewItem.Bits.IdleAnimations, ViewItem.s_idleAnimationsProperty, createIfNone);
+        private Vector<ActiveSequence> GetIdleAnimations(bool createIfNone) => this.GetAnimationSequence(Bits.IdleAnimations, s_idleAnimationsProperty, createIfNone);
 
         private Vector<ActiveSequence> GetAnimationSequence(
           ViewItem.Bits propertyHint,
@@ -2140,7 +2140,7 @@ namespace Microsoft.Iris.UI
 
         private void OnAnimationListChanged()
         {
-            if (!this.ChangeBit(ViewItem.Bits2.IsAlphaAnimationPlaying, ViewItem.DoesAnimationListContainAnimationType(this.GetActiveAnimations(false), ActiveTransitions.Alpha) || ViewItem.DoesAnimationListContainAnimationType(this.GetIdleAnimations(false), ActiveTransitions.Alpha)) || Alpha != 0.0)
+            if (!this.ChangeBit(Bits2.IsAlphaAnimationPlaying, DoesAnimationListContainAnimationType(this.GetActiveAnimations(false), ActiveTransitions.Alpha) || DoesAnimationListContainAnimationType(this.GetIdleAnimations(false), ActiveTransitions.Alpha)) || Alpha != 0.0)
                 return;
             this.OnVisibilityChange();
         }
@@ -2162,10 +2162,10 @@ namespace Microsoft.Iris.UI
 
         public bool MouseInteractive
         {
-            get => this.GetBit(ViewItem.Bits.MouseInteractive);
+            get => this.GetBit(Bits.MouseInteractive);
             set
             {
-                if (!this.ChangeBit(ViewItem.Bits.MouseInteractive, value))
+                if (!this.ChangeBit(Bits.MouseInteractive, value))
                     return;
                 this.UI.UpdateMouseHandling(this);
                 this.FireNotification(NotificationID.MouseInteractive);
@@ -2174,10 +2174,10 @@ namespace Microsoft.Iris.UI
 
         public bool ClipMouse
         {
-            get => this.GetBit(ViewItem.Bits.ClipMouse);
+            get => this.GetBit(Bits.ClipMouse);
             set
             {
-                if (!this.ChangeBit(ViewItem.Bits.ClipMouse, value) || this.UI == null)
+                if (!this.ChangeBit(Bits.ClipMouse, value) || this.UI == null)
                     return;
                 this.UI.UpdateMouseHandling(this);
             }
@@ -2215,7 +2215,7 @@ namespace Microsoft.Iris.UI
             this.VisualAlpha = this.Alpha;
             this.VisualRotation = this.Rotation;
             this.VisualCenterPoint = this.CenterPointPercent;
-            if (this.GetBit(ViewItem.Bits.PendingNavigateInto) && !this.GetBit(ViewItem.Bits.PendingNavigateIntoScheduled))
+            if (this.GetBit(Bits.PendingNavigateInto) && !this.GetBit(Bits.PendingNavigateIntoScheduled))
                 this.ScheduleNavigateInto();
             this.MarkPaintInvalid();
         }
@@ -2252,13 +2252,13 @@ namespace Microsoft.Iris.UI
             set
             {
                 this._container = value;
-                if (!this.GetBit(ViewItem.Bits2.HasCamera))
+                if (!this.GetBit(Bits2.HasCamera))
                     return;
-                this._container.Camera = ((Camera)this.GetData(ViewItem.s_cameraProperty)).APICamera;
+                this._container.Camera = ((Camera)this.GetData(s_cameraProperty)).APICamera;
             }
         }
 
-        private bool IsVisibleToRenderer => this.HasVisual || this.GetBit(ViewItem.Bits2.InsideContentChange);
+        private bool IsVisibleToRenderer => this.HasVisual || this.GetBit(Bits2.InsideContentChange);
 
         public void ForceContentChange()
         {
@@ -2267,7 +2267,7 @@ namespace Microsoft.Iris.UI
             Dictionary<AnimationEventType, IAnimationProvider> animationSet = this.GetAnimationSet();
             if (animationSet == null || !animationSet.ContainsKey(AnimationEventType.ContentChangeShow) && !animationSet.ContainsKey(AnimationEventType.ContentChangeHide))
                 return;
-            this.SetBit(ViewItem.Bits2.InsideContentChange, true);
+            this.SetBit(Bits2.InsideContentChange, true);
             if (this.UI == null)
                 return;
             this.UI.DestroyVisualTree(this, true);
@@ -2309,7 +2309,7 @@ namespace Microsoft.Iris.UI
                 return false;
             Vector3 parentOffsetPxlVector;
             Vector3 scaleVector;
-            ViewItem.GetAccumulatedOffsetAndScale(this, ancestor, out parentOffsetPxlVector, out scaleVector);
+            GetAccumulatedOffsetAndScale(this, ancestor, out parentOffsetPxlVector, out scaleVector);
             positionPxlVector = parentOffsetPxlVector;
             Vector2 visualSize = this.VisualSize;
             sizePxlVector = new Vector3(visualSize.X, visualSize.Y, 0.0f) * scaleVector;
@@ -2324,10 +2324,10 @@ namespace Microsoft.Iris.UI
         {
             parentOffsetPxlVector = Vector3.Zero;
             scaleVector = Vector3.UnitVector;
-            ArrayList arrayList = ViewItem.s_pathListCache.Acquire();
+            ArrayList arrayList = s_pathListCache.Acquire();
             if (!((ViewItem)childStart).GetParentChain(childStop as ViewItem, arrayList))
             {
-                ViewItem.s_pathListCache.Release(arrayList);
+                s_pathListCache.Release(arrayList);
             }
             else
             {
@@ -2350,7 +2350,7 @@ namespace Microsoft.Iris.UI
                     parentOffsetPxlVector += vector3_1 * scaleVector;
                     scaleVector *= vector3_2;
                 }
-                ViewItem.s_pathListCache.Release(arrayList);
+                s_pathListCache.Release(arrayList);
             }
         }
 
@@ -2358,7 +2358,7 @@ namespace Microsoft.Iris.UI
         {
             Vector3 parentOffsetPxlVector;
             Vector3 scaleVector;
-            ViewItem.GetAccumulatedOffsetAndScale(this, ancestor, out parentOffsetPxlVector, out scaleVector);
+            GetAccumulatedOffsetAndScale(this, ancestor, out parentOffsetPxlVector, out scaleVector);
             rect.X -= parentOffsetPxlVector.X;
             rect.Y -= parentOffsetPxlVector.Y;
             rect.X /= scaleVector.X;
@@ -2372,7 +2372,7 @@ namespace Microsoft.Iris.UI
         {
             Vector3 parentOffsetPxlVector;
             Vector3 scaleVector;
-            ViewItem.GetAccumulatedOffsetAndScale(this, ancestor, out parentOffsetPxlVector, out scaleVector);
+            GetAccumulatedOffsetAndScale(this, ancestor, out parentOffsetPxlVector, out scaleVector);
             rect.X *= scaleVector.X;
             rect.Y *= scaleVector.Y;
             rect.Width *= scaleVector.X;
@@ -2386,7 +2386,7 @@ namespace Microsoft.Iris.UI
         {
             Vector3 parentOffsetPxlVector;
             Vector3 scaleVector;
-            ViewItem.GetAccumulatedOffsetAndScale(this, ancestor, out parentOffsetPxlVector, out scaleVector);
+            GetAccumulatedOffsetAndScale(this, ancestor, out parentOffsetPxlVector, out scaleVector);
             Vector2 vector2 = this.HasVisual ? this.VisualSize : Vector2.Zero;
             return new RectangleF(parentOffsetPxlVector.X, parentOffsetPxlVector.Y, vector2.X * scaleVector.X, vector2.Y * scaleVector.Y);
         }
@@ -2432,9 +2432,9 @@ namespace Microsoft.Iris.UI
 
         protected virtual void OnLayoutComplete(ViewItem sender)
         {
-            if (this.GetEventHandler(ViewItem.s_layoutCompleteEvent) is LayoutCompleteEventHandler eventHandler)
+            if (this.GetEventHandler(s_layoutCompleteEvent) is LayoutCompleteEventHandler eventHandler)
                 eventHandler(sender);
-            if (!this.GetBit(ViewItem.Bits2.HasLayoutOutput))
+            if (!this.GetBit(Bits2.HasLayoutOutput))
                 return;
             this.LayoutOutput.OnLayoutComplete(this.LayoutSize);
         }
@@ -2450,8 +2450,8 @@ namespace Microsoft.Iris.UI
 
         public event LayoutCompleteEventHandler LayoutComplete
         {
-            add => this.AddEventHandler(ViewItem.s_layoutCompleteEvent, value);
-            remove => this.RemoveEventHandler(ViewItem.s_layoutCompleteEvent, value);
+            add => this.AddEventHandler(s_layoutCompleteEvent, value);
+            remove => this.RemoveEventHandler(s_layoutCompleteEvent, value);
         }
 
         internal void ClearStickyFocus() => NavigationServices.ClearDefaultFocus(this);
@@ -2460,9 +2460,9 @@ namespace Microsoft.Iris.UI
         {
             if (this.PendingScrollIntoView)
                 return;
-            this.SetBit(ViewItem.Bits2.PendingScrollIntoView, true);
+            this.SetBit(Bits2.PendingScrollIntoView, true);
             this.LockVisible(true);
-            DeferredCall.Post(DispatchPriority.LayoutSync, ViewItem.s_scrollIntoViewCleanup, this);
+            DeferredCall.Post(DispatchPriority.LayoutSync, s_scrollIntoViewCleanup, this);
         }
 
         private static void CleanUpAfterScrollIntoView(object obj) => ((ViewItem)obj).CleanUpAfterScrollIntoView();
@@ -2471,12 +2471,12 @@ namespace Microsoft.Iris.UI
         {
             if (!this.PendingScrollIntoView)
                 return;
-            this.SetBit(ViewItem.Bits2.PendingScrollIntoView, false);
+            this.SetBit(Bits2.PendingScrollIntoView, false);
             this.UnlockVisible();
             this.HACK_RemoveCachedScrollIntoViewAreasOfInterest();
         }
 
-        public bool PendingScrollIntoView => this.GetBit(ViewItem.Bits2.PendingScrollIntoView);
+        public bool PendingScrollIntoView => this.GetBit(Bits2.PendingScrollIntoView);
 
         public virtual bool DiscardOffscreenVisuals
         {
@@ -2512,19 +2512,19 @@ namespace Microsoft.Iris.UI
 
         public void NavigateInto(bool isDefault)
         {
-            if (this.ChangeBit(ViewItem.Bits.PendingNavigateInto, true))
+            if (this.ChangeBit(Bits.PendingNavigateInto, true))
             {
                 this.LockVisible(!this.IsVisibleToRenderer);
                 if (this.IsVisibleToRenderer)
                     this.ScheduleNavigateInto();
             }
-            this.SetBit(ViewItem.Bits.PendingNavigateIntoIsDefault, isDefault);
+            this.SetBit(Bits.PendingNavigateIntoIsDefault, isDefault);
         }
 
         private void ScheduleNavigateInto()
         {
             DeferredCall.Post(DispatchPriority.LayoutSync, new SimpleCallback(this.NavigateIntoWorker));
-            this.SetBit(ViewItem.Bits.PendingNavigateIntoScheduled, true);
+            this.SetBit(Bits.PendingNavigateIntoScheduled, true);
         }
 
         private void NavigateIntoWorker()
@@ -2532,12 +2532,12 @@ namespace Microsoft.Iris.UI
             if (this.IsDisposed)
                 return;
             this.UnlockVisible();
-            this.SetBit(ViewItem.Bits.PendingNavigateInto, false);
-            this.SetBit(ViewItem.Bits.PendingNavigateIntoScheduled, false);
+            this.SetBit(Bits.PendingNavigateInto, false);
+            this.SetBit(Bits.PendingNavigateIntoScheduled, false);
             INavigationSite resultSite;
             if (!NavigationServices.FindNextWithin(this, Direction.Next, RectangleF.Zero, out resultSite) || resultSite == null || !(resultSite is ViewItem viewItem))
                 return;
-            viewItem.UI.NotifyNavigationDestination(this.GetBit(ViewItem.Bits.PendingNavigateIntoIsDefault) ? KeyFocusReason.Default : KeyFocusReason.Other);
+            viewItem.UI.NotifyNavigationDestination(this.GetBit(Bits.PendingNavigateIntoIsDefault) ? KeyFocusReason.Default : KeyFocusReason.Other);
         }
 
         public NavigationPolicies Navigation
@@ -2545,9 +2545,9 @@ namespace Microsoft.Iris.UI
             get
             {
                 NavigationPolicies navigationPolicies = NavigationPolicies.None;
-                if (this.GetBit(ViewItem.Bits.HasNavMode))
+                if (this.GetBit(Bits.HasNavMode))
                 {
-                    object data = this.GetData(ViewItem.s_navModeProperty);
+                    object data = this.GetData(s_navModeProperty);
                     if (data != null)
                         navigationPolicies = (NavigationPolicies)data;
                 }
@@ -2557,16 +2557,16 @@ namespace Microsoft.Iris.UI
             {
                 if (value != NavigationPolicies.None)
                 {
-                    this.SetData(ViewItem.s_navModeProperty, value);
-                    this.SetBit(ViewItem.Bits.HasNavMode, true);
+                    this.SetData(s_navModeProperty, value);
+                    this.SetBit(Bits.HasNavMode, true);
                     this.FireNotification(NotificationID.Navigation);
                 }
                 else
                 {
-                    if (!this.GetBit(ViewItem.Bits.HasNavMode))
+                    if (!this.GetBit(Bits.HasNavMode))
                         return;
-                    this.SetData(ViewItem.s_navModeProperty, null);
-                    this.SetBit(ViewItem.Bits.HasNavMode, false);
+                    this.SetData(s_navModeProperty, null);
+                    this.SetBit(Bits.HasNavMode, false);
                     this.FireNotification(NotificationID.Navigation);
                 }
             }
@@ -2579,9 +2579,9 @@ namespace Microsoft.Iris.UI
             get
             {
                 int num = int.MaxValue;
-                if (this.GetBit(ViewItem.Bits.HasFocusOrder))
+                if (this.GetBit(Bits.HasFocusOrder))
                 {
-                    object data = this.GetData(ViewItem.s_focusOrderProperty);
+                    object data = this.GetData(s_focusOrderProperty);
                     if (data != null)
                         num = (int)data;
                 }
@@ -2591,16 +2591,16 @@ namespace Microsoft.Iris.UI
             {
                 if (value != int.MaxValue)
                 {
-                    this.SetData(ViewItem.s_focusOrderProperty, value);
-                    this.SetBit(ViewItem.Bits.HasFocusOrder, true);
+                    this.SetData(s_focusOrderProperty, value);
+                    this.SetBit(Bits.HasFocusOrder, true);
                     this.FireNotification(NotificationID.FocusOrder);
                 }
                 else
                 {
-                    if (!this.GetBit(ViewItem.Bits.HasFocusOrder))
+                    if (!this.GetBit(Bits.HasFocusOrder))
                         return;
-                    this.SetData(ViewItem.s_focusOrderProperty, null);
-                    this.SetBit(ViewItem.Bits.HasFocusOrder, false);
+                    this.SetData(s_focusOrderProperty, null);
+                    this.SetBit(Bits.HasFocusOrder, false);
                     this.FireNotification(NotificationID.FocusOrder);
                 }
             }
@@ -2655,8 +2655,8 @@ namespace Microsoft.Iris.UI
 
         object INavigationSite.StateCache
         {
-            get => this.GetData(ViewItem.s_navCacheProperty);
-            set => this.SetData(ViewItem.s_navCacheProperty, value);
+            get => this.GetData(s_navCacheProperty);
+            set => this.SetData(s_navCacheProperty, value);
         }
 
         internal virtual void FaultInChild(ViewItemID component, ChildFaultedInDelegate handler)
@@ -2723,7 +2723,7 @@ namespace Microsoft.Iris.UI
 
         protected bool GetBit(ViewItem.Bits2 lookupBit) => this._bits2[(int)lookupBit];
 
-        private uint GetBitAsUInt(ViewItem.Bits lookupBit) => ((ViewItem.Bits)this._bits.Data & lookupBit) == ~(ViewItem.Bits.PendingNavigateInto | ViewItem.Bits.PendingNavigateIntoIsDefault | ViewItem.Bits.PendingNavigateIntoScheduled | ViewItem.Bits.ClipMouse | ViewItem.Bits.MouseInteractive | ViewItem.Bits.PaintInvalid | ViewItem.Bits.HasScale | ViewItem.Bits.ScaleChanged | ViewItem.Bits.LayoutInputMaxSize | ViewItem.Bits.LayoutInputMinSize | ViewItem.Bits.LayoutInputMargins | ViewItem.Bits.LayoutInputPadding | ViewItem.Bits.LayoutInputVisible | ViewItem.Bits.LayoutAlignment | ViewItem.Bits.LayoutChildAlignment | ViewItem.Bits.LayoutInputSharedSize | ViewItem.Bits.LayoutInputSharedSizePolicy | ViewItem.Bits.OutputSelfDirty | ViewItem.Bits.OutputTreeDirty | ViewItem.Bits.LayoutInvalid | ViewItem.Bits.ActiveAnimations | ViewItem.Bits.AnimationBuilders | ViewItem.Bits.IdleAnimations | ViewItem.Bits.HasNavMode | ViewItem.Bits.HasFocusOrder | ViewItem.Bits.DeepLayoutNotifySelf | ViewItem.Bits.DeepLayoutNotifyTree | ViewItem.Bits.Unused1 | ViewItem.Bits.Unused2 | ViewItem.Bits.Unused3 | ViewItem.Bits.Unused4 | ViewItem.Bits.Unused5) ? 0U : 1U;
+        private uint GetBitAsUInt(ViewItem.Bits lookupBit) => ((ViewItem.Bits)this._bits.Data & lookupBit) == ~(Bits.PendingNavigateInto | Bits.PendingNavigateIntoIsDefault | Bits.PendingNavigateIntoScheduled | Bits.ClipMouse | Bits.MouseInteractive | Bits.PaintInvalid | Bits.HasScale | Bits.ScaleChanged | Bits.LayoutInputMaxSize | Bits.LayoutInputMinSize | Bits.LayoutInputMargins | Bits.LayoutInputPadding | Bits.LayoutInputVisible | Bits.LayoutAlignment | Bits.LayoutChildAlignment | Bits.LayoutInputSharedSize | Bits.LayoutInputSharedSizePolicy | Bits.OutputSelfDirty | Bits.OutputTreeDirty | Bits.LayoutInvalid | Bits.ActiveAnimations | Bits.AnimationBuilders | Bits.IdleAnimations | Bits.HasNavMode | Bits.HasFocusOrder | Bits.DeepLayoutNotifySelf | Bits.DeepLayoutNotifyTree | Bits.Unused1 | Bits.Unused2 | Bits.Unused3 | Bits.Unused4 | Bits.Unused5) ? 0U : 1U;
 
         protected uint GetBitAsUInt(ViewItem.Bits2 lookupBit) => ((ViewItem.Bits2)this._bits2.Data & lookupBit) == 0 ? 0U : 1U;
 
@@ -2751,13 +2751,13 @@ namespace Microsoft.Iris.UI
 
         public string Name
         {
-            get => (string)this.GetData(ViewItem.s_nameProperty);
+            get => (string)this.GetData(s_nameProperty);
             set
             {
-                if (!((string)this.GetData(ViewItem.s_nameProperty) != value))
+                if (!((string)this.GetData(s_nameProperty) != value))
                     return;
                 string str = NotifyService.CanonicalizeString(value);
-                this.SetData(ViewItem.s_nameProperty, str);
+                this.SetData(s_nameProperty, str);
             }
         }
 
@@ -2765,14 +2765,14 @@ namespace Microsoft.Iris.UI
         {
             get
             {
-                object data = this.GetData(ViewItem.s_debugOutlineProperty);
+                object data = this.GetData(s_debugOutlineProperty);
                 return data == null ? Color.Transparent : (Color)data;
             }
             set
             {
                 if (!(this.DebugOutline != value))
                     return;
-                this.SetData(ViewItem.s_debugOutlineProperty, value);
+                this.SetData(s_debugOutlineProperty, value);
                 this.FireNotification(NotificationID.DebugOutline);
             }
         }

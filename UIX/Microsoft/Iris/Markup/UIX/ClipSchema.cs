@@ -70,22 +70,22 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object Construct() => new Clip();
 
-        public static void Pass1Initialize() => ClipSchema.Type = new UIXTypeSchema(34, "Clip", null, 239, typeof(Clip), UIXTypeFlags.Disposable);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(34, "Clip", null, 239, typeof(Clip), UIXTypeFlags.Disposable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(34, "Children", 138, 239, ExpressionRestriction.NoAccess, false, null, true, new GetValueHandler(ClipSchema.GetChildren), null, false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(34, "Orientation", 154, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ClipSchema.GetOrientation), new SetValueHandler(ClipSchema.SetOrientation), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(34, "FadeSize", 194, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ClipSchema.GetFadeSize), new SetValueHandler(ClipSchema.SetFadeSize), false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(34, "NearOffset", 194, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ClipSchema.GetNearOffset), new SetValueHandler(ClipSchema.SetNearOffset), false);
-            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(34, "FarOffset", 194, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ClipSchema.GetFarOffset), new SetValueHandler(ClipSchema.SetFarOffset), false);
-            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(34, "NearPercent", 194, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ClipSchema.GetNearPercent), new SetValueHandler(ClipSchema.SetNearPercent), false);
-            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema(34, "FarPercent", 194, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ClipSchema.GetFarPercent), new SetValueHandler(ClipSchema.SetFarPercent), false);
-            UIXPropertySchema uixPropertySchema8 = new UIXPropertySchema(34, "ShowNear", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ClipSchema.GetShowNear), new SetValueHandler(ClipSchema.SetShowNear), false);
-            UIXPropertySchema uixPropertySchema9 = new UIXPropertySchema(34, "ShowFar", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ClipSchema.GetShowFar), new SetValueHandler(ClipSchema.SetShowFar), false);
-            UIXPropertySchema uixPropertySchema10 = new UIXPropertySchema(34, "ColorMask", 35, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ClipSchema.GetColorMask), new SetValueHandler(ClipSchema.SetColorMask), false);
-            UIXPropertySchema uixPropertySchema11 = new UIXPropertySchema(34, "FadeAmount", 194, -1, ExpressionRestriction.None, false, SingleSchema.Validate0to1, true, new GetValueHandler(ClipSchema.GetFadeAmount), new SetValueHandler(ClipSchema.SetFadeAmount), false);
-            ClipSchema.Type.Initialize(new DefaultConstructHandler(ClipSchema.Construct), null, new PropertySchema[11]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(34, "Children", 138, 239, ExpressionRestriction.NoAccess, false, null, true, new GetValueHandler(GetChildren), null, false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(34, "Orientation", 154, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetOrientation), new SetValueHandler(SetOrientation), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(34, "FadeSize", 194, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetFadeSize), new SetValueHandler(SetFadeSize), false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(34, "NearOffset", 194, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetNearOffset), new SetValueHandler(SetNearOffset), false);
+            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(34, "FarOffset", 194, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetFarOffset), new SetValueHandler(SetFarOffset), false);
+            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(34, "NearPercent", 194, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetNearPercent), new SetValueHandler(SetNearPercent), false);
+            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema(34, "FarPercent", 194, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetFarPercent), new SetValueHandler(SetFarPercent), false);
+            UIXPropertySchema uixPropertySchema8 = new UIXPropertySchema(34, "ShowNear", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetShowNear), new SetValueHandler(SetShowNear), false);
+            UIXPropertySchema uixPropertySchema9 = new UIXPropertySchema(34, "ShowFar", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetShowFar), new SetValueHandler(SetShowFar), false);
+            UIXPropertySchema uixPropertySchema10 = new UIXPropertySchema(34, "ColorMask", 35, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetColorMask), new SetValueHandler(SetColorMask), false);
+            UIXPropertySchema uixPropertySchema11 = new UIXPropertySchema(34, "FadeAmount", 194, -1, ExpressionRestriction.None, false, SingleSchema.Validate0to1, true, new GetValueHandler(GetFadeAmount), new SetValueHandler(SetFadeAmount), false);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[11]
             {
          uixPropertySchema1,
          uixPropertySchema10,

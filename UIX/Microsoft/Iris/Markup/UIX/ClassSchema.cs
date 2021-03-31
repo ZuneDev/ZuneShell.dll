@@ -29,16 +29,16 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object GetScripts(object instanceObj) => (object)null;
 
-        public static void Pass1Initialize() => ClassSchema.Type = new UIXTypeSchema(29, "Class", null, -1, typeof(Class), UIXTypeFlags.Disposable);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(29, "Class", null, -1, typeof(Class), UIXTypeFlags.Disposable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(29, "Shared", 15, -1, ExpressionRestriction.NoAccess, false, null, true, null, new SetValueHandler(ClassSchema.SetShared), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(29, "Base", 208, -1, ExpressionRestriction.NoAccess, false, null, true, null, new SetValueHandler(ClassSchema.SetBase), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(29, "Properties", 58, -1, ExpressionRestriction.NoAccess, false, null, true, new GetValueHandler(ClassSchema.GetProperties), null, false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(29, "Locals", 58, -1, ExpressionRestriction.NoAccess, false, null, true, new GetValueHandler(ClassSchema.GetLocals), null, false);
-            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(29, "Scripts", 138, 240, ExpressionRestriction.NoAccess, false, null, true, new GetValueHandler(ClassSchema.GetScripts), null, false);
-            ClassSchema.Type.Initialize(null, null, new PropertySchema[5]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(29, "Shared", 15, -1, ExpressionRestriction.NoAccess, false, null, true, null, new SetValueHandler(SetShared), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(29, "Base", 208, -1, ExpressionRestriction.NoAccess, false, null, true, null, new SetValueHandler(SetBase), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(29, "Properties", 58, -1, ExpressionRestriction.NoAccess, false, null, true, new GetValueHandler(GetProperties), null, false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(29, "Locals", 58, -1, ExpressionRestriction.NoAccess, false, null, true, new GetValueHandler(GetLocals), null, false);
+            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(29, "Scripts", 138, 240, ExpressionRestriction.NoAccess, false, null, true, new GetValueHandler(GetScripts), null, false);
+            Type.Initialize(null, null, new PropertySchema[5]
             {
          uixPropertySchema2,
          uixPropertySchema4,

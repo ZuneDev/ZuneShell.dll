@@ -15,12 +15,12 @@ namespace Microsoft.Iris.Markup.UIX
             MarkupDataType markupDataType = (MarkupDataType)instanceObj;
         }
 
-        public static void Pass1Initialize() => DataTypeSchema.Type = new UIXTypeSchema(48, "DataType", null, 29, typeof(MarkupDataType), UIXTypeFlags.Disposable);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(48, "DataType", null, 29, typeof(MarkupDataType), UIXTypeFlags.Disposable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(48, "Provider", 208, -1, ExpressionRestriction.NoAccess, false, null, true, null, new SetValueHandler(DataTypeSchema.SetProvider), false);
-            DataTypeSchema.Type.Initialize(null, null, new PropertySchema[1]
+            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(48, "Provider", 208, -1, ExpressionRestriction.NoAccess, false, null, true, null, new SetValueHandler(SetProvider), false);
+            Type.Initialize(null, null, new PropertySchema[1]
             {
          uixPropertySchema
             }, null, null, null, null, null, null, null, null, null);

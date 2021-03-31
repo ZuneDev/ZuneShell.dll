@@ -14,25 +14,25 @@ namespace Microsoft.Iris.Drawing
     internal sealed class ScavengeImageCache : ImageCache
     {
         private static ScavengeImageCache s_theOnlyCache;
-        private static readonly DeferredHandler s_dhReschedule = new DeferredHandler(ScavengeImageCache.Reschedule);
+        private static readonly DeferredHandler s_dhReschedule = new DeferredHandler(Reschedule);
         private UISession _session;
         private ScavengeImageCache.ScavengeCallback _callback;
 
         public static void Initialize(UISession session)
         {
-            ScavengeImageCache.s_theOnlyCache = new ScavengeImageCache(session);
-            ScavengeImageCache.s_theOnlyCache.NumItemsToKeep = 200;
-            ScavengeImageCache.s_theOnlyCache.ItemRetainTime = new TimeSpan(0, 2, 0);
+            s_theOnlyCache = new ScavengeImageCache(session);
+            s_theOnlyCache.NumItemsToKeep = 200;
+            s_theOnlyCache.ItemRetainTime = new TimeSpan(0, 2, 0);
         }
 
         public static void Uninitialize(UISession session)
         {
-            if (ScavengeImageCache.s_theOnlyCache == null)
+            if (s_theOnlyCache == null)
                 return;
-            ScavengeImageCache.s_theOnlyCache.Dispose();
+            s_theOnlyCache.Dispose();
         }
 
-        public static ScavengeImageCache Instance => ScavengeImageCache.s_theOnlyCache;
+        public static ScavengeImageCache Instance => s_theOnlyCache;
 
         private ScavengeImageCache(UISession session)
           : base(session.RenderSession, "GraphicImageCache")
@@ -51,7 +51,7 @@ namespace Microsoft.Iris.Drawing
         protected override void ScheduleScavenge()
         {
             if (!this.CleanupPending)
-                DeferredCall.Post(DispatchPriority.Idle, ScavengeImageCache.s_dhReschedule, this);
+                DeferredCall.Post(DispatchPriority.Idle, s_dhReschedule, this);
             base.ScheduleScavenge();
         }
 

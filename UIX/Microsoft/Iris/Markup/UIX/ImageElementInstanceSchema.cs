@@ -18,13 +18,13 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static void SetUVOffset(ref object instanceObj, object valueObj) => ((EffectElementWrapper)instanceObj).SetProperty("UVOffset", (Vector2)valueObj);
 
-        public static void Pass1Initialize() => ImageElementInstanceSchema.Type = new UIXTypeSchema(107, "ImageElementInstance", null, 74, typeof(EffectElementWrapper), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(107, "ImageElementInstance", null, 74, typeof(EffectElementWrapper), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(107, "Image", 105, -1, ExpressionRestriction.None, false, null, false, null, new SetValueHandler(ImageElementInstanceSchema.SetImage), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(107, "UVOffset", 233, -1, ExpressionRestriction.None, false, null, false, null, new SetValueHandler(ImageElementInstanceSchema.SetUVOffset), false);
-            ImageElementInstanceSchema.Type.Initialize(null, null, new PropertySchema[2]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(107, "Image", 105, -1, ExpressionRestriction.None, false, null, false, null, new SetValueHandler(SetImage), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(107, "UVOffset", 233, -1, ExpressionRestriction.None, false, null, false, null, new SetValueHandler(SetUVOffset), false);
+            Type.Initialize(null, null, new PropertySchema[2]
             {
          uixPropertySchema1,
          uixPropertySchema2

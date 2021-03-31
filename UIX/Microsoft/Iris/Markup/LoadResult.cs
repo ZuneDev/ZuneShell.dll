@@ -90,7 +90,7 @@ namespace Microsoft.Iris.Markup
 
         public abstract LoadResultStatus Status { get; }
 
-        public virtual LoadResult[] Dependencies => LoadResult.EmptyList;
+        public virtual LoadResult[] Dependencies => EmptyList;
 
         public virtual TypeSchema[] ExportTable => TypeSchema.EmptyList;
 

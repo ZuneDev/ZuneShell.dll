@@ -48,31 +48,31 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object ConstructXYZ(object[] parameters)
         {
-            object instanceObj = Vector3Schema.Construct();
-            Vector3Schema.SetX(ref instanceObj, parameters[0]);
-            Vector3Schema.SetY(ref instanceObj, parameters[1]);
-            Vector3Schema.SetZ(ref instanceObj, parameters[2]);
+            object instanceObj = Construct();
+            SetX(ref instanceObj, parameters[0]);
+            SetY(ref instanceObj, parameters[1]);
+            SetZ(ref instanceObj, parameters[2]);
             return instanceObj;
         }
 
         private static Result ConvertFromStringXYZ(string[] splitString, out object instance)
         {
-            instance = Vector3Schema.Construct();
+            instance = Construct();
             object valueObj1;
             Result result1 = UIXLoadResult.ValidateStringAsValue(splitString[0], SingleSchema.Type, null, out valueObj1);
             if (result1.Failed)
                 return Result.Fail("Problem converting '{0}' ({1})", "Vector3", result1.Error);
-            Vector3Schema.SetX(ref instance, valueObj1);
+            SetX(ref instance, valueObj1);
             object valueObj2;
             Result result2 = UIXLoadResult.ValidateStringAsValue(splitString[1], SingleSchema.Type, null, out valueObj2);
             if (result2.Failed)
                 return Result.Fail("Problem converting '{0}' ({1})", "Vector3", result2.Error);
-            Vector3Schema.SetY(ref instance, valueObj2);
+            SetY(ref instance, valueObj2);
             object valueObj3;
             Result result3 = UIXLoadResult.ValidateStringAsValue(splitString[2], SingleSchema.Type, null, out valueObj3);
             if (result3.Failed)
                 return Result.Fail("Problem converting '{0}' ({1})", "Vector3", result3.Error);
-            Vector3Schema.SetZ(ref instance, valueObj3);
+            SetZ(ref instance, valueObj3);
             return result3;
         }
 
@@ -100,7 +100,7 @@ namespace Microsoft.Iris.Markup.UIX
                 string[] splitString = StringUtility.SplitAndTrim(',', (string)from);
                 if (splitString.Length == 3)
                 {
-                    result = Vector3Schema.ConvertFromStringXYZ(splitString, out instance);
+                    result = ConvertFromStringXYZ(splitString, out instance);
                     if (!result.Failed)
                         return result;
                 }
@@ -152,20 +152,20 @@ namespace Microsoft.Iris.Markup.UIX
             }
         }
 
-        public static void Pass1Initialize() => Vector3Schema.Type = new UIXTypeSchema(234, "Vector3", null, 153, typeof(Vector3), UIXTypeFlags.Immutable);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(234, "Vector3", null, 153, typeof(Vector3), UIXTypeFlags.Immutable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(234, "X", 194, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(Vector3Schema.GetX), new SetValueHandler(Vector3Schema.SetX), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(234, "Y", 194, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(Vector3Schema.GetY), new SetValueHandler(Vector3Schema.SetY), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(234, "Z", 194, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(Vector3Schema.GetZ), new SetValueHandler(Vector3Schema.SetZ), false);
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(234, "X", 194, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetX), new SetValueHandler(SetX), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(234, "Y", 194, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetY), new SetValueHandler(SetY), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(234, "Z", 194, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetZ), new SetValueHandler(SetZ), false);
             UIXConstructorSchema constructorSchema = new UIXConstructorSchema(234, new short[3]
             {
          194,
          194,
          194
-            }, new ConstructHandler(Vector3Schema.ConstructXYZ));
-            Vector3Schema.Type.Initialize(new DefaultConstructHandler(Vector3Schema.Construct), new ConstructorSchema[1]
+            }, new ConstructHandler(ConstructXYZ));
+            Type.Initialize(new DefaultConstructHandler(Construct), new ConstructorSchema[1]
             {
          constructorSchema
             }, new PropertySchema[3]
@@ -173,7 +173,7 @@ namespace Microsoft.Iris.Markup.UIX
          uixPropertySchema1,
          uixPropertySchema2,
          uixPropertySchema3
-            }, null, null, null, new TypeConverterHandler(Vector3Schema.TryConvertFrom), new SupportsTypeConversionHandler(Vector3Schema.IsConversionSupported), new EncodeBinaryHandler(Vector3Schema.EncodeBinary), new DecodeBinaryHandler(Vector3Schema.DecodeBinary), new PerformOperationHandler(Vector3Schema.ExecuteOperation), new SupportsOperationHandler(Vector3Schema.IsOperationSupported));
+            }, null, null, null, new TypeConverterHandler(TryConvertFrom), new SupportsTypeConversionHandler(IsConversionSupported), new EncodeBinaryHandler(EncodeBinary), new DecodeBinaryHandler(DecodeBinary), new PerformOperationHandler(ExecuteOperation), new SupportsOperationHandler(IsOperationSupported));
         }
     }
 }

@@ -34,16 +34,16 @@ namespace Microsoft.Iris.Markup.UIX
             return null;
         }
 
-        public static void Pass1Initialize() => ContrastInstanceSchema.Type = new UIXTypeSchema(43, "ContrastInstance", null, 74, typeof(EffectElementWrapper), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(43, "ContrastInstance", null, 74, typeof(EffectElementWrapper), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(43, "Contrast", 194, -1, ExpressionRestriction.None, false, SingleSchema.ValidateNotNegative, false, null, new SetValueHandler(ContrastInstanceSchema.SetContrast), false);
+            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(43, "Contrast", 194, -1, ExpressionRestriction.None, false, SingleSchema.ValidateNotNegative, false, null, new SetValueHandler(SetContrast), false);
             UIXMethodSchema uixMethodSchema = new UIXMethodSchema(43, "PlayContrastAnimation", new short[1]
             {
          75
-            }, 240, new InvokeHandler(ContrastInstanceSchema.CallPlayContrastAnimationEffectFloatAnimation), false);
-            ContrastInstanceSchema.Type.Initialize(null, null, new PropertySchema[1]
+            }, 240, new InvokeHandler(CallPlayContrastAnimationEffectFloatAnimation), false);
+            Type.Initialize(null, null, new PropertySchema[1]
             {
          uixPropertySchema
             }, new MethodSchema[1]

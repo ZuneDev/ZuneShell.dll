@@ -25,7 +25,7 @@ namespace Microsoft.Iris
 {
     public static class Application
     {
-        private static Application.InitializationState s_initializationState = Application.InitializationState.NotInitialized;
+        private static Application.InitializationState s_initializationState = InitializationState.NotInitialized;
         private static UISession s_session;
         private static Window s_mainWindow;
         private static bool s_isShuttingDown;
@@ -47,11 +47,11 @@ namespace Microsoft.Iris
         {
             get
             {
-                if (Application.s_initializationState != Application.InitializationState.FullyInitialized)
+                if (s_initializationState != InitializationState.FullyInitialized)
                     throw new InvalidOperationException("Application.Initialize must be called prior Window query");
-                if (Application.s_mainWindow == null)
-                    Application.s_mainWindow = new Window((UIForm)Application.s_session.Form);
-                return Application.s_mainWindow;
+                if (s_mainWindow == null)
+                    s_mainWindow = new Window((UIForm)s_session.Form);
+                return s_mainWindow;
             }
         }
 
@@ -59,74 +59,74 @@ namespace Microsoft.Iris
         {
             set
             {
-                if (Application.IsInitialized)
+                if (IsInitialized)
                     throw new InvalidOperationException("Property cannot be modified after application has been initialized");
-                Application.s_renderType = value;
+                s_renderType = value;
             }
-            get => Application.s_renderType;
+            get => s_renderType;
         }
 
         public static SoundType SoundType
         {
             set
             {
-                if (Application.IsInitialized)
+                if (IsInitialized)
                     throw new InvalidOperationException("Property cannot be modified after application has been initialized");
-                Application.s_soundType = value;
+                s_soundType = value;
             }
-            get => Application.s_soundType;
+            get => s_soundType;
         }
 
         public static RenderingQuality RenderingQuality
         {
             set
             {
-                if (Application.IsInitialized)
+                if (IsInitialized)
                     throw new InvalidOperationException("Property cannot be modified after application has been initialized");
-                Application.s_renderingQuality = value;
+                s_renderingQuality = value;
             }
-            get => Application.s_renderingQuality;
+            get => s_renderingQuality;
         }
 
         public static bool AnimationsEnabled
         {
             set
             {
-                if (Application.IsInitialized)
+                if (IsInitialized)
                     throw new InvalidOperationException("Property cannot be modified after application has been initialized");
-                Application.s_EnableAnimations = value;
+                s_EnableAnimations = value;
             }
-            get => Application.s_EnableAnimations;
+            get => s_EnableAnimations;
         }
 
         public static bool IsRTL
         {
             set
             {
-                if (Application.IsInitialized)
+                if (IsInitialized)
                     throw new InvalidOperationException("Property cannot be modified after application has been initialized");
-                Application.s_IsRTL = value;
+                s_IsRTL = value;
             }
-            get => Application.s_IsRTL;
+            get => s_IsRTL;
         }
 
         public static bool IsDx9AccelerationAvailable
         {
             get
             {
-                if (Application.s_initializationState != Application.InitializationState.FullyInitialized)
+                if (s_initializationState != InitializationState.FullyInitialized)
                     throw new InvalidOperationException("Application.Initialize must be called prior to DX9 check");
-                return Application.s_session.IsGraphicsDeviceAvailable(GraphicsDeviceType.Direct3D9);
+                return s_session.IsGraphicsDeviceAvailable(GraphicsDeviceType.Direct3D9);
             }
         }
 
-        private static bool IsInitialized => Application.s_initializationState != Application.InitializationState.NotInitialized;
+        private static bool IsInitialized => s_initializationState != InitializationState.NotInitialized;
 
         public static bool StaticDllResourcesOnly
         {
             set
             {
-                if (Application.IsInitialized)
+                if (IsInitialized)
                     throw new InvalidOperationException("Property cannot be modified after application has been initialized");
                 DllResources.StaticDllResourcesOnly = value;
             }
@@ -135,63 +135,63 @@ namespace Microsoft.Iris
 
         public static void Initialize()
         {
-            if (Application.IsInitialized)
+            if (IsInitialized)
                 throw new InvalidOperationException("Application already initialized");
-            Application.VerifyTrustedEnvironment();
-            Application.s_session = new UISession();
-            Application.s_session.IsRtl = Application.s_IsRTL;
-            Application.s_session.InputManager.KeyCoalescePolicy = new KeyCoalesceFilter(Application.QueryKeyCoalesce);
-            GraphicsDeviceType graphicsType = Application.ChooseRenderingGraphicsDevice(Application.s_renderType);
+            VerifyTrustedEnvironment();
+            s_session = new UISession();
+            s_session.IsRtl = s_IsRTL;
+            s_session.InputManager.KeyCoalescePolicy = new KeyCoalesceFilter(QueryKeyCoalesce);
+            GraphicsDeviceType graphicsType = ChooseRenderingGraphicsDevice(s_renderType);
             switch (graphicsType)
             {
                 case GraphicsDeviceType.Gdi:
-                    Application.s_renderType = RenderingType.GDI;
+                    s_renderType = RenderingType.GDI;
                     break;
                 case GraphicsDeviceType.Direct3D9:
-                    Application.s_renderType = RenderingType.DX9;
+                    s_renderType = RenderingType.DX9;
                     break;
                 default:
                     throw new ArgumentException(InvariantString.Format("Unknown graphics type {0}", graphicsType));
             }
             if (graphicsType == GraphicsDeviceType.Gdi)
-                Application.s_EnableAnimations = false;
-            SoundDeviceType soundType = Application.ChooseRendererSoundDevice(Application.s_soundType);
+                s_EnableAnimations = false;
+            SoundDeviceType soundType = ChooseRendererSoundDevice(s_soundType);
             switch (soundType)
             {
                 case SoundDeviceType.None:
-                    Application.s_soundType = SoundType.None;
+                    s_soundType = SoundType.None;
                     break;
                 case SoundDeviceType.DirectSound8:
-                    Application.s_soundType = SoundType.DirectSound;
+                    s_soundType = SoundType.DirectSound;
                     break;
                 default:
                     throw new ArgumentException(InvariantString.Format("Unknown sound type {0}", soundType));
             }
-            Application.s_session.InitializeRenderingDevices(graphicsType, (GraphicsRenderingQuality)Application.s_renderingQuality, soundType);
-            Application.s_renderingQuality = (RenderingQuality)Application.s_session.RenderSession.GraphicsDevice.RenderingQuality;
-            Application.InitializeCommon(true);
-            if (!Application.s_EnableAnimations)
+            s_session.InitializeRenderingDevices(graphicsType, (GraphicsRenderingQuality)s_renderingQuality, soundType);
+            s_renderingQuality = (RenderingQuality)s_session.RenderSession.GraphicsDevice.RenderingQuality;
+            InitializeCommon(true);
+            if (!s_EnableAnimations)
                 AnimationSystem.OverrideAnimationState(true);
-            UIForm uiForm = new UIForm(Application.s_session);
-            Application.s_initializationState = Application.InitializationState.FullyInitialized;
+            UIForm uiForm = new UIForm(s_session);
+            s_initializationState = InitializationState.FullyInitialized;
         }
 
         private static void InitializeCommon(bool fullInitialization)
         {
-            ErrorManager.OnErrors += new NotifyErrorBatch(Application.NotifyErrorBatchHandler);
-            Microsoft.Iris.Debug.Trace.Initialize();
+            ErrorManager.OnErrors += new NotifyErrorBatch(NotifyErrorBatchHandler);
+            Debug.Trace.Initialize();
             MarkupSystem.Startup(!fullInitialization);
             StaticServices.Initialize();
         }
 
         public static void InitializeForToolOnly()
         {
-            if (Application.IsInitialized)
+            if (IsInitialized)
                 throw new InvalidOperationException("Application has already been initialized");
             RenderApi.InitializeForToolOnly();
             UIDispatcher uiDispatcher = new UIDispatcher(true);
-            Application.InitializeCommon(false);
-            Application.s_initializationState = Application.InitializationState.InitializedWithoutUI;
+            InitializeCommon(false);
+            s_initializationState = InitializationState.InitializedWithoutUI;
         }
 
         public static bool IsApplicationThread => UIDispatcher.IsUIThread;
@@ -262,42 +262,42 @@ namespace Microsoft.Iris
         public static void Run(DeferredInvokeHandler initialLoadComplete)
         {
             UIDispatcher.VerifyOnApplicationThread();
-            if (Application.s_initializationState != Application.InitializationState.FullyInitialized)
+            if (s_initializationState != InitializationState.FullyInitialized)
                 throw new InvalidOperationException("Application not initialized for displaying UI");
             if (initialLoadComplete != null)
-                ((UIForm)Application.s_session.Form).SetInitialLoadCompleteCallback(DeferredInvokeProxy.Thunk(initialLoadComplete));
+                ((UIForm)s_session.Form).SetInitialLoadCompleteCallback(DeferredInvokeProxy.Thunk(initialLoadComplete));
             UIApplication.Run();
         }
 
-        public static void Run() => Application.Run(null);
+        public static void Run() => Run(null);
 
         public static event EventHandler ShuttingDown;
 
-        public static bool IsShuttingDown => Application.s_isShuttingDown;
+        public static bool IsShuttingDown => s_isShuttingDown;
 
         public static void Shutdown()
         {
             UIDispatcher.VerifyOnApplicationThread();
-            Application.s_isShuttingDown = true;
-            if (Application.ShuttingDown != null)
-                Application.ShuttingDown(null, EventArgs.Empty);
+            s_isShuttingDown = true;
+            if (ShuttingDown != null)
+                ShuttingDown(null, EventArgs.Empty);
             MarkupSystem.Shutdown();
-            if (Application.s_initializationState == Application.InitializationState.FullyInitialized)
+            if (s_initializationState == InitializationState.FullyInitialized)
             {
-                Application.s_session.Dispose();
-                Application.s_session = null;
+                s_session.Dispose();
+                s_session = null;
             }
-            if (Application.s_initializationState == Application.InitializationState.InitializedWithoutUI)
+            if (s_initializationState == InitializationState.InitializedWithoutUI)
                 RenderApi.ShutdownForToolOnly();
             StaticServices.Uninitialize();
-            Microsoft.Iris.Debug.Trace.Shutdown();
-            ErrorManager.OnErrors -= new NotifyErrorBatch(Application.NotifyErrorBatchHandler);
-            Application.s_initializationState = Application.InitializationState.NotInitialized;
+            Debug.Trace.Shutdown();
+            ErrorManager.OnErrors -= new NotifyErrorBatch(NotifyErrorBatchHandler);
+            s_initializationState = InitializationState.NotInitialized;
         }
 
-        public static void DeferredInvoke(DeferredInvokeHandler method, DeferredInvokePriority priority) => Application.DeferredInvoke(method, null, priority);
+        public static void DeferredInvoke(DeferredInvokeHandler method, DeferredInvokePriority priority) => DeferredInvoke(method, null, priority);
 
-        public static void DeferredInvoke(DeferredInvokeHandler method, object args) => Application.DeferredInvoke(method, args, DeferredInvokePriority.Normal);
+        public static void DeferredInvoke(DeferredInvokeHandler method, object args) => DeferredInvoke(method, args, DeferredInvokePriority.Normal);
 
         public static void DeferredInvoke(
           DeferredInvokeHandler method,
@@ -321,7 +321,7 @@ namespace Microsoft.Iris
             DeferredCall.Post(priority1, DeferredInvokeProxy.Thunk(method), args);
         }
 
-        public static void DeferredInvoke(DeferredInvokeHandler method, TimeSpan delay) => Application.DeferredInvoke(method, null, delay);
+        public static void DeferredInvoke(DeferredInvokeHandler method, TimeSpan delay) => DeferredInvoke(method, null, delay);
 
         public static void DeferredInvoke(DeferredInvokeHandler method, object args, TimeSpan delay)
         {
@@ -330,7 +330,7 @@ namespace Microsoft.Iris
             DeferredCall.Post(delay, DeferredInvokeProxy.Thunk(method), args);
         }
 
-        public static void DeferredInvoke(Thread thread, DeferredInvokeHandler method) => Application.DeferredInvoke(thread, method, null);
+        public static void DeferredInvoke(Thread thread, DeferredInvokeHandler method) => DeferredInvoke(thread, method, null);
 
         public static void DeferredInvoke(Thread thread, DeferredInvokeHandler method, object args)
         {
@@ -379,11 +379,11 @@ namespace Microsoft.Iris
         public static int CreateExternalAnimationInput(IDictionary<string, int> propertyNameToId)
         {
             UIDispatcher.VerifyOnApplicationThread();
-            if (Application.s_idToExternalAnimationInput == null)
-                Application.s_idToExternalAnimationInput = new Dictionary<int, IExternalAnimationInput>();
+            if (s_idToExternalAnimationInput == null)
+                s_idToExternalAnimationInput = new Dictionary<int, IExternalAnimationInput>();
             SimpleAnimationPropertyMap animationPropertyMap = new SimpleAnimationPropertyMap(propertyNameToId);
-            IExternalAnimationInput externalAnimationInput = Application.s_session.RenderSession.AnimationSystem.CreateExternalAnimationInput(s_idToExternalAnimationInput, animationPropertyMap);
-            Application.s_idToExternalAnimationInput.Add((int)externalAnimationInput.UniqueId, externalAnimationInput);
+            IExternalAnimationInput externalAnimationInput = s_session.RenderSession.AnimationSystem.CreateExternalAnimationInput(s_idToExternalAnimationInput, animationPropertyMap);
+            s_idToExternalAnimationInput.Add((int)externalAnimationInput.UniqueId, externalAnimationInput);
             return (int)externalAnimationInput.UniqueId;
         }
 
@@ -391,14 +391,14 @@ namespace Microsoft.Iris
         {
             UIDispatcher.VerifyOnApplicationThread();
             IExternalAnimationInput externalAnimationInput;
-            if (Application.s_idToExternalAnimationInput == null || !Application.s_idToExternalAnimationInput.TryGetValue(animationId, out externalAnimationInput))
+            if (s_idToExternalAnimationInput == null || !s_idToExternalAnimationInput.TryGetValue(animationId, out externalAnimationInput))
                 return;
-            Application.s_idToExternalAnimationInput.Remove(animationId);
+            s_idToExternalAnimationInput.Remove(animationId);
             externalAnimationInput.UnregisterUsage(s_idToExternalAnimationInput);
             IAnimationInputProvider animationInputProvider;
-            if (Application.s_animationProviders == null || !Application.s_animationProviders.TryGetValue(animationId, out animationInputProvider))
+            if (s_animationProviders == null || !s_animationProviders.TryGetValue(animationId, out animationInputProvider))
                 return;
-            Application.s_animationProviders.Remove(animationId);
+            s_animationProviders.Remove(animationId);
             animationInputProvider.UnregisterUsage(s_idToExternalAnimationInput);
         }
 
@@ -407,8 +407,8 @@ namespace Microsoft.Iris
         {
             UIDispatcher.VerifyOnApplicationThread();
             IExternalAnimationInput externalAnimationInput = null;
-            if (Application.s_idToExternalAnimationInput != null)
-                Application.s_idToExternalAnimationInput.TryGetValue(animationId, out externalAnimationInput);
+            if (s_idToExternalAnimationInput != null)
+                s_idToExternalAnimationInput.TryGetValue(animationId, out externalAnimationInput);
             return externalAnimationInput;
         }
 
@@ -419,12 +419,12 @@ namespace Microsoft.Iris
         {
             UIDispatcher.VerifyOnApplicationThread();
             IAnimationInputProvider provider;
-            if (Application.s_animationProviders == null || !Application.s_animationProviders.TryGetValue(animationId, out provider))
+            if (s_animationProviders == null || !s_animationProviders.TryGetValue(animationId, out provider))
             {
-                provider = Application.MapExternalAnimationInput(animationId).CreateProvider(s_idToExternalAnimationInput);
-                if (Application.s_animationProviders == null)
-                    Application.s_animationProviders = new Dictionary<int, IAnimationInputProvider>();
-                Application.s_animationProviders.Add(animationId, provider);
+                provider = MapExternalAnimationInput(animationId).CreateProvider(s_idToExternalAnimationInput);
+                if (s_animationProviders == null)
+                    s_animationProviders = new Dictionary<int, IAnimationInputProvider>();
+                s_animationProviders.Add(animationId, provider);
             }
             provider.PublishFloat(property, value);
         }
@@ -433,7 +433,7 @@ namespace Microsoft.Iris
 
         private static void NotifyErrorBatchHandler(IList records)
         {
-            if (Application.ErrorReport == null)
+            if (ErrorReport == null)
                 return;
             Error[] errors = new Error[records.Count];
             for (int index = 0; index < records.Count; ++index)
@@ -448,7 +448,7 @@ namespace Microsoft.Iris
                     Column = record.Column
                 };
             }
-            Application.ErrorReport(errors);
+            ErrorReport(errors);
         }
 
         private static GraphicsDeviceType ChooseRenderingGraphicsDevice(
@@ -467,7 +467,7 @@ namespace Microsoft.Iris
                 default:
                     throw new ArgumentException(InvariantString.Format("Unknown rendering type {0}", type));
             }
-            if (type == RenderingType.Default && !Application.s_session.IsGraphicsDeviceRecommended(graphicsType) || !Application.s_session.IsGraphicsDeviceAvailable(graphicsType))
+            if (type == RenderingType.Default && !s_session.IsGraphicsDeviceRecommended(graphicsType) || !s_session.IsGraphicsDeviceAvailable(graphicsType))
                 graphicsType = GraphicsDeviceType.Gdi;
             return graphicsType;
         }
@@ -478,7 +478,7 @@ namespace Microsoft.Iris
                 return SoundDeviceType.None;
             if (typeRequested != SoundType.DirectSound)
                 throw new ArgumentException(InvariantString.Format("Unknown sound type {0}", typeRequested));
-            return Application.s_session.IsSoundDeviceAvailable(SoundDeviceType.DirectSound8) ? SoundDeviceType.DirectSound8 : SoundDeviceType.None;
+            return s_session.IsSoundDeviceAvailable(SoundDeviceType.DirectSound8) ? SoundDeviceType.DirectSound8 : SoundDeviceType.None;
         }
 
         private static bool QueryKeyCoalesce(Keys key) => true;

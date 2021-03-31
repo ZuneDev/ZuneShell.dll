@@ -47,14 +47,14 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object Construct() => new ScaleLayout();
 
-        public static void Pass1Initialize() => ScaleLayoutSchema.Type = new UIXTypeSchema(179, "ScaleLayout", null, 132, typeof(ScaleLayout), UIXTypeFlags.Immutable);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(179, "ScaleLayout", null, 132, typeof(ScaleLayout), UIXTypeFlags.Immutable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(179, "MinimumScale", 233, -1, ExpressionRestriction.None, false, Vector2Schema.ValidateNotNegative, false, new GetValueHandler(ScaleLayoutSchema.GetMinimumScale), new SetValueHandler(ScaleLayoutSchema.SetMinimumScale), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(179, "MaximumScale", 233, -1, ExpressionRestriction.None, false, Vector2Schema.ValidateNotNegative, false, new GetValueHandler(ScaleLayoutSchema.GetMaximumScale), new SetValueHandler(ScaleLayoutSchema.SetMaximumScale), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(179, "MaintainAspectRatio", 15, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(ScaleLayoutSchema.GetMaintainAspectRatio), new SetValueHandler(ScaleLayoutSchema.SetMaintainAspectRatio), false);
-            ScaleLayoutSchema.Type.Initialize(new DefaultConstructHandler(ScaleLayoutSchema.Construct), null, new PropertySchema[3]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(179, "MinimumScale", 233, -1, ExpressionRestriction.None, false, Vector2Schema.ValidateNotNegative, false, new GetValueHandler(GetMinimumScale), new SetValueHandler(SetMinimumScale), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(179, "MaximumScale", 233, -1, ExpressionRestriction.None, false, Vector2Schema.ValidateNotNegative, false, new GetValueHandler(GetMaximumScale), new SetValueHandler(SetMaximumScale), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(179, "MaintainAspectRatio", 15, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetMaintainAspectRatio), new SetValueHandler(SetMaintainAspectRatio), false);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[3]
             {
          uixPropertySchema3,
          uixPropertySchema2,

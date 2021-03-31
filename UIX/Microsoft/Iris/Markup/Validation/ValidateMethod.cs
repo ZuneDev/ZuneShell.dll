@@ -141,7 +141,7 @@ namespace Microsoft.Iris.Markup.Validation
             {
                 foreach (MarkupMethodSchema method in markupTypeSchema.Methods)
                 {
-                    if (ValidateMethod.IsExactMatch(method, methodCheck))
+                    if (IsExactMatch(method, methodCheck))
                         return method;
                 }
                 markupTypeSchema = markupTypeSchema.Base as MarkupTypeSchema;

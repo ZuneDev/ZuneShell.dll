@@ -20,31 +20,31 @@ namespace Microsoft.Iris.CodeModel.Cpp
         {
             switch (inboundObject._type)
             {
-                case UIXVariant.VariantType.Empty:
+                case VariantType.Empty:
                     return null;
-                case UIXVariant.VariantType.Bool:
+                case VariantType.Bool:
                     return inboundObject._integer != 0L;
-                case UIXVariant.VariantType.Byte:
+                case VariantType.Byte:
                     return (byte)inboundObject._integer;
-                case UIXVariant.VariantType.Int32:
+                case VariantType.Int32:
                     return (int)inboundObject._integer;
-                case UIXVariant.VariantType.Int64:
+                case VariantType.Int64:
                     return inboundObject._integer;
-                case UIXVariant.VariantType.Single:
+                case VariantType.Single:
                     return inboundObject._float;
-                case UIXVariant.VariantType.Double:
+                case VariantType.Double:
                     return inboundObject._double;
-                case UIXVariant.VariantType.Enum:
-                    return UIXVariant.GetEnumValue(inboundObject._enum._value, inboundObject._enum._type);
-                case UIXVariant.VariantType.UIXObject:
-                    return UIXVariant.GetObjectValue(inboundObject._pointer, context);
-                case UIXVariant.VariantType.UIXString:
+                case VariantType.Enum:
+                    return GetEnumValue(inboundObject._enum._value, inboundObject._enum._type);
+                case VariantType.UIXObject:
+                    return GetObjectValue(inboundObject._pointer, context);
+                case VariantType.UIXString:
                     return DllProxyServices.GetString(inboundObject._pointer);
-                case UIXVariant.VariantType.UIXImage:
+                case VariantType.UIXImage:
                     return DllProxyServices.GetImage(inboundObject._pointer);
-                case UIXVariant.VariantType.UIXDataQuery:
+                case VariantType.UIXDataQuery:
                     return DllProxyServices.GetDataQuery(inboundObject._pointer);
-                case UIXVariant.VariantType.UIXDataType:
+                case VariantType.UIXDataType:
                     return DllProxyServices.GetDataType(inboundObject._pointer);
                 default:
                     return null;
@@ -66,7 +66,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
         public static unsafe void MarshalObjectArray(object[] objects, UIXVariant* destination)
         {
             for (int index = 0; index < objects.Length; ++index)
-                UIXVariant.MarshalObject(objects[index], destination + index);
+                MarshalObject(objects[index], destination + index);
         }
 
         public static unsafe void MarshalObject(object o, UIXVariant* destination)
@@ -77,30 +77,30 @@ namespace Microsoft.Iris.CodeModel.Cpp
                     destination->SetToNull();
                     break;
                 case bool flag:
-                    destination->SetIntegerValue(flag ? 1L : 0L, UIXVariant.VariantType.Bool);
+                    destination->SetIntegerValue(flag ? 1L : 0L, VariantType.Bool);
                     break;
                 case byte num:
-                    destination->SetIntegerValue(num, UIXVariant.VariantType.Byte);
+                    destination->SetIntegerValue(num, VariantType.Byte);
                     break;
                 case int num:
-                    destination->SetIntegerValue(num, UIXVariant.VariantType.Int32);
+                    destination->SetIntegerValue(num, VariantType.Int32);
                     break;
                 case long num:
-                    destination->SetIntegerValue(num, UIXVariant.VariantType.Int64);
+                    destination->SetIntegerValue(num, VariantType.Int64);
                     break;
                 case float num:
-                    destination->SetFloatValue(num, UIXVariant.VariantType.Single);
+                    destination->SetFloatValue(num, VariantType.Single);
                     break;
                 case double num:
-                    destination->SetDoubleValue(num, UIXVariant.VariantType.Double);
+                    destination->SetDoubleValue(num, VariantType.Double);
                     break;
                 case string _:
                     IntPtr nativeObject1;
                     DllProxyServices.CreateNativeString((string)o, out nativeObject1);
-                    destination->SetPointerValue(nativeObject1, UIXVariant.VariantType.UIXString);
+                    destination->SetPointerValue(nativeObject1, VariantType.UIXString);
                     break;
                 case DllProxyObject _:
-                    destination->SetPointerValue(((DllProxyObject)o).NativeObject, UIXVariant.VariantType.UIXObject);
+                    destination->SetPointerValue(((DllProxyObject)o).NativeObject, VariantType.UIXObject);
                     NativeApi.SpAddRefExternalObject(destination->_pointer);
                     break;
                 case DllEnumProxy _:
@@ -113,15 +113,15 @@ namespace Microsoft.Iris.CodeModel.Cpp
                 case UIImage _:
                     IntPtr nativeObject2;
                     DllProxyServices.CreateNativeImage((UIImage)o, out nativeObject2);
-                    destination->SetPointerValue(nativeObject2, UIXVariant.VariantType.UIXImage);
+                    destination->SetPointerValue(nativeObject2, VariantType.UIXImage);
                     break;
                 case MarkupDataQuery _:
                     MarkupDataQuery markupDataQuery = (MarkupDataQuery)o;
-                    destination->SetPointerValue(markupDataQuery.ExternalNativeObject, UIXVariant.VariantType.UIXDataQuery);
+                    destination->SetPointerValue(markupDataQuery.ExternalNativeObject, VariantType.UIXDataQuery);
                     break;
                 case MarkupDataType _:
                     MarkupDataType markupDataType = (MarkupDataType)o;
-                    destination->SetPointerValue(markupDataType.ExternalNativeObject, UIXVariant.VariantType.UIXDataType);
+                    destination->SetPointerValue(markupDataType.ExternalNativeObject, VariantType.UIXDataType);
                     break;
             }
         }
@@ -129,12 +129,12 @@ namespace Microsoft.Iris.CodeModel.Cpp
         public static unsafe void CleanupMarshalledObjects(UIXVariant* source, int count)
         {
             for (int index = 0; index < count; ++index)
-                UIXVariant.CleanupMarshalledObject(source + index);
+                CleanupMarshalledObject(source + index);
         }
 
         public static unsafe void CleanupMarshalledObject(UIXVariant* source)
         {
-            if (source->_type != UIXVariant.VariantType.UIXObject || !(source->_pointer != IntPtr.Zero))
+            if (source->_type != VariantType.UIXObject || !(source->_pointer != IntPtr.Zero))
                 return;
             NativeApi.SpReleaseExternalObject(source->_pointer);
         }
@@ -142,7 +142,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
         private void SetToNull()
         {
             this._pointer = IntPtr.Zero;
-            this._type = UIXVariant.VariantType.UIXObject;
+            this._type = VariantType.UIXObject;
         }
 
         private void SetPointerValue(IntPtr value, UIXVariant.VariantType type)
@@ -172,7 +172,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
         private void SetEnumValue(UIXVariant.EnumValue value)
         {
             this._enum = value;
-            this._type = UIXVariant.VariantType.Enum;
+            this._type = VariantType.Enum;
         }
 
         private unsafe IntPtr _pointer

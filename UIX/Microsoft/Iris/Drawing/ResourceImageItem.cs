@@ -105,7 +105,7 @@ namespace Microsoft.Iris.Drawing
         {
             if (resource != this._resource)
                 return;
-            if (!ResourceImageItem.IsSuccessfulResourceLoad(this._resource) || Application.IsShuttingDown)
+            if (!IsSuccessfulResourceLoad(this._resource) || Application.IsShuttingDown)
             {
                 this.OnImageLoadComplete();
                 this.FreeResource();

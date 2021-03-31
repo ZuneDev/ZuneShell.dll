@@ -47,15 +47,15 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object Construct() => new SepiaElement();
 
-        public static void Pass1Initialize() => SepiaSchema.Type = new UIXTypeSchema(188, "Sepia", null, 80, typeof(SepiaElement), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(188, "Sepia", null, 80, typeof(SepiaElement), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(188, "LightColor", 35, -1, ExpressionRestriction.None, false, null, false, null, new SetValueHandler(SepiaSchema.SetLightColor), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(188, "DarkColor", 35, -1, ExpressionRestriction.None, false, null, false, null, new SetValueHandler(SepiaSchema.SetDarkColor), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(188, "Desaturate", 194, -1, ExpressionRestriction.None, false, SingleSchema.ValidateNotNegative, false, new GetValueHandler(SepiaSchema.GetDesaturate), new SetValueHandler(SepiaSchema.SetDesaturate), false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(188, "Tone", 194, -1, ExpressionRestriction.None, false, SingleSchema.ValidateNotNegative, false, new GetValueHandler(SepiaSchema.GetTone), new SetValueHandler(SepiaSchema.SetTone), false);
-            SepiaSchema.Type.Initialize(new DefaultConstructHandler(SepiaSchema.Construct), null, new PropertySchema[4]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(188, "LightColor", 35, -1, ExpressionRestriction.None, false, null, false, null, new SetValueHandler(SetLightColor), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(188, "DarkColor", 35, -1, ExpressionRestriction.None, false, null, false, null, new SetValueHandler(SetDarkColor), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(188, "Desaturate", 194, -1, ExpressionRestriction.None, false, SingleSchema.ValidateNotNegative, false, new GetValueHandler(GetDesaturate), new SetValueHandler(SetDesaturate), false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(188, "Tone", 194, -1, ExpressionRestriction.None, false, SingleSchema.ValidateNotNegative, false, new GetValueHandler(GetTone), new SetValueHandler(SetTone), false);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[4]
             {
          uixPropertySchema2,
          uixPropertySchema3,

@@ -14,7 +14,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
         private uint _tableIndex;
         private static uint s_tableCount;
 
-        protected ProxyHandleTable() => this._tableIndex = ProxyHandleTable.s_tableCount++;
+        protected ProxyHandleTable() => this._tableIndex = s_tableCount++;
 
         protected uint TableIndex => this._tableIndex;
 

@@ -54,11 +54,11 @@ namespace Microsoft.Iris.CodeModel.Cpp
 
         public override TypeSchema AlternateType => (TypeSchema)null;
 
-        public override bool CanRead => this.GetBit(DllPropertySchema.Bits.CanRead);
+        public override bool CanRead => this.GetBit(Bits.CanRead);
 
-        public override bool CanWrite => this.GetBit(DllPropertySchema.Bits.CanWrite);
+        public override bool CanWrite => this.GetBit(Bits.CanWrite);
 
-        public override bool IsStatic => this.GetBit(DllPropertySchema.Bits.IsStatic);
+        public override bool IsStatic => this.GetBit(Bits.IsStatic);
 
         public override ExpressionRestriction ExpressionRestriction => ExpressionRestriction.None;
 
@@ -66,7 +66,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
 
         public override RangeValidator RangeValidator => (RangeValidator)null;
 
-        public override bool NotifiesOnChange => this.GetBit(DllPropertySchema.Bits.NotifiesOnChange);
+        public override bool NotifiesOnChange => this.GetBit(Bits.NotifiesOnChange);
 
         private DllTypeSchema OwnerTypeSchema => (DllTypeSchema)this.Owner;
 
@@ -106,7 +106,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
             bool canRead;
             if (this.CheckNativeReturn(NativeApi.SpQueryPropertyCanRead(property, out canRead)))
             {
-                this.SetBit(DllPropertySchema.Bits.CanRead, canRead);
+                this.SetBit(Bits.CanRead, canRead);
                 flag = true;
             }
             return flag;
@@ -118,7 +118,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
             bool canWrite;
             if (this.CheckNativeReturn(NativeApi.SpQueryPropertyCanWrite(property, out canWrite)))
             {
-                this.SetBit(DllPropertySchema.Bits.CanWrite, canWrite);
+                this.SetBit(Bits.CanWrite, canWrite);
                 flag = true;
             }
             return flag;
@@ -130,7 +130,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
             bool isStatic;
             if (this.CheckNativeReturn(NativeApi.SpQueryPropertyIsStatic(property, out isStatic)))
             {
-                this.SetBit(DllPropertySchema.Bits.IsStatic, isStatic);
+                this.SetBit(Bits.IsStatic, isStatic);
                 flag = true;
             }
             return flag;
@@ -144,7 +144,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
             bool notifiesOnChange;
             if (this.CheckNativeReturn(NativeApi.SpQueryPropertyNotifiesOnChange(property, out notifiesOnChange)))
             {
-                this.SetBit(DllPropertySchema.Bits.NotifiesOnChange, notifiesOnChange);
+                this.SetBit(Bits.NotifiesOnChange, notifiesOnChange);
                 flag = true;
             }
             return flag;

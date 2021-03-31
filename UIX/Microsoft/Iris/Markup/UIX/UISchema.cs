@@ -33,18 +33,18 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object GetScripts(object instanceObj) => (object)null;
 
-        public static void Pass1Initialize() => UISchema.Type = new UIXTypeSchema(229, "UI", null, -1, typeof(UIClass), UIXTypeFlags.Disposable);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(229, "UI", null, -1, typeof(UIClass), UIXTypeFlags.Disposable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(229, "Properties", 58, -1, ExpressionRestriction.NoAccess, false, null, true, new GetValueHandler(UISchema.GetProperties), null, false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(229, "Locals", 58, -1, ExpressionRestriction.NoAccess, false, null, true, new GetValueHandler(UISchema.GetLocals), null, false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(229, "Input", 138, 110, ExpressionRestriction.NoAccess, false, null, true, new GetValueHandler(UISchema.GetInput), null, false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(229, "Content", 239, -1, ExpressionRestriction.NoAccess, false, null, true, new GetValueHandler(UISchema.GetContent), new SetValueHandler(UISchema.SetContent), false);
-            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(229, "Flippable", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(UISchema.GetFlippable), new SetValueHandler(UISchema.SetFlippable), false);
-            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(229, "Base", 208, -1, ExpressionRestriction.NoAccess, false, null, true, null, new SetValueHandler(UISchema.SetBase), false);
-            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema(229, "Scripts", 138, 240, ExpressionRestriction.NoAccess, false, null, true, new GetValueHandler(UISchema.GetScripts), null, false);
-            UISchema.Type.Initialize(null, null, new PropertySchema[7]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(229, "Properties", 58, -1, ExpressionRestriction.NoAccess, false, null, true, new GetValueHandler(GetProperties), null, false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(229, "Locals", 58, -1, ExpressionRestriction.NoAccess, false, null, true, new GetValueHandler(GetLocals), null, false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(229, "Input", 138, 110, ExpressionRestriction.NoAccess, false, null, true, new GetValueHandler(GetInput), null, false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(229, "Content", 239, -1, ExpressionRestriction.NoAccess, false, null, true, new GetValueHandler(GetContent), new SetValueHandler(SetContent), false);
+            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(229, "Flippable", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetFlippable), new SetValueHandler(SetFlippable), false);
+            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(229, "Base", 208, -1, ExpressionRestriction.NoAccess, false, null, true, null, new SetValueHandler(SetBase), false);
+            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema(229, "Scripts", 138, 240, ExpressionRestriction.NoAccess, false, null, true, new GetValueHandler(GetScripts), null, false);
+            Type.Initialize(null, null, new PropertySchema[7]
             {
          uixPropertySchema6,
          uixPropertySchema4,

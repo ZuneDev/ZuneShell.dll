@@ -136,7 +136,7 @@ namespace Microsoft.Iris.RenderAPI.Drawing
 
         public void Intersect(RectangleF rect)
         {
-            RectangleF rectangleF = RectangleF.Intersect(rect, this);
+            RectangleF rectangleF = Intersect(rect, this);
             this.X = rectangleF.X;
             this.Y = rectangleF.Y;
             this.Width = rectangleF.Width;
@@ -149,7 +149,7 @@ namespace Microsoft.Iris.RenderAPI.Drawing
             float num1 = Math.Min(a.X + a.Width, b.X + b.Width);
             float y = Math.Max(a.Y, b.Y);
             float num2 = Math.Min(a.Y + a.Height, b.Y + b.Height);
-            return num1 >= (double)x && num2 >= (double)y ? new RectangleF(x, y, num1 - x, num2 - y) : RectangleF.Zero;
+            return num1 >= (double)x && num2 >= (double)y ? new RectangleF(x, y, num1 - x, num2 - y) : Zero;
         }
 
         public bool IntersectsWith(RectangleF rect) => Left < (double)rect.Right && Top < (double)rect.Bottom && Right > (double)rect.Left && Bottom > (double)rect.Top;

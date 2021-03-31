@@ -44,23 +44,23 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object Construct() => new DragSourceHandler();
 
-        public static void Pass1Initialize() => DragSourceHandlerSchema.Type = new UIXTypeSchema(63, "DragSourceHandler", null, 110, typeof(DragSourceHandler), UIXTypeFlags.Disposable);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(63, "DragSourceHandler", null, 110, typeof(DragSourceHandler), UIXTypeFlags.Disposable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(63, "AllowedDropActions", 64, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(DragSourceHandlerSchema.GetAllowedDropActions), new SetValueHandler(DragSourceHandlerSchema.SetAllowedDropActions), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(63, "CurrentDropAction", 64, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(DragSourceHandlerSchema.GetCurrentDropAction), null, false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(63, "Value", 153, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(DragSourceHandlerSchema.GetValue), new SetValueHandler(DragSourceHandlerSchema.SetValue), false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(63, "Dragging", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(DragSourceHandlerSchema.GetDragging), null, false);
-            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(63, "HandlerStage", 112, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(DragSourceHandlerSchema.GetHandlerStage), new SetValueHandler(DragSourceHandlerSchema.SetHandlerStage), false);
-            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(63, "MoveCursor", 44, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(DragSourceHandlerSchema.GetMoveCursor), new SetValueHandler(DragSourceHandlerSchema.SetMoveCursor), false);
-            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema(63, "CopyCursor", 44, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(DragSourceHandlerSchema.GetCopyCursor), new SetValueHandler(DragSourceHandlerSchema.SetCopyCursor), false);
-            UIXPropertySchema uixPropertySchema8 = new UIXPropertySchema(63, "CancelCursor", 44, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(DragSourceHandlerSchema.GetCancelCursor), new SetValueHandler(DragSourceHandlerSchema.SetCancelCursor), false);
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(63, "AllowedDropActions", 64, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetAllowedDropActions), new SetValueHandler(SetAllowedDropActions), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(63, "CurrentDropAction", 64, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetCurrentDropAction), null, false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(63, "Value", 153, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetValue), new SetValueHandler(SetValue), false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(63, "Dragging", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetDragging), null, false);
+            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(63, "HandlerStage", 112, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetHandlerStage), new SetValueHandler(SetHandlerStage), false);
+            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(63, "MoveCursor", 44, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetMoveCursor), new SetValueHandler(SetMoveCursor), false);
+            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema(63, "CopyCursor", 44, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetCopyCursor), new SetValueHandler(SetCopyCursor), false);
+            UIXPropertySchema uixPropertySchema8 = new UIXPropertySchema(63, "CancelCursor", 44, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetCancelCursor), new SetValueHandler(SetCancelCursor), false);
             UIXEventSchema uixEventSchema1 = new UIXEventSchema(63, "Started");
             UIXEventSchema uixEventSchema2 = new UIXEventSchema(63, "Moved");
             UIXEventSchema uixEventSchema3 = new UIXEventSchema(63, "Copied");
             UIXEventSchema uixEventSchema4 = new UIXEventSchema(63, "Canceled");
-            DragSourceHandlerSchema.Type.Initialize(new DefaultConstructHandler(DragSourceHandlerSchema.Construct), null, new PropertySchema[8]
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[8]
             {
          uixPropertySchema1,
          uixPropertySchema8,

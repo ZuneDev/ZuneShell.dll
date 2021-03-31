@@ -104,7 +104,7 @@ namespace Microsoft.Iris.ViewItems
                 return;
             Vector3 parentOffsetPxlVector;
             Vector3 scaleVector;
-            ViewItem.GetAccumulatedOffsetAndScale(this, null, out parentOffsetPxlVector, out scaleVector);
+            GetAccumulatedOffsetAndScale(this, null, out parentOffsetPxlVector, out scaleVector);
             Vector2 visualSize = this.VisualSize;
             this._window.ClientPosition = new Point((int)Math.Round(parentOffsetPxlVector.X), (int)Math.Round(parentOffsetPxlVector.Y));
             this._window.WindowSize = new Size(Math2.RoundUp(scaleVector.X * visualSize.X), Math2.RoundUp(scaleVector.Y * visualSize.Y));

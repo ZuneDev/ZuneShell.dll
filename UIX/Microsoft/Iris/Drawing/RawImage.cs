@@ -55,7 +55,7 @@ namespace Microsoft.Iris.Drawing
 
         ~RawImage()
         {
-            RawImage.FreeBuffer(this._data);
+            FreeBuffer(this._data);
             this._data = IntPtr.Zero;
         }
 
@@ -77,7 +77,7 @@ namespace Microsoft.Iris.Drawing
                 imageCacheItem = instance.Lookup(_cacheItemKey);
             if (imageCacheItem == null)
             {
-                Size maxSize = UIImage.ClampSize(this._maximumSize);
+                Size maxSize = ClampSize(this._maximumSize);
                 imageCacheItem = new RawImageItem(UISession.Default.RenderSession, this, str, this._data, this._length, this._imageSize, this._stride, this._format, maxSize, this.IsFlipped, this._antialiasEdges);
                 instance.Add(_cacheItemKey, imageCacheItem);
             }

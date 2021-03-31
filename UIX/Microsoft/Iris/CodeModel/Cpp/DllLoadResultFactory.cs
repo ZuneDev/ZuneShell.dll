@@ -22,19 +22,19 @@ namespace Microsoft.Iris.CodeModel.Cpp
         private static Map<uint, DllLoadResult> s_loadResultIDCache = new Map<uint, DllLoadResult>();
         private static Map<string, DllLoadResultFactory> s_dllFactoriesCache = new Map<string, DllLoadResultFactory>();
 
-        public static void Startup() => MarkupSystem.RegisterFactoryByProtocol("dll://", new CreateLoadResultHandler(DllLoadResultFactory.GetLoadResult));
+        public static void Startup() => MarkupSystem.RegisterFactoryByProtocol("dll://", new CreateLoadResultHandler(GetLoadResult));
 
         public static DllLoadResult GetLoadResultByID(uint id)
         {
             DllLoadResult dllLoadResult;
-            DllLoadResultFactory.s_loadResultIDCache.TryGetValue(id, out dllLoadResult);
+            s_loadResultIDCache.TryGetValue(id, out dllLoadResult);
             return dllLoadResult;
         }
 
         private static LoadResult GetLoadResult(string uri)
         {
             DllLoadResult dllLoadResult;
-            if (DllLoadResultFactory.s_loadResultCache.TryGetValue(uri, out dllLoadResult))
+            if (s_loadResultCache.TryGetValue(uri, out dllLoadResult))
                 return dllLoadResult;
             int length = uri.IndexOf('!');
             string str;
@@ -50,16 +50,16 @@ namespace Microsoft.Iris.CodeModel.Cpp
                 qualifier = null;
             }
             DllLoadResultFactory loadResultFactory;
-            if (!DllLoadResultFactory.s_dllFactoriesCache.TryGetValue(str, out loadResultFactory))
+            if (!s_dllFactoriesCache.TryGetValue(str, out loadResultFactory))
             {
                 loadResultFactory = new DllLoadResultFactory(str);
-                DllLoadResultFactory.s_dllFactoriesCache[str] = loadResultFactory;
+                s_dllFactoriesCache[str] = loadResultFactory;
             }
             DllLoadResult loadResult = loadResultFactory.GetLoadResult(uri, qualifier);
             if (loadResult != null)
             {
-                DllLoadResultFactory.s_loadResultCache[uri] = loadResult;
-                DllLoadResultFactory.s_loadResultIDCache[loadResult.SchemaComponent] = loadResult;
+                s_loadResultCache[uri] = loadResult;
+                s_loadResultIDCache[loadResult.SchemaComponent] = loadResult;
             }
             return loadResult;
         }
@@ -76,7 +76,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
         protected override void OnDispose()
         {
             base.OnDispose();
-            DllLoadResultFactory.s_dllFactoriesCache.Remove(this._dllName);
+            s_dllFactoriesCache.Remove(this._dllName);
             if (this._schemaFactory != IntPtr.Zero)
             {
                 NativeApi.SpReleaseExternalObject(this._schemaFactory);
@@ -110,8 +110,8 @@ namespace Microsoft.Iris.CodeModel.Cpp
 
         public void NotifyLoadResultDisposed(DllLoadResult loadResult)
         {
-            DllLoadResultFactory.s_loadResultCache.Remove(loadResult.Uri);
-            DllLoadResultFactory.s_loadResultIDCache.Remove(loadResult.SchemaComponent);
+            s_loadResultCache.Remove(loadResult.Uri);
+            s_loadResultIDCache.Remove(loadResult.SchemaComponent);
             this.UnregisterUsage(loadResult);
         }
     }

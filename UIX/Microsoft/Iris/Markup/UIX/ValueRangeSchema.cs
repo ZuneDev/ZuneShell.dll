@@ -30,16 +30,16 @@ namespace Microsoft.Iris.Markup.UIX
             return null;
         }
 
-        public static void Pass1Initialize() => ValueRangeSchema.Type = new UIXTypeSchema(231, "ValueRange", null, 153, typeof(IUIValueRange), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(231, "ValueRange", null, 153, typeof(IUIValueRange), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(231, "ObjectValue", 153, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ValueRangeSchema.GetObjectValue), null, false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(231, "HasPreviousValue", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ValueRangeSchema.GetHasPreviousValue), null, false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(231, "HasNextValue", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ValueRangeSchema.GetHasNextValue), null, false);
-            UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema(231, "PreviousValue", null, 240, new InvokeHandler(ValueRangeSchema.CallPreviousValue), false);
-            UIXMethodSchema uixMethodSchema2 = new UIXMethodSchema(231, "NextValue", null, 240, new InvokeHandler(ValueRangeSchema.CallNextValue), false);
-            ValueRangeSchema.Type.Initialize(null, null, new PropertySchema[3]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(231, "ObjectValue", 153, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetObjectValue), null, false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(231, "HasPreviousValue", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetHasPreviousValue), null, false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(231, "HasNextValue", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetHasNextValue), null, false);
+            UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema(231, "PreviousValue", null, 240, new InvokeHandler(CallPreviousValue), false);
+            UIXMethodSchema uixMethodSchema2 = new UIXMethodSchema(231, "NextValue", null, 240, new InvokeHandler(CallNextValue), false);
+            Type.Initialize(null, null, new PropertySchema[3]
             {
          uixPropertySchema3,
          uixPropertySchema2,

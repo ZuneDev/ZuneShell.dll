@@ -91,8 +91,8 @@ namespace Microsoft.Iris.Markup
           ParameterContext parameterContext)
         {
             InterpreterContext interpreterContext = null;
-            if (InterpreterContext.s_cache.Count != 0)
-                interpreterContext = (InterpreterContext)InterpreterContext.s_cache.Pop();
+            if (s_cache.Count != 0)
+                interpreterContext = (InterpreterContext)s_cache.Pop();
             if (interpreterContext == null)
                 interpreterContext = new InterpreterContext();
             interpreterContext._instance = instance;
@@ -112,7 +112,7 @@ namespace Microsoft.Iris.Markup
             context._parameterContext = new ParameterContext(null, null);
             if (context._scopedLocals != null)
                 context._scopedLocals.Clear();
-            InterpreterContext.s_cache.Push(context);
+            s_cache.Push(context);
         }
 
         public override string ToString()

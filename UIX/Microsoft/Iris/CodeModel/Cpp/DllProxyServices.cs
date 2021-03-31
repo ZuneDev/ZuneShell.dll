@@ -22,7 +22,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
         public static void Startup()
         {
             DllProxyObject.CreateHandleTable();
-            DllProxyServices.s_stringTable = new StringProxyHandleTable();
+            s_stringTable = new StringProxyHandleTable();
             int num = (int)NativeApi.SpRegisterNativeServicesCallbacks(new DllProxyServices());
         }
 
@@ -31,7 +31,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
             DllProxyObject.ReleaseOutstandingProxies();
             NativeMarkupDataType.ReleaseOutstandingProxies();
             NativeApi.SpUnregisterNativeServicesCallbacks();
-            DllProxyServices.s_stringTable = null;
+            s_stringTable = null;
         }
 
         HRESULT IRawUIXServices.NotifyChangeForObject(
@@ -43,7 +43,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
 
         private static void Crash(string message) => throw new Exception(message);
 
-        void IRawUIXServices.Crash(string message) => DllProxyServices.Crash(message);
+        void IRawUIXServices.Crash(string message) => Crash(message);
 
         public static string GetString(IntPtr nativeStringObject)
         {
@@ -54,7 +54,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
                 NativeApi.SpGetStringHandle(nativeStringObject, out handle);
                 if (handle == 0UL)
                     NativeApi.SpConvertStringToManaged(nativeStringObject, out handle);
-                DllProxyServices.s_stringTable.LookupByHandle(handle, out str);
+                s_stringTable.LookupByHandle(handle, out str);
                 NativeApi.SpReleaseExternalObject(nativeStringObject);
             }
             return str;
@@ -63,22 +63,22 @@ namespace Microsoft.Iris.CodeModel.Cpp
         public static void CreateNativeString(string value, out IntPtr nativeObject)
         {
             nativeObject = IntPtr.Zero;
-            if (value == null || NativeApi.SpCreateNativeString(DllProxyServices.AllocateStringHandle(value), value.Length, out nativeObject))
+            if (value == null || NativeApi.SpCreateNativeString(AllocateStringHandle(value), value.Length, out nativeObject))
                 return;
-            DllProxyServices.Crash("Unable to allocate string");
+            Crash("Unable to allocate string");
         }
 
         unsafe ulong IRawUIXServices.AllocateString(char* value, out int length)
         {
             string str = new string(value);
             length = str.Length;
-            return DllProxyServices.AllocateStringHandle(str);
+            return AllocateStringHandle(str);
         }
 
         private static ulong AllocateStringHandle(string value)
         {
             ulong handle;
-            DllProxyServices.s_stringTable.GetStringHandle(value, out handle);
+            s_stringTable.GetStringHandle(value, out handle);
             return handle;
         }
 
@@ -88,20 +88,20 @@ namespace Microsoft.Iris.CodeModel.Cpp
           uint targetSize)
         {
             string source;
-            DllProxyServices.s_stringTable.LookupByHandle(handle, out source);
+            s_stringTable.LookupByHandle(handle, out source);
             NativeApi.SpCopyString(source, target, targetSize);
         }
 
         unsafe char* IRawUIXServices.PinString(ulong handle)
         {
             char* chPtr;
-            DllProxyServices.s_stringTable.PinString(handle, out chPtr);
+            s_stringTable.PinString(handle, out chPtr);
             return chPtr;
         }
 
-        void IRawUIXServices.UnpinString(ulong handle) => DllProxyServices.s_stringTable.UnpinString(handle);
+        void IRawUIXServices.UnpinString(ulong handle) => s_stringTable.UnpinString(handle);
 
-        void IRawUIXServices.ReleaseString(ulong handle) => DllProxyServices.s_stringTable.ReleaseStringHandle(handle, out string _);
+        void IRawUIXServices.ReleaseString(ulong handle) => s_stringTable.ReleaseStringHandle(handle, out string _);
 
         public static UIImage GetImage(IntPtr nativeImageObject)
         {
@@ -154,9 +154,9 @@ namespace Microsoft.Iris.CodeModel.Cpp
         public static void CreateNativeImage(UIImage image, out IntPtr nativeObject)
         {
             nativeObject = IntPtr.Zero;
-            if (image == null || !NativeApi.SpCreateNativeImage(DllProxyServices.GetImageHandle(image, image.Source), image.Source, out nativeObject).IsError())
+            if (image == null || !NativeApi.SpCreateNativeImage(GetImageHandle(image, image.Source), image.Source, out nativeObject).IsError())
                 return;
-            DllProxyServices.Crash("Unable to allocate native image object");
+            Crash("Unable to allocate native image object");
         }
 
         private static ulong GetImageHandle(UIImage image, string source) => (ulong)GCHandle.ToIntPtr(GCHandle.Alloc(image)).ToInt64();
@@ -168,8 +168,8 @@ namespace Microsoft.Iris.CodeModel.Cpp
             Size maximumSize;
             bool flippable;
             bool antialiasEdges;
-            DllProxyServices.CrackDecodeParams(decodeParams, out maximumSize, out flippable, out antialiasEdges);
-            return DllProxyServices.GetImageHandle(new UriImage(uri, Inset.Zero, maximumSize, flippable, antialiasEdges), uri);
+            CrackDecodeParams(decodeParams, out maximumSize, out flippable, out antialiasEdges);
+            return GetImageHandle(new UriImage(uri, Inset.Zero, maximumSize, flippable, antialiasEdges), uri);
         }
 
         unsafe ulong IRawUIXServices.AllocateImageFromBits(
@@ -182,9 +182,9 @@ namespace Microsoft.Iris.CodeModel.Cpp
             Size maximumSize;
             bool flippable;
             bool antialiasEdges;
-            DllProxyServices.CrackDecodeParams(decodeParams, out maximumSize, out flippable, out antialiasEdges);
+            CrackDecodeParams(decodeParams, out maximumSize, out flippable, out antialiasEdges);
             Size imageSize = new Size(imageInfo->width, imageInfo->height);
-            return DllProxyServices.GetImageHandle(new RawImage(ID, imageSize, imageInfo->stride, surfaceFormat, imageInfo->bits, true, Inset.Zero, maximumSize, flippable, antialiasEdges), ID);
+            return GetImageHandle(new RawImage(ID, imageSize, imageInfo->stride, surfaceFormat, imageInfo->bits, true, Inset.Zero, maximumSize, flippable, antialiasEdges), ID);
         }
 
         unsafe void IRawUIXServices.RemoveCachedImage(
@@ -194,7 +194,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
             Size maximumSize;
             bool flippable;
             bool antialiasEdges;
-            DllProxyServices.CrackDecodeParams(decodeParams, out maximumSize, out flippable, out antialiasEdges);
+            CrackDecodeParams(decodeParams, out maximumSize, out flippable, out antialiasEdges);
             UriImage.RemoveCache(ID, maximumSize, flippable, antialiasEdges);
         }
 

@@ -176,7 +176,7 @@ namespace Microsoft.Iris.Animations
             ActiveTransitions activeTransitions = ActiveTransitions.None;
             foreach (AnimationProxy animationProxy in animationCollection)
             {
-                ActiveTransitions activeTransition = ActiveSequence.ConvertToActiveTransition(animationProxy.Type);
+                ActiveTransitions activeTransition = ConvertToActiveTransition(animationProxy.Type);
                 activeTransitions |= activeTransition;
             }
             return activeTransitions;

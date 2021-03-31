@@ -25,12 +25,12 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object Construct() => new Microsoft.Iris.ModelItems.BooleanChoice();
 
-        public static void Pass1Initialize() => BooleanChoiceSchema.Type = new UIXTypeSchema(16, "BooleanChoice", null, 28, typeof(IUIBooleanChoice), UIXTypeFlags.Disposable);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(16, "BooleanChoice", null, 28, typeof(IUIBooleanChoice), UIXTypeFlags.Disposable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(16, "Value", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(BooleanChoiceSchema.GetValue), new SetValueHandler(BooleanChoiceSchema.SetValue), false);
-            BooleanChoiceSchema.Type.Initialize(new DefaultConstructHandler(BooleanChoiceSchema.Construct), null, new PropertySchema[1]
+            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(16, "Value", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetValue), new SetValueHandler(SetValue), false);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[1]
             {
          uixPropertySchema
             }, null, null, null, null, null, null, null, null, null);

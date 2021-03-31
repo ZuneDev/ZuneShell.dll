@@ -14,12 +14,12 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object GetTechniques(object instanceObj) => (object)null;
 
-        public static void Pass1Initialize() => EffectSchema.Type = new UIXTypeSchema(69, "Effect", null, 29, typeof(EffectClass), UIXTypeFlags.Disposable);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(69, "Effect", null, 29, typeof(EffectClass), UIXTypeFlags.Disposable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(69, "Techniques", 138, 77, ExpressionRestriction.NoAccess, false, null, true, new GetValueHandler(EffectSchema.GetTechniques), null, false);
-            EffectSchema.Type.Initialize(null, null, new PropertySchema[1]
+            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(69, "Techniques", 138, 77, ExpressionRestriction.NoAccess, false, null, true, new GetValueHandler(GetTechniques), null, false);
+            Type.Initialize(null, null, new PropertySchema[1]
             {
          uixPropertySchema
             }, null, null, null, null, null, null, null, null, null);

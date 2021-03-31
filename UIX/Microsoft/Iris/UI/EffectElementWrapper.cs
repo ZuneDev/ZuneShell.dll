@@ -39,48 +39,48 @@ namespace Microsoft.Iris.UI
 
         public void PlayAnimation(EffectProperty property, EffectAnimation animation) => this._class.PlayAnimation(this.MakeEffectPropertyName(property), animation);
 
-        private string MakeEffectPropertyName(string propertyName) => EffectElementWrapper.MakeEffectPropertyName(this._elementName, propertyName);
+        private string MakeEffectPropertyName(string propertyName) => MakeEffectPropertyName(this._elementName, propertyName);
 
-        private string MakeEffectPropertyName(EffectProperty property) => EffectElementWrapper.MakeEffectPropertyName(this._elementName, property);
+        private string MakeEffectPropertyName(EffectProperty property) => MakeEffectPropertyName(this._elementName, property);
 
         public static string MakeEffectPropertyName(string elementName, EffectProperty property)
         {
-            EffectElementWrapper.EnsurePropertyMap();
-            return EffectElementWrapper.MakeEffectPropertyName(elementName, EffectElementWrapper.s_propertyMap[(int)property]);
+            EnsurePropertyMap();
+            return MakeEffectPropertyName(elementName, s_propertyMap[(int)property]);
         }
 
         public static string MakeEffectPropertyName(string elementName, string propertyName) => elementName + "." + propertyName;
 
         private static void EnsurePropertyMap()
         {
-            if (EffectElementWrapper.s_propertyMap != null)
+            if (s_propertyMap != null)
                 return;
-            EffectElementWrapper.s_propertyMap = new Map<int, string>();
-            EffectElementWrapper.s_propertyMap[2] = "Attenuation";
-            EffectElementWrapper.s_propertyMap[3] = "Brightness";
-            EffectElementWrapper.s_propertyMap[4] = "Color";
-            EffectElementWrapper.s_propertyMap[14] = "InnerConeAngle";
-            EffectElementWrapper.s_propertyMap[18] = "OuterConeAngle";
-            EffectElementWrapper.s_propertyMap[5] = "Contrast";
-            EffectElementWrapper.s_propertyMap[6] = "DarkColor";
-            EffectElementWrapper.s_propertyMap[7] = "Decay";
-            EffectElementWrapper.s_propertyMap[8] = "Density";
-            EffectElementWrapper.s_propertyMap[9] = "Desaturate";
-            EffectElementWrapper.s_propertyMap[10] = "DirectionAngle";
-            EffectElementWrapper.s_propertyMap[11] = "EdgeLimit";
-            EffectElementWrapper.s_propertyMap[12] = "FallOff";
-            EffectElementWrapper.s_propertyMap[13] = "Hue";
-            EffectElementWrapper.s_propertyMap[15] = "Intensity";
-            EffectElementWrapper.s_propertyMap[16] = "LightColor";
-            EffectElementWrapper.s_propertyMap[1] = "AmbientColor";
-            EffectElementWrapper.s_propertyMap[17] = "Lightness";
-            EffectElementWrapper.s_propertyMap[19] = "Position";
-            EffectElementWrapper.s_propertyMap[20] = "Radius";
-            EffectElementWrapper.s_propertyMap[21] = "Saturation";
-            EffectElementWrapper.s_propertyMap[22] = "Tone";
-            EffectElementWrapper.s_propertyMap[23] = "Weight";
-            EffectElementWrapper.s_propertyMap[24] = "Value";
-            EffectElementWrapper.s_propertyMap[25] = "Downsample";
+            s_propertyMap = new Map<int, string>();
+            s_propertyMap[2] = "Attenuation";
+            s_propertyMap[3] = "Brightness";
+            s_propertyMap[4] = "Color";
+            s_propertyMap[14] = "InnerConeAngle";
+            s_propertyMap[18] = "OuterConeAngle";
+            s_propertyMap[5] = "Contrast";
+            s_propertyMap[6] = "DarkColor";
+            s_propertyMap[7] = "Decay";
+            s_propertyMap[8] = "Density";
+            s_propertyMap[9] = "Desaturate";
+            s_propertyMap[10] = "DirectionAngle";
+            s_propertyMap[11] = "EdgeLimit";
+            s_propertyMap[12] = "FallOff";
+            s_propertyMap[13] = "Hue";
+            s_propertyMap[15] = "Intensity";
+            s_propertyMap[16] = "LightColor";
+            s_propertyMap[1] = "AmbientColor";
+            s_propertyMap[17] = "Lightness";
+            s_propertyMap[19] = "Position";
+            s_propertyMap[20] = "Radius";
+            s_propertyMap[21] = "Saturation";
+            s_propertyMap[22] = "Tone";
+            s_propertyMap[23] = "Weight";
+            s_propertyMap[24] = "Value";
+            s_propertyMap[25] = "Downsample";
         }
     }
 }

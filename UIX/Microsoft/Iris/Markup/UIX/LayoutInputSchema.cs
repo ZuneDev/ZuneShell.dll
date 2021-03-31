@@ -12,8 +12,8 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        public static void Pass1Initialize() => LayoutInputSchema.Type = new UIXTypeSchema(133, "LayoutInput", null, 153, typeof(ILayoutInput), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(133, "LayoutInput", null, 153, typeof(ILayoutInput), UIXTypeFlags.None);
 
-        public static void Pass2Initialize() => LayoutInputSchema.Type.Initialize(null, null, null, null, null, null, null, null, null, null, null, null);
+        public static void Pass2Initialize() => Type.Initialize(null, null, null, null, null, null, null, null, null, null, null, null);
     }
 }

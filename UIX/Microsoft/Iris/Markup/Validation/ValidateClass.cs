@@ -29,7 +29,7 @@ namespace Microsoft.Iris.Markup.Validation
         private string _previewName;
         private static Map<string, TypeSchema> s_classReservedSymbols = new Map<string, TypeSchema>(1);
 
-        public static void InitializeStatics() => ValidateClass.s_classReservedSymbols["Class"] = ClassStateSchema.Type;
+        public static void InitializeStatics() => s_classReservedSymbols["Class"] = ClassStateSchema.Type;
 
         public ValidateClass(
           SourceMarkupLoader owner,
@@ -334,7 +334,7 @@ namespace Microsoft.Iris.Markup.Validation
         public override void Validate(TypeRestriction typeRestriction, ValidateContext context)
         {
             if (context.CurrentPass == LoadPass.Full)
-                context.DeclareReservedSymbols(ValidateClass.s_classReservedSymbols);
+                context.DeclareReservedSymbols(s_classReservedSymbols);
             base.Validate(typeRestriction, context);
         }
 

@@ -62,7 +62,7 @@ namespace Microsoft.Iris.Data
                         case 'u':
                         case 'x':
                             uint result;
-                            flag = StringUtility.ReadHexSequence(mode, source, ref index, length, out result);
+                            flag = ReadHexSequence(mode, source, ref index, length, out result);
                             if (flag)
                             {
                                 if (result <= ushort.MaxValue)

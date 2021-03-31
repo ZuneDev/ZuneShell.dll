@@ -21,13 +21,13 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object Construct() => new ImageElement();
 
-        public static void Pass1Initialize() => ImageElementSchema.Type = new UIXTypeSchema(106, "ImageElement", null, 77, typeof(ImageElement), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(106, "ImageElement", null, 77, typeof(ImageElement), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(106, "Image", 105, -1, ExpressionRestriction.None, false, null, false, null, new SetValueHandler(ImageElementSchema.SetImage), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(106, "UVOffset", 233, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(ImageElementSchema.GetUVOffset), new SetValueHandler(ImageElementSchema.SetUVOffset), false);
-            ImageElementSchema.Type.Initialize(new DefaultConstructHandler(ImageElementSchema.Construct), null, new PropertySchema[2]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(106, "Image", 105, -1, ExpressionRestriction.None, false, null, false, null, new SetValueHandler(SetImage), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(106, "UVOffset", 233, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetUVOffset), new SetValueHandler(SetUVOffset), false);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[2]
             {
          uixPropertySchema1,
          uixPropertySchema2

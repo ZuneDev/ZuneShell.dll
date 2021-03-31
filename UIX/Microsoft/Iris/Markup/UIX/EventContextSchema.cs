@@ -18,12 +18,12 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object Construct() => new EventContext();
 
-        public static void Pass1Initialize() => EventContextSchema.Type = new UIXTypeSchema(88, "EventContext", null, 110, typeof(EventContext), UIXTypeFlags.Disposable);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(88, "EventContext", null, 110, typeof(EventContext), UIXTypeFlags.Disposable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(88, "Value", 153, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(EventContextSchema.GetValue), new SetValueHandler(EventContextSchema.SetValue), false);
-            EventContextSchema.Type.Initialize(new DefaultConstructHandler(EventContextSchema.Construct), null, new PropertySchema[1]
+            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(88, "Value", 153, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetValue), new SetValueHandler(SetValue), false);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[1]
             {
          uixPropertySchema
             }, null, null, null, null, null, null, null, null, null);

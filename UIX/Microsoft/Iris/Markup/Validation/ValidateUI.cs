@@ -17,7 +17,7 @@ namespace Microsoft.Iris.Markup.Validation
         private NamedContentRecord[] _namedContentTable;
         private static Map<string, TypeSchema> s_uiReservedSymbols = new Map<string, TypeSchema>(1);
 
-        public new static void InitializeStatics() => ValidateUI.s_uiReservedSymbols["UI"] = UIStateSchema.Type;
+        public new static void InitializeStatics() => s_uiReservedSymbols["UI"] = UIStateSchema.Type;
 
         public ValidateUI(
           SourceMarkupLoader owner,
@@ -38,7 +38,7 @@ namespace Microsoft.Iris.Markup.Validation
         public override void Validate(TypeRestriction typeRestriction, ValidateContext context)
         {
             if (context.CurrentPass == LoadPass.Full)
-                context.DeclareReservedSymbols(ValidateUI.s_uiReservedSymbols);
+                context.DeclareReservedSymbols(s_uiReservedSymbols);
             if (context.CurrentPass == LoadPass.DeclareTypes)
                 this.RemoveNamedContentProperties();
             base.Validate(typeRestriction, context);

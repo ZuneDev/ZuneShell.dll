@@ -24,9 +24,9 @@ namespace Microsoft.Iris.Layouts
             set => this._cache = value;
         }
 
-        DataCookie ILayoutInput.Data => FlowSizeMemoryLayoutInput.Data;
+        DataCookie ILayoutInput.Data => Data;
 
-        public static DataCookie Data => FlowSizeMemoryLayoutInput.s_dataProperty;
+        public static DataCookie Data => s_dataProperty;
 
         public override string ToString()
         {

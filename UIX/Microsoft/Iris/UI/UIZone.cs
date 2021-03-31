@@ -456,13 +456,13 @@ namespace Microsoft.Iris.UI
                 inputDeliveryData.eventRouteCached = true;
             UIClass[] removedFromRoute = this.FindControlsRemovedFromRoute(uiClassArray1, uiClassArray2);
             if (removedFromRoute != null)
-                UIZone.UpdateControlFocusStates(removedFromRoute, false, null, updateProc);
+                UpdateControlFocusStates(removedFromRoute, false, null, updateProc);
             this.RecycleUIClassArray(uiClassArray1);
             if (removedFromRoute != uiClassArray1)
                 this.RecycleUIClassArray(removedFromRoute);
             if (uiClassArray2 == null)
                 return;
-            UIZone.UpdateControlFocusStates(uiClassArray2, true, directFocusChild, updateProc);
+            UpdateControlFocusStates(uiClassArray2, true, directFocusChild, updateProc);
         }
 
         private UIClass[] FindControlsRemovedFromRoute(

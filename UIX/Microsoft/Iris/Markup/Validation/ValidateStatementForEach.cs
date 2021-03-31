@@ -36,8 +36,8 @@ namespace Microsoft.Iris.Markup.Validation
 
         public static void InitializeStatics()
         {
-            ValidateStatementForEach.s_currentProperty = EnumeratorSchema.Type.FindProperty("Current");
-            ValidateStatementForEach.s_moveNextMethod = EnumeratorSchema.Type.FindMethod("MoveNext", TypeSchema.EmptyList);
+            s_currentProperty = EnumeratorSchema.Type.FindProperty("Current");
+            s_moveNextMethod = EnumeratorSchema.Type.FindMethod("MoveNext", TypeSchema.EmptyList);
         }
 
         public ValidateStatementScopedLocal ScopedLocal => this._scopedLocal;
@@ -71,8 +71,8 @@ namespace Microsoft.Iris.Markup.Validation
                     this._statementCompound.Validate(container, context);
                     if (this._statementCompound.HasErrors)
                         this.MarkHasErrors();
-                    this._foundCurrentIndex = this.Owner.TrackImportedProperty(ValidateStatementForEach.s_currentProperty);
-                    this._foundMoveNextIndex = this.Owner.TrackImportedMethod(ValidateStatementForEach.s_moveNextMethod);
+                    this._foundCurrentIndex = this.Owner.TrackImportedProperty(s_currentProperty);
+                    this._foundMoveNextIndex = this.Owner.TrackImportedMethod(s_moveNextMethod);
                 }
             }
             finally

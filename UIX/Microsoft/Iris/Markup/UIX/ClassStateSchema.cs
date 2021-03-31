@@ -34,15 +34,15 @@ namespace Microsoft.Iris.Markup.UIX
             return null;
         }
 
-        public static void Pass1Initialize() => ClassStateSchema.Type = new UIXTypeSchema(30, "ClassState", null, -1, typeof(Class), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(30, "ClassState", null, -1, typeof(Class), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
             UIXMethodSchema uixMethodSchema = new UIXMethodSchema(30, "DisposeOwnedObject", new short[1]
             {
          153
-            }, 240, new InvokeHandler(ClassStateSchema.CallDisposeOwnedObjectObject), false);
-            ClassStateSchema.Type.Initialize(null, null, null, new MethodSchema[1]
+            }, 240, new InvokeHandler(CallDisposeOwnedObjectObject), false);
+            Type.Initialize(null, null, null, new MethodSchema[1]
             {
          uixMethodSchema
             }, null, null, null, null, null, null, null, null);

@@ -77,9 +77,9 @@ namespace Microsoft.Iris.Layouts
             set => this._visibleIndices = value;
         }
 
-        public override DataCookie OutputID => ScrollingLayoutOutput.DataCookie;
+        public override DataCookie OutputID => DataCookie;
 
-        public static DataCookie DataCookie => ScrollingLayoutOutput.s_dataProperty;
+        public static DataCookie DataCookie => s_dataProperty;
 
         public override string ToString() => InvariantString.Format("{0}(CanScrollNegative={1}, CanScrollPositive={2}, CurrentPage={3}, TotalPages={4})", this.GetType().Name, _canScrollNegative, _canScrollPositive, _currentPage, _totalPages);
     }

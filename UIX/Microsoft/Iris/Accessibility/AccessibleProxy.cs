@@ -28,7 +28,7 @@ namespace Microsoft.Iris.Accessibility
         private int _proxyID = -1;
         private static int s_proxyIDAllocator = 0;
         private static Map<int, AccessibleProxy> s_proxyFromID = new Map<int, AccessibleProxy>();
-        private static DeferredHandler s_notifyEventHandler = new DeferredHandler(AccessibleProxy.NotifyEvent);
+        private static DeferredHandler s_notifyEventHandler = new DeferredHandler(NotifyEvent);
         private static bool s_accessibilityActive;
 
         internal AccessibleProxy(UIClass ui, Accessible data)
@@ -47,13 +47,13 @@ namespace Microsoft.Iris.Accessibility
             this._ui = null;
             if (this._proxyID == -1)
                 return;
-            AccessibleProxy.s_proxyFromID.Remove(this._proxyID);
+            s_proxyFromID.Remove(this._proxyID);
         }
 
         internal static bool AccessibilityActive
         {
-            get => AccessibleProxy.s_accessibilityActive;
-            set => AccessibleProxy.s_accessibilityActive = true;
+            get => s_accessibilityActive;
+            set => s_accessibilityActive = true;
         }
 
         internal virtual IAccessible Parent => this._ui.Parent != null ? _ui.Parent.AccessibleProxy : null;
@@ -197,35 +197,35 @@ namespace Microsoft.Iris.Accessibility
 
         internal static void NotifyCreated(UIClass ui)
         {
-            if (!AccessibleProxy.AccessibilityActive)
+            if (!AccessibilityActive)
                 return;
             ui.AccessibleProxy.QueueNotifyEvent(AccEvents.ObjectCreate);
         }
 
         internal static void NotifyDestroyed(UIClass ui)
         {
-            if (!AccessibleProxy.AccessibilityActive)
+            if (!AccessibilityActive)
                 return;
             ui.AccessibleProxy.QueueNotifyEvent(AccEvents.ObjectDestroy);
         }
 
         internal static void NotifyTreeChanged(UIClass ui)
         {
-            if (!AccessibleProxy.AccessibilityActive || !ui.Initialized)
+            if (!AccessibilityActive || !ui.Initialized)
                 return;
             ui.AccessibleProxy.QueueNotifyEvent(AccEvents.ObjectReorder);
         }
 
         internal static void NotifyVisibilityChange(UIClass ui, bool visible)
         {
-            if (!AccessibleProxy.AccessibilityActive || !ui.Initialized)
+            if (!AccessibilityActive || !ui.Initialized)
                 return;
             ui.AccessibleProxy.QueueNotifyEvent(visible ? AccEvents.ObjectShow : AccEvents.ObjectHide);
         }
 
         internal static void NotifyFocus(UIClass ui)
         {
-            if (!AccessibleProxy.AccessibilityActive || !ui.Initialized)
+            if (!AccessibilityActive || !ui.Initialized)
                 return;
             ui.AccessibleProxy.QueueNotifyEvent(AccEvents.ObjectFocus);
         }
@@ -295,7 +295,7 @@ namespace Microsoft.Iris.Accessibility
          this,
          (int) eventType
             };
-            DeferredCall.Post(DispatchPriority.AppEvent, AccessibleProxy.s_notifyEventHandler, obj);
+            DeferredCall.Post(DispatchPriority.AppEvent, s_notifyEventHandler, obj);
         }
 
         private static void NotifyEvent(object payload)
@@ -519,8 +519,8 @@ namespace Microsoft.Iris.Accessibility
             {
                 if (this._proxyID == -1)
                 {
-                    this._proxyID = ++AccessibleProxy.s_proxyIDAllocator;
-                    AccessibleProxy.s_proxyFromID[this._proxyID] = this;
+                    this._proxyID = ++s_proxyIDAllocator;
+                    s_proxyFromID[this._proxyID] = this;
                 }
                 return this._proxyID;
             }
@@ -529,7 +529,7 @@ namespace Microsoft.Iris.Accessibility
         internal static AccessibleProxy AccessibleProxyFromID(int proxyID)
         {
             AccessibleProxy accessibleProxy;
-            AccessibleProxy.s_proxyFromID.TryGetValue(proxyID, out accessibleProxy);
+            s_proxyFromID.TryGetValue(proxyID, out accessibleProxy);
             return accessibleProxy;
         }
 

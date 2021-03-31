@@ -42,16 +42,16 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object Construct() => new PointLight2DElement();
 
-        public static void Pass1Initialize() => PointLight2DSchema.Type = new UIXTypeSchema(159, "PointLight2D", null, 77, typeof(PointLight2DElement), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(159, "PointLight2D", null, 77, typeof(PointLight2DElement), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(159, "Position", 234, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(PointLight2DSchema.GetPosition), new SetValueHandler(PointLight2DSchema.SetPosition), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(159, "Radius", 194, -1, ExpressionRestriction.None, false, SingleSchema.ValidateNotNegative, false, new GetValueHandler(PointLight2DSchema.GetRadius), new SetValueHandler(PointLight2DSchema.SetRadius), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(159, "LightColor", 35, -1, ExpressionRestriction.None, false, null, false, null, new SetValueHandler(PointLight2DSchema.SetLightColor), false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(159, "AmbientColor", 35, -1, ExpressionRestriction.None, false, null, false, null, new SetValueHandler(PointLight2DSchema.SetAmbientColor), false);
-            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(159, "Attenuation", 234, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(PointLight2DSchema.GetAttenuation), new SetValueHandler(PointLight2DSchema.SetAttenuation), false);
-            PointLight2DSchema.Type.Initialize(new DefaultConstructHandler(PointLight2DSchema.Construct), null, new PropertySchema[5]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(159, "Position", 234, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetPosition), new SetValueHandler(SetPosition), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(159, "Radius", 194, -1, ExpressionRestriction.None, false, SingleSchema.ValidateNotNegative, false, new GetValueHandler(GetRadius), new SetValueHandler(SetRadius), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(159, "LightColor", 35, -1, ExpressionRestriction.None, false, null, false, null, new SetValueHandler(SetLightColor), false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(159, "AmbientColor", 35, -1, ExpressionRestriction.None, false, null, false, null, new SetValueHandler(SetAmbientColor), false);
+            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(159, "Attenuation", 234, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetAttenuation), new SetValueHandler(SetAttenuation), false);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[5]
             {
          uixPropertySchema4,
          uixPropertySchema5,

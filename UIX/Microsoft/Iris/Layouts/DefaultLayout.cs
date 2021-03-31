@@ -17,11 +17,11 @@ namespace Microsoft.Iris.Layouts
         {
         }
 
-        public static DefaultLayout Instance => DefaultLayout.s_sharedLayout;
+        public static DefaultLayout Instance => s_sharedLayout;
 
         public ItemAlignment DefaultChildAlignment => ItemAlignment.Default;
 
-        Size ILayout.Measure(ILayoutNode layoutNode, Size constraint) => DefaultLayout.Measure(layoutNode, constraint);
+        Size ILayout.Measure(ILayoutNode layoutNode, Size constraint) => Measure(layoutNode, constraint);
 
         public static Size Measure(ILayoutNode layoutNode, Size constraint)
         {
@@ -35,7 +35,7 @@ namespace Microsoft.Iris.Layouts
             return sz1;
         }
 
-        void ILayout.Arrange(ILayoutNode layoutNode, LayoutSlot slot) => DefaultLayout.Arrange(layoutNode, slot);
+        void ILayout.Arrange(ILayoutNode layoutNode, LayoutSlot slot) => Arrange(layoutNode, slot);
 
         public static void Arrange(ILayoutNode layoutNode, LayoutSlot slot)
         {

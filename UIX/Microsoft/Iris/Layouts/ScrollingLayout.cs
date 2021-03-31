@@ -147,8 +147,8 @@ namespace Microsoft.Iris.Layouts
                 if (flag2)
                     areaOfInterestBounds = area1.Rectangle;
                 if (this.IsFocusAreaOfInterest(area1.Id) && !sli.ScrollIntoViewDisposition.Enabled)
-                    ScrollingLayout.DisallowScrollFocusIntoView();
-                scrollAreaOfInterestIntoView &= ScrollingLayout.ScrollFocusIntoView;
+                    DisallowScrollFocusIntoView();
+                scrollAreaOfInterestIntoView &= ScrollFocusIntoView;
                 if (area1.Id == AreaOfInterestID.ScrollIntoViewRequest && !areaOfInterestBounds.IsZero)
                 {
                     scrollAreaOfInterestIntoView = true;
@@ -163,7 +163,7 @@ namespace Microsoft.Iris.Layouts
             ScrollingLayoutOutput scrollAmount1 = this.CalculateScrollAmount(layoutNode, viewBounds, rectangle1, sli, applyPendingScrollData, scrollAreaOfInterestIntoView, areaOfInterestBounds, ref scrollAmount);
             scrollAmount1.VisibleIndices = rangeLayoutOutput;
             scrollAmount1.ProcessedExplicitScrollIntoViewRequest = flag1;
-            scrollAmount1.ScrollFocusIntoView = ScrollingLayout.ScrollFocusIntoView;
+            scrollAmount1.ScrollFocusIntoView = ScrollFocusIntoView;
             return scrollAmount1;
         }
 
@@ -324,10 +324,10 @@ namespace Microsoft.Iris.Layouts
             Major = 16777215
         }.ToSize(this._orientation);
 
-        public static void ResetScrollFocusIntoView() => ScrollingLayout.s_allowScrollFocusIntoView = true;
+        public static void ResetScrollFocusIntoView() => s_allowScrollFocusIntoView = true;
 
-        public static bool ScrollFocusIntoView => ScrollingLayout.s_allowScrollFocusIntoView;
+        public static bool ScrollFocusIntoView => s_allowScrollFocusIntoView;
 
-        public static void DisallowScrollFocusIntoView() => ScrollingLayout.s_allowScrollFocusIntoView = false;
+        public static void DisallowScrollFocusIntoView() => s_allowScrollFocusIntoView = false;
     }
 }

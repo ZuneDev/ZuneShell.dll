@@ -64,11 +64,11 @@ namespace Microsoft.Iris.OS
                 num2 = Win32Api.GetFileSize(file, IntPtr.Zero);
                 if (num2 != uint.MaxValue)
                 {
-                    num1 = Resource.AllocNativeBuffer(num2);
+                    num1 = AllocNativeBuffer(num2);
                     uint lpNumberOfBytesRead;
                     if (!(num1 == IntPtr.Zero) && (!Win32Api.ReadFile(file, num1, num2, out lpNumberOfBytesRead, IntPtr.Zero) || (int)lpNumberOfBytesRead != (int)num2))
                     {
-                        Resource.FreeNativeBuffer(num1);
+                        FreeNativeBuffer(num1);
                         num1 = IntPtr.Zero;
                     }
                 }

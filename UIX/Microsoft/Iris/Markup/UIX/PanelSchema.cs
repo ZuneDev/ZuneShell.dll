@@ -17,12 +17,12 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object Construct() => new Panel();
 
-        public static void Pass1Initialize() => PanelSchema.Type = new UIXTypeSchema(156, "Panel", null, 239, typeof(Panel), UIXTypeFlags.Disposable);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(156, "Panel", null, 239, typeof(Panel), UIXTypeFlags.Disposable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(156, "Children", 138, 239, ExpressionRestriction.NoAccess, false, null, true, new GetValueHandler(PanelSchema.GetChildren), null, false);
-            PanelSchema.Type.Initialize(new DefaultConstructHandler(PanelSchema.Construct), null, new PropertySchema[1]
+            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(156, "Children", 138, 239, ExpressionRestriction.NoAccess, false, null, true, new GetValueHandler(GetChildren), null, false);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[1]
             {
          uixPropertySchema
             }, null, null, null, null, null, null, null, null, null);

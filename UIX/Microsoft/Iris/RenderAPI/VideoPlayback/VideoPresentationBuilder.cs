@@ -99,16 +99,16 @@ namespace Microsoft.Iris.RenderAPI.VideoPlayback
                 float flSrcWidthMultiplier;
                 float flDstWidthMultiplier;
                 this.ComputeLocations(out rcfBoundSrcVideoPxl, out rcfBoundDestViewPxl, out flSrcWidthMultiplier, out flDstWidthMultiplier);
-                this.m_handlerZoomMode(VideoPresentationBuilder.ConvertToSquare(rcfBoundSrcVideoPxl, flSrcWidthMultiplier), VideoPresentationBuilder.ConvertToSquare(rcfBoundDestViewPxl, flDstWidthMultiplier), out geometry.arrcfSrcVideo, out geometry.arrcfDestView);
+                this.m_handlerZoomMode(ConvertToSquare(rcfBoundSrcVideoPxl, flSrcWidthMultiplier), ConvertToSquare(rcfBoundDestViewPxl, flDstWidthMultiplier), out geometry.arrcfSrcVideo, out geometry.arrcfDestView);
                 if (geometry.arrcfDestView != null)
                 {
                     int length = geometry.arrcfDestView.Length;
                 }
                 int num1 = geometry.arrcfDestView != null ? geometry.arrcfDestView.Length : 0;
-                VideoPresentationBuilder.ConvertFromSquare(geometry.arrcfSrcVideo, flSrcWidthMultiplier);
-                VideoPresentationBuilder.ConvertFromSquare(geometry.arrcfDestView, flDstWidthMultiplier);
-                geometry.rcfSrcVideoBounds = VideoPresentationBuilder.ComputeBounds(geometry.arrcfSrcVideo);
-                geometry.rcfDestViewBounds = VideoPresentationBuilder.ComputeBounds(geometry.arrcfDestView);
+                ConvertFromSquare(geometry.arrcfSrcVideo, flSrcWidthMultiplier);
+                ConvertFromSquare(geometry.arrcfDestView, flDstWidthMultiplier);
+                geometry.rcfSrcVideoBounds = ComputeBounds(geometry.arrcfSrcVideo);
+                geometry.rcfDestViewBounds = ComputeBounds(geometry.arrcfDestView);
                 float num2 = 0.0001f;
                 RectangleF rcfDestViewBounds = geometry.rcfDestViewBounds;
                 for (int index = 0; index < num1; ++index)
@@ -132,8 +132,8 @@ namespace Microsoft.Iris.RenderAPI.VideoPlayback
                 {
                     float num3 = this.m_sizefOriginalSource.Width / geometry.rcfSrcVideoBounds.Width;
                     float num4 = this.m_sizefOriginalSource.Height / geometry.rcfSrcVideoBounds.Height;
-                    RectangleF square1 = VideoPresentationBuilder.ConvertToSquare(geometry.rcfSrcVideoBounds, flSrcWidthMultiplier);
-                    RectangleF square2 = VideoPresentationBuilder.ConvertToSquare(geometry.rcfDestViewBounds, flDstWidthMultiplier);
+                    RectangleF square1 = ConvertToSquare(geometry.rcfSrcVideoBounds, flSrcWidthMultiplier);
+                    RectangleF square2 = ConvertToSquare(geometry.rcfDestViewBounds, flDstWidthMultiplier);
                     RectangleF rectangleF = new RectangleF()
                     {
                         X = square2.X - num3 * square1.X,
@@ -282,7 +282,7 @@ namespace Microsoft.Iris.RenderAPI.VideoPlayback
             {
                 float num = rcfBoundSrcVideoPxl.Height * this.m_sizefInputContentAspect.Width / this.m_sizefInputContentAspect.Height;
                 flSrcWidthMultiplier = num / rcfBoundSrcVideoPxl.Width;
-                VideoPresentationBuilder.ApplyOverscanFactor(ref rcfBoundSrcVideoPxl, flOverscanPer1);
+                ApplyOverscanFactor(ref rcfBoundSrcVideoPxl, flOverscanPer1);
             }
             else
             {
@@ -294,7 +294,7 @@ namespace Microsoft.Iris.RenderAPI.VideoPlayback
             {
                 float num = rcfBoundDestViewPxl.Height * this.m_sizefInputDestAspect.Width / this.m_sizefInputDestAspect.Height;
                 flDstWidthMultiplier = num / rcfBoundDestViewPxl.Width;
-                VideoPresentationBuilder.ApplyOverscanFactor(ref rcfBoundDestViewPxl, flOverscanPer2);
+                ApplyOverscanFactor(ref rcfBoundDestViewPxl, flOverscanPer2);
             }
             else
             {

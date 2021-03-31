@@ -16,13 +16,13 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object Construct() => new AnimationHandle();
 
-        public static void Pass1Initialize() => AnimationHandleSchema.Type = new UIXTypeSchema(11, "AnimationHandle", null, 153, typeof(AnimationHandle), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(11, "AnimationHandle", null, 153, typeof(AnimationHandle), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(11, "Playing", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(AnimationHandleSchema.GetPlaying), null, false);
+            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(11, "Playing", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetPlaying), null, false);
             UIXEventSchema uixEventSchema = new UIXEventSchema(11, "Completed");
-            AnimationHandleSchema.Type.Initialize(new DefaultConstructHandler(AnimationHandleSchema.Construct), null, new PropertySchema[1]
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[1]
             {
          uixPropertySchema
             }, null, new EventSchema[1]

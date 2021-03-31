@@ -99,37 +99,37 @@ namespace Microsoft.Iris.Markup.UIX
             instance = null;
             if (BooleanSchema.Type.IsAssignableFrom(fromType))
             {
-                result = DoubleSchema.ConvertFromBoolean(from, out instance);
+                result = ConvertFromBoolean(from, out instance);
                 if (!result.Failed)
                     return result;
             }
             if (ByteSchema.Type.IsAssignableFrom(fromType))
             {
-                result = DoubleSchema.ConvertFromByte(from, out instance);
+                result = ConvertFromByte(from, out instance);
                 if (!result.Failed)
                     return result;
             }
             if (Int32Schema.Type.IsAssignableFrom(fromType))
             {
-                result = DoubleSchema.ConvertFromInt32(from, out instance);
+                result = ConvertFromInt32(from, out instance);
                 if (!result.Failed)
                     return result;
             }
             if (Int64Schema.Type.IsAssignableFrom(fromType))
             {
-                result = DoubleSchema.ConvertFromInt64(from, out instance);
+                result = ConvertFromInt64(from, out instance);
                 if (!result.Failed)
                     return result;
             }
             if (SingleSchema.Type.IsAssignableFrom(fromType))
             {
-                result = DoubleSchema.ConvertFromSingle(from, out instance);
+                result = ConvertFromSingle(from, out instance);
                 if (!result.Failed)
                     return result;
             }
             if (StringSchema.Type.IsAssignableFrom(fromType))
             {
-                result = DoubleSchema.ConvertFromString(from, out instance);
+                result = ConvertFromString(from, out instance);
                 if (!result.Failed)
                     return result;
             }
@@ -198,42 +198,42 @@ namespace Microsoft.Iris.Markup.UIX
             string parameter1 = (string)parameters[0];
             double parameter2 = (double)parameters[1];
             object instanceObj1;
-            return DoubleSchema.ConvertFromString(parameter1, out instanceObj1).Failed ? parameter2 : instanceObj1;
+            return ConvertFromString(parameter1, out instanceObj1).Failed ? parameter2 : instanceObj1;
         }
 
-        public static void Pass1Initialize() => DoubleSchema.Type = new UIXTypeSchema(61, "Double", "double", 153, typeof(double), UIXTypeFlags.Immutable);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(61, "Double", "double", 153, typeof(double), UIXTypeFlags.Immutable);
 
         public static void Pass2Initialize()
         {
             UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema(61, "ToString", new short[1]
             {
          208
-            }, 208, new InvokeHandler(DoubleSchema.CallToStringString), false);
+            }, 208, new InvokeHandler(CallToStringString), false);
             UIXMethodSchema uixMethodSchema2 = new UIXMethodSchema(61, "IsNaN", new short[1]
             {
          61
-            }, 15, new InvokeHandler(DoubleSchema.CallIsNaNDouble), true);
+            }, 15, new InvokeHandler(CallIsNaNDouble), true);
             UIXMethodSchema uixMethodSchema3 = new UIXMethodSchema(61, "IsNegativeInfinity", new short[1]
             {
          61
-            }, 15, new InvokeHandler(DoubleSchema.CallIsNegativeInfinityDouble), true);
+            }, 15, new InvokeHandler(CallIsNegativeInfinityDouble), true);
             UIXMethodSchema uixMethodSchema4 = new UIXMethodSchema(61, "IsPositiveInfinity", new short[1]
             {
          61
-            }, 15, new InvokeHandler(DoubleSchema.CallIsPositiveInfinityDouble), true);
+            }, 15, new InvokeHandler(CallIsPositiveInfinityDouble), true);
             UIXMethodSchema uixMethodSchema5 = new UIXMethodSchema(61, "TryParse", new short[2]
             {
          208,
          61
-            }, 61, new InvokeHandler(DoubleSchema.CallTryParseStringDouble), true);
-            DoubleSchema.Type.Initialize(new DefaultConstructHandler(DoubleSchema.Construct), null, null, new MethodSchema[5]
+            }, 61, new InvokeHandler(CallTryParseStringDouble), true);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, null, new MethodSchema[5]
             {
          uixMethodSchema1,
          uixMethodSchema2,
          uixMethodSchema3,
          uixMethodSchema4,
          uixMethodSchema5
-            }, null, null, new TypeConverterHandler(DoubleSchema.TryConvertFrom), new SupportsTypeConversionHandler(DoubleSchema.IsConversionSupported), new EncodeBinaryHandler(DoubleSchema.EncodeBinary), new DecodeBinaryHandler(DoubleSchema.DecodeBinary), new PerformOperationHandler(DoubleSchema.ExecuteOperation), new SupportsOperationHandler(DoubleSchema.IsOperationSupported));
+            }, null, null, new TypeConverterHandler(TryConvertFrom), new SupportsTypeConversionHandler(IsConversionSupported), new EncodeBinaryHandler(EncodeBinary), new DecodeBinaryHandler(DecodeBinary), new PerformOperationHandler(ExecuteOperation), new SupportsOperationHandler(IsOperationSupported));
         }
     }
 }

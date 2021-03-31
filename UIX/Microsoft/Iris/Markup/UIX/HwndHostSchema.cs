@@ -20,13 +20,13 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object Construct() => new HwndHost();
 
-        public static void Pass1Initialize() => HwndHostSchema.Type = new UIXTypeSchema(103, "HwndHost", null, 239, typeof(HwndHost), UIXTypeFlags.Disposable);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(103, "HwndHost", null, 239, typeof(HwndHost), UIXTypeFlags.Disposable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(103, "Handle", 116, -1, ExpressionRestriction.ReadOnly, false, null, true, new GetValueHandler(HwndHostSchema.GetHandle), null, false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(103, "ChildHandle", 116, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(HwndHostSchema.GetChildHandle), new SetValueHandler(HwndHostSchema.SetChildHandle), false);
-            HwndHostSchema.Type.Initialize(new DefaultConstructHandler(HwndHostSchema.Construct), null, new PropertySchema[2]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(103, "Handle", 116, -1, ExpressionRestriction.ReadOnly, false, null, true, new GetValueHandler(GetHandle), null, false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(103, "ChildHandle", 116, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetChildHandle), new SetValueHandler(SetChildHandle), false);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[2]
             {
          uixPropertySchema2,
          uixPropertySchema1

@@ -26,7 +26,7 @@ namespace Microsoft.Iris.Animations
 
         public RelativeTo(SnapshotPolicy snapshot) => this._snapshot = snapshot;
 
-        public bool IsRelativeToObject => this._sourceObject != null || this._sourceId != 0 || this == RelativeTo.s_current || this == RelativeTo.s_currentSnapshotOnLoop;
+        public bool IsRelativeToObject => this._sourceObject != null || this._sourceId != 0 || this == s_current || this == s_currentSnapshotOnLoop;
 
         public IAnimatable Source
         {
@@ -70,13 +70,13 @@ namespace Microsoft.Iris.Animations
             set => this._add = value;
         }
 
-        public static RelativeTo Absolute => RelativeTo.s_absolute;
+        public static RelativeTo Absolute => s_absolute;
 
-        public static RelativeTo Current => RelativeTo.s_current;
+        public static RelativeTo Current => s_current;
 
-        public static RelativeTo CurrentSnapshotOnLoop => RelativeTo.s_currentSnapshotOnLoop;
+        public static RelativeTo CurrentSnapshotOnLoop => s_currentSnapshotOnLoop;
 
-        public static RelativeTo Final => RelativeTo.s_final;
+        public static RelativeTo Final => s_final;
 
         public AnimationInput CreateAnimationInput(
           IAnimatable defaultSource,
@@ -126,13 +126,13 @@ namespace Microsoft.Iris.Animations
 
         public override string ToString()
         {
-            if (this == RelativeTo.s_absolute)
+            if (this == s_absolute)
                 return "Absolute";
-            if (this == RelativeTo.s_current)
+            if (this == s_current)
                 return "Current";
-            if (this == RelativeTo.s_currentSnapshotOnLoop)
+            if (this == s_currentSnapshotOnLoop)
                 return "CurrentSnapshotOnLoop";
-            return this == RelativeTo.s_final ? "Final" : string.Format("[Object = {0}, Property = {1}]", this._sourceObject != null ? _sourceObject : (object)this._sourceId, _sourceProperty);
+            return this == s_final ? "Final" : string.Format("[Object = {0}, Property = {1}]", this._sourceObject != null ? _sourceObject : (object)this._sourceId, _sourceProperty);
         }
     }
 }

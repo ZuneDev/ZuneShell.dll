@@ -20,7 +20,7 @@ namespace Microsoft.Iris.UI
             this._type = type;
         }
 
-        public void SetValueOnEffect(IEffect effect, string property) => EffectValue.SetValueOnEffect(effect, property, this._value, this._type);
+        public void SetValueOnEffect(IEffect effect, string property) => SetValueOnEffect(effect, property, this._value, this._type);
 
         public static void SetValueOnEffect(
           IEffect effect,

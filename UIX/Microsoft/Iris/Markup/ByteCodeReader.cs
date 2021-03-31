@@ -98,7 +98,7 @@ namespace Microsoft.Iris.Markup
             }
             if (this.CurrentOffset + num2 > this.Size)
                 this.ThrowReadError();
-            char[] chArray = num1 >= s_scratchCharArray.Length ? new char[num1] : ByteCodeReader.s_scratchCharArray;
+            char[] chArray = num1 >= s_scratchCharArray.Length ? new char[num1] : s_scratchCharArray;
             byte* numPtr1 = (byte*)(_buffer.ToInt32() + (int)CurrentOffset);
             if (flag)
             {

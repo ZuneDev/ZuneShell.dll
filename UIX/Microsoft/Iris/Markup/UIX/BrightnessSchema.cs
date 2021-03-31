@@ -18,12 +18,12 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object Construct() => new BrightnessElement();
 
-        public static void Pass1Initialize() => BrightnessSchema.Type = new UIXTypeSchema(17, "Brightness", null, 80, typeof(BrightnessElement), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(17, "Brightness", null, 80, typeof(BrightnessElement), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(17, "Brightness", 194, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(BrightnessSchema.GetBrightness), new SetValueHandler(BrightnessSchema.SetBrightness), false);
-            BrightnessSchema.Type.Initialize(new DefaultConstructHandler(BrightnessSchema.Construct), null, new PropertySchema[1]
+            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(17, "Brightness", 194, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetBrightness), new SetValueHandler(SetBrightness), false);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[1]
             {
          uixPropertySchema
             }, null, null, null, null, null, null, null, null, null);

@@ -20,14 +20,14 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object GetMappings(object instanceObj) => (object)null;
 
-        public static void Pass1Initialize() => DataMappingSchema.Type = new UIXTypeSchema(45, "DataMapping", null, -1, typeof(object), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(45, "DataMapping", null, -1, typeof(object), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(45, "TargetType", 208, -1, ExpressionRestriction.NoAccess, false, null, true, null, new SetValueHandler(DataMappingSchema.SetTargetType), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(45, "Provider", 208, -1, ExpressionRestriction.NoAccess, false, null, true, null, new SetValueHandler(DataMappingSchema.SetProvider), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(45, "Mappings", 138, 140, ExpressionRestriction.NoAccess, false, null, true, new GetValueHandler(DataMappingSchema.GetMappings), null, false);
-            DataMappingSchema.Type.Initialize(null, null, new PropertySchema[3]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(45, "TargetType", 208, -1, ExpressionRestriction.NoAccess, false, null, true, null, new SetValueHandler(SetTargetType), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(45, "Provider", 208, -1, ExpressionRestriction.NoAccess, false, null, true, null, new SetValueHandler(SetProvider), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(45, "Mappings", 138, 140, ExpressionRestriction.NoAccess, false, null, true, new GetValueHandler(GetMappings), null, false);
+            Type.Initialize(null, null, new PropertySchema[3]
             {
          uixPropertySchema3,
          uixPropertySchema2,

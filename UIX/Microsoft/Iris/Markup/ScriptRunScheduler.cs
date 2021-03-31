@@ -18,7 +18,7 @@ namespace Microsoft.Iris.Markup
         public void ScheduleRun(uint scriptId, bool ignoreErrors)
         {
             if (this._pendingList == null)
-                this._pendingList = ScriptRunScheduler.s_listCache.Acquire();
+                this._pendingList = s_listCache.Acquire();
             int index;
             for (index = 0; index < this._pendingList.Count; ++index)
             {
@@ -42,7 +42,7 @@ namespace Microsoft.Iris.Markup
                 ScriptRunScheduler.PendingScript pendingScript = pendingList[index];
                 markupTypeBase.RunScript(pendingScript.ScriptId, pendingScript.IgnoreErrors, new ParameterContext());
             }
-            ScriptRunScheduler.s_listCache.Release(pendingList);
+            s_listCache.Release(pendingList);
         }
 
         internal struct PendingScript

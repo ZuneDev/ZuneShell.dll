@@ -55,21 +55,21 @@ namespace Microsoft.Iris.Markup.UIX
             return null;
         }
 
-        public static void Pass1Initialize() => EnvironmentSchema.Type = new UIXTypeSchema(87, "Environment", null, 153, typeof(Environment), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(87, "Environment", null, 153, typeof(Environment), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(87, "IsRightToLeft", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(EnvironmentSchema.GetIsRightToLeft), null, false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(87, "ColorScheme", 39, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(EnvironmentSchema.GetColorScheme), null, false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(87, "AnimationSpeed", 194, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(EnvironmentSchema.GetAnimationSpeed), new SetValueHandler(EnvironmentSchema.SetAnimationSpeed), false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(87, "AnimationUpdatesPerSecond", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(EnvironmentSchema.GetAnimationUpdatesPerSecond), new SetValueHandler(EnvironmentSchema.SetAnimationUpdatesPerSecond), false);
-            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(87, "DpiScale", 194, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(EnvironmentSchema.GetDpiScale), null, true);
-            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(87, "GraphicsDeviceType", 98, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(EnvironmentSchema.GetGraphicsDeviceType), null, true);
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(87, "IsRightToLeft", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetIsRightToLeft), null, false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(87, "ColorScheme", 39, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetColorScheme), null, false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(87, "AnimationSpeed", 194, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetAnimationSpeed), new SetValueHandler(SetAnimationSpeed), false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(87, "AnimationUpdatesPerSecond", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetAnimationUpdatesPerSecond), new SetValueHandler(SetAnimationUpdatesPerSecond), false);
+            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(87, "DpiScale", 194, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetDpiScale), null, true);
+            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(87, "GraphicsDeviceType", 98, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetGraphicsDeviceType), null, true);
             UIXMethodSchema uixMethodSchema = new UIXMethodSchema(87, "AnimationAdvance", new short[1]
             {
          115
-            }, 240, new InvokeHandler(EnvironmentSchema.CallAnimationAdvanceInt32), false);
-            EnvironmentSchema.Type.Initialize(new DefaultConstructHandler(EnvironmentSchema.Construct), null, new PropertySchema[6]
+            }, 240, new InvokeHandler(CallAnimationAdvanceInt32), false);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[6]
             {
          uixPropertySchema3,
          uixPropertySchema4,

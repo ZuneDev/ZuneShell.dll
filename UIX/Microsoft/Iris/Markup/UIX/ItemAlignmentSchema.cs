@@ -63,16 +63,16 @@ namespace Microsoft.Iris.Markup.UIX
                 string[] strArray = str.Split(',');
                 if (strArray.Length != 2)
                     return Result.Fail("Unable to convert \"{0}\" to type '{1}'", str, "ItemAlignment");
-                Result alignment3 = ItemAlignmentSchema.ParseAlignment(strArray[0], out alignment1);
+                Result alignment3 = ParseAlignment(strArray[0], out alignment1);
                 if (alignment3.Failed)
                     return alignment3;
-                alignment3 = ItemAlignmentSchema.ParseAlignment(strArray[1], out alignment2);
+                alignment3 = ParseAlignment(strArray[1], out alignment2);
                 if (alignment3.Failed)
                     return alignment3;
             }
             else
             {
-                Result alignment3 = ItemAlignmentSchema.ParseAlignment(str, out alignment1);
+                Result alignment3 = ParseAlignment(str, out alignment1);
                 if (alignment3.Failed)
                     return alignment3;
                 alignment2 = alignment1;
@@ -93,7 +93,7 @@ namespace Microsoft.Iris.Markup.UIX
             instance = null;
             if (StringSchema.Type.IsAssignableFrom(fromType))
             {
-                result = ItemAlignmentSchema.ConvertFromString(from, out instance);
+                result = ConvertFromString(from, out instance);
                 if (!result.Failed)
                     return result;
             }
@@ -105,7 +105,7 @@ namespace Microsoft.Iris.Markup.UIX
             string parameter1 = (string)parameters[0];
             ItemAlignment parameter2 = (ItemAlignment)parameters[1];
             object instanceObj1;
-            return ItemAlignmentSchema.ConvertFromString(parameter1, out instanceObj1).Failed ? parameter2 : instanceObj1;
+            return ConvertFromString(parameter1, out instanceObj1).Failed ? parameter2 : instanceObj1;
         }
 
         private static Result ParseAlignment(string value, out Alignment alignment)
@@ -123,27 +123,27 @@ namespace Microsoft.Iris.Markup.UIX
             return Result.Success;
         }
 
-        public static void Pass1Initialize() => ItemAlignmentSchema.Type = new UIXTypeSchema(sbyte.MaxValue, "ItemAlignment", null, 153, typeof(ItemAlignment), UIXTypeFlags.Immutable);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(sbyte.MaxValue, "ItemAlignment", null, 153, typeof(ItemAlignment), UIXTypeFlags.Immutable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(sbyte.MaxValue, "Horizontal", 3, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(ItemAlignmentSchema.GetHorizontal), new SetValueHandler(ItemAlignmentSchema.SetHorizontal), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(sbyte.MaxValue, "Vertical", 3, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(ItemAlignmentSchema.GetVertical), new SetValueHandler(ItemAlignmentSchema.SetVertical), false);
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(sbyte.MaxValue, "Horizontal", 3, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetHorizontal), new SetValueHandler(SetHorizontal), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(sbyte.MaxValue, "Vertical", 3, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetVertical), new SetValueHandler(SetVertical), false);
             UIXConstructorSchema constructorSchema1 = new UIXConstructorSchema(sbyte.MaxValue, new short[1]
             {
          3
-            }, new ConstructHandler(ItemAlignmentSchema.ConstructAlignment));
+            }, new ConstructHandler(ConstructAlignment));
             UIXConstructorSchema constructorSchema2 = new UIXConstructorSchema(sbyte.MaxValue, new short[2]
             {
          3,
          3
-            }, new ConstructHandler(ItemAlignmentSchema.ConstructAlignmentAlignment));
+            }, new ConstructHandler(ConstructAlignmentAlignment));
             UIXMethodSchema uixMethodSchema = new UIXMethodSchema(sbyte.MaxValue, "TryParse", new short[2]
             {
          208,
          sbyte.MaxValue
-            }, sbyte.MaxValue, new InvokeHandler(ItemAlignmentSchema.CallTryParseStringItemAlignment), true);
-            ItemAlignmentSchema.Type.Initialize(new DefaultConstructHandler(ItemAlignmentSchema.Construct), new ConstructorSchema[2]
+            }, sbyte.MaxValue, new InvokeHandler(CallTryParseStringItemAlignment), true);
+            Type.Initialize(new DefaultConstructHandler(Construct), new ConstructorSchema[2]
             {
          constructorSchema1,
          constructorSchema2
@@ -154,7 +154,7 @@ namespace Microsoft.Iris.Markup.UIX
             }, new MethodSchema[1]
             {
          uixMethodSchema
-            }, null, null, new TypeConverterHandler(ItemAlignmentSchema.TryConvertFrom), new SupportsTypeConversionHandler(ItemAlignmentSchema.IsConversionSupported), new EncodeBinaryHandler(ItemAlignmentSchema.EncodeBinary), new DecodeBinaryHandler(ItemAlignmentSchema.DecodeBinary), null, null);
+            }, null, null, new TypeConverterHandler(TryConvertFrom), new SupportsTypeConversionHandler(IsConversionSupported), new EncodeBinaryHandler(EncodeBinary), new DecodeBinaryHandler(DecodeBinary), null, null);
         }
     }
 }

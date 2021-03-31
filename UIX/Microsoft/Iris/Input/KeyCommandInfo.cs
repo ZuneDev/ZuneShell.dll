@@ -10,10 +10,10 @@ namespace Microsoft.Iris.Input
 {
     internal class KeyCommandInfo : KeyActionInfo
     {
-        private static InputInfo.InfoType s_poolType = InputInfo.InfoType.KeyCommand;
+        private static InputInfo.InfoType s_poolType = InfoType.KeyCommand;
         public CommandCode _command;
 
-        static KeyCommandInfo() => InputInfo.SetPoolLimitMode(KeyCommandInfo.s_poolType, false);
+        static KeyCommandInfo() => SetPoolLimitMode(s_poolType, false);
 
         private KeyCommandInfo()
         {
@@ -24,7 +24,7 @@ namespace Microsoft.Iris.Input
           InputDeviceType deviceType,
           CommandCode command)
         {
-            KeyCommandInfo keyCommandInfo = (KeyCommandInfo)InputInfo.GetFromPool(KeyCommandInfo.s_poolType) ?? new KeyCommandInfo();
+            KeyCommandInfo keyCommandInfo = (KeyCommandInfo)GetFromPool(s_poolType) ?? new KeyCommandInfo();
             keyCommandInfo.Initialize(action, deviceType, command);
             return keyCommandInfo;
         }
@@ -37,7 +37,7 @@ namespace Microsoft.Iris.Input
 
         public CommandCode Command => this._command;
 
-        protected override InputInfo.InfoType PoolType => KeyCommandInfo.s_poolType;
+        protected override InputInfo.InfoType PoolType => s_poolType;
 
         public override string ToString() => InvariantString.Format("{0}({1}, Command={2})", this.GetType().Name, Action, _command);
     }

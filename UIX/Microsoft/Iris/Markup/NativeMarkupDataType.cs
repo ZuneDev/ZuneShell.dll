@@ -25,17 +25,17 @@ namespace Microsoft.Iris.Markup
 
         public static void InitializeStatics()
         {
-            NativeMarkupDataType.s_handleTable = new MarkupDataTypeHandleTable();
-            NativeMarkupDataType.s_finalizeLock = new object();
-            NativeMarkupDataType.s_pendingAppThreadRelease = false;
-            NativeMarkupDataType.s_releaseOnAppThread = new SimpleCallback(NativeMarkupDataType.ReleaseFinalizedObjects);
+            s_handleTable = new MarkupDataTypeHandleTable();
+            s_finalizeLock = new object();
+            s_pendingAppThreadRelease = false;
+            s_releaseOnAppThread = new SimpleCallback(ReleaseFinalizedObjects);
         }
 
         private NativeMarkupDataType(MarkupDataTypeSchema type, IntPtr externalObject)
           : base(type)
         {
             this._externalObject = externalObject;
-            this._handleToMe = NativeMarkupDataType.s_handleTable.RegisterProxy(this);
+            this._handleToMe = s_handleTable.RegisterProxy(this);
             this._typeHandle = type.UniqueId;
             NativeApi.SpAddRefExternalObject(this._externalObject);
             int num = (int)NativeApi.SpDataBaseObjectSetInternalHandle(this._externalObject, this._handleToMe);
@@ -44,22 +44,22 @@ namespace Microsoft.Iris.Markup
 
         protected override void OnDispose()
         {
-            NativeMarkupDataType.ReleaseNativeObject(this._externalObject, this._handleToMe, this._typeHandle);
+            ReleaseNativeObject(this._externalObject, this._handleToMe, this._typeHandle);
             GC.SuppressFinalize(this);
             base.OnDispose();
         }
 
         ~NativeMarkupDataType()
         {
-            lock (NativeMarkupDataType.s_finalizeLock)
+            lock (s_finalizeLock)
             {
-                if (NativeMarkupDataType.s_pendingReleases == null)
-                    NativeMarkupDataType.s_pendingReleases = new Vector<NativeMarkupDataType.AppThreadReleaseEntry>();
-                NativeMarkupDataType.s_pendingReleases.Add(new NativeMarkupDataType.AppThreadReleaseEntry(this._externalObject, this._handleToMe, this._typeHandle));
-                if (NativeMarkupDataType.s_pendingAppThreadRelease)
+                if (s_pendingReleases == null)
+                    s_pendingReleases = new Vector<NativeMarkupDataType.AppThreadReleaseEntry>();
+                s_pendingReleases.Add(new NativeMarkupDataType.AppThreadReleaseEntry(this._externalObject, this._handleToMe, this._typeHandle));
+                if (s_pendingAppThreadRelease)
                     return;
-                NativeMarkupDataType.s_pendingAppThreadRelease = true;
-                DeferredCall.Post(DispatchPriority.Idle, NativeMarkupDataType.s_releaseOnAppThread);
+                s_pendingAppThreadRelease = true;
+                DeferredCall.Post(DispatchPriority.Idle, s_releaseOnAppThread);
             }
         }
 
@@ -88,7 +88,7 @@ namespace Microsoft.Iris.Markup
         public static NativeMarkupDataType LookupByHandle(ulong handle)
         {
             MarkupDataType markupDataType;
-            NativeMarkupDataType.s_handleTable.LookupByHandle(handle, out markupDataType);
+            s_handleTable.LookupByHandle(handle, out markupDataType);
             return (NativeMarkupDataType)markupDataType;
         }
 
@@ -101,33 +101,33 @@ namespace Microsoft.Iris.Markup
 
         public static void ReleaseOutstandingProxies()
         {
-            NativeMarkupDataType.s_pendingAppThreadRelease = true;
+            s_pendingAppThreadRelease = true;
             GC.Collect();
             GC.WaitForPendingFinalizers();
             foreach (IDisposableObject disposableObject in s_handleTable)
                 disposableObject.Dispose(disposableObject);
-            NativeMarkupDataType.ReleaseFinalizedObjects();
+            ReleaseFinalizedObjects();
         }
 
         private static void ReleaseFinalizedObjects()
         {
             Vector<NativeMarkupDataType.AppThreadReleaseEntry> pendingReleases;
-            lock (NativeMarkupDataType.s_finalizeLock)
+            lock (s_finalizeLock)
             {
-                pendingReleases = NativeMarkupDataType.s_pendingReleases;
-                NativeMarkupDataType.s_pendingReleases = null;
-                NativeMarkupDataType.s_pendingAppThreadRelease = false;
+                pendingReleases = s_pendingReleases;
+                s_pendingReleases = null;
+                s_pendingAppThreadRelease = false;
             }
             if (pendingReleases == null || pendingReleases.Count == 0)
                 return;
             foreach (NativeMarkupDataType.AppThreadReleaseEntry threadReleaseEntry in pendingReleases)
-                NativeMarkupDataType.ReleaseNativeObject(threadReleaseEntry._nativeObject, threadReleaseEntry._handle, threadReleaseEntry._typeHandle);
-            lock (NativeMarkupDataType.s_finalizeLock)
+                ReleaseNativeObject(threadReleaseEntry._nativeObject, threadReleaseEntry._handle, threadReleaseEntry._typeHandle);
+            lock (s_finalizeLock)
             {
-                if (NativeMarkupDataType.s_pendingAppThreadRelease)
+                if (s_pendingAppThreadRelease)
                     return;
                 pendingReleases.Clear();
-                NativeMarkupDataType.s_pendingReleases = pendingReleases;
+                s_pendingReleases = pendingReleases;
             }
         }
 
@@ -136,7 +136,7 @@ namespace Microsoft.Iris.Markup
           ulong proxyHandle,
           ulong typeHandle)
         {
-            NativeMarkupDataType.s_handleTable.ReleaseProxy(proxyHandle);
+            s_handleTable.ReleaseProxy(proxyHandle);
             ulong frameworkQuery;
             int internalHandle = (int)NativeApi.SpDataBaseObjectGetInternalHandle(nativeObject, out frameworkQuery);
             if ((long)proxyHandle == (long)frameworkQuery)

@@ -22,14 +22,14 @@ namespace Microsoft.Iris.Markup
         public TypeSchema(LoadResult owner)
         {
             this._owner = owner;
-            this._id = ++TypeSchema.s_uniqueId;
-            TypeSchema.s_idToTypeSchema[this._id] = this;
+            this._id = ++s_uniqueId;
+            s_idToTypeSchema[this._id] = this;
             this.DeclareOwner(owner);
         }
 
         protected override void OnDispose()
         {
-            TypeSchema.s_idToTypeSchema.Remove(this._id);
+            s_idToTypeSchema.Remove(this._id);
             base.OnDispose();
         }
 
@@ -226,8 +226,8 @@ namespace Microsoft.Iris.Markup
 
         public static void RegisterTwoWayEquivalence(TypeSchema typeA, TypeSchema typeB)
         {
-            TypeSchema.RegisterOneWayEquivalence(typeA, typeB);
-            TypeSchema.RegisterOneWayEquivalence(typeB, typeA);
+            RegisterOneWayEquivalence(typeA, typeB);
+            RegisterOneWayEquivalence(typeB, typeA);
         }
 
         public void ShareEquivalents(Vector<TypeSchema> equivalents) => this._equivalents = equivalents;
@@ -241,7 +241,7 @@ namespace Microsoft.Iris.Markup
         public static TypeSchema LookupById(ulong id)
         {
             TypeSchema typeSchema;
-            TypeSchema.s_idToTypeSchema.TryGetValue(id, out typeSchema);
+            s_idToTypeSchema.TryGetValue(id, out typeSchema);
             return typeSchema;
         }
     }

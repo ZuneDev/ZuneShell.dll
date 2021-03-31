@@ -66,7 +66,7 @@ namespace Microsoft.Iris.InputHandlers
             this._readOnlyChangedHandler = new EventHandler(this.OnEditableTextReadOnlyChanged);
             this._valueChangedHandler = new EventHandler(this.OnEditableTextValueChanged);
             this._activationStateHandler = new EventHandler(this.OnActivationChanged);
-            this.SetBit(TextEditingHandler.Bits.AcceptsEnter);
+            this.SetBit(Bits.AcceptsEnter);
         }
 
         protected override void OnDispose()
@@ -204,10 +204,10 @@ namespace Microsoft.Iris.InputHandlers
 
         public bool DetectUrls
         {
-            get => this.GetBit(TextEditingHandler.Bits.DetectUrls);
+            get => this.GetBit(Bits.DetectUrls);
             set
             {
-                if (!this.ChangeBit(TextEditingHandler.Bits.DetectUrls, value))
+                if (!this.ChangeBit(Bits.DetectUrls, value))
                     return;
                 this._editControl.DetectUrls = value;
                 this.FireThreadSafeNotification(NotificationID.DetectUrls);
@@ -504,10 +504,10 @@ namespace Microsoft.Iris.InputHandlers
 
         public bool Overtype
         {
-            get => this.GetBit(TextEditingHandler.Bits.Overtype);
+            get => this.GetBit(Bits.Overtype);
             set
             {
-                if (!this.ChangeBit(TextEditingHandler.Bits.Overtype, value))
+                if (!this.ChangeBit(Bits.Overtype, value))
                     return;
                 this.FireThreadSafeNotification(NotificationID.Overtype);
             }
@@ -515,10 +515,10 @@ namespace Microsoft.Iris.InputHandlers
 
         public bool AcceptsTab
         {
-            get => this.GetBit(TextEditingHandler.Bits.AcceptsTab);
+            get => this.GetBit(Bits.AcceptsTab);
             set
             {
-                if (!this.ChangeBit(TextEditingHandler.Bits.AcceptsTab, value))
+                if (!this.ChangeBit(Bits.AcceptsTab, value))
                     return;
                 this.FireThreadSafeNotification(NotificationID.AcceptsTab);
             }
@@ -526,10 +526,10 @@ namespace Microsoft.Iris.InputHandlers
 
         public bool AcceptsEnter
         {
-            get => this.GetBit(TextEditingHandler.Bits.AcceptsEnter);
+            get => this.GetBit(Bits.AcceptsEnter);
             set
             {
-                if (!this.ChangeBit(TextEditingHandler.Bits.AcceptsEnter, value))
+                if (!this.ChangeBit(Bits.AcceptsEnter, value))
                     return;
                 this.FireThreadSafeNotification(NotificationID.AcceptsEnter);
             }
@@ -539,7 +539,7 @@ namespace Microsoft.Iris.InputHandlers
         {
             set
             {
-                if (!this.ChangeBit(TextEditingHandler.Bits.WordWrap, value))
+                if (!this.ChangeBit(Bits.WordWrap, value))
                     return;
                 this._editControl.SetWordWrap(value);
                 if (!value)
@@ -552,9 +552,9 @@ namespace Microsoft.Iris.InputHandlers
 
         private void CreateCommands()
         {
-            if (this.GetBit(TextEditingHandler.Bits.CommandsCreated))
+            if (this.GetBit(Bits.CommandsCreated))
                 return;
-            this.SetBit(TextEditingHandler.Bits.CommandsCreated);
+            this.SetBit(Bits.CommandsCreated);
             this._undoCommand = new TextEditingHandler.TextEditingCommand(new SimpleCallback(this._editControl.Undo));
             this._cutCommand = new TextEditingHandler.TextEditingCommand(new SimpleCallback(this._editControl.Cut));
             this._copyCommand = new TextEditingHandler.TextEditingCommand(new SimpleCallback(this._editControl.Copy));
@@ -656,7 +656,7 @@ namespace Microsoft.Iris.InputHandlers
 
         private void UpdateSelectionAndReadOnlyCommands()
         {
-            if (!this.GetBit(TextEditingHandler.Bits.CommandsCreated))
+            if (!this.GetBit(Bits.CommandsCreated))
                 return;
             bool flag1 = !this._selection.IsEmpty;
             bool flag2 = this._editData == null || this._editData.ReadOnly;
@@ -670,10 +670,10 @@ namespace Microsoft.Iris.InputHandlers
         {
             if (!Application.IsApplicationThread)
             {
-                Application.DeferredInvoke(args => ((IRichTextCallbacks)args).TextChanged(), this, Microsoft.Iris.DeferredInvokePriority.Normal);
+                Application.DeferredInvoke(args => ((IRichTextCallbacks)args).TextChanged(), this, DeferredInvokePriority.Normal);
                 return new HRESULT(0);
             }
-            if (this.GetBit(TextEditingHandler.Bits.CommandsCreated))
+            if (this.GetBit(Bits.CommandsCreated))
                 this.UpdateTextBasedCommandAvailability();
             if (this._editData != null && !this.InsideContentChangeOnRichEdit)
             {
@@ -688,7 +688,7 @@ namespace Microsoft.Iris.InputHandlers
         {
             if (!Application.IsApplicationThread)
             {
-                Application.DeferredInvoke(args => ((IRichTextCallbacks)args).InvalidateContent(), this, Microsoft.Iris.DeferredInvokePriority.Normal);
+                Application.DeferredInvoke(args => ((IRichTextCallbacks)args).InvalidateContent(), this, DeferredInvokePriority.Normal);
                 return new HRESULT(0);
             }
             if (this._textDisplay != null)
@@ -883,11 +883,11 @@ namespace Microsoft.Iris.InputHandlers
 
         private void ScheduleScrollbarUpdate(bool vertical)
         {
-            bool flag = !this.GetBit(TextEditingHandler.Bits.PendingVerticalScrollbarUpdate) && !this.GetBit(TextEditingHandler.Bits.PendingHorizontalScrollbarUpdate);
+            bool flag = !this.GetBit(Bits.PendingVerticalScrollbarUpdate) && !this.GetBit(Bits.PendingHorizontalScrollbarUpdate);
             if (vertical)
-                this.SetBit(TextEditingHandler.Bits.PendingVerticalScrollbarUpdate);
+                this.SetBit(Bits.PendingVerticalScrollbarUpdate);
             else
-                this.SetBit(TextEditingHandler.Bits.PendingHorizontalScrollbarUpdate);
+                this.SetBit(Bits.PendingHorizontalScrollbarUpdate);
             if (!flag)
                 return;
             if (this._updateScrollbars == null)
@@ -897,15 +897,15 @@ namespace Microsoft.Iris.InputHandlers
 
         private void UpdateScrollbars()
         {
-            if (this.GetBit(TextEditingHandler.Bits.PendingVerticalScrollbarUpdate))
+            if (this.GetBit(Bits.PendingVerticalScrollbarUpdate))
             {
-                this.ClearBit(TextEditingHandler.Bits.PendingVerticalScrollbarUpdate);
+                this.ClearBit(Bits.PendingVerticalScrollbarUpdate);
                 this._verticalScrollModel.UpdateState(this._pendingVerticalScrollState);
                 this._pendingVerticalScrollState = new TextScrollModel.State();
             }
-            if (!this.GetBit(TextEditingHandler.Bits.PendingHorizontalScrollbarUpdate))
+            if (!this.GetBit(Bits.PendingHorizontalScrollbarUpdate))
                 return;
-            this.ClearBit(TextEditingHandler.Bits.PendingHorizontalScrollbarUpdate);
+            this.ClearBit(Bits.PendingHorizontalScrollbarUpdate);
             this._horizontalScrollModel.UpdateState(this._pendingHorizontalScrollState);
             this._pendingHorizontalScrollState = new TextScrollModel.State();
         }
@@ -982,50 +982,50 @@ namespace Microsoft.Iris.InputHandlers
 
         private bool HandledTabKeyDown
         {
-            get => this.GetBit(TextEditingHandler.Bits.HandledTabKeyDown);
-            set => this.SetBit(TextEditingHandler.Bits.HandledTabKeyDown, value);
+            get => this.GetBit(Bits.HandledTabKeyDown);
+            set => this.SetBit(Bits.HandledTabKeyDown, value);
         }
 
         private bool HandledEnterKeyDown
         {
-            get => this.GetBit(TextEditingHandler.Bits.HandledEnterKeyDown);
-            set => this.SetBit(TextEditingHandler.Bits.HandledEnterKeyDown, value);
+            get => this.GetBit(Bits.HandledEnterKeyDown);
+            set => this.SetBit(Bits.HandledEnterKeyDown, value);
         }
 
         private bool InputOffsetDirty
         {
-            get => this.GetBit(TextEditingHandler.Bits.InputOffsetDirty);
-            set => this.SetBit(TextEditingHandler.Bits.InputOffsetDirty, value);
+            get => this.GetBit(Bits.InputOffsetDirty);
+            set => this.SetBit(Bits.InputOffsetDirty, value);
         }
 
         private bool MousePrimaryDown
         {
-            get => this.GetBit(TextEditingHandler.Bits.MousePrimaryDown);
-            set => this.SetBit(TextEditingHandler.Bits.MousePrimaryDown, value);
+            get => this.GetBit(Bits.MousePrimaryDown);
+            set => this.SetBit(Bits.MousePrimaryDown, value);
         }
 
         private bool InsideValueChangeOnEditableTextData
         {
-            get => this.GetBit(TextEditingHandler.Bits.InsideValueChangeOnEditableTextData);
-            set => this.SetBit(TextEditingHandler.Bits.InsideValueChangeOnEditableTextData, value);
+            get => this.GetBit(Bits.InsideValueChangeOnEditableTextData);
+            set => this.SetBit(Bits.InsideValueChangeOnEditableTextData, value);
         }
 
         private bool InsideContentChangeOnRichEdit
         {
-            get => this.GetBit(TextEditingHandler.Bits.InsideContentChangeOnRichEdit);
-            set => this.SetBit(TextEditingHandler.Bits.InsideContentChangeOnRichEdit, value);
+            get => this.GetBit(Bits.InsideContentChangeOnRichEdit);
+            set => this.SetBit(Bits.InsideContentChangeOnRichEdit, value);
         }
 
         private bool RichEditCaretVisible
         {
-            get => this.GetBit(TextEditingHandler.Bits.RichEditCaretVisible);
-            set => this.SetBit(TextEditingHandler.Bits.RichEditCaretVisible, value);
+            get => this.GetBit(Bits.RichEditCaretVisible);
+            set => this.SetBit(Bits.RichEditCaretVisible, value);
         }
 
         private bool WindowIsActivated
         {
-            get => this.GetBit(TextEditingHandler.Bits.WindowIsActivated);
-            set => this.SetBit(TextEditingHandler.Bits.WindowIsActivated, value);
+            get => this.GetBit(Bits.WindowIsActivated);
+            set => this.SetBit(Bits.WindowIsActivated, value);
         }
 
         private bool GetBit(TextEditingHandler.Bits lookupBit) => ((TextEditingHandler.Bits)this._bits & lookupBit) != 0;

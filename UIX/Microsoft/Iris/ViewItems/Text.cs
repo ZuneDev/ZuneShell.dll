@@ -75,7 +75,7 @@ namespace Microsoft.Iris.ViewItems
         public Text()
         {
             this.Layout = this;
-            this._font = Microsoft.Iris.ViewItems.Text.s_defaultFont;
+            this._font = s_defaultFont;
             this._textColor = Color.Black;
             this._textHighlightColor = Color.White;
             this._backHighlightColor = Color.Black;
@@ -84,17 +84,17 @@ namespace Microsoft.Iris.ViewItems
             this._maxLines = int.MaxValue;
             this._passwordChar = '•';
             this._lineAlignment = LineAlignment.Near;
-            this._richTextRasterizer = Microsoft.Iris.ViewItems.Text.SharedNonOversampledRasterizer;
+            this._richTextRasterizer = SharedNonOversampledRasterizer;
             this._renderingHelper = new TextFlowRenderingHelper();
             this.ContributesToWidth = true;
             this.TextFitsWidth = true;
             this.TextFitsHeight = true;
             this.SetClipped(false);
             this.MarkScaleDirty();
-            if (Microsoft.Iris.ViewItems.Text.s_simpleTextMeasureAvailable)
+            if (s_simpleTextMeasureAvailable)
                 return;
-            this.ClearBit(Microsoft.Iris.ViewItems.Text.Bits.FastMeasurePossible);
-            this.SetBit(Microsoft.Iris.ViewItems.Text.Bits.FastMeasureValid);
+            this.ClearBit(Bits.FastMeasurePossible);
+            this.SetBit(Bits.FastMeasureValid);
         }
 
         public Text(UIClass ownerUI)
@@ -123,29 +123,29 @@ namespace Microsoft.Iris.ViewItems
 
         public static void Uninitialize()
         {
-            if (Microsoft.Iris.ViewItems.Text.s_sharedOversampledRasterizer != null)
+            if (s_sharedOversampledRasterizer != null)
             {
-                Microsoft.Iris.ViewItems.Text.s_sharedOversampledRasterizer.Dispose();
-                Microsoft.Iris.ViewItems.Text.s_sharedOversampledRasterizer = null;
+                s_sharedOversampledRasterizer.Dispose();
+                s_sharedOversampledRasterizer = null;
             }
-            if (Microsoft.Iris.ViewItems.Text.s_sharedNonOversampledRasterizer != null)
+            if (s_sharedNonOversampledRasterizer != null)
             {
-                Microsoft.Iris.ViewItems.Text.s_sharedNonOversampledRasterizer.Dispose();
-                Microsoft.Iris.ViewItems.Text.s_sharedNonOversampledRasterizer = null;
+                s_sharedNonOversampledRasterizer.Dispose();
+                s_sharedNonOversampledRasterizer = null;
             }
-            if (Microsoft.Iris.ViewItems.Text.s_sharedSimpleTextRasterizer == null)
+            if (s_sharedSimpleTextRasterizer == null)
                 return;
-            Microsoft.Iris.ViewItems.Text.s_sharedSimpleTextRasterizer.Dispose();
-            Microsoft.Iris.ViewItems.Text.s_sharedSimpleTextRasterizer = null;
+            s_sharedSimpleTextRasterizer.Dispose();
+            s_sharedSimpleTextRasterizer = null;
         }
 
         private static SimpleText SharedSimpleTextRasterizer
         {
             get
             {
-                if (Microsoft.Iris.ViewItems.Text.s_sharedSimpleTextRasterizer == null)
-                    Microsoft.Iris.ViewItems.Text.s_sharedSimpleTextRasterizer = new SimpleText();
-                return Microsoft.Iris.ViewItems.Text.s_sharedSimpleTextRasterizer;
+                if (s_sharedSimpleTextRasterizer == null)
+                    s_sharedSimpleTextRasterizer = new SimpleText();
+                return s_sharedSimpleTextRasterizer;
             }
         }
 
@@ -153,13 +153,13 @@ namespace Microsoft.Iris.ViewItems
         {
             get
             {
-                if (Microsoft.Iris.ViewItems.Text.s_sharedOversampledRasterizer == null)
+                if (s_sharedOversampledRasterizer == null)
                 {
-                    Microsoft.Iris.ViewItems.Text.s_sharedOversampledRasterizer = new RichText(true);
-                    Microsoft.Iris.ViewItems.Text.s_sharedOversampledRasterizer.Oversample = true;
-                    Microsoft.Iris.ViewItems.Text.s_simpleTextMeasureAvailable = NativeApi.SpSimpleTextIsAvailable();
+                    s_sharedOversampledRasterizer = new RichText(true);
+                    s_sharedOversampledRasterizer.Oversample = true;
+                    s_simpleTextMeasureAvailable = NativeApi.SpSimpleTextIsAvailable();
                 }
-                return Microsoft.Iris.ViewItems.Text.s_sharedOversampledRasterizer;
+                return s_sharedOversampledRasterizer;
             }
         }
 
@@ -167,12 +167,12 @@ namespace Microsoft.Iris.ViewItems
         {
             get
             {
-                if (Microsoft.Iris.ViewItems.Text.s_sharedNonOversampledRasterizer == null)
+                if (s_sharedNonOversampledRasterizer == null)
                 {
-                    Microsoft.Iris.ViewItems.Text.s_sharedNonOversampledRasterizer = new RichText(true);
-                    Microsoft.Iris.ViewItems.Text.s_simpleTextMeasureAvailable = NativeApi.SpSimpleTextIsAvailable();
+                    s_sharedNonOversampledRasterizer = new RichText(true);
+                    s_simpleTextMeasureAvailable = NativeApi.SpSimpleTextIsAvailable();
                 }
-                return Microsoft.Iris.ViewItems.Text.s_sharedNonOversampledRasterizer;
+                return s_sharedNonOversampledRasterizer;
             }
         }
 
@@ -185,7 +185,7 @@ namespace Microsoft.Iris.ViewItems
                     return;
                 if (value != null && value.Length > 3)
                 {
-                    this._content = value.TrimEnd(Microsoft.Iris.ViewItems.Text.s_whitespaceChars);
+                    this._content = value.TrimEnd(s_whitespaceChars);
                     char ch1 = value[value.Length - 1];
                     char ch2 = value[value.Length - 2];
                     if (ch1 == ' ' && ch2 != ' ')
@@ -200,12 +200,12 @@ namespace Microsoft.Iris.ViewItems
             }
         }
 
-        public void MarkScaleDirty() => this.SetBit(Microsoft.Iris.ViewItems.Text.Bits.ScaleDirty);
+        public void MarkScaleDirty() => this.SetBit(Bits.ScaleDirty);
 
         private bool InMeasure
         {
-            get => this.GetBit(Microsoft.Iris.ViewItems.Text.Bits.InMeasure);
-            set => this.SetBit(Microsoft.Iris.ViewItems.Text.Bits.InMeasure, value);
+            get => this.GetBit(Bits.InMeasure);
+            set => this.SetBit(Bits.InMeasure, value);
         }
 
         public void OnDisplayedContentChange()
@@ -297,10 +297,10 @@ namespace Microsoft.Iris.ViewItems
                         flag = true;
                         break;
                 }
-                if (this._richTextRasterizer == Microsoft.Iris.ViewItems.Text.s_sharedNonOversampledRasterizer && flag)
-                    this._richTextRasterizer = Microsoft.Iris.ViewItems.Text.SharedOversampledRasterizer;
-                else if (this._richTextRasterizer == Microsoft.Iris.ViewItems.Text.s_sharedOversampledRasterizer && !flag)
-                    this._richTextRasterizer = Microsoft.Iris.ViewItems.Text.SharedNonOversampledRasterizer;
+                if (this._richTextRasterizer == s_sharedNonOversampledRasterizer && flag)
+                    this._richTextRasterizer = SharedOversampledRasterizer;
+                else if (this._richTextRasterizer == s_sharedOversampledRasterizer && !flag)
+                    this._richTextRasterizer = SharedNonOversampledRasterizer;
                 else
                     this._richTextRasterizer.Oversample = flag;
                 this.MarkTextLayoutInvalid();
@@ -311,12 +311,12 @@ namespace Microsoft.Iris.ViewItems
 
         public bool WordWrap
         {
-            get => this.GetBit(Microsoft.Iris.ViewItems.Text.Bits.WordWrap);
+            get => this.GetBit(Bits.WordWrap);
             set
             {
                 if (this.WordWrap == value)
                     return;
-                this.SetBit(Microsoft.Iris.ViewItems.Text.Bits.WordWrap, value);
+                this.SetBit(Bits.WordWrap, value);
                 if (value)
                     this.KeepFlowAlive = true;
                 this.MarkPaintInvalid();
@@ -328,12 +328,12 @@ namespace Microsoft.Iris.ViewItems
 
         public bool UsePasswordMask
         {
-            get => this.GetBit(Microsoft.Iris.ViewItems.Text.Bits.PasswordMasked);
+            get => this.GetBit(Bits.PasswordMasked);
             set
             {
                 if (this.UsePasswordMask == value)
                     return;
-                this.SetBit(Microsoft.Iris.ViewItems.Text.Bits.PasswordMasked, value);
+                this.SetBit(Bits.PasswordMasked, value);
                 this.MarkPaintInvalid();
                 this.MarkTextLayoutInvalid();
                 this.FireNotification(NotificationID.UsePasswordMask);
@@ -387,13 +387,13 @@ namespace Microsoft.Iris.ViewItems
 
         public float LineSpacing
         {
-            get => !this.GetBit(Microsoft.Iris.ViewItems.Text.Bits.LineSpacingSet) ? 0.0f : this._lineSpacing;
+            get => !this.GetBit(Bits.LineSpacingSet) ? 0.0f : this._lineSpacing;
             set
             {
                 if (LineSpacing == (double)value)
                     return;
                 this._lineSpacing = value;
-                this.SetBit(Microsoft.Iris.ViewItems.Text.Bits.LineSpacingSet);
+                this.SetBit(Bits.LineSpacingSet);
                 this.MarkPaintInvalid();
                 this.MarkTextLayoutInvalid();
                 this.FireNotification(NotificationID.LineSpacing);
@@ -402,13 +402,13 @@ namespace Microsoft.Iris.ViewItems
 
         public float CharacterSpacing
         {
-            get => !this.GetBit(Microsoft.Iris.ViewItems.Text.Bits.CharacterSpacingSet) ? 0.0f : this._characterSpacing;
+            get => !this.GetBit(Bits.CharacterSpacingSet) ? 0.0f : this._characterSpacing;
             set
             {
                 if (CharacterSpacing == (double)value)
                     return;
                 this._characterSpacing = value;
-                this.SetBit(Microsoft.Iris.ViewItems.Text.Bits.CharacterSpacingSet);
+                this.SetBit(Bits.CharacterSpacingSet);
                 this.MarkPaintInvalid();
                 this.MarkTextLayoutInvalid();
                 this.FireNotification(NotificationID.CharacterSpacing);
@@ -417,13 +417,13 @@ namespace Microsoft.Iris.ViewItems
 
         public bool EnableKerning
         {
-            get => this.GetBit(Microsoft.Iris.ViewItems.Text.Bits.EnableKerningSet) && this._enableKerning;
+            get => this.GetBit(Bits.EnableKerningSet) && this._enableKerning;
             set
             {
                 if (this.EnableKerning == value)
                     return;
                 this._enableKerning = value;
-                this.SetBit(Microsoft.Iris.ViewItems.Text.Bits.EnableKerningSet);
+                this.SetBit(Bits.EnableKerningSet);
                 this.MarkPaintInvalid();
                 this.MarkTextLayoutInvalid();
                 this.FireNotification(NotificationID.EnableKerning);
@@ -511,12 +511,12 @@ namespace Microsoft.Iris.ViewItems
 
         public bool ContributesToWidth
         {
-            get => this.GetBit(Microsoft.Iris.ViewItems.Text.Bits.ContributesToWidth);
+            get => this.GetBit(Bits.ContributesToWidth);
             set
             {
                 if (this.ContributesToWidth == value)
                     return;
-                this.SetBit(Microsoft.Iris.ViewItems.Text.Bits.ContributesToWidth, value);
+                this.SetBit(Bits.ContributesToWidth, value);
                 this.FireNotification(NotificationID.ContributesToWidth);
                 this.MarkLayoutInvalid();
             }
@@ -535,13 +535,13 @@ namespace Microsoft.Iris.ViewItems
             }
         }
 
-        public bool Clipped => this.GetBit(Microsoft.Iris.ViewItems.Text.Bits.Clipped);
+        public bool Clipped => this.GetBit(Bits.Clipped);
 
         private void SetClipped(bool value)
         {
-            if (this.GetBit(Microsoft.Iris.ViewItems.Text.Bits.Clipped) == value)
+            if (this.GetBit(Bits.Clipped) == value)
                 return;
-            this.SetBit(Microsoft.Iris.ViewItems.Text.Bits.Clipped, value);
+            this.SetBit(Bits.Clipped, value);
             this.FireNotification(NotificationID.Clipped);
         }
 
@@ -559,7 +559,7 @@ namespace Microsoft.Iris.ViewItems
                     this.MarkScaleDirty();
                 }
                 else
-                    this._richTextRasterizer = !oversample ? Microsoft.Iris.ViewItems.Text.SharedNonOversampledRasterizer : Microsoft.Iris.ViewItems.Text.SharedOversampledRasterizer;
+                    this._richTextRasterizer = !oversample ? SharedNonOversampledRasterizer : SharedOversampledRasterizer;
                 this.MarkTextLayoutInvalid();
             }
         }
@@ -584,7 +584,7 @@ namespace Microsoft.Iris.ViewItems
 
         public ItemAlignment DefaultChildAlignment => ItemAlignment.Default;
 
-        public bool IsViewDependent(ViewItem node) => this.GetBit(Microsoft.Iris.ViewItems.Text.Bits.ViewDependent);
+        public bool IsViewDependent(ViewItem node) => this.GetBit(Bits.ViewDependent);
 
         public void GetInitialChildrenRequests(out int more) => more = 0;
 
@@ -747,7 +747,7 @@ namespace Microsoft.Iris.ViewItems
                 }
             }
             this.KeepFlowAlive |= flag1;
-            this.SetBit(Microsoft.Iris.ViewItems.Text.Bits.ViewDependent, flag1);
+            this.SetBit(Bits.ViewDependent, flag1);
             DefaultLayout.Arrange(layoutNode, slot);
         }
 
@@ -771,7 +771,7 @@ namespace Microsoft.Iris.ViewItems
             TextStyle effectiveTextStyle = this.GetEffectiveTextStyle();
             Size constraint = new Size(boundingWidth, boundingHeight);
             this.DisposeFlow();
-            this._flow = Microsoft.Iris.ViewItems.Text.SharedSimpleTextRasterizer.Measure(this._content, alignment, effectiveTextStyle, constraint);
+            this._flow = SharedSimpleTextRasterizer.Measure(this._content, alignment, effectiveTextStyle, constraint);
             this._flow.DeclareOwner(this);
         }
 
@@ -793,7 +793,7 @@ namespace Microsoft.Iris.ViewItems
                     if (this._parsedContent == null && content != null)
                     {
                         this._parsedContentMarkedRanges = new ArrayList();
-                        this._parsedContent = Microsoft.Iris.ViewItems.Text.ParseMarkedUpText(content, this._parsedContentMarkedRanges);
+                        this._parsedContent = ParseMarkedUpText(content, this._parsedContentMarkedRanges);
                     }
                     content = this._parsedContent;
                 }
@@ -807,9 +807,9 @@ namespace Microsoft.Iris.ViewItems
             measureParams.SetFormat(alignment, effectiveTextStyle);
             if ((this._boundsType & TextBounds.TrimLeftSideBearing) != TextBounds.Full && this._lineAlignment == LineAlignment.Near)
                 measureParams.TrimLeftSideBearing();
-            if (!this.UsedForEditing || this.GetBit(Microsoft.Iris.ViewItems.Text.Bits.ScaleDirty))
+            if (!this.UsedForEditing || this.GetBit(Bits.ScaleDirty))
             {
-                this.ClearBit(Microsoft.Iris.ViewItems.Text.Bits.ScaleDirty);
+                this.ClearBit(Bits.ScaleDirty);
                 measureParams.SetScale(this._scale);
             }
             if (this._parsedContent != null)
@@ -825,22 +825,22 @@ namespace Microsoft.Iris.ViewItems
         {
             get
             {
-                if (!this.GetBit(Microsoft.Iris.ViewItems.Text.Bits.FastMeasureValid))
+                if (!this.GetBit(Bits.FastMeasureValid))
                 {
                     bool flag = this.UsingSharedRasterizer && !this.WordWrap && (this._namedStyles == null && _scale == 1.0) && (this.TextSharpness == TextSharpness.Sharp && !this.UsePasswordMask) && !this.Zone.Session.IsRtl;
                     if (flag)
-                        flag = Microsoft.Iris.ViewItems.Text.SharedSimpleTextRasterizer.CanMeasure(this.Content, this.GetEffectiveTextStyle());
-                    this.SetBit(Microsoft.Iris.ViewItems.Text.Bits.FastMeasurePossible, flag);
-                    this.SetBit(Microsoft.Iris.ViewItems.Text.Bits.FastMeasureValid);
+                        flag = SharedSimpleTextRasterizer.CanMeasure(this.Content, this.GetEffectiveTextStyle());
+                    this.SetBit(Bits.FastMeasurePossible, flag);
+                    this.SetBit(Bits.FastMeasureValid);
                 }
-                return this.GetBit(Microsoft.Iris.ViewItems.Text.Bits.FastMeasurePossible);
+                return this.GetBit(Bits.FastMeasurePossible);
             }
         }
 
         internal TextStyle GetEffectiveTextStyle()
         {
             TextStyle textStyle = new TextStyle();
-            Font font = this._font ?? Microsoft.Iris.ViewItems.Text.s_defaultFont;
+            Font font = this._font ?? s_defaultFont;
             textStyle.FontFace = font.FontName;
             textStyle.FontSize = font.FontSize;
             if (font.AltFontSize != (double)font.FontSize)
@@ -852,11 +852,11 @@ namespace Microsoft.Iris.ViewItems
             if ((font.FontStyle & FontStyles.Underline) != FontStyles.None)
                 textStyle.Underline = true;
             textStyle.Color = this._textColor;
-            if (this.GetBit(Microsoft.Iris.ViewItems.Text.Bits.LineSpacingSet))
+            if (this.GetBit(Bits.LineSpacingSet))
                 textStyle.LineSpacing = this.LineSpacing;
-            if (this.GetBit(Microsoft.Iris.ViewItems.Text.Bits.CharacterSpacingSet))
+            if (this.GetBit(Bits.CharacterSpacingSet))
                 textStyle.CharacterSpacing = this.CharacterSpacing;
-            if (this.GetBit(Microsoft.Iris.ViewItems.Text.Bits.EnableKerningSet))
+            if (this.GetBit(Bits.EnableKerningSet))
                 textStyle.EnableKerning = this.EnableKerning;
             if (this._textStyle != null)
                 textStyle.Add(this._textStyle);
@@ -872,7 +872,7 @@ namespace Microsoft.Iris.ViewItems
                     arrayList = this.AnnotateFragments();
                 bool flag = false;
                 if (this._fragments != null || arrayList != null)
-                    flag = this.TextLayoutInvalid || !Microsoft.Iris.ViewItems.Text.AreFragmentListsEquivalent(_fragments, arrayList);
+                    flag = this.TextLayoutInvalid || !AreFragmentListsEquivalent(_fragments, arrayList);
                 if (flag)
                 {
                     this.UnregisterFragmentUsage();
@@ -1198,7 +1198,7 @@ namespace Microsoft.Iris.ViewItems
                 if (run.Visible && !run.IsFragment)
                 {
                     Color effectiveColor = this.GetEffectiveColor(run);
-                    IImage imageForRun = Microsoft.Iris.ViewItems.Text.GetImageForRun(this.UISession, run, effectiveColor);
+                    IImage imageForRun = GetImageForRun(this.UISession, run, effectiveColor);
                     if (imageForRun != null)
                     {
                         float x = run.RenderBounds.Left + _lineAlignmentOffset;
@@ -1325,8 +1325,8 @@ namespace Microsoft.Iris.ViewItems
         private void MarkTextLayoutInvalid()
         {
             this.TextLayoutInvalid = true;
-            if (Microsoft.Iris.ViewItems.Text.s_simpleTextMeasureAvailable)
-                this.ClearBit(Microsoft.Iris.ViewItems.Text.Bits.FastMeasureValid);
+            if (s_simpleTextMeasureAvailable)
+                this.ClearBit(Bits.FastMeasureValid);
             this.DisposeFlow();
             this.MarkLayoutInvalid();
         }
@@ -1363,50 +1363,50 @@ namespace Microsoft.Iris.ViewItems
 
         private bool TextFitsWidth
         {
-            get => this.GetBit(Microsoft.Iris.ViewItems.Text.Bits.TextFitsWidth);
-            set => this.SetBit(Microsoft.Iris.ViewItems.Text.Bits.TextFitsWidth, value);
+            get => this.GetBit(Bits.TextFitsWidth);
+            set => this.SetBit(Bits.TextFitsWidth, value);
         }
 
         private bool TextFitsHeight
         {
-            get => this.GetBit(Microsoft.Iris.ViewItems.Text.Bits.TextFitsHeight);
-            set => this.SetBit(Microsoft.Iris.ViewItems.Text.Bits.TextFitsHeight, value);
+            get => this.GetBit(Bits.TextFitsHeight);
+            set => this.SetBit(Bits.TextFitsHeight, value);
         }
 
         private bool ClipToHeight
         {
-            get => this.GetBit(Microsoft.Iris.ViewItems.Text.Bits.ClipToHeight);
-            set => this.SetBit(Microsoft.Iris.ViewItems.Text.Bits.ClipToHeight, value);
+            get => this.GetBit(Bits.ClipToHeight);
+            set => this.SetBit(Bits.ClipToHeight, value);
         }
 
         private bool KeepFlowAlive
         {
-            get => this.GetBit(Microsoft.Iris.ViewItems.Text.Bits.KeepFlowAlive);
-            set => this.SetBit(Microsoft.Iris.ViewItems.Text.Bits.KeepFlowAlive, value);
+            get => this.GetBit(Bits.KeepFlowAlive);
+            set => this.SetBit(Bits.KeepFlowAlive, value);
         }
 
         private bool HasEverPainted
         {
-            get => this.GetBit(Microsoft.Iris.ViewItems.Text.Bits.HasEverPainted);
-            set => this.SetBit(Microsoft.Iris.ViewItems.Text.Bits.HasEverPainted, value);
+            get => this.GetBit(Bits.HasEverPainted);
+            set => this.SetBit(Bits.HasEverPainted, value);
         }
 
         private bool TextLayoutInvalid
         {
-            get => this.GetBit(Microsoft.Iris.ViewItems.Text.Bits.TextLayoutInvalid);
-            set => this.SetBit(Microsoft.Iris.ViewItems.Text.Bits.TextLayoutInvalid, value);
+            get => this.GetBit(Bits.TextLayoutInvalid);
+            set => this.SetBit(Bits.TextLayoutInvalid, value);
         }
 
         private bool UpdateFragmentsAfterLayout
         {
-            get => this.GetBit(Microsoft.Iris.ViewItems.Text.Bits.UpdateFragmentsAfterLayout);
-            set => this.SetBit(Microsoft.Iris.ViewItems.Text.Bits.UpdateFragmentsAfterLayout, value);
+            get => this.GetBit(Bits.UpdateFragmentsAfterLayout);
+            set => this.SetBit(Bits.UpdateFragmentsAfterLayout, value);
         }
 
         private bool IgnoreEffectiveScaleChanges
         {
-            get => this.GetBit(Microsoft.Iris.ViewItems.Text.Bits.IgnoreEffectiveScaleChanges);
-            set => this.SetBit(Microsoft.Iris.ViewItems.Text.Bits.IgnoreEffectiveScaleChanges, value);
+            get => this.GetBit(Bits.IgnoreEffectiveScaleChanges);
+            set => this.SetBit(Bits.IgnoreEffectiveScaleChanges, value);
         }
 
         private bool GetBit(Microsoft.Iris.ViewItems.Text.Bits lookupBit) => ((Microsoft.Iris.ViewItems.Text.Bits)this._bits & lookupBit) != 0;
@@ -1437,7 +1437,7 @@ namespace Microsoft.Iris.ViewItems
             public TextFragment fragment;
             private static uint s_rangeIDIndicator = 1073741824;
 
-            public Color RangeIDAsColor => new Color(Microsoft.Iris.ViewItems.Text.MarkedRange.s_rangeIDIndicator | this.rangeID);
+            public Color RangeIDAsColor => new Color(s_rangeIDIndicator | this.rangeID);
 
             public Color GetEffectiveColor(Color defaultColor)
             {

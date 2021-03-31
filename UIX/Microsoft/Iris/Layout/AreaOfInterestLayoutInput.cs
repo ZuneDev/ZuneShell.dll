@@ -33,9 +33,9 @@ namespace Microsoft.Iris.Layout
 
         public Inset Margins => this._margins;
 
-        DataCookie ILayoutInput.Data => AreaOfInterestLayoutInput.Data;
+        DataCookie ILayoutInput.Data => Data;
 
-        public static DataCookie Data => AreaOfInterestLayoutInput.s_dataProperty;
+        public static DataCookie Data => s_dataProperty;
 
         public override string ToString() => InvariantString.Format("{0}({1})", this.GetType().Name, _id);
     }

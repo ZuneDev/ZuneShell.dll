@@ -23,8 +23,8 @@ namespace Microsoft.Iris.Markup
 
         public static void InitializeStatics()
         {
-            AssemblyObjectProxyHelper.s_typeofString = typeof(string);
-            AssemblyObjectProxyHelper.s_proxyTypeInfoTable = new AssemblyObjectProxyHelper.ProxyTypeInfo[7]
+            s_typeofString = typeof(string);
+            s_proxyTypeInfoTable = new AssemblyObjectProxyHelper.ProxyTypeInfo[7]
             {
         new AssemblyObjectProxyHelper.ProxyTypeInfo(typeof (ICommand), typeof (AssemblyObjectProxyHelper.ProxyCommand),  CommandSchema.Type),
         new AssemblyObjectProxyHelper.ProxyTypeInfo(typeof (IValueRange), typeof (AssemblyObjectProxyHelper.ProxyValueRange),  ValueRangeSchema.Type),
@@ -38,7 +38,7 @@ namespace Microsoft.Iris.Markup
 
         public static AssemblyTypeSchema CreateProxySchema(Type assemblyType)
         {
-            foreach (AssemblyObjectProxyHelper.ProxyTypeInfo proxyTypeInfo in AssemblyObjectProxyHelper.s_proxyTypeInfoTable)
+            foreach (AssemblyObjectProxyHelper.ProxyTypeInfo proxyTypeInfo in s_proxyTypeInfoTable)
             {
                 if (proxyTypeInfo.type.IsAssignableFrom(assemblyType))
                 {
@@ -109,7 +109,7 @@ namespace Microsoft.Iris.Markup
             if (instance == null)
                 return null;
             Type type = instance.GetType();
-            if (type.IsPrimitive || type == AssemblyObjectProxyHelper.s_typeofString)
+            if (type.IsPrimitive || type == s_typeofString)
                 return instance;
             switch (instance)
             {

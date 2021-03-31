@@ -23,8 +23,8 @@ namespace Microsoft.Iris.OS
 
         public static void Shutdown()
         {
-            if (HttpResources.s_activationChangeHandler != null)
-                UISession.Default.Form.ActivationChange -= HttpResources.s_activationChangeHandler;
+            if (s_activationChangeHandler != null)
+                UISession.Default.Form.ActivationChange -= s_activationChangeHandler;
             NativeApi.SpHttpShutdown();
         }
 
@@ -32,10 +32,10 @@ namespace Microsoft.Iris.OS
 
         public Resource GetResource(string hierarchicalPart, string url, bool forceSynchronous)
         {
-            if (HttpResources.s_activationChangeHandler == null)
+            if (s_activationChangeHandler == null)
             {
-                HttpResources.s_activationChangeHandler = new EventHandler(HttpResources.OnActivationChanged);
-                UISession.Default.Form.ActivationChange += HttpResources.s_activationChangeHandler;
+                s_activationChangeHandler = new EventHandler(OnActivationChanged);
+                UISession.Default.Form.ActivationChange += s_activationChangeHandler;
             }
             return new HttpResource(url, forceSynchronous);
         }

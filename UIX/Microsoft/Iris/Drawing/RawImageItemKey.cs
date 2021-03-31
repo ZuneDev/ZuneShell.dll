@@ -15,11 +15,11 @@ namespace Microsoft.Iris.Drawing
 
         public RawImageItemKey(string id)
           : base(id)
-          => this._uniqueId = ++RawImageItemKey.s_uniqueId;
+          => this._uniqueId = ++s_uniqueId;
 
         public override bool Equals(object obj)
         {
-            if (object.ReferenceEquals(this, obj))
+            if (ReferenceEquals(this, obj))
                 return true;
             return obj is RawImageItemKey rawImageItemKey && this._uniqueId == rawImageItemKey._uniqueId;
         }

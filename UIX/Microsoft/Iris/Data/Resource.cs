@@ -69,7 +69,7 @@ namespace Microsoft.Iris.Data
             else if (this._buffer != IntPtr.Zero)
             {
                 if (this._requiresMemoryFree)
-                    Resource.FreeNativeBuffer(this._buffer);
+                    FreeNativeBuffer(this._buffer);
                 this._buffer = IntPtr.Zero;
             }
             this._status = ResourceStatus.NeedsAcquire;

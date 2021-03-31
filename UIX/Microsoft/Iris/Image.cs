@@ -154,9 +154,9 @@ namespace Microsoft.Iris
             }
         }
 
-        public static void RemoveCache(string source) => Image.RemoveCache(source, 0, 0, false, false);
+        public static void RemoveCache(string source) => RemoveCache(source, 0, 0, false, false);
 
-        public static void RemoveCache(string source, int maximumWidth, int maximumHeight) => Image.RemoveCache(source, maximumWidth, maximumHeight, false, false);
+        public static void RemoveCache(string source, int maximumWidth, int maximumHeight) => RemoveCache(source, maximumWidth, maximumHeight, false, false);
 
         public static void RemoveCache(
           string source,
@@ -164,7 +164,7 @@ namespace Microsoft.Iris
           int maximumHeight,
           bool flippable)
         {
-            Image.RemoveCache(source, maximumWidth, maximumHeight, flippable, false);
+            RemoveCache(source, maximumWidth, maximumHeight, flippable, false);
         }
 
         public static void RemoveCache(

@@ -15,12 +15,12 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static void SetVideoStream(ref object instanceObj, object valueObj) => ((EffectElementWrapper)instanceObj).SetProperty("Video", (IUIVideoStream)valueObj);
 
-        public static void Pass1Initialize() => VideoElementInstanceSchema.Type = new UIXTypeSchema(237, "VideoElementInstance", null, 74, typeof(EffectElementWrapper), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(237, "VideoElementInstance", null, 74, typeof(EffectElementWrapper), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(237, "VideoStream", 238, -1, ExpressionRestriction.None, false, null, false, null, new SetValueHandler(VideoElementInstanceSchema.SetVideoStream), false);
-            VideoElementInstanceSchema.Type.Initialize(null, null, new PropertySchema[1]
+            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(237, "VideoStream", 238, -1, ExpressionRestriction.None, false, null, false, null, new SetValueHandler(SetVideoStream), false);
+            Type.Initialize(null, null, new PropertySchema[1]
             {
          uixPropertySchema
             }, null, null, null, null, null, null, null, null, null);

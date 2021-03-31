@@ -10,10 +10,10 @@ namespace Microsoft.Iris.Input
 {
     internal class KeyCharacterInfo : KeyActionInfo
     {
-        private static InputInfo.InfoType s_poolType = InputInfo.InfoType.KeyCharacter;
+        private static InputInfo.InfoType s_poolType = InfoType.KeyCharacter;
         private char _character;
 
-        static KeyCharacterInfo() => InputInfo.SetPoolLimitMode(KeyCharacterInfo.s_poolType, false);
+        static KeyCharacterInfo() => SetPoolLimitMode(s_poolType, false);
 
         private KeyCharacterInfo()
         {
@@ -30,7 +30,7 @@ namespace Microsoft.Iris.Input
           int scanCode,
           ushort eventFlags)
         {
-            KeyCharacterInfo keyCharacterInfo = (KeyCharacterInfo)InputInfo.GetFromPool(KeyCharacterInfo.s_poolType) ?? new KeyCharacterInfo();
+            KeyCharacterInfo keyCharacterInfo = (KeyCharacterInfo)GetFromPool(s_poolType) ?? new KeyCharacterInfo();
             keyCharacterInfo.Initialize(action, deviceType, modifiers, repeatCount, character, systemKey, nativeMessageID, scanCode, eventFlags);
             return keyCharacterInfo;
         }
@@ -52,7 +52,7 @@ namespace Microsoft.Iris.Input
 
         public char Character => this._character;
 
-        protected override InputInfo.InfoType PoolType => KeyCharacterInfo.s_poolType;
+        protected override InputInfo.InfoType PoolType => s_poolType;
 
         public override string ToString() => InvariantString.Format("{0}({1}, Key={2})", this.GetType().Name, Action, _character);
     }

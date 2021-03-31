@@ -23,13 +23,13 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object Construct() => new EffectLayer();
 
-        public static void Pass1Initialize() => EffectLayerSchema.Type = new UIXTypeSchema(79, "EffectLayer", null, 77, typeof(EffectLayer), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(79, "EffectLayer", null, 77, typeof(EffectLayer), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(79, "Input", 77, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(EffectLayerSchema.GetInput), new SetValueHandler(EffectLayerSchema.SetInput), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(79, "Operations", 138, 80, ExpressionRestriction.None, false, null, false, new GetValueHandler(EffectLayerSchema.GetOperations), new SetValueHandler(EffectLayerSchema.SetOperations), false);
-            EffectLayerSchema.Type.Initialize(new DefaultConstructHandler(EffectLayerSchema.Construct), null, new PropertySchema[2]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(79, "Input", 77, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetInput), new SetValueHandler(SetInput), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(79, "Operations", 138, 80, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetOperations), new SetValueHandler(SetOperations), false);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[2]
             {
          uixPropertySchema1,
          uixPropertySchema2

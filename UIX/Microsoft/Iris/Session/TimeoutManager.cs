@@ -15,12 +15,12 @@ namespace Microsoft.Iris.Session
         private TimeoutManager.PendingList _pending;
         private DateTime _lastSystemTime;
         private long _lastSystemMilliseconds;
-        private static readonly DeferredHandler _cancelTimeoutInterthread = new DeferredHandler(TimeoutManager.CancelTimeoutInterthread);
+        private static readonly DeferredHandler _cancelTimeoutInterthread = new DeferredHandler(CancelTimeoutInterthread);
 
         public TimeoutManager()
         {
             this._pending = new TimeoutManager.PendingList();
-            this._lastSystemTime = TimeoutManager.TimeNow;
+            this._lastSystemTime = TimeNow;
             this._lastSystemMilliseconds = DispatcherTimer.SystemTickCount.Milliseconds;
         }
 
@@ -36,7 +36,7 @@ namespace Microsoft.Iris.Session
                 uint num1 = uint.MaxValue;
                 if (!this._pending.IsEmpty)
                 {
-                    TimeSpan timeSpan = this._pending.NextExpirationTime - TimeoutManager.TimeNow;
+                    TimeSpan timeSpan = this._pending.NextExpirationTime - TimeNow;
                     if (timeSpan > TimeSpan.Zero)
                     {
                         long ticks = timeSpan.Ticks;
@@ -53,30 +53,30 @@ namespace Microsoft.Iris.Session
             }
         }
 
-        public void SetTimeoutAbsolute(QueueItem item, DateTime when) => this.SetTimeoutWorker(TimeoutManager.TimeNow, null, item, when, false);
+        public void SetTimeoutAbsolute(QueueItem item, DateTime when) => this.SetTimeoutWorker(TimeNow, null, item, when, false);
 
         public static void SetTimeoutAbsolute(Thread thread, QueueItem item, DateTime when)
         {
-            DateTime timeNow = TimeoutManager.TimeNow;
-            TimeoutManager.SetTimeoutOnThread(thread, timeNow, item, when, false);
+            DateTime timeNow = TimeNow;
+            SetTimeoutOnThread(thread, timeNow, item, when, false);
         }
 
         public void SetTimeoutRelative(QueueItem item, TimeSpan delay)
         {
-            DateTime timeNow = TimeoutManager.TimeNow;
+            DateTime timeNow = TimeNow;
             this.SetTimeoutWorker(timeNow, null, item, timeNow + delay, true);
         }
 
         public static void SetTimeoutRelative(Thread thread, QueueItem item, TimeSpan delay)
         {
-            DateTime timeNow = TimeoutManager.TimeNow;
-            TimeoutManager.SetTimeoutOnThread(thread, timeNow, item, timeNow + delay, true);
+            DateTime timeNow = TimeNow;
+            SetTimeoutOnThread(thread, timeNow, item, timeNow + delay, true);
         }
 
         public void CancelTimeout(QueueItem item)
         {
             if (!UIDispatcher.IsUIThread)
-                DeferredCall.Post(DispatchPriority.Normal, TimeoutManager._cancelTimeoutInterthread, item);
+                DeferredCall.Post(DispatchPriority.Normal, _cancelTimeoutInterthread, item);
             else
                 this._pending.RemoveItem(item);
         }
@@ -85,7 +85,7 @@ namespace Microsoft.Iris.Session
         {
             bool flag = false;
             this.SynchronizeSystemTime();
-            DateTime timeNow = TimeoutManager.TimeNow;
+            DateTime timeNow = TimeNow;
             while (true)
             {
                 QueueItem queueItem = this._pending.RemoveNextExpired(timeNow);
@@ -109,7 +109,7 @@ namespace Microsoft.Iris.Session
         {
             if (!UIDispatcher.IsUIThread)
             {
-                UIDispatcher.Post(UIDispatcher.MainUIThread, DispatchPriority.Normal, TimeoutManager.PendingList.GetInterthreadItem(item, when, isRelative));
+                UIDispatcher.Post(UIDispatcher.MainUIThread, DispatchPriority.Normal, PendingList.GetInterthreadItem(item, when, isRelative));
             }
             else
             {
@@ -129,9 +129,9 @@ namespace Microsoft.Iris.Session
           bool isRelative)
         {
             if (thread == Thread.CurrentThread)
-                TimeoutManager.DeliverToCurrentThread(currentTime, null, item, when, isRelative);
+                DeliverToCurrentThread(currentTime, null, item, when, isRelative);
             else
-                UIDispatcher.Post(thread, DispatchPriority.Normal, TimeoutManager.PendingList.GetInterthreadItem(item, when, isRelative));
+                UIDispatcher.Post(thread, DispatchPriority.Normal, PendingList.GetInterthreadItem(item, when, isRelative));
         }
 
         private static void DeliverToCurrentThread(
@@ -141,14 +141,14 @@ namespace Microsoft.Iris.Session
           DateTime when,
           bool isRelative)
         {
-            TimeoutManager.TimeoutManagerForCurrentThread?.SetTimeoutWorker(currentTime, preWrapped, item, when, isRelative);
+            TimeoutManagerForCurrentThread?.SetTimeoutWorker(currentTime, preWrapped, item, when, isRelative);
         }
 
-        private static void CancelTimeoutInterthread(object param) => TimeoutManager.TimeoutManagerForCurrentThread?.CancelTimeout((QueueItem)param);
+        private static void CancelTimeoutInterthread(object param) => TimeoutManagerForCurrentThread?.CancelTimeout((QueueItem)param);
 
         private void SynchronizeSystemTime()
         {
-            DateTime timeNow = TimeoutManager.TimeNow;
+            DateTime timeNow = TimeNow;
             long milliseconds = DispatcherTimer.SystemTickCount.Milliseconds;
             DateTime dateTime = this._lastSystemTime + TimeSpan.FromMilliseconds(milliseconds - this._lastSystemMilliseconds);
             this._lastSystemTime = timeNow;
@@ -249,7 +249,7 @@ namespace Microsoft.Iris.Session
             {
                 QueueItem tail = _head;
                 if (tail != null)
-                    tail = QueueItem.Chain.PrevItem(tail);
+                    tail = PrevItem(tail);
                 return new QueueItem.Chain.ChainEnumerator(tail);
             }
 
@@ -259,7 +259,7 @@ namespace Microsoft.Iris.Session
               DateTime expireTime,
               bool isRelative)
             {
-                QueueItem.Chain.ValidateAdd(innerItem);
+                ValidateAdd(innerItem);
                 TimeoutManager.PendingList.PendingItem pendingItem1 = null;
                 TimeoutManager.PendingList.PendingItem pendingItem2 = null;
                 if (this._head != null)
@@ -286,7 +286,7 @@ namespace Microsoft.Iris.Session
             private void RemoveWorker(TimeoutManager.PendingList.PendingItem outerItem)
             {
                 if (this._head == outerItem)
-                    this._head = QueueItem.Chain.IsOnlyChild(_head) ? null : QueueItem.Chain.NextItem(_head) as TimeoutManager.PendingList.PendingItem;
+                    this._head = IsOnlyChild(_head) ? null : NextItem(_head) as TimeoutManager.PendingList.PendingItem;
                 this.Unlink(outerItem);
                 this.Unlink(outerItem.innerItem);
             }
@@ -304,7 +304,7 @@ namespace Microsoft.Iris.Session
                     this.isRelative = isRelative;
                 }
 
-                public override void Dispatch() => TimeoutManager.DeliverToCurrentThread(TimeoutManager.TimeNow, this, this.innerItem, this.expireTime, this.isRelative);
+                public override void Dispatch() => DeliverToCurrentThread(TimeNow, this, this.innerItem, this.expireTime, this.isRelative);
             }
         }
     }

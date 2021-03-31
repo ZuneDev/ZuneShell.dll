@@ -10,8 +10,8 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        public static void Pass1Initialize() => MarkupDataTypeInstanceSchema.Type = new UIXTypeSchema(143, "MarkupDataTypeInstance", null, 153, typeof(MarkupDataType), UIXTypeFlags.Disposable);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(143, "MarkupDataTypeInstance", null, 153, typeof(MarkupDataType), UIXTypeFlags.Disposable);
 
-        public static void Pass2Initialize() => MarkupDataTypeInstanceSchema.Type.Initialize(null, null, null, null, null, null, null, null, null, null, null, null);
+        public static void Pass2Initialize() => Type.Initialize(null, null, null, null, null, null, null, null, null, null, null, null);
     }
 }

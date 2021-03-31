@@ -16,12 +16,12 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object Construct() => new EffectAnimation();
 
-        public static void Pass1Initialize() => EffectFloatAnimationSchema.Type = new UIXTypeSchema(75, "EffectFloatAnimation", null, 70, typeof(EffectAnimation), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(75, "EffectFloatAnimation", null, 70, typeof(EffectAnimation), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(75, "Keyframes", 138, 76, ExpressionRestriction.None, false, null, false, new GetValueHandler(EffectFloatAnimationSchema.GetKeyframes), null, false);
-            EffectFloatAnimationSchema.Type.Initialize(new DefaultConstructHandler(EffectFloatAnimationSchema.Construct), null, new PropertySchema[1]
+            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(75, "Keyframes", 138, 76, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetKeyframes), null, false);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[1]
             {
          uixPropertySchema
             }, null, null, null, null, null, null, null, null, null);

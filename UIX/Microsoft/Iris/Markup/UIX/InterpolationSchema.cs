@@ -12,7 +12,7 @@ namespace Microsoft.Iris.Markup.UIX
 {
     internal static class InterpolationSchema
     {
-        public static RangeValidator ValidateEasePercent = new RangeValidator(InterpolationSchema.RangeValidateEasePercent);
+        public static RangeValidator ValidateEasePercent = new RangeValidator(RangeValidateEasePercent);
         public static UIXTypeSchema Type;
 
         private static object GetType(object instanceObj) => ((Interpolation)instanceObj).Type;
@@ -46,7 +46,7 @@ namespace Microsoft.Iris.Markup.UIX
         {
             Interpolation interpolation = (Interpolation)instanceObj;
             float num = (float)valueObj;
-            Result result = InterpolationSchema.ValidateEasePercent(valueObj);
+            Result result = ValidateEasePercent(valueObj);
             if (result.Failed)
                 ErrorManager.ReportError(result.Error);
             else
@@ -87,14 +87,14 @@ namespace Microsoft.Iris.Markup.UIX
             Result result = UIXLoadResult.ValidateStringAsValue(strArray[0], UIXLoadResultExports.InterpolationTypeType, null, out valueObj1);
             if (result.Failed)
                 return Result.Fail("Problem converting '{0}' ({1})", "Interpolation", result.Error);
-            InterpolationSchema.SetType(ref instanceObj, valueObj1);
+            SetType(ref instanceObj, valueObj1);
             if (strArray.Length == 2)
             {
                 object valueObj2;
                 result = UIXLoadResult.ValidateStringAsValue(strArray[1], SingleSchema.Type, SingleSchema.ValidateNotNegative, out valueObj2);
                 if (result.Failed)
                     return Result.Fail("Problem converting '{0}' ({1})", "Interpolation", result.Error);
-                InterpolationSchema.SetWeight(ref instanceObj, valueObj2);
+                SetWeight(ref instanceObj, valueObj2);
             }
             else if (strArray.Length == 3)
             {
@@ -104,12 +104,12 @@ namespace Microsoft.Iris.Markup.UIX
                     result = UIXLoadResult.ValidateStringAsValue(strArray[1], SingleSchema.Type, null, out valueObj2);
                     if (result.Failed)
                         return Result.Fail("Problem converting '{0}' ({1})", "Interpolation", result.Error);
-                    InterpolationSchema.SetBezierHandle1(ref instanceObj, valueObj2);
+                    SetBezierHandle1(ref instanceObj, valueObj2);
                     object valueObj3;
                     result = UIXLoadResult.ValidateStringAsValue(strArray[2], SingleSchema.Type, null, out valueObj3);
                     if (result.Failed)
                         return Result.Fail("Problem converting '{0}' ({1})", "Interpolation", result.Error);
-                    InterpolationSchema.SetBezierHandle2(ref instanceObj, valueObj3);
+                    SetBezierHandle2(ref instanceObj, valueObj3);
                 }
                 else
                 {
@@ -117,12 +117,12 @@ namespace Microsoft.Iris.Markup.UIX
                     result = UIXLoadResult.ValidateStringAsValue(strArray[1], SingleSchema.Type, SingleSchema.ValidateNotNegative, out valueObj2);
                     if (result.Failed)
                         return Result.Fail("Problem converting '{0}' ({1})", "Interpolation", result.Error);
-                    InterpolationSchema.SetWeight(ref instanceObj, valueObj2);
+                    SetWeight(ref instanceObj, valueObj2);
                     object valueObj3;
-                    result = UIXLoadResult.ValidateStringAsValue(strArray[2], SingleSchema.Type, InterpolationSchema.ValidateEasePercent, out valueObj3);
+                    result = UIXLoadResult.ValidateStringAsValue(strArray[2], SingleSchema.Type, ValidateEasePercent, out valueObj3);
                     if (result.Failed)
                         return Result.Fail("Problem converting '{0}' ({1})", "Interpolation", result.Error);
-                    InterpolationSchema.SetEasePercent(ref instanceObj, valueObj3);
+                    SetEasePercent(ref instanceObj, valueObj3);
                 }
             }
             else if (strArray.Length >= 4)
@@ -142,7 +142,7 @@ namespace Microsoft.Iris.Markup.UIX
             instance = null;
             if (StringSchema.Type.IsAssignableFrom(fromType))
             {
-                result = InterpolationSchema.ConvertFromString(from, out instance);
+                result = ConvertFromString(from, out instance);
                 if (!result.Failed)
                     return result;
             }
@@ -154,7 +154,7 @@ namespace Microsoft.Iris.Markup.UIX
             string parameter1 = (string)parameters[0];
             Interpolation parameter2 = (Interpolation)parameters[1];
             object instanceObj1;
-            return InterpolationSchema.ConvertFromString(parameter1, out instanceObj1).Failed ? parameter2 : instanceObj1;
+            return ConvertFromString(parameter1, out instanceObj1).Failed ? parameter2 : instanceObj1;
         }
 
         private static Result RangeValidateEasePercent(object value)
@@ -163,21 +163,21 @@ namespace Microsoft.Iris.Markup.UIX
             return num <= 0.0 || num >= 1.0 ? Result.Fail("Expecting a value between {0} and {1} (exclusive), but got {2}", "0.0", "1.0", num.ToString()) : Result.Success;
         }
 
-        public static void Pass1Initialize() => InterpolationSchema.Type = new UIXTypeSchema(121, "Interpolation", null, 153, typeof(Interpolation), UIXTypeFlags.Immutable);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(121, "Interpolation", null, 153, typeof(Interpolation), UIXTypeFlags.Immutable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(121, "Type", 122, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(InterpolationSchema.GetType), new SetValueHandler(InterpolationSchema.SetType), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(121, "Weight", 194, -1, ExpressionRestriction.None, false, SingleSchema.ValidateNotNegative, false, new GetValueHandler(InterpolationSchema.GetWeight), new SetValueHandler(InterpolationSchema.SetWeight), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(121, "BezierHandle1", 194, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(InterpolationSchema.GetBezierHandle1), new SetValueHandler(InterpolationSchema.SetBezierHandle1), false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(121, "BezierHandle2", 194, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(InterpolationSchema.GetBezierHandle2), new SetValueHandler(InterpolationSchema.SetBezierHandle2), false);
-            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(121, "EasePercent", 194, -1, ExpressionRestriction.None, false, InterpolationSchema.ValidateEasePercent, false, new GetValueHandler(InterpolationSchema.GetEasePercent), new SetValueHandler(InterpolationSchema.SetEasePercent), false);
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(121, "Type", 122, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetType), new SetValueHandler(SetType), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(121, "Weight", 194, -1, ExpressionRestriction.None, false, SingleSchema.ValidateNotNegative, false, new GetValueHandler(GetWeight), new SetValueHandler(SetWeight), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(121, "BezierHandle1", 194, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetBezierHandle1), new SetValueHandler(SetBezierHandle1), false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(121, "BezierHandle2", 194, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetBezierHandle2), new SetValueHandler(SetBezierHandle2), false);
+            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(121, "EasePercent", 194, -1, ExpressionRestriction.None, false, ValidateEasePercent, false, new GetValueHandler(GetEasePercent), new SetValueHandler(SetEasePercent), false);
             UIXMethodSchema uixMethodSchema = new UIXMethodSchema(121, "TryParse", new short[2]
             {
          208,
          121
-            }, 121, new InvokeHandler(InterpolationSchema.CallTryParseStringInterpolation), true);
-            InterpolationSchema.Type.Initialize(new DefaultConstructHandler(InterpolationSchema.Construct), null, new PropertySchema[5]
+            }, 121, new InvokeHandler(CallTryParseStringInterpolation), true);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[5]
             {
          uixPropertySchema3,
          uixPropertySchema4,
@@ -187,7 +187,7 @@ namespace Microsoft.Iris.Markup.UIX
             }, new MethodSchema[1]
             {
          uixMethodSchema
-            }, null, null, new TypeConverterHandler(InterpolationSchema.TryConvertFrom), new SupportsTypeConversionHandler(InterpolationSchema.IsConversionSupported), new EncodeBinaryHandler(InterpolationSchema.EncodeBinary), new DecodeBinaryHandler(InterpolationSchema.DecodeBinary), null, null);
+            }, null, null, new TypeConverterHandler(TryConvertFrom), new SupportsTypeConversionHandler(IsConversionSupported), new EncodeBinaryHandler(EncodeBinary), new DecodeBinaryHandler(DecodeBinary), null, null);
         }
     }
 }

@@ -121,7 +121,7 @@ namespace Microsoft.Iris.Animations
             for (int index = 0; index < count; ++index)
             {
                 BaseKeyframe keyframes = this._keyframesList[index];
-                if (AnimationTemplate.IsSameTime(time, keyframes.Time))
+                if (IsSameTime(time, keyframes.Time))
                     return keyframes;
             }
             return null;

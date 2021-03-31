@@ -25,14 +25,14 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object Construct() => new SwitchAnimation();
 
-        public static void Pass1Initialize() => SwitchAnimationSchema.Type = new UIXTypeSchema(210, "SwitchAnimation", null, 104, typeof(SwitchAnimation), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(210, "SwitchAnimation", null, 104, typeof(SwitchAnimation), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(210, "Expression", 231, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(SwitchAnimationSchema.GetExpression), new SetValueHandler(SwitchAnimationSchema.SetExpression), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(210, "Options", 58, -1, ExpressionRestriction.NoAccess, false, null, true, new GetValueHandler(SwitchAnimationSchema.GetOptions), null, false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(210, "Type", 10, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(SwitchAnimationSchema.GetType), new SetValueHandler(SwitchAnimationSchema.SetType), false);
-            SwitchAnimationSchema.Type.Initialize(new DefaultConstructHandler(SwitchAnimationSchema.Construct), null, new PropertySchema[3]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(210, "Expression", 231, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetExpression), new SetValueHandler(SetExpression), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(210, "Options", 58, -1, ExpressionRestriction.NoAccess, false, null, true, new GetValueHandler(GetOptions), null, false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(210, "Type", 10, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetType), new SetValueHandler(SetType), false);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[3]
             {
          uixPropertySchema1,
          uixPropertySchema2,

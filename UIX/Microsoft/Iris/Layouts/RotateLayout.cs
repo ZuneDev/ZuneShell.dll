@@ -43,21 +43,21 @@ namespace Microsoft.Iris.Layouts
             {
                 case 90:
                     Point offset1 = new Point(rectangle.Width, rectangle.Width);
-                    rectangle = RotateLayout.RotateRect90(rectangle, offset1);
-                    slot.View = RotateLayout.RotateRect90(slot.View, offset1);
-                    slot.PeripheralView = RotateLayout.RotateRect90(slot.PeripheralView, offset1);
+                    rectangle = RotateRect90(rectangle, offset1);
+                    slot.View = RotateRect90(slot.View, offset1);
+                    slot.PeripheralView = RotateRect90(slot.PeripheralView, offset1);
                     break;
                 case 180:
                     Point offset2 = new Point(2 * rectangle.Width, 2 * rectangle.Height);
-                    rectangle = RotateLayout.RotateRect180(rectangle, offset2);
-                    slot.View = RotateLayout.RotateRect180(slot.View, offset2);
-                    slot.PeripheralView = RotateLayout.RotateRect180(slot.PeripheralView, offset2);
+                    rectangle = RotateRect180(rectangle, offset2);
+                    slot.View = RotateRect180(slot.View, offset2);
+                    slot.PeripheralView = RotateRect180(slot.PeripheralView, offset2);
                     break;
                 case 270:
                     Point offset3 = new Point(rectangle.Height, rectangle.Height);
-                    rectangle = RotateLayout.RotateRect270(rectangle, offset3);
-                    slot.View = RotateLayout.RotateRect270(slot.View, offset3);
-                    slot.PeripheralView = RotateLayout.RotateRect270(slot.PeripheralView, offset3);
+                    rectangle = RotateRect270(rectangle, offset3);
+                    slot.View = RotateRect270(slot.View, offset3);
+                    slot.PeripheralView = RotateRect270(slot.PeripheralView, offset3);
                     break;
             }
             Rotation rotation = Rotation.Default;

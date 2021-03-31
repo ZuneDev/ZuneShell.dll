@@ -249,12 +249,12 @@ namespace Microsoft.Iris
             add
             {
                 using (this.ThreadValidator)
-                    this.AddEventHandler(Choice.s_chosenChangedEvent, value);
+                    this.AddEventHandler(s_chosenChangedEvent, value);
             }
             remove
             {
                 using (this.ThreadValidator)
-                    this.RemoveEventHandler(Choice.s_chosenChangedEvent, value);
+                    this.RemoveEventHandler(s_chosenChangedEvent, value);
             }
         }
 
@@ -315,7 +315,7 @@ namespace Microsoft.Iris
 
         private void FireChangedChosenEvent()
         {
-            if (this.GetEventHandler(Choice.s_chosenChangedEvent) is EventHandler eventHandler)
+            if (this.GetEventHandler(s_chosenChangedEvent) is EventHandler eventHandler)
                 eventHandler(this, EventArgs.Empty);
             this.OnChosenChanged();
         }

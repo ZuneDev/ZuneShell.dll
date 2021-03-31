@@ -32,16 +32,16 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object Construct() => new ShortcutHandler();
 
-        public static void Pass1Initialize() => ShortcutHandlerSchema.Type = new UIXTypeSchema(192, "ShortcutHandler", null, 110, typeof(ShortcutHandler), UIXTypeFlags.Disposable);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(192, "ShortcutHandler", null, 110, typeof(ShortcutHandler), UIXTypeFlags.Disposable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(192, "Shortcut", 193, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ShortcutHandlerSchema.GetShortcut), new SetValueHandler(ShortcutHandlerSchema.SetShortcut), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(192, "Command", 40, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ShortcutHandlerSchema.GetCommand), new SetValueHandler(ShortcutHandlerSchema.SetCommand), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(192, "Handle", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ShortcutHandlerSchema.GetHandle), new SetValueHandler(ShortcutHandlerSchema.SetHandle), false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(192, "HandlerStage", 112, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ShortcutHandlerSchema.GetHandlerStage), new SetValueHandler(ShortcutHandlerSchema.SetHandlerStage), false);
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(192, "Shortcut", 193, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetShortcut), new SetValueHandler(SetShortcut), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(192, "Command", 40, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetCommand), new SetValueHandler(SetCommand), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(192, "Handle", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetHandle), new SetValueHandler(SetHandle), false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(192, "HandlerStage", 112, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetHandlerStage), new SetValueHandler(SetHandlerStage), false);
             UIXEventSchema uixEventSchema = new UIXEventSchema(192, "Invoked");
-            ShortcutHandlerSchema.Type.Initialize(new DefaultConstructHandler(ShortcutHandlerSchema.Construct), null, new PropertySchema[4]
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[4]
             {
          uixPropertySchema2,
          uixPropertySchema3,

@@ -61,27 +61,27 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object ConstructSource(object[] parameters)
         {
-            object instanceObj = ImageSchema.Construct();
-            ImageSchema.SetSource(ref instanceObj, parameters[0]);
+            object instanceObj = Construct();
+            SetSource(ref instanceObj, parameters[0]);
             return instanceObj;
         }
 
         private static Result ConvertFromStringSource(string[] splitString, out object instance)
         {
-            instance = ImageSchema.Construct();
+            instance = Construct();
             object valueObj;
             Result result = UIXLoadResult.ValidateStringAsValue(splitString[0], StringSchema.Type, null, out valueObj);
             if (result.Failed)
                 return Result.Fail("Problem converting '{0}' ({1})", "Image", result.Error);
-            ImageSchema.SetSource(ref instance, valueObj);
+            SetSource(ref instance, valueObj);
             return result;
         }
 
         private static object ConstructSourceNineGrid(object[] parameters)
         {
-            object instanceObj = ImageSchema.Construct();
-            ImageSchema.SetSource(ref instanceObj, parameters[0]);
-            ImageSchema.SetNineGrid(ref instanceObj, parameters[1]);
+            object instanceObj = Construct();
+            SetSource(ref instanceObj, parameters[0]);
+            SetNineGrid(ref instanceObj, parameters[1]);
             return instanceObj;
         }
 
@@ -89,26 +89,26 @@ namespace Microsoft.Iris.Markup.UIX
           string[] splitString,
           out object instance)
         {
-            instance = ImageSchema.Construct();
+            instance = Construct();
             object valueObj1;
             Result result1 = UIXLoadResult.ValidateStringAsValue(splitString[0], StringSchema.Type, null, out valueObj1);
             if (result1.Failed)
                 return Result.Fail("Problem converting '{0}' ({1})", "Image", result1.Error);
-            ImageSchema.SetSource(ref instance, valueObj1);
+            SetSource(ref instance, valueObj1);
             object valueObj2;
             Result result2 = UIXLoadResult.ValidateStringAsValue(splitString[1], InsetSchema.Type, null, out valueObj2);
             if (result2.Failed)
                 return Result.Fail("Problem converting '{0}' ({1})", "Image", result2.Error);
-            ImageSchema.SetNineGrid(ref instance, valueObj2);
+            SetNineGrid(ref instance, valueObj2);
             return result2;
         }
 
         private static object ConstructSourceNineGridMaximumSize(object[] parameters)
         {
-            object instanceObj = ImageSchema.Construct();
-            ImageSchema.SetSource(ref instanceObj, parameters[0]);
-            ImageSchema.SetNineGrid(ref instanceObj, parameters[1]);
-            ImageSchema.SetMaximumSize(ref instanceObj, parameters[2]);
+            object instanceObj = Construct();
+            SetSource(ref instanceObj, parameters[0]);
+            SetNineGrid(ref instanceObj, parameters[1]);
+            SetMaximumSize(ref instanceObj, parameters[2]);
             return instanceObj;
         }
 
@@ -116,32 +116,32 @@ namespace Microsoft.Iris.Markup.UIX
           string[] splitString,
           out object instance)
         {
-            instance = ImageSchema.Construct();
+            instance = Construct();
             object valueObj1;
             Result result1 = UIXLoadResult.ValidateStringAsValue(splitString[0], StringSchema.Type, null, out valueObj1);
             if (result1.Failed)
                 return Result.Fail("Problem converting '{0}' ({1})", "Image", result1.Error);
-            ImageSchema.SetSource(ref instance, valueObj1);
+            SetSource(ref instance, valueObj1);
             object valueObj2;
             Result result2 = UIXLoadResult.ValidateStringAsValue(splitString[1], InsetSchema.Type, null, out valueObj2);
             if (result2.Failed)
                 return Result.Fail("Problem converting '{0}' ({1})", "Image", result2.Error);
-            ImageSchema.SetNineGrid(ref instance, valueObj2);
+            SetNineGrid(ref instance, valueObj2);
             object valueObj3;
             Result result3 = UIXLoadResult.ValidateStringAsValue(splitString[2], SizeSchema.Type, SizeSchema.ValidateNotNegative, out valueObj3);
             if (result3.Failed)
                 return Result.Fail("Problem converting '{0}' ({1})", "Image", result3.Error);
-            ImageSchema.SetMaximumSize(ref instance, valueObj3);
+            SetMaximumSize(ref instance, valueObj3);
             return result3;
         }
 
         private static object ConstructSourceNineGridMaximumSizeFlippable(object[] parameters)
         {
-            object instanceObj = ImageSchema.Construct();
-            ImageSchema.SetSource(ref instanceObj, parameters[0]);
-            ImageSchema.SetNineGrid(ref instanceObj, parameters[1]);
-            ImageSchema.SetMaximumSize(ref instanceObj, parameters[2]);
-            ImageSchema.SetFlippable(ref instanceObj, parameters[3]);
+            object instanceObj = Construct();
+            SetSource(ref instanceObj, parameters[0]);
+            SetNineGrid(ref instanceObj, parameters[1]);
+            SetMaximumSize(ref instanceObj, parameters[2]);
+            SetFlippable(ref instanceObj, parameters[3]);
             return instanceObj;
         }
 
@@ -149,39 +149,39 @@ namespace Microsoft.Iris.Markup.UIX
           string[] splitString,
           out object instance)
         {
-            instance = ImageSchema.Construct();
+            instance = Construct();
             object valueObj1;
             Result result1 = UIXLoadResult.ValidateStringAsValue(splitString[0], StringSchema.Type, null, out valueObj1);
             if (result1.Failed)
                 return Result.Fail("Problem converting '{0}' ({1})", "Image", result1.Error);
-            ImageSchema.SetSource(ref instance, valueObj1);
+            SetSource(ref instance, valueObj1);
             object valueObj2;
             Result result2 = UIXLoadResult.ValidateStringAsValue(splitString[1], InsetSchema.Type, null, out valueObj2);
             if (result2.Failed)
                 return Result.Fail("Problem converting '{0}' ({1})", "Image", result2.Error);
-            ImageSchema.SetNineGrid(ref instance, valueObj2);
+            SetNineGrid(ref instance, valueObj2);
             object valueObj3;
             Result result3 = UIXLoadResult.ValidateStringAsValue(splitString[2], SizeSchema.Type, SizeSchema.ValidateNotNegative, out valueObj3);
             if (result3.Failed)
                 return Result.Fail("Problem converting '{0}' ({1})", "Image", result3.Error);
-            ImageSchema.SetMaximumSize(ref instance, valueObj3);
+            SetMaximumSize(ref instance, valueObj3);
             object valueObj4;
             Result result4 = UIXLoadResult.ValidateStringAsValue(splitString[3], BooleanSchema.Type, null, out valueObj4);
             if (result4.Failed)
                 return Result.Fail("Problem converting '{0}' ({1})", "Image", result4.Error);
-            ImageSchema.SetFlippable(ref instance, valueObj4);
+            SetFlippable(ref instance, valueObj4);
             return result4;
         }
 
         private static object ConstructSourceNineGridMaximumSizeFlippableAntialiasEdges(
           object[] parameters)
         {
-            object instanceObj = ImageSchema.Construct();
-            ImageSchema.SetSource(ref instanceObj, parameters[0]);
-            ImageSchema.SetNineGrid(ref instanceObj, parameters[1]);
-            ImageSchema.SetMaximumSize(ref instanceObj, parameters[2]);
-            ImageSchema.SetFlippable(ref instanceObj, parameters[3]);
-            ImageSchema.SetAntialiasEdges(ref instanceObj, parameters[4]);
+            object instanceObj = Construct();
+            SetSource(ref instanceObj, parameters[0]);
+            SetNineGrid(ref instanceObj, parameters[1]);
+            SetMaximumSize(ref instanceObj, parameters[2]);
+            SetFlippable(ref instanceObj, parameters[3]);
+            SetAntialiasEdges(ref instanceObj, parameters[4]);
             return instanceObj;
         }
 
@@ -189,32 +189,32 @@ namespace Microsoft.Iris.Markup.UIX
           string[] splitString,
           out object instance)
         {
-            instance = ImageSchema.Construct();
+            instance = Construct();
             object valueObj1;
             Result result1 = UIXLoadResult.ValidateStringAsValue(splitString[0], StringSchema.Type, null, out valueObj1);
             if (result1.Failed)
                 return Result.Fail("Problem converting '{0}' ({1})", "Image", result1.Error);
-            ImageSchema.SetSource(ref instance, valueObj1);
+            SetSource(ref instance, valueObj1);
             object valueObj2;
             Result result2 = UIXLoadResult.ValidateStringAsValue(splitString[1], InsetSchema.Type, null, out valueObj2);
             if (result2.Failed)
                 return Result.Fail("Problem converting '{0}' ({1})", "Image", result2.Error);
-            ImageSchema.SetNineGrid(ref instance, valueObj2);
+            SetNineGrid(ref instance, valueObj2);
             object valueObj3;
             Result result3 = UIXLoadResult.ValidateStringAsValue(splitString[2], SizeSchema.Type, SizeSchema.ValidateNotNegative, out valueObj3);
             if (result3.Failed)
                 return Result.Fail("Problem converting '{0}' ({1})", "Image", result3.Error);
-            ImageSchema.SetMaximumSize(ref instance, valueObj3);
+            SetMaximumSize(ref instance, valueObj3);
             object valueObj4;
             Result result4 = UIXLoadResult.ValidateStringAsValue(splitString[3], BooleanSchema.Type, null, out valueObj4);
             if (result4.Failed)
                 return Result.Fail("Problem converting '{0}' ({1})", "Image", result4.Error);
-            ImageSchema.SetFlippable(ref instance, valueObj4);
+            SetFlippable(ref instance, valueObj4);
             object valueObj5;
             Result result5 = UIXLoadResult.ValidateStringAsValue(splitString[4], BooleanSchema.Type, null, out valueObj5);
             if (result5.Failed)
                 return Result.Fail("Problem converting '{0}' ({1})", "Image", result5.Error);
-            ImageSchema.SetAntialiasEdges(ref instance, valueObj5);
+            SetAntialiasEdges(ref instance, valueObj5);
             return result5;
         }
 
@@ -233,27 +233,27 @@ namespace Microsoft.Iris.Markup.UIX
                 switch (splitString.Length)
                 {
                     case 1:
-                        result = ImageSchema.ConvertFromStringSource(splitString, out instance);
+                        result = ConvertFromStringSource(splitString, out instance);
                         if (!result.Failed)
                             return result;
                         break;
                     case 2:
-                        result = ImageSchema.ConvertFromStringSourceNineGrid(splitString, out instance);
+                        result = ConvertFromStringSourceNineGrid(splitString, out instance);
                         if (!result.Failed)
                             return result;
                         break;
                     case 3:
-                        result = ImageSchema.ConvertFromStringSourceNineGridMaximumSize(splitString, out instance);
+                        result = ConvertFromStringSourceNineGridMaximumSize(splitString, out instance);
                         if (!result.Failed)
                             return result;
                         break;
                     case 4:
-                        result = ImageSchema.ConvertFromStringSourceNineGridMaximumSizeFlippable(splitString, out instance);
+                        result = ConvertFromStringSourceNineGridMaximumSizeFlippable(splitString, out instance);
                         if (!result.Failed)
                             return result;
                         break;
                     case 5:
-                        result = ImageSchema.ConvertFromStringSourceNineGridMaximumSizeFlippableAntialiasEdges(splitString, out instance);
+                        result = ConvertFromStringSourceNineGridMaximumSizeFlippableAntialiasEdges(splitString, out instance);
                         if (!result.Failed)
                             return result;
                         break;
@@ -265,41 +265,41 @@ namespace Microsoft.Iris.Markup.UIX
             return result;
         }
 
-        public static void Pass1Initialize() => ImageSchema.Type = new UIXTypeSchema(105, "Image", null, 153, typeof(UIImage), UIXTypeFlags.Immutable);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(105, "Image", null, 153, typeof(UIImage), UIXTypeFlags.Immutable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(105, "Source", 208, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(ImageSchema.GetSource), new SetValueHandler(ImageSchema.SetSource), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(105, "NineGrid", 114, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(ImageSchema.GetNineGrid), new SetValueHandler(ImageSchema.SetNineGrid), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(105, "MaximumSize", 195, -1, ExpressionRestriction.None, false, SizeSchema.ValidateNotNegative, false, new GetValueHandler(ImageSchema.GetMaximumSize), new SetValueHandler(ImageSchema.SetMaximumSize), false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(105, "Flippable", 15, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(ImageSchema.GetFlippable), new SetValueHandler(ImageSchema.SetFlippable), false);
-            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(105, "AntialiasEdges", 15, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(ImageSchema.GetAntialiasEdges), new SetValueHandler(ImageSchema.SetAntialiasEdges), false);
-            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(105, "Status", 108, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ImageSchema.GetStatus), null, false);
-            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema(105, "Width", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(ImageSchema.GetWidth), null, false);
-            UIXPropertySchema uixPropertySchema8 = new UIXPropertySchema(105, "Height", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(ImageSchema.GetHeight), null, false);
-            UIXMethodSchema uixMethodSchema = new UIXMethodSchema(105, "Load", null, 240, new InvokeHandler(ImageSchema.CallLoad), false);
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(105, "Source", 208, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetSource), new SetValueHandler(SetSource), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(105, "NineGrid", 114, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetNineGrid), new SetValueHandler(SetNineGrid), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(105, "MaximumSize", 195, -1, ExpressionRestriction.None, false, SizeSchema.ValidateNotNegative, false, new GetValueHandler(GetMaximumSize), new SetValueHandler(SetMaximumSize), false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(105, "Flippable", 15, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetFlippable), new SetValueHandler(SetFlippable), false);
+            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(105, "AntialiasEdges", 15, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetAntialiasEdges), new SetValueHandler(SetAntialiasEdges), false);
+            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(105, "Status", 108, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetStatus), null, false);
+            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema(105, "Width", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetWidth), null, false);
+            UIXPropertySchema uixPropertySchema8 = new UIXPropertySchema(105, "Height", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetHeight), null, false);
+            UIXMethodSchema uixMethodSchema = new UIXMethodSchema(105, "Load", null, 240, new InvokeHandler(CallLoad), false);
             UIXConstructorSchema constructorSchema1 = new UIXConstructorSchema(105, new short[1]
             {
          208
-            }, new ConstructHandler(ImageSchema.ConstructSource));
+            }, new ConstructHandler(ConstructSource));
             UIXConstructorSchema constructorSchema2 = new UIXConstructorSchema(105, new short[2]
             {
          208,
          114
-            }, new ConstructHandler(ImageSchema.ConstructSourceNineGrid));
+            }, new ConstructHandler(ConstructSourceNineGrid));
             UIXConstructorSchema constructorSchema3 = new UIXConstructorSchema(105, new short[3]
             {
          208,
          114,
          195
-            }, new ConstructHandler(ImageSchema.ConstructSourceNineGridMaximumSize));
+            }, new ConstructHandler(ConstructSourceNineGridMaximumSize));
             UIXConstructorSchema constructorSchema4 = new UIXConstructorSchema(105, new short[4]
             {
          208,
          114,
          195,
          15
-            }, new ConstructHandler(ImageSchema.ConstructSourceNineGridMaximumSizeFlippable));
+            }, new ConstructHandler(ConstructSourceNineGridMaximumSizeFlippable));
             UIXConstructorSchema constructorSchema5 = new UIXConstructorSchema(105, new short[5]
             {
          208,
@@ -307,8 +307,8 @@ namespace Microsoft.Iris.Markup.UIX
          195,
          15,
          15
-            }, new ConstructHandler(ImageSchema.ConstructSourceNineGridMaximumSizeFlippableAntialiasEdges));
-            ImageSchema.Type.Initialize(new DefaultConstructHandler(ImageSchema.Construct), new ConstructorSchema[5]
+            }, new ConstructHandler(ConstructSourceNineGridMaximumSizeFlippableAntialiasEdges));
+            Type.Initialize(new DefaultConstructHandler(Construct), new ConstructorSchema[5]
             {
          constructorSchema1,
          constructorSchema2,
@@ -328,7 +328,7 @@ namespace Microsoft.Iris.Markup.UIX
             }, new MethodSchema[1]
             {
          uixMethodSchema
-            }, null, null, new TypeConverterHandler(ImageSchema.TryConvertFrom), new SupportsTypeConversionHandler(ImageSchema.IsConversionSupported), null, null, null, null);
+            }, null, null, new TypeConverterHandler(TryConvertFrom), new SupportsTypeConversionHandler(IsConversionSupported), null, null, null, null);
         }
     }
 }

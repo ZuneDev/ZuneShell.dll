@@ -36,8 +36,8 @@ namespace Microsoft.Iris.InputHandlers
             this._clickType = ClickType.Key | ClickType.GamePad | ClickType.LeftMouse;
             this._clickCount = ClickCount.Single;
             this._repeat = true;
-            this._repeatDelay = ClickHandler.DefaultRepeatDelay;
-            this._repeatRate = ClickHandler.DefaultRepeatRate;
+            this._repeatDelay = DefaultRepeatDelay;
+            this._repeatRate = DefaultRepeatRate;
             this._handle = true;
         }
 
@@ -191,7 +191,7 @@ namespace Microsoft.Iris.InputHandlers
 
         private void CancelClick(ClickType clickType)
         {
-            if (this._clickTypeInProgress != ClickType.None && Microsoft.Iris.Library.Bits.TestAllFlags((uint)clickType, (uint)this._clickTypeInProgress))
+            if (this._clickTypeInProgress != ClickType.None && Library.Bits.TestAllFlags((uint)clickType, (uint)this._clickTypeInProgress))
             {
                 bool clicking = this.Clicking;
                 this._clickTypeInProgress = ClickType.None;
@@ -211,7 +211,7 @@ namespace Microsoft.Iris.InputHandlers
             return this.ShouldHandleEvent(type) && this._clickCount == count && this.ShouldHandleEvent(modifiers);
         }
 
-        private bool ShouldHandleEvent(ClickType type) => Microsoft.Iris.Library.Bits.TestAnyFlags((uint)this._clickType, (uint)type);
+        private bool ShouldHandleEvent(ClickType type) => Library.Bits.TestAnyFlags((uint)this._clickType, (uint)type);
 
         private bool OnClickEvent(
           ICookedInputSite clickTarget,
@@ -307,34 +307,34 @@ namespace Microsoft.Iris.InputHandlers
             }
         }
 
-        private static int DefaultRepeatDelay => ClickHandler.s_defaultRepeatDelay;
+        private static int DefaultRepeatDelay => s_defaultRepeatDelay;
 
-        private static int DefaultRepeatRate => ClickHandler.s_defaultRepeatRate;
+        private static int DefaultRepeatRate => s_defaultRepeatRate;
 
         protected override void OnMousePrimaryDown(UIClass ui, MouseButtonInfo info)
         {
-            if (!this.OnClickEvent(info.Target, this.GetClickType(info.Button), InputHandlerTransition.Down, InputHandler.GetModifiers(info.Modifiers)) || !this._handle)
+            if (!this.OnClickEvent(info.Target, this.GetClickType(info.Button), InputHandlerTransition.Down, GetModifiers(info.Modifiers)) || !this._handle)
                 return;
             info.MarkHandled();
         }
 
         protected override void OnMouseSecondaryDown(UIClass ui, MouseButtonInfo info)
         {
-            if (!this.OnClickEvent(info.Target, this.GetClickType(info.Button), InputHandlerTransition.Down, InputHandler.GetModifiers(info.Modifiers)) || !this._handle)
+            if (!this.OnClickEvent(info.Target, this.GetClickType(info.Button), InputHandlerTransition.Down, GetModifiers(info.Modifiers)) || !this._handle)
                 return;
             info.MarkHandled();
         }
 
         protected override void OnMousePrimaryUp(UIClass ui, MouseButtonInfo info)
         {
-            if (!this.OnClickEvent(info.Target, this.GetClickType(info.Button), InputHandlerTransition.Up, InputHandler.GetModifiers(info.Modifiers)) || !this._handle)
+            if (!this.OnClickEvent(info.Target, this.GetClickType(info.Button), InputHandlerTransition.Up, GetModifiers(info.Modifiers)) || !this._handle)
                 return;
             info.MarkHandled();
         }
 
         protected override void OnMouseSecondaryUp(UIClass ui, MouseButtonInfo info)
         {
-            if (!this.OnClickEvent(info.Target, this.GetClickType(info.Button), InputHandlerTransition.Up, InputHandler.GetModifiers(info.Modifiers)) || !this._handle)
+            if (!this.OnClickEvent(info.Target, this.GetClickType(info.Button), InputHandlerTransition.Up, GetModifiers(info.Modifiers)) || !this._handle)
                 return;
             info.MarkHandled();
         }
@@ -342,9 +342,9 @@ namespace Microsoft.Iris.InputHandlers
         protected override void OnMouseDoubleClick(UIClass ui, MouseButtonInfo info)
         {
             ClickType clickType = this.GetClickType(info.Button);
-            if (!this.OnClickEvent(info.Target, clickType, InputHandlerTransition.Down, InputHandler.GetModifiers(info.Modifiers), ClickCount.Double))
+            if (!this.OnClickEvent(info.Target, clickType, InputHandlerTransition.Down, GetModifiers(info.Modifiers), ClickCount.Double))
                 return;
-            this.OnClickEvent(info.Target, clickType, InputHandlerTransition.Up, InputHandler.GetModifiers(info.Modifiers), ClickCount.Double);
+            this.OnClickEvent(info.Target, clickType, InputHandlerTransition.Up, GetModifiers(info.Modifiers), ClickCount.Double);
             if (!this._handle)
                 return;
             info.MarkHandled();
@@ -371,7 +371,7 @@ namespace Microsoft.Iris.InputHandlers
             switch (info.Key)
             {
                 case Keys.Enter:
-                    if (!this.OnClickEvent(info.Target, ClickType.EnterKey, InputHandlerTransition.Down, InputHandler.GetModifiers(info.Modifiers)) || !this._handle)
+                    if (!this.OnClickEvent(info.Target, ClickType.EnterKey, InputHandlerTransition.Down, GetModifiers(info.Modifiers)) || !this._handle)
                         break;
                     info.MarkHandled();
                     break;
@@ -384,17 +384,17 @@ namespace Microsoft.Iris.InputHandlers
                     this._handleEscape = true;
                     break;
                 case Keys.Space:
-                    if (!this.OnClickEvent(info.Target, ClickType.SpaceKey, InputHandlerTransition.Down, InputHandler.GetModifiers(info.Modifiers)) || !this._handle)
+                    if (!this.OnClickEvent(info.Target, ClickType.SpaceKey, InputHandlerTransition.Down, GetModifiers(info.Modifiers)) || !this._handle)
                         break;
                     info.MarkHandled();
                     break;
                 case Keys.GamePadA:
-                    if (!this.OnClickEvent(info.Target, ClickType.GamePadA, InputHandlerTransition.Down, InputHandler.GetModifiers(info.Modifiers)) || !this._handle)
+                    if (!this.OnClickEvent(info.Target, ClickType.GamePadA, InputHandlerTransition.Down, GetModifiers(info.Modifiers)) || !this._handle)
                         break;
                     info.MarkHandled();
                     break;
                 case Keys.GamePadStart:
-                    if (!this.OnClickEvent(info.Target, ClickType.GamePadStart, InputHandlerTransition.Down, InputHandler.GetModifiers(info.Modifiers)) || !this._handle)
+                    if (!this.OnClickEvent(info.Target, ClickType.GamePadStart, InputHandlerTransition.Down, GetModifiers(info.Modifiers)) || !this._handle)
                         break;
                     info.MarkHandled();
                     break;
@@ -406,7 +406,7 @@ namespace Microsoft.Iris.InputHandlers
             switch (info.Key)
             {
                 case Keys.Enter:
-                    if (!this.OnClickEvent(info.Target, ClickType.EnterKey, InputHandlerTransition.Up, InputHandler.GetModifiers(info.Modifiers)) || !this._handle)
+                    if (!this.OnClickEvent(info.Target, ClickType.EnterKey, InputHandlerTransition.Up, GetModifiers(info.Modifiers)) || !this._handle)
                         break;
                     info.MarkHandled();
                     break;
@@ -418,17 +418,17 @@ namespace Microsoft.Iris.InputHandlers
                     this._handleEscape = false;
                     break;
                 case Keys.Space:
-                    if (!this.OnClickEvent(info.Target, ClickType.SpaceKey, InputHandlerTransition.Up, InputHandler.GetModifiers(info.Modifiers)) || !this._handle)
+                    if (!this.OnClickEvent(info.Target, ClickType.SpaceKey, InputHandlerTransition.Up, GetModifiers(info.Modifiers)) || !this._handle)
                         break;
                     info.MarkHandled();
                     break;
                 case Keys.GamePadA:
-                    if (!this.OnClickEvent(info.Target, ClickType.GamePadA, InputHandlerTransition.Up, InputHandler.GetModifiers(info.Modifiers)) || !this._handle)
+                    if (!this.OnClickEvent(info.Target, ClickType.GamePadA, InputHandlerTransition.Up, GetModifiers(info.Modifiers)) || !this._handle)
                         break;
                     info.MarkHandled();
                     break;
                 case Keys.GamePadStart:
-                    if (!this.OnClickEvent(info.Target, ClickType.GamePadStart, InputHandlerTransition.Up, InputHandler.GetModifiers(info.Modifiers)) || !this._handle)
+                    if (!this.OnClickEvent(info.Target, ClickType.GamePadStart, InputHandlerTransition.Up, GetModifiers(info.Modifiers)) || !this._handle)
                         break;
                     info.MarkHandled();
                     break;
@@ -440,7 +440,7 @@ namespace Microsoft.Iris.InputHandlers
             switch (info.Character)
             {
                 case '\r':
-                    if (!this.ShouldHandleEvent(ClickType.EnterKey, InputHandler.GetModifiers(info.Modifiers), ClickCount.Single) || !this._handle)
+                    if (!this.ShouldHandleEvent(ClickType.EnterKey, GetModifiers(info.Modifiers), ClickCount.Single) || !this._handle)
                         break;
                     info.MarkHandled();
                     break;
@@ -450,7 +450,7 @@ namespace Microsoft.Iris.InputHandlers
                     info.MarkHandled();
                     break;
                 case ' ':
-                    if (!this.ShouldHandleEvent(ClickType.SpaceKey, InputHandler.GetModifiers(info.Modifiers), ClickCount.Single) || !this._handle)
+                    if (!this.ShouldHandleEvent(ClickType.SpaceKey, GetModifiers(info.Modifiers), ClickCount.Single) || !this._handle)
                         break;
                     info.MarkHandled();
                     break;

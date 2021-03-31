@@ -22,7 +22,7 @@ namespace Microsoft.Iris.Animations
         private bool _doNotAutoReleaseFlag;
         private IAnimatable _animatableTarget;
         private RendererProperty _rendererProperty;
-        private static DeferredHandler s_deferredCleanupWorker = new DeferredHandler(AnimationProxy.DeferredCleanupWorker);
+        private static DeferredHandler s_deferredCleanupWorker = new DeferredHandler(DeferredCleanupWorker);
 
         internal AnimationProxy(
           ActiveSequence activeSequence,
@@ -91,7 +91,7 @@ namespace Microsoft.Iris.Animations
             }
             else
                 animationInput1 = new ConstantAnimationInput(value);
-            this._animation.AddKeyframe(new AnimationKeyframe(keyframe.Time, animationInput1, AnimationProxy.GenerateInterpolation(keyframe.Interpolation)));
+            this._animation.AddKeyframe(new AnimationKeyframe(keyframe.Time, animationInput1, GenerateInterpolation(keyframe.Interpolation)));
         }
 
         public void AddVector2Keyframe(BaseKeyframe keyframe, Vector2 value)
@@ -115,7 +115,7 @@ namespace Microsoft.Iris.Animations
             }
             else
                 animationInput1 = new ConstantAnimationInput(value);
-            this._animation.AddKeyframe(new AnimationKeyframe(keyframe.Time, animationInput1, AnimationProxy.GenerateInterpolation(keyframe.Interpolation)));
+            this._animation.AddKeyframe(new AnimationKeyframe(keyframe.Time, animationInput1, GenerateInterpolation(keyframe.Interpolation)));
         }
 
         public void AddVector3Keyframe(BaseKeyframe keyframe, Vector3 value)
@@ -139,7 +139,7 @@ namespace Microsoft.Iris.Animations
             }
             else
                 animationInput1 = new ConstantAnimationInput(value);
-            this._animation.AddKeyframe(new AnimationKeyframe(keyframe.Time, animationInput1, AnimationProxy.GenerateInterpolation(keyframe.Interpolation)));
+            this._animation.AddKeyframe(new AnimationKeyframe(keyframe.Time, animationInput1, GenerateInterpolation(keyframe.Interpolation)));
         }
 
         public void AddVector4Keyframe(BaseKeyframe keyframe, Vector4 value)
@@ -163,7 +163,7 @@ namespace Microsoft.Iris.Animations
             }
             else
                 animationInput1 = new ConstantAnimationInput(value);
-            this._animation.AddKeyframe(new AnimationKeyframe(keyframe.Time, animationInput1, AnimationProxy.GenerateInterpolation(keyframe.Interpolation)));
+            this._animation.AddKeyframe(new AnimationKeyframe(keyframe.Time, animationInput1, GenerateInterpolation(keyframe.Interpolation)));
         }
 
         public void AddRotationKeyframe(BaseKeyframe keyframe, Rotation value)
@@ -188,7 +188,7 @@ namespace Microsoft.Iris.Animations
                 }
                 else
                     animationInput1 = new ConstantAnimationInput(new Quaternion(value.Axis, value.AngleRadians));
-                AnimationInterpolation interpolation = AnimationProxy.GenerateInterpolation(keyframe.Interpolation);
+                AnimationInterpolation interpolation = GenerateInterpolation(keyframe.Interpolation);
                 interpolation.UseSphericalCombination = true;
                 this._animation.AddKeyframe(new AnimationKeyframe(keyframe.Time, animationInput1, interpolation));
             }
@@ -266,7 +266,7 @@ namespace Microsoft.Iris.Animations
             {
                 if (!this.Session.IsValid)
                     return;
-                DeferredCall.Post(DispatchPriority.Housekeeping, AnimationProxy.s_deferredCleanupWorker, this);
+                DeferredCall.Post(DispatchPriority.Housekeeping, s_deferredCleanupWorker, this);
             }
         }
 

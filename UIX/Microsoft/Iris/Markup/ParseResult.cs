@@ -15,8 +15,8 @@ namespace Microsoft.Iris.Markup
         public ValidateNamespace XmlnsList;
         public bool HasErrors;
         public Vector<ValidateClass> ClassList = new Vector<ValidateClass>(4);
-        public Vector<ValidateAlias> AliasList = ParseResult.s_EmptyAliasList;
-        public Vector<ValidateDataMapping> DataMappingList = ParseResult.s_EmptyDataMappingList;
+        public Vector<ValidateAlias> AliasList = s_EmptyAliasList;
+        public Vector<ValidateDataMapping> DataMappingList = s_EmptyDataMappingList;
         public static Vector<ValidateAlias> s_EmptyAliasList = new Vector<ValidateAlias>(0);
         public static Vector<ValidateDataMapping> s_EmptyDataMappingList = new Vector<ValidateDataMapping>(0);
     }

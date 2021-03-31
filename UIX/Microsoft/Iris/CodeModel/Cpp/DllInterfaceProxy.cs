@@ -12,7 +12,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
     {
         protected IntPtr _interface;
 
-        ~DllInterfaceProxy() => DllProxyObject.RegisterAppThreadRelease(new DllProxyObject.AppThreadReleaseEntry(this._interface));
+        ~DllInterfaceProxy() => RegisterAppThreadRelease(new DllProxyObject.AppThreadReleaseEntry(this._interface));
 
         protected override void OnDispose() => new DllProxyObject.AppThreadReleaseEntry(this._interface).Release();
 

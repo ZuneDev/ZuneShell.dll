@@ -52,20 +52,20 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object Construct() => new FlowLayout();
 
-        public static void Pass1Initialize() => FlowLayoutSchema.Type = new UIXTypeSchema(90, "FlowLayout", null, 132, typeof(FlowLayout), UIXTypeFlags.Immutable);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(90, "FlowLayout", null, 132, typeof(FlowLayout), UIXTypeFlags.Immutable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(90, "Orientation", 154, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(FlowLayoutSchema.GetOrientation), new SetValueHandler(FlowLayoutSchema.SetOrientation), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(90, "Spacing", 139, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(FlowLayoutSchema.GetSpacing), new SetValueHandler(FlowLayoutSchema.SetSpacing), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(90, "AllowWrap", 15, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(FlowLayoutSchema.GetAllowWrap), new SetValueHandler(FlowLayoutSchema.SetAllowWrap), false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(90, "StripAlignment", 209, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(FlowLayoutSchema.GetStripAlignment), new SetValueHandler(FlowLayoutSchema.SetStripAlignment), false);
-            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(90, "Repeat", 172, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(FlowLayoutSchema.GetRepeat), new SetValueHandler(FlowLayoutSchema.SetRepeat), false);
-            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(90, "RepeatGap", 139, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(FlowLayoutSchema.GetRepeatGap), new SetValueHandler(FlowLayoutSchema.SetRepeatGap), false);
-            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema(90, "MissingItemPolicy", 148, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(FlowLayoutSchema.GetMissingItemPolicy), new SetValueHandler(FlowLayoutSchema.SetMissingItemPolicy), false);
-            UIXPropertySchema uixPropertySchema8 = new UIXPropertySchema(90, "MinimumSampleSize", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(FlowLayoutSchema.GetMinimumSampleSize), new SetValueHandler(FlowLayoutSchema.SetMinimumSampleSize), false);
-            UIXPropertySchema uixPropertySchema9 = new UIXPropertySchema(90, "DefaultChildAlignment", sbyte.MaxValue, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(FlowLayoutSchema.GetDefaultChildAlignment), new SetValueHandler(FlowLayoutSchema.SetDefaultChildAlignment), false);
-            FlowLayoutSchema.Type.Initialize(new DefaultConstructHandler(FlowLayoutSchema.Construct), null, new PropertySchema[9]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(90, "Orientation", 154, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetOrientation), new SetValueHandler(SetOrientation), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(90, "Spacing", 139, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetSpacing), new SetValueHandler(SetSpacing), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(90, "AllowWrap", 15, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetAllowWrap), new SetValueHandler(SetAllowWrap), false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(90, "StripAlignment", 209, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetStripAlignment), new SetValueHandler(SetStripAlignment), false);
+            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(90, "Repeat", 172, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetRepeat), new SetValueHandler(SetRepeat), false);
+            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(90, "RepeatGap", 139, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetRepeatGap), new SetValueHandler(SetRepeatGap), false);
+            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema(90, "MissingItemPolicy", 148, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetMissingItemPolicy), new SetValueHandler(SetMissingItemPolicy), false);
+            UIXPropertySchema uixPropertySchema8 = new UIXPropertySchema(90, "MinimumSampleSize", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetMinimumSampleSize), new SetValueHandler(SetMinimumSampleSize), false);
+            UIXPropertySchema uixPropertySchema9 = new UIXPropertySchema(90, "DefaultChildAlignment", sbyte.MaxValue, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetDefaultChildAlignment), new SetValueHandler(SetDefaultChildAlignment), false);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[9]
             {
          uixPropertySchema3,
          uixPropertySchema9,

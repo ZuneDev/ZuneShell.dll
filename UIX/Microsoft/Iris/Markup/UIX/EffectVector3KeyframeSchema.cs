@@ -19,12 +19,12 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object Construct() => new EffectVector3Keyframe();
 
-        public static void Pass1Initialize() => EffectVector3KeyframeSchema.Type = new UIXTypeSchema(82, "EffectVector3Keyframe", null, 130, typeof(EffectVector3Keyframe), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(82, "EffectVector3Keyframe", null, 130, typeof(EffectVector3Keyframe), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(82, "Value", 234, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(EffectVector3KeyframeSchema.GetValue), new SetValueHandler(EffectVector3KeyframeSchema.SetValue), false);
-            EffectVector3KeyframeSchema.Type.Initialize(new DefaultConstructHandler(EffectVector3KeyframeSchema.Construct), null, new PropertySchema[1]
+            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(82, "Value", 234, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetValue), new SetValueHandler(SetValue), false);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[1]
             {
          uixPropertySchema
             }, null, null, null, null, null, null, null, null, null);

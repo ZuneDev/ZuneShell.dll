@@ -46,9 +46,9 @@ namespace Microsoft.Iris.UI
         private MarkupListeners _listeners;
         private NotifyService _notifier = new NotifyService();
         private ScriptRunScheduler _scriptRunScheduler = new ScriptRunScheduler();
-        private static DeferredHandler s_executePendingScriptsHandler = new DeferredHandler(UIClass.ExecutePendingScripts);
-        private static readonly FocusStateHandler s_updateMouseFocusStates = new FocusStateHandler(UIClass.UpdateMouseFocusStates);
-        private static readonly FocusStateHandler s_updateKeyFocusStates = new FocusStateHandler(UIClass.UpdateKeyFocusStates);
+        private static DeferredHandler s_executePendingScriptsHandler = new DeferredHandler(ExecutePendingScripts);
+        private static readonly FocusStateHandler s_updateMouseFocusStates = new FocusStateHandler(UpdateMouseFocusStates);
+        private static readonly FocusStateHandler s_updateKeyFocusStates = new FocusStateHandler(UpdateKeyFocusStates);
         private static readonly DataCookie s_cursorProperty = DataCookie.ReserveSlot();
         private static readonly DataCookie s_cursorOverrideProperty = DataCookie.ReserveSlot();
         private static readonly DataCookie s_accProxyProperty = DataCookie.ReserveSlot();
@@ -64,15 +64,15 @@ namespace Microsoft.Iris.UI
             this._typeSchema = type;
             this._storage = new Dictionary<object, object>(type.TotalPropertiesAndLocalsCount);
             this._bits = new BitVector32();
-            this.SetBit(UIClass.Bits.Flippable, true);
-            this.SetBit(UIClass.Bits.CreateInterestOnFocus, true);
-            this.SetBit(UIClass.Bits.KeyFocusOnMouseDown, true);
-            this.SetBit(UIClass.Bits.AllowDoubleClicks, true);
-            this.SetBit(UIClass.Bits.Enabled, true);
-            this.SetBit(UIClass.Bits.ScriptEnabled, true);
+            this.SetBit(Bits.Flippable, true);
+            this.SetBit(Bits.CreateInterestOnFocus, true);
+            this.SetBit(Bits.KeyFocusOnMouseDown, true);
+            this.SetBit(Bits.AllowDoubleClicks, true);
+            this.SetBit(Bits.Enabled, true);
+            this.SetBit(Bits.ScriptEnabled, true);
         }
 
-        public bool Initialized => this.GetBit(UIClass.Bits.Initialized);
+        public bool Initialized => this.GetBit(Bits.Initialized);
 
         public void RegisterDisposable(IDisposableObject disposable)
         {
@@ -104,7 +104,7 @@ namespace Microsoft.Iris.UI
             base.OnDispose();
             if (this.Initialized)
                 AccessibleProxy.NotifyDestroyed(this);
-            this.SetBit(UIClass.Bits.ScriptEnabled, false);
+            this.SetBit(Bits.ScriptEnabled, false);
             if (this._listeners != null)
             {
                 this._listeners.Dispose(this);
@@ -123,8 +123,8 @@ namespace Microsoft.Iris.UI
                 for (int index = 0; index < this._disposables.Count; ++index)
                     this._disposables[index].Dispose(this);
             }
-            this.RemoveEventHandlers(UIClass.s_descendantMouseFocusChangedEvent);
-            this.RemoveEventHandlers(UIClass.s_descendantKeyFocusChangedEvent);
+            this.RemoveEventHandlers(s_descendantMouseFocusChangedEvent);
+            this.RemoveEventHandlers(s_descendantKeyFocusChangedEvent);
         }
 
         private void DisposeInputHandlers()
@@ -216,7 +216,7 @@ namespace Microsoft.Iris.UI
         protected override void OnZoneDetached()
         {
             base.OnZoneDetached();
-            this.ChangeBit(UIClass.Bits.AppFullyEnabled, false);
+            this.ChangeBit(Bits.AppFullyEnabled, false);
             this.RevalidateUsage(true, true);
             if (this._inputHandlers != null)
             {
@@ -236,7 +236,7 @@ namespace Microsoft.Iris.UI
             AccessibleProxy.NotifyTreeChanged(this);
         }
 
-        public bool HasAccessibleProxy => this.GetBit(UIClass.Bits.HasAccProxy);
+        public bool HasAccessibleProxy => this.GetBit(Bits.HasAccProxy);
 
         protected virtual AccessibleProxy OnCreateAccessibleProxy(
           UIClass ui,
@@ -253,7 +253,7 @@ namespace Microsoft.Iris.UI
                 AccessibleProxy accessibleProxy;
                 if (this.HasAccessibleProxy)
                 {
-                    accessibleProxy = (AccessibleProxy)this.GetData(UIClass.s_accProxyProperty);
+                    accessibleProxy = (AccessibleProxy)this.GetData(s_accProxyProperty);
                 }
                 else
                 {
@@ -269,8 +269,8 @@ namespace Microsoft.Iris.UI
                     if (data == null)
                         data = new Accessible();
                     accessibleProxy = this.OnCreateAccessibleProxy(this, data);
-                    this.SetData(UIClass.s_accProxyProperty, accessibleProxy);
-                    this.SetBit(UIClass.Bits.HasAccProxy, true);
+                    this.SetData(s_accProxyProperty, accessibleProxy);
+                    this.SetBit(Bits.HasAccProxy, true);
                 }
                 return accessibleProxy;
             }
@@ -385,8 +385,8 @@ namespace Microsoft.Iris.UI
 
         private UIClass.DeferredKeyFocusRestoreHelper PendingFocusRestore
         {
-            get => this.GetData(UIClass.s_pendingFocusRestoreProperty) as UIClass.DeferredKeyFocusRestoreHelper;
-            set => this.SetData(UIClass.s_pendingFocusRestoreProperty, value);
+            get => this.GetData(s_pendingFocusRestoreProperty) as UIClass.DeferredKeyFocusRestoreHelper;
+            set => this.SetData(s_pendingFocusRestoreProperty, value);
         }
 
         private static bool CheckHandled(InputInfo info, InputHandler inputHandler) => info.Handled;
@@ -448,10 +448,10 @@ namespace Microsoft.Iris.UI
 
         public bool Enabled
         {
-            get => this.GetBit(UIClass.Bits.Enabled);
+            get => this.GetBit(Bits.Enabled);
             set
             {
-                if (!this.ChangeBit(UIClass.Bits.Enabled, value))
+                if (!this.ChangeBit(Bits.Enabled, value))
                     return;
                 this.UpdateMouseHandling(null);
                 this.RevalidateUsage(true, !value);
@@ -464,15 +464,15 @@ namespace Microsoft.Iris.UI
 
         private bool HostEnabled => this._ownerHost == null ? this.IsValid : this._ownerHost.InputEnabled;
 
-        public bool FullyEnabled => this.GetBit(UIClass.Bits.AppFullyEnabled);
+        public bool FullyEnabled => this.GetBit(Bits.AppFullyEnabled);
 
-        public bool DirectMouseFocus => this.GetBit(UIClass.Bits.DirectMouseFocus);
+        public bool DirectMouseFocus => this.GetBit(Bits.DirectMouseFocus);
 
-        public bool MouseFocus => this.GetBit(UIClass.Bits.MouseFocus);
+        public bool MouseFocus => this.GetBit(Bits.MouseFocus);
 
-        public bool DirectKeyFocus => this.GetBit(UIClass.Bits.DirectKeyFocus);
+        public bool DirectKeyFocus => this.GetBit(Bits.DirectKeyFocus);
 
-        public bool KeyFocus => this.GetBit(UIClass.Bits.KeyFocus);
+        public bool KeyFocus => this.GetBit(Bits.KeyFocus);
 
         public UIClass KeyFocusDescendant
         {
@@ -501,10 +501,10 @@ namespace Microsoft.Iris.UI
 
         public bool CreateInterestOnFocus
         {
-            get => this.GetBit(UIClass.Bits.CreateInterestOnFocus);
+            get => this.GetBit(Bits.CreateInterestOnFocus);
             set
             {
-                if (!this.ChangeBit(UIClass.Bits.CreateInterestOnFocus, value))
+                if (!this.ChangeBit(Bits.CreateInterestOnFocus, value))
                     return;
                 this.FireNotification(NotificationID.CreateInterestOnFocus);
             }
@@ -512,12 +512,12 @@ namespace Microsoft.Iris.UI
 
         public ViewItem FocusInterestTarget
         {
-            get => (ViewItem)this.GetData(UIClass.s_focusInterestTargetProperty);
+            get => (ViewItem)this.GetData(s_focusInterestTargetProperty);
             set
             {
                 if (this.FocusInterestTarget == value)
                     return;
-                this.SetData(UIClass.s_focusInterestTargetProperty, value);
+                this.SetData(s_focusInterestTargetProperty, value);
                 this.FireNotification(NotificationID.FocusInterestTarget);
             }
         }
@@ -526,14 +526,14 @@ namespace Microsoft.Iris.UI
         {
             get
             {
-                object data = this.GetData(UIClass.s_focusInterestTargetMarginsProperty);
+                object data = this.GetData(s_focusInterestTargetMarginsProperty);
                 return data != null ? (Inset)data : Inset.Zero;
             }
             set
             {
                 if (!(this.FocusInterestTargetMargins != value))
                     return;
-                this.SetData(UIClass.s_focusInterestTargetMarginsProperty, value);
+                this.SetData(s_focusInterestTargetMarginsProperty, value);
                 this.FireNotification(NotificationID.FocusInterestTargetMargins);
             }
         }
@@ -543,7 +543,7 @@ namespace Microsoft.Iris.UI
             get
             {
                 CursorID cursorId = CursorID.NotSpecified;
-                object data = this.GetData(UIClass.s_cursorProperty);
+                object data = this.GetData(s_cursorProperty);
                 if (data != null)
                     cursorId = (CursorID)data;
                 return cursorId;
@@ -552,7 +552,7 @@ namespace Microsoft.Iris.UI
             {
                 if (this.Cursor == value)
                     return;
-                this.SetData(UIClass.s_cursorProperty, value);
+                this.SetData(s_cursorProperty, value);
                 this.FireNotification(NotificationID.Cursor);
                 if (!this.IsZoned || this.OverrideCursor != CursorID.NotSpecified)
                     return;
@@ -565,7 +565,7 @@ namespace Microsoft.Iris.UI
             get
             {
                 CursorID cursorId = CursorID.NotSpecified;
-                object data = this.GetData(UIClass.s_cursorOverrideProperty);
+                object data = this.GetData(s_cursorOverrideProperty);
                 if (data != null)
                     cursorId = (CursorID)data;
                 return cursorId;
@@ -575,7 +575,7 @@ namespace Microsoft.Iris.UI
                 CursorID overrideCursor = this.OverrideCursor;
                 if (overrideCursor == value)
                     return;
-                this.SetData(UIClass.s_cursorOverrideProperty, value);
+                this.SetData(s_cursorOverrideProperty, value);
                 if (!this.IsZoned || overrideCursor == CursorID.NotSpecified && value == this.Cursor)
                     return;
                 this.Zone.UpdateCursor(this);
@@ -613,20 +613,20 @@ namespace Microsoft.Iris.UI
 
         public bool KeyFocusOnMouseEnter
         {
-            get => this.GetBit(UIClass.Bits.KeyFocusOnMouseEnter);
-            set => this.SetBit(UIClass.Bits.KeyFocusOnMouseEnter, value);
+            get => this.GetBit(Bits.KeyFocusOnMouseEnter);
+            set => this.SetBit(Bits.KeyFocusOnMouseEnter, value);
         }
 
         public bool KeyFocusOnMouseDown
         {
-            get => this.GetBit(UIClass.Bits.KeyFocusOnMouseDown);
-            set => this.SetBit(UIClass.Bits.KeyFocusOnMouseDown, value);
+            get => this.GetBit(Bits.KeyFocusOnMouseDown);
+            set => this.SetBit(Bits.KeyFocusOnMouseDown, value);
         }
 
         public bool AllowDoubleClicks
         {
-            get => this.GetBit(UIClass.Bits.AllowDoubleClicks);
-            set => this.SetBit(UIClass.Bits.AllowDoubleClicks, value);
+            get => this.GetBit(Bits.AllowDoubleClicks);
+            set => this.SetBit(Bits.AllowDoubleClicks, value);
         }
 
         internal void NotifyFullyEnabledChange() => this.Zone.ScheduleFullyEnabledChangeNotifications();
@@ -635,7 +635,7 @@ namespace Microsoft.Iris.UI
         {
             if (!this.Enabled || !this.HostEnabled)
                 enabledFlag = false;
-            if (this.ChangeBit(UIClass.Bits.AppFullyEnabled, enabledFlag))
+            if (this.ChangeBit(Bits.AppFullyEnabled, enabledFlag))
                 this.FireNotification(NotificationID.FullyEnabled);
             foreach (UIClass child in this.Children)
                 child.DeliverFullyEnabled(enabledFlag);
@@ -643,13 +643,13 @@ namespace Microsoft.Iris.UI
 
         public void EnableRawInput(bool enableFlag)
         {
-            if (!this.ChangeBit(UIClass.Bits.RawInputDisabled, !enableFlag))
+            if (!this.ChangeBit(Bits.RawInputDisabled, !enableFlag))
                 return;
             this.UpdateMouseHandling(null);
             this.RevalidateUsage(true, !enableFlag);
         }
 
-        public bool IsInputBranchEnabled() => this.GetBit(UIClass.Bits.Enabled) && !this.GetBit(UIClass.Bits.RawInputDisabled);
+        public bool IsInputBranchEnabled() => this.GetBit(Bits.Enabled) && !this.GetBit(Bits.RawInputDisabled);
 
         public bool IsEligibleForInput() => this.IsEligibleForInput(out UIClass _);
 
@@ -679,15 +679,15 @@ namespace Microsoft.Iris.UI
 
         public bool MouseInteractive
         {
-            get => this.GetBit(UIClass.Bits.MouseInteractive);
+            get => this.GetBit(Bits.MouseInteractive);
             set => this.SetMouseInteractive(value, false);
         }
 
         public void SetMouseInteractive(bool value, bool fromScript)
         {
             if (fromScript)
-                this.SetBit(UIClass.Bits.MouseInteractiveSet, true);
-            if (!fromScript && this.GetBit(UIClass.Bits.MouseInteractiveSet) || !this.ChangeBit(UIClass.Bits.MouseInteractive, value))
+                this.SetBit(Bits.MouseInteractiveSet, true);
+            if (!fromScript && this.GetBit(Bits.MouseInteractiveSet) || !this.ChangeBit(Bits.MouseInteractive, value))
                 return;
             if (value && this._rootItem != null && !this.HasMouseInteractiveContent())
                 this._rootItem.MouseInteractive = true;
@@ -703,10 +703,10 @@ namespace Microsoft.Iris.UI
 
         public bool KeyInteractive
         {
-            get => this.GetBit(UIClass.Bits.KeyInteractive);
+            get => this.GetBit(Bits.KeyInteractive);
             set
             {
-                if (!this.ChangeBit(UIClass.Bits.KeyInteractive, value))
+                if (!this.ChangeBit(Bits.KeyInteractive, value))
                     return;
                 this.RevalidateUsage(false, !value);
                 this.FireNotification(NotificationID.KeyInteractive);
@@ -762,9 +762,9 @@ namespace Microsoft.Iris.UI
             switch (focusType)
             {
                 case InputDeviceType.Keyboard:
-                    return UIClass.s_updateKeyFocusStates;
+                    return s_updateKeyFocusStates;
                 case InputDeviceType.Mouse:
-                    return UIClass.s_updateMouseFocusStates;
+                    return s_updateMouseFocusStates;
                 default:
                     return null;
             }
@@ -862,7 +862,7 @@ namespace Microsoft.Iris.UI
             foreach (InputHandler inputHandler in this._inputHandlers)
             {
                 inputHandler.DeliverInput(this, info, stage);
-                if (UIClass.CheckHandled(info, inputHandler))
+                if (CheckHandled(info, inputHandler))
                     break;
             }
         }
@@ -893,14 +893,14 @@ namespace Microsoft.Iris.UI
 
         private void DeliverGainMouseFocus(InputInfo info, EventRouteStages stage)
         {
-            if (stage == EventRouteStages.Direct && this.GetBit(UIClass.Bits.KeyFocusOnMouseEnter))
+            if (stage == EventRouteStages.Direct && this.GetBit(Bits.KeyFocusOnMouseEnter))
                 this.RequestKeyFocus(KeyFocusReason.MouseEnter);
             this.DeliverFocusChange(info, stage);
         }
 
         private void DeliverMouseButtonDown(InputInfo args, EventRouteStages stage)
         {
-            if (stage == EventRouteStages.Direct && this.GetBit(UIClass.Bits.KeyFocusOnMouseDown))
+            if (stage == EventRouteStages.Direct && this.GetBit(Bits.KeyFocusOnMouseDown))
                 this.RequestKeyFocus(KeyFocusReason.MouseDown);
             this.DeliverInputEvent(args, stage);
         }
@@ -953,7 +953,7 @@ namespace Microsoft.Iris.UI
           bool deepFocusFlag,
           bool directFocusFlag)
         {
-            if (recipient.ChangeBit(UIClass.Bits.KeyFocus, deepFocusFlag))
+            if (recipient.ChangeBit(Bits.KeyFocus, deepFocusFlag))
             {
                 recipient.FireNotification(NotificationID.KeyFocus);
                 if (deepFocusFlag)
@@ -961,7 +961,7 @@ namespace Microsoft.Iris.UI
                 else
                     recipient.OnLoseDeepKeyFocus();
             }
-            if (!recipient.ChangeBit(UIClass.Bits.DirectKeyFocus, directFocusFlag))
+            if (!recipient.ChangeBit(Bits.DirectKeyFocus, directFocusFlag))
                 return;
             recipient.FireNotification(NotificationID.DirectKeyFocus);
             if (DebugOutlines.Enabled)
@@ -973,8 +973,8 @@ namespace Microsoft.Iris.UI
 
         public event InputEventHandler DescendentKeyFocusChange
         {
-            add => this.AddEventHandler(UIClass.s_descendantKeyFocusChangedEvent, value);
-            remove => this.RemoveEventHandler(UIClass.s_descendantKeyFocusChangedEvent, value);
+            add => this.AddEventHandler(s_descendantKeyFocusChangedEvent, value);
+            remove => this.RemoveEventHandler(s_descendantKeyFocusChangedEvent, value);
         }
 
         private static void UpdateMouseFocusStates(
@@ -982,9 +982,9 @@ namespace Microsoft.Iris.UI
           bool deepFocusFlag,
           bool directFocusFlag)
         {
-            if (recipient.ChangeBit(UIClass.Bits.MouseFocus, deepFocusFlag))
+            if (recipient.ChangeBit(Bits.MouseFocus, deepFocusFlag))
                 recipient.FireNotification(NotificationID.MouseFocus);
-            if (!recipient.ChangeBit(UIClass.Bits.DirectMouseFocus, directFocusFlag))
+            if (!recipient.ChangeBit(Bits.DirectMouseFocus, directFocusFlag))
                 return;
             recipient.FireNotification(NotificationID.DirectMouseFocus);
             if (!DebugOutlines.Enabled)
@@ -994,8 +994,8 @@ namespace Microsoft.Iris.UI
 
         public event InputEventHandler DescendentMouseFocusChange
         {
-            add => this.AddEventHandler(UIClass.s_descendantMouseFocusChangedEvent, value);
-            remove => this.RemoveEventHandler(UIClass.s_descendantMouseFocusChangedEvent, value);
+            add => this.AddEventHandler(s_descendantMouseFocusChangedEvent, value);
+            remove => this.RemoveEventHandler(s_descendantMouseFocusChangedEvent, value);
         }
 
         private void DeliverCodeNotifications(InputInfo info)
@@ -1005,11 +1005,11 @@ namespace Microsoft.Iris.UI
             {
                 case InputEventType.GainKeyFocus:
                 case InputEventType.LoseKeyFocus:
-                    focusChangedEvent = UIClass.s_descendantKeyFocusChangedEvent;
+                    focusChangedEvent = s_descendantKeyFocusChangedEvent;
                     break;
                 case InputEventType.GainMouseFocus:
                 case InputEventType.LoseMouseFocus:
-                    focusChangedEvent = UIClass.s_descendantMouseFocusChangedEvent;
+                    focusChangedEvent = s_descendantMouseFocusChangedEvent;
                     break;
             }
             if (!(focusChangedEvent != EventCookie.NULL) || !(this.GetEventHandler(focusChangedEvent) is InputEventHandler eventHandler))
@@ -1200,7 +1200,7 @@ namespace Microsoft.Iris.UI
                 else if (this.HasMouseInteractiveContent())
                     this.MouseInteractive = true;
             }
-            this.SetBit(UIClass.Bits.Initialized, true);
+            this.SetBit(Bits.Initialized, true);
             AccessibleProxy.NotifyCreated(this);
         }
 
@@ -1218,7 +1218,7 @@ namespace Microsoft.Iris.UI
                     {
                         foreach (InputHandler inputHandler in this._inputHandlers)
                         {
-                            if (inputHandler.Name != null && object.ReferenceEquals(inputHandler.Name, symbolRef.Symbol))
+                            if (inputHandler.Name != null && ReferenceEquals(inputHandler.Name, symbolRef.Symbol))
                             {
                                 obj = inputHandler;
                                 break;
@@ -1243,7 +1243,7 @@ namespace Microsoft.Iris.UI
 
         public ViewItem FindViewItemByName(ViewItem item, string name)
         {
-            if (object.ReferenceEquals(item.Name, name))
+            if (ReferenceEquals(item.Name, name))
                 return item;
             if (item.HideNamedChildren)
                 return null;
@@ -1292,7 +1292,7 @@ namespace Microsoft.Iris.UI
         public void ScheduleScriptRun(uint scriptId, bool ignoreErrors)
         {
             if (!this._scriptRunScheduler.Pending)
-                DeferredCall.Post(DispatchPriority.Script, UIClass.s_executePendingScriptsHandler, this);
+                DeferredCall.Post(DispatchPriority.Script, s_executePendingScriptsHandler, this);
             this._scriptRunScheduler.ScheduleRun(scriptId, ignoreErrors);
         }
 
@@ -1306,12 +1306,12 @@ namespace Microsoft.Iris.UI
 
         public void NotifyScriptErrors()
         {
-            this.SetBit(UIClass.Bits.ScriptEnabled, false);
+            this.SetBit(Bits.ScriptEnabled, false);
             this._ownerHost.NotifyChildUIScriptErrors();
             ErrorManager.ReportWarning("Script runtime failure: Scripting has been disabled for '{0}' due to runtime scripting errors", _typeSchema.Name);
         }
 
-        public bool ScriptEnabled => this.GetBit(UIClass.Bits.ScriptEnabled);
+        public bool ScriptEnabled => this.GetBit(Bits.ScriptEnabled);
 
         protected void FireNotification(string id) => this.FireNotification(id, false);
 
@@ -1354,8 +1354,8 @@ namespace Microsoft.Iris.UI
 
         public bool Flippable
         {
-            get => this.GetBit(UIClass.Bits.Flippable);
-            set => this.SetBit(UIClass.Bits.Flippable, value);
+            get => this.GetBit(Bits.Flippable);
+            set => this.SetBit(Bits.Flippable, value);
         }
 
         internal void SetRootItem(ViewItem newRootItem) => this._rootItem = newRootItem;

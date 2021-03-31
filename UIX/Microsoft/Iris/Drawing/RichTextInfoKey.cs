@@ -69,7 +69,7 @@ namespace Microsoft.Iris.Drawing
 
         public override bool Equals(object obj)
         {
-            if (object.ReferenceEquals(this, obj))
+            if (ReferenceEquals(this, obj))
                 return true;
             return obj is RichTextInfoKey richTextInfoKey && this._hashCode == richTextInfoKey._hashCode && (this._fontFaceUniqueId == richTextInfoKey._fontFaceUniqueId && this._fontSize == richTextInfoKey._fontSize) && (this._fontWeight == richTextInfoKey._fontWeight && this._flags == richTextInfoKey._flags && (_rasterizerConfig == richTextInfoKey._rasterizerConfig && this._samplingMode.Equals(richTextInfoKey._samplingMode))) && (this._srcSizeF.Equals(richTextInfoKey._srcSizeF) && this._naturalSize.Equals(richTextInfoKey._naturalSize) && (this._rasterizedOffset.Equals(richTextInfoKey._rasterizedOffset) && this._textColor.Equals(richTextInfoKey._textColor))) && this._content.Equals(richTextInfoKey._content);
         }

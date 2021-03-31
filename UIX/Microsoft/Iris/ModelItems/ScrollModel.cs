@@ -408,10 +408,10 @@ namespace Microsoft.Iris.ModelItems
                 bool flag = true;
                 switch (this.GetLastFocusLocation())
                 {
-                    case ScrollModel.ItemLocation.OffscreenInNearDirection:
+                    case ItemLocation.OffscreenInNearDirection:
                         flag = nearDirection;
                         break;
-                    case ScrollModel.ItemLocation.Onscreen:
+                    case ItemLocation.Onscreen:
                         flag = !this.PotentialNavigationTargetIsOnscreen(this.NearFarToDirection(nearDirection), out UIClass _);
                         if (!flag && this._useUserDisposition && this.NonDefaultUserDisposition())
                         {
@@ -419,11 +419,11 @@ namespace Microsoft.Iris.ModelItems
                             break;
                         }
                         break;
-                    case ScrollModel.ItemLocation.OffscreenInFarDirection:
+                    case ItemLocation.OffscreenInFarDirection:
                         flag = !nearDirection;
                         break;
                 }
-                ScrollModel.AssignFocusAction instance = ScrollModel.AssignFocusAction.GetInstance(this, this.GetAssignFocusPoint(nearDirection), nearDirection, false);
+                ScrollModel.AssignFocusAction instance = AssignFocusAction.GetInstance(this, this.GetAssignFocusPoint(nearDirection), nearDirection, false);
                 if (!flag)
                 {
                     instance.Go();
@@ -480,17 +480,17 @@ namespace Microsoft.Iris.ModelItems
             return !near ? Direction.East : Direction.West;
         }
 
-        private bool LastFocusIsOnscreen() => this.GetItemLocation(this._lastFocusedItem) == ScrollModel.ItemLocation.Onscreen;
+        private bool LastFocusIsOnscreen() => this.GetItemLocation(this._lastFocusedItem) == ItemLocation.Onscreen;
 
         private ScrollModel.ItemLocation GetLastFocusLocation() => this.GetItemLocation(this._lastFocusedItem);
 
-        private bool ItemIsOnscreen(ViewItem item) => this.GetItemLocation(item) == ScrollModel.ItemLocation.Onscreen;
+        private bool ItemIsOnscreen(ViewItem item) => this.GetItemLocation(item) == ItemLocation.Onscreen;
 
         private ScrollModel.ItemLocation GetItemLocation(ViewItem item)
         {
             RectangleF scrollerRect = this.GetScrollerRect(false);
             RectangleF viewItemRect = this.GetViewItemRect(item, false);
-            return !(RectangleF.Intersect(scrollerRect, viewItemRect) == viewItemRect) ? (this.ScrollOrientation != Orientation.Horizontal ? (viewItemRect.Top >= (double)scrollerRect.Top ? ScrollModel.ItemLocation.OffscreenInFarDirection : ScrollModel.ItemLocation.OffscreenInNearDirection) : (viewItemRect.Left < (double)scrollerRect.Left || this._targetItem.Zone.Session.IsRtl && viewItemRect.Right > (double)scrollerRect.Right ? ScrollModel.ItemLocation.OffscreenInNearDirection : ScrollModel.ItemLocation.OffscreenInFarDirection)) : ScrollModel.ItemLocation.Onscreen;
+            return !(RectangleF.Intersect(scrollerRect, viewItemRect) == viewItemRect) ? (this.ScrollOrientation != Orientation.Horizontal ? (viewItemRect.Top >= (double)scrollerRect.Top ? ItemLocation.OffscreenInFarDirection : ItemLocation.OffscreenInNearDirection) : (viewItemRect.Left < (double)scrollerRect.Left || this._targetItem.Zone.Session.IsRtl && viewItemRect.Right > (double)scrollerRect.Right ? ItemLocation.OffscreenInNearDirection : ItemLocation.OffscreenInFarDirection)) : ItemLocation.Onscreen;
         }
 
         private bool PotentialNavigationTargetIsOnscreen(Direction dir, out UIClass navigationResult) => this.PotentialNavigationTargetIsOnscreen(this._lastFocusedItem.UI, dir, out navigationResult);
@@ -577,7 +577,7 @@ namespace Microsoft.Iris.ModelItems
             }
             if (!flag3)
                 return;
-            ScrollModel.AssignFocusAction instance = ScrollModel.AssignFocusAction.GetInstance(this, PointF.Zero, home, true);
+            ScrollModel.AssignFocusAction instance = AssignFocusAction.GetInstance(this, PointF.Zero, home, true);
             if (!flag2)
                 instance.Go();
             else
@@ -605,7 +605,7 @@ namespace Microsoft.Iris.ModelItems
                 this.ActualScrollIntoViewDisposition.Reset();
                 this.ActualScrollIntoViewDisposition.Enabled = true;
                 this.SetPendingFocusAreaOfInterest(this._lastFocusedItem.UI);
-                this.SetPostLayoutAction(ScrollModel.NavigateAction.GetInstance(this, nearDirection, direction));
+                this.SetPostLayoutAction(NavigateAction.GetInstance(this, nearDirection, direction));
                 this.OnLayoutInputChanged();
             }
             else if (nearDirection)

@@ -23,7 +23,7 @@ namespace Microsoft.Iris.Animations
           Vector3 baseValueVector,
           ref AnimationArgs args)
         {
-            return ScaleKeyframe.GetEffectiveScaleValue(this.RelativeTo, targetObject, baseValueVector, ref args);
+            return GetEffectiveScaleValue(this.RelativeTo, targetObject, baseValueVector, ref args);
         }
 
         public static Vector3 GetEffectiveScaleValue(

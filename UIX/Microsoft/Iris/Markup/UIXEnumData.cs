@@ -710,107 +710,107 @@ namespace Microsoft.Iris.Markup
             switch (typeID)
             {
                 case 1:
-                    return UIXEnumData.GetAccessibleRoleEnumData();
+                    return GetAccessibleRoleEnumData();
                 case 3:
-                    return UIXEnumData.GetAlignmentEnumData();
+                    return GetAlignmentEnumData();
                 case 5:
-                    return UIXEnumData.GetAlphaOperationEnumData();
+                    return GetAlphaOperationEnumData();
                 case 10:
-                    return UIXEnumData.GetAnimationEventTypeEnumData();
+                    return GetAnimationEventTypeEnumData();
                 case 12:
-                    return UIXEnumData.GetBeginDragPolicyEnumData();
+                    return GetBeginDragPolicyEnumData();
                 case 31:
-                    return UIXEnumData.GetClickCountEnumData();
+                    return GetClickCountEnumData();
                 case 33:
-                    return UIXEnumData.GetClickTypeEnumData();
+                    return GetClickTypeEnumData();
                 case 38:
-                    return UIXEnumData.GetColorOperationEnumData();
+                    return GetColorOperationEnumData();
                 case 39:
-                    return UIXEnumData.GetColorSchemeEnumData();
+                    return GetColorSchemeEnumData();
                 case 41:
-                    return UIXEnumData.GetContentPositioningPolicyEnumData();
+                    return GetContentPositioningPolicyEnumData();
                 case 44:
-                    return UIXEnumData.GetCursorEnumData();
+                    return GetCursorEnumData();
                 case 47:
-                    return UIXEnumData.GetDataQueryStatusEnumData();
+                    return GetDataQueryStatusEnumData();
                 case 50:
-                    return UIXEnumData.GetDebugLabelFormatEnumData();
+                    return GetDebugLabelFormatEnumData();
                 case 51:
-                    return UIXEnumData.GetDebugOutlineScopeEnumData();
+                    return GetDebugOutlineScopeEnumData();
                 case 64:
-                    return UIXEnumData.GetDropActionEnumData();
+                    return GetDropActionEnumData();
                 case 84:
-                    return UIXEnumData.GetEmbossDirectionEnumData();
+                    return GetEmbossDirectionEnumData();
                 case 89:
-                    return UIXEnumData.GetFlipDirectionEnumData();
+                    return GetFlipDirectionEnumData();
                 case 91:
-                    return UIXEnumData.GetFocusChangeReasonEnumData();
+                    return GetFocusChangeReasonEnumData();
                 case 94:
-                    return UIXEnumData.GetFontStylesEnumData();
+                    return GetFontStylesEnumData();
                 case 96:
-                    return UIXEnumData.GetGaussianBlurModeEnumData();
+                    return GetGaussianBlurModeEnumData();
                 case 98:
-                    return UIXEnumData.GetGraphicsDeviceTypeEnumData();
+                    return GetGraphicsDeviceTypeEnumData();
                 case 102:
-                    return UIXEnumData.GetHostStatusEnumData();
+                    return GetHostStatusEnumData();
                 case 108:
-                    return UIXEnumData.GetImageStatusEnumData();
+                    return GetImageStatusEnumData();
                 case 111:
-                    return UIXEnumData.GetInputHandlerModifiersEnumData();
+                    return GetInputHandlerModifiersEnumData();
                 case 112:
-                    return UIXEnumData.GetInputHandlerStageEnumData();
+                    return GetInputHandlerStageEnumData();
                 case 113:
-                    return UIXEnumData.GetInputHandlerTransitionEnumData();
+                    return GetInputHandlerTransitionEnumData();
                 case 118:
-                    return UIXEnumData.GetInterestPointEnumData();
+                    return GetInterestPointEnumData();
                 case 122:
-                    return UIXEnumData.GetInterpolationTypeEnumData();
+                    return GetInterpolationTypeEnumData();
                 case 126:
-                    return UIXEnumData.GetInvokePriorityEnumData();
+                    return GetInvokePriorityEnumData();
                 case 129:
-                    return UIXEnumData.GetKeyHandlerKeyEnumData();
+                    return GetKeyHandlerKeyEnumData();
                 case 131:
-                    return UIXEnumData.GetKeyframeFilterEnumData();
+                    return GetKeyframeFilterEnumData();
                 case 137:
-                    return UIXEnumData.GetLineAlignmentEnumData();
+                    return GetLineAlignmentEnumData();
                 case 146:
-                    return UIXEnumData.GetMaximizeModeEnumData();
+                    return GetMaximizeModeEnumData();
                 case 148:
-                    return UIXEnumData.GetMissingItemPolicyEnumData();
+                    return GetMissingItemPolicyEnumData();
                 case 149:
-                    return UIXEnumData.GetMouseTargetEnumData();
+                    return GetMouseTargetEnumData();
                 case 151:
-                    return UIXEnumData.GetNavigationPoliciesEnumData();
+                    return GetNavigationPoliciesEnumData();
                 case 154:
-                    return UIXEnumData.GetOrientationEnumData();
+                    return GetOrientationEnumData();
                 case 170:
-                    return UIXEnumData.GetRelativeEdgeEnumData();
+                    return GetRelativeEdgeEnumData();
                 case 172:
-                    return UIXEnumData.GetRepeatPolicyEnumData();
+                    return GetRepeatPolicyEnumData();
                 case 191:
-                    return UIXEnumData.GetSharedSizePolicyEnumData();
+                    return GetSharedSizePolicyEnumData();
                 case 193:
-                    return UIXEnumData.GetShortcutHandlerCommandEnumData();
+                    return GetShortcutHandlerCommandEnumData();
                 case 199:
-                    return UIXEnumData.GetSizingPolicyEnumData();
+                    return GetSizingPolicyEnumData();
                 case 200:
-                    return UIXEnumData.GetSnapshotPolicyEnumData();
+                    return GetSnapshotPolicyEnumData();
                 case 206:
-                    return UIXEnumData.GetStackPriorityEnumData();
+                    return GetStackPriorityEnumData();
                 case 207:
-                    return UIXEnumData.GetStretchingPolicyEnumData();
+                    return GetStretchingPolicyEnumData();
                 case 209:
-                    return UIXEnumData.GetStripAlignmentEnumData();
+                    return GetStripAlignmentEnumData();
                 case 211:
-                    return UIXEnumData.GetSystemSoundEventEnumData();
+                    return GetSystemSoundEventEnumData();
                 case 213:
-                    return UIXEnumData.GetTextBoundsEnumData();
+                    return GetTextBoundsEnumData();
                 case 219:
-                    return UIXEnumData.GetTextSharpnessEnumData();
+                    return GetTextSharpnessEnumData();
                 case 223:
-                    return UIXEnumData.GetTransformAttributeEnumData();
+                    return GetTransformAttributeEnumData();
                 case 242:
-                    return UIXEnumData.GetWindowStateEnumData();
+                    return GetWindowStateEnumData();
                 default:
                     return null;
             }

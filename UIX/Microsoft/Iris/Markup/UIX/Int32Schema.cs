@@ -13,7 +13,7 @@ namespace Microsoft.Iris.Markup.UIX
 {
     internal static class Int32Schema
     {
-        public static RangeValidator ValidateNotNegative = new RangeValidator(Int32Schema.RangeValidateNotNegative);
+        public static RangeValidator ValidateNotNegative = new RangeValidator(RangeValidateNotNegative);
         public static UIXTypeSchema Type;
 
         private static object GetMinValue(object instanceObj) => Int32Boxes.MinValueBox;
@@ -99,37 +99,37 @@ namespace Microsoft.Iris.Markup.UIX
             instance = null;
             if (BooleanSchema.Type.IsAssignableFrom(fromType))
             {
-                result = Int32Schema.ConvertFromBoolean(from, out instance);
+                result = ConvertFromBoolean(from, out instance);
                 if (!result.Failed)
                     return result;
             }
             if (ByteSchema.Type.IsAssignableFrom(fromType))
             {
-                result = Int32Schema.ConvertFromByte(from, out instance);
+                result = ConvertFromByte(from, out instance);
                 if (!result.Failed)
                     return result;
             }
             if (DoubleSchema.Type.IsAssignableFrom(fromType))
             {
-                result = Int32Schema.ConvertFromDouble(from, out instance);
+                result = ConvertFromDouble(from, out instance);
                 if (!result.Failed)
                     return result;
             }
             if (Int64Schema.Type.IsAssignableFrom(fromType))
             {
-                result = Int32Schema.ConvertFromInt64(from, out instance);
+                result = ConvertFromInt64(from, out instance);
                 if (!result.Failed)
                     return result;
             }
             if (SingleSchema.Type.IsAssignableFrom(fromType))
             {
-                result = Int32Schema.ConvertFromSingle(from, out instance);
+                result = ConvertFromSingle(from, out instance);
                 if (!result.Failed)
                     return result;
             }
             if (StringSchema.Type.IsAssignableFrom(fromType))
             {
-                result = Int32Schema.ConvertFromString(from, out instance);
+                result = ConvertFromString(from, out instance);
                 if (!result.Failed)
                     return result;
             }
@@ -201,7 +201,7 @@ namespace Microsoft.Iris.Markup.UIX
             string parameter1 = (string)parameters[0];
             int parameter2 = (int)parameters[1];
             object instanceObj1;
-            return Int32Schema.ConvertFromString(parameter1, out instanceObj1).Failed ? parameter2 : instanceObj1;
+            return ConvertFromString(parameter1, out instanceObj1).Failed ? parameter2 : instanceObj1;
         }
 
         private static Result RangeValidateNotNegative(object value)
@@ -210,22 +210,22 @@ namespace Microsoft.Iris.Markup.UIX
             return num < 0 ? Result.Fail("Expecting a non-negative value, but got {0}", num.ToString()) : Result.Success;
         }
 
-        public static void Pass1Initialize() => Int32Schema.Type = new UIXTypeSchema(115, "Int32", "int", 153, typeof(int), UIXTypeFlags.Immutable);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(115, "Int32", "int", 153, typeof(int), UIXTypeFlags.Immutable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(115, "MinValue", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(Int32Schema.GetMinValue), null, true);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(115, "MaxValue", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(Int32Schema.GetMaxValue), null, true);
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(115, "MinValue", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetMinValue), null, true);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(115, "MaxValue", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetMaxValue), null, true);
             UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema(115, "ToString", new short[1]
             {
          208
-            }, 208, new InvokeHandler(Int32Schema.CallToStringString), false);
+            }, 208, new InvokeHandler(CallToStringString), false);
             UIXMethodSchema uixMethodSchema2 = new UIXMethodSchema(115, "TryParse", new short[2]
             {
          208,
          115
-            }, 115, new InvokeHandler(Int32Schema.CallTryParseStringInt32), true);
-            Int32Schema.Type.Initialize(new DefaultConstructHandler(Int32Schema.Construct), null, new PropertySchema[2]
+            }, 115, new InvokeHandler(CallTryParseStringInt32), true);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[2]
             {
          uixPropertySchema2,
          uixPropertySchema1
@@ -233,7 +233,7 @@ namespace Microsoft.Iris.Markup.UIX
             {
          uixMethodSchema1,
          uixMethodSchema2
-            }, null, null, new TypeConverterHandler(Int32Schema.TryConvertFrom), new SupportsTypeConversionHandler(Int32Schema.IsConversionSupported), new EncodeBinaryHandler(Int32Schema.EncodeBinary), new DecodeBinaryHandler(Int32Schema.DecodeBinary), new PerformOperationHandler(Int32Schema.ExecuteOperation), new SupportsOperationHandler(Int32Schema.IsOperationSupported));
+            }, null, null, new TypeConverterHandler(TryConvertFrom), new SupportsTypeConversionHandler(IsConversionSupported), new EncodeBinaryHandler(EncodeBinary), new DecodeBinaryHandler(DecodeBinary), new PerformOperationHandler(ExecuteOperation), new SupportsOperationHandler(IsOperationSupported));
         }
     }
 }

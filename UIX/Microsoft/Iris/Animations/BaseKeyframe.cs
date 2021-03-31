@@ -19,22 +19,22 @@ namespace Microsoft.Iris.Animations
 
         static BaseKeyframe()
         {
-            BaseKeyframe.s_propertyMap[0] = new RendererProperty("Position");
-            BaseKeyframe.s_propertyMap[1] = new RendererProperty("Size");
-            BaseKeyframe.s_propertyMap[2] = new RendererProperty("Alpha");
-            BaseKeyframe.s_propertyMap[3] = new RendererProperty("Scale");
-            BaseKeyframe.s_propertyMap[4] = new RendererProperty("Rotation");
-            BaseKeyframe.s_propertyMap[5] = new RendererProperty("Orientation");
-            BaseKeyframe.s_propertyMap[6] = new RendererProperty("Position", "X", "X00");
-            BaseKeyframe.s_propertyMap[7] = new RendererProperty("Position", "Y", "0X0");
-            BaseKeyframe.s_propertyMap[8] = new RendererProperty("Size", "X", "X0");
-            BaseKeyframe.s_propertyMap[9] = new RendererProperty("Size", "Y", "0X");
-            BaseKeyframe.s_propertyMap[10] = new RendererProperty("Scale", "X", "X00");
-            BaseKeyframe.s_propertyMap[11] = new RendererProperty("Scale", "Y", "0X0");
-            BaseKeyframe.s_propertyMap[16] = new RendererProperty("CameraEye");
-            BaseKeyframe.s_propertyMap[17] = new RendererProperty("CameraAt");
-            BaseKeyframe.s_propertyMap[18] = new RendererProperty("CameraUp");
-            BaseKeyframe.s_propertyMap[19] = new RendererProperty("CameraZn");
+            s_propertyMap[0] = new RendererProperty("Position");
+            s_propertyMap[1] = new RendererProperty("Size");
+            s_propertyMap[2] = new RendererProperty("Alpha");
+            s_propertyMap[3] = new RendererProperty("Scale");
+            s_propertyMap[4] = new RendererProperty("Rotation");
+            s_propertyMap[5] = new RendererProperty("Orientation");
+            s_propertyMap[6] = new RendererProperty("Position", "X", "X00");
+            s_propertyMap[7] = new RendererProperty("Position", "Y", "0X0");
+            s_propertyMap[8] = new RendererProperty("Size", "X", "X0");
+            s_propertyMap[9] = new RendererProperty("Size", "Y", "0X");
+            s_propertyMap[10] = new RendererProperty("Scale", "X", "X00");
+            s_propertyMap[11] = new RendererProperty("Scale", "Y", "0X0");
+            s_propertyMap[16] = new RendererProperty("CameraEye");
+            s_propertyMap[17] = new RendererProperty("CameraAt");
+            s_propertyMap[18] = new RendererProperty("CameraUp");
+            s_propertyMap[19] = new RendererProperty("CameraZn");
         }
 
         public BaseKeyframe()
@@ -66,7 +66,7 @@ namespace Microsoft.Iris.Animations
           string property)
         {
             StopCommand stopCommand = anim.GetStopCommand(this.Type);
-            RendererProperty rendererProperty = property != null ? new RendererProperty(property) : BaseKeyframe.s_propertyMap[(int)this.Type];
+            RendererProperty rendererProperty = property != null ? new RendererProperty(property) : s_propertyMap[(int)this.Type];
             return new AnimationProxy(aseq, aseq.Target, this.Type, rendererProperty, anim.Loop, stopCommand);
         }
 

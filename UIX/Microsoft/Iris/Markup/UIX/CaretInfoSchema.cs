@@ -26,16 +26,16 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object Construct() => new CaretInfo();
 
-        public static void Pass1Initialize() => CaretInfoSchema.Type = new UIXTypeSchema(26, "CaretInfo", null, 153, typeof(CaretInfo), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(26, "CaretInfo", null, 153, typeof(CaretInfo), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(26, "BlinkTime", 194, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(CaretInfoSchema.GetBlinkTime), null, false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(26, "IdealWidth", 115, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(CaretInfoSchema.GetIdealWidth), new SetValueHandler(CaretInfoSchema.SetIdealWidth), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(26, "Visible", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(CaretInfoSchema.GetVisible), null, false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(26, "Position", 158, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(CaretInfoSchema.GetPosition), null, false);
-            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(26, "SuggestedSize", 195, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(CaretInfoSchema.GetSuggestedSize), null, false);
-            CaretInfoSchema.Type.Initialize(new DefaultConstructHandler(CaretInfoSchema.Construct), null, new PropertySchema[5]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(26, "BlinkTime", 194, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetBlinkTime), null, false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(26, "IdealWidth", 115, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetIdealWidth), new SetValueHandler(SetIdealWidth), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(26, "Visible", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetVisible), null, false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(26, "Position", 158, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetPosition), null, false);
+            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(26, "SuggestedSize", 195, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetSuggestedSize), null, false);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[5]
             {
          uixPropertySchema1,
          uixPropertySchema2,

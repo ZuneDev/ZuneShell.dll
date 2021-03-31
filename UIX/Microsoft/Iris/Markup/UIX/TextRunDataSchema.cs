@@ -20,15 +20,15 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object GetLineNumber(object instanceObj) => ((TextRunData)instanceObj).LineNumber;
 
-        public static void Pass1Initialize() => TextRunDataSchema.Type = new UIXTypeSchema(216, "TextRunData", null, 153, typeof(TextRunData), UIXTypeFlags.Immutable);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(216, "TextRunData", null, 153, typeof(TextRunData), UIXTypeFlags.Immutable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(216, "Position", 158, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(TextRunDataSchema.GetPosition), null, false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(216, "Size", 195, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(TextRunDataSchema.GetSize), null, false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(216, "Color", 35, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(TextRunDataSchema.GetColor), null, false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(216, "LineNumber", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(TextRunDataSchema.GetLineNumber), null, false);
-            TextRunDataSchema.Type.Initialize(null, null, new PropertySchema[4]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(216, "Position", 158, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetPosition), null, false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(216, "Size", 195, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetSize), null, false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(216, "Color", 35, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetColor), null, false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(216, "LineNumber", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetLineNumber), null, false);
+            Type.Initialize(null, null, new PropertySchema[4]
             {
          uixPropertySchema3,
          uixPropertySchema4,

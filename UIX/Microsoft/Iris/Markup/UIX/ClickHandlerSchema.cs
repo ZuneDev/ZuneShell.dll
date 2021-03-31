@@ -84,25 +84,25 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object Construct() => new ClickHandler();
 
-        public static void Pass1Initialize() => ClickHandlerSchema.Type = new UIXTypeSchema(32, "ClickHandler", null, 110, typeof(ClickHandler), UIXTypeFlags.Disposable);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(32, "ClickHandler", null, 110, typeof(ClickHandler), UIXTypeFlags.Disposable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(32, "Clicking", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ClickHandlerSchema.GetClicking), null, false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(32, "ClickCount", 31, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ClickHandlerSchema.GetClickCount), new SetValueHandler(ClickHandlerSchema.SetClickCount), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(32, "ClickType", 33, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ClickHandlerSchema.GetClickType), new SetValueHandler(ClickHandlerSchema.SetClickType), false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(32, "Command", 40, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ClickHandlerSchema.GetCommand), new SetValueHandler(ClickHandlerSchema.SetCommand), false);
-            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(32, "Handle", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ClickHandlerSchema.GetHandle), new SetValueHandler(ClickHandlerSchema.SetHandle), false);
-            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(32, "HandlerTransition", 113, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ClickHandlerSchema.GetHandlerTransition), new SetValueHandler(ClickHandlerSchema.SetHandlerTransition), false);
-            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema(32, "RequiredModifiers", 111, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ClickHandlerSchema.GetRequiredModifiers), new SetValueHandler(ClickHandlerSchema.SetRequiredModifiers), false);
-            UIXPropertySchema uixPropertySchema8 = new UIXPropertySchema(32, "DisallowedModifiers", 111, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ClickHandlerSchema.GetDisallowedModifiers), new SetValueHandler(ClickHandlerSchema.SetDisallowedModifiers), false);
-            UIXPropertySchema uixPropertySchema9 = new UIXPropertySchema(32, "Repeat", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ClickHandlerSchema.GetRepeat), new SetValueHandler(ClickHandlerSchema.SetRepeat), false);
-            UIXPropertySchema uixPropertySchema10 = new UIXPropertySchema(32, "RepeatDelay", 115, -1, ExpressionRestriction.None, false, Int32Schema.ValidateNotNegative, true, new GetValueHandler(ClickHandlerSchema.GetRepeatDelay), new SetValueHandler(ClickHandlerSchema.SetRepeatDelay), false);
-            UIXPropertySchema uixPropertySchema11 = new UIXPropertySchema(32, "RepeatRate", 115, -1, ExpressionRestriction.None, false, Int32Schema.ValidateNotNegative, true, new GetValueHandler(ClickHandlerSchema.GetRepeatRate), new SetValueHandler(ClickHandlerSchema.SetRepeatRate), false);
-            UIXPropertySchema uixPropertySchema12 = new UIXPropertySchema(32, "HandlerStage", 112, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ClickHandlerSchema.GetHandlerStage), new SetValueHandler(ClickHandlerSchema.SetHandlerStage), false);
-            UIXPropertySchema uixPropertySchema13 = new UIXPropertySchema(32, "EventContext", 153, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ClickHandlerSchema.GetEventContext), null, false);
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(32, "Clicking", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetClicking), null, false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(32, "ClickCount", 31, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetClickCount), new SetValueHandler(SetClickCount), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(32, "ClickType", 33, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetClickType), new SetValueHandler(SetClickType), false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(32, "Command", 40, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetCommand), new SetValueHandler(SetCommand), false);
+            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(32, "Handle", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetHandle), new SetValueHandler(SetHandle), false);
+            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(32, "HandlerTransition", 113, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetHandlerTransition), new SetValueHandler(SetHandlerTransition), false);
+            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema(32, "RequiredModifiers", 111, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetRequiredModifiers), new SetValueHandler(SetRequiredModifiers), false);
+            UIXPropertySchema uixPropertySchema8 = new UIXPropertySchema(32, "DisallowedModifiers", 111, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetDisallowedModifiers), new SetValueHandler(SetDisallowedModifiers), false);
+            UIXPropertySchema uixPropertySchema9 = new UIXPropertySchema(32, "Repeat", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetRepeat), new SetValueHandler(SetRepeat), false);
+            UIXPropertySchema uixPropertySchema10 = new UIXPropertySchema(32, "RepeatDelay", 115, -1, ExpressionRestriction.None, false, Int32Schema.ValidateNotNegative, true, new GetValueHandler(GetRepeatDelay), new SetValueHandler(SetRepeatDelay), false);
+            UIXPropertySchema uixPropertySchema11 = new UIXPropertySchema(32, "RepeatRate", 115, -1, ExpressionRestriction.None, false, Int32Schema.ValidateNotNegative, true, new GetValueHandler(GetRepeatRate), new SetValueHandler(SetRepeatRate), false);
+            UIXPropertySchema uixPropertySchema12 = new UIXPropertySchema(32, "HandlerStage", 112, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetHandlerStage), new SetValueHandler(SetHandlerStage), false);
+            UIXPropertySchema uixPropertySchema13 = new UIXPropertySchema(32, "EventContext", 153, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetEventContext), null, false);
             UIXEventSchema uixEventSchema = new UIXEventSchema(32, "Invoked");
-            ClickHandlerSchema.Type.Initialize(new DefaultConstructHandler(ClickHandlerSchema.Construct), null, new PropertySchema[13]
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[13]
             {
          uixPropertySchema2,
          uixPropertySchema3,

@@ -138,7 +138,7 @@ namespace Microsoft.Iris.Markup
             PropertySchema propertySchema;
             if (!this._propertyCache.TryGetValue(name, out propertySchema))
             {
-                PropertyInfo propertyHelper = AssemblyTypeSchema.GetPropertyHelper(this._type, name);
+                PropertyInfo propertyHelper = GetPropertyHelper(this._type, name);
                 if (propertyHelper != null)
                 {
                     propertySchema = new AssemblyPropertySchema(this, propertyHelper);
@@ -171,7 +171,7 @@ namespace Microsoft.Iris.Markup
             {
                 foreach (Type type1 in type.GetInterfaces())
                 {
-                    propertyInfo = AssemblyTypeSchema.GetPropertyHelper(type1, name);
+                    propertyInfo = GetPropertyHelper(type1, name);
                     if (propertyInfo != null)
                         break;
                 }

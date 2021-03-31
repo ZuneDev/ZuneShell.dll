@@ -27,9 +27,9 @@ namespace Microsoft.Iris.UI
         {
             get
             {
-                if (Environment.s_instance == null)
-                    Environment.s_instance = new Environment();
-                return Environment.s_instance;
+                if (s_instance == null)
+                    s_instance = new Environment();
+                return s_instance;
             }
         }
 
@@ -63,7 +63,7 @@ namespace Microsoft.Iris.UI
             this._soundEffectsEnabledFlag = value;
         }
 
-        public static float DpiScale => Environment.s_dpiScale;
+        public static float DpiScale => s_dpiScale;
 
         public float AnimationSpeed
         {

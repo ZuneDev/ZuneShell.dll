@@ -54,7 +54,7 @@ namespace Microsoft.Iris.Layouts
             set => this._contributesToHeightFlag = value;
         }
 
-        DataCookie ILayoutInput.Data => AnchorLayoutInput.Data;
+        DataCookie ILayoutInput.Data => Data;
 
         internal static DataCookie Data => AnchorLayout.InputData;
 

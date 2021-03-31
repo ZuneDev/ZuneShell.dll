@@ -81,29 +81,29 @@ namespace Microsoft.Iris.Markup.UIX
             return null;
         }
 
-        public static void Pass1Initialize() => KeyHandlerSchema.Type = new UIXTypeSchema(128, "KeyHandler", null, 110, typeof(KeyHandler), UIXTypeFlags.Disposable);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(128, "KeyHandler", null, 110, typeof(KeyHandler), UIXTypeFlags.Disposable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(128, "Command", 40, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(KeyHandlerSchema.GetCommand), new SetValueHandler(KeyHandlerSchema.SetCommand), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(128, "Handle", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(KeyHandlerSchema.GetHandle), new SetValueHandler(KeyHandlerSchema.SetHandle), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(128, "StopRoute", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(KeyHandlerSchema.GetStopRoute), new SetValueHandler(KeyHandlerSchema.SetStopRoute), false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(128, "Key", 129, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(KeyHandlerSchema.GetKey), new SetValueHandler(KeyHandlerSchema.SetKey), false);
-            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(128, "HandlerTransition", 113, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(KeyHandlerSchema.GetHandlerTransition), new SetValueHandler(KeyHandlerSchema.SetHandlerTransition), false);
-            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(128, "RequiredModifiers", 111, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(KeyHandlerSchema.GetRequiredModifiers), new SetValueHandler(KeyHandlerSchema.SetRequiredModifiers), false);
-            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema(128, "DisallowedModifiers", 111, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(KeyHandlerSchema.GetDisallowedModifiers), new SetValueHandler(KeyHandlerSchema.SetDisallowedModifiers), false);
-            UIXPropertySchema uixPropertySchema8 = new UIXPropertySchema(128, "Pressing", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(KeyHandlerSchema.GetPressing), null, false);
-            UIXPropertySchema uixPropertySchema9 = new UIXPropertySchema(128, "Repeat", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(KeyHandlerSchema.GetRepeat), new SetValueHandler(KeyHandlerSchema.SetRepeat), false);
-            UIXPropertySchema uixPropertySchema10 = new UIXPropertySchema(128, "TrackInvokedKeys", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(KeyHandlerSchema.GetTrackInvokedKeys), new SetValueHandler(KeyHandlerSchema.SetTrackInvokedKeys), false);
-            UIXPropertySchema uixPropertySchema11 = new UIXPropertySchema(128, "HandlerStage", 112, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(KeyHandlerSchema.GetHandlerStage), new SetValueHandler(KeyHandlerSchema.SetHandlerStage), false);
-            UIXPropertySchema uixPropertySchema12 = new UIXPropertySchema(128, "EventContext", 153, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(KeyHandlerSchema.GetEventContext), null, false);
-            UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema(128, "GetInvokedKeys", null, 138, new InvokeHandler(KeyHandlerSchema.CallGetInvokedKeys), false);
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(128, "Command", 40, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetCommand), new SetValueHandler(SetCommand), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(128, "Handle", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetHandle), new SetValueHandler(SetHandle), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(128, "StopRoute", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetStopRoute), new SetValueHandler(SetStopRoute), false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(128, "Key", 129, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetKey), new SetValueHandler(SetKey), false);
+            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(128, "HandlerTransition", 113, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetHandlerTransition), new SetValueHandler(SetHandlerTransition), false);
+            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(128, "RequiredModifiers", 111, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetRequiredModifiers), new SetValueHandler(SetRequiredModifiers), false);
+            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema(128, "DisallowedModifiers", 111, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetDisallowedModifiers), new SetValueHandler(SetDisallowedModifiers), false);
+            UIXPropertySchema uixPropertySchema8 = new UIXPropertySchema(128, "Pressing", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetPressing), null, false);
+            UIXPropertySchema uixPropertySchema9 = new UIXPropertySchema(128, "Repeat", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetRepeat), new SetValueHandler(SetRepeat), false);
+            UIXPropertySchema uixPropertySchema10 = new UIXPropertySchema(128, "TrackInvokedKeys", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetTrackInvokedKeys), new SetValueHandler(SetTrackInvokedKeys), false);
+            UIXPropertySchema uixPropertySchema11 = new UIXPropertySchema(128, "HandlerStage", 112, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetHandlerStage), new SetValueHandler(SetHandlerStage), false);
+            UIXPropertySchema uixPropertySchema12 = new UIXPropertySchema(128, "EventContext", 153, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetEventContext), null, false);
+            UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema(128, "GetInvokedKeys", null, 138, new InvokeHandler(CallGetInvokedKeys), false);
             UIXMethodSchema uixMethodSchema2 = new UIXMethodSchema(128, "GetInvokedKeys", new short[1]
             {
          138
-            }, 240, new InvokeHandler(KeyHandlerSchema.CallGetInvokedKeysList), false);
+            }, 240, new InvokeHandler(CallGetInvokedKeysList), false);
             UIXEventSchema uixEventSchema = new UIXEventSchema(128, "Invoked");
-            KeyHandlerSchema.Type.Initialize(new DefaultConstructHandler(KeyHandlerSchema.Construct), null, new PropertySchema[12]
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[12]
             {
          uixPropertySchema1,
          uixPropertySchema7,

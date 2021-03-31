@@ -52,40 +52,40 @@ namespace Microsoft.Iris.Layouts
 
         public override string ToString()
         {
-            if (this == PlacementMode.s_origin)
+            if (this == s_origin)
                 return "Origin";
-            if (this == PlacementMode.s_bottom)
+            if (this == s_bottom)
                 return "Bottom";
-            if (this == PlacementMode.s_top)
+            if (this == s_top)
                 return "Top";
-            if (this == PlacementMode.s_left)
+            if (this == s_left)
                 return "Left";
-            if (this == PlacementMode.s_right)
+            if (this == s_right)
                 return "Right";
-            if (this == PlacementMode.s_center)
+            if (this == s_center)
                 return "Center";
-            if (this == PlacementMode.s_mouseOrigin)
+            if (this == s_mouseOrigin)
                 return "MouseOrigin";
-            if (this == PlacementMode.s_mouseBottom)
+            if (this == s_mouseBottom)
                 return "MouseBottom";
-            if (this == PlacementMode.s_followMouseOrigin)
+            if (this == s_followMouseOrigin)
                 return "FollowMouseOrigin";
-            return this == PlacementMode.s_followMouseBottom ? "FollowMouseBottom" : base.ToString();
+            return this == s_followMouseBottom ? "FollowMouseBottom" : base.ToString();
         }
 
         public static PlacementMode Origin
         {
             get
             {
-                if (PlacementMode.s_origin == null)
+                if (s_origin == null)
                 {
-                    PlacementMode.s_origin = new PlacementMode();
-                    PlacementMode.s_origin.PopupPositions = new PopupPosition[1]
+                    s_origin = new PlacementMode();
+                    s_origin.PopupPositions = new PopupPosition[1]
                     {
             new PopupPosition(InterestPoint.TopLeft, InterestPoint.TopLeft, FlipDirection.None)
                     };
                 }
-                return PlacementMode.s_origin;
+                return s_origin;
             }
         }
 
@@ -93,16 +93,16 @@ namespace Microsoft.Iris.Layouts
         {
             get
             {
-                if (PlacementMode.s_bottom == null)
+                if (s_bottom == null)
                 {
-                    PlacementMode.s_bottom = new PlacementMode();
-                    PlacementMode.s_bottom.PopupPositions = new PopupPosition[2]
+                    s_bottom = new PlacementMode();
+                    s_bottom.PopupPositions = new PopupPosition[2]
                     {
             new PopupPosition(InterestPoint.BottomLeft, InterestPoint.TopLeft, FlipDirection.None),
             new PopupPosition(InterestPoint.TopLeft, InterestPoint.BottomLeft, FlipDirection.Vertical)
                     };
                 }
-                return PlacementMode.s_bottom;
+                return s_bottom;
             }
         }
 
@@ -110,15 +110,15 @@ namespace Microsoft.Iris.Layouts
         {
             get
             {
-                if (PlacementMode.s_center == null)
+                if (s_center == null)
                 {
-                    PlacementMode.s_center = new PlacementMode();
-                    PlacementMode.s_center.PopupPositions = new PopupPosition[1]
+                    s_center = new PlacementMode();
+                    s_center.PopupPositions = new PopupPosition[1]
                     {
             new PopupPosition(InterestPoint.Center, InterestPoint.Center, FlipDirection.None)
                     };
                 }
-                return PlacementMode.s_center;
+                return s_center;
             }
         }
 
@@ -126,10 +126,10 @@ namespace Microsoft.Iris.Layouts
         {
             get
             {
-                if (PlacementMode.s_right == null)
+                if (s_right == null)
                 {
-                    PlacementMode.s_right = new PlacementMode();
-                    PlacementMode.s_right.PopupPositions = new PopupPosition[4]
+                    s_right = new PlacementMode();
+                    s_right.PopupPositions = new PopupPosition[4]
                     {
             new PopupPosition(InterestPoint.TopRight, InterestPoint.TopLeft, FlipDirection.None),
             new PopupPosition(InterestPoint.BottomRight, InterestPoint.BottomLeft, FlipDirection.Vertical),
@@ -137,7 +137,7 @@ namespace Microsoft.Iris.Layouts
             new PopupPosition(InterestPoint.BottomLeft, InterestPoint.BottomRight, FlipDirection.Both)
                     };
                 }
-                return PlacementMode.s_right;
+                return s_right;
             }
         }
 
@@ -145,10 +145,10 @@ namespace Microsoft.Iris.Layouts
         {
             get
             {
-                if (PlacementMode.s_left == null)
+                if (s_left == null)
                 {
-                    PlacementMode.s_left = new PlacementMode();
-                    PlacementMode.s_left.PopupPositions = new PopupPosition[4]
+                    s_left = new PlacementMode();
+                    s_left.PopupPositions = new PopupPosition[4]
                     {
             new PopupPosition(InterestPoint.TopLeft, InterestPoint.TopRight, FlipDirection.None),
             new PopupPosition(InterestPoint.BottomLeft, InterestPoint.BottomRight, FlipDirection.Vertical),
@@ -156,7 +156,7 @@ namespace Microsoft.Iris.Layouts
             new PopupPosition(InterestPoint.BottomRight, InterestPoint.BottomLeft, FlipDirection.Both)
                     };
                 }
-                return PlacementMode.s_left;
+                return s_left;
             }
         }
 
@@ -164,16 +164,16 @@ namespace Microsoft.Iris.Layouts
         {
             get
             {
-                if (PlacementMode.s_top == null)
+                if (s_top == null)
                 {
-                    PlacementMode.s_top = new PlacementMode();
-                    PlacementMode.s_top.PopupPositions = new PopupPosition[2]
+                    s_top = new PlacementMode();
+                    s_top.PopupPositions = new PopupPosition[2]
                     {
             new PopupPosition(InterestPoint.TopLeft, InterestPoint.BottomLeft, FlipDirection.None),
             new PopupPosition(InterestPoint.BottomLeft, InterestPoint.TopLeft, FlipDirection.Vertical)
                     };
                 }
-                return PlacementMode.s_top;
+                return s_top;
             }
         }
 
@@ -181,11 +181,11 @@ namespace Microsoft.Iris.Layouts
         {
             get
             {
-                if (PlacementMode.s_mouseOrigin == null)
+                if (s_mouseOrigin == null)
                 {
-                    PlacementMode.s_mouseOrigin = new PlacementMode();
-                    PlacementMode.s_mouseOrigin.MouseTarget = MouseTarget.Fixed;
-                    PlacementMode.s_mouseOrigin.PopupPositions = new PopupPosition[4]
+                    s_mouseOrigin = new PlacementMode();
+                    s_mouseOrigin.MouseTarget = MouseTarget.Fixed;
+                    s_mouseOrigin.PopupPositions = new PopupPosition[4]
                     {
             new PopupPosition(InterestPoint.TopLeft, InterestPoint.TopLeft, FlipDirection.None),
             new PopupPosition(InterestPoint.TopLeft, InterestPoint.TopRight, FlipDirection.Horizontal),
@@ -193,7 +193,7 @@ namespace Microsoft.Iris.Layouts
             new PopupPosition(InterestPoint.TopLeft, InterestPoint.BottomRight, FlipDirection.Both)
                     };
                 }
-                return PlacementMode.s_mouseOrigin;
+                return s_mouseOrigin;
             }
         }
 
@@ -201,13 +201,13 @@ namespace Microsoft.Iris.Layouts
         {
             get
             {
-                if (PlacementMode.s_mouseBottom == null)
+                if (s_mouseBottom == null)
                 {
-                    PlacementMode.s_mouseBottom = new PlacementMode();
-                    PlacementMode.s_mouseBottom.MouseTarget = MouseTarget.Fixed;
-                    PlacementMode.s_mouseBottom.PopupPositions = PlacementMode.Bottom.PopupPositions;
+                    s_mouseBottom = new PlacementMode();
+                    s_mouseBottom.MouseTarget = MouseTarget.Fixed;
+                    s_mouseBottom.PopupPositions = Bottom.PopupPositions;
                 }
-                return PlacementMode.s_mouseBottom;
+                return s_mouseBottom;
             }
         }
 
@@ -215,13 +215,13 @@ namespace Microsoft.Iris.Layouts
         {
             get
             {
-                if (PlacementMode.s_followMouseOrigin == null)
+                if (s_followMouseOrigin == null)
                 {
-                    PlacementMode.s_followMouseOrigin = new PlacementMode();
-                    PlacementMode.s_followMouseOrigin.MouseTarget = MouseTarget.Follow;
-                    PlacementMode.s_followMouseOrigin.PopupPositions = PlacementMode.MouseOrigin.PopupPositions;
+                    s_followMouseOrigin = new PlacementMode();
+                    s_followMouseOrigin.MouseTarget = MouseTarget.Follow;
+                    s_followMouseOrigin.PopupPositions = MouseOrigin.PopupPositions;
                 }
-                return PlacementMode.s_followMouseOrigin;
+                return s_followMouseOrigin;
             }
         }
 
@@ -229,13 +229,13 @@ namespace Microsoft.Iris.Layouts
         {
             get
             {
-                if (PlacementMode.s_followMouseBottom == null)
+                if (s_followMouseBottom == null)
                 {
-                    PlacementMode.s_followMouseBottom = new PlacementMode();
-                    PlacementMode.s_followMouseBottom.MouseTarget = MouseTarget.Follow;
-                    PlacementMode.s_followMouseBottom.PopupPositions = PlacementMode.MouseBottom.PopupPositions;
+                    s_followMouseBottom = new PlacementMode();
+                    s_followMouseBottom.MouseTarget = MouseTarget.Follow;
+                    s_followMouseBottom.PopupPositions = MouseBottom.PopupPositions;
                 }
-                return PlacementMode.s_followMouseBottom;
+                return s_followMouseBottom;
             }
         }
     }

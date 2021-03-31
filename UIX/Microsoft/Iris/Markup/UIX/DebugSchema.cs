@@ -21,19 +21,19 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object CallTraceStringObject(object instanceObj, object[] parameters)
         {
-            DebugSchema.Trace((string)parameters[0], parameters[1], null, null, null, null);
+            Trace((string)parameters[0], parameters[1], null, null, null, null);
             return null;
         }
 
         private static object CallTraceStringObjectObject(object instanceObj, object[] parameters)
         {
-            DebugSchema.Trace((string)parameters[0], parameters[1], parameters[2], null, null, null);
+            Trace((string)parameters[0], parameters[1], parameters[2], null, null, null);
             return null;
         }
 
         private static object CallTraceStringObjectObjectObject(object instanceObj, object[] parameters)
         {
-            DebugSchema.Trace((string)parameters[0], parameters[1], parameters[2], parameters[3], null, null);
+            Trace((string)parameters[0], parameters[1], parameters[2], parameters[3], null, null);
             return null;
         }
 
@@ -41,7 +41,7 @@ namespace Microsoft.Iris.Markup.UIX
           object instanceObj,
           object[] parameters)
         {
-            DebugSchema.Trace((string)parameters[0], parameters[1], parameters[2], parameters[3], parameters[4], null);
+            Trace((string)parameters[0], parameters[1], parameters[2], parameters[3], parameters[4], null);
             return null;
         }
 
@@ -49,7 +49,7 @@ namespace Microsoft.Iris.Markup.UIX
           object instanceObj,
           object[] parameters)
         {
-            DebugSchema.Trace((string)parameters[0], parameters[1], parameters[2], parameters[3], parameters[4], parameters[5]);
+            Trace((string)parameters[0], parameters[1], parameters[2], parameters[3], parameters[4], parameters[5]);
             return null;
         }
 
@@ -73,32 +73,32 @@ namespace Microsoft.Iris.Markup.UIX
             NativeApi.SpLogTrace(null, message, 0);
         }
 
-        public static void Pass1Initialize() => DebugSchema.Type = new UIXTypeSchema(49, "Debug", null, 153, typeof(object), UIXTypeFlags.Static);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(49, "Debug", null, 153, typeof(object), UIXTypeFlags.Static);
 
         public static void Pass2Initialize()
         {
             UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema(49, "Trace", new short[1]
             {
          208
-            }, 240, new InvokeHandler(DebugSchema.CallTraceString), true);
+            }, 240, new InvokeHandler(CallTraceString), true);
             UIXMethodSchema uixMethodSchema2 = new UIXMethodSchema(49, "Trace", new short[2]
             {
          208,
          153
-            }, 240, new InvokeHandler(DebugSchema.CallTraceStringObject), true);
+            }, 240, new InvokeHandler(CallTraceStringObject), true);
             UIXMethodSchema uixMethodSchema3 = new UIXMethodSchema(49, "Trace", new short[3]
             {
          208,
          153,
          153
-            }, 240, new InvokeHandler(DebugSchema.CallTraceStringObjectObject), true);
+            }, 240, new InvokeHandler(CallTraceStringObjectObject), true);
             UIXMethodSchema uixMethodSchema4 = new UIXMethodSchema(49, "Trace", new short[4]
             {
          208,
          153,
          153,
          153
-            }, 240, new InvokeHandler(DebugSchema.CallTraceStringObjectObjectObject), true);
+            }, 240, new InvokeHandler(CallTraceStringObjectObjectObject), true);
             UIXMethodSchema uixMethodSchema5 = new UIXMethodSchema(49, "Trace", new short[5]
             {
          208,
@@ -106,7 +106,7 @@ namespace Microsoft.Iris.Markup.UIX
          153,
          153,
          153
-            }, 240, new InvokeHandler(DebugSchema.CallTraceStringObjectObjectObjectObject), true);
+            }, 240, new InvokeHandler(CallTraceStringObjectObjectObjectObject), true);
             UIXMethodSchema uixMethodSchema6 = new UIXMethodSchema(49, "Trace", new short[6]
             {
          208,
@@ -115,8 +115,8 @@ namespace Microsoft.Iris.Markup.UIX
          153,
          153,
          153
-            }, 240, new InvokeHandler(DebugSchema.CallTraceStringObjectObjectObjectObjectObject), true);
-            DebugSchema.Type.Initialize(null, null, null, new MethodSchema[6]
+            }, 240, new InvokeHandler(CallTraceStringObjectObjectObjectObjectObject), true);
+            Type.Initialize(null, null, null, new MethodSchema[6]
             {
          uixMethodSchema1,
          uixMethodSchema2,

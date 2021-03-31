@@ -28,15 +28,15 @@ namespace Microsoft.Iris.Markup.UIX
             return null;
         }
 
-        public static void Pass1Initialize() => CommandSchema.Type = new UIXTypeSchema(40, "Command", null, 153, typeof(IUICommand), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(40, "Command", null, 153, typeof(IUICommand), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(40, "Available", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(CommandSchema.GetAvailable), new SetValueHandler(CommandSchema.SetAvailable), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(40, "Priority", 126, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(CommandSchema.GetPriority), new SetValueHandler(CommandSchema.SetPriority), false);
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(40, "Available", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetAvailable), new SetValueHandler(SetAvailable), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(40, "Priority", 126, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetPriority), new SetValueHandler(SetPriority), false);
             UIXEventSchema uixEventSchema = new UIXEventSchema(40, "Invoked");
-            UIXMethodSchema uixMethodSchema = new UIXMethodSchema(40, "Invoke", null, 240, new InvokeHandler(CommandSchema.CallInvoke), false);
-            CommandSchema.Type.Initialize(new DefaultConstructHandler(CommandSchema.Construct), null, new PropertySchema[2]
+            UIXMethodSchema uixMethodSchema = new UIXMethodSchema(40, "Invoke", null, 240, new InvokeHandler(CallInvoke), false);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[2]
             {
          uixPropertySchema1,
          uixPropertySchema2

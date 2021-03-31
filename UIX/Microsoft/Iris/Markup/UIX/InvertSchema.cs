@@ -14,8 +14,8 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object Construct() => new InvertElement();
 
-        public static void Pass1Initialize() => InvertSchema.Type = new UIXTypeSchema(125, "Invert", null, 80, typeof(InvertElement), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(125, "Invert", null, 80, typeof(InvertElement), UIXTypeFlags.None);
 
-        public static void Pass2Initialize() => InvertSchema.Type.Initialize(new DefaultConstructHandler(InvertSchema.Construct), null, null, null, null, null, null, null, null, null, null, null);
+        public static void Pass2Initialize() => Type.Initialize(new DefaultConstructHandler(Construct), null, null, null, null, null, null, null, null, null, null, null);
     }
 }

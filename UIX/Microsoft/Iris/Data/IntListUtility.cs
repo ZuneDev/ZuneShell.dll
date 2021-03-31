@@ -30,8 +30,8 @@ namespace Microsoft.Iris.Data
             return -1;
         }
 
-        public static bool Contains(List<int> list, int item) => IntListUtility.IndexOf(list, item) != -1;
+        public static bool Contains(List<int> list, int item) => IndexOf(list, item) != -1;
 
-        public static bool Contains(Vector<int> list, int item) => IntListUtility.IndexOf(list, item) != -1;
+        public static bool Contains(Vector<int> list, int item) => IndexOf(list, item) != -1;
     }
 }

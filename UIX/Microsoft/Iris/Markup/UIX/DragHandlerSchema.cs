@@ -68,31 +68,31 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object CallGetRemovedEventContexts(object instanceObj, object[] parameters) => ((DragHandler)instanceObj).GetRemovedEventContexts();
 
-        public static void Pass1Initialize() => DragHandlerSchema.Type = new UIXTypeSchema(62, "DragHandler", null, 110, typeof(DragHandler), UIXTypeFlags.Disposable);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(62, "DragHandler", null, 110, typeof(DragHandler), UIXTypeFlags.Disposable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(62, "BeginDragPolicy", 12, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(DragHandlerSchema.GetBeginDragPolicy), new SetValueHandler(DragHandlerSchema.SetBeginDragPolicy), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(62, "Dragging", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(DragHandlerSchema.GetDragging), null, false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(62, "BeginPosition", 233, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(DragHandlerSchema.GetBeginPosition), null, false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(62, "EndPosition", 233, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(DragHandlerSchema.GetEndPosition), null, false);
-            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(62, "ScreenDragSize", 195, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(DragHandlerSchema.GetScreenDragSize), null, false);
-            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(62, "LocalDragSize", 233, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(DragHandlerSchema.GetLocalDragSize), null, false);
-            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema(62, "RelativeDragSize", 233, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(DragHandlerSchema.GetRelativeDragSize), null, false);
-            UIXPropertySchema uixPropertySchema8 = new UIXPropertySchema(62, "ActiveModifiers", 111, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(DragHandlerSchema.GetActiveModifiers), null, false);
-            UIXPropertySchema uixPropertySchema9 = new UIXPropertySchema(62, "DragCursor", 44, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(DragHandlerSchema.GetDragCursor), new SetValueHandler(DragHandlerSchema.SetDragCursor), false);
-            UIXPropertySchema uixPropertySchema10 = new UIXPropertySchema(62, "CancelOnEscape", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(DragHandlerSchema.GetCancelOnEscape), new SetValueHandler(DragHandlerSchema.SetCancelOnEscape), false);
-            UIXPropertySchema uixPropertySchema11 = new UIXPropertySchema(62, "RelativeTo", 239, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(DragHandlerSchema.GetRelativeTo), new SetValueHandler(DragHandlerSchema.SetRelativeTo), false);
-            UIXPropertySchema uixPropertySchema12 = new UIXPropertySchema(62, "HandlerStage", 112, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(DragHandlerSchema.GetHandlerStage), new SetValueHandler(DragHandlerSchema.SetHandlerStage), false);
-            UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema(62, "ResetDragOrigin", null, 240, new InvokeHandler(DragHandlerSchema.CallResetDragOrigin), false);
-            UIXMethodSchema uixMethodSchema2 = new UIXMethodSchema(62, "CancelDrag", null, 240, new InvokeHandler(DragHandlerSchema.CallCancelDrag), false);
-            UIXMethodSchema uixMethodSchema3 = new UIXMethodSchema(62, "GetEventContexts", null, 138, new InvokeHandler(DragHandlerSchema.CallGetEventContexts), false);
-            UIXMethodSchema uixMethodSchema4 = new UIXMethodSchema(62, "GetAddedEventContexts", null, 138, new InvokeHandler(DragHandlerSchema.CallGetAddedEventContexts), false);
-            UIXMethodSchema uixMethodSchema5 = new UIXMethodSchema(62, "GetRemovedEventContexts", null, 138, new InvokeHandler(DragHandlerSchema.CallGetRemovedEventContexts), false);
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(62, "BeginDragPolicy", 12, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetBeginDragPolicy), new SetValueHandler(SetBeginDragPolicy), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(62, "Dragging", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetDragging), null, false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(62, "BeginPosition", 233, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetBeginPosition), null, false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(62, "EndPosition", 233, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetEndPosition), null, false);
+            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(62, "ScreenDragSize", 195, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetScreenDragSize), null, false);
+            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(62, "LocalDragSize", 233, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetLocalDragSize), null, false);
+            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema(62, "RelativeDragSize", 233, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetRelativeDragSize), null, false);
+            UIXPropertySchema uixPropertySchema8 = new UIXPropertySchema(62, "ActiveModifiers", 111, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetActiveModifiers), null, false);
+            UIXPropertySchema uixPropertySchema9 = new UIXPropertySchema(62, "DragCursor", 44, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetDragCursor), new SetValueHandler(SetDragCursor), false);
+            UIXPropertySchema uixPropertySchema10 = new UIXPropertySchema(62, "CancelOnEscape", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetCancelOnEscape), new SetValueHandler(SetCancelOnEscape), false);
+            UIXPropertySchema uixPropertySchema11 = new UIXPropertySchema(62, "RelativeTo", 239, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetRelativeTo), new SetValueHandler(SetRelativeTo), false);
+            UIXPropertySchema uixPropertySchema12 = new UIXPropertySchema(62, "HandlerStage", 112, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetHandlerStage), new SetValueHandler(SetHandlerStage), false);
+            UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema(62, "ResetDragOrigin", null, 240, new InvokeHandler(CallResetDragOrigin), false);
+            UIXMethodSchema uixMethodSchema2 = new UIXMethodSchema(62, "CancelDrag", null, 240, new InvokeHandler(CallCancelDrag), false);
+            UIXMethodSchema uixMethodSchema3 = new UIXMethodSchema(62, "GetEventContexts", null, 138, new InvokeHandler(CallGetEventContexts), false);
+            UIXMethodSchema uixMethodSchema4 = new UIXMethodSchema(62, "GetAddedEventContexts", null, 138, new InvokeHandler(CallGetAddedEventContexts), false);
+            UIXMethodSchema uixMethodSchema5 = new UIXMethodSchema(62, "GetRemovedEventContexts", null, 138, new InvokeHandler(CallGetRemovedEventContexts), false);
             UIXEventSchema uixEventSchema1 = new UIXEventSchema(62, "Started");
             UIXEventSchema uixEventSchema2 = new UIXEventSchema(62, "Canceled");
             UIXEventSchema uixEventSchema3 = new UIXEventSchema(62, "Ended");
-            DragHandlerSchema.Type.Initialize(new DefaultConstructHandler(DragHandlerSchema.Construct), null, new PropertySchema[12]
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[12]
             {
          uixPropertySchema8,
          uixPropertySchema1,

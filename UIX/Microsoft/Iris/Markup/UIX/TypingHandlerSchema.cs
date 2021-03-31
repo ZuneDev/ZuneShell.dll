@@ -32,16 +32,16 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object Construct() => new TypingHandler();
 
-        public static void Pass1Initialize() => TypingHandlerSchema.Type = new UIXTypeSchema(228, "TypingHandler", null, 110, typeof(TypingHandler), UIXTypeFlags.Disposable);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(228, "TypingHandler", null, 110, typeof(TypingHandler), UIXTypeFlags.Disposable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(228, "EditableTextData", 68, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TypingHandlerSchema.GetEditableTextData), new SetValueHandler(TypingHandlerSchema.SetEditableTextData), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(228, "HandlerStage", 112, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TypingHandlerSchema.GetHandlerStage), new SetValueHandler(TypingHandlerSchema.SetHandlerStage), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(228, "SubmitOnEnter", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TypingHandlerSchema.GetSubmitOnEnter), new SetValueHandler(TypingHandlerSchema.SetSubmitOnEnter), false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(228, "TreatEscapeAsBackspace", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TypingHandlerSchema.GetTreatEscapeAsBackspace), new SetValueHandler(TypingHandlerSchema.SetTreatEscapeAsBackspace), false);
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(228, "EditableTextData", 68, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetEditableTextData), new SetValueHandler(SetEditableTextData), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(228, "HandlerStage", 112, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetHandlerStage), new SetValueHandler(SetHandlerStage), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(228, "SubmitOnEnter", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetSubmitOnEnter), new SetValueHandler(SetSubmitOnEnter), false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(228, "TreatEscapeAsBackspace", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetTreatEscapeAsBackspace), new SetValueHandler(SetTreatEscapeAsBackspace), false);
             UIXEventSchema uixEventSchema = new UIXEventSchema(228, "TypingInputRejected");
-            TypingHandlerSchema.Type.Initialize(new DefaultConstructHandler(TypingHandlerSchema.Construct), null, new PropertySchema[4]
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[4]
             {
          uixPropertySchema1,
          uixPropertySchema2,

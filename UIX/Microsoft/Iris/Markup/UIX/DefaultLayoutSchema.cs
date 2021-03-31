@@ -14,8 +14,8 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object Construct() => DefaultLayout.Instance;
 
-        public static void Pass1Initialize() => DefaultLayoutSchema.Type = new UIXTypeSchema(53, "DefaultLayout", null, 132, typeof(DefaultLayout), UIXTypeFlags.Immutable);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(53, "DefaultLayout", null, 132, typeof(DefaultLayout), UIXTypeFlags.Immutable);
 
-        public static void Pass2Initialize() => DefaultLayoutSchema.Type.Initialize(new DefaultConstructHandler(DefaultLayoutSchema.Construct), null, null, null, null, null, null, null, null, null, null, null);
+        public static void Pass2Initialize() => Type.Initialize(new DefaultConstructHandler(Construct), null, null, null, null, null, null, null, null, null, null, null);
     }
 }

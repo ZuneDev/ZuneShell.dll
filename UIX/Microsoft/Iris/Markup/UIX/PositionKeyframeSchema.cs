@@ -19,12 +19,12 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object Construct() => new PositionKeyframe();
 
-        public static void Pass1Initialize() => PositionKeyframeSchema.Type = new UIXTypeSchema(164, "PositionKeyframe", null, 130, typeof(PositionKeyframe), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(164, "PositionKeyframe", null, 130, typeof(PositionKeyframe), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(164, "Value", 234, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(PositionKeyframeSchema.GetValue), new SetValueHandler(PositionKeyframeSchema.SetValue), false);
-            PositionKeyframeSchema.Type.Initialize(new DefaultConstructHandler(PositionKeyframeSchema.Construct), null, new PropertySchema[1]
+            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(164, "Value", 234, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetValue), new SetValueHandler(SetValue), false);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[1]
             {
          uixPropertySchema
             }, null, null, null, null, null, null, null, null, null);

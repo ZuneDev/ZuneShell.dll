@@ -13,7 +13,7 @@ namespace Microsoft.Iris.Markup.UIX
 {
     internal static class AnimationSchema
     {
-        public static RangeValidator ValidateLoopValue = new RangeValidator(AnimationSchema.RangeValidateLoopValue);
+        public static RangeValidator ValidateLoopValue = new RangeValidator(RangeValidateLoopValue);
         public static UIXTypeSchema Type;
 
         private static object GetCenterPointPercent(object instanceObj) => ((Animation)instanceObj).CenterPointPercent;
@@ -32,7 +32,7 @@ namespace Microsoft.Iris.Markup.UIX
         {
             Animation animation = (Animation)instanceObj;
             int num = (int)valueObj;
-            Result result = AnimationSchema.ValidateLoopValue(valueObj);
+            Result result = ValidateLoopValue(valueObj);
             if (result.Failed)
                 ErrorManager.ReportError(result.Error);
             else
@@ -55,17 +55,17 @@ namespace Microsoft.Iris.Markup.UIX
             return num < -1 ? Result.Fail("Expecting a value no smaller than {0}, but got {1}", "-1", num.ToString()) : Result.Success;
         }
 
-        public static void Pass1Initialize() => AnimationSchema.Type = new UIXTypeSchema(9, "Animation", null, 104, typeof(Animation), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(9, "Animation", null, 104, typeof(Animation), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(9, "CenterPointPercent", 234, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(AnimationSchema.GetCenterPointPercent), new SetValueHandler(AnimationSchema.SetCenterPointPercent), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(9, "DisableMouseInput", 15, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(AnimationSchema.GetDisableMouseInput), new SetValueHandler(AnimationSchema.SetDisableMouseInput), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(9, "Keyframes", 138, 130, ExpressionRestriction.None, false, null, false, new GetValueHandler(AnimationSchema.GetKeyframes), null, false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(9, "Loop", 115, -1, ExpressionRestriction.None, false, AnimationSchema.ValidateLoopValue, false, new GetValueHandler(AnimationSchema.GetLoop), new SetValueHandler(AnimationSchema.SetLoop), false);
-            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(9, "RotationAxis", 234, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(AnimationSchema.GetRotationAxis), new SetValueHandler(AnimationSchema.SetRotationAxis), false);
-            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(9, "Type", 10, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(AnimationSchema.GetType), new SetValueHandler(AnimationSchema.SetType), false);
-            AnimationSchema.Type.Initialize(new DefaultConstructHandler(AnimationSchema.Construct), null, new PropertySchema[6]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(9, "CenterPointPercent", 234, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetCenterPointPercent), new SetValueHandler(SetCenterPointPercent), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(9, "DisableMouseInput", 15, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetDisableMouseInput), new SetValueHandler(SetDisableMouseInput), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(9, "Keyframes", 138, 130, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetKeyframes), null, false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(9, "Loop", 115, -1, ExpressionRestriction.None, false, ValidateLoopValue, false, new GetValueHandler(GetLoop), new SetValueHandler(SetLoop), false);
+            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(9, "RotationAxis", 234, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetRotationAxis), new SetValueHandler(SetRotationAxis), false);
+            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(9, "Type", 10, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetType), new SetValueHandler(SetType), false);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[6]
             {
          uixPropertySchema1,
          uixPropertySchema2,

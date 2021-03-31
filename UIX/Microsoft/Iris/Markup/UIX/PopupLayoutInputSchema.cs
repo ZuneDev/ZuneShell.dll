@@ -44,19 +44,19 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object Construct() => new PopupLayoutInput();
 
-        public static void Pass1Initialize() => PopupLayoutInputSchema.Type = new UIXTypeSchema(162, "PopupLayoutInput", null, 133, typeof(PopupLayoutInput), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(162, "PopupLayoutInput", null, 133, typeof(PopupLayoutInput), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(162, "PlacementTarget", 239, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(PopupLayoutInputSchema.GetPlacementTarget), new SetValueHandler(PopupLayoutInputSchema.SetPlacementTarget), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(162, "Placement", 157, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(PopupLayoutInputSchema.GetPlacement), new SetValueHandler(PopupLayoutInputSchema.SetPlacement), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(162, "Offset", 158, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(PopupLayoutInputSchema.GetOffset), new SetValueHandler(PopupLayoutInputSchema.SetOffset), false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(162, "StayInBounds", 15, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(PopupLayoutInputSchema.GetStayInBounds), new SetValueHandler(PopupLayoutInputSchema.SetStayInBounds), false);
-            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(162, "RespectMenuDropAlignment", 15, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(PopupLayoutInputSchema.GetRespectMenuDropAlignment), new SetValueHandler(PopupLayoutInputSchema.SetRespectMenuDropAlignment), false);
-            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(162, "ConstrainToTarget", 15, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(PopupLayoutInputSchema.GetConstrainToTarget), new SetValueHandler(PopupLayoutInputSchema.SetConstrainToTarget), false);
-            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema(162, "FlippedHorizontally", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(PopupLayoutInputSchema.GetFlippedHorizontally), null, false);
-            UIXPropertySchema uixPropertySchema8 = new UIXPropertySchema(162, "FlippedVertically", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(PopupLayoutInputSchema.GetFlippedVertically), null, false);
-            PopupLayoutInputSchema.Type.Initialize(new DefaultConstructHandler(PopupLayoutInputSchema.Construct), null, new PropertySchema[8]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(162, "PlacementTarget", 239, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetPlacementTarget), new SetValueHandler(SetPlacementTarget), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(162, "Placement", 157, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetPlacement), new SetValueHandler(SetPlacement), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(162, "Offset", 158, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetOffset), new SetValueHandler(SetOffset), false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(162, "StayInBounds", 15, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetStayInBounds), new SetValueHandler(SetStayInBounds), false);
+            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(162, "RespectMenuDropAlignment", 15, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetRespectMenuDropAlignment), new SetValueHandler(SetRespectMenuDropAlignment), false);
+            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(162, "ConstrainToTarget", 15, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetConstrainToTarget), new SetValueHandler(SetConstrainToTarget), false);
+            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema(162, "FlippedHorizontally", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetFlippedHorizontally), null, false);
+            UIXPropertySchema uixPropertySchema8 = new UIXPropertySchema(162, "FlippedVertically", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetFlippedVertically), null, false);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[8]
             {
          uixPropertySchema6,
          uixPropertySchema7,

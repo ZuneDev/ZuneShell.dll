@@ -63,7 +63,7 @@ namespace Microsoft.Iris.Markup.Validation
                                     dataMappingEntry.Property = propertyDeep;
                                     dataMappingEntry.Source = stringProperty3;
                                     dataMappingEntry.Target = stringProperty4;
-                                    dataMappingEntry.DefaultValue = ValidateDataMapping.ConvertDefaultValue(this, propertyDeep.PropertyType, stringProperty5);
+                                    dataMappingEntry.DefaultValue = ConvertDefaultValue(this, propertyDeep.PropertyType, stringProperty5);
                                     if (!entries.ContainsKey(stringProperty2))
                                         entries[stringProperty2] = dataMappingEntry;
                                     else
@@ -79,7 +79,7 @@ namespace Microsoft.Iris.Markup.Validation
                     }
                     if (stringProperty1 == null || markupDataTypeSchema == null)
                         break;
-                    ValidateDataMapping.AddDataMappingProviderList(ref this._foundDataMappingSet, Owner.LoadResultTarget, this.Name, markupDataTypeSchema, stringProperty1, mappingEntries);
+                    AddDataMappingProviderList(ref this._foundDataMappingSet, Owner.LoadResultTarget, this.Name, markupDataTypeSchema, stringProperty1, mappingEntries);
                     break;
                 default:
                     this.ReportError("TargetType for DataMapping must be a markup-defined DataType, {0} is not valid", typeSchemaProperty.Name);
@@ -97,12 +97,12 @@ namespace Microsoft.Iris.Markup.Validation
         {
             if (provider.IndexOf(',') == -1)
             {
-                ValidateDataMapping.AddDataMappingOneProvider(ref foundDataMappingSet, owner, name, targetDataType, provider, mappingEntries);
+                AddDataMappingOneProvider(ref foundDataMappingSet, owner, name, targetDataType, provider, mappingEntries);
             }
             else
             {
                 foreach (string providerName in StringUtility.SplitAndTrim(',', provider))
-                    ValidateDataMapping.AddDataMappingOneProvider(ref foundDataMappingSet, owner, name, targetDataType, providerName, mappingEntries);
+                    AddDataMappingOneProvider(ref foundDataMappingSet, owner, name, targetDataType, providerName, mappingEntries);
             }
         }
 

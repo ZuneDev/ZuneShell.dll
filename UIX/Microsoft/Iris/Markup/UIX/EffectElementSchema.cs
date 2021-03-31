@@ -16,12 +16,12 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static void SetName(ref object instanceObj, object valueObj) => ((EffectElement)instanceObj).Name = (string)valueObj;
 
-        public static void Pass1Initialize() => EffectElementSchema.Type = new UIXTypeSchema(73, "EffectElement", null, -1, typeof(EffectElement), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(73, "EffectElement", null, -1, typeof(EffectElement), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(73, "Name", 208, -1, ExpressionRestriction.ReadOnly, false, null, false, new GetValueHandler(EffectElementSchema.GetName), new SetValueHandler(EffectElementSchema.SetName), false);
-            EffectElementSchema.Type.Initialize(null, null, new PropertySchema[1]
+            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(73, "Name", 208, -1, ExpressionRestriction.ReadOnly, false, null, false, new GetValueHandler(GetName), new SetValueHandler(SetName), false);
+            Type.Initialize(null, null, new PropertySchema[1]
             {
          uixPropertySchema
             }, null, null, null, null, null, null, null, null, null);

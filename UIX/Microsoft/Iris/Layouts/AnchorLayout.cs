@@ -48,9 +48,9 @@ namespace Microsoft.Iris.Layouts
             {
                 packet = new AnchorLayout.Packet();
                 layoutNode.MeasureData = packet;
-                packet.ParentRecord = new AnchorLayout.Record("Parent", new Rectangle(Point.Zero, constraint), AnchorLayout.LayoutPhase.Done);
-                packet.ParentActualRecord = new AnchorLayout.Record("ParentActual", Rectangle.Zero, AnchorLayout.LayoutPhase.Arrange);
-                packet.AreaOfInterestRecord = new AnchorLayout.Record("Focus", Rectangle.Zero, AnchorLayout.LayoutPhase.Arrange);
+                packet.ParentRecord = new AnchorLayout.Record("Parent", new Rectangle(Point.Zero, constraint), LayoutPhase.Done);
+                packet.ParentActualRecord = new AnchorLayout.Record("ParentActual", Rectangle.Zero, LayoutPhase.Arrange);
+                packet.AreaOfInterestRecord = new AnchorLayout.Record("Focus", Rectangle.Zero, LayoutPhase.Arrange);
                 packet.Records = new Vector<AnchorLayout.Record>(layoutNode.LayoutChildrenCount);
             }
             else
@@ -90,7 +90,7 @@ namespace Microsoft.Iris.Layouts
             packet.Records.RemoveRange(index, packet.Records.Count - index);
             foreach (AnchorLayout.Record record in packet.Records)
             {
-                if (record.Phase == AnchorLayout.LayoutPhase.Untouched)
+                if (record.Phase == LayoutPhase.Untouched)
                 {
                     packet.CircularityBreakerRecord = null;
                     this.MeasureChild(packet, record);
@@ -100,13 +100,13 @@ namespace Microsoft.Iris.Layouts
             {
                 foreach (AnchorLayout.Record record in packet.Records)
                 {
-                    if (record.Phase == AnchorLayout.LayoutPhase.Circular)
-                        record.Phase = AnchorLayout.LayoutPhase.Untouched;
+                    if (record.Phase == LayoutPhase.Circular)
+                        record.Phase = LayoutPhase.Untouched;
                 }
                 packet.CircularitiesDetected = false;
                 foreach (AnchorLayout.Record record in packet.Records)
                 {
-                    if (record.Phase == AnchorLayout.LayoutPhase.Untouched)
+                    if (record.Phase == LayoutPhase.Untouched)
                         this.MeasureChild(packet, record);
                 }
             }
@@ -134,13 +134,13 @@ namespace Microsoft.Iris.Layouts
         private void MeasureChild(AnchorLayout.Packet packet, AnchorLayout.Record record)
         {
             AnchorLayoutInput input = record.Input;
-            record.Phase = AnchorLayout.LayoutPhase.InProgress;
+            record.Phase = LayoutPhase.InProgress;
             bool allArrangePhase = true;
             bool anyArrangePhase = false;
-            int edge1 = this.ComputeEdge(packet, "Left", input.Left, AnchorLayout.s_anchorParent0, Orientation.Horizontal, record, out AnchorLayout.Record _, ref allArrangePhase, ref anyArrangePhase);
-            int edge2 = this.ComputeEdge(packet, "Top", input.Top, AnchorLayout.s_anchorParent0, Orientation.Vertical, record, out AnchorLayout.Record _, ref allArrangePhase, ref anyArrangePhase);
-            int edge3 = this.ComputeEdge(packet, "Right", input.Right, AnchorLayout.s_anchorParent1, Orientation.Horizontal, record, out AnchorLayout.Record _, ref allArrangePhase, ref anyArrangePhase);
-            int edge4 = this.ComputeEdge(packet, "Bottom", input.Bottom, AnchorLayout.s_anchorParent1, Orientation.Vertical, record, out AnchorLayout.Record _, ref allArrangePhase, ref anyArrangePhase);
+            int edge1 = this.ComputeEdge(packet, "Left", input.Left, s_anchorParent0, Orientation.Horizontal, record, out AnchorLayout.Record _, ref allArrangePhase, ref anyArrangePhase);
+            int edge2 = this.ComputeEdge(packet, "Top", input.Top, s_anchorParent0, Orientation.Vertical, record, out AnchorLayout.Record _, ref allArrangePhase, ref anyArrangePhase);
+            int edge3 = this.ComputeEdge(packet, "Right", input.Right, s_anchorParent1, Orientation.Horizontal, record, out AnchorLayout.Record _, ref allArrangePhase, ref anyArrangePhase);
+            int edge4 = this.ComputeEdge(packet, "Bottom", input.Bottom, s_anchorParent1, Orientation.Vertical, record, out AnchorLayout.Record _, ref allArrangePhase, ref anyArrangePhase);
             if (anyArrangePhase)
             {
                 if (!allArrangePhase)
@@ -153,27 +153,27 @@ namespace Microsoft.Iris.Layouts
                     ErrorManager.ReportError("AnchorLayoutInput {0} cannot contribute to width or height.", record.Input);
                     record.Invalid = true;
                 }
-                record.Phase = AnchorLayout.LayoutPhase.Arrange;
+                record.Phase = LayoutPhase.Arrange;
             }
             else
             {
-                AnchorLayout.Normalize(ref edge1, ref edge3);
-                AnchorLayout.Normalize(ref edge2, ref edge4);
+                Normalize(ref edge1, ref edge3);
+                Normalize(ref edge2, ref edge4);
                 int constraintMaxValue1;
-                AnchorLayout.ComputeConstraint(edge1, edge3, out constraintMaxValue1);
+                ComputeConstraint(edge1, edge3, out constraintMaxValue1);
                 int constraintMaxValue2;
-                AnchorLayout.ComputeConstraint(edge2, edge4, out constraintMaxValue2);
+                ComputeConstraint(edge2, edge4, out constraintMaxValue2);
                 Size constraint = new Size(constraintMaxValue1, constraintMaxValue2);
                 record.LayoutNode.Measure(constraint);
                 int size1;
-                int x = AnchorLayout.LocationFromEdges(input.Left, input.Right, edge1, edge3, record.LayoutNode.DesiredSize.Width, record.LayoutNode.AlignedSize.Width, record.LayoutNode.AlignmentOffset.X, out size1);
+                int x = LocationFromEdges(input.Left, input.Right, edge1, edge3, record.LayoutNode.DesiredSize.Width, record.LayoutNode.AlignedSize.Width, record.LayoutNode.AlignmentOffset.X, out size1);
                 int size2;
-                int y = AnchorLayout.LocationFromEdges(input.Top, input.Bottom, edge2, edge4, record.LayoutNode.DesiredSize.Height, record.LayoutNode.AlignedSize.Height, record.LayoutNode.AlignmentOffset.Y, out size2);
+                int y = LocationFromEdges(input.Top, input.Bottom, edge2, edge4, record.LayoutNode.DesiredSize.Height, record.LayoutNode.AlignedSize.Height, record.LayoutNode.AlignmentOffset.Y, out size2);
                 record.Bounds = new Rectangle(x, y, size1, size2);
                 bool flag = packet.CircularityBreakerRecord == record;
-                if (record.Phase != AnchorLayout.LayoutPhase.InProgress && !flag)
+                if (record.Phase != LayoutPhase.InProgress && !flag)
                     return;
-                record.Phase = AnchorLayout.LayoutPhase.Done;
+                record.Phase = LayoutPhase.Done;
                 Rectangle bounds = record.Bounds;
                 if (!input.ContributesToWidth)
                 {
@@ -207,31 +207,31 @@ namespace Microsoft.Iris.Layouts
                 allArrangePhase = false;
                 return 0;
             }
-            bool flag = recordRef.Phase == AnchorLayout.LayoutPhase.Arrange;
+            bool flag = recordRef.Phase == LayoutPhase.Arrange;
             allArrangePhase &= flag;
             anyArrangePhase |= flag;
             record.Visible &= recordRef.Visible;
             Rectangle bounds = recordRef.Bounds;
-            if (recordRef.Phase != AnchorLayout.LayoutPhase.Done && recordRef.Phase != AnchorLayout.LayoutPhase.Arrange)
+            if (recordRef.Phase != LayoutPhase.Done && recordRef.Phase != LayoutPhase.Arrange)
             {
-                record.Phase = AnchorLayout.LayoutPhase.Circular;
+                record.Phase = LayoutPhase.Circular;
                 bounds = packet.ParentRecord.Bounds;
-                if (recordRef.Phase == AnchorLayout.LayoutPhase.InProgress && packet.CircularityBreakerRecord == null)
+                if (recordRef.Phase == LayoutPhase.InProgress && packet.CircularityBreakerRecord == null)
                 {
                     packet.CircularityBreakerRecord = recordRef;
                     packet.CircularitiesDetected = true;
                 }
             }
-            int val1 = AnchorLayout.Weigh(orientation == Orientation.Horizontal ? bounds.Width : bounds.Height, anchor.Percent) + (orientation == Orientation.Horizontal ? bounds.X : bounds.Y) + anchor.Offset;
+            int val1 = Weigh(orientation == Orientation.Horizontal ? bounds.Width : bounds.Height, anchor.Percent) + (orientation == Orientation.Horizontal ? bounds.X : bounds.Y) + anchor.Offset;
             int num = orientation == Orientation.Horizontal ? packet.ParentRecord.Bounds.Width : packet.ParentRecord.Bounds.Height;
             if (anchor.MaximumSet)
             {
-                int val2 = AnchorLayout.Weigh(num, anchor.MaximumPercent) + anchor.MaximumOffset;
+                int val2 = Weigh(num, anchor.MaximumPercent) + anchor.MaximumOffset;
                 val1 = Math.Min(val1, val2);
             }
             if (anchor.MinimumSet)
             {
-                int val2 = AnchorLayout.Weigh(num, anchor.MinimumPercent) + anchor.MinimumOffset;
+                int val2 = Weigh(num, anchor.MinimumPercent) + anchor.MinimumOffset;
                 val1 = Math.Max(val1, val2);
             }
             return val1;
@@ -287,7 +287,7 @@ namespace Microsoft.Iris.Layouts
             AnchorLayout.Record record1 = null;
             foreach (AnchorLayout.Record record2 in measureData.Records)
             {
-                if (record2.Phase != AnchorLayout.LayoutPhase.Arrange)
+                if (record2.Phase != LayoutPhase.Arrange)
                 {
                     record2.LayoutNode.Arrange(slot, record2.Bounds);
                     if (record1 == null && (record2.LayoutNode.ContainsAreaOfInterest(AreaOfInterestID.FocusOverride) || record2.LayoutNode.ContainsAreaOfInterest(AreaOfInterestID.Focus)))
@@ -341,7 +341,7 @@ namespace Microsoft.Iris.Layouts
             {
                 if (record.ID == id)
                 {
-                    if (record.Phase == AnchorLayout.LayoutPhase.Untouched)
+                    if (record.Phase == LayoutPhase.Untouched)
                         this.MeasureChild(packet, record);
                     return record;
                 }
@@ -350,7 +350,7 @@ namespace Microsoft.Iris.Layouts
             return null;
         }
 
-        internal static DataCookie InputData => AnchorLayout.s_dataProperty;
+        internal static DataCookie InputData => s_dataProperty;
 
         internal enum LayoutPhase
         {
@@ -377,12 +377,12 @@ namespace Microsoft.Iris.Layouts
             public void Initialize(ILayoutNode layoutNode)
             {
                 this.LayoutNode = layoutNode;
-                this.Input = layoutNode.GetLayoutInput(AnchorLayout.InputData) as AnchorLayoutInput;
+                this.Input = layoutNode.GetLayoutInput(InputData) as AnchorLayoutInput;
                 if (this.Input == null)
-                    this.Input = AnchorLayout.Record.s_defaultInput;
+                    this.Input = s_defaultInput;
                 this.ID = ((ViewItem)layoutNode).Name;
                 this.Bounds = Rectangle.Zero;
-                this.Phase = AnchorLayout.LayoutPhase.Untouched;
+                this.Phase = LayoutPhase.Untouched;
                 this.Visible = true;
                 this.Invalid = false;
             }

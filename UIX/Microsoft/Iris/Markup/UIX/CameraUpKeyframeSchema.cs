@@ -19,12 +19,12 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object Construct() => new CameraUpKeyframe();
 
-        public static void Pass1Initialize() => CameraUpKeyframeSchema.Type = new UIXTypeSchema(24, "CameraUpKeyframe", null, 130, typeof(CameraUpKeyframe), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(24, "CameraUpKeyframe", null, 130, typeof(CameraUpKeyframe), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(24, "Value", 234, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(CameraUpKeyframeSchema.GetValue), new SetValueHandler(CameraUpKeyframeSchema.SetValue), false);
-            CameraUpKeyframeSchema.Type.Initialize(new DefaultConstructHandler(CameraUpKeyframeSchema.Construct), null, new PropertySchema[1]
+            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(24, "Value", 234, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetValue), new SetValueHandler(SetValue), false);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[1]
             {
          uixPropertySchema
             }, null, null, null, null, null, null, null, null, null);

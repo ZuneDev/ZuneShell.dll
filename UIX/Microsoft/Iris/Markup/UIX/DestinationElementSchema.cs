@@ -33,13 +33,13 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object Construct() => new DestinationElement();
 
-        public static void Pass1Initialize() => DestinationElementSchema.Type = new UIXTypeSchema(56, "DestinationElement", null, 77, typeof(DestinationElement), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(56, "DestinationElement", null, 77, typeof(DestinationElement), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(56, "Downsample", 194, -1, ExpressionRestriction.None, false, SingleSchema.Validate0to1, false, new GetValueHandler(DestinationElementSchema.GetDownsample), new SetValueHandler(DestinationElementSchema.SetDownsample), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(56, "UVOffset", 233, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(DestinationElementSchema.GetUVOffset), new SetValueHandler(DestinationElementSchema.SetUVOffset), false);
-            DestinationElementSchema.Type.Initialize(new DefaultConstructHandler(DestinationElementSchema.Construct), null, new PropertySchema[2]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(56, "Downsample", 194, -1, ExpressionRestriction.None, false, SingleSchema.Validate0to1, false, new GetValueHandler(GetDownsample), new SetValueHandler(SetDownsample), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(56, "UVOffset", 233, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetUVOffset), new SetValueHandler(SetUVOffset), false);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[2]
             {
          uixPropertySchema1,
          uixPropertySchema2

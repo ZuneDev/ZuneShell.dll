@@ -10,8 +10,8 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        public static void Pass1Initialize() => VoidSchema.Type = new UIXTypeSchema(240, "Void", "void", -1, typeof(void), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(240, "Void", "void", -1, typeof(void), UIXTypeFlags.None);
 
-        public static void Pass2Initialize() => VoidSchema.Type.Initialize(null, null, null, null, null, null, null, null, null, null, null, null);
+        public static void Pass2Initialize() => Type.Initialize(null, null, null, null, null, null, null, null, null, null, null, null);
     }
 }

@@ -21,7 +21,7 @@ namespace Microsoft.Iris.Layouts
         {
         }
 
-        DataCookie ILayoutInput.Data => DockLayoutInput.Data;
+        DataCookie ILayoutInput.Data => Data;
 
         internal static DataCookie Data => DockLayout.DockData;
 
@@ -29,13 +29,13 @@ namespace Microsoft.Iris.Layouts
         {
             get
             {
-                if (this == DockLayoutInput.Left)
+                if (this == Left)
                     return "Left";
-                if (this == DockLayoutInput.Top)
+                if (this == Top)
                     return "Top";
-                if (this == DockLayoutInput.Right)
+                if (this == Right)
                     return "Right";
-                return this == DockLayoutInput.Bottom ? "Bottom" : "Client";
+                return this == Bottom ? "Bottom" : "Client";
             }
         }
 

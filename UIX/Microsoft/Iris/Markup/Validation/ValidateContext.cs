@@ -56,13 +56,13 @@ namespace Microsoft.Iris.Markup.Validation
 
         public static void InitializeStatics()
         {
-            ValidateContext.ClassPropertiesProperty = ClassSchema.Type.FindProperty("Properties");
-            ValidateContext.UIPropertiesProperty = UISchema.Type.FindProperty("Properties");
-            ValidateContext.ClassLocalsProperty = ClassSchema.Type.FindProperty("Locals");
-            ValidateContext.UILocalsProperty = UISchema.Type.FindProperty("Locals");
-            ValidateContext.UIInputProperty = UISchema.Type.FindProperty("Input");
-            ValidateContext.UIContentProperty = UISchema.Type.FindProperty("Content");
-            ValidateContext.EffectTechniquesProperty = EffectSchema.Type.FindProperty("Techniques");
+            ClassPropertiesProperty = ClassSchema.Type.FindProperty("Properties");
+            UIPropertiesProperty = UISchema.Type.FindProperty("Properties");
+            ClassLocalsProperty = ClassSchema.Type.FindProperty("Locals");
+            UILocalsProperty = UISchema.Type.FindProperty("Locals");
+            UIInputProperty = UISchema.Type.FindProperty("Input");
+            UIContentProperty = UISchema.Type.FindProperty("Content");
+            EffectTechniquesProperty = EffectSchema.Type.FindProperty("Techniques");
         }
 
         public TypeSchema ResolveSymbol(
@@ -252,7 +252,7 @@ namespace Microsoft.Iris.Markup.Validation
                 {
                     if (this.IsNameReserved(name1))
                         result = Result.Fail("Name \"{0}\" is reserved and cannot be used.", name1);
-                    else if (!ValidateContext.IsValidSymbolName(name1))
+                    else if (!IsValidSymbolName(name1))
                         result = Result.Fail("Invalid name \"{0}\".  Valid names must begin with either an alphabetic character or an underscore and can otherwise contain only alphabetic, numeric, or underscore characters", name1);
                 }
                 if (!result.Failed && typeSchema1 != null)
@@ -270,23 +270,23 @@ namespace Microsoft.Iris.Markup.Validation
         {
             PropertySchema foundProperty = property.FoundProperty;
             NameUsage nameUsage;
-            if (foundProperty == ValidateContext.ClassPropertiesProperty || foundProperty == ValidateContext.UIPropertiesProperty)
+            if (foundProperty == ClassPropertiesProperty || foundProperty == UIPropertiesProperty)
             {
                 this._currentScope = SymbolOrigin.Properties;
                 nameUsage = NameUsage.Symbols;
                 this._resolutionDirective = SymbolResolutionDirective.PropertyResolution;
             }
-            else if (foundProperty == ValidateContext.ClassLocalsProperty || foundProperty == ValidateContext.UILocalsProperty)
+            else if (foundProperty == ClassLocalsProperty || foundProperty == UILocalsProperty)
             {
                 this._currentScope = SymbolOrigin.Locals;
                 nameUsage = NameUsage.Symbols;
             }
-            else if (foundProperty == ValidateContext.UIInputProperty)
+            else if (foundProperty == UIInputProperty)
             {
                 this._currentScope = SymbolOrigin.Input;
                 nameUsage = NameUsage.Symbols;
             }
-            else if (foundProperty == ValidateContext.UIContentProperty)
+            else if (foundProperty == UIContentProperty)
             {
                 if (property.PropertyAttributeList == null)
                 {
@@ -296,7 +296,7 @@ namespace Microsoft.Iris.Markup.Validation
                 else
                     nameUsage = NameUsage.NamedContent;
             }
-            else if (foundProperty == ValidateContext.EffectTechniquesProperty)
+            else if (foundProperty == EffectTechniquesProperty)
             {
                 this._currentScope = SymbolOrigin.Techniques;
                 nameUsage = NameUsage.Symbols;
@@ -313,18 +313,18 @@ namespace Microsoft.Iris.Markup.Validation
         public void NotifyPropertyScopeExit(ValidateProperty property)
         {
             PropertySchema foundProperty = property.FoundProperty;
-            if (foundProperty == ValidateContext.ClassPropertiesProperty || foundProperty == ValidateContext.UIPropertiesProperty)
+            if (foundProperty == ClassPropertiesProperty || foundProperty == UIPropertiesProperty)
             {
                 this._resolutionDirective = SymbolResolutionDirective.None;
                 this._currentScope = SymbolOrigin.None;
             }
-            else if (foundProperty == ValidateContext.ClassLocalsProperty || foundProperty == ValidateContext.UILocalsProperty)
+            else if (foundProperty == ClassLocalsProperty || foundProperty == UILocalsProperty)
                 this._currentScope = SymbolOrigin.None;
-            else if (foundProperty == ValidateContext.UIInputProperty)
+            else if (foundProperty == UIInputProperty)
                 this._currentScope = SymbolOrigin.None;
-            else if (foundProperty == ValidateContext.UIContentProperty && property.PropertyAttributeList == null)
+            else if (foundProperty == UIContentProperty && property.PropertyAttributeList == null)
                 this._currentScope = SymbolOrigin.None;
-            else if (foundProperty == ValidateContext.EffectTechniquesProperty)
+            else if (foundProperty == EffectTechniquesProperty)
                 this._currentScope = SymbolOrigin.None;
             this._propertyScopeStack.Pop();
         }
@@ -379,7 +379,7 @@ namespace Microsoft.Iris.Markup.Validation
 
         public bool IsNameReserved(string name)
         {
-            foreach (string reservedName in ValidateContext.ReservedNameList)
+            foreach (string reservedName in ReservedNameList)
             {
                 if (name == reservedName)
                     return true;
@@ -414,7 +414,7 @@ namespace Microsoft.Iris.Markup.Validation
             {
                 if (this.IsNameReserved(name))
                     return Result.Fail("Name \"{0}\" is reserved and cannot be used.", name);
-                if (!ValidateContext.IsValidSymbolName(name))
+                if (!IsValidSymbolName(name))
                     return Result.Fail("Invalid name \"{0}\".  Valid names must begin with either an alphabetic character or an underscore and can otherwise contain only alphabetic, numeric, or underscore characters", name);
             }
             return Result.Success;

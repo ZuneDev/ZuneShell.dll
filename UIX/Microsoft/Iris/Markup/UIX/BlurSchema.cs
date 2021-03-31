@@ -26,14 +26,14 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object Construct() => new GaussianBlurElement();
 
-        public static void Pass1Initialize() => BlurSchema.Type = new UIXTypeSchema(14, "Blur", null, 80, typeof(GaussianBlurElement), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(14, "Blur", null, 80, typeof(GaussianBlurElement), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(14, "Mode", 96, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(BlurSchema.GetMode), new SetValueHandler(BlurSchema.SetMode), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(14, "KernelRadius", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(BlurSchema.GetKernelRadius), new SetValueHandler(BlurSchema.SetKernelRadius), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(14, "Bluriness", 194, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(BlurSchema.GetBluriness), new SetValueHandler(BlurSchema.SetBluriness), false);
-            BlurSchema.Type.Initialize(new DefaultConstructHandler(BlurSchema.Construct), null, new PropertySchema[3]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(14, "Mode", 96, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetMode), new SetValueHandler(SetMode), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(14, "KernelRadius", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetKernelRadius), new SetValueHandler(SetKernelRadius), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(14, "Bluriness", 194, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetBluriness), new SetValueHandler(SetBluriness), false);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[3]
             {
          uixPropertySchema3,
          uixPropertySchema2,

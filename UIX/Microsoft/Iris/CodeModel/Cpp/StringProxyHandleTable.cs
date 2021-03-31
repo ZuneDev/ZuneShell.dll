@@ -15,9 +15,9 @@ namespace Microsoft.Iris.CodeModel.Cpp
 
         public bool GetStringHandle(string value, out ulong handle)
         {
-            if (StringProxyHandleTable.s_stringToHandleLookup == null)
-                StringProxyHandleTable.s_stringToHandleLookup = new Map<string, ulong>();
-            bool flag = StringProxyHandleTable.s_stringToHandleLookup.TryGetValue(value, out handle);
+            if (s_stringToHandleLookup == null)
+                s_stringToHandleLookup = new Map<string, ulong>();
+            bool flag = s_stringToHandleLookup.TryGetValue(value, out handle);
             if (flag)
             {
                 this.AddRefHandle(handle);
@@ -25,7 +25,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
             else
             {
                 handle = this.AllocateHandle(value);
-                StringProxyHandleTable.s_stringToHandleLookup[value] = handle;
+                s_stringToHandleLookup[value] = handle;
             }
             return !flag;
         }
@@ -34,7 +34,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
         {
             bool flag = this.ReleaseHandle(handle, out value);
             if (flag)
-                StringProxyHandleTable.s_stringToHandleLookup.Remove(value);
+                s_stringToHandleLookup.Remove(value);
             return flag;
         }
 
@@ -42,10 +42,10 @@ namespace Microsoft.Iris.CodeModel.Cpp
 
         public unsafe int PinString(ulong handle, out char* value)
         {
-            if (StringProxyHandleTable.s_pinnedStrings == null)
-                StringProxyHandleTable.s_pinnedStrings = new Map<ulong, StringPinState>();
+            if (s_pinnedStrings == null)
+                s_pinnedStrings = new Map<ulong, StringPinState>();
             StringPinState stringPinState;
-            if (StringProxyHandleTable.s_pinnedStrings.TryGetValue(handle, out stringPinState))
+            if (s_pinnedStrings.TryGetValue(handle, out stringPinState))
             {
                 ++stringPinState._pinCount;
             }
@@ -56,19 +56,19 @@ namespace Microsoft.Iris.CodeModel.Cpp
                 stringPinState._gcHandle = GCHandle.Alloc(str, GCHandleType.Pinned);
                 stringPinState._pinCount = 1;
             }
-            StringProxyHandleTable.s_pinnedStrings[handle] = stringPinState;
+            s_pinnedStrings[handle] = stringPinState;
             value = (char*)stringPinState._gcHandle.AddrOfPinnedObject().ToPointer();
             return stringPinState._pinCount;
         }
 
         public int UnpinString(ulong handle)
         {
-            StringPinState pinnedString = StringProxyHandleTable.s_pinnedStrings[handle];
+            StringPinState pinnedString = s_pinnedStrings[handle];
             --pinnedString._pinCount;
             if (pinnedString._pinCount == 0)
             {
                 pinnedString._gcHandle.Free();
-                StringProxyHandleTable.s_pinnedStrings.Remove(handle);
+                s_pinnedStrings.Remove(handle);
             }
             return pinnedString._pinCount;
         }

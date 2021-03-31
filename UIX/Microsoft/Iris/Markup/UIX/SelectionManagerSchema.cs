@@ -108,66 +108,66 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object CallToggleSelectRangeInt32Int32(object instanceObj, object[] parameters) => ((SelectionManager)instanceObj).ToggleSelectRange((int)parameters[0], (int)parameters[1]);
 
-        public static void Pass1Initialize() => SelectionManagerSchema.Type = new UIXTypeSchema(186, "SelectionManager", null, 153, typeof(SelectionManager), UIXTypeFlags.Disposable);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(186, "SelectionManager", null, 153, typeof(SelectionManager), UIXTypeFlags.Disposable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(186, "Count", 115, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(SelectionManagerSchema.GetCount), null, false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(186, "SourceList", 138, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(SelectionManagerSchema.GetSourceList), new SetValueHandler(SelectionManagerSchema.SetSourceList), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(186, "Anchor", 115, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(SelectionManagerSchema.GetAnchor), new SetValueHandler(SelectionManagerSchema.SetAnchor), false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(186, "SelectedIndices", 138, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(SelectionManagerSchema.GetSelectedIndices), null, false);
-            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(186, "SelectedItems", 138, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(SelectionManagerSchema.GetSelectedItems), null, false);
-            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(186, "SingleSelect", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(SelectionManagerSchema.GetSingleSelect), new SetValueHandler(SelectionManagerSchema.SetSingleSelect), false);
-            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema(186, "SelectedIndex", 115, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(SelectionManagerSchema.GetSelectedIndex), new SetValueHandler(SelectionManagerSchema.SetSelectedIndex), false);
-            UIXPropertySchema uixPropertySchema8 = new UIXPropertySchema(186, "SelectedItem", 153, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(SelectionManagerSchema.GetSelectedItem), null, false);
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(186, "Count", 115, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetCount), null, false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(186, "SourceList", 138, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetSourceList), new SetValueHandler(SetSourceList), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(186, "Anchor", 115, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetAnchor), new SetValueHandler(SetAnchor), false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(186, "SelectedIndices", 138, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetSelectedIndices), null, false);
+            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(186, "SelectedItems", 138, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetSelectedItems), null, false);
+            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(186, "SingleSelect", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetSingleSelect), new SetValueHandler(SetSingleSelect), false);
+            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema(186, "SelectedIndex", 115, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetSelectedIndex), new SetValueHandler(SetSelectedIndex), false);
+            UIXPropertySchema uixPropertySchema8 = new UIXPropertySchema(186, "SelectedItem", 153, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetSelectedItem), null, false);
             UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema(186, "IsSelected", new short[1]
             {
          115
-            }, 15, new InvokeHandler(SelectionManagerSchema.CallIsSelectedInt32), false);
+            }, 15, new InvokeHandler(CallIsSelectedInt32), false);
             UIXMethodSchema uixMethodSchema2 = new UIXMethodSchema(186, "IsRangeSelected", new short[2]
             {
          115,
          115
-            }, 15, new InvokeHandler(SelectionManagerSchema.CallIsRangeSelectedInt32Int32), false);
-            UIXMethodSchema uixMethodSchema3 = new UIXMethodSchema(186, "Clear", null, 240, new InvokeHandler(SelectionManagerSchema.CallClear), false);
+            }, 15, new InvokeHandler(CallIsRangeSelectedInt32Int32), false);
+            UIXMethodSchema uixMethodSchema3 = new UIXMethodSchema(186, "Clear", null, 240, new InvokeHandler(CallClear), false);
             UIXMethodSchema uixMethodSchema4 = new UIXMethodSchema(186, "Select", new short[2]
             {
          115,
          15
-            }, 15, new InvokeHandler(SelectionManagerSchema.CallSelectInt32Boolean), false);
+            }, 15, new InvokeHandler(CallSelectInt32Boolean), false);
             UIXMethodSchema uixMethodSchema5 = new UIXMethodSchema(186, "Select", new short[2]
             {
          138,
          15
-            }, 15, new InvokeHandler(SelectionManagerSchema.CallSelectListBoolean), false);
+            }, 15, new InvokeHandler(CallSelectListBoolean), false);
             UIXMethodSchema uixMethodSchema6 = new UIXMethodSchema(186, "ToggleSelect", new short[1]
             {
          115
-            }, 15, new InvokeHandler(SelectionManagerSchema.CallToggleSelectInt32), false);
+            }, 15, new InvokeHandler(CallToggleSelectInt32), false);
             UIXMethodSchema uixMethodSchema7 = new UIXMethodSchema(186, "ToggleSelect", new short[1]
             {
          138
-            }, 15, new InvokeHandler(SelectionManagerSchema.CallToggleSelectList), false);
+            }, 15, new InvokeHandler(CallToggleSelectList), false);
             UIXMethodSchema uixMethodSchema8 = new UIXMethodSchema(186, "SelectRange", new short[2]
             {
          115,
          115
-            }, 15, new InvokeHandler(SelectionManagerSchema.CallSelectRangeInt32Int32), false);
+            }, 15, new InvokeHandler(CallSelectRangeInt32Int32), false);
             UIXMethodSchema uixMethodSchema9 = new UIXMethodSchema(186, "SelectRangeFromAnchor", new short[1]
             {
          115
-            }, 15, new InvokeHandler(SelectionManagerSchema.CallSelectRangeFromAnchorInt32), false);
+            }, 15, new InvokeHandler(CallSelectRangeFromAnchorInt32), false);
             UIXMethodSchema uixMethodSchema10 = new UIXMethodSchema(186, "SelectRangeFromAnchor", new short[2]
             {
          115,
          115
-            }, 15, new InvokeHandler(SelectionManagerSchema.CallSelectRangeFromAnchorInt32Int32), false);
+            }, 15, new InvokeHandler(CallSelectRangeFromAnchorInt32Int32), false);
             UIXMethodSchema uixMethodSchema11 = new UIXMethodSchema(186, "ToggleSelectRange", new short[2]
             {
          115,
          115
-            }, 15, new InvokeHandler(SelectionManagerSchema.CallToggleSelectRangeInt32Int32), false);
-            SelectionManagerSchema.Type.Initialize(new DefaultConstructHandler(SelectionManagerSchema.Construct), null, new PropertySchema[8]
+            }, 15, new InvokeHandler(CallToggleSelectRangeInt32Int32), false);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[8]
             {
          uixPropertySchema3,
          uixPropertySchema1,

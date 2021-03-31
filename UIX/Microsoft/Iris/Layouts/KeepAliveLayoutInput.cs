@@ -14,7 +14,7 @@ namespace Microsoft.Iris.Layouts
         private static readonly DataCookie s_dataProperty = DataCookie.ReserveSlot();
         private int _count;
 
-        public static bool ShouldKeepVisible(ILayoutNode layoutNode) => layoutNode.GetLayoutInput(KeepAliveLayoutInput.Data) != null;
+        public static bool ShouldKeepVisible(ILayoutNode layoutNode) => layoutNode.GetLayoutInput(Data) != null;
 
         public int Count
         {
@@ -22,9 +22,9 @@ namespace Microsoft.Iris.Layouts
             set => this._count = value;
         }
 
-        DataCookie ILayoutInput.Data => KeepAliveLayoutInput.Data;
+        DataCookie ILayoutInput.Data => Data;
 
-        public static DataCookie Data => KeepAliveLayoutInput.s_dataProperty;
+        public static DataCookie Data => s_dataProperty;
 
         public override string ToString() => InvariantString.Format("{0}", this.GetType().Name);
     }

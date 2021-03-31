@@ -16,7 +16,7 @@ namespace Microsoft.Iris.Layouts
         private static StackLayoutInput s_defaultLayoutInput = new StackLayoutInput();
         private static readonly DataCookie s_dataProperty = DataCookie.ReserveSlot();
 
-        internal static DataCookie Data => StackLayout.s_dataProperty;
+        internal static DataCookie Data => s_dataProperty;
 
         public ItemAlignment DefaultChildAlignment => ItemAlignment.Default;
 
@@ -92,8 +92,8 @@ namespace Microsoft.Iris.Layouts
 
         private StackLayoutInput GetLayoutInputForNode(ILayoutNode layoutNode)
         {
-            if (!(layoutNode.GetLayoutInput(StackLayout.s_dataProperty) is StackLayoutInput stackLayoutInput))
-                stackLayoutInput = StackLayout.s_defaultLayoutInput;
+            if (!(layoutNode.GetLayoutInput(s_dataProperty) is StackLayoutInput stackLayoutInput))
+                stackLayoutInput = s_defaultLayoutInput;
             return stackLayoutInput;
         }
     }

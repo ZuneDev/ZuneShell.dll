@@ -80,25 +80,25 @@ namespace Microsoft.Iris.Markup.UIX
             return null;
         }
 
-        public static void Pass1Initialize() => DebugOutlinesSchema.Type = new UIXTypeSchema(52, "DebugOutlines", null, 239, typeof(DebugOutlines), UIXTypeFlags.Disposable);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(52, "DebugOutlines", null, 239, typeof(DebugOutlines), UIXTypeFlags.Disposable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(52, "Root", 239, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(DebugOutlinesSchema.GetRoot), new SetValueHandler(DebugOutlinesSchema.SetRoot), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(52, "Enabled", 15, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(DebugOutlinesSchema.GetEnabled), new SetValueHandler(DebugOutlinesSchema.SetEnabled), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(52, "OutlineLabel", 50, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(DebugOutlinesSchema.GetOutlineLabel), new SetValueHandler(DebugOutlinesSchema.SetOutlineLabel), false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(52, "OutlineScope", 51, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(DebugOutlinesSchema.GetOutlineScope), new SetValueHandler(DebugOutlinesSchema.SetOutlineScope), false);
-            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(52, "OutlineColor", 35, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(DebugOutlinesSchema.GetOutlineColor), new SetValueHandler(DebugOutlinesSchema.SetOutlineColor), false);
-            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(52, "HostOutlineColor", 35, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(DebugOutlinesSchema.GetHostOutlineColor), new SetValueHandler(DebugOutlinesSchema.SetHostOutlineColor), false);
-            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema(52, "TextColor", 35, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(DebugOutlinesSchema.GetTextColor), new SetValueHandler(DebugOutlinesSchema.SetTextColor), false);
-            UIXPropertySchema uixPropertySchema8 = new UIXPropertySchema(52, "TextFont", 93, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(DebugOutlinesSchema.GetTextFont), new SetValueHandler(DebugOutlinesSchema.SetTextFont), false);
-            UIXPropertySchema uixPropertySchema9 = new UIXPropertySchema(52, "MouseInteractiveImage", 105, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(DebugOutlinesSchema.GetMouseInteractiveImage), new SetValueHandler(DebugOutlinesSchema.SetMouseInteractiveImage), false);
-            UIXPropertySchema uixPropertySchema10 = new UIXPropertySchema(52, "MouseFocusImage", 105, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(DebugOutlinesSchema.GetMouseFocusImage), new SetValueHandler(DebugOutlinesSchema.SetMouseFocusImage), false);
-            UIXPropertySchema uixPropertySchema11 = new UIXPropertySchema(52, "KeyInteractiveImage", 105, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(DebugOutlinesSchema.GetKeyInteractiveImage), new SetValueHandler(DebugOutlinesSchema.SetKeyInteractiveImage), false);
-            UIXPropertySchema uixPropertySchema12 = new UIXPropertySchema(52, "KeyFocusImage", 105, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(DebugOutlinesSchema.GetKeyFocusImage), new SetValueHandler(DebugOutlinesSchema.SetKeyFocusImage), false);
-            UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema(52, "NextScopeMode", null, 240, new InvokeHandler(DebugOutlinesSchema.CallNextScopeMode), false);
-            UIXMethodSchema uixMethodSchema2 = new UIXMethodSchema(52, "NextLabelMode", null, 240, new InvokeHandler(DebugOutlinesSchema.CallNextLabelMode), false);
-            DebugOutlinesSchema.Type.Initialize(new DefaultConstructHandler(DebugOutlinesSchema.Construct), null, new PropertySchema[12]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(52, "Root", 239, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetRoot), new SetValueHandler(SetRoot), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(52, "Enabled", 15, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetEnabled), new SetValueHandler(SetEnabled), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(52, "OutlineLabel", 50, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetOutlineLabel), new SetValueHandler(SetOutlineLabel), false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(52, "OutlineScope", 51, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetOutlineScope), new SetValueHandler(SetOutlineScope), false);
+            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(52, "OutlineColor", 35, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetOutlineColor), new SetValueHandler(SetOutlineColor), false);
+            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(52, "HostOutlineColor", 35, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetHostOutlineColor), new SetValueHandler(SetHostOutlineColor), false);
+            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema(52, "TextColor", 35, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetTextColor), new SetValueHandler(SetTextColor), false);
+            UIXPropertySchema uixPropertySchema8 = new UIXPropertySchema(52, "TextFont", 93, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetTextFont), new SetValueHandler(SetTextFont), false);
+            UIXPropertySchema uixPropertySchema9 = new UIXPropertySchema(52, "MouseInteractiveImage", 105, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetMouseInteractiveImage), new SetValueHandler(SetMouseInteractiveImage), false);
+            UIXPropertySchema uixPropertySchema10 = new UIXPropertySchema(52, "MouseFocusImage", 105, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetMouseFocusImage), new SetValueHandler(SetMouseFocusImage), false);
+            UIXPropertySchema uixPropertySchema11 = new UIXPropertySchema(52, "KeyInteractiveImage", 105, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetKeyInteractiveImage), new SetValueHandler(SetKeyInteractiveImage), false);
+            UIXPropertySchema uixPropertySchema12 = new UIXPropertySchema(52, "KeyFocusImage", 105, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetKeyFocusImage), new SetValueHandler(SetKeyFocusImage), false);
+            UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema(52, "NextScopeMode", null, 240, new InvokeHandler(CallNextScopeMode), false);
+            UIXMethodSchema uixMethodSchema2 = new UIXMethodSchema(52, "NextLabelMode", null, 240, new InvokeHandler(CallNextLabelMode), false);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[12]
             {
          uixPropertySchema2,
          uixPropertySchema6,

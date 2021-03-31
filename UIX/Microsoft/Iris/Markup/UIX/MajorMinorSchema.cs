@@ -38,9 +38,9 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object ConstructMajorMinor(object[] parameters)
         {
-            object instanceObj = MajorMinorSchema.Construct();
-            MajorMinorSchema.SetMajor(ref instanceObj, parameters[0]);
-            MajorMinorSchema.SetMinor(ref instanceObj, parameters[1]);
+            object instanceObj = Construct();
+            SetMajor(ref instanceObj, parameters[0]);
+            SetMinor(ref instanceObj, parameters[1]);
             return instanceObj;
         }
 
@@ -48,17 +48,17 @@ namespace Microsoft.Iris.Markup.UIX
           string[] splitString,
           out object instance)
         {
-            instance = MajorMinorSchema.Construct();
+            instance = Construct();
             object valueObj1;
             Result result1 = UIXLoadResult.ValidateStringAsValue(splitString[0], Int32Schema.Type, null, out valueObj1);
             if (result1.Failed)
                 return Result.Fail("Problem converting '{0}' ({1})", "MajorMinor", result1.Error);
-            MajorMinorSchema.SetMajor(ref instance, valueObj1);
+            SetMajor(ref instance, valueObj1);
             object valueObj2;
             Result result2 = UIXLoadResult.ValidateStringAsValue(splitString[1], Int32Schema.Type, null, out valueObj2);
             if (result2.Failed)
                 return Result.Fail("Problem converting '{0}' ({1})", "MajorMinor", result2.Error);
-            MajorMinorSchema.SetMinor(ref instance, valueObj2);
+            SetMinor(ref instance, valueObj2);
             return result2;
         }
 
@@ -85,7 +85,7 @@ namespace Microsoft.Iris.Markup.UIX
                 string[] splitString = StringUtility.SplitAndTrim(',', (string)from);
                 if (splitString.Length == 2)
                 {
-                    result = MajorMinorSchema.ConvertFromStringMajorMinor(splitString, out instance);
+                    result = ConvertFromStringMajorMinor(splitString, out instance);
                     if (!result.Failed)
                         return result;
                 }
@@ -95,25 +95,25 @@ namespace Microsoft.Iris.Markup.UIX
             return result;
         }
 
-        public static void Pass1Initialize() => MajorMinorSchema.Type = new UIXTypeSchema(139, "MajorMinor", null, 153, typeof(MajorMinor), UIXTypeFlags.Immutable);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(139, "MajorMinor", null, 153, typeof(MajorMinor), UIXTypeFlags.Immutable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(139, "Major", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(MajorMinorSchema.GetMajor), new SetValueHandler(MajorMinorSchema.SetMajor), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(139, "Minor", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(MajorMinorSchema.GetMinor), new SetValueHandler(MajorMinorSchema.SetMinor), false);
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(139, "Major", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetMajor), new SetValueHandler(SetMajor), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(139, "Minor", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetMinor), new SetValueHandler(SetMinor), false);
             UIXConstructorSchema constructorSchema = new UIXConstructorSchema(139, new short[2]
             {
          115,
          115
-            }, new ConstructHandler(MajorMinorSchema.ConstructMajorMinor));
-            MajorMinorSchema.Type.Initialize(new DefaultConstructHandler(MajorMinorSchema.Construct), new ConstructorSchema[1]
+            }, new ConstructHandler(ConstructMajorMinor));
+            Type.Initialize(new DefaultConstructHandler(Construct), new ConstructorSchema[1]
             {
          constructorSchema
             }, new PropertySchema[2]
             {
          uixPropertySchema1,
          uixPropertySchema2
-            }, null, null, null, new TypeConverterHandler(MajorMinorSchema.TryConvertFrom), new SupportsTypeConversionHandler(MajorMinorSchema.IsConversionSupported), new EncodeBinaryHandler(MajorMinorSchema.EncodeBinary), new DecodeBinaryHandler(MajorMinorSchema.DecodeBinary), null, null);
+            }, null, null, null, new TypeConverterHandler(TryConvertFrom), new SupportsTypeConversionHandler(IsConversionSupported), new EncodeBinaryHandler(EncodeBinary), new DecodeBinaryHandler(DecodeBinary), null, null);
         }
     }
 }

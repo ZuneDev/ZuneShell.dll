@@ -44,7 +44,7 @@ namespace Microsoft.Iris.Markup.UIX
             instance = null;
             if (StringSchema.Type.IsAssignableFrom(fromType))
             {
-                result = CharSchema.ConvertFromString(from, out instance);
+                result = ConvertFromString(from, out instance);
                 if (!result.Failed)
                     return result;
             }
@@ -83,10 +83,10 @@ namespace Microsoft.Iris.Markup.UIX
             string parameter1 = (string)parameters[0];
             char parameter2 = (char)parameters[1];
             object instanceObj1;
-            return CharSchema.ConvertFromString(parameter1, out instanceObj1).Failed ? parameter2 : instanceObj1;
+            return ConvertFromString(parameter1, out instanceObj1).Failed ? parameter2 : instanceObj1;
         }
 
-        public static void Pass1Initialize() => CharSchema.Type = new UIXTypeSchema(27, "Char", "char", 153, typeof(char), UIXTypeFlags.Immutable);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(27, "Char", "char", 153, typeof(char), UIXTypeFlags.Immutable);
 
         public static void Pass2Initialize()
         {
@@ -94,11 +94,11 @@ namespace Microsoft.Iris.Markup.UIX
             {
          208,
          27
-            }, 27, new InvokeHandler(CharSchema.CallTryParseStringChar), true);
-            CharSchema.Type.Initialize(new DefaultConstructHandler(CharSchema.Construct), null, null, new MethodSchema[1]
+            }, 27, new InvokeHandler(CallTryParseStringChar), true);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, null, new MethodSchema[1]
             {
          uixMethodSchema
-            }, null, null, new TypeConverterHandler(CharSchema.TryConvertFrom), new SupportsTypeConversionHandler(CharSchema.IsConversionSupported), new EncodeBinaryHandler(CharSchema.EncodeBinary), new DecodeBinaryHandler(CharSchema.DecodeBinary), new PerformOperationHandler(CharSchema.ExecuteOperation), new SupportsOperationHandler(CharSchema.IsOperationSupported));
+            }, null, null, new TypeConverterHandler(TryConvertFrom), new SupportsTypeConversionHandler(IsConversionSupported), new EncodeBinaryHandler(EncodeBinary), new DecodeBinaryHandler(DecodeBinary), new PerformOperationHandler(ExecuteOperation), new SupportsOperationHandler(IsOperationSupported));
         }
     }
 }

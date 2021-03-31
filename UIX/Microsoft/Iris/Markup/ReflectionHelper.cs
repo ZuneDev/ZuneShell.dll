@@ -33,7 +33,7 @@ namespace Microsoft.Iris.Markup
             {
         typeof (object),
         typeof (object[])
-            }, ReflectionHelper.s_irisModule, true);
+            }, s_irisModule, true);
             ILGenerator ilGenerator = dynamicMethod.GetILGenerator();
             ParameterInfo[] parameters = methodBase.GetParameters();
             Type[] typeArray = new Type[parameters.Length];
@@ -45,7 +45,7 @@ namespace Microsoft.Iris.Markup
                 methodInfo = (MethodInfo)methodBase;
                 ilGenerator.Emit(OpCodes.Ldarg_0);
                 Type declaringType = methodInfo.DeclaringType;
-                ReflectionHelper.EmitCastToType(ilGenerator, declaringType);
+                EmitCastToType(ilGenerator, declaringType);
                 if (declaringType.IsValueType)
                 {
                     LocalBuilder local = ilGenerator.DeclareLocal(declaringType);
@@ -56,12 +56,12 @@ namespace Microsoft.Iris.Markup
             for (int index = 0; index < typeArray.Length; ++index)
             {
                 ilGenerator.Emit(OpCodes.Ldarg_1);
-                if (index < ReflectionHelper.s_loadInts.Length)
-                    ilGenerator.Emit(ReflectionHelper.s_loadInts[index]);
+                if (index < s_loadInts.Length)
+                    ilGenerator.Emit(s_loadInts[index]);
                 else
                     ilGenerator.Emit(OpCodes.Ldc_I4, index);
                 ilGenerator.Emit(OpCodes.Ldelem_Ref);
-                ReflectionHelper.EmitCastToType(ilGenerator, typeArray[index]);
+                EmitCastToType(ilGenerator, typeArray[index]);
             }
             Type cls;
             if (methodInfo != null)

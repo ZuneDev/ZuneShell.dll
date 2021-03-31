@@ -50,7 +50,7 @@ namespace Microsoft.Iris.RenderAPI.Audio
 
         public void Refresh()
         {
-            RegistryKey registryKey1 = RegistryKey.Open(RegistryKey.HKEY_CURRENT_USER, SystemSoundEventTable.s_RegistryParentKey);
+            RegistryKey registryKey1 = RegistryKey.Open(RegistryKey.HKEY_CURRENT_USER, s_RegistryParentKey);
             if (registryKey1 == null)
                 return;
             foreach (SystemSoundEventTable.SystemSound systemSound in this.m_systemSoundDictionary.Values)

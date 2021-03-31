@@ -14,9 +14,9 @@ namespace Microsoft.Iris.Data
 
         public static bool IsNullOrEmpty(IVector list) => list == null || list.Count <= 0;
 
-        public static bool IsValidIndex(IList list, int idx) => ListUtility.IsValidIndex(idx, list.Count);
+        public static bool IsValidIndex(IList list, int idx) => IsValidIndex(idx, list.Count);
 
-        public static bool IsValidIndex(IVector list, int idx) => ListUtility.IsValidIndex(idx, list.Count);
+        public static bool IsValidIndex(IVector list, int idx) => IsValidIndex(idx, list.Count);
 
         public static bool IsValidIndex(int idx, int itemsCount)
         {
@@ -36,7 +36,7 @@ namespace Microsoft.Iris.Data
                 return false;
             for (int index = 0; index < num1; ++index)
             {
-                if (!ListUtility.IsEqual(a[index], b[index]))
+                if (!IsEqual(a[index], b[index]))
                     return false;
             }
             return true;

@@ -100,33 +100,33 @@ namespace Microsoft.Iris.Markup.UIX
             return null;
         }
 
-        public static void Pass1Initialize() => WindowSchema.Type = new UIXTypeSchema(241, "Window", null, 153, typeof(UIForm), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(241, "Window", null, 153, typeof(UIForm), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(241, "MainWindow", 241, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(WindowSchema.GetMainWindow), null, true);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(241, "Caption", 208, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(WindowSchema.GetCaption), new SetValueHandler(WindowSchema.SetCaption), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(241, "WindowState", 242, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(WindowSchema.GetWindowState), new SetValueHandler(WindowSchema.SetWindowState), false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(241, "Active", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(WindowSchema.GetActive), null, false);
-            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(241, "MouseActive", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(WindowSchema.GetMouseActive), null, false);
-            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(241, "ShowWindowFrame", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(WindowSchema.GetShowWindowFrame), new SetValueHandler(WindowSchema.SetShowWindowFrame), false);
-            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema(241, "HideMouseOnIdle", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(WindowSchema.GetHideMouseOnIdle), new SetValueHandler(WindowSchema.SetHideMouseOnIdle), false);
-            UIXPropertySchema uixPropertySchema8 = new UIXPropertySchema(241, "MouseIdleTimeout", 115, -1, ExpressionRestriction.None, false, Int32Schema.ValidateNotNegative, true, new GetValueHandler(WindowSchema.GetMouseIdleTimeout), new SetValueHandler(WindowSchema.SetMouseIdleTimeout), false);
-            UIXPropertySchema uixPropertySchema9 = new UIXPropertySchema(241, "AlwaysOnTop", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(WindowSchema.GetAlwaysOnTop), new SetValueHandler(WindowSchema.SetAlwaysOnTop), false);
-            UIXPropertySchema uixPropertySchema10 = new UIXPropertySchema(241, "ShowInTaskbar", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(WindowSchema.GetShowInTaskbar), new SetValueHandler(WindowSchema.SetShowInTaskbar), false);
-            UIXPropertySchema uixPropertySchema11 = new UIXPropertySchema(241, "PreventInterruption", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(WindowSchema.GetPreventInterruption), new SetValueHandler(WindowSchema.SetPreventInterruption), false);
-            UIXPropertySchema uixPropertySchema12 = new UIXPropertySchema(241, "MaximizeMode", 146, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(WindowSchema.GetMaximizeMode), new SetValueHandler(WindowSchema.SetMaximizeMode), false);
-            UIXPropertySchema uixPropertySchema13 = new UIXPropertySchema(241, "ClientSize", 195, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(WindowSchema.GetClientSize), new SetValueHandler(WindowSchema.SetClientSize), false);
-            UIXPropertySchema uixPropertySchema14 = new UIXPropertySchema(241, "Position", 158, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(WindowSchema.GetPosition), new SetValueHandler(WindowSchema.SetPosition), false);
-            UIXPropertySchema uixPropertySchema15 = new UIXPropertySchema(241, "Visible", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(WindowSchema.GetVisible), new SetValueHandler(WindowSchema.SetVisible), false);
-            UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema(241, "Close", null, 240, new InvokeHandler(WindowSchema.CallClose), false);
-            UIXMethodSchema uixMethodSchema2 = new UIXMethodSchema(241, "ForceClose", null, 240, new InvokeHandler(WindowSchema.CallForceClose), false);
-            UIXMethodSchema uixMethodSchema3 = new UIXMethodSchema(241, "SaveKeyFocus", null, 177, new InvokeHandler(WindowSchema.CallSaveKeyFocus), false);
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(241, "MainWindow", 241, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetMainWindow), null, true);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(241, "Caption", 208, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetCaption), new SetValueHandler(SetCaption), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(241, "WindowState", 242, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetWindowState), new SetValueHandler(SetWindowState), false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(241, "Active", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetActive), null, false);
+            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(241, "MouseActive", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetMouseActive), null, false);
+            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(241, "ShowWindowFrame", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetShowWindowFrame), new SetValueHandler(SetShowWindowFrame), false);
+            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema(241, "HideMouseOnIdle", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetHideMouseOnIdle), new SetValueHandler(SetHideMouseOnIdle), false);
+            UIXPropertySchema uixPropertySchema8 = new UIXPropertySchema(241, "MouseIdleTimeout", 115, -1, ExpressionRestriction.None, false, Int32Schema.ValidateNotNegative, true, new GetValueHandler(GetMouseIdleTimeout), new SetValueHandler(SetMouseIdleTimeout), false);
+            UIXPropertySchema uixPropertySchema9 = new UIXPropertySchema(241, "AlwaysOnTop", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetAlwaysOnTop), new SetValueHandler(SetAlwaysOnTop), false);
+            UIXPropertySchema uixPropertySchema10 = new UIXPropertySchema(241, "ShowInTaskbar", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetShowInTaskbar), new SetValueHandler(SetShowInTaskbar), false);
+            UIXPropertySchema uixPropertySchema11 = new UIXPropertySchema(241, "PreventInterruption", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetPreventInterruption), new SetValueHandler(SetPreventInterruption), false);
+            UIXPropertySchema uixPropertySchema12 = new UIXPropertySchema(241, "MaximizeMode", 146, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetMaximizeMode), new SetValueHandler(SetMaximizeMode), false);
+            UIXPropertySchema uixPropertySchema13 = new UIXPropertySchema(241, "ClientSize", 195, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetClientSize), new SetValueHandler(SetClientSize), false);
+            UIXPropertySchema uixPropertySchema14 = new UIXPropertySchema(241, "Position", 158, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetPosition), new SetValueHandler(SetPosition), false);
+            UIXPropertySchema uixPropertySchema15 = new UIXPropertySchema(241, "Visible", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetVisible), new SetValueHandler(SetVisible), false);
+            UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema(241, "Close", null, 240, new InvokeHandler(CallClose), false);
+            UIXMethodSchema uixMethodSchema2 = new UIXMethodSchema(241, "ForceClose", null, 240, new InvokeHandler(CallForceClose), false);
+            UIXMethodSchema uixMethodSchema3 = new UIXMethodSchema(241, "SaveKeyFocus", null, 177, new InvokeHandler(CallSaveKeyFocus), false);
             UIXMethodSchema uixMethodSchema4 = new UIXMethodSchema(241, "RestoreKeyFocus", new short[1]
             {
          177
-            }, 240, new InvokeHandler(WindowSchema.CallRestoreKeyFocusSavedKeyFocus), false);
-            WindowSchema.Type.Initialize(new DefaultConstructHandler(WindowSchema.Construct), null, new PropertySchema[15]
+            }, 240, new InvokeHandler(CallRestoreKeyFocusSavedKeyFocus), false);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[15]
             {
          uixPropertySchema4,
          uixPropertySchema9,

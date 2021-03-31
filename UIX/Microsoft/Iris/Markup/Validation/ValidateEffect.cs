@@ -78,37 +78,37 @@ namespace Microsoft.Iris.Markup.Validation
             string effectElementName = this.GetEffectElementName(call);
             if (effectElementName == null)
                 return;
-            if (ValidateEffect.s_methodNameMapping == null)
+            if (s_methodNameMapping == null)
             {
-                ValidateEffect.s_methodNameMapping = new Map<string, int>();
-                ValidateEffect.s_methodNameMapping["PlayAttenuationAnimation"] = 2;
-                ValidateEffect.s_methodNameMapping["PlayBrightnessAnimation"] = 3;
-                ValidateEffect.s_methodNameMapping["PlayColorAnimation"] = 4;
-                ValidateEffect.s_methodNameMapping["PlayInnerConeAngleAnimation"] = 14;
-                ValidateEffect.s_methodNameMapping["PlayOuterConeAngleAnimation"] = 18;
-                ValidateEffect.s_methodNameMapping["PlayContrastAnimation"] = 5;
-                ValidateEffect.s_methodNameMapping["PlayDarkColorAnimation"] = 6;
-                ValidateEffect.s_methodNameMapping["PlayDecayAnimation"] = 7;
-                ValidateEffect.s_methodNameMapping["PlayDensityAnimation"] = 8;
-                ValidateEffect.s_methodNameMapping["PlayDesaturateAnimation"] = 9;
-                ValidateEffect.s_methodNameMapping["PlayDirectionAngleAnimation"] = 10;
-                ValidateEffect.s_methodNameMapping["PlayDownsampleAnimation"] = 25;
-                ValidateEffect.s_methodNameMapping["PlayEdgeLimitAnimation"] = 11;
-                ValidateEffect.s_methodNameMapping["PlayFallOffAnimation"] = 12;
-                ValidateEffect.s_methodNameMapping["PlayHueAnimation"] = 13;
-                ValidateEffect.s_methodNameMapping["PlayIntensityAnimation"] = 15;
-                ValidateEffect.s_methodNameMapping["PlayLightColorAnimation"] = 16;
-                ValidateEffect.s_methodNameMapping["PlayAmbientColorAnimation"] = 1;
-                ValidateEffect.s_methodNameMapping["PlayLightnessAnimation"] = 17;
-                ValidateEffect.s_methodNameMapping["PlayPositionAnimation"] = 19;
-                ValidateEffect.s_methodNameMapping["PlayRadiusAnimation"] = 20;
-                ValidateEffect.s_methodNameMapping["PlaySaturationAnimation"] = 21;
-                ValidateEffect.s_methodNameMapping["PlayToneAnimation"] = 22;
-                ValidateEffect.s_methodNameMapping["PlayWeightAnimation"] = 23;
-                ValidateEffect.s_methodNameMapping["PlayValueAnimation"] = 24;
+                s_methodNameMapping = new Map<string, int>();
+                s_methodNameMapping["PlayAttenuationAnimation"] = 2;
+                s_methodNameMapping["PlayBrightnessAnimation"] = 3;
+                s_methodNameMapping["PlayColorAnimation"] = 4;
+                s_methodNameMapping["PlayInnerConeAngleAnimation"] = 14;
+                s_methodNameMapping["PlayOuterConeAngleAnimation"] = 18;
+                s_methodNameMapping["PlayContrastAnimation"] = 5;
+                s_methodNameMapping["PlayDarkColorAnimation"] = 6;
+                s_methodNameMapping["PlayDecayAnimation"] = 7;
+                s_methodNameMapping["PlayDensityAnimation"] = 8;
+                s_methodNameMapping["PlayDesaturateAnimation"] = 9;
+                s_methodNameMapping["PlayDirectionAngleAnimation"] = 10;
+                s_methodNameMapping["PlayDownsampleAnimation"] = 25;
+                s_methodNameMapping["PlayEdgeLimitAnimation"] = 11;
+                s_methodNameMapping["PlayFallOffAnimation"] = 12;
+                s_methodNameMapping["PlayHueAnimation"] = 13;
+                s_methodNameMapping["PlayIntensityAnimation"] = 15;
+                s_methodNameMapping["PlayLightColorAnimation"] = 16;
+                s_methodNameMapping["PlayAmbientColorAnimation"] = 1;
+                s_methodNameMapping["PlayLightnessAnimation"] = 17;
+                s_methodNameMapping["PlayPositionAnimation"] = 19;
+                s_methodNameMapping["PlayRadiusAnimation"] = 20;
+                s_methodNameMapping["PlaySaturationAnimation"] = 21;
+                s_methodNameMapping["PlayToneAnimation"] = 22;
+                s_methodNameMapping["PlayWeightAnimation"] = 23;
+                s_methodNameMapping["PlayValueAnimation"] = 24;
             }
             int num;
-            if (!ValidateEffect.s_methodNameMapping.TryGetValue(call.MemberName, out num))
+            if (!s_methodNameMapping.TryGetValue(call.MemberName, out num))
                 return;
             this.TrackDynamicElementAssignment(effectElementName, (EffectProperty)num);
         }

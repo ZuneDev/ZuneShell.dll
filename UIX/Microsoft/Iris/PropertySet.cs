@@ -53,7 +53,7 @@ namespace Microsoft.Iris
                 using (this.ThreadValidator)
                 {
                     object a;
-                    if (this._valuesTable.TryGetValue(key, out a) && PropertySet.IsEqual(a, value))
+                    if (this._valuesTable.TryGetValue(key, out a) && IsEqual(a, value))
                         return;
                     this._valuesTable[key] = value;
                     this.NotifyEntryChange(key);

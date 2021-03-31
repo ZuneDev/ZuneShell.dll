@@ -26,7 +26,7 @@ namespace Microsoft.Iris.Session
             this._owner = owner;
             this._interval = TimeSpan.FromMilliseconds(100.0);
             this._autoRepeat = true;
-            this._timeBase = DispatcherTimer.SystemTickCount.Milliseconds;
+            this._timeBase = SystemTickCount.Milliseconds;
             this._timeoutManager = UIDispatcher.CurrentDispatcher.TimeoutManager;
         }
 
@@ -96,7 +96,7 @@ namespace Microsoft.Iris.Session
         {
             bool enabled = this.Enabled;
             this.StopWorker();
-            this._timeBase = DispatcherTimer.SystemTickCount.Milliseconds;
+            this._timeBase = SystemTickCount.Milliseconds;
             this._callback = new DispatcherTimer.TimerCallback(this);
             this.ScheduleCallback(this._timeBase);
             this.FireEnabledChange(enabled);
@@ -156,7 +156,7 @@ namespace Microsoft.Iris.Session
                 return;
             if (this._autoRepeat)
             {
-                this.ScheduleCallback(DispatcherTimer.SystemTickCount.Milliseconds);
+                this.ScheduleCallback(SystemTickCount.Milliseconds);
             }
             else
             {
@@ -203,17 +203,17 @@ namespace Microsoft.Iris.Session
             {
                 get
                 {
-                    DispatcherTimer.SystemTickCount.Refresh();
-                    return DispatcherTimer.SystemTickCount.s_tickCount;
+                    Refresh();
+                    return s_tickCount;
                 }
             }
 
             private static void Refresh()
             {
                 int tickCount = Environment.TickCount;
-                long num = tickCount < DispatcherTimer.SystemTickCount.s_lastTickCount ? int.MaxValue - DispatcherTimer.SystemTickCount.s_lastTickCount + tickCount : tickCount - DispatcherTimer.SystemTickCount.s_lastTickCount;
-                DispatcherTimer.SystemTickCount.s_tickCount += num;
-                DispatcherTimer.SystemTickCount.s_lastTickCount = tickCount;
+                long num = tickCount < s_lastTickCount ? int.MaxValue - s_lastTickCount + tickCount : tickCount - s_lastTickCount;
+                s_tickCount += num;
+                s_lastTickCount = tickCount;
             }
         }
     }

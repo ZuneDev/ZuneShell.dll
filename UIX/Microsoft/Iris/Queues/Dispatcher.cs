@@ -39,20 +39,20 @@ namespace Microsoft.Iris.Queues
             this.LeaveDispatch();
         }
 
-        public static Dispatcher CurrentDispatcher => Dispatcher.s_threadDispatcher;
+        public static Dispatcher CurrentDispatcher => s_threadDispatcher;
 
         public static void PostItem_AnyThread(Thread thread, QueueItem item, int priority)
         {
             if (thread == null || thread == Thread.CurrentThread)
             {
-                Dispatcher currentDispatcher = Dispatcher.CurrentDispatcher;
+                Dispatcher currentDispatcher = CurrentDispatcher;
                 if (currentDispatcher != null)
                 {
                     currentDispatcher.PostItem_SameThread(item, priority);
                     return;
                 }
             }
-            Dispatcher.s_interconnect.PostItem(thread, item, priority);
+            s_interconnect.PostItem(thread, item, priority);
         }
 
         public Thread DispatchThread => this._owningThread;
@@ -88,8 +88,8 @@ namespace Microsoft.Iris.Queues
             bool isRoot = this._enterCount == 0U;
             ++this._enterCount;
             if (isRoot)
-                Dispatcher.s_threadDispatcher = this;
-            return Dispatcher.s_interconnect.EnterDispatch(this, isRoot);
+                s_threadDispatcher = this;
+            return s_interconnect.EnterDispatch(this, isRoot);
         }
 
         private void LeaveDispatch()
@@ -97,8 +97,8 @@ namespace Microsoft.Iris.Queues
             --this._enterCount;
             bool isRoot = this._enterCount == 0U;
             if (isRoot)
-                Dispatcher.s_threadDispatcher = null;
-            Dispatcher.s_interconnect.LeaveDispatch(this, isRoot);
+                s_threadDispatcher = null;
+            s_interconnect.LeaveDispatch(this, isRoot);
         }
 
         public void NotifyFeederItems()

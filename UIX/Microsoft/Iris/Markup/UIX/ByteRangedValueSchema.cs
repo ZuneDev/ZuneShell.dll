@@ -47,15 +47,15 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object Construct() => new Microsoft.Iris.ModelItems.ByteRangedValue();
 
-        public static void Pass1Initialize() => ByteRangedValueSchema.Type = new UIXTypeSchema(20, "ByteRangedValue", null, 168, typeof(IUIByteRangedValue), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(20, "ByteRangedValue", null, 168, typeof(IUIByteRangedValue), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(20, "MinValue", 19, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ByteRangedValueSchema.GetMinValue), new SetValueHandler(ByteRangedValueSchema.SetMinValue), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(20, "MaxValue", 19, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ByteRangedValueSchema.GetMaxValue), new SetValueHandler(ByteRangedValueSchema.SetMaxValue), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(20, "Step", 19, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ByteRangedValueSchema.GetStep), new SetValueHandler(ByteRangedValueSchema.SetStep), false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(20, "Value", 19, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ByteRangedValueSchema.GetValue), new SetValueHandler(ByteRangedValueSchema.SetValue), false);
-            ByteRangedValueSchema.Type.Initialize(new DefaultConstructHandler(ByteRangedValueSchema.Construct), null, new PropertySchema[4]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(20, "MinValue", 19, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetMinValue), new SetValueHandler(SetMinValue), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(20, "MaxValue", 19, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetMaxValue), new SetValueHandler(SetMaxValue), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(20, "Step", 19, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetStep), new SetValueHandler(SetStep), false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(20, "Value", 19, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetValue), new SetValueHandler(SetValue), false);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[4]
             {
          uixPropertySchema2,
          uixPropertySchema1,

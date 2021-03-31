@@ -14,12 +14,12 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object GetSize(object instanceObj) => ((LayoutOutput)instanceObj).Size;
 
-        public static void Pass1Initialize() => LayoutOutputSchema.Type = new UIXTypeSchema(134, "LayoutOutput", null, 153, typeof(LayoutOutput), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(134, "LayoutOutput", null, 153, typeof(LayoutOutput), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(134, "Size", 195, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(LayoutOutputSchema.GetSize), null, false);
-            LayoutOutputSchema.Type.Initialize(null, null, new PropertySchema[1]
+            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(134, "Size", 195, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetSize), null, false);
+            Type.Initialize(null, null, new PropertySchema[1]
             {
          uixPropertySchema
             }, null, null, null, null, null, null, null, null, null);

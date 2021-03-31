@@ -22,14 +22,14 @@ namespace Microsoft.Iris.Markup.UIX
             return null;
         }
 
-        public static void Pass1Initialize() => EnumeratorSchema.Type = new UIXTypeSchema(86, "Enumerator", null, 153, typeof(IEnumerator), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(86, "Enumerator", null, 153, typeof(IEnumerator), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(86, "Current", 153, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(EnumeratorSchema.GetCurrent), null, false);
-            UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema(86, "MoveNext", null, 15, new InvokeHandler(EnumeratorSchema.CallMoveNext), false);
-            UIXMethodSchema uixMethodSchema2 = new UIXMethodSchema(86, "Reset", null, 240, new InvokeHandler(EnumeratorSchema.CallReset), false);
-            EnumeratorSchema.Type.Initialize(null, null, new PropertySchema[1]
+            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(86, "Current", 153, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetCurrent), null, false);
+            UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema(86, "MoveNext", null, 15, new InvokeHandler(CallMoveNext), false);
+            UIXMethodSchema uixMethodSchema2 = new UIXMethodSchema(86, "Reset", null, 240, new InvokeHandler(CallReset), false);
+            Type.Initialize(null, null, new PropertySchema[1]
             {
          uixPropertySchema
             }, new MethodSchema[2]

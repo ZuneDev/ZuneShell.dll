@@ -180,7 +180,7 @@ namespace Microsoft.Iris.Queues
 
             public bool Append(QueueItem item)
             {
-                QueueItem.Chain.ValidateAdd(item);
+                ValidateAdd(item);
                 bool flag = this._tail == null;
                 this.Link(item, this._tail, false);
                 this._tail = item;
@@ -203,7 +203,7 @@ namespace Microsoft.Iris.Queues
             {
                 this.ValidateRemove(item);
                 if (item == this._tail)
-                    this._tail = QueueItem.Chain.IsOnlyChild(this._tail) ? null : QueueItem.Chain.PrevItem(this._tail);
+                    this._tail = IsOnlyChild(this._tail) ? null : PrevItem(this._tail);
                 this.Unlink(item);
             }
 
@@ -211,7 +211,7 @@ namespace Microsoft.Iris.Queues
             {
                 if (this._tail == null)
                     return;
-                this._tail = QueueItem.Chain.NextItem(this._tail);
+                this._tail = NextItem(this._tail);
             }
         }
 
@@ -228,7 +228,7 @@ namespace Microsoft.Iris.Queues
 
             public void Push(QueueItem item)
             {
-                QueueItem.Chain.ValidateAdd(item);
+                ValidateAdd(item);
                 this.Link(item, this._top, true);
                 this._top = item;
             }

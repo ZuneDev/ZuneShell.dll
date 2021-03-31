@@ -38,17 +38,17 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object Construct() => new TransformByAttributeAnimation();
 
-        public static void Pass1Initialize() => TransformByAttributeAnimationSchema.Type = new UIXTypeSchema(224, "TransformByAttributeAnimation", null, 222, typeof(TransformByAttributeAnimation), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(224, "TransformByAttributeAnimation", null, 222, typeof(TransformByAttributeAnimation), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(224, "Attribute", 223, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(TransformByAttributeAnimationSchema.GetAttribute), new SetValueHandler(TransformByAttributeAnimationSchema.SetAttribute), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(224, "MaxTimeScale", 194, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(TransformByAttributeAnimationSchema.GetMaxTimeScale), new SetValueHandler(TransformByAttributeAnimationSchema.SetMaxTimeScale), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(224, "MaxDelay", 194, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(TransformByAttributeAnimationSchema.GetMaxDelay), new SetValueHandler(TransformByAttributeAnimationSchema.SetMaxDelay), false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(224, "MaxMagnitude", 194, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(TransformByAttributeAnimationSchema.GetMaxMagnitude), new SetValueHandler(TransformByAttributeAnimationSchema.SetMaxMagnitude), false);
-            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(224, "Override", 194, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(TransformByAttributeAnimationSchema.GetOverride), new SetValueHandler(TransformByAttributeAnimationSchema.SetOverride), false);
-            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(224, "ValueTransformer", 232, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(TransformByAttributeAnimationSchema.GetValueTransformer), new SetValueHandler(TransformByAttributeAnimationSchema.SetValueTransformer), false);
-            TransformByAttributeAnimationSchema.Type.Initialize(new DefaultConstructHandler(TransformByAttributeAnimationSchema.Construct), null, new PropertySchema[6]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(224, "Attribute", 223, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetAttribute), new SetValueHandler(SetAttribute), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(224, "MaxTimeScale", 194, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetMaxTimeScale), new SetValueHandler(SetMaxTimeScale), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(224, "MaxDelay", 194, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetMaxDelay), new SetValueHandler(SetMaxDelay), false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(224, "MaxMagnitude", 194, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetMaxMagnitude), new SetValueHandler(SetMaxMagnitude), false);
+            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(224, "Override", 194, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetOverride), new SetValueHandler(SetOverride), false);
+            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(224, "ValueTransformer", 232, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetValueTransformer), new SetValueHandler(SetValueTransformer), false);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[6]
             {
          uixPropertySchema1,
          uixPropertySchema3,

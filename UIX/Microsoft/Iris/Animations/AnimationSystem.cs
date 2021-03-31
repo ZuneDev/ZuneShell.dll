@@ -20,62 +20,62 @@ namespace Microsoft.Iris.Animations
         {
         }
 
-        public static bool SequenceExists(string id) => AnimationSystem._sequences.ContainsKey(id);
+        public static bool SequenceExists(string id) => _sequences.ContainsKey(id);
 
         public static AnimationTemplate GetSequenceByID(string id)
         {
-            if (!AnimationSystem.Enabled)
+            if (!Enabled)
                 return null;
-            return AnimationSystem.SequenceExists(id) ? (AnimationTemplate)AnimationSystem._sequences[id].Clone() : null;
+            return SequenceExists(id) ? (AnimationTemplate)_sequences[id].Clone() : null;
         }
 
-        public static AnimationTemplate GetSequenceByIDAlways(string id) => AnimationSystem.SequenceExists(id) ? (AnimationTemplate)AnimationSystem._sequences[id].Clone() : null;
+        public static AnimationTemplate GetSequenceByIDAlways(string id) => SequenceExists(id) ? (AnimationTemplate)_sequences[id].Clone() : null;
 
         public static void AddSequenceByID(string id, AnimationTemplate seq)
         {
-            if (AnimationSystem.SequenceExists(id))
+            if (SequenceExists(id))
                 return;
-            AnimationSystem._sequences.Add(id, seq);
+            _sequences.Add(id, seq);
         }
 
-        public static void ClearSequences() => AnimationSystem._sequences = new Dictionary<string, AnimationTemplate>();
+        public static void ClearSequences() => _sequences = new Dictionary<string, AnimationTemplate>();
 
         public static ICollection GetAllSequences() => _sequences.Values;
 
-        public static bool Enabled => AnimationSystem._enabledFlag;
+        public static bool Enabled => _enabledFlag;
 
-        public static void SetEnableState(bool value) => AnimationSystem._enabledFlag = value;
+        public static void SetEnableState(bool value) => _enabledFlag = value;
 
         public static void OverrideAnimationState(bool overrideToFalseFlag)
         {
-            if (AnimationSystem._overrideToFalseFlag == overrideToFalseFlag)
+            if (_overrideToFalseFlag == overrideToFalseFlag)
                 return;
-            AnimationSystem._overrideToFalseFlag = overrideToFalseFlag;
-            AnimationSystem.UpdateAnimationState();
+            _overrideToFalseFlag = overrideToFalseFlag;
+            UpdateAnimationState();
         }
 
         public static void UpdateAnimationState()
         {
             bool flag = true;
-            if (AnimationSystem._disableAnimationCount > 0 || AnimationSystem._overrideToFalseFlag)
+            if (_disableAnimationCount > 0 || _overrideToFalseFlag)
                 flag = false;
-            AnimationSystem.SetEnableState(flag);
+            SetEnableState(flag);
         }
 
         public static void PushDisableAnimations()
         {
-            ++AnimationSystem._disableAnimationCount;
-            if (AnimationSystem._disableAnimationCount != 1)
+            ++_disableAnimationCount;
+            if (_disableAnimationCount != 1)
                 return;
-            AnimationSystem.UpdateAnimationState();
+            UpdateAnimationState();
         }
 
         public static void PopDisableAnimations()
         {
-            --AnimationSystem._disableAnimationCount;
-            if (AnimationSystem._disableAnimationCount != 0)
+            --_disableAnimationCount;
+            if (_disableAnimationCount != 0)
                 return;
-            AnimationSystem.UpdateAnimationState();
+            UpdateAnimationState();
         }
     }
 }

@@ -12,6 +12,6 @@ namespace Microsoft.Iris.Library
     {
         private static int s_idxKeyGen;
 
-        internal static uint ReserveSlot() => (uint)Interlocked.Increment(ref KeyAllocator.s_idxKeyGen);
+        internal static uint ReserveSlot() => (uint)Interlocked.Increment(ref s_idxKeyGen);
     }
 }

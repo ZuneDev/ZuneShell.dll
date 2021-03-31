@@ -24,7 +24,7 @@ namespace Microsoft.Iris.Drawing
         {
             if (!UISession.Default.IsRtl)
                 return;
-            this._data._flags |= TextMeasureParams.MeasureFlags.IsRtl;
+            this._data._flags |= MeasureFlags.IsRtl;
         }
 
         public void Dispose()
@@ -41,7 +41,7 @@ namespace Microsoft.Iris.Drawing
 
         public unsafe void SetContent(char* content)
         {
-            this._data._flags |= TextMeasureParams.MeasureFlags.Content;
+            this._data._flags |= MeasureFlags.Content;
             this._data._content = content;
         }
 
@@ -62,30 +62,30 @@ namespace Microsoft.Iris.Drawing
             this._textStyle = style;
         }
 
-        public void TrimLeftSideBearing() => this._data._flags |= TextMeasureParams.MeasureFlags.TrimLeftSideBearing;
+        public void TrimLeftSideBearing() => this._data._flags |= MeasureFlags.TrimLeftSideBearing;
 
         public void SetEditMode(bool inEditMode)
         {
             if (inEditMode)
-                this._data._flags |= TextMeasureParams.MeasureFlags.FormatOnly;
+                this._data._flags |= MeasureFlags.FormatOnly;
             else
-                this._data._flags &= ~TextMeasureParams.MeasureFlags.FormatOnly;
+                this._data._flags &= ~MeasureFlags.FormatOnly;
         }
 
         public void SetScale(float scale) => this._data._scale = scale;
 
         public void SetWordWrap(bool wordWrap)
         {
-            this._data._flags |= TextMeasureParams.MeasureFlags.WordWrap;
+            this._data._flags |= MeasureFlags.WordWrap;
             if (wordWrap)
-                this._data._flags |= TextMeasureParams.MeasureFlags.WordWrapValue;
+                this._data._flags |= MeasureFlags.WordWrapValue;
             else
-                this._data._flags &= ~TextMeasureParams.MeasureFlags.WordWrapValue;
+                this._data._flags &= ~MeasureFlags.WordWrapValue;
         }
 
         public void SetPasswordChar(char passwordChar)
         {
-            this._data._flags |= TextMeasureParams.MeasureFlags.PasswordMasked;
+            this._data._flags |= MeasureFlags.PasswordMasked;
             this._data._passwordChar = passwordChar;
         }
 

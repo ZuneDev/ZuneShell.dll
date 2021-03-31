@@ -24,12 +24,12 @@ namespace Microsoft.Iris.OS
 
         private DllResources() => this._shortNameToFullPath = new Dictionary<string, string>(InvariantString.OrdinalIgnoreCaseComparer);
 
-        public static DllResources Instance => DllResources.s_instance;
+        public static DllResources Instance => s_instance;
 
         public static bool StaticDllResourcesOnly
         {
-            get => DllResources.s_staticDllResourcesOnly;
-            set => DllResources.s_staticDllResourcesOnly = value;
+            get => s_staticDllResourcesOnly;
+            set => s_staticDllResourcesOnly = value;
         }
 
         public Resource GetResource(string hierarchicalPart, string uri, bool forceSynchronous)
@@ -37,7 +37,7 @@ namespace Microsoft.Iris.OS
             Resource resource = null;
             string host;
             string identifier;
-            DllResources.ParseResource(hierarchicalPart, out host, out identifier);
+            ParseResource(hierarchicalPart, out host, out identifier);
             if (host != null)
             {
                 string fullPath = this.GetFullPath(host);

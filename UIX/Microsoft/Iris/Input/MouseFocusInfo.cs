@@ -8,11 +8,11 @@ namespace Microsoft.Iris.Input
 {
     internal class MouseFocusInfo : MouseInfo
     {
-        private static InputInfo.InfoType s_poolType = InputInfo.InfoType.MouseFocus;
+        private static InputInfo.InfoType s_poolType = InfoType.MouseFocus;
         private bool _state;
         private ICookedInputSite _other;
 
-        static MouseFocusInfo() => InputInfo.SetPoolLimitMode(MouseFocusInfo.s_poolType, true);
+        static MouseFocusInfo() => SetPoolLimitMode(s_poolType, true);
 
         private MouseFocusInfo()
         {
@@ -25,7 +25,7 @@ namespace Microsoft.Iris.Input
           bool state,
           ICookedInputSite other)
         {
-            MouseFocusInfo mouseFocusInfo = (MouseFocusInfo)InputInfo.GetFromPool(MouseFocusInfo.s_poolType) ?? new MouseFocusInfo();
+            MouseFocusInfo mouseFocusInfo = (MouseFocusInfo)GetFromPool(s_poolType) ?? new MouseFocusInfo();
             mouseFocusInfo.Initialize(rawSource, x, y, state, other);
             return mouseFocusInfo;
         }
@@ -52,6 +52,6 @@ namespace Microsoft.Iris.Input
 
         public bool State => this._state;
 
-        protected override InputInfo.InfoType PoolType => MouseFocusInfo.s_poolType;
+        protected override InputInfo.InfoType PoolType => s_poolType;
     }
 }

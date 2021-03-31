@@ -13,7 +13,7 @@ namespace Microsoft.Iris.Navigation
 {
     internal class NavigationSpace : NavigationItem, IComparer
     {
-        private const NavigationSpace.Rank c_rankAcceptable = NavigationSpace.Rank.Fair;
+        private const NavigationSpace.Rank c_rankAcceptable = Rank.Fair;
 
         internal NavigationSpace(INavigationSite subjectSite, Direction searchDirection)
           : base(subjectSite, searchDirection)
@@ -100,7 +100,7 @@ namespace Microsoft.Iris.Navigation
                             break;
                     }
                     NavigationSpace.Rank rank = this.ComputeRank(xDeltaValue, yDeltaValue, overlapValue, toleranceValue);
-                    if (rank > NavigationSpace.Rank.Fair)
+                    if (rank > Rank.Fair)
                         return null;
                     switch (this.SearchDirection)
                     {
@@ -148,40 +148,40 @@ namespace Microsoft.Iris.Navigation
             {
                 case Direction.North:
                     if (yDeltaValue > (double)toleranceValue)
-                        return NavigationSpace.Rank.Poor;
+                        return Rank.Poor;
                     break;
                 case Direction.South:
                     if (yDeltaValue < (double)toleranceValue)
-                        return NavigationSpace.Rank.Poor;
+                        return Rank.Poor;
                     break;
                 case Direction.East:
                     if (xDeltaValue < (double)toleranceValue)
-                        return NavigationSpace.Rank.Poor;
+                        return Rank.Poor;
                     break;
                 case Direction.West:
                     if (xDeltaValue > (double)toleranceValue)
-                        return NavigationSpace.Rank.Poor;
+                        return Rank.Poor;
                     break;
             }
             if (overlapValue > 0.0)
-                return NavigationSpace.Rank.Ideal;
+                return Rank.Ideal;
             switch (this.SearchDirection)
             {
                 case Direction.North:
                     if (yDeltaValue > 0.0)
-                        return NavigationSpace.Rank.Fair;
+                        return Rank.Fair;
                     break;
                 case Direction.South:
                     if (yDeltaValue < 0.0)
-                        return NavigationSpace.Rank.Fair;
+                        return Rank.Fair;
                     break;
                 case Direction.East:
                     if (xDeltaValue < 0.0)
-                        return NavigationSpace.Rank.Fair;
+                        return Rank.Fair;
                     break;
                 case Direction.West:
                     if (xDeltaValue > 0.0)
-                        return NavigationSpace.Rank.Fair;
+                        return Rank.Fair;
                     break;
             }
             xDeltaValue = Math.Abs(xDeltaValue);
@@ -191,15 +191,15 @@ namespace Microsoft.Iris.Navigation
                 case Direction.North:
                 case Direction.South:
                     if (xDeltaValue >= (double)yDeltaValue)
-                        return NavigationSpace.Rank.Fair;
+                        return Rank.Fair;
                     break;
                 case Direction.East:
                 case Direction.West:
                     if (yDeltaValue >= (double)xDeltaValue)
-                        return NavigationSpace.Rank.Fair;
+                        return Rank.Fair;
                     break;
             }
-            return NavigationSpace.Rank.Good;
+            return Rank.Good;
         }
 
         int IComparer.Compare(object a, object b)

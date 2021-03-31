@@ -16,12 +16,12 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static void SetLoop(ref object instanceObj, object valueObj) => ((AnimationTemplate)instanceObj).Loop = (int)valueObj;
 
-        public static void Pass1Initialize() => EffectAnimationSchema.Type = new UIXTypeSchema(70, "EffectAnimation", null, 153, typeof(EffectAnimation), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(70, "EffectAnimation", null, 153, typeof(EffectAnimation), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(70, "Loop", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(EffectAnimationSchema.GetLoop), new SetValueHandler(EffectAnimationSchema.SetLoop), false);
-            EffectAnimationSchema.Type.Initialize(null, null, new PropertySchema[1]
+            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(70, "Loop", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetLoop), new SetValueHandler(SetLoop), false);
+            Type.Initialize(null, null, new PropertySchema[1]
             {
          uixPropertySchema
             }, null, null, null, null, null, null, null, null, null);

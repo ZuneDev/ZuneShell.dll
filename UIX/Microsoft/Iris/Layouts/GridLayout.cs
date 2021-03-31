@@ -150,8 +150,8 @@ namespace Microsoft.Iris.Layouts
             bool roundUp1 = flag1;
             bool roundUp2 = flag2;
             MajorMinor a = MajorMinor.Zero;
-            a.Major = GridLayout.DivideIntegers(majorMinor5.Major, measureData.referenceWithSpacing.Major, roundUp1);
-            a.Minor = GridLayout.DivideIntegers(majorMinor5.Minor, measureData.referenceWithSpacing.Minor, roundUp2);
+            a.Major = DivideIntegers(majorMinor5.Major, measureData.referenceWithSpacing.Major, roundUp1);
+            a.Minor = DivideIntegers(majorMinor5.Minor, measureData.referenceWithSpacing.Minor, roundUp2);
             a.Minor = Math.Min(a.Minor, measureData.fitItems.Minor);
             bool flag3 = !measureData.wrapping ? measureData.totalItems.Major <= a.Major : measureData.totalItems.Minor <= a.Minor;
             bool flag4;
@@ -288,8 +288,8 @@ namespace Microsoft.Iris.Layouts
             MajorMinor majorMinor5 = new MajorMinor(constraint, this.Orientation);
             MajorMinor majorMinor6 = majorMinor5 + majorMinor3;
             MajorMinor zero1 = MajorMinor.Zero;
-            zero1.Major = GridLayout.DivideIntegers(majorMinor6.Major, majorMinor4.Major, false);
-            zero1.Minor = GridLayout.DivideIntegers(majorMinor6.Minor, majorMinor4.Minor, false);
+            zero1.Major = DivideIntegers(majorMinor6.Major, majorMinor4.Major, false);
+            zero1.Minor = DivideIntegers(majorMinor6.Minor, majorMinor4.Minor, false);
             if (zero1.Major >= itemCount)
                 flag = false;
             MajorMinor zero2 = MajorMinor.Zero;
@@ -297,7 +297,7 @@ namespace Microsoft.Iris.Layouts
             zero2.Minor = 1;
             if (flag && zero2.Major > 0)
             {
-                zero2.Minor = GridLayout.DivideIntegers(itemCount, zero2.Major, true);
+                zero2.Minor = DivideIntegers(itemCount, zero2.Major, true);
                 zero2.Minor = Math.Min(zero2.Minor, zero1.Minor);
             }
             MajorMinor majorMinor7 = majorMinor4 * zero2 - majorMinor3;
@@ -390,13 +390,13 @@ namespace Microsoft.Iris.Layouts
             bool flag1 = true;
             bool flag2 = true;
             int index1;
-            bool flag3 = flag1 & this.GetViewIntersectionFromPosition(layoutNode, position1, generalInfo, GridLayout.ViewIntersectionType.BeginOffscreen, out index1);
+            bool flag3 = flag1 & this.GetViewIntersectionFromPosition(layoutNode, position1, generalInfo, ViewIntersectionType.BeginOffscreen, out index1);
             int index2;
-            bool flag4 = flag2 & this.GetViewIntersectionFromPosition(layoutNode, position2, generalInfo, GridLayout.ViewIntersectionType.BeginOnscreen, out index2);
+            bool flag4 = flag2 & this.GetViewIntersectionFromPosition(layoutNode, position2, generalInfo, ViewIntersectionType.BeginOnscreen, out index2);
             int index3;
-            bool flag5 = flag3 & this.GetViewIntersectionFromPosition(layoutNode, position3, generalInfo, GridLayout.ViewIntersectionType.EndOnscreen, out index3);
+            bool flag5 = flag3 & this.GetViewIntersectionFromPosition(layoutNode, position3, generalInfo, ViewIntersectionType.EndOnscreen, out index3);
             int index4;
-            bool flag6 = flag4 & this.GetViewIntersectionFromPosition(layoutNode, position4, generalInfo, GridLayout.ViewIntersectionType.EndOffscreen, out index4);
+            bool flag6 = flag4 & this.GetViewIntersectionFromPosition(layoutNode, position4, generalInfo, ViewIntersectionType.EndOffscreen, out index4);
             return !flag5 ? new GridLayout.IndexRangeInfo() : new GridLayout.IndexRangeInfo(index1, index3, index2, index4, generalInfo);
         }
 
@@ -443,16 +443,16 @@ namespace Microsoft.Iris.Layouts
             bool flag1 = false;
             switch (intersectionType)
             {
-                case GridLayout.ViewIntersectionType.BeginOffscreen:
-                case GridLayout.ViewIntersectionType.BeginOnscreen:
+                case ViewIntersectionType.BeginOffscreen:
+                case ViewIntersectionType.BeginOnscreen:
                     if (!generalInfo.repeating)
                         flag1 = position.Major >= repeatInstanceSize.Major || position.Minor >= repeatInstanceSize.Minor;
                     if (generalInfo.wrapping)
                         position.Major = 0;
                     biasUp = true;
                     break;
-                case GridLayout.ViewIntersectionType.EndOnscreen:
-                case GridLayout.ViewIntersectionType.EndOffscreen:
+                case ViewIntersectionType.EndOnscreen:
+                case ViewIntersectionType.EndOffscreen:
                     if (!generalInfo.repeating)
                         flag1 = position.Major <= 0 || position.Minor <= 0;
                     if (generalInfo.wrapping)
@@ -605,8 +605,8 @@ namespace Microsoft.Iris.Layouts
             {
                 if (!generalInfo.repeating)
                 {
-                    GridLayout.IndexRangeInfo.NormalizeRange(beginIndex, endIndex, generalInfo.itemsCount, out beginIndex, out endIndex);
-                    GridLayout.IndexRangeInfo.NormalizeRange(realBeginIndex, realEndIndex, generalInfo.itemsCount, out realBeginIndex, out realEndIndex);
+                    NormalizeRange(beginIndex, endIndex, generalInfo.itemsCount, out beginIndex, out endIndex);
+                    NormalizeRange(realBeginIndex, realEndIndex, generalInfo.itemsCount, out realBeginIndex, out realEndIndex);
                 }
                 this._beginIndex = beginIndex;
                 this._endIndex = endIndex;

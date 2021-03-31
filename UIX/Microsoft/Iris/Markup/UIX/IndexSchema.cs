@@ -18,14 +18,14 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object CallGetContainerIndex(object instanceObj, object[] parameters) => ((Index)instanceObj).GetContainerIndex();
 
-        public static void Pass1Initialize() => IndexSchema.Type = new UIXTypeSchema(109, "Index", null, 153, typeof(Index), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(109, "Index", null, 153, typeof(Index), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(109, "Value", 115, -1, ExpressionRestriction.ReadOnly, false, null, true, new GetValueHandler(IndexSchema.GetValue), null, false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(109, "SourceValue", 115, -1, ExpressionRestriction.ReadOnly, false, null, true, new GetValueHandler(IndexSchema.GetSourceValue), null, false);
-            UIXMethodSchema uixMethodSchema = new UIXMethodSchema(109, "GetContainerIndex", null, 109, new InvokeHandler(IndexSchema.CallGetContainerIndex), false);
-            IndexSchema.Type.Initialize(null, null, new PropertySchema[2]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(109, "Value", 115, -1, ExpressionRestriction.ReadOnly, false, null, true, new GetValueHandler(GetValue), null, false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(109, "SourceValue", 115, -1, ExpressionRestriction.ReadOnly, false, null, true, new GetValueHandler(GetSourceValue), null, false);
+            UIXMethodSchema uixMethodSchema = new UIXMethodSchema(109, "GetContainerIndex", null, 109, new InvokeHandler(CallGetContainerIndex), false);
+            Type.Initialize(null, null, new PropertySchema[2]
             {
          uixPropertySchema2,
          uixPropertySchema1

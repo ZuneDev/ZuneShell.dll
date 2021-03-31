@@ -20,26 +20,26 @@ namespace UIXControls
 
         public static string DialogCancel
         {
-            get => DialogHelper.s_dialogCancel;
-            set => DialogHelper.s_dialogCancel = value;
+            get => s_dialogCancel;
+            set => s_dialogCancel = value;
         }
 
         public static string DialogYes
         {
-            get => DialogHelper.s_dialogYes;
-            set => DialogHelper.s_dialogYes = value;
+            get => s_dialogYes;
+            set => s_dialogYes = value;
         }
 
         public static string DialogNo
         {
-            get => DialogHelper.s_dialogNo;
-            set => DialogHelper.s_dialogNo = value;
+            get => s_dialogNo;
+            set => s_dialogNo = value;
         }
 
         public static string DialogOk
         {
-            get => DialogHelper.s_dialogOk;
-            set => DialogHelper.s_dialogOk = value;
+            get => s_dialogOk;
+            set => s_dialogOk = value;
         }
 
         public DialogHelper()
@@ -51,7 +51,7 @@ namespace UIXControls
         {
             this._contentUI = contentUI;
             this._cancel = new Command();
-            this._cancel.Description = DialogHelper.DialogCancel;
+            this._cancel.Description = DialogCancel;
         }
 
         public string ContentUI => this._contentUI;

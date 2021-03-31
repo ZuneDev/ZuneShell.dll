@@ -44,7 +44,7 @@ namespace Microsoft.Iris.Markup
             }
             string leftName;
             string rightName;
-            AssemblyLoadResult.SplitAtLastWhack(valueName, out leftName, out rightName);
+            SplitAtLastWhack(valueName, out leftName, out rightName);
             AssemblyName name = null;
             try
             {
@@ -64,9 +64,9 @@ namespace Microsoft.Iris.Markup
             if (name != null)
             {
                 Exception assemblyLoadException;
-                Assembly assembly = AssemblyLoadResult.FindAssembly(name, out assemblyLoadException);
+                Assembly assembly = FindAssembly(name, out assemblyLoadException);
                 if (assembly != null)
-                    loadResult = AssemblyLoadResult.MapAssembly(assembly, rightName);
+                    loadResult = MapAssembly(assembly, rightName);
                 else if (assemblyLoadException != null)
                     ErrorManager.ReportError("Failure loading assembly: '{0}'", assemblyLoadException.Message);
                 else
@@ -78,91 +78,91 @@ namespace Microsoft.Iris.Markup
         public static void Startup()
         {
             AssemblyObjectProxyHelper.InitializeStatics();
-            MarkupSystem.RegisterFactoryByProtocol("assembly://", new CreateLoadResultHandler(AssemblyLoadResult.Create));
-            Map typeCache1 = AssemblyLoadResult.s_typeCache;
+            MarkupSystem.RegisterFactoryByProtocol("assembly://", new CreateLoadResultHandler(Create));
+            Map typeCache1 = s_typeCache;
             Type type1 = typeof(object);
             FrameworkCompatibleAssemblyPrimitiveTypeSchema primitiveTypeSchema;
-            AssemblyLoadResult.ObjectTypeSchema = primitiveTypeSchema = new FrameworkCompatibleAssemblyPrimitiveTypeSchema(ObjectSchema.Type);
+            ObjectTypeSchema = primitiveTypeSchema = new FrameworkCompatibleAssemblyPrimitiveTypeSchema(ObjectSchema.Type);
             TypeSchema typeA1 = primitiveTypeSchema;
             typeCache1[type1] = primitiveTypeSchema;
             TypeSchema.RegisterTwoWayEquivalence(typeA1, ObjectSchema.Type);
-            TypeSchema.RegisterTwoWayEquivalence((TypeSchema)(AssemblyLoadResult.s_typeCache[typeof(void)] = new FrameworkCompatibleAssemblyPrimitiveTypeSchema(VoidSchema.Type)), VoidSchema.Type);
-            TypeSchema.RegisterTwoWayEquivalence((TypeSchema)(AssemblyLoadResult.s_typeCache[typeof(bool)] = new FrameworkCompatibleAssemblyPrimitiveTypeSchema(BooleanSchema.Type)), BooleanSchema.Type);
-            TypeSchema.RegisterTwoWayEquivalence((TypeSchema)(AssemblyLoadResult.s_typeCache[typeof(byte)] = new FrameworkCompatibleAssemblyPrimitiveTypeSchema(ByteSchema.Type)), ByteSchema.Type);
-            TypeSchema.RegisterTwoWayEquivalence((TypeSchema)(AssemblyLoadResult.s_typeCache[typeof(char)] = new FrameworkCompatibleAssemblyPrimitiveTypeSchema(CharSchema.Type)), CharSchema.Type);
-            TypeSchema.RegisterTwoWayEquivalence((TypeSchema)(AssemblyLoadResult.s_typeCache[typeof(double)] = new FrameworkCompatibleAssemblyPrimitiveTypeSchema(DoubleSchema.Type)), DoubleSchema.Type);
-            TypeSchema.RegisterTwoWayEquivalence((TypeSchema)(AssemblyLoadResult.s_typeCache[typeof(string)] = new FrameworkCompatibleAssemblyPrimitiveTypeSchema(StringSchema.Type)), StringSchema.Type);
-            TypeSchema.RegisterTwoWayEquivalence((TypeSchema)(AssemblyLoadResult.s_typeCache[typeof(float)] = new FrameworkCompatibleAssemblyPrimitiveTypeSchema(SingleSchema.Type)), SingleSchema.Type);
-            TypeSchema.RegisterTwoWayEquivalence((TypeSchema)(AssemblyLoadResult.s_typeCache[typeof(int)] = new FrameworkCompatibleAssemblyPrimitiveTypeSchema(Int32Schema.Type)), Int32Schema.Type);
-            TypeSchema.RegisterTwoWayEquivalence((TypeSchema)(AssemblyLoadResult.s_typeCache[typeof(long)] = new FrameworkCompatibleAssemblyPrimitiveTypeSchema(Int64Schema.Type)), Int64Schema.Type);
-            Map typeCache2 = AssemblyLoadResult.s_typeCache;
+            TypeSchema.RegisterTwoWayEquivalence((TypeSchema)(s_typeCache[typeof(void)] = new FrameworkCompatibleAssemblyPrimitiveTypeSchema(VoidSchema.Type)), VoidSchema.Type);
+            TypeSchema.RegisterTwoWayEquivalence((TypeSchema)(s_typeCache[typeof(bool)] = new FrameworkCompatibleAssemblyPrimitiveTypeSchema(BooleanSchema.Type)), BooleanSchema.Type);
+            TypeSchema.RegisterTwoWayEquivalence((TypeSchema)(s_typeCache[typeof(byte)] = new FrameworkCompatibleAssemblyPrimitiveTypeSchema(ByteSchema.Type)), ByteSchema.Type);
+            TypeSchema.RegisterTwoWayEquivalence((TypeSchema)(s_typeCache[typeof(char)] = new FrameworkCompatibleAssemblyPrimitiveTypeSchema(CharSchema.Type)), CharSchema.Type);
+            TypeSchema.RegisterTwoWayEquivalence((TypeSchema)(s_typeCache[typeof(double)] = new FrameworkCompatibleAssemblyPrimitiveTypeSchema(DoubleSchema.Type)), DoubleSchema.Type);
+            TypeSchema.RegisterTwoWayEquivalence((TypeSchema)(s_typeCache[typeof(string)] = new FrameworkCompatibleAssemblyPrimitiveTypeSchema(StringSchema.Type)), StringSchema.Type);
+            TypeSchema.RegisterTwoWayEquivalence((TypeSchema)(s_typeCache[typeof(float)] = new FrameworkCompatibleAssemblyPrimitiveTypeSchema(SingleSchema.Type)), SingleSchema.Type);
+            TypeSchema.RegisterTwoWayEquivalence((TypeSchema)(s_typeCache[typeof(int)] = new FrameworkCompatibleAssemblyPrimitiveTypeSchema(Int32Schema.Type)), Int32Schema.Type);
+            TypeSchema.RegisterTwoWayEquivalence((TypeSchema)(s_typeCache[typeof(long)] = new FrameworkCompatibleAssemblyPrimitiveTypeSchema(Int64Schema.Type)), Int64Schema.Type);
+            Map typeCache2 = s_typeCache;
             Type type2 = typeof(IList);
             FrameworkCompatibleAssemblyTypeSchema assemblyTypeSchema1;
-            AssemblyLoadResult.ListTypeSchema = assemblyTypeSchema1 = new FrameworkCompatibleAssemblyTypeSchema(typeof(IList), typeof(IList), typeof(ArrayList));
+            ListTypeSchema = assemblyTypeSchema1 = new FrameworkCompatibleAssemblyTypeSchema(typeof(IList), typeof(IList), typeof(ArrayList));
             TypeSchema typeA2 = assemblyTypeSchema1;
             typeCache2[type2] = assemblyTypeSchema1;
             TypeSchema.RegisterTwoWayEquivalence(typeA2, ListSchema.Type);
-            Map typeCache3 = AssemblyLoadResult.s_typeCache;
+            Map typeCache3 = s_typeCache;
             Type type3 = typeof(IEnumerator);
             FrameworkCompatibleAssemblyTypeSchema assemblyTypeSchema2;
-            AssemblyLoadResult.EnumeratorTypeSchema = assemblyTypeSchema2 = new FrameworkCompatibleAssemblyTypeSchema(typeof(IEnumerator), typeof(IEnumerator));
+            EnumeratorTypeSchema = assemblyTypeSchema2 = new FrameworkCompatibleAssemblyTypeSchema(typeof(IEnumerator), typeof(IEnumerator));
             TypeSchema typeA3 = assemblyTypeSchema2;
             typeCache3[type3] = assemblyTypeSchema2;
             TypeSchema.RegisterTwoWayEquivalence(typeA3, EnumeratorSchema.Type);
-            Map typeCache4 = AssemblyLoadResult.s_typeCache;
+            Map typeCache4 = s_typeCache;
             Type type4 = typeof(IDictionary);
             FrameworkCompatibleAssemblyTypeSchema assemblyTypeSchema3;
-            AssemblyLoadResult.DictionaryTypeSchema = assemblyTypeSchema3 = new FrameworkCompatibleAssemblyTypeSchema(typeof(IDictionary), AssemblyObjectProxyHelper.ProxyDictionaryType, typeof(Dictionary<object, object>));
+            DictionaryTypeSchema = assemblyTypeSchema3 = new FrameworkCompatibleAssemblyTypeSchema(typeof(IDictionary), AssemblyObjectProxyHelper.ProxyDictionaryType, typeof(Dictionary<object, object>));
             TypeSchema producer1 = assemblyTypeSchema3;
             typeCache4[type4] = assemblyTypeSchema3;
             TypeSchema.RegisterOneWayEquivalence(producer1, DictionarySchema.Type);
-            Map typeCache5 = AssemblyLoadResult.s_typeCache;
+            Map typeCache5 = s_typeCache;
             Type type5 = typeof(ICommand);
             FrameworkCompatibleAssemblyTypeSchema assemblyTypeSchema4;
-            AssemblyLoadResult.CommandTypeSchema = assemblyTypeSchema4 = new FrameworkCompatibleAssemblyTypeSchema(typeof(ICommand), AssemblyObjectProxyHelper.ProxyCommandType);
+            CommandTypeSchema = assemblyTypeSchema4 = new FrameworkCompatibleAssemblyTypeSchema(typeof(ICommand), AssemblyObjectProxyHelper.ProxyCommandType);
             TypeSchema producer2 = assemblyTypeSchema4;
             typeCache5[type5] = assemblyTypeSchema4;
             TypeSchema.RegisterOneWayEquivalence(producer2, CommandSchema.Type);
-            Map typeCache6 = AssemblyLoadResult.s_typeCache;
+            Map typeCache6 = s_typeCache;
             Type type6 = typeof(IValueRange);
             FrameworkCompatibleAssemblyTypeSchema assemblyTypeSchema5;
-            AssemblyLoadResult.ValueRangeTypeSchema = assemblyTypeSchema5 = new FrameworkCompatibleAssemblyTypeSchema(typeof(IValueRange), AssemblyObjectProxyHelper.ProxyValueRangeType);
+            ValueRangeTypeSchema = assemblyTypeSchema5 = new FrameworkCompatibleAssemblyTypeSchema(typeof(IValueRange), AssemblyObjectProxyHelper.ProxyValueRangeType);
             TypeSchema producer3 = assemblyTypeSchema5;
             typeCache6[type6] = assemblyTypeSchema5;
             TypeSchema.RegisterOneWayEquivalence(producer3, ValueRangeSchema.Type);
-            TypeSchema.RegisterOneWayEquivalence((TypeSchema)(AssemblyLoadResult.s_typeCache[typeof(Group)] = new FrameworkCompatibleAssemblyTypeSchema(typeof(Group), typeof(IUIGroup))), GroupSchema.Type);
-            TypeSchema.RegisterOneWayEquivalence((TypeSchema)(AssemblyLoadResult.s_typeCache[typeof(Image)] = new FrameworkCompatibleAssemblyTypeSchema(typeof(Image), typeof(UIImage))), ImageSchema.Type);
-            TypeSchema.RegisterOneWayEquivalence((TypeSchema)(AssemblyLoadResult.s_typeCache[typeof(Type)] = new FrameworkCompatibleAssemblyTypeSchema(typeof(Type), typeof(TypeSchema), null, AssemblyLoadResult.ObjectTypeSchema)), TypeSchemaDefinition.Type);
-            TypeSchema.RegisterOneWayEquivalence((TypeSchema)(AssemblyLoadResult.s_typeCache[typeof(VideoStream)] = new FrameworkCompatibleAssemblyTypeSchema(typeof(VideoStream))), VideoStreamSchema.Type);
+            TypeSchema.RegisterOneWayEquivalence((TypeSchema)(s_typeCache[typeof(Group)] = new FrameworkCompatibleAssemblyTypeSchema(typeof(Group), typeof(IUIGroup))), GroupSchema.Type);
+            TypeSchema.RegisterOneWayEquivalence((TypeSchema)(s_typeCache[typeof(Image)] = new FrameworkCompatibleAssemblyTypeSchema(typeof(Image), typeof(UIImage))), ImageSchema.Type);
+            TypeSchema.RegisterOneWayEquivalence((TypeSchema)(s_typeCache[typeof(Type)] = new FrameworkCompatibleAssemblyTypeSchema(typeof(Type), typeof(TypeSchema), null, ObjectTypeSchema)), TypeSchemaDefinition.Type);
+            TypeSchema.RegisterOneWayEquivalence((TypeSchema)(s_typeCache[typeof(VideoStream)] = new FrameworkCompatibleAssemblyTypeSchema(typeof(VideoStream))), VideoStreamSchema.Type);
             TypeSchema producer4;
-            AssemblyLoadResult.s_typeCache[typeof(Microsoft.Iris.Choice)] = (FrameworkCompatibleAssemblyTypeSchema)(producer4 = new FrameworkCompatibleAssemblyTypeSchema(typeof(Microsoft.Iris.Choice)));
+            s_typeCache[typeof(Microsoft.Iris.Choice)] = (FrameworkCompatibleAssemblyTypeSchema)(producer4 = new FrameworkCompatibleAssemblyTypeSchema(typeof(Microsoft.Iris.Choice)));
             TypeSchema.RegisterOneWayEquivalence(producer4, ChoiceSchema.Type);
             TypeSchema.RegisterOneWayEquivalence(producer4, ValueRangeSchema.Type);
-            TypeSchema.RegisterOneWayEquivalence((TypeSchema)(AssemblyLoadResult.s_typeCache[typeof(Microsoft.Iris.BooleanChoice)] = new FrameworkCompatibleAssemblyTypeSchema(typeof(Microsoft.Iris.BooleanChoice))), BooleanChoiceSchema.Type);
+            TypeSchema.RegisterOneWayEquivalence((TypeSchema)(s_typeCache[typeof(Microsoft.Iris.BooleanChoice)] = new FrameworkCompatibleAssemblyTypeSchema(typeof(Microsoft.Iris.BooleanChoice))), BooleanChoiceSchema.Type);
             TypeSchema producer5;
-            AssemblyLoadResult.s_typeCache[typeof(Microsoft.Iris.RangedValue)] = (FrameworkCompatibleAssemblyTypeSchema)(producer5 = new FrameworkCompatibleAssemblyTypeSchema(typeof(Microsoft.Iris.RangedValue)));
+            s_typeCache[typeof(Microsoft.Iris.RangedValue)] = (FrameworkCompatibleAssemblyTypeSchema)(producer5 = new FrameworkCompatibleAssemblyTypeSchema(typeof(Microsoft.Iris.RangedValue)));
             TypeSchema.RegisterOneWayEquivalence(producer5, RangedValueSchema.Type);
             TypeSchema.RegisterOneWayEquivalence(producer5, ValueRangeSchema.Type);
-            TypeSchema.RegisterOneWayEquivalence((TypeSchema)(AssemblyLoadResult.s_typeCache[typeof(Microsoft.Iris.IntRangedValue)] = new FrameworkCompatibleAssemblyTypeSchema(typeof(Microsoft.Iris.IntRangedValue))), IntRangedValueSchema.Type);
-            TypeSchema.RegisterOneWayEquivalence((TypeSchema)(AssemblyLoadResult.s_typeCache[typeof(Microsoft.Iris.ByteRangedValue)] = new FrameworkCompatibleAssemblyTypeSchema(typeof(Microsoft.Iris.ByteRangedValue))), ByteRangedValueSchema.Type);
-            TypeSchema.RegisterTwoWayEquivalence((TypeSchema)(AssemblyLoadResult.s_typeCache[typeof(DataProviderQuery)] = new FrameworkCompatibleAssemblyTypeSchema(typeof(DataProviderQuery), typeof(MarkupDataQuery))), MarkupDataQueryInstanceSchema.Type);
-            TypeSchema.RegisterTwoWayEquivalence((TypeSchema)(AssemblyLoadResult.s_typeCache[typeof(DataProviderObject)] = new FrameworkCompatibleAssemblyTypeSchema(typeof(DataProviderObject), typeof(MarkupDataType))), MarkupDataTypeInstanceSchema.Type);
-            TypeSchema.RegisterTwoWayEquivalence((TypeSchema)(AssemblyLoadResult.s_typeCache[typeof(DataProviderQueryStatus)] = new FrameworkCompatibleAssemblyTypeSchema(typeof(DataProviderQueryStatus))), UIXLoadResultExports.DataQueryStatusType);
+            TypeSchema.RegisterOneWayEquivalence((TypeSchema)(s_typeCache[typeof(Microsoft.Iris.IntRangedValue)] = new FrameworkCompatibleAssemblyTypeSchema(typeof(Microsoft.Iris.IntRangedValue))), IntRangedValueSchema.Type);
+            TypeSchema.RegisterOneWayEquivalence((TypeSchema)(s_typeCache[typeof(Microsoft.Iris.ByteRangedValue)] = new FrameworkCompatibleAssemblyTypeSchema(typeof(Microsoft.Iris.ByteRangedValue))), ByteRangedValueSchema.Type);
+            TypeSchema.RegisterTwoWayEquivalence((TypeSchema)(s_typeCache[typeof(DataProviderQuery)] = new FrameworkCompatibleAssemblyTypeSchema(typeof(DataProviderQuery), typeof(MarkupDataQuery))), MarkupDataQueryInstanceSchema.Type);
+            TypeSchema.RegisterTwoWayEquivalence((TypeSchema)(s_typeCache[typeof(DataProviderObject)] = new FrameworkCompatibleAssemblyTypeSchema(typeof(DataProviderObject), typeof(MarkupDataType))), MarkupDataTypeInstanceSchema.Type);
+            TypeSchema.RegisterTwoWayEquivalence((TypeSchema)(s_typeCache[typeof(DataProviderQueryStatus)] = new FrameworkCompatibleAssemblyTypeSchema(typeof(DataProviderQueryStatus))), UIXLoadResultExports.DataQueryStatusType);
         }
 
         public static void Shutdown()
         {
-            foreach (SharedDisposableObject disposableObject in AssemblyLoadResult.s_assemblyCache.Values)
+            foreach (SharedDisposableObject disposableObject in s_assemblyCache.Values)
                 disposableObject.UnregisterUsage(s_assemblyCache);
-            AssemblyLoadResult.s_assemblyCache.Clear();
-            AssemblyLoadResult.s_assemblyCache = null;
-            foreach (AssemblyTypeSchema assemblyTypeSchema in AssemblyLoadResult.s_typeCache.Values)
+            s_assemblyCache.Clear();
+            s_assemblyCache = null;
+            foreach (AssemblyTypeSchema assemblyTypeSchema in s_typeCache.Values)
             {
                 AssemblyLoadResult owner = (AssemblyLoadResult)assemblyTypeSchema.Owner;
                 assemblyTypeSchema.Dispose(owner);
             }
-            AssemblyLoadResult.s_typeCache.Clear();
-            AssemblyLoadResult.s_typeCache = null;
+            s_typeCache.Clear();
+            s_typeCache = null;
         }
 
         public string Namespace => this._namespace;
@@ -175,7 +175,7 @@ namespace Microsoft.Iris.Markup
             if (type == null)
                 return null;
             if (type.IsVisible)
-                return AssemblyLoadResult.MapType(type);
+                return MapType(type);
             ErrorManager.ReportError("Type '{0}' is not public in '{1}'", name, _assembly);
             return null;
         }
@@ -184,13 +184,13 @@ namespace Microsoft.Iris.Markup
         {
             AssemblyLoadResult.MapAssemblyKey key = new AssemblyLoadResult.MapAssemblyKey(assembly, ns);
             AssemblyLoadResult assemblyLoadResult;
-            if (!AssemblyLoadResult.s_assemblyCache.TryGetValue(key, out assemblyLoadResult))
+            if (!s_assemblyCache.TryGetValue(key, out assemblyLoadResult))
             {
                 string uri = "assembly://" + assembly.FullName;
                 if (ns != null)
                     uri = uri + "/" + ns;
                 assemblyLoadResult = new AssemblyLoadResult(assembly, ns, uri);
-                AssemblyLoadResult.s_assemblyCache[key] = assemblyLoadResult;
+                s_assemblyCache[key] = assemblyLoadResult;
                 assemblyLoadResult.RegisterUsage(s_assemblyCache);
             }
             return assemblyLoadResult;
@@ -200,14 +200,14 @@ namespace Microsoft.Iris.Markup
         {
             object obj;
             AssemblyTypeSchema assemblyTypeSchema;
-            if (AssemblyLoadResult.s_typeCache.TryGetValue(type, out obj))
+            if (s_typeCache.TryGetValue(type, out obj))
             {
                 assemblyTypeSchema = (AssemblyTypeSchema)obj;
             }
             else
             {
                 assemblyTypeSchema = AssemblyObjectProxyHelper.CreateProxySchema(type);
-                AssemblyLoadResult.s_typeCache[type] = assemblyTypeSchema;
+                s_typeCache[type] = assemblyTypeSchema;
             }
             return assemblyTypeSchema;
         }
@@ -235,7 +235,7 @@ namespace Microsoft.Iris.Markup
             Type[] typeArray = new Type[typeSchemaList.Length];
             for (int index = 0; index < typeSchemaList.Length; ++index)
             {
-                typeArray[index] = AssemblyLoadResult.MapType(typeSchemaList[index]);
+                typeArray[index] = MapType(typeSchemaList[index]);
                 if (typeArray[index] == null)
                     return null;
             }
@@ -247,7 +247,7 @@ namespace Microsoft.Iris.Markup
             TypeSchema[] typeSchemaArray = new TypeSchema[typeList.Length];
             for (int index = 0; index < typeList.Length; ++index)
             {
-                typeSchemaArray[index] = AssemblyLoadResult.MapType(typeList[index]);
+                typeSchemaArray[index] = MapType(typeList[index]);
                 if (typeSchemaArray[index] == null)
                     return null;
             }
@@ -266,7 +266,7 @@ namespace Microsoft.Iris.Markup
                 return null;
             object[] objArray = new object[instanceList.Length];
             for (int index = 0; index < objArray.Length; ++index)
-                objArray[index] = AssemblyLoadResult.UnwrapObject(instanceList[index]);
+                objArray[index] = UnwrapObject(instanceList[index]);
             return objArray;
         }
 

@@ -525,7 +525,7 @@ namespace Microsoft.Iris.Markup
                 for (int index = 0; index < num2; ++index)
                 {
                     SymbolRecord symbolRecord = new SymbolRecord();
-                    symbolRecord.Name = CompiledMarkupLoader.ReadDataTableString(reader, binaryDataTable);
+                    symbolRecord.Name = ReadDataTableString(reader, binaryDataTable);
                     symbolRecord.SymbolOrigin = (SymbolOrigin)reader.ReadByte();
                     ushort num3 = reader.ReadUInt16();
                     symbolRecord.Type = owner.ImportTables.TypeImports[num3];
@@ -545,7 +545,7 @@ namespace Microsoft.Iris.Markup
                 this._reader.CurrentOffset += this._reader.ReadUInt32();
             }
             else
-                CompiledMarkupLoader.DecodeInheritableSymbolTable(typeExport, this._reader, IntPtr.Zero);
+                DecodeInheritableSymbolTable(typeExport, this._reader, IntPtr.Zero);
         }
 
         private void DepersistConstantsTable()
@@ -560,7 +560,7 @@ namespace Microsoft.Iris.Markup
                 this._reader.CurrentOffset += (uint)((num + 1) * 4);
                 for (int index = 0; index < num; ++index)
                 {
-                    object obj = CompiledMarkupLoader.DepersistConstant(this._reader, _loadResultTarget);
+                    object obj = DepersistConstant(this._reader, _loadResultTarget);
                     runtimeList[index] = obj;
                 }
             }
@@ -584,11 +584,11 @@ namespace Microsoft.Iris.Markup
                     instance = typeImport.DecodeBinary(reader);
                     break;
                 case MarkupConstantPersistMode.FromString:
-                    string str = CompiledMarkupLoader.ReadDataTableString(reader, loadResult.BinaryDataTable);
+                    string str = ReadDataTableString(reader, loadResult.BinaryDataTable);
                     typeImport.TypeConverter(str, StringSchema.Type, out instance);
                     break;
                 case MarkupConstantPersistMode.Canonical:
-                    string name = CompiledMarkupLoader.ReadDataTableString(reader, loadResult.BinaryDataTable);
+                    string name = ReadDataTableString(reader, loadResult.BinaryDataTable);
                     instance = typeImport.FindCanonicalInstance(name);
                     break;
             }
@@ -608,7 +608,7 @@ namespace Microsoft.Iris.Markup
         public static MarkupLineNumberTable DecodeLineNumberTable(IntPtr address)
         {
             uint size = (uint)(ByteCodeReader.ReadUInt16(address) * 12 + 2);
-            return CompiledMarkupLoader.DecodeLineNumberTable(new ByteCodeReader(address, size, false));
+            return DecodeLineNumberTable(new ByteCodeReader(address, size, false));
         }
 
         private void DepersistLineNumberTable()
@@ -621,7 +621,7 @@ namespace Microsoft.Iris.Markup
             {
                 uint currentOffset = this._reader.CurrentOffset;
                 this._reader.CurrentOffset = this._lineNumberTableStart;
-                this._loadResultTarget.SetLineNumberTable(CompiledMarkupLoader.DecodeLineNumberTable(this._reader));
+                this._loadResultTarget.SetLineNumberTable(DecodeLineNumberTable(this._reader));
                 this._reader.CurrentOffset = currentOffset;
             }
         }

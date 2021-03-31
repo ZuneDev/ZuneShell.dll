@@ -28,7 +28,7 @@ namespace Microsoft.Iris.UI
         protected NotifyService _notifier = new NotifyService();
         private ScriptRunScheduler _scriptRunScheduler = new ScriptRunScheduler();
         private bool _scriptEnabled;
-        private static DeferredHandler s_executePendingScriptsHandler = new DeferredHandler(Class.ExecutePendingScripts);
+        private static DeferredHandler s_executePendingScriptsHandler = new DeferredHandler(ExecutePendingScripts);
 
         public Class(MarkupTypeSchema type)
         {
@@ -128,7 +128,7 @@ namespace Microsoft.Iris.UI
         public void ScheduleScriptRun(uint scriptId, bool ignoreErrors)
         {
             if (!this._scriptRunScheduler.Pending)
-                DeferredCall.Post(DispatchPriority.Script, Class.s_executePendingScriptsHandler, this);
+                DeferredCall.Post(DispatchPriority.Script, s_executePendingScriptsHandler, this);
             this._scriptRunScheduler.ScheduleRun(scriptId, ignoreErrors);
         }
 

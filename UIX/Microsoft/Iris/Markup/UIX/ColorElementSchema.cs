@@ -17,12 +17,12 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object Construct() => new ColorElement();
 
-        public static void Pass1Initialize() => ColorElementSchema.Type = new UIXTypeSchema(36, "ColorElement", null, 77, typeof(ColorElement), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(36, "ColorElement", null, 77, typeof(ColorElement), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(36, "Color", 35, -1, ExpressionRestriction.None, false, null, false, null, new SetValueHandler(ColorElementSchema.SetColor), false);
-            ColorElementSchema.Type.Initialize(new DefaultConstructHandler(ColorElementSchema.Construct), null, new PropertySchema[1]
+            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(36, "Color", 35, -1, ExpressionRestriction.None, false, null, false, null, new SetValueHandler(SetColor), false);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[1]
             {
          uixPropertySchema
             }, null, null, null, null, null, null, null, null, null);

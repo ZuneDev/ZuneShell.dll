@@ -128,7 +128,7 @@ namespace Microsoft.Iris.Markup.UIX
             instance = null;
             if (ObjectSchema.Type.IsAssignableFrom(fromType))
             {
-                result = StringSchema.ConvertFromObject(from, out instance);
+                result = ConvertFromObject(from, out instance);
                 if (!result.Failed)
                     return result;
             }
@@ -165,49 +165,49 @@ namespace Microsoft.Iris.Markup.UIX
             }
         }
 
-        public static void Pass1Initialize() => StringSchema.Type = new UIXTypeSchema(208, "String", "string", 153, typeof(string), UIXTypeFlags.Immutable);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(208, "String", "string", 153, typeof(string), UIXTypeFlags.Immutable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(208, "Length", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(StringSchema.GetLength), null, false);
+            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(208, "Length", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetLength), null, false);
             UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema(208, "IsNullOrEmpty", new short[1]
             {
          208
-            }, 15, new InvokeHandler(StringSchema.CallIsNullOrEmptyString), true);
+            }, 15, new InvokeHandler(CallIsNullOrEmptyString), true);
             UIXMethodSchema uixMethodSchema2 = new UIXMethodSchema(208, "Substring", new short[1]
             {
          115
-            }, 208, new InvokeHandler(StringSchema.CallSubstringInt32), false);
+            }, 208, new InvokeHandler(CallSubstringInt32), false);
             UIXMethodSchema uixMethodSchema3 = new UIXMethodSchema(208, "Substring", new short[2]
             {
          115,
          115
-            }, 208, new InvokeHandler(StringSchema.CallSubstringInt32Int32), false);
-            UIXMethodSchema uixMethodSchema4 = new UIXMethodSchema(208, "Trim", null, 208, new InvokeHandler(StringSchema.CallTrim), false);
-            UIXMethodSchema uixMethodSchema5 = new UIXMethodSchema(208, "ToLower", null, 208, new InvokeHandler(StringSchema.CallToLower), false);
-            UIXMethodSchema uixMethodSchema6 = new UIXMethodSchema(208, "ToUpper", null, 208, new InvokeHandler(StringSchema.CallToUpper), false);
+            }, 208, new InvokeHandler(CallSubstringInt32Int32), false);
+            UIXMethodSchema uixMethodSchema4 = new UIXMethodSchema(208, "Trim", null, 208, new InvokeHandler(CallTrim), false);
+            UIXMethodSchema uixMethodSchema5 = new UIXMethodSchema(208, "ToLower", null, 208, new InvokeHandler(CallToLower), false);
+            UIXMethodSchema uixMethodSchema6 = new UIXMethodSchema(208, "ToUpper", null, 208, new InvokeHandler(CallToUpper), false);
             UIXMethodSchema uixMethodSchema7 = new UIXMethodSchema(208, "Format", new short[1]
             {
          153
-            }, 208, new InvokeHandler(StringSchema.CallFormatObject), false);
+            }, 208, new InvokeHandler(CallFormatObject), false);
             UIXMethodSchema uixMethodSchema8 = new UIXMethodSchema(208, "Format", new short[2]
             {
          153,
          153
-            }, 208, new InvokeHandler(StringSchema.CallFormatObjectObject), false);
+            }, 208, new InvokeHandler(CallFormatObjectObject), false);
             UIXMethodSchema uixMethodSchema9 = new UIXMethodSchema(208, "Format", new short[3]
             {
          153,
          153,
          153
-            }, 208, new InvokeHandler(StringSchema.CallFormatObjectObjectObject), false);
+            }, 208, new InvokeHandler(CallFormatObjectObjectObject), false);
             UIXMethodSchema uixMethodSchema10 = new UIXMethodSchema(208, "Format", new short[4]
             {
          153,
          153,
          153,
          153
-            }, 208, new InvokeHandler(StringSchema.CallFormatObjectObjectObjectObject), false);
+            }, 208, new InvokeHandler(CallFormatObjectObjectObjectObject), false);
             UIXMethodSchema uixMethodSchema11 = new UIXMethodSchema(208, "Format", new short[5]
             {
          153,
@@ -215,8 +215,8 @@ namespace Microsoft.Iris.Markup.UIX
          153,
          153,
          153
-            }, 208, new InvokeHandler(StringSchema.CallFormatObjectObjectObjectObjectObject), false);
-            StringSchema.Type.Initialize(new DefaultConstructHandler(StringSchema.Construct), null, new PropertySchema[1]
+            }, 208, new InvokeHandler(CallFormatObjectObjectObjectObjectObject), false);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[1]
             {
          uixPropertySchema
             }, new MethodSchema[11]
@@ -232,7 +232,7 @@ namespace Microsoft.Iris.Markup.UIX
          uixMethodSchema9,
          uixMethodSchema10,
          uixMethodSchema11
-            }, null, null, new TypeConverterHandler(StringSchema.TryConvertFrom), new SupportsTypeConversionHandler(StringSchema.IsConversionSupported), new EncodeBinaryHandler(StringSchema.EncodeBinary), new DecodeBinaryHandler(StringSchema.DecodeBinary), new PerformOperationHandler(StringSchema.ExecuteOperation), new SupportsOperationHandler(StringSchema.IsOperationSupported));
+            }, null, null, new TypeConverterHandler(TryConvertFrom), new SupportsTypeConversionHandler(IsConversionSupported), new EncodeBinaryHandler(EncodeBinary), new DecodeBinaryHandler(DecodeBinary), new PerformOperationHandler(ExecuteOperation), new SupportsOperationHandler(IsOperationSupported));
         }
     }
 }

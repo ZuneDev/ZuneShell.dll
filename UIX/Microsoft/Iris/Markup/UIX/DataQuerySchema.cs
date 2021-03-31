@@ -20,13 +20,13 @@ namespace Microsoft.Iris.Markup.UIX
             MarkupDataQuery markupDataQuery = (MarkupDataQuery)instanceObj;
         }
 
-        public static void Pass1Initialize() => DataQuerySchema.Type = new UIXTypeSchema(46, "DataQuery", null, 29, typeof(MarkupDataQuery), UIXTypeFlags.Disposable);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(46, "DataQuery", null, 29, typeof(MarkupDataQuery), UIXTypeFlags.Disposable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(46, "Provider", 208, -1, ExpressionRestriction.NoAccess, false, null, true, null, new SetValueHandler(DataQuerySchema.SetProvider), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(46, "ResultType", 208, -1, ExpressionRestriction.NoAccess, false, null, true, null, new SetValueHandler(DataQuerySchema.SetResultType), false);
-            DataQuerySchema.Type.Initialize(null, null, new PropertySchema[2]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(46, "Provider", 208, -1, ExpressionRestriction.NoAccess, false, null, true, null, new SetValueHandler(SetProvider), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(46, "ResultType", 208, -1, ExpressionRestriction.NoAccess, false, null, true, null, new SetValueHandler(SetResultType), false);
+            Type.Initialize(null, null, new PropertySchema[2]
             {
          uixPropertySchema1,
          uixPropertySchema2

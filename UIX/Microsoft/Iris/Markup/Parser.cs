@@ -56,7 +56,7 @@ namespace Microsoft.Iris.Markup
                                             parseResult.XmlnsList.AppendToEnd(validateNamespace);
                                     }
                                     else
-                                        Parser.ReportError(xmlReader, "Unexpected attribute '{0}' on root tag", name);
+                                        ReportError(xmlReader, "Unexpected attribute '{0}' on root tag", name);
                                 }
                             }
                         }
@@ -67,7 +67,7 @@ namespace Microsoft.Iris.Markup
                                 case NativeXmlNodeType.Element:
                                     if (flag)
                                     {
-                                        Parser.ReportError(xmlReader, "Script tag may not contain XML elements, found: '{0}'", xmlReader.Name);
+                                        ReportError(xmlReader, "Script tag may not contain XML elements, found: '{0}'", xmlReader.Name);
                                         continue;
                                     }
                                     bool isEmptyElement = xmlReader.IsEmptyElement;
@@ -80,7 +80,7 @@ namespace Microsoft.Iris.Markup
                                             flag = true;
                                             parseStack.Push(new Parser.ScriptBlock(xmlReader.LineNumber, xmlReader.LinePosition));
                                             if (xmlReader.ReadAttribute())
-                                                Parser.ReportError(xmlReader, "Script tag may not have XML attributes");
+                                                ReportError(xmlReader, "Script tag may not have XML attributes");
                                         }
                                         else
                                         {
@@ -91,12 +91,12 @@ namespace Microsoft.Iris.Markup
                                             {
                                                 if (xmlReader.Prefix == string.Empty)
                                                 {
-                                                    ValidateObject objectFromString = Parser.CreateValidateObjectFromString(owner, xmlReader);
+                                                    ValidateObject objectFromString = CreateValidateObjectFromString(owner, xmlReader);
                                                     ValidateProperty property = new ValidateProperty(owner, xmlReader.LocalName, objectFromString, xmlReader.LineNumber, xmlReader.LinePosition);
                                                     objectTagValidator.AddProperty(property);
                                                 }
                                                 else
-                                                    Parser.ReportError(xmlReader, "Property or Object tag may not have prefixed attributes: '{0}'", xmlReader.Name);
+                                                    ReportError(xmlReader, "Property or Object tag may not have prefixed attributes: '{0}'", xmlReader.Name);
                                             }
                                             parseStack.Push(objectTagValidator);
                                             if (additionalMetadata && !string.IsNullOrEmpty(str1))
@@ -109,13 +109,13 @@ namespace Microsoft.Iris.Markup
                                     else
                                     {
                                         if (prefix1 != string.Empty)
-                                            Parser.ReportError(xmlReader, "Property tag may not be prefixed: '{0}'", xmlReader.Name);
+                                            ReportError(xmlReader, "Property tag may not be prefixed: '{0}'", xmlReader.Name);
                                         if (localName == "Methods")
                                         {
                                             flag = true;
-                                            parseStack.Push(new Parser.ScriptBlock(xmlReader.LineNumber, xmlReader.LinePosition, Parser.CodeType.Methods));
+                                            parseStack.Push(new Parser.ScriptBlock(xmlReader.LineNumber, xmlReader.LinePosition, CodeType.Methods));
                                             if (xmlReader.ReadAttribute())
-                                                Parser.ReportError(xmlReader, "Script tag may not have XML attributes");
+                                                ReportError(xmlReader, "Script tag may not have XML attributes");
                                         }
                                         else
                                         {
@@ -129,7 +129,7 @@ namespace Microsoft.Iris.Markup
                                                         Value = xmlReader.Value
                                                     });
                                                 else
-                                                    Parser.ReportError(xmlReader, "Property or Object tag may not have prefixed attributes: '{0}'", xmlReader.Name);
+                                                    ReportError(xmlReader, "Property or Object tag may not have prefixed attributes: '{0}'", xmlReader.Name);
                                             }
                                             parseStack.Push(validateProperty);
                                         }
@@ -137,7 +137,7 @@ namespace Microsoft.Iris.Markup
                                     if (isEmptyElement)
                                     {
                                         flag = false;
-                                        Parser.HandleEndElement(owner, parseResult, parseStack);
+                                        HandleEndElement(owner, parseResult, parseStack);
                                         continue;
                                     }
                                     continue;
@@ -145,7 +145,7 @@ namespace Microsoft.Iris.Markup
                                 case NativeXmlNodeType.CDATA:
                                     if (parseStack.Count == 0)
                                     {
-                                        Parser.ReportError(xmlReader, "Text/CDATA is not allowed under root tag ('{0}')", xmlReader.Value.Trim());
+                                        ReportError(xmlReader, "Text/CDATA is not allowed under root tag ('{0}')", xmlReader.Value.Trim());
                                         continue;
                                     }
                                     switch (parseStack.Peek())
@@ -153,26 +153,26 @@ namespace Microsoft.Iris.Markup
                                         case ValidateProperty validateProperty:
                                             if (validateProperty.Value == null)
                                             {
-                                                validateProperty.Value = Parser.CreateValidateObjectFromString(owner, xmlReader);
+                                                validateProperty.Value = CreateValidateObjectFromString(owner, xmlReader);
                                                 continue;
                                             }
                                             if (validateProperty.Value is ValidateFromString)
                                             {
-                                                Parser.ReportError(xmlReader, "Property tag may only contain one Text/CDATA, found more text: '{0}'", xmlReader.Value.Trim());
+                                                ReportError(xmlReader, "Property tag may only contain one Text/CDATA, found more text: '{0}'", xmlReader.Value.Trim());
                                                 continue;
                                             }
-                                            Parser.ReportError(xmlReader, "Property tag already has objects, may not also add Text/CDATA: '{0}'", xmlReader.Value.Trim());
+                                            ReportError(xmlReader, "Property tag already has objects, may not also add Text/CDATA: '{0}'", xmlReader.Value.Trim());
                                             continue;
                                         case Parser.ScriptBlock scriptBlock:
                                             if (scriptBlock.ValidateValue == null)
                                             {
-                                                scriptBlock.ValidateValue = Parser.ParseCode(owner, xmlReader, scriptBlock.CodeType);
+                                                scriptBlock.ValidateValue = ParseCode(owner, xmlReader, scriptBlock.CodeType);
                                                 continue;
                                             }
-                                            Parser.ReportError(xmlReader, "Script tag may only contain one Text/CDATA, found more text: '{0}'", xmlReader.Value.Trim());
+                                            ReportError(xmlReader, "Script tag may only contain one Text/CDATA, found more text: '{0}'", xmlReader.Value.Trim());
                                             continue;
                                         default:
-                                            Parser.ReportError(xmlReader, "Object tag may not contain Text/CDATA: '{0}'", xmlReader.Value.Trim());
+                                            ReportError(xmlReader, "Object tag may not contain Text/CDATA: '{0}'", xmlReader.Value.Trim());
                                             continue;
                                     }
                                 case NativeXmlNodeType.Comment:
@@ -186,13 +186,13 @@ namespace Microsoft.Iris.Markup
                                     {
                                         if (str2 == null)
                                             str2 = xmlReader.Value;
-                                        Parser.ReportError(xmlReader, "Script tag may not contain XML comments, found: '{0}'", str2.Trim());
+                                        ReportError(xmlReader, "Script tag may not contain XML comments, found: '{0}'", str2.Trim());
                                         continue;
                                     }
                                     continue;
                                 case NativeXmlNodeType.EndElement:
                                     flag = false;
-                                    Parser.HandleEndElement(owner, parseResult, parseStack);
+                                    HandleEndElement(owner, parseResult, parseStack);
                                     continue;
                                 default:
                                     continue;
@@ -294,7 +294,7 @@ namespace Microsoft.Iris.Markup
           NativeXmlReader xmlReader)
         {
             if (xmlReader.IsInlineExpression)
-                return (ValidateObject)Parser.ParseCode(owner, xmlReader, Parser.CodeType.InlineExpression);
+                return (ValidateObject)ParseCode(owner, xmlReader, CodeType.InlineExpression);
             string fromString = xmlReader.Value;
             bool expandEscapes = true;
             if (fromString.Length > 0 && fromString[0] == '@')
@@ -311,20 +311,20 @@ namespace Microsoft.Iris.Markup
           Parser.CodeType codeType)
         {
             Validate validate = null;
-            if (Parser.s_lexTable == null)
+            if (s_lexTable == null)
             {
-                Parser.s_lexTable = new ParserLexTable();
-                Parser.s_yaccTable = new ParserYaccTable();
-                Parser.s_lex = new ParserLexClass(Parser.s_lexTable);
-                Parser.s_yacc = new ParserYaccClass(Parser.s_yaccTable, s_lex);
+                s_lexTable = new ParserLexTable();
+                s_yaccTable = new ParserYaccTable();
+                s_lex = new ParserLexClass(s_lexTable);
+                s_yacc = new ParserYaccClass(s_yaccTable, s_lex);
             }
             string prefix;
             switch (codeType)
             {
-                case Parser.CodeType.Methods:
+                case CodeType.Methods:
                     prefix = "%%";
                     break;
-                case Parser.CodeType.InlineExpression:
+                case CodeType.InlineExpression:
                     prefix = "$$";
                     break;
                 default:
@@ -332,19 +332,19 @@ namespace Microsoft.Iris.Markup
                     break;
             }
             SSLexUnicodeBufferConsumer unicodeBufferConsumer = xmlReader.LexConsumerForValueWithPrefix(prefix);
-            Parser.s_lex.Reset(unicodeBufferConsumer);
-            Parser.s_yacc.Reset(owner);
-            Parser.s_parserActive = true;
-            Parser.s_yacc.parse();
-            if (!Parser.s_yacc.HasErrors)
+            s_lex.Reset(unicodeBufferConsumer);
+            s_yacc.Reset(owner);
+            s_parserActive = true;
+            s_yacc.parse();
+            if (!s_yacc.HasErrors)
             {
-                validate = (Validate)Parser.s_yacc.treeRoot().Object;
+                validate = (Validate)s_yacc.treeRoot().Object;
                 if (MarkupSystem.TrackAdditionalMetadata)
                     validate.Metadata.OriginalValue = xmlReader.Value;
             }
-            Parser.s_lex.Reset(null);
-            Parser.s_yacc.Reset(null);
-            Parser.s_parserActive = false;
+            s_lex.Reset(null);
+            s_yacc.Reset(null);
+            s_parserActive = false;
             return validate;
         }
 

@@ -117,13 +117,13 @@ namespace Microsoft.Iris.Session
         public CursorID Cursor
         {
             get => this.InternalWindow.Cursor.CursorID;
-            set => this.InternalWindow.Cursor = Microsoft.Iris.Input.Cursor.GetCursor(value);
+            set => this.InternalWindow.Cursor = Input.Cursor.GetCursor(value);
         }
 
         public CursorID IdleCursor
         {
             get => this.InternalWindow.IdleCursor.CursorID;
-            set => this.InternalWindow.IdleCursor = Microsoft.Iris.Input.Cursor.GetCursor(value);
+            set => this.InternalWindow.IdleCursor = Input.Cursor.GetCursor(value);
         }
 
         public bool Visible
@@ -338,7 +338,7 @@ namespace Microsoft.Iris.Session
         {
             if (this.m_session == null)
                 return;
-            Microsoft.Iris.UI.Environment.Instance.SetIsMouseActive(!fIdle);
+            UI.Environment.Instance.SetIsMouseActive(!fIdle);
         }
 
         internal virtual void OnShow(bool fShow, bool fFirstShow)
@@ -383,7 +383,7 @@ namespace Microsoft.Iris.Session
             point.Y = point1.Y;
         }
 
-        internal void NotifyWinEvent(int idEvent, int idObject, int idChild) => Form.NotifyWinEvent(idEvent, this.__WindowHandle, idObject, idChild);
+        internal void NotifyWinEvent(int idEvent, int idObject, int idChild) => NotifyWinEvent(idEvent, this.__WindowHandle, idObject, idChild);
 
         [DllImport("user32.dll", CharSet = CharSet.Unicode)]
         private static extern void NotifyWinEvent(int idEvent, IntPtr hwnd, int idObject, int idChild);
@@ -414,7 +414,7 @@ namespace Microsoft.Iris.Session
             if (!(clientSize != this.m_sizeWindow))
                 return;
             this.m_sizeWindow = clientSize;
-            if (this.m_renderWindow.WindowState == Microsoft.Iris.Render.WindowState.Minimized)
+            if (this.m_renderWindow.WindowState == Render.WindowState.Minimized)
                 return;
             if (this.m_zone != null)
                 this.m_zone.ResizeRootContainer(clientSize);

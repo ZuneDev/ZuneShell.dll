@@ -20,13 +20,13 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object Construct() => new TypeConstraint();
 
-        public static void Pass1Initialize() => TypeConstraintSchema.Type = new UIXTypeSchema(226, "TypeConstraint", null, 153, typeof(TypeConstraint), UIXTypeFlags.Immutable);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(226, "TypeConstraint", null, 153, typeof(TypeConstraint), UIXTypeFlags.Immutable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(226, "Type", 225, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(TypeConstraintSchema.GetType), new SetValueHandler(TypeConstraintSchema.SetType), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(226, "Constraint", 225, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(TypeConstraintSchema.GetConstraint), new SetValueHandler(TypeConstraintSchema.SetConstraint), false);
-            TypeConstraintSchema.Type.Initialize(new DefaultConstructHandler(TypeConstraintSchema.Construct), null, new PropertySchema[2]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(226, "Type", 225, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetType), new SetValueHandler(SetType), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(226, "Constraint", 225, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetConstraint), new SetValueHandler(SetConstraint), false);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[2]
             {
          uixPropertySchema2,
          uixPropertySchema1

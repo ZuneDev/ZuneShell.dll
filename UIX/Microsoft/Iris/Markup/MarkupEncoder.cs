@@ -846,16 +846,16 @@ namespace Microsoft.Iris.Markup
         }
 
         [Conditional("DEBUG")]
-        private void DEBUG_EmitStop(OpCode opCode) => Microsoft.Iris.Debug.Trace.IsCategoryEnabled(TraceCategory.MarkupEncoding);
+        private void DEBUG_EmitStop(OpCode opCode) => Debug.Trace.IsCategoryEnabled(TraceCategory.MarkupEncoding);
 
         [Conditional("DEBUG")]
-        private void DEBUG_EmitStop(OpCode opCode, object param) => Microsoft.Iris.Debug.Trace.IsCategoryEnabled(TraceCategory.MarkupEncoding);
+        private void DEBUG_EmitStop(OpCode opCode, object param) => Debug.Trace.IsCategoryEnabled(TraceCategory.MarkupEncoding);
 
         [Conditional("DEBUG")]
-        private void DEBUG_EmitStop(OpCode opCode, object param, object param2) => Microsoft.Iris.Debug.Trace.IsCategoryEnabled(TraceCategory.MarkupEncoding);
+        private void DEBUG_EmitStop(OpCode opCode, object param, object param2) => Debug.Trace.IsCategoryEnabled(TraceCategory.MarkupEncoding);
 
         [Conditional("DEBUG")]
-        private void DEBUG_EmitStop(OpCode opCode, object param, object param2, object param3) => Microsoft.Iris.Debug.Trace.IsCategoryEnabled(TraceCategory.MarkupEncoding);
+        private void DEBUG_EmitStop(OpCode opCode, object param, object param2, object param3) => Debug.Trace.IsCategoryEnabled(TraceCategory.MarkupEncoding);
 
         [Conditional("DEBUG")]
         private void DEBUG_EmitStop(
@@ -865,7 +865,7 @@ namespace Microsoft.Iris.Markup
           object param3,
           object param4)
         {
-            Microsoft.Iris.Debug.Trace.IsCategoryEnabled(TraceCategory.MarkupEncoding);
+            Debug.Trace.IsCategoryEnabled(TraceCategory.MarkupEncoding);
         }
 
         [Conditional("DEBUG")]
@@ -877,7 +877,7 @@ namespace Microsoft.Iris.Markup
           object param4,
           object param5)
         {
-            Microsoft.Iris.Debug.Trace.IsCategoryEnabled(TraceCategory.MarkupEncoding);
+            Debug.Trace.IsCategoryEnabled(TraceCategory.MarkupEncoding);
         }
 
         [Conditional("DEBUG")]

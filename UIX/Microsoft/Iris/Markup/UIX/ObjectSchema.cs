@@ -31,23 +31,23 @@ namespace Microsoft.Iris.Markup.UIX
             switch (op)
             {
                 case OperationType.RelationalEquals:
-                    return BooleanBoxes.Box(object.Equals(objA, objB));
+                    return BooleanBoxes.Box(Equals(objA, objB));
                 case OperationType.RelationalNotEquals:
-                    return BooleanBoxes.Box(!object.Equals(objA, objB));
+                    return BooleanBoxes.Box(!Equals(objA, objB));
                 default:
                     return null;
             }
         }
 
-        public static void Pass1Initialize() => ObjectSchema.Type = new UIXTypeSchema(153, "Object", "object", -1, typeof(object), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(153, "Object", "object", -1, typeof(object), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXMethodSchema uixMethodSchema = new UIXMethodSchema(153, "ToString", null, 208, new InvokeHandler(ObjectSchema.CallToString), false);
-            ObjectSchema.Type.Initialize(null, null, null, new MethodSchema[1]
+            UIXMethodSchema uixMethodSchema = new UIXMethodSchema(153, "ToString", null, 208, new InvokeHandler(CallToString), false);
+            Type.Initialize(null, null, null, new MethodSchema[1]
             {
          uixMethodSchema
-            }, null, null, null, null, null, null, new PerformOperationHandler(ObjectSchema.ExecuteOperation), new SupportsOperationHandler(ObjectSchema.IsOperationSupported));
+            }, null, null, null, null, null, null, new PerformOperationHandler(ExecuteOperation), new SupportsOperationHandler(IsOperationSupported));
         }
     }
 }

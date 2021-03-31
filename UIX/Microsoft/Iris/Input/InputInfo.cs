@@ -37,9 +37,9 @@ namespace Microsoft.Iris.Input
 
         protected static void SetPoolLimitMode(InputInfo.InfoType type, bool keepSingle)
         {
-            if (InputInfo.s_pools == null)
-                InputInfo.s_pools = new InputInfo.InfoPool[9];
-            InputInfo.s_pools[(int)type].SetLimitMode(keepSingle);
+            if (s_pools == null)
+                s_pools = new InputInfo.InfoPool[9];
+            s_pools[(int)type].SetLimitMode(keepSingle);
         }
 
         protected abstract InputInfo.InfoType PoolType { get; }
@@ -50,13 +50,13 @@ namespace Microsoft.Iris.Input
             this._eventType = InputEventType.Invalid;
         }
 
-        protected static InputInfo GetFromPool(InputInfo.InfoType poolType) => InputInfo.s_pools[(int)poolType].GetPooledInfo();
+        protected static InputInfo GetFromPool(InputInfo.InfoType poolType) => s_pools[(int)poolType].GetPooledInfo();
 
         public void ReturnToPool()
         {
             if (!this.Poolable)
                 return;
-            InputInfo.s_pools[(int)this.PoolType].RecycleInfo(this);
+            s_pools[(int)this.PoolType].RecycleInfo(this);
         }
 
         private bool Poolable => this._lockCount == 0;

@@ -27,8 +27,8 @@ namespace Microsoft.Iris.Markup
 
         public void AddRecord(uint offset, int line, int column)
         {
-            ulong num = MarkupLineNumberTable.Pack(offset, line, column);
-            if (this._lookupTable.Count > 0 && (int)MarkupLineNumberTable.UnpackOffset(this._lookupTable[this._lookupTable.Count - 1]) == (int)offset)
+            ulong num = Pack(offset, line, column);
+            if (this._lookupTable.Count > 0 && (int)UnpackOffset(this._lookupTable[this._lookupTable.Count - 1]) == (int)offset)
                 this._lookupTable[this._lookupTable.Count - 1] = num;
             else
                 this._lookupTable.Add(num);
@@ -46,12 +46,12 @@ namespace Microsoft.Iris.Markup
         {
             int length = this._runtimeList.Length;
             int index = 0;
-            while (index < length && (offset < MarkupLineNumberTable.UnpackOffset(this._runtimeList[index]) || index != length - 1 && offset >= MarkupLineNumberTable.UnpackOffset(this._runtimeList[index + 1])))
+            while (index < length && (offset < UnpackOffset(this._runtimeList[index]) || index != length - 1 && offset >= UnpackOffset(this._runtimeList[index + 1])))
                 ++index;
             if (index < length)
             {
-                line = MarkupLineNumberTable.UnpackLine(this._runtimeList[index]);
-                column = MarkupLineNumberTable.UnpackColumn(this._runtimeList[index]);
+                line = UnpackLine(this._runtimeList[index]);
+                column = UnpackColumn(this._runtimeList[index]);
             }
             else
             {

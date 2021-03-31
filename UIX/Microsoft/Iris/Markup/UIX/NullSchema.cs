@@ -37,8 +37,8 @@ namespace Microsoft.Iris.Markup.UIX
             }
         }
 
-        public static void Pass1Initialize() => NullSchema.Type = new UIXTypeSchema(152, "Null", null, -1, typeof(object), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(152, "Null", null, -1, typeof(object), UIXTypeFlags.None);
 
-        public static void Pass2Initialize() => NullSchema.Type.Initialize(null, null, null, null, null, null, null, null, null, null, new PerformOperationHandler(NullSchema.ExecuteOperation), new SupportsOperationHandler(NullSchema.IsOperationSupported));
+        public static void Pass2Initialize() => Type.Initialize(null, null, null, null, null, null, null, null, null, null, new PerformOperationHandler(ExecuteOperation), new SupportsOperationHandler(IsOperationSupported));
     }
 }

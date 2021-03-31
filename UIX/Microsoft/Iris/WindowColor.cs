@@ -15,17 +15,17 @@ namespace Microsoft.Iris
 
         public WindowColor(int red, int green, int blue)
         {
-            WindowColor.CheckByte(red, nameof(red));
-            WindowColor.CheckByte(green, nameof(green));
-            WindowColor.CheckByte(blue, nameof(blue));
+            CheckByte(red, nameof(red));
+            CheckByte(green, nameof(green));
+            CheckByte(blue, nameof(blue));
             this._color = new Color(red, green, blue);
         }
 
         public WindowColor(float red, float green, float blue)
         {
-            WindowColor.CheckFloat(red, nameof(red));
-            WindowColor.CheckFloat(green, nameof(green));
-            WindowColor.CheckFloat(blue, nameof(blue));
+            CheckFloat(red, nameof(red));
+            CheckFloat(green, nameof(green));
+            CheckFloat(blue, nameof(blue));
             this._color = new Color(red, green, blue);
         }
 

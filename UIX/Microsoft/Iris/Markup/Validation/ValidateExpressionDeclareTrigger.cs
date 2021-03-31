@@ -32,14 +32,14 @@ namespace Microsoft.Iris.Markup.Validation
             }
             else
             {
-                ValidateExpressionDeclareTrigger.StartNotifierTracking(context, this._expression);
+                StartNotifierTracking(context, this._expression);
                 try
                 {
                     this._expression.Validate(TypeRestriction.None, context);
                 }
                 finally
                 {
-                    ValidateExpressionDeclareTrigger.StopNotifierTracking(this, context, this._expression);
+                    StopNotifierTracking(this, context, this._expression);
                 }
                 if (this._expression.HasErrors)
                     this.MarkHasErrors();

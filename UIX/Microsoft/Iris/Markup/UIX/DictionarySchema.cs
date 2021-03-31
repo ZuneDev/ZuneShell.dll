@@ -52,25 +52,25 @@ namespace Microsoft.Iris.Markup.UIX
             return null;
         }
 
-        public static void Pass1Initialize() => DictionarySchema.Type = new UIXTypeSchema(58, "Dictionary", null, 153, typeof(IDictionary), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(58, "Dictionary", null, 153, typeof(IDictionary), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(58, "Source", 58, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(DictionarySchema.GetSource), null, false);
+            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(58, "Source", 58, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetSource), null, false);
             UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema(58, "get_Item", new short[1]
             {
          153
-            }, 153, new InvokeHandler(DictionarySchema.Callget_ItemObject), false);
+            }, 153, new InvokeHandler(Callget_ItemObject), false);
             UIXMethodSchema uixMethodSchema2 = new UIXMethodSchema(58, "Contains", new short[1]
             {
          153
-            }, 15, new InvokeHandler(DictionarySchema.CallContainsObject), false);
+            }, 15, new InvokeHandler(CallContainsObject), false);
             UIXMethodSchema uixMethodSchema3 = new UIXMethodSchema(58, "set_Item", new short[2]
             {
          153,
          153
-            }, 240, new InvokeHandler(DictionarySchema.Callset_ItemObjectObject), false);
-            DictionarySchema.Type.Initialize(new DefaultConstructHandler(DictionarySchema.Construct), null, new PropertySchema[1]
+            }, 240, new InvokeHandler(Callset_ItemObjectObject), false);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[1]
             {
          uixPropertySchema
             }, new MethodSchema[3]

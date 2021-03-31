@@ -22,7 +22,7 @@ namespace Microsoft.Iris.Markup.UIX
             string str = (string)valueObj;
             instanceObj = null;
             object obj;
-            if (!LayoutSchema.s_NameToLayoutMap.TryGetValue(str.ToLowerInvariant(), out obj))
+            if (!s_NameToLayoutMap.TryGetValue(str.ToLowerInvariant(), out obj))
                 return Result.Fail("Unable to convert \"{0}\" to type '{1}'", str, "Layout");
             ILayout layout = (ILayout)obj;
             instanceObj = layout;
@@ -40,7 +40,7 @@ namespace Microsoft.Iris.Markup.UIX
             instance = null;
             if (StringSchema.Type.IsAssignableFrom(fromType))
             {
-                result = LayoutSchema.ConvertFromString(from, out instance);
+                result = ConvertFromString(from, out instance);
                 if (!result.Failed)
                     return result;
             }
@@ -52,34 +52,34 @@ namespace Microsoft.Iris.Markup.UIX
             string parameter1 = (string)parameters[0];
             ILayout parameter2 = (ILayout)parameters[1];
             object instanceObj1;
-            return LayoutSchema.ConvertFromString(parameter1, out instanceObj1).Failed ? parameter2 : instanceObj1;
+            return ConvertFromString(parameter1, out instanceObj1).Failed ? parameter2 : instanceObj1;
         }
 
         static LayoutSchema()
         {
-            LayoutSchema.s_NameToLayoutMap.Add("anchor", new AnchorLayout());
-            LayoutSchema.s_NameToLayoutMap.Add("default", DefaultLayout.Instance);
-            LayoutSchema.s_NameToLayoutMap.Add("dock", new DockLayout());
-            LayoutSchema.s_NameToLayoutMap.Add("grid", new GridLayout());
-            LayoutSchema.s_NameToLayoutMap.Add("scale", new ScaleLayout());
-            LayoutSchema.s_NameToLayoutMap.Add("popup", new PopupLayout());
-            LayoutSchema.s_NameToLayoutMap.Add("stack", new StackLayout());
-            LayoutSchema.s_NameToLayoutMap.Add("form", new AnchorLayout()
+            s_NameToLayoutMap.Add("anchor", new AnchorLayout());
+            s_NameToLayoutMap.Add("default", DefaultLayout.Instance);
+            s_NameToLayoutMap.Add("dock", new DockLayout());
+            s_NameToLayoutMap.Add("grid", new GridLayout());
+            s_NameToLayoutMap.Add("scale", new ScaleLayout());
+            s_NameToLayoutMap.Add("popup", new PopupLayout());
+            s_NameToLayoutMap.Add("stack", new StackLayout());
+            s_NameToLayoutMap.Add("form", new AnchorLayout()
             {
                 SizeToHorizontalChildren = false,
                 SizeToVerticalChildren = false
             });
-            LayoutSchema.s_NameToLayoutMap.Add("horizontalflow", new FlowLayout()
+            s_NameToLayoutMap.Add("horizontalflow", new FlowLayout()
             {
                 Orientation = Orientation.Horizontal
             });
-            LayoutSchema.s_NameToLayoutMap.Add("verticalflow", new FlowLayout()
+            s_NameToLayoutMap.Add("verticalflow", new FlowLayout()
             {
                 Orientation = Orientation.Vertical
             });
         }
 
-        public static void Pass1Initialize() => LayoutSchema.Type = new UIXTypeSchema(132, "Layout", null, 153, typeof(ILayout), UIXTypeFlags.Immutable);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(132, "Layout", null, 153, typeof(ILayout), UIXTypeFlags.Immutable);
 
         public static void Pass2Initialize()
         {
@@ -87,11 +87,11 @@ namespace Microsoft.Iris.Markup.UIX
             {
          208,
          132
-            }, 132, new InvokeHandler(LayoutSchema.CallTryParseStringLayout), true);
-            LayoutSchema.Type.Initialize(null, null, null, new MethodSchema[1]
+            }, 132, new InvokeHandler(CallTryParseStringLayout), true);
+            Type.Initialize(null, null, null, new MethodSchema[1]
             {
          uixMethodSchema
-            }, null, null, new TypeConverterHandler(LayoutSchema.TryConvertFrom), new SupportsTypeConversionHandler(LayoutSchema.IsConversionSupported), null, null, null, null);
+            }, null, null, new TypeConverterHandler(TryConvertFrom), new SupportsTypeConversionHandler(IsConversionSupported), null, null, null, null);
         }
     }
 }

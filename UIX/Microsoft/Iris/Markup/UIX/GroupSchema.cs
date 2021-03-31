@@ -16,13 +16,13 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object GetEndIndex(object instanceObj) => ((IUIGroup)instanceObj).EndIndex;
 
-        public static void Pass1Initialize() => GroupSchema.Type = new UIXTypeSchema(100, "Group", null, 138, typeof(IUIGroup), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(100, "Group", null, 138, typeof(IUIGroup), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(100, "StartIndex", 115, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GroupSchema.GetStartIndex), null, false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(100, "EndIndex", 115, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GroupSchema.GetEndIndex), null, false);
-            GroupSchema.Type.Initialize(null, null, new PropertySchema[2]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(100, "StartIndex", 115, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetStartIndex), null, false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(100, "EndIndex", 115, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetEndIndex), null, false);
+            Type.Initialize(null, null, new PropertySchema[2]
             {
          uixPropertySchema2,
          uixPropertySchema1

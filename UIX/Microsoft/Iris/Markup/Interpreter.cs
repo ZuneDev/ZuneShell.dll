@@ -23,14 +23,14 @@ namespace Microsoft.Iris.Markup
                 byteCodeReader = context.LoadResult.ObjectSection;
                 num = (long)((ulong)byteCodeReader.CurrentOffset);
                 byteCodeReader.CurrentOffset = context.InitialBytecodeOffset;
-                result = Interpreter.Run(context, byteCodeReader);
+                result = Run(context, byteCodeReader);
                 flag = false;
             }
             finally
             {
                 if (flag)
                 {
-                    Interpreter.ExceptionContext = context.ToString();
+                    ExceptionContext = context.ToString();
                 }
                 ErrorManager.ExitContext();
                 if (byteCodeReader != null && num != -1L)
@@ -50,7 +50,7 @@ namespace Microsoft.Iris.Markup
             MarkupConstantsTable constantsTable = loadResult.ConstantsTable;
             SymbolReference[] symbolReferenceTable = context.MarkupType.SymbolReferenceTable;
             Trace.IsCategoryEnabled(TraceCategory.Markup);
-            Stack stack = Interpreter._stack;
+            Stack stack = _stack;
             int count = stack.Count;
             if (instance != null)
             {
@@ -70,10 +70,10 @@ namespace Microsoft.Iris.Markup
                             int num = reader.ReadUInt16();
                             TypeSchema typeSchema = importTables.TypeImports[num];
                             object obj = typeSchema.ConstructDefault();
-                            Interpreter.ReportErrorOnNull(obj, "Construction", typeSchema.Name);
-                            if (!Interpreter.ErrorsDetected(watermark, ref result, ref flag))
+                            ReportErrorOnNull(obj, "Construction", typeSchema.Name);
+                            if (!ErrorsDetected(watermark, ref result, ref flag))
                             {
-                                Interpreter.RegisterDisposable(obj, typeSchema, instance);
+                                RegisterDisposable(obj, typeSchema, instance);
                                 stack.Push(obj);
                             }
                             break;
@@ -86,7 +86,7 @@ namespace Microsoft.Iris.Markup
                             if (!typeSchema2.IsAssignableFrom(typeSchema3))
                             {
                                 ErrorManager.ReportError("Script runtime failure: Dynamic construction type override failed. Attempting to construct '{0}' in place of '{1}'", (typeSchema3 != null) ? typeSchema3.Name : "null", typeSchema2.Name);
-                                if (Interpreter.ErrorsDetected(watermark, ref result, ref flag))
+                                if (ErrorsDetected(watermark, ref result, ref flag))
                                 {
                                     break;
                                 }
@@ -101,10 +101,10 @@ namespace Microsoft.Iris.Markup
                             {
                                 obj2 = typeSchema3.ConstructDefault();
                             }
-                            Interpreter.ReportErrorOnNull(obj2, "Construction", typeSchema3.Name);
-                            if (!Interpreter.ErrorsDetected(watermark, ref result, ref flag))
+                            ReportErrorOnNull(obj2, "Construction", typeSchema3.Name);
+                            if (!ErrorsDetected(watermark, ref result, ref flag))
                             {
-                                Interpreter.RegisterDisposable(obj2, typeSchema3, instance);
+                                RegisterDisposable(obj2, typeSchema3, instance);
                                 stack.Push(obj2);
                             }
                             break;
@@ -116,18 +116,18 @@ namespace Microsoft.Iris.Markup
                             int num4 = reader.ReadUInt16();
                             ConstructorSchema constructorSchema = importTables.ConstructorImports[num4];
                             int i = constructorSchema.ParameterTypes.Length;
-                            object[] array = Interpreter.ParameterListAllocator.Alloc(i);
+                            object[] array = ParameterListAllocator.Alloc(i);
                             for (i--; i >= 0; i--)
                             {
                                 array[i] = stack.Pop();
                             }
                             object obj3 = constructorSchema.Construct(array);
-                            Interpreter.ReportErrorOnNull(obj3, "Construction", typeSchema4.Name);
-                            if (!Interpreter.ErrorsDetected(watermark, ref result, ref flag))
+                            ReportErrorOnNull(obj3, "Construction", typeSchema4.Name);
+                            if (!ErrorsDetected(watermark, ref result, ref flag))
                             {
-                                Interpreter.RegisterDisposable(obj3, typeSchema4, instance);
+                                RegisterDisposable(obj3, typeSchema4, instance);
                                 stack.Push(obj3);
-                                Interpreter.ParameterListAllocator.Free(array);
+                                ParameterListAllocator.Free(array);
                             }
                             break;
                         }
@@ -139,10 +139,10 @@ namespace Microsoft.Iris.Markup
                             string from = (string)constantsTable.Get(index);
                             object obj4;
                             typeSchema5.TypeConverter(from, StringSchema.Type, out obj4);
-                            Interpreter.ReportErrorOnNull(obj4, "Construction", typeSchema5.Name);
-                            if (!Interpreter.ErrorsDetected(watermark, ref result, ref flag))
+                            ReportErrorOnNull(obj4, "Construction", typeSchema5.Name);
+                            if (!ErrorsDetected(watermark, ref result, ref flag))
                             {
-                                Interpreter.RegisterDisposable(obj4, typeSchema5, instance);
+                                RegisterDisposable(obj4, typeSchema5, instance);
                                 stack.Push(obj4);
                             }
                             break;
@@ -152,10 +152,10 @@ namespace Microsoft.Iris.Markup
                             int num6 = reader.ReadUInt16();
                             TypeSchema typeSchema6 = importTables.TypeImports[num6];
                             object obj5 = typeSchema6.DecodeBinary(reader);
-                            Interpreter.ReportErrorOnNull(obj5, "Construction", typeSchema6.Name);
-                            if (!Interpreter.ErrorsDetected(watermark, ref result, ref flag))
+                            ReportErrorOnNull(obj5, "Construction", typeSchema6.Name);
+                            if (!ErrorsDetected(watermark, ref result, ref flag))
                             {
-                                Interpreter.RegisterDisposable(obj5, typeSchema6, instance);
+                                RegisterDisposable(obj5, typeSchema6, instance);
                                 stack.Push(obj5);
                             }
                             break;
@@ -166,8 +166,8 @@ namespace Microsoft.Iris.Markup
                             TypeSchema typeSchema7 = importTables.TypeImports[num7];
                             object obj6 = stack.Pop();
                             typeSchema7.InitializeInstance(ref obj6);
-                            Interpreter.ReportErrorOnNull(obj6, "Initialize", typeSchema7.Name);
-                            if (!Interpreter.ErrorsDetected(watermark, ref result, ref flag))
+                            ReportErrorOnNull(obj6, "Initialize", typeSchema7.Name);
+                            if (!ErrorsDetected(watermark, ref result, ref flag))
                             {
                                 stack.Push(obj6);
                             }
@@ -178,8 +178,8 @@ namespace Microsoft.Iris.Markup
                             TypeSchema typeSchema8 = (TypeSchema)stack.Pop();
                             object obj7 = stack.Pop();
                             typeSchema8.InitializeInstance(ref obj7);
-                            Interpreter.ReportErrorOnNull(obj7, "Initialize", typeSchema8.Name);
-                            if (!Interpreter.ErrorsDetected(watermark, ref result, ref flag))
+                            ReportErrorOnNull(obj7, "Initialize", typeSchema8.Name);
+                            if (!ErrorsDetected(watermark, ref result, ref flag))
                             {
                                 stack.Push(obj7);
                             }
@@ -231,8 +231,8 @@ namespace Microsoft.Iris.Markup
                             PropertySchema propertySchema = importTables.PropertyImports[num11];
                             object obj9 = stack.Pop();
                             object obj10 = stack.Pop();
-                            Interpreter.ReportErrorOnNull(obj10, "Property Set", propertySchema.Name);
-                            if (!Interpreter.ErrorsDetected(watermark, ref result, ref flag))
+                            ReportErrorOnNull(obj10, "Property Set", propertySchema.Name);
+                            if (!ErrorsDetected(watermark, ref result, ref flag))
                             {
                                 if (flag2)
                                 {
@@ -244,16 +244,16 @@ namespace Microsoft.Iris.Markup
                                         {
                                             string param = TypeSchema.NameFromInstance(obj9);
                                             ErrorManager.ReportError("Script runtime failure: Incompatible value for property '{0}' supplied (expecting values of type '{1}' but got '{2}') while constructing runtime replacement type '{3}' (original type '{4}')", propertySchema.Name, propertyType.Name, param, typeSchema9.Name, propertySchema.Owner.Name);
-                                            result = Interpreter.ScriptError;
+                                            result = ScriptError;
                                         }
-                                        if (Interpreter.ErrorsDetected(watermark, ref result, ref flag))
+                                        if (ErrorsDetected(watermark, ref result, ref flag))
                                         {
                                             break;
                                         }
                                     }
                                 }
                                 propertySchema.SetValue(ref obj10, obj9);
-                                if (!Interpreter.ErrorsDetected(watermark, ref result, ref flag))
+                                if (!ErrorsDetected(watermark, ref result, ref flag))
                                 {
                                     stack.Push(obj10);
                                 }
@@ -264,12 +264,12 @@ namespace Microsoft.Iris.Markup
                         {
                             int propertyIndex = reader.ReadUInt16();
                             object value2 = stack.Pop();
-                            object collection = Interpreter.GetCollection(stack.Peek(), importTables, propertyIndex);
-                            Interpreter.ReportErrorOnNull(collection, "List Add");
-                            if (!Interpreter.ErrorsDetected(watermark, ref result, ref flag))
+                            object collection = GetCollection(stack.Peek(), importTables, propertyIndex);
+                            ReportErrorOnNull(collection, "List Add");
+                            if (!ErrorsDetected(watermark, ref result, ref flag))
                             {
                                 ((IList)collection).Add(value2);
-                                if (Interpreter.ErrorsDetected(watermark, ref result, ref flag))
+                                if (ErrorsDetected(watermark, ref result, ref flag))
                                 {
                                 }
                             }
@@ -281,12 +281,12 @@ namespace Microsoft.Iris.Markup
                             int index2 = reader.ReadUInt16();
                             string key = (string)constantsTable.Get(index2);
                             object value3 = stack.Pop();
-                            object collection2 = Interpreter.GetCollection(stack.Peek(), importTables, propertyIndex2);
-                            Interpreter.ReportErrorOnNull(collection2, "Dictionary Add");
-                            if (!Interpreter.ErrorsDetected(watermark, ref result, ref flag))
+                            object collection2 = GetCollection(stack.Peek(), importTables, propertyIndex2);
+                            ReportErrorOnNull(collection2, "Dictionary Add");
+                            if (!ErrorsDetected(watermark, ref result, ref flag))
                             {
                                 ((IDictionary)collection2)[key] = value3;
-                                if (Interpreter.ErrorsDetected(watermark, ref result, ref flag))
+                                if (ErrorsDetected(watermark, ref result, ref flag))
                                 {
                                 }
                             }
@@ -301,15 +301,15 @@ namespace Microsoft.Iris.Markup
                             if (opCode == OpCode.PropertyAssign)
                             {
                                 instance2 = stack.Pop();
-                                Interpreter.ReportErrorOnNullOrDisposed(instance2, "Property Set", propertySchema3.Name, propertySchema3.Owner);
-                                if (Interpreter.ErrorsDetected(watermark, ref result, ref flag))
+                                ReportErrorOnNullOrDisposed(instance2, "Property Set", propertySchema3.Name, propertySchema3.Owner);
+                                if (ErrorsDetected(watermark, ref result, ref flag))
                                 {
                                     break;
                                 }
                             }
                             object value4 = stack.Peek();
                             propertySchema3.SetValue(ref instance2, value4);
-                            if (!Interpreter.ErrorsDetected(watermark, ref result, ref flag) && Trace.IsCategoryEnabled(TraceCategory.Markup))
+                            if (!ErrorsDetected(watermark, ref result, ref flag) && Trace.IsCategoryEnabled(TraceCategory.Markup))
                             {
                             }
                             break;
@@ -324,14 +324,14 @@ namespace Microsoft.Iris.Markup
                             if (opCode != OpCode.PropertyGetStatic)
                             {
                                 instance3 = ((opCode == OpCode.PropertyGet) ? stack.Pop() : stack.Peek());
-                                Interpreter.ReportErrorOnNullOrDisposed(instance3, "Property Get", propertySchema4.Name, propertySchema4.Owner);
-                                if (Interpreter.ErrorsDetected(watermark, ref result, ref flag))
+                                ReportErrorOnNullOrDisposed(instance3, "Property Get", propertySchema4.Name, propertySchema4.Owner);
+                                if (ErrorsDetected(watermark, ref result, ref flag))
                                 {
                                     break;
                                 }
                             }
                             object value5 = propertySchema4.GetValue(instance3);
-                            if (!Interpreter.ErrorsDetected(watermark, ref result, ref flag))
+                            if (!ErrorsDetected(watermark, ref result, ref flag))
                             {
                                 stack.Push(value5);
                                 if (Trace.IsCategoryEnabled(TraceCategory.Markup))
@@ -349,7 +349,7 @@ namespace Microsoft.Iris.Markup
                             int num14 = reader.ReadUInt16();
                             MethodSchema methodSchema = importTables.MethodImports[num14];
                             int j = methodSchema.ParameterTypes.Length;
-                            object[] array2 = Interpreter.ParameterListAllocator.Alloc(j);
+                            object[] array2 = ParameterListAllocator.Alloc(j);
                             for (j--; j >= 0; j--)
                             {
                                 array2[j] = stack.Pop();
@@ -368,14 +368,14 @@ namespace Microsoft.Iris.Markup
                                 {
                                     instance4 = stack.Peek();
                                 }
-                                Interpreter.ReportErrorOnNullOrDisposed(instance4, "Method Invoke", methodSchema.Name, methodSchema.Owner);
-                                if (Interpreter.ErrorsDetected(watermark, ref result, ref flag))
+                                ReportErrorOnNullOrDisposed(instance4, "Method Invoke", methodSchema.Name, methodSchema.Owner);
+                                if (ErrorsDetected(watermark, ref result, ref flag))
                                 {
                                     break;
                                 }
                             }
                             object obj11 = methodSchema.Invoke(instance4, array2);
-                            if (!Interpreter.ErrorsDetected(watermark, ref result, ref flag))
+                            if (!ErrorsDetected(watermark, ref result, ref flag))
                             {
                                 if (!flag5)
                                 {
@@ -388,7 +388,7 @@ namespace Microsoft.Iris.Markup
                                 {
                                     stack.Push(array2[array2.Length - 1]);
                                 }
-                                Interpreter.ParameterListAllocator.Free(array2);
+                                ParameterListAllocator.Free(array2);
                             }
                             break;
                         }
@@ -404,16 +404,16 @@ namespace Microsoft.Iris.Markup
                                     string param2 = TypeSchema.NameFromInstance(obj12);
                                     string name = typeSchema10.Name;
                                     ErrorManager.ReportError("Script runtime failure: Invalid type cast while attempting to cast an instance with a runtime type of '{0}' to '{1}'", param2, name);
-                                    result = Interpreter.ScriptError;
+                                    result = ScriptError;
                                 }
-                                if (Interpreter.ErrorsDetected(watermark, ref result, ref flag))
+                                if (ErrorsDetected(watermark, ref result, ref flag))
                                 {
                                 }
                             }
                             else if (!typeSchema10.IsNullAssignable)
                             {
-                                Interpreter.ReportErrorOnNull(obj12, "Verify Type Cast", typeSchema10.Name);
-                                if (Interpreter.ErrorsDetected(watermark, ref result, ref flag))
+                                ReportErrorOnNull(obj12, "Verify Type Cast", typeSchema10.Name);
+                                if (ErrorsDetected(watermark, ref result, ref flag))
                                 {
                                 }
                             }
@@ -426,8 +426,8 @@ namespace Microsoft.Iris.Markup
                             int num17 = reader.ReadUInt16();
                             TypeSchema fromType = importTables.TypeImports[num17];
                             object obj13 = stack.Pop();
-                            Interpreter.ReportErrorOnNull(obj13, "Type Conversion", typeSchema11.Name);
-                            if (!Interpreter.ErrorsDetected(watermark, ref result, ref flag))
+                            ReportErrorOnNull(obj13, "Type Conversion", typeSchema11.Name);
+                            if (!ErrorsDetected(watermark, ref result, ref flag))
                             {
                                 object obj14;
                                 Result result2 = typeSchema11.TypeConverter(obj13, fromType, out obj14);
@@ -435,7 +435,7 @@ namespace Microsoft.Iris.Markup
                                 {
                                     ErrorManager.ReportError("Script runtime failure: Type conversion failed while attempting to convert to '{0}' ({1})", typeSchema11.Name, result2.Error);
                                 }
-                                if (!Interpreter.ErrorsDetected(watermark, ref result, ref flag))
+                                if (!ErrorsDetected(watermark, ref result, ref flag))
                                 {
                                     stack.Push(obj14);
                                 }
@@ -454,7 +454,7 @@ namespace Microsoft.Iris.Markup
                             }
                             object left = stack.Pop();
                             object obj15 = typeSchema12.PerformOperationDeep(left, right, op);
-                            if (!Interpreter.ErrorsDetected(watermark, ref result, ref flag))
+                            if (!ErrorsDetected(watermark, ref result, ref flag))
                             {
                                 stack.Push(obj15);
                                 if (Trace.IsCategoryEnabled(TraceCategory.Markup))
@@ -525,7 +525,7 @@ namespace Microsoft.Iris.Markup
                             break;
                         }
                     case OpCode.ReturnVoid:
-                        result = Interpreter.VoidReturnValue;
+                        result = VoidReturnValue;
                         flag = true;
                         break;
                     case OpCode.JumpIfFalse:
@@ -552,9 +552,9 @@ namespace Microsoft.Iris.Markup
                             ushort index4 = reader.ReadUInt16();
                             uint currentOffset2 = reader.ReadUInt32();
                             string key2 = (string)constantsTable.Get(index4);
-                            object collection3 = Interpreter.GetCollection(stack.Peek(), importTables, propertyIndex3);
-                            Interpreter.ReportErrorOnNull(collection3, "Dictionary Contains");
-                            if (!Interpreter.ErrorsDetected(watermark, ref result, ref flag))
+                            object collection3 = GetCollection(stack.Peek(), importTables, propertyIndex3);
+                            ReportErrorOnNull(collection3, "Dictionary Contains");
+                            if (!ErrorsDetected(watermark, ref result, ref flag))
                             {
                                 bool flag8 = ((IDictionary)collection3).Contains(key2);
                                 Trace.IsCategoryEnabled(TraceCategory.Markup);
@@ -671,7 +671,7 @@ namespace Microsoft.Iris.Markup
         {
             if (watermark.ErrorsDetected)
             {
-                result = Interpreter.ScriptError;
+                result = ScriptError;
                 done = true;
                 return true;
             }
@@ -700,7 +700,7 @@ namespace Microsoft.Iris.Markup
             else
             {
                 PropertySchema propertySchema = importTables.PropertyImports[propertyIndex];
-                Interpreter.ReportErrorOnNull(stackInstance, "Property Get", propertySchema.Name);
+                ReportErrorOnNull(stackInstance, "Property Get", propertySchema.Name);
                 if (stackInstance != null)
                 {
                     result = propertySchema.GetValue(stackInstance);
@@ -774,14 +774,14 @@ namespace Microsoft.Iris.Markup
                 object[] array;
                 if (count == 0)
                 {
-                    array = Interpreter.ParameterListAllocator.s_params0;
+                    array = s_params0;
                 }
                 else if (count < 20)
                 {
-                    array = Interpreter.ParameterListAllocator.s_cachedLists[count];
+                    array = s_cachedLists[count];
                     if (array != null)
                     {
-                        Interpreter.ParameterListAllocator.s_cachedLists[count] = null;
+                        s_cachedLists[count] = null;
                     }
                     else
                     {
@@ -799,10 +799,10 @@ namespace Microsoft.Iris.Markup
             public static void Free(object[] paramList)
             {
                 int num = paramList.Length;
-                if (num != 0 && num < 20 && Interpreter.ParameterListAllocator.s_cachedLists[num] == null)
+                if (num != 0 && num < 20 && s_cachedLists[num] == null)
                 {
                     Array.Clear(paramList, 0, paramList.Length);
-                    Interpreter.ParameterListAllocator.s_cachedLists[num] = paramList;
+                    s_cachedLists[num] = paramList;
                 }
             }
 

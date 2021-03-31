@@ -131,39 +131,39 @@ namespace Microsoft.Iris.Markup.UIX
             return null;
         }
 
-        public static void Pass1Initialize() => TextEditingHandlerSchema.Type = new UIXTypeSchema(214, "TextEditingHandler", null, 110, typeof(TextEditingHandler), UIXTypeFlags.Disposable);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(214, "TextEditingHandler", null, 110, typeof(TextEditingHandler), UIXTypeFlags.Disposable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(214, "AcceptsEnter", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TextEditingHandlerSchema.GetAcceptsEnter), new SetValueHandler(TextEditingHandlerSchema.SetAcceptsEnter), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(214, "AcceptsTab", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TextEditingHandlerSchema.GetAcceptsTab), new SetValueHandler(TextEditingHandlerSchema.SetAcceptsTab), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(214, "CaretInfo", 26, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TextEditingHandlerSchema.GetCaretInfo), null, false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(214, "EditableTextData", 68, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TextEditingHandlerSchema.GetEditableTextData), new SetValueHandler(TextEditingHandlerSchema.SetEditableTextData), false);
-            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(214, "Overtype", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TextEditingHandlerSchema.GetOvertype), new SetValueHandler(TextEditingHandlerSchema.SetOvertype), false);
-            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(214, "TextDisplay", 212, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TextEditingHandlerSchema.GetTextDisplay), new SetValueHandler(TextEditingHandlerSchema.SetTextDisplay), false);
-            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema(214, "SelectionRange", 187, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TextEditingHandlerSchema.GetSelectionRange), new SetValueHandler(TextEditingHandlerSchema.SetSelectionRange), false);
-            UIXPropertySchema uixPropertySchema8 = new UIXPropertySchema(214, "CopyCommand", 40, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TextEditingHandlerSchema.GetCopyCommand), null, false);
-            UIXPropertySchema uixPropertySchema9 = new UIXPropertySchema(214, "CutCommand", 40, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TextEditingHandlerSchema.GetCutCommand), null, false);
-            UIXPropertySchema uixPropertySchema10 = new UIXPropertySchema(214, "DeleteCommand", 40, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TextEditingHandlerSchema.GetDeleteCommand), null, false);
-            UIXPropertySchema uixPropertySchema11 = new UIXPropertySchema(214, "PasteCommand", 40, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TextEditingHandlerSchema.GetPasteCommand), null, false);
-            UIXPropertySchema uixPropertySchema12 = new UIXPropertySchema(214, "SelectAllCommand", 40, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TextEditingHandlerSchema.GetSelectAllCommand), null, false);
-            UIXPropertySchema uixPropertySchema13 = new UIXPropertySchema(214, "UndoCommand", 40, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TextEditingHandlerSchema.GetUndoCommand), null, false);
-            UIXPropertySchema uixPropertySchema14 = new UIXPropertySchema(214, "HorizontalScrollModel", 218, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TextEditingHandlerSchema.GetHorizontalScrollModel), new SetValueHandler(TextEditingHandlerSchema.SetHorizontalScrollModel), false);
-            UIXPropertySchema uixPropertySchema15 = new UIXPropertySchema(214, "VerticalScrollModel", 218, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TextEditingHandlerSchema.GetVerticalScrollModel), new SetValueHandler(TextEditingHandlerSchema.SetVerticalScrollModel), false);
-            UIXPropertySchema uixPropertySchema16 = new UIXPropertySchema(214, "DetectUrls", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TextEditingHandlerSchema.GetDetectUrls), new SetValueHandler(TextEditingHandlerSchema.SetDetectUrls), false);
-            UIXPropertySchema uixPropertySchema17 = new UIXPropertySchema(214, "LinkColor", 35, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TextEditingHandlerSchema.GetLinkColor), new SetValueHandler(TextEditingHandlerSchema.SetLinkColor), false);
-            UIXPropertySchema uixPropertySchema18 = new UIXPropertySchema(214, "LinkClickedParameter", 208, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TextEditingHandlerSchema.GetLinkClickedParameter), null, false);
-            UIXPropertySchema uixPropertySchema19 = new UIXPropertySchema(214, "InImeCompositionMode", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TextEditingHandlerSchema.GetInImeCompositionMode), new SetValueHandler(TextEditingHandlerSchema.SetInImeCompositionMode), false);
-            UIXPropertySchema uixPropertySchema20 = new UIXPropertySchema(214, "HandlerStage", 112, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TextEditingHandlerSchema.GetHandlerStage), new SetValueHandler(TextEditingHandlerSchema.SetHandlerStage), false);
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(214, "AcceptsEnter", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetAcceptsEnter), new SetValueHandler(SetAcceptsEnter), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(214, "AcceptsTab", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetAcceptsTab), new SetValueHandler(SetAcceptsTab), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(214, "CaretInfo", 26, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetCaretInfo), null, false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(214, "EditableTextData", 68, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetEditableTextData), new SetValueHandler(SetEditableTextData), false);
+            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(214, "Overtype", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetOvertype), new SetValueHandler(SetOvertype), false);
+            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(214, "TextDisplay", 212, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetTextDisplay), new SetValueHandler(SetTextDisplay), false);
+            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema(214, "SelectionRange", 187, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetSelectionRange), new SetValueHandler(SetSelectionRange), false);
+            UIXPropertySchema uixPropertySchema8 = new UIXPropertySchema(214, "CopyCommand", 40, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetCopyCommand), null, false);
+            UIXPropertySchema uixPropertySchema9 = new UIXPropertySchema(214, "CutCommand", 40, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetCutCommand), null, false);
+            UIXPropertySchema uixPropertySchema10 = new UIXPropertySchema(214, "DeleteCommand", 40, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetDeleteCommand), null, false);
+            UIXPropertySchema uixPropertySchema11 = new UIXPropertySchema(214, "PasteCommand", 40, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetPasteCommand), null, false);
+            UIXPropertySchema uixPropertySchema12 = new UIXPropertySchema(214, "SelectAllCommand", 40, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetSelectAllCommand), null, false);
+            UIXPropertySchema uixPropertySchema13 = new UIXPropertySchema(214, "UndoCommand", 40, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetUndoCommand), null, false);
+            UIXPropertySchema uixPropertySchema14 = new UIXPropertySchema(214, "HorizontalScrollModel", 218, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetHorizontalScrollModel), new SetValueHandler(SetHorizontalScrollModel), false);
+            UIXPropertySchema uixPropertySchema15 = new UIXPropertySchema(214, "VerticalScrollModel", 218, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetVerticalScrollModel), new SetValueHandler(SetVerticalScrollModel), false);
+            UIXPropertySchema uixPropertySchema16 = new UIXPropertySchema(214, "DetectUrls", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetDetectUrls), new SetValueHandler(SetDetectUrls), false);
+            UIXPropertySchema uixPropertySchema17 = new UIXPropertySchema(214, "LinkColor", 35, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetLinkColor), new SetValueHandler(SetLinkColor), false);
+            UIXPropertySchema uixPropertySchema18 = new UIXPropertySchema(214, "LinkClickedParameter", 208, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetLinkClickedParameter), null, false);
+            UIXPropertySchema uixPropertySchema19 = new UIXPropertySchema(214, "InImeCompositionMode", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetInImeCompositionMode), new SetValueHandler(SetInImeCompositionMode), false);
+            UIXPropertySchema uixPropertySchema20 = new UIXPropertySchema(214, "HandlerStage", 112, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetHandlerStage), new SetValueHandler(SetHandlerStage), false);
             UIXEventSchema uixEventSchema1 = new UIXEventSchema(214, "TypingInputRejected");
-            UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema(214, "Copy", null, 240, new InvokeHandler(TextEditingHandlerSchema.CallCopy), false);
-            UIXMethodSchema uixMethodSchema2 = new UIXMethodSchema(214, "Cut", null, 240, new InvokeHandler(TextEditingHandlerSchema.CallCut), false);
-            UIXMethodSchema uixMethodSchema3 = new UIXMethodSchema(214, "Delete", null, 240, new InvokeHandler(TextEditingHandlerSchema.CallDelete), false);
-            UIXMethodSchema uixMethodSchema4 = new UIXMethodSchema(214, "Paste", null, 240, new InvokeHandler(TextEditingHandlerSchema.CallPaste), false);
-            UIXMethodSchema uixMethodSchema5 = new UIXMethodSchema(214, "SelectAll", null, 240, new InvokeHandler(TextEditingHandlerSchema.CallSelectAll), false);
-            UIXMethodSchema uixMethodSchema6 = new UIXMethodSchema(214, "Undo", null, 240, new InvokeHandler(TextEditingHandlerSchema.CallUndo), false);
+            UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema(214, "Copy", null, 240, new InvokeHandler(CallCopy), false);
+            UIXMethodSchema uixMethodSchema2 = new UIXMethodSchema(214, "Cut", null, 240, new InvokeHandler(CallCut), false);
+            UIXMethodSchema uixMethodSchema3 = new UIXMethodSchema(214, "Delete", null, 240, new InvokeHandler(CallDelete), false);
+            UIXMethodSchema uixMethodSchema4 = new UIXMethodSchema(214, "Paste", null, 240, new InvokeHandler(CallPaste), false);
+            UIXMethodSchema uixMethodSchema5 = new UIXMethodSchema(214, "SelectAll", null, 240, new InvokeHandler(CallSelectAll), false);
+            UIXMethodSchema uixMethodSchema6 = new UIXMethodSchema(214, "Undo", null, 240, new InvokeHandler(CallUndo), false);
             UIXEventSchema uixEventSchema2 = new UIXEventSchema(214, "LinkClicked");
-            TextEditingHandlerSchema.Type.Initialize(new DefaultConstructHandler(TextEditingHandlerSchema.Construct), null, new PropertySchema[20]
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[20]
             {
          uixPropertySchema1,
          uixPropertySchema2,

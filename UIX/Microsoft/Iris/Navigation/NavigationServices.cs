@@ -18,7 +18,7 @@ namespace Microsoft.Iris.Navigation
     {
         private static float s_originNear = 0.0f;
         private static float s_originSize = 0.0f;
-        private static NavigationServices.SearchOrientation s_originOrientation = NavigationServices.SearchOrientation.None;
+        private static NavigationServices.SearchOrientation s_originOrientation = SearchOrientation.None;
 
         public static bool FindNextPeer(
           INavigationSite originSite,
@@ -27,17 +27,17 @@ namespace Microsoft.Iris.Navigation
           out INavigationSite resultSite)
         {
             INavigationSite navigationSite1 = originSite;
-            Microsoft.Iris.Debug.Trace.IsCategoryEnabled(TraceCategory.Navigation, 2);
-            if (startRectangleF.IsEmpty && !NavigationServices.GetDefaultOutboundStartRect(originSite, out startRectangleF))
+            Debug.Trace.IsCategoryEnabled(TraceCategory.Navigation, 2);
+            if (startRectangleF.IsEmpty && !GetDefaultOutboundStartRect(originSite, out startRectangleF))
             {
                 resultSite = null;
                 return false;
             }
-            NavigationServices.ProcessDirectionalMemory(ref startRectangleF, searchDirection);
-            INavigationSite parentTabGroup = NavigationServices.FindParentTabGroup(navigationSite1, searchDirection);
+            ProcessDirectionalMemory(ref startRectangleF, searchDirection);
+            INavigationSite parentTabGroup = FindParentTabGroup(navigationSite1, searchDirection);
             if (parentTabGroup != null)
                 navigationSite1 = parentTabGroup;
-            INavigationSite boundingSite = NavigationServices.FindBoundingSite(navigationSite1, searchDirection);
+            INavigationSite boundingSite = FindBoundingSite(navigationSite1, searchDirection);
             INavigationSite navigationSite2 = null;
             NavigationItem itemForSite1 = NavigationItem.CreateItemForSite(navigationSite1, searchDirection, false);
             if (itemForSite1 != null)
@@ -51,7 +51,7 @@ namespace Microsoft.Iris.Navigation
                     Vector3 sizePxlVector;
                     boundingSite.ComputeBounds(out positionPxlVector, out sizePxlVector);
                     RectangleF excludeRectangleF = new RectangleF(positionPxlVector.X, positionPxlVector.Y, sizePxlVector.X, sizePxlVector.Y);
-                    NavigationServices.AdjustStartRectForSimulatedEntry(searchDirection, excludeRectangleF, ref startRectangleF);
+                    AdjustStartRectForSimulatedEntry(searchDirection, excludeRectangleF, ref startRectangleF);
                     NavigationItem itemForSite2 = NavigationItem.CreateItemForSite(boundingSite, searchDirection, true);
                     if (itemForSite2 != null)
                     {
@@ -73,7 +73,7 @@ namespace Microsoft.Iris.Navigation
           PointF pt,
           out INavigationSite result)
         {
-            return NavigationServices.FindFromPoint(originSite, Direction.Next, pt, out result);
+            return FindFromPoint(originSite, Direction.Next, pt, out result);
         }
 
         public static bool FindFromPoint(
@@ -82,7 +82,7 @@ namespace Microsoft.Iris.Navigation
           PointF pt,
           out INavigationSite result)
         {
-            NavigationServices.ResetDirectionalMemory();
+            ResetDirectionalMemory();
             return new FindFromPointWorker(originSite, bias).FindFromPoint(pt, out result);
         }
 
@@ -92,13 +92,13 @@ namespace Microsoft.Iris.Navigation
           RectangleF startRectangleF,
           out INavigationSite resultSite)
         {
-            Microsoft.Iris.Debug.Trace.IsCategoryEnabled(TraceCategory.Navigation, 2);
-            if (startRectangleF.IsEmpty && !NavigationServices.GetDefaultInboundStartRect(originSite, searchDirection, out startRectangleF))
+            Debug.Trace.IsCategoryEnabled(TraceCategory.Navigation, 2);
+            if (startRectangleF.IsEmpty && !GetDefaultInboundStartRect(originSite, searchDirection, out startRectangleF))
             {
                 resultSite = null;
                 return false;
             }
-            NavigationServices.ProcessDirectionalMemory(ref startRectangleF, searchDirection);
+            ProcessDirectionalMemory(ref startRectangleF, searchDirection);
             INavigationSite navigationSite = null;
             NavigationItem itemForSite = NavigationItem.CreateItemForSite(originSite, searchDirection, true);
             if (itemForSite != null)
@@ -126,9 +126,9 @@ namespace Microsoft.Iris.Navigation
           Direction searchDirection,
           out RectangleF startRectangleF)
         {
-            if (!NavigationServices.GetDefaultOutboundStartRect(originSite, out startRectangleF))
+            if (!GetDefaultOutboundStartRect(originSite, out startRectangleF))
                 return false;
-            NavigationServices.AdjustStartRectForSimulatedEntry(searchDirection, startRectangleF, ref startRectangleF);
+            AdjustStartRectForSimulatedEntry(searchDirection, startRectangleF, ref startRectangleF);
             return true;
         }
 
@@ -148,7 +148,7 @@ namespace Microsoft.Iris.Navigation
             return true;
         }
 
-        private static void ResetDirectionalMemory() => NavigationServices.UpdateDirectionalMemoryInfo(RectangleF.Zero, Direction.Next);
+        private static void ResetDirectionalMemory() => UpdateDirectionalMemoryInfo(RectangleF.Zero, Direction.Next);
 
         private static bool UpdateDirectionalMemoryInfo(
           RectangleF startRectangleF,
@@ -156,32 +156,32 @@ namespace Microsoft.Iris.Navigation
         {
             float num1 = 0.0f;
             float num2 = 0.0f;
-            NavigationServices.SearchOrientation searchOrientation = NavigationServices.SearchOrientation.None;
+            NavigationServices.SearchOrientation searchOrientation = SearchOrientation.None;
             switch (searchDirection)
             {
                 case Direction.North:
                 case Direction.South:
-                    searchOrientation = NavigationServices.SearchOrientation.Vertical;
+                    searchOrientation = SearchOrientation.Vertical;
                     num1 = startRectangleF.X;
                     num2 = startRectangleF.Width;
                     break;
                 case Direction.East:
                 case Direction.West:
-                    searchOrientation = NavigationServices.SearchOrientation.Horizontal;
+                    searchOrientation = SearchOrientation.Horizontal;
                     num1 = startRectangleF.Y;
                     num2 = startRectangleF.Height;
                     break;
                 case Direction.Previous:
                 case Direction.Next:
-                    searchOrientation = NavigationServices.SearchOrientation.None;
+                    searchOrientation = SearchOrientation.None;
                     break;
             }
-            bool flag = NavigationServices.s_originOrientation != searchOrientation;
+            bool flag = s_originOrientation != searchOrientation;
             if (flag)
             {
-                NavigationServices.s_originOrientation = searchOrientation;
-                NavigationServices.s_originNear = num1;
-                NavigationServices.s_originSize = num2;
+                s_originOrientation = searchOrientation;
+                s_originNear = num1;
+                s_originSize = num2;
             }
             return flag;
         }
@@ -190,20 +190,20 @@ namespace Microsoft.Iris.Navigation
           ref RectangleF startRectangleF,
           Direction searchDirection)
         {
-            if (NavigationServices.UpdateDirectionalMemoryInfo(startRectangleF, searchDirection))
+            if (UpdateDirectionalMemoryInfo(startRectangleF, searchDirection))
                 return;
             bool flag = true;
-            switch (NavigationServices.s_originOrientation)
+            switch (s_originOrientation)
             {
-                case NavigationServices.SearchOrientation.Horizontal:
-                    startRectangleF.Y = NavigationServices.s_originNear;
-                    startRectangleF.Height = NavigationServices.s_originSize;
+                case SearchOrientation.Horizontal:
+                    startRectangleF.Y = s_originNear;
+                    startRectangleF.Height = s_originSize;
                     break;
-                case NavigationServices.SearchOrientation.Vertical:
-                    startRectangleF.X = NavigationServices.s_originNear;
-                    startRectangleF.Width = NavigationServices.s_originSize;
+                case SearchOrientation.Vertical:
+                    startRectangleF.X = s_originNear;
+                    startRectangleF.Width = s_originSize;
                     break;
-                case NavigationServices.SearchOrientation.None:
+                case SearchOrientation.None:
                     flag = false;
                     break;
             }

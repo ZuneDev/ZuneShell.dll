@@ -101,7 +101,7 @@ namespace Microsoft.Iris
             if (this.IsDisposed)
                 return;
             this.FirePropertyChanged("Invoked");
-            if (this.GetEventHandler(Command.s_invokedEvent) is EventHandler eventHandler)
+            if (this.GetEventHandler(s_invokedEvent) is EventHandler eventHandler)
                 eventHandler(this, EventArgs.Empty);
             this.OnInvoked();
         }
@@ -111,12 +111,12 @@ namespace Microsoft.Iris
             add
             {
                 using (this.ThreadValidator)
-                    this.AddEventHandler(Command.s_invokedEvent, value);
+                    this.AddEventHandler(s_invokedEvent, value);
             }
             remove
             {
                 using (this.ThreadValidator)
-                    this.RemoveEventHandler(Command.s_invokedEvent, value);
+                    this.RemoveEventHandler(s_invokedEvent, value);
             }
         }
 

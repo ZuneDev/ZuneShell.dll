@@ -12,7 +12,7 @@ namespace Microsoft.Iris.Markup.UIX
 {
     internal static class SizeSchema
     {
-        public static RangeValidator ValidateNotNegative = new RangeValidator(SizeSchema.RangeValidateNotNegative);
+        public static RangeValidator ValidateNotNegative = new RangeValidator(RangeValidateNotNegative);
         public static UIXTypeSchema Type;
 
         private static object GetWidth(object instanceObj) => ((Size)instanceObj).Width;
@@ -39,9 +39,9 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object ConstructWidthHeight(object[] parameters)
         {
-            object instanceObj = SizeSchema.Construct();
-            SizeSchema.SetWidth(ref instanceObj, parameters[0]);
-            SizeSchema.SetHeight(ref instanceObj, parameters[1]);
+            object instanceObj = Construct();
+            SetWidth(ref instanceObj, parameters[0]);
+            SetHeight(ref instanceObj, parameters[1]);
             return instanceObj;
         }
 
@@ -49,17 +49,17 @@ namespace Microsoft.Iris.Markup.UIX
           string[] splitString,
           out object instance)
         {
-            instance = SizeSchema.Construct();
+            instance = Construct();
             object valueObj1;
             Result result1 = UIXLoadResult.ValidateStringAsValue(splitString[0], Int32Schema.Type, null, out valueObj1);
             if (result1.Failed)
                 return Result.Fail("Problem converting '{0}' ({1})", "Size", result1.Error);
-            SizeSchema.SetWidth(ref instance, valueObj1);
+            SetWidth(ref instance, valueObj1);
             object valueObj2;
             Result result2 = UIXLoadResult.ValidateStringAsValue(splitString[1], Int32Schema.Type, null, out valueObj2);
             if (result2.Failed)
                 return Result.Fail("Problem converting '{0}' ({1})", "Size", result2.Error);
-            SizeSchema.SetHeight(ref instance, valueObj2);
+            SetHeight(ref instance, valueObj2);
             return result2;
         }
 
@@ -86,7 +86,7 @@ namespace Microsoft.Iris.Markup.UIX
                 string[] splitString = StringUtility.SplitAndTrim(',', (string)from);
                 if (splitString.Length == 2)
                 {
-                    result = SizeSchema.ConvertFromStringWidthHeight(splitString, out instance);
+                    result = ConvertFromStringWidthHeight(splitString, out instance);
                     if (!result.Failed)
                         return result;
                 }
@@ -102,25 +102,25 @@ namespace Microsoft.Iris.Markup.UIX
             return size.Width < 0 || size.Height < 0 ? Result.Fail("Expecting a non-negative value, but got {0}", size.ToString()) : Result.Success;
         }
 
-        public static void Pass1Initialize() => SizeSchema.Type = new UIXTypeSchema(195, "Size", null, 153, typeof(Size), UIXTypeFlags.Immutable);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(195, "Size", null, 153, typeof(Size), UIXTypeFlags.Immutable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(195, "Width", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(SizeSchema.GetWidth), new SetValueHandler(SizeSchema.SetWidth), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(195, "Height", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(SizeSchema.GetHeight), new SetValueHandler(SizeSchema.SetHeight), false);
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(195, "Width", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetWidth), new SetValueHandler(SetWidth), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(195, "Height", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetHeight), new SetValueHandler(SetHeight), false);
             UIXConstructorSchema constructorSchema = new UIXConstructorSchema(195, new short[2]
             {
          115,
          115
-            }, new ConstructHandler(SizeSchema.ConstructWidthHeight));
-            SizeSchema.Type.Initialize(new DefaultConstructHandler(SizeSchema.Construct), new ConstructorSchema[1]
+            }, new ConstructHandler(ConstructWidthHeight));
+            Type.Initialize(new DefaultConstructHandler(Construct), new ConstructorSchema[1]
             {
          constructorSchema
             }, new PropertySchema[2]
             {
          uixPropertySchema2,
          uixPropertySchema1
-            }, null, null, null, new TypeConverterHandler(SizeSchema.TryConvertFrom), new SupportsTypeConversionHandler(SizeSchema.IsConversionSupported), new EncodeBinaryHandler(SizeSchema.EncodeBinary), new DecodeBinaryHandler(SizeSchema.DecodeBinary), null, null);
+            }, null, null, null, new TypeConverterHandler(TryConvertFrom), new SupportsTypeConversionHandler(IsConversionSupported), new EncodeBinaryHandler(EncodeBinary), new DecodeBinaryHandler(DecodeBinary), null, null);
         }
     }
 }

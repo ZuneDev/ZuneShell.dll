@@ -176,7 +176,7 @@ namespace Microsoft.Iris.Markup
 
         public override object PerformOperation(object left, object right, OperationType op)
         {
-            bool flag = object.Equals(left, right);
+            bool flag = Equals(left, right);
             switch (op)
             {
                 case OperationType.RelationalEquals:

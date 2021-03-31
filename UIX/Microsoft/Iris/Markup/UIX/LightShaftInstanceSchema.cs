@@ -74,41 +74,41 @@ namespace Microsoft.Iris.Markup.UIX
             return null;
         }
 
-        public static void Pass1Initialize() => LightShaftInstanceSchema.Type = new UIXTypeSchema(136, "LightShaftInstance", null, 74, typeof(EffectElementWrapper), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(136, "LightShaftInstance", null, 74, typeof(EffectElementWrapper), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(136, "Position", 234, -1, ExpressionRestriction.None, false, null, false, null, new SetValueHandler(LightShaftInstanceSchema.SetPosition), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(136, "Decay", 194, -1, ExpressionRestriction.None, false, null, false, null, new SetValueHandler(LightShaftInstanceSchema.SetDecay), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(136, "Density", 194, -1, ExpressionRestriction.None, false, null, false, null, new SetValueHandler(LightShaftInstanceSchema.SetDensity), false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(136, "FallOff", 194, -1, ExpressionRestriction.None, false, null, false, null, new SetValueHandler(LightShaftInstanceSchema.SetFallOff), false);
-            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(136, "Intensity", 194, -1, ExpressionRestriction.None, false, null, false, null, new SetValueHandler(LightShaftInstanceSchema.SetIntensity), false);
-            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(136, "Weight", 194, -1, ExpressionRestriction.None, false, null, false, null, new SetValueHandler(LightShaftInstanceSchema.SetWeight), false);
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(136, "Position", 234, -1, ExpressionRestriction.None, false, null, false, null, new SetValueHandler(SetPosition), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(136, "Decay", 194, -1, ExpressionRestriction.None, false, null, false, null, new SetValueHandler(SetDecay), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(136, "Density", 194, -1, ExpressionRestriction.None, false, null, false, null, new SetValueHandler(SetDensity), false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(136, "FallOff", 194, -1, ExpressionRestriction.None, false, null, false, null, new SetValueHandler(SetFallOff), false);
+            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(136, "Intensity", 194, -1, ExpressionRestriction.None, false, null, false, null, new SetValueHandler(SetIntensity), false);
+            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(136, "Weight", 194, -1, ExpressionRestriction.None, false, null, false, null, new SetValueHandler(SetWeight), false);
             UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema(136, "PlayPositionAnimation", new short[1]
             {
          81
-            }, 240, new InvokeHandler(LightShaftInstanceSchema.CallPlayPositionAnimationEffectVector3Animation), false);
+            }, 240, new InvokeHandler(CallPlayPositionAnimationEffectVector3Animation), false);
             UIXMethodSchema uixMethodSchema2 = new UIXMethodSchema(136, "PlayDecayAnimation", new short[1]
             {
          75
-            }, 240, new InvokeHandler(LightShaftInstanceSchema.CallPlayDecayAnimationEffectFloatAnimation), false);
+            }, 240, new InvokeHandler(CallPlayDecayAnimationEffectFloatAnimation), false);
             UIXMethodSchema uixMethodSchema3 = new UIXMethodSchema(136, "PlayDensityAnimation", new short[1]
             {
          75
-            }, 240, new InvokeHandler(LightShaftInstanceSchema.CallPlayDensityAnimationEffectFloatAnimation), false);
+            }, 240, new InvokeHandler(CallPlayDensityAnimationEffectFloatAnimation), false);
             UIXMethodSchema uixMethodSchema4 = new UIXMethodSchema(136, "PlayIntensityAnimation", new short[1]
             {
          75
-            }, 240, new InvokeHandler(LightShaftInstanceSchema.CallPlayIntensityAnimationEffectFloatAnimation), false);
+            }, 240, new InvokeHandler(CallPlayIntensityAnimationEffectFloatAnimation), false);
             UIXMethodSchema uixMethodSchema5 = new UIXMethodSchema(136, "PlayFallOffAnimation", new short[1]
             {
          75
-            }, 240, new InvokeHandler(LightShaftInstanceSchema.CallPlayFallOffAnimationEffectFloatAnimation), false);
+            }, 240, new InvokeHandler(CallPlayFallOffAnimationEffectFloatAnimation), false);
             UIXMethodSchema uixMethodSchema6 = new UIXMethodSchema(136, "PlayWeightAnimation", new short[1]
             {
          75
-            }, 240, new InvokeHandler(LightShaftInstanceSchema.CallPlayWeightAnimationEffectFloatAnimation), false);
-            LightShaftInstanceSchema.Type.Initialize(null, null, new PropertySchema[6]
+            }, 240, new InvokeHandler(CallPlayWeightAnimationEffectFloatAnimation), false);
+            Type.Initialize(null, null, new PropertySchema[6]
             {
          uixPropertySchema2,
          uixPropertySchema3,

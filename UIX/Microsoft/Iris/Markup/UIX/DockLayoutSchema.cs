@@ -23,13 +23,13 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object Construct() => new DockLayout();
 
-        public static void Pass1Initialize() => DockLayoutSchema.Type = new UIXTypeSchema(59, "DockLayout", null, 132, typeof(DockLayout), UIXTypeFlags.Immutable);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(59, "DockLayout", null, 132, typeof(DockLayout), UIXTypeFlags.Immutable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(59, "DefaultLayoutInput", 60, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(DockLayoutSchema.GetDefaultLayoutInput), new SetValueHandler(DockLayoutSchema.SetDefaultLayoutInput), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(59, "DefaultChildAlignment", sbyte.MaxValue, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(DockLayoutSchema.GetDefaultChildAlignment), new SetValueHandler(DockLayoutSchema.SetDefaultChildAlignment), false);
-            DockLayoutSchema.Type.Initialize(new DefaultConstructHandler(DockLayoutSchema.Construct), null, new PropertySchema[2]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(59, "DefaultLayoutInput", 60, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetDefaultLayoutInput), new SetValueHandler(SetDefaultLayoutInput), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(59, "DefaultChildAlignment", sbyte.MaxValue, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(GetDefaultChildAlignment), new SetValueHandler(SetDefaultChildAlignment), false);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[2]
             {
          uixPropertySchema2,
          uixPropertySchema1

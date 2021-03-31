@@ -43,7 +43,7 @@ namespace Microsoft.Iris
 
         void ITimerOwner.OnTimerPropertyChanged(string id)
         {
-            if (object.ReferenceEquals(id, NotificationID.Interval))
+            if (ReferenceEquals(id, NotificationID.Interval))
                 this.FirePropertyChanged("TimeSpanInterval");
             this.FirePropertyChanged(id);
         }

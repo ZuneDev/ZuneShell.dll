@@ -38,7 +38,7 @@ namespace Microsoft.Iris
             get => this._result;
             set
             {
-                if (object.Equals(this._result, value))
+                if (Equals(this._result, value))
                     return;
                 this._result = value;
                 this.FirePropertyChanged(nameof(Result));
@@ -103,7 +103,7 @@ namespace Microsoft.Iris
                 }
                 if (!flag2 && this._propertyValues.ContainsKey(propertyName))
                 {
-                    if (object.Equals(this._propertyValues[propertyName], value))
+                    if (Equals(this._propertyValues[propertyName], value))
                         goto label_8;
                 }
                 this._propertyValues[propertyName] = value;

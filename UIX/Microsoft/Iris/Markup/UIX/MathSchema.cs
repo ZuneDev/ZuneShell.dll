@@ -117,7 +117,7 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object CallLog10Double(object instanceObj, object[] parameters) => Math.Log10((double)parameters[0]);
 
-        public static void Pass1Initialize() => MathSchema.Type = new UIXTypeSchema(145, "Math", null, 153, typeof(object), UIXTypeFlags.Static);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(145, "Math", null, 153, typeof(object), UIXTypeFlags.Static);
 
         public static void Pass2Initialize()
         {
@@ -125,132 +125,132 @@ namespace Microsoft.Iris.Markup.UIX
             {
          115,
          115
-            }, 115, new InvokeHandler(MathSchema.CallMinInt32Int32), true);
+            }, 115, new InvokeHandler(CallMinInt32Int32), true);
             UIXMethodSchema uixMethodSchema2 = new UIXMethodSchema(145, "Min", new short[2]
             {
          194,
          194
-            }, 194, new InvokeHandler(MathSchema.CallMinSingleSingle), true);
+            }, 194, new InvokeHandler(CallMinSingleSingle), true);
             UIXMethodSchema uixMethodSchema3 = new UIXMethodSchema(145, "Min", new short[2]
             {
          61,
          61
-            }, 61, new InvokeHandler(MathSchema.CallMinDoubleDouble), true);
+            }, 61, new InvokeHandler(CallMinDoubleDouble), true);
             UIXMethodSchema uixMethodSchema4 = new UIXMethodSchema(145, "Max", new short[2]
             {
          115,
          115
-            }, 115, new InvokeHandler(MathSchema.CallMaxInt32Int32), true);
+            }, 115, new InvokeHandler(CallMaxInt32Int32), true);
             UIXMethodSchema uixMethodSchema5 = new UIXMethodSchema(145, "Max", new short[2]
             {
          194,
          194
-            }, 194, new InvokeHandler(MathSchema.CallMaxSingleSingle), true);
+            }, 194, new InvokeHandler(CallMaxSingleSingle), true);
             UIXMethodSchema uixMethodSchema6 = new UIXMethodSchema(145, "Max", new short[2]
             {
          61,
          61
-            }, 61, new InvokeHandler(MathSchema.CallMaxDoubleDouble), true);
+            }, 61, new InvokeHandler(CallMaxDoubleDouble), true);
             UIXMethodSchema uixMethodSchema7 = new UIXMethodSchema(145, "Abs", new short[1]
             {
          115
-            }, 115, new InvokeHandler(MathSchema.CallAbsInt32), true);
+            }, 115, new InvokeHandler(CallAbsInt32), true);
             UIXMethodSchema uixMethodSchema8 = new UIXMethodSchema(145, "Abs", new short[1]
             {
          194
-            }, 194, new InvokeHandler(MathSchema.CallAbsSingle), true);
+            }, 194, new InvokeHandler(CallAbsSingle), true);
             UIXMethodSchema uixMethodSchema9 = new UIXMethodSchema(145, "Abs", new short[1]
             {
          61
-            }, 61, new InvokeHandler(MathSchema.CallAbsDouble), true);
+            }, 61, new InvokeHandler(CallAbsDouble), true);
             UIXMethodSchema uixMethodSchema10 = new UIXMethodSchema(145, "Round", new short[1]
             {
          194
-            }, 194, new InvokeHandler(MathSchema.CallRoundSingle), true);
+            }, 194, new InvokeHandler(CallRoundSingle), true);
             UIXMethodSchema uixMethodSchema11 = new UIXMethodSchema(145, "Round", new short[1]
             {
          61
-            }, 61, new InvokeHandler(MathSchema.CallRoundDouble), true);
+            }, 61, new InvokeHandler(CallRoundDouble), true);
             UIXMethodSchema uixMethodSchema12 = new UIXMethodSchema(145, "Floor", new short[1]
             {
          194
-            }, 194, new InvokeHandler(MathSchema.CallFloorSingle), true);
+            }, 194, new InvokeHandler(CallFloorSingle), true);
             UIXMethodSchema uixMethodSchema13 = new UIXMethodSchema(145, "Floor", new short[1]
             {
          61
-            }, 61, new InvokeHandler(MathSchema.CallFloorDouble), true);
+            }, 61, new InvokeHandler(CallFloorDouble), true);
             UIXMethodSchema uixMethodSchema14 = new UIXMethodSchema(145, "Ceiling", new short[1]
             {
          194
-            }, 194, new InvokeHandler(MathSchema.CallCeilingSingle), true);
+            }, 194, new InvokeHandler(CallCeilingSingle), true);
             UIXMethodSchema uixMethodSchema15 = new UIXMethodSchema(145, "Ceiling", new short[1]
             {
          61
-            }, 61, new InvokeHandler(MathSchema.CallCeilingDouble), true);
+            }, 61, new InvokeHandler(CallCeilingDouble), true);
             UIXMethodSchema uixMethodSchema16 = new UIXMethodSchema(145, "Acos", new short[1]
             {
          61
-            }, 61, new InvokeHandler(MathSchema.CallAcosDouble), true);
+            }, 61, new InvokeHandler(CallAcosDouble), true);
             UIXMethodSchema uixMethodSchema17 = new UIXMethodSchema(145, "Asin", new short[1]
             {
          61
-            }, 61, new InvokeHandler(MathSchema.CallAsinDouble), true);
+            }, 61, new InvokeHandler(CallAsinDouble), true);
             UIXMethodSchema uixMethodSchema18 = new UIXMethodSchema(145, "Atan", new short[1]
             {
          61
-            }, 61, new InvokeHandler(MathSchema.CallAtanDouble), true);
+            }, 61, new InvokeHandler(CallAtanDouble), true);
             UIXMethodSchema uixMethodSchema19 = new UIXMethodSchema(145, "Atan2", new short[2]
             {
          61,
          61
-            }, 61, new InvokeHandler(MathSchema.CallAtan2DoubleDouble), true);
+            }, 61, new InvokeHandler(CallAtan2DoubleDouble), true);
             UIXMethodSchema uixMethodSchema20 = new UIXMethodSchema(145, "Cos", new short[1]
             {
          61
-            }, 61, new InvokeHandler(MathSchema.CallCosDouble), true);
+            }, 61, new InvokeHandler(CallCosDouble), true);
             UIXMethodSchema uixMethodSchema21 = new UIXMethodSchema(145, "Cosh", new short[1]
             {
          61
-            }, 61, new InvokeHandler(MathSchema.CallCoshDouble), true);
+            }, 61, new InvokeHandler(CallCoshDouble), true);
             UIXMethodSchema uixMethodSchema22 = new UIXMethodSchema(145, "Sin", new short[1]
             {
          61
-            }, 61, new InvokeHandler(MathSchema.CallSinDouble), true);
+            }, 61, new InvokeHandler(CallSinDouble), true);
             UIXMethodSchema uixMethodSchema23 = new UIXMethodSchema(145, "Sinh", new short[1]
             {
          61
-            }, 61, new InvokeHandler(MathSchema.CallSinhDouble), true);
+            }, 61, new InvokeHandler(CallSinhDouble), true);
             UIXMethodSchema uixMethodSchema24 = new UIXMethodSchema(145, "Tan", new short[1]
             {
          61
-            }, 61, new InvokeHandler(MathSchema.CallTanDouble), true);
+            }, 61, new InvokeHandler(CallTanDouble), true);
             UIXMethodSchema uixMethodSchema25 = new UIXMethodSchema(145, "Tanh", new short[1]
             {
          61
-            }, 61, new InvokeHandler(MathSchema.CallTanhDouble), true);
+            }, 61, new InvokeHandler(CallTanhDouble), true);
             UIXMethodSchema uixMethodSchema26 = new UIXMethodSchema(145, "Sqrt", new short[1]
             {
          61
-            }, 61, new InvokeHandler(MathSchema.CallSqrtDouble), true);
+            }, 61, new InvokeHandler(CallSqrtDouble), true);
             UIXMethodSchema uixMethodSchema27 = new UIXMethodSchema(145, "Pow", new short[2]
             {
          61,
          61
-            }, 61, new InvokeHandler(MathSchema.CallPowDoubleDouble), true);
+            }, 61, new InvokeHandler(CallPowDoubleDouble), true);
             UIXMethodSchema uixMethodSchema28 = new UIXMethodSchema(145, "Log", new short[1]
             {
          61
-            }, 61, new InvokeHandler(MathSchema.CallLogDouble), true);
+            }, 61, new InvokeHandler(CallLogDouble), true);
             UIXMethodSchema uixMethodSchema29 = new UIXMethodSchema(145, "Log", new short[2]
             {
          61,
          61
-            }, 61, new InvokeHandler(MathSchema.CallLogDoubleDouble), true);
+            }, 61, new InvokeHandler(CallLogDoubleDouble), true);
             UIXMethodSchema uixMethodSchema30 = new UIXMethodSchema(145, "Log10", new short[1]
             {
          61
-            }, 61, new InvokeHandler(MathSchema.CallLog10Double), true);
-            MathSchema.Type.Initialize(null, null, null, new MethodSchema[30]
+            }, 61, new InvokeHandler(CallLog10Double), true);
+            Type.Initialize(null, null, null, new MethodSchema[30]
             {
          uixMethodSchema1,
          uixMethodSchema2,

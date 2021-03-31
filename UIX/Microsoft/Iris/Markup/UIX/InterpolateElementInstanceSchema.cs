@@ -34,16 +34,16 @@ namespace Microsoft.Iris.Markup.UIX
             return null;
         }
 
-        public static void Pass1Initialize() => InterpolateElementInstanceSchema.Type = new UIXTypeSchema(120, "InterpolateElementInstance", null, 74, typeof(EffectElementWrapper), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(120, "InterpolateElementInstance", null, 74, typeof(EffectElementWrapper), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(120, "Value", 194, -1, ExpressionRestriction.None, false, SingleSchema.Validate0to1, false, null, new SetValueHandler(InterpolateElementInstanceSchema.SetValue), false);
+            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(120, "Value", 194, -1, ExpressionRestriction.None, false, SingleSchema.Validate0to1, false, null, new SetValueHandler(SetValue), false);
             UIXMethodSchema uixMethodSchema = new UIXMethodSchema(120, "PlayValueAnimation", new short[1]
             {
          75
-            }, 240, new InvokeHandler(InterpolateElementInstanceSchema.CallPlayValueAnimationEffectFloatAnimation), false);
-            InterpolateElementInstanceSchema.Type.Initialize(null, null, new PropertySchema[1]
+            }, 240, new InvokeHandler(CallPlayValueAnimationEffectFloatAnimation), false);
+            Type.Initialize(null, null, new PropertySchema[1]
             {
          uixPropertySchema
             }, new MethodSchema[1]

@@ -58,7 +58,7 @@ namespace Microsoft.Iris.Session
             this._doBatchFlush = new PriorityQueue.HookProc(this.DoBatchFlush);
             if (!isMainUIThread)
                 return;
-            UIDispatcher.s_mainUIThread = Thread.CurrentThread;
+            s_mainUIThread = Thread.CurrentThread;
         }
 
         public void ShutDown(bool flushRefs)
@@ -79,10 +79,10 @@ namespace Microsoft.Iris.Session
         public new void Dispose()
         {
             this.ShutDown(false);
-            if (UIDispatcher.s_mainUIThread == Thread.CurrentThread)
+            if (s_mainUIThread == Thread.CurrentThread)
             {
-                UIDispatcher.s_mainUIThread = null;
-                UIDispatcher.s_exiting = true;
+                s_mainUIThread = null;
+                s_exiting = true;
             }
             if (this._masterQueue != null)
             {
@@ -96,11 +96,11 @@ namespace Microsoft.Iris.Session
 
         public static UIDispatcher CurrentDispatcher => Dispatcher.CurrentDispatcher as UIDispatcher;
 
-        public static bool IsUIThread => Thread.CurrentThread == UIDispatcher.s_mainUIThread;
+        public static bool IsUIThread => Thread.CurrentThread == s_mainUIThread;
 
-        public static Thread MainUIThread => UIDispatcher.s_mainUIThread;
+        public static Thread MainUIThread => s_mainUIThread;
 
-        public static bool Exiting => UIDispatcher.s_exiting;
+        public static bool Exiting => s_exiting;
 
         public UISession UISession => this._parentSession;
 
@@ -122,57 +122,57 @@ namespace Microsoft.Iris.Session
                 DispatchPriority priority1 = DispatchPriority.Idle;
                 switch (priority)
                 {
-                    case Microsoft.Iris.Render.DeferredInvokePriority.High:
+                    case Render.DeferredInvokePriority.High:
                         priority1 = DispatchPriority.High;
                         break;
-                    case Microsoft.Iris.Render.DeferredInvokePriority.Normal:
+                    case Render.DeferredInvokePriority.Normal:
                         priority1 = DispatchPriority.Normal;
                         break;
-                    case Microsoft.Iris.Render.DeferredInvokePriority.VisualUpdate:
+                    case Render.DeferredInvokePriority.VisualUpdate:
                         priority1 = DispatchPriority.Render;
                         break;
-                    case Microsoft.Iris.Render.DeferredInvokePriority.Low:
+                    case Render.DeferredInvokePriority.Low:
                         priority1 = DispatchPriority.Idle;
                         break;
-                    case Microsoft.Iris.Render.DeferredInvokePriority.Idle:
+                    case Render.DeferredInvokePriority.Idle:
                         priority1 = DispatchPriority.Idle;
                         break;
                 }
-                UIDispatcher.Post(priority1, DeferredCall.Create(item));
+                Post(priority1, DeferredCall.Create(item));
             }
             else
-                UIDispatcher.Post(delay, DeferredCall.Create(item));
+                Post(delay, DeferredCall.Create(item));
         }
 
         public static void Post(DateTime when, QueueItem item)
         {
-            Thread mainUiThread = UIDispatcher.MainUIThread;
+            Thread mainUiThread = MainUIThread;
             if (mainUiThread == null)
                 return;
-            UIDispatcher.Post(mainUiThread, when, item);
+            Post(mainUiThread, when, item);
         }
 
         public static void Post(TimeSpan delay, QueueItem item)
         {
-            Thread mainUiThread = UIDispatcher.MainUIThread;
+            Thread mainUiThread = MainUIThread;
             if (mainUiThread == null)
                 return;
-            UIDispatcher.Post(mainUiThread, delay, item);
+            Post(mainUiThread, delay, item);
         }
 
         public static void Post(DispatchPriority priority, QueueItem item)
         {
-            Thread mainUiThread = UIDispatcher.MainUIThread;
+            Thread mainUiThread = MainUIThread;
             if (mainUiThread == null)
                 return;
-            UIDispatcher.Post(mainUiThread, priority, item);
+            Post(mainUiThread, priority, item);
         }
 
         public static void Post(Thread thread, DateTime when, QueueItem item) => TimeoutManager.SetTimeoutAbsolute(thread, item, when);
 
         public static void Post(Thread thread, TimeSpan delay, QueueItem item) => TimeoutManager.SetTimeoutRelative(thread, item, delay);
 
-        public static void Post(Thread thread, DispatchPriority priority, QueueItem item) => Dispatcher.PostItem_AnyThread(thread, item, (int)priority);
+        public static void Post(Thread thread, DispatchPriority priority, QueueItem item) => PostItem_AnyThread(thread, item, (int)priority);
 
         public void Run(LoopCondition condition) => this.MainLoop(_masterQueue, condition);
 
@@ -181,9 +181,9 @@ namespace Microsoft.Iris.Session
         public static void StopCurrentMessageLoop(Thread thread)
         {
             if (thread != null && thread != Thread.CurrentThread)
-                DeferredCall.Post(thread, DispatchPriority.Normal, new SimpleCallback(UIDispatcher.StopMessageLoopHandler));
+                DeferredCall.Post(thread, DispatchPriority.Normal, new SimpleCallback(StopMessageLoopHandler));
             else
-                UIDispatcher.CurrentDispatcher?.StopCurrentMessageLoop();
+                CurrentDispatcher?.StopCurrentMessageLoop();
         }
 
         public void RPCYield(LoopCondition condition) => this.MainLoop(this._rpcYieldQueue, condition);
@@ -212,7 +212,7 @@ namespace Microsoft.Iris.Session
                 this.MainLoop(queue);
         }
 
-        private static void StopMessageLoopHandler() => UIDispatcher.CurrentDispatcher?.StopCurrentMessageLoop();
+        private static void StopMessageLoopHandler() => CurrentDispatcher?.StopCurrentMessageLoop();
 
         internal void RequestBatchFlush()
         {
@@ -298,7 +298,7 @@ namespace Microsoft.Iris.Session
 
         internal static void VerifyOnApplicationThread()
         {
-            if (!UIDispatcher.IsUIThread)
+            if (!IsUIThread)
                 throw new InvalidOperationException("Operation must be performed on the application thread");
         }
 

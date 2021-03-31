@@ -17,7 +17,7 @@ namespace UIXControls
 
         private CodeDialogManager() => this._pendingCodeDialogs = new ArrayListDataSet();
 
-        public static CodeDialogManager Instance => CodeDialogManager.s_instance;
+        public static CodeDialogManager Instance => s_instance;
 
         public ArrayListDataSet PendingCodeDialogs => this._pendingCodeDialogs;
 

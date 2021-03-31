@@ -8,11 +8,11 @@ namespace Microsoft.Iris.Input
 {
     internal class DragDropInfo : MouseInfo
     {
-        private static InputInfo.InfoType s_poolType = InputInfo.InfoType.DragDrop;
+        private static InputInfo.InfoType s_poolType = InfoType.DragDrop;
         private InputModifiers _modifiers;
         private DragOperation _operation;
 
-        static DragDropInfo() => InputInfo.SetPoolLimitMode(DragDropInfo.s_poolType, false);
+        static DragDropInfo() => SetPoolLimitMode(s_poolType, false);
 
         private DragDropInfo()
         {
@@ -25,7 +25,7 @@ namespace Microsoft.Iris.Input
           InputModifiers modifiers,
           DragOperation operation)
         {
-            DragDropInfo dragDropInfo = (DragDropInfo)InputInfo.GetFromPool(DragDropInfo.s_poolType) ?? new DragDropInfo();
+            DragDropInfo dragDropInfo = (DragDropInfo)GetFromPool(s_poolType) ?? new DragDropInfo();
             dragDropInfo.Initialize(rawSource, x, y, modifiers, operation);
             return dragDropInfo;
         }
@@ -39,10 +39,10 @@ namespace Microsoft.Iris.Input
         {
             this._modifiers = modifiers;
             this._operation = operation;
-            this.Initialize(rawSource, x, y, DragDropInfo.EventTypeForDragOperation(operation));
+            this.Initialize(rawSource, x, y, EventTypeForDragOperation(operation));
         }
 
-        protected override InputInfo.InfoType PoolType => DragDropInfo.s_poolType;
+        protected override InputInfo.InfoType PoolType => s_poolType;
 
         public InputModifiers Modifiers => this._modifiers;
 

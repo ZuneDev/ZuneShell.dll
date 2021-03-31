@@ -65,7 +65,7 @@ namespace Microsoft.Iris.OS
 
         public static IntPtr DownloadGetBuffer(IntPtr handle)
         {
-            IntPtr buffer = NativeApi.SpDownloadGetBuffer(handle);
+            IntPtr buffer = SpDownloadGetBuffer(handle);
             return !(buffer == IntPtr.Zero) ? buffer : throw new OutOfMemoryException();
         }
 
@@ -88,11 +88,11 @@ namespace Microsoft.Iris.OS
 
         public static IntPtr MemAlloc(uint cb, bool zeroMemory)
         {
-            IntPtr num = NativeApi.SpMemAlloc(cb, zeroMemory);
+            IntPtr num = SpMemAlloc(cb, zeroMemory);
             return !(num == IntPtr.Zero) ? num : throw new OutOfMemoryException();
         }
 
-        public static void MemFree(IntPtr pv) => NativeApi.SpMemFree(pv);
+        public static void MemFree(IntPtr pv) => SpMemFree(pv);
 
         [DllImport("UIXRender.dll")]
         public static extern void SpFreeDib(IntPtr hdib);

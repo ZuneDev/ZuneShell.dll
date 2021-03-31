@@ -14,8 +14,8 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object Construct() => new FormLayoutInput();
 
-        public static void Pass1Initialize() => FormLayoutInputSchema.Type = new UIXTypeSchema(95, "FormLayoutInput", null, 8, typeof(FormLayoutInput), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(95, "FormLayoutInput", null, 8, typeof(FormLayoutInput), UIXTypeFlags.None);
 
-        public static void Pass2Initialize() => FormLayoutInputSchema.Type.Initialize(new DefaultConstructHandler(FormLayoutInputSchema.Construct), null, null, null, null, null, null, null, null, null, null, null);
+        public static void Pass2Initialize() => Type.Initialize(new DefaultConstructHandler(Construct), null, null, null, null, null, null, null, null, null, null, null);
     }
 }

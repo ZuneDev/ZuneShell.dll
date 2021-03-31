@@ -22,8 +22,8 @@ namespace Microsoft.Iris.ModelItems
 
         static BooleanChoice()
         {
-            BooleanChoice.s_defaultOptions[0] = BooleanBoxes.FalseBox;
-            BooleanChoice.s_defaultOptions[1] = BooleanBoxes.TrueBox;
+            s_defaultOptions[0] = BooleanBoxes.FalseBox;
+            s_defaultOptions[1] = BooleanBoxes.TrueBox;
         }
 
         public BooleanChoice()

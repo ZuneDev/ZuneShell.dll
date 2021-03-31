@@ -106,31 +106,31 @@ namespace Microsoft.Iris.Markup.UIX
             return null;
         }
 
-        public static void Pass1Initialize() => ChoiceSchema.Type = new UIXTypeSchema(28, "Choice", null, 231, typeof(IUIChoice), UIXTypeFlags.Disposable);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(28, "Choice", null, 231, typeof(IUIChoice), UIXTypeFlags.Disposable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(28, "ChosenValue", 153, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ChoiceSchema.GetChosenValue), new SetValueHandler(ChoiceSchema.SetChosenValue), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(28, "ChosenIndex", 115, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ChoiceSchema.GetChosenIndex), new SetValueHandler(ChoiceSchema.SetChosenIndex), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(28, "DefaultIndex", 115, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ChoiceSchema.GetDefaultIndex), new SetValueHandler(ChoiceSchema.SetDefaultIndex), false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(28, "Options", 138, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ChoiceSchema.GetOptions), new SetValueHandler(ChoiceSchema.SetOptions), false);
-            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(28, "HasSelection", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ChoiceSchema.GetHasSelection), null, false);
-            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(28, "Wrap", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ChoiceSchema.GetWrap), new SetValueHandler(ChoiceSchema.SetWrap), false);
-            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema(28, "HasPreviousValue", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ChoiceSchema.GetHasPreviousValue), null, false);
-            UIXPropertySchema uixPropertySchema8 = new UIXPropertySchema(28, "HasNextValue", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ChoiceSchema.GetHasNextValue), null, false);
-            UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema(28, "PreviousValue", null, 240, new InvokeHandler(ChoiceSchema.CallPreviousValue), false);
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(28, "ChosenValue", 153, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetChosenValue), new SetValueHandler(SetChosenValue), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(28, "ChosenIndex", 115, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetChosenIndex), new SetValueHandler(SetChosenIndex), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(28, "DefaultIndex", 115, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetDefaultIndex), new SetValueHandler(SetDefaultIndex), false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(28, "Options", 138, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetOptions), new SetValueHandler(SetOptions), false);
+            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(28, "HasSelection", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetHasSelection), null, false);
+            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(28, "Wrap", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetWrap), new SetValueHandler(SetWrap), false);
+            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema(28, "HasPreviousValue", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetHasPreviousValue), null, false);
+            UIXPropertySchema uixPropertySchema8 = new UIXPropertySchema(28, "HasNextValue", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetHasNextValue), null, false);
+            UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema(28, "PreviousValue", null, 240, new InvokeHandler(CallPreviousValue), false);
             UIXMethodSchema uixMethodSchema2 = new UIXMethodSchema(28, "PreviousValue", new short[1]
             {
          15
-            }, 240, new InvokeHandler(ChoiceSchema.CallPreviousValueBoolean), false);
-            UIXMethodSchema uixMethodSchema3 = new UIXMethodSchema(28, "NextValue", null, 240, new InvokeHandler(ChoiceSchema.CallNextValue), false);
+            }, 240, new InvokeHandler(CallPreviousValueBoolean), false);
+            UIXMethodSchema uixMethodSchema3 = new UIXMethodSchema(28, "NextValue", null, 240, new InvokeHandler(CallNextValue), false);
             UIXMethodSchema uixMethodSchema4 = new UIXMethodSchema(28, "NextValue", new short[1]
             {
          15
-            }, 240, new InvokeHandler(ChoiceSchema.CallNextValueBoolean), false);
-            UIXMethodSchema uixMethodSchema5 = new UIXMethodSchema(28, "DefaultValue", null, 240, new InvokeHandler(ChoiceSchema.CallDefaultValue), false);
-            UIXMethodSchema uixMethodSchema6 = new UIXMethodSchema(28, "Clear", null, 240, new InvokeHandler(ChoiceSchema.CallClear), false);
-            ChoiceSchema.Type.Initialize(new DefaultConstructHandler(ChoiceSchema.Construct), null, new PropertySchema[8]
+            }, 240, new InvokeHandler(CallNextValueBoolean), false);
+            UIXMethodSchema uixMethodSchema5 = new UIXMethodSchema(28, "DefaultValue", null, 240, new InvokeHandler(CallDefaultValue), false);
+            UIXMethodSchema uixMethodSchema6 = new UIXMethodSchema(28, "Clear", null, 240, new InvokeHandler(CallClear), false);
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[8]
             {
          uixPropertySchema2,
          uixPropertySchema1,

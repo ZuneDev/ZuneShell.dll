@@ -35,19 +35,19 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object Construct() => new FocusHandler();
 
-        public static void Pass1Initialize() => FocusHandlerSchema.Type = new UIXTypeSchema(92, "FocusHandler", null, 110, typeof(FocusHandler), UIXTypeFlags.Disposable);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(92, "FocusHandler", null, 110, typeof(FocusHandler), UIXTypeFlags.Disposable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(92, "Reason", 91, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(FocusHandlerSchema.GetReason), new SetValueHandler(FocusHandlerSchema.SetReason), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(92, "RequiredModifiers", 111, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(FocusHandlerSchema.GetRequiredModifiers), new SetValueHandler(FocusHandlerSchema.SetRequiredModifiers), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(92, "DisallowedModifiers", 111, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(FocusHandlerSchema.GetDisallowedModifiers), new SetValueHandler(FocusHandlerSchema.SetDisallowedModifiers), false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(92, "HandlerStage", 112, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(FocusHandlerSchema.GetHandlerStage), new SetValueHandler(FocusHandlerSchema.SetHandlerStage), false);
-            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(92, "GainedEventContext", 153, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(FocusHandlerSchema.GetGainedEventContext), null, false);
-            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(92, "LostEventContext", 153, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(FocusHandlerSchema.GetLostEventContext), null, false);
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(92, "Reason", 91, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetReason), new SetValueHandler(SetReason), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(92, "RequiredModifiers", 111, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetRequiredModifiers), new SetValueHandler(SetRequiredModifiers), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(92, "DisallowedModifiers", 111, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetDisallowedModifiers), new SetValueHandler(SetDisallowedModifiers), false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(92, "HandlerStage", 112, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetHandlerStage), new SetValueHandler(SetHandlerStage), false);
+            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(92, "GainedEventContext", 153, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetGainedEventContext), null, false);
+            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(92, "LostEventContext", 153, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GetLostEventContext), null, false);
             UIXEventSchema uixEventSchema1 = new UIXEventSchema(92, "GainedFocus");
             UIXEventSchema uixEventSchema2 = new UIXEventSchema(92, "LostFocus");
-            FocusHandlerSchema.Type.Initialize(new DefaultConstructHandler(FocusHandlerSchema.Construct), null, new PropertySchema[6]
+            Type.Initialize(new DefaultConstructHandler(Construct), null, new PropertySchema[6]
             {
          uixPropertySchema3,
          uixPropertySchema5,

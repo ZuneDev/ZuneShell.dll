@@ -60,37 +60,37 @@ namespace Microsoft.Iris.Markup.UIX
             return (float)(random.NextDouble() * (parameter2 - (double)parameter1)) + parameter1;
         }
 
-        public static void Pass1Initialize() => RandomSchema.Type = new UIXTypeSchema(167, "Random", null, 153, typeof(Random), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(167, "Random", null, 153, typeof(Random), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
             UIXConstructorSchema constructorSchema = new UIXConstructorSchema(167, new short[1]
             {
          115
-            }, new ConstructHandler(RandomSchema.ConstructInt32));
-            UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema(167, "Next", null, 115, new InvokeHandler(RandomSchema.CallNext), false);
+            }, new ConstructHandler(ConstructInt32));
+            UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema(167, "Next", null, 115, new InvokeHandler(CallNext), false);
             UIXMethodSchema uixMethodSchema2 = new UIXMethodSchema(167, "Next", new short[1]
             {
          115
-            }, 115, new InvokeHandler(RandomSchema.CallNextInt32), false);
+            }, 115, new InvokeHandler(CallNextInt32), false);
             UIXMethodSchema uixMethodSchema3 = new UIXMethodSchema(167, "Next", new short[2]
             {
          115,
          115
-            }, 115, new InvokeHandler(RandomSchema.CallNextInt32Int32), false);
-            UIXMethodSchema uixMethodSchema4 = new UIXMethodSchema(167, "NextDouble", null, 61, new InvokeHandler(RandomSchema.CallNextDouble), false);
+            }, 115, new InvokeHandler(CallNextInt32Int32), false);
+            UIXMethodSchema uixMethodSchema4 = new UIXMethodSchema(167, "NextDouble", null, 61, new InvokeHandler(CallNextDouble), false);
             UIXMethodSchema uixMethodSchema5 = new UIXMethodSchema(167, "NextDouble", new short[2]
             {
          61,
          61
-            }, 61, new InvokeHandler(RandomSchema.CallNextDoubleDoubleDouble), false);
-            UIXMethodSchema uixMethodSchema6 = new UIXMethodSchema(167, "NextSingle", null, 194, new InvokeHandler(RandomSchema.CallNextSingle), false);
+            }, 61, new InvokeHandler(CallNextDoubleDoubleDouble), false);
+            UIXMethodSchema uixMethodSchema6 = new UIXMethodSchema(167, "NextSingle", null, 194, new InvokeHandler(CallNextSingle), false);
             UIXMethodSchema uixMethodSchema7 = new UIXMethodSchema(167, "NextSingle", new short[2]
             {
          194,
          194
-            }, 194, new InvokeHandler(RandomSchema.CallNextSingleSingleSingle), false);
-            RandomSchema.Type.Initialize(new DefaultConstructHandler(RandomSchema.Construct), new ConstructorSchema[1]
+            }, 194, new InvokeHandler(CallNextSingleSingleSingle), false);
+            Type.Initialize(new DefaultConstructHandler(Construct), new ConstructorSchema[1]
             {
          constructorSchema
             }, null, new MethodSchema[7]

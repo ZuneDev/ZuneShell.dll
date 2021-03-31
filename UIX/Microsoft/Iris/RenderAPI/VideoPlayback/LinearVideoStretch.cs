@@ -11,9 +11,9 @@ namespace Microsoft.Iris.RenderAPI.VideoPlayback
 {
     internal static class LinearVideoStretch
     {
-        public static readonly VideoZoomHandler ShrinkToFit = new VideoZoomHandler(LinearVideoStretch.ComputeShrinkToFitZoom);
-        public static readonly VideoZoomHandler GrowToFit = new VideoZoomHandler(LinearVideoStretch.ComputeGrowToFitZoom);
-        public static readonly VideoZoomHandler StretchToFill = new VideoZoomHandler(LinearVideoStretch.ComputeStretchToFillZoom);
+        public static readonly VideoZoomHandler ShrinkToFit = new VideoZoomHandler(ComputeShrinkToFitZoom);
+        public static readonly VideoZoomHandler GrowToFit = new VideoZoomHandler(ComputeGrowToFitZoom);
+        public static readonly VideoZoomHandler StretchToFill = new VideoZoomHandler(ComputeStretchToFillZoom);
 
         private static void ComputeShrinkToFitZoom(
           RectangleF rcfBoundSrcVideoPxl,
@@ -55,7 +55,7 @@ namespace Microsoft.Iris.RenderAPI.VideoPlayback
           out RectangleF[] arrcfOutputSrcVideoPxl,
           out RectangleF[] arrcfOutputDestViewPxl)
         {
-            LinearVideoStretch.ApplyPillarboxAdjustment(ref rcfBoundSrcVideoPxl, rcfBoundDestViewPxl);
+            ApplyPillarboxAdjustment(ref rcfBoundSrcVideoPxl, rcfBoundDestViewPxl);
             RectangleF rectangleF1;
             RectangleF rectangleF2;
             if (rcfBoundDestViewPxl.Width / rcfBoundSrcVideoPxl.Width < (double)(rcfBoundDestViewPxl.Height / rcfBoundSrcVideoPxl.Height))
@@ -90,7 +90,7 @@ namespace Microsoft.Iris.RenderAPI.VideoPlayback
           out RectangleF[] arrcfOutputSrcVideoPxl,
           out RectangleF[] arrcfOutputDestViewPxl)
         {
-            LinearVideoStretch.ApplyPillarboxAdjustment(ref rcfBoundSrcVideoPxl, rcfBoundDestViewPxl);
+            ApplyPillarboxAdjustment(ref rcfBoundSrcVideoPxl, rcfBoundDestViewPxl);
             arrcfOutputSrcVideoPxl = new RectangleF[1]
             {
         rcfBoundSrcVideoPxl

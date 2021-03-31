@@ -14,8 +14,8 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object Construct() => new InvAlphaElement();
 
-        public static void Pass1Initialize() => InvAlphaSchema.Type = new UIXTypeSchema(123, "InvAlpha", null, 80, typeof(InvAlphaElement), UIXTypeFlags.None);
+        public static void Pass1Initialize() => Type = new UIXTypeSchema(123, "InvAlpha", null, 80, typeof(InvAlphaElement), UIXTypeFlags.None);
 
-        public static void Pass2Initialize() => InvAlphaSchema.Type.Initialize(new DefaultConstructHandler(InvAlphaSchema.Construct), null, null, null, null, null, null, null, null, null, null, null);
+        public static void Pass2Initialize() => Type.Initialize(new DefaultConstructHandler(Construct), null, null, null, null, null, null, null, null, null, null, null);
     }
 }

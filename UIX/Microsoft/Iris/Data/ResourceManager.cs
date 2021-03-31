@@ -18,7 +18,7 @@ namespace Microsoft.Iris.Data
 
         private ResourceManager() => this._sourcesTable = new Map<string, IResourceProvider>();
 
-        public static ResourceManager Instance => ResourceManager.s_instance;
+        public static ResourceManager Instance => s_instance;
 
         public void RegisterSource(string scheme, IResourceProvider source) => this._sourcesTable[scheme] = source;
 
@@ -66,7 +66,7 @@ namespace Microsoft.Iris.Data
             Resource resource = null;
             string scheme;
             string hierarchicalPart;
-            ResourceManager.ParseUri(uri, out scheme, out hierarchicalPart);
+            ParseUri(uri, out scheme, out hierarchicalPart);
             if (string.IsNullOrEmpty(scheme) || string.IsNullOrEmpty(hierarchicalPart))
             {
                 ErrorManager.ReportWarning("Invalid resource uri: '{0}'", uri);
@@ -108,7 +108,7 @@ namespace Microsoft.Iris.Data
         public static Resource AcquireResource(string uri)
         {
             ErrorWatermark watermark = ErrorManager.Watermark;
-            Resource resource = ResourceManager.Instance.GetResource(uri, true);
+            Resource resource = Instance.GetResource(uri, true);
             if (resource == null)
                 return null;
             resource.Acquire();

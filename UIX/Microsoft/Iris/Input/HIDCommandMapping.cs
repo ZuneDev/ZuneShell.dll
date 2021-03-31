@@ -65,7 +65,7 @@ namespace Microsoft.Iris.Input
 
         public static CommandCode Find(uint usage, uint usagePage)
         {
-            foreach (HIDCommandMapping mapping in HIDCommandMapping.s_mappings)
+            foreach (HIDCommandMapping mapping in s_mappings)
             {
                 if ((int)mapping._usage == (int)usage && (int)mapping._usagePage == (int)usagePage)
                     return mapping._command;

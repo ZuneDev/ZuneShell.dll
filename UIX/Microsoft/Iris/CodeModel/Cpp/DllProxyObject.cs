@@ -21,19 +21,19 @@ namespace Microsoft.Iris.CodeModel.Cpp
         private static object s_finalizeLock = new object();
         private static bool s_pendingAppThreadRelease = false;
         private static Vector<DllProxyObject.AppThreadReleaseEntry> s_pendingReleases;
-        private static SimpleCallback s_releaseOnAppThread = new SimpleCallback(DllProxyObject.ReleaseFinalizedObjects);
+        private static SimpleCallback s_releaseOnAppThread = new SimpleCallback(ReleaseFinalizedObjects);
         private static DllProxyObjectHandleTable s_handleTable;
 
-        public static void CreateHandleTable() => DllProxyObject.s_handleTable = new DllProxyObjectHandleTable();
+        public static void CreateHandleTable() => s_handleTable = new DllProxyObjectHandleTable();
 
         public static void ReleaseOutstandingProxies()
         {
-            DllProxyObject.s_pendingAppThreadRelease = true;
+            s_pendingAppThreadRelease = true;
             GC.Collect();
             GC.WaitForPendingFinalizers();
             foreach (IDisposableObject disposableObject in s_handleTable)
                 disposableObject.Dispose(disposableObject);
-            DllProxyObject.ReleaseFinalizedObjects();
+            ReleaseFinalizedObjects();
         }
 
         public static DllProxyObject Wrap(IntPtr nativeObject)
@@ -45,7 +45,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
             TypeSchema type = DllLoadResult.MapType(typeID);
             if (type != null)
             {
-                dllProxyObject = DllProxyObject.GetExistingProxy(nativeObject) ?? DllProxyObject.WrapNewObject(nativeObject, type);
+                dllProxyObject = GetExistingProxy(nativeObject) ?? WrapNewObject(nativeObject, type);
                 NativeApi.SpReleaseExternalObject(nativeObject);
             }
             return dllProxyObject;
@@ -56,7 +56,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
             DllProxyObject dllProxyObject = null;
             ulong state;
             NativeApi.SpGetStateCache(nativeObject, out state);
-            if (state != 0UL && !DllProxyObject.s_handleTable.LookupByHandle(state, out dllProxyObject))
+            if (state != 0UL && !s_handleTable.LookupByHandle(state, out dllProxyObject))
                 ErrorManager.ReportError("IUIXObject::GetStateCache retrieved unexpected value");
             return dllProxyObject;
         }
@@ -66,7 +66,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
             DllProxyObject dllProxyObject = null;
             uint marshalAs;
             IntPtr nativeImpl;
-            if (DllProxyObject.DetermineProxyInterfaceForObject(nativeObject, type, out marshalAs, out nativeImpl))
+            if (DetermineProxyInterfaceForObject(nativeObject, type, out marshalAs, out nativeImpl))
             {
                 switch (marshalAs)
                 {
@@ -108,7 +108,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
                 flag = true;
                 nativeImpl = IntPtr.Zero;
             }
-            else if (DllProxyObject.CheckNativeReturn(NativeApi.SpQueryForMarshalAsInterface(nativeObject, marshalAs, out nativeImpl)) && nativeImpl != IntPtr.Zero)
+            else if (CheckNativeReturn(NativeApi.SpQueryForMarshalAsInterface(nativeObject, marshalAs, out nativeImpl)) && nativeImpl != IntPtr.Zero)
                 flag = true;
             else
                 ErrorManager.ReportError("Object didn't implement expected interface '{0}'", marshalAs);
@@ -117,19 +117,19 @@ namespace Microsoft.Iris.CodeModel.Cpp
 
         protected DllProxyObject() => this._handle = 0UL;
 
-        ~DllProxyObject() => DllProxyObject.RegisterAppThreadRelease(new DllProxyObject.AppThreadReleaseEntry(this._nativeObject, this._handle, this.OwningLoadResult));
+        ~DllProxyObject() => RegisterAppThreadRelease(new DllProxyObject.AppThreadReleaseEntry(this._nativeObject, this._handle, this.OwningLoadResult));
 
         protected static void RegisterAppThreadRelease(DllProxyObject.AppThreadReleaseEntry entry)
         {
-            lock (DllProxyObject.s_finalizeLock)
+            lock (s_finalizeLock)
             {
-                if (DllProxyObject.s_pendingReleases == null)
-                    DllProxyObject.s_pendingReleases = new Vector<DllProxyObject.AppThreadReleaseEntry>();
-                DllProxyObject.s_pendingReleases.Add(entry);
-                if (DllProxyObject.s_pendingAppThreadRelease)
+                if (s_pendingReleases == null)
+                    s_pendingReleases = new Vector<DllProxyObject.AppThreadReleaseEntry>();
+                s_pendingReleases.Add(entry);
+                if (s_pendingAppThreadRelease)
                     return;
-                DllProxyObject.s_pendingAppThreadRelease = true;
-                DeferredCall.Post(DispatchPriority.Idle, DllProxyObject.s_releaseOnAppThread);
+                s_pendingAppThreadRelease = true;
+                DeferredCall.Post(DispatchPriority.Idle, s_releaseOnAppThread);
             }
         }
 
@@ -138,7 +138,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
             this._type = type;
             this._nativeObject = nativeObject;
             this.OwningLoadResult.RegisterProxyUsage();
-            this._handle = DllProxyObject.s_handleTable.RegisterProxy(this);
+            this._handle = s_handleTable.RegisterProxy(this);
             NativeApi.SpSetStateCache(this._nativeObject, this._handle);
             NativeApi.SpAddRefExternalObject(this._nativeObject);
             this.LoadWorker(nativeObject, marshalAs);
@@ -151,7 +151,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
         public static HRESULT OnChangeNotification(IntPtr nativeObject, uint id)
         {
             HRESULT hresult = new HRESULT(0);
-            DllProxyObject existingProxy = DllProxyObject.GetExistingProxy(nativeObject);
+            DllProxyObject existingProxy = GetExistingProxy(nativeObject);
             if (existingProxy != null)
             {
                 string id1 = null;
@@ -204,22 +204,22 @@ namespace Microsoft.Iris.CodeModel.Cpp
         private static void ReleaseFinalizedObjects()
         {
             Vector<DllProxyObject.AppThreadReleaseEntry> pendingReleases;
-            lock (DllProxyObject.s_finalizeLock)
+            lock (s_finalizeLock)
             {
-                pendingReleases = DllProxyObject.s_pendingReleases;
-                DllProxyObject.s_pendingReleases = null;
-                DllProxyObject.s_pendingAppThreadRelease = false;
+                pendingReleases = s_pendingReleases;
+                s_pendingReleases = null;
+                s_pendingAppThreadRelease = false;
             }
             if (pendingReleases == null || pendingReleases.Count == 0)
                 return;
             foreach (DllProxyObject.AppThreadReleaseEntry threadReleaseEntry in pendingReleases)
                 threadReleaseEntry.Release();
-            lock (DllProxyObject.s_finalizeLock)
+            lock (s_finalizeLock)
             {
-                if (DllProxyObject.s_pendingAppThreadRelease)
+                if (s_pendingAppThreadRelease)
                     return;
                 pendingReleases.Clear();
-                DllProxyObject.s_pendingReleases = pendingReleases;
+                s_pendingReleases = pendingReleases;
             }
         }
 
@@ -256,7 +256,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
             {
                 if (this._releaseHandle)
                 {
-                    DllProxyObject.s_handleTable.ReleaseProxy(this._handle);
+                    s_handleTable.ReleaseProxy(this._handle);
                     ulong state;
                     NativeApi.SpGetStateCache(this._nativeObject, out state);
                     if ((long)this._handle == (long)state)

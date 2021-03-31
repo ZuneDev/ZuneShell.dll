@@ -12,7 +12,7 @@ namespace Microsoft.Iris.OS
     {
         private static FileResources s_instance = new FileResources();
 
-        public static FileResources Instance => FileResources.s_instance;
+        public static FileResources Instance => s_instance;
 
         public Resource GetResource(string hierarchicalPart, string uri, bool forceSynchronous) => new FileResource(uri, hierarchicalPart, forceSynchronous);
     }

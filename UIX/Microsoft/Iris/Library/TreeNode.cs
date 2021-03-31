@@ -31,12 +31,12 @@ namespace Microsoft.Iris.Library
         {
             base.OnDispose();
             this.ChangeParent(null);
-            this.RemoveEventHandlers(TreeNode.s_deepParentChangeEvent);
+            this.RemoveEventHandlers(s_deepParentChangeEvent);
         }
 
         public bool IsZoned => this._zone != null;
 
-        public void ChangeParent(TreeNode nodeNewParent) => this.ChangeParent(nodeNewParent, null, TreeNode.LinkType.First);
+        public void ChangeParent(TreeNode nodeNewParent) => this.ChangeParent(nodeNewParent, null, LinkType.First);
 
         public void ChangeParent(TreeNode nodeNewParent, TreeNode nodeSibling, TreeNode.LinkType lt)
         {
@@ -46,12 +46,12 @@ namespace Microsoft.Iris.Library
             TreeNode nodeParent = this._nodeParent;
             if (this._nodeParent != null)
             {
-                TreeNode.DoUnlink(this);
+                DoUnlink(this);
                 nodeParent.OnChildrenChanged();
             }
             if (nodeNewParent != null)
             {
-                TreeNode.DoLink(nodeNewParent, this, nodeSibling, lt);
+                DoLink(nodeNewParent, this, nodeSibling, lt);
                 zone = nodeNewParent.Zone;
                 nodeNewParent.OnChildrenChanged();
             }
@@ -75,8 +75,8 @@ namespace Microsoft.Iris.Library
         public void MoveNode(TreeNode nodeSibling, TreeNode.LinkType lt)
         {
             TreeNode nodeParent = this._nodeParent;
-            TreeNode.DoUnlink(this);
-            TreeNode.DoLink(nodeParent, this, nodeSibling, lt);
+            DoUnlink(this);
+            DoLink(nodeParent, this, nodeSibling, lt);
         }
 
         public void RemoveAllChildren(bool disposeChildrenFlag)
@@ -99,8 +99,8 @@ namespace Microsoft.Iris.Library
 
         public event EventHandler DeepParentChange
         {
-            add => this.AddEventHandler(TreeNode.s_deepParentChangeEvent, value);
-            remove => this.RemoveEventHandler(TreeNode.s_deepParentChangeEvent, value);
+            add => this.AddEventHandler(s_deepParentChangeEvent, value);
+            remove => this.RemoveEventHandler(s_deepParentChangeEvent, value);
         }
 
         public UIZone Zone => this._zone;
@@ -179,7 +179,7 @@ namespace Microsoft.Iris.Library
             {
                 switch (lt)
                 {
-                    case TreeNode.LinkType.Before:
+                    case LinkType.Before:
                         nodeChange._nodeNext = nodeSibling;
                         nodeChange._nodePrevious = nodeSibling._nodePrevious;
                         nodeSibling._nodePrevious = nodeChange;
@@ -190,7 +190,7 @@ namespace Microsoft.Iris.Library
                         }
                         nodeParent._nodeFirstChild = nodeChange;
                         break;
-                    case TreeNode.LinkType.Behind:
+                    case LinkType.Behind:
                         nodeChange._nodePrevious = nodeSibling;
                         nodeChange._nodeNext = nodeSibling._nodeNext;
                         nodeSibling._nodeNext = nodeChange;
@@ -198,14 +198,14 @@ namespace Microsoft.Iris.Library
                             break;
                         nodeChange._nodeNext._nodePrevious = nodeChange;
                         break;
-                    case TreeNode.LinkType.First:
+                    case LinkType.First:
                         nodeParent._nodeFirstChild = nodeChange;
                         nodeChange._nodeNext = nodeFirstChild;
                         if (nodeFirstChild == null)
                             break;
                         nodeFirstChild._nodePrevious = nodeChange;
                         break;
-                    case TreeNode.LinkType.Last:
+                    case LinkType.Last:
                         TreeNode lastSibling = nodeFirstChild.LastSibling;
                         lastSibling._nodeNext = nodeChange;
                         nodeChange._nodePrevious = lastSibling;
@@ -231,7 +231,7 @@ namespace Microsoft.Iris.Library
         {
             foreach (TreeNode child in this.Children)
                 child.FireTreeChangeWorker();
-            if (!(this.GetEventHandler(TreeNode.s_deepParentChangeEvent) is EventHandler eventHandler))
+            if (!(this.GetEventHandler(s_deepParentChangeEvent) is EventHandler eventHandler))
                 return;
             eventHandler(this, EventArgs.Empty);
         }
