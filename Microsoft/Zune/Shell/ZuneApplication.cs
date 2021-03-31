@@ -54,6 +54,7 @@ namespace Microsoft.Zune.Shell
 
         public static ZuneLibrary ZuneLibrary => _zuneLibrary;
 
+        // NOTE: Change to Service2.Service.Instance to make changes to the service
         public static Service.Service Service => Zune.Service.Service.Instance;
 
         public static event EventHandler Closing;

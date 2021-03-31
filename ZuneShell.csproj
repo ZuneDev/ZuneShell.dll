@@ -57,6 +57,7 @@
     <Compile Include="Microsoft\Zune\PerfTrace\ActionType.cs" />
     <Compile Include="Microsoft\Zune\PerfTrace\PerfTrace.cs" />
     <Compile Include="Microsoft\Zune\PerfTrace\UICollectionEvent.cs" />
+    <Compile Include="Microsoft\Zune\Service2\Service.cs" />
     <Compile Include="Microsoft\Zune\Shell\TraceSwitches.cs" />
     <Compile Include="Microsoft\Zune\Shell\ZuneTraceSwitch.cs" />
     <Compile Include="Microsoft\Zune\Shell\ILaunchZuneShell.cs" />
