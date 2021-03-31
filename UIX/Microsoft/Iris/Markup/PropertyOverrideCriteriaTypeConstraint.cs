@@ -23,8 +23,8 @@ namespace Microsoft.Iris.Markup
         {
             PropertyOverrideCriteriaTypeConstraint criteriaTypeConstraint = (PropertyOverrideCriteriaTypeConstraint)baseCriteria;
             if (!criteriaTypeConstraint.Constraint.IsAssignableFrom(this._use))
-                return Result.Fail(string.Format("Type parameter property '{0}' is of type '{1}' which is not compatible with the base type constraint '{2}'", (object)"Use", (object)this._use.Name, (object)criteriaTypeConstraint.Constraint.Name));
-            return !criteriaTypeConstraint.Constraint.IsAssignableFrom(this._constraint) ? Result.Fail(string.Format("Type parameter property '{0}' is of type '{1}' which is not compatible with the base type constraint '{2}'", (object)"Constraint", (object)this._constraint.Name, (object)criteriaTypeConstraint.Constraint.Name)) : Result.Success;
+                return Result.Fail(string.Format("Type parameter property '{0}' is of type '{1}' which is not compatible with the base type constraint '{2}'", "Use", _use.Name, criteriaTypeConstraint.Constraint.Name));
+            return !criteriaTypeConstraint.Constraint.IsAssignableFrom(this._constraint) ? Result.Fail(string.Format("Type parameter property '{0}' is of type '{1}' which is not compatible with the base type constraint '{2}'", "Constraint", _constraint.Name, criteriaTypeConstraint.Constraint.Name)) : Result.Success;
         }
 
         public TypeSchema Use => this._use;

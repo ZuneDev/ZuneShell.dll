@@ -12,10 +12,10 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object Construct() => (object)new PopupLayout();
+        private static object Construct() => new PopupLayout();
 
-        public static void Pass1Initialize() => PopupLayoutSchema.Type = new UIXTypeSchema((short)161, "PopupLayout", (string)null, (short)132, typeof(PopupLayout), UIXTypeFlags.Immutable);
+        public static void Pass1Initialize() => PopupLayoutSchema.Type = new UIXTypeSchema(161, "PopupLayout", null, 132, typeof(PopupLayout), UIXTypeFlags.Immutable);
 
-        public static void Pass2Initialize() => PopupLayoutSchema.Type.Initialize(new DefaultConstructHandler(PopupLayoutSchema.Construct), (ConstructorSchema[])null, (PropertySchema[])null, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+        public static void Pass2Initialize() => PopupLayoutSchema.Type.Initialize(new DefaultConstructHandler(PopupLayoutSchema.Construct), null, null, null, null, null, null, null, null, null, null, null);
     }
 }

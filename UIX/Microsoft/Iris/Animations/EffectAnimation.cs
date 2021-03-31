@@ -13,7 +13,7 @@ namespace Microsoft.Iris.Animations
         AnimationTemplate IAnimationProvider.Build(
           ref AnimationArgs args)
         {
-            return (AnimationTemplate)this;
+            return this;
         }
 
         public bool CanCache => true;

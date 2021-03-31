@@ -31,25 +31,25 @@ namespace Microsoft.Iris.Markup.UIX
           object[] parameters)
         {
             ((EffectElementWrapper)instanceObj).PlayAnimation(EffectProperty.Contrast, (EffectAnimation)parameters[0]);
-            return (object)null;
+            return null;
         }
 
-        public static void Pass1Initialize() => ContrastInstanceSchema.Type = new UIXTypeSchema((short)43, "ContrastInstance", (string)null, (short)74, typeof(EffectElementWrapper), UIXTypeFlags.None);
+        public static void Pass1Initialize() => ContrastInstanceSchema.Type = new UIXTypeSchema(43, "ContrastInstance", null, 74, typeof(EffectElementWrapper), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema = new UIXPropertySchema((short)43, "Contrast", (short)194, (short)-1, ExpressionRestriction.None, false, SingleSchema.ValidateNotNegative, false, (GetValueHandler)null, new SetValueHandler(ContrastInstanceSchema.SetContrast), false);
-            UIXMethodSchema uixMethodSchema = new UIXMethodSchema((short)43, "PlayContrastAnimation", new short[1]
+            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(43, "Contrast", 194, -1, ExpressionRestriction.None, false, SingleSchema.ValidateNotNegative, false, null, new SetValueHandler(ContrastInstanceSchema.SetContrast), false);
+            UIXMethodSchema uixMethodSchema = new UIXMethodSchema(43, "PlayContrastAnimation", new short[1]
             {
-        (short) 75
-            }, (short)240, new InvokeHandler(ContrastInstanceSchema.CallPlayContrastAnimationEffectFloatAnimation), false);
-            ContrastInstanceSchema.Type.Initialize((DefaultConstructHandler)null, (ConstructorSchema[])null, new PropertySchema[1]
+         75
+            }, 240, new InvokeHandler(ContrastInstanceSchema.CallPlayContrastAnimationEffectFloatAnimation), false);
+            ContrastInstanceSchema.Type.Initialize(null, null, new PropertySchema[1]
             {
-        (PropertySchema) uixPropertySchema
+         uixPropertySchema
             }, new MethodSchema[1]
             {
-        (MethodSchema) uixMethodSchema
-            }, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixMethodSchema
+            }, null, null, null, null, null, null, null, null);
         }
     }
 }

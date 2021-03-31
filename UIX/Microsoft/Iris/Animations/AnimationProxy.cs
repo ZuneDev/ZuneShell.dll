@@ -46,8 +46,8 @@ namespace Microsoft.Iris.Animations
         {
             this._animation.RepeatCount = loopCount;
             this._animation.AsyncNotifyEvent += new AsyncNotifyHandler(this.OnAsyncNotification);
-            this._animation.AddStageEvent(AnimationStage.Complete, new AnimationEvent((IActivatable)this._animation, "AsyncNotify", 1U));
-            this._animation.AddStageEvent(AnimationStage.Reset, new AnimationEvent((IActivatable)this._animation, "AsyncNotify", 2U));
+            this._animation.AddStageEvent(AnimationStage.Complete, new AnimationEvent(_animation, "AsyncNotify", 1U));
+            this._animation.AddStageEvent(AnimationStage.Reset, new AnimationEvent(_animation, "AsyncNotify", 2U));
             this.SetStopCommand(stopCmd);
             this._activeSequence.OnAttachChildAnimation(this);
         }
@@ -78,19 +78,19 @@ namespace Microsoft.Iris.Animations
             {
                 this._dynamicFlag = true;
                 animationInput1 = keyframe.RelativeTo.CreateAnimationInput(this._animatableTarget, this._rendererProperty.Property, this._rendererProperty.SourceMask);
-                if (keyframe.Multiply && (double)value != 1.0)
+                if (keyframe.Multiply && value != 1.0)
                 {
-                    AnimationInput animationInput2 = (AnimationInput)new ConstantAnimationInput(value);
+                    AnimationInput animationInput2 = new ConstantAnimationInput(value);
                     animationInput1 *= animationInput2;
                 }
-                else if (!keyframe.Multiply && (double)value != 0.0)
+                else if (!keyframe.Multiply && value != 0.0)
                 {
-                    AnimationInput animationInput2 = (AnimationInput)new ConstantAnimationInput(value);
+                    AnimationInput animationInput2 = new ConstantAnimationInput(value);
                     animationInput1 += animationInput2;
                 }
             }
             else
-                animationInput1 = (AnimationInput)new ConstantAnimationInput(value);
+                animationInput1 = new ConstantAnimationInput(value);
             this._animation.AddKeyframe(new AnimationKeyframe(keyframe.Time, animationInput1, AnimationProxy.GenerateInterpolation(keyframe.Interpolation)));
         }
 
@@ -104,17 +104,17 @@ namespace Microsoft.Iris.Animations
                 animationInput1 = keyframe.RelativeTo.CreateAnimationInput(this._animatableTarget, this._rendererProperty.Property, this._rendererProperty.SourceMask);
                 if (keyframe.Multiply && value != Vector2.UnitVector)
                 {
-                    AnimationInput animationInput2 = (AnimationInput)new ConstantAnimationInput(value);
+                    AnimationInput animationInput2 = new ConstantAnimationInput(value);
                     animationInput1 *= animationInput2;
                 }
                 else if (!keyframe.Multiply && value != Vector2.Zero)
                 {
-                    AnimationInput animationInput2 = (AnimationInput)new ConstantAnimationInput(value);
+                    AnimationInput animationInput2 = new ConstantAnimationInput(value);
                     animationInput1 += animationInput2;
                 }
             }
             else
-                animationInput1 = (AnimationInput)new ConstantAnimationInput(value);
+                animationInput1 = new ConstantAnimationInput(value);
             this._animation.AddKeyframe(new AnimationKeyframe(keyframe.Time, animationInput1, AnimationProxy.GenerateInterpolation(keyframe.Interpolation)));
         }
 
@@ -128,17 +128,17 @@ namespace Microsoft.Iris.Animations
                 animationInput1 = keyframe.RelativeTo.CreateAnimationInput(this._animatableTarget, this._rendererProperty.Property, this._rendererProperty.SourceMask);
                 if (keyframe.Multiply && value != Vector3.UnitVector)
                 {
-                    AnimationInput animationInput2 = (AnimationInput)new ConstantAnimationInput(value);
+                    AnimationInput animationInput2 = new ConstantAnimationInput(value);
                     animationInput1 *= animationInput2;
                 }
                 else if (!keyframe.Multiply && value != Vector3.Zero)
                 {
-                    AnimationInput animationInput2 = (AnimationInput)new ConstantAnimationInput(value);
+                    AnimationInput animationInput2 = new ConstantAnimationInput(value);
                     animationInput1 += animationInput2;
                 }
             }
             else
-                animationInput1 = (AnimationInput)new ConstantAnimationInput(value);
+                animationInput1 = new ConstantAnimationInput(value);
             this._animation.AddKeyframe(new AnimationKeyframe(keyframe.Time, animationInput1, AnimationProxy.GenerateInterpolation(keyframe.Interpolation)));
         }
 
@@ -152,17 +152,17 @@ namespace Microsoft.Iris.Animations
                 animationInput1 = keyframe.RelativeTo.CreateAnimationInput(this._animatableTarget, this._rendererProperty.Property, this._rendererProperty.SourceMask);
                 if (keyframe.Multiply && value != Vector4.UnitVector)
                 {
-                    AnimationInput animationInput2 = (AnimationInput)new ConstantAnimationInput(value);
+                    AnimationInput animationInput2 = new ConstantAnimationInput(value);
                     animationInput1 *= animationInput2;
                 }
                 else if (!keyframe.Multiply && value != Vector4.Zero)
                 {
-                    AnimationInput animationInput2 = (AnimationInput)new ConstantAnimationInput(value);
+                    AnimationInput animationInput2 = new ConstantAnimationInput(value);
                     animationInput1 += animationInput2;
                 }
             }
             else
-                animationInput1 = (AnimationInput)new ConstantAnimationInput(value);
+                animationInput1 = new ConstantAnimationInput(value);
             this._animation.AddKeyframe(new AnimationKeyframe(keyframe.Time, animationInput1, AnimationProxy.GenerateInterpolation(keyframe.Interpolation)));
         }
 
@@ -182,12 +182,12 @@ namespace Microsoft.Iris.Animations
                     animationInput1 = keyframe.RelativeTo.CreateAnimationInput(this._animatableTarget, this._rendererProperty.Property, this._rendererProperty.SourceMask);
                     if (value != Rotation.Default)
                     {
-                        AnimationInput animationInput2 = (AnimationInput)new ConstantAnimationInput(new Quaternion(value.Axis, value.AngleRadians));
+                        AnimationInput animationInput2 = new ConstantAnimationInput(new Quaternion(value.Axis, value.AngleRadians));
                         animationInput1 *= animationInput2;
                     }
                 }
                 else
-                    animationInput1 = (AnimationInput)new ConstantAnimationInput(new Quaternion(value.Axis, value.AngleRadians));
+                    animationInput1 = new ConstantAnimationInput(new Quaternion(value.Axis, value.AngleRadians));
                 AnimationInterpolation interpolation = AnimationProxy.GenerateInterpolation(keyframe.Interpolation);
                 interpolation.UseSphericalCombination = true;
                 this._animation.AddKeyframe(new AnimationKeyframe(keyframe.Time, animationInput1, interpolation));
@@ -266,7 +266,7 @@ namespace Microsoft.Iris.Animations
             {
                 if (!this.Session.IsValid)
                     return;
-                DeferredCall.Post(DispatchPriority.Housekeeping, AnimationProxy.s_deferredCleanupWorker, (object)this);
+                DeferredCall.Post(DispatchPriority.Housekeeping, AnimationProxy.s_deferredCleanupWorker, this);
             }
         }
 
@@ -276,10 +276,10 @@ namespace Microsoft.Iris.Animations
             if (this._animation != null)
             {
                 this._animation.AsyncNotifyEvent -= new AsyncNotifyHandler(this.OnAsyncNotification);
-                this._animation.UnregisterUsage((object)this);
-                this._animation = (IKeyframeAnimation)null;
+                this._animation.UnregisterUsage(this);
+                this._animation = null;
             }
-            this._animatableTarget = (IAnimatable)null;
+            this._animatableTarget = null;
             if (!withNotifications)
                 return;
             this._activeSequence.OnDetachChildAnimation(this, progress);
@@ -291,29 +291,29 @@ namespace Microsoft.Iris.Animations
           Interpolation interpolation)
         {
             if (interpolation == null)
-                return (AnimationInterpolation)new LinearInterpolation();
+                return new LinearInterpolation();
             switch (interpolation.Type)
             {
                 case InterpolationType.Linear:
-                    return (AnimationInterpolation)new LinearInterpolation();
+                    return new LinearInterpolation();
                 case InterpolationType.SCurve:
-                    return (AnimationInterpolation)new SCurveInterpolation(interpolation.Weight * 10f);
+                    return new SCurveInterpolation(interpolation.Weight * 10f);
                 case InterpolationType.Exp:
-                    return (double)interpolation.Weight > 0.0 ? (AnimationInterpolation)new ExponentialInterpolation(interpolation.Weight * 10f) : (AnimationInterpolation)new LinearInterpolation();
+                    return interpolation.Weight > 0.0 ? new ExponentialInterpolation(interpolation.Weight * 10f) : (AnimationInterpolation)new LinearInterpolation();
                 case InterpolationType.Log:
-                    return (double)interpolation.Weight > 0.0 ? (AnimationInterpolation)new LogarithmicInterpolation(interpolation.Weight * 10f) : (AnimationInterpolation)new LinearInterpolation();
+                    return interpolation.Weight > 0.0 ? new LogarithmicInterpolation(interpolation.Weight * 10f) : (AnimationInterpolation)new LinearInterpolation();
                 case InterpolationType.Sine:
-                    return (AnimationInterpolation)new SineInterpolation();
+                    return new SineInterpolation();
                 case InterpolationType.Cosine:
-                    return (AnimationInterpolation)new CosineInterpolation();
+                    return new CosineInterpolation();
                 case InterpolationType.Bezier:
-                    return (AnimationInterpolation)new BezierInterpolation(interpolation.BezierHandle1, interpolation.BezierHandle2);
+                    return new BezierInterpolation(interpolation.BezierHandle1, interpolation.BezierHandle2);
                 case InterpolationType.EaseIn:
-                    return (AnimationInterpolation)new EaseInInterpolation(interpolation.Weight * 10f, interpolation.EasePercent);
+                    return new EaseInInterpolation(interpolation.Weight * 10f, interpolation.EasePercent);
                 case InterpolationType.EaseOut:
-                    return (AnimationInterpolation)new EaseOutInterpolation(interpolation.Weight * 10f, interpolation.EasePercent);
+                    return new EaseOutInterpolation(interpolation.Weight * 10f, interpolation.EasePercent);
                 default:
-                    return (AnimationInterpolation)new LinearInterpolation();
+                    return new LinearInterpolation();
             }
         }
 

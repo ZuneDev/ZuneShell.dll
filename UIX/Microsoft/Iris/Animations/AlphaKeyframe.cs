@@ -26,7 +26,7 @@ namespace Microsoft.Iris.Animations
         public override void MagnifyValue(float magnifyValue)
         {
             float num = this.Value * magnifyValue;
-            if ((double)num > 1.0)
+            if (num > 1.0)
                 num = 1f;
             this.Value = num;
         }

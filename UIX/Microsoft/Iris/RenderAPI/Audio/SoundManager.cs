@@ -31,7 +31,7 @@ namespace Microsoft.Iris.RenderAPI.Audio
 
         public void Dispose()
         {
-            GC.SuppressFinalize((object)this);
+            GC.SuppressFinalize(this);
             this.Dispose(true);
         }
 
@@ -42,7 +42,7 @@ namespace Microsoft.Iris.RenderAPI.Audio
                 foreach (SoundManager.SoundContent soundContent in this._dictContent.Values)
                 {
                     if (soundContent.soundBuffer != null)
-                        soundContent.soundBuffer.UnregisterUsage((object)this);
+                        soundContent.soundBuffer.UnregisterUsage(this);
                     if (soundContent.soundData != null)
                     {
                         soundContent.soundData.Unload();
@@ -51,9 +51,9 @@ namespace Microsoft.Iris.RenderAPI.Audio
                 }
                 this._dictContent.Clear();
             }
-            this._dictContent = (Dictionary<string, SoundManager.SoundContent>)null;
-            this._renderSession = (IRenderSession)null;
-            this._uiSession = (UISession)null;
+            this._dictContent = null;
+            this._renderSession = null;
+            this._uiSession = null;
         }
 
         internal string GetSystemSoundEventSource(SystemSoundEvent systemSoundEvent)
@@ -61,7 +61,7 @@ namespace Microsoft.Iris.RenderAPI.Audio
             if (this._systemSoundEventTable == null)
                 this._systemSoundEventTable = new SystemSoundEventTable();
             string filePath = this._systemSoundEventTable.GetFilePath(systemSoundEvent);
-            return string.IsNullOrEmpty(filePath) ? (string)null : string.Format("file://{0}", (object)filePath);
+            return string.IsNullOrEmpty(filePath) ? null : string.Format("file://{0}", filePath);
         }
 
         public void SetVolume(float flVolume)
@@ -87,14 +87,14 @@ namespace Microsoft.Iris.RenderAPI.Audio
             {
                 Resource resource = ResourceManager.Instance.GetResource(source);
                 if (resource == null)
-                    return (ISoundBuffer)null;
+                    return null;
                 soundContent = new SoundManager.SoundContent();
                 soundContent.soundData = new SoundData(cacheKey, resource);
                 soundContent.soundData.Load();
                 flag = true;
             }
             if (soundContent.soundBuffer == null && soundContent.soundData.IsAvailable && this._renderSession.SoundDevice != null)
-                soundContent.soundBuffer = this._renderSession.SoundDevice.CreateSoundBuffer((object)this, (ISoundData)soundContent.soundData);
+                soundContent.soundBuffer = this._renderSession.SoundDevice.CreateSoundBuffer(this, soundContent.soundData);
             if (flag)
                 this._dictContent[cacheKey] = soundContent;
             return soundContent.soundBuffer;

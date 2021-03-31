@@ -23,9 +23,9 @@ namespace Microsoft.Iris
                 str1 = str1.Substring(7);
             string str2;
             if (this.Line != -1)
-                str2 = string.Format("{0}({1},{2}) : {3} : {4}", (object)str1, (object)this.Line, (object)this.Column, this.Warning ? (object)"warning" : (object)"error", (object)this.Message);
+                str2 = string.Format("{0}({1},{2}) : {3} : {4}", str1, Line, Column, this.Warning ? "warning" : "error", Message);
             else
-                str2 = this.Context == null ? string.Format("{0} : {1}", this.Warning ? (object)"warning" : (object)"error", (object)this.Message) : string.Format("{0} : {1} : {2}", (object)str1, this.Warning ? (object)"warning" : (object)"error", (object)this.Message);
+                str2 = this.Context == null ? string.Format("{0} : {1}", this.Warning ? "warning" : "error", Message) : string.Format("{0} : {1} : {2}", str1, this.Warning ? "warning" : "error", Message);
             return str2;
         }
     }

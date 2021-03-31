@@ -27,7 +27,7 @@ namespace Microsoft.Iris.Library
 
         object IList.this[int index]
         {
-            get => (object)this[index];
+            get => this[index];
             set
             {
             }
@@ -44,24 +44,24 @@ namespace Microsoft.Iris.Library
                         return treeNode;
                     ++num;
                 }
-                return (TreeNode)null;
+                return null;
             }
             set
             {
             }
         }
 
-        IEnumerator IEnumerable.GetEnumerator() => (IEnumerator)this.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 
         public TreeNodeEnumerator GetEnumerator() => new TreeNodeEnumerator(this._nodeSubject);
 
         void ICollection.CopyTo(Array destList, int destIndex)
         {
             foreach (TreeNode treeNode in this)
-                destList.SetValue((object)treeNode, destIndex++);
+                destList.SetValue(treeNode, destIndex++);
         }
 
-        public void CopyTo(TreeNode[] destList, int destIndex) => ((ICollection)this).CopyTo((Array)destList, destIndex);
+        public void CopyTo(TreeNode[] destList, int destIndex) => ((ICollection)this).CopyTo(destList, destIndex);
 
         int IList.Add(object value)
         {
@@ -69,7 +69,7 @@ namespace Microsoft.Iris.Library
             return this._nodeSubject.ChildCount - 1;
         }
 
-        public void Add(TreeNode nodeChild) => nodeChild.ChangeParent(this._nodeSubject, (TreeNode)null, TreeNode.LinkType.Last);
+        public void Add(TreeNode nodeChild) => nodeChild.ChangeParent(this._nodeSubject, null, TreeNode.LinkType.Last);
 
         public void Clear() => this._nodeSubject.RemoveAllChildren(true);
 
@@ -97,7 +97,7 @@ namespace Microsoft.Iris.Library
 
         public void Insert(int insertAtIndex, TreeNode nodeChild)
         {
-            TreeNode nodeSibling = (TreeNode)null;
+            TreeNode nodeSibling = null;
             TreeNode.LinkType lt = TreeNode.LinkType.Last;
             if (insertAtIndex < this.Count)
             {
@@ -109,8 +109,8 @@ namespace Microsoft.Iris.Library
 
         void IList.Remove(object nodeChild) => this.Remove((TreeNode)nodeChild);
 
-        public void Remove(TreeNode nodeChild) => nodeChild.ChangeParent((TreeNode)null);
+        public void Remove(TreeNode nodeChild) => nodeChild.ChangeParent(null);
 
-        public void RemoveAt(int removeAtIndex) => this[removeAtIndex].ChangeParent((TreeNode)null);
+        public void RemoveAt(int removeAtIndex) => this[removeAtIndex].ChangeParent(null);
     }
 }

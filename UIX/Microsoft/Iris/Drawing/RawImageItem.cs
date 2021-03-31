@@ -30,7 +30,7 @@ namespace Microsoft.Iris.Drawing
           bool antialiasEdges)
           : base(renderSession, source, maxSize, flippable, antialiasEdges)
         {
-            this._oKeepAlive = (object)rawImage;
+            this._oKeepAlive = rawImage;
             this.SetSize(imageSize);
             this.SetBuffer(data, length);
             this._stride = stride;
@@ -39,7 +39,7 @@ namespace Microsoft.Iris.Drawing
 
         protected override void OnDispose()
         {
-            this._oKeepAlive = (object)null;
+            this._oKeepAlive = null;
             this.m_buffer = IntPtr.Zero;
             base.OnDispose();
         }

@@ -28,7 +28,7 @@ namespace Microsoft.Iris.ModelItems
 
         public BooleanChoice()
         {
-            this._options = (IList)BooleanChoice.s_defaultOptions;
+            this._options = s_defaultOptions;
             this._chosen = 0;
         }
 
@@ -36,7 +36,7 @@ namespace Microsoft.Iris.ModelItems
         {
             if (options != null && options.Count == 2)
                 return base.ValidateOptionsList(options, out error);
-            error = string.Format("Script runtime failure: Invalid '{0}' value  for '{1}'", (object)options, (object)"Options");
+            error = string.Format("Script runtime failure: Invalid '{0}' value  for '{1}'", options, "Options");
             return false;
         }
     }

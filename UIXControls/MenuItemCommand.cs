@@ -18,7 +18,7 @@ namespace UIXControls
         }
 
         public MenuItemCommand(string description)
-          : base((IModelItemOwner)null, description, (EventHandler)null)
+          : base(null, description, null)
         {
         }
 
@@ -36,6 +36,6 @@ namespace UIXControls
 
         public virtual bool ShouldHide() => this.Hidden;
 
-        public override string ToString() => string.Format("{0}:\"{1}\", Available = {2}, Hidden = {3}", (object)this.GetType().Name, (object)this.Description, (object)this.Available, (object)this.Hidden);
+        public override string ToString() => string.Format("{0}:\"{1}\", Available = {2}, Hidden = {3}", this.GetType().Name, Description, Available, Hidden);
     }
 }

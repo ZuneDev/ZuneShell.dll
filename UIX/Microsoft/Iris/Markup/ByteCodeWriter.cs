@@ -36,7 +36,8 @@ namespace Microsoft.Iris.Markup
 
         public void WriteBool(bool value)
         {
-            this._scratch[0] = value ? (byte)1 : (byte)0;
+            this._scratch[0] = 0;
+            if (value) this._scratch[0] = 1;
             this.Write(this._scratch, 1U);
         }
 
@@ -123,7 +124,7 @@ namespace Microsoft.Iris.Markup
             }
             else
             {
-                if (value.Length >= (int)short.MaxValue)
+                if (value.Length >= short.MaxValue)
                     throw new ArgumentException("String too long");
                 bool flag = false;
                 foreach (char ch in value)
@@ -173,12 +174,12 @@ namespace Microsoft.Iris.Markup
                 if (this._cbFreeInBlock == 0U)
                 {
                     this._currentBlock = new byte[4096];
-                    this._blockList.Add((object)this._currentBlock);
+                    this._blockList.Add(_currentBlock);
                     this._cbFreeInBlock = 4096U;
                 }
                 uint num1 = cbData <= this._cbFreeInBlock ? cbData : this._cbFreeInBlock;
                 uint num2 = 4096U - this._cbFreeInBlock;
-                Marshal.Copy(new IntPtr((void*)pbData), this._currentBlock, (int)num2, (int)num1);
+                Marshal.Copy(new IntPtr(pbData), this._currentBlock, (int)num2, (int)num1);
                 pbData += (int)num1;
                 cbData -= num1;
                 this._cbFreeInBlock -= num1;
@@ -204,15 +205,15 @@ namespace Microsoft.Iris.Markup
             byte* numPtr = pointer;
             for (int index = 0; index < this._blockList.Count - 1; ++index)
             {
-                Marshal.Copy((byte[])this._blockList[index], 0, new IntPtr((void*)numPtr), 4096);
+                Marshal.Copy((byte[])this._blockList[index], 0, new IntPtr(numPtr), 4096);
                 numPtr += 4096;
             }
             uint num = 4096U - this._cbFreeInBlock;
             if (this._currentBlock != null && num != 0U)
-                Marshal.Copy(this._currentBlock, 0, new IntPtr((void*)numPtr), (int)num);
+                Marshal.Copy(this._currentBlock, 0, new IntPtr(numPtr), (int)num);
             totalSize = this._totalSize;
             this._blockList.Clear();
-            this._currentBlock = (byte[])null;
+            this._currentBlock = null;
             this._cbFreeInBlock = 0U;
             this._totalSize = 0U;
             return pointer;
@@ -221,7 +222,7 @@ namespace Microsoft.Iris.Markup
         public unsafe ByteCodeReader CreateReader()
         {
             uint totalSize;
-            return new ByteCodeReader(new IntPtr((void*)this.ComposeFinalBuffer(out totalSize)), totalSize, true);
+            return new ByteCodeReader(new IntPtr(this.ComposeFinalBuffer(out totalSize)), totalSize, true);
         }
     }
 }

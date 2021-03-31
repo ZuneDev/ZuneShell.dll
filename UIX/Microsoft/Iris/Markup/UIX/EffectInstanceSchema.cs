@@ -12,8 +12,8 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        public static void Pass1Initialize() => EffectInstanceSchema.Type = new UIXTypeSchema((short)78, "EffectInstance", (string)null, (short)153, typeof(EffectClass), UIXTypeFlags.Disposable);
+        public static void Pass1Initialize() => EffectInstanceSchema.Type = new UIXTypeSchema(78, "EffectInstance", null, 153, typeof(EffectClass), UIXTypeFlags.Disposable);
 
-        public static void Pass2Initialize() => EffectInstanceSchema.Type.Initialize((DefaultConstructHandler)null, (ConstructorSchema[])null, (PropertySchema[])null, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+        public static void Pass2Initialize() => EffectInstanceSchema.Type.Initialize(null, null, null, null, null, null, null, null, null, null, null, null);
     }
 }

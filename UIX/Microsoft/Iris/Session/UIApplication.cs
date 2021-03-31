@@ -20,7 +20,7 @@ namespace Microsoft.Iris.Session
             set => UIApplication.s_applicationName = value;
         }
 
-        public static void Run() => UIDispatcher.CurrentDispatcher.Run((LoopCondition)null);
+        public static void Run() => UIDispatcher.CurrentDispatcher.Run(null);
 
         public static void DoEvents(LoopCondition loop) => UIDispatcher.CurrentDispatcher.Run(loop);
 
@@ -56,7 +56,7 @@ namespace Microsoft.Iris.Session
             thread.Name = threadName;
             thread.SetApartmentState(ApartmentState.STA);
             thread.IsBackground = true;
-            thread.Start((object)new UIApplication.StartArgs(registeredEvent));
+            thread.Start(new UIApplication.StartArgs(registeredEvent));
             registeredEvent.WaitOne();
             registeredEvent.Close();
             return thread;
@@ -71,15 +71,15 @@ namespace Microsoft.Iris.Session
                 if (startArgs.registeredEvent != null)
                 {
                     startArgs.registeredEvent.Set();
-                    startArgs.registeredEvent = (ManualResetEvent)null;
+                    startArgs.registeredEvent = null;
                 }
                 if (startArgs.initialWork != null)
                 {
                     DeferredCall.Post(currentThread, DispatchPriority.AppEvent, startArgs.initialWork, startArgs.initialWorkArgs);
-                    startArgs.initialWork = (DeferredHandler)null;
-                    startArgs.initialWorkArgs = (object)null;
+                    startArgs.initialWork = null;
+                    startArgs.initialWorkArgs = null;
                 }
-                uiDispatcher.Run((LoopCondition)null);
+                uiDispatcher.Run(null);
             }
         }
 
@@ -99,7 +99,7 @@ namespace Microsoft.Iris.Session
                 this._worker = workerMethod;
             }
 
-            public void BeginInvoke() => this._worker.BeginInvoke(this._args, new AsyncCallback(this.AsyncInvokeCompleted), (object)null);
+            public void BeginInvoke() => this._worker.BeginInvoke(this._args, new AsyncCallback(this.AsyncInvokeCompleted), null);
 
             private void AsyncInvokeCompleted(IAsyncResult result)
             {

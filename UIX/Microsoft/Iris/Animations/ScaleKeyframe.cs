@@ -36,7 +36,7 @@ namespace Microsoft.Iris.Animations
                 baseValueVector *= args.NewScale;
             else if (relativeTo is SnapshotRelativeTo snapshotRelativeTo)
             {
-                RectangleF rectangleF = args.ViewItem.TransformFromAncestor((ViewItem)null, snapshotRelativeTo.Bounds);
+                RectangleF rectangleF = args.ViewItem.TransformFromAncestor(null, snapshotRelativeTo.Bounds);
                 baseValueVector = baseValueVector * args.NewScale * new Vector3(rectangleF.Width / args.NewSize.X, rectangleF.Height / args.NewSize.Y, 0.0f);
             }
             return baseValueVector;
@@ -52,7 +52,7 @@ namespace Microsoft.Iris.Animations
 
         private float MagnifyDimension(float dimensionValue, float magnifyValue)
         {
-            if ((double)dimensionValue != 1.0)
+            if (dimensionValue != 1.0)
                 dimensionValue *= magnifyValue;
             return dimensionValue;
         }

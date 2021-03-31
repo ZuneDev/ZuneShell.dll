@@ -38,14 +38,14 @@ namespace Microsoft.Iris.OS
         private void OnFileDownloadComplete(IntPtr handle, int error, uint length, IntPtr context)
         {
             IntPtr buffer = IntPtr.Zero;
-            string errorDetails = (string)null;
+            string errorDetails = null;
             if (error == 0)
                 buffer = NativeApi.DownloadGetBuffer(this._handle);
             else
-                errorDetails = string.Format("Failed to complete download from '{0}'", (object)this._filePath);
+                errorDetails = string.Format("Failed to complete download from '{0}'", _filePath);
             int num = (int)NativeApi.SpDownloadClose(this._handle);
             this._handle = IntPtr.Zero;
-            this._pendingCallback = (NativeApi.DownloadCompleteHandler)null;
+            this._pendingCallback = null;
             this.NotifyAcquisitionComplete(buffer, length, true, errorDetails);
         }
 
@@ -53,11 +53,11 @@ namespace Microsoft.Iris.OS
         {
             IntPtr num1 = IntPtr.Zero;
             uint num2 = 0;
-            string errorDetails = (string)null;
+            string errorDetails = null;
             IntPtr file = Win32Api.CreateFile(this._filePath, 2147483648U, 1U, IntPtr.Zero, 3U, 0U, IntPtr.Zero);
             if (file == Win32Api.INVALID_HANDLE_VALUE)
             {
-                errorDetails = string.Format("File not found: '{0}'", (object)this._filePath);
+                errorDetails = string.Format("File not found: '{0}'", _filePath);
             }
             else
             {
@@ -84,7 +84,7 @@ namespace Microsoft.Iris.OS
                 return;
             int num = (int)NativeApi.SpDownloadClose(this._handle);
             this._handle = IntPtr.Zero;
-            this._pendingCallback = (NativeApi.DownloadCompleteHandler)null;
+            this._pendingCallback = null;
         }
     }
 }

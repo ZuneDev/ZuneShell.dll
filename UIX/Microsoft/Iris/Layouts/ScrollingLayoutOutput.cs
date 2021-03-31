@@ -81,6 +81,6 @@ namespace Microsoft.Iris.Layouts
 
         public static DataCookie DataCookie => ScrollingLayoutOutput.s_dataProperty;
 
-        public override string ToString() => InvariantString.Format("{0}(CanScrollNegative={1}, CanScrollPositive={2}, CurrentPage={3}, TotalPages={4})", (object)this.GetType().Name, (object)this._canScrollNegative, (object)this._canScrollPositive, (object)this._currentPage, (object)this._totalPages);
+        public override string ToString() => InvariantString.Format("{0}(CanScrollNegative={1}, CanScrollPositive={2}, CurrentPage={3}, TotalPages={4})", this.GetType().Name, _canScrollNegative, _canScrollPositive, _currentPage, _totalPages);
     }
 }

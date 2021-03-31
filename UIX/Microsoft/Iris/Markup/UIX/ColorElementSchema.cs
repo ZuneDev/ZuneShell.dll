@@ -15,17 +15,17 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static void SetColor(ref object instanceObj, object valueObj) => ((ColorElement)instanceObj).Color = ((Color)valueObj).RenderConvert();
 
-        private static object Construct() => (object)new ColorElement();
+        private static object Construct() => new ColorElement();
 
-        public static void Pass1Initialize() => ColorElementSchema.Type = new UIXTypeSchema((short)36, "ColorElement", (string)null, (short)77, typeof(ColorElement), UIXTypeFlags.None);
+        public static void Pass1Initialize() => ColorElementSchema.Type = new UIXTypeSchema(36, "ColorElement", null, 77, typeof(ColorElement), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema = new UIXPropertySchema((short)36, "Color", (short)35, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, (GetValueHandler)null, new SetValueHandler(ColorElementSchema.SetColor), false);
-            ColorElementSchema.Type.Initialize(new DefaultConstructHandler(ColorElementSchema.Construct), (ConstructorSchema[])null, new PropertySchema[1]
+            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(36, "Color", 35, -1, ExpressionRestriction.None, false, null, false, null, new SetValueHandler(ColorElementSchema.SetColor), false);
+            ColorElementSchema.Type.Initialize(new DefaultConstructHandler(ColorElementSchema.Construct), null, new PropertySchema[1]
             {
-        (PropertySchema) uixPropertySchema
-            }, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixPropertySchema
+            }, null, null, null, null, null, null, null, null, null);
         }
     }
 }

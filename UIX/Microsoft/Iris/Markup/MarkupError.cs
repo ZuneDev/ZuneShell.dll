@@ -20,9 +20,9 @@ namespace Microsoft.Iris.Markup
             if (this._context == null || error.Line == -1)
                 return;
             if (error.Column != -1)
-                this._context = string.Format("{0} ({1},{2})", (object)this._context, (object)error.Line, (object)error.Column);
+                this._context = string.Format("{0} ({1},{2})", _context, error.Line, error.Column);
             else
-                this._context = string.Format("{0} ({1})", (object)this._context, (object)error.Line);
+                this._context = string.Format("{0} ({1})", _context, error.Line);
         }
 
         public bool IsError => !this._error.Warning;

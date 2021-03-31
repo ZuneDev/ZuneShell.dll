@@ -51,9 +51,9 @@ namespace Microsoft.Iris.Markup
         public LoadResult FindDependency(string prefix)
         {
             if (prefix == null)
-                return (LoadResult)MarkupSystem.UIXGlobal;
+                return MarkupSystem.UIXGlobal;
             object obj;
-            this._importedNamespaces.TryGetValue((object)prefix, out obj);
+            this._importedNamespaces.TryGetValue(prefix, out obj);
             return (LoadResult)obj;
         }
 
@@ -73,7 +73,7 @@ namespace Microsoft.Iris.Markup
                 }
                 if (this._parseResult.Version != "http://schemas.microsoft.com/2007/uix")
                 {
-                    this.ReportError(string.Format("Unsupported version of markup: '{0}'", (object)this._parseResult.Version), -1, -1);
+                    this.ReportError(string.Format("Unsupported version of markup: '{0}'", _parseResult.Version), -1, -1);
                     return;
                 }
                 if (this._loadResultTarget.BinaryDataTable != null)
@@ -88,7 +88,7 @@ namespace Microsoft.Iris.Markup
                     LoadResult loadResult = validateNamespace.Validate();
                     if (loadResult != null)
                     {
-                        this._importedNamespaces[(object)validateNamespace.Prefix] = (object)loadResult;
+                        this._importedNamespaces[validateNamespace.Prefix] = loadResult;
                         this.TrackImportedLoadResult(loadResult);
                     }
                 }
@@ -115,7 +115,7 @@ namespace Microsoft.Iris.Markup
                     for (ValidateNamespace validateNamespace = this._parseResult.XmlnsList; validateNamespace != null; validateNamespace = validateNamespace.Next)
                     {
                         if (!this._referencedNamespaces.ContainsKey(validateNamespace.Prefix))
-                            ErrorManager.ReportWarning(validateNamespace.Line, validateNamespace.Column, "Unreferenced namespace {0}", (object)validateNamespace.Prefix);
+                            ErrorManager.ReportWarning(validateNamespace.Line, validateNamespace.Column, "Unreferenced namespace {0}", validateNamespace.Prefix);
                     }
                 }
             }
@@ -145,7 +145,7 @@ namespace Microsoft.Iris.Markup
                     return;
                 if (this.HasErrors)
                     this._loadResultTarget.MarkLoadFailed();
-                MarkupImportTables importTables = (MarkupImportTables)null;
+                MarkupImportTables importTables = null;
                 if (this._importTables != null)
                 {
                     importTables = this._importTables.PrepareImportTables();
@@ -155,9 +155,9 @@ namespace Microsoft.Iris.Markup
                 MarkupConstantsTable constantsTable = this._loadResultTarget.BinaryDataTable == null ? new MarkupConstantsTable() : this._loadResultTarget.BinaryDataTable.ConstantsTable;
                 this._loadResultTarget.SetDataMappingsTable(this.PrepareDataMappingTable());
                 this._loadResultTarget.ValidationComplete();
-                ByteCodeReader reader = (ByteCodeReader)null;
+                ByteCodeReader reader = null;
                 if (!this.HasErrors)
-                    reader = new MarkupEncoder(importTables, constantsTable, lineNumberTable).EncodeOBJECTSection(this._parseResult, this._loadResultTarget.Uri, (string)null);
+                    reader = new MarkupEncoder(importTables, constantsTable, lineNumberTable).EncodeOBJECTSection(this._parseResult, this._loadResultTarget.Uri, null);
                 if (!this._usingSharedBinaryDataTable)
                 {
                     constantsTable.PrepareForRuntimeUse();
@@ -169,16 +169,16 @@ namespace Microsoft.Iris.Markup
                     this._loadResultTarget.SetObjectSection(reader);
                 this._loadResultTarget.SetDependenciesTable(this.PrepareDependenciesTable());
                 if (!MarkupSystem.TrackAdditionalMetadata)
-                    this._parseResult = (ParseResult)null;
+                    this._parseResult = null;
                 foreach (DisposableObject validateObject in this._validateObjects)
-                    validateObject.Dispose((object)this);
+                    validateObject.Dispose(this);
             }
         }
 
         public int RegisterExportedType(MarkupTypeSchema type)
         {
             int count = this._foundExportedTypes.Count;
-            this._foundExportedTypes.Add((object)type);
+            this._foundExportedTypes.Add(type);
             return count;
         }
 
@@ -188,7 +188,7 @@ namespace Microsoft.Iris.Markup
             if (this._foundAliasMappings == null)
                 this._foundAliasMappings = new Vector();
             int count = this._foundAliasMappings.Count;
-            this._foundAliasMappings.Add((object)new AliasMapping(alias, loadResult, targetType));
+            this._foundAliasMappings.Add(new AliasMapping(alias, loadResult, targetType));
             return count;
         }
 
@@ -212,8 +212,8 @@ namespace Microsoft.Iris.Markup
 
         public void TrackValidateObject(Microsoft.Iris.Markup.Validation.Validate validate)
         {
-            this._validateObjects.Add((object)validate);
-            validate.DeclareOwner((object)this);
+            this._validateObjects.Add(validate);
+            validate.DeclareOwner(this);
         }
 
         public void TrackImportedLoadResult(LoadResult loadResult)
@@ -225,18 +225,18 @@ namespace Microsoft.Iris.Markup
                 if ((LoadResult)this._importTables.ImportedLoadResults[index] == loadResult)
                     return;
             }
-            this._importTables.ImportedLoadResults.Add((object)loadResult);
+            this._importTables.ImportedLoadResults.Add(loadResult);
         }
 
         public int TrackImportedType(TypeSchema type)
         {
             this.TrackImportedLoadResult(type.Owner);
-            return this.TrackImportedSchema(this._importTables.ImportedTypes, (object)type);
+            return this.TrackImportedSchema(this._importTables.ImportedTypes, type);
         }
 
         public int TrackImportedConstructor(ConstructorSchema constructor)
         {
-            int num = this.TrackImportedSchema(this._importTables.ImportedConstructors, (object)constructor);
+            int num = this.TrackImportedSchema(this._importTables.ImportedConstructors, constructor);
             this.TrackImportedType(constructor.Owner);
             foreach (TypeSchema parameterType in constructor.ParameterTypes)
                 this.TrackImportedType(parameterType);
@@ -245,14 +245,14 @@ namespace Microsoft.Iris.Markup
 
         public int TrackImportedProperty(PropertySchema property)
         {
-            int num = this.TrackImportedSchema(this._importTables.ImportedProperties, (object)property);
+            int num = this.TrackImportedSchema(this._importTables.ImportedProperties, property);
             this.TrackImportedType(property.Owner);
             return num;
         }
 
         public int TrackImportedMethod(MethodSchema method)
         {
-            int num = this.TrackImportedSchema(this._importTables.ImportedMethods, (object)method);
+            int num = this.TrackImportedSchema(this._importTables.ImportedMethods, method);
             this.TrackImportedType(method.Owner);
             foreach (TypeSchema parameterType in method.ParameterTypes)
                 this.TrackImportedType(parameterType);
@@ -261,7 +261,7 @@ namespace Microsoft.Iris.Markup
 
         public int TrackImportedEvent(EventSchema evt)
         {
-            int num = this.TrackImportedSchema(this._importTables.ImportedEvents, (object)evt);
+            int num = this.TrackImportedSchema(this._importTables.ImportedEvents, evt);
             this.TrackImportedType(evt.Owner);
             return num;
         }
@@ -329,7 +329,7 @@ namespace Microsoft.Iris.Markup
                 for (int index = 0; index < this._foundExportedTypes.Count; ++index)
                 {
                     MarkupTypeSchema foundExportedType = (MarkupTypeSchema)this._foundExportedTypes[index];
-                    typeSchemaArray[index] = (TypeSchema)foundExportedType;
+                    typeSchemaArray[index] = foundExportedType;
                 }
             }
             return typeSchemaArray;
@@ -337,7 +337,7 @@ namespace Microsoft.Iris.Markup
 
         private AliasMapping[] PrepareAliasTable()
         {
-            AliasMapping[] aliasMappingArray = (AliasMapping[])null;
+            AliasMapping[] aliasMappingArray = null;
             if (this._foundAliasMappings != null)
             {
                 aliasMappingArray = new AliasMapping[this._foundAliasMappings.Count];
@@ -349,8 +349,8 @@ namespace Microsoft.Iris.Markup
 
         private MarkupDataMapping[] PrepareDataMappingTable()
         {
-            MarkupDataMapping[] dataMappingTable = (MarkupDataMapping[])null;
-            int length = this.PrepareDataMappingTableHelper((MarkupDataMapping[])null);
+            MarkupDataMapping[] dataMappingTable = null;
+            int length = this.PrepareDataMappingTableHelper(null);
             if (length > 0)
             {
                 dataMappingTable = new MarkupDataMapping[length];
@@ -394,7 +394,7 @@ namespace Microsoft.Iris.Markup
         {
             if (prefix == null)
                 return;
-            this._referencedNamespaces[prefix] = (object)null;
+            this._referencedNamespaces[prefix] = null;
         }
 
         public ValidateObjectTag CreateObjectTagValidator(
@@ -403,35 +403,35 @@ namespace Microsoft.Iris.Markup
           int offset,
           bool isRootTag)
         {
-            ValidateObjectTag validateObjectTag = (ValidateObjectTag)null;
+            ValidateObjectTag validateObjectTag = null;
             if (isRootTag)
             {
                 if (typeIdentifier.TypeName == ClassSchema.Type.Name)
-                    validateObjectTag = (ValidateObjectTag)new ValidateClass(this, typeIdentifier, line, offset);
+                    validateObjectTag = new ValidateClass(this, typeIdentifier, line, offset);
                 else if (typeIdentifier.TypeName == UISchema.Type.Name)
-                    validateObjectTag = (ValidateObjectTag)new ValidateUI(this, typeIdentifier, line, offset);
+                    validateObjectTag = new ValidateUI(this, typeIdentifier, line, offset);
                 else if (typeIdentifier.TypeName == EffectSchema.Type.Name)
-                    validateObjectTag = (ValidateObjectTag)new ValidateEffect(this, typeIdentifier, line, offset);
+                    validateObjectTag = new ValidateEffect(this, typeIdentifier, line, offset);
                 else if (typeIdentifier.TypeName == AliasSchema.Type.Name)
-                    validateObjectTag = (ValidateObjectTag)new ValidateAlias(this, typeIdentifier, line, offset);
+                    validateObjectTag = new ValidateAlias(this, typeIdentifier, line, offset);
                 else if (typeIdentifier.TypeName == DataTypeSchema.Type.Name)
-                    validateObjectTag = (ValidateObjectTag)new ValidateDataType(this, typeIdentifier, line, offset);
+                    validateObjectTag = new ValidateDataType(this, typeIdentifier, line, offset);
                 else if (typeIdentifier.TypeName == DataQuerySchema.Type.Name)
-                    validateObjectTag = (ValidateObjectTag)new ValidateDataQuery(this, typeIdentifier, line, offset);
+                    validateObjectTag = new ValidateDataQuery(this, typeIdentifier, line, offset);
                 else if (typeIdentifier.TypeName == DataMappingSchema.Type.Name)
-                    validateObjectTag = (ValidateObjectTag)new ValidateDataMapping(this, typeIdentifier, line, offset);
+                    validateObjectTag = new ValidateDataMapping(this, typeIdentifier, line, offset);
             }
             else if (typeIdentifier.Prefix == null)
             {
                 if (typeIdentifier.TypeName == TypeConstraintSchema.Type.Name)
                 {
-                    validateObjectTag = (ValidateObjectTag)new ValidateTypeConstraint(this, typeIdentifier, line, offset);
+                    validateObjectTag = new ValidateTypeConstraint(this, typeIdentifier, line, offset);
                 }
                 else
                 {
                     TypeSchema type = MarkupSystem.UIXGlobal.FindType(typeIdentifier.TypeName);
                     if (EffectElementSchema.Type.IsAssignableFrom(type))
-                        validateObjectTag = (ValidateObjectTag)new ValidateEffectElement(this, typeIdentifier, line, offset);
+                        validateObjectTag = new ValidateEffectElement(this, typeIdentifier, line, offset);
                 }
             }
             if (validateObjectTag == null)

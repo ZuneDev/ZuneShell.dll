@@ -15,15 +15,15 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object GetEnabled(object instanceObj) => BooleanBoxes.Box(((Accessible)instanceObj).Enabled);
 
-        private static object GetDefaultAction(object instanceObj) => (object)((Accessible)instanceObj).DefaultAction;
+        private static object GetDefaultAction(object instanceObj) => ((Accessible)instanceObj).DefaultAction;
 
         private static void SetDefaultAction(ref object instanceObj, object valueObj) => ((Accessible)instanceObj).DefaultAction = (string)valueObj;
 
-        private static object GetDefaultActionCommand(object instanceObj) => (object)((Accessible)instanceObj).DefaultActionCommand;
+        private static object GetDefaultActionCommand(object instanceObj) => ((Accessible)instanceObj).DefaultActionCommand;
 
         private static void SetDefaultActionCommand(ref object instanceObj, object valueObj) => ((Accessible)instanceObj).DefaultActionCommand = (IUICommand)valueObj;
 
-        private static object GetDescription(object instanceObj) => (object)((Accessible)instanceObj).Description;
+        private static object GetDescription(object instanceObj) => ((Accessible)instanceObj).Description;
 
         private static void SetDescription(ref object instanceObj, object valueObj) => ((Accessible)instanceObj).Description = (string)valueObj;
 
@@ -31,11 +31,11 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static void SetHasPopup(ref object instanceObj, object valueObj) => ((Accessible)instanceObj).HasPopup = (bool)valueObj;
 
-        private static object GetHelp(object instanceObj) => (object)((Accessible)instanceObj).Help;
+        private static object GetHelp(object instanceObj) => ((Accessible)instanceObj).Help;
 
         private static void SetHelp(ref object instanceObj, object valueObj) => ((Accessible)instanceObj).Help = (string)valueObj;
 
-        private static object GetHelpTopic(object instanceObj) => (object)((Accessible)instanceObj).HelpTopic;
+        private static object GetHelpTopic(object instanceObj) => ((Accessible)instanceObj).HelpTopic;
 
         private static void SetHelpTopic(ref object instanceObj, object valueObj) => ((Accessible)instanceObj).HelpTopic = (int)valueObj;
 
@@ -99,83 +99,83 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static void SetIsUnavailable(ref object instanceObj, object valueObj) => ((Accessible)instanceObj).IsUnavailable = (bool)valueObj;
 
-        private static object GetKeyboardShortcut(object instanceObj) => (object)((Accessible)instanceObj).KeyboardShortcut;
+        private static object GetKeyboardShortcut(object instanceObj) => ((Accessible)instanceObj).KeyboardShortcut;
 
         private static void SetKeyboardShortcut(ref object instanceObj, object valueObj) => ((Accessible)instanceObj).KeyboardShortcut = (string)valueObj;
 
-        private static object GetName(object instanceObj) => (object)((Accessible)instanceObj).Name;
+        private static object GetName(object instanceObj) => ((Accessible)instanceObj).Name;
 
         private static void SetName(ref object instanceObj, object valueObj) => ((Accessible)instanceObj).Name = (string)valueObj;
 
-        private static object GetRole(object instanceObj) => (object)((Accessible)instanceObj).Role;
+        private static object GetRole(object instanceObj) => ((Accessible)instanceObj).Role;
 
         private static void SetRole(ref object instanceObj, object valueObj) => ((Accessible)instanceObj).Role = (AccRole)valueObj;
 
-        private static object GetValue(object instanceObj) => (object)((Accessible)instanceObj).Value;
+        private static object GetValue(object instanceObj) => ((Accessible)instanceObj).Value;
 
         private static void SetValue(ref object instanceObj, object valueObj) => ((Accessible)instanceObj).Value = (string)valueObj;
 
-        private static object Construct() => (object)new Accessible();
+        private static object Construct() => new Accessible();
 
-        public static void Pass1Initialize() => AccessibleSchema.Type = new UIXTypeSchema((short)0, "Accessible", (string)null, (short)153, typeof(Accessible), UIXTypeFlags.None);
+        public static void Pass1Initialize() => AccessibleSchema.Type = new UIXTypeSchema(0, "Accessible", null, 153, typeof(Accessible), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema((short)0, "Enabled", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(AccessibleSchema.GetEnabled), (SetValueHandler)null, false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema((short)0, "DefaultAction", (short)208, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(AccessibleSchema.GetDefaultAction), new SetValueHandler(AccessibleSchema.SetDefaultAction), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema((short)0, "DefaultActionCommand", (short)40, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(AccessibleSchema.GetDefaultActionCommand), new SetValueHandler(AccessibleSchema.SetDefaultActionCommand), false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema((short)0, "Description", (short)208, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(AccessibleSchema.GetDescription), new SetValueHandler(AccessibleSchema.SetDescription), false);
-            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema((short)0, "HasPopup", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(AccessibleSchema.GetHasPopup), new SetValueHandler(AccessibleSchema.SetHasPopup), false);
-            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema((short)0, "Help", (short)208, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(AccessibleSchema.GetHelp), new SetValueHandler(AccessibleSchema.SetHelp), false);
-            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema((short)0, "HelpTopic", (short)115, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(AccessibleSchema.GetHelpTopic), new SetValueHandler(AccessibleSchema.SetHelpTopic), false);
-            UIXPropertySchema uixPropertySchema8 = new UIXPropertySchema((short)0, "IsAnimated", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(AccessibleSchema.GetIsAnimated), new SetValueHandler(AccessibleSchema.SetIsAnimated), false);
-            UIXPropertySchema uixPropertySchema9 = new UIXPropertySchema((short)0, "IsBusy", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(AccessibleSchema.GetIsBusy), new SetValueHandler(AccessibleSchema.SetIsBusy), false);
-            UIXPropertySchema uixPropertySchema10 = new UIXPropertySchema((short)0, "IsChecked", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(AccessibleSchema.GetIsChecked), new SetValueHandler(AccessibleSchema.SetIsChecked), false);
-            UIXPropertySchema uixPropertySchema11 = new UIXPropertySchema((short)0, "IsCollapsed", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(AccessibleSchema.GetIsCollapsed), new SetValueHandler(AccessibleSchema.SetIsCollapsed), false);
-            UIXPropertySchema uixPropertySchema12 = new UIXPropertySchema((short)0, "IsDefault", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(AccessibleSchema.GetIsDefault), new SetValueHandler(AccessibleSchema.SetIsDefault), false);
-            UIXPropertySchema uixPropertySchema13 = new UIXPropertySchema((short)0, "IsExpanded", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(AccessibleSchema.GetIsExpanded), new SetValueHandler(AccessibleSchema.SetIsExpanded), false);
-            UIXPropertySchema uixPropertySchema14 = new UIXPropertySchema((short)0, "IsMarquee", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(AccessibleSchema.GetIsMarquee), new SetValueHandler(AccessibleSchema.SetIsMarquee), false);
-            UIXPropertySchema uixPropertySchema15 = new UIXPropertySchema((short)0, "IsMixed", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(AccessibleSchema.GetIsMixed), new SetValueHandler(AccessibleSchema.SetIsMixed), false);
-            UIXPropertySchema uixPropertySchema16 = new UIXPropertySchema((short)0, "IsMultiSelectable", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(AccessibleSchema.GetIsMultiSelectable), new SetValueHandler(AccessibleSchema.SetIsMultiSelectable), false);
-            UIXPropertySchema uixPropertySchema17 = new UIXPropertySchema((short)0, "IsPressed", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(AccessibleSchema.GetIsPressed), new SetValueHandler(AccessibleSchema.SetIsPressed), false);
-            UIXPropertySchema uixPropertySchema18 = new UIXPropertySchema((short)0, "IsProtected", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(AccessibleSchema.GetIsProtected), new SetValueHandler(AccessibleSchema.SetIsProtected), false);
-            UIXPropertySchema uixPropertySchema19 = new UIXPropertySchema((short)0, "IsSelectable", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(AccessibleSchema.GetIsSelectable), new SetValueHandler(AccessibleSchema.SetIsSelectable), false);
-            UIXPropertySchema uixPropertySchema20 = new UIXPropertySchema((short)0, "IsSelected", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(AccessibleSchema.GetIsSelected), new SetValueHandler(AccessibleSchema.SetIsSelected), false);
-            UIXPropertySchema uixPropertySchema21 = new UIXPropertySchema((short)0, "IsTraversed", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(AccessibleSchema.GetIsTraversed), new SetValueHandler(AccessibleSchema.SetIsTraversed), false);
-            UIXPropertySchema uixPropertySchema22 = new UIXPropertySchema((short)0, "IsUnavailable", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(AccessibleSchema.GetIsUnavailable), new SetValueHandler(AccessibleSchema.SetIsUnavailable), false);
-            UIXPropertySchema uixPropertySchema23 = new UIXPropertySchema((short)0, "KeyboardShortcut", (short)208, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(AccessibleSchema.GetKeyboardShortcut), new SetValueHandler(AccessibleSchema.SetKeyboardShortcut), false);
-            UIXPropertySchema uixPropertySchema24 = new UIXPropertySchema((short)0, "Name", (short)208, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(AccessibleSchema.GetName), new SetValueHandler(AccessibleSchema.SetName), false);
-            UIXPropertySchema uixPropertySchema25 = new UIXPropertySchema((short)0, "Role", (short)1, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(AccessibleSchema.GetRole), new SetValueHandler(AccessibleSchema.SetRole), false);
-            UIXPropertySchema uixPropertySchema26 = new UIXPropertySchema((short)0, "Value", (short)208, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(AccessibleSchema.GetValue), new SetValueHandler(AccessibleSchema.SetValue), false);
-            AccessibleSchema.Type.Initialize(new DefaultConstructHandler(AccessibleSchema.Construct), (ConstructorSchema[])null, new PropertySchema[26]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(0, "Enabled", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(AccessibleSchema.GetEnabled), null, false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(0, "DefaultAction", 208, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(AccessibleSchema.GetDefaultAction), new SetValueHandler(AccessibleSchema.SetDefaultAction), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(0, "DefaultActionCommand", 40, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(AccessibleSchema.GetDefaultActionCommand), new SetValueHandler(AccessibleSchema.SetDefaultActionCommand), false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(0, "Description", 208, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(AccessibleSchema.GetDescription), new SetValueHandler(AccessibleSchema.SetDescription), false);
+            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(0, "HasPopup", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(AccessibleSchema.GetHasPopup), new SetValueHandler(AccessibleSchema.SetHasPopup), false);
+            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(0, "Help", 208, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(AccessibleSchema.GetHelp), new SetValueHandler(AccessibleSchema.SetHelp), false);
+            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema(0, "HelpTopic", 115, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(AccessibleSchema.GetHelpTopic), new SetValueHandler(AccessibleSchema.SetHelpTopic), false);
+            UIXPropertySchema uixPropertySchema8 = new UIXPropertySchema(0, "IsAnimated", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(AccessibleSchema.GetIsAnimated), new SetValueHandler(AccessibleSchema.SetIsAnimated), false);
+            UIXPropertySchema uixPropertySchema9 = new UIXPropertySchema(0, "IsBusy", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(AccessibleSchema.GetIsBusy), new SetValueHandler(AccessibleSchema.SetIsBusy), false);
+            UIXPropertySchema uixPropertySchema10 = new UIXPropertySchema(0, "IsChecked", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(AccessibleSchema.GetIsChecked), new SetValueHandler(AccessibleSchema.SetIsChecked), false);
+            UIXPropertySchema uixPropertySchema11 = new UIXPropertySchema(0, "IsCollapsed", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(AccessibleSchema.GetIsCollapsed), new SetValueHandler(AccessibleSchema.SetIsCollapsed), false);
+            UIXPropertySchema uixPropertySchema12 = new UIXPropertySchema(0, "IsDefault", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(AccessibleSchema.GetIsDefault), new SetValueHandler(AccessibleSchema.SetIsDefault), false);
+            UIXPropertySchema uixPropertySchema13 = new UIXPropertySchema(0, "IsExpanded", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(AccessibleSchema.GetIsExpanded), new SetValueHandler(AccessibleSchema.SetIsExpanded), false);
+            UIXPropertySchema uixPropertySchema14 = new UIXPropertySchema(0, "IsMarquee", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(AccessibleSchema.GetIsMarquee), new SetValueHandler(AccessibleSchema.SetIsMarquee), false);
+            UIXPropertySchema uixPropertySchema15 = new UIXPropertySchema(0, "IsMixed", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(AccessibleSchema.GetIsMixed), new SetValueHandler(AccessibleSchema.SetIsMixed), false);
+            UIXPropertySchema uixPropertySchema16 = new UIXPropertySchema(0, "IsMultiSelectable", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(AccessibleSchema.GetIsMultiSelectable), new SetValueHandler(AccessibleSchema.SetIsMultiSelectable), false);
+            UIXPropertySchema uixPropertySchema17 = new UIXPropertySchema(0, "IsPressed", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(AccessibleSchema.GetIsPressed), new SetValueHandler(AccessibleSchema.SetIsPressed), false);
+            UIXPropertySchema uixPropertySchema18 = new UIXPropertySchema(0, "IsProtected", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(AccessibleSchema.GetIsProtected), new SetValueHandler(AccessibleSchema.SetIsProtected), false);
+            UIXPropertySchema uixPropertySchema19 = new UIXPropertySchema(0, "IsSelectable", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(AccessibleSchema.GetIsSelectable), new SetValueHandler(AccessibleSchema.SetIsSelectable), false);
+            UIXPropertySchema uixPropertySchema20 = new UIXPropertySchema(0, "IsSelected", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(AccessibleSchema.GetIsSelected), new SetValueHandler(AccessibleSchema.SetIsSelected), false);
+            UIXPropertySchema uixPropertySchema21 = new UIXPropertySchema(0, "IsTraversed", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(AccessibleSchema.GetIsTraversed), new SetValueHandler(AccessibleSchema.SetIsTraversed), false);
+            UIXPropertySchema uixPropertySchema22 = new UIXPropertySchema(0, "IsUnavailable", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(AccessibleSchema.GetIsUnavailable), new SetValueHandler(AccessibleSchema.SetIsUnavailable), false);
+            UIXPropertySchema uixPropertySchema23 = new UIXPropertySchema(0, "KeyboardShortcut", 208, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(AccessibleSchema.GetKeyboardShortcut), new SetValueHandler(AccessibleSchema.SetKeyboardShortcut), false);
+            UIXPropertySchema uixPropertySchema24 = new UIXPropertySchema(0, "Name", 208, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(AccessibleSchema.GetName), new SetValueHandler(AccessibleSchema.SetName), false);
+            UIXPropertySchema uixPropertySchema25 = new UIXPropertySchema(0, "Role", 1, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(AccessibleSchema.GetRole), new SetValueHandler(AccessibleSchema.SetRole), false);
+            UIXPropertySchema uixPropertySchema26 = new UIXPropertySchema(0, "Value", 208, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(AccessibleSchema.GetValue), new SetValueHandler(AccessibleSchema.SetValue), false);
+            AccessibleSchema.Type.Initialize(new DefaultConstructHandler(AccessibleSchema.Construct), null, new PropertySchema[26]
             {
-        (PropertySchema) uixPropertySchema2,
-        (PropertySchema) uixPropertySchema3,
-        (PropertySchema) uixPropertySchema4,
-        (PropertySchema) uixPropertySchema1,
-        (PropertySchema) uixPropertySchema5,
-        (PropertySchema) uixPropertySchema6,
-        (PropertySchema) uixPropertySchema7,
-        (PropertySchema) uixPropertySchema8,
-        (PropertySchema) uixPropertySchema9,
-        (PropertySchema) uixPropertySchema10,
-        (PropertySchema) uixPropertySchema11,
-        (PropertySchema) uixPropertySchema12,
-        (PropertySchema) uixPropertySchema13,
-        (PropertySchema) uixPropertySchema14,
-        (PropertySchema) uixPropertySchema15,
-        (PropertySchema) uixPropertySchema16,
-        (PropertySchema) uixPropertySchema17,
-        (PropertySchema) uixPropertySchema18,
-        (PropertySchema) uixPropertySchema19,
-        (PropertySchema) uixPropertySchema20,
-        (PropertySchema) uixPropertySchema21,
-        (PropertySchema) uixPropertySchema22,
-        (PropertySchema) uixPropertySchema23,
-        (PropertySchema) uixPropertySchema24,
-        (PropertySchema) uixPropertySchema25,
-        (PropertySchema) uixPropertySchema26
-            }, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixPropertySchema2,
+         uixPropertySchema3,
+         uixPropertySchema4,
+         uixPropertySchema1,
+         uixPropertySchema5,
+         uixPropertySchema6,
+         uixPropertySchema7,
+         uixPropertySchema8,
+         uixPropertySchema9,
+         uixPropertySchema10,
+         uixPropertySchema11,
+         uixPropertySchema12,
+         uixPropertySchema13,
+         uixPropertySchema14,
+         uixPropertySchema15,
+         uixPropertySchema16,
+         uixPropertySchema17,
+         uixPropertySchema18,
+         uixPropertySchema19,
+         uixPropertySchema20,
+         uixPropertySchema21,
+         uixPropertySchema22,
+         uixPropertySchema23,
+         uixPropertySchema24,
+         uixPropertySchema25,
+         uixPropertySchema26
+            }, null, null, null, null, null, null, null, null, null);
         }
     }
 }

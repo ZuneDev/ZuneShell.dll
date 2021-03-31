@@ -43,7 +43,7 @@ namespace Microsoft.Iris.Markup.Validation
             else
             {
                 ValidateExpressionSymbol expressionSymbol = (ValidateExpressionSymbol)typeCastExpression;
-                this._typeCast = new ValidateTypeIdentifier(owner, (string)null, expressionSymbol.Symbol, expressionSymbol.Line, expressionSymbol.Column);
+                this._typeCast = new ValidateTypeIdentifier(owner, null, expressionSymbol.Symbol, expressionSymbol.Line, expressionSymbol.Column);
             }
             this._castee = castee;
         }

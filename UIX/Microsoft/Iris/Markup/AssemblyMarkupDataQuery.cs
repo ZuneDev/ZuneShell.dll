@@ -15,9 +15,9 @@ namespace Microsoft.Iris.Markup
         public AssemblyMarkupDataQuery(MarkupDataQuerySchema type, AssemblyDataProviderWrapper provider)
           : base(type)
         {
-            this._externalQuery = provider.ConstructQuery((object)type);
-            this._externalQuery.DeclareOwner((object)this);
-            this._externalQuery.SetInternalObject((MarkupDataQuery)this);
+            this._externalQuery = provider.ConstructQuery(type);
+            this._externalQuery.DeclareOwner(this);
+            this._externalQuery.SetInternalObject(this);
             this.ApplyDefaultValues();
         }
 
@@ -34,7 +34,7 @@ namespace Microsoft.Iris.Markup
             base.OnDispose();
             if (this._externalQuery == null)
                 return;
-            this._externalQuery.Dispose((object)this);
+            this._externalQuery.Dispose(this);
         }
 
         public override void Refresh() => this._externalQuery.Refresh();
@@ -67,7 +67,7 @@ namespace Microsoft.Iris.Markup
             return true;
         }
 
-        protected override IDataProviderBaseObject ExternalAssemblyObject => (IDataProviderBaseObject)this._externalQuery;
+        protected override IDataProviderBaseObject ExternalAssemblyObject => _externalQuery;
 
         public override IntPtr ExternalNativeObject => IntPtr.Zero;
     }

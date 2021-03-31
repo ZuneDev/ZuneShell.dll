@@ -30,19 +30,19 @@ namespace Microsoft.Iris.Library
         protected override void OnDispose()
         {
             base.OnDispose();
-            this.ChangeParent((TreeNode)null);
+            this.ChangeParent(null);
             this.RemoveEventHandlers(TreeNode.s_deepParentChangeEvent);
         }
 
         public bool IsZoned => this._zone != null;
 
-        public void ChangeParent(TreeNode nodeNewParent) => this.ChangeParent(nodeNewParent, (TreeNode)null, TreeNode.LinkType.First);
+        public void ChangeParent(TreeNode nodeNewParent) => this.ChangeParent(nodeNewParent, null, TreeNode.LinkType.First);
 
         public void ChangeParent(TreeNode nodeNewParent, TreeNode nodeSibling, TreeNode.LinkType lt)
         {
             if (this._nodeParent == nodeNewParent)
                 return;
-            UIZone zone = (UIZone)null;
+            UIZone zone = null;
             TreeNode nodeParent = this._nodeParent;
             if (this._nodeParent != null)
             {
@@ -82,7 +82,7 @@ namespace Microsoft.Iris.Library
         public void RemoveAllChildren(bool disposeChildrenFlag)
         {
             while (this._nodeFirstChild != null)
-                this._nodeFirstChild.ChangeParent((TreeNode)null);
+                this._nodeFirstChild.ChangeParent(null);
         }
 
         protected virtual void OnZoneAttached()
@@ -99,8 +99,8 @@ namespace Microsoft.Iris.Library
 
         public event EventHandler DeepParentChange
         {
-            add => this.AddEventHandler(TreeNode.s_deepParentChangeEvent, (Delegate)value);
-            remove => this.RemoveEventHandler(TreeNode.s_deepParentChangeEvent, (Delegate)value);
+            add => this.AddEventHandler(TreeNode.s_deepParentChangeEvent, value);
+            remove => this.RemoveEventHandler(TreeNode.s_deepParentChangeEvent, value);
         }
 
         public UIZone Zone => this._zone;
@@ -113,7 +113,7 @@ namespace Microsoft.Iris.Library
 
         public abstract bool IsRoot { get; }
 
-        ITreeNode ITreeNode.Parent => (ITreeNode)this._nodeParent;
+        ITreeNode ITreeNode.Parent => _nodeParent;
 
         public TreeNode Parent => this._nodeParent;
 
@@ -136,7 +136,7 @@ namespace Microsoft.Iris.Library
 
         public TreeNode FirstChild => this._nodeFirstChild;
 
-        public TreeNode LastChild => this._nodeFirstChild != null ? this._nodeFirstChild.LastSibling : (TreeNode)null;
+        public TreeNode LastChild => this._nodeFirstChild != null ? this._nodeFirstChild.LastSibling : null;
 
         public TreeNodeCollection Children => new TreeNodeCollection(this);
 
@@ -222,9 +222,9 @@ namespace Microsoft.Iris.Library
                 nodeChange._nodeNext._nodePrevious = nodeChange._nodePrevious;
             if (nodeChange._nodePrevious != null)
                 nodeChange._nodePrevious._nodeNext = nodeChange._nodeNext;
-            nodeChange._nodeParent = (TreeNode)null;
-            nodeChange._nodeNext = (TreeNode)null;
-            nodeChange._nodePrevious = (TreeNode)null;
+            nodeChange._nodeParent = null;
+            nodeChange._nodeNext = null;
+            nodeChange._nodePrevious = null;
         }
 
         private void FireTreeChangeWorker()
@@ -233,7 +233,7 @@ namespace Microsoft.Iris.Library
                 child.FireTreeChangeWorker();
             if (!(this.GetEventHandler(TreeNode.s_deepParentChangeEvent) is EventHandler eventHandler))
                 return;
-            eventHandler((object)this, EventArgs.Empty);
+            eventHandler(this, EventArgs.Empty);
         }
 
         protected object GetData(DataCookie cookie) => this._dataMap.GetData(cookie);

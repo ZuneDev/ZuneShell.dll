@@ -45,7 +45,7 @@ namespace Microsoft.Iris.Input
         protected override void Zombie()
         {
             base.Zombie();
-            this._other = (ICookedInputSite)null;
+            this._other = null;
         }
 
         public ICookedInputSite Other => this._other;

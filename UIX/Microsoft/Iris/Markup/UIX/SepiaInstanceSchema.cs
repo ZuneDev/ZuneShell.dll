@@ -47,7 +47,7 @@ namespace Microsoft.Iris.Markup.UIX
           object[] parameters)
         {
             ((EffectElementWrapper)instanceObj).PlayAnimation(EffectProperty.LightColor, (EffectAnimation)parameters[0]);
-            return (object)null;
+            return null;
         }
 
         private static object CallPlayDarkColorAnimationEffectColorAnimation(
@@ -55,7 +55,7 @@ namespace Microsoft.Iris.Markup.UIX
           object[] parameters)
         {
             ((EffectElementWrapper)instanceObj).PlayAnimation(EffectProperty.DarkColor, (EffectAnimation)parameters[0]);
-            return (object)null;
+            return null;
         }
 
         private static object CallPlayDesaturateAnimationEffectFloatAnimation(
@@ -63,7 +63,7 @@ namespace Microsoft.Iris.Markup.UIX
           object[] parameters)
         {
             ((EffectElementWrapper)instanceObj).PlayAnimation(EffectProperty.Desaturate, (EffectAnimation)parameters[0]);
-            return (object)null;
+            return null;
         }
 
         private static object CallPlayToneAnimationEffectFloatAnimation(
@@ -71,46 +71,46 @@ namespace Microsoft.Iris.Markup.UIX
           object[] parameters)
         {
             ((EffectElementWrapper)instanceObj).PlayAnimation(EffectProperty.Tone, (EffectAnimation)parameters[0]);
-            return (object)null;
+            return null;
         }
 
-        public static void Pass1Initialize() => SepiaInstanceSchema.Type = new UIXTypeSchema((short)189, "SepiaInstance", (string)null, (short)74, typeof(EffectElementWrapper), UIXTypeFlags.None);
+        public static void Pass1Initialize() => SepiaInstanceSchema.Type = new UIXTypeSchema(189, "SepiaInstance", null, 74, typeof(EffectElementWrapper), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema((short)189, "LightColor", (short)35, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, (GetValueHandler)null, new SetValueHandler(SepiaInstanceSchema.SetLightColor), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema((short)189, "DarkColor", (short)35, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, (GetValueHandler)null, new SetValueHandler(SepiaInstanceSchema.SetDarkColor), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema((short)189, "Desaturate", (short)194, (short)-1, ExpressionRestriction.None, false, SingleSchema.ValidateNotNegative, false, (GetValueHandler)null, new SetValueHandler(SepiaInstanceSchema.SetDesaturate), false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema((short)189, "Tone", (short)194, (short)-1, ExpressionRestriction.None, false, SingleSchema.ValidateNotNegative, false, (GetValueHandler)null, new SetValueHandler(SepiaInstanceSchema.SetTone), false);
-            UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema((short)189, "PlayLightColorAnimation", new short[1]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(189, "LightColor", 35, -1, ExpressionRestriction.None, false, null, false, null, new SetValueHandler(SepiaInstanceSchema.SetLightColor), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(189, "DarkColor", 35, -1, ExpressionRestriction.None, false, null, false, null, new SetValueHandler(SepiaInstanceSchema.SetDarkColor), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(189, "Desaturate", 194, -1, ExpressionRestriction.None, false, SingleSchema.ValidateNotNegative, false, null, new SetValueHandler(SepiaInstanceSchema.SetDesaturate), false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(189, "Tone", 194, -1, ExpressionRestriction.None, false, SingleSchema.ValidateNotNegative, false, null, new SetValueHandler(SepiaInstanceSchema.SetTone), false);
+            UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema(189, "PlayLightColorAnimation", new short[1]
             {
-        (short) 71
-            }, (short)240, new InvokeHandler(SepiaInstanceSchema.CallPlayLightColorAnimationEffectColorAnimation), false);
-            UIXMethodSchema uixMethodSchema2 = new UIXMethodSchema((short)189, "PlayDarkColorAnimation", new short[1]
+         71
+            }, 240, new InvokeHandler(SepiaInstanceSchema.CallPlayLightColorAnimationEffectColorAnimation), false);
+            UIXMethodSchema uixMethodSchema2 = new UIXMethodSchema(189, "PlayDarkColorAnimation", new short[1]
             {
-        (short) 71
-            }, (short)240, new InvokeHandler(SepiaInstanceSchema.CallPlayDarkColorAnimationEffectColorAnimation), false);
-            UIXMethodSchema uixMethodSchema3 = new UIXMethodSchema((short)189, "PlayDesaturateAnimation", new short[1]
+         71
+            }, 240, new InvokeHandler(SepiaInstanceSchema.CallPlayDarkColorAnimationEffectColorAnimation), false);
+            UIXMethodSchema uixMethodSchema3 = new UIXMethodSchema(189, "PlayDesaturateAnimation", new short[1]
             {
-        (short) 75
-            }, (short)240, new InvokeHandler(SepiaInstanceSchema.CallPlayDesaturateAnimationEffectFloatAnimation), false);
-            UIXMethodSchema uixMethodSchema4 = new UIXMethodSchema((short)189, "PlayToneAnimation", new short[1]
+         75
+            }, 240, new InvokeHandler(SepiaInstanceSchema.CallPlayDesaturateAnimationEffectFloatAnimation), false);
+            UIXMethodSchema uixMethodSchema4 = new UIXMethodSchema(189, "PlayToneAnimation", new short[1]
             {
-        (short) 75
-            }, (short)240, new InvokeHandler(SepiaInstanceSchema.CallPlayToneAnimationEffectFloatAnimation), false);
-            SepiaInstanceSchema.Type.Initialize((DefaultConstructHandler)null, (ConstructorSchema[])null, new PropertySchema[4]
+         75
+            }, 240, new InvokeHandler(SepiaInstanceSchema.CallPlayToneAnimationEffectFloatAnimation), false);
+            SepiaInstanceSchema.Type.Initialize(null, null, new PropertySchema[4]
             {
-        (PropertySchema) uixPropertySchema2,
-        (PropertySchema) uixPropertySchema3,
-        (PropertySchema) uixPropertySchema1,
-        (PropertySchema) uixPropertySchema4
+         uixPropertySchema2,
+         uixPropertySchema3,
+         uixPropertySchema1,
+         uixPropertySchema4
             }, new MethodSchema[4]
             {
-        (MethodSchema) uixMethodSchema1,
-        (MethodSchema) uixMethodSchema2,
-        (MethodSchema) uixMethodSchema3,
-        (MethodSchema) uixMethodSchema4
-            }, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixMethodSchema1,
+         uixMethodSchema2,
+         uixMethodSchema3,
+         uixMethodSchema4
+            }, null, null, null, null, null, null, null, null);
         }
     }
 }

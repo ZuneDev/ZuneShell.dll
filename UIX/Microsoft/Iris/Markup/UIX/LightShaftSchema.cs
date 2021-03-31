@@ -14,11 +14,11 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object GetPosition(object instanceObj) => (object)((LightShaftElement)instanceObj).Position;
+        private static object GetPosition(object instanceObj) => ((LightShaftElement)instanceObj).Position;
 
         private static void SetPosition(ref object instanceObj, object valueObj) => ((LightShaftElement)instanceObj).Position = (Vector3)valueObj;
 
-        private static object GetDecay(object instanceObj) => (object)((LightShaftElement)instanceObj).Decay;
+        private static object GetDecay(object instanceObj) => ((LightShaftElement)instanceObj).Decay;
 
         private static void SetDecay(ref object instanceObj, object valueObj)
         {
@@ -31,7 +31,7 @@ namespace Microsoft.Iris.Markup.UIX
                 lightShaftElement.Decay = num;
         }
 
-        private static object GetDensity(object instanceObj) => (object)((LightShaftElement)instanceObj).Density;
+        private static object GetDensity(object instanceObj) => ((LightShaftElement)instanceObj).Density;
 
         private static void SetDensity(ref object instanceObj, object valueObj)
         {
@@ -44,7 +44,7 @@ namespace Microsoft.Iris.Markup.UIX
                 lightShaftElement.Density = num;
         }
 
-        private static object GetIntensity(object instanceObj) => (object)((LightShaftElement)instanceObj).Intensity;
+        private static object GetIntensity(object instanceObj) => ((LightShaftElement)instanceObj).Intensity;
 
         private static void SetIntensity(ref object instanceObj, object valueObj)
         {
@@ -57,7 +57,7 @@ namespace Microsoft.Iris.Markup.UIX
                 lightShaftElement.Intensity = num;
         }
 
-        private static object GetFallOff(object instanceObj) => (object)((LightShaftElement)instanceObj).FallOff;
+        private static object GetFallOff(object instanceObj) => ((LightShaftElement)instanceObj).FallOff;
 
         private static void SetFallOff(ref object instanceObj, object valueObj)
         {
@@ -70,7 +70,7 @@ namespace Microsoft.Iris.Markup.UIX
                 lightShaftElement.FallOff = num;
         }
 
-        private static object GetWeight(object instanceObj) => (object)((LightShaftElement)instanceObj).Weight;
+        private static object GetWeight(object instanceObj) => ((LightShaftElement)instanceObj).Weight;
 
         private static void SetWeight(ref object instanceObj, object valueObj)
         {
@@ -83,27 +83,27 @@ namespace Microsoft.Iris.Markup.UIX
                 lightShaftElement.Weight = num;
         }
 
-        private static object Construct() => (object)new LightShaftElement();
+        private static object Construct() => new LightShaftElement();
 
-        public static void Pass1Initialize() => LightShaftSchema.Type = new UIXTypeSchema((short)135, "LightShaft", (string)null, (short)80, typeof(LightShaftElement), UIXTypeFlags.None);
+        public static void Pass1Initialize() => LightShaftSchema.Type = new UIXTypeSchema(135, "LightShaft", null, 80, typeof(LightShaftElement), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema((short)135, "Position", (short)234, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(LightShaftSchema.GetPosition), new SetValueHandler(LightShaftSchema.SetPosition), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema((short)135, "Decay", (short)194, (short)-1, ExpressionRestriction.None, false, SingleSchema.Validate0to1, false, new GetValueHandler(LightShaftSchema.GetDecay), new SetValueHandler(LightShaftSchema.SetDecay), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema((short)135, "Density", (short)194, (short)-1, ExpressionRestriction.None, false, SingleSchema.Validate0to1, false, new GetValueHandler(LightShaftSchema.GetDensity), new SetValueHandler(LightShaftSchema.SetDensity), false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema((short)135, "Intensity", (short)194, (short)-1, ExpressionRestriction.None, false, SingleSchema.ValidateNotNegative, false, new GetValueHandler(LightShaftSchema.GetIntensity), new SetValueHandler(LightShaftSchema.SetIntensity), false);
-            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema((short)135, "FallOff", (short)194, (short)-1, ExpressionRestriction.None, false, SingleSchema.Validate0to1, false, new GetValueHandler(LightShaftSchema.GetFallOff), new SetValueHandler(LightShaftSchema.SetFallOff), false);
-            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema((short)135, "Weight", (short)194, (short)-1, ExpressionRestriction.None, false, SingleSchema.ValidateNotNegative, false, new GetValueHandler(LightShaftSchema.GetWeight), new SetValueHandler(LightShaftSchema.SetWeight), false);
-            LightShaftSchema.Type.Initialize(new DefaultConstructHandler(LightShaftSchema.Construct), (ConstructorSchema[])null, new PropertySchema[6]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(135, "Position", 234, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(LightShaftSchema.GetPosition), new SetValueHandler(LightShaftSchema.SetPosition), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(135, "Decay", 194, -1, ExpressionRestriction.None, false, SingleSchema.Validate0to1, false, new GetValueHandler(LightShaftSchema.GetDecay), new SetValueHandler(LightShaftSchema.SetDecay), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(135, "Density", 194, -1, ExpressionRestriction.None, false, SingleSchema.Validate0to1, false, new GetValueHandler(LightShaftSchema.GetDensity), new SetValueHandler(LightShaftSchema.SetDensity), false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(135, "Intensity", 194, -1, ExpressionRestriction.None, false, SingleSchema.ValidateNotNegative, false, new GetValueHandler(LightShaftSchema.GetIntensity), new SetValueHandler(LightShaftSchema.SetIntensity), false);
+            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(135, "FallOff", 194, -1, ExpressionRestriction.None, false, SingleSchema.Validate0to1, false, new GetValueHandler(LightShaftSchema.GetFallOff), new SetValueHandler(LightShaftSchema.SetFallOff), false);
+            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(135, "Weight", 194, -1, ExpressionRestriction.None, false, SingleSchema.ValidateNotNegative, false, new GetValueHandler(LightShaftSchema.GetWeight), new SetValueHandler(LightShaftSchema.SetWeight), false);
+            LightShaftSchema.Type.Initialize(new DefaultConstructHandler(LightShaftSchema.Construct), null, new PropertySchema[6]
             {
-        (PropertySchema) uixPropertySchema2,
-        (PropertySchema) uixPropertySchema3,
-        (PropertySchema) uixPropertySchema5,
-        (PropertySchema) uixPropertySchema4,
-        (PropertySchema) uixPropertySchema1,
-        (PropertySchema) uixPropertySchema6
-            }, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixPropertySchema2,
+         uixPropertySchema3,
+         uixPropertySchema5,
+         uixPropertySchema4,
+         uixPropertySchema1,
+         uixPropertySchema6
+            }, null, null, null, null, null, null, null, null, null);
         }
     }
 }

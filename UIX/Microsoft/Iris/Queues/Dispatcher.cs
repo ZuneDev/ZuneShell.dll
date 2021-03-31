@@ -29,7 +29,7 @@ namespace Microsoft.Iris.Queues
         public void FinalStopDispatch()
         {
             this.LeaveDispatch();
-            this._feeder = (Feeder)null;
+            this._feeder = null;
         }
 
         public void Dispose()
@@ -97,7 +97,7 @@ namespace Microsoft.Iris.Queues
             --this._enterCount;
             bool isRoot = this._enterCount == 0U;
             if (isRoot)
-                Dispatcher.s_threadDispatcher = (Dispatcher)null;
+                Dispatcher.s_threadDispatcher = null;
             Dispatcher.s_interconnect.LeaveDispatch(this, isRoot);
         }
 

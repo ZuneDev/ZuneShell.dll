@@ -34,7 +34,7 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static void SetHandleMouseWheel(ref object instanceObj, object valueObj) => ((ScrollingHandler)instanceObj).HandleMouseWheel = (bool)valueObj;
 
-        private static object GetScrollModel(object instanceObj) => (object)((ScrollingHandler)instanceObj).ScrollModel;
+        private static object GetScrollModel(object instanceObj) => ((ScrollingHandler)instanceObj).ScrollModel;
 
         private static void SetScrollModel(ref object instanceObj, object valueObj) => ((ScrollingHandler)instanceObj).ScrollModel = (ScrollModel)valueObj;
 
@@ -42,35 +42,35 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static void SetUseFocusBehavior(ref object instanceObj, object valueObj) => ((ScrollingHandler)instanceObj).UseFocusBehavior = (bool)valueObj;
 
-        private static object GetHandlerStage(object instanceObj) => (object)((InputHandler)instanceObj).HandlerStage;
+        private static object GetHandlerStage(object instanceObj) => ((InputHandler)instanceObj).HandlerStage;
 
         private static void SetHandlerStage(ref object instanceObj, object valueObj) => ((InputHandler)instanceObj).HandlerStage = (InputHandlerStage)valueObj;
 
-        private static object Construct() => (object)new ScrollingHandler();
+        private static object Construct() => new ScrollingHandler();
 
-        public static void Pass1Initialize() => ScrollingHandlerSchema.Type = new UIXTypeSchema((short)185, "ScrollingHandler", (string)null, (short)110, typeof(ScrollingHandler), UIXTypeFlags.Disposable);
+        public static void Pass1Initialize() => ScrollingHandlerSchema.Type = new UIXTypeSchema(185, "ScrollingHandler", null, 110, typeof(ScrollingHandler), UIXTypeFlags.Disposable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema((short)185, "HandleDirectionalKeys", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ScrollingHandlerSchema.GetHandleDirectionalKeys), new SetValueHandler(ScrollingHandlerSchema.SetHandleDirectionalKeys), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema((short)185, "HandlePageKeys", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ScrollingHandlerSchema.GetHandlePageKeys), new SetValueHandler(ScrollingHandlerSchema.SetHandlePageKeys), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema((short)185, "HandleHomeEndKeys", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ScrollingHandlerSchema.GetHandleHomeEndKeys), new SetValueHandler(ScrollingHandlerSchema.SetHandleHomeEndKeys), false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema((short)185, "HandlePageCommands", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ScrollingHandlerSchema.GetHandlePageCommands), new SetValueHandler(ScrollingHandlerSchema.SetHandlePageCommands), false);
-            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema((short)185, "HandleMouseWheel", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ScrollingHandlerSchema.GetHandleMouseWheel), new SetValueHandler(ScrollingHandlerSchema.SetHandleMouseWheel), false);
-            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema((short)185, "ScrollModel", (short)182, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ScrollingHandlerSchema.GetScrollModel), new SetValueHandler(ScrollingHandlerSchema.SetScrollModel), false);
-            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema((short)185, "UseFocusBehavior", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ScrollingHandlerSchema.GetUseFocusBehavior), new SetValueHandler(ScrollingHandlerSchema.SetUseFocusBehavior), false);
-            UIXPropertySchema uixPropertySchema8 = new UIXPropertySchema((short)185, "HandlerStage", (short)112, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ScrollingHandlerSchema.GetHandlerStage), new SetValueHandler(ScrollingHandlerSchema.SetHandlerStage), false);
-            ScrollingHandlerSchema.Type.Initialize(new DefaultConstructHandler(ScrollingHandlerSchema.Construct), (ConstructorSchema[])null, new PropertySchema[8]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(185, "HandleDirectionalKeys", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ScrollingHandlerSchema.GetHandleDirectionalKeys), new SetValueHandler(ScrollingHandlerSchema.SetHandleDirectionalKeys), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(185, "HandlePageKeys", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ScrollingHandlerSchema.GetHandlePageKeys), new SetValueHandler(ScrollingHandlerSchema.SetHandlePageKeys), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(185, "HandleHomeEndKeys", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ScrollingHandlerSchema.GetHandleHomeEndKeys), new SetValueHandler(ScrollingHandlerSchema.SetHandleHomeEndKeys), false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(185, "HandlePageCommands", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ScrollingHandlerSchema.GetHandlePageCommands), new SetValueHandler(ScrollingHandlerSchema.SetHandlePageCommands), false);
+            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(185, "HandleMouseWheel", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ScrollingHandlerSchema.GetHandleMouseWheel), new SetValueHandler(ScrollingHandlerSchema.SetHandleMouseWheel), false);
+            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(185, "ScrollModel", 182, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ScrollingHandlerSchema.GetScrollModel), new SetValueHandler(ScrollingHandlerSchema.SetScrollModel), false);
+            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema(185, "UseFocusBehavior", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ScrollingHandlerSchema.GetUseFocusBehavior), new SetValueHandler(ScrollingHandlerSchema.SetUseFocusBehavior), false);
+            UIXPropertySchema uixPropertySchema8 = new UIXPropertySchema(185, "HandlerStage", 112, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ScrollingHandlerSchema.GetHandlerStage), new SetValueHandler(ScrollingHandlerSchema.SetHandlerStage), false);
+            ScrollingHandlerSchema.Type.Initialize(new DefaultConstructHandler(ScrollingHandlerSchema.Construct), null, new PropertySchema[8]
             {
-        (PropertySchema) uixPropertySchema1,
-        (PropertySchema) uixPropertySchema3,
-        (PropertySchema) uixPropertySchema5,
-        (PropertySchema) uixPropertySchema4,
-        (PropertySchema) uixPropertySchema2,
-        (PropertySchema) uixPropertySchema8,
-        (PropertySchema) uixPropertySchema6,
-        (PropertySchema) uixPropertySchema7
-            }, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixPropertySchema1,
+         uixPropertySchema3,
+         uixPropertySchema5,
+         uixPropertySchema4,
+         uixPropertySchema2,
+         uixPropertySchema8,
+         uixPropertySchema6,
+         uixPropertySchema7
+            }, null, null, null, null, null, null, null, null, null);
         }
     }
 }

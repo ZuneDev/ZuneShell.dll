@@ -12,49 +12,49 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object GetDelay(object instanceObj) => (object)((TransformAnimation)instanceObj).Delay;
+        private static object GetDelay(object instanceObj) => ((TransformAnimation)instanceObj).Delay;
 
         private static void SetDelay(ref object instanceObj, object valueObj) => ((TransformAnimation)instanceObj).Delay = (float)valueObj;
 
-        private static object GetFilter(object instanceObj) => (object)((TransformAnimation)instanceObj).Filter;
+        private static object GetFilter(object instanceObj) => ((TransformAnimation)instanceObj).Filter;
 
         private static void SetFilter(ref object instanceObj, object valueObj) => ((TransformAnimation)instanceObj).Filter = (KeyframeFilter)valueObj;
 
-        private static object GetMagnitude(object instanceObj) => (object)((TransformAnimation)instanceObj).Magnitude;
+        private static object GetMagnitude(object instanceObj) => ((TransformAnimation)instanceObj).Magnitude;
 
         private static void SetMagnitude(ref object instanceObj, object valueObj) => ((TransformAnimation)instanceObj).Magnitude = (float)valueObj;
 
-        private static object GetTimeScale(object instanceObj) => (object)((TransformAnimation)instanceObj).TimeScale;
+        private static object GetTimeScale(object instanceObj) => ((TransformAnimation)instanceObj).TimeScale;
 
         private static void SetTimeScale(ref object instanceObj, object valueObj) => ((TransformAnimation)instanceObj).TimeScale = (float)valueObj;
 
-        private static object GetSource(object instanceObj) => (object)((ReferenceAnimation)instanceObj).Source;
+        private static object GetSource(object instanceObj) => ((ReferenceAnimation)instanceObj).Source;
 
         private static void SetSource(ref object instanceObj, object valueObj) => ((ReferenceAnimation)instanceObj).Source = (IAnimationProvider)valueObj;
 
-        private static object GetType(object instanceObj) => (object)((ReferenceAnimation)instanceObj).Type;
+        private static object GetType(object instanceObj) => ((ReferenceAnimation)instanceObj).Type;
 
-        private static object Construct() => (object)new TransformAnimation();
+        private static object Construct() => new TransformAnimation();
 
-        public static void Pass1Initialize() => TransformAnimationSchema.Type = new UIXTypeSchema((short)222, "TransformAnimation", (string)null, (short)104, typeof(TransformAnimation), UIXTypeFlags.None);
+        public static void Pass1Initialize() => TransformAnimationSchema.Type = new UIXTypeSchema(222, "TransformAnimation", null, 104, typeof(TransformAnimation), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema((short)222, "Delay", (short)194, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(TransformAnimationSchema.GetDelay), new SetValueHandler(TransformAnimationSchema.SetDelay), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema((short)222, "Filter", (short)131, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(TransformAnimationSchema.GetFilter), new SetValueHandler(TransformAnimationSchema.SetFilter), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema((short)222, "Magnitude", (short)194, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(TransformAnimationSchema.GetMagnitude), new SetValueHandler(TransformAnimationSchema.SetMagnitude), false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema((short)222, "TimeScale", (short)194, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(TransformAnimationSchema.GetTimeScale), new SetValueHandler(TransformAnimationSchema.SetTimeScale), false);
-            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema((short)222, "Source", (short)104, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(TransformAnimationSchema.GetSource), new SetValueHandler(TransformAnimationSchema.SetSource), false);
-            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema((short)222, "Type", (short)10, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(TransformAnimationSchema.GetType), (SetValueHandler)null, false);
-            TransformAnimationSchema.Type.Initialize(new DefaultConstructHandler(TransformAnimationSchema.Construct), (ConstructorSchema[])null, new PropertySchema[6]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(222, "Delay", 194, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(TransformAnimationSchema.GetDelay), new SetValueHandler(TransformAnimationSchema.SetDelay), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(222, "Filter", 131, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(TransformAnimationSchema.GetFilter), new SetValueHandler(TransformAnimationSchema.SetFilter), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(222, "Magnitude", 194, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(TransformAnimationSchema.GetMagnitude), new SetValueHandler(TransformAnimationSchema.SetMagnitude), false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(222, "TimeScale", 194, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(TransformAnimationSchema.GetTimeScale), new SetValueHandler(TransformAnimationSchema.SetTimeScale), false);
+            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(222, "Source", 104, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(TransformAnimationSchema.GetSource), new SetValueHandler(TransformAnimationSchema.SetSource), false);
+            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(222, "Type", 10, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(TransformAnimationSchema.GetType), null, false);
+            TransformAnimationSchema.Type.Initialize(new DefaultConstructHandler(TransformAnimationSchema.Construct), null, new PropertySchema[6]
             {
-        (PropertySchema) uixPropertySchema1,
-        (PropertySchema) uixPropertySchema2,
-        (PropertySchema) uixPropertySchema3,
-        (PropertySchema) uixPropertySchema5,
-        (PropertySchema) uixPropertySchema4,
-        (PropertySchema) uixPropertySchema6
-            }, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixPropertySchema1,
+         uixPropertySchema2,
+         uixPropertySchema3,
+         uixPropertySchema5,
+         uixPropertySchema4,
+         uixPropertySchema6
+            }, null, null, null, null, null, null, null, null, null);
         }
     }
 }

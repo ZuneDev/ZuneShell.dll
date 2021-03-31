@@ -36,7 +36,7 @@ namespace Microsoft.Iris.Markup.Validation
           int column)
           : base(owner, line, column, ExpressionType.Constant)
         {
-            this._constantInline = (string)null;
+            this._constantInline = null;
             this._constantType = ConstantType.Boolean;
             this._foundConstant = BooleanBoxes.Box(constantValue);
         }
@@ -53,43 +53,43 @@ namespace Microsoft.Iris.Markup.Validation
                 case ConstantType.String:
                     int errorIndex;
                     string invalidSequence;
-                    this._foundConstant = (object)StringUtility.Unescape(this._constantInline, out errorIndex, out invalidSequence);
+                    this._foundConstant = StringUtility.Unescape(this._constantInline, out errorIndex, out invalidSequence);
                     if (this._foundConstant == null)
-                        this.ReportErrorWithAdjustedPosition(string.Format("Invalid escape sequence '{0}' in string literal", (object)invalidSequence), 0, errorIndex + 1);
-                    evaluationType = (TypeSchema)StringSchema.Type;
+                        this.ReportErrorWithAdjustedPosition(string.Format("Invalid escape sequence '{0}' in string literal", invalidSequence), 0, errorIndex + 1);
+                    evaluationType = StringSchema.Type;
                     break;
                 case ConstantType.StringLiteral:
-                    this._foundConstant = (object)this._constantInline;
+                    this._foundConstant = _constantInline;
                     this._constantType = ConstantType.String;
-                    evaluationType = (TypeSchema)StringSchema.Type;
+                    evaluationType = StringSchema.Type;
                     break;
                 case ConstantType.Integer:
-                    Result result1 = Int32Schema.Type.TypeConverter((object)this._constantInline, (TypeSchema)StringSchema.Type, out this._foundConstant);
+                    Result result1 = Int32Schema.Type.TypeConverter(_constantInline, StringSchema.Type, out this._foundConstant);
                     if (result1.Failed)
                         this.ReportError(result1.Error);
-                    evaluationType = (TypeSchema)Int32Schema.Type;
+                    evaluationType = Int32Schema.Type;
                     break;
                 case ConstantType.LongInteger:
-                    Result result2 = Int64Schema.Type.TypeConverter((object)this._constantInline, (TypeSchema)StringSchema.Type, out this._foundConstant);
+                    Result result2 = Int64Schema.Type.TypeConverter(_constantInline, StringSchema.Type, out this._foundConstant);
                     if (result2.Failed)
                         this.ReportError(result2.Error);
-                    evaluationType = (TypeSchema)Int64Schema.Type;
+                    evaluationType = Int64Schema.Type;
                     break;
                 case ConstantType.Float:
-                    Result result3 = SingleSchema.Type.TypeConverter((object)this._constantInline, (TypeSchema)StringSchema.Type, out this._foundConstant);
+                    Result result3 = SingleSchema.Type.TypeConverter(_constantInline, StringSchema.Type, out this._foundConstant);
                     if (result3.Failed)
                         this.ReportError(result3.Error);
-                    evaluationType = (TypeSchema)SingleSchema.Type;
+                    evaluationType = SingleSchema.Type;
                     break;
                 case ConstantType.Boolean:
-                    evaluationType = (TypeSchema)BooleanSchema.Type;
+                    evaluationType = BooleanSchema.Type;
                     break;
                 case ConstantType.Null:
-                    this._foundConstant = (object)null;
-                    evaluationType = (TypeSchema)NullSchema.Type;
+                    this._foundConstant = null;
+                    evaluationType = NullSchema.Type;
                     break;
                 default:
-                    evaluationType = (TypeSchema)null;
+                    evaluationType = null;
                     break;
             }
             this.DeclareEvaluationType(evaluationType, typeRestriction);

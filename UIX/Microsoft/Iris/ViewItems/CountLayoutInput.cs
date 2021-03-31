@@ -26,6 +26,6 @@ namespace Microsoft.Iris.ViewItems
 
         public static DataCookie Data => CountLayoutInput.s_dataProperty;
 
-        public override string ToString() => InvariantString.Format("{0}(Count={1})", (object)this.GetType().Name, (object)this._count);
+        public override string ToString() => InvariantString.Format("{0}(Count={1})", this.GetType().Name, _count);
     }
 }

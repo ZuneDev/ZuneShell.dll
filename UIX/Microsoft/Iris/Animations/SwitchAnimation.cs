@@ -40,16 +40,16 @@ namespace Microsoft.Iris.Animations
 
         public AnimationTemplate Build(ref AnimationArgs args)
         {
-            AnimationTemplate animationTemplate = (AnimationTemplate)null;
+            AnimationTemplate animationTemplate = null;
             if (this._optionsList != null)
             {
-                object obj = (object)null;
+                object obj = null;
                 if (this._expressionObject != null)
                     obj = this._expressionObject.ObjectValue;
-                string key = (string)null;
+                string key = null;
                 if (obj != null)
                     key = obj.ToString();
-                IAnimationProvider animationProvider = (IAnimationProvider)null;
+                IAnimationProvider animationProvider = null;
                 if (key != null && this._optionsList.ContainsKey(key))
                     animationProvider = this._optionsList[key];
                 if (animationProvider != null)

@@ -13,51 +13,51 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object GetAllowedDropActions(object instanceObj) => (object)((DropTargetHandler)instanceObj).AllowedDropActions;
+        private static object GetAllowedDropActions(object instanceObj) => ((DropTargetHandler)instanceObj).AllowedDropActions;
 
         private static void SetAllowedDropActions(ref object instanceObj, object valueObj) => ((DropTargetHandler)instanceObj).AllowedDropActions = (DropAction)valueObj;
 
         private static object GetDragging(object instanceObj) => BooleanBoxes.Box(((DropTargetHandler)instanceObj).Dragging);
 
-        private static object GetHandlerStage(object instanceObj) => (object)((InputHandler)instanceObj).HandlerStage;
+        private static object GetHandlerStage(object instanceObj) => ((InputHandler)instanceObj).HandlerStage;
 
         private static void SetHandlerStage(ref object instanceObj, object valueObj) => ((InputHandler)instanceObj).HandlerStage = (InputHandlerStage)valueObj;
 
         private static object GetEventContext(object instanceObj) => ((DropTargetHandler)instanceObj).EventContext;
 
-        private static object Construct() => (object)new DropTargetHandler();
+        private static object Construct() => new DropTargetHandler();
 
         private static object CallGetValue(object instanceObj, object[] parameters) => ((DropTargetHandler)instanceObj).GetValue();
 
-        public static void Pass1Initialize() => DropTargetHandlerSchema.Type = new UIXTypeSchema((short)65, "DropTargetHandler", (string)null, (short)110, typeof(DropTargetHandler), UIXTypeFlags.Disposable);
+        public static void Pass1Initialize() => DropTargetHandlerSchema.Type = new UIXTypeSchema(65, "DropTargetHandler", null, 110, typeof(DropTargetHandler), UIXTypeFlags.Disposable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema((short)65, "AllowedDropActions", (short)64, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(DropTargetHandlerSchema.GetAllowedDropActions), new SetValueHandler(DropTargetHandlerSchema.SetAllowedDropActions), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema((short)65, "Dragging", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(DropTargetHandlerSchema.GetDragging), (SetValueHandler)null, false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema((short)65, "HandlerStage", (short)112, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(DropTargetHandlerSchema.GetHandlerStage), new SetValueHandler(DropTargetHandlerSchema.SetHandlerStage), false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema((short)65, "EventContext", (short)153, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(DropTargetHandlerSchema.GetEventContext), (SetValueHandler)null, false);
-            UIXEventSchema uixEventSchema1 = new UIXEventSchema((short)65, "DragEnter");
-            UIXEventSchema uixEventSchema2 = new UIXEventSchema((short)65, "DragOver");
-            UIXEventSchema uixEventSchema3 = new UIXEventSchema((short)65, "DragLeave");
-            UIXEventSchema uixEventSchema4 = new UIXEventSchema((short)65, "Dropped");
-            UIXMethodSchema uixMethodSchema = new UIXMethodSchema((short)65, "GetValue", (short[])null, (short)153, new InvokeHandler(DropTargetHandlerSchema.CallGetValue), false);
-            DropTargetHandlerSchema.Type.Initialize(new DefaultConstructHandler(DropTargetHandlerSchema.Construct), (ConstructorSchema[])null, new PropertySchema[4]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(65, "AllowedDropActions", 64, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(DropTargetHandlerSchema.GetAllowedDropActions), new SetValueHandler(DropTargetHandlerSchema.SetAllowedDropActions), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(65, "Dragging", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(DropTargetHandlerSchema.GetDragging), null, false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(65, "HandlerStage", 112, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(DropTargetHandlerSchema.GetHandlerStage), new SetValueHandler(DropTargetHandlerSchema.SetHandlerStage), false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(65, "EventContext", 153, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(DropTargetHandlerSchema.GetEventContext), null, false);
+            UIXEventSchema uixEventSchema1 = new UIXEventSchema(65, "DragEnter");
+            UIXEventSchema uixEventSchema2 = new UIXEventSchema(65, "DragOver");
+            UIXEventSchema uixEventSchema3 = new UIXEventSchema(65, "DragLeave");
+            UIXEventSchema uixEventSchema4 = new UIXEventSchema(65, "Dropped");
+            UIXMethodSchema uixMethodSchema = new UIXMethodSchema(65, "GetValue", null, 153, new InvokeHandler(DropTargetHandlerSchema.CallGetValue), false);
+            DropTargetHandlerSchema.Type.Initialize(new DefaultConstructHandler(DropTargetHandlerSchema.Construct), null, new PropertySchema[4]
             {
-        (PropertySchema) uixPropertySchema1,
-        (PropertySchema) uixPropertySchema2,
-        (PropertySchema) uixPropertySchema4,
-        (PropertySchema) uixPropertySchema3
+         uixPropertySchema1,
+         uixPropertySchema2,
+         uixPropertySchema4,
+         uixPropertySchema3
             }, new MethodSchema[1]
             {
-        (MethodSchema) uixMethodSchema
+         uixMethodSchema
             }, new EventSchema[4]
             {
-        (EventSchema) uixEventSchema1,
-        (EventSchema) uixEventSchema2,
-        (EventSchema) uixEventSchema3,
-        (EventSchema) uixEventSchema4
-            }, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixEventSchema1,
+         uixEventSchema2,
+         uixEventSchema3,
+         uixEventSchema4
+            }, null, null, null, null, null, null, null);
         }
     }
 }

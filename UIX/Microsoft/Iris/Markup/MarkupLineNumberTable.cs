@@ -39,7 +39,7 @@ namespace Microsoft.Iris.Markup
             this._runtimeList = new ulong[this._lookupTable.Count];
             for (int index = 0; index < this._lookupTable.Count; ++index)
                 this._runtimeList[index] = this._lookupTable[index];
-            this._lookupTable = (Vector<ulong>)null;
+            this._lookupTable = null;
         }
 
         public void Lookup(uint offset, out int line, out int column)
@@ -67,7 +67,7 @@ namespace Microsoft.Iris.Markup
         {
         }
 
-        private static ulong Pack(uint offset, int line, int column) => (ulong)((long)offset | (long)line << 22 | (long)column << 43);
+        private static ulong Pack(uint offset, int line, int column) => (ulong)(offset | (long)line << 22 | (long)column << 43);
 
         private static uint UnpackOffset(ulong value) => (uint)(value & 4194303UL);
 

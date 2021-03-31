@@ -17,7 +17,7 @@ namespace Microsoft.Iris.Markup.UIX
         public static RangeValidator ValidateFontName = new RangeValidator(FontSchema.RangeValidateFontName);
         public static UIXTypeSchema Type;
 
-        private static object GetFontName(object instanceObj) => (object)((Font)instanceObj).FontName;
+        private static object GetFontName(object instanceObj) => ((Font)instanceObj).FontName;
 
         private static void SetFontName(ref object instanceObj, object valueObj)
         {
@@ -30,7 +30,7 @@ namespace Microsoft.Iris.Markup.UIX
                 font.FontName = str;
         }
 
-        private static object GetFontSize(object instanceObj) => (object)((Font)instanceObj).FontSize;
+        private static object GetFontSize(object instanceObj) => ((Font)instanceObj).FontSize;
 
         private static void SetFontSize(ref object instanceObj, object valueObj)
         {
@@ -43,7 +43,7 @@ namespace Microsoft.Iris.Markup.UIX
                 font.FontSize = num;
         }
 
-        private static object GetAltFontSize(object instanceObj) => (object)((Font)instanceObj).AltFontSize;
+        private static object GetAltFontSize(object instanceObj) => ((Font)instanceObj).AltFontSize;
 
         private static void SetAltFontSize(ref object instanceObj, object valueObj)
         {
@@ -56,11 +56,11 @@ namespace Microsoft.Iris.Markup.UIX
                 font.AltFontSize = num;
         }
 
-        private static object GetFontStyle(object instanceObj) => (object)((Font)instanceObj).FontStyle;
+        private static object GetFontStyle(object instanceObj) => ((Font)instanceObj).FontStyle;
 
         private static void SetFontStyle(ref object instanceObj, object valueObj) => ((Font)instanceObj).FontStyle = (FontStyles)valueObj;
 
-        private static object Construct() => (object)new Font();
+        private static object Construct() => new Font();
 
         private static object ConstructFontName(object[] parameters)
         {
@@ -73,9 +73,9 @@ namespace Microsoft.Iris.Markup.UIX
         {
             instance = FontSchema.Construct();
             object valueObj;
-            Result result = UIXLoadResult.ValidateStringAsValue(splitString[0], (TypeSchema)StringSchema.Type, FontSchema.ValidateFontName, out valueObj);
+            Result result = UIXLoadResult.ValidateStringAsValue(splitString[0], StringSchema.Type, FontSchema.ValidateFontName, out valueObj);
             if (result.Failed)
-                return Result.Fail("Problem converting '{0}' ({1})", (object)"Font", (object)result.Error);
+                return Result.Fail("Problem converting '{0}' ({1})", "Font", result.Error);
             FontSchema.SetFontName(ref instance, valueObj);
             return result;
         }
@@ -94,14 +94,14 @@ namespace Microsoft.Iris.Markup.UIX
         {
             instance = FontSchema.Construct();
             object valueObj1;
-            Result result1 = UIXLoadResult.ValidateStringAsValue(splitString[0], (TypeSchema)StringSchema.Type, FontSchema.ValidateFontName, out valueObj1);
+            Result result1 = UIXLoadResult.ValidateStringAsValue(splitString[0], StringSchema.Type, FontSchema.ValidateFontName, out valueObj1);
             if (result1.Failed)
-                return Result.Fail("Problem converting '{0}' ({1})", (object)"Font", (object)result1.Error);
+                return Result.Fail("Problem converting '{0}' ({1})", "Font", result1.Error);
             FontSchema.SetFontName(ref instance, valueObj1);
             object valueObj2;
-            Result result2 = UIXLoadResult.ValidateStringAsValue(splitString[1], (TypeSchema)SingleSchema.Type, SingleSchema.ValidateNotNegative, out valueObj2);
+            Result result2 = UIXLoadResult.ValidateStringAsValue(splitString[1], SingleSchema.Type, SingleSchema.ValidateNotNegative, out valueObj2);
             if (result2.Failed)
-                return Result.Fail("Problem converting '{0}' ({1})", (object)"Font", (object)result2.Error);
+                return Result.Fail("Problem converting '{0}' ({1})", "Font", result2.Error);
             FontSchema.SetFontSize(ref instance, valueObj2);
             return result2;
         }
@@ -121,19 +121,19 @@ namespace Microsoft.Iris.Markup.UIX
         {
             instance = FontSchema.Construct();
             object valueObj1;
-            Result result1 = UIXLoadResult.ValidateStringAsValue(splitString[0], (TypeSchema)StringSchema.Type, FontSchema.ValidateFontName, out valueObj1);
+            Result result1 = UIXLoadResult.ValidateStringAsValue(splitString[0], StringSchema.Type, FontSchema.ValidateFontName, out valueObj1);
             if (result1.Failed)
-                return Result.Fail("Problem converting '{0}' ({1})", (object)"Font", (object)result1.Error);
+                return Result.Fail("Problem converting '{0}' ({1})", "Font", result1.Error);
             FontSchema.SetFontName(ref instance, valueObj1);
             object valueObj2;
-            Result result2 = UIXLoadResult.ValidateStringAsValue(splitString[1], (TypeSchema)SingleSchema.Type, SingleSchema.ValidateNotNegative, out valueObj2);
+            Result result2 = UIXLoadResult.ValidateStringAsValue(splitString[1], SingleSchema.Type, SingleSchema.ValidateNotNegative, out valueObj2);
             if (result2.Failed)
-                return Result.Fail("Problem converting '{0}' ({1})", (object)"Font", (object)result2.Error);
+                return Result.Fail("Problem converting '{0}' ({1})", "Font", result2.Error);
             FontSchema.SetFontSize(ref instance, valueObj2);
             object valueObj3;
-            Result result3 = UIXLoadResult.ValidateStringAsValue(splitString[2], (TypeSchema)SingleSchema.Type, SingleSchema.ValidateNotNegative, out valueObj3);
+            Result result3 = UIXLoadResult.ValidateStringAsValue(splitString[2], SingleSchema.Type, SingleSchema.ValidateNotNegative, out valueObj3);
             if (result3.Failed)
-                return Result.Fail("Problem converting '{0}' ({1})", (object)"Font", (object)result3.Error);
+                return Result.Fail("Problem converting '{0}' ({1})", "Font", result3.Error);
             FontSchema.SetAltFontSize(ref instance, valueObj3);
             return result3;
         }
@@ -153,19 +153,19 @@ namespace Microsoft.Iris.Markup.UIX
         {
             instance = FontSchema.Construct();
             object valueObj1;
-            Result result1 = UIXLoadResult.ValidateStringAsValue(splitString[0], (TypeSchema)StringSchema.Type, FontSchema.ValidateFontName, out valueObj1);
+            Result result1 = UIXLoadResult.ValidateStringAsValue(splitString[0], StringSchema.Type, FontSchema.ValidateFontName, out valueObj1);
             if (result1.Failed)
-                return Result.Fail("Problem converting '{0}' ({1})", (object)"Font", (object)result1.Error);
+                return Result.Fail("Problem converting '{0}' ({1})", "Font", result1.Error);
             FontSchema.SetFontName(ref instance, valueObj1);
             object valueObj2;
-            Result result2 = UIXLoadResult.ValidateStringAsValue(splitString[1], (TypeSchema)SingleSchema.Type, SingleSchema.ValidateNotNegative, out valueObj2);
+            Result result2 = UIXLoadResult.ValidateStringAsValue(splitString[1], SingleSchema.Type, SingleSchema.ValidateNotNegative, out valueObj2);
             if (result2.Failed)
-                return Result.Fail("Problem converting '{0}' ({1})", (object)"Font", (object)result2.Error);
+                return Result.Fail("Problem converting '{0}' ({1})", "Font", result2.Error);
             FontSchema.SetFontSize(ref instance, valueObj2);
             object valueObj3;
-            Result result3 = UIXLoadResult.ValidateStringAsValue(splitString[2], UIXLoadResultExports.FontStylesType, (RangeValidator)null, out valueObj3);
+            Result result3 = UIXLoadResult.ValidateStringAsValue(splitString[2], UIXLoadResultExports.FontStylesType, null, out valueObj3);
             if (result3.Failed)
-                return Result.Fail("Problem converting '{0}' ({1})", (object)"Font", (object)result3.Error);
+                return Result.Fail("Problem converting '{0}' ({1})", "Font", result3.Error);
             FontSchema.SetFontStyle(ref instance, valueObj3);
             return result3;
         }
@@ -186,24 +186,24 @@ namespace Microsoft.Iris.Markup.UIX
         {
             instance = FontSchema.Construct();
             object valueObj1;
-            Result result1 = UIXLoadResult.ValidateStringAsValue(splitString[0], (TypeSchema)StringSchema.Type, FontSchema.ValidateFontName, out valueObj1);
+            Result result1 = UIXLoadResult.ValidateStringAsValue(splitString[0], StringSchema.Type, FontSchema.ValidateFontName, out valueObj1);
             if (result1.Failed)
-                return Result.Fail("Problem converting '{0}' ({1})", (object)"Font", (object)result1.Error);
+                return Result.Fail("Problem converting '{0}' ({1})", "Font", result1.Error);
             FontSchema.SetFontName(ref instance, valueObj1);
             object valueObj2;
-            Result result2 = UIXLoadResult.ValidateStringAsValue(splitString[1], (TypeSchema)SingleSchema.Type, SingleSchema.ValidateNotNegative, out valueObj2);
+            Result result2 = UIXLoadResult.ValidateStringAsValue(splitString[1], SingleSchema.Type, SingleSchema.ValidateNotNegative, out valueObj2);
             if (result2.Failed)
-                return Result.Fail("Problem converting '{0}' ({1})", (object)"Font", (object)result2.Error);
+                return Result.Fail("Problem converting '{0}' ({1})", "Font", result2.Error);
             FontSchema.SetFontSize(ref instance, valueObj2);
             object valueObj3;
-            Result result3 = UIXLoadResult.ValidateStringAsValue(splitString[2], (TypeSchema)SingleSchema.Type, SingleSchema.ValidateNotNegative, out valueObj3);
+            Result result3 = UIXLoadResult.ValidateStringAsValue(splitString[2], SingleSchema.Type, SingleSchema.ValidateNotNegative, out valueObj3);
             if (result3.Failed)
-                return Result.Fail("Problem converting '{0}' ({1})", (object)"Font", (object)result3.Error);
+                return Result.Fail("Problem converting '{0}' ({1})", "Font", result3.Error);
             FontSchema.SetAltFontSize(ref instance, valueObj3);
             object valueObj4;
-            Result result4 = UIXLoadResult.ValidateStringAsValue(splitString[3], UIXLoadResultExports.FontStylesType, (RangeValidator)null, out valueObj4);
+            Result result4 = UIXLoadResult.ValidateStringAsValue(splitString[3], UIXLoadResultExports.FontStylesType, null, out valueObj4);
             if (result4.Failed)
-                return Result.Fail("Problem converting '{0}' ({1})", (object)"Font", (object)result4.Error);
+                return Result.Fail("Problem converting '{0}' ({1})", "Font", result4.Error);
             FontSchema.SetFontStyle(ref instance, valueObj4);
             return result4;
         }
@@ -213,12 +213,12 @@ namespace Microsoft.Iris.Markup.UIX
             string parameter1 = (string)parameters[0];
             string parameter2 = (string)parameters[1];
             if (string.IsNullOrEmpty(parameter1))
-                ErrorManager.ReportError("Script runtime failure: Invalid 'null' value for '{0}'", (object)"moduleName");
+                ErrorManager.ReportError("Script runtime failure: Invalid 'null' value for '{0}'", "moduleName");
             if (string.IsNullOrEmpty(parameter2))
-                ErrorManager.ReportError("Script runtime failure: Invalid 'null' value for '{0}'", (object)"resourceName");
+                ErrorManager.ReportError("Script runtime failure: Invalid 'null' value for '{0}'", "resourceName");
             if (!NativeApi.SpLoadFontResource(parameter1, parameter2))
-                ErrorManager.ReportError("Font Resource {1} not found in module {0}", (object)parameter1, (object)parameter2);
-            return (object)null;
+                ErrorManager.ReportError("Font Resource {1} not found in module {0}", parameter1, parameter2);
+            return null;
         }
 
         private static bool IsConversionSupported(TypeSchema fromType) => StringSchema.Type.IsAssignableFrom(fromType);
@@ -229,7 +229,7 @@ namespace Microsoft.Iris.Markup.UIX
           out object instance)
         {
             Result result1 = Result.Fail("Unsupported");
-            instance = (object)null;
+            instance = null;
             if (StringSchema.Type.IsAssignableFrom(fromType))
             {
                 string[] splitString = StringUtility.SplitAndTrim(',', (string)from);
@@ -259,7 +259,7 @@ namespace Microsoft.Iris.Markup.UIX
                             return result1;
                         break;
                     default:
-                        result1 = Result.Fail("Unable to convert \"{0}\" to type '{1}'", (object)from.ToString(), (object)"Font");
+                        result1 = Result.Fail("Unable to convert \"{0}\" to type '{1}'", from.ToString(), "Font");
                         break;
                 }
             }
@@ -270,68 +270,68 @@ namespace Microsoft.Iris.Markup.UIX
         {
             string str = (string)value;
             if (str == null)
-                return Result.Fail("Script runtime failure: Invalid 'null' value for '{0}'", (object)"FontName");
-            return str.Length > 31 ? Result.Fail("\"{0}\" cannot be longer than {1} characters", (object)str, (object)"31") : Result.Success;
+                return Result.Fail("Script runtime failure: Invalid 'null' value for '{0}'", "FontName");
+            return str.Length > 31 ? Result.Fail("\"{0}\" cannot be longer than {1} characters", str, "31") : Result.Success;
         }
 
-        public static void Pass1Initialize() => FontSchema.Type = new UIXTypeSchema((short)93, "Font", (string)null, (short)153, typeof(Font), UIXTypeFlags.Immutable);
+        public static void Pass1Initialize() => FontSchema.Type = new UIXTypeSchema(93, "Font", null, 153, typeof(Font), UIXTypeFlags.Immutable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema((short)93, "FontName", (short)208, (short)-1, ExpressionRestriction.None, false, FontSchema.ValidateFontName, false, new GetValueHandler(FontSchema.GetFontName), new SetValueHandler(FontSchema.SetFontName), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema((short)93, "FontSize", (short)194, (short)-1, ExpressionRestriction.None, false, SingleSchema.ValidateNotNegative, false, new GetValueHandler(FontSchema.GetFontSize), new SetValueHandler(FontSchema.SetFontSize), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema((short)93, "AltFontSize", (short)194, (short)-1, ExpressionRestriction.None, false, SingleSchema.ValidateNotNegative, false, new GetValueHandler(FontSchema.GetAltFontSize), new SetValueHandler(FontSchema.SetAltFontSize), false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema((short)93, "FontStyle", (short)94, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(FontSchema.GetFontStyle), new SetValueHandler(FontSchema.SetFontStyle), false);
-            UIXConstructorSchema constructorSchema1 = new UIXConstructorSchema((short)93, new short[1]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(93, "FontName", 208, -1, ExpressionRestriction.None, false, FontSchema.ValidateFontName, false, new GetValueHandler(FontSchema.GetFontName), new SetValueHandler(FontSchema.SetFontName), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(93, "FontSize", 194, -1, ExpressionRestriction.None, false, SingleSchema.ValidateNotNegative, false, new GetValueHandler(FontSchema.GetFontSize), new SetValueHandler(FontSchema.SetFontSize), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(93, "AltFontSize", 194, -1, ExpressionRestriction.None, false, SingleSchema.ValidateNotNegative, false, new GetValueHandler(FontSchema.GetAltFontSize), new SetValueHandler(FontSchema.SetAltFontSize), false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(93, "FontStyle", 94, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(FontSchema.GetFontStyle), new SetValueHandler(FontSchema.SetFontStyle), false);
+            UIXConstructorSchema constructorSchema1 = new UIXConstructorSchema(93, new short[1]
             {
-        (short) 208
+         208
             }, new ConstructHandler(FontSchema.ConstructFontName));
-            UIXConstructorSchema constructorSchema2 = new UIXConstructorSchema((short)93, new short[2]
+            UIXConstructorSchema constructorSchema2 = new UIXConstructorSchema(93, new short[2]
             {
-        (short) 208,
-        (short) 194
+         208,
+         194
             }, new ConstructHandler(FontSchema.ConstructFontNameFontSize));
-            UIXConstructorSchema constructorSchema3 = new UIXConstructorSchema((short)93, new short[3]
+            UIXConstructorSchema constructorSchema3 = new UIXConstructorSchema(93, new short[3]
             {
-        (short) 208,
-        (short) 194,
-        (short) 194
+         208,
+         194,
+         194
             }, new ConstructHandler(FontSchema.ConstructFontNameFontSizeAltFontSize));
-            UIXConstructorSchema constructorSchema4 = new UIXConstructorSchema((short)93, new short[3]
+            UIXConstructorSchema constructorSchema4 = new UIXConstructorSchema(93, new short[3]
             {
-        (short) 208,
-        (short) 194,
-        (short) 94
+         208,
+         194,
+         94
             }, new ConstructHandler(FontSchema.ConstructFontNameFontSizeFontStyle));
-            UIXConstructorSchema constructorSchema5 = new UIXConstructorSchema((short)93, new short[4]
+            UIXConstructorSchema constructorSchema5 = new UIXConstructorSchema(93, new short[4]
             {
-        (short) 208,
-        (short) 194,
-        (short) 194,
-        (short) 94
+         208,
+         194,
+         194,
+         94
             }, new ConstructHandler(FontSchema.ConstructFontNameFontSizeAltFontSizeFontStyle));
-            UIXMethodSchema uixMethodSchema = new UIXMethodSchema((short)93, "LoadFontResource", new short[2]
+            UIXMethodSchema uixMethodSchema = new UIXMethodSchema(93, "LoadFontResource", new short[2]
             {
-        (short) 208,
-        (short) 208
-            }, (short)240, new InvokeHandler(FontSchema.CallLoadFontResourceStringString), true);
+         208,
+         208
+            }, 240, new InvokeHandler(FontSchema.CallLoadFontResourceStringString), true);
             FontSchema.Type.Initialize(new DefaultConstructHandler(FontSchema.Construct), new ConstructorSchema[5]
             {
-        (ConstructorSchema) constructorSchema1,
-        (ConstructorSchema) constructorSchema2,
-        (ConstructorSchema) constructorSchema3,
-        (ConstructorSchema) constructorSchema4,
-        (ConstructorSchema) constructorSchema5
+         constructorSchema1,
+         constructorSchema2,
+         constructorSchema3,
+         constructorSchema4,
+         constructorSchema5
             }, new PropertySchema[4]
             {
-        (PropertySchema) uixPropertySchema3,
-        (PropertySchema) uixPropertySchema1,
-        (PropertySchema) uixPropertySchema2,
-        (PropertySchema) uixPropertySchema4
+         uixPropertySchema3,
+         uixPropertySchema1,
+         uixPropertySchema2,
+         uixPropertySchema4
             }, new MethodSchema[1]
             {
-        (MethodSchema) uixMethodSchema
-            }, (EventSchema[])null, (FindCanonicalInstanceHandler)null, new TypeConverterHandler(FontSchema.TryConvertFrom), new SupportsTypeConversionHandler(FontSchema.IsConversionSupported), (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixMethodSchema
+            }, null, null, new TypeConverterHandler(FontSchema.TryConvertFrom), new SupportsTypeConversionHandler(FontSchema.IsConversionSupported), null, null, null, null);
         }
     }
 }

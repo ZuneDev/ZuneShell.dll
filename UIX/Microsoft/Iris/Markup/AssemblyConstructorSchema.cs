@@ -18,7 +18,7 @@ namespace Microsoft.Iris.Markup
           AssemblyTypeSchema owner,
           ConstructorInfo constructorInfo,
           TypeSchema[] parameterTypes)
-          : base((TypeSchema)owner)
+          : base(owner)
         {
             this._constructorInfo = constructorInfo;
             this._parameterTypes = parameterTypes;
@@ -31,9 +31,9 @@ namespace Microsoft.Iris.Markup
             object[] paramters = AssemblyLoadResult.UnwrapObjectList(parameters);
             AssemblyTypeSchema owner = (AssemblyTypeSchema)this.Owner;
             if (this._constructor == null)
-                this._constructor = ReflectionHelper.CreateMethodInvoke((MethodBase)this._constructorInfo);
-            object instance = this._constructor((object)null, paramters);
-            return AssemblyLoadResult.WrapObject((TypeSchema)owner, instance);
+                this._constructor = ReflectionHelper.CreateMethodInvoke(_constructorInfo);
+            object instance = this._constructor(null, paramters);
+            return AssemblyLoadResult.WrapObject(owner, instance);
         }
     }
 }

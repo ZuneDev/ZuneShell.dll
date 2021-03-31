@@ -24,7 +24,7 @@ namespace Microsoft.Iris.Library
         {
             uint key = DynamicData.GetKey(cookie);
             Delegate data = this._dataMap[key] as Delegate;
-            this._dataMap[key] = (object)Delegate.Combine(data, handlerToAdd);
+            this._dataMap[key] = Delegate.Combine(data, handlerToAdd);
             return (object)data == null;
         }
 
@@ -32,11 +32,11 @@ namespace Microsoft.Iris.Library
         {
             uint key = DynamicData.GetKey(cookie);
             Delegate @delegate = Delegate.Remove(this._dataMap[key] as Delegate, handlerToRemove);
-            this._dataMap[key] = (object)@delegate;
+            this._dataMap[key] = @delegate;
             return (object)@delegate == null;
         }
 
-        public void RemoveEventHandlers(EventCookie cookie) => this._dataMap[DynamicData.GetKey(cookie)] = (object)null;
+        public void RemoveEventHandlers(EventCookie cookie) => this._dataMap[DynamicData.GetKey(cookie)] = null;
 
         private static uint GetKey(DataCookie cookie) => DataCookie.ToUInt32(cookie);
 

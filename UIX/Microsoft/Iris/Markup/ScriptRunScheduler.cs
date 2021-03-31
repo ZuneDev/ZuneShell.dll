@@ -36,7 +36,7 @@ namespace Microsoft.Iris.Markup
             if (this._pendingList == null)
                 return;
             Vector<ScriptRunScheduler.PendingScript> pendingList = this._pendingList;
-            this._pendingList = (Vector<ScriptRunScheduler.PendingScript>)null;
+            this._pendingList = null;
             for (int index = 0; index < pendingList.Count; ++index)
             {
                 ScriptRunScheduler.PendingScript pendingScript = pendingList[index];
@@ -70,7 +70,7 @@ namespace Microsoft.Iris.Markup
                 if (this._lists.Count >= 128 || list.Capacity > 32)
                     return;
                 list.Clear();
-                this._lists.Push((object)list);
+                this._lists.Push(list);
             }
         }
     }

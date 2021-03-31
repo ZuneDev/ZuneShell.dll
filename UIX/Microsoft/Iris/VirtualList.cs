@@ -40,22 +40,22 @@ namespace Microsoft.Iris
             this._itemCountHandler = countHandler;
             this._storeQueryResults = true;
             if (enableSlowDataRequests)
-                this._updater = new UpdateHelper((IVirtualList)this);
+                this._updater = new UpdateHelper(this);
             this._releaseBehavior = ReleaseBehavior.KeepReference;
         }
 
         public VirtualList(bool enableSlowDataRequests)
-          : this((IModelItemOwner)null, enableSlowDataRequests, (ItemCountHandler)null)
+          : this(null, enableSlowDataRequests, null)
         {
         }
 
         public VirtualList(ItemCountHandler countHandler)
-          : this((IModelItemOwner)null, false, countHandler)
+          : this(null, false, countHandler)
         {
         }
 
         public VirtualList()
-          : this((IModelItemOwner)null, false, (ItemCountHandler)null)
+          : this(null, false, null)
         {
         }
 
@@ -68,7 +68,7 @@ namespace Microsoft.Iris
                     if (this._itemCountHandler != null)
                     {
                         ItemCountHandler itemCountHandler = this._itemCountHandler;
-                        this._itemCountHandler = (ItemCountHandler)null;
+                        this._itemCountHandler = null;
                         itemCountHandler(this);
                     }
                     return this._count;
@@ -81,7 +81,7 @@ namespace Microsoft.Iris
                     if (this._count < 0)
                         throw new ArgumentException("Must specify a non-negative Count");
                     this.EnsureNotInCallback("Invalid to set count on virtual list while inside a GetItem callback");
-                    this._itemCountHandler = (ItemCountHandler)null;
+                    this._itemCountHandler = null;
                     if (this._count == value && this._countInitialized)
                         return;
                     this._countInitialized = true;
@@ -126,7 +126,7 @@ namespace Microsoft.Iris
             get
             {
                 using (this.ThreadValidator)
-                    return (object)null;
+                    return null;
             }
         }
 
@@ -301,7 +301,7 @@ namespace Microsoft.Iris
                 this.ValidateIndex(index);
                 if (this.IsItemAvailable(index))
                 {
-                    callback((object)this, index, this[index]);
+                    callback(this, index, this[index]);
                 }
                 else
                 {
@@ -312,7 +312,7 @@ namespace Microsoft.Iris
                         object obj = this._requestItemHandler == null ? this.OnRequestItem(index) : this._requestItemHandler(this, index);
                         if (this._storeQueryResults)
                             this.ModifiedWorker(index, true, obj);
-                        callback((object)this, index, obj);
+                        callback(this, index, obj);
                     }
                     finally
                     {
@@ -336,7 +336,7 @@ namespace Microsoft.Iris
             int count = this.UnsafeGetCount();
             if (!ListUtility.IsValidIndex(index, count))
                 throw new IndexOutOfRangeException();
-            item = (object)null;
+            item = null;
             if (!this._items.Contains(index))
                 return false;
             item = this._items[index];
@@ -347,7 +347,7 @@ namespace Microsoft.Iris
         {
             using (this.ThreadValidator)
             {
-                object obj = (object)null;
+                object obj = null;
                 if (this.IsItemAvailable(index))
                     obj = this._items[index];
                 return obj;
@@ -368,7 +368,7 @@ namespace Microsoft.Iris
                     throw new InvalidOperationException("VirtualList is not configured for slow data notifications");
                 bool flag = false;
                 if (this._slowDataAcquireCompleteHandler != null)
-                    flag = this._slowDataAcquireCompleteHandler((IVirtualList)this, index);
+                    flag = this._slowDataAcquireCompleteHandler(this, index);
                 if (flag)
                     return;
                 this._updater.NotifySlowDataAcquireComplete(index);
@@ -473,7 +473,7 @@ namespace Microsoft.Iris
         public IEnumerator GetEnumerator()
         {
             using (this.ThreadValidator)
-                return (IEnumerator)new StackIListEnumerator((IList)this);
+                return new StackIListEnumerator(this);
         }
 
         public bool Contains(object item)
@@ -525,8 +525,8 @@ namespace Microsoft.Iris
             {
                 this.EnsureNotInCallback("Invalid to remove item {0} from a VirtualList while inside a GetItem callback", index);
                 if (index < 0 || index >= this._count)
-                    throw new ArgumentException(InvariantString.Format("Invalid index '{0}' passed to RemoveAt", (object)index));
-                object obj = (object)null;
+                    throw new ArgumentException(InvariantString.Format("Invalid index '{0}' passed to RemoveAt", index));
+                object obj = null;
                 if (this._items.Contains(index))
                 {
                     obj = this._items[index];
@@ -553,13 +553,13 @@ namespace Microsoft.Iris
         public void Insert(int index)
         {
             using (this.ThreadValidator)
-                this.InsertWorker(index, false, (object)null);
+                this.InsertWorker(index, false, null);
         }
 
         public int Add()
         {
             using (this.ThreadValidator)
-                return this.AddWorker(false, (object)null);
+                return this.AddWorker(false, null);
         }
 
         public int Add(object item)
@@ -590,7 +590,7 @@ namespace Microsoft.Iris
                     throw new ArgumentException("count should be non-negative");
                 if (count <= 0)
                     return;
-                this.InsertRangeWorker(index, (IList)null, count);
+                this.InsertRangeWorker(index, null, count);
             }
         }
 
@@ -616,7 +616,7 @@ namespace Microsoft.Iris
                     throw new ArgumentException("count should be non-negative");
                 if (count <= 0)
                     return;
-                this.AddRangeWorker((IList)null, count);
+                this.AddRangeWorker(null, count);
             }
         }
 
@@ -655,7 +655,7 @@ namespace Microsoft.Iris
         public void Modified(int index)
         {
             using (this.ThreadValidator)
-                this.ModifiedWorker(index, false, (object)null);
+                this.ModifiedWorker(index, false, null);
         }
 
         [Conditional("DEBUG")]
@@ -680,7 +680,7 @@ namespace Microsoft.Iris
                     if (this._updater != null)
                     {
                         this._updater.Dispose();
-                        this._updater = (UpdateHelper)null;
+                        this._updater = null;
                     }
                     this._items.Clear();
                 }
@@ -699,7 +699,7 @@ namespace Microsoft.Iris
             if (obj is IDisposable disposable)
                 disposable.Dispose();
             else if (obj != VirtualList.UnavailableItem)
-                throw new InvalidOperationException(InvariantString.Format("VirtualList {0} was configured with the {1} ReleaseBehavior.  This is only valid if the contents of the list implement IDisposable.  Unable to dispose object: {2}.", (object)this, (object)this._releaseBehavior, obj));
+                throw new InvalidOperationException(InvariantString.Format("VirtualList {0} was configured with the {1} ReleaseBehavior.  This is only valid if the contents of the list implement IDisposable.  Unable to dispose object: {2}.", this, _releaseBehavior, obj));
         }
 
         private void InsertWorker(int index, bool setValue, object obj)
@@ -776,12 +776,12 @@ namespace Microsoft.Iris
             add
             {
                 using (this.ThreadValidator)
-                    this.AddEventHandler(VirtualList.s_listContentsChangedEvent, (Delegate)value);
+                    this.AddEventHandler(VirtualList.s_listContentsChangedEvent, value);
             }
             remove
             {
                 using (this.ThreadValidator)
-                    this.RemoveEventHandler(VirtualList.s_listContentsChangedEvent, (Delegate)value);
+                    this.RemoveEventHandler(VirtualList.s_listContentsChangedEvent, value);
             }
         }
 
@@ -790,12 +790,12 @@ namespace Microsoft.Iris
             add
             {
                 using (this.ThreadValidator)
-                    this.AddEventHandler(VirtualList.s_listContentsChangedEvent, (Delegate)ListContentsChangedProxy.Thunk(value));
+                    this.AddEventHandler(VirtualList.s_listContentsChangedEvent, ListContentsChangedProxy.Thunk(value));
             }
             remove
             {
                 using (this.ThreadValidator)
-                    this.RemoveEventHandler(VirtualList.s_listContentsChangedEvent, (Delegate)ListContentsChangedProxy.Thunk(value));
+                    this.RemoveEventHandler(VirtualList.s_listContentsChangedEvent, ListContentsChangedProxy.Thunk(value));
             }
         }
 
@@ -812,7 +812,7 @@ namespace Microsoft.Iris
             if (eventHandler != null)
             {
                 UIListContentsChangedArgs args = new UIListContentsChangedArgs(type, oldIndex, newIndex, count);
-                eventHandler((IList)this, args);
+                eventHandler(this, args);
             }
             this.FirePropertyChanged("ContentsChanged");
         }
@@ -826,7 +826,7 @@ namespace Microsoft.Iris
         private void EnsureNotInCallback(int indexToVerify, string message, int param)
         {
             if (this._callbackIndexesList.Contains(indexToVerify))
-                throw new InvalidOperationException(InvariantString.Format(message, (object)param));
+                throw new InvalidOperationException(InvariantString.Format(message, param));
         }
 
         private void EnsureNotInCallback(string message)
@@ -838,7 +838,7 @@ namespace Microsoft.Iris
         private void EnsureNotInCallback(string message, int param)
         {
             if (this._callbackIndexesList.Count > 0)
-                throw new InvalidOperationException(InvariantString.Format(message, (object)param));
+                throw new InvalidOperationException(InvariantString.Format(message, param));
         }
     }
 }

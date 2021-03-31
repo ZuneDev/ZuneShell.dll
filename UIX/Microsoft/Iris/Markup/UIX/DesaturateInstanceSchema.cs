@@ -31,25 +31,25 @@ namespace Microsoft.Iris.Markup.UIX
           object[] parameters)
         {
             ((EffectElementWrapper)instanceObj).PlayAnimation(EffectProperty.Desaturate, (EffectAnimation)parameters[0]);
-            return (object)null;
+            return null;
         }
 
-        public static void Pass1Initialize() => DesaturateInstanceSchema.Type = new UIXTypeSchema((short)55, "DesaturateInstance", (string)null, (short)74, typeof(EffectElementWrapper), UIXTypeFlags.None);
+        public static void Pass1Initialize() => DesaturateInstanceSchema.Type = new UIXTypeSchema(55, "DesaturateInstance", null, 74, typeof(EffectElementWrapper), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema = new UIXPropertySchema((short)55, "Desaturate", (short)194, (short)-1, ExpressionRestriction.None, false, SingleSchema.Validate0to1, false, (GetValueHandler)null, new SetValueHandler(DesaturateInstanceSchema.SetDesaturate), false);
-            UIXMethodSchema uixMethodSchema = new UIXMethodSchema((short)55, "PlayDesaturateAnimation", new short[1]
+            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(55, "Desaturate", 194, -1, ExpressionRestriction.None, false, SingleSchema.Validate0to1, false, null, new SetValueHandler(DesaturateInstanceSchema.SetDesaturate), false);
+            UIXMethodSchema uixMethodSchema = new UIXMethodSchema(55, "PlayDesaturateAnimation", new short[1]
             {
-        (short) 75
-            }, (short)240, new InvokeHandler(DesaturateInstanceSchema.CallPlayDesaturateAnimationEffectFloatAnimation), false);
-            DesaturateInstanceSchema.Type.Initialize((DefaultConstructHandler)null, (ConstructorSchema[])null, new PropertySchema[1]
+         75
+            }, 240, new InvokeHandler(DesaturateInstanceSchema.CallPlayDesaturateAnimationEffectFloatAnimation), false);
+            DesaturateInstanceSchema.Type.Initialize(null, null, new PropertySchema[1]
             {
-        (PropertySchema) uixPropertySchema
+         uixPropertySchema
             }, new MethodSchema[1]
             {
-        (MethodSchema) uixMethodSchema
-            }, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixMethodSchema
+            }, null, null, null, null, null, null, null, null);
         }
     }
 }

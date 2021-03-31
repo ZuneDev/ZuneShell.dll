@@ -36,7 +36,7 @@ namespace Microsoft.Iris.InputHandlers
         public override void OnZoneDetached()
         {
             if (this.Dragging)
-                this.EndDrag((IRawInputSite)null, InputModifiers.None, DropAction.None);
+                this.EndDrag(null, InputModifiers.None, DropAction.None);
             base.OnZoneDetached();
         }
 
@@ -191,7 +191,7 @@ namespace Microsoft.Iris.InputHandlers
                             DragDropHelper.Requery(modifiers);
                             break;
                         case Keys.Escape:
-                            this.EndDrag((IRawInputSite)null, keyStateInfo.Modifiers, DropAction.None);
+                            this.EndDrag(null, keyStateInfo.Modifiers, DropAction.None);
                             this._dragCanceled = true;
                             break;
                     }
@@ -209,7 +209,7 @@ namespace Microsoft.Iris.InputHandlers
         {
             this._pendingDrag = false;
             if (this.Dragging)
-                this.EndDrag((IRawInputSite)null, DragDropHelper.Modifiers, DropAction.None);
+                this.EndDrag(null, DragDropHelper.Modifiers, DropAction.None);
             base.OnLoseKeyFocus(sender, info);
         }
 
@@ -217,7 +217,7 @@ namespace Microsoft.Iris.InputHandlers
         {
             this._pendingDrag = false;
             if (this.Dragging)
-                this.EndDrag((IRawInputSite)null, DragDropHelper.Modifiers, DropAction.None);
+                this.EndDrag(null, DragDropHelper.Modifiers, DropAction.None);
             base.OnLoseMouseFocus(sender, info);
         }
 

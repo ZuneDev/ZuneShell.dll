@@ -23,7 +23,7 @@ namespace SSVParseLib
         public SSLexTable()
         {
             this.m_stack = new Stack();
-            this.m_subTables = (SSLexSubtable[])null;
+            this.m_subTables = null;
         }
 
         public void findKeyword(SSLexLexeme z_lexeme) => throw new Exception("Code has been disabled.");
@@ -31,10 +31,10 @@ namespace SSVParseLib
         public void gotoSubtable(int q_index)
         {
             this.m_stack.Pop();
-            this.m_stack.Push((object)this.m_subTables[q_index]);
+            this.m_stack.Push(this.m_subTables[q_index]);
         }
 
-        public void pushSubtable(int q_index) => this.m_stack.Push((object)this.m_subTables[q_index]);
+        public void pushSubtable(int q_index) => this.m_stack.Push(this.m_subTables[q_index]);
 
         public void popSubtable() => this.m_stack.Pop();
 

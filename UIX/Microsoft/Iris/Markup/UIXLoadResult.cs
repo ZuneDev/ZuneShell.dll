@@ -26,8 +26,8 @@ namespace Microsoft.Iris.Markup
         {
             base.OnDispose();
             foreach (DisposableObject disposableObject in this.ExportTable)
-                disposableObject.Dispose((object)this);
-            this.SetExportTable((TypeSchema[])null);
+                disposableObject.Dispose(this);
+            this.SetExportTable(null);
         }
 
         public override TypeSchema FindType(string name)
@@ -38,7 +38,7 @@ namespace Microsoft.Iris.Markup
                 if (typeSchema.Name == name || typeSchema.AlternateName == name)
                     return typeSchema;
             }
-            return (TypeSchema)null;
+            return null;
         }
 
         public override LoadResultStatus Status => LoadResultStatus.Success;
@@ -49,7 +49,7 @@ namespace Microsoft.Iris.Markup
           RangeValidator validator,
           out object value)
         {
-            Result result = propertyType.TypeConverter((object)inline_, (TypeSchema)StringSchema.Type, out value);
+            Result result = propertyType.TypeConverter(inline_, StringSchema.Type, out value);
             if (result.Failed || validator == null)
                 return result;
             result = validator(value);

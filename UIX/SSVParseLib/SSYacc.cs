@@ -64,7 +64,7 @@ namespace SSVParseLib
             this.m_table = q_table;
             this.m_stack = new SSYaccStack(5, 5);
             this.m_lexemeCache = new SSYaccCache();
-            this.Reset((SourceMarkupLoader)null);
+            this.Reset(null);
         }
 
         public void Reset(SourceMarkupLoader owner)
@@ -77,14 +77,14 @@ namespace SSVParseLib
             this.m_action = 0;
             this.m_endOfInput = false;
             this.m_hasErrors = false;
-            this.m_larLookahead = (SSLexLexeme)null;
+            this.m_larLookahead = null;
             this.m_leftside = 0;
-            this.m_lexSubtable = (SSLexSubtable)null;
-            this.m_lookahead = (SSLexLexeme)null;
+            this.m_lexSubtable = null;
+            this.m_lookahead = null;
             this.m_production = 0;
             this.m_productionSize = 0;
             this.m_state = 0;
-            this.m_endLexeme = (SSLexLexeme)null;
+            this.m_endLexeme = null;
             this.m_element = new SSYaccStackElement();
             this.m_treeRoot = new SSYaccStackElement();
             this.m_stack.Clear();
@@ -114,10 +114,10 @@ namespace SSVParseLib
                 string str = q_look.GetValue(this.m_lex);
                 int line = q_look.line();
                 int column = q_look.offset();
-                string message = string.Format("Syntax Error: Unexpected character encountered: '{0}'", (object)str);
+                string message = string.Format("Syntax Error: Unexpected character encountered: '{0}'", str);
                 if (str == "eof")
                 {
-                    message = string.Format("Unexpected end of script (script beginning at line {0}, column {1})", (object)line, (object)column);
+                    message = string.Format("Unexpected end of script (script beginning at line {0}, column {1})", line, column);
                     line = this.m_lex.consumer().line();
                     column = this.m_lex.consumer().offset();
                 }
@@ -196,14 +196,14 @@ namespace SSVParseLib
 
         public SSLexLexeme getLexemeCache()
         {
-            SSLexLexeme ssLexLexeme = (SSLexLexeme)null;
+            SSLexLexeme ssLexLexeme = null;
             if (this.m_cache != -1 && this.m_lexemeCache.hasElements())
                 ssLexLexeme = (SSLexLexeme)this.m_lexemeCache.Dequeue();
             if (ssLexLexeme == null)
             {
                 this.m_cache = -1;
                 ssLexLexeme = this.nextLexeme() ?? this.m_endLexeme;
-                this.m_lexemeCache.Enqueue((object)ssLexLexeme);
+                this.m_lexemeCache.Enqueue(ssLexLexeme);
             }
             return ssLexLexeme;
         }

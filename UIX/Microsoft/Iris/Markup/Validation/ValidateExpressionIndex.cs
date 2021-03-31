@@ -27,7 +27,7 @@ namespace Microsoft.Iris.Markup.Validation
             this._index = index;
         }
 
-        public ValidateExpression CallExpression => (ValidateExpression)this._call;
+        public ValidateExpression CallExpression => _call;
 
         public override void Validate(TypeRestriction typeRestriction, ValidateContext context)
         {
@@ -45,7 +45,7 @@ namespace Microsoft.Iris.Markup.Validation
                 this._index.AppendToEnd(new ValidateParameter(this.Owner, this._assignmentValue, this._assignmentValue.Line, this._assignmentValue.Column));
                 this._call = new ValidateExpressionCall(this.Owner, this._indexee, "set_Item", this._index, this.Line, this.Column);
                 this._call.SetAsIndexAssignment();
-                this._call.Validate(new TypeRestriction((TypeSchema)VoidSchema.Type), context);
+                this._call.Validate(new TypeRestriction(VoidSchema.Type), context);
                 if (this._call.HasErrors)
                     this.MarkHasErrors();
                 else

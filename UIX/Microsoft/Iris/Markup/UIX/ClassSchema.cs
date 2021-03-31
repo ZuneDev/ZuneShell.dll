@@ -23,29 +23,29 @@ namespace Microsoft.Iris.Markup.UIX
             Class @class = (Class)instanceObj;
         }
 
-        private static object GetProperties(object instanceObj) => (object)((Class)instanceObj).Storage;
+        private static object GetProperties(object instanceObj) => ((Class)instanceObj).Storage;
 
-        private static object GetLocals(object instanceObj) => (object)((Class)instanceObj).Storage;
+        private static object GetLocals(object instanceObj) => ((Class)instanceObj).Storage;
 
         private static object GetScripts(object instanceObj) => (object)null;
 
-        public static void Pass1Initialize() => ClassSchema.Type = new UIXTypeSchema((short)29, "Class", (string)null, (short)-1, typeof(Class), UIXTypeFlags.Disposable);
+        public static void Pass1Initialize() => ClassSchema.Type = new UIXTypeSchema(29, "Class", null, -1, typeof(Class), UIXTypeFlags.Disposable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema((short)29, "Shared", (short)15, (short)-1, ExpressionRestriction.NoAccess, false, (RangeValidator)null, true, (GetValueHandler)null, new SetValueHandler(ClassSchema.SetShared), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema((short)29, "Base", (short)208, (short)-1, ExpressionRestriction.NoAccess, false, (RangeValidator)null, true, (GetValueHandler)null, new SetValueHandler(ClassSchema.SetBase), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema((short)29, "Properties", (short)58, (short)-1, ExpressionRestriction.NoAccess, false, (RangeValidator)null, true, new GetValueHandler(ClassSchema.GetProperties), (SetValueHandler)null, false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema((short)29, "Locals", (short)58, (short)-1, ExpressionRestriction.NoAccess, false, (RangeValidator)null, true, new GetValueHandler(ClassSchema.GetLocals), (SetValueHandler)null, false);
-            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema((short)29, "Scripts", (short)138, (short)240, ExpressionRestriction.NoAccess, false, (RangeValidator)null, true, new GetValueHandler(ClassSchema.GetScripts), (SetValueHandler)null, false);
-            ClassSchema.Type.Initialize((DefaultConstructHandler)null, (ConstructorSchema[])null, new PropertySchema[5]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(29, "Shared", 15, -1, ExpressionRestriction.NoAccess, false, null, true, null, new SetValueHandler(ClassSchema.SetShared), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(29, "Base", 208, -1, ExpressionRestriction.NoAccess, false, null, true, null, new SetValueHandler(ClassSchema.SetBase), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(29, "Properties", 58, -1, ExpressionRestriction.NoAccess, false, null, true, new GetValueHandler(ClassSchema.GetProperties), null, false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(29, "Locals", 58, -1, ExpressionRestriction.NoAccess, false, null, true, new GetValueHandler(ClassSchema.GetLocals), null, false);
+            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(29, "Scripts", 138, 240, ExpressionRestriction.NoAccess, false, null, true, new GetValueHandler(ClassSchema.GetScripts), null, false);
+            ClassSchema.Type.Initialize(null, null, new PropertySchema[5]
             {
-        (PropertySchema) uixPropertySchema2,
-        (PropertySchema) uixPropertySchema4,
-        (PropertySchema) uixPropertySchema3,
-        (PropertySchema) uixPropertySchema5,
-        (PropertySchema) uixPropertySchema1
-            }, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixPropertySchema2,
+         uixPropertySchema4,
+         uixPropertySchema3,
+         uixPropertySchema5,
+         uixPropertySchema1
+            }, null, null, null, null, null, null, null, null, null);
         }
     }
 }

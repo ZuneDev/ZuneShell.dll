@@ -20,7 +20,7 @@ namespace Microsoft.Iris.Markup
             if (!MarkupDataProvider.s_mappings.ContainsKey(key))
                 MarkupDataProvider.s_mappings[key] = mapping;
             else
-                ErrorManager.ReportError("Data mapping already defined for type '{0}', provider '{1}'", (object)mapping.TargetType.Name, (object)mapping.Provider);
+                ErrorManager.ReportError("Data mapping already defined for type '{0}', provider '{1}'", mapping.TargetType.Name, mapping.Provider);
         }
 
         public static void RemoveDataMapping(MarkupDataMapping mapping)
@@ -37,10 +37,10 @@ namespace Microsoft.Iris.Markup
             MarkupDataMapping markupDataMapping;
             if (!MarkupDataProvider.s_mappings.TryGetValue(key, out markupDataMapping))
             {
-                markupDataMapping = new MarkupDataMapping((string)null);
+                markupDataMapping = new MarkupDataMapping(null);
                 markupDataMapping.Provider = providerName;
                 markupDataMapping.TargetType = typeSchema;
-                markupDataMapping.Mappings = MarkupDataProvider.FillInDefaultMappings(typeSchema, (Map<string, MarkupDataMappingEntry>)null);
+                markupDataMapping.Mappings = MarkupDataProvider.FillInDefaultMappings(typeSchema, null);
                 MarkupDataProvider.s_mappings[key] = markupDataMapping;
             }
             return markupDataMapping;
@@ -51,10 +51,10 @@ namespace Microsoft.Iris.Markup
         public static IDataProvider GetDataProvider(string providerName)
         {
             IDataProvider dataProvider;
-            return MarkupDataProvider.s_providers.TryGetValue(providerName, out dataProvider) ? dataProvider : (IDataProvider)null;
+            return MarkupDataProvider.s_providers.TryGetValue(providerName, out dataProvider) ? dataProvider : null;
         }
 
-        public static object GetDefaultValueForType(TypeSchema type) => type.IsNullAssignable ? (object)null : type.ConstructDefault();
+        public static object GetDefaultValueForType(TypeSchema type) => type.IsNullAssignable ? null : type.ConstructDefault();
 
         public static MarkupDataMappingEntry[] FillInDefaultMappings(
           MarkupDataTypeSchema targetType,

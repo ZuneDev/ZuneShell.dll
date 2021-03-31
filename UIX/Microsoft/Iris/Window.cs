@@ -114,7 +114,7 @@ namespace Microsoft.Iris
             FormPlacement finalPlacement = this._form.FinalPlacement;
             if (finalPlacement.ShowState == 2U && disallowMinimized)
                 finalPlacement.ShowState = 1U;
-            return InvariantString.Format("{0},{1},{2},{3},{4},{5},{6}", (object)finalPlacement.ShowState, (object)finalPlacement.NormalPosition.X, (object)finalPlacement.NormalPosition.Y, (object)finalPlacement.NormalPosition.Width, (object)finalPlacement.NormalPosition.Height, (object)finalPlacement.MaximizedLocation.X, (object)finalPlacement.MaximizedLocation.Y);
+            return InvariantString.Format("{0},{1},{2},{3},{4},{5},{6}", finalPlacement.ShowState, finalPlacement.NormalPosition.X, finalPlacement.NormalPosition.Y, finalPlacement.NormalPosition.Width, finalPlacement.NormalPosition.Height, finalPlacement.MaximizedLocation.X, finalPlacement.MaximizedLocation.Y);
         }
 
         public void SetSavedInitialPosition(string cookie) => this.SetSavedInitialPositionWorker(cookie, 0U);
@@ -149,9 +149,9 @@ namespace Microsoft.Iris
                 try
                 {
                     FormPlacement formPlacement;
-                    formPlacement.ShowState = uint.Parse(strArray[0], (IFormatProvider)NumberFormatInfo.InvariantInfo);
-                    formPlacement.NormalPosition = new Rectangle(int.Parse(strArray[1], (IFormatProvider)NumberFormatInfo.InvariantInfo), int.Parse(strArray[2], (IFormatProvider)NumberFormatInfo.InvariantInfo), int.Parse(strArray[3], (IFormatProvider)NumberFormatInfo.InvariantInfo), int.Parse(strArray[4], (IFormatProvider)NumberFormatInfo.InvariantInfo));
-                    formPlacement.MaximizedLocation = new Point(int.Parse(strArray[5], (IFormatProvider)NumberFormatInfo.InvariantInfo), int.Parse(strArray[6], (IFormatProvider)NumberFormatInfo.InvariantInfo));
+                    formPlacement.ShowState = uint.Parse(strArray[0], NumberFormatInfo.InvariantInfo);
+                    formPlacement.NormalPosition = new Rectangle(int.Parse(strArray[1], NumberFormatInfo.InvariantInfo), int.Parse(strArray[2], NumberFormatInfo.InvariantInfo), int.Parse(strArray[3], NumberFormatInfo.InvariantInfo), int.Parse(strArray[4], NumberFormatInfo.InvariantInfo));
+                    formPlacement.MaximizedLocation = new Point(int.Parse(strArray[5], NumberFormatInfo.InvariantInfo), int.Parse(strArray[6], NumberFormatInfo.InvariantInfo));
                     if (showStateOverride != 0U)
                         formPlacement.ShowState = showStateOverride;
                     if (formPlacement.NormalPosition.Width != 0)
@@ -319,14 +319,14 @@ namespace Microsoft.Iris
             }
         }
 
-        public void RequestLoad(string source) => this.RequestLoad(source, (PropertyValue[])null);
+        public void RequestLoad(string source) => this.RequestLoad(source, null);
 
         public void RequestLoad(string source, PropertyValue[] properties)
         {
             UIDispatcher.VerifyOnApplicationThread();
             if (source == null)
                 throw new ArgumentNullException(nameof(source));
-            Vector<UIPropertyRecord> properties1 = (Vector<UIPropertyRecord>)null;
+            Vector<UIPropertyRecord> properties1 = null;
             if (properties != null)
             {
                 properties1 = new Vector<UIPropertyRecord>(properties.Length);
@@ -369,7 +369,7 @@ namespace Microsoft.Iris
         public object SaveKeyFocus()
         {
             UIDispatcher.VerifyOnApplicationThread();
-            return (object)this._form.SaveKeyFocus();
+            return this._form.SaveKeyFocus();
         }
 
         public void RestoreKeyFocus(object handle)
@@ -398,7 +398,7 @@ namespace Microsoft.Iris
             if (this.CloseRequested == null)
                 return;
             WindowCloseRequestedEventArgs args = new WindowCloseRequestedEventArgs();
-            this.CloseRequested((object)this, args);
+            this.CloseRequested(this, args);
             block = args.Block;
         }
 
@@ -419,7 +419,7 @@ namespace Microsoft.Iris
         {
             if (this.PropertyChanged == null)
                 return;
-            this.PropertyChanged((object)this, new PropertyChangedEventArgs(propertyName));
+            this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

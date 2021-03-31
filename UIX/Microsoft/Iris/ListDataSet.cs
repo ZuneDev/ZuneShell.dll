@@ -17,12 +17,12 @@ namespace Microsoft.Iris
         private IList _sourceList;
 
         protected ListDataSet()
-          : this((IList)null)
+          : this(null)
         {
         }
 
         public ListDataSet(IList source)
-          : this((IModelItemOwner)null, source)
+          : this(null, source)
         {
         }
 
@@ -43,7 +43,7 @@ namespace Microsoft.Iris
                 {
                     if (this._sourceList == value)
                         return;
-                    this._sourceList = !(this._sourceList is IVirtualList) ? value : throw new ArgumentException(InvariantString.Format("ListDataSet does not support IVirtualList.  Cannot associate with source list: {0}", (object)value));
+                    this._sourceList = !(this._sourceList is IVirtualList) ? value : throw new ArgumentException(InvariantString.Format("ListDataSet does not support IVirtualList.  Cannot associate with source list: {0}", value));
                     this.FirePropertyChanged(nameof(Source));
                     this.FirePropertyChanged("Count");
                     this.FireSetChanged(UIListContentsChangeType.Reset, -1, -1);
@@ -74,7 +74,7 @@ namespace Microsoft.Iris
             get
             {
                 using (this.ThreadValidator)
-                    return this._sourceList == null ? (object)null : this._sourceList.SyncRoot;
+                    return this._sourceList == null ? null : this._sourceList.SyncRoot;
             }
         }
 
@@ -101,7 +101,7 @@ namespace Microsoft.Iris
             get
             {
                 using (this.ThreadValidator)
-                    return this._sourceList == null ? (object)null : this._sourceList[itemIndex];
+                    return this._sourceList == null ? null : this._sourceList[itemIndex];
             }
             set
             {
@@ -110,7 +110,7 @@ namespace Microsoft.Iris
                     if (this._sourceList == null)
                         throw new InvalidOperationException("Cannot use the this indexer without first specifying a Source for this ListDataSet.");
                     if (itemIndex < 0 || itemIndex >= this.Count)
-                        throw new ArgumentOutOfRangeException(nameof(itemIndex), (object)itemIndex, "Given index is out of the range of this list.");
+                        throw new ArgumentOutOfRangeException(nameof(itemIndex), itemIndex, "Given index is out of the range of this list.");
                     if (this._sourceList[itemIndex] == value)
                         return;
                     this._sourceList[itemIndex] = value;
@@ -186,7 +186,7 @@ namespace Microsoft.Iris
             using (this.ThreadValidator)
             {
                 if (this._sourceList == null)
-                    throw new ArgumentException(InvariantString.Format("Empty list cannot remove item at index {0}", (object)index));
+                    throw new ArgumentException(InvariantString.Format("Empty list cannot remove item at index {0}", index));
                 object obj = this[index];
                 this._sourceList.RemoveAt(index);
                 this.FireSetChanged(UIListContentsChangeType.Remove, index, -1);
@@ -199,7 +199,7 @@ namespace Microsoft.Iris
             using (this.ThreadValidator)
             {
                 if (this._sourceList == null)
-                    throw new ArgumentException(InvariantString.Format("Empty list cannot move item from {0} to {1}", (object)oldIndex, (object)newIndex));
+                    throw new ArgumentException(InvariantString.Format("Empty list cannot move item from {0} to {1}", oldIndex, newIndex));
                 object obj = this[oldIndex];
                 if (this._sourceList is INotifyList sourceList)
                 {
@@ -222,22 +222,22 @@ namespace Microsoft.Iris
                     throw new ArgumentNullException(nameof(indices));
                 if (newIndex < 0 || newIndex > this.Count)
                     throw new ArgumentOutOfRangeException(nameof(newIndex), "newIndex must be greater than 0 and less than or equal to the size of the collection");
-                int[] numArray = (int[])null;
+                int[] numArray = null;
                 if (indices.IsReadOnly)
                     numArray = new int[indices.Count];
                 int index1 = 0;
-                foreach (object index2 in (IEnumerable)indices)
+                foreach (object index2 in indices)
                 {
                     if (!(index2 is int num))
-                        throw new ArgumentException("indices[" + (object)index1 + "] does not contain an int", nameof(indices));
+                        throw new ArgumentException("indices[" + index1 + "] does not contain an int", nameof(indices));
                     if (num < 0 || num >= this.Count)
-                        throw new ArgumentOutOfRangeException(nameof(indices), "indices[" + (object)index1 + "] must be greater than 0 and less than the size of the collection");
+                        throw new ArgumentOutOfRangeException(nameof(indices), "indices[" + index1 + "] must be greater than 0 and less than the size of the collection");
                     if (numArray != null)
                         numArray[index1] = num;
                     ++index1;
                 }
                 if (numArray != null)
-                    indices = (IList)numArray;
+                    indices = numArray;
                 int num1 = newIndex;
                 for (int index2 = 0; index2 < indices.Count; ++index2)
                 {
@@ -254,11 +254,11 @@ namespace Microsoft.Iris
                         {
                             int index5 = (int)indices[index4];
                             if (index3 < index5 && index5 <= newIndex)
-                                indices[index4] = (object)(index5 - 1);
+                                indices[index4] = index5 - 1;
                             else if (newIndex <= index5 && index5 < index3)
-                                indices[index4] = (object)(index5 + 1);
+                                indices[index4] = index5 + 1;
                             else if (index5 == index3)
-                                indices[index4] = (object)newIndex;
+                                indices[index4] = newIndex;
                         }
                     }
                     ++newIndex;
@@ -301,7 +301,7 @@ namespace Microsoft.Iris
         public void Sort()
         {
             using (this.ThreadValidator)
-                this.SortWorker((IComparer)null);
+                this.SortWorker(null);
         }
 
         private void SortWorker(IComparer cmp)
@@ -328,12 +328,12 @@ namespace Microsoft.Iris
             add
             {
                 using (this.ThreadValidator)
-                    this.AddEventHandler(ListDataSet.s_listContentsChangedEvent, (Delegate)value);
+                    this.AddEventHandler(ListDataSet.s_listContentsChangedEvent, value);
             }
             remove
             {
                 using (this.ThreadValidator)
-                    this.RemoveEventHandler(ListDataSet.s_listContentsChangedEvent, (Delegate)value);
+                    this.RemoveEventHandler(ListDataSet.s_listContentsChangedEvent, value);
             }
         }
 
@@ -342,12 +342,12 @@ namespace Microsoft.Iris
             add
             {
                 using (this.ThreadValidator)
-                    this.AddEventHandler(ListDataSet.s_listContentsChangedEvent, (Delegate)ListContentsChangedProxy.Thunk(value));
+                    this.AddEventHandler(ListDataSet.s_listContentsChangedEvent, ListContentsChangedProxy.Thunk(value));
             }
             remove
             {
                 using (this.ThreadValidator)
-                    this.RemoveEventHandler(ListDataSet.s_listContentsChangedEvent, (Delegate)ListContentsChangedProxy.Thunk(value));
+                    this.RemoveEventHandler(ListDataSet.s_listContentsChangedEvent, ListContentsChangedProxy.Thunk(value));
             }
         }
 
@@ -357,7 +357,7 @@ namespace Microsoft.Iris
             if (eventHandler != null)
             {
                 UIListContentsChangedArgs args = new UIListContentsChangedArgs(type, oldIndex, newIndex);
-                eventHandler((IList)this, args);
+                eventHandler(this, args);
             }
             this.FirePropertyChanged("ContentsChanged");
         }

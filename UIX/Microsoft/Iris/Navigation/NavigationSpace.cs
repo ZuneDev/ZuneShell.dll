@@ -26,17 +26,17 @@ namespace Microsoft.Iris.Navigation
           bool enteringFlag)
         {
             ArrayList arrayList = new ArrayList(allChildrenList.Count);
-            foreach (NavigationItem allChildren in (IEnumerable)allChildrenList)
+            foreach (NavigationItem allChildren in allChildrenList)
             {
                 NavigationSpace.CandidateInfo candidateInfo = this.AnalyzeCandidate(allChildren, startRectangleF);
                 if (candidateInfo != null)
-                    arrayList.Add((object)candidateInfo);
+                    arrayList.Add(candidateInfo);
             }
-            arrayList.Sort((IComparer)this);
+            arrayList.Sort(this);
             NavigationItem[] navigationItemArray = new NavigationItem[arrayList.Count];
             for (int index = 0; index < arrayList.Count; ++index)
                 navigationItemArray[index] = ((NavigationSpace.CandidateInfo)arrayList[index]).item;
-            return (IList)navigationItemArray;
+            return navigationItemArray;
         }
 
         private NavigationSpace.CandidateInfo AnalyzeCandidate(
@@ -55,11 +55,11 @@ namespace Microsoft.Iris.Navigation
                     goto case Direction.Previous;
                 case Direction.South:
                     yDeltaValue = location.Top - originRectangleF.Bottom;
-                    toleranceValue = (float)((double)originRectangleF.Height / 2.0 * -1.0);
+                    toleranceValue = (float)(originRectangleF.Height / 2.0 * -1.0);
                     goto case Direction.Previous;
                 case Direction.East:
                     xDeltaValue = location.Left - originRectangleF.Right;
-                    toleranceValue = (float)((double)originRectangleF.Width / 2.0 * -1.0);
+                    toleranceValue = (float)(originRectangleF.Width / 2.0 * -1.0);
                     goto case Direction.Previous;
                 case Direction.West:
                     xDeltaValue = location.Right - originRectangleF.Left;
@@ -72,12 +72,12 @@ namespace Microsoft.Iris.Navigation
                     {
                         case Direction.North:
                         case Direction.South:
-                            if ((double)location.Right <= (double)originRectangleF.Left)
+                            if (location.Right <= (double)originRectangleF.Left)
                             {
                                 xDeltaValue = location.Right - originRectangleF.Left;
                                 break;
                             }
-                            if ((double)location.Left >= (double)originRectangleF.Right)
+                            if (location.Left >= (double)originRectangleF.Right)
                             {
                                 xDeltaValue = location.Left - originRectangleF.Right;
                                 break;
@@ -86,12 +86,12 @@ namespace Microsoft.Iris.Navigation
                             break;
                         case Direction.East:
                         case Direction.West:
-                            if ((double)location.Bottom <= (double)originRectangleF.Top)
+                            if (location.Bottom <= (double)originRectangleF.Top)
                             {
                                 yDeltaValue = location.Bottom - originRectangleF.Top;
                                 break;
                             }
-                            if ((double)location.Top >= (double)originRectangleF.Bottom)
+                            if (location.Top >= (double)originRectangleF.Bottom)
                             {
                                 yDeltaValue = location.Top - originRectangleF.Bottom;
                                 break;
@@ -101,7 +101,7 @@ namespace Microsoft.Iris.Navigation
                     }
                     NavigationSpace.Rank rank = this.ComputeRank(xDeltaValue, yDeltaValue, overlapValue, toleranceValue);
                     if (rank > NavigationSpace.Rank.Fair)
-                        return (NavigationSpace.CandidateInfo)null;
+                        return null;
                     switch (this.SearchDirection)
                     {
                         case Direction.North:
@@ -113,7 +113,7 @@ namespace Microsoft.Iris.Navigation
                             xDeltaValue -= toleranceValue;
                             break;
                     }
-                    float weightedFacingDistance = (float)((double)xDeltaValue * (double)xDeltaValue + (double)yDeltaValue * (double)yDeltaValue) - overlapValue;
+                    float weightedFacingDistance = (float)(xDeltaValue * (double)xDeltaValue + yDeltaValue * (double)yDeltaValue) - overlapValue;
                     float centerDistance = 0.0f;
                     float positionOrder = 0.0f;
                     switch (this.SearchDirection)
@@ -129,12 +129,12 @@ namespace Microsoft.Iris.Navigation
                             break;
                         case Direction.Previous:
                         case Direction.Next:
-                            positionOrder = (float)((double)location.Left + (double)location.Width / 2.0 + ((double)location.Top + (double)location.Height / 2.0));
+                            positionOrder = (float)(location.Left + location.Width / 2.0 + (location.Top + location.Height / 2.0));
                             break;
                     }
                     return new NavigationSpace.CandidateInfo(candidateItem, rank, weightedFacingDistance, centerDistance, positionOrder);
                 default:
-                    return (NavigationSpace.CandidateInfo)null;
+                    return null;
             }
         }
 
@@ -147,40 +147,40 @@ namespace Microsoft.Iris.Navigation
             switch (this.SearchDirection)
             {
                 case Direction.North:
-                    if ((double)yDeltaValue > (double)toleranceValue)
+                    if (yDeltaValue > (double)toleranceValue)
                         return NavigationSpace.Rank.Poor;
                     break;
                 case Direction.South:
-                    if ((double)yDeltaValue < (double)toleranceValue)
+                    if (yDeltaValue < (double)toleranceValue)
                         return NavigationSpace.Rank.Poor;
                     break;
                 case Direction.East:
-                    if ((double)xDeltaValue < (double)toleranceValue)
+                    if (xDeltaValue < (double)toleranceValue)
                         return NavigationSpace.Rank.Poor;
                     break;
                 case Direction.West:
-                    if ((double)xDeltaValue > (double)toleranceValue)
+                    if (xDeltaValue > (double)toleranceValue)
                         return NavigationSpace.Rank.Poor;
                     break;
             }
-            if ((double)overlapValue > 0.0)
+            if (overlapValue > 0.0)
                 return NavigationSpace.Rank.Ideal;
             switch (this.SearchDirection)
             {
                 case Direction.North:
-                    if ((double)yDeltaValue > 0.0)
+                    if (yDeltaValue > 0.0)
                         return NavigationSpace.Rank.Fair;
                     break;
                 case Direction.South:
-                    if ((double)yDeltaValue < 0.0)
+                    if (yDeltaValue < 0.0)
                         return NavigationSpace.Rank.Fair;
                     break;
                 case Direction.East:
-                    if ((double)xDeltaValue < 0.0)
+                    if (xDeltaValue < 0.0)
                         return NavigationSpace.Rank.Fair;
                     break;
                 case Direction.West:
-                    if ((double)xDeltaValue > 0.0)
+                    if (xDeltaValue > 0.0)
                         return NavigationSpace.Rank.Fair;
                     break;
             }
@@ -190,12 +190,12 @@ namespace Microsoft.Iris.Navigation
             {
                 case Direction.North:
                 case Direction.South:
-                    if ((double)xDeltaValue >= (double)yDeltaValue)
+                    if (xDeltaValue >= (double)yDeltaValue)
                         return NavigationSpace.Rank.Fair;
                     break;
                 case Direction.East:
                 case Direction.West:
-                    if ((double)yDeltaValue >= (double)xDeltaValue)
+                    if (yDeltaValue >= (double)xDeltaValue)
                         return NavigationSpace.Rank.Fair;
                     break;
             }
@@ -210,19 +210,19 @@ namespace Microsoft.Iris.Navigation
             if (num1 != 0)
                 return num1;
             float num2 = candidateInfo1.weightedFacingDistance - candidateInfo2.weightedFacingDistance;
-            if ((double)num2 < 0.0)
+            if (num2 < 0.0)
                 return -1;
-            if ((double)num2 > 0.0)
+            if (num2 > 0.0)
                 return 1;
             float num3 = candidateInfo1.centerDistance - candidateInfo2.centerDistance;
-            if ((double)num3 < 0.0)
+            if (num3 < 0.0)
                 return -1;
-            if ((double)num3 > 0.0)
+            if (num3 > 0.0)
                 return 1;
             float num4 = candidateInfo1.positionOrder - candidateInfo2.positionOrder;
-            if ((double)num4 < 0.0)
+            if (num4 < 0.0)
                 return -1;
-            return (double)num4 > 0.0 ? 1 : 0;
+            return num4 > 0.0 ? 1 : 0;
         }
 
         private class CandidateInfo

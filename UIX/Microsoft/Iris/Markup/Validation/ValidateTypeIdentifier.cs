@@ -24,7 +24,7 @@ namespace Microsoft.Iris.Markup.Validation
             this._prefix = prefix;
             this._typeName = typeName;
             if (this._prefix == string.Empty)
-                this._prefix = (string)null;
+                this._prefix = null;
             owner.NotifyTypeIdentifierFound(this._prefix, this._typeName);
         }
 
@@ -48,7 +48,7 @@ namespace Microsoft.Iris.Markup.Validation
                 return;
             string fromString = ((ValidateFromString)property.Value).FromString;
             ValidateTypeIdentifier typeIdentifier = new ValidateTypeIdentifier(property.Owner, fromString, property.Line, property.Column);
-            property.Value = (ValidateObject)new ValidateExpressionTypeOf(property.Owner, typeIdentifier, property.Line, property.Column);
+            property.Value = new ValidateExpressionTypeOf(property.Owner, typeIdentifier, property.Line, property.Column);
         }
 
         public string Prefix => this._prefix;

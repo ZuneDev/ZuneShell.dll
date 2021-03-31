@@ -9,7 +9,7 @@ namespace Microsoft.Iris.Markup
     internal abstract class MarkupDataType : MarkupDataTypeBaseObject
     {
         public MarkupDataType(MarkupDataTypeSchema type)
-          : base((MarkupTypeSchema)type)
+          : base(type)
         {
         }
     }

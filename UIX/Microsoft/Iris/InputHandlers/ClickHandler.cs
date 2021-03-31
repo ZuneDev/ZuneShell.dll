@@ -167,7 +167,7 @@ namespace Microsoft.Iris.InputHandlers
             }
             else if (this._clickTypeInProgress != clickType)
                 this.CancelClick(ClickType.Any);
-            this.SetEventContext((ICookedInputSite)null, ref this._eventContext, NotificationID.EventContext);
+            this.SetEventContext(null, ref this._eventContext, NotificationID.EventContext);
         }
 
         private void EndClick(ICookedInputSite clickTarget, ClickType clickType)
@@ -280,7 +280,7 @@ namespace Microsoft.Iris.InputHandlers
                 this._repeatTimer.AutoRepeat = true;
             }
             this._repeatTimer.Interval = this.RepeatDelay;
-            this._repeatTimer.UserData = (object)clickInfo;
+            this._repeatTimer.UserData = clickInfo;
             this._repeatTimer.Enabled = true;
         }
 
@@ -296,14 +296,14 @@ namespace Microsoft.Iris.InputHandlers
             if (flag)
             {
                 this._repeatTimer.Enabled = false;
-                this._repeatTimer = (DispatcherTimer)null;
+                this._repeatTimer = null;
                 this.StartRepeat(userData);
                 this._repeatTimer.Interval = this.RepeatRate;
             }
             else
             {
                 this._repeatTimer.Enabled = false;
-                this._repeatTimer = (DispatcherTimer)null;
+                this._repeatTimer = null;
             }
         }
 
@@ -354,7 +354,7 @@ namespace Microsoft.Iris.InputHandlers
         {
             if (!this.ShouldHandleEvent(ClickType.Mouse))
                 return;
-            this.UpdateClickValidPosition(this.UI.HasDescendant((Microsoft.Iris.Library.TreeNode)(info.NaturalTarget as UIClass)));
+            this.UpdateClickValidPosition(this.UI.HasDescendant(info.NaturalTarget as UIClass));
         }
 
         protected override void OnLoseMouseFocus(UIClass ui, MouseFocusInfo info)

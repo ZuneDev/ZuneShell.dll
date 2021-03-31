@@ -11,7 +11,7 @@ namespace Microsoft.Iris.Markup
     internal class MarkupDataQueryRefreshMethodSchema : MethodSchema
     {
         public MarkupDataQueryRefreshMethodSchema(MarkupDataQuerySchema owner)
-          : base((TypeSchema)owner)
+          : base(owner)
         {
         }
 
@@ -19,14 +19,14 @@ namespace Microsoft.Iris.Markup
 
         public override TypeSchema[] ParameterTypes => TypeSchema.EmptyList;
 
-        public override TypeSchema ReturnType => (TypeSchema)VoidSchema.Type;
+        public override TypeSchema ReturnType => VoidSchema.Type;
 
         public override bool IsStatic => false;
 
         public override object Invoke(object instance, object[] parameters)
         {
             ((MarkupDataQuery)instance).Refresh();
-            return (object)null;
+            return null;
         }
     }
 }

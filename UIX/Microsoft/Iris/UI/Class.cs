@@ -39,20 +39,20 @@ namespace Microsoft.Iris.UI
 
         protected override void OnDispose()
         {
-            this._typeSchema.RunFinalEvaluates((IMarkupTypeBase)this);
+            this._typeSchema.RunFinalEvaluates(this);
             base.OnDispose();
             this._scriptEnabled = false;
             if (this._listeners != null)
             {
-                this._listeners.Dispose((object)this);
-                this._listeners = (MarkupListeners)null;
+                this._listeners.Dispose(this);
+                this._listeners = null;
             }
             this._notifier.ClearListeners();
             this._storage.Clear();
             if (this._disposables == null)
                 return;
             for (int index = 0; index < this._disposables.Count; ++index)
-                this._disposables[index].Dispose((object)this);
+                this._disposables[index].Dispose(this);
         }
 
         public void RegisterDisposable(IDisposableObject disposable)
@@ -77,7 +77,7 @@ namespace Microsoft.Iris.UI
             return false;
         }
 
-        public TypeSchema TypeSchema => (TypeSchema)this._typeSchema;
+        public TypeSchema TypeSchema => _typeSchema;
 
         public virtual void NotifyInitialized()
         {
@@ -87,17 +87,17 @@ namespace Microsoft.Iris.UI
 
         public virtual object ReadSymbol(SymbolReference symbolRef)
         {
-            object obj = (object)null;
+            object obj = null;
             switch (symbolRef.Origin)
             {
                 case SymbolOrigin.Properties:
                 case SymbolOrigin.Locals:
-                    obj = this._storage[(object)symbolRef.Symbol];
+                    obj = this._storage[symbolRef.Symbol];
                     break;
                 case SymbolOrigin.Reserved:
                     if (symbolRef.Symbol == nameof(Class) || symbolRef.Symbol == "this")
                     {
-                        obj = (object)this;
+                        obj = this;
                         break;
                     }
                     break;
@@ -107,13 +107,13 @@ namespace Microsoft.Iris.UI
 
         public virtual void WriteSymbol(SymbolReference symbolRef, object value) => this.SetProperty(symbolRef.Symbol, value);
 
-        public virtual object GetProperty(string name) => this._storage[(object)name];
+        public virtual object GetProperty(string name) => this._storage[name];
 
         public virtual void SetProperty(string name, object value)
         {
-            if (this._storage.ContainsKey((object)name) && Utility.IsEqual(this._storage[(object)name], value))
+            if (this._storage.ContainsKey(name) && Utility.IsEqual(this._storage[name], value))
                 return;
-            this._storage[(object)name] = value;
+            this._storage[name] = value;
             this._notifier.Fire(name);
         }
 
@@ -128,22 +128,22 @@ namespace Microsoft.Iris.UI
         public void ScheduleScriptRun(uint scriptId, bool ignoreErrors)
         {
             if (!this._scriptRunScheduler.Pending)
-                DeferredCall.Post(DispatchPriority.Script, Class.s_executePendingScriptsHandler, (object)this);
+                DeferredCall.Post(DispatchPriority.Script, Class.s_executePendingScriptsHandler, this);
             this._scriptRunScheduler.ScheduleRun(scriptId, ignoreErrors);
         }
 
         private static void ExecutePendingScripts(object args)
         {
             Class @class = (Class)args;
-            @class._scriptRunScheduler.Execute((IMarkupTypeBase)@class);
+            @class._scriptRunScheduler.Execute(@class);
         }
 
-        public object RunScript(uint scriptId, bool ignoreErrors, ParameterContext parameterContext) => this._typeSchema.Run((IMarkupTypeBase)this, scriptId, ignoreErrors, parameterContext);
+        public object RunScript(uint scriptId, bool ignoreErrors, ParameterContext parameterContext) => this._typeSchema.Run(this, scriptId, ignoreErrors, parameterContext);
 
         public void NotifyScriptErrors()
         {
             this._scriptEnabled = false;
-            ErrorManager.ReportWarning("Script runtime failure: Scripting has been disabled for '{0}' due to runtime scripting errors", (object)this._typeSchema.Name);
+            ErrorManager.ReportWarning("Script runtime failure: Scripting has been disabled for '{0}' due to runtime scripting errors", _typeSchema.Name);
         }
 
         public bool ScriptEnabled => this._scriptEnabled;

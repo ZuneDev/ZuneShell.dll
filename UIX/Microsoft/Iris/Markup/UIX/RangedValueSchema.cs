@@ -13,59 +13,59 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object GetMinValue(object instanceObj) => (object)((IUIRangedValue)instanceObj).MinValue;
+        private static object GetMinValue(object instanceObj) => ((IUIRangedValue)instanceObj).MinValue;
 
         private static void SetMinValue(ref object instanceObj, object valueObj)
         {
             IUIRangedValue uiRangedValue = (IUIRangedValue)instanceObj;
             float num = (float)valueObj;
-            if ((double)num > (double)uiRangedValue.MaxValue)
-                ErrorManager.ReportError("Script runtime failure: Invalid '{0}' value is out of range for '{1}'", (object)num, (object)"MinValue");
+            if (num > (double)uiRangedValue.MaxValue)
+                ErrorManager.ReportError("Script runtime failure: Invalid '{0}' value is out of range for '{1}'", num, "MinValue");
             else
                 uiRangedValue.MinValue = num;
         }
 
-        private static object GetMaxValue(object instanceObj) => (object)((IUIRangedValue)instanceObj).MaxValue;
+        private static object GetMaxValue(object instanceObj) => ((IUIRangedValue)instanceObj).MaxValue;
 
         private static void SetMaxValue(ref object instanceObj, object valueObj)
         {
             IUIRangedValue uiRangedValue = (IUIRangedValue)instanceObj;
             float num = (float)valueObj;
-            if ((double)num < (double)uiRangedValue.MinValue)
-                ErrorManager.ReportError("Script runtime failure: Invalid '{0}' value is out of range for '{1}'", (object)num, (object)"MaxValue");
+            if (num < (double)uiRangedValue.MinValue)
+                ErrorManager.ReportError("Script runtime failure: Invalid '{0}' value is out of range for '{1}'", num, "MaxValue");
             else
                 uiRangedValue.MaxValue = num;
         }
 
-        private static object GetStep(object instanceObj) => (object)((IUIRangedValue)instanceObj).Step;
+        private static object GetStep(object instanceObj) => ((IUIRangedValue)instanceObj).Step;
 
         private static void SetStep(ref object instanceObj, object valueObj) => ((IUIRangedValue)instanceObj).Step = (float)valueObj;
 
-        private static object GetRange(object instanceObj) => (object)((IUIRangedValue)instanceObj).Range;
+        private static object GetRange(object instanceObj) => ((IUIRangedValue)instanceObj).Range;
 
-        private static object GetValue(object instanceObj) => (object)((IUIRangedValue)instanceObj).Value;
+        private static object GetValue(object instanceObj) => ((IUIRangedValue)instanceObj).Value;
 
         private static void SetValue(ref object instanceObj, object valueObj) => ((IUIRangedValue)instanceObj).Value = (float)valueObj;
 
-        private static object Construct() => (object)new Microsoft.Iris.ModelItems.RangedValue();
+        private static object Construct() => new Microsoft.Iris.ModelItems.RangedValue();
 
-        public static void Pass1Initialize() => RangedValueSchema.Type = new UIXTypeSchema((short)168, "RangedValue", (string)null, (short)231, typeof(IUIRangedValue), UIXTypeFlags.None);
+        public static void Pass1Initialize() => RangedValueSchema.Type = new UIXTypeSchema(168, "RangedValue", null, 231, typeof(IUIRangedValue), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema((short)168, "MinValue", (short)194, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(RangedValueSchema.GetMinValue), new SetValueHandler(RangedValueSchema.SetMinValue), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema((short)168, "MaxValue", (short)194, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(RangedValueSchema.GetMaxValue), new SetValueHandler(RangedValueSchema.SetMaxValue), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema((short)168, "Step", (short)194, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(RangedValueSchema.GetStep), new SetValueHandler(RangedValueSchema.SetStep), false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema((short)168, "Range", (short)194, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(RangedValueSchema.GetRange), (SetValueHandler)null, false);
-            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema((short)168, "Value", (short)194, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(RangedValueSchema.GetValue), new SetValueHandler(RangedValueSchema.SetValue), false);
-            RangedValueSchema.Type.Initialize(new DefaultConstructHandler(RangedValueSchema.Construct), (ConstructorSchema[])null, new PropertySchema[5]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(168, "MinValue", 194, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(RangedValueSchema.GetMinValue), new SetValueHandler(RangedValueSchema.SetMinValue), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(168, "MaxValue", 194, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(RangedValueSchema.GetMaxValue), new SetValueHandler(RangedValueSchema.SetMaxValue), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(168, "Step", 194, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(RangedValueSchema.GetStep), new SetValueHandler(RangedValueSchema.SetStep), false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(168, "Range", 194, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(RangedValueSchema.GetRange), null, false);
+            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(168, "Value", 194, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(RangedValueSchema.GetValue), new SetValueHandler(RangedValueSchema.SetValue), false);
+            RangedValueSchema.Type.Initialize(new DefaultConstructHandler(RangedValueSchema.Construct), null, new PropertySchema[5]
             {
-        (PropertySchema) uixPropertySchema2,
-        (PropertySchema) uixPropertySchema1,
-        (PropertySchema) uixPropertySchema4,
-        (PropertySchema) uixPropertySchema3,
-        (PropertySchema) uixPropertySchema5
-            }, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixPropertySchema2,
+         uixPropertySchema1,
+         uixPropertySchema4,
+         uixPropertySchema3,
+         uixPropertySchema5
+            }, null, null, null, null, null, null, null, null, null);
         }
     }
 }

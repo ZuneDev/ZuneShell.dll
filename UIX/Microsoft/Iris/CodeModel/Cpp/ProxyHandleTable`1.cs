@@ -101,12 +101,12 @@ namespace Microsoft.Iris.CodeModel.Cpp
             uniquifier |= this._lifetimeCount & 1073741823U;
             handle = (ulong)uniquifier << 32;
             uint num = (uint)insertIndex;
-            handle |= (ulong)num;
+            handle |= num;
         }
 
         private void DecodeHandle(ulong handle, out int index, out uint uniquenessBits)
         {
-            index = (int)((long)handle & (long)uint.MaxValue);
+            index = (int)((long)handle & uint.MaxValue);
             ulong num = 18446744069414584320;
             uniquenessBits = (uint)((handle & num) >> 32);
         }
@@ -120,7 +120,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
             else
             {
                 ProxyHandleTable<T>.ListEntry[] listEntryArray = new ProxyHandleTable<T>.ListEntry[this._entries.Length * 2];
-                Array.Copy((Array)this._entries, (Array)listEntryArray, this._entries.Length);
+                Array.Copy(_entries, listEntryArray, this._entries.Length);
                 this._entries = listEntryArray;
             }
         }

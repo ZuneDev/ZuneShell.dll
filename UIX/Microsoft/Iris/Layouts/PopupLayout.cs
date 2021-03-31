@@ -45,7 +45,7 @@ namespace Microsoft.Iris.Layouts
             ViewItem viewItem = (ViewItem)layoutNode;
             if (layoutNode.LayoutChildrenCount > 0)
             {
-                RectangleF layoutBounds = new RectangleF(PointF.Zero, new SizeF((float)slot.Bounds.Width, (float)slot.Bounds.Height));
+                RectangleF layoutBounds = new RectangleF(PointF.Zero, new SizeF(slot.Bounds.Width, slot.Bounds.Height));
                 foreach (ILayoutNode layoutChild in layoutNode.LayoutChildren)
                 {
                     if (!(layoutChild.GetLayoutInput(PopupLayout.s_dataProperty) is PopupLayoutInput layoutInput))
@@ -80,14 +80,14 @@ namespace Microsoft.Iris.Layouts
           RectangleF placementRect)
         {
             PlacementMode placement = layoutInput.Placement;
-            if (placement == null || ListUtility.IsNullOrEmpty((IList)placement.PopupPositions))
+            if (placement == null || ListUtility.IsNullOrEmpty(placement.PopupPositions))
                 return Point.Zero;
             PointF[] interestPoints = PopupLayout.InterestPointsFromRect(placementRect);
             PointF[] childInterestPoints = this.GetChildInterestPoints(childNode);
             this.GetBounds(interestPoints);
             RectangleF bounds = this.GetBounds(childInterestPoints);
-            double width = (double)bounds.Width;
-            double height = (double)bounds.Height;
+            double width = bounds.Width;
+            double height = bounds.Height;
             bool flag1 = layoutInput.RespectMenuDropAlignment && Win32Api.GetMenuDropAlignment();
             PointF bestPosition = PointF.Zero;
             float num1 = -1f;
@@ -109,7 +109,7 @@ namespace Microsoft.Iris.Layouts
                     num2 += 0.1f;
                 if (!flag3)
                     num2 += 0.1f;
-                if ((double)num2 - (double)num1 > 0.00999999977648258)
+                if (num2 - (double)num1 > 0.00999999977648258)
                 {
                     bestPosition = pos;
                     num1 = num2;
@@ -148,14 +148,14 @@ namespace Microsoft.Iris.Layouts
             }
             else
             {
-                rectangleF = placementTarget.BoundsRelativeToAncestor((ViewItem)null);
+                rectangleF = placementTarget.BoundsRelativeToAncestor(null);
                 flag = true;
                 PopupLayout.PlacementTargetInfo placementTargetInfo = new PopupLayout.PlacementTargetInfo(child, placementTarget, rectangleF);
-                DeferredCall.Post(DispatchPriority.LayoutSync, PopupLayout.s_checkForLayoutChanges, (object)placementTargetInfo);
+                DeferredCall.Post(DispatchPriority.LayoutSync, PopupLayout.s_checkForLayoutChanges, placementTargetInfo);
             }
-            rectangleF.Offset((float)layoutInput.Offset.X, (float)layoutInput.Offset.Y);
+            rectangleF.Offset(layoutInput.Offset.X, layoutInput.Offset.Y);
             if (flag)
-                rectangleF = layoutElement.TransformFromAncestor((ViewItem)null, rectangleF);
+                rectangleF = layoutElement.TransformFromAncestor(null, rectangleF);
             return rectangleF;
         }
 
@@ -164,7 +164,7 @@ namespace Microsoft.Iris.Layouts
             PopupLayout.PlacementTargetInfo placementTargetInfo = (PopupLayout.PlacementTargetInfo)args;
             if (placementTargetInfo.placementTarget.IsDisposed || placementTargetInfo.child.IsDisposed)
                 return;
-            RectangleF ancestor = placementTargetInfo.placementTarget.BoundsRelativeToAncestor((ViewItem)null);
+            RectangleF ancestor = placementTargetInfo.placementTarget.BoundsRelativeToAncestor(null);
             if (!(placementTargetInfo.bounds != ancestor))
                 return;
             placementTargetInfo.child.MarkLayoutInvalid();
@@ -173,7 +173,7 @@ namespace Microsoft.Iris.Layouts
         private PointF[] GetChildInterestPoints(ILayoutNode childNode)
         {
             Size desiredSize = childNode.DesiredSize;
-            return PopupLayout.InterestPointsFromRect(new RectangleF(0.0f, 0.0f, (float)desiredSize.Width, (float)desiredSize.Height));
+            return PopupLayout.InterestPointsFromRect(new RectangleF(0.0f, 0.0f, desiredSize.Width, desiredSize.Height));
         }
 
         private static PointF[] InterestPointsFromRect(RectangleF rect) => new PointF[5]
@@ -195,13 +195,13 @@ namespace Microsoft.Iris.Layouts
             {
                 float x2 = interestPoints[index].X;
                 float y2 = interestPoints[index].Y;
-                if ((double)x2 < (double)x1)
+                if (x2 < (double)x1)
                     x1 = x2;
-                if ((double)x2 > (double)num1)
+                if (x2 > (double)num1)
                     num1 = x2;
-                if ((double)y2 < (double)y1)
+                if (y2 < (double)y1)
                     y1 = y2;
-                if ((double)y2 > (double)num2)
+                if (y2 > (double)num2)
                     num2 = y2;
             }
             return new RectangleF(x1, y1, num1 - x1, num2 - y1);
@@ -222,11 +222,11 @@ namespace Microsoft.Iris.Layouts
         {
             Point physicalMousePos = UISession.Default.InputManager.MostRecentPhysicalMousePos;
             if (!placement.UsesTargetSize)
-                return new RectangleF((float)physicalMousePos.X, (float)physicalMousePos.Y, 0.0f, 0.0f);
+                return new RectangleF(physicalMousePos.X, physicalMousePos.Y, 0.0f, 0.0f);
             int height;
             int hotY;
             NativeApi.SpGetMouseCursorInfo(out height, out hotY);
-            return new RectangleF((float)physicalMousePos.X, (float)(physicalMousePos.Y - hotY - 1), 0.0f, (float)(height + 2));
+            return new RectangleF(physicalMousePos.X, physicalMousePos.Y - hotY - 1, 0.0f, height + 2);
         }
 
         private void HookMousePositionChanged(ViewItem subject, bool hook)
@@ -247,7 +247,7 @@ namespace Microsoft.Iris.Layouts
                 this._followMouseSubjects.Remove(subject);
                 if (this._followMouseSubjects.Count != 0)
                     return;
-                this._followMouseSubjects = (Vector<ViewItem>)null;
+                this._followMouseSubjects = null;
                 UISession.Default.InputManager.MousePositionChanged -= new EventHandler(this.OnMousePositionChanged);
             }
         }

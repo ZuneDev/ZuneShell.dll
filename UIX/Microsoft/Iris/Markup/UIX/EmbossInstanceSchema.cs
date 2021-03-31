@@ -14,15 +14,15 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static void SetDirection(ref object instanceObj, object valueObj) => ((EffectElementWrapper)instanceObj).SetProperty("Direction", (int)valueObj);
 
-        public static void Pass1Initialize() => EmbossInstanceSchema.Type = new UIXTypeSchema((short)85, "EmbossInstance", (string)null, (short)74, typeof(EffectElementWrapper), UIXTypeFlags.None);
+        public static void Pass1Initialize() => EmbossInstanceSchema.Type = new UIXTypeSchema(85, "EmbossInstance", null, 74, typeof(EffectElementWrapper), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema = new UIXPropertySchema((short)85, "Direction", (short)84, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, (GetValueHandler)null, new SetValueHandler(EmbossInstanceSchema.SetDirection), false);
-            EmbossInstanceSchema.Type.Initialize((DefaultConstructHandler)null, (ConstructorSchema[])null, new PropertySchema[1]
+            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(85, "Direction", 84, -1, ExpressionRestriction.None, false, null, false, null, new SetValueHandler(EmbossInstanceSchema.SetDirection), false);
+            EmbossInstanceSchema.Type.Initialize(null, null, new PropertySchema[1]
             {
-        (PropertySchema) uixPropertySchema
-            }, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixPropertySchema
+            }, null, null, null, null, null, null, null, null, null);
         }
     }
 }

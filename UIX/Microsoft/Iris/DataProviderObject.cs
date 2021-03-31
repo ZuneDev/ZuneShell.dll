@@ -57,13 +57,13 @@ namespace Microsoft.Iris
                         {
                             Dictionary<string, DataProviderMapping> dictionary = new Dictionary<string, DataProviderMapping>(dataMapping.Mappings.Length);
                             foreach (MarkupDataMappingEntry mapping in dataMapping.Mappings)
-                                dictionary[mapping.Property.Name] = new DataProviderMapping((PropertySchema)mapping.Property, mapping.Source, mapping.Target, AssemblyLoadResult.UnwrapObject(mapping.DefaultValue));
-                            dataMapping.AssemblyDataProviderCookie = (object)dictionary;
+                                dictionary[mapping.Property.Name] = new DataProviderMapping(mapping.Property, mapping.Source, mapping.Target, AssemblyLoadResult.UnwrapObject(mapping.DefaultValue));
+                            dataMapping.AssemblyDataProviderCookie = dictionary;
                         }
                         this._mappings = (Dictionary<string, DataProviderMapping>)dataMapping.AssemblyDataProviderCookie;
                     }
                 }
-                return (IDictionary<string, DataProviderMapping>)this._mappings;
+                return _mappings;
             }
         }
 
@@ -84,8 +84,8 @@ namespace Microsoft.Iris
             get
             {
                 if (this._internalObject == null)
-                    this._internalObject = (MarkupDataType)new AssemblyMarkupDataType(this._typeSchema, (IDataProviderObject)this);
-                return (object)this._internalObject;
+                    this._internalObject = new AssemblyMarkupDataType(this._typeSchema, this);
+                return _internalObject;
             }
         }
 

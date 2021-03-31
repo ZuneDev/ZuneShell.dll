@@ -28,7 +28,7 @@ namespace Microsoft.Iris.OS
         public NativeXmlReader(string content, bool isFragment)
           : this(false)
         {
-            this._gcHandle = GCHandle.Alloc((object)content, GCHandleType.Pinned);
+            this._gcHandle = GCHandle.Alloc(content, GCHandleType.Pinned);
             this.Init(this._gcHandle.AddrOfPinnedObject(), content.Length * 2, isFragment);
         }
 
@@ -204,7 +204,7 @@ namespace Microsoft.Iris.OS
 
         private void ThrowXmlException(uint hr)
         {
-            string message = (string)null;
+            string message = null;
             switch (hr)
             {
                 case 3222069277:

@@ -19,7 +19,7 @@ namespace Microsoft.Iris.Markup.Validation
                 this.ReportError("Expression cannot be used as the target an assignment (related symbol: '{0}')", "this");
             if (context.CurrentMethod == null || !context.CurrentMethod.HasOverrideKeyword)
                 this.ReportError("'base' keyword can only be used in an override method");
-            this.DeclareEvaluationType((TypeSchema)context.Owner.TypeExport, TypeRestriction.None);
+            this.DeclareEvaluationType(context.Owner.TypeExport, TypeRestriction.None);
         }
     }
 }

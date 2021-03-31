@@ -23,7 +23,7 @@ namespace Microsoft.Iris.Markup
         public static void Write(string uri, LoadResult loadResult)
         {
             LoadResultCache.s_cache[uri] = loadResult;
-            loadResult.RegisterUsage((object)LoadResultCache.s_cache);
+            loadResult.RegisterUsage(s_cache);
         }
 
         public static void Remove(uint islandId)
@@ -36,7 +36,7 @@ namespace Microsoft.Iris.Markup
                     loadResult.RemoveReferenceDeep(islandId);
                 if (loadResult.IslandReferences == 0U)
                 {
-                    loadResult.UnregisterUsage((object)LoadResultCache.s_cache);
+                    loadResult.UnregisterUsage(s_cache);
                     vector.Add(keyValuePair.Key);
                 }
             }
@@ -49,7 +49,7 @@ namespace Microsoft.Iris.Markup
             foreach (LoadResult loadResult in LoadResultCache.s_cache.Values)
             {
                 loadResult.RemoveAllReferences();
-                loadResult.UnregisterUsage((object)LoadResultCache.s_cache);
+                loadResult.UnregisterUsage(s_cache);
             }
             LoadResultCache.s_cache.Clear();
         }

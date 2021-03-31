@@ -15,7 +15,7 @@ namespace SSVParseLib
         protected SSYaccTableProd[] m_prods;
         private SSLexSubtable[] m_lexSubtables;
 
-        public SSYaccTable() => this.m_lexSubtables = (SSLexSubtable[])null;
+        public SSYaccTable() => this.m_lexSubtables = null;
 
         public SSYaccTableRow lookupRow(int q_state) => this.m_rows[q_state];
 

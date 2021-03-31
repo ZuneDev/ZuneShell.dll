@@ -35,7 +35,7 @@ namespace Microsoft.Iris
             if (this._poolHead != null)
             {
                 this._poolHead = this._poolHead.parent;
-                treeNode.parent = (IndexedTree.TreeNode)null;
+                treeNode.parent = null;
             }
             else
                 treeNode = new IndexedTree.TreeNode();
@@ -45,8 +45,8 @@ namespace Microsoft.Iris
         private void ReclaimTreeNode(IndexedTree.TreeNode node)
         {
             node.parent = this._poolHead;
-            node.left = (IndexedTree.TreeNode)null;
-            node.right = (IndexedTree.TreeNode)null;
+            node.left = null;
+            node.right = null;
             this._poolHead = node;
         }
 
@@ -59,7 +59,7 @@ namespace Microsoft.Iris
                 {
                     newValue = this.AcquireTreeNode();
                     newValue.delta = index;
-                    newValue.parent = (IndexedTree.TreeNode)null;
+                    newValue.parent = null;
                     if (this._root != null)
                     {
                         this._root.parent = newValue;
@@ -71,7 +71,7 @@ namespace Microsoft.Iris
                                 this._root.right.parent = newValue;
                                 newValue.right = this._root.right;
                                 newValue.right.delta = this._root.right.delta + this._root.delta - index;
-                                this._root.right = (IndexedTree.TreeNode)null;
+                                this._root.right = null;
                             }
                         }
                         else
@@ -82,7 +82,7 @@ namespace Microsoft.Iris
                                 this._root.left.parent = newValue;
                                 newValue.left = this._root.left;
                                 newValue.left.delta = this._root.left.delta + this._root.delta - index;
-                                this._root.left = (IndexedTree.TreeNode)null;
+                                this._root.left = null;
                             }
                         }
                         this._root.delta -= index;
@@ -153,7 +153,7 @@ namespace Microsoft.Iris
             lock (this._lockObj)
             {
                 IndexedTree.TreeNode treeNode = this.Find(index);
-                data = treeNode == null ? (object)null : treeNode.data;
+                data = treeNode == null ? null : treeNode.data;
                 return treeNode != null;
             }
         }
@@ -219,7 +219,7 @@ namespace Microsoft.Iris
         public void Clear()
         {
             lock (this._lockObj)
-                this.SetRoot((IndexedTree.TreeNode)null);
+                this.SetRoot(null);
         }
 
         public bool Contains(int index)
@@ -249,10 +249,10 @@ namespace Microsoft.Iris
         private IndexedTree.TreeNode Find(int index)
         {
             if (this._lastSearchedIndex == index && this._root != null)
-                return this._root.delta != index ? (IndexedTree.TreeNode)null : this._root;
+                return this._root.delta != index ? null : this._root;
             this._lastSearchedIndex = index;
             IndexedTree.TreeNode treeNode = this._root;
-            IndexedTree.TreeNode node = (IndexedTree.TreeNode)null;
+            IndexedTree.TreeNode node = null;
             int num = 0;
             bool flag = false;
             while (!flag && treeNode != null)
@@ -267,7 +267,7 @@ namespace Microsoft.Iris
             if (node != null)
                 this.Splay(node);
             this._lastSearchedIndex = index;
-            return !flag ? (IndexedTree.TreeNode)null : treeNode;
+            return !flag ? null : treeNode;
         }
 
         private void Splay(IndexedTree.TreeNode node)

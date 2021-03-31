@@ -14,15 +14,15 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object GetInput1(object instanceObj) => (object)((InterpolateElement)instanceObj).Input1;
+        private static object GetInput1(object instanceObj) => ((InterpolateElement)instanceObj).Input1;
 
         private static void SetInput1(ref object instanceObj, object valueObj) => ((InterpolateElement)instanceObj).Input1 = (EffectInput)valueObj;
 
-        private static object GetInput2(object instanceObj) => (object)((InterpolateElement)instanceObj).Input2;
+        private static object GetInput2(object instanceObj) => ((InterpolateElement)instanceObj).Input2;
 
         private static void SetInput2(ref object instanceObj, object valueObj) => ((InterpolateElement)instanceObj).Input2 = (EffectInput)valueObj;
 
-        private static object GetValue(object instanceObj) => (object)((InterpolateElement)instanceObj).Value;
+        private static object GetValue(object instanceObj) => ((InterpolateElement)instanceObj).Value;
 
         private static void SetValue(ref object instanceObj, object valueObj)
         {
@@ -35,21 +35,21 @@ namespace Microsoft.Iris.Markup.UIX
                 interpolateElement.Value = num;
         }
 
-        private static object Construct() => (object)new InterpolateElement();
+        private static object Construct() => new InterpolateElement();
 
-        public static void Pass1Initialize() => InterpolateElementSchema.Type = new UIXTypeSchema((short)119, "InterpolateElement", (string)null, (short)77, typeof(InterpolateElement), UIXTypeFlags.None);
+        public static void Pass1Initialize() => InterpolateElementSchema.Type = new UIXTypeSchema(119, "InterpolateElement", null, 77, typeof(InterpolateElement), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema((short)119, "Input1", (short)77, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(InterpolateElementSchema.GetInput1), new SetValueHandler(InterpolateElementSchema.SetInput1), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema((short)119, "Input2", (short)77, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(InterpolateElementSchema.GetInput2), new SetValueHandler(InterpolateElementSchema.SetInput2), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema((short)119, "Value", (short)194, (short)-1, ExpressionRestriction.None, false, SingleSchema.Validate0to1, false, new GetValueHandler(InterpolateElementSchema.GetValue), new SetValueHandler(InterpolateElementSchema.SetValue), false);
-            InterpolateElementSchema.Type.Initialize(new DefaultConstructHandler(InterpolateElementSchema.Construct), (ConstructorSchema[])null, new PropertySchema[3]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(119, "Input1", 77, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(InterpolateElementSchema.GetInput1), new SetValueHandler(InterpolateElementSchema.SetInput1), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(119, "Input2", 77, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(InterpolateElementSchema.GetInput2), new SetValueHandler(InterpolateElementSchema.SetInput2), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(119, "Value", 194, -1, ExpressionRestriction.None, false, SingleSchema.Validate0to1, false, new GetValueHandler(InterpolateElementSchema.GetValue), new SetValueHandler(InterpolateElementSchema.SetValue), false);
+            InterpolateElementSchema.Type.Initialize(new DefaultConstructHandler(InterpolateElementSchema.Construct), null, new PropertySchema[3]
             {
-        (PropertySchema) uixPropertySchema1,
-        (PropertySchema) uixPropertySchema2,
-        (PropertySchema) uixPropertySchema3
-            }, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixPropertySchema1,
+         uixPropertySchema2,
+         uixPropertySchema3
+            }, null, null, null, null, null, null, null, null, null);
         }
     }
 }

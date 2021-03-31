@@ -14,15 +14,15 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object GetPlacementTarget(object instanceObj) => (object)((PopupLayoutInput)instanceObj).PlacementTarget;
+        private static object GetPlacementTarget(object instanceObj) => ((PopupLayoutInput)instanceObj).PlacementTarget;
 
         private static void SetPlacementTarget(ref object instanceObj, object valueObj) => ((PopupLayoutInput)instanceObj).PlacementTarget = (ViewItem)valueObj;
 
-        private static object GetPlacement(object instanceObj) => (object)((PopupLayoutInput)instanceObj).Placement;
+        private static object GetPlacement(object instanceObj) => ((PopupLayoutInput)instanceObj).Placement;
 
         private static void SetPlacement(ref object instanceObj, object valueObj) => ((PopupLayoutInput)instanceObj).Placement = (PlacementMode)valueObj;
 
-        private static object GetOffset(object instanceObj) => (object)((PopupLayoutInput)instanceObj).Offset;
+        private static object GetOffset(object instanceObj) => ((PopupLayoutInput)instanceObj).Offset;
 
         private static void SetOffset(ref object instanceObj, object valueObj) => ((PopupLayoutInput)instanceObj).Offset = (Point)valueObj;
 
@@ -42,31 +42,31 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object GetFlippedVertically(object instanceObj) => BooleanBoxes.Box(((PopupLayoutInput)instanceObj).FlippedVertically);
 
-        private static object Construct() => (object)new PopupLayoutInput();
+        private static object Construct() => new PopupLayoutInput();
 
-        public static void Pass1Initialize() => PopupLayoutInputSchema.Type = new UIXTypeSchema((short)162, "PopupLayoutInput", (string)null, (short)133, typeof(PopupLayoutInput), UIXTypeFlags.None);
+        public static void Pass1Initialize() => PopupLayoutInputSchema.Type = new UIXTypeSchema(162, "PopupLayoutInput", null, 133, typeof(PopupLayoutInput), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema((short)162, "PlacementTarget", (short)239, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(PopupLayoutInputSchema.GetPlacementTarget), new SetValueHandler(PopupLayoutInputSchema.SetPlacementTarget), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema((short)162, "Placement", (short)157, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(PopupLayoutInputSchema.GetPlacement), new SetValueHandler(PopupLayoutInputSchema.SetPlacement), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema((short)162, "Offset", (short)158, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(PopupLayoutInputSchema.GetOffset), new SetValueHandler(PopupLayoutInputSchema.SetOffset), false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema((short)162, "StayInBounds", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(PopupLayoutInputSchema.GetStayInBounds), new SetValueHandler(PopupLayoutInputSchema.SetStayInBounds), false);
-            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema((short)162, "RespectMenuDropAlignment", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(PopupLayoutInputSchema.GetRespectMenuDropAlignment), new SetValueHandler(PopupLayoutInputSchema.SetRespectMenuDropAlignment), false);
-            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema((short)162, "ConstrainToTarget", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(PopupLayoutInputSchema.GetConstrainToTarget), new SetValueHandler(PopupLayoutInputSchema.SetConstrainToTarget), false);
-            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema((short)162, "FlippedHorizontally", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(PopupLayoutInputSchema.GetFlippedHorizontally), (SetValueHandler)null, false);
-            UIXPropertySchema uixPropertySchema8 = new UIXPropertySchema((short)162, "FlippedVertically", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(PopupLayoutInputSchema.GetFlippedVertically), (SetValueHandler)null, false);
-            PopupLayoutInputSchema.Type.Initialize(new DefaultConstructHandler(PopupLayoutInputSchema.Construct), (ConstructorSchema[])null, new PropertySchema[8]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(162, "PlacementTarget", 239, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(PopupLayoutInputSchema.GetPlacementTarget), new SetValueHandler(PopupLayoutInputSchema.SetPlacementTarget), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(162, "Placement", 157, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(PopupLayoutInputSchema.GetPlacement), new SetValueHandler(PopupLayoutInputSchema.SetPlacement), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(162, "Offset", 158, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(PopupLayoutInputSchema.GetOffset), new SetValueHandler(PopupLayoutInputSchema.SetOffset), false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(162, "StayInBounds", 15, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(PopupLayoutInputSchema.GetStayInBounds), new SetValueHandler(PopupLayoutInputSchema.SetStayInBounds), false);
+            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(162, "RespectMenuDropAlignment", 15, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(PopupLayoutInputSchema.GetRespectMenuDropAlignment), new SetValueHandler(PopupLayoutInputSchema.SetRespectMenuDropAlignment), false);
+            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(162, "ConstrainToTarget", 15, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(PopupLayoutInputSchema.GetConstrainToTarget), new SetValueHandler(PopupLayoutInputSchema.SetConstrainToTarget), false);
+            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema(162, "FlippedHorizontally", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(PopupLayoutInputSchema.GetFlippedHorizontally), null, false);
+            UIXPropertySchema uixPropertySchema8 = new UIXPropertySchema(162, "FlippedVertically", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(PopupLayoutInputSchema.GetFlippedVertically), null, false);
+            PopupLayoutInputSchema.Type.Initialize(new DefaultConstructHandler(PopupLayoutInputSchema.Construct), null, new PropertySchema[8]
             {
-        (PropertySchema) uixPropertySchema6,
-        (PropertySchema) uixPropertySchema7,
-        (PropertySchema) uixPropertySchema8,
-        (PropertySchema) uixPropertySchema3,
-        (PropertySchema) uixPropertySchema2,
-        (PropertySchema) uixPropertySchema1,
-        (PropertySchema) uixPropertySchema5,
-        (PropertySchema) uixPropertySchema4
-            }, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixPropertySchema6,
+         uixPropertySchema7,
+         uixPropertySchema8,
+         uixPropertySchema3,
+         uixPropertySchema2,
+         uixPropertySchema1,
+         uixPropertySchema5,
+         uixPropertySchema4
+            }, null, null, null, null, null, null, null, null, null);
         }
     }
 }

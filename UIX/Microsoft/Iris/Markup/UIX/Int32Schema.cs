@@ -28,65 +28,65 @@ namespace Microsoft.Iris.Markup.UIX
             writer.WriteInt32(num);
         }
 
-        private static object DecodeBinary(ByteCodeReader reader) => (object)reader.ReadInt32();
+        private static object DecodeBinary(ByteCodeReader reader) => reader.ReadInt32();
 
         private static Result ConvertFromString(object valueObj, out object instanceObj)
         {
             string s = (string)valueObj;
-            instanceObj = (object)null;
+            instanceObj = null;
             int result;
-            if (!int.TryParse(s, NumberStyles.Integer, (IFormatProvider)NumberFormatInfo.InvariantInfo, out result))
-                return Result.Fail("Unable to convert \"{0}\" to type '{1}'", (object)s, (object)"Int32");
-            instanceObj = (object)result;
+            if (!int.TryParse(s, NumberStyles.Integer, NumberFormatInfo.InvariantInfo, out result))
+                return Result.Fail("Unable to convert \"{0}\" to type '{1}'", s, "Int32");
+            instanceObj = result;
             return Result.Success;
         }
 
         private static Result ConvertFromBoolean(object valueObj, out object instanceObj)
         {
             bool flag = (bool)valueObj;
-            instanceObj = (object)null;
+            instanceObj = null;
             int num = flag ? 1 : 0;
-            instanceObj = (object)num;
+            instanceObj = num;
             return Result.Success;
         }
 
         private static Result ConvertFromByte(object valueObj, out object instanceObj)
         {
             byte num1 = (byte)valueObj;
-            instanceObj = (object)null;
-            int num2 = (int)num1;
-            instanceObj = (object)num2;
+            instanceObj = null;
+            int num2 = num1;
+            instanceObj = num2;
             return Result.Success;
         }
 
         private static Result ConvertFromSingle(object valueObj, out object instanceObj)
         {
             float num1 = (float)valueObj;
-            instanceObj = (object)null;
+            instanceObj = null;
             int num2 = (int)num1;
-            instanceObj = (object)num2;
+            instanceObj = num2;
             return Result.Success;
         }
 
         private static Result ConvertFromInt64(object valueObj, out object instanceObj)
         {
             long num1 = (long)valueObj;
-            instanceObj = (object)null;
+            instanceObj = null;
             int num2 = (int)num1;
-            instanceObj = (object)num2;
+            instanceObj = num2;
             return Result.Success;
         }
 
         private static Result ConvertFromDouble(object valueObj, out object instanceObj)
         {
             double num1 = (double)valueObj;
-            instanceObj = (object)null;
+            instanceObj = null;
             int num2 = (int)num1;
-            instanceObj = (object)num2;
+            instanceObj = num2;
             return Result.Success;
         }
 
-        private static object CallToStringString(object instanceObj, object[] parameters) => (object)((int)instanceObj).ToString((string)parameters[0]);
+        private static object CallToStringString(object instanceObj, object[] parameters) => ((int)instanceObj).ToString((string)parameters[0]);
 
         private static bool IsConversionSupported(TypeSchema fromType) => BooleanSchema.Type.IsAssignableFrom(fromType) || ByteSchema.Type.IsAssignableFrom(fromType) || (DoubleSchema.Type.IsAssignableFrom(fromType) || Int64Schema.Type.IsAssignableFrom(fromType)) || (SingleSchema.Type.IsAssignableFrom(fromType) || StringSchema.Type.IsAssignableFrom(fromType) || fromType.IsEnum);
 
@@ -96,7 +96,7 @@ namespace Microsoft.Iris.Markup.UIX
           out object instance)
         {
             Result result = Result.Fail("Unsupported");
-            instance = (object)null;
+            instance = null;
             if (BooleanSchema.Type.IsAssignableFrom(fromType))
             {
                 result = Int32Schema.ConvertFromBoolean(from, out instance);
@@ -135,7 +135,7 @@ namespace Microsoft.Iris.Markup.UIX
             }
             if (!fromType.IsEnum)
                 return result;
-            instance = !(from is DllEnumProxy dllEnumProxy) ? (object)(int)from : (object)dllEnumProxy.Value;
+            instance = !(from is DllEnumProxy dllEnumProxy) ? (int)from : (object)dllEnumProxy.Value;
             return Result.Success;
         }
 
@@ -165,20 +165,20 @@ namespace Microsoft.Iris.Markup.UIX
         {
             int num1 = (int)leftObj;
             if (op == OperationType.MathNegate)
-                return (object)-num1;
+                return -num1;
             int num2 = (int)rightObj;
             switch (op - 1)
             {
-                case (OperationType)0:
-                    return (object)(num1 + num2);
+                case 0:
+                    return num1 + num2;
                 case OperationType.MathAdd:
-                    return (object)(num1 - num2);
+                    return num1 - num2;
                 case OperationType.MathSubtract:
-                    return (object)(num1 * num2);
+                    return num1 * num2;
                 case OperationType.MathMultiply:
-                    return (object)(num1 / num2);
+                    return num1 / num2;
                 case OperationType.MathDivide:
-                    return (object)(num1 % num2);
+                    return num1 % num2;
                 case OperationType.LogicalOr:
                     return BooleanBoxes.Box(num1 == num2);
                 case OperationType.RelationalEquals:
@@ -192,7 +192,7 @@ namespace Microsoft.Iris.Markup.UIX
                 case OperationType.RelationalLessThanEquals:
                     return BooleanBoxes.Box(num1 >= num2);
                 default:
-                    return (object)null;
+                    return null;
             }
         }
 
@@ -201,39 +201,39 @@ namespace Microsoft.Iris.Markup.UIX
             string parameter1 = (string)parameters[0];
             int parameter2 = (int)parameters[1];
             object instanceObj1;
-            return Int32Schema.ConvertFromString((object)parameter1, out instanceObj1).Failed ? (object)parameter2 : instanceObj1;
+            return Int32Schema.ConvertFromString(parameter1, out instanceObj1).Failed ? parameter2 : instanceObj1;
         }
 
         private static Result RangeValidateNotNegative(object value)
         {
             int num = (int)value;
-            return num < 0 ? Result.Fail("Expecting a non-negative value, but got {0}", (object)num.ToString()) : Result.Success;
+            return num < 0 ? Result.Fail("Expecting a non-negative value, but got {0}", num.ToString()) : Result.Success;
         }
 
-        public static void Pass1Initialize() => Int32Schema.Type = new UIXTypeSchema((short)115, "Int32", "int", (short)153, typeof(int), UIXTypeFlags.Immutable);
+        public static void Pass1Initialize() => Int32Schema.Type = new UIXTypeSchema(115, "Int32", "int", 153, typeof(int), UIXTypeFlags.Immutable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema((short)115, "MinValue", (short)115, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(Int32Schema.GetMinValue), (SetValueHandler)null, true);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema((short)115, "MaxValue", (short)115, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(Int32Schema.GetMaxValue), (SetValueHandler)null, true);
-            UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema((short)115, "ToString", new short[1]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(115, "MinValue", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(Int32Schema.GetMinValue), null, true);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(115, "MaxValue", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(Int32Schema.GetMaxValue), null, true);
+            UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema(115, "ToString", new short[1]
             {
-        (short) 208
-            }, (short)208, new InvokeHandler(Int32Schema.CallToStringString), false);
-            UIXMethodSchema uixMethodSchema2 = new UIXMethodSchema((short)115, "TryParse", new short[2]
+         208
+            }, 208, new InvokeHandler(Int32Schema.CallToStringString), false);
+            UIXMethodSchema uixMethodSchema2 = new UIXMethodSchema(115, "TryParse", new short[2]
             {
-        (short) 208,
-        (short) 115
-            }, (short)115, new InvokeHandler(Int32Schema.CallTryParseStringInt32), true);
-            Int32Schema.Type.Initialize(new DefaultConstructHandler(Int32Schema.Construct), (ConstructorSchema[])null, new PropertySchema[2]
+         208,
+         115
+            }, 115, new InvokeHandler(Int32Schema.CallTryParseStringInt32), true);
+            Int32Schema.Type.Initialize(new DefaultConstructHandler(Int32Schema.Construct), null, new PropertySchema[2]
             {
-        (PropertySchema) uixPropertySchema2,
-        (PropertySchema) uixPropertySchema1
+         uixPropertySchema2,
+         uixPropertySchema1
             }, new MethodSchema[2]
             {
-        (MethodSchema) uixMethodSchema1,
-        (MethodSchema) uixMethodSchema2
-            }, (EventSchema[])null, (FindCanonicalInstanceHandler)null, new TypeConverterHandler(Int32Schema.TryConvertFrom), new SupportsTypeConversionHandler(Int32Schema.IsConversionSupported), new EncodeBinaryHandler(Int32Schema.EncodeBinary), new DecodeBinaryHandler(Int32Schema.DecodeBinary), new PerformOperationHandler(Int32Schema.ExecuteOperation), new SupportsOperationHandler(Int32Schema.IsOperationSupported));
+         uixMethodSchema1,
+         uixMethodSchema2
+            }, null, null, new TypeConverterHandler(Int32Schema.TryConvertFrom), new SupportsTypeConversionHandler(Int32Schema.IsConversionSupported), new EncodeBinaryHandler(Int32Schema.EncodeBinary), new DecodeBinaryHandler(Int32Schema.DecodeBinary), new PerformOperationHandler(Int32Schema.ExecuteOperation), new SupportsOperationHandler(Int32Schema.IsOperationSupported));
         }
     }
 }

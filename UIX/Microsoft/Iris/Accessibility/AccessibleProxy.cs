@@ -36,7 +36,7 @@ namespace Microsoft.Iris.Accessibility
             this._ui = ui;
             this._data = data;
             this._data.Attach(this);
-            this._children = (IEnumVARIANT)new AccessibleChildren(this);
+            this._children = new AccessibleChildren(this);
         }
 
         internal UIClass UI => this._ui;
@@ -44,7 +44,7 @@ namespace Microsoft.Iris.Accessibility
         internal void Detach()
         {
             this._data.Detach();
-            this._ui = (UIClass)null;
+            this._ui = null;
             if (this._proxyID == -1)
                 return;
             AccessibleProxy.s_proxyFromID.Remove(this._proxyID);
@@ -56,7 +56,7 @@ namespace Microsoft.Iris.Accessibility
             set => AccessibleProxy.s_accessibilityActive = true;
         }
 
-        internal virtual IAccessible Parent => this._ui.Parent != null ? (IAccessible)this._ui.Parent.AccessibleProxy : (IAccessible)null;
+        internal virtual IAccessible Parent => this._ui.Parent != null ? _ui.Parent.AccessibleProxy : null;
 
         internal int ChildCount => this._ui.Children.Count;
 
@@ -157,7 +157,7 @@ namespace Microsoft.Iris.Accessibility
 
         internal virtual IAccessible Navigate(AccNavDirs navDir)
         {
-            UIClass resultUI = (UIClass)null;
+            UIClass resultUI = null;
             switch (navDir)
             {
                 case AccNavDirs.Up:
@@ -185,7 +185,7 @@ namespace Microsoft.Iris.Accessibility
                     resultUI = (UIClass)this._ui.LastChild;
                     break;
             }
-            return resultUI != null ? (IAccessible)resultUI.AccessibleProxy : (IAccessible)null;
+            return resultUI != null ? resultUI.AccessibleProxy : null;
         }
 
         internal void DoDefaultAction()
@@ -290,10 +290,10 @@ namespace Microsoft.Iris.Accessibility
 
         private void QueueNotifyEvent(AccEvents eventType)
         {
-            object obj = (object)new object[2]
+            object obj = new object[2]
             {
-        (object) this,
-        (object) (int) eventType
+         this,
+         (int) eventType
             };
             DeferredCall.Post(DispatchPriority.AppEvent, AccessibleProxy.s_notifyEventHandler, obj);
         }
@@ -315,7 +315,7 @@ namespace Microsoft.Iris.Accessibility
             get
             {
                 this.VerifyProxyAccess();
-                return (object)this.Parent;
+                return Parent;
             }
         }
 
@@ -323,7 +323,7 @@ namespace Microsoft.Iris.Accessibility
         {
             this.VerifyProxyAccess();
             this.VerifySelfChildID(varChild);
-            return (object)this;
+            return this;
         }
 
         int IAccessible.accChildCount
@@ -360,14 +360,14 @@ namespace Microsoft.Iris.Accessibility
         {
             this.VerifyProxyAccess();
             this.VerifySelfChildID(varChild);
-            return (object)(int)this.Role;
+            return (int)this.Role;
         }
 
         object IAccessible.get_accState(object varChild)
         {
             this.VerifyProxyAccess();
             this.VerifySelfChildID(varChild);
-            return (object)(int)this.State;
+            return (int)this.State;
         }
 
         string IAccessible.get_accHelp(object varChild)
@@ -381,7 +381,7 @@ namespace Microsoft.Iris.Accessibility
         {
             this.VerifyProxyAccess();
             this.VerifySelfChildID(varChild);
-            pszHelpFile = (string)null;
+            pszHelpFile = null;
             return this.HelpTopic;
         }
 
@@ -397,7 +397,7 @@ namespace Microsoft.Iris.Accessibility
             get
             {
                 this.VerifyProxyAccess();
-                return this.HasFocus ? (object)0 : (object)null;
+                return this.HasFocus ? 0 : (object)null;
             }
         }
 
@@ -407,7 +407,7 @@ namespace Microsoft.Iris.Accessibility
             {
                 this.VerifyProxyAccess();
                 Marshal.ThrowExceptionForHR(-2147467263);
-                return (object)null;
+                return null;
             }
         }
 
@@ -445,14 +445,14 @@ namespace Microsoft.Iris.Accessibility
         {
             this.VerifyProxyAccess();
             this.VerifySelfChildID(varStart);
-            return (object)this.Navigate((AccNavDirs)navDir);
+            return this.Navigate((AccNavDirs)navDir);
         }
 
         object IAccessible.accHitTest(int xLeft, int yTop)
         {
             this.VerifyProxyAccess();
             Marshal.ThrowExceptionForHR(-2147467263);
-            return (object)null;
+            return null;
         }
 
         void IAccessible.accDoDefaultAction(object varChild)

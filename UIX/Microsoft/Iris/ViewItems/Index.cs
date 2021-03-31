@@ -42,12 +42,12 @@ namespace Microsoft.Iris.ViewItems
 
         public Index GetContainerIndex()
         {
-            ViewItem viewItem = (ViewItem)this._repeater;
+            ViewItem viewItem = _repeater;
             while (!(viewItem.Parent is Repeater))
             {
                 viewItem = viewItem.Parent;
                 if (viewItem == null)
-                    return (Index)null;
+                    return null;
             }
             return ((IndexLayoutInput)viewItem.GetLayoutInput(IndexLayoutInput.Data)).Index;
         }

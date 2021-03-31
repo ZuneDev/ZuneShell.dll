@@ -21,34 +21,34 @@ namespace Microsoft.Iris.Markup.UIX
         private static object CallPreviousValue(object instanceObj, object[] parameters)
         {
             ((IUIValueRange)instanceObj).PreviousValue();
-            return (object)null;
+            return null;
         }
 
         private static object CallNextValue(object instanceObj, object[] parameters)
         {
             ((IUIValueRange)instanceObj).NextValue();
-            return (object)null;
+            return null;
         }
 
-        public static void Pass1Initialize() => ValueRangeSchema.Type = new UIXTypeSchema((short)231, "ValueRange", (string)null, (short)153, typeof(IUIValueRange), UIXTypeFlags.None);
+        public static void Pass1Initialize() => ValueRangeSchema.Type = new UIXTypeSchema(231, "ValueRange", null, 153, typeof(IUIValueRange), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema((short)231, "ObjectValue", (short)153, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ValueRangeSchema.GetObjectValue), (SetValueHandler)null, false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema((short)231, "HasPreviousValue", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ValueRangeSchema.GetHasPreviousValue), (SetValueHandler)null, false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema((short)231, "HasNextValue", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ValueRangeSchema.GetHasNextValue), (SetValueHandler)null, false);
-            UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema((short)231, "PreviousValue", (short[])null, (short)240, new InvokeHandler(ValueRangeSchema.CallPreviousValue), false);
-            UIXMethodSchema uixMethodSchema2 = new UIXMethodSchema((short)231, "NextValue", (short[])null, (short)240, new InvokeHandler(ValueRangeSchema.CallNextValue), false);
-            ValueRangeSchema.Type.Initialize((DefaultConstructHandler)null, (ConstructorSchema[])null, new PropertySchema[3]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(231, "ObjectValue", 153, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ValueRangeSchema.GetObjectValue), null, false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(231, "HasPreviousValue", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ValueRangeSchema.GetHasPreviousValue), null, false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(231, "HasNextValue", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ValueRangeSchema.GetHasNextValue), null, false);
+            UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema(231, "PreviousValue", null, 240, new InvokeHandler(ValueRangeSchema.CallPreviousValue), false);
+            UIXMethodSchema uixMethodSchema2 = new UIXMethodSchema(231, "NextValue", null, 240, new InvokeHandler(ValueRangeSchema.CallNextValue), false);
+            ValueRangeSchema.Type.Initialize(null, null, new PropertySchema[3]
             {
-        (PropertySchema) uixPropertySchema3,
-        (PropertySchema) uixPropertySchema2,
-        (PropertySchema) uixPropertySchema1
+         uixPropertySchema3,
+         uixPropertySchema2,
+         uixPropertySchema1
             }, new MethodSchema[2]
             {
-        (MethodSchema) uixMethodSchema1,
-        (MethodSchema) uixMethodSchema2
-            }, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixMethodSchema1,
+         uixMethodSchema2
+            }, null, null, null, null, null, null, null, null);
         }
     }
 }

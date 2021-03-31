@@ -40,6 +40,6 @@ namespace Microsoft.Iris.Markup
             set => this._assemblyDataProviderCookie = value;
         }
 
-        public override string ToString() => string.Format("({0}, {1})", (object)this._provider, (object)this._targetType);
+        public override string ToString() => string.Format("({0}, {1})", _provider, _targetType);
     }
 }

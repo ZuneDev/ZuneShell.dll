@@ -14,7 +14,7 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object GetDownsample(object instanceObj) => (object)((DestinationElement)instanceObj).Downsample;
+        private static object GetDownsample(object instanceObj) => ((DestinationElement)instanceObj).Downsample;
 
         private static void SetDownsample(ref object instanceObj, object valueObj)
         {
@@ -27,23 +27,23 @@ namespace Microsoft.Iris.Markup.UIX
                 destinationElement.Downsample = num;
         }
 
-        private static object GetUVOffset(object instanceObj) => (object)((DestinationElement)instanceObj).UVOffset;
+        private static object GetUVOffset(object instanceObj) => ((DestinationElement)instanceObj).UVOffset;
 
         private static void SetUVOffset(ref object instanceObj, object valueObj) => ((DestinationElement)instanceObj).UVOffset = (Vector2)valueObj;
 
-        private static object Construct() => (object)new DestinationElement();
+        private static object Construct() => new DestinationElement();
 
-        public static void Pass1Initialize() => DestinationElementSchema.Type = new UIXTypeSchema((short)56, "DestinationElement", (string)null, (short)77, typeof(DestinationElement), UIXTypeFlags.None);
+        public static void Pass1Initialize() => DestinationElementSchema.Type = new UIXTypeSchema(56, "DestinationElement", null, 77, typeof(DestinationElement), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema((short)56, "Downsample", (short)194, (short)-1, ExpressionRestriction.None, false, SingleSchema.Validate0to1, false, new GetValueHandler(DestinationElementSchema.GetDownsample), new SetValueHandler(DestinationElementSchema.SetDownsample), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema((short)56, "UVOffset", (short)233, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(DestinationElementSchema.GetUVOffset), new SetValueHandler(DestinationElementSchema.SetUVOffset), false);
-            DestinationElementSchema.Type.Initialize(new DefaultConstructHandler(DestinationElementSchema.Construct), (ConstructorSchema[])null, new PropertySchema[2]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(56, "Downsample", 194, -1, ExpressionRestriction.None, false, SingleSchema.Validate0to1, false, new GetValueHandler(DestinationElementSchema.GetDownsample), new SetValueHandler(DestinationElementSchema.SetDownsample), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(56, "UVOffset", 233, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(DestinationElementSchema.GetUVOffset), new SetValueHandler(DestinationElementSchema.SetUVOffset), false);
+            DestinationElementSchema.Type.Initialize(new DefaultConstructHandler(DestinationElementSchema.Construct), null, new PropertySchema[2]
             {
-        (PropertySchema) uixPropertySchema1,
-        (PropertySchema) uixPropertySchema2
-            }, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixPropertySchema1,
+         uixPropertySchema2
+            }, null, null, null, null, null, null, null, null, null);
         }
     }
 }

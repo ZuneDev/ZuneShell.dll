@@ -14,19 +14,19 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object GetAdd(object instanceObj) => (object)((ValueTransformer)instanceObj).Add;
+        private static object GetAdd(object instanceObj) => ((ValueTransformer)instanceObj).Add;
 
         private static void SetAdd(ref object instanceObj, object valueObj) => ((ValueTransformer)instanceObj).Add = (float)valueObj;
 
-        private static object GetSubtract(object instanceObj) => (object)((ValueTransformer)instanceObj).Subtract;
+        private static object GetSubtract(object instanceObj) => ((ValueTransformer)instanceObj).Subtract;
 
         private static void SetSubtract(ref object instanceObj, object valueObj) => ((ValueTransformer)instanceObj).Subtract = (float)valueObj;
 
-        private static object GetMultiply(object instanceObj) => (object)((ValueTransformer)instanceObj).Multiply;
+        private static object GetMultiply(object instanceObj) => ((ValueTransformer)instanceObj).Multiply;
 
         private static void SetMultiply(ref object instanceObj, object valueObj) => ((ValueTransformer)instanceObj).Multiply = (float)valueObj;
 
-        private static object GetDivide(object instanceObj) => (object)((ValueTransformer)instanceObj).Divide;
+        private static object GetDivide(object instanceObj) => ((ValueTransformer)instanceObj).Divide;
 
         private static void SetDivide(ref object instanceObj, object valueObj)
         {
@@ -39,7 +39,7 @@ namespace Microsoft.Iris.Markup.UIX
                 valueTransformer.Divide = num;
         }
 
-        private static object GetMod(object instanceObj) => (object)((ValueTransformer)instanceObj).Mod;
+        private static object GetMod(object instanceObj) => ((ValueTransformer)instanceObj).Mod;
 
         private static void SetMod(ref object instanceObj, object valueObj)
         {
@@ -56,27 +56,27 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static void SetAbsolute(ref object instanceObj, object valueObj) => ((ValueTransformer)instanceObj).Absolute = (bool)valueObj;
 
-        private static object Construct() => (object)new ValueTransformer();
+        private static object Construct() => new ValueTransformer();
 
-        public static void Pass1Initialize() => ValueTransformerSchema.Type = new UIXTypeSchema((short)232, "ValueTransformer", (string)null, (short)153, typeof(ValueTransformer), UIXTypeFlags.None);
+        public static void Pass1Initialize() => ValueTransformerSchema.Type = new UIXTypeSchema(232, "ValueTransformer", null, 153, typeof(ValueTransformer), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema((short)232, "Add", (short)194, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(ValueTransformerSchema.GetAdd), new SetValueHandler(ValueTransformerSchema.SetAdd), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema((short)232, "Subtract", (short)194, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(ValueTransformerSchema.GetSubtract), new SetValueHandler(ValueTransformerSchema.SetSubtract), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema((short)232, "Multiply", (short)194, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(ValueTransformerSchema.GetMultiply), new SetValueHandler(ValueTransformerSchema.SetMultiply), false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema((short)232, "Divide", (short)194, (short)-1, ExpressionRestriction.None, false, SingleSchema.ValidateNotZero, false, new GetValueHandler(ValueTransformerSchema.GetDivide), new SetValueHandler(ValueTransformerSchema.SetDivide), false);
-            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema((short)232, "Mod", (short)194, (short)-1, ExpressionRestriction.None, false, SingleSchema.ValidateNotZero, false, new GetValueHandler(ValueTransformerSchema.GetMod), new SetValueHandler(ValueTransformerSchema.SetMod), false);
-            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema((short)232, "Absolute", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(ValueTransformerSchema.GetAbsolute), new SetValueHandler(ValueTransformerSchema.SetAbsolute), false);
-            ValueTransformerSchema.Type.Initialize(new DefaultConstructHandler(ValueTransformerSchema.Construct), (ConstructorSchema[])null, new PropertySchema[6]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(232, "Add", 194, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(ValueTransformerSchema.GetAdd), new SetValueHandler(ValueTransformerSchema.SetAdd), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(232, "Subtract", 194, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(ValueTransformerSchema.GetSubtract), new SetValueHandler(ValueTransformerSchema.SetSubtract), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(232, "Multiply", 194, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(ValueTransformerSchema.GetMultiply), new SetValueHandler(ValueTransformerSchema.SetMultiply), false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(232, "Divide", 194, -1, ExpressionRestriction.None, false, SingleSchema.ValidateNotZero, false, new GetValueHandler(ValueTransformerSchema.GetDivide), new SetValueHandler(ValueTransformerSchema.SetDivide), false);
+            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(232, "Mod", 194, -1, ExpressionRestriction.None, false, SingleSchema.ValidateNotZero, false, new GetValueHandler(ValueTransformerSchema.GetMod), new SetValueHandler(ValueTransformerSchema.SetMod), false);
+            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(232, "Absolute", 15, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(ValueTransformerSchema.GetAbsolute), new SetValueHandler(ValueTransformerSchema.SetAbsolute), false);
+            ValueTransformerSchema.Type.Initialize(new DefaultConstructHandler(ValueTransformerSchema.Construct), null, new PropertySchema[6]
             {
-        (PropertySchema) uixPropertySchema6,
-        (PropertySchema) uixPropertySchema1,
-        (PropertySchema) uixPropertySchema4,
-        (PropertySchema) uixPropertySchema5,
-        (PropertySchema) uixPropertySchema3,
-        (PropertySchema) uixPropertySchema2
-            }, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixPropertySchema6,
+         uixPropertySchema1,
+         uixPropertySchema4,
+         uixPropertySchema5,
+         uixPropertySchema3,
+         uixPropertySchema2
+            }, null, null, null, null, null, null, null, null, null);
         }
     }
 }

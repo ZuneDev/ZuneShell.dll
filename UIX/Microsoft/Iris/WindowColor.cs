@@ -39,14 +39,14 @@ namespace Microsoft.Iris
 
         private static void CheckByte(int value, string name)
         {
-            if (value < 0 || value > (int)byte.MaxValue)
-                throw new ArgumentException(string.Format("Invalid value ({0}) for {1} color channel. Expecting a value between 0 and 255.", (object)value, (object)name));
+            if (value < 0 || value > byte.MaxValue)
+                throw new ArgumentException(string.Format("Invalid value ({0}) for {1} color channel. Expecting a value between 0 and 255.", value, name));
         }
 
         private static void CheckFloat(float value, string name)
         {
-            if ((double)value < 0.0 || (double)value > 1.0)
-                throw new ArgumentException(string.Format("Invalid value ({0}) for {1} color channel. Expecting a value between 0.0 and 1.0.", (object)value, (object)name));
+            if (value < 0.0 || value > 1.0)
+                throw new ArgumentException(string.Format("Invalid value ({0}) for {1} color channel. Expecting a value between 0.0 and 1.0.", value, name));
         }
     }
 }

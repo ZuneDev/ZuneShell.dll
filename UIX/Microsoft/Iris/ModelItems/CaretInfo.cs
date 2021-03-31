@@ -87,7 +87,7 @@ namespace Microsoft.Iris.ModelItems
                 int num = Win32Api.GetCaretBlinkTime();
                 if (num < 0)
                     num = 0;
-                return (float)num / 1000f;
+                return num / 1000f;
             }
         }
     }

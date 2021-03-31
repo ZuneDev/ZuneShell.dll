@@ -31,7 +31,7 @@ namespace Microsoft.Iris
 
         protected abstract void BeginExecute();
 
-        public object ResultTypeCookie => (object)this._typeSchema.ResultType;
+        public object ResultTypeCookie => _typeSchema.ResultType;
 
         public object Result
         {
@@ -68,7 +68,7 @@ namespace Microsoft.Iris
                 this.FirePropertyChanged(nameof(Enabled));
                 if (!this._enabled || !this._isInvalid)
                     return;
-                this.DeferredBeginExecute((object)null);
+                this.DeferredBeginExecute(null);
             }
         }
 
@@ -87,7 +87,7 @@ namespace Microsoft.Iris
                         return obj;
                 }
             }
-            return (object)null;
+            return null;
         }
 
         public virtual void SetProperty(string propertyName, object value)
@@ -122,7 +122,7 @@ namespace Microsoft.Iris
                 this._internalQuery.FireNotificationThreadSafe(propertyName);
             bool invalidatesQuery = this._typeSchema.InvalidatesQuery(propertyName);
             if (this.PropertyChanged != null)
-                this.PropertyChanged((object)this, (PropertyChangedEventArgs)new DataProviderPropertyChangedEventArgs(propertyName, invalidatesQuery));
+                this.PropertyChanged(this, new DataProviderPropertyChangedEventArgs(propertyName, invalidatesQuery));
             if (this._isInvalid || !invalidatesQuery)
                 return;
             this._isInvalid = true;
@@ -183,7 +183,7 @@ namespace Microsoft.Iris
             this._isInvalid = true;
         }
 
-        object AssemblyObjectProxyHelper.IFrameworkProxyObject.FrameworkObject => (object)this._internalQuery;
+        object AssemblyObjectProxyHelper.IFrameworkProxyObject.FrameworkObject => _internalQuery;
 
         internal string ProviderName => this._typeSchema.ProviderName;
 
@@ -194,11 +194,11 @@ namespace Microsoft.Iris
             this._initialized = true;
             if (!this._enabled)
                 return;
-            this.DeferredBeginExecute((object)null);
+            this.DeferredBeginExecute(null);
         }
 
         public override string ToString() => this._typeSchema.Name;
 
-        private object SynchronizedPropertyStorage => (object)this._internalQuery;
+        private object SynchronizedPropertyStorage => _internalQuery;
     }
 }

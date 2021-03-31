@@ -15,34 +15,34 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object CallTraceString(object instanceObj, object[] parameters)
         {
-            NativeApi.SpLogTrace((string)null, (string)parameters[0], 0);
-            return (object)null;
+            NativeApi.SpLogTrace(null, (string)parameters[0], 0);
+            return null;
         }
 
         private static object CallTraceStringObject(object instanceObj, object[] parameters)
         {
-            DebugSchema.Trace((string)parameters[0], parameters[1], (object)null, (object)null, (object)null, (object)null);
-            return (object)null;
+            DebugSchema.Trace((string)parameters[0], parameters[1], null, null, null, null);
+            return null;
         }
 
         private static object CallTraceStringObjectObject(object instanceObj, object[] parameters)
         {
-            DebugSchema.Trace((string)parameters[0], parameters[1], parameters[2], (object)null, (object)null, (object)null);
-            return (object)null;
+            DebugSchema.Trace((string)parameters[0], parameters[1], parameters[2], null, null, null);
+            return null;
         }
 
         private static object CallTraceStringObjectObjectObject(object instanceObj, object[] parameters)
         {
-            DebugSchema.Trace((string)parameters[0], parameters[1], parameters[2], parameters[3], (object)null, (object)null);
-            return (object)null;
+            DebugSchema.Trace((string)parameters[0], parameters[1], parameters[2], parameters[3], null, null);
+            return null;
         }
 
         private static object CallTraceStringObjectObjectObjectObject(
           object instanceObj,
           object[] parameters)
         {
-            DebugSchema.Trace((string)parameters[0], parameters[1], parameters[2], parameters[3], parameters[4], (object)null);
-            return (object)null;
+            DebugSchema.Trace((string)parameters[0], parameters[1], parameters[2], parameters[3], parameters[4], null);
+            return null;
         }
 
         private static object CallTraceStringObjectObjectObjectObjectObject(
@@ -50,7 +50,7 @@ namespace Microsoft.Iris.Markup.UIX
           object[] parameters)
         {
             DebugSchema.Trace((string)parameters[0], parameters[1], parameters[2], parameters[3], parameters[4], parameters[5]);
-            return (object)null;
+            return null;
         }
 
         private static void Trace(
@@ -68,63 +68,63 @@ namespace Microsoft.Iris.Markup.UIX
             }
             catch (FormatException ex)
             {
-                message = string.Format("Invalid format for Debug.Trace [{0}].", (object)format);
+                message = string.Format("Invalid format for Debug.Trace [{0}].", format);
             }
-            NativeApi.SpLogTrace((string)null, message, 0);
+            NativeApi.SpLogTrace(null, message, 0);
         }
 
-        public static void Pass1Initialize() => DebugSchema.Type = new UIXTypeSchema((short)49, "Debug", (string)null, (short)153, typeof(object), UIXTypeFlags.Static);
+        public static void Pass1Initialize() => DebugSchema.Type = new UIXTypeSchema(49, "Debug", null, 153, typeof(object), UIXTypeFlags.Static);
 
         public static void Pass2Initialize()
         {
-            UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema((short)49, "Trace", new short[1]
+            UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema(49, "Trace", new short[1]
             {
-        (short) 208
-            }, (short)240, new InvokeHandler(DebugSchema.CallTraceString), true);
-            UIXMethodSchema uixMethodSchema2 = new UIXMethodSchema((short)49, "Trace", new short[2]
+         208
+            }, 240, new InvokeHandler(DebugSchema.CallTraceString), true);
+            UIXMethodSchema uixMethodSchema2 = new UIXMethodSchema(49, "Trace", new short[2]
             {
-        (short) 208,
-        (short) 153
-            }, (short)240, new InvokeHandler(DebugSchema.CallTraceStringObject), true);
-            UIXMethodSchema uixMethodSchema3 = new UIXMethodSchema((short)49, "Trace", new short[3]
+         208,
+         153
+            }, 240, new InvokeHandler(DebugSchema.CallTraceStringObject), true);
+            UIXMethodSchema uixMethodSchema3 = new UIXMethodSchema(49, "Trace", new short[3]
             {
-        (short) 208,
-        (short) 153,
-        (short) 153
-            }, (short)240, new InvokeHandler(DebugSchema.CallTraceStringObjectObject), true);
-            UIXMethodSchema uixMethodSchema4 = new UIXMethodSchema((short)49, "Trace", new short[4]
+         208,
+         153,
+         153
+            }, 240, new InvokeHandler(DebugSchema.CallTraceStringObjectObject), true);
+            UIXMethodSchema uixMethodSchema4 = new UIXMethodSchema(49, "Trace", new short[4]
             {
-        (short) 208,
-        (short) 153,
-        (short) 153,
-        (short) 153
-            }, (short)240, new InvokeHandler(DebugSchema.CallTraceStringObjectObjectObject), true);
-            UIXMethodSchema uixMethodSchema5 = new UIXMethodSchema((short)49, "Trace", new short[5]
+         208,
+         153,
+         153,
+         153
+            }, 240, new InvokeHandler(DebugSchema.CallTraceStringObjectObjectObject), true);
+            UIXMethodSchema uixMethodSchema5 = new UIXMethodSchema(49, "Trace", new short[5]
             {
-        (short) 208,
-        (short) 153,
-        (short) 153,
-        (short) 153,
-        (short) 153
-            }, (short)240, new InvokeHandler(DebugSchema.CallTraceStringObjectObjectObjectObject), true);
-            UIXMethodSchema uixMethodSchema6 = new UIXMethodSchema((short)49, "Trace", new short[6]
+         208,
+         153,
+         153,
+         153,
+         153
+            }, 240, new InvokeHandler(DebugSchema.CallTraceStringObjectObjectObjectObject), true);
+            UIXMethodSchema uixMethodSchema6 = new UIXMethodSchema(49, "Trace", new short[6]
             {
-        (short) 208,
-        (short) 153,
-        (short) 153,
-        (short) 153,
-        (short) 153,
-        (short) 153
-            }, (short)240, new InvokeHandler(DebugSchema.CallTraceStringObjectObjectObjectObjectObject), true);
-            DebugSchema.Type.Initialize((DefaultConstructHandler)null, (ConstructorSchema[])null, (PropertySchema[])null, new MethodSchema[6]
+         208,
+         153,
+         153,
+         153,
+         153,
+         153
+            }, 240, new InvokeHandler(DebugSchema.CallTraceStringObjectObjectObjectObjectObject), true);
+            DebugSchema.Type.Initialize(null, null, null, new MethodSchema[6]
             {
-        (MethodSchema) uixMethodSchema1,
-        (MethodSchema) uixMethodSchema2,
-        (MethodSchema) uixMethodSchema3,
-        (MethodSchema) uixMethodSchema4,
-        (MethodSchema) uixMethodSchema5,
-        (MethodSchema) uixMethodSchema6
-            }, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixMethodSchema1,
+         uixMethodSchema2,
+         uixMethodSchema3,
+         uixMethodSchema4,
+         uixMethodSchema5,
+         uixMethodSchema6
+            }, null, null, null, null, null, null, null, null);
         }
     }
 }

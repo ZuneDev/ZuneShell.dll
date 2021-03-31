@@ -64,10 +64,10 @@ namespace Microsoft.Iris.ViewItems
 
         public static Size SmallestFillingFit(Size source, Size bounds)
         {
-            float num = (float)source.Width / (float)source.Height;
-            Size size = new Size(bounds.Width, (int)Math.Ceiling((double)bounds.Width / (double)num));
+            float num = source.Width / (float)source.Height;
+            Size size = new Size(bounds.Width, (int)Math.Ceiling(bounds.Width / (double)num));
             if (size.Height < bounds.Height)
-                size = new Size((int)Math.Ceiling((double)bounds.Height * (double)num), bounds.Height);
+                size = new Size((int)Math.Ceiling(bounds.Height * (double)num), bounds.Height);
             return size;
         }
 

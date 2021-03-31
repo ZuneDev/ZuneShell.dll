@@ -17,7 +17,7 @@ namespace Microsoft.Iris.OS
 
         public static void Startup()
         {
-            ResourceManager.Instance.RegisterSource("http", (IResourceProvider)HttpResources.s_instance);
+            ResourceManager.Instance.RegisterSource("http", s_instance);
             NativeApi.SpHttpStartup();
         }
 
@@ -37,7 +37,7 @@ namespace Microsoft.Iris.OS
                 HttpResources.s_activationChangeHandler = new EventHandler(HttpResources.OnActivationChanged);
                 UISession.Default.Form.ActivationChange += HttpResources.s_activationChangeHandler;
             }
-            return (Resource)new HttpResource(url, forceSynchronous);
+            return new HttpResource(url, forceSynchronous);
         }
     }
 }

@@ -30,25 +30,25 @@ namespace Microsoft.Iris.OS
         private void OnHttpDownloadComplete(IntPtr handle, int error, uint length, IntPtr context)
         {
             IntPtr buffer = IntPtr.Zero;
-            string errorDetails = (string)null;
+            string errorDetails = null;
             switch (error)
             {
                 case 0:
                     buffer = NativeApi.DownloadGetBuffer(this._handle);
                     break;
                 case 1:
-                    errorDetails = string.Format("Invalid URI: '{0}'", (object)this._uri);
+                    errorDetails = string.Format("Invalid URI: '{0}'", _uri);
                     break;
                 case 2:
-                    errorDetails = string.Format("Unable to connect to web host: '{0}'", (object)this._uri);
+                    errorDetails = string.Format("Unable to connect to web host: '{0}'", _uri);
                     break;
                 default:
-                    errorDetails = string.Format("Failed to complete download from '{0}'", (object)this._uri);
+                    errorDetails = string.Format("Failed to complete download from '{0}'", _uri);
                     break;
             }
             int num = (int)NativeApi.SpDownloadClose(this._handle);
             this._handle = IntPtr.Zero;
-            this._pendingCallback = (NativeApi.DownloadCompleteHandler)null;
+            this._pendingCallback = null;
             this.NotifyAcquisitionComplete(buffer, length, true, errorDetails);
         }
 
@@ -58,7 +58,7 @@ namespace Microsoft.Iris.OS
                 return;
             int num = (int)NativeApi.SpDownloadClose(this._handle);
             this._handle = IntPtr.Zero;
-            this._pendingCallback = (NativeApi.DownloadCompleteHandler)null;
+            this._pendingCallback = null;
         }
     }
 }

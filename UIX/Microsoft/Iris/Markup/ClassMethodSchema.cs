@@ -14,11 +14,11 @@ namespace Microsoft.Iris.Markup
           TypeSchema returnType,
           TypeSchema[] parameterTypes,
           string[] parameterNames)
-          : base((MarkupTypeSchema)owner, name, returnType, parameterTypes, parameterNames)
+          : base(owner, name, returnType, parameterTypes, parameterNames)
         {
         }
 
-        protected override IMarkupTypeBase GetMarkupTypeBase(object instance) => instance == null ? (IMarkupTypeBase)((ClassTypeSchema)this.Owner).SharedInstance : (IMarkupTypeBase)instance;
+        protected override IMarkupTypeBase GetMarkupTypeBase(object instance) => instance == null ? ((ClassTypeSchema)Owner).SharedInstance : (IMarkupTypeBase)instance;
 
         public override bool IsStatic => ((ClassTypeSchema)this.Owner).IsShared;
     }

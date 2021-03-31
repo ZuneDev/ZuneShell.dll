@@ -54,7 +54,7 @@ namespace Microsoft.Iris.InputHandlers
                 this.UI.MouseInteractive = true;
             if (this._relativeTo != null)
                 return;
-            this.SetRelativeTo((ViewItem)null);
+            this.SetRelativeTo(null);
         }
 
         public BeginDragPolicy BeginDragPolicy
@@ -109,7 +109,7 @@ namespace Microsoft.Iris.InputHandlers
             {
                 Size screenDragSize = this.ScreenDragSize;
                 Vector3 vector3 = this._relativeTo != null ? this._relativeTo.ComputeEffectiveScale() : Vector3.UnitVector;
-                return new Vector2((float)screenDragSize.Width / vector3.X, (float)screenDragSize.Height / vector3.Y);
+                return new Vector2(screenDragSize.Width / vector3.X, screenDragSize.Height / vector3.Y);
             }
         }
 
@@ -179,7 +179,7 @@ namespace Microsoft.Iris.InputHandlers
 
         public ViewItem RelativeTo
         {
-            get => !this._hasRelativeTo ? (ViewItem)null : this._relativeTo;
+            get => !this._hasRelativeTo ? null : this._relativeTo;
             set
             {
                 bool hasRelativeTo = this._hasRelativeTo;
@@ -332,7 +332,7 @@ namespace Microsoft.Iris.InputHandlers
             if (!this.Dragging)
                 return;
             Point client = this._relativeTo.ScreenToClient(this._screenEndPosition);
-            this.SetEndPosition(new Vector2((float)client.X, (float)client.Y));
+            this.SetEndPosition(new Vector2(client.X, client.Y));
             if (beginPosition != this.BeginPosition)
                 this.FireNotification(NotificationID.BeginPosition);
             if (endPosition != this.EndPosition)
@@ -380,8 +380,8 @@ namespace Microsoft.Iris.InputHandlers
 
         private Vector2 TransformToUI(Point uiPoint, UIClass reference)
         {
-            float x = (float)uiPoint.X;
-            float y = (float)uiPoint.Y;
+            float x = uiPoint.X;
+            float y = uiPoint.Y;
             if (reference != this.UI)
             {
                 RectangleF rect = new RectangleF(x, y, 0.0f, 0.0f);
@@ -392,7 +392,7 @@ namespace Microsoft.Iris.InputHandlers
             return new Vector2(x, y);
         }
 
-        private Vector2 NormalizeCoordinates(Vector2 pt) => this._lastKnownSize.Width == 0 || this._lastKnownSize.Height == 0 ? Vector2.Zero : new Vector2(pt.X / (float)this._lastKnownSize.Width, pt.Y / (float)this._lastKnownSize.Height);
+        private Vector2 NormalizeCoordinates(Vector2 pt) => this._lastKnownSize.Width == 0 || this._lastKnownSize.Height == 0 ? Vector2.Zero : new Vector2(pt.X / _lastKnownSize.Width, pt.Y / _lastKnownSize.Height);
 
         internal override CursorID GetCursor() => this._dragCursor != CursorID.NotSpecified && this.Dragging ? this._dragCursor : CursorID.NotSpecified;
 
@@ -406,23 +406,23 @@ namespace Microsoft.Iris.InputHandlers
 
         public IList GetEventContexts()
         {
-            IList added = (IList)new List<object>();
+            IList added = new List<object>();
             RectangleF uiBounds;
             this.GetDragBounds(out RectangleF _, out uiBounds);
-            DragHandler.GetEventContexts(this.UI, added, (IList)null, RectangleF.Zero, uiBounds);
+            DragHandler.GetEventContexts(this.UI, added, null, RectangleF.Zero, uiBounds);
             return added;
         }
 
         public IList GetAddedEventContexts()
         {
             this.UpdateEventContexts();
-            return (IList)this._addedContexts;
+            return _addedContexts;
         }
 
         public IList GetRemovedEventContexts()
         {
             this.UpdateEventContexts();
-            return (IList)this._removedContexts;
+            return _removedContexts;
         }
 
         private void UpdateEventContexts()
@@ -434,7 +434,7 @@ namespace Microsoft.Iris.InputHandlers
                 return;
             this._addedContexts = new List<object>();
             this._removedContexts = new List<object>();
-            DragHandler.GetEventContexts(this.UI, (IList)this._addedContexts, (IList)this._removedContexts, this.TransformFromRelative(this._contextBounds), uiBounds);
+            DragHandler.GetEventContexts(this.UI, _addedContexts, _removedContexts, this.TransformFromRelative(this._contextBounds), uiBounds);
             this._contextBounds = relativeBounds;
         }
 

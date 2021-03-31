@@ -12,25 +12,25 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object GetSources(object instanceObj) => (object)((MergeAnimation)instanceObj).Sources;
+        private static object GetSources(object instanceObj) => ((MergeAnimation)instanceObj).Sources;
 
-        private static object GetType(object instanceObj) => (object)((MergeAnimation)instanceObj).Type;
+        private static object GetType(object instanceObj) => ((MergeAnimation)instanceObj).Type;
 
         private static void SetType(ref object instanceObj, object valueObj) => ((MergeAnimation)instanceObj).Type = (AnimationEventType)valueObj;
 
-        private static object Construct() => (object)new MergeAnimation();
+        private static object Construct() => new MergeAnimation();
 
-        public static void Pass1Initialize() => MergeAnimationSchema.Type = new UIXTypeSchema((short)147, "MergeAnimation", (string)null, (short)104, typeof(MergeAnimation), UIXTypeFlags.None);
+        public static void Pass1Initialize() => MergeAnimationSchema.Type = new UIXTypeSchema(147, "MergeAnimation", null, 104, typeof(MergeAnimation), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema((short)147, "Sources", (short)138, (short)104, ExpressionRestriction.NoAccess, false, (RangeValidator)null, false, new GetValueHandler(MergeAnimationSchema.GetSources), (SetValueHandler)null, false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema((short)147, "Type", (short)10, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(MergeAnimationSchema.GetType), new SetValueHandler(MergeAnimationSchema.SetType), false);
-            MergeAnimationSchema.Type.Initialize(new DefaultConstructHandler(MergeAnimationSchema.Construct), (ConstructorSchema[])null, new PropertySchema[2]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(147, "Sources", 138, 104, ExpressionRestriction.NoAccess, false, null, false, new GetValueHandler(MergeAnimationSchema.GetSources), null, false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(147, "Type", 10, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(MergeAnimationSchema.GetType), new SetValueHandler(MergeAnimationSchema.SetType), false);
+            MergeAnimationSchema.Type.Initialize(new DefaultConstructHandler(MergeAnimationSchema.Construct), null, new PropertySchema[2]
             {
-        (PropertySchema) uixPropertySchema1,
-        (PropertySchema) uixPropertySchema2
-            }, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixPropertySchema1,
+         uixPropertySchema2
+            }, null, null, null, null, null, null, null, null, null);
         }
     }
 }

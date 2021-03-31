@@ -32,7 +32,7 @@ namespace Microsoft.Iris.ModelItems
 
         protected override void OnDispose()
         {
-            this.SetOptions((IList)null, true);
+            this.SetOptions(null, true);
             base.OnDispose();
         }
 
@@ -67,10 +67,10 @@ namespace Microsoft.Iris.ModelItems
         public bool ValidateIndex(int index, out string error)
         {
             bool flag = true;
-            error = (string)null;
+            error = null;
             if (this._options != null && (index < 0 || index >= this._options.Count))
             {
-                error = string.Format("Selected Index {0} is not a valid index in SourceList of size {1}", (object)index, (object)this._options.Count);
+                error = string.Format("Selected Index {0} is not a valid index in SourceList of size {1}", index, _options.Count);
                 flag = false;
             }
             return flag;
@@ -86,17 +86,17 @@ namespace Microsoft.Iris.ModelItems
                 if (index >= 0)
                     flag = true;
             }
-            error = !flag ? string.Format("Script runtime failure: Invalid '{0}' value  for '{1}'", option, (object)"ChosenValue") : (string)null;
+            error = !flag ? string.Format("Script runtime failure: Invalid '{0}' value  for '{1}'", option, "ChosenValue") : null;
             return flag;
         }
 
         public virtual bool ValidateOptionsList(IList options, out string error)
         {
-            error = (string)null;
+            error = null;
             return true;
         }
 
-        public object ChosenValue => !this.HasSelection || this.OptionsCount == 0 ? (object)null : this._options[this._chosen];
+        public object ChosenValue => !this.HasSelection || this.OptionsCount == 0 ? null : this._options[this._chosen];
 
         public int ChosenIndex
         {

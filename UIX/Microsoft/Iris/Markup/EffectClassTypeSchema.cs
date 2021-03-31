@@ -40,20 +40,20 @@ namespace Microsoft.Iris.Markup
             base.OnDispose();
             if (this._effectTemplate == null)
                 return;
-            this._effectTemplate.UnregisterUsage((object)this);
-            this._effectTemplate = (IEffectTemplate)null;
+            this._effectTemplate.UnregisterUsage(this);
+            this._effectTemplate = null;
         }
 
-        protected override TypeSchema DefaultBase => (TypeSchema)EffectInstanceSchema.Type;
+        protected override TypeSchema DefaultBase => EffectInstanceSchema.Type;
 
         public override Type RuntimeType => typeof(EffectClass);
 
-        public string DefaultElementSymbol => this._defaultElementSymbolIndex >= 0 ? this.SymbolReferenceTable[this._defaultElementSymbolIndex].Symbol : (string)null;
+        public string DefaultElementSymbol => this._defaultElementSymbolIndex >= 0 ? this.SymbolReferenceTable[this._defaultElementSymbolIndex].Symbol : null;
 
         protected override Class ConstructNewInstance()
         {
             this.EnsureEffectTemplate();
-            return (Class)new EffectClass((MarkupTypeSchema)this, this._effectTemplate);
+            return new EffectClass(this, this._effectTemplate);
         }
 
         protected override bool RunInitialEvaluates(IMarkupTypeBase scriptHost)
@@ -61,7 +61,7 @@ namespace Microsoft.Iris.Markup
             bool flag = true;
             if (this._instancePropertyAssignments != null && this._templateIndexBuilt >= 0)
             {
-                ErrorManager.EnterContext((object)this);
+                ErrorManager.EnterContext(this);
                 flag = this.RunInitializeScript(scriptHost, this._instancePropertyAssignments[this._templateIndexBuilt]);
                 ErrorManager.ExitContext();
             }
@@ -72,18 +72,18 @@ namespace Microsoft.Iris.Markup
         {
             if (this._effectTemplate != null)
                 return;
-            this._effectTemplate = UISession.Default.RenderSession.CreateEffectTemplate((object)this, this.Name);
-            ErrorManager.EnterContext((object)this);
-            Class @class = new Class((MarkupTypeSchema)this);
-            @class.DeclareOwner((object)this);
+            this._effectTemplate = UISession.Default.RenderSession.CreateEffectTemplate(this, this.Name);
+            ErrorManager.EnterContext(this);
+            Class @class = new Class(this);
+            @class.DeclareOwner(this);
             this._templateIndexBuilt = -1;
             for (int index = 0; index < this._techniqueOffsets.Length; ++index)
             {
-                object obj = this.RunAtOffset((IMarkupTypeBase)@class, this._techniqueOffsets[index]);
+                object obj = this.RunAtOffset(@class, this._techniqueOffsets[index]);
                 if (obj == Interpreter.ScriptError)
                 {
                     if (!ErrorManager.IgnoringErrors)
-                        ErrorManager.ReportWarning("Script runtime failure: Scripting errors have prevented '{0}' from properly initializing and will affect its operation", (object)this.Name);
+                        ErrorManager.ReportWarning("Script runtime failure: Scripting errors have prevented '{0}' from properly initializing and will affect its operation", Name);
                 }
                 else
                 {
@@ -100,7 +100,7 @@ namespace Microsoft.Iris.Markup
                     }
                 }
             }
-            @class.Dispose((object)this);
+            @class.Dispose(this);
             ErrorManager.ExitContext();
         }
 

@@ -16,11 +16,11 @@ namespace Microsoft.Iris.Markup
         {
         }
 
-        public override object ConstructDefault() => (object)new ProviderlessMarkupDataType(this);
+        public override object ConstructDefault() => new ProviderlessMarkupDataType(this);
 
         public override MarkupType MarkupType => MarkupType.DataType;
 
-        protected override TypeSchema DefaultBase => (TypeSchema)MarkupDataTypeInstanceSchema.Type;
+        protected override TypeSchema DefaultBase => MarkupDataTypeInstanceSchema.Type;
 
         public override Type RuntimeType => typeof(MarkupDataType);
     }

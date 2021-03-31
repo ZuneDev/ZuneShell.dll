@@ -16,17 +16,17 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static void SetValue(ref object instanceObj, object valueObj) => ((EventContext)instanceObj).Value = valueObj;
 
-        private static object Construct() => (object)new EventContext();
+        private static object Construct() => new EventContext();
 
-        public static void Pass1Initialize() => EventContextSchema.Type = new UIXTypeSchema((short)88, "EventContext", (string)null, (short)110, typeof(EventContext), UIXTypeFlags.Disposable);
+        public static void Pass1Initialize() => EventContextSchema.Type = new UIXTypeSchema(88, "EventContext", null, 110, typeof(EventContext), UIXTypeFlags.Disposable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema = new UIXPropertySchema((short)88, "Value", (short)153, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(EventContextSchema.GetValue), new SetValueHandler(EventContextSchema.SetValue), false);
-            EventContextSchema.Type.Initialize(new DefaultConstructHandler(EventContextSchema.Construct), (ConstructorSchema[])null, new PropertySchema[1]
+            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(88, "Value", 153, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(EventContextSchema.GetValue), new SetValueHandler(EventContextSchema.SetValue), false);
+            EventContextSchema.Type.Initialize(new DefaultConstructHandler(EventContextSchema.Construct), null, new PropertySchema[1]
             {
-        (PropertySchema) uixPropertySchema
-            }, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixPropertySchema
+            }, null, null, null, null, null, null, null, null, null);
         }
     }
 }

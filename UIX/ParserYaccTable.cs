@@ -1965,7 +1965,7 @@ internal class ParserYaccTable : SSYaccTable
     0,
     0,
     16387,
-    (int) sbyte.MaxValue,
+     sbyte.MaxValue,
     1,
     0,
     29,

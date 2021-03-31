@@ -31,7 +31,7 @@ namespace Microsoft.Iris.Session
         }
 
         public DispatcherTimer()
-          : this((ITimerOwner)null)
+          : this(null)
         {
         }
 
@@ -52,7 +52,7 @@ namespace Microsoft.Iris.Session
         public int Interval
         {
             get => (int)this.TimeSpanInterval.TotalMilliseconds;
-            set => this.TimeSpanInterval = TimeSpan.FromMilliseconds((double)value);
+            set => this.TimeSpanInterval = TimeSpan.FromMilliseconds(value);
         }
 
         public bool Enabled
@@ -113,8 +113,8 @@ namespace Microsoft.Iris.Session
         {
             if (this._callback == null)
                 return;
-            this._timeoutManager.CancelTimeout((QueueItem)this._callback);
-            this._callback = (DispatcherTimer.TimerCallback)null;
+            this._timeoutManager.CancelTimeout(_callback);
+            this._callback = null;
         }
 
         private void FireEnabledChange(bool wasEnabled)
@@ -129,7 +129,7 @@ namespace Microsoft.Iris.Session
             string str = " one-shot";
             if (this._autoRepeat)
                 str = " repeating";
-            return "[" + (object)this.Interval + str + "] -> " + DebugHelpers.DEBUG_ObjectToString((object)this.Tick);
+            return "[" + Interval + str + "] -> " + DebugHelpers.DEBUG_ObjectToString(Tick);
         }
 
         public event EventHandler Tick;
@@ -139,7 +139,7 @@ namespace Microsoft.Iris.Session
             if (this._callback == null)
                 return;
             TimeSpan timeSpan1 = this._interval;
-            TimeSpan timeSpan2 = TimeSpan.FromMilliseconds((double)(currentTimeInMilliseconds - this._timeBase));
+            TimeSpan timeSpan2 = TimeSpan.FromMilliseconds(currentTimeInMilliseconds - this._timeBase);
             if (timeSpan2 >= timeSpan1)
             {
                 long ticks = timeSpan1.Ticks;
@@ -147,7 +147,7 @@ namespace Microsoft.Iris.Session
                     timeSpan1 = TimeSpan.FromTicks(ticks * ((timeSpan2.Ticks + ticks / 2L) / ticks));
             }
             this._timeBase += (long)timeSpan1.TotalMilliseconds;
-            this._timeoutManager.SetTimeoutRelative((QueueItem)this._callback, TimeSpan.FromMilliseconds((double)(this._timeBase - currentTimeInMilliseconds)));
+            this._timeoutManager.SetTimeoutRelative(_callback, TimeSpan.FromMilliseconds(this._timeBase - currentTimeInMilliseconds));
         }
 
         private void CallTickHandlers(DispatcherTimer.TimerCallback callback)
@@ -160,11 +160,11 @@ namespace Microsoft.Iris.Session
             }
             else
             {
-                this._callback = (DispatcherTimer.TimerCallback)null;
+                this._callback = null;
                 this.FireEnabledChange(true);
             }
             if (this.Tick != null)
-                this.Tick(this._owner != null ? (object)this._owner : (object)this, EventArgs.Empty);
+                this.Tick(this._owner != null ? _owner : (object)this, EventArgs.Empty);
             this.FireNotification(NotificationID.Tick);
         }
 
@@ -190,7 +190,7 @@ namespace Microsoft.Iris.Session
                 string str = "";
                 if (!this._timer.CallbackValid(this))
                     str = "CANCELED ";
-                return str + this.GetType().Name + " -> " + (object)this._timer;
+                return str + this.GetType().Name + " -> " + _timer;
             }
         }
 
@@ -211,7 +211,7 @@ namespace Microsoft.Iris.Session
             private static void Refresh()
             {
                 int tickCount = Environment.TickCount;
-                long num = tickCount < DispatcherTimer.SystemTickCount.s_lastTickCount ? (long)(int.MaxValue - DispatcherTimer.SystemTickCount.s_lastTickCount + tickCount) : (long)(tickCount - DispatcherTimer.SystemTickCount.s_lastTickCount);
+                long num = tickCount < DispatcherTimer.SystemTickCount.s_lastTickCount ? int.MaxValue - DispatcherTimer.SystemTickCount.s_lastTickCount + tickCount : tickCount - DispatcherTimer.SystemTickCount.s_lastTickCount;
                 DispatcherTimer.SystemTickCount.s_tickCount += num;
                 DispatcherTimer.SystemTickCount.s_lastTickCount = tickCount;
             }

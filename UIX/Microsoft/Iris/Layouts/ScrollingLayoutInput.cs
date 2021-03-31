@@ -86,7 +86,7 @@ namespace Microsoft.Iris.Layouts
 
         internal void OnLayoutComplete()
         {
-            this.SecondaryScrollIntoViewDisposition = (ScrollIntoViewDisposition)null;
+            this.SecondaryScrollIntoViewDisposition = null;
             this._havePendingScrollPosition = false;
             this._pendingPageCommands = 0;
             this._scrollAmount = this._pendingScrollAmount;
@@ -114,6 +114,6 @@ namespace Microsoft.Iris.Layouts
 
         public static DataCookie Data => ScrollingLayoutInput.s_dataProperty;
 
-        public override string ToString() => InvariantString.Format("{0}(ScrollAmount={1}, PageAmount={2}, PageStep={3}, Disposition=({4}))", (object)this.GetType().Name, (object)this._pendingScrollAmount, (object)this._pendingPageCommands, (object)this._pageStep, (object)this._scrollIntoView);
+        public override string ToString() => InvariantString.Format("{0}(ScrollAmount={1}, PageAmount={2}, PageStep={3}, Disposition=({4}))", this.GetType().Name, _pendingScrollAmount, _pendingPageCommands, _pageStep, _scrollIntoView);
     }
 }

@@ -22,7 +22,7 @@ namespace Microsoft.Iris.Queues
             this._dispatcher.NotifyFeederItems();
         }
 
-        public void LeaveDispatch(Dispatcher dispatcher) => this._dispatcher = (Dispatcher)null;
+        public void LeaveDispatch(Dispatcher dispatcher) => this._dispatcher = null;
 
         public void PostItem(QueueItem item, int priority)
         {
@@ -49,7 +49,7 @@ namespace Microsoft.Iris.Queues
             lock (this)
             {
                 QueueItem.FIFO[] fifos = this._fifos;
-                this._fifos = (QueueItem.FIFO[])null;
+                this._fifos = null;
                 this._hasItems = false;
                 return fifos;
             }

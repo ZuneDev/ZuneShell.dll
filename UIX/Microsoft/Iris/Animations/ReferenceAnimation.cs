@@ -34,7 +34,7 @@ namespace Microsoft.Iris.Animations
 
         protected virtual AnimationTemplate BuildWorker(ref AnimationArgs args) => this._sourceAnimation.Build(ref args);
 
-        public override string ToString() => InvariantString.Format("{0}({1})", (object)this.GetType().Name, (object)this.Source);
+        public override string ToString() => InvariantString.Format("{0}({1})", this.GetType().Name, Source);
 
         public virtual bool CanCache => this._sourceAnimation == null || this._sourceAnimation.CanCache;
     }

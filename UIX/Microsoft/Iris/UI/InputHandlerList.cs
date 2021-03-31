@@ -12,6 +12,6 @@ namespace Microsoft.Iris.UI
 {
     internal class InputHandlerList : List<InputHandler>
     {
-        public StackIListReverseEnumerator GetEnumerator() => new StackIListReverseEnumerator((IList)this);
+        public StackIListReverseEnumerator GetEnumerator() => new StackIListReverseEnumerator(this);
     }
 }

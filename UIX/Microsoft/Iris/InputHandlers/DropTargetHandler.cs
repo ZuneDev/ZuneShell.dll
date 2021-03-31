@@ -74,7 +74,7 @@ namespace Microsoft.Iris.InputHandlers
             {
                 this.EndDrag(NotificationID.DragLeave);
                 info.MarkHandled();
-                this.SetEventContext((ICookedInputSite)null, ref this._eventContext, NotificationID.EventContext);
+                this.SetEventContext(null, ref this._eventContext, NotificationID.EventContext);
             }
             base.OnDragLeave(ui, info);
         }
@@ -94,7 +94,7 @@ namespace Microsoft.Iris.InputHandlers
             this._dragging = false;
             this.FireNotification(NotificationID.Dragging);
             this.FireNotification(eventName);
-            DragDropHelper.TargetHandler = (DropTargetHandler)null;
+            DragDropHelper.TargetHandler = null;
         }
 
         public object GetValue() => DragDropHelper.GetValue();

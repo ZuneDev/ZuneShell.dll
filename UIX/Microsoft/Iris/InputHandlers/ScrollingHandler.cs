@@ -247,7 +247,7 @@ namespace Microsoft.Iris.InputHandlers
 
         protected override void OnMouseWheel(UIClass ui, MouseWheelInfo info)
         {
-            if (!this._handleMouseWheelFlag || !this.ValidScrollModel || this.InputHasKeyModifiers((InputInfo)info))
+            if (!this._handleMouseWheelFlag || !this.ValidScrollModel || this.InputHasKeyModifiers(info))
                 return;
             this._cumulativeMouseWheelDelta += -info.WheelDelta;
             if (Math.Abs(this._cumulativeMouseWheelDelta) >= 120)

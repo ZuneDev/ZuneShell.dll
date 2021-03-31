@@ -32,20 +32,20 @@ namespace Microsoft.Iris.Session
             {
                 if (this._effectTemplateColor != null)
                 {
-                    this._effectTemplateColor.UnregisterUsage((object)this);
-                    this._effectTemplateColor = (IEffectTemplate)null;
+                    this._effectTemplateColor.UnregisterUsage(this);
+                    this._effectTemplateColor = null;
                 }
                 if (this._effectTemplateImage != null)
                 {
-                    this._effectTemplateImage.UnregisterUsage((object)this);
-                    this._effectTemplateImage = (IEffectTemplate)null;
+                    this._effectTemplateImage.UnregisterUsage(this);
+                    this._effectTemplateImage = null;
                 }
                 if (this._effectTemplateImageWithColor != null)
                 {
-                    this._effectTemplateImageWithColor.UnregisterUsage((object)this);
-                    this._effectTemplateImageWithColor = (IEffectTemplate)null;
+                    this._effectTemplateImageWithColor.UnregisterUsage(this);
+                    this._effectTemplateImageWithColor = null;
                 }
-                this._renderSession = (IRenderSession)null;
+                this._renderSession = null;
             }
             this._fDisposed = true;
         }
@@ -56,10 +56,10 @@ namespace Microsoft.Iris.Session
             {
                 if (this._effectTemplateColor == null)
                 {
-                    this._effectTemplateColor = this._renderSession.CreateEffectTemplate((object)this, "ColorEffect");
+                    this._effectTemplateColor = this._renderSession.CreateEffectTemplate(this, "ColorEffect");
                     ColorElement colorElement = new ColorElement("ColorElem");
                     this._effectTemplateColor.AddEffectProperty("ColorElem.Color");
-                    this._effectTemplateColor.Build((EffectInput)colorElement);
+                    this._effectTemplateColor.Build(colorElement);
                 }
                 return this._effectTemplateColor;
             }
@@ -71,10 +71,10 @@ namespace Microsoft.Iris.Session
             {
                 if (this._effectTemplateImage == null)
                 {
-                    this._effectTemplateImage = this._renderSession.CreateEffectTemplate((object)this, "ImageEffect");
-                    ImageElement imageElement = new ImageElement("ImageElem", (IImage)null);
+                    this._effectTemplateImage = this._renderSession.CreateEffectTemplate(this, "ImageEffect");
+                    ImageElement imageElement = new ImageElement("ImageElem", null);
                     this._effectTemplateImage.AddEffectProperty("ImageElem.Image");
-                    this._effectTemplateImage.Build((EffectInput)imageElement);
+                    this._effectTemplateImage.Build(imageElement);
                 }
                 return this._effectTemplateImage;
             }

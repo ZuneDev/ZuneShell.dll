@@ -30,10 +30,10 @@ namespace Microsoft.Iris.Navigation
                 this._orderModifierValue = -1;
             NavigationItem[] navigationItemArray = new NavigationItem[allChildrenList.Count];
             int num = 0;
-            foreach (NavigationItem allChildren in (IEnumerable)allChildrenList)
+            foreach (NavigationItem allChildren in allChildrenList)
                 navigationItemArray[num++] = allChildren;
-            Array.Sort((Array)navigationItemArray, (IComparer)this);
-            return (IList)navigationItemArray;
+            Array.Sort(navigationItemArray, this);
+            return navigationItemArray;
         }
 
         int IComparer.Compare(object a, object b) => this._orderModifierValue * NavigationItem.CompareFocusOrder((NavigationItem)a, (NavigationItem)b);

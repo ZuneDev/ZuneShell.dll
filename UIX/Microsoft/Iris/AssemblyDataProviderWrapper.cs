@@ -21,10 +21,10 @@ namespace Microsoft.Iris
 
         public string Name => this._name;
 
-        public MarkupDataQuery Build(MarkupDataQuerySchema querySchema) => (MarkupDataQuery)new AssemblyMarkupDataQuery(querySchema, this);
+        public MarkupDataQuery Build(MarkupDataQuerySchema querySchema) => new AssemblyMarkupDataQuery(querySchema, this);
 
-        public IDataProviderQuery ConstructQuery(object queryTypeCookie) => (IDataProviderQuery)this._factory(queryTypeCookie);
+        public IDataProviderQuery ConstructQuery(object queryTypeCookie) => this._factory(queryTypeCookie);
 
-        public override string ToString() => string.Format("{0} ({1})", (object)this._name, (object)this._factory);
+        public override string ToString() => string.Format("{0} ({1})", _name, _factory);
     }
 }

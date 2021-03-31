@@ -39,7 +39,7 @@ namespace Microsoft.Iris.Markup.Validation
         public ValidateObjectTag Next
         {
             get => (ValidateObjectTag)base.Next;
-            set => base.Next = (ValidateObject)value;
+            set => base.Next = value;
         }
 
         public void AddProperty(ValidateProperty property)
@@ -115,7 +115,7 @@ namespace Microsoft.Iris.Markup.Validation
             }
             else
             {
-                if (context.CurrentPass != LoadPass.Full || !typeRestriction.Check((ValidateObject)this, this._foundType))
+                if (context.CurrentPass != LoadPass.Full || !typeRestriction.Check(this, this._foundType))
                     return;
                 if (!this._foundType.HasDefaultConstructor && !this.ForceAbstractAsConcrete && this.FindProperty(this._foundType.Name) == null)
                 {
@@ -234,7 +234,7 @@ namespace Microsoft.Iris.Markup.Validation
         public ValidateProperty FindProperty(string propertyName, bool remove)
         {
             ValidateProperty validateProperty1 = this._propertyList;
-            ValidateProperty validateProperty2 = (ValidateProperty)null;
+            ValidateProperty validateProperty2 = null;
             for (; validateProperty1 != null; validateProperty1 = validateProperty1.Next)
             {
                 if (propertyName == validateProperty1.PropertyName)
@@ -245,19 +245,19 @@ namespace Microsoft.Iris.Markup.Validation
                             validateProperty2.Next = validateProperty1.Next;
                         if (validateProperty1 == this._propertyList)
                             this._propertyList = validateProperty1.Next;
-                        validateProperty1.Next = (ValidateProperty)null;
+                        validateProperty1.Next = null;
                     }
                     return validateProperty1;
                 }
                 validateProperty2 = validateProperty1;
             }
-            return (ValidateProperty)null;
+            return null;
         }
 
         public void RemoveProperty(ValidateProperty propertyRemove)
         {
             ValidateProperty validateProperty1 = this._propertyList;
-            ValidateProperty validateProperty2 = (ValidateProperty)null;
+            ValidateProperty validateProperty2 = null;
             for (; validateProperty1 != null; validateProperty1 = validateProperty1.Next)
             {
                 if (validateProperty1 == propertyRemove)
@@ -266,7 +266,7 @@ namespace Microsoft.Iris.Markup.Validation
                         validateProperty2.Next = validateProperty1.Next;
                     if (validateProperty1 == this._propertyList)
                         this._propertyList = validateProperty1.Next;
-                    validateProperty1.Next = (ValidateProperty)null;
+                    validateProperty1.Next = null;
                     break;
                 }
                 validateProperty2 = validateProperty1;
@@ -276,7 +276,7 @@ namespace Microsoft.Iris.Markup.Validation
         public string GetInlinePropertyValueNoValidate(string propertyName)
         {
             ValidateProperty property = this.FindProperty(propertyName);
-            return property != null && property.IsFromStringValue ? ((ValidateFromString)property.Value).FromString : (string)null;
+            return property != null && property.IsFromStringValue ? ((ValidateFromString)property.Value).FromString : null;
         }
 
         public void MovePropertyToFront(string propertyName)
@@ -291,7 +291,7 @@ namespace Microsoft.Iris.Markup.Validation
         public void AddStringProperty(string propertyName, string value)
         {
             ValidateFromString validateFromString = new ValidateFromString(this.Owner, value, false, this.Line, this.Column);
-            ValidateProperty validateProperty = new ValidateProperty(this.Owner, propertyName, (ValidateObject)validateFromString, this.Line, this.Column);
+            ValidateProperty validateProperty = new ValidateProperty(this.Owner, propertyName, validateFromString, this.Line, this.Column);
             if (this._propertyList == null)
                 this._propertyList = validateProperty;
             else
@@ -312,7 +312,7 @@ namespace Microsoft.Iris.Markup.Validation
                     ValidateExpression validateExpression = (ValidateExpression)property.Value;
                     if (validateExpression.ExpressionType == ExpressionType.TypeOf)
                     {
-                        validateExpression.Validate(new TypeRestriction((TypeSchema)TypeSchemaDefinition.Type), context);
+                        validateExpression.Validate(new TypeRestriction(TypeSchemaDefinition.Type), context);
                         if (!validateExpression.HasErrors)
                             return ((ValidateExpressionTypeOf)validateExpression).TypeIdentifier.FoundType;
                         this.MarkHasErrors();
@@ -327,7 +327,7 @@ namespace Microsoft.Iris.Markup.Validation
             }
             else if (required)
                 this.ReportError("Property '{0}' must be specified", propertyName);
-            return (TypeSchema)null;
+            return null;
         }
 
         public bool ExtractBooleanProperty(
@@ -342,7 +342,7 @@ namespace Microsoft.Iris.Markup.Validation
                 if (property.IsFromStringValue)
                 {
                     ValidateFromString validateFromString = (ValidateFromString)property.Value;
-                    validateFromString.Validate(new TypeRestriction((TypeSchema)BooleanSchema.Type), context);
+                    validateFromString.Validate(new TypeRestriction(BooleanSchema.Type), context);
                     if (!validateFromString.HasErrors)
                     {
                         value = (bool)validateFromString.FromStringInstance;
@@ -370,7 +370,7 @@ namespace Microsoft.Iris.Markup.Validation
             }
             else if (required)
                 this.ReportError("Property '{0}' must be specified", propertyName);
-            return (string)null;
+            return null;
         }
 
         public TypeSchema FoundType => this._foundType;
@@ -383,14 +383,14 @@ namespace Microsoft.Iris.Markup.Validation
         {
             string str = "";
             if (this._name != null)
-                str += string.Format("Name='{0}'", (object)this._name);
+                str += string.Format("Name='{0}'", _name);
             if (this._indirectedObject != null)
             {
                 if (this._name != null)
                     str += ", ";
-                str += string.Format("Indirected=[{0}]", (object)this._indirectedObject.ToString());
+                str += string.Format("Indirected=[{0}]", this._indirectedObject.ToString());
             }
-            return string.Format("Tag : {0} {1}", (object)this._typeIdentifier, (object)str);
+            return string.Format("Tag : {0} {1}", _typeIdentifier, str);
         }
     }
 }

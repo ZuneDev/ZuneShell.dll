@@ -54,7 +54,7 @@ namespace Microsoft.Iris.ViewItems
             this.PaintInvalid();
         }
 
-        public override string ToString() => string.Format("[ Text = {0}, Position = {1}, Size = {2} ]", (object)this._textRun.Content, (object)this._position, (object)this._size);
+        public override string ToString() => string.Format("[ Text = {0}, Position = {1}, Size = {2} ]", _textRun.Content, _position, _size);
 
         public event PaintInvalidEventHandler PaintInvalid;
     }

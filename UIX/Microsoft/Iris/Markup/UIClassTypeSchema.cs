@@ -23,16 +23,16 @@ namespace Microsoft.Iris.Markup
 
         public override MarkupType MarkupType => MarkupType.UI;
 
-        protected override TypeSchema DefaultBase => (TypeSchema)HostSchema.Type;
+        protected override TypeSchema DefaultBase => HostSchema.Type;
 
         public override Type RuntimeType => typeof(Host);
 
-        public override object ConstructDefault() => (object)new Host(this);
+        public override object ConstructDefault() => new Host(this);
 
         object IDynamicConstructionSchema.ConstructDefault(
           TypeSchema replacedType)
         {
-            return (object)new Host((UIClassTypeSchema)replacedType, this);
+            return new Host((UIClassTypeSchema)replacedType, this);
         }
 
         public UIClass ConstructUI() => new UIClass(this);
@@ -42,7 +42,7 @@ namespace Microsoft.Iris.Markup
           IMarkupTypeBase markupType,
           ParameterContext parameterContext)
         {
-            ErrorManager.EnterContext((object)markupType.TypeSchema.Owner.ErrorContextUri);
+            ErrorManager.EnterContext(markupType.TypeSchema.Owner.ErrorContextUri);
             try
             {
                 uint scriptOffset = uint.MaxValue;
@@ -68,9 +68,9 @@ namespace Microsoft.Iris.Markup
                     object obj = this.RunAtOffset(markupType, scriptOffset, parameterContext);
                     if (obj != Interpreter.ScriptError)
                         return (ViewItem)obj;
-                    ErrorManager.ReportWarning("Script runtime failure: Scripting errors have prevented '{0}' named content from being constructed", (object)name);
+                    ErrorManager.ReportWarning("Script runtime failure: Scripting errors have prevented '{0}' named content from being constructed", name);
                 }
-                return (ViewItem)null;
+                return null;
             }
             finally
             {
@@ -83,10 +83,10 @@ namespace Microsoft.Iris.Markup
             Host ownerHost = instance as Host;
             UIClass childUi = ownerHost.ChildUI;
             childUi.DeclareHost(ownerHost);
-            this.InitializeInstance((IMarkupTypeBase)ownerHost.ChildUI);
+            this.InitializeInstance(ownerHost.ChildUI);
             if (childUi.RootItem != null)
-                ownerHost.Children.Add((Microsoft.Iris.Library.TreeNode)childUi.RootItem);
-            childUi.DeclareOwner((object)ownerHost);
+                ownerHost.Children.Add(childUi.RootItem);
+            childUi.DeclareOwner(ownerHost);
         }
 
         public NamedContentRecord[] NamedContentTable => this._namedContentTable;

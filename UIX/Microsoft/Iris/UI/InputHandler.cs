@@ -57,7 +57,7 @@ namespace Microsoft.Iris.UI
         protected override void OnDispose()
         {
             base.OnDispose();
-            this._ui = (UIClass)null;
+            this._ui = null;
         }
 
         protected override void OnOwnerDeclared(object owner)
@@ -296,7 +296,7 @@ namespace Microsoft.Iris.UI
           ref WeakReference context,
           string contextName)
         {
-            object obj = context != null ? context.Target : (object)null;
+            object obj = context != null ? context.Target : null;
             object eventContext = this.GetEventContext(source);
             if (eventContext == obj)
                 return;
@@ -306,14 +306,14 @@ namespace Microsoft.Iris.UI
 
         protected object CheckEventContext(ref WeakReference context)
         {
-            object obj = (object)null;
+            object obj = null;
             if (context != null)
             {
                 obj = context.Target;
                 if (obj is IDisposableObject disposableObject && disposableObject.IsDisposed)
                 {
-                    context = (WeakReference)null;
-                    obj = (object)null;
+                    context = null;
+                    obj = null;
                 }
             }
             return obj;
@@ -322,7 +322,7 @@ namespace Microsoft.Iris.UI
         protected object GetEventContext(ICookedInputSite clickTarget)
         {
             if (!(clickTarget is UIClass uiClass) || !uiClass.IsValid)
-                return (object)null;
+                return null;
             object eventContext;
             for (eventContext = uiClass.GetEventContext(); eventContext == null && uiClass != this.UI; eventContext = uiClass.GetEventContext())
                 uiClass = uiClass.Parent;

@@ -23,7 +23,7 @@ namespace Microsoft.Iris.RenderAPI.Drawing
             this.y = y;
         }
 
-        internal bool IsZero => (double)this.X == 0.0 && (double)this.Y == 0.0;
+        internal bool IsZero => X == 0.0 && Y == 0.0;
 
         public float X
         {
@@ -37,23 +37,23 @@ namespace Microsoft.Iris.RenderAPI.Drawing
             set => this.y = value;
         }
 
-        public static PointF operator +(PointF pt, Size sz) => new PointF(pt.X + (float)sz.Width, pt.Y + (float)sz.Height);
+        public static PointF operator +(PointF pt, Size sz) => new PointF(pt.X + sz.Width, pt.Y + sz.Height);
 
         public static PointF operator +(PointF pt, SizeF sz) => new PointF(pt.X + sz.Width, pt.Y + sz.Height);
 
-        public static PointF operator -(PointF pt, Size sz) => new PointF(pt.X - (float)sz.Width, pt.Y - (float)sz.Height);
+        public static PointF operator -(PointF pt, Size sz) => new PointF(pt.X - sz.Width, pt.Y - sz.Height);
 
         public static PointF operator -(PointF pt, SizeF sz) => new PointF(pt.X - sz.Width, pt.Y - sz.Height);
 
         public static SizeF operator -(PointF pt1, PointF pt2) => new SizeF(pt1.X - pt2.X, pt1.Y - pt2.Y);
 
-        public static bool operator ==(PointF left, PointF right) => (double)left.X == (double)right.X && (double)left.Y == (double)right.Y;
+        public static bool operator ==(PointF left, PointF right) => left.X == (double)right.X && left.Y == (double)right.Y;
 
         public static bool operator !=(PointF left, PointF right) => !(left == right);
 
         public Point ToPoint() => new Point((int)this.x, (int)this.y);
 
-        public override bool Equals(object obj) => obj is PointF pointF && (double)pointF.X == (double)this.X && (double)pointF.Y == (double)this.Y;
+        public override bool Equals(object obj) => obj is PointF pointF && pointF.X == (double)this.X && pointF.Y == (double)this.Y;
 
         public override int GetHashCode() => this.x.GetHashCode() ^ this.y.GetHashCode();
 
@@ -61,9 +61,9 @@ namespace Microsoft.Iris.RenderAPI.Drawing
         {
             StringBuilder stringBuilder = new StringBuilder(32);
             stringBuilder.Append("(X=");
-            stringBuilder.Append(this.X.ToString((IFormatProvider)NumberFormatInfo.InvariantInfo));
+            stringBuilder.Append(this.X.ToString(NumberFormatInfo.InvariantInfo));
             stringBuilder.Append(", Y=");
-            stringBuilder.Append(this.Y.ToString((IFormatProvider)NumberFormatInfo.InvariantInfo));
+            stringBuilder.Append(this.Y.ToString(NumberFormatInfo.InvariantInfo));
             stringBuilder.Append(")");
             return stringBuilder.ToString();
         }

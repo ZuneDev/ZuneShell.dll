@@ -25,7 +25,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
 
         public bool Load(UIXIDVerifier idVerifier)
         {
-            DllLoadResult.PushContext((LoadResult)this.OwnerLoadResult);
+            DllLoadResult.PushContext(OwnerLoadResult);
             bool flag = this.QueryTypeName() && this.QueryIsRuntimeImmutable() && (this.QueryBaseType() && this.QueryConstructors(idVerifier)) && (this.QueryProperties(idVerifier) && this.QueryMethods(idVerifier) && this.QueryEvents(idVerifier)) && this.QueryMarshalAs();
             DllLoadResult.PopContext();
             return flag;
@@ -154,11 +154,11 @@ namespace Microsoft.Iris.CodeModel.Cpp
                         flag = idVerifier.RegisterID(ID);
                     }
                     else
-                        constructorSchema.Dispose((object)this);
+                        constructorSchema.Dispose(this);
                     NativeApi.SpReleaseExternalObject(constructor);
                 }
                 else
-                    ErrorManager.ReportError("NULL object returned from {0}", (object)"IUIXType::GetConstructor");
+                    ErrorManager.ReportError("NULL object returned from {0}", "IUIXType::GetConstructor");
             }
             return flag;
         }
@@ -200,7 +200,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
                     NativeApi.SpReleaseExternalObject(property);
                 }
                 else
-                    ErrorManager.ReportError("NULL object returned from {0}", (object)"IUIXType::GetProperty");
+                    ErrorManager.ReportError("NULL object returned from {0}", "IUIXType::GetProperty");
             }
             return flag;
         }
@@ -240,11 +240,11 @@ namespace Microsoft.Iris.CodeModel.Cpp
                         flag = idVerifier.RegisterID(ID);
                     }
                     else
-                        dllMethodSchema.Dispose((object)this);
+                        dllMethodSchema.Dispose(this);
                     NativeApi.SpReleaseExternalObject(method);
                 }
                 else
-                    ErrorManager.ReportError("NULL object returned from {0}", (object)"IUIXType::GetMethod");
+                    ErrorManager.ReportError("NULL object returned from {0}", "IUIXType::GetMethod");
             }
             return flag;
         }
@@ -293,10 +293,10 @@ namespace Microsoft.Iris.CodeModel.Cpp
                 case uint.MaxValue:
                     return flag;
                 case 4294967285:
-                    TypeSchema.RegisterOneWayEquivalence((TypeSchema)this, (TypeSchema)ListSchema.Type);
+                    TypeSchema.RegisterOneWayEquivalence(this, ListSchema.Type);
                     goto case 4294967281;
                 default:
-                    ErrorManager.ReportError("Invalid MarshalAs '{0}' returned from IUIXType::MarshalAs", (object)this._marshalAs);
+                    ErrorManager.ReportError("Invalid MarshalAs '{0}' returned from IUIXType::MarshalAs", _marshalAs);
                     flag = false;
                     goto case 4294967281;
             }
@@ -316,7 +316,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
             {
                 if (declaredMarshalAs != uint.MaxValue)
                 {
-                    ErrorManager.ReportError("Invalid MarshalAs '{0}' on type '{1}'.  Only a single MarshalAs value is permitted through a type heirarchy, and '{2}' was already declared.", (object)declaredMarshalAs, (object)this.Name, (object)num);
+                    ErrorManager.ReportError("Invalid MarshalAs '{0}' on type '{1}'.  Only a single MarshalAs value is permitted through a type heirarchy, and '{2}' was already declared.", declaredMarshalAs, Name, num);
                     flag = false;
                 }
                 else
@@ -343,11 +343,11 @@ namespace Microsoft.Iris.CodeModel.Cpp
                         flag = idVerifier.RegisterID(ID);
                     }
                     else
-                        dllEventSchema.Dispose((object)this);
+                        dllEventSchema.Dispose(this);
                     NativeApi.SpReleaseExternalObject(eventObj);
                 }
                 else
-                    ErrorManager.ReportError("NULL object returned from {0}", (object)"IUIXType::GetEvent");
+                    ErrorManager.ReportError("NULL object returned from {0}", "IUIXType::GetEvent");
             }
             return flag;
         }
@@ -361,20 +361,20 @@ namespace Microsoft.Iris.CodeModel.Cpp
 
         public string MapChangeID(uint id)
         {
-            string name = (string)null;
+            string name = null;
             DllTypeSchema dllTypeSchema = this;
             while (dllTypeSchema != null && !dllTypeSchema.MapChangeIDWorker(id, out name))
                 dllTypeSchema = dllTypeSchema._baseType as DllTypeSchema;
             if (name == null)
-                ErrorManager.ReportError("ChangeNotification received for ID '0x{0:X8}' which isn't a property or event on '{1}'", (object)id, (object)this.Name);
+                ErrorManager.ReportError("ChangeNotification received for ID '0x{0:X8}' which isn't a property or event on '{1}'", id, Name);
             return name;
         }
 
         private bool MapChangeIDWorker(uint id, out string name)
         {
             bool flag = false;
-            name = (string)null;
-            if ((int)UIXID.GetSchemaComponent(id) == (int)this.OwnerLoadResult.SchemaComponent)
+            name = null;
+            if ((int)UIXID.GetSchemaComponent(id) == OwnerLoadResult.SchemaComponent)
             {
                 DllPropertySchema dllPropertySchema;
                 if (this._properties != null && this._properties.TryGetValue(id, out dllPropertySchema))
@@ -395,12 +395,12 @@ namespace Microsoft.Iris.CodeModel.Cpp
             return flag;
         }
 
-        public override object ConstructDefault() => this.Construct(this._defaultConstructorID, (object[])null);
+        public override object ConstructDefault() => this.Construct(this._defaultConstructorID, null);
 
         public unsafe object Construct(uint constructorID, object[] parameters)
         {
-            DllProxyObject dllProxyObject = (DllProxyObject)null;
-            UIXVariant* uixVariantPtr = (UIXVariant*)null;
+            DllProxyObject dllProxyObject = null;
+            UIXVariant* uixVariantPtr = null;
             int count = 0;
             if (parameters != null)
             {
@@ -416,10 +416,10 @@ namespace Microsoft.Iris.CodeModel.Cpp
             if (NativeApi.SUCCEEDED(hr))
                 dllProxyObject = DllProxyObject.Wrap(nativeObject);
             else
-                this.ReportError(hr, DllTypeSchema.ErrorContext.Construct, (object)this, watermark);
+                this.ReportError(hr, DllTypeSchema.ErrorContext.Construct, this, watermark);
             if ((IntPtr)uixVariantPtr != IntPtr.Zero)
                 UIXVariant.CleanupMarshalledObjects(uixVariantPtr, count);
-            return (object)dllProxyObject;
+            return dllProxyObject;
         }
 
         public object GetPropertyValue(object instance, DllPropertySchema property)
@@ -428,13 +428,13 @@ namespace Microsoft.Iris.CodeModel.Cpp
             if (!property.IsStatic)
                 nativeObject = ((DllProxyObject)instance).NativeObject;
             ErrorWatermark watermark = ErrorManager.Watermark;
-            object obj = (object)null;
+            object obj = null;
             UIXVariant propertyValue1;
             uint propertyValue2 = NativeApi.SpGetPropertyValue(this._type, nativeObject, property.ID, out propertyValue1);
             if (NativeApi.SUCCEEDED(propertyValue2))
                 obj = UIXVariant.GetValue(propertyValue1, this.Owner);
             else
-                this.ReportError(propertyValue2, DllTypeSchema.ErrorContext.PropertyGet, (object)property, watermark);
+                this.ReportError(propertyValue2, DllTypeSchema.ErrorContext.PropertyGet, property, watermark);
             return obj;
         }
 
@@ -449,21 +449,21 @@ namespace Microsoft.Iris.CodeModel.Cpp
             ErrorWatermark watermark = ErrorManager.Watermark;
             uint hr = NativeApi.SpSetPropertyValue(this._type, nativeObject, property.ID, uixVariantPtr);
             if (NativeApi.FAILED(hr))
-                this.ReportError(hr, DllTypeSchema.ErrorContext.PropertySet, (object)property, watermark);
+                this.ReportError(hr, DllTypeSchema.ErrorContext.PropertySet, property, watermark);
             UIXVariant.CleanupMarshalledObject(uixVariantPtr);
         }
 
         public unsafe object InvokeMethod(object instance, DllMethodSchema method, object[] parameters)
         {
-            object obj = (object)null;
-            UIXVariant* uixVariantPtr = (UIXVariant*)null;
+            object obj = null;
+            UIXVariant* uixVariantPtr = null;
             int count = 0;
             if (parameters != null && parameters.Length > 0)
             {
                 count = parameters.Length;
                 // ISSUE: untyped stack allocation
                 var uixVariantStack = stackalloc UIXVariant[sizeof(UIXVariant) * count];
-                uixVariantPtr = (UIXVariant*)uixVariantStack;
+                uixVariantPtr = uixVariantStack;
                 UIXVariant.MarshalObjectArray(parameters, uixVariantPtr);
             }
             IntPtr nativeObject = IntPtr.Zero;
@@ -475,7 +475,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
             if (NativeApi.SUCCEEDED(hr))
                 obj = UIXVariant.GetValue(returnValue, this.Owner);
             else
-                this.ReportError(hr, DllTypeSchema.ErrorContext.MethodInvoke, (object)method, watermark);
+                this.ReportError(hr, DllTypeSchema.ErrorContext.MethodInvoke, method, watermark);
             if ((IntPtr)uixVariantPtr != IntPtr.Zero)
                 UIXVariant.CleanupMarshalledObjects(uixVariantPtr, count);
             return obj;
@@ -483,14 +483,14 @@ namespace Microsoft.Iris.CodeModel.Cpp
 
         public string InvokeToString(DllProxyObject proxy)
         {
-            string str = (string)null;
+            string str = null;
             ErrorWatermark watermark = ErrorManager.Watermark;
             IntPtr nativeStringObject;
             uint hr = NativeApi.SpInvokeToString(this._type, proxy.NativeObject, out nativeStringObject);
             if (NativeApi.SUCCEEDED(hr))
                 str = DllProxyServices.GetString(nativeStringObject);
             else
-                this.ReportError(hr, DllTypeSchema.ErrorContext.ToString, (object)this, watermark);
+                this.ReportError(hr, DllTypeSchema.ErrorContext.ToString, this, watermark);
             return str;
         }
 
@@ -509,23 +509,23 @@ namespace Microsoft.Iris.CodeModel.Cpp
             {
                 case DllTypeSchema.ErrorContext.MethodInvoke:
                     DllMethodSchema dllMethodSchema = (DllMethodSchema)context;
-                    message = string.Format("Error 0x{0:X8} occurred invoking method {1}.{2} from {3}.", (object)hr, (object)dllMethodSchema.Owner.Name, (object)dllMethodSchema.Name, (object)dllMethodSchema.Owner.Owner.Uri);
+                    message = string.Format("Error 0x{0:X8} occurred invoking method {1}.{2} from {3}.", hr, dllMethodSchema.Owner.Name, dllMethodSchema.Name, dllMethodSchema.Owner.Owner.Uri);
                     break;
                 case DllTypeSchema.ErrorContext.ToString:
                     DllTypeSchema dllTypeSchema1 = (DllTypeSchema)context;
-                    message = string.Format("Error 0x{0:X8} occurred invoking ToString on type {1} from {2}.", (object)hr, (object)dllTypeSchema1.Name, (object)dllTypeSchema1.Owner.Uri);
+                    message = string.Format("Error 0x{0:X8} occurred invoking ToString on type {1} from {2}.", hr, dllTypeSchema1.Name, dllTypeSchema1.Owner.Uri);
                     break;
                 case DllTypeSchema.ErrorContext.PropertyGet:
                     DllPropertySchema dllPropertySchema1 = (DllPropertySchema)context;
-                    message = string.Format("Error 0x{0:X8} occurred reading property {1}.{2} from {3}.", (object)hr, (object)dllPropertySchema1.Owner.Name, (object)dllPropertySchema1.Name, (object)dllPropertySchema1.Owner.Owner.Uri);
+                    message = string.Format("Error 0x{0:X8} occurred reading property {1}.{2} from {3}.", hr, dllPropertySchema1.Owner.Name, dllPropertySchema1.Name, dllPropertySchema1.Owner.Owner.Uri);
                     break;
                 case DllTypeSchema.ErrorContext.PropertySet:
                     DllPropertySchema dllPropertySchema2 = (DllPropertySchema)context;
-                    message = string.Format("Error 0x{0:X8} occurred writing property {1}.{2} from {3}.", (object)hr, (object)dllPropertySchema2.Owner.Name, (object)dllPropertySchema2.Name, (object)dllPropertySchema2.Owner.Owner.Uri);
+                    message = string.Format("Error 0x{0:X8} occurred writing property {1}.{2} from {3}.", hr, dllPropertySchema2.Owner.Name, dllPropertySchema2.Name, dllPropertySchema2.Owner.Owner.Uri);
                     break;
                 case DllTypeSchema.ErrorContext.Construct:
                     DllTypeSchema dllTypeSchema2 = (DllTypeSchema)context;
-                    message = string.Format("Error 0x{0:X8} occurred constructing object of type {1} from {2}.", (object)hr, (object)dllTypeSchema2.Name, (object)dllTypeSchema2.Owner.Uri);
+                    message = string.Format("Error 0x{0:X8} occurred constructing object of type {1} from {2}.", hr, dllTypeSchema2.Name, dllTypeSchema2.Owner.Uri);
                     break;
                 default:
                     message = "Internal error";

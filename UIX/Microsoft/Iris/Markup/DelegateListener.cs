@@ -17,13 +17,13 @@ namespace Microsoft.Iris.Markup
         {
             this._watch = watch;
             this._onNotify = callback;
-            notifier.AddListener((Listener)this);
+            notifier.AddListener(this);
         }
 
         public override void Dispose()
         {
             base.Dispose();
-            this._onNotify = (DelegateListener.OnNotifyCallback)null;
+            this._onNotify = null;
         }
 
         public override void OnNotify()

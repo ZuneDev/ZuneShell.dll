@@ -36,7 +36,7 @@ namespace Microsoft.Iris.ModelItems
             {
                 value = Math.Max(value, this._min);
                 value = Math.Min(value, this._max);
-                if ((double)this._value == (double)value)
+                if (_value == (double)value)
                     return;
                 using (new RangedValue.PrevNextNotifier(this))
                 {
@@ -47,14 +47,14 @@ namespace Microsoft.Iris.ModelItems
             }
         }
 
-        object IUIValueRange.ObjectValue => (object)this._value;
+        object IUIValueRange.ObjectValue => _value;
 
         public float MinValue
         {
             get => this._min;
             set
             {
-                if ((double)this._min == (double)value)
+                if (_min == (double)value)
                     return;
                 using (new RangedValue.PrevNextNotifier(this))
                 {
@@ -71,7 +71,7 @@ namespace Microsoft.Iris.ModelItems
             get => this._max;
             set
             {
-                if ((double)this._max == (double)value)
+                if (_max == (double)value)
                     return;
                 using (new RangedValue.PrevNextNotifier(this))
                 {
@@ -90,7 +90,7 @@ namespace Microsoft.Iris.ModelItems
             get => this._step;
             set
             {
-                if ((double)this._step == (double)value)
+                if (_step == (double)value)
                     return;
                 using (new RangedValue.PrevNextNotifier(this))
                 {
@@ -100,9 +100,9 @@ namespace Microsoft.Iris.ModelItems
             }
         }
 
-        public bool HasPreviousValue => (double)this._step < 0.0 ? (double)this._value < (double)this._max : (double)this._value > (double)this._min;
+        public bool HasPreviousValue => _step < 0.0 ? _value < (double)this._max : _value > (double)this._min;
 
-        public bool HasNextValue => (double)this._step < 0.0 ? (double)this._value > (double)this._min : (double)this._value < (double)this._max;
+        public bool HasNextValue => _step < 0.0 ? _value > (double)this._min : _value < (double)this._max;
 
         public void PreviousValue() => this.Value -= this.Step;
 

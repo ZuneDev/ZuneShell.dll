@@ -64,14 +64,14 @@ namespace Microsoft.Iris.Drawing
                     this._flags |= 16;
                     break;
             }
-            this._hashCode = this._samplingMode.GetHashCode() ^ this._content.GetHashCode() ^ this._srcSizeF.GetHashCode() ^ this._naturalSize.GetHashCode() ^ this._rasterizedOffset.GetHashCode() ^ this._fontFaceUniqueId.GetHashCode() ^ this._fontSize ^ this._fontWeight ^ this._flags ^ (int)this._rasterizerConfig ^ this._textColor.GetHashCode();
+            this._hashCode = this._samplingMode.GetHashCode() ^ this._content.GetHashCode() ^ this._srcSizeF.GetHashCode() ^ this._naturalSize.GetHashCode() ^ this._rasterizedOffset.GetHashCode() ^ this._fontFaceUniqueId.GetHashCode() ^ this._fontSize ^ this._fontWeight ^ this._flags ^ _rasterizerConfig ^ this._textColor.GetHashCode();
         }
 
         public override bool Equals(object obj)
         {
-            if (object.ReferenceEquals((object)this, obj))
+            if (object.ReferenceEquals(this, obj))
                 return true;
-            return obj is RichTextInfoKey richTextInfoKey && this._hashCode == richTextInfoKey._hashCode && (this._fontFaceUniqueId == richTextInfoKey._fontFaceUniqueId && this._fontSize == richTextInfoKey._fontSize) && (this._fontWeight == richTextInfoKey._fontWeight && this._flags == richTextInfoKey._flags && ((int)this._rasterizerConfig == (int)richTextInfoKey._rasterizerConfig && this._samplingMode.Equals(richTextInfoKey._samplingMode))) && (this._srcSizeF.Equals(richTextInfoKey._srcSizeF) && this._naturalSize.Equals(richTextInfoKey._naturalSize) && (this._rasterizedOffset.Equals(richTextInfoKey._rasterizedOffset) && this._textColor.Equals(richTextInfoKey._textColor))) && this._content.Equals(richTextInfoKey._content);
+            return obj is RichTextInfoKey richTextInfoKey && this._hashCode == richTextInfoKey._hashCode && (this._fontFaceUniqueId == richTextInfoKey._fontFaceUniqueId && this._fontSize == richTextInfoKey._fontSize) && (this._fontWeight == richTextInfoKey._fontWeight && this._flags == richTextInfoKey._flags && (_rasterizerConfig == richTextInfoKey._rasterizerConfig && this._samplingMode.Equals(richTextInfoKey._samplingMode))) && (this._srcSizeF.Equals(richTextInfoKey._srcSizeF) && this._naturalSize.Equals(richTextInfoKey._naturalSize) && (this._rasterizedOffset.Equals(richTextInfoKey._rasterizedOffset) && this._textColor.Equals(richTextInfoKey._textColor))) && this._content.Equals(richTextInfoKey._content);
         }
 
         public override int GetHashCode() => this._hashCode;

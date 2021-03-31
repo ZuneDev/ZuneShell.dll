@@ -46,7 +46,7 @@ namespace Microsoft.Iris.Session
         private static readonly DeferredHandler s_deferredPlaySystemSound = new DeferredHandler(UISession.DeferredPlaySystemSound);
 
         public UISession()
-          : this((EventHandler)null, (TimeoutHandler)null, 0U)
+          : this(null, null, 0U)
         {
         }
 
@@ -67,7 +67,7 @@ namespace Microsoft.Iris.Session
             int pdwDefaultLayout;
             Win32Api.IFWIN32(Win32Api.GetProcessDefaultLayout(out pdwDefaultLayout));
             this._rtl = pdwDefaultLayout == 1;
-            this._engine = RenderApi.CreateEngine(IrisEngineInfo.CreateLocal(), (IRenderHost)this.Dispatcher);
+            this._engine = RenderApi.CreateEngine(IrisEngineInfo.CreateLocal(), Dispatcher);
             this._session = this._engine.Session;
             TextImageCache.Initialize(this);
             ScavengeImageCache.Initialize(this);
@@ -112,27 +112,27 @@ namespace Microsoft.Iris.Session
             if (this._soundManager != null)
             {
                 this._soundManager.Dispose();
-                this._soundManager = (SoundManager)null;
+                this._soundManager = null;
             }
             if (this._animationManager != null)
             {
                 this._animationManager.Dispose();
-                this._animationManager = (AnimationManager)null;
+                this._animationManager = null;
             }
             if (this._form != null)
                 this._form.Visible = false;
             this._inputManager.PrepareToShutDown();
-            this._queueSyncLayoutComplete = (SimpleQueue)null;
-            this._form = (Form)null;
+            this._queueSyncLayoutComplete = null;
+            this._form = null;
             this._dispatcher.ShutDown(true);
-            UISession.s_theOnlySession = (UISession)null;
+            UISession.s_theOnlySession = null;
             this._effectManager.Dispose();
-            this._effectManager = (EffectManager)null;
+            this._effectManager = null;
             if (this._engine != null)
             {
                 this._engine.Dispose();
-                this._engine = (IRenderEngine)null;
-                this._session = (IRenderSession)null;
+                this._engine = null;
+                this._session = null;
             }
             TextImageCache.Uninitialize(this);
             ScavengeImageCache.Uninitialize(this);
@@ -140,7 +140,7 @@ namespace Microsoft.Iris.Session
             if (RenderApi.DebugModule == null)
                 return;
             RenderApi.DebugModule.Dispose();
-            RenderApi.DebugModule = (IDebug)null;
+            RenderApi.DebugModule = null;
         }
 
         internal bool IsValid => UISession.s_theOnlySession == this;
@@ -167,7 +167,7 @@ namespace Microsoft.Iris.Session
         {
             get
             {
-                UIZone uiZone = (UIZone)null;
+                UIZone uiZone = null;
                 if (this._form != null)
                     uiZone = this._form.Zone;
                 return uiZone;
@@ -243,7 +243,7 @@ namespace Microsoft.Iris.Session
             this._session.GraphicsDevice.RenderNowIfPossible();
         }
 
-        internal void EnqueueSyncLayoutCompleteHandler(object snd, EventHandler eh) => this._queueSyncLayoutComplete.PostItem((QueueItem)DeferredCall.Create(eh, snd, EventArgs.Empty));
+        internal void EnqueueSyncLayoutCompleteHandler(object snd, EventHandler eh) => this._queueSyncLayoutComplete.PostItem(DeferredCall.Create(eh, snd, EventArgs.Empty));
 
         private void ProcessInitialization()
         {
@@ -252,7 +252,7 @@ namespace Microsoft.Iris.Session
                 if (!this.IsValid || !this._initRequestedFlag)
                     return;
                 this._initRequestedFlag = false;
-                this.RootZone?.ProcessUiTask(UiTask.Initialization, (object)null);
+                this.RootZone?.ProcessUiTask(UiTask.Initialization, null);
             }
         }
 
@@ -267,7 +267,7 @@ namespace Microsoft.Iris.Session
                 if (rootZone == null)
                     return;
                 this._layingOut = true;
-                rootZone.ProcessUiTask(UiTask.LayoutComputation, (object)null);
+                rootZone.ProcessUiTask(UiTask.LayoutComputation, null);
                 QueueItem nextItem;
                 while ((nextItem = this._queueSyncLayoutComplete.GetNextItem()) != null)
                     nextItem.Dispatch();
@@ -282,7 +282,7 @@ namespace Microsoft.Iris.Session
                 if (!this.IsValid || !this._applyLayoutRequestedFlag)
                     return;
                 this._applyLayoutRequestedFlag = false;
-                this.RootZone?.ProcessUiTask(UiTask.LayoutApplication, (object)null);
+                this.RootZone?.ProcessUiTask(UiTask.LayoutApplication, null);
             }
         }
 
@@ -293,7 +293,7 @@ namespace Microsoft.Iris.Session
                 if (!this.IsValid || !this._paintRequestedFlag)
                     return;
                 this._paintRequestedFlag = false;
-                this.RootZone?.ProcessUiTask(UiTask.Painting, (object)null);
+                this.RootZone?.ProcessUiTask(UiTask.Painting, null);
             }
         }
 
@@ -318,9 +318,9 @@ namespace Microsoft.Iris.Session
         {
             UISession.PlaySoundArgs playSoundArgs = new UISession.PlaySoundArgs(this, stSoundSource);
             if (!UIDispatcher.IsUIThread)
-                DeferredCall.Post(DispatchPriority.High, UISession.s_deferredPlaySound, (object)playSoundArgs);
+                DeferredCall.Post(DispatchPriority.High, UISession.s_deferredPlaySound, playSoundArgs);
             else
-                UISession.DeferredPlaySound((object)playSoundArgs);
+                UISession.DeferredPlaySound(playSoundArgs);
         }
 
         private static void DeferredPlaySound(object argsObject)
@@ -335,9 +335,9 @@ namespace Microsoft.Iris.Session
         {
             UISession.PlaySystemSoundArgs playSystemSoundArgs = new UISession.PlaySystemSoundArgs(this, systemSoundEvent);
             if (!UIDispatcher.IsUIThread)
-                DeferredCall.Post(DispatchPriority.High, UISession.s_deferredPlaySystemSound, (object)playSystemSoundArgs);
+                DeferredCall.Post(DispatchPriority.High, UISession.s_deferredPlaySystemSound, playSystemSoundArgs);
             else
-                UISession.DeferredPlaySystemSound((object)playSystemSoundArgs);
+                UISession.DeferredPlaySystemSound(playSystemSoundArgs);
         }
 
         private static void DeferredPlaySystemSound(object argsObject)
@@ -374,12 +374,12 @@ namespace Microsoft.Iris.Session
             public static IDisposable Enter(string task)
             {
                 if (UISession.TaskReentrancyDetection.s_currentTask != null)
-                    InvariantString.Format("REENTRANCY DETECTED! Attempt to process task '{0}' while already processing '{1}'.", (object)UISession.TaskReentrancyDetection.s_currentTask, (object)task);
+                    InvariantString.Format("REENTRANCY DETECTED! Attempt to process task '{0}' while already processing '{1}'.", s_currentTask, task);
                 UISession.TaskReentrancyDetection.s_currentTask = task;
-                return (IDisposable)UISession.TaskReentrancyDetection.s_currentTaskClearer;
+                return s_currentTaskClearer;
             }
 
-            void IDisposable.Dispose() => UISession.TaskReentrancyDetection.s_currentTask = (string)null;
+            void IDisposable.Dispose() => UISession.TaskReentrancyDetection.s_currentTask = null;
         }
 
         private class PlaySoundArgs

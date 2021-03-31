@@ -15,7 +15,7 @@ namespace Microsoft.Iris.Markup.UIX
         public static RangeValidator ValidateFontFace = new RangeValidator(TextStyleSchema.RangeValidateFontFace);
         public static UIXTypeSchema Type;
 
-        private static object GetFontFace(object instanceObj) => (object)((TextStyle)instanceObj).FontFace;
+        private static object GetFontFace(object instanceObj) => ((TextStyle)instanceObj).FontFace;
 
         private static void SetFontFace(ref object instanceObj, object valueObj)
         {
@@ -28,7 +28,7 @@ namespace Microsoft.Iris.Markup.UIX
                 textStyle.FontFace = str;
         }
 
-        private static object GetFontSize(object instanceObj) => (object)((TextStyle)instanceObj).FontSize;
+        private static object GetFontSize(object instanceObj) => ((TextStyle)instanceObj).FontSize;
 
         private static void SetFontSize(ref object instanceObj, object valueObj)
         {
@@ -53,11 +53,11 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static void SetUnderline(ref object instanceObj, object valueObj) => ((TextStyle)instanceObj).Underline = (bool)valueObj;
 
-        private static object GetColor(object instanceObj) => (object)((TextStyle)instanceObj).Color;
+        private static object GetColor(object instanceObj) => ((TextStyle)instanceObj).Color;
 
         private static void SetColor(ref object instanceObj, object valueObj) => ((TextStyle)instanceObj).Color = (Color)valueObj;
 
-        private static object GetLineSpacing(object instanceObj) => (object)((TextStyle)instanceObj).LineSpacing;
+        private static object GetLineSpacing(object instanceObj) => ((TextStyle)instanceObj).LineSpacing;
 
         private static void SetLineSpacing(ref object instanceObj, object valueObj)
         {
@@ -74,7 +74,7 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static void SetEnableKerning(ref object instanceObj, object valueObj) => ((TextStyle)instanceObj).EnableKerning = (bool)valueObj;
 
-        private static object GetCharacterSpacing(object instanceObj) => (object)((TextStyle)instanceObj).CharacterSpacing;
+        private static object GetCharacterSpacing(object instanceObj) => ((TextStyle)instanceObj).CharacterSpacing;
 
         private static void SetCharacterSpacing(ref object instanceObj, object valueObj) => ((TextStyle)instanceObj).CharacterSpacing = (float)valueObj;
 
@@ -82,41 +82,41 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static void SetFragment(ref object instanceObj, object valueObj) => ((TextStyle)instanceObj).Fragment = (bool)valueObj;
 
-        private static object Construct() => (object)new TextStyle();
+        private static object Construct() => new TextStyle();
 
         private static Result RangeValidateFontFace(object value)
         {
             string str = (string)value;
-            return str.Length > 31 ? Result.Fail("\"{0}\" cannot be longer than {1} characters", (object)str, (object)"31") : Result.Success;
+            return str.Length > 31 ? Result.Fail("\"{0}\" cannot be longer than {1} characters", str, "31") : Result.Success;
         }
 
-        public static void Pass1Initialize() => TextStyleSchema.Type = new UIXTypeSchema((short)220, "TextStyle", (string)null, (short)153, typeof(TextStyle), UIXTypeFlags.None);
+        public static void Pass1Initialize() => TextStyleSchema.Type = new UIXTypeSchema(220, "TextStyle", null, 153, typeof(TextStyle), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema((short)220, "FontFace", (short)208, (short)-1, ExpressionRestriction.None, false, TextStyleSchema.ValidateFontFace, true, new GetValueHandler(TextStyleSchema.GetFontFace), new SetValueHandler(TextStyleSchema.SetFontFace), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema((short)220, "FontSize", (short)194, (short)-1, ExpressionRestriction.None, false, SingleSchema.ValidateNotNegative, true, new GetValueHandler(TextStyleSchema.GetFontSize), new SetValueHandler(TextStyleSchema.SetFontSize), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema((short)220, "Bold", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(TextStyleSchema.GetBold), new SetValueHandler(TextStyleSchema.SetBold), false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema((short)220, "Italic", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(TextStyleSchema.GetItalic), new SetValueHandler(TextStyleSchema.SetItalic), false);
-            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema((short)220, "Underline", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(TextStyleSchema.GetUnderline), new SetValueHandler(TextStyleSchema.SetUnderline), false);
-            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema((short)220, "Color", (short)35, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(TextStyleSchema.GetColor), new SetValueHandler(TextStyleSchema.SetColor), false);
-            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema((short)220, "LineSpacing", (short)194, (short)-1, ExpressionRestriction.None, false, SingleSchema.ValidateNotNegative, true, new GetValueHandler(TextStyleSchema.GetLineSpacing), new SetValueHandler(TextStyleSchema.SetLineSpacing), false);
-            UIXPropertySchema uixPropertySchema8 = new UIXPropertySchema((short)220, "EnableKerning", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(TextStyleSchema.GetEnableKerning), new SetValueHandler(TextStyleSchema.SetEnableKerning), false);
-            UIXPropertySchema uixPropertySchema9 = new UIXPropertySchema((short)220, "CharacterSpacing", (short)194, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(TextStyleSchema.GetCharacterSpacing), new SetValueHandler(TextStyleSchema.SetCharacterSpacing), false);
-            UIXPropertySchema uixPropertySchema10 = new UIXPropertySchema((short)220, "Fragment", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(TextStyleSchema.GetFragment), new SetValueHandler(TextStyleSchema.SetFragment), false);
-            TextStyleSchema.Type.Initialize(new DefaultConstructHandler(TextStyleSchema.Construct), (ConstructorSchema[])null, new PropertySchema[10]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(220, "FontFace", 208, -1, ExpressionRestriction.None, false, TextStyleSchema.ValidateFontFace, true, new GetValueHandler(TextStyleSchema.GetFontFace), new SetValueHandler(TextStyleSchema.SetFontFace), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(220, "FontSize", 194, -1, ExpressionRestriction.None, false, SingleSchema.ValidateNotNegative, true, new GetValueHandler(TextStyleSchema.GetFontSize), new SetValueHandler(TextStyleSchema.SetFontSize), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(220, "Bold", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TextStyleSchema.GetBold), new SetValueHandler(TextStyleSchema.SetBold), false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(220, "Italic", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TextStyleSchema.GetItalic), new SetValueHandler(TextStyleSchema.SetItalic), false);
+            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(220, "Underline", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TextStyleSchema.GetUnderline), new SetValueHandler(TextStyleSchema.SetUnderline), false);
+            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(220, "Color", 35, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TextStyleSchema.GetColor), new SetValueHandler(TextStyleSchema.SetColor), false);
+            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema(220, "LineSpacing", 194, -1, ExpressionRestriction.None, false, SingleSchema.ValidateNotNegative, true, new GetValueHandler(TextStyleSchema.GetLineSpacing), new SetValueHandler(TextStyleSchema.SetLineSpacing), false);
+            UIXPropertySchema uixPropertySchema8 = new UIXPropertySchema(220, "EnableKerning", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TextStyleSchema.GetEnableKerning), new SetValueHandler(TextStyleSchema.SetEnableKerning), false);
+            UIXPropertySchema uixPropertySchema9 = new UIXPropertySchema(220, "CharacterSpacing", 194, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TextStyleSchema.GetCharacterSpacing), new SetValueHandler(TextStyleSchema.SetCharacterSpacing), false);
+            UIXPropertySchema uixPropertySchema10 = new UIXPropertySchema(220, "Fragment", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TextStyleSchema.GetFragment), new SetValueHandler(TextStyleSchema.SetFragment), false);
+            TextStyleSchema.Type.Initialize(new DefaultConstructHandler(TextStyleSchema.Construct), null, new PropertySchema[10]
             {
-        (PropertySchema) uixPropertySchema3,
-        (PropertySchema) uixPropertySchema9,
-        (PropertySchema) uixPropertySchema6,
-        (PropertySchema) uixPropertySchema8,
-        (PropertySchema) uixPropertySchema1,
-        (PropertySchema) uixPropertySchema2,
-        (PropertySchema) uixPropertySchema10,
-        (PropertySchema) uixPropertySchema4,
-        (PropertySchema) uixPropertySchema7,
-        (PropertySchema) uixPropertySchema5
-            }, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixPropertySchema3,
+         uixPropertySchema9,
+         uixPropertySchema6,
+         uixPropertySchema8,
+         uixPropertySchema1,
+         uixPropertySchema2,
+         uixPropertySchema10,
+         uixPropertySchema4,
+         uixPropertySchema7,
+         uixPropertySchema5
+            }, null, null, null, null, null, null, null, null, null);
         }
     }
 }

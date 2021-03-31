@@ -36,12 +36,12 @@ namespace Microsoft.Iris.Input
 
         private static InputItem AllocateFromPool()
         {
-            InputItem inputItem = (InputItem)null;
+            InputItem inputItem = null;
             if (InputItem.s_cache != null)
             {
                 inputItem = InputItem.s_cache;
                 InputItem.s_cache = (InputItem)inputItem._next;
-                inputItem._next = (QueueItem)null;
+                inputItem._next = null;
                 --InputItem.s_cachedCount;
             }
             if (inputItem == null)
@@ -55,15 +55,15 @@ namespace Microsoft.Iris.Input
         {
             if (returnInfoToo)
                 this._info.ReturnToPool();
-            this._manager = (InputManager)null;
-            this._target = (ICookedInputSite)null;
-            this._info = (InputInfo)null;
-            this._prev = (QueueItem)null;
-            this._next = (QueueItem)null;
-            this._owner = (QueueItem.Chain)null;
+            this._manager = null;
+            this._target = null;
+            this._info = null;
+            this._prev = null;
+            this._next = null;
+            this._owner = null;
             if (InputItem.s_cachedCount >= 5)
                 return;
-            this._next = (QueueItem)InputItem.s_cache;
+            this._next = s_cache;
             InputItem.s_cache = this;
             ++InputItem.s_cachedCount;
         }
@@ -72,7 +72,7 @@ namespace Microsoft.Iris.Input
 
         public InputInfo Info => this._info;
 
-        public override string ToString() => base.ToString() + " -> " + (object)this._info + " -> " + DebugHelpers.DEBUG_ObjectToString((object)this._target);
+        public override string ToString() => base.ToString() + " -> " + _info + " -> " + DebugHelpers.DEBUG_ObjectToString(_target);
 
         public override void Dispatch()
         {

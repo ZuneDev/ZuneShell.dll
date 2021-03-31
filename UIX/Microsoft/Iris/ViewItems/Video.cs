@@ -31,8 +31,8 @@ namespace Microsoft.Iris.ViewItems
         protected override void OnDispose()
         {
             if (this._videoStream != null)
-                this._videoStream.RevokePortal((IUIVideoPortal)this);
-            this._videoStream = (IUIVideoStream)null;
+                this._videoStream.RevokePortal(this);
+            this._videoStream = null;
             ((ITrackableUIElementEvents)this).UIChange -= new EventHandler(this.OnUIChange);
             base.OnDispose();
         }
@@ -46,10 +46,10 @@ namespace Microsoft.Iris.ViewItems
                     return;
                 this.ForceContentChange();
                 if (this._videoStream != null)
-                    this._videoStream.RevokePortal((IUIVideoPortal)this);
+                    this._videoStream.RevokePortal(this);
                 this._videoStream = value;
                 if (this._videoStream != null)
-                    this._videoStream.RegisterPortal((IUIVideoPortal)this);
+                    this._videoStream.RegisterPortal(this);
                 this.FireNotification(NotificationID.VideoStream);
             }
         }
@@ -76,13 +76,13 @@ namespace Microsoft.Iris.ViewItems
             if (!UISession.Default.RenderSession.GraphicsDevice.IsVideoComposited)
                 return;
             IRenderSession renderSession = UISession.Default.RenderSession;
-            VideoElement videoElement = new VideoElement("VideoElement", (IVideoStream)null);
-            IEffectTemplate effectTemplate = renderSession.CreateEffectTemplate((object)this, nameof(Video));
-            effectTemplate.Build((EffectInput)videoElement);
-            IEffect instance = effectTemplate.CreateInstance((object)this);
+            VideoElement videoElement = new VideoElement("VideoElement", null);
+            IEffectTemplate effectTemplate = renderSession.CreateEffectTemplate(this, nameof(Video));
+            effectTemplate.Build(videoElement);
+            IEffect instance = effectTemplate.CreateInstance(this);
             this._contents.Effect = instance;
-            instance.UnregisterUsage((object)this);
-            effectTemplate.UnregisterUsage((object)this);
+            instance.UnregisterUsage(this);
+            effectTemplate.UnregisterUsage(this);
             this._contents.Effect.SetProperty("VideoElement.Video", (this._videoStream as Microsoft.Iris.VideoStream).RenderStream);
             this.CreateBorderSprites(renderSession);
         }
@@ -96,9 +96,9 @@ namespace Microsoft.Iris.ViewItems
             {
                 if (removeFromTree)
                     letterBoxSprite.Remove();
-                letterBoxSprite.UnregisterUsage((object)this);
+                letterBoxSprite.UnregisterUsage(this);
             }
-            this._letterBoxSprites = (ISprite[])null;
+            this._letterBoxSprites = null;
         }
 
         protected override void OnPaint(bool visible)
@@ -106,7 +106,7 @@ namespace Microsoft.Iris.ViewItems
             base.OnPaint(visible);
             if (this._contents == null || !UISession.Default.RenderSession.GraphicsDevice.IsVideoComposited)
                 return;
-            BasicVideoPresentation presentation = this._videoStream.GetPresentation((IUIVideoPortal)this);
+            BasicVideoPresentation presentation = this._videoStream.GetPresentation(this);
             this._contents.Position = new Vector3(presentation.DisplayedDestination.Left, presentation.DisplayedDestination.Top, 0.0f);
             this._contents.Size = new Vector2(presentation.DisplayedDestination.Size.Width, presentation.DisplayedDestination.Size.Height);
             BasicVideoGeometry geometry = presentation.GetGeometry();
@@ -127,15 +127,15 @@ namespace Microsoft.Iris.ViewItems
         private void CreateBorderSprites(IRenderSession renderSession)
         {
             this._letterBoxSprites = new ISprite[2];
-            IEffect colorFillEffect = EffectManager.CreateColorFillEffect((object)this, this.LetterboxColor);
+            IEffect colorFillEffect = EffectManager.CreateColorFillEffect(this, this.LetterboxColor);
             for (int index = 0; index < 2; ++index)
             {
-                ISprite sprite = renderSession.CreateSprite((object)this, (object)this);
+                ISprite sprite = renderSession.CreateSprite(this, this);
                 sprite.Effect = colorFillEffect;
-                this.VisualContainer.AddChild((IVisual)sprite, (IVisual)this.ContentVisual, VisualOrder.Before);
+                this.VisualContainer.AddChild(sprite, ContentVisual, VisualOrder.Before);
                 this._letterBoxSprites[index] = sprite;
             }
-            colorFillEffect.UnregisterUsage((object)this);
+            colorFillEffect.UnregisterUsage(this);
         }
 
         Rectangle IUIVideoPortal.LogicalContentRect => this.HasVisual ? new Rectangle(0.0f, 0.0f, this.VisualSize.X, this.VisualSize.Y) : Rectangle.Zero;

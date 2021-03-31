@@ -30,7 +30,7 @@ namespace Microsoft.Iris.Animations
         internal void FireCompleted()
         {
             if (this.Completed != null)
-                this.Completed((object)this, EventArgs.Empty);
+                this.Completed(this, EventArgs.Empty);
             this.FireNotification(NotificationID.Completed);
         }
 

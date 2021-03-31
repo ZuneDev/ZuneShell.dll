@@ -39,7 +39,7 @@ namespace Microsoft.Iris.Markup.Validation
             this._typeIdentifier.Validate();
             if (this._typeIdentifier.HasErrors)
                 this.MarkHasErrors();
-            this.DeclareEvaluationType((TypeSchema)BooleanSchema.Type, typeRestriction);
+            this.DeclareEvaluationType(BooleanSchema.Type, typeRestriction);
         }
     }
 }

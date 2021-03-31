@@ -37,7 +37,7 @@ namespace Microsoft.Iris.Markup.Validation
         public override void Validate(TypeRestriction typeRestriction, ValidateContext context)
         {
             this._typeHint = typeRestriction.Primary;
-            if (!this._typeHint.SupportsTypeConversion((TypeSchema)StringSchema.Type))
+            if (!this._typeHint.SupportsTypeConversion(StringSchema.Type))
             {
                 this.ReportError("String conversion is not available for '{0}'", this._typeHint.Name);
             }
@@ -53,7 +53,7 @@ namespace Microsoft.Iris.Markup.Validation
                         return;
                     }
                 }
-                Result result = this._typeHint.TypeConverter((object)this._fromString, (TypeSchema)StringSchema.Type, out this._fromStringInstance);
+                Result result = this._typeHint.TypeConverter(_fromString, StringSchema.Type, out this._fromStringInstance);
                 if (result.Failed)
                     this.ReportError(result.Error);
                 else
@@ -65,6 +65,6 @@ namespace Microsoft.Iris.Markup.Validation
 
         public int TypeHintIndex => this._typeHintIndex;
 
-        public override string ToString() => this._typeHint != null ? string.Format("FromString : '{0}' {1}", (object)this._fromString, (object)this._typeHint) : "Unavailable";
+        public override string ToString() => this._typeHint != null ? string.Format("FromString : '{0}' {1}", _fromString, _typeHint) : "Unavailable";
     }
 }

@@ -34,7 +34,7 @@ namespace Microsoft.Iris.RenderAPI.Audio
 
         public void Dispose()
         {
-            GC.SuppressFinalize((object)this);
+            GC.SuppressFinalize(this);
             this.Dispose(true);
         }
 
@@ -93,17 +93,17 @@ namespace Microsoft.Iris.RenderAPI.Audio
             this._soundHandle = ExtensionsApi.HSpSound.NULL;
         }
 
-        public static string GetCacheKey(string stSource) => InvariantString.Format("SND|{0}", (object)stSource);
+        public static string GetCacheKey(string stSource) => InvariantString.Format("SND|{0}", stSource);
 
         SoundDataFormat ISoundData.Format => (SoundDataFormat)this._soundInfo.Header.wFormatTag;
 
-        uint ISoundData.ChannelCount => (uint)this._soundInfo.Header.nChannels;
+        uint ISoundData.ChannelCount => _soundInfo.Header.nChannels;
 
         uint ISoundData.SampleRate => this._soundInfo.Header.nSamplesPerSec;
 
-        uint ISoundData.SampleSize => (uint)this._soundInfo.Header.wBitsPerSample;
+        uint ISoundData.SampleSize => _soundInfo.Header.wBitsPerSample;
 
-        uint ISoundData.SampleCount => this._soundInfo.Header.cbDataSize * 8U / (uint)this._soundInfo.Header.wBitsPerSample;
+        uint ISoundData.SampleCount => this._soundInfo.Header.cbDataSize * 8U / _soundInfo.Header.wBitsPerSample;
 
         IntPtr ISoundData.AcquireContent()
         {

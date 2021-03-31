@@ -14,11 +14,11 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object GetEditableTextData(object instanceObj) => (object)((TypingHandler)instanceObj).EditableTextData;
+        private static object GetEditableTextData(object instanceObj) => ((TypingHandler)instanceObj).EditableTextData;
 
         private static void SetEditableTextData(ref object instanceObj, object valueObj) => ((TypingHandler)instanceObj).EditableTextData = (EditableTextData)valueObj;
 
-        private static object GetHandlerStage(object instanceObj) => (object)((InputHandler)instanceObj).HandlerStage;
+        private static object GetHandlerStage(object instanceObj) => ((InputHandler)instanceObj).HandlerStage;
 
         private static void SetHandlerStage(ref object instanceObj, object valueObj) => ((InputHandler)instanceObj).HandlerStage = (InputHandlerStage)valueObj;
 
@@ -30,27 +30,27 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static void SetTreatEscapeAsBackspace(ref object instanceObj, object valueObj) => ((TypingHandler)instanceObj).TreatEscapeAsBackspace = (bool)valueObj;
 
-        private static object Construct() => (object)new TypingHandler();
+        private static object Construct() => new TypingHandler();
 
-        public static void Pass1Initialize() => TypingHandlerSchema.Type = new UIXTypeSchema((short)228, "TypingHandler", (string)null, (short)110, typeof(TypingHandler), UIXTypeFlags.Disposable);
+        public static void Pass1Initialize() => TypingHandlerSchema.Type = new UIXTypeSchema(228, "TypingHandler", null, 110, typeof(TypingHandler), UIXTypeFlags.Disposable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema((short)228, "EditableTextData", (short)68, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(TypingHandlerSchema.GetEditableTextData), new SetValueHandler(TypingHandlerSchema.SetEditableTextData), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema((short)228, "HandlerStage", (short)112, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(TypingHandlerSchema.GetHandlerStage), new SetValueHandler(TypingHandlerSchema.SetHandlerStage), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema((short)228, "SubmitOnEnter", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(TypingHandlerSchema.GetSubmitOnEnter), new SetValueHandler(TypingHandlerSchema.SetSubmitOnEnter), false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema((short)228, "TreatEscapeAsBackspace", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(TypingHandlerSchema.GetTreatEscapeAsBackspace), new SetValueHandler(TypingHandlerSchema.SetTreatEscapeAsBackspace), false);
-            UIXEventSchema uixEventSchema = new UIXEventSchema((short)228, "TypingInputRejected");
-            TypingHandlerSchema.Type.Initialize(new DefaultConstructHandler(TypingHandlerSchema.Construct), (ConstructorSchema[])null, new PropertySchema[4]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(228, "EditableTextData", 68, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TypingHandlerSchema.GetEditableTextData), new SetValueHandler(TypingHandlerSchema.SetEditableTextData), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(228, "HandlerStage", 112, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TypingHandlerSchema.GetHandlerStage), new SetValueHandler(TypingHandlerSchema.SetHandlerStage), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(228, "SubmitOnEnter", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TypingHandlerSchema.GetSubmitOnEnter), new SetValueHandler(TypingHandlerSchema.SetSubmitOnEnter), false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(228, "TreatEscapeAsBackspace", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TypingHandlerSchema.GetTreatEscapeAsBackspace), new SetValueHandler(TypingHandlerSchema.SetTreatEscapeAsBackspace), false);
+            UIXEventSchema uixEventSchema = new UIXEventSchema(228, "TypingInputRejected");
+            TypingHandlerSchema.Type.Initialize(new DefaultConstructHandler(TypingHandlerSchema.Construct), null, new PropertySchema[4]
             {
-        (PropertySchema) uixPropertySchema1,
-        (PropertySchema) uixPropertySchema2,
-        (PropertySchema) uixPropertySchema3,
-        (PropertySchema) uixPropertySchema4
-            }, (MethodSchema[])null, new EventSchema[1]
+         uixPropertySchema1,
+         uixPropertySchema2,
+         uixPropertySchema3,
+         uixPropertySchema4
+            }, null, new EventSchema[1]
             {
-        (EventSchema) uixEventSchema
-            }, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixEventSchema
+            }, null, null, null, null, null, null, null);
         }
     }
 }

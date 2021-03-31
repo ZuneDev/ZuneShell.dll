@@ -30,7 +30,7 @@ namespace Microsoft.Iris.ViewItems
             this._window.OnHandleChanged += new EventHandler(this.OnHandleChanged);
             renderWindow.ForwardMessageEvent += new ForwardMessageHandler(this.OnForwardMessage);
             this._backgroundColor = Color.White;
-            this._window.BackgroundColor = new ColorF((int)byte.MaxValue, (int)byte.MaxValue, (int)byte.MaxValue);
+            this._window.BackgroundColor = new ColorF(byte.MaxValue, byte.MaxValue, byte.MaxValue);
         }
 
         protected override void OnDispose()
@@ -42,7 +42,7 @@ namespace Microsoft.Iris.ViewItems
             {
                 this._window.OnHandleChanged -= new EventHandler(this.OnHandleChanged);
                 this._window.Dispose();
-                this._window = (IHwndHostWindow)null;
+                this._window = null;
             }
           ((ITrackableUIElementEvents)this).UIChange -= new EventHandler(this.OnUIChange);
             base.OnDispose();
@@ -95,7 +95,7 @@ namespace Microsoft.Iris.ViewItems
             msg.wParam = wParam;
             msg.lParam = lParam;
             Win32Api.MSG* msgPtr = &msg;
-            Win32Api.SendMessage(this._childHwndIntPtr, 895U, IntPtr.Zero, (IntPtr)(void*)msgPtr);
+            Win32Api.SendMessage(this._childHwndIntPtr, 895U, IntPtr.Zero, (IntPtr)msgPtr);
         }
 
         private void OnUIChange(object sender, EventArgs args)
@@ -104,9 +104,9 @@ namespace Microsoft.Iris.ViewItems
                 return;
             Vector3 parentOffsetPxlVector;
             Vector3 scaleVector;
-            ViewItem.GetAccumulatedOffsetAndScale((IZoneDisplayChild)this, (IZoneDisplayChild)null, out parentOffsetPxlVector, out scaleVector);
+            ViewItem.GetAccumulatedOffsetAndScale(this, null, out parentOffsetPxlVector, out scaleVector);
             Vector2 visualSize = this.VisualSize;
-            this._window.ClientPosition = new Point((int)Math.Round((double)parentOffsetPxlVector.X), (int)Math.Round((double)parentOffsetPxlVector.Y));
+            this._window.ClientPosition = new Point((int)Math.Round(parentOffsetPxlVector.X), (int)Math.Round(parentOffsetPxlVector.Y));
             this._window.WindowSize = new Size(Math2.RoundUp(scaleVector.X * visualSize.X), Math2.RoundUp(scaleVector.Y * visualSize.Y));
             this._window.Visible = this.FullyVisible;
         }

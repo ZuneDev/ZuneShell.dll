@@ -32,7 +32,7 @@ namespace Microsoft.Iris.Markup
         public static bool Compile(CompilerInput[] compilands, CompilerInput dataTableCompiland)
         {
             ErrorWatermark watermark1 = ErrorManager.Watermark;
-            MarkupBinaryDataTable markupBinaryDataTable = (MarkupBinaryDataTable)null;
+            MarkupBinaryDataTable markupBinaryDataTable = null;
             if (dataTableCompiland.SourceFileName != null)
             {
                 markupBinaryDataTable = new MarkupBinaryDataTable(dataTableCompiland.SourceFileName);
@@ -44,18 +44,18 @@ namespace Microsoft.Iris.Markup
             foreach (CompilerInput compiland in compilands)
             {
                 if (compiland.SourceFileName.IndexOf("://", StringComparison.Ordinal) != -1)
-                    ErrorManager.ReportError("'{0}' is not a valid filename", (object)compiland.SourceFileName);
+                    ErrorManager.ReportError($"'{compiland.SourceFileName}' is not a valid filename");
                 string uri = "file://" + compiland.SourceFileName;
                 LoadResult loadResult = MarkupSystem.ResolveLoadResult(uri, MarkupSystem.RootIslandId);
                 if (loadResult != null && loadResult.Status != LoadResultStatus.Error)
                 {
                     if (!(loadResult is MarkupLoadResult markupLoadResult) || !markupLoadResult.IsSource)
                     {
-                        ErrorManager.ReportError("'{0}' is not markup, it cannot be compiled", (object)uri);
+                        ErrorManager.ReportError($"'{uri}' is not markup, it cannot be compiled");
                     }
                     else
                     {
-                        vector.Add((object)loadResult);
+                        vector.Add(loadResult);
                         if (compiland.IdentityUri != null)
                             loadResult.SetCompilerReferenceName(compiland.IdentityUri);
                         if (markupBinaryDataTable != null)
@@ -85,21 +85,21 @@ namespace Microsoft.Iris.Markup
             ErrorWatermark watermark = ErrorManager.Watermark;
             IntPtr invalidHandleValue = Win32Api.INVALID_HANDLE_VALUE;
             ByteCodeReader reader = writer.CreateReader();
-            reader.DeclareOwner((object)typeof(MarkupSystem));
+            reader.DeclareOwner(typeof(MarkupSystem));
             IntPtr file = Win32Api.CreateFile(outputFile, 1073741824U, 0U, IntPtr.Zero, 2U, 0U, IntPtr.Zero);
             if (file == Win32Api.INVALID_HANDLE_VALUE)
-                ErrorManager.ReportError("Unable to open output file '{0}'.  Error code {1}", (object)outputFile, (object)Marshal.GetLastWin32Error());
+                ErrorManager.ReportError("Unable to open output file '{0}'.  Error code {1}", outputFile, Marshal.GetLastWin32Error());
             if (!watermark.ErrorsDetected)
             {
                 long size = 0;
                 IntPtr intPtr = reader.ToIntPtr(out size);
                 uint lpNumberOfBytesWritten = 0;
                 if (!Win32Api.WriteFile(file, intPtr, (uint)size, out lpNumberOfBytesWritten, IntPtr.Zero))
-                    ErrorManager.ReportError("An error occurred while saving data to output file '{0}'.  Error code {1}", (object)outputFile, (object)Marshal.GetLastWin32Error());
+                    ErrorManager.ReportError("An error occurred while saving data to output file '{0}'.  Error code {1}", outputFile, Marshal.GetLastWin32Error());
             }
             if (file != Win32Api.INVALID_HANDLE_VALUE)
                 Win32Api.CloseHandle(file);
-            reader?.Dispose((object)typeof(MarkupSystem));
+            reader?.Dispose(typeof(MarkupSystem));
         }
 
         public static ByteCodeWriter Run(
@@ -154,11 +154,11 @@ namespace Microsoft.Iris.Markup
             }
             else
             {
-                this._writer.WriteString((string)null);
+                this._writer.WriteString(null);
                 this._usingSharedBinaryDataTable = false;
                 this._binaryDataTable = this._loadResult.BinaryDataTable;
                 if (this._binaryDataTable == null)
-                    this._binaryDataTable = new MarkupBinaryDataTable((string)null, 0);
+                    this._binaryDataTable = new MarkupBinaryDataTable(null, 0);
                 this._binaryDataTableSectionOffsetFixup = this._writer.DataSize;
                 this._writer.WriteUInt32(uint.MaxValue);
             }
@@ -266,7 +266,7 @@ namespace Microsoft.Iris.Markup
                     if (uiClassTypeSchema.NamedContentTable != null)
                         num4 = (ushort)uiClassTypeSchema.NamedContentTable.Length;
                     this._writer.WriteUInt16(num4);
-                    if (num4 != (ushort)0)
+                    if (num4 != 0)
                     {
                         foreach (NamedContentRecord namedContentRecord in uiClassTypeSchema.NamedContentTable)
                         {
@@ -394,14 +394,14 @@ namespace Microsoft.Iris.Markup
                 this._writer.WriteUInt16(this._loadResult.DataMappingsTable.Length);
                 foreach (MarkupDataMapping markupDataMapping in this._loadResult.DataMappingsTable)
                 {
-                    this._writer.WriteUInt16(this.MapTypeToIndex((TypeSchema)markupDataMapping.TargetType));
+                    this._writer.WriteUInt16(this.MapTypeToIndex(markupDataMapping.TargetType));
                     this.WriteDataTableString(markupDataMapping.Provider);
                     this._writer.WriteUInt16(markupDataMapping.Mappings.Length);
                     foreach (MarkupDataMappingEntry mapping in markupDataMapping.Mappings)
                     {
                         this.WriteDataTableString(mapping.Source);
                         this.WriteDataTableString(mapping.Target);
-                        this._writer.WriteUInt16(this.MapPropertyToIndex((PropertySchema)mapping.Property));
+                        this._writer.WriteUInt16(this.MapPropertyToIndex(mapping.Property));
                         if (mapping.DefaultValue != null && mapping.Property.PropertyType.SupportsBinaryEncoding)
                         {
                             this._writer.WriteBool(true);
@@ -437,7 +437,7 @@ namespace Microsoft.Iris.Markup
                     switch (constantPersistMode)
                     {
                         case MarkupConstantPersistMode.Binary:
-                            this._loadResult.ImportTables.TypeImports[(int)index].EncodeBinary(this._writer, persist.Data);
+                            this._loadResult.ImportTables.TypeImports[index].EncodeBinary(this._writer, persist.Data);
                             break;
                         case MarkupConstantPersistMode.FromString:
                         case MarkupConstantPersistMode.Canonical:
@@ -497,15 +497,15 @@ namespace Microsoft.Iris.Markup
                 return 65534;
             if (dependent == this._loadResult)
                 return 65533;
-            int num = this._usingSharedBinaryDataTable ? this._binaryDataTable.SourceMarkupImportTables.ImportedLoadResults.IndexOf((object)dependent) : Array.IndexOf<LoadResult>(this._loadResult.Dependencies, dependent);
+            int num = this._usingSharedBinaryDataTable ? this._binaryDataTable.SourceMarkupImportTables.ImportedLoadResults.IndexOf(dependent) : Array.IndexOf<LoadResult>(this._loadResult.Dependencies, dependent);
             return num >= 0 ? (ushort)num : ushort.MaxValue;
         }
 
         private ushort MapTypeToIndex(TypeSchema type)
         {
-            for (ushort index = 0; (int)index < (int)(ushort)this._loadResult.ImportTables.TypeImports.Length; ++index)
+            for (ushort index = 0; index < (ushort)this._loadResult.ImportTables.TypeImports.Length; ++index)
             {
-                TypeSchema typeImport = this._loadResult.ImportTables.TypeImports[(int)index];
+                TypeSchema typeImport = this._loadResult.ImportTables.TypeImports[index];
                 if (type == typeImport)
                     return index;
             }
@@ -514,9 +514,9 @@ namespace Microsoft.Iris.Markup
 
         private ushort MapPropertyToIndex(PropertySchema property)
         {
-            for (ushort index = 0; (int)index < (int)(ushort)this._loadResult.ImportTables.PropertyImports.Length; ++index)
+            for (ushort index = 0; index < (ushort)this._loadResult.ImportTables.PropertyImports.Length; ++index)
             {
-                PropertySchema propertyImport = this._loadResult.ImportTables.PropertyImports[(int)index];
+                PropertySchema propertyImport = this._loadResult.ImportTables.PropertyImports[index];
                 if (property == propertyImport)
                     return index;
             }
@@ -525,9 +525,9 @@ namespace Microsoft.Iris.Markup
 
         private ushort MapMethodToIndex(MethodSchema method)
         {
-            for (ushort index = 0; (int)index < (int)(ushort)this._loadResult.ImportTables.MethodImports.Length; ++index)
+            for (ushort index = 0; index < (ushort)this._loadResult.ImportTables.MethodImports.Length; ++index)
             {
-                MethodSchema methodImport = this._loadResult.ImportTables.MethodImports[(int)index];
+                MethodSchema methodImport = this._loadResult.ImportTables.MethodImports[index];
                 if (method == methodImport)
                     return index;
             }
@@ -581,7 +581,7 @@ namespace Microsoft.Iris.Markup
           MarkupBinaryDataTable binaryDataTable)
         {
             SourceMarkupLoadResult markupLoadResult = new SourceMarkupLoadResult(binaryDataTable.Uri);
-            markupLoadResult.RegisterUsage((object)markupLoadResult);
+            markupLoadResult.RegisterUsage(markupLoadResult);
             binaryDataTable.ConstantsTable.PrepareForRuntimeUse();
             MarkupImportTables importTables = binaryDataTable.SourceMarkupImportTables.PrepareImportTables();
             Vector importedLoadResults = binaryDataTable.SourceMarkupImportTables.ImportedLoadResults;
@@ -595,8 +595,8 @@ namespace Microsoft.Iris.Markup
             markupLoadResult.SetLineNumberTable(new MarkupLineNumberTable());
             markupLoadResult.LineNumberTable.PrepareForRuntimeUse();
             markupLoadResult.SetObjectSection(new ByteCodeWriter().CreateReader());
-            ByteCodeWriter byteCodeWriter = MarkupCompiler.Run((MarkupLoadResult)markupLoadResult, (MarkupBinaryDataTable)null);
-            markupLoadResult.UnregisterUsage((object)markupLoadResult);
+            ByteCodeWriter byteCodeWriter = MarkupCompiler.Run(markupLoadResult, null);
+            markupLoadResult.UnregisterUsage(markupLoadResult);
             return byteCodeWriter;
         }
     }

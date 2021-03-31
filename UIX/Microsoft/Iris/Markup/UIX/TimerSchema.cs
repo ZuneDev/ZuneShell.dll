@@ -14,7 +14,7 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object GetInterval(object instanceObj) => (object)((UITimer)instanceObj).Interval;
+        private static object GetInterval(object instanceObj) => ((UITimer)instanceObj).Interval;
 
         private static void SetInterval(ref object instanceObj, object valueObj)
         {
@@ -35,40 +35,40 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static void SetAutoRepeat(ref object instanceObj, object valueObj) => ((UITimer)instanceObj).AutoRepeat = (bool)valueObj;
 
-        private static object Construct() => (object)new UITimer();
+        private static object Construct() => new UITimer();
 
         private static object CallStart(object instanceObj, object[] parameters)
         {
             ((UITimer)instanceObj).Start();
-            return (object)null;
+            return null;
         }
 
         private static object CallStop(object instanceObj, object[] parameters)
         {
             ((UITimer)instanceObj).Stop();
-            return (object)null;
+            return null;
         }
 
-        public static void Pass1Initialize() => TimerSchema.Type = new UIXTypeSchema((short)221, "Timer", (string)null, (short)153, typeof(UITimer), UIXTypeFlags.Disposable);
+        public static void Pass1Initialize() => TimerSchema.Type = new UIXTypeSchema(221, "Timer", null, 153, typeof(UITimer), UIXTypeFlags.Disposable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema((short)221, "Interval", (short)115, (short)-1, ExpressionRestriction.None, false, Int32Schema.ValidateNotNegative, true, new GetValueHandler(TimerSchema.GetInterval), new SetValueHandler(TimerSchema.SetInterval), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema((short)221, "Enabled", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(TimerSchema.GetEnabled), new SetValueHandler(TimerSchema.SetEnabled), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema((short)221, "AutoRepeat", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(TimerSchema.GetAutoRepeat), new SetValueHandler(TimerSchema.SetAutoRepeat), false);
-            UIXEventSchema uixEventSchema = new UIXEventSchema((short)221, "Tick");
-            UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema((short)221, "Start", (short[])null, (short)240, new InvokeHandler(TimerSchema.CallStart), false);
-            UIXMethodSchema uixMethodSchema2 = new UIXMethodSchema((short)221, "Stop", (short[])null, (short)240, new InvokeHandler(TimerSchema.CallStop), false);
-            TimerSchema.Type.Initialize(new DefaultConstructHandler(TimerSchema.Construct), (ConstructorSchema[])null, new PropertySchema[3]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(221, "Interval", 115, -1, ExpressionRestriction.None, false, Int32Schema.ValidateNotNegative, true, new GetValueHandler(TimerSchema.GetInterval), new SetValueHandler(TimerSchema.SetInterval), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(221, "Enabled", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TimerSchema.GetEnabled), new SetValueHandler(TimerSchema.SetEnabled), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(221, "AutoRepeat", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TimerSchema.GetAutoRepeat), new SetValueHandler(TimerSchema.SetAutoRepeat), false);
+            UIXEventSchema uixEventSchema = new UIXEventSchema(221, "Tick");
+            UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema(221, "Start", null, 240, new InvokeHandler(TimerSchema.CallStart), false);
+            UIXMethodSchema uixMethodSchema2 = new UIXMethodSchema(221, "Stop", null, 240, new InvokeHandler(TimerSchema.CallStop), false);
+            TimerSchema.Type.Initialize(new DefaultConstructHandler(TimerSchema.Construct), null, new PropertySchema[3]
             {
-        (PropertySchema) uixPropertySchema3,
-        (PropertySchema) uixPropertySchema2,
-        (PropertySchema) uixPropertySchema1
+         uixPropertySchema3,
+         uixPropertySchema2,
+         uixPropertySchema1
             }, new MethodSchema[2]
             {
-        (MethodSchema) uixMethodSchema1,
-        (MethodSchema) uixMethodSchema2
-            }, new EventSchema[1] { (EventSchema)uixEventSchema }, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixMethodSchema1,
+         uixMethodSchema2
+            }, new EventSchema[1] { uixEventSchema }, null, null, null, null, null, null, null);
         }
     }
 }

@@ -29,7 +29,7 @@ namespace Microsoft.Iris.ModelItems
             this._handler = handler;
         }
 
-        public void DetachCallbacks() => this._handler = (ITextScrollModelCallback)null;
+        public void DetachCallbacks() => this._handler = null;
 
         public override int ScrollStep
         {
@@ -102,20 +102,20 @@ namespace Microsoft.Iris.ModelItems
         {
             if (this._handler == null || this.AvailableScrollSpace <= 0)
                 return;
-            this._handler.ScrollToPosition(this, (int)((double)this.AvailableScrollSpace * (double)scrollAmount));
+            this._handler.ScrollToPosition(this, (int)(AvailableScrollSpace * (double)scrollAmount));
         }
 
         public override bool CanScrollUp => this._canScrollUp;
 
         public override bool CanScrollDown => this._canScrollDown;
 
-        public override float CurrentPage => this._viewExtent != 0 ? (float)((double)this._scrollAmount / (double)this._viewExtent + 1.0) : 0.0f;
+        public override float CurrentPage => this._viewExtent != 0 ? (float)(_scrollAmount / (double)this._viewExtent + 1.0) : 0.0f;
 
-        public override float TotalPages => this._viewExtent != 0 ? (float)((double)this.AvailableScrollSpace / (double)this._viewExtent + 1.0) : 0.0f;
+        public override float TotalPages => this._viewExtent != 0 ? (float)(AvailableScrollSpace / (double)this._viewExtent + 1.0) : 0.0f;
 
-        public override float ViewNear => this._extent != 0 ? Math.Max((float)this._scrollAmount / (float)this._extent, 0.0f) : 0.0f;
+        public override float ViewNear => this._extent != 0 ? Math.Max(_scrollAmount / (float)this._extent, 0.0f) : 0.0f;
 
-        public override float ViewFar => this._extent != 0 ? Math.Min((float)(this._scrollAmount + this._viewExtent) / (float)this._extent, 1f) : 0.0f;
+        public override float ViewFar => this._extent != 0 ? Math.Min((this._scrollAmount + this._viewExtent) / (float)this._extent, 1f) : 0.0f;
 
         private int AvailableScrollSpace => this._extent - this._viewExtent + 1;
 

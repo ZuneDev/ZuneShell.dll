@@ -59,14 +59,14 @@ namespace Microsoft.Iris.Markup.Validation
           string param2,
           string param3)
         {
-            this.ReportError(string.Format(error, (object)param0, (object)param1, (object)param2, (object)param3));
+            this.ReportError(string.Format(error, param0, param1, param2, param3));
         }
 
-        public void ReportError(string error, string param0, string param1, string param2) => this.ReportError(string.Format(error, (object)param0, (object)param1, (object)param2));
+        public void ReportError(string error, string param0, string param1, string param2) => this.ReportError(string.Format(error, param0, param1, param2));
 
-        public void ReportError(string error, string param0, string param1) => this.ReportError(string.Format(error, (object)param0, (object)param1));
+        public void ReportError(string error, string param0, string param1) => this.ReportError(string.Format(error, param0, param1));
 
-        public void ReportError(string error, string param0) => this.ReportError(string.Format(error, (object)param0));
+        public void ReportError(string error, string param0) => this.ReportError(string.Format(error, param0));
 
         public void ReportError(string error)
         {

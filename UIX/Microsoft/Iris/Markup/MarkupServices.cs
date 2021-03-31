@@ -31,16 +31,16 @@ namespace Microsoft.Iris.Markup
 
         private void OnErrorBatch(IList errors)
         {
-            foreach (ErrorRecord error in (IEnumerable)errors)
+            foreach (ErrorRecord error in errors)
             {
                 if (!error.Warning)
                     this._warningsOnly = false;
-                this._errors.Add((object)new MarkupError(error));
+                this._errors.Add(new MarkupError(error));
             }
             this.FireNotification(NotificationID.ErrorsDetected);
         }
 
-        public IList Errors => (IList)this._errors;
+        public IList Errors => _errors;
 
         public bool WarningsOnly => this._warningsOnly;
 

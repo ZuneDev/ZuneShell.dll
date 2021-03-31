@@ -47,7 +47,7 @@ namespace Microsoft.Iris.Drawing
           string content)
         {
             this._hGlyphRunInfo = hGlyphRunInfo;
-            this._hRasterizeRunPacket = new IntPtr((void*)runPacketPtr);
+            this._hRasterizeRunPacket = new IntPtr(runPacketPtr);
             this._layoutBounds = runPacketPtr->rcLayoutBounds;
             this._renderBounds = runPacketPtr->rcfRenderBounds;
             this._naturalX = runPacketPtr->naturalX;
@@ -61,8 +61,8 @@ namespace Microsoft.Iris.Drawing
             this._fontFaceUniqueId = runPacketPtr->fontFaceUniqueId;
             this._lfHeight = runPacketPtr->lf.lfHeight;
             this._lfWeight = runPacketPtr->lf.lfWeight;
-            this.SetBit(TextRun.Bits.Italic, runPacketPtr->lf.lfItalic != (byte)0);
-            this.SetBit(TextRun.Bits.Underline, runPacketPtr->lf.lfUnderline != (byte)0);
+            this.SetBit(TextRun.Bits.Italic, runPacketPtr->lf.lfItalic != 0);
+            this.SetBit(TextRun.Bits.Underline, runPacketPtr->lf.lfUnderline != 0);
             this.SetBit(TextRun.Bits.Link, (runPacketPtr->dwEffects & 32) != 0);
             this._underlineBounds = runPacketPtr->rcUnderlineBounds;
             this._lineNumber = runPacketPtr->nLineNumber;
@@ -96,7 +96,7 @@ namespace Microsoft.Iris.Drawing
 
         public Color Color => this._overrideColor != Color.Transparent ? this._overrideColor : this._runColor;
 
-        public bool Highlighted => this._highlightColor.A != (byte)0;
+        public bool Highlighted => this._highlightColor.A != 0;
 
         public Color HighlightColor => this._highlightColor;
 
@@ -155,12 +155,12 @@ namespace Microsoft.Iris.Drawing
         {
             if (!(this._offsetPoint != offsetPoint))
                 return;
-            this._renderBounds.X -= (float)this._offsetPoint.X;
-            this._renderBounds.Y -= (float)this._offsetPoint.Y;
+            this._renderBounds.X -= _offsetPoint.X;
+            this._renderBounds.Y -= _offsetPoint.Y;
             this._layoutBounds.X -= this._offsetPoint.X;
             this._layoutBounds.Y -= this._offsetPoint.Y;
-            this._renderBounds.X += (float)offsetPoint.X;
-            this._renderBounds.Y += (float)offsetPoint.Y;
+            this._renderBounds.X += offsetPoint.X;
+            this._renderBounds.Y += offsetPoint.Y;
             this._layoutBounds.X += offsetPoint.X;
             this._layoutBounds.Y += offsetPoint.Y;
             this._offsetPoint = offsetPoint;
@@ -186,16 +186,16 @@ namespace Microsoft.Iris.Drawing
         {
             if (this.TextSprite != null)
             {
-                container.RemoveChild((IVisual)this.TextSprite);
-                this.TextSprite = (ISprite)null;
+                container.RemoveChild(TextSprite);
+                this.TextSprite = null;
             }
             if (this.HighlightSprite == null)
                 return;
-            container.RemoveChild((IVisual)this.HighlightSprite);
-            this.HighlightSprite = (ISprite)null;
+            container.RemoveChild(HighlightSprite);
+            this.HighlightSprite = null;
         }
 
-        private bool GetBit(TextRun.Bits lookupBit) => ((TextRun.Bits)this._bits & lookupBit) != (TextRun.Bits)0;
+        private bool GetBit(TextRun.Bits lookupBit) => ((TextRun.Bits)this._bits & lookupBit) != 0;
 
         private void SetBit(TextRun.Bits changeBit, bool value) => this._bits = value ? (byte)((TextRun.Bits)this._bits | changeBit) : (byte)((TextRun.Bits)this._bits & ~changeBit);
 

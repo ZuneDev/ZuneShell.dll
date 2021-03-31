@@ -21,7 +21,7 @@ namespace Microsoft.Iris.Animations
           ref AnimationArgs args)
         {
             Rotation effectiveValue = this.GetEffectiveValue(targetObject, this._valueRotation, ref args);
-            animation.AddRotationKeyframe((BaseKeyframe)this, effectiveValue);
+            animation.AddRotationKeyframe(this, effectiveValue);
         }
 
         public Rotation Value
@@ -30,7 +30,7 @@ namespace Microsoft.Iris.Animations
             set => this._valueRotation = value;
         }
 
-        public override object ObjectValue => (object)this.Value;
+        public override object ObjectValue => Value;
 
         public virtual Rotation GetEffectiveValue(
           IAnimatable targetObject,

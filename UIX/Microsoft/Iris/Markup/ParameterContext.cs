@@ -25,7 +25,7 @@ namespace Microsoft.Iris.Markup
                 if (this._parameterNames[index] == name)
                     return this._parameterValues[index];
             }
-            return (object)null;
+            return null;
         }
 
         public void WriteParameter(string name, object value)

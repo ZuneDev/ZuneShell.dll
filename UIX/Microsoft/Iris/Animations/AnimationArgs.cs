@@ -34,7 +34,7 @@ namespace Microsoft.Iris.Animations
 
         public AnimationArgs(Camera cam)
         {
-            this.ViewItem = (ViewItem)null;
+            this.ViewItem = null;
             this.OldPosition = Vector3.Zero;
             this.OldSize = Vector2.Zero;
             this.OldScale = Vector3.Zero;

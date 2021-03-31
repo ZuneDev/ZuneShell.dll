@@ -21,17 +21,17 @@ namespace Microsoft.Iris.Markup.UIX
             videoElement.VideoStream = videoStream.RenderStream;
         }
 
-        private static object Construct() => (object)new VideoElement();
+        private static object Construct() => new VideoElement();
 
-        public static void Pass1Initialize() => VideoElementSchema.Type = new UIXTypeSchema((short)236, "VideoElement", (string)null, (short)77, typeof(VideoElement), UIXTypeFlags.None);
+        public static void Pass1Initialize() => VideoElementSchema.Type = new UIXTypeSchema(236, "VideoElement", null, 77, typeof(VideoElement), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema = new UIXPropertySchema((short)236, "VideoStream", (short)238, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, (GetValueHandler)null, new SetValueHandler(VideoElementSchema.SetVideoStream), false);
-            VideoElementSchema.Type.Initialize(new DefaultConstructHandler(VideoElementSchema.Construct), (ConstructorSchema[])null, new PropertySchema[1]
+            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(236, "VideoStream", 238, -1, ExpressionRestriction.None, false, null, false, null, new SetValueHandler(VideoElementSchema.SetVideoStream), false);
+            VideoElementSchema.Type.Initialize(new DefaultConstructHandler(VideoElementSchema.Construct), null, new PropertySchema[1]
             {
-        (PropertySchema) uixPropertySchema
-            }, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixPropertySchema
+            }, null, null, null, null, null, null, null, null, null);
         }
     }
 }

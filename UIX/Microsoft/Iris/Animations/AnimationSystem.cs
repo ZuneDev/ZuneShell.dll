@@ -25,11 +25,11 @@ namespace Microsoft.Iris.Animations
         public static AnimationTemplate GetSequenceByID(string id)
         {
             if (!AnimationSystem.Enabled)
-                return (AnimationTemplate)null;
-            return AnimationSystem.SequenceExists(id) ? (AnimationTemplate)AnimationSystem._sequences[id].Clone() : (AnimationTemplate)null;
+                return null;
+            return AnimationSystem.SequenceExists(id) ? (AnimationTemplate)AnimationSystem._sequences[id].Clone() : null;
         }
 
-        public static AnimationTemplate GetSequenceByIDAlways(string id) => AnimationSystem.SequenceExists(id) ? (AnimationTemplate)AnimationSystem._sequences[id].Clone() : (AnimationTemplate)null;
+        public static AnimationTemplate GetSequenceByIDAlways(string id) => AnimationSystem.SequenceExists(id) ? (AnimationTemplate)AnimationSystem._sequences[id].Clone() : null;
 
         public static void AddSequenceByID(string id, AnimationTemplate seq)
         {
@@ -40,7 +40,7 @@ namespace Microsoft.Iris.Animations
 
         public static void ClearSequences() => AnimationSystem._sequences = new Dictionary<string, AnimationTemplate>();
 
-        public static ICollection GetAllSequences() => (ICollection)AnimationSystem._sequences.Values;
+        public static ICollection GetAllSequences() => _sequences.Values;
 
         public static bool Enabled => AnimationSystem._enabledFlag;
 

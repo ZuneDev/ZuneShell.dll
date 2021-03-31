@@ -55,7 +55,7 @@ namespace Microsoft.Iris.Markup.Validation
                     ValidateStatementReturn returnStatement = this._returnStatements[index];
                     if (returnStatement.HasErrors)
                         return;
-                    TypeSchema type = (TypeSchema)VoidSchema.Type;
+                    TypeSchema type = VoidSchema.Type;
                     ValidateExpression expression = returnStatement.Expression;
                     if (expression != null)
                         type = expression.ObjectType;
@@ -65,15 +65,15 @@ namespace Microsoft.Iris.Markup.Validation
                 }
             }
             else
-                this._returnType = (TypeSchema)VoidSchema.Type;
+                this._returnType = VoidSchema.Type;
             string errorMessage = "'{0}' cannot be used in this context (expecting types compatible with '{1}')";
             if (typeRestriction.Primary == VoidSchema.Type && typeRestriction.Secondary == null)
                 errorMessage = "Return values are not supported for this code block (currently returning '{0}')";
             else if (this._returnStatements.Count == 0)
                 errorMessage = "Code block must have at least one return statement of type '{0}'";
-            if (!typeRestriction.Check((ValidateObject)this, errorMessage, this._returnType))
+            if (!typeRestriction.Check(this, errorMessage, this._returnType))
                 return;
-            ValidateStatementReturn validateStatementReturn = (ValidateStatementReturn)null;
+            ValidateStatementReturn validateStatementReturn = null;
             ValidateStatement validateStatement = this._statementCompound.StatementList;
             if (validateStatement != null)
             {
@@ -152,7 +152,7 @@ namespace Microsoft.Iris.Markup.Validation
         public ValidateCode Next
         {
             get => (ValidateCode)base.Next;
-            set => base.Next = (ValidateObject)value;
+            set => base.Next = value;
         }
     }
 }

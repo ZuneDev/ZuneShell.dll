@@ -10,19 +10,19 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object GetStreamID(object instanceObj) => (object)((VideoStream)instanceObj).StreamID;
+        private static object GetStreamID(object instanceObj) => ((VideoStream)instanceObj).StreamID;
 
-        private static object Construct() => (object)new VideoStream();
+        private static object Construct() => new VideoStream();
 
-        public static void Pass1Initialize() => VideoStreamSchema.Type = new UIXTypeSchema((short)238, "VideoStream", (string)null, (short)153, typeof(VideoStream), UIXTypeFlags.Immutable);
+        public static void Pass1Initialize() => VideoStreamSchema.Type = new UIXTypeSchema(238, "VideoStream", null, 153, typeof(VideoStream), UIXTypeFlags.Immutable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema = new UIXPropertySchema((short)238, "StreamID", (short)115, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(VideoStreamSchema.GetStreamID), (SetValueHandler)null, false);
-            VideoStreamSchema.Type.Initialize(new DefaultConstructHandler(VideoStreamSchema.Construct), (ConstructorSchema[])null, new PropertySchema[1]
+            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(238, "StreamID", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(VideoStreamSchema.GetStreamID), null, false);
+            VideoStreamSchema.Type.Initialize(new DefaultConstructHandler(VideoStreamSchema.Construct), null, new PropertySchema[1]
             {
-        (PropertySchema) uixPropertySchema
-            }, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixPropertySchema
+            }, null, null, null, null, null, null, null, null, null);
         }
     }
 }

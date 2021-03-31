@@ -19,7 +19,7 @@ namespace Microsoft.Iris.Markup.Validation
 
         protected override void OnDispose()
         {
-            this._loopStatement = (ValidateStatementLoop)null;
+            this._loopStatement = null;
             base.OnDispose();
         }
 

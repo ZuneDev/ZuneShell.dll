@@ -21,7 +21,7 @@ namespace Microsoft.Iris.OS.CLR
         private IntPtr GetStdMarshaller(ref Guid riid, int dwDestContext, int mshlflags)
         {
             IntPtr ppMarshal = IntPtr.Zero;
-            IntPtr iunknownForObject = Marshal.GetIUnknownForObject((object)this);
+            IntPtr iunknownForObject = Marshal.GetIUnknownForObject(this);
             if (iunknownForObject != IntPtr.Zero)
             {
                 try

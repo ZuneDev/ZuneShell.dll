@@ -43,9 +43,9 @@ namespace Microsoft.Iris.Layouts
             switch (o)
             {
                 case Orientation.Horizontal:
-                    return new SizeF((float)this.major, (float)this.minor);
+                    return new SizeF(major, minor);
                 default:
-                    return new SizeF((float)this.minor, (float)this.major);
+                    return new SizeF(minor, major);
             }
         }
 
@@ -100,6 +100,6 @@ namespace Microsoft.Iris.Layouts
 
         public bool IsEmpty => this.Major == 0 || this.Minor == 0;
 
-        public override string ToString() => InvariantString.Format("(Major={0}, Minor={1})", (object)this.Major, (object)this.Minor);
+        public override string ToString() => InvariantString.Format("(Major={0}, Minor={1})", Major, Minor);
     }
 }

@@ -45,7 +45,7 @@ namespace Microsoft.Iris.Drawing
 
         public float AltFontSize
         {
-            get => (double)this._altFontHeightPts == 0.0 ? this._fontHeightPts : this._altFontHeightPts;
+            get => _altFontHeightPts == 0.0 ? this._fontHeightPts : this._altFontHeightPts;
             set
             {
                 this._flags[512] = true;
@@ -195,7 +195,7 @@ namespace Microsoft.Iris.Drawing
             if (this._flags[64])
             {
                 stringBuilder.Append(" Color = ");
-                stringBuilder.Append((object)this.Color);
+                stringBuilder.Append(Color);
             }
             stringBuilder.Append(" }");
             return stringBuilder.ToString();
@@ -239,7 +239,7 @@ namespace Microsoft.Iris.Drawing
                 this._lineSpacing = from._lineSpacing;
                 this._characterSpacing = from._characterSpacing;
                 this._textColor = from._textColor;
-                this._fontFace = (char*)null;
+                this._fontFace = null;
             }
         }
     }

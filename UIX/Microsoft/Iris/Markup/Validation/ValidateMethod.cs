@@ -147,7 +147,7 @@ namespace Microsoft.Iris.Markup.Validation
                 markupTypeSchema = markupTypeSchema.Base as MarkupTypeSchema;
             }
             while (deep && markupTypeSchema != null);
-            return (MarkupMethodSchema)null;
+            return null;
         }
 
         public static bool IsExactMatch(MarkupMethodSchema method, MarkupMethodSchema methodCheck)
@@ -188,7 +188,7 @@ namespace Microsoft.Iris.Markup.Validation
                     str += parameter.FoundType.ToString() + " " + parameter.Name;
                 }
             }
-            return string.Format("{0} {1}({2})", (object)this._methodName, (object)this._returnType.FoundType, (object)str);
+            return string.Format("{0} {1}({2})", _methodName, _returnType.FoundType, str);
         }
     }
 }

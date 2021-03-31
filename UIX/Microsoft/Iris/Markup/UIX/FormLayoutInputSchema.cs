@@ -12,10 +12,10 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object Construct() => (object)new FormLayoutInput();
+        private static object Construct() => new FormLayoutInput();
 
-        public static void Pass1Initialize() => FormLayoutInputSchema.Type = new UIXTypeSchema((short)95, "FormLayoutInput", (string)null, (short)8, typeof(FormLayoutInput), UIXTypeFlags.None);
+        public static void Pass1Initialize() => FormLayoutInputSchema.Type = new UIXTypeSchema(95, "FormLayoutInput", null, 8, typeof(FormLayoutInput), UIXTypeFlags.None);
 
-        public static void Pass2Initialize() => FormLayoutInputSchema.Type.Initialize(new DefaultConstructHandler(FormLayoutInputSchema.Construct), (ConstructorSchema[])null, (PropertySchema[])null, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+        public static void Pass2Initialize() => FormLayoutInputSchema.Type.Initialize(new DefaultConstructHandler(FormLayoutInputSchema.Construct), null, null, null, null, null, null, null, null, null, null, null);
     }
 }

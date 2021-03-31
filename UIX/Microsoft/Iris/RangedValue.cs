@@ -34,12 +34,12 @@ namespace Microsoft.Iris
           => this.Initialize();
 
         public RangedValue(IModelItemOwner owner)
-          : this(owner, (string)null)
+          : this(owner, null)
         {
         }
 
         public RangedValue()
-          : this((IModelItemOwner)null)
+          : this(null)
         {
         }
 
@@ -78,7 +78,7 @@ namespace Microsoft.Iris
             set
             {
                 using (this.ThreadValidator)
-                    this._rangedValue.MinValue = (double)value <= (double)this.MaxValue ? value : throw new ArgumentException(InvariantString.Format("MinValue must be less than or equal to MaxValue.  Value Supplied was {0}, MaxValue is {1}", (object)value, (object)this.MaxValue));
+                    this._rangedValue.MinValue = value <= (double)this.MaxValue ? value : throw new ArgumentException(InvariantString.Format("MinValue must be less than or equal to MaxValue.  Value Supplied was {0}, MaxValue is {1}", value, MaxValue));
             }
         }
 
@@ -92,7 +92,7 @@ namespace Microsoft.Iris
             set
             {
                 using (this.ThreadValidator)
-                    this._rangedValue.MaxValue = (double)value >= (double)this.MinValue ? value : throw new ArgumentException(InvariantString.Format("MaxValue must be greater than or equal to MinValue.  Value Supplied was {0}, MinValue is {1}", (object)value, (object)this.MinValue));
+                    this._rangedValue.MaxValue = value >= (double)this.MinValue ? value : throw new ArgumentException(InvariantString.Format("MaxValue must be greater than or equal to MinValue.  Value Supplied was {0}, MinValue is {1}", value, MinValue));
             }
         }
 
@@ -155,29 +155,29 @@ namespace Microsoft.Iris
             if (disposing)
             {
                 this._notifier.ClearListeners();
-                this._listeners.Dispose((object)this);
+                this._listeners.Dispose(this);
             }
-            this._rangedValue = (Microsoft.Iris.ModelItems.RangedValue)null;
+            this._rangedValue = null;
         }
 
-        object AssemblyObjectProxyHelper.IFrameworkProxyObject.FrameworkObject => (object)this;
+        object AssemblyObjectProxyHelper.IFrameworkProxyObject.FrameworkObject => this;
 
-        object AssemblyObjectProxyHelper.IAssemblyProxyObject.AssemblyObject => (object)this;
+        object AssemblyObjectProxyHelper.IAssemblyProxyObject.AssemblyObject => this;
 
         private void Initialize()
         {
             this._rangedValue = this.CreateInternalRangedValue();
             Vector<Listener> listeners = new Vector<Listener>(7);
             DelegateListener.OnNotifyCallback callback = new DelegateListener.OnNotifyCallback(this.OnInternalPropertyChanged);
-            listeners.Add((Listener)new DelegateListener((INotifyObject)this._rangedValue, NotificationID.MinValue, callback));
-            listeners.Add((Listener)new DelegateListener((INotifyObject)this._rangedValue, NotificationID.MaxValue, callback));
-            listeners.Add((Listener)new DelegateListener((INotifyObject)this._rangedValue, NotificationID.Step, callback));
-            listeners.Add((Listener)new DelegateListener((INotifyObject)this._rangedValue, NotificationID.Range, callback));
-            listeners.Add((Listener)new DelegateListener((INotifyObject)this._rangedValue, NotificationID.Value, callback));
-            listeners.Add((Listener)new DelegateListener((INotifyObject)this._rangedValue, NotificationID.HasPreviousValue, callback));
-            listeners.Add((Listener)new DelegateListener((INotifyObject)this._rangedValue, NotificationID.HasNextValue, callback));
+            listeners.Add(new DelegateListener(_rangedValue, NotificationID.MinValue, callback));
+            listeners.Add(new DelegateListener(_rangedValue, NotificationID.MaxValue, callback));
+            listeners.Add(new DelegateListener(_rangedValue, NotificationID.Step, callback));
+            listeners.Add(new DelegateListener(_rangedValue, NotificationID.Range, callback));
+            listeners.Add(new DelegateListener(_rangedValue, NotificationID.Value, callback));
+            listeners.Add(new DelegateListener(_rangedValue, NotificationID.HasPreviousValue, callback));
+            listeners.Add(new DelegateListener(_rangedValue, NotificationID.HasNextValue, callback));
             this._listeners = new CodeListeners(listeners);
-            this._listeners.DeclareOwner((object)this);
+            this._listeners.DeclareOwner(this);
         }
 
         internal virtual Microsoft.Iris.ModelItems.RangedValue CreateInternalRangedValue() => new Microsoft.Iris.ModelItems.RangedValue();

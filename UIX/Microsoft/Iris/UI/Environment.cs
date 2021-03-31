@@ -19,7 +19,7 @@ namespace Microsoft.Iris.UI
         private bool _soundEffectsEnabledFlag;
         private ColorScheme _currentColorScheme;
         private static Environment s_instance;
-        private static float s_dpiScale = Math.Max(1f, (float)NativeApi.SpGetDpi() / 96f);
+        private static float s_dpiScale = Math.Max(1f, NativeApi.SpGetDpi() / 96f);
 
         private Environment() => this._soundEffectsEnabledFlag = true;
 

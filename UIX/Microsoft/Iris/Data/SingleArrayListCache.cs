@@ -15,7 +15,7 @@ namespace Microsoft.Iris.Data
         public ArrayList Acquire()
         {
             ArrayList arrayList = this._list;
-            this._list = (ArrayList)null;
+            this._list = null;
             if (arrayList == null)
                 arrayList = new ArrayList();
             return arrayList;

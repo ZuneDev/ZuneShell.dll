@@ -44,8 +44,8 @@ namespace Microsoft.Iris.UI
             this._form = form;
             this._scale = Vector3.UnitVector;
             this._rootUI = new Microsoft.Iris.UI.RootUI(this);
-            this._rootViewItem = new RootViewItem(this, (UIClass)this._rootUI, (Microsoft.Iris.Session.Form)form);
-            this._rootUI.SetRootItem((ViewItem)this._rootViewItem);
+            this._rootViewItem = new RootViewItem(this, _rootUI, form);
+            this._rootUI.SetRootItem(_rootViewItem);
             this._cachedInputDeliveryData = new UIZone.InputDeliveryData();
             this._cachedUIClassStorage = new UIClass[4][];
             this._cachedUIClassStorageIndex = this._cachedUIClassStorage.Length - 1;
@@ -54,8 +54,8 @@ namespace Microsoft.Iris.UI
         protected override void OnDispose()
         {
             base.OnDispose();
-            this._rootUI.Dispose((object)this);
-            this._rootUI = (Microsoft.Iris.UI.RootUI)null;
+            this._rootUI.Dispose(this);
+            this._rootUI = null;
         }
 
         public UISession Session => this._parentSession;
@@ -64,7 +64,7 @@ namespace Microsoft.Iris.UI
 
         public RootViewItem RootViewItem => this._rootViewItem;
 
-        public UIClass RootUI => (UIClass)this._rootUI;
+        public UIClass RootUI => _rootUI;
 
         public bool ZonePhysicalVisible => this._physicalVisible;
 
@@ -78,7 +78,7 @@ namespace Microsoft.Iris.UI
           IRawInputSite rawSource,
           ICookedInputSite targetRelative)
         {
-            UIClass uiClass = (UIClass)null;
+            UIClass uiClass = null;
             if (targetRelative != null)
                 uiClass = targetRelative as UIClass;
             else if (rawSource != null && rawSource.OwnerData is ViewItem ownerData)
@@ -88,8 +88,8 @@ namespace Microsoft.Iris.UI
                     uiClass = ui;
             }
             if (uiClass != null && !uiClass.IsMouseFocusable())
-                uiClass = (UIClass)null;
-            return (ICookedInputSite)uiClass;
+                uiClass = null;
+            return uiClass;
         }
 
         public object PrepareInputForDelivery(
@@ -103,7 +103,7 @@ namespace Microsoft.Iris.UI
             inputDeliveryData.eventRoute = this.ComputeEventRoute((UIClass)endpoint, out inputDeliveryData.routingLength);
             if (inputDeliveryData.eventRoute != null)
                 --inputDeliveryData.routingLength;
-            return (object)inputDeliveryData;
+            return inputDeliveryData;
         }
 
         public void UpdateInputFocusStates(
@@ -150,7 +150,7 @@ namespace Microsoft.Iris.UI
             if (this._form == null)
                 return;
             UIClass uiClass = this.Session.InputManager.Queue.CurrentMouseFocus as UIClass;
-            if (changedUI != null && !this.IsChildADescendant((ITreeNode)changedUI, (ITreeNode)uiClass))
+            if (changedUI != null && !this.IsChildADescendant(changedUI, uiClass))
                 return;
             CursorID cursorId = CursorID.NotSpecified;
             if (uiClass != null && uiClass.Zone == this)
@@ -241,7 +241,7 @@ namespace Microsoft.Iris.UI
           RectangleF startRectangleF,
           bool defaultFlag)
         {
-            UIClass rootUi = (UIClass)this._rootUI;
+            UIClass rootUi = _rootUI;
             return rootUi != null && rootUi.InboundKeyNavigation(searchDirection, startRectangleF, defaultFlag);
         }
 
@@ -272,7 +272,7 @@ namespace Microsoft.Iris.UI
                     this.DeliverInitializations();
                     break;
                 case UiTask.LayoutComputation:
-                    ILayoutNode rootViewItem1 = (ILayoutNode)this._rootViewItem;
+                    ILayoutNode rootViewItem1 = _rootViewItem;
                     if (rootViewItem1 == null)
                         break;
                     ScrollingLayout.ResetScrollFocusIntoView();
@@ -290,7 +290,7 @@ namespace Microsoft.Iris.UI
                     this._rootViewItem.ResetLayoutInvalid();
                     break;
                 case UiTask.LayoutApplication:
-                    ViewItem rootViewItem2 = (ViewItem)this._rootViewItem;
+                    ViewItem rootViewItem2 = _rootViewItem;
                     if (rootViewItem2 == null)
                         break;
                     bool zonePhysicalVisible = this.ZonePhysicalVisible;
@@ -374,7 +374,7 @@ namespace Microsoft.Iris.UI
         private UIZone.InputDeliveryData GetInputDeliveryData()
         {
             UIZone.InputDeliveryData inputDeliveryData = this._cachedInputDeliveryData;
-            this._cachedInputDeliveryData = (UIZone.InputDeliveryData)null;
+            this._cachedInputDeliveryData = null;
             if (inputDeliveryData == null)
                 inputDeliveryData = new UIZone.InputDeliveryData();
             return inputDeliveryData;
@@ -385,13 +385,13 @@ namespace Microsoft.Iris.UI
             if (param == null)
                 return;
             UIZone.InputDeliveryData inputDeliveryData = (UIZone.InputDeliveryData)param;
-            inputDeliveryData.target = (UIClass)null;
-            inputDeliveryData.sourceInputInfo = (InputInfo)null;
+            inputDeliveryData.target = null;
+            inputDeliveryData.sourceInputInfo = null;
             if (!inputDeliveryData.eventRouteCached)
                 this.RecycleUIClassArray(inputDeliveryData.eventRoute);
             else
                 inputDeliveryData.eventRouteCached = false;
-            inputDeliveryData.eventRoute = (UIClass[])null;
+            inputDeliveryData.eventRoute = null;
             inputDeliveryData.routingLength = 0;
             inputDeliveryData.routeTruncated = false;
             this._cachedInputDeliveryData = inputDeliveryData;
@@ -399,11 +399,11 @@ namespace Microsoft.Iris.UI
 
         private UIClass[] GetUIClassArray(int requiredLength)
         {
-            UIClass[] uiClassArray = (UIClass[])null;
+            UIClass[] uiClassArray = null;
             if (this._cachedUIClassStorageIndex >= 0)
             {
                 uiClassArray = this._cachedUIClassStorage[this._cachedUIClassStorageIndex];
-                this._cachedUIClassStorage[this._cachedUIClassStorageIndex] = (UIClass[])null;
+                this._cachedUIClassStorage[this._cachedUIClassStorageIndex] = null;
                 --this._cachedUIClassStorageIndex;
             }
             if (uiClassArray == null || uiClassArray.Length < requiredLength)
@@ -416,7 +416,7 @@ namespace Microsoft.Iris.UI
             if (storage == null || this._cachedUIClassStorageIndex >= this._cachedUIClassStorage.Length - 1)
                 return;
             ++this._cachedUIClassStorageIndex;
-            Array.Clear((Array)storage, 0, storage.Length);
+            Array.Clear(storage, 0, storage.Length);
             this._cachedUIClassStorage[this._cachedUIClassStorageIndex] = storage;
         }
 
@@ -424,7 +424,7 @@ namespace Microsoft.Iris.UI
         {
             entriesCount = 0;
             if (endpoint == null)
-                return (UIClass[])null;
+                return null;
             for (UIClass uiClass = endpoint; uiClass != null; uiClass = uiClass.Parent)
                 ++entriesCount;
             UIClass[] uiClassArray = this.GetUIClassArray(entriesCount);
@@ -445,7 +445,7 @@ namespace Microsoft.Iris.UI
             if (updateProc == null)
                 return;
             UIClass[] uiClassArray1 = refCurrentFocusRouteList;
-            UIClass[] uiClassArray2 = (UIClass[])null;
+            UIClass[] uiClassArray2 = null;
             UIZone.InputDeliveryData inputDeliveryData = (UIZone.InputDeliveryData)param;
             if (inputDeliveryData != null)
                 uiClassArray2 = inputDeliveryData.eventRoute;
@@ -456,7 +456,7 @@ namespace Microsoft.Iris.UI
                 inputDeliveryData.eventRouteCached = true;
             UIClass[] removedFromRoute = this.FindControlsRemovedFromRoute(uiClassArray1, uiClassArray2);
             if (removedFromRoute != null)
-                UIZone.UpdateControlFocusStates(removedFromRoute, false, (ITreeNode)null, updateProc);
+                UIZone.UpdateControlFocusStates(removedFromRoute, false, null, updateProc);
             this.RecycleUIClassArray(uiClassArray1);
             if (removedFromRoute != uiClassArray1)
                 this.RecycleUIClassArray(removedFromRoute);
@@ -469,7 +469,7 @@ namespace Microsoft.Iris.UI
           UIClass[] oldRouteList,
           UIClass[] newRouteList)
         {
-            UIClass[] uiClassArray = (UIClass[])null;
+            UIClass[] uiClassArray = null;
             if (oldRouteList != null)
             {
                 if (newRouteList != null && newRouteList.Length > 0)
@@ -537,7 +537,7 @@ namespace Microsoft.Iris.UI
                 while (this._needFullyEnabledNotificationsFlag)
                 {
                     this._needFullyEnabledNotificationsFlag = false;
-                    UIClass rootUi = (UIClass)this._rootUI;
+                    UIClass rootUi = _rootUI;
                     if (rootUi != null)
                         rootUi.DeliverFullyEnabled(true);
                     else
@@ -546,7 +546,7 @@ namespace Microsoft.Iris.UI
                 if (this._needScaleNotificationsFlag)
                 {
                     this._needScaleNotificationsFlag = false;
-                    ViewItem rootViewItem = (ViewItem)this._rootViewItem;
+                    ViewItem rootViewItem = _rootViewItem;
                     if (rootViewItem != null)
                         rootViewItem.DeliverEffectiveScaleChange(false);
                     else
@@ -577,7 +577,7 @@ namespace Microsoft.Iris.UI
             this.ImplementUiTask(task, param);
         }
 
-        public override string ToString() => this.GetType().Name + "[" + (object)this._form + "]";
+        public override string ToString() => this.GetType().Name + "[" + _form + "]";
 
         private class InputDeliveryData
         {

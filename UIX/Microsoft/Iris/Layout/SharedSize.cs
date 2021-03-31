@@ -120,7 +120,7 @@ namespace Microsoft.Iris.Layout
             Size size2 = constraint;
             Size size3 = size1;
             Size size4 = minSize;
-            if ((policy & SharedSizePolicy.SharesWidth) != (SharedSizePolicy)0)
+            if ((policy & SharedSizePolicy.SharesWidth) != 0)
             {
                 if (!this._accumulatingSize)
                 {
@@ -143,7 +143,7 @@ namespace Microsoft.Iris.Layout
                     size4.Width = Math.Max(size3.Width, size4.Width);
                 }
             }
-            if ((policy & SharedSizePolicy.SharesHeight) != (SharedSizePolicy)0)
+            if ((policy & SharedSizePolicy.SharesHeight) != 0)
             {
                 if (!this._accumulatingSize)
                 {
@@ -175,9 +175,9 @@ namespace Microsoft.Iris.Layout
             if (!this._accumulatingSize)
                 return;
             Size size1 = this.Size;
-            if ((policy & SharedSizePolicy.ContributesToWidth) != (SharedSizePolicy)0 && size.Width > size1.Width)
+            if ((policy & SharedSizePolicy.ContributesToWidth) != 0 && size.Width > size1.Width)
                 size1.Width = size.Width;
-            if ((policy & SharedSizePolicy.ContributesToHeight) != (SharedSizePolicy)0 && size.Height > size1.Height)
+            if ((policy & SharedSizePolicy.ContributesToHeight) != 0 && size.Height > size1.Height)
                 size1.Height = size.Height;
             this.SetSize(size1, false);
             this.EnsureApplySize();
@@ -213,7 +213,7 @@ namespace Microsoft.Iris.Layout
                 {
                     SharedSizePolicy sharedSizePolicy = dependent.SharedSizePolicy;
                     Size size2 = ((ILayoutNode)dependent).DesiredSize - dependent.Margins.Size;
-                    if (size1.Width != size2.Width && (sharedSizePolicy & SharedSizePolicy.SharesWidth) != (SharedSizePolicy)0 || size1.Height != size2.Height && (sharedSizePolicy & SharedSizePolicy.SharesHeight) != (SharedSizePolicy)0)
+                    if (size1.Width != size2.Width && (sharedSizePolicy & SharedSizePolicy.SharesWidth) != 0 || size1.Height != size2.Height && (sharedSizePolicy & SharedSizePolicy.SharesHeight) != 0)
                         dependent.MarkLayoutInvalid();
                 }
             }

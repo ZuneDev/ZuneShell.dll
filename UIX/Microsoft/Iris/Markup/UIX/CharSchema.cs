@@ -12,7 +12,7 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object Construct() => (object)char.MinValue;
+        private static object Construct() => char.MinValue;
 
         private static void EncodeBinary(ByteCodeWriter writer, object instanceObj)
         {
@@ -20,16 +20,16 @@ namespace Microsoft.Iris.Markup.UIX
             writer.WriteChar(ch);
         }
 
-        private static object DecodeBinary(ByteCodeReader reader) => (object)reader.ReadChar();
+        private static object DecodeBinary(ByteCodeReader reader) => reader.ReadChar();
 
         private static Result ConvertFromString(object valueObj, out object instanceObj)
         {
             string str = (string)valueObj;
-            instanceObj = (object)null;
+            instanceObj = null;
             if (str == null || str.Length != 1)
-                return Result.Fail("Unable to convert \"{0}\" to type '{1}'", (object)str, (object)"Char");
+                return Result.Fail("Unable to convert \"{0}\" to type '{1}'", str, "Char");
             char ch = str[0];
-            instanceObj = (object)ch;
+            instanceObj = ch;
             return Result.Success;
         }
 
@@ -41,7 +41,7 @@ namespace Microsoft.Iris.Markup.UIX
           out object instance)
         {
             Result result = Result.Fail("Unsupported");
-            instance = (object)null;
+            instance = null;
             if (StringSchema.Type.IsAssignableFrom(fromType))
             {
                 result = CharSchema.ConvertFromString(from, out instance);
@@ -70,11 +70,11 @@ namespace Microsoft.Iris.Markup.UIX
             switch (op)
             {
                 case OperationType.RelationalEquals:
-                    return BooleanBoxes.Box((int)ch1 == (int)ch2);
+                    return BooleanBoxes.Box(ch1 == ch2);
                 case OperationType.RelationalNotEquals:
-                    return BooleanBoxes.Box((int)ch1 != (int)ch2);
+                    return BooleanBoxes.Box(ch1 != ch2);
                 default:
-                    return (object)null;
+                    return null;
             }
         }
 
@@ -83,22 +83,22 @@ namespace Microsoft.Iris.Markup.UIX
             string parameter1 = (string)parameters[0];
             char parameter2 = (char)parameters[1];
             object instanceObj1;
-            return CharSchema.ConvertFromString((object)parameter1, out instanceObj1).Failed ? (object)parameter2 : instanceObj1;
+            return CharSchema.ConvertFromString(parameter1, out instanceObj1).Failed ? parameter2 : instanceObj1;
         }
 
-        public static void Pass1Initialize() => CharSchema.Type = new UIXTypeSchema((short)27, "Char", "char", (short)153, typeof(char), UIXTypeFlags.Immutable);
+        public static void Pass1Initialize() => CharSchema.Type = new UIXTypeSchema(27, "Char", "char", 153, typeof(char), UIXTypeFlags.Immutable);
 
         public static void Pass2Initialize()
         {
-            UIXMethodSchema uixMethodSchema = new UIXMethodSchema((short)27, "TryParse", new short[2]
+            UIXMethodSchema uixMethodSchema = new UIXMethodSchema(27, "TryParse", new short[2]
             {
-        (short) 208,
-        (short) 27
-            }, (short)27, new InvokeHandler(CharSchema.CallTryParseStringChar), true);
-            CharSchema.Type.Initialize(new DefaultConstructHandler(CharSchema.Construct), (ConstructorSchema[])null, (PropertySchema[])null, new MethodSchema[1]
+         208,
+         27
+            }, 27, new InvokeHandler(CharSchema.CallTryParseStringChar), true);
+            CharSchema.Type.Initialize(new DefaultConstructHandler(CharSchema.Construct), null, null, new MethodSchema[1]
             {
-        (MethodSchema) uixMethodSchema
-            }, (EventSchema[])null, (FindCanonicalInstanceHandler)null, new TypeConverterHandler(CharSchema.TryConvertFrom), new SupportsTypeConversionHandler(CharSchema.IsConversionSupported), new EncodeBinaryHandler(CharSchema.EncodeBinary), new DecodeBinaryHandler(CharSchema.DecodeBinary), new PerformOperationHandler(CharSchema.ExecuteOperation), new SupportsOperationHandler(CharSchema.IsOperationSupported));
+         uixMethodSchema
+            }, null, null, new TypeConverterHandler(CharSchema.TryConvertFrom), new SupportsTypeConversionHandler(CharSchema.IsConversionSupported), new EncodeBinaryHandler(CharSchema.EncodeBinary), new DecodeBinaryHandler(CharSchema.DecodeBinary), new PerformOperationHandler(CharSchema.ExecuteOperation), new SupportsOperationHandler(CharSchema.IsOperationSupported));
         }
     }
 }

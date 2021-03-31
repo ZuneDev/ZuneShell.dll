@@ -33,12 +33,12 @@ namespace Microsoft.Iris.Markup.UIX
                 case OperationType.RelationalNotEquals:
                     return BooleanBoxes.Box(obj1 != obj2);
                 default:
-                    return (object)null;
+                    return null;
             }
         }
 
-        public static void Pass1Initialize() => NullSchema.Type = new UIXTypeSchema((short)152, "Null", (string)null, (short)-1, typeof(object), UIXTypeFlags.None);
+        public static void Pass1Initialize() => NullSchema.Type = new UIXTypeSchema(152, "Null", null, -1, typeof(object), UIXTypeFlags.None);
 
-        public static void Pass2Initialize() => NullSchema.Type.Initialize((DefaultConstructHandler)null, (ConstructorSchema[])null, (PropertySchema[])null, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, new PerformOperationHandler(NullSchema.ExecuteOperation), new SupportsOperationHandler(NullSchema.IsOperationSupported));
+        public static void Pass2Initialize() => NullSchema.Type.Initialize(null, null, null, null, null, null, null, null, null, null, new PerformOperationHandler(NullSchema.ExecuteOperation), new SupportsOperationHandler(NullSchema.IsOperationSupported));
     }
 }

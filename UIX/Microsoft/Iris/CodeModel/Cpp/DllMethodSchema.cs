@@ -20,7 +20,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
         private uint _id;
 
         public DllMethodSchema(DllTypeSchema owner, uint ID)
-          : base((TypeSchema)owner)
+          : base(owner)
           => this._id = ID;
 
         public bool Load(IntPtr method) => this.QueryMethodName(method) && this.QueryForParameterTypes(method) && this.QueryReturnType(method) && this.QueryIsStatic(method);
@@ -44,10 +44,10 @@ namespace Microsoft.Iris.CodeModel.Cpp
                     string str4 = "<null>";
                     if (this._parameterTypes[index] != null)
                         str4 = this._parameterTypes[index].Name;
-                    str3 = string.Format("{0}{1}{2}", (object)str3, index > 0 ? (object)", " : (object)string.Empty, (object)str4);
+                    str3 = string.Format("{0}{1}{2}", str3, index > 0 ? ", " : string.Empty, str4);
                 }
             }
-            string.Format("0x{0:x8} {1}{2} {3}({4})", (object)this._id, (object)str1, (object)str2, (object)this.Name, (object)str3);
+            string.Format("0x{0:x8} {1}{2} {3}({4})", _id, str1, str2, Name, str3);
         }
 
         public override string Name => this._name;

@@ -14,11 +14,11 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object GetValue(object instanceObj) => (object)((EditableTextData)instanceObj).Value;
+        private static object GetValue(object instanceObj) => ((EditableTextData)instanceObj).Value;
 
         private static void SetValue(ref object instanceObj, object valueObj) => ((EditableTextData)instanceObj).Value = (string)valueObj;
 
-        private static object GetMaxLength(object instanceObj) => (object)((EditableTextData)instanceObj).MaxLength;
+        private static object GetMaxLength(object instanceObj) => ((EditableTextData)instanceObj).MaxLength;
 
         private static void SetMaxLength(ref object instanceObj, object valueObj)
         {
@@ -35,32 +35,32 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static void SetReadOnly(ref object instanceObj, object valueObj) => ((EditableTextData)instanceObj).ReadOnly = (bool)valueObj;
 
-        private static object Construct() => (object)new EditableTextData();
+        private static object Construct() => new EditableTextData();
 
         private static object CallSubmit(object instanceObj, object[] parameters)
         {
             ((EditableTextData)instanceObj).Submit();
-            return (object)null;
+            return null;
         }
 
-        public static void Pass1Initialize() => EditableTextDataSchema.Type = new UIXTypeSchema((short)68, "EditableTextData", (string)null, (short)153, typeof(EditableTextData), UIXTypeFlags.None);
+        public static void Pass1Initialize() => EditableTextDataSchema.Type = new UIXTypeSchema(68, "EditableTextData", null, 153, typeof(EditableTextData), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema((short)68, "Value", (short)208, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(EditableTextDataSchema.GetValue), new SetValueHandler(EditableTextDataSchema.SetValue), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema((short)68, "MaxLength", (short)115, (short)-1, ExpressionRestriction.None, false, Int32Schema.ValidateNotNegative, true, new GetValueHandler(EditableTextDataSchema.GetMaxLength), new SetValueHandler(EditableTextDataSchema.SetMaxLength), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema((short)68, "ReadOnly", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(EditableTextDataSchema.GetReadOnly), new SetValueHandler(EditableTextDataSchema.SetReadOnly), false);
-            UIXEventSchema uixEventSchema = new UIXEventSchema((short)68, "Submitted");
-            UIXMethodSchema uixMethodSchema = new UIXMethodSchema((short)68, "Submit", (short[])null, (short)240, new InvokeHandler(EditableTextDataSchema.CallSubmit), false);
-            EditableTextDataSchema.Type.Initialize(new DefaultConstructHandler(EditableTextDataSchema.Construct), (ConstructorSchema[])null, new PropertySchema[3]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(68, "Value", 208, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(EditableTextDataSchema.GetValue), new SetValueHandler(EditableTextDataSchema.SetValue), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(68, "MaxLength", 115, -1, ExpressionRestriction.None, false, Int32Schema.ValidateNotNegative, true, new GetValueHandler(EditableTextDataSchema.GetMaxLength), new SetValueHandler(EditableTextDataSchema.SetMaxLength), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(68, "ReadOnly", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(EditableTextDataSchema.GetReadOnly), new SetValueHandler(EditableTextDataSchema.SetReadOnly), false);
+            UIXEventSchema uixEventSchema = new UIXEventSchema(68, "Submitted");
+            UIXMethodSchema uixMethodSchema = new UIXMethodSchema(68, "Submit", null, 240, new InvokeHandler(EditableTextDataSchema.CallSubmit), false);
+            EditableTextDataSchema.Type.Initialize(new DefaultConstructHandler(EditableTextDataSchema.Construct), null, new PropertySchema[3]
             {
-        (PropertySchema) uixPropertySchema2,
-        (PropertySchema) uixPropertySchema3,
-        (PropertySchema) uixPropertySchema1
+         uixPropertySchema2,
+         uixPropertySchema3,
+         uixPropertySchema1
             }, new MethodSchema[1]
             {
-        (MethodSchema) uixMethodSchema
-            }, new EventSchema[1] { (EventSchema)uixEventSchema }, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixMethodSchema
+            }, new EventSchema[1] { uixEventSchema }, null, null, null, null, null, null, null);
         }
     }
 }

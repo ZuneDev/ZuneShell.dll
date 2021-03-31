@@ -43,11 +43,11 @@ namespace Microsoft.Iris.Markup
 
         public object ReadSymbol(SymbolReference symbolRef)
         {
-            object obj = (object)null;
+            object obj = null;
             switch (symbolRef.Origin)
             {
                 case SymbolOrigin.ScopedLocal:
-                    this._scopedLocals.TryGetValue((object)symbolRef.Symbol, out obj);
+                    this._scopedLocals.TryGetValue(symbolRef.Symbol, out obj);
                     break;
                 case SymbolOrigin.Parameter:
                     obj = this._parameterContext.ReadParameter(symbolRef.Symbol);
@@ -66,7 +66,7 @@ namespace Microsoft.Iris.Markup
                 case SymbolOrigin.ScopedLocal:
                     if (this._scopedLocals == null)
                         this._scopedLocals = new Map<object, object>();
-                    this._scopedLocals[(object)symbolRef.Symbol] = value;
+                    this._scopedLocals[symbolRef.Symbol] = value;
                     break;
                 case SymbolOrigin.Parameter:
                     this._parameterContext.WriteParameter(symbolRef.Symbol, value);
@@ -81,7 +81,7 @@ namespace Microsoft.Iris.Markup
         {
             if (symbolRef.Origin != SymbolOrigin.ScopedLocal)
                 return;
-            this._scopedLocals.Remove((object)symbolRef.Symbol);
+            this._scopedLocals.Remove(symbolRef.Symbol);
         }
 
         public static InterpreterContext Acquire(
@@ -90,7 +90,7 @@ namespace Microsoft.Iris.Markup
           uint initialBytecodeOffset,
           ParameterContext parameterContext)
         {
-            InterpreterContext interpreterContext = (InterpreterContext)null;
+            InterpreterContext interpreterContext = null;
             if (InterpreterContext.s_cache.Count != 0)
                 interpreterContext = (InterpreterContext)InterpreterContext.s_cache.Pop();
             if (interpreterContext == null)
@@ -105,14 +105,14 @@ namespace Microsoft.Iris.Markup
 
         public static void Release(InterpreterContext context)
         {
-            context._instance = (IMarkupTypeBase)null;
-            context._type = (MarkupTypeSchema)null;
-            context._loadResult = (MarkupLoadResult)null;
+            context._instance = null;
+            context._type = null;
+            context._loadResult = null;
             context._initialBytecodeOffset = 0U;
-            context._parameterContext = new ParameterContext((string[])null, (object[])null);
+            context._parameterContext = new ParameterContext(null, null);
             if (context._scopedLocals != null)
                 context._scopedLocals.Clear();
-            InterpreterContext.s_cache.Push((object)context);
+            InterpreterContext.s_cache.Push(context);
         }
 
         public override string ToString()
@@ -120,7 +120,7 @@ namespace Microsoft.Iris.Markup
             int line = 0;
             int column = 0;
             ((IErrorContextSource)this).GetErrorPosition(ref line, ref column);
-            return string.Format("{0} ({1}, {2})", (object)((IErrorContextSource)this).GetErrorContextDescription(), (object)line, (object)column);
+            return string.Format("{0} ({1}, {2})", ((IErrorContextSource)this).GetErrorContextDescription(), line, column);
         }
     }
 }

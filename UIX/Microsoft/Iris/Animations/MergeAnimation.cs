@@ -42,7 +42,7 @@ namespace Microsoft.Iris.Animations
         public AnimationTemplate Build(ref AnimationArgs args)
         {
             if (this._cacheAnimation != null)
-                return (AnimationTemplate)this._cacheAnimation;
+                return _cacheAnimation;
             Animation animation = new Animation();
             animation.Type = this._type;
             animation.DebugID = "Merge(";
@@ -73,13 +73,13 @@ namespace Microsoft.Iris.Animations
                 }
             }
             animation.DebugID += ")";
-            TransformAnimation.DumpAnimation((AnimationTemplate)animation, "Result");
+            TransformAnimation.DumpAnimation(animation, "Result");
             if (this.CanCache)
                 this._cacheAnimation = animation;
-            return (AnimationTemplate)animation;
+            return animation;
         }
 
-        protected void ClearCache() => this._cacheAnimation = (Animation)null;
+        protected void ClearCache() => this._cacheAnimation = null;
 
         public bool CanCache
         {

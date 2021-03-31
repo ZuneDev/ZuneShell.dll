@@ -58,7 +58,7 @@ namespace Microsoft.Iris.Layout
             areasOfInterestList.Add(interest);
         }
 
-        public override string ToString() => InvariantString.Format("AreaOfInterest(\"{0}\", {1}, {2})", (object)this.Id, (object)this.Rectangle, (object)this.DisplayRectangle);
+        public override string ToString() => InvariantString.Format("AreaOfInterest(\"{0}\", {1}, {2})", Id, Rectangle, DisplayRectangle);
 
         public override int GetHashCode() => this._rectangle.GetHashCode() ^ this._displayRectangle.GetHashCode() ^ this._id.GetHashCode();
 

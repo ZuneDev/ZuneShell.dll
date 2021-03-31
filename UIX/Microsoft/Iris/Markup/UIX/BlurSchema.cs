@@ -12,33 +12,33 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object GetMode(object instanceObj) => (object)((GaussianBlurElement)instanceObj).Mode;
+        private static object GetMode(object instanceObj) => ((GaussianBlurElement)instanceObj).Mode;
 
         private static void SetMode(ref object instanceObj, object valueObj) => ((GaussianBlurElement)instanceObj).Mode = (GaussianBlurMode)valueObj;
 
-        private static object GetKernelRadius(object instanceObj) => (object)((GaussianBlurElement)instanceObj).KernelRadius;
+        private static object GetKernelRadius(object instanceObj) => ((GaussianBlurElement)instanceObj).KernelRadius;
 
         private static void SetKernelRadius(ref object instanceObj, object valueObj) => ((GaussianBlurElement)instanceObj).KernelRadius = (int)valueObj;
 
-        private static object GetBluriness(object instanceObj) => (object)((GaussianBlurElement)instanceObj).Bluriness;
+        private static object GetBluriness(object instanceObj) => ((GaussianBlurElement)instanceObj).Bluriness;
 
         private static void SetBluriness(ref object instanceObj, object valueObj) => ((GaussianBlurElement)instanceObj).Bluriness = (float)valueObj;
 
-        private static object Construct() => (object)new GaussianBlurElement();
+        private static object Construct() => new GaussianBlurElement();
 
-        public static void Pass1Initialize() => BlurSchema.Type = new UIXTypeSchema((short)14, "Blur", (string)null, (short)80, typeof(GaussianBlurElement), UIXTypeFlags.None);
+        public static void Pass1Initialize() => BlurSchema.Type = new UIXTypeSchema(14, "Blur", null, 80, typeof(GaussianBlurElement), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema((short)14, "Mode", (short)96, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(BlurSchema.GetMode), new SetValueHandler(BlurSchema.SetMode), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema((short)14, "KernelRadius", (short)115, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(BlurSchema.GetKernelRadius), new SetValueHandler(BlurSchema.SetKernelRadius), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema((short)14, "Bluriness", (short)194, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(BlurSchema.GetBluriness), new SetValueHandler(BlurSchema.SetBluriness), false);
-            BlurSchema.Type.Initialize(new DefaultConstructHandler(BlurSchema.Construct), (ConstructorSchema[])null, new PropertySchema[3]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(14, "Mode", 96, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(BlurSchema.GetMode), new SetValueHandler(BlurSchema.SetMode), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(14, "KernelRadius", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(BlurSchema.GetKernelRadius), new SetValueHandler(BlurSchema.SetKernelRadius), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(14, "Bluriness", 194, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(BlurSchema.GetBluriness), new SetValueHandler(BlurSchema.SetBluriness), false);
+            BlurSchema.Type.Initialize(new DefaultConstructHandler(BlurSchema.Construct), null, new PropertySchema[3]
             {
-        (PropertySchema) uixPropertySchema3,
-        (PropertySchema) uixPropertySchema2,
-        (PropertySchema) uixPropertySchema1
-            }, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixPropertySchema3,
+         uixPropertySchema2,
+         uixPropertySchema1
+            }, null, null, null, null, null, null, null, null, null);
         }
     }
 }

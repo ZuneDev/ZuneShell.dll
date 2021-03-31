@@ -17,7 +17,7 @@ namespace Microsoft.Iris.Markup
           TypeSchema returnType,
           TypeSchema[] parameterTypes,
           string[] parameterNames)
-          : base((MarkupTypeSchema)owner, name, returnType, parameterTypes, parameterNames)
+          : base(owner, name, returnType, parameterTypes, parameterNames)
         {
         }
 
@@ -25,7 +25,7 @@ namespace Microsoft.Iris.Markup
         {
             if (!(instance is IMarkupTypeBase markupTypeBase))
             {
-                markupTypeBase = (IMarkupTypeBase)((Host)instance).ChildUI;
+                markupTypeBase = ((Host)instance).ChildUI;
                 if (markupTypeBase == null)
                     ErrorManager.ReportError("Host '{0}' is currently not hosting a UI and therefore cannot invoke methods", instance);
             }

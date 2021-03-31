@@ -14,47 +14,47 @@ namespace Microsoft.Iris.Markup.UIX
 {
     internal static class InsetSchema
     {
-        private static readonly object s_Default = (object)Inset.Zero;
+        private static readonly object s_Default = Inset.Zero;
         public static UIXTypeSchema Type;
 
-        private static object GetLeft(object instanceObj) => (object)((Inset)instanceObj).Left;
+        private static object GetLeft(object instanceObj) => ((Inset)instanceObj).Left;
 
         private static void SetLeft(ref object instanceObj, object valueObj)
         {
             Inset inset = (Inset)instanceObj;
             int num = (int)valueObj;
             inset.Left = num;
-            instanceObj = (object)inset;
+            instanceObj = inset;
         }
 
-        private static object GetTop(object instanceObj) => (object)((Inset)instanceObj).Top;
+        private static object GetTop(object instanceObj) => ((Inset)instanceObj).Top;
 
         private static void SetTop(ref object instanceObj, object valueObj)
         {
             Inset inset = (Inset)instanceObj;
             int num = (int)valueObj;
             inset.Top = num;
-            instanceObj = (object)inset;
+            instanceObj = inset;
         }
 
-        private static object GetRight(object instanceObj) => (object)((Inset)instanceObj).Right;
+        private static object GetRight(object instanceObj) => ((Inset)instanceObj).Right;
 
         private static void SetRight(ref object instanceObj, object valueObj)
         {
             Inset inset = (Inset)instanceObj;
             int num = (int)valueObj;
             inset.Right = num;
-            instanceObj = (object)inset;
+            instanceObj = inset;
         }
 
-        private static object GetBottom(object instanceObj) => (object)((Inset)instanceObj).Bottom;
+        private static object GetBottom(object instanceObj) => ((Inset)instanceObj).Bottom;
 
         private static void SetBottom(ref object instanceObj, object valueObj)
         {
             Inset inset = (Inset)instanceObj;
             int num = (int)valueObj;
             inset.Bottom = num;
-            instanceObj = (object)inset;
+            instanceObj = inset;
         }
 
         private static object Construct() => InsetSchema.s_Default;
@@ -62,7 +62,7 @@ namespace Microsoft.Iris.Markup.UIX
         private static object ConstructInt32(object[] parameters)
         {
             int parameter = (int)parameters[0];
-            return (object)new Inset(parameter, parameter, parameter, parameter);
+            return new Inset(parameter, parameter, parameter, parameter);
         }
 
         private static void EncodeBinary(ByteCodeWriter writer, object instanceObj)
@@ -74,16 +74,16 @@ namespace Microsoft.Iris.Markup.UIX
             writer.WriteInt32(inset.Bottom);
         }
 
-        private static object DecodeBinary(ByteCodeReader reader) => (object)new Inset(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
+        private static object DecodeBinary(ByteCodeReader reader) => new Inset(reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32());
 
         private static Result ConvertFromString(object valueObj, out object instanceObj)
         {
             string s = (string)valueObj;
-            instanceObj = (object)null;
+            instanceObj = null;
             int result;
-            if (!int.TryParse(s, NumberStyles.Integer, (IFormatProvider)NumberFormatInfo.InvariantInfo, out result))
+            if (!int.TryParse(s, NumberStyles.Integer, NumberFormatInfo.InvariantInfo, out result))
                 return Result.Fail("");
-            instanceObj = (object)new Inset()
+            instanceObj = new Inset()
             {
                 Left = result,
                 Top = result,
@@ -96,8 +96,8 @@ namespace Microsoft.Iris.Markup.UIX
         private static Result ConvertFromInt32(object valueObj, out object instanceObj)
         {
             int num = (int)valueObj;
-            instanceObj = (object)null;
-            instanceObj = (object)new Inset()
+            instanceObj = null;
+            instanceObj = new Inset()
             {
                 Left = num,
                 Top = num,
@@ -110,14 +110,14 @@ namespace Microsoft.Iris.Markup.UIX
         private static Result ConvertFromSingle(object valueObj, out object instanceObj)
         {
             float num1 = (float)valueObj;
-            instanceObj = (object)null;
+            instanceObj = null;
             Inset inset = new Inset();
             int num2 = (int)num1;
             inset.Left = num2;
             inset.Top = num2;
             inset.Right = num2;
             inset.Bottom = num2;
-            instanceObj = (object)inset;
+            instanceObj = inset;
             return Result.Success;
         }
 
@@ -137,24 +137,24 @@ namespace Microsoft.Iris.Markup.UIX
         {
             instance = InsetSchema.Construct();
             object valueObj1;
-            Result result1 = UIXLoadResult.ValidateStringAsValue(splitString[0], (TypeSchema)Int32Schema.Type, (RangeValidator)null, out valueObj1);
+            Result result1 = UIXLoadResult.ValidateStringAsValue(splitString[0], Int32Schema.Type, null, out valueObj1);
             if (result1.Failed)
-                return Result.Fail("Problem converting '{0}' ({1})", (object)"Inset", (object)result1.Error);
+                return Result.Fail("Problem converting '{0}' ({1})", "Inset", result1.Error);
             InsetSchema.SetLeft(ref instance, valueObj1);
             object valueObj2;
-            Result result2 = UIXLoadResult.ValidateStringAsValue(splitString[1], (TypeSchema)Int32Schema.Type, (RangeValidator)null, out valueObj2);
+            Result result2 = UIXLoadResult.ValidateStringAsValue(splitString[1], Int32Schema.Type, null, out valueObj2);
             if (result2.Failed)
-                return Result.Fail("Problem converting '{0}' ({1})", (object)"Inset", (object)result2.Error);
+                return Result.Fail("Problem converting '{0}' ({1})", "Inset", result2.Error);
             InsetSchema.SetTop(ref instance, valueObj2);
             object valueObj3;
-            Result result3 = UIXLoadResult.ValidateStringAsValue(splitString[2], (TypeSchema)Int32Schema.Type, (RangeValidator)null, out valueObj3);
+            Result result3 = UIXLoadResult.ValidateStringAsValue(splitString[2], Int32Schema.Type, null, out valueObj3);
             if (result3.Failed)
-                return Result.Fail("Problem converting '{0}' ({1})", (object)"Inset", (object)result3.Error);
+                return Result.Fail("Problem converting '{0}' ({1})", "Inset", result3.Error);
             InsetSchema.SetRight(ref instance, valueObj3);
             object valueObj4;
-            Result result4 = UIXLoadResult.ValidateStringAsValue(splitString[3], (TypeSchema)Int32Schema.Type, (RangeValidator)null, out valueObj4);
+            Result result4 = UIXLoadResult.ValidateStringAsValue(splitString[3], Int32Schema.Type, null, out valueObj4);
             if (result4.Failed)
-                return Result.Fail("Problem converting '{0}' ({1})", (object)"Inset", (object)result4.Error);
+                return Result.Fail("Problem converting '{0}' ({1})", "Inset", result4.Error);
             InsetSchema.SetBottom(ref instance, valueObj4);
             return result4;
         }
@@ -167,7 +167,7 @@ namespace Microsoft.Iris.Markup.UIX
           out object instance)
         {
             Result result = Result.Fail("Unsupported");
-            instance = (object)null;
+            instance = null;
             if (Int32Schema.Type.IsAssignableFrom(fromType))
             {
                 result = InsetSchema.ConvertFromInt32(from, out instance);
@@ -196,7 +196,7 @@ namespace Microsoft.Iris.Markup.UIX
                         return result;
                 }
                 else
-                    result = Result.Fail("Unable to convert \"{0}\" to type '{1}'", (object)from.ToString(), (object)"Inset");
+                    result = Result.Fail("Unable to convert \"{0}\" to type '{1}'", from.ToString(), "Inset");
             }
             return result;
         }
@@ -220,20 +220,20 @@ namespace Microsoft.Iris.Markup.UIX
         {
             Inset inset1 = (Inset)leftObj;
             if (op == OperationType.MathNegate)
-                return (object)-inset1;
+                return -inset1;
             Inset inset2 = (Inset)rightObj;
             switch (op)
             {
                 case OperationType.MathAdd:
-                    return (object)(inset1 + inset2);
+                    return inset1 + inset2;
                 case OperationType.MathSubtract:
-                    return (object)(inset1 - inset2);
+                    return inset1 - inset2;
                 case OperationType.RelationalEquals:
                     return BooleanBoxes.Box(inset1 == inset2);
                 case OperationType.RelationalNotEquals:
                     return BooleanBoxes.Box(inset1 != inset2);
                 default:
-                    return (object)null;
+                    return null;
             }
         }
 
@@ -242,47 +242,47 @@ namespace Microsoft.Iris.Markup.UIX
             string parameter1 = (string)parameters[0];
             Inset parameter2 = (Inset)parameters[1];
             object instanceObj1;
-            return InsetSchema.ConvertFromString((object)parameter1, out instanceObj1).Failed ? (object)parameter2 : instanceObj1;
+            return InsetSchema.ConvertFromString(parameter1, out instanceObj1).Failed ? parameter2 : instanceObj1;
         }
 
-        public static void Pass1Initialize() => InsetSchema.Type = new UIXTypeSchema((short)114, "Inset", (string)null, (short)153, typeof(Inset), UIXTypeFlags.Immutable);
+        public static void Pass1Initialize() => InsetSchema.Type = new UIXTypeSchema(114, "Inset", null, 153, typeof(Inset), UIXTypeFlags.Immutable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema((short)114, "Left", (short)115, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(InsetSchema.GetLeft), new SetValueHandler(InsetSchema.SetLeft), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema((short)114, "Top", (short)115, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(InsetSchema.GetTop), new SetValueHandler(InsetSchema.SetTop), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema((short)114, "Right", (short)115, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(InsetSchema.GetRight), new SetValueHandler(InsetSchema.SetRight), false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema((short)114, "Bottom", (short)115, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(InsetSchema.GetBottom), new SetValueHandler(InsetSchema.SetBottom), false);
-            UIXConstructorSchema constructorSchema1 = new UIXConstructorSchema((short)114, new short[1]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(114, "Left", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(InsetSchema.GetLeft), new SetValueHandler(InsetSchema.SetLeft), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(114, "Top", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(InsetSchema.GetTop), new SetValueHandler(InsetSchema.SetTop), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(114, "Right", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(InsetSchema.GetRight), new SetValueHandler(InsetSchema.SetRight), false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(114, "Bottom", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(InsetSchema.GetBottom), new SetValueHandler(InsetSchema.SetBottom), false);
+            UIXConstructorSchema constructorSchema1 = new UIXConstructorSchema(114, new short[1]
             {
-        (short) 115
+         115
             }, new ConstructHandler(InsetSchema.ConstructInt32));
-            UIXConstructorSchema constructorSchema2 = new UIXConstructorSchema((short)114, new short[4]
+            UIXConstructorSchema constructorSchema2 = new UIXConstructorSchema(114, new short[4]
             {
-        (short) 115,
-        (short) 115,
-        (short) 115,
-        (short) 115
+         115,
+         115,
+         115,
+         115
             }, new ConstructHandler(InsetSchema.ConstructLeftTopRightBottom));
-            UIXMethodSchema uixMethodSchema = new UIXMethodSchema((short)114, "TryParse", new short[2]
+            UIXMethodSchema uixMethodSchema = new UIXMethodSchema(114, "TryParse", new short[2]
             {
-        (short) 208,
-        (short) 114
-            }, (short)114, new InvokeHandler(InsetSchema.CallTryParseStringInset), true);
+         208,
+         114
+            }, 114, new InvokeHandler(InsetSchema.CallTryParseStringInset), true);
             InsetSchema.Type.Initialize(new DefaultConstructHandler(InsetSchema.Construct), new ConstructorSchema[2]
             {
-        (ConstructorSchema) constructorSchema1,
-        (ConstructorSchema) constructorSchema2
+         constructorSchema1,
+         constructorSchema2
             }, new PropertySchema[4]
             {
-        (PropertySchema) uixPropertySchema4,
-        (PropertySchema) uixPropertySchema1,
-        (PropertySchema) uixPropertySchema3,
-        (PropertySchema) uixPropertySchema2
+         uixPropertySchema4,
+         uixPropertySchema1,
+         uixPropertySchema3,
+         uixPropertySchema2
             }, new MethodSchema[1]
             {
-        (MethodSchema) uixMethodSchema
-            }, (EventSchema[])null, (FindCanonicalInstanceHandler)null, new TypeConverterHandler(InsetSchema.TryConvertFrom), new SupportsTypeConversionHandler(InsetSchema.IsConversionSupported), new EncodeBinaryHandler(InsetSchema.EncodeBinary), new DecodeBinaryHandler(InsetSchema.DecodeBinary), new PerformOperationHandler(InsetSchema.ExecuteOperation), new SupportsOperationHandler(InsetSchema.IsOperationSupported));
+         uixMethodSchema
+            }, null, null, new TypeConverterHandler(InsetSchema.TryConvertFrom), new SupportsTypeConversionHandler(InsetSchema.IsConversionSupported), new EncodeBinaryHandler(InsetSchema.EncodeBinary), new DecodeBinaryHandler(InsetSchema.DecodeBinary), new PerformOperationHandler(InsetSchema.ExecuteOperation), new SupportsOperationHandler(InsetSchema.IsOperationSupported));
         }
     }
 }

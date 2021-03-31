@@ -36,7 +36,7 @@ namespace Microsoft.Iris.ViewItems
         protected override void OnDispose()
         {
             this._edgefade.Dispose();
-            this._edgefade = (EdgeFade)null;
+            this._edgefade = null;
             base.OnDispose();
         }
 
@@ -62,7 +62,7 @@ namespace Microsoft.Iris.ViewItems
             get => this._edgefade.FadeSize;
             set
             {
-                if ((double)this.FadeSize == (double)value)
+                if (FadeSize == (double)value)
                     return;
                 this._edgefade.FadeSize = value;
                 this.MarkPaintInvalid();
@@ -75,7 +75,7 @@ namespace Microsoft.Iris.ViewItems
             get => this._nearOffset;
             set
             {
-                if ((double)this._nearOffset == (double)value)
+                if (_nearOffset == (double)value)
                     return;
                 this._nearOffset = value;
                 this.MarkPaintInvalid();
@@ -88,7 +88,7 @@ namespace Microsoft.Iris.ViewItems
             get => this._farOffset;
             set
             {
-                if ((double)this._farOffset == (double)value)
+                if (_farOffset == (double)value)
                     return;
                 this._farOffset = value;
                 this.MarkPaintInvalid();
@@ -101,7 +101,7 @@ namespace Microsoft.Iris.ViewItems
             get => this._nearPercent;
             set
             {
-                if ((double)this._nearPercent == (double)value)
+                if (_nearPercent == (double)value)
                     return;
                 this._nearPercent = value;
                 this.MarkPaintInvalid();
@@ -114,7 +114,7 @@ namespace Microsoft.Iris.ViewItems
             get => this._farPercent;
             set
             {
-                if ((double)this._farPercent == (double)value)
+                if (_farPercent == (double)value)
                     return;
                 this._farPercent = value;
                 this.MarkPaintInvalid();
@@ -165,7 +165,7 @@ namespace Microsoft.Iris.ViewItems
             get => this._edgefade.FadeAmount;
             set
             {
-                if ((double)this._edgefade.FadeAmount == (double)value)
+                if (_edgefade.FadeAmount == (double)value)
                     return;
                 this._edgefade.FadeAmount = value;
                 this.MarkPaintInvalid();

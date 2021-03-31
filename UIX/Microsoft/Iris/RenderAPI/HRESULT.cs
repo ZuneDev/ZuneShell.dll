@@ -24,7 +24,7 @@ namespace Microsoft.Iris.RenderAPI
 
         public override int GetHashCode() => this.hr;
 
-        public override string ToString() => "hr:" + this.hr.ToString("X", (IFormatProvider)CultureInfo.InvariantCulture);
+        public override string ToString() => "hr:" + this.hr.ToString("X", CultureInfo.InvariantCulture);
 
         public bool IsError() => this.hr < 0;
 

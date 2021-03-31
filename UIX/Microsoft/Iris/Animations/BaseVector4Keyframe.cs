@@ -18,7 +18,7 @@ namespace Microsoft.Iris.Animations
           ref AnimationArgs args)
         {
             Vector4 effectiveValue = this.GetEffectiveValue(targetObject, this._valueVector, ref args);
-            animation.AddVector4Keyframe((BaseKeyframe)this, effectiveValue);
+            animation.AddVector4Keyframe(this, effectiveValue);
         }
 
         public Vector4 Value
@@ -27,7 +27,7 @@ namespace Microsoft.Iris.Animations
             set => this._valueVector = value;
         }
 
-        public override object ObjectValue => (object)this.Value;
+        public override object ObjectValue => Value;
 
         public virtual Vector4 GetEffectiveValue(
           IAnimatable targetObject,

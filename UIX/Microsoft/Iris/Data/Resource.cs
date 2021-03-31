@@ -32,7 +32,7 @@ namespace Microsoft.Iris.Data
 
         public abstract string Identifier { get; }
 
-        public void Acquire() => this.Acquire((ResourceAcquisitionCompleteHandler)null);
+        public void Acquire() => this.Acquire(null);
 
         public void Acquire(ResourceAcquisitionCompleteHandler completeHandler)
         {
@@ -44,7 +44,7 @@ namespace Microsoft.Iris.Data
             if (this._status != ResourceStatus.Available)
             {
                 this._status = ResourceStatus.Acquiring;
-                this._errorDetails = (string)null;
+                this._errorDetails = null;
                 this.StartAcquisition(this._forceSynchronous);
             }
             else
@@ -55,7 +55,7 @@ namespace Microsoft.Iris.Data
             }
         }
 
-        public void Free() => this.Free((ResourceAcquisitionCompleteHandler)null);
+        public void Free() => this.Free(null);
 
         public void Free(ResourceAcquisitionCompleteHandler completeHandler)
         {
@@ -110,7 +110,7 @@ namespace Microsoft.Iris.Data
             {
                 this._status = ResourceStatus.Error;
                 if (errorDetails == null)
-                    errorDetails = string.Format("Failed to acquire resource '{0}'", (object)this.Identifier);
+                    errorDetails = string.Format("Failed to acquire resource '{0}'", Identifier);
                 this._errorDetails = errorDetails;
             }
             if (this._completeHandlers == null)
@@ -127,7 +127,7 @@ namespace Microsoft.Iris.Data
             if (this._completeHandlers == null)
                 return;
             this._completeHandlers(this);
-            this._completeHandlers = (ResourceAcquisitionCompleteHandler)null;
+            this._completeHandlers = null;
         }
 
         public override string ToString() => this._uri;

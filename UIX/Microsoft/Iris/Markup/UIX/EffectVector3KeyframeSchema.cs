@@ -13,21 +13,21 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object GetValue(object instanceObj) => (object)((BaseVector3Keyframe)instanceObj).Value;
+        private static object GetValue(object instanceObj) => ((BaseVector3Keyframe)instanceObj).Value;
 
         private static void SetValue(ref object instanceObj, object valueObj) => ((BaseVector3Keyframe)instanceObj).Value = (Vector3)valueObj;
 
-        private static object Construct() => (object)new EffectVector3Keyframe();
+        private static object Construct() => new EffectVector3Keyframe();
 
-        public static void Pass1Initialize() => EffectVector3KeyframeSchema.Type = new UIXTypeSchema((short)82, "EffectVector3Keyframe", (string)null, (short)130, typeof(EffectVector3Keyframe), UIXTypeFlags.None);
+        public static void Pass1Initialize() => EffectVector3KeyframeSchema.Type = new UIXTypeSchema(82, "EffectVector3Keyframe", null, 130, typeof(EffectVector3Keyframe), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema = new UIXPropertySchema((short)82, "Value", (short)234, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(EffectVector3KeyframeSchema.GetValue), new SetValueHandler(EffectVector3KeyframeSchema.SetValue), false);
-            EffectVector3KeyframeSchema.Type.Initialize(new DefaultConstructHandler(EffectVector3KeyframeSchema.Construct), (ConstructorSchema[])null, new PropertySchema[1]
+            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(82, "Value", 234, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(EffectVector3KeyframeSchema.GetValue), new SetValueHandler(EffectVector3KeyframeSchema.SetValue), false);
+            EffectVector3KeyframeSchema.Type.Initialize(new DefaultConstructHandler(EffectVector3KeyframeSchema.Construct), null, new PropertySchema[1]
             {
-        (PropertySchema) uixPropertySchema
-            }, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixPropertySchema
+            }, null, null, null, null, null, null, null, null, null);
         }
     }
 }

@@ -76,7 +76,7 @@ internal class ParserLexClass : SSLex
     public const int ParserLexTokenCodeBlockDisambiguator = 116;
 
     public ParserLexClass(SSLexTable q_table)
-      : base(q_table, (SSLexConsumer)null)
+      : base(q_table, null)
     {
     }
 

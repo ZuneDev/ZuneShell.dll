@@ -40,15 +40,15 @@ namespace Microsoft.Iris.Drawing
 
         public int AngleDegrees
         {
-            get => (int)((double)this._angleRad * 180.0 / 3.14159274101257);
-            set => this._angleRad = (float)((double)value * 3.14159274101257 / 180.0);
+            get => (int)(_angleRad * 180.0 / 3.14159274101257);
+            set => this._angleRad = (float)(value * 3.14159274101257 / 180.0);
         }
 
         public override bool Equals(object obj) => obj is Rotation rotation && this == rotation;
 
-        public static bool operator ==(Rotation left, Rotation right) => left.Axis == right.Axis && (double)left.AngleRadians == (double)right.AngleRadians;
+        public static bool operator ==(Rotation left, Rotation right) => left.Axis == right.Axis && left.AngleRadians == (double)right.AngleRadians;
 
-        public static bool operator !=(Rotation left, Rotation right) => left.Axis != right.Axis || (double)left.AngleRadians != (double)right.AngleRadians;
+        public static bool operator !=(Rotation left, Rotation right) => left.Axis != right.Axis || left.AngleRadians != (double)right.AngleRadians;
 
         public override int GetHashCode() => this.Axis.GetHashCode() ^ this.AngleRadians.GetHashCode();
 
@@ -56,7 +56,7 @@ namespace Microsoft.Iris.Drawing
         {
             StringBuilder stringBuilder = new StringBuilder(128);
             stringBuilder.Append("(Axis=");
-            stringBuilder.Append((object)this.Axis);
+            stringBuilder.Append(Axis);
             stringBuilder.Append(", Angle=");
             stringBuilder.Append(this.AngleRadians);
             stringBuilder.Append(")");

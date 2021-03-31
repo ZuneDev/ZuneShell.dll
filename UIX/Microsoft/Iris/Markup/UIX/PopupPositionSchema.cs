@@ -12,51 +12,51 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object GetTarget(object instanceObj) => (object)((PopupPosition)instanceObj).Target;
+        private static object GetTarget(object instanceObj) => ((PopupPosition)instanceObj).Target;
 
         private static void SetTarget(ref object instanceObj, object valueObj)
         {
             PopupPosition popupPosition = (PopupPosition)instanceObj;
             InterestPoint interestPoint = (InterestPoint)valueObj;
             popupPosition.Target = interestPoint;
-            instanceObj = (object)popupPosition;
+            instanceObj = popupPosition;
         }
 
-        private static object GetPopup(object instanceObj) => (object)((PopupPosition)instanceObj).Popup;
+        private static object GetPopup(object instanceObj) => ((PopupPosition)instanceObj).Popup;
 
         private static void SetPopup(ref object instanceObj, object valueObj)
         {
             PopupPosition popupPosition = (PopupPosition)instanceObj;
             InterestPoint interestPoint = (InterestPoint)valueObj;
             popupPosition.Popup = interestPoint;
-            instanceObj = (object)popupPosition;
+            instanceObj = popupPosition;
         }
 
-        private static object GetFlipped(object instanceObj) => (object)((PopupPosition)instanceObj).Flipped;
+        private static object GetFlipped(object instanceObj) => ((PopupPosition)instanceObj).Flipped;
 
         private static void SetFlipped(ref object instanceObj, object valueObj)
         {
             PopupPosition popupPosition = (PopupPosition)instanceObj;
             FlipDirection flipDirection = (FlipDirection)valueObj;
             popupPosition.Flipped = flipDirection;
-            instanceObj = (object)popupPosition;
+            instanceObj = popupPosition;
         }
 
-        private static object Construct() => (object)new PopupPosition();
+        private static object Construct() => new PopupPosition();
 
-        public static void Pass1Initialize() => PopupPositionSchema.Type = new UIXTypeSchema((short)163, "PopupPosition", (string)null, (short)153, typeof(PopupPosition), UIXTypeFlags.Immutable);
+        public static void Pass1Initialize() => PopupPositionSchema.Type = new UIXTypeSchema(163, "PopupPosition", null, 153, typeof(PopupPosition), UIXTypeFlags.Immutable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema((short)163, "Target", (short)118, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(PopupPositionSchema.GetTarget), new SetValueHandler(PopupPositionSchema.SetTarget), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema((short)163, "Popup", (short)118, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(PopupPositionSchema.GetPopup), new SetValueHandler(PopupPositionSchema.SetPopup), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema((short)163, "Flipped", (short)89, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(PopupPositionSchema.GetFlipped), new SetValueHandler(PopupPositionSchema.SetFlipped), false);
-            PopupPositionSchema.Type.Initialize(new DefaultConstructHandler(PopupPositionSchema.Construct), (ConstructorSchema[])null, new PropertySchema[3]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(163, "Target", 118, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(PopupPositionSchema.GetTarget), new SetValueHandler(PopupPositionSchema.SetTarget), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(163, "Popup", 118, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(PopupPositionSchema.GetPopup), new SetValueHandler(PopupPositionSchema.SetPopup), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(163, "Flipped", 89, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(PopupPositionSchema.GetFlipped), new SetValueHandler(PopupPositionSchema.SetFlipped), false);
+            PopupPositionSchema.Type.Initialize(new DefaultConstructHandler(PopupPositionSchema.Construct), null, new PropertySchema[3]
             {
-        (PropertySchema) uixPropertySchema3,
-        (PropertySchema) uixPropertySchema2,
-        (PropertySchema) uixPropertySchema1
-            }, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixPropertySchema3,
+         uixPropertySchema2,
+         uixPropertySchema1
+            }, null, null, null, null, null, null, null, null, null);
         }
     }
 }

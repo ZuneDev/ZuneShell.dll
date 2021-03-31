@@ -13,27 +13,27 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object GetDefaultLayoutInput(object instanceObj) => (object)((DockLayout)instanceObj).DefaultLayoutInput;
+        private static object GetDefaultLayoutInput(object instanceObj) => ((DockLayout)instanceObj).DefaultLayoutInput;
 
         private static void SetDefaultLayoutInput(ref object instanceObj, object valueObj) => ((DockLayout)instanceObj).DefaultLayoutInput = (DockLayoutInput)valueObj;
 
-        private static object GetDefaultChildAlignment(object instanceObj) => (object)((DockLayout)instanceObj).DefaultChildAlignment;
+        private static object GetDefaultChildAlignment(object instanceObj) => ((DockLayout)instanceObj).DefaultChildAlignment;
 
         private static void SetDefaultChildAlignment(ref object instanceObj, object valueObj) => ((DockLayout)instanceObj).DefaultChildAlignment = (ItemAlignment)valueObj;
 
-        private static object Construct() => (object)new DockLayout();
+        private static object Construct() => new DockLayout();
 
-        public static void Pass1Initialize() => DockLayoutSchema.Type = new UIXTypeSchema((short)59, "DockLayout", (string)null, (short)132, typeof(DockLayout), UIXTypeFlags.Immutable);
+        public static void Pass1Initialize() => DockLayoutSchema.Type = new UIXTypeSchema(59, "DockLayout", null, 132, typeof(DockLayout), UIXTypeFlags.Immutable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema((short)59, "DefaultLayoutInput", (short)60, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(DockLayoutSchema.GetDefaultLayoutInput), new SetValueHandler(DockLayoutSchema.SetDefaultLayoutInput), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema((short)59, "DefaultChildAlignment", (short)sbyte.MaxValue, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(DockLayoutSchema.GetDefaultChildAlignment), new SetValueHandler(DockLayoutSchema.SetDefaultChildAlignment), false);
-            DockLayoutSchema.Type.Initialize(new DefaultConstructHandler(DockLayoutSchema.Construct), (ConstructorSchema[])null, new PropertySchema[2]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(59, "DefaultLayoutInput", 60, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(DockLayoutSchema.GetDefaultLayoutInput), new SetValueHandler(DockLayoutSchema.SetDefaultLayoutInput), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(59, "DefaultChildAlignment", sbyte.MaxValue, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(DockLayoutSchema.GetDefaultChildAlignment), new SetValueHandler(DockLayoutSchema.SetDefaultChildAlignment), false);
+            DockLayoutSchema.Type.Initialize(new DefaultConstructHandler(DockLayoutSchema.Construct), null, new PropertySchema[2]
             {
-        (PropertySchema) uixPropertySchema2,
-        (PropertySchema) uixPropertySchema1
-            }, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixPropertySchema2,
+         uixPropertySchema1
+            }, null, null, null, null, null, null, null, null, null);
         }
     }
 }

@@ -36,7 +36,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
             NativeApi.SUCCEEDED(NativeApi.SpUIXListWantSlowDataRequests(this._interface, out this._wantSlowDataRequests));
             if (!this._wantSlowDataRequests)
                 return;
-            this._updater = new UpdateHelper((IVirtualList)this);
+            this._updater = new UpdateHelper(this);
         }
 
         protected override void OnDispose()
@@ -115,17 +115,17 @@ namespace Microsoft.Iris.CodeModel.Cpp
         public void RequestItem(int index, ItemRequestCallback callback)
         {
             object obj = this[index];
-            callback((object)this, index, obj);
+            callback(this, index, obj);
         }
 
         public unsafe object this[int index]
         {
             get
             {
-                object obj = (object)null;
+                object obj = null;
                 UIXVariant inboundObject;
                 if (NativeApi.SUCCEEDED(NativeApi.SpUIXListGetItem(this._interface, index, out inboundObject)))
-                    obj = UIXVariant.GetValue(inboundObject, (LoadResult)this.OwningLoadResult);
+                    obj = UIXVariant.GetValue(inboundObject, OwningLoadResult);
                 return obj;
             }
             set
@@ -139,9 +139,9 @@ namespace Microsoft.Iris.CodeModel.Cpp
 
         public object SyncRoot => (object)null;
 
-        IEnumerator IEnumerable.GetEnumerator() => (IEnumerator)this.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 
-        public StackIListEnumerator GetEnumerator() => new StackIListEnumerator((IList)this);
+        public StackIListEnumerator GetEnumerator() => new StackIListEnumerator(this);
 
         public event UIListContentsChangedHandler ContentsChanged
         {
@@ -182,7 +182,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
                     if (!flag1)
                         break;
                     if (this._contentsChanged != null)
-                        this._contentsChanged((IList)this, new UIListContentsChangedArgs(type, oldIndex, newIndex, count));
+                        this._contentsChanged(this, new UIListContentsChangedArgs(type, oldIndex, newIndex, count));
                     if (flag2)
                         this.FireNotification(NotificationID.Count);
                     if (this._updater == null)
@@ -252,7 +252,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
         {
             bool flag = false;
             if (this._slowDataAcquireCompleteHandler != null)
-                flag = this._slowDataAcquireCompleteHandler((IVirtualList)this, index);
+                flag = this._slowDataAcquireCompleteHandler(this, index);
             if (flag)
                 return;
             this._updater.NotifySlowDataAcquireComplete(index);
@@ -305,11 +305,11 @@ namespace Microsoft.Iris.CodeModel.Cpp
                 return;
             if (flag)
             {
-                int num1 = (int)NativeApi.SpUIXListRegisterCallbacks(this._interface, (IUIXListCallbacks)this);
+                int num1 = (int)NativeApi.SpUIXListRegisterCallbacks(this._interface, this);
             }
             else
             {
-                int num2 = (int)NativeApi.SpUIXListUnregisterCallbacks(this._interface, (IUIXListCallbacks)this);
+                int num2 = (int)NativeApi.SpUIXListUnregisterCallbacks(this._interface, this);
                 if (this._updater != null)
                     this._updater.Clear();
             }

@@ -16,7 +16,7 @@ namespace Microsoft.Iris.ModelItems
       INotifyObject
     {
         public ByteRangedValue()
-          : base(0.0f, (float)byte.MaxValue, 1f)
+          : base(0.0f, byte.MaxValue, 1f)
         {
         }
     }

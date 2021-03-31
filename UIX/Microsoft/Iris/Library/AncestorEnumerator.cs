@@ -17,21 +17,21 @@ namespace Microsoft.Iris.Library
         internal AncestorEnumerator(TreeNode nodeStart)
         {
             this._nodeStart = nodeStart;
-            this._nodeCurrent = (TreeNode)null;
+            this._nodeCurrent = null;
             this._nodeNext = this._nodeStart;
         }
 
-        object IEnumerator.Current => (object)this._nodeCurrent;
+        object IEnumerator.Current => _nodeCurrent;
 
         public TreeNode Current => this._nodeCurrent;
 
-        IEnumerator IEnumerable.GetEnumerator() => (IEnumerator)this;
+        IEnumerator IEnumerable.GetEnumerator() => this;
 
         public AncestorEnumerator GetEnumerator() => this;
 
         public void Reset()
         {
-            this._nodeCurrent = (TreeNode)null;
+            this._nodeCurrent = null;
             this._nodeNext = this._nodeStart;
         }
 

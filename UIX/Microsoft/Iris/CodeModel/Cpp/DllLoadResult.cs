@@ -36,17 +36,17 @@ namespace Microsoft.Iris.CodeModel.Cpp
         private static void LoadIntrinsicTypeData()
         {
             DllLoadResult.s_intrinsicData = new Map<uint, DllLoadResult.IntrinsicTypeData>();
-            DllLoadResult.s_intrinsicData[4294967294U] = new DllLoadResult.IntrinsicTypeData((TypeSchema)BooleanSchema.Type);
-            DllLoadResult.s_intrinsicData[4294967293U] = new DllLoadResult.IntrinsicTypeData((TypeSchema)ByteSchema.Type);
-            DllLoadResult.s_intrinsicData[4294967292U] = new DllLoadResult.IntrinsicTypeData((TypeSchema)DoubleSchema.Type);
-            DllLoadResult.s_intrinsicData[4294967285U] = new DllLoadResult.IntrinsicTypeData((TypeSchema)ListSchema.Type, typeof(DllProxyList));
-            DllLoadResult.s_intrinsicData[4294967284U] = new DllLoadResult.IntrinsicTypeData((TypeSchema)ImageSchema.Type);
-            DllLoadResult.s_intrinsicData[4294967283U] = new DllLoadResult.IntrinsicTypeData((TypeSchema)Int32Schema.Type);
-            DllLoadResult.s_intrinsicData[4294967282U] = new DllLoadResult.IntrinsicTypeData((TypeSchema)Int64Schema.Type);
-            DllLoadResult.s_intrinsicData[4294967280U] = new DllLoadResult.IntrinsicTypeData((TypeSchema)ObjectSchema.Type);
-            DllLoadResult.s_intrinsicData[4294967279U] = new DllLoadResult.IntrinsicTypeData((TypeSchema)SingleSchema.Type);
-            DllLoadResult.s_intrinsicData[4294967278U] = new DllLoadResult.IntrinsicTypeData((TypeSchema)StringSchema.Type);
-            DllLoadResult.s_intrinsicData[4294967277U] = new DllLoadResult.IntrinsicTypeData((TypeSchema)VoidSchema.Type);
+            DllLoadResult.s_intrinsicData[4294967294U] = new DllLoadResult.IntrinsicTypeData(BooleanSchema.Type);
+            DllLoadResult.s_intrinsicData[4294967293U] = new DllLoadResult.IntrinsicTypeData(ByteSchema.Type);
+            DllLoadResult.s_intrinsicData[4294967292U] = new DllLoadResult.IntrinsicTypeData(DoubleSchema.Type);
+            DllLoadResult.s_intrinsicData[4294967285U] = new DllLoadResult.IntrinsicTypeData(ListSchema.Type, typeof(DllProxyList));
+            DllLoadResult.s_intrinsicData[4294967284U] = new DllLoadResult.IntrinsicTypeData(ImageSchema.Type);
+            DllLoadResult.s_intrinsicData[4294967283U] = new DllLoadResult.IntrinsicTypeData(Int32Schema.Type);
+            DllLoadResult.s_intrinsicData[4294967282U] = new DllLoadResult.IntrinsicTypeData(Int64Schema.Type);
+            DllLoadResult.s_intrinsicData[4294967280U] = new DllLoadResult.IntrinsicTypeData(ObjectSchema.Type);
+            DllLoadResult.s_intrinsicData[4294967279U] = new DllLoadResult.IntrinsicTypeData(SingleSchema.Type);
+            DllLoadResult.s_intrinsicData[4294967278U] = new DllLoadResult.IntrinsicTypeData(StringSchema.Type);
+            DllLoadResult.s_intrinsicData[4294967277U] = new DllLoadResult.IntrinsicTypeData(VoidSchema.Type);
         }
 
         public static void Shutdown() => DllProxyServices.Shutdown();
@@ -55,7 +55,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
         {
             if ((int)hr >= 0)
                 return true;
-            ErrorManager.ReportError("Schema API failure: A method on '{0}' failed with code '0x{1:X8}'", (object)interfaceName, (object)hr);
+            ErrorManager.ReportError("Schema API failure: A method on '{0}' failed with code '0x{1:X8}'", interfaceName, hr);
             return false;
         }
 
@@ -65,14 +65,14 @@ namespace Microsoft.Iris.CodeModel.Cpp
 
         public static LoadResult CurrentContext => DllLoadResult.s_objectContext;
 
-        public static void PopContext() => DllLoadResult.s_objectContext = (LoadResult)null;
+        public static void PopContext() => DllLoadResult.s_objectContext = null;
 
         public static TypeSchema MapType(uint typeID)
         {
             uint schemaComponent = UIXID.GetSchemaComponent(typeID);
-            TypeSchema typeSchema = (TypeSchema)null;
-            DllLoadResult dllLoadResult = (DllLoadResult)null;
-            if (schemaComponent != (uint)ushort.MaxValue)
+            TypeSchema typeSchema = null;
+            DllLoadResult dllLoadResult = null;
+            if (schemaComponent != ushort.MaxValue)
             {
                 dllLoadResult = DllLoadResultFactory.GetLoadResultByID(schemaComponent);
                 if (dllLoadResult != null)
@@ -81,7 +81,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
             else if (DllLoadResult.CurrentContext is DllLoadResult currentContext)
                 typeSchema = currentContext.MapIntrinsicType(typeID);
             if (typeSchema == null)
-                ErrorManager.ReportError("Unable to find type with ID '0x{0:X8}' in '{1}'", (object)typeID, dllLoadResult != null ? (object)dllLoadResult.Uri : (object)string.Empty);
+                ErrorManager.ReportError("Unable to find type with ID '0x{0:X8}' in '{1}'", typeID, dllLoadResult != null ? dllLoadResult.Uri : string.Empty);
             return typeSchema;
         }
 
@@ -93,7 +93,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
             DllLoadResult.IntrinsicTypeData intrinsicTypeData;
             if (!this._intrinsicTypes.TryGetValue(typeID, out typeSchema) && DllLoadResult.s_intrinsicData.TryGetValue(typeID, out intrinsicTypeData))
             {
-                typeSchema = !intrinsicTypeData.DemandCreateTypeSchema ? intrinsicTypeData.FrameworkEquivalent : (TypeSchema)new DllIntrinsicTypeSchema(this, typeID, intrinsicTypeData.FrameworkEquivalent);
+                typeSchema = !intrinsicTypeData.DemandCreateTypeSchema ? intrinsicTypeData.FrameworkEquivalent : new DllIntrinsicTypeSchema(this, typeID, intrinsicTypeData.FrameworkEquivalent);
                 this._intrinsicTypes[typeID] = typeSchema;
             }
             return typeSchema;
@@ -101,7 +101,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
 
         private TypeSchema MapLocalType(uint typeID)
         {
-            TypeSchema typeSchema = (TypeSchema)null;
+            TypeSchema typeSchema = null;
             this._userDefinedTypes.TryGetValue(typeID, out typeSchema);
             return typeSchema;
         }
@@ -172,11 +172,11 @@ namespace Microsoft.Iris.CodeModel.Cpp
             {
                 if (type != IntPtr.Zero)
                 {
-                    this.StoreType((TypeSchema)new DllTypeSchema(this, ID, type), ID, true, idVerifier);
+                    this.StoreType(new DllTypeSchema(this, ID, type), ID, true, idVerifier);
                     flag = idVerifier.RegisterID(ID);
                 }
                 else
-                    ErrorManager.ReportError("NULL object returned from {0}", (object)"IUIXSchema::GetType");
+                    ErrorManager.ReportError("NULL object returned from {0}", "IUIXSchema::GetType");
             }
             return flag;
         }
@@ -210,11 +210,11 @@ namespace Microsoft.Iris.CodeModel.Cpp
             {
                 if (enumType != IntPtr.Zero)
                 {
-                    this.StoreType((TypeSchema)new DllEnumSchema((LoadResult)this, ID, enumType), ID, false, idVerifier);
+                    this.StoreType(new DllEnumSchema(this, ID, enumType), ID, false, idVerifier);
                     flag = idVerifier.RegisterID(ID);
                 }
                 else
-                    ErrorManager.ReportError("NULL object returned from {0}", (object)"IUIXSchema::GetEnum");
+                    ErrorManager.ReportError("NULL object returned from {0}", "IUIXSchema::GetEnum");
             }
             return flag;
         }
@@ -261,14 +261,14 @@ namespace Microsoft.Iris.CodeModel.Cpp
             if (this._userDefinedTypes != null && this._userDefinedTypes.Count > 0)
             {
                 foreach (DisposableObject disposableObject in this._userDefinedTypes.Values)
-                    disposableObject.Dispose((object)this);
+                    disposableObject.Dispose(this);
             }
             if (this._intrinsicTypes != null && this._intrinsicTypes.Count > 0)
             {
                 foreach (TypeSchema typeSchema in this._intrinsicTypes.Values)
                 {
                     if (typeSchema is DllIntrinsicTypeSchema intrinsicTypeSchema)
-                        intrinsicTypeSchema.Dispose((object)this);
+                        intrinsicTypeSchema.Dispose(this);
                 }
             }
             NativeApi.SpReleaseExternalObject(this._schema);
@@ -286,7 +286,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
                         return typeSchema;
                 }
             }
-            return (TypeSchema)null;
+            return null;
         }
 
         public override LoadResultStatus Status => this._status;
@@ -297,7 +297,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
 
         public static Type RuntimeTypeForMarshalAs(uint marshalAs)
         {
-            Type type = (Type)null;
+            Type type = null;
             if (marshalAs == uint.MaxValue)
             {
                 type = typeof(DllProxyObject);
@@ -317,7 +317,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
             private Type _runtimeType;
 
             public IntrinsicTypeData(TypeSchema frameworkEquivalent)
-              : this(frameworkEquivalent, (Type)null)
+              : this(frameworkEquivalent, null)
             {
             }
 

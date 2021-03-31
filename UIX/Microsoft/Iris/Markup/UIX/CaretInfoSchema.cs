@@ -12,37 +12,37 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object GetBlinkTime(object instanceObj) => (object)((CaretInfo)instanceObj).BlinkTime;
+        private static object GetBlinkTime(object instanceObj) => ((CaretInfo)instanceObj).BlinkTime;
 
-        private static object GetIdealWidth(object instanceObj) => (object)((CaretInfo)instanceObj).IdealWidth;
+        private static object GetIdealWidth(object instanceObj) => ((CaretInfo)instanceObj).IdealWidth;
 
         private static void SetIdealWidth(ref object instanceObj, object valueObj) => ((CaretInfo)instanceObj).IdealWidth = (int)valueObj;
 
         private static object GetVisible(object instanceObj) => BooleanBoxes.Box(((CaretInfo)instanceObj).Visible);
 
-        private static object GetPosition(object instanceObj) => (object)((CaretInfo)instanceObj).Position;
+        private static object GetPosition(object instanceObj) => ((CaretInfo)instanceObj).Position;
 
-        private static object GetSuggestedSize(object instanceObj) => (object)((CaretInfo)instanceObj).SuggestedSize;
+        private static object GetSuggestedSize(object instanceObj) => ((CaretInfo)instanceObj).SuggestedSize;
 
-        private static object Construct() => (object)new CaretInfo();
+        private static object Construct() => new CaretInfo();
 
-        public static void Pass1Initialize() => CaretInfoSchema.Type = new UIXTypeSchema((short)26, "CaretInfo", (string)null, (short)153, typeof(CaretInfo), UIXTypeFlags.None);
+        public static void Pass1Initialize() => CaretInfoSchema.Type = new UIXTypeSchema(26, "CaretInfo", null, 153, typeof(CaretInfo), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema((short)26, "BlinkTime", (short)194, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(CaretInfoSchema.GetBlinkTime), (SetValueHandler)null, false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema((short)26, "IdealWidth", (short)115, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(CaretInfoSchema.GetIdealWidth), new SetValueHandler(CaretInfoSchema.SetIdealWidth), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema((short)26, "Visible", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(CaretInfoSchema.GetVisible), (SetValueHandler)null, false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema((short)26, "Position", (short)158, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(CaretInfoSchema.GetPosition), (SetValueHandler)null, false);
-            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema((short)26, "SuggestedSize", (short)195, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(CaretInfoSchema.GetSuggestedSize), (SetValueHandler)null, false);
-            CaretInfoSchema.Type.Initialize(new DefaultConstructHandler(CaretInfoSchema.Construct), (ConstructorSchema[])null, new PropertySchema[5]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(26, "BlinkTime", 194, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(CaretInfoSchema.GetBlinkTime), null, false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(26, "IdealWidth", 115, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(CaretInfoSchema.GetIdealWidth), new SetValueHandler(CaretInfoSchema.SetIdealWidth), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(26, "Visible", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(CaretInfoSchema.GetVisible), null, false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(26, "Position", 158, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(CaretInfoSchema.GetPosition), null, false);
+            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(26, "SuggestedSize", 195, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(CaretInfoSchema.GetSuggestedSize), null, false);
+            CaretInfoSchema.Type.Initialize(new DefaultConstructHandler(CaretInfoSchema.Construct), null, new PropertySchema[5]
             {
-        (PropertySchema) uixPropertySchema1,
-        (PropertySchema) uixPropertySchema2,
-        (PropertySchema) uixPropertySchema4,
-        (PropertySchema) uixPropertySchema5,
-        (PropertySchema) uixPropertySchema3
-            }, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixPropertySchema1,
+         uixPropertySchema2,
+         uixPropertySchema4,
+         uixPropertySchema5,
+         uixPropertySchema3
+            }, null, null, null, null, null, null, null, null, null);
         }
     }
 }

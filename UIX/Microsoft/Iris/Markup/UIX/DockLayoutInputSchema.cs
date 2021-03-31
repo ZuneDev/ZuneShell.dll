@@ -13,20 +13,20 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object Construct() => (object)DockLayoutInput.Client;
+        private static object Construct() => DockLayoutInput.Client;
 
         private static Result ConvertFromString(object valueObj, out object instanceObj)
         {
             string str = (string)valueObj;
-            instanceObj = (object)null;
+            instanceObj = null;
             DockLayoutInput instance = DockLayoutInputSchema.StringToInstance(str);
             if (instance == null)
-                return Result.Fail("Unable to convert \"{0}\" to type '{1}'", (object)str, (object)"DockLayoutInput");
-            instanceObj = (object)instance;
+                return Result.Fail("Unable to convert \"{0}\" to type '{1}'", str, "DockLayoutInput");
+            instanceObj = instance;
             return Result.Success;
         }
 
-        private static object FindCanonicalInstance(string name) => (object)DockLayoutInputSchema.StringToInstance(name);
+        private static object FindCanonicalInstance(string name) => DockLayoutInputSchema.StringToInstance(name);
 
         private static bool IsConversionSupported(TypeSchema fromType) => StringSchema.Type.IsAssignableFrom(fromType);
 
@@ -36,7 +36,7 @@ namespace Microsoft.Iris.Markup.UIX
           out object instance)
         {
             Result result = Result.Fail("Unsupported");
-            instance = (object)null;
+            instance = null;
             if (StringSchema.Type.IsAssignableFrom(fromType))
             {
                 result = DockLayoutInputSchema.ConvertFromString(from, out instance);
@@ -51,7 +51,7 @@ namespace Microsoft.Iris.Markup.UIX
             string parameter1 = (string)parameters[0];
             DockLayoutInput parameter2 = (DockLayoutInput)parameters[1];
             object instanceObj1;
-            return DockLayoutInputSchema.ConvertFromString((object)parameter1, out instanceObj1).Failed ? (object)parameter2 : instanceObj1;
+            return DockLayoutInputSchema.ConvertFromString(parameter1, out instanceObj1).Failed ? parameter2 : instanceObj1;
         }
 
         private static DockLayoutInput StringToInstance(string value)
@@ -64,22 +64,22 @@ namespace Microsoft.Iris.Markup.UIX
                 return DockLayoutInput.Right;
             if (value == "Bottom")
                 return DockLayoutInput.Bottom;
-            return value == "Client" ? DockLayoutInput.Client : (DockLayoutInput)null;
+            return value == "Client" ? DockLayoutInput.Client : null;
         }
 
-        public static void Pass1Initialize() => DockLayoutInputSchema.Type = new UIXTypeSchema((short)60, "DockLayoutInput", (string)null, (short)133, typeof(DockLayoutInput), UIXTypeFlags.Immutable);
+        public static void Pass1Initialize() => DockLayoutInputSchema.Type = new UIXTypeSchema(60, "DockLayoutInput", null, 133, typeof(DockLayoutInput), UIXTypeFlags.Immutable);
 
         public static void Pass2Initialize()
         {
-            UIXMethodSchema uixMethodSchema = new UIXMethodSchema((short)60, "TryParse", new short[2]
+            UIXMethodSchema uixMethodSchema = new UIXMethodSchema(60, "TryParse", new short[2]
             {
-        (short) 208,
-        (short) 60
-            }, (short)60, new InvokeHandler(DockLayoutInputSchema.CallTryParseStringDockLayoutInput), true);
-            DockLayoutInputSchema.Type.Initialize(new DefaultConstructHandler(DockLayoutInputSchema.Construct), (ConstructorSchema[])null, (PropertySchema[])null, new MethodSchema[1]
+         208,
+         60
+            }, 60, new InvokeHandler(DockLayoutInputSchema.CallTryParseStringDockLayoutInput), true);
+            DockLayoutInputSchema.Type.Initialize(new DefaultConstructHandler(DockLayoutInputSchema.Construct), null, null, new MethodSchema[1]
             {
-        (MethodSchema) uixMethodSchema
-            }, (EventSchema[])null, new FindCanonicalInstanceHandler(DockLayoutInputSchema.FindCanonicalInstance), new TypeConverterHandler(DockLayoutInputSchema.TryConvertFrom), new SupportsTypeConversionHandler(DockLayoutInputSchema.IsConversionSupported), (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixMethodSchema
+            }, null, new FindCanonicalInstanceHandler(DockLayoutInputSchema.FindCanonicalInstance), new TypeConverterHandler(DockLayoutInputSchema.TryConvertFrom), new SupportsTypeConversionHandler(DockLayoutInputSchema.IsConversionSupported), null, null, null, null);
         }
     }
 }

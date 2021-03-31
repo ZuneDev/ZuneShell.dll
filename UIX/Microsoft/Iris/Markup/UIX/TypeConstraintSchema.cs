@@ -10,27 +10,27 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object GetType(object instanceObj) => (object)((TypeConstraint)instanceObj).Type;
+        private static object GetType(object instanceObj) => ((TypeConstraint)instanceObj).Type;
 
         private static void SetType(ref object instanceObj, object valueObj) => ((TypeConstraint)instanceObj).Type = (TypeSchema)valueObj;
 
-        private static object GetConstraint(object instanceObj) => (object)((TypeConstraint)instanceObj).Constraint;
+        private static object GetConstraint(object instanceObj) => ((TypeConstraint)instanceObj).Constraint;
 
         private static void SetConstraint(ref object instanceObj, object valueObj) => ((TypeConstraint)instanceObj).Constraint = (TypeSchema)valueObj;
 
-        private static object Construct() => (object)new TypeConstraint();
+        private static object Construct() => new TypeConstraint();
 
-        public static void Pass1Initialize() => TypeConstraintSchema.Type = new UIXTypeSchema((short)226, "TypeConstraint", (string)null, (short)153, typeof(TypeConstraint), UIXTypeFlags.Immutable);
+        public static void Pass1Initialize() => TypeConstraintSchema.Type = new UIXTypeSchema(226, "TypeConstraint", null, 153, typeof(TypeConstraint), UIXTypeFlags.Immutable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema((short)226, "Type", (short)225, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(TypeConstraintSchema.GetType), new SetValueHandler(TypeConstraintSchema.SetType), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema((short)226, "Constraint", (short)225, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(TypeConstraintSchema.GetConstraint), new SetValueHandler(TypeConstraintSchema.SetConstraint), false);
-            TypeConstraintSchema.Type.Initialize(new DefaultConstructHandler(TypeConstraintSchema.Construct), (ConstructorSchema[])null, new PropertySchema[2]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(226, "Type", 225, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(TypeConstraintSchema.GetType), new SetValueHandler(TypeConstraintSchema.SetType), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(226, "Constraint", 225, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(TypeConstraintSchema.GetConstraint), new SetValueHandler(TypeConstraintSchema.SetConstraint), false);
+            TypeConstraintSchema.Type.Initialize(new DefaultConstructHandler(TypeConstraintSchema.Construct), null, new PropertySchema[2]
             {
-        (PropertySchema) uixPropertySchema2,
-        (PropertySchema) uixPropertySchema1
-            }, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixPropertySchema2,
+         uixPropertySchema1
+            }, null, null, null, null, null, null, null, null, null);
         }
     }
 }

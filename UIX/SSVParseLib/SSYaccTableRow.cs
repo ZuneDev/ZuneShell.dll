@@ -42,7 +42,7 @@ namespace SSVParseLib
                 if (this.m_entries[index].token() == q_index)
                     return this.m_entries[index];
             }
-            return (SSYaccTableRowEntry)null;
+            return null;
         }
 
         public SSYaccTableRowEntry lookupGoto(int q_index)
@@ -52,7 +52,7 @@ namespace SSVParseLib
                 if (this.m_entries[action].token() == q_index)
                     return this.m_entries[action];
             }
-            return (SSYaccTableRowEntry)null;
+            return null;
         }
 
         public bool hasError() => this.m_error;

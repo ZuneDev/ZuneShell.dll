@@ -151,7 +151,7 @@ namespace Microsoft.Iris
                     Application.s_renderType = RenderingType.DX9;
                     break;
                 default:
-                    throw new ArgumentException(InvariantString.Format("Unknown graphics type {0}", (object)graphicsType));
+                    throw new ArgumentException(InvariantString.Format("Unknown graphics type {0}", graphicsType));
             }
             if (graphicsType == GraphicsDeviceType.Gdi)
                 Application.s_EnableAnimations = false;
@@ -165,7 +165,7 @@ namespace Microsoft.Iris
                     Application.s_soundType = SoundType.DirectSound;
                     break;
                 default:
-                    throw new ArgumentException(InvariantString.Format("Unknown sound type {0}", (object)soundType));
+                    throw new ArgumentException(InvariantString.Format("Unknown sound type {0}", soundType));
             }
             Application.s_session.InitializeRenderingDevices(graphicsType, (GraphicsRenderingQuality)Application.s_renderingQuality, soundType);
             Application.s_renderingQuality = (RenderingQuality)Application.s_session.RenderSession.GraphicsDevice.RenderingQuality;
@@ -256,7 +256,7 @@ namespace Microsoft.Iris
                 throw new ArgumentNullException(nameof(name));
             if (MarkupDataProvider.GetDataProvider(name) != null)
                 throw new ArgumentException("Provider is already registered");
-            MarkupDataProvider.RegisterDataProvider((IDataProvider)new AssemblyDataProviderWrapper(name, factory));
+            MarkupDataProvider.RegisterDataProvider(new AssemblyDataProviderWrapper(name, factory));
         }
 
         public static void Run(DeferredInvokeHandler initialLoadComplete)
@@ -269,7 +269,7 @@ namespace Microsoft.Iris
             UIApplication.Run();
         }
 
-        public static void Run() => Application.Run((DeferredInvokeHandler)null);
+        public static void Run() => Application.Run(null);
 
         public static event EventHandler ShuttingDown;
 
@@ -280,12 +280,12 @@ namespace Microsoft.Iris
             UIDispatcher.VerifyOnApplicationThread();
             Application.s_isShuttingDown = true;
             if (Application.ShuttingDown != null)
-                Application.ShuttingDown((object)null, EventArgs.Empty);
+                Application.ShuttingDown(null, EventArgs.Empty);
             MarkupSystem.Shutdown();
             if (Application.s_initializationState == Application.InitializationState.FullyInitialized)
             {
                 Application.s_session.Dispose();
-                Application.s_session = (UISession)null;
+                Application.s_session = null;
             }
             if (Application.s_initializationState == Application.InitializationState.InitializedWithoutUI)
                 RenderApi.ShutdownForToolOnly();
@@ -295,7 +295,7 @@ namespace Microsoft.Iris
             Application.s_initializationState = Application.InitializationState.NotInitialized;
         }
 
-        public static void DeferredInvoke(DeferredInvokeHandler method, DeferredInvokePriority priority) => Application.DeferredInvoke(method, (object)null, priority);
+        public static void DeferredInvoke(DeferredInvokeHandler method, DeferredInvokePriority priority) => Application.DeferredInvoke(method, null, priority);
 
         public static void DeferredInvoke(DeferredInvokeHandler method, object args) => Application.DeferredInvoke(method, args, DeferredInvokePriority.Normal);
 
@@ -316,12 +316,12 @@ namespace Microsoft.Iris
                     priority1 = DispatchPriority.Idle;
                     break;
                 default:
-                    throw new ArgumentException(InvariantString.Format("Unknown DeferredInvokePriority {0}", (object)priority));
+                    throw new ArgumentException(InvariantString.Format("Unknown DeferredInvokePriority {0}", priority));
             }
             DeferredCall.Post(priority1, DeferredInvokeProxy.Thunk(method), args);
         }
 
-        public static void DeferredInvoke(DeferredInvokeHandler method, TimeSpan delay) => Application.DeferredInvoke(method, (object)null, delay);
+        public static void DeferredInvoke(DeferredInvokeHandler method, TimeSpan delay) => Application.DeferredInvoke(method, null, delay);
 
         public static void DeferredInvoke(DeferredInvokeHandler method, object args, TimeSpan delay)
         {
@@ -330,7 +330,7 @@ namespace Microsoft.Iris
             DeferredCall.Post(delay, DeferredInvokeProxy.Thunk(method), args);
         }
 
-        public static void DeferredInvoke(Thread thread, DeferredInvokeHandler method) => Application.DeferredInvoke(thread, method, (object)null);
+        public static void DeferredInvoke(Thread thread, DeferredInvokeHandler method) => Application.DeferredInvoke(thread, method, null);
 
         public static void DeferredInvoke(Thread thread, DeferredInvokeHandler method, object args)
         {
@@ -361,10 +361,10 @@ namespace Microsoft.Iris
                 throw new InvalidOperationException("Thread already has a dispatcher running");
             if (initialWork == null)
                 throw new ArgumentNullException(nameof(initialWork));
-            UIApplication.StartArgs startArgs = (UIApplication.StartArgs)null;
+            UIApplication.StartArgs startArgs = null;
             if (initialWork != null)
                 startArgs = new UIApplication.StartArgs(DeferredInvokeProxy.Thunk(initialWork), initialWorkArgs);
-            UIApplication.StartDispatcher((object)startArgs);
+            UIApplication.StartDispatcher(startArgs);
         }
 
         public static Thread StartWorkerThreadWithMessagePump(string threadName) => UIApplication.StartThreadWithDispatcher(threadName);
@@ -382,7 +382,7 @@ namespace Microsoft.Iris
             if (Application.s_idToExternalAnimationInput == null)
                 Application.s_idToExternalAnimationInput = new Dictionary<int, IExternalAnimationInput>();
             SimpleAnimationPropertyMap animationPropertyMap = new SimpleAnimationPropertyMap(propertyNameToId);
-            IExternalAnimationInput externalAnimationInput = Application.s_session.RenderSession.AnimationSystem.CreateExternalAnimationInput((object)Application.s_idToExternalAnimationInput, (IAnimationPropertyMap)animationPropertyMap);
+            IExternalAnimationInput externalAnimationInput = Application.s_session.RenderSession.AnimationSystem.CreateExternalAnimationInput(s_idToExternalAnimationInput, animationPropertyMap);
             Application.s_idToExternalAnimationInput.Add((int)externalAnimationInput.UniqueId, externalAnimationInput);
             return (int)externalAnimationInput.UniqueId;
         }
@@ -394,19 +394,19 @@ namespace Microsoft.Iris
             if (Application.s_idToExternalAnimationInput == null || !Application.s_idToExternalAnimationInput.TryGetValue(animationId, out externalAnimationInput))
                 return;
             Application.s_idToExternalAnimationInput.Remove(animationId);
-            externalAnimationInput.UnregisterUsage((object)Application.s_idToExternalAnimationInput);
+            externalAnimationInput.UnregisterUsage(s_idToExternalAnimationInput);
             IAnimationInputProvider animationInputProvider;
             if (Application.s_animationProviders == null || !Application.s_animationProviders.TryGetValue(animationId, out animationInputProvider))
                 return;
             Application.s_animationProviders.Remove(animationId);
-            animationInputProvider.UnregisterUsage((object)Application.s_idToExternalAnimationInput);
+            animationInputProvider.UnregisterUsage(s_idToExternalAnimationInput);
         }
 
         internal static IExternalAnimationInput MapExternalAnimationInput(
           int animationId)
         {
             UIDispatcher.VerifyOnApplicationThread();
-            IExternalAnimationInput externalAnimationInput = (IExternalAnimationInput)null;
+            IExternalAnimationInput externalAnimationInput = null;
             if (Application.s_idToExternalAnimationInput != null)
                 Application.s_idToExternalAnimationInput.TryGetValue(animationId, out externalAnimationInput);
             return externalAnimationInput;
@@ -421,7 +421,7 @@ namespace Microsoft.Iris
             IAnimationInputProvider provider;
             if (Application.s_animationProviders == null || !Application.s_animationProviders.TryGetValue(animationId, out provider))
             {
-                provider = Application.MapExternalAnimationInput(animationId).CreateProvider((object)Application.s_idToExternalAnimationInput);
+                provider = Application.MapExternalAnimationInput(animationId).CreateProvider(s_idToExternalAnimationInput);
                 if (Application.s_animationProviders == null)
                     Application.s_animationProviders = new Dictionary<int, IAnimationInputProvider>();
                 Application.s_animationProviders.Add(animationId, provider);
@@ -465,7 +465,7 @@ namespace Microsoft.Iris
                     graphicsType = GraphicsDeviceType.Direct3D9;
                     break;
                 default:
-                    throw new ArgumentException(InvariantString.Format("Unknown rendering type {0}", (object)type));
+                    throw new ArgumentException(InvariantString.Format("Unknown rendering type {0}", type));
             }
             if (type == RenderingType.Default && !Application.s_session.IsGraphicsDeviceRecommended(graphicsType) || !Application.s_session.IsGraphicsDeviceAvailable(graphicsType))
                 graphicsType = GraphicsDeviceType.Gdi;
@@ -477,7 +477,7 @@ namespace Microsoft.Iris
             if (typeRequested == SoundType.None)
                 return SoundDeviceType.None;
             if (typeRequested != SoundType.DirectSound)
-                throw new ArgumentException(InvariantString.Format("Unknown sound type {0}", (object)typeRequested));
+                throw new ArgumentException(InvariantString.Format("Unknown sound type {0}", typeRequested));
             return Application.s_session.IsSoundDeviceAvailable(SoundDeviceType.DirectSound8) ? SoundDeviceType.DirectSound8 : SoundDeviceType.None;
         }
 
@@ -494,7 +494,7 @@ namespace Microsoft.Iris
             {
                 for (int index = 0; index < publicKey2.Length; ++index)
                 {
-                    if ((int)publicKey1[index] != (int)publicKey2[index])
+                    if (publicKey1[index] != publicKey2[index])
                     {
                         flag = false;
                         break;

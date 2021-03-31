@@ -29,6 +29,6 @@ namespace Microsoft.Iris.ViewItems
 
         public static DataCookie Data => IndexLayoutInput.s_dataProperty;
 
-        public override string ToString() => InvariantString.Format("{0}(Index={1}, Type={2})", (object)this.GetType().Name, (object)this.Index, (object)this._type);
+        public override string ToString() => InvariantString.Format("{0}(Index={1}, Type={2})", this.GetType().Name, Index, _type);
     }
 }

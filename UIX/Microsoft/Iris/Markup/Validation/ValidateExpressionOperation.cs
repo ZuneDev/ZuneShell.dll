@@ -38,7 +38,7 @@ namespace Microsoft.Iris.Markup.Validation
 
         private static string GetOperationToken(OperationType op)
         {
-            string str = (string)null;
+            string str = null;
             switch (op)
             {
                 case OperationType.MathAdd:
@@ -111,7 +111,7 @@ namespace Microsoft.Iris.Markup.Validation
             {
                 if (this._leftSide.ObjectType == NullSchema.Type && this._rightSide.ObjectType.IsNullAssignable || this._rightSide.ObjectType == NullSchema.Type && this._leftSide.ObjectType.IsNullAssignable)
                 {
-                    this._foundOperationTargetType = (TypeSchema)NullSchema.Type;
+                    this._foundOperationTargetType = NullSchema.Type;
                 }
                 else
                 {
@@ -150,7 +150,7 @@ namespace Microsoft.Iris.Markup.Validation
                     case OperationType.RelationalGreaterThanEquals:
                     case OperationType.RelationalIs:
                     case OperationType.LogicalNot:
-                        this.DeclareEvaluationType((TypeSchema)BooleanSchema.Type, typeRestriction);
+                        this.DeclareEvaluationType(BooleanSchema.Type, typeRestriction);
                         break;
                 }
             }

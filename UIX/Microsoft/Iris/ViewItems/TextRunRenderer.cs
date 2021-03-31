@@ -22,14 +22,14 @@ namespace Microsoft.Iris.ViewItems
 
         public TextRunRenderer()
         {
-            this.Layout = (ILayout)this;
+            this.Layout = this;
             this._renderingHelper = new TextFlowRenderingHelper();
             this._paintHandler = new PaintInvalidEventHandler(this.OnRunPaintInvalid);
         }
 
         protected override void OnDispose()
         {
-            this.Data = (TextRunData)null;
+            this.Data = null;
             base.OnDispose();
         }
 
@@ -43,13 +43,13 @@ namespace Microsoft.Iris.ViewItems
                 if (this._data != null)
                 {
                     this._data.PaintInvalid -= this._paintHandler;
-                    this._data.Run.UnregisterUsage((object)this);
+                    this._data.Run.UnregisterUsage(this);
                 }
                 this._data = value;
                 if (this._data != null)
                 {
                     this._data.PaintInvalid += this._paintHandler;
-                    this._data.Run.RegisterUsage((object)this);
+                    this._data.Run.RegisterUsage(this);
                 }
                 this.FireNotification(NotificationID.Data);
             }
@@ -84,7 +84,7 @@ namespace Microsoft.Iris.ViewItems
         {
             if (this._contents == null)
                 return;
-            this._contents.Effect = (IEffect)null;
+            this._contents.Effect = null;
         }
 
         protected override void OnPaint(bool visible)
@@ -96,11 +96,11 @@ namespace Microsoft.Iris.ViewItems
             Text textViewItem = this._data.TextViewItem;
             if (!run.Visible)
                 return;
-            IImage imageForRun = Text.GetImageForRun(this.UISession, this._data.Run, this._color.A != (byte)0 ? this._color : this._data.Color);
+            IImage imageForRun = Text.GetImageForRun(this.UISession, this._data.Run, this._color.A != 0 ? this._color : this._data.Color);
             if (this._contents.Effect == null)
             {
-                this._contents.Effect = EffectClass.CreateImageRenderEffectWithFallback(this.Effect, (object)this, (IImage)null);
-                this._contents.Effect.UnregisterUsage((object)this);
+                this._contents.Effect = EffectClass.CreateImageRenderEffectWithFallback(this.Effect, this, null);
+                this._contents.Effect.UnregisterUsage(this);
             }
             EffectClass.SetDefaultEffectProperty(this.Effect, this._contents.Effect, imageForRun);
             this._contents.RelativeSize = true;

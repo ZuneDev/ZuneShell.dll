@@ -25,12 +25,12 @@ namespace Microsoft.Iris.Markup
             this._scriptHost = scriptHost;
             this._scriptId = scriptId;
             this._watch = NotifyService.CanonicalizeString(this._watch);
-            notifier.AddListener((Listener)this);
+            notifier.AddListener(this);
         }
 
         public override void Dispose()
         {
-            this._scriptHost = (IMarkupTypeBase)null;
+            this._scriptHost = null;
             this._scriptId = uint.MaxValue;
             base.Dispose();
         }
@@ -45,6 +45,6 @@ namespace Microsoft.Iris.Markup
             this._scriptHost.ScheduleScriptRun(this._scriptId, false);
         }
 
-        public override string ToString() => string.Format("{0}{4}: {1}->0x{2:X8} on '{3}'", (object)this.GetType().Name, (object)this._watch, (object)this._scriptId, (object)this._scriptHost, (object)"");
+        public override string ToString() => string.Format("{0}{4}: {1}->0x{2:X8} on '{3}'", this.GetType().Name, _watch, _scriptId, _scriptHost, "");
     }
 }

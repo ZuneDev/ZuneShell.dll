@@ -20,7 +20,7 @@ namespace Microsoft.Iris.Input
         protected void Initialize(InputEventType eventType)
         {
             this._eventType = eventType;
-            this._lockCount = (byte)0;
+            this._lockCount = 0;
             this._routeTruncated = false;
             this._handled = false;
         }
@@ -46,7 +46,7 @@ namespace Microsoft.Iris.Input
 
         protected virtual void Zombie()
         {
-            this._target = (ICookedInputSite)null;
+            this._target = null;
             this._eventType = InputEventType.Invalid;
         }
 
@@ -59,14 +59,14 @@ namespace Microsoft.Iris.Input
             InputInfo.s_pools[(int)this.PoolType].RecycleInfo(this);
         }
 
-        private bool Poolable => this._lockCount == (byte)0;
+        private bool Poolable => this._lockCount == 0;
 
         public void Lock() => ++this._lockCount;
 
         public void Unlock()
         {
             --this._lockCount;
-            if (this._lockCount != (byte)0)
+            if (this._lockCount != 0)
                 return;
             this.ReturnToPool();
         }
@@ -97,7 +97,7 @@ namespace Microsoft.Iris.Input
 
             public InputInfo GetPooledInfo()
             {
-                InputInfo inputInfo = (InputInfo)null;
+                InputInfo inputInfo = null;
                 if (this._numEntries > 0)
                 {
                     inputInfo = this._maxEntries != 1 ? ((InputInfo[])this._storage)[this._numEntries - 1] : (InputInfo)this._storage;
@@ -114,12 +114,12 @@ namespace Microsoft.Iris.Input
                     info.Zombie();
                     if (this._maxEntries == 1)
                     {
-                        this._storage = (object)info;
+                        this._storage = info;
                     }
                     else
                     {
                         if (this._storage == null)
-                            this._storage = (object)new InputInfo[this._maxEntries];
+                            this._storage = (new InputInfo[this._maxEntries]);
                         ((InputInfo[])this._storage)[this._numEntries] = info;
                     }
                     ++this._numEntries;

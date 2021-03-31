@@ -45,21 +45,21 @@ namespace Microsoft.Iris.ViewItems
         {
             if (Graphic.s_AcquiringDefaultImage != null)
                 return;
-            Graphic.s_AcquiringDefaultImage = (UIImage)new UriImage(Graphic.s_AcquiringDefaultImageUri, new Inset(3, 3, 53, 53), Size.Zero, false);
+            Graphic.s_AcquiringDefaultImage = new UriImage(Graphic.s_AcquiringDefaultImageUri, new Inset(3, 3, 53, 53), Size.Zero, false);
             Graphic.s_AcquiringDefaultImage.Load();
-            Graphic.s_ErrorDefaultImage = (UIImage)new UriImage(Graphic.s_ErrorDefaultImageUri, new Inset(3, 3, 53, 53), Size.Zero, false);
+            Graphic.s_ErrorDefaultImage = new UriImage(Graphic.s_ErrorDefaultImageUri, new Inset(3, 3, 53, 53), Size.Zero, false);
             Graphic.s_ErrorDefaultImage.Load();
         }
 
         protected override void OnDispose()
         {
-            this.ReleaseInUseImage(this._contentImage, (UIImage)null);
-            this.ReleaseInUseImage(this._preloadImage, (UIImage)null);
+            this.ReleaseInUseImage(this._contentImage, null);
+            this.ReleaseInUseImage(this._preloadImage, null);
             this.ReleaseInUseImage(this.AcquiringImage, Graphic.s_AcquiringDefaultImage);
             this.ReleaseInUseImage(this.ErrorImage, Graphic.s_ErrorDefaultImage);
-            this._preloadImage = (UIImage)null;
-            this._contentImage = (UIImage)null;
-            this.AsyncLoadCompleteHandler = (ContentLoadCompleteHandler)null;
+            this._preloadImage = null;
+            this._contentImage = null;
+            this.AsyncLoadCompleteHandler = null;
             base.OnDispose();
         }
 
@@ -67,7 +67,7 @@ namespace Microsoft.Iris.ViewItems
         {
             if (this._contents == null)
                 return;
-            this._contents.Effect = (IEffect)null;
+            this._contents.Effect = null;
         }
 
         public UIImage Content
@@ -80,12 +80,12 @@ namespace Microsoft.Iris.ViewItems
                 if (this._contentImage != null)
                 {
                     this.RemoveAsyncLoadCompleteHandler(this._contentImage);
-                    this._contentImage.RemoveUser((object)this);
+                    this._contentImage.RemoveUser(this);
                 }
                 this._contentImage = value;
                 if (this._contentImage != null)
                 {
-                    this._contentImage.AddUser((object)this);
+                    this._contentImage.AddUser(this);
                     this._contentImage.Load();
                     if (this._contentImage.Status == ImageStatus.Loading || this._contentImage.Status == ImageStatus.PendingLoad)
                         this.AttachAsyncLoadCompleteHandler(this._contentImage);
@@ -113,11 +113,11 @@ namespace Microsoft.Iris.ViewItems
             set
             {
                 if (this._preloadImage != null)
-                    this._preloadImage.RemoveUser((object)this);
+                    this._preloadImage.RemoveUser(this);
                 this._preloadImage = value;
                 if (this._preloadImage == null)
                     return;
-                this._preloadImage.AddUser((object)this);
+                this._preloadImage.AddUser(this);
                 this._preloadImage.Load();
             }
         }
@@ -125,7 +125,7 @@ namespace Microsoft.Iris.ViewItems
         private UIImage GetStatusImage(DataCookie cookie, UIImage defaultImage)
         {
             object data = this.GetData(cookie);
-            return data != null ? (data != Graphic.s_NullImage ? (UIImage)data : (UIImage)null) : defaultImage;
+            return data != null ? (data != Graphic.s_NullImage ? (UIImage)data : null) : defaultImage;
         }
 
         private void SetStatusImage(
@@ -140,11 +140,11 @@ namespace Microsoft.Iris.ViewItems
             object obj;
             if (value != null)
             {
-                obj = (object)value;
+                obj = value;
                 value.Load();
                 if (value.Status == ImageStatus.Loading || value.Status == ImageStatus.PendingLoad)
                     this.AttachAsyncLoadCompleteHandler(value);
-                value.AddUser((object)this);
+                value.AddUser(this);
             }
             else
                 obj = Graphic.s_NullImage;
@@ -184,7 +184,7 @@ namespace Microsoft.Iris.ViewItems
                 this.RemoveAsyncLoadCompleteHandler(image);
             if (image == null || image == defaultImage)
                 return;
-            image.RemoveUser((object)this);
+            image.RemoveUser(this);
         }
 
         private void NotifyContentChange()
@@ -216,7 +216,7 @@ namespace Microsoft.Iris.ViewItems
                     return;
                 if (value == SizingPolicy.SizeToChildren)
                 {
-                    this.Layout = (ILayout)DefaultLayout.Instance;
+                    this.Layout = DefaultLayout.Instance;
                 }
                 else
                 {
@@ -225,7 +225,7 @@ namespace Microsoft.Iris.ViewItems
                     this.UpdateMaintainAspectRatioOnLayout(imageLayout);
                     imageLayout.MinimumSize = this.MinimumSize;
                     imageLayout.Fill = value == SizingPolicy.SizeToConstraint;
-                    this.Layout = (ILayout)imageLayout;
+                    this.Layout = imageLayout;
                 }
                 this.FireNotification(NotificationID.SizingPolicy);
             }
@@ -308,7 +308,7 @@ namespace Microsoft.Iris.ViewItems
         private ContentLoadCompleteHandler AsyncLoadCompleteHandler
         {
             get => (ContentLoadCompleteHandler)this.GetData(Graphic.s_pendingLoadCompleteHandlerProperty);
-            set => this.SetData(Graphic.s_pendingLoadCompleteHandlerProperty, (object)value);
+            set => this.SetData(Graphic.s_pendingLoadCompleteHandlerProperty, value);
         }
 
         public void CommitPreload() => this.Content = this.PreloadContent;
@@ -322,8 +322,8 @@ namespace Microsoft.Iris.ViewItems
                 return;
             if (this._contents.Effect == null)
             {
-                this._contents.Effect = EffectClass.CreateImageRenderEffectWithFallback(this.Effect, (object)this, (IImage)null);
-                this._contents.Effect.UnregisterUsage((object)this);
+                this._contents.Effect = EffectClass.CreateImageRenderEffectWithFallback(this.Effect, this, null);
+                this._contents.Effect.UnregisterUsage(this);
             }
             this.UpdateEffectContents();
             this.UpdateCoordinateMaps();
@@ -356,13 +356,13 @@ namespace Microsoft.Iris.ViewItems
                     case 2:
                     case 3:
                         RectangleF rectangleF = new RectangleF(Point.Zero, size);
-                        CoordMap coordMap = (CoordMap)null;
+                        CoordMap coordMap = null;
                         if (source != rectangleF)
                         {
-                            float flValue1 = source.Left / (float)size.Width;
-                            float flValue2 = source.Right / (float)size.Width;
-                            float flValue3 = source.Top / (float)size.Height;
-                            float flValue4 = source.Bottom / (float)size.Height;
+                            float flValue1 = source.Left / size.Width;
+                            float flValue2 = source.Right / size.Width;
+                            float flValue3 = source.Top / size.Height;
+                            float flValue4 = source.Bottom / size.Height;
                             coordMap = new CoordMap();
                             coordMap.AddValue(0.0f, flValue1, Orientation.Horizontal);
                             coordMap.AddValue(0.0f, flValue3, Orientation.Vertical);
@@ -377,7 +377,7 @@ namespace Microsoft.Iris.ViewItems
                     case 1:
                         this._contents.RelativeSize = true;
                         this._contents.Size = Vector2.UnitVector;
-                        this._contents.SetCoordMap(0, (CoordMap)null);
+                        this._contents.SetCoordMap(0, null);
                         break;
                 }
             }
@@ -420,12 +420,12 @@ namespace Microsoft.Iris.ViewItems
                             size1 = Size.LargestFit(size2, size1);
                             break;
                     }
-                    float dimensionOffset1 = this.CalculateDimensionOffset((float)size1.Width, (float)originalSourceSize.Width, this._horizontalAlignment);
-                    float dimensionOffset2 = this.CalculateDimensionOffset((float)size2.Width, (float)layoutSize.Width, this._horizontalAlignment);
-                    float dimensionOffset3 = this.CalculateDimensionOffset((float)size1.Height, (float)originalSourceSize.Height, this._verticalAlignment);
-                    float dimensionOffset4 = this.CalculateDimensionOffset((float)size2.Height, (float)layoutSize.Height, this._verticalAlignment);
-                    source = new RectangleF(dimensionOffset1, dimensionOffset3, (float)size1.Width, (float)size1.Height);
-                    destination = new RectangleF(dimensionOffset2, dimensionOffset4, (float)size2.Width, (float)size2.Height);
+                    float dimensionOffset1 = this.CalculateDimensionOffset(size1.Width, originalSourceSize.Width, this._horizontalAlignment);
+                    float dimensionOffset2 = this.CalculateDimensionOffset(size2.Width, layoutSize.Width, this._horizontalAlignment);
+                    float dimensionOffset3 = this.CalculateDimensionOffset(size1.Height, originalSourceSize.Height, this._verticalAlignment);
+                    float dimensionOffset4 = this.CalculateDimensionOffset(size2.Height, layoutSize.Height, this._verticalAlignment);
+                    source = new RectangleF(dimensionOffset1, dimensionOffset3, size1.Width, size1.Height);
+                    destination = new RectangleF(dimensionOffset2, dimensionOffset4, size2.Width, size2.Height);
                 }
             }
         }

@@ -10,8 +10,8 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        public static void Pass1Initialize() => TypeSchemaDefinition.Type = new UIXTypeSchema((short)225, "Type", (string)null, (short)153, typeof(TypeSchema), UIXTypeFlags.Immutable);
+        public static void Pass1Initialize() => TypeSchemaDefinition.Type = new UIXTypeSchema(225, "Type", null, 153, typeof(TypeSchema), UIXTypeFlags.Immutable);
 
-        public static void Pass2Initialize() => TypeSchemaDefinition.Type.Initialize((DefaultConstructHandler)null, (ConstructorSchema[])null, (PropertySchema[])null, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+        public static void Pass2Initialize() => TypeSchemaDefinition.Type.Initialize(null, null, null, null, null, null, null, null, null, null, null, null);
     }
 }

@@ -43,8 +43,8 @@ namespace Microsoft.Iris.Input
         protected override void Zombie()
         {
             base.Zombie();
-            this._naturalHit = (IRawInputSite)null;
-            this._naturalTarget = (ICookedInputSite)null;
+            this._naturalHit = null;
+            this._naturalTarget = null;
         }
 
         public uint NativeMessageID => this._nativeMessageID;

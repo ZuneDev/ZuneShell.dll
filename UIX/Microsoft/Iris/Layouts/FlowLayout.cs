@@ -90,7 +90,7 @@ namespace Microsoft.Iris.Layouts
             if (!(layoutNode.MeasureData is FlowLayout.Packet packet))
             {
                 packet = new FlowLayout.Packet();
-                layoutNode.MeasureData = (object)packet;
+                layoutNode.MeasureData = packet;
             }
             else
                 packet.Clear();
@@ -165,7 +165,7 @@ namespace Microsoft.Iris.Layouts
                     record?.Clear();
             }
             for (int count1 = recordList.Count; count1 < count; ++count1)
-                recordList.Add((FlowLayout.Record)null);
+                recordList.Add(null);
         }
 
         private void CreateRecordsFromChildren(FlowLayout.Packet packet)
@@ -224,7 +224,7 @@ namespace Microsoft.Iris.Layouts
             if (packet.Cache == null)
             {
                 packet.Cache = new FlowSizeMemoryLayoutInput();
-                packet.Subject.SetLayoutInput((ILayoutInput)packet.Cache, false);
+                packet.Subject.SetLayoutInput(packet.Cache, false);
             }
             else
             {
@@ -296,7 +296,7 @@ namespace Microsoft.Iris.Layouts
                 FlowLayout.Record record = packet.Records[index];
                 if (!FlowLayout.Record.IsNullOrEmpty(record))
                 {
-                    if (ListUtility.IsNullOrEmpty((IVector)record.Nodes))
+                    if (ListUtility.IsNullOrEmpty(record.Nodes))
                         ++count;
                     switch (missingItemPolicy)
                     {
@@ -318,8 +318,8 @@ namespace Microsoft.Iris.Layouts
                 return;
             if (missingItemPolicy == MissingItemPolicy.SizeToAverage)
             {
-                a.Major = (int)Math.Round((double)a.Major / (double)count);
-                a.Minor = (int)Math.Round((double)a.Minor / (double)count);
+                a.Major = (int)Math.Round(a.Major / (double)count);
+                a.Minor = (int)Math.Round(a.Minor / (double)count);
             }
             for (int index = 0; index < packet.Records.Count; ++index)
             {
@@ -424,7 +424,7 @@ namespace Microsoft.Iris.Layouts
                     this.GetIndex(node, 0, packet.PotentialCount, out int _, out int _, out int _, out IndexType _);
                     node.Measure(childConstraint);
                     MajorMinor a = new MajorMinor(node.DesiredSize, this.Orientation);
-                    record.Size = index <= 0 || a.Equals((object)record.Size) ? a : MajorMinor.Max(a, record.Size);
+                    record.Size = index <= 0 || a.Equals(record.Size) ? a : MajorMinor.Max(a, record.Size);
                 }
                 packet.Cache.KnownSizes.ExpandTo(record.Index + 1);
                 packet.Cache.KnownSizes[record.Index] = record.Size.ToSize(this.Orientation);
@@ -454,7 +454,7 @@ namespace Microsoft.Iris.Layouts
           FlowLayout.Packet packet,
           FlowLayout.Record record)
         {
-            return packet.Dividers == null ? (FlowLayout.Record)null : packet.Dividers[record.Index];
+            return packet.Dividers == null ? null : packet.Dividers[record.Index];
         }
 
         private void HandleLastItem(
@@ -467,7 +467,7 @@ namespace Microsoft.Iris.Layouts
             if (index == packet.Records.Count)
                 return;
             FlowLayout.Record record = packet.Records[index];
-            if (ListUtility.IsNullOrEmpty((IVector)record.Nodes))
+            if (ListUtility.IsNullOrEmpty(record.Nodes))
                 return;
             Size size = (packet.Available - offset).ToSize(this.Orientation);
             foreach (ILayoutNode node in record.Nodes)
@@ -601,7 +601,7 @@ namespace Microsoft.Iris.Layouts
             int num2 = -1;
             if (packet.AvailableDataIndices.Count < this._minimumSampleSizeValue)
                 num2 = this._minimumSampleSizeValue;
-            Vector<int> indiciesList = (Vector<int>)null;
+            Vector<int> indiciesList = null;
             for (int index = visibleOffscreen; index <= num1; ++index)
             {
                 if (!IntListUtility.Contains(packet.AvailableVirtualIndices, index))
@@ -613,7 +613,7 @@ namespace Microsoft.Iris.Layouts
                         break;
                 }
             }
-            if (ListUtility.IsNullOrEmpty((IVector)indiciesList))
+            if (ListUtility.IsNullOrEmpty(indiciesList))
                 return;
             packet.Subject.RequestSpecificChildren(indiciesList);
         }
@@ -722,7 +722,7 @@ namespace Microsoft.Iris.Layouts
                 this.Strip = 0;
             }
 
-            public override string ToString() => InvariantString.Format("Record[{0}] Size:{1}", (object)this.Index, (object)this.Size);
+            public override string ToString() => InvariantString.Format("Record[{0}] Size:{1}", Index, Size);
         }
 
         internal enum RecordSourceType

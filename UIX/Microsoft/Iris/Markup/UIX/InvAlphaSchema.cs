@@ -12,10 +12,10 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object Construct() => (object)new InvAlphaElement();
+        private static object Construct() => new InvAlphaElement();
 
-        public static void Pass1Initialize() => InvAlphaSchema.Type = new UIXTypeSchema((short)123, "InvAlpha", (string)null, (short)80, typeof(InvAlphaElement), UIXTypeFlags.None);
+        public static void Pass1Initialize() => InvAlphaSchema.Type = new UIXTypeSchema(123, "InvAlpha", null, 80, typeof(InvAlphaElement), UIXTypeFlags.None);
 
-        public static void Pass2Initialize() => InvAlphaSchema.Type.Initialize(new DefaultConstructHandler(InvAlphaSchema.Construct), (ConstructorSchema[])null, (PropertySchema[])null, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+        public static void Pass2Initialize() => InvAlphaSchema.Type.Initialize(new DefaultConstructHandler(InvAlphaSchema.Construct), null, null, null, null, null, null, null, null, null, null, null);
     }
 }

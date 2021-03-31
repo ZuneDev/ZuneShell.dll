@@ -11,7 +11,7 @@ namespace Microsoft.Iris.Markup
     internal class UIClassPropertySchema : MarkupPropertySchema
     {
         public UIClassPropertySchema(UIClassTypeSchema owner, string name, TypeSchema propertyType)
-          : base((MarkupTypeSchema)owner, name, propertyType)
+          : base(owner, name, propertyType)
         {
         }
 

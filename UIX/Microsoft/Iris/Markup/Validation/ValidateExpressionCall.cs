@@ -49,7 +49,7 @@ namespace Microsoft.Iris.Markup.Validation
             this._parameterList = parameterList;
         }
 
-        public ValidateExpression Target => !this._foundTargetIsStatic ? this._target : (ValidateExpression)null;
+        public ValidateExpression Target => !this._foundTargetIsStatic ? this._target : null;
 
         public string MemberName => this._memberName;
 
@@ -153,7 +153,7 @@ namespace Microsoft.Iris.Markup.Validation
                     this._foundMemberType = SchemaType.Event;
                     this._foundMemberIndex = this.Owner.TrackImportedEvent(eventDeep);
                     expressionRestriction = ExpressionRestriction.ReadOnly;
-                    this.DeclareEvaluationType((TypeSchema)VoidSchema.Type, typeRestriction);
+                    this.DeclareEvaluationType(VoidSchema.Type, typeRestriction);
                     this.DeclareNotifies(context);
                 }
             }
@@ -212,15 +212,15 @@ namespace Microsoft.Iris.Markup.Validation
 
         private void ValidateBaseCall(TypeRestriction typeRestriction, ValidateContext context)
         {
-            MarkupMethodSchema markupMethodSchema = context.CurrentMethod != null ? context.CurrentMethod.FoundBaseMethod : (MarkupMethodSchema)null;
+            MarkupMethodSchema markupMethodSchema = context.CurrentMethod != null ? context.CurrentMethod.FoundBaseMethod : null;
             if (markupMethodSchema != null)
             {
                 if (this._parameterList == null || this._memberName != markupMethodSchema.Name)
                     this.ReportError("'base' keyword can only be used to call the base virtual method inside an override");
-                else if (new MethodSignatureKey(markupMethodSchema.Name, markupMethodSchema.ParameterTypes).Equals((object)new MethodSignatureKey(this._memberName, this._foundParameterTypes)))
+                else if (new MethodSignatureKey(markupMethodSchema.Name, markupMethodSchema.ParameterTypes).Equals(new MethodSignatureKey(this._memberName, this._foundParameterTypes)))
                 {
                     this._foundMemberType = SchemaType.Method;
-                    this._foundMemberIndex = this.Owner.TrackImportedMethod((MethodSchema)markupMethodSchema);
+                    this._foundMemberIndex = this.Owner.TrackImportedMethod(markupMethodSchema);
                     this.DeclareEvaluationType(markupMethodSchema.ReturnType, typeRestriction);
                 }
                 else
@@ -244,7 +244,7 @@ namespace Microsoft.Iris.Markup.Validation
                     ++length;
                 }
                 if (this.HasErrors)
-                    return (TypeSchema[])null;
+                    return null;
                 typeSchemaArray = new TypeSchema[length];
                 int index = 0;
                 for (ValidateParameter validateParameter = this._parameterList; validateParameter != null; validateParameter = validateParameter.Next)

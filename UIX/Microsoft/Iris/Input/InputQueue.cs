@@ -92,11 +92,11 @@ namespace Microsoft.Iris.Input
 
         public void PrepareToShutDown()
         {
-            this.RequestKeyFocus((ICookedInputSite)null);
+            this.RequestKeyFocus(null);
             this.RawMouseLeave();
         }
 
-        public void RawKeyAction(KeyInfo info) => this.PostItem(this.GenerateGenericInput((InputInfo)info));
+        public void RawKeyAction(KeyInfo info) => this.PostItem(this.GenerateGenericInput(info));
 
         public void RawMouseMove(
           IRawInputSite site,
@@ -116,10 +116,10 @@ namespace Microsoft.Iris.Input
 
         public void RawMouseLeave()
         {
-            this.CancelMouseCapture((ICookedInputSite)null);
+            this.CancelMouseCapture(null);
             this._mouseWheelDelta = 0;
-            this._rawMouseSite = (IRawInputSite)null;
-            this._rawMouseNaturalSite = (IRawInputSite)null;
+            this._rawMouseSite = null;
+            this._rawMouseNaturalSite = null;
             this._rawMousePos.X = -1;
             this._rawMousePos.Y = -1;
             this._rawScreenPos.X = -1;
@@ -136,7 +136,7 @@ namespace Microsoft.Iris.Input
           MouseButtons button,
           bool state)
         {
-            this.PostItem((QueueItem)this.GenerateMouseButton(site, naturalSite, this._rawMousePos.X, this._rawMousePos.Y, this._rawScreenPos.X, this._rawScreenPos.Y, modifiers, button, state, message));
+            this.PostItem(this.GenerateMouseButton(site, naturalSite, this._rawMousePos.X, this._rawMousePos.Y, this._rawScreenPos.X, this._rawScreenPos.Y, modifiers, button, state, message));
         }
 
         public void RawMouseWheel(InputModifiers modifiers, ref RawMouseData rawEventData)
@@ -160,7 +160,7 @@ namespace Microsoft.Iris.Input
             this.SimulateDragDrop(dragSource, rawTargetSite, data, x, y, modifiers, DragOperation.Enter);
         }
 
-        public void SimulateDragOver(InputModifiers modifiers) => this.SimulateDragDrop(this._dragSource, this._rawDropTargetSite, (object)null, this._rawDragPoint.X, this._rawDragPoint.Y, modifiers, DragOperation.Over);
+        public void SimulateDragOver(InputModifiers modifiers) => this.SimulateDragDrop(this._dragSource, this._rawDropTargetSite, null, this._rawDragPoint.X, this._rawDragPoint.Y, modifiers, DragOperation.Over);
 
         public void SimulateDragOver(
           IRawInputSite rawTargetSite,
@@ -168,7 +168,7 @@ namespace Microsoft.Iris.Input
           int y,
           InputModifiers modifiers)
         {
-            this.SimulateDragDrop(this._dragSource, rawTargetSite, (object)null, x, y, modifiers, DragOperation.Over);
+            this.SimulateDragDrop(this._dragSource, rawTargetSite, null, x, y, modifiers, DragOperation.Over);
         }
 
         public void SimulateDragEnd(
@@ -176,10 +176,10 @@ namespace Microsoft.Iris.Input
           InputModifiers modifiers,
           DragOperation formOperation)
         {
-            this.PushFilterStack((QueueItem)this.GenerateDragDrop(this._dragSource, (IRawInputSite)null, this._rawDragPoint.X, this._rawDragPoint.Y, modifiers, DragOperation.DragComplete));
-            this.SimulateDragDrop(this._dragSource, rawTargetSite, (object)null, this._rawDragPoint.X, this._rawDragPoint.Y, modifiers, formOperation);
+            this.PushFilterStack(this.GenerateDragDrop(this._dragSource, null, this._rawDragPoint.X, this._rawDragPoint.Y, modifiers, DragOperation.DragComplete));
+            this.SimulateDragDrop(this._dragSource, rawTargetSite, null, this._rawDragPoint.X, this._rawDragPoint.Y, modifiers, formOperation);
             this.OnWake();
-            this._dragSource = (ICookedInputSite)null;
+            this._dragSource = null;
         }
 
         private void SimulateDragDrop(
@@ -195,7 +195,7 @@ namespace Microsoft.Iris.Input
             InputItem dragDropItem = this.GenerateDragDropItem(dragSource, rawTargetSite, data, x, y, modifiers, formOperation);
             if (dragDropItem == null)
                 return;
-            this.PushFilterStack((QueueItem)dragDropItem);
+            this.PushFilterStack(dragDropItem);
             this.OnWake();
         }
 
@@ -215,11 +215,11 @@ namespace Microsoft.Iris.Input
                     data = this._pendingDragData;
                     formOperation = DragOperation.Enter;
                 }
-                this._pendingDragData = (object)null;
-                InputItem dragDropItem = this.GenerateDragDropItem((ICookedInputSite)null, rawSite, data, x, y, modifiers, formOperation);
+                this._pendingDragData = null;
+                InputItem dragDropItem = this.GenerateDragDropItem(null, rawSite, data, x, y, modifiers, formOperation);
                 if (dragDropItem == null)
                     return;
-                this.PostItem((QueueItem)dragDropItem);
+                this.PostItem(dragDropItem);
             }
             else if (formOperation == DragOperation.Enter)
             {
@@ -229,7 +229,7 @@ namespace Microsoft.Iris.Input
             {
                 if (formOperation != DragOperation.Leave)
                     return;
-                this._pendingDragData = (object)null;
+                this._pendingDragData = null;
             }
         }
 
@@ -242,7 +242,7 @@ namespace Microsoft.Iris.Input
           InputModifiers modifiers,
           DragOperation formOperation)
         {
-            InputItem inputItem = (InputItem)null;
+            InputItem inputItem = null;
             IRawInputSite rawDropTargetSite = this._rawDropTargetSite;
             if (formOperation == DragOperation.Enter)
                 this._dragData = data;
@@ -261,22 +261,22 @@ namespace Microsoft.Iris.Input
                     }
                 }
                 else
-                    inputItem = this.GenerateDragDrop((ICookedInputSite)null, rawSite, x, y, modifiers, DragOperation.Over);
+                    inputItem = this.GenerateDragDrop(null, rawSite, x, y, modifiers, DragOperation.Over);
             }
             else
             {
                 inputItem = this.GenerateDragDrop(this._appDropTarget, rawSite, x, y, modifiers, DragOperation.Drop);
-                this._appDropTarget = (ICookedInputSite)null;
+                this._appDropTarget = null;
             }
             if (formOperation == DragOperation.Drop || formOperation == DragOperation.Leave)
             {
                 this._dragOver = false;
                 this._dragging = false;
-                this._rawDropTargetSite = (IRawInputSite)null;
+                this._rawDropTargetSite = null;
                 this._rawDragPoint = new Point();
                 this._rawDragModifiers = InputModifiers.None;
                 if (formOperation == DragOperation.Leave)
-                    this._dragData = (object)null;
+                    this._dragData = null;
             }
             return inputItem;
         }
@@ -285,7 +285,7 @@ namespace Microsoft.Iris.Input
         {
             object dragData = this._dragData;
             if (!this._dragging)
-                this._dragData = (object)null;
+                this._dragData = null;
             return dragData;
         }
 
@@ -349,7 +349,7 @@ namespace Microsoft.Iris.Input
                 if (queueItem1 != queueItem2)
                 {
                     this.PushFilterStack(queueItem1);
-                    queueItem1 = (QueueItem)null;
+                    queueItem1 = null;
                 }
                 else
                     break;
@@ -395,7 +395,7 @@ namespace Microsoft.Iris.Input
                                     this.FinalizeMouseHit(inputItem, mouseActionInfo);
                                     break;
                                 }
-                                item = (QueueItem)null;
+                                item = null;
                                 break;
                             case MouseButtonInfo mouseButtonInfo:
                                 if (this.IsAppMouseMove(mouseActionInfo))
@@ -403,7 +403,7 @@ namespace Microsoft.Iris.Input
                                     InputModifiers modifiers1 = mouseButtonInfo.Modifiers;
                                     InputModifiers modifiersForButtons = this.GetModifiersForButtons(mouseButtonInfo.Button);
                                     InputModifiers modifiers2 = !mouseButtonInfo.IsDown ? modifiers1 | modifiersForButtons : modifiers1 & ~modifiersForButtons;
-                                    return (QueueItem)this.GenerateMouseMove(mouseActionInfo.RawSource, mouseActionInfo.NaturalHit, mouseActionInfo.X, mouseActionInfo.Y, mouseButtonInfo.ScreenX, mouseButtonInfo.ScreenY, modifiers2);
+                                    return this.GenerateMouseMove(mouseActionInfo.RawSource, mouseActionInfo.NaturalHit, mouseActionInfo.X, mouseActionInfo.Y, mouseButtonInfo.ScreenX, mouseButtonInfo.ScreenY, modifiers2);
                                 }
                                 this.FinalizeMouseHit(inputItem, mouseActionInfo);
                                 this.UpdateMouseCapture(mouseActionInfo.RawSource, mouseActionInfo.Target, mouseButtonInfo.Modifiers);
@@ -432,9 +432,9 @@ namespace Microsoft.Iris.Input
                     case DragDropInfo dragDropInfo:
                         if (dragDropInfo.Operation == DragOperation.Over)
                         {
-                            InputItem inputItemB = this.UpdateDragOver(this._inputManager.HitTestInput(this._rawDropTargetSite, (ICookedInputSite)null));
+                            InputItem inputItemB = this.UpdateDragOver(this._inputManager.HitTestInput(this._rawDropTargetSite, null));
                             if (inputItemB != null)
-                                return (QueueItem)inputItemB;
+                                return inputItemB;
                             inputItemB.UpdateInputSite(this._appDropTarget);
                             break;
                         }
@@ -476,21 +476,21 @@ namespace Microsoft.Iris.Input
         {
             if (this._mouseWheelDelta != 0)
             {
-                QueueItem mouseWheel = (QueueItem)this.GenerateMouseWheel(this._rawMouseSite, this._rawMouseNaturalSite, this._rawMousePos.X, this._rawMousePos.Y, this._rawScreenPos.X, this._rawScreenPos.Y, this._rawMouseModifiers, this._mouseWheelDelta);
+                QueueItem mouseWheel = this.GenerateMouseWheel(this._rawMouseSite, this._rawMouseNaturalSite, this._rawMousePos.X, this._rawMousePos.Y, this._rawScreenPos.X, this._rawScreenPos.Y, this._rawMouseModifiers, this._mouseWheelDelta);
                 this._mouseWheelDelta = 0;
                 return mouseWheel;
             }
             if (this._mouseMoved)
             {
-                QueueItem mouseMove = (QueueItem)this.GenerateMouseMove(this._rawMouseSite, this._rawMouseNaturalSite, this._rawMousePos.X, this._rawMousePos.Y, this._rawScreenPos.X, this._rawScreenPos.Y, this._rawMouseModifiers);
+                QueueItem mouseMove = this.GenerateMouseMove(this._rawMouseSite, this._rawMouseNaturalSite, this._rawMousePos.X, this._rawMousePos.Y, this._rawScreenPos.X, this._rawScreenPos.Y, this._rawMouseModifiers);
                 this._mouseMoved = false;
                 return mouseMove;
             }
             if (!this._dragOver)
                 return this._inputIdleQueue.GetNextItem();
-            InputItem dragDrop = this.GenerateDragDrop((ICookedInputSite)null, this._rawDropTargetSite, this._rawDragPoint.X, this._rawDragPoint.Y, this._rawDragModifiers, DragOperation.Over);
+            InputItem dragDrop = this.GenerateDragDrop(null, this._rawDropTargetSite, this._rawDragPoint.X, this._rawDragPoint.Y, this._rawDragModifiers, DragOperation.Over);
             this._dragOver = false;
-            return (QueueItem)dragDrop;
+            return dragDrop;
         }
 
         private void OnChildQueueWake(object sender, EventArgs args) => this.OnWake();
@@ -506,7 +506,7 @@ namespace Microsoft.Iris.Input
 
         private QueueItem CheckForInvalidKeyFocus()
         {
-            QueueItem queueItem = (QueueItem)null;
+            QueueItem queueItem = null;
             if (!this.IsValidInputSite(this._desiredKeyFocus) || !this._inputManager.IsValidKeyFocusSite(this._desiredKeyFocus))
             {
                 ++this._keyFocusRepairCount;
@@ -526,7 +526,7 @@ namespace Microsoft.Iris.Input
 
         private QueueItem UpdateKeyFocus()
         {
-            QueueItem queueItem = (QueueItem)null;
+            QueueItem queueItem = null;
             if (this._revalidateKeyFocus || this._currentKeyFocus != this._desiredKeyFocus)
             {
                 queueItem = this.CheckForInvalidKeyFocus();
@@ -535,15 +535,15 @@ namespace Microsoft.Iris.Input
                     if (this._currentKeyFocus != null)
                     {
                         if (!this.IsValidInputSite(this._currentKeyFocus))
-                            this._currentKeyFocus = (ICookedInputSite)null;
+                            this._currentKeyFocus = null;
                         queueItem = this.GenerateKeyFocus(this._currentKeyFocus, false, this._desiredKeyFocus, this._desiredKeyFocusReason);
-                        this._currentKeyFocus = (ICookedInputSite)null;
+                        this._currentKeyFocus = null;
                     }
                     if (queueItem == null && this._desiredKeyFocus != null)
                     {
                         this._currentKeyFocus = this._desiredKeyFocus;
                         if (!this.IsValidInputSite(this._lastCompletedKeyFocus))
-                            this._lastCompletedKeyFocus = (ICookedInputSite)null;
+                            this._lastCompletedKeyFocus = null;
                         queueItem = this.GenerateKeyFocus(this._currentKeyFocus, true, this._lastCompletedKeyFocus, this._desiredKeyFocusReason);
                     }
                     if (this._currentKeyFocus == this._desiredKeyFocus)
@@ -560,7 +560,7 @@ namespace Microsoft.Iris.Input
           IRawInputSite site,
           Point clientOffset)
         {
-            QueueItem queueItem = (QueueItem)null;
+            QueueItem queueItem = null;
             if (this._revalidateMouseFocus || this._appMouseFocusTarget != target)
             {
                 this._revalidateMouseFocus = false;
@@ -569,10 +569,10 @@ namespace Microsoft.Iris.Input
                     if (this._appMouseFocusTarget != null)
                     {
                         if (!this.IsValidInputSite(this._appMouseFocusTarget))
-                            this._appMouseFocusTarget = (ICookedInputSite)null;
-                        queueItem = (QueueItem)this.GenerateMouseFocus(this._appMouseFocusTarget, this._appMouseFocusSite, this._appMousePos.X, this._appMousePos.Y, false, target);
-                        this._appMouseFocusSite = (IRawInputSite)null;
-                        this._appMouseFocusTarget = (ICookedInputSite)null;
+                            this._appMouseFocusTarget = null;
+                        queueItem = this.GenerateMouseFocus(this._appMouseFocusTarget, this._appMouseFocusSite, this._appMousePos.X, this._appMousePos.Y, false, target);
+                        this._appMouseFocusSite = null;
+                        this._appMouseFocusTarget = null;
                         this._appMousePos.X = -1;
                         this._appMousePos.Y = -1;
                     }
@@ -581,14 +581,14 @@ namespace Microsoft.Iris.Input
                         this._appMouseFocusSite = site;
                         this._appMouseFocusTarget = target;
                         if (!this.IsValidInputSite(this._lastCompletedMouseFocus))
-                            this._lastCompletedMouseFocus = (ICookedInputSite)null;
-                        queueItem = (QueueItem)this.GenerateMouseFocus(this._appMouseFocusTarget, this._appMouseFocusSite, clientOffset.X, clientOffset.Y, true, this._lastCompletedMouseFocus);
+                            this._lastCompletedMouseFocus = null;
+                        queueItem = this.GenerateMouseFocus(this._appMouseFocusTarget, this._appMouseFocusSite, clientOffset.X, clientOffset.Y, true, this._lastCompletedMouseFocus);
                     }
                     if (this._appMouseFocusTarget == target)
                         this._lastCompletedMouseFocus = this._appMouseFocusTarget;
                 }
                 if (queueItem == null && this._appMouseFocusTarget != null)
-                    queueItem = (QueueItem)this.GenerateMouseFocus(this._appMouseFocusTarget, this._appMouseFocusSite, clientOffset.X, clientOffset.Y, true, this._lastCompletedMouseFocus);
+                    queueItem = this.GenerateMouseFocus(this._appMouseFocusTarget, this._appMouseFocusSite, clientOffset.X, clientOffset.Y, true, this._lastCompletedMouseFocus);
             }
             return queueItem;
         }
@@ -599,7 +599,7 @@ namespace Microsoft.Iris.Input
           InputModifiers modifiers)
         {
             bool flag = (modifiers & InputModifiers.AllButtons) != InputModifiers.None;
-            ICookedInputSite cookedInputSite = (ICookedInputSite)null;
+            ICookedInputSite cookedInputSite = null;
             if (flag)
                 cookedInputSite = target;
             if (this._appMouseFocusCapture == cookedInputSite)
@@ -646,9 +646,9 @@ namespace Microsoft.Iris.Input
             else
             {
                 this._appMouseFocusButtons = InputModifiers.None;
-                return (QueueItem)null;
+                return null;
             }
-            return (QueueItem)this.GenerateMouseButton(site, (IRawInputSite)null, x, y, this._rawScreenPos.X, this._rawScreenPos.Y, this._appMouseFocusButtons, button, false, message);
+            return this.GenerateMouseButton(site, null, x, y, this._rawScreenPos.X, this._rawScreenPos.Y, this._appMouseFocusButtons, button, false, message);
         }
 
         private InputItem UpdateDragOver(ICookedInputSite target)
@@ -658,8 +658,8 @@ namespace Microsoft.Iris.Input
                 if (this._appDropTarget != null)
                 {
                     ICookedInputSite appDropTarget = this._appDropTarget;
-                    this._appDropTarget = (ICookedInputSite)null;
-                    return this.GenerateDragDrop(appDropTarget, (IRawInputSite)null, this._rawDragPoint.X, this._rawDragPoint.Y, this._rawMouseModifiers, DragOperation.Leave);
+                    this._appDropTarget = null;
+                    return this.GenerateDragDrop(appDropTarget, null, this._rawDragPoint.X, this._rawDragPoint.Y, this._rawMouseModifiers, DragOperation.Leave);
                 }
                 if (target != null)
                 {
@@ -667,7 +667,7 @@ namespace Microsoft.Iris.Input
                     return this.GenerateDragDrop(target, this._rawDropTargetSite, this._rawDragPoint.X, this._rawDragPoint.Y, this._rawDragModifiers, DragOperation.Enter);
                 }
             }
-            return (InputItem)null;
+            return null;
         }
 
         private bool IsAppMouseMove(MouseActionInfo mouseInfo) => mouseInfo.Target != this._appMouseFocusTarget || mouseInfo.NaturalHit != this._appNaturalTarget || mouseInfo.X != this._appMousePos.X || mouseInfo.Y != this._appMousePos.Y;
@@ -686,12 +686,12 @@ namespace Microsoft.Iris.Input
         {
             if (this._appMouseFocusCapture == null || cancelSite != this._appMouseFocusCapture && cancelSite != null)
                 return;
-            this.UpdateMouseCapture(this._appMouseFocusCapture.RawInputSource, (ICookedInputSite)null, InputModifiers.None);
+            this.UpdateMouseCapture(this._appMouseFocusCapture.RawInputSource, null, InputModifiers.None);
         }
 
-        private QueueItem GenerateGenericInput(InputInfo info) => (QueueItem)InputItem.Create(this._inputManager, (ICookedInputSite)null, info);
+        private QueueItem GenerateGenericInput(InputInfo info) => InputItem.Create(this._inputManager, null, info);
 
-        private QueueItem GenerateInvalidKeyFocusCallback() => (QueueItem)DeferredCall.Create(this._invalidKeyFocusCallback);
+        private QueueItem GenerateInvalidKeyFocusCallback() => DeferredCall.Create(this._invalidKeyFocusCallback);
 
         private QueueItem GenerateKeyFocus(
           ICookedInputSite target,
@@ -699,7 +699,7 @@ namespace Microsoft.Iris.Input
           ICookedInputSite other,
           KeyFocusReason reason)
         {
-            return (QueueItem)InputItem.Create(this._inputManager, target, (InputInfo)KeyFocusInfo.Create(focus, other, reason));
+            return InputItem.Create(this._inputManager, target, KeyFocusInfo.Create(focus, other, reason));
         }
 
         private InputItem GenerateMouseFocus(
@@ -710,7 +710,7 @@ namespace Microsoft.Iris.Input
           bool focus,
           ICookedInputSite other)
         {
-            return InputItem.Create(this._inputManager, target, (InputInfo)MouseFocusInfo.Create(site, x, y, focus, other));
+            return InputItem.Create(this._inputManager, target, MouseFocusInfo.Create(site, x, y, focus, other));
         }
 
         private InputItem GenerateMouseMove(
@@ -722,7 +722,7 @@ namespace Microsoft.Iris.Input
           int screenY,
           InputModifiers modifiers)
         {
-            return InputItem.Create(this._inputManager, (ICookedInputSite)null, (InputInfo)MouseMoveInfo.Create(site, naturalSite, x, y, screenX, screenY, modifiers));
+            return InputItem.Create(this._inputManager, null, MouseMoveInfo.Create(site, naturalSite, x, y, screenX, screenY, modifiers));
         }
 
         private InputItem GenerateMouseButton(
@@ -737,7 +737,7 @@ namespace Microsoft.Iris.Input
           bool state,
           uint message)
         {
-            return InputItem.Create(this._inputManager, (ICookedInputSite)null, (InputInfo)MouseButtonInfo.Create(site, naturalSite, x, y, screenX, screenY, modifiers, button, state, message));
+            return InputItem.Create(this._inputManager, null, MouseButtonInfo.Create(site, naturalSite, x, y, screenX, screenY, modifiers, button, state, message));
         }
 
         private InputItem GenerateMouseWheel(
@@ -750,7 +750,7 @@ namespace Microsoft.Iris.Input
           InputModifiers modifiers,
           int wheelDelta)
         {
-            return InputItem.Create(this._inputManager, (ICookedInputSite)null, (InputInfo)MouseWheelInfo.Create(site, naturalSite, x, y, screenX, screenY, modifiers, wheelDelta));
+            return InputItem.Create(this._inputManager, null, MouseWheelInfo.Create(site, naturalSite, x, y, screenX, screenY, modifiers, wheelDelta));
         }
 
         private InputItem GenerateDragDrop(
@@ -761,7 +761,7 @@ namespace Microsoft.Iris.Input
           InputModifiers modifiers,
           DragOperation operation)
         {
-            InputInfo info = (InputInfo)DragDropInfo.Create(rawSite, x, y, modifiers, operation);
+            InputInfo info = DragDropInfo.Create(rawSite, x, y, modifiers, operation);
             return InputItem.Create(this._inputManager, cookedSite, info);
         }
     }

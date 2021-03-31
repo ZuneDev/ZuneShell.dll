@@ -20,7 +20,7 @@ namespace Microsoft.Iris.Data
 
         public static string Unescape(string source, out int errorIndex, out string invalidSequence)
         {
-            invalidSequence = (string)null;
+            invalidSequence = null;
             errorIndex = -1;
             if (source.IndexOf('\\') == -1)
                 return source;
@@ -65,7 +65,7 @@ namespace Microsoft.Iris.Data
                             flag = StringUtility.ReadHexSequence(mode, source, ref index, length, out result);
                             if (flag)
                             {
-                                if (result <= (uint)ushort.MaxValue)
+                                if (result <= ushort.MaxValue)
                                 {
                                     ch2 = (char)result;
                                     break;
@@ -119,7 +119,7 @@ namespace Microsoft.Iris.Data
             string str;
             if (!flag)
             {
-                str = (string)null;
+                str = null;
                 errorIndex = startIndex;
                 invalidSequence = source.Substring(startIndex, index - startIndex);
             }
@@ -162,11 +162,11 @@ namespace Microsoft.Iris.Data
                 char ch = source[index];
                 uint num5;
                 if (ch >= '0' && ch <= '9')
-                    num5 = (uint)ch - 48U;
+                    num5 = ch - 48U;
                 else if (ch >= 'a' && ch <= 'f')
-                    num5 = (uint)(10 + ((int)ch - 97));
+                    num5 = (uint)(10 + (ch - 97));
                 else if (ch >= 'A' && ch <= 'F')
-                    num5 = (uint)(10 + ((int)ch - 65));
+                    num5 = (uint)(10 + (ch - 65));
                 else
                     break;
                 num4 = (num4 << 4) + num5;

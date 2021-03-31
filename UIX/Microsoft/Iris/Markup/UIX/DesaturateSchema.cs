@@ -14,7 +14,7 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object GetDesaturate(object instanceObj) => (object)((DesaturateElement)instanceObj).Desaturate;
+        private static object GetDesaturate(object instanceObj) => ((DesaturateElement)instanceObj).Desaturate;
 
         private static void SetDesaturate(ref object instanceObj, object valueObj)
         {
@@ -27,17 +27,17 @@ namespace Microsoft.Iris.Markup.UIX
                 desaturateElement.Desaturate = num;
         }
 
-        private static object Construct() => (object)new DesaturateElement();
+        private static object Construct() => new DesaturateElement();
 
-        public static void Pass1Initialize() => DesaturateSchema.Type = new UIXTypeSchema((short)54, "Desaturate", (string)null, (short)80, typeof(DesaturateElement), UIXTypeFlags.None);
+        public static void Pass1Initialize() => DesaturateSchema.Type = new UIXTypeSchema(54, "Desaturate", null, 80, typeof(DesaturateElement), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema = new UIXPropertySchema((short)54, "Desaturate", (short)194, (short)-1, ExpressionRestriction.None, false, SingleSchema.Validate0to1, false, new GetValueHandler(DesaturateSchema.GetDesaturate), new SetValueHandler(DesaturateSchema.SetDesaturate), false);
-            DesaturateSchema.Type.Initialize(new DefaultConstructHandler(DesaturateSchema.Construct), (ConstructorSchema[])null, new PropertySchema[1]
+            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(54, "Desaturate", 194, -1, ExpressionRestriction.None, false, SingleSchema.Validate0to1, false, new GetValueHandler(DesaturateSchema.GetDesaturate), new SetValueHandler(DesaturateSchema.SetDesaturate), false);
+            DesaturateSchema.Type.Initialize(new DefaultConstructHandler(DesaturateSchema.Construct), null, new PropertySchema[1]
             {
-        (PropertySchema) uixPropertySchema
-            }, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixPropertySchema
+            }, null, null, null, null, null, null, null, null, null);
         }
     }
 }

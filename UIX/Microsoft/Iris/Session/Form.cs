@@ -49,10 +49,10 @@ namespace Microsoft.Iris.Session
             this.InternalWindow.MonitorChangedEvent += new MonitorChangedHandler(this.OnMonitorChanged);
             this.InternalWindow.ActivationChangeEvent += new ActivationChangeHandler(this.OnActivationChange);
             this.InternalWindow.SessionConnectEvent += new SessionConnectHandler(this.OnSessionConnect);
-            this.InternalWindow.BackgroundColor = new ColorF((int)byte.MaxValue, 0, 0, 0);
+            this.InternalWindow.BackgroundColor = new ColorF(byte.MaxValue, 0, 0, 0);
             session.RegisterHost(this);
             this.m_mapShutdownHooks = new SmartMap();
-            this.m_nextShutdownHookId = (ushort)1;
+            this.m_nextShutdownHookId = 1;
             this._processRefreshFocus = new SimpleCallback(this.ProcessRefreshFocus);
             DeferredCall.Post(DispatchPriority.Housekeeping, new SimpleCallback(this.InitializeWindow));
         }
@@ -186,7 +186,7 @@ namespace Microsoft.Iris.Session
         {
             if (this.NativeSetFocus == null)
                 return;
-            this.NativeSetFocus(sender, (EventArgs)args);
+            this.NativeSetFocus(sender, args);
         }
 
         public bool SetDefaultKeyFocus()
@@ -260,8 +260,8 @@ namespace Microsoft.Iris.Session
           out string identifier,
           out Inset nineGrid)
         {
-            host = (string)null;
-            identifier = (string)null;
+            host = null;
+            identifier = null;
             nineGrid = new Inset();
             if (!(uiimage is UriImage uriImage))
                 return;
@@ -351,7 +351,7 @@ namespace Microsoft.Iris.Session
         {
             if (this.ActivationChange == null)
                 return;
-            this.ActivationChange((object)this, EventArgs.Empty);
+            this.ActivationChange(this, EventArgs.Empty);
         }
 
         protected virtual void OnLoad()
@@ -362,7 +362,7 @@ namespace Microsoft.Iris.Session
         {
             if (this.SessionConnect == null)
                 return;
-            this.SessionConnect((object)this, fIsConnected);
+            this.SessionConnect(this, fIsConnected);
         }
 
         public event FormSessionConnectHandler SessionConnect;
@@ -448,12 +448,12 @@ namespace Microsoft.Iris.Session
         {
             Form.ShutdownHookInfo shutdownHookInfo = new Form.ShutdownHookInfo(hookName);
             uint key;
-            if (this.m_mapShutdownHooks.Lookup((object)shutdownHookInfo, out key))
+            if (this.m_mapShutdownHooks.Lookup(shutdownHookInfo, out key))
                 shutdownHookInfo = (Form.ShutdownHookInfo)this.m_mapShutdownHooks[key];
             else if (fCanAdd)
-                this.m_mapShutdownHooks[(uint)this.m_nextShutdownHookId++] = (object)shutdownHookInfo;
+                this.m_mapShutdownHooks[this.m_nextShutdownHookId++] = shutdownHookInfo;
             else
-                shutdownHookInfo = (Form.ShutdownHookInfo)null;
+                shutdownHookInfo = null;
             return shutdownHookInfo;
         }
 

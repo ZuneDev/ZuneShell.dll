@@ -23,7 +23,7 @@ namespace Microsoft.Iris.Markup
             else
                 this._listenerList.Capacity += listenerCount;
             for (int index = 0; index < listenerCount; ++index)
-                this._listenerList.Add((Listener)null);
+                this._listenerList.Add(null);
         }
 
         protected override void OnDispose()
@@ -31,7 +31,7 @@ namespace Microsoft.Iris.Markup
             base.OnDispose();
             for (int index = 0; index < this._listenerList.Count; ++index)
                 this._listenerList[index]?.Dispose();
-            this._listenerList = (Vector<Listener>)null;
+            this._listenerList = null;
         }
     }
 }

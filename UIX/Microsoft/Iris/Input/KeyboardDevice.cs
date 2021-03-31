@@ -55,14 +55,14 @@ namespace Microsoft.Iris.Input
             return message == 2U || message == 5U ? this.OnRawKeyCharacter(message, ref args) : this.OnRawKeyState(message, modifiers, ref args);
         }
 
-        internal KeyInfo OnRawKeyCharacter(uint message, ref RawKeyboardData args) => (KeyInfo)KeyCharacterInfo.Create(KeyAction.Character, args._deviceType, this.Manager.Modifiers, args._repCount, (char)args._virtualKey, message == 5U, message, args._scanCode, args._flags);
+        internal KeyInfo OnRawKeyCharacter(uint message, ref RawKeyboardData args) => KeyCharacterInfo.Create(KeyAction.Character, args._deviceType, this.Manager.Modifiers, args._repCount, (char)args._virtualKey, message == 5U, message, args._scanCode, args._flags);
 
         internal KeyInfo OnRawKeyState(
           uint message,
           InputModifiers rawModifiers,
           ref RawKeyboardData args)
         {
-            KeyStateInfo keyStateInfo = (KeyStateInfo)null;
+            KeyStateInfo keyStateInfo = null;
             bool systemKey = false;
             KeyAction action;
             switch (message)
@@ -80,14 +80,14 @@ namespace Microsoft.Iris.Input
                     systemKey = true;
                     goto case 1;
                 default:
-                    return (KeyInfo)null;
+                    return null;
             }
             if (this.TrackKey(action, args._virtualKey, args._scanCode))
             {
                 InputModifiers modifiers = this.Manager.Modifiers & ~this.MapKeyToModifier(args._virtualKey);
                 keyStateInfo = KeyStateInfo.Create(action, args._deviceType, modifiers, args._repCount, args._virtualKey, systemKey, message, args._scanCode, args._flags);
             }
-            return (KeyInfo)keyStateInfo;
+            return keyStateInfo;
         }
 
         public bool IsKeyDown(Keys key)
@@ -150,7 +150,7 @@ namespace Microsoft.Iris.Input
 
         private bool TrackKeyDown(Keys vkey, int scanCode)
         {
-            KeyboardDevice.KeyState keyState1 = (KeyboardDevice.KeyState)null;
+            KeyboardDevice.KeyState keyState1 = null;
             for (int index = 0; index < this._keyStates.Length; ++index)
             {
                 KeyboardDevice.KeyState keyState2 = (KeyboardDevice.KeyState)this._keyStates[index];
@@ -166,7 +166,7 @@ namespace Microsoft.Iris.Input
                     }
                     else
                     {
-                        this._keyStates[index] = (object)null;
+                        this._keyStates[index] = null;
                         keyState2.Dispose();
                     }
                 }
@@ -174,7 +174,7 @@ namespace Microsoft.Iris.Input
             if (keyState1 == null)
             {
                 KeyboardDevice.KeyState keyState2 = new KeyboardDevice.KeyState(vkey, scanCode);
-                this._keyStates.Add((object)keyState2);
+                this._keyStates.Add(keyState2);
                 keyState2.IsDown = true;
             }
             return true;
@@ -182,7 +182,7 @@ namespace Microsoft.Iris.Input
 
         private bool TrackKeyUp(Keys vkey, int scanCode)
         {
-            KeyboardDevice.KeyState keyState1 = (KeyboardDevice.KeyState)null;
+            KeyboardDevice.KeyState keyState1 = null;
             bool flag = false;
             foreach (KeyboardDevice.KeyState keyState2 in this._keyStates)
             {

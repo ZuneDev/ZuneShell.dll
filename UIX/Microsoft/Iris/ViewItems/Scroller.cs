@@ -18,13 +18,13 @@ namespace Microsoft.Iris.ViewItems
 
         public Scroller()
         {
-            this.Layout = (ILayout)new ScrollingLayout(this.Orientation, 50);
+            this.Layout = new ScrollingLayout(this.Orientation, 50);
             this.ScrollModel = new ScrollModel();
         }
 
         protected override void OnDispose()
         {
-            this.ScrollModel = (ScrollModel)null;
+            this.ScrollModel = null;
             base.OnDispose();
         }
 
@@ -43,11 +43,11 @@ namespace Microsoft.Iris.ViewItems
                 if (this._model == value)
                     return;
                 if (this._model != null)
-                    this._model.DetachFromViewItem((ViewItem)this);
+                    this._model.DetachFromViewItem(this);
                 this._model = value;
                 if (this._model != null)
                 {
-                    this._model.AttachToViewItem((ViewItem)this);
+                    this._model.AttachToViewItem(this);
                     this._model.ScrollOrientation = this.Orientation;
                 }
                 this.FireNotification(NotificationID.ScrollModel);

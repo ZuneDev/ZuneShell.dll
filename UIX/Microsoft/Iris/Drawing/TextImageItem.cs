@@ -27,8 +27,8 @@ namespace Microsoft.Iris.Drawing
           : base(renderSession, run.Content)
         {
             this._run = run;
-            this._run.RegisterUsage((object)this);
-            this._dib = (Dib)null;
+            this._run.RegisterUsage(this);
+            this._dib = null;
             this._samplingModeName = samplingModeName;
             this._outlineFlag = outlineFlag;
             this._textColor = textColor;
@@ -36,7 +36,7 @@ namespace Microsoft.Iris.Drawing
 
         protected override void OnDispose()
         {
-            this._run.UnregisterUsage((object)this);
+            this._run.UnregisterUsage(this);
             this.ReleaseDib();
             base.OnDispose();
         }
@@ -66,7 +66,7 @@ namespace Microsoft.Iris.Drawing
             if (this._dib == null)
                 return;
             this._dib.Dispose();
-            this._dib = (Dib)null;
+            this._dib = null;
         }
     }
 }

@@ -41,7 +41,7 @@ namespace Microsoft.Iris.Markup
             MarkupSystem.s_factoriesByExtension = new Vector();
             MarkupSystem.s_rootIslandId = MarkupSystem.AllocateIslandId();
             MarkupSystem.UIXGlobal = new UIXLoadResult("http://schemas.microsoft.com/2007/uix");
-            MarkupSystem.UIXGlobal.RegisterUsage((object)typeof(MarkupSystem));
+            MarkupSystem.UIXGlobal.RegisterUsage(typeof(MarkupSystem));
             UIXLoadResult.InitializeStatics();
             ValidateContext.InitializeStatics();
             ValidateUI.InitializeStatics();
@@ -52,12 +52,12 @@ namespace Microsoft.Iris.Markup
             NativeMarkupDataQuery.InitializeStatics();
             NativeMarkupDataType.InitializeStatics();
             MarkupSystem.RootGlobal = new RootLoadResult("Root");
-            MarkupSystem.RootGlobal.RegisterUsage((object)typeof(MarkupSystem));
+            MarkupSystem.RootGlobal.RegisterUsage(typeof(MarkupSystem));
             AssemblyLoadResult.Startup();
             DllLoadResult.Startup();
-            ResourceManager.Instance.RegisterSource("res", (IResourceProvider)DllResources.Instance);
+            ResourceManager.Instance.RegisterSource("res", DllResources.Instance);
             HttpResources.Startup();
-            ResourceManager.Instance.RegisterSource("file", (IResourceProvider)FileResources.Instance);
+            ResourceManager.Instance.RegisterSource("file", FileResources.Instance);
         }
 
         public static void Shutdown()
@@ -65,10 +65,10 @@ namespace Microsoft.Iris.Markup
             MarkupSystem.UnloadAll();
             AssemblyLoadResult.Shutdown();
             DllLoadResult.Shutdown();
-            MarkupSystem.RootGlobal.UnregisterUsage((object)typeof(MarkupSystem));
-            MarkupSystem.RootGlobal = (RootLoadResult)null;
-            MarkupSystem.UIXGlobal.UnregisterUsage((object)typeof(MarkupSystem));
-            MarkupSystem.UIXGlobal = (UIXLoadResult)null;
+            MarkupSystem.RootGlobal.UnregisterUsage(typeof(MarkupSystem));
+            MarkupSystem.RootGlobal = null;
+            MarkupSystem.UIXGlobal.UnregisterUsage(typeof(MarkupSystem));
+            MarkupSystem.UIXGlobal = null;
             HttpResources.Shutdown();
             if (MarkupSystem.s_factoriesByProtocol != null)
                 MarkupSystem.s_factoriesByProtocol.Clear();
@@ -81,7 +81,7 @@ namespace Microsoft.Iris.Markup
 
         public static LoadResult Load(string uri, uint islandId)
         {
-            ErrorManager.EnterContext((object)uri);
+            ErrorManager.EnterContext(uri);
             LoadResult loadResult = MarkupSystem.ResolveLoadResult(uri, islandId);
             if (loadResult != null)
             {
@@ -96,7 +96,7 @@ namespace Microsoft.Iris.Markup
 
         public static LoadResult ResolveLoadResult(string uri, uint islandId)
         {
-            ErrorManager.EnterContext((object)uri);
+            ErrorManager.EnterContext(uri);
             uri = MarkupSystem.ApplyImportRedirects(uri);
             LoadResult loadResult = LoadResultCache.Read(uri);
             if (loadResult == null)
@@ -127,7 +127,7 @@ namespace Microsoft.Iris.Markup
                 if (!flag)
                     loadResult = MarkupSystem.CreateMarkupLoadResult(uri, ref cacheResult);
                 if (loadResult == null)
-                    loadResult = (LoadResult)new ErrorLoadResult(uri);
+                    loadResult = new ErrorLoadResult(uri);
                 if (cacheResult && loadResult.Cachable)
                 {
                     LoadResultCache.Write(uri, loadResult);
@@ -144,8 +144,8 @@ namespace Microsoft.Iris.Markup
         {
             Resource resource = ResourceManager.AcquireResource(uri);
             if (resource == null)
-                return (LoadResult)null;
-            ErrorManager.EnterContext((object)resource.Uri);
+                return null;
+            ErrorManager.EnterContext(resource.Uri);
             LoadResult loadResult = LoadResultCache.Read(resource.Uri);
             if (loadResult != null)
             {
@@ -156,7 +156,7 @@ namespace Microsoft.Iris.Markup
             {
                 loadResult = MarkupLoadResult.Create(uri, resource);
                 if (loadResult != null)
-                    resource = (Resource)null;
+                    resource = null;
             }
             resource?.Free();
             ErrorManager.ExitContext();
@@ -194,7 +194,7 @@ namespace Microsoft.Iris.Markup
                 }
             }
             if (flag)
-                MarkupSystem.s_factoriesByProtocol.Add((object)new MarkupSystem.Factory()
+                MarkupSystem.s_factoriesByProtocol.Add(new MarkupSystem.Factory()
                 {
                     key = protocol,
                     handler = handler
@@ -213,7 +213,7 @@ namespace Microsoft.Iris.Markup
                     flag = false;
             }
             if (flag)
-                MarkupSystem.s_factoriesByExtension.Add((object)new MarkupSystem.Factory()
+                MarkupSystem.s_factoriesByExtension.Add(new MarkupSystem.Factory()
                 {
                     handler = handler,
                     key = extension

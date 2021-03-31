@@ -28,7 +28,7 @@ namespace Microsoft.Iris.Markup.Validation
             this._currentValidationPass = currentPass;
             if (this._currentValidationPass == LoadPass.DeclareTypes)
             {
-                ValidateContext context = new ValidateContext((ValidateClass)null, (MarkupTypeSchema)null, this._currentValidationPass);
+                ValidateContext context = new ValidateContext(null, null, this._currentValidationPass);
                 this.Validate(TypeRestriction.None, context);
                 this._aliasName = this.GetInlinePropertyValueNoValidate("Name");
                 string propertyValueNoValidate = this.GetInlinePropertyValueNoValidate("Type");

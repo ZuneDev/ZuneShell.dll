@@ -13,21 +13,21 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object GetValue(object instanceObj) => (object)((BaseRotationKeyframe)instanceObj).Value;
+        private static object GetValue(object instanceObj) => ((BaseRotationKeyframe)instanceObj).Value;
 
         private static void SetValue(ref object instanceObj, object valueObj) => ((BaseRotationKeyframe)instanceObj).Value = (Rotation)valueObj;
 
-        private static object Construct() => (object)new OrientationKeyframe();
+        private static object Construct() => new OrientationKeyframe();
 
-        public static void Pass1Initialize() => OrientationKeyframeSchema.Type = new UIXTypeSchema((short)155, "OrientationKeyframe", (string)null, (short)130, typeof(OrientationKeyframe), UIXTypeFlags.None);
+        public static void Pass1Initialize() => OrientationKeyframeSchema.Type = new UIXTypeSchema(155, "OrientationKeyframe", null, 130, typeof(OrientationKeyframe), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema = new UIXPropertySchema((short)155, "Value", (short)176, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(OrientationKeyframeSchema.GetValue), new SetValueHandler(OrientationKeyframeSchema.SetValue), false);
-            OrientationKeyframeSchema.Type.Initialize(new DefaultConstructHandler(OrientationKeyframeSchema.Construct), (ConstructorSchema[])null, new PropertySchema[1]
+            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(155, "Value", 176, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(OrientationKeyframeSchema.GetValue), new SetValueHandler(OrientationKeyframeSchema.SetValue), false);
+            OrientationKeyframeSchema.Type.Initialize(new DefaultConstructHandler(OrientationKeyframeSchema.Construct), null, new PropertySchema[1]
             {
-        (PropertySchema) uixPropertySchema
-            }, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixPropertySchema
+            }, null, null, null, null, null, null, null, null, null);
         }
     }
 }

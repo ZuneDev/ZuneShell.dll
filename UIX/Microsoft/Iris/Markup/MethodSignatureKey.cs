@@ -12,7 +12,7 @@ namespace Microsoft.Iris.Markup
         private TypeSchema[] _parameters;
 
         public MethodSignatureKey(TypeSchema[] parameters)
-          : this((string)null, parameters)
+          : this(null, parameters)
         {
         }
 

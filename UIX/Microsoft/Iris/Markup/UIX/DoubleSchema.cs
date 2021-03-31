@@ -14,7 +14,7 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object Construct() => (object)0.0;
+        private static object Construct() => 0.0;
 
         private static void EncodeBinary(ByteCodeWriter writer, object instanceObj)
         {
@@ -22,65 +22,65 @@ namespace Microsoft.Iris.Markup.UIX
             writer.WriteDouble(num);
         }
 
-        private static object DecodeBinary(ByteCodeReader reader) => (object)reader.ReadDouble();
+        private static object DecodeBinary(ByteCodeReader reader) => reader.ReadDouble();
 
         private static Result ConvertFromString(object valueObj, out object instanceObj)
         {
             string s = (string)valueObj;
-            instanceObj = (object)null;
+            instanceObj = null;
             double result;
-            if (!double.TryParse(s, NumberStyles.Float, (IFormatProvider)NumberFormatInfo.InvariantInfo, out result))
-                return Result.Fail("Unable to convert \"{0}\" to type '{1}'", (object)s, (object)"Double");
-            instanceObj = (object)result;
+            if (!double.TryParse(s, NumberStyles.Float, NumberFormatInfo.InvariantInfo, out result))
+                return Result.Fail("Unable to convert \"{0}\" to type '{1}'", s, "Double");
+            instanceObj = result;
             return Result.Success;
         }
 
         private static Result ConvertFromBoolean(object valueObj, out object instanceObj)
         {
             bool flag = (bool)valueObj;
-            instanceObj = (object)null;
+            instanceObj = null;
             double num = flag ? 1.0 : 0.0;
-            instanceObj = (object)num;
+            instanceObj = num;
             return Result.Success;
         }
 
         private static Result ConvertFromByte(object valueObj, out object instanceObj)
         {
             byte num1 = (byte)valueObj;
-            instanceObj = (object)null;
-            double num2 = (double)num1;
-            instanceObj = (object)num2;
+            instanceObj = null;
+            double num2 = num1;
+            instanceObj = num2;
             return Result.Success;
         }
 
         private static Result ConvertFromInt32(object valueObj, out object instanceObj)
         {
             int num1 = (int)valueObj;
-            instanceObj = (object)null;
-            double num2 = (double)num1;
-            instanceObj = (object)num2;
+            instanceObj = null;
+            double num2 = num1;
+            instanceObj = num2;
             return Result.Success;
         }
 
         private static Result ConvertFromInt64(object valueObj, out object instanceObj)
         {
             long num1 = (long)valueObj;
-            instanceObj = (object)null;
-            double num2 = (double)num1;
-            instanceObj = (object)num2;
+            instanceObj = null;
+            double num2 = num1;
+            instanceObj = num2;
             return Result.Success;
         }
 
         private static Result ConvertFromSingle(object valueObj, out object instanceObj)
         {
             float num1 = (float)valueObj;
-            instanceObj = (object)null;
-            double num2 = (double)num1;
-            instanceObj = (object)num2;
+            instanceObj = null;
+            double num2 = num1;
+            instanceObj = num2;
             return Result.Success;
         }
 
-        private static object CallToStringString(object instanceObj, object[] parameters) => (object)((double)instanceObj).ToString((string)parameters[0]);
+        private static object CallToStringString(object instanceObj, object[] parameters) => ((double)instanceObj).ToString((string)parameters[0]);
 
         private static object CallIsNaNDouble(object instanceObj, object[] parameters) => BooleanBoxes.Box(double.IsNaN((double)parameters[0]));
 
@@ -96,7 +96,7 @@ namespace Microsoft.Iris.Markup.UIX
           out object instance)
         {
             Result result = Result.Fail("Unsupported");
-            instance = (object)null;
+            instance = null;
             if (BooleanSchema.Type.IsAssignableFrom(fromType))
             {
                 result = DoubleSchema.ConvertFromBoolean(from, out instance);
@@ -162,20 +162,20 @@ namespace Microsoft.Iris.Markup.UIX
         {
             double num1 = (double)leftObj;
             if (op == OperationType.MathNegate)
-                return (object)-num1;
+                return -num1;
             double num2 = (double)rightObj;
             switch (op - 1)
             {
-                case (OperationType)0:
-                    return (object)(num1 + num2);
+                case 0:
+                    return num1 + num2;
                 case OperationType.MathAdd:
-                    return (object)(num1 - num2);
+                    return num1 - num2;
                 case OperationType.MathSubtract:
-                    return (object)(num1 * num2);
+                    return num1 * num2;
                 case OperationType.MathMultiply:
-                    return (object)(num1 / num2);
+                    return num1 / num2;
                 case OperationType.MathDivide:
-                    return (object)(num1 % num2);
+                    return num1 % num2;
                 case OperationType.LogicalOr:
                     return BooleanBoxes.Box(num1 == num2);
                 case OperationType.RelationalEquals:
@@ -189,7 +189,7 @@ namespace Microsoft.Iris.Markup.UIX
                 case OperationType.RelationalLessThanEquals:
                     return BooleanBoxes.Box(num1 >= num2);
                 default:
-                    return (object)null;
+                    return null;
             }
         }
 
@@ -198,42 +198,42 @@ namespace Microsoft.Iris.Markup.UIX
             string parameter1 = (string)parameters[0];
             double parameter2 = (double)parameters[1];
             object instanceObj1;
-            return DoubleSchema.ConvertFromString((object)parameter1, out instanceObj1).Failed ? (object)parameter2 : instanceObj1;
+            return DoubleSchema.ConvertFromString(parameter1, out instanceObj1).Failed ? parameter2 : instanceObj1;
         }
 
-        public static void Pass1Initialize() => DoubleSchema.Type = new UIXTypeSchema((short)61, "Double", "double", (short)153, typeof(double), UIXTypeFlags.Immutable);
+        public static void Pass1Initialize() => DoubleSchema.Type = new UIXTypeSchema(61, "Double", "double", 153, typeof(double), UIXTypeFlags.Immutable);
 
         public static void Pass2Initialize()
         {
-            UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema((short)61, "ToString", new short[1]
+            UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema(61, "ToString", new short[1]
             {
-        (short) 208
-            }, (short)208, new InvokeHandler(DoubleSchema.CallToStringString), false);
-            UIXMethodSchema uixMethodSchema2 = new UIXMethodSchema((short)61, "IsNaN", new short[1]
+         208
+            }, 208, new InvokeHandler(DoubleSchema.CallToStringString), false);
+            UIXMethodSchema uixMethodSchema2 = new UIXMethodSchema(61, "IsNaN", new short[1]
             {
-        (short) 61
-            }, (short)15, new InvokeHandler(DoubleSchema.CallIsNaNDouble), true);
-            UIXMethodSchema uixMethodSchema3 = new UIXMethodSchema((short)61, "IsNegativeInfinity", new short[1]
+         61
+            }, 15, new InvokeHandler(DoubleSchema.CallIsNaNDouble), true);
+            UIXMethodSchema uixMethodSchema3 = new UIXMethodSchema(61, "IsNegativeInfinity", new short[1]
             {
-        (short) 61
-            }, (short)15, new InvokeHandler(DoubleSchema.CallIsNegativeInfinityDouble), true);
-            UIXMethodSchema uixMethodSchema4 = new UIXMethodSchema((short)61, "IsPositiveInfinity", new short[1]
+         61
+            }, 15, new InvokeHandler(DoubleSchema.CallIsNegativeInfinityDouble), true);
+            UIXMethodSchema uixMethodSchema4 = new UIXMethodSchema(61, "IsPositiveInfinity", new short[1]
             {
-        (short) 61
-            }, (short)15, new InvokeHandler(DoubleSchema.CallIsPositiveInfinityDouble), true);
-            UIXMethodSchema uixMethodSchema5 = new UIXMethodSchema((short)61, "TryParse", new short[2]
+         61
+            }, 15, new InvokeHandler(DoubleSchema.CallIsPositiveInfinityDouble), true);
+            UIXMethodSchema uixMethodSchema5 = new UIXMethodSchema(61, "TryParse", new short[2]
             {
-        (short) 208,
-        (short) 61
-            }, (short)61, new InvokeHandler(DoubleSchema.CallTryParseStringDouble), true);
-            DoubleSchema.Type.Initialize(new DefaultConstructHandler(DoubleSchema.Construct), (ConstructorSchema[])null, (PropertySchema[])null, new MethodSchema[5]
+         208,
+         61
+            }, 61, new InvokeHandler(DoubleSchema.CallTryParseStringDouble), true);
+            DoubleSchema.Type.Initialize(new DefaultConstructHandler(DoubleSchema.Construct), null, null, new MethodSchema[5]
             {
-        (MethodSchema) uixMethodSchema1,
-        (MethodSchema) uixMethodSchema2,
-        (MethodSchema) uixMethodSchema3,
-        (MethodSchema) uixMethodSchema4,
-        (MethodSchema) uixMethodSchema5
-            }, (EventSchema[])null, (FindCanonicalInstanceHandler)null, new TypeConverterHandler(DoubleSchema.TryConvertFrom), new SupportsTypeConversionHandler(DoubleSchema.IsConversionSupported), new EncodeBinaryHandler(DoubleSchema.EncodeBinary), new DecodeBinaryHandler(DoubleSchema.DecodeBinary), new PerformOperationHandler(DoubleSchema.ExecuteOperation), new SupportsOperationHandler(DoubleSchema.IsOperationSupported));
+         uixMethodSchema1,
+         uixMethodSchema2,
+         uixMethodSchema3,
+         uixMethodSchema4,
+         uixMethodSchema5
+            }, null, null, new TypeConverterHandler(DoubleSchema.TryConvertFrom), new SupportsTypeConversionHandler(DoubleSchema.IsConversionSupported), new EncodeBinaryHandler(DoubleSchema.EncodeBinary), new DecodeBinaryHandler(DoubleSchema.DecodeBinary), new PerformOperationHandler(DoubleSchema.ExecuteOperation), new SupportsOperationHandler(DoubleSchema.IsOperationSupported));
         }
     }
 }

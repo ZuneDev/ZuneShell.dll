@@ -21,14 +21,14 @@ namespace Microsoft.Iris.CodeModel.Cpp
         {
             DllProxyObjectReference oldValue;
             this.ReleaseHandle(handle, out oldValue);
-            oldValue.Value = (object)null;
+            oldValue.Value = null;
         }
 
         protected bool LookupByHandleWorker(ulong handle, out object obj)
         {
             DllProxyObjectReference proxyObjectReference;
             bool flag = this.InternalLookupByHandle(handle, out proxyObjectReference);
-            obj = !flag ? (object)null : proxyObjectReference.Value;
+            obj = !flag ? null : proxyObjectReference.Value;
             return flag;
         }
 

@@ -17,7 +17,7 @@ namespace Microsoft.Iris.Markup
         private ByteCodeReader _constantsTableReader;
         private MarkupLoadResult _loadResultOwner;
 
-        public MarkupConstantsTable() => this._lookupTable = new Dictionary<MarkupConstantsTable.MarkupConstant, int>((IEqualityComparer<MarkupConstantsTable.MarkupConstant>)new MarkupConstantsTable.MarkupConstantEqualityComparer());
+        public MarkupConstantsTable() => this._lookupTable = new Dictionary<MarkupConstantsTable.MarkupConstant, int>(new MarkupConstantsTable.MarkupConstantEqualityComparer());
 
         public MarkupConstantsTable(object[] runtimeList) => this._runtimeList = runtimeList;
 
@@ -50,8 +50,8 @@ namespace Microsoft.Iris.Markup
             else
             {
                 key.Persist.Mode = MarkupConstantPersistMode.Binary;
-                key.Persist.Data = (object)null;
-                key.Persist.Type = (TypeSchema)null;
+                key.Persist.Data = null;
+                key.Persist.Type = null;
             }
             int count;
             if (!this._lookupTable.TryGetValue(key, out count))
@@ -86,7 +86,7 @@ namespace Microsoft.Iris.Markup
                 if (MarkupSystem.CompileMode)
                     this._persistList[keyValuePair.Value] = keyValuePair.Key.Persist;
             }
-            this._lookupTable = (Dictionary<MarkupConstantsTable.MarkupConstant, int>)null;
+            this._lookupTable = null;
         }
 
         public MarkupConstantPersist[] PersistList => this._persistList;

@@ -19,7 +19,7 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static void SetEnabled(ref object instanceObj, object valueObj) => ((ScrollModel)instanceObj).Enabled = (bool)valueObj;
 
-        private static object GetPageStep(object instanceObj) => (object)((ScrollModel)instanceObj).PageStep;
+        private static object GetPageStep(object instanceObj) => ((ScrollModel)instanceObj).PageStep;
 
         private static void SetPageStep(ref object instanceObj, object valueObj)
         {
@@ -36,19 +36,19 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static void SetPageSizedScrollStep(ref object instanceObj, object valueObj) => ((ScrollModel)instanceObj).PageSizedScrollStep = (bool)valueObj;
 
-        private static object GetBeginPadding(object instanceObj) => (object)((ScrollModel)instanceObj).BeginPadding;
+        private static object GetBeginPadding(object instanceObj) => ((ScrollModel)instanceObj).BeginPadding;
 
         private static void SetBeginPadding(ref object instanceObj, object valueObj) => ((ScrollModel)instanceObj).BeginPadding = (int)valueObj;
 
-        private static object GetEndPadding(object instanceObj) => (object)((ScrollModel)instanceObj).EndPadding;
+        private static object GetEndPadding(object instanceObj) => ((ScrollModel)instanceObj).EndPadding;
 
         private static void SetEndPadding(ref object instanceObj, object valueObj) => ((ScrollModel)instanceObj).EndPadding = (int)valueObj;
 
-        private static object GetBeginPaddingRelativeTo(object instanceObj) => (object)((ScrollModel)instanceObj).BeginPaddingRelativeTo;
+        private static object GetBeginPaddingRelativeTo(object instanceObj) => ((ScrollModel)instanceObj).BeginPaddingRelativeTo;
 
         private static void SetBeginPaddingRelativeTo(ref object instanceObj, object valueObj) => ((ScrollModel)instanceObj).BeginPaddingRelativeTo = (RelativeEdge)valueObj;
 
-        private static object GetEndPaddingRelativeTo(object instanceObj) => (object)((ScrollModel)instanceObj).EndPaddingRelativeTo;
+        private static object GetEndPaddingRelativeTo(object instanceObj) => ((ScrollModel)instanceObj).EndPaddingRelativeTo;
 
         private static void SetEndPaddingRelativeTo(ref object instanceObj, object valueObj) => ((ScrollModel)instanceObj).EndPaddingRelativeTo = (RelativeEdge)valueObj;
 
@@ -56,59 +56,59 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static void SetLocked(ref object instanceObj, object valueObj) => ((ScrollModel)instanceObj).Locked = (bool)valueObj;
 
-        private static object GetLockedPosition(object instanceObj) => (object)((ScrollModel)instanceObj).LockedPosition;
+        private static object GetLockedPosition(object instanceObj) => ((ScrollModel)instanceObj).LockedPosition;
 
         private static void SetLockedPosition(ref object instanceObj, object valueObj) => ((ScrollModel)instanceObj).LockedPosition = (float)valueObj;
 
-        private static object GetLockedAlignment(object instanceObj) => (object)((ScrollModel)instanceObj).LockedAlignment;
+        private static object GetLockedAlignment(object instanceObj) => ((ScrollModel)instanceObj).LockedAlignment;
 
         private static void SetLockedAlignment(ref object instanceObj, object valueObj) => ((ScrollModel)instanceObj).LockedAlignment = (float)valueObj;
 
-        private static object GetContentPositioningBehavior(object instanceObj) => (object)((ScrollModel)instanceObj).ContentPositioningBehavior;
+        private static object GetContentPositioningBehavior(object instanceObj) => ((ScrollModel)instanceObj).ContentPositioningBehavior;
 
         private static void SetContentPositioningBehavior(ref object instanceObj, object valueObj) => ((ScrollModel)instanceObj).ContentPositioningBehavior = (ContentPositioningPolicy)valueObj;
 
-        private static object Construct() => (object)new ScrollModel();
+        private static object Construct() => new ScrollModel();
 
         private static object CallScrollFocusIntoView(object instanceObj, object[] parameters)
         {
             ((ScrollModel)instanceObj).ScrollFocusIntoView();
-            return (object)null;
+            return null;
         }
 
-        public static void Pass1Initialize() => ScrollModelSchema.Type = new UIXTypeSchema((short)182, "ScrollModel", (string)null, (short)183, typeof(ScrollModel), UIXTypeFlags.None);
+        public static void Pass1Initialize() => ScrollModelSchema.Type = new UIXTypeSchema(182, "ScrollModel", null, 183, typeof(ScrollModel), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema((short)182, "Enabled", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ScrollModelSchema.GetEnabled), new SetValueHandler(ScrollModelSchema.SetEnabled), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema((short)182, "PageStep", (short)194, (short)-1, ExpressionRestriction.None, false, SingleSchema.ValidateNotNegative, true, new GetValueHandler(ScrollModelSchema.GetPageStep), new SetValueHandler(ScrollModelSchema.SetPageStep), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema((short)182, "PageSizedScrollStep", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ScrollModelSchema.GetPageSizedScrollStep), new SetValueHandler(ScrollModelSchema.SetPageSizedScrollStep), false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema((short)182, "BeginPadding", (short)115, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ScrollModelSchema.GetBeginPadding), new SetValueHandler(ScrollModelSchema.SetBeginPadding), false);
-            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema((short)182, "EndPadding", (short)115, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ScrollModelSchema.GetEndPadding), new SetValueHandler(ScrollModelSchema.SetEndPadding), false);
-            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema((short)182, "BeginPaddingRelativeTo", (short)170, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ScrollModelSchema.GetBeginPaddingRelativeTo), new SetValueHandler(ScrollModelSchema.SetBeginPaddingRelativeTo), false);
-            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema((short)182, "EndPaddingRelativeTo", (short)170, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ScrollModelSchema.GetEndPaddingRelativeTo), new SetValueHandler(ScrollModelSchema.SetEndPaddingRelativeTo), false);
-            UIXPropertySchema uixPropertySchema8 = new UIXPropertySchema((short)182, "Locked", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ScrollModelSchema.GetLocked), new SetValueHandler(ScrollModelSchema.SetLocked), false);
-            UIXPropertySchema uixPropertySchema9 = new UIXPropertySchema((short)182, "LockedPosition", (short)194, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ScrollModelSchema.GetLockedPosition), new SetValueHandler(ScrollModelSchema.SetLockedPosition), false);
-            UIXPropertySchema uixPropertySchema10 = new UIXPropertySchema((short)182, "LockedAlignment", (short)194, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ScrollModelSchema.GetLockedAlignment), new SetValueHandler(ScrollModelSchema.SetLockedAlignment), false);
-            UIXPropertySchema uixPropertySchema11 = new UIXPropertySchema((short)182, "ContentPositioningBehavior", (short)41, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ScrollModelSchema.GetContentPositioningBehavior), new SetValueHandler(ScrollModelSchema.SetContentPositioningBehavior), false);
-            UIXMethodSchema uixMethodSchema = new UIXMethodSchema((short)182, "ScrollFocusIntoView", (short[])null, (short)240, new InvokeHandler(ScrollModelSchema.CallScrollFocusIntoView), false);
-            ScrollModelSchema.Type.Initialize(new DefaultConstructHandler(ScrollModelSchema.Construct), (ConstructorSchema[])null, new PropertySchema[11]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(182, "Enabled", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ScrollModelSchema.GetEnabled), new SetValueHandler(ScrollModelSchema.SetEnabled), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(182, "PageStep", 194, -1, ExpressionRestriction.None, false, SingleSchema.ValidateNotNegative, true, new GetValueHandler(ScrollModelSchema.GetPageStep), new SetValueHandler(ScrollModelSchema.SetPageStep), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(182, "PageSizedScrollStep", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ScrollModelSchema.GetPageSizedScrollStep), new SetValueHandler(ScrollModelSchema.SetPageSizedScrollStep), false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(182, "BeginPadding", 115, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ScrollModelSchema.GetBeginPadding), new SetValueHandler(ScrollModelSchema.SetBeginPadding), false);
+            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(182, "EndPadding", 115, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ScrollModelSchema.GetEndPadding), new SetValueHandler(ScrollModelSchema.SetEndPadding), false);
+            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(182, "BeginPaddingRelativeTo", 170, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ScrollModelSchema.GetBeginPaddingRelativeTo), new SetValueHandler(ScrollModelSchema.SetBeginPaddingRelativeTo), false);
+            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema(182, "EndPaddingRelativeTo", 170, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ScrollModelSchema.GetEndPaddingRelativeTo), new SetValueHandler(ScrollModelSchema.SetEndPaddingRelativeTo), false);
+            UIXPropertySchema uixPropertySchema8 = new UIXPropertySchema(182, "Locked", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ScrollModelSchema.GetLocked), new SetValueHandler(ScrollModelSchema.SetLocked), false);
+            UIXPropertySchema uixPropertySchema9 = new UIXPropertySchema(182, "LockedPosition", 194, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ScrollModelSchema.GetLockedPosition), new SetValueHandler(ScrollModelSchema.SetLockedPosition), false);
+            UIXPropertySchema uixPropertySchema10 = new UIXPropertySchema(182, "LockedAlignment", 194, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ScrollModelSchema.GetLockedAlignment), new SetValueHandler(ScrollModelSchema.SetLockedAlignment), false);
+            UIXPropertySchema uixPropertySchema11 = new UIXPropertySchema(182, "ContentPositioningBehavior", 41, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ScrollModelSchema.GetContentPositioningBehavior), new SetValueHandler(ScrollModelSchema.SetContentPositioningBehavior), false);
+            UIXMethodSchema uixMethodSchema = new UIXMethodSchema(182, "ScrollFocusIntoView", null, 240, new InvokeHandler(ScrollModelSchema.CallScrollFocusIntoView), false);
+            ScrollModelSchema.Type.Initialize(new DefaultConstructHandler(ScrollModelSchema.Construct), null, new PropertySchema[11]
             {
-        (PropertySchema) uixPropertySchema4,
-        (PropertySchema) uixPropertySchema6,
-        (PropertySchema) uixPropertySchema11,
-        (PropertySchema) uixPropertySchema1,
-        (PropertySchema) uixPropertySchema5,
-        (PropertySchema) uixPropertySchema7,
-        (PropertySchema) uixPropertySchema8,
-        (PropertySchema) uixPropertySchema10,
-        (PropertySchema) uixPropertySchema9,
-        (PropertySchema) uixPropertySchema3,
-        (PropertySchema) uixPropertySchema2
+         uixPropertySchema4,
+         uixPropertySchema6,
+         uixPropertySchema11,
+         uixPropertySchema1,
+         uixPropertySchema5,
+         uixPropertySchema7,
+         uixPropertySchema8,
+         uixPropertySchema10,
+         uixPropertySchema9,
+         uixPropertySchema3,
+         uixPropertySchema2
             }, new MethodSchema[1]
             {
-        (MethodSchema) uixMethodSchema
-            }, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixMethodSchema
+            }, null, null, null, null, null, null, null, null);
         }
     }
 }

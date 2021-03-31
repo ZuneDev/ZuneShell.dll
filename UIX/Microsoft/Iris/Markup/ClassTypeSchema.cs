@@ -25,17 +25,17 @@ namespace Microsoft.Iris.Markup
             base.OnDispose();
             if (this._sharedInstance == null)
                 return;
-            this._sharedInstance.Dispose((object)this);
-            this._sharedInstance = (Class)null;
+            this._sharedInstance.Dispose(this);
+            this._sharedInstance = null;
         }
 
         public override MarkupType MarkupType => MarkupType.Class;
 
-        protected override TypeSchema DefaultBase => (TypeSchema)ObjectSchema.Type;
+        protected override TypeSchema DefaultBase => ObjectSchema.Type;
 
         public override Type RuntimeType => typeof(Class);
 
-        public override object ConstructDefault() => this._isShared ? (object)this.SharedInstance : (object)this.ConstructNewInstance();
+        public override object ConstructDefault() => this._isShared ? SharedInstance : this.ConstructNewInstance();
 
         public override void InitializeInstance(ref object instance) => this.InitializeInstance((IMarkupTypeBase)instance);
 
@@ -52,17 +52,17 @@ namespace Microsoft.Iris.Markup
             get
             {
                 if (!this._isShared)
-                    return (Class)null;
+                    return null;
                 if (this._sharedInstance == null)
                 {
                     this._sharedInstance = this.ConstructNewInstance();
-                    this._sharedInstance.DeclareOwner((object)this);
-                    this.InitializeInstance((IMarkupTypeBase)this._sharedInstance);
+                    this._sharedInstance.DeclareOwner(this);
+                    this.InitializeInstance(_sharedInstance);
                 }
                 return this._sharedInstance;
             }
         }
 
-        protected virtual Class ConstructNewInstance() => new Class((MarkupTypeSchema)this);
+        protected virtual Class ConstructNewInstance() => new Class(this);
     }
 }

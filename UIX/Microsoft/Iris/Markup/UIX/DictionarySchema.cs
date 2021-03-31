@@ -14,9 +14,9 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object GetSource(object instanceObj) => (object)(IDictionary)instanceObj;
+        private static object GetSource(object instanceObj) => (IDictionary)instanceObj;
 
-        private static object Construct() => (object)new Dictionary<object, object>();
+        private static object Construct() => new Dictionary<object, object>();
 
         private static object Callget_ItemObject(object instanceObj, object[] parameters)
         {
@@ -24,8 +24,8 @@ namespace Microsoft.Iris.Markup.UIX
             object parameter = parameters[0];
             if (parameter != null)
                 return dictionary[parameter];
-            ErrorManager.ReportError("Script runtime failure: Invalid 'null' value for '{0}'", (object)"key");
-            return (object)null;
+            ErrorManager.ReportError("Script runtime failure: Invalid 'null' value for '{0}'", "key");
+            return null;
         }
 
         private static object CallContainsObject(object instanceObj, object[] parameters)
@@ -34,8 +34,8 @@ namespace Microsoft.Iris.Markup.UIX
             object parameter = parameters[0];
             if (parameter != null)
                 return BooleanBoxes.Box(dictionary.Contains(parameter));
-            ErrorManager.ReportError("Script runtime failure: Invalid 'null' value for '{0}'", (object)"key");
-            return (object)false;
+            ErrorManager.ReportError("Script runtime failure: Invalid 'null' value for '{0}'", "key");
+            return false;
         }
 
         private static object Callset_ItemObjectObject(object instanceObj, object[] parameters)
@@ -45,40 +45,40 @@ namespace Microsoft.Iris.Markup.UIX
             object parameter2 = parameters[1];
             if (parameter1 == null)
             {
-                ErrorManager.ReportError("Script runtime failure: Invalid 'null' value for '{0}'", (object)"key");
-                return (object)null;
+                ErrorManager.ReportError("Script runtime failure: Invalid 'null' value for '{0}'", "key");
+                return null;
             }
             dictionary[parameter1] = parameter2;
-            return (object)null;
+            return null;
         }
 
-        public static void Pass1Initialize() => DictionarySchema.Type = new UIXTypeSchema((short)58, "Dictionary", (string)null, (short)153, typeof(IDictionary), UIXTypeFlags.None);
+        public static void Pass1Initialize() => DictionarySchema.Type = new UIXTypeSchema(58, "Dictionary", null, 153, typeof(IDictionary), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema = new UIXPropertySchema((short)58, "Source", (short)58, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(DictionarySchema.GetSource), (SetValueHandler)null, false);
-            UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema((short)58, "get_Item", new short[1]
+            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(58, "Source", 58, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(DictionarySchema.GetSource), null, false);
+            UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema(58, "get_Item", new short[1]
             {
-        (short) 153
-            }, (short)153, new InvokeHandler(DictionarySchema.Callget_ItemObject), false);
-            UIXMethodSchema uixMethodSchema2 = new UIXMethodSchema((short)58, "Contains", new short[1]
+         153
+            }, 153, new InvokeHandler(DictionarySchema.Callget_ItemObject), false);
+            UIXMethodSchema uixMethodSchema2 = new UIXMethodSchema(58, "Contains", new short[1]
             {
-        (short) 153
-            }, (short)15, new InvokeHandler(DictionarySchema.CallContainsObject), false);
-            UIXMethodSchema uixMethodSchema3 = new UIXMethodSchema((short)58, "set_Item", new short[2]
+         153
+            }, 15, new InvokeHandler(DictionarySchema.CallContainsObject), false);
+            UIXMethodSchema uixMethodSchema3 = new UIXMethodSchema(58, "set_Item", new short[2]
             {
-        (short) 153,
-        (short) 153
-            }, (short)240, new InvokeHandler(DictionarySchema.Callset_ItemObjectObject), false);
-            DictionarySchema.Type.Initialize(new DefaultConstructHandler(DictionarySchema.Construct), (ConstructorSchema[])null, new PropertySchema[1]
+         153,
+         153
+            }, 240, new InvokeHandler(DictionarySchema.Callset_ItemObjectObject), false);
+            DictionarySchema.Type.Initialize(new DefaultConstructHandler(DictionarySchema.Construct), null, new PropertySchema[1]
             {
-        (PropertySchema) uixPropertySchema
+         uixPropertySchema
             }, new MethodSchema[3]
             {
-        (MethodSchema) uixMethodSchema1,
-        (MethodSchema) uixMethodSchema2,
-        (MethodSchema) uixMethodSchema3
-            }, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixMethodSchema1,
+         uixMethodSchema2,
+         uixMethodSchema3
+            }, null, null, null, null, null, null, null, null);
         }
     }
 }

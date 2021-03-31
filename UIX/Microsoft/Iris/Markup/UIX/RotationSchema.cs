@@ -15,37 +15,37 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object GetAxis(object instanceObj) => (object)((Rotation)instanceObj).Axis;
+        private static object GetAxis(object instanceObj) => ((Rotation)instanceObj).Axis;
 
         private static void SetAxis(ref object instanceObj, object valueObj)
         {
             Rotation rotation = (Rotation)instanceObj;
             Vector3 vector3 = (Vector3)valueObj;
             rotation.Axis = vector3;
-            instanceObj = (object)rotation;
+            instanceObj = rotation;
         }
 
-        private static object GetAngleRadians(object instanceObj) => (object)((Rotation)instanceObj).AngleRadians;
+        private static object GetAngleRadians(object instanceObj) => ((Rotation)instanceObj).AngleRadians;
 
         private static void SetAngleRadians(ref object instanceObj, object valueObj)
         {
             Rotation rotation = (Rotation)instanceObj;
             float num = (float)valueObj;
             rotation.AngleRadians = num;
-            instanceObj = (object)rotation;
+            instanceObj = rotation;
         }
 
-        private static object GetAngleDegrees(object instanceObj) => (object)((Rotation)instanceObj).AngleDegrees;
+        private static object GetAngleDegrees(object instanceObj) => ((Rotation)instanceObj).AngleDegrees;
 
         private static void SetAngleDegrees(ref object instanceObj, object valueObj)
         {
             Rotation rotation = (Rotation)instanceObj;
             int num = (int)valueObj;
             rotation.AngleDegrees = num;
-            instanceObj = (object)rotation;
+            instanceObj = rotation;
         }
 
-        private static object Construct() => (object)Rotation.Default;
+        private static object Construct() => Rotation.Default;
 
         private static object ConstructAngleDegrees(object[] parameters)
         {
@@ -87,50 +87,50 @@ namespace Microsoft.Iris.Markup.UIX
         private static void EncodeBinary(ByteCodeWriter writer, object instanceObj)
         {
             Rotation rotation = (Rotation)instanceObj;
-            Vector3Schema.Type.EncodeBinary(writer, (object)rotation.Axis);
+            Vector3Schema.Type.EncodeBinary(writer, rotation.Axis);
             writer.WriteSingle(rotation.AngleRadians);
         }
 
         private static object DecodeBinary(ByteCodeReader reader)
         {
             Vector3 axis = (Vector3)Vector3Schema.Type.DecodeBinary(reader);
-            return (object)new Rotation(reader.ReadSingle(), axis);
+            return new Rotation(reader.ReadSingle(), axis);
         }
 
         private static Result ConvertFromString(object valueObj, out object instanceObj)
         {
             string str1 = (string)valueObj;
-            instanceObj = (object)null;
+            instanceObj = null;
             Rotation rotation = Rotation.Default;
             string[] strArray = str1.Split(';');
             if (strArray.Length != 2)
-                return Result.Fail("Unable to convert \"{0}\" to type '{1}'", (object)str1, (object)"Rotation");
+                return Result.Fail("Unable to convert \"{0}\" to type '{1}'", str1, "Rotation");
             string str2 = strArray[1];
             object instance1;
-            Result result1 = Vector3Schema.Type.TypeConverter((object)str2, (TypeSchema)StringSchema.Type, out instance1);
+            Result result1 = Vector3Schema.Type.TypeConverter(str2, StringSchema.Type, out instance1);
             if (result1.Failed)
-                return Result.Fail("Problem converting '{0}' ({1})", (object)"Rotation", (object)result1.Error);
+                return Result.Fail("Problem converting '{0}' ({1})", "Rotation", result1.Error);
             rotation.Axis = (Vector3)instance1;
             string str3 = strArray[0];
             if (str3.EndsWith("rad", StringComparison.Ordinal))
             {
                 string str4 = str3.Substring(0, str3.Length - 3);
                 object instance2;
-                Result result2 = SingleSchema.Type.TypeConverter((object)str4, (TypeSchema)StringSchema.Type, out instance2);
+                Result result2 = SingleSchema.Type.TypeConverter(str4, StringSchema.Type, out instance2);
                 if (result2.Failed)
-                    return Result.Fail("Problem converting '{0}' ({1})", (object)"Rotation", (object)result2.Error);
+                    return Result.Fail("Problem converting '{0}' ({1})", "Rotation", result2.Error);
                 rotation.AngleRadians = (float)instance2;
             }
             else if (str3.EndsWith("deg", StringComparison.Ordinal))
             {
                 string str4 = str3.Substring(0, str3.Length - 3);
                 object instance2;
-                Result result2 = Int32Schema.Type.TypeConverter((object)str4, (TypeSchema)StringSchema.Type, out instance2);
+                Result result2 = Int32Schema.Type.TypeConverter(str4, StringSchema.Type, out instance2);
                 if (result2.Failed)
-                    return Result.Fail("Problem converting '{0}' ({1})", (object)"Rotation", (object)result2.Error);
+                    return Result.Fail("Problem converting '{0}' ({1})", "Rotation", result2.Error);
                 rotation.AngleDegrees = (int)instance2;
             }
-            instanceObj = (object)rotation;
+            instanceObj = rotation;
             return Result.Success;
         }
 
@@ -142,7 +142,7 @@ namespace Microsoft.Iris.Markup.UIX
           out object instance)
         {
             Result result = Result.Fail("Unsupported");
-            instance = (object)null;
+            instance = null;
             if (StringSchema.Type.IsAssignableFrom(fromType))
             {
                 result = RotationSchema.ConvertFromString(from, out instance);
@@ -157,59 +157,59 @@ namespace Microsoft.Iris.Markup.UIX
             string parameter1 = (string)parameters[0];
             Rotation parameter2 = (Rotation)parameters[1];
             object instanceObj1;
-            return RotationSchema.ConvertFromString((object)parameter1, out instanceObj1).Failed ? (object)parameter2 : instanceObj1;
+            return RotationSchema.ConvertFromString(parameter1, out instanceObj1).Failed ? parameter2 : instanceObj1;
         }
 
-        public static void Pass1Initialize() => RotationSchema.Type = new UIXTypeSchema((short)176, "Rotation", (string)null, (short)153, typeof(Rotation), UIXTypeFlags.Immutable);
+        public static void Pass1Initialize() => RotationSchema.Type = new UIXTypeSchema(176, "Rotation", null, 153, typeof(Rotation), UIXTypeFlags.Immutable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema((short)176, "Axis", (short)234, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(RotationSchema.GetAxis), new SetValueHandler(RotationSchema.SetAxis), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema((short)176, "AngleRadians", (short)194, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(RotationSchema.GetAngleRadians), new SetValueHandler(RotationSchema.SetAngleRadians), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema((short)176, "AngleDegrees", (short)115, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(RotationSchema.GetAngleDegrees), new SetValueHandler(RotationSchema.SetAngleDegrees), false);
-            UIXConstructorSchema constructorSchema1 = new UIXConstructorSchema((short)176, new short[1]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(176, "Axis", 234, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(RotationSchema.GetAxis), new SetValueHandler(RotationSchema.SetAxis), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(176, "AngleRadians", 194, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(RotationSchema.GetAngleRadians), new SetValueHandler(RotationSchema.SetAngleRadians), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(176, "AngleDegrees", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(RotationSchema.GetAngleDegrees), new SetValueHandler(RotationSchema.SetAngleDegrees), false);
+            UIXConstructorSchema constructorSchema1 = new UIXConstructorSchema(176, new short[1]
             {
-        (short) 115
+         115
             }, new ConstructHandler(RotationSchema.ConstructAngleDegrees));
-            UIXConstructorSchema constructorSchema2 = new UIXConstructorSchema((short)176, new short[1]
+            UIXConstructorSchema constructorSchema2 = new UIXConstructorSchema(176, new short[1]
             {
-        (short) 194
+         194
             }, new ConstructHandler(RotationSchema.ConstructAngleRadians));
-            UIXConstructorSchema constructorSchema3 = new UIXConstructorSchema((short)176, new short[2]
+            UIXConstructorSchema constructorSchema3 = new UIXConstructorSchema(176, new short[2]
             {
-        (short) 115,
-        (short) 234
+         115,
+         234
             }, new ConstructHandler(RotationSchema.ConstructAngleDegreesAxis));
-            UIXConstructorSchema constructorSchema4 = new UIXConstructorSchema((short)176, new short[2]
+            UIXConstructorSchema constructorSchema4 = new UIXConstructorSchema(176, new short[2]
             {
-        (short) 194,
-        (short) 234
+         194,
+         234
             }, new ConstructHandler(RotationSchema.ConstructAngleRadiansAxis));
-            UIXConstructorSchema constructorSchema5 = new UIXConstructorSchema((short)176, new short[1]
+            UIXConstructorSchema constructorSchema5 = new UIXConstructorSchema(176, new short[1]
             {
-        (short) 234
+         234
             }, new ConstructHandler(RotationSchema.ConstructAxis));
-            UIXMethodSchema uixMethodSchema = new UIXMethodSchema((short)176, "TryParse", new short[2]
+            UIXMethodSchema uixMethodSchema = new UIXMethodSchema(176, "TryParse", new short[2]
             {
-        (short) 208,
-        (short) 176
-            }, (short)176, new InvokeHandler(RotationSchema.CallTryParseStringRotation), true);
+         208,
+         176
+            }, 176, new InvokeHandler(RotationSchema.CallTryParseStringRotation), true);
             RotationSchema.Type.Initialize(new DefaultConstructHandler(RotationSchema.Construct), new ConstructorSchema[5]
             {
-        (ConstructorSchema) constructorSchema1,
-        (ConstructorSchema) constructorSchema2,
-        (ConstructorSchema) constructorSchema3,
-        (ConstructorSchema) constructorSchema4,
-        (ConstructorSchema) constructorSchema5
+         constructorSchema1,
+         constructorSchema2,
+         constructorSchema3,
+         constructorSchema4,
+         constructorSchema5
             }, new PropertySchema[3]
             {
-        (PropertySchema) uixPropertySchema3,
-        (PropertySchema) uixPropertySchema2,
-        (PropertySchema) uixPropertySchema1
+         uixPropertySchema3,
+         uixPropertySchema2,
+         uixPropertySchema1
             }, new MethodSchema[1]
             {
-        (MethodSchema) uixMethodSchema
-            }, (EventSchema[])null, (FindCanonicalInstanceHandler)null, new TypeConverterHandler(RotationSchema.TryConvertFrom), new SupportsTypeConversionHandler(RotationSchema.IsConversionSupported), new EncodeBinaryHandler(RotationSchema.EncodeBinary), new DecodeBinaryHandler(RotationSchema.DecodeBinary), (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixMethodSchema
+            }, null, null, new TypeConverterHandler(RotationSchema.TryConvertFrom), new SupportsTypeConversionHandler(RotationSchema.IsConversionSupported), new EncodeBinaryHandler(RotationSchema.EncodeBinary), new DecodeBinaryHandler(RotationSchema.DecodeBinary), null, null);
         }
     }
 }

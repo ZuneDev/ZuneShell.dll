@@ -23,7 +23,7 @@ namespace Microsoft.Iris.Markup.Validation
           : base(owner, line, column, StatementType.Attribute)
         {
             if (parameterList == ValidateParameter.EmptyList)
-                parameterList = (ValidateParameter)null;
+                parameterList = null;
             this._attributeName = attributeName;
             this._parameterList = parameterList;
         }
@@ -56,7 +56,7 @@ namespace Microsoft.Iris.Markup.Validation
                 ValidateExpressionDeclareTrigger.StartNotifierTracking(context, parameterList.Expression);
                 parameterList.Expression.MakeDeclareTriggerUsage();
                 parameterList.Validate(context, true);
-                ValidateExpressionDeclareTrigger.StopNotifierTracking((Microsoft.Iris.Markup.Validation.Validate)this, context, parameterList.Expression);
+                ValidateExpressionDeclareTrigger.StopNotifierTracking(this, context, parameterList.Expression);
                 if (parameterList.HasErrors)
                     this.MarkHasErrors();
                 else if (context.IsTrackingDeclaredTriggers)

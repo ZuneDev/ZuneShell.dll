@@ -12,10 +12,10 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object Construct() => (object)new InvColorElement();
+        private static object Construct() => new InvColorElement();
 
-        public static void Pass1Initialize() => InvColorSchema.Type = new UIXTypeSchema((short)124, "InvColor", (string)null, (short)80, typeof(InvColorElement), UIXTypeFlags.None);
+        public static void Pass1Initialize() => InvColorSchema.Type = new UIXTypeSchema(124, "InvColor", null, 80, typeof(InvColorElement), UIXTypeFlags.None);
 
-        public static void Pass2Initialize() => InvColorSchema.Type.Initialize(new DefaultConstructHandler(InvColorSchema.Construct), (ConstructorSchema[])null, (PropertySchema[])null, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+        public static void Pass2Initialize() => InvColorSchema.Type.Initialize(new DefaultConstructHandler(InvColorSchema.Construct), null, null, null, null, null, null, null, null, null, null, null);
     }
 }

@@ -13,19 +13,19 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object GetChildren(object instanceObj) => (object)ViewItemSchema.ListProxy.GetChildren((ViewItem)instanceObj);
+        private static object GetChildren(object instanceObj) => ViewItemSchema.ListProxy.GetChildren((ViewItem)instanceObj);
 
-        private static object Construct() => (object)new Panel();
+        private static object Construct() => new Panel();
 
-        public static void Pass1Initialize() => PanelSchema.Type = new UIXTypeSchema((short)156, "Panel", (string)null, (short)239, typeof(Panel), UIXTypeFlags.Disposable);
+        public static void Pass1Initialize() => PanelSchema.Type = new UIXTypeSchema(156, "Panel", null, 239, typeof(Panel), UIXTypeFlags.Disposable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema = new UIXPropertySchema((short)156, "Children", (short)138, (short)239, ExpressionRestriction.NoAccess, false, (RangeValidator)null, true, new GetValueHandler(PanelSchema.GetChildren), (SetValueHandler)null, false);
-            PanelSchema.Type.Initialize(new DefaultConstructHandler(PanelSchema.Construct), (ConstructorSchema[])null, new PropertySchema[1]
+            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(156, "Children", 138, 239, ExpressionRestriction.NoAccess, false, null, true, new GetValueHandler(PanelSchema.GetChildren), null, false);
+            PanelSchema.Type.Initialize(new DefaultConstructHandler(PanelSchema.Construct), null, new PropertySchema[1]
             {
-        (PropertySchema) uixPropertySchema
-            }, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixPropertySchema
+            }, null, null, null, null, null, null, null, null, null);
         }
     }
 }

@@ -18,7 +18,7 @@ namespace Microsoft.Iris.Queues
         {
             if (this.Wake == null)
                 return;
-            this.Wake((object)this, EventArgs.Empty);
+            this.Wake(this, EventArgs.Empty);
         }
 
         public virtual void Dispose()

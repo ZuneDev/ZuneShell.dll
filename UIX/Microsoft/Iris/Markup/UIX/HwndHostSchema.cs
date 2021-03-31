@@ -12,25 +12,25 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object GetHandle(object instanceObj) => (object)((HwndHost)instanceObj).Handle;
+        private static object GetHandle(object instanceObj) => ((HwndHost)instanceObj).Handle;
 
-        private static object GetChildHandle(object instanceObj) => (object)((HwndHost)instanceObj).ChildHandle;
+        private static object GetChildHandle(object instanceObj) => ((HwndHost)instanceObj).ChildHandle;
 
         private static void SetChildHandle(ref object instanceObj, object valueObj) => ((HwndHost)instanceObj).ChildHandle = (long)valueObj;
 
-        private static object Construct() => (object)new HwndHost();
+        private static object Construct() => new HwndHost();
 
-        public static void Pass1Initialize() => HwndHostSchema.Type = new UIXTypeSchema((short)103, "HwndHost", (string)null, (short)239, typeof(HwndHost), UIXTypeFlags.Disposable);
+        public static void Pass1Initialize() => HwndHostSchema.Type = new UIXTypeSchema(103, "HwndHost", null, 239, typeof(HwndHost), UIXTypeFlags.Disposable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema((short)103, "Handle", (short)116, (short)-1, ExpressionRestriction.ReadOnly, false, (RangeValidator)null, true, new GetValueHandler(HwndHostSchema.GetHandle), (SetValueHandler)null, false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema((short)103, "ChildHandle", (short)116, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(HwndHostSchema.GetChildHandle), new SetValueHandler(HwndHostSchema.SetChildHandle), false);
-            HwndHostSchema.Type.Initialize(new DefaultConstructHandler(HwndHostSchema.Construct), (ConstructorSchema[])null, new PropertySchema[2]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(103, "Handle", 116, -1, ExpressionRestriction.ReadOnly, false, null, true, new GetValueHandler(HwndHostSchema.GetHandle), null, false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(103, "ChildHandle", 116, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(HwndHostSchema.GetChildHandle), new SetValueHandler(HwndHostSchema.SetChildHandle), false);
+            HwndHostSchema.Type.Initialize(new DefaultConstructHandler(HwndHostSchema.Construct), null, new PropertySchema[2]
             {
-        (PropertySchema) uixPropertySchema2,
-        (PropertySchema) uixPropertySchema1
-            }, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixPropertySchema2,
+         uixPropertySchema1
+            }, null, null, null, null, null, null, null, null, null);
         }
     }
 }

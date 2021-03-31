@@ -45,8 +45,8 @@ namespace Microsoft.Iris.Markup
             this._nameToValueMap = new Map<string, int>(this._names.Length);
             for (int index = 0; index < this._names.Length; ++index)
                 this._nameToValueMap[this._names[index]] = this._values[index];
-            this._names = (string[])null;
-            this._values = (int[])null;
+            this._names = null;
+            this._values = null;
         }
 
         [Conditional("DEBUG")]
@@ -81,7 +81,7 @@ namespace Microsoft.Iris.Markup
 
         public override string AlternateName => (string)null;
 
-        public override TypeSchema Base => (TypeSchema)ObjectSchema.Type;
+        public override TypeSchema Base => ObjectSchema.Type;
 
         public override bool Contractual => false;
 
@@ -114,7 +114,7 @@ namespace Microsoft.Iris.Markup
         public override object FindCanonicalInstance(string name)
         {
             int num;
-            return this.NameToValue(name, out num) ? this.EnumValueToObject(num) : (object)null;
+            return this.NameToValue(name, out num) ? this.EnumValueToObject(num) : null;
         }
 
         public bool NameToValue(string name, out int value) => this.NameToValueMap.TryGetValue(name, out value);
@@ -127,7 +127,7 @@ namespace Microsoft.Iris.Markup
 
         private Result ConvertFromString(string value, out object instance)
         {
-            instance = (object)null;
+            instance = null;
             int num1 = 0;
             if (this._isFlags && value.IndexOf(',') >= 0)
             {
@@ -135,12 +135,12 @@ namespace Microsoft.Iris.Markup
                 {
                     int num2;
                     if (!this.NameToValue(name, out num2))
-                        return Result.Fail("Unable to convert \"{0}\" to type '{1}'", (object)name, (object)this._name);
+                        return Result.Fail("Unable to convert \"{0}\" to type '{1}'", name, _name);
                     num1 |= num2;
                 }
             }
             else if (!this.NameToValue(value, out num1))
-                return Result.Fail("Unable to convert \"{0}\" to type '{1}'", (object)value, (object)this._name);
+                return Result.Fail("Unable to convert \"{0}\" to type '{1}'", value, _name);
             instance = this.EnumValueToObject(num1);
             return Result.Success;
         }
@@ -160,7 +160,7 @@ namespace Microsoft.Iris.Markup
             }
             else
             {
-                instance = (object)null;
+                instance = null;
                 result = Result.Fail("Unsupported");
             }
             return result;
@@ -184,7 +184,7 @@ namespace Microsoft.Iris.Markup
                 case OperationType.RelationalNotEquals:
                     return BooleanBoxes.Box(!flag);
                 default:
-                    return (object)null;
+                    return null;
             }
         }
 

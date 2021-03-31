@@ -13,7 +13,7 @@ namespace Microsoft.Iris.Markup
         private EventInfo _eventInfo;
 
         public AssemblyEventSchema(AssemblyTypeSchema owner, EventInfo eventInfo)
-          : base((TypeSchema)owner)
+          : base(owner)
           => this._eventInfo = eventInfo;
 
         public override string Name => this._eventInfo.Name;

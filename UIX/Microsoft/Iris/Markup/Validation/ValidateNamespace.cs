@@ -43,7 +43,7 @@ namespace Microsoft.Iris.Markup.Validation
         public LoadResult Validate()
         {
             if (this._uri == "Me")
-                return (LoadResult)this.Owner.LoadResultTarget;
+                return Owner.LoadResultTarget;
             LoadResult loadResult = MarkupSystem.ResolveLoadResult(this._uri, this.Owner.LoadResultTarget.IslandReferences);
             if (loadResult == null || loadResult is ErrorLoadResult)
                 this.ReportError("Unable to load '{0}' (xmlns prefix '{1}')", this._uri, this._prefix);

@@ -12,8 +12,8 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        public static void Pass1Initialize() => IAnimationSchema.Type = new UIXTypeSchema((short)104, "IAnimation", (string)null, (short)153, typeof(IAnimationProvider), UIXTypeFlags.None);
+        public static void Pass1Initialize() => IAnimationSchema.Type = new UIXTypeSchema(104, "IAnimation", null, 153, typeof(IAnimationProvider), UIXTypeFlags.None);
 
-        public static void Pass2Initialize() => IAnimationSchema.Type.Initialize((DefaultConstructHandler)null, (ConstructorSchema[])null, (PropertySchema[])null, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+        public static void Pass2Initialize() => IAnimationSchema.Type.Initialize(null, null, null, null, null, null, null, null, null, null, null, null);
     }
 }

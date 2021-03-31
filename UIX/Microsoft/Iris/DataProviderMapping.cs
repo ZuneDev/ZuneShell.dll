@@ -19,9 +19,9 @@ namespace Microsoft.Iris
         private Type _assemblyPropertyType;
         private Type _assemblyAlternateType;
 
-        public object PropertyTypeCookie => (object)this._propertySchema.PropertyType;
+        public object PropertyTypeCookie => _propertySchema.PropertyType;
 
-        public object UnderlyingCollectionTypeCookie => (object)this._propertySchema.AlternateType;
+        public object UnderlyingCollectionTypeCookie => _propertySchema.AlternateType;
 
         public string PropertyName => this._propertySchema.Name;
 
@@ -40,7 +40,7 @@ namespace Microsoft.Iris
         public object DefaultValue => this._defaultValue;
 
         internal DataProviderMapping(PropertySchema propertySchema, object defaultValue)
-          : this(propertySchema, (string)null, (string)null, defaultValue)
+          : this(propertySchema, null, null, defaultValue)
         {
         }
 
@@ -63,7 +63,7 @@ namespace Microsoft.Iris
         internal static string GetCanonicalTypeName(TypeSchema typeSchema)
         {
             if (typeSchema == null)
-                return (string)null;
+                return null;
             return typeSchema == ListSchema.Type ? "List" : typeSchema.Name;
         }
     }

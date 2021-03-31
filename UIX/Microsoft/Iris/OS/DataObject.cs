@@ -19,20 +19,20 @@ namespace Microsoft.Iris.OS
 
         public object GetExternalData()
         {
-            object obj = (object)null;
+            object obj = null;
             if (this._dataStream != IntPtr.Zero)
             {
                 try
                 {
-                    this._data = (string[])null;
+                    this._data = null;
                     RendererApi.IFC(new HRESULT(NativeApi.SpExtractDroppedFileNames(this._dataStream, new NativeApi.ExtractDroppedFileNamesCallback(this.ExtractDroppedFileNamesCallback))));
-                    obj = (object)this._data;
+                    obj = _data;
                 }
                 catch (COMException ex)
                 {
                 }
             }
-            this._data = (string[])null;
+            this._data = null;
             return obj;
         }
 

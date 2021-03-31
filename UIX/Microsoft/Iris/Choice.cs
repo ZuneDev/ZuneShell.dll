@@ -44,12 +44,12 @@ namespace Microsoft.Iris
           => this.Initialize();
 
         public Choice(IModelItemOwner owner)
-          : this(owner, (string)null)
+          : this(owner, null)
         {
         }
 
         public Choice()
-          : this((IModelItemOwner)null)
+          : this(null)
         {
         }
 
@@ -59,28 +59,28 @@ namespace Microsoft.Iris
             if (disposing)
             {
                 this._notifier.ClearListeners();
-                this._choice.Dispose((object)this);
-                this._listeners.Dispose((object)this);
+                this._choice.Dispose(this);
+                this._listeners.Dispose(this);
             }
-            this._choice = (Microsoft.Iris.ModelItems.Choice)null;
+            this._choice = null;
         }
 
-        object AssemblyObjectProxyHelper.IFrameworkProxyObject.FrameworkObject => (object)this;
+        object AssemblyObjectProxyHelper.IFrameworkProxyObject.FrameworkObject => this;
 
-        object AssemblyObjectProxyHelper.IAssemblyProxyObject.AssemblyObject => (object)this;
+        object AssemblyObjectProxyHelper.IAssemblyProxyObject.AssemblyObject => this;
 
         public IList Options
         {
             get
             {
                 using (this.ThreadValidator)
-                    return (IList)AssemblyLoadResult.UnwrapObject((object)this._choice.Options);
+                    return (IList)AssemblyLoadResult.UnwrapObject(_choice.Options);
             }
             set
             {
                 using (this.ThreadValidator)
                 {
-                    IList potentialOptionsWrapped = (IList)AssemblyLoadResult.WrapObject((object)value);
+                    IList potentialOptionsWrapped = (IList)AssemblyLoadResult.WrapObject(value);
                     this.ValidateOptionsList(potentialOptionsWrapped, value);
                     this._choice.Options = potentialOptionsWrapped;
                 }
@@ -249,32 +249,32 @@ namespace Microsoft.Iris
             add
             {
                 using (this.ThreadValidator)
-                    this.AddEventHandler(Choice.s_chosenChangedEvent, (Delegate)value);
+                    this.AddEventHandler(Choice.s_chosenChangedEvent, value);
             }
             remove
             {
                 using (this.ThreadValidator)
-                    this.RemoveEventHandler(Choice.s_chosenChangedEvent, (Delegate)value);
+                    this.RemoveEventHandler(Choice.s_chosenChangedEvent, value);
             }
         }
 
         private void Initialize()
         {
             this._choice = this.CreateInternalChoice();
-            this._choice.DeclareOwner((object)this);
+            this._choice.DeclareOwner(this);
             Vector<Listener> listeners = new Vector<Listener>(9);
             DelegateListener.OnNotifyCallback callback = new DelegateListener.OnNotifyCallback(this.OnInternalChoicePropertyChanged);
-            listeners.Add((Listener)new DelegateListener((INotifyObject)this._choice, NotificationID.Options, callback));
-            listeners.Add((Listener)new DelegateListener((INotifyObject)this._choice, NotificationID.DefaultIndex, callback));
-            listeners.Add((Listener)new DelegateListener((INotifyObject)this._choice, NotificationID.ChosenIndex, callback));
-            listeners.Add((Listener)new DelegateListener((INotifyObject)this._choice, NotificationID.ChosenValue, new DelegateListener.OnNotifyCallback(this.OnChosenValueChanged)));
-            listeners.Add((Listener)new DelegateListener((INotifyObject)this._choice, NotificationID.Value, callback));
-            listeners.Add((Listener)new DelegateListener((INotifyObject)this._choice, NotificationID.HasSelection, callback));
-            listeners.Add((Listener)new DelegateListener((INotifyObject)this._choice, NotificationID.Wrap, callback));
-            listeners.Add((Listener)new DelegateListener((INotifyObject)this._choice, NotificationID.HasPreviousValue, callback));
-            listeners.Add((Listener)new DelegateListener((INotifyObject)this._choice, NotificationID.HasNextValue, callback));
+            listeners.Add(new DelegateListener(_choice, NotificationID.Options, callback));
+            listeners.Add(new DelegateListener(_choice, NotificationID.DefaultIndex, callback));
+            listeners.Add(new DelegateListener(_choice, NotificationID.ChosenIndex, callback));
+            listeners.Add(new DelegateListener(_choice, NotificationID.ChosenValue, new DelegateListener.OnNotifyCallback(this.OnChosenValueChanged)));
+            listeners.Add(new DelegateListener(_choice, NotificationID.Value, callback));
+            listeners.Add(new DelegateListener(_choice, NotificationID.HasSelection, callback));
+            listeners.Add(new DelegateListener(_choice, NotificationID.Wrap, callback));
+            listeners.Add(new DelegateListener(_choice, NotificationID.HasPreviousValue, callback));
+            listeners.Add(new DelegateListener(_choice, NotificationID.HasNextValue, callback));
             this._listeners = new CodeListeners(listeners);
-            this._listeners.DeclareOwner((object)this);
+            this._listeners.DeclareOwner(this);
         }
 
         protected override void OnPropertyChanged(string property)
@@ -316,7 +316,7 @@ namespace Microsoft.Iris
         private void FireChangedChosenEvent()
         {
             if (this.GetEventHandler(Choice.s_chosenChangedEvent) is EventHandler eventHandler)
-                eventHandler((object)this, EventArgs.Empty);
+                eventHandler(this, EventArgs.Empty);
             this.OnChosenChanged();
         }
 

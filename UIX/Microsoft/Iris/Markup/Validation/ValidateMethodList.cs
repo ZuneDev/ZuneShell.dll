@@ -18,7 +18,7 @@ namespace Microsoft.Iris.Markup.Validation
           : base(owner, line, column)
           => this._methodList = new ArrayList();
 
-        public void AppendToEnd(ValidateMethod expression) => this._methodList.Add((object)expression);
+        public void AppendToEnd(ValidateMethod expression) => this._methodList.Add(expression);
 
         public ArrayList Methods => this._methodList;
 
@@ -61,12 +61,12 @@ namespace Microsoft.Iris.Markup.Validation
                 {
                     if (!method.HasVirtualKeyword)
                     {
-                        methodSchemaArray[index] = (MethodSchema)method.MethodExport;
+                        methodSchemaArray[index] = method.MethodExport;
                     }
                     else
                     {
                         MarkupMethodSchema markupMethodSchema = MarkupMethodSchema.BuildVirtualThunk(validateOwner.ObjectType, method.MethodExport);
-                        methodSchemaArray[index] = (MethodSchema)markupMethodSchema;
+                        methodSchemaArray[index] = markupMethodSchema;
                         markupMethodSchema.SetVirtualId(num);
                         method.MethodExport.SetVirtualId(num);
                         ++num;

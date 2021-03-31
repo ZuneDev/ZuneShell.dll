@@ -50,13 +50,13 @@ namespace Microsoft.Iris.Input
             this._refreshHitTargetHandler = new SimpleCallback(this.RefreshHitTargetHandler);
         }
 
-        internal void ConnectToRenderer() => this.Session.RenderSession.InputSystem.RegisterRawInputCallbacks((IRawInputCallbacks)this);
+        internal void ConnectToRenderer() => this.Session.RenderSession.InputSystem.RegisterRawInputCallbacks(this);
 
         internal void PrepareToShutDown()
         {
-            this.KeyCoalescePolicy = (KeyCoalesceFilter)null;
+            this.KeyCoalescePolicy = null;
             this.EndKeyCoalesce();
-            this.InvalidKeyFocus = (InvalidKeyFocusHandler)null;
+            this.InvalidKeyFocus = null;
             this._inputDisabled = true;
             this.Session.RenderSession.InputSystem.UnregisterRawInputCallbacks();
             this._inputQueue.PrepareToShutDown();
@@ -114,7 +114,7 @@ namespace Microsoft.Iris.Input
                 this._keyFocusCanBeNull = value;
                 if (value)
                     return;
-                this._inputQueue.RevalidateInputSiteUsage((ICookedInputSite)null, false);
+                this._inputQueue.RevalidateInputSiteUsage(null, false);
             }
         }
 
@@ -140,7 +140,7 @@ namespace Microsoft.Iris.Input
                 this._physicalMouseOffset = value;
                 if (this.MousePositionChanged == null)
                     return;
-                this.MousePositionChanged((object)this, EventArgs.Empty);
+                this.MousePositionChanged(this, EventArgs.Empty);
             }
         }
 
@@ -194,17 +194,17 @@ namespace Microsoft.Iris.Input
 
         public void HandleRawHidInput(ref RawHidData args)
         {
-            KeyActionInfo keyActionInfo = (KeyActionInfo)this.Remote.OnRawInput(HIDCommandMapping.Find(args._commandCode, args._usagePage), ref args);
+            KeyActionInfo keyActionInfo = this.Remote.OnRawInput(HIDCommandMapping.Find(args._commandCode, args._usagePage), ref args);
             if (keyActionInfo != null)
-                this._inputQueue.RawKeyAction((KeyInfo)keyActionInfo);
+                this._inputQueue.RawKeyAction(keyActionInfo);
             this.UpdateLastInputTime();
         }
 
         public void HandleAppCommand(ref RawHidData args)
         {
-            KeyActionInfo keyActionInfo = (KeyActionInfo)this.Remote.OnRawInput(AppCommandMapping.Find(args._commandCode), ref args);
+            KeyActionInfo keyActionInfo = this.Remote.OnRawInput(AppCommandMapping.Find(args._commandCode), ref args);
             if (keyActionInfo != null)
-                this._inputQueue.RawKeyAction((KeyInfo)keyActionInfo);
+                this._inputQueue.RawKeyAction(keyActionInfo);
             this.UpdateLastInputTime();
         }
 
@@ -212,7 +212,7 @@ namespace Microsoft.Iris.Input
         {
             using (DataObject dataObject = new DataObject(args._pDataStream))
             {
-                object data = (object)null;
+                object data = null;
                 if (message == 0U)
                     data = dataObject.GetExternalData();
                 this.Mouse.OnRawInput(message, modifiers, ref args, data);
@@ -228,7 +228,7 @@ namespace Microsoft.Iris.Input
             if (this._ignoreHungKeyFocus && !knownDisabledFlag)
             {
                 this.StopIgnoringHungKeyFocus();
-                target = (ICookedInputSite)null;
+                target = null;
                 recursiveFlag = false;
             }
             this._inputQueue.RevalidateInputSiteUsage(target, recursiveFlag);
@@ -326,14 +326,14 @@ namespace Microsoft.Iris.Input
             if (!this._currentCoalesceUndelivered)
             {
                 this._currentCoalesceUndelivered = true;
-                this._inputQueue.RawInputIdleItem((QueueItem)DeferredCall.Create(InputManager.s_deliverCoalescedKey, (object)this));
+                this._inputQueue.RawInputIdleItem(DeferredCall.Create(InputManager.s_deliverCoalescedKey, this));
             }
             return true;
         }
 
         private void EndKeyCoalesce()
         {
-            this.SetCoalesceKeyEvent((KeyStateInfo)null);
+            this.SetCoalesceKeyEvent(null);
             this._currentCoalesceUndelivered = false;
         }
 
@@ -344,7 +344,7 @@ namespace Microsoft.Iris.Input
                 return;
             inputManager._currentCoalesceUndelivered = false;
             ICookedInputSite instantaneousKeyFocus = inputManager._inputQueue.InstantaneousKeyFocus;
-            inputManager.DeliverInputWorker(instantaneousKeyFocus, (InputInfo)inputManager._currentCoalesceKeyEvent, EventRouteStages.All);
+            inputManager.DeliverInputWorker(instantaneousKeyFocus, inputManager._currentCoalesceKeyEvent, EventRouteStages.All);
             inputManager.SuspendInputUntil(DispatchPriority.Idle);
         }
 
@@ -352,11 +352,11 @@ namespace Microsoft.Iris.Input
         {
             ICookedInputSite target = this.HitTestInput(info.RawSource, captureSite);
             if (!this.IsValidCookedInputSite(target))
-                target = (ICookedInputSite)null;
+                target = null;
             IRawInputSite naturalHit = info.NaturalHit;
-            ICookedInputSite naturalTarget = (ICookedInputSite)null;
+            ICookedInputSite naturalTarget = null;
             if (naturalHit != null)
-                naturalTarget = naturalHit != info.RawSource ? (naturalHit is ITreeNode treeNode ? treeNode.Zone?.MapInput(naturalHit, (ICookedInputSite)null) : (ICookedInputSite)null) : target;
+                naturalTarget = naturalHit != info.RawSource ? (naturalHit is ITreeNode treeNode ? treeNode.Zone?.MapInput(naturalHit, null) : null) : target;
             info.SetMappedTargets(target, naturalTarget);
         }
 
@@ -364,10 +364,10 @@ namespace Microsoft.Iris.Input
           IRawInputSite rawSource,
           ICookedInputSite targetRelative)
         {
-            ICookedInputSite cookedInputSite = (ICookedInputSite)null;
+            ICookedInputSite cookedInputSite = null;
             if (!this._inputDisabled)
             {
-                ITreeNode treeNode = (ITreeNode)null;
+                ITreeNode treeNode = null;
                 if (targetRelative != null)
                     treeNode = targetRelative as ITreeNode;
                 else if (rawSource != null)
@@ -423,7 +423,7 @@ namespace Microsoft.Iris.Input
         {
             if (this._inputQueue.PendingKeyFocus is ITreeNode pendingKeyFocus && pendingKeyFocus.Zone == null)
             {
-                this._inputQueue.RequestKeyFocus((ICookedInputSite)null, KeyFocusReason.Default);
+                this._inputQueue.RequestKeyFocus(null, KeyFocusReason.Default);
                 if (this._keyFocusCanBeNull)
                     return;
             }
@@ -440,7 +440,7 @@ namespace Microsoft.Iris.Input
                     return;
                 if (this._keyFocusCanBeNull)
                 {
-                    this._inputQueue.RequestKeyFocus((ICookedInputSite)null, KeyFocusReason.Default);
+                    this._inputQueue.RequestKeyFocus(null, KeyFocusReason.Default);
                 }
                 else
                 {
@@ -453,7 +453,7 @@ namespace Microsoft.Iris.Input
         private void StopIgnoringHungKeyFocus()
         {
             this._ignoreHungKeyFocus = false;
-            this._ignoreHungKeyFocusTarget = (ICookedInputSite)null;
+            this._ignoreHungKeyFocusTarget = null;
         }
 
         internal void RequestHostKeyFocus(ICookedInputSite target)
@@ -493,7 +493,7 @@ namespace Microsoft.Iris.Input
                 EventRouteStages stage = EventRouteStages.None;
                 if (this.PreviewInput != null && (stages & EventRouteStages.Preview) != EventRouteStages.None)
                 {
-                    this.PreviewInput((object)this, new InputNotificationEventArgs(info, target, stage));
+                    this.PreviewInput(this, new InputNotificationEventArgs(info, target, stage));
                     if (info.Handled)
                         stage = EventRouteStages.Preview;
                 }
@@ -523,7 +523,7 @@ namespace Microsoft.Iris.Input
                 }
                 InputNotificationHandler notificationHandler = !info.Handled ? this.UnhandledInput : this.HandledInput;
                 if (notificationHandler != null)
-                    notificationHandler((object)this, new InputNotificationEventArgs(info, target, stage));
+                    notificationHandler(this, new InputNotificationEventArgs(info, target, stage));
             }
             if (inputZoneRouting.zone == null)
                 return;
@@ -553,7 +553,7 @@ namespace Microsoft.Iris.Input
           InputInfo info)
         {
             ITreeNode endpoint = null;
-            UIZone uiZone = (UIZone)null;
+            UIZone uiZone = null;
             if (finalTarget is ITreeNode)
             {
                 endpoint = (ITreeNode)finalTarget;
@@ -583,7 +583,7 @@ namespace Microsoft.Iris.Input
                         if (mouseFocusInfo.State)
                             newFocusInfo = deliveryInfo;
                         InputManager.ProcessFocusUpdates(InputDeviceType.Mouse, ref this._mouseFocusZone, newFocusInfo, target as ITreeNode);
-                        this._session.RootZone.UpdateCursor((UIClass)null);
+                        this._session.RootZone.UpdateCursor(null);
                     }
                     if (mouseFocusInfo.State && target == mouseFocusInfo.Other)
                         flag = false;
@@ -615,7 +615,7 @@ namespace Microsoft.Iris.Input
                 return;
             refCurrentFocusZone = newFocusInfo.zone;
             if (refCurrentFocusZone == null)
-                InputManager.UpdateZoneFocusStates(focusType, zone, (object)null, false, (ITreeNode)null);
+                InputManager.UpdateZoneFocusStates(focusType, zone, null, false, null);
             if (newFocusInfo.zone == null)
                 return;
             InputManager.UpdateZoneFocusStates(focusType, newFocusInfo.zone, newFocusInfo.param, true, actualFocus);
@@ -628,8 +628,8 @@ namespace Microsoft.Iris.Input
           bool deepFocusFlag,
           ITreeNode actualFocus)
         {
-            ITreeNode directFocusChild = (ITreeNode)null;
-            object obj = (object)null;
+            ITreeNode directFocusChild = null;
+            object obj = null;
             if (deepFocusFlag)
             {
                 if (actualFocus != null && actualFocus.Zone == zone)

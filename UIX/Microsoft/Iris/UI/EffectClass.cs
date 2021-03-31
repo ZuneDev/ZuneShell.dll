@@ -30,11 +30,11 @@ namespace Microsoft.Iris.UI
             if (this._activeAnimations != null)
             {
                 foreach (DisposableObject activeAnimation in this._activeAnimations)
-                    activeAnimation.Dispose((object)this);
+                    activeAnimation.Dispose(this);
                 this._activeAnimations.Clear();
             }
             foreach (EffectClass.EffectAndOwner effectAndOwner in this._effectsInUse)
-                effectAndOwner.Effect.UnregisterUsage((object)this);
+                effectAndOwner.Effect.UnregisterUsage(this);
             this._effectsInUse.Clear();
         }
 
@@ -42,10 +42,10 @@ namespace Microsoft.Iris.UI
 
         public IEffect CreateRenderEffect(object owner)
         {
-            IEffect effect = (IEffect)null;
+            IEffect effect = null;
             if (this._effectTemplate != null && this._effectTemplate.IsBuilt)
             {
-                effect = this._effectTemplate.CreateInstance((object)this);
+                effect = this._effectTemplate.CreateInstance(this);
                 this._effectsInUse.Add(new EffectClass.EffectAndOwner(effect, owner));
                 effect.RegisterUsage(owner);
             }
@@ -62,7 +62,7 @@ namespace Microsoft.Iris.UI
           object owner,
           IImage initialImage)
         {
-            IEffect effect1 = (IEffect)null;
+            IEffect effect1 = null;
             if (effect != null)
             {
                 effect1 = effect.CreateRenderEffect(owner);
@@ -85,7 +85,7 @@ namespace Microsoft.Iris.UI
             {
                 if (this._effectsInUse[index].Owner == owner)
                 {
-                    this._effectsInUse[index].Effect.UnregisterUsage((object)this);
+                    this._effectsInUse[index].Effect.UnregisterUsage(this);
                     this._effectsInUse.RemoveAt(index);
                 }
             }
@@ -96,7 +96,7 @@ namespace Microsoft.Iris.UI
           IEffect effectInstance,
           IImage image)
         {
-            string stPropertyName = (string)null;
+            string stPropertyName = null;
             if (effect != null && effect._effectTemplate == effectInstance.Template)
             {
                 if (effect.DefaultImageElement != null)
@@ -125,9 +125,9 @@ namespace Microsoft.Iris.UI
             foreach (EffectClass.EffectAndOwner effectAndOwner in this._effectsInUse)
             {
                 AnimationArgs args = new AnimationArgs();
-                ActiveSequence instance = animation.CreateInstance((IAnimatable)effectAndOwner.Effect, property, ref args);
+                ActiveSequence instance = animation.CreateInstance(effectAndOwner.Effect, property, ref args);
                 instance?.Play();
-                instance.DeclareOwner((object)this);
+                instance.DeclareOwner(this);
                 instance.AnimationCompleted += new EventHandler(this.OnAnimationComplete);
                 this._activeAnimations.Add(instance);
             }
@@ -138,10 +138,10 @@ namespace Microsoft.Iris.UI
             ActiveSequence activeSequence = (ActiveSequence)sender;
             activeSequence.AnimationCompleted -= new EventHandler(this.OnAnimationComplete);
             this._activeAnimations.Remove(activeSequence);
-            activeSequence.Dispose((object)this);
+            activeSequence.Dispose(this);
         }
 
-        public override object ReadSymbol(SymbolReference symbolRef) => symbolRef.Origin == SymbolOrigin.Techniques ? (object)new EffectElementWrapper(this, symbolRef.Symbol) : base.ReadSymbol(symbolRef);
+        public override object ReadSymbol(SymbolReference symbolRef) => symbolRef.Origin == SymbolOrigin.Techniques ? new EffectElementWrapper(this, symbolRef.Symbol) : base.ReadSymbol(symbolRef);
 
         private struct EffectAndOwner
         {

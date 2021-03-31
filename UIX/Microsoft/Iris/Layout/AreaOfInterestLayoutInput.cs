@@ -37,6 +37,6 @@ namespace Microsoft.Iris.Layout
 
         public static DataCookie Data => AreaOfInterestLayoutInput.s_dataProperty;
 
-        public override string ToString() => InvariantString.Format("{0}({1})", (object)this.GetType().Name, (object)this._id);
+        public override string ToString() => InvariantString.Format("{0}({1})", this.GetType().Name, _id);
     }
 }

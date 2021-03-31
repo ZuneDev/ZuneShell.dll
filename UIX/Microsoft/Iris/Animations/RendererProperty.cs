@@ -15,8 +15,8 @@ namespace Microsoft.Iris.Animations
         public RendererProperty(string property)
         {
             this._property = property;
-            this._sourceMask = (string)null;
-            this._targetMask = (string)null;
+            this._sourceMask = null;
+            this._targetMask = null;
         }
 
         public RendererProperty(string property, string sourceMask, string targetMask)

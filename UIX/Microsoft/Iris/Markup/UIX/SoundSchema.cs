@@ -15,15 +15,15 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object GetSource(object instanceObj) => (object)((Sound)instanceObj).Source;
+        private static object GetSource(object instanceObj) => ((Sound)instanceObj).Source;
 
         private static void SetSource(ref object instanceObj, object valueObj) => ((Sound)instanceObj).Source = (string)valueObj;
 
-        private static object GetSystemSoundEvent(object instanceObj) => (object)((Sound)instanceObj).SystemSoundEvent;
+        private static object GetSystemSoundEvent(object instanceObj) => ((Sound)instanceObj).SystemSoundEvent;
 
         private static void SetSystemSoundEvent(ref object instanceObj, object valueObj) => ((Sound)instanceObj).SystemSoundEvent = (SystemSoundEvent)valueObj;
 
-        private static object Construct() => (object)new Sound();
+        private static object Construct() => new Sound();
 
         private static object ConstructSource(object[] parameters)
         {
@@ -36,9 +36,9 @@ namespace Microsoft.Iris.Markup.UIX
         {
             instance = SoundSchema.Construct();
             object valueObj;
-            Result result = UIXLoadResult.ValidateStringAsValue(splitString[0], (TypeSchema)StringSchema.Type, (RangeValidator)null, out valueObj);
+            Result result = UIXLoadResult.ValidateStringAsValue(splitString[0], StringSchema.Type, null, out valueObj);
             if (result.Failed)
-                return Result.Fail("Problem converting '{0}' ({1})", (object)"Sound", (object)result.Error);
+                return Result.Fail("Problem converting '{0}' ({1})", "Sound", result.Error);
             SoundSchema.SetSource(ref instance, valueObj);
             return result;
         }
@@ -46,7 +46,7 @@ namespace Microsoft.Iris.Markup.UIX
         private static object CallPlay(object instanceObj, object[] parameters)
         {
             ((Sound)instanceObj).Play();
-            return (object)null;
+            return null;
         }
 
         private static bool IsConversionSupported(TypeSchema fromType) => StringSchema.Type.IsAssignableFrom(fromType);
@@ -57,7 +57,7 @@ namespace Microsoft.Iris.Markup.UIX
           out object instance)
         {
             Result result = Result.Fail("Unsupported");
-            instance = (object)null;
+            instance = null;
             if (StringSchema.Type.IsAssignableFrom(fromType))
             {
                 string[] splitString = StringUtility.SplitAndTrim(',', (string)from);
@@ -68,33 +68,33 @@ namespace Microsoft.Iris.Markup.UIX
                         return result;
                 }
                 else
-                    result = Result.Fail("Unable to convert \"{0}\" to type '{1}'", (object)from.ToString(), (object)"Sound");
+                    result = Result.Fail("Unable to convert \"{0}\" to type '{1}'", from.ToString(), "Sound");
             }
             return result;
         }
 
-        public static void Pass1Initialize() => SoundSchema.Type = new UIXTypeSchema((short)201, "Sound", (string)null, (short)153, typeof(Sound), UIXTypeFlags.Immutable);
+        public static void Pass1Initialize() => SoundSchema.Type = new UIXTypeSchema(201, "Sound", null, 153, typeof(Sound), UIXTypeFlags.Immutable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema((short)201, "Source", (short)208, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(SoundSchema.GetSource), new SetValueHandler(SoundSchema.SetSource), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema((short)201, "SystemSoundEvent", (short)211, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(SoundSchema.GetSystemSoundEvent), new SetValueHandler(SoundSchema.SetSystemSoundEvent), false);
-            UIXConstructorSchema constructorSchema = new UIXConstructorSchema((short)201, new short[1]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(201, "Source", 208, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(SoundSchema.GetSource), new SetValueHandler(SoundSchema.SetSource), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(201, "SystemSoundEvent", 211, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(SoundSchema.GetSystemSoundEvent), new SetValueHandler(SoundSchema.SetSystemSoundEvent), false);
+            UIXConstructorSchema constructorSchema = new UIXConstructorSchema(201, new short[1]
             {
-        (short) 208
+         208
             }, new ConstructHandler(SoundSchema.ConstructSource));
-            UIXMethodSchema uixMethodSchema = new UIXMethodSchema((short)201, "Play", (short[])null, (short)240, new InvokeHandler(SoundSchema.CallPlay), false);
+            UIXMethodSchema uixMethodSchema = new UIXMethodSchema(201, "Play", null, 240, new InvokeHandler(SoundSchema.CallPlay), false);
             SoundSchema.Type.Initialize(new DefaultConstructHandler(SoundSchema.Construct), new ConstructorSchema[1]
             {
-        (ConstructorSchema) constructorSchema
+         constructorSchema
             }, new PropertySchema[2]
             {
-        (PropertySchema) uixPropertySchema1,
-        (PropertySchema) uixPropertySchema2
+         uixPropertySchema1,
+         uixPropertySchema2
             }, new MethodSchema[1]
             {
-        (MethodSchema) uixMethodSchema
-            }, (EventSchema[])null, (FindCanonicalInstanceHandler)null, new TypeConverterHandler(SoundSchema.TryConvertFrom), new SupportsTypeConversionHandler(SoundSchema.IsConversionSupported), (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixMethodSchema
+            }, null, null, new TypeConverterHandler(SoundSchema.TryConvertFrom), new SupportsTypeConversionHandler(SoundSchema.IsConversionSupported), null, null, null, null);
         }
     }
 }

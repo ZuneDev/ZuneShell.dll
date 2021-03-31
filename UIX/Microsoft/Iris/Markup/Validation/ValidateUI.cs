@@ -17,7 +17,7 @@ namespace Microsoft.Iris.Markup.Validation
         private NamedContentRecord[] _namedContentTable;
         private static Map<string, TypeSchema> s_uiReservedSymbols = new Map<string, TypeSchema>(1);
 
-        public new static void InitializeStatics() => ValidateUI.s_uiReservedSymbols["UI"] = (TypeSchema)UIStateSchema.Type;
+        public new static void InitializeStatics() => ValidateUI.s_uiReservedSymbols["UI"] = UIStateSchema.Type;
 
         public ValidateUI(
           SourceMarkupLoader owner,
@@ -58,15 +58,15 @@ namespace Microsoft.Iris.Markup.Validation
             if (this._foundNamedContentProperties != null)
             {
                 context.NotifyScopedLocalFrameEnter();
-                context.NotifyScopedLocal("RepeatedItem", (TypeSchema)ObjectSchema.Type, true, SymbolOrigin.Parameter);
-                context.NotifyScopedLocal("RepeatedItemIndex", (TypeSchema)IndexSchema.Type, true, SymbolOrigin.Parameter);
+                context.NotifyScopedLocal("RepeatedItem", ObjectSchema.Type, true, SymbolOrigin.Parameter);
+                context.NotifyScopedLocal("RepeatedItemIndex", IndexSchema.Type, true, SymbolOrigin.Parameter);
                 this._namedContentTable = new NamedContentRecord[this._foundNamedContentProperties.Count];
                 for (int index = 0; index < this._foundNamedContentProperties.Count; ++index)
                 {
                     if (index >= this._namedContentTable.Length)
                     {
                         NamedContentRecord[] namedContentRecordArray = new NamedContentRecord[this._foundNamedContentProperties.Count];
-                        this._namedContentTable.CopyTo((Array)namedContentRecordArray, 0);
+                        this._namedContentTable.CopyTo(namedContentRecordArray, 0);
                         this._namedContentTable = namedContentRecordArray;
                     }
                     this.ValidateNamedContent(this._foundNamedContentProperties[index], context, index);
@@ -121,7 +121,7 @@ namespace Microsoft.Iris.Markup.Validation
             if (property == null)
                 return;
             string str1 = this.FoundBaseType == null ? "0" : this.FoundBaseType.LocallyUniqueId;
-            string str2 = string.Format("#Inline{0}{1}.{2}", (object)contentAttribute, (object)str1, (object)this._inlineContentIndex++);
+            string str2 = string.Format("#Inline{0}{1}.{2}", contentAttribute, str1, this._inlineContentIndex++);
             property.RepurposeProperty("Content", new PropertyAttribute("Name", str2));
             if (repeater.FindProperty(contentNameAttribute) == null)
                 repeater.AddStringProperty(contentNameAttribute, str2);
@@ -160,7 +160,7 @@ namespace Microsoft.Iris.Markup.Validation
             else
             {
                 namedContentProperty.AllowPropertyAttributes();
-                namedContentProperty.Validate((ValidateObjectTag)this, context);
+                namedContentProperty.Validate(this, context);
                 if (namedContentProperty.HasErrors)
                     this.MarkHasErrors();
                 NamedContentRecord namedContentRecord = new NamedContentRecord(propertyAttributeList.Value);

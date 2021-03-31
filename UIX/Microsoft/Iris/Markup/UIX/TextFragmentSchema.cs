@@ -12,29 +12,29 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object GetRuns(object instanceObj) => (object)((TextFragment)instanceObj).Runs;
+        private static object GetRuns(object instanceObj) => ((TextFragment)instanceObj).Runs;
 
-        private static object GetTagName(object instanceObj) => (object)((TextFragment)instanceObj).TagName;
+        private static object GetTagName(object instanceObj) => ((TextFragment)instanceObj).TagName;
 
-        private static object GetContent(object instanceObj) => (object)((TextFragment)instanceObj).Content;
+        private static object GetContent(object instanceObj) => ((TextFragment)instanceObj).Content;
 
-        private static object GetAttributes(object instanceObj) => (object)((TextFragment)instanceObj).Attributes;
+        private static object GetAttributes(object instanceObj) => ((TextFragment)instanceObj).Attributes;
 
-        public static void Pass1Initialize() => TextFragmentSchema.Type = new UIXTypeSchema((short)215, "TextFragment", (string)null, (short)153, typeof(TextFragment), UIXTypeFlags.Immutable);
+        public static void Pass1Initialize() => TextFragmentSchema.Type = new UIXTypeSchema(215, "TextFragment", null, 153, typeof(TextFragment), UIXTypeFlags.Immutable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema((short)215, "Runs", (short)138, (short)216, ExpressionRestriction.ReadOnly, false, (RangeValidator)null, false, new GetValueHandler(TextFragmentSchema.GetRuns), (SetValueHandler)null, false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema((short)215, "TagName", (short)208, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(TextFragmentSchema.GetTagName), (SetValueHandler)null, false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema((short)215, "Content", (short)208, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(TextFragmentSchema.GetContent), (SetValueHandler)null, false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema((short)215, "Attributes", (short)58, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(TextFragmentSchema.GetAttributes), (SetValueHandler)null, false);
-            TextFragmentSchema.Type.Initialize((DefaultConstructHandler)null, (ConstructorSchema[])null, new PropertySchema[4]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(215, "Runs", 138, 216, ExpressionRestriction.ReadOnly, false, null, false, new GetValueHandler(TextFragmentSchema.GetRuns), null, false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(215, "TagName", 208, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(TextFragmentSchema.GetTagName), null, false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(215, "Content", 208, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(TextFragmentSchema.GetContent), null, false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(215, "Attributes", 58, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(TextFragmentSchema.GetAttributes), null, false);
+            TextFragmentSchema.Type.Initialize(null, null, new PropertySchema[4]
             {
-        (PropertySchema) uixPropertySchema4,
-        (PropertySchema) uixPropertySchema3,
-        (PropertySchema) uixPropertySchema1,
-        (PropertySchema) uixPropertySchema2
-            }, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixPropertySchema4,
+         uixPropertySchema3,
+         uixPropertySchema1,
+         uixPropertySchema2
+            }, null, null, null, null, null, null, null, null, null);
         }
     }
 }

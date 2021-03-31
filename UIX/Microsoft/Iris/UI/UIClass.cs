@@ -100,28 +100,28 @@ namespace Microsoft.Iris.UI
 
         protected override void OnDispose()
         {
-            this._typeSchema.RunFinalEvaluates((IMarkupTypeBase)this);
+            this._typeSchema.RunFinalEvaluates(this);
             base.OnDispose();
             if (this.Initialized)
                 AccessibleProxy.NotifyDestroyed(this);
             this.SetBit(UIClass.Bits.ScriptEnabled, false);
             if (this._listeners != null)
             {
-                this._listeners.Dispose((object)this);
-                this._listeners = (MarkupListeners)null;
+                this._listeners.Dispose(this);
+                this._listeners = null;
             }
             this._notifier.ClearListeners();
             if (this._rootItem != null)
             {
                 this.DisposeViewItemTree(this._rootItem);
-                this._rootItem = (ViewItem)null;
+                this._rootItem = null;
             }
             this.DisposeInputHandlers();
             this._storage.Clear();
             if (this._disposables != null)
             {
                 for (int index = 0; index < this._disposables.Count; ++index)
-                    this._disposables[index].Dispose((object)this);
+                    this._disposables[index].Dispose(this);
             }
             this.RemoveEventHandlers(UIClass.s_descendantMouseFocusChangedEvent);
             this.RemoveEventHandlers(UIClass.s_descendantKeyFocusChangedEvent);
@@ -132,7 +132,7 @@ namespace Microsoft.Iris.UI
             if (this._inputHandlers == null)
                 return;
             foreach (DisposableObject inputHandler in this._inputHandlers)
-                inputHandler.Dispose((object)this);
+                inputHandler.Dispose(this);
         }
 
         internal void DisposeViewItemTree(ViewItem item)
@@ -145,7 +145,7 @@ namespace Microsoft.Iris.UI
                 nextSibling = (ViewItem)viewItem.NextSibling;
                 this.DisposeViewItemTree(viewItem);
             }
-            item.Dispose((object)this);
+            item.Dispose(this);
         }
 
         internal void DestroyVisualTree(ViewItem subjectItem) => this.DestroyVisualTree(subjectItem, false);
@@ -269,7 +269,7 @@ namespace Microsoft.Iris.UI
                     if (data == null)
                         data = new Accessible();
                     accessibleProxy = this.OnCreateAccessibleProxy(this, data);
-                    this.SetData(UIClass.s_accProxyProperty, (object)accessibleProxy);
+                    this.SetData(UIClass.s_accProxyProperty, accessibleProxy);
                     this.SetBit(UIClass.Bits.HasAccProxy, true);
                 }
                 return accessibleProxy;
@@ -352,9 +352,9 @@ namespace Microsoft.Iris.UI
             {
                 UIClass keyFocusDescendant = this.KeyFocusDescendant;
                 if (keyFocusDescendant != null && keyFocusDescendant.RootItem != null)
-                    return (object)new UIClass.SavedFocusState(keyFocusDescendant.RootItem);
+                    return new UIClass.SavedFocusState(keyFocusDescendant.RootItem);
             }
-            return (object)null;
+            return null;
         }
 
         internal void RestoreKeyFocus(object obj) => this.RestoreKeyFocus(obj, true);
@@ -371,7 +371,7 @@ namespace Microsoft.Iris.UI
                     if (resultItem == null)
                         break;
                     UIClass ui = resultItem.UI;
-                    if (!this.HasDescendant((Microsoft.Iris.Library.TreeNode)ui) || !ui.IsKeyFocusable())
+                    if (!this.HasDescendant(ui) || !ui.IsKeyFocusable())
                         break;
                     resultItem.NavigateInto(focusState.FocusIsDefault);
                     break;
@@ -386,7 +386,7 @@ namespace Microsoft.Iris.UI
         private UIClass.DeferredKeyFocusRestoreHelper PendingFocusRestore
         {
             get => this.GetData(UIClass.s_pendingFocusRestoreProperty) as UIClass.DeferredKeyFocusRestoreHelper;
-            set => this.SetData(UIClass.s_pendingFocusRestoreProperty, (object)value);
+            set => this.SetData(UIClass.s_pendingFocusRestoreProperty, value);
         }
 
         private static bool CheckHandled(InputInfo info, InputHandler inputHandler) => info.Handled;
@@ -431,7 +431,7 @@ namespace Microsoft.Iris.UI
         {
             if (this._inputHandlers == null)
                 this._inputHandlers = new InputHandlerList();
-            return (IList)this._inputHandlers;
+            return _inputHandlers;
         }
 
         internal bool Visible => this.IsRoot || this._ownerHost.HasVisual;
@@ -453,7 +453,7 @@ namespace Microsoft.Iris.UI
             {
                 if (!this.ChangeBit(UIClass.Bits.Enabled, value))
                     return;
-                this.UpdateMouseHandling((ViewItem)null);
+                this.UpdateMouseHandling(null);
                 this.RevalidateUsage(true, !value);
                 this.FireNotification(NotificationID.Enabled);
                 if (!this.IsZoned || this.Parent != null && !this.Parent.FullyEnabled)
@@ -517,7 +517,7 @@ namespace Microsoft.Iris.UI
             {
                 if (this.FocusInterestTarget == value)
                     return;
-                this.SetData(UIClass.s_focusInterestTargetProperty, (object)value);
+                this.SetData(UIClass.s_focusInterestTargetProperty, value);
                 this.FireNotification(NotificationID.FocusInterestTarget);
             }
         }
@@ -533,7 +533,7 @@ namespace Microsoft.Iris.UI
             {
                 if (!(this.FocusInterestTargetMargins != value))
                     return;
-                this.SetData(UIClass.s_focusInterestTargetMarginsProperty, (object)value);
+                this.SetData(UIClass.s_focusInterestTargetMarginsProperty, value);
                 this.FireNotification(NotificationID.FocusInterestTargetMargins);
             }
         }
@@ -552,7 +552,7 @@ namespace Microsoft.Iris.UI
             {
                 if (this.Cursor == value)
                     return;
-                this.SetData(UIClass.s_cursorProperty, (object)value);
+                this.SetData(UIClass.s_cursorProperty, value);
                 this.FireNotification(NotificationID.Cursor);
                 if (!this.IsZoned || this.OverrideCursor != CursorID.NotSpecified)
                     return;
@@ -575,7 +575,7 @@ namespace Microsoft.Iris.UI
                 CursorID overrideCursor = this.OverrideCursor;
                 if (overrideCursor == value)
                     return;
-                this.SetData(UIClass.s_cursorOverrideProperty, (object)value);
+                this.SetData(UIClass.s_cursorOverrideProperty, value);
                 if (!this.IsZoned || overrideCursor == CursorID.NotSpecified && value == this.Cursor)
                     return;
                 this.Zone.UpdateCursor(this);
@@ -645,7 +645,7 @@ namespace Microsoft.Iris.UI
         {
             if (!this.ChangeBit(UIClass.Bits.RawInputDisabled, !enableFlag))
                 return;
-            this.UpdateMouseHandling((ViewItem)null);
+            this.UpdateMouseHandling(null);
             this.RevalidateUsage(true, !enableFlag);
         }
 
@@ -655,7 +655,7 @@ namespace Microsoft.Iris.UI
 
         public bool IsEligibleForInput(out UIClass failurePoint)
         {
-            failurePoint = (UIClass)null;
+            failurePoint = null;
             UIClass uiClass = this;
             while (true)
             {
@@ -673,7 +673,7 @@ namespace Microsoft.Iris.UI
             }
             return false;
         label_5:
-            failurePoint = (UIClass)null;
+            failurePoint = null;
             return this.IsZoned;
         }
 
@@ -691,12 +691,12 @@ namespace Microsoft.Iris.UI
                 return;
             if (value && this._rootItem != null && !this.HasMouseInteractiveContent())
                 this._rootItem.MouseInteractive = true;
-            this.UpdateMouseHandling((ViewItem)null);
+            this.UpdateMouseHandling(null);
             this.RevalidateUsage(false, !value);
             this.FireNotification(NotificationID.MouseInteractive);
             if (!DebugOutlines.Enabled)
                 return;
-            DebugOutlines.NotifyInteractivityChange((ViewItem)this.Host);
+            DebugOutlines.NotifyInteractivityChange(Host);
         }
 
         public bool IsMouseFocusable() => this.MouseInteractive && this.IsEligibleForInput();
@@ -712,7 +712,7 @@ namespace Microsoft.Iris.UI
                 this.FireNotification(NotificationID.KeyInteractive);
                 if (!DebugOutlines.Enabled)
                     return;
-                DebugOutlines.NotifyInteractivityChange((ViewItem)this.Host);
+                DebugOutlines.NotifyInteractivityChange(Host);
             }
         }
 
@@ -729,11 +729,11 @@ namespace Microsoft.Iris.UI
         public UIClass FindKeyFocusableAncestor()
         {
             if (!this.IsValid)
-                return (UIClass)null;
+                return null;
             UIClass uiClass;
             for (uiClass = this; uiClass != null; uiClass = uiClass.Parent)
             {
-                UIClass failurePoint = (UIClass)null;
+                UIClass failurePoint = null;
                 if (uiClass.KeyInteractive && uiClass.IsEligibleForInput(out failurePoint))
                     return uiClass;
                 if (failurePoint != null)
@@ -752,7 +752,7 @@ namespace Microsoft.Iris.UI
         {
             if (!this.IsKeyFocusable())
                 return;
-            this.UISession.InputManager.Queue.RequestKeyFocus((ICookedInputSite)this, keyfocusReason);
+            this.UISession.InputManager.Queue.RequestKeyFocus(this, keyfocusReason);
         }
 
         public bool IsValid => !this.IsDisposed;
@@ -766,7 +766,7 @@ namespace Microsoft.Iris.UI
                 case InputDeviceType.Mouse:
                     return UIClass.s_updateMouseFocusStates;
                 default:
-                    return (FocusStateHandler)null;
+                    return null;
             }
         }
 
@@ -774,7 +774,7 @@ namespace Microsoft.Iris.UI
         {
             if (!this.IsZoned)
                 return;
-            this.UISession.InputManager.RevalidateInputSiteUsage((ICookedInputSite)this, recursiveFlag, knownDisabledFlag);
+            this.UISession.InputManager.RevalidateInputSiteUsage(this, recursiveFlag, knownDisabledFlag);
         }
 
         internal void OnInputEnabledChanged()
@@ -782,7 +782,7 @@ namespace Microsoft.Iris.UI
             if (!this.IsZoned)
                 return;
             this.RevalidateUsage(true, !this.InputEnabled);
-            this.UpdateMouseHandling((ViewItem)null);
+            this.UpdateMouseHandling(null);
             if (!this.Enabled || this.Parent != null && !this.Parent.FullyEnabled)
                 return;
             this.NotifyFullyEnabledChange();
@@ -792,9 +792,9 @@ namespace Microsoft.Iris.UI
         {
             get
             {
-                IRawInputSite rawInputSite = (IRawInputSite)null;
+                IRawInputSite rawInputSite = null;
                 if (this._rootItem != null)
-                    rawInputSite = (IRawInputSite)this._rootItem.RendererVisual;
+                    rawInputSite = _rootItem.RendererVisual;
                 return rawInputSite;
             }
         }
@@ -907,7 +907,7 @@ namespace Microsoft.Iris.UI
 
         private void OnGainKeyFocus()
         {
-            NavigationServices.SeedDefaultFocus((INavigationSite)this.RootItem);
+            NavigationServices.SeedDefaultFocus(RootItem);
             if (this.CreateInterestOnFocus)
             {
                 this.SetAreaOfInterest(AreaOfInterestID.Focus);
@@ -965,7 +965,7 @@ namespace Microsoft.Iris.UI
                 return;
             recipient.FireNotification(NotificationID.DirectKeyFocus);
             if (DebugOutlines.Enabled)
-                DebugOutlines.NotifyInteractivityChange((ViewItem)recipient.Host);
+                DebugOutlines.NotifyInteractivityChange(recipient.Host);
             if (!directFocusFlag)
                 return;
             AccessibleProxy.NotifyFocus(recipient);
@@ -973,8 +973,8 @@ namespace Microsoft.Iris.UI
 
         public event InputEventHandler DescendentKeyFocusChange
         {
-            add => this.AddEventHandler(UIClass.s_descendantKeyFocusChangedEvent, (Delegate)value);
-            remove => this.RemoveEventHandler(UIClass.s_descendantKeyFocusChangedEvent, (Delegate)value);
+            add => this.AddEventHandler(UIClass.s_descendantKeyFocusChangedEvent, value);
+            remove => this.RemoveEventHandler(UIClass.s_descendantKeyFocusChangedEvent, value);
         }
 
         private static void UpdateMouseFocusStates(
@@ -989,13 +989,13 @@ namespace Microsoft.Iris.UI
             recipient.FireNotification(NotificationID.DirectMouseFocus);
             if (!DebugOutlines.Enabled)
                 return;
-            DebugOutlines.NotifyInteractivityChange((ViewItem)recipient.Host);
+            DebugOutlines.NotifyInteractivityChange(recipient.Host);
         }
 
         public event InputEventHandler DescendentMouseFocusChange
         {
-            add => this.AddEventHandler(UIClass.s_descendantMouseFocusChangedEvent, (Delegate)value);
-            remove => this.RemoveEventHandler(UIClass.s_descendantMouseFocusChangedEvent, (Delegate)value);
+            add => this.AddEventHandler(UIClass.s_descendantMouseFocusChangedEvent, value);
+            remove => this.RemoveEventHandler(UIClass.s_descendantMouseFocusChangedEvent, value);
         }
 
         private void DeliverCodeNotifications(InputInfo info)
@@ -1040,8 +1040,8 @@ namespace Microsoft.Iris.UI
                 if (flag3)
                     subjectItem.CreateVisual(this.Zone.Session.RenderSession);
                 Rectangle layoutBounds = subjectItem.LayoutBounds;
-                Vector2 vector2 = new Vector2((float)layoutBounds.Width, (float)layoutBounds.Height);
-                Vector3 vector3_1 = new Vector3((float)layoutBounds.X, (float)layoutBounds.Y, 0.0f);
+                Vector2 vector2 = new Vector2(layoutBounds.Width, layoutBounds.Height);
+                Vector3 vector3_1 = new Vector3(layoutBounds.X, layoutBounds.Y, 0.0f);
                 Vector3 vector3_2 = subjectItem.LayoutScale * subjectItem.Scale;
                 Rotation layoutRotation = subjectItem.LayoutRotation;
                 Vector3 oldScaleVector;
@@ -1088,7 +1088,7 @@ namespace Microsoft.Iris.UI
         {
             if (this._rootItem != null)
                 return this.FindNextFocusablePeerWorker(this._rootItem, searchDirection, startRectangleF, out resultUI);
-            resultUI = (UIClass)null;
+            resultUI = null;
             return false;
         }
 
@@ -1099,8 +1099,8 @@ namespace Microsoft.Iris.UI
           out UIClass resultUI)
         {
             INavigationSite resultSite;
-            bool nextPeer = NavigationServices.FindNextPeer((INavigationSite)startItem, searchDirection, startRectangleF, out resultSite);
-            resultUI = (UIClass)null;
+            bool nextPeer = NavigationServices.FindNextPeer(startItem, searchDirection, startRectangleF, out resultSite);
+            resultUI = null;
             if (resultSite != null && resultSite is ViewItem viewItem)
                 resultUI = viewItem.UI;
             return nextPeer;
@@ -1112,8 +1112,8 @@ namespace Microsoft.Iris.UI
           out UIClass resultUI)
         {
             INavigationSite resultSite;
-            bool nextWithin = NavigationServices.FindNextWithin((INavigationSite)this._rootItem, searchDirection, startRectangleF, out resultSite);
-            resultUI = (UIClass)null;
+            bool nextWithin = NavigationServices.FindNextWithin(_rootItem, searchDirection, startRectangleF, out resultSite);
+            resultUI = null;
             if (resultSite != null && resultSite is ViewItem viewItem)
                 resultUI = viewItem.UI;
             return nextWithin;
@@ -1181,7 +1181,7 @@ namespace Microsoft.Iris.UI
             return this.NavigateDirection(direction, reason);
         }
 
-        public TypeSchema TypeSchema => (TypeSchema)this._typeSchema;
+        public TypeSchema TypeSchema => _typeSchema;
 
         public void NotifyInitialized()
         {
@@ -1206,21 +1206,21 @@ namespace Microsoft.Iris.UI
 
         public object ReadSymbol(SymbolReference symbolRef)
         {
-            object obj = (object)null;
+            object obj = null;
             switch (symbolRef.Origin)
             {
                 case SymbolOrigin.Properties:
                 case SymbolOrigin.Locals:
-                    obj = this._storage[(object)symbolRef.Symbol];
+                    obj = this._storage[symbolRef.Symbol];
                     break;
                 case SymbolOrigin.Input:
                     if (this._inputHandlers != null)
                     {
                         foreach (InputHandler inputHandler in this._inputHandlers)
                         {
-                            if (inputHandler.Name != null && object.ReferenceEquals((object)inputHandler.Name, (object)symbolRef.Symbol))
+                            if (inputHandler.Name != null && object.ReferenceEquals(inputHandler.Name, symbolRef.Symbol))
                             {
-                                obj = (object)inputHandler;
+                                obj = inputHandler;
                                 break;
                             }
                         }
@@ -1228,12 +1228,12 @@ namespace Microsoft.Iris.UI
                     }
                     break;
                 case SymbolOrigin.Content:
-                    obj = (object)this.FindViewItemByName(this.RootItem, symbolRef.Symbol);
+                    obj = this.FindViewItemByName(this.RootItem, symbolRef.Symbol);
                     break;
                 case SymbolOrigin.Reserved:
                     if (symbolRef.Symbol == "UI")
                     {
-                        obj = (object)this;
+                        obj = this;
                         break;
                     }
                     break;
@@ -1243,10 +1243,10 @@ namespace Microsoft.Iris.UI
 
         public ViewItem FindViewItemByName(ViewItem item, string name)
         {
-            if (object.ReferenceEquals((object)item.Name, (object)name))
+            if (object.ReferenceEquals(item.Name, name))
                 return item;
             if (item.HideNamedChildren)
-                return (ViewItem)null;
+                return null;
             foreach (ViewItem child in item.Children)
             {
                 if (child.UI == this)
@@ -1256,28 +1256,28 @@ namespace Microsoft.Iris.UI
                         return viewItemByName;
                 }
             }
-            return (ViewItem)null;
+            return null;
         }
 
         public void WriteSymbol(SymbolReference symbolRef, object value)
         {
             string symbol = symbolRef.Symbol;
-            if (this._storage.ContainsKey((object)symbol) && Utility.IsEqual(this._storage[(object)symbol], value))
+            if (this._storage.ContainsKey(symbol) && Utility.IsEqual(this._storage[symbol], value))
                 return;
-            this._storage[(object)symbol] = value;
+            this._storage[symbol] = value;
             if (symbolRef.Origin != SymbolOrigin.Properties && symbolRef.Origin != SymbolOrigin.Locals)
                 return;
             bool surfaceViaHost = symbolRef.Origin == SymbolOrigin.Properties;
             this.FireNotification(symbol, surfaceViaHost);
         }
 
-        public object GetProperty(string name) => this._storage[(object)name];
+        public object GetProperty(string name) => this._storage[name];
 
         public void SetProperty(string name, object value)
         {
-            if (this._storage.ContainsKey((object)name) && Utility.IsEqual(this._storage[(object)name], value))
+            if (this._storage.ContainsKey(name) && Utility.IsEqual(this._storage[name], value))
                 return;
-            this._storage[(object)name] = value;
+            this._storage[name] = value;
             this.FireNotification(name, true);
         }
 
@@ -1292,23 +1292,23 @@ namespace Microsoft.Iris.UI
         public void ScheduleScriptRun(uint scriptId, bool ignoreErrors)
         {
             if (!this._scriptRunScheduler.Pending)
-                DeferredCall.Post(DispatchPriority.Script, UIClass.s_executePendingScriptsHandler, (object)this);
+                DeferredCall.Post(DispatchPriority.Script, UIClass.s_executePendingScriptsHandler, this);
             this._scriptRunScheduler.ScheduleRun(scriptId, ignoreErrors);
         }
 
         private static void ExecutePendingScripts(object args)
         {
             UIClass uiClass = (UIClass)args;
-            uiClass._scriptRunScheduler.Execute((IMarkupTypeBase)uiClass);
+            uiClass._scriptRunScheduler.Execute(uiClass);
         }
 
-        public object RunScript(uint scriptId, bool ignoreErrors, ParameterContext parameterContext) => this._typeSchema.Run((IMarkupTypeBase)this, scriptId, ignoreErrors, parameterContext);
+        public object RunScript(uint scriptId, bool ignoreErrors, ParameterContext parameterContext) => this._typeSchema.Run(this, scriptId, ignoreErrors, parameterContext);
 
         public void NotifyScriptErrors()
         {
             this.SetBit(UIClass.Bits.ScriptEnabled, false);
             this._ownerHost.NotifyChildUIScriptErrors();
-            ErrorManager.ReportWarning("Script runtime failure: Scripting has been disabled for '{0}' due to runtime scripting errors", (object)this._typeSchema.Name);
+            ErrorManager.ReportWarning("Script runtime failure: Scripting has been disabled for '{0}' due to runtime scripting errors", _typeSchema.Name);
         }
 
         public bool ScriptEnabled => this.GetBit(UIClass.Bits.ScriptEnabled);
@@ -1329,7 +1329,7 @@ namespace Microsoft.Iris.UI
           string contentName,
           ParameterContext parameterContext)
         {
-            return this._typeSchema.ConstructNamedContent(contentName, (IMarkupTypeBase)this, parameterContext);
+            return this._typeSchema.ConstructNamedContent(contentName, this, parameterContext);
         }
 
         private bool GetBit(UIClass.Bits lookupBit) => this._bits[(int)lookupBit];
@@ -1374,7 +1374,7 @@ namespace Microsoft.Iris.UI
             return false;
         }
 
-        public object GetEventContext() => this._eventContext != null ? this._eventContext.Value : (object)null;
+        public object GetEventContext() => this._eventContext != null ? this._eventContext.Value : null;
 
         internal void SetEventContext(EventContext eventContext) => this._eventContext = eventContext;
 
@@ -1419,11 +1419,11 @@ namespace Microsoft.Iris.UI
             {
                 if (!this._ui.IsZoned || this._ui.PendingFocusRestore != this)
                     return;
-                this._ui.PendingFocusRestore = (UIClass.DeferredKeyFocusRestoreHelper)null;
+                this._ui.PendingFocusRestore = null;
                 InputManager inputManager = this._ui.UISession.InputManager;
                 if (!inputManager.RawKeyFocusIsDefault && inputManager.RawKeyFocus != this._lastFocus || (faultedInItem == null || faultedInItem.IsDisposed))
                     return;
-                this._ui.RestoreKeyFocus((object)this._focusState);
+                this._ui.RestoreKeyFocus(_focusState);
             }
         }
 

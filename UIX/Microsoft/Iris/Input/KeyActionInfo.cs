@@ -47,7 +47,7 @@ namespace Microsoft.Iris.Input
           InputEventType eventType,
           InputDeviceType deviceType)
         {
-            this.Initialize(action, eventType, deviceType, InputModifiers.None, 1U, false, 0U, 0, (ushort)0);
+            this.Initialize(action, eventType, deviceType, InputModifiers.None, 1U, false, 0U, 0, 0);
         }
 
         public KeyAction Action => this._action;

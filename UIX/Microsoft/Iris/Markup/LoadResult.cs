@@ -35,7 +35,7 @@ namespace Microsoft.Iris.Markup
             if (((int)this._islandReferences & (int)islandId) != 0)
                 return;
             if (this._islandReferences == 0U)
-                this.RegisterUsage((object)this);
+                this.RegisterUsage(this);
             this._islandReferences |= islandId;
             foreach (LoadResult dependency in this.Dependencies)
             {
@@ -56,11 +56,11 @@ namespace Microsoft.Iris.Markup
             }
             if (this._islandReferences != 0U)
                 return;
-            this.UnregisterUsage((object)this);
+            this.UnregisterUsage(this);
             foreach (LoadResult dependency in this.Dependencies)
             {
                 if (dependency != this)
-                    dependency.UnregisterUsage((object)this);
+                    dependency.UnregisterUsage(this);
             }
         }
 
@@ -72,15 +72,15 @@ namespace Microsoft.Iris.Markup
             {
                 if (dependency != this)
                 {
-                    dependency.RegisterUsage((object)this);
+                    dependency.RegisterUsage(this);
                     dependency.AddReference(this._islandReferences);
                 }
             }
         }
 
-        public void RegisterProxyUsage() => this.RegisterUsage((object)this);
+        public void RegisterProxyUsage() => this.RegisterUsage(this);
 
-        public void UnregisterProxyUsage() => this.UnregisterUsage((object)this);
+        public void UnregisterProxyUsage() => this.UnregisterUsage(this);
 
         public virtual void Load(LoadPass pass)
         {
@@ -106,7 +106,7 @@ namespace Microsoft.Iris.Markup
             {
                 if (name.Equals(this._compilerReferenceName, StringComparison.OrdinalIgnoreCase))
                     return;
-                ErrorManager.ReportWarning("Multiple names '{0}' and '{1}' used to refer to the same entity.  The first name will be used for all references to this item within compiled UIB files", (object)this._compilerReferenceName, (object)name);
+                ErrorManager.ReportWarning("Multiple names '{0}' and '{1}' used to refer to the same entity.  The first name will be used for all references to this item within compiled UIB files", _compilerReferenceName, name);
             }
         }
 

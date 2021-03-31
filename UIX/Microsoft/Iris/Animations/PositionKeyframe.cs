@@ -38,7 +38,7 @@ namespace Microsoft.Iris.Animations
                 if (UISession.Default.IsRtl)
                 {
                     Vector2 vector2 = new Vector2(0.0f, 0.0f);
-                    IVisualContainer visualContainer1 = (IVisualContainer)null;
+                    IVisualContainer visualContainer1 = null;
                     if (targetObject is IVisualContainer visualContainer)
                     {
                         vector2 = visualContainer.Size;
@@ -55,7 +55,7 @@ namespace Microsoft.Iris.Animations
             }
             else if (relativeTo is SnapshotRelativeTo snapshotRelativeTo)
             {
-                RectangleF rectangleF = args.ViewItem.TransformFromAncestor((ViewItem)null, snapshotRelativeTo.Bounds);
+                RectangleF rectangleF = args.ViewItem.TransformFromAncestor(null, snapshotRelativeTo.Bounds);
                 baseValueVector = baseValueVector + args.NewPosition + new Vector3(rectangleF.X, rectangleF.Y, 0.0f) * args.NewScale;
             }
             return baseValueVector;

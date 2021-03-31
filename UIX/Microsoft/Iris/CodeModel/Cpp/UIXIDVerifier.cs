@@ -23,9 +23,9 @@ namespace Microsoft.Iris.CodeModel.Cpp
 
         private bool CheckForSchemaMatch(uint ID)
         {
-            bool flag = (int)UIXID.GetSchemaComponent(ID) == (int)this._loadResult.SchemaComponent;
+            bool flag = (int)UIXID.GetSchemaComponent(ID) == _loadResult.SchemaComponent;
             if (!flag)
-                ErrorManager.ReportError("Schema component on ID '0x{0:X8}' doesn't match schema's ID '0x{1:X8}' on '{2}'", (object)ID, (object)this._loadResult.SchemaComponent, (object)this._loadResult.Uri);
+                ErrorManager.ReportError("Schema component on ID '0x{0:X8}' doesn't match schema's ID '0x{1:X8}' on '{2}'", ID, _loadResult.SchemaComponent, _loadResult.Uri);
             return flag;
         }
 
@@ -35,7 +35,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
             bool flag = this._uniqueIDs.TryGetValue(ID, out num);
             if (flag && num == 0U)
             {
-                ErrorManager.ReportError("Duplicate ID '0x{0:X8}' found in schema from '{1}'", (object)ID, (object)this._loadResult.Uri);
+                ErrorManager.ReportError("Duplicate ID '0x{0:X8}' found in schema from '{1}'", ID, _loadResult.Uri);
                 ++num;
             }
             this._uniqueIDs[ID] = num;

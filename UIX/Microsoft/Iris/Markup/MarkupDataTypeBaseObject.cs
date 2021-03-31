@@ -52,7 +52,7 @@ namespace Microsoft.Iris.Markup
 
         protected virtual bool ExternalObjectGetProperty(string propertyName, out object value)
         {
-            value = (object)null;
+            value = null;
             return false;
         }
 
@@ -60,7 +60,7 @@ namespace Microsoft.Iris.Markup
 
         protected abstract IDataProviderBaseObject ExternalAssemblyObject { get; }
 
-        object AssemblyObjectProxyHelper.IAssemblyProxyObject.AssemblyObject => (object)this.ExternalAssemblyObject;
+        object AssemblyObjectProxyHelper.IAssemblyProxyObject.AssemblyObject => ExternalAssemblyObject;
 
         public abstract IntPtr ExternalNativeObject { get; }
     }

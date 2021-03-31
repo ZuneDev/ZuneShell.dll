@@ -10,7 +10,7 @@ namespace Microsoft.Iris.Library
     {
         private int _usageCount;
 
-        public SharedDisposableObject() => this.DeclareOwner((object)this);
+        public SharedDisposableObject() => this.DeclareOwner(this);
 
         protected override void OnDispose() => base.OnDispose();
 
@@ -21,7 +21,7 @@ namespace Microsoft.Iris.Library
             --this._usageCount;
             if (this._usageCount != 0)
                 return;
-            this.Dispose((object)this);
+            this.Dispose(this);
         }
     }
 }

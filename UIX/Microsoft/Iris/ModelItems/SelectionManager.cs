@@ -71,7 +71,7 @@ namespace Microsoft.Iris.ModelItems
                         }
                     }
                     list.Sort();
-                    this._selectedIndicesCache = (IList)new SelectionManager.ReadOnlyList((IList)list, nameof(SelectedIndices));
+                    this._selectedIndicesCache = new SelectionManager.ReadOnlyList(list, nameof(SelectedIndices));
                 }
                 return this._selectedIndicesCache;
             }
@@ -83,10 +83,10 @@ namespace Microsoft.Iris.ModelItems
             {
                 if (this._selectedItemsCache == null)
                 {
-                    IList originalList = (IList)null;
+                    IList originalList = null;
                     if (this.Count > 0 && this.SourceList != null)
                     {
-                        originalList = (IList)new List<object>();
+                        originalList = new List<object>();
                         foreach (int original in (List<int>)((SelectionManager.ReadOnlyList)this.SelectedIndices).OriginalList)
                         {
                             if (this.IsValidIndex(original))
@@ -94,8 +94,8 @@ namespace Microsoft.Iris.ModelItems
                         }
                     }
                     if (originalList == null)
-                        originalList = (IList)SelectionManager.s_emptyList;
-                    this._selectedItemsCache = (IList)new SelectionManager.ReadOnlyList(originalList, nameof(SelectedItems));
+                        originalList = s_emptyList;
+                    this._selectedItemsCache = new SelectionManager.ReadOnlyList(originalList, nameof(SelectedItems));
                 }
                 return this._selectedItemsCache;
             }
@@ -115,7 +115,7 @@ namespace Microsoft.Iris.ModelItems
             }
         }
 
-        public object SelectedItem => this.Count > 0 ? this.SelectedItems[0] : (object)null;
+        public object SelectedItem => this.Count > 0 ? this.SelectedItems[0] : null;
 
         public int Count => this._count;
 
@@ -181,7 +181,7 @@ namespace Microsoft.Iris.ModelItems
         {
             if (!this.SingleSelect)
                 return;
-            ErrorManager.ReportError("Calling {0} is not supported on a SelectionManager in single selection modes.", (object)operation);
+            ErrorManager.ReportError("Calling {0} is not supported on a SelectionManager in single selection modes.", operation);
         }
 
         private void OnListContentsChanged(IList senderList, UIListContentsChangedArgs args)
@@ -348,7 +348,7 @@ namespace Microsoft.Iris.ModelItems
         {
             this.ValidateMultiSelect("Select(IList, bool)");
             bool flag = true;
-            foreach (object index in (IEnumerable)indices)
+            foreach (object index in indices)
                 flag &= this.Select((int)index, select, false, true);
             return flag;
         }
@@ -359,7 +359,7 @@ namespace Microsoft.Iris.ModelItems
         {
             this.ValidateMultiSelect("ToggleSelect(IList)");
             bool flag = true;
-            foreach (int index in (IEnumerable)items)
+            foreach (int index in items)
                 flag &= this.Select(index, !this.IsSelected(index), false, true);
             return flag;
         }
@@ -468,7 +468,7 @@ namespace Microsoft.Iris.ModelItems
 
         private void OnSelectionChanged(bool countChanged)
         {
-            this._selectedIndicesCache = (IList)null;
+            this._selectedIndicesCache = null;
             this.FireNotification(NotificationID.SelectedIndices);
             this.FireNotification(NotificationID.SelectedIndex);
             if (!countChanged)
@@ -476,7 +476,7 @@ namespace Microsoft.Iris.ModelItems
             this.FireNotification(NotificationID.Count);
             if (this.SourceList == null)
                 return;
-            this._selectedItemsCache = (IList)null;
+            this._selectedItemsCache = null;
             this.FireNotification(NotificationID.SelectedItems);
             this.FireNotification(NotificationID.SelectedItem);
         }
@@ -497,7 +497,7 @@ namespace Microsoft.Iris.ModelItems
             public object this[int index]
             {
                 get => this._originalList[index];
-                set => ErrorManager.ReportError("Cannot modify selection through the list returned by {0}.  Use the methods on SelectionManager instead.", (object)this._listName);
+                set => ErrorManager.ReportError("Cannot modify selection through the list returned by {0}.  Use the methods on SelectionManager instead.", _listName);
             }
 
             public int Count => this._originalList.Count;
@@ -512,7 +512,7 @@ namespace Microsoft.Iris.ModelItems
 
             public bool IsSynchronized => false;
 
-            public object SyncRoot => (object)this._originalList;
+            public object SyncRoot => _originalList;
 
             public IEnumerator GetEnumerator() => this._originalList.GetEnumerator();
 
@@ -520,17 +520,17 @@ namespace Microsoft.Iris.ModelItems
 
             public int Add(object value)
             {
-                ErrorManager.ReportError("Cannot modify selection through the list returned by {0}.  Use the methods on SelectionManager instead.", (object)this._listName);
+                ErrorManager.ReportError("Cannot modify selection through the list returned by {0}.  Use the methods on SelectionManager instead.", _listName);
                 return -1;
             }
 
-            public void Clear() => ErrorManager.ReportError("Cannot modify selection through the list returned by {0}.  Use the methods on SelectionManager instead.", (object)this._listName);
+            public void Clear() => ErrorManager.ReportError("Cannot modify selection through the list returned by {0}.  Use the methods on SelectionManager instead.", _listName);
 
-            public void Insert(int index, object value) => ErrorManager.ReportError("Cannot modify selection through the list returned by {0}.  Use the methods on SelectionManager instead.", (object)this._listName);
+            public void Insert(int index, object value) => ErrorManager.ReportError("Cannot modify selection through the list returned by {0}.  Use the methods on SelectionManager instead.", _listName);
 
-            public void Remove(object value) => ErrorManager.ReportError("Cannot modify selection through the list returned by {0}.  Use the methods on SelectionManager instead.", (object)this._listName);
+            public void Remove(object value) => ErrorManager.ReportError("Cannot modify selection through the list returned by {0}.  Use the methods on SelectionManager instead.", _listName);
 
-            public void RemoveAt(int index) => ErrorManager.ReportError("Cannot modify selection through the list returned by {0}.  Use the methods on SelectionManager instead.", (object)this._listName);
+            public void RemoveAt(int index) => ErrorManager.ReportError("Cannot modify selection through the list returned by {0}.  Use the methods on SelectionManager instead.", _listName);
         }
     }
 }

@@ -33,9 +33,9 @@ namespace Microsoft.Iris.Drawing
         private IAnimationProvider _upAnimation;
         private IAnimationProvider _znAnimation;
         private NotifyService _notifier = new NotifyService();
-        private IList _listeners = (IList)new ArrayList();
+        private IList _listeners = new ArrayList();
 
-        public Camera() => this._camera = UISession.Default.RenderSession.CreateCamera((object)this);
+        public Camera() => this._camera = UISession.Default.RenderSession.CreateCamera(this);
 
         protected override void OnDispose()
         {
@@ -44,10 +44,10 @@ namespace Microsoft.Iris.Drawing
             if (activeAnimations != null)
             {
                 foreach (DisposableObject disposableObject in activeAnimations)
-                    disposableObject.Dispose((object)this);
+                    disposableObject.Dispose(this);
             }
-            this._camera.UnregisterUsage((object)this);
-            this._camera = (ICamera)null;
+            this._camera.UnregisterUsage(this);
+            this._camera = null;
         }
 
         public void AddListener(Listener listener) => this._notifier.AddListener(listener);
@@ -55,7 +55,7 @@ namespace Microsoft.Iris.Drawing
         protected void FireNotification(string id)
         {
             this._notifier.Fire(id);
-            foreach (object listener in (IEnumerable)this._listeners)
+            foreach (object listener in _listeners)
             {
                 if (listener is ViewItem viewItem)
                     viewItem.MarkPaintInvalid();
@@ -94,7 +94,7 @@ namespace Microsoft.Iris.Drawing
                 if (!(this._camera.Eye != value))
                     return;
                 this.CameraEyeNoSend = value;
-                if (this._eyeAnimation == null || !this.PlayAnimation(this._eyeAnimation, (AnimationHandle)null))
+                if (this._eyeAnimation == null || !this.PlayAnimation(this._eyeAnimation, null))
                     this.CameraEye = value;
                 this.FireNotification(NotificationID.Eye);
             }
@@ -126,7 +126,7 @@ namespace Microsoft.Iris.Drawing
                 if (!(this._camera.At != value))
                     return;
                 this.CameraAtNoSend = value;
-                if (this._atAnimation == null || !this.PlayAnimation(this._atAnimation, (AnimationHandle)null))
+                if (this._atAnimation == null || !this.PlayAnimation(this._atAnimation, null))
                     this.CameraAt = value;
                 this.FireNotification(NotificationID.At);
             }
@@ -158,7 +158,7 @@ namespace Microsoft.Iris.Drawing
                 if (!(this._camera.Up != value))
                     return;
                 this.CameraUpNoSend = value;
-                if (this._upAnimation == null || !this.PlayAnimation(this._upAnimation, (AnimationHandle)null))
+                if (this._upAnimation == null || !this.PlayAnimation(this._upAnimation, null))
                     this.CameraUp = value;
                 this.FireNotification(NotificationID.Up);
             }
@@ -187,10 +187,10 @@ namespace Microsoft.Iris.Drawing
             get => this._hasZnNoSend ? this._flZnNoSend : this._camera.Zn;
             set
             {
-                if ((double)this._camera.Zn == (double)value)
+                if (_camera.Zn == (double)value)
                     return;
                 this.CameraZnNoSend = value;
-                if (this._znAnimation == null || !this.PlayAnimation(this._znAnimation, (AnimationHandle)null))
+                if (this._znAnimation == null || !this.PlayAnimation(this._znAnimation, null))
                     this.CameraZn = value;
                 this.FireNotification(NotificationID.Zn);
             }
@@ -216,7 +216,7 @@ namespace Microsoft.Iris.Drawing
 
         internal ICamera APICamera => this._camera;
 
-        IAnimatable IAnimatableOwner.AnimationTarget => (IAnimatable)this._camera;
+        IAnimatable IAnimatableOwner.AnimationTarget => _camera;
 
         public IAnimationProvider EyeAnimation
         {
@@ -283,7 +283,7 @@ namespace Microsoft.Iris.Drawing
                 return false;
             if (shouldPlayAnimation)
             {
-                this.PlayAnimation(anim, ref args, (EventHandler)null, animationHandle);
+                this.PlayAnimation(anim, ref args, null, animationHandle);
             }
             else
             {
@@ -299,10 +299,10 @@ namespace Microsoft.Iris.Drawing
           EventHandler onCompleteHandler,
           AnimationHandle animationHandle)
         {
-            ActiveSequence instance = anim.CreateInstance((IAnimatable)this.APICamera, ref args);
+            ActiveSequence instance = anim.CreateInstance(APICamera, ref args);
             if (instance == null)
                 return;
-            instance.DeclareOwner((object)this);
+            instance.DeclareOwner(this);
             if (onCompleteHandler != null)
                 instance.AnimationCompleted += onCompleteHandler;
             animationHandle?.AssociateWithAnimationInstance(instance);
@@ -334,7 +334,7 @@ namespace Microsoft.Iris.Drawing
             if (activeAnimations == null)
                 return;
             ActiveTransitions activeTransitions = newSequence.GetActiveTransitions();
-            StopCommandSet stopCommand = (StopCommandSet)null;
+            StopCommandSet stopCommand = null;
             foreach (ActiveSequence playingSequence in activeAnimations)
                 this.StopAnimationIfOverlapping(playingSequence, newSequence, activeTransitions, ref stopCommand);
         }
@@ -370,12 +370,12 @@ namespace Microsoft.Iris.Drawing
             activeAnimations.Remove(activeSequence);
             this.OnAnimationListChanged();
             if (activeAnimations.Count == 0)
-                this._activeAnimations = (Vector<ActiveSequence>)null;
+                this._activeAnimations = null;
             if (activeSequence.Template is Animation template)
             {
                 int num = template.DisableMouseInput ? 1 : 0;
             }
-            activeSequence.Dispose((object)this);
+            activeSequence.Dispose(this);
         }
 
         private void StopActiveAnimations()
@@ -392,11 +392,11 @@ namespace Microsoft.Iris.Drawing
             foreach (BaseKeyframe keyframe in anim.Keyframes)
             {
                 BaseKeyframe baseKeyframe = baseKeyframeArray[(uint)keyframe.Type];
-                if (baseKeyframe == null || (double)baseKeyframe.Time <= (double)keyframe.Time)
+                if (baseKeyframe == null || baseKeyframe.Time <= (double)keyframe.Time)
                     baseKeyframeArray[(uint)keyframe.Type] = keyframe;
             }
             foreach (BaseKeyframe baseKeyframe in baseKeyframeArray)
-                baseKeyframe?.Apply((IAnimatableOwner)this, ref args);
+                baseKeyframe?.Apply(this, ref args);
         }
 
         private Vector<ActiveSequence> GetActiveAnimations(bool createIfNone) => this.GetAnimationSequence(ref this._activeAnimations, createIfNone);
@@ -405,7 +405,7 @@ namespace Microsoft.Iris.Drawing
           ref Vector<ActiveSequence> currentAnimationsList,
           bool createIfNone)
         {
-            Vector<ActiveSequence> vector = (Vector<ActiveSequence>)null;
+            Vector<ActiveSequence> vector = null;
             if (currentAnimationsList == null)
             {
                 if (createIfNone)

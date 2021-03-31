@@ -26,13 +26,13 @@ namespace Microsoft.Iris.Markup
             AssemblyObjectProxyHelper.s_typeofString = typeof(string);
             AssemblyObjectProxyHelper.s_proxyTypeInfoTable = new AssemblyObjectProxyHelper.ProxyTypeInfo[7]
             {
-        new AssemblyObjectProxyHelper.ProxyTypeInfo(typeof (ICommand), typeof (AssemblyObjectProxyHelper.ProxyCommand), (TypeSchema) CommandSchema.Type),
-        new AssemblyObjectProxyHelper.ProxyTypeInfo(typeof (IValueRange), typeof (AssemblyObjectProxyHelper.ProxyValueRange), (TypeSchema) ValueRangeSchema.Type),
-        new AssemblyObjectProxyHelper.ProxyTypeInfo(typeof (IList), typeof (AssemblyObjectProxyHelper.ProxyList), (TypeSchema) ListSchema.Type),
-        new AssemblyObjectProxyHelper.ProxyTypeInfo(typeof (IDictionary), typeof (AssemblyObjectProxyHelper.ProxyDictionary), (TypeSchema) DictionarySchema.Type),
-        new AssemblyObjectProxyHelper.ProxyTypeInfo(typeof (IEnumerator), typeof (AssemblyObjectProxyHelper.ProxyListEnumerator), (TypeSchema) EnumeratorSchema.Type),
-        new AssemblyObjectProxyHelper.ProxyTypeInfo(typeof (IDisposable), typeof (AssemblyObjectProxyHelper.ProxyObject), (TypeSchema) null),
-        new AssemblyObjectProxyHelper.ProxyTypeInfo(typeof (INotifyPropertyChanged), typeof (AssemblyObjectProxyHelper.ProxyObject), (TypeSchema) null)
+        new AssemblyObjectProxyHelper.ProxyTypeInfo(typeof (ICommand), typeof (AssemblyObjectProxyHelper.ProxyCommand),  CommandSchema.Type),
+        new AssemblyObjectProxyHelper.ProxyTypeInfo(typeof (IValueRange), typeof (AssemblyObjectProxyHelper.ProxyValueRange),  ValueRangeSchema.Type),
+        new AssemblyObjectProxyHelper.ProxyTypeInfo(typeof (IList), typeof (AssemblyObjectProxyHelper.ProxyList),  ListSchema.Type),
+        new AssemblyObjectProxyHelper.ProxyTypeInfo(typeof (IDictionary), typeof (AssemblyObjectProxyHelper.ProxyDictionary),  DictionarySchema.Type),
+        new AssemblyObjectProxyHelper.ProxyTypeInfo(typeof (IEnumerator), typeof (AssemblyObjectProxyHelper.ProxyListEnumerator),  EnumeratorSchema.Type),
+        new AssemblyObjectProxyHelper.ProxyTypeInfo(typeof (IDisposable), typeof (AssemblyObjectProxyHelper.ProxyObject),  null),
+        new AssemblyObjectProxyHelper.ProxyTypeInfo(typeof (INotifyPropertyChanged), typeof (AssemblyObjectProxyHelper.ProxyObject),  null)
             };
         }
 
@@ -42,13 +42,13 @@ namespace Microsoft.Iris.Markup
             {
                 if (proxyTypeInfo.type.IsAssignableFrom(assemblyType))
                 {
-                    AssemblyTypeSchema assemblyTypeSchema = (AssemblyTypeSchema)new FrameworkCompatibleAssemblyTypeSchema(assemblyType, proxyTypeInfo.proxyType);
+                    AssemblyTypeSchema assemblyTypeSchema = new FrameworkCompatibleAssemblyTypeSchema(assemblyType, proxyTypeInfo.proxyType);
                     if (proxyTypeInfo.equivalents != null)
                         assemblyTypeSchema.ShareEquivalents(proxyTypeInfo.equivalents);
                     return assemblyTypeSchema;
                 }
             }
-            return (AssemblyTypeSchema)new StandardAssemblyTypeSchema(assemblyType);
+            return new StandardAssemblyTypeSchema(assemblyType);
         }
 
         internal static Type ProxyListType => typeof(AssemblyObjectProxyHelper.ProxyList);
@@ -62,32 +62,32 @@ namespace Microsoft.Iris.Markup
         internal static object WrapObject(TypeSchema typeSchema, object instance)
         {
             if (instance == null)
-                return (object)null;
+                return null;
             if (instance.GetType().IsPrimitive)
                 return instance;
             switch (instance)
             {
                 case Type type:
-                    return (object)AssemblyLoadResult.MapType(type);
+                    return AssemblyLoadResult.MapType(type);
                 case AssemblyObjectProxyHelper.IFrameworkProxyObject frameworkProxyObject:
                     return frameworkProxyObject.FrameworkObject;
                 default:
-                    AssemblyObjectProxyHelper.ProxyObject proxyObject = (AssemblyObjectProxyHelper.ProxyObject)null;
+                    AssemblyObjectProxyHelper.ProxyObject proxyObject = null;
                     bool isDisposable = instance is IDisposable;
                     bool notifiesOnChange = instance is INotifyPropertyChanged;
                     switch (instance)
                     {
                         case ICommand _:
-                            proxyObject = (AssemblyObjectProxyHelper.ProxyObject)new AssemblyObjectProxyHelper.ProxyCommand(instance);
+                            proxyObject = new AssemblyObjectProxyHelper.ProxyCommand(instance);
                             break;
                         case IValueRange _:
-                            proxyObject = (AssemblyObjectProxyHelper.ProxyObject)new AssemblyObjectProxyHelper.ProxyValueRange(instance);
+                            proxyObject = new AssemblyObjectProxyHelper.ProxyValueRange(instance);
                             break;
                         case IDictionary _:
-                            proxyObject = (AssemblyObjectProxyHelper.ProxyObject)new AssemblyObjectProxyHelper.ProxyDictionary(instance);
+                            proxyObject = new AssemblyObjectProxyHelper.ProxyDictionary(instance);
                             break;
                         case IList _:
-                            proxyObject = !(instance is Group) ? (!(instance is IVirtualList) ? (!(instance is INotifyList) ? (AssemblyObjectProxyHelper.ProxyObject)new AssemblyObjectProxyHelper.ProxyList(instance) : (AssemblyObjectProxyHelper.ProxyObject)new AssemblyObjectProxyHelper.ProxyNotifyList(instance)) : (AssemblyObjectProxyHelper.ProxyObject)new AssemblyObjectProxyHelper.ProxyVirtualNotifyList(instance, instance is INotifyList)) : (AssemblyObjectProxyHelper.ProxyObject)new AssemblyObjectProxyHelper.ProxyGroup(instance, instance is INotifyList);
+                            proxyObject = !(instance is Group) ? (!(instance is IVirtualList) ? (!(instance is INotifyList) ? new AssemblyObjectProxyHelper.ProxyList(instance) : new AssemblyObjectProxyHelper.ProxyNotifyList(instance)) : new AssemblyObjectProxyHelper.ProxyVirtualNotifyList(instance, instance is INotifyList)) : new AssemblyObjectProxyHelper.ProxyGroup(instance, instance is INotifyList);
                             break;
                         default:
                             if (isDisposable || notifiesOnChange)
@@ -100,14 +100,14 @@ namespace Microsoft.Iris.Markup
                     if (proxyObject == null)
                         return instance;
                     proxyObject.SetIntrinsicState(isDisposable, notifiesOnChange);
-                    return (object)proxyObject;
+                    return proxyObject;
             }
         }
 
         internal static object UnwrapObject(object instance)
         {
             if (instance == null)
-                return (object)null;
+                return null;
             Type type = instance.GetType();
             if (type.IsPrimitive || type == AssemblyObjectProxyHelper.s_typeofString)
                 return instance;
@@ -116,10 +116,10 @@ namespace Microsoft.Iris.Markup
                 case AssemblyObjectProxyHelper.IAssemblyProxyObject assemblyProxyObject:
                     return assemblyProxyObject.AssemblyObject;
                 case IList uixList:
-                    return (object)new AssemblyObjectProxyHelper.ReverseProxyList(uixList);
+                    return new AssemblyObjectProxyHelper.ReverseProxyList(uixList);
                 case IDictionary _:
                 case IDisposable _:
-                    return (object)new AssemblyObjectProxyHelper.WrappedFrameworkObject(instance);
+                    return new AssemblyObjectProxyHelper.WrappedFrameworkObject(instance);
                 default:
                     return instance;
             }
@@ -135,7 +135,7 @@ namespace Microsoft.Iris.Markup
             {
                 this.type = type;
                 this.proxyType = proxyType;
-                this.equivalents = (Vector<TypeSchema>)null;
+                this.equivalents = null;
                 if (equivalence == null)
                     return;
                 this.equivalents = new Vector<TypeSchema>(1);
@@ -197,7 +197,7 @@ namespace Microsoft.Iris.Markup
                 base.OnOwnerDeclared(owner);
                 if (!(this._assemblyObject is ModelItem assemblyObject))
                     return;
-                assemblyObject.Owner = (IModelItemOwner)this;
+                assemblyObject.Owner = this;
             }
 
             public void AddListener(Listener listener)
@@ -235,7 +235,7 @@ namespace Microsoft.Iris.Markup
 
             public object AssemblyObject => this._assemblyObject;
 
-            public TypeSchema TypeSchema => (TypeSchema)AssemblyLoadResult.MapType(this._assemblyObject.GetType());
+            public TypeSchema TypeSchema => AssemblyLoadResult.MapType(this._assemblyObject.GetType());
 
             public override bool Equals(object rhs)
             {
@@ -364,7 +364,7 @@ namespace Microsoft.Iris.Markup
 
             public object SyncRoot => this.ExternalList.SyncRoot;
 
-            public IEnumerator GetEnumerator() => (IEnumerator)new AssemblyObjectProxyHelper.ProxyListEnumerator((object)this.ExternalList.GetEnumerator());
+            public IEnumerator GetEnumerator() => new AssemblyObjectProxyHelper.ProxyListEnumerator(this.ExternalList.GetEnumerator());
 
             public bool CanSearch => this._canSearch;
 
@@ -390,7 +390,7 @@ namespace Microsoft.Iris.Markup
 
             public object Current => AssemblyLoadResult.WrapObject(this._assemblyEnumerator.Current);
 
-            public object AssemblyObject => (object)this._assemblyEnumerator;
+            public object AssemblyObject => _assemblyEnumerator;
         }
 
         private class ProxyNotifyList :
@@ -428,21 +428,21 @@ namespace Microsoft.Iris.Markup
                         this._listContentsChangedHandler = new UIListContentsChangedHandler(this.OnListContentsChanged);
                         this.ExternalNotifyList.ContentsChanged += this._listContentsChangedHandler;
                     }
-                    this._handlersAttachedToMe = Delegate.Combine(this._handlersAttachedToMe, (Delegate)value);
+                    this._handlersAttachedToMe = Delegate.Combine(this._handlersAttachedToMe, value);
                 }
                 remove
                 {
                     if (!this._isNotifyList)
                         return;
-                    this._handlersAttachedToMe = Delegate.Remove(this._handlersAttachedToMe, (Delegate)value);
+                    this._handlersAttachedToMe = Delegate.Remove(this._handlersAttachedToMe, value);
                     if ((object)this._handlersAttachedToMe != null)
                         return;
                     this.ExternalNotifyList.ContentsChanged -= this._listContentsChangedHandler;
-                    this._listContentsChangedHandler = (UIListContentsChangedHandler)null;
+                    this._listContentsChangedHandler = null;
                 }
             }
 
-            private void OnListContentsChanged(IList senderList, UIListContentsChangedArgs args) => ((UIListContentsChangedHandler)this._handlersAttachedToMe)((IList)this, args);
+            private void OnListContentsChanged(IList senderList, UIListContentsChangedArgs args) => ((UIListContentsChangedHandler)this._handlersAttachedToMe)(this, args);
         }
 
         private class ProxyVirtualNotifyList :
@@ -467,7 +467,7 @@ namespace Microsoft.Iris.Markup
             {
                 if (this._itemCallbacks == null)
                     this._itemCallbacks = new Dictionary<object, object>();
-                this._itemCallbacks[(object)index] = (object)callback;
+                this._itemCallbacks[index] = callback;
                 if (this._onItemGeneratedCallback == null)
                     this._onItemGeneratedCallback = new ItemRequestCallback(this.OnItemGenerated);
                 this.ExternalVirtualList.RequestItem(index, this._onItemGeneratedCallback);
@@ -497,9 +497,9 @@ namespace Microsoft.Iris.Markup
 
             private void OnItemGenerated(object sender, int index, object item)
             {
-                ItemRequestCallback itemCallback = (ItemRequestCallback)this._itemCallbacks[(object)index];
-                this._itemCallbacks.Remove((object)index);
-                itemCallback((object)this, index, AssemblyLoadResult.WrapObject(item));
+                ItemRequestCallback itemCallback = (ItemRequestCallback)this._itemCallbacks[index];
+                this._itemCallbacks.Remove(index);
+                itemCallback(this, index, AssemblyLoadResult.WrapObject(item));
             }
         }
 
@@ -584,7 +584,7 @@ namespace Microsoft.Iris.Markup
 
             public ReverseProxyList(IList uixList) => this._uixList = uixList;
 
-            public object FrameworkObject => (object)this._uixList;
+            public object FrameworkObject => _uixList;
 
             public int Add(object value) => this._uixList.Add(AssemblyLoadResult.WrapObject(value));
 
@@ -626,7 +626,7 @@ namespace Microsoft.Iris.Markup
 
             public object SyncRoot => this._uixList.SyncRoot;
 
-            public IEnumerator GetEnumerator() => (IEnumerator)new AssemblyObjectProxyHelper.ReverseProxyListEnumerator(this._uixList.GetEnumerator());
+            public IEnumerator GetEnumerator() => new AssemblyObjectProxyHelper.ReverseProxyListEnumerator(this._uixList.GetEnumerator());
         }
 
         private class ReverseProxyListEnumerator :
@@ -643,7 +643,7 @@ namespace Microsoft.Iris.Markup
 
             public object Current => AssemblyLoadResult.UnwrapObject(this._uixEnumerator.Current);
 
-            public object FrameworkObject => (object)this._uixEnumerator;
+            public object FrameworkObject => _uixEnumerator;
         }
     }
 }

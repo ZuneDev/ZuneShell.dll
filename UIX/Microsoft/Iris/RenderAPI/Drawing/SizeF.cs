@@ -39,13 +39,13 @@ namespace Microsoft.Iris.RenderAPI.Drawing
 
         public static SizeF operator -(SizeF sz1, SizeF sz2) => new SizeF(sz1.Width - sz2.Width, sz1.Height - sz2.Height);
 
-        public static bool operator ==(SizeF sz1, SizeF sz2) => (double)sz1.Width == (double)sz2.Width && (double)sz1.Height == (double)sz2.Height;
+        public static bool operator ==(SizeF sz1, SizeF sz2) => sz1.Width == (double)sz2.Width && sz1.Height == (double)sz2.Height;
 
         public static bool operator !=(SizeF sz1, SizeF sz2) => !(sz1 == sz2);
 
         public PointF ToPointF() => new PointF(this.Width, this.Height);
 
-        internal bool IsZero => (double)this.Width == 0.0 && (double)this.Height == 0.0;
+        internal bool IsZero => Width == 0.0 && Height == 0.0;
 
         public float Width
         {
@@ -72,9 +72,9 @@ namespace Microsoft.Iris.RenderAPI.Drawing
             return sizeF;
         }
 
-        public override bool Equals(object obj) => obj is SizeF sizeF && (double)sizeF.Width == (double)this.Width && (double)sizeF.Height == (double)this.Height;
+        public override bool Equals(object obj) => obj is SizeF sizeF && sizeF.Width == (double)this.Width && sizeF.Height == (double)this.Height;
 
-        public bool Equals(SizeF comp) => (double)comp.Width == (double)this.Width && (double)comp.Height == (double)this.Height;
+        public bool Equals(SizeF comp) => comp.Width == (double)this.Width && comp.Height == (double)this.Height;
 
         public override int GetHashCode() => this.width.GetHashCode() ^ this.height.GetHashCode();
 
@@ -86,9 +86,9 @@ namespace Microsoft.Iris.RenderAPI.Drawing
         {
             StringBuilder stringBuilder = new StringBuilder(32);
             stringBuilder.Append("(Width=");
-            stringBuilder.Append(this.Width.ToString((IFormatProvider)NumberFormatInfo.InvariantInfo));
+            stringBuilder.Append(this.Width.ToString(NumberFormatInfo.InvariantInfo));
             stringBuilder.Append(", Height=");
-            stringBuilder.Append(this.Height.ToString((IFormatProvider)NumberFormatInfo.InvariantInfo));
+            stringBuilder.Append(this.Height.ToString(NumberFormatInfo.InvariantInfo));
             stringBuilder.Append(")");
             return stringBuilder.ToString();
         }

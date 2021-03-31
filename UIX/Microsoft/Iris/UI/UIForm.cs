@@ -60,7 +60,7 @@ namespace Microsoft.Iris.UI
         private void OnInitialize()
         {
             UIZone newZone = new UIZone(this);
-            newZone.DeclareOwner((object)this);
+            newZone.DeclareOwner(this);
             this.AttachChildZone(newZone);
             newZone.RootViewItem.RequestSource(this._initialSource, this._initialProperties);
         }
@@ -237,7 +237,7 @@ namespace Microsoft.Iris.UI
                 this.Zone.RootViewItem.RequestSource(source, properties);
         }
 
-        public SavedKeyFocus SaveKeyFocus() => this.Zone != null && this.Zone.RootUI != null ? new SavedKeyFocus(this.Zone.RootUI.SaveKeyFocus()) : (SavedKeyFocus)null;
+        public SavedKeyFocus SaveKeyFocus() => this.Zone != null && this.Zone.RootUI != null ? new SavedKeyFocus(this.Zone.RootUI.SaveKeyFocus()) : null;
 
         public void RestoreKeyFocus(SavedKeyFocus state)
         {
@@ -318,8 +318,8 @@ namespace Microsoft.Iris.UI
 
         private void DeliverIntialLoadCompleteCallback()
         {
-            DeferredCall.Post(DispatchPriority.Idle, this._initialLoadComplete, (object)null);
-            this._initialLoadComplete = (DeferredHandler)null;
+            DeferredCall.Post(DispatchPriority.Idle, this._initialLoadComplete, null);
+            this._initialLoadComplete = null;
         }
 
         public void SetInitialLoadCompleteCallback(DeferredHandler callback) => this._initialLoadComplete = callback;
@@ -341,7 +341,7 @@ namespace Microsoft.Iris.UI
         protected override void OnDestroy()
         {
             base.OnDestroy();
-            this.Zone.Dispose((object)this);
+            this.Zone.Dispose(this);
             this.Session.InputManager.InvalidKeyFocus -= new InvalidKeyFocusHandler(this.OnInvalidKeyFocus);
             this.Session.Dispatcher.StopCurrentMessageLoop();
             NativeApi.SpDestroyNotifyWindow();
@@ -365,10 +365,10 @@ namespace Microsoft.Iris.UI
         {
             AccessibleProxy.AccessibilityActive = true;
             AccObjectID accObjectId = (AccObjectID)lparam;
-            object accPtr1 = (object)null;
+            object accPtr1 = null;
             if (accObjectId == AccObjectID.Client)
             {
-                accPtr1 = (object)this.Zone.RootUI.AccessibleProxy;
+                accPtr1 = Zone.RootUI.AccessibleProxy;
                 RootAccessibleProxy rootAccessibleProxy = (RootAccessibleProxy)accPtr1;
                 if (rootAccessibleProxy.ClientBridge == null)
                 {
@@ -378,7 +378,7 @@ namespace Microsoft.Iris.UI
                 }
             }
             else if (accObjectId > AccObjectID.Window)
-                accPtr1 = (object)AccessibleProxy.AccessibleProxyFromID((int)accObjectId);
+                accPtr1 = AccessibleProxy.AccessibleProxyFromID((int)accObjectId);
             if (accPtr1 == null)
                 return IntPtr.Zero;
             Guid iidIaccessible = AccessibleProxy.IID_IAccessible;

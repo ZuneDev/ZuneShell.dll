@@ -18,16 +18,16 @@ namespace Microsoft.Iris
           : base(owner, description)
         {
             UIDispatcher.VerifyOnApplicationThread();
-            this._dispatcherTimer = new DispatcherTimer((ITimerOwner)this);
+            this._dispatcherTimer = new DispatcherTimer(this);
         }
 
         public Timer(IModelItemOwner owner)
-          : this(owner, (string)null)
+          : this(owner, null)
         {
         }
 
         public Timer()
-          : this((IModelItemOwner)null)
+          : this(null)
         {
         }
 
@@ -43,7 +43,7 @@ namespace Microsoft.Iris
 
         void ITimerOwner.OnTimerPropertyChanged(string id)
         {
-            if (object.ReferenceEquals((object)id, (object)NotificationID.Interval))
+            if (object.ReferenceEquals(id, NotificationID.Interval))
                 this.FirePropertyChanged("TimeSpanInterval");
             this.FirePropertyChanged(id);
         }

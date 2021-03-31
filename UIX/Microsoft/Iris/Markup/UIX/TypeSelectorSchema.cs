@@ -12,27 +12,27 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object GetType(object instanceObj) => (object)((TypeSelector)instanceObj).Type;
+        private static object GetType(object instanceObj) => ((TypeSelector)instanceObj).Type;
 
         private static void SetType(ref object instanceObj, object valueObj) => ((TypeSelector)instanceObj).Type = (TypeSchema)valueObj;
 
-        private static object GetContentName(object instanceObj) => (object)((TypeSelector)instanceObj).ContentName;
+        private static object GetContentName(object instanceObj) => ((TypeSelector)instanceObj).ContentName;
 
         private static void SetContentName(ref object instanceObj, object valueObj) => ((TypeSelector)instanceObj).ContentName = (string)valueObj;
 
-        private static object Construct() => (object)new TypeSelector();
+        private static object Construct() => new TypeSelector();
 
-        public static void Pass1Initialize() => TypeSelectorSchema.Type = new UIXTypeSchema((short)227, "TypeSelector", (string)null, (short)153, typeof(TypeSelector), UIXTypeFlags.None);
+        public static void Pass1Initialize() => TypeSelectorSchema.Type = new UIXTypeSchema(227, "TypeSelector", null, 153, typeof(TypeSelector), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema((short)227, "Type", (short)225, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(TypeSelectorSchema.GetType), new SetValueHandler(TypeSelectorSchema.SetType), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema((short)227, "ContentName", (short)208, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(TypeSelectorSchema.GetContentName), new SetValueHandler(TypeSelectorSchema.SetContentName), false);
-            TypeSelectorSchema.Type.Initialize(new DefaultConstructHandler(TypeSelectorSchema.Construct), (ConstructorSchema[])null, new PropertySchema[2]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(227, "Type", 225, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TypeSelectorSchema.GetType), new SetValueHandler(TypeSelectorSchema.SetType), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(227, "ContentName", 208, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TypeSelectorSchema.GetContentName), new SetValueHandler(TypeSelectorSchema.SetContentName), false);
+            TypeSelectorSchema.Type.Initialize(new DefaultConstructHandler(TypeSelectorSchema.Construct), null, new PropertySchema[2]
             {
-        (PropertySchema) uixPropertySchema2,
-        (PropertySchema) uixPropertySchema1
-            }, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixPropertySchema2,
+         uixPropertySchema1
+            }, null, null, null, null, null, null, null, null, null);
         }
     }
 }

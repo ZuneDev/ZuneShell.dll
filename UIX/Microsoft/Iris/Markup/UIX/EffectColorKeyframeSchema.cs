@@ -13,21 +13,21 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object GetValue(object instanceObj) => (object)((EffectColorKeyframe)instanceObj).Color;
+        private static object GetValue(object instanceObj) => ((EffectColorKeyframe)instanceObj).Color;
 
         private static void SetValue(ref object instanceObj, object valueObj) => ((EffectColorKeyframe)instanceObj).Color = (Color)valueObj;
 
-        private static object Construct() => (object)new EffectColorKeyframe();
+        private static object Construct() => new EffectColorKeyframe();
 
-        public static void Pass1Initialize() => EffectColorKeyframeSchema.Type = new UIXTypeSchema((short)72, "EffectColorKeyframe", (string)null, (short)130, typeof(EffectColorKeyframe), UIXTypeFlags.None);
+        public static void Pass1Initialize() => EffectColorKeyframeSchema.Type = new UIXTypeSchema(72, "EffectColorKeyframe", null, 130, typeof(EffectColorKeyframe), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema = new UIXPropertySchema((short)72, "Value", (short)35, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(EffectColorKeyframeSchema.GetValue), new SetValueHandler(EffectColorKeyframeSchema.SetValue), false);
-            EffectColorKeyframeSchema.Type.Initialize(new DefaultConstructHandler(EffectColorKeyframeSchema.Construct), (ConstructorSchema[])null, new PropertySchema[1]
+            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(72, "Value", 35, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(EffectColorKeyframeSchema.GetValue), new SetValueHandler(EffectColorKeyframeSchema.SetValue), false);
+            EffectColorKeyframeSchema.Type.Initialize(new DefaultConstructHandler(EffectColorKeyframeSchema.Construct), null, new PropertySchema[1]
             {
-        (PropertySchema) uixPropertySchema
-            }, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixPropertySchema
+            }, null, null, null, null, null, null, null, null, null);
         }
     }
 }

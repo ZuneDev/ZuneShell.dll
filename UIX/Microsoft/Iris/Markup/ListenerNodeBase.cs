@@ -15,8 +15,8 @@ namespace Microsoft.Iris.Markup
 
         protected ListenerNodeBase()
         {
-            this._next = (ListenerNodeBase)null;
-            this._prev = (ListenerNodeBase)null;
+            this._next = null;
+            this._prev = null;
         }
 
         public virtual void Dispose()
@@ -47,16 +47,16 @@ namespace Microsoft.Iris.Markup
         {
             if (this._prev == this._next)
             {
-                this._prev._next = (ListenerNodeBase)null;
-                this._prev._prev = (ListenerNodeBase)null;
+                this._prev._next = null;
+                this._prev._prev = null;
             }
             else
             {
                 this._prev._next = this._next;
                 this._next._prev = this._prev;
             }
-            this._prev = (ListenerNodeBase)null;
-            this._next = (ListenerNodeBase)null;
+            this._prev = null;
+            this._next = null;
         }
 
         [Conditional("DEBUG")]

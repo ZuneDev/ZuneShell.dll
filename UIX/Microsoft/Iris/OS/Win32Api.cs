@@ -121,7 +121,7 @@ namespace Microsoft.Iris.OS
                 case 1170:
                     throw new ArgumentOutOfRangeException();
                 default:
-                    Marshal.ThrowExceptionForHR((int)lastWin32Error & (int)ushort.MaxValue | 458752 | int.MinValue);
+                    Marshal.ThrowExceptionForHR((int)lastWin32Error & ushort.MaxValue | 458752 | int.MinValue);
                     break;
             }
         }
@@ -211,8 +211,8 @@ namespace Microsoft.Iris.OS
         private static string DumpMessageWorker(uint uMsg)
         {
             Win32Api.InitMessageDump();
-            if ((long)uMsg >= (long)Win32Api.s_rgsMessageNames.Length)
-                return (string)null;
+            if (uMsg >= s_rgsMessageNames.Length)
+                return null;
             string rgsMessageName = Win32Api.s_rgsMessageNames[uMsg];
             if (rgsMessageName != null)
                 return rgsMessageName;
@@ -224,7 +224,7 @@ namespace Microsoft.Iris.OS
                 if (rgsMessageName != null)
                     break;
             }
-            return rgsMessageName == null ? (string)null : InvariantString.Format("{0} + {1}", (object)rgsMessageName, (object)(uint)((int)uMsg - (int)num));
+            return rgsMessageName == null ? null : InvariantString.Format("{0} + {1}", rgsMessageName, (uint)((int)uMsg - (int)num));
         }
 
         private static void InitMessageDump()
@@ -375,7 +375,7 @@ namespace Microsoft.Iris.OS
             public int pt_x;
             public int pt_y;
 
-            public override string ToString() => InvariantString.Format("{0} -> {1}, wp=0x{2,0:x} lp=0x{3,0:x}", (object)Win32Api.DumpMessage(this.message), (object)this.hwnd, (object)this.wParam, (object)this.lParam);
+            public override string ToString() => InvariantString.Format("{0} -> {1}, wp=0x{2,0:x} lp=0x{3,0:x}", Win32Api.DumpMessage(this.message), hwnd, wParam, lParam);
         }
 
         public struct KEYBDINPUT

@@ -13,9 +13,9 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object GetLength(object instanceObj) => (object)((string)instanceObj).Length;
+        private static object GetLength(object instanceObj) => ((string)instanceObj).Length;
 
-        private static object Construct() => (object)string.Empty;
+        private static object Construct() => string.Empty;
 
         private static void EncodeBinary(ByteCodeWriter writer, object instanceObj)
         {
@@ -23,14 +23,14 @@ namespace Microsoft.Iris.Markup.UIX
             writer.WriteString(str);
         }
 
-        private static object DecodeBinary(ByteCodeReader reader) => (object)reader.ReadString();
+        private static object DecodeBinary(ByteCodeReader reader) => reader.ReadString();
 
         private static Result ConvertFromObject(object valueObj, out object instanceObj)
         {
             object obj = valueObj;
-            instanceObj = (object)null;
-            string str = obj == null ? (string)null : obj.ToString();
-            instanceObj = (object)str;
+            instanceObj = null;
+            string str = obj == null ? null : obj.ToString();
+            instanceObj = str;
             return Result.Success;
         }
 
@@ -41,9 +41,9 @@ namespace Microsoft.Iris.Markup.UIX
             string str = (string)instanceObj;
             int parameter = (int)parameters[0];
             if (parameter >= 0 && parameter <= str.Length)
-                return (object)str.Substring(parameter);
-            ErrorManager.ReportError("Script runtime failure: Invalid '{0}' value is out of range for '{1}'", (object)parameter, (object)"startIndex");
-            return (object)null;
+                return str.Substring(parameter);
+            ErrorManager.ReportError("Script runtime failure: Invalid '{0}' value is out of range for '{1}'", parameter, "startIndex");
+            return null;
         }
 
         private static object CallSubstringInt32Int32(object instanceObj, object[] parameters)
@@ -53,26 +53,26 @@ namespace Microsoft.Iris.Markup.UIX
             int parameter2 = (int)parameters[1];
             if (parameter1 < 0 || parameter1 > str.Length)
             {
-                ErrorManager.ReportError("Script runtime failure: Invalid '{0}' value is out of range for '{1}'", (object)parameter1, (object)"startIndex");
-                return (object)null;
+                ErrorManager.ReportError("Script runtime failure: Invalid '{0}' value is out of range for '{1}'", parameter1, "startIndex");
+                return null;
             }
             if (parameter2 >= 0 && parameter1 + parameter2 >= 0 && parameter1 + parameter2 <= str.Length)
-                return (object)str.Substring(parameter1, parameter2);
-            ErrorManager.ReportError("Script runtime failure: Invalid '{0}' value is out of range for '{1}'", (object)parameter2, (object)"length");
-            return (object)null;
+                return str.Substring(parameter1, parameter2);
+            ErrorManager.ReportError("Script runtime failure: Invalid '{0}' value is out of range for '{1}'", parameter2, "length");
+            return null;
         }
 
-        private static object CallTrim(object instanceObj, object[] parameters) => (object)((string)instanceObj).Trim();
+        private static object CallTrim(object instanceObj, object[] parameters) => ((string)instanceObj).Trim();
 
-        private static object CallToLower(object instanceObj, object[] parameters) => (object)((string)instanceObj).ToLowerInvariant();
+        private static object CallToLower(object instanceObj, object[] parameters) => ((string)instanceObj).ToLowerInvariant();
 
-        private static object CallToUpper(object instanceObj, object[] parameters) => (object)((string)instanceObj).ToUpperInvariant();
+        private static object CallToUpper(object instanceObj, object[] parameters) => ((string)instanceObj).ToUpperInvariant();
 
         private static object CallFormatObject(object instanceObj, object[] parameters)
         {
             string format = (string)instanceObj;
             object parameter = parameters[0];
-            return (object)string.Format(format, parameters);
+            return string.Format(format, parameters);
         }
 
         private static object CallFormatObjectObject(object instanceObj, object[] parameters)
@@ -80,7 +80,7 @@ namespace Microsoft.Iris.Markup.UIX
             string format = (string)instanceObj;
             object parameter1 = parameters[0];
             object parameter2 = parameters[1];
-            return (object)string.Format(format, parameters);
+            return string.Format(format, parameters);
         }
 
         private static object CallFormatObjectObjectObject(object instanceObj, object[] parameters)
@@ -89,7 +89,7 @@ namespace Microsoft.Iris.Markup.UIX
             object parameter1 = parameters[0];
             object parameter2 = parameters[1];
             object parameter3 = parameters[2];
-            return (object)string.Format(format, parameters);
+            return string.Format(format, parameters);
         }
 
         private static object CallFormatObjectObjectObjectObject(
@@ -101,7 +101,7 @@ namespace Microsoft.Iris.Markup.UIX
             object parameter2 = parameters[1];
             object parameter3 = parameters[2];
             object parameter4 = parameters[3];
-            return (object)string.Format(format, parameters);
+            return string.Format(format, parameters);
         }
 
         private static object CallFormatObjectObjectObjectObjectObject(
@@ -114,7 +114,7 @@ namespace Microsoft.Iris.Markup.UIX
             object parameter3 = parameters[2];
             object parameter4 = parameters[3];
             object parameter5 = parameters[4];
-            return (object)string.Format(format, parameters);
+            return string.Format(format, parameters);
         }
 
         private static bool IsConversionSupported(TypeSchema fromType) => ObjectSchema.Type.IsAssignableFrom(fromType);
@@ -125,7 +125,7 @@ namespace Microsoft.Iris.Markup.UIX
           out object instance)
         {
             Result result = Result.Fail("Unsupported");
-            instance = (object)null;
+            instance = null;
             if (ObjectSchema.Type.IsAssignableFrom(fromType))
             {
                 result = StringSchema.ConvertFromObject(from, out instance);
@@ -155,84 +155,84 @@ namespace Microsoft.Iris.Markup.UIX
             switch (op)
             {
                 case OperationType.MathAdd:
-                    return (object)(str1 + str2);
+                    return str1 + str2;
                 case OperationType.RelationalEquals:
                     return BooleanBoxes.Box(str1 == str2);
                 case OperationType.RelationalNotEquals:
                     return BooleanBoxes.Box(str1 != str2);
                 default:
-                    return (object)null;
+                    return null;
             }
         }
 
-        public static void Pass1Initialize() => StringSchema.Type = new UIXTypeSchema((short)208, "String", "string", (short)153, typeof(string), UIXTypeFlags.Immutable);
+        public static void Pass1Initialize() => StringSchema.Type = new UIXTypeSchema(208, "String", "string", 153, typeof(string), UIXTypeFlags.Immutable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema = new UIXPropertySchema((short)208, "Length", (short)115, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(StringSchema.GetLength), (SetValueHandler)null, false);
-            UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema((short)208, "IsNullOrEmpty", new short[1]
+            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(208, "Length", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(StringSchema.GetLength), null, false);
+            UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema(208, "IsNullOrEmpty", new short[1]
             {
-        (short) 208
-            }, (short)15, new InvokeHandler(StringSchema.CallIsNullOrEmptyString), true);
-            UIXMethodSchema uixMethodSchema2 = new UIXMethodSchema((short)208, "Substring", new short[1]
+         208
+            }, 15, new InvokeHandler(StringSchema.CallIsNullOrEmptyString), true);
+            UIXMethodSchema uixMethodSchema2 = new UIXMethodSchema(208, "Substring", new short[1]
             {
-        (short) 115
-            }, (short)208, new InvokeHandler(StringSchema.CallSubstringInt32), false);
-            UIXMethodSchema uixMethodSchema3 = new UIXMethodSchema((short)208, "Substring", new short[2]
+         115
+            }, 208, new InvokeHandler(StringSchema.CallSubstringInt32), false);
+            UIXMethodSchema uixMethodSchema3 = new UIXMethodSchema(208, "Substring", new short[2]
             {
-        (short) 115,
-        (short) 115
-            }, (short)208, new InvokeHandler(StringSchema.CallSubstringInt32Int32), false);
-            UIXMethodSchema uixMethodSchema4 = new UIXMethodSchema((short)208, "Trim", (short[])null, (short)208, new InvokeHandler(StringSchema.CallTrim), false);
-            UIXMethodSchema uixMethodSchema5 = new UIXMethodSchema((short)208, "ToLower", (short[])null, (short)208, new InvokeHandler(StringSchema.CallToLower), false);
-            UIXMethodSchema uixMethodSchema6 = new UIXMethodSchema((short)208, "ToUpper", (short[])null, (short)208, new InvokeHandler(StringSchema.CallToUpper), false);
-            UIXMethodSchema uixMethodSchema7 = new UIXMethodSchema((short)208, "Format", new short[1]
+         115,
+         115
+            }, 208, new InvokeHandler(StringSchema.CallSubstringInt32Int32), false);
+            UIXMethodSchema uixMethodSchema4 = new UIXMethodSchema(208, "Trim", null, 208, new InvokeHandler(StringSchema.CallTrim), false);
+            UIXMethodSchema uixMethodSchema5 = new UIXMethodSchema(208, "ToLower", null, 208, new InvokeHandler(StringSchema.CallToLower), false);
+            UIXMethodSchema uixMethodSchema6 = new UIXMethodSchema(208, "ToUpper", null, 208, new InvokeHandler(StringSchema.CallToUpper), false);
+            UIXMethodSchema uixMethodSchema7 = new UIXMethodSchema(208, "Format", new short[1]
             {
-        (short) 153
-            }, (short)208, new InvokeHandler(StringSchema.CallFormatObject), false);
-            UIXMethodSchema uixMethodSchema8 = new UIXMethodSchema((short)208, "Format", new short[2]
+         153
+            }, 208, new InvokeHandler(StringSchema.CallFormatObject), false);
+            UIXMethodSchema uixMethodSchema8 = new UIXMethodSchema(208, "Format", new short[2]
             {
-        (short) 153,
-        (short) 153
-            }, (short)208, new InvokeHandler(StringSchema.CallFormatObjectObject), false);
-            UIXMethodSchema uixMethodSchema9 = new UIXMethodSchema((short)208, "Format", new short[3]
+         153,
+         153
+            }, 208, new InvokeHandler(StringSchema.CallFormatObjectObject), false);
+            UIXMethodSchema uixMethodSchema9 = new UIXMethodSchema(208, "Format", new short[3]
             {
-        (short) 153,
-        (short) 153,
-        (short) 153
-            }, (short)208, new InvokeHandler(StringSchema.CallFormatObjectObjectObject), false);
-            UIXMethodSchema uixMethodSchema10 = new UIXMethodSchema((short)208, "Format", new short[4]
+         153,
+         153,
+         153
+            }, 208, new InvokeHandler(StringSchema.CallFormatObjectObjectObject), false);
+            UIXMethodSchema uixMethodSchema10 = new UIXMethodSchema(208, "Format", new short[4]
             {
-        (short) 153,
-        (short) 153,
-        (short) 153,
-        (short) 153
-            }, (short)208, new InvokeHandler(StringSchema.CallFormatObjectObjectObjectObject), false);
-            UIXMethodSchema uixMethodSchema11 = new UIXMethodSchema((short)208, "Format", new short[5]
+         153,
+         153,
+         153,
+         153
+            }, 208, new InvokeHandler(StringSchema.CallFormatObjectObjectObjectObject), false);
+            UIXMethodSchema uixMethodSchema11 = new UIXMethodSchema(208, "Format", new short[5]
             {
-        (short) 153,
-        (short) 153,
-        (short) 153,
-        (short) 153,
-        (short) 153
-            }, (short)208, new InvokeHandler(StringSchema.CallFormatObjectObjectObjectObjectObject), false);
-            StringSchema.Type.Initialize(new DefaultConstructHandler(StringSchema.Construct), (ConstructorSchema[])null, new PropertySchema[1]
+         153,
+         153,
+         153,
+         153,
+         153
+            }, 208, new InvokeHandler(StringSchema.CallFormatObjectObjectObjectObjectObject), false);
+            StringSchema.Type.Initialize(new DefaultConstructHandler(StringSchema.Construct), null, new PropertySchema[1]
             {
-        (PropertySchema) uixPropertySchema
+         uixPropertySchema
             }, new MethodSchema[11]
             {
-        (MethodSchema) uixMethodSchema1,
-        (MethodSchema) uixMethodSchema2,
-        (MethodSchema) uixMethodSchema3,
-        (MethodSchema) uixMethodSchema4,
-        (MethodSchema) uixMethodSchema5,
-        (MethodSchema) uixMethodSchema6,
-        (MethodSchema) uixMethodSchema7,
-        (MethodSchema) uixMethodSchema8,
-        (MethodSchema) uixMethodSchema9,
-        (MethodSchema) uixMethodSchema10,
-        (MethodSchema) uixMethodSchema11
-            }, (EventSchema[])null, (FindCanonicalInstanceHandler)null, new TypeConverterHandler(StringSchema.TryConvertFrom), new SupportsTypeConversionHandler(StringSchema.IsConversionSupported), new EncodeBinaryHandler(StringSchema.EncodeBinary), new DecodeBinaryHandler(StringSchema.DecodeBinary), new PerformOperationHandler(StringSchema.ExecuteOperation), new SupportsOperationHandler(StringSchema.IsOperationSupported));
+         uixMethodSchema1,
+         uixMethodSchema2,
+         uixMethodSchema3,
+         uixMethodSchema4,
+         uixMethodSchema5,
+         uixMethodSchema6,
+         uixMethodSchema7,
+         uixMethodSchema8,
+         uixMethodSchema9,
+         uixMethodSchema10,
+         uixMethodSchema11
+            }, null, null, new TypeConverterHandler(StringSchema.TryConvertFrom), new SupportsTypeConversionHandler(StringSchema.IsConversionSupported), new EncodeBinaryHandler(StringSchema.EncodeBinary), new DecodeBinaryHandler(StringSchema.DecodeBinary), new PerformOperationHandler(StringSchema.ExecuteOperation), new SupportsOperationHandler(StringSchema.IsOperationSupported));
         }
     }
 }

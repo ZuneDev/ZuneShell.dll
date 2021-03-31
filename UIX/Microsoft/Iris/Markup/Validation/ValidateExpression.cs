@@ -38,7 +38,7 @@ namespace Microsoft.Iris.Markup.Validation
 
         protected void DeclareEvaluationType(TypeSchema evaluationType, TypeRestriction typeRestriction)
         {
-            if (!typeRestriction.Check((ValidateObject)this, evaluationType))
+            if (!typeRestriction.Check(this, evaluationType))
                 return;
             this._evaluationType = evaluationType;
         }

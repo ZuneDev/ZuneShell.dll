@@ -11,23 +11,23 @@ namespace Microsoft.Iris.Markup
         private MarkupDataQuerySchema _owner;
 
         public MarkupDataQuery(MarkupDataQuerySchema type)
-          : base((MarkupTypeSchema)type)
+          : base(type)
           => this._owner = type;
 
         protected void ApplyDefaultValues()
         {
-            Map map = (Map)null;
+            Map map = null;
             for (MarkupDataQuerySchema owner = this._owner; owner != null; owner = owner.Base as MarkupDataQuerySchema)
             {
                 foreach (MarkupDataQueryPropertySchema property in owner.Properties)
                 {
-                    if (property.DefaultValue != null && (map == null || !map.ContainsKey((object)property.Name)))
+                    if (property.DefaultValue != null && (map == null || !map.ContainsKey(property.Name)))
                     {
-                        object instance = (object)this;
+                        object instance = this;
                         property.SetValue(ref instance, property.DefaultValue);
                         if (map == null)
                             map = new Map();
-                        map[(object)property.Name] = (object)null;
+                        map[property.Name] = null;
                     }
                 }
             }

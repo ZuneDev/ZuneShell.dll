@@ -17,7 +17,7 @@ namespace Microsoft.Iris.Markup.Validation
         {
             if (this.Usage == ExpressionUsage.LValue)
                 this.ReportError("Expression cannot be used as the target an assignment (related symbol: '{0}')", "this");
-            this.DeclareEvaluationType((TypeSchema)context.Owner.TypeExport, TypeRestriction.None);
+            this.DeclareEvaluationType(context.Owner.TypeExport, TypeRestriction.None);
         }
     }
 }

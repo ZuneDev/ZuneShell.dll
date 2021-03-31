@@ -23,9 +23,9 @@ namespace UIXControls
 
         internal void ShowCodeDialog(DialogHelper dialog)
         {
-            if (this._pendingCodeDialogs.Contains((object)dialog))
+            if (this._pendingCodeDialogs.Contains(dialog))
                 return;
-            this._pendingCodeDialogs.Add((object)dialog);
+            this._pendingCodeDialogs.Add(dialog);
         }
 
         public event EventHandler WindowCloseRequested;
@@ -37,14 +37,14 @@ namespace UIXControls
         {
             args.BlockCloseRequest();
             if (this.WindowCloseRequested != null)
-                this.WindowCloseRequested((object)this, EventArgs.Empty);
+                this.WindowCloseRequested(this, EventArgs.Empty);
             this.FirePropertyChanged("WindowCloseRequested");
         }
 
         public void WindowCloseWasNotBlocked()
         {
             if (this.WindowCloseNotBlocked != null)
-                this.WindowCloseNotBlocked((object)this, EventArgs.Empty);
+                this.WindowCloseNotBlocked(this, EventArgs.Empty);
             this.FirePropertyChanged("WindowCloseNotBlocked");
         }
     }

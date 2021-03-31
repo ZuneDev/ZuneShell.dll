@@ -58,7 +58,7 @@ namespace Microsoft.Iris.RenderAPI.Audio
                 RegistryKey registryKey2 = registryKey1.OpenSubKey(systemSound.RegistrySubKey + "\\.Current");
                 if (registryKey2 != null)
                 {
-                    registryKey2.ReadString((string)null, out systemSound.FilePath);
+                    registryKey2.ReadString(null, out systemSound.FilePath);
                     registryKey2.Close();
                 }
             }

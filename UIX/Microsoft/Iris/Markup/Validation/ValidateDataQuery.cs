@@ -34,7 +34,7 @@ namespace Microsoft.Iris.Markup.Validation
           MarkupPropertySchema propertyExport)
         {
             string stringProperty = objectTag.ExtractStringProperty("DefaultValue", false);
-            object obj = ValidateDataMapping.ConvertDefaultValue((Validate)this, propertyExport.PropertyType, stringProperty);
+            object obj = ValidateDataMapping.ConvertDefaultValue(this, propertyExport.PropertyType, stringProperty);
             ((MarkupDataQueryPropertySchema)propertyExport).DefaultValue = obj;
             bool flag;
             if (objectTag.ExtractBooleanProperty("InvalidatesQuery", context, false, out flag))

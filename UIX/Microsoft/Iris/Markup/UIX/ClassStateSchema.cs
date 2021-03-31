@@ -19,33 +19,33 @@ namespace Microsoft.Iris.Markup.UIX
             Class @class = (Class)instanceObj;
             object parameter = parameters[0];
             if (parameter == null)
-                return (object)null;
+                return null;
             if (!(parameter is IDisposableObject disposable))
             {
-                ErrorManager.ReportError("Attempt to dispose an object '{0}' that isn't disposable", (object)TypeSchema.NameFromInstance(parameter));
-                return (object)null;
+                ErrorManager.ReportError("Attempt to dispose an object '{0}' that isn't disposable", TypeSchema.NameFromInstance(parameter));
+                return null;
             }
             if (!@class.UnregisterDisposable(ref disposable))
             {
-                ErrorManager.ReportError("Attempt to dispose an object '{0}' that '{1}' doesn't own", (object)TypeSchema.NameFromInstance((object)disposable), (object)@class.TypeSchema.Name);
-                return (object)null;
+                ErrorManager.ReportError("Attempt to dispose an object '{0}' that '{1}' doesn't own", TypeSchema.NameFromInstance(disposable), @class.TypeSchema.Name);
+                return null;
             }
-            disposable.Dispose((object)@class);
-            return (object)null;
+            disposable.Dispose(@class);
+            return null;
         }
 
-        public static void Pass1Initialize() => ClassStateSchema.Type = new UIXTypeSchema((short)30, "ClassState", (string)null, (short)-1, typeof(Class), UIXTypeFlags.None);
+        public static void Pass1Initialize() => ClassStateSchema.Type = new UIXTypeSchema(30, "ClassState", null, -1, typeof(Class), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXMethodSchema uixMethodSchema = new UIXMethodSchema((short)30, "DisposeOwnedObject", new short[1]
+            UIXMethodSchema uixMethodSchema = new UIXMethodSchema(30, "DisposeOwnedObject", new short[1]
             {
-        (short) 153
-            }, (short)240, new InvokeHandler(ClassStateSchema.CallDisposeOwnedObjectObject), false);
-            ClassStateSchema.Type.Initialize((DefaultConstructHandler)null, (ConstructorSchema[])null, (PropertySchema[])null, new MethodSchema[1]
+         153
+            }, 240, new InvokeHandler(ClassStateSchema.CallDisposeOwnedObjectObject), false);
+            ClassStateSchema.Type.Initialize(null, null, null, new MethodSchema[1]
             {
-        (MethodSchema) uixMethodSchema
-            }, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixMethodSchema
+            }, null, null, null, null, null, null, null, null);
         }
     }
 }

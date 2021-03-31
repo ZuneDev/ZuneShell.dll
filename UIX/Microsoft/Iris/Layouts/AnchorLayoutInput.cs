@@ -58,6 +58,6 @@ namespace Microsoft.Iris.Layouts
 
         internal static DataCookie Data => AnchorLayout.InputData;
 
-        public override string ToString() => InvariantString.Format("AnchorLayoutInput(Left={0}, Top={1}, Right={2}, Bottom={3}{4}{5})", (object)this.Left, (object)this.Top, (object)this.Right, (object)this.Bottom, this.ContributesToWidth ? (object)", ContributesToWidth=true" : (object)string.Empty, this.ContributesToHeight ? (object)", ContributesToHeight=true" : (object)string.Empty);
+        public override string ToString() => InvariantString.Format("AnchorLayoutInput(Left={0}, Top={1}, Right={2}, Bottom={3}{4}{5})", Left, Top, Right, Bottom, this.ContributesToWidth ? ", ContributesToWidth=true" : string.Empty, this.ContributesToHeight ? ", ContributesToHeight=true" : string.Empty);
     }
 }

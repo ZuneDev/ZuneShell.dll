@@ -26,6 +26,6 @@ namespace Microsoft.Iris.Layouts
 
         public static DataCookie Data => KeepAliveLayoutInput.s_dataProperty;
 
-        public override string ToString() => InvariantString.Format("{0}", (object)this.GetType().Name);
+        public override string ToString() => InvariantString.Format("{0}", this.GetType().Name);
     }
 }

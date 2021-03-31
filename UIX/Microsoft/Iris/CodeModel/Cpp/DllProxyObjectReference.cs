@@ -16,7 +16,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
         {
             get
             {
-                object obj = (object)null;
+                object obj = null;
                 if (this._reference.IsAllocated)
                     obj = this._reference.Target;
                 return obj;

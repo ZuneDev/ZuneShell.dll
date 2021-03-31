@@ -47,7 +47,7 @@ namespace Microsoft.Iris.RenderAPI
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             base.GetObjectData(info, context);
-            info.AddValue("m_code", (object)this.m_code);
+            info.AddValue("m_code", m_code);
         }
 
         public enum ErrorCode

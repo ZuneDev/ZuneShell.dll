@@ -39,6 +39,6 @@ namespace Microsoft.Iris.CodeModel.Cpp
 
         public static uint GetSchemaComponent(uint ID) => (ID & 4294901760U) >> 16;
 
-        public static uint GetLocalComponent(uint ID) => ID & (uint)ushort.MaxValue;
+        public static uint GetLocalComponent(uint ID) => ID & ushort.MaxValue;
     }
 }

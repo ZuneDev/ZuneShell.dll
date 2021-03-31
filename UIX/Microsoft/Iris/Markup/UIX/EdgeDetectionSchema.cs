@@ -14,7 +14,7 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object GetEdgeLimit(object instanceObj) => (object)((EdgeDetectionElement)instanceObj).EdgeLimit;
+        private static object GetEdgeLimit(object instanceObj) => ((EdgeDetectionElement)instanceObj).EdgeLimit;
 
         private static void SetEdgeLimit(ref object instanceObj, object valueObj)
         {
@@ -27,17 +27,17 @@ namespace Microsoft.Iris.Markup.UIX
                 detectionElement.EdgeLimit = num;
         }
 
-        private static object Construct() => (object)new EdgeDetectionElement();
+        private static object Construct() => new EdgeDetectionElement();
 
-        public static void Pass1Initialize() => EdgeDetectionSchema.Type = new UIXTypeSchema((short)66, "EdgeDetection", (string)null, (short)80, typeof(EdgeDetectionElement), UIXTypeFlags.None);
+        public static void Pass1Initialize() => EdgeDetectionSchema.Type = new UIXTypeSchema(66, "EdgeDetection", null, 80, typeof(EdgeDetectionElement), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema = new UIXPropertySchema((short)66, "EdgeLimit", (short)194, (short)-1, ExpressionRestriction.None, false, SingleSchema.Validate0to1, false, new GetValueHandler(EdgeDetectionSchema.GetEdgeLimit), new SetValueHandler(EdgeDetectionSchema.SetEdgeLimit), false);
-            EdgeDetectionSchema.Type.Initialize(new DefaultConstructHandler(EdgeDetectionSchema.Construct), (ConstructorSchema[])null, new PropertySchema[1]
+            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(66, "EdgeLimit", 194, -1, ExpressionRestriction.None, false, SingleSchema.Validate0to1, false, new GetValueHandler(EdgeDetectionSchema.GetEdgeLimit), new SetValueHandler(EdgeDetectionSchema.SetEdgeLimit), false);
+            EdgeDetectionSchema.Type.Initialize(new DefaultConstructHandler(EdgeDetectionSchema.Construct), null, new PropertySchema[1]
             {
-        (PropertySchema) uixPropertySchema
-            }, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixPropertySchema
+            }, null, null, null, null, null, null, null, null, null);
         }
     }
 }

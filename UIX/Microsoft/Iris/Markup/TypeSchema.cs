@@ -24,7 +24,7 @@ namespace Microsoft.Iris.Markup
             this._owner = owner;
             this._id = ++TypeSchema.s_uniqueId;
             TypeSchema.s_idToTypeSchema[this._id] = this;
-            this.DeclareOwner((object)owner);
+            this.DeclareOwner(owner);
         }
 
         protected override void OnDispose()
@@ -146,7 +146,7 @@ namespace Microsoft.Iris.Markup
                 if (property != null)
                     return property;
             }
-            return (PropertySchema)null;
+            return null;
         }
 
         public Vector<string> FindRequiredPropertyNamesDeep()
@@ -181,7 +181,7 @@ namespace Microsoft.Iris.Markup
                 if (method != null)
                     return method;
             }
-            return (MethodSchema)null;
+            return null;
         }
 
         public EventSchema FindEventDeep(string name)
@@ -192,7 +192,7 @@ namespace Microsoft.Iris.Markup
                 if (eventSchema != null)
                     return eventSchema;
             }
-            return (EventSchema)null;
+            return null;
         }
 
         public bool SupportsOperationDeep(OperationType op)
@@ -212,7 +212,7 @@ namespace Microsoft.Iris.Markup
                 if (typeSchema.SupportsOperation(op))
                     return typeSchema.PerformOperation(left, right, op);
             }
-            return (object)null;
+            return null;
         }
 
         public static bool IsUnaryOperation(OperationType op) => op == OperationType.LogicalNot || op == OperationType.MathNegate || op == OperationType.PostIncrement || op == OperationType.PostDecrement;
@@ -232,7 +232,7 @@ namespace Microsoft.Iris.Markup
 
         public void ShareEquivalents(Vector<TypeSchema> equivalents) => this._equivalents = equivalents;
 
-        public virtual string ErrorContextDescription => string.Format("{0} (Owner='{1}')", (object)this.Name, (object)(this.Owner.Uri ?? "Unavailable"));
+        public virtual string ErrorContextDescription => string.Format("{0} (Owner='{1}')", Name, this.Owner.Uri ?? "Unavailable");
 
         public static string NameFromInstance(object instance) => !(instance is ISchemaInfo schemaInfo) ? instance.GetType().Name : schemaInfo.TypeSchema.Name;
 

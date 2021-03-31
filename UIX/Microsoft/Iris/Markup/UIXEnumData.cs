@@ -119,7 +119,7 @@ namespace Microsoft.Iris.Markup
 
         public static Map<string, int> GetClickTypeEnumData() => new Map<string, int>(12)
         {
-            ["Any"] = (int)sbyte.MaxValue,
+            ["Any"] = sbyte.MaxValue,
             ["EnterKey"] = 16,
             ["GamePad"] = 96,
             ["GamePadA"] = 32,
@@ -395,7 +395,7 @@ namespace Microsoft.Iris.Markup
             ["F13"] = 124,
             ["F14"] = 125,
             ["F15"] = 126,
-            ["F16"] = (int)sbyte.MaxValue,
+            ["F16"] = sbyte.MaxValue,
             ["F17"] = 128,
             ["F18"] = 129,
             ["F19"] = 130,
@@ -812,7 +812,7 @@ namespace Microsoft.Iris.Markup
                 case 242:
                     return UIXEnumData.GetWindowStateEnumData();
                 default:
-                    return (Map<string, int>)null;
+                    return null;
             }
         }
     }

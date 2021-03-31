@@ -35,7 +35,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
         {
             DllLoadResult dllLoadResult;
             if (DllLoadResultFactory.s_loadResultCache.TryGetValue(uri, out dllLoadResult))
-                return (LoadResult)dllLoadResult;
+                return dllLoadResult;
             int length = uri.IndexOf('!');
             string str;
             string qualifier;
@@ -47,7 +47,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
             else
             {
                 str = uri.Substring("dll://".Length);
-                qualifier = (string)null;
+                qualifier = null;
             }
             DllLoadResultFactory loadResultFactory;
             if (!DllLoadResultFactory.s_dllFactoriesCache.TryGetValue(str, out loadResultFactory))
@@ -59,9 +59,9 @@ namespace Microsoft.Iris.CodeModel.Cpp
             if (loadResult != null)
             {
                 DllLoadResultFactory.s_loadResultCache[uri] = loadResult;
-                DllLoadResultFactory.s_loadResultIDCache[(uint)loadResult.SchemaComponent] = loadResult;
+                DllLoadResultFactory.s_loadResultIDCache[loadResult.SchemaComponent] = loadResult;
             }
-            return (LoadResult)loadResult;
+            return loadResult;
         }
 
         private DllLoadResultFactory(string dllName)
@@ -70,7 +70,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
             int num = (int)NativeApi.SpLoadDll(this._dllName, out this._module);
             if ((int)NativeApi.SpCreateDllLoadResultFactory(this._module, out this._schemaFactory) >= 0)
                 return;
-            ErrorManager.ReportError("Unable to create IUIXSchemaFactory from '{0}'", (object)dllName);
+            ErrorManager.ReportError("Unable to create IUIXSchemaFactory from '{0}'", dllName);
         }
 
         protected override void OnDispose()
@@ -91,19 +91,19 @@ namespace Microsoft.Iris.CodeModel.Cpp
 
         private DllLoadResult GetLoadResult(string fullUri, string qualifier)
         {
-            DllLoadResult dllLoadResult = (DllLoadResult)null;
+            DllLoadResult dllLoadResult = null;
             IntPtr loadResult = IntPtr.Zero;
             if (this._schemaFactory != IntPtr.Zero)
             {
                 if ((int)NativeApi.SpCreateDllLoadResult(this._schemaFactory, qualifier, out loadResult) < 0)
-                    ErrorManager.ReportError("Unable to create IUIXSchema from '{0}'", (object)fullUri);
+                    ErrorManager.ReportError("Unable to create IUIXSchema from '{0}'", fullUri);
                 else if (loadResult != IntPtr.Zero)
                 {
                     dllLoadResult = new DllLoadResult(this, loadResult, fullUri);
-                    this.RegisterUsage((object)dllLoadResult);
+                    this.RegisterUsage(dllLoadResult);
                 }
                 else
-                    ErrorManager.ReportError("NULL object returned from {0}", (object)"IUIXSchemaFactory::GetSchema");
+                    ErrorManager.ReportError("NULL object returned from {0}", "IUIXSchemaFactory::GetSchema");
             }
             return dllLoadResult;
         }
@@ -111,8 +111,8 @@ namespace Microsoft.Iris.CodeModel.Cpp
         public void NotifyLoadResultDisposed(DllLoadResult loadResult)
         {
             DllLoadResultFactory.s_loadResultCache.Remove(loadResult.Uri);
-            DllLoadResultFactory.s_loadResultIDCache.Remove((uint)loadResult.SchemaComponent);
-            this.UnregisterUsage((object)loadResult);
+            DllLoadResultFactory.s_loadResultIDCache.Remove(loadResult.SchemaComponent);
+            this.UnregisterUsage(loadResult);
         }
     }
 }

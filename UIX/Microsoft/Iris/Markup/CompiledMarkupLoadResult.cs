@@ -47,7 +47,7 @@ namespace Microsoft.Iris.Markup
         {
             if (this._loader == null)
                 return;
-            ErrorManager.EnterContext((object)this.ErrorContextUri);
+            ErrorManager.EnterContext(ErrorContextUri);
             this._loader.Depersist(currentPass);
             ErrorManager.ExitContext();
             if (currentPass != LoadPass.Done)
@@ -60,9 +60,9 @@ namespace Microsoft.Iris.Markup
             if (this._resource != null)
             {
                 this._resource.Free();
-                this._resource = (Resource)null;
+                this._resource = null;
             }
-            this._loader = (CompiledMarkupLoader)null;
+            this._loader = null;
             if (this.Status != LoadResultStatus.Loading)
                 return;
             this.SetStatus(LoadResultStatus.Success);

@@ -11,12 +11,12 @@ namespace Microsoft.Iris
     public class ArrayListDataSet : ListDataSet
     {
         public ArrayListDataSet()
-          : this((IModelItemOwner)null)
+          : this(null)
         {
         }
 
         public ArrayListDataSet(IModelItemOwner owner)
-          : base(owner, (IList)new ArrayList())
+          : base(owner, new ArrayList())
         {
         }
     }

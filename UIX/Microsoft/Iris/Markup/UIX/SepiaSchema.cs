@@ -19,7 +19,7 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static void SetDarkColor(ref object instanceObj, object valueObj) => ((SepiaElement)instanceObj).DarkColor = ((Color)valueObj).RenderConvert();
 
-        private static object GetDesaturate(object instanceObj) => (object)((SepiaElement)instanceObj).Desaturate;
+        private static object GetDesaturate(object instanceObj) => ((SepiaElement)instanceObj).Desaturate;
 
         private static void SetDesaturate(ref object instanceObj, object valueObj)
         {
@@ -32,7 +32,7 @@ namespace Microsoft.Iris.Markup.UIX
                 sepiaElement.Desaturate = num;
         }
 
-        private static object GetTone(object instanceObj) => (object)((SepiaElement)instanceObj).Tone;
+        private static object GetTone(object instanceObj) => ((SepiaElement)instanceObj).Tone;
 
         private static void SetTone(ref object instanceObj, object valueObj)
         {
@@ -45,23 +45,23 @@ namespace Microsoft.Iris.Markup.UIX
                 sepiaElement.Tone = num;
         }
 
-        private static object Construct() => (object)new SepiaElement();
+        private static object Construct() => new SepiaElement();
 
-        public static void Pass1Initialize() => SepiaSchema.Type = new UIXTypeSchema((short)188, "Sepia", (string)null, (short)80, typeof(SepiaElement), UIXTypeFlags.None);
+        public static void Pass1Initialize() => SepiaSchema.Type = new UIXTypeSchema(188, "Sepia", null, 80, typeof(SepiaElement), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema((short)188, "LightColor", (short)35, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, (GetValueHandler)null, new SetValueHandler(SepiaSchema.SetLightColor), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema((short)188, "DarkColor", (short)35, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, (GetValueHandler)null, new SetValueHandler(SepiaSchema.SetDarkColor), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema((short)188, "Desaturate", (short)194, (short)-1, ExpressionRestriction.None, false, SingleSchema.ValidateNotNegative, false, new GetValueHandler(SepiaSchema.GetDesaturate), new SetValueHandler(SepiaSchema.SetDesaturate), false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema((short)188, "Tone", (short)194, (short)-1, ExpressionRestriction.None, false, SingleSchema.ValidateNotNegative, false, new GetValueHandler(SepiaSchema.GetTone), new SetValueHandler(SepiaSchema.SetTone), false);
-            SepiaSchema.Type.Initialize(new DefaultConstructHandler(SepiaSchema.Construct), (ConstructorSchema[])null, new PropertySchema[4]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(188, "LightColor", 35, -1, ExpressionRestriction.None, false, null, false, null, new SetValueHandler(SepiaSchema.SetLightColor), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(188, "DarkColor", 35, -1, ExpressionRestriction.None, false, null, false, null, new SetValueHandler(SepiaSchema.SetDarkColor), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(188, "Desaturate", 194, -1, ExpressionRestriction.None, false, SingleSchema.ValidateNotNegative, false, new GetValueHandler(SepiaSchema.GetDesaturate), new SetValueHandler(SepiaSchema.SetDesaturate), false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(188, "Tone", 194, -1, ExpressionRestriction.None, false, SingleSchema.ValidateNotNegative, false, new GetValueHandler(SepiaSchema.GetTone), new SetValueHandler(SepiaSchema.SetTone), false);
+            SepiaSchema.Type.Initialize(new DefaultConstructHandler(SepiaSchema.Construct), null, new PropertySchema[4]
             {
-        (PropertySchema) uixPropertySchema2,
-        (PropertySchema) uixPropertySchema3,
-        (PropertySchema) uixPropertySchema1,
-        (PropertySchema) uixPropertySchema4
-            }, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixPropertySchema2,
+         uixPropertySchema3,
+         uixPropertySchema1,
+         uixPropertySchema4
+            }, null, null, null, null, null, null, null, null, null);
         }
     }
 }

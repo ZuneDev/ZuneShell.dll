@@ -72,7 +72,7 @@ namespace Microsoft.Iris.Animations
 
         public BaseKeyframe Clone() => (BaseKeyframe)this.MemberwiseClone();
 
-        object ICloneable.Clone() => (object)this.Clone();
+        object ICloneable.Clone() => this.Clone();
 
         protected abstract void PopulateAnimationWorker(
           IAnimatable targetObject,
@@ -126,7 +126,7 @@ namespace Microsoft.Iris.Animations
             if (this._relative != RelativeTo.Absolute)
             {
                 stringBuilder.Append(" RelativeTo=\"");
-                stringBuilder.Append((object)this._relative);
+                stringBuilder.Append(_relative);
                 stringBuilder.Append("\"");
             }
             stringBuilder.Append(" Value=\"");

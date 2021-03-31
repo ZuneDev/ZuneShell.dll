@@ -35,8 +35,8 @@ namespace Microsoft.Iris.Input
 
         public bool OnRawInput(uint message, InputModifiers modifiers, ref RawMouseData args)
         {
-            IRawInputSite visCapture = (IRawInputSite)args._visCapture;
-            IRawInputSite visNatural = (IRawInputSite)args._visNatural;
+            IRawInputSite visCapture = args._visCapture;
+            IRawInputSite visNatural = args._visNatural;
             this.Manager.HACK_UpdateSystemModifiers(modifiers);
             switch (message)
             {
@@ -94,7 +94,7 @@ namespace Microsoft.Iris.Input
         {
             this.Manager.HACK_UpdateSystemModifiers(modifiers);
             this.Manager.MostRecentPhysicalMousePos = new Point(args._positionX, args._positionY);
-            IRawInputSite visCapture = (IRawInputSite)args._visCapture;
+            IRawInputSite visCapture = args._visCapture;
             DragOperation formOperation = (DragOperation)message;
             this.Manager.Queue.RawDragDrop(visCapture, data, args._positionX, args._positionY, modifiers, formOperation, args);
             return true;

@@ -39,6 +39,6 @@ namespace Microsoft.Iris.Input
 
         protected override InputInfo.InfoType PoolType => KeyCommandInfo.s_poolType;
 
-        public override string ToString() => InvariantString.Format("{0}({1}, Command={2})", (object)this.GetType().Name, (object)this.Action, (object)this._command);
+        public override string ToString() => InvariantString.Format("{0}({1}, Command={2})", this.GetType().Name, Action, _command);
     }
 }

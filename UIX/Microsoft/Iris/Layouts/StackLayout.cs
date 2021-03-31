@@ -37,7 +37,7 @@ namespace Microsoft.Iris.Layouts
                         num += layoutInputForNode.MinimumSize.Width;
                 }
                 size1.Width = num;
-                layoutNode.MeasureData = (object)num;
+                layoutNode.MeasureData = num;
             }
             layoutNode.RequestMoreChildren(int.MaxValue);
             return size1;

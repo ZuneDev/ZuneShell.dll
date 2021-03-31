@@ -15,23 +15,23 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static void SetImage(ref object instanceObj, object valueObj) => ((ImageElement)instanceObj).Image = ((UIImage)valueObj)?.RenderImage;
 
-        private static object GetUVOffset(object instanceObj) => (object)((ImageElement)instanceObj).UVOffset;
+        private static object GetUVOffset(object instanceObj) => ((ImageElement)instanceObj).UVOffset;
 
         private static void SetUVOffset(ref object instanceObj, object valueObj) => ((ImageElement)instanceObj).UVOffset = (Vector2)valueObj;
 
-        private static object Construct() => (object)new ImageElement();
+        private static object Construct() => new ImageElement();
 
-        public static void Pass1Initialize() => ImageElementSchema.Type = new UIXTypeSchema((short)106, "ImageElement", (string)null, (short)77, typeof(ImageElement), UIXTypeFlags.None);
+        public static void Pass1Initialize() => ImageElementSchema.Type = new UIXTypeSchema(106, "ImageElement", null, 77, typeof(ImageElement), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema((short)106, "Image", (short)105, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, (GetValueHandler)null, new SetValueHandler(ImageElementSchema.SetImage), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema((short)106, "UVOffset", (short)233, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(ImageElementSchema.GetUVOffset), new SetValueHandler(ImageElementSchema.SetUVOffset), false);
-            ImageElementSchema.Type.Initialize(new DefaultConstructHandler(ImageElementSchema.Construct), (ConstructorSchema[])null, new PropertySchema[2]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(106, "Image", 105, -1, ExpressionRestriction.None, false, null, false, null, new SetValueHandler(ImageElementSchema.SetImage), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(106, "UVOffset", 233, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(ImageElementSchema.GetUVOffset), new SetValueHandler(ImageElementSchema.SetUVOffset), false);
+            ImageElementSchema.Type.Initialize(new DefaultConstructHandler(ImageElementSchema.Construct), null, new PropertySchema[2]
             {
-        (PropertySchema) uixPropertySchema1,
-        (PropertySchema) uixPropertySchema2
-            }, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixPropertySchema1,
+         uixPropertySchema2
+            }, null, null, null, null, null, null, null, null, null);
         }
     }
 }

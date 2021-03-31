@@ -31,18 +31,18 @@ namespace Microsoft.Iris.ViewItems
                 return;
             if (removeFromTree)
                 this._contents.Remove();
-            this._contents.UnregisterUsage((object)this);
-            this._contents = (ISprite)null;
+            this._contents.UnregisterUsage(this);
+            this._contents = null;
         }
 
         protected virtual void CreateContent()
         {
             ISprite contentVisual = this.ContentVisual;
-            this._contents = UISession.Default.RenderSession.CreateSprite((object)this, (object)this);
+            this._contents = UISession.Default.RenderSession.CreateSprite(this, this);
             if (contentVisual != null)
-                this.VisualContainer.AddChild((IVisual)this._contents, (IVisual)contentVisual, VisualOrder.Before);
+                this.VisualContainer.AddChild(_contents, contentVisual, VisualOrder.Before);
             else
-                this.VisualContainer.AddChild((IVisual)this._contents, (IVisual)null, VisualOrder.Last);
+                this.VisualContainer.AddChild(_contents, null, VisualOrder.Last);
         }
 
         public override void OrphanVisuals(OrphanedVisualCollection orphans)

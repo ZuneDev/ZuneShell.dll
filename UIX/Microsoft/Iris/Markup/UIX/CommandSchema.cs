@@ -16,34 +16,34 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static void SetAvailable(ref object instanceObj, object valueObj) => ((IUICommand)instanceObj).Available = (bool)valueObj;
 
-        private static object GetPriority(object instanceObj) => (object)((IUICommand)instanceObj).Priority;
+        private static object GetPriority(object instanceObj) => ((IUICommand)instanceObj).Priority;
 
         private static void SetPriority(ref object instanceObj, object valueObj) => ((IUICommand)instanceObj).Priority = (InvokePriority)valueObj;
 
-        private static object Construct() => (object)new UICommand();
+        private static object Construct() => new UICommand();
 
         private static object CallInvoke(object instanceObj, object[] parameters)
         {
             ((IUICommand)instanceObj).Invoke();
-            return (object)null;
+            return null;
         }
 
-        public static void Pass1Initialize() => CommandSchema.Type = new UIXTypeSchema((short)40, "Command", (string)null, (short)153, typeof(IUICommand), UIXTypeFlags.None);
+        public static void Pass1Initialize() => CommandSchema.Type = new UIXTypeSchema(40, "Command", null, 153, typeof(IUICommand), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema((short)40, "Available", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(CommandSchema.GetAvailable), new SetValueHandler(CommandSchema.SetAvailable), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema((short)40, "Priority", (short)126, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(CommandSchema.GetPriority), new SetValueHandler(CommandSchema.SetPriority), false);
-            UIXEventSchema uixEventSchema = new UIXEventSchema((short)40, "Invoked");
-            UIXMethodSchema uixMethodSchema = new UIXMethodSchema((short)40, "Invoke", (short[])null, (short)240, new InvokeHandler(CommandSchema.CallInvoke), false);
-            CommandSchema.Type.Initialize(new DefaultConstructHandler(CommandSchema.Construct), (ConstructorSchema[])null, new PropertySchema[2]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(40, "Available", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(CommandSchema.GetAvailable), new SetValueHandler(CommandSchema.SetAvailable), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(40, "Priority", 126, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(CommandSchema.GetPriority), new SetValueHandler(CommandSchema.SetPriority), false);
+            UIXEventSchema uixEventSchema = new UIXEventSchema(40, "Invoked");
+            UIXMethodSchema uixMethodSchema = new UIXMethodSchema(40, "Invoke", null, 240, new InvokeHandler(CommandSchema.CallInvoke), false);
+            CommandSchema.Type.Initialize(new DefaultConstructHandler(CommandSchema.Construct), null, new PropertySchema[2]
             {
-        (PropertySchema) uixPropertySchema1,
-        (PropertySchema) uixPropertySchema2
+         uixPropertySchema1,
+         uixPropertySchema2
             }, new MethodSchema[1]
             {
-        (MethodSchema) uixMethodSchema
-            }, new EventSchema[1] { (EventSchema)uixEventSchema }, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixMethodSchema
+            }, new EventSchema[1] { uixEventSchema }, null, null, null, null, null, null, null);
         }
     }
 }

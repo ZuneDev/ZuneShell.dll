@@ -27,9 +27,9 @@ namespace Microsoft.Iris.OS
 
         protected override void StartAcquisition(bool forceSynchronous)
         {
-            string errorDetails = (string)null;
+            string errorDetails = null;
             if (this._buffer == IntPtr.Zero && !NativeApi.SpLoadBinaryResource(this._dll, this._identifier, !DllResources.StaticDllResourcesOnly, out this._buffer, out this._length))
-                errorDetails = string.Format("Resource not found: res://{0}!{1}", (object)this._dll, (object)this._identifier);
+                errorDetails = string.Format("Resource not found: res://{0}!{1}", _dll, _identifier);
             this.NotifyAcquisitionComplete(this._buffer, this._length, false, errorDetails);
         }
 

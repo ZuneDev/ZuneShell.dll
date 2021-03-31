@@ -12,27 +12,27 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object GetValue(object instanceObj) => (object)((Index)instanceObj).Value;
+        private static object GetValue(object instanceObj) => ((Index)instanceObj).Value;
 
-        private static object GetSourceValue(object instanceObj) => (object)((Index)instanceObj).SourceValue;
+        private static object GetSourceValue(object instanceObj) => ((Index)instanceObj).SourceValue;
 
-        private static object CallGetContainerIndex(object instanceObj, object[] parameters) => (object)((Index)instanceObj).GetContainerIndex();
+        private static object CallGetContainerIndex(object instanceObj, object[] parameters) => ((Index)instanceObj).GetContainerIndex();
 
-        public static void Pass1Initialize() => IndexSchema.Type = new UIXTypeSchema((short)109, "Index", (string)null, (short)153, typeof(Index), UIXTypeFlags.None);
+        public static void Pass1Initialize() => IndexSchema.Type = new UIXTypeSchema(109, "Index", null, 153, typeof(Index), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema((short)109, "Value", (short)115, (short)-1, ExpressionRestriction.ReadOnly, false, (RangeValidator)null, true, new GetValueHandler(IndexSchema.GetValue), (SetValueHandler)null, false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema((short)109, "SourceValue", (short)115, (short)-1, ExpressionRestriction.ReadOnly, false, (RangeValidator)null, true, new GetValueHandler(IndexSchema.GetSourceValue), (SetValueHandler)null, false);
-            UIXMethodSchema uixMethodSchema = new UIXMethodSchema((short)109, "GetContainerIndex", (short[])null, (short)109, new InvokeHandler(IndexSchema.CallGetContainerIndex), false);
-            IndexSchema.Type.Initialize((DefaultConstructHandler)null, (ConstructorSchema[])null, new PropertySchema[2]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(109, "Value", 115, -1, ExpressionRestriction.ReadOnly, false, null, true, new GetValueHandler(IndexSchema.GetValue), null, false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(109, "SourceValue", 115, -1, ExpressionRestriction.ReadOnly, false, null, true, new GetValueHandler(IndexSchema.GetSourceValue), null, false);
+            UIXMethodSchema uixMethodSchema = new UIXMethodSchema(109, "GetContainerIndex", null, 109, new InvokeHandler(IndexSchema.CallGetContainerIndex), false);
+            IndexSchema.Type.Initialize(null, null, new PropertySchema[2]
             {
-        (PropertySchema) uixPropertySchema2,
-        (PropertySchema) uixPropertySchema1
+         uixPropertySchema2,
+         uixPropertySchema1
             }, new MethodSchema[1]
             {
-        (MethodSchema) uixMethodSchema
-            }, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixMethodSchema
+            }, null, null, null, null, null, null, null, null);
         }
     }
 }

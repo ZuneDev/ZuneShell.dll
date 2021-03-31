@@ -22,7 +22,7 @@ namespace Microsoft.Iris.Markup
         private MarkupDataMapping[] _dataMappingsTable;
         private LoadResultStatus _status;
 
-        public static LoadResult Create(string uri, Resource resource) => !CompiledMarkupLoader.IsUIB(resource) ? (LoadResult)new SourceMarkupLoadResult(resource, uri) : (LoadResult)new CompiledMarkupLoadResult(resource, uri);
+        public static LoadResult Create(string uri, Resource resource) => !CompiledMarkupLoader.IsUIB(resource) ? new SourceMarkupLoadResult(resource, uri) : (LoadResult)new CompiledMarkupLoadResult(resource, uri);
 
         public MarkupLoadResult(string uri)
           : base(uri)
@@ -45,10 +45,10 @@ namespace Microsoft.Iris.Markup
                     MarkupDataProvider.RemoveDataMapping(mapping);
             }
             if (this._reader != null)
-                this._reader.Dispose((object)this);
+                this._reader.Dispose(this);
             foreach (DisposableObject disposableObject in this._exportTable)
-                disposableObject.Dispose((object)this);
-            this._exportTable = (TypeSchema[])null;
+                disposableObject.Dispose(this);
+            this._exportTable = null;
         }
 
         public override TypeSchema FindType(string name)
@@ -72,7 +72,7 @@ namespace Microsoft.Iris.Markup
                     return typeSchema;
             }
             TypeSchema typeSchema1;
-            return this._resolvedAliases != null && this._resolvedAliases.TryGetValue(name, out typeSchema1) ? typeSchema1 : (TypeSchema)null;
+            return this._resolvedAliases != null && this._resolvedAliases.TryGetValue(name, out typeSchema1) ? typeSchema1 : null;
         }
 
         private TypeSchema ResolveAlias(string name)
@@ -81,7 +81,7 @@ namespace Microsoft.Iris.Markup
             var markupLoadResult = this;
             while (num-- > 0)
             {
-                AliasMapping aliasMapping1 = (AliasMapping)null;
+                AliasMapping aliasMapping1 = null;
                 if (markupLoadResult._aliasTable != null)
                 {
                     foreach (AliasMapping aliasMapping2 in markupLoadResult._aliasTable)
@@ -107,8 +107,8 @@ namespace Microsoft.Iris.Markup
                     break;
             }
             if (num <= 0)
-                ErrorManager.ReportError("Alias cycle detected: {0} {1}", (object)this.ToString(), (object)name);
-            return (TypeSchema)null;
+                ErrorManager.ReportError("Alias cycle detected: {0} {1}", this.ToString(), name);
+            return null;
         }
 
         public abstract bool IsSource { get; }
@@ -143,7 +143,7 @@ namespace Microsoft.Iris.Markup
 
         public void SetObjectSection(ByteCodeReader reader)
         {
-            reader.DeclareOwner((object)this);
+            reader.DeclareOwner(this);
             this._reader = reader;
         }
 

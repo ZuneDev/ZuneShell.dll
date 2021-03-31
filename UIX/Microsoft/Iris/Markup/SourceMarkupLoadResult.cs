@@ -44,13 +44,13 @@ namespace Microsoft.Iris.Markup
         {
             if (this._doneWithLoader)
                 return;
-            ErrorManager.EnterContext((object)this.ErrorContextUri);
+            ErrorManager.EnterContext(ErrorContextUri);
             this._loader.Validate(currentPass);
             ErrorManager.ExitContext();
             if (currentPass != LoadPass.Done)
                 return;
             if (!MarkupSystem.TrackAdditionalMetadata)
-                this._loader = (SourceMarkupLoader)null;
+                this._loader = null;
             this._doneWithLoader = true;
         }
 
@@ -59,7 +59,7 @@ namespace Microsoft.Iris.Markup
             ValidateClass loadData = (ValidateClass)typeSchema.LoadData;
             if (loadData == null)
                 return;
-            ErrorManager.EnterContext((object)this.ErrorContextUri);
+            ErrorManager.EnterContext(ErrorContextUri);
             loadData.Validate(currentPass);
             ErrorManager.ExitContext();
         }
@@ -69,7 +69,7 @@ namespace Microsoft.Iris.Markup
             if (this._resource != null)
             {
                 this._resource.Free();
-                this._resource = (Resource)null;
+                this._resource = null;
             }
             if (this.Status == LoadResultStatus.Loading)
                 this.SetStatus(LoadResultStatus.Success);

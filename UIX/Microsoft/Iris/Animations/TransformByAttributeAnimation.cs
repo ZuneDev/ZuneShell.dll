@@ -38,7 +38,7 @@ namespace Microsoft.Iris.Animations
             get => this._maxTimeScaleValue;
             set
             {
-                if ((double)this._maxTimeScaleValue == (double)value)
+                if (_maxTimeScaleValue == (double)value)
                     return;
                 this._maxTimeScaleValue = value;
                 this.ClearCache();
@@ -50,7 +50,7 @@ namespace Microsoft.Iris.Animations
             get => this._maxTimeOffsetValue;
             set
             {
-                if ((double)this._maxTimeOffsetValue == (double)value)
+                if (_maxTimeOffsetValue == (double)value)
                     return;
                 this._maxTimeOffsetValue = value;
                 this.ClearCache();
@@ -62,7 +62,7 @@ namespace Microsoft.Iris.Animations
             get => this._maxMagnitudeValue;
             set
             {
-                if ((double)this._maxMagnitudeValue == (double)value)
+                if (_maxMagnitudeValue == (double)value)
                     return;
                 this._maxMagnitudeValue = value;
                 this.ClearCache();
@@ -74,7 +74,7 @@ namespace Microsoft.Iris.Animations
             get => this._overrideValue;
             set
             {
-                if (this._haveOverrideFlag && (double)this._overrideValue == (double)value)
+                if (this._haveOverrideFlag && _overrideValue == (double)value)
                     return;
                 this._overrideValue = value;
                 this._haveOverrideFlag = true;
@@ -97,12 +97,12 @@ namespace Microsoft.Iris.Animations
         protected override float GetTimeScale(ref AnimationArgs args)
         {
             float timeScale = base.GetTimeScale(ref args);
-            if ((double)timeScale == 0.0)
+            if (timeScale == 0.0)
                 return 1f;
             float val1 = 1f + this.GetValue(ref args) * timeScale;
-            if ((double)this._maxTimeScaleValue != 0.0)
+            if (_maxTimeScaleValue != 0.0)
                 val1 = Math.Min(val1, this._maxTimeScaleValue);
-            if ((double)val1 < 0.0)
+            if (val1 < 0.0)
                 val1 = 0.0f;
             return val1;
         }
@@ -110,12 +110,12 @@ namespace Microsoft.Iris.Animations
         protected override float GetDelayTime(ref AnimationArgs args)
         {
             float delayTime = base.GetDelayTime(ref args);
-            if ((double)delayTime == 0.0)
+            if (delayTime == 0.0)
                 return 0.0f;
             float val1 = this.GetValue(ref args) * delayTime;
-            if ((double)this._maxTimeOffsetValue != 0.0)
+            if (_maxTimeOffsetValue != 0.0)
                 val1 = Math.Min(val1, this._maxTimeOffsetValue);
-            if ((double)val1 < 0.0)
+            if (val1 < 0.0)
                 val1 = 0.0f;
             return val1;
         }
@@ -123,10 +123,10 @@ namespace Microsoft.Iris.Animations
         protected override float GetMagnitude(ref AnimationArgs args)
         {
             float magnitude = base.GetMagnitude(ref args);
-            if ((double)magnitude == 0.0)
+            if (magnitude == 0.0)
                 return 1f;
             float val1 = 1f + this.GetValue(ref args) * magnitude;
-            if ((double)this._maxMagnitudeValue != 0.0)
+            if (_maxMagnitudeValue != 0.0)
                 val1 = Math.Min(val1, this._maxMagnitudeValue);
             return val1;
         }
@@ -146,7 +146,7 @@ namespace Microsoft.Iris.Animations
             switch (this._attrib)
             {
                 case TransformAttribute.Index:
-                    return (float)this.GetIndex(ref args);
+                    return this.GetIndex(ref args);
                 case TransformAttribute.Width:
                     return args.NewSize.X;
                 case TransformAttribute.Height:
@@ -165,7 +165,7 @@ namespace Microsoft.Iris.Animations
             int num = 0;
             ViewItem viewItem = args.ViewItem;
             if (viewItem != null && viewItem.Parent != null)
-                num = viewItem.Parent.Children.IndexOf((Microsoft.Iris.Library.TreeNode)viewItem);
+                num = viewItem.Parent.Children.IndexOf(viewItem);
             return num;
         }
 

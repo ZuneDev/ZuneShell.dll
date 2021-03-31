@@ -31,7 +31,7 @@ namespace Microsoft.Iris.Markup.Validation
         {
             if (this._expression != null)
             {
-                this._expression.Validate(new TypeRestriction((TypeSchema)ObjectSchema.Type), context);
+                this._expression.Validate(new TypeRestriction(ObjectSchema.Type), context);
                 if (this._expression.HasErrors)
                     this.MarkHasErrors();
             }

@@ -16,7 +16,7 @@ namespace Microsoft.Iris.ViewItems
         public RepeaterContentSelector(Repeater ownerRepeater)
         {
             this._ownerRepeater = ownerRepeater;
-            this._selectorsList = (IList)new ArrayList();
+            this._selectorsList = new ArrayList();
         }
 
         public IList Selectors => this._selectorsList;
@@ -27,7 +27,7 @@ namespace Microsoft.Iris.ViewItems
         {
             if (itemObject == null)
                 return;
-            foreach (TypeSelector selectors in (IEnumerable)this._selectorsList)
+            foreach (TypeSelector selectors in _selectorsList)
             {
                 if (selectors.IsMatch(itemObject, this._ownerRepeater))
                 {

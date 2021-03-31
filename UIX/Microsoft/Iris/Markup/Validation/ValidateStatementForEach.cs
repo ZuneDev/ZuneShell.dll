@@ -48,14 +48,14 @@ namespace Microsoft.Iris.Markup.Validation
 
         public override void Validate(ValidateCode container, ValidateContext context)
         {
-            context.NotifyScopedLocalFrameEnter((ValidateStatementLoop)this);
+            context.NotifyScopedLocalFrameEnter(this);
             try
             {
                 this._scopedLocal.Validate(container, context);
                 if (this._scopedLocal.HasErrors)
                     this.MarkHasErrors();
                 this._scopedLocal.HasInitialAssignment = true;
-                this._expression.Validate(new TypeRestriction((TypeSchema)ListSchema.Type), context);
+                this._expression.Validate(new TypeRestriction(ListSchema.Type), context);
                 if (this._expression.HasErrors)
                 {
                     this.MarkHasErrors();

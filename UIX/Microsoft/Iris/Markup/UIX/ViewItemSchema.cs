@@ -21,7 +21,7 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object GetAlpha(object instanceObj) => (object)((ViewItem)instanceObj).Alpha;
+        private static object GetAlpha(object instanceObj) => ((ViewItem)instanceObj).Alpha;
 
         private static void SetAlpha(ref object instanceObj, object valueObj)
         {
@@ -34,17 +34,17 @@ namespace Microsoft.Iris.Markup.UIX
                 viewItem.Alpha = num;
         }
 
-        private static object GetAnimations(object instanceObj) => (object)ViewItemSchema.ListProxy.GetAnimation((ViewItem)instanceObj);
+        private static object GetAnimations(object instanceObj) => ViewItemSchema.ListProxy.GetAnimation((ViewItem)instanceObj);
 
-        private static object GetCenterPointPercent(object instanceObj) => (object)((ViewItem)instanceObj).CenterPointPercent;
+        private static object GetCenterPointPercent(object instanceObj) => ((ViewItem)instanceObj).CenterPointPercent;
 
         private static void SetCenterPointPercent(ref object instanceObj, object valueObj) => ((ViewItem)instanceObj).CenterPointPercent = (Vector3)valueObj;
 
-        private static object GetDebugOutline(object instanceObj) => (object)((ViewItem)instanceObj).DebugOutline;
+        private static object GetDebugOutline(object instanceObj) => ((ViewItem)instanceObj).DebugOutline;
 
         private static void SetDebugOutline(ref object instanceObj, object valueObj) => ((ViewItem)instanceObj).DebugOutline = (Color)valueObj;
 
-        private static object GetFocusOrder(object instanceObj) => (object)((ViewItem)instanceObj).FocusOrder;
+        private static object GetFocusOrder(object instanceObj) => ((ViewItem)instanceObj).FocusOrder;
 
         private static void SetFocusOrder(ref object instanceObj, object valueObj)
         {
@@ -57,15 +57,15 @@ namespace Microsoft.Iris.Markup.UIX
                 viewItem.FocusOrder = num;
         }
 
-        private static object GetAlignment(object instanceObj) => (object)((ViewItem)instanceObj).Alignment;
+        private static object GetAlignment(object instanceObj) => ((ViewItem)instanceObj).Alignment;
 
         private static void SetAlignment(ref object instanceObj, object valueObj) => ((ViewItem)instanceObj).Alignment = (ItemAlignment)valueObj;
 
-        private static object GetChildAlignment(object instanceObj) => (object)((ViewItem)instanceObj).ChildAlignment;
+        private static object GetChildAlignment(object instanceObj) => ((ViewItem)instanceObj).ChildAlignment;
 
         private static void SetChildAlignment(ref object instanceObj, object valueObj) => ((ViewItem)instanceObj).ChildAlignment = (ItemAlignment)valueObj;
 
-        private static object GetLayout(object instanceObj) => (object)((ViewItem)instanceObj).Layout;
+        private static object GetLayout(object instanceObj) => ((ViewItem)instanceObj).Layout;
 
         private static void SetLayout(ref object instanceObj, object valueObj) => ((ViewItem)instanceObj).Layout = (ILayout)valueObj;
 
@@ -74,14 +74,14 @@ namespace Microsoft.Iris.Markup.UIX
             ViewItem viewItem = (ViewItem)instanceObj;
             ILayoutInput layoutInput = (ILayoutInput)valueObj;
             if (layoutInput == null)
-                ErrorManager.ReportError("Script runtime failure: Invalid 'null' value for '{0}'", (object)"LayoutInput");
+                ErrorManager.ReportError("Script runtime failure: Invalid 'null' value for '{0}'", "LayoutInput");
             else
                 viewItem.LayoutInput = layoutInput;
         }
 
-        private static object GetLayoutOutput(object instanceObj) => (object)((ViewItem)instanceObj).LayoutOutput;
+        private static object GetLayoutOutput(object instanceObj) => ((ViewItem)instanceObj).LayoutOutput;
 
-        private static object GetMargins(object instanceObj) => (object)((ViewItem)instanceObj).Margins;
+        private static object GetMargins(object instanceObj) => ((ViewItem)instanceObj).Margins;
 
         private static void SetMargins(ref object instanceObj, object valueObj) => ((ViewItem)instanceObj).Margins = (Inset)valueObj;
 
@@ -113,31 +113,31 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static void SetMouseInteractive(ref object instanceObj, object valueObj) => ((ViewItem)instanceObj).MouseInteractive = (bool)valueObj;
 
-        private static object GetName(object instanceObj) => (object)((ViewItem)instanceObj).Name;
+        private static object GetName(object instanceObj) => ((ViewItem)instanceObj).Name;
 
         private static void SetName(ref object instanceObj, object valueObj) => ((ViewItem)instanceObj).Name = (string)valueObj;
 
-        private static object GetNavigation(object instanceObj) => (object)((ViewItem)instanceObj).Navigation;
+        private static object GetNavigation(object instanceObj) => ((ViewItem)instanceObj).Navigation;
 
         private static void SetNavigation(ref object instanceObj, object valueObj) => ((ViewItem)instanceObj).Navigation = (NavigationPolicies)valueObj;
 
-        private static object GetPadding(object instanceObj) => (object)((ViewItem)instanceObj).Padding;
+        private static object GetPadding(object instanceObj) => ((ViewItem)instanceObj).Padding;
 
         private static void SetPadding(ref object instanceObj, object valueObj) => ((ViewItem)instanceObj).Padding = (Inset)valueObj;
 
-        private static object GetRotation(object instanceObj) => (object)((ViewItem)instanceObj).Rotation;
+        private static object GetRotation(object instanceObj) => ((ViewItem)instanceObj).Rotation;
 
         private static void SetRotation(ref object instanceObj, object valueObj) => ((ViewItem)instanceObj).Rotation = (Rotation)valueObj;
 
-        private static object GetScale(object instanceObj) => (object)((ViewItem)instanceObj).Scale;
+        private static object GetScale(object instanceObj) => ((ViewItem)instanceObj).Scale;
 
         private static void SetScale(ref object instanceObj, object valueObj) => ((ViewItem)instanceObj).Scale = (Vector3)valueObj;
 
-        private static object GetSharedSize(object instanceObj) => (object)((ViewItem)instanceObj).SharedSize;
+        private static object GetSharedSize(object instanceObj) => ((ViewItem)instanceObj).SharedSize;
 
         private static void SetSharedSize(ref object instanceObj, object valueObj) => ((ViewItem)instanceObj).SharedSize = (SharedSize)valueObj;
 
-        private static object GetSharedSizePolicy(object instanceObj) => (object)((ViewItem)instanceObj).SharedSizePolicy;
+        private static object GetSharedSizePolicy(object instanceObj) => ((ViewItem)instanceObj).SharedSizePolicy;
 
         private static void SetSharedSizePolicy(ref object instanceObj, object valueObj) => ((ViewItem)instanceObj).SharedSizePolicy = (SharedSizePolicy)valueObj;
 
@@ -145,11 +145,11 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static void SetVisible(ref object instanceObj, object valueObj) => ((ViewItem)instanceObj).Visible = (bool)valueObj;
 
-        private static object GetBackground(object instanceObj) => (object)((ViewItem)instanceObj).Background;
+        private static object GetBackground(object instanceObj) => ((ViewItem)instanceObj).Background;
 
         private static void SetBackground(ref object instanceObj, object valueObj) => ((ViewItem)instanceObj).Background = (Color)valueObj;
 
-        private static object GetCamera(object instanceObj) => (object)((ViewItem)instanceObj).Camera;
+        private static object GetCamera(object instanceObj) => ((ViewItem)instanceObj).Camera;
 
         private static void SetCamera(ref object instanceObj, object valueObj) => ((ViewItem)instanceObj).Camera = (Camera)valueObj;
 
@@ -159,11 +159,11 @@ namespace Microsoft.Iris.Markup.UIX
             IAnimationProvider parameter = (IAnimationProvider)parameters[0];
             if (parameter == null)
             {
-                ErrorManager.ReportError("Script runtime failure: Invalid 'null' value for '{0}'", (object)"animation");
-                return (object)null;
+                ErrorManager.ReportError("Script runtime failure: Invalid 'null' value for '{0}'", "animation");
+                return null;
             }
             viewItem.AttachAnimation(parameter);
-            return (object)null;
+            return null;
         }
 
         private static object CallAttachAnimationIAnimationAnimationHandle(
@@ -175,16 +175,16 @@ namespace Microsoft.Iris.Markup.UIX
             AnimationHandle parameter2 = (AnimationHandle)parameters[1];
             if (parameter1 == null)
             {
-                ErrorManager.ReportError("Script runtime failure: Invalid 'null' value for '{0}'", (object)"animation");
-                return (object)null;
+                ErrorManager.ReportError("Script runtime failure: Invalid 'null' value for '{0}'", "animation");
+                return null;
             }
             if (parameter2 == null)
             {
-                ErrorManager.ReportError("Script runtime failure: Invalid 'null' value for '{0}'", (object)"handle");
-                return (object)null;
+                ErrorManager.ReportError("Script runtime failure: Invalid 'null' value for '{0}'", "handle");
+                return null;
             }
             viewItem.AttachAnimation(parameter1, parameter2);
-            return (object)null;
+            return null;
         }
 
         private static object CallDetachAnimationAnimationEventType(
@@ -192,7 +192,7 @@ namespace Microsoft.Iris.Markup.UIX
           object[] parameters)
         {
             ((ViewItem)instanceObj).DetachAnimation((AnimationEventType)parameters[0]);
-            return (object)null;
+            return null;
         }
 
         private static object CallPlayAnimationIAnimation(object instanceObj, object[] parameters)
@@ -201,11 +201,11 @@ namespace Microsoft.Iris.Markup.UIX
             IAnimationProvider parameter = (IAnimationProvider)parameters[0];
             if (parameter == null)
             {
-                ErrorManager.ReportError("Script runtime failure: Invalid 'null' value for '{0}'", (object)"animation");
-                return (object)null;
+                ErrorManager.ReportError("Script runtime failure: Invalid 'null' value for '{0}'", "animation");
+                return null;
             }
-            viewItem.PlayAnimation(parameter, (AnimationHandle)null);
-            return (object)null;
+            viewItem.PlayAnimation(parameter, null);
+            return null;
         }
 
         private static object CallPlayAnimationIAnimationAnimationHandle(
@@ -217,16 +217,16 @@ namespace Microsoft.Iris.Markup.UIX
             AnimationHandle parameter2 = (AnimationHandle)parameters[1];
             if (parameter1 == null)
             {
-                ErrorManager.ReportError("Script runtime failure: Invalid 'null' value for '{0}'", (object)"animation");
-                return (object)null;
+                ErrorManager.ReportError("Script runtime failure: Invalid 'null' value for '{0}'", "animation");
+                return null;
             }
             if (parameter2 == null)
             {
-                ErrorManager.ReportError("Script runtime failure: Invalid 'null' value for '{0}'", (object)"handle");
-                return (object)null;
+                ErrorManager.ReportError("Script runtime failure: Invalid 'null' value for '{0}'", "handle");
+                return null;
             }
             viewItem.PlayAnimation(parameter1, parameter2);
-            return (object)null;
+            return null;
         }
 
         private static object CallPlayAnimationAnimationEventType(
@@ -234,137 +234,137 @@ namespace Microsoft.Iris.Markup.UIX
           object[] parameters)
         {
             ((ViewItem)instanceObj).PlayAnimation((AnimationEventType)parameters[0]);
-            return (object)null;
+            return null;
         }
 
         private static object CallForceContentChange(object instanceObj, object[] parameters)
         {
             ((ViewItem)instanceObj).ForceContentChange();
-            return (object)null;
+            return null;
         }
 
-        private static object CallSnapshotPosition(object instanceObj, object[] parameters) => (object)((ViewItem)instanceObj).SnapshotPosition();
+        private static object CallSnapshotPosition(object instanceObj, object[] parameters) => ((ViewItem)instanceObj).SnapshotPosition();
 
         private static object CallNavigateInto(object instanceObj, object[] parameters)
         {
             ((ViewItem)instanceObj).NavigateInto();
-            return (object)null;
+            return null;
         }
 
         private static object CallNavigateIntoBoolean(object instanceObj, object[] parameters)
         {
             ((ViewItem)instanceObj).NavigateInto((bool)parameters[0]);
-            return (object)null;
+            return null;
         }
 
         private static object CallScrollIntoView(object instanceObj, object[] parameters)
         {
             ((ViewItem)instanceObj).ScrollIntoView();
-            return (object)null;
+            return null;
         }
 
-        public static void Pass1Initialize() => ViewItemSchema.Type = new UIXTypeSchema((short)239, "ViewItem", (string)null, (short)-1, typeof(ViewItem), UIXTypeFlags.Disposable);
+        public static void Pass1Initialize() => ViewItemSchema.Type = new UIXTypeSchema(239, "ViewItem", null, -1, typeof(ViewItem), UIXTypeFlags.Disposable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema((short)239, "Alpha", (short)194, (short)-1, ExpressionRestriction.None, false, SingleSchema.Validate0to1, true, new GetValueHandler(ViewItemSchema.GetAlpha), new SetValueHandler(ViewItemSchema.SetAlpha), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema((short)239, "Animations", (short)138, (short)104, ExpressionRestriction.NoAccess, false, (RangeValidator)null, true, new GetValueHandler(ViewItemSchema.GetAnimations), (SetValueHandler)null, false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema((short)239, "CenterPointPercent", (short)234, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ViewItemSchema.GetCenterPointPercent), new SetValueHandler(ViewItemSchema.SetCenterPointPercent), false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema((short)239, "DebugOutline", (short)35, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ViewItemSchema.GetDebugOutline), new SetValueHandler(ViewItemSchema.SetDebugOutline), false);
-            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema((short)239, "FocusOrder", (short)115, (short)-1, ExpressionRestriction.None, false, Int32Schema.ValidateNotNegative, true, new GetValueHandler(ViewItemSchema.GetFocusOrder), new SetValueHandler(ViewItemSchema.SetFocusOrder), false);
-            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema((short)239, "Alignment", (short)sbyte.MaxValue, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ViewItemSchema.GetAlignment), new SetValueHandler(ViewItemSchema.SetAlignment), false);
-            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema((short)239, "ChildAlignment", (short)sbyte.MaxValue, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ViewItemSchema.GetChildAlignment), new SetValueHandler(ViewItemSchema.SetChildAlignment), false);
-            UIXPropertySchema uixPropertySchema8 = new UIXPropertySchema((short)239, "Layout", (short)132, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ViewItemSchema.GetLayout), new SetValueHandler(ViewItemSchema.SetLayout), false);
-            UIXPropertySchema uixPropertySchema9 = new UIXPropertySchema((short)239, "LayoutInput", (short)133, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, (GetValueHandler)null, new SetValueHandler(ViewItemSchema.SetLayoutInput), false);
-            UIXPropertySchema uixPropertySchema10 = new UIXPropertySchema((short)239, "LayoutOutput", (short)134, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(ViewItemSchema.GetLayoutOutput), (SetValueHandler)null, false);
-            UIXPropertySchema uixPropertySchema11 = new UIXPropertySchema((short)239, "Margins", (short)114, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ViewItemSchema.GetMargins), new SetValueHandler(ViewItemSchema.SetMargins), false);
-            UIXPropertySchema uixPropertySchema12 = new UIXPropertySchema((short)239, "MaximumSize", (short)195, (short)-1, ExpressionRestriction.None, false, SizeSchema.ValidateNotNegative, true, new GetValueHandler(ViewItemSchema.GetMaximumSize), new SetValueHandler(ViewItemSchema.SetMaximumSize), false);
-            UIXPropertySchema uixPropertySchema13 = new UIXPropertySchema((short)239, "MinimumSize", (short)195, (short)-1, ExpressionRestriction.None, false, SizeSchema.ValidateNotNegative, true, new GetValueHandler(ViewItemSchema.GetMinimumSize), new SetValueHandler(ViewItemSchema.SetMinimumSize), false);
-            UIXPropertySchema uixPropertySchema14 = new UIXPropertySchema((short)239, "MouseInteractive", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ViewItemSchema.GetMouseInteractive), new SetValueHandler(ViewItemSchema.SetMouseInteractive), false);
-            UIXPropertySchema uixPropertySchema15 = new UIXPropertySchema((short)239, "Name", (short)208, (short)-1, ExpressionRestriction.ReadOnly, false, (RangeValidator)null, true, new GetValueHandler(ViewItemSchema.GetName), new SetValueHandler(ViewItemSchema.SetName), false);
-            UIXPropertySchema uixPropertySchema16 = new UIXPropertySchema((short)239, "Navigation", (short)151, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ViewItemSchema.GetNavigation), new SetValueHandler(ViewItemSchema.SetNavigation), false);
-            UIXPropertySchema uixPropertySchema17 = new UIXPropertySchema((short)239, "Padding", (short)114, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ViewItemSchema.GetPadding), new SetValueHandler(ViewItemSchema.SetPadding), false);
-            UIXPropertySchema uixPropertySchema18 = new UIXPropertySchema((short)239, "Rotation", (short)176, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ViewItemSchema.GetRotation), new SetValueHandler(ViewItemSchema.SetRotation), false);
-            UIXPropertySchema uixPropertySchema19 = new UIXPropertySchema((short)239, "Scale", (short)234, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ViewItemSchema.GetScale), new SetValueHandler(ViewItemSchema.SetScale), false);
-            UIXPropertySchema uixPropertySchema20 = new UIXPropertySchema((short)239, "SharedSize", (short)190, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ViewItemSchema.GetSharedSize), new SetValueHandler(ViewItemSchema.SetSharedSize), false);
-            UIXPropertySchema uixPropertySchema21 = new UIXPropertySchema((short)239, "SharedSizePolicy", (short)191, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ViewItemSchema.GetSharedSizePolicy), new SetValueHandler(ViewItemSchema.SetSharedSizePolicy), false);
-            UIXPropertySchema uixPropertySchema22 = new UIXPropertySchema((short)239, "Visible", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ViewItemSchema.GetVisible), new SetValueHandler(ViewItemSchema.SetVisible), false);
-            UIXPropertySchema uixPropertySchema23 = new UIXPropertySchema((short)239, "Background", (short)35, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ViewItemSchema.GetBackground), new SetValueHandler(ViewItemSchema.SetBackground), false);
-            UIXPropertySchema uixPropertySchema24 = new UIXPropertySchema((short)239, "Camera", (short)21, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ViewItemSchema.GetCamera), new SetValueHandler(ViewItemSchema.SetCamera), false);
-            UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema((short)239, "AttachAnimation", new short[1]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(239, "Alpha", 194, -1, ExpressionRestriction.None, false, SingleSchema.Validate0to1, true, new GetValueHandler(ViewItemSchema.GetAlpha), new SetValueHandler(ViewItemSchema.SetAlpha), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(239, "Animations", 138, 104, ExpressionRestriction.NoAccess, false, null, true, new GetValueHandler(ViewItemSchema.GetAnimations), null, false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(239, "CenterPointPercent", 234, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ViewItemSchema.GetCenterPointPercent), new SetValueHandler(ViewItemSchema.SetCenterPointPercent), false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(239, "DebugOutline", 35, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ViewItemSchema.GetDebugOutline), new SetValueHandler(ViewItemSchema.SetDebugOutline), false);
+            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(239, "FocusOrder", 115, -1, ExpressionRestriction.None, false, Int32Schema.ValidateNotNegative, true, new GetValueHandler(ViewItemSchema.GetFocusOrder), new SetValueHandler(ViewItemSchema.SetFocusOrder), false);
+            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(239, "Alignment", sbyte.MaxValue, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ViewItemSchema.GetAlignment), new SetValueHandler(ViewItemSchema.SetAlignment), false);
+            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema(239, "ChildAlignment", sbyte.MaxValue, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ViewItemSchema.GetChildAlignment), new SetValueHandler(ViewItemSchema.SetChildAlignment), false);
+            UIXPropertySchema uixPropertySchema8 = new UIXPropertySchema(239, "Layout", 132, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ViewItemSchema.GetLayout), new SetValueHandler(ViewItemSchema.SetLayout), false);
+            UIXPropertySchema uixPropertySchema9 = new UIXPropertySchema(239, "LayoutInput", 133, -1, ExpressionRestriction.None, false, null, true, null, new SetValueHandler(ViewItemSchema.SetLayoutInput), false);
+            UIXPropertySchema uixPropertySchema10 = new UIXPropertySchema(239, "LayoutOutput", 134, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(ViewItemSchema.GetLayoutOutput), null, false);
+            UIXPropertySchema uixPropertySchema11 = new UIXPropertySchema(239, "Margins", 114, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ViewItemSchema.GetMargins), new SetValueHandler(ViewItemSchema.SetMargins), false);
+            UIXPropertySchema uixPropertySchema12 = new UIXPropertySchema(239, "MaximumSize", 195, -1, ExpressionRestriction.None, false, SizeSchema.ValidateNotNegative, true, new GetValueHandler(ViewItemSchema.GetMaximumSize), new SetValueHandler(ViewItemSchema.SetMaximumSize), false);
+            UIXPropertySchema uixPropertySchema13 = new UIXPropertySchema(239, "MinimumSize", 195, -1, ExpressionRestriction.None, false, SizeSchema.ValidateNotNegative, true, new GetValueHandler(ViewItemSchema.GetMinimumSize), new SetValueHandler(ViewItemSchema.SetMinimumSize), false);
+            UIXPropertySchema uixPropertySchema14 = new UIXPropertySchema(239, "MouseInteractive", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ViewItemSchema.GetMouseInteractive), new SetValueHandler(ViewItemSchema.SetMouseInteractive), false);
+            UIXPropertySchema uixPropertySchema15 = new UIXPropertySchema(239, "Name", 208, -1, ExpressionRestriction.ReadOnly, false, null, true, new GetValueHandler(ViewItemSchema.GetName), new SetValueHandler(ViewItemSchema.SetName), false);
+            UIXPropertySchema uixPropertySchema16 = new UIXPropertySchema(239, "Navigation", 151, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ViewItemSchema.GetNavigation), new SetValueHandler(ViewItemSchema.SetNavigation), false);
+            UIXPropertySchema uixPropertySchema17 = new UIXPropertySchema(239, "Padding", 114, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ViewItemSchema.GetPadding), new SetValueHandler(ViewItemSchema.SetPadding), false);
+            UIXPropertySchema uixPropertySchema18 = new UIXPropertySchema(239, "Rotation", 176, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ViewItemSchema.GetRotation), new SetValueHandler(ViewItemSchema.SetRotation), false);
+            UIXPropertySchema uixPropertySchema19 = new UIXPropertySchema(239, "Scale", 234, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ViewItemSchema.GetScale), new SetValueHandler(ViewItemSchema.SetScale), false);
+            UIXPropertySchema uixPropertySchema20 = new UIXPropertySchema(239, "SharedSize", 190, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ViewItemSchema.GetSharedSize), new SetValueHandler(ViewItemSchema.SetSharedSize), false);
+            UIXPropertySchema uixPropertySchema21 = new UIXPropertySchema(239, "SharedSizePolicy", 191, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ViewItemSchema.GetSharedSizePolicy), new SetValueHandler(ViewItemSchema.SetSharedSizePolicy), false);
+            UIXPropertySchema uixPropertySchema22 = new UIXPropertySchema(239, "Visible", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ViewItemSchema.GetVisible), new SetValueHandler(ViewItemSchema.SetVisible), false);
+            UIXPropertySchema uixPropertySchema23 = new UIXPropertySchema(239, "Background", 35, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ViewItemSchema.GetBackground), new SetValueHandler(ViewItemSchema.SetBackground), false);
+            UIXPropertySchema uixPropertySchema24 = new UIXPropertySchema(239, "Camera", 21, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ViewItemSchema.GetCamera), new SetValueHandler(ViewItemSchema.SetCamera), false);
+            UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema(239, "AttachAnimation", new short[1]
             {
-        (short) 104
-            }, (short)240, new InvokeHandler(ViewItemSchema.CallAttachAnimationIAnimation), false);
-            UIXMethodSchema uixMethodSchema2 = new UIXMethodSchema((short)239, "AttachAnimation", new short[2]
+         104
+            }, 240, new InvokeHandler(ViewItemSchema.CallAttachAnimationIAnimation), false);
+            UIXMethodSchema uixMethodSchema2 = new UIXMethodSchema(239, "AttachAnimation", new short[2]
             {
-        (short) 104,
-        (short) 11
-            }, (short)240, new InvokeHandler(ViewItemSchema.CallAttachAnimationIAnimationAnimationHandle), false);
-            UIXMethodSchema uixMethodSchema3 = new UIXMethodSchema((short)239, "DetachAnimation", new short[1]
+         104,
+         11
+            }, 240, new InvokeHandler(ViewItemSchema.CallAttachAnimationIAnimationAnimationHandle), false);
+            UIXMethodSchema uixMethodSchema3 = new UIXMethodSchema(239, "DetachAnimation", new short[1]
             {
-        (short) 10
-            }, (short)240, new InvokeHandler(ViewItemSchema.CallDetachAnimationAnimationEventType), false);
-            UIXMethodSchema uixMethodSchema4 = new UIXMethodSchema((short)239, "PlayAnimation", new short[1]
+         10
+            }, 240, new InvokeHandler(ViewItemSchema.CallDetachAnimationAnimationEventType), false);
+            UIXMethodSchema uixMethodSchema4 = new UIXMethodSchema(239, "PlayAnimation", new short[1]
             {
-        (short) 104
-            }, (short)240, new InvokeHandler(ViewItemSchema.CallPlayAnimationIAnimation), false);
-            UIXMethodSchema uixMethodSchema5 = new UIXMethodSchema((short)239, "PlayAnimation", new short[2]
+         104
+            }, 240, new InvokeHandler(ViewItemSchema.CallPlayAnimationIAnimation), false);
+            UIXMethodSchema uixMethodSchema5 = new UIXMethodSchema(239, "PlayAnimation", new short[2]
             {
-        (short) 104,
-        (short) 11
-            }, (short)240, new InvokeHandler(ViewItemSchema.CallPlayAnimationIAnimationAnimationHandle), false);
-            UIXMethodSchema uixMethodSchema6 = new UIXMethodSchema((short)239, "PlayAnimation", new short[1]
+         104,
+         11
+            }, 240, new InvokeHandler(ViewItemSchema.CallPlayAnimationIAnimationAnimationHandle), false);
+            UIXMethodSchema uixMethodSchema6 = new UIXMethodSchema(239, "PlayAnimation", new short[1]
             {
-        (short) 10
-            }, (short)240, new InvokeHandler(ViewItemSchema.CallPlayAnimationAnimationEventType), false);
-            UIXMethodSchema uixMethodSchema7 = new UIXMethodSchema((short)239, "ForceContentChange", (short[])null, (short)240, new InvokeHandler(ViewItemSchema.CallForceContentChange), false);
-            UIXMethodSchema uixMethodSchema8 = new UIXMethodSchema((short)239, "SnapshotPosition", (short[])null, (short)171, new InvokeHandler(ViewItemSchema.CallSnapshotPosition), false);
-            UIXMethodSchema uixMethodSchema9 = new UIXMethodSchema((short)239, "NavigateInto", (short[])null, (short)240, new InvokeHandler(ViewItemSchema.CallNavigateInto), false);
-            UIXMethodSchema uixMethodSchema10 = new UIXMethodSchema((short)239, "NavigateInto", new short[1]
+         10
+            }, 240, new InvokeHandler(ViewItemSchema.CallPlayAnimationAnimationEventType), false);
+            UIXMethodSchema uixMethodSchema7 = new UIXMethodSchema(239, "ForceContentChange", null, 240, new InvokeHandler(ViewItemSchema.CallForceContentChange), false);
+            UIXMethodSchema uixMethodSchema8 = new UIXMethodSchema(239, "SnapshotPosition", null, 171, new InvokeHandler(ViewItemSchema.CallSnapshotPosition), false);
+            UIXMethodSchema uixMethodSchema9 = new UIXMethodSchema(239, "NavigateInto", null, 240, new InvokeHandler(ViewItemSchema.CallNavigateInto), false);
+            UIXMethodSchema uixMethodSchema10 = new UIXMethodSchema(239, "NavigateInto", new short[1]
             {
-        (short) 15
-            }, (short)240, new InvokeHandler(ViewItemSchema.CallNavigateIntoBoolean), false);
-            UIXMethodSchema uixMethodSchema11 = new UIXMethodSchema((short)239, "ScrollIntoView", (short[])null, (short)240, new InvokeHandler(ViewItemSchema.CallScrollIntoView), false);
-            ViewItemSchema.Type.Initialize((DefaultConstructHandler)null, (ConstructorSchema[])null, new PropertySchema[24]
+         15
+            }, 240, new InvokeHandler(ViewItemSchema.CallNavigateIntoBoolean), false);
+            UIXMethodSchema uixMethodSchema11 = new UIXMethodSchema(239, "ScrollIntoView", null, 240, new InvokeHandler(ViewItemSchema.CallScrollIntoView), false);
+            ViewItemSchema.Type.Initialize(null, null, new PropertySchema[24]
             {
-        (PropertySchema) uixPropertySchema6,
-        (PropertySchema) uixPropertySchema1,
-        (PropertySchema) uixPropertySchema2,
-        (PropertySchema) uixPropertySchema23,
-        (PropertySchema) uixPropertySchema24,
-        (PropertySchema) uixPropertySchema3,
-        (PropertySchema) uixPropertySchema7,
-        (PropertySchema) uixPropertySchema4,
-        (PropertySchema) uixPropertySchema5,
-        (PropertySchema) uixPropertySchema8,
-        (PropertySchema) uixPropertySchema9,
-        (PropertySchema) uixPropertySchema10,
-        (PropertySchema) uixPropertySchema11,
-        (PropertySchema) uixPropertySchema12,
-        (PropertySchema) uixPropertySchema13,
-        (PropertySchema) uixPropertySchema14,
-        (PropertySchema) uixPropertySchema15,
-        (PropertySchema) uixPropertySchema16,
-        (PropertySchema) uixPropertySchema17,
-        (PropertySchema) uixPropertySchema18,
-        (PropertySchema) uixPropertySchema19,
-        (PropertySchema) uixPropertySchema20,
-        (PropertySchema) uixPropertySchema21,
-        (PropertySchema) uixPropertySchema22
+         uixPropertySchema6,
+         uixPropertySchema1,
+         uixPropertySchema2,
+         uixPropertySchema23,
+         uixPropertySchema24,
+         uixPropertySchema3,
+         uixPropertySchema7,
+         uixPropertySchema4,
+         uixPropertySchema5,
+         uixPropertySchema8,
+         uixPropertySchema9,
+         uixPropertySchema10,
+         uixPropertySchema11,
+         uixPropertySchema12,
+         uixPropertySchema13,
+         uixPropertySchema14,
+         uixPropertySchema15,
+         uixPropertySchema16,
+         uixPropertySchema17,
+         uixPropertySchema18,
+         uixPropertySchema19,
+         uixPropertySchema20,
+         uixPropertySchema21,
+         uixPropertySchema22
             }, new MethodSchema[11]
             {
-        (MethodSchema) uixMethodSchema1,
-        (MethodSchema) uixMethodSchema2,
-        (MethodSchema) uixMethodSchema3,
-        (MethodSchema) uixMethodSchema4,
-        (MethodSchema) uixMethodSchema5,
-        (MethodSchema) uixMethodSchema6,
-        (MethodSchema) uixMethodSchema7,
-        (MethodSchema) uixMethodSchema8,
-        (MethodSchema) uixMethodSchema9,
-        (MethodSchema) uixMethodSchema10,
-        (MethodSchema) uixMethodSchema11
-            }, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixMethodSchema1,
+         uixMethodSchema2,
+         uixMethodSchema3,
+         uixMethodSchema4,
+         uixMethodSchema5,
+         uixMethodSchema6,
+         uixMethodSchema7,
+         uixMethodSchema8,
+         uixMethodSchema9,
+         uixMethodSchema10,
+         uixMethodSchema11
+            }, null, null, null, null, null, null, null, null);
         }
 
         internal class ListProxy : IList, ICollection, IEnumerable
@@ -376,13 +376,13 @@ namespace Microsoft.Iris.Markup.UIX
             public static IList GetChildren(ViewItem subject)
             {
                 ViewItemSchema.ListProxy.s_shared.SetSubject(subject, ViewItemSchema.ListProxyMode.Children);
-                return (IList)ViewItemSchema.ListProxy.s_shared;
+                return s_shared;
             }
 
             public static IList GetAnimation(ViewItem subject)
             {
                 ViewItemSchema.ListProxy.s_shared.SetSubject(subject, ViewItemSchema.ListProxyMode.Animation);
-                return (IList)ViewItemSchema.ListProxy.s_shared;
+                return s_shared;
             }
 
             public int Add(object value)
@@ -400,7 +400,7 @@ namespace Microsoft.Iris.Markup.UIX
                         }
                         break;
                 }
-                this._subject = (ViewItem)null;
+                this._subject = null;
                 return 0;
             }
 

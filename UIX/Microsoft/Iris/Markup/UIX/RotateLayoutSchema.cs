@@ -15,7 +15,7 @@ namespace Microsoft.Iris.Markup.UIX
         public static RangeValidator ValidateRightAngle = new RangeValidator(RotateLayoutSchema.RangeValidateRightAngle);
         public static UIXTypeSchema Type;
 
-        private static object GetAngleDegrees(object instanceObj) => (object)((RotateLayout)instanceObj).AngleDegrees;
+        private static object GetAngleDegrees(object instanceObj) => ((RotateLayout)instanceObj).AngleDegrees;
 
         private static void SetAngleDegrees(ref object instanceObj, object valueObj)
         {
@@ -28,7 +28,7 @@ namespace Microsoft.Iris.Markup.UIX
                 rotateLayout.AngleDegrees = num;
         }
 
-        private static object Construct() => (object)new RotateLayout();
+        private static object Construct() => new RotateLayout();
 
         private static Result RangeValidateRightAngle(object value)
         {
@@ -41,19 +41,19 @@ namespace Microsoft.Iris.Markup.UIX
                 case 270:
                     return Result.Success;
                 default:
-                    return Result.Fail("Expecting a value of 0, 90, 180, or 270, but got {0}", (object)num.ToString());
+                    return Result.Fail("Expecting a value of 0, 90, 180, or 270, but got {0}", num.ToString());
             }
         }
 
-        public static void Pass1Initialize() => RotateLayoutSchema.Type = new UIXTypeSchema((short)175, "RotateLayout", (string)null, (short)132, typeof(RotateLayout), UIXTypeFlags.Immutable);
+        public static void Pass1Initialize() => RotateLayoutSchema.Type = new UIXTypeSchema(175, "RotateLayout", null, 132, typeof(RotateLayout), UIXTypeFlags.Immutable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema = new UIXPropertySchema((short)175, "AngleDegrees", (short)115, (short)-1, ExpressionRestriction.None, false, RotateLayoutSchema.ValidateRightAngle, false, new GetValueHandler(RotateLayoutSchema.GetAngleDegrees), new SetValueHandler(RotateLayoutSchema.SetAngleDegrees), false);
-            RotateLayoutSchema.Type.Initialize(new DefaultConstructHandler(RotateLayoutSchema.Construct), (ConstructorSchema[])null, new PropertySchema[1]
+            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(175, "AngleDegrees", 115, -1, ExpressionRestriction.None, false, RotateLayoutSchema.ValidateRightAngle, false, new GetValueHandler(RotateLayoutSchema.GetAngleDegrees), new SetValueHandler(RotateLayoutSchema.SetAngleDegrees), false);
+            RotateLayoutSchema.Type.Initialize(new DefaultConstructHandler(RotateLayoutSchema.Construct), null, new PropertySchema[1]
             {
-        (PropertySchema) uixPropertySchema
-            }, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixPropertySchema
+            }, null, null, null, null, null, null, null, null, null);
         }
     }
 }

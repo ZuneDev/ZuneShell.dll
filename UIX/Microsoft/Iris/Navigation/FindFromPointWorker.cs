@@ -27,8 +27,8 @@ namespace Microsoft.Iris.Navigation
 
         public bool FindFromPoint(PointF pt, out INavigationSite result)
         {
-            result = (INavigationSite)null;
-            FindFromPointWorker.FindFromPointInfo itemA = (FindFromPointWorker.FindFromPointInfo)null;
+            result = null;
+            FindFromPointWorker.FindFromPointInfo itemA = null;
             if (this._candidatesList == null)
             {
                 this._candidatesList = new List<FindFromPointWorker.FindFromPointInfo>();
@@ -50,7 +50,7 @@ namespace Microsoft.Iris.Navigation
 
         private void CollectChildrenToSearch(INavigationSite originSite, bool preferContainerFocus)
         {
-            foreach (INavigationSite child in (IEnumerable)originSite.Children)
+            foreach (INavigationSite child in originSite.Children)
             {
                 if (child.Visible)
                 {
@@ -117,9 +117,9 @@ namespace Microsoft.Iris.Navigation
                         num3 = num1;
                         break;
                 }
-                if ((double)num3 < 0.0)
+                if (num3 < 0.0)
                     return -1;
-                if ((double)num3 > 0.0)
+                if (num3 > 0.0)
                     return 1;
             }
             bool flag1 = rectangleF1.Contains(comparePoint);
@@ -130,17 +130,17 @@ namespace Microsoft.Iris.Navigation
             PointF pointF2 = new PointF(Math.Abs(center2.X - comparePoint.X), Math.Abs(center2.Y - comparePoint.Y));
             float num4 = pointF1.X + pointF1.Y;
             float num5 = pointF2.X + pointF2.Y;
-            if ((double)num4 < (double)num5)
+            if (num4 < (double)num5)
                 return -1;
-            if ((double)num5 < (double)num4)
+            if (num5 < (double)num4)
                 return 1;
-            if ((double)center1.X < (double)center2.X)
+            if (center1.X < (double)center2.X)
                 return -1;
-            if ((double)center2.X < (double)center1.X)
+            if (center2.X < (double)center1.X)
                 return 1;
-            if ((double)center1.Y < (double)center2.Y)
+            if (center1.Y < (double)center2.Y)
                 return -1;
-            return (double)center2.Y < (double)center1.Y ? 1 : 0;
+            return center2.Y < (double)center1.Y ? 1 : 0;
         }
 
         public class FindFromPointInfo

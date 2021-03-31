@@ -54,6 +54,6 @@ namespace Microsoft.Iris.Input
 
         protected override InputInfo.InfoType PoolType => KeyCharacterInfo.s_poolType;
 
-        public override string ToString() => InvariantString.Format("{0}({1}, Key={2})", (object)this.GetType().Name, (object)this.Action, (object)this._character);
+        public override string ToString() => InvariantString.Format("{0}({1}, Key={2})", this.GetType().Name, Action, _character);
     }
 }

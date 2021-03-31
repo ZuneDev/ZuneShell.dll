@@ -74,6 +74,6 @@ namespace Microsoft.Iris.ModelItems
             return intList;
         }
 
-        public override string ToString() => string.Format("{{{0} to {1}}}", (object)this._begin, (object)this._end);
+        public override string ToString() => string.Format("{{{0} to {1}}}", _begin, _end);
     }
 }

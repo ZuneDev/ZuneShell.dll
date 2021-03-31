@@ -53,7 +53,7 @@ namespace Microsoft.Iris.ModelItems
         {
             if (eventToFire == null)
                 return;
-            eventToFire((object)this, EventArgs.Empty);
+            eventToFire(this, EventArgs.Empty);
         }
 
         public bool ReadOnly

@@ -12,17 +12,17 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object GetSize(object instanceObj) => (object)((LayoutOutput)instanceObj).Size;
+        private static object GetSize(object instanceObj) => ((LayoutOutput)instanceObj).Size;
 
-        public static void Pass1Initialize() => LayoutOutputSchema.Type = new UIXTypeSchema((short)134, "LayoutOutput", (string)null, (short)153, typeof(LayoutOutput), UIXTypeFlags.None);
+        public static void Pass1Initialize() => LayoutOutputSchema.Type = new UIXTypeSchema(134, "LayoutOutput", null, 153, typeof(LayoutOutput), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema = new UIXPropertySchema((short)134, "Size", (short)195, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(LayoutOutputSchema.GetSize), (SetValueHandler)null, false);
-            LayoutOutputSchema.Type.Initialize((DefaultConstructHandler)null, (ConstructorSchema[])null, new PropertySchema[1]
+            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(134, "Size", 195, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(LayoutOutputSchema.GetSize), null, false);
+            LayoutOutputSchema.Type.Initialize(null, null, new PropertySchema[1]
             {
-        (PropertySchema) uixPropertySchema
-            }, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixPropertySchema
+            }, null, null, null, null, null, null, null, null, null);
         }
     }
 }

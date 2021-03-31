@@ -27,7 +27,7 @@ namespace Microsoft.Iris.Drawing
 
         public void Dispose()
         {
-            GC.SuppressFinalize((object)this);
+            GC.SuppressFinalize(this);
             NativeApi.SpSimpleTextDestroyObject(this._stoHandle);
             this._stoHandle = Win32Api.HANDLE.NULL;
         }
@@ -59,13 +59,13 @@ namespace Microsoft.Iris.Drawing
             switch (alignment)
             {
                 case LineAlignment.Near:
-                    wAlignment = (short)1;
+                    wAlignment = 1;
                     break;
                 case LineAlignment.Center:
-                    wAlignment = (short)3;
+                    wAlignment = 3;
                     break;
                 case LineAlignment.Far:
-                    wAlignment = (short)2;
+                    wAlignment = 2;
                     break;
             }
             IntPtr hGlyphRunInfo;

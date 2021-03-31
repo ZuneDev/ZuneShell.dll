@@ -19,7 +19,7 @@ namespace Microsoft.Iris.Animations
 
         public OrphanedVisualCollection(AnimationManager aniManager)
         {
-            this.DeclareOwner((object)aniManager);
+            this.DeclareOwner(aniManager);
             this._orphansList = new Vector<IVisual>();
             this._sequenceList = new Vector<ActiveSequence>();
             this._animationManager = aniManager;
@@ -32,22 +32,22 @@ namespace Microsoft.Iris.Animations
             foreach (ActiveSequence sequence in this._sequenceList)
             {
                 sequence.Stop();
-                sequence.Dispose((object)this);
+                sequence.Dispose(this);
             }
             this._sequenceList.Clear();
             foreach (IVisual orphans in this._orphansList)
             {
                 orphans.Remove();
-                orphans.UnregisterUsage((object)this);
+                orphans.UnregisterUsage(this);
             }
             this._orphansList.Clear();
-            this._animationManager = (AnimationManager)null;
+            this._animationManager = null;
             base.OnDispose();
         }
 
         public void AddOrphan(IVisual visual)
         {
-            visual.RegisterUsage((object)this);
+            visual.RegisterUsage(this);
             this._orphansList.Add(visual);
         }
 
@@ -61,20 +61,20 @@ namespace Microsoft.Iris.Animations
         public void RegisterAnimation(ActiveSequence aseq, bool transfer)
         {
             if (transfer)
-                aseq.TransferOwnership((object)this);
+                aseq.TransferOwnership(this);
             else
-                aseq.DeclareOwner((object)this);
+                aseq.DeclareOwner(this);
             this._sequenceList.Add(aseq);
         }
 
-        public void OnLayoutApplyComplete() => this.OnEventComplete((object)null, EventArgs.Empty);
+        public void OnLayoutApplyComplete() => this.OnEventComplete(null, EventArgs.Empty);
 
         private void OnDestroyAnimationComplete(object sender, EventArgs args)
         {
             ActiveSequence activeSequence = sender as ActiveSequence;
             activeSequence.AnimationCompleted -= new EventHandler(this.OnDestroyAnimationComplete);
             this._sequenceList.Remove(activeSequence);
-            activeSequence.Dispose((object)this);
+            activeSequence.Dispose(this);
             this.OnEventComplete(sender, args);
         }
 
@@ -85,11 +85,11 @@ namespace Microsoft.Iris.Animations
                 return;
             if (this._animationManager != null)
                 this._animationManager.UnregisterAnimatedOrphans(this);
-            this.Dispose((object)this._animationManager);
+            this.Dispose(_animationManager);
         }
 
         public bool Waiting => this._countEventsRemaining > 0;
 
-        public override string ToString() => InvariantString.Format("Orphans(WaitCount={0}, OrphanCount={1})", this._sequenceList != null ? (object)this._sequenceList.Count.ToString() : (object)"None", (object)this._orphansList.Count);
+        public override string ToString() => InvariantString.Format("Orphans(WaitCount={0}, OrphanCount={1})", this._sequenceList != null ? this._sequenceList.Count.ToString() : "None", _orphansList.Count);
     }
 }

@@ -17,29 +17,29 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static void SetHandle(ref object instanceObj, object valueObj) => ((MouseWheelHandler)instanceObj).Handle = (bool)valueObj;
 
-        private static object GetHandlerStage(object instanceObj) => (object)((InputHandler)instanceObj).HandlerStage;
+        private static object GetHandlerStage(object instanceObj) => ((InputHandler)instanceObj).HandlerStage;
 
         private static void SetHandlerStage(ref object instanceObj, object valueObj) => ((InputHandler)instanceObj).HandlerStage = (InputHandlerStage)valueObj;
 
-        private static object Construct() => (object)new MouseWheelHandler();
+        private static object Construct() => new MouseWheelHandler();
 
-        public static void Pass1Initialize() => MouseWheelHandlerSchema.Type = new UIXTypeSchema((short)150, "MouseWheelHandler", (string)null, (short)110, typeof(MouseWheelHandler), UIXTypeFlags.Disposable);
+        public static void Pass1Initialize() => MouseWheelHandlerSchema.Type = new UIXTypeSchema(150, "MouseWheelHandler", null, 110, typeof(MouseWheelHandler), UIXTypeFlags.Disposable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema((short)150, "Handle", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(MouseWheelHandlerSchema.GetHandle), new SetValueHandler(MouseWheelHandlerSchema.SetHandle), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema((short)150, "HandlerStage", (short)112, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(MouseWheelHandlerSchema.GetHandlerStage), new SetValueHandler(MouseWheelHandlerSchema.SetHandlerStage), false);
-            UIXEventSchema uixEventSchema1 = new UIXEventSchema((short)150, "UpInvoked");
-            UIXEventSchema uixEventSchema2 = new UIXEventSchema((short)150, "DownInvoked");
-            MouseWheelHandlerSchema.Type.Initialize(new DefaultConstructHandler(MouseWheelHandlerSchema.Construct), (ConstructorSchema[])null, new PropertySchema[2]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(150, "Handle", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(MouseWheelHandlerSchema.GetHandle), new SetValueHandler(MouseWheelHandlerSchema.SetHandle), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(150, "HandlerStage", 112, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(MouseWheelHandlerSchema.GetHandlerStage), new SetValueHandler(MouseWheelHandlerSchema.SetHandlerStage), false);
+            UIXEventSchema uixEventSchema1 = new UIXEventSchema(150, "UpInvoked");
+            UIXEventSchema uixEventSchema2 = new UIXEventSchema(150, "DownInvoked");
+            MouseWheelHandlerSchema.Type.Initialize(new DefaultConstructHandler(MouseWheelHandlerSchema.Construct), null, new PropertySchema[2]
             {
-        (PropertySchema) uixPropertySchema1,
-        (PropertySchema) uixPropertySchema2
-            }, (MethodSchema[])null, new EventSchema[2]
+         uixPropertySchema1,
+         uixPropertySchema2
+            }, null, new EventSchema[2]
             {
-        (EventSchema) uixEventSchema1,
-        (EventSchema) uixEventSchema2
-            }, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixEventSchema1,
+         uixEventSchema2
+            }, null, null, null, null, null, null, null);
         }
     }
 }

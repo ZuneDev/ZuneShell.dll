@@ -17,7 +17,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
         private uint _id;
 
         public DllConstructorSchema(DllTypeSchema owner, uint ID)
-          : base((TypeSchema)owner)
+          : base(owner)
           => this._id = ID;
 
         public bool Load(IntPtr constructor) => this.QueryForParameterTypes(constructor);
@@ -33,10 +33,10 @@ namespace Microsoft.Iris.CodeModel.Cpp
                     string str2 = "<null>";
                     if (this._parameterTypes[index] != null)
                         str2 = this._parameterTypes[index].Name;
-                    str1 = string.Format("{0}{1}{2}", (object)str1, index > 0 ? (object)", " : (object)string.Empty, (object)str2);
+                    str1 = string.Format("{0}{1}{2}", str1, index > 0 ? ", " : string.Empty, str2);
                 }
             }
-            string.Format("0x{0:x8} {1}({2})", (object)this._id, (object)this.Owner.Name, (object)str1);
+            string.Format("0x{0:x8} {1}({2})", _id, Owner.Name, str1);
         }
 
         public override TypeSchema[] ParameterTypes => this._parameterTypes;
@@ -56,7 +56,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
                     {
                         this._parameterTypes = new TypeSchema[count];
                         bool flag2 = false;
-                        for (int index = 0; (long)index < (long)count; ++index)
+                        for (int index = 0; index < count; ++index)
                         {
                             TypeSchema typeSchema = DllLoadResult.MapType(IDs[index]);
                             if (typeSchema != null)

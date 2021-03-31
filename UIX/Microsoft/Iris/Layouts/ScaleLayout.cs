@@ -52,7 +52,7 @@ namespace Microsoft.Iris.Layouts
             Size size = DefaultLayout.Measure(layoutNode, constraint1);
             SizeF sizeF = new SizeF(1f, 1f);
             if (!size.IsZero)
-                sizeF = new SizeF((float)constraint.Width / (float)size.Width, (float)constraint.Height / (float)size.Height);
+                sizeF = new SizeF(constraint.Width / (float)size.Width, constraint.Height / (float)size.Height);
             if (this._maintainAspectRatio)
             {
                 float num = Math.Min(sizeF.Width, sizeF.Height);
@@ -60,17 +60,17 @@ namespace Microsoft.Iris.Layouts
             }
             sizeF.Width = Math.Max(sizeF.Width, this.MinimumScale.X);
             sizeF.Height = Math.Max(sizeF.Height, this.MinimumScale.Y);
-            if ((double)this.MaximumScale.X != 0.0)
+            if (MaximumScale.X != 0.0)
                 sizeF.Width = Math.Min(sizeF.Width, this.MaximumScale.X);
-            if ((double)this.MaximumScale.Y != 0.0)
+            if (MaximumScale.Y != 0.0)
                 sizeF.Height = Math.Min(sizeF.Height, this.MaximumScale.Y);
-            layoutNode.MeasureData = (object)sizeF;
-            size.Width = (int)Math.Round((double)size.Width * (double)sizeF.Width);
-            size.Height = (int)Math.Round((double)size.Height * (double)sizeF.Height);
+            layoutNode.MeasureData = sizeF;
+            size.Width = (int)Math.Round(size.Width * (double)sizeF.Width);
+            size.Height = (int)Math.Round(size.Height * (double)sizeF.Height);
             return size;
         }
 
-        private int UnscaleConstraint(int constraint, float minScale) => (double)minScale == 0.0 ? 16777215 : Math.Min((int)Math.Round((double)constraint / (double)minScale), 16777215);
+        private int UnscaleConstraint(int constraint, float minScale) => minScale == 0.0 ? 16777215 : Math.Min((int)Math.Round(constraint / (double)minScale), 16777215);
 
         void ILayout.Arrange(ILayoutNode layoutNode, LayoutSlot slot)
         {
@@ -86,10 +86,10 @@ namespace Microsoft.Iris.Layouts
 
         private static Rectangle ScaleView(Rectangle view, SizeF scale)
         {
-            view.X = (int)Math.Round((double)view.X / (double)scale.Width);
-            view.Y = (int)Math.Round((double)view.Y / (double)scale.Height);
-            view.Width = (int)Math.Round((double)view.Width / (double)scale.Width);
-            view.Height = (int)Math.Round((double)view.Height / (double)scale.Height);
+            view.X = (int)Math.Round(view.X / (double)scale.Width);
+            view.Y = (int)Math.Round(view.Y / (double)scale.Height);
+            view.Width = (int)Math.Round(view.Width / (double)scale.Width);
+            view.Height = (int)Math.Round(view.Height / (double)scale.Height);
             return view;
         }
     }

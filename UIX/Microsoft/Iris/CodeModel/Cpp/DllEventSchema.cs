@@ -17,7 +17,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
         private bool _isStatic;
 
         public DllEventSchema(DllTypeSchema owner, uint ID)
-          : base((TypeSchema)owner)
+          : base(owner)
         {
         }
 

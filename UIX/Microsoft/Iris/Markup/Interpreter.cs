@@ -67,7 +67,7 @@ namespace Microsoft.Iris.Markup
                 {
                     case OpCode.ConstructObject:
                         {
-                            int num = (int)reader.ReadUInt16();
+                            int num = reader.ReadUInt16();
                             TypeSchema typeSchema = importTables.TypeImports[num];
                             object obj = typeSchema.ConstructDefault();
                             Interpreter.ReportErrorOnNull(obj, "Construction", typeSchema.Name);
@@ -80,7 +80,7 @@ namespace Microsoft.Iris.Markup
                         }
                     case OpCode.ConstructObjectIndirect:
                         {
-                            int num2 = (int)reader.ReadUInt16();
+                            int num2 = reader.ReadUInt16();
                             TypeSchema typeSchema2 = importTables.TypeImports[num2];
                             TypeSchema typeSchema3 = (TypeSchema)stack.Pop();
                             if (!typeSchema2.IsAssignableFrom(typeSchema3))
@@ -111,9 +111,9 @@ namespace Microsoft.Iris.Markup
                         }
                     case OpCode.ConstructObjectParam:
                         {
-                            int num3 = (int)reader.ReadUInt16();
+                            int num3 = reader.ReadUInt16();
                             TypeSchema typeSchema4 = importTables.TypeImports[num3];
-                            int num4 = (int)reader.ReadUInt16();
+                            int num4 = reader.ReadUInt16();
                             ConstructorSchema constructorSchema = importTables.ConstructorImports[num4];
                             int i = constructorSchema.ParameterTypes.Length;
                             object[] array = Interpreter.ParameterListAllocator.Alloc(i);
@@ -133,9 +133,9 @@ namespace Microsoft.Iris.Markup
                         }
                     case OpCode.ConstructFromString:
                         {
-                            int num5 = (int)reader.ReadUInt16();
+                            int num5 = reader.ReadUInt16();
                             TypeSchema typeSchema5 = importTables.TypeImports[num5];
-                            int index = (int)reader.ReadUInt16();
+                            int index = reader.ReadUInt16();
                             string from = (string)constantsTable.Get(index);
                             object obj4;
                             typeSchema5.TypeConverter(from, StringSchema.Type, out obj4);
@@ -149,7 +149,7 @@ namespace Microsoft.Iris.Markup
                         }
                     case OpCode.ConstructFromBinary:
                         {
-                            int num6 = (int)reader.ReadUInt16();
+                            int num6 = reader.ReadUInt16();
                             TypeSchema typeSchema6 = importTables.TypeImports[num6];
                             object obj5 = typeSchema6.DecodeBinary(reader);
                             Interpreter.ReportErrorOnNull(obj5, "Construction", typeSchema6.Name);
@@ -162,7 +162,7 @@ namespace Microsoft.Iris.Markup
                         }
                     case OpCode.InitializeInstance:
                         {
-                            int num7 = (int)reader.ReadUInt16();
+                            int num7 = reader.ReadUInt16();
                             TypeSchema typeSchema7 = importTables.TypeImports[num7];
                             object obj6 = stack.Pop();
                             typeSchema7.InitializeInstance(ref obj6);
@@ -187,7 +187,7 @@ namespace Microsoft.Iris.Markup
                         }
                     case OpCode.LookupSymbol:
                         {
-                            int num8 = (int)reader.ReadUInt16();
+                            int num8 = reader.ReadUInt16();
                             SymbolReference symbolRef = symbolReferenceTable[num8];
                             object obj8 = context.ReadSymbol(symbolRef);
                             stack.Push(obj8);
@@ -200,7 +200,7 @@ namespace Microsoft.Iris.Markup
                     case OpCode.WriteSymbolPeek:
                         {
                             object value = (opCode == OpCode.WriteSymbolPeek) ? stack.Peek() : stack.Pop();
-                            int num9 = (int)reader.ReadUInt16();
+                            int num9 = reader.ReadUInt16();
                             SymbolReference symbolRef2 = symbolReferenceTable[num9];
                             context.WriteSymbol(symbolRef2, value);
                             if (Trace.IsCategoryEnabled(TraceCategory.Markup))
@@ -210,7 +210,7 @@ namespace Microsoft.Iris.Markup
                         }
                     case OpCode.ClearSymbol:
                         {
-                            int num10 = (int)reader.ReadUInt16();
+                            int num10 = reader.ReadUInt16();
                             SymbolReference symbolRef3 = symbolReferenceTable[num10];
                             context.ClearSymbol(symbolRef3);
                             if (Trace.IsCategoryEnabled(TraceCategory.Markup))
@@ -227,7 +227,7 @@ namespace Microsoft.Iris.Markup
                             {
                                 typeSchema9 = (TypeSchema)stack.Pop();
                             }
-                            int num11 = (int)reader.ReadUInt16();
+                            int num11 = reader.ReadUInt16();
                             PropertySchema propertySchema = importTables.PropertyImports[num11];
                             object obj9 = stack.Pop();
                             object obj10 = stack.Pop();
@@ -262,7 +262,7 @@ namespace Microsoft.Iris.Markup
                         }
                     case OpCode.PropertyListAdd:
                         {
-                            int propertyIndex = (int)reader.ReadUInt16();
+                            int propertyIndex = reader.ReadUInt16();
                             object value2 = stack.Pop();
                             object collection = Interpreter.GetCollection(stack.Peek(), importTables, propertyIndex);
                             Interpreter.ReportErrorOnNull(collection, "List Add");
@@ -277,8 +277,8 @@ namespace Microsoft.Iris.Markup
                         }
                     case OpCode.PropertyDictionaryAdd:
                         {
-                            int propertyIndex2 = (int)reader.ReadUInt16();
-                            int index2 = (int)reader.ReadUInt16();
+                            int propertyIndex2 = reader.ReadUInt16();
+                            int index2 = reader.ReadUInt16();
                             string key = (string)constantsTable.Get(index2);
                             object value3 = stack.Pop();
                             object collection2 = Interpreter.GetCollection(stack.Peek(), importTables, propertyIndex2);
@@ -295,7 +295,7 @@ namespace Microsoft.Iris.Markup
                     case OpCode.PropertyAssign:
                     case OpCode.PropertyAssignStatic:
                         {
-                            int num12 = (int)reader.ReadUInt16();
+                            int num12 = reader.ReadUInt16();
                             PropertySchema propertySchema3 = importTables.PropertyImports[num12];
                             object instance2 = null;
                             if (opCode == OpCode.PropertyAssign)
@@ -318,7 +318,7 @@ namespace Microsoft.Iris.Markup
                     case OpCode.PropertyGetPeek:
                     case OpCode.PropertyGetStatic:
                         {
-                            int num13 = (int)reader.ReadUInt16();
+                            int num13 = reader.ReadUInt16();
                             PropertySchema propertySchema4 = importTables.PropertyImports[num13];
                             object instance3 = null;
                             if (opCode != OpCode.PropertyGetStatic)
@@ -346,7 +346,7 @@ namespace Microsoft.Iris.Markup
                     case OpCode.MethodInvokePushLastParam:
                     case OpCode.MethodInvokeStaticPushLastParam:
                         {
-                            int num14 = (int)reader.ReadUInt16();
+                            int num14 = reader.ReadUInt16();
                             MethodSchema methodSchema = importTables.MethodImports[num14];
                             int j = methodSchema.ParameterTypes.Length;
                             object[] array2 = Interpreter.ParameterListAllocator.Alloc(j);
@@ -394,7 +394,7 @@ namespace Microsoft.Iris.Markup
                         }
                     case OpCode.VerifyTypeCast:
                         {
-                            int num15 = (int)reader.ReadUInt16();
+                            int num15 = reader.ReadUInt16();
                             TypeSchema typeSchema10 = importTables.TypeImports[num15];
                             object obj12 = stack.Peek();
                             if (obj12 != null)
@@ -421,9 +421,9 @@ namespace Microsoft.Iris.Markup
                         }
                     case OpCode.ConvertType:
                         {
-                            int num16 = (int)reader.ReadUInt16();
+                            int num16 = reader.ReadUInt16();
                             TypeSchema typeSchema11 = importTables.TypeImports[num16];
-                            int num17 = (int)reader.ReadUInt16();
+                            int num17 = reader.ReadUInt16();
                             TypeSchema fromType = importTables.TypeImports[num17];
                             object obj13 = stack.Pop();
                             Interpreter.ReportErrorOnNull(obj13, "Type Conversion", typeSchema11.Name);
@@ -444,7 +444,7 @@ namespace Microsoft.Iris.Markup
                         }
                     case OpCode.Operation:
                         {
-                            int num18 = (int)reader.ReadUInt16();
+                            int num18 = reader.ReadUInt16();
                             TypeSchema typeSchema12 = importTables.TypeImports[num18];
                             OperationType op = (OperationType)reader.ReadByte();
                             object right = null;
@@ -465,7 +465,7 @@ namespace Microsoft.Iris.Markup
                         }
                     case OpCode.IsCheck:
                         {
-                            int num19 = (int)reader.ReadUInt16();
+                            int num19 = reader.ReadUInt16();
                             TypeSchema typeSchema13 = importTables.TypeImports[num19];
                             object obj16 = stack.Pop();
                             bool value6 = false;
@@ -481,7 +481,7 @@ namespace Microsoft.Iris.Markup
                         }
                     case OpCode.As:
                         {
-                            int num20 = (int)reader.ReadUInt16();
+                            int num20 = reader.ReadUInt16();
                             TypeSchema typeSchema14 = importTables.TypeImports[num20];
                             object obj17 = stack.Peek();
                             if (obj17 != null && !typeSchema14.IsAssignableFrom(obj17))
@@ -496,7 +496,7 @@ namespace Microsoft.Iris.Markup
                         }
                     case OpCode.TypeOf:
                         {
-                            int num21 = (int)reader.ReadUInt16();
+                            int num21 = reader.ReadUInt16();
                             TypeSchema obj18 = importTables.TypeImports[num21];
                             stack.Push(obj18);
                             break;
@@ -506,7 +506,7 @@ namespace Microsoft.Iris.Markup
                         break;
                     case OpCode.PushConstant:
                         {
-                            int index3 = (int)reader.ReadUInt16();
+                            int index3 = reader.ReadUInt16();
                             object obj19 = constantsTable.Get(index3);
                             stack.Push(obj19);
                             break;
@@ -551,8 +551,8 @@ namespace Microsoft.Iris.Markup
                             ushort propertyIndex3 = reader.ReadUInt16();
                             ushort index4 = reader.ReadUInt16();
                             uint currentOffset2 = reader.ReadUInt32();
-                            string key2 = (string)constantsTable.Get((int)index4);
-                            object collection3 = Interpreter.GetCollection(stack.Peek(), importTables, (int)propertyIndex3);
+                            string key2 = (string)constantsTable.Get(index4);
+                            object collection3 = Interpreter.GetCollection(stack.Peek(), importTables, propertyIndex3);
                             Interpreter.ReportErrorOnNull(collection3, "Dictionary Contains");
                             if (!Interpreter.ErrorsDetected(watermark, ref result, ref flag))
                             {
@@ -593,7 +593,7 @@ namespace Microsoft.Iris.Markup
                         }
                     case OpCode.ConstructListenerStorage:
                         {
-                            int listenerCount = (int)reader.ReadUInt16();
+                            int listenerCount = reader.ReadUInt16();
                             if (instance.Listeners == null)
                             {
                                 MarkupListeners markupListeners = new MarkupListeners(listenerCount);
@@ -612,9 +612,9 @@ namespace Microsoft.Iris.Markup
                     case OpCode.Listen:
                     case OpCode.DestructiveListen:
                         {
-                            int index5 = (int)reader.ReadUInt16();
+                            int index5 = reader.ReadUInt16();
                             ListenerType listenerType = (ListenerType)reader.ReadByte();
-                            int num22 = (int)reader.ReadUInt16();
+                            int num22 = reader.ReadUInt16();
                             uint scriptOffset = reader.ReadUInt32();
                             uint refreshOffset = uint.MaxValue;
                             if (opCode == OpCode.DestructiveListen)

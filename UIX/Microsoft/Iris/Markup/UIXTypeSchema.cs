@@ -39,7 +39,7 @@ namespace Microsoft.Iris.Markup
           short baseTypeID,
           Type instanceType,
           UIXTypeFlags flags)
-          : base((LoadResult)MarkupSystem.UIXGlobal)
+          : base(MarkupSystem.UIXGlobal)
         {
             this._typeID = typeID;
             this._baseTypeID = baseTypeID;
@@ -47,7 +47,7 @@ namespace Microsoft.Iris.Markup
             this._alternateName = alternateName;
             this._instanceType = instanceType;
             this._flags = flags;
-            UIXTypes.RegisterTypeForID(typeID, (TypeSchema)this);
+            UIXTypes.RegisterTypeForID(typeID, this);
         }
 
         public void Initialize(
@@ -90,13 +90,13 @@ namespace Microsoft.Iris.Markup
         {
             base.OnDispose();
             foreach (DisposableObject constructor in this._constructors)
-                constructor.Dispose((object)this);
+                constructor.Dispose(this);
             foreach (DisposableObject property in this._properties)
-                property.Dispose((object)this);
+                property.Dispose(this);
             foreach (DisposableObject method in this._methods)
-                method.Dispose((object)this);
+                method.Dispose(this);
             foreach (DisposableObject disposableObject in this._events)
-                disposableObject.Dispose((object)this);
+                disposableObject.Dispose(this);
         }
 
         public override string Name => this._name;
@@ -107,7 +107,7 @@ namespace Microsoft.Iris.Markup
         {
             get
             {
-                if (this._baseTypeID != (short)-1 && this._baseType == null)
+                if (this._baseTypeID != -1 && this._baseType == null)
                     this._baseType = UIXTypes.MapIDToType(this._baseTypeID);
                 return this._baseType;
             }
@@ -156,7 +156,7 @@ namespace Microsoft.Iris.Markup
                         return constructor;
                 }
             }
-            return (ConstructorSchema)null;
+            return null;
         }
 
         public override PropertySchema FindProperty(string name)
@@ -167,7 +167,7 @@ namespace Microsoft.Iris.Markup
                 if (name == property.Name)
                     return property;
             }
-            return (PropertySchema)null;
+            return null;
         }
 
         public override ConstructorSchema[] Constructors => this._constructors;
@@ -202,7 +202,7 @@ namespace Microsoft.Iris.Markup
                     }
                 }
             }
-            return (MethodSchema)null;
+            return null;
         }
 
         public override EventSchema FindEvent(string name)
@@ -213,10 +213,10 @@ namespace Microsoft.Iris.Markup
                 if (name == eventSchema.Name)
                     return eventSchema;
             }
-            return (EventSchema)null;
+            return null;
         }
 
-        public override object FindCanonicalInstance(string name) => this._findCanonicalInstance != null ? this._findCanonicalInstance(name) : (object)null;
+        public override object FindCanonicalInstance(string name) => this._findCanonicalInstance != null ? this._findCanonicalInstance(name) : null;
 
         public override Result TypeConverter(
           object from,
@@ -234,11 +234,11 @@ namespace Microsoft.Iris.Markup
 
         public override bool SupportsBinaryEncoding => this._encodeBinary != null;
 
-        public override int FindTypeHint => (int)this._typeID;
+        public override int FindTypeHint => _typeID;
 
         public override object PerformOperation(object left, object right, OperationType op)
         {
-            object obj = (object)null;
+            object obj = null;
             if (this._performOperation != null)
                 obj = this._performOperation(left, right, op);
             return obj;

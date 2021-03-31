@@ -15,7 +15,7 @@ namespace UIXControls
         private static int s_defaultKeyDelay = OSInfo.GetDefaultKeyDelay();
         private static int s_defaultKeyRepeat = OSInfo.GetDefaultKeyRepeat();
 
-        public static bool IsCapsLockOn() => ((int)OSInfo.GetKeyState(20U) & 1) != 0;
+        public static bool IsCapsLockOn() => (OSInfo.GetKeyState(20U) & 1) != 0;
 
         [DllImport("user32.dll")]
         private static extern ushort GetKeyState(uint nVirtKey);

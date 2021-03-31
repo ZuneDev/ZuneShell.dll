@@ -45,18 +45,18 @@ namespace Microsoft.Iris.Markup
           string name)
         {
             if (markupTypeDefinition == ClassSchema.Type)
-                return (MarkupTypeSchema)new ClassTypeSchema(owner, name);
+                return new ClassTypeSchema(owner, name);
             if (markupTypeDefinition == UISchema.Type)
-                return (MarkupTypeSchema)new UIClassTypeSchema(owner, name);
+                return new UIClassTypeSchema(owner, name);
             if (markupTypeDefinition == EffectSchema.Type)
-                return (MarkupTypeSchema)new EffectClassTypeSchema(owner, name);
+                return new EffectClassTypeSchema(owner, name);
             if (markupTypeDefinition == DataTypeSchema.Type)
-                return (MarkupTypeSchema)new MarkupDataTypeSchema(owner, name);
-            return markupTypeDefinition == DataQuerySchema.Type ? (MarkupTypeSchema)new MarkupDataQuerySchema(owner, name) : (MarkupTypeSchema)null;
+                return new MarkupDataTypeSchema(owner, name);
+            return markupTypeDefinition == DataQuerySchema.Type ? new MarkupDataQuerySchema(owner, name) : null;
         }
 
         public MarkupTypeSchema(MarkupLoadResult owner, string name)
-          : base((LoadResult)owner)
+          : base(owner)
         {
             this._owner = owner;
             this._name = name;
@@ -86,7 +86,7 @@ namespace Microsoft.Iris.Markup
         protected virtual void SealWorker()
         {
             this._sealed = true;
-            this._loadData = (object)null;
+            this._loadData = null;
             if (this._baseType == null)
             {
                 this._typeDepth = 1U;
@@ -104,18 +104,18 @@ namespace Microsoft.Iris.Markup
         {
             base.OnDispose();
             foreach (DisposableObject property in this._properties)
-                property.Dispose((object)this);
+                property.Dispose(this);
             foreach (DisposableObject method in this._methods)
-                method.Dispose((object)this);
+                method.Dispose(this);
             foreach (DisposableObject virtualMethod in this._virtualMethods)
-                virtualMethod.Dispose((object)this);
+                virtualMethod.Dispose(this);
         }
 
         public override string Name => this._name;
 
         public override string AlternateName => (string)null;
 
-        public override TypeSchema Base => this._baseType == null ? this.DefaultBase : (TypeSchema)this._baseType;
+        public override TypeSchema Base => this._baseType == null ? this.DefaultBase : _baseType;
 
         public override bool Contractual => false;
 
@@ -137,7 +137,7 @@ namespace Microsoft.Iris.Markup
           bool ignoreErrors,
           ParameterContext parameterContext)
         {
-            ErrorManager.EnterContext((object)markupType.TypeSchema.Owner.ErrorContextUri, ignoreErrors);
+            ErrorManager.EnterContext(markupType.TypeSchema.Owner.ErrorContextUri, ignoreErrors);
             MarkupTypeSchema markupTypeSchema = this;
             uint num = scriptId >> 27;
             while ((int)num != (int)markupTypeSchema._typeDepth)
@@ -152,7 +152,7 @@ namespace Microsoft.Iris.Markup
           uint scriptOffset,
           ParameterContext parameterContext)
         {
-            object obj = (object)null;
+            object obj = null;
             if (markupType.ScriptEnabled)
             {
                 InterpreterContext context = InterpreterContext.Acquire(markupType, this, scriptOffset, parameterContext);
@@ -177,7 +177,7 @@ namespace Microsoft.Iris.Markup
                 if (name == property.Name)
                     return property;
             }
-            return (PropertySchema)null;
+            return null;
         }
 
         public override PropertySchema[] Properties => this._properties;
@@ -186,7 +186,7 @@ namespace Microsoft.Iris.Markup
 
         public override MethodSchema FindMethod(string name, TypeSchema[] parameters)
         {
-            MethodSchema methodSchema = (MethodSchema)null;
+            MethodSchema methodSchema = null;
             if (this._methodLookupTable != null)
                 this._methodLookupTable.TryGetValue(new MethodSignatureKey(name, parameters), out methodSchema);
             return methodSchema;
@@ -210,7 +210,7 @@ namespace Microsoft.Iris.Markup
           IMarkupTypeBase classBase,
           bool shouldInitializeContent)
         {
-            ErrorManager.EnterContext((object)this);
+            ErrorManager.EnterContext(this);
             try
             {
                 if (!this.RunInitializeScript(classBase, this._initializePropertiesOffset))
@@ -254,7 +254,7 @@ namespace Microsoft.Iris.Markup
             bool flag = true;
             if (scriptOffsets != null)
             {
-                ErrorManager.EnterContext((object)this, ignoreErrors);
+                ErrorManager.EnterContext(this, ignoreErrors);
                 foreach (uint scriptOffset in scriptOffsets)
                 {
                     if (!this.RunInitializeScript(scriptHost, scriptOffset))
@@ -272,7 +272,7 @@ namespace Microsoft.Iris.Markup
         {
             if (scriptOffset == uint.MaxValue || this.RunAtOffset(scriptHost, scriptOffset) != Interpreter.ScriptError || ErrorManager.IgnoringErrors)
                 return true;
-            ErrorManager.ReportWarning("Script runtime failure: Scripting errors have prevented '{0}' from properly initializing and will affect its operation", (object)this._name);
+            ErrorManager.ReportWarning("Script runtime failure: Scripting errors have prevented '{0}' from properly initializing and will affect its operation", _name);
             return false;
         }
 
@@ -285,8 +285,8 @@ namespace Microsoft.Iris.Markup
           TypeSchema fromType,
           out object instance)
         {
-            instance = (object)null;
-            return Result.Fail("Type conversion is not available for '{0}'", (object)this._name);
+            instance = null;
+            return Result.Fail("Type conversion is not available for '{0}'", _name);
         }
 
         public override bool SupportsTypeConversion(TypeSchema fromType) => false;
@@ -318,7 +318,7 @@ namespace Microsoft.Iris.Markup
                 if (this._inheritableSymbolsTable == null)
                 {
                     if (this._addressOfInheritableSymbolsTable != IntPtr.Zero)
-                        CompiledMarkupLoader.DecodeInheritableSymbolTable(this, (ByteCodeReader)null, this._addressOfInheritableSymbolsTable);
+                        CompiledMarkupLoader.DecodeInheritableSymbolTable(this, null, this._addressOfInheritableSymbolsTable);
                     else
                         this._inheritableSymbolsTable = SymbolRecord.EmptyList;
                 }

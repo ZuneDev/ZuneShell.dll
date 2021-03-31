@@ -31,7 +31,7 @@ namespace Microsoft.Iris.Markup.Validation
             this._typeIdentifier.Validate();
             if (this._typeIdentifier.HasErrors)
                 this.MarkHasErrors();
-            this.DeclareEvaluationType((TypeSchema)TypeSchemaDefinition.Type, typeRestriction);
+            this.DeclareEvaluationType(TypeSchemaDefinition.Type, typeRestriction);
         }
     }
 }

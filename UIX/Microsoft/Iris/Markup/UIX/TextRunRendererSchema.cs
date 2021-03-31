@@ -14,33 +14,33 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object GetData(object instanceObj) => (object)((TextRunRenderer)instanceObj).Data;
+        private static object GetData(object instanceObj) => ((TextRunRenderer)instanceObj).Data;
 
         private static void SetData(ref object instanceObj, object valueObj) => ((TextRunRenderer)instanceObj).Data = (TextRunData)valueObj;
 
-        private static object GetColor(object instanceObj) => (object)((TextRunRenderer)instanceObj).Color;
+        private static object GetColor(object instanceObj) => ((TextRunRenderer)instanceObj).Color;
 
         private static void SetColor(ref object instanceObj, object valueObj) => ((TextRunRenderer)instanceObj).Color = (Color)valueObj;
 
-        private static object GetEffect(object instanceObj) => (object)((ViewItem)instanceObj).Effect;
+        private static object GetEffect(object instanceObj) => ((ViewItem)instanceObj).Effect;
 
         private static void SetEffect(ref object instanceObj, object valueObj) => ((ViewItem)instanceObj).Effect = (EffectClass)valueObj;
 
-        private static object Construct() => (object)new TextRunRenderer();
+        private static object Construct() => new TextRunRenderer();
 
-        public static void Pass1Initialize() => TextRunRendererSchema.Type = new UIXTypeSchema((short)217, "TextRunRenderer", (string)null, (short)239, typeof(TextRunRenderer), UIXTypeFlags.Disposable);
+        public static void Pass1Initialize() => TextRunRendererSchema.Type = new UIXTypeSchema(217, "TextRunRenderer", null, 239, typeof(TextRunRenderer), UIXTypeFlags.Disposable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema((short)217, "Data", (short)216, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(TextRunRendererSchema.GetData), new SetValueHandler(TextRunRendererSchema.SetData), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema((short)217, "Color", (short)35, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(TextRunRendererSchema.GetColor), new SetValueHandler(TextRunRendererSchema.SetColor), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema((short)217, "Effect", (short)78, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(TextRunRendererSchema.GetEffect), new SetValueHandler(TextRunRendererSchema.SetEffect), false);
-            TextRunRendererSchema.Type.Initialize(new DefaultConstructHandler(TextRunRendererSchema.Construct), (ConstructorSchema[])null, new PropertySchema[3]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(217, "Data", 216, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TextRunRendererSchema.GetData), new SetValueHandler(TextRunRendererSchema.SetData), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(217, "Color", 35, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TextRunRendererSchema.GetColor), new SetValueHandler(TextRunRendererSchema.SetColor), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(217, "Effect", 78, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(TextRunRendererSchema.GetEffect), new SetValueHandler(TextRunRendererSchema.SetEffect), false);
+            TextRunRendererSchema.Type.Initialize(new DefaultConstructHandler(TextRunRendererSchema.Construct), null, new PropertySchema[3]
             {
-        (PropertySchema) uixPropertySchema2,
-        (PropertySchema) uixPropertySchema1,
-        (PropertySchema) uixPropertySchema3
-            }, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixPropertySchema2,
+         uixPropertySchema1,
+         uixPropertySchema3
+            }, null, null, null, null, null, null, null, null, null);
         }
     }
 }

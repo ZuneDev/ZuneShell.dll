@@ -36,10 +36,10 @@ namespace Microsoft.Iris.Markup.Validation
 
         public override void Validate(ValidateCode container, ValidateContext context)
         {
-            context.NotifyScopedLocalFrameEnter((ValidateStatementLoop)this);
+            context.NotifyScopedLocalFrameEnter(this);
             try
             {
-                this._condition.Validate(new TypeRestriction((TypeSchema)BooleanSchema.Type), context);
+                this._condition.Validate(new TypeRestriction(BooleanSchema.Type), context);
                 if (this._condition.HasErrors)
                     this.MarkHasErrors();
                 this._body.Validate(container, context);

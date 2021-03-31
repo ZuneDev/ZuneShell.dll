@@ -41,10 +41,10 @@ namespace Microsoft.Iris.Layouts
                 stringBuilder.Append("[");
                 stringBuilder.Append(num);
                 stringBuilder.Append("]=");
-                stringBuilder.Append((object)size);
+                stringBuilder.Append(size);
                 ++num;
             }
-            return InvariantString.Format("{0}({1})", (object)this.GetType().Name, (object)stringBuilder);
+            return InvariantString.Format("{0}({1})", this.GetType().Name, stringBuilder);
         }
     }
 }

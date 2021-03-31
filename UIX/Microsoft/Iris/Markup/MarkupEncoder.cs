@@ -41,16 +41,16 @@ namespace Microsoft.Iris.Markup
                     this.EncodeClass(parseResult.ClassList[index]);
             }
             ByteCodeReader reader = this._writer.CreateReader();
-            this._writer = (ByteCodeWriter)null;
+            this._writer = null;
             return reader;
         }
 
         private void EncodeClass(ValidateClass cls)
         {
-            ValidateUI ui = (ValidateUI)null;
+            ValidateUI ui = null;
             if (cls.ObjectType == UISchema.Type)
                 ui = (ValidateUI)cls;
-            ValidateEffect validateEffect = (ValidateEffect)null;
+            ValidateEffect validateEffect = null;
             if (cls.ObjectType == EffectSchema.Type)
                 validateEffect = (ValidateEffect)cls;
             if (cls.IndirectedObject == null)
@@ -149,7 +149,7 @@ namespace Microsoft.Iris.Markup
             this._writer.WriteUInt16(typeIndex);
         }
 
-        private void EncodeInitializeProperty(ValidateProperty property) => this.EncodeInitializeProperty(property, (ValidateObject)null);
+        private void EncodeInitializeProperty(ValidateProperty property) => this.EncodeInitializeProperty(property, null);
 
         private void EncodeInitializeProperty(
           ValidateProperty property,
@@ -160,7 +160,7 @@ namespace Microsoft.Iris.Markup
             if (property.ValueApplyMode == ValueApplyMode.SingleValueSet)
             {
                 this.EncodeObjectBySource(property.Value);
-                this.RecordLineNumber((Validate)property);
+                this.RecordLineNumber(property);
                 if (dynamicConstructionType == null)
                 {
                     this._writer.WriteByte(OpCode.PropertyInitialize);
@@ -189,7 +189,7 @@ namespace Microsoft.Iris.Markup
                         {
                             this._writer.WriteByte(OpCode.JumpIfDictionaryContains);
                             this._writer.WriteUInt16((property.ValueApplyMode & ValueApplyMode.CollectionAdd) != ValueApplyMode.SingleValueSet ? property.FoundPropertyIndex : -1);
-                            this._writer.WriteUInt16(this._constantsTable.Add((TypeSchema)StringSchema.Type, (object)next.Name, MarkupConstantPersistMode.Binary));
+                            this._writer.WriteUInt16(this._constantsTable.Add(StringSchema.Type, next.Name, MarkupConstantPersistMode.Binary));
                             fixUpLocation = this.GetOffset();
                             this._writer.WriteUInt32(uint.MaxValue);
                         }
@@ -198,7 +198,7 @@ namespace Microsoft.Iris.Markup
                         {
                             this._writer.WriteByte(OpCode.PropertyDictionaryAdd);
                             this._writer.WriteUInt16((property.ValueApplyMode & ValueApplyMode.CollectionAdd) != ValueApplyMode.SingleValueSet ? property.FoundPropertyIndex : -1);
-                            this._writer.WriteUInt16(this._constantsTable.Add((TypeSchema)StringSchema.Type, (object)next.Name, MarkupConstantPersistMode.Binary));
+                            this._writer.WriteUInt16(this._constantsTable.Add(StringSchema.Type, next.Name, MarkupConstantPersistMode.Binary));
                         }
                         else
                         {
@@ -219,7 +219,7 @@ namespace Microsoft.Iris.Markup
                 else
                 {
                     this.EncodeObjectBySource(dynamicConstructionType);
-                    this.RecordLineNumber((Validate)property);
+                    this.RecordLineNumber(property);
                     this._writer.WriteByte(OpCode.PropertyInitializeIndirect);
                     this._writer.WriteUInt16(property.FoundPropertyIndex);
                 }
@@ -240,7 +240,7 @@ namespace Microsoft.Iris.Markup
                     this.EncodeCode((ValidateCode)obj);
                     break;
                 case ObjectSourceType.Expression:
-                    this.EncodeExpression((ValidateExpression)obj, (ListenerEncodeMode)null);
+                    this.EncodeExpression((ValidateExpression)obj, null);
                     break;
             }
         }
@@ -259,7 +259,7 @@ namespace Microsoft.Iris.Markup
                 else
                 {
                     persistMode = MarkupConstantPersistMode.FromString;
-                    persistData = (object)fromString.FromString;
+                    persistData = fromString.FromString;
                 }
                 int rawValue = this._constantsTable.Add(fromString.ObjectType, fromString.FromStringInstance, persistMode, persistData);
                 this._writer.WriteByte(OpCode.PushConstant);
@@ -273,7 +273,7 @@ namespace Microsoft.Iris.Markup
             }
             else
             {
-                int rawValue = this._constantsTable.Add((TypeSchema)StringSchema.Type, (object)fromString.FromString, MarkupConstantPersistMode.FromString);
+                int rawValue = this._constantsTable.Add(StringSchema.Type, fromString.FromString, MarkupConstantPersistMode.FromString);
                 this._writer.WriteByte(OpCode.ConstructFromString);
                 this._writer.WriteUInt16(fromString.TypeHintIndex);
                 this._writer.WriteUInt16(rawValue);
@@ -282,7 +282,7 @@ namespace Microsoft.Iris.Markup
 
         private void EncodeCanonicalInstance(object instance, TypeSchema type, string memberName)
         {
-            int rawValue = this._constantsTable.Add(type, instance, MarkupConstantPersistMode.Canonical, (object)memberName);
+            int rawValue = this._constantsTable.Add(type, instance, MarkupConstantPersistMode.Canonical, memberName);
             this._writer.WriteByte(OpCode.PushConstant);
             this._writer.WriteUInt16(rawValue);
         }
@@ -307,7 +307,7 @@ namespace Microsoft.Iris.Markup
         {
             uint offset = this.GetOffset();
             code.TrackEncodingOffset(offset);
-            this.EncodeStatement((ValidateStatement)code.StatementCompound);
+            this.EncodeStatement(code.StatementCompound);
             if (code.ReturnStatements != null)
             {
                 foreach (ValidateStatementReturn returnStatement in code.ReturnStatements)
@@ -326,7 +326,7 @@ namespace Microsoft.Iris.Markup
 
         private void EncodeStatement(ValidateStatement statement)
         {
-            this.RecordLineNumber((Validate)statement);
+            this.RecordLineNumber(statement);
             if (statement.StatementType != StatementType.Compound)
                 this.DeclareDebugPoint(statement.Line, statement.Column);
             switch (statement.StatementType)
@@ -334,7 +334,7 @@ namespace Microsoft.Iris.Markup
                 case StatementType.Assignment:
                     ValidateStatementAssignment statementAssignment = (ValidateStatementAssignment)statement;
                     if (statementAssignment.DeclaredScopedLocal != null)
-                        this.EncodeStatement((ValidateStatement)statementAssignment.DeclaredScopedLocal);
+                        this.EncodeStatement(statementAssignment.DeclaredScopedLocal);
                     this.EncodeExpression(statementAssignment.RValue);
                     this.EncodeExpression(statementAssignment.LValue);
                     this._writer.WriteByte(OpCode.DiscardValue);
@@ -364,7 +364,7 @@ namespace Microsoft.Iris.Markup
                     this._writer.WriteUInt16(statementForEach.ScopedLocal.FoundTypeIndex);
                     this._writer.WriteByte(OpCode.WriteSymbol);
                     this._writer.WriteUInt16(statementForEach.ScopedLocal.FoundSymbolIndex);
-                    this.EncodeStatement((ValidateStatement)statementForEach.StatementCompound);
+                    this.EncodeStatement(statementForEach.StatementCompound);
                     this._writer.WriteByte(OpCode.Jump);
                     this._writer.WriteUInt32(offset1);
                     this.FixUpJumpOffset(offset2);
@@ -408,7 +408,7 @@ namespace Microsoft.Iris.Markup
                     this._writer.WriteByte(OpCode.JumpIfFalse);
                     uint offset7 = this.GetOffset();
                     this._writer.WriteUInt32(uint.MaxValue);
-                    this.EncodeStatement((ValidateStatement)validateStatementIf.StatementCompound);
+                    this.EncodeStatement(validateStatementIf.StatementCompound);
                     this.FixUpJumpOffset(offset7);
                     break;
                 case StatementType.IfElse:
@@ -457,13 +457,13 @@ namespace Microsoft.Iris.Markup
             }
         }
 
-        private void EncodeExpression(ValidateExpression expression) => this.EncodeExpression(expression, (ListenerEncodeMode)null);
+        private void EncodeExpression(ValidateExpression expression) => this.EncodeExpression(expression, null);
 
         private void EncodeExpression(
           ValidateExpression expression,
           ListenerEncodeMode listenerEncodeMode)
         {
-            this.RecordLineNumber((Validate)expression);
+            this.RecordLineNumber(expression);
             expression.TrackEncodingOffset(this.GetOffset());
             switch (expression.ExpressionType)
             {
@@ -506,7 +506,7 @@ namespace Microsoft.Iris.Markup
                             if (!flag3)
                                 return;
                             OpCode opCode = validateExpressionCall.Usage != ExpressionUsage.RValue ? (flag2 ? OpCode.PropertyAssign : OpCode.PropertyAssignStatic) : (flag2 ? OpCode.PropertyGet : OpCode.PropertyGetStatic);
-                            this.RecordLineNumber((Validate)expression);
+                            this.RecordLineNumber(expression);
                             this._writer.WriteByte(opCode);
                             this._writer.WriteUInt16(validateExpressionCall.FoundMemberIndex);
                             return;
@@ -516,7 +516,7 @@ namespace Microsoft.Iris.Markup
                                 for (ValidateParameter validateParameter = validateExpressionCall.ParameterList; validateParameter != null; validateParameter = validateParameter.Next)
                                     this.EncodeExpression(validateParameter.Expression);
                             }
-                            this.RecordLineNumber((Validate)expression);
+                            this.RecordLineNumber(expression);
                             this._writer.WriteByte(validateExpressionCall.IsIndexAssignment ? (flag2 ? OpCode.MethodInvokePushLastParam : OpCode.MethodInvokeStaticPushLastParam) : (flag2 ? OpCode.MethodInvoke : OpCode.MethodInvokeStatic));
                             this._writer.WriteUInt16(validateExpressionCall.FoundMemberIndex);
                             return;
@@ -534,7 +534,7 @@ namespace Microsoft.Iris.Markup
                 case ExpressionType.Cast:
                     ValidateExpressionCast validateExpressionCast = (ValidateExpressionCast)expression;
                     this.EncodeExpression(validateExpressionCast.Castee, listenerEncodeMode);
-                    this.RecordLineNumber((Validate)expression);
+                    this.RecordLineNumber(expression);
                     if (validateExpressionCast.FoundCastMethod == CastMethod.Cast)
                     {
                         this._writer.WriteByte(OpCode.VerifyTypeCast);
@@ -556,7 +556,7 @@ namespace Microsoft.Iris.Markup
                     {
                         for (ValidateParameter validateParameter = validateExpressionNew.ParameterList; validateParameter != null; validateParameter = validateParameter.Next)
                             this.EncodeExpression(validateParameter.Expression);
-                        this.RecordLineNumber((Validate)expression);
+                        this.RecordLineNumber(expression);
                         this._writer.WriteByte(OpCode.ConstructObjectParam);
                         this._writer.WriteUInt16(validateExpressionNew.FoundConstructTypeIndex);
                         this._writer.WriteUInt16(validateExpressionNew.FoundParameterizedConstructorIndex);
@@ -569,14 +569,14 @@ namespace Microsoft.Iris.Markup
                     uint fixUpLocation = uint.MaxValue;
                     if (expressionOperation.FoundOperationTargetType == BooleanSchema.Type && (expressionOperation.Op == OperationType.LogicalAnd || expressionOperation.Op == OperationType.LogicalOr))
                     {
-                        this.RecordLineNumber((Validate)expression);
+                        this.RecordLineNumber(expression);
                         this._writer.WriteByte(expressionOperation.Op == OperationType.LogicalOr ? OpCode.JumpIfTruePeek : OpCode.JumpIfFalsePeek);
                         fixUpLocation = this.GetOffset();
                         this._writer.WriteUInt32(uint.MaxValue);
                     }
                     if (expressionOperation.RightSide != null)
                         this.EncodeExpression(expressionOperation.RightSide);
-                    this.RecordLineNumber((Validate)expression);
+                    this.RecordLineNumber(expression);
                     this._writer.WriteByte(OpCode.Operation);
                     this._writer.WriteUInt16(expressionOperation.FoundOperationTargetTypeIndex);
                     this._writer.WriteByte((byte)expressionOperation.Op);
@@ -587,14 +587,14 @@ namespace Microsoft.Iris.Markup
                 case ExpressionType.IsCheck:
                     ValidateExpressionIsCheck expressionIsCheck = (ValidateExpressionIsCheck)expression;
                     this.EncodeExpression(expressionIsCheck.Expression);
-                    this.RecordLineNumber((Validate)expression);
+                    this.RecordLineNumber(expression);
                     this._writer.WriteByte(OpCode.IsCheck);
                     this._writer.WriteUInt16(expressionIsCheck.TypeIdentifier.FoundTypeIndex);
                     break;
                 case ExpressionType.As:
                     ValidateExpressionAs validateExpressionAs = (ValidateExpressionAs)expression;
                     this.EncodeExpression(validateExpressionAs.Expression);
-                    this.RecordLineNumber((Validate)expression);
+                    this.RecordLineNumber(expression);
                     this._writer.WriteByte(OpCode.As);
                     this._writer.WriteUInt16(validateExpressionAs.TypeIdentifier.FoundTypeIndex);
                     break;
@@ -756,7 +756,7 @@ namespace Microsoft.Iris.Markup
             {
                 listenerEncodeMode.TriggerContainer = triggerRecord;
                 this.EncodeExpression(triggerRecord.SourceExpression, listenerEncodeMode);
-                this._writer.WriteByte((byte)37);
+                this._writer.WriteByte(37);
             }
         }
 

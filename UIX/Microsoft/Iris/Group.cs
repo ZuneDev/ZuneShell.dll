@@ -14,7 +14,7 @@ namespace Microsoft.Iris
         private int _startIndex;
 
         internal Group(GroupedList groupedList, int startIndex, int count)
-          : base((IModelItemOwner)groupedList, true, (ItemCountHandler)null)
+          : base(groupedList, true, null)
         {
             this._groupedList = groupedList;
             this._startIndex = startIndex;
@@ -54,6 +54,6 @@ namespace Microsoft.Iris
             source.NotifyRequestSlowData(sourceIndex);
         }
 
-        public override string ToString() => "Group [" + (object)this.StartIndex + "-" + (object)this.EndIndex + "]";
+        public override string ToString() => "Group [" + StartIndex + "-" + EndIndex + "]";
     }
 }

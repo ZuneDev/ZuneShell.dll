@@ -43,7 +43,7 @@ namespace Microsoft.Iris.Drawing
             {
                 resourceImageItem = new ResourceImageItem(UISession.Default.RenderSession, this.Source, UIImage.ClampSize(this._maximumSize), this.IsFlipped, this._antialiasEdges);
                 resourceImageItem.LoadCompleteHandler += new ContentLoadCompleteHandler(this.OnLoadComplete);
-                ScavengeImageCache.Instance.Add(this._cacheKey, (ImageCacheItem)resourceImageItem);
+                ScavengeImageCache.Instance.Add(this._cacheKey, resourceImageItem);
                 this.SetStatus(resourceImageItem.Status);
                 this._contentSize = new Size(0, 0);
             }
@@ -60,7 +60,7 @@ namespace Microsoft.Iris.Drawing
             return (ResourceImageItem)ScavengeImageCache.Instance.Lookup(this._cacheKey);
         }
 
-        protected override void OnImageAttributeChanged() => this._cacheKey = (ImageCacheKey)null;
+        protected override void OnImageAttributeChanged() => this._cacheKey = null;
 
         private void OnLoadComplete(object owner, ImageStatus status)
         {
@@ -82,16 +82,16 @@ namespace Microsoft.Iris.Drawing
                 }
                 else
                 {
-                    resourceImageItem = (ResourceImageItem)null;
+                    resourceImageItem = null;
                     needAsyncLoad = false;
                 }
             }
             else
             {
-                resourceImageItem = (ResourceImageItem)null;
+                resourceImageItem = null;
                 needAsyncLoad = false;
             }
-            return (ImageCacheItem)resourceImageItem;
+            return resourceImageItem;
         }
 
         protected override void EnsureSizeMetrics()

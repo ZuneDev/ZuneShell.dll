@@ -12,13 +12,13 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object GetProperties(object instanceObj) => (object)((UIClass)instanceObj).Storage;
+        private static object GetProperties(object instanceObj) => ((UIClass)instanceObj).Storage;
 
-        private static object GetLocals(object instanceObj) => (object)((UIClass)instanceObj).Storage;
+        private static object GetLocals(object instanceObj) => ((UIClass)instanceObj).Storage;
 
-        private static object GetInput(object instanceObj) => (object)((UIClass)instanceObj).EnsureInputHandlerStorage();
+        private static object GetInput(object instanceObj) => ((UIClass)instanceObj).EnsureInputHandlerStorage();
 
-        private static object GetContent(object instanceObj) => (object)((UIClass)instanceObj).RootItem;
+        private static object GetContent(object instanceObj) => ((UIClass)instanceObj).RootItem;
 
         private static void SetContent(ref object instanceObj, object valueObj) => ((UIClass)instanceObj).SetRootItem((ViewItem)valueObj);
 
@@ -33,27 +33,27 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object GetScripts(object instanceObj) => (object)null;
 
-        public static void Pass1Initialize() => UISchema.Type = new UIXTypeSchema((short)229, "UI", (string)null, (short)-1, typeof(UIClass), UIXTypeFlags.Disposable);
+        public static void Pass1Initialize() => UISchema.Type = new UIXTypeSchema(229, "UI", null, -1, typeof(UIClass), UIXTypeFlags.Disposable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema((short)229, "Properties", (short)58, (short)-1, ExpressionRestriction.NoAccess, false, (RangeValidator)null, true, new GetValueHandler(UISchema.GetProperties), (SetValueHandler)null, false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema((short)229, "Locals", (short)58, (short)-1, ExpressionRestriction.NoAccess, false, (RangeValidator)null, true, new GetValueHandler(UISchema.GetLocals), (SetValueHandler)null, false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema((short)229, "Input", (short)138, (short)110, ExpressionRestriction.NoAccess, false, (RangeValidator)null, true, new GetValueHandler(UISchema.GetInput), (SetValueHandler)null, false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema((short)229, "Content", (short)239, (short)-1, ExpressionRestriction.NoAccess, false, (RangeValidator)null, true, new GetValueHandler(UISchema.GetContent), new SetValueHandler(UISchema.SetContent), false);
-            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema((short)229, "Flippable", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(UISchema.GetFlippable), new SetValueHandler(UISchema.SetFlippable), false);
-            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema((short)229, "Base", (short)208, (short)-1, ExpressionRestriction.NoAccess, false, (RangeValidator)null, true, (GetValueHandler)null, new SetValueHandler(UISchema.SetBase), false);
-            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema((short)229, "Scripts", (short)138, (short)240, ExpressionRestriction.NoAccess, false, (RangeValidator)null, true, new GetValueHandler(UISchema.GetScripts), (SetValueHandler)null, false);
-            UISchema.Type.Initialize((DefaultConstructHandler)null, (ConstructorSchema[])null, new PropertySchema[7]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(229, "Properties", 58, -1, ExpressionRestriction.NoAccess, false, null, true, new GetValueHandler(UISchema.GetProperties), null, false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(229, "Locals", 58, -1, ExpressionRestriction.NoAccess, false, null, true, new GetValueHandler(UISchema.GetLocals), null, false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(229, "Input", 138, 110, ExpressionRestriction.NoAccess, false, null, true, new GetValueHandler(UISchema.GetInput), null, false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(229, "Content", 239, -1, ExpressionRestriction.NoAccess, false, null, true, new GetValueHandler(UISchema.GetContent), new SetValueHandler(UISchema.SetContent), false);
+            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(229, "Flippable", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(UISchema.GetFlippable), new SetValueHandler(UISchema.SetFlippable), false);
+            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(229, "Base", 208, -1, ExpressionRestriction.NoAccess, false, null, true, null, new SetValueHandler(UISchema.SetBase), false);
+            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema(229, "Scripts", 138, 240, ExpressionRestriction.NoAccess, false, null, true, new GetValueHandler(UISchema.GetScripts), null, false);
+            UISchema.Type.Initialize(null, null, new PropertySchema[7]
             {
-        (PropertySchema) uixPropertySchema6,
-        (PropertySchema) uixPropertySchema4,
-        (PropertySchema) uixPropertySchema5,
-        (PropertySchema) uixPropertySchema3,
-        (PropertySchema) uixPropertySchema2,
-        (PropertySchema) uixPropertySchema1,
-        (PropertySchema) uixPropertySchema7
-            }, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixPropertySchema6,
+         uixPropertySchema4,
+         uixPropertySchema5,
+         uixPropertySchema3,
+         uixPropertySchema2,
+         uixPropertySchema1,
+         uixPropertySchema7
+            }, null, null, null, null, null, null, null, null, null);
         }
     }
 }

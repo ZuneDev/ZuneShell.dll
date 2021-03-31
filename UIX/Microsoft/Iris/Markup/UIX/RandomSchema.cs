@@ -13,20 +13,20 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object Construct() => (object)new Random();
+        private static object Construct() => new Random();
 
-        private static object ConstructInt32(object[] parameters) => (object)new Random((int)parameters[0]);
+        private static object ConstructInt32(object[] parameters) => new Random((int)parameters[0]);
 
-        private static object CallNext(object instanceObj, object[] parameters) => (object)((Random)instanceObj).Next();
+        private static object CallNext(object instanceObj, object[] parameters) => ((Random)instanceObj).Next();
 
         private static object CallNextInt32(object instanceObj, object[] parameters)
         {
             Random random = (Random)instanceObj;
             int parameter = (int)parameters[0];
             if (parameter >= 0)
-                return (object)random.Next(parameter);
-            ErrorManager.ReportError("Script runtime failure: Invalid '{0}' value is out of range for '{1}'", (object)parameter, (object)"maxValue");
-            return (object)null;
+                return random.Next(parameter);
+            ErrorManager.ReportError("Script runtime failure: Invalid '{0}' value is out of range for '{1}'", parameter, "maxValue");
+            return null;
         }
 
         private static object CallNextInt32Int32(object instanceObj, object[] parameters)
@@ -35,74 +35,74 @@ namespace Microsoft.Iris.Markup.UIX
             int parameter1 = (int)parameters[0];
             int parameter2 = (int)parameters[1];
             if (parameter1 <= parameter2)
-                return (object)random.Next(parameter1, parameter2);
-            ErrorManager.ReportError("Script runtime failure: Invalid '{0}' value is out of range for '{1}'", (object)parameter1, (object)"minValue");
-            return (object)null;
+                return random.Next(parameter1, parameter2);
+            ErrorManager.ReportError("Script runtime failure: Invalid '{0}' value is out of range for '{1}'", parameter1, "minValue");
+            return null;
         }
 
-        private static object CallNextDouble(object instanceObj, object[] parameters) => (object)((Random)instanceObj).NextDouble();
+        private static object CallNextDouble(object instanceObj, object[] parameters) => ((Random)instanceObj).NextDouble();
 
         private static object CallNextDoubleDoubleDouble(object instanceObj, object[] parameters)
         {
             Random random = (Random)instanceObj;
             double parameter1 = (double)parameters[0];
             double parameter2 = (double)parameters[1];
-            return (object)(random.NextDouble() * (parameter2 - parameter1) + parameter1);
+            return random.NextDouble() * (parameter2 - parameter1) + parameter1;
         }
 
-        private static object CallNextSingle(object instanceObj, object[] parameters) => (object)(float)((Random)instanceObj).NextDouble();
+        private static object CallNextSingle(object instanceObj, object[] parameters) => (float)((Random)instanceObj).NextDouble();
 
         private static object CallNextSingleSingleSingle(object instanceObj, object[] parameters)
         {
             Random random = (Random)instanceObj;
             float parameter1 = (float)parameters[0];
             float parameter2 = (float)parameters[1];
-            return (object)((float)(random.NextDouble() * ((double)parameter2 - (double)parameter1)) + parameter1);
+            return (float)(random.NextDouble() * (parameter2 - (double)parameter1)) + parameter1;
         }
 
-        public static void Pass1Initialize() => RandomSchema.Type = new UIXTypeSchema((short)167, "Random", (string)null, (short)153, typeof(Random), UIXTypeFlags.None);
+        public static void Pass1Initialize() => RandomSchema.Type = new UIXTypeSchema(167, "Random", null, 153, typeof(Random), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXConstructorSchema constructorSchema = new UIXConstructorSchema((short)167, new short[1]
+            UIXConstructorSchema constructorSchema = new UIXConstructorSchema(167, new short[1]
             {
-        (short) 115
+         115
             }, new ConstructHandler(RandomSchema.ConstructInt32));
-            UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema((short)167, "Next", (short[])null, (short)115, new InvokeHandler(RandomSchema.CallNext), false);
-            UIXMethodSchema uixMethodSchema2 = new UIXMethodSchema((short)167, "Next", new short[1]
+            UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema(167, "Next", null, 115, new InvokeHandler(RandomSchema.CallNext), false);
+            UIXMethodSchema uixMethodSchema2 = new UIXMethodSchema(167, "Next", new short[1]
             {
-        (short) 115
-            }, (short)115, new InvokeHandler(RandomSchema.CallNextInt32), false);
-            UIXMethodSchema uixMethodSchema3 = new UIXMethodSchema((short)167, "Next", new short[2]
+         115
+            }, 115, new InvokeHandler(RandomSchema.CallNextInt32), false);
+            UIXMethodSchema uixMethodSchema3 = new UIXMethodSchema(167, "Next", new short[2]
             {
-        (short) 115,
-        (short) 115
-            }, (short)115, new InvokeHandler(RandomSchema.CallNextInt32Int32), false);
-            UIXMethodSchema uixMethodSchema4 = new UIXMethodSchema((short)167, "NextDouble", (short[])null, (short)61, new InvokeHandler(RandomSchema.CallNextDouble), false);
-            UIXMethodSchema uixMethodSchema5 = new UIXMethodSchema((short)167, "NextDouble", new short[2]
+         115,
+         115
+            }, 115, new InvokeHandler(RandomSchema.CallNextInt32Int32), false);
+            UIXMethodSchema uixMethodSchema4 = new UIXMethodSchema(167, "NextDouble", null, 61, new InvokeHandler(RandomSchema.CallNextDouble), false);
+            UIXMethodSchema uixMethodSchema5 = new UIXMethodSchema(167, "NextDouble", new short[2]
             {
-        (short) 61,
-        (short) 61
-            }, (short)61, new InvokeHandler(RandomSchema.CallNextDoubleDoubleDouble), false);
-            UIXMethodSchema uixMethodSchema6 = new UIXMethodSchema((short)167, "NextSingle", (short[])null, (short)194, new InvokeHandler(RandomSchema.CallNextSingle), false);
-            UIXMethodSchema uixMethodSchema7 = new UIXMethodSchema((short)167, "NextSingle", new short[2]
+         61,
+         61
+            }, 61, new InvokeHandler(RandomSchema.CallNextDoubleDoubleDouble), false);
+            UIXMethodSchema uixMethodSchema6 = new UIXMethodSchema(167, "NextSingle", null, 194, new InvokeHandler(RandomSchema.CallNextSingle), false);
+            UIXMethodSchema uixMethodSchema7 = new UIXMethodSchema(167, "NextSingle", new short[2]
             {
-        (short) 194,
-        (short) 194
-            }, (short)194, new InvokeHandler(RandomSchema.CallNextSingleSingleSingle), false);
+         194,
+         194
+            }, 194, new InvokeHandler(RandomSchema.CallNextSingleSingleSingle), false);
             RandomSchema.Type.Initialize(new DefaultConstructHandler(RandomSchema.Construct), new ConstructorSchema[1]
             {
-        (ConstructorSchema) constructorSchema
-            }, (PropertySchema[])null, new MethodSchema[7]
+         constructorSchema
+            }, null, new MethodSchema[7]
             {
-        (MethodSchema) uixMethodSchema1,
-        (MethodSchema) uixMethodSchema2,
-        (MethodSchema) uixMethodSchema3,
-        (MethodSchema) uixMethodSchema4,
-        (MethodSchema) uixMethodSchema5,
-        (MethodSchema) uixMethodSchema6,
-        (MethodSchema) uixMethodSchema7
-            }, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixMethodSchema1,
+         uixMethodSchema2,
+         uixMethodSchema3,
+         uixMethodSchema4,
+         uixMethodSchema5,
+         uixMethodSchema6,
+         uixMethodSchema7
+            }, null, null, null, null, null, null, null, null);
         }
     }
 }

@@ -31,25 +31,25 @@ namespace Microsoft.Iris.Markup.UIX
           object[] parameters)
         {
             ((EffectElementWrapper)instanceObj).PlayAnimation(EffectProperty.Value, (EffectAnimation)parameters[0]);
-            return (object)null;
+            return null;
         }
 
-        public static void Pass1Initialize() => InterpolateElementInstanceSchema.Type = new UIXTypeSchema((short)120, "InterpolateElementInstance", (string)null, (short)74, typeof(EffectElementWrapper), UIXTypeFlags.None);
+        public static void Pass1Initialize() => InterpolateElementInstanceSchema.Type = new UIXTypeSchema(120, "InterpolateElementInstance", null, 74, typeof(EffectElementWrapper), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema = new UIXPropertySchema((short)120, "Value", (short)194, (short)-1, ExpressionRestriction.None, false, SingleSchema.Validate0to1, false, (GetValueHandler)null, new SetValueHandler(InterpolateElementInstanceSchema.SetValue), false);
-            UIXMethodSchema uixMethodSchema = new UIXMethodSchema((short)120, "PlayValueAnimation", new short[1]
+            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(120, "Value", 194, -1, ExpressionRestriction.None, false, SingleSchema.Validate0to1, false, null, new SetValueHandler(InterpolateElementInstanceSchema.SetValue), false);
+            UIXMethodSchema uixMethodSchema = new UIXMethodSchema(120, "PlayValueAnimation", new short[1]
             {
-        (short) 75
-            }, (short)240, new InvokeHandler(InterpolateElementInstanceSchema.CallPlayValueAnimationEffectFloatAnimation), false);
-            InterpolateElementInstanceSchema.Type.Initialize((DefaultConstructHandler)null, (ConstructorSchema[])null, new PropertySchema[1]
+         75
+            }, 240, new InvokeHandler(InterpolateElementInstanceSchema.CallPlayValueAnimationEffectFloatAnimation), false);
+            InterpolateElementInstanceSchema.Type.Initialize(null, null, new PropertySchema[1]
             {
-        (PropertySchema) uixPropertySchema
+         uixPropertySchema
             }, new MethodSchema[1]
             {
-        (MethodSchema) uixMethodSchema
-            }, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixMethodSchema
+            }, null, null, null, null, null, null, null, null);
         }
     }
 }

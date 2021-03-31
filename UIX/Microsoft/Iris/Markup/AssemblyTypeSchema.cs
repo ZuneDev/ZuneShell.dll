@@ -27,7 +27,7 @@ namespace Microsoft.Iris.Markup
         private Map<Type, MethodInfo[]> s_methodInfosCache = new Map<Type, MethodInfo[]>();
 
         protected AssemblyTypeSchema(Type type, TypeSchema baseType)
-          : base((LoadResult)AssemblyLoadResult.MapAssembly(type.Assembly, type.Namespace))
+          : base(AssemblyLoadResult.MapAssembly(type.Assembly, type.Namespace))
         {
             this._type = type;
             this._baseType = baseType;
@@ -40,13 +40,13 @@ namespace Microsoft.Iris.Markup
         {
             base.OnDispose();
             foreach (KeyValueEntry<MethodSignatureKey, ConstructorSchema> keyValueEntry in this._constructorCache)
-                keyValueEntry.Value.Dispose((object)this);
+                keyValueEntry.Value.Dispose(this);
             foreach (KeyValueEntry<string, PropertySchema> keyValueEntry in this._propertyCache)
-                keyValueEntry.Value.Dispose((object)this);
+                keyValueEntry.Value.Dispose(this);
             foreach (KeyValueEntry<MethodSignatureKey, MethodSchema> keyValueEntry in this._methodCache)
-                keyValueEntry.Value.Dispose((object)this);
+                keyValueEntry.Value.Dispose(this);
             foreach (KeyValueEntry<string, EventSchema> keyValueEntry in this._eventCache)
-                keyValueEntry.Value.Dispose((object)this);
+                keyValueEntry.Value.Dispose(this);
         }
 
         public override string Name
@@ -69,7 +69,7 @@ namespace Microsoft.Iris.Markup
                 if (this._baseType == null && this != AssemblyLoadResult.ObjectTypeSchema)
                 {
                     if (this._type.BaseType != null)
-                        this._baseType = (TypeSchema)AssemblyLoadResult.MapType(this._type.BaseType);
+                        this._baseType = AssemblyLoadResult.MapType(this._type.BaseType);
                     else if (this._type.IsInterface)
                         this._baseType = AssemblyLoadResult.ObjectTypeSchema;
                 }
@@ -95,7 +95,7 @@ namespace Microsoft.Iris.Markup
 
         public override bool Disposable => this._isDisposable;
 
-        public override object ConstructDefault() => AssemblyLoadResult.WrapObject((TypeSchema)this, Activator.CreateInstance(this._type));
+        public override object ConstructDefault() => AssemblyLoadResult.WrapObject(this, Activator.CreateInstance(this._type));
 
         public override bool HasDefaultConstructor => this._type.IsValueType || this._type.GetConstructor(Type.EmptyTypes) != null;
 
@@ -120,10 +120,10 @@ namespace Microsoft.Iris.Markup
                 {
                     foreach (ConstructorInfo constructorInfo in constructors)
                     {
-                        TypeSchema[] schemaParameters = (TypeSchema[])null;
-                        if (this.CheckForMethodSignatureMatch((MethodBase)constructorInfo, (string)null, parameters, out schemaParameters))
+                        TypeSchema[] schemaParameters = null;
+                        if (this.CheckForMethodSignatureMatch(constructorInfo, null, parameters, out schemaParameters))
                         {
-                            constructorSchema = (ConstructorSchema)new AssemblyConstructorSchema(this, constructorInfo, schemaParameters);
+                            constructorSchema = new AssemblyConstructorSchema(this, constructorInfo, schemaParameters);
                             this._constructorCache[new MethodSignatureKey(schemaParameters)] = constructorSchema;
                             break;
                         }
@@ -141,7 +141,7 @@ namespace Microsoft.Iris.Markup
                 PropertyInfo propertyHelper = AssemblyTypeSchema.GetPropertyHelper(this._type, name);
                 if (propertyHelper != null)
                 {
-                    propertySchema = (PropertySchema)new AssemblyPropertySchema(this, propertyHelper);
+                    propertySchema = new AssemblyPropertySchema(this, propertyHelper);
                     this._propertyCache[name] = propertySchema;
                 }
             }
@@ -150,7 +150,7 @@ namespace Microsoft.Iris.Markup
 
         private static PropertyInfo GetPropertyHelper(Type type, string name)
         {
-            PropertyInfo propertyInfo = (PropertyInfo)null;
+            PropertyInfo propertyInfo = null;
             try
             {
                 propertyInfo = type.GetProperty(name, BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public);
@@ -184,7 +184,7 @@ namespace Microsoft.Iris.Markup
             MethodSchema methodSchema;
             if (!this._methodCache.TryGetValue(new MethodSignatureKey(name, parameters), out methodSchema))
             {
-                MethodInfo[] methodInfoArray = (MethodInfo[])null;
+                MethodInfo[] methodInfoArray = null;
                 if (!this.s_methodInfosCache.TryGetValue(this._type, out methodInfoArray))
                 {
                     methodInfoArray = this._type.GetMethods(BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public);
@@ -195,9 +195,9 @@ namespace Microsoft.Iris.Markup
                     foreach (MethodInfo methodInfo in methodInfoArray)
                     {
                         TypeSchema[] schemaParameters;
-                        if (this.CheckForMethodSignatureMatch((MethodBase)methodInfo, name, parameters, out schemaParameters))
+                        if (this.CheckForMethodSignatureMatch(methodInfo, name, parameters, out schemaParameters))
                         {
-                            methodSchema = (MethodSchema)new AssemblyMethodSchema(this, methodInfo, schemaParameters);
+                            methodSchema = new AssemblyMethodSchema(this, methodInfo, schemaParameters);
                             this._methodCache[new MethodSignatureKey(name, schemaParameters)] = methodSchema;
                             break;
                         }
@@ -213,7 +213,7 @@ namespace Microsoft.Iris.Markup
           TypeSchema[] parameters,
           out TypeSchema[] schemaParameters)
         {
-            schemaParameters = (TypeSchema[])null;
+            schemaParameters = null;
             if (name != null && candidateMember.Name != name)
                 return false;
             ParameterInfo[] parameters1 = candidateMember.GetParameters();
@@ -222,7 +222,7 @@ namespace Microsoft.Iris.Markup
             TypeSchema[] typeSchemaArray = new TypeSchema[parameters1.Length];
             for (int index = 0; index < parameters.Length; ++index)
             {
-                typeSchemaArray[index] = (TypeSchema)AssemblyLoadResult.MapType(parameters1[index].ParameterType);
+                typeSchemaArray[index] = AssemblyLoadResult.MapType(parameters1[index].ParameterType);
                 if (!typeSchemaArray[index].IsAssignableFrom(parameters[index]))
                     return false;
             }
@@ -238,7 +238,7 @@ namespace Microsoft.Iris.Markup
                 EventInfo eventInfo = this._type.GetEvent(name);
                 if (eventInfo != null)
                 {
-                    eventSchema = (EventSchema)new AssemblyEventSchema(this, eventInfo);
+                    eventSchema = new AssemblyEventSchema(this, eventInfo);
                     this._eventCache[name] = eventSchema;
                 }
             }
@@ -257,7 +257,7 @@ namespace Microsoft.Iris.Markup
                 {
                 }
             }
-            return (object)null;
+            return null;
         }
 
         public override PropertySchema[] Properties => PropertySchema.EmptyList;
@@ -272,7 +272,7 @@ namespace Microsoft.Iris.Markup
                 instance = Enum.ToObject(this._type, (int)from);
                 return Result.Success;
             }
-            instance = (object)null;
+            instance = null;
             return Result.Fail("Unimplemented");
         }
 
@@ -302,10 +302,10 @@ namespace Microsoft.Iris.Markup
                 byte[] b = new byte[16];
                 for (int index = 0; index < 16; ++index)
                     b[index] = reader.ReadByte();
-                obj = (object)new Guid(b);
+                obj = new Guid(b);
             }
             else
-                obj = (object)null;
+                obj = null;
             return obj;
         }
 

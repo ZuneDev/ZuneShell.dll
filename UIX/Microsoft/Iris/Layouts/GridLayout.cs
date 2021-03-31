@@ -129,7 +129,7 @@ namespace Microsoft.Iris.Layouts
         Size ILayout.Measure(ILayoutNode layoutNode, Size constraint)
         {
             GridLayout.GeneralFlowInfo generalFlowInfo = this.CalculateGeneralFlowInfo(layoutNode, constraint);
-            layoutNode.MeasureData = (object)generalFlowInfo;
+            layoutNode.MeasureData = generalFlowInfo;
             if (generalFlowInfo.itemsCount <= 0 || !generalFlowInfo.referenceExtent.IsEmpty)
                 return generalFlowInfo.usedSize.ToSize(this.Orientation);
             layoutNode.RequestMoreChildren(1);
@@ -212,7 +212,7 @@ namespace Microsoft.Iris.Layouts
         private Size GetReferenceSize(ILayoutNode layoutNode, Size constraint)
         {
             Size referenceSize = this.ReferenceSize;
-            if ((double)referenceSize.Width == 0.0 && this.Columns != 0)
+            if (referenceSize.Width == 0.0 && this.Columns != 0)
             {
                 int num = (constraint.Width - this.Spacing.Width * (this.Columns - 1)) / this.Columns;
                 if (num <= 0)
@@ -220,7 +220,7 @@ namespace Microsoft.Iris.Layouts
                 referenceSize.Width = num;
                 constraint.Width = num;
             }
-            if ((double)referenceSize.Height == 0.0 && this.Rows != 0)
+            if (referenceSize.Height == 0.0 && this.Rows != 0)
             {
                 int num = (constraint.Height - this.Spacing.Height * (this.Rows - 1)) / this.Rows;
                 if (num <= 0)
@@ -332,7 +332,7 @@ namespace Microsoft.Iris.Layouts
           out Vector<int> indicesToDisplayList)
         {
             indicesInfo = this.GetIndexRange(layoutNode, generalInfo);
-            indicesToDisplayList = (Vector<int>)null;
+            indicesToDisplayList = null;
             if (indicesInfo.nonEmptyRange)
             {
                 indicesToDisplayList = layoutNode.GetSpecificChildrenRequestList();
@@ -534,7 +534,7 @@ namespace Microsoft.Iris.Layouts
 
         private static int DivideIntegers(int a, int b, bool roundUp)
         {
-            double num = (double)a / (double)b;
+            double num = a / (double)b;
             return roundUp ? (int)Math.Ceiling(num) : (int)Math.Floor(num);
         }
 

@@ -14,7 +14,7 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object GetScrollStep(object instanceObj) => (object)((ScrollModelBase)instanceObj).ScrollStep;
+        private static object GetScrollStep(object instanceObj) => ((ScrollModelBase)instanceObj).ScrollStep;
 
         private static void SetScrollStep(ref object instanceObj, object valueObj)
         {
@@ -31,107 +31,107 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object GetCanScrollDown(object instanceObj) => BooleanBoxes.Box(((ScrollModelBase)instanceObj).CanScrollDown);
 
-        private static object GetCurrentPage(object instanceObj) => (object)((ScrollModelBase)instanceObj).CurrentPage;
+        private static object GetCurrentPage(object instanceObj) => ((ScrollModelBase)instanceObj).CurrentPage;
 
-        private static object GetTotalPages(object instanceObj) => (object)((ScrollModelBase)instanceObj).TotalPages;
+        private static object GetTotalPages(object instanceObj) => ((ScrollModelBase)instanceObj).TotalPages;
 
-        private static object GetViewNear(object instanceObj) => (object)((ScrollModelBase)instanceObj).ViewNear;
+        private static object GetViewNear(object instanceObj) => ((ScrollModelBase)instanceObj).ViewNear;
 
-        private static object GetViewFar(object instanceObj) => (object)((ScrollModelBase)instanceObj).ViewFar;
+        private static object GetViewFar(object instanceObj) => ((ScrollModelBase)instanceObj).ViewFar;
 
         private static object CallScrollInt32(object instanceObj, object[] parameters)
         {
             ((ScrollModelBase)instanceObj).Scroll((int)parameters[0]);
-            return (object)null;
+            return null;
         }
 
         private static object CallScrollUp(object instanceObj, object[] parameters)
         {
             ((ScrollModelBase)instanceObj).ScrollUp();
-            return (object)null;
+            return null;
         }
 
         private static object CallScrollDown(object instanceObj, object[] parameters)
         {
             ((ScrollModelBase)instanceObj).ScrollDown();
-            return (object)null;
+            return null;
         }
 
         private static object CallPageUp(object instanceObj, object[] parameters)
         {
             ((ScrollModelBase)instanceObj).PageUp();
-            return (object)null;
+            return null;
         }
 
         private static object CallPageDown(object instanceObj, object[] parameters)
         {
             ((ScrollModelBase)instanceObj).PageDown();
-            return (object)null;
+            return null;
         }
 
         private static object CallHome(object instanceObj, object[] parameters)
         {
             ((ScrollModelBase)instanceObj).Home();
-            return (object)null;
+            return null;
         }
 
         private static object CallEnd(object instanceObj, object[] parameters)
         {
             ((ScrollModelBase)instanceObj).End();
-            return (object)null;
+            return null;
         }
 
         private static object CallScrollToPositionSingle(object instanceObj, object[] parameters)
         {
             ((ScrollModelBase)instanceObj).ScrollToPosition((float)parameters[0]);
-            return (object)null;
+            return null;
         }
 
-        public static void Pass1Initialize() => ScrollModelBaseSchema.Type = new UIXTypeSchema((short)183, "ScrollModelBase", (string)null, (short)153, typeof(ScrollModelBase), UIXTypeFlags.None);
+        public static void Pass1Initialize() => ScrollModelBaseSchema.Type = new UIXTypeSchema(183, "ScrollModelBase", null, 153, typeof(ScrollModelBase), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema((short)183, "ScrollStep", (short)115, (short)-1, ExpressionRestriction.None, false, Int32Schema.ValidateNotNegative, true, new GetValueHandler(ScrollModelBaseSchema.GetScrollStep), new SetValueHandler(ScrollModelBaseSchema.SetScrollStep), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema((short)183, "CanScrollUp", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ScrollModelBaseSchema.GetCanScrollUp), (SetValueHandler)null, false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema((short)183, "CanScrollDown", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ScrollModelBaseSchema.GetCanScrollDown), (SetValueHandler)null, false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema((short)183, "CurrentPage", (short)194, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ScrollModelBaseSchema.GetCurrentPage), (SetValueHandler)null, false);
-            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema((short)183, "TotalPages", (short)194, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ScrollModelBaseSchema.GetTotalPages), (SetValueHandler)null, false);
-            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema((short)183, "ViewNear", (short)194, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ScrollModelBaseSchema.GetViewNear), (SetValueHandler)null, false);
-            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema((short)183, "ViewFar", (short)194, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ScrollModelBaseSchema.GetViewFar), (SetValueHandler)null, false);
-            UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema((short)183, "Scroll", new short[1]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(183, "ScrollStep", 115, -1, ExpressionRestriction.None, false, Int32Schema.ValidateNotNegative, true, new GetValueHandler(ScrollModelBaseSchema.GetScrollStep), new SetValueHandler(ScrollModelBaseSchema.SetScrollStep), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(183, "CanScrollUp", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ScrollModelBaseSchema.GetCanScrollUp), null, false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(183, "CanScrollDown", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ScrollModelBaseSchema.GetCanScrollDown), null, false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(183, "CurrentPage", 194, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ScrollModelBaseSchema.GetCurrentPage), null, false);
+            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(183, "TotalPages", 194, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ScrollModelBaseSchema.GetTotalPages), null, false);
+            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(183, "ViewNear", 194, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ScrollModelBaseSchema.GetViewNear), null, false);
+            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema(183, "ViewFar", 194, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ScrollModelBaseSchema.GetViewFar), null, false);
+            UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema(183, "Scroll", new short[1]
             {
-        (short) 115
-            }, (short)240, new InvokeHandler(ScrollModelBaseSchema.CallScrollInt32), false);
-            UIXMethodSchema uixMethodSchema2 = new UIXMethodSchema((short)183, "ScrollUp", (short[])null, (short)240, new InvokeHandler(ScrollModelBaseSchema.CallScrollUp), false);
-            UIXMethodSchema uixMethodSchema3 = new UIXMethodSchema((short)183, "ScrollDown", (short[])null, (short)240, new InvokeHandler(ScrollModelBaseSchema.CallScrollDown), false);
-            UIXMethodSchema uixMethodSchema4 = new UIXMethodSchema((short)183, "PageUp", (short[])null, (short)240, new InvokeHandler(ScrollModelBaseSchema.CallPageUp), false);
-            UIXMethodSchema uixMethodSchema5 = new UIXMethodSchema((short)183, "PageDown", (short[])null, (short)240, new InvokeHandler(ScrollModelBaseSchema.CallPageDown), false);
-            UIXMethodSchema uixMethodSchema6 = new UIXMethodSchema((short)183, "Home", (short[])null, (short)240, new InvokeHandler(ScrollModelBaseSchema.CallHome), false);
-            UIXMethodSchema uixMethodSchema7 = new UIXMethodSchema((short)183, "End", (short[])null, (short)240, new InvokeHandler(ScrollModelBaseSchema.CallEnd), false);
-            UIXMethodSchema uixMethodSchema8 = new UIXMethodSchema((short)183, "ScrollToPosition", new short[1]
+         115
+            }, 240, new InvokeHandler(ScrollModelBaseSchema.CallScrollInt32), false);
+            UIXMethodSchema uixMethodSchema2 = new UIXMethodSchema(183, "ScrollUp", null, 240, new InvokeHandler(ScrollModelBaseSchema.CallScrollUp), false);
+            UIXMethodSchema uixMethodSchema3 = new UIXMethodSchema(183, "ScrollDown", null, 240, new InvokeHandler(ScrollModelBaseSchema.CallScrollDown), false);
+            UIXMethodSchema uixMethodSchema4 = new UIXMethodSchema(183, "PageUp", null, 240, new InvokeHandler(ScrollModelBaseSchema.CallPageUp), false);
+            UIXMethodSchema uixMethodSchema5 = new UIXMethodSchema(183, "PageDown", null, 240, new InvokeHandler(ScrollModelBaseSchema.CallPageDown), false);
+            UIXMethodSchema uixMethodSchema6 = new UIXMethodSchema(183, "Home", null, 240, new InvokeHandler(ScrollModelBaseSchema.CallHome), false);
+            UIXMethodSchema uixMethodSchema7 = new UIXMethodSchema(183, "End", null, 240, new InvokeHandler(ScrollModelBaseSchema.CallEnd), false);
+            UIXMethodSchema uixMethodSchema8 = new UIXMethodSchema(183, "ScrollToPosition", new short[1]
             {
-        (short) 194
-            }, (short)240, new InvokeHandler(ScrollModelBaseSchema.CallScrollToPositionSingle), false);
-            ScrollModelBaseSchema.Type.Initialize((DefaultConstructHandler)null, (ConstructorSchema[])null, new PropertySchema[7]
+         194
+            }, 240, new InvokeHandler(ScrollModelBaseSchema.CallScrollToPositionSingle), false);
+            ScrollModelBaseSchema.Type.Initialize(null, null, new PropertySchema[7]
             {
-        (PropertySchema) uixPropertySchema3,
-        (PropertySchema) uixPropertySchema2,
-        (PropertySchema) uixPropertySchema4,
-        (PropertySchema) uixPropertySchema1,
-        (PropertySchema) uixPropertySchema5,
-        (PropertySchema) uixPropertySchema7,
-        (PropertySchema) uixPropertySchema6
+         uixPropertySchema3,
+         uixPropertySchema2,
+         uixPropertySchema4,
+         uixPropertySchema1,
+         uixPropertySchema5,
+         uixPropertySchema7,
+         uixPropertySchema6
             }, new MethodSchema[8]
             {
-        (MethodSchema) uixMethodSchema1,
-        (MethodSchema) uixMethodSchema2,
-        (MethodSchema) uixMethodSchema3,
-        (MethodSchema) uixMethodSchema4,
-        (MethodSchema) uixMethodSchema5,
-        (MethodSchema) uixMethodSchema6,
-        (MethodSchema) uixMethodSchema7,
-        (MethodSchema) uixMethodSchema8
-            }, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixMethodSchema1,
+         uixMethodSchema2,
+         uixMethodSchema3,
+         uixMethodSchema4,
+         uixMethodSchema5,
+         uixMethodSchema6,
+         uixMethodSchema7,
+         uixMethodSchema8
+            }, null, null, null, null, null, null, null, null);
         }
     }
 }

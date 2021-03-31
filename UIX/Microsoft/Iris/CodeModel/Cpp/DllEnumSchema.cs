@@ -33,7 +33,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
                 if (nameToValue.Key != null)
                     val1 = Math.Max(val1, nameToValue.Key.Length);
             }
-            string.Format("{{0,{0}}} = 0x{{1:x8}}", (object)val1);
+            string.Format("{{0,{0}}} = 0x{{1:x8}}", val1);
             foreach (KeyValueEntry<string, int> nameToValue in this.NameToValueMap)
                 ;
         }
@@ -67,7 +67,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
         {
             char* name1;
             bool flag = this.CheckNativeReturn(NativeApi.SpQueryEnumName(this._nativeSchema, out name1));
-            name = !flag ? (string)null : new string(name1);
+            name = !flag ? null : new string(name1);
             return flag;
         }
 
@@ -76,8 +76,8 @@ namespace Microsoft.Iris.CodeModel.Cpp
         private unsafe bool QueryNamesAndValues(out string[] names, out int[] values)
         {
             bool flag1 = false;
-            names = (string[])null;
-            values = (int[])null;
+            names = null;
+            values = null;
             uint valueCount;
             if (this.CheckNativeReturn(NativeApi.SpQueryEnumValueCount(this._nativeSchema, out valueCount)))
             {
@@ -98,7 +98,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
                                 values[index] = num;
                             }
                             else
-                                ErrorManager.ReportError("Script runtime failure: Invalid 'null' value for '{0}'", (object)"Name");
+                                ErrorManager.ReportError("Script runtime failure: Invalid 'null' value for '{0}'", "Name");
                         }
                         else
                         {
@@ -121,13 +121,13 @@ namespace Microsoft.Iris.CodeModel.Cpp
 
         public object GetBoxedValue(int value) => this.EnumValueToObject(value);
 
-        protected override object EnumValueToObject(int value) => (object)new DllEnumProxy(this, value);
+        protected override object EnumValueToObject(int value) => new DllEnumProxy(this, value);
 
         protected override int ValueFromObject(object obj) => ((DllEnumProxy)obj).Value;
 
         public string InvokeToString(DllEnumProxy proxy)
         {
-            string str = (string)null;
+            string str = null;
             IntPtr result;
             if (this.CheckNativeReturn(NativeApi.SpInvokeEnumToString(this._nativeSchema, proxy.Value, out result)))
                 str = DllProxyServices.GetString(result);

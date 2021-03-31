@@ -13,27 +13,27 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object GetInput(object instanceObj) => (object)((EffectLayer)instanceObj).Input;
+        private static object GetInput(object instanceObj) => ((EffectLayer)instanceObj).Input;
 
         private static void SetInput(ref object instanceObj, object valueObj) => ((EffectLayer)instanceObj).Input = (EffectInput)valueObj;
 
-        private static object GetOperations(object instanceObj) => (object)((EffectLayer)instanceObj).Operations;
+        private static object GetOperations(object instanceObj) => ((EffectLayer)instanceObj).Operations;
 
         private static void SetOperations(ref object instanceObj, object valueObj) => ((EffectLayer)instanceObj).Operations = (IList)valueObj;
 
-        private static object Construct() => (object)new EffectLayer();
+        private static object Construct() => new EffectLayer();
 
-        public static void Pass1Initialize() => EffectLayerSchema.Type = new UIXTypeSchema((short)79, "EffectLayer", (string)null, (short)77, typeof(EffectLayer), UIXTypeFlags.None);
+        public static void Pass1Initialize() => EffectLayerSchema.Type = new UIXTypeSchema(79, "EffectLayer", null, 77, typeof(EffectLayer), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema((short)79, "Input", (short)77, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(EffectLayerSchema.GetInput), new SetValueHandler(EffectLayerSchema.SetInput), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema((short)79, "Operations", (short)138, (short)80, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(EffectLayerSchema.GetOperations), new SetValueHandler(EffectLayerSchema.SetOperations), false);
-            EffectLayerSchema.Type.Initialize(new DefaultConstructHandler(EffectLayerSchema.Construct), (ConstructorSchema[])null, new PropertySchema[2]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(79, "Input", 77, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(EffectLayerSchema.GetInput), new SetValueHandler(EffectLayerSchema.SetInput), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(79, "Operations", 138, 80, ExpressionRestriction.None, false, null, false, new GetValueHandler(EffectLayerSchema.GetOperations), new SetValueHandler(EffectLayerSchema.SetOperations), false);
+            EffectLayerSchema.Type.Initialize(new DefaultConstructHandler(EffectLayerSchema.Construct), null, new PropertySchema[2]
             {
-        (PropertySchema) uixPropertySchema1,
-        (PropertySchema) uixPropertySchema2
-            }, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixPropertySchema1,
+         uixPropertySchema2
+            }, null, null, null, null, null, null, null, null, null);
         }
     }
 }

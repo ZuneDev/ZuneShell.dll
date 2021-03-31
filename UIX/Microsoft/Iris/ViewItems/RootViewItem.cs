@@ -17,7 +17,7 @@ namespace Microsoft.Iris.ViewItems
 
         public RootViewItem(UIZone zone, UIClass rootUI, Form form)
         {
-            this.DeclareOwner((object)rootUI);
+            this.DeclareOwner(rootUI);
             this.PropagateZone(zone);
             IVisualContainer rootVisual = form.RootVisual;
             rootVisual.MouseOptions = MouseOptions.Traversable;
@@ -27,8 +27,8 @@ namespace Microsoft.Iris.ViewItems
         internal void ApplyRootLayoutOutput(bool parentFullyVisibleFlag, out bool visibilityChangeFlag)
         {
             Rectangle layoutBounds = this.LayoutBounds;
-            this.VisualPosition = new Vector3((float)layoutBounds.Left, (float)layoutBounds.Top, 0.0f);
-            this.VisualSize = new Vector2((float)layoutBounds.Width, (float)layoutBounds.Height);
+            this.VisualPosition = new Vector3(layoutBounds.Left, layoutBounds.Top, 0.0f);
+            this.VisualSize = new Vector2(layoutBounds.Width, layoutBounds.Height);
             this.VisualScale = this.LayoutScale;
             if (this.LayoutVisible)
                 parentFullyVisibleFlag = false;

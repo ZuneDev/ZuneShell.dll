@@ -12,31 +12,31 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object GetTime(object instanceObj) => (object)((BaseKeyframe)instanceObj).Time;
+        private static object GetTime(object instanceObj) => ((BaseKeyframe)instanceObj).Time;
 
         private static void SetTime(ref object instanceObj, object valueObj) => ((BaseKeyframe)instanceObj).Time = (float)valueObj;
 
-        private static object GetRelativeTo(object instanceObj) => (object)((BaseKeyframe)instanceObj).RelativeTo;
+        private static object GetRelativeTo(object instanceObj) => ((BaseKeyframe)instanceObj).RelativeTo;
 
         private static void SetRelativeTo(ref object instanceObj, object valueObj) => ((BaseKeyframe)instanceObj).RelativeTo = (RelativeTo)valueObj;
 
-        private static object GetInterpolation(object instanceObj) => (object)((BaseKeyframe)instanceObj).Interpolation;
+        private static object GetInterpolation(object instanceObj) => ((BaseKeyframe)instanceObj).Interpolation;
 
         private static void SetInterpolation(ref object instanceObj, object valueObj) => ((BaseKeyframe)instanceObj).Interpolation = (Interpolation)valueObj;
 
-        public static void Pass1Initialize() => KeyframeSchema.Type = new UIXTypeSchema((short)130, "Keyframe", (string)null, (short)153, typeof(BaseKeyframe), UIXTypeFlags.None);
+        public static void Pass1Initialize() => KeyframeSchema.Type = new UIXTypeSchema(130, "Keyframe", null, 153, typeof(BaseKeyframe), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema((short)130, "Time", (short)194, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(KeyframeSchema.GetTime), new SetValueHandler(KeyframeSchema.SetTime), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema((short)130, "RelativeTo", (short)171, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(KeyframeSchema.GetRelativeTo), new SetValueHandler(KeyframeSchema.SetRelativeTo), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema((short)130, "Interpolation", (short)121, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(KeyframeSchema.GetInterpolation), new SetValueHandler(KeyframeSchema.SetInterpolation), false);
-            KeyframeSchema.Type.Initialize((DefaultConstructHandler)null, (ConstructorSchema[])null, new PropertySchema[3]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(130, "Time", 194, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(KeyframeSchema.GetTime), new SetValueHandler(KeyframeSchema.SetTime), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(130, "RelativeTo", 171, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(KeyframeSchema.GetRelativeTo), new SetValueHandler(KeyframeSchema.SetRelativeTo), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(130, "Interpolation", 121, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(KeyframeSchema.GetInterpolation), new SetValueHandler(KeyframeSchema.SetInterpolation), false);
+            KeyframeSchema.Type.Initialize(null, null, new PropertySchema[3]
             {
-        (PropertySchema) uixPropertySchema3,
-        (PropertySchema) uixPropertySchema2,
-        (PropertySchema) uixPropertySchema1
-            }, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixPropertySchema3,
+         uixPropertySchema2,
+         uixPropertySchema1
+            }, null, null, null, null, null, null, null, null, null);
         }
     }
 }

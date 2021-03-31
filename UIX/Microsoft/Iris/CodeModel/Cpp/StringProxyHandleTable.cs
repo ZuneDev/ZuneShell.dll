@@ -53,7 +53,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
             {
                 string str;
                 this.LookupByHandle(handle, out str);
-                stringPinState._gcHandle = GCHandle.Alloc((object)str, GCHandleType.Pinned);
+                stringPinState._gcHandle = GCHandle.Alloc(str, GCHandleType.Pinned);
                 stringPinState._pinCount = 1;
             }
             StringProxyHandleTable.s_pinnedStrings[handle] = stringPinState;

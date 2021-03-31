@@ -80,9 +80,9 @@ namespace Microsoft.Iris.Markup
 
         public unsafe string ReadString()
         {
-            uint num1 = (uint)this.ReadUInt16();
-            if (num1 == (uint)ushort.MaxValue)
-                return (string)null;
+            uint num1 = this.ReadUInt16();
+            if (num1 == ushort.MaxValue)
+                return null;
             bool flag;
             uint num2;
             if (((int)num1 & 32768) != 0)
@@ -98,16 +98,16 @@ namespace Microsoft.Iris.Markup
             }
             if (this.CurrentOffset + num2 > this.Size)
                 this.ThrowReadError();
-            char[] chArray = (long)num1 >= (long)ByteCodeReader.s_scratchCharArray.Length ? new char[num1] : ByteCodeReader.s_scratchCharArray;
+            char[] chArray = num1 >= s_scratchCharArray.Length ? new char[num1] : ByteCodeReader.s_scratchCharArray;
             byte* numPtr1 = (byte*)(_buffer.ToInt32() + (int)CurrentOffset);
             if (flag)
             {
-                for (int index = 0; (long)index < (long)num1; ++index)
+                for (int index = 0; index < num1; ++index)
                     chArray[index] = (char)*numPtr1++;
             }
             else
             {
-                for (int index = 0; (long)index < (long)num1; ++index)
+                for (int index = 0; index < num1; ++index)
                 {
                     byte* numPtr2 = numPtr1;
                     byte* numPtr3 = numPtr2 + 1;
@@ -115,7 +115,7 @@ namespace Microsoft.Iris.Markup
                     byte* numPtr4 = numPtr3;
                     numPtr1 = numPtr4 + 1;
                     byte num4 = *numPtr4;
-                    chArray[index] = (char)((uint)num3 | (uint)num4 << 8);
+                    chArray[index] = (char)(num3 | (uint)num4 << 8);
                 }
             }
             _reader.BaseStream.Seek(num2, SeekOrigin.Current);

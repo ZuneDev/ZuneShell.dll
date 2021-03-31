@@ -32,7 +32,7 @@ namespace Microsoft.Iris.Markup.Validation
             {
                 if (allowTypeSymbols)
                 {
-                    ValidateTypeIdentifier validateTypeIdentifier = new ValidateTypeIdentifier(this.Owner, (string)null, this._symbol, this.Line, this.Column);
+                    ValidateTypeIdentifier validateTypeIdentifier = new ValidateTypeIdentifier(this.Owner, null, this._symbol, this.Line, this.Column);
                     validateTypeIdentifier.Validate();
                     if (validateTypeIdentifier.HasErrors)
                     {

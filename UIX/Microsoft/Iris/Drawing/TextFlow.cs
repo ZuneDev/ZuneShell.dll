@@ -35,12 +35,12 @@ namespace Microsoft.Iris.Drawing
             {
                 if (this._runsList is TextRun runsList)
                 {
-                    runsList.UnregisterUsage((object)this);
+                    runsList.UnregisterUsage(this);
                 }
                 else
                 {
                     foreach (SharedDisposableObject runs in (Vector)this._runsList)
-                        runs.UnregisterUsage((object)this);
+                        runs.UnregisterUsage(this);
                 }
             }
             base.OnDispose();
@@ -104,9 +104,9 @@ namespace Microsoft.Iris.Drawing
             this._bounds = Rectangle.Union(this._bounds, run.LayoutBounds);
             if (this._runsList == null)
             {
-                this._runsList = (object)run;
+                this._runsList = run;
                 this._lineBounds = new Vector();
-                this._lineBounds.Add((object)run.RenderBounds);
+                this._lineBounds.Add(run.RenderBounds);
             }
             else
             {
@@ -115,7 +115,7 @@ namespace Microsoft.Iris.Drawing
                     object runsList = this._runsList;
                     vector = new Vector();
                     vector.Add(runsList);
-                    this._runsList = (object)vector;
+                    this._runsList = vector;
                 }
                 if (run.UnderlineStyle != NativeApi.UnderlineStyle.None)
                 {
@@ -133,17 +133,17 @@ namespace Microsoft.Iris.Drawing
                 }
                 if (this._lineBounds.Count < run.Line)
                 {
-                    this._lineBounds.Add((object)run.RenderBounds);
+                    this._lineBounds.Add(run.RenderBounds);
                 }
                 else
                 {
                     RectangleF lineBound = (RectangleF)this._lineBounds[run.Line - 1];
                     if ((int)lineBound.Y > (int)run.RenderBounds.Y || lineBound.IsEmpty)
-                        this._lineBounds[run.Line - 1] = (object)run.RenderBounds;
+                        this._lineBounds[run.Line - 1] = run.RenderBounds;
                 }
-                vector.Add((object)run);
+                vector.Add(run);
             }
-            run.RegisterUsage((object)this);
+            run.RegisterUsage(this);
         }
 
         public void AddFit(TextRun run)
@@ -166,7 +166,7 @@ namespace Microsoft.Iris.Drawing
 
         public void ResetFitTracking()
         {
-            this._lastFitRun = (TextRun)null;
+            this._lastFitRun = null;
             this._fitBounds = new Rectangle(int.MaxValue, int.MaxValue, int.MinValue, int.MinValue);
         }
 
@@ -182,15 +182,15 @@ namespace Microsoft.Iris.Drawing
                 return;
             if (this._runsList is TextRun runsList)
             {
-                runsList.TextSprite = (ISprite)null;
-                runsList.HighlightSprite = (ISprite)null;
+                runsList.TextSprite = null;
+                runsList.HighlightSprite = null;
             }
             else
             {
                 foreach (TextRun runs in (Vector)this._runsList)
                 {
-                    runs.TextSprite = (ISprite)null;
-                    runs.HighlightSprite = (ISprite)null;
+                    runs.TextSprite = null;
+                    runs.HighlightSprite = null;
                 }
             }
         }

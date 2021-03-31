@@ -21,44 +21,44 @@ namespace Microsoft.Iris.CodeModel.Cpp
             switch (inboundObject._type)
             {
                 case UIXVariant.VariantType.Empty:
-                    return (object)null;
+                    return null;
                 case UIXVariant.VariantType.Bool:
-                    return (object)(inboundObject._integer != 0L);
+                    return inboundObject._integer != 0L;
                 case UIXVariant.VariantType.Byte:
-                    return (object)(byte)inboundObject._integer;
+                    return (byte)inboundObject._integer;
                 case UIXVariant.VariantType.Int32:
-                    return (object)(int)inboundObject._integer;
+                    return (int)inboundObject._integer;
                 case UIXVariant.VariantType.Int64:
-                    return (object)inboundObject._integer;
+                    return inboundObject._integer;
                 case UIXVariant.VariantType.Single:
-                    return (object)inboundObject._float;
+                    return inboundObject._float;
                 case UIXVariant.VariantType.Double:
-                    return (object)inboundObject._double;
+                    return inboundObject._double;
                 case UIXVariant.VariantType.Enum:
                     return UIXVariant.GetEnumValue(inboundObject._enum._value, inboundObject._enum._type);
                 case UIXVariant.VariantType.UIXObject:
                     return UIXVariant.GetObjectValue(inboundObject._pointer, context);
                 case UIXVariant.VariantType.UIXString:
-                    return (object)DllProxyServices.GetString(inboundObject._pointer);
+                    return DllProxyServices.GetString(inboundObject._pointer);
                 case UIXVariant.VariantType.UIXImage:
-                    return (object)DllProxyServices.GetImage(inboundObject._pointer);
+                    return DllProxyServices.GetImage(inboundObject._pointer);
                 case UIXVariant.VariantType.UIXDataQuery:
-                    return (object)DllProxyServices.GetDataQuery(inboundObject._pointer);
+                    return DllProxyServices.GetDataQuery(inboundObject._pointer);
                 case UIXVariant.VariantType.UIXDataType:
-                    return (object)DllProxyServices.GetDataType(inboundObject._pointer);
+                    return DllProxyServices.GetDataType(inboundObject._pointer);
                 default:
-                    return (object)null;
+                    return null;
             }
         }
 
-        private static object GetEnumValue(int enumValue, uint typeID) => DllLoadResult.MapType(typeID) is DllEnumSchema dllEnumSchema ? dllEnumSchema.GetBoxedValue(enumValue) : (object)null;
+        private static object GetEnumValue(int enumValue, uint typeID) => DllLoadResult.MapType(typeID) is DllEnumSchema dllEnumSchema ? dllEnumSchema.GetBoxedValue(enumValue) : null;
 
         private static object GetObjectValue(IntPtr value, LoadResult context)
         {
-            object obj = (object)null;
+            object obj = null;
             DllLoadResult.PushContext(context);
             if (value != IntPtr.Zero)
-                obj = (object)DllProxyObject.Wrap(value);
+                obj = DllProxyObject.Wrap(value);
             DllLoadResult.PopContext();
             return obj;
         }
@@ -80,10 +80,10 @@ namespace Microsoft.Iris.CodeModel.Cpp
                     destination->SetIntegerValue(flag ? 1L : 0L, UIXVariant.VariantType.Bool);
                     break;
                 case byte num:
-                    destination->SetIntegerValue((long)num, UIXVariant.VariantType.Byte);
+                    destination->SetIntegerValue(num, UIXVariant.VariantType.Byte);
                     break;
                 case int num:
-                    destination->SetIntegerValue((long)num, UIXVariant.VariantType.Int32);
+                    destination->SetIntegerValue(num, UIXVariant.VariantType.Int32);
                     break;
                 case long num:
                     destination->SetIntegerValue(num, UIXVariant.VariantType.Int64);

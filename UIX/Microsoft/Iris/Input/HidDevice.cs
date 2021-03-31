@@ -15,7 +15,7 @@ namespace Microsoft.Iris.Input
 
         internal KeyCommandInfo OnRawInput(CommandCode command, ref RawHidData args)
         {
-            KeyCommandInfo keyCommandInfo = (KeyCommandInfo)null;
+            KeyCommandInfo keyCommandInfo = null;
             if (command != CommandCode.None)
                 keyCommandInfo = KeyCommandInfo.Create(args._action, args._deviceType, command);
             return keyCommandInfo;

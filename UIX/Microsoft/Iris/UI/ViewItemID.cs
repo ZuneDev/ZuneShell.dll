@@ -17,7 +17,7 @@ namespace Microsoft.Iris.UI
         public ViewItemID(int id)
         {
             this._id = id;
-            this._stringPart = (string)null;
+            this._stringPart = null;
         }
 
         public ViewItemID(string stringPart)
@@ -44,7 +44,7 @@ namespace Microsoft.Iris.UI
         {
             if (!this.StringPartValid)
                 return this._id.ToString();
-            return !this.IDValid ? this._stringPart : InvariantString.Format("{0} {1}", (object)this._stringPart, (object)this._id);
+            return !this.IDValid ? this._stringPart : InvariantString.Format("{0} {1}", _stringPart, _id);
         }
     }
 }

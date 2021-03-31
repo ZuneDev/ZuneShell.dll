@@ -38,7 +38,7 @@ namespace Microsoft.Iris.Markup.Validation
         {
             if (this.Usage == ExpressionUsage.LValue)
                 this.ReportError("Expression cannot be used as the target an assignment (related symbol: '{0}')", "Ternary");
-            this._condition.Validate(new TypeRestriction((TypeSchema)BooleanSchema.Type), context);
+            this._condition.Validate(new TypeRestriction(BooleanSchema.Type), context);
             if (this._condition.HasErrors)
                 this.MarkHasErrors();
             this._trueClause.Validate(typeRestriction, context);

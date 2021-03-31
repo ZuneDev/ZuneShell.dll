@@ -19,24 +19,24 @@ namespace Microsoft.Iris.Markup.UIX
         private static object CallReset(object instanceObj, object[] parameters)
         {
             ((IEnumerator)instanceObj).Reset();
-            return (object)null;
+            return null;
         }
 
-        public static void Pass1Initialize() => EnumeratorSchema.Type = new UIXTypeSchema((short)86, "Enumerator", (string)null, (short)153, typeof(IEnumerator), UIXTypeFlags.None);
+        public static void Pass1Initialize() => EnumeratorSchema.Type = new UIXTypeSchema(86, "Enumerator", null, 153, typeof(IEnumerator), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema = new UIXPropertySchema((short)86, "Current", (short)153, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(EnumeratorSchema.GetCurrent), (SetValueHandler)null, false);
-            UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema((short)86, "MoveNext", (short[])null, (short)15, new InvokeHandler(EnumeratorSchema.CallMoveNext), false);
-            UIXMethodSchema uixMethodSchema2 = new UIXMethodSchema((short)86, "Reset", (short[])null, (short)240, new InvokeHandler(EnumeratorSchema.CallReset), false);
-            EnumeratorSchema.Type.Initialize((DefaultConstructHandler)null, (ConstructorSchema[])null, new PropertySchema[1]
+            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(86, "Current", 153, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(EnumeratorSchema.GetCurrent), null, false);
+            UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema(86, "MoveNext", null, 15, new InvokeHandler(EnumeratorSchema.CallMoveNext), false);
+            UIXMethodSchema uixMethodSchema2 = new UIXMethodSchema(86, "Reset", null, 240, new InvokeHandler(EnumeratorSchema.CallReset), false);
+            EnumeratorSchema.Type.Initialize(null, null, new PropertySchema[1]
             {
-        (PropertySchema) uixPropertySchema
+         uixPropertySchema
             }, new MethodSchema[2]
             {
-        (MethodSchema) uixMethodSchema1,
-        (MethodSchema) uixMethodSchema2
-            }, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixMethodSchema1,
+         uixMethodSchema2
+            }, null, null, null, null, null, null, null, null);
         }
     }
 }

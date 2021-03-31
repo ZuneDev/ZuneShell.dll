@@ -28,7 +28,7 @@ namespace Microsoft.Iris.Markup.UIX
                 ErrorManager.ReportError(error);
         }
 
-        private static object GetChosenIndex(object instanceObj) => (object)((IUIChoice)instanceObj).ChosenIndex;
+        private static object GetChosenIndex(object instanceObj) => ((IUIChoice)instanceObj).ChosenIndex;
 
         private static void SetChosenIndex(ref object instanceObj, object valueObj)
         {
@@ -41,11 +41,11 @@ namespace Microsoft.Iris.Markup.UIX
                 ErrorManager.ReportError(error);
         }
 
-        private static object GetDefaultIndex(object instanceObj) => (object)((IUIChoice)instanceObj).DefaultIndex;
+        private static object GetDefaultIndex(object instanceObj) => ((IUIChoice)instanceObj).DefaultIndex;
 
         private static void SetDefaultIndex(ref object instanceObj, object valueObj) => ((IUIChoice)instanceObj).DefaultIndex = (int)valueObj;
 
-        private static object GetOptions(object instanceObj) => (object)((IUIChoice)instanceObj).Options;
+        private static object GetOptions(object instanceObj) => ((IUIChoice)instanceObj).Options;
 
         private static void SetOptions(ref object instanceObj, object valueObj)
         {
@@ -68,87 +68,87 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object GetHasNextValue(object instanceObj) => BooleanBoxes.Box(((IUIValueRange)instanceObj).HasNextValue);
 
-        private static object Construct() => (object)new Microsoft.Iris.ModelItems.Choice();
+        private static object Construct() => new Microsoft.Iris.ModelItems.Choice();
 
         private static object CallPreviousValue(object instanceObj, object[] parameters)
         {
             ((IUIValueRange)instanceObj).PreviousValue();
-            return (object)null;
+            return null;
         }
 
         private static object CallPreviousValueBoolean(object instanceObj, object[] parameters)
         {
             ((IUIChoice)instanceObj).PreviousValue((bool)parameters[0]);
-            return (object)null;
+            return null;
         }
 
         private static object CallNextValue(object instanceObj, object[] parameters)
         {
             ((IUIValueRange)instanceObj).NextValue();
-            return (object)null;
+            return null;
         }
 
         private static object CallNextValueBoolean(object instanceObj, object[] parameters)
         {
             ((IUIChoice)instanceObj).NextValue((bool)parameters[0]);
-            return (object)null;
+            return null;
         }
 
         private static object CallDefaultValue(object instanceObj, object[] parameters)
         {
             ((IUIChoice)instanceObj).DefaultValue();
-            return (object)null;
+            return null;
         }
 
         private static object CallClear(object instanceObj, object[] parameters)
         {
             ((IUIChoice)instanceObj).Clear();
-            return (object)null;
+            return null;
         }
 
-        public static void Pass1Initialize() => ChoiceSchema.Type = new UIXTypeSchema((short)28, "Choice", (string)null, (short)231, typeof(IUIChoice), UIXTypeFlags.Disposable);
+        public static void Pass1Initialize() => ChoiceSchema.Type = new UIXTypeSchema(28, "Choice", null, 231, typeof(IUIChoice), UIXTypeFlags.Disposable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema((short)28, "ChosenValue", (short)153, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ChoiceSchema.GetChosenValue), new SetValueHandler(ChoiceSchema.SetChosenValue), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema((short)28, "ChosenIndex", (short)115, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ChoiceSchema.GetChosenIndex), new SetValueHandler(ChoiceSchema.SetChosenIndex), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema((short)28, "DefaultIndex", (short)115, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ChoiceSchema.GetDefaultIndex), new SetValueHandler(ChoiceSchema.SetDefaultIndex), false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema((short)28, "Options", (short)138, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ChoiceSchema.GetOptions), new SetValueHandler(ChoiceSchema.SetOptions), false);
-            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema((short)28, "HasSelection", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ChoiceSchema.GetHasSelection), (SetValueHandler)null, false);
-            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema((short)28, "Wrap", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ChoiceSchema.GetWrap), new SetValueHandler(ChoiceSchema.SetWrap), false);
-            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema((short)28, "HasPreviousValue", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ChoiceSchema.GetHasPreviousValue), (SetValueHandler)null, false);
-            UIXPropertySchema uixPropertySchema8 = new UIXPropertySchema((short)28, "HasNextValue", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ChoiceSchema.GetHasNextValue), (SetValueHandler)null, false);
-            UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema((short)28, "PreviousValue", (short[])null, (short)240, new InvokeHandler(ChoiceSchema.CallPreviousValue), false);
-            UIXMethodSchema uixMethodSchema2 = new UIXMethodSchema((short)28, "PreviousValue", new short[1]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(28, "ChosenValue", 153, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ChoiceSchema.GetChosenValue), new SetValueHandler(ChoiceSchema.SetChosenValue), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(28, "ChosenIndex", 115, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ChoiceSchema.GetChosenIndex), new SetValueHandler(ChoiceSchema.SetChosenIndex), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(28, "DefaultIndex", 115, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ChoiceSchema.GetDefaultIndex), new SetValueHandler(ChoiceSchema.SetDefaultIndex), false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(28, "Options", 138, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ChoiceSchema.GetOptions), new SetValueHandler(ChoiceSchema.SetOptions), false);
+            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(28, "HasSelection", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ChoiceSchema.GetHasSelection), null, false);
+            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(28, "Wrap", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ChoiceSchema.GetWrap), new SetValueHandler(ChoiceSchema.SetWrap), false);
+            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema(28, "HasPreviousValue", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ChoiceSchema.GetHasPreviousValue), null, false);
+            UIXPropertySchema uixPropertySchema8 = new UIXPropertySchema(28, "HasNextValue", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ChoiceSchema.GetHasNextValue), null, false);
+            UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema(28, "PreviousValue", null, 240, new InvokeHandler(ChoiceSchema.CallPreviousValue), false);
+            UIXMethodSchema uixMethodSchema2 = new UIXMethodSchema(28, "PreviousValue", new short[1]
             {
-        (short) 15
-            }, (short)240, new InvokeHandler(ChoiceSchema.CallPreviousValueBoolean), false);
-            UIXMethodSchema uixMethodSchema3 = new UIXMethodSchema((short)28, "NextValue", (short[])null, (short)240, new InvokeHandler(ChoiceSchema.CallNextValue), false);
-            UIXMethodSchema uixMethodSchema4 = new UIXMethodSchema((short)28, "NextValue", new short[1]
+         15
+            }, 240, new InvokeHandler(ChoiceSchema.CallPreviousValueBoolean), false);
+            UIXMethodSchema uixMethodSchema3 = new UIXMethodSchema(28, "NextValue", null, 240, new InvokeHandler(ChoiceSchema.CallNextValue), false);
+            UIXMethodSchema uixMethodSchema4 = new UIXMethodSchema(28, "NextValue", new short[1]
             {
-        (short) 15
-            }, (short)240, new InvokeHandler(ChoiceSchema.CallNextValueBoolean), false);
-            UIXMethodSchema uixMethodSchema5 = new UIXMethodSchema((short)28, "DefaultValue", (short[])null, (short)240, new InvokeHandler(ChoiceSchema.CallDefaultValue), false);
-            UIXMethodSchema uixMethodSchema6 = new UIXMethodSchema((short)28, "Clear", (short[])null, (short)240, new InvokeHandler(ChoiceSchema.CallClear), false);
-            ChoiceSchema.Type.Initialize(new DefaultConstructHandler(ChoiceSchema.Construct), (ConstructorSchema[])null, new PropertySchema[8]
+         15
+            }, 240, new InvokeHandler(ChoiceSchema.CallNextValueBoolean), false);
+            UIXMethodSchema uixMethodSchema5 = new UIXMethodSchema(28, "DefaultValue", null, 240, new InvokeHandler(ChoiceSchema.CallDefaultValue), false);
+            UIXMethodSchema uixMethodSchema6 = new UIXMethodSchema(28, "Clear", null, 240, new InvokeHandler(ChoiceSchema.CallClear), false);
+            ChoiceSchema.Type.Initialize(new DefaultConstructHandler(ChoiceSchema.Construct), null, new PropertySchema[8]
             {
-        (PropertySchema) uixPropertySchema2,
-        (PropertySchema) uixPropertySchema1,
-        (PropertySchema) uixPropertySchema3,
-        (PropertySchema) uixPropertySchema8,
-        (PropertySchema) uixPropertySchema7,
-        (PropertySchema) uixPropertySchema5,
-        (PropertySchema) uixPropertySchema4,
-        (PropertySchema) uixPropertySchema6
+         uixPropertySchema2,
+         uixPropertySchema1,
+         uixPropertySchema3,
+         uixPropertySchema8,
+         uixPropertySchema7,
+         uixPropertySchema5,
+         uixPropertySchema4,
+         uixPropertySchema6
             }, new MethodSchema[6]
             {
-        (MethodSchema) uixMethodSchema1,
-        (MethodSchema) uixMethodSchema2,
-        (MethodSchema) uixMethodSchema3,
-        (MethodSchema) uixMethodSchema4,
-        (MethodSchema) uixMethodSchema5,
-        (MethodSchema) uixMethodSchema6
-            }, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixMethodSchema1,
+         uixMethodSchema2,
+         uixMethodSchema3,
+         uixMethodSchema4,
+         uixMethodSchema5,
+         uixMethodSchema6
+            }, null, null, null, null, null, null, null, null);
         }
     }
 }

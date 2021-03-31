@@ -26,17 +26,17 @@ namespace Microsoft.Iris
         }
 
         public Command(IModelItemOwner owner, EventHandler invokedHandler)
-          : this(owner, (string)null, invokedHandler)
+          : this(owner, null, invokedHandler)
         {
         }
 
         public Command(IModelItemOwner owner)
-          : this(owner, (string)null, (EventHandler)null)
+          : this(owner, null, null)
         {
         }
 
         public Command()
-          : this((IModelItemOwner)null)
+          : this(null)
         {
         }
 
@@ -102,7 +102,7 @@ namespace Microsoft.Iris
                 return;
             this.FirePropertyChanged("Invoked");
             if (this.GetEventHandler(Command.s_invokedEvent) is EventHandler eventHandler)
-                eventHandler((object)this, EventArgs.Empty);
+                eventHandler(this, EventArgs.Empty);
             this.OnInvoked();
         }
 
@@ -111,12 +111,12 @@ namespace Microsoft.Iris
             add
             {
                 using (this.ThreadValidator)
-                    this.AddEventHandler(Command.s_invokedEvent, (Delegate)value);
+                    this.AddEventHandler(Command.s_invokedEvent, value);
             }
             remove
             {
                 using (this.ThreadValidator)
-                    this.RemoveEventHandler(Command.s_invokedEvent, (Delegate)value);
+                    this.RemoveEventHandler(Command.s_invokedEvent, value);
             }
         }
 

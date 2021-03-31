@@ -25,7 +25,7 @@ namespace Microsoft.Iris.Markup.Validation
           : base(owner, line, column, ExpressionType.New)
         {
             if (parameterList == ValidateParameter.EmptyList)
-                parameterList = (ValidateParameter)null;
+                parameterList = null;
             this._constructType = constructType;
             this._parameterList = parameterList;
         }

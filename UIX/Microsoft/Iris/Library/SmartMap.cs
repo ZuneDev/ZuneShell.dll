@@ -30,7 +30,7 @@ namespace Microsoft.Iris.Library
             get
             {
                 int index = this.IndexOf(key);
-                return index < 0 ? (object)null : this._listEntries[index].dataObject;
+                return index < 0 ? null : this._listEntries[index].dataObject;
             }
             set
             {
@@ -55,7 +55,7 @@ namespace Microsoft.Iris.Library
         {
             get
             {
-                uint[] numArray = (uint[])null;
+                uint[] numArray = null;
                 if (this._listEntries != null)
                 {
                     numArray = new uint[this._listEntries.Length];
@@ -70,7 +70,7 @@ namespace Microsoft.Iris.Library
         {
             get
             {
-                object[] objArray = (object[])null;
+                object[] objArray = null;
                 if (this._listEntries != null)
                 {
                     objArray = new object[this._listEntries.Length];
@@ -148,8 +148,8 @@ namespace Microsoft.Iris.Library
             {
                 int length = this._listEntries.Length;
                 entryArray = new SmartMap.Entry[length + 1];
-                Array.Copy((Array)this._listEntries, (Array)entryArray, slotIndex);
-                Array.Copy((Array)this._listEntries, slotIndex, (Array)entryArray, slotIndex + 1, length - slotIndex);
+                Array.Copy(_listEntries, entryArray, slotIndex);
+                Array.Copy(_listEntries, slotIndex, entryArray, slotIndex + 1, length - slotIndex);
             }
             this._listEntries = entryArray;
             this._listEntries[slotIndex].key = key;
@@ -162,12 +162,12 @@ namespace Microsoft.Iris.Library
             if (length > 0)
             {
                 SmartMap.Entry[] entryArray = new SmartMap.Entry[length - 1];
-                Array.Copy((Array)this._listEntries, (Array)entryArray, slotIndex);
-                Array.Copy((Array)this._listEntries, slotIndex + 1, (Array)entryArray, slotIndex, length - (slotIndex + 1));
+                Array.Copy(_listEntries, entryArray, slotIndex);
+                Array.Copy(_listEntries, slotIndex + 1, entryArray, slotIndex, length - (slotIndex + 1));
                 this._listEntries = entryArray;
             }
             else
-                this._listEntries = (SmartMap.Entry[])null;
+                this._listEntries = null;
         }
 
         private struct Entry

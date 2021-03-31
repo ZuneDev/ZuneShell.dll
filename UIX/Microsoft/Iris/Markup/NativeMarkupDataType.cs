@@ -35,7 +35,7 @@ namespace Microsoft.Iris.Markup
           : base(type)
         {
             this._externalObject = externalObject;
-            this._handleToMe = NativeMarkupDataType.s_handleTable.RegisterProxy((object)this);
+            this._handleToMe = NativeMarkupDataType.s_handleTable.RegisterProxy(this);
             this._typeHandle = type.UniqueId;
             NativeApi.SpAddRefExternalObject(this._externalObject);
             int num = (int)NativeApi.SpDataBaseObjectSetInternalHandle(this._externalObject, this._handleToMe);
@@ -45,7 +45,7 @@ namespace Microsoft.Iris.Markup
         protected override void OnDispose()
         {
             NativeMarkupDataType.ReleaseNativeObject(this._externalObject, this._handleToMe, this._typeHandle);
-            GC.SuppressFinalize((object)this);
+            GC.SuppressFinalize(this);
             base.OnDispose();
         }
 
@@ -104,8 +104,8 @@ namespace Microsoft.Iris.Markup
             NativeMarkupDataType.s_pendingAppThreadRelease = true;
             GC.Collect();
             GC.WaitForPendingFinalizers();
-            foreach (IDisposableObject disposableObject in (DllProxyHandleTable)NativeMarkupDataType.s_handleTable)
-                disposableObject.Dispose((object)disposableObject);
+            foreach (IDisposableObject disposableObject in s_handleTable)
+                disposableObject.Dispose(disposableObject);
             NativeMarkupDataType.ReleaseFinalizedObjects();
         }
 
@@ -115,7 +115,7 @@ namespace Microsoft.Iris.Markup
             lock (NativeMarkupDataType.s_finalizeLock)
             {
                 pendingReleases = NativeMarkupDataType.s_pendingReleases;
-                NativeMarkupDataType.s_pendingReleases = (Vector<NativeMarkupDataType.AppThreadReleaseEntry>)null;
+                NativeMarkupDataType.s_pendingReleases = null;
                 NativeMarkupDataType.s_pendingAppThreadRelease = false;
             }
             if (pendingReleases == null || pendingReleases.Count == 0)

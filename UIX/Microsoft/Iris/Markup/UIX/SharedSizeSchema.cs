@@ -15,7 +15,7 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object GetMaximumSize(object instanceObj) => (object)((SharedSize)instanceObj).MaximumSize;
+        private static object GetMaximumSize(object instanceObj) => ((SharedSize)instanceObj).MaximumSize;
 
         private static void SetMaximumSize(ref object instanceObj, object valueObj)
         {
@@ -28,7 +28,7 @@ namespace Microsoft.Iris.Markup.UIX
                 sharedSize.MaximumSize = size;
         }
 
-        private static object GetMinimumSize(object instanceObj) => (object)((SharedSize)instanceObj).MinimumSize;
+        private static object GetMinimumSize(object instanceObj) => ((SharedSize)instanceObj).MinimumSize;
 
         private static void SetMinimumSize(ref object instanceObj, object valueObj)
         {
@@ -41,7 +41,7 @@ namespace Microsoft.Iris.Markup.UIX
                 sharedSize.MinimumSize = size;
         }
 
-        private static object GetSize(object instanceObj) => (object)((SharedSize)instanceObj).Size;
+        private static object GetSize(object instanceObj) => ((SharedSize)instanceObj).Size;
 
         private static void SetSize(ref object instanceObj, object valueObj)
         {
@@ -54,31 +54,31 @@ namespace Microsoft.Iris.Markup.UIX
                 sharedSize.Size = size;
         }
 
-        private static object Construct() => (object)new SharedSize();
+        private static object Construct() => new SharedSize();
 
         private static object CallAutoSize(object instanceObj, object[] parameters)
         {
             ((SharedSize)instanceObj).AutoSize();
-            return (object)null;
+            return null;
         }
 
-        public static void Pass1Initialize() => SharedSizeSchema.Type = new UIXTypeSchema((short)190, "SharedSize", (string)null, (short)153, typeof(SharedSize), UIXTypeFlags.None);
+        public static void Pass1Initialize() => SharedSizeSchema.Type = new UIXTypeSchema(190, "SharedSize", null, 153, typeof(SharedSize), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema((short)190, "MaximumSize", (short)195, (short)-1, ExpressionRestriction.None, false, SizeSchema.ValidateNotNegative, true, new GetValueHandler(SharedSizeSchema.GetMaximumSize), new SetValueHandler(SharedSizeSchema.SetMaximumSize), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema((short)190, "MinimumSize", (short)195, (short)-1, ExpressionRestriction.None, false, SizeSchema.ValidateNotNegative, true, new GetValueHandler(SharedSizeSchema.GetMinimumSize), new SetValueHandler(SharedSizeSchema.SetMinimumSize), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema((short)190, "Size", (short)195, (short)-1, ExpressionRestriction.None, false, SizeSchema.ValidateNotNegative, true, new GetValueHandler(SharedSizeSchema.GetSize), new SetValueHandler(SharedSizeSchema.SetSize), false);
-            UIXMethodSchema uixMethodSchema = new UIXMethodSchema((short)190, "AutoSize", (short[])null, (short)240, new InvokeHandler(SharedSizeSchema.CallAutoSize), false);
-            SharedSizeSchema.Type.Initialize(new DefaultConstructHandler(SharedSizeSchema.Construct), (ConstructorSchema[])null, new PropertySchema[3]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(190, "MaximumSize", 195, -1, ExpressionRestriction.None, false, SizeSchema.ValidateNotNegative, true, new GetValueHandler(SharedSizeSchema.GetMaximumSize), new SetValueHandler(SharedSizeSchema.SetMaximumSize), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(190, "MinimumSize", 195, -1, ExpressionRestriction.None, false, SizeSchema.ValidateNotNegative, true, new GetValueHandler(SharedSizeSchema.GetMinimumSize), new SetValueHandler(SharedSizeSchema.SetMinimumSize), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(190, "Size", 195, -1, ExpressionRestriction.None, false, SizeSchema.ValidateNotNegative, true, new GetValueHandler(SharedSizeSchema.GetSize), new SetValueHandler(SharedSizeSchema.SetSize), false);
+            UIXMethodSchema uixMethodSchema = new UIXMethodSchema(190, "AutoSize", null, 240, new InvokeHandler(SharedSizeSchema.CallAutoSize), false);
+            SharedSizeSchema.Type.Initialize(new DefaultConstructHandler(SharedSizeSchema.Construct), null, new PropertySchema[3]
             {
-        (PropertySchema) uixPropertySchema1,
-        (PropertySchema) uixPropertySchema2,
-        (PropertySchema) uixPropertySchema3
+         uixPropertySchema1,
+         uixPropertySchema2,
+         uixPropertySchema3
             }, new MethodSchema[1]
             {
-        (MethodSchema) uixMethodSchema
-            }, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixMethodSchema
+            }, null, null, null, null, null, null, null, null);
         }
     }
 }

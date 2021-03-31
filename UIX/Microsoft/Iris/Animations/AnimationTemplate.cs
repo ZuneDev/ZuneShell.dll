@@ -23,7 +23,7 @@ namespace Microsoft.Iris.Animations
         private StopCommandSet _StopCommandSet;
 
         public AnimationTemplate()
-          : this((string)null)
+          : this(null)
         {
         }
 
@@ -50,7 +50,7 @@ namespace Microsoft.Iris.Animations
         public ActiveSequence Play(ViewItem vi)
         {
             AnimationArgs args = new AnimationArgs(vi);
-            return this.Play(vi.RendererVisual, ref args, (EventHandler)null);
+            return this.Play(vi.RendererVisual, ref args, null);
         }
 
         public ActiveSequence Play(
@@ -58,7 +58,7 @@ namespace Microsoft.Iris.Animations
           ref AnimationArgs args,
           EventHandler onCompleteHandler)
         {
-            ActiveSequence instance = this.CreateInstance((IAnimatable)visualTarget, ref args);
+            ActiveSequence instance = this.CreateInstance(visualTarget, ref args);
             if (onCompleteHandler != null)
                 instance.AnimationCompleted += onCompleteHandler;
             instance.Play();
@@ -73,7 +73,7 @@ namespace Microsoft.Iris.Animations
             if (this._keyframesList.Count == 0)
             {
                 ErrorManager.ReportError("Animations must have at least 2 keyframes to play");
-                return (ActiveSequence)null;
+                return null;
             }
             ActiveSequence aseq = new ActiveSequence(this, animatableTarget, UISession.Default);
             AnimationProxy[] animationProxyArray = new AnimationProxy[20];
@@ -84,7 +84,7 @@ namespace Microsoft.Iris.Animations
                 int type = (int)keyframes.Type;
                 keyframes.AddtoAnimation(this, aseq, property, ref args, ref animationProxyArray[type]);
                 ++numArray[type];
-                flagArray[type] |= (double)keyframes.Time == 0.0;
+                flagArray[type] |= keyframes.Time == 0.0;
             }
             for (int index = 0; index <= 19; ++index)
             {
@@ -93,24 +93,24 @@ namespace Microsoft.Iris.Animations
                     AnimationType animationType = (AnimationType)index;
                     if (numArray[index] < 2)
                     {
-                        ErrorManager.ReportError("Animation must have at least 2 keyframes of each type. Attempted to play an animation that only has {0} keyframe of type '{1}'.", (object)numArray[index], (object)animationType);
-                        return (ActiveSequence)null;
+                        ErrorManager.ReportError("Animation must have at least 2 keyframes of each type. Attempted to play an animation that only has {0} keyframe of type '{1}'.", numArray[index], animationType);
+                        return null;
                     }
                     if (!flagArray[index])
                     {
-                        ErrorManager.ReportError("Animation must have a keyframe at time 0.0 for each type. Attempted to play an animation that has no start keyframe for type '{0}'", (object)animationType);
-                        return (ActiveSequence)null;
+                        ErrorManager.ReportError("Animation must have a keyframe at time 0.0 for each type. Attempted to play an animation that has no start keyframe for type '{0}'", animationType);
+                        return null;
                     }
                 }
             }
-            return !aseq.ValidatePlayable() ? (ActiveSequence)null : aseq;
+            return !aseq.ValidatePlayable() ? null : aseq;
         }
 
         public ActiveSequence CreateInstance(
           IAnimatable animatableTarget,
           ref AnimationArgs args)
         {
-            return this.CreateInstance(animatableTarget, (string)null, ref args);
+            return this.CreateInstance(animatableTarget, null, ref args);
         }
 
         public void AddKeyframe(BaseKeyframe key) => this.InsertSorted(key);
@@ -124,7 +124,7 @@ namespace Microsoft.Iris.Animations
                 if (AnimationTemplate.IsSameTime(time, keyframes.Time))
                     return keyframes;
             }
-            return (BaseKeyframe)null;
+            return null;
         }
 
         public void RemoveKeyframe(float time)
@@ -158,7 +158,7 @@ namespace Microsoft.Iris.Animations
         {
             AnimationTemplate anim = new AnimationTemplate(this._debugIDName);
             this.CloneWorker(anim);
-            return (object)anim;
+            return anim;
         }
 
         protected virtual void CloneWorker(AnimationTemplate anim)
@@ -174,7 +174,7 @@ namespace Microsoft.Iris.Animations
         {
             for (int index = this._keyframesList.Count - 1; index >= 0; --index)
             {
-                if ((double)this._keyframesList[index].Time < (double)key.Time)
+                if (_keyframesList[index].Time < (double)key.Time)
                 {
                     this._keyframesList.Insert(index + 1, key);
                     return;
@@ -186,9 +186,9 @@ namespace Microsoft.Iris.Animations
         private static bool IsSameTime(float t1, float t2)
         {
             float num = t2 - t1;
-            if ((double)num < 0.0)
+            if (num < 0.0)
                 num *= -1f;
-            return (double)num < 9.99999974737875E-05;
+            return num < 9.99999974737875E-05;
         }
 
         internal class AnimationTemplateComparer : IComparer

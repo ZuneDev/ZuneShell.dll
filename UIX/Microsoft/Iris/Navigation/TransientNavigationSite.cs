@@ -72,12 +72,12 @@ namespace Microsoft.Iris.Navigation
         INavigationSite INavigationSite.LookupChildById(
           object uniqueIdObject)
         {
-            foreach (INavigationSite child in (IEnumerable)this._children)
+            foreach (INavigationSite child in _children)
             {
                 if (child != null && child.UniqueId != null && child.UniqueId.Equals(uniqueIdObject))
                     return child;
             }
-            return (INavigationSite)null;
+            return null;
         }
 
         public override string ToString() => this._descriptionName;

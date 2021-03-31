@@ -92,7 +92,7 @@ namespace Microsoft.Iris.RenderAPI.VideoPlayback
         public BasicVideoPresentation BuildPresentation()
         {
             BasicVideoGeometry geometry = new BasicVideoGeometry();
-            if ((double)this.m_rcfInputDestViewPxl.Width > 0.0 && (double)this.m_rcfInputDestViewPxl.Height > 0.0)
+            if (m_rcfInputDestViewPxl.Width > 0.0 && m_rcfInputDestViewPxl.Height > 0.0)
             {
                 RectangleF rcfBoundSrcVideoPxl;
                 RectangleF rcfBoundDestViewPxl;
@@ -117,18 +117,18 @@ namespace Microsoft.Iris.RenderAPI.VideoPlayback
                     float right = geometry.arrcfDestView[index].Right;
                     float top = geometry.arrcfDestView[index].Top;
                     float bottom = geometry.arrcfDestView[index].Bottom;
-                    if ((double)Math.Abs(geometry.arrcfDestView[index].Top - geometry.rcfDestViewBounds.Top) < (double)num2)
+                    if (Math.Abs(geometry.arrcfDestView[index].Top - geometry.rcfDestViewBounds.Top) < (double)num2)
                         top = rcfDestViewBounds.Top;
-                    if ((double)Math.Abs(geometry.arrcfDestView[index].Bottom - geometry.rcfDestViewBounds.Bottom) < (double)num2)
+                    if (Math.Abs(geometry.arrcfDestView[index].Bottom - geometry.rcfDestViewBounds.Bottom) < (double)num2)
                         bottom = rcfDestViewBounds.Bottom;
-                    if ((double)Math.Abs(geometry.arrcfDestView[index].Left - geometry.rcfDestViewBounds.Left) < (double)num2)
+                    if (Math.Abs(geometry.arrcfDestView[index].Left - geometry.rcfDestViewBounds.Left) < (double)num2)
                         left = rcfDestViewBounds.Left;
-                    if ((double)Math.Abs(geometry.arrcfDestView[index].Right - geometry.rcfDestViewBounds.Right) < (double)num2)
+                    if (Math.Abs(geometry.arrcfDestView[index].Right - geometry.rcfDestViewBounds.Right) < (double)num2)
                         right = rcfDestViewBounds.Right;
                     geometry.arrcfDestView[index] = new RectangleF(left, top, right - left, bottom - top);
                 }
                 geometry.rcfDestViewBounds = rcfDestViewBounds;
-                if ((double)this.m_sizefOriginalSource.Width > 0.0 && (double)this.m_sizefOriginalSource.Height > 0.0)
+                if (m_sizefOriginalSource.Width > 0.0 && m_sizefOriginalSource.Height > 0.0)
                 {
                     float num3 = this.m_sizefOriginalSource.Width / geometry.rcfSrcVideoBounds.Width;
                     float num4 = this.m_sizefOriginalSource.Height / geometry.rcfSrcVideoBounds.Height;
@@ -151,7 +151,7 @@ namespace Microsoft.Iris.RenderAPI.VideoPlayback
 
         private static RectangleF ConvertToSquare(RectangleF rcfSrc, float flWidthAdjust)
         {
-            if ((double)flWidthAdjust == 1.0)
+            if (flWidthAdjust == 1.0)
                 return rcfSrc;
             float x = rcfSrc.Left * flWidthAdjust;
             float num = rcfSrc.Right * flWidthAdjust;
@@ -160,7 +160,7 @@ namespace Microsoft.Iris.RenderAPI.VideoPlayback
 
         private static RectangleF ConvertFromSquare(RectangleF rcfSrc, float flWidthAdjust)
         {
-            if ((double)flWidthAdjust == 1.0)
+            if (flWidthAdjust == 1.0)
                 return rcfSrc;
             float x = rcfSrc.Left / flWidthAdjust;
             float num = rcfSrc.Right / flWidthAdjust;
@@ -169,7 +169,7 @@ namespace Microsoft.Iris.RenderAPI.VideoPlayback
 
         private static void ConvertFromSquare(RectangleF[] arrcf, float flWidthAdjust)
         {
-            if (arrcf == null || (double)flWidthAdjust == 1.0)
+            if (arrcf == null || flWidthAdjust == 1.0)
                 return;
             for (int index = 0; index < arrcf.Length; ++index)
             {
@@ -191,13 +191,13 @@ namespace Microsoft.Iris.RenderAPI.VideoPlayback
             for (int index = 1; index < arrcfStrips.Length; ++index)
             {
                 RectangleF arrcfStrip = arrcfStrips[index];
-                if ((double)left > (double)arrcfStrip.Left)
+                if (left > (double)arrcfStrip.Left)
                     left = arrcfStrip.Left;
-                if ((double)top > (double)arrcfStrip.Top)
+                if (top > (double)arrcfStrip.Top)
                     top = arrcfStrip.Top;
-                if ((double)right < (double)arrcfStrip.Right)
+                if (right < (double)arrcfStrip.Right)
                     right = arrcfStrip.Right;
-                if ((double)bottom < (double)arrcfStrip.Bottom)
+                if (bottom < (double)arrcfStrip.Bottom)
                     bottom = arrcfStrip.Bottom;
             }
             return new RectangleF(left, top, right - left, bottom - top);
@@ -205,9 +205,9 @@ namespace Microsoft.Iris.RenderAPI.VideoPlayback
 
         private static void ApplyOverscanFactor(ref RectangleF rcf, float flOverscanPer)
         {
-            if ((double)flOverscanPer > 50.0)
+            if (flOverscanPer > 50.0)
                 flOverscanPer = 50f;
-            SizeF sizeF = new SizeF((float)((double)rcf.Width * (double)flOverscanPer / 100.0), (float)((double)rcf.Height * (double)flOverscanPer / 100.0));
+            SizeF sizeF = new SizeF((float)(rcf.Width * (double)flOverscanPer / 100.0), (float)(rcf.Height * (double)flOverscanPer / 100.0));
             rcf.X += sizeF.Width / 2f;
             rcf.Y += sizeF.Height / 2f;
             rcf.Width -= sizeF.Width;
@@ -230,7 +230,7 @@ namespace Microsoft.Iris.RenderAPI.VideoPlayback
             flSrcWidthMultiplier = flDstWidthMultiplier = 1f;
             float flOverscanPer1 = 0.0f;
             float flOverscanPer2 = 0.0f;
-            if ((double)this.m_flInputDisplayOverscanPer > 0.0 || (double)this.m_flInputContentOverscanPer > 0.0)
+            if (m_flInputDisplayOverscanPer > 0.0 || m_flInputContentOverscanPer > 0.0)
             {
                 switch (this.m_nDisplayMode)
                 {
@@ -278,7 +278,7 @@ namespace Microsoft.Iris.RenderAPI.VideoPlayback
                 }
             }
             rcfBoundSrcVideoPxl.Size = this.m_sizefOriginalSource;
-            if ((double)rcfBoundSrcVideoPxl.Width > 0.0 && (double)rcfBoundSrcVideoPxl.Height > 0.0)
+            if (rcfBoundSrcVideoPxl.Width > 0.0 && rcfBoundSrcVideoPxl.Height > 0.0)
             {
                 float num = rcfBoundSrcVideoPxl.Height * this.m_sizefInputContentAspect.Width / this.m_sizefInputContentAspect.Height;
                 flSrcWidthMultiplier = num / rcfBoundSrcVideoPxl.Width;
@@ -290,7 +290,7 @@ namespace Microsoft.Iris.RenderAPI.VideoPlayback
                 rcfBoundSrcVideoPxl.Height = 1f;
             }
             rcfBoundDestViewPxl = this.m_rcfInputDestViewPxl;
-            if ((double)rcfBoundDestViewPxl.Width > 0.0 && (double)rcfBoundDestViewPxl.Height > 0.0)
+            if (rcfBoundDestViewPxl.Width > 0.0 && rcfBoundDestViewPxl.Height > 0.0)
             {
                 float num = rcfBoundDestViewPxl.Height * this.m_sizefInputDestAspect.Width / this.m_sizefInputDestAspect.Height;
                 flDstWidthMultiplier = num / rcfBoundDestViewPxl.Width;
@@ -311,7 +311,7 @@ namespace Microsoft.Iris.RenderAPI.VideoPlayback
             rcfContent.Intersect(inputDestViewPxl);
             if (!rcfContent.IsEmpty)
             {
-                if ((double)inputDestViewPxl.Left < (double)rcfContent.Left)
+                if (inputDestViewPxl.Left < (double)rcfContent.Left)
                 {
                     RectangleF rectangleF = new RectangleF(inputDestViewPxl.Left, inputDestViewPxl.Top, rcfContent.Left - inputDestViewPxl.Left, inputDestViewPxl.Height);
                     inputDestViewPxl.Width -= rcfContent.Left - inputDestViewPxl.Left;
@@ -322,7 +322,7 @@ namespace Microsoft.Iris.RenderAPI.VideoPlayback
                         ++length;
                     }
                 }
-                if ((double)inputDestViewPxl.Right > (double)rcfContent.Right)
+                if (inputDestViewPxl.Right > (double)rcfContent.Right)
                 {
                     RectangleF rectangleF = new RectangleF(rcfContent.Right, inputDestViewPxl.Top, inputDestViewPxl.Right - rcfContent.Right, inputDestViewPxl.Height);
                     inputDestViewPxl.Width = rcfContent.Right - inputDestViewPxl.X;
@@ -332,7 +332,7 @@ namespace Microsoft.Iris.RenderAPI.VideoPlayback
                         ++length;
                     }
                 }
-                if ((double)inputDestViewPxl.Top < (double)rcfContent.Top)
+                if (inputDestViewPxl.Top < (double)rcfContent.Top)
                 {
                     RectangleF rectangleF = new RectangleF(inputDestViewPxl.Left, inputDestViewPxl.Top, inputDestViewPxl.Width, rcfContent.Top - inputDestViewPxl.Top);
                     inputDestViewPxl.Height -= rcfContent.Top - inputDestViewPxl.Top;
@@ -343,7 +343,7 @@ namespace Microsoft.Iris.RenderAPI.VideoPlayback
                         ++length;
                     }
                 }
-                if ((double)inputDestViewPxl.Bottom > (double)rcfContent.Bottom)
+                if (inputDestViewPxl.Bottom > (double)rcfContent.Bottom)
                 {
                     RectangleF rectangleF = new RectangleF(inputDestViewPxl.Left, rcfContent.Bottom, inputDestViewPxl.Width, inputDestViewPxl.Bottom - rcfContent.Bottom);
                     inputDestViewPxl.Height = rcfContent.Bottom - inputDestViewPxl.Y;
@@ -361,7 +361,7 @@ namespace Microsoft.Iris.RenderAPI.VideoPlayback
             }
             RectangleF[] rectangleFArray2 = new RectangleF[length];
             if (length > 0)
-                Array.Copy((Array)rectangleFArray1, (Array)rectangleFArray2, length);
+                Array.Copy(rectangleFArray1, rectangleFArray2, length);
             return rectangleFArray2;
         }
     }

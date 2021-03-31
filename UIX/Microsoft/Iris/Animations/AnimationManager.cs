@@ -42,7 +42,7 @@ namespace Microsoft.Iris.Animations
 
         public void Dispose()
         {
-            GC.SuppressFinalize((object)this);
+            GC.SuppressFinalize(this);
             this.Dispose(true);
         }
 
@@ -52,7 +52,7 @@ namespace Microsoft.Iris.Animations
             if (!inDisposeFlag)
                 return;
             foreach (DisposableObject orphan in this._orphans)
-                orphan.Dispose((object)this);
+                orphan.Dispose(this);
             this._orphans.Clear();
         }
 
@@ -83,26 +83,26 @@ namespace Microsoft.Iris.Animations
         internal IKeyframeAnimation BuildAnimation(AnimationProxy owner)
         {
             this.ValidateConnected();
-            IKeyframeAnimation keyframeAnimation = (IKeyframeAnimation)null;
+            IKeyframeAnimation keyframeAnimation = null;
             switch (owner.Type)
             {
                 case AnimationType.Position:
-                    keyframeAnimation = this._session.AnimationSystem.CreateKeyframeAnimation((object)owner, (AnimationInput)AnimationManager.s_defaultPositionInput);
+                    keyframeAnimation = this._session.AnimationSystem.CreateKeyframeAnimation(owner, s_defaultPositionInput);
                     break;
                 case AnimationType.Size:
-                    keyframeAnimation = this._session.AnimationSystem.CreateKeyframeAnimation((object)owner, (AnimationInput)AnimationManager.s_defaultSizeInput);
+                    keyframeAnimation = this._session.AnimationSystem.CreateKeyframeAnimation(owner, s_defaultSizeInput);
                     break;
                 case AnimationType.Alpha:
-                    keyframeAnimation = this._session.AnimationSystem.CreateKeyframeAnimation((object)owner, (AnimationInput)AnimationManager.s_defaultAlphaInput);
+                    keyframeAnimation = this._session.AnimationSystem.CreateKeyframeAnimation(owner, s_defaultAlphaInput);
                     break;
                 case AnimationType.Scale:
-                    keyframeAnimation = this._session.AnimationSystem.CreateKeyframeAnimation((object)owner, (AnimationInput)AnimationManager.s_defaultScaleInput);
+                    keyframeAnimation = this._session.AnimationSystem.CreateKeyframeAnimation(owner, s_defaultScaleInput);
                     break;
                 case AnimationType.Rotate:
-                    keyframeAnimation = this._session.AnimationSystem.CreateKeyframeAnimation((object)owner, (AnimationInput)AnimationManager.s_defaultRotationInput);
+                    keyframeAnimation = this._session.AnimationSystem.CreateKeyframeAnimation(owner, s_defaultRotationInput);
                     break;
                 case AnimationType.Orientation:
-                    keyframeAnimation = this._session.AnimationSystem.CreateKeyframeAnimation((object)owner, (AnimationInput)AnimationManager.s_defaultOrientationInput);
+                    keyframeAnimation = this._session.AnimationSystem.CreateKeyframeAnimation(owner, s_defaultOrientationInput);
                     break;
                 case AnimationType.PositionX:
                 case AnimationType.PositionY:
@@ -111,28 +111,28 @@ namespace Microsoft.Iris.Animations
                 case AnimationType.ScaleX:
                 case AnimationType.ScaleY:
                 case AnimationType.Float:
-                    keyframeAnimation = this._session.AnimationSystem.CreateKeyframeAnimation((object)owner, (AnimationInput)AnimationManager.s_defaultFloatInput);
+                    keyframeAnimation = this._session.AnimationSystem.CreateKeyframeAnimation(owner, s_defaultFloatInput);
                     break;
                 case AnimationType.Vector2:
-                    keyframeAnimation = this._session.AnimationSystem.CreateKeyframeAnimation((object)owner, (AnimationInput)AnimationManager.s_defaultVector2Input);
+                    keyframeAnimation = this._session.AnimationSystem.CreateKeyframeAnimation(owner, s_defaultVector2Input);
                     break;
                 case AnimationType.Vector3:
-                    keyframeAnimation = this._session.AnimationSystem.CreateKeyframeAnimation((object)owner, (AnimationInput)AnimationManager.s_defaultVector3Input);
+                    keyframeAnimation = this._session.AnimationSystem.CreateKeyframeAnimation(owner, s_defaultVector3Input);
                     break;
                 case AnimationType.Vector4:
-                    keyframeAnimation = this._session.AnimationSystem.CreateKeyframeAnimation((object)owner, (AnimationInput)AnimationManager.s_defaultVector4Input);
+                    keyframeAnimation = this._session.AnimationSystem.CreateKeyframeAnimation(owner, s_defaultVector4Input);
                     break;
                 case AnimationType.CameraEye:
-                    keyframeAnimation = this._session.AnimationSystem.CreateKeyframeAnimation((object)owner, (AnimationInput)AnimationManager.s_defaultCameraEyeInput);
+                    keyframeAnimation = this._session.AnimationSystem.CreateKeyframeAnimation(owner, s_defaultCameraEyeInput);
                     break;
                 case AnimationType.CameraAt:
-                    keyframeAnimation = this._session.AnimationSystem.CreateKeyframeAnimation((object)owner, (AnimationInput)AnimationManager.s_defaultCameraAtInput);
+                    keyframeAnimation = this._session.AnimationSystem.CreateKeyframeAnimation(owner, s_defaultCameraAtInput);
                     break;
                 case AnimationType.CameraUp:
-                    keyframeAnimation = this._session.AnimationSystem.CreateKeyframeAnimation((object)owner, (AnimationInput)AnimationManager.s_defaultCameraUpInput);
+                    keyframeAnimation = this._session.AnimationSystem.CreateKeyframeAnimation(owner, s_defaultCameraUpInput);
                     break;
                 case AnimationType.CameraZn:
-                    keyframeAnimation = this._session.AnimationSystem.CreateKeyframeAnimation((object)owner, (AnimationInput)AnimationManager.s_defaultCameraZnInput);
+                    keyframeAnimation = this._session.AnimationSystem.CreateKeyframeAnimation(owner, s_defaultCameraZnInput);
                     break;
             }
             return keyframeAnimation;

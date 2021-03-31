@@ -29,11 +29,11 @@ namespace Microsoft.Iris.Markup
           string[] parameterNames,
           bool isVirtualThunk)
         {
-            MarkupMethodSchema markupMethodSchema = (MarkupMethodSchema)null;
+            MarkupMethodSchema markupMethodSchema = null;
             if (markupTypeBase == ClassSchema.Type || markupTypeBase == EffectSchema.Type)
-                markupMethodSchema = (MarkupMethodSchema)new ClassMethodSchema((ClassTypeSchema)owner, name, returnType, parameterTypes, parameterNames);
+                markupMethodSchema = new ClassMethodSchema((ClassTypeSchema)owner, name, returnType, parameterTypes, parameterNames);
             else if (markupTypeBase == UISchema.Type)
-                markupMethodSchema = (MarkupMethodSchema)new UIClassMethodSchema((UIClassTypeSchema)owner, name, returnType, parameterTypes, parameterNames);
+                markupMethodSchema = new UIClassMethodSchema((UIClassTypeSchema)owner, name, returnType, parameterTypes, parameterNames);
             markupMethodSchema._isVirtualThunk = isVirtualThunk;
             return markupMethodSchema;
         }
@@ -62,7 +62,7 @@ namespace Microsoft.Iris.Markup
           TypeSchema returnType,
           TypeSchema[] parameterTypes,
           string[] parameterNames)
-          : base((TypeSchema)owner)
+          : base(owner)
         {
             this._name = name;
             this._returnType = returnType;
@@ -98,14 +98,14 @@ namespace Microsoft.Iris.Markup
         {
             IMarkupTypeBase markupTypeBase = this.GetMarkupTypeBase(instance);
             if (markupTypeBase == null)
-                return (object)null;
+                return null;
             return this._isVirtualThunk ? this.CallVirt(markupTypeBase, parameters) : this.CallDirect(markupTypeBase, parameters);
         }
 
         private object CallVirt(IMarkupTypeBase markupInstance, object[] parameters)
         {
             MarkupTypeSchema typeSchema = (MarkupTypeSchema)markupInstance.TypeSchema;
-            MarkupMethodSchema markupMethodSchema = (MarkupMethodSchema)null;
+            MarkupMethodSchema markupMethodSchema = null;
             while (true)
             {
                 foreach (MarkupMethodSchema virtualMethod in typeSchema.VirtualMethods)

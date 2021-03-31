@@ -126,7 +126,7 @@ namespace Microsoft.Iris.Data
                     if (this._itemDistanceComparer == null)
                         this._itemDistanceComparer = new UpdateHelper.ItemDistanceComparer();
                     this._itemDistanceComparer.Initialize(this._lastInterestIndex, this._virtualList.Count);
-                    this._itemsToUpdate.Sort((IComparer<int>)this._itemDistanceComparer);
+                    this._itemsToUpdate.Sort(_itemDistanceComparer);
                     this._listIsDirty = false;
                 }
                 Stopwatch stopwatch = new Stopwatch();

@@ -18,7 +18,7 @@ namespace Microsoft.Iris.Library
             return num;
         }
 
-        public static int RoundUp(float value) => (int)((double)value + 0.5);
+        public static int RoundUp(float value) => (int)(value + 0.5);
 
         public static int Clamp(int value, int min, int max)
         {
@@ -29,15 +29,15 @@ namespace Microsoft.Iris.Library
 
         public static float Clamp(float value, float min, float max)
         {
-            if ((double)value < (double)min)
+            if (value < (double)min)
                 return min;
-            return (double)value > (double)max ? max : value;
+            return value > (double)max ? max : value;
         }
 
         public static bool WithinEpsilon(float value1, float value2)
         {
             float num = value1 - value2;
-            return -9.99999974737875E-06 <= (double)num && (double)num <= 9.99999974737875E-06;
+            return -9.99999974737875E-06 <= num && num <= 9.99999974737875E-06;
         }
 
         public static double Blend(double a, double b, double weight, bool allowOutOfRangeWeights) => (1.0 - weight) * a + weight * b;

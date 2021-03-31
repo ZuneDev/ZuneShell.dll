@@ -22,8 +22,8 @@ namespace Microsoft.Iris.Markup
             get
             {
                 if (this._externalAssemblyObject == null)
-                    this._externalAssemblyObject = (IDataProviderObject)new ProviderlessDataProviderObject((MarkupDataType)this, (MarkupDataTypeSchema)this.TypeSchema);
-                return (IDataProviderBaseObject)this._externalAssemblyObject;
+                    this._externalAssemblyObject = new ProviderlessDataProviderObject(this, (MarkupDataTypeSchema)this.TypeSchema);
+                return _externalAssemblyObject;
             }
         }
 
@@ -53,6 +53,6 @@ namespace Microsoft.Iris.Markup
                 base.SetProperty(name, value);
         }
 
-        private object SynchronizedPropertyStorage => (object)this._storage;
+        private object SynchronizedPropertyStorage => _storage;
     }
 }

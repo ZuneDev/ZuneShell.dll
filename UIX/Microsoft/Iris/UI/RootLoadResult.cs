@@ -14,13 +14,13 @@ namespace Microsoft.Iris.UI
 
         public RootLoadResult(string name)
           : base(name)
-          => this.RootType = new UIClassTypeSchema((MarkupLoadResult)this, name);
+          => this.RootType = new UIClassTypeSchema(this, name);
 
         protected override void OnDispose()
         {
             base.OnDispose();
-            this.RootType.Dispose((object)this);
-            this.RootType = (UIClassTypeSchema)null;
+            this.RootType.Dispose(this);
+            this.RootType = null;
         }
 
         public override TypeSchema FindType(string name) => (TypeSchema)null;

@@ -19,7 +19,7 @@ namespace Microsoft.Iris.Drawing
 
         public override bool Equals(object obj)
         {
-            if (object.ReferenceEquals((object)this, obj))
+            if (object.ReferenceEquals(this, obj))
                 return true;
             return obj is RawImageItemKey rawImageItemKey && this._uniqueId == rawImageItemKey._uniqueId;
         }

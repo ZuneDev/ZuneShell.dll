@@ -112,7 +112,7 @@ namespace Microsoft.Iris.InputHandlers
             {
                 if (this.TrackInvokedKeys == value)
                     return;
-                this._invokedKeys = !value ? (ArrayList)null : new ArrayList();
+                this._invokedKeys = !value ? null : new ArrayList();
                 this.FireNotification(NotificationID.TrackInvokedKeys);
             }
         }
@@ -265,9 +265,9 @@ namespace Microsoft.Iris.InputHandlers
                 this._command.Invoke();
             if (!this.TrackInvokedKeys)
                 return;
-            this._invokedKeys.Add((object)(KeyHandlerKey)key);
+            this._invokedKeys.Add((KeyHandlerKey)key);
         }
 
-        public override string ToString() => InvariantString.Format("{0}({1})", (object)this.GetType().Name, (object)this._key);
+        public override string ToString() => InvariantString.Format("{0}({1})", this.GetType().Name, _key);
     }
 }

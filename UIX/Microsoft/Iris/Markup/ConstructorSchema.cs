@@ -16,7 +16,7 @@ namespace Microsoft.Iris.Markup
         public ConstructorSchema(TypeSchema owner)
         {
             this._owner = owner;
-            this.DeclareOwner((object)owner);
+            this.DeclareOwner(owner);
         }
 
         public TypeSchema Owner => this._owner;

@@ -29,7 +29,7 @@ namespace Microsoft.Iris.Markup.Validation
         private string _previewName;
         private static Map<string, TypeSchema> s_classReservedSymbols = new Map<string, TypeSchema>(1);
 
-        public static void InitializeStatics() => ValidateClass.s_classReservedSymbols["Class"] = (TypeSchema)ClassStateSchema.Type;
+        public static void InitializeStatics() => ValidateClass.s_classReservedSymbols["Class"] = ClassStateSchema.Type;
 
         public ValidateClass(
           SourceMarkupLoader owner,
@@ -94,9 +94,9 @@ namespace Microsoft.Iris.Markup.Validation
             {
                 if (this.Owner.IsTypeNameTaken(this.PreviewName))
                     this.ReportError("Type '{0}' was specified more than once", this.PreviewName);
-                this._typeExport = MarkupTypeSchema.Build(this.ObjectType, (MarkupLoadResult)this.Owner.LoadResultTarget, this.PreviewName);
+                this._typeExport = MarkupTypeSchema.Build(this.ObjectType, Owner.LoadResultTarget, this.PreviewName);
                 this._typeExportIndex = this.Owner.RegisterExportedType(this._typeExport);
-                this._typeExport.LoadData = (object)this;
+                this._typeExport.LoadData = this;
             }
         }
 
@@ -130,7 +130,7 @@ namespace Microsoft.Iris.Markup.Validation
                     if (!this.HasErrors)
                     {
                         bool flag = false;
-                        for (TypeSchema typeSchema = (TypeSchema)foundType; typeSchema is MarkupTypeSchema; typeSchema = typeSchema.Base)
+                        for (TypeSchema typeSchema = foundType; typeSchema is MarkupTypeSchema; typeSchema = typeSchema.Base)
                         {
                             if (typeSchema == this._typeExport)
                             {
@@ -171,7 +171,7 @@ namespace Microsoft.Iris.Markup.Validation
             ValidateProperty property2 = this.FindProperty("Shared", true);
             if (property2 != null)
             {
-                property2.Validate((ValidateObjectTag)this, context);
+                property2.Validate(this, context);
                 if (property2.HasErrors)
                     this.MarkHasErrors();
                 else if (property2.IsFromStringValue)
@@ -219,7 +219,7 @@ namespace Microsoft.Iris.Markup.Validation
                             else if (this._typeExport != null)
                             {
                                 MarkupPropertySchema propertyExport = MarkupPropertySchema.Build(this.ObjectType, this._typeExport, propertyValueNoValidate, next.ObjectType);
-                                properties[length2] = (PropertySchema)propertyExport;
+                                properties[length2] = propertyExport;
                                 ++length2;
                                 next.PropertySchemaExport = propertyExport;
                                 propertyExport.SetRequiredForCreation(next.PropertyIsRequiredForCreation);
@@ -230,7 +230,7 @@ namespace Microsoft.Iris.Markup.Validation
                     if (length2 != properties.Length)
                     {
                         PropertySchema[] propertySchemaArray = new PropertySchema[length2];
-                        Array.Copy((Array)properties, (Array)propertySchemaArray, length2);
+                        Array.Copy(properties, propertySchemaArray, length2);
                         properties = propertySchemaArray;
                     }
                     if (this._typeExport != null)
@@ -296,7 +296,7 @@ namespace Microsoft.Iris.Markup.Validation
                 return;
             MethodSchema[] virtualMethods = new MethodSchema[this._foundVirtualMethods.Count];
             for (int index = 0; index < virtualMethods.Length; ++index)
-                virtualMethods[index] = (MethodSchema)this._foundVirtualMethods[index];
+                virtualMethods[index] = this._foundVirtualMethods[index];
             this._typeExport.SetVirtualMethodList(virtualMethods);
         }
 
@@ -318,7 +318,7 @@ namespace Microsoft.Iris.Markup.Validation
                     foreach (SymbolRecord symbolRecord in typeExport.InheritableSymbolsTable)
                     {
                         if (symbolRecord.SymbolOrigin == SymbolOrigin.Locals || symbolRecord.SymbolOrigin == SymbolOrigin.Properties)
-                            map[(object)symbolRecord.Name] = (object)null;
+                            map[symbolRecord.Name] = null;
                     }
                 }
             }
@@ -377,7 +377,7 @@ namespace Microsoft.Iris.Markup.Validation
 
         public Vector<ValidateCode> ActionList => this._actionList;
 
-        public ArrayList MethodList => this._foundMethods == null ? (ArrayList)null : this._foundMethods.Methods;
+        public ArrayList MethodList => this._foundMethods == null ? null : this._foundMethods.Methods;
 
         public string PreviewName => this._previewName;
 
@@ -387,6 +387,6 @@ namespace Microsoft.Iris.Markup.Validation
 
         public ValidateProperty FoundPropertiesValidateProperty => this._foundPropertiesValidateProperty;
 
-        public override string ToString() => this.Name != null ? string.Format("ClassTag : {0}", (object)this.Name) : "Not validated :" + this._previewName;
+        public override string ToString() => this.Name != null ? string.Format("ClassTag : {0}", Name) : "Not validated :" + this._previewName;
     }
 }

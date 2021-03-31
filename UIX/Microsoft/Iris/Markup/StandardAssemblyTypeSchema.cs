@@ -11,7 +11,7 @@ namespace Microsoft.Iris.Markup
     internal class StandardAssemblyTypeSchema : AssemblyTypeSchema
     {
         public StandardAssemblyTypeSchema(Type type)
-          : base(type, (TypeSchema)null)
+          : base(type, null)
         {
         }
     }

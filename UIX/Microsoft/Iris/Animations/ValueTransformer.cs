@@ -30,7 +30,7 @@ namespace Microsoft.Iris.Animations
             value /= this._divide;
             value += this._add;
             value -= this._subtract;
-            if ((double)this._mod != 3.40282346638529E+38)
+            if (_mod != 3.40282346638529E+38)
                 value %= this._mod;
             if (this._absolute)
                 value = Math.Abs(value);

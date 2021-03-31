@@ -12,19 +12,19 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object GetName(object instanceObj) => (object)((EffectElement)instanceObj).Name;
+        private static object GetName(object instanceObj) => ((EffectElement)instanceObj).Name;
 
         private static void SetName(ref object instanceObj, object valueObj) => ((EffectElement)instanceObj).Name = (string)valueObj;
 
-        public static void Pass1Initialize() => EffectElementSchema.Type = new UIXTypeSchema((short)73, "EffectElement", (string)null, (short)-1, typeof(EffectElement), UIXTypeFlags.None);
+        public static void Pass1Initialize() => EffectElementSchema.Type = new UIXTypeSchema(73, "EffectElement", null, -1, typeof(EffectElement), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema = new UIXPropertySchema((short)73, "Name", (short)208, (short)-1, ExpressionRestriction.ReadOnly, false, (RangeValidator)null, false, new GetValueHandler(EffectElementSchema.GetName), new SetValueHandler(EffectElementSchema.SetName), false);
-            EffectElementSchema.Type.Initialize((DefaultConstructHandler)null, (ConstructorSchema[])null, new PropertySchema[1]
+            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(73, "Name", 208, -1, ExpressionRestriction.ReadOnly, false, null, false, new GetValueHandler(EffectElementSchema.GetName), new SetValueHandler(EffectElementSchema.SetName), false);
+            EffectElementSchema.Type.Initialize(null, null, new PropertySchema[1]
             {
-        (PropertySchema) uixPropertySchema
-            }, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixPropertySchema
+            }, null, null, null, null, null, null, null, null, null);
         }
     }
 }

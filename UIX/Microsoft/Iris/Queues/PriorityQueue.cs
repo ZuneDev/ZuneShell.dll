@@ -70,7 +70,7 @@ namespace Microsoft.Iris.Queues
                 Queue queue = queues[priority];
                 if (queue == null)
                 {
-                    queue = (Queue)new SimpleQueue();
+                    queue = new SimpleQueue();
                     queues[priority] = queue;
                 }
                 PriorityQueue.WakeProxy wakeProxy = new PriorityQueue.WakeProxy(this, priority, queue);
@@ -124,7 +124,7 @@ namespace Microsoft.Iris.Queues
             int subsetMask = 0;
             for (int index = 0; index < priorities.Length; ++index)
                 subsetMask |= 1 << priorities[index];
-            return (Queue)new PriorityQueue.SubsetQueue(this, subsetMask, ignoreLocks);
+            return new PriorityQueue.SubsetQueue(this, subsetMask, ignoreLocks);
         }
 
         public override QueueItem GetNextItem() => this.GetNextItemWorker(this._allQueues, false);
@@ -132,7 +132,7 @@ namespace Microsoft.Iris.Queues
         private QueueItem GetNextItemWorker(int subsetMask, bool ignoreLocks)
         {
             int mask = this.BeginReadLoop(subsetMask, ignoreLocks);
-            QueueItem queueItem = (QueueItem)null;
+            QueueItem queueItem = null;
             while (mask != 0)
             {
                 int lowestBit = PriorityQueue.FindLowestBit(mask);
@@ -202,12 +202,12 @@ namespace Microsoft.Iris.Queues
         private static int FindLowestBit(int mask)
         {
             int num = 0;
-            if ((mask & (int)ushort.MaxValue) == 0)
+            if ((mask & ushort.MaxValue) == 0)
             {
                 num += 16;
                 mask >>= 16;
             }
-            if ((mask & (int)byte.MaxValue) == 0)
+            if ((mask & byte.MaxValue) == 0)
             {
                 num += 8;
                 mask >>= 8;

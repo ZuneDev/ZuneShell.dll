@@ -30,11 +30,11 @@ namespace Microsoft.Iris.Markup
             if (this._predefinedProperties != null)
             {
                 foreach (DisposableObject predefinedProperty in this._predefinedProperties)
-                    predefinedProperty.Dispose((object)this);
+                    predefinedProperty.Dispose(this);
             }
             if (this._refreshMethod == null)
                 return;
-            this._refreshMethod.Dispose((object)this);
+            this._refreshMethod.Dispose(this);
         }
 
         public override void BuildProperties()
@@ -42,16 +42,16 @@ namespace Microsoft.Iris.Markup
             base.BuildProperties();
             this._predefinedProperties = new MarkupDataQueryPreDefinedPropertySchema[3]
             {
-        this._resultProperty = new MarkupDataQueryPreDefinedPropertySchema(this, this._resultType != null ? this._resultType : (TypeSchema) ObjectSchema.Type, "Result", new GetValueHandler(MarkupDataQuerySchema.GetResultProperty), (SetValueHandler) null),
-        new MarkupDataQueryPreDefinedPropertySchema(this, UIXLoadResultExports.DataQueryStatusType, "Status", new GetValueHandler(MarkupDataQuerySchema.GetStatusProperty), (SetValueHandler) null),
-        new MarkupDataQueryPreDefinedPropertySchema(this, (TypeSchema) BooleanSchema.Type, "Enabled", new GetValueHandler(MarkupDataQuerySchema.GetEnabledProperty), new SetValueHandler(MarkupDataQuerySchema.SetEnabledProperty))
+        this._resultProperty = new MarkupDataQueryPreDefinedPropertySchema(this, this._resultType != null ? this._resultType :  ObjectSchema.Type, "Result", new GetValueHandler(MarkupDataQuerySchema.GetResultProperty),  null),
+        new MarkupDataQueryPreDefinedPropertySchema(this, UIXLoadResultExports.DataQueryStatusType, "Status", new GetValueHandler(MarkupDataQuerySchema.GetStatusProperty),  null),
+        new MarkupDataQueryPreDefinedPropertySchema(this,  BooleanSchema.Type, "Enabled", new GetValueHandler(MarkupDataQuerySchema.GetEnabledProperty), new SetValueHandler(MarkupDataQuerySchema.SetEnabledProperty))
             };
             this._refreshMethod = new MarkupDataQueryRefreshMethodSchema(this);
         }
 
         public override MarkupType MarkupType => MarkupType.DataQuery;
 
-        protected override TypeSchema DefaultBase => (TypeSchema)MarkupDataQueryInstanceSchema.Type;
+        protected override TypeSchema DefaultBase => MarkupDataQueryInstanceSchema.Type;
 
         public override Type RuntimeType => typeof(MarkupDataQuery);
 
@@ -59,9 +59,9 @@ namespace Microsoft.Iris.Markup
         {
             IDataProvider dataProvider = MarkupDataProvider.GetDataProvider(this._providerName);
             if (dataProvider != null)
-                return (object)dataProvider.Build(this);
-            ErrorManager.ReportError("Could not find provider '{0}'; verify that it has been registered", (object)this._providerName);
-            return (object)null;
+                return dataProvider.Build(this);
+            ErrorManager.ReportError("Could not find provider '{0}'; verify that it has been registered", _providerName);
+            return null;
         }
 
         public override PropertySchema FindProperty(string name)
@@ -74,7 +74,7 @@ namespace Microsoft.Iris.Markup
             return base.FindProperty(name);
         }
 
-        public override MethodSchema FindMethod(string name, TypeSchema[] parameters) => this._refreshMethod.Name == name && parameters.Length == 0 ? (MethodSchema)this._refreshMethod : base.FindMethod(name, parameters);
+        public override MethodSchema FindMethod(string name, TypeSchema[] parameters) => this._refreshMethod.Name == name && parameters.Length == 0 ? _refreshMethod : base.FindMethod(name, parameters);
 
         public string ProviderName
         {
@@ -92,9 +92,9 @@ namespace Microsoft.Iris.Markup
 
         private static object GetResultProperty(object instance) => ((MarkupDataQuery)instance).Result;
 
-        private static object GetStatusProperty(object instance) => (object)((MarkupDataQuery)instance).Status;
+        private static object GetStatusProperty(object instance) => ((MarkupDataQuery)instance).Status;
 
-        private static object GetEnabledProperty(object instance) => (object)((MarkupDataQuery)instance).Enabled;
+        private static object GetEnabledProperty(object instance) => ((MarkupDataQuery)instance).Enabled;
 
         private static void SetEnabledProperty(ref object instance, object value) => ((MarkupDataQuery)instance).Enabled = (bool)value;
     }

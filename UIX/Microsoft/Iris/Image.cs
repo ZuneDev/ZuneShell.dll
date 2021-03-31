@@ -57,7 +57,7 @@ namespace Microsoft.Iris
         {
             if (source == null)
                 throw new ArgumentNullException(nameof(source));
-            this._uiImage = (UIImage)new UriImage(source, inset, new Size(maximumWidth, maximumHeight), flippable, antialiasEdges);
+            this._uiImage = new UriImage(source, inset, new Size(maximumWidth, maximumHeight), flippable, antialiasEdges);
         }
 
         public Image(
@@ -101,7 +101,7 @@ namespace Microsoft.Iris
             if (!ImageFormatUtils.RawImageFormatToSurfaceFormat(format, out surfaceFormat))
                 throw new ArgumentException(nameof(format));
             uniqueID = "RAW:" + uniqueID;
-            this._uiImage = (UIImage)new RawImage(uniqueID, new Size(imageWidth, imageHeight), stride, surfaceFormat, data, false, Inset.Zero, new Size(maximumWidth, maximumHeight), flippable, anitaliasEdges);
+            this._uiImage = new RawImage(uniqueID, new Size(imageWidth, imageHeight), stride, surfaceFormat, data, false, Inset.Zero, new Size(maximumWidth, maximumHeight), flippable, anitaliasEdges);
         }
 
         public string Source => this._uiImage.Source;
@@ -190,6 +190,6 @@ namespace Microsoft.Iris
             }
         }
 
-        object AssemblyObjectProxyHelper.IFrameworkProxyObject.FrameworkObject => (object)this._uiImage;
+        object AssemblyObjectProxyHelper.IFrameworkProxyObject.FrameworkObject => _uiImage;
     }
 }

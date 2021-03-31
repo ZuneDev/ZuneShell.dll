@@ -30,7 +30,7 @@ namespace Microsoft.Iris.Markup
 
         public override bool getNext() => this.GetCharAt(this.m_index, out this.m_current);
 
-        public override unsafe string getSubstring(int start, int length) => start + length <= this._prefix.Length ? this._prefix.Substring(start, length) : NativeApi.PtrToStringUni(new IntPtr((void*)(this._buffer + start - this._prefix.Length)), length);
+        public override unsafe string getSubstring(int start, int length) => start + length <= this._prefix.Length ? this._prefix.Substring(start, length) : NativeApi.PtrToStringUni(new IntPtr(this._buffer + start - this._prefix.Length), length);
 
         public unsafe bool GetCharAt(int position, out char ch)
         {
@@ -40,7 +40,7 @@ namespace Microsoft.Iris.Markup
                 return true;
             }
             int index = position - this._prefix.Length;
-            if ((long)index < (long)this._length)
+            if (index < _length)
             {
                 ch = this._buffer[index];
                 return true;

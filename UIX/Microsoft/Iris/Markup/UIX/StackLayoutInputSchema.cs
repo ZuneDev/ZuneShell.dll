@@ -13,27 +13,27 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object GetPriority(object instanceObj) => (object)((StackLayoutInput)instanceObj).Priority;
+        private static object GetPriority(object instanceObj) => ((StackLayoutInput)instanceObj).Priority;
 
         private static void SetPriority(ref object instanceObj, object valueObj) => ((StackLayoutInput)instanceObj).Priority = (StackPriority)valueObj;
 
-        private static object GetMinimumSize(object instanceObj) => (object)((StackLayoutInput)instanceObj).MinimumSize;
+        private static object GetMinimumSize(object instanceObj) => ((StackLayoutInput)instanceObj).MinimumSize;
 
         private static void SetMinimumSize(ref object instanceObj, object valueObj) => ((StackLayoutInput)instanceObj).MinimumSize = (Size)valueObj;
 
-        private static object Construct() => (object)new StackLayoutInput();
+        private static object Construct() => new StackLayoutInput();
 
-        public static void Pass1Initialize() => StackLayoutInputSchema.Type = new UIXTypeSchema((short)205, "StackLayoutInput", (string)null, (short)133, typeof(StackLayoutInput), UIXTypeFlags.None);
+        public static void Pass1Initialize() => StackLayoutInputSchema.Type = new UIXTypeSchema(205, "StackLayoutInput", null, 133, typeof(StackLayoutInput), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema((short)205, "Priority", (short)206, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(StackLayoutInputSchema.GetPriority), new SetValueHandler(StackLayoutInputSchema.SetPriority), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema((short)205, "MinimumSize", (short)195, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(StackLayoutInputSchema.GetMinimumSize), new SetValueHandler(StackLayoutInputSchema.SetMinimumSize), false);
-            StackLayoutInputSchema.Type.Initialize(new DefaultConstructHandler(StackLayoutInputSchema.Construct), (ConstructorSchema[])null, new PropertySchema[2]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(205, "Priority", 206, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(StackLayoutInputSchema.GetPriority), new SetValueHandler(StackLayoutInputSchema.SetPriority), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(205, "MinimumSize", 195, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(StackLayoutInputSchema.GetMinimumSize), new SetValueHandler(StackLayoutInputSchema.SetMinimumSize), false);
+            StackLayoutInputSchema.Type.Initialize(new DefaultConstructHandler(StackLayoutInputSchema.Construct), null, new PropertySchema[2]
             {
-        (PropertySchema) uixPropertySchema2,
-        (PropertySchema) uixPropertySchema1
-            }, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixPropertySchema2,
+         uixPropertySchema1
+            }, null, null, null, null, null, null, null, null, null);
         }
     }
 }

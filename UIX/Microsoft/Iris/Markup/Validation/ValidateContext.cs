@@ -92,7 +92,7 @@ namespace Microsoft.Iris.Markup.Validation
           out ExpressionRestriction expressionRestriction,
           out TypeSchema baseTypeOrigin)
         {
-            baseTypeOrigin = (TypeSchema)null;
+            baseTypeOrigin = null;
             TypeSchema type = this.ResolveSymbol(this._symbolTable, name, out origin, out expressionRestriction);
             if (type == null && searchBaseTypes)
             {
@@ -104,7 +104,7 @@ namespace Microsoft.Iris.Markup.Validation
                             type = this.ResolveSymbol(markupTypeSchema.InheritableSymbolsTable, name, out origin, out expressionRestriction);
                         if (type != null)
                         {
-                            baseTypeOrigin = (TypeSchema)markupTypeSchema;
+                            baseTypeOrigin = markupTypeSchema;
                             break;
                         }
                     }
@@ -119,7 +119,7 @@ namespace Microsoft.Iris.Markup.Validation
             }
             if (type == null && name == "this" && this._owner.ObjectType == ClassSchema.Type)
             {
-                type = (TypeSchema)this._owner.TypeExport;
+                type = _owner.TypeExport;
                 origin = SymbolOrigin.Reserved;
                 expressionRestriction = ExpressionRestriction.ReadOnly;
             }
@@ -155,7 +155,7 @@ namespace Microsoft.Iris.Markup.Validation
             }
             origin = SymbolOrigin.None;
             expressionRestriction = ExpressionRestriction.None;
-            return (TypeSchema)null;
+            return null;
         }
 
         private TypeSchema ResolveSymbol(
@@ -185,7 +185,7 @@ namespace Microsoft.Iris.Markup.Validation
             }
             origin = SymbolOrigin.None;
             expressionRestriction = ExpressionRestriction.None;
-            return (TypeSchema)null;
+            return null;
         }
 
         public void DeclareReservedSymbols(Map<string, TypeSchema> reservedSymbols)
@@ -216,7 +216,7 @@ namespace Microsoft.Iris.Markup.Validation
                     string name3 = name2 + "Instance";
                     typeSchema1 = MarkupSystem.UIXGlobal.FindType(name3);
                     if (typeSchema1 == null)
-                        result = Result.Fail(string.Format("Element '{0}' has no properties that can be changed dynamically and therefore cannot be named", (object)name2));
+                        result = Result.Fail(string.Format("Element '{0}' has no properties that can be changed dynamically and therefore cannot be named", name2));
                     else
                         this._owner.Owner.TrackImportedType(typeSchema1);
                 }
@@ -230,7 +230,7 @@ namespace Microsoft.Iris.Markup.Validation
                         if (this._currentScope == SymbolOrigin.Properties && origin == SymbolOrigin.Properties)
                         {
                             if (!typeSchema2.IsAssignableFrom(typeSchema1))
-                                result = Result.Fail(string.Format("Property '{0}' exists in base class '{1}' with type '{2}' and type override '{3}' does not match", (object)name1, (object)baseTypeOrigin.Name, (object)typeSchema2.Name, (object)typeSchema1.Name));
+                                result = Result.Fail(string.Format("Property '{0}' exists in base class '{1}' with type '{2}' and type override '{3}' does not match", name1, baseTypeOrigin.Name, typeSchema2.Name, typeSchema1.Name));
                             else if (objectTag.PropertyOverrideCriteria != null)
                             {
                                 MarkupPropertySchema propertyDeep = (MarkupPropertySchema)this._baseType.FindPropertyDeep(objectTag.Name);
@@ -240,20 +240,20 @@ namespace Microsoft.Iris.Markup.Validation
                         else if (this._currentScope != SymbolOrigin.Content || origin != SymbolOrigin.Content)
                         {
                             if (this._currentScope == origin)
-                                result = Result.Fail("Name \"{0}\" (also defined in base class '{1}') cannot be overridden (tried to override {2}, but can only override Properties and Content)", (object)name1, (object)baseTypeOrigin.Name, (object)origin.ToString());
+                                result = Result.Fail("Name \"{0}\" (also defined in base class '{1}') cannot be overridden (tried to override {2}, but can only override Properties and Content)", name1, baseTypeOrigin.Name, origin.ToString());
                             else
-                                result = Result.Fail(string.Format("Name \"{0}\" (located in {1}) cannot override the same name within base class '{2}' (located in {3}) since overrides cannot cross section types", (object)name1, (object)this._currentScope.ToString(), (object)baseTypeOrigin.Name, (object)origin.ToString()));
+                                result = Result.Fail(string.Format("Name \"{0}\" (located in {1}) cannot override the same name within base class '{2}' (located in {3}) since overrides cannot cross section types", name1, this._currentScope.ToString(), baseTypeOrigin.Name, origin.ToString()));
                         }
                     }
                     else if (origin != SymbolOrigin.Reserved)
-                        result = Result.Fail("Name \"{0}\" is already in use (type '{1}') located in '{2}'", (object)name1, (object)typeSchema2.Name, (object)origin.ToString());
+                        result = Result.Fail("Name \"{0}\" is already in use (type '{1}') located in '{2}'", name1, typeSchema2.Name, origin.ToString());
                 }
                 if (!result.Failed)
                 {
                     if (this.IsNameReserved(name1))
-                        result = Result.Fail("Name \"{0}\" is reserved and cannot be used.", (object)name1);
+                        result = Result.Fail("Name \"{0}\" is reserved and cannot be used.", name1);
                     else if (!ValidateContext.IsValidSymbolName(name1))
-                        result = Result.Fail("Invalid name \"{0}\".  Valid names must begin with either an alphabetic character or an underscore and can otherwise contain only alphabetic, numeric, or underscore characters", (object)name1);
+                        result = Result.Fail("Invalid name \"{0}\".  Valid names must begin with either an alphabetic character or an underscore and can otherwise contain only alphabetic, numeric, or underscore characters", name1);
                 }
                 if (!result.Failed && typeSchema1 != null)
                     this._symbolTable.Add(new SymbolRecord()
@@ -360,7 +360,7 @@ namespace Microsoft.Iris.Markup.Validation
             foreach (SymbolRecord methodParameterRecord in this._methodParameterRecords)
                 this._symbolTable.Remove(methodParameterRecord);
             this._methodParameterRecords.Clear();
-            this._currentMethod = (ValidateMethod)null;
+            this._currentMethod = null;
         }
 
         public Result NotifyMethodFound(string name)
@@ -371,7 +371,7 @@ namespace Microsoft.Iris.Markup.Validation
             this._symbolTable.Add(new SymbolRecord()
             {
                 Name = name,
-                Type = (TypeSchema)null,
+                Type = null,
                 SymbolOrigin = SymbolOrigin.Methods
             });
             return Result.Success;
@@ -409,27 +409,27 @@ namespace Microsoft.Iris.Markup.Validation
             SymbolOrigin origin;
             TypeSchema typeSchema = this.ResolveSymbol(name, out origin, out ExpressionRestriction _);
             if (typeSchema != null)
-                return Result.Fail("Name \"{0}\" is already in use (type '{1}') located in '{2}'", (object)name, (object)typeSchema.Name, (object)origin.ToString());
+                return Result.Fail("Name \"{0}\" is already in use (type '{1}') located in '{2}'", name, typeSchema.Name, origin.ToString());
             if (!bypassReservedNameCheck)
             {
                 if (this.IsNameReserved(name))
-                    return Result.Fail("Name \"{0}\" is reserved and cannot be used.", (object)name);
+                    return Result.Fail("Name \"{0}\" is reserved and cannot be used.", name);
                 if (!ValidateContext.IsValidSymbolName(name))
-                    return Result.Fail("Invalid name \"{0}\".  Valid names must begin with either an alphabetic character or an underscore and can otherwise contain only alphabetic, numeric, or underscore characters", (object)name);
+                    return Result.Fail("Invalid name \"{0}\".  Valid names must begin with either an alphabetic character or an underscore and can otherwise contain only alphabetic, numeric, or underscore characters", name);
             }
             return Result.Success;
         }
 
         public void NotifyScopedLocalFrameEnter(ValidateStatementLoop statementLoop)
         {
-            this._scopedLocalFrameStack.Add((Vector<SymbolRecord>)null);
+            this._scopedLocalFrameStack.Add(null);
             if (statementLoop == null)
                 return;
             this._loopFramesStack.Push(this._scopedLocalFrameStack.Count);
             this._loopStatementStack.Push(statementLoop);
         }
 
-        public void NotifyScopedLocalFrameEnter() => this.NotifyScopedLocalFrameEnter((ValidateStatementLoop)null);
+        public void NotifyScopedLocalFrameEnter() => this.NotifyScopedLocalFrameEnter(null);
 
         public Result NotifyScopedLocal(string name, TypeSchema type) => this.NotifyScopedLocal(name, type, false, SymbolOrigin.ScopedLocal);
 
@@ -467,7 +467,7 @@ namespace Microsoft.Iris.Markup.Validation
             }
             Vector<SymbolRecord> scopedLocalFrame = this._scopedLocalFrameStack[this._scopedLocalFrameStack.Count - 1];
             this._scopedLocalFrameStack.RemoveAt(this._scopedLocalFrameStack.Count - 1);
-            Vector<int> vector = (Vector<int>)null;
+            Vector<int> vector = null;
             if (scopedLocalFrame != null)
             {
                 vector = new Vector<int>();
@@ -479,12 +479,12 @@ namespace Microsoft.Iris.Markup.Validation
                         vector.Add(num);
                 }
             }
-            return vector == null || vector.Count <= 0 ? (Vector<int>)null : vector;
+            return vector == null || vector.Count <= 0 ? null : vector;
         }
 
         private Vector<int> GetImmediateFrameUnwindList(SourceMarkupLoader owner, bool stopAtLoop)
         {
-            Vector<int> vector = (Vector<int>)null;
+            Vector<int> vector = null;
             int num1 = stopAtLoop ? this._loopFramesStack.Peek() : 0;
             for (int index = this._scopedLocalFrameStack.Count - 1; index >= num1; --index)
             {
@@ -501,14 +501,14 @@ namespace Microsoft.Iris.Markup.Validation
                     }
                 }
             }
-            return vector == null || vector.Count <= 0 ? (Vector<int>)null : vector;
+            return vector == null || vector.Count <= 0 ? null : vector;
         }
 
         public Vector<int> GetImmediateFrameUnwindList(SourceMarkupLoader owner) => this.GetImmediateFrameUnwindList(owner, false);
 
         public Vector<int> GetLoopUnwindList(SourceMarkupLoader owner) => this.GetImmediateFrameUnwindList(owner, true);
 
-        public ValidateStatementLoop EnclosingLoop => this._loopStatementStack.Count <= 0 ? (ValidateStatementLoop)null : this._loopStatementStack.Peek();
+        public ValidateStatementLoop EnclosingLoop => this._loopStatementStack.Count <= 0 ? null : this._loopStatementStack.Peek();
 
         public int TrackSymbolUsage(string symbol, SymbolOrigin origin)
         {
@@ -553,7 +553,7 @@ namespace Microsoft.Iris.Markup.Validation
         public Vector<ValidateExpression> StopDeclaredTriggerTracking()
         {
             Vector<ValidateExpression> triggerTrackingList = this._declaredTriggerTrackingList;
-            this._declaredTriggerTrackingList = (Vector<ValidateExpression>)null;
+            this._declaredTriggerTrackingList = null;
             return triggerTrackingList;
         }
 
@@ -573,7 +573,7 @@ namespace Microsoft.Iris.Markup.Validation
             }
             else
                 flag = false;
-            this._notifierTrackingRoot = (ValidateExpression)null;
+            this._notifierTrackingRoot = null;
             return flag;
         }
 
@@ -589,7 +589,7 @@ namespace Microsoft.Iris.Markup.Validation
 
         public Vector<TriggerRecord> TriggerList => this._triggerList;
 
-        public PropertySchema GetActivePropertyScope() => this._propertyScopeStack.Count == 0 ? (PropertySchema)null : this._propertyScopeStack.Peek().property;
+        public PropertySchema GetActivePropertyScope() => this._propertyScopeStack.Count == 0 ? null : this._propertyScopeStack.Peek().property;
 
         public NameUsage GetActiveNameUsage()
         {

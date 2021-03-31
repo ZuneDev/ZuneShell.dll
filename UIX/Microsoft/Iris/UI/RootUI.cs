@@ -14,7 +14,7 @@ namespace Microsoft.Iris.UI
         public RootUI(UIZone zone)
           : base(MarkupSystem.RootGlobal.RootType)
         {
-            this.DeclareOwner((object)zone);
+            this.DeclareOwner(zone);
             this.PropagateZone(zone);
             this.NotifyInitialized();
         }
@@ -27,7 +27,7 @@ namespace Microsoft.Iris.UI
           UIClass ui,
           Accessible data)
         {
-            return (AccessibleProxy)new RootAccessibleProxy(ui, data);
+            return new RootAccessibleProxy(ui, data);
         }
     }
 }

@@ -29,7 +29,7 @@ namespace Microsoft.Iris.Accessibility
             this._current = position;
         }
 
-        internal IEnumVARIANT Clone() => (IEnumVARIANT)new AccessibleChildren(this._proxy, this._current);
+        internal IEnumVARIANT Clone() => new AccessibleChildren(this._proxy, this._current);
 
         internal int Next(int count, object[] children)
         {
@@ -43,7 +43,7 @@ namespace Microsoft.Iris.Accessibility
                     break;
                 }
                 UIClass child = (UIClass)this._proxy.UI.Children[this._current];
-                children[index] = (object)child.AccessibleProxy;
+                children[index] = child.AccessibleProxy;
                 ++index;
             }
             while (index < count);

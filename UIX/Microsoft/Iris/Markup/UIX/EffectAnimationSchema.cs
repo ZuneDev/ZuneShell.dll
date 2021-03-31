@@ -12,19 +12,19 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object GetLoop(object instanceObj) => (object)((AnimationTemplate)instanceObj).Loop;
+        private static object GetLoop(object instanceObj) => ((AnimationTemplate)instanceObj).Loop;
 
         private static void SetLoop(ref object instanceObj, object valueObj) => ((AnimationTemplate)instanceObj).Loop = (int)valueObj;
 
-        public static void Pass1Initialize() => EffectAnimationSchema.Type = new UIXTypeSchema((short)70, "EffectAnimation", (string)null, (short)153, typeof(EffectAnimation), UIXTypeFlags.None);
+        public static void Pass1Initialize() => EffectAnimationSchema.Type = new UIXTypeSchema(70, "EffectAnimation", null, 153, typeof(EffectAnimation), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema = new UIXPropertySchema((short)70, "Loop", (short)115, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(EffectAnimationSchema.GetLoop), new SetValueHandler(EffectAnimationSchema.SetLoop), false);
-            EffectAnimationSchema.Type.Initialize((DefaultConstructHandler)null, (ConstructorSchema[])null, new PropertySchema[1]
+            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(70, "Loop", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(EffectAnimationSchema.GetLoop), new SetValueHandler(EffectAnimationSchema.SetLoop), false);
+            EffectAnimationSchema.Type.Initialize(null, null, new PropertySchema[1]
             {
-        (PropertySchema) uixPropertySchema
-            }, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixPropertySchema
+            }, null, null, null, null, null, null, null, null, null);
         }
     }
 }

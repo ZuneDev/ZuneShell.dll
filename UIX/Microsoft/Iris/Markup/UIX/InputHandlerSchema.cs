@@ -12,7 +12,7 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object GetName(object instanceObj) => (object)((InputHandler)instanceObj).Name;
+        private static object GetName(object instanceObj) => ((InputHandler)instanceObj).Name;
 
         private static void SetName(ref object instanceObj, object valueObj) => ((InputHandler)instanceObj).Name = (string)valueObj;
 
@@ -20,17 +20,17 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static void SetEnabled(ref object instanceObj, object valueObj) => ((InputHandler)instanceObj).Enabled = (bool)valueObj;
 
-        public static void Pass1Initialize() => InputHandlerSchema.Type = new UIXTypeSchema((short)110, "InputHandler", (string)null, (short)-1, typeof(InputHandler), UIXTypeFlags.Disposable);
+        public static void Pass1Initialize() => InputHandlerSchema.Type = new UIXTypeSchema(110, "InputHandler", null, -1, typeof(InputHandler), UIXTypeFlags.Disposable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema((short)110, "Name", (short)208, (short)-1, ExpressionRestriction.NoAccess, false, (RangeValidator)null, true, new GetValueHandler(InputHandlerSchema.GetName), new SetValueHandler(InputHandlerSchema.SetName), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema((short)110, "Enabled", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(InputHandlerSchema.GetEnabled), new SetValueHandler(InputHandlerSchema.SetEnabled), false);
-            InputHandlerSchema.Type.Initialize((DefaultConstructHandler)null, (ConstructorSchema[])null, new PropertySchema[2]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(110, "Name", 208, -1, ExpressionRestriction.NoAccess, false, null, true, new GetValueHandler(InputHandlerSchema.GetName), new SetValueHandler(InputHandlerSchema.SetName), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(110, "Enabled", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(InputHandlerSchema.GetEnabled), new SetValueHandler(InputHandlerSchema.SetEnabled), false);
+            InputHandlerSchema.Type.Initialize(null, null, new PropertySchema[2]
             {
-        (PropertySchema) uixPropertySchema2,
-        (PropertySchema) uixPropertySchema1
-            }, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixPropertySchema2,
+         uixPropertySchema1
+            }, null, null, null, null, null, null, null, null, null);
         }
     }
 }

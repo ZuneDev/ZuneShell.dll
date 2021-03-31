@@ -20,7 +20,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
         private uint _id;
 
         public DllPropertySchema(DllTypeSchema owner, uint ID)
-          : base((TypeSchema)owner)
+          : base(owner)
           => this._id = ID;
 
         public bool Load(IntPtr property) => this.QueryPropertyName(property) && this.QueryPropertyType(property) && (this.QueryCanRead(property) && this.QueryCanWrite(property)) && this.QueryIsStatic(property) && this.QueryNotifiesOnChange(property);
@@ -41,11 +41,11 @@ namespace Microsoft.Iris.CodeModel.Cpp
                 str3 = "get;";
             string str4 = string.Empty;
             if (this.CanWrite)
-                str4 = string.Format("{0}set;", this.CanRead ? (object)" " : (object)string.Empty);
+                str4 = string.Format("{0}set;", this.CanRead ? " " : string.Empty);
             string str5 = "<notifies>";
             if (!this.NotifiesOnChange)
                 str5 = "<doesn't notify>";
-            string.Format("0x{0:x8} {1}{2} {3} {{{4}{5}}} {6}", (object)this._id, (object)str1, (object)str2, (object)this.Name, (object)str3, (object)str4, (object)str5);
+            string.Format("0x{0:x8} {1}{2} {3} {{{4}{5}}} {6}", _id, str1, str2, Name, str3, str4, str5);
         }
 
         public override string Name => this._name;

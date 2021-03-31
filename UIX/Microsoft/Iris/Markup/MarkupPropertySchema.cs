@@ -22,16 +22,16 @@ namespace Microsoft.Iris.Markup
           TypeSchema propertyType)
         {
             if (markupTypeBase == ClassSchema.Type || markupTypeBase == EffectSchema.Type)
-                return (MarkupPropertySchema)new ClassPropertySchema(owner, name, propertyType);
+                return new ClassPropertySchema(owner, name, propertyType);
             if (markupTypeBase == UISchema.Type)
-                return (MarkupPropertySchema)new UIClassPropertySchema((UIClassTypeSchema)owner, name, propertyType);
+                return new UIClassPropertySchema((UIClassTypeSchema)owner, name, propertyType);
             if (markupTypeBase == DataTypeSchema.Type)
-                return (MarkupPropertySchema)new MarkupDataTypePropertySchema(owner, name, propertyType);
-            return markupTypeBase == DataQuerySchema.Type ? (MarkupPropertySchema)new MarkupDataQueryPropertySchema(owner, name, propertyType) : (MarkupPropertySchema)null;
+                return new MarkupDataTypePropertySchema(owner, name, propertyType);
+            return markupTypeBase == DataQuerySchema.Type ? new MarkupDataQueryPropertySchema(owner, name, propertyType) : null;
         }
 
         protected MarkupPropertySchema(MarkupTypeSchema owner, string name, TypeSchema propertyType)
-          : base((TypeSchema)owner)
+          : base(owner)
         {
             this._name = NotifyService.CanonicalizeString(name);
             this._propertyType = propertyType;

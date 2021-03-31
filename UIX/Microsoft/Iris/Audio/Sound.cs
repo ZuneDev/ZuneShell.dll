@@ -36,7 +36,7 @@ namespace Microsoft.Iris.Audio
             set
             {
                 this._systemSoundEvent = value;
-                this._source = (string)null;
+                this._source = null;
             }
         }
 
@@ -45,8 +45,8 @@ namespace Microsoft.Iris.Audio
             if (!Environment.Instance.SoundEffectsEnabled)
                 return;
             SoundManager soundManager = UISession.Default.SoundManager;
-            ISoundBuffer soundBuffer = (ISoundBuffer)null;
-            string source = (string)null;
+            ISoundBuffer soundBuffer = null;
+            string source = null;
             if (this._source != null)
                 source = this._source;
             else if (this._systemSoundEvent != SystemSoundEvent.None)
@@ -55,9 +55,9 @@ namespace Microsoft.Iris.Audio
                 soundBuffer = soundManager.GetSoundBuffer(source);
             if (soundBuffer == null)
                 return;
-            ISound sound = soundBuffer.CreateSound((object)this);
+            ISound sound = soundBuffer.CreateSound(this);
             sound.Play();
-            sound.UnregisterUsage((object)this);
+            sound.UnregisterUsage(this);
         }
     }
 }

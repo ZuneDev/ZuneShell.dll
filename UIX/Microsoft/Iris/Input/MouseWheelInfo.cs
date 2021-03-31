@@ -34,7 +34,7 @@ namespace Microsoft.Iris.Input
             return mouseWheelInfo;
         }
 
-        public override string ToString() => InvariantString.Format("{0}(Delta={1})", (object)this.GetType().Name, (object)this.WheelDelta);
+        public override string ToString() => InvariantString.Format("{0}(Delta={1})", this.GetType().Name, WheelDelta);
 
         protected override InputInfo.InfoType PoolType => MouseWheelInfo.s_poolType;
     }

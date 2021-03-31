@@ -35,13 +35,13 @@ namespace Microsoft.Iris.ViewItems
             visContainer.RemoveAllGradients();
             if (this._gradientMultiLine != null)
             {
-                this._gradientMultiLine.UnregisterUsage((object)this);
-                this._gradientMultiLine = (IGradient)null;
+                this._gradientMultiLine.UnregisterUsage(this);
+                this._gradientMultiLine = null;
             }
             if (this._gradientClipLeftRight == null)
                 return;
-            this._gradientClipLeftRight.UnregisterUsage((object)this);
-            this._gradientClipLeftRight = (IGradient)null;
+            this._gradientClipLeftRight.UnregisterUsage(this);
+            this._gradientClipLeftRight = null;
         }
     }
 }

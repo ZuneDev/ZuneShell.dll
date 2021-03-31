@@ -53,7 +53,7 @@ namespace Microsoft.Iris.ModelItems
 
         public void AttachToViewItem(ViewItem vi)
         {
-            vi.LayoutInput = (ILayoutInput)this._input;
+            vi.LayoutInput = _input;
             vi.LayoutComplete += new LayoutCompleteEventHandler(this.OnLayoutComplete);
             this._targetItem = vi;
         }
@@ -61,14 +61,14 @@ namespace Microsoft.Iris.ModelItems
         public void DetachFromViewItem(ViewItem vi)
         {
             this._targetItem.LayoutComplete -= new LayoutCompleteEventHandler(this.OnLayoutComplete);
-            this._targetItem.SetLayoutInput(ScrollingLayoutInput.Data, (ILayoutInput)null);
-            this._targetItem = (ViewItem)null;
-            this._output = (ScrollingLayoutOutput)null;
-            this._lastFocusedItem = (ViewItem)null;
-            this._uiWithAreaOfInterestToClear = (UIClass)null;
-            this._postLayoutAction = (ScrollModel.PostLayoutAction)null;
-            this._navigateAction = (ScrollModel.NavigateAction)null;
-            this._assignFocusAction = (ScrollModel.AssignFocusAction)null;
+            this._targetItem.SetLayoutInput(ScrollingLayoutInput.Data, null);
+            this._targetItem = null;
+            this._output = null;
+            this._lastFocusedItem = null;
+            this._uiWithAreaOfInterestToClear = null;
+            this._postLayoutAction = null;
+            this._navigateAction = null;
+            this._assignFocusAction = null;
         }
 
         public ViewItem TargetViewItem
@@ -123,7 +123,7 @@ namespace Microsoft.Iris.ModelItems
             get => this._input.PageStep;
             set
             {
-                if ((double)this._input.PageStep == (double)value)
+                if (_input.PageStep == (double)value)
                     return;
                 this._input.PageStep = value;
                 this.OnLayoutInputChanged();
@@ -254,9 +254,9 @@ namespace Microsoft.Iris.ModelItems
 
         public override void ScrollToPosition(float position)
         {
-            if ((double)position < 0.0)
+            if (position < 0.0)
                 position = 0.0f;
-            else if ((double)position > 1.0)
+            else if (position > 1.0)
                 position = 1f;
             this.DisableScrollIntoView();
             this._input.ScrollToPosition(position);
@@ -270,7 +270,7 @@ namespace Microsoft.Iris.ModelItems
             get => this._userDisposition;
             set
             {
-                if (this._userDisposition.Equals((object)value))
+                if (this._userDisposition.Equals(value))
                     return;
                 this._userDisposition = value;
                 this.EnableScrollIntoView();
@@ -340,7 +340,7 @@ namespace Microsoft.Iris.ModelItems
             get => this.ScrollIntoViewDisposition.LockedPosition;
             set
             {
-                if ((double)this.ScrollIntoViewDisposition.LockedPosition == (double)value)
+                if (ScrollIntoViewDisposition.LockedPosition == (double)value)
                     return;
                 this.ScrollIntoViewDisposition.LockedPosition = value;
                 this.EnableScrollIntoView();
@@ -379,7 +379,7 @@ namespace Microsoft.Iris.ModelItems
             get => this.ScrollIntoViewDisposition.LockedAlignment;
             set
             {
-                if ((double)this.ScrollIntoViewDisposition.LockedAlignment == (double)value)
+                if (ScrollIntoViewDisposition.LockedAlignment == (double)value)
                     return;
                 this.ScrollIntoViewDisposition.LockedAlignment = value;
                 this.EnableScrollIntoView();
@@ -438,7 +438,7 @@ namespace Microsoft.Iris.ModelItems
                     this.ActualScrollIntoViewDisposition.Locked = true;
                     this.SetPendingFocusAreaOfInterest(this._lastFocusedItem.UI);
                     this.OnLayoutInputChanged();
-                    this.SetPostLayoutAction((ScrollModel.PostLayoutAction)instance);
+                    this.SetPostLayoutAction(instance);
                 }
             }
             else if (nearDirection)
@@ -469,7 +469,7 @@ namespace Microsoft.Iris.ModelItems
             if (this._postLayoutAction == null)
                 return;
             this._postLayoutAction.Go();
-            this._postLayoutAction = (ScrollModel.PostLayoutAction)null;
+            this._postLayoutAction = null;
         }
 
         private Direction NearFarToDirection(bool near)
@@ -490,7 +490,7 @@ namespace Microsoft.Iris.ModelItems
         {
             RectangleF scrollerRect = this.GetScrollerRect(false);
             RectangleF viewItemRect = this.GetViewItemRect(item, false);
-            return !(RectangleF.Intersect(scrollerRect, viewItemRect) == viewItemRect) ? (this.ScrollOrientation != Orientation.Horizontal ? ((double)viewItemRect.Top >= (double)scrollerRect.Top ? ScrollModel.ItemLocation.OffscreenInFarDirection : ScrollModel.ItemLocation.OffscreenInNearDirection) : ((double)viewItemRect.Left < (double)scrollerRect.Left || this._targetItem.Zone.Session.IsRtl && (double)viewItemRect.Right > (double)scrollerRect.Right ? ScrollModel.ItemLocation.OffscreenInNearDirection : ScrollModel.ItemLocation.OffscreenInFarDirection)) : ScrollModel.ItemLocation.Onscreen;
+            return !(RectangleF.Intersect(scrollerRect, viewItemRect) == viewItemRect) ? (this.ScrollOrientation != Orientation.Horizontal ? (viewItemRect.Top >= (double)scrollerRect.Top ? ScrollModel.ItemLocation.OffscreenInFarDirection : ScrollModel.ItemLocation.OffscreenInNearDirection) : (viewItemRect.Left < (double)scrollerRect.Left || this._targetItem.Zone.Session.IsRtl && viewItemRect.Right > (double)scrollerRect.Right ? ScrollModel.ItemLocation.OffscreenInNearDirection : ScrollModel.ItemLocation.OffscreenInFarDirection)) : ScrollModel.ItemLocation.Onscreen;
         }
 
         private bool PotentialNavigationTargetIsOnscreen(Direction dir, out UIClass navigationResult) => this.PotentialNavigationTargetIsOnscreen(this._lastFocusedItem.UI, dir, out navigationResult);
@@ -514,7 +514,7 @@ namespace Microsoft.Iris.ModelItems
           out UIClass navigationResult)
         {
             bool flag = false;
-            if (ui.FindNextFocusablePeer(dir, RectangleF.Zero, out navigationResult) && navigationResult != null && this._targetItem.HasDescendant((Microsoft.Iris.Library.TreeNode)navigationResult.RootItem))
+            if (ui.FindNextFocusablePeer(dir, RectangleF.Zero, out navigationResult) && navigationResult != null && this._targetItem.HasDescendant(navigationResult.RootItem))
                 flag = true;
             return flag;
         }
@@ -581,7 +581,7 @@ namespace Microsoft.Iris.ModelItems
             if (!flag2)
                 instance.Go();
             else
-                this.SetPostLayoutAction((ScrollModel.PostLayoutAction)instance);
+                this.SetPostLayoutAction(instance);
         }
 
         private void MoveDirection(bool nearDirection)
@@ -605,7 +605,7 @@ namespace Microsoft.Iris.ModelItems
                 this.ActualScrollIntoViewDisposition.Reset();
                 this.ActualScrollIntoViewDisposition.Enabled = true;
                 this.SetPendingFocusAreaOfInterest(this._lastFocusedItem.UI);
-                this.SetPostLayoutAction((ScrollModel.PostLayoutAction)ScrollModel.NavigateAction.GetInstance(this, nearDirection, direction));
+                this.SetPostLayoutAction(ScrollModel.NavigateAction.GetInstance(this, nearDirection, direction));
                 this.OnLayoutInputChanged();
             }
             else if (nearDirection)
@@ -654,13 +654,13 @@ namespace Microsoft.Iris.ModelItems
                 this.FireNotification(NotificationID.CanScrollUp);
             if (this._output.CanScrollPositive != output.CanScrollPositive)
                 this.FireNotification(NotificationID.CanScrollDown);
-            if ((double)this._output.CurrentPage != (double)output.CurrentPage)
+            if (_output.CurrentPage != (double)output.CurrentPage)
                 this.FireNotification(NotificationID.CurrentPage);
-            if ((double)this._output.TotalPages != (double)output.TotalPages)
+            if (_output.TotalPages != (double)output.TotalPages)
                 this.FireNotification(NotificationID.TotalPages);
-            if ((double)this._output.ViewNear != (double)output.ViewNear)
+            if (_output.ViewNear != (double)output.ViewNear)
                 this.FireNotification(NotificationID.ViewNear);
-            if ((double)this._output.ViewFar == (double)output.ViewFar)
+            if (_output.ViewFar == (double)output.ViewFar)
                 return;
             this.FireNotification(NotificationID.ViewFar);
         }
@@ -669,7 +669,7 @@ namespace Microsoft.Iris.ModelItems
         {
             this.OnLayoutOutputChanged();
             UIClass keyFocusDescendant = this._targetItem.UI.KeyFocusDescendant;
-            if (keyFocusDescendant != null && keyFocusDescendant != this._targetItem.UI && this._targetItem.HasDescendant((Microsoft.Iris.Library.TreeNode)keyFocusDescendant.RootItem))
+            if (keyFocusDescendant != null && keyFocusDescendant != this._targetItem.UI && this._targetItem.HasDescendant(keyFocusDescendant.RootItem))
                 this._lastFocusedItem = keyFocusDescendant.RootItem;
             this.ClearPendingFocusAreaOfInterest();
             if (!this._useUserDisposition)
@@ -689,7 +689,7 @@ namespace Microsoft.Iris.ModelItems
                 return;
             if (!this._uiWithAreaOfInterestToClear.IsDisposed)
                 this._uiWithAreaOfInterestToClear.ClearAreaOfInterest(AreaOfInterestID.PendingFocus);
-            this._uiWithAreaOfInterestToClear = (UIClass)null;
+            this._uiWithAreaOfInterestToClear = null;
         }
 
         private void SetPendingFocusAreaOfInterest(UIClass ui)
@@ -704,7 +704,7 @@ namespace Microsoft.Iris.ModelItems
         private bool HadFocus()
         {
             if (this._lastFocusedItem != null && this._lastFocusedItem.IsDisposed)
-                this._lastFocusedItem = (ViewItem)null;
+                this._lastFocusedItem = null;
             return this._lastFocusedItem != null;
         }
 
@@ -717,7 +717,7 @@ namespace Microsoft.Iris.ModelItems
         private RectangleF GetViewItemRect(ViewItem item, bool forNavigation)
         {
             if (!forNavigation)
-                return RectangleF.FromRectangle(((ITrackableUIElement)item).EstimatePosition((IZoneDisplayChild)this._targetItem));
+                return RectangleF.FromRectangle(((ITrackableUIElement)item).EstimatePosition(_targetItem));
             Vector3 positionPxlVector;
             Vector3 sizePxlVector;
             ((INavigationSite)item).ComputeBounds(out positionPxlVector, out sizePxlVector);
@@ -806,9 +806,9 @@ namespace Microsoft.Iris.ModelItems
             {
                 if (this.Origin == null || this.Origin.IsDisposed)
                     return;
-                UIClass uiClass = this.Origin.DirectKeyFocus ? this.Origin : (UIClass)null;
+                UIClass uiClass = this.Origin.DirectKeyFocus ? this.Origin : null;
                 UIClass resultUI;
-                if (this.Origin.FindNextFocusablePeer(this._direction, RectangleF.Zero, out resultUI) && resultUI != null && (resultUI != uiClass && this.Target.HasDescendant((Microsoft.Iris.Library.TreeNode)resultUI.RootItem)))
+                if (this.Origin.FindNextFocusablePeer(this._direction, RectangleF.Zero, out resultUI) && resultUI != null && (resultUI != uiClass && this.Target.HasDescendant(resultUI.RootItem)))
                 {
                     this.Data.NavigateToUI(resultUI);
                     this.Data.EnableScrollIntoView();
@@ -847,7 +847,7 @@ namespace Microsoft.Iris.ModelItems
 
             public override void Go()
             {
-                UIClass ui = (UIClass)null;
+                UIClass ui = null;
                 if (this._tryNonBiasedSearchFirst)
                     ui = this.FindNavigationResult(true);
                 if (ui == null)
@@ -861,18 +861,18 @@ namespace Microsoft.Iris.ModelItems
 
             private UIClass FindNavigationResult(bool findNearest)
             {
-                UIClass uiClass = (UIClass)null;
+                UIClass uiClass = null;
                 INavigationSite result;
                 bool fromPoint;
                 if (findNearest)
                 {
-                    fromPoint = NavigationServices.FindFromPoint((INavigationSite)this.Target, this._assignPoint, out result);
+                    fromPoint = NavigationServices.FindFromPoint(Target, this._assignPoint, out result);
                 }
                 else
                 {
                     Direction direction = this.Data.NearFarToDirection(this.NearDirection);
                     this._assignPoint = this.Data.GetMoveToEndpointPoint(this.NearDirection);
-                    fromPoint = NavigationServices.FindFromPoint((INavigationSite)this.Target, direction, this._assignPoint, out result);
+                    fromPoint = NavigationServices.FindFromPoint(Target, direction, this._assignPoint, out result);
                 }
                 if (fromPoint && result != null)
                 {

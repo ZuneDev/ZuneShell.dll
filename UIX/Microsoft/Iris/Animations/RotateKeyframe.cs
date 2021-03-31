@@ -22,7 +22,7 @@ namespace Microsoft.Iris.Animations
         {
             if (this.RelativeTo == RelativeTo.Final)
                 baseValueRotation.AngleRadians += args.NewRotation.AngleRadians;
-            if (UISession.Default.IsRtl && (double)baseValueRotation.Axis.Y <= 0.0 && (double)baseValueRotation.Axis.X <= 0.0)
+            if (UISession.Default.IsRtl && baseValueRotation.Axis.Y <= 0.0 && baseValueRotation.Axis.X <= 0.0)
                 baseValueRotation.AngleRadians = -baseValueRotation.AngleRadians;
             return baseValueRotation;
         }

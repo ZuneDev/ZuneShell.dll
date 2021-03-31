@@ -23,27 +23,27 @@ namespace Microsoft.Iris.Markup.UIX
           object[] parameters)
         {
             ((EffectElementWrapper)instanceObj).PlayAnimation(EffectProperty.Downsample, (EffectAnimation)parameters[0]);
-            return (object)null;
+            return null;
         }
 
-        public static void Pass1Initialize() => DestinationElementInstanceSchema.Type = new UIXTypeSchema((short)57, "DestinationElementInstance", (string)null, (short)74, typeof(EffectElementWrapper), UIXTypeFlags.None);
+        public static void Pass1Initialize() => DestinationElementInstanceSchema.Type = new UIXTypeSchema(57, "DestinationElementInstance", null, 74, typeof(EffectElementWrapper), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema((short)57, "Downsample", (short)194, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, (GetValueHandler)null, new SetValueHandler(DestinationElementInstanceSchema.SetDownsample), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema((short)57, "UVOffset", (short)233, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, (GetValueHandler)null, new SetValueHandler(DestinationElementInstanceSchema.SetUVOffset), false);
-            UIXMethodSchema uixMethodSchema = new UIXMethodSchema((short)57, "PlayDownsampleAnimation", new short[1]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(57, "Downsample", 194, -1, ExpressionRestriction.None, false, null, false, null, new SetValueHandler(DestinationElementInstanceSchema.SetDownsample), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(57, "UVOffset", 233, -1, ExpressionRestriction.None, false, null, false, null, new SetValueHandler(DestinationElementInstanceSchema.SetUVOffset), false);
+            UIXMethodSchema uixMethodSchema = new UIXMethodSchema(57, "PlayDownsampleAnimation", new short[1]
             {
-        (short) 75
-            }, (short)240, new InvokeHandler(DestinationElementInstanceSchema.CallPlayDownsampleAnimationEffectFloatAnimation), false);
-            DestinationElementInstanceSchema.Type.Initialize((DefaultConstructHandler)null, (ConstructorSchema[])null, new PropertySchema[2]
+         75
+            }, 240, new InvokeHandler(DestinationElementInstanceSchema.CallPlayDownsampleAnimationEffectFloatAnimation), false);
+            DestinationElementInstanceSchema.Type.Initialize(null, null, new PropertySchema[2]
             {
-        (PropertySchema) uixPropertySchema1,
-        (PropertySchema) uixPropertySchema2
+         uixPropertySchema1,
+         uixPropertySchema2
             }, new MethodSchema[1]
             {
-        (MethodSchema) uixMethodSchema
-            }, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixMethodSchema
+            }, null, null, null, null, null, null, null, null);
         }
     }
 }

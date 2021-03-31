@@ -30,7 +30,7 @@ namespace Microsoft.Iris.Markup.UIX
           object[] parameters)
         {
             ((EffectElementWrapper)instanceObj).PlayAnimation(EffectProperty.Position, (EffectAnimation)parameters[0]);
-            return (object)null;
+            return null;
         }
 
         private static object CallPlayRadiusAnimationEffectFloatAnimation(
@@ -38,7 +38,7 @@ namespace Microsoft.Iris.Markup.UIX
           object[] parameters)
         {
             ((EffectElementWrapper)instanceObj).PlayAnimation(EffectProperty.Radius, (EffectAnimation)parameters[0]);
-            return (object)null;
+            return null;
         }
 
         private static object CallPlayLightColorAnimationEffectColorAnimation(
@@ -46,7 +46,7 @@ namespace Microsoft.Iris.Markup.UIX
           object[] parameters)
         {
             ((EffectElementWrapper)instanceObj).PlayAnimation(EffectProperty.LightColor, (EffectAnimation)parameters[0]);
-            return (object)null;
+            return null;
         }
 
         private static object CallPlayAmbientColorAnimationEffectColorAnimation(
@@ -54,7 +54,7 @@ namespace Microsoft.Iris.Markup.UIX
           object[] parameters)
         {
             ((EffectElementWrapper)instanceObj).PlayAnimation(EffectProperty.AmbientColor, (EffectAnimation)parameters[0]);
-            return (object)null;
+            return null;
         }
 
         private static object CallPlayAttenuationAnimationEffectVector3Animation(
@@ -62,53 +62,53 @@ namespace Microsoft.Iris.Markup.UIX
           object[] parameters)
         {
             ((EffectElementWrapper)instanceObj).PlayAnimation(EffectProperty.Attenuation, (EffectAnimation)parameters[0]);
-            return (object)null;
+            return null;
         }
 
-        public static void Pass1Initialize() => PointLight2DInstanceSchema.Type = new UIXTypeSchema((short)160, "PointLight2DInstance", (string)null, (short)74, typeof(EffectElementWrapper), UIXTypeFlags.None);
+        public static void Pass1Initialize() => PointLight2DInstanceSchema.Type = new UIXTypeSchema(160, "PointLight2DInstance", null, 74, typeof(EffectElementWrapper), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema((short)160, "Position", (short)234, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, (GetValueHandler)null, new SetValueHandler(PointLight2DInstanceSchema.SetPosition), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema((short)160, "Radius", (short)194, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, (GetValueHandler)null, new SetValueHandler(PointLight2DInstanceSchema.SetRadius), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema((short)160, "LightColor", (short)35, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, (GetValueHandler)null, new SetValueHandler(PointLight2DInstanceSchema.SetLightColor), false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema((short)160, "AmbientColor", (short)35, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, (GetValueHandler)null, new SetValueHandler(PointLight2DInstanceSchema.SetAmbientColor), false);
-            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema((short)160, "Attenuation", (short)234, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, (GetValueHandler)null, new SetValueHandler(PointLight2DInstanceSchema.SetAttenuation), false);
-            UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema((short)160, "PlayPositionAnimation", new short[1]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(160, "Position", 234, -1, ExpressionRestriction.None, false, null, false, null, new SetValueHandler(PointLight2DInstanceSchema.SetPosition), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(160, "Radius", 194, -1, ExpressionRestriction.None, false, null, false, null, new SetValueHandler(PointLight2DInstanceSchema.SetRadius), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(160, "LightColor", 35, -1, ExpressionRestriction.None, false, null, false, null, new SetValueHandler(PointLight2DInstanceSchema.SetLightColor), false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(160, "AmbientColor", 35, -1, ExpressionRestriction.None, false, null, false, null, new SetValueHandler(PointLight2DInstanceSchema.SetAmbientColor), false);
+            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(160, "Attenuation", 234, -1, ExpressionRestriction.None, false, null, false, null, new SetValueHandler(PointLight2DInstanceSchema.SetAttenuation), false);
+            UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema(160, "PlayPositionAnimation", new short[1]
             {
-        (short) 81
-            }, (short)240, new InvokeHandler(PointLight2DInstanceSchema.CallPlayPositionAnimationEffectVector3Animation), false);
-            UIXMethodSchema uixMethodSchema2 = new UIXMethodSchema((short)160, "PlayRadiusAnimation", new short[1]
+         81
+            }, 240, new InvokeHandler(PointLight2DInstanceSchema.CallPlayPositionAnimationEffectVector3Animation), false);
+            UIXMethodSchema uixMethodSchema2 = new UIXMethodSchema(160, "PlayRadiusAnimation", new short[1]
             {
-        (short) 75
-            }, (short)240, new InvokeHandler(PointLight2DInstanceSchema.CallPlayRadiusAnimationEffectFloatAnimation), false);
-            UIXMethodSchema uixMethodSchema3 = new UIXMethodSchema((short)160, "PlayLightColorAnimation", new short[1]
+         75
+            }, 240, new InvokeHandler(PointLight2DInstanceSchema.CallPlayRadiusAnimationEffectFloatAnimation), false);
+            UIXMethodSchema uixMethodSchema3 = new UIXMethodSchema(160, "PlayLightColorAnimation", new short[1]
             {
-        (short) 71
-            }, (short)240, new InvokeHandler(PointLight2DInstanceSchema.CallPlayLightColorAnimationEffectColorAnimation), false);
-            UIXMethodSchema uixMethodSchema4 = new UIXMethodSchema((short)160, "PlayAmbientColorAnimation", new short[1]
+         71
+            }, 240, new InvokeHandler(PointLight2DInstanceSchema.CallPlayLightColorAnimationEffectColorAnimation), false);
+            UIXMethodSchema uixMethodSchema4 = new UIXMethodSchema(160, "PlayAmbientColorAnimation", new short[1]
             {
-        (short) 71
-            }, (short)240, new InvokeHandler(PointLight2DInstanceSchema.CallPlayAmbientColorAnimationEffectColorAnimation), false);
-            UIXMethodSchema uixMethodSchema5 = new UIXMethodSchema((short)160, "PlayAttenuationAnimation", new short[1]
+         71
+            }, 240, new InvokeHandler(PointLight2DInstanceSchema.CallPlayAmbientColorAnimationEffectColorAnimation), false);
+            UIXMethodSchema uixMethodSchema5 = new UIXMethodSchema(160, "PlayAttenuationAnimation", new short[1]
             {
-        (short) 81
-            }, (short)240, new InvokeHandler(PointLight2DInstanceSchema.CallPlayAttenuationAnimationEffectVector3Animation), false);
-            PointLight2DInstanceSchema.Type.Initialize((DefaultConstructHandler)null, (ConstructorSchema[])null, new PropertySchema[5]
+         81
+            }, 240, new InvokeHandler(PointLight2DInstanceSchema.CallPlayAttenuationAnimationEffectVector3Animation), false);
+            PointLight2DInstanceSchema.Type.Initialize(null, null, new PropertySchema[5]
             {
-        (PropertySchema) uixPropertySchema4,
-        (PropertySchema) uixPropertySchema5,
-        (PropertySchema) uixPropertySchema3,
-        (PropertySchema) uixPropertySchema1,
-        (PropertySchema) uixPropertySchema2
+         uixPropertySchema4,
+         uixPropertySchema5,
+         uixPropertySchema3,
+         uixPropertySchema1,
+         uixPropertySchema2
             }, new MethodSchema[5]
             {
-        (MethodSchema) uixMethodSchema1,
-        (MethodSchema) uixMethodSchema2,
-        (MethodSchema) uixMethodSchema3,
-        (MethodSchema) uixMethodSchema4,
-        (MethodSchema) uixMethodSchema5
-            }, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixMethodSchema1,
+         uixMethodSchema2,
+         uixMethodSchema3,
+         uixMethodSchema4,
+         uixMethodSchema5
+            }, null, null, null, null, null, null, null, null);
         }
     }
 }

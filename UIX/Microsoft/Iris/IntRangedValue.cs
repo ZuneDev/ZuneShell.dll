@@ -26,25 +26,25 @@ namespace Microsoft.Iris
         public int Value
         {
             get => (int)base.Value;
-            set => base.Value = (float)value;
+            set => base.Value = value;
         }
 
         public int MinValue
         {
             get => (int)base.MinValue;
-            set => base.MinValue = (float)value;
+            set => base.MinValue = value;
         }
 
         public int MaxValue
         {
             get => (int)base.MaxValue;
-            set => base.MaxValue = (float)value;
+            set => base.MaxValue = value;
         }
 
         public int Step
         {
             get => (int)base.Step;
-            set => base.Step = (float)value;
+            set => base.Step = value;
         }
 
         internal override ModelItems.RangedValue CreateInternalRangedValue() => new ModelItems.IntRangedValue();

@@ -17,7 +17,7 @@ namespace Microsoft.Iris.Markup.Validation
         public static TypeRestriction NotVoid;
 
         public TypeRestriction(TypeSchema primary)
-          : this(primary, (TypeSchema)null)
+          : this(primary, null)
         {
         }
 
@@ -35,8 +35,8 @@ namespace Microsoft.Iris.Markup.Validation
 
         public static void InitializeStatics()
         {
-            TypeRestriction.None = new TypeRestriction((TypeSchema)null, (TypeSchema)null, true);
-            TypeRestriction.NotVoid = new TypeRestriction((TypeSchema)VoidSchema.Type, (TypeSchema)null, false);
+            TypeRestriction.None = new TypeRestriction(null, null, true);
+            TypeRestriction.NotVoid = new TypeRestriction(VoidSchema.Type, null, false);
         }
 
         public TypeSchema Primary => this._primary;
@@ -56,8 +56,8 @@ namespace Microsoft.Iris.Markup.Validation
             string str2 = this._primary.Name;
             if (str1 == str2)
             {
-                str1 = str1 + " (" + (object)checkType.Owner + ")";
-                str2 = str2 + " (" + (object)this._primary.Owner + ")";
+                str1 = str1 + " (" + checkType.Owner + ")";
+                str2 = str2 + " (" + _primary.Owner + ")";
             }
             subject.ReportError(errorMessage, str1, str2);
             return false;

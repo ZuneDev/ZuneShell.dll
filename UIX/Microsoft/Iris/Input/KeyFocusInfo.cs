@@ -40,7 +40,7 @@ namespace Microsoft.Iris.Input
         protected override void Zombie()
         {
             base.Zombie();
-            this._other = (ICookedInputSite)null;
+            this._other = null;
         }
 
         public bool State => this._state;

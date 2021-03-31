@@ -17,7 +17,7 @@ namespace Microsoft.Iris.ModelItems
         private IList _source;
 
         public NotifyList()
-          : this((IList)new ArrayList())
+          : this(new ArrayList())
         {
         }
 
@@ -105,7 +105,7 @@ namespace Microsoft.Iris.ModelItems
         {
             if (this.ContentsChanged == null)
                 return;
-            this.ContentsChanged((IList)this, new UIListContentsChangedArgs(type, oldIndex, newIndex));
+            this.ContentsChanged(this, new UIListContentsChangedArgs(type, oldIndex, newIndex));
         }
     }
 }

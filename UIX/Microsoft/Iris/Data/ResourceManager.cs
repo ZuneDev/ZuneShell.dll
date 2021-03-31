@@ -30,7 +30,7 @@ namespace Microsoft.Iris.Data
 
         public Resource GetResource(string uri, bool forceSynchronous)
         {
-            Resource resource = (Resource)null;
+            Resource resource = null;
             if (this._redirects != null)
             {
                 foreach (ResourceManager.UriRedirect redirect in this._redirects)
@@ -39,8 +39,8 @@ namespace Microsoft.Iris.Data
                     {
                         if (redirect.toPrefix.Equals("{ERROR}", StringComparison.OrdinalIgnoreCase))
                         {
-                            ErrorManager.ReportError("Resource {0} not found, but should have been located by a markup redirect", (object)uri);
-                            return (Resource)null;
+                            ErrorManager.ReportError("Resource {0} not found, but should have been located by a markup redirect", uri);
+                            return null;
                         }
                         resource = this.GetResourceWorker(redirect.toPrefix + uri.Substring(redirect.fromPrefix.Length), true);
                         if (resource != null)
@@ -49,7 +49,7 @@ namespace Microsoft.Iris.Data
                             bool flag = resource.Status == ResourceStatus.Available;
                             resource.Free();
                             if (!flag)
-                                resource = (Resource)null;
+                                resource = null;
                         }
                     }
                     if (resource != null)
@@ -63,20 +63,20 @@ namespace Microsoft.Iris.Data
 
         private Resource GetResourceWorker(string uri, bool forceSynchronous)
         {
-            Resource resource = (Resource)null;
+            Resource resource = null;
             string scheme;
             string hierarchicalPart;
             ResourceManager.ParseUri(uri, out scheme, out hierarchicalPart);
             if (string.IsNullOrEmpty(scheme) || string.IsNullOrEmpty(hierarchicalPart))
             {
-                ErrorManager.ReportWarning("Invalid resource uri: '{0}'", (object)uri);
-                return (Resource)null;
+                ErrorManager.ReportWarning("Invalid resource uri: '{0}'", uri);
+                return null;
             }
             IResourceProvider resourceProvider;
             if (this._sourcesTable.TryGetValue(scheme, out resourceProvider))
                 resource = resourceProvider.GetResource(hierarchicalPart, uri, forceSynchronous);
             else
-                ErrorManager.ReportWarning("Invalid resource protocol: '{0}'", (object)scheme);
+                ErrorManager.ReportWarning("Invalid resource protocol: '{0}'", scheme);
             return resource;
         }
 
@@ -90,7 +90,7 @@ namespace Microsoft.Iris.Data
             }
             else
             {
-                scheme = (string)null;
+                scheme = null;
                 hierarchicalPart = uri;
             }
         }
@@ -110,21 +110,21 @@ namespace Microsoft.Iris.Data
             ErrorWatermark watermark = ErrorManager.Watermark;
             Resource resource = ResourceManager.Instance.GetResource(uri, true);
             if (resource == null)
-                return (Resource)null;
+                return null;
             resource.Acquire();
             if (resource.Status == ResourceStatus.Error)
             {
                 if (resource.ErrorDetails != null)
                     ErrorManager.ReportError(resource.ErrorDetails);
                 else
-                    ErrorManager.ReportError("Failed to acquire resource '{0}'", (object)uri);
+                    ErrorManager.ReportError("Failed to acquire resource '{0}'", uri);
             }
             else if (resource.Status != ResourceStatus.Available)
-                ErrorManager.ReportError("Failed to acquire resource '{0}'.  Resources that cannot be fetched synchronously are not valid in this context", (object)uri);
+                ErrorManager.ReportError("Failed to acquire resource '{0}'.  Resources that cannot be fetched synchronously are not valid in this context", uri);
             if (watermark.ErrorsDetected)
             {
                 resource.Free();
-                resource = (Resource)null;
+                resource = null;
             }
             return resource;
         }

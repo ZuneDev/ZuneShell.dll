@@ -56,7 +56,7 @@ namespace Microsoft.Iris.Drawing
 
         public float AltFontSize
         {
-            get => (double)this._altFontHeight == 0.0 ? this._fontHeight : this._altFontHeight;
+            get => _altFontHeight == 0.0 ? this._fontHeight : this._altFontHeight;
             set => this._altFontHeight = value;
         }
 
@@ -72,7 +72,7 @@ namespace Microsoft.Iris.Drawing
             set => this._fontName = value;
         }
 
-        public override bool Equals(object obj) => obj is Font font && this._fontName == font._fontName && ((double)this._fontHeight == (double)font._fontHeight && (double)this._altFontHeight == (double)font._altFontHeight) && this._fontStyle == font._fontStyle;
+        public override bool Equals(object obj) => obj is Font font && this._fontName == font._fontName && (_fontHeight == (double)font._fontHeight && _altFontHeight == (double)font._altFontHeight) && this._fontStyle == font._fontStyle;
 
         public override int GetHashCode() => this._fontName.GetHashCode() ^ this._fontHeight.GetHashCode() ^ this._altFontHeight.GetHashCode() ^ this._fontStyle.GetHashCode();
 
@@ -84,7 +84,7 @@ namespace Microsoft.Iris.Drawing
             stringBuilder.Append("\" ");
             stringBuilder.Append(this._fontHeight);
             stringBuilder.Append("pt ");
-            stringBuilder.Append((object)this._fontStyle);
+            stringBuilder.Append(_fontStyle);
             stringBuilder.Append("}");
             return stringBuilder.ToString();
         }

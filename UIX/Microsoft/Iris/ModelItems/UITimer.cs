@@ -13,7 +13,7 @@ namespace Microsoft.Iris.ModelItems
     {
         private DispatcherTimer _dispatcherTimer;
 
-        public UITimer() => this._dispatcherTimer = new DispatcherTimer((ITimerOwner)this);
+        public UITimer() => this._dispatcherTimer = new DispatcherTimer(this);
 
         protected override void OnDispose()
         {

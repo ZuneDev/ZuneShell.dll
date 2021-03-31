@@ -13,31 +13,31 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object GetExpression(object instanceObj) => (object)((SwitchAnimation)instanceObj).Expression;
+        private static object GetExpression(object instanceObj) => ((SwitchAnimation)instanceObj).Expression;
 
         private static void SetExpression(ref object instanceObj, object valueObj) => ((SwitchAnimation)instanceObj).Expression = (IUIValueRange)valueObj;
 
-        private static object GetOptions(object instanceObj) => (object)((SwitchAnimation)instanceObj).Options;
+        private static object GetOptions(object instanceObj) => ((SwitchAnimation)instanceObj).Options;
 
-        private static object GetType(object instanceObj) => (object)((SwitchAnimation)instanceObj).Type;
+        private static object GetType(object instanceObj) => ((SwitchAnimation)instanceObj).Type;
 
         private static void SetType(ref object instanceObj, object valueObj) => ((SwitchAnimation)instanceObj).Type = (AnimationEventType)valueObj;
 
-        private static object Construct() => (object)new SwitchAnimation();
+        private static object Construct() => new SwitchAnimation();
 
-        public static void Pass1Initialize() => SwitchAnimationSchema.Type = new UIXTypeSchema((short)210, "SwitchAnimation", (string)null, (short)104, typeof(SwitchAnimation), UIXTypeFlags.None);
+        public static void Pass1Initialize() => SwitchAnimationSchema.Type = new UIXTypeSchema(210, "SwitchAnimation", null, 104, typeof(SwitchAnimation), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema((short)210, "Expression", (short)231, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(SwitchAnimationSchema.GetExpression), new SetValueHandler(SwitchAnimationSchema.SetExpression), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema((short)210, "Options", (short)58, (short)-1, ExpressionRestriction.NoAccess, false, (RangeValidator)null, true, new GetValueHandler(SwitchAnimationSchema.GetOptions), (SetValueHandler)null, false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema((short)210, "Type", (short)10, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(SwitchAnimationSchema.GetType), new SetValueHandler(SwitchAnimationSchema.SetType), false);
-            SwitchAnimationSchema.Type.Initialize(new DefaultConstructHandler(SwitchAnimationSchema.Construct), (ConstructorSchema[])null, new PropertySchema[3]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(210, "Expression", 231, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(SwitchAnimationSchema.GetExpression), new SetValueHandler(SwitchAnimationSchema.SetExpression), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(210, "Options", 58, -1, ExpressionRestriction.NoAccess, false, null, true, new GetValueHandler(SwitchAnimationSchema.GetOptions), null, false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(210, "Type", 10, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(SwitchAnimationSchema.GetType), new SetValueHandler(SwitchAnimationSchema.SetType), false);
+            SwitchAnimationSchema.Type.Initialize(new DefaultConstructHandler(SwitchAnimationSchema.Construct), null, new PropertySchema[3]
             {
-        (PropertySchema) uixPropertySchema1,
-        (PropertySchema) uixPropertySchema2,
-        (PropertySchema) uixPropertySchema3
-            }, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixPropertySchema1,
+         uixPropertySchema2,
+         uixPropertySchema3
+            }, null, null, null, null, null, null, null, null, null);
         }
     }
 }

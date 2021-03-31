@@ -30,7 +30,7 @@ namespace Microsoft.Iris.Markup
             return true;
         }
 
-        protected override IDataProviderBaseObject ExternalAssemblyObject => (IDataProviderBaseObject)this._externalObject;
+        protected override IDataProviderBaseObject ExternalAssemblyObject => _externalObject;
 
         public override IntPtr ExternalNativeObject => IntPtr.Zero;
     }

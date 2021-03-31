@@ -21,7 +21,7 @@ namespace Microsoft.Iris.Markup
             for (ListenerNodeBase next = this._listenerRoot.Next; next != this._listenerRoot; next = next.Next)
             {
                 Listener listener = (Listener)next;
-                if (object.ReferenceEquals((object)listener.Watch, (object)id))
+                if (object.ReferenceEquals(listener.Watch, id))
                     listener.OnNotify();
             }
         }
@@ -32,7 +32,7 @@ namespace Microsoft.Iris.Markup
             if (UIDispatcher.IsUIThread)
                 this.Fire(id);
             else
-                DeferredCall.Post(DispatchPriority.AppEvent, new DeferredHandler(this.FireThreadSafeMarshalHandler), (object)id);
+                DeferredCall.Post(DispatchPriority.AppEvent, new DeferredHandler(this.FireThreadSafeMarshalHandler), id);
         }
 
         public void FireThreadSafeMarshalHandler(object arg) => this.Fire((string)arg);
@@ -43,7 +43,7 @@ namespace Microsoft.Iris.Markup
         {
             if (this._listenerRoot == null)
                 this._listenerRoot = new ListenerRootNode();
-            this._listenerRoot.AddPrevious((ListenerNodeBase)listener);
+            this._listenerRoot.AddPrevious(listener);
         }
 
         public void ClearListeners()
@@ -53,18 +53,18 @@ namespace Microsoft.Iris.Markup
             while (this._listenerRoot.Next != null)
                 this._listenerRoot.Next.Unlink();
             this._listenerRoot.Dispose();
-            this._listenerRoot = (ListenerRootNode)null;
+            this._listenerRoot = null;
         }
 
         public static string CanonicalizeString(string value) => NotifyService.GetCanonicalizedString(value, true);
 
         private static string GetCanonicalizedString(string value, bool addIfNotFound)
         {
-            object obj = (object)null;
-            if (!NotifyService.s_canonicalizedStrings.TryGetValue((object)value, out obj) && addIfNotFound)
+            object obj = null;
+            if (!NotifyService.s_canonicalizedStrings.TryGetValue(value, out obj) && addIfNotFound)
             {
-                NotifyService.s_canonicalizedStrings[(object)value] = (object)value;
-                obj = (object)value;
+                NotifyService.s_canonicalizedStrings[value] = value;
+                obj = value;
             }
             return (string)obj;
         }

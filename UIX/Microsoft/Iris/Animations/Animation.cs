@@ -32,8 +32,8 @@ namespace Microsoft.Iris.Animations
         public override object Clone()
         {
             Animation animation = new Animation();
-            this.CloneWorker((AnimationTemplate)animation);
-            return (object)animation;
+            this.CloneWorker(animation);
+            return animation;
         }
 
         protected override void CloneWorker(AnimationTemplate rawAnimation)
@@ -71,7 +71,7 @@ namespace Microsoft.Iris.Animations
             {
                 if (!(this.CenterPointPercent != value))
                     return;
-                this.SetData(Animation.s_centerPointScaleProperty, (object)value);
+                this.SetData(Animation.s_centerPointScaleProperty, value);
                 this.SetBit(Animation.Bits.CenterPointScale, true);
             }
         }
@@ -83,7 +83,7 @@ namespace Microsoft.Iris.Animations
             {
                 if (!(this.RotationAxis != value))
                     return;
-                this.SetData(Animation.s_rotationAxisProperty, (object)value);
+                this.SetData(Animation.s_rotationAxisProperty, value);
                 this.SetBit(Animation.Bits.RotationAxis, true);
             }
         }
@@ -98,7 +98,7 @@ namespace Microsoft.Iris.Animations
           ref AnimationArgs args)
         {
             this.PrepareToPlay(ref args);
-            return (AnimationTemplate)this;
+            return this;
         }
 
         public bool CanCache => true;

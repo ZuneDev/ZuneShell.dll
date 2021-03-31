@@ -10,7 +10,7 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object CallToString(object instanceObj, object[] parameters) => (object)instanceObj.ToString();
+        private static object CallToString(object instanceObj, object[] parameters) => instanceObj.ToString();
 
         private static bool IsOperationSupported(OperationType op)
         {
@@ -35,19 +35,19 @@ namespace Microsoft.Iris.Markup.UIX
                 case OperationType.RelationalNotEquals:
                     return BooleanBoxes.Box(!object.Equals(objA, objB));
                 default:
-                    return (object)null;
+                    return null;
             }
         }
 
-        public static void Pass1Initialize() => ObjectSchema.Type = new UIXTypeSchema((short)153, "Object", "object", (short)-1, typeof(object), UIXTypeFlags.None);
+        public static void Pass1Initialize() => ObjectSchema.Type = new UIXTypeSchema(153, "Object", "object", -1, typeof(object), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXMethodSchema uixMethodSchema = new UIXMethodSchema((short)153, "ToString", (short[])null, (short)208, new InvokeHandler(ObjectSchema.CallToString), false);
-            ObjectSchema.Type.Initialize((DefaultConstructHandler)null, (ConstructorSchema[])null, (PropertySchema[])null, new MethodSchema[1]
+            UIXMethodSchema uixMethodSchema = new UIXMethodSchema(153, "ToString", null, 208, new InvokeHandler(ObjectSchema.CallToString), false);
+            ObjectSchema.Type.Initialize(null, null, null, new MethodSchema[1]
             {
-        (MethodSchema) uixMethodSchema
-            }, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, new PerformOperationHandler(ObjectSchema.ExecuteOperation), new SupportsOperationHandler(ObjectSchema.IsOperationSupported));
+         uixMethodSchema
+            }, null, null, null, null, null, null, new PerformOperationHandler(ObjectSchema.ExecuteOperation), new SupportsOperationHandler(ObjectSchema.IsOperationSupported));
         }
     }
 }

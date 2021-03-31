@@ -23,7 +23,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
         {
             DllProxyObject.CreateHandleTable();
             DllProxyServices.s_stringTable = new StringProxyHandleTable();
-            int num = (int)NativeApi.SpRegisterNativeServicesCallbacks((IRawUIXServices)new DllProxyServices());
+            int num = (int)NativeApi.SpRegisterNativeServicesCallbacks(new DllProxyServices());
         }
 
         public static void Shutdown()
@@ -31,7 +31,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
             DllProxyObject.ReleaseOutstandingProxies();
             NativeMarkupDataType.ReleaseOutstandingProxies();
             NativeApi.SpUnregisterNativeServicesCallbacks();
-            DllProxyServices.s_stringTable = (StringProxyHandleTable)null;
+            DllProxyServices.s_stringTable = null;
         }
 
         HRESULT IRawUIXServices.NotifyChangeForObject(
@@ -47,7 +47,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
 
         public static string GetString(IntPtr nativeStringObject)
         {
-            string str = (string)null;
+            string str = null;
             if (nativeStringObject != IntPtr.Zero)
             {
                 ulong handle;
@@ -105,7 +105,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
 
         public static UIImage GetImage(IntPtr nativeImageObject)
         {
-            UIImage uiImage = (UIImage)null;
+            UIImage uiImage = null;
             if (nativeImageObject != IntPtr.Zero)
             {
                 ulong handle;
@@ -120,7 +120,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
 
         public static MarkupDataQuery GetDataQuery(IntPtr nativeQuery)
         {
-            MarkupDataQuery markupDataQuery = (MarkupDataQuery)null;
+            MarkupDataQuery markupDataQuery = null;
             if (nativeQuery != IntPtr.Zero)
             {
                 ulong frameworkQuery;
@@ -133,7 +133,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
 
         public static MarkupDataType GetDataType(IntPtr nativeObject)
         {
-            NativeMarkupDataType nativeMarkupDataType = (NativeMarkupDataType)null;
+            NativeMarkupDataType nativeMarkupDataType = null;
             if (nativeObject != IntPtr.Zero)
             {
                 ulong frameworkQuery;
@@ -148,7 +148,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
                 }
                 NativeApi.SpReleaseExternalObject(nativeObject);
             }
-            return (MarkupDataType)nativeMarkupDataType;
+            return nativeMarkupDataType;
         }
 
         public static void CreateNativeImage(UIImage image, out IntPtr nativeObject)
@@ -159,7 +159,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
             DllProxyServices.Crash("Unable to allocate native image object");
         }
 
-        private static ulong GetImageHandle(UIImage image, string source) => (ulong)GCHandle.ToIntPtr(GCHandle.Alloc((object)image)).ToInt64();
+        private static ulong GetImageHandle(UIImage image, string source) => (ulong)GCHandle.ToIntPtr(GCHandle.Alloc(image)).ToInt64();
 
         unsafe ulong IRawUIXServices.AllocateImageFromUri(
           string uri,
@@ -169,7 +169,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
             bool flippable;
             bool antialiasEdges;
             DllProxyServices.CrackDecodeParams(decodeParams, out maximumSize, out flippable, out antialiasEdges);
-            return DllProxyServices.GetImageHandle((UIImage)new UriImage(uri, Inset.Zero, maximumSize, flippable, antialiasEdges), uri);
+            return DllProxyServices.GetImageHandle(new UriImage(uri, Inset.Zero, maximumSize, flippable, antialiasEdges), uri);
         }
 
         unsafe ulong IRawUIXServices.AllocateImageFromBits(
@@ -184,7 +184,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
             bool antialiasEdges;
             DllProxyServices.CrackDecodeParams(decodeParams, out maximumSize, out flippable, out antialiasEdges);
             Size imageSize = new Size(imageInfo->width, imageInfo->height);
-            return DllProxyServices.GetImageHandle((UIImage)new RawImage(ID, imageSize, imageInfo->stride, surfaceFormat, imageInfo->bits, true, Inset.Zero, maximumSize, flippable, antialiasEdges), ID);
+            return DllProxyServices.GetImageHandle(new RawImage(ID, imageSize, imageInfo->stride, surfaceFormat, imageInfo->bits, true, Inset.Zero, maximumSize, flippable, antialiasEdges), ID);
         }
 
         unsafe void IRawUIXServices.RemoveCachedImage(
@@ -224,7 +224,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
           string providerName,
           IntPtr nativeFactoryCallback)
         {
-            MarkupDataProvider.RegisterDataProvider((IDataProvider)new NativeDataProviderWrapper(providerName, nativeFactoryCallback));
+            MarkupDataProvider.RegisterDataProvider(new NativeDataProviderWrapper(providerName, nativeFactoryCallback));
         }
 
         unsafe void IRawUIXServices.GetDataMapping(
@@ -262,14 +262,14 @@ namespace Microsoft.Iris.CodeModel.Cpp
           string propertyName,
           UIXVariant.VariantType variantType)
         {
-            MarkupDataTypeBaseObject dataTypeBaseObject = (MarkupDataTypeBaseObject)null;
+            MarkupDataTypeBaseObject dataTypeBaseObject = null;
             switch (variantType)
             {
                 case UIXVariant.VariantType.UIXDataQuery:
-                    dataTypeBaseObject = (MarkupDataTypeBaseObject)NativeMarkupDataQuery.LookupByHandle(frameworkObjectHandle);
+                    dataTypeBaseObject = NativeMarkupDataQuery.LookupByHandle(frameworkObjectHandle);
                     break;
                 case UIXVariant.VariantType.UIXDataType:
-                    dataTypeBaseObject = (MarkupDataTypeBaseObject)NativeMarkupDataType.LookupByHandle(frameworkObjectHandle);
+                    dataTypeBaseObject = NativeMarkupDataType.LookupByHandle(frameworkObjectHandle);
                     break;
             }
             if (dataTypeBaseObject == null)

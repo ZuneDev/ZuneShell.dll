@@ -23,7 +23,7 @@ namespace Microsoft.Iris.Markup
         public NativeMarkupDataQuery(MarkupDataQuerySchema type, NativeDataProviderWrapper provider)
           : base(type)
         {
-            this._handleToMe = NativeMarkupDataQuery.s_handleTable.RegisterProxy((object)this);
+            this._handleToMe = NativeMarkupDataQuery.s_handleTable.RegisterProxy(this);
             this._typeHandle = type.UniqueId;
             this._resultTypeHandle = type.ResultType.UniqueId;
             this._externalQuery = provider.ConstructQuery(type.ProviderName, this._typeHandle, this._resultTypeHandle, this._handleToMe);

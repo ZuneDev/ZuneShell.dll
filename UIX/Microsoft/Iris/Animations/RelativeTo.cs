@@ -83,13 +83,13 @@ namespace Microsoft.Iris.Animations
           string defaultSourceProperty,
           string defaultSourcePropertyMask)
         {
-            IAnimatable sourceObject = (IAnimatable)null;
-            string sourcePropertyName = (string)null;
-            string sourceMaskSpec = (string)null;
+            IAnimatable sourceObject = null;
+            string sourcePropertyName = null;
+            string sourceMaskSpec = null;
             bool flag = true;
             if (this._sourceProperty != null)
             {
-                sourceObject = this._sourceId == 0 ? this._sourceObject : (IAnimatable)Application.MapExternalAnimationInput(this._sourceId);
+                sourceObject = this._sourceId == 0 ? this._sourceObject : Application.MapExternalAnimationInput(this._sourceId);
                 if (sourceObject != null)
                 {
                     sourcePropertyName = this._sourceProperty;
@@ -105,22 +105,22 @@ namespace Microsoft.Iris.Animations
             AnimationInput animationInput1;
             if (this.Snapshot == SnapshotPolicy.Continuous)
             {
-                animationInput1 = (AnimationInput)new ContinuousAnimationInput(sourceObject, sourcePropertyName, sourceMaskSpec);
+                animationInput1 = new ContinuousAnimationInput(sourceObject, sourcePropertyName, sourceMaskSpec);
             }
             else
             {
                 CapturedAnimationInput capturedAnimationInput = new CapturedAnimationInput(sourceObject, sourcePropertyName, sourceMaskSpec);
                 if (this.Snapshot == SnapshotPolicy.OnLoop)
                     capturedAnimationInput.RefreshOnRepeat = true;
-                animationInput1 = (AnimationInput)capturedAnimationInput;
+                animationInput1 = capturedAnimationInput;
             }
             AnimationInput animationInput2 = animationInput1;
             for (int index = 1; index < this._power; ++index)
                 animationInput2 *= animationInput1;
-            if ((double)this._multiply != 1.0)
-                animationInput2 *= (AnimationInput)new ConstantAnimationInput(this._multiply);
-            if ((double)this._add != 0.0)
-                animationInput2 += (AnimationInput)new ConstantAnimationInput(this._add);
+            if (_multiply != 1.0)
+                animationInput2 *= new ConstantAnimationInput(this._multiply);
+            if (_add != 0.0)
+                animationInput2 += new ConstantAnimationInput(this._add);
             return animationInput2;
         }
 
@@ -132,7 +132,7 @@ namespace Microsoft.Iris.Animations
                 return "Current";
             if (this == RelativeTo.s_currentSnapshotOnLoop)
                 return "CurrentSnapshotOnLoop";
-            return this == RelativeTo.s_final ? "Final" : string.Format("[Object = {0}, Property = {1}]", this._sourceObject != null ? (object)this._sourceObject : (object)this._sourceId, (object)this._sourceProperty);
+            return this == RelativeTo.s_final ? "Final" : string.Format("[Object = {0}, Property = {1}]", this._sourceObject != null ? _sourceObject : (object)this._sourceId, _sourceProperty);
         }
     }
 }

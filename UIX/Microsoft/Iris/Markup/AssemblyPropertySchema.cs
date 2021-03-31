@@ -18,10 +18,10 @@ namespace Microsoft.Iris.Markup
         private object[] _setMethodParams;
 
         public AssemblyPropertySchema(AssemblyTypeSchema owner, PropertyInfo propertyInfo)
-          : base((TypeSchema)owner)
+          : base(owner)
         {
             this._propertyInfo = propertyInfo;
-            this._propertyTypeSchema = (TypeSchema)AssemblyLoadResult.MapType(this._propertyInfo.PropertyType);
+            this._propertyTypeSchema = AssemblyLoadResult.MapType(this._propertyInfo.PropertyType);
             this._isStatic = (this._propertyInfo.GetGetMethod() ?? this._propertyInfo.GetSetMethod()).IsStatic;
         }
 
@@ -56,8 +56,8 @@ namespace Microsoft.Iris.Markup
         {
             object target = AssemblyLoadResult.UnwrapObject(instance);
             if (this._getMethod == null)
-                this._getMethod = ReflectionHelper.CreateMethodInvoke((MethodBase)this._propertyInfo.GetGetMethod());
-            return AssemblyLoadResult.WrapObject(this._propertyTypeSchema, this._getMethod(target, (object[])null));
+                this._getMethod = ReflectionHelper.CreateMethodInvoke(this._propertyInfo.GetGetMethod());
+            return AssemblyLoadResult.WrapObject(this._propertyTypeSchema, this._getMethod(target, null));
         }
 
         public override void SetValue(ref object instance, object value)
@@ -66,12 +66,12 @@ namespace Microsoft.Iris.Markup
             object obj1 = AssemblyLoadResult.UnwrapObject(value);
             if (this._setMethod == null)
             {
-                this._setMethod = ReflectionHelper.CreateMethodInvoke((MethodBase)this._propertyInfo.GetSetMethod());
+                this._setMethod = ReflectionHelper.CreateMethodInvoke(this._propertyInfo.GetSetMethod());
                 this._setMethodParams = new object[1];
             }
             this._setMethodParams[0] = obj1;
             object obj2 = this._setMethod(target, this._setMethodParams);
-            this._setMethodParams[0] = (object)null;
+            this._setMethodParams[0] = null;
         }
     }
 }

@@ -23,7 +23,7 @@ namespace Microsoft.Iris.Input
         protected override void Zombie()
         {
             base.Zombie();
-            this._rawSource = (IRawInputSite)null;
+            this._rawSource = null;
         }
 
         public IRawInputSite RawSource => this._rawSource;

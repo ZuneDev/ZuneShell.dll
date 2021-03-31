@@ -68,7 +68,7 @@ namespace Microsoft.Iris.InputHandlers
 
         protected override void OnKeyDown(UIClass ui, KeyStateInfo info)
         {
-            if (this.ShouldIgnoreInput((KeyActionInfo)info) || this._edit == null)
+            if (this.ShouldIgnoreInput(info) || this._edit == null)
                 return;
             switch (info.Key)
             {
@@ -111,7 +111,7 @@ namespace Microsoft.Iris.InputHandlers
 
         protected override void OnKeyCharacter(UIClass ui, KeyCharacterInfo info)
         {
-            if (this.ShouldIgnoreInput((KeyActionInfo)info) || this._edit == null)
+            if (this.ShouldIgnoreInput(info) || this._edit == null)
                 return;
             switch (info.Character)
             {
@@ -147,7 +147,7 @@ namespace Microsoft.Iris.InputHandlers
 
         protected override void OnKeyUp(UIClass ui, KeyStateInfo info)
         {
-            if (this.ShouldIgnoreInput((KeyActionInfo)info) || this._edit == null)
+            if (this.ShouldIgnoreInput(info) || this._edit == null)
                 return;
             switch (info.Key)
             {

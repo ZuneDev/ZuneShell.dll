@@ -22,7 +22,7 @@ namespace Microsoft.Iris.ViewItems
             this._textViewItem = textViewItem;
         }
 
-        public IList Runs => (IList)this._runs;
+        public IList Runs => _runs;
 
         public string TagName => this._tagName;
 
@@ -30,7 +30,7 @@ namespace Microsoft.Iris.ViewItems
         {
             get
             {
-                string str = (string)null;
+                string str = null;
                 if (this._runs != null)
                 {
                     foreach (TextRunData run in this._runs)

@@ -46,6 +46,6 @@ namespace Microsoft.Iris.ViewItems
 
         public static DataCookie DataCookie => VisibleIndexRangeLayoutOutput.s_dataProperty;
 
-        public override string ToString() => InvariantString.Format("{0} (BeginVisibleOffscreen={1}, EndVisibleOffscreen={2})", (object)this.GetType().Name, (object)this._beginVisibleOffscreen, (object)this._endVisibleOffscreen);
+        public override string ToString() => InvariantString.Format("{0} (BeginVisibleOffscreen={1}, EndVisibleOffscreen={2})", this.GetType().Name, _beginVisibleOffscreen, _endVisibleOffscreen);
     }
 }

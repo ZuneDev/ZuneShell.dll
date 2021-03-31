@@ -14,7 +14,7 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object GetContrast(object instanceObj) => (object)((ContrastElement)instanceObj).Contrast;
+        private static object GetContrast(object instanceObj) => ((ContrastElement)instanceObj).Contrast;
 
         private static void SetContrast(ref object instanceObj, object valueObj)
         {
@@ -27,17 +27,17 @@ namespace Microsoft.Iris.Markup.UIX
                 contrastElement.Contrast = num;
         }
 
-        private static object Construct() => (object)new ContrastElement();
+        private static object Construct() => new ContrastElement();
 
-        public static void Pass1Initialize() => ContrastSchema.Type = new UIXTypeSchema((short)42, "Contrast", (string)null, (short)80, typeof(ContrastElement), UIXTypeFlags.None);
+        public static void Pass1Initialize() => ContrastSchema.Type = new UIXTypeSchema(42, "Contrast", null, 80, typeof(ContrastElement), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema = new UIXPropertySchema((short)42, "Contrast", (short)194, (short)-1, ExpressionRestriction.None, false, SingleSchema.ValidateNotNegative, false, new GetValueHandler(ContrastSchema.GetContrast), new SetValueHandler(ContrastSchema.SetContrast), false);
-            ContrastSchema.Type.Initialize(new DefaultConstructHandler(ContrastSchema.Construct), (ConstructorSchema[])null, new PropertySchema[1]
+            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(42, "Contrast", 194, -1, ExpressionRestriction.None, false, SingleSchema.ValidateNotNegative, false, new GetValueHandler(ContrastSchema.GetContrast), new SetValueHandler(ContrastSchema.SetContrast), false);
+            ContrastSchema.Type.Initialize(new DefaultConstructHandler(ContrastSchema.Construct), null, new PropertySchema[1]
             {
-        (PropertySchema) uixPropertySchema
-            }, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixPropertySchema
+            }, null, null, null, null, null, null, null, null, null);
         }
     }
 }

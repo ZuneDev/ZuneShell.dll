@@ -14,7 +14,7 @@ namespace Microsoft.Iris.Markup
 
         public override void Dispose()
         {
-            this._watch = (string)null;
+            this._watch = null;
             base.Dispose();
         }
 

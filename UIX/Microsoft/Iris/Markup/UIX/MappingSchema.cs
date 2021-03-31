@@ -28,21 +28,21 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object Construct() => new object();
 
-        public static void Pass1Initialize() => MappingSchema.Type = new UIXTypeSchema((short)140, "Mapping", (string)null, (short)-1, typeof(object), UIXTypeFlags.None);
+        public static void Pass1Initialize() => MappingSchema.Type = new UIXTypeSchema(140, "Mapping", null, -1, typeof(object), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema((short)140, "Property", (short)208, (short)-1, ExpressionRestriction.NoAccess, false, (RangeValidator)null, true, (GetValueHandler)null, new SetValueHandler(MappingSchema.SetProperty), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema((short)140, "Source", (short)208, (short)-1, ExpressionRestriction.NoAccess, false, (RangeValidator)null, true, (GetValueHandler)null, new SetValueHandler(MappingSchema.SetSource), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema((short)140, "Target", (short)208, (short)-1, ExpressionRestriction.NoAccess, false, (RangeValidator)null, true, (GetValueHandler)null, new SetValueHandler(MappingSchema.SetTarget), false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema((short)140, "DefaultValue", (short)208, (short)-1, ExpressionRestriction.NoAccess, false, (RangeValidator)null, true, (GetValueHandler)null, new SetValueHandler(MappingSchema.SetDefaultValue), false);
-            MappingSchema.Type.Initialize(new DefaultConstructHandler(MappingSchema.Construct), (ConstructorSchema[])null, new PropertySchema[4]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(140, "Property", 208, -1, ExpressionRestriction.NoAccess, false, null, true, null, new SetValueHandler(MappingSchema.SetProperty), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(140, "Source", 208, -1, ExpressionRestriction.NoAccess, false, null, true, null, new SetValueHandler(MappingSchema.SetSource), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(140, "Target", 208, -1, ExpressionRestriction.NoAccess, false, null, true, null, new SetValueHandler(MappingSchema.SetTarget), false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(140, "DefaultValue", 208, -1, ExpressionRestriction.NoAccess, false, null, true, null, new SetValueHandler(MappingSchema.SetDefaultValue), false);
+            MappingSchema.Type.Initialize(new DefaultConstructHandler(MappingSchema.Construct), null, new PropertySchema[4]
             {
-        (PropertySchema) uixPropertySchema4,
-        (PropertySchema) uixPropertySchema1,
-        (PropertySchema) uixPropertySchema2,
-        (PropertySchema) uixPropertySchema3
-            }, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixPropertySchema4,
+         uixPropertySchema1,
+         uixPropertySchema2,
+         uixPropertySchema3
+            }, null, null, null, null, null, null, null, null, null);
         }
     }
 }

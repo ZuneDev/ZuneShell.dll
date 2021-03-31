@@ -25,7 +25,7 @@ namespace Microsoft.Iris.Accessibility
 
         internal override IAccessible Navigate(AccNavDirs navDir)
         {
-            IAccessible accessible = (IAccessible)null;
+            IAccessible accessible = null;
             switch (navDir)
             {
                 case AccNavDirs.Up:
@@ -34,7 +34,7 @@ namespace Microsoft.Iris.Accessibility
                 case AccNavDirs.Right:
                 case AccNavDirs.Next:
                 case AccNavDirs.Previous:
-                    accessible = (IAccessible)this._clientBridge.accNavigate((int)navDir, (object)0);
+                    accessible = (IAccessible)this._clientBridge.accNavigate((int)navDir, 0);
                     break;
                 case AccNavDirs.FirstChild:
                 case AccNavDirs.LastChild:

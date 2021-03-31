@@ -23,7 +23,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
 
         public string Name => this._name;
 
-        public MarkupDataQuery Build(MarkupDataQuerySchema querySchema) => (MarkupDataQuery)new NativeMarkupDataQuery(querySchema, this);
+        public MarkupDataQuery Build(MarkupDataQuerySchema querySchema) => new NativeMarkupDataQuery(querySchema, this);
 
         public IntPtr ConstructQuery(
           string providerName,
@@ -36,6 +36,6 @@ namespace Microsoft.Iris.CodeModel.Cpp
             return query;
         }
 
-        public override string ToString() => string.Format("{0} ({1})", (object)this._name, (object)this._factory);
+        public override string ToString() => string.Format("{0} ({1})", _name, _factory);
     }
 }

@@ -15,13 +15,13 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object GetCount(object instanceObj) => (object)((ICollection)instanceObj).Count;
+        private static object GetCount(object instanceObj) => ((ICollection)instanceObj).Count;
 
-        private static object GetSource(object instanceObj) => (object)(IList)instanceObj;
+        private static object GetSource(object instanceObj) => (IList)instanceObj;
 
-        private static object GetCanSearch(object instanceObj) => (IList)instanceObj is IUIList uiList ? (object)uiList.CanSearch : (object)false;
+        private static object GetCanSearch(object instanceObj) => (IList)instanceObj is IUIList uiList ? uiList.CanSearch : (object)false;
 
-        private static object Construct() => (object)new NotifyList();
+        private static object Construct() => new NotifyList();
 
         private static object CallIsNullOrEmptyList(object instanceObj, object[] parameters)
         {
@@ -35,8 +35,8 @@ namespace Microsoft.Iris.Markup.UIX
             int parameter = (int)parameters[0];
             if (parameter >= 0 && parameter < list.Count)
                 return list[parameter];
-            ErrorManager.ReportError("Script runtime failure: Invalid '{0}' value is out of range for '{1}'", (object)parameter, (object)"index");
-            return (object)null;
+            ErrorManager.ReportError("Script runtime failure: Invalid '{0}' value is out of range for '{1}'", parameter, "index");
+            return null;
         }
 
         private static object Callset_ItemInt32Object(object instanceObj, object[] parameters)
@@ -46,34 +46,34 @@ namespace Microsoft.Iris.Markup.UIX
             object parameter2 = parameters[1];
             if (parameter1 < 0 || parameter1 >= list.Count)
             {
-                ErrorManager.ReportError("Script runtime failure: Invalid '{0}' value is out of range for '{1}'", (object)parameter1, (object)"index");
-                return (object)null;
+                ErrorManager.ReportError("Script runtime failure: Invalid '{0}' value is out of range for '{1}'", parameter1, "index");
+                return null;
             }
             list[parameter1] = parameter2;
-            return (object)null;
+            return null;
         }
 
         private static object CallClear(object instanceObj, object[] parameters)
         {
             ((IList)instanceObj).Clear();
-            return (object)null;
+            return null;
         }
 
         private static object CallAddObject(object instanceObj, object[] parameters)
         {
             ((IList)instanceObj).Add(parameters[0]);
-            return (object)null;
+            return null;
         }
 
         private static object CallRemoveObject(object instanceObj, object[] parameters)
         {
             ((IList)instanceObj).Remove(parameters[0]);
-            return (object)null;
+            return null;
         }
 
-        private static object CallContainsObject(object instanceObj, object[] parameters) => (object)((IList)instanceObj).Contains(parameters[0]);
+        private static object CallContainsObject(object instanceObj, object[] parameters) => ((IList)instanceObj).Contains(parameters[0]);
 
-        private static object CallIndexOfObject(object instanceObj, object[] parameters) => (object)((IList)instanceObj).IndexOf(parameters[0]);
+        private static object CallIndexOfObject(object instanceObj, object[] parameters) => ((IList)instanceObj).IndexOf(parameters[0]);
 
         private static object CallInsertInt32Object(object instanceObj, object[] parameters)
         {
@@ -82,11 +82,11 @@ namespace Microsoft.Iris.Markup.UIX
             object parameter2 = parameters[1];
             if (parameter1 < 0 || parameter1 > list.Count)
             {
-                ErrorManager.ReportError("Script runtime failure: Invalid '{0}' value is out of range for '{1}'", (object)parameter1, (object)"index");
-                return (object)null;
+                ErrorManager.ReportError("Script runtime failure: Invalid '{0}' value is out of range for '{1}'", parameter1, "index");
+                return null;
             }
             list.Insert(parameter1, parameter2);
-            return (object)null;
+            return null;
         }
 
         private static object CallRemoveAtInt32(object instanceObj, object[] parameters)
@@ -95,18 +95,18 @@ namespace Microsoft.Iris.Markup.UIX
             int parameter = (int)parameters[0];
             if (parameter < 0 || parameter >= list.Count)
             {
-                ErrorManager.ReportError("Script runtime failure: Invalid '{0}' value is out of range for '{1}'", (object)parameter, (object)"index");
-                return (object)null;
+                ErrorManager.ReportError("Script runtime failure: Invalid '{0}' value is out of range for '{1}'", parameter, "index");
+                return null;
             }
             list.RemoveAt(parameter);
-            return (object)null;
+            return null;
         }
 
         private static object CallSearchForStringString(object instanceObj, object[] parameters)
         {
             IList list = (IList)instanceObj;
             string parameter = (string)parameters[0];
-            return list is IUIList uiList ? (object)uiList.SearchForString(parameter) : (object)-1;
+            return list is IUIList uiList ? uiList.SearchForString(parameter) : (object)-1;
         }
 
         private static object CallMoveInt32Int32(object instanceObj, object[] parameters)
@@ -116,13 +116,13 @@ namespace Microsoft.Iris.Markup.UIX
             int parameter2 = (int)parameters[1];
             if (parameter1 < 0 || parameter1 >= list.Count)
             {
-                ErrorManager.ReportError("Script runtime failure: Invalid '{0}' value is out of range for '{1}'", (object)parameter1, (object)"oldIndex");
-                return (object)null;
+                ErrorManager.ReportError("Script runtime failure: Invalid '{0}' value is out of range for '{1}'", parameter1, "oldIndex");
+                return null;
             }
             if (parameter2 < 0 || parameter2 >= list.Count)
             {
-                ErrorManager.ReportError("Script runtime failure: Invalid '{0}' value is out of range for '{1}'", (object)parameter2, (object)"newIndex");
-                return (object)null;
+                ErrorManager.ReportError("Script runtime failure: Invalid '{0}' value is out of range for '{1}'", parameter2, "newIndex");
+                return null;
             }
             switch (list)
             {
@@ -138,88 +138,88 @@ namespace Microsoft.Iris.Markup.UIX
                     list.Insert(parameter2, obj);
                     break;
             }
-            return (object)null;
+            return null;
         }
 
-        private static object CallGetEnumerator(object instanceObj, object[] parameters) => (object)((IEnumerable)instanceObj).GetEnumerator();
+        private static object CallGetEnumerator(object instanceObj, object[] parameters) => ((IEnumerable)instanceObj).GetEnumerator();
 
-        public static void Pass1Initialize() => ListSchema.Type = new UIXTypeSchema((short)138, "List", (string)null, (short)153, typeof(IList), UIXTypeFlags.None);
+        public static void Pass1Initialize() => ListSchema.Type = new UIXTypeSchema(138, "List", null, 153, typeof(IList), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema((short)138, "Count", (short)115, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ListSchema.GetCount), (SetValueHandler)null, false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema((short)138, "Source", (short)138, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ListSchema.GetSource), (SetValueHandler)null, false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema((short)138, "CanSearch", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ListSchema.GetCanSearch), (SetValueHandler)null, false);
-            UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema((short)138, "IsNullOrEmpty", new short[1]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(138, "Count", 115, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ListSchema.GetCount), null, false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(138, "Source", 138, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ListSchema.GetSource), null, false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(138, "CanSearch", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ListSchema.GetCanSearch), null, false);
+            UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema(138, "IsNullOrEmpty", new short[1]
             {
-        (short) 138
-            }, (short)15, new InvokeHandler(ListSchema.CallIsNullOrEmptyList), true);
-            UIXMethodSchema uixMethodSchema2 = new UIXMethodSchema((short)138, "get_Item", new short[1]
+         138
+            }, 15, new InvokeHandler(ListSchema.CallIsNullOrEmptyList), true);
+            UIXMethodSchema uixMethodSchema2 = new UIXMethodSchema(138, "get_Item", new short[1]
             {
-        (short) 115
-            }, (short)153, new InvokeHandler(ListSchema.Callget_ItemInt32), false);
-            UIXMethodSchema uixMethodSchema3 = new UIXMethodSchema((short)138, "set_Item", new short[2]
+         115
+            }, 153, new InvokeHandler(ListSchema.Callget_ItemInt32), false);
+            UIXMethodSchema uixMethodSchema3 = new UIXMethodSchema(138, "set_Item", new short[2]
             {
-        (short) 115,
-        (short) 153
-            }, (short)240, new InvokeHandler(ListSchema.Callset_ItemInt32Object), false);
-            UIXMethodSchema uixMethodSchema4 = new UIXMethodSchema((short)138, "Clear", (short[])null, (short)240, new InvokeHandler(ListSchema.CallClear), false);
-            UIXMethodSchema uixMethodSchema5 = new UIXMethodSchema((short)138, "Add", new short[1]
+         115,
+         153
+            }, 240, new InvokeHandler(ListSchema.Callset_ItemInt32Object), false);
+            UIXMethodSchema uixMethodSchema4 = new UIXMethodSchema(138, "Clear", null, 240, new InvokeHandler(ListSchema.CallClear), false);
+            UIXMethodSchema uixMethodSchema5 = new UIXMethodSchema(138, "Add", new short[1]
             {
-        (short) 153
-            }, (short)240, new InvokeHandler(ListSchema.CallAddObject), false);
-            UIXMethodSchema uixMethodSchema6 = new UIXMethodSchema((short)138, "Remove", new short[1]
+         153
+            }, 240, new InvokeHandler(ListSchema.CallAddObject), false);
+            UIXMethodSchema uixMethodSchema6 = new UIXMethodSchema(138, "Remove", new short[1]
             {
-        (short) 153
-            }, (short)240, new InvokeHandler(ListSchema.CallRemoveObject), false);
-            UIXMethodSchema uixMethodSchema7 = new UIXMethodSchema((short)138, "Contains", new short[1]
+         153
+            }, 240, new InvokeHandler(ListSchema.CallRemoveObject), false);
+            UIXMethodSchema uixMethodSchema7 = new UIXMethodSchema(138, "Contains", new short[1]
             {
-        (short) 153
-            }, (short)15, new InvokeHandler(ListSchema.CallContainsObject), false);
-            UIXMethodSchema uixMethodSchema8 = new UIXMethodSchema((short)138, "IndexOf", new short[1]
+         153
+            }, 15, new InvokeHandler(ListSchema.CallContainsObject), false);
+            UIXMethodSchema uixMethodSchema8 = new UIXMethodSchema(138, "IndexOf", new short[1]
             {
-        (short) 153
-            }, (short)115, new InvokeHandler(ListSchema.CallIndexOfObject), false);
-            UIXMethodSchema uixMethodSchema9 = new UIXMethodSchema((short)138, "Insert", new short[2]
+         153
+            }, 115, new InvokeHandler(ListSchema.CallIndexOfObject), false);
+            UIXMethodSchema uixMethodSchema9 = new UIXMethodSchema(138, "Insert", new short[2]
             {
-        (short) 115,
-        (short) 153
-            }, (short)240, new InvokeHandler(ListSchema.CallInsertInt32Object), false);
-            UIXMethodSchema uixMethodSchema10 = new UIXMethodSchema((short)138, "RemoveAt", new short[1]
+         115,
+         153
+            }, 240, new InvokeHandler(ListSchema.CallInsertInt32Object), false);
+            UIXMethodSchema uixMethodSchema10 = new UIXMethodSchema(138, "RemoveAt", new short[1]
             {
-        (short) 115
-            }, (short)240, new InvokeHandler(ListSchema.CallRemoveAtInt32), false);
-            UIXMethodSchema uixMethodSchema11 = new UIXMethodSchema((short)138, "SearchForString", new short[1]
+         115
+            }, 240, new InvokeHandler(ListSchema.CallRemoveAtInt32), false);
+            UIXMethodSchema uixMethodSchema11 = new UIXMethodSchema(138, "SearchForString", new short[1]
             {
-        (short) 208
-            }, (short)115, new InvokeHandler(ListSchema.CallSearchForStringString), false);
-            UIXMethodSchema uixMethodSchema12 = new UIXMethodSchema((short)138, "Move", new short[2]
+         208
+            }, 115, new InvokeHandler(ListSchema.CallSearchForStringString), false);
+            UIXMethodSchema uixMethodSchema12 = new UIXMethodSchema(138, "Move", new short[2]
             {
-        (short) 115,
-        (short) 115
-            }, (short)240, new InvokeHandler(ListSchema.CallMoveInt32Int32), false);
-            UIXMethodSchema uixMethodSchema13 = new UIXMethodSchema((short)138, "GetEnumerator", (short[])null, (short)86, new InvokeHandler(ListSchema.CallGetEnumerator), false);
-            ListSchema.Type.Initialize(new DefaultConstructHandler(ListSchema.Construct), (ConstructorSchema[])null, new PropertySchema[3]
+         115,
+         115
+            }, 240, new InvokeHandler(ListSchema.CallMoveInt32Int32), false);
+            UIXMethodSchema uixMethodSchema13 = new UIXMethodSchema(138, "GetEnumerator", null, 86, new InvokeHandler(ListSchema.CallGetEnumerator), false);
+            ListSchema.Type.Initialize(new DefaultConstructHandler(ListSchema.Construct), null, new PropertySchema[3]
             {
-        (PropertySchema) uixPropertySchema3,
-        (PropertySchema) uixPropertySchema1,
-        (PropertySchema) uixPropertySchema2
+         uixPropertySchema3,
+         uixPropertySchema1,
+         uixPropertySchema2
             }, new MethodSchema[13]
             {
-        (MethodSchema) uixMethodSchema1,
-        (MethodSchema) uixMethodSchema2,
-        (MethodSchema) uixMethodSchema3,
-        (MethodSchema) uixMethodSchema4,
-        (MethodSchema) uixMethodSchema5,
-        (MethodSchema) uixMethodSchema6,
-        (MethodSchema) uixMethodSchema7,
-        (MethodSchema) uixMethodSchema8,
-        (MethodSchema) uixMethodSchema9,
-        (MethodSchema) uixMethodSchema10,
-        (MethodSchema) uixMethodSchema11,
-        (MethodSchema) uixMethodSchema12,
-        (MethodSchema) uixMethodSchema13
-            }, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixMethodSchema1,
+         uixMethodSchema2,
+         uixMethodSchema3,
+         uixMethodSchema4,
+         uixMethodSchema5,
+         uixMethodSchema6,
+         uixMethodSchema7,
+         uixMethodSchema8,
+         uixMethodSchema9,
+         uixMethodSchema10,
+         uixMethodSchema11,
+         uixMethodSchema12,
+         uixMethodSchema13
+            }, null, null, null, null, null, null, null, null);
         }
     }
 }

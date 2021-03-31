@@ -8,7 +8,7 @@ namespace Microsoft.Iris.Markup
 {
     internal static class UIXTypes
     {
-        public static TypeSchema MapIDToType(short ID) => ID != (short)-1 ? UIXLoadResultExports.ExportTable[(int)ID] : (TypeSchema)null;
+        public static TypeSchema MapIDToType(short ID) => ID != -1 ? UIXLoadResultExports.ExportTable[ID] : null;
 
         public static TypeSchema[] MapIDsToTypes(short[] IDs)
         {
@@ -21,11 +21,11 @@ namespace Microsoft.Iris.Markup
             {
                 typeSchemaArray = new TypeSchema[IDs.Length];
                 for (int index = 0; index < IDs.Length; ++index)
-                    typeSchemaArray[index] = UIXLoadResultExports.ExportTable[(int)IDs[index]];
+                    typeSchemaArray[index] = UIXLoadResultExports.ExportTable[IDs[index]];
             }
             return typeSchemaArray;
         }
 
-        public static void RegisterTypeForID(short ID, TypeSchema type) => UIXLoadResultExports.ExportTable[(int)ID] = type;
+        public static void RegisterTypeForID(short ID, TypeSchema type) => UIXLoadResultExports.ExportTable[ID] = type;
     }
 }

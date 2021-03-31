@@ -14,27 +14,27 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object GetX(object instanceObj) => (object)((Point)instanceObj).X;
+        private static object GetX(object instanceObj) => ((Point)instanceObj).X;
 
         private static void SetX(ref object instanceObj, object valueObj)
         {
             Point point = (Point)instanceObj;
             int num = (int)valueObj;
             point.X = num;
-            instanceObj = (object)point;
+            instanceObj = point;
         }
 
-        private static object GetY(object instanceObj) => (object)((Point)instanceObj).Y;
+        private static object GetY(object instanceObj) => ((Point)instanceObj).Y;
 
         private static void SetY(ref object instanceObj, object valueObj)
         {
             Point point = (Point)instanceObj;
             int num = (int)valueObj;
             point.Y = num;
-            instanceObj = (object)point;
+            instanceObj = point;
         }
 
-        private static object Construct() => (object)Point.Zero;
+        private static object Construct() => Point.Zero;
 
         private static object ConstructXY(object[] parameters)
         {
@@ -48,14 +48,14 @@ namespace Microsoft.Iris.Markup.UIX
         {
             instance = PointSchema.Construct();
             object valueObj1;
-            Result result1 = UIXLoadResult.ValidateStringAsValue(splitString[0], (TypeSchema)Int32Schema.Type, (RangeValidator)null, out valueObj1);
+            Result result1 = UIXLoadResult.ValidateStringAsValue(splitString[0], Int32Schema.Type, null, out valueObj1);
             if (result1.Failed)
-                return Result.Fail("Problem converting '{0}' ({1})", (object)"Point", (object)result1.Error);
+                return Result.Fail("Problem converting '{0}' ({1})", "Point", result1.Error);
             PointSchema.SetX(ref instance, valueObj1);
             object valueObj2;
-            Result result2 = UIXLoadResult.ValidateStringAsValue(splitString[1], (TypeSchema)Int32Schema.Type, (RangeValidator)null, out valueObj2);
+            Result result2 = UIXLoadResult.ValidateStringAsValue(splitString[1], Int32Schema.Type, null, out valueObj2);
             if (result2.Failed)
-                return Result.Fail("Problem converting '{0}' ({1})", (object)"Point", (object)result2.Error);
+                return Result.Fail("Problem converting '{0}' ({1})", "Point", result2.Error);
             PointSchema.SetY(ref instance, valueObj2);
             return result2;
         }
@@ -67,7 +67,7 @@ namespace Microsoft.Iris.Markup.UIX
             writer.WriteInt32(point.Y);
         }
 
-        private static object DecodeBinary(ByteCodeReader reader) => (object)new Point(reader.ReadInt32(), reader.ReadInt32());
+        private static object DecodeBinary(ByteCodeReader reader) => new Point(reader.ReadInt32(), reader.ReadInt32());
 
         private static bool IsConversionSupported(TypeSchema fromType) => StringSchema.Type.IsAssignableFrom(fromType);
 
@@ -77,7 +77,7 @@ namespace Microsoft.Iris.Markup.UIX
           out object instance)
         {
             Result result = Result.Fail("Unsupported");
-            instance = (object)null;
+            instance = null;
             if (StringSchema.Type.IsAssignableFrom(fromType))
             {
                 string[] splitString = StringUtility.SplitAndTrim(',', (string)from);
@@ -88,7 +88,7 @@ namespace Microsoft.Iris.Markup.UIX
                         return result;
                 }
                 else
-                    result = Result.Fail("Unable to convert \"{0}\" to type '{1}'", (object)from.ToString(), (object)"Point");
+                    result = Result.Fail("Unable to convert \"{0}\" to type '{1}'", from.ToString(), "Point");
             }
             return result;
         }
@@ -112,42 +112,42 @@ namespace Microsoft.Iris.Markup.UIX
         {
             Point point1 = (Point)leftObj;
             if (op == OperationType.MathNegate)
-                return (object)-point1;
+                return -point1;
             Point point2 = (Point)rightObj;
             switch (op)
             {
                 case OperationType.MathAdd:
-                    return (object)(point1 + point2);
+                    return point1 + point2;
                 case OperationType.MathSubtract:
-                    return (object)(point1 - point2);
+                    return point1 - point2;
                 case OperationType.RelationalEquals:
                     return BooleanBoxes.Box(point1 == point2);
                 case OperationType.RelationalNotEquals:
                     return BooleanBoxes.Box(point1 != point2);
                 default:
-                    return (object)null;
+                    return null;
             }
         }
 
-        public static void Pass1Initialize() => PointSchema.Type = new UIXTypeSchema((short)158, "Point", (string)null, (short)153, typeof(Point), UIXTypeFlags.Immutable);
+        public static void Pass1Initialize() => PointSchema.Type = new UIXTypeSchema(158, "Point", null, 153, typeof(Point), UIXTypeFlags.Immutable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema((short)158, "X", (short)115, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(PointSchema.GetX), new SetValueHandler(PointSchema.SetX), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema((short)158, "Y", (short)115, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(PointSchema.GetY), new SetValueHandler(PointSchema.SetY), false);
-            UIXConstructorSchema constructorSchema = new UIXConstructorSchema((short)158, new short[2]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(158, "X", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(PointSchema.GetX), new SetValueHandler(PointSchema.SetX), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(158, "Y", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(PointSchema.GetY), new SetValueHandler(PointSchema.SetY), false);
+            UIXConstructorSchema constructorSchema = new UIXConstructorSchema(158, new short[2]
             {
-        (short) 115,
-        (short) 115
+         115,
+         115
             }, new ConstructHandler(PointSchema.ConstructXY));
             PointSchema.Type.Initialize(new DefaultConstructHandler(PointSchema.Construct), new ConstructorSchema[1]
             {
-        (ConstructorSchema) constructorSchema
+         constructorSchema
             }, new PropertySchema[2]
             {
-        (PropertySchema) uixPropertySchema1,
-        (PropertySchema) uixPropertySchema2
-            }, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, new TypeConverterHandler(PointSchema.TryConvertFrom), new SupportsTypeConversionHandler(PointSchema.IsConversionSupported), new EncodeBinaryHandler(PointSchema.EncodeBinary), new DecodeBinaryHandler(PointSchema.DecodeBinary), new PerformOperationHandler(PointSchema.ExecuteOperation), new SupportsOperationHandler(PointSchema.IsOperationSupported));
+         uixPropertySchema1,
+         uixPropertySchema2
+            }, null, null, null, new TypeConverterHandler(PointSchema.TryConvertFrom), new SupportsTypeConversionHandler(PointSchema.IsConversionSupported), new EncodeBinaryHandler(PointSchema.EncodeBinary), new DecodeBinaryHandler(PointSchema.DecodeBinary), new PerformOperationHandler(PointSchema.ExecuteOperation), new SupportsOperationHandler(PointSchema.IsOperationSupported));
         }
     }
 }

@@ -18,15 +18,15 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object GetClicking(object instanceObj) => BooleanBoxes.Box(((ClickHandler)instanceObj).Clicking);
 
-        private static object GetClickCount(object instanceObj) => (object)((ClickHandler)instanceObj).ClickCount;
+        private static object GetClickCount(object instanceObj) => ((ClickHandler)instanceObj).ClickCount;
 
         private static void SetClickCount(ref object instanceObj, object valueObj) => ((ClickHandler)instanceObj).ClickCount = (ClickCount)valueObj;
 
-        private static object GetClickType(object instanceObj) => (object)((ClickHandler)instanceObj).ClickType;
+        private static object GetClickType(object instanceObj) => ((ClickHandler)instanceObj).ClickType;
 
         private static void SetClickType(ref object instanceObj, object valueObj) => ((ClickHandler)instanceObj).ClickType = (ClickType)valueObj;
 
-        private static object GetCommand(object instanceObj) => (object)((ClickHandler)instanceObj).Command;
+        private static object GetCommand(object instanceObj) => ((ClickHandler)instanceObj).Command;
 
         private static void SetCommand(ref object instanceObj, object valueObj) => ((ClickHandler)instanceObj).Command = (IUICommand)valueObj;
 
@@ -34,15 +34,15 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static void SetHandle(ref object instanceObj, object valueObj) => ((ClickHandler)instanceObj).Handle = (bool)valueObj;
 
-        private static object GetHandlerTransition(object instanceObj) => (object)((ModifierInputHandler)instanceObj).HandlerTransition;
+        private static object GetHandlerTransition(object instanceObj) => ((ModifierInputHandler)instanceObj).HandlerTransition;
 
         private static void SetHandlerTransition(ref object instanceObj, object valueObj) => ((ModifierInputHandler)instanceObj).HandlerTransition = (InputHandlerTransition)valueObj;
 
-        private static object GetRequiredModifiers(object instanceObj) => (object)((ModifierInputHandler)instanceObj).RequiredModifiers;
+        private static object GetRequiredModifiers(object instanceObj) => ((ModifierInputHandler)instanceObj).RequiredModifiers;
 
         private static void SetRequiredModifiers(ref object instanceObj, object valueObj) => ((ModifierInputHandler)instanceObj).RequiredModifiers = (InputHandlerModifiers)valueObj;
 
-        private static object GetDisallowedModifiers(object instanceObj) => (object)((ModifierInputHandler)instanceObj).DisallowedModifiers;
+        private static object GetDisallowedModifiers(object instanceObj) => ((ModifierInputHandler)instanceObj).DisallowedModifiers;
 
         private static void SetDisallowedModifiers(ref object instanceObj, object valueObj) => ((ModifierInputHandler)instanceObj).DisallowedModifiers = (InputHandlerModifiers)valueObj;
 
@@ -50,7 +50,7 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static void SetRepeat(ref object instanceObj, object valueObj) => ((ClickHandler)instanceObj).Repeat = (bool)valueObj;
 
-        private static object GetRepeatDelay(object instanceObj) => (object)((ClickHandler)instanceObj).RepeatDelay;
+        private static object GetRepeatDelay(object instanceObj) => ((ClickHandler)instanceObj).RepeatDelay;
 
         private static void SetRepeatDelay(ref object instanceObj, object valueObj)
         {
@@ -63,7 +63,7 @@ namespace Microsoft.Iris.Markup.UIX
                 clickHandler.RepeatDelay = num;
         }
 
-        private static object GetRepeatRate(object instanceObj) => (object)((ClickHandler)instanceObj).RepeatRate;
+        private static object GetRepeatRate(object instanceObj) => ((ClickHandler)instanceObj).RepeatRate;
 
         private static void SetRepeatRate(ref object instanceObj, object valueObj)
         {
@@ -76,51 +76,51 @@ namespace Microsoft.Iris.Markup.UIX
                 clickHandler.RepeatRate = num;
         }
 
-        private static object GetHandlerStage(object instanceObj) => (object)((InputHandler)instanceObj).HandlerStage;
+        private static object GetHandlerStage(object instanceObj) => ((InputHandler)instanceObj).HandlerStage;
 
         private static void SetHandlerStage(ref object instanceObj, object valueObj) => ((InputHandler)instanceObj).HandlerStage = (InputHandlerStage)valueObj;
 
         private static object GetEventContext(object instanceObj) => ((ClickHandler)instanceObj).EventContext;
 
-        private static object Construct() => (object)new ClickHandler();
+        private static object Construct() => new ClickHandler();
 
-        public static void Pass1Initialize() => ClickHandlerSchema.Type = new UIXTypeSchema((short)32, "ClickHandler", (string)null, (short)110, typeof(ClickHandler), UIXTypeFlags.Disposable);
+        public static void Pass1Initialize() => ClickHandlerSchema.Type = new UIXTypeSchema(32, "ClickHandler", null, 110, typeof(ClickHandler), UIXTypeFlags.Disposable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema((short)32, "Clicking", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ClickHandlerSchema.GetClicking), (SetValueHandler)null, false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema((short)32, "ClickCount", (short)31, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ClickHandlerSchema.GetClickCount), new SetValueHandler(ClickHandlerSchema.SetClickCount), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema((short)32, "ClickType", (short)33, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ClickHandlerSchema.GetClickType), new SetValueHandler(ClickHandlerSchema.SetClickType), false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema((short)32, "Command", (short)40, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ClickHandlerSchema.GetCommand), new SetValueHandler(ClickHandlerSchema.SetCommand), false);
-            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema((short)32, "Handle", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ClickHandlerSchema.GetHandle), new SetValueHandler(ClickHandlerSchema.SetHandle), false);
-            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema((short)32, "HandlerTransition", (short)113, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ClickHandlerSchema.GetHandlerTransition), new SetValueHandler(ClickHandlerSchema.SetHandlerTransition), false);
-            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema((short)32, "RequiredModifiers", (short)111, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ClickHandlerSchema.GetRequiredModifiers), new SetValueHandler(ClickHandlerSchema.SetRequiredModifiers), false);
-            UIXPropertySchema uixPropertySchema8 = new UIXPropertySchema((short)32, "DisallowedModifiers", (short)111, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ClickHandlerSchema.GetDisallowedModifiers), new SetValueHandler(ClickHandlerSchema.SetDisallowedModifiers), false);
-            UIXPropertySchema uixPropertySchema9 = new UIXPropertySchema((short)32, "Repeat", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ClickHandlerSchema.GetRepeat), new SetValueHandler(ClickHandlerSchema.SetRepeat), false);
-            UIXPropertySchema uixPropertySchema10 = new UIXPropertySchema((short)32, "RepeatDelay", (short)115, (short)-1, ExpressionRestriction.None, false, Int32Schema.ValidateNotNegative, true, new GetValueHandler(ClickHandlerSchema.GetRepeatDelay), new SetValueHandler(ClickHandlerSchema.SetRepeatDelay), false);
-            UIXPropertySchema uixPropertySchema11 = new UIXPropertySchema((short)32, "RepeatRate", (short)115, (short)-1, ExpressionRestriction.None, false, Int32Schema.ValidateNotNegative, true, new GetValueHandler(ClickHandlerSchema.GetRepeatRate), new SetValueHandler(ClickHandlerSchema.SetRepeatRate), false);
-            UIXPropertySchema uixPropertySchema12 = new UIXPropertySchema((short)32, "HandlerStage", (short)112, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ClickHandlerSchema.GetHandlerStage), new SetValueHandler(ClickHandlerSchema.SetHandlerStage), false);
-            UIXPropertySchema uixPropertySchema13 = new UIXPropertySchema((short)32, "EventContext", (short)153, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ClickHandlerSchema.GetEventContext), (SetValueHandler)null, false);
-            UIXEventSchema uixEventSchema = new UIXEventSchema((short)32, "Invoked");
-            ClickHandlerSchema.Type.Initialize(new DefaultConstructHandler(ClickHandlerSchema.Construct), (ConstructorSchema[])null, new PropertySchema[13]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(32, "Clicking", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ClickHandlerSchema.GetClicking), null, false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(32, "ClickCount", 31, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ClickHandlerSchema.GetClickCount), new SetValueHandler(ClickHandlerSchema.SetClickCount), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(32, "ClickType", 33, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ClickHandlerSchema.GetClickType), new SetValueHandler(ClickHandlerSchema.SetClickType), false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(32, "Command", 40, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ClickHandlerSchema.GetCommand), new SetValueHandler(ClickHandlerSchema.SetCommand), false);
+            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(32, "Handle", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ClickHandlerSchema.GetHandle), new SetValueHandler(ClickHandlerSchema.SetHandle), false);
+            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(32, "HandlerTransition", 113, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ClickHandlerSchema.GetHandlerTransition), new SetValueHandler(ClickHandlerSchema.SetHandlerTransition), false);
+            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema(32, "RequiredModifiers", 111, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ClickHandlerSchema.GetRequiredModifiers), new SetValueHandler(ClickHandlerSchema.SetRequiredModifiers), false);
+            UIXPropertySchema uixPropertySchema8 = new UIXPropertySchema(32, "DisallowedModifiers", 111, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ClickHandlerSchema.GetDisallowedModifiers), new SetValueHandler(ClickHandlerSchema.SetDisallowedModifiers), false);
+            UIXPropertySchema uixPropertySchema9 = new UIXPropertySchema(32, "Repeat", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ClickHandlerSchema.GetRepeat), new SetValueHandler(ClickHandlerSchema.SetRepeat), false);
+            UIXPropertySchema uixPropertySchema10 = new UIXPropertySchema(32, "RepeatDelay", 115, -1, ExpressionRestriction.None, false, Int32Schema.ValidateNotNegative, true, new GetValueHandler(ClickHandlerSchema.GetRepeatDelay), new SetValueHandler(ClickHandlerSchema.SetRepeatDelay), false);
+            UIXPropertySchema uixPropertySchema11 = new UIXPropertySchema(32, "RepeatRate", 115, -1, ExpressionRestriction.None, false, Int32Schema.ValidateNotNegative, true, new GetValueHandler(ClickHandlerSchema.GetRepeatRate), new SetValueHandler(ClickHandlerSchema.SetRepeatRate), false);
+            UIXPropertySchema uixPropertySchema12 = new UIXPropertySchema(32, "HandlerStage", 112, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ClickHandlerSchema.GetHandlerStage), new SetValueHandler(ClickHandlerSchema.SetHandlerStage), false);
+            UIXPropertySchema uixPropertySchema13 = new UIXPropertySchema(32, "EventContext", 153, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ClickHandlerSchema.GetEventContext), null, false);
+            UIXEventSchema uixEventSchema = new UIXEventSchema(32, "Invoked");
+            ClickHandlerSchema.Type.Initialize(new DefaultConstructHandler(ClickHandlerSchema.Construct), null, new PropertySchema[13]
             {
-        (PropertySchema) uixPropertySchema2,
-        (PropertySchema) uixPropertySchema3,
-        (PropertySchema) uixPropertySchema1,
-        (PropertySchema) uixPropertySchema4,
-        (PropertySchema) uixPropertySchema8,
-        (PropertySchema) uixPropertySchema13,
-        (PropertySchema) uixPropertySchema5,
-        (PropertySchema) uixPropertySchema12,
-        (PropertySchema) uixPropertySchema6,
-        (PropertySchema) uixPropertySchema9,
-        (PropertySchema) uixPropertySchema10,
-        (PropertySchema) uixPropertySchema11,
-        (PropertySchema) uixPropertySchema7
-            }, (MethodSchema[])null, new EventSchema[1]
+         uixPropertySchema2,
+         uixPropertySchema3,
+         uixPropertySchema1,
+         uixPropertySchema4,
+         uixPropertySchema8,
+         uixPropertySchema13,
+         uixPropertySchema5,
+         uixPropertySchema12,
+         uixPropertySchema6,
+         uixPropertySchema9,
+         uixPropertySchema10,
+         uixPropertySchema11,
+         uixPropertySchema7
+            }, null, new EventSchema[1]
             {
-        (EventSchema) uixEventSchema
-            }, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixEventSchema
+            }, null, null, null, null, null, null, null);
         }
     }
 }

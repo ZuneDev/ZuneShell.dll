@@ -17,7 +17,7 @@ namespace Microsoft.Iris.Markup
           string name,
           GetValueHandler getValueHandler,
           SetValueHandler setValueHandler)
-          : base((MarkupTypeSchema)owner, name, propertyType)
+          : base(owner, name, propertyType)
         {
             this.InvalidatesQuery = false;
             this._getValueHandler = getValueHandler;

@@ -75,6 +75,6 @@ namespace Microsoft.Iris.Input
 
         protected override InputInfo.InfoType PoolType => MouseButtonInfo.s_poolType;
 
-        public override string ToString() => InvariantString.Format("{0}({1}, Button={2})", (object)this.GetType().Name, this._state ? (object)"Down" : (object)"Up", (object)this.Button);
+        public override string ToString() => InvariantString.Format("{0}({1}, Button={2})", this.GetType().Name, this._state ? "Down" : "Up", Button);
     }
 }

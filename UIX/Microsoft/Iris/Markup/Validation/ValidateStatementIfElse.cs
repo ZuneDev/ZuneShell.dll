@@ -30,13 +30,13 @@ namespace Microsoft.Iris.Markup.Validation
 
         public ValidateExpression Condition => this._condition;
 
-        public ValidateStatement StatementCompoundTrue => (ValidateStatement)this._statementCompoundTrue;
+        public ValidateStatement StatementCompoundTrue => _statementCompoundTrue;
 
-        public ValidateStatement StatementCompoundFalse => (ValidateStatement)this._statementCompoundFalse;
+        public ValidateStatement StatementCompoundFalse => _statementCompoundFalse;
 
         public override void Validate(ValidateCode container, ValidateContext context)
         {
-            this._condition.Validate(new TypeRestriction((TypeSchema)BooleanSchema.Type), context);
+            this._condition.Validate(new TypeRestriction(BooleanSchema.Type), context);
             if (this._condition.HasErrors)
                 this.MarkHasErrors();
             this._statementCompoundTrue.Validate(container, context);

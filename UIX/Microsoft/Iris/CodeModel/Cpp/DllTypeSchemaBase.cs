@@ -24,7 +24,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
         protected uint _marshalAs;
 
         protected DllTypeSchemaBase(DllLoadResult owner, uint ID)
-          : base((LoadResult)owner)
+          : base(owner)
           => this._typeID = ID;
 
         protected override void OnDispose()
@@ -35,29 +35,29 @@ namespace Microsoft.Iris.CodeModel.Cpp
                 foreach (KeyValueEntry<MethodSignatureKey, DllConstructorSchema> constructor in this._constructors)
                 {
                     if (constructor.Value != null)
-                        constructor.Value.Dispose((object)this);
+                        constructor.Value.Dispose(this);
                 }
-                this._constructors = (Map<MethodSignatureKey, DllConstructorSchema>)null;
+                this._constructors = null;
             }
             if (this._properties != null)
             {
                 foreach (DllPropertySchema dllPropertySchema in this._properties.Values)
-                    dllPropertySchema?.Dispose((object)this);
-                this._properties = (Map<uint, DllPropertySchema>)null;
+                    dllPropertySchema?.Dispose(this);
+                this._properties = null;
             }
             if (this._methods != null)
             {
                 foreach (KeyValueEntry<MethodSignatureKey, DllMethodSchema> method in this._methods)
                 {
                     if (method.Value != null)
-                        method.Value.Dispose((object)this);
+                        method.Value.Dispose(this);
                 }
-                this._methods = (Map<MethodSignatureKey, DllMethodSchema>)null;
+                this._methods = null;
             }
             if (this._events == null)
                 return;
             foreach (DllEventSchema dllEventSchema in this._events.Values)
-                dllEventSchema?.Dispose((object)this);
+                dllEventSchema?.Dispose(this);
         }
 
         public override object ConstructDefault() => (object)null;
@@ -70,10 +70,10 @@ namespace Microsoft.Iris.CodeModel.Cpp
 
         public override ConstructorSchema FindConstructor(TypeSchema[] parameters)
         {
-            DllConstructorSchema constructorSchema = (DllConstructorSchema)null;
+            DllConstructorSchema constructorSchema = null;
             if (this._constructors != null)
                 this._constructors.TryGetValue(new MethodSignatureKey(parameters), out constructorSchema);
-            return (ConstructorSchema)constructorSchema;
+            return constructorSchema;
         }
 
         public override PropertySchema FindProperty(string name)
@@ -83,7 +83,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
                 foreach (DllPropertySchema dllPropertySchema in this._properties.Values)
                 {
                     if (dllPropertySchema != null && dllPropertySchema.Name == name)
-                        return (PropertySchema)dllPropertySchema;
+                        return dllPropertySchema;
                 }
             }
             if (this.Equivalents != null)
@@ -95,16 +95,16 @@ namespace Microsoft.Iris.CodeModel.Cpp
                         return property;
                 }
             }
-            return (PropertySchema)null;
+            return null;
         }
 
         public override MethodSchema FindMethod(string name, TypeSchema[] parameters)
         {
             if (this._methods != null)
             {
-                DllMethodSchema dllMethodSchema = (DllMethodSchema)null;
+                DllMethodSchema dllMethodSchema = null;
                 if (this._methods.TryGetValue(new MethodSignatureKey(name, parameters), out dllMethodSchema))
-                    return (MethodSchema)dllMethodSchema;
+                    return dllMethodSchema;
             }
             if (this.Equivalents != null)
             {
@@ -115,12 +115,12 @@ namespace Microsoft.Iris.CodeModel.Cpp
                         return method;
                 }
             }
-            return (MethodSchema)null;
+            return null;
         }
 
         public override EventSchema FindEvent(string name)
         {
-            DllEventSchema dllEventSchema1 = (DllEventSchema)null;
+            DllEventSchema dllEventSchema1 = null;
             if (this._events != null)
             {
                 foreach (DllEventSchema dllEventSchema2 in this._events.Values)
@@ -132,7 +132,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
                     }
                 }
             }
-            return (EventSchema)dllEventSchema1;
+            return dllEventSchema1;
         }
 
         public override PropertySchema[] Properties
@@ -166,7 +166,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
           TypeSchema fromType,
           out object instance)
         {
-            instance = (object)null;
+            instance = null;
             return Result.Fail("Not implemented");
         }
 

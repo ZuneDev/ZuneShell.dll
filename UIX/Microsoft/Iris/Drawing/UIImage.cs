@@ -60,14 +60,14 @@ namespace Microsoft.Iris.Drawing
         {
             if (this.LoadComplete == null)
                 return;
-            this.LoadComplete((object)this, this.Status);
+            this.LoadComplete(this, this.Status);
         }
 
         protected void SetStatus(ImageStatus status)
         {
             this._status = status;
             if ((this._status == ImageStatus.Error || this._status == ImageStatus.Complete) && this.LoadComplete != null)
-                this.LoadComplete((object)this, this._status);
+                this.LoadComplete(this, this._status);
             this.FireNotification(NotificationID.Status);
         }
 

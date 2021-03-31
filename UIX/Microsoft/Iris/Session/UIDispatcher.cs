@@ -27,7 +27,7 @@ namespace Microsoft.Iris.Session
         private bool _shutdown;
 
         internal UIDispatcher(bool isMainUIThread)
-          : this((UISession)null, (TimeoutHandler)null, 0U, isMainUIThread)
+          : this(null, null, 0U, isMainUIThread)
         {
         }
 
@@ -42,7 +42,7 @@ namespace Microsoft.Iris.Session
             this._timeoutManager = new TimeoutManager();
             Queue[] queues = new Queue[17];
             if (parentSession != null)
-                queues[6] = (Queue)parentSession.InputManager.Queue;
+                queues[6] = parentSession.InputManager.Queue;
             this._masterQueue = new PriorityQueue(queues);
             this._masterQueue.LoopHook = new PriorityQueue.HookProc(this.CheckInterthreadItems);
             this.SetQueueDrainHook(DispatchPriority.Normal, new PriorityQueue.HookProc(this.CheckLoopCondition));
@@ -81,7 +81,7 @@ namespace Microsoft.Iris.Session
             this.ShutDown(false);
             if (UIDispatcher.s_mainUIThread == Thread.CurrentThread)
             {
-                UIDispatcher.s_mainUIThread = (Thread)null;
+                UIDispatcher.s_mainUIThread = null;
                 UIDispatcher.s_exiting = true;
             }
             if (this._masterQueue != null)
@@ -138,10 +138,10 @@ namespace Microsoft.Iris.Session
                         priority1 = DispatchPriority.Idle;
                         break;
                 }
-                UIDispatcher.Post(priority1, (QueueItem)DeferredCall.Create(item));
+                UIDispatcher.Post(priority1, DeferredCall.Create(item));
             }
             else
-                UIDispatcher.Post(delay, (QueueItem)DeferredCall.Create(item));
+                UIDispatcher.Post(delay, DeferredCall.Create(item));
         }
 
         public static void Post(DateTime when, QueueItem item)
@@ -174,7 +174,7 @@ namespace Microsoft.Iris.Session
 
         public static void Post(Thread thread, DispatchPriority priority, QueueItem item) => Dispatcher.PostItem_AnyThread(thread, item, (int)priority);
 
-        public void Run(LoopCondition condition) => this.MainLoop((Queue)this._masterQueue, condition);
+        public void Run(LoopCondition condition) => this.MainLoop(_masterQueue, condition);
 
         public void StopCurrentMessageLoop() => this._messageLoop.QuitPending = true;
 
@@ -188,7 +188,7 @@ namespace Microsoft.Iris.Session
 
         public void RPCYield(LoopCondition condition) => this.MainLoop(this._rpcYieldQueue, condition);
 
-        public void DoHousekeeping() => this.MainLoop(this._cleanupQueue, (LoopCondition)null);
+        public void DoHousekeeping() => this.MainLoop(this._cleanupQueue, null);
 
         private void SetQueueLock(DispatchPriority priority, bool value) => this._masterQueue.SetLock((int)priority, value);
 
@@ -223,7 +223,7 @@ namespace Microsoft.Iris.Session
 
         private void DoBatchFlush(out bool didWork, out bool abort)
         {
-            this.SetQueueDrainHook(DispatchPriority.RenderSync, (PriorityQueue.HookProc)null);
+            this.SetQueueDrainHook(DispatchPriority.RenderSync, null);
             this.UISession.FlushBatch();
             didWork = true;
             abort = false;

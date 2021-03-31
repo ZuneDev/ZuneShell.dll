@@ -31,7 +31,7 @@ namespace Microsoft.Iris.Markup.Validation
 
         public override void Validate(ValidateCode container, ValidateContext context)
         {
-            this._condition.Validate(new TypeRestriction((TypeSchema)BooleanSchema.Type), context);
+            this._condition.Validate(new TypeRestriction(BooleanSchema.Type), context);
             if (this._condition.HasErrors)
                 this.MarkHasErrors();
             this._statementCompound.Validate(container, context);

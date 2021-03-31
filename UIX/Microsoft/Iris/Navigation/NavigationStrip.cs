@@ -35,15 +35,15 @@ namespace Microsoft.Iris.Navigation
             NavigationOrientation searchOrientation = this.SearchOrientation;
             bool flag = searchOrientation == this._orientationValue;
             if (!enteringFlag && !flag)
-                return (IList)null;
+                return null;
             ArrayList arrayList = new ArrayList(allChildrenList.Count);
             PointF center = startRectangleF.Center;
-            foreach (NavigationItem allChildren in (IEnumerable)allChildrenList)
+            foreach (NavigationItem allChildren in allChildrenList)
             {
                 if (this.IsCandidateInSearchDirection(allChildren.Position - center))
-                    arrayList.Add((object)allChildren);
+                    arrayList.Add(allChildren);
             }
-            NavigationStrip.CompareFunction compareMethod = (NavigationStrip.CompareFunction)null;
+            NavigationStrip.CompareFunction compareMethod = null;
             float paramValue = 0.0f;
             if (flag)
             {
@@ -84,8 +84,8 @@ namespace Microsoft.Iris.Navigation
                         break;
                 }
             }
-            arrayList.Sort((IComparer)new NavigationStrip.ItemComparer(compareMethod, paramValue));
-            return (IList)arrayList;
+            arrayList.Sort(new NavigationStrip.ItemComparer(compareMethod, paramValue));
+            return arrayList;
         }
 
         private NavigationOrientation SearchOrientation
@@ -111,19 +111,19 @@ namespace Microsoft.Iris.Navigation
             switch (this.SearchDirection)
             {
                 case Direction.North:
-                    if ((double)deltaExtent.Height >= 0.0)
+                    if (deltaExtent.Height >= 0.0)
                         return false;
                     break;
                 case Direction.South:
-                    if ((double)deltaExtent.Height <= 0.0)
+                    if (deltaExtent.Height <= 0.0)
                         return false;
                     break;
                 case Direction.East:
-                    if ((double)deltaExtent.Width <= 0.0)
+                    if (deltaExtent.Width <= 0.0)
                         return false;
                     break;
                 case Direction.West:
-                    if ((double)deltaExtent.Width >= 0.0)
+                    if (deltaExtent.Width >= 0.0)
                         return false;
                     break;
             }
@@ -137,9 +137,9 @@ namespace Microsoft.Iris.Navigation
         {
             float num1 = niA.Position.X * orderValue;
             float num2 = niB.Position.X * orderValue;
-            if ((double)num1 < (double)num2)
+            if (num1 < (double)num2)
                 return -1;
-            return (double)num1 > (double)num2 ? 1 : 0;
+            return num1 > (double)num2 ? 1 : 0;
         }
 
         private static int CompareOrderVertical(
@@ -149,9 +149,9 @@ namespace Microsoft.Iris.Navigation
         {
             float num1 = niA.Position.Y * orderValue;
             float num2 = niB.Position.Y * orderValue;
-            if ((double)num1 < (double)num2)
+            if (num1 < (double)num2)
                 return -1;
-            return (double)num1 > (double)num2 ? 1 : 0;
+            return num1 > (double)num2 ? 1 : 0;
         }
 
         private static int CompareDistanceHorizontal(
@@ -160,14 +160,14 @@ namespace Microsoft.Iris.Navigation
           float originValue)
         {
             float num1 = niA.Position.X - originValue;
-            if ((double)num1 < 0.0)
+            if (num1 < 0.0)
                 num1 *= -1f;
             float num2 = niB.Position.X - originValue;
-            if ((double)num2 < 0.0)
+            if (num2 < 0.0)
                 num2 *= -1f;
-            if ((double)num1 < (double)num2)
+            if (num1 < (double)num2)
                 return -1;
-            return (double)num1 > (double)num2 ? 1 : 0;
+            return num1 > (double)num2 ? 1 : 0;
         }
 
         private static int CompareDistanceVertical(
@@ -176,14 +176,14 @@ namespace Microsoft.Iris.Navigation
           float originValue)
         {
             float num1 = niA.Position.Y - originValue;
-            if ((double)num1 < 0.0)
+            if (num1 < 0.0)
                 num1 *= -1f;
             float num2 = niB.Position.Y - originValue;
-            if ((double)num2 < 0.0)
+            if (num2 < 0.0)
                 num2 *= -1f;
-            if ((double)num1 < (double)num2)
+            if (num1 < (double)num2)
                 return -1;
-            return (double)num1 > (double)num2 ? 1 : 0;
+            return num1 > (double)num2 ? 1 : 0;
         }
 
         private delegate int CompareFunction(NavigationItem a, NavigationItem b, float param);

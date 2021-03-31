@@ -15,15 +15,15 @@ namespace Microsoft.Iris.Markup.UIX
             MarkupDataType markupDataType = (MarkupDataType)instanceObj;
         }
 
-        public static void Pass1Initialize() => DataTypeSchema.Type = new UIXTypeSchema((short)48, "DataType", (string)null, (short)29, typeof(MarkupDataType), UIXTypeFlags.Disposable);
+        public static void Pass1Initialize() => DataTypeSchema.Type = new UIXTypeSchema(48, "DataType", null, 29, typeof(MarkupDataType), UIXTypeFlags.Disposable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema = new UIXPropertySchema((short)48, "Provider", (short)208, (short)-1, ExpressionRestriction.NoAccess, false, (RangeValidator)null, true, (GetValueHandler)null, new SetValueHandler(DataTypeSchema.SetProvider), false);
-            DataTypeSchema.Type.Initialize((DefaultConstructHandler)null, (ConstructorSchema[])null, new PropertySchema[1]
+            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(48, "Provider", 208, -1, ExpressionRestriction.NoAccess, false, null, true, null, new SetValueHandler(DataTypeSchema.SetProvider), false);
+            DataTypeSchema.Type.Initialize(null, null, new PropertySchema[1]
             {
-        (PropertySchema) uixPropertySchema
-            }, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixPropertySchema
+            }, null, null, null, null, null, null, null, null, null);
         }
     }
 }

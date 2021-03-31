@@ -16,7 +16,7 @@ namespace Microsoft.Iris.ModelItems
       INotifyObject
     {
         public IntRangedValue()
-          : base((float)int.MinValue, (float)int.MaxValue, 1f)
+          : base(int.MinValue, int.MaxValue, 1f)
         {
         }
     }

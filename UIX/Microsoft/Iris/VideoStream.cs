@@ -34,7 +34,7 @@ namespace Microsoft.Iris
             this._clients = new ArrayList();
             if (UISession.Default.RenderSession.GraphicsDevice.IsVideoComposited)
             {
-                this._renderStream = UISession.Default.RenderSession.CreateVideoStream((object)this);
+                this._renderStream = UISession.Default.RenderSession.CreateVideoStream(this);
                 this._renderStream.InvalidateContentEvent += new InvalidateContentHandler(this.OnRenderVideoStreamChange);
             }
             this._presentationBuilder = new VideoPresentationBuilder();
@@ -61,10 +61,10 @@ namespace Microsoft.Iris
             if (this._renderStream != null)
             {
                 this._renderStream.InvalidateContentEvent -= new InvalidateContentHandler(this.OnRenderVideoStreamChange);
-                this._renderStream.UnregisterUsage((object)this);
-                this._renderStream = (IVideoStream)null;
+                this._renderStream.UnregisterUsage(this);
+                this._renderStream = null;
             }
-            this._presentationBuilder = (VideoPresentationBuilder)null;
+            this._presentationBuilder = null;
             this._clients.Clear();
         }
 
@@ -87,7 +87,7 @@ namespace Microsoft.Iris
             set
             {
                 UIDispatcher.VerifyOnApplicationThread();
-                if ((double)value < 0.0 || (double)value > 0.5)
+                if (value < 0.0 || value > 0.5)
                     throw new ArgumentException("Valdid range for content overscan is [0, .5]");
                 if (Math2.WithinEpsilon(this._contentOverscanPer, value))
                     return;
@@ -183,7 +183,7 @@ namespace Microsoft.Iris
         void IUIVideoStream.RegisterPortal(IUIVideoPortal portal)
         {
             portal.PortalChange += new EventHandler(this.OnVideoClientChange);
-            this._clients.Add((object)portal);
+            this._clients.Add(portal);
             portal.OnStreamChange(true);
             this.Invalidate(false);
         }
@@ -191,9 +191,9 @@ namespace Microsoft.Iris
         void IUIVideoStream.RevokePortal(IUIVideoPortal portal)
         {
             portal.PortalChange -= new EventHandler(this.OnVideoClientChange);
-            if (this._clients.Contains((object)portal))
+            if (this._clients.Contains(portal))
             {
-                this._clients.Remove((object)portal);
+                this._clients.Remove(portal);
             }
             else
             {
@@ -206,11 +206,11 @@ namespace Microsoft.Iris
         BasicVideoPresentation IUIVideoStream.GetPresentation(
           IUIVideoPortal portal)
         {
-            BasicVideoPresentation videoPresentation = (BasicVideoPresentation)null;
+            BasicVideoPresentation videoPresentation = null;
             if (!this._disposed)
             {
                 this._presentationBuilder.CompleteDestination = RectangleF.FromRectangle(portal.LogicalContentRect);
-                this._presentationBuilder.DestinationAspectRatio = new SizeF((float)portal.LogicalContentRect.Width, (float)portal.LogicalContentRect.Height);
+                this._presentationBuilder.DestinationAspectRatio = new SizeF(portal.LogicalContentRect.Width, portal.LogicalContentRect.Height);
                 videoPresentation = this._presentationBuilder.BuildPresentation();
             }
             return videoPresentation;
@@ -225,7 +225,7 @@ namespace Microsoft.Iris
             {
                 if (client.IsUIVisible)
                 {
-                    Rectangle rectangle2 = client.EstimatePosition((IZoneDisplayChild)null);
+                    Rectangle rectangle2 = client.EstimatePosition(null);
                     int num2 = rectangle2.Width * rectangle2.Height;
                     if (num2 > num1)
                     {
@@ -254,7 +254,7 @@ namespace Microsoft.Iris
         {
             if (this._deferredInvalidate)
                 return;
-            DeferredCall.Post(DispatchPriority.AppEvent, new DeferredHandler(this.InvalidateWorker), (object)streamChange);
+            DeferredCall.Post(DispatchPriority.AppEvent, new DeferredHandler(this.InvalidateWorker), streamChange);
             this._deferredInvalidate = true;
         }
 
@@ -264,8 +264,8 @@ namespace Microsoft.Iris
             bool flag = this._srcAspect.Width > 0 && this._srcAspect.Height > 0 && this._srcVideo.Width >= 0 && this._srcVideo.Height >= 0;
             if (fFormatChanged && flag)
             {
-                this._presentationBuilder.SourceDimensions = new SizeF((float)this._srcVideo.Width, (float)this._srcVideo.Height);
-                this._presentationBuilder.ContentAspectRatio = new SizeF((float)this._srcAspect.Width, (float)this._srcAspect.Height);
+                this._presentationBuilder.SourceDimensions = new SizeF(_srcVideo.Width, _srcVideo.Height);
+                this._presentationBuilder.ContentAspectRatio = new SizeF(_srcAspect.Width, _srcAspect.Height);
                 this._presentationBuilder.ContentOverscanFactor = this._contentOverscanPer * 100f;
             }
             this._isRendering = false;
@@ -283,7 +283,7 @@ namespace Microsoft.Iris
         {
             if (this.DisplayDetailsChanged == null)
                 return;
-            this.DisplayDetailsChanged((object)this, EventArgs.Empty);
+            this.DisplayDetailsChanged(this, EventArgs.Empty);
         }
     }
 }

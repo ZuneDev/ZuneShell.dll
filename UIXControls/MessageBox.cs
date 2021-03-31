@@ -46,7 +46,7 @@ namespace UIXControls
           string message,
           EventHandler okCommandHandler)
         {
-            MessageBox dialog = new MessageBox(title, message, okCommandHandler, (EventHandler)null, (EventHandler)null, (EventHandler)null, (BooleanChoice)null);
+            MessageBox dialog = new MessageBox(title, message, okCommandHandler, null, null, null, null);
             MessageBox.ShowCodeDialog(dialog);
             return dialog;
         }
@@ -57,7 +57,7 @@ namespace UIXControls
           EventHandler yesCommandHandler,
           EventHandler noCommandHandler)
         {
-            MessageBox dialog = new MessageBox(title, message, (EventHandler)null, yesCommandHandler, noCommandHandler, (EventHandler)null, (BooleanChoice)null);
+            MessageBox dialog = new MessageBox(title, message, null, yesCommandHandler, noCommandHandler, null, null);
             MessageBox.ShowCodeDialog(dialog);
             return dialog;
         }
@@ -70,7 +70,7 @@ namespace UIXControls
           EventHandler noCommandHandler,
           EventHandler cancelCommandHandler)
         {
-            MessageBox dialog = new MessageBox(title, message, okCommandHandler, yesCommandHandler, noCommandHandler, cancelCommandHandler, (BooleanChoice)null);
+            MessageBox dialog = new MessageBox(title, message, okCommandHandler, yesCommandHandler, noCommandHandler, cancelCommandHandler, null);
             MessageBox.ShowCodeDialog(dialog);
             return dialog;
         }
@@ -96,14 +96,14 @@ namespace UIXControls
           Command noCommand,
           BooleanChoice doNotAskMeAgain)
         {
-            MessageBox dialog = new MessageBox(title, message, (string)null, false, (Command)null, yesCommand, noCommand, (EventHandler)null, doNotAskMeAgain);
+            MessageBox dialog = new MessageBox(title, message, null, false, null, yesCommand, noCommand, null, doNotAskMeAgain);
             MessageBox.ShowCodeDialog(dialog);
             return dialog;
         }
 
         public static MessageBox ShowYesNo(string title, string message, Command yesCommand)
         {
-            MessageBox dialog = new MessageBox(title, message, DialogHelper.DialogNo, false, (Command)null, yesCommand, (Command)null, (EventHandler)null, (BooleanChoice)null);
+            MessageBox dialog = new MessageBox(title, message, DialogHelper.DialogNo, false, null, yesCommand, null, null, null);
             MessageBox.ShowCodeDialog(dialog);
             return dialog;
         }
@@ -114,7 +114,7 @@ namespace UIXControls
           Command okCommand,
           BooleanChoice doNotAskMeAgain)
         {
-            MessageBox dialog = new MessageBox(title, message, (string)null, false, okCommand, (Command)null, (Command)null, (EventHandler)null, doNotAskMeAgain);
+            MessageBox dialog = new MessageBox(title, message, null, false, okCommand, null, null, null, doNotAskMeAgain);
             MessageBox.ShowCodeDialog(dialog);
             return dialog;
         }
@@ -126,7 +126,7 @@ namespace UIXControls
           string cancelText,
           bool isOKDefault)
         {
-            MessageBox dialog = new MessageBox(title, message, cancelText, isOKDefault, okCommand, (Command)null, (Command)null, (EventHandler)null, (BooleanChoice)null);
+            MessageBox dialog = new MessageBox(title, message, cancelText, isOKDefault, okCommand, null, null, null, null);
             MessageBox.ShowCodeDialog(dialog);
             return dialog;
         }
@@ -139,7 +139,7 @@ namespace UIXControls
           EventHandler cancelCommand,
           bool isOKDefault)
         {
-            MessageBox dialog = new MessageBox(title, message, cancelText, isOKDefault, okCommand, (Command)null, (Command)null, cancelCommand, (BooleanChoice)null);
+            MessageBox dialog = new MessageBox(title, message, cancelText, isOKDefault, okCommand, null, null, cancelCommand, null);
             MessageBox.ShowCodeDialog(dialog);
             return dialog;
         }
@@ -161,7 +161,7 @@ namespace UIXControls
         }
 
         public MessageBox()
-          : this((string)null, (string)null)
+          : this(null, null)
         {
         }
 
@@ -196,17 +196,17 @@ namespace UIXControls
             }
             if (okCommandHandler != null)
             {
-                this._okCommand = new Command((IModelItemOwner)this, DialogHelper.DialogOk, okCommandHandler);
+                this._okCommand = new Command(this, DialogHelper.DialogOk, okCommandHandler);
                 this._okCommand.Invoked += eventHandler;
             }
             if (yesCommandHandler != null)
             {
-                this._yesCommand = new Command((IModelItemOwner)this, DialogHelper.DialogYes, yesCommandHandler);
+                this._yesCommand = new Command(this, DialogHelper.DialogYes, yesCommandHandler);
                 this._yesCommand.Invoked += eventHandler;
             }
             if (noCommandHandler != null)
             {
-                this._noCommand = new Command((IModelItemOwner)this, DialogHelper.DialogNo, noCommandHandler);
+                this._noCommand = new Command(this, DialogHelper.DialogNo, noCommandHandler);
                 this._noCommand.Invoked += eventHandler;
             }
             if (cancelCommandHandler == null)
@@ -257,6 +257,6 @@ namespace UIXControls
 
         private void OnInvoked(object sender, EventArgs args) => this.Hide();
 
-        protected static void ShowCodeDialog(MessageBox dialog) => CodeDialogManager.Instance.ShowCodeDialog((DialogHelper)dialog);
+        protected static void ShowCodeDialog(MessageBox dialog) => CodeDialogManager.Instance.ShowCodeDialog(dialog);
     }
 }

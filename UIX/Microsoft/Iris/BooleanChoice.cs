@@ -28,21 +28,21 @@ namespace Microsoft.Iris
         }
 
         public BooleanChoice(IModelItemOwner owner, string description)
-          : this(owner, description, (IList)null)
+          : this(owner, description, null)
         {
         }
 
         public BooleanChoice(IModelItemOwner owner)
-          : this(owner, (string)null, (IList)null)
+          : this(owner, null, null)
         {
         }
 
         public BooleanChoice()
-          : this((IModelItemOwner)null)
+          : this(null)
         {
         }
 
-        internal override Microsoft.Iris.ModelItems.Choice CreateInternalChoice() => (Microsoft.Iris.ModelItems.Choice)new Microsoft.Iris.ModelItems.BooleanChoice();
+        internal override Microsoft.Iris.ModelItems.Choice CreateInternalChoice() => new Microsoft.Iris.ModelItems.BooleanChoice();
 
         public bool Value
         {

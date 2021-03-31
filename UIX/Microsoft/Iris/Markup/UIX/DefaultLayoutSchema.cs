@@ -12,10 +12,10 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object Construct() => (object)DefaultLayout.Instance;
+        private static object Construct() => DefaultLayout.Instance;
 
-        public static void Pass1Initialize() => DefaultLayoutSchema.Type = new UIXTypeSchema((short)53, "DefaultLayout", (string)null, (short)132, typeof(DefaultLayout), UIXTypeFlags.Immutable);
+        public static void Pass1Initialize() => DefaultLayoutSchema.Type = new UIXTypeSchema(53, "DefaultLayout", null, 132, typeof(DefaultLayout), UIXTypeFlags.Immutable);
 
-        public static void Pass2Initialize() => DefaultLayoutSchema.Type.Initialize(new DefaultConstructHandler(DefaultLayoutSchema.Construct), (ConstructorSchema[])null, (PropertySchema[])null, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+        public static void Pass2Initialize() => DefaultLayoutSchema.Type.Initialize(new DefaultConstructHandler(DefaultLayoutSchema.Construct), null, null, null, null, null, null, null, null, null, null, null);
     }
 }

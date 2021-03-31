@@ -116,7 +116,7 @@ namespace Microsoft.Iris.Markup.Validation
         private string GetEffectElementName(ValidateExpressionCall call)
         {
             ValidateExpression target = call.Target;
-            return EffectElementInstanceSchema.Type.IsAssignableFrom(target.ObjectType) && target.ExpressionType == ExpressionType.Symbol ? ((ValidateExpressionSymbol)target).Symbol : (string)null;
+            return EffectElementInstanceSchema.Type.IsAssignableFrom(target.ObjectType) && target.ExpressionType == ExpressionType.Symbol ? ((ValidateExpressionSymbol)target).Symbol : null;
         }
 
         private void TrackDynamicElementAssignment(string elementName, string propertyName) => this.TrackDynamicElementAssignment(EffectElementWrapper.MakeEffectPropertyName(elementName, propertyName));
@@ -127,7 +127,7 @@ namespace Microsoft.Iris.Markup.Validation
         {
             if (this._foundDynamicElementAssignments == null)
                 this._foundDynamicElementAssignments = new Dictionary<string, object>();
-            this._foundDynamicElementAssignments[dynamicPropertyName] = (object)null;
+            this._foundDynamicElementAssignments[dynamicPropertyName] = null;
         }
 
         public void TrackInstanceProperty(

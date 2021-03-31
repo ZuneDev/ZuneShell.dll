@@ -27,10 +27,10 @@ namespace Microsoft.Iris.Navigation
           out INavigationSite resultSite)
         {
             INavigationSite navigationSite1 = originSite;
-            Microsoft.Iris.Debug.Trace.IsCategoryEnabled(TraceCategory.Navigation, (byte)2);
+            Microsoft.Iris.Debug.Trace.IsCategoryEnabled(TraceCategory.Navigation, 2);
             if (startRectangleF.IsEmpty && !NavigationServices.GetDefaultOutboundStartRect(originSite, out startRectangleF))
             {
-                resultSite = (INavigationSite)null;
+                resultSite = null;
                 return false;
             }
             NavigationServices.ProcessDirectionalMemory(ref startRectangleF, searchDirection);
@@ -38,12 +38,12 @@ namespace Microsoft.Iris.Navigation
             if (parentTabGroup != null)
                 navigationSite1 = parentTabGroup;
             INavigationSite boundingSite = NavigationServices.FindBoundingSite(navigationSite1, searchDirection);
-            INavigationSite navigationSite2 = (INavigationSite)null;
+            INavigationSite navigationSite2 = null;
             NavigationItem itemForSite1 = NavigationItem.CreateItemForSite(navigationSite1, searchDirection, false);
-            if (itemForSite1 != (NavigationItem)null)
+            if (itemForSite1 != null)
             {
-                NavigationItem navigationItem1 = itemForSite1.SearchUpTree(startRectangleF, (INavigationSite)null, (INavigationSite)null);
-                if (navigationItem1 != (NavigationItem)null)
+                NavigationItem navigationItem1 = itemForSite1.SearchUpTree(startRectangleF, null, null);
+                if (navigationItem1 != null)
                     navigationSite2 = navigationItem1.Subject;
                 if (navigationSite2 == null && boundingSite != null && NavigationItem.IsWrappingSite(boundingSite, searchDirection))
                 {
@@ -53,14 +53,14 @@ namespace Microsoft.Iris.Navigation
                     RectangleF excludeRectangleF = new RectangleF(positionPxlVector.X, positionPxlVector.Y, sizePxlVector.X, sizePxlVector.Y);
                     NavigationServices.AdjustStartRectForSimulatedEntry(searchDirection, excludeRectangleF, ref startRectangleF);
                     NavigationItem itemForSite2 = NavigationItem.CreateItemForSite(boundingSite, searchDirection, true);
-                    if (itemForSite2 != (NavigationItem)null)
+                    if (itemForSite2 != null)
                     {
                         NavigationItem navigationItem2 = itemForSite2.SearchDownTree(startRectangleF, true, boundingSite, originSite);
-                        if (navigationItem2 != (NavigationItem)null)
+                        if (navigationItem2 != null)
                             navigationSite2 = navigationItem2.Subject;
                     }
                     if (navigationSite2 == originSite)
-                        navigationSite2 = (INavigationSite)null;
+                        navigationSite2 = null;
                 }
             }
             bool flag = navigationSite2 != null;
@@ -92,19 +92,19 @@ namespace Microsoft.Iris.Navigation
           RectangleF startRectangleF,
           out INavigationSite resultSite)
         {
-            Microsoft.Iris.Debug.Trace.IsCategoryEnabled(TraceCategory.Navigation, (byte)2);
+            Microsoft.Iris.Debug.Trace.IsCategoryEnabled(TraceCategory.Navigation, 2);
             if (startRectangleF.IsEmpty && !NavigationServices.GetDefaultInboundStartRect(originSite, searchDirection, out startRectangleF))
             {
-                resultSite = (INavigationSite)null;
+                resultSite = null;
                 return false;
             }
             NavigationServices.ProcessDirectionalMemory(ref startRectangleF, searchDirection);
-            INavigationSite navigationSite = (INavigationSite)null;
+            INavigationSite navigationSite = null;
             NavigationItem itemForSite = NavigationItem.CreateItemForSite(originSite, searchDirection, true);
-            if (itemForSite != (NavigationItem)null)
+            if (itemForSite != null)
             {
-                NavigationItem navigationItem = itemForSite.SearchDownTree(startRectangleF, true, (INavigationSite)null, (INavigationSite)null);
-                if (navigationItem != (NavigationItem)null)
+                NavigationItem navigationItem = itemForSite.SearchDownTree(startRectangleF, true, null, null);
+                if (navigationItem != null)
                     navigationSite = navigationItem.Subject;
             }
             bool flag = navigationSite != null;
@@ -230,13 +230,13 @@ namespace Microsoft.Iris.Navigation
                     for (; targetSite != null; targetSite = targetSite.Parent)
                     {
                         if (NavigationItem.IsBoundingSite(targetSite, searchDirection))
-                            return (INavigationSite)null;
+                            return null;
                         if (NavigationItem.IsTabGroup(targetSite))
                             break;
                     }
                     return targetSite;
                 default:
-                    return (INavigationSite)null;
+                    return null;
             }
         }
 
@@ -267,10 +267,10 @@ namespace Microsoft.Iris.Navigation
         {
             int num = branchSite.IsLogicalJunction ? 1 : 0;
             if (branchSite.Navigability != NavigationClass.None)
-                InvariantString.Format(", Class: {0}", (object)branchSite.Navigability);
+                InvariantString.Format(", Class: {0}", branchSite.Navigability);
             if (branchSite.Mode != NavigationPolicies.None)
-                InvariantString.Format(", Mode: {0}", (object)branchSite.Mode);
-            foreach (INavigationSite child in (IEnumerable)branchSite.Children)
+                InvariantString.Format(", Mode: {0}", branchSite.Mode);
+            foreach (INavigationSite child in branchSite.Children)
                 ;
         }
 

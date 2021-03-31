@@ -15,11 +15,11 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object GetScrollModel(object instanceObj) => (object)((Scroller)instanceObj).ScrollModel;
+        private static object GetScrollModel(object instanceObj) => ((Scroller)instanceObj).ScrollModel;
 
         private static void SetScrollModel(ref object instanceObj, object valueObj) => ((Scroller)instanceObj).ScrollModel = (ScrollModel)valueObj;
 
-        private static object GetPrefetch(object instanceObj) => (object)((Scroller)instanceObj).Prefetch;
+        private static object GetPrefetch(object instanceObj) => ((Scroller)instanceObj).Prefetch;
 
         private static void SetPrefetch(ref object instanceObj, object valueObj)
         {
@@ -32,19 +32,19 @@ namespace Microsoft.Iris.Markup.UIX
                 scroller.Prefetch = num;
         }
 
-        private static object Construct() => (object)new Scroller();
+        private static object Construct() => new Scroller();
 
-        public static void Pass1Initialize() => ScrollerSchema.Type = new UIXTypeSchema((short)184, "Scroller", (string)null, (short)34, typeof(Scroller), UIXTypeFlags.Disposable);
+        public static void Pass1Initialize() => ScrollerSchema.Type = new UIXTypeSchema(184, "Scroller", null, 34, typeof(Scroller), UIXTypeFlags.Disposable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema((short)184, "ScrollModel", (short)182, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(ScrollerSchema.GetScrollModel), new SetValueHandler(ScrollerSchema.SetScrollModel), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema((short)184, "Prefetch", (short)115, (short)-1, ExpressionRestriction.None, false, Int32Schema.ValidateNotNegative, true, new GetValueHandler(ScrollerSchema.GetPrefetch), new SetValueHandler(ScrollerSchema.SetPrefetch), false);
-            ScrollerSchema.Type.Initialize(new DefaultConstructHandler(ScrollerSchema.Construct), (ConstructorSchema[])null, new PropertySchema[2]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(184, "ScrollModel", 182, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(ScrollerSchema.GetScrollModel), new SetValueHandler(ScrollerSchema.SetScrollModel), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(184, "Prefetch", 115, -1, ExpressionRestriction.None, false, Int32Schema.ValidateNotNegative, true, new GetValueHandler(ScrollerSchema.GetPrefetch), new SetValueHandler(ScrollerSchema.SetPrefetch), false);
+            ScrollerSchema.Type.Initialize(new DefaultConstructHandler(ScrollerSchema.Construct), null, new PropertySchema[2]
             {
-        (PropertySchema) uixPropertySchema2,
-        (PropertySchema) uixPropertySchema1
-            }, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixPropertySchema2,
+         uixPropertySchema1
+            }, null, null, null, null, null, null, null, null, null);
         }
     }
 }

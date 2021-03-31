@@ -17,10 +17,10 @@ namespace Microsoft.Iris.ViewItems
 
         public void Clear()
         {
-            this.Host = (Host)null;
-            this.Source = (string)null;
-            this.Type = (UIClassTypeSchema)null;
-            this.Properties = (Vector<UIPropertyRecord>)null;
+            this.Host = null;
+            this.Source = null;
+            this.Type = null;
+            this.Properties = null;
         }
     }
 }

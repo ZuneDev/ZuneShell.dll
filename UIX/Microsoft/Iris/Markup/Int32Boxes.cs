@@ -8,8 +8,8 @@ namespace Microsoft.Iris.Markup
 {
     internal static class Int32Boxes
     {
-        internal static object ZeroBox = (object)0;
-        internal static object MinValueBox = (object)int.MinValue;
-        internal static object MaxValueBox = (object)int.MaxValue;
+        internal static object ZeroBox = 0;
+        internal static object MinValueBox = int.MinValue;
+        internal static object MaxValueBox = int.MaxValue;
     }
 }

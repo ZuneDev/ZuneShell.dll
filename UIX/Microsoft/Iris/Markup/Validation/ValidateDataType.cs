@@ -49,7 +49,7 @@ namespace Microsoft.Iris.Markup.Validation
                     this._foundInlineMappings = new Map<string, MarkupDataMappingEntry>();
                 this._foundInlineMappings[propertyExport.Name] = new MarkupDataMappingEntry()
                 {
-                    DefaultValue = ValidateDataMapping.ConvertDefaultValue((Validate)this, propertyExport.PropertyType, stringProperty1),
+                    DefaultValue = ValidateDataMapping.ConvertDefaultValue(this, propertyExport.PropertyType, stringProperty1),
                     Source = stringProperty2,
                     Target = stringProperty3,
                     Property = (MarkupDataTypePropertySchema)propertyExport
@@ -71,9 +71,9 @@ namespace Microsoft.Iris.Markup.Validation
                 this._foundInlineMappings = new Map<string, MarkupDataMappingEntry>();
             MarkupDataTypeSchema typeExport = (MarkupDataTypeSchema)this.TypeExport;
             MarkupDataMappingEntry[] mappingEntries = MarkupDataProvider.FillInDefaultMappings(typeExport, this._foundInlineMappings);
-            ValidateDataMapping.AddDataMappingProviderList(ref this._foundDataMappingSet, (MarkupLoadResult)this.Owner.LoadResultTarget, (string)null, typeExport, this._provider, mappingEntries);
+            ValidateDataMapping.AddDataMappingProviderList(ref this._foundDataMappingSet, Owner.LoadResultTarget, null, typeExport, this._provider, mappingEntries);
             foreach (MarkupDataMappingEntry dataMappingEntry in mappingEntries)
-                this.Owner.TrackImportedProperty((PropertySchema)dataMappingEntry.Property);
+                this.Owner.TrackImportedProperty(dataMappingEntry.Property);
         }
 
         public Vector<MarkupDataMapping> FoundDataMappingSet => this._foundDataMappingSet;

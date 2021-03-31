@@ -23,19 +23,19 @@ namespace Microsoft.Iris.UI
             this._elementName = elementName;
         }
 
-        public void SetProperty(string propertyName, int value) => this._class.SetRenderEffectProperty(this.MakeEffectPropertyName(propertyName), new EffectValue((object)value, EffectValueType.Int));
+        public void SetProperty(string propertyName, int value) => this._class.SetRenderEffectProperty(this.MakeEffectPropertyName(propertyName), new EffectValue(value, EffectValueType.Int));
 
-        public void SetProperty(string propertyName, float value) => this._class.SetRenderEffectProperty(this.MakeEffectPropertyName(propertyName), new EffectValue((object)value, EffectValueType.Float));
+        public void SetProperty(string propertyName, float value) => this._class.SetRenderEffectProperty(this.MakeEffectPropertyName(propertyName), new EffectValue(value, EffectValueType.Float));
 
-        public void SetProperty(string propertyName, UIImage value) => this._class.SetRenderEffectProperty(this.MakeEffectPropertyName(propertyName), new EffectValue((object)value, EffectValueType.UIImage));
+        public void SetProperty(string propertyName, UIImage value) => this._class.SetRenderEffectProperty(this.MakeEffectPropertyName(propertyName), new EffectValue(value, EffectValueType.UIImage));
 
-        public void SetProperty(string propertyName, IUIVideoStream value) => this._class.SetRenderEffectProperty(this.MakeEffectPropertyName(propertyName), new EffectValue((object)value, EffectValueType.IUIVideoStream));
+        public void SetProperty(string propertyName, IUIVideoStream value) => this._class.SetRenderEffectProperty(this.MakeEffectPropertyName(propertyName), new EffectValue(value, EffectValueType.IUIVideoStream));
 
-        public void SetProperty(string propertyName, Color value) => this._class.SetRenderEffectProperty(this.MakeEffectPropertyName(propertyName), new EffectValue((object)value, EffectValueType.Color));
+        public void SetProperty(string propertyName, Color value) => this._class.SetRenderEffectProperty(this.MakeEffectPropertyName(propertyName), new EffectValue(value, EffectValueType.Color));
 
-        public void SetProperty(string propertyName, Vector2 value) => this._class.SetRenderEffectProperty(this.MakeEffectPropertyName(propertyName), new EffectValue((object)value, EffectValueType.Vector2));
+        public void SetProperty(string propertyName, Vector2 value) => this._class.SetRenderEffectProperty(this.MakeEffectPropertyName(propertyName), new EffectValue(value, EffectValueType.Vector2));
 
-        public void SetProperty(string propertyName, Vector3 value) => this._class.SetRenderEffectProperty(this.MakeEffectPropertyName(propertyName), new EffectValue((object)value, EffectValueType.Vector3));
+        public void SetProperty(string propertyName, Vector3 value) => this._class.SetRenderEffectProperty(this.MakeEffectPropertyName(propertyName), new EffectValue(value, EffectValueType.Vector3));
 
         public void PlayAnimation(EffectProperty property, EffectAnimation animation) => this._class.PlayAnimation(this.MakeEffectPropertyName(property), animation);
 

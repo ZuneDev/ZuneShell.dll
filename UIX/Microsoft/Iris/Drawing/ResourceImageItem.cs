@@ -34,7 +34,7 @@ namespace Microsoft.Iris.Drawing
             if (this._resource != null)
             {
                 this.FreeResource();
-                this._resource = (Resource)null;
+                this._resource = null;
             }
             base.OnDispose();
         }
@@ -89,7 +89,7 @@ namespace Microsoft.Iris.Drawing
             ImageStatus status = this.Status;
             if (this.LoadCompleteHandler == null)
                 return;
-            this.LoadCompleteHandler((object)this, status);
+            this.LoadCompleteHandler(this, status);
         }
 
         private bool IsResourceAvailable() => this._resource.Status == ResourceStatus.Available;
@@ -128,7 +128,7 @@ namespace Microsoft.Iris.Drawing
             if (this._acquireCalled)
             {
                 this._resource.Free(this._resourceAcquisitionHandler);
-                this._resourceAcquisitionHandler = (ResourceAcquisitionCompleteHandler)null;
+                this._resourceAcquisitionHandler = null;
             }
             this._acquireCalled = false;
         }
@@ -139,7 +139,7 @@ namespace Microsoft.Iris.Drawing
 
         public override void ReleaseImage()
         {
-            this.LoadCompleteHandler = (ContentLoadCompleteHandler)null;
+            this.LoadCompleteHandler = null;
             base.ReleaseImage();
         }
 

@@ -31,7 +31,7 @@ namespace Microsoft.Iris.Markup.Validation
             if (this._currentValidationPass >= currentPass)
                 return;
             this._currentValidationPass = currentPass;
-            ValidateContext context = new ValidateContext((ValidateClass)null, (MarkupTypeSchema)null, this._currentValidationPass);
+            ValidateContext context = new ValidateContext(null, null, this._currentValidationPass);
             this.Validate(TypeRestriction.None, context);
             if (this._currentValidationPass != LoadPass.Full)
                 return;
@@ -43,7 +43,7 @@ namespace Microsoft.Iris.Markup.Validation
                 case MarkupDataTypeSchema _:
                     markupDataTypeSchema = (MarkupDataTypeSchema)typeSchemaProperty;
                     string stringProperty1 = this.ExtractStringProperty("Provider", true);
-                    MarkupDataMappingEntry[] mappingEntries = (MarkupDataMappingEntry[])null;
+                    MarkupDataMappingEntry[] mappingEntries = null;
                     ValidateProperty property = this.FindProperty("Mappings");
                     if (property != null && property.IsObjectTagValue)
                     {
@@ -63,7 +63,7 @@ namespace Microsoft.Iris.Markup.Validation
                                     dataMappingEntry.Property = propertyDeep;
                                     dataMappingEntry.Source = stringProperty3;
                                     dataMappingEntry.Target = stringProperty4;
-                                    dataMappingEntry.DefaultValue = ValidateDataMapping.ConvertDefaultValue((Microsoft.Iris.Markup.Validation.Validate)this, propertyDeep.PropertyType, stringProperty5);
+                                    dataMappingEntry.DefaultValue = ValidateDataMapping.ConvertDefaultValue(this, propertyDeep.PropertyType, stringProperty5);
                                     if (!entries.ContainsKey(stringProperty2))
                                         entries[stringProperty2] = dataMappingEntry;
                                     else
@@ -75,11 +75,11 @@ namespace Microsoft.Iris.Markup.Validation
                         }
                         mappingEntries = MarkupDataProvider.FillInDefaultMappings(markupDataTypeSchema, entries);
                         foreach (MarkupDataMappingEntry dataMappingEntry in mappingEntries)
-                            this.Owner.TrackImportedProperty((PropertySchema)dataMappingEntry.Property);
+                            this.Owner.TrackImportedProperty(dataMappingEntry.Property);
                     }
                     if (stringProperty1 == null || markupDataTypeSchema == null)
                         break;
-                    ValidateDataMapping.AddDataMappingProviderList(ref this._foundDataMappingSet, (MarkupLoadResult)this.Owner.LoadResultTarget, this.Name, markupDataTypeSchema, stringProperty1, mappingEntries);
+                    ValidateDataMapping.AddDataMappingProviderList(ref this._foundDataMappingSet, Owner.LoadResultTarget, this.Name, markupDataTypeSchema, stringProperty1, mappingEntries);
                     break;
                 default:
                     this.ReportError("TargetType for DataMapping must be a markup-defined DataType, {0} is not valid", typeSchemaProperty.Name);
@@ -131,12 +131,12 @@ namespace Microsoft.Iris.Markup.Validation
           TypeSchema type,
           string valueString)
         {
-            object instance = (object)null;
+            object instance = null;
             if (valueString != null)
             {
-                if (type.SupportsTypeConversion((TypeSchema)StringSchema.Type))
+                if (type.SupportsTypeConversion(StringSchema.Type))
                 {
-                    Result result = type.TypeConverter((object)valueString, (TypeSchema)StringSchema.Type, out instance);
+                    Result result = type.TypeConverter(valueString, StringSchema.Type, out instance);
                     if (result.Failed)
                         validate.ReportError(result.Error);
                 }

@@ -34,7 +34,7 @@ namespace Microsoft.Iris.OS
 
         public Resource GetResource(string hierarchicalPart, string uri, bool forceSynchronous)
         {
-            Resource resource = (Resource)null;
+            Resource resource = null;
             string host;
             string identifier;
             DllResources.ParseResource(hierarchicalPart, out host, out identifier);
@@ -42,19 +42,19 @@ namespace Microsoft.Iris.OS
             {
                 string fullPath = this.GetFullPath(host);
                 if (fullPath != null)
-                    resource = (Resource)new DllResource(uri, fullPath, identifier);
+                    resource = new DllResource(uri, fullPath, identifier);
             }
             if (resource == null)
-                ErrorManager.ReportError("Invalid resource uri: '{0}'", (object)uri);
+                ErrorManager.ReportError("Invalid resource uri: '{0}'", uri);
             return resource;
         }
 
         public string GetFullPath(string moduleName)
         {
-            string str = (string)null;
+            string str = null;
             if (!this._shortNameToFullPath.TryGetValue(moduleName, out str))
             {
-                AssemblyName name = (AssemblyName)null;
+                AssemblyName name = null;
                 try
                 {
                     name = new AssemblyName(moduleName);
@@ -65,7 +65,7 @@ namespace Microsoft.Iris.OS
                 catch (IOException ex)
                 {
                 }
-                Assembly assembly = (Assembly)null;
+                Assembly assembly = null;
                 if (name != null)
                     assembly = AssemblyLoadResult.FindAssembly(name, out Exception _);
                 str = assembly == null ? moduleName : assembly.Location;
@@ -79,7 +79,7 @@ namespace Microsoft.Iris.OS
             int length = resource.IndexOf('!');
             if (length == -1)
             {
-                host = (string)null;
+                host = null;
                 identifier = resource;
             }
             else

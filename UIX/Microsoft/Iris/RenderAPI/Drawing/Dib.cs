@@ -27,7 +27,7 @@ namespace Microsoft.Iris.RenderAPI.Drawing
 
         public void Dispose()
         {
-            GC.SuppressFinalize((object)this);
+            GC.SuppressFinalize(this);
             this.Dispose(true);
         }
 

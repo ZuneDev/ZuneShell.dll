@@ -36,14 +36,14 @@ namespace Microsoft.Iris.Queues
 
             protected void Link(QueueItem item, QueueItem anchor, bool before)
             {
-                this.UpdateOwners(item, item, (QueueItem.Chain)null, this);
+                this.UpdateOwners(item, item, null, this);
                 this.LinkItems(item, item, anchor, before);
             }
 
             protected void Unlink(QueueItem item)
             {
                 this.UnlinkItems(item, item);
-                this.UpdateOwners(item, item, this, (QueueItem.Chain)null);
+                this.UpdateOwners(item, item, this, null);
             }
 
             protected void TransferFromChain(
@@ -94,8 +94,8 @@ namespace Microsoft.Iris.Queues
                     first._prev._next = last._next;
                     last._next._prev = first._prev;
                 }
-                first._prev = (QueueItem)null;
-                last._next = (QueueItem)null;
+                first._prev = null;
+                last._next = null;
             }
 
             private void UpdateOwners(
@@ -127,7 +127,7 @@ namespace Microsoft.Iris.Queues
 
                 public ChainEnumerator(QueueItem tail)
                 {
-                    this._currentItem = (QueueItem)null;
+                    this._currentItem = null;
                     this._stopItem = tail;
                 }
 
@@ -137,14 +137,14 @@ namespace Microsoft.Iris.Queues
                 {
                     if (this._stopItem == null)
                     {
-                        this._currentItem = (QueueItem)null;
+                        this._currentItem = null;
                         return false;
                     }
                     if (this._currentItem != null)
                     {
                         if (this._currentItem == this._stopItem)
                         {
-                            this._currentItem = this._stopItem = (QueueItem)null;
+                            this._currentItem = this._stopItem = null;
                             return false;
                         }
                         this._currentItem = this._currentItem._next;
@@ -164,7 +164,7 @@ namespace Microsoft.Iris.Queues
             {
                 get
                 {
-                    QueueItem queueItem = (QueueItem)null;
+                    QueueItem queueItem = null;
                     if (this._tail != null)
                         queueItem = this._tail._next;
                     return queueItem;
@@ -193,8 +193,8 @@ namespace Microsoft.Iris.Queues
                 QueueItem tail = items._tail;
                 if (tail == null)
                     return false;
-                this.TransferFromChain((QueueItem.Chain)items, items.Head, tail, this._tail, false);
-                items._tail = (QueueItem)null;
+                this.TransferFromChain(items, items.Head, tail, this._tail, false);
+                items._tail = null;
                 this._tail = tail;
                 return flag;
             }
@@ -203,7 +203,7 @@ namespace Microsoft.Iris.Queues
             {
                 this.ValidateRemove(item);
                 if (item == this._tail)
-                    this._tail = QueueItem.Chain.IsOnlyChild(this._tail) ? (QueueItem)null : QueueItem.Chain.PrevItem(this._tail);
+                    this._tail = QueueItem.Chain.IsOnlyChild(this._tail) ? null : QueueItem.Chain.PrevItem(this._tail);
                 this.Unlink(item);
             }
 
@@ -242,7 +242,7 @@ namespace Microsoft.Iris.Queues
                 {
                     this._top = top._next;
                     if (this._top == top)
-                        this._top = (QueueItem)null;
+                        this._top = null;
                     this.Unlink(top);
                 }
                 return top;

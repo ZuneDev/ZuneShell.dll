@@ -57,6 +57,6 @@ namespace Microsoft.Iris.Markup.Validation
             }
         }
 
-        public override PropertyOverrideCriteria PropertyOverrideCriteria => (PropertyOverrideCriteria)new PropertyOverrideCriteriaTypeConstraint(this._foundUseType, this._foundConstraintType);
+        public override PropertyOverrideCriteria PropertyOverrideCriteria => new PropertyOverrideCriteriaTypeConstraint(this._foundUseType, this._foundConstraintType);
     }
 }

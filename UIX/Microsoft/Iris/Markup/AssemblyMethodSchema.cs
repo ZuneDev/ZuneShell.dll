@@ -19,11 +19,11 @@ namespace Microsoft.Iris.Markup
           AssemblyTypeSchema owner,
           MethodInfo methodInfo,
           TypeSchema[] parameterTypes)
-          : base((TypeSchema)owner)
+          : base(owner)
         {
             this._methodInfo = methodInfo;
             this._parameterTypes = parameterTypes;
-            this._returnTypeSchema = (TypeSchema)AssemblyLoadResult.MapType(this._methodInfo.ReturnType);
+            this._returnTypeSchema = AssemblyLoadResult.MapType(this._methodInfo.ReturnType);
         }
 
         public override string Name => this._methodInfo.Name;
@@ -39,7 +39,7 @@ namespace Microsoft.Iris.Markup
             object target = AssemblyLoadResult.UnwrapObject(instance);
             object[] paramters = AssemblyLoadResult.UnwrapObjectList(parameters);
             if (this._method == null)
-                this._method = ReflectionHelper.CreateMethodInvoke((MethodBase)this._methodInfo);
+                this._method = ReflectionHelper.CreateMethodInvoke(_methodInfo);
             return AssemblyLoadResult.WrapObject(this._returnTypeSchema, this._method(target, paramters));
         }
     }

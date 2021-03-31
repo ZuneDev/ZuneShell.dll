@@ -124,17 +124,17 @@ namespace Microsoft.Iris.Layouts
 
         public override string ToString()
         {
-            string str1 = InvariantString.Format("{0}(", (object)this.GetType().Name);
+            string str1 = InvariantString.Format("{0}(", this.GetType().Name);
             string str2;
             if (!this._enabled)
             {
-                str2 = InvariantString.Format("{0}Disabled", (object)str1);
+                str2 = InvariantString.Format("{0}Disabled", str1);
             }
             else
             {
-                str2 = InvariantString.Format("{0}(BeginPadding={1}({2}), EndPadding={3}({4})", (object)str1, (object)this._beginPadding, (object)this._relativeBeginPadding, (object)this._endPadding, (object)this._relativeEndPadding);
+                str2 = InvariantString.Format("{0}(BeginPadding={1}({2}), EndPadding={3}({4})", str1, _beginPadding, _relativeBeginPadding, _endPadding, _relativeEndPadding);
                 if (this.Locked)
-                    str2 = InvariantString.Format("{0}, LockedPosition={1}, LockedAlignment={2}", (object)str2, (object)this._lockedPosition, (object)this._lockedAlignment);
+                    str2 = InvariantString.Format("{0}, LockedPosition={1}, LockedAlignment={2}", str2, _lockedPosition, _lockedAlignment);
             }
             return str2 + ")";
         }

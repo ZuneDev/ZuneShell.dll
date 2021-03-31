@@ -18,7 +18,7 @@ namespace Microsoft.Iris.Markup.Validation
           : base(owner, line, column, ExpressionType.List)
           => this._expressionList = new ArrayList();
 
-        public void AppendToEnd(ValidateExpression expression) => this._expressionList.Add((object)expression);
+        public void AppendToEnd(ValidateExpression expression) => this._expressionList.Add(expression);
 
         public ArrayList Expressions => this._expressionList;
 
@@ -44,7 +44,7 @@ namespace Microsoft.Iris.Markup.Validation
                 }
             }
             else
-                this.DeclareEvaluationType((TypeSchema)VoidSchema.Type, typeRestriction);
+                this.DeclareEvaluationType(VoidSchema.Type, typeRestriction);
             if (this.ObjectType == null)
                 this.MarkHasErrors();
             else

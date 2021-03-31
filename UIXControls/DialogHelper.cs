@@ -43,7 +43,7 @@ namespace UIXControls
         }
 
         public DialogHelper()
-          : this((string)null)
+          : this(null)
         {
         }
 

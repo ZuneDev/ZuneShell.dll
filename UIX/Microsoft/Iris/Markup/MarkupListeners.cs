@@ -36,10 +36,10 @@ namespace Microsoft.Iris.Markup
             else
             {
                 if (markupListener == null)
-                    markupListener = (MarkupListener)new DestructiveListener();
+                    markupListener = new DestructiveListener();
                 ((DestructiveListener)markupListener).Reset(notifier, watch, scriptHost, scriptOffset, refreshOffset);
             }
-            this._listenerList[index] = (Listener)markupListener;
+            this._listenerList[index] = markupListener;
         }
     }
 }

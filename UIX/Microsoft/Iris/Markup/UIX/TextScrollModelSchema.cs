@@ -12,10 +12,10 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object Construct() => (object)new TextScrollModel();
+        private static object Construct() => new TextScrollModel();
 
-        public static void Pass1Initialize() => TextScrollModelSchema.Type = new UIXTypeSchema((short)218, "TextScrollModel", (string)null, (short)183, typeof(TextScrollModel), UIXTypeFlags.None);
+        public static void Pass1Initialize() => TextScrollModelSchema.Type = new UIXTypeSchema(218, "TextScrollModel", null, 183, typeof(TextScrollModel), UIXTypeFlags.None);
 
-        public static void Pass2Initialize() => TextScrollModelSchema.Type.Initialize(new DefaultConstructHandler(TextScrollModelSchema.Construct), (ConstructorSchema[])null, (PropertySchema[])null, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+        public static void Pass2Initialize() => TextScrollModelSchema.Type.Initialize(new DefaultConstructHandler(TextScrollModelSchema.Construct), null, null, null, null, null, null, null, null, null, null, null);
     }
 }

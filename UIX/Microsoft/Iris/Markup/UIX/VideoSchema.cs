@@ -15,31 +15,31 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object GetChildren(object instanceObj) => (object)ViewItemSchema.ListProxy.GetChildren((ViewItem)instanceObj);
+        private static object GetChildren(object instanceObj) => ViewItemSchema.ListProxy.GetChildren((ViewItem)instanceObj);
 
-        private static object GetVideoStream(object instanceObj) => (object)((Video)instanceObj).VideoStream;
+        private static object GetVideoStream(object instanceObj) => ((Video)instanceObj).VideoStream;
 
         private static void SetVideoStream(ref object instanceObj, object valueObj) => ((Video)instanceObj).VideoStream = (IUIVideoStream)valueObj;
 
-        private static object GetLetterboxColor(object instanceObj) => (object)((Video)instanceObj).LetterboxColor;
+        private static object GetLetterboxColor(object instanceObj) => ((Video)instanceObj).LetterboxColor;
 
         private static void SetLetterboxColor(ref object instanceObj, object valueObj) => ((Video)instanceObj).LetterboxColor = (Color)valueObj;
 
-        private static object Construct() => (object)new Video();
+        private static object Construct() => new Video();
 
-        public static void Pass1Initialize() => VideoSchema.Type = new UIXTypeSchema((short)235, "Video", (string)null, (short)239, typeof(Video), UIXTypeFlags.Disposable);
+        public static void Pass1Initialize() => VideoSchema.Type = new UIXTypeSchema(235, "Video", null, 239, typeof(Video), UIXTypeFlags.Disposable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema((short)235, "Children", (short)138, (short)239, ExpressionRestriction.NoAccess, false, (RangeValidator)null, true, new GetValueHandler(VideoSchema.GetChildren), (SetValueHandler)null, false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema((short)235, "VideoStream", (short)238, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(VideoSchema.GetVideoStream), new SetValueHandler(VideoSchema.SetVideoStream), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema((short)235, "LetterboxColor", (short)35, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(VideoSchema.GetLetterboxColor), new SetValueHandler(VideoSchema.SetLetterboxColor), false);
-            VideoSchema.Type.Initialize(new DefaultConstructHandler(VideoSchema.Construct), (ConstructorSchema[])null, new PropertySchema[3]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(235, "Children", 138, 239, ExpressionRestriction.NoAccess, false, null, true, new GetValueHandler(VideoSchema.GetChildren), null, false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(235, "VideoStream", 238, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(VideoSchema.GetVideoStream), new SetValueHandler(VideoSchema.SetVideoStream), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(235, "LetterboxColor", 35, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(VideoSchema.GetLetterboxColor), new SetValueHandler(VideoSchema.SetLetterboxColor), false);
+            VideoSchema.Type.Initialize(new DefaultConstructHandler(VideoSchema.Construct), null, new PropertySchema[3]
             {
-        (PropertySchema) uixPropertySchema1,
-        (PropertySchema) uixPropertySchema3,
-        (PropertySchema) uixPropertySchema2
-            }, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixPropertySchema1,
+         uixPropertySchema3,
+         uixPropertySchema2
+            }, null, null, null, null, null, null, null, null, null);
         }
     }
 }

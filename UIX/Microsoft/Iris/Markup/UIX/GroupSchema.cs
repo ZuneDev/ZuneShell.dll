@@ -12,21 +12,21 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object GetStartIndex(object instanceObj) => (object)((IUIGroup)instanceObj).StartIndex;
+        private static object GetStartIndex(object instanceObj) => ((IUIGroup)instanceObj).StartIndex;
 
-        private static object GetEndIndex(object instanceObj) => (object)((IUIGroup)instanceObj).EndIndex;
+        private static object GetEndIndex(object instanceObj) => ((IUIGroup)instanceObj).EndIndex;
 
-        public static void Pass1Initialize() => GroupSchema.Type = new UIXTypeSchema((short)100, "Group", (string)null, (short)138, typeof(IUIGroup), UIXTypeFlags.None);
+        public static void Pass1Initialize() => GroupSchema.Type = new UIXTypeSchema(100, "Group", null, 138, typeof(IUIGroup), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema((short)100, "StartIndex", (short)115, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(GroupSchema.GetStartIndex), (SetValueHandler)null, false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema((short)100, "EndIndex", (short)115, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(GroupSchema.GetEndIndex), (SetValueHandler)null, false);
-            GroupSchema.Type.Initialize((DefaultConstructHandler)null, (ConstructorSchema[])null, new PropertySchema[2]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(100, "StartIndex", 115, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GroupSchema.GetStartIndex), null, false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(100, "EndIndex", 115, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(GroupSchema.GetEndIndex), null, false);
+            GroupSchema.Type.Initialize(null, null, new PropertySchema[2]
             {
-        (PropertySchema) uixPropertySchema2,
-        (PropertySchema) uixPropertySchema1
-            }, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixPropertySchema2,
+         uixPropertySchema1
+            }, null, null, null, null, null, null, null, null, null);
         }
     }
 }

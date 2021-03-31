@@ -12,29 +12,29 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object GetPosition(object instanceObj) => (object)((TextRunData)instanceObj).Position;
+        private static object GetPosition(object instanceObj) => ((TextRunData)instanceObj).Position;
 
-        private static object GetSize(object instanceObj) => (object)((TextRunData)instanceObj).Size;
+        private static object GetSize(object instanceObj) => ((TextRunData)instanceObj).Size;
 
-        private static object GetColor(object instanceObj) => (object)((TextRunData)instanceObj).Color;
+        private static object GetColor(object instanceObj) => ((TextRunData)instanceObj).Color;
 
-        private static object GetLineNumber(object instanceObj) => (object)((TextRunData)instanceObj).LineNumber;
+        private static object GetLineNumber(object instanceObj) => ((TextRunData)instanceObj).LineNumber;
 
-        public static void Pass1Initialize() => TextRunDataSchema.Type = new UIXTypeSchema((short)216, "TextRunData", (string)null, (short)153, typeof(TextRunData), UIXTypeFlags.Immutable);
+        public static void Pass1Initialize() => TextRunDataSchema.Type = new UIXTypeSchema(216, "TextRunData", null, 153, typeof(TextRunData), UIXTypeFlags.Immutable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema((short)216, "Position", (short)158, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(TextRunDataSchema.GetPosition), (SetValueHandler)null, false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema((short)216, "Size", (short)195, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(TextRunDataSchema.GetSize), (SetValueHandler)null, false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema((short)216, "Color", (short)35, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(TextRunDataSchema.GetColor), (SetValueHandler)null, false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema((short)216, "LineNumber", (short)115, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(TextRunDataSchema.GetLineNumber), (SetValueHandler)null, false);
-            TextRunDataSchema.Type.Initialize((DefaultConstructHandler)null, (ConstructorSchema[])null, new PropertySchema[4]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(216, "Position", 158, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(TextRunDataSchema.GetPosition), null, false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(216, "Size", 195, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(TextRunDataSchema.GetSize), null, false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(216, "Color", 35, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(TextRunDataSchema.GetColor), null, false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(216, "LineNumber", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(TextRunDataSchema.GetLineNumber), null, false);
+            TextRunDataSchema.Type.Initialize(null, null, new PropertySchema[4]
             {
-        (PropertySchema) uixPropertySchema3,
-        (PropertySchema) uixPropertySchema4,
-        (PropertySchema) uixPropertySchema1,
-        (PropertySchema) uixPropertySchema2
-            }, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixPropertySchema3,
+         uixPropertySchema4,
+         uixPropertySchema1,
+         uixPropertySchema2
+            }, null, null, null, null, null, null, null, null, null);
         }
     }
 }

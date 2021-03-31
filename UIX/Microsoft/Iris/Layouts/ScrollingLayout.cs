@@ -55,7 +55,7 @@ namespace Microsoft.Iris.Layouts
             {
                 Size infiniteConstraint = this.GetInfiniteConstraint(constraint);
                 size = DefaultLayout.Measure(layoutNode, infiniteConstraint);
-                layoutNode.MeasureData = (object)size;
+                layoutNode.MeasureData = size;
             }
             else
                 size = DefaultLayout.Measure(layoutNode, constraint);
@@ -67,7 +67,7 @@ namespace Microsoft.Iris.Layouts
             if (!(layoutNode.GetLayoutInput(ScrollingLayoutInput.Data) is ScrollingLayoutInput sli))
                 sli = new ScrollingLayoutInput();
             int scrollAmount = sli.ScrollAmount;
-            ScrollingLayoutOutput scrollingLayoutOutput = (ScrollingLayoutOutput)null;
+            ScrollingLayoutOutput scrollingLayoutOutput = null;
             if (layoutNode.LayoutChildrenCount > 0)
             {
                 if (sli.Enabled)
@@ -84,7 +84,7 @@ namespace Microsoft.Iris.Layouts
             sli.SetScrollAmount(scrollAmount);
             if (scrollingLayoutOutput == null)
                 return;
-            layoutNode.SetExtendedLayoutOutput((ExtendedLayoutOutput)scrollingLayoutOutput);
+            layoutNode.SetExtendedLayoutOutput(scrollingLayoutOutput);
         }
 
         private ScrollingLayoutOutput Arrange(
@@ -133,7 +133,7 @@ namespace Microsoft.Iris.Layouts
             Rectangle areaOfInterestBounds = Rectangle.Zero;
             bool scrollAreaOfInterestIntoView = sli.ScrollIntoViewDisposition.Enabled;
             bool flag1 = false;
-            VisibleIndexRangeLayoutOutput rangeLayoutOutput = (VisibleIndexRangeLayoutOutput)null;
+            VisibleIndexRangeLayoutOutput rangeLayoutOutput = null;
             Rectangle rectangle1 = Rectangle.Zero;
             Rectangle bounds = new Rectangle(new MajorMinor(-scrollAmount, 0).ToPoint(this.Orientation), Size.Max(slot.Bounds, (Size)layoutNode.MeasureData));
             foreach (ILayoutNode layoutChild in layoutNode.LayoutChildren)
@@ -182,7 +182,7 @@ namespace Microsoft.Iris.Layouts
             int space1 = this.ItemToSpace(viewBounds.Size);
             int space2 = this.ItemToSpace(scrollableBounds.Size);
             int num1 = -(space1 - space2);
-            int num2 = (int)Math.Round((double)space1 * (double)sli.PageStep);
+            int num2 = (int)Math.Round(space1 * (double)sli.PageStep);
             int num3 = this.ItemToSpace(scrollableBounds.Location.ToSize());
             int num4 = num3 + num1;
             if (num1 < 0)
@@ -205,7 +205,7 @@ namespace Microsoft.Iris.Layouts
                     float position = 0.0f;
                     if (sli.GetPendingScrollPosition(out position))
                     {
-                        int num5 = (int)Math2.Blend((double)num3, (double)num4, (double)position, false);
+                        int num5 = (int)Math2.Blend(num3, num4, position, false);
                         scrollAmount = num5;
                     }
                     int amount = 0;
@@ -227,17 +227,17 @@ namespace Microsoft.Iris.Layouts
             float val2 = 1f;
             float num7 = 0.0f;
             float num8 = 1f;
-            float num9 = (float)num1;
-            float num10 = (float)scrollAmount;
+            float num9 = num1;
+            float num10 = scrollAmount;
             if (num2 > 0)
             {
-                val2 = (float)((double)num9 / (double)num2 + 1.0);
-                num6 = Math.Max(Math.Min((float)((double)num10 / (double)num2 + 1.0), val2), 0.0f);
+                val2 = (float)(num9 / (double)num2 + 1.0);
+                num6 = Math.Max(Math.Min((float)(num10 / (double)num2 + 1.0), val2), 0.0f);
             }
             if (num1 > 0)
             {
-                num7 = num10 / (float)space2;
-                num8 = (num10 + (float)space1) / (float)space2;
+                num7 = num10 / space2;
+                num8 = (num10 + space1) / space2;
             }
             return new ScrollingLayoutOutput()
             {
@@ -293,10 +293,10 @@ namespace Microsoft.Iris.Layouts
             int num9 = num7 - num5;
             if (scrollIntoView.Locked)
             {
-                float num10 = (float)(num7 - num6);
+                float num10 = num7 - num6;
                 float num11 = num10 * scrollIntoView.LockedPosition;
                 float num12 = num10 * (1f - scrollIntoView.LockedPosition);
-                int num13 = num1 + (int)((double)space * (double)scrollIntoView.LockedAlignment);
+                int num13 = num1 + (int)(space * (double)scrollIntoView.LockedAlignment);
                 num1 = num13 - (int)num11;
                 num2 = num13 + (int)num12;
             }

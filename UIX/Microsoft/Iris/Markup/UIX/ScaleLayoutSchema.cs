@@ -15,7 +15,7 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object GetMinimumScale(object instanceObj) => (object)((ScaleLayout)instanceObj).MinimumScale;
+        private static object GetMinimumScale(object instanceObj) => ((ScaleLayout)instanceObj).MinimumScale;
 
         private static void SetMinimumScale(ref object instanceObj, object valueObj)
         {
@@ -28,7 +28,7 @@ namespace Microsoft.Iris.Markup.UIX
                 scaleLayout.MinimumScale = vector2;
         }
 
-        private static object GetMaximumScale(object instanceObj) => (object)((ScaleLayout)instanceObj).MaximumScale;
+        private static object GetMaximumScale(object instanceObj) => ((ScaleLayout)instanceObj).MaximumScale;
 
         private static void SetMaximumScale(ref object instanceObj, object valueObj)
         {
@@ -45,21 +45,21 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static void SetMaintainAspectRatio(ref object instanceObj, object valueObj) => ((ScaleLayout)instanceObj).MaintainAspectRatio = (bool)valueObj;
 
-        private static object Construct() => (object)new ScaleLayout();
+        private static object Construct() => new ScaleLayout();
 
-        public static void Pass1Initialize() => ScaleLayoutSchema.Type = new UIXTypeSchema((short)179, "ScaleLayout", (string)null, (short)132, typeof(ScaleLayout), UIXTypeFlags.Immutable);
+        public static void Pass1Initialize() => ScaleLayoutSchema.Type = new UIXTypeSchema(179, "ScaleLayout", null, 132, typeof(ScaleLayout), UIXTypeFlags.Immutable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema((short)179, "MinimumScale", (short)233, (short)-1, ExpressionRestriction.None, false, Vector2Schema.ValidateNotNegative, false, new GetValueHandler(ScaleLayoutSchema.GetMinimumScale), new SetValueHandler(ScaleLayoutSchema.SetMinimumScale), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema((short)179, "MaximumScale", (short)233, (short)-1, ExpressionRestriction.None, false, Vector2Schema.ValidateNotNegative, false, new GetValueHandler(ScaleLayoutSchema.GetMaximumScale), new SetValueHandler(ScaleLayoutSchema.SetMaximumScale), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema((short)179, "MaintainAspectRatio", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(ScaleLayoutSchema.GetMaintainAspectRatio), new SetValueHandler(ScaleLayoutSchema.SetMaintainAspectRatio), false);
-            ScaleLayoutSchema.Type.Initialize(new DefaultConstructHandler(ScaleLayoutSchema.Construct), (ConstructorSchema[])null, new PropertySchema[3]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(179, "MinimumScale", 233, -1, ExpressionRestriction.None, false, Vector2Schema.ValidateNotNegative, false, new GetValueHandler(ScaleLayoutSchema.GetMinimumScale), new SetValueHandler(ScaleLayoutSchema.SetMinimumScale), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(179, "MaximumScale", 233, -1, ExpressionRestriction.None, false, Vector2Schema.ValidateNotNegative, false, new GetValueHandler(ScaleLayoutSchema.GetMaximumScale), new SetValueHandler(ScaleLayoutSchema.SetMaximumScale), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(179, "MaintainAspectRatio", 15, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(ScaleLayoutSchema.GetMaintainAspectRatio), new SetValueHandler(ScaleLayoutSchema.SetMaintainAspectRatio), false);
+            ScaleLayoutSchema.Type.Initialize(new DefaultConstructHandler(ScaleLayoutSchema.Construct), null, new PropertySchema[3]
             {
-        (PropertySchema) uixPropertySchema3,
-        (PropertySchema) uixPropertySchema2,
-        (PropertySchema) uixPropertySchema1
-            }, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixPropertySchema3,
+         uixPropertySchema2,
+         uixPropertySchema1
+            }, null, null, null, null, null, null, null, null, null);
         }
     }
 }

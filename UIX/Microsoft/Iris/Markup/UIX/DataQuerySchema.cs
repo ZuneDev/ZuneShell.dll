@@ -20,17 +20,17 @@ namespace Microsoft.Iris.Markup.UIX
             MarkupDataQuery markupDataQuery = (MarkupDataQuery)instanceObj;
         }
 
-        public static void Pass1Initialize() => DataQuerySchema.Type = new UIXTypeSchema((short)46, "DataQuery", (string)null, (short)29, typeof(MarkupDataQuery), UIXTypeFlags.Disposable);
+        public static void Pass1Initialize() => DataQuerySchema.Type = new UIXTypeSchema(46, "DataQuery", null, 29, typeof(MarkupDataQuery), UIXTypeFlags.Disposable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema((short)46, "Provider", (short)208, (short)-1, ExpressionRestriction.NoAccess, false, (RangeValidator)null, true, (GetValueHandler)null, new SetValueHandler(DataQuerySchema.SetProvider), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema((short)46, "ResultType", (short)208, (short)-1, ExpressionRestriction.NoAccess, false, (RangeValidator)null, true, (GetValueHandler)null, new SetValueHandler(DataQuerySchema.SetResultType), false);
-            DataQuerySchema.Type.Initialize((DefaultConstructHandler)null, (ConstructorSchema[])null, new PropertySchema[2]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(46, "Provider", 208, -1, ExpressionRestriction.NoAccess, false, null, true, null, new SetValueHandler(DataQuerySchema.SetProvider), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(46, "ResultType", 208, -1, ExpressionRestriction.NoAccess, false, null, true, null, new SetValueHandler(DataQuerySchema.SetResultType), false);
+            DataQuerySchema.Type.Initialize(null, null, new PropertySchema[2]
             {
-        (PropertySchema) uixPropertySchema1,
-        (PropertySchema) uixPropertySchema2
-            }, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixPropertySchema1,
+         uixPropertySchema2
+            }, null, null, null, null, null, null, null, null, null);
         }
     }
 }

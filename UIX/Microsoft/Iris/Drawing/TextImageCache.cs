@@ -43,15 +43,15 @@ namespace Microsoft.Iris.Drawing
             TimeoutManager timeoutManager = this._session.Dispatcher.TimeoutManager;
             TextImageCache.ScavengeCallback callback = this._callback;
             if (callback != null)
-                timeoutManager.CancelTimeout((QueueItem)callback);
-            this._callback = (TextImageCache.ScavengeCallback)null;
+                timeoutManager.CancelTimeout(callback);
+            this._callback = null;
             base.OnDispose();
         }
 
         protected override void ScheduleScavenge()
         {
             if (!this.CleanupPending)
-                DeferredCall.Post(DispatchPriority.Idle, TextImageCache.s_dhReschedule, (object)this);
+                DeferredCall.Post(DispatchPriority.Idle, TextImageCache.s_dhReschedule, this);
             base.ScheduleScavenge();
         }
 
@@ -62,11 +62,11 @@ namespace Microsoft.Iris.Drawing
                 return;
             TimeoutManager timeoutManager = cache._session.Dispatcher.TimeoutManager;
             TextImageCache.ScavengeCallback callback = cache._callback;
-            cache._callback = (TextImageCache.ScavengeCallback)null;
+            cache._callback = null;
             if (callback != null)
-                timeoutManager.CancelTimeout((QueueItem)callback);
+                timeoutManager.CancelTimeout(callback);
             TextImageCache.ScavengeCallback scavengeCallback = new TextImageCache.ScavengeCallback(cache);
-            timeoutManager.SetTimeoutRelative((QueueItem)scavengeCallback, TimeSpan.FromSeconds(5.0));
+            timeoutManager.SetTimeoutRelative(scavengeCallback, TimeSpan.FromSeconds(5.0));
             cache._callback = scavengeCallback;
         }
 
@@ -80,7 +80,7 @@ namespace Microsoft.Iris.Drawing
             {
                 if (this._cache._callback != this)
                     return;
-                this._cache._callback = (TextImageCache.ScavengeCallback)null;
+                this._cache._callback = null;
                 this._cache.CullObjects();
             }
         }

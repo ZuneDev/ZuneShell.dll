@@ -16,7 +16,7 @@ namespace Microsoft.Iris
         private IList[] _lists;
 
         public AggregateList()
-          : this((IList[])null)
+          : this(null)
         {
         }
 
@@ -51,7 +51,7 @@ namespace Microsoft.Iris
             for (int index = 0; index < this._lists.Length; ++index)
             {
                 if (this._lists[index] == null)
-                    this._lists[index] = (IList)new ArrayList();
+                    this._lists[index] = new ArrayList();
                 IList list = this._lists[index];
                 if (list is INotifyList notifyList)
                     notifyList.ContentsChanged += contentsChangedHandler;
@@ -71,7 +71,7 @@ namespace Microsoft.Iris
                     if (list is INotifyList notifyList)
                         notifyList.ContentsChanged -= contentsChangedHandler;
                     if (list is IVirtualList virtualList && virtualList.SlowDataRequestsEnabled)
-                        virtualList.SlowDataAcquireCompleteHandler = (SlowDataAcquireCompleteHandler)null;
+                        virtualList.SlowDataAcquireCompleteHandler = null;
                 }
             }
             base.OnDispose(disposing);
@@ -108,7 +108,7 @@ namespace Microsoft.Iris
 
         private bool ChildListSlowDataAcquired(IVirtualList childList, int index)
         {
-            this.NotifySlowDataAcquireComplete(this.ListIndexToMasterIndex((IList)childList, index));
+            this.NotifySlowDataAcquireComplete(this.ListIndexToMasterIndex(childList, index));
             return true;
         }
 
@@ -171,7 +171,7 @@ namespace Microsoft.Iris
         {
             int num = 0;
             int index1 = 0;
-            list = (IList)null;
+            list = null;
             for (; index1 < this._lists.Length; ++index1)
             {
                 list = this._lists[index1];

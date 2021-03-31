@@ -15,35 +15,35 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object GetEye(object instanceObj) => (object)((Camera)instanceObj).Eye;
+        private static object GetEye(object instanceObj) => ((Camera)instanceObj).Eye;
 
         private static void SetEye(ref object instanceObj, object valueObj) => ((Camera)instanceObj).Eye = (Vector3)valueObj;
 
-        private static object GetAt(object instanceObj) => (object)((Camera)instanceObj).At;
+        private static object GetAt(object instanceObj) => ((Camera)instanceObj).At;
 
         private static void SetAt(ref object instanceObj, object valueObj) => ((Camera)instanceObj).At = (Vector3)valueObj;
 
-        private static object GetUp(object instanceObj) => (object)((Camera)instanceObj).Up;
+        private static object GetUp(object instanceObj) => ((Camera)instanceObj).Up;
 
         private static void SetUp(ref object instanceObj, object valueObj) => ((Camera)instanceObj).Up = (Vector3)valueObj;
 
-        private static object GetZn(object instanceObj) => (object)((Camera)instanceObj).Zn;
+        private static object GetZn(object instanceObj) => ((Camera)instanceObj).Zn;
 
         private static void SetZn(ref object instanceObj, object valueObj) => ((Camera)instanceObj).Zn = (float)valueObj;
 
-        private static object GetEyeAnimation(object instanceObj) => (object)((Camera)instanceObj).EyeAnimation;
+        private static object GetEyeAnimation(object instanceObj) => ((Camera)instanceObj).EyeAnimation;
 
         private static void SetEyeAnimation(ref object instanceObj, object valueObj) => ((Camera)instanceObj).EyeAnimation = (IAnimationProvider)valueObj;
 
-        private static object GetAtAnimation(object instanceObj) => (object)((Camera)instanceObj).AtAnimation;
+        private static object GetAtAnimation(object instanceObj) => ((Camera)instanceObj).AtAnimation;
 
         private static void SetAtAnimation(ref object instanceObj, object valueObj) => ((Camera)instanceObj).AtAnimation = (IAnimationProvider)valueObj;
 
-        private static object GetUpAnimation(object instanceObj) => (object)((Camera)instanceObj).UpAnimation;
+        private static object GetUpAnimation(object instanceObj) => ((Camera)instanceObj).UpAnimation;
 
         private static void SetUpAnimation(ref object instanceObj, object valueObj) => ((Camera)instanceObj).UpAnimation = (IAnimationProvider)valueObj;
 
-        private static object GetZnAnimation(object instanceObj) => (object)((Camera)instanceObj).ZnAnimation;
+        private static object GetZnAnimation(object instanceObj) => ((Camera)instanceObj).ZnAnimation;
 
         private static void SetZnAnimation(ref object instanceObj, object valueObj) => ((Camera)instanceObj).ZnAnimation = (IAnimationProvider)valueObj;
 
@@ -51,7 +51,7 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static void SetPerspective(ref object instanceObj, object valueObj) => ((Camera)instanceObj).Perspective = (bool)valueObj;
 
-        private static object Construct() => (object)new Camera();
+        private static object Construct() => new Camera();
 
         private static object CallPlayAnimationIAnimation(object instanceObj, object[] parameters)
         {
@@ -59,11 +59,11 @@ namespace Microsoft.Iris.Markup.UIX
             IAnimationProvider parameter = (IAnimationProvider)parameters[0];
             if (parameter == null)
             {
-                ErrorManager.ReportError("Script runtime failure: Invalid 'null' value for '{0}'", (object)"animation");
-                return (object)null;
+                ErrorManager.ReportError("Script runtime failure: Invalid 'null' value for '{0}'", "animation");
+                return null;
             }
-            camera.PlayAnimation(parameter, (AnimationHandle)null);
-            return (object)null;
+            camera.PlayAnimation(parameter, null);
+            return null;
         }
 
         private static object CallPlayAnimationIAnimationAnimationHandle(
@@ -75,56 +75,56 @@ namespace Microsoft.Iris.Markup.UIX
             AnimationHandle parameter2 = (AnimationHandle)parameters[1];
             if (parameter1 == null)
             {
-                ErrorManager.ReportError("Script runtime failure: Invalid 'null' value for '{0}'", (object)"animation");
-                return (object)null;
+                ErrorManager.ReportError("Script runtime failure: Invalid 'null' value for '{0}'", "animation");
+                return null;
             }
             if (parameter2 == null)
             {
-                ErrorManager.ReportError("Script runtime failure: Invalid 'null' value for '{0}'", (object)"handle");
-                return (object)null;
+                ErrorManager.ReportError("Script runtime failure: Invalid 'null' value for '{0}'", "handle");
+                return null;
             }
             camera.PlayAnimation(parameter1, parameter2);
-            return (object)null;
+            return null;
         }
 
-        public static void Pass1Initialize() => CameraSchema.Type = new UIXTypeSchema((short)21, "Camera", (string)null, (short)153, typeof(Camera), UIXTypeFlags.None);
+        public static void Pass1Initialize() => CameraSchema.Type = new UIXTypeSchema(21, "Camera", null, 153, typeof(Camera), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema((short)21, "Eye", (short)234, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(CameraSchema.GetEye), new SetValueHandler(CameraSchema.SetEye), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema((short)21, "At", (short)234, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(CameraSchema.GetAt), new SetValueHandler(CameraSchema.SetAt), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema((short)21, "Up", (short)234, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(CameraSchema.GetUp), new SetValueHandler(CameraSchema.SetUp), false);
-            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema((short)21, "Zn", (short)194, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(CameraSchema.GetZn), new SetValueHandler(CameraSchema.SetZn), false);
-            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema((short)21, "EyeAnimation", (short)104, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(CameraSchema.GetEyeAnimation), new SetValueHandler(CameraSchema.SetEyeAnimation), false);
-            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema((short)21, "AtAnimation", (short)104, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(CameraSchema.GetAtAnimation), new SetValueHandler(CameraSchema.SetAtAnimation), false);
-            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema((short)21, "UpAnimation", (short)104, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(CameraSchema.GetUpAnimation), new SetValueHandler(CameraSchema.SetUpAnimation), false);
-            UIXPropertySchema uixPropertySchema8 = new UIXPropertySchema((short)21, "ZnAnimation", (short)104, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(CameraSchema.GetZnAnimation), new SetValueHandler(CameraSchema.SetZnAnimation), false);
-            UIXPropertySchema uixPropertySchema9 = new UIXPropertySchema((short)21, "Perspective", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, true, new GetValueHandler(CameraSchema.GetPerspective), new SetValueHandler(CameraSchema.SetPerspective), false);
-            UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema((short)21, "PlayAnimation", new short[1]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(21, "Eye", 234, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(CameraSchema.GetEye), new SetValueHandler(CameraSchema.SetEye), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(21, "At", 234, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(CameraSchema.GetAt), new SetValueHandler(CameraSchema.SetAt), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(21, "Up", 234, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(CameraSchema.GetUp), new SetValueHandler(CameraSchema.SetUp), false);
+            UIXPropertySchema uixPropertySchema4 = new UIXPropertySchema(21, "Zn", 194, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(CameraSchema.GetZn), new SetValueHandler(CameraSchema.SetZn), false);
+            UIXPropertySchema uixPropertySchema5 = new UIXPropertySchema(21, "EyeAnimation", 104, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(CameraSchema.GetEyeAnimation), new SetValueHandler(CameraSchema.SetEyeAnimation), false);
+            UIXPropertySchema uixPropertySchema6 = new UIXPropertySchema(21, "AtAnimation", 104, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(CameraSchema.GetAtAnimation), new SetValueHandler(CameraSchema.SetAtAnimation), false);
+            UIXPropertySchema uixPropertySchema7 = new UIXPropertySchema(21, "UpAnimation", 104, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(CameraSchema.GetUpAnimation), new SetValueHandler(CameraSchema.SetUpAnimation), false);
+            UIXPropertySchema uixPropertySchema8 = new UIXPropertySchema(21, "ZnAnimation", 104, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(CameraSchema.GetZnAnimation), new SetValueHandler(CameraSchema.SetZnAnimation), false);
+            UIXPropertySchema uixPropertySchema9 = new UIXPropertySchema(21, "Perspective", 15, -1, ExpressionRestriction.None, false, null, true, new GetValueHandler(CameraSchema.GetPerspective), new SetValueHandler(CameraSchema.SetPerspective), false);
+            UIXMethodSchema uixMethodSchema1 = new UIXMethodSchema(21, "PlayAnimation", new short[1]
             {
-        (short) 104
-            }, (short)240, new InvokeHandler(CameraSchema.CallPlayAnimationIAnimation), false);
-            UIXMethodSchema uixMethodSchema2 = new UIXMethodSchema((short)21, "PlayAnimation", new short[2]
+         104
+            }, 240, new InvokeHandler(CameraSchema.CallPlayAnimationIAnimation), false);
+            UIXMethodSchema uixMethodSchema2 = new UIXMethodSchema(21, "PlayAnimation", new short[2]
             {
-        (short) 104,
-        (short) 11
-            }, (short)240, new InvokeHandler(CameraSchema.CallPlayAnimationIAnimationAnimationHandle), false);
-            CameraSchema.Type.Initialize(new DefaultConstructHandler(CameraSchema.Construct), (ConstructorSchema[])null, new PropertySchema[9]
+         104,
+         11
+            }, 240, new InvokeHandler(CameraSchema.CallPlayAnimationIAnimationAnimationHandle), false);
+            CameraSchema.Type.Initialize(new DefaultConstructHandler(CameraSchema.Construct), null, new PropertySchema[9]
             {
-        (PropertySchema) uixPropertySchema2,
-        (PropertySchema) uixPropertySchema6,
-        (PropertySchema) uixPropertySchema1,
-        (PropertySchema) uixPropertySchema5,
-        (PropertySchema) uixPropertySchema9,
-        (PropertySchema) uixPropertySchema3,
-        (PropertySchema) uixPropertySchema7,
-        (PropertySchema) uixPropertySchema4,
-        (PropertySchema) uixPropertySchema8
+         uixPropertySchema2,
+         uixPropertySchema6,
+         uixPropertySchema1,
+         uixPropertySchema5,
+         uixPropertySchema9,
+         uixPropertySchema3,
+         uixPropertySchema7,
+         uixPropertySchema4,
+         uixPropertySchema8
             }, new MethodSchema[2]
             {
-        (MethodSchema) uixMethodSchema1,
-        (MethodSchema) uixMethodSchema2
-            }, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixMethodSchema1,
+         uixMethodSchema2
+            }, null, null, null, null, null, null, null, null);
         }
     }
 }

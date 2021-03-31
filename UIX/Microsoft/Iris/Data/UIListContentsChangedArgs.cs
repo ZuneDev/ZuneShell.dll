@@ -40,6 +40,6 @@ namespace Microsoft.Iris.Data
 
         public int Count => this._count;
 
-        public override string ToString() => string.Format("{0} type: {1}, old: {2}, new: {3}, count: {4}", (object)base.ToString(), (object)this.Type, (object)this.OldIndex, (object)this.NewIndex, (object)this.Count);
+        public override string ToString() => string.Format("{0} type: {1}, old: {2}, new: {3}, count: {4}", base.ToString(), Type, OldIndex, NewIndex, Count);
     }
 }

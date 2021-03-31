@@ -68,18 +68,18 @@ namespace Microsoft.Iris.Drawing
 
         protected override ImageCacheItem GetCacheItem(out bool needAsyncLoad)
         {
-            ImageCache instance = (ImageCache)ScavengeImageCache.Instance;
-            ImageCacheItem imageCacheItem = (ImageCacheItem)null;
+            ImageCache instance = ScavengeImageCache.Instance;
+            ImageCacheItem imageCacheItem = null;
             string str = this.GetHashCode().ToString();
             if (this._cacheItemKey == null)
                 this._cacheItemKey = new RawImageItemKey(str);
             else
-                imageCacheItem = instance.Lookup((ImageCacheKey)this._cacheItemKey);
+                imageCacheItem = instance.Lookup(_cacheItemKey);
             if (imageCacheItem == null)
             {
                 Size maxSize = UIImage.ClampSize(this._maximumSize);
-                imageCacheItem = (ImageCacheItem)new RawImageItem(UISession.Default.RenderSession, this, str, this._data, this._length, this._imageSize, this._stride, this._format, maxSize, this.IsFlipped, this._antialiasEdges);
-                instance.Add((ImageCacheKey)this._cacheItemKey, imageCacheItem);
+                imageCacheItem = new RawImageItem(UISession.Default.RenderSession, this, str, this._data, this._length, this._imageSize, this._stride, this._format, maxSize, this.IsFlipped, this._antialiasEdges);
+                instance.Add(_cacheItemKey, imageCacheItem);
             }
             needAsyncLoad = false;
             return imageCacheItem;

@@ -14,29 +14,29 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object GetBegin(object instanceObj) => (object)((Range)instanceObj).Begin;
+        private static object GetBegin(object instanceObj) => ((Range)instanceObj).Begin;
 
         private static void SetBegin(ref object instanceObj, object valueObj)
         {
             Range range = (Range)instanceObj;
             int num = (int)valueObj;
             range.Begin = num;
-            instanceObj = (object)range;
+            instanceObj = range;
         }
 
-        private static object GetEnd(object instanceObj) => (object)((Range)instanceObj).End;
+        private static object GetEnd(object instanceObj) => ((Range)instanceObj).End;
 
         private static void SetEnd(ref object instanceObj, object valueObj)
         {
             Range range = (Range)instanceObj;
             int num = (int)valueObj;
             range.End = num;
-            instanceObj = (object)range;
+            instanceObj = range;
         }
 
         private static object GetIsEmpty(object instanceObj) => BooleanBoxes.Box(((Range)instanceObj).IsEmpty);
 
-        private static object Construct() => (object)new Range(0, 0);
+        private static object Construct() => new Range(0, 0);
 
         private static object ConstructBeginEnd(object[] parameters)
         {
@@ -50,14 +50,14 @@ namespace Microsoft.Iris.Markup.UIX
         {
             instance = SelectionRangeSchema.Construct();
             object valueObj1;
-            Result result1 = UIXLoadResult.ValidateStringAsValue(splitString[0], (TypeSchema)Int32Schema.Type, (RangeValidator)null, out valueObj1);
+            Result result1 = UIXLoadResult.ValidateStringAsValue(splitString[0], Int32Schema.Type, null, out valueObj1);
             if (result1.Failed)
-                return Result.Fail("Problem converting '{0}' ({1})", (object)"SelectionRange", (object)result1.Error);
+                return Result.Fail("Problem converting '{0}' ({1})", "SelectionRange", result1.Error);
             SelectionRangeSchema.SetBegin(ref instance, valueObj1);
             object valueObj2;
-            Result result2 = UIXLoadResult.ValidateStringAsValue(splitString[1], (TypeSchema)Int32Schema.Type, (RangeValidator)null, out valueObj2);
+            Result result2 = UIXLoadResult.ValidateStringAsValue(splitString[1], Int32Schema.Type, null, out valueObj2);
             if (result2.Failed)
-                return Result.Fail("Problem converting '{0}' ({1})", (object)"SelectionRange", (object)result2.Error);
+                return Result.Fail("Problem converting '{0}' ({1})", "SelectionRange", result2.Error);
             SelectionRangeSchema.SetEnd(ref instance, valueObj2);
             return result2;
         }
@@ -70,7 +70,7 @@ namespace Microsoft.Iris.Markup.UIX
           out object instance)
         {
             Result result = Result.Fail("Unsupported");
-            instance = (object)null;
+            instance = null;
             if (StringSchema.Type.IsAssignableFrom(fromType))
             {
                 string[] splitString = StringUtility.SplitAndTrim(',', (string)from);
@@ -81,32 +81,32 @@ namespace Microsoft.Iris.Markup.UIX
                         return result;
                 }
                 else
-                    result = Result.Fail("Unable to convert \"{0}\" to type '{1}'", (object)from.ToString(), (object)"SelectionRange");
+                    result = Result.Fail("Unable to convert \"{0}\" to type '{1}'", from.ToString(), "SelectionRange");
             }
             return result;
         }
 
-        public static void Pass1Initialize() => SelectionRangeSchema.Type = new UIXTypeSchema((short)187, "SelectionRange", (string)null, (short)153, typeof(Range), UIXTypeFlags.Immutable);
+        public static void Pass1Initialize() => SelectionRangeSchema.Type = new UIXTypeSchema(187, "SelectionRange", null, 153, typeof(Range), UIXTypeFlags.Immutable);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema((short)187, "Begin", (short)115, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(SelectionRangeSchema.GetBegin), new SetValueHandler(SelectionRangeSchema.SetBegin), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema((short)187, "End", (short)115, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(SelectionRangeSchema.GetEnd), new SetValueHandler(SelectionRangeSchema.SetEnd), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema((short)187, "IsEmpty", (short)15, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(SelectionRangeSchema.GetIsEmpty), (SetValueHandler)null, false);
-            UIXConstructorSchema constructorSchema = new UIXConstructorSchema((short)187, new short[2]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(187, "Begin", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(SelectionRangeSchema.GetBegin), new SetValueHandler(SelectionRangeSchema.SetBegin), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(187, "End", 115, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(SelectionRangeSchema.GetEnd), new SetValueHandler(SelectionRangeSchema.SetEnd), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(187, "IsEmpty", 15, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(SelectionRangeSchema.GetIsEmpty), null, false);
+            UIXConstructorSchema constructorSchema = new UIXConstructorSchema(187, new short[2]
             {
-        (short) 115,
-        (short) 115
+         115,
+         115
             }, new ConstructHandler(SelectionRangeSchema.ConstructBeginEnd));
             SelectionRangeSchema.Type.Initialize(new DefaultConstructHandler(SelectionRangeSchema.Construct), new ConstructorSchema[1]
             {
-        (ConstructorSchema) constructorSchema
+         constructorSchema
             }, new PropertySchema[3]
             {
-        (PropertySchema) uixPropertySchema1,
-        (PropertySchema) uixPropertySchema2,
-        (PropertySchema) uixPropertySchema3
-            }, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, new TypeConverterHandler(SelectionRangeSchema.TryConvertFrom), new SupportsTypeConversionHandler(SelectionRangeSchema.IsConversionSupported), (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixPropertySchema1,
+         uixPropertySchema2,
+         uixPropertySchema3
+            }, null, null, null, new TypeConverterHandler(SelectionRangeSchema.TryConvertFrom), new SupportsTypeConversionHandler(SelectionRangeSchema.IsConversionSupported), null, null, null, null);
         }
     }
 }

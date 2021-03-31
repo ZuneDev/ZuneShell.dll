@@ -25,7 +25,7 @@ namespace Microsoft.Iris.RenderAPI.Drawing
         public EdgeFade()
         {
             this._orientation = Orientation.Horizontal;
-            this._maskColor = Color.FromArgb((int)byte.MaxValue, 0, 0, 0);
+            this._maskColor = Color.FromArgb(byte.MaxValue, 0, 0, 0);
             this._fadeAmountValue = 1f;
         }
 
@@ -35,13 +35,13 @@ namespace Microsoft.Iris.RenderAPI.Drawing
         {
             if (this._minFadeGradient != null)
             {
-                this._minFadeGradient.UnregisterUsage((object)this);
-                this._minFadeGradient = (IGradient)null;
+                this._minFadeGradient.UnregisterUsage(this);
+                this._minFadeGradient = null;
             }
             if (this._maxFadeGradient == null)
                 return;
-            this._maxFadeGradient.UnregisterUsage((object)this);
-            this._maxFadeGradient = (IGradient)null;
+            this._maxFadeGradient.UnregisterUsage(this);
+            this._maxFadeGradient = null;
         }
 
         public float FadeSize
@@ -49,7 +49,7 @@ namespace Microsoft.Iris.RenderAPI.Drawing
             get => this._fadeSizeValue;
             set
             {
-                if ((double)this._fadeSizeValue == (double)value)
+                if (_fadeSizeValue == (double)value)
                     return;
                 this._fadeSizeValue = value;
                 this.UpdateFades(true);
@@ -61,9 +61,9 @@ namespace Microsoft.Iris.RenderAPI.Drawing
             get => this._fadeAmountValue;
             set
             {
-                if ((double)value < 0.0 || (double)value > 1.0)
-                    throw new ArgumentOutOfRangeException(nameof(value), (object)value, "FadeAmount must be between 0.0 and 1.0.");
-                if ((double)this._fadeAmountValue == (double)value)
+                if (value < 0.0 || value > 1.0)
+                    throw new ArgumentOutOfRangeException(nameof(value), value, "FadeAmount must be between 0.0 and 1.0.");
+                if (_fadeAmountValue == (double)value)
                     return;
                 this._fadeAmountValue = value;
                 this.UpdateFades(true);
@@ -75,7 +75,7 @@ namespace Microsoft.Iris.RenderAPI.Drawing
             get => this._minOffsetValue;
             set
             {
-                if ((double)this._minOffsetValue == (double)value)
+                if (_minOffsetValue == (double)value)
                     return;
                 this._minOffsetValue = value;
                 this.UpdateFades(true);
@@ -87,7 +87,7 @@ namespace Microsoft.Iris.RenderAPI.Drawing
             get => this._maxOffsetValue;
             set
             {
-                if ((double)this._maxOffsetValue == (double)value)
+                if (_maxOffsetValue == (double)value)
                     return;
                 this._maxOffsetValue = value;
                 this.UpdateFades(true);
@@ -134,7 +134,7 @@ namespace Microsoft.Iris.RenderAPI.Drawing
             visContainer.AddGradient(this._maxFadeGradient);
         }
 
-        internal bool NeedFades => (double)this._fadeSizeValue != 0.0 && (double)this._fadeAmountValue != 0.0;
+        internal bool NeedFades => _fadeSizeValue != 0.0 && _fadeAmountValue != 0.0;
 
         private void CreateFades(IRenderSession renderSession)
         {
@@ -142,13 +142,13 @@ namespace Microsoft.Iris.RenderAPI.Drawing
                 return;
             if (this._minFadeGradient == null)
             {
-                this._minFadeGradient = renderSession.CreateGradient((object)this);
+                this._minFadeGradient = renderSession.CreateGradient(this);
                 this._minFadeGradient.Orientation = this._orientation;
                 this._minFadeGradient.ColorMask = this._maskColor.RenderConvert();
             }
             if (this._maxFadeGradient != null)
                 return;
-            this._maxFadeGradient = renderSession.CreateGradient((object)this);
+            this._maxFadeGradient = renderSession.CreateGradient(this);
             this._maxFadeGradient.Orientation = this._orientation;
             this._maxFadeGradient.ColorMask = this._maskColor.RenderConvert();
         }
@@ -185,7 +185,7 @@ namespace Microsoft.Iris.RenderAPI.Drawing
                     flPosition1 = -this._maxOffsetValue;
                     flPosition2 = -this._minOffsetValue;
                 }
-                if ((double)this.FadeSize > 0.0)
+                if (FadeSize > 0.0)
                 {
                     this._minFadeGradient.AddValue(flPosition1, flValue2, RelativeSpace.Min);
                     this._minFadeGradient.AddValue(flPosition1 + this.FadeSize, flValue1, RelativeSpace.Min);

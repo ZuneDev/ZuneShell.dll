@@ -86,7 +86,7 @@ namespace Microsoft.Iris.InputHandlers
             DragDropHelper._draggingInternally = false;
             if (action == DropAction.None)
             {
-                target = (IRawInputSite)null;
+                target = null;
                 formOperation = DragOperation.Leave;
             }
             UISession.Default.InputManager.SimulateDragEnd(target, modifiers, formOperation);
@@ -96,7 +96,7 @@ namespace Microsoft.Iris.InputHandlers
         public static void OnDragComplete()
         {
             DragDropHelper._sourceHandler.OnEndDrag(DragDropHelper._dropAction);
-            DragDropHelper._sourceHandler = (DragSourceHandler)null;
+            DragDropHelper._sourceHandler = null;
             DragDropHelper._dropAction = DropAction.None;
         }
 

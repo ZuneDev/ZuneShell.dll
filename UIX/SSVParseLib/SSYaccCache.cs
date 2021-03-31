@@ -14,7 +14,7 @@ namespace SSVParseLib
 
         public SSLexLexeme remove()
         {
-            SSLexLexeme ssLexLexeme = (SSLexLexeme)null;
+            SSLexLexeme ssLexLexeme = null;
             if (this.Count != 0)
                 ssLexLexeme = (SSLexLexeme)this.Dequeue();
             return ssLexLexeme;

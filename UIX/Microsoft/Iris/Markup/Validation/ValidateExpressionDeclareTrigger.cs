@@ -39,7 +39,7 @@ namespace Microsoft.Iris.Markup.Validation
                 }
                 finally
                 {
-                    ValidateExpressionDeclareTrigger.StopNotifierTracking((Microsoft.Iris.Markup.Validation.Validate)this, context, this._expression);
+                    ValidateExpressionDeclareTrigger.StopNotifierTracking(this, context, this._expression);
                 }
                 if (this._expression.HasErrors)
                     this.MarkHasErrors();

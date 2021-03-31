@@ -25,10 +25,10 @@ namespace Microsoft.Iris.Markup.UIX
         private static Result ConvertFromString(object valueObj, out object instanceObj)
         {
             string str = (string)valueObj;
-            instanceObj = (object)null;
+            instanceObj = null;
             bool result;
             if (!bool.TryParse(str, out result))
-                return Result.Fail("Unable to convert \"{0}\" to type '{1}'", (object)str, (object)"Boolean");
+                return Result.Fail("Unable to convert \"{0}\" to type '{1}'", str, "Boolean");
             instanceObj = BooleanBoxes.Box(result);
             return Result.Success;
         }
@@ -36,7 +36,7 @@ namespace Microsoft.Iris.Markup.UIX
         private static Result ConvertFromInt32(object valueObj, out object instanceObj)
         {
             int num = (int)valueObj;
-            instanceObj = (object)null;
+            instanceObj = null;
             bool flag = num != 0;
             instanceObj = BooleanBoxes.Box(flag);
             return Result.Success;
@@ -45,7 +45,7 @@ namespace Microsoft.Iris.Markup.UIX
         private static Result ConvertFromInt64(object valueObj, out object instanceObj)
         {
             long num = (long)valueObj;
-            instanceObj = (object)null;
+            instanceObj = null;
             bool flag = num != 0L;
             instanceObj = BooleanBoxes.Box(flag);
             return Result.Success;
@@ -54,8 +54,8 @@ namespace Microsoft.Iris.Markup.UIX
         private static Result ConvertFromSingle(object valueObj, out object instanceObj)
         {
             float num = (float)valueObj;
-            instanceObj = (object)null;
-            bool flag = (double)num != 0.0;
+            instanceObj = null;
+            bool flag = num != 0.0;
             instanceObj = BooleanBoxes.Box(flag);
             return Result.Success;
         }
@@ -63,7 +63,7 @@ namespace Microsoft.Iris.Markup.UIX
         private static Result ConvertFromDouble(object valueObj, out object instanceObj)
         {
             double num = (double)valueObj;
-            instanceObj = (object)null;
+            instanceObj = null;
             bool flag = num != 0.0;
             instanceObj = BooleanBoxes.Box(flag);
             return Result.Success;
@@ -77,7 +77,7 @@ namespace Microsoft.Iris.Markup.UIX
           out object instance)
         {
             Result result = Result.Fail("Unsupported");
-            instance = (object)null;
+            instance = null;
             if (DoubleSchema.Type.IsAssignableFrom(fromType))
             {
                 result = BooleanSchema.ConvertFromDouble(from, out instance);
@@ -134,7 +134,7 @@ namespace Microsoft.Iris.Markup.UIX
             bool flag2 = (bool)rightObj;
             switch (op - 6)
             {
-                case (OperationType)0:
+                case 0:
                     return BooleanBoxes.Box(flag1 && flag2);
                 case OperationType.MathAdd:
                     return BooleanBoxes.Box(flag1 || flag2);
@@ -143,7 +143,7 @@ namespace Microsoft.Iris.Markup.UIX
                 case OperationType.MathMultiply:
                     return BooleanBoxes.Box(flag1 != flag2);
                 default:
-                    return (object)null;
+                    return null;
             }
         }
 
@@ -152,22 +152,22 @@ namespace Microsoft.Iris.Markup.UIX
             string parameter1 = (string)parameters[0];
             bool parameter2 = (bool)parameters[1];
             object instanceObj1;
-            return BooleanSchema.ConvertFromString((object)parameter1, out instanceObj1).Failed ? (object)parameter2 : instanceObj1;
+            return BooleanSchema.ConvertFromString(parameter1, out instanceObj1).Failed ? parameter2 : instanceObj1;
         }
 
-        public static void Pass1Initialize() => BooleanSchema.Type = new UIXTypeSchema((short)15, "Boolean", "bool", (short)153, typeof(bool), UIXTypeFlags.Immutable);
+        public static void Pass1Initialize() => BooleanSchema.Type = new UIXTypeSchema(15, "Boolean", "bool", 153, typeof(bool), UIXTypeFlags.Immutable);
 
         public static void Pass2Initialize()
         {
-            UIXMethodSchema uixMethodSchema = new UIXMethodSchema((short)15, "TryParse", new short[2]
+            UIXMethodSchema uixMethodSchema = new UIXMethodSchema(15, "TryParse", new short[2]
             {
-        (short) 208,
-        (short) 15
-            }, (short)15, new InvokeHandler(BooleanSchema.CallTryParseStringBoolean), true);
-            BooleanSchema.Type.Initialize(new DefaultConstructHandler(BooleanSchema.Construct), (ConstructorSchema[])null, (PropertySchema[])null, new MethodSchema[1]
+         208,
+         15
+            }, 15, new InvokeHandler(BooleanSchema.CallTryParseStringBoolean), true);
+            BooleanSchema.Type.Initialize(new DefaultConstructHandler(BooleanSchema.Construct), null, null, new MethodSchema[1]
             {
-        (MethodSchema) uixMethodSchema
-            }, (EventSchema[])null, (FindCanonicalInstanceHandler)null, new TypeConverterHandler(BooleanSchema.TryConvertFrom), new SupportsTypeConversionHandler(BooleanSchema.IsConversionSupported), new EncodeBinaryHandler(BooleanSchema.EncodeBinary), new DecodeBinaryHandler(BooleanSchema.DecodeBinary), new PerformOperationHandler(BooleanSchema.ExecuteOperation), new SupportsOperationHandler(BooleanSchema.IsOperationSupported));
+         uixMethodSchema
+            }, null, null, new TypeConverterHandler(BooleanSchema.TryConvertFrom), new SupportsTypeConversionHandler(BooleanSchema.IsConversionSupported), new EncodeBinaryHandler(BooleanSchema.EncodeBinary), new DecodeBinaryHandler(BooleanSchema.DecodeBinary), new PerformOperationHandler(BooleanSchema.ExecuteOperation), new SupportsOperationHandler(BooleanSchema.IsOperationSupported));
         }
     }
 }

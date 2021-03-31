@@ -16,7 +16,7 @@ namespace Microsoft.Iris.Markup.Validation
           : base(owner, line, column)
           => this._paramDefinitionList = new ArrayList();
 
-        public void AppendToEnd(ValidateParameterDefinition expression) => this._paramDefinitionList.Add((object)expression);
+        public void AppendToEnd(ValidateParameterDefinition expression) => this._paramDefinitionList.Add(expression);
 
         public ArrayList Parameters => this._paramDefinitionList;
 
@@ -24,7 +24,7 @@ namespace Microsoft.Iris.Markup.Validation
         {
             foreach (ValidateParameterDefinition paramDefinition in this._paramDefinitionList)
             {
-                paramDefinition.Validate((ValidateCode)null, context);
+                paramDefinition.Validate(null, context);
                 if (paramDefinition.HasErrors)
                     this.MarkHasErrors();
             }

@@ -87,15 +87,15 @@ namespace Microsoft.Iris.Layout
             stringBuilder.Append(this.GetType().Name);
             stringBuilder.Append("(");
             stringBuilder.Append("Bounds=");
-            stringBuilder.Append((object)this._bounds);
+            stringBuilder.Append(_bounds);
             stringBuilder.Append(", Offset=");
-            stringBuilder.Append((object)this._offset);
+            stringBuilder.Append(_offset);
             stringBuilder.Append(", View=");
-            stringBuilder.Append((object)this._viewBounds);
+            stringBuilder.Append(_viewBounds);
             if (this._peripheralViewBounds != this._viewBounds)
             {
                 stringBuilder.Append(", Peripheral=");
-                stringBuilder.Append((object)this._peripheralViewBounds);
+                stringBuilder.Append(_peripheralViewBounds);
             }
             stringBuilder.Append(")");
             return stringBuilder.ToString();

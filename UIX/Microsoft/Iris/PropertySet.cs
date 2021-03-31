@@ -20,12 +20,12 @@ namespace Microsoft.Iris
         }
 
         public PropertySet(IModelItemOwner owner)
-          : this(owner, (string)null)
+          : this(owner, null)
         {
         }
 
         public PropertySet()
-          : this((IModelItemOwner)null)
+          : this(null)
         {
         }
 
@@ -34,7 +34,7 @@ namespace Microsoft.Iris
             get
             {
                 using (this.ThreadValidator)
-                    return (IDictionary)this;
+                    return this;
             }
         }
 
@@ -45,7 +45,7 @@ namespace Microsoft.Iris
                 using (this.ThreadValidator)
                 {
                     object obj;
-                    return this._valuesTable.TryGetValue(key, out obj) ? obj : (object)null;
+                    return this._valuesTable.TryGetValue(key, out obj) ? obj : null;
                 }
             }
             set
@@ -102,7 +102,7 @@ namespace Microsoft.Iris
         IDictionaryEnumerator IDictionary.GetEnumerator()
         {
             using (this.ThreadValidator)
-                return (IDictionaryEnumerator)this._valuesTable.GetEnumerator();
+                return this._valuesTable.GetEnumerator();
         }
 
         bool IDictionary.IsFixedSize => false;
@@ -114,7 +114,7 @@ namespace Microsoft.Iris
             get
             {
                 using (this.ThreadValidator)
-                    return (ICollection)this._valuesTable.Keys;
+                    return _valuesTable.Keys;
             }
         }
 
@@ -123,7 +123,7 @@ namespace Microsoft.Iris
             get
             {
                 using (this.ThreadValidator)
-                    return (ICollection)this._valuesTable.Values;
+                    return _valuesTable.Values;
             }
         }
 
@@ -149,14 +149,14 @@ namespace Microsoft.Iris
             get
             {
                 using (this.ThreadValidator)
-                    return (object)this._valuesTable;
+                    return _valuesTable;
             }
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
             using (this.ThreadValidator)
-                return (IEnumerator)this._valuesTable.GetEnumerator();
+                return this._valuesTable.GetEnumerator();
         }
 
         private void NotifyEntryChange(object key) => this.FirePropertyChanged("#" + key.ToString());

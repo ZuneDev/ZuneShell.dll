@@ -12,19 +12,19 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object GetKeyframes(object instanceObj) => (object)((AnimationTemplate)instanceObj).Keyframes;
+        private static object GetKeyframes(object instanceObj) => ((AnimationTemplate)instanceObj).Keyframes;
 
-        private static object Construct() => (object)new EffectAnimation();
+        private static object Construct() => new EffectAnimation();
 
-        public static void Pass1Initialize() => EffectVector3AnimationSchema.Type = new UIXTypeSchema((short)81, "EffectVector3Animation", (string)null, (short)70, typeof(EffectAnimation), UIXTypeFlags.None);
+        public static void Pass1Initialize() => EffectVector3AnimationSchema.Type = new UIXTypeSchema(81, "EffectVector3Animation", null, 70, typeof(EffectAnimation), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema = new UIXPropertySchema((short)81, "Keyframes", (short)138, (short)82, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(EffectVector3AnimationSchema.GetKeyframes), (SetValueHandler)null, false);
-            EffectVector3AnimationSchema.Type.Initialize(new DefaultConstructHandler(EffectVector3AnimationSchema.Construct), (ConstructorSchema[])null, new PropertySchema[1]
+            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(81, "Keyframes", 138, 82, ExpressionRestriction.None, false, null, false, new GetValueHandler(EffectVector3AnimationSchema.GetKeyframes), null, false);
+            EffectVector3AnimationSchema.Type.Initialize(new DefaultConstructHandler(EffectVector3AnimationSchema.Construct), null, new PropertySchema[1]
             {
-        (PropertySchema) uixPropertySchema
-            }, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixPropertySchema
+            }, null, null, null, null, null, null, null, null, null);
         }
     }
 }

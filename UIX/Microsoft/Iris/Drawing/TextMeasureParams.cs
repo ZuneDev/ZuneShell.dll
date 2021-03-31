@@ -36,7 +36,7 @@ namespace Microsoft.Iris.Drawing
                 if (rangeStyleFontFace.IsAllocated)
                     rangeStyleFontFace.Free();
             }
-            this._formattedRangeStyleFontFaces = (GCHandle[])null;
+            this._formattedRangeStyleFontFaces = null;
         }
 
         public unsafe void SetContent(char* content)
@@ -50,13 +50,13 @@ namespace Microsoft.Iris.Drawing
             switch (lineAlignment)
             {
                 case LineAlignment.Near:
-                    this._data._alignment = (byte)1;
+                    this._data._alignment = 1;
                     break;
                 case LineAlignment.Center:
-                    this._data._alignment = (byte)3;
+                    this._data._alignment = 3;
                     break;
                 case LineAlignment.Far:
-                    this._data._alignment = (byte)2;
+                    this._data._alignment = 2;
                     break;
             }
             this._textStyle = style;
@@ -108,7 +108,7 @@ namespace Microsoft.Iris.Drawing
             string fontFace = style.FontFace;
             if (fontFace == null)
                 return;
-            GCHandle gcHandle = GCHandle.Alloc((object)fontFace, GCHandleType.Pinned);
+            GCHandle gcHandle = GCHandle.Alloc(fontFace, GCHandleType.Pinned);
             this._formattedRangeStyles[index]._fontFace = (char*)gcHandle.AddrOfPinnedObject().ToPointer();
             this._formattedRangeStyleFontFaces[index] = gcHandle;
         }

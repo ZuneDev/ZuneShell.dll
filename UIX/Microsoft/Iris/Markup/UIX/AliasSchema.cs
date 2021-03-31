@@ -14,15 +14,15 @@ namespace Microsoft.Iris.Markup.UIX
         {
         }
 
-        public static void Pass1Initialize() => AliasSchema.Type = new UIXTypeSchema((short)2, "Alias", (string)null, (short)-1, typeof(object), UIXTypeFlags.None);
+        public static void Pass1Initialize() => AliasSchema.Type = new UIXTypeSchema(2, "Alias", null, -1, typeof(object), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema = new UIXPropertySchema((short)2, "Type", (short)208, (short)-1, ExpressionRestriction.NoAccess, false, (RangeValidator)null, true, (GetValueHandler)null, new SetValueHandler(AliasSchema.SetType), false);
-            AliasSchema.Type.Initialize((DefaultConstructHandler)null, (ConstructorSchema[])null, new PropertySchema[1]
+            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(2, "Type", 208, -1, ExpressionRestriction.NoAccess, false, null, true, null, new SetValueHandler(AliasSchema.SetType), false);
+            AliasSchema.Type.Initialize(null, null, new PropertySchema[1]
             {
-        (PropertySchema) uixPropertySchema
-            }, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixPropertySchema
+            }, null, null, null, null, null, null, null, null, null);
         }
     }
 }

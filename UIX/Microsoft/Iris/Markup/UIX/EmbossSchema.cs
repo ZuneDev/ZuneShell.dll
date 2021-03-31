@@ -12,21 +12,21 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object GetDirection(object instanceObj) => (object)((EmbossElement)instanceObj).Direction;
+        private static object GetDirection(object instanceObj) => ((EmbossElement)instanceObj).Direction;
 
         private static void SetDirection(ref object instanceObj, object valueObj) => ((EmbossElement)instanceObj).Direction = (EmbossDirection)valueObj;
 
-        private static object Construct() => (object)new EmbossElement();
+        private static object Construct() => new EmbossElement();
 
-        public static void Pass1Initialize() => EmbossSchema.Type = new UIXTypeSchema((short)83, "Emboss", (string)null, (short)80, typeof(EmbossElement), UIXTypeFlags.None);
+        public static void Pass1Initialize() => EmbossSchema.Type = new UIXTypeSchema(83, "Emboss", null, 80, typeof(EmbossElement), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema = new UIXPropertySchema((short)83, "Direction", (short)84, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(EmbossSchema.GetDirection), new SetValueHandler(EmbossSchema.SetDirection), false);
-            EmbossSchema.Type.Initialize(new DefaultConstructHandler(EmbossSchema.Construct), (ConstructorSchema[])null, new PropertySchema[1]
+            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(83, "Direction", 84, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(EmbossSchema.GetDirection), new SetValueHandler(EmbossSchema.SetDirection), false);
+            EmbossSchema.Type.Initialize(new DefaultConstructHandler(EmbossSchema.Construct), null, new PropertySchema[1]
             {
-        (PropertySchema) uixPropertySchema
-            }, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixPropertySchema
+            }, null, null, null, null, null, null, null, null, null);
         }
     }
 }

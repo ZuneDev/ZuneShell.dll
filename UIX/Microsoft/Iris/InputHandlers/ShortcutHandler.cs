@@ -89,6 +89,6 @@ namespace Microsoft.Iris.InputHandlers
             this._command.Invoke();
         }
 
-        public override string ToString() => InvariantString.Format("{0}({1})", (object)this.GetType().Name, (object)this._shortcut);
+        public override string ToString() => InvariantString.Format("{0}({1})", this.GetType().Name, _shortcut);
     }
 }

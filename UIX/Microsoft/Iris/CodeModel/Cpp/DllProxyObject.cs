@@ -31,17 +31,17 @@ namespace Microsoft.Iris.CodeModel.Cpp
             DllProxyObject.s_pendingAppThreadRelease = true;
             GC.Collect();
             GC.WaitForPendingFinalizers();
-            foreach (IDisposableObject disposableObject in (DllProxyHandleTable)DllProxyObject.s_handleTable)
-                disposableObject.Dispose((object)disposableObject);
+            foreach (IDisposableObject disposableObject in s_handleTable)
+                disposableObject.Dispose(disposableObject);
             DllProxyObject.ReleaseFinalizedObjects();
         }
 
         public static DllProxyObject Wrap(IntPtr nativeObject)
         {
-            DllProxyObject dllProxyObject = (DllProxyObject)null;
+            DllProxyObject dllProxyObject = null;
             uint typeID;
             if (!NativeApi.SUCCEEDED(NativeApi.SpGetTypeID(nativeObject, out typeID)))
-                return (DllProxyObject)null;
+                return null;
             TypeSchema type = DllLoadResult.MapType(typeID);
             if (type != null)
             {
@@ -53,7 +53,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
 
         private static DllProxyObject GetExistingProxy(IntPtr nativeObject)
         {
-            DllProxyObject dllProxyObject = (DllProxyObject)null;
+            DllProxyObject dllProxyObject = null;
             ulong state;
             NativeApi.SpGetStateCache(nativeObject, out state);
             if (state != 0UL && !DllProxyObject.s_handleTable.LookupByHandle(state, out dllProxyObject))
@@ -63,7 +63,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
 
         private static DllProxyObject WrapNewObject(IntPtr nativeObject, TypeSchema type)
         {
-            DllProxyObject dllProxyObject = (DllProxyObject)null;
+            DllProxyObject dllProxyObject = null;
             uint marshalAs;
             IntPtr nativeImpl;
             if (DllProxyObject.DetermineProxyInterfaceForObject(nativeObject, type, out marshalAs, out nativeImpl))
@@ -80,7 +80,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
                         dllProxyObject = new DllProxyObject();
                         break;
                     case 4294967285:
-                        dllProxyObject = (DllProxyObject)new DllProxyList();
+                        dllProxyObject = new DllProxyList();
                         break;
                     case uint.MaxValue:
                         dllProxyObject = new DllProxyObject();
@@ -111,7 +111,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
             else if (DllProxyObject.CheckNativeReturn(NativeApi.SpQueryForMarshalAsInterface(nativeObject, marshalAs, out nativeImpl)) && nativeImpl != IntPtr.Zero)
                 flag = true;
             else
-                ErrorManager.ReportError("Object didn't implement expected interface '{0}'", (object)marshalAs);
+                ErrorManager.ReportError("Object didn't implement expected interface '{0}'", marshalAs);
             return flag;
         }
 
@@ -138,7 +138,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
             this._type = type;
             this._nativeObject = nativeObject;
             this.OwningLoadResult.RegisterProxyUsage();
-            this._handle = DllProxyObject.s_handleTable.RegisterProxy((object)this);
+            this._handle = DllProxyObject.s_handleTable.RegisterProxy(this);
             NativeApi.SpSetStateCache(this._nativeObject, this._handle);
             NativeApi.SpAddRefExternalObject(this._nativeObject);
             this.LoadWorker(nativeObject, marshalAs);
@@ -154,7 +154,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
             DllProxyObject existingProxy = DllProxyObject.GetExistingProxy(nativeObject);
             if (existingProxy != null)
             {
-                string id1 = (string)null;
+                string id1 = null;
                 if (existingProxy._type is DllTypeSchema type)
                     id1 = type.MapChangeID(id);
                 if (id1 != null)
@@ -163,7 +163,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
                 }
                 else
                 {
-                    ErrorManager.ReportError("Invalid UIXID '0x{0:X8}' passed to NotifyChange", (object)id);
+                    ErrorManager.ReportError("Invalid UIXID '0x{0:X8}' passed to NotifyChange", id);
                     hresult = new HRESULT(-2147024809);
                 }
             }
@@ -174,7 +174,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
 
         public IntPtr NativeObject => this._nativeObject;
 
-        public TypeSchema TypeSchema => (TypeSchema)this._type;
+        public TypeSchema TypeSchema => _type;
 
         protected DllLoadResult OwningLoadResult => this._type.Owner as DllLoadResult;
 
@@ -194,7 +194,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
         {
             this.OnDispose();
             new DllProxyObject.AppThreadReleaseEntry(this._nativeObject, this._handle, this.OwningLoadResult).Release();
-            GC.SuppressFinalize((object)this);
+            GC.SuppressFinalize(this);
         }
 
         protected virtual void OnDispose()
@@ -207,7 +207,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
             lock (DllProxyObject.s_finalizeLock)
             {
                 pendingReleases = DllProxyObject.s_pendingReleases;
-                DllProxyObject.s_pendingReleases = (Vector<DllProxyObject.AppThreadReleaseEntry>)null;
+                DllProxyObject.s_pendingReleases = null;
                 DllProxyObject.s_pendingAppThreadRelease = false;
             }
             if (pendingReleases == null || pendingReleases.Count == 0)
@@ -249,7 +249,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
                 this._nativeObject = nativeObject;
                 this._releaseHandle = false;
                 this._handle = 0UL;
-                this._loadResult = (DllLoadResult)null;
+                this._loadResult = null;
             }
 
             public void Release()

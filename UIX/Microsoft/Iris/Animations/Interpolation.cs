@@ -73,20 +73,20 @@ namespace Microsoft.Iris.Animations
                     str = "Cosine";
                     break;
                 case InterpolationType.Bezier:
-                    str = "Bezier, " + (object)this.BezierHandle1 + ", " + (object)this.BezierHandle2;
+                    str = "Bezier, " + BezierHandle1 + ", " + BezierHandle2;
                     break;
                 case InterpolationType.EaseIn:
-                    str = "EaseIn, " + (object)this.Weight + ", " + (object)this.EasePercent;
+                    str = "EaseIn, " + Weight + ", " + EasePercent;
                     break;
                 case InterpolationType.EaseOut:
-                    str = "EaseOut, " + (object)this.Weight + ", " + (object)this.EasePercent;
+                    str = "EaseOut, " + Weight + ", " + EasePercent;
                     break;
                 default:
                     str = "Linear";
                     break;
             }
-            if ((double)this.Weight != 1.0)
-                str = str + ", " + (object)this.Weight;
+            if (Weight != 1.0)
+                str = str + ", " + Weight;
             return str;
         }
 
@@ -96,7 +96,7 @@ namespace Microsoft.Iris.Animations
             if (obj is Interpolation)
             {
                 Interpolation interpolation = (Interpolation)obj;
-                flag = this._type == interpolation._type && (double)this._weight == (double)interpolation._weight && ((double)this._bezierHandle1 == (double)interpolation._bezierHandle1 && (double)this._bezierHandle2 == (double)interpolation._bezierHandle2) && (double)this._easePercent == (double)interpolation._easePercent;
+                flag = this._type == interpolation._type && _weight == (double)interpolation._weight && (_bezierHandle1 == (double)interpolation._bezierHandle1 && _bezierHandle2 == (double)interpolation._bezierHandle2) && _easePercent == (double)interpolation._easePercent;
             }
             return flag;
         }

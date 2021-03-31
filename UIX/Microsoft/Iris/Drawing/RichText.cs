@@ -32,7 +32,7 @@ namespace Microsoft.Iris.Drawing
         private object _lock;
 
         public RichText(bool richTextMode)
-          : this(richTextMode, (IRichTextCallbacks)null)
+          : this(richTextMode, null)
         {
         }
 
@@ -59,7 +59,7 @@ namespace Microsoft.Iris.Drawing
         {
             if (!inDispose)
                 return;
-            GC.SuppressFinalize((object)this);
+            GC.SuppressFinalize(this);
             lock (this._lock)
             {
                 NativeApi.SpRichTextDestroyObject(this._rtoHandle);
@@ -87,7 +87,7 @@ namespace Microsoft.Iris.Drawing
         {
             get
             {
-                string str = (string)null;
+                string str = null;
                 int textLength = 0;
                 lock (this._lock)
                 {
@@ -169,7 +169,7 @@ namespace Microsoft.Iris.Drawing
         public unsafe TextFlow Measure(string content, ref TextMeasureParams measureParams)
         {
             TextFlow textFlow = new TextFlow();
-            GCHandle gcHandle = GCHandle.Alloc((object)textFlow);
+            GCHandle gcHandle = GCHandle.Alloc(textFlow);
             this._currentlyMeasuringText = content != null ? content : string.Empty;
             fixed (char* content1 = this._currentlyMeasuringText)
             fixed (char* chPtr = measureParams._textStyle.FontFace)
@@ -192,7 +192,7 @@ namespace Microsoft.Iris.Drawing
                 }
             }
             gcHandle.Free();
-            this._currentlyMeasuringText = (string)null;
+            this._currentlyMeasuringText = null;
             return textFlow;
         }
 
@@ -391,9 +391,9 @@ namespace Microsoft.Iris.Drawing
             if (dispatcherTimer == null)
             {
                 dispatcherTimer = new DispatcherTimer();
-                this._timers.Add((object)dispatcherTimer);
+                this._timers.Add(dispatcherTimer);
             }
-            dispatcherTimer.UserData = (object)id;
+            dispatcherTimer.UserData = id;
             dispatcherTimer.Interval = (int)timeout;
             dispatcherTimer.Tick += this._timerTickHandler;
             dispatcherTimer.Start();
@@ -405,7 +405,7 @@ namespace Microsoft.Iris.Drawing
             if (timer == null)
                 return;
             this.DisposeTimer(timer);
-            this._timers.Remove((object)timer);
+            this._timers.Remove(timer);
         }
 
         private DispatcherTimer FindTimer(uint id)
@@ -416,7 +416,7 @@ namespace Microsoft.Iris.Drawing
                 if ((int)(uint)timer.UserData == (int)id)
                     return timer;
             }
-            return (DispatcherTimer)null;
+            return null;
         }
 
         private void DisposeTimer(DispatcherTimer timer)
@@ -440,13 +440,13 @@ namespace Microsoft.Iris.Drawing
           IntPtr dataPtr)
         {
             bool flag = false;
-            if (this._currentlyMeasuringText != null && (long)this._currentlyMeasuringText.Length == (long)nChars)
+            if (this._currentlyMeasuringText != null && _currentlyMeasuringText.Length == nChars)
             {
                 flag = true;
                 char* pointer = (char*)lpString.ToPointer();
-                for (int index = 0; (long)index < (long)nChars; ++index)
+                for (int index = 0; index < nChars; ++index)
                 {
-                    if ((int)this._currentlyMeasuringText[index] != (int)pointer[index])
+                    if (this._currentlyMeasuringText[index] != pointer[index])
                     {
                         flag = false;
                         break;

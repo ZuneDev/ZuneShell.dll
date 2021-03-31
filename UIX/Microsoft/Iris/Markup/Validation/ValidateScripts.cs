@@ -28,7 +28,7 @@ namespace Microsoft.Iris.Markup.Validation
                 int num = 0;
                 while (next != null)
                 {
-                    next.Validate(new TypeRestriction((TypeSchema)VoidSchema.Type), context);
+                    next.Validate(new TypeRestriction(VoidSchema.Type), context);
                     if (!next.HasErrors)
                     {
                         context.RegisterAction(next);

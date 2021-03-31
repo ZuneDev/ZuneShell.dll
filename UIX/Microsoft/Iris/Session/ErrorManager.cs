@@ -38,7 +38,7 @@ namespace Microsoft.Iris.Session
         {
             get
             {
-                string str = (string)null;
+                string str = null;
                 if (ErrorManager.s_contextStack.Count != 0)
                     str = ErrorManager.s_contextStack.Peek().ToString();
                 return str;
@@ -65,7 +65,7 @@ namespace Microsoft.Iris.Session
         public static IList GetErrors()
         {
             IList errors = ErrorManager.s_errors;
-            ErrorManager.s_errors = (IList)null;
+            ErrorManager.s_errors = null;
             return errors;
         }
 
@@ -126,7 +126,7 @@ namespace Microsoft.Iris.Session
         {
             if (!ErrorManager.IgnoringErrors)
             {
-                string str = (string)null;
+                string str = null;
                 if (ErrorManager.s_contextStack.Count != 0)
                 {
                     ErrorManager.Context context = ErrorManager.s_contextStack.Peek();
@@ -141,8 +141,8 @@ namespace Microsoft.Iris.Session
                 errorRecord.Warning = warning;
                 errorRecord.Message = message;
                 if (ErrorManager.s_errors == null)
-                    ErrorManager.s_errors = (IList)new ArrayList();
-                ErrorManager.s_errors.Add((object)errorRecord);
+                    ErrorManager.s_errors = new ArrayList();
+                ErrorManager.s_errors.Add(errorRecord);
                 ErrorManager.QueueNotify();
             }
             if (warning)
@@ -157,7 +157,7 @@ namespace Microsoft.Iris.Session
           string format,
           object param)
         {
-            string message = (string)null;
+            string message = null;
             if (!ErrorManager.IgnoringErrors)
                 message = string.Format(format, param);
             ErrorManager.TrackReportWorker(line, column, warning, message);
@@ -171,7 +171,7 @@ namespace Microsoft.Iris.Session
           object param1,
           object param2)
         {
-            string message = (string)null;
+            string message = null;
             if (!ErrorManager.IgnoringErrors)
                 message = string.Format(format, param1, param2);
             ErrorManager.TrackReportWorker(line, column, warning, message);
@@ -186,7 +186,7 @@ namespace Microsoft.Iris.Session
           object param2,
           object param3)
         {
-            string message = (string)null;
+            string message = null;
             if (!ErrorManager.IgnoringErrors)
                 message = string.Format(format, param1, param2, param3);
             ErrorManager.TrackReportWorker(line, column, warning, message);
@@ -202,7 +202,7 @@ namespace Microsoft.Iris.Session
           object param3,
           object param4)
         {
-            string message = (string)null;
+            string message = null;
             if (!ErrorManager.IgnoringErrors)
                 message = string.Format(format, param1, param2, param3, param4);
             ErrorManager.TrackReportWorker(line, column, warning, message);
@@ -219,7 +219,7 @@ namespace Microsoft.Iris.Session
           object param4,
           object param5)
         {
-            string message = (string)null;
+            string message = null;
             if (!ErrorManager.IgnoringErrors)
                 message = string.Format(format, param1, param2, param3, param4, param5);
             ErrorManager.TrackReportWorker(line, column, warning, message);
@@ -258,7 +258,7 @@ namespace Microsoft.Iris.Session
             public Context(object contextObject, bool ignoreErrors)
             {
                 this._contextObject = contextObject;
-                this._callback = (IErrorContextSource)null;
+                this._callback = null;
                 this._ignoreErrors = ignoreErrors;
                 this._errorCountOnEnter = ErrorManager.s_totalErrorsReported;
             }
@@ -266,7 +266,7 @@ namespace Microsoft.Iris.Session
             public Context(IErrorContextSource contextSource)
             {
                 this._callback = contextSource;
-                this._contextObject = (object)null;
+                this._contextObject = null;
                 this._ignoreErrors = false;
                 this._errorCountOnEnter = ErrorManager.s_totalErrorsReported;
             }
@@ -275,7 +275,7 @@ namespace Microsoft.Iris.Session
             {
                 get
                 {
-                    string str = (string)null;
+                    string str = null;
                     if (this._callback != null)
                         str = this._callback.GetErrorContextDescription();
                     else if (this._contextObject != null)

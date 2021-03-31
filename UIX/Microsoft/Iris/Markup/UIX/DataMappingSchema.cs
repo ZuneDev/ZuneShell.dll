@@ -20,19 +20,19 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static object GetMappings(object instanceObj) => (object)null;
 
-        public static void Pass1Initialize() => DataMappingSchema.Type = new UIXTypeSchema((short)45, "DataMapping", (string)null, (short)-1, typeof(object), UIXTypeFlags.None);
+        public static void Pass1Initialize() => DataMappingSchema.Type = new UIXTypeSchema(45, "DataMapping", null, -1, typeof(object), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema((short)45, "TargetType", (short)208, (short)-1, ExpressionRestriction.NoAccess, false, (RangeValidator)null, true, (GetValueHandler)null, new SetValueHandler(DataMappingSchema.SetTargetType), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema((short)45, "Provider", (short)208, (short)-1, ExpressionRestriction.NoAccess, false, (RangeValidator)null, true, (GetValueHandler)null, new SetValueHandler(DataMappingSchema.SetProvider), false);
-            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema((short)45, "Mappings", (short)138, (short)140, ExpressionRestriction.NoAccess, false, (RangeValidator)null, true, new GetValueHandler(DataMappingSchema.GetMappings), (SetValueHandler)null, false);
-            DataMappingSchema.Type.Initialize((DefaultConstructHandler)null, (ConstructorSchema[])null, new PropertySchema[3]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(45, "TargetType", 208, -1, ExpressionRestriction.NoAccess, false, null, true, null, new SetValueHandler(DataMappingSchema.SetTargetType), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(45, "Provider", 208, -1, ExpressionRestriction.NoAccess, false, null, true, null, new SetValueHandler(DataMappingSchema.SetProvider), false);
+            UIXPropertySchema uixPropertySchema3 = new UIXPropertySchema(45, "Mappings", 138, 140, ExpressionRestriction.NoAccess, false, null, true, new GetValueHandler(DataMappingSchema.GetMappings), null, false);
+            DataMappingSchema.Type.Initialize(null, null, new PropertySchema[3]
             {
-        (PropertySchema) uixPropertySchema3,
-        (PropertySchema) uixPropertySchema2,
-        (PropertySchema) uixPropertySchema1
-            }, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixPropertySchema3,
+         uixPropertySchema2,
+         uixPropertySchema1
+            }, null, null, null, null, null, null, null, null, null);
         }
     }
 }

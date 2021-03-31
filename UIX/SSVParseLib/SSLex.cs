@@ -38,7 +38,7 @@ namespace SSVParseLib
         public virtual bool error(SSLexLexeme q_lexeme)
         {
             this.m_hasErrors = true;
-            string message = string.Format("Syntax Error: Unexpected character encountered: '{0}'", (object)this.m_currentChar[0]);
+            string message = string.Format("Syntax Error: Unexpected character encountered: '{0}'", this.m_currentChar[0]);
             ErrorManager.ReportError(q_lexeme.line(), q_lexeme.offset() + q_lexeme.length() - 1, message);
             return true;
         }
@@ -49,7 +49,7 @@ namespace SSVParseLib
 
         public SSLexLexeme next()
         {
-            SSLexLexeme ssLexLexeme = (SSLexLexeme)null;
+            SSLexLexeme ssLexLexeme = null;
             while (true)
             {
                 SSLexMark? q_mark;
@@ -66,7 +66,7 @@ namespace SSVParseLib
                     {
                         flag = true;
                         this.m_currentChar[0] = this.m_consumer.getCurrent();
-                        this.m_state = this.m_table.lookup(this.m_state, (int)this.m_currentChar[0]);
+                        this.m_state = this.m_table.lookup(this.m_state, this.m_currentChar[0]);
                         if (this.m_state != -1)
                         {
                             SSLexFinalState ssLexFinalState = this.m_table.lookupFinal(this.m_state);
@@ -111,7 +111,7 @@ namespace SSVParseLib
                     if (!this.error(ssLexLexeme))
                     {
                         this.m_consumer.flushLexeme();
-                        ssLexLexeme = (SSLexLexeme)null;
+                        ssLexLexeme = null;
                     }
                     else
                         break;
@@ -131,7 +131,7 @@ namespace SSVParseLib
                         this.m_table.findKeyword(ssLexLexeme);
                     this.m_consumer.flushLexeme(q_mark.Value);
                     if (!this.complete(ssLexLexeme))
-                        ssLexLexeme = (SSLexLexeme)null;
+                        ssLexLexeme = null;
                     else
                         break;
                 }

@@ -17,7 +17,7 @@ namespace Microsoft.Iris.Layout
         public LayoutNodeEnumerator(ILayoutNode start)
         {
             this._start = start;
-            this._current = (ILayoutNode)null;
+            this._current = null;
             this._haventStartedYet = true;
         }
 
@@ -37,7 +37,7 @@ namespace Microsoft.Iris.Layout
 
         public void Reset()
         {
-            this._current = (ILayoutNode)null;
+            this._current = null;
             this._haventStartedYet = true;
         }
     }

@@ -39,15 +39,15 @@ namespace Microsoft.Iris.RenderAPI.Drawing
 
         public RectangleF(Point location, Microsoft.Iris.Render.Size size)
         {
-            this.x = (float)location.X;
-            this.y = (float)location.Y;
-            this.width = (float)size.Width;
-            this.height = (float)size.Height;
+            this.x = location.X;
+            this.y = location.Y;
+            this.width = size.Width;
+            this.height = size.Height;
         }
 
         public static RectangleF FromLTRB(float left, float top, float right, float bottom) => new RectangleF(left, top, right - left, bottom - top);
 
-        public static RectangleF FromRectangle(Rectangle r) => new RectangleF((float)r.X, (float)r.Y, (float)r.Width, (float)r.Height);
+        public static RectangleF FromRectangle(Rectangle r) => new RectangleF(r.X, r.Y, r.Width, r.Height);
 
         public PointF Location
         {
@@ -103,17 +103,17 @@ namespace Microsoft.Iris.RenderAPI.Drawing
 
         public bool IsEmpty => Math2.WithinEpsilon(this.width, 0.0f) || Math2.WithinEpsilon(this.height, 0.0f);
 
-        public override bool Equals(object obj) => obj is RectangleF rectangleF && (double)rectangleF.X == (double)this.X && ((double)rectangleF.Y == (double)this.Y && (double)rectangleF.Width == (double)this.Width) && (double)rectangleF.Height == (double)this.Height;
+        public override bool Equals(object obj) => obj is RectangleF rectangleF && rectangleF.X == (double)this.X && (rectangleF.Y == (double)this.Y && rectangleF.Width == (double)this.Width) && rectangleF.Height == (double)this.Height;
 
-        public static bool operator ==(RectangleF left, RectangleF right) => (double)left.X == (double)right.X && (double)left.Y == (double)right.Y && (double)left.Width == (double)right.Width && (double)left.Height == (double)right.Height;
+        public static bool operator ==(RectangleF left, RectangleF right) => left.X == (double)right.X && left.Y == (double)right.Y && left.Width == (double)right.Width && left.Height == (double)right.Height;
 
         public static bool operator !=(RectangleF left, RectangleF right) => !(left == right);
 
-        public bool Contains(float x, float y) => (double)this.X <= (double)x && (double)x < (double)this.X + (double)this.Width && (double)this.Y <= (double)y && (double)y < (double)this.Y + (double)this.Height;
+        public bool Contains(float x, float y) => X <= (double)x && x < X + (double)this.Width && Y <= (double)y && y < Y + (double)this.Height;
 
         public bool Contains(PointF pt) => this.Contains(pt.X, pt.Y);
 
-        public bool Contains(RectangleF rect) => (double)this.X <= (double)rect.X && (double)rect.X + (double)rect.Width <= (double)this.X + (double)this.Width && (double)this.Y <= (double)rect.Y && (double)rect.Y + (double)rect.Height <= (double)this.Y + (double)this.Height;
+        public bool Contains(RectangleF rect) => X <= (double)rect.X && rect.X + (double)rect.Width <= X + (double)this.Width && Y <= (double)rect.Y && rect.Y + (double)rect.Height <= Y + (double)this.Height;
 
         public override int GetHashCode() => (int)(uint)this.X ^ ((int)(uint)this.Y << 13 | (int)((uint)this.Y >> 19)) ^ ((int)(uint)this.Width << 26 | (int)((uint)this.Width >> 6)) ^ ((int)(uint)this.Height << 7 | (int)((uint)this.Height >> 25));
 
@@ -149,10 +149,10 @@ namespace Microsoft.Iris.RenderAPI.Drawing
             float num1 = Math.Min(a.X + a.Width, b.X + b.Width);
             float y = Math.Max(a.Y, b.Y);
             float num2 = Math.Min(a.Y + a.Height, b.Y + b.Height);
-            return (double)num1 >= (double)x && (double)num2 >= (double)y ? new RectangleF(x, y, num1 - x, num2 - y) : RectangleF.Zero;
+            return num1 >= (double)x && num2 >= (double)y ? new RectangleF(x, y, num1 - x, num2 - y) : RectangleF.Zero;
         }
 
-        public bool IntersectsWith(RectangleF rect) => (double)this.Left < (double)rect.Right && (double)this.Top < (double)rect.Bottom && (double)this.Right > (double)rect.Left && (double)this.Bottom > (double)rect.Top;
+        public bool IntersectsWith(RectangleF rect) => Left < (double)rect.Right && Top < (double)rect.Bottom && Right > (double)rect.Left && Bottom > (double)rect.Top;
 
         public static RectangleF Union(RectangleF a, RectangleF b)
         {
@@ -191,13 +191,13 @@ namespace Microsoft.Iris.RenderAPI.Drawing
         {
             StringBuilder stringBuilder = new StringBuilder(128);
             stringBuilder.Append("(X=");
-            stringBuilder.Append(this.X.ToString((IFormatProvider)NumberFormatInfo.InvariantInfo));
+            stringBuilder.Append(this.X.ToString(NumberFormatInfo.InvariantInfo));
             stringBuilder.Append(", Y=");
-            stringBuilder.Append(this.Y.ToString((IFormatProvider)NumberFormatInfo.InvariantInfo));
+            stringBuilder.Append(this.Y.ToString(NumberFormatInfo.InvariantInfo));
             stringBuilder.Append(", Width=");
-            stringBuilder.Append(this.Width.ToString((IFormatProvider)NumberFormatInfo.InvariantInfo));
+            stringBuilder.Append(this.Width.ToString(NumberFormatInfo.InvariantInfo));
             stringBuilder.Append(", Height=");
-            stringBuilder.Append(this.Height.ToString((IFormatProvider)NumberFormatInfo.InvariantInfo));
+            stringBuilder.Append(this.Height.ToString(NumberFormatInfo.InvariantInfo));
             stringBuilder.Append(")");
             return stringBuilder.ToString();
         }

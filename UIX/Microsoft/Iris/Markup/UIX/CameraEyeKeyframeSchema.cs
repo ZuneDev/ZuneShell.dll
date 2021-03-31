@@ -13,21 +13,21 @@ namespace Microsoft.Iris.Markup.UIX
     {
         public static UIXTypeSchema Type;
 
-        private static object GetValue(object instanceObj) => (object)((BaseVector3Keyframe)instanceObj).Value;
+        private static object GetValue(object instanceObj) => ((BaseVector3Keyframe)instanceObj).Value;
 
         private static void SetValue(ref object instanceObj, object valueObj) => ((BaseVector3Keyframe)instanceObj).Value = (Vector3)valueObj;
 
-        private static object Construct() => (object)new CameraEyeKeyframe();
+        private static object Construct() => new CameraEyeKeyframe();
 
-        public static void Pass1Initialize() => CameraEyeKeyframeSchema.Type = new UIXTypeSchema((short)23, "CameraEyeKeyframe", (string)null, (short)130, typeof(CameraEyeKeyframe), UIXTypeFlags.None);
+        public static void Pass1Initialize() => CameraEyeKeyframeSchema.Type = new UIXTypeSchema(23, "CameraEyeKeyframe", null, 130, typeof(CameraEyeKeyframe), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema = new UIXPropertySchema((short)23, "Value", (short)234, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, new GetValueHandler(CameraEyeKeyframeSchema.GetValue), new SetValueHandler(CameraEyeKeyframeSchema.SetValue), false);
-            CameraEyeKeyframeSchema.Type.Initialize(new DefaultConstructHandler(CameraEyeKeyframeSchema.Construct), (ConstructorSchema[])null, new PropertySchema[1]
+            UIXPropertySchema uixPropertySchema = new UIXPropertySchema(23, "Value", 234, -1, ExpressionRestriction.None, false, null, false, new GetValueHandler(CameraEyeKeyframeSchema.GetValue), new SetValueHandler(CameraEyeKeyframeSchema.SetValue), false);
+            CameraEyeKeyframeSchema.Type.Initialize(new DefaultConstructHandler(CameraEyeKeyframeSchema.Construct), null, new PropertySchema[1]
             {
-        (PropertySchema) uixPropertySchema
-            }, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixPropertySchema
+            }, null, null, null, null, null, null, null, null, null);
         }
     }
 }

@@ -44,7 +44,7 @@ namespace Microsoft.Iris.Navigation
           RectangleF startRectangleF,
           bool enteringFlag)
         {
-            List<NavigationItem> navigationItemList = (List<NavigationItem>)null;
+            List<NavigationItem> navigationItemList = null;
             Map<float, List<INavigationSite>> partitions = this.PartitionChildren(allChildrenList);
             if (partitions.Keys.Count > 0)
             {
@@ -56,19 +56,19 @@ namespace Microsoft.Iris.Navigation
                     foreach (float key in keys)
                     {
                         NavigationItem areaForPartition = this.CreateAreaForPartition(partitions[key]);
-                        if (areaForPartition != (NavigationItem)null)
+                        if (areaForPartition != null)
                             navigationItemList.Add(areaForPartition);
                     }
                 }
             }
-            return (IList)navigationItemList;
+            return navigationItemList;
         }
 
         private Map<float, List<INavigationSite>> PartitionChildren(
           IList allChildrenList)
         {
             Map<float, List<INavigationSite>> map = new Map<float, List<INavigationSite>>();
-            foreach (NavigationItem allChildren in (IEnumerable)allChildrenList)
+            foreach (NavigationItem allChildren in allChildrenList)
             {
                 float key = 0.0f;
                 switch (this._orientationValue)
@@ -102,7 +102,7 @@ namespace Microsoft.Iris.Navigation
                         break;
                 }
             }
-            return vector.Count <= 0 ? (float[])null : vector.ToArray();
+            return vector.Count <= 0 ? null : vector.ToArray();
         }
 
         private bool PartitionIsPotentialCandidate(
@@ -127,18 +127,18 @@ namespace Microsoft.Iris.Navigation
                         num2 = startRectangleF.Right;
                         break;
                 }
-                return (double)num1 <= (double)key && (double)key <= (double)num2;
+                return num1 <= (double)key && key <= (double)num2;
             }
             switch (this.SearchDirection)
             {
                 case Direction.North:
-                    return (double)key < (double)startRectangleF.Top;
+                    return key < (double)startRectangleF.Top;
                 case Direction.South:
-                    return (double)key > (double)startRectangleF.Bottom;
+                    return key > (double)startRectangleF.Bottom;
                 case Direction.East:
-                    return (double)key > (double)startRectangleF.Right;
+                    return key > (double)startRectangleF.Right;
                 case Direction.West:
-                    return (double)key < (double)startRectangleF.Left;
+                    return key < (double)startRectangleF.Left;
                 default:
                     return false;
             }
@@ -156,14 +156,14 @@ namespace Microsoft.Iris.Navigation
                     originValue = startRectangleF.Center.X;
                     break;
             }
-            Array.Sort<float>(keys, (IComparer<float>)new NavigationFlow.CompareItemDistance(originValue));
+            Array.Sort<float>(keys, new NavigationFlow.CompareItemDistance(originValue));
         }
 
         private NavigationItem CreateAreaForPartition(List<INavigationSite> partition)
         {
-            NavigationItem navigationItem = (NavigationItem)null;
+            NavigationItem navigationItem = null;
             if (partition != null && partition.Count > 0)
-                navigationItem = NavigationItem.CreateAreaForSite((INavigationSite)new TransientNavigationSite(partition[0].ToString(), this.Subject, (ICollection)partition, this._modeForNewSites, Vector3.Zero, Vector3.Zero), this.SearchDirection, false, true);
+                navigationItem = NavigationItem.CreateAreaForSite(new TransientNavigationSite(partition[0].ToString(), this.Subject, partition, this._modeForNewSites, Vector3.Zero, Vector3.Zero), this.SearchDirection, false, true);
             return navigationItem;
         }
 
@@ -194,14 +194,14 @@ namespace Microsoft.Iris.Navigation
             int IComparer<float>.Compare(float leftValue, float rightValue)
             {
                 leftValue -= this._originValue;
-                if ((double)leftValue < 0.0)
+                if (leftValue < 0.0)
                     leftValue *= -1f;
                 rightValue -= this._originValue;
-                if ((double)rightValue < 0.0)
+                if (rightValue < 0.0)
                     rightValue *= -1f;
-                if ((double)leftValue < (double)rightValue)
+                if (leftValue < (double)rightValue)
                     return -1;
-                return (double)rightValue < (double)leftValue ? 1 : 0;
+                return rightValue < (double)leftValue ? 1 : 0;
             }
         }
     }

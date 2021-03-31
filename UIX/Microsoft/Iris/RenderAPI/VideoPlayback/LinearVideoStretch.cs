@@ -23,7 +23,7 @@ namespace Microsoft.Iris.RenderAPI.VideoPlayback
         {
             RectangleF rectangleF1;
             RectangleF rectangleF2;
-            if ((double)(rcfBoundDestViewPxl.Width / rcfBoundSrcVideoPxl.Width) < (double)(rcfBoundDestViewPxl.Height / rcfBoundSrcVideoPxl.Height))
+            if (rcfBoundDestViewPxl.Width / rcfBoundSrcVideoPxl.Width < (double)(rcfBoundDestViewPxl.Height / rcfBoundSrcVideoPxl.Height))
             {
                 float num1 = rcfBoundDestViewPxl.Width / rcfBoundSrcVideoPxl.Width;
                 float height = rcfBoundSrcVideoPxl.Height * num1;
@@ -58,7 +58,7 @@ namespace Microsoft.Iris.RenderAPI.VideoPlayback
             LinearVideoStretch.ApplyPillarboxAdjustment(ref rcfBoundSrcVideoPxl, rcfBoundDestViewPxl);
             RectangleF rectangleF1;
             RectangleF rectangleF2;
-            if ((double)(rcfBoundDestViewPxl.Width / rcfBoundSrcVideoPxl.Width) < (double)(rcfBoundDestViewPxl.Height / rcfBoundSrcVideoPxl.Height))
+            if (rcfBoundDestViewPxl.Width / rcfBoundSrcVideoPxl.Width < (double)(rcfBoundDestViewPxl.Height / rcfBoundSrcVideoPxl.Height))
             {
                 float num1 = rcfBoundDestViewPxl.Height / rcfBoundSrcVideoPxl.Height;
                 float width = rcfBoundDestViewPxl.Width / num1;
@@ -105,10 +105,10 @@ namespace Microsoft.Iris.RenderAPI.VideoPlayback
           ref RectangleF rcfBoundSrcVideoPxl,
           RectangleF rcfBoundDestViewPxl)
         {
-            if ((double)Math.Abs(rcfBoundDestViewPxl.Width / rcfBoundSrcVideoPxl.Width - rcfBoundDestViewPxl.Height / rcfBoundSrcVideoPxl.Height) >= 0.1 || (double)rcfBoundDestViewPxl.Width / (double)rcfBoundDestViewPxl.Height <= 1.5 || (double)rcfBoundSrcVideoPxl.Width / (double)rcfBoundSrcVideoPxl.Height <= 1.5)
+            if (Math.Abs(rcfBoundDestViewPxl.Width / rcfBoundSrcVideoPxl.Width - rcfBoundDestViewPxl.Height / rcfBoundSrcVideoPxl.Height) >= 0.1 || rcfBoundDestViewPxl.Width / (double)rcfBoundDestViewPxl.Height <= 1.5 || rcfBoundSrcVideoPxl.Width / (double)rcfBoundSrcVideoPxl.Height <= 1.5)
                 return;
-            float num = (float)((double)rcfBoundSrcVideoPxl.Height * 4.0 / 3.0);
-            rcfBoundSrcVideoPxl.X += (float)(((double)rcfBoundSrcVideoPxl.Width - (double)num) / 2.0);
+            float num = (float)(rcfBoundSrcVideoPxl.Height * 4.0 / 3.0);
+            rcfBoundSrcVideoPxl.X += (float)((rcfBoundSrcVideoPxl.Width - (double)num) / 2.0);
             rcfBoundSrcVideoPxl.Width = num;
         }
     }

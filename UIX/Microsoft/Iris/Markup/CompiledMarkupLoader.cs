@@ -69,7 +69,7 @@ namespace Microsoft.Iris.Markup
             {
                 foreach (MarkupTypeSchema markupTypeSchema in this._loadResultTarget.ExportTable)
                     markupTypeSchema.Seal();
-                this._reader = (ByteCodeReader)null;
+                this._reader = null;
             }
             foreach (LoadResult dependency in this._loadResultTarget.Dependencies)
             {
@@ -148,7 +148,7 @@ namespace Microsoft.Iris.Markup
                     if (this._binaryDataTable.SharedDependenciesTableWithBinaryDataTable == null)
                         this._binaryDataTable.SharedDependenciesTableWithBinaryDataTable = new LoadResult[1]
                         {
-              (LoadResult) this._binaryDataTableLoadResult
+               _binaryDataTableLoadResult
                         };
                     this._loadResultTarget.SetDependenciesTable(this._binaryDataTable.SharedDependenciesTableWithBinaryDataTable);
                     this._usingSharedDataTable = true;
@@ -165,8 +165,8 @@ namespace Microsoft.Iris.Markup
             if (this._usingSharedDataTable)
                 return;
             ushort num = this._reader.ReadUInt16();
-            LoadResult[] dependenciesTable = new LoadResult[(int)num];
-            for (ushort index = 0; (int)index < (int)num; ++index)
+            LoadResult[] dependenciesTable = new LoadResult[num];
+            for (ushort index = 0; index < num; ++index)
             {
                 this._reader.ReadBool();
                 string uri = this.ReadDataTableString();
@@ -176,7 +176,7 @@ namespace Microsoft.Iris.Markup
                     this.ReportError("Import of '{0}' failed", uri);
                     return;
                 }
-                dependenciesTable[(int)index] = loadResult;
+                dependenciesTable[index] = loadResult;
             }
             this._loadResultTarget.SetDependenciesTable(dependenciesTable);
         }
@@ -184,19 +184,19 @@ namespace Microsoft.Iris.Markup
         private void DepersistTypeExportDeclarations()
         {
             ushort num1 = this._reader.ReadUInt16();
-            TypeSchema[] exportTable = new TypeSchema[(int)num1];
-            for (int index = 0; index < (int)num1; ++index)
+            TypeSchema[] exportTable = new TypeSchema[num1];
+            for (int index = 0; index < num1; ++index)
             {
                 string name = this.ReadDataTableString();
-                MarkupTypeSchema markupTypeSchema = MarkupTypeSchema.Build(this.MarkupTypeToDefinition((MarkupType)this._reader.ReadInt32()), (MarkupLoadResult)this._loadResultTarget, name);
-                exportTable[index] = (TypeSchema)markupTypeSchema;
+                MarkupTypeSchema markupTypeSchema = MarkupTypeSchema.Build(this.MarkupTypeToDefinition((MarkupType)this._reader.ReadInt32()), _loadResultTarget, name);
+                exportTable[index] = markupTypeSchema;
             }
             this._loadResultTarget.SetExportTable(exportTable);
             ushort num2 = this._reader.ReadUInt16();
-            if (num2 <= (ushort)0)
+            if (num2 <= 0)
                 return;
-            AliasMapping[] aliasTable = new AliasMapping[(int)num2];
-            for (int index1 = 0; index1 < (int)num2; ++index1)
+            AliasMapping[] aliasTable = new AliasMapping[num2];
+            for (int index1 = 0; index1 < num2; ++index1)
             {
                 string alias = this.ReadDataTableString();
                 ushort index2 = this._reader.ReadUInt16();
@@ -214,10 +214,10 @@ namespace Microsoft.Iris.Markup
             MarkupImportTables importTables = new MarkupImportTables();
             this._loadResultTarget.BinaryDataTable.SetImportTables(importTables);
             ushort num = this._reader.ReadUInt16();
-            if (num <= (ushort)0)
+            if (num <= 0)
                 return;
-            TypeSchema[] typeSchemaArray = new TypeSchema[(int)num];
-            for (ushort index = 0; (int)index < (int)num; ++index)
+            TypeSchema[] typeSchemaArray = new TypeSchema[num];
+            for (ushort index = 0; index < num; ++index)
             {
                 LoadResult dependent = this.MapIndexToDependent(this._reader.ReadUInt16());
                 string name = this.ReadDataTableString();
@@ -225,7 +225,7 @@ namespace Microsoft.Iris.Markup
                 if (type == null)
                     this.ReportError("Import of {0} named '{1}' from '{2}' failed", "type", name, dependent.Uri);
                 else
-                    typeSchemaArray[(int)index] = type;
+                    typeSchemaArray[index] = type;
             }
             importTables.TypeImports = typeSchemaArray;
         }
@@ -237,12 +237,12 @@ namespace Microsoft.Iris.Markup
             {
                 MarkupType markupType = markupTypeSchema.MarkupType;
                 TypeSchema definition = this.MarkupTypeToDefinition(markupType);
-                uint typeDepth = (uint)this._reader.ReadUInt16();
+                uint typeDepth = this._reader.ReadUInt16();
                 markupTypeSchema.SetTypeDepth(typeDepth);
                 if (typeDepth > 1U)
                 {
                     ushort num = this._reader.ReadUInt16();
-                    TypeSchema typeSchema = typeImports[(int)num];
+                    TypeSchema typeSchema = typeImports[num];
                     markupTypeSchema.SetBaseType((MarkupTypeSchema)typeSchema);
                 }
                 uint offset1 = this._reader.ReadUInt32();
@@ -260,7 +260,7 @@ namespace Microsoft.Iris.Markup
                 if (num1 > 0U)
                 {
                     SymbolReference[] symbolTable = new SymbolReference[num1];
-                    for (int index = 0; (long)index < (long)num1; ++index)
+                    for (int index = 0; index < num1; ++index)
                     {
                         SymbolReference symbolReference = new SymbolReference(this.ReadDataTableString(), (SymbolOrigin)this._reader.ReadByte());
                         symbolTable[index] = symbolReference;
@@ -273,10 +273,10 @@ namespace Microsoft.Iris.Markup
                 if (markupType == MarkupType.UI)
                 {
                     ushort num2 = this._reader.ReadUInt16();
-                    if (num2 > (ushort)0)
+                    if (num2 > 0)
                     {
-                        NamedContentRecord[] namedContentTable = new NamedContentRecord[(int)num2];
-                        for (int index = 0; index < (int)num2; ++index)
+                        NamedContentRecord[] namedContentTable = new NamedContentRecord[num2];
+                        for (int index = 0; index < num2; ++index)
                         {
                             string name = this.ReadDataTableString();
                             uint offset4 = this._reader.ReadUInt32();
@@ -308,27 +308,27 @@ namespace Microsoft.Iris.Markup
                     }
                 }
                 ushort num3 = this._reader.ReadUInt16();
-                if (num3 > (ushort)0)
+                if (num3 > 0)
                 {
-                    PropertySchema[] properties = new PropertySchema[(int)num3];
-                    for (int index1 = 0; index1 < (int)num3; ++index1)
+                    PropertySchema[] properties = new PropertySchema[num3];
+                    for (int index1 = 0; index1 < num3; ++index1)
                     {
                         string name = this.ReadDataTableString();
                         bool requiredForCreation = this._reader.ReadBool();
                         bool flag = this._reader.ReadBool();
-                        PropertyOverrideCriteriaTypeConstraint criteriaTypeConstraint = (PropertyOverrideCriteriaTypeConstraint)null;
+                        PropertyOverrideCriteriaTypeConstraint criteriaTypeConstraint = null;
                         if (flag)
                         {
                             ushort num2 = this._reader.ReadUInt16();
                             ushort num4 = this._reader.ReadUInt16();
-                            TypeSchema constraint = typeImports[(int)num2];
-                            criteriaTypeConstraint = new PropertyOverrideCriteriaTypeConstraint(typeImports[(int)num4], constraint);
+                            TypeSchema constraint = typeImports[num2];
+                            criteriaTypeConstraint = new PropertyOverrideCriteriaTypeConstraint(typeImports[num4], constraint);
                         }
                         ushort num5 = this._reader.ReadUInt16();
-                        TypeSchema propertyType = typeImports[(int)num5];
+                        TypeSchema propertyType = typeImports[num5];
                         MarkupPropertySchema markupPropertySchema = MarkupPropertySchema.Build(definition, markupTypeSchema, name, propertyType);
                         markupPropertySchema.SetRequiredForCreation(requiredForCreation);
-                        markupPropertySchema.SetOverrideCriteria((PropertyOverrideCriteria)criteriaTypeConstraint);
+                        markupPropertySchema.SetOverrideCriteria(criteriaTypeConstraint);
                         if (markupType == MarkupType.DataType)
                         {
                             MarkupDataTypePropertySchema typePropertySchema = (MarkupDataTypePropertySchema)markupPropertySchema;
@@ -346,7 +346,7 @@ namespace Microsoft.Iris.Markup
                             if (index2 != ushort.MaxValue)
                                 queryPropertySchema.SetUnderlyingCollectionType(this.MapIndexToType(index2));
                         }
-                        properties[index1] = (PropertySchema)markupPropertySchema;
+                        properties[index1] = markupPropertySchema;
                     }
                     markupTypeSchema.SetPropertyList(properties);
                 }
@@ -367,21 +367,21 @@ namespace Microsoft.Iris.Markup
                 return;
             MarkupImportTables importTables = this._loadResultTarget.ImportTables;
             ushort num1 = this._reader.ReadUInt16();
-            if (num1 > (ushort)0)
+            if (num1 > 0)
             {
-                ConstructorSchema[] constructorSchemaArray = new ConstructorSchema[(int)num1];
-                for (int index1 = 0; index1 < (int)num1; ++index1)
+                ConstructorSchema[] constructorSchemaArray = new ConstructorSchema[num1];
+                for (int index1 = 0; index1 < num1; ++index1)
                 {
                     TypeSchema type = this.MapIndexToType(this._reader.ReadUInt16());
                     ushort num2 = this._reader.ReadUInt16();
                     TypeSchema[] parameters = TypeSchema.EmptyList;
-                    if (num2 > (ushort)0)
+                    if (num2 > 0)
                     {
-                        parameters = this.GetTempParameterArray((int)num2);
-                        for (ushort index2 = 0; (int)index2 < (int)num2; ++index2)
+                        parameters = this.GetTempParameterArray(num2);
+                        for (ushort index2 = 0; index2 < num2; ++index2)
                         {
                             ushort index3 = this._reader.ReadUInt16();
-                            parameters[(int)index2] = this.MapIndexToType(index3);
+                            parameters[index2] = this.MapIndexToType(index3);
                         }
                     }
                     ConstructorSchema constructor = type.FindConstructor(parameters);
@@ -393,10 +393,10 @@ namespace Microsoft.Iris.Markup
                 importTables.ConstructorImports = constructorSchemaArray;
             }
             ushort num3 = this._reader.ReadUInt16();
-            if (num3 > (ushort)0)
+            if (num3 > 0)
             {
-                PropertySchema[] propertySchemaArray = new PropertySchema[(int)num3];
-                for (int index = 0; index < (int)num3; ++index)
+                PropertySchema[] propertySchemaArray = new PropertySchema[num3];
+                for (int index = 0; index < num3; ++index)
                 {
                     TypeSchema type = this.MapIndexToType(this._reader.ReadUInt16());
                     string name = this.ReadDataTableString();
@@ -409,25 +409,25 @@ namespace Microsoft.Iris.Markup
                 importTables.PropertyImports = propertySchemaArray;
             }
             ushort num4 = this._reader.ReadUInt16();
-            if (num4 > (ushort)0)
+            if (num4 > 0)
             {
-                MethodSchema[] methodSchemaArray = new MethodSchema[(int)num4];
-                for (int index1 = 0; index1 < (int)num4; ++index1)
+                MethodSchema[] methodSchemaArray = new MethodSchema[num4];
+                for (int index1 = 0; index1 < num4; ++index1)
                 {
-                    MethodSchema methodSchema = (MethodSchema)null;
+                    MethodSchema methodSchema = null;
                     TypeSchema type = this.MapIndexToType(this._reader.ReadUInt16());
                     if (!this._reader.ReadBool())
                     {
                         string name = this.ReadDataTableString();
                         ushort num2 = this._reader.ReadUInt16();
                         TypeSchema[] parameters = TypeSchema.EmptyList;
-                        if (num2 > (ushort)0)
+                        if (num2 > 0)
                         {
-                            parameters = this.GetTempParameterArray((int)num2);
-                            for (ushort index2 = 0; (int)index2 < (int)num2; ++index2)
+                            parameters = this.GetTempParameterArray(num2);
+                            for (ushort index2 = 0; index2 < num2; ++index2)
                             {
                                 ushort index3 = this._reader.ReadUInt16();
-                                parameters[(int)index2] = this.MapIndexToType(index3);
+                                parameters[index2] = this.MapIndexToType(index3);
                             }
                         }
                         methodSchema = type.FindMethod(name, parameters);
@@ -443,7 +443,7 @@ namespace Microsoft.Iris.Markup
                             {
                                 if (virtualMethod.VirtualId == num2)
                                 {
-                                    methodSchema = (MethodSchema)virtualMethod;
+                                    methodSchema = virtualMethod;
                                     break;
                                 }
                             }
@@ -456,10 +456,10 @@ namespace Microsoft.Iris.Markup
                 importTables.MethodImports = methodSchemaArray;
             }
             ushort num5 = this._reader.ReadUInt16();
-            if (num5 <= (ushort)0)
+            if (num5 <= 0)
                 return;
-            EventSchema[] eventSchemaArray = new EventSchema[(int)num5];
-            for (int index = 0; index < (int)num5; ++index)
+            EventSchema[] eventSchemaArray = new EventSchema[num5];
+            for (int index = 0; index < num5; ++index)
             {
                 TypeSchema type = this.MapIndexToType(this._reader.ReadUInt16());
                 string name = this.ReadDataTableString();
@@ -475,24 +475,24 @@ namespace Microsoft.Iris.Markup
         private void DepersistDataMappingsTable()
         {
             ushort num1 = this._reader.ReadUInt16();
-            if (num1 <= (ushort)0)
+            if (num1 <= 0)
                 return;
-            MarkupDataMapping[] dataMappingsTable = new MarkupDataMapping[(int)num1];
-            for (int index1 = 0; index1 < (int)num1; ++index1)
+            MarkupDataMapping[] dataMappingsTable = new MarkupDataMapping[num1];
+            for (int index1 = 0; index1 < num1; ++index1)
             {
-                MarkupDataMapping markupDataMapping = new MarkupDataMapping((string)null);
+                MarkupDataMapping markupDataMapping = new MarkupDataMapping(null);
                 ushort index2 = this._reader.ReadUInt16();
                 markupDataMapping.TargetType = (MarkupDataTypeSchema)this.MapIndexToType(index2);
                 markupDataMapping.Provider = this.ReadDataTableString();
                 ushort num2 = this._reader.ReadUInt16();
-                markupDataMapping.Mappings = new MarkupDataMappingEntry[(int)num2];
-                for (int index3 = 0; index3 < (int)num2; ++index3)
+                markupDataMapping.Mappings = new MarkupDataMappingEntry[num2];
+                for (int index3 = 0; index3 < num2; ++index3)
                 {
                     MarkupDataMappingEntry dataMappingEntry = new MarkupDataMappingEntry();
                     dataMappingEntry.Source = this.ReadDataTableString();
                     dataMappingEntry.Target = this.ReadDataTableString();
                     ushort num3 = this._reader.ReadUInt16();
-                    dataMappingEntry.Property = (MarkupDataTypePropertySchema)this._loadResultTarget.ImportTables.PropertyImports[(int)num3];
+                    dataMappingEntry.Property = (MarkupDataTypePropertySchema)this._loadResultTarget.ImportTables.PropertyImports[num3];
                     dataMappingEntry.DefaultValue = !this._reader.ReadBool() ? MarkupDataProvider.GetDefaultValueForType(dataMappingEntry.Property.PropertyType) : dataMappingEntry.Property.PropertyType.DecodeBinary(this._reader);
                     markupDataMapping.Mappings[index3] = dataMappingEntry;
                 }
@@ -522,13 +522,13 @@ namespace Microsoft.Iris.Markup
             if (num2 > 0U)
             {
                 symbolTable = new SymbolRecord[num2];
-                for (int index = 0; (long)index < (long)num2; ++index)
+                for (int index = 0; index < num2; ++index)
                 {
                     SymbolRecord symbolRecord = new SymbolRecord();
                     symbolRecord.Name = CompiledMarkupLoader.ReadDataTableString(reader, binaryDataTable);
                     symbolRecord.SymbolOrigin = (SymbolOrigin)reader.ReadByte();
                     ushort num3 = reader.ReadUInt16();
-                    symbolRecord.Type = owner.ImportTables.TypeImports[(int)num3];
+                    symbolRecord.Type = owner.ImportTables.TypeImports[num3];
                     symbolTable[index] = symbolRecord;
                 }
             }
@@ -551,23 +551,23 @@ namespace Microsoft.Iris.Markup
         private void DepersistConstantsTable()
         {
             ushort num = this._reader.ReadUInt16();
-            if (num <= (ushort)0)
+            if (num <= 0)
                 return;
-            object[] runtimeList = new object[(int)num];
+            object[] runtimeList = new object[num];
             MarkupConstantsTable constantsTable = new MarkupConstantsTable(runtimeList);
             if (!this._reader.IsInFixedMemory)
             {
-                this._reader.CurrentOffset += (uint)(((int)num + 1) * 4);
-                for (int index = 0; index < (int)num; ++index)
+                this._reader.CurrentOffset += (uint)((num + 1) * 4);
+                for (int index = 0; index < num; ++index)
                 {
-                    object obj = CompiledMarkupLoader.DepersistConstant(this._reader, (MarkupLoadResult)this._loadResultTarget);
+                    object obj = CompiledMarkupLoader.DepersistConstant(this._reader, _loadResultTarget);
                     runtimeList[index] = obj;
                 }
             }
             else
             {
-                ByteCodeReader constantsTableReader = new ByteCodeReader(this._reader.CurrentAddress, ByteCodeReader.ReadUInt32(this._reader.GetAddress(this._reader.CurrentOffset + (uint)num * 4U)), false);
-                constantsTable.SetConstantsTableReader(constantsTableReader, (MarkupLoadResult)this._loadResultTarget);
+                ByteCodeReader constantsTableReader = new ByteCodeReader(this._reader.CurrentAddress, ByteCodeReader.ReadUInt32(this._reader.GetAddress(this._reader.CurrentOffset + num * 4U)), false);
+                constantsTable.SetConstantsTableReader(constantsTableReader, _loadResultTarget);
             }
             this._loadResultTarget.BinaryDataTable.SetConstantsTable(constantsTable);
         }
@@ -575,9 +575,9 @@ namespace Microsoft.Iris.Markup
         public static object DepersistConstant(ByteCodeReader reader, MarkupLoadResult loadResult)
         {
             ushort num = reader.ReadUInt16();
-            TypeSchema typeImport = loadResult.ImportTables.TypeImports[(int)num];
+            TypeSchema typeImport = loadResult.ImportTables.TypeImports[num];
             MarkupConstantPersistMode constantPersistMode = (MarkupConstantPersistMode)reader.ReadByte();
-            object instance = (object)null;
+            object instance = null;
             switch (constantPersistMode)
             {
                 case MarkupConstantPersistMode.Binary:
@@ -585,7 +585,7 @@ namespace Microsoft.Iris.Markup
                     break;
                 case MarkupConstantPersistMode.FromString:
                     string str = CompiledMarkupLoader.ReadDataTableString(reader, loadResult.BinaryDataTable);
-                    typeImport.TypeConverter((object)str, (TypeSchema)StringSchema.Type, out instance);
+                    typeImport.TypeConverter(str, StringSchema.Type, out instance);
                     break;
                 case MarkupConstantPersistMode.Canonical:
                     string name = CompiledMarkupLoader.ReadDataTableString(reader, loadResult.BinaryDataTable);
@@ -599,15 +599,15 @@ namespace Microsoft.Iris.Markup
           ByteCodeReader reader)
         {
             ushort num = reader.ReadUInt16();
-            ulong[] runtimeList = new ulong[(int)num];
-            for (int index = 0; index < (int)num; ++index)
+            ulong[] runtimeList = new ulong[num];
+            for (int index = 0; index < num; ++index)
                 runtimeList[index] = reader.ReadUInt64();
             return new MarkupLineNumberTable(runtimeList);
         }
 
         public static MarkupLineNumberTable DecodeLineNumberTable(IntPtr address)
         {
-            uint size = (uint)((int)ByteCodeReader.ReadUInt16(address) * 12 + 2);
+            uint size = (uint)(ByteCodeReader.ReadUInt16(address) * 12 + 2);
             return CompiledMarkupLoader.DecodeLineNumberTable(new ByteCodeReader(address, size, false));
         }
 
@@ -648,7 +648,7 @@ namespace Microsoft.Iris.Markup
             uint currentOffset = this._reader.CurrentOffset;
             this._reader.CurrentOffset = binaryDataTableOffset;
             int stringCount = this._reader.ReadInt32();
-            this._binaryDataTable = new MarkupBinaryDataTable((string)null, stringCount);
+            this._binaryDataTable = new MarkupBinaryDataTable(null, stringCount);
             if (!this._reader.IsInFixedMemory)
             {
                 this._reader.CurrentOffset += (uint)((stringCount + 1) * 4);
@@ -671,19 +671,19 @@ namespace Microsoft.Iris.Markup
             switch (index)
             {
                 case 65533:
-                    loadResult = (LoadResult)this._loadResultTarget;
+                    loadResult = _loadResultTarget;
                     break;
                 case 65534:
-                    loadResult = (LoadResult)MarkupSystem.UIXGlobal;
+                    loadResult = MarkupSystem.UIXGlobal;
                     break;
                 default:
-                    loadResult = this._binaryDataTableLoadResult == null ? this._loadResultTarget.Dependencies[(int)index] : this._binaryDataTableLoadResult.Dependencies[(int)index];
+                    loadResult = this._binaryDataTableLoadResult == null ? this._loadResultTarget.Dependencies[index] : this._binaryDataTableLoadResult.Dependencies[index];
                     break;
             }
             return loadResult;
         }
 
-        private TypeSchema MapIndexToType(ushort index) => this._loadResultTarget.ImportTables.TypeImports[(int)index];
+        private TypeSchema MapIndexToType(ushort index) => this._loadResultTarget.ImportTables.TypeImports[index];
 
         private string ReadDataTableString() => this._binaryDataTable.GetStringByIndex(this._reader.ReadInt32());
 
@@ -699,9 +699,9 @@ namespace Microsoft.Iris.Markup
         {
             uint num = this._reader.ReadUInt32();
             if (num <= 0U)
-                return (uint[])null;
+                return null;
             uint[] numArray = new uint[num];
-            for (int index = 0; (long)index < (long)num; ++index)
+            for (int index = 0; index < num; ++index)
                 numArray[index] = this._reader.ReadUInt32();
             return numArray;
         }
@@ -710,9 +710,9 @@ namespace Microsoft.Iris.Markup
         {
             uint num = this._reader.ReadUInt32();
             if (num <= 0U)
-                return (string[])null;
+                return null;
             string[] strArray = new string[num];
-            for (int index = 0; (long)index < (long)num; ++index)
+            for (int index = 0; index < num; ++index)
                 strArray[index] = this.ReadDataTableString();
             return strArray;
         }
@@ -721,12 +721,12 @@ namespace Microsoft.Iris.Markup
           TypeSchema markupTypeDefinition,
           MarkupTypeSchema typeExport)
         {
-            MethodSchema[] methodSchemaArray = (MethodSchema[])null;
+            MethodSchema[] methodSchemaArray = null;
             ushort num1 = this._reader.ReadUInt16();
-            if (num1 > (ushort)0)
+            if (num1 > 0)
             {
-                methodSchemaArray = new MethodSchema[(int)num1];
-                for (int index1 = 0; index1 < (int)num1; ++index1)
+                methodSchemaArray = new MethodSchema[num1];
+                for (int index1 = 0; index1 < num1; ++index1)
                 {
                     string name = this.ReadDataTableString();
                     TypeSchema type = this.MapIndexToType(this._reader.ReadUInt16());
@@ -735,7 +735,7 @@ namespace Microsoft.Iris.Markup
                     if (num2 > 0U)
                     {
                         parameterTypes = new TypeSchema[num2];
-                        for (int index2 = 0; (long)index2 < (long)num2; ++index2)
+                        for (int index2 = 0; index2 < num2; ++index2)
                         {
                             ushort index3 = this._reader.ReadUInt16();
                             parameterTypes[index2] = this.MapIndexToType(index3);
@@ -748,7 +748,7 @@ namespace Microsoft.Iris.Markup
                     MarkupMethodSchema markupMethodSchema = MarkupMethodSchema.Build(markupTypeDefinition, typeExport, name, type, parameterTypes, parameterNames, isVirtualThunk);
                     markupMethodSchema.SetCodeOffset(codeOffset);
                     markupMethodSchema.SetVirtualId(virtualId);
-                    methodSchemaArray[index1] = (MethodSchema)markupMethodSchema;
+                    methodSchemaArray[index1] = markupMethodSchema;
                 }
             }
             return methodSchemaArray;
@@ -759,15 +759,15 @@ namespace Microsoft.Iris.Markup
             switch (markupType)
             {
                 case MarkupType.UI:
-                    return (TypeSchema)UISchema.Type;
+                    return UISchema.Type;
                 case MarkupType.Effect:
-                    return (TypeSchema)EffectSchema.Type;
+                    return EffectSchema.Type;
                 case MarkupType.DataType:
-                    return (TypeSchema)DataTypeSchema.Type;
+                    return DataTypeSchema.Type;
                 case MarkupType.DataQuery:
-                    return (TypeSchema)DataQuerySchema.Type;
+                    return DataQuerySchema.Type;
                 default:
-                    return (TypeSchema)ClassSchema.Type;
+                    return ClassSchema.Type;
             }
         }
 
@@ -783,11 +783,11 @@ namespace Microsoft.Iris.Markup
             return this._typeSchemaArrays[index];
         }
 
-        public void ReportError(string error, string param0, string param1, string param2) => this.ReportError(string.Format(error, (object)param0, (object)param1, (object)param2));
+        public void ReportError(string error, string param0, string param1, string param2) => this.ReportError(string.Format(error, param0, param1, param2));
 
-        public void ReportError(string error, string param0, string param1) => this.ReportError(string.Format(error, (object)param0, (object)param1));
+        public void ReportError(string error, string param0, string param1) => this.ReportError(string.Format(error, param0, param1));
 
-        public void ReportError(string error, string param0) => this.ReportError(string.Format(error, (object)param0));
+        public void ReportError(string error, string param0) => this.ReportError(string.Format(error, param0));
 
         public void ReportError(string error)
         {

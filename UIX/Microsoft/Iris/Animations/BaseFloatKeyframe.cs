@@ -18,7 +18,7 @@ namespace Microsoft.Iris.Animations
           ref AnimationArgs args)
         {
             float effectiveValue = this.GetEffectiveValue(targetObject, this._value, ref args);
-            animation.AddFloatKeyframe((BaseKeyframe)this, effectiveValue);
+            animation.AddFloatKeyframe(this, effectiveValue);
         }
 
         public float Value
@@ -27,7 +27,7 @@ namespace Microsoft.Iris.Animations
             set => this._value = value;
         }
 
-        public override object ObjectValue => (object)this.Value;
+        public override object ObjectValue => Value;
 
         public virtual float GetEffectiveValue(
           IAnimatable targetObject,

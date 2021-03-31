@@ -14,12 +14,12 @@ namespace Microsoft.Iris.Markup
         private Type _constructDefaultType;
 
         public FrameworkCompatibleAssemblyTypeSchema(Type assemblyType)
-          : this(assemblyType, assemblyType, (Type)null, (TypeSchema)null)
+          : this(assemblyType, assemblyType, null, null)
         {
         }
 
         public FrameworkCompatibleAssemblyTypeSchema(Type assemblyType, Type frameworkType)
-          : this(assemblyType, frameworkType, (Type)null, (TypeSchema)null)
+          : this(assemblyType, frameworkType, null, null)
         {
         }
 
@@ -27,7 +27,7 @@ namespace Microsoft.Iris.Markup
           Type assemblyType,
           Type frameworkType,
           Type constructDefaultType)
-          : this(assemblyType, frameworkType, constructDefaultType, (TypeSchema)null)
+          : this(assemblyType, frameworkType, constructDefaultType, null)
         {
         }
 
@@ -46,6 +46,6 @@ namespace Microsoft.Iris.Markup
 
         public override bool HasDefaultConstructor => base.HasDefaultConstructor || this._constructDefaultType != null;
 
-        public override object ConstructDefault() => base.HasDefaultConstructor ? base.ConstructDefault() : AssemblyLoadResult.WrapObject((TypeSchema)this, Activator.CreateInstance(this._constructDefaultType));
+        public override object ConstructDefault() => base.HasDefaultConstructor ? base.ConstructDefault() : AssemblyLoadResult.WrapObject(this, Activator.CreateInstance(this._constructDefaultType));
     }
 }

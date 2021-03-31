@@ -28,7 +28,7 @@ namespace Microsoft.Iris.Animations
             get => this._timeScaleValue;
             set
             {
-                if ((double)this._timeScaleValue == (double)value)
+                if (_timeScaleValue == (double)value)
                     return;
                 this._timeScaleValue = value;
                 this.ClearCache();
@@ -40,7 +40,7 @@ namespace Microsoft.Iris.Animations
             get => this._timeOffsetValue;
             set
             {
-                if ((double)this._timeOffsetValue == (double)value)
+                if (_timeOffsetValue == (double)value)
                     return;
                 this._timeOffsetValue = value;
                 this.ClearCache();
@@ -52,7 +52,7 @@ namespace Microsoft.Iris.Animations
             get => this._magnitudeValue;
             set
             {
-                if ((double)this._magnitudeValue == (double)value)
+                if (_magnitudeValue == (double)value)
                     return;
                 this._magnitudeValue = value;
                 this.ClearCache();
@@ -78,9 +78,9 @@ namespace Microsoft.Iris.Animations
             float timeScale = this.GetTimeScale(ref args);
             float delayTime = this.GetDelayTime(ref args);
             float magnitude = this.GetMagnitude(ref args);
-            bool flag1 = (double)timeScale != 1.0;
-            bool flag2 = (double)delayTime != 0.0;
-            bool flag3 = (double)magnitude != 1.0;
+            bool flag1 = timeScale != 1.0;
+            bool flag2 = delayTime != 0.0;
+            bool flag3 = magnitude != 1.0;
             int filter = (int)this._filter;
             AnimationTemplate anim1 = base.BuildWorker(ref args);
             TransformAnimation.DumpAnimation(anim1, "Source");
@@ -128,8 +128,8 @@ namespace Microsoft.Iris.Animations
             {
                 if (this.ShouldApplyTransform(keyframe))
                 {
-                    if ((double)keyframe.Time == 0.0)
-                        arrayList.Add((object)keyframe.Clone());
+                    if (keyframe.Time == 0.0)
+                        arrayList.Add(keyframe.Clone());
                     keyframe.Time += timeOffsetValue;
                 }
             }
@@ -171,6 +171,6 @@ namespace Microsoft.Iris.Animations
 
         protected override void OnSourceChanged() => this.ClearCache();
 
-        protected void ClearCache() => this._cacheAnimation = (AnimationTemplate)null;
+        protected void ClearCache() => this._cacheAnimation = null;
     }
 }

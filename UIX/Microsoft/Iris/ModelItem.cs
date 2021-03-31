@@ -35,20 +35,20 @@ namespace Microsoft.Iris
 
         public ModelItem(IModelItemOwner owner, string description)
         {
-            ThreadSafety.InitializeObject((IThreadSafeObject)this);
+            ThreadSafety.InitializeObject(this);
             this._dataMap = new DynamicData();
             this._dataMap.Create();
-            this.SetData(ModelItem.s_descriptionProperty, (object)description);
+            this.SetData(ModelItem.s_descriptionProperty, description);
             this.Owner = owner;
         }
 
         public ModelItem(IModelItemOwner owner)
-          : this(owner, (string)null)
+          : this(owner, null)
         {
         }
 
         public ModelItem()
-          : this((IModelItemOwner)null)
+          : this(null)
         {
         }
 
@@ -71,11 +71,11 @@ namespace Microsoft.Iris
                 {
                     if (disposeMode == ModelItemDisposeMode.RemoveOwnerReference)
                         this._owner.UnregisterObject(this);
-                    this._owner = (IModelItemOwner)null;
+                    this._owner = null;
                 }
                 try
                 {
-                    GC.SuppressFinalize((object)this);
+                    GC.SuppressFinalize(this);
                     this.OnDispose(true);
                 }
                 finally
@@ -96,7 +96,7 @@ namespace Microsoft.Iris
         {
         }
 
-        protected ThreadSafetyBlock ThreadValidator => new ThreadSafetyBlock((IThreadSafeObject)this);
+        protected ThreadSafetyBlock ThreadValidator => new ThreadSafetyBlock(this);
 
         Thread IThreadSafeObject.Affinity
         {
@@ -149,7 +149,7 @@ namespace Microsoft.Iris
                 {
                     if (!(this.Description != value))
                         return;
-                    this.SetData(ModelItem.s_descriptionProperty, (object)value);
+                    this.SetData(ModelItem.s_descriptionProperty, value);
                     this.FirePropertyChanged(nameof(Description));
                 }
             }
@@ -171,7 +171,7 @@ namespace Microsoft.Iris
                 {
                     if (!(this.UniqueId != value))
                         return;
-                    this.SetData(ModelItem.s_uniqueIdProperty, (object)value);
+                    this.SetData(ModelItem.s_uniqueIdProperty, value);
                     this.FirePropertyChanged(nameof(UniqueId));
                 }
             }
@@ -186,8 +186,8 @@ namespace Microsoft.Iris
                     IDictionary dictionary = (IDictionary)this.GetData(ModelItem.s_extraDataProperty);
                     if (dictionary == null)
                     {
-                        dictionary = (IDictionary)new HybridDictionary();
-                        this.SetData(ModelItem.s_extraDataProperty, (object)dictionary);
+                        dictionary = new HybridDictionary();
+                        this.SetData(ModelItem.s_extraDataProperty, dictionary);
                     }
                     return dictionary;
                 }
@@ -199,12 +199,12 @@ namespace Microsoft.Iris
             add
             {
                 using (this.ThreadValidator)
-                    this.AddEventHandler(ModelItem.s_propertyChangedEvent, (Delegate)value);
+                    this.AddEventHandler(ModelItem.s_propertyChangedEvent, value);
             }
             remove
             {
                 using (this.ThreadValidator)
-                    this.RemoveEventHandler(ModelItem.s_propertyChangedEvent, (Delegate)value);
+                    this.RemoveEventHandler(ModelItem.s_propertyChangedEvent, value);
             }
         }
 
@@ -217,7 +217,7 @@ namespace Microsoft.Iris
                 this.OnPropertyChanged(property);
                 if (!(this.GetEventHandler(ModelItem.s_propertyChangedEvent) is PropertyChangedEventHandler eventHandler))
                     return;
-                eventHandler((object)this, new PropertyChangedEventArgs(property));
+                eventHandler(this, new PropertyChangedEventArgs(property));
             }
         }
 
@@ -249,7 +249,7 @@ namespace Microsoft.Iris
                     throw new ArgumentNullException(nameof(item));
                 Vector<ModelItem> ownedObjects = this.GetOwnedObjects(false);
                 if (ownedObjects == null || !ownedObjects.Contains(item))
-                    throw new ArgumentException(InvariantString.Format("Cannot unregister an object that was never registered.  Owner \"{0}\" was unable to identify \"{1}\".", (object)this, (object)item));
+                    throw new ArgumentException(InvariantString.Format("Cannot unregister an object that was never registered.  Owner \"{0}\" was unable to identify \"{1}\".", this, item));
                 ownedObjects.Remove(item);
             }
         }
@@ -261,7 +261,7 @@ namespace Microsoft.Iris
                 return;
             foreach (ModelItem modelItem in ownedObjects)
                 modelItem.Dispose(ModelItemDisposeMode.KeepOwnerReference);
-            this.SetData(ModelItem.s_ownedObjectsProperty, (object)null);
+            this.SetData(ModelItem.s_ownedObjectsProperty, null);
         }
 
         private Vector<ModelItem> GetOwnedObjects(bool createIfNoneFlag)
@@ -270,7 +270,7 @@ namespace Microsoft.Iris
             if (vector == null && createIfNoneFlag)
             {
                 vector = new Vector<ModelItem>();
-                this.SetData(ModelItem.s_ownedObjectsProperty, (object)vector);
+                this.SetData(ModelItem.s_ownedObjectsProperty, vector);
             }
             return vector;
         }
@@ -291,7 +291,7 @@ namespace Microsoft.Iris
                 {
                     if (this.Selected == value)
                         return;
-                    this.SetData(ModelItem.s_selectedProperty, (object)value);
+                    this.SetData(ModelItem.s_selectedProperty, value);
                     this.FirePropertyChanged(nameof(Selected));
                 }
             }
@@ -303,7 +303,7 @@ namespace Microsoft.Iris
             {
                 string name = this.GetType().Name;
                 string description = this.Description;
-                return description != null ? InvariantString.Format("{0}:\"{1}\"", (object)name, (object)description) : name;
+                return description != null ? InvariantString.Format("{0}:\"{1}\"", name, description) : name;
             }
         }
 

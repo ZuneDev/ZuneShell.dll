@@ -66,7 +66,7 @@ namespace Microsoft.Iris.Markup
             Type cls;
             if (methodInfo != null)
             {
-                ilGenerator.EmitCall(methodInfo.IsStatic ? OpCodes.Call : OpCodes.Callvirt, methodInfo, (Type[])null);
+                ilGenerator.EmitCall(methodInfo.IsStatic ? OpCodes.Call : OpCodes.Callvirt, methodInfo, null);
                 cls = methodInfo.ReturnType;
             }
             else

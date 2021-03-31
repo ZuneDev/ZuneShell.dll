@@ -8,7 +8,7 @@ namespace Microsoft.Iris.Library
 {
     internal struct Result
     {
-        public static Result Success = new Result((string)null);
+        public static Result Success = new Result(null);
         private string _error;
 
         public static Result Fail(string error) => new Result(error);

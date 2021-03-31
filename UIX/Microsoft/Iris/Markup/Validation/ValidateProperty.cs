@@ -28,7 +28,7 @@ namespace Microsoft.Iris.Markup.Validation
         private ValidateProperty _next;
 
         public ValidateProperty(SourceMarkupLoader owner, string propertyName, int line, int column)
-          : this(owner, propertyName, (ValidateObject)null, line, column)
+          : this(owner, propertyName, null, line, column)
         {
         }
 
@@ -157,13 +157,13 @@ namespace Microsoft.Iris.Markup.Validation
                             }
                             else
                             {
-                                TypeSchema primary = this._foundProperty.AlternateType ?? (TypeSchema)ObjectSchema.Type;
+                                TypeSchema primary = this._foundProperty.AlternateType ?? ObjectSchema.Type;
                                 this._valueApplyMode = !flag1 ? ValueApplyMode.MultiValueList : ValueApplyMode.MultiValueDictionary;
                                 if (this._foundProperty.CanWrite && this._foundProperty.PropertyType.HasDefaultConstructor)
                                     this._valueApplyMode |= ValueApplyMode.CollectionPopulateAndSet;
                                 else
                                     this._valueApplyMode |= ValueApplyMode.CollectionAdd;
-                                for (ValidateObject validateObject = this._value; validateObject != null; validateObject = validateObject.ObjectSourceType != ObjectSourceType.ObjectTag ? (ValidateObject)null : (ValidateObject)((ValidateObjectTag)validateObject).Next)
+                                for (ValidateObject validateObject = this._value; validateObject != null; validateObject = validateObject.ObjectSourceType != ObjectSourceType.ObjectTag ? null : (ValidateObject)((ValidateObjectTag)validateObject).Next)
                                 {
                                     ++this._valueCount;
                                     TypeRestriction typeRestriction = !flag3 ? new TypeRestriction(primary, this._foundProperty.PropertyType) : new TypeRestriction(primary);
@@ -236,7 +236,7 @@ namespace Microsoft.Iris.Markup.Validation
             else
             {
                 ValidateFromString validateFromString = (ValidateFromString)this._value;
-                validateFromString.Validate(new TypeRestriction((TypeSchema)StringSchema.Type), context);
+                validateFromString.Validate(new TypeRestriction(StringSchema.Type), context);
                 if (validateFromString.HasErrors)
                     this.MarkHasErrors();
                 else
@@ -263,7 +263,7 @@ namespace Microsoft.Iris.Markup.Validation
                 }
                 if (flag)
                     return;
-                this._value.Validate(new TypeRestriction(targetObject.ObjectType, (TypeSchema)TypeSchemaDefinition.Type), context);
+                this._value.Validate(new TypeRestriction(targetObject.ObjectType, TypeSchemaDefinition.Type), context);
                 if (this._value.HasErrors)
                     this.MarkHasErrors();
                 else if (targetObject.ObjectType.IsAssignableFrom(this._value.ObjectType))
@@ -282,7 +282,7 @@ namespace Microsoft.Iris.Markup.Validation
             {
                 if (targetObject.PropertySchemaExport != null && context.Owner.TypeExport != null)
                 {
-                    PropertySchema propertySchema = (PropertySchema)null;
+                    PropertySchema propertySchema = null;
                     if (context.Owner.TypeExport.MarkupTypeBase != null)
                         propertySchema = context.Owner.TypeExport.MarkupTypeBase.FindPropertyDeep(targetObject.PropertySchemaExport.Name);
                     if (result && propertySchema == null)
@@ -344,15 +344,15 @@ namespace Microsoft.Iris.Markup.Validation
             for (ValidateObjectTag validateObjectTag = (ValidateObjectTag)this._value; validateObjectTag != null; validateObjectTag = next)
             {
                 next = validateObjectTag.Next;
-                validateObjectTag.Next = (ValidateObjectTag)null;
+                validateObjectTag.Next = null;
                 if (validateObjectTag != this._value)
                 {
                     validateObjectTag.Next = (ValidateObjectTag)this._value;
-                    this._value = (ValidateObject)validateObjectTag;
+                    this._value = validateObjectTag;
                 }
             }
         }
 
-        public override string ToString() => this._value != null ? string.Format("{0} = {1}", (object)this._propertyName, (object)this._value.ToString()) : "Unavailable";
+        public override string ToString() => this._value != null ? string.Format("{0} = {1}", _propertyName, this._value.ToString()) : "Unavailable";
     }
 }

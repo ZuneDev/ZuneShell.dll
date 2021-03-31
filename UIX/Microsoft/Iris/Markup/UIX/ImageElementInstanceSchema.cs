@@ -18,17 +18,17 @@ namespace Microsoft.Iris.Markup.UIX
 
         private static void SetUVOffset(ref object instanceObj, object valueObj) => ((EffectElementWrapper)instanceObj).SetProperty("UVOffset", (Vector2)valueObj);
 
-        public static void Pass1Initialize() => ImageElementInstanceSchema.Type = new UIXTypeSchema((short)107, "ImageElementInstance", (string)null, (short)74, typeof(EffectElementWrapper), UIXTypeFlags.None);
+        public static void Pass1Initialize() => ImageElementInstanceSchema.Type = new UIXTypeSchema(107, "ImageElementInstance", null, 74, typeof(EffectElementWrapper), UIXTypeFlags.None);
 
         public static void Pass2Initialize()
         {
-            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema((short)107, "Image", (short)105, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, (GetValueHandler)null, new SetValueHandler(ImageElementInstanceSchema.SetImage), false);
-            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema((short)107, "UVOffset", (short)233, (short)-1, ExpressionRestriction.None, false, (RangeValidator)null, false, (GetValueHandler)null, new SetValueHandler(ImageElementInstanceSchema.SetUVOffset), false);
-            ImageElementInstanceSchema.Type.Initialize((DefaultConstructHandler)null, (ConstructorSchema[])null, new PropertySchema[2]
+            UIXPropertySchema uixPropertySchema1 = new UIXPropertySchema(107, "Image", 105, -1, ExpressionRestriction.None, false, null, false, null, new SetValueHandler(ImageElementInstanceSchema.SetImage), false);
+            UIXPropertySchema uixPropertySchema2 = new UIXPropertySchema(107, "UVOffset", 233, -1, ExpressionRestriction.None, false, null, false, null, new SetValueHandler(ImageElementInstanceSchema.SetUVOffset), false);
+            ImageElementInstanceSchema.Type.Initialize(null, null, new PropertySchema[2]
             {
-        (PropertySchema) uixPropertySchema1,
-        (PropertySchema) uixPropertySchema2
-            }, (MethodSchema[])null, (EventSchema[])null, (FindCanonicalInstanceHandler)null, (TypeConverterHandler)null, (SupportsTypeConversionHandler)null, (EncodeBinaryHandler)null, (DecodeBinaryHandler)null, (PerformOperationHandler)null, (SupportsOperationHandler)null);
+         uixPropertySchema1,
+         uixPropertySchema2
+            }, null, null, null, null, null, null, null, null, null);
         }
     }
 }
