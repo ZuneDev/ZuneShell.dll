@@ -153,7 +153,7 @@ namespace Microsoft.Iris.Markup
 
         public unsafe void Write(ByteCodeReader value, uint offset)
         {
-            IntPtr intPtr = value.ToIntPtr(out long size);
+            IntPtr intPtr = value.ToIntPtr(out uint size);
             if (offset > size)
                 throw new ArgumentOutOfRangeException(nameof(offset));
             this.Write(new IntPtr(intPtr.ToInt64() + offset), (uint)(size - offset));

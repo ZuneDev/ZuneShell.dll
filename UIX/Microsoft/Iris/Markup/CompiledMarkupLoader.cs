@@ -542,7 +542,8 @@ namespace Microsoft.Iris.Markup
             if (this._reader.IsInFixedMemory)
             {
                 typeExport.SetAddressOfInheritableSymbolTable(this._reader.CurrentAddress);
-                this._reader.CurrentOffset += this._reader.ReadUInt32();
+                uint num = this._reader.ReadUInt32();
+                this._reader.CurrentOffset += num;
             }
             else
                 DecodeInheritableSymbolTable(typeExport, this._reader, IntPtr.Zero);

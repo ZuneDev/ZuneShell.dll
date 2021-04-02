@@ -31,16 +31,16 @@ namespace Microsoft.Iris.Markup
         {
             DynamicMethod dynamicMethod = new DynamicMethod("MethodInvoker", typeof(object), new Type[2]
             {
-        typeof (object),
-        typeof (object[])
+                typeof (object),
+                typeof (object[])
             }, s_irisModule, true);
             ILGenerator ilGenerator = dynamicMethod.GetILGenerator();
             ParameterInfo[] parameters = methodBase.GetParameters();
             Type[] typeArray = new Type[parameters.Length];
             for (int index = 0; index < parameters.Length; ++index)
                 typeArray[index] = parameters[index].ParameterType;
-            MethodInfo methodInfo = null;
-            if (methodBase is MethodInfo && !methodInfo.IsStatic)
+            MethodInfo methodInfo = methodBase as MethodInfo;
+            if (methodInfo != null && !methodInfo.IsStatic)
             {
                 methodInfo = (MethodInfo)methodBase;
                 ilGenerator.Emit(OpCodes.Ldarg_0);

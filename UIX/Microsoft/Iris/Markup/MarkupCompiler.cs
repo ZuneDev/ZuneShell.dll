@@ -91,10 +91,10 @@ namespace Microsoft.Iris.Markup
                 ErrorManager.ReportError("Unable to open output file '{0}'.  Error code {1}", outputFile, Marshal.GetLastWin32Error());
             if (!watermark.ErrorsDetected)
             {
-                long size = 0;
+                uint size = 0;
                 IntPtr intPtr = reader.ToIntPtr(out size);
                 uint lpNumberOfBytesWritten = 0;
-                if (!Win32Api.WriteFile(file, intPtr, (uint)size, out lpNumberOfBytesWritten, IntPtr.Zero))
+                if (!Win32Api.WriteFile(file, intPtr, size, out lpNumberOfBytesWritten, IntPtr.Zero))
                     ErrorManager.ReportError("An error occurred while saving data to output file '{0}'.  Error code {1}", outputFile, Marshal.GetLastWin32Error());
             }
             if (file != Win32Api.INVALID_HANDLE_VALUE)
@@ -487,7 +487,7 @@ namespace Microsoft.Iris.Markup
         {
             this._writer.Overwrite(this._objectSectionStartFixup, this._writer.DataSize);
             this._writer.Write(this._loadResult.ObjectSection);
-            this._loadResult.ObjectSection.ToIntPtr(out long _);
+            this._loadResult.ObjectSection.ToIntPtr(out uint _);
             this._writer.Overwrite(this._objectSectionEndFixup, this._writer.DataSize);
         }
 
