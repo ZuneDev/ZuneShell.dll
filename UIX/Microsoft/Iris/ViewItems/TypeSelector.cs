@@ -15,16 +15,16 @@ namespace Microsoft.Iris.ViewItems
 
         public TypeSchema Type
         {
-            get => this._type;
-            set => this._type = value;
+            get => _type;
+            set => _type = value;
         }
 
         public string ContentName
         {
-            get => this._contentName;
-            set => this._contentName = value;
+            get => _contentName;
+            set => _contentName = value;
         }
 
-        public bool IsMatch(object itemObject, Repeater ownerRepeater) => this._type.IsAssignableFrom(itemObject);
+        public bool IsMatch(object itemObject, Repeater ownerRepeater) => _type.IsAssignableFrom(itemObject);
     }
 }

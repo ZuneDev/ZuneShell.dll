@@ -10,9 +10,9 @@ namespace Microsoft.Iris.CodeModel.Cpp
 {
     internal class DllProxyHandleTable : ProxyHandleTable<DllProxyObjectReference>
     {
-        public DllProxyHandleTable.DllProxyHandleTableEnumerator GetEnumerator() => new DllProxyHandleTable.DllProxyHandleTableEnumerator(this.GetTableEnumerator());
+        public DllProxyHandleTable.DllProxyHandleTableEnumerator GetEnumerator() => new DllProxyHandleTable.DllProxyHandleTableEnumerator(GetTableEnumerator());
 
-        public ulong RegisterProxy(object d) => this.AllocateHandle(new DllProxyObjectReference()
+        public ulong RegisterProxy(object d) => AllocateHandle(new DllProxyObjectReference()
         {
             Value = d
         });
@@ -20,14 +20,14 @@ namespace Microsoft.Iris.CodeModel.Cpp
         public void ReleaseProxy(ulong handle)
         {
             DllProxyObjectReference oldValue;
-            this.ReleaseHandle(handle, out oldValue);
+            ReleaseHandle(handle, out oldValue);
             oldValue.Value = null;
         }
 
         protected bool LookupByHandleWorker(ulong handle, out object obj)
         {
             DllProxyObjectReference proxyObjectReference;
-            bool flag = this.InternalLookupByHandle(handle, out proxyObjectReference);
+            bool flag = InternalLookupByHandle(handle, out proxyObjectReference);
             obj = !flag ? null : proxyObjectReference.Value;
             return flag;
         }
@@ -39,7 +39,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
             public DllProxyHandleTableEnumerator(
               ProxyHandleTable<DllProxyObjectReference>.ProxyHandleTableEnumerator enumerator)
             {
-                this._enumerator = enumerator;
+                _enumerator = enumerator;
             }
 
             public bool MoveNext()
@@ -47,15 +47,15 @@ namespace Microsoft.Iris.CodeModel.Cpp
                 bool flag;
                 do
                 {
-                    flag = this._enumerator.MoveNext();
+                    flag = _enumerator.MoveNext();
                 }
-                while ((!flag || this._enumerator.Current.Value == null) && flag);
+                while ((!flag || _enumerator.Current.Value == null) && flag);
                 return flag;
             }
 
-            public object Current => this._enumerator.Current.Value;
+            public object Current => _enumerator.Current.Value;
 
-            public void Reset() => this._enumerator.Reset();
+            public void Reset() => _enumerator.Reset();
         }
     }
 }

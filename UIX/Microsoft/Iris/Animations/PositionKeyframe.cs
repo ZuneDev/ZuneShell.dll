@@ -20,7 +20,7 @@ namespace Microsoft.Iris.Animations
           Vector3 baseValueVector,
           ref AnimationArgs args)
         {
-            return GetEffectivePositionValue(this.RelativeTo, targetObject, baseValueVector, ref args);
+            return GetEffectivePositionValue(RelativeTo, targetObject, baseValueVector, ref args);
         }
 
         public static Vector3 GetEffectivePositionValue(

@@ -15,12 +15,12 @@ namespace SSVParseLib
         protected SSYaccTableProd[] m_prods;
         private SSLexSubtable[] m_lexSubtables;
 
-        public SSYaccTable() => this.m_lexSubtables = null;
+        public SSYaccTable() => m_lexSubtables = null;
 
-        public SSYaccTableRow lookupRow(int q_state) => this.m_rows[q_state];
+        public SSYaccTableRow lookupRow(int q_state) => m_rows[q_state];
 
-        public SSYaccTableProd lookupProd(int q_index) => this.m_prods[q_index];
+        public SSYaccTableProd lookupProd(int q_index) => m_prods[q_index];
 
-        public SSLexSubtable larTable(int q_entry) => this.m_lexSubtables[q_entry];
+        public SSLexSubtable larTable(int q_entry) => m_lexSubtables[q_entry];
     }
 }

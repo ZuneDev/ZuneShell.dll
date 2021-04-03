@@ -20,7 +20,7 @@ namespace Microsoft.Iris.Animations
           Rotation baseValueRotation,
           ref AnimationArgs args)
         {
-            if (this.RelativeTo == RelativeTo.Final)
+            if (RelativeTo == RelativeTo.Final)
                 baseValueRotation.AngleRadians += args.NewRotation.AngleRadians;
             if (UISession.Default.IsRtl && baseValueRotation.Axis.Y <= 0.0 && baseValueRotation.Axis.X <= 0.0)
                 baseValueRotation.AngleRadians = -baseValueRotation.AngleRadians;
@@ -29,6 +29,6 @@ namespace Microsoft.Iris.Animations
 
         public override void Apply(IAnimatableOwner animationTarget, Rotation valueRotation) => ((ViewItem)animationTarget).VisualRotation = valueRotation;
 
-        public override void MagnifyValue(float magnifyValue) => this.Value = new Rotation(this.Value.AngleRadians * magnifyValue, this.Value.Axis);
+        public override void MagnifyValue(float magnifyValue) => Value = new Rotation(Value.AngleRadians * magnifyValue, Value.Axis);
     }
 }

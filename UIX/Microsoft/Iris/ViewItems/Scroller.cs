@@ -18,58 +18,58 @@ namespace Microsoft.Iris.ViewItems
 
         public Scroller()
         {
-            this.Layout = new ScrollingLayout(this.Orientation, 50);
-            this.ScrollModel = new ScrollModel();
+            Layout = new ScrollingLayout(Orientation, 50);
+            ScrollModel = new ScrollModel();
         }
 
         protected override void OnDispose()
         {
-            this.ScrollModel = null;
+            ScrollModel = null;
             base.OnDispose();
         }
 
         public override void OnOrientationChanged()
         {
-            this._model.ScrollOrientation = this.Orientation;
-            ((ScrollingLayout)this.Layout).Orientation = this.Orientation;
-            this.MarkLayoutInvalid();
+            _model.ScrollOrientation = Orientation;
+            ((ScrollingLayout)Layout).Orientation = Orientation;
+            MarkLayoutInvalid();
         }
 
         public ScrollModel ScrollModel
         {
-            get => this._model;
+            get => _model;
             set
             {
-                if (this._model == value)
+                if (_model == value)
                     return;
-                if (this._model != null)
-                    this._model.DetachFromViewItem(this);
-                this._model = value;
-                if (this._model != null)
+                if (_model != null)
+                    _model.DetachFromViewItem(this);
+                _model = value;
+                if (_model != null)
                 {
-                    this._model.AttachToViewItem(this);
-                    this._model.ScrollOrientation = this.Orientation;
+                    _model.AttachToViewItem(this);
+                    _model.ScrollOrientation = Orientation;
                 }
-                this.FireNotification(NotificationID.ScrollModel);
+                FireNotification(NotificationID.ScrollModel);
             }
         }
 
         public ScrollIntoViewDisposition ScrollIntoViewDisposition
         {
-            get => this.ScrollModel.ScrollIntoViewDisposition;
-            set => this.ScrollModel.ScrollIntoViewDisposition = value;
+            get => ScrollModel.ScrollIntoViewDisposition;
+            set => ScrollModel.ScrollIntoViewDisposition = value;
         }
 
         public int Prefetch
         {
-            get => ((ScrollingLayout)this.Layout).Prefetch;
+            get => ((ScrollingLayout)Layout).Prefetch;
             set
             {
-                if (this.Prefetch == value)
+                if (Prefetch == value)
                     return;
-                ((ScrollingLayout)this.Layout).Prefetch = value;
-                this.MarkLayoutInvalid();
-                this.FireNotification(NotificationID.Prefetch);
+                ((ScrollingLayout)Layout).Prefetch = value;
+                MarkLayoutInvalid();
+                FireNotification(NotificationID.Prefetch);
             }
         }
     }

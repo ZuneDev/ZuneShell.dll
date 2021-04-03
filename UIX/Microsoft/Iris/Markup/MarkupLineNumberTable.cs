@@ -21,37 +21,37 @@ namespace Microsoft.Iris.Markup
         private Vector<ulong> _lookupTable;
         private ulong[] _runtimeList;
 
-        public MarkupLineNumberTable() => this._lookupTable = new Vector<ulong>();
+        public MarkupLineNumberTable() => _lookupTable = new Vector<ulong>();
 
-        public MarkupLineNumberTable(ulong[] runtimeList) => this._runtimeList = runtimeList;
+        public MarkupLineNumberTable(ulong[] runtimeList) => _runtimeList = runtimeList;
 
         public void AddRecord(uint offset, int line, int column)
         {
             ulong num = Pack(offset, line, column);
-            if (this._lookupTable.Count > 0 && (int)UnpackOffset(this._lookupTable[this._lookupTable.Count - 1]) == (int)offset)
-                this._lookupTable[this._lookupTable.Count - 1] = num;
+            if (_lookupTable.Count > 0 && (int)UnpackOffset(_lookupTable[_lookupTable.Count - 1]) == (int)offset)
+                _lookupTable[_lookupTable.Count - 1] = num;
             else
-                this._lookupTable.Add(num);
+                _lookupTable.Add(num);
         }
 
         public void PrepareForRuntimeUse()
         {
-            this._runtimeList = new ulong[this._lookupTable.Count];
-            for (int index = 0; index < this._lookupTable.Count; ++index)
-                this._runtimeList[index] = this._lookupTable[index];
-            this._lookupTable = null;
+            _runtimeList = new ulong[_lookupTable.Count];
+            for (int index = 0; index < _lookupTable.Count; ++index)
+                _runtimeList[index] = _lookupTable[index];
+            _lookupTable = null;
         }
 
         public void Lookup(uint offset, out int line, out int column)
         {
-            int length = this._runtimeList.Length;
+            int length = _runtimeList.Length;
             int index = 0;
-            while (index < length && (offset < UnpackOffset(this._runtimeList[index]) || index != length - 1 && offset >= UnpackOffset(this._runtimeList[index + 1])))
+            while (index < length && (offset < UnpackOffset(_runtimeList[index]) || index != length - 1 && offset >= UnpackOffset(_runtimeList[index + 1])))
                 ++index;
             if (index < length)
             {
-                line = UnpackLine(this._runtimeList[index]);
-                column = UnpackColumn(this._runtimeList[index]);
+                line = UnpackLine(_runtimeList[index]);
+                column = UnpackColumn(_runtimeList[index]);
             }
             else
             {
@@ -60,7 +60,7 @@ namespace Microsoft.Iris.Markup
             }
         }
 
-        internal ulong[] PersistList => this._runtimeList;
+        internal ulong[] PersistList => _runtimeList;
 
         [Conditional("DEBUG")]
         public void DEBUG_DumpTable()

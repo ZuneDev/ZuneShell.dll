@@ -26,47 +26,47 @@ namespace Microsoft.Iris.Drawing
           Color textColor)
           : base(renderSession, run.Content)
         {
-            this._run = run;
-            this._run.RegisterUsage(this);
-            this._dib = null;
-            this._samplingModeName = samplingModeName;
-            this._outlineFlag = outlineFlag;
-            this._textColor = textColor;
+            _run = run;
+            _run.RegisterUsage(this);
+            _dib = null;
+            _samplingModeName = samplingModeName;
+            _outlineFlag = outlineFlag;
+            _textColor = textColor;
         }
 
         protected override void OnDispose()
         {
-            this._run.UnregisterUsage(this);
-            this.ReleaseDib();
+            _run.UnregisterUsage(this);
+            ReleaseDib();
             base.OnDispose();
         }
 
-        internal TextRun Run => this._run;
+        internal TextRun Run => _run;
 
         protected override bool EnsureBuffer()
         {
-            if (this._dib == null)
-                this._dib = this._run.Rasterize(this._samplingModeName, this._textColor, this._outlineFlag);
+            if (_dib == null)
+                _dib = _run.Rasterize(_samplingModeName, _textColor, _outlineFlag);
             return true;
         }
 
-        protected override bool DoImageLoad() => this.RenderImage.LoadContent(this._dib.ImageFormat, this._dib.ContentSize, this._dib.Stride, this._dib.Data);
+        protected override bool DoImageLoad() => RenderImage.LoadContent(_dib.ImageFormat, _dib.ContentSize, _dib.Stride, _dib.Data);
 
         protected override void OnImageLoadComplete()
         {
-            if (this.HasLoadsInProgress)
+            if (HasLoadsInProgress)
                 return;
-            this.ReleaseDib();
+            ReleaseDib();
         }
 
-        public override string ToString() => this._run.Content;
+        public override string ToString() => _run.Content;
 
         private void ReleaseDib()
         {
-            if (this._dib == null)
+            if (_dib == null)
                 return;
-            this._dib.Dispose();
-            this._dib = null;
+            _dib.Dispose();
+            _dib = null;
         }
     }
 }

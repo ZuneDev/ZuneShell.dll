@@ -17,20 +17,20 @@ namespace Microsoft.Iris
 
         public ImageInset(int left, int top, int right, int bottom)
         {
-            this._left = left;
-            this._top = top;
-            this._right = right;
-            this._bottom = bottom;
+            _left = left;
+            _top = top;
+            _right = right;
+            _bottom = bottom;
         }
 
-        public int Left => this._left;
+        public int Left => _left;
 
-        public int Top => this._top;
+        public int Top => _top;
 
-        public int Right => this._right;
+        public int Right => _right;
 
-        public int Bottom => this._bottom;
+        public int Bottom => _bottom;
 
-        internal Inset ToInset() => new Inset(this._left, this._top, this._right, this._bottom);
+        internal Inset ToInset() => new Inset(_left, _top, _right, _bottom);
     }
 }

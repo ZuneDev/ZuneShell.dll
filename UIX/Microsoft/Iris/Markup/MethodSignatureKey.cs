@@ -18,18 +18,18 @@ namespace Microsoft.Iris.Markup
 
         public MethodSignatureKey(string name, TypeSchema[] parameters)
         {
-            this._name = name;
-            this._parameters = parameters;
+            _name = name;
+            _parameters = parameters;
         }
 
         public override bool Equals(object obj)
         {
             MethodSignatureKey methodSignatureKey = (MethodSignatureKey)obj;
-            if (this._name != methodSignatureKey._name || this._parameters.Length != methodSignatureKey._parameters.Length)
+            if (_name != methodSignatureKey._name || _parameters.Length != methodSignatureKey._parameters.Length)
                 return false;
-            for (int index = 0; index < this._parameters.Length; ++index)
+            for (int index = 0; index < _parameters.Length; ++index)
             {
-                if (!this._parameters[index].IsAssignableFrom(methodSignatureKey._parameters[index]))
+                if (!_parameters[index].IsAssignableFrom(methodSignatureKey._parameters[index]))
                     return false;
             }
             return true;
@@ -38,9 +38,9 @@ namespace Microsoft.Iris.Markup
         public override int GetHashCode()
         {
             int num = 0;
-            if (this._name != null)
-                num ^= this._name.GetHashCode();
-            return num ^ this._parameters.Length;
+            if (_name != null)
+                num ^= _name.GetHashCode();
+            return num ^ _parameters.Length;
         }
     }
 }

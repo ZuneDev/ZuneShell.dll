@@ -13,21 +13,21 @@ namespace Microsoft.Iris.Animations
     {
         private Rotation _valueRotation;
 
-        public BaseRotationKeyframe() => this._valueRotation = Rotation.Default;
+        public BaseRotationKeyframe() => _valueRotation = Rotation.Default;
 
         protected override void PopulateAnimationWorker(
           IAnimatable targetObject,
           AnimationProxy animation,
           ref AnimationArgs args)
         {
-            Rotation effectiveValue = this.GetEffectiveValue(targetObject, this._valueRotation, ref args);
+            Rotation effectiveValue = GetEffectiveValue(targetObject, _valueRotation, ref args);
             animation.AddRotationKeyframe(this, effectiveValue);
         }
 
         public Rotation Value
         {
-            get => this._valueRotation;
-            set => this._valueRotation = value;
+            get => _valueRotation;
+            set => _valueRotation = value;
         }
 
         public override object ObjectValue => Value;
@@ -42,8 +42,8 @@ namespace Microsoft.Iris.Animations
 
         public override void Apply(IAnimatableOwner animationTarget, ref AnimationArgs args)
         {
-            Rotation effectiveValue = this.GetEffectiveValue(animationTarget.AnimationTarget, this._valueRotation, ref args);
-            this.Apply(animationTarget, effectiveValue);
+            Rotation effectiveValue = GetEffectiveValue(animationTarget.AnimationTarget, _valueRotation, ref args);
+            Apply(animationTarget, effectiveValue);
         }
 
         public abstract void Apply(IAnimatableOwner animationTarget, Rotation valueRotation);

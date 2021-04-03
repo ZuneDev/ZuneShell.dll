@@ -39,6 +39,6 @@ namespace Microsoft.Iris.Layouts
             }
         }
 
-        public override string ToString() => InvariantString.Format("{0}(Position={1})", this.GetType().Name, PositionString);
+        public override string ToString() => InvariantString.Format("{0}(Position={1})", GetType().Name, PositionString);
     }
 }

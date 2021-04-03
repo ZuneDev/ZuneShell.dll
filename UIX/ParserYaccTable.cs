@@ -15309,18 +15309,18 @@ internal class ParserYaccTable : SSYaccTable
     public ParserYaccTable()
     {
         int index1 = 0;
-        this.m_rows = new SSYaccTableRow[202];
-        this.m_prods = new SSYaccTableProd[91];
+        m_rows = new SSYaccTableRow[202];
+        m_prods = new SSYaccTableProd[91];
         for (int index2 = 0; index2 < 91; ++index2)
         {
-            this.m_prods[this.m_prodData[index1]] = new SSYaccTableProd(this.m_prodData[index1 + 1], this.m_prodData[index1 + 2]);
+            m_prods[m_prodData[index1]] = new SSYaccTableProd(m_prodData[index1 + 1], m_prodData[index1 + 2]);
             index1 += 3;
         }
         int q_index = 0;
         for (int index2 = 0; index2 < 202; ++index2)
         {
-            this.m_rows[index2] = new SSYaccTableRow(this.m_rowData, q_index);
-            int num = this.m_rowData[q_index] + this.m_rowData[q_index + 1] + this.m_rowData[q_index + 2];
+            m_rows[index2] = new SSYaccTableRow(m_rowData, q_index);
+            int num = m_rowData[q_index] + m_rowData[q_index + 1] + m_rowData[q_index + 2];
             q_index += 5 + num * 4;
         }
     }

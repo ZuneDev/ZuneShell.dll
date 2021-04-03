@@ -28,25 +28,25 @@ namespace Microsoft.Iris
 
         public ListDataSet(IModelItemOwner owner, IList source)
           : base(owner)
-          => this._sourceList = source;
+          => _sourceList = source;
 
         public IList Source
         {
             get
             {
-                using (this.ThreadValidator)
-                    return this._sourceList;
+                using (ThreadValidator)
+                    return _sourceList;
             }
             set
             {
-                using (this.ThreadValidator)
+                using (ThreadValidator)
                 {
-                    if (this._sourceList == value)
+                    if (_sourceList == value)
                         return;
-                    this._sourceList = !(this._sourceList is IVirtualList) ? value : throw new ArgumentException(InvariantString.Format("ListDataSet does not support IVirtualList.  Cannot associate with source list: {0}", value));
-                    this.FirePropertyChanged(nameof(Source));
-                    this.FirePropertyChanged("Count");
-                    this.FireSetChanged(UIListContentsChangeType.Reset, -1, -1);
+                    _sourceList = !(_sourceList is IVirtualList) ? value : throw new ArgumentException(InvariantString.Format("ListDataSet does not support IVirtualList.  Cannot associate with source list: {0}", value));
+                    FirePropertyChanged(nameof(Source));
+                    FirePropertyChanged("Count");
+                    FireSetChanged(UIListContentsChangeType.Reset, -1, -1);
                 }
             }
         }
@@ -55,8 +55,8 @@ namespace Microsoft.Iris
         {
             get
             {
-                using (this.ThreadValidator)
-                    return this._sourceList == null ? 0 : this._sourceList.Count;
+                using (ThreadValidator)
+                    return _sourceList == null ? 0 : _sourceList.Count;
             }
         }
 
@@ -64,8 +64,8 @@ namespace Microsoft.Iris
         {
             get
             {
-                using (this.ThreadValidator)
-                    return this._sourceList != null && this._sourceList.IsSynchronized;
+                using (ThreadValidator)
+                    return _sourceList != null && _sourceList.IsSynchronized;
             }
         }
 
@@ -73,8 +73,8 @@ namespace Microsoft.Iris
         {
             get
             {
-                using (this.ThreadValidator)
-                    return this._sourceList == null ? null : this._sourceList.SyncRoot;
+                using (ThreadValidator)
+                    return _sourceList == null ? null : _sourceList.SyncRoot;
             }
         }
 
@@ -82,8 +82,8 @@ namespace Microsoft.Iris
         {
             get
             {
-                using (this.ThreadValidator)
-                    return this._sourceList == null || this._sourceList.IsReadOnly;
+                using (ThreadValidator)
+                    return _sourceList == null || _sourceList.IsReadOnly;
             }
         }
 
@@ -91,8 +91,8 @@ namespace Microsoft.Iris
         {
             get
             {
-                using (this.ThreadValidator)
-                    return this._sourceList == null || this._sourceList.IsFixedSize;
+                using (ThreadValidator)
+                    return _sourceList == null || _sourceList.IsFixedSize;
             }
         }
 
@@ -100,127 +100,127 @@ namespace Microsoft.Iris
         {
             get
             {
-                using (this.ThreadValidator)
-                    return this._sourceList == null ? null : this._sourceList[itemIndex];
+                using (ThreadValidator)
+                    return _sourceList == null ? null : _sourceList[itemIndex];
             }
             set
             {
-                using (this.ThreadValidator)
+                using (ThreadValidator)
                 {
-                    if (this._sourceList == null)
+                    if (_sourceList == null)
                         throw new InvalidOperationException("Cannot use the this indexer without first specifying a Source for this ListDataSet.");
-                    if (itemIndex < 0 || itemIndex >= this.Count)
+                    if (itemIndex < 0 || itemIndex >= Count)
                         throw new ArgumentOutOfRangeException(nameof(itemIndex), itemIndex, "Given index is out of the range of this list.");
-                    if (this._sourceList[itemIndex] == value)
+                    if (_sourceList[itemIndex] == value)
                         return;
-                    this._sourceList[itemIndex] = value;
-                    this.FireSetChanged(UIListContentsChangeType.Modified, itemIndex, itemIndex);
+                    _sourceList[itemIndex] = value;
+                    FireSetChanged(UIListContentsChangeType.Modified, itemIndex, itemIndex);
                 }
             }
         }
 
         public virtual void Clear()
         {
-            using (this.ThreadValidator)
+            using (ThreadValidator)
             {
-                if (this._sourceList == null)
+                if (_sourceList == null)
                     return;
-                this._sourceList.Clear();
-                this.FireSetChanged(UIListContentsChangeType.Clear, -1, -1);
-                this.FirePropertyChanged("Count");
+                _sourceList.Clear();
+                FireSetChanged(UIListContentsChangeType.Clear, -1, -1);
+                FirePropertyChanged("Count");
             }
         }
 
         public virtual void CopyTo(Array array, int index)
         {
-            using (this.ThreadValidator)
+            using (ThreadValidator)
             {
-                if (this._sourceList == null)
+                if (_sourceList == null)
                     throw new NotImplementedException("The \"CopyTo\" operation is not supported by this ListDataSet");
-                this._sourceList.CopyTo(array, index);
+                _sourceList.CopyTo(array, index);
             }
         }
 
         public void CopyFrom(IEnumerable source)
         {
-            using (this.ThreadValidator)
+            using (ThreadValidator)
             {
                 if (source == null)
                     throw new ArgumentNullException(nameof(source));
                 foreach (object obj in source)
-                    this.Add(obj);
+                    Add(obj);
             }
         }
 
         public virtual IEnumerator GetEnumerator()
         {
-            using (this.ThreadValidator)
-                return this._sourceList != null ? this._sourceList.GetEnumerator() : throw new NotImplementedException("The \"GetEnumerator\" operation is not supported by this UIDataSet");
+            using (ThreadValidator)
+                return _sourceList != null ? _sourceList.GetEnumerator() : throw new NotImplementedException("The \"GetEnumerator\" operation is not supported by this UIDataSet");
         }
 
         public bool Contains(object item)
         {
-            using (this.ThreadValidator)
-                return this._sourceList != null && this._sourceList.Contains(item);
+            using (ThreadValidator)
+                return _sourceList != null && _sourceList.Contains(item);
         }
 
         public int IndexOf(object item)
         {
-            using (this.ThreadValidator)
-                return this._sourceList == null ? -1 : this._sourceList.IndexOf(item);
+            using (ThreadValidator)
+                return _sourceList == null ? -1 : _sourceList.IndexOf(item);
         }
 
         public void Remove(object item)
         {
-            using (this.ThreadValidator)
+            using (ThreadValidator)
             {
-                int index = this.IndexOf(item);
+                int index = IndexOf(item);
                 if (index <= -1)
                     return;
-                this.RemoveAt(index);
+                RemoveAt(index);
             }
         }
 
         public void RemoveAt(int index)
         {
-            using (this.ThreadValidator)
+            using (ThreadValidator)
             {
-                if (this._sourceList == null)
+                if (_sourceList == null)
                     throw new ArgumentException(InvariantString.Format("Empty list cannot remove item at index {0}", index));
                 object obj = this[index];
-                this._sourceList.RemoveAt(index);
-                this.FireSetChanged(UIListContentsChangeType.Remove, index, -1);
-                this.FirePropertyChanged("Count");
+                _sourceList.RemoveAt(index);
+                FireSetChanged(UIListContentsChangeType.Remove, index, -1);
+                FirePropertyChanged("Count");
             }
         }
 
         public void Move(int oldIndex, int newIndex)
         {
-            using (this.ThreadValidator)
+            using (ThreadValidator)
             {
-                if (this._sourceList == null)
+                if (_sourceList == null)
                     throw new ArgumentException(InvariantString.Format("Empty list cannot move item from {0} to {1}", oldIndex, newIndex));
                 object obj = this[oldIndex];
-                if (this._sourceList is INotifyList sourceList)
+                if (_sourceList is INotifyList sourceList)
                 {
                     sourceList.Move(oldIndex, newIndex);
                 }
                 else
                 {
-                    this._sourceList.RemoveAt(oldIndex);
-                    this._sourceList.Insert(newIndex, obj);
+                    _sourceList.RemoveAt(oldIndex);
+                    _sourceList.Insert(newIndex, obj);
                 }
-                this.FireSetChanged(UIListContentsChangeType.Move, oldIndex, newIndex);
+                FireSetChanged(UIListContentsChangeType.Move, oldIndex, newIndex);
             }
         }
 
         public int Reorder(IList indices, int newIndex)
         {
-            using (this.ThreadValidator)
+            using (ThreadValidator)
             {
                 if (indices == null)
                     throw new ArgumentNullException(nameof(indices));
-                if (newIndex < 0 || newIndex > this.Count)
+                if (newIndex < 0 || newIndex > Count)
                     throw new ArgumentOutOfRangeException(nameof(newIndex), "newIndex must be greater than 0 and less than or equal to the size of the collection");
                 int[] numArray = null;
                 if (indices.IsReadOnly)
@@ -230,7 +230,7 @@ namespace Microsoft.Iris
                 {
                     if (!(index2 is int num))
                         throw new ArgumentException("indices[" + index1 + "] does not contain an int", nameof(indices));
-                    if (num < 0 || num >= this.Count)
+                    if (num < 0 || num >= Count)
                         throw new ArgumentOutOfRangeException(nameof(indices), "indices[" + index1 + "] must be greater than 0 and less than the size of the collection");
                     if (numArray != null)
                         numArray[index1] = num;
@@ -249,7 +249,7 @@ namespace Microsoft.Iris
                     }
                     if (index3 != newIndex)
                     {
-                        this.Move(index3, newIndex);
+                        Move(index3, newIndex);
                         for (int index4 = index2 + 1; index4 < indices.Count; ++index4)
                         {
                             int index5 = (int)indices[index4];
@@ -269,49 +269,49 @@ namespace Microsoft.Iris
 
         public void Insert(int index, object item)
         {
-            using (this.ThreadValidator)
+            using (ThreadValidator)
             {
-                this._sourceList.Insert(index, item);
-                this.FireSetChanged(UIListContentsChangeType.Insert, -1, index);
-                this.FirePropertyChanged("Count");
+                _sourceList.Insert(index, item);
+                FireSetChanged(UIListContentsChangeType.Insert, -1, index);
+                FirePropertyChanged("Count");
             }
         }
 
         public int Add(object item)
         {
-            using (this.ThreadValidator)
+            using (ThreadValidator)
             {
-                int newIndex = this._sourceList != null ? this._sourceList.Add(item) : throw new ArgumentException("Empty list cannot add items.");
-                this.FireSetChanged(UIListContentsChangeType.Add, -1, newIndex);
-                this.FirePropertyChanged("Count");
+                int newIndex = _sourceList != null ? _sourceList.Add(item) : throw new ArgumentException("Empty list cannot add items.");
+                FireSetChanged(UIListContentsChangeType.Add, -1, newIndex);
+                FirePropertyChanged("Count");
                 return newIndex;
             }
         }
 
         public void Sort(IComparer comparer)
         {
-            using (this.ThreadValidator)
+            using (ThreadValidator)
             {
                 if (comparer == null)
                     throw new ArgumentException("Must provide a valid IComparer");
-                this.SortWorker(comparer);
+                SortWorker(comparer);
             }
         }
 
         public void Sort()
         {
-            using (this.ThreadValidator)
-                this.SortWorker(null);
+            using (ThreadValidator)
+                SortWorker(null);
         }
 
         private void SortWorker(IComparer cmp)
         {
-            for (int index1 = 0; index1 < this.Count; ++index1)
+            for (int index1 = 0; index1 < Count; ++index1)
             {
-                for (int index2 = index1 + 1; index2 < this.Count; ++index2)
+                for (int index2 = index1 + 1; index2 < Count; ++index2)
                 {
-                    if (this.Compare(this[index1], this[index2], cmp) > 0)
-                        this.Move(index2, index1);
+                    if (Compare(this[index1], this[index2], cmp) > 0)
+                        Move(index2, index1);
                 }
             }
         }
@@ -327,13 +327,13 @@ namespace Microsoft.Iris
         {
             add
             {
-                using (this.ThreadValidator)
-                    this.AddEventHandler(s_listContentsChangedEvent, value);
+                using (ThreadValidator)
+                    AddEventHandler(s_listContentsChangedEvent, value);
             }
             remove
             {
-                using (this.ThreadValidator)
-                    this.RemoveEventHandler(s_listContentsChangedEvent, value);
+                using (ThreadValidator)
+                    RemoveEventHandler(s_listContentsChangedEvent, value);
             }
         }
 
@@ -341,25 +341,25 @@ namespace Microsoft.Iris
         {
             add
             {
-                using (this.ThreadValidator)
-                    this.AddEventHandler(s_listContentsChangedEvent, ListContentsChangedProxy.Thunk(value));
+                using (ThreadValidator)
+                    AddEventHandler(s_listContentsChangedEvent, ListContentsChangedProxy.Thunk(value));
             }
             remove
             {
-                using (this.ThreadValidator)
-                    this.RemoveEventHandler(s_listContentsChangedEvent, ListContentsChangedProxy.Thunk(value));
+                using (ThreadValidator)
+                    RemoveEventHandler(s_listContentsChangedEvent, ListContentsChangedProxy.Thunk(value));
             }
         }
 
         internal void FireSetChanged(UIListContentsChangeType type, int oldIndex, int newIndex)
         {
-            UIListContentsChangedHandler eventHandler = (UIListContentsChangedHandler)this.GetEventHandler(s_listContentsChangedEvent);
+            UIListContentsChangedHandler eventHandler = (UIListContentsChangedHandler)GetEventHandler(s_listContentsChangedEvent);
             if (eventHandler != null)
             {
                 UIListContentsChangedArgs args = new UIListContentsChangedArgs(type, oldIndex, newIndex);
                 eventHandler(this, args);
             }
-            this.FirePropertyChanged("ContentsChanged");
+            FirePropertyChanged("ContentsChanged");
         }
     }
 }

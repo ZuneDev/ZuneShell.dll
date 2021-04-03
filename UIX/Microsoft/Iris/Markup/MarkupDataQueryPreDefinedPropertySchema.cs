@@ -19,17 +19,17 @@ namespace Microsoft.Iris.Markup
           SetValueHandler setValueHandler)
           : base(owner, name, propertyType)
         {
-            this.InvalidatesQuery = false;
-            this._getValueHandler = getValueHandler;
-            this._setValueHandler = setValueHandler;
+            InvalidatesQuery = false;
+            _getValueHandler = getValueHandler;
+            _setValueHandler = setValueHandler;
         }
 
-        public override bool CanWrite => this._setValueHandler != null;
+        public override bool CanWrite => _setValueHandler != null;
 
-        public override ExpressionRestriction ExpressionRestriction => !this.CanWrite ? ExpressionRestriction.ReadOnly : ExpressionRestriction.None;
+        public override ExpressionRestriction ExpressionRestriction => !CanWrite ? ExpressionRestriction.ReadOnly : ExpressionRestriction.None;
 
-        public override object GetValue(object instance) => this._getValueHandler(instance);
+        public override object GetValue(object instance) => _getValueHandler(instance);
 
-        public override void SetValue(ref object instance, object value) => this._setValueHandler(ref instance, value);
+        public override void SetValue(ref object instance, object value) => _setValueHandler(ref instance, value);
     }
 }

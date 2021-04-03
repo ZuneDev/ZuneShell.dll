@@ -27,81 +27,81 @@ namespace Microsoft.Iris.Data
 
         public UpdateHelper(IVirtualList virtualList)
         {
-            this._virtualList = virtualList;
-            this._itemsToUpdate = new List<int>();
-            this._throttle = Environment.ProcessorCount * 2;
-            this._outstandingUpdates = new List<int>();
+            _virtualList = virtualList;
+            _itemsToUpdate = new List<int>();
+            _throttle = Environment.ProcessorCount * 2;
+            _outstandingUpdates = new List<int>();
         }
 
         public void AddIndex(int index)
         {
-            this._itemsToUpdate.Add(index);
-            this._listIsDirty = true;
-            this.TriggerNextUpdate();
+            _itemsToUpdate.Add(index);
+            _listIsDirty = true;
+            TriggerNextUpdate();
         }
 
-        public void AdjustIndices(int lowThreshold, int amount) => this.AdjustIndices(lowThreshold, int.MaxValue, amount);
+        public void AdjustIndices(int lowThreshold, int amount) => AdjustIndices(lowThreshold, int.MaxValue, amount);
 
         public void AdjustIndices(int lowThreshold, int highThreshold, int amt)
         {
-            for (int index = 0; index < this._itemsToUpdate.Count; ++index)
+            for (int index = 0; index < _itemsToUpdate.Count; ++index)
             {
-                int num = this._itemsToUpdate[index];
+                int num = _itemsToUpdate[index];
                 if (num >= lowThreshold && num <= highThreshold)
-                    this._itemsToUpdate[index] = num + amt;
+                    _itemsToUpdate[index] = num + amt;
             }
-            if (this._lastInterestIndex < lowThreshold || this._lastInterestIndex > highThreshold)
+            if (_lastInterestIndex < lowThreshold || _lastInterestIndex > highThreshold)
                 return;
-            this._lastInterestIndex += amt;
+            _lastInterestIndex += amt;
         }
 
-        public void Clear() => this._itemsToUpdate.Clear();
+        public void Clear() => _itemsToUpdate.Clear();
 
         public void RemoveIndex(int index)
         {
-            int count = this._itemsToUpdate.Count;
+            int count = _itemsToUpdate.Count;
             int index1 = 0;
-            while (index1 < count && this._itemsToUpdate[index1] != index)
+            while (index1 < count && _itemsToUpdate[index1] != index)
                 ++index1;
             if (index1 >= count)
                 return;
             int index2 = index1;
             for (int index3 = index1 + 1; index3 < count; ++index3)
             {
-                int num = this._itemsToUpdate[index3];
+                int num = _itemsToUpdate[index3];
                 if (num != index)
                 {
-                    this._itemsToUpdate[index2] = num;
+                    _itemsToUpdate[index2] = num;
                     ++index2;
                 }
             }
-            this._itemsToUpdate.RemoveRange(index2, count - index2);
+            _itemsToUpdate.RemoveRange(index2, count - index2);
         }
 
         public void Dispose()
         {
-            if (this._timer == null)
+            if (_timer == null)
                 return;
-            this._timer.Enabled = false;
+            _timer.Enabled = false;
         }
 
         private void TriggerNextUpdate()
         {
-            this.EnsureTimer();
-            this._timer.Enabled = true;
+            EnsureTimer();
+            _timer.Enabled = true;
         }
 
         private void DeliverNextUpdate(object senderObject, EventArgs unusedArgs)
         {
-            if (this._itemsToUpdate.Count == 0)
+            if (_itemsToUpdate.Count == 0)
                 return;
-            if (this._outstandingUpdates.Count == this._throttle)
+            if (_outstandingUpdates.Count == _throttle)
             {
-                this.TriggerNextUpdate();
+                TriggerNextUpdate();
             }
             else
             {
-                Repeater repeaterHost = this._virtualList.RepeaterHost;
+                Repeater repeaterHost = _virtualList.RepeaterHost;
                 if (repeaterHost == null)
                     return;
                 int index1 = -1;
@@ -116,18 +116,18 @@ namespace Microsoft.Iris.Data
                 if (index1 != -1)
                 {
                     int dataIndex;
-                    ListUtility.GetWrappedIndex(index1, this._virtualList.Count, out dataIndex, out int _);
-                    if (this._lastInterestIndex != dataIndex)
-                        this._listIsDirty = true;
-                    this._lastInterestIndex = dataIndex;
+                    ListUtility.GetWrappedIndex(index1, _virtualList.Count, out dataIndex, out int _);
+                    if (_lastInterestIndex != dataIndex)
+                        _listIsDirty = true;
+                    _lastInterestIndex = dataIndex;
                 }
-                if (this._listIsDirty)
+                if (_listIsDirty)
                 {
-                    if (this._itemDistanceComparer == null)
-                        this._itemDistanceComparer = new UpdateHelper.ItemDistanceComparer();
-                    this._itemDistanceComparer.Initialize(this._lastInterestIndex, this._virtualList.Count);
-                    this._itemsToUpdate.Sort(_itemDistanceComparer);
-                    this._listIsDirty = false;
+                    if (_itemDistanceComparer == null)
+                        _itemDistanceComparer = new UpdateHelper.ItemDistanceComparer();
+                    _itemDistanceComparer.Initialize(_lastInterestIndex, _virtualList.Count);
+                    _itemsToUpdate.Sort(_itemDistanceComparer);
+                    _listIsDirty = false;
                 }
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start();
@@ -135,34 +135,34 @@ namespace Microsoft.Iris.Data
                 do
                 {
                     ++count;
-                    int index2 = this._itemsToUpdate[this._itemsToUpdate.Count - count];
-                    this._outstandingUpdates.Add(index2);
-                    this._virtualList.NotifyRequestSlowData(index2);
+                    int index2 = _itemsToUpdate[_itemsToUpdate.Count - count];
+                    _outstandingUpdates.Add(index2);
+                    _virtualList.NotifyRequestSlowData(index2);
                 }
-                while (stopwatch.ElapsedMilliseconds < 10L && this._itemsToUpdate.Count != count && this._outstandingUpdates.Count < this._throttle);
-                this._itemsToUpdate.RemoveRange(this._itemsToUpdate.Count - count, count);
-                if (this._itemsToUpdate.Count == 0)
+                while (stopwatch.ElapsedMilliseconds < 10L && _itemsToUpdate.Count != count && _outstandingUpdates.Count < _throttle);
+                _itemsToUpdate.RemoveRange(_itemsToUpdate.Count - count, count);
+                if (_itemsToUpdate.Count == 0)
                     return;
-                this.TriggerNextUpdate();
+                TriggerNextUpdate();
             }
         }
 
         public int Throttle
         {
-            get => this._throttle;
-            set => this._throttle = value;
+            get => _throttle;
+            set => _throttle = value;
         }
 
-        public bool NotifySlowDataAcquireComplete(int index) => this._outstandingUpdates.Remove(index);
+        public bool NotifySlowDataAcquireComplete(int index) => _outstandingUpdates.Remove(index);
 
         private void EnsureTimer()
         {
-            if (this._timer != null)
+            if (_timer != null)
                 return;
-            this._timer = new DispatcherTimer();
-            this._timer.AutoRepeat = false;
-            this._timer.Interval = 100;
-            this._timer.Tick += new EventHandler(this.DeliverNextUpdate);
+            _timer = new DispatcherTimer();
+            _timer.AutoRepeat = false;
+            _timer.Interval = 100;
+            _timer.Tick += new EventHandler(DeliverNextUpdate);
         }
 
         private class ItemDistanceComparer : IComparer<int>
@@ -173,18 +173,18 @@ namespace Microsoft.Iris.Data
 
             public void Initialize(int focusedIndex, int totalCount)
             {
-                this._focusedIndex = focusedIndex;
-                this._totalCount = totalCount;
-                this._midPoint = totalCount / 2;
+                _focusedIndex = focusedIndex;
+                _totalCount = totalCount;
+                _midPoint = totalCount / 2;
             }
 
-            public int Compare(int left, int right) => this.GetDistance(right) - this.GetDistance(left);
+            public int Compare(int left, int right) => GetDistance(right) - GetDistance(left);
 
             private int GetDistance(int potential)
             {
-                int num = Math.Abs(potential - this._focusedIndex);
-                if (num > this._midPoint)
-                    num = this._totalCount - num + 1;
+                int num = Math.Abs(potential - _focusedIndex);
+                if (num > _midPoint)
+                    num = _totalCount - num + 1;
                 return num;
             }
         }

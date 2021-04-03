@@ -10,7 +10,7 @@ namespace Microsoft.Iris.Animations
 {
     internal abstract class BaseMultiplyVector3Keyframe : BaseVector3Keyframe
     {
-        public BaseMultiplyVector3Keyframe() => this.Value = Vector3.UnitVector;
+        public BaseMultiplyVector3Keyframe() => Value = Vector3.UnitVector;
 
         public override bool Multiply => true;
 
@@ -19,8 +19,8 @@ namespace Microsoft.Iris.Animations
           Vector3 baseValueVector,
           ref AnimationArgs args)
         {
-            if (this.RelativeTo == RelativeTo.Final)
-                baseValueVector *= this.GetRelativeToFinalValue(targetObject, ref args);
+            if (RelativeTo == RelativeTo.Final)
+                baseValueVector *= GetRelativeToFinalValue(targetObject, ref args);
             return baseValueVector;
         }
 

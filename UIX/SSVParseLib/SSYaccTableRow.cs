@@ -21,42 +21,42 @@ namespace SSVParseLib
 
         public SSYaccTableRow(int[] q_data, int q_index)
         {
-            this.m_action = q_data[q_index];
-            this.m_goto = q_data[q_index + 1];
-            this.m_error = q_data[q_index + 2] != 0;
-            this.m_syncAll = q_data[q_index + 3] != 0;
-            this.m_sync = q_data[q_index + 4] != 0;
-            this.m_entries = new SSYaccTableRowEntry[this.numEntries()];
+            m_action = q_data[q_index];
+            m_goto = q_data[q_index + 1];
+            m_error = q_data[q_index + 2] != 0;
+            m_syncAll = q_data[q_index + 3] != 0;
+            m_sync = q_data[q_index + 4] != 0;
+            m_entries = new SSYaccTableRowEntry[numEntries()];
             q_index += 5;
-            for (int index = 0; index < this.numEntries(); ++index)
+            for (int index = 0; index < numEntries(); ++index)
             {
-                this.m_entries[index] = new SSYaccTableRowEntry(q_data[q_index], q_data[q_index + 1], q_data[q_index + 2], q_data[q_index + 3]);
+                m_entries[index] = new SSYaccTableRowEntry(q_data[q_index], q_data[q_index + 1], q_data[q_index + 2], q_data[q_index + 3]);
                 q_index += 4;
             }
         }
 
         public SSYaccTableRowEntry lookupAction(int q_index)
         {
-            for (int index = 0; index < this.m_action; ++index)
+            for (int index = 0; index < m_action; ++index)
             {
-                if (this.m_entries[index].token() == q_index)
-                    return this.m_entries[index];
+                if (m_entries[index].token() == q_index)
+                    return m_entries[index];
             }
             return null;
         }
 
         public SSYaccTableRowEntry lookupGoto(int q_index)
         {
-            for (int action = this.m_action; action < this.m_action + this.m_goto; ++action)
+            for (int action = m_action; action < m_action + m_goto; ++action)
             {
-                if (this.m_entries[action].token() == q_index)
-                    return this.m_entries[action];
+                if (m_entries[action].token() == q_index)
+                    return m_entries[action];
             }
             return null;
         }
 
-        public bool hasError() => this.m_error;
+        public bool hasError() => m_error;
 
-        public int numEntries() => this.m_goto + this.m_action + (this.hasError() ? 1 : 0);
+        public int numEntries() => m_goto + m_action + (hasError() ? 1 : 0);
     }
 }

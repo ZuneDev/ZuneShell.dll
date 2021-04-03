@@ -22,77 +22,77 @@ namespace Microsoft.Iris.InputHandlers
         protected override void ConfigureInteractivity()
         {
             base.ConfigureInteractivity();
-            if (!this.HandleDirect)
+            if (!HandleDirect)
                 return;
-            this.UI.MouseInteractive = true;
-            this.UI.KeyInteractive = true;
+            UI.MouseInteractive = true;
+            UI.KeyInteractive = true;
         }
 
         public bool SubmitOnEnter
         {
-            get => this._submitOnEnter;
+            get => _submitOnEnter;
             set
             {
-                if (this._submitOnEnter == value)
+                if (_submitOnEnter == value)
                     return;
-                this._submitOnEnter = value;
-                this.FireNotification(NotificationID.SubmitOnEnter);
+                _submitOnEnter = value;
+                FireNotification(NotificationID.SubmitOnEnter);
             }
         }
 
         public bool TreatEscapeAsBackspace
         {
-            get => this._treatEscapeAsBackspace;
+            get => _treatEscapeAsBackspace;
             set
             {
-                if (this._treatEscapeAsBackspace == value)
+                if (_treatEscapeAsBackspace == value)
                     return;
-                this._treatEscapeAsBackspace = value;
-                this.FireNotification(NotificationID.TreatEscapeAsBackspace);
+                _treatEscapeAsBackspace = value;
+                FireNotification(NotificationID.TreatEscapeAsBackspace);
             }
         }
 
-        private void FireTypingInputRejectedEvent() => this.FireNotification(NotificationID.TypingInputRejected);
+        private void FireTypingInputRejectedEvent() => FireNotification(NotificationID.TypingInputRejected);
 
         public EditableTextData EditableTextData
         {
-            get => this._edit;
+            get => _edit;
             set
             {
-                if (this._edit == value)
+                if (_edit == value)
                     return;
-                this._edit = value;
-                this.FireNotification(NotificationID.EditableTextData);
+                _edit = value;
+                FireNotification(NotificationID.EditableTextData);
             }
         }
 
         protected override void OnKeyDown(UIClass ui, KeyStateInfo info)
         {
-            if (this.ShouldIgnoreInput(info) || this._edit == null)
+            if (ShouldIgnoreInput(info) || _edit == null)
                 return;
             switch (info.Key)
             {
                 case Keys.Back:
-                    if (this.IsEditableTextEmpty() && !this._handlingBackspaceFlag)
+                    if (IsEditableTextEmpty() && !_handlingBackspaceFlag)
                         break;
                     info.MarkHandled();
                     break;
                 case Keys.Enter:
-                    if (!this._submitOnEnter)
+                    if (!_submitOnEnter)
                         break;
-                    this._edit.Submit();
+                    _edit.Submit();
                     info.MarkHandled();
                     break;
                 case Keys.Escape:
-                    if (!this._treatEscapeAsBackspace)
+                    if (!_treatEscapeAsBackspace)
                         break;
                     goto case Keys.Back;
                 case Keys.Delete:
-                    if (this.IsEditableTextEmpty())
+                    if (IsEditableTextEmpty())
                         break;
-                    this.RemoveChar();
+                    RemoveChar();
                     info.MarkHandled();
-                    this._handlingDeleteFlag = true;
+                    _handlingDeleteFlag = true;
                     break;
                 case Keys.NumPad0:
                 case Keys.NumPad1:
@@ -111,35 +111,35 @@ namespace Microsoft.Iris.InputHandlers
 
         protected override void OnKeyCharacter(UIClass ui, KeyCharacterInfo info)
         {
-            if (this.ShouldIgnoreInput(info) || this._edit == null)
+            if (ShouldIgnoreInput(info) || _edit == null)
                 return;
             switch (info.Character)
             {
                 case '\b':
-                    if (!this.IsEditableTextEmpty())
+                    if (!IsEditableTextEmpty())
                     {
-                        this.RemoveChar();
+                        RemoveChar();
                         info.MarkHandled();
-                        this._handlingBackspaceFlag = true;
+                        _handlingBackspaceFlag = true;
                         break;
                     }
-                    if (!this._handlingBackspaceFlag)
+                    if (!_handlingBackspaceFlag)
                         break;
                     info.MarkHandled();
                     break;
                 case '\t':
                     break;
                 case '\r':
-                    if (!this._submitOnEnter)
+                    if (!_submitOnEnter)
                         break;
                     info.MarkHandled();
                     break;
                 case '\x001B':
-                    if (!this._treatEscapeAsBackspace)
+                    if (!_treatEscapeAsBackspace)
                         break;
                     goto case '\b';
                 default:
-                    this.InputChar(info.Character);
+                    InputChar(info.Character);
                     info.MarkHandled();
                     break;
             }
@@ -147,30 +147,30 @@ namespace Microsoft.Iris.InputHandlers
 
         protected override void OnKeyUp(UIClass ui, KeyStateInfo info)
         {
-            if (this.ShouldIgnoreInput(info) || this._edit == null)
+            if (ShouldIgnoreInput(info) || _edit == null)
                 return;
             switch (info.Key)
             {
                 case Keys.Back:
-                    if (!this._handlingBackspaceFlag)
+                    if (!_handlingBackspaceFlag)
                         break;
                     info.MarkHandled();
-                    this._handlingBackspaceFlag = false;
+                    _handlingBackspaceFlag = false;
                     break;
                 case Keys.Enter:
-                    if (!this._submitOnEnter)
+                    if (!_submitOnEnter)
                         break;
                     info.MarkHandled();
                     break;
                 case Keys.Escape:
-                    if (!this._treatEscapeAsBackspace)
+                    if (!_treatEscapeAsBackspace)
                         break;
                     goto case Keys.Back;
                 case Keys.Delete:
-                    if (!this._handlingDeleteFlag)
+                    if (!_handlingDeleteFlag)
                         break;
                     info.MarkHandled();
-                    this._handlingDeleteFlag = false;
+                    _handlingDeleteFlag = false;
                     break;
                 case Keys.NumPad0:
                 case Keys.NumPad1:
@@ -189,36 +189,36 @@ namespace Microsoft.Iris.InputHandlers
 
         private void RemoveChar()
         {
-            if (this._edit == null || this.IsEditableTextEmpty())
+            if (_edit == null || IsEditableTextEmpty())
                 return;
-            if (!this._edit.ReadOnly)
-                this._edit.Value = this._edit.Value.Substring(0, this._edit.Value.Length - 1);
+            if (!_edit.ReadOnly)
+                _edit.Value = _edit.Value.Substring(0, _edit.Value.Length - 1);
             else
-                this.FireTypingInputRejectedEvent();
+                FireTypingInputRejectedEvent();
         }
 
         private void Clear()
         {
-            if (this._edit == null || this.IsEditableTextEmpty())
+            if (_edit == null || IsEditableTextEmpty())
                 return;
-            if (!this._edit.ReadOnly)
-                this._edit.Value = string.Empty;
+            if (!_edit.ReadOnly)
+                _edit.Value = string.Empty;
             else
-                this.FireTypingInputRejectedEvent();
+                FireTypingInputRejectedEvent();
         }
 
         private void InputChar(char ch)
         {
-            if (this._edit == null)
+            if (_edit == null)
                 return;
-            if (!this._edit.ReadOnly && (this.IsEditableTextEmpty() || this._edit.Value.Length < this._edit.MaxLength))
-                this._edit.Value += (string)(object)ch;
+            if (!_edit.ReadOnly && (IsEditableTextEmpty() || _edit.Value.Length < _edit.MaxLength))
+                _edit.Value += (string)(object)ch;
             else
-                this.FireTypingInputRejectedEvent();
+                FireTypingInputRejectedEvent();
         }
 
         private bool ShouldIgnoreInput(KeyActionInfo info) => (info.Modifiers & InputModifiers.ControlKey) == InputModifiers.ControlKey || (info.Modifiers & InputModifiers.AltKey) == InputModifiers.AltKey || (info.Modifiers & InputModifiers.WindowsKey) == InputModifiers.WindowsKey;
 
-        private bool IsEditableTextEmpty() => string.IsNullOrEmpty(this._edit.Value);
+        private bool IsEditableTextEmpty() => string.IsNullOrEmpty(_edit.Value);
     }
 }

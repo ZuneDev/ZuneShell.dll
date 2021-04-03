@@ -25,32 +25,32 @@ namespace Microsoft.Iris.Drawing
 
         public UIImage(Inset nineGrid, Size maximumSize, bool flippable, bool antialiasEdges)
         {
-            this._nineGrid = nineGrid;
-            this._maximumSize = maximumSize;
-            this._flippable = flippable;
-            this._antialiasEdges = antialiasEdges;
+            _nineGrid = nineGrid;
+            _maximumSize = maximumSize;
+            _flippable = flippable;
+            _antialiasEdges = antialiasEdges;
         }
 
-        public void Load() => this.Load(false);
+        public void Load() => Load(false);
 
         private void Load(bool inDraw)
         {
-            if (this._status != ImageStatus.PendingLoad)
+            if (_status != ImageStatus.PendingLoad)
                 return;
             bool needAsyncLoad;
-            ImageCacheItem cacheItem = this.GetCacheItem(out needAsyncLoad);
+            ImageCacheItem cacheItem = GetCacheItem(out needAsyncLoad);
             if (cacheItem == null)
-                this.SetStatus(ImageStatus.Error);
+                SetStatus(ImageStatus.Error);
             else if (needAsyncLoad)
             {
-                this.SetStatus(ImageStatus.Loading);
+                SetStatus(ImageStatus.Loading);
                 cacheItem.StartLoad();
             }
             else
-                this.SetStatus(ImageStatus.Complete);
+                SetStatus(ImageStatus.Complete);
         }
 
-        private ImageCacheItem GetCacheItem() => this.GetCacheItem(out bool _);
+        private ImageCacheItem GetCacheItem() => GetCacheItem(out bool _);
 
         protected abstract ImageCacheItem GetCacheItem(out bool needAsyncLoad);
 
@@ -58,82 +58,82 @@ namespace Microsoft.Iris.Drawing
 
         protected void OnHeaderLoadComplete()
         {
-            if (this.LoadComplete == null)
+            if (LoadComplete == null)
                 return;
-            this.LoadComplete(this, this.Status);
+            LoadComplete(this, Status);
         }
 
         protected void SetStatus(ImageStatus status)
         {
-            this._status = status;
-            if ((this._status == ImageStatus.Error || this._status == ImageStatus.Complete) && this.LoadComplete != null)
-                this.LoadComplete(this, this._status);
-            this.FireNotification(NotificationID.Status);
+            _status = status;
+            if ((_status == ImageStatus.Error || _status == ImageStatus.Complete) && LoadComplete != null)
+                LoadComplete(this, _status);
+            FireNotification(NotificationID.Status);
         }
 
-        internal IImage RenderImage => this.GetCacheItem()?.RenderImage;
+        internal IImage RenderImage => GetCacheItem()?.RenderImage;
 
-        public ImageStatus Status => this._status;
+        public ImageStatus Status => _status;
 
         public string Source
         {
-            get => this._source;
+            get => _source;
             set
             {
-                if (!(this._source != value))
+                if (!(_source != value))
                     return;
-                this._source = value;
-                this.OnImageAttributeChanged();
+                _source = value;
+                OnImageAttributeChanged();
             }
         }
 
         public Inset NineGrid
         {
-            get => this._nineGrid;
+            get => _nineGrid;
             set
             {
-                if (!(this._nineGrid != value))
+                if (!(_nineGrid != value))
                     return;
-                this._nineGrid = value;
-                this.OnImageAttributeChanged();
+                _nineGrid = value;
+                OnImageAttributeChanged();
             }
         }
 
         public Size MaximumSize
         {
-            get => this._maximumSize;
+            get => _maximumSize;
             set
             {
-                if (!(this._maximumSize != value))
+                if (!(_maximumSize != value))
                     return;
-                this._maximumSize = value;
-                this.OnImageAttributeChanged();
+                _maximumSize = value;
+                OnImageAttributeChanged();
             }
         }
 
         public bool Flippable
         {
-            get => this._flippable;
+            get => _flippable;
             set
             {
-                if (this._flippable == value)
+                if (_flippable == value)
                     return;
-                this._flippable = value;
-                this.OnImageAttributeChanged();
+                _flippable = value;
+                OnImageAttributeChanged();
             }
         }
 
-        public bool IsFlipped => this._flippable && UISession.Default.IsRtl;
+        public bool IsFlipped => _flippable && UISession.Default.IsRtl;
 
         public bool AntialiasEdges
         {
-            get => this._antialiasEdges;
+            get => _antialiasEdges;
             set
             {
-                if (this._antialiasEdges == value)
+                if (_antialiasEdges == value)
                     return;
-                this._antialiasEdges = value;
-                this.OnImageAttributeChanged();
+                _antialiasEdges = value;
+                OnImageAttributeChanged();
             }
         }
 
@@ -141,8 +141,8 @@ namespace Microsoft.Iris.Drawing
         {
             get
             {
-                this.EnsureSizeMetrics();
-                return this._contentSize;
+                EnsureSizeMetrics();
+                return _contentSize;
             }
         }
 
@@ -150,8 +150,8 @@ namespace Microsoft.Iris.Drawing
         {
             get
             {
-                this.EnsureSizeMetrics();
-                return this._contentSize.Width;
+                EnsureSizeMetrics();
+                return _contentSize.Width;
             }
         }
 
@@ -159,14 +159,14 @@ namespace Microsoft.Iris.Drawing
         {
             get
             {
-                this.EnsureSizeMetrics();
-                return this._contentSize.Height;
+                EnsureSizeMetrics();
+                return _contentSize.Height;
             }
         }
 
-        internal void AddUser(object user) => this.GetCacheItem()?.RegisterUsage(user);
+        internal void AddUser(object user) => GetCacheItem()?.RegisterUsage(user);
 
-        public void RemoveUser(object user) => this.GetCacheItem()?.UnregisterUsage(user);
+        public void RemoveUser(object user) => GetCacheItem()?.UnregisterUsage(user);
 
         internal static Size MaximumSurfaceSize(UISession session)
         {

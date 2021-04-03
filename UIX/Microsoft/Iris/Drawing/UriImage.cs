@@ -33,49 +33,49 @@ namespace Microsoft.Iris.Drawing
           bool antialiasEdges)
           : base(nineGrid, maximumSize, flippable, antialiasEdges)
         {
-            this.Source = source;
+            Source = source;
         }
 
         private ResourceImageItem FetchOrBuildItem()
         {
-            ResourceImageItem resourceImageItem = this.GetResourceFromCache();
+            ResourceImageItem resourceImageItem = GetResourceFromCache();
             if (resourceImageItem == null)
             {
-                resourceImageItem = new ResourceImageItem(UISession.Default.RenderSession, this.Source, ClampSize(this._maximumSize), this.IsFlipped, this._antialiasEdges);
-                resourceImageItem.LoadCompleteHandler += new ContentLoadCompleteHandler(this.OnLoadComplete);
-                ScavengeImageCache.Instance.Add(this._cacheKey, resourceImageItem);
-                this.SetStatus(resourceImageItem.Status);
-                this._contentSize = new Size(0, 0);
+                resourceImageItem = new ResourceImageItem(UISession.Default.RenderSession, Source, ClampSize(_maximumSize), IsFlipped, _antialiasEdges);
+                resourceImageItem.LoadCompleteHandler += new ContentLoadCompleteHandler(OnLoadComplete);
+                ScavengeImageCache.Instance.Add(_cacheKey, resourceImageItem);
+                SetStatus(resourceImageItem.Status);
+                _contentSize = new Size(0, 0);
             }
             else if (resourceImageItem.Resource.Status == ResourceStatus.NeedsAcquire || resourceImageItem.Resource.Status == ResourceStatus.Acquiring)
-                resourceImageItem.LoadCompleteHandler += new ContentLoadCompleteHandler(this.OnLoadComplete);
+                resourceImageItem.LoadCompleteHandler += new ContentLoadCompleteHandler(OnLoadComplete);
             return resourceImageItem;
         }
 
         private ResourceImageItem GetResourceFromCache()
         {
-            Size maxSize = ClampSize(this._maximumSize);
-            if (this._cacheKey == null)
-                this._cacheKey = new ImageCacheKey(this.Source, maxSize, this.IsFlipped, this._antialiasEdges);
-            return (ResourceImageItem)ScavengeImageCache.Instance.Lookup(this._cacheKey);
+            Size maxSize = ClampSize(_maximumSize);
+            if (_cacheKey == null)
+                _cacheKey = new ImageCacheKey(Source, maxSize, IsFlipped, _antialiasEdges);
+            return (ResourceImageItem)ScavengeImageCache.Instance.Lookup(_cacheKey);
         }
 
-        protected override void OnImageAttributeChanged() => this._cacheKey = null;
+        protected override void OnImageAttributeChanged() => _cacheKey = null;
 
         private void OnLoadComplete(object owner, ImageStatus status)
         {
-            ResourceImageItem resourceFromCache = this.GetResourceFromCache();
+            ResourceImageItem resourceFromCache = GetResourceFromCache();
             if (resourceFromCache != null)
-                resourceFromCache.LoadCompleteHandler -= new ContentLoadCompleteHandler(this.OnLoadComplete);
-            this.SetStatus(status);
+                resourceFromCache.LoadCompleteHandler -= new ContentLoadCompleteHandler(OnLoadComplete);
+            SetStatus(status);
         }
 
         protected override ImageCacheItem GetCacheItem(out bool needAsyncLoad)
         {
             ResourceImageItem resourceImageItem;
-            if (!string.IsNullOrEmpty(this.Source))
+            if (!string.IsNullOrEmpty(Source))
             {
-                resourceImageItem = this.FetchOrBuildItem();
+                resourceImageItem = FetchOrBuildItem();
                 if (resourceImageItem != null)
                 {
                     needAsyncLoad = resourceImageItem.Resource.Status != ResourceStatus.Available;
@@ -96,10 +96,10 @@ namespace Microsoft.Iris.Drawing
 
         protected override void EnsureSizeMetrics()
         {
-            ImageCacheItem cacheItem = this.GetCacheItem(out bool _);
+            ImageCacheItem cacheItem = GetCacheItem(out bool _);
             if (cacheItem == null)
                 return;
-            this._contentSize = cacheItem.ImageSize;
+            _contentSize = cacheItem.ImageSize;
         }
 
         public static void RemoveCache(

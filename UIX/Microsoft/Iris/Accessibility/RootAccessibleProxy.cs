@@ -21,7 +21,7 @@ namespace Microsoft.Iris.Accessibility
         {
         }
 
-        internal override IAccessible Parent => (IAccessible)this._clientBridge.accParent;
+        internal override IAccessible Parent => (IAccessible)_clientBridge.accParent;
 
         internal override IAccessible Navigate(AccNavDirs navDir)
         {
@@ -34,7 +34,7 @@ namespace Microsoft.Iris.Accessibility
                 case AccNavDirs.Right:
                 case AccNavDirs.Next:
                 case AccNavDirs.Previous:
-                    accessible = (IAccessible)this._clientBridge.accNavigate((int)navDir, 0);
+                    accessible = (IAccessible)_clientBridge.accNavigate((int)navDir, 0);
                     break;
                 case AccNavDirs.FirstChild:
                 case AccNavDirs.LastChild:
@@ -46,8 +46,8 @@ namespace Microsoft.Iris.Accessibility
 
         internal override string Name => UIApplication.ApplicationName;
 
-        internal IAccessible ClientBridge => this._clientBridge;
+        internal IAccessible ClientBridge => _clientBridge;
 
-        internal void AttachClientBridge(IAccessible clientBridge) => this._clientBridge = clientBridge;
+        internal void AttachClientBridge(IAccessible clientBridge) => _clientBridge = clientBridge;
     }
 }

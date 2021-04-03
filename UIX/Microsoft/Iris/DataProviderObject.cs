@@ -27,9 +27,9 @@ namespace Microsoft.Iris
 
         protected DataProviderObject(DataProviderQuery owner, object typeCookie)
         {
-            this._owner = owner != null ? owner : throw new ArgumentNullException(nameof(owner));
-            this._typeSchema = typeCookie as MarkupDataTypeSchema;
-            if (this._typeSchema != null)
+            _owner = owner != null ? owner : throw new ArgumentNullException(nameof(owner));
+            _typeSchema = typeCookie as MarkupDataTypeSchema;
+            if (_typeSchema != null)
                 return;
             if (typeCookie is TypeSchema)
                 throw new ArgumentException(((TypeSchema)typeCookie).Name + " is not a valid type for a DataProviderObject", nameof(typeCookie));
@@ -38,21 +38,21 @@ namespace Microsoft.Iris
             throw new ArgumentException("typeCookie must be a TypeCookie from a DataProviderMapping", nameof(typeCookie));
         }
 
-        internal DataProviderObject(MarkupDataTypeSchema typeSchema) => this._typeSchema = typeSchema;
+        internal DataProviderObject(MarkupDataTypeSchema typeSchema) => _typeSchema = typeSchema;
 
-        public DataProviderQuery Owner => this._owner;
+        public DataProviderQuery Owner => _owner;
 
-        public string TypeName => this._typeSchema.Name;
+        public string TypeName => _typeSchema.Name;
 
         protected IDictionary<string, DataProviderMapping> Mappings
         {
             get
             {
-                if (this._mappings == null)
+                if (_mappings == null)
                 {
                     lock (SynchronizedFindDataMappings)
                     {
-                        MarkupDataMapping dataMapping = MarkupDataProvider.FindDataMapping(this._owner != null ? this._owner.ProviderName : string.Empty, this._typeSchema);
+                        MarkupDataMapping dataMapping = MarkupDataProvider.FindDataMapping(_owner != null ? _owner.ProviderName : string.Empty, _typeSchema);
                         if (dataMapping.AssemblyDataProviderCookie == null)
                         {
                             Dictionary<string, DataProviderMapping> dictionary = new Dictionary<string, DataProviderMapping>(dataMapping.Mappings.Length);
@@ -60,7 +60,7 @@ namespace Microsoft.Iris
                                 dictionary[mapping.Property.Name] = new DataProviderMapping(mapping.Property, mapping.Source, mapping.Target, AssemblyLoadResult.UnwrapObject(mapping.DefaultValue));
                             dataMapping.AssemblyDataProviderCookie = dictionary;
                         }
-                        this._mappings = (Dictionary<string, DataProviderMapping>)dataMapping.AssemblyDataProviderCookie;
+                        _mappings = (Dictionary<string, DataProviderMapping>)dataMapping.AssemblyDataProviderCookie;
                     }
                 }
                 return _mappings;
@@ -69,10 +69,10 @@ namespace Microsoft.Iris
 
         protected void FirePropertyChanged(string propertyName)
         {
-            this.OnPropertyChanged(propertyName);
-            if (this._internalObject == null)
+            OnPropertyChanged(propertyName);
+            if (_internalObject == null)
                 return;
-            this._internalObject.FireNotificationThreadSafe(propertyName);
+            _internalObject.FireNotificationThreadSafe(propertyName);
         }
 
         protected virtual void OnPropertyChanged(string propertyName)
@@ -83,12 +83,12 @@ namespace Microsoft.Iris
         {
             get
             {
-                if (this._internalObject == null)
-                    this._internalObject = new AssemblyMarkupDataType(this._typeSchema, this);
+                if (_internalObject == null)
+                    _internalObject = new AssemblyMarkupDataType(_typeSchema, this);
                 return _internalObject;
             }
         }
 
-        public override string ToString() => this._typeSchema == null ? base.ToString() : this._typeSchema.Name;
+        public override string ToString() => _typeSchema == null ? base.ToString() : _typeSchema.Name;
     }
 }

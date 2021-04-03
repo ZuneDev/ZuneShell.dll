@@ -18,14 +18,14 @@ namespace Microsoft.Iris
 
         public override string ToString()
         {
-            string str1 = this.Context;
+            string str1 = Context;
             if (str1 != null && str1.StartsWith("file://", StringComparison.Ordinal))
                 str1 = str1.Substring(7);
             string str2;
-            if (this.Line != -1)
-                str2 = string.Format("{0}({1},{2}) : {3} : {4}", str1, Line, Column, this.Warning ? "warning" : "error", Message);
+            if (Line != -1)
+                str2 = string.Format("{0}({1},{2}) : {3} : {4}", str1, Line, Column, Warning ? "warning" : "error", Message);
             else
-                str2 = this.Context == null ? string.Format("{0} : {1}", this.Warning ? "warning" : "error", Message) : string.Format("{0} : {1} : {2}", str1, this.Warning ? "warning" : "error", Message);
+                str2 = Context == null ? string.Format("{0} : {1}", Warning ? "warning" : "error", Message) : string.Format("{0} : {1} : {2}", str1, Warning ? "warning" : "error", Message);
             return str2;
         }
     }

@@ -22,36 +22,36 @@ namespace Microsoft.Iris.UI
 
         public EffectClass(MarkupTypeSchema type, IEffectTemplate effectTemplate)
           : base(type)
-          => this._effectTemplate = effectTemplate;
+          => _effectTemplate = effectTemplate;
 
         protected override void OnDispose()
         {
             base.OnDispose();
-            if (this._activeAnimations != null)
+            if (_activeAnimations != null)
             {
-                foreach (DisposableObject activeAnimation in this._activeAnimations)
+                foreach (DisposableObject activeAnimation in _activeAnimations)
                     activeAnimation.Dispose(this);
-                this._activeAnimations.Clear();
+                _activeAnimations.Clear();
             }
-            foreach (EffectClass.EffectAndOwner effectAndOwner in this._effectsInUse)
+            foreach (EffectClass.EffectAndOwner effectAndOwner in _effectsInUse)
                 effectAndOwner.Effect.UnregisterUsage(this);
-            this._effectsInUse.Clear();
+            _effectsInUse.Clear();
         }
 
-        public string DefaultImageElement => ((EffectClassTypeSchema)this.TypeSchema).DefaultElementSymbol;
+        public string DefaultImageElement => ((EffectClassTypeSchema)TypeSchema).DefaultElementSymbol;
 
         public IEffect CreateRenderEffect(object owner)
         {
             IEffect effect = null;
-            if (this._effectTemplate != null && this._effectTemplate.IsBuilt)
+            if (_effectTemplate != null && _effectTemplate.IsBuilt)
             {
-                effect = this._effectTemplate.CreateInstance(this);
-                this._effectsInUse.Add(new EffectClass.EffectAndOwner(effect, owner));
+                effect = _effectTemplate.CreateInstance(this);
+                _effectsInUse.Add(new EffectClass.EffectAndOwner(effect, owner));
                 effect.RegisterUsage(owner);
             }
-            if (effect != null && this._properties != null)
+            if (effect != null && _properties != null)
             {
-                foreach (KeyValueEntry<string, EffectValue> property in this._properties)
+                foreach (KeyValueEntry<string, EffectValue> property in _properties)
                     property.Value.SetValueOnEffect(effect, property.Key);
             }
             return effect;
@@ -79,14 +79,14 @@ namespace Microsoft.Iris.UI
 
         public void DoneWithRenderEffects(object owner)
         {
-            if (this.IsDisposed)
+            if (IsDisposed)
                 return;
-            for (int index = this._effectsInUse.Count - 1; index >= 0; --index)
+            for (int index = _effectsInUse.Count - 1; index >= 0; --index)
             {
-                if (this._effectsInUse[index].Owner == owner)
+                if (_effectsInUse[index].Owner == owner)
                 {
-                    this._effectsInUse[index].Effect.UnregisterUsage(this);
-                    this._effectsInUse.RemoveAt(index);
+                    _effectsInUse[index].Effect.UnregisterUsage(this);
+                    _effectsInUse.RemoveAt(index);
                 }
             }
         }
@@ -111,33 +111,33 @@ namespace Microsoft.Iris.UI
 
         public void SetRenderEffectProperty(string property, EffectValue value)
         {
-            if (this._properties == null)
-                this._properties = new Map<string, EffectValue>();
-            this._properties[property] = value;
-            foreach (EffectClass.EffectAndOwner effectAndOwner in this._effectsInUse)
+            if (_properties == null)
+                _properties = new Map<string, EffectValue>();
+            _properties[property] = value;
+            foreach (EffectClass.EffectAndOwner effectAndOwner in _effectsInUse)
                 value.SetValueOnEffect(effectAndOwner.Effect, property);
         }
 
         public void PlayAnimation(string property, EffectAnimation animation)
         {
-            if (this._activeAnimations == null)
-                this._activeAnimations = new Vector<ActiveSequence>();
-            foreach (EffectClass.EffectAndOwner effectAndOwner in this._effectsInUse)
+            if (_activeAnimations == null)
+                _activeAnimations = new Vector<ActiveSequence>();
+            foreach (EffectClass.EffectAndOwner effectAndOwner in _effectsInUse)
             {
                 AnimationArgs args = new AnimationArgs();
                 ActiveSequence instance = animation.CreateInstance(effectAndOwner.Effect, property, ref args);
                 instance?.Play();
                 instance.DeclareOwner(this);
-                instance.AnimationCompleted += new EventHandler(this.OnAnimationComplete);
-                this._activeAnimations.Add(instance);
+                instance.AnimationCompleted += new EventHandler(OnAnimationComplete);
+                _activeAnimations.Add(instance);
             }
         }
 
         private void OnAnimationComplete(object sender, EventArgs args)
         {
             ActiveSequence activeSequence = (ActiveSequence)sender;
-            activeSequence.AnimationCompleted -= new EventHandler(this.OnAnimationComplete);
-            this._activeAnimations.Remove(activeSequence);
+            activeSequence.AnimationCompleted -= new EventHandler(OnAnimationComplete);
+            _activeAnimations.Remove(activeSequence);
             activeSequence.Dispose(this);
         }
 
@@ -150,8 +150,8 @@ namespace Microsoft.Iris.UI
 
             public EffectAndOwner(IEffect effect, object owner)
             {
-                this.Effect = effect;
-                this.Owner = owner;
+                Effect = effect;
+                Owner = owner;
             }
         }
     }

@@ -14,9 +14,9 @@ namespace Microsoft.Iris.Markup
 
         public AliasMapping(string alias, LoadResult loadResult, string targetType)
         {
-            this.Alias = alias;
-            this.LoadResult = loadResult;
-            this.TargetType = targetType;
+            Alias = alias;
+            LoadResult = loadResult;
+            TargetType = targetType;
         }
     }
 }

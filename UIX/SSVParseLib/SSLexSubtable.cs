@@ -15,22 +15,22 @@ namespace SSVParseLib
 
         public SSLexSubtable(int q_numRows, int[] q_rows, int[] q_final)
         {
-            this.m_size = q_numRows;
+            m_size = q_numRows;
             int q_index1 = 0;
             int q_index2 = 0;
-            this.m_rows = new SSLexTableRow[this.m_size];
-            this.m_final = new SSLexFinalState[this.m_size];
-            for (int index = 0; index < this.m_size; ++index)
+            m_rows = new SSLexTableRow[m_size];
+            m_final = new SSLexFinalState[m_size];
+            for (int index = 0; index < m_size; ++index)
             {
-                this.m_rows[index] = new SSLexTableRow(q_rows, q_index1);
-                this.m_final[index] = new SSLexFinalState(q_final, q_index2);
+                m_rows[index] = new SSLexTableRow(q_rows, q_index1);
+                m_final[index] = new SSLexFinalState(q_final, q_index2);
                 q_index2 += 3;
                 q_index1 += q_rows[q_index1] * 3 + 1;
             }
         }
 
-        public int lookup(int q_state, int q_next) => this.m_rows[q_state].lookup(q_next);
+        public int lookup(int q_state, int q_next) => m_rows[q_state].lookup(q_next);
 
-        public SSLexFinalState lookupFinal(int q_state) => this.m_final[q_state];
+        public SSLexFinalState lookupFinal(int q_state) => m_final[q_state];
     }
 }

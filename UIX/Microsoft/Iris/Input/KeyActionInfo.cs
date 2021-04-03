@@ -31,15 +31,15 @@ namespace Microsoft.Iris.Input
           int scanCode,
           ushort eventFlags)
         {
-            this._systemKey = systemKey;
-            this._action = action;
-            this._deviceType = deviceType;
-            this._modifiers = modifiers;
-            this._repeatCount = repeatCount;
-            this._nativeMessageID = nativeMessageID;
-            this._scanCode = scanCode;
-            this._eventFlags = eventFlags;
-            this.Initialize(eventType);
+            _systemKey = systemKey;
+            _action = action;
+            _deviceType = deviceType;
+            _modifiers = modifiers;
+            _repeatCount = repeatCount;
+            _nativeMessageID = nativeMessageID;
+            _scanCode = scanCode;
+            _eventFlags = eventFlags;
+            Initialize(eventType);
         }
 
         protected void Initialize(
@@ -47,25 +47,25 @@ namespace Microsoft.Iris.Input
           InputEventType eventType,
           InputDeviceType deviceType)
         {
-            this.Initialize(action, eventType, deviceType, InputModifiers.None, 1U, false, 0U, 0, 0);
+            Initialize(action, eventType, deviceType, InputModifiers.None, 1U, false, 0U, 0, 0);
         }
 
-        public KeyAction Action => this._action;
+        public KeyAction Action => _action;
 
-        public InputDeviceType DeviceType => this._deviceType;
+        public InputDeviceType DeviceType => _deviceType;
 
-        public InputModifiers Modifiers => this._modifiers;
+        public InputModifiers Modifiers => _modifiers;
 
-        public uint RepeatCount => this._repeatCount;
+        public uint RepeatCount => _repeatCount;
 
-        public bool SystemKey => this._systemKey;
+        public bool SystemKey => _systemKey;
 
-        public uint NativeMessageID => this._nativeMessageID;
+        public uint NativeMessageID => _nativeMessageID;
 
-        public int ScanCode => this._scanCode;
+        public int ScanCode => _scanCode;
 
-        public ushort KeyboardFlags => this._eventFlags;
+        public ushort KeyboardFlags => _eventFlags;
 
-        public bool IsRepeatOf(KeyActionInfo other) => other != null && this._action == other._action && (this._deviceType == other._deviceType && this._systemKey == other._systemKey) && this._modifiers == other._modifiers;
+        public bool IsRepeatOf(KeyActionInfo other) => other != null && _action == other._action && (_deviceType == other._deviceType && _systemKey == other._systemKey) && _modifiers == other._modifiers;
     }
 }

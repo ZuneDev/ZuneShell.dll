@@ -17,40 +17,40 @@ namespace Microsoft.Iris.ModelItems
 
         public virtual bool Available
         {
-            get => this._availableFlag;
+            get => _availableFlag;
             set
             {
-                if (this._availableFlag == value)
+                if (_availableFlag == value)
                     return;
-                this._availableFlag = value;
-                this.FireNotification(NotificationID.Available);
+                _availableFlag = value;
+                FireNotification(NotificationID.Available);
             }
         }
 
         public InvokePriority Priority
         {
-            get => this._priority;
+            get => _priority;
             set
             {
-                if (this._priority == value)
+                if (_priority == value)
                     return;
-                this._priority = value;
-                this.FireNotification(NotificationID.Priority);
+                _priority = value;
+                FireNotification(NotificationID.Priority);
             }
         }
 
         public void Invoke()
         {
-            if (this.Priority == InvokePriority.Normal)
-                this.InvokeWorker();
+            if (Priority == InvokePriority.Normal)
+                InvokeWorker();
             else
-                DeferredCall.Post(DispatchPriority.Idle, new SimpleCallback(this.InvokeWorker));
+                DeferredCall.Post(DispatchPriority.Idle, new SimpleCallback(InvokeWorker));
         }
 
         public void InvokeWorker()
         {
-            this.FireNotification(NotificationID.Invoked);
-            this.OnInvoked();
+            FireNotification(NotificationID.Invoked);
+            OnInvoked();
         }
 
         protected virtual void OnInvoked()

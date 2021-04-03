@@ -45,16 +45,16 @@ namespace Microsoft.Iris.Queues
 
         public PriorityQueue(Queue[] queues)
         {
-            this._allQueues = this.InitChildQueues(queues);
-            this._queues = queues;
-            this._drainHooks = new PriorityQueue.HookProc[queues.Length];
-            this._wakeMask = this._allQueues;
-            this.UpdateReadyMask();
+            _allQueues = InitChildQueues(queues);
+            _queues = queues;
+            _drainHooks = new PriorityQueue.HookProc[queues.Length];
+            _wakeMask = _allQueues;
+            UpdateReadyMask();
         }
 
         public override void Dispose()
         {
-            Queue[] queues = this._queues;
+            Queue[] queues = _queues;
             base.Dispose();
             if (queues == null)
                 return;
@@ -79,44 +79,44 @@ namespace Microsoft.Iris.Queues
             return num;
         }
 
-        public Queue this[int priority] => this._queues[priority];
+        public Queue this[int priority] => _queues[priority];
 
-        public PriorityQueue.HookProc GetDrainHook(int priority) => this._drainHooks[priority];
+        public PriorityQueue.HookProc GetDrainHook(int priority) => _drainHooks[priority];
 
         public void SetDrainHook(int priority, PriorityQueue.HookProc hook)
         {
-            this._drainHooks[priority] = hook;
+            _drainHooks[priority] = hook;
             if (hook != null)
-                this._hookMask |= 1 << priority;
+                _hookMask |= 1 << priority;
             else
-                this._hookMask &= ~(1 << priority);
-            this.UpdateReadyMask();
+                _hookMask &= ~(1 << priority);
+            UpdateReadyMask();
         }
 
         public PriorityQueue.HookProc LoopHook
         {
-            get => this._loopHook;
-            set => this._loopHook = value;
+            get => _loopHook;
+            set => _loopHook = value;
         }
 
-        public bool IsLocked(int priority) => (this._lockMask & 1 << priority) != 0;
+        public bool IsLocked(int priority) => (_lockMask & 1 << priority) != 0;
 
         public void SetLock(int priority, bool value)
         {
             if (value)
-                this._lockMask |= 1 << priority;
+                _lockMask |= 1 << priority;
             else
-                this._lockMask &= ~(1 << priority);
-            this.UpdateReadyMask();
+                _lockMask &= ~(1 << priority);
+            UpdateReadyMask();
         }
 
         public void LockAll(bool value)
         {
             if (value)
-                this._lockMask |= this._allQueues;
+                _lockMask |= _allQueues;
             else
-                this._lockMask &= ~this._allQueues;
-            this.UpdateReadyMask();
+                _lockMask &= ~_allQueues;
+            UpdateReadyMask();
         }
 
         public Queue BuildSubsetQueue(int[] priorities, bool ignoreLocks)
@@ -127,20 +127,20 @@ namespace Microsoft.Iris.Queues
             return new PriorityQueue.SubsetQueue(this, subsetMask, ignoreLocks);
         }
 
-        public override QueueItem GetNextItem() => this.GetNextItemWorker(this._allQueues, false);
+        public override QueueItem GetNextItem() => GetNextItemWorker(_allQueues, false);
 
         private QueueItem GetNextItemWorker(int subsetMask, bool ignoreLocks)
         {
-            int mask = this.BeginReadLoop(subsetMask, ignoreLocks);
+            int mask = BeginReadLoop(subsetMask, ignoreLocks);
             QueueItem queueItem = null;
             while (mask != 0)
             {
                 int lowestBit = FindLowestBit(mask);
-                queueItem = this._queues[lowestBit].GetNextItem();
+                queueItem = _queues[lowestBit].GetNextItem();
                 if (queueItem == null)
                 {
-                    this.SetWake(lowestBit, false);
-                    PriorityQueue.HookProc drainHook = this._drainHooks[lowestBit];
+                    SetWake(lowestBit, false);
+                    PriorityQueue.HookProc drainHook = _drainHooks[lowestBit];
                     if (drainHook != null)
                     {
                         bool didWork;
@@ -150,7 +150,7 @@ namespace Microsoft.Iris.Queues
                         {
                             if (didWork)
                             {
-                                mask = this.BeginReadLoop(subsetMask, ignoreLocks);
+                                mask = BeginReadLoop(subsetMask, ignoreLocks);
                                 continue;
                             }
                         }
@@ -168,13 +168,13 @@ namespace Microsoft.Iris.Queues
         private int BeginReadLoop(int subsetMask, bool ignoreLocks)
         {
             if (!ignoreLocks)
-                subsetMask &= ~this._lockMask;
-            subsetMask &= this._wakeMask | this._hookMask;
-            if (subsetMask != 0 && this._loopHook != null)
+                subsetMask &= ~_lockMask;
+            subsetMask &= _wakeMask | _hookMask;
+            if (subsetMask != 0 && _loopHook != null)
             {
                 bool didWork;
                 bool abort;
-                this._loopHook(out didWork, out abort);
+                _loopHook(out didWork, out abort);
                 if (abort)
                     subsetMask = 0;
             }
@@ -184,19 +184,19 @@ namespace Microsoft.Iris.Queues
         private void SetWake(int priority, bool value)
         {
             if (value)
-                this._wakeMask |= 1 << priority;
+                _wakeMask |= 1 << priority;
             else
-                this._wakeMask &= ~(1 << priority);
-            this.UpdateReadyMask();
+                _wakeMask &= ~(1 << priority);
+            UpdateReadyMask();
         }
 
         private void UpdateReadyMask()
         {
-            bool flag = this._readyMask == 0;
-            this._readyMask = (this._wakeMask | this._hookMask) & ~this._lockMask;
-            if (!flag || this._readyMask == 0)
+            bool flag = _readyMask == 0;
+            _readyMask = (_wakeMask | _hookMask) & ~_lockMask;
+            if (!flag || _readyMask == 0)
                 return;
-            this.OnWake();
+            OnWake();
         }
 
         private static int FindLowestBit(int mask)
@@ -230,12 +230,12 @@ namespace Microsoft.Iris.Queues
 
             public SubsetQueue(PriorityQueue owner, int subsetMask, bool ignoreLocks)
             {
-                this._owner = owner;
-                this._subsetMask = subsetMask;
-                this._ignoreLocks = ignoreLocks;
+                _owner = owner;
+                _subsetMask = subsetMask;
+                _ignoreLocks = ignoreLocks;
             }
 
-            public override QueueItem GetNextItem() => this._owner.GetNextItemWorker(this._subsetMask, this._ignoreLocks);
+            public override QueueItem GetNextItem() => _owner.GetNextItemWorker(_subsetMask, _ignoreLocks);
         }
 
         private class WakeProxy
@@ -245,12 +245,12 @@ namespace Microsoft.Iris.Queues
 
             public WakeProxy(PriorityQueue owner, int priority, Queue queue)
             {
-                this._owner = owner;
-                this._priority = priority;
-                queue.Wake += new EventHandler(this.OnChildWake);
+                _owner = owner;
+                _priority = priority;
+                queue.Wake += new EventHandler(OnChildWake);
             }
 
-            private void OnChildWake(object sender, EventArgs args) => this._owner.SetWake(this._priority, true);
+            private void OnChildWake(object sender, EventArgs args) => _owner.SetWake(_priority, true);
         }
     }
 }

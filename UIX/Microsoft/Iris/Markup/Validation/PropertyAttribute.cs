@@ -18,8 +18,8 @@ namespace Microsoft.Iris.Markup.Validation
 
         public PropertyAttribute(string name, string value)
         {
-            this.Name = name;
-            this.Value = value;
+            Name = name;
+            Value = value;
         }
     }
 }

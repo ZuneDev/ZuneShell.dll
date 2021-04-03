@@ -17,47 +17,47 @@ namespace Microsoft.Iris.InputHandlers
 
         public ModifierInputHandler()
         {
-            this._handlerTransition = InputHandlerTransition.Up;
-            this._requiredModifiers = InputHandlerModifiers.None;
-            this._disallowedModifiers = InputHandlerModifiers.None;
+            _handlerTransition = InputHandlerTransition.Up;
+            _requiredModifiers = InputHandlerModifiers.None;
+            _disallowedModifiers = InputHandlerModifiers.None;
         }
 
         public InputHandlerTransition HandlerTransition
         {
-            get => this._handlerTransition;
+            get => _handlerTransition;
             set
             {
-                if (this._handlerTransition == value)
+                if (_handlerTransition == value)
                     return;
-                this._handlerTransition = value;
-                this.FireNotification(NotificationID.HandlerTransition);
+                _handlerTransition = value;
+                FireNotification(NotificationID.HandlerTransition);
             }
         }
 
         public InputHandlerModifiers RequiredModifiers
         {
-            get => this._requiredModifiers;
+            get => _requiredModifiers;
             set
             {
-                if (this._requiredModifiers == value)
+                if (_requiredModifiers == value)
                     return;
-                this._requiredModifiers = value;
-                this.FireNotification(NotificationID.RequiredModifiers);
+                _requiredModifiers = value;
+                FireNotification(NotificationID.RequiredModifiers);
             }
         }
 
         public InputHandlerModifiers DisallowedModifiers
         {
-            get => this._disallowedModifiers;
+            get => _disallowedModifiers;
             set
             {
-                if (this._disallowedModifiers == value)
+                if (_disallowedModifiers == value)
                     return;
-                this._disallowedModifiers = value;
-                this.FireNotification(NotificationID.DisallowedModifiers);
+                _disallowedModifiers = value;
+                FireNotification(NotificationID.DisallowedModifiers);
             }
         }
 
-        protected bool ShouldHandleEvent(InputHandlerModifiers modifiers) => (this._disallowedModifiers == InputHandlerModifiers.None || !Library.Bits.TestAnyFlags((uint)modifiers, (uint)this._disallowedModifiers)) && (this._requiredModifiers == InputHandlerModifiers.None || Library.Bits.TestAllFlags((uint)modifiers, (uint)this._requiredModifiers));
+        protected bool ShouldHandleEvent(InputHandlerModifiers modifiers) => (_disallowedModifiers == InputHandlerModifiers.None || !Library.Bits.TestAnyFlags((uint)modifiers, (uint)_disallowedModifiers)) && (_requiredModifiers == InputHandlerModifiers.None || Library.Bits.TestAllFlags((uint)modifiers, (uint)_requiredModifiers));
     }
 }

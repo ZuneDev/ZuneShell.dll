@@ -29,101 +29,101 @@ namespace Microsoft.Iris.InputHandlers
 
         public KeyHandler()
         {
-            this._handle = true;
-            this.HandlerTransition = InputHandlerTransition.Down;
-            this._key = KeyHandlerKey.None;
-            this._repeat = true;
+            _handle = true;
+            HandlerTransition = InputHandlerTransition.Down;
+            _key = KeyHandlerKey.None;
+            _repeat = true;
         }
 
         protected override void ConfigureInteractivity()
         {
             base.ConfigureInteractivity();
-            if (!this.HandleDirect)
+            if (!HandleDirect)
                 return;
-            this.UI.KeyInteractive = true;
+            UI.KeyInteractive = true;
         }
 
-        public bool Pressing => this._pressing;
+        public bool Pressing => _pressing;
 
         public KeyHandlerKey Key
         {
-            get => this._key;
+            get => _key;
             set
             {
-                if (this._key == value)
+                if (_key == value)
                     return;
-                this._key = value;
-                this.FireNotification(NotificationID.Key);
+                _key = value;
+                FireNotification(NotificationID.Key);
             }
         }
 
         public IUICommand Command
         {
-            get => this._command;
+            get => _command;
             set
             {
-                if (this._command == value)
+                if (_command == value)
                     return;
-                this._command = value;
-                this.FireNotification(NotificationID.Command);
+                _command = value;
+                FireNotification(NotificationID.Command);
             }
         }
 
         public bool Handle
         {
-            get => this._handle;
+            get => _handle;
             set
             {
-                if (this._handle == value)
+                if (_handle == value)
                     return;
-                this._handle = value;
-                this.FireNotification(NotificationID.Handle);
+                _handle = value;
+                FireNotification(NotificationID.Handle);
             }
         }
 
         public bool StopRoute
         {
-            get => this._stopRoute;
+            get => _stopRoute;
             set
             {
-                this._stopRoute = value;
-                this.FireNotification(NotificationID.StopRoute);
+                _stopRoute = value;
+                FireNotification(NotificationID.StopRoute);
             }
         }
 
         public bool Repeat
         {
-            get => this._repeat;
+            get => _repeat;
             set
             {
-                if (this._repeat == value)
+                if (_repeat == value)
                     return;
-                this._repeat = value;
-                this.FireNotification(NotificationID.Repeat);
+                _repeat = value;
+                FireNotification(NotificationID.Repeat);
             }
         }
 
-        public object EventContext => this.CheckEventContext(ref this._eventContext);
+        public object EventContext => CheckEventContext(ref _eventContext);
 
         public bool TrackInvokedKeys
         {
-            get => this._invokedKeys != null;
+            get => _invokedKeys != null;
             set
             {
-                if (this.TrackInvokedKeys == value)
+                if (TrackInvokedKeys == value)
                     return;
-                this._invokedKeys = !value ? null : new ArrayList();
-                this.FireNotification(NotificationID.TrackInvokedKeys);
+                _invokedKeys = !value ? null : new ArrayList();
+                FireNotification(NotificationID.TrackInvokedKeys);
             }
         }
 
         public void GetInvokedKeys(IList copyTo)
         {
-            if (this.TrackInvokedKeys)
+            if (TrackInvokedKeys)
             {
-                foreach (object invokedKey in this._invokedKeys)
+                foreach (object invokedKey in _invokedKeys)
                     copyTo.Add(invokedKey);
-                this._invokedKeys.Clear();
+                _invokedKeys.Clear();
             }
             else
                 ErrorManager.ReportError("KeyHandler needs to be marked TrackInvokedKeys=\"true\" in order to call GetInvokedKeys()");
@@ -133,63 +133,63 @@ namespace Microsoft.Iris.InputHandlers
         {
             Keys key = info.Key;
             InputHandlerModifiers modifiers = GetModifiers(info.Modifiers);
-            if (key != (Keys)this._key)
+            if (key != (Keys)_key)
                 TranslateKey(ref key, ref modifiers);
-            if (!this.KeyMatches(key) || !this.ShouldHandleEvent(modifiers))
+            if (!KeyMatches(key) || !ShouldHandleEvent(modifiers))
                 return;
             bool flag;
-            if (!this._pressing)
+            if (!_pressing)
             {
-                this._pressing = true;
-                this.FireNotification(NotificationID.Pressing);
+                _pressing = true;
+                FireNotification(NotificationID.Pressing);
                 flag = true;
             }
             else
-                flag = this._repeat;
+                flag = _repeat;
             if (flag)
             {
-                if (this.HandlerTransition == InputHandlerTransition.Down)
-                    this.InvokeCommand(key);
-                if (this._handle)
+                if (HandlerTransition == InputHandlerTransition.Down)
+                    InvokeCommand(key);
+                if (_handle)
                     info.MarkHandled();
             }
-            if (this._stopRoute)
+            if (_stopRoute)
                 info.TruncateRoute();
-            this.SetEventContext(info.Target, ref this._eventContext, NotificationID.EventContext);
+            SetEventContext(info.Target, ref _eventContext, NotificationID.EventContext);
         }
 
         protected override void OnKeyUp(UIClass ui, KeyStateInfo info)
         {
             Keys key = info.Key;
             InputHandlerModifiers modifiers = GetModifiers(info.Modifiers);
-            if (key != (Keys)this._key)
+            if (key != (Keys)_key)
                 TranslateKey(ref key, ref modifiers);
-            if (!this.KeyMatches(key) || !this.ShouldHandleEvent(modifiers))
+            if (!KeyMatches(key) || !ShouldHandleEvent(modifiers))
                 return;
-            this._pressing = false;
-            this.FireNotification(NotificationID.Pressing);
-            if (this.HandlerTransition == InputHandlerTransition.Up)
-                this.InvokeCommand(key);
-            if (this._handle)
+            _pressing = false;
+            FireNotification(NotificationID.Pressing);
+            if (HandlerTransition == InputHandlerTransition.Up)
+                InvokeCommand(key);
+            if (_handle)
                 info.MarkHandled();
-            if (this._stopRoute)
+            if (_stopRoute)
                 info.TruncateRoute();
-            this.SetEventContext(info.Target, ref this._eventContext, NotificationID.EventContext);
+            SetEventContext(info.Target, ref _eventContext, NotificationID.EventContext);
         }
 
         protected override void OnLoseKeyFocus(UIClass ui, KeyFocusInfo info)
         {
-            if (!this._pressing)
+            if (!_pressing)
                 return;
-            this._pressing = false;
-            this.FireNotification(NotificationID.Pressing);
+            _pressing = false;
+            FireNotification(NotificationID.Pressing);
         }
 
         private bool KeyMatches(Keys candidate)
         {
-            if (this._key >= KeyHandlerKey.None)
-                return candidate == (Keys)this._key;
-            return this._key == KeyHandlerKey.Any && candidate != Keys.None;
+            if (_key >= KeyHandlerKey.None)
+                return candidate == (Keys)_key;
+            return _key == KeyHandlerKey.Any && candidate != Keys.None;
         }
 
         public static void TranslateKey(ref Keys key, ref InputHandlerModifiers modifiers) => TranslateKey(ref key, ref modifiers, Orientation.Horizontal);
@@ -260,14 +260,14 @@ namespace Microsoft.Iris.InputHandlers
 
         private void InvokeCommand(Keys key)
         {
-            this.FireNotification(NotificationID.Invoked);
-            if (this._command != null)
-                this._command.Invoke();
-            if (!this.TrackInvokedKeys)
+            FireNotification(NotificationID.Invoked);
+            if (_command != null)
+                _command.Invoke();
+            if (!TrackInvokedKeys)
                 return;
-            this._invokedKeys.Add((KeyHandlerKey)key);
+            _invokedKeys.Add((KeyHandlerKey)key);
         }
 
-        public override string ToString() => InvariantString.Format("{0}({1})", this.GetType().Name, _key);
+        public override string ToString() => InvariantString.Format("{0}({1})", GetType().Name, _key);
     }
 }

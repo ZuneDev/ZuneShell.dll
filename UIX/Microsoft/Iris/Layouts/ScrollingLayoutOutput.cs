@@ -25,62 +25,62 @@ namespace Microsoft.Iris.Layouts
 
         public bool CanScrollNegative
         {
-            get => this._canScrollNegative;
-            set => this._canScrollNegative = value;
+            get => _canScrollNegative;
+            set => _canScrollNegative = value;
         }
 
         public bool CanScrollPositive
         {
-            get => this._canScrollPositive;
-            set => this._canScrollPositive = value;
+            get => _canScrollPositive;
+            set => _canScrollPositive = value;
         }
 
         public float CurrentPage
         {
-            get => this._currentPage;
-            set => this._currentPage = value;
+            get => _currentPage;
+            set => _currentPage = value;
         }
 
         public float TotalPages
         {
-            get => this._totalPages;
-            set => this._totalPages = value;
+            get => _totalPages;
+            set => _totalPages = value;
         }
 
         public float ViewNear
         {
-            get => this._viewNear;
-            set => this._viewNear = value;
+            get => _viewNear;
+            set => _viewNear = value;
         }
 
         public float ViewFar
         {
-            get => this._viewFar;
-            set => this._viewFar = value;
+            get => _viewFar;
+            set => _viewFar = value;
         }
 
         public bool ProcessedExplicitScrollIntoViewRequest
         {
-            get => this._processedScrollIntoViewRequest;
-            set => this._processedScrollIntoViewRequest = value;
+            get => _processedScrollIntoViewRequest;
+            set => _processedScrollIntoViewRequest = value;
         }
 
         public bool ScrollFocusIntoView
         {
-            get => this._scrollFocusIntoView;
-            set => this._scrollFocusIntoView = value;
+            get => _scrollFocusIntoView;
+            set => _scrollFocusIntoView = value;
         }
 
         public VisibleIndexRangeLayoutOutput VisibleIndices
         {
-            get => this._visibleIndices;
-            set => this._visibleIndices = value;
+            get => _visibleIndices;
+            set => _visibleIndices = value;
         }
 
         public override DataCookie OutputID => DataCookie;
 
         public static DataCookie DataCookie => s_dataProperty;
 
-        public override string ToString() => InvariantString.Format("{0}(CanScrollNegative={1}, CanScrollPositive={2}, CurrentPage={3}, TotalPages={4})", this.GetType().Name, _canScrollNegative, _canScrollPositive, _currentPage, _totalPages);
+        public override string ToString() => InvariantString.Format("{0}(CanScrollNegative={1}, CanScrollPositive={2}, CurrentPage={3}, TotalPages={4})", GetType().Name, _canScrollNegative, _canScrollPositive, _currentPage, _totalPages);
     }
 }

@@ -19,12 +19,12 @@ namespace Microsoft.Iris.OS
         {
         }
 
-        public override string Identifier => this._uri;
+        public override string Identifier => _uri;
 
         protected override void StartAcquisition(bool forceSynchronous)
         {
-            this._pendingCallback = new NativeApi.DownloadCompleteHandler(this.OnHttpDownloadComplete);
-            int num = (int)NativeApi.SpHttpDownload(this._uri, this._pendingCallback, IntPtr.Zero, out this._handle);
+            _pendingCallback = new NativeApi.DownloadCompleteHandler(OnHttpDownloadComplete);
+            int num = (int)NativeApi.SpHttpDownload(_uri, _pendingCallback, IntPtr.Zero, out _handle);
         }
 
         private void OnHttpDownloadComplete(IntPtr handle, int error, uint length, IntPtr context)
@@ -34,7 +34,7 @@ namespace Microsoft.Iris.OS
             switch (error)
             {
                 case 0:
-                    buffer = NativeApi.DownloadGetBuffer(this._handle);
+                    buffer = NativeApi.DownloadGetBuffer(_handle);
                     break;
                 case 1:
                     errorDetails = string.Format("Invalid URI: '{0}'", _uri);
@@ -46,19 +46,19 @@ namespace Microsoft.Iris.OS
                     errorDetails = string.Format("Failed to complete download from '{0}'", _uri);
                     break;
             }
-            int num = (int)NativeApi.SpDownloadClose(this._handle);
-            this._handle = IntPtr.Zero;
-            this._pendingCallback = null;
-            this.NotifyAcquisitionComplete(buffer, length, true, errorDetails);
+            int num = (int)NativeApi.SpDownloadClose(_handle);
+            _handle = IntPtr.Zero;
+            _pendingCallback = null;
+            NotifyAcquisitionComplete(buffer, length, true, errorDetails);
         }
 
         protected override void CancelAcquisition()
         {
-            if (!(this._handle != IntPtr.Zero))
+            if (!(_handle != IntPtr.Zero))
                 return;
-            int num = (int)NativeApi.SpDownloadClose(this._handle);
-            this._handle = IntPtr.Zero;
-            this._pendingCallback = null;
+            int num = (int)NativeApi.SpDownloadClose(_handle);
+            _handle = IntPtr.Zero;
+            _pendingCallback = null;
         }
     }
 }

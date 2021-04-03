@@ -23,36 +23,36 @@ namespace Microsoft.Iris.Markup.Validation
           int column)
           : base(owner, line, column, ExpressionType.Index)
         {
-            this._indexee = indexee;
-            this._index = index;
+            _indexee = indexee;
+            _index = index;
         }
 
         public ValidateExpression CallExpression => _call;
 
         public override void Validate(TypeRestriction typeRestriction, ValidateContext context)
         {
-            if (this.Usage == ExpressionUsage.RValue || this.Usage == ExpressionUsage.DeclareTrigger)
+            if (Usage == ExpressionUsage.RValue || Usage == ExpressionUsage.DeclareTrigger)
             {
-                this._call = new ValidateExpressionCall(this.Owner, this._indexee, "get_Item", this._index, this.Line, this.Column);
-                this._call.Validate(TypeRestriction.NotVoid, context);
-                if (this._call.HasErrors)
-                    this.MarkHasErrors();
+                _call = new ValidateExpressionCall(Owner, _indexee, "get_Item", _index, Line, Column);
+                _call.Validate(TypeRestriction.NotVoid, context);
+                if (_call.HasErrors)
+                    MarkHasErrors();
                 else
-                    this.DeclareEvaluationType(this._call.ObjectType, typeRestriction);
+                    DeclareEvaluationType(_call.ObjectType, typeRestriction);
             }
             else
             {
-                this._index.AppendToEnd(new ValidateParameter(this.Owner, this._assignmentValue, this._assignmentValue.Line, this._assignmentValue.Column));
-                this._call = new ValidateExpressionCall(this.Owner, this._indexee, "set_Item", this._index, this.Line, this.Column);
-                this._call.SetAsIndexAssignment();
-                this._call.Validate(new TypeRestriction(VoidSchema.Type), context);
-                if (this._call.HasErrors)
-                    this.MarkHasErrors();
+                _index.AppendToEnd(new ValidateParameter(Owner, _assignmentValue, _assignmentValue.Line, _assignmentValue.Column));
+                _call = new ValidateExpressionCall(Owner, _indexee, "set_Item", _index, Line, Column);
+                _call.SetAsIndexAssignment();
+                _call.Validate(new TypeRestriction(VoidSchema.Type), context);
+                if (_call.HasErrors)
+                    MarkHasErrors();
                 else
-                    this.DeclareEvaluationType(this._assignmentValue.ObjectType, typeRestriction);
+                    DeclareEvaluationType(_assignmentValue.ObjectType, typeRestriction);
             }
         }
 
-        public void SetAssignmentValue(ValidateExpression assignmentValue) => this._assignmentValue = assignmentValue;
+        public void SetAssignmentValue(ValidateExpression assignmentValue) => _assignmentValue = assignmentValue;
     }
 }

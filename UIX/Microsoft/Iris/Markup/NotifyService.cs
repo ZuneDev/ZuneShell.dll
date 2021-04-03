@@ -16,9 +16,9 @@ namespace Microsoft.Iris.Markup
 
         public void Fire(string id)
         {
-            if (this._listenerRoot == null || this._listenerRoot.Next == null)
+            if (_listenerRoot == null || _listenerRoot.Next == null)
                 return;
-            for (ListenerNodeBase next = this._listenerRoot.Next; next != this._listenerRoot; next = next.Next)
+            for (ListenerNodeBase next = _listenerRoot.Next; next != _listenerRoot; next = next.Next)
             {
                 Listener listener = (Listener)next;
                 if (ReferenceEquals(listener.Watch, id))
@@ -30,30 +30,30 @@ namespace Microsoft.Iris.Markup
         {
             id = CanonicalizeString(id);
             if (UIDispatcher.IsUIThread)
-                this.Fire(id);
+                Fire(id);
             else
-                DeferredCall.Post(DispatchPriority.AppEvent, new DeferredHandler(this.FireThreadSafeMarshalHandler), id);
+                DeferredCall.Post(DispatchPriority.AppEvent, new DeferredHandler(FireThreadSafeMarshalHandler), id);
         }
 
-        public void FireThreadSafeMarshalHandler(object arg) => this.Fire((string)arg);
+        public void FireThreadSafeMarshalHandler(object arg) => Fire((string)arg);
 
-        public bool HasListeners => this._listenerRoot != null && this._listenerRoot.Next != null;
+        public bool HasListeners => _listenerRoot != null && _listenerRoot.Next != null;
 
         public void AddListener(Listener listener)
         {
-            if (this._listenerRoot == null)
-                this._listenerRoot = new ListenerRootNode();
-            this._listenerRoot.AddPrevious(listener);
+            if (_listenerRoot == null)
+                _listenerRoot = new ListenerRootNode();
+            _listenerRoot.AddPrevious(listener);
         }
 
         public void ClearListeners()
         {
-            if (this._listenerRoot == null)
+            if (_listenerRoot == null)
                 return;
-            while (this._listenerRoot.Next != null)
-                this._listenerRoot.Next.Unlink();
-            this._listenerRoot.Dispose();
-            this._listenerRoot = null;
+            while (_listenerRoot.Next != null)
+                _listenerRoot.Next.Unlink();
+            _listenerRoot.Dispose();
+            _listenerRoot = null;
         }
 
         public static string CanonicalizeString(string value) => GetCanonicalizedString(value, true);

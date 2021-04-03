@@ -57,7 +57,7 @@ namespace Microsoft.Iris
         {
             if (source == null)
                 throw new ArgumentNullException(nameof(source));
-            this._uiImage = new UriImage(source, inset, new Size(maximumWidth, maximumHeight), flippable, antialiasEdges);
+            _uiImage = new UriImage(source, inset, new Size(maximumWidth, maximumHeight), flippable, antialiasEdges);
         }
 
         public Image(
@@ -101,16 +101,16 @@ namespace Microsoft.Iris
             if (!ImageFormatUtils.RawImageFormatToSurfaceFormat(format, out surfaceFormat))
                 throw new ArgumentException(nameof(format));
             uniqueID = "RAW:" + uniqueID;
-            this._uiImage = new RawImage(uniqueID, new Size(imageWidth, imageHeight), stride, surfaceFormat, data, false, Inset.Zero, new Size(maximumWidth, maximumHeight), flippable, anitaliasEdges);
+            _uiImage = new RawImage(uniqueID, new Size(imageWidth, imageHeight), stride, surfaceFormat, data, false, Inset.Zero, new Size(maximumWidth, maximumHeight), flippable, anitaliasEdges);
         }
 
-        public string Source => this._uiImage.Source;
+        public string Source => _uiImage.Source;
 
         public bool Load()
         {
             UIDispatcher.VerifyOnApplicationThread();
-            this._uiImage.Load();
-            return this._uiImage.Status == ImageStatus.Loading;
+            _uiImage.Load();
+            return _uiImage.Status == ImageStatus.Loading;
         }
 
         public event ImageLoadCompleteHandler ImageLoadComplete
@@ -118,21 +118,21 @@ namespace Microsoft.Iris
             add
             {
                 UIDispatcher.VerifyOnApplicationThread();
-                if (this._uiImage.Status == ImageStatus.PendingLoad)
+                if (_uiImage.Status == ImageStatus.PendingLoad)
                     throw new InvalidOperationException("Image Load event cannot be used before Load is called");
-                if (this._completeHandlers == null)
-                    this._uiImage.LoadComplete += new ContentLoadCompleteHandler(this.OnContentLoadComplete);
-                this._completeHandlers += value;
+                if (_completeHandlers == null)
+                    _uiImage.LoadComplete += new ContentLoadCompleteHandler(OnContentLoadComplete);
+                _completeHandlers += value;
             }
             remove
             {
                 UIDispatcher.VerifyOnApplicationThread();
-                if (this._uiImage.Status == ImageStatus.PendingLoad)
+                if (_uiImage.Status == ImageStatus.PendingLoad)
                     throw new InvalidOperationException("Image Load event cannot be used before Load is called");
-                this._completeHandlers -= value;
-                if (this._completeHandlers != null)
+                _completeHandlers -= value;
+                if (_completeHandlers != null)
                     return;
-                this._uiImage.LoadComplete -= new ContentLoadCompleteHandler(this.OnContentLoadComplete);
+                _uiImage.LoadComplete -= new ContentLoadCompleteHandler(OnContentLoadComplete);
             }
         }
 
@@ -141,7 +141,7 @@ namespace Microsoft.Iris
             get
             {
                 UIDispatcher.VerifyOnApplicationThread();
-                return this._uiImage.Width;
+                return _uiImage.Width;
             }
         }
 
@@ -150,7 +150,7 @@ namespace Microsoft.Iris
             get
             {
                 UIDispatcher.VerifyOnApplicationThread();
-                return this._uiImage.Height;
+                return _uiImage.Height;
             }
         }
 
@@ -179,14 +179,14 @@ namespace Microsoft.Iris
             UriImage.RemoveCache(source, new Size(maximumWidth, maximumHeight), flippable, antialiasEdges);
         }
 
-        private void OnContentLoadComplete(object owner, ImageStatus status) => this._completeHandlers(this);
+        private void OnContentLoadComplete(object owner, ImageStatus status) => _completeHandlers(this);
 
         internal UIImage UIImage
         {
             get
             {
                 UIDispatcher.VerifyOnApplicationThread();
-                return this._uiImage;
+                return _uiImage;
             }
         }
 

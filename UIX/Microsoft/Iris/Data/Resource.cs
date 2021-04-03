@@ -23,29 +23,29 @@ namespace Microsoft.Iris.Data
 
         public Resource(string uri, bool forceSynchronous)
         {
-            this._uri = uri;
-            this._forceSynchronous = forceSynchronous;
-            this._status = ResourceStatus.NeedsAcquire;
+            _uri = uri;
+            _forceSynchronous = forceSynchronous;
+            _status = ResourceStatus.NeedsAcquire;
         }
 
-        public string Uri => this._uri;
+        public string Uri => _uri;
 
         public abstract string Identifier { get; }
 
-        public void Acquire() => this.Acquire(null);
+        public void Acquire() => Acquire(null);
 
         public void Acquire(ResourceAcquisitionCompleteHandler completeHandler)
         {
-            ++this._acquisitions;
+            ++_acquisitions;
             if (completeHandler != null)
-                this._completeHandlers += completeHandler;
-            if (this._status == ResourceStatus.Acquiring)
+                _completeHandlers += completeHandler;
+            if (_status == ResourceStatus.Acquiring)
                 return;
-            if (this._status != ResourceStatus.Available)
+            if (_status != ResourceStatus.Available)
             {
-                this._status = ResourceStatus.Acquiring;
-                this._errorDetails = null;
-                this.StartAcquisition(this._forceSynchronous);
+                _status = ResourceStatus.Acquiring;
+                _errorDetails = null;
+                StartAcquisition(_forceSynchronous);
             }
             else
             {
@@ -55,39 +55,39 @@ namespace Microsoft.Iris.Data
             }
         }
 
-        public void Free() => this.Free(null);
+        public void Free() => Free(null);
 
         public void Free(ResourceAcquisitionCompleteHandler completeHandler)
         {
-            --this._acquisitions;
+            --_acquisitions;
             if (completeHandler != null)
-                this._completeHandlers -= completeHandler;
-            if (this._acquisitions != 0)
+                _completeHandlers -= completeHandler;
+            if (_acquisitions != 0)
                 return;
-            if (this._status == ResourceStatus.Acquiring)
-                this.CancelAcquisition();
-            else if (this._buffer != IntPtr.Zero)
+            if (_status == ResourceStatus.Acquiring)
+                CancelAcquisition();
+            else if (_buffer != IntPtr.Zero)
             {
-                if (this._requiresMemoryFree)
-                    FreeNativeBuffer(this._buffer);
-                this._buffer = IntPtr.Zero;
+                if (_requiresMemoryFree)
+                    FreeNativeBuffer(_buffer);
+                _buffer = IntPtr.Zero;
             }
-            this._status = ResourceStatus.NeedsAcquire;
+            _status = ResourceStatus.NeedsAcquire;
         }
 
         public ResourceStatus Status
         {
-            get => this._status;
-            set => this._status = value;
+            get => _status;
+            set => _status = value;
         }
 
-        public string ErrorDetails => this._errorDetails;
+        public string ErrorDetails => _errorDetails;
 
-        public IntPtr Buffer => this._buffer;
+        public IntPtr Buffer => _buffer;
 
-        public uint Length => this._length;
+        public uint Length => _length;
 
-        public bool ForceSynchronous => this._forceSynchronous;
+        public bool ForceSynchronous => _forceSynchronous;
 
         protected abstract void StartAcquisition(bool forceSynchronous);
 
@@ -99,23 +99,23 @@ namespace Microsoft.Iris.Data
           bool requiresMemoryFree,
           string errorDetails)
         {
-            this._buffer = buffer;
-            this._length = length;
-            this._requiresMemoryFree = requiresMemoryFree;
+            _buffer = buffer;
+            _length = length;
+            _requiresMemoryFree = requiresMemoryFree;
             if (buffer != IntPtr.Zero)
             {
-                this._status = ResourceStatus.Available;
+                _status = ResourceStatus.Available;
             }
             else
             {
-                this._status = ResourceStatus.Error;
+                _status = ResourceStatus.Error;
                 if (errorDetails == null)
                     errorDetails = string.Format("Failed to acquire resource '{0}'", Identifier);
-                this._errorDetails = errorDetails;
+                _errorDetails = errorDetails;
             }
-            if (this._completeHandlers == null)
+            if (_completeHandlers == null)
                 return;
-            this._completeHandlers(this);
+            _completeHandlers(this);
         }
 
         protected static IntPtr AllocNativeBuffer(uint length) => NativeApi.MemAlloc(length, false);
@@ -124,12 +124,12 @@ namespace Microsoft.Iris.Data
 
         private void FireAcquisitionCompleteHandlers()
         {
-            if (this._completeHandlers == null)
+            if (_completeHandlers == null)
                 return;
-            this._completeHandlers(this);
-            this._completeHandlers = null;
+            _completeHandlers(this);
+            _completeHandlers = null;
         }
 
-        public override string ToString() => this._uri;
+        public override string ToString() => _uri;
     }
 }

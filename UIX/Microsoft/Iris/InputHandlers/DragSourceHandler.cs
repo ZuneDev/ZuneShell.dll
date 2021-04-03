@@ -28,143 +28,143 @@ namespace Microsoft.Iris.InputHandlers
 
         internal DragSourceHandler()
         {
-            this._moveCursor = CursorID.Move;
-            this._copyCursor = CursorID.Copy;
-            this._cancelCursor = CursorID.Cancel;
+            _moveCursor = CursorID.Move;
+            _copyCursor = CursorID.Copy;
+            _cancelCursor = CursorID.Cancel;
         }
 
         public override void OnZoneDetached()
         {
-            if (this.Dragging)
-                this.EndDrag(null, InputModifiers.None, DropAction.None);
+            if (Dragging)
+                EndDrag(null, InputModifiers.None, DropAction.None);
             base.OnZoneDetached();
         }
 
         protected override void ConfigureInteractivity()
         {
             base.ConfigureInteractivity();
-            if (!this.HandleDirect)
+            if (!HandleDirect)
                 return;
-            this.UI.MouseInteractive = true;
+            UI.MouseInteractive = true;
         }
 
         public object Value
         {
-            get => this._value;
+            get => _value;
             set
             {
-                if (this._value == value)
+                if (_value == value)
                     return;
-                this._value = value;
-                this.FireNotification(NotificationID.Value);
+                _value = value;
+                FireNotification(NotificationID.Value);
             }
         }
 
         public DropAction AllowedDropActions
         {
-            get => this._allowedDropActions;
+            get => _allowedDropActions;
             set
             {
-                if (this._allowedDropActions == value)
+                if (_allowedDropActions == value)
                     return;
-                this._allowedDropActions = value;
-                this.FireNotification(NotificationID.AllowedDropActions);
+                _allowedDropActions = value;
+                FireNotification(NotificationID.AllowedDropActions);
             }
         }
 
-        public DropAction CurrentDropAction => this._currentDropAction;
+        public DropAction CurrentDropAction => _currentDropAction;
 
         private void SetCurrentDropAction(DropAction value)
         {
-            if (this._currentDropAction == value)
+            if (_currentDropAction == value)
                 return;
-            this._currentDropAction = value;
-            this.FireNotification(NotificationID.CurrentDropAction);
-            this.UpdateCursor();
+            _currentDropAction = value;
+            FireNotification(NotificationID.CurrentDropAction);
+            UpdateCursor();
         }
 
         public bool Dragging => DragDropHelper.DraggingInternally && DragDropHelper.SourceHandler == this;
 
         public CursorID MoveCursor
         {
-            get => this._moveCursor;
+            get => _moveCursor;
             set
             {
-                if (this._moveCursor == value)
+                if (_moveCursor == value)
                     return;
-                this._moveCursor = value;
-                this.FireNotification(NotificationID.MoveCursor);
+                _moveCursor = value;
+                FireNotification(NotificationID.MoveCursor);
             }
         }
 
         public CursorID CopyCursor
         {
-            get => this._copyCursor;
+            get => _copyCursor;
             set
             {
-                if (this._copyCursor == value)
+                if (_copyCursor == value)
                     return;
-                this._copyCursor = value;
-                this.FireNotification(NotificationID.CopyCursor);
+                _copyCursor = value;
+                FireNotification(NotificationID.CopyCursor);
             }
         }
 
         public CursorID CancelCursor
         {
-            get => this._cancelCursor;
+            get => _cancelCursor;
             set
             {
-                if (this._cancelCursor == value)
+                if (_cancelCursor == value)
                     return;
-                this._cancelCursor = value;
-                this.FireNotification(NotificationID.CancelCursor);
+                _cancelCursor = value;
+                FireNotification(NotificationID.CancelCursor);
             }
         }
 
         protected override void OnMousePrimaryDown(UIClass ui, MouseButtonInfo info)
         {
-            this._pendingDrag = true;
-            this._initialX = info.ScreenX;
-            this._initialY = info.ScreenY;
+            _pendingDrag = true;
+            _initialX = info.ScreenX;
+            _initialY = info.ScreenY;
             base.OnMousePrimaryDown(ui, info);
         }
 
         protected override void OnMouseMove(UIClass ui, MouseMoveInfo info)
         {
-            if (this.Dragging)
+            if (Dragging)
             {
                 DragDropHelper.Requery(info.NaturalHit, info.ScreenX, info.ScreenY, info.Modifiers);
                 info.MarkHandled();
             }
-            else if (this._pendingDrag)
+            else if (_pendingDrag)
             {
-                if (Math.Abs(info.ScreenX - this._initialX) >= Win32Api.GetSystemMetrics(68) || Math.Abs(info.ScreenY - this._initialY) >= Win32Api.GetSystemMetrics(69))
+                if (Math.Abs(info.ScreenX - _initialX) >= Win32Api.GetSystemMetrics(68) || Math.Abs(info.ScreenY - _initialY) >= Win32Api.GetSystemMetrics(69))
                 {
-                    this._pendingDrag = false;
+                    _pendingDrag = false;
                     DragDropHelper.BeginDrag(this, info.Target, info.NaturalHit, 0, 0, info.Modifiers);
-                    this.UI.SessionInput += new SessionInputHandler(this.OnSessionInput);
-                    this.FireNotification(NotificationID.Dragging);
-                    this.FireNotification(NotificationID.Started);
-                    this.UpdateCursor();
+                    UI.SessionInput += new SessionInputHandler(OnSessionInput);
+                    FireNotification(NotificationID.Dragging);
+                    FireNotification(NotificationID.Started);
+                    UpdateCursor();
                     info.MarkHandled();
                 }
             }
-            else if (this._dragCanceled)
+            else if (_dragCanceled)
                 info.MarkHandled();
             base.OnMouseMove(ui, info);
         }
 
         protected override void OnMousePrimaryUp(UIClass sender, MouseButtonInfo info)
         {
-            this._pendingDrag = false;
-            if (this.Dragging)
+            _pendingDrag = false;
+            if (Dragging)
             {
-                this.EndDrag(info?.NaturalHit, info.Modifiers, this.CurrentDropAction);
+                EndDrag(info?.NaturalHit, info.Modifiers, CurrentDropAction);
                 info.MarkHandled();
             }
-            else if (this._dragCanceled)
+            else if (_dragCanceled)
             {
-                this._dragCanceled = false;
+                _dragCanceled = false;
                 info.MarkHandled();
             }
             base.OnMousePrimaryUp(sender, info);
@@ -191,8 +191,8 @@ namespace Microsoft.Iris.InputHandlers
                             DragDropHelper.Requery(modifiers);
                             break;
                         case Keys.Escape:
-                            this.EndDrag(null, keyStateInfo.Modifiers, DropAction.None);
-                            this._dragCanceled = true;
+                            EndDrag(null, keyStateInfo.Modifiers, DropAction.None);
+                            _dragCanceled = true;
                             break;
                     }
                     keyStateInfo.MarkHandled();
@@ -207,70 +207,70 @@ namespace Microsoft.Iris.InputHandlers
 
         protected override void OnLoseKeyFocus(UIClass sender, KeyFocusInfo info)
         {
-            this._pendingDrag = false;
-            if (this.Dragging)
-                this.EndDrag(null, DragDropHelper.Modifiers, DropAction.None);
+            _pendingDrag = false;
+            if (Dragging)
+                EndDrag(null, DragDropHelper.Modifiers, DropAction.None);
             base.OnLoseKeyFocus(sender, info);
         }
 
         protected override void OnLoseMouseFocus(UIClass sender, MouseFocusInfo info)
         {
-            this._pendingDrag = false;
-            if (this.Dragging)
-                this.EndDrag(null, DragDropHelper.Modifiers, DropAction.None);
+            _pendingDrag = false;
+            if (Dragging)
+                EndDrag(null, DragDropHelper.Modifiers, DropAction.None);
             base.OnLoseMouseFocus(sender, info);
         }
 
         private void EndDrag(IRawInputSite target, InputModifiers modifiers, DropAction action)
         {
-            this.UI.SessionInput -= new SessionInputHandler(this.OnSessionInput);
+            UI.SessionInput -= new SessionInputHandler(OnSessionInput);
             DragDropHelper.EndDrag(target, modifiers, action);
         }
 
         internal void OnEndDrag(DropAction action)
         {
-            this.FireNotification(NotificationID.Dragging);
+            FireNotification(NotificationID.Dragging);
             switch (action)
             {
                 case DropAction.None:
-                    this.FireNotification(NotificationID.Canceled);
+                    FireNotification(NotificationID.Canceled);
                     break;
                 case DropAction.Copy:
-                    this.FireNotification(NotificationID.Copied);
+                    FireNotification(NotificationID.Copied);
                     break;
                 case DropAction.Move:
-                    this.FireNotification(NotificationID.Moved);
+                    FireNotification(NotificationID.Moved);
                     break;
             }
-            this.UpdateCursor();
+            UpdateCursor();
         }
 
         internal void UpdateCurrentAction()
         {
-            DropAction dropAction = DragDropHelper.AllowedDropActions & this.AllowedDropActions;
+            DropAction dropAction = DragDropHelper.AllowedDropActions & AllowedDropActions;
             if ((dropAction & DropAction.All) == DropAction.All)
             {
                 if ((DragDropHelper.Modifiers & InputModifiers.ControlKey) == InputModifiers.ControlKey)
-                    this.SetCurrentDropAction(DropAction.Copy);
+                    SetCurrentDropAction(DropAction.Copy);
                 else
-                    this.SetCurrentDropAction(DropAction.Move);
+                    SetCurrentDropAction(DropAction.Move);
             }
             else
-                this.SetCurrentDropAction(dropAction);
+                SetCurrentDropAction(dropAction);
         }
 
         internal override CursorID GetCursor()
         {
-            if (this.Dragging)
+            if (Dragging)
             {
-                switch (this.CurrentDropAction)
+                switch (CurrentDropAction)
                 {
                     case DropAction.None:
-                        return this.CancelCursor;
+                        return CancelCursor;
                     case DropAction.Copy:
-                        return this.CopyCursor;
+                        return CopyCursor;
                     case DropAction.Move:
-                        return this.MoveCursor;
+                        return MoveCursor;
                 }
             }
             return CursorID.NotSpecified;

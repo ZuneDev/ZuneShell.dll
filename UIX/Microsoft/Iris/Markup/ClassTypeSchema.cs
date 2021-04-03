@@ -23,10 +23,10 @@ namespace Microsoft.Iris.Markup
         protected override void OnDispose()
         {
             base.OnDispose();
-            if (this._sharedInstance == null)
+            if (_sharedInstance == null)
                 return;
-            this._sharedInstance.Dispose(this);
-            this._sharedInstance = null;
+            _sharedInstance.Dispose(this);
+            _sharedInstance = null;
         }
 
         public override MarkupType MarkupType => MarkupType.Class;
@@ -35,31 +35,31 @@ namespace Microsoft.Iris.Markup
 
         public override Type RuntimeType => typeof(Class);
 
-        public override object ConstructDefault() => this._isShared ? SharedInstance : this.ConstructNewInstance();
+        public override object ConstructDefault() => _isShared ? SharedInstance : ConstructNewInstance();
 
-        public override void InitializeInstance(ref object instance) => this.InitializeInstance((IMarkupTypeBase)instance);
+        public override void InitializeInstance(ref object instance) => InitializeInstance((IMarkupTypeBase)instance);
 
-        public override bool HasInitializer => !this._isShared;
+        public override bool HasInitializer => !_isShared;
 
-        public override bool Disposable => !this._isShared && base.Disposable;
+        public override bool Disposable => !_isShared && base.Disposable;
 
-        public bool IsShared => this._isShared;
+        public bool IsShared => _isShared;
 
-        public void MarkShareable() => this._isShared = true;
+        public void MarkShareable() => _isShared = true;
 
         public Class SharedInstance
         {
             get
             {
-                if (!this._isShared)
+                if (!_isShared)
                     return null;
-                if (this._sharedInstance == null)
+                if (_sharedInstance == null)
                 {
-                    this._sharedInstance = this.ConstructNewInstance();
-                    this._sharedInstance.DeclareOwner(this);
-                    this.InitializeInstance(_sharedInstance);
+                    _sharedInstance = ConstructNewInstance();
+                    _sharedInstance.DeclareOwner(this);
+                    InitializeInstance(_sharedInstance);
                 }
-                return this._sharedInstance;
+                return _sharedInstance;
             }
         }
 

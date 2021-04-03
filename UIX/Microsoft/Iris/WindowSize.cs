@@ -19,13 +19,13 @@ namespace Microsoft.Iris
                 throw new ArgumentOutOfRangeException(nameof(width));
             if (height < 0)
                 throw new ArgumentOutOfRangeException(nameof(Height));
-            this._width = width;
-            this._height = height;
+            _width = width;
+            _height = height;
         }
 
-        public int Width => this._width;
+        public int Width => _width;
 
-        public int Height => this._height;
+        public int Height => _height;
 
         public static bool operator ==(WindowSize a, WindowSize b) => a.Width == b.Width && a.Height == b.Height;
 
@@ -33,6 +33,6 @@ namespace Microsoft.Iris
 
         public override bool Equals(object o) => o is WindowSize windowSize && windowSize == this;
 
-        public override int GetHashCode() => this.Width ^ this.Height;
+        public override int GetHashCode() => Width ^ Height;
     }
 }

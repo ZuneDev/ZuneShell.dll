@@ -19,24 +19,24 @@ namespace Microsoft.Iris.OS
         internal DllResource(string uri, string dll, string identifier)
           : base(uri, true)
         {
-            this._dll = dll;
-            this._identifier = identifier;
+            _dll = dll;
+            _identifier = identifier;
         }
 
-        public override string Identifier => this._identifier;
+        public override string Identifier => _identifier;
 
         protected override void StartAcquisition(bool forceSynchronous)
         {
             string errorDetails = null;
-            if (this._buffer == IntPtr.Zero && !NativeApi.SpLoadBinaryResource(this._dll, this._identifier, !DllResources.StaticDllResourcesOnly, out this._buffer, out this._length))
+            if (_buffer == IntPtr.Zero && !NativeApi.SpLoadBinaryResource(_dll, _identifier, !DllResources.StaticDllResourcesOnly, out _buffer, out _length))
                 errorDetails = string.Format("Resource not found: res://{0}!{1}", _dll, _identifier);
-            this.NotifyAcquisitionComplete(this._buffer, this._length, false, errorDetails);
+            NotifyAcquisitionComplete(_buffer, _length, false, errorDetails);
         }
 
         protected override void CancelAcquisition()
         {
         }
 
-        public override string ToString() => this._dll + "|" + this._identifier.ToLowerInvariant();
+        public override string ToString() => _dll + "|" + _identifier.ToLowerInvariant();
     }
 }

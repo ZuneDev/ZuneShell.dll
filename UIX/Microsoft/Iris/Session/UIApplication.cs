@@ -94,17 +94,17 @@ namespace Microsoft.Iris.Session
               DeferredHandler notifyMethod,
               object args)
             {
-                this._args = args;
-                this._notify = notifyMethod;
-                this._worker = workerMethod;
+                _args = args;
+                _notify = notifyMethod;
+                _worker = workerMethod;
             }
 
-            public void BeginInvoke() => this._worker.BeginInvoke(this._args, new AsyncCallback(this.AsyncInvokeCompleted), null);
+            public void BeginInvoke() => _worker.BeginInvoke(_args, new AsyncCallback(AsyncInvokeCompleted), null);
 
             private void AsyncInvokeCompleted(IAsyncResult result)
             {
-                this._worker.EndInvoke(result);
-                DeferredCall.Post(DispatchPriority.Idle, this._notify, this._args);
+                _worker.EndInvoke(result);
+                DeferredCall.Post(DispatchPriority.Idle, _notify, _args);
             }
         }
 

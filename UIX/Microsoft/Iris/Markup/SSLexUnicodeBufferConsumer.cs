@@ -23,26 +23,26 @@ namespace Microsoft.Iris.Markup
 
         public unsafe SSLexUnicodeBufferConsumer(IntPtr buffer, uint length, string prefix)
         {
-            this._buffer = (char*)buffer.ToPointer();
-            this._length = length;
-            this._prefix = prefix;
+            _buffer = (char*)buffer.ToPointer();
+            _length = length;
+            _prefix = prefix;
         }
 
-        public override bool getNext() => this.GetCharAt(this.m_index, out this.m_current);
+        public override bool getNext() => GetCharAt(m_index, out m_current);
 
-        public override unsafe string getSubstring(int start, int length) => start + length <= this._prefix.Length ? this._prefix.Substring(start, length) : NativeApi.PtrToStringUni(new IntPtr(this._buffer + start - this._prefix.Length), length);
+        public override unsafe string getSubstring(int start, int length) => start + length <= _prefix.Length ? _prefix.Substring(start, length) : NativeApi.PtrToStringUni(new IntPtr(_buffer + start - _prefix.Length), length);
 
         public unsafe bool GetCharAt(int position, out char ch)
         {
-            if (position < this._prefix.Length)
+            if (position < _prefix.Length)
             {
-                ch = this._prefix[this.m_index];
+                ch = _prefix[m_index];
                 return true;
             }
-            int index = position - this._prefix.Length;
+            int index = position - _prefix.Length;
             if (index < _length)
             {
-                ch = this._buffer[index];
+                ch = _buffer[index];
                 return true;
             }
             ch = char.MinValue;

@@ -20,6 +20,6 @@ namespace Microsoft.Iris.Markup
 
         protected override IMarkupTypeBase GetMarkupTypeBase(object instance) => instance == null ? ((ClassTypeSchema)Owner).SharedInstance : (IMarkupTypeBase)instance;
 
-        public override bool IsStatic => ((ClassTypeSchema)this.Owner).IsShared;
+        public override bool IsStatic => ((ClassTypeSchema)Owner).IsShared;
     }
 }

@@ -17,39 +17,39 @@ namespace Microsoft.Iris.Markup.Validation
           int column)
           : base(owner, line, column, ExpressionType.DeclareTrigger)
         {
-            this._expression = expression;
+            _expression = expression;
         }
 
-        public ValidateExpression Expression => this._expression;
+        public ValidateExpression Expression => _expression;
 
         public override void Validate(TypeRestriction typeRestriction, ValidateContext context)
         {
-            if (this.Usage == ExpressionUsage.LValue)
-                this.ReportError("Expression cannot be used as the target an assignment (related symbol: '{0}')", "Trigger Declaration");
+            if (Usage == ExpressionUsage.LValue)
+                ReportError("Expression cannot be used as the target an assignment (related symbol: '{0}')", "Trigger Declaration");
             if (context.IsNotifierTracking)
             {
-                this.ReportError("Declared triggers may not exist within other declared triggers");
+                ReportError("Declared triggers may not exist within other declared triggers");
             }
             else
             {
-                StartNotifierTracking(context, this._expression);
+                StartNotifierTracking(context, _expression);
                 try
                 {
-                    this._expression.Validate(TypeRestriction.None, context);
+                    _expression.Validate(TypeRestriction.None, context);
                 }
                 finally
                 {
-                    StopNotifierTracking(this, context, this._expression);
+                    StopNotifierTracking(this, context, _expression);
                 }
-                if (this._expression.HasErrors)
-                    this.MarkHasErrors();
-                if (this.HasErrors)
+                if (_expression.HasErrors)
+                    MarkHasErrors();
+                if (HasErrors)
                     return;
-                this.DeclareEvaluationType(this._expression.ObjectType, typeRestriction);
+                DeclareEvaluationType(_expression.ObjectType, typeRestriction);
                 if (context.IsTrackingDeclaredTriggers)
-                    context.TrackDeclaredTrigger(this._expression);
+                    context.TrackDeclaredTrigger(_expression);
                 else
-                    this.ReportError("Expressions can only be used as triggers if they exist within Script blocks");
+                    ReportError("Expressions can only be used as triggers if they exist within Script blocks");
             }
         }
 

@@ -41,244 +41,244 @@ namespace Microsoft.Iris.UI
           : base(session)
         {
             session.InputManager.KeyFocusCanBeNull = true;
-            session.InputManager.InvalidKeyFocus += new InvalidKeyFocusHandler(this.OnInvalidKeyFocus);
-            this._showWindowFrame = true;
-            this._alwaysOnTop = false;
-            this._showInTaskbar = true;
-            this._showShadow = false;
-            this._startCentered = false;
-            this._startInWorkArea = false;
-            this._preventInterruption = false;
-            this.UpdateStyles();
-            this.SetWindowOptions(WindowOptions.FreeformResize, true);
-            this._notificationCallback = new NativeApi.NotifyWindowCallback(this.OnNotifyCallback);
+            session.InputManager.InvalidKeyFocus += new InvalidKeyFocusHandler(OnInvalidKeyFocus);
+            _showWindowFrame = true;
+            _alwaysOnTop = false;
+            _showInTaskbar = true;
+            _showShadow = false;
+            _startCentered = false;
+            _startInWorkArea = false;
+            _preventInterruption = false;
+            UpdateStyles();
+            SetWindowOptions(WindowOptions.FreeformResize, true);
+            _notificationCallback = new NativeApi.NotifyWindowCallback(OnNotifyCallback);
             IntPtr handle;
-            RendererApi.IFC(NativeApi.SpCreateNotifyWindow(out handle, this._notificationCallback));
-            this.AppNotifyWindow = handle;
+            RendererApi.IFC(NativeApi.SpCreateNotifyWindow(out handle, _notificationCallback));
+            AppNotifyWindow = handle;
         }
 
         private void OnInitialize()
         {
             UIZone newZone = new UIZone(this);
             newZone.DeclareOwner(this);
-            this.AttachChildZone(newZone);
-            newZone.RootViewItem.RequestSource(this._initialSource, this._initialProperties);
+            AttachChildZone(newZone);
+            newZone.RootViewItem.RequestSource(_initialSource, _initialProperties);
         }
 
         public string Caption
         {
-            get => this.Text;
+            get => Text;
             set
             {
-                if (!(value != this.Text))
+                if (!(value != Text))
                     return;
-                this.Text = value;
-                this.FireNotification(NotificationID.Caption);
+                Text = value;
+                FireNotification(NotificationID.Caption);
             }
         }
 
         public bool ShowWindowFrame
         {
-            get => this._showWindowFrame;
+            get => _showWindowFrame;
             set
             {
-                if (this._showWindowFrame == value)
+                if (_showWindowFrame == value)
                     return;
-                this._showWindowFrame = value;
-                this.UpdateStyles();
-                this.FireNotification(NotificationID.ShowWindowFrame);
+                _showWindowFrame = value;
+                UpdateStyles();
+                FireNotification(NotificationID.ShowWindowFrame);
             }
         }
 
         public bool ShowShadow
         {
-            get => this._showShadow;
+            get => _showShadow;
             set
             {
-                if (this._showShadow == value)
+                if (_showShadow == value)
                     return;
-                this._showShadow = value;
-                this.SetWindowOptions(WindowOptions.ShowFormShadow, value);
+                _showShadow = value;
+                SetWindowOptions(WindowOptions.ShowFormShadow, value);
             }
         }
 
         public bool PreventInterruption
         {
-            get => this._preventInterruption;
+            get => _preventInterruption;
             set
             {
-                if (this._preventInterruption == value)
+                if (_preventInterruption == value)
                     return;
-                this._preventInterruption = value;
-                this.SetWindowOptions(WindowOptions.PreventInterruption, value);
+                _preventInterruption = value;
+                SetWindowOptions(WindowOptions.PreventInterruption, value);
             }
         }
 
         public MaximizeMode MaximizeMode
         {
-            get => this._maximizeMode;
+            get => _maximizeMode;
             set
             {
-                if (this._maximizeMode == value)
+                if (_maximizeMode == value)
                     return;
-                this._maximizeMode = value;
+                _maximizeMode = value;
                 if (value == MaximizeMode.FullScreen)
-                    this.SetWindowOptions(WindowOptions.MaximizeFullScreen, true);
+                    SetWindowOptions(WindowOptions.MaximizeFullScreen, true);
                 else
-                    this.SetWindowOptions(WindowOptions.MaximizeFullScreen, false);
-                this.FireNotification(NotificationID.MaximizeMode);
+                    SetWindowOptions(WindowOptions.MaximizeFullScreen, false);
+                FireNotification(NotificationID.MaximizeMode);
             }
         }
 
         public bool StartCentered
         {
-            get => this._startCentered;
+            get => _startCentered;
             set
             {
-                if (this._startCentered == value)
+                if (_startCentered == value)
                     return;
-                this._startCentered = value;
-                this.SetWindowOptions(WindowOptions.StartCentered, value);
+                _startCentered = value;
+                SetWindowOptions(WindowOptions.StartCentered, value);
             }
         }
 
         public bool StartInWorkArea
         {
-            get => this._startInWorkArea;
+            get => _startInWorkArea;
             set
             {
-                if (this._startInWorkArea == value)
+                if (_startInWorkArea == value)
                     return;
-                this._startInWorkArea = value;
-                this.SetWindowOptions(WindowOptions.StartInWorkArea, value);
+                _startInWorkArea = value;
+                SetWindowOptions(WindowOptions.StartInWorkArea, value);
             }
         }
 
         public bool RespectsStartupSettings
         {
-            get => this._respectStartupSettings;
+            get => _respectStartupSettings;
             set
             {
-                if (this._respectStartupSettings == value)
+                if (_respectStartupSettings == value)
                     return;
-                this._respectStartupSettings = value;
-                this.SetWindowOptions(WindowOptions.RespectStartupSettings, value);
+                _respectStartupSettings = value;
+                SetWindowOptions(WindowOptions.RespectStartupSettings, value);
             }
         }
 
         public bool AlwaysOnTop
         {
-            get => this._alwaysOnTop;
+            get => _alwaysOnTop;
             set
             {
-                if (this._alwaysOnTop == value)
+                if (_alwaysOnTop == value)
                     return;
-                this._alwaysOnTop = value;
-                this.UpdateStyles();
-                this.FireNotification(NotificationID.AlwaysOnTop);
+                _alwaysOnTop = value;
+                UpdateStyles();
+                FireNotification(NotificationID.AlwaysOnTop);
             }
         }
 
         public bool ShowInTaskbar
         {
-            get => this._showInTaskbar;
+            get => _showInTaskbar;
             set
             {
-                if (this._showInTaskbar == value)
+                if (_showInTaskbar == value)
                     return;
-                this._showInTaskbar = value;
-                this.UpdateStyles();
-                this.FireNotification(NotificationID.ShowInTaskbar);
+                _showInTaskbar = value;
+                UpdateStyles();
+                FireNotification(NotificationID.ShowInTaskbar);
             }
         }
 
         public int MouseIdleTimeout
         {
-            get => this._mouseIdleTimeout;
+            get => _mouseIdleTimeout;
             set
             {
-                this._mouseIdleTimeout = value;
+                _mouseIdleTimeout = value;
                 if (value != 0)
                 {
-                    this.SetMouseIdleOptions(new Size(2, 2), (uint)value);
-                    this.SetWindowOptions(WindowOptions.TrackMouseIdle, true);
+                    SetMouseIdleOptions(new Size(2, 2), (uint)value);
+                    SetWindowOptions(WindowOptions.TrackMouseIdle, true);
                 }
                 else
-                    this.SetWindowOptions(WindowOptions.TrackMouseIdle, false);
-                this.FireNotification(NotificationID.MouseIdleTimeout);
+                    SetWindowOptions(WindowOptions.TrackMouseIdle, false);
+                FireNotification(NotificationID.MouseIdleTimeout);
             }
         }
 
         public bool HideMouseOnIdle
         {
-            get => this._hideMouseOnIdle;
+            get => _hideMouseOnIdle;
             set
             {
-                if (this._hideMouseOnIdle == value)
+                if (_hideMouseOnIdle == value)
                     return;
-                this._hideMouseOnIdle = value;
-                this.SetWindowOptions(WindowOptions.MouseleaveOnIdle, value);
+                _hideMouseOnIdle = value;
+                SetWindowOptions(WindowOptions.MouseleaveOnIdle, value);
                 if (value)
-                    this.IdleCursor = CursorID.None;
+                    IdleCursor = CursorID.None;
                 else
-                    this.IdleCursor = CursorID.NotSpecified;
-                this.FireNotification(NotificationID.HideMouseOnIdle);
+                    IdleCursor = CursorID.NotSpecified;
+                FireNotification(NotificationID.HideMouseOnIdle);
             }
         }
 
         public void RequestLoad(string source, Vector<UIPropertyRecord> properties)
         {
-            if (this.Zone == null)
+            if (Zone == null)
             {
-                this._initialSource = source;
-                this._initialProperties = properties;
+                _initialSource = source;
+                _initialProperties = properties;
             }
             else
-                this.Zone.RootViewItem.RequestSource(source, properties);
+                Zone.RootViewItem.RequestSource(source, properties);
         }
 
-        public SavedKeyFocus SaveKeyFocus() => this.Zone != null && this.Zone.RootUI != null ? new SavedKeyFocus(this.Zone.RootUI.SaveKeyFocus()) : null;
+        public SavedKeyFocus SaveKeyFocus() => Zone != null && Zone.RootUI != null ? new SavedKeyFocus(Zone.RootUI.SaveKeyFocus()) : null;
 
         public void RestoreKeyFocus(SavedKeyFocus state)
         {
             if (state == null)
                 return;
-            DeferredCall.Post(DispatchPriority.LayoutSync, new DeferredHandler(this.DeferredRestoreKeyFocus), state.Payload);
+            DeferredCall.Post(DispatchPriority.LayoutSync, new DeferredHandler(DeferredRestoreKeyFocus), state.Payload);
         }
 
         private void DeferredRestoreKeyFocus(object cookie)
         {
-            if (this.Zone == null || this.Zone.RootUI == null)
+            if (Zone == null || Zone.RootUI == null)
                 return;
-            this.Zone.RootUI.RestoreKeyFocus(cookie);
+            Zone.RootUI.RestoreKeyFocus(cookie);
         }
 
         private void UpdateStyles()
         {
             FormStyleInfo formStyleInfo = new FormStyleInfo();
             uint num1 = 100663296;
-            uint num2 = !this.ShowInTaskbar ? 128U : 262144U;
-            if (this.AlwaysOnTop)
+            uint num2 = !ShowInTaskbar ? 128U : 262144U;
+            if (AlwaysOnTop)
                 num2 |= 8U;
             formStyleInfo.uStyleFullscreen = num1;
             formStyleInfo.uExStyleFullscreen = num2;
             uint num3 = num1 | 720896U;
-            uint num4 = !this.ShowWindowFrame ? num3 | 2147483648U : num3 | 12845056U;
+            uint num4 = !ShowWindowFrame ? num3 | 2147483648U : num3 | 12845056U;
             formStyleInfo.uStyleRestored = num4;
             formStyleInfo.uExStyleRestored = num2;
             formStyleInfo.uStyleMinimized = num4;
             formStyleInfo.uExStyleMinimized = num2;
             formStyleInfo.uStyleMaximized = num4;
             formStyleInfo.uExStyleMaximized = num2;
-            this.Styles = formStyleInfo;
+            Styles = formStyleInfo;
         }
 
         protected override void OnLoad()
         {
             base.OnLoad();
             Graphic.EnsureFallbackImages();
-            this.OnInitialize();
-            this.Visible = true;
+            OnInitialize();
+            Visible = true;
         }
 
         internal override void OnShow(bool fShow, bool fFirstShow)
@@ -286,51 +286,51 @@ namespace Microsoft.Iris.UI
             base.OnShow(fShow, fFirstShow);
             if (!fShow || !fFirstShow)
                 return;
-            this.Session.InputManager.KeyFocusCanBeNull = false;
-            if (this._initialLoadComplete == null)
+            Session.InputManager.KeyFocusCanBeNull = false;
+            if (_initialLoadComplete == null)
                 return;
-            DeferredCall.Post(DispatchPriority.Idle, new SimpleCallback(this.DeliverIntialLoadCompleteCallback));
+            DeferredCall.Post(DispatchPriority.Idle, new SimpleCallback(DeliverIntialLoadCompleteCallback));
         }
 
         protected override void OnActivationChange()
         {
-            this.FireNotification(NotificationID.Active);
+            FireNotification(NotificationID.Active);
             base.OnActivationChange();
         }
 
-        protected override void OnWindowStateChanged(bool fUnplanned) => this.FireNotification(NotificationID.WindowState);
+        protected override void OnWindowStateChanged(bool fUnplanned) => FireNotification(NotificationID.WindowState);
 
-        protected override void OnLocationChanged(Point position) => this.FireNotification(NotificationID.Position);
+        protected override void OnLocationChanged(Point position) => FireNotification(NotificationID.Position);
 
-        protected override void OnSizeChanged() => this.FireNotification(NotificationID.ClientSize);
+        protected override void OnSizeChanged() => FireNotification(NotificationID.ClientSize);
 
-        public bool MouseIsIdle => this._mouseIsIdle;
+        public bool MouseIsIdle => _mouseIsIdle;
 
         protected override void OnMouseIdle(bool value)
         {
-            if (this._mouseIsIdle != value)
+            if (_mouseIsIdle != value)
             {
-                this._mouseIsIdle = value;
-                this.FireNotification(NotificationID.MouseActive);
+                _mouseIsIdle = value;
+                FireNotification(NotificationID.MouseActive);
             }
             base.OnMouseIdle(value);
         }
 
         private void DeliverIntialLoadCompleteCallback()
         {
-            DeferredCall.Post(DispatchPriority.Idle, this._initialLoadComplete, null);
-            this._initialLoadComplete = null;
+            DeferredCall.Post(DispatchPriority.Idle, _initialLoadComplete, null);
+            _initialLoadComplete = null;
         }
 
-        public void SetInitialLoadCompleteCallback(DeferredHandler callback) => this._initialLoadComplete = callback;
+        public void SetInitialLoadCompleteCallback(DeferredHandler callback) => _initialLoadComplete = callback;
 
-        public void Close() => this.RequestClose(FormCloseReason.UserRequest);
+        public void Close() => RequestClose(FormCloseReason.UserRequest);
 
         protected override void OnCloseRequest(FormCloseReason nReason)
         {
             bool block = false;
-            if (this.CloseRequested != null)
-                this.CloseRequested(nReason, ref block);
+            if (CloseRequested != null)
+                CloseRequested(nReason, ref block);
             if (block)
                 return;
             base.OnCloseRequest(nReason);
@@ -341,9 +341,9 @@ namespace Microsoft.Iris.UI
         protected override void OnDestroy()
         {
             base.OnDestroy();
-            this.Zone.Dispose(this);
-            this.Session.InputManager.InvalidKeyFocus -= new InvalidKeyFocusHandler(this.OnInvalidKeyFocus);
-            this.Session.Dispatcher.StopCurrentMessageLoop();
+            Zone.Dispose(this);
+            Session.InputManager.InvalidKeyFocus -= new InvalidKeyFocusHandler(OnInvalidKeyFocus);
+            Session.Dispatcher.StopCurrentMessageLoop();
             NativeApi.SpDestroyNotifyWindow();
         }
 
@@ -358,7 +358,7 @@ namespace Microsoft.Iris.UI
                     return;
                 }
             }
-            this.SetDefaultKeyFocus();
+            SetDefaultKeyFocus();
         }
 
         protected override IntPtr OnAccGetObject(int wparam, int lparam)
@@ -373,7 +373,7 @@ namespace Microsoft.Iris.UI
                 if (rootAccessibleProxy.ClientBridge == null)
                 {
                     object accPtr2;
-                    AccessibleProxy.CreateStdAccessibleObject(this.__WindowHandle, -4, AccessibleProxy.IID_IAccessible, out accPtr2);
+                    AccessibleProxy.CreateStdAccessibleObject(__WindowHandle, -4, AccessibleProxy.IID_IAccessible, out accPtr2);
                     rootAccessibleProxy.AttachClientBridge((IAccessible)accPtr2);
                 }
             }
@@ -390,18 +390,18 @@ namespace Microsoft.Iris.UI
           int param1,
           int param2)
         {
-            return notification == NativeApi.NotificationType.GetObject ? this.OnAccGetObject(param1, param2) : new IntPtr(0);
+            return notification == NativeApi.NotificationType.GetObject ? OnAccGetObject(param1, param2) : new IntPtr(0);
         }
 
         private void FireNotification(string id)
         {
-            if (this.PropertyChanged != null)
-                this.PropertyChanged(id);
-            this._notifier.Fire(id);
+            if (PropertyChanged != null)
+                PropertyChanged(id);
+            _notifier.Fire(id);
         }
 
         public event FormPropertyChangedHandler PropertyChanged;
 
-        void INotifyObject.AddListener(Listener listener) => this._notifier.AddListener(listener);
+        void INotifyObject.AddListener(Listener listener) => _notifier.AddListener(listener);
     }
 }

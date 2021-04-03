@@ -17,10 +17,10 @@ namespace Microsoft.Iris.ViewItems
 
         public void Clear()
         {
-            this.Host = null;
-            this.Source = null;
-            this.Type = null;
-            this.Properties = null;
+            Host = null;
+            Source = null;
+            Type = null;
+            Properties = null;
         }
     }
 }

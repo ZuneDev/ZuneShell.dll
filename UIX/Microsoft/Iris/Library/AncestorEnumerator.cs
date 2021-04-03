@@ -16,14 +16,14 @@ namespace Microsoft.Iris.Library
 
         internal AncestorEnumerator(TreeNode nodeStart)
         {
-            this._nodeStart = nodeStart;
-            this._nodeCurrent = null;
-            this._nodeNext = this._nodeStart;
+            _nodeStart = nodeStart;
+            _nodeCurrent = null;
+            _nodeNext = _nodeStart;
         }
 
         object IEnumerator.Current => _nodeCurrent;
 
-        public TreeNode Current => this._nodeCurrent;
+        public TreeNode Current => _nodeCurrent;
 
         IEnumerator IEnumerable.GetEnumerator() => this;
 
@@ -31,16 +31,16 @@ namespace Microsoft.Iris.Library
 
         public void Reset()
         {
-            this._nodeCurrent = null;
-            this._nodeNext = this._nodeStart;
+            _nodeCurrent = null;
+            _nodeNext = _nodeStart;
         }
 
         public bool MoveNext()
         {
-            this._nodeCurrent = this._nodeNext;
-            if (this._nodeNext == null)
+            _nodeCurrent = _nodeNext;
+            if (_nodeNext == null)
                 return false;
-            this._nodeNext = this._nodeNext.Parent;
+            _nodeNext = _nodeNext.Parent;
             return true;
         }
     }

@@ -31,13 +31,13 @@ namespace Microsoft.Iris.Input
         {
         }
 
-        public InputModifiers MouseModifiers => this.Manager.HACK_SystemModifiers & InputModifiers.AllMouse;
+        public InputModifiers MouseModifiers => Manager.HACK_SystemModifiers & InputModifiers.AllMouse;
 
         public bool OnRawInput(uint message, InputModifiers modifiers, ref RawMouseData args)
         {
             IRawInputSite visCapture = args._visCapture;
             IRawInputSite visNatural = args._visNatural;
-            this.Manager.HACK_UpdateSystemModifiers(modifiers);
+            Manager.HACK_UpdateSystemModifiers(modifiers);
             switch (message)
             {
                 case 512:
@@ -53,11 +53,11 @@ namespace Microsoft.Iris.Input
                 case 523:
                 case 524:
                 case 525:
-                    this.Manager.MostRecentPhysicalMousePos = new Point(args._physicalX, args._physicalY);
-                    this.Manager.Queue.RawMouseMove(visCapture, visNatural, this.Manager.Modifiers, ref args);
+                    Manager.MostRecentPhysicalMousePos = new Point(args._physicalX, args._physicalY);
+                    Manager.Queue.RawMouseMove(visCapture, visNatural, Manager.Modifiers, ref args);
                     break;
                 case 675:
-                    this.Manager.Queue.RawMouseLeave();
+                    Manager.Queue.RawMouseLeave();
                     break;
             }
             bool state = false;
@@ -77,10 +77,10 @@ namespace Microsoft.Iris.Input
                 case 517:
                 case 520:
                 case 524:
-                    this.Manager.Queue.RawMouseButtonState(message, visCapture, visNatural, this.Manager.Modifiers, args._button, state);
+                    Manager.Queue.RawMouseButtonState(message, visCapture, visNatural, Manager.Modifiers, args._button, state);
                     break;
                 case 522:
-                    this.Manager.Queue.RawMouseWheel(this.Manager.Modifiers, ref args);
+                    Manager.Queue.RawMouseWheel(Manager.Modifiers, ref args);
                     break;
             }
             return true;
@@ -92,11 +92,11 @@ namespace Microsoft.Iris.Input
           ref RawDragData args,
           object data)
         {
-            this.Manager.HACK_UpdateSystemModifiers(modifiers);
-            this.Manager.MostRecentPhysicalMousePos = new Point(args._positionX, args._positionY);
+            Manager.HACK_UpdateSystemModifiers(modifiers);
+            Manager.MostRecentPhysicalMousePos = new Point(args._positionX, args._positionY);
             IRawInputSite visCapture = args._visCapture;
             DragOperation formOperation = (DragOperation)message;
-            this.Manager.Queue.RawDragDrop(visCapture, data, args._positionX, args._positionY, modifiers, formOperation, args);
+            Manager.Queue.RawDragDrop(visCapture, data, args._positionX, args._positionY, modifiers, formOperation, args);
             return true;
         }
     }

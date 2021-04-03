@@ -28,202 +28,200 @@ namespace Microsoft.Iris.Markup
         private uint _lineNumberTableEnd;
         private TypeSchema[][] _typeSchemaArrays;
 
-        public static CompiledMarkupLoader Load(
-          CompiledMarkupLoadResult loadResult,
-          Resource resource)
+        public static CompiledMarkupLoader Load(CompiledMarkupLoadResult loadResult, Resource resource)
         {
             return new CompiledMarkupLoader(loadResult, resource);
         }
 
         private CompiledMarkupLoader(CompiledMarkupLoadResult loadResultTarget, Resource resource)
         {
-            this._loadResultTarget = loadResultTarget;
-            this._reader = new ByteCodeReader(resource.Buffer, resource.Length, false);
+            _loadResultTarget = loadResultTarget;
+            _reader = new ByteCodeReader(resource.Buffer, resource.Length, false);
             if (resource is DllResource)
-                this._reader.MarkAsInFixedMemory();
-            uint num1 = this._reader.ReadUInt32();
-            uint num2 = this._reader.ReadUInt32();
+                _reader.MarkAsInFixedMemory();
+            uint num1 = _reader.ReadUInt32();
+            uint num2 = _reader.ReadUInt32();
             if (num1 != 440551765U)
-                this.ReportError("Invalid compiled UIX file");
+                ReportError("Invalid compiled UIX file");
             if (num2 == 1012U)
                 return;
-            this.ReportError("Compiled UIX file '{0}' was compiled for the runtime with version {1}, but the current runtime is version {2}", resource.Uri, num2.ToString(), 1012U.ToString());
+            ReportError("Compiled UIX file '{0}' was compiled for the runtime with version {1}, but the current runtime is version {2}", resource.Uri, num2.ToString(), 1012U.ToString());
         }
 
         public void Depersist(LoadPass currentPass)
         {
-            if (this._currentDepersistPass >= currentPass)
+            if (_currentDepersistPass >= currentPass)
                 return;
-            this._currentDepersistPass = currentPass;
-            if (this._binaryDataTableLoadResult != null)
-                this._binaryDataTableLoadResult.Load(this._currentDepersistPass);
-            if (this._currentDepersistPass == LoadPass.DeclareTypes)
-                this.DoLoadPassDeclareTypes();
-            else if (this._currentDepersistPass == LoadPass.PopulatePublicModel)
-                this.DoLoadPassPopulatePublicModel();
-            else if (this._currentDepersistPass == LoadPass.Full)
+            _currentDepersistPass = currentPass;
+            if (_binaryDataTableLoadResult != null)
+                _binaryDataTableLoadResult.Load(_currentDepersistPass);
+            if (_currentDepersistPass == LoadPass.DeclareTypes)
+                DoLoadPassDeclareTypes();
+            else if (_currentDepersistPass == LoadPass.PopulatePublicModel)
+                DoLoadPassPopulatePublicModel();
+            else if (_currentDepersistPass == LoadPass.Full)
             {
-                this.DoLoadPassFull();
+                DoLoadPassFull();
             }
             else
             {
-                foreach (MarkupTypeSchema markupTypeSchema in this._loadResultTarget.ExportTable)
+                foreach (MarkupTypeSchema markupTypeSchema in _loadResultTarget.ExportTable)
                     markupTypeSchema.Seal();
-                this._reader = null;
+                _reader = null;
             }
-            foreach (LoadResult dependency in this._loadResultTarget.Dependencies)
+            foreach (LoadResult dependency in _loadResultTarget.Dependencies)
             {
-                if (dependency != this._loadResultTarget)
+                if (dependency != _loadResultTarget)
                 {
-                    dependency.Load(this._currentDepersistPass);
+                    dependency.Load(_currentDepersistPass);
                     if (dependency.Status == LoadResultStatus.Error)
-                        this.MarkHasErrors();
+                        MarkHasErrors();
                 }
             }
         }
 
         private void DoLoadPassDeclareTypes()
         {
-            if (this.HasErrors)
+            if (HasErrors)
                 return;
-            this.DepersistTableOfContents();
-            if (this.HasErrors)
+            DepersistTableOfContents();
+            if (HasErrors)
                 return;
-            this.DepersistDependencies();
-            if (this.HasErrors)
+            DepersistDependencies();
+            if (HasErrors)
                 return;
-            this.DepersistTypeExportDeclarations();
-            if (!this.HasErrors)
+            DepersistTypeExportDeclarations();
+            if (!HasErrors)
                 ;
         }
 
         private void DoLoadPassPopulatePublicModel()
         {
-            if (this.HasErrors)
+            if (HasErrors)
                 return;
-            this.DepersistTypeImportTable();
-            if (this.HasErrors)
+            DepersistTypeImportTable();
+            if (HasErrors)
                 return;
-            this.DepersistTypeExportDefinitions();
-            if (!this.HasErrors)
+            DepersistTypeExportDefinitions();
+            if (!HasErrors)
                 ;
         }
 
         private void DoLoadPassFull()
         {
-            if (this.HasErrors)
+            if (HasErrors)
                 return;
-            this.DepersistMemberImportTables();
-            if (this.HasErrors)
+            DepersistMemberImportTables();
+            if (HasErrors)
                 return;
-            this.DepersistDataMappingsTable();
-            if (this.HasErrors)
+            DepersistDataMappingsTable();
+            if (HasErrors)
                 return;
-            this.DepersistConstantsTable();
-            if (this.HasErrors)
+            DepersistConstantsTable();
+            if (HasErrors)
                 return;
-            this.DepersistLineNumberTable();
-            if (this.HasErrors)
+            DepersistLineNumberTable();
+            if (HasErrors)
                 return;
-            this.DepersistObjectSection();
-            if (!this.HasErrors)
+            DepersistObjectSection();
+            if (!HasErrors)
                 ;
         }
 
         private void DepersistTableOfContents()
         {
-            this._objectSectionStart = this._reader.ReadUInt32();
-            this._objectSectionEnd = this._reader.ReadUInt32();
-            this._lineNumberTableStart = this._reader.ReadUInt32();
-            this._lineNumberTableEnd = this._reader.ReadUInt32();
-            string uri = this._reader.ReadString();
+            _objectSectionStart = _reader.ReadUInt32();
+            _objectSectionEnd = _reader.ReadUInt32();
+            _lineNumberTableStart = _reader.ReadUInt32();
+            _lineNumberTableEnd = _reader.ReadUInt32();
+            string uri = _reader.ReadString();
             if (uri != null)
             {
-                this._binaryDataTableLoadResult = MarkupSystem.ResolveLoadResult(uri, this._loadResultTarget.IslandReferences) as MarkupLoadResult;
-                if (this._binaryDataTableLoadResult != null)
+                _binaryDataTableLoadResult = MarkupSystem.ResolveLoadResult(uri, _loadResultTarget.IslandReferences) as MarkupLoadResult;
+                if (_binaryDataTableLoadResult != null)
                 {
-                    this._binaryDataTableLoadResult.Load(this._currentDepersistPass);
-                    this._binaryDataTable = this._binaryDataTableLoadResult.BinaryDataTable;
-                    this._loadResultTarget.SetBinaryDataTable(this._binaryDataTable);
-                    if (this._binaryDataTable.SharedDependenciesTableWithBinaryDataTable == null)
-                        this._binaryDataTable.SharedDependenciesTableWithBinaryDataTable = new LoadResult[1]
+                    _binaryDataTableLoadResult.Load(_currentDepersistPass);
+                    _binaryDataTable = _binaryDataTableLoadResult.BinaryDataTable;
+                    _loadResultTarget.SetBinaryDataTable(_binaryDataTable);
+                    if (_binaryDataTable.SharedDependenciesTableWithBinaryDataTable == null)
+                        _binaryDataTable.SharedDependenciesTableWithBinaryDataTable = new LoadResult[1]
                         {
                _binaryDataTableLoadResult
                         };
-                    this._loadResultTarget.SetDependenciesTable(this._binaryDataTable.SharedDependenciesTableWithBinaryDataTable);
-                    this._usingSharedDataTable = true;
+                    _loadResultTarget.SetDependenciesTable(_binaryDataTable.SharedDependenciesTableWithBinaryDataTable);
+                    _usingSharedDataTable = true;
                 }
                 else
-                    this.MarkHasErrors();
+                    MarkHasErrors();
             }
             else
-                this.DepersistBinaryDataTable(this._reader.ReadUInt32());
+                DepersistBinaryDataTable(_reader.ReadUInt32());
         }
 
         private void DepersistDependencies()
         {
-            if (this._usingSharedDataTable)
+            if (_usingSharedDataTable)
                 return;
-            ushort num = this._reader.ReadUInt16();
+            ushort num = _reader.ReadUInt16();
             LoadResult[] dependenciesTable = new LoadResult[num];
             for (ushort index = 0; index < num; ++index)
             {
-                this._reader.ReadBool();
-                string uri = this.ReadDataTableString();
-                LoadResult loadResult = MarkupSystem.ResolveLoadResult(uri, this._loadResultTarget.IslandReferences);
+                _reader.ReadBool();
+                string uri = ReadDataTableString();
+                LoadResult loadResult = MarkupSystem.ResolveLoadResult(uri, _loadResultTarget.IslandReferences);
                 if (loadResult == null || loadResult.Status == LoadResultStatus.Error)
                 {
-                    this.ReportError("Import of '{0}' failed", uri);
+                    ReportError("Import of '{0}' failed", uri);
                     return;
                 }
                 dependenciesTable[index] = loadResult;
             }
-            this._loadResultTarget.SetDependenciesTable(dependenciesTable);
+            _loadResultTarget.SetDependenciesTable(dependenciesTable);
         }
 
         private void DepersistTypeExportDeclarations()
         {
-            ushort num1 = this._reader.ReadUInt16();
+            ushort num1 = _reader.ReadUInt16();
             TypeSchema[] exportTable = new TypeSchema[num1];
             for (int index = 0; index < num1; ++index)
             {
-                string name = this.ReadDataTableString();
-                MarkupTypeSchema markupTypeSchema = MarkupTypeSchema.Build(this.MarkupTypeToDefinition((MarkupType)this._reader.ReadInt32()), _loadResultTarget, name);
+                string name = ReadDataTableString();
+                MarkupTypeSchema markupTypeSchema = MarkupTypeSchema.Build(MarkupTypeToDefinition((MarkupType)_reader.ReadInt32()), _loadResultTarget, name);
                 exportTable[index] = markupTypeSchema;
             }
-            this._loadResultTarget.SetExportTable(exportTable);
-            ushort num2 = this._reader.ReadUInt16();
+            _loadResultTarget.SetExportTable(exportTable);
+            ushort num2 = _reader.ReadUInt16();
             if (num2 <= 0)
                 return;
             AliasMapping[] aliasTable = new AliasMapping[num2];
             for (int index1 = 0; index1 < num2; ++index1)
             {
-                string alias = this.ReadDataTableString();
-                ushort index2 = this._reader.ReadUInt16();
-                string targetType = this.ReadDataTableString();
-                LoadResult dependent = this.MapIndexToDependent(index2);
+                string alias = ReadDataTableString();
+                ushort index2 = _reader.ReadUInt16();
+                string targetType = ReadDataTableString();
+                LoadResult dependent = MapIndexToDependent(index2);
                 aliasTable[index1] = new AliasMapping(alias, dependent, targetType);
             }
-            this._loadResultTarget.SetAliasTable(aliasTable);
+            _loadResultTarget.SetAliasTable(aliasTable);
         }
 
         private void DepersistTypeImportTable()
         {
-            if (this._usingSharedDataTable)
+            if (_usingSharedDataTable)
                 return;
             MarkupImportTables importTables = new MarkupImportTables();
-            this._loadResultTarget.BinaryDataTable.SetImportTables(importTables);
-            ushort num = this._reader.ReadUInt16();
+            _loadResultTarget.BinaryDataTable.SetImportTables(importTables);
+            ushort num = _reader.ReadUInt16();
             if (num <= 0)
                 return;
             TypeSchema[] typeSchemaArray = new TypeSchema[num];
             for (ushort index = 0; index < num; ++index)
             {
-                LoadResult dependent = this.MapIndexToDependent(this._reader.ReadUInt16());
-                string name = this.ReadDataTableString();
+                LoadResult dependent = MapIndexToDependent(_reader.ReadUInt16());
+                string name = ReadDataTableString();
                 TypeSchema type = dependent.FindType(name);
                 if (type == null)
-                    this.ReportError("Import of {0} named '{1}' from '{2}' failed", "type", name, dependent.Uri);
+                    ReportError("Import of {0} named '{1}' from '{2}' failed", "type", name, dependent.Uri);
                 else
                     typeSchemaArray[index] = type;
             }
@@ -232,54 +230,54 @@ namespace Microsoft.Iris.Markup
 
         private void DepersistTypeExportDefinitions()
         {
-            TypeSchema[] typeImports = this._loadResultTarget.ImportTables.TypeImports;
-            foreach (MarkupTypeSchema markupTypeSchema in this._loadResultTarget.ExportTable)
+            TypeSchema[] typeImports = _loadResultTarget.ImportTables.TypeImports;
+            foreach (MarkupTypeSchema markupTypeSchema in _loadResultTarget.ExportTable)
             {
                 MarkupType markupType = markupTypeSchema.MarkupType;
-                TypeSchema definition = this.MarkupTypeToDefinition(markupType);
-                uint typeDepth = this._reader.ReadUInt16();
+                TypeSchema definition = MarkupTypeToDefinition(markupType);
+                uint typeDepth = _reader.ReadUInt16();
                 markupTypeSchema.SetTypeDepth(typeDepth);
                 if (typeDepth > 1U)
                 {
-                    ushort num = this._reader.ReadUInt16();
+                    ushort num = _reader.ReadUInt16();
                     TypeSchema typeSchema = typeImports[num];
                     markupTypeSchema.SetBaseType((MarkupTypeSchema)typeSchema);
                 }
-                uint offset1 = this._reader.ReadUInt32();
+                uint offset1 = _reader.ReadUInt32();
                 markupTypeSchema.SetInitializePropertiesOffset(offset1);
-                uint offset2 = this._reader.ReadUInt32();
+                uint offset2 = _reader.ReadUInt32();
                 markupTypeSchema.SetInitializeLocalsInputOffset(offset2);
-                uint offset3 = this._reader.ReadUInt32();
+                uint offset3 = _reader.ReadUInt32();
                 markupTypeSchema.SetInitializeContentOffset(offset3);
-                markupTypeSchema.SetInitialEvaluateOffsets(this.ReadUInt32ArrayHelper());
-                markupTypeSchema.SetFinalEvaluateOffsets(this.ReadUInt32ArrayHelper());
-                markupTypeSchema.SetRefreshListenerGroupOffsets(this.ReadUInt32ArrayHelper());
-                uint listenerCount = this._reader.ReadUInt32();
+                markupTypeSchema.SetInitialEvaluateOffsets(ReadUInt32ArrayHelper());
+                markupTypeSchema.SetFinalEvaluateOffsets(ReadUInt32ArrayHelper());
+                markupTypeSchema.SetRefreshListenerGroupOffsets(ReadUInt32ArrayHelper());
+                uint listenerCount = _reader.ReadUInt32();
                 markupTypeSchema.SetListenerCount(listenerCount);
-                uint num1 = this._reader.ReadUInt32();
+                uint num1 = _reader.ReadUInt32();
                 if (num1 > 0U)
                 {
                     SymbolReference[] symbolTable = new SymbolReference[num1];
                     for (int index = 0; index < num1; ++index)
                     {
-                        SymbolReference symbolReference = new SymbolReference(this.ReadDataTableString(), (SymbolOrigin)this._reader.ReadByte());
+                        SymbolReference symbolReference = new SymbolReference(ReadDataTableString(), (SymbolOrigin)_reader.ReadByte());
                         symbolTable[index] = symbolReference;
                     }
                     markupTypeSchema.SetSymbolReferenceTable(symbolTable);
                 }
-                this.DepersistInheritedSymbolTable(markupTypeSchema);
-                int totalPropertiesAndLocalsCount = this._reader.ReadInt32();
+                DepersistInheritedSymbolTable(markupTypeSchema);
+                int totalPropertiesAndLocalsCount = _reader.ReadInt32();
                 markupTypeSchema.SetTotalPropertiesAndLocalsCount(totalPropertiesAndLocalsCount);
                 if (markupType == MarkupType.UI)
                 {
-                    ushort num2 = this._reader.ReadUInt16();
+                    ushort num2 = _reader.ReadUInt16();
                     if (num2 > 0)
                     {
                         NamedContentRecord[] namedContentTable = new NamedContentRecord[num2];
                         for (int index = 0; index < num2; ++index)
                         {
-                            string name = this.ReadDataTableString();
-                            uint offset4 = this._reader.ReadUInt32();
+                            string name = ReadDataTableString();
+                            uint offset4 = _reader.ReadUInt32();
                             namedContentTable[index] = new NamedContentRecord(name);
                             namedContentTable[index].SetOffset(offset4);
                         }
@@ -288,43 +286,43 @@ namespace Microsoft.Iris.Markup
                 }
                 else
                 {
-                    if (this._reader.ReadBool())
+                    if (_reader.ReadBool())
                         ((ClassTypeSchema)markupTypeSchema).MarkShareable();
                     if (markupType == MarkupType.Effect)
                     {
                         EffectClassTypeSchema effectClassTypeSchema = (EffectClassTypeSchema)markupTypeSchema;
-                        effectClassTypeSchema.SetTechniqueOffsets(this.ReadUInt32ArrayHelper());
-                        effectClassTypeSchema.SetInstancePropertyAssignments(this.ReadUInt32ArrayHelper());
-                        effectClassTypeSchema.SetDynamicElementAssignments(this.ReadStringArrayHelper());
-                        int symbolIndex = this._reader.ReadInt32();
+                        effectClassTypeSchema.SetTechniqueOffsets(ReadUInt32ArrayHelper());
+                        effectClassTypeSchema.SetInstancePropertyAssignments(ReadUInt32ArrayHelper());
+                        effectClassTypeSchema.SetDynamicElementAssignments(ReadStringArrayHelper());
+                        int symbolIndex = _reader.ReadInt32();
                         effectClassTypeSchema.SetDefaultElementSymbolIndex(symbolIndex);
                     }
                     if (markupType == MarkupType.DataQuery)
                     {
                         MarkupDataQuerySchema markupDataQuerySchema = (MarkupDataQuerySchema)markupTypeSchema;
-                        markupDataQuerySchema.ProviderName = this.ReadDataTableString();
-                        ushort index = this._reader.ReadUInt16();
-                        markupDataQuerySchema.ResultType = this.MapIndexToType(index);
+                        markupDataQuerySchema.ProviderName = ReadDataTableString();
+                        ushort index = _reader.ReadUInt16();
+                        markupDataQuerySchema.ResultType = MapIndexToType(index);
                     }
                 }
-                ushort num3 = this._reader.ReadUInt16();
+                ushort num3 = _reader.ReadUInt16();
                 if (num3 > 0)
                 {
                     PropertySchema[] properties = new PropertySchema[num3];
                     for (int index1 = 0; index1 < num3; ++index1)
                     {
-                        string name = this.ReadDataTableString();
-                        bool requiredForCreation = this._reader.ReadBool();
-                        bool flag = this._reader.ReadBool();
+                        string name = ReadDataTableString();
+                        bool requiredForCreation = _reader.ReadBool();
+                        bool flag = _reader.ReadBool();
                         PropertyOverrideCriteriaTypeConstraint criteriaTypeConstraint = null;
                         if (flag)
                         {
-                            ushort num2 = this._reader.ReadUInt16();
-                            ushort num4 = this._reader.ReadUInt16();
+                            ushort num2 = _reader.ReadUInt16();
+                            ushort num4 = _reader.ReadUInt16();
                             TypeSchema constraint = typeImports[num2];
                             criteriaTypeConstraint = new PropertyOverrideCriteriaTypeConstraint(typeImports[num4], constraint);
                         }
-                        ushort num5 = this._reader.ReadUInt16();
+                        ushort num5 = _reader.ReadUInt16();
                         TypeSchema propertyType = typeImports[num5];
                         MarkupPropertySchema markupPropertySchema = MarkupPropertySchema.Build(definition, markupTypeSchema, name, propertyType);
                         markupPropertySchema.SetRequiredForCreation(requiredForCreation);
@@ -332,111 +330,111 @@ namespace Microsoft.Iris.Markup
                         if (markupType == MarkupType.DataType)
                         {
                             MarkupDataTypePropertySchema typePropertySchema = (MarkupDataTypePropertySchema)markupPropertySchema;
-                            ushort index2 = this._reader.ReadUInt16();
+                            ushort index2 = _reader.ReadUInt16();
                             if (index2 != ushort.MaxValue)
-                                typePropertySchema.SetUnderlyingCollectionType(this.MapIndexToType(index2));
+                                typePropertySchema.SetUnderlyingCollectionType(MapIndexToType(index2));
                         }
                         if (markupType == MarkupType.DataQuery)
                         {
                             MarkupDataQueryPropertySchema queryPropertySchema = (MarkupDataQueryPropertySchema)markupPropertySchema;
-                            if (this._reader.ReadBool())
-                                queryPropertySchema.DefaultValue = queryPropertySchema.PropertyType.DecodeBinary(this._reader);
-                            queryPropertySchema.InvalidatesQuery = this._reader.ReadBool();
-                            ushort index2 = this._reader.ReadUInt16();
+                            if (_reader.ReadBool())
+                                queryPropertySchema.DefaultValue = queryPropertySchema.PropertyType.DecodeBinary(_reader);
+                            queryPropertySchema.InvalidatesQuery = _reader.ReadBool();
+                            ushort index2 = _reader.ReadUInt16();
                             if (index2 != ushort.MaxValue)
-                                queryPropertySchema.SetUnderlyingCollectionType(this.MapIndexToType(index2));
+                                queryPropertySchema.SetUnderlyingCollectionType(MapIndexToType(index2));
                         }
                         properties[index1] = markupPropertySchema;
                     }
                     markupTypeSchema.SetPropertyList(properties);
                 }
-                MethodSchema[] methods = this.ReadMarkupMethodArrayHelper(definition, markupTypeSchema);
+                MethodSchema[] methods = ReadMarkupMethodArrayHelper(definition, markupTypeSchema);
                 if (methods != null)
                     markupTypeSchema.SetMethodList(methods);
-                MethodSchema[] virtualMethods = this.ReadMarkupMethodArrayHelper(definition, markupTypeSchema);
+                MethodSchema[] virtualMethods = ReadMarkupMethodArrayHelper(definition, markupTypeSchema);
                 if (virtualMethods != null)
                     markupTypeSchema.SetVirtualMethodList(virtualMethods);
             }
-            foreach (MarkupTypeSchema markupTypeSchema in this._loadResultTarget.ExportTable)
+            foreach (MarkupTypeSchema markupTypeSchema in _loadResultTarget.ExportTable)
                 markupTypeSchema.BuildProperties();
         }
 
         private void DepersistMemberImportTables()
         {
-            if (this._usingSharedDataTable)
+            if (_usingSharedDataTable)
                 return;
-            MarkupImportTables importTables = this._loadResultTarget.ImportTables;
-            ushort num1 = this._reader.ReadUInt16();
+            MarkupImportTables importTables = _loadResultTarget.ImportTables;
+            ushort num1 = _reader.ReadUInt16();
             if (num1 > 0)
             {
                 ConstructorSchema[] constructorSchemaArray = new ConstructorSchema[num1];
                 for (int index1 = 0; index1 < num1; ++index1)
                 {
-                    TypeSchema type = this.MapIndexToType(this._reader.ReadUInt16());
-                    ushort num2 = this._reader.ReadUInt16();
+                    TypeSchema type = MapIndexToType(_reader.ReadUInt16());
+                    ushort num2 = _reader.ReadUInt16();
                     TypeSchema[] parameters = TypeSchema.EmptyList;
                     if (num2 > 0)
                     {
-                        parameters = this.GetTempParameterArray(num2);
+                        parameters = GetTempParameterArray(num2);
                         for (ushort index2 = 0; index2 < num2; ++index2)
                         {
-                            ushort index3 = this._reader.ReadUInt16();
-                            parameters[index2] = this.MapIndexToType(index3);
+                            ushort index3 = _reader.ReadUInt16();
+                            parameters[index2] = MapIndexToType(index3);
                         }
                     }
                     ConstructorSchema constructor = type.FindConstructor(parameters);
                     if (constructor == null)
-                        this.ReportError("Import of {0} named '{1}' from '{2}' failed", "constructor", type.Name, type.Owner.Uri);
+                        ReportError("Import of {0} named '{1}' from '{2}' failed", "constructor", type.Name, type.Owner.Uri);
                     else
                         constructorSchemaArray[index1] = constructor;
                 }
                 importTables.ConstructorImports = constructorSchemaArray;
             }
-            ushort num3 = this._reader.ReadUInt16();
+            ushort num3 = _reader.ReadUInt16();
             if (num3 > 0)
             {
                 PropertySchema[] propertySchemaArray = new PropertySchema[num3];
                 for (int index = 0; index < num3; ++index)
                 {
-                    TypeSchema type = this.MapIndexToType(this._reader.ReadUInt16());
-                    string name = this.ReadDataTableString();
+                    TypeSchema type = MapIndexToType(_reader.ReadUInt16());
+                    string name = ReadDataTableString();
                     PropertySchema property = type.FindProperty(name);
                     if (property == null)
-                        this.ReportError("Import of {0} named '{1}' from '{2}' failed", "property", name, type.Name);
+                        ReportError("Import of {0} named '{1}' from '{2}' failed", "property", name, type.Name);
                     else
                         propertySchemaArray[index] = property;
                 }
                 importTables.PropertyImports = propertySchemaArray;
             }
-            ushort num4 = this._reader.ReadUInt16();
+            ushort num4 = _reader.ReadUInt16();
             if (num4 > 0)
             {
                 MethodSchema[] methodSchemaArray = new MethodSchema[num4];
                 for (int index1 = 0; index1 < num4; ++index1)
                 {
                     MethodSchema methodSchema = null;
-                    TypeSchema type = this.MapIndexToType(this._reader.ReadUInt16());
-                    if (!this._reader.ReadBool())
+                    TypeSchema type = MapIndexToType(_reader.ReadUInt16());
+                    if (!_reader.ReadBool())
                     {
-                        string name = this.ReadDataTableString();
-                        ushort num2 = this._reader.ReadUInt16();
+                        string name = ReadDataTableString();
+                        ushort num2 = _reader.ReadUInt16();
                         TypeSchema[] parameters = TypeSchema.EmptyList;
                         if (num2 > 0)
                         {
-                            parameters = this.GetTempParameterArray(num2);
+                            parameters = GetTempParameterArray(num2);
                             for (ushort index2 = 0; index2 < num2; ++index2)
                             {
-                                ushort index3 = this._reader.ReadUInt16();
-                                parameters[index2] = this.MapIndexToType(index3);
+                                ushort index3 = _reader.ReadUInt16();
+                                parameters[index2] = MapIndexToType(index3);
                             }
                         }
                         methodSchema = type.FindMethod(name, parameters);
                         if (methodSchema == null)
-                            this.ReportError("Import of {0} named '{1}' from '{2}' failed", "method", name, type.Name);
+                            ReportError("Import of {0} named '{1}' from '{2}' failed", "method", name, type.Name);
                     }
                     else
                     {
-                        int num2 = this._reader.ReadInt32();
+                        int num2 = _reader.ReadInt32();
                         if (type is MarkupTypeSchema markupTypeSchema)
                         {
                             foreach (MarkupMethodSchema virtualMethod in markupTypeSchema.VirtualMethods)
@@ -449,23 +447,23 @@ namespace Microsoft.Iris.Markup
                             }
                         }
                         if (methodSchema == null)
-                            this.ReportError("Import of virtual method with index {0} from '{1}' failed", num2.ToString(), type.Name);
+                            ReportError("Import of virtual method with index {0} from '{1}' failed", num2.ToString(), type.Name);
                     }
                     methodSchemaArray[index1] = methodSchema;
                 }
                 importTables.MethodImports = methodSchemaArray;
             }
-            ushort num5 = this._reader.ReadUInt16();
+            ushort num5 = _reader.ReadUInt16();
             if (num5 <= 0)
                 return;
             EventSchema[] eventSchemaArray = new EventSchema[num5];
             for (int index = 0; index < num5; ++index)
             {
-                TypeSchema type = this.MapIndexToType(this._reader.ReadUInt16());
-                string name = this.ReadDataTableString();
+                TypeSchema type = MapIndexToType(_reader.ReadUInt16());
+                string name = ReadDataTableString();
                 EventSchema eventSchema = type.FindEvent(name);
                 if (eventSchema == null)
-                    this.ReportError("Import of {0} named '{1}' from '{2}' failed", "event", name, type.Name);
+                    ReportError("Import of {0} named '{1}' from '{2}' failed", "event", name, type.Name);
                 else
                     eventSchemaArray[index] = eventSchema;
             }
@@ -474,37 +472,34 @@ namespace Microsoft.Iris.Markup
 
         private void DepersistDataMappingsTable()
         {
-            ushort num1 = this._reader.ReadUInt16();
+            ushort num1 = _reader.ReadUInt16();
             if (num1 <= 0)
                 return;
             MarkupDataMapping[] dataMappingsTable = new MarkupDataMapping[num1];
             for (int index1 = 0; index1 < num1; ++index1)
             {
                 MarkupDataMapping markupDataMapping = new MarkupDataMapping(null);
-                ushort index2 = this._reader.ReadUInt16();
-                markupDataMapping.TargetType = (MarkupDataTypeSchema)this.MapIndexToType(index2);
-                markupDataMapping.Provider = this.ReadDataTableString();
-                ushort num2 = this._reader.ReadUInt16();
+                ushort index2 = _reader.ReadUInt16();
+                markupDataMapping.TargetType = (MarkupDataTypeSchema)MapIndexToType(index2);
+                markupDataMapping.Provider = ReadDataTableString();
+                ushort num2 = _reader.ReadUInt16();
                 markupDataMapping.Mappings = new MarkupDataMappingEntry[num2];
                 for (int index3 = 0; index3 < num2; ++index3)
                 {
                     MarkupDataMappingEntry dataMappingEntry = new MarkupDataMappingEntry();
-                    dataMappingEntry.Source = this.ReadDataTableString();
-                    dataMappingEntry.Target = this.ReadDataTableString();
-                    ushort num3 = this._reader.ReadUInt16();
-                    dataMappingEntry.Property = (MarkupDataTypePropertySchema)this._loadResultTarget.ImportTables.PropertyImports[num3];
-                    dataMappingEntry.DefaultValue = !this._reader.ReadBool() ? MarkupDataProvider.GetDefaultValueForType(dataMappingEntry.Property.PropertyType) : dataMappingEntry.Property.PropertyType.DecodeBinary(this._reader);
+                    dataMappingEntry.Source = ReadDataTableString();
+                    dataMappingEntry.Target = ReadDataTableString();
+                    ushort num3 = _reader.ReadUInt16();
+                    dataMappingEntry.Property = (MarkupDataTypePropertySchema)_loadResultTarget.ImportTables.PropertyImports[num3];
+                    dataMappingEntry.DefaultValue = !_reader.ReadBool() ? MarkupDataProvider.GetDefaultValueForType(dataMappingEntry.Property.PropertyType) : dataMappingEntry.Property.PropertyType.DecodeBinary(_reader);
                     markupDataMapping.Mappings[index3] = dataMappingEntry;
                 }
                 dataMappingsTable[index1] = markupDataMapping;
             }
-            this._loadResultTarget.SetDataMappingsTable(dataMappingsTable);
+            _loadResultTarget.SetDataMappingsTable(dataMappingsTable);
         }
 
-        public static void DecodeInheritableSymbolTable(
-          MarkupTypeSchema typeExport,
-          ByteCodeReader reader,
-          IntPtr startAddress)
+        public static void DecodeInheritableSymbolTable(MarkupTypeSchema typeExport, ByteCodeReader reader, IntPtr startAddress)
         {
             if (reader == null)
             {
@@ -539,38 +534,38 @@ namespace Microsoft.Iris.Markup
 
         private void DepersistInheritedSymbolTable(MarkupTypeSchema typeExport)
         {
-            if (this._reader.IsInFixedMemory)
+            if (_reader.IsInFixedMemory)
             {
-                typeExport.SetAddressOfInheritableSymbolTable(this._reader.CurrentAddress);
-                uint num = this._reader.ReadUInt32();
-                this._reader.CurrentOffset += num;
+                typeExport.SetAddressOfInheritableSymbolTable(_reader.CurrentAddress);
+                uint num = _reader.ReadUInt32();
+                _reader.CurrentOffset += num;
             }
             else
-                DecodeInheritableSymbolTable(typeExport, this._reader, IntPtr.Zero);
+                DecodeInheritableSymbolTable(typeExport, _reader, IntPtr.Zero);
         }
 
         private void DepersistConstantsTable()
         {
-            ushort num = this._reader.ReadUInt16();
+            ushort num = _reader.ReadUInt16();
             if (num <= 0)
                 return;
             object[] runtimeList = new object[num];
             MarkupConstantsTable constantsTable = new MarkupConstantsTable(runtimeList);
-            if (!this._reader.IsInFixedMemory)
+            if (!_reader.IsInFixedMemory)
             {
-                this._reader.CurrentOffset += (uint)((num + 1) * 4);
+                _reader.CurrentOffset += (uint)((num + 1) * 4);
                 for (int index = 0; index < num; ++index)
                 {
-                    object obj = DepersistConstant(this._reader, _loadResultTarget);
+                    object obj = DepersistConstant(_reader, _loadResultTarget);
                     runtimeList[index] = obj;
                 }
             }
             else
             {
-                ByteCodeReader constantsTableReader = new ByteCodeReader(this._reader.CurrentAddress, ByteCodeReader.ReadUInt32(this._reader.GetAddress(this._reader.CurrentOffset + num * 4U)), false);
+                ByteCodeReader constantsTableReader = new ByteCodeReader(_reader.CurrentAddress, ByteCodeReader.ReadUInt32(_reader.GetAddress(_reader.CurrentOffset + num * 4U)), false);
                 constantsTable.SetConstantsTableReader(constantsTableReader, _loadResultTarget);
             }
-            this._loadResultTarget.BinaryDataTable.SetConstantsTable(constantsTable);
+            _loadResultTarget.BinaryDataTable.SetConstantsTable(constantsTable);
         }
 
         public static object DepersistConstant(ByteCodeReader reader, MarkupLoadResult loadResult)
@@ -596,8 +591,7 @@ namespace Microsoft.Iris.Markup
             return instance;
         }
 
-        private static MarkupLineNumberTable DecodeLineNumberTable(
-          ByteCodeReader reader)
+        private static MarkupLineNumberTable DecodeLineNumberTable(ByteCodeReader reader)
         {
             ushort num = reader.ReadUInt16();
             ulong[] runtimeList = new ulong[num];
@@ -614,56 +608,56 @@ namespace Microsoft.Iris.Markup
 
         private void DepersistLineNumberTable()
         {
-            if (this._reader.IsInFixedMemory)
+            if (_reader.IsInFixedMemory)
             {
-                this._loadResultTarget.SetAddressOfLineNumberData(this._reader.GetAddress(this._lineNumberTableStart));
+                _loadResultTarget.SetAddressOfLineNumberData(_reader.GetAddress(_lineNumberTableStart));
             }
             else
             {
-                uint currentOffset = this._reader.CurrentOffset;
-                this._reader.CurrentOffset = this._lineNumberTableStart;
-                this._loadResultTarget.SetLineNumberTable(DecodeLineNumberTable(this._reader));
-                this._reader.CurrentOffset = currentOffset;
+                uint currentOffset = _reader.CurrentOffset;
+                _reader.CurrentOffset = _lineNumberTableStart;
+                _loadResultTarget.SetLineNumberTable(DecodeLineNumberTable(_reader));
+                _reader.CurrentOffset = currentOffset;
             }
         }
 
         private void DepersistObjectSection()
         {
-            uint num = this._objectSectionEnd - this._objectSectionStart;
+            uint num = _objectSectionEnd - _objectSectionStart;
             ByteCodeReader reader;
-            if (this._reader.IsInFixedMemory)
+            if (_reader.IsInFixedMemory)
             {
-                reader = new ByteCodeReader(this._reader.GetAddress(this._objectSectionStart), num, false);
+                reader = new ByteCodeReader(_reader.GetAddress(_objectSectionStart), num, false);
             }
             else
             {
                 ByteCodeWriter byteCodeWriter = new ByteCodeWriter();
-                byteCodeWriter.Write(this._reader.GetAddress(this._objectSectionStart), num);
+                byteCodeWriter.Write(_reader.GetAddress(_objectSectionStart), num);
                 reader = byteCodeWriter.CreateReader();
             }
-            this._loadResultTarget.SetObjectSection(reader);
+            _loadResultTarget.SetObjectSection(reader);
         }
 
         private void DepersistBinaryDataTable(uint binaryDataTableOffset)
         {
-            uint currentOffset = this._reader.CurrentOffset;
-            this._reader.CurrentOffset = binaryDataTableOffset;
-            int stringCount = this._reader.ReadInt32();
-            this._binaryDataTable = new MarkupBinaryDataTable(null, stringCount);
-            if (!this._reader.IsInFixedMemory)
+            uint currentOffset = _reader.CurrentOffset;
+            _reader.CurrentOffset = binaryDataTableOffset;
+            int stringCount = _reader.ReadInt32();
+            _binaryDataTable = new MarkupBinaryDataTable(null, stringCount);
+            if (!_reader.IsInFixedMemory)
             {
-                this._reader.CurrentOffset += (uint)((stringCount + 1) * 4);
-                Vector<string> strings = this._binaryDataTable.Strings;
+                _reader.CurrentOffset += (uint)((stringCount + 1) * 4);
+                Vector<string> strings = _binaryDataTable.Strings;
                 for (int index = 0; index < stringCount; ++index)
                 {
-                    string str = this._reader.ReadString();
+                    string str = _reader.ReadString();
                     strings[index] = str;
                 }
             }
             else
-                this._binaryDataTable.SetStringTableReader(new ByteCodeReader(this._reader.CurrentAddress, ByteCodeReader.ReadUInt32(this._reader.GetAddress(this._reader.CurrentOffset + (uint)(stringCount * 4))), false));
-            this._loadResultTarget.SetBinaryDataTable(this._binaryDataTable);
-            this._reader.CurrentOffset = currentOffset;
+                _binaryDataTable.SetStringTableReader(new ByteCodeReader(_reader.CurrentAddress, ByteCodeReader.ReadUInt32(_reader.GetAddress(_reader.CurrentOffset + (uint)(stringCount * 4))), false));
+            _loadResultTarget.SetBinaryDataTable(_binaryDataTable);
+            _reader.CurrentOffset = currentOffset;
         }
 
         private LoadResult MapIndexToDependent(ushort index)
@@ -678,19 +672,17 @@ namespace Microsoft.Iris.Markup
                     loadResult = MarkupSystem.UIXGlobal;
                     break;
                 default:
-                    loadResult = this._binaryDataTableLoadResult == null ? this._loadResultTarget.Dependencies[index] : this._binaryDataTableLoadResult.Dependencies[index];
+                    loadResult = _binaryDataTableLoadResult == null ? _loadResultTarget.Dependencies[index] : _binaryDataTableLoadResult.Dependencies[index];
                     break;
             }
             return loadResult;
         }
 
-        private TypeSchema MapIndexToType(ushort index) => this._loadResultTarget.ImportTables.TypeImports[index];
+        private TypeSchema MapIndexToType(ushort index) => _loadResultTarget.ImportTables.TypeImports[index];
 
-        private string ReadDataTableString() => this._binaryDataTable.GetStringByIndex(this._reader.ReadInt32());
+        private string ReadDataTableString() => _binaryDataTable.GetStringByIndex(_reader.ReadInt32());
 
-        private static string ReadDataTableString(
-          ByteCodeReader reader,
-          MarkupBinaryDataTable binaryDataTable)
+        private static string ReadDataTableString(ByteCodeReader reader, MarkupBinaryDataTable binaryDataTable)
         {
             int index = reader.ReadInt32();
             return binaryDataTable.GetStringByIndex(index);
@@ -698,54 +690,52 @@ namespace Microsoft.Iris.Markup
 
         private uint[] ReadUInt32ArrayHelper()
         {
-            uint num = this._reader.ReadUInt32();
+            uint num = _reader.ReadUInt32();
             if (num <= 0U)
                 return null;
             uint[] numArray = new uint[num];
             for (int index = 0; index < num; ++index)
-                numArray[index] = this._reader.ReadUInt32();
+                numArray[index] = _reader.ReadUInt32();
             return numArray;
         }
 
         private string[] ReadStringArrayHelper()
         {
-            uint num = this._reader.ReadUInt32();
+            uint num = _reader.ReadUInt32();
             if (num <= 0U)
                 return null;
             string[] strArray = new string[num];
             for (int index = 0; index < num; ++index)
-                strArray[index] = this.ReadDataTableString();
+                strArray[index] = ReadDataTableString();
             return strArray;
         }
 
-        private MethodSchema[] ReadMarkupMethodArrayHelper(
-          TypeSchema markupTypeDefinition,
-          MarkupTypeSchema typeExport)
+        private MethodSchema[] ReadMarkupMethodArrayHelper(TypeSchema markupTypeDefinition, MarkupTypeSchema typeExport)
         {
             MethodSchema[] methodSchemaArray = null;
-            ushort num1 = this._reader.ReadUInt16();
+            ushort num1 = _reader.ReadUInt16();
             if (num1 > 0)
             {
                 methodSchemaArray = new MethodSchema[num1];
                 for (int index1 = 0; index1 < num1; ++index1)
                 {
-                    string name = this.ReadDataTableString();
-                    TypeSchema type = this.MapIndexToType(this._reader.ReadUInt16());
-                    uint num2 = this._reader.ReadUInt32();
+                    string name = ReadDataTableString();
+                    TypeSchema type = MapIndexToType(_reader.ReadUInt16());
+                    uint num2 = _reader.ReadUInt32();
                     TypeSchema[] parameterTypes = TypeSchema.EmptyList;
                     if (num2 > 0U)
                     {
                         parameterTypes = new TypeSchema[num2];
                         for (int index2 = 0; index2 < num2; ++index2)
                         {
-                            ushort index3 = this._reader.ReadUInt16();
-                            parameterTypes[index2] = this.MapIndexToType(index3);
+                            ushort index3 = _reader.ReadUInt16();
+                            parameterTypes[index2] = MapIndexToType(index3);
                         }
                     }
-                    string[] parameterNames = this.ReadStringArrayHelper() ?? MarkupMethodSchema.s_emptyStringArray;
-                    int virtualId = this._reader.ReadInt32();
-                    bool isVirtualThunk = this._reader.ReadBool();
-                    uint codeOffset = this._reader.ReadUInt32();
+                    string[] parameterNames = ReadStringArrayHelper() ?? MarkupMethodSchema.s_emptyStringArray;
+                    int virtualId = _reader.ReadInt32();
+                    bool isVirtualThunk = _reader.ReadBool();
+                    uint codeOffset = _reader.ReadUInt32();
                     MarkupMethodSchema markupMethodSchema = MarkupMethodSchema.Build(markupTypeDefinition, typeExport, name, type, parameterTypes, parameterNames, isVirtualThunk);
                     markupMethodSchema.SetCodeOffset(codeOffset);
                     markupMethodSchema.SetVirtualId(virtualId);
@@ -774,37 +764,37 @@ namespace Microsoft.Iris.Markup
 
         private TypeSchema[] GetTempParameterArray(int count)
         {
-            if (this._typeSchemaArrays == null)
-                this._typeSchemaArrays = new TypeSchema[5][];
-            if (count >= this._typeSchemaArrays.Length)
+            if (_typeSchemaArrays == null)
+                _typeSchemaArrays = new TypeSchema[5][];
+            if (count >= _typeSchemaArrays.Length)
                 return new TypeSchema[count];
             int index = count - 1;
-            if (this._typeSchemaArrays[index] == null)
-                this._typeSchemaArrays[index] = new TypeSchema[count];
-            return this._typeSchemaArrays[index];
+            if (_typeSchemaArrays[index] == null)
+                _typeSchemaArrays[index] = new TypeSchema[count];
+            return _typeSchemaArrays[index];
         }
 
-        public void ReportError(string error, string param0, string param1, string param2) => this.ReportError(string.Format(error, param0, param1, param2));
+        public void ReportError(string error, string param0, string param1, string param2) => ReportError(string.Format(error, param0, param1, param2));
 
-        public void ReportError(string error, string param0, string param1) => this.ReportError(string.Format(error, param0, param1));
+        public void ReportError(string error, string param0, string param1) => ReportError(string.Format(error, param0, param1));
 
-        public void ReportError(string error, string param0) => this.ReportError(string.Format(error, param0));
+        public void ReportError(string error, string param0) => ReportError(string.Format(error, param0));
 
         public void ReportError(string error)
         {
-            this.MarkHasErrors();
+            MarkHasErrors();
             ErrorManager.ReportError(error);
         }
 
         public void MarkHasErrors()
         {
-            if (this._hasErrors)
+            if (_hasErrors)
                 return;
-            this._hasErrors = true;
-            this._loadResultTarget.MarkLoadFailed();
+            _hasErrors = true;
+            _loadResultTarget.MarkLoadFailed();
         }
 
-        public bool HasErrors => this._hasErrors;
+        public bool HasErrors => _hasErrors;
 
         public static bool IsUIB(Resource resource)
         {

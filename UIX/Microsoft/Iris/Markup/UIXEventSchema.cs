@@ -12,8 +12,8 @@ namespace Microsoft.Iris.Markup
 
         public UIXEventSchema(short ownerTypeID, string name)
           : base(UIXTypes.MapIDToType(ownerTypeID))
-          => this._name = name;
+          => _name = name;
 
-        public override string Name => this._name;
+        public override string Name => _name;
     }
 }

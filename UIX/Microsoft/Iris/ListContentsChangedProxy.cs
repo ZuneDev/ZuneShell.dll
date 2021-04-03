@@ -59,7 +59,7 @@ namespace Microsoft.Iris
                     throw new ArgumentException("Unexpected ListContentsChangeType");
             }
             ListContentsChangedArgs args = new ListContentsChangedArgs(type, internalArgs.OldIndex, internalArgs.NewIndex, internalArgs.Count);
-            this._method(senderList, args);
+            _method(senderList, args);
         }
     }
 }

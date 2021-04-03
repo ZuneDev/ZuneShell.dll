@@ -16,24 +16,24 @@ namespace Microsoft.Iris.Data
         private Map<string, IResourceProvider> _sourcesTable;
         private static ResourceManager s_instance = new ResourceManager();
 
-        private ResourceManager() => this._sourcesTable = new Map<string, IResourceProvider>();
+        private ResourceManager() => _sourcesTable = new Map<string, IResourceProvider>();
 
         public static ResourceManager Instance => s_instance;
 
-        public void RegisterSource(string scheme, IResourceProvider source) => this._sourcesTable[scheme] = source;
+        public void RegisterSource(string scheme, IResourceProvider source) => _sourcesTable[scheme] = source;
 
-        public void UnregisterSource(string scheme) => this._sourcesTable.Remove(scheme);
+        public void UnregisterSource(string scheme) => _sourcesTable.Remove(scheme);
 
-        public bool IsRegisteredSource(string scheme) => this._sourcesTable.ContainsKey(scheme);
+        public bool IsRegisteredSource(string scheme) => _sourcesTable.ContainsKey(scheme);
 
-        public Resource GetResource(string uri) => this.GetResource(uri, false);
+        public Resource GetResource(string uri) => GetResource(uri, false);
 
         public Resource GetResource(string uri, bool forceSynchronous)
         {
             Resource resource = null;
-            if (this._redirects != null)
+            if (_redirects != null)
             {
-                foreach (ResourceManager.UriRedirect redirect in this._redirects)
+                foreach (ResourceManager.UriRedirect redirect in _redirects)
                 {
                     if (uri.StartsWith(redirect.fromPrefix, StringComparison.OrdinalIgnoreCase))
                     {
@@ -42,7 +42,7 @@ namespace Microsoft.Iris.Data
                             ErrorManager.ReportError("Resource {0} not found, but should have been located by a markup redirect", uri);
                             return null;
                         }
-                        resource = this.GetResourceWorker(redirect.toPrefix + uri.Substring(redirect.fromPrefix.Length), true);
+                        resource = GetResourceWorker(redirect.toPrefix + uri.Substring(redirect.fromPrefix.Length), true);
                         if (resource != null)
                         {
                             resource.Acquire();
@@ -57,7 +57,7 @@ namespace Microsoft.Iris.Data
                 }
             }
             if (resource == null)
-                resource = this.GetResourceWorker(uri, forceSynchronous);
+                resource = GetResourceWorker(uri, forceSynchronous);
             return resource;
         }
 
@@ -73,7 +73,7 @@ namespace Microsoft.Iris.Data
                 return null;
             }
             IResourceProvider resourceProvider;
-            if (this._sourcesTable.TryGetValue(scheme, out resourceProvider))
+            if (_sourcesTable.TryGetValue(scheme, out resourceProvider))
                 resource = resourceProvider.GetResource(hierarchicalPart, uri, forceSynchronous);
             else
                 ErrorManager.ReportWarning("Invalid resource protocol: '{0}'", scheme);
@@ -100,9 +100,9 @@ namespace Microsoft.Iris.Data
             ResourceManager.UriRedirect uriRedirect = new ResourceManager.UriRedirect();
             uriRedirect.fromPrefix = fromPrefix;
             uriRedirect.toPrefix = toPrefix;
-            if (this._redirects == null)
-                this._redirects = new Vector<ResourceManager.UriRedirect>();
-            this._redirects.Add(uriRedirect);
+            if (_redirects == null)
+                _redirects = new Vector<ResourceManager.UriRedirect>();
+            _redirects.Add(uriRedirect);
         }
 
         public static Resource AcquireResource(string uri)

@@ -25,7 +25,7 @@ namespace Microsoft.Iris.Animations
           float baseValue,
           ref AnimationArgs args)
         {
-            return ScaleKeyframe.GetEffectiveScaleValue(this.RelativeTo, targetObject, new Vector3(0.0f, baseValue, 0.0f), ref args).Y;
+            return ScaleKeyframe.GetEffectiveScaleValue(RelativeTo, targetObject, new Vector3(0.0f, baseValue, 0.0f), ref args).Y;
         }
     }
 }

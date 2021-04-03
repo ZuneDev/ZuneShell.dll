@@ -12,26 +12,26 @@ namespace Microsoft.Iris.Markup
     {
         protected Vector<Listener> _listenerList;
 
-        protected Listeners(Vector<Listener> listeners) => this._listenerList = listeners;
+        protected Listeners(Vector<Listener> listeners) => _listenerList = listeners;
 
-        protected Listeners(int listenerCount) => this.AddEntries(listenerCount);
+        protected Listeners(int listenerCount) => AddEntries(listenerCount);
 
         public void AddEntries(int listenerCount)
         {
-            if (this._listenerList == null)
-                this._listenerList = new Vector<Listener>(listenerCount);
+            if (_listenerList == null)
+                _listenerList = new Vector<Listener>(listenerCount);
             else
-                this._listenerList.Capacity += listenerCount;
+                _listenerList.Capacity += listenerCount;
             for (int index = 0; index < listenerCount; ++index)
-                this._listenerList.Add(null);
+                _listenerList.Add(null);
         }
 
         protected override void OnDispose()
         {
             base.OnDispose();
-            for (int index = 0; index < this._listenerList.Count; ++index)
-                this._listenerList[index]?.Dispose();
-            this._listenerList = null;
+            for (int index = 0; index < _listenerList.Count; ++index)
+                _listenerList[index]?.Dispose();
+            _listenerList = null;
         }
     }
 }

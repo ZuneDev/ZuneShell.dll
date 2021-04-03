@@ -21,23 +21,23 @@ namespace Microsoft.Iris.Markup.Validation
           int column)
           : base(owner, line, column, StatementType.If)
         {
-            this._condition = condition;
-            this._statementCompound = statementCompound;
+            _condition = condition;
+            _statementCompound = statementCompound;
         }
 
-        public ValidateExpression Condition => this._condition;
+        public ValidateExpression Condition => _condition;
 
-        public ValidateStatementCompound StatementCompound => this._statementCompound;
+        public ValidateStatementCompound StatementCompound => _statementCompound;
 
         public override void Validate(ValidateCode container, ValidateContext context)
         {
-            this._condition.Validate(new TypeRestriction(BooleanSchema.Type), context);
-            if (this._condition.HasErrors)
-                this.MarkHasErrors();
-            this._statementCompound.Validate(container, context);
-            if (!this._statementCompound.HasErrors)
+            _condition.Validate(new TypeRestriction(BooleanSchema.Type), context);
+            if (_condition.HasErrors)
+                MarkHasErrors();
+            _statementCompound.Validate(container, context);
+            if (!_statementCompound.HasErrors)
                 return;
-            this.MarkHasErrors();
+            MarkHasErrors();
         }
     }
 }

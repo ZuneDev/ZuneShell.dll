@@ -15,55 +15,55 @@ namespace Microsoft.Iris.ViewItems
     {
         protected ISprite _contents;
 
-        protected override ISprite ContentVisual => this._contents != null ? this._contents : base.ContentVisual;
+        protected override ISprite ContentVisual => _contents != null ? _contents : base.ContentVisual;
 
         protected abstract bool HasContent();
 
         protected override void DisposeAllContent()
         {
             base.DisposeAllContent();
-            this.DisposeContent(true);
+            DisposeContent(true);
         }
 
         protected virtual void DisposeContent(bool removeFromTree)
         {
-            if (this._contents == null)
+            if (_contents == null)
                 return;
             if (removeFromTree)
-                this._contents.Remove();
-            this._contents.UnregisterUsage(this);
-            this._contents = null;
+                _contents.Remove();
+            _contents.UnregisterUsage(this);
+            _contents = null;
         }
 
         protected virtual void CreateContent()
         {
-            ISprite contentVisual = this.ContentVisual;
-            this._contents = UISession.Default.RenderSession.CreateSprite(this, this);
+            ISprite contentVisual = ContentVisual;
+            _contents = UISession.Default.RenderSession.CreateSprite(this, this);
             if (contentVisual != null)
-                this.VisualContainer.AddChild(_contents, contentVisual, VisualOrder.Before);
+                VisualContainer.AddChild(_contents, contentVisual, VisualOrder.Before);
             else
-                this.VisualContainer.AddChild(_contents, null, VisualOrder.Last);
+                VisualContainer.AddChild(_contents, null, VisualOrder.Last);
         }
 
         public override void OrphanVisuals(OrphanedVisualCollection orphans)
         {
             base.OrphanVisuals(orphans);
-            this.DisposeContent(false);
+            DisposeContent(false);
         }
 
         protected override void OnPaint(bool visible)
         {
             base.OnPaint(visible);
-            bool flag = visible && this.HasContent();
-            if (flag && this._contents == null)
+            bool flag = visible && HasContent();
+            if (flag && _contents == null)
             {
-                this.CreateContent();
+                CreateContent();
             }
             else
             {
-                if (flag || this._contents == null)
+                if (flag || _contents == null)
                     return;
-                this.DisposeContent(true);
+                DisposeContent(true);
             }
         }
     }

@@ -37,219 +37,219 @@ namespace Microsoft.Iris.ModelItems
 
         public ScrollModel()
         {
-            this._input = new ScrollingLayoutInput();
-            this._output = new ScrollingLayoutOutput();
-            this.ScrollStep = 50;
-            this.PageStep = 0.8f;
-            this._userDisposition = new ScrollIntoViewDisposition(0);
-            this._userDisposition.Enabled = true;
-            this._useUserDisposition = true;
-            this.ActualScrollIntoViewDisposition = new ScrollIntoViewDisposition(0);
-            this.ActualScrollIntoViewDisposition.Enabled = true;
-            this._canDoMoveUp = true;
-            this._canDoMoveDown = true;
-            this._scrollOrientation = Orientation.Horizontal;
+            _input = new ScrollingLayoutInput();
+            _output = new ScrollingLayoutOutput();
+            ScrollStep = 50;
+            PageStep = 0.8f;
+            _userDisposition = new ScrollIntoViewDisposition(0);
+            _userDisposition.Enabled = true;
+            _useUserDisposition = true;
+            ActualScrollIntoViewDisposition = new ScrollIntoViewDisposition(0);
+            ActualScrollIntoViewDisposition.Enabled = true;
+            _canDoMoveUp = true;
+            _canDoMoveDown = true;
+            _scrollOrientation = Orientation.Horizontal;
         }
 
         public void AttachToViewItem(ViewItem vi)
         {
             vi.LayoutInput = _input;
-            vi.LayoutComplete += new LayoutCompleteEventHandler(this.OnLayoutComplete);
-            this._targetItem = vi;
+            vi.LayoutComplete += new LayoutCompleteEventHandler(OnLayoutComplete);
+            _targetItem = vi;
         }
 
         public void DetachFromViewItem(ViewItem vi)
         {
-            this._targetItem.LayoutComplete -= new LayoutCompleteEventHandler(this.OnLayoutComplete);
-            this._targetItem.SetLayoutInput(ScrollingLayoutInput.Data, null);
-            this._targetItem = null;
-            this._output = null;
-            this._lastFocusedItem = null;
-            this._uiWithAreaOfInterestToClear = null;
-            this._postLayoutAction = null;
-            this._navigateAction = null;
-            this._assignFocusAction = null;
+            _targetItem.LayoutComplete -= new LayoutCompleteEventHandler(OnLayoutComplete);
+            _targetItem.SetLayoutInput(ScrollingLayoutInput.Data, null);
+            _targetItem = null;
+            _output = null;
+            _lastFocusedItem = null;
+            _uiWithAreaOfInterestToClear = null;
+            _postLayoutAction = null;
+            _navigateAction = null;
+            _assignFocusAction = null;
         }
 
         public ViewItem TargetViewItem
         {
-            get => this._targetItem;
+            get => _targetItem;
             set
             {
-                if (this._targetItem == value)
+                if (_targetItem == value)
                     return;
-                this.AttachToViewItem(value);
+                AttachToViewItem(value);
             }
         }
 
         internal Orientation ScrollOrientation
         {
-            get => this._scrollOrientation;
+            get => _scrollOrientation;
             set
             {
-                if (this._scrollOrientation == value)
+                if (_scrollOrientation == value)
                     return;
-                this._scrollOrientation = value;
+                _scrollOrientation = value;
             }
         }
 
         public bool Enabled
         {
-            get => this._input.Enabled;
+            get => _input.Enabled;
             set
             {
-                if (this._input.Enabled == value)
+                if (_input.Enabled == value)
                     return;
-                this._input.Enabled = value;
-                this.OnLayoutInputChanged();
-                this.FireNotification(NotificationID.Enabled);
+                _input.Enabled = value;
+                OnLayoutInputChanged();
+                FireNotification(NotificationID.Enabled);
             }
         }
 
         public override int ScrollStep
         {
-            get => this._scrollStepValue;
+            get => _scrollStepValue;
             set
             {
-                if (this._scrollStepValue == value)
+                if (_scrollStepValue == value)
                     return;
-                this._scrollStepValue = value;
-                this.FireNotification(NotificationID.ScrollStep);
+                _scrollStepValue = value;
+                FireNotification(NotificationID.ScrollStep);
             }
         }
 
         public float PageStep
         {
-            get => this._input.PageStep;
+            get => _input.PageStep;
             set
             {
                 if (_input.PageStep == (double)value)
                     return;
-                this._input.PageStep = value;
-                this.OnLayoutInputChanged();
-                this.FireNotification(NotificationID.PageStep);
+                _input.PageStep = value;
+                OnLayoutInputChanged();
+                FireNotification(NotificationID.PageStep);
             }
         }
 
         public bool PageSizedScrollStep
         {
-            get => this._pageSizedScrollStepFlag;
+            get => _pageSizedScrollStepFlag;
             set
             {
-                if (this._pageSizedScrollStepFlag == value)
+                if (_pageSizedScrollStepFlag == value)
                     return;
-                this._pageSizedScrollStepFlag = value;
-                this.FireNotification(NotificationID.PageSizedScrollStep);
+                _pageSizedScrollStepFlag = value;
+                FireNotification(NotificationID.PageSizedScrollStep);
             }
         }
 
         public override void Scroll(int amount)
         {
-            this.DisableScrollIntoView();
-            this._input.Scroll(amount);
-            this.OnLayoutInputChanged();
+            DisableScrollIntoView();
+            _input.Scroll(amount);
+            OnLayoutInputChanged();
         }
 
-        public override void ScrollUp() => this.ScrollUp(1);
+        public override void ScrollUp() => ScrollUp(1);
 
         public void ScrollUp(bool attemptFocusBehavior)
         {
             if (attemptFocusBehavior)
-                this.MoveDirection(true);
+                MoveDirection(true);
             else
-                this.ScrollUp();
+                ScrollUp();
         }
 
         public void ScrollUp(int numTimes)
         {
-            if (this._pageSizedScrollStepFlag)
-                this.PageUp(numTimes);
+            if (_pageSizedScrollStepFlag)
+                PageUp(numTimes);
             else
-                this.Scroll(numTimes * -this._scrollStepValue);
+                Scroll(numTimes * -_scrollStepValue);
         }
 
-        public override void ScrollDown() => this.ScrollDown(1);
+        public override void ScrollDown() => ScrollDown(1);
 
         public void ScrollDown(bool attemptFocusBehavior)
         {
             if (attemptFocusBehavior)
-                this.MoveDirection(false);
+                MoveDirection(false);
             else
-                this.ScrollDown();
+                ScrollDown();
         }
 
         public void ScrollDown(int numTimes)
         {
-            if (this._pageSizedScrollStepFlag)
-                this.PageDown(numTimes);
+            if (_pageSizedScrollStepFlag)
+                PageDown(numTimes);
             else
-                this.Scroll(numTimes * this._scrollStepValue);
+                Scroll(numTimes * _scrollStepValue);
         }
 
-        public override void PageUp() => this.PageUp(1);
+        public override void PageUp() => PageUp(1);
 
         public void PageUp(bool attemptFocusBehavior)
         {
             if (attemptFocusBehavior)
-                this.MovePage(true);
+                MovePage(true);
             else
-                this.PageUp();
+                PageUp();
         }
 
         public void PageUp(int numTimes)
         {
-            this.DisableScrollIntoView();
+            DisableScrollIntoView();
             for (; numTimes > 0; --numTimes)
-                this._input.PageUp();
-            this.OnLayoutInputChanged();
+                _input.PageUp();
+            OnLayoutInputChanged();
         }
 
-        public override void PageDown() => this.PageDown(1);
+        public override void PageDown() => PageDown(1);
 
         public void PageDown(bool attemptFocusBehavior)
         {
             if (attemptFocusBehavior)
-                this.MovePage(false);
+                MovePage(false);
             else
-                this.PageDown();
+                PageDown();
         }
 
         public void PageDown(int numTimes)
         {
-            this.DisableScrollIntoView();
+            DisableScrollIntoView();
             for (; numTimes > 0; --numTimes)
-                this._input.PageDown();
-            this.OnLayoutInputChanged();
+                _input.PageDown();
+            OnLayoutInputChanged();
         }
 
         public override void Home()
         {
-            this.DisableScrollIntoView();
-            this._input.Home();
-            this.OnLayoutInputChanged();
+            DisableScrollIntoView();
+            _input.Home();
+            OnLayoutInputChanged();
         }
 
         public void Home(bool attemptFocusBehavior)
         {
             if (attemptFocusBehavior)
-                this.MoveToEndPoint(true);
+                MoveToEndPoint(true);
             else
-                this.Home();
+                Home();
         }
 
         public override void End()
         {
-            this.DisableScrollIntoView();
-            this._input.End();
-            this.OnLayoutInputChanged();
+            DisableScrollIntoView();
+            _input.End();
+            OnLayoutInputChanged();
         }
 
         public void End(bool attemptFocusBehavior)
         {
             if (attemptFocusBehavior)
-                this.MoveToEndPoint(false);
+                MoveToEndPoint(false);
             else
-                this.End();
+                End();
         }
 
         public override void ScrollToPosition(float position)
@@ -258,162 +258,162 @@ namespace Microsoft.Iris.ModelItems
                 position = 0.0f;
             else if (position > 1.0)
                 position = 1f;
-            this.DisableScrollIntoView();
-            this._input.ScrollToPosition(position);
-            this.OnLayoutInputChanged();
+            DisableScrollIntoView();
+            _input.ScrollToPosition(position);
+            OnLayoutInputChanged();
         }
 
-        public void ScrollFocusIntoView() => this.EnableScrollIntoView();
+        public void ScrollFocusIntoView() => EnableScrollIntoView();
 
         internal ScrollIntoViewDisposition ScrollIntoViewDisposition
         {
-            get => this._userDisposition;
+            get => _userDisposition;
             set
             {
-                if (this._userDisposition.Equals(value))
+                if (_userDisposition.Equals(value))
                     return;
-                this._userDisposition = value;
-                this.EnableScrollIntoView();
+                _userDisposition = value;
+                EnableScrollIntoView();
             }
         }
 
         private ScrollIntoViewDisposition ActualScrollIntoViewDisposition
         {
-            get => this._input.ScrollIntoViewDisposition;
-            set => this._input.ScrollIntoViewDisposition = value;
+            get => _input.ScrollIntoViewDisposition;
+            set => _input.ScrollIntoViewDisposition = value;
         }
 
         public int BeginPadding
         {
-            get => this.ScrollIntoViewDisposition.BeginPadding;
+            get => ScrollIntoViewDisposition.BeginPadding;
             set
             {
-                if (this.ScrollIntoViewDisposition.BeginPadding == value)
+                if (ScrollIntoViewDisposition.BeginPadding == value)
                     return;
-                this.ScrollIntoViewDisposition.BeginPadding = value;
-                this.EnableScrollIntoView();
-                this.FireNotification(NotificationID.BeginPadding);
+                ScrollIntoViewDisposition.BeginPadding = value;
+                EnableScrollIntoView();
+                FireNotification(NotificationID.BeginPadding);
             }
         }
 
         public int EndPadding
         {
-            get => this.ScrollIntoViewDisposition.EndPadding;
+            get => ScrollIntoViewDisposition.EndPadding;
             set
             {
-                if (this.ScrollIntoViewDisposition.EndPadding == value)
+                if (ScrollIntoViewDisposition.EndPadding == value)
                     return;
-                this.ScrollIntoViewDisposition.EndPadding = value;
-                this.EnableScrollIntoView();
-                this.FireNotification(NotificationID.EndPadding);
+                ScrollIntoViewDisposition.EndPadding = value;
+                EnableScrollIntoView();
+                FireNotification(NotificationID.EndPadding);
             }
         }
 
         public RelativeEdge BeginPaddingRelativeTo
         {
-            get => this.ScrollIntoViewDisposition.BeginPaddingRelativeTo;
+            get => ScrollIntoViewDisposition.BeginPaddingRelativeTo;
             set
             {
-                if (this.ScrollIntoViewDisposition.BeginPaddingRelativeTo == value)
+                if (ScrollIntoViewDisposition.BeginPaddingRelativeTo == value)
                     return;
-                this.ScrollIntoViewDisposition.BeginPaddingRelativeTo = value;
-                this.EnableScrollIntoView();
-                this.FireNotification(NotificationID.BeginPaddingRelativeTo);
+                ScrollIntoViewDisposition.BeginPaddingRelativeTo = value;
+                EnableScrollIntoView();
+                FireNotification(NotificationID.BeginPaddingRelativeTo);
             }
         }
 
         public RelativeEdge EndPaddingRelativeTo
         {
-            get => this.ScrollIntoViewDisposition.EndPaddingRelativeTo;
+            get => ScrollIntoViewDisposition.EndPaddingRelativeTo;
             set
             {
-                if (this.ScrollIntoViewDisposition.EndPaddingRelativeTo == value)
+                if (ScrollIntoViewDisposition.EndPaddingRelativeTo == value)
                     return;
-                this.ScrollIntoViewDisposition.EndPaddingRelativeTo = value;
-                this.EnableScrollIntoView();
-                this.FireNotification(NotificationID.EndPaddingRelativeTo);
+                ScrollIntoViewDisposition.EndPaddingRelativeTo = value;
+                EnableScrollIntoView();
+                FireNotification(NotificationID.EndPaddingRelativeTo);
             }
         }
 
         public float LockedPosition
         {
-            get => this.ScrollIntoViewDisposition.LockedPosition;
+            get => ScrollIntoViewDisposition.LockedPosition;
             set
             {
                 if (ScrollIntoViewDisposition.LockedPosition == (double)value)
                     return;
-                this.ScrollIntoViewDisposition.LockedPosition = value;
-                this.EnableScrollIntoView();
-                this.FireNotification(NotificationID.LockedPosition);
+                ScrollIntoViewDisposition.LockedPosition = value;
+                EnableScrollIntoView();
+                FireNotification(NotificationID.LockedPosition);
             }
         }
 
         public bool Locked
         {
-            get => this.ScrollIntoViewDisposition.Locked;
+            get => ScrollIntoViewDisposition.Locked;
             set
             {
-                if (this.ScrollIntoViewDisposition.Locked == value)
+                if (ScrollIntoViewDisposition.Locked == value)
                     return;
-                this.ScrollIntoViewDisposition.Locked = value;
-                this.EnableScrollIntoView();
-                this.FireNotification(NotificationID.Locked);
+                ScrollIntoViewDisposition.Locked = value;
+                EnableScrollIntoView();
+                FireNotification(NotificationID.Locked);
             }
         }
 
         public ContentPositioningPolicy ContentPositioningBehavior
         {
-            get => this.ScrollIntoViewDisposition.ContentPositioningBehavior;
+            get => ScrollIntoViewDisposition.ContentPositioningBehavior;
             set
             {
-                if (this.ScrollIntoViewDisposition.ContentPositioningBehavior == value)
+                if (ScrollIntoViewDisposition.ContentPositioningBehavior == value)
                     return;
-                this.ScrollIntoViewDisposition.ContentPositioningBehavior = value;
-                this.EnableScrollIntoView();
-                this.FireNotification(NotificationID.ContentPositioningBehavior);
+                ScrollIntoViewDisposition.ContentPositioningBehavior = value;
+                EnableScrollIntoView();
+                FireNotification(NotificationID.ContentPositioningBehavior);
             }
         }
 
         public float LockedAlignment
         {
-            get => this.ScrollIntoViewDisposition.LockedAlignment;
+            get => ScrollIntoViewDisposition.LockedAlignment;
             set
             {
                 if (ScrollIntoViewDisposition.LockedAlignment == (double)value)
                     return;
-                this.ScrollIntoViewDisposition.LockedAlignment = value;
-                this.EnableScrollIntoView();
-                this.FireNotification(NotificationID.LockedAlignment);
+                ScrollIntoViewDisposition.LockedAlignment = value;
+                EnableScrollIntoView();
+                FireNotification(NotificationID.LockedAlignment);
             }
         }
 
-        public override bool CanScrollUp => this.Enabled && this._output.CanScrollNegative;
+        public override bool CanScrollUp => Enabled && _output.CanScrollNegative;
 
-        public override bool CanScrollDown => this.Enabled && this._output.CanScrollPositive;
+        public override bool CanScrollDown => Enabled && _output.CanScrollPositive;
 
-        public override float CurrentPage => this._output.CurrentPage;
+        public override float CurrentPage => _output.CurrentPage;
 
-        public override float TotalPages => this._output.TotalPages;
+        public override float TotalPages => _output.TotalPages;
 
-        public override float ViewNear => this._output.ViewNear;
+        public override float ViewNear => _output.ViewNear;
 
-        public override float ViewFar => this._output.ViewFar;
+        public override float ViewFar => _output.ViewFar;
 
         private void MovePage(bool nearDirection)
         {
-            if (this.HadFocus())
+            if (HadFocus())
             {
-                if (!this.CanMoveDirection(nearDirection))
+                if (!CanMoveDirection(nearDirection))
                     return;
                 bool flag = true;
-                switch (this.GetLastFocusLocation())
+                switch (GetLastFocusLocation())
                 {
                     case ItemLocation.OffscreenInNearDirection:
                         flag = nearDirection;
                         break;
                     case ItemLocation.Onscreen:
-                        flag = !this.PotentialNavigationTargetIsOnscreen(this.NearFarToDirection(nearDirection), out UIClass _);
-                        if (!flag && this._useUserDisposition && this.NonDefaultUserDisposition())
+                        flag = !PotentialNavigationTargetIsOnscreen(NearFarToDirection(nearDirection), out UIClass _);
+                        if (!flag && _useUserDisposition && NonDefaultUserDisposition())
                         {
                             flag = true;
                             break;
@@ -423,7 +423,7 @@ namespace Microsoft.Iris.ModelItems
                         flag = !nearDirection;
                         break;
                 }
-                ScrollModel.AssignFocusAction instance = AssignFocusAction.GetInstance(this, this.GetAssignFocusPoint(nearDirection), nearDirection, false);
+                ScrollModel.AssignFocusAction instance = AssignFocusAction.GetInstance(this, GetAssignFocusPoint(nearDirection), nearDirection, false);
                 if (!flag)
                 {
                     instance.Go();
@@ -431,69 +431,69 @@ namespace Microsoft.Iris.ModelItems
                 else
                 {
                     float num = !nearDirection ? 0.0f : 1f;
-                    this.ActualScrollIntoViewDisposition.Reset();
-                    this.ActualScrollIntoViewDisposition.Enabled = true;
-                    this.ActualScrollIntoViewDisposition.LockedPosition = num;
-                    this.ActualScrollIntoViewDisposition.LockedAlignment = num;
-                    this.ActualScrollIntoViewDisposition.Locked = true;
-                    this.SetPendingFocusAreaOfInterest(this._lastFocusedItem.UI);
-                    this.OnLayoutInputChanged();
-                    this.SetPostLayoutAction(instance);
+                    ActualScrollIntoViewDisposition.Reset();
+                    ActualScrollIntoViewDisposition.Enabled = true;
+                    ActualScrollIntoViewDisposition.LockedPosition = num;
+                    ActualScrollIntoViewDisposition.LockedAlignment = num;
+                    ActualScrollIntoViewDisposition.Locked = true;
+                    SetPendingFocusAreaOfInterest(_lastFocusedItem.UI);
+                    OnLayoutInputChanged();
+                    SetPostLayoutAction(instance);
                 }
             }
             else if (nearDirection)
             {
-                if (!this.CanScrollUp)
+                if (!CanScrollUp)
                     return;
-                this.PageUp();
+                PageUp();
             }
             else
             {
-                if (!this.CanScrollDown)
+                if (!CanScrollDown)
                     return;
-                this.PageDown();
+                PageDown();
             }
         }
 
         public void NotifyFocusChange(UIClass newUI)
         {
-            if (newUI == null || newUI == this._uiWithAreaOfInterestToClear || this._lastFocusedItem != null && this._lastFocusedItem.UI == newUI)
+            if (newUI == null || newUI == _uiWithAreaOfInterestToClear || _lastFocusedItem != null && _lastFocusedItem.UI == newUI)
                 return;
-            this.EnableScrollIntoView();
+            EnableScrollIntoView();
         }
 
-        private void SetPostLayoutAction(ScrollModel.PostLayoutAction action) => this._postLayoutAction = action;
+        private void SetPostLayoutAction(ScrollModel.PostLayoutAction action) => _postLayoutAction = action;
 
         private void DeliverPostLayoutAction()
         {
-            if (this._postLayoutAction == null)
+            if (_postLayoutAction == null)
                 return;
-            this._postLayoutAction.Go();
-            this._postLayoutAction = null;
+            _postLayoutAction.Go();
+            _postLayoutAction = null;
         }
 
         private Direction NearFarToDirection(bool near)
         {
-            if (this.ScrollOrientation == Orientation.Vertical)
+            if (ScrollOrientation == Orientation.Vertical)
                 return !near ? Direction.South : Direction.North;
-            near ^= this._targetItem.Zone.Session.IsRtl;
+            near ^= _targetItem.Zone.Session.IsRtl;
             return !near ? Direction.East : Direction.West;
         }
 
-        private bool LastFocusIsOnscreen() => this.GetItemLocation(this._lastFocusedItem) == ItemLocation.Onscreen;
+        private bool LastFocusIsOnscreen() => GetItemLocation(_lastFocusedItem) == ItemLocation.Onscreen;
 
-        private ScrollModel.ItemLocation GetLastFocusLocation() => this.GetItemLocation(this._lastFocusedItem);
+        private ScrollModel.ItemLocation GetLastFocusLocation() => GetItemLocation(_lastFocusedItem);
 
-        private bool ItemIsOnscreen(ViewItem item) => this.GetItemLocation(item) == ItemLocation.Onscreen;
+        private bool ItemIsOnscreen(ViewItem item) => GetItemLocation(item) == ItemLocation.Onscreen;
 
         private ScrollModel.ItemLocation GetItemLocation(ViewItem item)
         {
-            RectangleF scrollerRect = this.GetScrollerRect(false);
-            RectangleF viewItemRect = this.GetViewItemRect(item, false);
-            return !(RectangleF.Intersect(scrollerRect, viewItemRect) == viewItemRect) ? (this.ScrollOrientation != Orientation.Horizontal ? (viewItemRect.Top >= (double)scrollerRect.Top ? ItemLocation.OffscreenInFarDirection : ItemLocation.OffscreenInNearDirection) : (viewItemRect.Left < (double)scrollerRect.Left || this._targetItem.Zone.Session.IsRtl && viewItemRect.Right > (double)scrollerRect.Right ? ItemLocation.OffscreenInNearDirection : ItemLocation.OffscreenInFarDirection)) : ItemLocation.Onscreen;
+            RectangleF scrollerRect = GetScrollerRect(false);
+            RectangleF viewItemRect = GetViewItemRect(item, false);
+            return !(RectangleF.Intersect(scrollerRect, viewItemRect) == viewItemRect) ? (ScrollOrientation != Orientation.Horizontal ? (viewItemRect.Top >= (double)scrollerRect.Top ? ItemLocation.OffscreenInFarDirection : ItemLocation.OffscreenInNearDirection) : (viewItemRect.Left < (double)scrollerRect.Left || _targetItem.Zone.Session.IsRtl && viewItemRect.Right > (double)scrollerRect.Right ? ItemLocation.OffscreenInNearDirection : ItemLocation.OffscreenInFarDirection)) : ItemLocation.Onscreen;
         }
 
-        private bool PotentialNavigationTargetIsOnscreen(Direction dir, out UIClass navigationResult) => this.PotentialNavigationTargetIsOnscreen(this._lastFocusedItem.UI, dir, out navigationResult);
+        private bool PotentialNavigationTargetIsOnscreen(Direction dir, out UIClass navigationResult) => PotentialNavigationTargetIsOnscreen(_lastFocusedItem.UI, dir, out navigationResult);
 
         private bool PotentialNavigationTargetIsOnscreen(
           UIClass ui,
@@ -501,12 +501,12 @@ namespace Microsoft.Iris.ModelItems
           out UIClass navigationResult)
         {
             bool flag = false;
-            if (this.PotentialNavigationTargetIsDescendant(ui, dir, out navigationResult))
-                flag = this.ItemIsOnscreen(navigationResult.RootItem);
+            if (PotentialNavigationTargetIsDescendant(ui, dir, out navigationResult))
+                flag = ItemIsOnscreen(navigationResult.RootItem);
             return flag;
         }
 
-        private bool PotentialNavigationTargetIsDescendant(Direction dir, out UIClass navigationResult) => this.PotentialNavigationTargetIsDescendant(this._lastFocusedItem.UI, dir, out navigationResult);
+        private bool PotentialNavigationTargetIsDescendant(Direction dir, out UIClass navigationResult) => PotentialNavigationTargetIsDescendant(_lastFocusedItem.UI, dir, out navigationResult);
 
         private bool PotentialNavigationTargetIsDescendant(
           UIClass ui,
@@ -514,7 +514,7 @@ namespace Microsoft.Iris.ModelItems
           out UIClass navigationResult)
         {
             bool flag = false;
-            if (ui.FindNextFocusablePeer(dir, RectangleF.Zero, out navigationResult) && navigationResult != null && this._targetItem.HasDescendant(navigationResult.RootItem))
+            if (ui.FindNextFocusablePeer(dir, RectangleF.Zero, out navigationResult) && navigationResult != null && _targetItem.HasDescendant(navigationResult.RootItem))
                 flag = true;
             return flag;
         }
@@ -522,8 +522,8 @@ namespace Microsoft.Iris.ModelItems
         private PointF GetMoveToEndpointPoint(bool near)
         {
             PointF zero = PointF.Zero;
-            RectangleF scrollerRect = this.GetScrollerRect(true);
-            bool isRtl = this._targetItem.Zone.Session.IsRtl;
+            RectangleF scrollerRect = GetScrollerRect(true);
+            bool isRtl = _targetItem.Zone.Session.IsRtl;
             if (near)
             {
                 if (isRtl)
@@ -539,12 +539,12 @@ namespace Microsoft.Iris.ModelItems
 
         private PointF GetAssignFocusPoint(bool near)
         {
-            RectangleF lastFocusRect = this.GetLastFocusRect(true);
-            RectangleF scrollerRect = this.GetScrollerRect(true);
+            RectangleF lastFocusRect = GetLastFocusRect(true);
+            RectangleF scrollerRect = GetScrollerRect(true);
             PointF center = lastFocusRect.Center;
             float x;
             float y;
-            if (this.ScrollOrientation == Orientation.Vertical)
+            if (ScrollOrientation == Orientation.Vertical)
             {
                 x = center.X;
                 float num = lastFocusRect.Height / 2f;
@@ -554,26 +554,26 @@ namespace Microsoft.Iris.ModelItems
             {
                 y = center.Y;
                 float num = lastFocusRect.Width / 2f;
-                x = !(near ^ this._targetItem.Zone.Session.IsRtl) ? scrollerRect.Right - num : scrollerRect.Left + num;
+                x = !(near ^ _targetItem.Zone.Session.IsRtl) ? scrollerRect.Right - num : scrollerRect.Left + num;
             }
             return new PointF(x, y);
         }
 
         private void MoveToEndPoint(bool home)
         {
-            bool flag1 = this.HadFocus();
+            bool flag1 = HadFocus();
             bool flag2 = false;
             bool flag3 = false;
             if (flag1)
-                flag3 = this.CanMoveDirection(home);
+                flag3 = CanMoveDirection(home);
             if (flag3 || !flag1)
-                flag2 = !home ? this.CanScrollDown : this.CanScrollUp;
+                flag2 = !home ? CanScrollDown : CanScrollUp;
             if (flag2)
             {
                 if (home)
-                    this.Home();
+                    Home();
                 else
-                    this.End();
+                    End();
             }
             if (!flag3)
                 return;
@@ -581,138 +581,138 @@ namespace Microsoft.Iris.ModelItems
             if (!flag2)
                 instance.Go();
             else
-                this.SetPostLayoutAction(instance);
+                SetPostLayoutAction(instance);
         }
 
         private void MoveDirection(bool nearDirection)
         {
-            if (this.HadFocus())
+            if (HadFocus())
             {
-                if (!this.CanMoveDirection(nearDirection))
+                if (!CanMoveDirection(nearDirection))
                     return;
-                Direction direction = this.NearFarToDirection(nearDirection);
-                UIClass ui = this._lastFocusedItem.UI;
+                Direction direction = NearFarToDirection(nearDirection);
+                UIClass ui = _lastFocusedItem.UI;
                 bool flag = true;
                 UIClass navigationResult;
-                if (this.LastFocusIsOnscreen() && this.PotentialNavigationTargetIsOnscreen(direction, out navigationResult))
+                if (LastFocusIsOnscreen() && PotentialNavigationTargetIsOnscreen(direction, out navigationResult))
                 {
-                    this.NavigateToUI(navigationResult);
-                    this.EnableScrollIntoView();
+                    NavigateToUI(navigationResult);
+                    EnableScrollIntoView();
                     flag = false;
                 }
                 if (!flag)
                     return;
-                this.ActualScrollIntoViewDisposition.Reset();
-                this.ActualScrollIntoViewDisposition.Enabled = true;
-                this.SetPendingFocusAreaOfInterest(this._lastFocusedItem.UI);
-                this.SetPostLayoutAction(NavigateAction.GetInstance(this, nearDirection, direction));
-                this.OnLayoutInputChanged();
+                ActualScrollIntoViewDisposition.Reset();
+                ActualScrollIntoViewDisposition.Enabled = true;
+                SetPendingFocusAreaOfInterest(_lastFocusedItem.UI);
+                SetPostLayoutAction(NavigateAction.GetInstance(this, nearDirection, direction));
+                OnLayoutInputChanged();
             }
             else if (nearDirection)
             {
-                if (!this.CanScrollUp)
+                if (!CanScrollUp)
                     return;
-                this.ScrollUp();
+                ScrollUp();
             }
             else
             {
-                if (!this.CanScrollDown)
+                if (!CanScrollDown)
                     return;
-                this.ScrollDown();
+                ScrollDown();
             }
         }
 
         private void DisableScrollIntoView()
         {
-            this.ActualScrollIntoViewDisposition.Enabled = false;
-            this._useUserDisposition = false;
+            ActualScrollIntoViewDisposition.Enabled = false;
+            _useUserDisposition = false;
         }
 
         private void EnableScrollIntoView()
         {
-            this.ActualScrollIntoViewDisposition.CopyFrom(this._userDisposition);
-            this._useUserDisposition = true;
-            this.OnLayoutInputChanged();
+            ActualScrollIntoViewDisposition.CopyFrom(_userDisposition);
+            _useUserDisposition = true;
+            OnLayoutInputChanged();
         }
 
         private void OnLayoutInputChanged()
         {
-            if (this._targetItem == null)
+            if (_targetItem == null)
                 return;
-            this._targetItem.MarkLayoutInvalid();
+            _targetItem.MarkLayoutInvalid();
         }
 
         private void OnLayoutOutputChanged()
         {
-            ScrollingLayoutOutput output = this._output;
-            if (!(this._targetItem.GetExtendedLayoutOutput(ScrollingLayoutOutput.DataCookie) is ScrollingLayoutOutput scrollingLayoutOutput))
+            ScrollingLayoutOutput output = _output;
+            if (!(_targetItem.GetExtendedLayoutOutput(ScrollingLayoutOutput.DataCookie) is ScrollingLayoutOutput scrollingLayoutOutput))
                 scrollingLayoutOutput = new ScrollingLayoutOutput();
-            this._output = scrollingLayoutOutput;
-            if (this._output.ProcessedExplicitScrollIntoViewRequest || !this._output.ScrollFocusIntoView)
-                this.DisableScrollIntoView();
-            if (this._output.CanScrollNegative != output.CanScrollNegative)
-                this.FireNotification(NotificationID.CanScrollUp);
-            if (this._output.CanScrollPositive != output.CanScrollPositive)
-                this.FireNotification(NotificationID.CanScrollDown);
+            _output = scrollingLayoutOutput;
+            if (_output.ProcessedExplicitScrollIntoViewRequest || !_output.ScrollFocusIntoView)
+                DisableScrollIntoView();
+            if (_output.CanScrollNegative != output.CanScrollNegative)
+                FireNotification(NotificationID.CanScrollUp);
+            if (_output.CanScrollPositive != output.CanScrollPositive)
+                FireNotification(NotificationID.CanScrollDown);
             if (_output.CurrentPage != (double)output.CurrentPage)
-                this.FireNotification(NotificationID.CurrentPage);
+                FireNotification(NotificationID.CurrentPage);
             if (_output.TotalPages != (double)output.TotalPages)
-                this.FireNotification(NotificationID.TotalPages);
+                FireNotification(NotificationID.TotalPages);
             if (_output.ViewNear != (double)output.ViewNear)
-                this.FireNotification(NotificationID.ViewNear);
+                FireNotification(NotificationID.ViewNear);
             if (_output.ViewFar == (double)output.ViewFar)
                 return;
-            this.FireNotification(NotificationID.ViewFar);
+            FireNotification(NotificationID.ViewFar);
         }
 
         private void OnLayoutComplete(object sender)
         {
-            this.OnLayoutOutputChanged();
-            UIClass keyFocusDescendant = this._targetItem.UI.KeyFocusDescendant;
-            if (keyFocusDescendant != null && keyFocusDescendant != this._targetItem.UI && this._targetItem.HasDescendant(keyFocusDescendant.RootItem))
-                this._lastFocusedItem = keyFocusDescendant.RootItem;
-            this.ClearPendingFocusAreaOfInterest();
-            if (!this._useUserDisposition)
+            OnLayoutOutputChanged();
+            UIClass keyFocusDescendant = _targetItem.UI.KeyFocusDescendant;
+            if (keyFocusDescendant != null && keyFocusDescendant != _targetItem.UI && _targetItem.HasDescendant(keyFocusDescendant.RootItem))
+                _lastFocusedItem = keyFocusDescendant.RootItem;
+            ClearPendingFocusAreaOfInterest();
+            if (!_useUserDisposition)
             {
-                this.ActualScrollIntoViewDisposition.Reset();
-                this.ActualScrollIntoViewDisposition.Enabled = false;
+                ActualScrollIntoViewDisposition.Reset();
+                ActualScrollIntoViewDisposition.Enabled = false;
             }
             else
-                this.ActualScrollIntoViewDisposition.CopyFrom(this._userDisposition);
-            this._input.OnLayoutComplete();
-            this.DeliverPostLayoutAction();
+                ActualScrollIntoViewDisposition.CopyFrom(_userDisposition);
+            _input.OnLayoutComplete();
+            DeliverPostLayoutAction();
         }
 
         private void ClearPendingFocusAreaOfInterest()
         {
-            if (this._uiWithAreaOfInterestToClear == null)
+            if (_uiWithAreaOfInterestToClear == null)
                 return;
-            if (!this._uiWithAreaOfInterestToClear.IsDisposed)
-                this._uiWithAreaOfInterestToClear.ClearAreaOfInterest(AreaOfInterestID.PendingFocus);
-            this._uiWithAreaOfInterestToClear = null;
+            if (!_uiWithAreaOfInterestToClear.IsDisposed)
+                _uiWithAreaOfInterestToClear.ClearAreaOfInterest(AreaOfInterestID.PendingFocus);
+            _uiWithAreaOfInterestToClear = null;
         }
 
         private void SetPendingFocusAreaOfInterest(UIClass ui)
         {
-            this.ClearPendingFocusAreaOfInterest();
+            ClearPendingFocusAreaOfInterest();
             if (ui.DirectKeyFocus)
                 return;
             ui.SetAreaOfInterest(AreaOfInterestID.PendingFocus);
-            this._uiWithAreaOfInterestToClear = ui;
+            _uiWithAreaOfInterestToClear = ui;
         }
 
         private bool HadFocus()
         {
-            if (this._lastFocusedItem != null && this._lastFocusedItem.IsDisposed)
-                this._lastFocusedItem = null;
-            return this._lastFocusedItem != null;
+            if (_lastFocusedItem != null && _lastFocusedItem.IsDisposed)
+                _lastFocusedItem = null;
+            return _lastFocusedItem != null;
         }
 
-        private bool NonDefaultUserDisposition() => !this._userDisposition.IsDefault;
+        private bool NonDefaultUserDisposition() => !_userDisposition.IsDefault;
 
-        private RectangleF GetLastFocusRect(bool forNavigation) => this.GetViewItemRect(this._lastFocusedItem, forNavigation);
+        private RectangleF GetLastFocusRect(bool forNavigation) => GetViewItemRect(_lastFocusedItem, forNavigation);
 
-        private RectangleF GetScrollerRect(bool forNavigation) => this.GetViewItemRect(this._targetItem, forNavigation);
+        private RectangleF GetScrollerRect(bool forNavigation) => GetViewItemRect(_targetItem, forNavigation);
 
         private RectangleF GetViewItemRect(ViewItem item, bool forNavigation)
         {
@@ -727,28 +727,28 @@ namespace Microsoft.Iris.ModelItems
         private void NavigateToUI(UIClass ui)
         {
             ui.NotifyNavigationDestination(KeyFocusReason.Directional);
-            this.SetPendingFocusAreaOfInterest(ui);
+            SetPendingFocusAreaOfInterest(ui);
         }
 
-        public void BeginCamp() => this._isCamping = true;
+        public void BeginCamp() => _isCamping = true;
 
         public void EndCamp()
         {
-            this._isCamping = false;
-            this._canDoMoveUp = true;
-            this._canDoMoveDown = true;
+            _isCamping = false;
+            _canDoMoveUp = true;
+            _canDoMoveDown = true;
         }
 
-        private bool CanMoveDirection(bool nearDirection) => nearDirection ? this._canDoMoveUp : this._canDoMoveDown;
+        private bool CanMoveDirection(bool nearDirection) => nearDirection ? _canDoMoveUp : _canDoMoveDown;
 
         private void NoteFutileMoveAttempt(bool near)
         {
-            if (!this._isCamping)
+            if (!_isCamping)
                 return;
             if (near)
-                this._canDoMoveUp = false;
+                _canDoMoveUp = false;
             else
-                this._canDoMoveDown = false;
+                _canDoMoveDown = false;
         }
 
         private enum ItemLocation
@@ -763,19 +763,19 @@ namespace Microsoft.Iris.ModelItems
             private ScrollModel _data;
             private bool _nearDirection;
 
-            protected PostLayoutAction(ScrollModel data) => this._data = data;
+            protected PostLayoutAction(ScrollModel data) => _data = data;
 
-            protected void Initialize(bool nearDirection) => this._nearDirection = nearDirection;
+            protected void Initialize(bool nearDirection) => _nearDirection = nearDirection;
 
-            protected bool NearDirection => this._nearDirection;
+            protected bool NearDirection => _nearDirection;
 
-            protected ScrollModel Data => this._data;
+            protected ScrollModel Data => _data;
 
-            protected UIClass Origin => this._data._lastFocusedItem.UI;
+            protected UIClass Origin => _data._lastFocusedItem.UI;
 
-            protected ViewItem Target => this._data._targetItem;
+            protected ViewItem Target => _data._targetItem;
 
-            protected void NoteFutileMoveAttempt() => this.Data.NoteFutileMoveAttempt(this._nearDirection);
+            protected void NoteFutileMoveAttempt() => Data.NoteFutileMoveAttempt(_nearDirection);
 
             public abstract void Go();
         }
@@ -804,17 +804,17 @@ namespace Microsoft.Iris.ModelItems
 
             public override void Go()
             {
-                if (this.Origin == null || this.Origin.IsDisposed)
+                if (Origin == null || Origin.IsDisposed)
                     return;
-                UIClass uiClass = this.Origin.DirectKeyFocus ? this.Origin : null;
+                UIClass uiClass = Origin.DirectKeyFocus ? Origin : null;
                 UIClass resultUI;
-                if (this.Origin.FindNextFocusablePeer(this._direction, RectangleF.Zero, out resultUI) && resultUI != null && (resultUI != uiClass && this.Target.HasDescendant(resultUI.RootItem)))
+                if (Origin.FindNextFocusablePeer(_direction, RectangleF.Zero, out resultUI) && resultUI != null && (resultUI != uiClass && Target.HasDescendant(resultUI.RootItem)))
                 {
-                    this.Data.NavigateToUI(resultUI);
-                    this.Data.EnableScrollIntoView();
+                    Data.NavigateToUI(resultUI);
+                    Data.EnableScrollIntoView();
                 }
                 else
-                    this.NoteFutileMoveAttempt();
+                    NoteFutileMoveAttempt();
             }
         }
 
@@ -848,15 +848,15 @@ namespace Microsoft.Iris.ModelItems
             public override void Go()
             {
                 UIClass ui = null;
-                if (this._tryNonBiasedSearchFirst)
-                    ui = this.FindNavigationResult(true);
+                if (_tryNonBiasedSearchFirst)
+                    ui = FindNavigationResult(true);
                 if (ui == null)
-                    ui = this.FindNavigationResult(false);
+                    ui = FindNavigationResult(false);
                 if (ui != null)
-                    this.Data.NavigateToUI(ui);
+                    Data.NavigateToUI(ui);
                 else
-                    this.NoteFutileMoveAttempt();
-                this.ApplyLockedPosition();
+                    NoteFutileMoveAttempt();
+                ApplyLockedPosition();
             }
 
             private UIClass FindNavigationResult(bool findNearest)
@@ -866,18 +866,18 @@ namespace Microsoft.Iris.ModelItems
                 bool fromPoint;
                 if (findNearest)
                 {
-                    fromPoint = NavigationServices.FindFromPoint(Target, this._assignPoint, out result);
+                    fromPoint = NavigationServices.FindFromPoint(Target, _assignPoint, out result);
                 }
                 else
                 {
-                    Direction direction = this.Data.NearFarToDirection(this.NearDirection);
-                    this._assignPoint = this.Data.GetMoveToEndpointPoint(this.NearDirection);
-                    fromPoint = NavigationServices.FindFromPoint(Target, direction, this._assignPoint, out result);
+                    Direction direction = Data.NearFarToDirection(NearDirection);
+                    _assignPoint = Data.GetMoveToEndpointPoint(NearDirection);
+                    fromPoint = NavigationServices.FindFromPoint(Target, direction, _assignPoint, out result);
                 }
                 if (fromPoint && result != null)
                 {
                     ViewItem viewItem = result as ViewItem;
-                    if (viewItem.UI != this.Origin || !this.Origin.DirectKeyFocus)
+                    if (viewItem.UI != Origin || !Origin.DirectKeyFocus)
                         uiClass = viewItem.UI;
                 }
                 return uiClass;
@@ -886,22 +886,22 @@ namespace Microsoft.Iris.ModelItems
             private void LockToEdge(bool near)
             {
                 if (near)
-                    this._lockedPosition = 0.0f;
+                    _lockedPosition = 0.0f;
                 else
-                    this._lockedPosition = 1f;
+                    _lockedPosition = 1f;
             }
 
             protected void ApplyLockedPosition()
             {
-                if (this.Data.NonDefaultUserDisposition())
-                    this.Data._input.SecondaryScrollIntoViewDisposition = this.Data.ScrollIntoViewDisposition;
-                this.Data.ActualScrollIntoViewDisposition.LockedPosition = this._lockedPosition;
-                this.Data.ActualScrollIntoViewDisposition.LockedAlignment = this._lockedPosition;
-                this.Data.ActualScrollIntoViewDisposition.Locked = true;
-                this.Data.ActualScrollIntoViewDisposition.ContentPositioningBehavior = ContentPositioningPolicy.ShowMaximalContent;
-                this.Data.ActualScrollIntoViewDisposition.Enabled = true;
-                this.Data._useUserDisposition = true;
-                this.Data.OnLayoutInputChanged();
+                if (Data.NonDefaultUserDisposition())
+                    Data._input.SecondaryScrollIntoViewDisposition = Data.ScrollIntoViewDisposition;
+                Data.ActualScrollIntoViewDisposition.LockedPosition = _lockedPosition;
+                Data.ActualScrollIntoViewDisposition.LockedAlignment = _lockedPosition;
+                Data.ActualScrollIntoViewDisposition.Locked = true;
+                Data.ActualScrollIntoViewDisposition.ContentPositioningBehavior = ContentPositioningPolicy.ShowMaximalContent;
+                Data.ActualScrollIntoViewDisposition.Enabled = true;
+                Data._useUserDisposition = true;
+                Data.OnLayoutInputChanged();
             }
         }
     }

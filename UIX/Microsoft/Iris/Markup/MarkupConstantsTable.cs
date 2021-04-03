@@ -17,19 +17,19 @@ namespace Microsoft.Iris.Markup
         private ByteCodeReader _constantsTableReader;
         private MarkupLoadResult _loadResultOwner;
 
-        public MarkupConstantsTable() => this._lookupTable = new Dictionary<MarkupConstantsTable.MarkupConstant, int>(new MarkupConstantsTable.MarkupConstantEqualityComparer());
+        public MarkupConstantsTable() => _lookupTable = new Dictionary<MarkupConstantsTable.MarkupConstant, int>(new MarkupConstantsTable.MarkupConstantEqualityComparer());
 
-        public MarkupConstantsTable(object[] runtimeList) => this._runtimeList = runtimeList;
+        public MarkupConstantsTable(object[] runtimeList) => _runtimeList = runtimeList;
 
         public void SetConstantsTableReader(
           ByteCodeReader constantsTableReader,
           MarkupLoadResult loadResultOwner)
         {
-            this._constantsTableReader = constantsTableReader;
-            this._loadResultOwner = loadResultOwner;
+            _constantsTableReader = constantsTableReader;
+            _loadResultOwner = loadResultOwner;
         }
 
-        public int Add(TypeSchema type, object value, MarkupConstantPersistMode persistMode) => this.Add(type, value, persistMode, value);
+        public int Add(TypeSchema type, object value, MarkupConstantPersistMode persistMode) => Add(type, value, persistMode, value);
 
         public int Add(
           TypeSchema type,
@@ -54,42 +54,42 @@ namespace Microsoft.Iris.Markup
                 key.Persist.Type = null;
             }
             int count;
-            if (!this._lookupTable.TryGetValue(key, out count))
+            if (!_lookupTable.TryGetValue(key, out count))
             {
-                count = this._lookupTable.Count;
-                this._lookupTable.Add(key, count);
+                count = _lookupTable.Count;
+                _lookupTable.Add(key, count);
             }
             return count;
         }
 
         public object Get(int index)
         {
-            object obj = this._runtimeList[index];
+            object obj = _runtimeList[index];
             if (obj == null)
             {
-                this._constantsTableReader.CurrentOffset = (uint)(index * 4);
-                this._constantsTableReader.CurrentOffset = this._constantsTableReader.ReadUInt32();
-                obj = CompiledMarkupLoader.DepersistConstant(this._constantsTableReader, this._loadResultOwner);
-                this._runtimeList[index] = obj;
+                _constantsTableReader.CurrentOffset = (uint)(index * 4);
+                _constantsTableReader.CurrentOffset = _constantsTableReader.ReadUInt32();
+                obj = CompiledMarkupLoader.DepersistConstant(_constantsTableReader, _loadResultOwner);
+                _runtimeList[index] = obj;
             }
             return obj;
         }
 
         public void PrepareForRuntimeUse()
         {
-            this._runtimeList = new object[this._lookupTable.Count];
+            _runtimeList = new object[_lookupTable.Count];
             if (MarkupSystem.CompileMode)
-                this._persistList = new MarkupConstantPersist[this._lookupTable.Count];
-            foreach (KeyValuePair<MarkupConstantsTable.MarkupConstant, int> keyValuePair in this._lookupTable)
+                _persistList = new MarkupConstantPersist[_lookupTable.Count];
+            foreach (KeyValuePair<MarkupConstantsTable.MarkupConstant, int> keyValuePair in _lookupTable)
             {
-                this._runtimeList[keyValuePair.Value] = keyValuePair.Key.Value;
+                _runtimeList[keyValuePair.Value] = keyValuePair.Key.Value;
                 if (MarkupSystem.CompileMode)
-                    this._persistList[keyValuePair.Value] = keyValuePair.Key.Persist;
+                    _persistList[keyValuePair.Value] = keyValuePair.Key.Persist;
             }
-            this._lookupTable = null;
+            _lookupTable = null;
         }
 
-        public MarkupConstantPersist[] PersistList => this._persistList;
+        public MarkupConstantPersist[] PersistList => _persistList;
 
         [Conditional("DEBUG")]
         public void DEBUG_DumpTable()

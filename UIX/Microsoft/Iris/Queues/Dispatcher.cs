@@ -22,21 +22,21 @@ namespace Microsoft.Iris.Queues
 
         public Dispatcher()
         {
-            this._owningThread = Thread.CurrentThread;
-            this._feeder = this.EnterDispatch();
+            _owningThread = Thread.CurrentThread;
+            _feeder = EnterDispatch();
         }
 
         public void FinalStopDispatch()
         {
-            this.LeaveDispatch();
-            this._feeder = null;
+            LeaveDispatch();
+            _feeder = null;
         }
 
         public void Dispose()
         {
-            if (this._enterCount != 1U)
+            if (_enterCount != 1U)
                 return;
-            this.LeaveDispatch();
+            LeaveDispatch();
         }
 
         public static Dispatcher CurrentDispatcher => s_threadDispatcher;
@@ -55,11 +55,11 @@ namespace Microsoft.Iris.Queues
             s_interconnect.PostItem(thread, item, priority);
         }
 
-        public Thread DispatchThread => this._owningThread;
+        public Thread DispatchThread => _owningThread;
 
         public void MainLoop(Queue queue)
         {
-            this.EnterDispatch();
+            EnterDispatch();
             try
             {
                 while (true)
@@ -73,7 +73,7 @@ namespace Microsoft.Iris.Queues
             }
             finally
             {
-                this.LeaveDispatch();
+                LeaveDispatch();
             }
         }
 
@@ -85,8 +85,8 @@ namespace Microsoft.Iris.Queues
 
         private Feeder EnterDispatch()
         {
-            bool isRoot = this._enterCount == 0U;
-            ++this._enterCount;
+            bool isRoot = _enterCount == 0U;
+            ++_enterCount;
             if (isRoot)
                 s_threadDispatcher = this;
             return s_interconnect.EnterDispatch(this, isRoot);
@@ -94,8 +94,8 @@ namespace Microsoft.Iris.Queues
 
         private void LeaveDispatch()
         {
-            --this._enterCount;
-            bool isRoot = this._enterCount == 0U;
+            --_enterCount;
+            bool isRoot = _enterCount == 0U;
             if (isRoot)
                 s_threadDispatcher = null;
             s_interconnect.LeaveDispatch(this, isRoot);
@@ -103,20 +103,20 @@ namespace Microsoft.Iris.Queues
 
         public void NotifyFeederItems()
         {
-            if (Thread.CurrentThread == this._owningThread)
+            if (Thread.CurrentThread == _owningThread)
                 return;
-            Interlocked.Increment(ref this._feederWriteStamp);
-            this.WakeDispatchThread();
+            Interlocked.Increment(ref _feederWriteStamp);
+            WakeDispatchThread();
         }
 
         internal bool DrainFeeder()
         {
-            int feederWriteStamp = this._feederWriteStamp;
-            if (feederWriteStamp == this._feederReadStamp)
+            int feederWriteStamp = _feederWriteStamp;
+            if (feederWriteStamp == _feederReadStamp)
                 return false;
             bool flag = false;
-            this._feederReadStamp = feederWriteStamp;
-            QueueItem.FIFO[] recycled = this._feeder.HandoffFIFOs();
+            _feederReadStamp = feederWriteStamp;
+            QueueItem.FIFO[] recycled = _feeder.HandoffFIFOs();
             if (recycled != null)
             {
                 for (int priority = 0; priority < recycled.Length; ++priority)
@@ -124,11 +124,11 @@ namespace Microsoft.Iris.Queues
                     QueueItem.FIFO items = recycled[priority];
                     if (items != null)
                     {
-                        this.PostItems_SameThread(items, priority);
+                        PostItems_SameThread(items, priority);
                         flag = true;
                     }
                 }
-                this._feeder.RecycleFIFOs(recycled);
+                _feeder.RecycleFIFOs(recycled);
             }
             return flag;
         }

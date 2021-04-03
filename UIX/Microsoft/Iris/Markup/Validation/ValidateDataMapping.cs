@@ -28,23 +28,23 @@ namespace Microsoft.Iris.Markup.Validation
 
         public void Validate(LoadPass currentPass)
         {
-            if (this._currentValidationPass >= currentPass)
+            if (_currentValidationPass >= currentPass)
                 return;
-            this._currentValidationPass = currentPass;
-            ValidateContext context = new ValidateContext(null, null, this._currentValidationPass);
-            this.Validate(TypeRestriction.None, context);
-            if (this._currentValidationPass != LoadPass.Full)
+            _currentValidationPass = currentPass;
+            ValidateContext context = new ValidateContext(null, null, _currentValidationPass);
+            Validate(TypeRestriction.None, context);
+            if (_currentValidationPass != LoadPass.Full)
                 return;
             var markupDataTypeSchema = (MarkupDataTypeSchema)null;
-            TypeSchema typeSchemaProperty = this.ExtractTypeSchemaProperty("TargetType", context, true);
+            TypeSchema typeSchemaProperty = ExtractTypeSchemaProperty("TargetType", context, true);
             switch (typeSchemaProperty)
             {
                 case null:
                 case MarkupDataTypeSchema _:
                     markupDataTypeSchema = (MarkupDataTypeSchema)typeSchemaProperty;
-                    string stringProperty1 = this.ExtractStringProperty("Provider", true);
+                    string stringProperty1 = ExtractStringProperty("Provider", true);
                     MarkupDataMappingEntry[] mappingEntries = null;
-                    ValidateProperty property = this.FindProperty("Mappings");
+                    ValidateProperty property = FindProperty("Mappings");
                     if (property != null && property.IsObjectTagValue)
                     {
                         Map<string, MarkupDataMappingEntry> entries = new Map<string, MarkupDataMappingEntry>();
@@ -67,22 +67,22 @@ namespace Microsoft.Iris.Markup.Validation
                                     if (!entries.ContainsKey(stringProperty2))
                                         entries[stringProperty2] = dataMappingEntry;
                                     else
-                                        this.ReportError("Mapping for property '{0}' was already specified", stringProperty2);
+                                        ReportError("Mapping for property '{0}' was already specified", stringProperty2);
                                 }
                                 else
-                                    this.ReportError("Could not find property '{0}' on type '{1}' for data mapping with provider '{2}'", stringProperty2, markupDataTypeSchema.Name, stringProperty1);
+                                    ReportError("Could not find property '{0}' on type '{1}' for data mapping with provider '{2}'", stringProperty2, markupDataTypeSchema.Name, stringProperty1);
                             }
                         }
                         mappingEntries = MarkupDataProvider.FillInDefaultMappings(markupDataTypeSchema, entries);
                         foreach (MarkupDataMappingEntry dataMappingEntry in mappingEntries)
-                            this.Owner.TrackImportedProperty(dataMappingEntry.Property);
+                            Owner.TrackImportedProperty(dataMappingEntry.Property);
                     }
                     if (stringProperty1 == null || markupDataTypeSchema == null)
                         break;
-                    AddDataMappingProviderList(ref this._foundDataMappingSet, Owner.LoadResultTarget, this.Name, markupDataTypeSchema, stringProperty1, mappingEntries);
+                    AddDataMappingProviderList(ref _foundDataMappingSet, Owner.LoadResultTarget, Name, markupDataTypeSchema, stringProperty1, mappingEntries);
                     break;
                 default:
-                    this.ReportError("TargetType for DataMapping must be a markup-defined DataType, {0} is not valid", typeSchemaProperty.Name);
+                    ReportError("TargetType for DataMapping must be a markup-defined DataType, {0} is not valid", typeSchemaProperty.Name);
                     goto case null;
             }
         }
@@ -152,15 +152,15 @@ namespace Microsoft.Iris.Markup.Validation
 
         public override void NotifyParseComplete()
         {
-            this._previewName = this.GetInlinePropertyValueNoValidate("Name");
-            string propertyValueNoValidate = this.GetInlinePropertyValueNoValidate("Base");
+            _previewName = GetInlinePropertyValueNoValidate("Name");
+            string propertyValueNoValidate = GetInlinePropertyValueNoValidate("Base");
             if (propertyValueNoValidate != null && propertyValueNoValidate.IndexOf(':') != -1)
-                this._baseTypeIdentifier = new ValidateTypeIdentifier(this.Owner, propertyValueNoValidate, this.Line, this.Column);
-            this.Owner.NotifyClassParseComplete(this._previewName);
+                _baseTypeIdentifier = new ValidateTypeIdentifier(Owner, propertyValueNoValidate, Line, Column);
+            Owner.NotifyClassParseComplete(_previewName);
         }
 
         protected override bool ForceAbstractAsConcrete => true;
 
-        public Vector<MarkupDataMapping> FoundDataMappingSet => this._foundDataMappingSet;
+        public Vector<MarkupDataMapping> FoundDataMappingSet => _foundDataMappingSet;
     }
 }

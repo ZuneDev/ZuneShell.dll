@@ -16,31 +16,31 @@ namespace Microsoft.Iris.Markup.Validation
 
         public ValidateMethodList(SourceMarkupLoader owner, int line, int column)
           : base(owner, line, column)
-          => this._methodList = new ArrayList();
+          => _methodList = new ArrayList();
 
-        public void AppendToEnd(ValidateMethod expression) => this._methodList.Add(expression);
+        public void AppendToEnd(ValidateMethod expression) => _methodList.Add(expression);
 
-        public ArrayList Methods => this._methodList;
+        public ArrayList Methods => _methodList;
 
         public void Validate(ValidateClass validateOwner, ValidateContext context)
         {
             int length = 0;
-            for (int index1 = 0; index1 < this._methodList.Count; ++index1)
+            for (int index1 = 0; index1 < _methodList.Count; ++index1)
             {
-                ValidateMethod method = (ValidateMethod)this._methodList[index1];
+                ValidateMethod method = (ValidateMethod)_methodList[index1];
                 method.Validate(validateOwner, context);
                 if (method.HasErrors)
-                    this.MarkHasErrors();
+                    MarkHasErrors();
                 if (method.MethodExport != null && !method.HasOverrideKeyword)
                     ++length;
                 if (context.CurrentPass == LoadPass.PopulatePublicModel)
                 {
                     for (int index2 = 0; index2 < index1; ++index2)
                     {
-                        if (ValidateMethod.IsExactMatch(method.MethodExport, ((ValidateMethod)this._methodList[index2]).MethodExport))
+                        if (ValidateMethod.IsExactMatch(method.MethodExport, ((ValidateMethod)_methodList[index2]).MethodExport))
                         {
                             method.ReportError("Method '{0}' was already defined in this class with the same signature", method.MethodExport.Name);
-                            this.MarkHasErrors();
+                            MarkHasErrors();
                         }
                     }
                 }
@@ -55,7 +55,7 @@ namespace Microsoft.Iris.Markup.Validation
                     num = Math.Max(num, method.VirtualId + 1);
             }
             int index = 0;
-            foreach (ValidateMethod method in this._methodList)
+            foreach (ValidateMethod method in _methodList)
             {
                 if (method.MethodExport != null && !method.HasOverrideKeyword)
                 {
@@ -74,9 +74,9 @@ namespace Microsoft.Iris.Markup.Validation
                     ++index;
                 }
             }
-            this._foundMethods = methodSchemaArray;
+            _foundMethods = methodSchemaArray;
         }
 
-        public MethodSchema[] FoundMethods => this._foundMethods;
+        public MethodSchema[] FoundMethods => _foundMethods;
     }
 }

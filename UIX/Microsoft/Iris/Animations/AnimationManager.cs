@@ -32,49 +32,49 @@ namespace Microsoft.Iris.Animations
 
         public AnimationManager(IRenderSession session)
         {
-            this._session = session;
-            this._orphans = new Vector<OrphanedVisualCollection>();
-            this._session.AnimationSystem.UpdatesPerSecond = session.GraphicsDevice.DeviceType != GraphicsDeviceType.Gdi ? 0 : 3;
-            this._session.AnimationSystem.BackCompat = true;
+            _session = session;
+            _orphans = new Vector<OrphanedVisualCollection>();
+            _session.AnimationSystem.UpdatesPerSecond = session.GraphicsDevice.DeviceType != GraphicsDeviceType.Gdi ? 0 : 3;
+            _session.AnimationSystem.BackCompat = true;
         }
 
-        ~AnimationManager() => this.Dispose(false);
+        ~AnimationManager() => Dispose(false);
 
         public void Dispose()
         {
             GC.SuppressFinalize(this);
-            this.Dispose(true);
+            Dispose(true);
         }
 
         protected virtual void Dispose(bool inDisposeFlag)
         {
-            this._shuttingDown = true;
+            _shuttingDown = true;
             if (!inDisposeFlag)
                 return;
-            foreach (DisposableObject orphan in this._orphans)
+            foreach (DisposableObject orphan in _orphans)
                 orphan.Dispose(this);
-            this._orphans.Clear();
+            _orphans.Clear();
         }
 
-        internal bool ShuttingDown => this._shuttingDown;
+        internal bool ShuttingDown => _shuttingDown;
 
         public void SetGlobalSpeedAdjustment(float value)
         {
-            this.ValidateConnected();
-            this._session.AnimationSystem.SpeedAdjustment = value;
+            ValidateConnected();
+            _session.AnimationSystem.SpeedAdjustment = value;
         }
 
         public void PulseTimeAdvance(int pulseSize)
         {
-            this.ValidateConnected();
-            this._session.AnimationSystem.PulseTimeAdvance(pulseSize);
+            ValidateConnected();
+            _session.AnimationSystem.PulseTimeAdvance(pulseSize);
         }
 
-        public void RegisterAnimatedOrphans(OrphanedVisualCollection orphan) => this._orphans.Add(orphan);
+        public void RegisterAnimatedOrphans(OrphanedVisualCollection orphan) => _orphans.Add(orphan);
 
-        public void UnregisterAnimatedOrphans(OrphanedVisualCollection orphan) => this._orphans.Remove(orphan);
+        public void UnregisterAnimatedOrphans(OrphanedVisualCollection orphan) => _orphans.Remove(orphan);
 
-        public bool CanPlayAnimationType(AnimationType type) => this._session.GraphicsDevice.DeviceType != GraphicsDeviceType.Gdi || type == AnimationType.Position || (type == AnimationType.Size || type == AnimationType.Scale) || type == AnimationType.Alpha;
+        public bool CanPlayAnimationType(AnimationType type) => _session.GraphicsDevice.DeviceType != GraphicsDeviceType.Gdi || type == AnimationType.Position || (type == AnimationType.Size || type == AnimationType.Scale) || type == AnimationType.Alpha;
 
         private void ValidateConnected()
         {
@@ -82,27 +82,27 @@ namespace Microsoft.Iris.Animations
 
         internal IKeyframeAnimation BuildAnimation(AnimationProxy owner)
         {
-            this.ValidateConnected();
+            ValidateConnected();
             IKeyframeAnimation keyframeAnimation = null;
             switch (owner.Type)
             {
                 case AnimationType.Position:
-                    keyframeAnimation = this._session.AnimationSystem.CreateKeyframeAnimation(owner, s_defaultPositionInput);
+                    keyframeAnimation = _session.AnimationSystem.CreateKeyframeAnimation(owner, s_defaultPositionInput);
                     break;
                 case AnimationType.Size:
-                    keyframeAnimation = this._session.AnimationSystem.CreateKeyframeAnimation(owner, s_defaultSizeInput);
+                    keyframeAnimation = _session.AnimationSystem.CreateKeyframeAnimation(owner, s_defaultSizeInput);
                     break;
                 case AnimationType.Alpha:
-                    keyframeAnimation = this._session.AnimationSystem.CreateKeyframeAnimation(owner, s_defaultAlphaInput);
+                    keyframeAnimation = _session.AnimationSystem.CreateKeyframeAnimation(owner, s_defaultAlphaInput);
                     break;
                 case AnimationType.Scale:
-                    keyframeAnimation = this._session.AnimationSystem.CreateKeyframeAnimation(owner, s_defaultScaleInput);
+                    keyframeAnimation = _session.AnimationSystem.CreateKeyframeAnimation(owner, s_defaultScaleInput);
                     break;
                 case AnimationType.Rotate:
-                    keyframeAnimation = this._session.AnimationSystem.CreateKeyframeAnimation(owner, s_defaultRotationInput);
+                    keyframeAnimation = _session.AnimationSystem.CreateKeyframeAnimation(owner, s_defaultRotationInput);
                     break;
                 case AnimationType.Orientation:
-                    keyframeAnimation = this._session.AnimationSystem.CreateKeyframeAnimation(owner, s_defaultOrientationInput);
+                    keyframeAnimation = _session.AnimationSystem.CreateKeyframeAnimation(owner, s_defaultOrientationInput);
                     break;
                 case AnimationType.PositionX:
                 case AnimationType.PositionY:
@@ -111,28 +111,28 @@ namespace Microsoft.Iris.Animations
                 case AnimationType.ScaleX:
                 case AnimationType.ScaleY:
                 case AnimationType.Float:
-                    keyframeAnimation = this._session.AnimationSystem.CreateKeyframeAnimation(owner, s_defaultFloatInput);
+                    keyframeAnimation = _session.AnimationSystem.CreateKeyframeAnimation(owner, s_defaultFloatInput);
                     break;
                 case AnimationType.Vector2:
-                    keyframeAnimation = this._session.AnimationSystem.CreateKeyframeAnimation(owner, s_defaultVector2Input);
+                    keyframeAnimation = _session.AnimationSystem.CreateKeyframeAnimation(owner, s_defaultVector2Input);
                     break;
                 case AnimationType.Vector3:
-                    keyframeAnimation = this._session.AnimationSystem.CreateKeyframeAnimation(owner, s_defaultVector3Input);
+                    keyframeAnimation = _session.AnimationSystem.CreateKeyframeAnimation(owner, s_defaultVector3Input);
                     break;
                 case AnimationType.Vector4:
-                    keyframeAnimation = this._session.AnimationSystem.CreateKeyframeAnimation(owner, s_defaultVector4Input);
+                    keyframeAnimation = _session.AnimationSystem.CreateKeyframeAnimation(owner, s_defaultVector4Input);
                     break;
                 case AnimationType.CameraEye:
-                    keyframeAnimation = this._session.AnimationSystem.CreateKeyframeAnimation(owner, s_defaultCameraEyeInput);
+                    keyframeAnimation = _session.AnimationSystem.CreateKeyframeAnimation(owner, s_defaultCameraEyeInput);
                     break;
                 case AnimationType.CameraAt:
-                    keyframeAnimation = this._session.AnimationSystem.CreateKeyframeAnimation(owner, s_defaultCameraAtInput);
+                    keyframeAnimation = _session.AnimationSystem.CreateKeyframeAnimation(owner, s_defaultCameraAtInput);
                     break;
                 case AnimationType.CameraUp:
-                    keyframeAnimation = this._session.AnimationSystem.CreateKeyframeAnimation(owner, s_defaultCameraUpInput);
+                    keyframeAnimation = _session.AnimationSystem.CreateKeyframeAnimation(owner, s_defaultCameraUpInput);
                     break;
                 case AnimationType.CameraZn:
-                    keyframeAnimation = this._session.AnimationSystem.CreateKeyframeAnimation(owner, s_defaultCameraZnInput);
+                    keyframeAnimation = _session.AnimationSystem.CreateKeyframeAnimation(owner, s_defaultCameraZnInput);
                     break;
             }
             return keyframeAnimation;

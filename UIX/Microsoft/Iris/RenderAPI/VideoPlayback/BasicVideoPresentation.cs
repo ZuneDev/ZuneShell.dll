@@ -12,19 +12,19 @@ namespace Microsoft.Iris.RenderAPI.VideoPlayback
     {
         private BasicVideoGeometry m_geometry;
 
-        internal BasicVideoPresentation(BasicVideoGeometry geometry) => this.m_geometry = geometry;
+        internal BasicVideoPresentation(BasicVideoGeometry geometry) => m_geometry = geometry;
 
-        public RectangleF DisplayedSource => this.m_geometry.rcfSrcVideoBounds;
+        public RectangleF DisplayedSource => m_geometry.rcfSrcVideoBounds;
 
-        public RectangleF DisplayedDestination => this.m_geometry.rcfDestViewBounds;
+        public RectangleF DisplayedDestination => m_geometry.rcfDestViewBounds;
 
         public BasicVideoGeometry GetGeometry() => new BasicVideoGeometry()
         {
-            arrcfSrcVideo = (RectangleF[])this.m_geometry.arrcfSrcVideo.Clone(),
-            arrcfDestView = (RectangleF[])this.m_geometry.arrcfDestView.Clone(),
-            arrcfBorders = (RectangleF[])this.m_geometry.arrcfBorders.Clone(),
-            rcfSrcVideoBounds = this.m_geometry.rcfSrcVideoBounds,
-            rcfDestViewBounds = this.m_geometry.rcfDestViewBounds
+            arrcfSrcVideo = (RectangleF[])m_geometry.arrcfSrcVideo.Clone(),
+            arrcfDestView = (RectangleF[])m_geometry.arrcfDestView.Clone(),
+            arrcfBorders = (RectangleF[])m_geometry.arrcfBorders.Clone(),
+            rcfSrcVideoBounds = m_geometry.rcfSrcVideoBounds,
+            rcfDestViewBounds = m_geometry.rcfDestViewBounds
         };
     }
 }

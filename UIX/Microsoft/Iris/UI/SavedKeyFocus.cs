@@ -10,8 +10,8 @@ namespace Microsoft.Iris.UI
     {
         private object _payload;
 
-        public SavedKeyFocus(object objectToWrap) => this._payload = objectToWrap;
+        public SavedKeyFocus(object objectToWrap) => _payload = objectToWrap;
 
-        public object Payload => this._payload;
+        public object Payload => _payload;
     }
 }

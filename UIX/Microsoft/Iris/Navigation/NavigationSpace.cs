@@ -28,7 +28,7 @@ namespace Microsoft.Iris.Navigation
             ArrayList arrayList = new ArrayList(allChildrenList.Count);
             foreach (NavigationItem allChildren in allChildrenList)
             {
-                NavigationSpace.CandidateInfo candidateInfo = this.AnalyzeCandidate(allChildren, startRectangleF);
+                NavigationSpace.CandidateInfo candidateInfo = AnalyzeCandidate(allChildren, startRectangleF);
                 if (candidateInfo != null)
                     arrayList.Add(candidateInfo);
             }
@@ -47,7 +47,7 @@ namespace Microsoft.Iris.Navigation
             float xDeltaValue = 0.0f;
             float yDeltaValue = 0.0f;
             float toleranceValue = 0.0f;
-            switch (this.SearchDirection)
+            switch (SearchDirection)
             {
                 case Direction.North:
                     yDeltaValue = location.Bottom - originRectangleF.Top;
@@ -68,7 +68,7 @@ namespace Microsoft.Iris.Navigation
                 case Direction.Previous:
                 case Direction.Next:
                     float overlapValue = 0.0f;
-                    switch (this.SearchDirection)
+                    switch (SearchDirection)
                     {
                         case Direction.North:
                         case Direction.South:
@@ -99,10 +99,10 @@ namespace Microsoft.Iris.Navigation
                             overlapValue = Math.Min(originRectangleF.Bottom, location.Bottom) - Math.Max(originRectangleF.Top, location.Top);
                             break;
                     }
-                    NavigationSpace.Rank rank = this.ComputeRank(xDeltaValue, yDeltaValue, overlapValue, toleranceValue);
+                    NavigationSpace.Rank rank = ComputeRank(xDeltaValue, yDeltaValue, overlapValue, toleranceValue);
                     if (rank > Rank.Fair)
                         return null;
-                    switch (this.SearchDirection)
+                    switch (SearchDirection)
                     {
                         case Direction.North:
                         case Direction.South:
@@ -116,7 +116,7 @@ namespace Microsoft.Iris.Navigation
                     float weightedFacingDistance = (float)(xDeltaValue * (double)xDeltaValue + yDeltaValue * (double)yDeltaValue) - overlapValue;
                     float centerDistance = 0.0f;
                     float positionOrder = 0.0f;
-                    switch (this.SearchDirection)
+                    switch (SearchDirection)
                     {
                         case Direction.North:
                         case Direction.South:
@@ -144,7 +144,7 @@ namespace Microsoft.Iris.Navigation
           float overlapValue,
           float toleranceValue)
         {
-            switch (this.SearchDirection)
+            switch (SearchDirection)
             {
                 case Direction.North:
                     if (yDeltaValue > (double)toleranceValue)
@@ -165,7 +165,7 @@ namespace Microsoft.Iris.Navigation
             }
             if (overlapValue > 0.0)
                 return Rank.Ideal;
-            switch (this.SearchDirection)
+            switch (SearchDirection)
             {
                 case Direction.North:
                     if (yDeltaValue > 0.0)
@@ -186,7 +186,7 @@ namespace Microsoft.Iris.Navigation
             }
             xDeltaValue = Math.Abs(xDeltaValue);
             yDeltaValue = Math.Abs(yDeltaValue);
-            switch (this.SearchDirection)
+            switch (SearchDirection)
             {
                 case Direction.North:
                 case Direction.South:

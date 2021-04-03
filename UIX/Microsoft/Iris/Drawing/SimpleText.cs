@@ -22,14 +22,14 @@ namespace Microsoft.Iris.Drawing
             Size sizeMaximumSurface = Size.Zero;
             if (UISession.Default != null)
                 sizeMaximumSurface = UIImage.MaximumSurfaceSize(UISession.Default);
-            RendererApi.IFC(NativeApi.SpSimpleTextBuildObject(sizeMaximumSurface, out this._stoHandle));
+            RendererApi.IFC(NativeApi.SpSimpleTextBuildObject(sizeMaximumSurface, out _stoHandle));
         }
 
         public void Dispose()
         {
             GC.SuppressFinalize(this);
-            NativeApi.SpSimpleTextDestroyObject(this._stoHandle);
-            this._stoHandle = Win32Api.HANDLE.NULL;
+            NativeApi.SpSimpleTextDestroyObject(_stoHandle);
+            _stoHandle = Win32Api.HANDLE.NULL;
         }
 
         public unsafe bool CanMeasure(string content, TextStyle textStyle)
@@ -41,7 +41,7 @@ namespace Microsoft.Iris.Drawing
                 {
                     _fontFace = chPtr
                 };
-                RendererApi.IFC(NativeApi.SpSimpleTextMeasurePossible(this._stoHandle, content, &style, out fPossible));
+                RendererApi.IFC(NativeApi.SpSimpleTextMeasurePossible(_stoHandle, content, &style, out fPossible));
             }
             return fPossible;
         }
@@ -76,7 +76,7 @@ namespace Microsoft.Iris.Drawing
                 {
                     _fontFace = chPtr
                 };
-                RendererApi.IFC(NativeApi.SpSimpleTextMeasure(this._stoHandle, content, wAlignment,
+                RendererApi.IFC(NativeApi.SpSimpleTextMeasure(_stoHandle, content, wAlignment,
                     &style, constraint, out hGlyphRunInfo, &rasterizeRunPacket));
             }
             TextRun run = TextRun.FromRunPacket(hGlyphRunInfo, &rasterizeRunPacket, content);

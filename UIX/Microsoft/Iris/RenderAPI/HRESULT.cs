@@ -20,23 +20,23 @@ namespace Microsoft.Iris.RenderAPI
 
         public static bool operator !=(HRESULT hrA, HRESULT hrB) => hrA.hr != hrB.hr;
 
-        public override bool Equals(object oCompare) => oCompare is HRESULT hresult && this.hr == hresult.hr;
+        public override bool Equals(object oCompare) => oCompare is HRESULT hresult && hr == hresult.hr;
 
-        public override int GetHashCode() => this.hr;
+        public override int GetHashCode() => hr;
 
-        public override string ToString() => "hr:" + this.hr.ToString("X", CultureInfo.InvariantCulture);
+        public override string ToString() => "hr:" + hr.ToString("X", CultureInfo.InvariantCulture);
 
-        public bool IsError() => this.hr < 0;
+        public bool IsError() => hr < 0;
 
-        public bool IsSuccess() => this.hr >= 0;
+        public bool IsSuccess() => hr >= 0;
 
         public void HandleError()
         {
-            if (!this.IsError())
+            if (!IsError())
                 return;
-            Marshal.ThrowExceptionForHR(this.hr);
+            Marshal.ThrowExceptionForHR(hr);
         }
 
-        public int Int => this.hr;
+        public int Int => hr;
     }
 }

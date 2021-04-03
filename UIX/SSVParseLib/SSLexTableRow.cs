@@ -13,22 +13,22 @@ namespace SSVParseLib
 
         public SSLexTableRow(int[] q_row, int q_index)
         {
-            this.m_size = q_row[q_index];
-            if (this.m_size > 0)
-                this.m_entries = new SSLexTableRowEntry[this.m_size];
+            m_size = q_row[q_index];
+            if (m_size > 0)
+                m_entries = new SSLexTableRowEntry[m_size];
             ++q_index;
-            for (int index = 0; index < this.m_size; ++index)
+            for (int index = 0; index < m_size; ++index)
             {
-                this.m_entries[index] = new SSLexTableRowEntry(q_row[q_index], q_row[q_index + 1], q_row[q_index + 2]);
+                m_entries[index] = new SSLexTableRowEntry(q_row[q_index], q_row[q_index + 1], q_row[q_index + 2]);
                 q_index += 3;
             }
         }
 
         public int lookup(int q_code)
         {
-            for (int index = 0; index < this.m_size; ++index)
+            for (int index = 0; index < m_size; ++index)
             {
-                SSLexTableRowEntry entry = this.m_entries[index];
+                SSLexTableRowEntry entry = m_entries[index];
                 if (q_code < entry.start())
                     return -1;
                 if (q_code <= entry.end())

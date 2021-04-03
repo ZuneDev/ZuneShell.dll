@@ -12,8 +12,8 @@ namespace Microsoft.Iris
     {
         private bool _block;
 
-        public void BlockCloseRequest() => this._block = true;
+        public void BlockCloseRequest() => _block = true;
 
-        internal bool Block => this._block;
+        internal bool Block => _block;
     }
 }

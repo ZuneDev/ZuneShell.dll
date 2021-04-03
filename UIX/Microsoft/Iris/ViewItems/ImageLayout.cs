@@ -20,26 +20,26 @@ namespace Microsoft.Iris.ViewItems
 
         public Size SourceSize
         {
-            get => this._sourceExtent;
-            set => this._sourceExtent = value;
+            get => _sourceExtent;
+            set => _sourceExtent = value;
         }
 
         public Size MinimumSize
         {
-            get => this._minimumSize;
-            set => this._minimumSize = value;
+            get => _minimumSize;
+            set => _minimumSize = value;
         }
 
         public bool MaintainAspectRatio
         {
-            get => this._maintainAspectRatio;
-            set => this._maintainAspectRatio = value;
+            get => _maintainAspectRatio;
+            set => _maintainAspectRatio = value;
         }
 
         public bool Fill
         {
-            get => this._fill;
-            set => this._fill = value;
+            get => _fill;
+            set => _fill = value;
         }
 
         public ItemAlignment DefaultChildAlignment => ItemAlignment.Default;
@@ -47,15 +47,15 @@ namespace Microsoft.Iris.ViewItems
         Size ILayout.Measure(ILayoutNode layoutNode, Size constraint)
         {
             Size size = Size.Zero;
-            if (this._fill)
+            if (_fill)
                 size = constraint;
-            else if (this._sourceExtent != Size.Zero)
-                size = Size.Min(Size.Max(this._minimumSize, this._sourceExtent), constraint);
-            if (this._maintainAspectRatio && this._sourceExtent != Size.Zero && size != this._sourceExtent)
+            else if (_sourceExtent != Size.Zero)
+                size = Size.Min(Size.Max(_minimumSize, _sourceExtent), constraint);
+            if (_maintainAspectRatio && _sourceExtent != Size.Zero && size != _sourceExtent)
             {
-                Size sz1 = SmallestFillingFit(this._sourceExtent, size);
+                Size sz1 = SmallestFillingFit(_sourceExtent, size);
                 if (sz1.Height > constraint.Height || sz1.Width > constraint.Width)
-                    sz1 = Size.LargestFit(this._sourceExtent, constraint);
+                    sz1 = Size.LargestFit(_sourceExtent, constraint);
                 size = Size.Min(sz1, constraint);
             }
             DefaultLayout.Measure(layoutNode, size);

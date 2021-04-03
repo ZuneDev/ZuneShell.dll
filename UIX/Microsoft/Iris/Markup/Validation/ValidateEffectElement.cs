@@ -24,15 +24,15 @@ namespace Microsoft.Iris.Markup.Validation
             base.Validate(typeRestriction, context);
             if (context.CurrentPass != LoadPass.Full || !(context.Owner is ValidateEffect owner))
                 return;
-            ValidateProperty validateProperty1 = this.PropertyList;
+            ValidateProperty validateProperty1 = PropertyList;
             while (validateProperty1 != null)
             {
                 ValidateProperty validateProperty2 = validateProperty1;
                 validateProperty1 = validateProperty1.Next;
                 if (!validateProperty2.HasErrors && !validateProperty2.IsFromStringValue && !EffectElementSchema.Type.IsAssignableFrom(validateProperty2.FoundProperty.PropertyType) && (!ListSchema.Type.IsAssignableFrom(validateProperty2.FoundProperty.PropertyType) || !EffectElementSchema.Type.IsAssignableFrom(validateProperty2.FoundProperty.AlternateType)))
                 {
-                    this.RemoveProperty(validateProperty2);
-                    owner.TrackInstanceProperty(context, this.Name, validateProperty2);
+                    RemoveProperty(validateProperty2);
+                    owner.TrackInstanceProperty(context, Name, validateProperty2);
                 }
             }
         }

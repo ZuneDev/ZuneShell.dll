@@ -13,29 +13,29 @@ namespace Microsoft.Iris.Markup
 
         public ParameterContext(string[] parameterNames, object[] parameterValues)
         {
-            this._parameterNames = parameterNames;
-            this._parameterValues = parameterValues;
+            _parameterNames = parameterNames;
+            _parameterValues = parameterValues;
         }
 
         public object ReadParameter(string name)
         {
-            int length = this._parameterNames.Length;
+            int length = _parameterNames.Length;
             for (int index = 0; index < length; ++index)
             {
-                if (this._parameterNames[index] == name)
-                    return this._parameterValues[index];
+                if (_parameterNames[index] == name)
+                    return _parameterValues[index];
             }
             return null;
         }
 
         public void WriteParameter(string name, object value)
         {
-            int length = this._parameterNames.Length;
+            int length = _parameterNames.Length;
             for (int index = 0; index < length; ++index)
             {
-                if (this._parameterNames[index] == name)
+                if (_parameterNames[index] == name)
                 {
-                    this._parameterValues[index] = value;
+                    _parameterValues[index] = value;
                     break;
                 }
             }

@@ -37,25 +37,25 @@ namespace Microsoft.Iris.Session
           uint nTimeoutSec,
           bool isMainUIThread)
         {
-            this._thread = Thread.CurrentThread;
-            this._parentSession = parentSession;
-            this._timeoutManager = new TimeoutManager();
+            _thread = Thread.CurrentThread;
+            _parentSession = parentSession;
+            _timeoutManager = new TimeoutManager();
             Queue[] queues = new Queue[17];
             if (parentSession != null)
                 queues[6] = parentSession.InputManager.Queue;
-            this._masterQueue = new PriorityQueue(queues);
-            this._masterQueue.LoopHook = new PriorityQueue.HookProc(this.CheckInterthreadItems);
-            this.SetQueueDrainHook(DispatchPriority.Normal, new PriorityQueue.HookProc(this.CheckLoopCondition));
-            this.SetQueueDrainHook(DispatchPriority.RPC, new PriorityQueue.HookProc(this.ProcessNativeEvents));
-            this.SetQueueDrainHook(DispatchPriority.Idle, new PriorityQueue.HookProc(this.ProcessTimeouts));
-            this.SetQueueDrainHook(DispatchPriority.Sleep, new PriorityQueue.HookProc(this.WaitForWork));
-            this._rpcYieldQueue = this._masterQueue.BuildSubsetQueue(new int[2]
+            _masterQueue = new PriorityQueue(queues);
+            _masterQueue.LoopHook = new PriorityQueue.HookProc(CheckInterthreadItems);
+            SetQueueDrainHook(DispatchPriority.Normal, new PriorityQueue.HookProc(CheckLoopCondition));
+            SetQueueDrainHook(DispatchPriority.RPC, new PriorityQueue.HookProc(ProcessNativeEvents));
+            SetQueueDrainHook(DispatchPriority.Idle, new PriorityQueue.HookProc(ProcessTimeouts));
+            SetQueueDrainHook(DispatchPriority.Sleep, new PriorityQueue.HookProc(WaitForWork));
+            _rpcYieldQueue = _masterQueue.BuildSubsetQueue(new int[2]
             {
         5,
         16
             }, true);
-            this._cleanupQueue = this._masterQueue.BuildSubsetQueue(new int[1], true);
-            this._doBatchFlush = new PriorityQueue.HookProc(this.DoBatchFlush);
+            _cleanupQueue = _masterQueue.BuildSubsetQueue(new int[1], true);
+            _doBatchFlush = new PriorityQueue.HookProc(DoBatchFlush);
             if (!isMainUIThread)
                 return;
             s_mainUIThread = Thread.CurrentThread;
@@ -63,33 +63,33 @@ namespace Microsoft.Iris.Session
 
         public void ShutDown(bool flushRefs)
         {
-            this.DoHousekeeping();
+            DoHousekeeping();
             if (flushRefs)
             {
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
-                this.DoHousekeeping();
+                DoHousekeeping();
             }
-            if (this._shutdown)
+            if (_shutdown)
                 return;
-            this._shutdown = true;
-            this.FinalStopDispatch();
+            _shutdown = true;
+            FinalStopDispatch();
         }
 
         public new void Dispose()
         {
-            this.ShutDown(false);
+            ShutDown(false);
             if (s_mainUIThread == Thread.CurrentThread)
             {
                 s_mainUIThread = null;
                 s_exiting = true;
             }
-            if (this._masterQueue != null)
+            if (_masterQueue != null)
             {
-                this._masterQueue.Dispose();
-                this._rpcYieldQueue.Dispose();
-                this._cleanupQueue.Dispose();
-                this._timeoutManager.Dispose();
+                _masterQueue.Dispose();
+                _rpcYieldQueue.Dispose();
+                _cleanupQueue.Dispose();
+                _timeoutManager.Dispose();
             }
             base.Dispose();
         }
@@ -102,14 +102,14 @@ namespace Microsoft.Iris.Session
 
         public static bool Exiting => s_exiting;
 
-        public UISession UISession => this._parentSession;
+        public UISession UISession => _parentSession;
 
-        public TimeoutManager TimeoutManager => this._timeoutManager;
+        public TimeoutManager TimeoutManager => _timeoutManager;
 
         public bool RespectNativeQuitRequests
         {
-            get => this._respectNativeQuitRequests;
-            set => this._respectNativeQuitRequests = value;
+            get => _respectNativeQuitRequests;
+            set => _respectNativeQuitRequests = value;
         }
 
         void IRenderHost.DeferredInvoke(
@@ -174,9 +174,9 @@ namespace Microsoft.Iris.Session
 
         public static void Post(Thread thread, DispatchPriority priority, QueueItem item) => PostItem_AnyThread(thread, item, (int)priority);
 
-        public void Run(LoopCondition condition) => this.MainLoop(_masterQueue, condition);
+        public void Run(LoopCondition condition) => MainLoop(_masterQueue, condition);
 
-        public void StopCurrentMessageLoop() => this._messageLoop.QuitPending = true;
+        public void StopCurrentMessageLoop() => _messageLoop.QuitPending = true;
 
         public static void StopCurrentMessageLoop(Thread thread)
         {
@@ -186,93 +186,93 @@ namespace Microsoft.Iris.Session
                 CurrentDispatcher?.StopCurrentMessageLoop();
         }
 
-        public void RPCYield(LoopCondition condition) => this.MainLoop(this._rpcYieldQueue, condition);
+        public void RPCYield(LoopCondition condition) => MainLoop(_rpcYieldQueue, condition);
 
-        public void DoHousekeeping() => this.MainLoop(this._cleanupQueue, null);
+        public void DoHousekeeping() => MainLoop(_cleanupQueue, null);
 
-        private void SetQueueLock(DispatchPriority priority, bool value) => this._masterQueue.SetLock((int)priority, value);
+        private void SetQueueLock(DispatchPriority priority, bool value) => _masterQueue.SetLock((int)priority, value);
 
         internal void TemporarilyBlockRPCs()
         {
-            this.SetQueueLock(DispatchPriority.RPC, true);
-            this.RequestBatchFlush();
+            SetQueueLock(DispatchPriority.RPC, true);
+            RequestBatchFlush();
         }
 
-        public void BlockInputQueue(bool value) => this.SetQueueLock(DispatchPriority.Input, value);
+        public void BlockInputQueue(bool value) => SetQueueLock(DispatchPriority.Input, value);
 
-        public bool IsQueueLocked(DispatchPriority priority) => this._masterQueue.IsLocked((int)priority);
+        public bool IsQueueLocked(DispatchPriority priority) => _masterQueue.IsLocked((int)priority);
 
-        private void SetQueueDrainHook(DispatchPriority priority, PriorityQueue.HookProc hook) => this._masterQueue.SetDrainHook((int)priority, hook);
+        private void SetQueueDrainHook(DispatchPriority priority, PriorityQueue.HookProc hook) => _masterQueue.SetDrainHook((int)priority, hook);
 
-        private PriorityQueue.HookProc GetQueueDrainHook(DispatchPriority priority) => this._masterQueue.GetDrainHook((int)priority);
+        private PriorityQueue.HookProc GetQueueDrainHook(DispatchPriority priority) => _masterQueue.GetDrainHook((int)priority);
 
         private void MainLoop(Queue queue, LoopCondition condition)
         {
             using (new UIDispatcher.MessageLoop(this, condition))
-                this.MainLoop(queue);
+                MainLoop(queue);
         }
 
         private static void StopMessageLoopHandler() => CurrentDispatcher?.StopCurrentMessageLoop();
 
         internal void RequestBatchFlush()
         {
-            if (this.GetQueueDrainHook(DispatchPriority.RenderSync) != null)
+            if (GetQueueDrainHook(DispatchPriority.RenderSync) != null)
                 return;
-            this.SetQueueDrainHook(DispatchPriority.RenderSync, this._doBatchFlush);
+            SetQueueDrainHook(DispatchPriority.RenderSync, _doBatchFlush);
         }
 
         private void DoBatchFlush(out bool didWork, out bool abort)
         {
-            this.SetQueueDrainHook(DispatchPriority.RenderSync, null);
-            this.UISession.FlushBatch();
+            SetQueueDrainHook(DispatchPriority.RenderSync, null);
+            UISession.FlushBatch();
             didWork = true;
             abort = false;
-            if (!this.IsQueueLocked(DispatchPriority.RPC))
+            if (!IsQueueLocked(DispatchPriority.RPC))
                 return;
-            this.SetQueueLock(DispatchPriority.RPC, false);
+            SetQueueLock(DispatchPriority.RPC, false);
             didWork = true;
         }
 
         protected override void PostItem_SameThread(QueueItem item, int priority)
         {
-            if (!(this._masterQueue[priority] is SimpleQueue master))
+            if (!(_masterQueue[priority] is SimpleQueue master))
                 return;
             master.PostItem(item);
         }
 
         protected override void PostItems_SameThread(QueueItem.FIFO items, int priority)
         {
-            if (!(this._masterQueue[priority] is SimpleQueue master))
+            if (!(_masterQueue[priority] is SimpleQueue master))
                 return;
             master.PostItems(items);
         }
 
-        protected override void WakeDispatchThread() => this.UISession.InterThreadWake();
+        protected override void WakeDispatchThread() => UISession.InterThreadWake();
 
         private void CheckInterthreadItems(out bool didWork, out bool abort)
         {
-            didWork = this.DrainFeeder();
+            didWork = DrainFeeder();
             abort = false;
         }
 
         private void CheckLoopCondition(out bool didWork, out bool abort)
         {
             didWork = false;
-            abort = this._messageLoop.QuitPending;
+            abort = _messageLoop.QuitPending;
         }
 
         private void ProcessNativeEvents(out bool didWork, out bool abort)
         {
-            didWork = this.UISession.ProcessNativeEvents();
+            didWork = UISession.ProcessNativeEvents();
             abort = false;
             if (didWork)
                 return;
-            this.SetQueueLock(DispatchPriority.RPC, true);
+            SetQueueLock(DispatchPriority.RPC, true);
         }
 
         private void ProcessTimeouts(out bool didWork, out bool abort)
         {
-            didWork = this._timeoutManager.ProcessPendingTimeouts();
+            didWork = _timeoutManager.ProcessPendingTimeouts();
             abort = false;
         }
 
@@ -280,20 +280,20 @@ namespace Microsoft.Iris.Session
         {
             didWork = true;
             abort = false;
-            if (this._messageLoop.QuitPending)
+            if (_messageLoop.QuitPending)
             {
                 didWork = false;
                 abort = true;
             }
             else
             {
-                uint nextTimeoutMillis = this._timeoutManager.NextTimeoutMillis;
+                uint nextTimeoutMillis = _timeoutManager.NextTimeoutMillis;
                 if (nextTimeoutMillis == 0U)
-                    this._timeoutManager.ProcessPendingTimeouts();
+                    _timeoutManager.ProcessPendingTimeouts();
                 else
-                    this.UISession.WaitForWork(nextTimeoutMillis);
+                    UISession.WaitForWork(nextTimeoutMillis);
             }
-            this.SetQueueLock(DispatchPriority.RPC, false);
+            SetQueueLock(DispatchPriority.RPC, false);
         }
 
         internal static void VerifyOnApplicationThread()
@@ -311,25 +311,25 @@ namespace Microsoft.Iris.Session
 
             public MessageLoop(UIDispatcher dispatcher, LoopCondition condition)
             {
-                this._dispatcher = dispatcher;
-                this._condition = condition;
-                this._parent = this._dispatcher._messageLoop;
-                this._dispatcher._messageLoop = this;
+                _dispatcher = dispatcher;
+                _condition = condition;
+                _parent = _dispatcher._messageLoop;
+                _dispatcher._messageLoop = this;
             }
 
-            public void Dispose() => this._dispatcher._messageLoop = this._parent;
+            public void Dispose() => _dispatcher._messageLoop = _parent;
 
-            public UIDispatcher.MessageLoop Parent => this._parent;
+            public UIDispatcher.MessageLoop Parent => _parent;
 
             public bool QuitPending
             {
                 get
                 {
-                    if (!this._quitPending && this._condition != null)
-                        this._quitPending = !this._condition();
-                    return this._quitPending;
+                    if (!_quitPending && _condition != null)
+                        _quitPending = !_condition();
+                    return _quitPending;
                 }
-                set => this._quitPending = value;
+                set => _quitPending = value;
             }
         }
     }

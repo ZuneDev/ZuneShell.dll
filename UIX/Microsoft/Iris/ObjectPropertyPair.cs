@@ -13,12 +13,12 @@ namespace Microsoft.Iris
 
         public ObjectPropertyPair(object obj, string property)
         {
-            this._obj = obj;
-            this._property = property;
+            _obj = obj;
+            _property = property;
         }
 
-        public object Object => this._obj;
+        public object Object => _obj;
 
-        public string PropertyName => this._property;
+        public string PropertyName => _property;
     }
 }

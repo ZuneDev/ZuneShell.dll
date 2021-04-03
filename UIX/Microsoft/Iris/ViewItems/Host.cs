@@ -45,14 +45,14 @@ namespace Microsoft.Iris.ViewItems
 
         public Host(UIClassTypeSchema typeRestriction, UIClassTypeSchema typeCurrent)
         {
-            this._status = HostStatus.Normal;
-            this._inputEnabled = true;
-            this._typeRestriction = typeRestriction;
-            this._typeCurrent = typeCurrent;
-            if (this._typeCurrent == null)
+            _status = HostStatus.Normal;
+            _inputEnabled = true;
+            _typeRestriction = typeRestriction;
+            _typeCurrent = typeCurrent;
+            if (_typeCurrent == null)
                 return;
-            this.SetChildUI(this._typeCurrent.ConstructUI());
-            this._lastRequestedSource = this.SourceFromType(_typeCurrent);
+            SetChildUI(_typeCurrent.ConstructUI());
+            _lastRequestedSource = SourceFromType(_typeCurrent);
         }
 
         private string SourceFromType(TypeSchema type) => type.Owner.Uri + "#" + type.Name;
@@ -62,33 +62,33 @@ namespace Microsoft.Iris.ViewItems
         protected override void OnDispose()
         {
             base.OnDispose();
-            this.Cancel();
-            if (this._childUI != null)
-                this.SetChildUI(null);
-            if (this._heldInitialUIDisposables != null)
+            Cancel();
+            if (_childUI != null)
+                SetChildUI(null);
+            if (_heldInitialUIDisposables != null)
             {
-                foreach (DisposableObject initialUiDisposable in this._heldInitialUIDisposables)
+                foreach (DisposableObject initialUiDisposable in _heldInitialUIDisposables)
                     initialUiDisposable.Dispose(this);
             }
-            if (!this.Unloadable)
+            if (!Unloadable)
                 return;
-            this.UnloadAll();
-            MarkupSystem.FreeIslandId(this._islandId);
-            this._islandId = 0U;
+            UnloadAll();
+            MarkupSystem.FreeIslandId(_islandId);
+            _islandId = 0U;
         }
 
         protected override void OnOwnerDeclared(object owner)
         {
             base.OnOwnerDeclared(owner);
             UIClass uiClass = (UIClass)owner;
-            if (this.ChildUI == null)
+            if (ChildUI == null)
                 return;
             uiClass.Children.Add(ChildUI);
         }
 
-        public void RequestSource(string source, Vector<UIPropertyRecord> properties) => this.RequestSource(source, null, properties);
+        public void RequestSource(string source, Vector<UIPropertyRecord> properties) => RequestSource(source, null, properties);
 
-        public void RequestSource(TypeSchema type, Vector<UIPropertyRecord> properties) => this.RequestSource(null, type, properties);
+        public void RequestSource(TypeSchema type, Vector<UIPropertyRecord> properties) => RequestSource(null, type, properties);
 
         public void RequestSource(string source, TypeSchema type, Vector<UIPropertyRecord> properties)
         {
@@ -99,27 +99,27 @@ namespace Microsoft.Iris.ViewItems
                     ErrorManager.ReportError("RequestSource failed: Referrenced type '{0}' is not a UI", type.Name);
                     return;
                 }
-                source = this.SourceFromType(type);
+                source = SourceFromType(type);
             }
-            this.Cancel();
+            Cancel();
             HostRequestPacket hostRequestPacket = new HostRequestPacket();
             hostRequestPacket.Host = this;
             hostRequestPacket.Source = source;
             hostRequestPacket.Type = (UIClassTypeSchema)type;
             hostRequestPacket.Properties = properties;
-            this._pendingHostRequest = hostRequestPacket;
-            this._lastRequestedSource = source;
+            _pendingHostRequest = hostRequestPacket;
+            _lastRequestedSource = source;
             DeferredCall.Post(DispatchPriority.High, s_startRequestHandler, hostRequestPacket);
         }
 
         public void Cancel()
         {
-            if (this._pendingHostRequest != null)
+            if (_pendingHostRequest != null)
             {
-                this._pendingHostRequest.Clear();
-                this._pendingHostRequest = null;
+                _pendingHostRequest.Clear();
+                _pendingHostRequest = null;
             }
-            this.RevokePendingLoadNotification();
+            RevokePendingLoadNotification();
         }
 
         private static void StartSourceRequest(object args)
@@ -158,18 +158,18 @@ namespace Microsoft.Iris.ViewItems
             ErrorManager.EnterContext(requestedSource);
             ErrorWatermark watermark = ErrorManager.Watermark;
             bool flag = true;
-            this.ForceContentChange();
+            ForceContentChange();
             try
             {
-                if (this._childUI != null)
+                if (_childUI != null)
                 {
-                    if (this._typeRestriction != null)
-                        this.HoldChildUIPropertyValues();
-                    this.SetChildUI(null);
-                    this._typeCurrent = this._typeRestriction;
-                    this.FireNotification(NotificationID.SourceType);
+                    if (_typeRestriction != null)
+                        HoldChildUIPropertyValues();
+                    SetChildUI(null);
+                    _typeCurrent = _typeRestriction;
+                    FireNotification(NotificationID.SourceType);
                 }
-                this._dynamicHost = true;
+                _dynamicHost = true;
                 UIClassTypeSchema uiClassTypeSchema = null;
                 Vector<UIPropertyRecord> vector = null;
                 if (requestedSource != null)
@@ -194,14 +194,14 @@ namespace Microsoft.Iris.ViewItems
                     if (requestedType != null)
                     {
                         uiClassTypeSchema = requestedType;
-                        if (this._typeRestriction != null && !this._typeRestriction.IsAssignableFrom(uiClassTypeSchema))
+                        if (_typeRestriction != null && !_typeRestriction.IsAssignableFrom(uiClassTypeSchema))
                             ErrorManager.ReportError("RequestSource failed: Found '{0}' within '{1}', but, it is not a '{2}'", uiToCreate, requestedSource, _typeRestriction.Name);
-                        vector = this.NegotiateNewChildUIPropertyValues(uiClassTypeSchema, properties);
+                        vector = NegotiateNewChildUIPropertyValues(uiClassTypeSchema, properties);
                     }
                 }
                 if (watermark.ErrorsDetected)
                 {
-                    this.SetStatus(HostStatus.FailureLoadingSource);
+                    SetStatus(HostStatus.FailureLoadingSource);
                 }
                 else
                 {
@@ -214,67 +214,67 @@ namespace Microsoft.Iris.ViewItems
                             object instance = host;
                             uiPropertyRecord.Schema.SetValue(ref instance, uiPropertyRecord.Value);
                         }
-                        this._heldUIProperties = null;
-                        this.SetChildUI(childUi);
+                        _heldUIProperties = null;
+                        SetChildUI(childUi);
                         object instance1 = this;
                         uiClassTypeSchema.InitializeInstance(ref instance1);
-                        this.UI.Children.Add(childUi);
-                        this._typeCurrent = uiClassTypeSchema;
-                        this.FireNotification(NotificationID.Source);
-                        this.FireNotification(NotificationID.SourceType);
+                        UI.Children.Add(childUi);
+                        _typeCurrent = uiClassTypeSchema;
+                        FireNotification(NotificationID.Source);
+                        FireNotification(NotificationID.SourceType);
                     }
-                    this.SetStatus(HostStatus.Normal);
-                    if (!this.NotifyForLatestLoad())
+                    SetStatus(HostStatus.Normal);
+                    if (!NotifyForLatestLoad())
                         return;
-                    DeferredCall.Post(DispatchPriority.LayoutSync, new SimpleCallback(this.DeliverLoadCompleteNotification));
+                    DeferredCall.Post(DispatchPriority.LayoutSync, new SimpleCallback(DeliverLoadCompleteNotification));
                     flag = false;
                 }
             }
             finally
             {
                 if (flag)
-                    this.RevokePendingLoadNotification();
+                    RevokePendingLoadNotification();
                 ErrorManager.ExitContext();
             }
         }
 
-        private bool NotifyForLatestLoad() => this._loadNotify != null && InvariantString.Equals(this._loadNotifyURI, this.Source);
+        private bool NotifyForLatestLoad() => _loadNotify != null && InvariantString.Equals(_loadNotifyURI, Source);
 
         private void DeliverLoadCompleteNotification()
         {
-            if (this.NotifyForLatestLoad() && this.ChildUI != null && this.ChildUI.RootItem != null)
-                this._loadNotify(this, this.ChildUI.RootItem);
-            this.RevokePendingLoadNotification();
+            if (NotifyForLatestLoad() && ChildUI != null && ChildUI.RootItem != null)
+                _loadNotify(this, ChildUI.RootItem);
+            RevokePendingLoadNotification();
         }
 
         private void RevokePendingLoadNotification()
         {
-            this._loadNotify = null;
-            this._loadNotifyURI = null;
+            _loadNotify = null;
+            _loadNotifyURI = null;
         }
 
         private void HoldChildUIPropertyValues()
         {
-            if (this._typeRestriction == null)
+            if (_typeRestriction == null)
                 return;
-            this._heldUIProperties = new Vector<UIPropertyRecord>();
+            _heldUIProperties = new Vector<UIPropertyRecord>();
             for (TypeSchema typeRestriction = _typeRestriction; typeRestriction != HostSchema.Type; typeRestriction = typeRestriction.Base)
             {
                 foreach (PropertySchema property1 in typeRestriction.Properties)
                 {
                     string name = property1.Name;
-                    if (this._childUI.Storage.ContainsKey(name) && !UIPropertyRecord.IsInList(this._heldUIProperties, name))
+                    if (_childUI.Storage.ContainsKey(name) && !UIPropertyRecord.IsInList(_heldUIProperties, name))
                     {
-                        object property2 = this._childUI.GetProperty(name);
-                        UIPropertyRecord.AddToList(this._heldUIProperties, name, property2);
-                        if (!this._dynamicHost && property2 != null && property1.PropertyType.Disposable)
+                        object property2 = _childUI.GetProperty(name);
+                        UIPropertyRecord.AddToList(_heldUIProperties, name, property2);
+                        if (!_dynamicHost && property2 != null && property1.PropertyType.Disposable)
                         {
                             IDisposableObject disposable = (IDisposableObject)property2;
-                            if (this._childUI.UnregisterDisposable(ref disposable))
+                            if (_childUI.UnregisterDisposable(ref disposable))
                             {
-                                if (this._heldInitialUIDisposables == null)
-                                    this._heldInitialUIDisposables = new Vector<IDisposableObject>();
-                                this._heldInitialUIDisposables.Add(disposable);
+                                if (_heldInitialUIDisposables == null)
+                                    _heldInitialUIDisposables = new Vector<IDisposableObject>();
+                                _heldInitialUIDisposables.Add(disposable);
                                 disposable.TransferOwnership(this);
                             }
                         }
@@ -288,9 +288,9 @@ namespace Microsoft.Iris.ViewItems
           Vector<UIPropertyRecord> specifiedProperties)
         {
             Vector<UIPropertyRecord> list = specifiedProperties ?? new Vector<UIPropertyRecord>();
-            if (this._typeRestriction != null)
+            if (_typeRestriction != null)
             {
-                foreach (UIPropertyRecord heldUiProperty in this._heldUIProperties)
+                foreach (UIPropertyRecord heldUiProperty in _heldUIProperties)
                 {
                     if (!UIPropertyRecord.IsInList(list, heldUiProperty.Name))
                         list.Add(heldUiProperty);
@@ -312,7 +312,7 @@ namespace Microsoft.Iris.ViewItems
             return list;
         }
 
-        protected override ViewItemID IDForChild(ViewItem childItem) => new ViewItemID(this.Source);
+        protected override ViewItemID IDForChild(ViewItem childItem) => new ViewItemID(Source);
 
         protected override FindChildResult ChildForID(
           ViewItemID part,
@@ -322,12 +322,12 @@ namespace Microsoft.Iris.ViewItems
             FindChildResult findChildResult = FindChildResult.Failure;
             if (part.StringPartValid && !part.IDValid)
             {
-                if (InvariantString.Equals(this.Source, part.StringPart) && this.ChildUI != null && this.ChildUI.RootItem != null)
+                if (InvariantString.Equals(Source, part.StringPart) && ChildUI != null && ChildUI.RootItem != null)
                 {
-                    resultItem = this.ChildUI.RootItem;
+                    resultItem = ChildUI.RootItem;
                     findChildResult = FindChildResult.Success;
                 }
-                else if (this._status == HostStatus.LoadingSource)
+                else if (_status == HostStatus.LoadingSource)
                     findChildResult = FindChildResult.PotentiallyFaultIn;
             }
             return findChildResult;
@@ -335,40 +335,40 @@ namespace Microsoft.Iris.ViewItems
 
         internal override void FaultInChild(ViewItemID childID, ChildFaultedInDelegate handler)
         {
-            this._loadNotify = handler;
-            this._loadNotifyURI = childID.StringPart;
+            _loadNotify = handler;
+            _loadNotifyURI = childID.StringPart;
         }
 
-        public string Source => this._lastRequestedSource;
+        public string Source => _lastRequestedSource;
 
         public TypeSchema SourceType => _typeCurrent;
 
         public bool Unloadable
         {
-            get => this._unloadable;
+            get => _unloadable;
             set
             {
-                if (this._unloadable == value)
+                if (_unloadable == value)
                     return;
-                this._unloadable = value;
-                if (!this._unloadable)
+                _unloadable = value;
+                if (!_unloadable)
                     return;
-                this._islandId = MarkupSystem.AllocateIslandId();
-                if (this._islandId != 0U)
+                _islandId = MarkupSystem.AllocateIslandId();
+                if (_islandId != 0U)
                     return;
                 ErrorManager.ReportError("Maximum number of Unloadable Hosts reached");
             }
         }
 
-        public bool UnloadAll() => this.UnloadAll(true);
+        public bool UnloadAll() => UnloadAll(true);
 
         public bool UnloadAll(bool requestSourceToNull)
         {
-            if (this.Unloadable)
+            if (Unloadable)
             {
-                MarkupSystem.UnloadIsland(this._islandId);
+                MarkupSystem.UnloadIsland(_islandId);
                 if (requestSourceToNull)
-                    this.RequestSource(null, null, null);
+                    RequestSource(null, null, null);
                 return true;
             }
             ErrorManager.ReportError("UnloadAll may only be called on Unloadable hosts");
@@ -379,79 +379,79 @@ namespace Microsoft.Iris.ViewItems
         {
             get
             {
-                if (this._islandId == 0U)
-                    this._islandId = this.UI == null || this.UI.Host == null ? MarkupSystem.RootIslandId : this.UI.Host.InheritedIslandId;
-                return this._islandId;
+                if (_islandId == 0U)
+                    _islandId = UI == null || UI.Host == null ? MarkupSystem.RootIslandId : UI.Host.InheritedIslandId;
+                return _islandId;
             }
         }
 
-        public void ForceRefresh() => this.ForceRefresh(false);
+        public void ForceRefresh() => ForceRefresh(false);
 
         public void ForceRefresh(bool unloadMarkup)
         {
             if (unloadMarkup)
             {
-                string lastRequestedSource = this._lastRequestedSource;
-                this.RequestSource(null, null, null);
-                DeferredCall.Post(DispatchPriority.High, new SimpleCallback(this.DeferredUnloadAll));
-                DeferredCall.Post(DispatchPriority.High, new DeferredHandler(this.DeferredRequestSource), lastRequestedSource);
+                string lastRequestedSource = _lastRequestedSource;
+                RequestSource(null, null, null);
+                DeferredCall.Post(DispatchPriority.High, new SimpleCallback(DeferredUnloadAll));
+                DeferredCall.Post(DispatchPriority.High, new DeferredHandler(DeferredRequestSource), lastRequestedSource);
             }
             else
-                this.RequestSource(this._lastRequestedSource, null);
+                RequestSource(_lastRequestedSource, null);
         }
 
-        private void DeferredUnloadAll() => this.UnloadAll(false);
+        private void DeferredUnloadAll() => UnloadAll(false);
 
-        private void DeferredRequestSource(object objLastRequestedSource) => this.RequestSource((string)objLastRequestedSource, null);
+        private void DeferredRequestSource(object objLastRequestedSource) => RequestSource((string)objLastRequestedSource, null);
 
-        public HostStatus Status => this._status;
+        public HostStatus Status => _status;
 
         private void SetStatus(HostStatus status)
         {
-            if (this._status == status)
+            if (_status == status)
                 return;
-            this._status = status;
-            this.FireNotification(NotificationID.Status);
+            _status = status;
+            FireNotification(NotificationID.Status);
         }
 
         public bool InputEnabled
         {
-            get => this._inputEnabled;
+            get => _inputEnabled;
             set
             {
-                if (this._inputEnabled == value)
+                if (_inputEnabled == value)
                     return;
-                this._inputEnabled = value;
-                if (this._childUI != null)
-                    this._childUI.OnInputEnabledChanged();
-                this.FireNotification(NotificationID.InputEnabled);
+                _inputEnabled = value;
+                if (_childUI != null)
+                    _childUI.OnInputEnabledChanged();
+                FireNotification(NotificationID.InputEnabled);
             }
         }
 
-        public UIClass ChildUI => this._childUI;
+        public UIClass ChildUI => _childUI;
 
         private void SetChildUI(UIClass childUI)
         {
             LoadResult loadResult = null;
-            if (this._childUI != null)
+            if (_childUI != null)
             {
-                loadResult = this._childUI.TypeSchema.Owner;
-                this._childUI.Dispose(this);
+                loadResult = _childUI.TypeSchema.Owner;
+                _childUI.Dispose(this);
             }
-            if (this._dynamicHost)
+            if (_dynamicHost)
             {
                 loadResult?.UnregisterUsage(this);
                 childUI?.TypeSchema.Owner.RegisterUsage(this);
             }
-            this._childUI = childUI;
+            _childUI = childUI;
         }
 
         protected override void CreateVisualContainer(IRenderSession renderSession)
         {
             base.CreateVisualContainer(renderSession);
-            if (this._childUI == null)
+            if (_childUI == null)
                 return;
-            this._childUI.OnHostVisibilityChanged();
+            _childUI.OnHostVisibilityChanged();
         }
 
         protected static string CrackSourceUri(string source, out string uiToCreate)
@@ -467,42 +467,42 @@ namespace Microsoft.Iris.ViewItems
             return str;
         }
 
-        public void NotifyChildUIScriptErrors() => this.SetStatus(HostStatus.FailureRunningScript);
+        public void NotifyChildUIScriptErrors() => SetStatus(HostStatus.FailureRunningScript);
 
-        public object GetChildUIProperty(string name) => this._childUI == null ? UIPropertyRecord.FindInList(this._heldUIProperties, name).Value : this._childUI.GetProperty(name);
+        public object GetChildUIProperty(string name) => _childUI == null ? UIPropertyRecord.FindInList(_heldUIProperties, name).Value : _childUI.GetProperty(name);
 
         public void SetChildUIProperty(string name, object value)
         {
-            if (this._childUI != null)
+            if (_childUI != null)
             {
-                this._childUI.SetProperty(name, value);
+                _childUI.SetProperty(name, value);
             }
             else
             {
-                UIPropertyRecord inList = UIPropertyRecord.FindInList(this._heldUIProperties, name);
+                UIPropertyRecord inList = UIPropertyRecord.FindInList(_heldUIProperties, name);
                 if (Utility.IsEqual(inList.Value, value))
                     return;
                 inList.Value = value;
-                this.FireNotification(name);
+                FireNotification(name);
             }
         }
 
-        public void FireChildUINotification(string id) => this.FireNotification(id);
+        public void FireChildUINotification(string id) => FireNotification(id);
 
         public bool NewContentOnTop
         {
-            get => this._newContentOnTop;
+            get => _newContentOnTop;
             set
             {
-                if (this._newContentOnTop == value)
+                if (_newContentOnTop == value)
                     return;
-                this._newContentOnTop = value;
-                this.FireNotification(NotificationID.NewContentOnTop);
+                _newContentOnTop = value;
+                FireNotification(NotificationID.NewContentOnTop);
             }
         }
 
-        protected override VisualOrder GetVisualOrder() => !this.NewContentOnTop ? VisualOrder.Last : VisualOrder.First;
+        protected override VisualOrder GetVisualOrder() => !NewContentOnTop ? VisualOrder.Last : VisualOrder.First;
 
-        public override string ToString() => base.ToString() + " ('" + this._lastRequestedSource + "')";
+        public override string ToString() => base.ToString() + " ('" + _lastRequestedSource + "')";
     }
 }

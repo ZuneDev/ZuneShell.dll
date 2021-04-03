@@ -21,12 +21,12 @@ namespace Microsoft.Iris.CodeModel.Cpp
 
         public DllTypeSchema(DllLoadResult owner, uint ID, IntPtr typeSchema)
           : base(owner, ID)
-          => this._type = typeSchema;
+          => _type = typeSchema;
 
         public bool Load(UIXIDVerifier idVerifier)
         {
             DllLoadResult.PushContext(OwnerLoadResult);
-            bool flag = this.QueryTypeName() && this.QueryIsRuntimeImmutable() && (this.QueryBaseType() && this.QueryConstructors(idVerifier)) && (this.QueryProperties(idVerifier) && this.QueryMethods(idVerifier) && this.QueryEvents(idVerifier)) && this.QueryMarshalAs();
+            bool flag = QueryTypeName() && QueryIsRuntimeImmutable() && (QueryBaseType() && QueryConstructors(idVerifier)) && (QueryProperties(idVerifier) && QueryMethods(idVerifier) && QueryEvents(idVerifier)) && QueryMarshalAs();
             DllLoadResult.PopContext();
             return flag;
         }
@@ -40,11 +40,11 @@ namespace Microsoft.Iris.CodeModel.Cpp
         private void DEBUG_DumpConstructors()
         {
             bool flag = false;
-            if (this.HasDefaultConstructor)
+            if (HasDefaultConstructor)
                 flag = true;
-            if (this._constructors != null)
+            if (_constructors != null)
             {
-                foreach (DllConstructorSchema constructorSchema in this._constructors.Values)
+                foreach (DllConstructorSchema constructorSchema in _constructors.Values)
                     ;
                 flag = true;
             }
@@ -54,27 +54,27 @@ namespace Microsoft.Iris.CodeModel.Cpp
         [Conditional("DEBUG")]
         private void DEBUG_DumpProperties()
         {
-            if (this._properties == null)
+            if (_properties == null)
                 return;
-            foreach (DllPropertySchema dllPropertySchema in this._properties.Values)
+            foreach (DllPropertySchema dllPropertySchema in _properties.Values)
                 ;
         }
 
         [Conditional("DEBUG")]
         private void DEBUG_DumpMethods()
         {
-            if (this._methods == null)
+            if (_methods == null)
                 return;
-            foreach (DllMethodSchema dllMethodSchema in this._methods.Values)
+            foreach (DllMethodSchema dllMethodSchema in _methods.Values)
                 ;
         }
 
         [Conditional("DEBUG")]
         private void DEBUG_DumpEvents()
         {
-            if (this._events == null)
+            if (_events == null)
                 return;
-            foreach (DllEventSchema dllEventSchema in this._events.Values)
+            foreach (DllEventSchema dllEventSchema in _events.Values)
                 ;
         }
 
@@ -82,9 +82,9 @@ namespace Microsoft.Iris.CodeModel.Cpp
         {
             bool flag = false;
             char* name;
-            if (this.CheckNativeReturn(NativeApi.SpQueryTypeName(this._type, out name)))
+            if (CheckNativeReturn(NativeApi.SpQueryTypeName(_type, out name)))
             {
-                this._name = new string(name);
+                _name = new string(name);
                 flag = true;
             }
             return flag;
@@ -94,9 +94,9 @@ namespace Microsoft.Iris.CodeModel.Cpp
         {
             bool flag = false;
             bool isRuntimeImmutable;
-            if (this.CheckNativeReturn(NativeApi.SpIsRuntimeImmutable(this._type, out isRuntimeImmutable)))
+            if (CheckNativeReturn(NativeApi.SpIsRuntimeImmutable(_type, out isRuntimeImmutable)))
             {
-                this.SetBit(Bits.IsRuntimeImmutable, isRuntimeImmutable);
+                SetBit(Bits.IsRuntimeImmutable, isRuntimeImmutable);
                 flag = true;
             }
             return flag;
@@ -106,9 +106,9 @@ namespace Microsoft.Iris.CodeModel.Cpp
         {
             bool flag = false;
             uint baseTypeID;
-            if (this.CheckNativeReturn(NativeApi.SpQueryBaseType(this._type, out baseTypeID)))
+            if (CheckNativeReturn(NativeApi.SpQueryBaseType(_type, out baseTypeID)))
             {
-                this._baseType = DllLoadResult.MapType(baseTypeID);
+                _baseType = DllLoadResult.MapType(baseTypeID);
                 flag = true;
             }
             return flag;
@@ -118,13 +118,13 @@ namespace Microsoft.Iris.CodeModel.Cpp
         {
             bool flag1 = false;
             uint count;
-            if (this.CheckNativeReturn(NativeApi.SpQueryConstructorCount(this._type, out count)))
+            if (CheckNativeReturn(NativeApi.SpQueryConstructorCount(_type, out count)))
             {
                 bool flag2 = false;
-                this._constructors = new Map<MethodSignatureKey, DllConstructorSchema>((int)count);
+                _constructors = new Map<MethodSignatureKey, DllConstructorSchema>((int)count);
                 for (uint index = 0; index < count; ++index)
                 {
-                    if (!this.LoadConstructor(index, idVerifier))
+                    if (!LoadConstructor(index, idVerifier))
                         flag2 = true;
                 }
                 flag1 = !flag2;
@@ -137,7 +137,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
             bool flag = false;
             IntPtr constructor;
             uint ID;
-            if (this.CheckNativeReturn(NativeApi.SpGetConstructorSchema(this._type, index, out constructor, out ID)))
+            if (CheckNativeReturn(NativeApi.SpGetConstructorSchema(_type, index, out constructor, out ID)))
             {
                 if (constructor != IntPtr.Zero)
                 {
@@ -145,11 +145,11 @@ namespace Microsoft.Iris.CodeModel.Cpp
                     flag = constructorSchema.Load(constructor);
                     if (flag)
                     {
-                        this._constructors[new MethodSignatureKey(constructorSchema.ParameterTypes)] = constructorSchema;
+                        _constructors[new MethodSignatureKey(constructorSchema.ParameterTypes)] = constructorSchema;
                         if (constructorSchema.ParameterTypes.Length == 0)
                         {
-                            this.SetBit(Bits.HasDefaultConstructor, true);
-                            this._defaultConstructorID = ID;
+                            SetBit(Bits.HasDefaultConstructor, true);
+                            _defaultConstructorID = ID;
                         }
                         flag = idVerifier.RegisterID(ID);
                     }
@@ -167,13 +167,13 @@ namespace Microsoft.Iris.CodeModel.Cpp
         {
             bool flag1 = false;
             uint count;
-            if (this.CheckNativeReturn(NativeApi.SpQueryPropertyCount(this._type, out count)))
+            if (CheckNativeReturn(NativeApi.SpQueryPropertyCount(_type, out count)))
             {
                 bool flag2 = false;
-                this._properties = new Map<uint, DllPropertySchema>((int)count);
+                _properties = new Map<uint, DllPropertySchema>((int)count);
                 for (uint index = 0; index < count; ++index)
                 {
-                    if (!this.LoadProperty(index, idVerifier))
+                    if (!LoadProperty(index, idVerifier))
                         flag2 = true;
                 }
                 flag1 = !flag2;
@@ -186,7 +186,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
             bool flag = false;
             IntPtr property;
             uint ID;
-            if (this.CheckNativeReturn(NativeApi.SpGetPropertySchema(this._type, index, out property, out ID)))
+            if (CheckNativeReturn(NativeApi.SpGetPropertySchema(_type, index, out property, out ID)))
             {
                 if (property != IntPtr.Zero)
                 {
@@ -194,7 +194,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
                     flag = dllPropertySchema.Load(property);
                     if (flag)
                     {
-                        this._properties[ID] = dllPropertySchema;
+                        _properties[ID] = dllPropertySchema;
                         flag = idVerifier.RegisterID(ID);
                     }
                     NativeApi.SpReleaseExternalObject(property);
@@ -209,13 +209,13 @@ namespace Microsoft.Iris.CodeModel.Cpp
         {
             bool flag1 = false;
             uint count;
-            if (this.CheckNativeReturn(NativeApi.SpQueryMethodCount(this._type, out count)))
+            if (CheckNativeReturn(NativeApi.SpQueryMethodCount(_type, out count)))
             {
                 bool flag2 = false;
-                this._methods = new Map<MethodSignatureKey, DllMethodSchema>((int)count);
+                _methods = new Map<MethodSignatureKey, DllMethodSchema>((int)count);
                 for (uint index = 0; index < count; ++index)
                 {
-                    if (!this.LoadMethod(index, idVerifier))
+                    if (!LoadMethod(index, idVerifier))
                         flag2 = true;
                 }
                 flag1 = !flag2;
@@ -228,7 +228,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
             bool flag = false;
             IntPtr method;
             uint ID;
-            if (this.CheckNativeReturn(NativeApi.SpGetMethodSchema(this._type, index, out method, out ID)))
+            if (CheckNativeReturn(NativeApi.SpGetMethodSchema(_type, index, out method, out ID)))
             {
                 if (method != IntPtr.Zero)
                 {
@@ -236,7 +236,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
                     flag = dllMethodSchema.Load(method);
                     if (flag)
                     {
-                        this._methods[new MethodSignatureKey(dllMethodSchema.Name, dllMethodSchema.ParameterTypes)] = dllMethodSchema;
+                        _methods[new MethodSignatureKey(dllMethodSchema.Name, dllMethodSchema.ParameterTypes)] = dllMethodSchema;
                         flag = idVerifier.RegisterID(ID);
                     }
                     else
@@ -253,13 +253,13 @@ namespace Microsoft.Iris.CodeModel.Cpp
         {
             bool flag1 = false;
             uint count;
-            if (this.CheckNativeReturn(NativeApi.SpQueryEventCount(this._type, out count)))
+            if (CheckNativeReturn(NativeApi.SpQueryEventCount(_type, out count)))
             {
                 bool flag2 = false;
-                this._events = new Map<uint, DllEventSchema>((int)count);
+                _events = new Map<uint, DllEventSchema>((int)count);
                 for (uint index = 0; index < count; ++index)
                 {
-                    if (!this.LoadEvent(index, idVerifier))
+                    if (!LoadEvent(index, idVerifier))
                         flag2 = true;
                 }
                 flag1 = !flag2;
@@ -270,11 +270,11 @@ namespace Microsoft.Iris.CodeModel.Cpp
         private bool QueryMarshalAs()
         {
             uint interopEquivalent;
-            bool flag = this.CheckNativeReturn(NativeApi.SpGetMarshalAs(this._type, out interopEquivalent));
+            bool flag = CheckNativeReturn(NativeApi.SpGetMarshalAs(_type, out interopEquivalent));
             if (flag)
-                flag = this.ValidateMarshalAs(interopEquivalent);
+                flag = ValidateMarshalAs(interopEquivalent);
             if (flag)
-                flag = this.RegisterMarshalAsEquivalents(interopEquivalent);
+                flag = RegisterMarshalAsEquivalents(interopEquivalent);
             return flag;
         }
 
@@ -306,7 +306,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
         {
             bool flag = true;
             uint num = uint.MaxValue;
-            TypeSchema typeSchema = this.Base;
+            TypeSchema typeSchema = Base;
             DllTypeSchemaBase dllTypeSchemaBase;
             for (dllTypeSchemaBase = typeSchema as DllTypeSchemaBase; typeSchema != null && dllTypeSchemaBase == null; dllTypeSchemaBase = typeSchema as DllTypeSchemaBase)
                 typeSchema = typeSchema.Base;
@@ -322,7 +322,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
                 else
                     declaredMarshalAs = num;
             }
-            this._marshalAs = declaredMarshalAs;
+            _marshalAs = declaredMarshalAs;
             return flag;
         }
 
@@ -331,7 +331,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
             bool flag = false;
             IntPtr eventObj;
             uint ID;
-            if (this.CheckNativeReturn(NativeApi.SpGetEventSchema(this._type, index, out eventObj, out ID)))
+            if (CheckNativeReturn(NativeApi.SpGetEventSchema(_type, index, out eventObj, out ID)))
             {
                 if (eventObj != IntPtr.Zero)
                 {
@@ -339,7 +339,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
                     flag = dllEventSchema.Load(eventObj);
                     if (flag)
                     {
-                        this._events[ID] = dllEventSchema;
+                        _events[ID] = dllEventSchema;
                         flag = idVerifier.RegisterID(ID);
                     }
                     else
@@ -355,8 +355,8 @@ namespace Microsoft.Iris.CodeModel.Cpp
         protected override void OnDispose()
         {
             base.OnDispose();
-            NativeApi.SpReleaseExternalObject(this._type);
-            this._type = IntPtr.Zero;
+            NativeApi.SpReleaseExternalObject(_type);
+            _type = IntPtr.Zero;
         }
 
         public string MapChangeID(uint id)
@@ -377,7 +377,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
             if ((int)UIXID.GetSchemaComponent(id) == OwnerLoadResult.SchemaComponent)
             {
                 DllPropertySchema dllPropertySchema;
-                if (this._properties != null && this._properties.TryGetValue(id, out dllPropertySchema))
+                if (_properties != null && _properties.TryGetValue(id, out dllPropertySchema))
                 {
                     name = dllPropertySchema.Name;
                     flag = true;
@@ -385,7 +385,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
                 else
                 {
                     DllEventSchema dllEventSchema;
-                    if (this._events != null && this._events.TryGetValue(id, out dllEventSchema))
+                    if (_events != null && _events.TryGetValue(id, out dllEventSchema))
                     {
                         name = dllEventSchema.Name;
                         flag = true;
@@ -395,7 +395,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
             return flag;
         }
 
-        public override object ConstructDefault() => this.Construct(this._defaultConstructorID, null);
+        public override object ConstructDefault() => Construct(_defaultConstructorID, null);
 
         public unsafe object Construct(uint constructorID, object[] parameters)
         {
@@ -412,11 +412,11 @@ namespace Microsoft.Iris.CodeModel.Cpp
             }
             ErrorWatermark watermark = ErrorManager.Watermark;
             IntPtr nativeObject;
-            uint hr = NativeApi.SpInvokeConstructor(this._type, constructorID, uixVariantPtr, (uint)count, out nativeObject);
+            uint hr = NativeApi.SpInvokeConstructor(_type, constructorID, uixVariantPtr, (uint)count, out nativeObject);
             if (NativeApi.SUCCEEDED(hr))
                 dllProxyObject = DllProxyObject.Wrap(nativeObject);
             else
-                this.ReportError(hr, ErrorContext.Construct, this, watermark);
+                ReportError(hr, ErrorContext.Construct, this, watermark);
             if ((IntPtr)uixVariantPtr != IntPtr.Zero)
                 UIXVariant.CleanupMarshalledObjects(uixVariantPtr, count);
             return dllProxyObject;
@@ -430,11 +430,11 @@ namespace Microsoft.Iris.CodeModel.Cpp
             ErrorWatermark watermark = ErrorManager.Watermark;
             object obj = null;
             UIXVariant propertyValue1;
-            uint propertyValue2 = NativeApi.SpGetPropertyValue(this._type, nativeObject, property.ID, out propertyValue1);
+            uint propertyValue2 = NativeApi.SpGetPropertyValue(_type, nativeObject, property.ID, out propertyValue1);
             if (NativeApi.SUCCEEDED(propertyValue2))
-                obj = UIXVariant.GetValue(propertyValue1, this.Owner);
+                obj = UIXVariant.GetValue(propertyValue1, Owner);
             else
-                this.ReportError(propertyValue2, ErrorContext.PropertyGet, property, watermark);
+                ReportError(propertyValue2, ErrorContext.PropertyGet, property, watermark);
             return obj;
         }
 
@@ -447,9 +447,9 @@ namespace Microsoft.Iris.CodeModel.Cpp
             if (!property.IsStatic)
                 nativeObject = ((DllProxyObject)instance).NativeObject;
             ErrorWatermark watermark = ErrorManager.Watermark;
-            uint hr = NativeApi.SpSetPropertyValue(this._type, nativeObject, property.ID, uixVariantPtr);
+            uint hr = NativeApi.SpSetPropertyValue(_type, nativeObject, property.ID, uixVariantPtr);
             if (NativeApi.FAILED(hr))
-                this.ReportError(hr, ErrorContext.PropertySet, property, watermark);
+                ReportError(hr, ErrorContext.PropertySet, property, watermark);
             UIXVariant.CleanupMarshalledObject(uixVariantPtr);
         }
 
@@ -471,11 +471,11 @@ namespace Microsoft.Iris.CodeModel.Cpp
                 nativeObject = ((DllProxyObject)instance).NativeObject;
             ErrorWatermark watermark = ErrorManager.Watermark;
             UIXVariant returnValue;
-            uint hr = NativeApi.SpInvokeMethod(this._type, nativeObject, method.ID, uixVariantPtr, (uint)count, out returnValue);
+            uint hr = NativeApi.SpInvokeMethod(_type, nativeObject, method.ID, uixVariantPtr, (uint)count, out returnValue);
             if (NativeApi.SUCCEEDED(hr))
-                obj = UIXVariant.GetValue(returnValue, this.Owner);
+                obj = UIXVariant.GetValue(returnValue, Owner);
             else
-                this.ReportError(hr, ErrorContext.MethodInvoke, method, watermark);
+                ReportError(hr, ErrorContext.MethodInvoke, method, watermark);
             if ((IntPtr)uixVariantPtr != IntPtr.Zero)
                 UIXVariant.CleanupMarshalledObjects(uixVariantPtr, count);
             return obj;
@@ -486,15 +486,15 @@ namespace Microsoft.Iris.CodeModel.Cpp
             string str = null;
             ErrorWatermark watermark = ErrorManager.Watermark;
             IntPtr nativeStringObject;
-            uint hr = NativeApi.SpInvokeToString(this._type, proxy.NativeObject, out nativeStringObject);
+            uint hr = NativeApi.SpInvokeToString(_type, proxy.NativeObject, out nativeStringObject);
             if (NativeApi.SUCCEEDED(hr))
                 str = DllProxyServices.GetString(nativeStringObject);
             else
-                this.ReportError(hr, ErrorContext.ToString, this, watermark);
+                ReportError(hr, ErrorContext.ToString, this, watermark);
             return str;
         }
 
-        private DllLoadResult OwnerLoadResult => (DllLoadResult)this.Owner;
+        private DllLoadResult OwnerLoadResult => (DllLoadResult)Owner;
 
         private void ReportError(
           uint hr,

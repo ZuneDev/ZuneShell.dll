@@ -25,16 +25,16 @@ namespace Microsoft.Iris.Markup.Validation
           int column)
           : base(owner, line, column, ExpressionType.Operation)
         {
-            this._leftSide = leftSide;
-            this._rightSide = rightSide;
-            this._op = op;
+            _leftSide = leftSide;
+            _rightSide = rightSide;
+            _op = op;
         }
 
-        public ValidateExpression LeftSide => this._leftSide;
+        public ValidateExpression LeftSide => _leftSide;
 
-        public ValidateExpression RightSide => this._rightSide;
+        public ValidateExpression RightSide => _rightSide;
 
-        public OperationType Op => this._op;
+        public OperationType Op => _op;
 
         private static string GetOperationToken(OperationType op)
         {
@@ -92,43 +92,43 @@ namespace Microsoft.Iris.Markup.Validation
 
         public override void Validate(TypeRestriction typeRestriction, ValidateContext context)
         {
-            if (this._op == OperationType.PostIncrement || this._op == OperationType.PostDecrement)
-                this.ReportError("Post increment/decrement operators are not currently supported");
-            if (this.Usage == ExpressionUsage.LValue)
-                this.ReportError("Expression cannot be used as the target an assignment (related symbol: '{0}')", "Operation");
-            this._leftSide.Validate(TypeRestriction.NotVoid, context);
-            if (this._leftSide.HasErrors)
-                this.MarkHasErrors();
-            if (this._rightSide != null)
+            if (_op == OperationType.PostIncrement || _op == OperationType.PostDecrement)
+                ReportError("Post increment/decrement operators are not currently supported");
+            if (Usage == ExpressionUsage.LValue)
+                ReportError("Expression cannot be used as the target an assignment (related symbol: '{0}')", "Operation");
+            _leftSide.Validate(TypeRestriction.NotVoid, context);
+            if (_leftSide.HasErrors)
+                MarkHasErrors();
+            if (_rightSide != null)
             {
-                this._rightSide.Validate(TypeRestriction.NotVoid, context);
-                if (this._rightSide.HasErrors)
-                    this.MarkHasErrors();
+                _rightSide.Validate(TypeRestriction.NotVoid, context);
+                if (_rightSide.HasErrors)
+                    MarkHasErrors();
             }
-            if (this.HasErrors)
+            if (HasErrors)
                 return;
-            if (this._rightSide != null && !this._leftSide.ObjectType.IsAssignableFrom(this._rightSide.ObjectType))
+            if (_rightSide != null && !_leftSide.ObjectType.IsAssignableFrom(_rightSide.ObjectType))
             {
-                if (this._leftSide.ObjectType == NullSchema.Type && this._rightSide.ObjectType.IsNullAssignable || this._rightSide.ObjectType == NullSchema.Type && this._leftSide.ObjectType.IsNullAssignable)
+                if (_leftSide.ObjectType == NullSchema.Type && _rightSide.ObjectType.IsNullAssignable || _rightSide.ObjectType == NullSchema.Type && _leftSide.ObjectType.IsNullAssignable)
                 {
-                    this._foundOperationTargetType = NullSchema.Type;
+                    _foundOperationTargetType = NullSchema.Type;
                 }
                 else
                 {
-                    this.ReportError("Operator '{0}' cannot be applied to operands of dissimilar types '{1}' and '{2}'", GetOperationToken(this._op), this._leftSide.ObjectType.Name, this._rightSide.ObjectType.Name);
+                    ReportError("Operator '{0}' cannot be applied to operands of dissimilar types '{1}' and '{2}'", GetOperationToken(_op), _leftSide.ObjectType.Name, _rightSide.ObjectType.Name);
                     return;
                 }
             }
             else
-                this._foundOperationTargetType = this._leftSide.ObjectType;
-            if (!this._foundOperationTargetType.SupportsOperationDeep(this._op))
+                _foundOperationTargetType = _leftSide.ObjectType;
+            if (!_foundOperationTargetType.SupportsOperationDeep(_op))
             {
-                this.ReportError("Operator '{0}' cannot be applied to operand of type '{1}'", GetOperationToken(this._op), this._foundOperationTargetType.Name);
+                ReportError("Operator '{0}' cannot be applied to operand of type '{1}'", GetOperationToken(_op), _foundOperationTargetType.Name);
             }
             else
             {
-                this._foundOperationTargetTypeIndex = this.Owner.TrackImportedType(this._foundOperationTargetType);
-                switch (this._op)
+                _foundOperationTargetTypeIndex = Owner.TrackImportedType(_foundOperationTargetType);
+                switch (_op)
                 {
                     case OperationType.MathAdd:
                     case OperationType.MathSubtract:
@@ -138,7 +138,7 @@ namespace Microsoft.Iris.Markup.Validation
                     case OperationType.MathNegate:
                     case OperationType.PostIncrement:
                     case OperationType.PostDecrement:
-                        this.DeclareEvaluationType(this._foundOperationTargetType, typeRestriction);
+                        DeclareEvaluationType(_foundOperationTargetType, typeRestriction);
                         break;
                     case OperationType.LogicalAnd:
                     case OperationType.LogicalOr:
@@ -150,14 +150,14 @@ namespace Microsoft.Iris.Markup.Validation
                     case OperationType.RelationalGreaterThanEquals:
                     case OperationType.RelationalIs:
                     case OperationType.LogicalNot:
-                        this.DeclareEvaluationType(BooleanSchema.Type, typeRestriction);
+                        DeclareEvaluationType(BooleanSchema.Type, typeRestriction);
                         break;
                 }
             }
         }
 
-        public TypeSchema FoundOperationTargetType => this._foundOperationTargetType;
+        public TypeSchema FoundOperationTargetType => _foundOperationTargetType;
 
-        public int FoundOperationTargetTypeIndex => this._foundOperationTargetTypeIndex;
+        public int FoundOperationTargetTypeIndex => _foundOperationTargetTypeIndex;
     }
 }

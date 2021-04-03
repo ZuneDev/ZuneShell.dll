@@ -20,107 +20,107 @@ namespace Microsoft.Iris.Markup
         private byte[] _currentBlock;
         private ArrayList _blockList = new ArrayList();
 
-        public uint DataSize => this._totalSize;
+        public uint DataSize => _totalSize;
 
         public void WriteByte(byte value)
         {
-            this._scratch[0] = value;
-            this.Write(this._scratch, 1U);
+            _scratch[0] = value;
+            Write(_scratch, 1U);
         }
 
         public void WriteByte(OpCode value)
         {
-            this._scratch[0] = (byte)value;
-            this.Write(this._scratch, 1U);
+            _scratch[0] = (byte)value;
+            Write(_scratch, 1U);
         }
 
         public void WriteBool(bool value)
         {
-            this._scratch[0] = 0;
-            if (value) this._scratch[0] = 1;
-            this.Write(this._scratch, 1U);
+            _scratch[0] = 0;
+            if (value) _scratch[0] = 1;
+            Write(_scratch, 1U);
         }
 
         public void WriteChar(char value)
         {
-            this._scratch[0] = (byte)value;
-            this._scratch[1] = (byte)((uint)value >> 8);
-            this.Write(this._scratch, 2U);
+            _scratch[0] = (byte)value;
+            _scratch[1] = (byte)((uint)value >> 8);
+            Write(_scratch, 2U);
         }
 
         public void WriteUInt16(ushort value)
         {
-            this._scratch[0] = (byte)value;
-            this._scratch[1] = (byte)((uint)value >> 8);
-            this.Write(this._scratch, 2U);
+            _scratch[0] = (byte)value;
+            _scratch[1] = (byte)((uint)value >> 8);
+            Write(_scratch, 2U);
         }
 
         public void WriteUInt16(int rawValue)
         {
             ushort num = (ushort)rawValue;
-            this._scratch[0] = (byte)num;
-            this._scratch[1] = (byte)((uint)num >> 8);
-            this.Write(this._scratch, 2U);
+            _scratch[0] = (byte)num;
+            _scratch[1] = (byte)((uint)num >> 8);
+            Write(_scratch, 2U);
         }
 
         public void WriteUInt16(uint rawValue)
         {
             ushort num = (ushort)rawValue;
-            this._scratch[0] = (byte)num;
-            this._scratch[1] = (byte)((uint)num >> 8);
-            this.Write(this._scratch, 2U);
+            _scratch[0] = (byte)num;
+            _scratch[1] = (byte)((uint)num >> 8);
+            Write(_scratch, 2U);
         }
 
         public void WriteInt32(int value)
         {
-            this._scratch[0] = (byte)value;
-            this._scratch[1] = (byte)(value >> 8);
-            this._scratch[2] = (byte)(value >> 16);
-            this._scratch[3] = (byte)(value >> 24);
-            this.Write(this._scratch, 4U);
+            _scratch[0] = (byte)value;
+            _scratch[1] = (byte)(value >> 8);
+            _scratch[2] = (byte)(value >> 16);
+            _scratch[3] = (byte)(value >> 24);
+            Write(_scratch, 4U);
         }
 
         public void WriteUInt32(uint value)
         {
-            this._scratch[0] = (byte)value;
-            this._scratch[1] = (byte)(value >> 8);
-            this._scratch[2] = (byte)(value >> 16);
-            this._scratch[3] = (byte)(value >> 24);
-            this.Write(this._scratch, 4U);
+            _scratch[0] = (byte)value;
+            _scratch[1] = (byte)(value >> 8);
+            _scratch[2] = (byte)(value >> 16);
+            _scratch[3] = (byte)(value >> 24);
+            Write(_scratch, 4U);
         }
 
-        public void WriteInt64(long value) => this.WriteUInt64((ulong)value);
+        public void WriteInt64(long value) => WriteUInt64((ulong)value);
 
         public void WriteUInt64(ulong value)
         {
-            this._scratch[0] = (byte)value;
-            this._scratch[1] = (byte)(value >> 8);
-            this._scratch[2] = (byte)(value >> 16);
-            this._scratch[3] = (byte)(value >> 24);
-            this._scratch[4] = (byte)(value >> 32);
-            this._scratch[5] = (byte)(value >> 40);
-            this._scratch[6] = (byte)(value >> 48);
-            this._scratch[7] = (byte)(value >> 56);
-            this.Write(this._scratch, 8U);
+            _scratch[0] = (byte)value;
+            _scratch[1] = (byte)(value >> 8);
+            _scratch[2] = (byte)(value >> 16);
+            _scratch[3] = (byte)(value >> 24);
+            _scratch[4] = (byte)(value >> 32);
+            _scratch[5] = (byte)(value >> 40);
+            _scratch[6] = (byte)(value >> 48);
+            _scratch[7] = (byte)(value >> 56);
+            Write(_scratch, 8U);
         }
 
         public unsafe void WriteSingle(float value)
         {
             uint num = *(uint*)&value;
-            this._scratch[0] = (byte)num;
-            this._scratch[1] = (byte)(num >> 8);
-            this._scratch[2] = (byte)(num >> 16);
-            this._scratch[3] = (byte)(num >> 24);
-            this.Write(this._scratch, 4U);
+            _scratch[0] = (byte)num;
+            _scratch[1] = (byte)(num >> 8);
+            _scratch[2] = (byte)(num >> 16);
+            _scratch[3] = (byte)(num >> 24);
+            Write(_scratch, 4U);
         }
 
-        public unsafe void WriteDouble(double value) => this.WriteInt64(*(long*)&value);
+        public unsafe void WriteDouble(double value) => WriteInt64(*(long*)&value);
 
         public void WriteString(string value)
         {
             if (value == null)
             {
-                this.WriteUInt16(ushort.MaxValue);
+                WriteUInt16(ushort.MaxValue);
             }
             else
             {
@@ -138,91 +138,91 @@ namespace Microsoft.Iris.Markup
                 uint length = (uint)value.Length;
                 if (!flag)
                     length |= 32768U;
-                this.WriteUInt16((ushort)length);
+                WriteUInt16((ushort)length);
                 foreach (char ch in value)
                 {
                     if (flag)
-                        this.WriteChar(ch);
+                        WriteChar(ch);
                     else
-                        this.WriteByte((byte)ch);
+                        WriteByte((byte)ch);
                 }
             }
         }
 
-        public void Write(ByteCodeReader value) => this.Write(value, 0U);
+        public void Write(ByteCodeReader value) => Write(value, 0U);
 
         public unsafe void Write(ByteCodeReader value, uint offset)
         {
             IntPtr intPtr = value.ToIntPtr(out uint size);
             if (offset > size)
                 throw new ArgumentOutOfRangeException(nameof(offset));
-            this.Write(new IntPtr(intPtr.ToInt64() + offset), (uint)(size - offset));
+            Write(new IntPtr(intPtr.ToInt64() + offset), (uint)(size - offset));
         }
 
         public unsafe void Write(byte[] buffer, uint count)
         {
             fixed (byte* pbData = buffer)
-                this.Write(pbData, count);
+                Write(pbData, count);
         }
 
-        public unsafe void Write(IntPtr buffer, uint count) => this.Write((byte*)buffer.ToPointer(), count);
+        public unsafe void Write(IntPtr buffer, uint count) => Write((byte*)buffer.ToPointer(), count);
 
         private unsafe void Write(byte* pbData, uint cbData)
         {
             while (cbData > 0U)
             {
-                if (this._cbFreeInBlock == 0U)
+                if (_cbFreeInBlock == 0U)
                 {
-                    this._currentBlock = new byte[4096];
-                    this._blockList.Add(_currentBlock);
-                    this._cbFreeInBlock = 4096U;
+                    _currentBlock = new byte[4096];
+                    _blockList.Add(_currentBlock);
+                    _cbFreeInBlock = 4096U;
                 }
-                uint num1 = cbData <= this._cbFreeInBlock ? cbData : this._cbFreeInBlock;
-                uint num2 = 4096U - this._cbFreeInBlock;
-                Marshal.Copy(new IntPtr(pbData), this._currentBlock, (int)num2, (int)num1);
+                uint num1 = cbData <= _cbFreeInBlock ? cbData : _cbFreeInBlock;
+                uint num2 = 4096U - _cbFreeInBlock;
+                Marshal.Copy(new IntPtr(pbData), _currentBlock, (int)num2, (int)num1);
                 pbData += (int)num1;
                 cbData -= num1;
-                this._cbFreeInBlock -= num1;
-                this._totalSize += num1;
+                _cbFreeInBlock -= num1;
+                _totalSize += num1;
             }
         }
 
         public void Overwrite(uint offset, uint value)
         {
-            if (offset + 4U > this._totalSize)
+            if (offset + 4U > _totalSize)
                 throw new ArgumentException("Invalid offset");
-            this.OverwriteByte(offset, (byte)value);
-            this.OverwriteByte(offset + 1U, (byte)(value >> 8));
-            this.OverwriteByte(offset + 2U, (byte)(value >> 16));
-            this.OverwriteByte(offset + 3U, (byte)(value >> 24));
+            OverwriteByte(offset, (byte)value);
+            OverwriteByte(offset + 1U, (byte)(value >> 8));
+            OverwriteByte(offset + 2U, (byte)(value >> 16));
+            OverwriteByte(offset + 3U, (byte)(value >> 24));
         }
 
-        private void OverwriteByte(uint offset, byte value) => ((byte[])this._blockList[(int)(offset / 4096U)])[(offset % 4096U)] = value;
+        private void OverwriteByte(uint offset, byte value) => ((byte[])_blockList[(int)(offset / 4096U)])[(offset % 4096U)] = value;
 
         private unsafe byte* ComposeFinalBuffer(out uint totalSize)
         {
-            byte* pointer = (byte*)NativeApi.MemAlloc(this._totalSize, false).ToPointer();
+            byte* pointer = (byte*)NativeApi.MemAlloc(_totalSize, false).ToPointer();
             byte* numPtr = pointer;
-            for (int index = 0; index < this._blockList.Count - 1; ++index)
+            for (int index = 0; index < _blockList.Count - 1; ++index)
             {
-                Marshal.Copy((byte[])this._blockList[index], 0, new IntPtr(numPtr), 4096);
+                Marshal.Copy((byte[])_blockList[index], 0, new IntPtr(numPtr), 4096);
                 numPtr += 4096;
             }
-            uint num = 4096U - this._cbFreeInBlock;
-            if (this._currentBlock != null && num != 0U)
-                Marshal.Copy(this._currentBlock, 0, new IntPtr(numPtr), (int)num);
-            totalSize = this._totalSize;
-            this._blockList.Clear();
-            this._currentBlock = null;
-            this._cbFreeInBlock = 0U;
-            this._totalSize = 0U;
+            uint num = 4096U - _cbFreeInBlock;
+            if (_currentBlock != null && num != 0U)
+                Marshal.Copy(_currentBlock, 0, new IntPtr(numPtr), (int)num);
+            totalSize = _totalSize;
+            _blockList.Clear();
+            _currentBlock = null;
+            _cbFreeInBlock = 0U;
+            _totalSize = 0U;
             return pointer;
         }
 
         public unsafe ByteCodeReader CreateReader()
         {
             uint totalSize;
-            return new ByteCodeReader(new IntPtr(this.ComposeFinalBuffer(out totalSize)), totalSize, true);
+            return new ByteCodeReader(new IntPtr(ComposeFinalBuffer(out totalSize)), totalSize, true);
         }
     }
 }

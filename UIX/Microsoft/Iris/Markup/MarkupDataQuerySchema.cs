@@ -27,26 +27,26 @@ namespace Microsoft.Iris.Markup
         protected override void OnDispose()
         {
             base.OnDispose();
-            if (this._predefinedProperties != null)
+            if (_predefinedProperties != null)
             {
-                foreach (DisposableObject predefinedProperty in this._predefinedProperties)
+                foreach (DisposableObject predefinedProperty in _predefinedProperties)
                     predefinedProperty.Dispose(this);
             }
-            if (this._refreshMethod == null)
+            if (_refreshMethod == null)
                 return;
-            this._refreshMethod.Dispose(this);
+            _refreshMethod.Dispose(this);
         }
 
         public override void BuildProperties()
         {
             base.BuildProperties();
-            this._predefinedProperties = new MarkupDataQueryPreDefinedPropertySchema[3]
+            _predefinedProperties = new MarkupDataQueryPreDefinedPropertySchema[3]
             {
-        this._resultProperty = new MarkupDataQueryPreDefinedPropertySchema(this, this._resultType != null ? this._resultType :  ObjectSchema.Type, "Result", new GetValueHandler(GetResultProperty),  null),
+        _resultProperty = new MarkupDataQueryPreDefinedPropertySchema(this, _resultType != null ? _resultType :  ObjectSchema.Type, "Result", new GetValueHandler(GetResultProperty),  null),
         new MarkupDataQueryPreDefinedPropertySchema(this, UIXLoadResultExports.DataQueryStatusType, "Status", new GetValueHandler(GetStatusProperty),  null),
         new MarkupDataQueryPreDefinedPropertySchema(this,  BooleanSchema.Type, "Enabled", new GetValueHandler(GetEnabledProperty), new SetValueHandler(SetEnabledProperty))
             };
-            this._refreshMethod = new MarkupDataQueryRefreshMethodSchema(this);
+            _refreshMethod = new MarkupDataQueryRefreshMethodSchema(this);
         }
 
         public override MarkupType MarkupType => MarkupType.DataQuery;
@@ -57,7 +57,7 @@ namespace Microsoft.Iris.Markup
 
         public override object ConstructDefault()
         {
-            IDataProvider dataProvider = MarkupDataProvider.GetDataProvider(this._providerName);
+            IDataProvider dataProvider = MarkupDataProvider.GetDataProvider(_providerName);
             if (dataProvider != null)
                 return dataProvider.Build(this);
             ErrorManager.ReportError("Could not find provider '{0}'; verify that it has been registered", _providerName);
@@ -66,7 +66,7 @@ namespace Microsoft.Iris.Markup
 
         public override PropertySchema FindProperty(string name)
         {
-            foreach (PropertySchema predefinedProperty in this._predefinedProperties)
+            foreach (PropertySchema predefinedProperty in _predefinedProperties)
             {
                 if (name == predefinedProperty.Name)
                     return predefinedProperty;
@@ -74,21 +74,21 @@ namespace Microsoft.Iris.Markup
             return base.FindProperty(name);
         }
 
-        public override MethodSchema FindMethod(string name, TypeSchema[] parameters) => this._refreshMethod.Name == name && parameters.Length == 0 ? _refreshMethod : base.FindMethod(name, parameters);
+        public override MethodSchema FindMethod(string name, TypeSchema[] parameters) => _refreshMethod.Name == name && parameters.Length == 0 ? _refreshMethod : base.FindMethod(name, parameters);
 
         public string ProviderName
         {
-            get => this._providerName;
-            set => this._providerName = value;
+            get => _providerName;
+            set => _providerName = value;
         }
 
         public TypeSchema ResultType
         {
-            get => this._resultType;
-            set => this._resultType = value;
+            get => _resultType;
+            set => _resultType = value;
         }
 
-        public bool InvalidatesQuery(string propertyName) => this.FindPropertyDeep(propertyName) is MarkupDataQueryPropertySchema propertyDeep && propertyDeep.InvalidatesQuery;
+        public bool InvalidatesQuery(string propertyName) => FindPropertyDeep(propertyName) is MarkupDataQueryPropertySchema propertyDeep && propertyDeep.InvalidatesQuery;
 
         private static object GetResultProperty(object instance) => ((MarkupDataQuery)instance).Result;
 

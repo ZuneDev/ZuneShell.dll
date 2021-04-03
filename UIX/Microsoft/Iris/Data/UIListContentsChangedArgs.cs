@@ -21,10 +21,10 @@ namespace Microsoft.Iris.Data
           int newIndex,
           int count)
         {
-            this._count = count;
-            this._type = type;
-            this._oldIndex = oldIndex;
-            this._newIndex = newIndex;
+            _count = count;
+            _type = type;
+            _oldIndex = oldIndex;
+            _newIndex = newIndex;
         }
 
         public UIListContentsChangedArgs(UIListContentsChangeType type, int oldIndex, int newIndex)
@@ -32,13 +32,13 @@ namespace Microsoft.Iris.Data
         {
         }
 
-        public UIListContentsChangeType Type => this._type;
+        public UIListContentsChangeType Type => _type;
 
-        public int OldIndex => this._oldIndex;
+        public int OldIndex => _oldIndex;
 
-        public int NewIndex => this._newIndex;
+        public int NewIndex => _newIndex;
 
-        public int Count => this._count;
+        public int Count => _count;
 
         public override string ToString() => string.Format("{0} type: {1}, old: {2}, new: {3}, count: {4}", base.ToString(), Type, OldIndex, NewIndex, Count);
     }

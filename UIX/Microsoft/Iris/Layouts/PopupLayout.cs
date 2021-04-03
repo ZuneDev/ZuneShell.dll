@@ -55,7 +55,7 @@ namespace Microsoft.Iris.Layouts
                     ViewItem child = (ViewItem)layoutChild;
                     Point zero = Point.Zero;
                     Size size = Size.Zero;
-                    RectangleF placementTargetRect = this.GetPlacementTargetRect(child, viewItem, layoutInput, slot);
+                    RectangleF placementTargetRect = GetPlacementTargetRect(child, viewItem, layoutInput, slot);
                     if (layoutInput.ConstrainToTarget)
                     {
                         size = new Size((int)placementTargetRect.Width, (int)placementTargetRect.Height);
@@ -63,11 +63,11 @@ namespace Microsoft.Iris.Layouts
                     }
                     else
                         size = layoutChild.DesiredSize;
-                    Point childPosition = this.GetChildPosition(viewItem, layoutBounds, layoutInput, layoutChild, child, slot, placementTargetRect);
+                    Point childPosition = GetChildPosition(viewItem, layoutBounds, layoutInput, layoutChild, child, slot, placementTargetRect);
                     layoutChild.Arrange(slot, new Rectangle(childPosition, size));
                 }
             }
-            this.HookMousePositionChanged(viewItem, hook);
+            HookMousePositionChanged(viewItem, hook);
         }
 
         private Point GetChildPosition(
@@ -83,9 +83,9 @@ namespace Microsoft.Iris.Layouts
             if (placement == null || ListUtility.IsNullOrEmpty(placement.PopupPositions))
                 return Point.Zero;
             PointF[] interestPoints = InterestPointsFromRect(placementRect);
-            PointF[] childInterestPoints = this.GetChildInterestPoints(childNode);
-            this.GetBounds(interestPoints);
-            RectangleF bounds = this.GetBounds(childInterestPoints);
+            PointF[] childInterestPoints = GetChildInterestPoints(childNode);
+            GetBounds(interestPoints);
+            RectangleF bounds = GetBounds(childInterestPoints);
             double width = bounds.Width;
             double height = bounds.Height;
             bool flag1 = layoutInput.RespectMenuDropAlignment && Win32Api.GetMenuDropAlignment();
@@ -121,7 +121,7 @@ namespace Microsoft.Iris.Layouts
             layoutInput.FlippedHorizontally = (flipDirection & FlipDirection.Horizontal) == FlipDirection.Horizontal;
             layoutInput.FlippedVertically = (flipDirection & FlipDirection.Vertical) == FlipDirection.Vertical;
             if (layoutInput.StayInBounds)
-                bestPosition = this.NudgeIntoBounds(layoutBounds, bestPosition, bounds, placement);
+                bestPosition = NudgeIntoBounds(layoutBounds, bestPosition, bounds, placement);
             return new Point((int)bestPosition.X, (int)bestPosition.Y);
         }
 
@@ -138,7 +138,7 @@ namespace Microsoft.Iris.Layouts
             if (layoutInput.TargetIsMouse || layoutInput.TargetIsFollowMouse)
             {
                 if (layoutInput.MouseRect == RectangleF.Zero || layoutInput.TargetIsFollowMouse)
-                    layoutInput.MouseRect = this.GetMouseRect(placement);
+                    layoutInput.MouseRect = GetMouseRect(placement);
                 rectangleF = layoutInput.MouseRect;
                 flag = true;
             }
@@ -231,40 +231,40 @@ namespace Microsoft.Iris.Layouts
 
         private void HookMousePositionChanged(ViewItem subject, bool hook)
         {
-            if ((this._followMouseSubjects != null && this._followMouseSubjects.Contains(subject)) == hook)
+            if ((_followMouseSubjects != null && _followMouseSubjects.Contains(subject)) == hook)
                 return;
             if (hook)
             {
-                if (this._followMouseSubjects == null)
+                if (_followMouseSubjects == null)
                 {
-                    this._followMouseSubjects = new Vector<ViewItem>();
-                    UISession.Default.InputManager.MousePositionChanged += new EventHandler(this.OnMousePositionChanged);
+                    _followMouseSubjects = new Vector<ViewItem>();
+                    UISession.Default.InputManager.MousePositionChanged += new EventHandler(OnMousePositionChanged);
                 }
-                this._followMouseSubjects.Add(subject);
+                _followMouseSubjects.Add(subject);
             }
             else
             {
-                this._followMouseSubjects.Remove(subject);
-                if (this._followMouseSubjects.Count != 0)
+                _followMouseSubjects.Remove(subject);
+                if (_followMouseSubjects.Count != 0)
                     return;
-                this._followMouseSubjects = null;
-                UISession.Default.InputManager.MousePositionChanged -= new EventHandler(this.OnMousePositionChanged);
+                _followMouseSubjects = null;
+                UISession.Default.InputManager.MousePositionChanged -= new EventHandler(OnMousePositionChanged);
             }
         }
 
         private void OnMousePositionChanged(object sender, EventArgs args)
         {
-            for (int index = 0; index < this._followMouseSubjects.Count; ++index)
+            for (int index = 0; index < _followMouseSubjects.Count; ++index)
             {
-                ViewItem followMouseSubject = this._followMouseSubjects[index];
+                ViewItem followMouseSubject = _followMouseSubjects[index];
                 if (followMouseSubject.Layout == this && !followMouseSubject.IsDisposed)
                 {
                     followMouseSubject.MarkLayoutInvalid();
                 }
                 else
                 {
-                    this.HookMousePositionChanged(followMouseSubject, false);
-                    if (this._followMouseSubjects == null)
+                    HookMousePositionChanged(followMouseSubject, false);
+                    if (_followMouseSubjects == null)
                         break;
                     --index;
                 }

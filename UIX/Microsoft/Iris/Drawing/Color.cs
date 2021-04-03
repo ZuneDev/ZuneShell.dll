@@ -30,25 +30,25 @@ namespace Microsoft.Iris.Drawing
 
         public byte R
         {
-            get => (byte)(this.Value >> 16 & byte.MaxValue);
+            get => (byte)(Value >> 16 & byte.MaxValue);
             set => this = FromArgb(A, value, G, B);
         }
 
         public byte G
         {
-            get => (byte)(this.Value >> 8 & byte.MaxValue);
+            get => (byte)(Value >> 8 & byte.MaxValue);
             set => this = FromArgb(A, R, value, B);
         }
 
         public byte B
         {
-            get => (byte)(this.Value & byte.MaxValue);
+            get => (byte)(Value & byte.MaxValue);
             set => this = FromArgb(A, R, G, value);
         }
 
         public byte A
         {
-            get => (byte)(this.Value >> 24 & byte.MaxValue);
+            get => (byte)(Value >> 24 & byte.MaxValue);
             set => this = FromArgb(value, R, G, B);
         }
 
@@ -60,7 +60,7 @@ namespace Microsoft.Iris.Drawing
             b = B / (float)byte.MaxValue;
         }
 
-        internal uint Value => this.value;
+        internal uint Value => value;
 
         private static void CheckByte(int value, string name)
         {
@@ -190,7 +190,7 @@ namespace Microsoft.Iris.Drawing
             }
         }
 
-        internal int ToArgb() => (int)this.Value;
+        internal int ToArgb() => (int)Value;
 
         internal ColorF RenderConvert() => new ColorF(A, R, G, B);
 
@@ -198,13 +198,13 @@ namespace Microsoft.Iris.Drawing
         {
             StringBuilder stringBuilder = new StringBuilder(32);
             stringBuilder.Append("A=");
-            stringBuilder.Append(this.A);
+            stringBuilder.Append(A);
             stringBuilder.Append(", R=");
-            stringBuilder.Append(this.R);
+            stringBuilder.Append(R);
             stringBuilder.Append(", G=");
-            stringBuilder.Append(this.G);
+            stringBuilder.Append(G);
             stringBuilder.Append(", B=");
-            stringBuilder.Append(this.B);
+            stringBuilder.Append(B);
             return stringBuilder.ToString();
         }
 
@@ -212,11 +212,11 @@ namespace Microsoft.Iris.Drawing
 
         public static bool operator !=(Color left, Color right) => !(left == right);
 
-        public override bool Equals(object obj) => obj is Color color && (int)this.value == (int)color.value;
+        public override bool Equals(object obj) => obj is Color color && (int)value == (int)color.value;
 
-        public bool Equals(Color right) => (int)this.value == (int)right.value;
+        public bool Equals(Color right) => (int)value == (int)right.value;
 
-        public override int GetHashCode() => this.value.GetHashCode();
+        public override int GetHashCode() => value.GetHashCode();
 
         internal static Color Transparent => new Color(0U);
 

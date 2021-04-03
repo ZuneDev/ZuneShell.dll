@@ -24,34 +24,34 @@ namespace Microsoft.Iris.ViewItems
           Text textViewItem,
           int lineAlignmentOffset)
         {
-            this._textRun = textRun;
-            this._size = textRun.Size;
-            this._position = textRun.Position;
-            this._position.X += lineAlignmentOffset;
-            this._lineNumber = textRun.Line;
-            this._isOnLastLine = isOnLastLine;
-            this._textViewItem = textViewItem;
+            _textRun = textRun;
+            _size = textRun.Size;
+            _position = textRun.Position;
+            _position.X += lineAlignmentOffset;
+            _lineNumber = textRun.Line;
+            _isOnLastLine = isOnLastLine;
+            _textViewItem = textViewItem;
         }
 
-        public Point Position => this._position;
+        public Point Position => _position;
 
-        public Size Size => this._size;
+        public Size Size => _size;
 
-        public Color Color => this._textRun == null ? new Color(0U) : this._textRun.Color;
+        public Color Color => _textRun == null ? new Color(0U) : _textRun.Color;
 
-        public int LineNumber => this._lineNumber;
+        public int LineNumber => _lineNumber;
 
-        public TextRun Run => this._textRun;
+        public TextRun Run => _textRun;
 
-        public Text TextViewItem => this._textViewItem;
+        public Text TextViewItem => _textViewItem;
 
-        public bool IsOnLastLine => this._isOnLastLine;
+        public bool IsOnLastLine => _isOnLastLine;
 
         public void NotifyPaintInvalid()
         {
-            if (this.PaintInvalid == null)
+            if (PaintInvalid == null)
                 return;
-            this.PaintInvalid();
+            PaintInvalid();
         }
 
         public override string ToString() => string.Format("[ Text = {0}, Position = {1}, Size = {2} ]", _textRun.Content, _position, _size);

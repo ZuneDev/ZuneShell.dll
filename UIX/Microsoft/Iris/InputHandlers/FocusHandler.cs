@@ -18,49 +18,49 @@ namespace Microsoft.Iris.InputHandlers
         private WeakReference _gainedEventContext;
         private WeakReference _lostEventContext;
 
-        public FocusHandler() => this._changeReason = FocusChangeReason.Any;
+        public FocusHandler() => _changeReason = FocusChangeReason.Any;
 
         protected override void ConfigureInteractivity()
         {
             base.ConfigureInteractivity();
-            if (!this.HandleDirect)
+            if (!HandleDirect)
                 return;
-            this.UI.KeyInteractive = true;
+            UI.KeyInteractive = true;
         }
 
         public FocusChangeReason Reason
         {
-            get => this._changeReason;
+            get => _changeReason;
             set
             {
-                if (this._changeReason == value)
+                if (_changeReason == value)
                     return;
-                this._changeReason = value;
-                this.FireNotification(NotificationID.Reason);
+                _changeReason = value;
+                FireNotification(NotificationID.Reason);
             }
         }
 
-        public object GainedEventContext => this.CheckEventContext(ref this._gainedEventContext);
+        public object GainedEventContext => CheckEventContext(ref _gainedEventContext);
 
-        public object LostEventContext => this.CheckEventContext(ref this._lostEventContext);
+        public object LostEventContext => CheckEventContext(ref _lostEventContext);
 
         protected override void OnGainKeyFocus(UIClass ui, KeyFocusInfo info)
         {
-            if (!this.ShouldHandleEvent(info))
+            if (!ShouldHandleEvent(info))
                 return;
-            this.SetEventContext(info.Target, ref this._gainedEventContext, NotificationID.GainedEventContext);
-            this.FireNotification(NotificationID.GainedFocus);
+            SetEventContext(info.Target, ref _gainedEventContext, NotificationID.GainedEventContext);
+            FireNotification(NotificationID.GainedFocus);
         }
 
         protected override void OnLoseKeyFocus(UIClass ui, KeyFocusInfo info)
         {
-            if (!this.ShouldHandleEvent(info))
+            if (!ShouldHandleEvent(info))
                 return;
-            this.SetEventContext(info.Target, ref this._lostEventContext, NotificationID.LostEventContext);
-            this.FireNotification(NotificationID.LostFocus);
+            SetEventContext(info.Target, ref _lostEventContext, NotificationID.LostEventContext);
+            FireNotification(NotificationID.LostFocus);
         }
 
-        private bool ShouldHandleEvent(KeyFocusInfo info) => Library.Bits.TestAnyFlags((uint)this.Reason, (uint)GetFocusChangeReason(info)) && this.ShouldHandleEvent(GetModifiers(UISession.Default.InputManager.Modifiers));
+        private bool ShouldHandleEvent(KeyFocusInfo info) => Library.Bits.TestAnyFlags((uint)Reason, (uint)GetFocusChangeReason(info)) && ShouldHandleEvent(GetModifiers(UISession.Default.InputManager.Modifiers));
 
         private static FocusChangeReason GetFocusChangeReason(KeyFocusInfo info)
         {

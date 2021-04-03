@@ -17,14 +17,14 @@ namespace Microsoft.Iris.Markup
           uint scriptId,
           uint refreshId)
         {
-            this.Reset(notifier, watch, scriptHost, scriptId);
-            this._refreshId = refreshId;
+            Reset(notifier, watch, scriptHost, scriptId);
+            _refreshId = refreshId;
         }
 
         public override void OnNotify()
         {
             base.OnNotify();
-            this.ScriptHost.ScheduleScriptRun(this._refreshId, true);
+            ScriptHost.ScheduleScriptRun(_refreshId, true);
         }
     }
 }

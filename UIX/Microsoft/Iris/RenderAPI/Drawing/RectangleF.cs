@@ -31,18 +31,18 @@ namespace Microsoft.Iris.RenderAPI.Drawing
 
         public RectangleF(PointF location, SizeF size)
         {
-            this.x = location.X;
-            this.y = location.Y;
-            this.width = size.Width;
-            this.height = size.Height;
+            x = location.X;
+            y = location.Y;
+            width = size.Width;
+            height = size.Height;
         }
 
         public RectangleF(Point location, Microsoft.Iris.Render.Size size)
         {
-            this.x = location.X;
-            this.y = location.Y;
-            this.width = size.Width;
-            this.height = size.Height;
+            x = location.X;
+            y = location.Y;
+            width = size.Width;
+            height = size.Height;
         }
 
         public static RectangleF FromLTRB(float left, float top, float right, float bottom) => new RectangleF(left, top, right - left, bottom - top);
@@ -51,81 +51,81 @@ namespace Microsoft.Iris.RenderAPI.Drawing
 
         public PointF Location
         {
-            get => new PointF(this.X, this.Y);
+            get => new PointF(X, Y);
             set
             {
-                this.X = value.X;
-                this.Y = value.Y;
+                X = value.X;
+                Y = value.Y;
             }
         }
 
         public SizeF Size
         {
-            get => new SizeF(this.Width, this.Height);
+            get => new SizeF(Width, Height);
             set
             {
-                this.Width = value.Width;
-                this.Height = value.Height;
+                Width = value.Width;
+                Height = value.Height;
             }
         }
 
         public float X
         {
-            get => this.x;
-            set => this.x = value;
+            get => x;
+            set => x = value;
         }
 
         public float Y
         {
-            get => this.y;
-            set => this.y = value;
+            get => y;
+            set => y = value;
         }
 
         public float Width
         {
-            get => this.width;
-            set => this.width = value;
+            get => width;
+            set => width = value;
         }
 
         public float Height
         {
-            get => this.height;
-            set => this.height = value;
+            get => height;
+            set => height = value;
         }
 
-        public float Left => this.X;
+        public float Left => X;
 
-        public float Top => this.Y;
+        public float Top => Y;
 
-        public float Right => this.X + this.Width;
+        public float Right => X + Width;
 
-        public float Bottom => this.Y + this.Height;
+        public float Bottom => Y + Height;
 
-        public bool IsEmpty => Math2.WithinEpsilon(this.width, 0.0f) || Math2.WithinEpsilon(this.height, 0.0f);
+        public bool IsEmpty => Math2.WithinEpsilon(width, 0.0f) || Math2.WithinEpsilon(height, 0.0f);
 
-        public override bool Equals(object obj) => obj is RectangleF rectangleF && rectangleF.X == (double)this.X && (rectangleF.Y == (double)this.Y && rectangleF.Width == (double)this.Width) && rectangleF.Height == (double)this.Height;
+        public override bool Equals(object obj) => obj is RectangleF rectangleF && rectangleF.X == (double)X && (rectangleF.Y == (double)Y && rectangleF.Width == (double)Width) && rectangleF.Height == (double)Height;
 
         public static bool operator ==(RectangleF left, RectangleF right) => left.X == (double)right.X && left.Y == (double)right.Y && left.Width == (double)right.Width && left.Height == (double)right.Height;
 
         public static bool operator !=(RectangleF left, RectangleF right) => !(left == right);
 
-        public bool Contains(float x, float y) => X <= (double)x && x < X + (double)this.Width && Y <= (double)y && y < Y + (double)this.Height;
+        public bool Contains(float x, float y) => X <= (double)x && x < X + (double)Width && Y <= (double)y && y < Y + (double)Height;
 
-        public bool Contains(PointF pt) => this.Contains(pt.X, pt.Y);
+        public bool Contains(PointF pt) => Contains(pt.X, pt.Y);
 
-        public bool Contains(RectangleF rect) => X <= (double)rect.X && rect.X + (double)rect.Width <= X + (double)this.Width && Y <= (double)rect.Y && rect.Y + (double)rect.Height <= Y + (double)this.Height;
+        public bool Contains(RectangleF rect) => X <= (double)rect.X && rect.X + (double)rect.Width <= X + (double)Width && Y <= (double)rect.Y && rect.Y + (double)rect.Height <= Y + (double)Height;
 
-        public override int GetHashCode() => (int)(uint)this.X ^ ((int)(uint)this.Y << 13 | (int)((uint)this.Y >> 19)) ^ ((int)(uint)this.Width << 26 | (int)((uint)this.Width >> 6)) ^ ((int)(uint)this.Height << 7 | (int)((uint)this.Height >> 25));
+        public override int GetHashCode() => (int)(uint)X ^ ((int)(uint)Y << 13 | (int)((uint)Y >> 19)) ^ ((int)(uint)Width << 26 | (int)((uint)Width >> 6)) ^ ((int)(uint)Height << 7 | (int)((uint)Height >> 25));
 
         public void Inflate(float x, float y)
         {
-            this.X -= x;
-            this.Y -= y;
-            this.Width += 2f * x;
-            this.Height += 2f * y;
+            X -= x;
+            Y -= y;
+            Width += 2f * x;
+            Height += 2f * y;
         }
 
-        public void Inflate(SizeF size) => this.Inflate(size.Width, size.Height);
+        public void Inflate(SizeF size) => Inflate(size.Width, size.Height);
 
         public static RectangleF Inflate(RectangleF rect, float x, float y)
         {
@@ -137,10 +137,10 @@ namespace Microsoft.Iris.RenderAPI.Drawing
         public void Intersect(RectangleF rect)
         {
             RectangleF rectangleF = Intersect(rect, this);
-            this.X = rectangleF.X;
-            this.Y = rectangleF.Y;
-            this.Width = rectangleF.Width;
-            this.Height = rectangleF.Height;
+            X = rectangleF.X;
+            Y = rectangleF.Y;
+            Width = rectangleF.Width;
+            Height = rectangleF.Height;
         }
 
         public static RectangleF Intersect(RectangleF a, RectangleF b)
@@ -163,12 +163,12 @@ namespace Microsoft.Iris.RenderAPI.Drawing
             return new RectangleF(x, y, num1 - x, num2 - y);
         }
 
-        public void Offset(PointF pos) => this.Offset(pos.X, pos.Y);
+        public void Offset(PointF pos) => Offset(pos.X, pos.Y);
 
         public void Offset(float x, float y)
         {
-            this.X += x;
-            this.Y += y;
+            X += x;
+            Y += y;
         }
 
         public static RectangleF Offset(RectangleF rect, PointF pos)
@@ -177,27 +177,27 @@ namespace Microsoft.Iris.RenderAPI.Drawing
             return rect;
         }
 
-        public PointF TopLeft => new PointF(this.Left, this.Top);
+        public PointF TopLeft => new PointF(Left, Top);
 
-        public PointF TopRight => new PointF(this.Right, this.Top);
+        public PointF TopRight => new PointF(Right, Top);
 
-        public PointF BottomLeft => new PointF(this.Left, this.Bottom);
+        public PointF BottomLeft => new PointF(Left, Bottom);
 
-        public PointF BottomRight => new PointF(this.Right, this.Bottom);
+        public PointF BottomRight => new PointF(Right, Bottom);
 
-        public PointF Center => new PointF(this.x + this.width / 2f, this.y + this.height / 2f);
+        public PointF Center => new PointF(x + width / 2f, y + height / 2f);
 
         public override string ToString()
         {
             StringBuilder stringBuilder = new StringBuilder(128);
             stringBuilder.Append("(X=");
-            stringBuilder.Append(this.X.ToString(NumberFormatInfo.InvariantInfo));
+            stringBuilder.Append(X.ToString(NumberFormatInfo.InvariantInfo));
             stringBuilder.Append(", Y=");
-            stringBuilder.Append(this.Y.ToString(NumberFormatInfo.InvariantInfo));
+            stringBuilder.Append(Y.ToString(NumberFormatInfo.InvariantInfo));
             stringBuilder.Append(", Width=");
-            stringBuilder.Append(this.Width.ToString(NumberFormatInfo.InvariantInfo));
+            stringBuilder.Append(Width.ToString(NumberFormatInfo.InvariantInfo));
             stringBuilder.Append(", Height=");
-            stringBuilder.Append(this.Height.ToString(NumberFormatInfo.InvariantInfo));
+            stringBuilder.Append(Height.ToString(NumberFormatInfo.InvariantInfo));
             stringBuilder.Append(")");
             return stringBuilder.ToString();
         }

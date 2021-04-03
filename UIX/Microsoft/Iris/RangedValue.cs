@@ -31,7 +31,7 @@ namespace Microsoft.Iris
 
         public RangedValue(IModelItemOwner owner, string description)
           : base(owner, description)
-          => this.Initialize();
+          => Initialize();
 
         public RangedValue(IModelItemOwner owner)
           : this(owner, null)
@@ -47,13 +47,13 @@ namespace Microsoft.Iris
         {
             get
             {
-                using (this.ThreadValidator)
-                    return this._rangedValue.Value;
+                using (ThreadValidator)
+                    return _rangedValue.Value;
             }
             set
             {
-                using (this.ThreadValidator)
-                    this._rangedValue.Value = value;
+                using (ThreadValidator)
+                    _rangedValue.Value = value;
             }
         }
 
@@ -61,24 +61,24 @@ namespace Microsoft.Iris
         {
             get
             {
-                using (this.ThreadValidator)
-                    return ((IUIValueRange)this._rangedValue).ObjectValue;
+                using (ThreadValidator)
+                    return ((IUIValueRange)_rangedValue).ObjectValue;
             }
         }
 
-        object IUIValueRange.ObjectValue => ((IUIValueRange)this._rangedValue).ObjectValue;
+        object IUIValueRange.ObjectValue => ((IUIValueRange)_rangedValue).ObjectValue;
 
         public float MinValue
         {
             get
             {
-                using (this.ThreadValidator)
-                    return this._rangedValue.MinValue;
+                using (ThreadValidator)
+                    return _rangedValue.MinValue;
             }
             set
             {
-                using (this.ThreadValidator)
-                    this._rangedValue.MinValue = value <= (double)this.MaxValue ? value : throw new ArgumentException(InvariantString.Format("MinValue must be less than or equal to MaxValue.  Value Supplied was {0}, MaxValue is {1}", value, MaxValue));
+                using (ThreadValidator)
+                    _rangedValue.MinValue = value <= (double)MaxValue ? value : throw new ArgumentException(InvariantString.Format("MinValue must be less than or equal to MaxValue.  Value Supplied was {0}, MaxValue is {1}", value, MaxValue));
             }
         }
 
@@ -86,13 +86,13 @@ namespace Microsoft.Iris
         {
             get
             {
-                using (this.ThreadValidator)
-                    return this._rangedValue.MaxValue;
+                using (ThreadValidator)
+                    return _rangedValue.MaxValue;
             }
             set
             {
-                using (this.ThreadValidator)
-                    this._rangedValue.MaxValue = value >= (double)this.MinValue ? value : throw new ArgumentException(InvariantString.Format("MaxValue must be greater than or equal to MinValue.  Value Supplied was {0}, MinValue is {1}", value, MinValue));
+                using (ThreadValidator)
+                    _rangedValue.MaxValue = value >= (double)MinValue ? value : throw new ArgumentException(InvariantString.Format("MaxValue must be greater than or equal to MinValue.  Value Supplied was {0}, MinValue is {1}", value, MinValue));
             }
         }
 
@@ -100,13 +100,13 @@ namespace Microsoft.Iris
         {
             get
             {
-                using (this.ThreadValidator)
-                    return this._rangedValue.Step;
+                using (ThreadValidator)
+                    return _rangedValue.Step;
             }
             set
             {
-                using (this.ThreadValidator)
-                    this._rangedValue.Step = value;
+                using (ThreadValidator)
+                    _rangedValue.Step = value;
             }
         }
 
@@ -114,8 +114,8 @@ namespace Microsoft.Iris
         {
             get
             {
-                using (this.ThreadValidator)
-                    return this._rangedValue.Range;
+                using (ThreadValidator)
+                    return _rangedValue.Range;
             }
         }
 
@@ -123,8 +123,8 @@ namespace Microsoft.Iris
         {
             get
             {
-                using (this.ThreadValidator)
-                    return this._rangedValue.HasNextValue;
+                using (ThreadValidator)
+                    return _rangedValue.HasNextValue;
             }
         }
 
@@ -132,21 +132,21 @@ namespace Microsoft.Iris
         {
             get
             {
-                using (this.ThreadValidator)
-                    return this._rangedValue.HasPreviousValue;
+                using (ThreadValidator)
+                    return _rangedValue.HasPreviousValue;
             }
         }
 
         public void NextValue()
         {
-            using (this.ThreadValidator)
-                this._rangedValue.NextValue();
+            using (ThreadValidator)
+                _rangedValue.NextValue();
         }
 
         public void PreviousValue()
         {
-            using (this.ThreadValidator)
-                this._rangedValue.PreviousValue();
+            using (ThreadValidator)
+                _rangedValue.PreviousValue();
         }
 
         protected override void OnDispose(bool disposing)
@@ -154,10 +154,10 @@ namespace Microsoft.Iris
             base.OnDispose(disposing);
             if (disposing)
             {
-                this._notifier.ClearListeners();
-                this._listeners.Dispose(this);
+                _notifier.ClearListeners();
+                _listeners.Dispose(this);
             }
-            this._rangedValue = null;
+            _rangedValue = null;
         }
 
         object AssemblyObjectProxyHelper.IFrameworkProxyObject.FrameworkObject => this;
@@ -166,9 +166,9 @@ namespace Microsoft.Iris
 
         private void Initialize()
         {
-            this._rangedValue = this.CreateInternalRangedValue();
+            _rangedValue = CreateInternalRangedValue();
             Vector<Listener> listeners = new Vector<Listener>(7);
-            DelegateListener.OnNotifyCallback callback = new DelegateListener.OnNotifyCallback(this.OnInternalPropertyChanged);
+            DelegateListener.OnNotifyCallback callback = new DelegateListener.OnNotifyCallback(OnInternalPropertyChanged);
             listeners.Add(new DelegateListener(_rangedValue, NotificationID.MinValue, callback));
             listeners.Add(new DelegateListener(_rangedValue, NotificationID.MaxValue, callback));
             listeners.Add(new DelegateListener(_rangedValue, NotificationID.Step, callback));
@@ -176,8 +176,8 @@ namespace Microsoft.Iris
             listeners.Add(new DelegateListener(_rangedValue, NotificationID.Value, callback));
             listeners.Add(new DelegateListener(_rangedValue, NotificationID.HasPreviousValue, callback));
             listeners.Add(new DelegateListener(_rangedValue, NotificationID.HasNextValue, callback));
-            this._listeners = new CodeListeners(listeners);
-            this._listeners.DeclareOwner(this);
+            _listeners = new CodeListeners(listeners);
+            _listeners.DeclareOwner(this);
         }
 
         internal virtual Microsoft.Iris.ModelItems.RangedValue CreateInternalRangedValue() => new Microsoft.Iris.ModelItems.RangedValue();
@@ -185,10 +185,10 @@ namespace Microsoft.Iris
         protected override void OnPropertyChanged(string property)
         {
             base.OnPropertyChanged(property);
-            this._notifier.FireThreadSafe(property);
+            _notifier.FireThreadSafe(property);
         }
 
-        private void OnInternalPropertyChanged(DelegateListener listener) => this.FirePropertyChanged(listener.Watch);
+        private void OnInternalPropertyChanged(DelegateListener listener) => FirePropertyChanged(listener.Watch);
 
         void IDisposableObject.DeclareOwner(object owner)
         {
@@ -198,8 +198,8 @@ namespace Microsoft.Iris
         {
         }
 
-        void IDisposableObject.Dispose(object owner) => this.Dispose();
+        void IDisposableObject.Dispose(object owner) => Dispose();
 
-        void INotifyObject.AddListener(Listener listener) => this._notifier.AddListener(listener);
+        void INotifyObject.AddListener(Listener listener) => _notifier.AddListener(listener);
     }
 }

@@ -42,47 +42,47 @@ namespace Microsoft.Iris.Drawing
 
         public Font(string fontName, float fontHeight, float altFontHeight, FontStyles fontStyles)
         {
-            this._fontName = fontName;
-            this._fontHeight = fontHeight;
-            this._altFontHeight = altFontHeight;
-            this._fontStyle = fontStyles;
+            _fontName = fontName;
+            _fontHeight = fontHeight;
+            _altFontHeight = altFontHeight;
+            _fontStyle = fontStyles;
         }
 
         public float FontSize
         {
-            get => this._fontHeight;
-            set => this._fontHeight = value;
+            get => _fontHeight;
+            set => _fontHeight = value;
         }
 
         public float AltFontSize
         {
-            get => _altFontHeight == 0.0 ? this._fontHeight : this._altFontHeight;
-            set => this._altFontHeight = value;
+            get => _altFontHeight == 0.0 ? _fontHeight : _altFontHeight;
+            set => _altFontHeight = value;
         }
 
         public FontStyles FontStyle
         {
-            get => this._fontStyle;
-            set => this._fontStyle = value;
+            get => _fontStyle;
+            set => _fontStyle = value;
         }
 
         public string FontName
         {
-            get => this._fontName;
-            set => this._fontName = value;
+            get => _fontName;
+            set => _fontName = value;
         }
 
-        public override bool Equals(object obj) => obj is Font font && this._fontName == font._fontName && (_fontHeight == (double)font._fontHeight && _altFontHeight == (double)font._altFontHeight) && this._fontStyle == font._fontStyle;
+        public override bool Equals(object obj) => obj is Font font && _fontName == font._fontName && (_fontHeight == (double)font._fontHeight && _altFontHeight == (double)font._altFontHeight) && _fontStyle == font._fontStyle;
 
-        public override int GetHashCode() => this._fontName.GetHashCode() ^ this._fontHeight.GetHashCode() ^ this._altFontHeight.GetHashCode() ^ this._fontStyle.GetHashCode();
+        public override int GetHashCode() => _fontName.GetHashCode() ^ _fontHeight.GetHashCode() ^ _altFontHeight.GetHashCode() ^ _fontStyle.GetHashCode();
 
         public override string ToString()
         {
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.Append("{Font \"");
-            stringBuilder.Append(this._fontName);
+            stringBuilder.Append(_fontName);
             stringBuilder.Append("\" ");
-            stringBuilder.Append(this._fontHeight);
+            stringBuilder.Append(_fontHeight);
             stringBuilder.Append("pt ");
             stringBuilder.Append(_fontStyle);
             stringBuilder.Append("}");

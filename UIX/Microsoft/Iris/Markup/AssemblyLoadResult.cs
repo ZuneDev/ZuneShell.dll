@@ -165,13 +165,13 @@ namespace Microsoft.Iris.Markup
             s_typeCache = null;
         }
 
-        public string Namespace => this._namespace;
+        public string Namespace => _namespace;
 
         public override LoadResultStatus Status => LoadResultStatus.Success;
 
         public override TypeSchema FindType(string name)
         {
-            Type type = this._assembly.GetType(this._namespacePrefix + name, false);
+            Type type = _assembly.GetType(_namespacePrefix + name, false);
             if (type == null)
                 return null;
             if (type.IsVisible)
@@ -315,16 +315,16 @@ namespace Microsoft.Iris.Markup
 
         public override string GetCompilerReferenceName() => base.GetCompilerReferenceName() ?? string.Format("{0}{1}/{2}", "assembly://", _assembly.GetName().Name, _namespace);
 
-        internal Assembly Assembly => this._assembly;
+        internal Assembly Assembly => _assembly;
 
         private AssemblyLoadResult(Assembly assembly, string ns, string uri)
           : base(uri)
         {
-            this._assembly = assembly;
-            this._namespace = ns;
+            _assembly = assembly;
+            _namespace = ns;
             if (ns == null)
                 return;
-            this._namespacePrefix = ns + ".";
+            _namespacePrefix = ns + ".";
         }
 
         internal struct MapAssemblyKey
@@ -334,21 +334,21 @@ namespace Microsoft.Iris.Markup
 
             public MapAssemblyKey(Assembly assembly, string ns)
             {
-                this._assembly = assembly;
-                this._namespace = ns;
+                _assembly = assembly;
+                _namespace = ns;
             }
 
             public override bool Equals(object obj)
             {
                 AssemblyLoadResult.MapAssemblyKey mapAssemblyKey = (AssemblyLoadResult.MapAssemblyKey)obj;
-                return this._assembly == mapAssemblyKey._assembly && this._namespace == mapAssemblyKey._namespace;
+                return _assembly == mapAssemblyKey._assembly && _namespace == mapAssemblyKey._namespace;
             }
 
             public override int GetHashCode()
             {
-                int hashCode = this._assembly.GetHashCode();
-                if (this._namespace != null)
-                    hashCode ^= this._namespace.GetHashCode();
+                int hashCode = _assembly.GetHashCode();
+                if (_namespace != null)
+                    hashCode ^= _namespace.GetHashCode();
                 return hashCode;
             }
         }

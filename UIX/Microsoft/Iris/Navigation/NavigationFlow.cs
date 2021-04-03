@@ -25,18 +25,18 @@ namespace Microsoft.Iris.Navigation
           NavigationOrientation orientionValue)
           : base(subjectSite, searchDirection)
         {
-            this._orientationValue = orientionValue;
-            this._modeForNewSites = NavigationPolicies.None;
-            switch (this._orientationValue)
+            _orientationValue = orientionValue;
+            _modeForNewSites = NavigationPolicies.None;
+            switch (_orientationValue)
             {
                 case NavigationOrientation.FlowHorizontal:
-                    this._modeForNewSites = NavigationPolicies.Row;
+                    _modeForNewSites = NavigationPolicies.Row;
                     break;
                 case NavigationOrientation.FlowVertical:
-                    this._modeForNewSites = NavigationPolicies.Column;
+                    _modeForNewSites = NavigationPolicies.Column;
                     break;
             }
-            this._alignedSearchFlag = this.SearchOrientation == this._orientationValue;
+            _alignedSearchFlag = SearchOrientation == _orientationValue;
         }
 
         protected override IList ComputeSearchOrder(
@@ -45,17 +45,17 @@ namespace Microsoft.Iris.Navigation
           bool enteringFlag)
         {
             List<NavigationItem> navigationItemList = null;
-            Map<float, List<INavigationSite>> partitions = this.PartitionChildren(allChildrenList);
+            Map<float, List<INavigationSite>> partitions = PartitionChildren(allChildrenList);
             if (partitions.Keys.Count > 0)
             {
-                float[] keys = this.FilterPartitions(partitions, startRectangleF, enteringFlag);
+                float[] keys = FilterPartitions(partitions, startRectangleF, enteringFlag);
                 if (keys != null)
                 {
-                    this.SortPartitions(keys, startRectangleF);
+                    SortPartitions(keys, startRectangleF);
                     navigationItemList = new List<NavigationItem>(partitions.Keys.Count);
                     foreach (float key in keys)
                     {
-                        NavigationItem areaForPartition = this.CreateAreaForPartition(partitions[key]);
+                        NavigationItem areaForPartition = CreateAreaForPartition(partitions[key]);
                         if (areaForPartition != null)
                             navigationItemList.Add(areaForPartition);
                     }
@@ -71,7 +71,7 @@ namespace Microsoft.Iris.Navigation
             foreach (NavigationItem allChildren in allChildrenList)
             {
                 float key = 0.0f;
-                switch (this._orientationValue)
+                switch (_orientationValue)
                 {
                     case NavigationOrientation.FlowHorizontal:
                         key = allChildren.Position.Y;
@@ -92,13 +92,13 @@ namespace Microsoft.Iris.Navigation
           RectangleF startRectangleF,
           bool enteringFlag)
         {
-            Vector<float> vector = new Vector<float>(!this._alignedSearchFlag || enteringFlag ? partitions.Keys.Count : 1);
+            Vector<float> vector = new Vector<float>(!_alignedSearchFlag || enteringFlag ? partitions.Keys.Count : 1);
             foreach (float key in partitions.Keys)
             {
-                if (this.PartitionIsPotentialCandidate(key, startRectangleF, enteringFlag))
+                if (PartitionIsPotentialCandidate(key, startRectangleF, enteringFlag))
                 {
                     vector.Add(key);
-                    if (this._alignedSearchFlag && !enteringFlag)
+                    if (_alignedSearchFlag && !enteringFlag)
                         break;
                 }
             }
@@ -110,13 +110,13 @@ namespace Microsoft.Iris.Navigation
           RectangleF startRectangleF,
           bool enteringFlag)
         {
-            if (this._alignedSearchFlag)
+            if (_alignedSearchFlag)
             {
                 if (enteringFlag)
                     return true;
                 float num1 = 0.0f;
                 float num2 = 0.0f;
-                switch (this._orientationValue)
+                switch (_orientationValue)
                 {
                     case NavigationOrientation.FlowHorizontal:
                         num1 = startRectangleF.Top;
@@ -129,7 +129,7 @@ namespace Microsoft.Iris.Navigation
                 }
                 return num1 <= (double)key && key <= (double)num2;
             }
-            switch (this.SearchDirection)
+            switch (SearchDirection)
             {
                 case Direction.North:
                     return key < (double)startRectangleF.Top;
@@ -147,7 +147,7 @@ namespace Microsoft.Iris.Navigation
         private void SortPartitions(float[] keys, RectangleF startRectangleF)
         {
             float originValue = 0.0f;
-            switch (this._orientationValue)
+            switch (_orientationValue)
             {
                 case NavigationOrientation.FlowHorizontal:
                     originValue = startRectangleF.Center.Y;
@@ -163,7 +163,7 @@ namespace Microsoft.Iris.Navigation
         {
             NavigationItem navigationItem = null;
             if (partition != null && partition.Count > 0)
-                navigationItem = CreateAreaForSite(new TransientNavigationSite(partition[0].ToString(), this.Subject, partition, this._modeForNewSites, Vector3.Zero, Vector3.Zero), this.SearchDirection, false, true);
+                navigationItem = CreateAreaForSite(new TransientNavigationSite(partition[0].ToString(), Subject, partition, _modeForNewSites, Vector3.Zero, Vector3.Zero), SearchDirection, false, true);
             return navigationItem;
         }
 
@@ -171,7 +171,7 @@ namespace Microsoft.Iris.Navigation
         {
             get
             {
-                switch (this.SearchDirection)
+                switch (SearchDirection)
                 {
                     case Direction.North:
                     case Direction.South:
@@ -180,7 +180,7 @@ namespace Microsoft.Iris.Navigation
                     case Direction.West:
                         return NavigationOrientation.FlowHorizontal;
                     default:
-                        return this._orientationValue;
+                        return _orientationValue;
                 }
             }
         }
@@ -189,14 +189,14 @@ namespace Microsoft.Iris.Navigation
         {
             private float _originValue;
 
-            public CompareItemDistance(float originValue) => this._originValue = originValue;
+            public CompareItemDistance(float originValue) => _originValue = originValue;
 
             int IComparer<float>.Compare(float leftValue, float rightValue)
             {
-                leftValue -= this._originValue;
+                leftValue -= _originValue;
                 if (leftValue < 0.0)
                     leftValue *= -1f;
-                rightValue -= this._originValue;
+                rightValue -= _originValue;
                 if (rightValue < 0.0)
                     rightValue *= -1f;
                 if (leftValue < (double)rightValue)

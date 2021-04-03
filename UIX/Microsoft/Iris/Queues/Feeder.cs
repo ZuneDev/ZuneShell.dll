@@ -12,58 +12,58 @@ namespace Microsoft.Iris.Queues
         private bool _hasItems;
         private QueueItem.FIFO[] _fifos;
 
-        public bool HasItems => this._hasItems;
+        public bool HasItems => _hasItems;
 
         public void EnterDispatch(Dispatcher dispatcher)
         {
-            this._dispatcher = dispatcher;
-            if (!this._hasItems)
+            _dispatcher = dispatcher;
+            if (!_hasItems)
                 return;
-            this._dispatcher.NotifyFeederItems();
+            _dispatcher.NotifyFeederItems();
         }
 
-        public void LeaveDispatch(Dispatcher dispatcher) => this._dispatcher = null;
+        public void LeaveDispatch(Dispatcher dispatcher) => _dispatcher = null;
 
         public void PostItem(QueueItem item, int priority)
         {
             bool flag = false;
             lock (this)
             {
-                if (this._fifos == null)
-                    this._fifos = new QueueItem.FIFO[32];
-                (this._fifos[priority] ?? (this._fifos[priority] = new QueueItem.FIFO())).Append(item);
-                if (!this._hasItems)
+                if (_fifos == null)
+                    _fifos = new QueueItem.FIFO[32];
+                (_fifos[priority] ?? (_fifos[priority] = new QueueItem.FIFO())).Append(item);
+                if (!_hasItems)
                 {
-                    this._hasItems = true;
-                    if (this._dispatcher != null)
+                    _hasItems = true;
+                    if (_dispatcher != null)
                         flag = true;
                 }
             }
             if (!flag)
                 return;
-            this._dispatcher.NotifyFeederItems();
+            _dispatcher.NotifyFeederItems();
         }
 
         public QueueItem.FIFO[] HandoffFIFOs()
         {
             lock (this)
             {
-                QueueItem.FIFO[] fifos = this._fifos;
-                this._fifos = null;
-                this._hasItems = false;
+                QueueItem.FIFO[] fifos = _fifos;
+                _fifos = null;
+                _hasItems = false;
                 return fifos;
             }
         }
 
         public void RecycleFIFOs(QueueItem.FIFO[] recycled)
         {
-            if (this._fifos != null)
+            if (_fifos != null)
                 return;
             lock (this)
             {
-                if (this._fifos != null)
+                if (_fifos != null)
                     return;
-                this._fifos = recycled;
+                _fifos = recycled;
             }
         }
     }

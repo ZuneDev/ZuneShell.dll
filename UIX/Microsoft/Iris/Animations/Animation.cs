@@ -24,15 +24,15 @@ namespace Microsoft.Iris.Animations
 
         public Animation()
         {
-            this._type = AnimationEventType.Idle;
-            this._bitsBitVector = new BitVector32();
-            this._dataMap = new DynamicData();
+            _type = AnimationEventType.Idle;
+            _bitsBitVector = new BitVector32();
+            _dataMap = new DynamicData();
         }
 
         public override object Clone()
         {
             Animation animation = new Animation();
-            this.CloneWorker(animation);
+            CloneWorker(animation);
             return animation;
         }
 
@@ -40,64 +40,64 @@ namespace Microsoft.Iris.Animations
         {
             base.CloneWorker(rawAnimation);
             Animation animation = (Animation)rawAnimation;
-            animation.Type = this.Type;
-            if (this.GetBit(Bits.CenterPointScale))
-                animation.CenterPointPercent = this.CenterPointPercent;
-            if (this.GetBit(Bits.RotationAxis))
-                animation.RotationAxis = this.RotationAxis;
-            animation.DisableMouseInput = this.DisableMouseInput;
+            animation.Type = Type;
+            if (GetBit(Bits.CenterPointScale))
+                animation.CenterPointPercent = CenterPointPercent;
+            if (GetBit(Bits.RotationAxis))
+                animation.RotationAxis = RotationAxis;
+            animation.DisableMouseInput = DisableMouseInput;
         }
 
         private void PrepareToPlay(ref AnimationArgs args)
         {
-            if (this.GetBit(Bits.CenterPointScale))
-                args.ViewItem.VisualCenterPoint = this.CenterPointPercent;
-            if (!this.GetBit(Bits.RotationAxis))
+            if (GetBit(Bits.CenterPointScale))
+                args.ViewItem.VisualCenterPoint = CenterPointPercent;
+            if (!GetBit(Bits.RotationAxis))
                 return;
             Rotation visualRotation = args.ViewItem.VisualRotation;
-            args.ViewItem.VisualRotation = new Rotation(visualRotation.AngleRadians, this.RotationAxis);
+            args.ViewItem.VisualRotation = new Rotation(visualRotation.AngleRadians, RotationAxis);
         }
 
         public AnimationEventType Type
         {
-            get => this._type;
-            set => this._type = value;
+            get => _type;
+            set => _type = value;
         }
 
         public Vector3 CenterPointPercent
         {
-            get => !this.GetBit(Bits.CenterPointScale) ? Vector3.Zero : (Vector3)this.GetData(s_centerPointScaleProperty);
+            get => !GetBit(Bits.CenterPointScale) ? Vector3.Zero : (Vector3)GetData(s_centerPointScaleProperty);
             set
             {
-                if (!(this.CenterPointPercent != value))
+                if (!(CenterPointPercent != value))
                     return;
-                this.SetData(s_centerPointScaleProperty, value);
-                this.SetBit(Bits.CenterPointScale, true);
+                SetData(s_centerPointScaleProperty, value);
+                SetBit(Bits.CenterPointScale, true);
             }
         }
 
         public Vector3 RotationAxis
         {
-            get => !this.GetBit(Bits.RotationAxis) ? Rotation.Default.Axis : (Vector3)this.GetData(s_rotationAxisProperty);
+            get => !GetBit(Bits.RotationAxis) ? Rotation.Default.Axis : (Vector3)GetData(s_rotationAxisProperty);
             set
             {
-                if (!(this.RotationAxis != value))
+                if (!(RotationAxis != value))
                     return;
-                this.SetData(s_rotationAxisProperty, value);
-                this.SetBit(Bits.RotationAxis, true);
+                SetData(s_rotationAxisProperty, value);
+                SetBit(Bits.RotationAxis, true);
             }
         }
 
         public bool DisableMouseInput
         {
-            get => this.GetBit(Bits.DisableMouseInput);
-            set => this.SetBit(Bits.DisableMouseInput, value);
+            get => GetBit(Bits.DisableMouseInput);
+            set => SetBit(Bits.DisableMouseInput, value);
         }
 
         AnimationTemplate IAnimationProvider.Build(
           ref AnimationArgs args)
         {
-            this.PrepareToPlay(ref args);
+            PrepareToPlay(ref args);
             return this;
         }
 
@@ -107,38 +107,38 @@ namespace Microsoft.Iris.Animations
         {
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.Append("{AnimationTemplate ID=");
-            stringBuilder.Append(this.DebugID);
+            stringBuilder.Append(DebugID);
             stringBuilder.Append(", Loop=");
-            stringBuilder.Append(this.Loop);
+            stringBuilder.Append(Loop);
             stringBuilder.Append(", KeyframeCount=");
-            stringBuilder.Append(this.Keyframes.Count);
+            stringBuilder.Append(Keyframes.Count);
             stringBuilder.Append("}");
             return stringBuilder.ToString();
         }
 
-        private bool GetBit(Animation.Bits bit) => this._bitsBitVector[(int)bit];
+        private bool GetBit(Animation.Bits bit) => _bitsBitVector[(int)bit];
 
-        private void SetBit(Animation.Bits bit, bool value) => this._bitsBitVector[(int)bit] = value;
+        private void SetBit(Animation.Bits bit, bool value) => _bitsBitVector[(int)bit] = value;
 
         private bool ChangeBit(Animation.Bits bit, bool value)
         {
-            if (this._bitsBitVector[(int)bit] == value)
+            if (_bitsBitVector[(int)bit] == value)
                 return false;
-            this._bitsBitVector[(int)bit] = value;
+            _bitsBitVector[(int)bit] = value;
             return true;
         }
 
-        protected object GetData(DataCookie cookie) => this._dataMap.GetData(cookie);
+        protected object GetData(DataCookie cookie) => _dataMap.GetData(cookie);
 
-        protected void SetData(DataCookie cookie, object value) => this._dataMap.SetData(cookie, value);
+        protected void SetData(DataCookie cookie, object value) => _dataMap.SetData(cookie, value);
 
-        protected Delegate GetEventHandler(EventCookie cookie) => this._dataMap.GetEventHandler(cookie);
+        protected Delegate GetEventHandler(EventCookie cookie) => _dataMap.GetEventHandler(cookie);
 
-        protected void AddEventHandler(EventCookie cookie, Delegate handlerToAdd) => this._dataMap.AddEventHandler(cookie, handlerToAdd);
+        protected void AddEventHandler(EventCookie cookie, Delegate handlerToAdd) => _dataMap.AddEventHandler(cookie, handlerToAdd);
 
-        protected void RemoveEventHandler(EventCookie cookie, Delegate handlerToRemove) => this._dataMap.RemoveEventHandler(cookie, handlerToRemove);
+        protected void RemoveEventHandler(EventCookie cookie, Delegate handlerToRemove) => _dataMap.RemoveEventHandler(cookie, handlerToRemove);
 
-        protected void RemoveEventHandlers(EventCookie cookie) => this._dataMap.RemoveEventHandlers(cookie);
+        protected void RemoveEventHandlers(EventCookie cookie) => _dataMap.RemoveEventHandlers(cookie);
 
         private static uint GetKey(EventCookie cookie) => EventCookie.ToUInt32(cookie);
 

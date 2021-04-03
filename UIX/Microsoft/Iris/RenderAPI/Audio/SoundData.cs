@@ -24,103 +24,103 @@ namespace Microsoft.Iris.RenderAPI.Audio
 
         internal SoundData(string stSource, Resource soundResource)
         {
-            this._stSource = stSource;
-            this._soundResource = soundResource;
-            this._fStreamAvailable = false;
-            this._fStreamLoading = false;
+            _stSource = stSource;
+            _soundResource = soundResource;
+            _fStreamAvailable = false;
+            _fStreamLoading = false;
         }
 
-        ~SoundData() => this.Dispose(false);
+        ~SoundData() => Dispose(false);
 
         public void Dispose()
         {
             GC.SuppressFinalize(this);
-            this.Dispose(true);
+            Dispose(true);
         }
 
         protected virtual void Dispose(bool fInDispose)
         {
             int num = fInDispose ? 1 : 0;
-            if (!(this._soundHandle != ExtensionsApi.HSpSound.NULL))
+            if (!(_soundHandle != ExtensionsApi.HSpSound.NULL))
                 return;
-            SoundLoader.DisposeData(this._soundHandle, this._soundInfo);
-            this._soundHandle = ExtensionsApi.HSpSound.NULL;
+            SoundLoader.DisposeData(_soundHandle, _soundInfo);
+            _soundHandle = ExtensionsApi.HSpSound.NULL;
         }
 
-        internal bool IsAvailable => this._soundHandle != ExtensionsApi.HSpSound.NULL;
+        internal bool IsAvailable => _soundHandle != ExtensionsApi.HSpSound.NULL;
 
         public bool Load()
         {
             bool flag = false;
-            if (this._openCount == 0U && !this._fStreamAvailable && !this._fStreamLoading)
+            if (_openCount == 0U && !_fStreamAvailable && !_fStreamLoading)
             {
-                this._fStreamLoading = true;
-                this._soundResource.Acquire(new ResourceAcquisitionCompleteHandler(this.OnContentLoadComplete));
+                _fStreamLoading = true;
+                _soundResource.Acquire(new ResourceAcquisitionCompleteHandler(OnContentLoadComplete));
             }
-            if (this._soundHandle != ExtensionsApi.HSpSound.NULL)
+            if (_soundHandle != ExtensionsApi.HSpSound.NULL)
                 flag = true;
-            else if (this._fStreamAvailable)
+            else if (_fStreamAvailable)
             {
-                if (this._soundResource.Status == ResourceStatus.Available)
+                if (_soundResource.Status == ResourceStatus.Available)
                 {
                     ExtensionsApi.HSpSound soundDataHandle;
                     ExtensionsApi.SoundInformation soundDataInfo;
-                    SoundLoader.FromMemory(this._soundResource.Buffer, (int)this._soundResource.Length, out soundDataHandle, out soundDataInfo);
-                    this._soundHandle = soundDataHandle;
-                    this._soundInfo = soundDataInfo;
+                    SoundLoader.FromMemory(_soundResource.Buffer, (int)_soundResource.Length, out soundDataHandle, out soundDataInfo);
+                    _soundHandle = soundDataHandle;
+                    _soundInfo = soundDataInfo;
                     flag = true;
                 }
             }
             else
                 flag = false;
-            ++this._openCount;
+            ++_openCount;
             return flag;
         }
 
         public void Unload()
         {
-            --this._openCount;
-            if (this._openCount != 0U)
+            --_openCount;
+            if (_openCount != 0U)
                 return;
-            if (this._fStreamAvailable)
+            if (_fStreamAvailable)
             {
-                this._soundResource.Free(new ResourceAcquisitionCompleteHandler(this.OnContentLoadComplete));
-                this._fStreamAvailable = false;
+                _soundResource.Free(new ResourceAcquisitionCompleteHandler(OnContentLoadComplete));
+                _fStreamAvailable = false;
             }
-            if (!(this._soundHandle != ExtensionsApi.HSpSound.NULL))
+            if (!(_soundHandle != ExtensionsApi.HSpSound.NULL))
                 return;
-            SoundLoader.DisposeData(this._soundHandle, this._soundInfo);
-            this._soundHandle = ExtensionsApi.HSpSound.NULL;
+            SoundLoader.DisposeData(_soundHandle, _soundInfo);
+            _soundHandle = ExtensionsApi.HSpSound.NULL;
         }
 
         public static string GetCacheKey(string stSource) => InvariantString.Format("SND|{0}", stSource);
 
-        SoundDataFormat ISoundData.Format => (SoundDataFormat)this._soundInfo.Header.wFormatTag;
+        SoundDataFormat ISoundData.Format => (SoundDataFormat)_soundInfo.Header.wFormatTag;
 
         uint ISoundData.ChannelCount => _soundInfo.Header.nChannels;
 
-        uint ISoundData.SampleRate => this._soundInfo.Header.nSamplesPerSec;
+        uint ISoundData.SampleRate => _soundInfo.Header.nSamplesPerSec;
 
         uint ISoundData.SampleSize => _soundInfo.Header.wBitsPerSample;
 
-        uint ISoundData.SampleCount => this._soundInfo.Header.cbDataSize * 8U / _soundInfo.Header.wBitsPerSample;
+        uint ISoundData.SampleCount => _soundInfo.Header.cbDataSize * 8U / _soundInfo.Header.wBitsPerSample;
 
         IntPtr ISoundData.AcquireContent()
         {
-            if (this.Load())
-                return this._soundInfo.Data.rgData;
+            if (Load())
+                return _soundInfo.Data.rgData;
             throw new InvalidOperationException("Sound data isn't available");
         }
 
-        void ISoundData.ReleaseContent() => this.Unload();
+        void ISoundData.ReleaseContent() => Unload();
 
         private void OnContentLoadComplete(Resource resource)
         {
-            this._fStreamLoading = false;
-            if (this._soundResource.Status == ResourceStatus.Error)
-                this._fStreamAvailable = false;
+            _fStreamLoading = false;
+            if (_soundResource.Status == ResourceStatus.Error)
+                _fStreamAvailable = false;
             else
-                this._fStreamAvailable = true;
+                _fStreamAvailable = true;
         }
     }
 }

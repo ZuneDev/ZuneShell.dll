@@ -22,10 +22,10 @@ namespace Microsoft.Iris.Markup.Validation
         protected override void PopulatePublicModel(ValidateContext context)
         {
             base.PopulatePublicModel(context);
-            if (this._typeExport == null)
+            if (_typeExport == null)
                 return;
-            ((MarkupDataQuerySchema)this._typeExport).ProviderName = this.ExtractStringProperty("Provider", true);
-            ((MarkupDataQuerySchema)this._typeExport).ResultType = this.ExtractTypeSchemaProperty("ResultType", context, true);
+            ((MarkupDataQuerySchema)_typeExport).ProviderName = ExtractStringProperty("Provider", true);
+            ((MarkupDataQuerySchema)_typeExport).ResultType = ExtractTypeSchemaProperty("ResultType", context, true);
         }
 
         protected override void AnnotateProperty(
@@ -47,7 +47,7 @@ namespace Microsoft.Iris.Markup.Validation
             }
             if (!objectTag.HasErrors)
                 return;
-            this.MarkHasErrors();
+            MarkHasErrors();
         }
     }
 }

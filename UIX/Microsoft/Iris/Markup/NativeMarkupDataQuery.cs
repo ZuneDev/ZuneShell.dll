@@ -23,30 +23,30 @@ namespace Microsoft.Iris.Markup
         public NativeMarkupDataQuery(MarkupDataQuerySchema type, NativeDataProviderWrapper provider)
           : base(type)
         {
-            this._handleToMe = s_handleTable.RegisterProxy(this);
-            this._typeHandle = type.UniqueId;
-            this._resultTypeHandle = type.ResultType.UniqueId;
-            this._externalQuery = provider.ConstructQuery(type.ProviderName, this._typeHandle, this._resultTypeHandle, this._handleToMe);
-            this.ApplyDefaultValues();
+            _handleToMe = s_handleTable.RegisterProxy(this);
+            _typeHandle = type.UniqueId;
+            _resultTypeHandle = type.ResultType.UniqueId;
+            _externalQuery = provider.ConstructQuery(type.ProviderName, _typeHandle, _resultTypeHandle, _handleToMe);
+            ApplyDefaultValues();
         }
 
         public override void NotifyInitialized()
         {
             base.NotifyInitialized();
-            int num = (int)NativeApi.SpDataQueryNotifyInitialized(this._externalQuery);
+            int num = (int)NativeApi.SpDataQueryNotifyInitialized(_externalQuery);
         }
 
         protected override void OnDispose()
         {
             base.OnDispose();
-            s_handleTable.ReleaseProxy(this._handleToMe);
-            int num = (int)NativeApi.SpDataBaseObjectSetInternalHandle(this._externalQuery, 0UL);
-            NativeApi.SpReleaseExternalObject(this._externalQuery);
+            s_handleTable.ReleaseProxy(_handleToMe);
+            int num = (int)NativeApi.SpDataBaseObjectSetInternalHandle(_externalQuery, 0UL);
+            NativeApi.SpReleaseExternalObject(_externalQuery);
         }
 
         public override void Refresh()
         {
-            int num = (int)NativeApi.SpDataQueryRefresh(this._externalQuery);
+            int num = (int)NativeApi.SpDataQueryRefresh(_externalQuery);
         }
 
         public override unsafe object Result
@@ -54,14 +54,14 @@ namespace Microsoft.Iris.Markup
             get
             {
                 UIXVariant propertyValue;
-                int resultProperty = (int)NativeApi.SpDataQueryGetResultProperty(this._externalQuery, out propertyValue);
-                return UIXVariant.GetValue(propertyValue, this.TypeSchema.Owner);
+                int resultProperty = (int)NativeApi.SpDataQueryGetResultProperty(_externalQuery, out propertyValue);
+                return UIXVariant.GetValue(propertyValue, TypeSchema.Owner);
             }
             set
             {
                 UIXVariant* uixVariantPtr = stackalloc UIXVariant[sizeof(UIXVariant)];
                 UIXVariant.MarshalObject(value, uixVariantPtr);
-                int num = (int)NativeApi.SpDataQuerySetResultProperty(this._externalQuery, uixVariantPtr);
+                int num = (int)NativeApi.SpDataQuerySetResultProperty(_externalQuery, uixVariantPtr);
             }
         }
 
@@ -70,7 +70,7 @@ namespace Microsoft.Iris.Markup
             get
             {
                 DataProviderQueryStatus propertyValue;
-                int statusProperty = (int)NativeApi.SpDataQueryGetStatusProperty(this._externalQuery, out propertyValue);
+                int statusProperty = (int)NativeApi.SpDataQueryGetStatusProperty(_externalQuery, out propertyValue);
                 return propertyValue;
             }
         }
@@ -80,21 +80,21 @@ namespace Microsoft.Iris.Markup
             get
             {
                 bool propertyValue;
-                int enabledProperty = (int)NativeApi.SpDataQueryGetEnabledProperty(this._externalQuery, out propertyValue);
+                int enabledProperty = (int)NativeApi.SpDataQueryGetEnabledProperty(_externalQuery, out propertyValue);
                 return propertyValue;
             }
             set
             {
-                int num = (int)NativeApi.SpDataQuerySetEnabledProperty(this._externalQuery, value);
+                int num = (int)NativeApi.SpDataQuerySetEnabledProperty(_externalQuery, value);
             }
         }
 
         protected override bool ExternalObjectGetProperty(string propertyName, out object value)
         {
             UIXVariant propertyValue;
-            int property = (int)NativeApi.SpDataBaseObjectGetProperty(this._externalQuery, propertyName, out propertyValue);
-            this.TypeSchema.FindPropertyDeep(propertyName);
-            value = UIXVariant.GetValue(propertyValue, this.TypeSchema.Owner);
+            int property = (int)NativeApi.SpDataBaseObjectGetProperty(_externalQuery, propertyName, out propertyValue);
+            TypeSchema.FindPropertyDeep(propertyName);
+            value = UIXVariant.GetValue(propertyValue, TypeSchema.Owner);
             return true;
         }
 
@@ -103,15 +103,15 @@ namespace Microsoft.Iris.Markup
             // ISSUE: untyped stack allocation
             UIXVariant* uixVariantPtr = stackalloc UIXVariant[sizeof(UIXVariant)];
             UIXVariant.MarshalObject(value, uixVariantPtr);
-            int num = (int)NativeApi.SpDataBaseObjectSetProperty(this._externalQuery, propertyName, uixVariantPtr);
+            int num = (int)NativeApi.SpDataBaseObjectSetProperty(_externalQuery, propertyName, uixVariantPtr);
             return true;
         }
 
         protected override IDataProviderBaseObject ExternalAssemblyObject => (IDataProviderBaseObject)null;
 
-        public override IntPtr ExternalNativeObject => this._externalQuery;
+        public override IntPtr ExternalNativeObject => _externalQuery;
 
-        public ulong Handle => this._handleToMe;
+        public ulong Handle => _handleToMe;
 
         public static MarkupDataQuery LookupByHandle(ulong handle)
         {

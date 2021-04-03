@@ -18,30 +18,30 @@ namespace Microsoft.Iris.Markup.Validation
           int column)
           : base(owner, line, column, StatementType.Compound)
         {
-            this._statementList = statementList;
+            _statementList = statementList;
         }
 
-        public ValidateStatement StatementList => this._statementList;
+        public ValidateStatement StatementList => _statementList;
 
         public override void Validate(ValidateCode container, ValidateContext context)
         {
             context.NotifyScopedLocalFrameEnter();
             try
             {
-                for (ValidateStatement validateStatement = this._statementList; validateStatement != null; validateStatement = validateStatement.Next)
+                for (ValidateStatement validateStatement = _statementList; validateStatement != null; validateStatement = validateStatement.Next)
                 {
                     validateStatement.Validate(container, context);
                     if (validateStatement.HasErrors)
-                        this.MarkHasErrors();
+                        MarkHasErrors();
                 }
             }
             finally
             {
-                this._scopedLocalsToClear = context.NotifyScopedLocalFrameExit();
+                _scopedLocalsToClear = context.NotifyScopedLocalFrameExit();
             }
         }
 
-        public Vector<int> ScopedLocalsToClear => this._scopedLocalsToClear;
+        public Vector<int> ScopedLocalsToClear => _scopedLocalsToClear;
 
         public static ValidateStatementCompound Encapsulate(
           ValidateStatement statement)

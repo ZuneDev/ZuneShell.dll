@@ -21,11 +21,11 @@ namespace Microsoft.Iris.Markup.Validation
           int column)
           : base(owner, line, column)
         {
-            this._prefix = prefix;
-            this._typeName = typeName;
-            if (this._prefix == string.Empty)
-                this._prefix = null;
-            owner.NotifyTypeIdentifierFound(this._prefix, this._typeName);
+            _prefix = prefix;
+            _typeName = typeName;
+            if (_prefix == string.Empty)
+                _prefix = null;
+            owner.NotifyTypeIdentifierFound(_prefix, _typeName);
         }
 
         public ValidateTypeIdentifier(SourceMarkupLoader owner, string typeFQN, int line, int column)
@@ -34,12 +34,12 @@ namespace Microsoft.Iris.Markup.Validation
             int length = typeFQN.IndexOf(':');
             if (length >= 0)
             {
-                this._prefix = typeFQN.Substring(0, length);
-                this._typeName = typeFQN.Substring(length + 1);
+                _prefix = typeFQN.Substring(0, length);
+                _typeName = typeFQN.Substring(length + 1);
             }
             else
-                this._typeName = typeFQN;
-            owner.NotifyTypeIdentifierFound(this._prefix, this._typeName);
+                _typeName = typeFQN;
+            owner.NotifyTypeIdentifierFound(_prefix, _typeName);
         }
 
         public static void PromoteSimplifiedTypeSyntax(ValidateProperty property)
@@ -51,33 +51,33 @@ namespace Microsoft.Iris.Markup.Validation
             property.Value = new ValidateExpressionTypeOf(property.Owner, typeIdentifier, property.Line, property.Column);
         }
 
-        public string Prefix => this._prefix;
+        public string Prefix => _prefix;
 
-        public string TypeName => this._typeName;
+        public string TypeName => _typeName;
 
         public void Validate()
         {
-            LoadResult dependency = this.Owner.FindDependency(this._prefix);
+            LoadResult dependency = Owner.FindDependency(_prefix);
             if (dependency == null)
             {
-                this.ReportError("Xmlns prefix '{0}' was not found", this._prefix);
+                ReportError("Xmlns prefix '{0}' was not found", _prefix);
             }
             else
             {
-                this._foundType = dependency.FindType(this._typeName);
-                if (this._foundType == null)
-                    this.ReportError("Type '{0}' was not found within '{1}'", this._typeName, dependency.Uri);
+                _foundType = dependency.FindType(_typeName);
+                if (_foundType == null)
+                    ReportError("Type '{0}' was not found within '{1}'", _typeName, dependency.Uri);
                 else
-                    this._foundTypeIndex = this.Owner.TrackImportedType(this._foundType);
+                    _foundTypeIndex = Owner.TrackImportedType(_foundType);
             }
         }
 
-        public TypeSchema FoundType => this._foundType;
+        public TypeSchema FoundType => _foundType;
 
-        public int FoundTypeIndex => this._foundTypeIndex;
+        public int FoundTypeIndex => _foundTypeIndex;
 
-        public bool Validated => this.FoundType != null || this.HasErrors;
+        public bool Validated => FoundType != null || HasErrors;
 
-        public override string ToString() => this._foundType != null ? this._foundType.ToString() : this._typeName + " (Unresolved)";
+        public override string ToString() => _foundType != null ? _foundType.ToString() : _typeName + " (Unresolved)";
     }
 }

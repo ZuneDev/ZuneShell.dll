@@ -19,36 +19,36 @@ namespace Microsoft.Iris.UI
         private bool _disabled;
         private string _name;
 
-        public InputHandler() => this._handlerStage = InputHandlerStage.Direct;
+        public InputHandler() => _handlerStage = InputHandlerStage.Direct;
 
         public InputHandlerStage HandlerStage
         {
-            get => this._handlerStage;
+            get => _handlerStage;
             set
             {
-                if (this._handlerStage == value)
+                if (_handlerStage == value)
                     return;
-                this._handlerStage = value;
-                this.FireNotification(NotificationID.HandlerStage);
+                _handlerStage = value;
+                FireNotification(NotificationID.HandlerStage);
             }
         }
 
-        protected bool HandleDirect => (this.HandlerStage & InputHandlerStage.Direct) == InputHandlerStage.Direct;
+        protected bool HandleDirect => (HandlerStage & InputHandlerStage.Direct) == InputHandlerStage.Direct;
 
-        protected bool HandleRouted => (this.HandlerStage & InputHandlerStage.Routed) == InputHandlerStage.Routed;
+        protected bool HandleRouted => (HandlerStage & InputHandlerStage.Routed) == InputHandlerStage.Routed;
 
-        protected bool HandleBubbled => (this.HandlerStage & InputHandlerStage.Bubbled) == InputHandlerStage.Bubbled;
+        protected bool HandleBubbled => (HandlerStage & InputHandlerStage.Bubbled) == InputHandlerStage.Bubbled;
 
         private bool ShouldHandleStage(EventRouteStages stage)
         {
             switch (stage)
             {
                 case EventRouteStages.Direct:
-                    return this.HandleDirect;
+                    return HandleDirect;
                 case EventRouteStages.Bubbled:
-                    return this.HandleBubbled;
+                    return HandleBubbled;
                 case EventRouteStages.Routed:
-                    return this.HandleRouted;
+                    return HandleRouted;
                 default:
                     return false;
             }
@@ -57,16 +57,16 @@ namespace Microsoft.Iris.UI
         protected override void OnDispose()
         {
             base.OnDispose();
-            this._ui = null;
+            _ui = null;
         }
 
         protected override void OnOwnerDeclared(object owner)
         {
             base.OnOwnerDeclared(owner);
-            this._ui = (UIClass)owner;
+            _ui = (UIClass)owner;
         }
 
-        public void NotifyUIInitialized() => this.ConfigureInteractivity();
+        public void NotifyUIInitialized() => ConfigureInteractivity();
 
         protected virtual void ConfigureInteractivity()
         {
@@ -82,91 +82,91 @@ namespace Microsoft.Iris.UI
 
         public bool Enabled
         {
-            get => !this._disabled;
+            get => !_disabled;
             set
             {
-                if (this.Enabled == value)
+                if (Enabled == value)
                     return;
-                this._disabled = !value;
-                this.FireNotification(NotificationID.Enabled);
-                this._ui.UpdateCursor();
+                _disabled = !value;
+                FireNotification(NotificationID.Enabled);
+                _ui.UpdateCursor();
             }
         }
 
         public string Name
         {
-            get => this._name;
-            set => this._name = NotifyService.CanonicalizeString(value);
+            get => _name;
+            set => _name = NotifyService.CanonicalizeString(value);
         }
 
         public void DeliverInput(UIClass ui, InputInfo info, EventRouteStages stage)
         {
-            if (!this.Enabled || !this.ShouldHandleStage(stage))
+            if (!Enabled || !ShouldHandleStage(stage))
                 return;
             switch (info.EventType)
             {
                 case InputEventType.CommandDown:
-                    this.OnCommandDown(ui, (KeyCommandInfo)info);
+                    OnCommandDown(ui, (KeyCommandInfo)info);
                     break;
                 case InputEventType.CommandUp:
-                    this.OnCommandUp(ui, (KeyCommandInfo)info);
+                    OnCommandUp(ui, (KeyCommandInfo)info);
                     break;
                 case InputEventType.GainKeyFocus:
-                    this.OnGainKeyFocus(ui, (KeyFocusInfo)info);
+                    OnGainKeyFocus(ui, (KeyFocusInfo)info);
                     break;
                 case InputEventType.LoseKeyFocus:
-                    this.OnLoseKeyFocus(ui, (KeyFocusInfo)info);
+                    OnLoseKeyFocus(ui, (KeyFocusInfo)info);
                     break;
                 case InputEventType.KeyDown:
-                    this.OnKeyDown(ui, (KeyStateInfo)info);
+                    OnKeyDown(ui, (KeyStateInfo)info);
                     break;
                 case InputEventType.KeyUp:
-                    this.OnKeyUp(ui, (KeyStateInfo)info);
+                    OnKeyUp(ui, (KeyStateInfo)info);
                     break;
                 case InputEventType.KeyCharacter:
-                    this.OnKeyCharacter(ui, (KeyCharacterInfo)info);
+                    OnKeyCharacter(ui, (KeyCharacterInfo)info);
                     break;
                 case InputEventType.MouseMove:
-                    this.OnMouseMove(ui, (MouseMoveInfo)info);
+                    OnMouseMove(ui, (MouseMoveInfo)info);
                     break;
                 case InputEventType.GainMouseFocus:
-                    this.OnGainMouseFocus(ui, (MouseFocusInfo)info);
+                    OnGainMouseFocus(ui, (MouseFocusInfo)info);
                     break;
                 case InputEventType.LoseMouseFocus:
-                    this.OnLoseMouseFocus(ui, (MouseFocusInfo)info);
+                    OnLoseMouseFocus(ui, (MouseFocusInfo)info);
                     break;
                 case InputEventType.MousePrimaryDown:
-                    this.OnMousePrimaryDown(ui, (MouseButtonInfo)info);
+                    OnMousePrimaryDown(ui, (MouseButtonInfo)info);
                     break;
                 case InputEventType.MouseSecondaryDown:
-                    this.OnMouseSecondaryDown(ui, (MouseButtonInfo)info);
+                    OnMouseSecondaryDown(ui, (MouseButtonInfo)info);
                     break;
                 case InputEventType.MousePrimaryUp:
-                    this.OnMousePrimaryUp(ui, (MouseButtonInfo)info);
+                    OnMousePrimaryUp(ui, (MouseButtonInfo)info);
                     break;
                 case InputEventType.MouseSecondaryUp:
-                    this.OnMouseSecondaryUp(ui, (MouseButtonInfo)info);
+                    OnMouseSecondaryUp(ui, (MouseButtonInfo)info);
                     break;
                 case InputEventType.MouseDoubleClick:
-                    this.OnMouseDoubleClick(ui, (MouseButtonInfo)info);
+                    OnMouseDoubleClick(ui, (MouseButtonInfo)info);
                     break;
                 case InputEventType.MouseWheel:
-                    this.OnMouseWheel(ui, (MouseWheelInfo)info);
+                    OnMouseWheel(ui, (MouseWheelInfo)info);
                     break;
                 case InputEventType.DragEnter:
-                    this.OnDragEnter(ui, (DragDropInfo)info);
+                    OnDragEnter(ui, (DragDropInfo)info);
                     break;
                 case InputEventType.DragOver:
-                    this.OnDragOver(ui, (DragDropInfo)info);
+                    OnDragOver(ui, (DragDropInfo)info);
                     break;
                 case InputEventType.DragLeave:
-                    this.OnDragLeave(ui, (DragDropInfo)info);
+                    OnDragLeave(ui, (DragDropInfo)info);
                     break;
                 case InputEventType.DragDropped:
-                    this.OnDropped(ui, (DragDropInfo)info);
+                    OnDropped(ui, (DragDropInfo)info);
                     break;
                 case InputEventType.DragComplete:
-                    this.OnDragComplete(ui, (DragDropInfo)info);
+                    OnDragComplete(ui, (DragDropInfo)info);
                     break;
             }
         }
@@ -263,17 +263,17 @@ namespace Microsoft.Iris.UI
         {
         }
 
-        internal void NotifyLoseDeepKeyFocus() => this.OnLoseDeepKeyFocus();
+        internal void NotifyLoseDeepKeyFocus() => OnLoseDeepKeyFocus();
 
-        internal void NotifyGainDeepKeyFocus() => this.OnGainDeepKeyFocus();
+        internal void NotifyGainDeepKeyFocus() => OnGainDeepKeyFocus();
 
         internal virtual CursorID GetCursor() => CursorID.NotSpecified;
 
         protected void UpdateCursor()
         {
-            if (this._ui == null)
+            if (_ui == null)
                 return;
-            this._ui.UpdateCursor();
+            _ui.UpdateCursor();
         }
 
         public static InputHandlerModifiers GetModifiers(
@@ -297,11 +297,11 @@ namespace Microsoft.Iris.UI
           string contextName)
         {
             object obj = context != null ? context.Target : null;
-            object eventContext = this.GetEventContext(source);
+            object eventContext = GetEventContext(source);
             if (eventContext == obj)
                 return;
             context = new WeakReference(eventContext);
-            this.FireNotification(contextName);
+            FireNotification(contextName);
         }
 
         protected object CheckEventContext(ref WeakReference context)
@@ -324,13 +324,13 @@ namespace Microsoft.Iris.UI
             if (!(clickTarget is UIClass uiClass) || !uiClass.IsValid)
                 return null;
             object eventContext;
-            for (eventContext = uiClass.GetEventContext(); eventContext == null && uiClass != this.UI; eventContext = uiClass.GetEventContext())
+            for (eventContext = uiClass.GetEventContext(); eventContext == null && uiClass != UI; eventContext = uiClass.GetEventContext())
                 uiClass = uiClass.Parent;
             return eventContext;
         }
 
-        public override string ToString() => this.GetType().Name;
+        public override string ToString() => GetType().Name;
 
-        protected UIClass UI => this._ui;
+        protected UIClass UI => _ui;
     }
 }

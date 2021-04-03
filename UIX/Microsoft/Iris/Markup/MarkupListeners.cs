@@ -22,7 +22,7 @@ namespace Microsoft.Iris.Markup
           uint refreshOffset)
         {
             MarkupListener markupListener = null;
-            if (this._listenerList[index] is MarkupListener)
+            if (_listenerList[index] is MarkupListener)
             {
                 markupListener = (MarkupListener)_listenerList[index];
                 markupListener.Dispose();
@@ -39,7 +39,7 @@ namespace Microsoft.Iris.Markup
                     markupListener = new DestructiveListener();
                 ((DestructiveListener)markupListener).Reset(notifier, watch, scriptHost, scriptOffset, refreshOffset);
             }
-            this._listenerList[index] = markupListener;
+            _listenerList[index] = markupListener;
         }
     }
 }

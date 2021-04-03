@@ -33,20 +33,20 @@ namespace Microsoft.Iris.Markup
           string[] names,
           int[] values)
         {
-            this._name = enumName;
-            this._enumType = runtimeType;
-            this._isFlags = isFlags;
-            this._names = names;
-            this._values = values;
+            _name = enumName;
+            _enumType = runtimeType;
+            _isFlags = isFlags;
+            _names = names;
+            _values = values;
         }
 
         protected virtual void InitializeNameToValueMap()
         {
-            this._nameToValueMap = new Map<string, int>(this._names.Length);
-            for (int index = 0; index < this._names.Length; ++index)
-                this._nameToValueMap[this._names[index]] = this._values[index];
-            this._names = null;
-            this._values = null;
+            _nameToValueMap = new Map<string, int>(_names.Length);
+            for (int index = 0; index < _names.Length; ++index)
+                _nameToValueMap[_names[index]] = _values[index];
+            _names = null;
+            _values = null;
         }
 
         [Conditional("DEBUG")]
@@ -59,7 +59,7 @@ namespace Microsoft.Iris.Markup
             get
             {
                 Vector<string> vector = new Vector<string>();
-                foreach (string key in this.NameToValueMap.Keys)
+                foreach (string key in NameToValueMap.Keys)
                     vector.Add(key);
                 return vector;
             }
@@ -69,15 +69,15 @@ namespace Microsoft.Iris.Markup
         {
             get
             {
-                if (this._nameToValueMap == null)
-                    this.InitializeNameToValueMap();
-                return this._nameToValueMap;
+                if (_nameToValueMap == null)
+                    InitializeNameToValueMap();
+                return _nameToValueMap;
             }
         }
 
-        protected bool IsFlags => this._isFlags;
+        protected bool IsFlags => _isFlags;
 
-        public override string Name => this._name;
+        public override string Name => _name;
 
         public override string AlternateName => (string)null;
 
@@ -85,15 +85,15 @@ namespace Microsoft.Iris.Markup
 
         public override bool Contractual => false;
 
-        public override Type RuntimeType => this._enumType;
+        public override Type RuntimeType => _enumType;
 
-        public override bool IsNativeAssignableFrom(object check) => this.RuntimeType.IsAssignableFrom(check.GetType());
+        public override bool IsNativeAssignableFrom(object check) => RuntimeType.IsAssignableFrom(check.GetType());
 
         public override bool IsNativeAssignableFrom(TypeSchema check) => false;
 
         public override bool Disposable => false;
 
-        public override object ConstructDefault() => this.EnumValueToObject(0);
+        public override object ConstructDefault() => EnumValueToObject(0);
 
         public override bool HasDefaultConstructor => true;
 
@@ -114,12 +114,12 @@ namespace Microsoft.Iris.Markup
         public override object FindCanonicalInstance(string name)
         {
             int num;
-            return this.NameToValue(name, out num) ? this.EnumValueToObject(num) : null;
+            return NameToValue(name, out num) ? EnumValueToObject(num) : null;
         }
 
-        public bool NameToValue(string name, out int value) => this.NameToValueMap.TryGetValue(name, out value);
+        public bool NameToValue(string name, out int value) => NameToValueMap.TryGetValue(name, out value);
 
-        protected virtual object EnumValueToObject(int value) => Enum.ToObject(this._enumType, value);
+        protected virtual object EnumValueToObject(int value) => Enum.ToObject(_enumType, value);
 
         protected virtual int ValueFromObject(object obj) => (int)obj;
 
@@ -129,19 +129,19 @@ namespace Microsoft.Iris.Markup
         {
             instance = null;
             int num1 = 0;
-            if (this._isFlags && value.IndexOf(',') >= 0)
+            if (_isFlags && value.IndexOf(',') >= 0)
             {
                 foreach (string name in StringUtility.SplitAndTrim(',', value))
                 {
                     int num2;
-                    if (!this.NameToValue(name, out num2))
+                    if (!NameToValue(name, out num2))
                         return Result.Fail("Unable to convert \"{0}\" to type '{1}'", name, _name);
                     num1 |= num2;
                 }
             }
-            else if (!this.NameToValue(value, out num1))
+            else if (!NameToValue(value, out num1))
                 return Result.Fail("Unable to convert \"{0}\" to type '{1}'", value, _name);
-            instance = this.EnumValueToObject(num1);
+            instance = EnumValueToObject(num1);
             return Result.Success;
         }
 
@@ -152,10 +152,10 @@ namespace Microsoft.Iris.Markup
         {
             Result result;
             if (StringSchema.Type.IsAssignableFrom(fromType))
-                result = this.ConvertFromString((string)from, out instance);
+                result = ConvertFromString((string)from, out instance);
             else if (Int32Schema.Type.IsAssignableFrom(fromType))
             {
-                instance = this.EnumValueToObject((int)from);
+                instance = EnumValueToObject((int)from);
                 result = Result.Success;
             }
             else
@@ -168,9 +168,9 @@ namespace Microsoft.Iris.Markup
 
         public override bool SupportsTypeConversion(TypeSchema fromType) => StringSchema.Type.IsAssignableFrom(fromType) || Int32Schema.Type.IsAssignableFrom(fromType);
 
-        public override void EncodeBinary(ByteCodeWriter writer, object instance) => writer.WriteInt32(this.ValueFromObject(instance));
+        public override void EncodeBinary(ByteCodeWriter writer, object instance) => writer.WriteInt32(ValueFromObject(instance));
 
-        public override object DecodeBinary(ByteCodeReader reader) => this.EnumValueToObject(reader.ReadInt32());
+        public override object DecodeBinary(ByteCodeReader reader) => EnumValueToObject(reader.ReadInt32());
 
         public override bool SupportsBinaryEncoding => true;
 

@@ -135,11 +135,11 @@ namespace Microsoft.Iris.Markup
             {
                 this.type = type;
                 this.proxyType = proxyType;
-                this.equivalents = null;
+                equivalents = null;
                 if (equivalence == null)
                     return;
-                this.equivalents = new Vector<TypeSchema>(1);
-                this.equivalents.Add(equivalence);
+                equivalents = new Vector<TypeSchema>(1);
+                equivalents.Add(equivalence);
             }
         }
 
@@ -152,9 +152,9 @@ namespace Microsoft.Iris.Markup
         {
             private object _frameworkObject;
 
-            public WrappedFrameworkObject(object frameworkObject) => this._frameworkObject = frameworkObject;
+            public WrappedFrameworkObject(object frameworkObject) => _frameworkObject = frameworkObject;
 
-            public object FrameworkObject => this._frameworkObject;
+            public object FrameworkObject => _frameworkObject;
         }
 
         public interface IAssemblyProxyObject
@@ -175,78 +175,78 @@ namespace Microsoft.Iris.Markup
             private bool _hasPropertyChangedHandlerAttached;
             private NotifyService _notifier = new NotifyService();
 
-            public ProxyObject(object assemblyObject) => this._assemblyObject = assemblyObject;
+            public ProxyObject(object assemblyObject) => _assemblyObject = assemblyObject;
 
-            public void SetIntrinsicState(bool isDisposable, bool notifiesOnChange) => this._isDisposable = isDisposable;
+            public void SetIntrinsicState(bool isDisposable, bool notifiesOnChange) => _isDisposable = isDisposable;
 
             protected override void OnDispose()
             {
-                if (this._hasPropertyChangedHandlerAttached)
+                if (_hasPropertyChangedHandlerAttached)
                 {
-                    ((INotifyPropertyChanged)this._assemblyObject).PropertyChanged -= new PropertyChangedEventHandler(this.OnPropertyChanged);
-                    this._hasPropertyChangedHandlerAttached = false;
+                    ((INotifyPropertyChanged)_assemblyObject).PropertyChanged -= new PropertyChangedEventHandler(OnPropertyChanged);
+                    _hasPropertyChangedHandlerAttached = false;
                 }
-                this._notifier.ClearListeners();
-                if (this._isDisposable && (!(this._assemblyObject is ModelItem) || this._isModelItemOwner))
-                    ((IDisposable)this._assemblyObject).Dispose();
+                _notifier.ClearListeners();
+                if (_isDisposable && (!(_assemblyObject is ModelItem) || _isModelItemOwner))
+                    ((IDisposable)_assemblyObject).Dispose();
                 base.OnDispose();
             }
 
             protected override void OnOwnerDeclared(object owner)
             {
                 base.OnOwnerDeclared(owner);
-                if (!(this._assemblyObject is ModelItem assemblyObject))
+                if (!(_assemblyObject is ModelItem assemblyObject))
                     return;
                 assemblyObject.Owner = this;
             }
 
             public void AddListener(Listener listener)
             {
-                if (!this._hasPropertyChangedHandlerAttached)
+                if (!_hasPropertyChangedHandlerAttached)
                 {
-                    ((INotifyPropertyChanged)this._assemblyObject).PropertyChanged += new PropertyChangedEventHandler(this.OnPropertyChanged);
-                    this._hasPropertyChangedHandlerAttached = true;
+                    ((INotifyPropertyChanged)_assemblyObject).PropertyChanged += new PropertyChangedEventHandler(OnPropertyChanged);
+                    _hasPropertyChangedHandlerAttached = true;
                 }
-                this._notifier.AddListener(listener);
+                _notifier.AddListener(listener);
             }
 
             private void OnPropertyChanged(object sender, PropertyChangedEventArgs args)
             {
-                this._notifier.FireThreadSafe(args.PropertyName);
-                if (this._notifier.HasListeners)
+                _notifier.FireThreadSafe(args.PropertyName);
+                if (_notifier.HasListeners)
                     return;
-                ((INotifyPropertyChanged)this._assemblyObject).PropertyChanged -= new PropertyChangedEventHandler(this.OnPropertyChanged);
-                this._hasPropertyChangedHandlerAttached = false;
+                ((INotifyPropertyChanged)_assemblyObject).PropertyChanged -= new PropertyChangedEventHandler(OnPropertyChanged);
+                _hasPropertyChangedHandlerAttached = false;
             }
 
             public void RegisterObject(ModelItem modelItem)
             {
-                if (modelItem != this._assemblyObject)
+                if (modelItem != _assemblyObject)
                     throw new ArgumentException("Unexpected model item provided for ownership registration");
-                this._isModelItemOwner = true;
+                _isModelItemOwner = true;
             }
 
             public void UnregisterObject(ModelItem modelItem)
             {
-                if (!this._isModelItemOwner || modelItem != this._assemblyObject)
+                if (!_isModelItemOwner || modelItem != _assemblyObject)
                     throw new ArgumentException("Unexpected model item provided for ownership unregistration");
-                this._isModelItemOwner = false;
+                _isModelItemOwner = false;
             }
 
-            public object AssemblyObject => this._assemblyObject;
+            public object AssemblyObject => _assemblyObject;
 
-            public TypeSchema TypeSchema => AssemblyLoadResult.MapType(this._assemblyObject.GetType());
+            public TypeSchema TypeSchema => AssemblyLoadResult.MapType(_assemblyObject.GetType());
 
             public override bool Equals(object rhs)
             {
                 if (rhs is AssemblyObjectProxyHelper.IAssemblyProxyObject)
                     rhs = ((AssemblyObjectProxyHelper.IAssemblyProxyObject)rhs).AssemblyObject;
-                return this._assemblyObject.Equals(rhs);
+                return _assemblyObject.Equals(rhs);
             }
 
-            public override int GetHashCode() => this._assemblyObject.GetHashCode();
+            public override int GetHashCode() => _assemblyObject.GetHashCode();
 
-            public override string ToString() => this._assemblyObject.ToString();
+            public override string ToString() => _assemblyObject.ToString();
         }
 
         private class ProxyCommand : AssemblyObjectProxyHelper.ProxyObject, IUICommand
@@ -256,19 +256,19 @@ namespace Microsoft.Iris.Markup
             {
             }
 
-            protected ICommand ExternalCommand => (ICommand)this._assemblyObject;
+            protected ICommand ExternalCommand => (ICommand)_assemblyObject;
 
             public bool Available
             {
-                get => this.ExternalCommand.Available;
-                set => this.ExternalCommand.Available = value;
+                get => ExternalCommand.Available;
+                set => ExternalCommand.Available = value;
             }
 
             public InvokePriority Priority
             {
                 get
                 {
-                    switch (this.ExternalCommand.Priority)
+                    switch (ExternalCommand.Priority)
                     {
                         case InvokePolicy.Synchronous:
                         case InvokePolicy.AsynchronousNormal:
@@ -280,13 +280,13 @@ namespace Microsoft.Iris.Markup
                 set
                 {
                     if (value == InvokePriority.Normal)
-                        this.ExternalCommand.Priority = InvokePolicy.AsynchronousNormal;
+                        ExternalCommand.Priority = InvokePolicy.AsynchronousNormal;
                     else
-                        this.ExternalCommand.Priority = InvokePolicy.AsynchronousLowPri;
+                        ExternalCommand.Priority = InvokePolicy.AsynchronousLowPri;
                 }
             }
 
-            public void Invoke() => this.ExternalCommand.Invoke();
+            public void Invoke() => ExternalCommand.Invoke();
         }
 
         private class ProxyValueRange : AssemblyObjectProxyHelper.ProxyObject, IUIValueRange
@@ -296,17 +296,17 @@ namespace Microsoft.Iris.Markup
             {
             }
 
-            protected IValueRange ExternalRange => (IValueRange)this._assemblyObject;
+            protected IValueRange ExternalRange => (IValueRange)_assemblyObject;
 
-            public object ObjectValue => AssemblyLoadResult.WrapObject(this.ExternalRange.Value);
+            public object ObjectValue => AssemblyLoadResult.WrapObject(ExternalRange.Value);
 
-            public bool HasPreviousValue => this.ExternalRange.HasPreviousValue;
+            public bool HasPreviousValue => ExternalRange.HasPreviousValue;
 
-            public bool HasNextValue => this.ExternalRange.HasNextValue;
+            public bool HasNextValue => ExternalRange.HasNextValue;
 
-            public void PreviousValue() => this.ExternalRange.PreviousValue();
+            public void PreviousValue() => ExternalRange.PreviousValue();
 
-            public void NextValue() => this.ExternalRange.NextValue();
+            public void NextValue() => ExternalRange.NextValue();
         }
 
         private class ProxyList :
@@ -320,61 +320,61 @@ namespace Microsoft.Iris.Markup
 
             public ProxyList(object assemblyObject)
               : base(assemblyObject)
-              => this._canSearch = assemblyObject is ISearchableList;
+              => _canSearch = assemblyObject is ISearchableList;
 
-            protected IList ExternalList => (IList)this._assemblyObject;
+            protected IList ExternalList => (IList)_assemblyObject;
 
-            public int Add(object value) => this.ExternalList.Add(AssemblyLoadResult.UnwrapObject(value));
+            public int Add(object value) => ExternalList.Add(AssemblyLoadResult.UnwrapObject(value));
 
-            public void Clear() => this.ExternalList.Clear();
+            public void Clear() => ExternalList.Clear();
 
-            public bool Contains(object value) => this.ExternalList.Contains(AssemblyLoadResult.UnwrapObject(value));
+            public bool Contains(object value) => ExternalList.Contains(AssemblyLoadResult.UnwrapObject(value));
 
-            public int IndexOf(object value) => this.ExternalList.IndexOf(AssemblyLoadResult.UnwrapObject(value));
+            public int IndexOf(object value) => ExternalList.IndexOf(AssemblyLoadResult.UnwrapObject(value));
 
-            public void Insert(int index, object value) => this.ExternalList.Insert(index, AssemblyLoadResult.UnwrapObject(value));
+            public void Insert(int index, object value) => ExternalList.Insert(index, AssemblyLoadResult.UnwrapObject(value));
 
-            public bool IsFixedSize => this.ExternalList.IsFixedSize;
+            public bool IsFixedSize => ExternalList.IsFixedSize;
 
-            public bool IsReadOnly => this.ExternalList.IsReadOnly;
+            public bool IsReadOnly => ExternalList.IsReadOnly;
 
-            public void Remove(object value) => this.ExternalList.Remove(AssemblyLoadResult.UnwrapObject(value));
+            public void Remove(object value) => ExternalList.Remove(AssemblyLoadResult.UnwrapObject(value));
 
-            public void RemoveAt(int index) => this.ExternalList.RemoveAt(index);
+            public void RemoveAt(int index) => ExternalList.RemoveAt(index);
 
             public object this[int index]
             {
-                get => AssemblyLoadResult.WrapObject(this.ExternalList[index]);
-                set => this.ExternalList[index] = AssemblyLoadResult.UnwrapObject(value);
+                get => AssemblyLoadResult.WrapObject(ExternalList[index]);
+                set => ExternalList[index] = AssemblyLoadResult.UnwrapObject(value);
             }
 
             public void CopyTo(Array array, int index)
             {
                 int index1 = index;
-                for (int index2 = 0; index2 < this.ExternalList.Count; ++index2)
+                for (int index2 = 0; index2 < ExternalList.Count; ++index2)
                 {
-                    array.SetValue(AssemblyLoadResult.WrapObject(this.ExternalList[index2]), index1);
+                    array.SetValue(AssemblyLoadResult.WrapObject(ExternalList[index2]), index1);
                     ++index1;
                 }
             }
 
-            public int Count => this.ExternalList.Count;
+            public int Count => ExternalList.Count;
 
-            public bool IsSynchronized => this.ExternalList.IsSynchronized;
+            public bool IsSynchronized => ExternalList.IsSynchronized;
 
-            public object SyncRoot => this.ExternalList.SyncRoot;
+            public object SyncRoot => ExternalList.SyncRoot;
 
-            public IEnumerator GetEnumerator() => new AssemblyObjectProxyHelper.ProxyListEnumerator(this.ExternalList.GetEnumerator());
+            public IEnumerator GetEnumerator() => new AssemblyObjectProxyHelper.ProxyListEnumerator(ExternalList.GetEnumerator());
 
-            public bool CanSearch => this._canSearch;
+            public bool CanSearch => _canSearch;
 
-            public int SearchForString(string searchString) => this._canSearch ? ((ISearchableList)this.ExternalList).SearchForString(searchString) : -1;
+            public int SearchForString(string searchString) => _canSearch ? ((ISearchableList)ExternalList).SearchForString(searchString) : -1;
 
             public virtual void Move(int oldIndex, int newIndex)
             {
-                object external = this.ExternalList[oldIndex];
-                this.RemoveAt(oldIndex);
-                this.Insert(newIndex, external);
+                object external = ExternalList[oldIndex];
+                RemoveAt(oldIndex);
+                Insert(newIndex, external);
             }
         }
 
@@ -382,13 +382,13 @@ namespace Microsoft.Iris.Markup
         {
             private IEnumerator _assemblyEnumerator;
 
-            public ProxyListEnumerator(object assemblyObject) => this._assemblyEnumerator = (IEnumerator)assemblyObject;
+            public ProxyListEnumerator(object assemblyObject) => _assemblyEnumerator = (IEnumerator)assemblyObject;
 
-            public bool MoveNext() => this._assemblyEnumerator.MoveNext();
+            public bool MoveNext() => _assemblyEnumerator.MoveNext();
 
-            public void Reset() => this._assemblyEnumerator.Reset();
+            public void Reset() => _assemblyEnumerator.Reset();
 
-            public object Current => AssemblyLoadResult.WrapObject(this._assemblyEnumerator.Current);
+            public object Current => AssemblyLoadResult.WrapObject(_assemblyEnumerator.Current);
 
             public object AssemblyObject => _assemblyEnumerator;
         }
@@ -406,43 +406,43 @@ namespace Microsoft.Iris.Markup
 
             public ProxyNotifyList(object assemblyObject, bool isNotifyList)
               : base(assemblyObject)
-              => this._isNotifyList = isNotifyList;
+              => _isNotifyList = isNotifyList;
 
             public ProxyNotifyList(object assemblyObject)
               : this(assemblyObject, true)
             {
             }
 
-            protected INotifyList ExternalNotifyList => (INotifyList)this._assemblyObject;
+            protected INotifyList ExternalNotifyList => (INotifyList)_assemblyObject;
 
-            public override void Move(int oldIndex, int newIndex) => this.ExternalNotifyList.Move(oldIndex, newIndex);
+            public override void Move(int oldIndex, int newIndex) => ExternalNotifyList.Move(oldIndex, newIndex);
 
             public event UIListContentsChangedHandler ContentsChanged
             {
                 add
                 {
-                    if (!this._isNotifyList)
+                    if (!_isNotifyList)
                         return;
-                    if (this._listContentsChangedHandler == null)
+                    if (_listContentsChangedHandler == null)
                     {
-                        this._listContentsChangedHandler = new UIListContentsChangedHandler(this.OnListContentsChanged);
-                        this.ExternalNotifyList.ContentsChanged += this._listContentsChangedHandler;
+                        _listContentsChangedHandler = new UIListContentsChangedHandler(OnListContentsChanged);
+                        ExternalNotifyList.ContentsChanged += _listContentsChangedHandler;
                     }
-                    this._handlersAttachedToMe = Delegate.Combine(this._handlersAttachedToMe, value);
+                    _handlersAttachedToMe = Delegate.Combine(_handlersAttachedToMe, value);
                 }
                 remove
                 {
-                    if (!this._isNotifyList)
+                    if (!_isNotifyList)
                         return;
-                    this._handlersAttachedToMe = Delegate.Remove(this._handlersAttachedToMe, value);
-                    if ((object)this._handlersAttachedToMe != null)
+                    _handlersAttachedToMe = Delegate.Remove(_handlersAttachedToMe, value);
+                    if ((object)_handlersAttachedToMe != null)
                         return;
-                    this.ExternalNotifyList.ContentsChanged -= this._listContentsChangedHandler;
-                    this._listContentsChangedHandler = null;
+                    ExternalNotifyList.ContentsChanged -= _listContentsChangedHandler;
+                    _listContentsChangedHandler = null;
                 }
             }
 
-            private void OnListContentsChanged(IList senderList, UIListContentsChangedArgs args) => ((UIListContentsChangedHandler)this._handlersAttachedToMe)(this, args);
+            private void OnListContentsChanged(IList senderList, UIListContentsChangedArgs args) => ((UIListContentsChangedHandler)_handlersAttachedToMe)(this, args);
         }
 
         private class ProxyVirtualNotifyList :
@@ -461,44 +461,44 @@ namespace Microsoft.Iris.Markup
             {
             }
 
-            protected IVirtualList ExternalVirtualList => (IVirtualList)this._assemblyObject;
+            protected IVirtualList ExternalVirtualList => (IVirtualList)_assemblyObject;
 
             public void RequestItem(int index, ItemRequestCallback callback)
             {
-                if (this._itemCallbacks == null)
-                    this._itemCallbacks = new Dictionary<object, object>();
-                this._itemCallbacks[index] = callback;
-                if (this._onItemGeneratedCallback == null)
-                    this._onItemGeneratedCallback = new ItemRequestCallback(this.OnItemGenerated);
-                this.ExternalVirtualList.RequestItem(index, this._onItemGeneratedCallback);
+                if (_itemCallbacks == null)
+                    _itemCallbacks = new Dictionary<object, object>();
+                _itemCallbacks[index] = callback;
+                if (_onItemGeneratedCallback == null)
+                    _onItemGeneratedCallback = new ItemRequestCallback(OnItemGenerated);
+                ExternalVirtualList.RequestItem(index, _onItemGeneratedCallback);
             }
 
-            public bool IsItemAvailable(int index) => this.ExternalVirtualList.IsItemAvailable(index);
+            public bool IsItemAvailable(int index) => ExternalVirtualList.IsItemAvailable(index);
 
-            public void NotifyVisualsCreated(int index) => this.ExternalVirtualList.NotifyVisualsCreated(index);
+            public void NotifyVisualsCreated(int index) => ExternalVirtualList.NotifyVisualsCreated(index);
 
-            public void NotifyVisualsReleased(int index) => this.ExternalVirtualList.NotifyVisualsReleased(index);
+            public void NotifyVisualsReleased(int index) => ExternalVirtualList.NotifyVisualsReleased(index);
 
-            public bool SlowDataRequestsEnabled => this.ExternalVirtualList.SlowDataRequestsEnabled;
+            public bool SlowDataRequestsEnabled => ExternalVirtualList.SlowDataRequestsEnabled;
 
-            public void NotifyRequestSlowData(int index) => this.ExternalVirtualList.NotifyRequestSlowData(index);
+            public void NotifyRequestSlowData(int index) => ExternalVirtualList.NotifyRequestSlowData(index);
 
             public Repeater RepeaterHost
             {
-                get => this.ExternalVirtualList.RepeaterHost;
-                set => this.ExternalVirtualList.RepeaterHost = value;
+                get => ExternalVirtualList.RepeaterHost;
+                set => ExternalVirtualList.RepeaterHost = value;
             }
 
             public SlowDataAcquireCompleteHandler SlowDataAcquireCompleteHandler
             {
-                get => this.ExternalVirtualList.SlowDataAcquireCompleteHandler;
-                set => this.ExternalVirtualList.SlowDataAcquireCompleteHandler = value;
+                get => ExternalVirtualList.SlowDataAcquireCompleteHandler;
+                set => ExternalVirtualList.SlowDataAcquireCompleteHandler = value;
             }
 
             private void OnItemGenerated(object sender, int index, object item)
             {
-                ItemRequestCallback itemCallback = (ItemRequestCallback)this._itemCallbacks[index];
-                this._itemCallbacks.Remove(index);
+                ItemRequestCallback itemCallback = (ItemRequestCallback)_itemCallbacks[index];
+                _itemCallbacks.Remove(index);
                 itemCallback(this, index, AssemblyLoadResult.WrapObject(item));
             }
         }
@@ -515,11 +515,11 @@ namespace Microsoft.Iris.Markup
             {
             }
 
-            protected Group ExternalGroup => (Group)this._assemblyObject;
+            protected Group ExternalGroup => (Group)_assemblyObject;
 
-            public int StartIndex => this.ExternalGroup.StartIndex;
+            public int StartIndex => ExternalGroup.StartIndex;
 
-            public int EndIndex => this.ExternalGroup.EndIndex;
+            public int EndIndex => ExternalGroup.EndIndex;
         }
 
         private class ProxyDictionary :
@@ -533,11 +533,11 @@ namespace Microsoft.Iris.Markup
             {
             }
 
-            protected IDictionary ExternalDictionary => (IDictionary)this._assemblyObject;
+            protected IDictionary ExternalDictionary => (IDictionary)_assemblyObject;
 
-            public bool IsReadOnly => this.ExternalDictionary.IsReadOnly;
+            public bool IsReadOnly => ExternalDictionary.IsReadOnly;
 
-            public bool Contains(object key) => this.ExternalDictionary.Contains(AssemblyLoadResult.WrapObject(key));
+            public bool Contains(object key) => ExternalDictionary.Contains(AssemblyLoadResult.WrapObject(key));
 
             public bool IsFixedSize => false;
 
@@ -545,9 +545,9 @@ namespace Microsoft.Iris.Markup
             {
             }
 
-            public void Clear() => this.ExternalDictionary.Clear();
+            public void Clear() => ExternalDictionary.Clear();
 
-            public void Add(object key, object value) => this.ExternalDictionary.Add(AssemblyLoadResult.WrapObject(key), AssemblyLoadResult.WrapObject(value));
+            public void Add(object key, object value) => ExternalDictionary.Add(AssemblyLoadResult.WrapObject(key), AssemblyLoadResult.WrapObject(value));
 
             public ICollection Keys => (ICollection)null;
 
@@ -555,15 +555,15 @@ namespace Microsoft.Iris.Markup
 
             public object this[object key]
             {
-                get => AssemblyLoadResult.UnwrapObject(this.ExternalDictionary[AssemblyLoadResult.WrapObject(key)]);
-                set => this.ExternalDictionary[AssemblyLoadResult.WrapObject(key)] = AssemblyLoadResult.WrapObject(value);
+                get => AssemblyLoadResult.UnwrapObject(ExternalDictionary[AssemblyLoadResult.WrapObject(key)]);
+                set => ExternalDictionary[AssemblyLoadResult.WrapObject(key)] = AssemblyLoadResult.WrapObject(value);
             }
 
             public void CopyTo(Array array, int index)
             {
             }
 
-            public int Count => this.ExternalDictionary.Count;
+            public int Count => ExternalDictionary.Count;
 
             public bool IsSynchronized => false;
 
@@ -582,51 +582,51 @@ namespace Microsoft.Iris.Markup
         {
             private IList _uixList;
 
-            public ReverseProxyList(IList uixList) => this._uixList = uixList;
+            public ReverseProxyList(IList uixList) => _uixList = uixList;
 
             public object FrameworkObject => _uixList;
 
-            public int Add(object value) => this._uixList.Add(AssemblyLoadResult.WrapObject(value));
+            public int Add(object value) => _uixList.Add(AssemblyLoadResult.WrapObject(value));
 
-            public void Clear() => this._uixList.Clear();
+            public void Clear() => _uixList.Clear();
 
-            public bool Contains(object value) => this._uixList.Contains(AssemblyLoadResult.WrapObject(value));
+            public bool Contains(object value) => _uixList.Contains(AssemblyLoadResult.WrapObject(value));
 
-            public int IndexOf(object value) => this._uixList.IndexOf(AssemblyLoadResult.WrapObject(value));
+            public int IndexOf(object value) => _uixList.IndexOf(AssemblyLoadResult.WrapObject(value));
 
-            public void Insert(int index, object value) => this._uixList.Insert(index, AssemblyLoadResult.WrapObject(value));
+            public void Insert(int index, object value) => _uixList.Insert(index, AssemblyLoadResult.WrapObject(value));
 
-            public bool IsFixedSize => this._uixList.IsFixedSize;
+            public bool IsFixedSize => _uixList.IsFixedSize;
 
-            public bool IsReadOnly => this._uixList.IsReadOnly;
+            public bool IsReadOnly => _uixList.IsReadOnly;
 
-            public void Remove(object value) => this._uixList.Remove(AssemblyLoadResult.WrapObject(value));
+            public void Remove(object value) => _uixList.Remove(AssemblyLoadResult.WrapObject(value));
 
-            public void RemoveAt(int index) => this._uixList.RemoveAt(index);
+            public void RemoveAt(int index) => _uixList.RemoveAt(index);
 
             public object this[int index]
             {
-                get => AssemblyLoadResult.UnwrapObject(this._uixList[index]);
-                set => this._uixList[index] = AssemblyLoadResult.WrapObject(value);
+                get => AssemblyLoadResult.UnwrapObject(_uixList[index]);
+                set => _uixList[index] = AssemblyLoadResult.WrapObject(value);
             }
 
             public void CopyTo(Array array, int index)
             {
                 int index1 = index;
-                for (int index2 = 0; index2 < this._uixList.Count; ++index2)
+                for (int index2 = 0; index2 < _uixList.Count; ++index2)
                 {
-                    array.SetValue(AssemblyLoadResult.UnwrapObject(this._uixList[index2]), index1);
+                    array.SetValue(AssemblyLoadResult.UnwrapObject(_uixList[index2]), index1);
                     ++index1;
                 }
             }
 
-            public int Count => this._uixList.Count;
+            public int Count => _uixList.Count;
 
-            public bool IsSynchronized => this._uixList.IsSynchronized;
+            public bool IsSynchronized => _uixList.IsSynchronized;
 
-            public object SyncRoot => this._uixList.SyncRoot;
+            public object SyncRoot => _uixList.SyncRoot;
 
-            public IEnumerator GetEnumerator() => new AssemblyObjectProxyHelper.ReverseProxyListEnumerator(this._uixList.GetEnumerator());
+            public IEnumerator GetEnumerator() => new AssemblyObjectProxyHelper.ReverseProxyListEnumerator(_uixList.GetEnumerator());
         }
 
         private class ReverseProxyListEnumerator :
@@ -635,13 +635,13 @@ namespace Microsoft.Iris.Markup
         {
             private IEnumerator _uixEnumerator;
 
-            public ReverseProxyListEnumerator(IEnumerator uixEnumerator) => this._uixEnumerator = uixEnumerator;
+            public ReverseProxyListEnumerator(IEnumerator uixEnumerator) => _uixEnumerator = uixEnumerator;
 
-            public bool MoveNext() => this._uixEnumerator.MoveNext();
+            public bool MoveNext() => _uixEnumerator.MoveNext();
 
-            public void Reset() => this._uixEnumerator.Reset();
+            public void Reset() => _uixEnumerator.Reset();
 
-            public object Current => AssemblyLoadResult.UnwrapObject(this._uixEnumerator.Current);
+            public object Current => AssemblyLoadResult.UnwrapObject(_uixEnumerator.Current);
 
             public object FrameworkObject => _uixEnumerator;
         }

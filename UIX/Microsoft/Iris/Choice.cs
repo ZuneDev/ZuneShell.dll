@@ -35,13 +35,13 @@ namespace Microsoft.Iris
         public Choice(IModelItemOwner owner, string description, IList options)
           : base(owner, description)
         {
-            this.Initialize();
-            this.Options = options;
+            Initialize();
+            Options = options;
         }
 
         public Choice(IModelItemOwner owner, string description)
           : base(owner, description)
-          => this.Initialize();
+          => Initialize();
 
         public Choice(IModelItemOwner owner)
           : this(owner, null)
@@ -58,11 +58,11 @@ namespace Microsoft.Iris
             base.OnDispose(disposing);
             if (disposing)
             {
-                this._notifier.ClearListeners();
-                this._choice.Dispose(this);
-                this._listeners.Dispose(this);
+                _notifier.ClearListeners();
+                _choice.Dispose(this);
+                _listeners.Dispose(this);
             }
-            this._choice = null;
+            _choice = null;
         }
 
         object AssemblyObjectProxyHelper.IFrameworkProxyObject.FrameworkObject => this;
@@ -73,16 +73,16 @@ namespace Microsoft.Iris
         {
             get
             {
-                using (this.ThreadValidator)
+                using (ThreadValidator)
                     return (IList)AssemblyLoadResult.UnwrapObject(_choice.Options);
             }
             set
             {
-                using (this.ThreadValidator)
+                using (ThreadValidator)
                 {
                     IList potentialOptionsWrapped = (IList)AssemblyLoadResult.WrapObject(value);
-                    this.ValidateOptionsList(potentialOptionsWrapped, value);
-                    this._choice.Options = potentialOptionsWrapped;
+                    ValidateOptionsList(potentialOptionsWrapped, value);
+                    _choice.Options = potentialOptionsWrapped;
                 }
             }
         }
@@ -91,18 +91,18 @@ namespace Microsoft.Iris
         {
             get
             {
-                using (this.ThreadValidator)
-                    return AssemblyLoadResult.UnwrapObject(this._choice.ChosenValue);
+                using (ThreadValidator)
+                    return AssemblyLoadResult.UnwrapObject(_choice.ChosenValue);
             }
             set
             {
-                using (this.ThreadValidator)
+                using (ThreadValidator)
                 {
                     int index;
                     string error;
-                    if (!this._choice.ValidateOption(AssemblyLoadResult.WrapObject(value), out index, out error))
+                    if (!_choice.ValidateOption(AssemblyLoadResult.WrapObject(value), out index, out error))
                         throw new ArgumentException(error);
-                    this._choice.ChosenIndex = index;
+                    _choice.ChosenIndex = index;
                 }
             }
         }
@@ -111,15 +111,15 @@ namespace Microsoft.Iris
         {
             get
             {
-                using (this.ThreadValidator)
-                    return this._choice.ChosenIndex;
+                using (ThreadValidator)
+                    return _choice.ChosenIndex;
             }
             set
             {
-                using (this.ThreadValidator)
+                using (ThreadValidator)
                 {
                     string error;
-                    this._choice.ChosenIndex = this._choice.ValidateIndex(value, out error) ? value : throw new ArgumentException(error);
+                    _choice.ChosenIndex = _choice.ValidateIndex(value, out error) ? value : throw new ArgumentException(error);
                 }
             }
         }
@@ -128,13 +128,13 @@ namespace Microsoft.Iris
         {
             get
             {
-                using (this.ThreadValidator)
-                    return this._choice.DefaultIndex;
+                using (ThreadValidator)
+                    return _choice.DefaultIndex;
             }
             set
             {
-                using (this.ThreadValidator)
-                    this._choice.DefaultIndex = value;
+                using (ThreadValidator)
+                    _choice.DefaultIndex = value;
             }
         }
 
@@ -142,33 +142,33 @@ namespace Microsoft.Iris
         {
             get
             {
-                using (this.ThreadValidator)
-                    return AssemblyLoadResult.UnwrapObject(((IUIValueRange)this._choice).ObjectValue);
+                using (ThreadValidator)
+                    return AssemblyLoadResult.UnwrapObject(((IUIValueRange)_choice).ObjectValue);
             }
         }
 
-        object IUIValueRange.ObjectValue => ((IUIValueRange)this._choice).ObjectValue;
+        object IUIValueRange.ObjectValue => ((IUIValueRange)_choice).ObjectValue;
 
         IList IUIChoice.Options
         {
-            get => this._choice.Options;
-            set => this._choice.Options = value;
+            get => _choice.Options;
+            set => _choice.Options = value;
         }
 
-        object IUIChoice.ChosenValue => this._choice.ChosenValue;
+        object IUIChoice.ChosenValue => _choice.ChosenValue;
 
-        bool IUIChoice.ValidateIndex(int index, out string error) => this._choice.ValidateIndex(index, out error);
+        bool IUIChoice.ValidateIndex(int index, out string error) => _choice.ValidateIndex(index, out error);
 
-        bool IUIChoice.ValidateOption(object value, out int index, out string error) => this._choice.ValidateOption(value, out index, out error);
+        bool IUIChoice.ValidateOption(object value, out int index, out string error) => _choice.ValidateOption(value, out index, out error);
 
-        bool IUIChoice.ValidateOptionsList(IList value, out string error) => this._choice.ValidateOptionsList(value, out error);
+        bool IUIChoice.ValidateOptionsList(IList value, out string error) => _choice.ValidateOptionsList(value, out error);
 
         public bool HasNextValue
         {
             get
             {
-                using (this.ThreadValidator)
-                    return this._choice.HasNextValue;
+                using (ThreadValidator)
+                    return _choice.HasNextValue;
             }
         }
 
@@ -176,8 +176,8 @@ namespace Microsoft.Iris
         {
             get
             {
-                using (this.ThreadValidator)
-                    return this._choice.HasSelection;
+                using (ThreadValidator)
+                    return _choice.HasSelection;
             }
         }
 
@@ -185,8 +185,8 @@ namespace Microsoft.Iris
         {
             get
             {
-                using (this.ThreadValidator)
-                    return this._choice.HasPreviousValue;
+                using (ThreadValidator)
+                    return _choice.HasPreviousValue;
             }
         }
 
@@ -194,50 +194,50 @@ namespace Microsoft.Iris
         {
             get
             {
-                using (this.ThreadValidator)
-                    return this._choice.Wrap;
+                using (ThreadValidator)
+                    return _choice.Wrap;
             }
             set
             {
-                using (this.ThreadValidator)
-                    this._choice.Wrap = value;
+                using (ThreadValidator)
+                    _choice.Wrap = value;
             }
         }
 
         public void PreviousValue()
         {
-            using (this.ThreadValidator)
-                this._choice.PreviousValue();
+            using (ThreadValidator)
+                _choice.PreviousValue();
         }
 
         public void PreviousValue(bool wrap)
         {
-            using (this.ThreadValidator)
-                this._choice.PreviousValue(wrap);
+            using (ThreadValidator)
+                _choice.PreviousValue(wrap);
         }
 
         public void NextValue()
         {
-            using (this.ThreadValidator)
-                this._choice.NextValue();
+            using (ThreadValidator)
+                _choice.NextValue();
         }
 
         public void NextValue(bool wrap)
         {
-            using (this.ThreadValidator)
-                this._choice.NextValue(wrap);
+            using (ThreadValidator)
+                _choice.NextValue(wrap);
         }
 
         public void Clear()
         {
-            using (this.ThreadValidator)
-                this._choice.Clear();
+            using (ThreadValidator)
+                _choice.Clear();
         }
 
         public void DefaultValue()
         {
-            using (this.ThreadValidator)
-                this._choice.DefaultValue();
+            using (ThreadValidator)
+                _choice.DefaultValue();
         }
 
         protected virtual void OnChosenChanged()
@@ -248,64 +248,64 @@ namespace Microsoft.Iris
         {
             add
             {
-                using (this.ThreadValidator)
-                    this.AddEventHandler(s_chosenChangedEvent, value);
+                using (ThreadValidator)
+                    AddEventHandler(s_chosenChangedEvent, value);
             }
             remove
             {
-                using (this.ThreadValidator)
-                    this.RemoveEventHandler(s_chosenChangedEvent, value);
+                using (ThreadValidator)
+                    RemoveEventHandler(s_chosenChangedEvent, value);
             }
         }
 
         private void Initialize()
         {
-            this._choice = this.CreateInternalChoice();
-            this._choice.DeclareOwner(this);
+            _choice = CreateInternalChoice();
+            _choice.DeclareOwner(this);
             Vector<Listener> listeners = new Vector<Listener>(9);
-            DelegateListener.OnNotifyCallback callback = new DelegateListener.OnNotifyCallback(this.OnInternalChoicePropertyChanged);
+            DelegateListener.OnNotifyCallback callback = new DelegateListener.OnNotifyCallback(OnInternalChoicePropertyChanged);
             listeners.Add(new DelegateListener(_choice, NotificationID.Options, callback));
             listeners.Add(new DelegateListener(_choice, NotificationID.DefaultIndex, callback));
             listeners.Add(new DelegateListener(_choice, NotificationID.ChosenIndex, callback));
-            listeners.Add(new DelegateListener(_choice, NotificationID.ChosenValue, new DelegateListener.OnNotifyCallback(this.OnChosenValueChanged)));
+            listeners.Add(new DelegateListener(_choice, NotificationID.ChosenValue, new DelegateListener.OnNotifyCallback(OnChosenValueChanged)));
             listeners.Add(new DelegateListener(_choice, NotificationID.Value, callback));
             listeners.Add(new DelegateListener(_choice, NotificationID.HasSelection, callback));
             listeners.Add(new DelegateListener(_choice, NotificationID.Wrap, callback));
             listeners.Add(new DelegateListener(_choice, NotificationID.HasPreviousValue, callback));
             listeners.Add(new DelegateListener(_choice, NotificationID.HasNextValue, callback));
-            this._listeners = new CodeListeners(listeners);
-            this._listeners.DeclareOwner(this);
+            _listeners = new CodeListeners(listeners);
+            _listeners.DeclareOwner(this);
         }
 
         protected override void OnPropertyChanged(string property)
         {
             base.OnPropertyChanged(property);
-            this._notifier.FireThreadSafe(property);
+            _notifier.FireThreadSafe(property);
         }
 
-        private void OnInternalChoicePropertyChanged(DelegateListener listener) => this.FirePropertyChanged(listener.Watch);
+        private void OnInternalChoicePropertyChanged(DelegateListener listener) => FirePropertyChanged(listener.Watch);
 
         private void OnChosenValueChanged(DelegateListener listener)
         {
-            if (this._lastChosen != null)
-                this._lastChosen.Selected = false;
-            this._lastChosen = this.ChosenValue as ModelItem;
-            if (this._lastChosen != null)
-                this._lastChosen.Selected = true;
-            this.FireChangedChosenEvent();
-            this.OnInternalChoicePropertyChanged(listener);
+            if (_lastChosen != null)
+                _lastChosen.Selected = false;
+            _lastChosen = ChosenValue as ModelItem;
+            if (_lastChosen != null)
+                _lastChosen.Selected = true;
+            FireChangedChosenEvent();
+            OnInternalChoicePropertyChanged(listener);
         }
 
         internal virtual Microsoft.Iris.ModelItems.Choice CreateInternalChoice() => new Microsoft.Iris.ModelItems.Choice();
 
         private void ValidateOptionsList(IList potentialOptionsWrapped, IList potentialOptions)
         {
-            using (this.ThreadValidator)
+            using (ThreadValidator)
             {
                 string error;
-                if (!this._choice.ValidateOptionsList(potentialOptionsWrapped, out error))
+                if (!_choice.ValidateOptionsList(potentialOptionsWrapped, out error))
                     throw new ArgumentException(error);
-                this.ValidateOptionsListWorker(potentialOptions);
+                ValidateOptionsListWorker(potentialOptions);
             }
         }
 
@@ -315,14 +315,14 @@ namespace Microsoft.Iris
 
         private void FireChangedChosenEvent()
         {
-            if (this.GetEventHandler(s_chosenChangedEvent) is EventHandler eventHandler)
+            if (GetEventHandler(s_chosenChangedEvent) is EventHandler eventHandler)
                 eventHandler(this, EventArgs.Empty);
-            this.OnChosenChanged();
+            OnChosenChanged();
         }
 
         private void SetChosenSelected(bool selectedFlag)
         {
-            if (!(this.ChosenValue is ModelItem chosenValue))
+            if (!(ChosenValue is ModelItem chosenValue))
                 return;
             chosenValue.Selected = selectedFlag;
         }
@@ -335,8 +335,8 @@ namespace Microsoft.Iris
         {
         }
 
-        void IDisposableObject.Dispose(object owner) => this.Dispose();
+        void IDisposableObject.Dispose(object owner) => Dispose();
 
-        void INotifyObject.AddListener(Listener listener) => this._notifier.AddListener(listener);
+        void INotifyObject.AddListener(Listener listener) => _notifier.AddListener(listener);
     }
 }

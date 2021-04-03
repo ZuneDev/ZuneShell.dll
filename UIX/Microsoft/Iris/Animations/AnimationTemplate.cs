@@ -29,28 +29,28 @@ namespace Microsoft.Iris.Animations
 
         public AnimationTemplate(string debugIDName)
         {
-            this._keyframesList = new List<BaseKeyframe>();
-            this.DebugID = debugIDName;
+            _keyframesList = new List<BaseKeyframe>();
+            DebugID = debugIDName;
         }
 
         public string DebugID
         {
-            get => this._debugIDName;
-            set => this._debugIDName = value;
+            get => _debugIDName;
+            set => _debugIDName = value;
         }
 
         public int Loop
         {
-            get => this._loopCount;
-            set => this._loopCount = value;
+            get => _loopCount;
+            set => _loopCount = value;
         }
 
-        public List<BaseKeyframe> Keyframes => this._keyframesList;
+        public List<BaseKeyframe> Keyframes => _keyframesList;
 
         public ActiveSequence Play(ViewItem vi)
         {
             AnimationArgs args = new AnimationArgs(vi);
-            return this.Play(vi.RendererVisual, ref args, null);
+            return Play(vi.RendererVisual, ref args, null);
         }
 
         public ActiveSequence Play(
@@ -58,7 +58,7 @@ namespace Microsoft.Iris.Animations
           ref AnimationArgs args,
           EventHandler onCompleteHandler)
         {
-            ActiveSequence instance = this.CreateInstance(visualTarget, ref args);
+            ActiveSequence instance = CreateInstance(visualTarget, ref args);
             if (onCompleteHandler != null)
                 instance.AnimationCompleted += onCompleteHandler;
             instance.Play();
@@ -70,7 +70,7 @@ namespace Microsoft.Iris.Animations
           string property,
           ref AnimationArgs args)
         {
-            if (this._keyframesList.Count == 0)
+            if (_keyframesList.Count == 0)
             {
                 ErrorManager.ReportError("Animations must have at least 2 keyframes to play");
                 return null;
@@ -79,7 +79,7 @@ namespace Microsoft.Iris.Animations
             AnimationProxy[] animationProxyArray = new AnimationProxy[20];
             int[] numArray = new int[20];
             bool[] flagArray = new bool[20];
-            foreach (BaseKeyframe keyframes in this._keyframesList)
+            foreach (BaseKeyframe keyframes in _keyframesList)
             {
                 int type = (int)keyframes.Type;
                 keyframes.AddtoAnimation(this, aseq, property, ref args, ref animationProxyArray[type]);
@@ -110,17 +110,17 @@ namespace Microsoft.Iris.Animations
           IAnimatable animatableTarget,
           ref AnimationArgs args)
         {
-            return this.CreateInstance(animatableTarget, null, ref args);
+            return CreateInstance(animatableTarget, null, ref args);
         }
 
-        public void AddKeyframe(BaseKeyframe key) => this.InsertSorted(key);
+        public void AddKeyframe(BaseKeyframe key) => InsertSorted(key);
 
         public BaseKeyframe GetKeyframe(float time)
         {
-            int count = this._keyframesList.Count;
+            int count = _keyframesList.Count;
             for (int index = 0; index < count; ++index)
             {
-                BaseKeyframe keyframes = this._keyframesList[index];
+                BaseKeyframe keyframes = _keyframesList[index];
                 if (IsSameTime(time, keyframes.Time))
                     return keyframes;
             }
@@ -129,58 +129,58 @@ namespace Microsoft.Iris.Animations
 
         public void RemoveKeyframe(float time)
         {
-            BaseKeyframe keyframe = this.GetKeyframe(time);
+            BaseKeyframe keyframe = GetKeyframe(time);
             if (keyframe == null)
                 return;
-            this._keyframesList.Remove(keyframe);
+            _keyframesList.Remove(keyframe);
         }
 
         public StopCommand GetStopCommand(AnimationType paramType)
         {
             AnimationSystem.ValidateAnimationType(paramType);
             StopCommand stopCommand = StopCommand.MoveToEnd;
-            if (this._StopCommandSet != null)
-                stopCommand = this._StopCommandSet[paramType];
+            if (_StopCommandSet != null)
+                stopCommand = _StopCommandSet[paramType];
             return stopCommand;
         }
 
         public void SetStopCommand(AnimationType paramType, StopCommand command)
         {
             AnimationSystem.ValidateAnimationType(paramType);
-            if (this._StopCommandSet == null)
-                this._StopCommandSet = new StopCommandSet(StopCommand.MoveToEnd);
-            this._StopCommandSet[paramType] = command;
+            if (_StopCommandSet == null)
+                _StopCommandSet = new StopCommandSet(StopCommand.MoveToEnd);
+            _StopCommandSet[paramType] = command;
         }
 
-        object ICloneable.Clone() => this.Clone();
+        object ICloneable.Clone() => Clone();
 
         public virtual object Clone()
         {
-            AnimationTemplate anim = new AnimationTemplate(this._debugIDName);
-            this.CloneWorker(anim);
+            AnimationTemplate anim = new AnimationTemplate(_debugIDName);
+            CloneWorker(anim);
             return anim;
         }
 
         protected virtual void CloneWorker(AnimationTemplate anim)
         {
-            anim._loopCount = this._loopCount;
-            int count = this._keyframesList.Count;
+            anim._loopCount = _loopCount;
+            int count = _keyframesList.Count;
             for (int index = 0; index < count; ++index)
-                anim._keyframesList.Add(this._keyframesList[index].Clone());
-            anim._debugIDName = this._debugIDName;
+                anim._keyframesList.Add(_keyframesList[index].Clone());
+            anim._debugIDName = _debugIDName;
         }
 
         private void InsertSorted(BaseKeyframe key)
         {
-            for (int index = this._keyframesList.Count - 1; index >= 0; --index)
+            for (int index = _keyframesList.Count - 1; index >= 0; --index)
             {
                 if (_keyframesList[index].Time < (double)key.Time)
                 {
-                    this._keyframesList.Insert(index + 1, key);
+                    _keyframesList.Insert(index + 1, key);
                     return;
                 }
             }
-            this._keyframesList.Insert(0, key);
+            _keyframesList.Insert(0, key);
         }
 
         private static bool IsSameTime(float t1, float t2)

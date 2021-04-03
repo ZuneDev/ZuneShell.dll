@@ -305,7 +305,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
             public IntPtr _callback;
             public IntPtr _data;
 
-            public void Thunk() => NativeApi.SpCallDeferredInvokeProc(this._callback, this._data);
+            public void Thunk() => NativeApi.SpCallDeferredInvokeProc(_callback, _data);
         }
     }
 }

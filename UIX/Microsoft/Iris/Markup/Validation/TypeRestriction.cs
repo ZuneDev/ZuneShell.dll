@@ -28,9 +28,9 @@ namespace Microsoft.Iris.Markup.Validation
 
         private TypeRestriction(TypeSchema primary, TypeSchema secondary, bool allow)
         {
-            this._primary = primary;
-            this._secondary = secondary;
-            this._allow = allow;
+            _primary = primary;
+            _secondary = secondary;
+            _allow = allow;
         }
 
         public static void InitializeStatics()
@@ -39,21 +39,21 @@ namespace Microsoft.Iris.Markup.Validation
             NotVoid = new TypeRestriction(VoidSchema.Type, null, false);
         }
 
-        public TypeSchema Primary => this._primary;
+        public TypeSchema Primary => _primary;
 
-        public TypeSchema Secondary => this._secondary;
+        public TypeSchema Secondary => _secondary;
 
-        public bool Check(ValidateObject subject, TypeSchema checkType) => this.Check(subject, "'{0}' cannot be used in this context (expecting types compatible with '{1}')", checkType);
+        public bool Check(ValidateObject subject, TypeSchema checkType) => Check(subject, "'{0}' cannot be used in this context (expecting types compatible with '{1}')", checkType);
 
         public bool Check(ValidateObject subject, string errorMessage, TypeSchema checkType)
         {
             bool flag = false;
-            if (this._primary == null && this._secondary == null || this._primary.IsAssignableFrom(checkType) || this._secondary != null && this._secondary.IsAssignableFrom(checkType))
+            if (_primary == null && _secondary == null || _primary.IsAssignableFrom(checkType) || _secondary != null && _secondary.IsAssignableFrom(checkType))
                 flag = true;
-            if (flag == this._allow)
+            if (flag == _allow)
                 return true;
             string str1 = checkType.Name;
-            string str2 = this._primary.Name;
+            string str2 = _primary.Name;
             if (str1 == str2)
             {
                 str1 = str1 + " (" + checkType.Owner + ")";

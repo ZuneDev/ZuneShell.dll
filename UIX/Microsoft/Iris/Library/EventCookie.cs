@@ -11,7 +11,7 @@ namespace Microsoft.Iris.Library
         public static readonly EventCookie NULL = new EventCookie();
         private uint m_value;
 
-        private EventCookie(uint value) => this.m_value = value;
+        private EventCookie(uint value) => m_value = value;
 
         public static bool operator ==(EventCookie hl, EventCookie hr) => (int)hl.m_value == (int)hr.m_value;
 
@@ -30,7 +30,7 @@ namespace Microsoft.Iris.Library
             return (int)m_value == (int)num;
         }
 
-        public override int GetHashCode() => (int)this.m_value;
+        public override int GetHashCode() => (int)m_value;
 
         internal static EventCookie FromUInt32(uint value) => new EventCookie(value);
 

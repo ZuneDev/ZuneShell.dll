@@ -17,44 +17,44 @@ namespace SSVParseLib
 
         private SSLexLexeme()
         {
-            this.m_line = 0;
-            this.m_token = 0;
-            this.m_length = 0;
-            this.m_column = 0;
+            m_line = 0;
+            m_token = 0;
+            m_length = 0;
+            m_column = 0;
         }
 
         public SSLexLexeme(SSLexConsumer q_consumer)
         {
-            this.m_token = 0;
-            this.m_line = q_consumer.line();
-            this.m_column = q_consumer.offset();
-            this.m_length = q_consumer.lexemeLength();
-            this.m_start = q_consumer.m_bufferLexemeStart;
+            m_token = 0;
+            m_line = q_consumer.line();
+            m_column = q_consumer.offset();
+            m_length = q_consumer.lexemeLength();
+            m_start = q_consumer.m_bufferLexemeStart;
         }
 
         public SSLexLexeme(SSLexConsumer q_consumer, SSLexFinalState q_final, SSLexMark q_mark)
         {
-            this.m_token = q_final.token();
-            this.m_line = q_consumer.line();
-            this.m_column = q_consumer.offset();
-            this.m_length = q_consumer.lexemeLength(q_mark);
-            this.m_start = q_consumer.m_bufferLexemeStart;
+            m_token = q_final.token();
+            m_line = q_consumer.line();
+            m_column = q_consumer.offset();
+            m_length = q_consumer.lexemeLength(q_mark);
+            m_start = q_consumer.m_bufferLexemeStart;
         }
 
-        public int line() => this.m_line;
+        public int line() => m_line;
 
-        public int token() => this.m_token;
+        public int token() => m_token;
 
-        public int offset() => this.m_column;
+        public int offset() => m_column;
 
-        public int length() => this.m_length;
+        public int length() => m_length;
 
-        public string GetValue(SSLex lex) => this.m_token == -1 ? "eof" : lex.consumer().getSubstring(this.m_start, this.m_length);
+        public string GetValue(SSLex lex) => m_token == -1 ? "eof" : lex.consumer().getSubstring(m_start, m_length);
 
         public string GetTrimmedValue(SSLex lex, int trimLeft, int trimRight)
         {
-            int start = this.m_start + trimLeft;
-            int length = this.m_length - (trimLeft + trimRight);
+            int start = m_start + trimLeft;
+            int length = m_length - (trimLeft + trimRight);
             return lex.consumer().getSubstring(start, length);
         }
 

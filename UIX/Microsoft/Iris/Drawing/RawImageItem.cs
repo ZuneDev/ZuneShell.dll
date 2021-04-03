@@ -30,20 +30,20 @@ namespace Microsoft.Iris.Drawing
           bool antialiasEdges)
           : base(renderSession, source, maxSize, flippable, antialiasEdges)
         {
-            this._oKeepAlive = rawImage;
-            this.SetSize(imageSize);
-            this.SetBuffer(data, length);
-            this._stride = stride;
-            this._format = format;
+            _oKeepAlive = rawImage;
+            SetSize(imageSize);
+            SetBuffer(data, length);
+            _stride = stride;
+            _format = format;
         }
 
         protected override void OnDispose()
         {
-            this._oKeepAlive = null;
-            this.m_buffer = IntPtr.Zero;
+            _oKeepAlive = null;
+            m_buffer = IntPtr.Zero;
             base.OnDispose();
         }
 
-        protected override bool DoImageLoad() => ImageLoader.FromRaw(this.RenderImage, this.m_buffer, (int)this.m_length, this.m_size, this._stride, this._format, this.m_req.MaximumSize, this.m_req.Flippable, this.m_req.AntialiasEdges, this.m_req.BorderWidth, this.m_req.BorderColor, out this.m_info);
+        protected override bool DoImageLoad() => ImageLoader.FromRaw(RenderImage, m_buffer, (int)m_length, m_size, _stride, _format, m_req.MaximumSize, m_req.Flippable, m_req.AntialiasEdges, m_req.BorderWidth, m_req.BorderColor, out m_info);
     }
 }

@@ -16,12 +16,12 @@ namespace Microsoft.Iris.Layouts
         private static readonly DataCookie s_dataProperty = DataCookie.ReserveSlot();
         private Vector<Size> _cache;
 
-        public FlowSizeMemoryLayoutInput() => this._cache = new Vector<Size>();
+        public FlowSizeMemoryLayoutInput() => _cache = new Vector<Size>();
 
         public Vector<Size> KnownSizes
         {
-            get => this._cache;
-            set => this._cache = value;
+            get => _cache;
+            set => _cache = value;
         }
 
         DataCookie ILayoutInput.Data => Data;
@@ -33,7 +33,7 @@ namespace Microsoft.Iris.Layouts
             StringBuilder stringBuilder = new StringBuilder();
             bool flag = true;
             int num = 0;
-            foreach (Size size in this._cache)
+            foreach (Size size in _cache)
             {
                 if (!flag)
                     stringBuilder.Append(", ");
@@ -44,7 +44,7 @@ namespace Microsoft.Iris.Layouts
                 stringBuilder.Append(size);
                 ++num;
             }
-            return InvariantString.Format("{0}({1})", this.GetType().Name, stringBuilder);
+            return InvariantString.Format("{0}({1})", GetType().Name, stringBuilder);
         }
     }
 }

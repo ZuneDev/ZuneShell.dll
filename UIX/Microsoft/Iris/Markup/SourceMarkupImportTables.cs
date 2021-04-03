@@ -18,39 +18,39 @@ namespace Microsoft.Iris.Markup
         public MarkupImportTables PrepareImportTables()
         {
             MarkupImportTables markupImportTables = new MarkupImportTables();
-            if (this.ImportedTypes.Count > 0)
+            if (ImportedTypes.Count > 0)
             {
-                TypeSchema[] typeSchemaArray = new TypeSchema[this.ImportedTypes.Count];
-                for (int index = 0; index < this.ImportedTypes.Count; ++index)
-                    typeSchemaArray[index] = (TypeSchema)this.ImportedTypes[index];
+                TypeSchema[] typeSchemaArray = new TypeSchema[ImportedTypes.Count];
+                for (int index = 0; index < ImportedTypes.Count; ++index)
+                    typeSchemaArray[index] = (TypeSchema)ImportedTypes[index];
                 markupImportTables.TypeImports = typeSchemaArray;
             }
-            if (this.ImportedConstructors.Count > 0)
+            if (ImportedConstructors.Count > 0)
             {
-                ConstructorSchema[] constructorSchemaArray = new ConstructorSchema[this.ImportedConstructors.Count];
-                for (int index = 0; index < this.ImportedConstructors.Count; ++index)
-                    constructorSchemaArray[index] = (ConstructorSchema)this.ImportedConstructors[index];
+                ConstructorSchema[] constructorSchemaArray = new ConstructorSchema[ImportedConstructors.Count];
+                for (int index = 0; index < ImportedConstructors.Count; ++index)
+                    constructorSchemaArray[index] = (ConstructorSchema)ImportedConstructors[index];
                 markupImportTables.ConstructorImports = constructorSchemaArray;
             }
-            if (this.ImportedProperties.Count > 0)
+            if (ImportedProperties.Count > 0)
             {
-                PropertySchema[] propertySchemaArray = new PropertySchema[this.ImportedProperties.Count];
-                for (int index = 0; index < this.ImportedProperties.Count; ++index)
-                    propertySchemaArray[index] = (PropertySchema)this.ImportedProperties[index];
+                PropertySchema[] propertySchemaArray = new PropertySchema[ImportedProperties.Count];
+                for (int index = 0; index < ImportedProperties.Count; ++index)
+                    propertySchemaArray[index] = (PropertySchema)ImportedProperties[index];
                 markupImportTables.PropertyImports = propertySchemaArray;
             }
-            if (this.ImportedMethods.Count > 0)
+            if (ImportedMethods.Count > 0)
             {
-                MethodSchema[] methodSchemaArray = new MethodSchema[this.ImportedMethods.Count];
-                for (int index = 0; index < this.ImportedMethods.Count; ++index)
-                    methodSchemaArray[index] = (MethodSchema)this.ImportedMethods[index];
+                MethodSchema[] methodSchemaArray = new MethodSchema[ImportedMethods.Count];
+                for (int index = 0; index < ImportedMethods.Count; ++index)
+                    methodSchemaArray[index] = (MethodSchema)ImportedMethods[index];
                 markupImportTables.MethodImports = methodSchemaArray;
             }
-            if (this.ImportedEvents.Count > 0)
+            if (ImportedEvents.Count > 0)
             {
-                EventSchema[] eventSchemaArray = new EventSchema[this.ImportedEvents.Count];
-                for (int index = 0; index < this.ImportedEvents.Count; ++index)
-                    eventSchemaArray[index] = (EventSchema)this.ImportedEvents[index];
+                EventSchema[] eventSchemaArray = new EventSchema[ImportedEvents.Count];
+                for (int index = 0; index < ImportedEvents.Count; ++index)
+                    eventSchemaArray[index] = (EventSchema)ImportedEvents[index];
                 markupImportTables.EventImports = eventSchemaArray;
             }
             return markupImportTables;

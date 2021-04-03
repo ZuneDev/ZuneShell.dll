@@ -33,21 +33,21 @@ namespace Microsoft.Iris.Accessibility
 
         internal AccessibleProxy(UIClass ui, Accessible data)
         {
-            this._ui = ui;
-            this._data = data;
-            this._data.Attach(this);
-            this._children = new AccessibleChildren(this);
+            _ui = ui;
+            _data = data;
+            _data.Attach(this);
+            _children = new AccessibleChildren(this);
         }
 
-        internal UIClass UI => this._ui;
+        internal UIClass UI => _ui;
 
         internal void Detach()
         {
-            this._data.Detach();
-            this._ui = null;
-            if (this._proxyID == -1)
+            _data.Detach();
+            _ui = null;
+            if (_proxyID == -1)
                 return;
-            s_proxyFromID.Remove(this._proxyID);
+            s_proxyFromID.Remove(_proxyID);
         }
 
         internal static bool AccessibilityActive
@@ -56,86 +56,86 @@ namespace Microsoft.Iris.Accessibility
             set => s_accessibilityActive = true;
         }
 
-        internal virtual IAccessible Parent => this._ui.Parent != null ? _ui.Parent.AccessibleProxy : null;
+        internal virtual IAccessible Parent => _ui.Parent != null ? _ui.Parent.AccessibleProxy : null;
 
-        internal int ChildCount => this._ui.Children.Count;
+        internal int ChildCount => _ui.Children.Count;
 
         internal virtual string Name
         {
-            get => this._data.Name;
-            set => this._data.Name = value;
+            get => _data.Name;
+            set => _data.Name = value;
         }
 
         internal string Value
         {
-            get => this._data.Value;
-            set => this._data.Value = value;
+            get => _data.Value;
+            set => _data.Value = value;
         }
 
-        internal string Description => this._data.Description;
+        internal string Description => _data.Description;
 
-        internal AccRole Role => this._data.Role;
+        internal AccRole Role => _data.Role;
 
         internal AccStates State
         {
             get
             {
                 AccStates accStates = AccStates.None;
-                if (this._ui.DirectKeyFocus)
+                if (_ui.DirectKeyFocus)
                     accStates |= AccStates.Focused;
-                if (this._ui.IsKeyFocusable())
+                if (_ui.IsKeyFocusable())
                     accStates |= AccStates.Focusable;
-                if (this._ui.DirectMouseFocus)
+                if (_ui.DirectMouseFocus)
                     accStates |= AccStates.HotTracked;
-                if (!this._ui.Visible)
+                if (!_ui.Visible)
                     accStates |= AccStates.Invisible;
-                if (this._ui.Host != null && this._ui.Host.IsOffscreen)
+                if (_ui.Host != null && _ui.Host.IsOffscreen)
                     accStates |= AccStates.OffScreen;
-                if (this._data.HasPopup)
+                if (_data.HasPopup)
                     accStates |= AccStates.HasPopup;
-                if (this._data.IsAnimated)
+                if (_data.IsAnimated)
                     accStates |= AccStates.Animated;
-                if (this._data.IsBusy)
+                if (_data.IsBusy)
                     accStates |= AccStates.Busy;
-                if (this._data.IsChecked)
+                if (_data.IsChecked)
                     accStates |= AccStates.Checked;
-                if (this._data.IsCollapsed)
+                if (_data.IsCollapsed)
                     accStates |= AccStates.Collapsed;
-                if (this._data.IsDefault)
+                if (_data.IsDefault)
                     accStates |= AccStates.Default;
-                if (this._data.IsExpanded)
+                if (_data.IsExpanded)
                     accStates |= AccStates.Expanded;
-                if (this._data.IsMarquee)
+                if (_data.IsMarquee)
                     accStates |= AccStates.Marquee;
-                if (this._data.IsMixed)
+                if (_data.IsMixed)
                     accStates |= AccStates.Mixed;
-                if (this._data.IsMultiSelectable)
+                if (_data.IsMultiSelectable)
                     accStates |= AccStates.MultiSelectable;
-                if (this._data.IsPressed)
+                if (_data.IsPressed)
                     accStates |= AccStates.Pressed;
-                if (this._data.IsProtected)
+                if (_data.IsProtected)
                     accStates |= AccStates.Protected;
-                if (this._data.IsSelectable)
+                if (_data.IsSelectable)
                     accStates |= AccStates.Selectable;
-                if (this._data.IsSelected)
+                if (_data.IsSelected)
                     accStates |= AccStates.Selected;
-                if (this._data.IsTraversed)
+                if (_data.IsTraversed)
                     accStates |= AccStates.Traversed;
-                if (this._data.IsUnavailable)
+                if (_data.IsUnavailable)
                     accStates |= AccStates.Unavailable;
                 return accStates;
             }
         }
 
-        internal string Help => this._data.Help;
+        internal string Help => _data.Help;
 
-        internal int HelpTopic => this._data.HelpTopic;
+        internal int HelpTopic => _data.HelpTopic;
 
-        internal string KeyboardShortcut => this._data.KeyboardShortcut;
+        internal string KeyboardShortcut => _data.KeyboardShortcut;
 
-        internal bool HasFocus => this._ui.DirectKeyFocus;
+        internal bool HasFocus => _ui.DirectKeyFocus;
 
-        internal string DefaultAction => this._data.DefaultAction;
+        internal string DefaultAction => _data.DefaultAction;
 
         internal Rectangle Location
         {
@@ -144,7 +144,7 @@ namespace Microsoft.Iris.Accessibility
                 Rectangle rectangle = Rectangle.Zero;
                 Vector3 positionPxlVector;
                 Vector3 sizePxlVector;
-                if (this._ui.RootItem != null && ((INavigationSite)this._ui.RootItem).ComputeBounds(out positionPxlVector, out sizePxlVector))
+                if (_ui.RootItem != null && ((INavigationSite)_ui.RootItem).ComputeBounds(out positionPxlVector, out sizePxlVector))
                 {
                     rectangle = new Rectangle((int)positionPxlVector.X, (int)positionPxlVector.Y, (int)sizePxlVector.X, (int)sizePxlVector.Y);
                     Point location = rectangle.Location;
@@ -161,28 +161,28 @@ namespace Microsoft.Iris.Accessibility
             switch (navDir)
             {
                 case AccNavDirs.Up:
-                    this._ui.FindNextFocusablePeer(Direction.North, RectangleF.Zero, out resultUI);
+                    _ui.FindNextFocusablePeer(Direction.North, RectangleF.Zero, out resultUI);
                     break;
                 case AccNavDirs.Down:
-                    this._ui.FindNextFocusablePeer(Direction.South, RectangleF.Zero, out resultUI);
+                    _ui.FindNextFocusablePeer(Direction.South, RectangleF.Zero, out resultUI);
                     break;
                 case AccNavDirs.Left:
-                    this._ui.FindNextFocusablePeer(Direction.West, RectangleF.Zero, out resultUI);
+                    _ui.FindNextFocusablePeer(Direction.West, RectangleF.Zero, out resultUI);
                     break;
                 case AccNavDirs.Right:
-                    this._ui.FindNextFocusablePeer(Direction.East, RectangleF.Zero, out resultUI);
+                    _ui.FindNextFocusablePeer(Direction.East, RectangleF.Zero, out resultUI);
                     break;
                 case AccNavDirs.Next:
-                    resultUI = (UIClass)this._ui.NextSibling;
+                    resultUI = (UIClass)_ui.NextSibling;
                     break;
                 case AccNavDirs.Previous:
-                    resultUI = (UIClass)this._ui.PreviousSibling;
+                    resultUI = (UIClass)_ui.PreviousSibling;
                     break;
                 case AccNavDirs.FirstChild:
-                    resultUI = (UIClass)this._ui.FirstChild;
+                    resultUI = (UIClass)_ui.FirstChild;
                     break;
                 case AccNavDirs.LastChild:
-                    resultUI = (UIClass)this._ui.LastChild;
+                    resultUI = (UIClass)_ui.LastChild;
                     break;
             }
             return resultUI != null ? resultUI.AccessibleProxy : null;
@@ -190,9 +190,9 @@ namespace Microsoft.Iris.Accessibility
 
         internal void DoDefaultAction()
         {
-            if (this._data.DefaultActionCommand == null)
+            if (_data.DefaultActionCommand == null)
                 return;
-            this._data.DefaultActionCommand.Invoke();
+            _data.DefaultActionCommand.Invoke();
         }
 
         internal static void NotifyCreated(UIClass ui)
@@ -232,7 +232,7 @@ namespace Microsoft.Iris.Accessibility
 
         internal void NotifyAccessiblePropertyChanged(AccessibleProperty property)
         {
-            if (!this._ui.Initialized)
+            if (!_ui.Initialized)
                 return;
             AccEvents eventType = AccEvents.None;
             switch (property)
@@ -267,7 +267,7 @@ namespace Microsoft.Iris.Accessibility
                     eventType = AccEvents.ObjectHelpChange;
                     break;
                 case AccessibleProperty.IsSelected:
-                    if (this._data.IsSelected)
+                    if (_data.IsSelected)
                     {
                         eventType = AccEvents.ObjectSelection;
                         break;
@@ -285,7 +285,7 @@ namespace Microsoft.Iris.Accessibility
             }
             if (eventType == AccEvents.None)
                 return;
-            this.QueueNotifyEvent(eventType);
+            QueueNotifyEvent(eventType);
         }
 
         private void QueueNotifyEvent(AccEvents eventType)
@@ -314,15 +314,15 @@ namespace Microsoft.Iris.Accessibility
         {
             get
             {
-                this.VerifyProxyAccess();
+                VerifyProxyAccess();
                 return Parent;
             }
         }
 
         object IAccessible.get_accChild(object varChild)
         {
-            this.VerifyProxyAccess();
-            this.VerifySelfChildID(varChild);
+            VerifyProxyAccess();
+            VerifySelfChildID(varChild);
             return this;
         }
 
@@ -330,74 +330,74 @@ namespace Microsoft.Iris.Accessibility
         {
             get
             {
-                this.VerifyProxyAccess();
-                return this.ChildCount;
+                VerifyProxyAccess();
+                return ChildCount;
             }
         }
 
         string IAccessible.get_accName(object varChild)
         {
-            this.VerifyProxyAccess();
-            this.VerifySelfChildID(varChild);
-            return this.Name;
+            VerifyProxyAccess();
+            VerifySelfChildID(varChild);
+            return Name;
         }
 
         string IAccessible.get_accValue(object varChild)
         {
-            this.VerifyProxyAccess();
-            this.VerifySelfChildID(varChild);
-            return this.Value;
+            VerifyProxyAccess();
+            VerifySelfChildID(varChild);
+            return Value;
         }
 
         string IAccessible.get_accDescription(object varChild)
         {
-            this.VerifyProxyAccess();
-            this.VerifySelfChildID(varChild);
-            return this.Description;
+            VerifyProxyAccess();
+            VerifySelfChildID(varChild);
+            return Description;
         }
 
         object IAccessible.get_accRole(object varChild)
         {
-            this.VerifyProxyAccess();
-            this.VerifySelfChildID(varChild);
-            return (int)this.Role;
+            VerifyProxyAccess();
+            VerifySelfChildID(varChild);
+            return (int)Role;
         }
 
         object IAccessible.get_accState(object varChild)
         {
-            this.VerifyProxyAccess();
-            this.VerifySelfChildID(varChild);
-            return (int)this.State;
+            VerifyProxyAccess();
+            VerifySelfChildID(varChild);
+            return (int)State;
         }
 
         string IAccessible.get_accHelp(object varChild)
         {
-            this.VerifyProxyAccess();
-            this.VerifySelfChildID(varChild);
-            return this.Help;
+            VerifyProxyAccess();
+            VerifySelfChildID(varChild);
+            return Help;
         }
 
         int IAccessible.get_accHelpTopic(out string pszHelpFile, object varChild)
         {
-            this.VerifyProxyAccess();
-            this.VerifySelfChildID(varChild);
+            VerifyProxyAccess();
+            VerifySelfChildID(varChild);
             pszHelpFile = null;
-            return this.HelpTopic;
+            return HelpTopic;
         }
 
         string IAccessible.get_accKeyboardShortcut(object varChild)
         {
-            this.VerifyProxyAccess();
-            this.VerifySelfChildID(varChild);
-            return this.KeyboardShortcut;
+            VerifyProxyAccess();
+            VerifySelfChildID(varChild);
+            return KeyboardShortcut;
         }
 
         object IAccessible.accFocus
         {
             get
             {
-                this.VerifyProxyAccess();
-                return this.HasFocus ? 0 : (object)null;
+                VerifyProxyAccess();
+                return HasFocus ? 0 : (object)null;
             }
         }
 
@@ -405,7 +405,7 @@ namespace Microsoft.Iris.Accessibility
         {
             get
             {
-                this.VerifyProxyAccess();
+                VerifyProxyAccess();
                 Marshal.ThrowExceptionForHR(-2147467263);
                 return null;
             }
@@ -413,15 +413,15 @@ namespace Microsoft.Iris.Accessibility
 
         string IAccessible.get_accDefaultAction(object varChild)
         {
-            this.VerifyProxyAccess();
-            this.VerifySelfChildID(varChild);
-            return this.DefaultAction;
+            VerifyProxyAccess();
+            VerifySelfChildID(varChild);
+            return DefaultAction;
         }
 
         void IAccessible.accSelect(int flagsSelect, object varChild)
         {
-            this.VerifyProxyAccess();
-            this.VerifySelfChildID(varChild);
+            VerifyProxyAccess();
+            VerifySelfChildID(varChild);
             Marshal.ThrowExceptionForHR(-2147467263);
         }
 
@@ -432,9 +432,9 @@ namespace Microsoft.Iris.Accessibility
           out int pcyHeight,
           object varChild)
         {
-            this.VerifyProxyAccess();
-            this.VerifySelfChildID(varChild);
-            Rectangle location = this.Location;
+            VerifyProxyAccess();
+            VerifySelfChildID(varChild);
+            Rectangle location = Location;
             pxLeft = location.X;
             pyTop = location.Y;
             pcxWidth = location.Width;
@@ -443,65 +443,65 @@ namespace Microsoft.Iris.Accessibility
 
         object IAccessible.accNavigate(int navDir, object varStart)
         {
-            this.VerifyProxyAccess();
-            this.VerifySelfChildID(varStart);
-            return this.Navigate((AccNavDirs)navDir);
+            VerifyProxyAccess();
+            VerifySelfChildID(varStart);
+            return Navigate((AccNavDirs)navDir);
         }
 
         object IAccessible.accHitTest(int xLeft, int yTop)
         {
-            this.VerifyProxyAccess();
+            VerifyProxyAccess();
             Marshal.ThrowExceptionForHR(-2147467263);
             return null;
         }
 
         void IAccessible.accDoDefaultAction(object varChild)
         {
-            this.VerifyProxyAccess();
-            this.DoDefaultAction();
+            VerifyProxyAccess();
+            DoDefaultAction();
         }
 
         void IAccessible.set_accName(object varChild, string pszName)
         {
-            this.VerifyProxyAccess();
-            this.VerifySelfChildID(varChild);
-            this.Name = pszName;
+            VerifyProxyAccess();
+            VerifySelfChildID(varChild);
+            Name = pszName;
         }
 
         void IAccessible.set_accValue(object varChild, string pszValue)
         {
-            this.VerifyProxyAccess();
-            this.VerifySelfChildID(varChild);
-            this.Value = pszValue;
+            VerifyProxyAccess();
+            VerifySelfChildID(varChild);
+            Value = pszValue;
         }
 
         IEnumVARIANT IEnumVARIANT.Clone()
         {
-            this.VerifyProxyAccess();
-            return this._children.Clone();
+            VerifyProxyAccess();
+            return _children.Clone();
         }
 
         int IEnumVARIANT.Next(int celt, object[] rgVar, IntPtr pceltFetched)
         {
-            this.VerifyProxyAccess();
-            return this._children.Next(celt, rgVar, pceltFetched);
+            VerifyProxyAccess();
+            return _children.Next(celt, rgVar, pceltFetched);
         }
 
         int IEnumVARIANT.Reset()
         {
-            this.VerifyProxyAccess();
-            return this._children.Reset();
+            VerifyProxyAccess();
+            return _children.Reset();
         }
 
         int IEnumVARIANT.Skip(int celt)
         {
-            this.VerifyProxyAccess();
-            return this._children.Skip(celt);
+            VerifyProxyAccess();
+            return _children.Skip(celt);
         }
 
         private void VerifyProxyAccess()
         {
-            if (this._ui != null && UIDispatcher.IsUIThread)
+            if (_ui != null && UIDispatcher.IsUIThread)
                 return;
             Marshal.ThrowExceptionForHR(-2147467259);
         }
@@ -517,12 +517,12 @@ namespace Microsoft.Iris.Accessibility
         {
             get
             {
-                if (this._proxyID == -1)
+                if (_proxyID == -1)
                 {
-                    this._proxyID = ++s_proxyIDAllocator;
-                    s_proxyFromID[this._proxyID] = this;
+                    _proxyID = ++s_proxyIDAllocator;
+                    s_proxyFromID[_proxyID] = this;
                 }
-                return this._proxyID;
+                return _proxyID;
             }
         }
 

@@ -24,69 +24,69 @@ namespace Microsoft.Iris.RenderAPI.VideoPlayback
 
         public VideoPresentationBuilder()
         {
-            this.m_handlerZoomMode = LinearVideoStretch.ShrinkToFit;
-            this.m_sizefInputContentAspect = new SizeF(1f, 1f);
-            this.m_sizefInputDestAspect = new SizeF(1f, 1f);
+            m_handlerZoomMode = LinearVideoStretch.ShrinkToFit;
+            m_sizefInputContentAspect = new SizeF(1f, 1f);
+            m_sizefInputDestAspect = new SizeF(1f, 1f);
         }
 
         public SizeF SourceDimensions
         {
-            get => this.m_sizefOriginalSource;
-            set => this.m_sizefOriginalSource = value;
+            get => m_sizefOriginalSource;
+            set => m_sizefOriginalSource = value;
         }
 
         public RectangleF CompleteDestination
         {
-            get => this.m_rcfInputDestViewPxl;
-            set => this.m_rcfInputDestViewPxl = value;
+            get => m_rcfInputDestViewPxl;
+            set => m_rcfInputDestViewPxl = value;
         }
 
         public SizeF DestinationAspectRatio
         {
-            get => this.m_sizefInputDestAspect;
-            set => this.m_sizefInputDestAspect = value;
+            get => m_sizefInputDestAspect;
+            set => m_sizefInputDestAspect = value;
         }
 
         public float DisplayOverscanFactor
         {
-            get => this.m_flInputDisplayOverscanPer;
-            set => this.m_flInputDisplayOverscanPer = value;
+            get => m_flInputDisplayOverscanPer;
+            set => m_flInputDisplayOverscanPer = value;
         }
 
         public float ContentOverscanFactor
         {
-            get => this.m_flInputContentOverscanPer;
-            set => this.m_flInputContentOverscanPer = value;
+            get => m_flInputContentOverscanPer;
+            set => m_flInputContentOverscanPer = value;
         }
 
         public VideoOverscanMode ContentOverscanMode
         {
-            get => this.m_nInputOverscanMode;
-            set => this.m_nInputOverscanMode = value;
+            get => m_nInputOverscanMode;
+            set => m_nInputOverscanMode = value;
         }
 
         public SizeF ContentAspectRatio
         {
-            get => this.m_sizefInputContentAspect;
-            set => this.m_sizefInputContentAspect = value;
+            get => m_sizefInputContentAspect;
+            set => m_sizefInputContentAspect = value;
         }
 
         public VideoZoomHandler ZoomMode
         {
-            get => this.m_handlerZoomMode;
-            set => this.m_handlerZoomMode = value;
+            get => m_handlerZoomMode;
+            set => m_handlerZoomMode = value;
         }
 
         public bool IsFullDisplay
         {
-            get => this.m_fInputFullDisplay;
-            set => this.m_fInputFullDisplay = value;
+            get => m_fInputFullDisplay;
+            set => m_fInputFullDisplay = value;
         }
 
         public VideoDisplayMode DisplayMode
         {
-            get => this.m_nDisplayMode;
-            set => this.m_nDisplayMode = value;
+            get => m_nDisplayMode;
+            set => m_nDisplayMode = value;
         }
 
         public BasicVideoPresentation BuildPresentation()
@@ -98,8 +98,8 @@ namespace Microsoft.Iris.RenderAPI.VideoPlayback
                 RectangleF rcfBoundDestViewPxl;
                 float flSrcWidthMultiplier;
                 float flDstWidthMultiplier;
-                this.ComputeLocations(out rcfBoundSrcVideoPxl, out rcfBoundDestViewPxl, out flSrcWidthMultiplier, out flDstWidthMultiplier);
-                this.m_handlerZoomMode(ConvertToSquare(rcfBoundSrcVideoPxl, flSrcWidthMultiplier), ConvertToSquare(rcfBoundDestViewPxl, flDstWidthMultiplier), out geometry.arrcfSrcVideo, out geometry.arrcfDestView);
+                ComputeLocations(out rcfBoundSrcVideoPxl, out rcfBoundDestViewPxl, out flSrcWidthMultiplier, out flDstWidthMultiplier);
+                m_handlerZoomMode(ConvertToSquare(rcfBoundSrcVideoPxl, flSrcWidthMultiplier), ConvertToSquare(rcfBoundDestViewPxl, flDstWidthMultiplier), out geometry.arrcfSrcVideo, out geometry.arrcfDestView);
                 if (geometry.arrcfDestView != null)
                 {
                     int length = geometry.arrcfDestView.Length;
@@ -130,8 +130,8 @@ namespace Microsoft.Iris.RenderAPI.VideoPlayback
                 geometry.rcfDestViewBounds = rcfDestViewBounds;
                 if (m_sizefOriginalSource.Width > 0.0 && m_sizefOriginalSource.Height > 0.0)
                 {
-                    float num3 = this.m_sizefOriginalSource.Width / geometry.rcfSrcVideoBounds.Width;
-                    float num4 = this.m_sizefOriginalSource.Height / geometry.rcfSrcVideoBounds.Height;
+                    float num3 = m_sizefOriginalSource.Width / geometry.rcfSrcVideoBounds.Width;
+                    float num4 = m_sizefOriginalSource.Height / geometry.rcfSrcVideoBounds.Height;
                     RectangleF square1 = ConvertToSquare(geometry.rcfSrcVideoBounds, flSrcWidthMultiplier);
                     RectangleF square2 = ConvertToSquare(geometry.rcfDestViewBounds, flDstWidthMultiplier);
                     RectangleF rectangleF = new RectangleF()
@@ -145,7 +145,7 @@ namespace Microsoft.Iris.RenderAPI.VideoPlayback
             }
             else
                 geometry.arrcfSrcVideo = geometry.arrcfDestView = new RectangleF[0];
-            geometry.arrcfBorders = this.ComputeBorders(geometry.rcfDestViewBounds);
+            geometry.arrcfBorders = ComputeBorders(geometry.rcfDestViewBounds);
             return new BasicVideoPresentation(geometry);
         }
 
@@ -232,42 +232,42 @@ namespace Microsoft.Iris.RenderAPI.VideoPlayback
             float flOverscanPer2 = 0.0f;
             if (m_flInputDisplayOverscanPer > 0.0 || m_flInputContentOverscanPer > 0.0)
             {
-                switch (this.m_nDisplayMode)
+                switch (m_nDisplayMode)
                 {
                     case VideoDisplayMode.Inset:
-                        if (this.m_nInputOverscanMode == VideoOverscanMode.InvalidContent)
+                        if (m_nInputOverscanMode == VideoOverscanMode.InvalidContent)
                         {
-                            flOverscanPer1 = this.m_flInputContentOverscanPer;
+                            flOverscanPer1 = m_flInputContentOverscanPer;
                             break;
                         }
                         break;
                     case VideoDisplayMode.FullPreScene:
                     case VideoDisplayMode.FullInScene:
-                        switch (this.m_nInputOverscanMode)
+                        switch (m_nInputOverscanMode)
                         {
                             case VideoOverscanMode.NoOverscan:
-                                flOverscanPer2 = this.m_flInputDisplayOverscanPer;
+                                flOverscanPer2 = m_flInputDisplayOverscanPer;
                                 break;
                             case VideoOverscanMode.ValidContent:
                                 break;
                             case VideoOverscanMode.InvalidContent:
-                                flOverscanPer1 = !this.m_fInputFullDisplay ? this.m_flInputContentOverscanPer : this.m_flInputContentOverscanPer - this.m_flInputDisplayOverscanPer;
+                                flOverscanPer1 = !m_fInputFullDisplay ? m_flInputContentOverscanPer : m_flInputContentOverscanPer - m_flInputDisplayOverscanPer;
                                 break;
                             default:
                                 return;
                         }
                         break;
                     case VideoDisplayMode.Animating:
-                        switch (this.m_nInputOverscanMode)
+                        switch (m_nInputOverscanMode)
                         {
                             case VideoOverscanMode.NoOverscan:
-                                flOverscanPer2 = this.m_flInputDisplayOverscanPer;
+                                flOverscanPer2 = m_flInputDisplayOverscanPer;
                                 break;
                             case VideoOverscanMode.ValidContent:
                                 break;
                             case VideoOverscanMode.InvalidContent:
-                                flOverscanPer1 = this.m_flInputContentOverscanPer;
-                                flOverscanPer2 = this.m_flInputDisplayOverscanPer;
+                                flOverscanPer1 = m_flInputContentOverscanPer;
+                                flOverscanPer2 = m_flInputDisplayOverscanPer;
                                 break;
                             default:
                                 return;
@@ -277,10 +277,10 @@ namespace Microsoft.Iris.RenderAPI.VideoPlayback
                         return;
                 }
             }
-            rcfBoundSrcVideoPxl.Size = this.m_sizefOriginalSource;
+            rcfBoundSrcVideoPxl.Size = m_sizefOriginalSource;
             if (rcfBoundSrcVideoPxl.Width > 0.0 && rcfBoundSrcVideoPxl.Height > 0.0)
             {
-                float num = rcfBoundSrcVideoPxl.Height * this.m_sizefInputContentAspect.Width / this.m_sizefInputContentAspect.Height;
+                float num = rcfBoundSrcVideoPxl.Height * m_sizefInputContentAspect.Width / m_sizefInputContentAspect.Height;
                 flSrcWidthMultiplier = num / rcfBoundSrcVideoPxl.Width;
                 ApplyOverscanFactor(ref rcfBoundSrcVideoPxl, flOverscanPer1);
             }
@@ -289,10 +289,10 @@ namespace Microsoft.Iris.RenderAPI.VideoPlayback
                 rcfBoundSrcVideoPxl.Width = 1f;
                 rcfBoundSrcVideoPxl.Height = 1f;
             }
-            rcfBoundDestViewPxl = this.m_rcfInputDestViewPxl;
+            rcfBoundDestViewPxl = m_rcfInputDestViewPxl;
             if (rcfBoundDestViewPxl.Width > 0.0 && rcfBoundDestViewPxl.Height > 0.0)
             {
-                float num = rcfBoundDestViewPxl.Height * this.m_sizefInputDestAspect.Width / this.m_sizefInputDestAspect.Height;
+                float num = rcfBoundDestViewPxl.Height * m_sizefInputDestAspect.Width / m_sizefInputDestAspect.Height;
                 flDstWidthMultiplier = num / rcfBoundDestViewPxl.Width;
                 ApplyOverscanFactor(ref rcfBoundDestViewPxl, flOverscanPer2);
             }
@@ -305,7 +305,7 @@ namespace Microsoft.Iris.RenderAPI.VideoPlayback
 
         private RectangleF[] ComputeBorders(RectangleF rcfContent)
         {
-            RectangleF inputDestViewPxl = this.m_rcfInputDestViewPxl;
+            RectangleF inputDestViewPxl = m_rcfInputDestViewPxl;
             RectangleF[] rectangleFArray1 = new RectangleF[4];
             int length = 0;
             rcfContent.Intersect(inputDestViewPxl);

@@ -368,13 +368,13 @@ namespace Microsoft.Iris.Markup
 
             public ScriptBlock(int line, int column)
             {
-                this.Line = line;
-                this.Column = column;
+                Line = line;
+                Column = column;
             }
 
             public ScriptBlock(int line, int column, Parser.CodeType codeType)
               : this(line, column)
-              => this.CodeType = codeType;
+              => CodeType = codeType;
         }
     }
 }

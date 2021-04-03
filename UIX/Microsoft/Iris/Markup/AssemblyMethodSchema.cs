@@ -21,26 +21,26 @@ namespace Microsoft.Iris.Markup
           TypeSchema[] parameterTypes)
           : base(owner)
         {
-            this._methodInfo = methodInfo;
-            this._parameterTypes = parameterTypes;
-            this._returnTypeSchema = AssemblyLoadResult.MapType(this._methodInfo.ReturnType);
+            _methodInfo = methodInfo;
+            _parameterTypes = parameterTypes;
+            _returnTypeSchema = AssemblyLoadResult.MapType(_methodInfo.ReturnType);
         }
 
-        public override string Name => this._methodInfo.Name;
+        public override string Name => _methodInfo.Name;
 
-        public override TypeSchema[] ParameterTypes => this._parameterTypes;
+        public override TypeSchema[] ParameterTypes => _parameterTypes;
 
-        public override TypeSchema ReturnType => this._returnTypeSchema;
+        public override TypeSchema ReturnType => _returnTypeSchema;
 
-        public override bool IsStatic => this._methodInfo.IsStatic;
+        public override bool IsStatic => _methodInfo.IsStatic;
 
         public override object Invoke(object instance, object[] parameters)
         {
             object target = AssemblyLoadResult.UnwrapObject(instance);
             object[] paramters = AssemblyLoadResult.UnwrapObjectList(parameters);
-            if (this._method == null)
-                this._method = ReflectionHelper.CreateMethodInvoke(_methodInfo);
-            return AssemblyLoadResult.WrapObject(this._returnTypeSchema, this._method(target, paramters));
+            if (_method == null)
+                _method = ReflectionHelper.CreateMethodInvoke(_methodInfo);
+            return AssemblyLoadResult.WrapObject(_returnTypeSchema, _method(target, paramters));
         }
     }
 }

@@ -14,22 +14,22 @@ namespace Microsoft.Iris.Input
 
         protected void Initialize(IRawInputSite rawSource, int x, int y, InputEventType eventType)
         {
-            this._rawSource = rawSource;
-            this._x = x;
-            this._y = y;
-            this.Initialize(eventType);
+            _rawSource = rawSource;
+            _x = x;
+            _y = y;
+            Initialize(eventType);
         }
 
         protected override void Zombie()
         {
             base.Zombie();
-            this._rawSource = null;
+            _rawSource = null;
         }
 
-        public IRawInputSite RawSource => this._rawSource;
+        public IRawInputSite RawSource => _rawSource;
 
-        public int X => this._x;
+        public int X => _x;
 
-        public int Y => this._y;
+        public int Y => _y;
     }
 }

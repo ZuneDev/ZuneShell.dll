@@ -21,25 +21,25 @@ namespace Microsoft.Iris.Markup.Validation
           int column)
           : base(owner, line, column, ExpressionType.IsCheck)
         {
-            this._expression = expression;
-            this._typeIdentifier = typeIdentifier;
+            _expression = expression;
+            _typeIdentifier = typeIdentifier;
         }
 
-        public ValidateExpression Expression => this._expression;
+        public ValidateExpression Expression => _expression;
 
-        public ValidateTypeIdentifier TypeIdentifier => this._typeIdentifier;
+        public ValidateTypeIdentifier TypeIdentifier => _typeIdentifier;
 
         public override void Validate(TypeRestriction typeRestriction, ValidateContext context)
         {
-            if (this.Usage == ExpressionUsage.LValue)
-                this.ReportError("Expression cannot be used as the target an assignment (related symbol: '{0}')", "Is");
-            this._expression.Validate(TypeRestriction.NotVoid, context);
-            if (this._expression.HasErrors)
-                this.MarkHasErrors();
-            this._typeIdentifier.Validate();
-            if (this._typeIdentifier.HasErrors)
-                this.MarkHasErrors();
-            this.DeclareEvaluationType(BooleanSchema.Type, typeRestriction);
+            if (Usage == ExpressionUsage.LValue)
+                ReportError("Expression cannot be used as the target an assignment (related symbol: '{0}')", "Is");
+            _expression.Validate(TypeRestriction.NotVoid, context);
+            if (_expression.HasErrors)
+                MarkHasErrors();
+            _typeIdentifier.Validate();
+            if (_typeIdentifier.HasErrors)
+                MarkHasErrors();
+            DeclareEvaluationType(BooleanSchema.Type, typeRestriction);
         }
     }
 }

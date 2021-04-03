@@ -18,19 +18,19 @@ namespace Microsoft.Iris.Markup.Validation
           ObjectSourceType objectSourceType)
           : base(owner, line, column)
         {
-            this._objectSourceType = objectSourceType;
+            _objectSourceType = objectSourceType;
         }
 
         public abstract void Validate(TypeRestriction typeRestriction, ValidateContext context);
 
         public abstract TypeSchema ObjectType { get; }
 
-        public ObjectSourceType ObjectSourceType => this._objectSourceType;
+        public ObjectSourceType ObjectSourceType => _objectSourceType;
 
         public ValidateObject Next
         {
-            get => this._next;
-            set => this._next = value;
+            get => _next;
+            set => _next = value;
         }
 
         public void AppendToEnd(ValidateObject item)

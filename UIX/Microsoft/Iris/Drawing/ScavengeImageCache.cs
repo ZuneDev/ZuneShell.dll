@@ -36,21 +36,21 @@ namespace Microsoft.Iris.Drawing
 
         private ScavengeImageCache(UISession session)
           : base(session.RenderSession, "GraphicImageCache")
-          => this._session = session;
+          => _session = session;
 
         protected override void OnDispose()
         {
-            TimeoutManager timeoutManager = this._session.Dispatcher.TimeoutManager;
-            ScavengeImageCache.ScavengeCallback callback = this._callback;
+            TimeoutManager timeoutManager = _session.Dispatcher.TimeoutManager;
+            ScavengeImageCache.ScavengeCallback callback = _callback;
             if (callback != null)
                 timeoutManager.CancelTimeout(callback);
-            this._callback = null;
+            _callback = null;
             base.OnDispose();
         }
 
         protected override void ScheduleScavenge()
         {
-            if (!this.CleanupPending)
+            if (!CleanupPending)
                 DeferredCall.Post(DispatchPriority.Idle, s_dhReschedule, this);
             base.ScheduleScavenge();
         }
@@ -74,14 +74,14 @@ namespace Microsoft.Iris.Drawing
         {
             private ScavengeImageCache _cache;
 
-            public ScavengeCallback(ScavengeImageCache cache) => this._cache = cache;
+            public ScavengeCallback(ScavengeImageCache cache) => _cache = cache;
 
             public override void Dispatch()
             {
-                if (this._cache._callback != this)
+                if (_cache._callback != this)
                     return;
-                this._cache._callback = null;
-                this._cache.CullObjects();
+                _cache._callback = null;
+                _cache.CullObjects();
             }
         }
     }

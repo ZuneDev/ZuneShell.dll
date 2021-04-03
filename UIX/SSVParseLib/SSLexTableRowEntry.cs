@@ -14,15 +14,15 @@ namespace SSVParseLib
 
         public SSLexTableRowEntry(int q_start, int q_end, int q_state)
         {
-            this.m_end = q_end;
-            this.m_start = q_start;
-            this.m_state = q_state;
+            m_end = q_end;
+            m_start = q_start;
+            m_state = q_state;
         }
 
-        public int end() => this.m_end;
+        public int end() => m_end;
 
-        public int start() => this.m_start;
+        public int start() => m_start;
 
-        public int state() => this.m_state;
+        public int state() => m_state;
     }
 }

@@ -22,14 +22,14 @@ namespace Microsoft.Iris.Layouts
 
         public DockLayoutInput DefaultLayoutInput
         {
-            get => this._defaultLayoutInput;
-            set => this._defaultLayoutInput = value;
+            get => _defaultLayoutInput;
+            set => _defaultLayoutInput = value;
         }
 
         public ItemAlignment DefaultChildAlignment
         {
-            get => this._defaultChildAlignment;
-            set => this._defaultChildAlignment = value;
+            get => _defaultChildAlignment;
+            set => _defaultChildAlignment = value;
         }
 
         Size ILayout.Measure(ILayoutNode layoutNode, Size constraint)
@@ -42,7 +42,7 @@ namespace Microsoft.Iris.Layouts
             {
                 Size size2 = layoutChild.Measure(constraint1);
                 sz2_1 = Size.Max(size1 - constraint1 + size2, sz2_1);
-                DockLayoutInput layoutInputForNode = this.GetLayoutInputForNode(layoutChild);
+                DockLayoutInput layoutInputForNode = GetLayoutInputForNode(layoutChild);
                 if (layoutInputForNode == DockLayoutInput.Left || layoutInputForNode == DockLayoutInput.Right)
                     constraint1.Width -= size2.Width;
                 else if (layoutInputForNode == DockLayoutInput.Top || layoutInputForNode == DockLayoutInput.Bottom)
@@ -55,7 +55,7 @@ namespace Microsoft.Iris.Layouts
                 Size sz2_2 = Size.Zero;
                 foreach (ILayoutNode layoutChild in layoutNode.LayoutChildren)
                 {
-                    if (this.GetLayoutInputForNode(layoutChild) == DockLayoutInput.Client)
+                    if (GetLayoutInputForNode(layoutChild) == DockLayoutInput.Client)
                         sz2_2 = Size.Max(layoutChild.Measure(constraint1), sz2_2);
                 }
                 sz2_1 = Size.Max(size1 - constraint1 + sz2_2, sz2_1);
@@ -73,7 +73,7 @@ namespace Microsoft.Iris.Layouts
             {
                 Size desiredSize = layoutChild.DesiredSize;
                 Rectangle bounds2 = bounds1;
-                DockLayoutInput layoutInputForNode = this.GetLayoutInputForNode(layoutChild);
+                DockLayoutInput layoutInputForNode = GetLayoutInputForNode(layoutChild);
                 if (layoutInputForNode == DockLayoutInput.Left)
                 {
                     bounds2.Width = desiredSize.Width;
@@ -109,7 +109,7 @@ namespace Microsoft.Iris.Layouts
                 return;
             foreach (ILayoutNode layoutChild in layoutNode.LayoutChildren)
             {
-                if (this.GetLayoutInputForNode(layoutChild) == DockLayoutInput.Client)
+                if (GetLayoutInputForNode(layoutChild) == DockLayoutInput.Client)
                     layoutChild.Arrange(slot, bounds1);
             }
         }
@@ -117,7 +117,7 @@ namespace Microsoft.Iris.Layouts
         private DockLayoutInput GetLayoutInputForNode(ILayoutNode node)
         {
             if (!(node.GetLayoutInput(s_dataProperty) is DockLayoutInput dockLayoutInput))
-                dockLayoutInput = this._defaultLayoutInput ?? s_defaultLayoutInput;
+                dockLayoutInput = _defaultLayoutInput ?? s_defaultLayoutInput;
             return dockLayoutInput;
         }
     }

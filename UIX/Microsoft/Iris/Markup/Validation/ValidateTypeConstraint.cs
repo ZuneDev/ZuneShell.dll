@@ -24,39 +24,39 @@ namespace Microsoft.Iris.Markup.Validation
 
         public override void NotifyParseComplete()
         {
-            ValidateTypeIdentifier.PromoteSimplifiedTypeSyntax(this.FindProperty("Type"));
-            ValidateTypeIdentifier.PromoteSimplifiedTypeSyntax(this.FindProperty("Constraint"));
+            ValidateTypeIdentifier.PromoteSimplifiedTypeSyntax(FindProperty("Type"));
+            ValidateTypeIdentifier.PromoteSimplifiedTypeSyntax(FindProperty("Constraint"));
         }
 
         protected override void ValidateProperties(ValidateContext context)
         {
             base.ValidateProperties(context);
-            ValidateProperty property1 = this.FindProperty("Type");
-            ValidateProperty property2 = this.FindProperty("Constraint");
+            ValidateProperty property1 = FindProperty("Type");
+            ValidateProperty property2 = FindProperty("Constraint");
             if (!property1.IsExpressionValue || ((ValidateExpression)property1.Value).ExpressionType != ExpressionType.TypeOf)
             {
-                this.ReportError("Type parameter property '{0}' must be supplied a type constant (by name, or via 'typeof')", property1.PropertyName);
+                ReportError("Type parameter property '{0}' must be supplied a type constant (by name, or via 'typeof')", property1.PropertyName);
             }
             else
             {
-                this._foundUseType = ((ValidateExpressionTypeOf)property1.Value).TypeIdentifier.FoundType;
+                _foundUseType = ((ValidateExpressionTypeOf)property1.Value).TypeIdentifier.FoundType;
                 if (property2 != null)
                 {
                     if (!property2.IsExpressionValue || ((ValidateExpression)property2.Value).ExpressionType != ExpressionType.TypeOf)
                     {
-                        this.ReportError("Type parameter property '{0}' must be supplied a type constant (by name, or via 'typeof')", property2.PropertyName);
+                        ReportError("Type parameter property '{0}' must be supplied a type constant (by name, or via 'typeof')", property2.PropertyName);
                         return;
                     }
-                    this._foundConstraintType = ((ValidateExpressionTypeOf)property2.Value).TypeIdentifier.FoundType;
+                    _foundConstraintType = ((ValidateExpressionTypeOf)property2.Value).TypeIdentifier.FoundType;
                 }
                 else
-                    this._foundConstraintType = this._foundUseType;
-                if (this._foundConstraintType.IsAssignableFrom(this._foundUseType))
+                    _foundConstraintType = _foundUseType;
+                if (_foundConstraintType.IsAssignableFrom(_foundUseType))
                     return;
-                this.ReportError("Type '{0}' does not match specified constraint '{1}'", this._foundUseType.Name, this._foundConstraintType.Name);
+                ReportError("Type '{0}' does not match specified constraint '{1}'", _foundUseType.Name, _foundConstraintType.Name);
             }
         }
 
-        public override PropertyOverrideCriteria PropertyOverrideCriteria => new PropertyOverrideCriteriaTypeConstraint(this._foundUseType, this._foundConstraintType);
+        public override PropertyOverrideCriteria PropertyOverrideCriteria => new PropertyOverrideCriteriaTypeConstraint(_foundUseType, _foundConstraintType);
     }
 }

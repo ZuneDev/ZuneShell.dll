@@ -24,49 +24,49 @@ namespace Microsoft.Iris.Drawing
 
         internal TextFlow()
         {
-            this._bounds = new Rectangle(int.MaxValue, int.MaxValue, int.MinValue, int.MinValue);
-            this.ResetFitTracking();
-            this.ResetVisibleTracking();
+            _bounds = new Rectangle(int.MaxValue, int.MaxValue, int.MinValue, int.MinValue);
+            ResetFitTracking();
+            ResetVisibleTracking();
         }
 
         protected override void OnDispose()
         {
-            if (this._runsList != null)
+            if (_runsList != null)
             {
-                if (this._runsList is TextRun runsList)
+                if (_runsList is TextRun runsList)
                 {
                     runsList.UnregisterUsage(this);
                 }
                 else
                 {
-                    foreach (SharedDisposableObject runs in (Vector)this._runsList)
+                    foreach (SharedDisposableObject runs in (Vector)_runsList)
                         runs.UnregisterUsage(this);
                 }
             }
             base.OnDispose();
         }
 
-        public TextRun this[int index] => this._runsList is TextRun runsList ? runsList : (TextRun)((Vector)this._runsList)[index];
+        public TextRun this[int index] => _runsList is TextRun runsList ? runsList : (TextRun)((Vector)_runsList)[index];
 
         public int Count
         {
             get
             {
-                if (this._runsList is Vector runsList)
+                if (_runsList is Vector runsList)
                     return runsList.Count;
-                return this._runsList == null ? 0 : 1;
+                return _runsList == null ? 0 : 1;
             }
         }
 
-        public Vector LineBounds => this._lineBounds;
+        public Vector LineBounds => _lineBounds;
 
         internal Rectangle GetLastLineBounds(int lineAlignmentOffset)
         {
             Rectangle left = Rectangle.Zero;
-            for (int index = this.Count - 1; index >= 0; --index)
+            for (int index = Count - 1; index >= 0; --index)
             {
                 TextRun run = this[index];
-                if (this.IsOnLastLine(run))
+                if (IsOnLastLine(run))
                 {
                     Point position = run.Position;
                     Size size = run.Size;
@@ -83,39 +83,39 @@ namespace Microsoft.Iris.Drawing
             return left;
         }
 
-        internal bool IsOnLastLine(TextRun run) => run.Line == this.LastFitRun.Line;
+        internal bool IsOnLastLine(TextRun run) => run.Line == LastFitRun.Line;
 
-        public Rectangle Bounds => this._bounds;
+        public Rectangle Bounds => _bounds;
 
-        public Rectangle FitBounds => this._fitBounds;
+        public Rectangle FitBounds => _fitBounds;
 
-        public TextRun LastFitRun => this._lastFitRun;
+        public TextRun LastFitRun => _lastFitRun;
 
-        public TextRun FirstFitRunOnFinalLine => this._firstFitOnFinalLineRun;
+        public TextRun FirstFitRunOnFinalLine => _firstFitOnFinalLineRun;
 
-        public int FirstVisibleIndex => this._firstVisibleIndex;
+        public int FirstVisibleIndex => _firstVisibleIndex;
 
-        public int LastVisibleIndex => this._lastVisibleIndex;
+        public int LastVisibleIndex => _lastVisibleIndex;
 
-        public bool HasVisibleRuns => this._firstVisibleIndex != -1;
+        public bool HasVisibleRuns => _firstVisibleIndex != -1;
 
         public void Add(TextRun run)
         {
-            this._bounds = Rectangle.Union(this._bounds, run.LayoutBounds);
-            if (this._runsList == null)
+            _bounds = Rectangle.Union(_bounds, run.LayoutBounds);
+            if (_runsList == null)
             {
-                this._runsList = run;
-                this._lineBounds = new Vector();
-                this._lineBounds.Add(run.RenderBounds);
+                _runsList = run;
+                _lineBounds = new Vector();
+                _lineBounds.Add(run.RenderBounds);
             }
             else
             {
-                if (!(this._runsList is Vector vector))
+                if (!(_runsList is Vector vector))
                 {
-                    object runsList = this._runsList;
+                    object runsList = _runsList;
                     vector = new Vector();
                     vector.Add(runsList);
-                    this._runsList = vector;
+                    _runsList = vector;
                 }
                 if (run.UnderlineStyle != NativeApi.UnderlineStyle.None)
                 {
@@ -131,15 +131,15 @@ namespace Microsoft.Iris.Drawing
                             break;
                     }
                 }
-                if (this._lineBounds.Count < run.Line)
+                if (_lineBounds.Count < run.Line)
                 {
-                    this._lineBounds.Add(run.RenderBounds);
+                    _lineBounds.Add(run.RenderBounds);
                 }
                 else
                 {
-                    RectangleF lineBound = (RectangleF)this._lineBounds[run.Line - 1];
+                    RectangleF lineBound = (RectangleF)_lineBounds[run.Line - 1];
                     if ((int)lineBound.Y > (int)run.RenderBounds.Y || lineBound.IsEmpty)
-                        this._lineBounds[run.Line - 1] = run.RenderBounds;
+                        _lineBounds[run.Line - 1] = run.RenderBounds;
                 }
                 vector.Add(run);
             }
@@ -148,46 +148,46 @@ namespace Microsoft.Iris.Drawing
 
         public void AddFit(TextRun run)
         {
-            this._fitBounds = Rectangle.Union(this._fitBounds, run.LayoutBounds);
+            _fitBounds = Rectangle.Union(_fitBounds, run.LayoutBounds);
             if (run.LayoutBounds.IsEmpty)
                 return;
-            if (this._firstFitOnFinalLineRun == null || run.Line > this._firstFitOnFinalLineRun.Line)
-                this._firstFitOnFinalLineRun = run;
-            this._lastFitRun = run;
+            if (_firstFitOnFinalLineRun == null || run.Line > _firstFitOnFinalLineRun.Line)
+                _firstFitOnFinalLineRun = run;
+            _lastFitRun = run;
         }
 
         public void AddVisible(int runIndex)
         {
             this[runIndex].Visible = true;
-            if (this._firstVisibleIndex == -1)
-                this._firstVisibleIndex = runIndex;
-            this._lastVisibleIndex = runIndex;
+            if (_firstVisibleIndex == -1)
+                _firstVisibleIndex = runIndex;
+            _lastVisibleIndex = runIndex;
         }
 
         public void ResetFitTracking()
         {
-            this._lastFitRun = null;
-            this._fitBounds = new Rectangle(int.MaxValue, int.MaxValue, int.MinValue, int.MinValue);
+            _lastFitRun = null;
+            _fitBounds = new Rectangle(int.MaxValue, int.MaxValue, int.MinValue, int.MinValue);
         }
 
         public void ResetVisibleTracking()
         {
-            this._firstVisibleIndex = -1;
-            this._lastVisibleIndex = int.MinValue;
+            _firstVisibleIndex = -1;
+            _lastVisibleIndex = int.MinValue;
         }
 
         public void ClearSprites()
         {
-            if (this._runsList == null)
+            if (_runsList == null)
                 return;
-            if (this._runsList is TextRun runsList)
+            if (_runsList is TextRun runsList)
             {
                 runsList.TextSprite = null;
                 runsList.HighlightSprite = null;
             }
             else
             {
-                foreach (TextRun runs in (Vector)this._runsList)
+                foreach (TextRun runs in (Vector)_runsList)
                 {
                     runs.TextSprite = null;
                     runs.HighlightSprite = null;

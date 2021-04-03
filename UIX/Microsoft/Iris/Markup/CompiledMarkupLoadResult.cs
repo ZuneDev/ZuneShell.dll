@@ -19,53 +19,53 @@ namespace Microsoft.Iris.Markup
         public CompiledMarkupLoadResult(Resource resource, string uri)
           : base(uri)
         {
-            this._resource = resource;
+            _resource = resource;
             if (uri != resource.Uri)
-                this._uriUnderlying = resource.Uri;
-            this._loader = CompiledMarkupLoader.Load(this, resource);
+                _uriUnderlying = resource.Uri;
+            _loader = CompiledMarkupLoader.Load(this, resource);
         }
 
         public override bool IsSource => false;
 
-        public override MarkupConstantsTable ConstantsTable => this._binaryDataTable.ConstantsTable;
+        public override MarkupConstantsTable ConstantsTable => _binaryDataTable.ConstantsTable;
 
-        public override MarkupImportTables ImportTables => this._binaryDataTable.ImportTables;
+        public override MarkupImportTables ImportTables => _binaryDataTable.ImportTables;
 
-        public void SetAddressOfLineNumberData(IntPtr address) => this._addressOfLineNumberData = address;
+        public void SetAddressOfLineNumberData(IntPtr address) => _addressOfLineNumberData = address;
 
         public override MarkupLineNumberTable LineNumberTable
         {
             get
             {
-                if (this._lineNumberTable == null)
-                    this._lineNumberTable = CompiledMarkupLoader.DecodeLineNumberTable(this._addressOfLineNumberData);
-                return this._lineNumberTable;
+                if (_lineNumberTable == null)
+                    _lineNumberTable = CompiledMarkupLoader.DecodeLineNumberTable(_addressOfLineNumberData);
+                return _lineNumberTable;
             }
         }
 
         public override void Load(LoadPass currentPass)
         {
-            if (this._loader == null)
+            if (_loader == null)
                 return;
             ErrorManager.EnterContext(ErrorContextUri);
-            this._loader.Depersist(currentPass);
+            _loader.Depersist(currentPass);
             ErrorManager.ExitContext();
             if (currentPass != LoadPass.Done)
                 return;
-            this.LoadComplete();
+            LoadComplete();
         }
 
         private void LoadComplete()
         {
-            if (this._resource != null)
+            if (_resource != null)
             {
-                this._resource.Free();
-                this._resource = null;
+                _resource.Free();
+                _resource = null;
             }
-            this._loader = null;
-            if (this.Status != LoadResultStatus.Loading)
+            _loader = null;
+            if (Status != LoadResultStatus.Loading)
                 return;
-            this.SetStatus(LoadResultStatus.Success);
+            SetStatus(LoadResultStatus.Success);
         }
     }
 }

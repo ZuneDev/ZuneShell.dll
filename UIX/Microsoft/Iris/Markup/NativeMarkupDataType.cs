@@ -34,17 +34,17 @@ namespace Microsoft.Iris.Markup
         private NativeMarkupDataType(MarkupDataTypeSchema type, IntPtr externalObject)
           : base(type)
         {
-            this._externalObject = externalObject;
-            this._handleToMe = s_handleTable.RegisterProxy(this);
-            this._typeHandle = type.UniqueId;
-            NativeApi.SpAddRefExternalObject(this._externalObject);
-            int num = (int)NativeApi.SpDataBaseObjectSetInternalHandle(this._externalObject, this._handleToMe);
-            this.TypeSchema.Owner.RegisterProxyUsage();
+            _externalObject = externalObject;
+            _handleToMe = s_handleTable.RegisterProxy(this);
+            _typeHandle = type.UniqueId;
+            NativeApi.SpAddRefExternalObject(_externalObject);
+            int num = (int)NativeApi.SpDataBaseObjectSetInternalHandle(_externalObject, _handleToMe);
+            TypeSchema.Owner.RegisterProxyUsage();
         }
 
         protected override void OnDispose()
         {
-            ReleaseNativeObject(this._externalObject, this._handleToMe, this._typeHandle);
+            ReleaseNativeObject(_externalObject, _handleToMe, _typeHandle);
             GC.SuppressFinalize(this);
             base.OnDispose();
         }
@@ -55,7 +55,7 @@ namespace Microsoft.Iris.Markup
             {
                 if (s_pendingReleases == null)
                     s_pendingReleases = new Vector<NativeMarkupDataType.AppThreadReleaseEntry>();
-                s_pendingReleases.Add(new NativeMarkupDataType.AppThreadReleaseEntry(this._externalObject, this._handleToMe, this._typeHandle));
+                s_pendingReleases.Add(new NativeMarkupDataType.AppThreadReleaseEntry(_externalObject, _handleToMe, _typeHandle));
                 if (s_pendingAppThreadRelease)
                     return;
                 s_pendingAppThreadRelease = true;
@@ -66,9 +66,9 @@ namespace Microsoft.Iris.Markup
         protected override bool ExternalObjectGetProperty(string propertyName, out object value)
         {
             UIXVariant propertyValue;
-            int property = (int)NativeApi.SpDataBaseObjectGetProperty(this._externalObject, propertyName, out propertyValue);
-            this.TypeSchema.FindPropertyDeep(propertyName);
-            value = UIXVariant.GetValue(propertyValue, this.TypeSchema.Owner);
+            int property = (int)NativeApi.SpDataBaseObjectGetProperty(_externalObject, propertyName, out propertyValue);
+            TypeSchema.FindPropertyDeep(propertyName);
+            value = UIXVariant.GetValue(propertyValue, TypeSchema.Owner);
             return true;
         }
 
@@ -77,13 +77,13 @@ namespace Microsoft.Iris.Markup
             // ISSUE: untyped stack allocation
             UIXVariant* uixVariantPtr = stackalloc UIXVariant[sizeof(UIXVariant)];
             UIXVariant.MarshalObject(value, uixVariantPtr);
-            int num = (int)NativeApi.SpDataBaseObjectSetProperty(this._externalObject, propertyName, uixVariantPtr);
+            int num = (int)NativeApi.SpDataBaseObjectSetProperty(_externalObject, propertyName, uixVariantPtr);
             return true;
         }
 
         protected override IDataProviderBaseObject ExternalAssemblyObject => (IDataProviderBaseObject)null;
 
-        public override IntPtr ExternalNativeObject => this._externalObject;
+        public override IntPtr ExternalNativeObject => _externalObject;
 
         public static NativeMarkupDataType LookupByHandle(ulong handle)
         {
@@ -155,9 +155,9 @@ namespace Microsoft.Iris.Markup
 
             public AppThreadReleaseEntry(IntPtr nativeObject, ulong handle, ulong typeHandle)
             {
-                this._nativeObject = nativeObject;
-                this._handle = handle;
-                this._typeHandle = typeHandle;
+                _nativeObject = nativeObject;
+                _handle = handle;
+                _typeHandle = typeHandle;
             }
         }
     }

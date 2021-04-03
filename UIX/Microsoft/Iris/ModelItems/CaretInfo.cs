@@ -19,63 +19,63 @@ namespace Microsoft.Iris.ModelItems
         private bool _visible;
         private bool _ignoreIdealWidth;
 
-        public CaretInfo() => this._idealWidth = this.GetSystemCaretWidth();
+        public CaretInfo() => _idealWidth = GetSystemCaretWidth();
 
         public int IdealWidth
         {
-            get => this._idealWidth;
+            get => _idealWidth;
             set
             {
-                if (this._idealWidth == value)
+                if (_idealWidth == value)
                     return;
-                this._idealWidth = value;
-                this.FireThreadSafeNotification(NotificationID.IdealWidth);
-                this.UpdateSuggestedSize(this.SuggestedSize);
+                _idealWidth = value;
+                FireThreadSafeNotification(NotificationID.IdealWidth);
+                UpdateSuggestedSize(SuggestedSize);
             }
         }
 
-        public Point Position => this._position;
+        public Point Position => _position;
 
-        public Size SuggestedSize => this._suggestedSize;
+        public Size SuggestedSize => _suggestedSize;
 
-        public bool Visible => this._visible && this._position.X >= 0 && this._position.Y >= 0;
+        public bool Visible => _visible && _position.X >= 0 && _position.Y >= 0;
 
         internal bool IgnoreIdealWidth
         {
-            get => this._ignoreIdealWidth;
-            set => this._ignoreIdealWidth = value;
+            get => _ignoreIdealWidth;
+            set => _ignoreIdealWidth = value;
         }
 
-        public void CreateCaret(Size size) => this.UpdateSuggestedSize(size);
+        public void CreateCaret(Size size) => UpdateSuggestedSize(size);
 
         public void SetVisible(bool visible)
         {
-            if (this._visible == visible)
+            if (_visible == visible)
                 return;
-            this._visible = visible;
-            this.FireThreadSafeNotification(NotificationID.Visible);
+            _visible = visible;
+            FireThreadSafeNotification(NotificationID.Visible);
         }
 
         public void SetCaretPosition(Point position)
         {
-            if (this._position.X == position.X && this._position.Y == position.Y)
+            if (_position.X == position.X && _position.Y == position.Y)
                 return;
-            bool visible = this.Visible;
-            this._position = position;
-            this.FireThreadSafeNotification(NotificationID.Position);
-            if (this.Visible == visible)
+            bool visible = Visible;
+            _position = position;
+            FireThreadSafeNotification(NotificationID.Position);
+            if (Visible == visible)
                 return;
-            this.FireThreadSafeNotification(NotificationID.Visible);
+            FireThreadSafeNotification(NotificationID.Visible);
         }
 
         private void UpdateSuggestedSize(Size newSize)
         {
-            if (newSize.Width == 1 && this._idealWidth != 0 && !this.IgnoreIdealWidth)
-                newSize.Width = this._idealWidth;
-            if (!(newSize != this._suggestedSize))
+            if (newSize.Width == 1 && _idealWidth != 0 && !IgnoreIdealWidth)
+                newSize.Width = _idealWidth;
+            if (!(newSize != _suggestedSize))
                 return;
-            this._suggestedSize = newSize;
-            this.FireThreadSafeNotification(NotificationID.SuggestedSize);
+            _suggestedSize = newSize;
+            FireThreadSafeNotification(NotificationID.SuggestedSize);
         }
 
         private int GetSystemCaretWidth() => Win32Api.GetCaretWidth();

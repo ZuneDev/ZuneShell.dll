@@ -49,17 +49,17 @@ namespace Microsoft.Iris.Input
           bool state,
           uint messageID)
         {
-            this._state = state;
-            this._doubleClick = false;
-            this.Initialize(rawSource, rawNatural, x, y, screenX, screenY, modifiers, EventTypeForMouseButton(state, button, modifiers), messageID, button, 0);
+            _state = state;
+            _doubleClick = false;
+            Initialize(rawSource, rawNatural, x, y, screenX, screenY, modifiers, EventTypeForMouseButton(state, button, modifiers), messageID, button, 0);
         }
 
-        public override InputEventType EventType => this._doubleClick ? InputEventType.MouseDoubleClick : this._eventType;
+        public override InputEventType EventType => _doubleClick ? InputEventType.MouseDoubleClick : _eventType;
 
         public override void UpdateTarget(ICookedInputSite target)
         {
             base.UpdateTarget(target);
-            this._doubleClick = (this.Modifiers & InputModifiers.DoubleClick) != InputModifiers.None && target != null && target.AllowDoubleClicks;
+            _doubleClick = (Modifiers & InputModifiers.DoubleClick) != InputModifiers.None && target != null && target.AllowDoubleClicks;
         }
 
         private static InputEventType EventTypeForMouseButton(
@@ -71,10 +71,10 @@ namespace Microsoft.Iris.Input
             return !state ? (!flag ? InputEventType.MouseSecondaryUp : InputEventType.MousePrimaryUp) : (!flag ? InputEventType.MouseSecondaryDown : InputEventType.MousePrimaryDown);
         }
 
-        public bool IsDown => this._state;
+        public bool IsDown => _state;
 
         protected override InputInfo.InfoType PoolType => s_poolType;
 
-        public override string ToString() => InvariantString.Format("{0}({1}, Button={2})", this.GetType().Name, this._state ? "Down" : "Up", Button);
+        public override string ToString() => InvariantString.Format("{0}({1}, Button={2})", GetType().Name, _state ? "Down" : "Up", Button);
     }
 }

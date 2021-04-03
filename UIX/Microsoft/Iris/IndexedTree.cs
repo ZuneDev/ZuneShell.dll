@@ -17,24 +17,24 @@ namespace Microsoft.Iris
 
         public IndexedTree()
         {
-            this._lastSearchedIndex = -1;
-            this._lockObj = new object();
+            _lastSearchedIndex = -1;
+            _lockObj = new object();
         }
 
         private void SetRoot(IndexedTree.TreeNode newValue)
         {
-            if (this._root == newValue)
+            if (_root == newValue)
                 return;
-            this._root = newValue;
-            this._lastSearchedIndex = -1;
+            _root = newValue;
+            _lastSearchedIndex = -1;
         }
 
         private IndexedTree.TreeNode AcquireTreeNode()
         {
-            IndexedTree.TreeNode treeNode = this._poolHead;
-            if (this._poolHead != null)
+            IndexedTree.TreeNode treeNode = _poolHead;
+            if (_poolHead != null)
             {
-                this._poolHead = this._poolHead.parent;
+                _poolHead = _poolHead.parent;
                 treeNode.parent = null;
             }
             else
@@ -44,50 +44,50 @@ namespace Microsoft.Iris
 
         private void ReclaimTreeNode(IndexedTree.TreeNode node)
         {
-            node.parent = this._poolHead;
+            node.parent = _poolHead;
             node.left = null;
             node.right = null;
-            this._poolHead = node;
+            _poolHead = node;
         }
 
         public void Store(int index, object data)
         {
-            lock (this._lockObj)
+            lock (_lockObj)
             {
-                IndexedTree.TreeNode newValue = this.Find(index);
+                IndexedTree.TreeNode newValue = Find(index);
                 if (newValue == null)
                 {
-                    newValue = this.AcquireTreeNode();
+                    newValue = AcquireTreeNode();
                     newValue.delta = index;
                     newValue.parent = null;
-                    if (this._root != null)
+                    if (_root != null)
                     {
-                        this._root.parent = newValue;
-                        if (this._root.delta < index)
+                        _root.parent = newValue;
+                        if (_root.delta < index)
                         {
-                            newValue.left = this._root;
-                            if (this._root.right != null && this._root.right.delta + this._root.delta > index)
+                            newValue.left = _root;
+                            if (_root.right != null && _root.right.delta + _root.delta > index)
                             {
-                                this._root.right.parent = newValue;
-                                newValue.right = this._root.right;
-                                newValue.right.delta = this._root.right.delta + this._root.delta - index;
-                                this._root.right = null;
+                                _root.right.parent = newValue;
+                                newValue.right = _root.right;
+                                newValue.right.delta = _root.right.delta + _root.delta - index;
+                                _root.right = null;
                             }
                         }
                         else
                         {
-                            newValue.right = this._root;
-                            if (this._root.left != null && this._root.left.delta + this._root.delta < index)
+                            newValue.right = _root;
+                            if (_root.left != null && _root.left.delta + _root.delta < index)
                             {
-                                this._root.left.parent = newValue;
-                                newValue.left = this._root.left;
-                                newValue.left.delta = this._root.left.delta + this._root.delta - index;
-                                this._root.left = null;
+                                _root.left.parent = newValue;
+                                newValue.left = _root.left;
+                                newValue.left.delta = _root.left.delta + _root.delta - index;
+                                _root.left = null;
                             }
                         }
-                        this._root.delta -= index;
+                        _root.delta -= index;
                     }
-                    this.SetRoot(newValue);
+                    SetRoot(newValue);
                 }
                 newValue.data = data;
             }
@@ -95,9 +95,9 @@ namespace Microsoft.Iris
 
         public void Remove(int index)
         {
-            lock (this._lockObj)
+            lock (_lockObj)
             {
-                IndexedTree.TreeNode node = this.Find(index);
+                IndexedTree.TreeNode node = Find(index);
                 if (node == null)
                     return;
                 IndexedTree.TreeNode treeNode;
@@ -106,15 +106,15 @@ namespace Microsoft.Iris
                     if (node.right == null)
                     {
                         IndexedTree.TreeNode left = node.left;
-                        if (node == this._root)
-                            this.SetRoot(left);
+                        if (node == _root)
+                            SetRoot(left);
                         else if (node.IsRightBranch)
                             node.parent.right = left;
                         else
                             node.parent.left = left;
                         left.delta += node.delta;
                         left.parent = node.parent;
-                        this.ReclaimTreeNode(node);
+                        ReclaimTreeNode(node);
                         return;
                     }
                     treeNode = node.left;
@@ -126,15 +126,15 @@ namespace Microsoft.Iris
                     }
                     node.data = treeNode.data;
                     node.delta = num1;
-                    if (node == this._root)
-                        this._lastSearchedIndex = -1;
+                    if (node == _root)
+                        _lastSearchedIndex = -1;
                     int num2 = num1 - index;
                     node.left.delta -= num2;
                     node.right.delta -= num2;
                 }
                 IndexedTree.TreeNode right = node.right;
-                if (node == this._root)
-                    this.SetRoot(right);
+                if (node == _root)
+                    SetRoot(right);
                 else if (node.IsRightBranch)
                     node.parent.right = right;
                 else
@@ -144,15 +144,15 @@ namespace Microsoft.Iris
                     right.delta += node.delta;
                     right.parent = node.parent;
                 }
-                this.ReclaimTreeNode(node);
+                ReclaimTreeNode(node);
             }
         }
 
         public bool TryGetData(int index, out object data)
         {
-            lock (this._lockObj)
+            lock (_lockObj)
             {
-                IndexedTree.TreeNode treeNode = this.Find(index);
+                IndexedTree.TreeNode treeNode = Find(index);
                 data = treeNode == null ? null : treeNode.data;
                 return treeNode != null;
             }
@@ -160,15 +160,15 @@ namespace Microsoft.Iris
 
         public void InsertRange(int index, int count)
         {
-            lock (this._lockObj)
+            lock (_lockObj)
             {
-                this.Find(index);
-                if (this._root == null)
+                Find(index);
+                if (_root == null)
                     return;
-                IndexedTree.TreeNode node = this._root;
-                if (this._root.delta < index)
-                    node = this._root.right;
-                this.ChangeIndex(node, count);
+                IndexedTree.TreeNode node = _root;
+                if (_root.delta < index)
+                    node = _root.right;
+                ChangeIndex(node, count);
             }
         }
 
@@ -184,74 +184,74 @@ namespace Microsoft.Iris
 
         public void Insert(int index, bool setValue, object data)
         {
-            lock (this._lockObj)
+            lock (_lockObj)
             {
-                this.InsertRange(index, 1);
+                InsertRange(index, 1);
                 if (!setValue)
                     return;
-                this.Store(index, data);
+                Store(index, data);
             }
         }
 
         public void RemoveIndex(int index)
         {
-            lock (this._lockObj)
+            lock (_lockObj)
             {
-                IndexedTree.TreeNode treeNode = this.Find(index);
+                IndexedTree.TreeNode treeNode = Find(index);
                 if (treeNode != null)
                 {
                     if (treeNode.right != null)
                         --treeNode.right.delta;
-                    this.Remove(index);
+                    Remove(index);
                 }
                 else
                 {
-                    if (this._root == null)
+                    if (_root == null)
                         return;
-                    IndexedTree.TreeNode node = this._root;
-                    if (this._root.delta < index)
-                        node = this._root.right;
-                    this.ChangeIndex(node, -1);
+                    IndexedTree.TreeNode node = _root;
+                    if (_root.delta < index)
+                        node = _root.right;
+                    ChangeIndex(node, -1);
                 }
             }
         }
 
         public void Clear()
         {
-            lock (this._lockObj)
-                this.SetRoot(null);
+            lock (_lockObj)
+                SetRoot(null);
         }
 
         public bool Contains(int index)
         {
-            lock (this._lockObj)
-                return this.Find(index) != null;
+            lock (_lockObj)
+                return Find(index) != null;
         }
 
         public object this[int index]
         {
             get
             {
-                lock (this._lockObj)
+                lock (_lockObj)
                 {
                     object data;
-                    this.TryGetData(index, out data);
+                    TryGetData(index, out data);
                     return data;
                 }
             }
             set
             {
-                lock (this._lockObj)
-                    this.Store(index, value);
+                lock (_lockObj)
+                    Store(index, value);
             }
         }
 
         private IndexedTree.TreeNode Find(int index)
         {
-            if (this._lastSearchedIndex == index && this._root != null)
-                return this._root.delta != index ? null : this._root;
-            this._lastSearchedIndex = index;
-            IndexedTree.TreeNode treeNode = this._root;
+            if (_lastSearchedIndex == index && _root != null)
+                return _root.delta != index ? null : _root;
+            _lastSearchedIndex = index;
+            IndexedTree.TreeNode treeNode = _root;
             IndexedTree.TreeNode node = null;
             int num = 0;
             bool flag = false;
@@ -265,8 +265,8 @@ namespace Microsoft.Iris
                     treeNode = num <= index ? treeNode.right : treeNode.left;
             }
             if (node != null)
-                this.Splay(node);
-            this._lastSearchedIndex = index;
+                Splay(node);
+            _lastSearchedIndex = index;
             return !flag ? null : treeNode;
         }
 
@@ -275,27 +275,27 @@ namespace Microsoft.Iris
             for (IndexedTree.TreeNode parent = node.parent; parent != null; parent = node.parent)
             {
                 if (parent.parent == null)
-                    this.Zig(node);
+                    Zig(node);
                 else if (node.IsLeftBranch == parent.IsLeftBranch)
-                    this.ZigZig(node, parent);
+                    ZigZig(node, parent);
                 else
-                    this.ZigZag(node);
+                    ZigZag(node);
             }
-            this.SetRoot(node);
+            SetRoot(node);
         }
 
-        private void Zig(IndexedTree.TreeNode item) => this.Rotate(item);
+        private void Zig(IndexedTree.TreeNode item) => Rotate(item);
 
         private void ZigZig(IndexedTree.TreeNode item, IndexedTree.TreeNode parent)
         {
-            this.Rotate(parent);
-            this.Rotate(item);
+            Rotate(parent);
+            Rotate(item);
         }
 
         private void ZigZag(IndexedTree.TreeNode item)
         {
-            this.Rotate(item);
-            this.Rotate(item);
+            Rotate(item);
+            Rotate(item);
         }
 
         private void Rotate(IndexedTree.TreeNode child)
@@ -335,7 +335,7 @@ namespace Microsoft.Iris
             parent.parent = child;
         }
 
-        public IndexedTree.TreeNode Root => this._root;
+        public IndexedTree.TreeNode Root => _root;
 
         public IndexedTree.TreeEnumerator GetEnumerator() => new IndexedTree.TreeEnumerator(this);
 
@@ -352,9 +352,9 @@ namespace Microsoft.Iris
             public IndexedTree.TreeNode parent;
             public object data;
 
-            public bool IsLeftBranch => this.delta < 0;
+            public bool IsLeftBranch => delta < 0;
 
-            public bool IsRightBranch => this.delta > 0;
+            public bool IsRightBranch => delta > 0;
         }
 
         public struct TreeEntry
@@ -364,13 +364,13 @@ namespace Microsoft.Iris
 
             public TreeEntry(int index, object data)
             {
-                this._index = index;
-                this._data = data;
+                _index = index;
+                _data = data;
             }
 
-            public int Index => this._index;
+            public int Index => _index;
 
-            public object Value => this._data;
+            public object Value => _data;
         }
 
         public struct TreeEnumerator
@@ -382,10 +382,10 @@ namespace Microsoft.Iris
 
             public TreeEnumerator(IndexedTree tree)
             {
-                this._tree = tree;
-                this._current = this._tree._root;
-                this._started = false;
-                this._index = this._current != null ? this._current.delta : -1;
+                _tree = tree;
+                _current = _tree._root;
+                _started = false;
+                _index = _current != null ? _current.delta : -1;
             }
 
             [Conditional("DEBUG")]
@@ -395,50 +395,50 @@ namespace Microsoft.Iris
 
             private void MoveToLeftmostChild()
             {
-                if (this._current == null)
+                if (_current == null)
                     return;
-                while (this._current.left != null)
+                while (_current.left != null)
                 {
-                    this._current = this._current.left;
-                    this._index += this._current.delta;
+                    _current = _current.left;
+                    _index += _current.delta;
                 }
             }
 
             public bool MoveNext()
             {
-                lock (this._tree._lockObj)
+                lock (_tree._lockObj)
                 {
-                    if (!this._started)
+                    if (!_started)
                     {
-                        this._started = true;
-                        this.MoveToLeftmostChild();
+                        _started = true;
+                        MoveToLeftmostChild();
                     }
-                    else if (this._current.right != null)
+                    else if (_current.right != null)
                     {
-                        this._current = this._current.right;
-                        this._index += this._current.delta;
-                        this.MoveToLeftmostChild();
+                        _current = _current.right;
+                        _index += _current.delta;
+                        MoveToLeftmostChild();
                     }
-                    else if (this._current.IsLeftBranch)
+                    else if (_current.IsLeftBranch)
                     {
-                        this._index -= this._current.delta;
-                        this._current = this._current.parent;
+                        _index -= _current.delta;
+                        _current = _current.parent;
                     }
                     else
                     {
-                        for (; this._current != null && this._current.IsRightBranch; this._current = this._current.parent)
-                            this._index -= this._current.delta;
-                        if (this._current != null)
+                        for (; _current != null && _current.IsRightBranch; _current = _current.parent)
+                            _index -= _current.delta;
+                        if (_current != null)
                         {
-                            this._index -= this._current.delta;
-                            this._current = this._current.parent;
+                            _index -= _current.delta;
+                            _current = _current.parent;
                         }
                     }
-                    return this._current != null;
+                    return _current != null;
                 }
             }
 
-            public IndexedTree.TreeEntry Current => new IndexedTree.TreeEntry(this._index, this._current.data);
+            public IndexedTree.TreeEntry Current => new IndexedTree.TreeEntry(_index, _current.data);
         }
     }
 }

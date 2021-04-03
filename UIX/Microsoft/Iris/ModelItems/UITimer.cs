@@ -13,44 +13,44 @@ namespace Microsoft.Iris.ModelItems
     {
         private DispatcherTimer _dispatcherTimer;
 
-        public UITimer() => this._dispatcherTimer = new DispatcherTimer(this);
+        public UITimer() => _dispatcherTimer = new DispatcherTimer(this);
 
         protected override void OnDispose()
         {
-            this.Enabled = false;
+            Enabled = false;
             base.OnDispose();
         }
 
-        void ITimerOwner.OnTimerPropertyChanged(string id) => this.FireNotification(id);
+        void ITimerOwner.OnTimerPropertyChanged(string id) => FireNotification(id);
 
         public int Interval
         {
-            get => this._dispatcherTimer.Interval;
-            set => this._dispatcherTimer.Interval = value;
+            get => _dispatcherTimer.Interval;
+            set => _dispatcherTimer.Interval = value;
         }
 
         public bool Enabled
         {
-            get => this._dispatcherTimer.Enabled;
-            set => this._dispatcherTimer.Enabled = value;
+            get => _dispatcherTimer.Enabled;
+            set => _dispatcherTimer.Enabled = value;
         }
 
         public bool AutoRepeat
         {
-            get => this._dispatcherTimer.AutoRepeat;
-            set => this._dispatcherTimer.AutoRepeat = value;
+            get => _dispatcherTimer.AutoRepeat;
+            set => _dispatcherTimer.AutoRepeat = value;
         }
 
         internal object UserData
         {
-            get => this._dispatcherTimer.UserData;
-            set => this._dispatcherTimer.UserData = value;
+            get => _dispatcherTimer.UserData;
+            set => _dispatcherTimer.UserData = value;
         }
 
-        public void Start() => this._dispatcherTimer.Start();
+        public void Start() => _dispatcherTimer.Start();
 
-        public void Stop() => this._dispatcherTimer.Stop();
+        public void Stop() => _dispatcherTimer.Stop();
 
-        public override string ToString() => this.GetType().Name + this._dispatcherTimer.ToString();
+        public override string ToString() => GetType().Name + _dispatcherTimer.ToString();
     }
 }

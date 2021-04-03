@@ -13,7 +13,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
         public bool LookupByHandle(ulong handle, out TypeSchema obj)
         {
             object obj1;
-            bool flag = this.LookupByHandleWorker(handle, out obj1);
+            bool flag = LookupByHandleWorker(handle, out obj1);
             obj = (TypeSchema)obj1;
             return flag;
         }

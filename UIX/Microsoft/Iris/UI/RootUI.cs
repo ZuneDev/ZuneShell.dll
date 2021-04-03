@@ -14,9 +14,9 @@ namespace Microsoft.Iris.UI
         public RootUI(UIZone zone)
           : base(MarkupSystem.RootGlobal.RootType)
         {
-            this.DeclareOwner(zone);
-            this.PropagateZone(zone);
-            this.NotifyInitialized();
+            DeclareOwner(zone);
+            PropagateZone(zone);
+            NotifyInitialized();
         }
 
         protected override void OnOwnerDeclared(object owner)

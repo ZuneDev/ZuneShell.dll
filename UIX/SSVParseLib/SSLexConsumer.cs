@@ -27,37 +27,37 @@ namespace SSVParseLib
 
         public bool next()
         {
-            if (this.m_endOfData)
+            if (m_endOfData)
                 return false;
-            if ((this.m_current = this.m_bof) != char.MinValue)
+            if ((m_current = m_bof) != char.MinValue)
             {
-                this.m_bof = char.MinValue;
+                m_bof = char.MinValue;
                 return true;
             }
-            if (!this.getNext())
+            if (!getNext())
             {
-                ++this.m_index;
-                this.m_endOfData = true;
+                ++m_index;
+                m_endOfData = true;
                 return false;
             }
-            ++this.m_index;
-            if (this.m_current == '\n')
+            ++m_index;
+            if (m_current == '\n')
             {
-                ++this.m_scanLine;
-                this.m_scanOffset = 1;
+                ++m_scanLine;
+                m_scanOffset = 1;
             }
             else
-                ++this.m_scanOffset;
+                ++m_scanOffset;
             return true;
         }
 
-        public int line() => this.m_docOriginLine + this.m_line;
+        public int line() => m_docOriginLine + m_line;
 
-        public int offset() => this.m_line != 0 ? this.m_offset : this.m_docOriginColumn + this.m_offset;
+        public int offset() => m_line != 0 ? m_offset : m_docOriginColumn + m_offset;
 
-        public char getCurrent() => this.m_current;
+        public char getCurrent() => m_current;
 
-        public SSLexMark mark() => new SSLexMark(this.m_scanLine, this.m_scanOffset, this.m_index);
+        public SSLexMark mark() => new SSLexMark(m_scanLine, m_scanOffset, m_index);
 
         public void flushEndOfLine(ref SSLexMark? q_mark)
         {
@@ -67,44 +67,44 @@ namespace SSVParseLib
 
         public void flushStartOfLine(ref SSLexMark? q_mark)
         {
-            ++this.m_line;
-            ++this.m_start;
+            ++m_line;
+            ++m_start;
             SSLexMark ssLexMark = new SSLexMark(q_mark.Value.m_line - 1, q_mark.Value.m_offset, q_mark.Value.m_index);
             q_mark = new SSLexMark?(ssLexMark);
-            this.m_offset = 1;
+            m_offset = 1;
         }
 
         public virtual void flushLexeme(SSLexMark q_mark)
         {
-            this.m_start = this.m_index = q_mark.m_index;
-            this.m_line += q_mark.m_line;
-            this.m_offset = q_mark.m_offset;
-            this.m_scanLine = 0;
-            this.m_scanOffset = q_mark.m_offset;
-            this.m_bufferLexemeStart = this.m_index;
+            m_start = m_index = q_mark.m_index;
+            m_line += q_mark.m_line;
+            m_offset = q_mark.m_offset;
+            m_scanLine = 0;
+            m_scanOffset = q_mark.m_offset;
+            m_bufferLexemeStart = m_index;
         }
 
         public void flushLexeme()
         {
-            this.m_start = this.m_index;
-            this.m_line += this.m_scanLine;
-            this.m_offset = this.m_scanOffset;
-            this.m_scanLine = 0;
-            this.m_bufferLexemeStart = this.m_index;
+            m_start = m_index;
+            m_line += m_scanLine;
+            m_offset = m_scanOffset;
+            m_scanLine = 0;
+            m_bufferLexemeStart = m_index;
         }
 
-        public int lexemeLength() => this.m_index - this.m_start;
+        public int lexemeLength() => m_index - m_start;
 
-        public int lexemeLength(SSLexMark q_mark) => q_mark.index() - this.m_start;
+        public int lexemeLength(SSLexMark q_mark) => q_mark.index() - m_start;
 
-        public string lexemeBuffer() => this.getSubstring(this.m_bufferLexemeStart, this.lexemeLength());
+        public string lexemeBuffer() => getSubstring(m_bufferLexemeStart, lexemeLength());
 
-        public string lexemeBuffer(SSLexMark q_mark) => this.getSubstring(this.m_bufferLexemeStart, this.lexemeLength(q_mark));
+        public string lexemeBuffer(SSLexMark q_mark) => getSubstring(m_bufferLexemeStart, lexemeLength(q_mark));
 
         public void SetDocumentOffset(int line, int column)
         {
-            this.m_docOriginLine = line;
-            this.m_docOriginColumn = column;
+            m_docOriginLine = line;
+            m_docOriginColumn = column;
         }
     }
 }

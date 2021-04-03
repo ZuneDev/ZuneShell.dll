@@ -18,17 +18,17 @@ namespace Microsoft.Iris.Animations
           float baseValue,
           ref AnimationArgs args)
         {
-            return this.RelativeTo == RelativeTo.Final ? baseValue * args.NewAlpha : baseValue;
+            return RelativeTo == RelativeTo.Final ? baseValue * args.NewAlpha : baseValue;
         }
 
         public override void Apply(IAnimatableOwner animationTarget, float value) => ((ViewItem)animationTarget).VisualAlpha = value;
 
         public override void MagnifyValue(float magnifyValue)
         {
-            float num = this.Value * magnifyValue;
+            float num = Value * magnifyValue;
             if (num > 1.0)
                 num = 1f;
-            this.Value = num;
+            Value = num;
         }
     }
 }

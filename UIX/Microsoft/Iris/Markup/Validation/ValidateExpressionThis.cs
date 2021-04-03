@@ -15,9 +15,9 @@ namespace Microsoft.Iris.Markup.Validation
 
         public override void Validate(TypeRestriction typeRestriction, ValidateContext context)
         {
-            if (this.Usage == ExpressionUsage.LValue)
-                this.ReportError("Expression cannot be used as the target an assignment (related symbol: '{0}')", "this");
-            this.DeclareEvaluationType(context.Owner.TypeExport, TypeRestriction.None);
+            if (Usage == ExpressionUsage.LValue)
+                ReportError("Expression cannot be used as the target an assignment (related symbol: '{0}')", "this");
+            DeclareEvaluationType(context.Owner.TypeExport, TypeRestriction.None);
         }
     }
 }

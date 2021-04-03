@@ -21,56 +21,56 @@ namespace Microsoft.Iris.CodeModel.Cpp
 
         public DllMethodSchema(DllTypeSchema owner, uint ID)
           : base(owner)
-          => this._id = ID;
+          => _id = ID;
 
-        public bool Load(IntPtr method) => this.QueryMethodName(method) && this.QueryForParameterTypes(method) && this.QueryReturnType(method) && this.QueryIsStatic(method);
+        public bool Load(IntPtr method) => QueryMethodName(method) && QueryForParameterTypes(method) && QueryReturnType(method) && QueryIsStatic(method);
 
-        public uint ID => this._id;
+        public uint ID => _id;
 
         [Conditional("DEBUG")]
         public void DEBUG_Dump()
         {
             string str1 = string.Empty;
-            if (this.IsStatic)
+            if (IsStatic)
                 str1 = "static ";
             string str2 = "void";
-            if (this.ReturnType != null)
-                str2 = this.ReturnType.Name;
+            if (ReturnType != null)
+                str2 = ReturnType.Name;
             string str3 = string.Empty;
-            if (this._parameterTypes != null)
+            if (_parameterTypes != null)
             {
-                for (int index = 0; index < this._parameterTypes.Length; ++index)
+                for (int index = 0; index < _parameterTypes.Length; ++index)
                 {
                     string str4 = "<null>";
-                    if (this._parameterTypes[index] != null)
-                        str4 = this._parameterTypes[index].Name;
+                    if (_parameterTypes[index] != null)
+                        str4 = _parameterTypes[index].Name;
                     str3 = string.Format("{0}{1}{2}", str3, index > 0 ? ", " : string.Empty, str4);
                 }
             }
             string.Format("0x{0:x8} {1}{2} {3}({4})", _id, str1, str2, Name, str3);
         }
 
-        public override string Name => this._name;
+        public override string Name => _name;
 
-        public override TypeSchema[] ParameterTypes => this._parameterTypes;
+        public override TypeSchema[] ParameterTypes => _parameterTypes;
 
-        public override TypeSchema ReturnType => this._returnType;
+        public override TypeSchema ReturnType => _returnType;
 
-        public override bool IsStatic => this._isStatic;
+        public override bool IsStatic => _isStatic;
 
-        private DllTypeSchema OwnerTypeSchema => (DllTypeSchema)this.Owner;
+        private DllTypeSchema OwnerTypeSchema => (DllTypeSchema)Owner;
 
-        public override object Invoke(object instance, object[] parameters) => this.OwnerTypeSchema.InvokeMethod(instance, this, parameters);
+        public override object Invoke(object instance, object[] parameters) => OwnerTypeSchema.InvokeMethod(instance, this, parameters);
 
-        private DllLoadResult OwnerLoadResult => (DllLoadResult)this.Owner.Owner;
+        private DllLoadResult OwnerLoadResult => (DllLoadResult)Owner.Owner;
 
         private unsafe bool QueryMethodName(IntPtr method)
         {
             bool flag = false;
             char* name;
-            if (this.CheckNativeReturn(NativeApi.SpQueryMethodName(method, out name)))
+            if (CheckNativeReturn(NativeApi.SpQueryMethodName(method, out name)))
             {
-                this._name = new string(name);
+                _name = new string(name);
                 flag = true;
             }
             return flag;
@@ -80,20 +80,20 @@ namespace Microsoft.Iris.CodeModel.Cpp
         {
             bool flag1 = false;
             uint count;
-            if (this.CheckNativeReturn(NativeApi.SpQueryMethodParameterCount(method, out count)))
+            if (CheckNativeReturn(NativeApi.SpQueryMethodParameterCount(method, out count)))
             {
                 if (count > 0U)
                 {
                     uint[] IDs = new uint[(int)count];
-                    if (this.CheckNativeReturn(NativeApi.SpGetMethodParameterTypes(method, IDs, count)))
+                    if (CheckNativeReturn(NativeApi.SpGetMethodParameterTypes(method, IDs, count)))
                     {
-                        this._parameterTypes = new TypeSchema[(int)count];
+                        _parameterTypes = new TypeSchema[(int)count];
                         bool flag2 = false;
                         for (uint index = 0; index < count; ++index)
                         {
                             TypeSchema typeSchema = DllLoadResult.MapType(IDs[index]);
                             if (typeSchema != null)
-                                this._parameterTypes[index] = typeSchema;
+                                _parameterTypes[index] = typeSchema;
                             else
                                 flag2 = true;
                         }
@@ -102,7 +102,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
                 }
                 else
                 {
-                    this._parameterTypes = TypeSchema.EmptyList;
+                    _parameterTypes = TypeSchema.EmptyList;
                     flag1 = true;
                 }
             }
@@ -113,15 +113,15 @@ namespace Microsoft.Iris.CodeModel.Cpp
         {
             bool flag = false;
             uint type;
-            if (this.CheckNativeReturn(NativeApi.SpQueryMethodReturnType(method, out type)))
+            if (CheckNativeReturn(NativeApi.SpQueryMethodReturnType(method, out type)))
             {
-                this._returnType = DllLoadResult.MapType(type);
-                flag = this._returnType != null;
+                _returnType = DllLoadResult.MapType(type);
+                flag = _returnType != null;
             }
             return flag;
         }
 
-        private bool QueryIsStatic(IntPtr method) => this.CheckNativeReturn(NativeApi.SpQueryMethodIsStatic(method, out this._isStatic));
+        private bool QueryIsStatic(IntPtr method) => CheckNativeReturn(NativeApi.SpQueryMethodIsStatic(method, out _isStatic));
 
         private bool CheckNativeReturn(uint hr) => DllLoadResult.CheckNativeReturn(hr, "IUIXMethod");
     }

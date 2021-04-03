@@ -33,174 +33,174 @@ namespace Microsoft.Iris.InputHandlers
 
         public ClickHandler()
         {
-            this._clickType = ClickType.Key | ClickType.GamePad | ClickType.LeftMouse;
-            this._clickCount = ClickCount.Single;
-            this._repeat = true;
-            this._repeatDelay = DefaultRepeatDelay;
-            this._repeatRate = DefaultRepeatRate;
-            this._handle = true;
+            _clickType = ClickType.Key | ClickType.GamePad | ClickType.LeftMouse;
+            _clickCount = ClickCount.Single;
+            _repeat = true;
+            _repeatDelay = DefaultRepeatDelay;
+            _repeatRate = DefaultRepeatRate;
+            _handle = true;
         }
 
         protected override void OnDispose()
         {
-            if (this._repeatTimer != null)
-                this._repeatTimer.Enabled = false;
+            if (_repeatTimer != null)
+                _repeatTimer.Enabled = false;
             base.OnDispose();
         }
 
         protected override void ConfigureInteractivity()
         {
             base.ConfigureInteractivity();
-            if (!this.HandleDirect)
+            if (!HandleDirect)
                 return;
-            if (this.ShouldHandleEvent(ClickType.Mouse))
-                this.UI.MouseInteractive = true;
-            if (!this.ShouldHandleEvent(ClickType.Key | ClickType.GamePad))
+            if (ShouldHandleEvent(ClickType.Mouse))
+                UI.MouseInteractive = true;
+            if (!ShouldHandleEvent(ClickType.Key | ClickType.GamePad))
                 return;
-            this.UI.KeyInteractive = true;
+            UI.KeyInteractive = true;
         }
 
         public ClickType ClickType
         {
-            get => this._clickType;
+            get => _clickType;
             set
             {
-                if (this._clickType == value)
+                if (_clickType == value)
                     return;
-                this._clickType = value;
-                this.FireNotification(NotificationID.ClickType);
+                _clickType = value;
+                FireNotification(NotificationID.ClickType);
             }
         }
 
         public ClickCount ClickCount
         {
-            get => this._clickCount;
+            get => _clickCount;
             set
             {
-                if (this._clickCount == value)
+                if (_clickCount == value)
                     return;
-                this._clickCount = value;
-                this.FireNotification(NotificationID.ClickCount);
+                _clickCount = value;
+                FireNotification(NotificationID.ClickCount);
             }
         }
 
         public bool Repeat
         {
-            get => this._repeat;
+            get => _repeat;
             set
             {
-                if (this._repeat == value)
+                if (_repeat == value)
                     return;
-                this._repeat = value;
-                this.FireNotification(NotificationID.Repeat);
+                _repeat = value;
+                FireNotification(NotificationID.Repeat);
             }
         }
 
         public int RepeatDelay
         {
-            get => this._repeatDelay;
+            get => _repeatDelay;
             set
             {
-                if (this._repeatDelay == value)
+                if (_repeatDelay == value)
                     return;
-                this._repeatDelay = value;
-                this.FireNotification(NotificationID.RepeatDelay);
+                _repeatDelay = value;
+                FireNotification(NotificationID.RepeatDelay);
             }
         }
 
         public int RepeatRate
         {
-            get => this._repeatRate;
+            get => _repeatRate;
             set
             {
-                if (this._repeatRate == value)
+                if (_repeatRate == value)
                     return;
-                this._repeatRate = value;
-                this.FireNotification(NotificationID.RepeatRate);
+                _repeatRate = value;
+                FireNotification(NotificationID.RepeatRate);
             }
         }
 
-        public bool Clicking => this._clickTypeInProgress != ClickType.None && this._clickValidPosition;
+        public bool Clicking => _clickTypeInProgress != ClickType.None && _clickValidPosition;
 
-        public object EventContext => this.CheckEventContext(ref this._eventContext);
+        public object EventContext => CheckEventContext(ref _eventContext);
 
         public IUICommand Command
         {
-            get => this._command;
+            get => _command;
             set
             {
-                if (this._command == value)
+                if (_command == value)
                     return;
-                this._command = value;
-                this.FireNotification(NotificationID.Command);
+                _command = value;
+                FireNotification(NotificationID.Command);
             }
         }
 
         public bool Handle
         {
-            get => this._handle;
+            get => _handle;
             set
             {
-                if (this._handle == value)
+                if (_handle == value)
                     return;
-                this._handle = value;
-                this.FireNotification(NotificationID.Handle);
+                _handle = value;
+                FireNotification(NotificationID.Handle);
             }
         }
 
         private void InvokeCommand()
         {
-            this.FireNotification(NotificationID.Invoked);
-            if (this._command == null)
+            FireNotification(NotificationID.Invoked);
+            if (_command == null)
                 return;
-            this._command.Invoke();
+            _command.Invoke();
         }
 
         private void BeginClick(ClickType clickType, bool validPosition)
         {
-            if (this._clickTypeInProgress == ClickType.None)
+            if (_clickTypeInProgress == ClickType.None)
             {
-                this._clickTypeInProgress = clickType;
-                this._clickValidPosition = validPosition;
+                _clickTypeInProgress = clickType;
+                _clickValidPosition = validPosition;
                 if (validPosition)
-                    this.FireNotification(NotificationID.Clicking);
+                    FireNotification(NotificationID.Clicking);
             }
-            else if (this._clickTypeInProgress != clickType)
-                this.CancelClick(ClickType.Any);
-            this.SetEventContext(null, ref this._eventContext, NotificationID.EventContext);
+            else if (_clickTypeInProgress != clickType)
+                CancelClick(ClickType.Any);
+            SetEventContext(null, ref _eventContext, NotificationID.EventContext);
         }
 
         private void EndClick(ICookedInputSite clickTarget, ClickType clickType)
         {
-            if (this._clickTypeInProgress == ClickType.None)
+            if (_clickTypeInProgress == ClickType.None)
                 return;
-            this.SetEventContext(clickTarget, ref this._eventContext, NotificationID.EventContext);
-            if (this._clickTypeInProgress == clickType && this._clickValidPosition)
-                this.InvokeCommand();
-            this.CancelClick(ClickType.Any);
+            SetEventContext(clickTarget, ref _eventContext, NotificationID.EventContext);
+            if (_clickTypeInProgress == clickType && _clickValidPosition)
+                InvokeCommand();
+            CancelClick(ClickType.Any);
         }
 
         private void UpdateClickValidPosition(bool validPosition)
         {
-            bool clicking = this.Clicking;
-            this._clickValidPosition = validPosition;
-            if (this.Clicking == clicking)
+            bool clicking = Clicking;
+            _clickValidPosition = validPosition;
+            if (Clicking == clicking)
                 return;
-            this.FireNotification(NotificationID.Clicking);
+            FireNotification(NotificationID.Clicking);
         }
 
         private void CancelClick(ClickType clickType)
         {
-            if (this._clickTypeInProgress != ClickType.None && Library.Bits.TestAllFlags((uint)clickType, (uint)this._clickTypeInProgress))
+            if (_clickTypeInProgress != ClickType.None && Library.Bits.TestAllFlags((uint)clickType, (uint)_clickTypeInProgress))
             {
-                bool clicking = this.Clicking;
-                this._clickTypeInProgress = ClickType.None;
-                if (this.Clicking != clicking)
-                    this.FireNotification(NotificationID.Clicking);
+                bool clicking = Clicking;
+                _clickTypeInProgress = ClickType.None;
+                if (Clicking != clicking)
+                    FireNotification(NotificationID.Clicking);
             }
-            if (this._repeatTimer == null)
+            if (_repeatTimer == null)
                 return;
-            this._repeatTimer.Enabled = false;
+            _repeatTimer.Enabled = false;
         }
 
         private bool ShouldHandleEvent(
@@ -208,10 +208,10 @@ namespace Microsoft.Iris.InputHandlers
           InputHandlerModifiers modifiers,
           ClickCount count)
         {
-            return this.ShouldHandleEvent(type) && this._clickCount == count && this.ShouldHandleEvent(modifiers);
+            return ShouldHandleEvent(type) && _clickCount == count && ShouldHandleEvent(modifiers);
         }
 
-        private bool ShouldHandleEvent(ClickType type) => Library.Bits.TestAnyFlags((uint)this._clickType, (uint)type);
+        private bool ShouldHandleEvent(ClickType type) => Library.Bits.TestAnyFlags((uint)_clickType, (uint)type);
 
         private bool OnClickEvent(
           ICookedInputSite clickTarget,
@@ -219,7 +219,7 @@ namespace Microsoft.Iris.InputHandlers
           InputHandlerTransition transition,
           InputHandlerModifiers modifiers)
         {
-            return this.OnClickEvent(clickTarget, type, transition, modifiers, ClickCount.Single);
+            return OnClickEvent(clickTarget, type, transition, modifiers, ClickCount.Single);
         }
 
         private bool OnClickEvent(
@@ -229,22 +229,22 @@ namespace Microsoft.Iris.InputHandlers
           InputHandlerModifiers modifiers,
           ClickCount count)
         {
-            if (!this.ShouldHandleEvent(type, modifiers, count))
+            if (!ShouldHandleEvent(type, modifiers, count))
                 return false;
             if (transition == InputHandlerTransition.Up)
             {
-                if (this.HandlerTransition != InputHandlerTransition.Down)
-                    this.EndClick(clickTarget, type);
-                if (this._repeatTimer != null)
-                    this._repeatTimer.Enabled = false;
+                if (HandlerTransition != InputHandlerTransition.Down)
+                    EndClick(clickTarget, type);
+                if (_repeatTimer != null)
+                    _repeatTimer.Enabled = false;
             }
             else
             {
-                this.BeginClick(type, true);
-                if (this.HandlerTransition == InputHandlerTransition.Down)
+                BeginClick(type, true);
+                if (HandlerTransition == InputHandlerTransition.Down)
                 {
-                    this.EndClick(clickTarget, type);
-                    this.StartRepeat(new ClickHandler.ClickInfo()
+                    EndClick(clickTarget, type);
+                    StartRepeat(new ClickHandler.ClickInfo()
                     {
                         type = type,
                         transition = transition,
@@ -271,39 +271,39 @@ namespace Microsoft.Iris.InputHandlers
 
         private void StartRepeat(ClickHandler.ClickInfo clickInfo)
         {
-            if (!this.Repeat)
+            if (!Repeat)
                 return;
-            if (this._repeatTimer == null)
+            if (_repeatTimer == null)
             {
-                this._repeatTimer = new DispatcherTimer();
-                this._repeatTimer.Tick += new EventHandler(this.SimulateClickEvent);
-                this._repeatTimer.AutoRepeat = true;
+                _repeatTimer = new DispatcherTimer();
+                _repeatTimer.Tick += new EventHandler(SimulateClickEvent);
+                _repeatTimer.AutoRepeat = true;
             }
-            this._repeatTimer.Interval = this.RepeatDelay;
-            this._repeatTimer.UserData = clickInfo;
-            this._repeatTimer.Enabled = true;
+            _repeatTimer.Interval = RepeatDelay;
+            _repeatTimer.UserData = clickInfo;
+            _repeatTimer.Enabled = true;
         }
 
         private void SimulateClickEvent(object sender, EventArgs args)
         {
             bool flag = false;
-            ClickHandler.ClickInfo userData = (ClickHandler.ClickInfo)this._repeatTimer.UserData;
-            if (this.Enabled && this.Repeat && this._clickValidPosition && (userData.target == null || userData.target.IsValid))
+            ClickHandler.ClickInfo userData = (ClickHandler.ClickInfo)_repeatTimer.UserData;
+            if (Enabled && Repeat && _clickValidPosition && (userData.target == null || userData.target.IsValid))
             {
-                this.OnClickEvent(userData.target, userData.type, userData.transition, userData.modifiers, userData.count);
+                OnClickEvent(userData.target, userData.type, userData.transition, userData.modifiers, userData.count);
                 flag = true;
             }
             if (flag)
             {
-                this._repeatTimer.Enabled = false;
-                this._repeatTimer = null;
-                this.StartRepeat(userData);
-                this._repeatTimer.Interval = this.RepeatRate;
+                _repeatTimer.Enabled = false;
+                _repeatTimer = null;
+                StartRepeat(userData);
+                _repeatTimer.Interval = RepeatRate;
             }
             else
             {
-                this._repeatTimer.Enabled = false;
-                this._repeatTimer = null;
+                _repeatTimer.Enabled = false;
+                _repeatTimer = null;
             }
         }
 
@@ -313,55 +313,55 @@ namespace Microsoft.Iris.InputHandlers
 
         protected override void OnMousePrimaryDown(UIClass ui, MouseButtonInfo info)
         {
-            if (!this.OnClickEvent(info.Target, this.GetClickType(info.Button), InputHandlerTransition.Down, GetModifiers(info.Modifiers)) || !this._handle)
+            if (!OnClickEvent(info.Target, GetClickType(info.Button), InputHandlerTransition.Down, GetModifiers(info.Modifiers)) || !_handle)
                 return;
             info.MarkHandled();
         }
 
         protected override void OnMouseSecondaryDown(UIClass ui, MouseButtonInfo info)
         {
-            if (!this.OnClickEvent(info.Target, this.GetClickType(info.Button), InputHandlerTransition.Down, GetModifiers(info.Modifiers)) || !this._handle)
+            if (!OnClickEvent(info.Target, GetClickType(info.Button), InputHandlerTransition.Down, GetModifiers(info.Modifiers)) || !_handle)
                 return;
             info.MarkHandled();
         }
 
         protected override void OnMousePrimaryUp(UIClass ui, MouseButtonInfo info)
         {
-            if (!this.OnClickEvent(info.Target, this.GetClickType(info.Button), InputHandlerTransition.Up, GetModifiers(info.Modifiers)) || !this._handle)
+            if (!OnClickEvent(info.Target, GetClickType(info.Button), InputHandlerTransition.Up, GetModifiers(info.Modifiers)) || !_handle)
                 return;
             info.MarkHandled();
         }
 
         protected override void OnMouseSecondaryUp(UIClass ui, MouseButtonInfo info)
         {
-            if (!this.OnClickEvent(info.Target, this.GetClickType(info.Button), InputHandlerTransition.Up, GetModifiers(info.Modifiers)) || !this._handle)
+            if (!OnClickEvent(info.Target, GetClickType(info.Button), InputHandlerTransition.Up, GetModifiers(info.Modifiers)) || !_handle)
                 return;
             info.MarkHandled();
         }
 
         protected override void OnMouseDoubleClick(UIClass ui, MouseButtonInfo info)
         {
-            ClickType clickType = this.GetClickType(info.Button);
-            if (!this.OnClickEvent(info.Target, clickType, InputHandlerTransition.Down, GetModifiers(info.Modifiers), ClickCount.Double))
+            ClickType clickType = GetClickType(info.Button);
+            if (!OnClickEvent(info.Target, clickType, InputHandlerTransition.Down, GetModifiers(info.Modifiers), ClickCount.Double))
                 return;
-            this.OnClickEvent(info.Target, clickType, InputHandlerTransition.Up, GetModifiers(info.Modifiers), ClickCount.Double);
-            if (!this._handle)
+            OnClickEvent(info.Target, clickType, InputHandlerTransition.Up, GetModifiers(info.Modifiers), ClickCount.Double);
+            if (!_handle)
                 return;
             info.MarkHandled();
         }
 
         protected override void OnMouseMove(UIClass ui, MouseMoveInfo info)
         {
-            if (!this.ShouldHandleEvent(ClickType.Mouse))
+            if (!ShouldHandleEvent(ClickType.Mouse))
                 return;
-            this.UpdateClickValidPosition(this.UI.HasDescendant(info.NaturalTarget as UIClass));
+            UpdateClickValidPosition(UI.HasDescendant(info.NaturalTarget as UIClass));
         }
 
         protected override void OnLoseMouseFocus(UIClass ui, MouseFocusInfo info)
         {
-            if (!this.ShouldHandleEvent(ClickType.Mouse))
+            if (!ShouldHandleEvent(ClickType.Mouse))
                 return;
-            this.CancelClick(ClickType.Mouse);
+            CancelClick(ClickType.Mouse);
         }
 
         protected override void OnKeyDown(UIClass ui, KeyStateInfo info)
@@ -371,30 +371,30 @@ namespace Microsoft.Iris.InputHandlers
             switch (info.Key)
             {
                 case Keys.Enter:
-                    if (!this.OnClickEvent(info.Target, ClickType.EnterKey, InputHandlerTransition.Down, GetModifiers(info.Modifiers)) || !this._handle)
+                    if (!OnClickEvent(info.Target, ClickType.EnterKey, InputHandlerTransition.Down, GetModifiers(info.Modifiers)) || !_handle)
                         break;
                     info.MarkHandled();
                     break;
                 case Keys.Escape:
-                    if (!this.Clicking)
+                    if (!Clicking)
                         break;
-                    this.CancelClick(ClickType.Any);
-                    if (this._handle)
+                    CancelClick(ClickType.Any);
+                    if (_handle)
                         info.MarkHandled();
-                    this._handleEscape = true;
+                    _handleEscape = true;
                     break;
                 case Keys.Space:
-                    if (!this.OnClickEvent(info.Target, ClickType.SpaceKey, InputHandlerTransition.Down, GetModifiers(info.Modifiers)) || !this._handle)
+                    if (!OnClickEvent(info.Target, ClickType.SpaceKey, InputHandlerTransition.Down, GetModifiers(info.Modifiers)) || !_handle)
                         break;
                     info.MarkHandled();
                     break;
                 case Keys.GamePadA:
-                    if (!this.OnClickEvent(info.Target, ClickType.GamePadA, InputHandlerTransition.Down, GetModifiers(info.Modifiers)) || !this._handle)
+                    if (!OnClickEvent(info.Target, ClickType.GamePadA, InputHandlerTransition.Down, GetModifiers(info.Modifiers)) || !_handle)
                         break;
                     info.MarkHandled();
                     break;
                 case Keys.GamePadStart:
-                    if (!this.OnClickEvent(info.Target, ClickType.GamePadStart, InputHandlerTransition.Down, GetModifiers(info.Modifiers)) || !this._handle)
+                    if (!OnClickEvent(info.Target, ClickType.GamePadStart, InputHandlerTransition.Down, GetModifiers(info.Modifiers)) || !_handle)
                         break;
                     info.MarkHandled();
                     break;
@@ -406,29 +406,29 @@ namespace Microsoft.Iris.InputHandlers
             switch (info.Key)
             {
                 case Keys.Enter:
-                    if (!this.OnClickEvent(info.Target, ClickType.EnterKey, InputHandlerTransition.Up, GetModifiers(info.Modifiers)) || !this._handle)
+                    if (!OnClickEvent(info.Target, ClickType.EnterKey, InputHandlerTransition.Up, GetModifiers(info.Modifiers)) || !_handle)
                         break;
                     info.MarkHandled();
                     break;
                 case Keys.Escape:
-                    if (!this._handleEscape)
+                    if (!_handleEscape)
                         break;
-                    if (this._handle)
+                    if (_handle)
                         info.MarkHandled();
-                    this._handleEscape = false;
+                    _handleEscape = false;
                     break;
                 case Keys.Space:
-                    if (!this.OnClickEvent(info.Target, ClickType.SpaceKey, InputHandlerTransition.Up, GetModifiers(info.Modifiers)) || !this._handle)
+                    if (!OnClickEvent(info.Target, ClickType.SpaceKey, InputHandlerTransition.Up, GetModifiers(info.Modifiers)) || !_handle)
                         break;
                     info.MarkHandled();
                     break;
                 case Keys.GamePadA:
-                    if (!this.OnClickEvent(info.Target, ClickType.GamePadA, InputHandlerTransition.Up, GetModifiers(info.Modifiers)) || !this._handle)
+                    if (!OnClickEvent(info.Target, ClickType.GamePadA, InputHandlerTransition.Up, GetModifiers(info.Modifiers)) || !_handle)
                         break;
                     info.MarkHandled();
                     break;
                 case Keys.GamePadStart:
-                    if (!this.OnClickEvent(info.Target, ClickType.GamePadStart, InputHandlerTransition.Up, GetModifiers(info.Modifiers)) || !this._handle)
+                    if (!OnClickEvent(info.Target, ClickType.GamePadStart, InputHandlerTransition.Up, GetModifiers(info.Modifiers)) || !_handle)
                         break;
                     info.MarkHandled();
                     break;
@@ -440,17 +440,17 @@ namespace Microsoft.Iris.InputHandlers
             switch (info.Character)
             {
                 case '\r':
-                    if (!this.ShouldHandleEvent(ClickType.EnterKey, GetModifiers(info.Modifiers), ClickCount.Single) || !this._handle)
+                    if (!ShouldHandleEvent(ClickType.EnterKey, GetModifiers(info.Modifiers), ClickCount.Single) || !_handle)
                         break;
                     info.MarkHandled();
                     break;
                 case '\x001B':
-                    if (!this._handleEscape || !this._handle)
+                    if (!_handleEscape || !_handle)
                         break;
                     info.MarkHandled();
                     break;
                 case ' ':
-                    if (!this.ShouldHandleEvent(ClickType.SpaceKey, GetModifiers(info.Modifiers), ClickCount.Single) || !this._handle)
+                    if (!ShouldHandleEvent(ClickType.SpaceKey, GetModifiers(info.Modifiers), ClickCount.Single) || !_handle)
                         break;
                     info.MarkHandled();
                     break;
@@ -459,15 +459,15 @@ namespace Microsoft.Iris.InputHandlers
 
         protected override void OnLoseKeyFocus(UIClass ui, KeyFocusInfo info)
         {
-            if (this.ShouldHandleEvent(ClickType.SpaceKey))
-                this.CancelClick(ClickType.SpaceKey);
-            if (this.ShouldHandleEvent(ClickType.EnterKey))
-                this.CancelClick(ClickType.EnterKey);
-            if (this.ShouldHandleEvent(ClickType.GamePadA))
-                this.CancelClick(ClickType.GamePadA);
-            if (this.ShouldHandleEvent(ClickType.GamePadStart))
-                this.CancelClick(ClickType.GamePadStart);
-            this._handleEscape = false;
+            if (ShouldHandleEvent(ClickType.SpaceKey))
+                CancelClick(ClickType.SpaceKey);
+            if (ShouldHandleEvent(ClickType.EnterKey))
+                CancelClick(ClickType.EnterKey);
+            if (ShouldHandleEvent(ClickType.GamePadA))
+                CancelClick(ClickType.GamePadA);
+            if (ShouldHandleEvent(ClickType.GamePadStart))
+                CancelClick(ClickType.GamePadStart);
+            _handleEscape = false;
         }
 
         private struct ClickInfo

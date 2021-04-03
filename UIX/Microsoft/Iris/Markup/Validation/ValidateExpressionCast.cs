@@ -24,8 +24,8 @@ namespace Microsoft.Iris.Markup.Validation
           int column)
           : base(owner, line, column, ExpressionType.Cast)
         {
-            this._typeCast = typeCast;
-            this._castee = castee;
+            _typeCast = typeCast;
+            _castee = castee;
         }
 
         public ValidateExpressionCast(
@@ -38,83 +38,83 @@ namespace Microsoft.Iris.Markup.Validation
         {
             if (typeCastExpression.ExpressionType != ExpressionType.Symbol)
             {
-                this.ReportError("Type cast was expecting symbol, found '{0}'", typeCastExpression.ExpressionType.ToString());
+                ReportError("Type cast was expecting symbol, found '{0}'", typeCastExpression.ExpressionType.ToString());
             }
             else
             {
                 ValidateExpressionSymbol expressionSymbol = (ValidateExpressionSymbol)typeCastExpression;
-                this._typeCast = new ValidateTypeIdentifier(owner, null, expressionSymbol.Symbol, expressionSymbol.Line, expressionSymbol.Column);
+                _typeCast = new ValidateTypeIdentifier(owner, null, expressionSymbol.Symbol, expressionSymbol.Line, expressionSymbol.Column);
             }
-            this._castee = castee;
+            _castee = castee;
         }
 
-        public ValidateTypeIdentifier TypeCast => this._typeCast;
+        public ValidateTypeIdentifier TypeCast => _typeCast;
 
-        public ValidateExpression Castee => this._castee;
+        public ValidateExpression Castee => _castee;
 
         public override void Validate(TypeRestriction typeRestriction, ValidateContext context)
         {
-            if (this._typeCast == null)
+            if (_typeCast == null)
                 return;
-            this._typeCast.Validate();
-            if (this._typeCast.HasErrors)
+            _typeCast.Validate();
+            if (_typeCast.HasErrors)
             {
-                this.MarkHasErrors();
+                MarkHasErrors();
             }
             else
             {
-                this._foundTypeCast = this._typeCast.FoundType;
-                this._foundTypeCastIndex = this._typeCast.FoundTypeIndex;
-                this.DeclareEvaluationType(this._foundTypeCast, typeRestriction);
-                if (this.Usage == ExpressionUsage.LValue)
-                    this.ReportError("Expression cannot be used as the target an assignment (related symbol: '{0}')", this._foundTypeCast.Name);
-                this._castee.Validate(TypeRestriction.NotVoid, context);
-                if (this._castee.HasErrors)
+                _foundTypeCast = _typeCast.FoundType;
+                _foundTypeCastIndex = _typeCast.FoundTypeIndex;
+                DeclareEvaluationType(_foundTypeCast, typeRestriction);
+                if (Usage == ExpressionUsage.LValue)
+                    ReportError("Expression cannot be used as the target an assignment (related symbol: '{0}')", _foundTypeCast.Name);
+                _castee.Validate(TypeRestriction.NotVoid, context);
+                if (_castee.HasErrors)
                 {
-                    this.MarkHasErrors();
+                    MarkHasErrors();
                 }
                 else
                 {
-                    this._foundCasteeType = this._castee.ObjectType;
-                    if (this._foundTypeCast.Contractual || this._foundCasteeType.Contractual)
+                    _foundCasteeType = _castee.ObjectType;
+                    if (_foundTypeCast.Contractual || _foundCasteeType.Contractual)
                     {
-                        this._foundCastMethod = CastMethod.Cast;
+                        _foundCastMethod = CastMethod.Cast;
                     }
                     else
                     {
-                        if (this._foundCasteeType == this._foundTypeCast)
+                        if (_foundCasteeType == _foundTypeCast)
                             return;
-                        bool flag1 = this._foundCasteeType.IsAssignableFrom(this._foundTypeCast);
-                        bool flag2 = this._foundTypeCast.IsAssignableFrom(this._foundCasteeType);
+                        bool flag1 = _foundCasteeType.IsAssignableFrom(_foundTypeCast);
+                        bool flag2 = _foundTypeCast.IsAssignableFrom(_foundCasteeType);
                         if (!flag1 && !flag2)
                         {
-                            if (this._foundTypeCast.SupportsTypeConversion(this._foundCasteeType))
+                            if (_foundTypeCast.SupportsTypeConversion(_foundCasteeType))
                             {
-                                this._foundCastMethod = CastMethod.Conversion;
-                                this._foundCasteeTypeIndex = this.Owner.TrackImportedType(this._foundCasteeType);
+                                _foundCastMethod = CastMethod.Conversion;
+                                _foundCasteeTypeIndex = Owner.TrackImportedType(_foundCasteeType);
                             }
                             else
-                                this.ReportError("Cannot cast '{0}' to '{1}'", this._foundCasteeType.Name, this._foundTypeCast.Name);
+                                ReportError("Cannot cast '{0}' to '{1}'", _foundCasteeType.Name, _foundTypeCast.Name);
                         }
                         else
                         {
                             if (!flag1)
                                 return;
-                            this._foundCastMethod = CastMethod.Cast;
+                            _foundCastMethod = CastMethod.Cast;
                         }
                     }
                 }
             }
         }
 
-        public CastMethod FoundCastMethod => this._foundCastMethod;
+        public CastMethod FoundCastMethod => _foundCastMethod;
 
-        public TypeSchema FoundCasteeType => this._foundCasteeType;
+        public TypeSchema FoundCasteeType => _foundCasteeType;
 
-        public int FoundCasteeTypeIndex => this._foundCasteeTypeIndex;
+        public int FoundCasteeTypeIndex => _foundCasteeTypeIndex;
 
-        public TypeSchema FoundTypeCast => this._foundTypeCast;
+        public TypeSchema FoundTypeCast => _foundTypeCast;
 
-        public int FoundTypeCastIndex => this._foundTypeCastIndex;
+        public int FoundTypeCastIndex => _foundTypeCastIndex;
     }
 }

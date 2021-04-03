@@ -16,29 +16,29 @@ namespace Microsoft.Iris.Layout
 
         public LayoutNodeEnumerator(ILayoutNode start)
         {
-            this._start = start;
-            this._current = null;
-            this._haventStartedYet = true;
+            _start = start;
+            _current = null;
+            _haventStartedYet = true;
         }
 
         public bool MoveNext()
         {
-            if (this._current != null)
-                this._current = this._current.NextVisibleSibling;
-            else if (this._haventStartedYet)
+            if (_current != null)
+                _current = _current.NextVisibleSibling;
+            else if (_haventStartedYet)
             {
-                this._current = this._start;
-                this._haventStartedYet = false;
+                _current = _start;
+                _haventStartedYet = false;
             }
-            return this._current != null;
+            return _current != null;
         }
 
-        public ILayoutNode Current => this._current;
+        public ILayoutNode Current => _current;
 
         public void Reset()
         {
-            this._current = null;
-            this._haventStartedYet = true;
+            _current = null;
+            _haventStartedYet = true;
         }
     }
 }

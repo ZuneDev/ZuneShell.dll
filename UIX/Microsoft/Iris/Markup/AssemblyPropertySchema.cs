@@ -20,22 +20,22 @@ namespace Microsoft.Iris.Markup
         public AssemblyPropertySchema(AssemblyTypeSchema owner, PropertyInfo propertyInfo)
           : base(owner)
         {
-            this._propertyInfo = propertyInfo;
-            this._propertyTypeSchema = AssemblyLoadResult.MapType(this._propertyInfo.PropertyType);
-            this._isStatic = (this._propertyInfo.GetGetMethod() ?? this._propertyInfo.GetSetMethod()).IsStatic;
+            _propertyInfo = propertyInfo;
+            _propertyTypeSchema = AssemblyLoadResult.MapType(_propertyInfo.PropertyType);
+            _isStatic = (_propertyInfo.GetGetMethod() ?? _propertyInfo.GetSetMethod()).IsStatic;
         }
 
-        public override string Name => this._propertyInfo.Name;
+        public override string Name => _propertyInfo.Name;
 
-        public override TypeSchema PropertyType => this._propertyTypeSchema;
+        public override TypeSchema PropertyType => _propertyTypeSchema;
 
         public override TypeSchema AlternateType => (TypeSchema)null;
 
-        public override bool CanRead => this._propertyInfo.CanRead;
+        public override bool CanRead => _propertyInfo.CanRead;
 
-        public override bool CanWrite => this._propertyInfo.CanWrite;
+        public override bool CanWrite => _propertyInfo.CanWrite;
 
-        public override bool IsStatic => this._isStatic;
+        public override bool IsStatic => _isStatic;
 
         public override ExpressionRestriction ExpressionRestriction => ExpressionRestriction.None;
 
@@ -47,31 +47,31 @@ namespace Microsoft.Iris.Markup
         {
             get
             {
-                AssemblyTypeSchema owner = (AssemblyTypeSchema)this.Owner;
-                return !this._isStatic && owner.NotifiesOnChange;
+                AssemblyTypeSchema owner = (AssemblyTypeSchema)Owner;
+                return !_isStatic && owner.NotifiesOnChange;
             }
         }
 
         public override object GetValue(object instance)
         {
             object target = AssemblyLoadResult.UnwrapObject(instance);
-            if (this._getMethod == null)
-                this._getMethod = ReflectionHelper.CreateMethodInvoke(this._propertyInfo.GetGetMethod());
-            return AssemblyLoadResult.WrapObject(this._propertyTypeSchema, this._getMethod(target, null));
+            if (_getMethod == null)
+                _getMethod = ReflectionHelper.CreateMethodInvoke(_propertyInfo.GetGetMethod());
+            return AssemblyLoadResult.WrapObject(_propertyTypeSchema, _getMethod(target, null));
         }
 
         public override void SetValue(ref object instance, object value)
         {
             object target = AssemblyLoadResult.UnwrapObject(instance);
             object obj1 = AssemblyLoadResult.UnwrapObject(value);
-            if (this._setMethod == null)
+            if (_setMethod == null)
             {
-                this._setMethod = ReflectionHelper.CreateMethodInvoke(this._propertyInfo.GetSetMethod());
-                this._setMethodParams = new object[1];
+                _setMethod = ReflectionHelper.CreateMethodInvoke(_propertyInfo.GetSetMethod());
+                _setMethodParams = new object[1];
             }
-            this._setMethodParams[0] = obj1;
-            object obj2 = this._setMethod(target, this._setMethodParams);
-            this._setMethodParams[0] = null;
+            _setMethodParams[0] = obj1;
+            object obj2 = _setMethod(target, _setMethodParams);
+            _setMethodParams[0] = null;
         }
     }
 }

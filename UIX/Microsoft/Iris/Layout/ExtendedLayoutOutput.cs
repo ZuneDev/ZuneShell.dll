@@ -12,7 +12,7 @@ namespace Microsoft.Iris.Layout
     {
         public ExtendedLayoutOutput nextOutput;
 
-        private DataCookie Data => this.OutputID;
+        private DataCookie Data => OutputID;
 
         public abstract DataCookie OutputID { get; }
     }

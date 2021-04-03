@@ -25,16 +25,16 @@ namespace Microsoft.Iris.Drawing
           bool antialiasEdges)
           : base(renderSession, source, maxSize, flippable, antialiasEdges)
         {
-            this._source = source;
-            this._resource = ResourceManager.Instance.GetResource(this._source);
+            _source = source;
+            _resource = ResourceManager.Instance.GetResource(_source);
         }
 
         protected override void OnDispose()
         {
-            if (this._resource != null)
+            if (_resource != null)
             {
-                this.FreeResource();
-                this._resource = null;
+                FreeResource();
+                _resource = null;
             }
             base.OnDispose();
         }
@@ -43,8 +43,8 @@ namespace Microsoft.Iris.Drawing
         {
             get
             {
-                this.EnsureResource();
-                return this._resource;
+                EnsureResource();
+                return _resource;
             }
         }
 
@@ -52,7 +52,7 @@ namespace Microsoft.Iris.Drawing
         {
             get
             {
-                switch (this._resource.Status)
+                switch (_resource.Status)
                 {
                     case ResourceStatus.NeedsAcquire:
                         return ImageStatus.PendingLoad;
@@ -70,15 +70,15 @@ namespace Microsoft.Iris.Drawing
 
         protected override bool EnsureBuffer()
         {
-            if (this.EnsureResource())
+            if (EnsureResource())
             {
-                if (this.IsResourceAvailable())
-                    this.OnResourceLoadComplete(this._resource);
-                else if (!this._acquireCalled)
+                if (IsResourceAvailable())
+                    OnResourceLoadComplete(_resource);
+                else if (!_acquireCalled)
                 {
-                    this._resourceAcquisitionHandler = new ResourceAcquisitionCompleteHandler(this.OnResourceLoadComplete);
-                    this._resource.Acquire(this._resourceAcquisitionHandler);
-                    this._acquireCalled = true;
+                    _resourceAcquisitionHandler = new ResourceAcquisitionCompleteHandler(OnResourceLoadComplete);
+                    _resource.Acquire(_resourceAcquisitionHandler);
+                    _acquireCalled = true;
                 }
             }
             return false;
@@ -86,38 +86,38 @@ namespace Microsoft.Iris.Drawing
 
         protected override void OnImageLoadComplete()
         {
-            ImageStatus status = this.Status;
-            if (this.LoadCompleteHandler == null)
+            ImageStatus status = Status;
+            if (LoadCompleteHandler == null)
                 return;
-            this.LoadCompleteHandler(this, status);
+            LoadCompleteHandler(this, status);
         }
 
-        private bool IsResourceAvailable() => this._resource.Status == ResourceStatus.Available;
+        private bool IsResourceAvailable() => _resource.Status == ResourceStatus.Available;
 
         public bool EnsureResource()
         {
-            if (this._resource == null)
-                this._resource = ResourceManager.Instance.GetResource(this._source);
-            return this._resource != null;
+            if (_resource == null)
+                _resource = ResourceManager.Instance.GetResource(_source);
+            return _resource != null;
         }
 
         private void OnResourceLoadComplete(Resource resource)
         {
-            if (resource != this._resource)
+            if (resource != _resource)
                 return;
-            if (!IsSuccessfulResourceLoad(this._resource) || Application.IsShuttingDown)
+            if (!IsSuccessfulResourceLoad(_resource) || Application.IsShuttingDown)
             {
-                this.OnImageLoadComplete();
-                this.FreeResource();
+                OnImageLoadComplete();
+                FreeResource();
             }
             else
             {
-                this.SetBuffer(this._resource.Buffer, this._resource.Length);
-                if (this._resource.Length <= 0U)
+                SetBuffer(_resource.Buffer, _resource.Length);
+                if (_resource.Length <= 0U)
                     return;
-                if (!this.ProcessBuffer())
-                    this._resource.Status = ResourceStatus.Error;
-                this.OnImageLoadComplete();
+                if (!ProcessBuffer())
+                    _resource.Status = ResourceStatus.Error;
+                OnImageLoadComplete();
             }
         }
 
@@ -125,27 +125,27 @@ namespace Microsoft.Iris.Drawing
 
         private void FreeResource()
         {
-            if (this._acquireCalled)
+            if (_acquireCalled)
             {
-                this._resource.Free(this._resourceAcquisitionHandler);
-                this._resourceAcquisitionHandler = null;
+                _resource.Free(_resourceAcquisitionHandler);
+                _resourceAcquisitionHandler = null;
             }
-            this._acquireCalled = false;
+            _acquireCalled = false;
         }
 
-        public override void StartLoad() => this.EnsureBuffer();
+        public override void StartLoad() => EnsureBuffer();
 
-        public override string ToString() => this._source;
+        public override string ToString() => _source;
 
         public override void ReleaseImage()
         {
-            this.LoadCompleteHandler = null;
+            LoadCompleteHandler = null;
             base.ReleaseImage();
         }
 
         public override void RemoveData()
         {
-            this.FreeResource();
+            FreeResource();
             base.RemoveData();
         }
 

@@ -20,19 +20,19 @@ namespace Microsoft.Iris.Markup
           TypeSchema[] parameterTypes)
           : base(owner)
         {
-            this._constructorInfo = constructorInfo;
-            this._parameterTypes = parameterTypes;
+            _constructorInfo = constructorInfo;
+            _parameterTypes = parameterTypes;
         }
 
-        public override TypeSchema[] ParameterTypes => this._parameterTypes;
+        public override TypeSchema[] ParameterTypes => _parameterTypes;
 
         public override object Construct(object[] parameters)
         {
             object[] paramters = AssemblyLoadResult.UnwrapObjectList(parameters);
-            AssemblyTypeSchema owner = (AssemblyTypeSchema)this.Owner;
-            if (this._constructor == null)
-                this._constructor = ReflectionHelper.CreateMethodInvoke(_constructorInfo);
-            object instance = this._constructor(null, paramters);
+            AssemblyTypeSchema owner = (AssemblyTypeSchema)Owner;
+            if (_constructor == null)
+                _constructor = ReflectionHelper.CreateMethodInvoke(_constructorInfo);
+            object instance = _constructor(null, paramters);
             return AssemblyLoadResult.WrapObject(owner, instance);
         }
     }

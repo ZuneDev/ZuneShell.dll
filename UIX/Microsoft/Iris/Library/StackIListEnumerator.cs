@@ -16,16 +16,16 @@ namespace Microsoft.Iris.Library
 
         internal StackIListEnumerator(IList list)
         {
-            this._list = list;
-            this._currentIndex = -1;
+            _list = list;
+            _currentIndex = -1;
         }
 
         public StackIListEnumerator GetEnumerator() => this;
 
-        public bool MoveNext() => ++this._currentIndex < this._list.Count;
+        public bool MoveNext() => ++_currentIndex < _list.Count;
 
-        public object Current => this._list[this._currentIndex];
+        public object Current => _list[_currentIndex];
 
-        public void Reset() => this._currentIndex = -1;
+        public void Reset() => _currentIndex = -1;
     }
 }

@@ -33,7 +33,7 @@ namespace Microsoft.Iris
         {
             get
             {
-                using (this.ThreadValidator)
+                using (ThreadValidator)
                     return this;
             }
         }
@@ -42,67 +42,67 @@ namespace Microsoft.Iris
         {
             get
             {
-                using (this.ThreadValidator)
+                using (ThreadValidator)
                 {
                     object obj;
-                    return this._valuesTable.TryGetValue(key, out obj) ? obj : null;
+                    return _valuesTable.TryGetValue(key, out obj) ? obj : null;
                 }
             }
             set
             {
-                using (this.ThreadValidator)
+                using (ThreadValidator)
                 {
                     object a;
-                    if (this._valuesTable.TryGetValue(key, out a) && IsEqual(a, value))
+                    if (_valuesTable.TryGetValue(key, out a) && IsEqual(a, value))
                         return;
-                    this._valuesTable[key] = value;
-                    this.NotifyEntryChange(key);
+                    _valuesTable[key] = value;
+                    NotifyEntryChange(key);
                 }
             }
         }
 
         bool IDictionary.Contains(object key)
         {
-            using (this.ThreadValidator)
-                return this._valuesTable.ContainsKey(key);
+            using (ThreadValidator)
+                return _valuesTable.ContainsKey(key);
         }
 
         void IDictionary.Add(object key, object value)
         {
-            using (this.ThreadValidator)
+            using (ThreadValidator)
             {
-                if (this._valuesTable.ContainsKey(key))
+                if (_valuesTable.ContainsKey(key))
                     return;
-                this._valuesTable.Add(key, value);
-                this.NotifyEntryChange(key);
+                _valuesTable.Add(key, value);
+                NotifyEntryChange(key);
             }
         }
 
         void IDictionary.Remove(object key)
         {
-            using (this.ThreadValidator)
+            using (ThreadValidator)
             {
-                if (this._valuesTable.ContainsKey(key))
+                if (_valuesTable.ContainsKey(key))
                     return;
-                this._valuesTable.Remove(key);
-                this.NotifyEntryChange(key);
+                _valuesTable.Remove(key);
+                NotifyEntryChange(key);
             }
         }
 
         void IDictionary.Clear()
         {
-            using (this.ThreadValidator)
+            using (ThreadValidator)
             {
-                foreach (KeyValuePair<object, object> keyValuePair in this._valuesTable)
-                    this.NotifyEntryChange(keyValuePair.Key);
-                this._valuesTable.Clear();
+                foreach (KeyValuePair<object, object> keyValuePair in _valuesTable)
+                    NotifyEntryChange(keyValuePair.Key);
+                _valuesTable.Clear();
             }
         }
 
         IDictionaryEnumerator IDictionary.GetEnumerator()
         {
-            using (this.ThreadValidator)
-                return this._valuesTable.GetEnumerator();
+            using (ThreadValidator)
+                return _valuesTable.GetEnumerator();
         }
 
         bool IDictionary.IsFixedSize => false;
@@ -113,7 +113,7 @@ namespace Microsoft.Iris
         {
             get
             {
-                using (this.ThreadValidator)
+                using (ThreadValidator)
                     return _valuesTable.Keys;
             }
         }
@@ -122,23 +122,23 @@ namespace Microsoft.Iris
         {
             get
             {
-                using (this.ThreadValidator)
+                using (ThreadValidator)
                     return _valuesTable.Values;
             }
         }
 
         void ICollection.CopyTo(Array array, int index)
         {
-            using (this.ThreadValidator)
-                ((ICollection)this._valuesTable).CopyTo(array, index);
+            using (ThreadValidator)
+                ((ICollection)_valuesTable).CopyTo(array, index);
         }
 
         int ICollection.Count
         {
             get
             {
-                using (this.ThreadValidator)
-                    return this._valuesTable.Count;
+                using (ThreadValidator)
+                    return _valuesTable.Count;
             }
         }
 
@@ -148,18 +148,18 @@ namespace Microsoft.Iris
         {
             get
             {
-                using (this.ThreadValidator)
+                using (ThreadValidator)
                     return _valuesTable;
             }
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            using (this.ThreadValidator)
-                return this._valuesTable.GetEnumerator();
+            using (ThreadValidator)
+                return _valuesTable.GetEnumerator();
         }
 
-        private void NotifyEntryChange(object key) => this.FirePropertyChanged("#" + key.ToString());
+        private void NotifyEntryChange(object key) => FirePropertyChanged("#" + key.ToString());
 
         private static bool IsEqual(object a, object b) => a == null ? b == null : a.Equals(b);
     }

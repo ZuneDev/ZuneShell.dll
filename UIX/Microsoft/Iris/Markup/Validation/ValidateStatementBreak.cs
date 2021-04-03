@@ -15,34 +15,34 @@ namespace Microsoft.Iris.Markup.Validation
 
         public ValidateStatementBreak(SourceMarkupLoader owner, bool isContinue, int line, int column)
           : base(owner, line, column, StatementType.Break)
-          => this._isContinue = isContinue;
+          => _isContinue = isContinue;
 
         protected override void OnDispose()
         {
-            this._loopStatement = null;
+            _loopStatement = null;
             base.OnDispose();
         }
 
         public override void Validate(ValidateCode container, ValidateContext context)
         {
-            this._loopStatement = context.EnclosingLoop;
-            if (this._loopStatement == null)
+            _loopStatement = context.EnclosingLoop;
+            if (_loopStatement == null)
             {
-                this.ReportError("No enclosing loop out of which to break or continue");
+                ReportError("No enclosing loop out of which to break or continue");
             }
             else
             {
-                this._loopStatement.TrackBreakStatement(this);
-                this._scopedLocalsToClear = context.GetLoopUnwindList(this.Owner);
+                _loopStatement.TrackBreakStatement(this);
+                _scopedLocalsToClear = context.GetLoopUnwindList(Owner);
             }
         }
 
-        public bool IsContinue => this._isContinue;
+        public bool IsContinue => _isContinue;
 
-        public Vector<int> ScopedLocalsToClear => this._scopedLocalsToClear;
+        public Vector<int> ScopedLocalsToClear => _scopedLocalsToClear;
 
-        public uint JumpFixupOffset => this._jumpFixupOffset;
+        public uint JumpFixupOffset => _jumpFixupOffset;
 
-        public void TrackJumpFixupOffset(uint jumpFixupOffset) => this._jumpFixupOffset = jumpFixupOffset;
+        public void TrackJumpFixupOffset(uint jumpFixupOffset) => _jumpFixupOffset = jumpFixupOffset;
     }
 }

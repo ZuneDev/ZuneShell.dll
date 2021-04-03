@@ -23,10 +23,10 @@ namespace Microsoft.Iris
 
         internal Window(UIForm form)
         {
-            this._form = form;
-            this._form.CloseRequested += new FormCloseRequestedHandler(this.OnCloseRequested);
-            this._form.SessionConnect += new FormSessionConnectHandler(this.OnSessionConnect);
-            this._form.PropertyChanged += new FormPropertyChangedHandler(this.OnPropertyChanged);
+            _form = form;
+            _form.CloseRequested += new FormCloseRequestedHandler(OnCloseRequested);
+            _form.SessionConnect += new FormSessionConnectHandler(OnSessionConnect);
+            _form.PropertyChanged += new FormPropertyChangedHandler(OnPropertyChanged);
         }
 
         public WindowSize InitialClientSize
@@ -34,13 +34,13 @@ namespace Microsoft.Iris
             get
             {
                 UIDispatcher.VerifyOnApplicationThread();
-                Size initialClientSize = this._form.InitialClientSize;
+                Size initialClientSize = _form.InitialClientSize;
                 return new WindowSize(initialClientSize.Width, initialClientSize.Height);
             }
             set
             {
                 UIDispatcher.VerifyOnApplicationThread();
-                this._form.InitialClientSize = new Size(value.Width, value.Height);
+                _form.InitialClientSize = new Size(value.Width, value.Height);
             }
         }
 
@@ -49,13 +49,13 @@ namespace Microsoft.Iris
             get
             {
                 UIDispatcher.VerifyOnApplicationThread();
-                Size clientSize = this._form.ClientSize;
+                Size clientSize = _form.ClientSize;
                 return new WindowSize(clientSize.Width, clientSize.Height);
             }
             set
             {
                 UIDispatcher.VerifyOnApplicationThread();
-                this._form.ClientSize = new Size(value.Width, value.Height);
+                _form.ClientSize = new Size(value.Width, value.Height);
             }
         }
 
@@ -64,13 +64,13 @@ namespace Microsoft.Iris
             get
             {
                 UIDispatcher.VerifyOnApplicationThread();
-                Point position = this._form.Position;
+                Point position = _form.Position;
                 return new WindowPosition(position.X, position.Y);
             }
             set
             {
                 UIDispatcher.VerifyOnApplicationThread();
-                this._form.Position = new Point(value.X, value.Y);
+                _form.Position = new Point(value.X, value.Y);
             }
         }
 
@@ -79,12 +79,12 @@ namespace Microsoft.Iris
             get
             {
                 UIDispatcher.VerifyOnApplicationThread();
-                return this._form.WindowState;
+                return _form.WindowState;
             }
             set
             {
                 UIDispatcher.VerifyOnApplicationThread();
-                this._form.WindowState = value;
+                _form.WindowState = value;
             }
         }
 
@@ -93,31 +93,31 @@ namespace Microsoft.Iris
             get
             {
                 UIDispatcher.VerifyOnApplicationThread();
-                return this._form.Visible;
+                return _form.Visible;
             }
             set
             {
                 UIDispatcher.VerifyOnApplicationThread();
-                this._form.Visible = value;
+                _form.Visible = value;
             }
         }
 
-        public bool Active => this._form.ActivationState;
+        public bool Active => _form.ActivationState;
 
-        public bool MouseActive => !this._form.MouseIsIdle;
+        public bool MouseActive => !_form.MouseIsIdle;
 
-        public string GetSavedPosition() => this.GetSavedPosition(false);
+        public string GetSavedPosition() => GetSavedPosition(false);
 
         public string GetSavedPosition(bool disallowMinimized)
         {
             UIDispatcher.VerifyOnApplicationThread();
-            FormPlacement finalPlacement = this._form.FinalPlacement;
+            FormPlacement finalPlacement = _form.FinalPlacement;
             if (finalPlacement.ShowState == 2U && disallowMinimized)
                 finalPlacement.ShowState = 1U;
             return InvariantString.Format("{0},{1},{2},{3},{4},{5},{6}", finalPlacement.ShowState, finalPlacement.NormalPosition.X, finalPlacement.NormalPosition.Y, finalPlacement.NormalPosition.Width, finalPlacement.NormalPosition.Height, finalPlacement.MaximizedLocation.X, finalPlacement.MaximizedLocation.Y);
         }
 
-        public void SetSavedInitialPosition(string cookie) => this.SetSavedInitialPositionWorker(cookie, 0U);
+        public void SetSavedInitialPosition(string cookie) => SetSavedInitialPositionWorker(cookie, 0U);
 
         public void SetSavedInitialPosition(string cookie, WindowState stateOverride)
         {
@@ -136,7 +136,7 @@ namespace Microsoft.Iris
                 default:
                     throw new ArgumentException("Invalid WindowState value");
             }
-            this.SetSavedInitialPositionWorker(cookie, showStateOverride);
+            SetSavedInitialPositionWorker(cookie, showStateOverride);
         }
 
         private void SetSavedInitialPositionWorker(string cookie, uint showStateOverride)
@@ -157,7 +157,7 @@ namespace Microsoft.Iris
                     if (formPlacement.NormalPosition.Width != 0)
                     {
                         if (formPlacement.NormalPosition.Height != 0)
-                            this._form.InitialPlacement = formPlacement;
+                            _form.InitialPlacement = formPlacement;
                     }
                 }
                 catch (FormatException ex)
@@ -180,12 +180,12 @@ namespace Microsoft.Iris
             get
             {
                 UIDispatcher.VerifyOnApplicationThread();
-                return this._form.Text;
+                return _form.Text;
             }
             set
             {
                 UIDispatcher.VerifyOnApplicationThread();
-                this._form.Text = value;
+                _form.Text = value;
             }
         }
 
@@ -194,12 +194,12 @@ namespace Microsoft.Iris
             get
             {
                 UIDispatcher.VerifyOnApplicationThread();
-                return this._form.AlwaysOnTop;
+                return _form.AlwaysOnTop;
             }
             set
             {
                 UIDispatcher.VerifyOnApplicationThread();
-                this._form.AlwaysOnTop = value;
+                _form.AlwaysOnTop = value;
             }
         }
 
@@ -208,12 +208,12 @@ namespace Microsoft.Iris
             get
             {
                 UIDispatcher.VerifyOnApplicationThread();
-                return this._form.ShowInTaskbar;
+                return _form.ShowInTaskbar;
             }
             set
             {
                 UIDispatcher.VerifyOnApplicationThread();
-                this._form.ShowInTaskbar = value;
+                _form.ShowInTaskbar = value;
             }
         }
 
@@ -222,12 +222,12 @@ namespace Microsoft.Iris
             get
             {
                 UIDispatcher.VerifyOnApplicationThread();
-                return this._form.ShowWindowFrame;
+                return _form.ShowWindowFrame;
             }
             set
             {
                 UIDispatcher.VerifyOnApplicationThread();
-                this._form.ShowWindowFrame = value;
+                _form.ShowWindowFrame = value;
             }
         }
 
@@ -236,12 +236,12 @@ namespace Microsoft.Iris
             get
             {
                 UIDispatcher.VerifyOnApplicationThread();
-                return this._form.ShowShadow;
+                return _form.ShowShadow;
             }
             set
             {
                 UIDispatcher.VerifyOnApplicationThread();
-                this._form.ShowShadow = value;
+                _form.ShowShadow = value;
             }
         }
 
@@ -250,29 +250,29 @@ namespace Microsoft.Iris
             get
             {
                 UIDispatcher.VerifyOnApplicationThread();
-                return this._form.MaximizeMode;
+                return _form.MaximizeMode;
             }
             set
             {
                 UIDispatcher.VerifyOnApplicationThread();
-                this._form.MaximizeMode = value;
+                _form.MaximizeMode = value;
             }
         }
 
         public bool RespectsStartupSettings
         {
-            get => this._form.RespectsStartupSettings;
-            set => this._form.RespectsStartupSettings = value;
+            get => _form.RespectsStartupSettings;
+            set => _form.RespectsStartupSettings = value;
         }
 
         public WindowPositionPolicy InitialPositionPolicy
         {
-            get => this._initialPositionPolicy;
+            get => _initialPositionPolicy;
             set
             {
-                this._form.StartCentered = (value & WindowPositionPolicy.CenterOnWorkArea) != WindowPositionPolicy.None;
-                this._form.StartInWorkArea = (value & WindowPositionPolicy.ConstrainToWorkArea) != WindowPositionPolicy.None;
-                this._initialPositionPolicy = value;
+                _form.StartCentered = (value & WindowPositionPolicy.CenterOnWorkArea) != WindowPositionPolicy.None;
+                _form.StartInWorkArea = (value & WindowPositionPolicy.ConstrainToWorkArea) != WindowPositionPolicy.None;
+                _initialPositionPolicy = value;
             }
         }
 
@@ -281,14 +281,14 @@ namespace Microsoft.Iris
             get
             {
                 UIDispatcher.VerifyOnApplicationThread();
-                return this._form.__WindowHandle;
+                return _form.__WindowHandle;
             }
         }
 
         public void SetBackgroundColor(WindowColor color)
         {
             UIDispatcher.VerifyOnApplicationThread();
-            this._form.SetBackgroundColor(color.GetInternalColor());
+            _form.SetBackgroundColor(color.GetInternalColor());
         }
 
         public int MouseIdleTimeout
@@ -296,12 +296,12 @@ namespace Microsoft.Iris
             get
             {
                 UIDispatcher.VerifyOnApplicationThread();
-                return this._form.MouseIdleTimeout;
+                return _form.MouseIdleTimeout;
             }
             set
             {
                 UIDispatcher.VerifyOnApplicationThread();
-                this._form.MouseIdleTimeout = value >= 0 ? value : throw new ArgumentOutOfRangeException(nameof(value));
+                _form.MouseIdleTimeout = value >= 0 ? value : throw new ArgumentOutOfRangeException(nameof(value));
             }
         }
 
@@ -310,16 +310,16 @@ namespace Microsoft.Iris
             get
             {
                 UIDispatcher.VerifyOnApplicationThread();
-                return this._form.HideMouseOnIdle;
+                return _form.HideMouseOnIdle;
             }
             set
             {
                 UIDispatcher.VerifyOnApplicationThread();
-                this._form.HideMouseOnIdle = value;
+                _form.HideMouseOnIdle = value;
             }
         }
 
-        public void RequestLoad(string source) => this.RequestLoad(source, null);
+        public void RequestLoad(string source) => RequestLoad(source, null);
 
         public void RequestLoad(string source, PropertyValue[] properties)
         {
@@ -337,7 +337,7 @@ namespace Microsoft.Iris
                         Value = property.Value
                     });
             }
-            this._form.RequestLoad(source, properties1);
+            _form.RequestLoad(source, properties1);
         }
 
         public void SetIcon(string moduleName, int resourceID)
@@ -345,7 +345,7 @@ namespace Microsoft.Iris
             UIDispatcher.VerifyOnApplicationThread();
             if (moduleName == null)
                 throw new ArgumentNullException(nameof(moduleName));
-            this._form.SetIcon(moduleName, (uint)resourceID, IconFlags.All);
+            _form.SetIcon(moduleName, (uint)resourceID, IconFlags.All);
         }
 
         public void SetShadowEdgeImages(bool fActiveEdges, Image[] images)
@@ -363,20 +363,20 @@ namespace Microsoft.Iris
             UIImage[] images1 = new UIImage[4];
             for (int index = 0; index < 4; ++index)
                 images1[index] = images[index].UIImage;
-            this._form.SetShadowImages(fActiveEdges, images1);
+            _form.SetShadowImages(fActiveEdges, images1);
         }
 
         public object SaveKeyFocus()
         {
             UIDispatcher.VerifyOnApplicationThread();
-            return this._form.SaveKeyFocus();
+            return _form.SaveKeyFocus();
         }
 
         public void RestoreKeyFocus(object handle)
         {
             UIDispatcher.VerifyOnApplicationThread();
             if (handle is SavedKeyFocus state)
-                this._form.RestoreKeyFocus(state);
+                _form.RestoreKeyFocus(state);
             else if (handle != null)
                 throw new ArgumentException("RestoreKeyFocus expects an object given out from SaveKeyFocus");
         }
@@ -384,21 +384,21 @@ namespace Microsoft.Iris
         public void Close()
         {
             UIDispatcher.VerifyOnApplicationThread();
-            this._form.Close();
+            _form.Close();
         }
 
         public void ForceClose()
         {
             UIDispatcher.VerifyOnApplicationThread();
-            this._form.ForceClose();
+            _form.ForceClose();
         }
 
         private void OnCloseRequested(FormCloseReason nReason, ref bool block)
         {
-            if (this.CloseRequested == null)
+            if (CloseRequested == null)
                 return;
             WindowCloseRequestedEventArgs args = new WindowCloseRequestedEventArgs();
-            this.CloseRequested(this, args);
+            CloseRequested(this, args);
             block = args.Block;
         }
 
@@ -406,9 +406,9 @@ namespace Microsoft.Iris
 
         private void OnSessionConnect(object sender, bool fIsConnected)
         {
-            if (this.SessionConnected == null)
+            if (SessionConnected == null)
                 return;
-            this.SessionConnected(sender, fIsConnected);
+            SessionConnected(sender, fIsConnected);
         }
 
         public event SessionConnectedHandler SessionConnected;
@@ -417,9 +417,9 @@ namespace Microsoft.Iris
 
         private void OnPropertyChanged(string propertyName)
         {
-            if (this.PropertyChanged == null)
+            if (PropertyChanged == null)
                 return;
-            this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

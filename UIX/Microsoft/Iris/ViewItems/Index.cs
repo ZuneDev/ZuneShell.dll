@@ -18,26 +18,26 @@ namespace Microsoft.Iris.ViewItems
 
         public Index(int virtualIndex, int dataIndex, Repeater repeater)
         {
-            this._virtualIndex = virtualIndex;
-            this._dataIndex = dataIndex;
-            this._repeater = repeater;
+            _virtualIndex = virtualIndex;
+            _dataIndex = dataIndex;
+            _repeater = repeater;
         }
 
-        public int Value => this._virtualIndex;
+        public int Value => _virtualIndex;
 
-        public int SourceValue => this._dataIndex;
+        public int SourceValue => _dataIndex;
 
         public void SetValue(int virtualIndex, int dataIndex)
         {
-            if (this._virtualIndex != virtualIndex)
+            if (_virtualIndex != virtualIndex)
             {
-                this._virtualIndex = virtualIndex;
-                this.FireNotification(NotificationID.Value);
+                _virtualIndex = virtualIndex;
+                FireNotification(NotificationID.Value);
             }
-            if (this._dataIndex == dataIndex)
+            if (_dataIndex == dataIndex)
                 return;
-            this._dataIndex = dataIndex;
-            this.FireNotification(NotificationID.SourceValue);
+            _dataIndex = dataIndex;
+            FireNotification(NotificationID.SourceValue);
         }
 
         public Index GetContainerIndex()

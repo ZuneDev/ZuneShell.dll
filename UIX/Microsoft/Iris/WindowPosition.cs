@@ -13,13 +13,13 @@ namespace Microsoft.Iris
 
         public WindowPosition(int x, int y)
         {
-            this._x = x;
-            this._y = y;
+            _x = x;
+            _y = y;
         }
 
-        public int X => this._x;
+        public int X => _x;
 
-        public int Y => this._y;
+        public int Y => _y;
 
         public static bool operator ==(WindowPosition a, WindowPosition b) => a.X == b.X && a.Y == b.Y;
 
@@ -27,6 +27,6 @@ namespace Microsoft.Iris
 
         public override bool Equals(object o) => o is WindowPosition windowPosition && windowPosition == this;
 
-        public override int GetHashCode() => this.X ^ this.Y;
+        public override int GetHashCode() => X ^ Y;
     }
 }

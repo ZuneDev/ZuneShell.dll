@@ -16,35 +16,35 @@ namespace Microsoft.Iris.UI
 
         public ViewItemID(int id)
         {
-            this._id = id;
-            this._stringPart = null;
+            _id = id;
+            _stringPart = null;
         }
 
         public ViewItemID(string stringPart)
         {
-            this._id = -1;
-            this._stringPart = stringPart;
+            _id = -1;
+            _stringPart = stringPart;
         }
 
         public ViewItemID(int id, string stringPart)
         {
-            this._id = id;
-            this._stringPart = stringPart;
+            _id = id;
+            _stringPart = stringPart;
         }
 
-        public bool IDValid => this._id != -1;
+        public bool IDValid => _id != -1;
 
-        public bool StringPartValid => this._stringPart != null;
+        public bool StringPartValid => _stringPart != null;
 
-        public int ID => this._id;
+        public int ID => _id;
 
-        public string StringPart => this._stringPart;
+        public string StringPart => _stringPart;
 
         public override string ToString()
         {
-            if (!this.StringPartValid)
-                return this._id.ToString();
-            return !this.IDValid ? this._stringPart : InvariantString.Format("{0} {1}", _stringPart, _id);
+            if (!StringPartValid)
+                return _id.ToString();
+            return !IDValid ? _stringPart : InvariantString.Format("{0} {1}", _stringPart, _id);
         }
     }
 }

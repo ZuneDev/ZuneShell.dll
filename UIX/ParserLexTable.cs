@@ -2477,10 +2477,10 @@ internal class ParserLexTable : SSLexTable
 
     public ParserLexTable()
     {
-        this.m_subTables = new SSLexSubtable[3];
-        this.m_subTables[0] = new SSLexSubtable(141, this.m_rows0, this.m_finalStates0);
-        this.m_subTables[1] = new SSLexSubtable(7, this.m_rows1, this.m_finalStates1);
-        this.m_subTables[2] = new SSLexSubtable(5, this.m_rows2, this.m_finalStates2);
-        this.pushSubtable(0);
+        m_subTables = new SSLexSubtable[3];
+        m_subTables[0] = new SSLexSubtable(141, m_rows0, m_finalStates0);
+        m_subTables[1] = new SSLexSubtable(7, m_rows1, m_finalStates1);
+        m_subTables[2] = new SSLexSubtable(5, m_rows2, m_finalStates2);
+        pushSubtable(0);
     }
 }

@@ -19,15 +19,15 @@ namespace Microsoft.Iris.Session
           ICookedInputSite target,
           EventRouteStages stage)
         {
-            this._info = info;
-            this._target = target;
-            this._handledStage = stage;
+            _info = info;
+            _target = target;
+            _handledStage = stage;
         }
 
-        public ICookedInputSite Target => this._target;
+        public ICookedInputSite Target => _target;
 
-        public InputInfo InputInfo => this._info;
+        public InputInfo InputInfo => _info;
 
-        public EventRouteStages HandledStage => this._handledStage;
+        public EventRouteStages HandledStage => _handledStage;
     }
 }

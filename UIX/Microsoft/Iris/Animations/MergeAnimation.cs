@@ -18,36 +18,36 @@ namespace Microsoft.Iris.Animations
         {
             get
             {
-                if (this._sourcesList == null)
-                    this._sourcesList = new List<IAnimationProvider>();
-                return this._sourcesList;
+                if (_sourcesList == null)
+                    _sourcesList = new List<IAnimationProvider>();
+                return _sourcesList;
             }
             set
             {
-                this._sourcesList = value;
-                this.ClearCache();
+                _sourcesList = value;
+                ClearCache();
             }
         }
 
         public AnimationEventType Type
         {
-            get => this._type;
+            get => _type;
             set
             {
-                this._type = value;
-                this.ClearCache();
+                _type = value;
+                ClearCache();
             }
         }
 
         public AnimationTemplate Build(ref AnimationArgs args)
         {
-            if (this._cacheAnimation != null)
+            if (_cacheAnimation != null)
                 return _cacheAnimation;
             Animation animation = new Animation();
-            animation.Type = this._type;
+            animation.Type = _type;
             animation.DebugID = "Merge(";
             bool flag1 = true;
-            foreach (IAnimationProvider sources in this._sourcesList)
+            foreach (IAnimationProvider sources in _sourcesList)
             {
                 AnimationTemplate anim = sources.Build(ref args);
                 if (anim != null)
@@ -74,18 +74,18 @@ namespace Microsoft.Iris.Animations
             }
             animation.DebugID += ")";
             TransformAnimation.DumpAnimation(animation, "Result");
-            if (this.CanCache)
-                this._cacheAnimation = animation;
+            if (CanCache)
+                _cacheAnimation = animation;
             return animation;
         }
 
-        protected void ClearCache() => this._cacheAnimation = null;
+        protected void ClearCache() => _cacheAnimation = null;
 
         public bool CanCache
         {
             get
             {
-                foreach (IAnimationProvider sources in this._sourcesList)
+                foreach (IAnimationProvider sources in _sourcesList)
                 {
                     if (!sources.CanCache)
                         return false;

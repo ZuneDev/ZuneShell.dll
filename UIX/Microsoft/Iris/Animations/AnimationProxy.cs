@@ -34,50 +34,50 @@ namespace Microsoft.Iris.Animations
         {
             UISession.Validate(activeSequence.Session);
             AnimationSystem.ValidateAnimationType(createType);
-            this._activeSequence = activeSequence;
-            this._type = createType;
-            this._animatableTarget = animatableTarget;
-            this._rendererProperty = rendererProperty;
-            this._animation = this._activeSequence.Session.AnimationManager.BuildAnimation(this);
-            this.CommonCreate(loopCount, stopCmd);
+            _activeSequence = activeSequence;
+            _type = createType;
+            _animatableTarget = animatableTarget;
+            _rendererProperty = rendererProperty;
+            _animation = _activeSequence.Session.AnimationManager.BuildAnimation(this);
+            CommonCreate(loopCount, stopCmd);
         }
 
         private void CommonCreate(int loopCount, StopCommand stopCmd)
         {
-            this._animation.RepeatCount = loopCount;
-            this._animation.AsyncNotifyEvent += new AsyncNotifyHandler(this.OnAsyncNotification);
-            this._animation.AddStageEvent(AnimationStage.Complete, new AnimationEvent(_animation, "AsyncNotify", 1U));
-            this._animation.AddStageEvent(AnimationStage.Reset, new AnimationEvent(_animation, "AsyncNotify", 2U));
-            this.SetStopCommand(stopCmd);
-            this._activeSequence.OnAttachChildAnimation(this);
+            _animation.RepeatCount = loopCount;
+            _animation.AsyncNotifyEvent += new AsyncNotifyHandler(OnAsyncNotification);
+            _animation.AddStageEvent(AnimationStage.Complete, new AnimationEvent(_animation, "AsyncNotify", 1U));
+            _animation.AddStageEvent(AnimationStage.Reset, new AnimationEvent(_animation, "AsyncNotify", 2U));
+            SetStopCommand(stopCmd);
+            _activeSequence.OnAttachChildAnimation(this);
         }
 
         protected override void OnDispose()
         {
-            this.CleanupWorker(0.0f, false);
+            CleanupWorker(0.0f, false);
             base.OnDispose();
         }
 
-        public UISession Session => this._activeSequence.Session;
+        public UISession Session => _activeSequence.Session;
 
-        public AnimationType Type => this._type;
+        public AnimationType Type => _type;
 
-        public bool HasDynamicKeyframes => this._dynamicFlag;
+        public bool HasDynamicKeyframes => _dynamicFlag;
 
         internal bool DoNotAutoRelease
         {
-            get => this._doNotAutoReleaseFlag;
-            set => this._doNotAutoReleaseFlag = value;
+            get => _doNotAutoReleaseFlag;
+            set => _doNotAutoReleaseFlag = value;
         }
 
         public void AddFloatKeyframe(BaseKeyframe keyframe, float value)
         {
-            ++this._keyframesValue;
+            ++_keyframesValue;
             AnimationInput animationInput1;
             if (keyframe.IsRelativeToObject)
             {
-                this._dynamicFlag = true;
-                animationInput1 = keyframe.RelativeTo.CreateAnimationInput(this._animatableTarget, this._rendererProperty.Property, this._rendererProperty.SourceMask);
+                _dynamicFlag = true;
+                animationInput1 = keyframe.RelativeTo.CreateAnimationInput(_animatableTarget, _rendererProperty.Property, _rendererProperty.SourceMask);
                 if (keyframe.Multiply && value != 1.0)
                 {
                     AnimationInput animationInput2 = new ConstantAnimationInput(value);
@@ -91,17 +91,17 @@ namespace Microsoft.Iris.Animations
             }
             else
                 animationInput1 = new ConstantAnimationInput(value);
-            this._animation.AddKeyframe(new AnimationKeyframe(keyframe.Time, animationInput1, GenerateInterpolation(keyframe.Interpolation)));
+            _animation.AddKeyframe(new AnimationKeyframe(keyframe.Time, animationInput1, GenerateInterpolation(keyframe.Interpolation)));
         }
 
         public void AddVector2Keyframe(BaseKeyframe keyframe, Vector2 value)
         {
-            ++this._keyframesValue;
+            ++_keyframesValue;
             AnimationInput animationInput1;
             if (keyframe.IsRelativeToObject)
             {
-                this._dynamicFlag = true;
-                animationInput1 = keyframe.RelativeTo.CreateAnimationInput(this._animatableTarget, this._rendererProperty.Property, this._rendererProperty.SourceMask);
+                _dynamicFlag = true;
+                animationInput1 = keyframe.RelativeTo.CreateAnimationInput(_animatableTarget, _rendererProperty.Property, _rendererProperty.SourceMask);
                 if (keyframe.Multiply && value != Vector2.UnitVector)
                 {
                     AnimationInput animationInput2 = new ConstantAnimationInput(value);
@@ -115,17 +115,17 @@ namespace Microsoft.Iris.Animations
             }
             else
                 animationInput1 = new ConstantAnimationInput(value);
-            this._animation.AddKeyframe(new AnimationKeyframe(keyframe.Time, animationInput1, GenerateInterpolation(keyframe.Interpolation)));
+            _animation.AddKeyframe(new AnimationKeyframe(keyframe.Time, animationInput1, GenerateInterpolation(keyframe.Interpolation)));
         }
 
         public void AddVector3Keyframe(BaseKeyframe keyframe, Vector3 value)
         {
-            ++this._keyframesValue;
+            ++_keyframesValue;
             AnimationInput animationInput1;
             if (keyframe.IsRelativeToObject)
             {
-                this._dynamicFlag = true;
-                animationInput1 = keyframe.RelativeTo.CreateAnimationInput(this._animatableTarget, this._rendererProperty.Property, this._rendererProperty.SourceMask);
+                _dynamicFlag = true;
+                animationInput1 = keyframe.RelativeTo.CreateAnimationInput(_animatableTarget, _rendererProperty.Property, _rendererProperty.SourceMask);
                 if (keyframe.Multiply && value != Vector3.UnitVector)
                 {
                     AnimationInput animationInput2 = new ConstantAnimationInput(value);
@@ -139,17 +139,17 @@ namespace Microsoft.Iris.Animations
             }
             else
                 animationInput1 = new ConstantAnimationInput(value);
-            this._animation.AddKeyframe(new AnimationKeyframe(keyframe.Time, animationInput1, GenerateInterpolation(keyframe.Interpolation)));
+            _animation.AddKeyframe(new AnimationKeyframe(keyframe.Time, animationInput1, GenerateInterpolation(keyframe.Interpolation)));
         }
 
         public void AddVector4Keyframe(BaseKeyframe keyframe, Vector4 value)
         {
-            ++this._keyframesValue;
+            ++_keyframesValue;
             AnimationInput animationInput1;
             if (keyframe.IsRelativeToObject)
             {
-                this._dynamicFlag = true;
-                animationInput1 = keyframe.RelativeTo.CreateAnimationInput(this._animatableTarget, this._rendererProperty.Property, this._rendererProperty.SourceMask);
+                _dynamicFlag = true;
+                animationInput1 = keyframe.RelativeTo.CreateAnimationInput(_animatableTarget, _rendererProperty.Property, _rendererProperty.SourceMask);
                 if (keyframe.Multiply && value != Vector4.UnitVector)
                 {
                     AnimationInput animationInput2 = new ConstantAnimationInput(value);
@@ -163,23 +163,23 @@ namespace Microsoft.Iris.Animations
             }
             else
                 animationInput1 = new ConstantAnimationInput(value);
-            this._animation.AddKeyframe(new AnimationKeyframe(keyframe.Time, animationInput1, GenerateInterpolation(keyframe.Interpolation)));
+            _animation.AddKeyframe(new AnimationKeyframe(keyframe.Time, animationInput1, GenerateInterpolation(keyframe.Interpolation)));
         }
 
         public void AddRotationKeyframe(BaseKeyframe keyframe, Rotation value)
         {
             if (keyframe.Type != AnimationType.Orientation)
             {
-                this.AddVector4Keyframe(keyframe, new Vector4(value.Axis.X, value.Axis.Y, value.Axis.Z, value.AngleRadians));
+                AddVector4Keyframe(keyframe, new Vector4(value.Axis.X, value.Axis.Y, value.Axis.Z, value.AngleRadians));
             }
             else
             {
-                ++this._keyframesValue;
+                ++_keyframesValue;
                 AnimationInput animationInput1;
                 if (keyframe.IsRelativeToObject)
                 {
-                    this._dynamicFlag = true;
-                    animationInput1 = keyframe.RelativeTo.CreateAnimationInput(this._animatableTarget, this._rendererProperty.Property, this._rendererProperty.SourceMask);
+                    _dynamicFlag = true;
+                    animationInput1 = keyframe.RelativeTo.CreateAnimationInput(_animatableTarget, _rendererProperty.Property, _rendererProperty.SourceMask);
                     if (value != Rotation.Default)
                     {
                         AnimationInput animationInput2 = new ConstantAnimationInput(new Quaternion(value.Axis, value.AngleRadians));
@@ -190,7 +190,7 @@ namespace Microsoft.Iris.Animations
                     animationInput1 = new ConstantAnimationInput(new Quaternion(value.Axis, value.AngleRadians));
                 AnimationInterpolation interpolation = GenerateInterpolation(keyframe.Interpolation);
                 interpolation.UseSphericalCombination = true;
-                this._animation.AddKeyframe(new AnimationKeyframe(keyframe.Time, animationInput1, interpolation));
+                _animation.AddKeyframe(new AnimationKeyframe(keyframe.Time, animationInput1, interpolation));
             }
         }
 
@@ -199,21 +199,21 @@ namespace Microsoft.Iris.Animations
             switch (stopCmd)
             {
                 case StopCommand.LeaveCurrent:
-                    this._animation.ResetBehavior = AnimationResetBehavior.LeaveCurrent;
+                    _animation.ResetBehavior = AnimationResetBehavior.LeaveCurrent;
                     break;
                 case StopCommand.MoveToBegin:
-                    this._animation.ResetBehavior = AnimationResetBehavior.SetInitialValue;
+                    _animation.ResetBehavior = AnimationResetBehavior.SetInitialValue;
                     break;
                 case StopCommand.MoveToEnd:
-                    this._animation.ResetBehavior = AnimationResetBehavior.SetFinalValue;
+                    _animation.ResetBehavior = AnimationResetBehavior.SetFinalValue;
                     break;
             }
-            this._animation.AutoReset = true;
+            _animation.AutoReset = true;
         }
 
         public bool ValidatePlayable()
         {
-            if (this._keyframesValue >= 2)
+            if (_keyframesValue >= 2)
                 return true;
             ErrorManager.ReportError("Animations must have at least 2 keyframes to play");
             return false;
@@ -221,50 +221,50 @@ namespace Microsoft.Iris.Animations
 
         public void Play()
         {
-            if (!this.ValidatePlayable())
+            if (!ValidatePlayable())
                 return;
-            if (!this._activeSequence.Session.AnimationManager.CanPlayAnimationType(this._type))
+            if (!_activeSequence.Session.AnimationManager.CanPlayAnimationType(_type))
             {
-                this.Cleanup(0.0f, true);
+                Cleanup(0.0f, true);
             }
             else
             {
-                if (this._playingFlag || this._animation == null || !this.Session.IsValid)
+                if (_playingFlag || _animation == null || !Session.IsValid)
                     return;
-                this._animation.AddTarget(this._animatableTarget, this._rendererProperty.Property, this._rendererProperty.TargetMask);
-                this._animation.Play();
-                this._playingFlag = true;
+                _animation.AddTarget(_animatableTarget, _rendererProperty.Property, _rendererProperty.TargetMask);
+                _animation.Play();
+                _playingFlag = true;
             }
         }
 
-        public void Stop() => this.StopWorker(false, StopCommand.MoveToEnd);
+        public void Stop() => StopWorker(false, StopCommand.MoveToEnd);
 
-        public void Stop(StopCommand stopCommand) => this.StopWorker(true, stopCommand);
+        public void Stop(StopCommand stopCommand) => StopWorker(true, stopCommand);
 
         private void StopWorker(bool stopCommandFlag, StopCommand stopCommand)
         {
-            if (!this._playingFlag)
+            if (!_playingFlag)
                 return;
-            this._playingFlag = false;
-            if (this._animation == null || !this.Session.IsValid)
+            _playingFlag = false;
+            if (_animation == null || !Session.IsValid)
                 return;
             if (stopCommandFlag)
-                this.SetStopCommand(stopCommand);
-            this._animation.Reset();
-            this._animation.RemoveAllTargets();
+                SetStopCommand(stopCommand);
+            _animation.Reset();
+            _animation.RemoveAllTargets();
         }
 
         private void Cleanup(float progress, bool forceDeferFlag)
         {
-            if (this._animation == null)
+            if (_animation == null)
                 return;
             if (UIDispatcher.IsUIThread && !forceDeferFlag)
             {
-                this.CleanupWorker(progress, true);
+                CleanupWorker(progress, true);
             }
             else
             {
-                if (!this.Session.IsValid)
+                if (!Session.IsValid)
                     return;
                 DeferredCall.Post(DispatchPriority.Housekeeping, s_deferredCleanupWorker, this);
             }
@@ -272,17 +272,17 @@ namespace Microsoft.Iris.Animations
 
         private void CleanupWorker(float progress, bool withNotifications)
         {
-            this._playingFlag = false;
-            if (this._animation != null)
+            _playingFlag = false;
+            if (_animation != null)
             {
-                this._animation.AsyncNotifyEvent -= new AsyncNotifyHandler(this.OnAsyncNotification);
-                this._animation.UnregisterUsage(this);
-                this._animation = null;
+                _animation.AsyncNotifyEvent -= new AsyncNotifyHandler(OnAsyncNotification);
+                _animation.UnregisterUsage(this);
+                _animation = null;
             }
-            this._animatableTarget = null;
+            _animatableTarget = null;
             if (!withNotifications)
                 return;
-            this._activeSequence.OnDetachChildAnimation(this, progress);
+            _activeSequence.OnDetachChildAnimation(this, progress);
         }
 
         private static void DeferredCleanupWorker(object args) => (args as AnimationProxy).CleanupWorker(0.0f, true);
@@ -322,10 +322,10 @@ namespace Microsoft.Iris.Animations
             switch (nCookie)
             {
                 case 1:
-                    this.Cleanup(0.0f, false);
+                    Cleanup(0.0f, false);
                     break;
                 case 2:
-                    this.Cleanup(0.0f, false);
+                    Cleanup(0.0f, false);
                     break;
             }
         }

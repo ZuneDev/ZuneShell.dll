@@ -22,46 +22,46 @@ namespace Microsoft.Iris.Session
         private IEffectTemplate _effectTemplateImage;
         private IEffectTemplate _effectTemplateImageWithColor;
 
-        public EffectManager(IRenderSession renderSession) => this._renderSession = renderSession;
+        public EffectManager(IRenderSession renderSession) => _renderSession = renderSession;
 
-        public void Dispose() => this.Dispose(true);
+        public void Dispose() => Dispose(true);
 
         private void Dispose(bool fDisposing)
         {
-            if (!this._fDisposed && fDisposing)
+            if (!_fDisposed && fDisposing)
             {
-                if (this._effectTemplateColor != null)
+                if (_effectTemplateColor != null)
                 {
-                    this._effectTemplateColor.UnregisterUsage(this);
-                    this._effectTemplateColor = null;
+                    _effectTemplateColor.UnregisterUsage(this);
+                    _effectTemplateColor = null;
                 }
-                if (this._effectTemplateImage != null)
+                if (_effectTemplateImage != null)
                 {
-                    this._effectTemplateImage.UnregisterUsage(this);
-                    this._effectTemplateImage = null;
+                    _effectTemplateImage.UnregisterUsage(this);
+                    _effectTemplateImage = null;
                 }
-                if (this._effectTemplateImageWithColor != null)
+                if (_effectTemplateImageWithColor != null)
                 {
-                    this._effectTemplateImageWithColor.UnregisterUsage(this);
-                    this._effectTemplateImageWithColor = null;
+                    _effectTemplateImageWithColor.UnregisterUsage(this);
+                    _effectTemplateImageWithColor = null;
                 }
-                this._renderSession = null;
+                _renderSession = null;
             }
-            this._fDisposed = true;
+            _fDisposed = true;
         }
 
         public IEffectTemplate ColorEffectTemplate
         {
             get
             {
-                if (this._effectTemplateColor == null)
+                if (_effectTemplateColor == null)
                 {
-                    this._effectTemplateColor = this._renderSession.CreateEffectTemplate(this, "ColorEffect");
+                    _effectTemplateColor = _renderSession.CreateEffectTemplate(this, "ColorEffect");
                     ColorElement colorElement = new ColorElement("ColorElem");
-                    this._effectTemplateColor.AddEffectProperty("ColorElem.Color");
-                    this._effectTemplateColor.Build(colorElement);
+                    _effectTemplateColor.AddEffectProperty("ColorElem.Color");
+                    _effectTemplateColor.Build(colorElement);
                 }
-                return this._effectTemplateColor;
+                return _effectTemplateColor;
             }
         }
 
@@ -69,14 +69,14 @@ namespace Microsoft.Iris.Session
         {
             get
             {
-                if (this._effectTemplateImage == null)
+                if (_effectTemplateImage == null)
                 {
-                    this._effectTemplateImage = this._renderSession.CreateEffectTemplate(this, "ImageEffect");
+                    _effectTemplateImage = _renderSession.CreateEffectTemplate(this, "ImageEffect");
                     ImageElement imageElement = new ImageElement("ImageElem", null);
-                    this._effectTemplateImage.AddEffectProperty("ImageElem.Image");
-                    this._effectTemplateImage.Build(imageElement);
+                    _effectTemplateImage.AddEffectProperty("ImageElem.Image");
+                    _effectTemplateImage.Build(imageElement);
                 }
-                return this._effectTemplateImage;
+                return _effectTemplateImage;
             }
         }
 

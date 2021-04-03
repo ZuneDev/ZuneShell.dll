@@ -60,183 +60,183 @@ namespace Microsoft.Iris.InputHandlers
 
         public TextEditingHandler()
         {
-            this._caretInfo = new CaretInfo();
-            this._editControl = new RichText(true, this);
-            this._maxLengthChangedHandler = new EventHandler(this.OnEditableTextMaxLengthChanged);
-            this._readOnlyChangedHandler = new EventHandler(this.OnEditableTextReadOnlyChanged);
-            this._valueChangedHandler = new EventHandler(this.OnEditableTextValueChanged);
-            this._activationStateHandler = new EventHandler(this.OnActivationChanged);
-            this.SetBit(Bits.AcceptsEnter);
+            _caretInfo = new CaretInfo();
+            _editControl = new RichText(true, this);
+            _maxLengthChangedHandler = new EventHandler(OnEditableTextMaxLengthChanged);
+            _readOnlyChangedHandler = new EventHandler(OnEditableTextReadOnlyChanged);
+            _valueChangedHandler = new EventHandler(OnEditableTextValueChanged);
+            _activationStateHandler = new EventHandler(OnActivationChanged);
+            SetBit(Bits.AcceptsEnter);
         }
 
         protected override void OnDispose()
         {
             base.OnDispose();
-            this.RemoveEditableTextEventHandlers();
-            this.UnregisterImeMessageHandler();
-            if (this._activationStateNotifier != null)
-                this.UpdateActivationStateHandler(false);
-            this.HorizontalScrollModel = null;
-            this.VerticalScrollModel = null;
-            this._editControl.Dispose();
+            RemoveEditableTextEventHandlers();
+            UnregisterImeMessageHandler();
+            if (_activationStateNotifier != null)
+                UpdateActivationStateHandler(false);
+            HorizontalScrollModel = null;
+            VerticalScrollModel = null;
+            _editControl.Dispose();
         }
 
         protected override void ConfigureInteractivity()
         {
             base.ConfigureInteractivity();
-            if (!this.HandleDirect)
+            if (!HandleDirect)
                 return;
-            this.UI.MouseInteractive = true;
-            this.UI.KeyInteractive = true;
+            UI.MouseInteractive = true;
+            UI.KeyInteractive = true;
         }
 
         public override void OnZoneAttached()
         {
-            if (!this.UI.DirectKeyFocus)
+            if (!UI.DirectKeyFocus)
                 return;
-            this.UpdateActivationStateHandler(true);
+            UpdateActivationStateHandler(true);
         }
 
         private void OnActivationChanged(object sender, EventArgs ea)
         {
-            this.WindowIsActivated = this._activationStateNotifier.ActivationState;
-            this.UpdateCaretVisibility();
+            WindowIsActivated = _activationStateNotifier.ActivationState;
+            UpdateCaretVisibility();
         }
 
         public EditableTextData EditableTextData
         {
-            get => this._editData;
+            get => _editData;
             set
             {
-                if (this._editData == value)
+                if (_editData == value)
                     return;
-                this.RemoveEditableTextEventHandlers();
-                this._editData = value;
-                if (this._editData != null)
+                RemoveEditableTextEventHandlers();
+                _editData = value;
+                if (_editData != null)
                 {
-                    this.AddEditableTextEventHandlers();
-                    this.UpdateMaxLengthOnRichEdit();
-                    this.UpdateReadOnlyOnRichEdit();
-                    this.UpdateContentOnRichEdit();
+                    AddEditableTextEventHandlers();
+                    UpdateMaxLengthOnRichEdit();
+                    UpdateReadOnlyOnRichEdit();
+                    UpdateContentOnRichEdit();
                 }
-                this.FireThreadSafeNotification(NotificationID.EditableTextData);
+                FireThreadSafeNotification(NotificationID.EditableTextData);
             }
         }
 
         private void RemoveEditableTextEventHandlers()
         {
-            if (this._editData == null)
+            if (_editData == null)
                 return;
-            this._editData.MaxLengthChanged -= this._maxLengthChangedHandler;
-            this._editData.ReadOnlyChanged -= this._readOnlyChangedHandler;
-            this._editData.ValueChanged -= this._valueChangedHandler;
+            _editData.MaxLengthChanged -= _maxLengthChangedHandler;
+            _editData.ReadOnlyChanged -= _readOnlyChangedHandler;
+            _editData.ValueChanged -= _valueChangedHandler;
         }
 
         private void AddEditableTextEventHandlers()
         {
-            this._editData.MaxLengthChanged += this._maxLengthChangedHandler;
-            this._editData.ReadOnlyChanged += this._readOnlyChangedHandler;
-            this._editData.ValueChanged += this._valueChangedHandler;
+            _editData.MaxLengthChanged += _maxLengthChangedHandler;
+            _editData.ReadOnlyChanged += _readOnlyChangedHandler;
+            _editData.ValueChanged += _valueChangedHandler;
         }
 
-        private void UnregisterImeMessageHandler() => RendererApi.IFC(NativeApi.SpUnregisterImeCallbacks(this._ImeCallbackToken));
+        private void UnregisterImeMessageHandler() => RendererApi.IFC(NativeApi.SpUnregisterImeCallbacks(_ImeCallbackToken));
 
-        private void OnEditableTextMaxLengthChanged(object sender, EventArgs unused) => this.UpdateMaxLengthOnRichEdit();
+        private void OnEditableTextMaxLengthChanged(object sender, EventArgs unused) => UpdateMaxLengthOnRichEdit();
 
-        private void OnEditableTextReadOnlyChanged(object sender, EventArgs unused) => this.UpdateReadOnlyOnRichEdit();
+        private void OnEditableTextReadOnlyChanged(object sender, EventArgs unused) => UpdateReadOnlyOnRichEdit();
 
         private void OnEditableTextValueChanged(object sender, EventArgs unused)
         {
-            if (this.InsideValueChangeOnEditableTextData)
+            if (InsideValueChangeOnEditableTextData)
                 return;
-            this.UpdateContentOnRichEdit();
+            UpdateContentOnRichEdit();
         }
 
         private void UpdateContentOnRichEdit()
         {
-            if (this._editData == null)
+            if (_editData == null)
                 return;
-            this.InsideContentChangeOnRichEdit = true;
-            this._editControl.Content = this._editData.Value;
-            if (this._textDisplay != null)
-                this._textDisplay.MarkScaleDirty();
-            this.InsideContentChangeOnRichEdit = false;
+            InsideContentChangeOnRichEdit = true;
+            _editControl.Content = _editData.Value;
+            if (_textDisplay != null)
+                _textDisplay.MarkScaleDirty();
+            InsideContentChangeOnRichEdit = false;
         }
 
         private void UpdateReadOnlyOnRichEdit()
         {
-            this._editControl.ReadOnly = this._editData.ReadOnly;
-            this.UpdateSelectionAndReadOnlyCommands();
+            _editControl.ReadOnly = _editData.ReadOnly;
+            UpdateSelectionAndReadOnlyCommands();
         }
 
-        private void UpdateMaxLengthOnRichEdit() => this._editControl.MaxLength = this._editData.MaxLength;
+        private void UpdateMaxLengthOnRichEdit() => _editControl.MaxLength = _editData.MaxLength;
 
         public Text TextDisplay
         {
-            get => this._textDisplay;
+            get => _textDisplay;
             set
             {
-                if (this._textDisplay == value)
+                if (_textDisplay == value)
                     return;
-                LayoutCompleteEventHandler completeEventHandler = new LayoutCompleteEventHandler(this.TextLayoutComplete);
-                if (this._textDisplay != null)
+                LayoutCompleteEventHandler completeEventHandler = new LayoutCompleteEventHandler(TextLayoutComplete);
+                if (_textDisplay != null)
                 {
-                    this._textDisplay.ExternalRasterizer = null;
-                    this._textDisplay.ExternalEditingHandler = null;
-                    this._textDisplay.LayoutComplete -= completeEventHandler;
+                    _textDisplay.ExternalRasterizer = null;
+                    _textDisplay.ExternalEditingHandler = null;
+                    _textDisplay.LayoutComplete -= completeEventHandler;
                 }
-                this._textDisplay = value;
-                if (this._textDisplay != null)
+                _textDisplay = value;
+                if (_textDisplay != null)
                 {
-                    this._textDisplay.ExternalRasterizer = this._editControl;
-                    this._textDisplay.ExternalEditingHandler = this;
-                    this._textDisplay.OnDisplayedContentChange();
-                    this._textDisplay.LayoutComplete += completeEventHandler;
-                    this.InputOffsetDirty = true;
+                    _textDisplay.ExternalRasterizer = _editControl;
+                    _textDisplay.ExternalEditingHandler = this;
+                    _textDisplay.OnDisplayedContentChange();
+                    _textDisplay.LayoutComplete += completeEventHandler;
+                    InputOffsetDirty = true;
                 }
-                this.FireThreadSafeNotification(NotificationID.TextDisplay);
+                FireThreadSafeNotification(NotificationID.TextDisplay);
             }
         }
 
-        private void TextLayoutComplete(object sender) => this.InputOffsetDirty = true;
+        private void TextLayoutComplete(object sender) => InputOffsetDirty = true;
 
-        private void FireTypingInputRejectedEvent() => this.FireThreadSafeNotification(NotificationID.TypingInputRejected);
+        private void FireTypingInputRejectedEvent() => FireThreadSafeNotification(NotificationID.TypingInputRejected);
 
         public bool DetectUrls
         {
-            get => this.GetBit(Bits.DetectUrls);
+            get => GetBit(Bits.DetectUrls);
             set
             {
-                if (!this.ChangeBit(Bits.DetectUrls, value))
+                if (!ChangeBit(Bits.DetectUrls, value))
                     return;
-                this._editControl.DetectUrls = value;
-                this.FireThreadSafeNotification(NotificationID.DetectUrls);
+                _editControl.DetectUrls = value;
+                FireThreadSafeNotification(NotificationID.DetectUrls);
             }
         }
 
         public Color LinkColor
         {
-            get => this._linkColor;
+            get => _linkColor;
             set
             {
-                if (!(this._linkColor != value))
+                if (!(_linkColor != value))
                     return;
-                this._linkColor = value;
-                this.FireThreadSafeNotification(NotificationID.LinkColor);
+                _linkColor = value;
+                FireThreadSafeNotification(NotificationID.LinkColor);
             }
         }
 
-        private void FireLinkClicked() => this.FireThreadSafeNotification(NotificationID.LinkClicked);
+        private void FireLinkClicked() => FireThreadSafeNotification(NotificationID.LinkClicked);
 
         public string LinkClickedParameter
         {
-            get => this._linkClickedParameter;
+            get => _linkClickedParameter;
             private set
             {
-                if (!(this._linkClickedParameter != value))
+                if (!(_linkClickedParameter != value))
                     return;
-                this._linkClickedParameter = value;
-                this.FireThreadSafeNotification(NotificationID.LinkClickedParameter);
+                _linkClickedParameter = value;
+                FireThreadSafeNotification(NotificationID.LinkClickedParameter);
             }
         }
 
@@ -249,60 +249,60 @@ namespace Microsoft.Iris.InputHandlers
                     cursorId = CursorID.IBeam;
                     break;
             }
-            if (cursorId != this._cursor)
+            if (cursorId != _cursor)
             {
-                this._cursor = cursorId;
-                this.UpdateCursor();
+                _cursor = cursorId;
+                UpdateCursor();
             }
             return new HRESULT(0);
         }
 
-        internal override CursorID GetCursor() => this._cursor;
+        internal override CursorID GetCursor() => _cursor;
 
         private bool IgnoreReadOnlyChar(char character) => character == '\r' || character == '\t';
 
         protected override void OnKeyDown(UIClass ui, KeyStateInfo info)
         {
-            bool flag = this.ForwardKeyStateChange(info);
+            bool flag = ForwardKeyStateChange(info);
             switch (info.Key)
             {
                 case Keys.Back:
-                    if (this._editData.ReadOnly)
-                        this.FireTypingInputRejectedEvent();
+                    if (_editData.ReadOnly)
+                        FireTypingInputRejectedEvent();
                     info.MarkHandled();
                     break;
                 case Keys.Tab:
                     if (flag)
                         info.MarkHandled();
-                    this.HandledTabKeyDown = info.Handled;
+                    HandledTabKeyDown = info.Handled;
                     break;
                 case Keys.Enter:
-                    if (!info.Handled && this.AcceptsEnter && (info.Modifiers == InputModifiers.None && !this._editData.ReadOnly))
+                    if (!info.Handled && AcceptsEnter && (info.Modifiers == InputModifiers.None && !_editData.ReadOnly))
                     {
-                        this._editData.Submit();
+                        _editData.Submit();
                         info.MarkHandled();
                     }
-                    this.HandledEnterKeyDown = info.Handled;
+                    HandledEnterKeyDown = info.Handled;
                     break;
             }
         }
 
         protected override void OnKeyCharacter(UIClass ui, KeyCharacterInfo info)
         {
-            if (this.ForwardKeyCharacter(info) && !info.Handled && (this._editData.ReadOnly && !this.IgnoreReadOnlyChar(info.Character)))
-                this.FireTypingInputRejectedEvent();
+            if (ForwardKeyCharacter(info) && !info.Handled && (_editData.ReadOnly && !IgnoreReadOnlyChar(info.Character)))
+                FireTypingInputRejectedEvent();
             switch (info.Character)
             {
                 case '\b':
                     info.MarkHandled();
                     break;
                 case '\t':
-                    if (!this.HandledTabKeyDown)
+                    if (!HandledTabKeyDown)
                         break;
                     info.MarkHandled();
                     break;
                 case '\r':
-                    if (!this.HandledEnterKeyDown)
+                    if (!HandledEnterKeyDown)
                         break;
                     info.MarkHandled();
                     break;
@@ -311,23 +311,23 @@ namespace Microsoft.Iris.InputHandlers
 
         protected override void OnKeyUp(UIClass ui, KeyStateInfo info)
         {
-            this.ForwardKeyStateChange(info);
+            ForwardKeyStateChange(info);
             switch (info.Key)
             {
                 case Keys.Back:
                     info.MarkHandled();
                     break;
                 case Keys.Tab:
-                    if (!this.HandledTabKeyDown)
+                    if (!HandledTabKeyDown)
                         break;
                     info.MarkHandled();
-                    this.HandledTabKeyDown = false;
+                    HandledTabKeyDown = false;
                     break;
                 case Keys.Enter:
-                    if (!this.HandledEnterKeyDown)
+                    if (!HandledEnterKeyDown)
                         break;
                     info.MarkHandled();
-                    this.HandledEnterKeyDown = false;
+                    HandledEnterKeyDown = false;
                     break;
             }
         }
@@ -338,10 +338,10 @@ namespace Microsoft.Iris.InputHandlers
             switch (info.Key)
             {
                 case Keys.Tab:
-                    flag = info.Action != KeyAction.Down ? this.HandledTabKeyDown : this.AcceptsTab;
+                    flag = info.Action != KeyAction.Down ? HandledTabKeyDown : AcceptsTab;
                     break;
                 case Keys.Enter:
-                    flag = info.Action != KeyAction.Down ? this.HandledEnterKeyDown : this.AcceptsEnter;
+                    flag = info.Action != KeyAction.Down ? HandledEnterKeyDown : AcceptsEnter;
                     break;
             }
             return flag;
@@ -353,10 +353,10 @@ namespace Microsoft.Iris.InputHandlers
             switch (info.Character)
             {
                 case '\t':
-                    flag = this.HandledTabKeyDown;
+                    flag = HandledTabKeyDown;
                     break;
                 case '\r':
-                    flag = this.HandledEnterKeyDown;
+                    flag = HandledEnterKeyDown;
                     break;
             }
             return flag;
@@ -364,45 +364,45 @@ namespace Microsoft.Iris.InputHandlers
 
         private bool ForwardKeyStateChange(KeyStateInfo info)
         {
-            if (!this.ForwardKeyToRichEdit(info))
+            if (!ForwardKeyToRichEdit(info))
                 return false;
-            if (this._editControl.ForwardKeyStateNotification(info.NativeMessageID, (int)info.Key, info.ScanCode, (int)info.RepeatCount, (uint)info.Modifiers, info.KeyboardFlags))
+            if (_editControl.ForwardKeyStateNotification(info.NativeMessageID, (int)info.Key, info.ScanCode, (int)info.RepeatCount, (uint)info.Modifiers, info.KeyboardFlags))
                 info.MarkHandled();
             return true;
         }
 
         private bool ForwardKeyCharacter(KeyCharacterInfo info)
         {
-            if (!this.ForwardKeyCharacterToRichEdit(info))
+            if (!ForwardKeyCharacterToRichEdit(info))
                 return false;
-            if (this._editControl.ForwardKeyCharacterNotification(info.NativeMessageID, info.Character, info.ScanCode, (int)info.RepeatCount, (uint)info.Modifiers, info.KeyboardFlags))
+            if (_editControl.ForwardKeyCharacterNotification(info.NativeMessageID, info.Character, info.ScanCode, (int)info.RepeatCount, (uint)info.Modifiers, info.KeyboardFlags))
                 info.MarkHandled();
             return true;
         }
 
         protected override void OnGainKeyFocus(UIClass ui, KeyFocusInfo info)
         {
-            RendererApi.IFC(NativeApi.SpRegisterImeCallbacks(this, out this._ImeCallbackToken));
-            this._editControl.NotifyOfFocusChange(true);
-            if (this.Overtype)
-                this.SelectAll();
-            this.DeliverPendingPointerDown();
-            if (this.UI.IsZoned)
-                this.UpdateActivationStateHandler(true);
-            if (!this._textDisplay.UsePasswordMask && !this._textDisplay.DisableIme)
+            RendererApi.IFC(NativeApi.SpRegisterImeCallbacks(this, out _ImeCallbackToken));
+            _editControl.NotifyOfFocusChange(true);
+            if (Overtype)
+                SelectAll();
+            DeliverPendingPointerDown();
+            if (UI.IsZoned)
+                UpdateActivationStateHandler(true);
+            if (!_textDisplay.UsePasswordMask && !_textDisplay.DisableIme)
                 return;
-            RendererApi.IFC(NativeApi.SpPostDeferredImeMessage(1032U, new UIntPtr(this._ImeCallbackToken), UIntPtr.Zero));
+            RendererApi.IFC(NativeApi.SpPostDeferredImeMessage(1032U, new UIntPtr(_ImeCallbackToken), UIntPtr.Zero));
         }
 
         protected override void OnLoseKeyFocus(UIClass ui, KeyFocusInfo info)
         {
-            this._editControl.NotifyOfFocusChange(false);
-            this.HandledEnterKeyDown = false;
-            this.HandledTabKeyDown = false;
-            if (this.UI.IsZoned)
-                this.UpdateActivationStateHandler(false);
-            this.ClearPendingPointerDown();
-            RendererApi.IFC(NativeApi.SpUnregisterImeCallbacks(this._ImeCallbackToken));
+            _editControl.NotifyOfFocusChange(false);
+            HandledEnterKeyDown = false;
+            HandledTabKeyDown = false;
+            if (UI.IsZoned)
+                UpdateActivationStateHandler(false);
+            ClearPendingPointerDown();
+            RendererApi.IFC(NativeApi.SpUnregisterImeCallbacks(_ImeCallbackToken));
         }
 
         protected override void OnLoseMouseFocus(UIClass ui, MouseFocusInfo info)
@@ -413,64 +413,64 @@ namespace Microsoft.Iris.InputHandlers
         {
             if (add)
             {
-                this._activationStateNotifier = UI.Zone.Form;
-                this._activationStateNotifier.ActivationChange += this._activationStateHandler;
-                this.OnActivationChanged(null, EventArgs.Empty);
+                _activationStateNotifier = UI.Zone.Form;
+                _activationStateNotifier.ActivationChange += _activationStateHandler;
+                OnActivationChanged(null, EventArgs.Empty);
             }
             else
             {
-                this._activationStateNotifier.ActivationChange -= this._activationStateHandler;
-                this._activationStateNotifier = null;
+                _activationStateNotifier.ActivationChange -= _activationStateHandler;
+                _activationStateNotifier = null;
             }
         }
 
-        protected override void OnMouseDoubleClick(UIClass ui, MouseButtonInfo info) => this.ForwardMouseInput(info);
+        protected override void OnMouseDoubleClick(UIClass ui, MouseButtonInfo info) => ForwardMouseInput(info);
 
-        protected override void OnMouseMove(UIClass ui, MouseMoveInfo info) => this.ForwardMouseInput(info);
+        protected override void OnMouseMove(UIClass ui, MouseMoveInfo info) => ForwardMouseInput(info);
 
         protected override void OnMousePrimaryDown(UIClass ui, MouseButtonInfo info)
         {
-            this._pendingPointerDown = info;
+            _pendingPointerDown = info;
             info.Lock();
-            if (!this.UI.DirectKeyFocus && this.HandlerStage == InputHandlerStage.Direct && this.UI.KeyFocusOnMouseDown)
+            if (!UI.DirectKeyFocus && HandlerStage == InputHandlerStage.Direct && UI.KeyFocusOnMouseDown)
                 return;
-            this.DeliverPendingPointerDown();
+            DeliverPendingPointerDown();
         }
 
         private void DeliverPendingPointerDown()
         {
-            if (this._pendingPointerDown == null)
+            if (_pendingPointerDown == null)
                 return;
-            this.MousePrimaryDown = true;
-            MouseButtonInfo pendingPointerDown = (MouseButtonInfo)this._pendingPointerDown;
-            this._savedMouseYPositionToWorkAroundRichEditBug = pendingPointerDown.Y;
-            this.ForwardMouseInput(pendingPointerDown);
-            this.ClearPendingPointerDown();
+            MousePrimaryDown = true;
+            MouseButtonInfo pendingPointerDown = (MouseButtonInfo)_pendingPointerDown;
+            _savedMouseYPositionToWorkAroundRichEditBug = pendingPointerDown.Y;
+            ForwardMouseInput(pendingPointerDown);
+            ClearPendingPointerDown();
         }
 
         private void ClearPendingPointerDown()
         {
-            if (this._pendingPointerDown == null)
+            if (_pendingPointerDown == null)
                 return;
-            this._pendingPointerDown.Unlock();
-            this._pendingPointerDown = null;
+            _pendingPointerDown.Unlock();
+            _pendingPointerDown = null;
         }
 
         protected override void OnMousePrimaryUp(UIClass ui, MouseButtonInfo info)
         {
-            this.MousePrimaryDown = false;
-            this.ForwardMouseInput(info);
+            MousePrimaryDown = false;
+            ForwardMouseInput(info);
         }
 
-        protected override void OnMouseSecondaryDown(UIClass ui, MouseButtonInfo info) => this.ForwardMouseInput(info);
+        protected override void OnMouseSecondaryDown(UIClass ui, MouseButtonInfo info) => ForwardMouseInput(info);
 
-        protected override void OnMouseSecondaryUp(UIClass ui, MouseButtonInfo info) => this.ForwardMouseInput(info);
+        protected override void OnMouseSecondaryUp(UIClass ui, MouseButtonInfo info) => ForwardMouseInput(info);
 
         protected override void OnMouseWheel(UIClass ui, MouseWheelInfo info)
         {
-            if (!this._textDisplay.WordWrap)
+            if (!_textDisplay.WordWrap)
                 return;
-            this.ForwardMouseInput(info);
+            ForwardMouseInput(info);
         }
 
         private bool ForwardMouseInput(
@@ -481,57 +481,57 @@ namespace Microsoft.Iris.InputHandlers
           int inputY,
           int wheelDelta)
         {
-            if (this.InputOffsetDirty)
+            if (InputOffsetDirty)
             {
                 Vector3 parentOffsetPxlVector;
                 ViewItem.GetAccumulatedOffsetAndScale(_textDisplay, UI.RootItem, out parentOffsetPxlVector, out Vector3 _);
-                this._inputOffset = new Point((int)Math.Floor(parentOffsetPxlVector.X), (int)Math.Floor(parentOffsetPxlVector.Y));
-                this.InputOffsetDirty = false;
+                _inputOffset = new Point((int)Math.Floor(parentOffsetPxlVector.X), (int)Math.Floor(parentOffsetPxlVector.Y));
+                InputOffsetDirty = false;
             }
-            int x = inputX - this._inputOffset.X;
-            int y = inputY - this._inputOffset.Y;
-            if (this.MousePrimaryDown && this._textDisplay != null && !this._textDisplay.WordWrap)
-                y = this._savedMouseYPositionToWorkAroundRichEditBug - this._inputOffset.Y;
-            return this._editControl.ForwardMouseInput(nativeMessageID, (uint)modifiers, (int)button, x, y, wheelDelta);
+            int x = inputX - _inputOffset.X;
+            int y = inputY - _inputOffset.Y;
+            if (MousePrimaryDown && _textDisplay != null && !_textDisplay.WordWrap)
+                y = _savedMouseYPositionToWorkAroundRichEditBug - _inputOffset.Y;
+            return _editControl.ForwardMouseInput(nativeMessageID, (uint)modifiers, (int)button, x, y, wheelDelta);
         }
 
         private void ForwardMouseInput(MouseActionInfo info)
         {
-            if (!this.ForwardMouseInput(info.NativeMessageID, info.Modifiers, info.Button, info.X, info.Y, info.WheelDelta))
+            if (!ForwardMouseInput(info.NativeMessageID, info.Modifiers, info.Button, info.X, info.Y, info.WheelDelta))
                 return;
             info.MarkHandled();
         }
 
         public bool Overtype
         {
-            get => this.GetBit(Bits.Overtype);
+            get => GetBit(Bits.Overtype);
             set
             {
-                if (!this.ChangeBit(Bits.Overtype, value))
+                if (!ChangeBit(Bits.Overtype, value))
                     return;
-                this.FireThreadSafeNotification(NotificationID.Overtype);
+                FireThreadSafeNotification(NotificationID.Overtype);
             }
         }
 
         public bool AcceptsTab
         {
-            get => this.GetBit(Bits.AcceptsTab);
+            get => GetBit(Bits.AcceptsTab);
             set
             {
-                if (!this.ChangeBit(Bits.AcceptsTab, value))
+                if (!ChangeBit(Bits.AcceptsTab, value))
                     return;
-                this.FireThreadSafeNotification(NotificationID.AcceptsTab);
+                FireThreadSafeNotification(NotificationID.AcceptsTab);
             }
         }
 
         public bool AcceptsEnter
         {
-            get => this.GetBit(Bits.AcceptsEnter);
+            get => GetBit(Bits.AcceptsEnter);
             set
             {
-                if (!this.ChangeBit(Bits.AcceptsEnter, value))
+                if (!ChangeBit(Bits.AcceptsEnter, value))
                     return;
-                this.FireThreadSafeNotification(NotificationID.AcceptsEnter);
+                FireThreadSafeNotification(NotificationID.AcceptsEnter);
             }
         }
 
@@ -539,131 +539,131 @@ namespace Microsoft.Iris.InputHandlers
         {
             set
             {
-                if (!this.ChangeBit(Bits.WordWrap, value))
+                if (!ChangeBit(Bits.WordWrap, value))
                     return;
-                this._editControl.SetWordWrap(value);
+                _editControl.SetWordWrap(value);
                 if (!value)
                     return;
-                this.UpdateContentOnRichEdit();
+                UpdateContentOnRichEdit();
             }
         }
 
-        public CaretInfo CaretInfo => this._caretInfo;
+        public CaretInfo CaretInfo => _caretInfo;
 
         private void CreateCommands()
         {
-            if (this.GetBit(Bits.CommandsCreated))
+            if (GetBit(Bits.CommandsCreated))
                 return;
-            this.SetBit(Bits.CommandsCreated);
-            this._undoCommand = new TextEditingHandler.TextEditingCommand(new SimpleCallback(this._editControl.Undo));
-            this._cutCommand = new TextEditingHandler.TextEditingCommand(new SimpleCallback(this._editControl.Cut));
-            this._copyCommand = new TextEditingHandler.TextEditingCommand(new SimpleCallback(this._editControl.Copy));
-            this._pasteCommand = new TextEditingHandler.TextPasteCommand(new SimpleCallback(this._editControl.Paste));
-            this._deleteCommand = new TextEditingHandler.TextEditingCommand(new SimpleCallback(this._editControl.Delete));
-            this._selectAllCommand = new TextEditingHandler.TextEditingCommand(new SimpleCallback(this.SelectAll));
-            this.UpdateSelectionAndReadOnlyCommands();
-            this.UpdateTextBasedCommandAvailability();
+            SetBit(Bits.CommandsCreated);
+            _undoCommand = new TextEditingHandler.TextEditingCommand(new SimpleCallback(_editControl.Undo));
+            _cutCommand = new TextEditingHandler.TextEditingCommand(new SimpleCallback(_editControl.Cut));
+            _copyCommand = new TextEditingHandler.TextEditingCommand(new SimpleCallback(_editControl.Copy));
+            _pasteCommand = new TextEditingHandler.TextPasteCommand(new SimpleCallback(_editControl.Paste));
+            _deleteCommand = new TextEditingHandler.TextEditingCommand(new SimpleCallback(_editControl.Delete));
+            _selectAllCommand = new TextEditingHandler.TextEditingCommand(new SimpleCallback(SelectAll));
+            UpdateSelectionAndReadOnlyCommands();
+            UpdateTextBasedCommandAvailability();
         }
 
         public IUICommand UndoCommand
         {
             get
             {
-                this.CreateCommands();
+                CreateCommands();
                 return _undoCommand;
             }
         }
 
-        public void Undo() => this._editControl.Undo();
+        public void Undo() => _editControl.Undo();
 
         public IUICommand CutCommand
         {
             get
             {
-                this.CreateCommands();
+                CreateCommands();
                 return _cutCommand;
             }
         }
 
-        public void Cut() => this._editControl.Cut();
+        public void Cut() => _editControl.Cut();
 
         public IUICommand CopyCommand
         {
             get
             {
-                this.CreateCommands();
+                CreateCommands();
                 return _copyCommand;
             }
         }
 
-        public void Copy() => this._editControl.Copy();
+        public void Copy() => _editControl.Copy();
 
         public IUICommand PasteCommand
         {
             get
             {
-                this.CreateCommands();
+                CreateCommands();
                 return _pasteCommand;
             }
         }
 
-        public void Paste() => this._editControl.Paste();
+        public void Paste() => _editControl.Paste();
 
         public IUICommand DeleteCommand
         {
             get
             {
-                this.CreateCommands();
+                CreateCommands();
                 return _deleteCommand;
             }
         }
 
-        public void Delete() => this._editControl.Delete();
+        public void Delete() => _editControl.Delete();
 
         public IUICommand SelectAllCommand
         {
             get
             {
-                this.CreateCommands();
+                CreateCommands();
                 return _selectAllCommand;
             }
         }
 
         public void SelectAll()
         {
-            string str = this._editData != null ? this._editData.Value : null;
+            string str = _editData != null ? _editData.Value : null;
             if (string.IsNullOrEmpty(str))
                 return;
-            this.SelectionRange = new Range(0, str.Length);
+            SelectionRange = new Range(0, str.Length);
         }
 
         public Range SelectionRange
         {
-            get => this._selection;
+            get => _selection;
             set
             {
-                if (this._selection.IsEqual(value))
+                if (_selection.IsEqual(value))
                     return;
-                this._editControl.SetSelectionRange(value.Begin, value.End);
+                _editControl.SetSelectionRange(value.Begin, value.End);
             }
         }
 
         private void UpdateTextBasedCommandAvailability()
         {
-            this._undoCommand.Available = this._editControl.CanUndo;
-            this._selectAllCommand.Available = this._editData != null && !string.IsNullOrEmpty(this._editData.Value);
+            _undoCommand.Available = _editControl.CanUndo;
+            _selectAllCommand.Available = _editData != null && !string.IsNullOrEmpty(_editData.Value);
         }
 
         private void UpdateSelectionAndReadOnlyCommands()
         {
-            if (!this.GetBit(Bits.CommandsCreated))
+            if (!GetBit(Bits.CommandsCreated))
                 return;
-            bool flag1 = !this._selection.IsEmpty;
-            bool flag2 = this._editData == null || this._editData.ReadOnly;
-            this._cutCommand.Available = flag1 && !flag2;
-            this._copyCommand.Available = flag1;
-            this._deleteCommand.Available = flag1 && !flag2;
-            this._pasteCommand.TextIsReadOnly = flag2;
+            bool flag1 = !_selection.IsEmpty;
+            bool flag2 = _editData == null || _editData.ReadOnly;
+            _cutCommand.Available = flag1 && !flag2;
+            _copyCommand.Available = flag1;
+            _deleteCommand.Available = flag1 && !flag2;
+            _pasteCommand.TextIsReadOnly = flag2;
         }
 
         HRESULT IRichTextCallbacks.TextChanged()
@@ -673,13 +673,13 @@ namespace Microsoft.Iris.InputHandlers
                 Application.DeferredInvoke(args => ((IRichTextCallbacks)args).TextChanged(), this, DeferredInvokePriority.Normal);
                 return new HRESULT(0);
             }
-            if (this.GetBit(Bits.CommandsCreated))
-                this.UpdateTextBasedCommandAvailability();
-            if (this._editData != null && !this.InsideContentChangeOnRichEdit)
+            if (GetBit(Bits.CommandsCreated))
+                UpdateTextBasedCommandAvailability();
+            if (_editData != null && !InsideContentChangeOnRichEdit)
             {
-                this.InsideValueChangeOnEditableTextData = true;
-                this._editData.Value = this._editControl.SimpleContent;
-                this.InsideValueChangeOnEditableTextData = false;
+                InsideValueChangeOnEditableTextData = true;
+                _editData.Value = _editControl.SimpleContent;
+                InsideValueChangeOnEditableTextData = false;
             }
             return new HRESULT(0);
         }
@@ -691,9 +691,9 @@ namespace Microsoft.Iris.InputHandlers
                 Application.DeferredInvoke(args => ((IRichTextCallbacks)args).InvalidateContent(), this, DeferredInvokePriority.Normal);
                 return new HRESULT(0);
             }
-            if (this._textDisplay != null)
-                this._textDisplay.OnDisplayedContentChange();
-            this.RefreshCaretPosition();
+            if (_textDisplay != null)
+                _textDisplay.OnDisplayedContentChange();
+            RefreshCaretPosition();
             return new HRESULT(0);
         }
 
@@ -701,75 +701,75 @@ namespace Microsoft.Iris.InputHandlers
           int selectionStart,
           int selectionEnd)
         {
-            this._selection = new Range(selectionStart, selectionEnd);
-            this.FireThreadSafeNotification(NotificationID.SelectionRange);
-            this.UpdateSelectionAndReadOnlyCommands();
+            _selection = new Range(selectionStart, selectionEnd);
+            FireThreadSafeNotification(NotificationID.SelectionRange);
+            UpdateSelectionAndReadOnlyCommands();
             return new HRESULT(0);
         }
 
         HRESULT IRichTextCallbacks.MaxLengthExceeded()
         {
-            this.FireTypingInputRejectedEvent();
+            FireTypingInputRejectedEvent();
             return new HRESULT(0);
         }
 
         HRESULT IRichTextCallbacks.SetTimer(uint id, uint timeout)
         {
-            this._editControl.SetTimer(id, timeout);
+            _editControl.SetTimer(id, timeout);
             return new HRESULT(0);
         }
 
         HRESULT IRichTextCallbacks.KillTimer(uint id)
         {
-            this._editControl.KillTimer(id);
+            _editControl.KillTimer(id);
             return new HRESULT(0);
         }
 
         HRESULT IRichTextCallbacks.CreateCaret(int width, int height)
         {
-            this._caretInfo.CreateCaret(new Size(width, height));
+            _caretInfo.CreateCaret(new Size(width, height));
             return new HRESULT(0);
         }
 
         HRESULT IRichTextCallbacks.SetCaretPos(int x, int y)
         {
-            this._caretInfo.SetCaretPosition(new Point(x, y));
+            _caretInfo.SetCaretPosition(new Point(x, y));
             return new HRESULT(0);
         }
 
         HRESULT IRichTextCallbacks.ShowCaret(bool visible)
         {
-            this.RichEditCaretVisible = visible;
-            this.UpdateCaretVisibility();
+            RichEditCaretVisible = visible;
+            UpdateCaretVisibility();
             return new HRESULT(0);
         }
 
         HRESULT IRichTextCallbacks.ClientToWindow(Point pt, out Point ppt)
         {
-            ppt = this._textDisplay == null ? new Point(0, 0) : this._textDisplay.ClientToWindow(pt);
+            ppt = _textDisplay == null ? new Point(0, 0) : _textDisplay.ClientToWindow(pt);
             return new HRESULT(0);
         }
 
         HRESULT IRichTextCallbacks.ClientToScreen(Point pt, out Point ppt)
         {
-            ppt = this._textDisplay.ClientToScreen(pt);
+            ppt = _textDisplay.ClientToScreen(pt);
             return new HRESULT(0);
         }
 
         HRESULT IRichTextCallbacks.LinkClicked(int start, int end)
         {
-            string str = this._editData != null ? this._editData.Value : string.Empty;
+            string str = _editData != null ? _editData.Value : string.Empty;
             if (string.IsNullOrEmpty(str))
             {
-                this.LinkClickedParameter = string.Empty;
+                LinkClickedParameter = string.Empty;
             }
             else
             {
                 end = end >= 0 ? Math.Min(str.Length, end) : str.Length;
                 start = Math.Min(start, end);
-                this.LinkClickedParameter = str.Substring(start, end - start);
+                LinkClickedParameter = str.Substring(start, end - start);
             }
-            this.FireLinkClicked();
+            FireLinkClicked();
             return new HRESULT(0);
         }
 
@@ -781,25 +781,25 @@ namespace Microsoft.Iris.InputHandlers
             switch (message)
             {
                 case 269:
-                    this.InImeCompositionMode = true;
+                    InImeCompositionMode = true;
                     break;
                 case 270:
-                    this.InImeCompositionMode = false;
+                    InImeCompositionMode = false;
                     break;
             }
-            return this._editControl.ForwardImeMessage(message, wParam, lParam);
+            return _editControl.ForwardImeMessage(message, wParam, lParam);
         }
 
         public bool InImeCompositionMode
         {
-            get => this._InImeMode;
+            get => _InImeMode;
             set
             {
-                if (this._InImeMode == value)
+                if (_InImeMode == value)
                     return;
-                this.CaretInfo.IgnoreIdealWidth = value;
-                this._InImeMode = value;
-                this.FireThreadSafeNotification(NotificationID.InImeCompositionMode);
+                CaretInfo.IgnoreIdealWidth = value;
+                _InImeMode = value;
+                FireThreadSafeNotification(NotificationID.InImeCompositionMode);
             }
         }
 
@@ -810,15 +810,15 @@ namespace Microsoft.Iris.InputHandlers
           int viewExtent,
           int scrollPosition)
         {
-            if (whichBarInt == 1 && this._verticalScrollModel != null)
+            if (whichBarInt == 1 && _verticalScrollModel != null)
             {
-                this.SetScrollRange(ref this._pendingVerticalScrollState, minPosition, extent, viewExtent, scrollPosition);
-                this.ScheduleScrollbarUpdate(true);
+                SetScrollRange(ref _pendingVerticalScrollState, minPosition, extent, viewExtent, scrollPosition);
+                ScheduleScrollbarUpdate(true);
             }
-            else if (this._horizontalScrollModel != null)
+            else if (_horizontalScrollModel != null)
             {
-                this.SetScrollRange(ref this._pendingHorizontalScrollState, minPosition, extent, viewExtent, scrollPosition);
-                this.ScheduleScrollbarUpdate(false);
+                SetScrollRange(ref _pendingHorizontalScrollState, minPosition, extent, viewExtent, scrollPosition);
+                ScheduleScrollbarUpdate(false);
             }
             return new HRESULT(0);
         }
@@ -845,15 +845,15 @@ namespace Microsoft.Iris.InputHandlers
           ScrollbarEnableFlags flags)
         {
             ScrollbarType whichBar = (ScrollbarType)whichBarInt;
-            if (this.IsVerticalScrollbar(whichBar) && this._verticalScrollModel != null)
+            if (IsVerticalScrollbar(whichBar) && _verticalScrollModel != null)
             {
-                this.EnableScrollbar(ref this._pendingVerticalScrollState, flags);
-                this.ScheduleScrollbarUpdate(true);
+                EnableScrollbar(ref _pendingVerticalScrollState, flags);
+                ScheduleScrollbarUpdate(true);
             }
-            if (this.IsHorizontalScrollbar(whichBar) && this._horizontalScrollModel != null)
+            if (IsHorizontalScrollbar(whichBar) && _horizontalScrollModel != null)
             {
-                this.EnableScrollbar(ref this._pendingHorizontalScrollState, flags);
-                this.ScheduleScrollbarUpdate(false);
+                EnableScrollbar(ref _pendingHorizontalScrollState, flags);
+                ScheduleScrollbarUpdate(false);
             }
             return new HRESULT(0);
         }
@@ -883,47 +883,47 @@ namespace Microsoft.Iris.InputHandlers
 
         private void ScheduleScrollbarUpdate(bool vertical)
         {
-            bool flag = !this.GetBit(Bits.PendingVerticalScrollbarUpdate) && !this.GetBit(Bits.PendingHorizontalScrollbarUpdate);
+            bool flag = !GetBit(Bits.PendingVerticalScrollbarUpdate) && !GetBit(Bits.PendingHorizontalScrollbarUpdate);
             if (vertical)
-                this.SetBit(Bits.PendingVerticalScrollbarUpdate);
+                SetBit(Bits.PendingVerticalScrollbarUpdate);
             else
-                this.SetBit(Bits.PendingHorizontalScrollbarUpdate);
+                SetBit(Bits.PendingHorizontalScrollbarUpdate);
             if (!flag)
                 return;
-            if (this._updateScrollbars == null)
-                this._updateScrollbars = new SimpleCallback(this.UpdateScrollbars);
-            DeferredCall.Post(DispatchPriority.Normal, this._updateScrollbars);
+            if (_updateScrollbars == null)
+                _updateScrollbars = new SimpleCallback(UpdateScrollbars);
+            DeferredCall.Post(DispatchPriority.Normal, _updateScrollbars);
         }
 
         private void UpdateScrollbars()
         {
-            if (this.GetBit(Bits.PendingVerticalScrollbarUpdate))
+            if (GetBit(Bits.PendingVerticalScrollbarUpdate))
             {
-                this.ClearBit(Bits.PendingVerticalScrollbarUpdate);
-                this._verticalScrollModel.UpdateState(this._pendingVerticalScrollState);
-                this._pendingVerticalScrollState = new TextScrollModel.State();
+                ClearBit(Bits.PendingVerticalScrollbarUpdate);
+                _verticalScrollModel.UpdateState(_pendingVerticalScrollState);
+                _pendingVerticalScrollState = new TextScrollModel.State();
             }
-            if (!this.GetBit(Bits.PendingHorizontalScrollbarUpdate))
+            if (!GetBit(Bits.PendingHorizontalScrollbarUpdate))
                 return;
-            this.ClearBit(Bits.PendingHorizontalScrollbarUpdate);
-            this._horizontalScrollModel.UpdateState(this._pendingHorizontalScrollState);
-            this._pendingHorizontalScrollState = new TextScrollModel.State();
+            ClearBit(Bits.PendingHorizontalScrollbarUpdate);
+            _horizontalScrollModel.UpdateState(_pendingHorizontalScrollState);
+            _pendingHorizontalScrollState = new TextScrollModel.State();
         }
 
         public TextScrollModel HorizontalScrollModel
         {
             get
             {
-                if (this._horizontalScrollModel == null)
-                    this.StoreScrollModel(ref this._horizontalScrollModel, new TextScrollModel());
-                return this._horizontalScrollModel;
+                if (_horizontalScrollModel == null)
+                    StoreScrollModel(ref _horizontalScrollModel, new TextScrollModel());
+                return _horizontalScrollModel;
             }
             set
             {
-                if (this._horizontalScrollModel == value)
+                if (_horizontalScrollModel == value)
                     return;
-                this.StoreScrollModel(ref this._horizontalScrollModel, value);
-                this.FireThreadSafeNotification(NotificationID.HorizontalScrollModel);
+                StoreScrollModel(ref _horizontalScrollModel, value);
+                FireThreadSafeNotification(NotificationID.HorizontalScrollModel);
             }
         }
 
@@ -931,16 +931,16 @@ namespace Microsoft.Iris.InputHandlers
         {
             get
             {
-                if (this._verticalScrollModel == null)
-                    this.StoreScrollModel(ref this._verticalScrollModel, new TextScrollModel());
-                return this._verticalScrollModel;
+                if (_verticalScrollModel == null)
+                    StoreScrollModel(ref _verticalScrollModel, new TextScrollModel());
+                return _verticalScrollModel;
             }
             set
             {
-                if (this._verticalScrollModel == value)
+                if (_verticalScrollModel == value)
                     return;
-                this.StoreScrollModel(ref this._verticalScrollModel, value);
-                this.FireThreadSafeNotification(NotificationID.VerticalScrollModel);
+                StoreScrollModel(ref _verticalScrollModel, value);
+                FireThreadSafeNotification(NotificationID.VerticalScrollModel);
             }
         }
 
@@ -951,84 +951,84 @@ namespace Microsoft.Iris.InputHandlers
             storage = newDude;
             if (storage != null)
                 storage.AttachCallbacks(this);
-            this._editControl.SetScrollbars(this._horizontalScrollModel != null, this._verticalScrollModel != null);
+            _editControl.SetScrollbars(_horizontalScrollModel != null, _verticalScrollModel != null);
         }
 
-        private ScrollbarType WhichScrollbar(TextScrollModel who) => who != this._verticalScrollModel ? ScrollbarType.Horizontal : ScrollbarType.Vertical;
+        private ScrollbarType WhichScrollbar(TextScrollModel who) => who != _verticalScrollModel ? ScrollbarType.Horizontal : ScrollbarType.Vertical;
 
-        void ITextScrollModelCallback.ScrollUp(TextScrollModel who) => this._editControl.ScrollUp(this.WhichScrollbar(who));
+        void ITextScrollModelCallback.ScrollUp(TextScrollModel who) => _editControl.ScrollUp(WhichScrollbar(who));
 
-        void ITextScrollModelCallback.ScrollDown(TextScrollModel who) => this._editControl.ScrollDown(this.WhichScrollbar(who));
+        void ITextScrollModelCallback.ScrollDown(TextScrollModel who) => _editControl.ScrollDown(WhichScrollbar(who));
 
-        void ITextScrollModelCallback.PageUp(TextScrollModel who) => this._editControl.PageUp(this.WhichScrollbar(who));
+        void ITextScrollModelCallback.PageUp(TextScrollModel who) => _editControl.PageUp(WhichScrollbar(who));
 
-        void ITextScrollModelCallback.PageDown(TextScrollModel who) => this._editControl.PageDown(this.WhichScrollbar(who));
+        void ITextScrollModelCallback.PageDown(TextScrollModel who) => _editControl.PageDown(WhichScrollbar(who));
 
         void ITextScrollModelCallback.ScrollToPosition(
           TextScrollModel who,
           int whereTo)
         {
-            this._editControl.ScrollToPosition(this.WhichScrollbar(who), whereTo);
+            _editControl.ScrollToPosition(WhichScrollbar(who), whereTo);
         }
 
-        private void UpdateCaretVisibility() => this.CaretInfo.SetVisible(this.RichEditCaretVisible && this.WindowIsActivated);
+        private void UpdateCaretVisibility() => CaretInfo.SetVisible(RichEditCaretVisible && WindowIsActivated);
 
         private void RefreshCaretPosition()
         {
-            if (!this.CaretInfo.Visible || this.MousePrimaryDown || this._editControl == null)
+            if (!CaretInfo.Visible || MousePrimaryDown || _editControl == null)
                 return;
-            this._editControl.NotifyOfFocusChange(true);
+            _editControl.NotifyOfFocusChange(true);
         }
 
         private bool HandledTabKeyDown
         {
-            get => this.GetBit(Bits.HandledTabKeyDown);
-            set => this.SetBit(Bits.HandledTabKeyDown, value);
+            get => GetBit(Bits.HandledTabKeyDown);
+            set => SetBit(Bits.HandledTabKeyDown, value);
         }
 
         private bool HandledEnterKeyDown
         {
-            get => this.GetBit(Bits.HandledEnterKeyDown);
-            set => this.SetBit(Bits.HandledEnterKeyDown, value);
+            get => GetBit(Bits.HandledEnterKeyDown);
+            set => SetBit(Bits.HandledEnterKeyDown, value);
         }
 
         private bool InputOffsetDirty
         {
-            get => this.GetBit(Bits.InputOffsetDirty);
-            set => this.SetBit(Bits.InputOffsetDirty, value);
+            get => GetBit(Bits.InputOffsetDirty);
+            set => SetBit(Bits.InputOffsetDirty, value);
         }
 
         private bool MousePrimaryDown
         {
-            get => this.GetBit(Bits.MousePrimaryDown);
-            set => this.SetBit(Bits.MousePrimaryDown, value);
+            get => GetBit(Bits.MousePrimaryDown);
+            set => SetBit(Bits.MousePrimaryDown, value);
         }
 
         private bool InsideValueChangeOnEditableTextData
         {
-            get => this.GetBit(Bits.InsideValueChangeOnEditableTextData);
-            set => this.SetBit(Bits.InsideValueChangeOnEditableTextData, value);
+            get => GetBit(Bits.InsideValueChangeOnEditableTextData);
+            set => SetBit(Bits.InsideValueChangeOnEditableTextData, value);
         }
 
         private bool InsideContentChangeOnRichEdit
         {
-            get => this.GetBit(Bits.InsideContentChangeOnRichEdit);
-            set => this.SetBit(Bits.InsideContentChangeOnRichEdit, value);
+            get => GetBit(Bits.InsideContentChangeOnRichEdit);
+            set => SetBit(Bits.InsideContentChangeOnRichEdit, value);
         }
 
         private bool RichEditCaretVisible
         {
-            get => this.GetBit(Bits.RichEditCaretVisible);
-            set => this.SetBit(Bits.RichEditCaretVisible, value);
+            get => GetBit(Bits.RichEditCaretVisible);
+            set => SetBit(Bits.RichEditCaretVisible, value);
         }
 
         private bool WindowIsActivated
         {
-            get => this.GetBit(Bits.WindowIsActivated);
-            set => this.SetBit(Bits.WindowIsActivated, value);
+            get => GetBit(Bits.WindowIsActivated);
+            set => SetBit(Bits.WindowIsActivated, value);
         }
 
-        private bool GetBit(TextEditingHandler.Bits lookupBit) => ((TextEditingHandler.Bits)this._bits & lookupBit) != 0;
+        private bool GetBit(TextEditingHandler.Bits lookupBit) => ((TextEditingHandler.Bits)_bits & lookupBit) != 0;
 
         private void SetBit(TextEditingHandler.Bits changeBit)
         {
@@ -1036,7 +1036,7 @@ namespace Microsoft.Iris.InputHandlers
             textEditingHandler._bits = (uint)((TextEditingHandler.Bits)textEditingHandler._bits | changeBit);
         }
 
-        private void SetBit(TextEditingHandler.Bits changeBit, bool value) => this._bits = value ? (uint)((TextEditingHandler.Bits)this._bits | changeBit) : (uint)((TextEditingHandler.Bits)this._bits & ~changeBit);
+        private void SetBit(TextEditingHandler.Bits changeBit, bool value) => _bits = value ? (uint)((TextEditingHandler.Bits)_bits | changeBit) : (uint)((TextEditingHandler.Bits)_bits & ~changeBit);
 
         private void ClearBit(TextEditingHandler.Bits changeBit)
         {
@@ -1046,10 +1046,10 @@ namespace Microsoft.Iris.InputHandlers
 
         private bool ChangeBit(TextEditingHandler.Bits changeBit, bool value)
         {
-            uint num = value ? (uint)((TextEditingHandler.Bits)this._bits | changeBit) : (uint)((TextEditingHandler.Bits)this._bits & ~changeBit);
-            bool flag = (int)num != (int)this._bits;
+            uint num = value ? (uint)((TextEditingHandler.Bits)_bits | changeBit) : (uint)((TextEditingHandler.Bits)_bits & ~changeBit);
+            bool flag = (int)num != (int)_bits;
             if (flag)
-                this._bits = num;
+                _bits = num;
             return flag;
         }
 
@@ -1077,12 +1077,12 @@ namespace Microsoft.Iris.InputHandlers
         {
             private SimpleCallback _onInvoked;
 
-            public TextEditingCommand(SimpleCallback onInvoked) => this._onInvoked = onInvoked;
+            public TextEditingCommand(SimpleCallback onInvoked) => _onInvoked = onInvoked;
 
             protected override void OnInvoked()
             {
                 base.OnInvoked();
-                this._onInvoked();
+                _onInvoked();
             }
         }
 
@@ -1097,7 +1097,7 @@ namespace Microsoft.Iris.InputHandlers
 
             bool IUICommand.Available
             {
-                get => Clipboard.ContainsText() && !this._isReadOnly;
+                get => Clipboard.ContainsText() && !_isReadOnly;
                 set
                 {
                 }
@@ -1105,8 +1105,8 @@ namespace Microsoft.Iris.InputHandlers
 
             public bool TextIsReadOnly
             {
-                get => this._isReadOnly;
-                set => this._isReadOnly = value;
+                get => _isReadOnly;
+                set => _isReadOnly = value;
             }
         }
     }

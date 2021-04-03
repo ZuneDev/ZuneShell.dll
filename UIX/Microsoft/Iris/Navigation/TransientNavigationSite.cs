@@ -26,31 +26,31 @@ namespace Microsoft.Iris.Navigation
           Vector3 positionVector,
           Vector3 sizeVector)
         {
-            this._descriptionName = descriptionName;
-            this._parent = parent;
-            this._children = children;
-            this._mode = mode;
-            this._positionVector = positionVector;
-            this._sizeVector = sizeVector;
+            _descriptionName = descriptionName;
+            _parent = parent;
+            _children = children;
+            _mode = mode;
+            _positionVector = positionVector;
+            _sizeVector = sizeVector;
         }
 
         object INavigationSite.UniqueId => (object)null;
 
-        INavigationSite INavigationSite.Parent => this._parent;
+        INavigationSite INavigationSite.Parent => _parent;
 
-        ICollection INavigationSite.Children => this._children;
+        ICollection INavigationSite.Children => _children;
 
         bool INavigationSite.Visible => true;
 
         NavigationClass INavigationSite.Navigability => NavigationClass.None;
 
-        NavigationPolicies INavigationSite.Mode => this._mode;
+        NavigationPolicies INavigationSite.Mode => _mode;
 
         int INavigationSite.FocusOrder => int.MaxValue;
 
         bool INavigationSite.IsLogicalJunction => false;
 
-        string INavigationSite.Description => this._descriptionName;
+        string INavigationSite.Description => _descriptionName;
 
         object INavigationSite.StateCache
         {
@@ -64,8 +64,8 @@ namespace Microsoft.Iris.Navigation
           out Vector3 positionPxlVector,
           out Vector3 sizePxlVector)
         {
-            positionPxlVector = this._positionVector;
-            sizePxlVector = this._sizeVector;
+            positionPxlVector = _positionVector;
+            sizePxlVector = _sizeVector;
             return true;
         }
 
@@ -80,6 +80,6 @@ namespace Microsoft.Iris.Navigation
             return null;
         }
 
-        public override string ToString() => this._descriptionName;
+        public override string ToString() => _descriptionName;
     }
 }

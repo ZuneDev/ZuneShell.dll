@@ -15,48 +15,48 @@ namespace Microsoft.Iris.Markup
 
         protected ListenerNodeBase()
         {
-            this._next = null;
-            this._prev = null;
+            _next = null;
+            _prev = null;
         }
 
         public virtual void Dispose()
         {
-            if (!this.IsLinked)
+            if (!IsLinked)
                 return;
-            this.Unlink();
+            Unlink();
         }
 
-        public ListenerNodeBase Next => this._next;
+        public ListenerNodeBase Next => _next;
 
-        public bool IsLinked => this._next != null && this._prev != null;
+        public bool IsLinked => _next != null && _prev != null;
 
         public void AddPrevious(ListenerNodeBase node)
         {
-            if (this._prev == null)
+            if (_prev == null)
             {
-                this._prev = this;
-                this._next = this;
+                _prev = this;
+                _next = this;
             }
-            node._prev = this._prev;
+            node._prev = _prev;
             node._next = this;
-            this._prev._next = node;
-            this._prev = node;
+            _prev._next = node;
+            _prev = node;
         }
 
         public void Unlink()
         {
-            if (this._prev == this._next)
+            if (_prev == _next)
             {
-                this._prev._next = null;
-                this._prev._prev = null;
+                _prev._next = null;
+                _prev._prev = null;
             }
             else
             {
-                this._prev._next = this._next;
-                this._next._prev = this._prev;
+                _prev._next = _next;
+                _next._prev = _prev;
             }
-            this._prev = null;
-            this._next = null;
+            _prev = null;
+            _next = null;
         }
 
         [Conditional("DEBUG")]

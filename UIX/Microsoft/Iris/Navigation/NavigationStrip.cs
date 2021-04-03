@@ -24,7 +24,7 @@ namespace Microsoft.Iris.Navigation
           NavigationOrientation orientionValue)
           : base(subjectSite, searchDirection)
         {
-            this._orientationValue = orientionValue;
+            _orientationValue = orientionValue;
         }
 
         protected override IList ComputeSearchOrder(
@@ -32,15 +32,15 @@ namespace Microsoft.Iris.Navigation
           RectangleF startRectangleF,
           bool enteringFlag)
         {
-            NavigationOrientation searchOrientation = this.SearchOrientation;
-            bool flag = searchOrientation == this._orientationValue;
+            NavigationOrientation searchOrientation = SearchOrientation;
+            bool flag = searchOrientation == _orientationValue;
             if (!enteringFlag && !flag)
                 return null;
             ArrayList arrayList = new ArrayList(allChildrenList.Count);
             PointF center = startRectangleF.Center;
             foreach (NavigationItem allChildren in allChildrenList)
             {
-                if (this.IsCandidateInSearchDirection(allChildren.Position - center))
+                if (IsCandidateInSearchDirection(allChildren.Position - center))
                     arrayList.Add(allChildren);
             }
             NavigationStrip.CompareFunction compareMethod = null;
@@ -56,7 +56,7 @@ namespace Microsoft.Iris.Navigation
                         compareMethod = s_orderVerticalMethod;
                         break;
                 }
-                switch (this.SearchDirection)
+                switch (SearchDirection)
                 {
                     case Direction.North:
                     case Direction.West:
@@ -92,7 +92,7 @@ namespace Microsoft.Iris.Navigation
         {
             get
             {
-                switch (this.SearchDirection)
+                switch (SearchDirection)
                 {
                     case Direction.North:
                     case Direction.South:
@@ -101,14 +101,14 @@ namespace Microsoft.Iris.Navigation
                     case Direction.West:
                         return NavigationOrientation.Horizontal;
                     default:
-                        return this._orientationValue;
+                        return _orientationValue;
                 }
             }
         }
 
         private bool IsCandidateInSearchDirection(SizeF deltaExtent)
         {
-            switch (this.SearchDirection)
+            switch (SearchDirection)
             {
                 case Direction.North:
                     if (deltaExtent.Height >= 0.0)
@@ -195,11 +195,11 @@ namespace Microsoft.Iris.Navigation
 
             public ItemComparer(NavigationStrip.CompareFunction compareMethod, float paramValue)
             {
-                this._compareMethod = compareMethod;
-                this._paramValue = paramValue;
+                _compareMethod = compareMethod;
+                _paramValue = paramValue;
             }
 
-            public int Compare(object a, object b) => this._compareMethod((NavigationItem)a, (NavigationItem)b, this._paramValue);
+            public int Compare(object a, object b) => _compareMethod((NavigationItem)a, (NavigationItem)b, _paramValue);
         }
     }
 }

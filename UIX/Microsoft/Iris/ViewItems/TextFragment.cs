@@ -17,52 +17,52 @@ namespace Microsoft.Iris.ViewItems
 
         public TextFragment(string tagName, IDictionary attributes, Text textViewItem)
         {
-            this._tagName = tagName;
-            this._attributes = attributes;
-            this._textViewItem = textViewItem;
+            _tagName = tagName;
+            _attributes = attributes;
+            _textViewItem = textViewItem;
         }
 
         public IList Runs => _runs;
 
-        public string TagName => this._tagName;
+        public string TagName => _tagName;
 
         public string Content
         {
             get
             {
                 string str = null;
-                if (this._runs != null)
+                if (_runs != null)
                 {
-                    foreach (TextRunData run in this._runs)
+                    foreach (TextRunData run in _runs)
                         str = str != null ? str + run.Run.Content : run.Run.Content;
                 }
                 return str;
             }
         }
 
-        public IDictionary Attributes => this._attributes;
+        public IDictionary Attributes => _attributes;
 
         internal ArrayList InternalRuns
         {
             get
             {
-                if (this._runs == null)
-                    this._runs = new ArrayList();
-                return this._runs;
+                if (_runs == null)
+                    _runs = new ArrayList();
+                return _runs;
             }
         }
 
         public bool IsLayoutEquivalentTo(TextFragment rhs)
         {
-            if (rhs == null || this.TagName != rhs.TagName || this.Attributes != rhs.Attributes)
+            if (rhs == null || TagName != rhs.TagName || Attributes != rhs.Attributes)
                 return false;
-            int num1 = this._runs != null ? this._runs.Count : 0;
+            int num1 = _runs != null ? _runs.Count : 0;
             int num2 = rhs._runs != null ? rhs._runs.Count : 0;
             if (num1 != num2)
                 return false;
             for (int index = 0; index < num1; ++index)
             {
-                if (!this.AreRunsLayoutEquivalent((TextRunData)this._runs[index], (TextRunData)rhs._runs[index]))
+                if (!AreRunsLayoutEquivalent((TextRunData)_runs[index], (TextRunData)rhs._runs[index]))
                     return false;
             }
             return true;
@@ -72,10 +72,10 @@ namespace Microsoft.Iris.ViewItems
 
         public void NotifyPaintInvalid()
         {
-            if (this._runs == null)
+            if (_runs == null)
                 return;
-            for (int index = 0; index < this._runs.Count; ++index)
-                ((TextRunData)this._runs[index]).NotifyPaintInvalid();
+            for (int index = 0; index < _runs.Count; ++index)
+                ((TextRunData)_runs[index]).NotifyPaintInvalid();
         }
     }
 }

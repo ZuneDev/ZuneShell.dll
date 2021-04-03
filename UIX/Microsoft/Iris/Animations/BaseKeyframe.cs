@@ -44,8 +44,8 @@ namespace Microsoft.Iris.Animations
 
         public BaseKeyframe(float timeValue)
         {
-            this._timeValue = timeValue;
-            this._relative = RelativeTo.Final;
+            _timeValue = timeValue;
+            _relative = RelativeTo.Final;
         }
 
         public void AddtoAnimation(
@@ -56,8 +56,8 @@ namespace Microsoft.Iris.Animations
           ref AnimationProxy animation)
         {
             if (animation == null)
-                animation = this.CreateProxy(anim, aseq, property);
-            this.PopulateAnimationWorker(aseq.Target, animation, ref args);
+                animation = CreateProxy(anim, aseq, property);
+            PopulateAnimationWorker(aseq.Target, animation, ref args);
         }
 
         protected virtual AnimationProxy CreateProxy(
@@ -65,14 +65,14 @@ namespace Microsoft.Iris.Animations
           ActiveSequence aseq,
           string property)
         {
-            StopCommand stopCommand = anim.GetStopCommand(this.Type);
-            RendererProperty rendererProperty = property != null ? new RendererProperty(property) : s_propertyMap[(int)this.Type];
-            return new AnimationProxy(aseq, aseq.Target, this.Type, rendererProperty, anim.Loop, stopCommand);
+            StopCommand stopCommand = anim.GetStopCommand(Type);
+            RendererProperty rendererProperty = property != null ? new RendererProperty(property) : s_propertyMap[(int)Type];
+            return new AnimationProxy(aseq, aseq.Target, Type, rendererProperty, anim.Loop, stopCommand);
         }
 
-        public BaseKeyframe Clone() => (BaseKeyframe)this.MemberwiseClone();
+        public BaseKeyframe Clone() => (BaseKeyframe)MemberwiseClone();
 
-        object ICloneable.Clone() => this.Clone();
+        object ICloneable.Clone() => Clone();
 
         protected abstract void PopulateAnimationWorker(
           IAnimatable targetObject,
@@ -81,22 +81,22 @@ namespace Microsoft.Iris.Animations
 
         public float Time
         {
-            get => this._timeValue;
-            set => this._timeValue = value;
+            get => _timeValue;
+            set => _timeValue = value;
         }
 
         public RelativeTo RelativeTo
         {
-            get => this._relative == null ? RelativeTo.Absolute : this._relative;
-            set => this._relative = value;
+            get => _relative == null ? RelativeTo.Absolute : _relative;
+            set => _relative = value;
         }
 
-        public bool IsRelativeToObject => this.RelativeTo.IsRelativeToObject;
+        public bool IsRelativeToObject => RelativeTo.IsRelativeToObject;
 
         public Interpolation Interpolation
         {
-            get => this._interpolation;
-            set => this._interpolation = value;
+            get => _interpolation;
+            set => _interpolation = value;
         }
 
         public abstract AnimationType Type { get; }
@@ -113,24 +113,24 @@ namespace Microsoft.Iris.Animations
         {
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.Append("<");
-            stringBuilder.Append(this.GetType().Name);
+            stringBuilder.Append(GetType().Name);
             stringBuilder.Append(" Time=\"");
-            stringBuilder.Append(this._timeValue);
+            stringBuilder.Append(_timeValue);
             stringBuilder.Append("\"");
-            if (this._interpolation != null)
+            if (_interpolation != null)
             {
                 stringBuilder.Append(" Interpolation=\"");
-                stringBuilder.Append(this._interpolation.ToString());
+                stringBuilder.Append(_interpolation.ToString());
                 stringBuilder.Append("\"");
             }
-            if (this._relative != RelativeTo.Absolute)
+            if (_relative != RelativeTo.Absolute)
             {
                 stringBuilder.Append(" RelativeTo=\"");
                 stringBuilder.Append(_relative);
                 stringBuilder.Append("\"");
             }
             stringBuilder.Append(" Value=\"");
-            stringBuilder.Append(this.ObjectValue);
+            stringBuilder.Append(ObjectValue);
             stringBuilder.Append("\"");
             stringBuilder.Append("/>");
             return stringBuilder.ToString();

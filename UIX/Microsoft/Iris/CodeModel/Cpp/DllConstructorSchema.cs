@@ -18,49 +18,49 @@ namespace Microsoft.Iris.CodeModel.Cpp
 
         public DllConstructorSchema(DllTypeSchema owner, uint ID)
           : base(owner)
-          => this._id = ID;
+          => _id = ID;
 
-        public bool Load(IntPtr constructor) => this.QueryForParameterTypes(constructor);
+        public bool Load(IntPtr constructor) => QueryForParameterTypes(constructor);
 
         [Conditional("DEBUG")]
         public void DEBUG_Dump()
         {
             string str1 = string.Empty;
-            if (this._parameterTypes != null)
+            if (_parameterTypes != null)
             {
-                for (int index = 0; index < this._parameterTypes.Length; ++index)
+                for (int index = 0; index < _parameterTypes.Length; ++index)
                 {
                     string str2 = "<null>";
-                    if (this._parameterTypes[index] != null)
-                        str2 = this._parameterTypes[index].Name;
+                    if (_parameterTypes[index] != null)
+                        str2 = _parameterTypes[index].Name;
                     str1 = string.Format("{0}{1}{2}", str1, index > 0 ? ", " : string.Empty, str2);
                 }
             }
             string.Format("0x{0:x8} {1}({2})", _id, Owner.Name, str1);
         }
 
-        public override TypeSchema[] ParameterTypes => this._parameterTypes;
+        public override TypeSchema[] ParameterTypes => _parameterTypes;
 
-        private DllLoadResult OwnerLoadResult => (DllLoadResult)this.Owner.Owner;
+        private DllLoadResult OwnerLoadResult => (DllLoadResult)Owner.Owner;
 
         private bool QueryForParameterTypes(IntPtr constructor)
         {
             bool flag1 = false;
             uint count;
-            if (this.CheckNativeReturn(NativeApi.SpQueryConstructorParameterCount(constructor, out count)))
+            if (CheckNativeReturn(NativeApi.SpQueryConstructorParameterCount(constructor, out count)))
             {
                 uint[] IDs = new uint[count];
-                if (this.CheckNativeReturn(NativeApi.SpGetConstructorParameterTypes(constructor, IDs, count)))
+                if (CheckNativeReturn(NativeApi.SpGetConstructorParameterTypes(constructor, IDs, count)))
                 {
                     if (count > 0U)
                     {
-                        this._parameterTypes = new TypeSchema[count];
+                        _parameterTypes = new TypeSchema[count];
                         bool flag2 = false;
                         for (int index = 0; index < count; ++index)
                         {
                             TypeSchema typeSchema = DllLoadResult.MapType(IDs[index]);
                             if (typeSchema != null)
-                                this._parameterTypes[index] = typeSchema;
+                                _parameterTypes[index] = typeSchema;
                             else
                                 flag2 = true;
                         }
@@ -68,7 +68,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
                     }
                     else
                     {
-                        this._parameterTypes = TypeSchema.EmptyList;
+                        _parameterTypes = TypeSchema.EmptyList;
                         flag1 = true;
                     }
                 }
@@ -76,7 +76,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
             return flag1;
         }
 
-        public override object Construct(object[] parameters) => ((DllTypeSchema)this.Owner).Construct(this._id, parameters);
+        public override object Construct(object[] parameters) => ((DllTypeSchema)Owner).Construct(_id, parameters);
 
         private bool CheckNativeReturn(uint hr) => DllLoadResult.CheckNativeReturn(hr, "IUIXConstructor");
     }

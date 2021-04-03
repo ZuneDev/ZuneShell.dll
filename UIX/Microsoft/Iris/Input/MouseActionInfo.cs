@@ -30,43 +30,43 @@ namespace Microsoft.Iris.Input
           MouseButtons button,
           int wheelDelta)
         {
-            this._naturalHit = rawNatural;
-            this._modifiers = modifiers;
-            this._screenX = screenX;
-            this._screenY = screenY;
-            this._wheelDelta = wheelDelta;
-            this._nativeMessageID = messageID;
-            this._button = button;
-            this.Initialize(rawSource, x, y, eventType);
+            _naturalHit = rawNatural;
+            _modifiers = modifiers;
+            _screenX = screenX;
+            _screenY = screenY;
+            _wheelDelta = wheelDelta;
+            _nativeMessageID = messageID;
+            _button = button;
+            Initialize(rawSource, x, y, eventType);
         }
 
         protected override void Zombie()
         {
             base.Zombie();
-            this._naturalHit = null;
-            this._naturalTarget = null;
+            _naturalHit = null;
+            _naturalTarget = null;
         }
 
-        public uint NativeMessageID => this._nativeMessageID;
+        public uint NativeMessageID => _nativeMessageID;
 
-        public IRawInputSite NaturalHit => this._naturalHit;
+        public IRawInputSite NaturalHit => _naturalHit;
 
-        public ICookedInputSite NaturalTarget => this._naturalTarget;
+        public ICookedInputSite NaturalTarget => _naturalTarget;
 
-        public InputModifiers Modifiers => this._modifiers;
+        public InputModifiers Modifiers => _modifiers;
 
-        public MouseButtons Button => this._button;
+        public MouseButtons Button => _button;
 
-        public int ScreenX => this._screenX;
+        public int ScreenX => _screenX;
 
-        public int ScreenY => this._screenY;
+        public int ScreenY => _screenY;
 
-        public int WheelDelta => this._wheelDelta;
+        public int WheelDelta => _wheelDelta;
 
         public void SetMappedTargets(ICookedInputSite target, ICookedInputSite naturalTarget)
         {
-            this.UpdateTarget(target);
-            this._naturalTarget = naturalTarget;
+            UpdateTarget(target);
+            _naturalTarget = naturalTarget;
         }
     }
 }

@@ -14,8 +14,8 @@ namespace Microsoft.Iris
 
         public DataProviderPropertyChangedEventArgs(string name, bool invalidatesQuery)
           : base(name)
-          => this._invalidatesQuery = invalidatesQuery;
+          => _invalidatesQuery = invalidatesQuery;
 
-        public bool InvalidatesQuery => this._invalidatesQuery;
+        public bool InvalidatesQuery => _invalidatesQuery;
     }
 }

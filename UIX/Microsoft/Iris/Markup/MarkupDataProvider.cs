@@ -88,13 +88,13 @@ namespace Microsoft.Iris.Markup
 
             public MappingKey(MarkupDataTypeSchema targetType, string provider)
             {
-                this._targetType = targetType;
-                this._provider = provider;
+                _targetType = targetType;
+                _provider = provider;
             }
 
-            public override bool Equals(object rhs) => rhs is MarkupDataProvider.MappingKey mappingKey && this._targetType == mappingKey._targetType && this._provider == mappingKey._provider;
+            public override bool Equals(object rhs) => rhs is MarkupDataProvider.MappingKey mappingKey && _targetType == mappingKey._targetType && _provider == mappingKey._provider;
 
-            public override int GetHashCode() => this._targetType.GetHashCode() ^ this._provider.GetHashCode();
+            public override int GetHashCode() => _targetType.GetHashCode() ^ _provider.GetHashCode();
         }
     }
 }

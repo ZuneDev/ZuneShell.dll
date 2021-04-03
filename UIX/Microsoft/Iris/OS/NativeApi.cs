@@ -857,9 +857,9 @@ namespace Microsoft.Iris.OS
             public int maximumHeight;
             public uint options;
 
-            public bool Flippable => ((int)this.options & 1) == 1;
+            public bool Flippable => ((int)options & 1) == 1;
 
-            public bool AntialiasEdges => ((int)this.options & 2) == 2;
+            public bool AntialiasEdges => ((int)options & 2) == 2;
         }
 
         [ComVisible(false)]

@@ -141,52 +141,52 @@ namespace Microsoft.Iris.CodeModel.Cpp
 
         private void SetToNull()
         {
-            this._pointer = IntPtr.Zero;
-            this._type = VariantType.UIXObject;
+            _pointer = IntPtr.Zero;
+            _type = VariantType.UIXObject;
         }
 
         private void SetPointerValue(IntPtr value, UIXVariant.VariantType type)
         {
-            this._pointer = value;
-            this._type = type;
+            _pointer = value;
+            _type = type;
         }
 
         private void SetIntegerValue(long value, UIXVariant.VariantType type)
         {
-            this._integer = value;
-            this._type = type;
+            _integer = value;
+            _type = type;
         }
 
         private void SetFloatValue(float value, UIXVariant.VariantType type)
         {
-            this._float = value;
-            this._type = type;
+            _float = value;
+            _type = type;
         }
 
         private void SetDoubleValue(double value, UIXVariant.VariantType type)
         {
-            this._double = value;
-            this._type = type;
+            _double = value;
+            _type = type;
         }
 
         private void SetEnumValue(UIXVariant.EnumValue value)
         {
-            this._enum = value;
-            this._type = VariantType.Enum;
+            _enum = value;
+            _type = VariantType.Enum;
         }
 
         private unsafe IntPtr _pointer
         {
             get
             {
-                var value = this._union;
+                var value = _union;
                 return *(IntPtr*)&value;
             }
             set
             {
                 long num;
                 *(IntPtr*)&num = value;
-                this._union = num;
+                _union = num;
             }
         }
 
@@ -194,35 +194,35 @@ namespace Microsoft.Iris.CodeModel.Cpp
         {
             get
             {
-                var value = this._union;
+                var value = _union;
                 return *(UIXVariant.EnumValue*)&value;
             }
             set
             {
                 long num;
                 *(UIXVariant.EnumValue*)&num = value;
-                this._union = num;
+                _union = num;
             }
         }
 
         private long _integer
         {
-            get => this._union;
-            set => this._union = value;
+            get => _union;
+            set => _union = value;
         }
 
         private unsafe float _float
         {
             get
             {
-                var value = this._union;
+                var value = _union;
                 return *(float*)&value;
             }
             set
             {
                 long num;
                 *(float*)&num = value;
-                this._union = num;
+                _union = num;
             }
         }
 
@@ -230,14 +230,14 @@ namespace Microsoft.Iris.CodeModel.Cpp
         {
             get
             {
-                var value = this._union;
+                var value = _union;
                 return *(double*)&value;
             }
             set
             {
                 long num;
                 *(double*)&num = value;
-                this._union = num;
+                _union = num;
             }
         }
 

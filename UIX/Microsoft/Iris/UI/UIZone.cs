@@ -40,39 +40,39 @@ namespace Microsoft.Iris.UI
 
         public UIZone(UIForm form)
         {
-            this._parentSession = form.Session;
-            this._form = form;
-            this._scale = Vector3.UnitVector;
-            this._rootUI = new Microsoft.Iris.UI.RootUI(this);
-            this._rootViewItem = new RootViewItem(this, _rootUI, form);
-            this._rootUI.SetRootItem(_rootViewItem);
-            this._cachedInputDeliveryData = new UIZone.InputDeliveryData();
-            this._cachedUIClassStorage = new UIClass[4][];
-            this._cachedUIClassStorageIndex = this._cachedUIClassStorage.Length - 1;
+            _parentSession = form.Session;
+            _form = form;
+            _scale = Vector3.UnitVector;
+            _rootUI = new Microsoft.Iris.UI.RootUI(this);
+            _rootViewItem = new RootViewItem(this, _rootUI, form);
+            _rootUI.SetRootItem(_rootViewItem);
+            _cachedInputDeliveryData = new UIZone.InputDeliveryData();
+            _cachedUIClassStorage = new UIClass[4][];
+            _cachedUIClassStorageIndex = _cachedUIClassStorage.Length - 1;
         }
 
         protected override void OnDispose()
         {
             base.OnDispose();
-            this._rootUI.Dispose(this);
-            this._rootUI = null;
+            _rootUI.Dispose(this);
+            _rootUI = null;
         }
 
-        public UISession Session => this._parentSession;
+        public UISession Session => _parentSession;
 
-        public UIForm Form => this._form;
+        public UIForm Form => _form;
 
-        public RootViewItem RootViewItem => this._rootViewItem;
+        public RootViewItem RootViewItem => _rootViewItem;
 
         public UIClass RootUI => _rootUI;
 
-        public bool ZonePhysicalVisible => this._physicalVisible;
+        public bool ZonePhysicalVisible => _physicalVisible;
 
-        public Size RootContainerSize => this._containerSize;
+        public Size RootContainerSize => _containerSize;
 
-        public Vector3 HostDisplayScale => this._scale;
+        public Vector3 HostDisplayScale => _scale;
 
-        public bool InfiniteLayoutLoopDetected => this._uncommittedLayouts > 153;
+        public bool InfiniteLayoutLoopDetected => _uncommittedLayouts > 153;
 
         public ICookedInputSite MapInput(
           IRawInputSite rawSource,
@@ -97,10 +97,10 @@ namespace Microsoft.Iris.UI
           ICookedInputSite finalTarget,
           InputInfo info)
         {
-            UIZone.InputDeliveryData inputDeliveryData = this.GetInputDeliveryData();
+            UIZone.InputDeliveryData inputDeliveryData = GetInputDeliveryData();
             inputDeliveryData.target = finalTarget as UIClass;
             inputDeliveryData.sourceInputInfo = info;
-            inputDeliveryData.eventRoute = this.ComputeEventRoute((UIClass)endpoint, out inputDeliveryData.routingLength);
+            inputDeliveryData.eventRoute = ComputeEventRoute((UIClass)endpoint, out inputDeliveryData.routingLength);
             if (inputDeliveryData.eventRoute != null)
                 --inputDeliveryData.routingLength;
             return inputDeliveryData;
@@ -115,10 +115,10 @@ namespace Microsoft.Iris.UI
             switch (focusType)
             {
                 case InputDeviceType.Keyboard:
-                    this.DoDeepFocusUpdates(ref this._keyFocusRouteList, deepFocusFlag, directFocusChild, param, UIClass.GetFocusUpdateProc(InputDeviceType.Keyboard));
+                    DoDeepFocusUpdates(ref _keyFocusRouteList, deepFocusFlag, directFocusChild, param, UIClass.GetFocusUpdateProc(InputDeviceType.Keyboard));
                     break;
                 case InputDeviceType.Mouse:
-                    this.DoDeepFocusUpdates(ref this._mouseFocusRouteList, deepFocusFlag, directFocusChild, param, UIClass.GetFocusUpdateProc(InputDeviceType.Mouse));
+                    DoDeepFocusUpdates(ref _mouseFocusRouteList, deepFocusFlag, directFocusChild, param, UIClass.GetFocusUpdateProc(InputDeviceType.Mouse));
                     break;
             }
         }
@@ -130,16 +130,16 @@ namespace Microsoft.Iris.UI
             switch (stage)
             {
                 case EventRouteStages.Direct:
-                    this.DeliverInputDirectWorker(data, false);
+                    DeliverInputDirectWorker(data, false);
                     break;
                 case EventRouteStages.Bubbled:
-                    this.DeliverInputIndirectWorker(data, false);
+                    DeliverInputIndirectWorker(data, false);
                     break;
                 case EventRouteStages.Routed:
-                    this.DeliverInputIndirectWorker(data, true);
+                    DeliverInputIndirectWorker(data, true);
                     break;
                 case EventRouteStages.Unhandled:
-                    this.DeliverInputDirectWorker(data, true);
+                    DeliverInputDirectWorker(data, true);
                     break;
             }
             return data.routeTruncated && !routeTruncated ? InputDeliveryStatus.Truncated : InputDeliveryStatus.Normal;
@@ -147,10 +147,10 @@ namespace Microsoft.Iris.UI
 
         public void UpdateCursor(UIClass changedUI)
         {
-            if (this._form == null)
+            if (_form == null)
                 return;
-            UIClass uiClass = this.Session.InputManager.Queue.CurrentMouseFocus as UIClass;
-            if (changedUI != null && !this.IsChildADescendant(changedUI, uiClass))
+            UIClass uiClass = Session.InputManager.Queue.CurrentMouseFocus as UIClass;
+            if (changedUI != null && !IsChildADescendant(changedUI, uiClass))
                 return;
             CursorID cursorId = CursorID.NotSpecified;
             if (uiClass != null && uiClass.Zone == this)
@@ -164,76 +164,76 @@ namespace Microsoft.Iris.UI
             }
             if (cursorId == CursorID.NotSpecified)
                 cursorId = CursorID.Arrow;
-            this._form.Cursor = cursorId;
+            _form.Cursor = cursorId;
         }
 
         public bool IsChildADescendant(ITreeNode potentialParent, ITreeNode potentialChild) => potentialParent is Microsoft.Iris.Library.TreeNode treeNode && treeNode.HasDescendant(potentialChild as Microsoft.Iris.Library.TreeNode);
 
         public bool IsChildKeyFocusable(ITreeNode child) => ((UIClass)child).IsKeyFocusable();
 
-        public bool IsChildRooted(ITreeNode child) => this.IsChildRooted((Microsoft.Iris.Library.TreeNode)child);
+        public bool IsChildRooted(ITreeNode child) => IsChildRooted((Microsoft.Iris.Library.TreeNode)child);
 
         public bool IsChildRooted(Microsoft.Iris.Library.TreeNode child) => child.Zone == this;
 
         public int RootAccessibilityID => 0;
 
-        protected void ResendPaintedContent() => this._rootViewItem?.ResendExistingContentTree();
+        protected void ResendPaintedContent() => _rootViewItem?.ResendExistingContentTree();
 
         protected void OnContainerChange()
         {
-            RootViewItem rootViewItem = this._rootViewItem;
+            RootViewItem rootViewItem = _rootViewItem;
             if (rootViewItem == null || rootViewItem.IsDisposed)
                 return;
             rootViewItem.MarkLayoutInvalid();
-            bool zonePhysicalVisible = this.ZonePhysicalVisible;
+            bool zonePhysicalVisible = ZonePhysicalVisible;
             if (zonePhysicalVisible)
                 return;
             rootViewItem.ApplyLayoutOutputs(true);
-            this._previousZonePhysicalVisibleFlag = zonePhysicalVisible;
+            _previousZonePhysicalVisibleFlag = zonePhysicalVisible;
         }
 
-        protected void OnHostDisplayScaleChange() => this._rootViewItem?.NotifyEffectiveScaleChange(true);
+        protected void OnHostDisplayScaleChange() => _rootViewItem?.NotifyEffectiveScaleChange(true);
 
         internal void ScheduleScaleChangeNotifications()
         {
-            if (this._needScaleNotificationsFlag)
+            if (_needScaleNotificationsFlag)
                 return;
-            this.ScheduleUiTask(UiTask.Initialization);
-            this._needScaleNotificationsFlag = true;
+            ScheduleUiTask(UiTask.Initialization);
+            _needScaleNotificationsFlag = true;
         }
 
         internal void ScheduleFullyEnabledChangeNotifications()
         {
-            if (this._needFullyEnabledNotificationsFlag)
+            if (_needFullyEnabledNotificationsFlag)
                 return;
-            this.ScheduleUiTask(UiTask.Initialization);
-            this._needFullyEnabledNotificationsFlag = true;
+            ScheduleUiTask(UiTask.Initialization);
+            _needFullyEnabledNotificationsFlag = true;
         }
 
-        public void OnRenderDeviceReset() => this.ResendPaintedContent();
+        public void OnRenderDeviceReset() => ResendPaintedContent();
 
         public void SetPhysicalVisible(bool visible)
         {
-            if (this._physicalVisible == visible)
+            if (_physicalVisible == visible)
                 return;
-            this._physicalVisible = visible;
-            this.OnContainerChange();
+            _physicalVisible = visible;
+            OnContainerChange();
         }
 
         public void ResizeRootContainer(Size size)
         {
-            if (!(this._containerSize != size))
+            if (!(_containerSize != size))
                 return;
-            this._containerSize = size;
-            this.OnContainerChange();
+            _containerSize = size;
+            OnContainerChange();
         }
 
         public void SetHostDisplayScale(Vector3 scale)
         {
-            if (!(this._scale != scale))
+            if (!(_scale != scale))
                 return;
-            this._scale = scale;
-            this.OnHostDisplayScaleChange();
+            _scale = scale;
+            OnHostDisplayScaleChange();
         }
 
         public bool OnInboundKeyNavigation(
@@ -249,61 +249,61 @@ namespace Microsoft.Iris.UI
         {
             add
             {
-                if (this.sessionInputEvent == null)
-                    this.Session.InputManager.PreviewInput += new InputNotificationHandler(this.OnSessionInput);
-                this.sessionInputEvent += value;
+                if (sessionInputEvent == null)
+                    Session.InputManager.PreviewInput += new InputNotificationHandler(OnSessionInput);
+                sessionInputEvent += value;
             }
             remove
             {
-                this.sessionInputEvent -= value;
-                if (this.sessionInputEvent != null)
+                sessionInputEvent -= value;
+                if (sessionInputEvent != null)
                     return;
-                this.Session.InputManager.PreviewInput -= new InputNotificationHandler(this.OnSessionInput);
+                Session.InputManager.PreviewInput -= new InputNotificationHandler(OnSessionInput);
             }
         }
 
-        private void OnSessionInput(object sender, InputNotificationEventArgs args) => this.sessionInputEvent(args.InputInfo, args.HandledStage);
+        private void OnSessionInput(object sender, InputNotificationEventArgs args) => sessionInputEvent(args.InputInfo, args.HandledStage);
 
         protected void ImplementUiTask(UiTask task, object param)
         {
             switch (task)
             {
                 case UiTask.Initialization:
-                    this.DeliverInitializations();
+                    DeliverInitializations();
                     break;
                 case UiTask.LayoutComputation:
                     ILayoutNode rootViewItem1 = _rootViewItem;
                     if (rootViewItem1 == null)
                         break;
                     ScrollingLayout.ResetScrollFocusIntoView();
-                    if (this.ZonePhysicalVisible)
+                    if (ZonePhysicalVisible)
                     {
-                        Size rootContainerSize = this.RootContainerSize;
+                        Size rootContainerSize = RootContainerSize;
                         rootViewItem1.Measure(rootContainerSize);
                         rootViewItem1.Arrange(new LayoutSlot(rootContainerSize));
-                        ++this._uncommittedLayouts;
-                        this.ScheduleUiTask(UiTask.Painting);
+                        ++_uncommittedLayouts;
+                        ScheduleUiTask(UiTask.Painting);
                     }
                     else
                         rootViewItem1.MarkHidden();
                     rootViewItem1.Commit();
-                    this._rootViewItem.ResetLayoutInvalid();
+                    _rootViewItem.ResetLayoutInvalid();
                     break;
                 case UiTask.LayoutApplication:
                     ViewItem rootViewItem2 = _rootViewItem;
                     if (rootViewItem2 == null)
                         break;
-                    bool zonePhysicalVisible = this.ZonePhysicalVisible;
-                    rootViewItem2.ApplyLayoutOutputs(this._previousZonePhysicalVisibleFlag != zonePhysicalVisible);
-                    this._previousZonePhysicalVisibleFlag = zonePhysicalVisible;
+                    bool zonePhysicalVisible = ZonePhysicalVisible;
+                    rootViewItem2.ApplyLayoutOutputs(_previousZonePhysicalVisibleFlag != zonePhysicalVisible);
+                    _previousZonePhysicalVisibleFlag = zonePhysicalVisible;
                     break;
                 case UiTask.Painting:
-                    if (this._rootViewItem != null)
+                    if (_rootViewItem != null)
                     {
-                        this._rootViewItem.UISession.Dispatcher.RequestBatchFlush();
-                        this._rootViewItem.PaintTree(true);
+                        _rootViewItem.UISession.Dispatcher.RequestBatchFlush();
+                        _rootViewItem.PaintTree(true);
                     }
-                    this._uncommittedLayouts = 0;
+                    _uncommittedLayouts = 0;
                     break;
             }
         }
@@ -323,7 +323,7 @@ namespace Microsoft.Iris.UI
                     bool handled = sourceInputInfo.Handled;
                     target.DeliverInput(sourceInputInfo, EventRouteStages.Routed);
                     if (sourceInputInfo.Handled != handled)
-                        this.TraceHandled(traceLevelForEvent, sourceInputInfo, target);
+                        TraceHandled(traceLevelForEvent, sourceInputInfo, target);
                     if (sourceInputInfo.RouteTruncated && !data.routeTruncated)
                     {
                         data.routeTruncated = true;
@@ -340,7 +340,7 @@ namespace Microsoft.Iris.UI
                     bool handled = sourceInputInfo.Handled;
                     target.DeliverInput(sourceInputInfo, EventRouteStages.Bubbled);
                     if (sourceInputInfo.Handled != handled)
-                        this.TraceHandled(traceLevelForEvent, sourceInputInfo, target);
+                        TraceHandled(traceLevelForEvent, sourceInputInfo, target);
                     if (sourceInputInfo.RouteTruncated && !data.routeTruncated)
                     {
                         data.routeTruncated = true;
@@ -364,7 +364,7 @@ namespace Microsoft.Iris.UI
             target.DeliverInput(sourceInputInfo, stage);
             if (sourceInputInfo.Handled == handled)
                 return;
-            this.TraceHandled(traceLevelForEvent, sourceInputInfo, target);
+            TraceHandled(traceLevelForEvent, sourceInputInfo, target);
         }
 
         private void TraceHandled(byte traceLevel, InputInfo info, UIClass target)
@@ -373,8 +373,8 @@ namespace Microsoft.Iris.UI
 
         private UIZone.InputDeliveryData GetInputDeliveryData()
         {
-            UIZone.InputDeliveryData inputDeliveryData = this._cachedInputDeliveryData;
-            this._cachedInputDeliveryData = null;
+            UIZone.InputDeliveryData inputDeliveryData = _cachedInputDeliveryData;
+            _cachedInputDeliveryData = null;
             if (inputDeliveryData == null)
                 inputDeliveryData = new UIZone.InputDeliveryData();
             return inputDeliveryData;
@@ -388,23 +388,23 @@ namespace Microsoft.Iris.UI
             inputDeliveryData.target = null;
             inputDeliveryData.sourceInputInfo = null;
             if (!inputDeliveryData.eventRouteCached)
-                this.RecycleUIClassArray(inputDeliveryData.eventRoute);
+                RecycleUIClassArray(inputDeliveryData.eventRoute);
             else
                 inputDeliveryData.eventRouteCached = false;
             inputDeliveryData.eventRoute = null;
             inputDeliveryData.routingLength = 0;
             inputDeliveryData.routeTruncated = false;
-            this._cachedInputDeliveryData = inputDeliveryData;
+            _cachedInputDeliveryData = inputDeliveryData;
         }
 
         private UIClass[] GetUIClassArray(int requiredLength)
         {
             UIClass[] uiClassArray = null;
-            if (this._cachedUIClassStorageIndex >= 0)
+            if (_cachedUIClassStorageIndex >= 0)
             {
-                uiClassArray = this._cachedUIClassStorage[this._cachedUIClassStorageIndex];
-                this._cachedUIClassStorage[this._cachedUIClassStorageIndex] = null;
-                --this._cachedUIClassStorageIndex;
+                uiClassArray = _cachedUIClassStorage[_cachedUIClassStorageIndex];
+                _cachedUIClassStorage[_cachedUIClassStorageIndex] = null;
+                --_cachedUIClassStorageIndex;
             }
             if (uiClassArray == null || uiClassArray.Length < requiredLength)
                 uiClassArray = new UIClass[requiredLength];
@@ -413,11 +413,11 @@ namespace Microsoft.Iris.UI
 
         private void RecycleUIClassArray(UIClass[] storage)
         {
-            if (storage == null || this._cachedUIClassStorageIndex >= this._cachedUIClassStorage.Length - 1)
+            if (storage == null || _cachedUIClassStorageIndex >= _cachedUIClassStorage.Length - 1)
                 return;
-            ++this._cachedUIClassStorageIndex;
+            ++_cachedUIClassStorageIndex;
             Array.Clear(storage, 0, storage.Length);
-            this._cachedUIClassStorage[this._cachedUIClassStorageIndex] = storage;
+            _cachedUIClassStorage[_cachedUIClassStorageIndex] = storage;
         }
 
         private UIClass[] ComputeEventRoute(UIClass endpoint, out int entriesCount)
@@ -427,7 +427,7 @@ namespace Microsoft.Iris.UI
                 return null;
             for (UIClass uiClass = endpoint; uiClass != null; uiClass = uiClass.Parent)
                 ++entriesCount;
-            UIClass[] uiClassArray = this.GetUIClassArray(entriesCount);
+            UIClass[] uiClassArray = GetUIClassArray(entriesCount);
             UIClass uiClass1 = endpoint;
             int num = entriesCount;
             for (; uiClass1 != null; uiClass1 = uiClass1.Parent)
@@ -454,12 +454,12 @@ namespace Microsoft.Iris.UI
             refCurrentFocusRouteList = uiClassArray2;
             if (inputDeliveryData != null)
                 inputDeliveryData.eventRouteCached = true;
-            UIClass[] removedFromRoute = this.FindControlsRemovedFromRoute(uiClassArray1, uiClassArray2);
+            UIClass[] removedFromRoute = FindControlsRemovedFromRoute(uiClassArray1, uiClassArray2);
             if (removedFromRoute != null)
                 UpdateControlFocusStates(removedFromRoute, false, null, updateProc);
-            this.RecycleUIClassArray(uiClassArray1);
+            RecycleUIClassArray(uiClassArray1);
             if (removedFromRoute != uiClassArray1)
-                this.RecycleUIClassArray(removedFromRoute);
+                RecycleUIClassArray(removedFromRoute);
             if (uiClassArray2 == null)
                 return;
             UpdateControlFocusStates(uiClassArray2, true, directFocusChild, updateProc);
@@ -496,7 +496,7 @@ namespace Microsoft.Iris.UI
                             if (Array.IndexOf<UIClass>(newRouteList, oldRoute) < 0)
                             {
                                 if (uiClassArray == null)
-                                    uiClassArray = this.GetUIClassArray(oldRouteList.Length - index);
+                                    uiClassArray = GetUIClassArray(oldRouteList.Length - index);
                                 uiClassArray[num++] = oldRoute;
                             }
                         }
@@ -534,18 +534,18 @@ namespace Microsoft.Iris.UI
         {
             while (true)
             {
-                while (this._needFullyEnabledNotificationsFlag)
+                while (_needFullyEnabledNotificationsFlag)
                 {
-                    this._needFullyEnabledNotificationsFlag = false;
+                    _needFullyEnabledNotificationsFlag = false;
                     UIClass rootUi = _rootUI;
                     if (rootUi != null)
                         rootUi.DeliverFullyEnabled(true);
                     else
                         break;
                 }
-                if (this._needScaleNotificationsFlag)
+                if (_needScaleNotificationsFlag)
                 {
-                    this._needScaleNotificationsFlag = false;
+                    _needScaleNotificationsFlag = false;
                     ViewItem rootViewItem = _rootViewItem;
                     if (rootViewItem != null)
                         rootViewItem.DeliverEffectiveScaleChange(false);
@@ -561,23 +561,23 @@ namespace Microsoft.Iris.UI
 
         public void ScheduleUiTask(UiTask task)
         {
-            uint num = (uint)(task & (UiTask)~(int)this._tasksRequestedValue);
+            uint num = (uint)(task & (UiTask)~(int)_tasksRequestedValue);
             if (num == 0U)
                 return;
-            this._tasksRequestedValue |= num;
-            this._parentSession.ScheduleUiTask(task);
+            _tasksRequestedValue |= num;
+            _parentSession.ScheduleUiTask(task);
         }
 
         public void ProcessUiTask(UiTask task, object param)
         {
             uint num = (uint)task;
-            if (((int)this._tasksRequestedValue & (int)num) == 0)
+            if (((int)_tasksRequestedValue & (int)num) == 0)
                 return;
-            this._tasksRequestedValue &= ~num;
-            this.ImplementUiTask(task, param);
+            _tasksRequestedValue &= ~num;
+            ImplementUiTask(task, param);
         }
 
-        public override string ToString() => this.GetType().Name + "[" + _form + "]";
+        public override string ToString() => GetType().Name + "[" + _form + "]";
 
         private class InputDeliveryData
         {

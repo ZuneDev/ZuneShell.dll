@@ -24,32 +24,32 @@ namespace Microsoft.Iris.Markup.Validation
         {
             if (parameterList == ValidateParameter.EmptyList)
                 parameterList = null;
-            this._attributeName = attributeName;
-            this._parameterList = parameterList;
+            _attributeName = attributeName;
+            _parameterList = parameterList;
         }
 
-        public string AttributeName => this._attributeName;
+        public string AttributeName => _attributeName;
 
-        public ValidateParameter ParameterList => this._parameterList;
+        public ValidateParameter ParameterList => _parameterList;
 
         public override void Validate(ValidateCode container, ValidateContext context)
         {
-            if (this._attributeName == "DeclareTrigger")
-                this.ValidateDeclareTrigger(container, context);
-            else if (this._attributeName == "InitialEvaluate")
-                this.ValidateInitialOrFinalEvaluate(container, context, true);
-            else if (this._attributeName == "FinalEvaluate")
-                this.ValidateInitialOrFinalEvaluate(container, context, false);
+            if (_attributeName == "DeclareTrigger")
+                ValidateDeclareTrigger(container, context);
+            else if (_attributeName == "InitialEvaluate")
+                ValidateInitialOrFinalEvaluate(container, context, true);
+            else if (_attributeName == "FinalEvaluate")
+                ValidateInitialOrFinalEvaluate(container, context, false);
             else
-                this.ReportError("Script attribute '{0}' is unknown", this._attributeName);
+                ReportError("Script attribute '{0}' is unknown", _attributeName);
         }
 
         private void ValidateDeclareTrigger(ValidateCode container, ValidateContext context)
         {
-            ValidateParameter parameterList = this._parameterList;
-            if (this._parameterList == null || parameterList.Next != null)
+            ValidateParameter parameterList = _parameterList;
+            if (_parameterList == null || parameterList.Next != null)
             {
-                this.ReportError("Script attribute '{0}' invalid number of parameters (expecting: {1})", this._attributeName, "1");
+                ReportError("Script attribute '{0}' invalid number of parameters (expecting: {1})", _attributeName, "1");
             }
             else
             {
@@ -58,15 +58,15 @@ namespace Microsoft.Iris.Markup.Validation
                 parameterList.Validate(context, true);
                 ValidateExpressionDeclareTrigger.StopNotifierTracking(this, context, parameterList.Expression);
                 if (parameterList.HasErrors)
-                    this.MarkHasErrors();
+                    MarkHasErrors();
                 else if (context.IsTrackingDeclaredTriggers)
                 {
-                    ValidateExpression expression = this._parameterList.Expression;
+                    ValidateExpression expression = _parameterList.Expression;
                     context.TrackDeclaredTrigger(expression);
                     container.MarkDeclaredTriggerStatements();
                 }
                 else
-                    this.ReportError("Expressions can only be used as triggers if they exist within Script blocks");
+                    ReportError("Expressions can only be used as triggers if they exist within Script blocks");
             }
         }
 
@@ -75,16 +75,16 @@ namespace Microsoft.Iris.Markup.Validation
           ValidateContext context,
           bool isInitialEvaluate)
         {
-            if (this._parameterList == null || this._parameterList.Next != null)
+            if (_parameterList == null || _parameterList.Next != null)
             {
-                this.ReportError("Script attribute '{0}' invalid number of parameters (expecting: {1})", this._attributeName, "1");
+                ReportError("Script attribute '{0}' invalid number of parameters (expecting: {1})", _attributeName, "1");
             }
             else
             {
-                this._parameterList.Validate(context, false);
-                if (!(this._parameterList.Expression is ValidateExpressionConstant expression) || expression.ConstantType != ConstantType.Boolean)
+                _parameterList.Validate(context, false);
+                if (!(_parameterList.Expression is ValidateExpressionConstant expression) || expression.ConstantType != ConstantType.Boolean)
                 {
-                    this.ReportError("Script attribute parameter must be Boolean 'true' or 'false'");
+                    ReportError("Script attribute parameter must be Boolean 'true' or 'false'");
                 }
                 else
                 {

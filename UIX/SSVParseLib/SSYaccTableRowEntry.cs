@@ -26,16 +26,16 @@ namespace SSVParseLib
 
         public SSYaccTableRowEntry(int q_token, int q_entry, int q_action, int q_sync)
         {
-            this.m_token = q_token;
-            this.m_entry = q_entry;
-            this.m_action = q_action;
-            this.m_sync = q_sync != 0;
+            m_token = q_token;
+            m_entry = q_entry;
+            m_action = q_action;
+            m_sync = q_sync != 0;
         }
 
-        public int action() => this.m_action;
+        public int action() => m_action;
 
-        public int entry() => this.m_entry;
+        public int entry() => m_entry;
 
-        public int token() => this.m_token;
+        public int token() => m_token;
     }
 }

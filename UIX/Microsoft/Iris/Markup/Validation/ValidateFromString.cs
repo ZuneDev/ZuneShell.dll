@@ -26,45 +26,45 @@ namespace Microsoft.Iris.Markup.Validation
           int column)
           : base(owner, line, column, ObjectSourceType.FromString)
         {
-            this._fromString = fromString;
-            this._expandEscapes = expandEscapes;
+            _fromString = fromString;
+            _expandEscapes = expandEscapes;
         }
 
-        public string FromString => this._fromString;
+        public string FromString => _fromString;
 
-        public override TypeSchema ObjectType => this._typeHint;
+        public override TypeSchema ObjectType => _typeHint;
 
         public override void Validate(TypeRestriction typeRestriction, ValidateContext context)
         {
-            this._typeHint = typeRestriction.Primary;
-            if (!this._typeHint.SupportsTypeConversion(StringSchema.Type))
+            _typeHint = typeRestriction.Primary;
+            if (!_typeHint.SupportsTypeConversion(StringSchema.Type))
             {
-                this.ReportError("String conversion is not available for '{0}'", this._typeHint.Name);
+                ReportError("String conversion is not available for '{0}'", _typeHint.Name);
             }
             else
             {
-                if (this._expandEscapes)
+                if (_expandEscapes)
                 {
                     string invalidSequence;
-                    this._fromString = StringUtility.Unescape(this._fromString, out int _, out invalidSequence);
-                    if (this._fromString == null)
+                    _fromString = StringUtility.Unescape(_fromString, out int _, out invalidSequence);
+                    if (_fromString == null)
                     {
-                        this.ReportError("Invalid escape sequence '{0}' in string literal", invalidSequence);
+                        ReportError("Invalid escape sequence '{0}' in string literal", invalidSequence);
                         return;
                     }
                 }
-                Result result = this._typeHint.TypeConverter(_fromString, StringSchema.Type, out this._fromStringInstance);
+                Result result = _typeHint.TypeConverter(_fromString, StringSchema.Type, out _fromStringInstance);
                 if (result.Failed)
-                    this.ReportError(result.Error);
+                    ReportError(result.Error);
                 else
-                    this._typeHintIndex = this.Owner.TrackImportedType(this._typeHint);
+                    _typeHintIndex = Owner.TrackImportedType(_typeHint);
             }
         }
 
-        public object FromStringInstance => this._fromStringInstance;
+        public object FromStringInstance => _fromStringInstance;
 
-        public int TypeHintIndex => this._typeHintIndex;
+        public int TypeHintIndex => _typeHintIndex;
 
-        public override string ToString() => this._typeHint != null ? string.Format("FromString : '{0}' {1}", _fromString, _typeHint) : "Unavailable";
+        public override string ToString() => _typeHint != null ? string.Format("FromString : '{0}' {1}", _fromString, _typeHint) : "Unavailable";
     }
 }

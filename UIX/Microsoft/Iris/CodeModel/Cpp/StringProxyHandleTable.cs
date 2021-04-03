@@ -20,11 +20,11 @@ namespace Microsoft.Iris.CodeModel.Cpp
             bool flag = s_stringToHandleLookup.TryGetValue(value, out handle);
             if (flag)
             {
-                this.AddRefHandle(handle);
+                AddRefHandle(handle);
             }
             else
             {
-                handle = this.AllocateHandle(value);
+                handle = AllocateHandle(value);
                 s_stringToHandleLookup[value] = handle;
             }
             return !flag;
@@ -32,13 +32,13 @@ namespace Microsoft.Iris.CodeModel.Cpp
 
         public bool ReleaseStringHandle(ulong handle, out string value)
         {
-            bool flag = this.ReleaseHandle(handle, out value);
+            bool flag = ReleaseHandle(handle, out value);
             if (flag)
                 s_stringToHandleLookup.Remove(value);
             return flag;
         }
 
-        public bool LookupByHandle(ulong handle, out string obj) => this.InternalLookupByHandle(handle, out obj);
+        public bool LookupByHandle(ulong handle, out string obj) => InternalLookupByHandle(handle, out obj);
 
         public unsafe int PinString(ulong handle, out char* value)
         {
@@ -52,7 +52,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
             else
             {
                 string str;
-                this.LookupByHandle(handle, out str);
+                LookupByHandle(handle, out str);
                 stringPinState._gcHandle = GCHandle.Alloc(str, GCHandleType.Pinned);
                 stringPinState._pinCount = 1;
             }

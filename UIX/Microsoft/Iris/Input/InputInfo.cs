@@ -19,10 +19,10 @@ namespace Microsoft.Iris.Input
 
         protected void Initialize(InputEventType eventType)
         {
-            this._eventType = eventType;
-            this._lockCount = 0;
-            this._routeTruncated = false;
-            this._handled = false;
+            _eventType = eventType;
+            _lockCount = 0;
+            _routeTruncated = false;
+            _handled = false;
         }
 
         [Conditional("DEBUG")]
@@ -46,46 +46,46 @@ namespace Microsoft.Iris.Input
 
         protected virtual void Zombie()
         {
-            this._target = null;
-            this._eventType = InputEventType.Invalid;
+            _target = null;
+            _eventType = InputEventType.Invalid;
         }
 
         protected static InputInfo GetFromPool(InputInfo.InfoType poolType) => s_pools[(int)poolType].GetPooledInfo();
 
         public void ReturnToPool()
         {
-            if (!this.Poolable)
+            if (!Poolable)
                 return;
-            s_pools[(int)this.PoolType].RecycleInfo(this);
+            s_pools[(int)PoolType].RecycleInfo(this);
         }
 
-        private bool Poolable => this._lockCount == 0;
+        private bool Poolable => _lockCount == 0;
 
-        public void Lock() => ++this._lockCount;
+        public void Lock() => ++_lockCount;
 
         public void Unlock()
         {
-            --this._lockCount;
-            if (this._lockCount != 0)
+            --_lockCount;
+            if (_lockCount != 0)
                 return;
-            this.ReturnToPool();
+            ReturnToPool();
         }
 
-        public bool Handled => this._handled;
+        public bool Handled => _handled;
 
-        public void MarkHandled() => this._handled = true;
+        public void MarkHandled() => _handled = true;
 
-        public bool RouteTruncated => this._routeTruncated;
+        public bool RouteTruncated => _routeTruncated;
 
-        public ICookedInputSite Target => this._target;
+        public ICookedInputSite Target => _target;
 
-        public virtual InputEventType EventType => this._eventType;
+        public virtual InputEventType EventType => _eventType;
 
-        public void TruncateRoute() => this._routeTruncated = true;
+        public void TruncateRoute() => _routeTruncated = true;
 
-        public virtual void UpdateTarget(ICookedInputSite target) => this._target = target;
+        public virtual void UpdateTarget(ICookedInputSite target) => _target = target;
 
-        public override string ToString() => this.GetType().Name;
+        public override string ToString() => GetType().Name;
 
         private struct InfoPool
         {
@@ -93,15 +93,15 @@ namespace Microsoft.Iris.Input
             private int _maxEntries;
             private object _storage;
 
-            public void SetLimitMode(bool keepSingle) => this._maxEntries = keepSingle ? 1 : 10;
+            public void SetLimitMode(bool keepSingle) => _maxEntries = keepSingle ? 1 : 10;
 
             public InputInfo GetPooledInfo()
             {
                 InputInfo inputInfo = null;
-                if (this._numEntries > 0)
+                if (_numEntries > 0)
                 {
-                    inputInfo = this._maxEntries != 1 ? ((InputInfo[])this._storage)[this._numEntries - 1] : (InputInfo)this._storage;
-                    --this._numEntries;
+                    inputInfo = _maxEntries != 1 ? ((InputInfo[])_storage)[_numEntries - 1] : (InputInfo)_storage;
+                    --_numEntries;
                 }
                 return inputInfo;
             }
@@ -109,20 +109,20 @@ namespace Microsoft.Iris.Input
             public bool RecycleInfo(InputInfo info)
             {
                 bool flag = false;
-                if (this._numEntries < this._maxEntries)
+                if (_numEntries < _maxEntries)
                 {
                     info.Zombie();
-                    if (this._maxEntries == 1)
+                    if (_maxEntries == 1)
                     {
-                        this._storage = info;
+                        _storage = info;
                     }
                     else
                     {
-                        if (this._storage == null)
-                            this._storage = (new InputInfo[this._maxEntries]);
-                        ((InputInfo[])this._storage)[this._numEntries] = info;
+                        if (_storage == null)
+                            _storage = (new InputInfo[_maxEntries]);
+                        ((InputInfo[])_storage)[_numEntries] = info;
                     }
-                    ++this._numEntries;
+                    ++_numEntries;
                     flag = true;
                 }
                 return flag;

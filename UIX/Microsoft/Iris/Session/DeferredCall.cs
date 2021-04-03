@@ -84,35 +84,35 @@ namespace Microsoft.Iris.Session
 
         public override void Dispatch()
         {
-            switch (this._callType)
+            switch (_callType)
             {
                 case CallType.Simple:
-                    ((SimpleCallback)this._target)();
+                    ((SimpleCallback)_target)();
                     break;
                 case CallType.OneParam:
-                    ((DeferredHandler)this._target)(this._param);
+                    ((DeferredHandler)_target)(_param);
                     break;
                 case CallType.Event:
-                    ((EventHandler)this._target)(this._param, this._args);
+                    ((EventHandler)_target)(_param, _args);
                     break;
                 case CallType.RenderItem:
-                    ((IDeferredInvokeItem)this._param).Dispatch();
+                    ((IDeferredInvokeItem)_param).Dispatch();
                     break;
                 default:
                     throw new InvalidOperationException();
             }
-            this._callType = CallType.None;
-            this._target = null;
-            this._param = null;
-            this._args = null;
-            this._prev = null;
-            this._next = null;
-            this._owner = null;
+            _callType = CallType.None;
+            _target = null;
+            _param = null;
+            _args = null;
+            _prev = null;
+            _next = null;
+            _owner = null;
             lock (s_cacheLock)
             {
                 if (s_cachedCount >= 100)
                     return;
-                this._next = s_cachedList;
+                _next = s_cachedList;
                 s_cachedList = this;
                 ++s_cachedCount;
             }

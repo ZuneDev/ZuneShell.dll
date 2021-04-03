@@ -28,8 +28,8 @@ namespace Microsoft.Iris.ModelItems
 
         public BooleanChoice()
         {
-            this._options = s_defaultOptions;
-            this._chosen = 0;
+            _options = s_defaultOptions;
+            _chosen = 0;
         }
 
         public override bool ValidateOptionsList(IList options, out string error)

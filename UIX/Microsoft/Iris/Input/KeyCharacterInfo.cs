@@ -46,14 +46,14 @@ namespace Microsoft.Iris.Input
           int scanCode,
           ushort eventFlags)
         {
-            this._character = character;
-            this.Initialize(action, InputEventType.KeyCharacter, deviceType, modifiers, repeatCount, systemKey, nativeMessageID, scanCode, eventFlags);
+            _character = character;
+            Initialize(action, InputEventType.KeyCharacter, deviceType, modifiers, repeatCount, systemKey, nativeMessageID, scanCode, eventFlags);
         }
 
-        public char Character => this._character;
+        public char Character => _character;
 
         protected override InputInfo.InfoType PoolType => s_poolType;
 
-        public override string ToString() => InvariantString.Format("{0}({1}, Key={2})", this.GetType().Name, Action, _character);
+        public override string ToString() => InvariantString.Format("{0}({1}, Key={2})", GetType().Name, Action, _character);
     }
 }

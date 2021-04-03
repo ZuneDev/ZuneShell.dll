@@ -31,23 +31,23 @@ namespace Microsoft.Iris.Input
 
         private void Initialize(bool state, ICookedInputSite other, KeyFocusReason focusReason)
         {
-            this._state = state;
-            this._other = other;
-            this._focusReason = focusReason;
-            this.Initialize(state ? InputEventType.GainKeyFocus : InputEventType.LoseKeyFocus);
+            _state = state;
+            _other = other;
+            _focusReason = focusReason;
+            Initialize(state ? InputEventType.GainKeyFocus : InputEventType.LoseKeyFocus);
         }
 
         protected override void Zombie()
         {
             base.Zombie();
-            this._other = null;
+            _other = null;
         }
 
-        public bool State => this._state;
+        public bool State => _state;
 
-        public ICookedInputSite Other => this._other;
+        public ICookedInputSite Other => _other;
 
-        public KeyFocusReason FocusReason => this._focusReason;
+        public KeyFocusReason FocusReason => _focusReason;
 
         protected override InputInfo.InfoType PoolType => s_poolType;
     }

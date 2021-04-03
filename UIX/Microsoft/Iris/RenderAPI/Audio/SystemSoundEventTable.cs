@@ -15,37 +15,37 @@ namespace Microsoft.Iris.RenderAPI.Audio
 
         public SystemSoundEventTable()
         {
-            this.m_systemSoundDictionary = new Map<SystemSoundEvent, SystemSoundEventTable.SystemSound>();
-            this.Add(SystemSoundEvent.Asterisk, "SystemAsterisk");
-            this.Add(SystemSoundEvent.CloseProgram, "CloseProgram");
-            this.Add(SystemSoundEvent.CriticalBatteryAlarm, "CriticalBatteryAlarm");
-            this.Add(SystemSoundEvent.CriticalStop, "SystemHand");
-            this.Add(SystemSoundEvent.DefaultBeep, ".Default");
-            this.Add(SystemSoundEvent.DeviceConnect, "DeviceConnect");
-            this.Add(SystemSoundEvent.DeviceDisconnect, "DeviceDisconnect");
-            this.Add(SystemSoundEvent.DeviceFailedToConnect, "DeviceFail");
-            this.Add(SystemSoundEvent.Exclamation, "SystemExclamation");
-            this.Add(SystemSoundEvent.ExitWindows, "SystemExit");
-            this.Add(SystemSoundEvent.LowBatteryAlarm, "LowBatteryAlarm");
-            this.Add(SystemSoundEvent.Maximize, "Maximize");
-            this.Add(SystemSoundEvent.MenuCommand, "MenuCommand");
-            this.Add(SystemSoundEvent.MenuPopup, "MenuPopup");
-            this.Add(SystemSoundEvent.Minimize, "Minimize");
-            this.Add(SystemSoundEvent.NewFaxNotification, "FaxBeep");
-            this.Add(SystemSoundEvent.NewMailNotification, "MailBeep");
-            this.Add(SystemSoundEvent.OpenProgram, "Open");
-            this.Add(SystemSoundEvent.PrintComplete, "PrintComplete");
-            this.Add(SystemSoundEvent.ProgramError, "AppGPFault");
-            this.Add(SystemSoundEvent.Question, "SystemQuestion");
-            this.Add(SystemSoundEvent.RestoreDown, "RestoreDown");
-            this.Add(SystemSoundEvent.RestoreUp, "RestoreUp");
-            this.Add(SystemSoundEvent.Select, "CCSelect");
-            this.Add(SystemSoundEvent.ShowToolbarBand, "ShowBand");
-            this.Add(SystemSoundEvent.StartWindows, "SystemStart");
-            this.Add(SystemSoundEvent.SystemNotification, "SystemNotification");
-            this.Add(SystemSoundEvent.WindowsLogoff, "WindowsLogoff");
-            this.Add(SystemSoundEvent.WindowsLogon, "WindowsLogon");
-            this.Refresh();
+            m_systemSoundDictionary = new Map<SystemSoundEvent, SystemSoundEventTable.SystemSound>();
+            Add(SystemSoundEvent.Asterisk, "SystemAsterisk");
+            Add(SystemSoundEvent.CloseProgram, "CloseProgram");
+            Add(SystemSoundEvent.CriticalBatteryAlarm, "CriticalBatteryAlarm");
+            Add(SystemSoundEvent.CriticalStop, "SystemHand");
+            Add(SystemSoundEvent.DefaultBeep, ".Default");
+            Add(SystemSoundEvent.DeviceConnect, "DeviceConnect");
+            Add(SystemSoundEvent.DeviceDisconnect, "DeviceDisconnect");
+            Add(SystemSoundEvent.DeviceFailedToConnect, "DeviceFail");
+            Add(SystemSoundEvent.Exclamation, "SystemExclamation");
+            Add(SystemSoundEvent.ExitWindows, "SystemExit");
+            Add(SystemSoundEvent.LowBatteryAlarm, "LowBatteryAlarm");
+            Add(SystemSoundEvent.Maximize, "Maximize");
+            Add(SystemSoundEvent.MenuCommand, "MenuCommand");
+            Add(SystemSoundEvent.MenuPopup, "MenuPopup");
+            Add(SystemSoundEvent.Minimize, "Minimize");
+            Add(SystemSoundEvent.NewFaxNotification, "FaxBeep");
+            Add(SystemSoundEvent.NewMailNotification, "MailBeep");
+            Add(SystemSoundEvent.OpenProgram, "Open");
+            Add(SystemSoundEvent.PrintComplete, "PrintComplete");
+            Add(SystemSoundEvent.ProgramError, "AppGPFault");
+            Add(SystemSoundEvent.Question, "SystemQuestion");
+            Add(SystemSoundEvent.RestoreDown, "RestoreDown");
+            Add(SystemSoundEvent.RestoreUp, "RestoreUp");
+            Add(SystemSoundEvent.Select, "CCSelect");
+            Add(SystemSoundEvent.ShowToolbarBand, "ShowBand");
+            Add(SystemSoundEvent.StartWindows, "SystemStart");
+            Add(SystemSoundEvent.SystemNotification, "SystemNotification");
+            Add(SystemSoundEvent.WindowsLogoff, "WindowsLogoff");
+            Add(SystemSoundEvent.WindowsLogon, "WindowsLogon");
+            Refresh();
         }
 
         public void Refresh()
@@ -53,7 +53,7 @@ namespace Microsoft.Iris.RenderAPI.Audio
             RegistryKey registryKey1 = RegistryKey.Open(RegistryKey.HKEY_CURRENT_USER, s_RegistryParentKey);
             if (registryKey1 == null)
                 return;
-            foreach (SystemSoundEventTable.SystemSound systemSound in this.m_systemSoundDictionary.Values)
+            foreach (SystemSoundEventTable.SystemSound systemSound in m_systemSoundDictionary.Values)
             {
                 RegistryKey registryKey2 = registryKey1.OpenSubKey(systemSound.RegistrySubKey + "\\.Current");
                 if (registryKey2 != null)
@@ -65,9 +65,9 @@ namespace Microsoft.Iris.RenderAPI.Audio
             registryKey1.Close();
         }
 
-        public string GetFilePath(SystemSoundEvent systemSoundEvent) => this.m_systemSoundDictionary[systemSoundEvent].FilePath;
+        public string GetFilePath(SystemSoundEvent systemSoundEvent) => m_systemSoundDictionary[systemSoundEvent].FilePath;
 
-        private void Add(SystemSoundEvent systemSoundEvent, string registrySubKey) => this.m_systemSoundDictionary.Add(systemSoundEvent, new SystemSoundEventTable.SystemSound()
+        private void Add(SystemSoundEvent systemSoundEvent, string registrySubKey) => m_systemSoundDictionary.Add(systemSoundEvent, new SystemSoundEventTable.SystemSound()
         {
             Event = systemSoundEvent,
             RegistrySubKey = registrySubKey

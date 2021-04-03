@@ -25,17 +25,17 @@ namespace Microsoft.Iris.ModelItems
         private bool _singleSelect;
         public static readonly object[] s_emptyList = new object[0];
 
-        public SelectionManager() => this._selected = new Vector<Range>();
+        public SelectionManager() => _selected = new Vector<Range>();
 
         protected override void OnDispose()
         {
             base.OnDispose();
-            this.UnhookContentsChangedHandler();
+            UnhookContentsChangedHandler();
         }
 
         public bool IsSelected(int index)
         {
-            foreach (Range range in this._selected)
+            foreach (Range range in _selected)
             {
                 if (range.Contains(index))
                     return true;
@@ -43,13 +43,13 @@ namespace Microsoft.Iris.ModelItems
             return false;
         }
 
-        public bool IsRangeSelected(int begin, int end) => this.IsRangeSelected(new Range(begin, end));
+        public bool IsRangeSelected(int begin, int end) => IsRangeSelected(new Range(begin, end));
 
         private bool IsRangeSelected(Range range)
         {
             for (int begin = range.Begin; begin <= range.End; ++begin)
             {
-                if (!this.IsSelected(begin))
+                if (!IsSelected(begin))
                     return false;
             }
             return true;
@@ -59,10 +59,10 @@ namespace Microsoft.Iris.ModelItems
         {
             get
             {
-                if (this._selectedIndicesCache == null)
+                if (_selectedIndicesCache == null)
                 {
                     List<int> list = new List<int>();
-                    foreach (Range range in this._selected)
+                    foreach (Range range in _selected)
                     {
                         foreach (int num in range.ToList())
                         {
@@ -71,9 +71,9 @@ namespace Microsoft.Iris.ModelItems
                         }
                     }
                     list.Sort();
-                    this._selectedIndicesCache = new SelectionManager.ReadOnlyList(list, nameof(SelectedIndices));
+                    _selectedIndicesCache = new SelectionManager.ReadOnlyList(list, nameof(SelectedIndices));
                 }
-                return this._selectedIndicesCache;
+                return _selectedIndicesCache;
             }
         }
 
@@ -81,105 +81,105 @@ namespace Microsoft.Iris.ModelItems
         {
             get
             {
-                if (this._selectedItemsCache == null)
+                if (_selectedItemsCache == null)
                 {
                     IList originalList = null;
-                    if (this.Count > 0 && this.SourceList != null)
+                    if (Count > 0 && SourceList != null)
                     {
                         originalList = new List<object>();
-                        foreach (int original in (List<int>)((SelectionManager.ReadOnlyList)this.SelectedIndices).OriginalList)
+                        foreach (int original in (List<int>)((SelectionManager.ReadOnlyList)SelectedIndices).OriginalList)
                         {
-                            if (this.IsValidIndex(original))
-                                originalList.Add(this.SourceList[original]);
+                            if (IsValidIndex(original))
+                                originalList.Add(SourceList[original]);
                         }
                     }
                     if (originalList == null)
                         originalList = s_emptyList;
-                    this._selectedItemsCache = new SelectionManager.ReadOnlyList(originalList, nameof(SelectedItems));
+                    _selectedItemsCache = new SelectionManager.ReadOnlyList(originalList, nameof(SelectedItems));
                 }
-                return this._selectedItemsCache;
+                return _selectedItemsCache;
             }
         }
 
         public int SelectedIndex
         {
-            get => this.Count > 0 ? (int)this.SelectedIndices[0] : -1;
+            get => Count > 0 ? (int)SelectedIndices[0] : -1;
             set
             {
-                if (!this.IsValidIndex(value) || this.Count == 1 && this.IsSelected(value))
+                if (!IsValidIndex(value) || Count == 1 && IsSelected(value))
                     return;
-                this.Clear();
+                Clear();
                 if (value == -1)
                     return;
-                this.Select(value, true);
+                Select(value, true);
             }
         }
 
-        public object SelectedItem => this.Count > 0 ? this.SelectedItems[0] : null;
+        public object SelectedItem => Count > 0 ? SelectedItems[0] : null;
 
-        public int Count => this._count;
+        public int Count => _count;
 
         public IList SourceList
         {
-            get => this._sourceList;
+            get => _sourceList;
             set
             {
-                if (this._sourceList == value)
+                if (_sourceList == value)
                     return;
-                this.Clear(true);
-                this.UnhookContentsChangedHandler();
-                this._sourceList = value;
+                Clear(true);
+                UnhookContentsChangedHandler();
+                _sourceList = value;
                 if (value != null && value is INotifyList notifyList)
-                    notifyList.ContentsChanged += new UIListContentsChangedHandler(this.OnListContentsChanged);
-                this.FireNotification(NotificationID.SourceList);
+                    notifyList.ContentsChanged += new UIListContentsChangedHandler(OnListContentsChanged);
+                FireNotification(NotificationID.SourceList);
             }
         }
 
         private void UnhookContentsChangedHandler()
         {
-            if (this._sourceList == null || !(this._sourceList is INotifyList sourceList))
+            if (_sourceList == null || !(_sourceList is INotifyList sourceList))
                 return;
-            sourceList.ContentsChanged -= new UIListContentsChangedHandler(this.OnListContentsChanged);
+            sourceList.ContentsChanged -= new UIListContentsChangedHandler(OnListContentsChanged);
         }
 
         public int Anchor
         {
-            get => !this._anchor.HasValue ? 0 : this._anchor.Value;
-            set => this.SetAnchor(new int?(value));
+            get => !_anchor.HasValue ? 0 : _anchor.Value;
+            set => SetAnchor(new int?(value));
         }
 
         private void SetAnchor(int? value)
         {
-            if (this._anchor.HasValue == value.HasValue && (!this._anchor.HasValue || this._anchor.Value == value.Value))
+            if (_anchor.HasValue == value.HasValue && (!_anchor.HasValue || _anchor.Value == value.Value))
                 return;
-            this._anchor = value;
-            this.FireNotification(NotificationID.Anchor);
+            _anchor = value;
+            FireNotification(NotificationID.Anchor);
         }
 
         public bool SingleSelect
         {
-            get => this._singleSelect;
+            get => _singleSelect;
             set
             {
-                if (this._singleSelect == value)
+                if (_singleSelect == value)
                     return;
-                if (value && this.Count > 1)
-                    this.SelectedIndex = (int)this.SelectedIndices[0];
-                this._singleSelect = value;
-                this.FireNotification(NotificationID.SingleSelect);
+                if (value && Count > 1)
+                    SelectedIndex = (int)SelectedIndices[0];
+                _singleSelect = value;
+                FireNotification(NotificationID.SingleSelect);
             }
         }
 
         private bool IsValidIndex(int index)
         {
-            if (this.SourceList == null)
+            if (SourceList == null)
                 return true;
-            return index >= 0 && index < this.SourceList.Count;
+            return index >= 0 && index < SourceList.Count;
         }
 
         private void ValidateMultiSelect(string operation)
         {
-            if (!this.SingleSelect)
+            if (!SingleSelect)
                 return;
             ErrorManager.ReportError("Calling {0} is not supported on a SelectionManager in single selection modes.", operation);
         }
@@ -199,9 +199,9 @@ namespace Microsoft.Iris.ModelItems
                 case UIListContentsChangeType.Insert:
                 case UIListContentsChangeType.InsertRange:
                     Vector<Range> vector = new Vector<Range>();
-                    for (int index = 0; index < this._selected.Count; ++index)
+                    for (int index = 0; index < _selected.Count; ++index)
                     {
-                        Range range = this._selected[index];
+                        Range range = _selected[index];
                         if (range.End >= newIndex)
                         {
                             int num = range.Begin;
@@ -212,86 +212,86 @@ namespace Microsoft.Iris.ModelItems
                                 vector.Add(before);
                                 num = newIndex;
                             }
-                            this._selected[index] = new Range(num + count, range.End + count);
+                            _selected[index] = new Range(num + count, range.End + count);
                             flag1 = true;
                         }
                     }
                     if (vector.Count > 0)
                     {
                         foreach (Range range in vector)
-                            this._selected.Add(range);
+                            _selected.Add(range);
                     }
-                    if (this.Anchor >= newIndex)
+                    if (Anchor >= newIndex)
                     {
-                        this.Anchor += count;
+                        Anchor += count;
                         break;
                     }
                     break;
                 case UIListContentsChangeType.Remove:
-                    if (this.SourceList.Count > 0)
+                    if (SourceList.Count > 0)
                     {
-                        if (this.IsSelected(oldIndex))
+                        if (IsSelected(oldIndex))
                         {
-                            this.RemoveRange(new Range(oldIndex, oldIndex), false);
+                            RemoveRange(new Range(oldIndex, oldIndex), false);
                             flag1 = true;
                             countChanged = true;
                         }
-                        for (int index = 0; index < this._selected.Count; ++index)
+                        for (int index = 0; index < _selected.Count; ++index)
                         {
-                            Range range = this._selected[index];
+                            Range range = _selected[index];
                             if (range.End > oldIndex)
                             {
-                                this._selected[index] = new Range(range.Begin - count, range.End - count);
+                                _selected[index] = new Range(range.Begin - count, range.End - count);
                                 flag1 = true;
                             }
                         }
-                        if (this.Anchor >= oldIndex)
+                        if (Anchor >= oldIndex)
                         {
-                            this.Anchor -= count;
+                            Anchor -= count;
                             break;
                         }
                         break;
                     }
-                    this.Clear(true);
+                    Clear(true);
                     break;
                 case UIListContentsChangeType.Move:
                     if (oldIndex != newIndex)
                     {
-                        bool flag2 = this.IsSelected(oldIndex);
+                        bool flag2 = IsSelected(oldIndex);
                         if (flag2)
                         {
-                            this.Select(oldIndex, false, false, false);
+                            Select(oldIndex, false, false, false);
                             flag1 = true;
                         }
-                        bool flag3 = this.IsSelected(newIndex);
+                        bool flag3 = IsSelected(newIndex);
                         if (flag3)
                         {
-                            this.Select(newIndex, false, false, false);
+                            Select(newIndex, false, false, false);
                             flag1 = true;
                         }
                         int num = oldIndex < newIndex ? -1 : 1;
                         Range other = new Range(oldIndex, newIndex);
-                        for (int index = 0; index < this._selected.Count; ++index)
+                        for (int index = 0; index < _selected.Count; ++index)
                         {
-                            Range range = this._selected[index];
+                            Range range = _selected[index];
                             if (range.Intersects(other))
                             {
-                                this._selected[index] = new Range(range.Begin + num, range.End + num);
+                                _selected[index] = new Range(range.Begin + num, range.End + num);
                                 flag1 = true;
                             }
                         }
                         if (flag2)
-                            this.Select(newIndex, true, false, false);
+                            Select(newIndex, true, false, false);
                         if (flag3)
-                            this.Select(newIndex + num, true, false, false);
-                        if (this.Anchor == oldIndex)
+                            Select(newIndex + num, true, false, false);
+                        if (Anchor == oldIndex)
                         {
-                            this.Anchor = newIndex;
+                            Anchor = newIndex;
                             break;
                         }
-                        if (other.Contains(this.Anchor))
+                        if (other.Contains(Anchor))
                         {
-                            this.Anchor += num;
+                            Anchor += num;
                             break;
                         }
                         break;
@@ -299,144 +299,144 @@ namespace Microsoft.Iris.ModelItems
                     break;
                 case UIListContentsChangeType.Clear:
                 case UIListContentsChangeType.Reset:
-                    this.Clear(true);
+                    Clear(true);
                     break;
             }
             if (!flag1)
                 return;
-            this.OnSelectionChanged(countChanged);
+            OnSelectionChanged(countChanged);
         }
 
-        public void Clear() => this.Clear(false);
+        public void Clear() => Clear(false);
 
         private void Clear(bool resetAnchor)
         {
-            if (this._selected.Count > 0)
+            if (_selected.Count > 0)
             {
-                this._selected.Clear();
-                this._count = 0;
-                this.OnSelectedIndicesChanged();
+                _selected.Clear();
+                _count = 0;
+                OnSelectedIndicesChanged();
             }
             if (!resetAnchor)
                 return;
-            this.SetAnchor(new int?());
+            SetAnchor(new int?());
         }
 
-        public bool Select(int index, bool select) => this.Select(index, select, true, true);
+        public bool Select(int index, bool select) => Select(index, select, true, true);
 
         private bool Select(int index, bool select, bool rememberAnchor, bool fireSelectionChanged)
         {
-            if (!this.IsValidIndex(index))
+            if (!IsValidIndex(index))
                 return false;
-            if (this.IsSelected(index) == select)
+            if (IsSelected(index) == select)
                 return true;
             Range range = new Range(index, index);
             if (select)
             {
-                if (this.SingleSelect)
-                    this.Clear();
-                this.AddRange(range, fireSelectionChanged);
+                if (SingleSelect)
+                    Clear();
+                AddRange(range, fireSelectionChanged);
             }
             else
-                this.RemoveRange(range, fireSelectionChanged);
+                RemoveRange(range, fireSelectionChanged);
             if (rememberAnchor)
-                this.Anchor = index;
+                Anchor = index;
             return true;
         }
 
         public bool Select(IList indices, bool select)
         {
-            this.ValidateMultiSelect("Select(IList, bool)");
+            ValidateMultiSelect("Select(IList, bool)");
             bool flag = true;
             foreach (object index in indices)
-                flag &= this.Select((int)index, select, false, true);
+                flag &= Select((int)index, select, false, true);
             return flag;
         }
 
-        public bool ToggleSelect(int item) => this.Select(item, !this.IsSelected(item));
+        public bool ToggleSelect(int item) => Select(item, !IsSelected(item));
 
         public bool ToggleSelect(IList items)
         {
-            this.ValidateMultiSelect("ToggleSelect(IList)");
+            ValidateMultiSelect("ToggleSelect(IList)");
             bool flag = true;
             foreach (int index in items)
-                flag &= this.Select(index, !this.IsSelected(index), false, true);
+                flag &= Select(index, !IsSelected(index), false, true);
             return flag;
         }
 
-        public bool SelectRange(int begin, int end) => this.SelectRange(new Range(begin, end), begin);
+        public bool SelectRange(int begin, int end) => SelectRange(new Range(begin, end), begin);
 
         private bool SelectRange(Range range, int anchor)
         {
-            this.ValidateMultiSelect(nameof(SelectRange));
-            if (!this.IsValidIndex(range.Begin) || !this.IsValidIndex(range.End))
+            ValidateMultiSelect(nameof(SelectRange));
+            if (!IsValidIndex(range.Begin) || !IsValidIndex(range.End))
                 return false;
-            this.AddRange(range, true);
-            this.Anchor = anchor;
+            AddRange(range, true);
+            Anchor = anchor;
             return true;
         }
 
         public bool SelectRangeFromAnchor(int end)
         {
-            this.ValidateMultiSelect(nameof(SelectRangeFromAnchor));
-            int num = this.Anchor;
-            if (this.SourceList != null)
-                num = Math.Max(0, Math.Min(num, this.SourceList.Count - 1));
-            return this.SelectRange(new Range(num, end), num);
+            ValidateMultiSelect(nameof(SelectRangeFromAnchor));
+            int num = Anchor;
+            if (SourceList != null)
+                num = Math.Max(0, Math.Min(num, SourceList.Count - 1));
+            return SelectRange(new Range(num, end), num);
         }
 
         public bool SelectRangeFromAnchor(int rangeStart, int rangeEnd)
         {
-            this.ValidateMultiSelect(nameof(SelectRangeFromAnchor));
+            ValidateMultiSelect(nameof(SelectRangeFromAnchor));
             Range range = new Range(rangeStart, rangeEnd);
-            if (range.Begin > this.Anchor)
-                return this.SelectRangeFromAnchor(range.End);
-            return this.Anchor > range.End ? this.SelectRangeFromAnchor(range.Begin) : this.SelectRange(range, rangeStart);
+            if (range.Begin > Anchor)
+                return SelectRangeFromAnchor(range.End);
+            return Anchor > range.End ? SelectRangeFromAnchor(range.Begin) : SelectRange(range, rangeStart);
         }
 
         public bool ToggleSelectRange(int begin, int end)
         {
-            this.ValidateMultiSelect(nameof(ToggleSelectRange));
-            if (!this.IsValidIndex(begin) || !this.IsValidIndex(end))
+            ValidateMultiSelect(nameof(ToggleSelectRange));
+            if (!IsValidIndex(begin) || !IsValidIndex(end))
                 return false;
             Range range = new Range(begin, end);
-            if (this.IsRangeSelected(range))
-                this.RemoveRange(range, true);
+            if (IsRangeSelected(range))
+                RemoveRange(range, true);
             else
-                this.AddRange(range, true);
-            this.Anchor = range.Begin;
+                AddRange(range, true);
+            Anchor = range.Begin;
             return true;
         }
 
         private void AddRange(Range addRange, bool fireSelectionChanged)
         {
-            int count = this.Count;
+            int count = Count;
             for (int begin = addRange.Begin; begin <= addRange.End; ++begin)
             {
-                if (!this.IsSelected(begin))
-                    ++this._count;
+                if (!IsSelected(begin))
+                    ++_count;
             }
-            if (count == this._count)
+            if (count == _count)
                 return;
-            this._selected.Add(addRange);
+            _selected.Add(addRange);
             if (!fireSelectionChanged)
                 return;
-            this.OnSelectedIndicesChanged();
+            OnSelectedIndicesChanged();
         }
 
         private void RemoveRange(Range removeRange, bool fireSelectionChanged)
         {
-            int count = this.Count;
+            int count = Count;
             for (int begin = removeRange.Begin; begin <= removeRange.End; ++begin)
             {
-                if (this.IsSelected(begin))
-                    --this._count;
+                if (IsSelected(begin))
+                    --_count;
             }
-            if (count == this._count)
+            if (count == _count)
                 return;
             Vector<Range> vector1 = new Vector<Range>();
             Vector<Range> vector2 = new Vector<Range>();
-            foreach (Range other in this._selected)
+            foreach (Range other in _selected)
             {
                 if (removeRange.Intersects(other))
                 {
@@ -456,29 +456,29 @@ namespace Microsoft.Iris.ModelItems
             if (vector1.Count <= 0 && vector2.Count <= 0)
                 return;
             foreach (Range range in vector1)
-                this._selected.Remove(range);
+                _selected.Remove(range);
             foreach (Range range in vector2)
-                this._selected.Add(range);
+                _selected.Add(range);
             if (!fireSelectionChanged)
                 return;
-            this.OnSelectedIndicesChanged();
+            OnSelectedIndicesChanged();
         }
 
-        private void OnSelectedIndicesChanged() => this.OnSelectionChanged(true);
+        private void OnSelectedIndicesChanged() => OnSelectionChanged(true);
 
         private void OnSelectionChanged(bool countChanged)
         {
-            this._selectedIndicesCache = null;
-            this.FireNotification(NotificationID.SelectedIndices);
-            this.FireNotification(NotificationID.SelectedIndex);
+            _selectedIndicesCache = null;
+            FireNotification(NotificationID.SelectedIndices);
+            FireNotification(NotificationID.SelectedIndex);
             if (!countChanged)
                 return;
-            this.FireNotification(NotificationID.Count);
-            if (this.SourceList == null)
+            FireNotification(NotificationID.Count);
+            if (SourceList == null)
                 return;
-            this._selectedItemsCache = null;
-            this.FireNotification(NotificationID.SelectedItems);
-            this.FireNotification(NotificationID.SelectedItem);
+            _selectedItemsCache = null;
+            FireNotification(NotificationID.SelectedItems);
+            FireNotification(NotificationID.SelectedItem);
         }
 
         internal class ReadOnlyList : IList, ICollection, IEnumerable
@@ -488,23 +488,23 @@ namespace Microsoft.Iris.ModelItems
 
             public ReadOnlyList(IList originalList, string listName)
             {
-                this._originalList = originalList;
-                this._listName = listName;
+                _originalList = originalList;
+                _listName = listName;
             }
 
-            public IList OriginalList => this._originalList;
+            public IList OriginalList => _originalList;
 
             public object this[int index]
             {
-                get => this._originalList[index];
+                get => _originalList[index];
                 set => ErrorManager.ReportError("Cannot modify selection through the list returned by {0}.  Use the methods on SelectionManager instead.", _listName);
             }
 
-            public int Count => this._originalList.Count;
+            public int Count => _originalList.Count;
 
-            public bool Contains(object value) => this._originalList.Contains(value);
+            public bool Contains(object value) => _originalList.Contains(value);
 
-            public int IndexOf(object value) => this._originalList.IndexOf(value);
+            public int IndexOf(object value) => _originalList.IndexOf(value);
 
             public bool IsFixedSize => true;
 
@@ -514,9 +514,9 @@ namespace Microsoft.Iris.ModelItems
 
             public object SyncRoot => _originalList;
 
-            public IEnumerator GetEnumerator() => this._originalList.GetEnumerator();
+            public IEnumerator GetEnumerator() => _originalList.GetEnumerator();
 
-            public void CopyTo(Array array, int index) => this._originalList.CopyTo(array, index);
+            public void CopyTo(Array array, int index) => _originalList.CopyTo(array, index);
 
             public int Add(object value)
             {

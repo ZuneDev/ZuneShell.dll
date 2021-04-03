@@ -16,27 +16,27 @@ namespace Microsoft.Iris.Library
 
         internal TreeNodeEnumerator(TreeNode nodeParent)
         {
-            this._nodeParent = nodeParent;
-            this._nodeCurrent = null;
-            this._nodeNext = nodeParent.FirstChild;
+            _nodeParent = nodeParent;
+            _nodeCurrent = null;
+            _nodeNext = nodeParent.FirstChild;
         }
 
         object IEnumerator.Current => _nodeCurrent;
 
-        public TreeNode Current => this._nodeCurrent;
+        public TreeNode Current => _nodeCurrent;
 
         public void Reset()
         {
-            this._nodeCurrent = null;
-            this._nodeNext = this._nodeParent.FirstChild;
+            _nodeCurrent = null;
+            _nodeNext = _nodeParent.FirstChild;
         }
 
         public bool MoveNext()
         {
-            this._nodeCurrent = this._nodeNext;
-            if (this._nodeNext == null)
+            _nodeCurrent = _nodeNext;
+            if (_nodeNext == null)
                 return false;
-            this._nodeNext = this._nodeNext.NextSibling;
+            _nodeNext = _nodeNext.NextSibling;
             return true;
         }
     }

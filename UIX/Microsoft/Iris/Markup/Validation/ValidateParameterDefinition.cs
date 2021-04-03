@@ -19,24 +19,24 @@ namespace Microsoft.Iris.Markup.Validation
           ValidateTypeIdentifier typeIdentifier)
           : base(owner, line, column)
         {
-            this._name = name;
-            this._typeIdentifier = typeIdentifier;
+            _name = name;
+            _typeIdentifier = typeIdentifier;
         }
 
-        public string Name => this._name;
+        public string Name => _name;
 
-        public ValidateTypeIdentifier TypeIdentifier => this._typeIdentifier;
+        public ValidateTypeIdentifier TypeIdentifier => _typeIdentifier;
 
-        public TypeSchema FoundType => this._typeIdentifier.FoundType;
+        public TypeSchema FoundType => _typeIdentifier.FoundType;
 
         public void Validate(ValidateCode container, ValidateContext context)
         {
-            if (context.CurrentPass < LoadPass.PopulatePublicModel || this._typeIdentifier.Validated)
+            if (context.CurrentPass < LoadPass.PopulatePublicModel || _typeIdentifier.Validated)
                 return;
-            this._typeIdentifier.Validate();
-            if (!this._typeIdentifier.HasErrors)
+            _typeIdentifier.Validate();
+            if (!_typeIdentifier.HasErrors)
                 return;
-            this.MarkHasErrors();
+            MarkHasErrors();
         }
     }
 }

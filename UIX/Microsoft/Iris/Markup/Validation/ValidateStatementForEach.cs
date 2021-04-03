@@ -29,9 +29,9 @@ namespace Microsoft.Iris.Markup.Validation
           int column)
           : base(owner, line, column, StatementType.ForEach)
         {
-            this._scopedLocal = scopedLocal;
-            this._expression = expression;
-            this._statementCompound = statementCompound;
+            _scopedLocal = scopedLocal;
+            _expression = expression;
+            _statementCompound = statementCompound;
         }
 
         public static void InitializeStatics()
@@ -40,53 +40,53 @@ namespace Microsoft.Iris.Markup.Validation
             s_moveNextMethod = EnumeratorSchema.Type.FindMethod("MoveNext", TypeSchema.EmptyList);
         }
 
-        public ValidateStatementScopedLocal ScopedLocal => this._scopedLocal;
+        public ValidateStatementScopedLocal ScopedLocal => _scopedLocal;
 
-        public ValidateExpression Expression => this._expression;
+        public ValidateExpression Expression => _expression;
 
-        public ValidateStatementCompound StatementCompound => this._statementCompound;
+        public ValidateStatementCompound StatementCompound => _statementCompound;
 
         public override void Validate(ValidateCode container, ValidateContext context)
         {
             context.NotifyScopedLocalFrameEnter(this);
             try
             {
-                this._scopedLocal.Validate(container, context);
-                if (this._scopedLocal.HasErrors)
-                    this.MarkHasErrors();
-                this._scopedLocal.HasInitialAssignment = true;
-                this._expression.Validate(new TypeRestriction(ListSchema.Type), context);
-                if (this._expression.HasErrors)
+                _scopedLocal.Validate(container, context);
+                if (_scopedLocal.HasErrors)
+                    MarkHasErrors();
+                _scopedLocal.HasInitialAssignment = true;
+                _expression.Validate(new TypeRestriction(ListSchema.Type), context);
+                if (_expression.HasErrors)
                 {
-                    this.MarkHasErrors();
+                    MarkHasErrors();
                 }
                 else
                 {
                     MethodSchema methodDeep = ListSchema.Type.FindMethodDeep("GetEnumerator", TypeSchema.EmptyList);
                     if (methodDeep == null)
-                        this.ReportError("Type '{0}' is not enumerable", this._expression.ObjectType.Name);
+                        ReportError("Type '{0}' is not enumerable", _expression.ObjectType.Name);
                     if (!EnumeratorSchema.Type.IsAssignableFrom(methodDeep.ReturnType))
-                        this.ReportError("While searching for an enumerator, a 'GetEnumerator' method was found on '{0}', but, it is not of type 'Enumerator' (it is '{1}')", this._expression.ObjectType.Name, methodDeep.ReturnType.Name);
-                    this._foundGetEnumeratorIndex = this.Owner.TrackImportedMethod(methodDeep);
-                    this._statementCompound.Validate(container, context);
-                    if (this._statementCompound.HasErrors)
-                        this.MarkHasErrors();
-                    this._foundCurrentIndex = this.Owner.TrackImportedProperty(s_currentProperty);
-                    this._foundMoveNextIndex = this.Owner.TrackImportedMethod(s_moveNextMethod);
+                        ReportError("While searching for an enumerator, a 'GetEnumerator' method was found on '{0}', but, it is not of type 'Enumerator' (it is '{1}')", _expression.ObjectType.Name, methodDeep.ReturnType.Name);
+                    _foundGetEnumeratorIndex = Owner.TrackImportedMethod(methodDeep);
+                    _statementCompound.Validate(container, context);
+                    if (_statementCompound.HasErrors)
+                        MarkHasErrors();
+                    _foundCurrentIndex = Owner.TrackImportedProperty(s_currentProperty);
+                    _foundMoveNextIndex = Owner.TrackImportedMethod(s_moveNextMethod);
                 }
             }
             finally
             {
-                this._scopedLocalsToClear = context.NotifyScopedLocalFrameExit();
+                _scopedLocalsToClear = context.NotifyScopedLocalFrameExit();
             }
         }
 
-        public int FoundGetEnumeratorIndex => this._foundGetEnumeratorIndex;
+        public int FoundGetEnumeratorIndex => _foundGetEnumeratorIndex;
 
-        public int FoundCurrentIndex => this._foundCurrentIndex;
+        public int FoundCurrentIndex => _foundCurrentIndex;
 
-        public int FoundMoveNextIndex => this._foundMoveNextIndex;
+        public int FoundMoveNextIndex => _foundMoveNextIndex;
 
-        public Vector<int> ScopedLocalsToClear => this._scopedLocalsToClear;
+        public Vector<int> ScopedLocalsToClear => _scopedLocalsToClear;
     }
 }

@@ -30,108 +30,108 @@ namespace Microsoft.Iris.Layouts
         {
         }
 
-        public GridLayout(Orientation o) => this._orientation = o;
+        public GridLayout(Orientation o) => _orientation = o;
 
         public Orientation Orientation
         {
-            get => this._orientation;
+            get => _orientation;
             set
             {
-                if (this._orientation == value)
+                if (_orientation == value)
                     return;
-                this._orientation = value;
+                _orientation = value;
             }
         }
 
         public bool AllowWrap
         {
-            get => this._allowWrap;
+            get => _allowWrap;
             set
             {
-                if (this._allowWrap == value)
+                if (_allowWrap == value)
                     return;
-                this._allowWrap = value;
+                _allowWrap = value;
             }
         }
 
         public Size ReferenceSize
         {
-            get => this._referenceSize;
+            get => _referenceSize;
             set
             {
-                if (!(this._referenceSize != value))
+                if (!(_referenceSize != value))
                     return;
-                this._referenceSize = value;
+                _referenceSize = value;
             }
         }
 
         public int Rows
         {
-            get => this._rows;
+            get => _rows;
             set
             {
-                if (this._rows == value)
+                if (_rows == value)
                     return;
-                this._rows = value;
+                _rows = value;
             }
         }
 
         public int Columns
         {
-            get => this._columns;
+            get => _columns;
             set
             {
-                if (this._columns == value)
+                if (_columns == value)
                     return;
-                this._columns = value;
+                _columns = value;
             }
         }
 
         public Size Spacing
         {
-            get => this._spacing;
+            get => _spacing;
             set
             {
-                if (!(this._spacing != value))
+                if (!(_spacing != value))
                     return;
-                this._spacing = value;
+                _spacing = value;
             }
         }
 
         public RepeatPolicy Repeat
         {
-            get => this._repeat;
+            get => _repeat;
             set
             {
-                if (this._repeat == value)
+                if (_repeat == value)
                     return;
-                this._repeat = value;
+                _repeat = value;
             }
         }
 
         public int RepeatGap
         {
-            get => this._repeatGap;
+            get => _repeatGap;
             set
             {
-                if (this._repeatGap == value)
+                if (_repeatGap == value)
                     return;
-                this._repeatGap = value;
+                _repeatGap = value;
             }
         }
 
         public ItemAlignment DefaultChildAlignment
         {
-            get => this._defaultChildAlignment;
-            set => this._defaultChildAlignment = value;
+            get => _defaultChildAlignment;
+            set => _defaultChildAlignment = value;
         }
 
         Size ILayout.Measure(ILayoutNode layoutNode, Size constraint)
         {
-            GridLayout.GeneralFlowInfo generalFlowInfo = this.CalculateGeneralFlowInfo(layoutNode, constraint);
+            GridLayout.GeneralFlowInfo generalFlowInfo = CalculateGeneralFlowInfo(layoutNode, constraint);
             layoutNode.MeasureData = generalFlowInfo;
             if (generalFlowInfo.itemsCount <= 0 || !generalFlowInfo.referenceExtent.IsEmpty)
-                return generalFlowInfo.usedSize.ToSize(this.Orientation);
+                return generalFlowInfo.usedSize.ToSize(Orientation);
             layoutNode.RequestMoreChildren(1);
             return Size.Zero;
         }
@@ -140,9 +140,9 @@ namespace Microsoft.Iris.Layouts
         {
             GridLayout.GeneralFlowInfo measureData = (GridLayout.GeneralFlowInfo)layoutNode.MeasureData;
             measureData.slot = slot;
-            MajorMinor majorMinor1 = new MajorMinor(slot.View.Size, this.Orientation);
-            MajorMinor majorMinor2 = new MajorMinor(slot.PeripheralView.Size, this.Orientation);
-            MajorMinor majorMinor3 = new MajorMinor(slot.View.Location.ToSize(), this.Orientation);
+            MajorMinor majorMinor1 = new MajorMinor(slot.View.Size, Orientation);
+            MajorMinor majorMinor2 = new MajorMinor(slot.PeripheralView.Size, Orientation);
+            MajorMinor majorMinor3 = new MajorMinor(slot.View.Location.ToSize(), Orientation);
             bool flag1 = measureData.availableSpace.Major != majorMinor2.Major || majorMinor3.Major != 0;
             bool flag2 = measureData.availableSpace.Minor != majorMinor2.Minor || majorMinor3.Minor != 0;
             MajorMinor majorMinor4 = majorMinor2 + measureData.spacing;
@@ -155,7 +155,7 @@ namespace Microsoft.Iris.Layouts
             a.Minor = Math.Min(a.Minor, measureData.fitItems.Minor);
             bool flag3 = !measureData.wrapping ? measureData.totalItems.Major <= a.Major : measureData.totalItems.Minor <= a.Minor;
             bool flag4;
-            switch (this._repeat)
+            switch (_repeat)
             {
                 case RepeatPolicy.WhenTooBig:
                     flag4 = !flag3;
@@ -173,7 +173,7 @@ namespace Microsoft.Iris.Layouts
             if (!flag4)
                 a = MajorMinor.Min(a, measureData.totalItems);
             else
-                measureData.wrapping |= this.AllowWrap;
+                measureData.wrapping |= AllowWrap;
             measureData.repeating = flag4;
             measureData.allowPartialItemsMajor = roundUp1;
             measureData.allowPartialItemsMinor = roundUp2;
@@ -182,7 +182,7 @@ namespace Microsoft.Iris.Layouts
             {
                 GridLayout.IndexRangeInfo indicesInfo;
                 Vector<int> indicesToDisplayList;
-                this.ArrangeChildren(layoutNode, measureData, out indicesInfo, out indicesToDisplayList);
+                ArrangeChildren(layoutNode, measureData, out indicesInfo, out indicesToDisplayList);
                 if (indicesToDisplayList != null)
                     layoutNode.RequestSpecificChildren(indicesToDisplayList);
                 layoutNode.SetVisibleIndexRange(indicesInfo.realBeginIndex, indicesInfo.realEndIndex, indicesInfo.beginIndex, indicesInfo.endIndex, measureData.focusedItemIndex);
@@ -195,7 +195,7 @@ namespace Microsoft.Iris.Layouts
                 zero.Minor = -usedSize.Minor / 2;
             else
                 zero.Major = -usedSize.Major / 2;
-            Rectangle rectangle = new Rectangle(zero.ToPoint(this.Orientation), usedSize.ToSize(this.Orientation));
+            Rectangle rectangle = new Rectangle(zero.ToPoint(Orientation), usedSize.ToSize(Orientation));
             layoutNode.AddAreaOfInterest(new AreaOfInterest(rectangle, AreaOfInterestID.ScrollableRange));
         }
 
@@ -211,18 +211,18 @@ namespace Microsoft.Iris.Layouts
 
         private Size GetReferenceSize(ILayoutNode layoutNode, Size constraint)
         {
-            Size referenceSize = this.ReferenceSize;
-            if (referenceSize.Width == 0.0 && this.Columns != 0)
+            Size referenceSize = ReferenceSize;
+            if (referenceSize.Width == 0.0 && Columns != 0)
             {
-                int num = (constraint.Width - this.Spacing.Width * (this.Columns - 1)) / this.Columns;
+                int num = (constraint.Width - Spacing.Width * (Columns - 1)) / Columns;
                 if (num <= 0)
                     return Size.Zero;
                 referenceSize.Width = num;
                 constraint.Width = num;
             }
-            if (referenceSize.Height == 0.0 && this.Rows != 0)
+            if (referenceSize.Height == 0.0 && Rows != 0)
             {
-                int num = (constraint.Height - this.Spacing.Height * (this.Rows - 1)) / this.Rows;
+                int num = (constraint.Height - Spacing.Height * (Rows - 1)) / Rows;
                 if (num <= 0)
                     return Size.Zero;
                 referenceSize.Height = num;
@@ -248,8 +248,8 @@ namespace Microsoft.Iris.Layouts
           ILayoutNode layoutNode,
           Size constraint)
         {
-            int itemCount = this.GetItemCount(layoutNode);
-            Size size1 = this.GetReferenceSize(layoutNode, constraint);
+            int itemCount = GetItemCount(layoutNode);
+            Size size1 = GetReferenceSize(layoutNode, constraint);
             GridLayout.GeneralFlowInfo generalFlowInfo = new GridLayout.GeneralFlowInfo(itemCount, size1, constraint);
             if (itemCount == 0 || size1.IsEmpty)
                 return generalFlowInfo;
@@ -260,32 +260,32 @@ namespace Microsoft.Iris.Layouts
                 generalFlowInfo.referenceExtent = Size.Zero;
                 return generalFlowInfo;
             }
-            bool flag = this.AllowWrap;
-            if (this.Orientation == Orientation.Vertical && this.Columns > 1)
+            bool flag = AllowWrap;
+            if (Orientation == Orientation.Vertical && Columns > 1)
                 flag = true;
-            else if (this.Orientation == Orientation.Horizontal && this.Rows > 1)
+            else if (Orientation == Orientation.Horizontal && Rows > 1)
                 flag = true;
-            MajorMinor majorMinor1 = new MajorMinor(size1, this.Orientation);
+            MajorMinor majorMinor1 = new MajorMinor(size1, Orientation);
             MajorMinor a = new MajorMinor(0, majorMinor1.Minor);
-            if (!flag && new MajorMinor(this.ReferenceSize, this.Orientation).Minor == 0)
+            if (!flag && new MajorMinor(ReferenceSize, Orientation).Minor == 0)
             {
-                majorMinor1.Minor = new MajorMinor(constraint, this.Orientation).Minor;
-                size1 = majorMinor1.ToSize(this.Orientation);
+                majorMinor1.Minor = new MajorMinor(constraint, Orientation).Minor;
+                size1 = majorMinor1.ToSize(Orientation);
             }
             foreach (ILayoutNode layoutChild in layoutNode.LayoutChildren)
             {
                 Size size2 = layoutChild.Measure(size1);
-                a = MajorMinor.Max(a, new MajorMinor(size2, this.Orientation));
+                a = MajorMinor.Max(a, new MajorMinor(size2, Orientation));
             }
             if (!flag)
             {
                 majorMinor1.Minor = a.Minor;
-                size1 = majorMinor1.ToSize(this.Orientation);
+                size1 = majorMinor1.ToSize(Orientation);
             }
-            MajorMinor majorMinor2 = new MajorMinor(size1, this.Orientation);
-            MajorMinor majorMinor3 = new MajorMinor(this.Spacing, this.Orientation);
+            MajorMinor majorMinor2 = new MajorMinor(size1, Orientation);
+            MajorMinor majorMinor3 = new MajorMinor(Spacing, Orientation);
             MajorMinor majorMinor4 = majorMinor2 + majorMinor3;
-            MajorMinor majorMinor5 = new MajorMinor(constraint, this.Orientation);
+            MajorMinor majorMinor5 = new MajorMinor(constraint, Orientation);
             MajorMinor majorMinor6 = majorMinor5 + majorMinor3;
             MajorMinor zero1 = MajorMinor.Zero;
             zero1.Major = DivideIntegers(majorMinor6.Major, majorMinor4.Major, false);
@@ -301,12 +301,12 @@ namespace Microsoft.Iris.Layouts
                 zero2.Minor = Math.Min(zero2.Minor, zero1.Minor);
             }
             MajorMinor majorMinor7 = majorMinor4 * zero2 - majorMinor3;
-            MajorMinor majorMinor8 = new MajorMinor(this.RepeatGap, 0);
+            MajorMinor majorMinor8 = new MajorMinor(RepeatGap, 0);
             if (flag)
                 majorMinor8 = majorMinor8.Swap();
             MajorMinor majorMinor9 = majorMinor7 + majorMinor8;
             MajorMinor majorMinor10 = majorMinor7;
-            if (this.Repeat == RepeatPolicy.WhenTooSmall || this.Repeat == RepeatPolicy.Always)
+            if (Repeat == RepeatPolicy.WhenTooSmall || Repeat == RepeatPolicy.Always)
             {
                 if (flag)
                     majorMinor10.Minor = majorMinor5.Minor;
@@ -331,7 +331,7 @@ namespace Microsoft.Iris.Layouts
           out GridLayout.IndexRangeInfo indicesInfo,
           out Vector<int> indicesToDisplayList)
         {
-            indicesInfo = this.GetIndexRange(layoutNode, generalInfo);
+            indicesInfo = GetIndexRange(layoutNode, generalInfo);
             indicesToDisplayList = null;
             if (indicesInfo.nonEmptyRange)
             {
@@ -344,7 +344,7 @@ namespace Microsoft.Iris.Layouts
             Size referenceExtent = generalInfo.referenceExtent;
             if (!generalInfo.wrapping)
             {
-                if (this.Orientation == Orientation.Horizontal)
+                if (Orientation == Orientation.Horizontal)
                     referenceExtent.Height = generalInfo.slot.Bounds.Height;
                 else
                     referenceExtent.Width = generalInfo.slot.Bounds.Width;
@@ -359,7 +359,7 @@ namespace Microsoft.Iris.Layouts
                     idx = layoutInput.Index.Value;
                     int type = (int)layoutInput.Type;
                 }
-                Point offset = this.PositionFromIndex(layoutNode, idx, generalInfo, out MajorMinor _);
+                Point offset = PositionFromIndex(layoutNode, idx, generalInfo, out MajorMinor _);
                 if (indicesToDisplayList != null)
                     indicesToDisplayList.Remove(idx);
                 Rectangle rectangle2 = new Rectangle(offset, referenceExtent);
@@ -381,22 +381,22 @@ namespace Microsoft.Iris.Layouts
         {
             if (generalInfo.totalItems.IsEmpty)
                 return new GridLayout.IndexRangeInfo();
-            MajorMinor position1 = new MajorMinor(generalInfo.slot.PeripheralView.Location.ToSize(), this.Orientation);
-            MajorMinor position2 = new MajorMinor(generalInfo.slot.View.Location.ToSize(), this.Orientation);
-            MajorMinor majorMinor1 = new MajorMinor(generalInfo.slot.PeripheralView.Size, this.Orientation);
-            MajorMinor majorMinor2 = new MajorMinor(generalInfo.slot.View.Size, this.Orientation);
+            MajorMinor position1 = new MajorMinor(generalInfo.slot.PeripheralView.Location.ToSize(), Orientation);
+            MajorMinor position2 = new MajorMinor(generalInfo.slot.View.Location.ToSize(), Orientation);
+            MajorMinor majorMinor1 = new MajorMinor(generalInfo.slot.PeripheralView.Size, Orientation);
+            MajorMinor majorMinor2 = new MajorMinor(generalInfo.slot.View.Size, Orientation);
             MajorMinor position3 = position1 + majorMinor1;
             MajorMinor position4 = position2 + majorMinor2;
             bool flag1 = true;
             bool flag2 = true;
             int index1;
-            bool flag3 = flag1 & this.GetViewIntersectionFromPosition(layoutNode, position1, generalInfo, ViewIntersectionType.BeginOffscreen, out index1);
+            bool flag3 = flag1 & GetViewIntersectionFromPosition(layoutNode, position1, generalInfo, ViewIntersectionType.BeginOffscreen, out index1);
             int index2;
-            bool flag4 = flag2 & this.GetViewIntersectionFromPosition(layoutNode, position2, generalInfo, ViewIntersectionType.BeginOnscreen, out index2);
+            bool flag4 = flag2 & GetViewIntersectionFromPosition(layoutNode, position2, generalInfo, ViewIntersectionType.BeginOnscreen, out index2);
             int index3;
-            bool flag5 = flag3 & this.GetViewIntersectionFromPosition(layoutNode, position3, generalInfo, ViewIntersectionType.EndOnscreen, out index3);
+            bool flag5 = flag3 & GetViewIntersectionFromPosition(layoutNode, position3, generalInfo, ViewIntersectionType.EndOnscreen, out index3);
             int index4;
-            bool flag6 = flag4 & this.GetViewIntersectionFromPosition(layoutNode, position4, generalInfo, ViewIntersectionType.EndOffscreen, out index4);
+            bool flag6 = flag4 & GetViewIntersectionFromPosition(layoutNode, position4, generalInfo, ViewIntersectionType.EndOffscreen, out index4);
             return !flag5 ? new GridLayout.IndexRangeInfo() : new GridLayout.IndexRangeInfo(index1, index3, index2, index4, generalInfo);
         }
 
@@ -409,14 +409,14 @@ namespace Microsoft.Iris.Layouts
             int dataIndex;
             int generationValue;
             ListUtility.GetWrappedIndex(idx, generalInfo.itemsCount, out dataIndex, out generationValue);
-            index = this.PositionFromIndex(dataIndex, generalInfo.totalItems);
+            index = PositionFromIndex(dataIndex, generalInfo.totalItems);
             MajorMinor majorMinor1 = index * generalInfo.referenceWithSpacing;
             MajorMinor majorMinor2 = generalInfo.repeatInstanceSize * new MajorMinor(generationValue, generationValue);
             if (generalInfo.wrapping)
                 majorMinor2.Major = 0;
             else
                 majorMinor2.Minor = 0;
-            return (majorMinor1 + majorMinor2).ToPoint(this.Orientation);
+            return (majorMinor1 + majorMinor2).ToPoint(Orientation);
         }
 
         private MajorMinor PositionFromIndex(int idx, MajorMinor totalItems)
@@ -484,7 +484,7 @@ namespace Microsoft.Iris.Layouts
                 if (generalInfo.wrapping)
                 {
                     if (!flag3)
-                        zero.Minor = this.ApplyEdgeBias(biasUp, result2, generalInfo.reference.Minor, generalInfo.allowPartialItemsMinor, zero.Minor);
+                        zero.Minor = ApplyEdgeBias(biasUp, result2, generalInfo.reference.Minor, generalInfo.allowPartialItemsMinor, zero.Minor);
                     int max = generalInfo.totalItems.Major - 1;
                     bool flag4 = zero.Minor == generalInfo.totalItems.Minor - 1;
                     bool flag5 = generalInfo.totalItems.Minor * generalInfo.totalItems.Major > generalInfo.itemsCount;
@@ -500,9 +500,9 @@ namespace Microsoft.Iris.Layouts
                 {
                     zero.Minor = 0;
                     if (!flag2)
-                        zero.Major = this.ApplyEdgeBias(biasUp, result1, generalInfo.reference.Major, generalInfo.allowPartialItemsMajor, zero.Major);
+                        zero.Major = ApplyEdgeBias(biasUp, result1, generalInfo.reference.Major, generalInfo.allowPartialItemsMajor, zero.Major);
                 }
-                index = this.IndexFromGridPosition(zero, generation, generalInfo, out int _);
+                index = IndexFromGridPosition(zero, generation, generalInfo, out int _);
             }
             return !flag1;
         }
@@ -572,19 +572,19 @@ namespace Microsoft.Iris.Layouts
                 this.itemsCount = itemsCount;
                 this.referenceExtent = referenceExtent;
                 this.constraint = constraint;
-                this.repeating = false;
-                this.reference = MajorMinor.Zero;
-                this.spacing = MajorMinor.Zero;
-                this.referenceWithSpacing = MajorMinor.Zero;
-                this.availableSpace = MajorMinor.Zero;
-                this.viewSize = MajorMinor.Zero;
-                this.totalItems = MajorMinor.Zero;
-                this.repeatInstanceSize = MajorMinor.Zero;
-                this.usedSize = MajorMinor.Zero;
-                this.wrapping = false;
-                this.allowPartialItemsMajor = false;
-                this.allowPartialItemsMinor = false;
-                this.focusedItemIndex = new int?();
+                repeating = false;
+                reference = MajorMinor.Zero;
+                spacing = MajorMinor.Zero;
+                referenceWithSpacing = MajorMinor.Zero;
+                availableSpace = MajorMinor.Zero;
+                viewSize = MajorMinor.Zero;
+                totalItems = MajorMinor.Zero;
+                repeatInstanceSize = MajorMinor.Zero;
+                usedSize = MajorMinor.Zero;
+                wrapping = false;
+                allowPartialItemsMajor = false;
+                allowPartialItemsMinor = false;
+                focusedItemIndex = new int?();
             }
         }
 
@@ -608,11 +608,11 @@ namespace Microsoft.Iris.Layouts
                     NormalizeRange(beginIndex, endIndex, generalInfo.itemsCount, out beginIndex, out endIndex);
                     NormalizeRange(realBeginIndex, realEndIndex, generalInfo.itemsCount, out realBeginIndex, out realEndIndex);
                 }
-                this._beginIndex = beginIndex;
-                this._endIndex = endIndex;
-                this._realBeginIndex = realBeginIndex;
-                this._realEndIndex = realEndIndex;
-                this._isValid = true;
+                _beginIndex = beginIndex;
+                _endIndex = endIndex;
+                _realBeginIndex = realBeginIndex;
+                _realEndIndex = realEndIndex;
+                _isValid = true;
             }
 
             private static void NormalizeRange(
@@ -636,15 +636,15 @@ namespace Microsoft.Iris.Layouts
                 normalizedEnd = Math2.Clamp(normalizedEnd, 0, itemsCount);
             }
 
-            public int beginIndex => this._beginIndex;
+            public int beginIndex => _beginIndex;
 
-            public int endIndex => this._endIndex;
+            public int endIndex => _endIndex;
 
-            public int realBeginIndex => this._realBeginIndex;
+            public int realBeginIndex => _realBeginIndex;
 
-            public int realEndIndex => this._realEndIndex;
+            public int realEndIndex => _realEndIndex;
 
-            public bool nonEmptyRange => this._isValid;
+            public bool nonEmptyRange => _isValid;
         }
     }
 }

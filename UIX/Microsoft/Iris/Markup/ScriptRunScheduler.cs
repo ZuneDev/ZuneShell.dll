@@ -13,30 +13,30 @@ namespace Microsoft.Iris.Markup
         private Vector<ScriptRunScheduler.PendingScript> _pendingList;
         private static ScriptRunScheduler.RunListCache s_listCache = new ScriptRunScheduler.RunListCache();
 
-        public bool Pending => this._pendingList != null;
+        public bool Pending => _pendingList != null;
 
         public void ScheduleRun(uint scriptId, bool ignoreErrors)
         {
-            if (this._pendingList == null)
-                this._pendingList = s_listCache.Acquire();
+            if (_pendingList == null)
+                _pendingList = s_listCache.Acquire();
             int index;
-            for (index = 0; index < this._pendingList.Count; ++index)
+            for (index = 0; index < _pendingList.Count; ++index)
             {
-                uint scriptId1 = this._pendingList[index].ScriptId;
+                uint scriptId1 = _pendingList[index].ScriptId;
                 if ((int)scriptId == (int)scriptId1)
                     return;
                 if (scriptId < scriptId1)
                     break;
             }
-            this._pendingList.Insert(index, new ScriptRunScheduler.PendingScript(scriptId, ignoreErrors));
+            _pendingList.Insert(index, new ScriptRunScheduler.PendingScript(scriptId, ignoreErrors));
         }
 
         public void Execute(IMarkupTypeBase markupTypeBase)
         {
-            if (this._pendingList == null)
+            if (_pendingList == null)
                 return;
-            Vector<ScriptRunScheduler.PendingScript> pendingList = this._pendingList;
-            this._pendingList = null;
+            Vector<ScriptRunScheduler.PendingScript> pendingList = _pendingList;
+            _pendingList = null;
             for (int index = 0; index < pendingList.Count; ++index)
             {
                 ScriptRunScheduler.PendingScript pendingScript = pendingList[index];
@@ -52,8 +52,8 @@ namespace Microsoft.Iris.Markup
 
             public PendingScript(uint scriptId, bool ignoreErrors)
             {
-                this.ScriptId = scriptId;
-                this.IgnoreErrors = ignoreErrors;
+                ScriptId = scriptId;
+                IgnoreErrors = ignoreErrors;
             }
         }
 
@@ -63,14 +63,14 @@ namespace Microsoft.Iris.Markup
             private const int c_MaxListSize = 32;
             private Stack _lists = new Stack(128);
 
-            public Vector<ScriptRunScheduler.PendingScript> Acquire() => this._lists.Count <= 0 ? new Vector<ScriptRunScheduler.PendingScript>() : (Vector<ScriptRunScheduler.PendingScript>)this._lists.Pop();
+            public Vector<ScriptRunScheduler.PendingScript> Acquire() => _lists.Count <= 0 ? new Vector<ScriptRunScheduler.PendingScript>() : (Vector<ScriptRunScheduler.PendingScript>)_lists.Pop();
 
             public void Release(Vector<ScriptRunScheduler.PendingScript> list)
             {
-                if (this._lists.Count >= 128 || list.Capacity > 32)
+                if (_lists.Count >= 128 || list.Capacity > 32)
                     return;
                 list.Clear();
-                this._lists.Push(list);
+                _lists.Push(list);
             }
         }
     }

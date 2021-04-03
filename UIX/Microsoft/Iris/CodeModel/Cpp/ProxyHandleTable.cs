@@ -14,9 +14,9 @@ namespace Microsoft.Iris.CodeModel.Cpp
         private uint _tableIndex;
         private static uint s_tableCount;
 
-        protected ProxyHandleTable() => this._tableIndex = s_tableCount++;
+        protected ProxyHandleTable() => _tableIndex = s_tableCount++;
 
-        protected uint TableIndex => this._tableIndex;
+        protected uint TableIndex => _tableIndex;
 
         [Conditional("DEBUG")]
         public static void DEBUG_AssertValidHandle(ulong handle)

@@ -26,22 +26,22 @@ namespace Microsoft.Iris.Navigation
 
         protected NavigationItem(INavigationSite subjectSite, Direction searchDirection)
         {
-            this._subjectSite = subjectSite;
-            this._searchDirection = searchDirection;
+            _subjectSite = subjectSite;
+            _searchDirection = searchDirection;
             Vector3 positionPxlVector;
             Vector3 sizePxlVector;
-            this._subjectSite.ComputeBounds(out positionPxlVector, out sizePxlVector);
-            this._locationRectangleF = new RectangleF(positionPxlVector.X, positionPxlVector.Y, sizePxlVector.X, sizePxlVector.Y);
+            _subjectSite.ComputeBounds(out positionPxlVector, out sizePxlVector);
+            _locationRectangleF = new RectangleF(positionPxlVector.X, positionPxlVector.Y, sizePxlVector.X, sizePxlVector.Y);
         }
 
         public IList GetChildrenToSearch(RectangleF startRectangleF, bool enteringFlag)
         {
             ArrayList childrenList = new ArrayList();
-            this.FindNavigableChildren(this.Subject, childrenList);
+            FindNavigableChildren(Subject, childrenList);
             IList list = null;
             if (childrenList.Count > 0)
             {
-                list = this.ComputeSearchOrder(childrenList, startRectangleF, enteringFlag);
+                list = ComputeSearchOrder(childrenList, startRectangleF, enteringFlag);
                 if (list != null && list.Count == 0)
                     list = null;
             }
@@ -59,7 +59,7 @@ namespace Microsoft.Iris.Navigation
             {
                 if (child.Visible)
                 {
-                    Direction searchDirection = this.SearchDirection;
+                    Direction searchDirection = SearchDirection;
                     if (IsPreferFocusOrderContainer(child))
                         searchDirection = Direction.Next;
                     NavigationItem itemForSite = CreateItemForSite(child, searchDirection, false);
@@ -69,7 +69,7 @@ namespace Microsoft.Iris.Navigation
                         itemForSite.RawChildOrder = num;
                     }
                     else
-                        this.FindNavigableChildren(child, childrenList);
+                        FindNavigableChildren(child, childrenList);
                 }
             }
         }
@@ -78,38 +78,38 @@ namespace Microsoft.Iris.Navigation
         {
             get
             {
-                if (this._parentItem == null && !IsBoundingSite(this._subjectSite, this._searchDirection))
+                if (_parentItem == null && !IsBoundingSite(_subjectSite, _searchDirection))
                 {
-                    INavigationSite parent = this._subjectSite.Parent;
+                    INavigationSite parent = _subjectSite.Parent;
                     if (parent != null)
-                        this._parentItem = CreateAreaForSite(parent, this._searchDirection, true, false);
+                        _parentItem = CreateAreaForSite(parent, _searchDirection, true, false);
                 }
-                return this._parentItem;
+                return _parentItem;
             }
         }
 
-        public INavigationSite Subject => this._subjectSite;
+        public INavigationSite Subject => _subjectSite;
 
-        public Direction SearchDirection => this._searchDirection;
+        public Direction SearchDirection => _searchDirection;
 
-        public RectangleF Location => this._locationRectangleF;
+        public RectangleF Location => _locationRectangleF;
 
-        public PointF Position => this._locationRectangleF.Center;
+        public PointF Position => _locationRectangleF.Center;
 
-        public NavigationClass Navigability => this._subjectSite.Navigability;
+        public NavigationClass Navigability => _subjectSite.Navigability;
 
         internal int RawChildOrder
         {
-            get => this._rawChildOrderValue;
-            set => this._rawChildOrderValue = value;
+            get => _rawChildOrderValue;
+            set => _rawChildOrderValue = value;
         }
 
-        public override int GetHashCode() => this.Subject.GetHashCode();
+        public override int GetHashCode() => Subject.GetHashCode();
 
         public override bool Equals(object rhs)
         {
             NavigationItem navigationItem = rhs as NavigationItem;
-            return !(navigationItem == null) && this.Subject.Equals(navigationItem.Subject);
+            return !(navigationItem == null) && Subject.Equals(navigationItem.Subject);
         }
 
         public static bool operator ==(NavigationItem lhs, NavigationItem rhs)
@@ -123,7 +123,7 @@ namespace Microsoft.Iris.Navigation
 
         public static bool operator !=(NavigationItem lhs, NavigationItem rhs) => !(lhs == rhs);
 
-        public override string ToString() => this.GetType().Name + "[" + _subjectSite + "]";
+        public override string ToString() => GetType().Name + "[" + _subjectSite + "]";
 
         protected static int CompareFocusOrder(NavigationItem niA, NavigationItem niB)
         {
@@ -145,7 +145,7 @@ namespace Microsoft.Iris.Navigation
             if (!Debug.Trace.IsCategoryEnabled(TraceCategory.Focus))
                 return;
             int num = 0;
-            while (num < this.FocusRank.Length)
+            while (num < FocusRank.Length)
                 ++num;
         }
 
@@ -184,28 +184,28 @@ namespace Microsoft.Iris.Navigation
           INavigationSite excludeStickyContainerSite,
           INavigationSite exclueStickyDestinationSite)
         {
-            if (this.Subject != excludeStickyContainerSite)
+            if (Subject != excludeStickyContainerSite)
             {
-                object groupFocusId = GetGroupFocusId(this.Subject);
+                object groupFocusId = GetGroupFocusId(Subject);
                 if (groupFocusId != null)
                 {
-                    INavigationSite site = this.Subject.LookupChildById(groupFocusId);
+                    INavigationSite site = Subject.LookupChildById(groupFocusId);
                     if (site != null && site != exclueStickyDestinationSite)
                     {
-                        NavigationItem itemForSite = CreateItemForSite(site, this.SearchDirection, false);
+                        NavigationItem itemForSite = CreateItemForSite(site, SearchDirection, false);
                         if (itemForSite != null && itemForSite.CheckDestination(startRectangleF))
                             return itemForSite;
-                        SetGroupFocusId(this.Subject, null);
+                        SetGroupFocusId(Subject, null);
                     }
                 }
             }
-            if (!depthFirst || IsPreferContainerFocus(this.Subject))
+            if (!depthFirst || IsPreferContainerFocus(Subject))
             {
                 depthFirst = false;
-                if (this.CheckDestination(startRectangleF))
+                if (CheckDestination(startRectangleF))
                     return this;
             }
-            IList childrenToSearch = this.GetChildrenToSearch(startRectangleF, true);
+            IList childrenToSearch = GetChildrenToSearch(startRectangleF, true);
             if (childrenToSearch != null)
             {
                 int num = 0;
@@ -217,7 +217,7 @@ namespace Microsoft.Iris.Navigation
                     ++num;
                 }
             }
-            return depthFirst && this.CheckDestination(startRectangleF) ? this : null;
+            return depthFirst && CheckDestination(startRectangleF) ? this : null;
         }
 
         internal static void RememberFocus(INavigationSite focusSite)
@@ -495,7 +495,7 @@ namespace Microsoft.Iris.Navigation
         private bool CheckDestination(RectangleF startRectangleF)
         {
             bool flag = false;
-            switch (this.Navigability)
+            switch (Navigability)
             {
                 case NavigationClass.None:
                     flag = false;
@@ -546,26 +546,26 @@ namespace Microsoft.Iris.Navigation
         {
             get
             {
-                if (this._focusRankList == null)
-                    this._focusRankList = this.ComputeFocusRank();
-                return this._focusRankList;
+                if (_focusRankList == null)
+                    _focusRankList = ComputeFocusRank();
+                return _focusRankList;
             }
         }
 
         private NavigationItem.FocusEntry[] ComputeFocusRank()
         {
-            switch (this._searchDirection)
+            switch (_searchDirection)
             {
                 case Direction.Previous:
                 case Direction.Next:
-                    NavigationItem parent = this.Parent;
+                    NavigationItem parent = Parent;
                     if (parent == null)
-                        return this.s_emptyFocusRankList;
+                        return s_emptyFocusRankList;
                     int num1 = 0;
-                    INavigationSite navigationSite1 = this.Subject;
+                    INavigationSite navigationSite1 = Subject;
                     INavigationSite subject = parent.Subject;
                     if (navigationSite1 == subject)
-                        return this.s_emptyFocusRankList;
+                        return s_emptyFocusRankList;
                     NavigationItem.FocusEntry[] focusEntryArray;
                     int num2;
                     int index;
@@ -581,7 +581,7 @@ namespace Microsoft.Iris.Navigation
                                 focusEntryArray = new NavigationItem.FocusEntry[length];
                                 num2 = int.MaxValue;
                                 index = length - 1;
-                                navigationSite2 = this.Subject;
+                                navigationSite2 = Subject;
                                 goto label_10;
                             }
                         }
@@ -610,7 +610,7 @@ namespace Microsoft.Iris.Navigation
                         --index;
                     }
                 default:
-                    return this.s_emptyFocusRankList;
+                    return s_emptyFocusRankList;
             }
         }
 

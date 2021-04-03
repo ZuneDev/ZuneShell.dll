@@ -15,18 +15,18 @@ namespace Microsoft.Iris.Markup
         {
         }
 
-        public override bool IsStatic => ((ClassTypeSchema)this.Owner).IsShared;
+        public override bool IsStatic => ((ClassTypeSchema)Owner).IsShared;
 
         public override object GetValue(object instance)
         {
-            ClassTypeSchema owner = (ClassTypeSchema)this.Owner;
-            return (instance == null ? owner.SharedInstance : (Class)instance).GetProperty(this.Name);
+            ClassTypeSchema owner = (ClassTypeSchema)Owner;
+            return (instance == null ? owner.SharedInstance : (Class)instance).GetProperty(Name);
         }
 
         public override void SetValue(ref object instance, object value)
         {
-            ClassTypeSchema owner = (ClassTypeSchema)this.Owner;
-            (instance == null ? owner.SharedInstance : (Class)instance).SetProperty(this.Name, value);
+            ClassTypeSchema owner = (ClassTypeSchema)Owner;
+            (instance == null ? owner.SharedInstance : (Class)instance).SetProperty(Name, value);
         }
     }
 }

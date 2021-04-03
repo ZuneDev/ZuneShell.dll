@@ -18,14 +18,14 @@ namespace Microsoft.Iris.Layouts
 
         public int Count
         {
-            get => this._count;
-            set => this._count = value;
+            get => _count;
+            set => _count = value;
         }
 
         DataCookie ILayoutInput.Data => Data;
 
         public static DataCookie Data => s_dataProperty;
 
-        public override string ToString() => InvariantString.Format("{0}", this.GetType().Name);
+        public override string ToString() => InvariantString.Format("{0}", GetType().Name);
     }
 }

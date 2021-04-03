@@ -21,7 +21,7 @@ namespace Microsoft.Iris.UI
         private static Environment s_instance;
         private static float s_dpiScale = Math.Max(1f, NativeApi.SpGetDpi() / 96f);
 
-        private Environment() => this._soundEffectsEnabledFlag = true;
+        private Environment() => _soundEffectsEnabledFlag = true;
 
         public static Environment Instance
         {
@@ -33,52 +33,52 @@ namespace Microsoft.Iris.UI
             }
         }
 
-        public bool IsMouseActive => this._mouseActiveFlag;
+        public bool IsMouseActive => _mouseActiveFlag;
 
         public void SetIsMouseActive(bool value)
         {
-            if (this._mouseActiveFlag == value)
+            if (_mouseActiveFlag == value)
                 return;
-            this._mouseActiveFlag = value;
+            _mouseActiveFlag = value;
         }
 
         public bool IsRightToLeft => UISession.Default.IsRtl;
 
-        public ColorScheme ColorScheme => this._currentColorScheme;
+        public ColorScheme ColorScheme => _currentColorScheme;
 
         public void SetColorScheme(ColorScheme value)
         {
-            if (this._currentColorScheme == value)
+            if (_currentColorScheme == value)
                 return;
-            this._currentColorScheme = value;
-            this.FireNotification(NotificationID.ColorScheme);
+            _currentColorScheme = value;
+            FireNotification(NotificationID.ColorScheme);
         }
 
-        public bool SoundEffectsEnabled => this._soundEffectsEnabledFlag;
+        public bool SoundEffectsEnabled => _soundEffectsEnabledFlag;
 
         public void SetSoundEffectsEnabled(bool value)
         {
-            if (this._soundEffectsEnabledFlag == value)
+            if (_soundEffectsEnabledFlag == value)
                 return;
-            this._soundEffectsEnabledFlag = value;
+            _soundEffectsEnabledFlag = value;
         }
 
         public static float DpiScale => s_dpiScale;
 
         public float AnimationSpeed
         {
-            get => this.AnimationSystem.SpeedAdjustment;
-            set => this.AnimationSystem.SpeedAdjustment = value;
+            get => AnimationSystem.SpeedAdjustment;
+            set => AnimationSystem.SpeedAdjustment = value;
         }
 
         public int AnimationUpdatesPerSecond
         {
-            get => this.AnimationSystem.UpdatesPerSecond;
-            set => this.AnimationSystem.UpdatesPerSecond = value;
+            get => AnimationSystem.UpdatesPerSecond;
+            set => AnimationSystem.UpdatesPerSecond = value;
         }
 
         private IAnimationSystem AnimationSystem => UISession.Default.RenderSession.AnimationSystem;
 
-        public void AnimationAdvance(int milliseconds) => this.AnimationSystem.PulseTimeAdvance(milliseconds);
+        public void AnimationAdvance(int milliseconds) => AnimationSystem.PulseTimeAdvance(milliseconds);
     }
 }

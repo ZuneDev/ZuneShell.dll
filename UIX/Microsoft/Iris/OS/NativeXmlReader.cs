@@ -23,77 +23,77 @@ namespace Microsoft.Iris.OS
 
         public NativeXmlReader(Resource resource)
           : this(false)
-          => this.Init(resource.Buffer, (int)resource.Length, false);
+          => Init(resource.Buffer, (int)resource.Length, false);
 
         public NativeXmlReader(string content, bool isFragment)
           : this(false)
         {
-            this._gcHandle = GCHandle.Alloc(content, GCHandleType.Pinned);
-            this.Init(this._gcHandle.AddrOfPinnedObject(), content.Length * 2, isFragment);
+            _gcHandle = GCHandle.Alloc(content, GCHandleType.Pinned);
+            Init(_gcHandle.AddrOfPinnedObject(), content.Length * 2, isFragment);
         }
 
         private NativeXmlReader(bool placeHolder)
         {
-            this._lineNumber = -1;
-            this._linePosition = -1;
-            this._beforeFirstAttribute = true;
-            this._reader = IntPtr.Zero;
-            this._gcHandle = new GCHandle();
-            this._curNodeType = NativeXmlNodeType.None;
-            this._prevNodeType = NativeXmlNodeType.None;
+            _lineNumber = -1;
+            _linePosition = -1;
+            _beforeFirstAttribute = true;
+            _reader = IntPtr.Zero;
+            _gcHandle = new GCHandle();
+            _curNodeType = NativeXmlNodeType.None;
+            _prevNodeType = NativeXmlNodeType.None;
         }
 
         private void Init(IntPtr buffer, int length, bool isFragment)
         {
-            int xmlReader = (int)NativeApi.SpXmlLiteCreateXmlReader(buffer, length, isFragment, out this._reader);
+            int xmlReader = (int)NativeApi.SpXmlLiteCreateXmlReader(buffer, length, isFragment, out _reader);
         }
 
         public void Dispose()
         {
-            NativeApi.SpXmlLiteDeleteXmlReader(this._reader);
-            this._reader = IntPtr.Zero;
-            if (!this._gcHandle.IsAllocated)
+            NativeApi.SpXmlLiteDeleteXmlReader(_reader);
+            _reader = IntPtr.Zero;
+            if (!_gcHandle.IsAllocated)
                 return;
-            this._gcHandle.Free();
+            _gcHandle.Free();
         }
 
         public bool Read(out NativeXmlNodeType nodeType)
         {
-            this._beforeFirstAttribute = true;
-            this._lineNumber = this.InternalLineNumber;
-            this._linePosition = this.InternalLinePosition;
-            bool flag = this.SUCCEEDED(NativeApi.SpXmlLiteRead(this._reader, out nodeType));
-            this._prevNodeType = this._curNodeType;
-            this._curNodeType = nodeType;
+            _beforeFirstAttribute = true;
+            _lineNumber = InternalLineNumber;
+            _linePosition = InternalLinePosition;
+            bool flag = SUCCEEDED(NativeApi.SpXmlLiteRead(_reader, out nodeType));
+            _prevNodeType = _curNodeType;
+            _curNodeType = nodeType;
             return flag;
         }
 
         public bool ReadAttribute()
         {
-            if (this._beforeFirstAttribute)
-                return this.MoveToFirstAttribute();
-            bool nextAttribute = this.MoveToNextAttribute();
+            if (_beforeFirstAttribute)
+                return MoveToFirstAttribute();
+            bool nextAttribute = MoveToNextAttribute();
             if (!nextAttribute)
-                this._beforeFirstAttribute = true;
+                _beforeFirstAttribute = true;
             return nextAttribute;
         }
 
         private bool MoveToFirstAttribute()
         {
-            this._beforeFirstAttribute = false;
-            this._lineNumber = this.InternalLineNumber;
-            this._linePosition = this.InternalLinePosition;
-            return this.SUCCEEDED(NativeApi.SpXmlLiteMoveToFirstAttribute(this._reader));
+            _beforeFirstAttribute = false;
+            _lineNumber = InternalLineNumber;
+            _linePosition = InternalLinePosition;
+            return SUCCEEDED(NativeApi.SpXmlLiteMoveToFirstAttribute(_reader));
         }
 
         private bool MoveToNextAttribute()
         {
-            this._lineNumber = this.InternalLineNumber;
-            this._linePosition = this.InternalLinePosition;
-            return this.SUCCEEDED(NativeApi.SpXmlLiteMoveToNextAttribute(this._reader));
+            _lineNumber = InternalLineNumber;
+            _linePosition = InternalLinePosition;
+            return SUCCEEDED(NativeApi.SpXmlLiteMoveToNextAttribute(_reader));
         }
 
-        public bool IsEmptyElement => NativeApi.SpXmlLiteIsEmptyElement(this._reader);
+        public bool IsEmptyElement => NativeApi.SpXmlLiteIsEmptyElement(_reader);
 
         public string Name
         {
@@ -101,7 +101,7 @@ namespace Microsoft.Iris.OS
             {
                 IntPtr name;
                 uint length;
-                this.IFC(NativeApi.SpXmlLiteGetQualifiedName(this._reader, out name, out length));
+                IFC(NativeApi.SpXmlLiteGetQualifiedName(_reader, out name, out length));
                 return NativeApi.PtrToStringUni(name, (int)length);
             }
         }
@@ -112,7 +112,7 @@ namespace Microsoft.Iris.OS
             {
                 IntPtr name;
                 uint length;
-                this.IFC(NativeApi.SpXmlLiteGetLocalName(this._reader, out name, out length));
+                IFC(NativeApi.SpXmlLiteGetLocalName(_reader, out name, out length));
                 return NativeApi.PtrToStringUni(name, (int)length);
             }
         }
@@ -123,7 +123,7 @@ namespace Microsoft.Iris.OS
             {
                 IntPtr prefix;
                 uint length;
-                this.IFC(NativeApi.SpXmlLiteGetPrefix(this._reader, out prefix, out length));
+                IFC(NativeApi.SpXmlLiteGetPrefix(_reader, out prefix, out length));
                 return NativeApi.PtrToStringUni(prefix, (int)length);
             }
         }
@@ -134,7 +134,7 @@ namespace Microsoft.Iris.OS
             {
                 IntPtr psz;
                 uint length;
-                this.IFC(NativeApi.SpXmlLiteGetValue(this._reader, out psz, out length));
+                IFC(NativeApi.SpXmlLiteGetValue(_reader, out psz, out length));
                 return NativeApi.PtrToStringUni(psz, (int)length);
             }
         }
@@ -145,7 +145,7 @@ namespace Microsoft.Iris.OS
             {
                 IntPtr num;
                 uint length;
-                this.IFC(NativeApi.SpXmlLiteGetValue(this._reader, out num, out length));
+                IFC(NativeApi.SpXmlLiteGetValue(_reader, out num, out length));
                 char* pointer = (char*)num.ToPointer();
                 return length > 0U && *pointer == '{' && pointer[length - 1U] == '}';
             }
@@ -156,26 +156,26 @@ namespace Microsoft.Iris.OS
         {
             IntPtr buffer;
             uint length;
-            this.IFC(NativeApi.SpXmlLiteGetValue(this._reader, out buffer, out length));
+            IFC(NativeApi.SpXmlLiteGetValue(_reader, out buffer, out length));
             SSLexUnicodeBufferConsumer unicodeBufferConsumer = new SSLexUnicodeBufferConsumer(buffer, length, prefix);
-            int lineNumber = this._lineNumber;
-            int column = this._linePosition - prefix.Length + 1;
-            if (this._curNodeType == NativeXmlNodeType.CDATA && this._prevNodeType != NativeXmlNodeType.Whitespace)
+            int lineNumber = _lineNumber;
+            int column = _linePosition - prefix.Length + 1;
+            if (_curNodeType == NativeXmlNodeType.CDATA && _prevNodeType != NativeXmlNodeType.Whitespace)
                 column += 9;
             unicodeBufferConsumer.SetDocumentOffset(lineNumber, column);
             return unicodeBufferConsumer;
         }
 
-        public int LineNumber => this._lineNumber;
+        public int LineNumber => _lineNumber;
 
-        public int LinePosition => this._linePosition;
+        public int LinePosition => _linePosition;
 
         private int InternalLineNumber
         {
             get
             {
                 uint lineNumber;
-                this.IFC(NativeApi.SpXmlLiteGetLineNumber(this._reader, out lineNumber));
+                IFC(NativeApi.SpXmlLiteGetLineNumber(_reader, out lineNumber));
                 return (int)lineNumber;
             }
         }
@@ -185,12 +185,12 @@ namespace Microsoft.Iris.OS
             get
             {
                 uint linePosition;
-                this.IFC(NativeApi.SpXmlLiteGetLinePosition(this._reader, out linePosition));
+                IFC(NativeApi.SpXmlLiteGetLinePosition(_reader, out linePosition));
                 return (int)linePosition;
             }
         }
 
-        private void IFC(uint hr) => this.SUCCEEDED(hr);
+        private void IFC(uint hr) => SUCCEEDED(hr);
 
         private bool SUCCEEDED(uint hr)
         {
@@ -198,7 +198,7 @@ namespace Microsoft.Iris.OS
                 return true;
             if (hr == 1U)
                 return false;
-            this.ThrowXmlException(hr);
+            ThrowXmlException(hr);
             return false;
         }
 
@@ -447,8 +447,8 @@ namespace Microsoft.Iris.OS
             }
             if (message != null)
             {
-                int lineNumber = this._reader == IntPtr.Zero ? -1 : this.InternalLineNumber;
-                int linePosition = this._reader == IntPtr.Zero ? -1 : this.InternalLinePosition;
+                int lineNumber = _reader == IntPtr.Zero ? -1 : InternalLineNumber;
+                int linePosition = _reader == IntPtr.Zero ? -1 : InternalLinePosition;
                 throw new NativeXmlException(message, hr, lineNumber, linePosition);
             }
             throw new NativeXmlException("Unknown error", hr, -1, -1);

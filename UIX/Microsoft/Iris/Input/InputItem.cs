@@ -49,41 +49,41 @@ namespace Microsoft.Iris.Input
             return inputItem;
         }
 
-        public void ReturnToPool() => this.ReturnToPool(true);
+        public void ReturnToPool() => ReturnToPool(true);
 
         private void ReturnToPool(bool returnInfoToo)
         {
             if (returnInfoToo)
-                this._info.ReturnToPool();
-            this._manager = null;
-            this._target = null;
-            this._info = null;
-            this._prev = null;
-            this._next = null;
-            this._owner = null;
+                _info.ReturnToPool();
+            _manager = null;
+            _target = null;
+            _info = null;
+            _prev = null;
+            _next = null;
+            _owner = null;
             if (s_cachedCount >= 5)
                 return;
-            this._next = s_cache;
+            _next = s_cache;
             s_cache = this;
             ++s_cachedCount;
         }
 
-        public InputManager Manager => this._manager;
+        public InputManager Manager => _manager;
 
-        public InputInfo Info => this._info;
+        public InputInfo Info => _info;
 
         public override string ToString() => base.ToString() + " -> " + _info + " -> " + DebugHelpers.DEBUG_ObjectToString(_target);
 
         public override void Dispatch()
         {
-            if (this._info.Target == null)
-                this._info.UpdateTarget(this._target);
-            this._info.Lock();
-            this._manager.DeliverInput(this._target, this._info);
-            this._info.Unlock();
-            this.ReturnToPool(false);
+            if (_info.Target == null)
+                _info.UpdateTarget(_target);
+            _info.Lock();
+            _manager.DeliverInput(_target, _info);
+            _info.Unlock();
+            ReturnToPool(false);
         }
 
-        internal void UpdateInputSite(ICookedInputSite target) => this._target = target;
+        internal void UpdateInputSite(ICookedInputSite target) => _target = target;
     }
 }

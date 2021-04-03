@@ -26,53 +26,53 @@ namespace Microsoft.Iris.Markup
 
         public MarkupLoadResult(string uri)
           : base(uri)
-          => this._status = LoadResultStatus.Loading;
+          => _status = LoadResultStatus.Loading;
 
         private void OnLoaded()
         {
-            if (this._dataMappingsTable == null)
+            if (_dataMappingsTable == null)
                 return;
-            foreach (MarkupDataMapping mapping in this._dataMappingsTable)
+            foreach (MarkupDataMapping mapping in _dataMappingsTable)
                 MarkupDataProvider.AddDataMapping(mapping);
         }
 
         protected override void OnDispose()
         {
             base.OnDispose();
-            if (this._dataMappingsTable != null)
+            if (_dataMappingsTable != null)
             {
-                foreach (MarkupDataMapping mapping in this._dataMappingsTable)
+                foreach (MarkupDataMapping mapping in _dataMappingsTable)
                     MarkupDataProvider.RemoveDataMapping(mapping);
             }
-            if (this._reader != null)
-                this._reader.Dispose(this);
-            foreach (DisposableObject disposableObject in this._exportTable)
+            if (_reader != null)
+                _reader.Dispose(this);
+            foreach (DisposableObject disposableObject in _exportTable)
                 disposableObject.Dispose(this);
-            this._exportTable = null;
+            _exportTable = null;
         }
 
         public override TypeSchema FindType(string name)
         {
-            TypeSchema typeSchema = this.FindTypeWorker(name);
+            TypeSchema typeSchema = FindTypeWorker(name);
             if (typeSchema == null)
             {
-                typeSchema = this.ResolveAlias(name);
+                typeSchema = ResolveAlias(name);
                 if (typeSchema != null)
-                    this._resolvedAliases[name] = typeSchema;
+                    _resolvedAliases[name] = typeSchema;
             }
             return typeSchema;
         }
 
         private TypeSchema FindTypeWorker(string name)
         {
-            for (int index = 0; index < this._exportTable.Length; ++index)
+            for (int index = 0; index < _exportTable.Length; ++index)
             {
-                TypeSchema typeSchema = this._exportTable[index];
+                TypeSchema typeSchema = _exportTable[index];
                 if (name == typeSchema.Name)
                     return typeSchema;
             }
             TypeSchema typeSchema1;
-            return this._resolvedAliases != null && this._resolvedAliases.TryGetValue(name, out typeSchema1) ? typeSchema1 : null;
+            return _resolvedAliases != null && _resolvedAliases.TryGetValue(name, out typeSchema1) ? typeSchema1 : null;
         }
 
         private TypeSchema ResolveAlias(string name)
@@ -107,74 +107,74 @@ namespace Microsoft.Iris.Markup
                     break;
             }
             if (num <= 0)
-                ErrorManager.ReportError("Alias cycle detected: {0} {1}", this.ToString(), name);
+                ErrorManager.ReportError("Alias cycle detected: {0} {1}", ToString(), name);
             return null;
         }
 
         public abstract bool IsSource { get; }
 
-        public override LoadResult[] Dependencies => this._dependenciesTable;
+        public override LoadResult[] Dependencies => _dependenciesTable;
 
         public abstract MarkupImportTables ImportTables { get; }
 
-        public ByteCodeReader ObjectSection => this._reader;
+        public ByteCodeReader ObjectSection => _reader;
 
-        public override TypeSchema[] ExportTable => this._exportTable;
+        public override TypeSchema[] ExportTable => _exportTable;
 
-        public AliasMapping[] AliasTable => this._aliasTable;
+        public AliasMapping[] AliasTable => _aliasTable;
 
-        public MarkupDataMapping[] DataMappingsTable => this._dataMappingsTable;
+        public MarkupDataMapping[] DataMappingsTable => _dataMappingsTable;
 
-        public MarkupBinaryDataTable BinaryDataTable => this._binaryDataTable;
+        public MarkupBinaryDataTable BinaryDataTable => _binaryDataTable;
 
         public abstract MarkupConstantsTable ConstantsTable { get; }
 
-        public virtual MarkupLineNumberTable LineNumberTable => this._lineNumberTable;
+        public virtual MarkupLineNumberTable LineNumberTable => _lineNumberTable;
 
         public void SetDependenciesTable(LoadResult[] dependenciesTable, bool registerDependencies)
         {
-            this._dependenciesTable = dependenciesTable;
+            _dependenciesTable = dependenciesTable;
             if (!registerDependencies)
                 return;
-            this.RegisterDependenciesUsage();
+            RegisterDependenciesUsage();
         }
 
-        public void SetDependenciesTable(LoadResult[] dependenciesTable) => this.SetDependenciesTable(dependenciesTable, true);
+        public void SetDependenciesTable(LoadResult[] dependenciesTable) => SetDependenciesTable(dependenciesTable, true);
 
         public void SetObjectSection(ByteCodeReader reader)
         {
             reader.DeclareOwner(this);
-            this._reader = reader;
+            _reader = reader;
         }
 
-        public void SetBinaryDataTable(MarkupBinaryDataTable binaryDataTable) => this._binaryDataTable = binaryDataTable;
+        public void SetBinaryDataTable(MarkupBinaryDataTable binaryDataTable) => _binaryDataTable = binaryDataTable;
 
-        public void SetLineNumberTable(MarkupLineNumberTable lineNumberTable) => this._lineNumberTable = lineNumberTable;
+        public void SetLineNumberTable(MarkupLineNumberTable lineNumberTable) => _lineNumberTable = lineNumberTable;
 
-        public void SetExportTable(TypeSchema[] exportTable) => this._exportTable = exportTable;
+        public void SetExportTable(TypeSchema[] exportTable) => _exportTable = exportTable;
 
         public void SetAliasTable(AliasMapping[] aliasTable)
         {
-            this._aliasTable = aliasTable;
-            if (this._aliasTable == null)
+            _aliasTable = aliasTable;
+            if (_aliasTable == null)
                 return;
-            this._resolvedAliases = new Map<string, TypeSchema>(this._aliasTable.Length);
+            _resolvedAliases = new Map<string, TypeSchema>(_aliasTable.Length);
         }
 
-        public void SetDataMappingsTable(MarkupDataMapping[] dataMappingsTable) => this._dataMappingsTable = dataMappingsTable;
+        public void SetDataMappingsTable(MarkupDataMapping[] dataMappingsTable) => _dataMappingsTable = dataMappingsTable;
 
-        public override LoadResultStatus Status => this._status;
+        public override LoadResultStatus Status => _status;
 
         public void SetStatus(LoadResultStatus status)
         {
-            if (this._status == status)
+            if (_status == status)
                 return;
-            this._status = status;
-            if (this._status != LoadResultStatus.Success)
+            _status = status;
+            if (_status != LoadResultStatus.Success)
                 return;
-            this.OnLoaded();
+            OnLoaded();
         }
 
-        public virtual void MarkLoadFailed() => this._status = LoadResultStatus.Error;
+        public virtual void MarkLoadFailed() => _status = LoadResultStatus.Error;
     }
 }

@@ -18,26 +18,26 @@ namespace Microsoft.Iris.Markup
         private string _compilerReferenceName;
         public static LoadResult[] EmptyList = new LoadResult[0];
 
-        public LoadResult(string uri) => this._uri = uri;
+        public LoadResult(string uri) => _uri = uri;
 
         protected override void OnDispose() => base.OnDispose();
 
-        public string Uri => this._uri;
+        public string Uri => _uri;
 
-        public string UnderlyingUri => this._uriUnderlying;
+        public string UnderlyingUri => _uriUnderlying;
 
-        public string ErrorContextUri => this._uriUnderlying == null ? this._uri : this._uriUnderlying;
+        public string ErrorContextUri => _uriUnderlying == null ? _uri : _uriUnderlying;
 
-        public uint IslandReferences => this._islandReferences;
+        public uint IslandReferences => _islandReferences;
 
         public void AddReference(uint islandId)
         {
-            if (((int)this._islandReferences & (int)islandId) != 0)
+            if (((int)_islandReferences & (int)islandId) != 0)
                 return;
-            if (this._islandReferences == 0U)
-                this.RegisterUsage(this);
-            this._islandReferences |= islandId;
-            foreach (LoadResult dependency in this.Dependencies)
+            if (_islandReferences == 0U)
+                RegisterUsage(this);
+            _islandReferences |= islandId;
+            foreach (LoadResult dependency in Dependencies)
             {
                 if (dependency != this)
                     dependency.AddReference(islandId);
@@ -46,41 +46,41 @@ namespace Microsoft.Iris.Markup
 
         public void RemoveReferenceDeep(uint islandId)
         {
-            if ((this._islandReferences & islandId) <= 0U)
+            if ((_islandReferences & islandId) <= 0U)
                 return;
-            this._islandReferences &= ~islandId;
-            foreach (LoadResult dependency in this.Dependencies)
+            _islandReferences &= ~islandId;
+            foreach (LoadResult dependency in Dependencies)
             {
                 if (dependency != this)
                     dependency.RemoveReferenceDeep(islandId);
             }
-            if (this._islandReferences != 0U)
+            if (_islandReferences != 0U)
                 return;
-            this.UnregisterUsage(this);
-            foreach (LoadResult dependency in this.Dependencies)
+            UnregisterUsage(this);
+            foreach (LoadResult dependency in Dependencies)
             {
                 if (dependency != this)
                     dependency.UnregisterUsage(this);
             }
         }
 
-        public void RemoveAllReferences() => this.RemoveReferenceDeep(this.IslandReferences);
+        public void RemoveAllReferences() => RemoveReferenceDeep(IslandReferences);
 
         protected void RegisterDependenciesUsage()
         {
-            foreach (LoadResult dependency in this.Dependencies)
+            foreach (LoadResult dependency in Dependencies)
             {
                 if (dependency != this)
                 {
                     dependency.RegisterUsage(this);
-                    dependency.AddReference(this._islandReferences);
+                    dependency.AddReference(_islandReferences);
                 }
             }
         }
 
-        public void RegisterProxyUsage() => this.RegisterUsage(this);
+        public void RegisterProxyUsage() => RegisterUsage(this);
 
-        public void UnregisterProxyUsage() => this.UnregisterUsage(this);
+        public void UnregisterProxyUsage() => UnregisterUsage(this);
 
         public virtual void Load(LoadPass pass)
         {
@@ -98,20 +98,20 @@ namespace Microsoft.Iris.Markup
 
         public void SetCompilerReferenceName(string name)
         {
-            if (this._compilerReferenceName == null)
+            if (_compilerReferenceName == null)
             {
-                this._compilerReferenceName = name;
+                _compilerReferenceName = name;
             }
             else
             {
-                if (name.Equals(this._compilerReferenceName, StringComparison.OrdinalIgnoreCase))
+                if (name.Equals(_compilerReferenceName, StringComparison.OrdinalIgnoreCase))
                     return;
                 ErrorManager.ReportWarning("Multiple names '{0}' and '{1}' used to refer to the same entity.  The first name will be used for all references to this item within compiled UIB files", _compilerReferenceName, name);
             }
         }
 
-        public virtual string GetCompilerReferenceName() => this._compilerReferenceName;
+        public virtual string GetCompilerReferenceName() => _compilerReferenceName;
 
-        public override string ToString() => this._uri;
+        public override string ToString() => _uri;
     }
 }

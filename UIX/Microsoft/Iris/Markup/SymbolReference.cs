@@ -13,12 +13,12 @@ namespace Microsoft.Iris.Markup
 
         public SymbolReference(string symbol, SymbolOrigin origin)
         {
-            this._origin = origin;
-            this._symbol = NotifyService.CanonicalizeString(symbol);
+            _origin = origin;
+            _symbol = NotifyService.CanonicalizeString(symbol);
         }
 
-        public string Symbol => this._symbol;
+        public string Symbol => _symbol;
 
-        public SymbolOrigin Origin => this._origin;
+        public SymbolOrigin Origin => _origin;
     }
 }

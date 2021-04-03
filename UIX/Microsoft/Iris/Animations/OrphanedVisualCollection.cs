@@ -19,43 +19,43 @@ namespace Microsoft.Iris.Animations
 
         public OrphanedVisualCollection(AnimationManager aniManager)
         {
-            this.DeclareOwner(aniManager);
-            this._orphansList = new Vector<IVisual>();
-            this._sequenceList = new Vector<ActiveSequence>();
-            this._animationManager = aniManager;
-            this._countEventsRemaining = 1;
-            this._animationManager.RegisterAnimatedOrphans(this);
+            DeclareOwner(aniManager);
+            _orphansList = new Vector<IVisual>();
+            _sequenceList = new Vector<ActiveSequence>();
+            _animationManager = aniManager;
+            _countEventsRemaining = 1;
+            _animationManager.RegisterAnimatedOrphans(this);
         }
 
         protected override void OnDispose()
         {
-            foreach (ActiveSequence sequence in this._sequenceList)
+            foreach (ActiveSequence sequence in _sequenceList)
             {
                 sequence.Stop();
                 sequence.Dispose(this);
             }
-            this._sequenceList.Clear();
-            foreach (IVisual orphans in this._orphansList)
+            _sequenceList.Clear();
+            foreach (IVisual orphans in _orphansList)
             {
                 orphans.Remove();
                 orphans.UnregisterUsage(this);
             }
-            this._orphansList.Clear();
-            this._animationManager = null;
+            _orphansList.Clear();
+            _animationManager = null;
             base.OnDispose();
         }
 
         public void AddOrphan(IVisual visual)
         {
             visual.RegisterUsage(this);
-            this._orphansList.Add(visual);
+            _orphansList.Add(visual);
         }
 
         public void RegisterWaitForAnimation(ActiveSequence aseq, bool transfer)
         {
-            aseq.AnimationCompleted += new EventHandler(this.OnDestroyAnimationComplete);
-            ++this._countEventsRemaining;
-            this.RegisterAnimation(aseq, transfer);
+            aseq.AnimationCompleted += new EventHandler(OnDestroyAnimationComplete);
+            ++_countEventsRemaining;
+            RegisterAnimation(aseq, transfer);
         }
 
         public void RegisterAnimation(ActiveSequence aseq, bool transfer)
@@ -64,32 +64,32 @@ namespace Microsoft.Iris.Animations
                 aseq.TransferOwnership(this);
             else
                 aseq.DeclareOwner(this);
-            this._sequenceList.Add(aseq);
+            _sequenceList.Add(aseq);
         }
 
-        public void OnLayoutApplyComplete() => this.OnEventComplete(null, EventArgs.Empty);
+        public void OnLayoutApplyComplete() => OnEventComplete(null, EventArgs.Empty);
 
         private void OnDestroyAnimationComplete(object sender, EventArgs args)
         {
             ActiveSequence activeSequence = sender as ActiveSequence;
-            activeSequence.AnimationCompleted -= new EventHandler(this.OnDestroyAnimationComplete);
-            this._sequenceList.Remove(activeSequence);
+            activeSequence.AnimationCompleted -= new EventHandler(OnDestroyAnimationComplete);
+            _sequenceList.Remove(activeSequence);
             activeSequence.Dispose(this);
-            this.OnEventComplete(sender, args);
+            OnEventComplete(sender, args);
         }
 
         private void OnEventComplete(object sender, EventArgs args)
         {
-            --this._countEventsRemaining;
-            if (this.Waiting)
+            --_countEventsRemaining;
+            if (Waiting)
                 return;
-            if (this._animationManager != null)
-                this._animationManager.UnregisterAnimatedOrphans(this);
-            this.Dispose(_animationManager);
+            if (_animationManager != null)
+                _animationManager.UnregisterAnimatedOrphans(this);
+            Dispose(_animationManager);
         }
 
-        public bool Waiting => this._countEventsRemaining > 0;
+        public bool Waiting => _countEventsRemaining > 0;
 
-        public override string ToString() => InvariantString.Format("Orphans(WaitCount={0}, OrphanCount={1})", this._sequenceList != null ? this._sequenceList.Count.ToString() : "None", _orphansList.Count);
+        public override string ToString() => InvariantString.Format("Orphans(WaitCount={0}, OrphanCount={1})", _sequenceList != null ? _sequenceList.Count.ToString() : "None", _orphansList.Count);
     }
 }

@@ -14,8 +14,8 @@ namespace Microsoft.Iris.Data
 
         public ArrayList Acquire()
         {
-            ArrayList arrayList = this._list;
-            this._list = null;
+            ArrayList arrayList = _list;
+            _list = null;
             if (arrayList == null)
                 arrayList = new ArrayList();
             return arrayList;
@@ -24,7 +24,7 @@ namespace Microsoft.Iris.Data
         public void Release(ArrayList list)
         {
             list.Clear();
-            this._list = list;
+            _list = list;
         }
     }
 }

@@ -24,96 +24,96 @@ namespace Microsoft.Iris.Layouts
 
         public ScrollingLayoutInput()
         {
-            this._pageStep = 1f;
-            this._enabled = true;
-            this._scrollIntoView = new ScrollIntoViewDisposition();
+            _pageStep = 1f;
+            _enabled = true;
+            _scrollIntoView = new ScrollIntoViewDisposition();
         }
 
         public bool Enabled
         {
-            get => this._enabled;
+            get => _enabled;
             set
             {
-                if (value == this._enabled)
+                if (value == _enabled)
                     return;
-                this._enabled = value;
+                _enabled = value;
                 if (!value)
                     return;
-                this._scrollAmount = 0;
-                this._pendingScrollAmount = 0;
-                this._pendingPageCommands = 0;
-                this._pendingScrollPosition = 0.0f;
-                this._havePendingScrollPosition = false;
+                _scrollAmount = 0;
+                _pendingScrollAmount = 0;
+                _pendingPageCommands = 0;
+                _pendingScrollPosition = 0.0f;
+                _havePendingScrollPosition = false;
             }
         }
 
-        public void Scroll(int amount) => this._scrollAmount += amount;
+        public void Scroll(int amount) => _scrollAmount += amount;
 
-        public void PageUp() => --this._pendingPageCommands;
+        public void PageUp() => --_pendingPageCommands;
 
-        public void PageDown() => ++this._pendingPageCommands;
+        public void PageDown() => ++_pendingPageCommands;
 
-        public void Home() => this.ScrollToPosition(0.0f);
+        public void Home() => ScrollToPosition(0.0f);
 
-        public void End() => this.ScrollToPosition(1f);
+        public void End() => ScrollToPosition(1f);
 
         public void ScrollToPosition(float position)
         {
-            this._havePendingScrollPosition = true;
-            this._pendingScrollPosition = position;
+            _havePendingScrollPosition = true;
+            _pendingScrollPosition = position;
         }
 
         public bool GetPendingScrollPosition(out float position)
         {
-            if (!this._havePendingScrollPosition)
+            if (!_havePendingScrollPosition)
             {
                 position = 0.0f;
                 return false;
             }
-            position = this._pendingScrollPosition;
+            position = _pendingScrollPosition;
             return true;
         }
 
         public bool GetPendingPageRequests(out int amount)
         {
-            amount = this._pendingPageCommands;
-            return this._pendingPageCommands != 0;
+            amount = _pendingPageCommands;
+            return _pendingPageCommands != 0;
         }
 
-        internal int ScrollAmount => this._scrollAmount;
+        internal int ScrollAmount => _scrollAmount;
 
-        internal void SetScrollAmount(int scrollAmount) => this._pendingScrollAmount = scrollAmount;
+        internal void SetScrollAmount(int scrollAmount) => _pendingScrollAmount = scrollAmount;
 
         internal void OnLayoutComplete()
         {
-            this.SecondaryScrollIntoViewDisposition = null;
-            this._havePendingScrollPosition = false;
-            this._pendingPageCommands = 0;
-            this._scrollAmount = this._pendingScrollAmount;
+            SecondaryScrollIntoViewDisposition = null;
+            _havePendingScrollPosition = false;
+            _pendingPageCommands = 0;
+            _scrollAmount = _pendingScrollAmount;
         }
 
         internal float PageStep
         {
-            get => this._pageStep;
-            set => this._pageStep = value;
+            get => _pageStep;
+            set => _pageStep = value;
         }
 
         public ScrollIntoViewDisposition ScrollIntoViewDisposition
         {
-            get => this._scrollIntoView;
-            set => this._scrollIntoView = value;
+            get => _scrollIntoView;
+            set => _scrollIntoView = value;
         }
 
         public ScrollIntoViewDisposition SecondaryScrollIntoViewDisposition
         {
-            get => this._secondaryScrollIntoView;
-            set => this._secondaryScrollIntoView = value;
+            get => _secondaryScrollIntoView;
+            set => _secondaryScrollIntoView = value;
         }
 
         DataCookie ILayoutInput.Data => Data;
 
         public static DataCookie Data => s_dataProperty;
 
-        public override string ToString() => InvariantString.Format("{0}(ScrollAmount={1}, PageAmount={2}, PageStep={3}, Disposition=({4}))", this.GetType().Name, _pendingScrollAmount, _pendingPageCommands, _pageStep, _scrollIntoView);
+        public override string ToString() => InvariantString.Format("{0}(ScrollAmount={1}, PageAmount={2}, PageStep={3}, Disposition=({4}))", GetType().Name, _pendingScrollAmount, _pendingPageCommands, _pageStep, _scrollIntoView);
     }
 }

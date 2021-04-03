@@ -37,20 +37,20 @@ namespace Microsoft.Iris.Input
           bool state,
           ICookedInputSite other)
         {
-            this._state = state;
-            this._other = other;
-            this.Initialize(rawSource, x, y, state ? InputEventType.GainMouseFocus : InputEventType.LoseMouseFocus);
+            _state = state;
+            _other = other;
+            Initialize(rawSource, x, y, state ? InputEventType.GainMouseFocus : InputEventType.LoseMouseFocus);
         }
 
         protected override void Zombie()
         {
             base.Zombie();
-            this._other = null;
+            _other = null;
         }
 
-        public ICookedInputSite Other => this._other;
+        public ICookedInputSite Other => _other;
 
-        public bool State => this._state;
+        public bool State => _state;
 
         protected override InputInfo.InfoType PoolType => s_poolType;
     }

@@ -10,11 +10,11 @@ namespace Microsoft.Iris.Markup
     {
         protected string _watch;
 
-        public string Watch => this._watch;
+        public string Watch => _watch;
 
         public override void Dispose()
         {
-            this._watch = null;
+            _watch = null;
             base.Dispose();
         }
 

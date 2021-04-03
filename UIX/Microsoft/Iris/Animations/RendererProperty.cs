@@ -14,22 +14,22 @@ namespace Microsoft.Iris.Animations
 
         public RendererProperty(string property)
         {
-            this._property = property;
-            this._sourceMask = null;
-            this._targetMask = null;
+            _property = property;
+            _sourceMask = null;
+            _targetMask = null;
         }
 
         public RendererProperty(string property, string sourceMask, string targetMask)
         {
-            this._property = property;
-            this._sourceMask = sourceMask;
-            this._targetMask = targetMask;
+            _property = property;
+            _sourceMask = sourceMask;
+            _targetMask = targetMask;
         }
 
-        public string Property => this._property;
+        public string Property => _property;
 
-        public string SourceMask => this._sourceMask;
+        public string SourceMask => _sourceMask;
 
-        public string TargetMask => this._targetMask;
+        public string TargetMask => _targetMask;
     }
 }

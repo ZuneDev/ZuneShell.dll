@@ -17,8 +17,8 @@ namespace Microsoft.Iris.Layout
 
         public AreaOfInterestLayoutInput(AreaOfInterestID idName, Inset margins)
         {
-            this._id = idName;
-            this._margins = margins;
+            _id = idName;
+            _margins = margins;
         }
 
         public AreaOfInterestLayoutInput()
@@ -27,16 +27,16 @@ namespace Microsoft.Iris.Layout
 
         public AreaOfInterestID Id
         {
-            get => this._id;
-            set => this._id = value;
+            get => _id;
+            set => _id = value;
         }
 
-        public Inset Margins => this._margins;
+        public Inset Margins => _margins;
 
         DataCookie ILayoutInput.Data => Data;
 
         public static DataCookie Data => s_dataProperty;
 
-        public override string ToString() => InvariantString.Format("{0}({1})", this.GetType().Name, _id);
+        public override string ToString() => InvariantString.Format("{0}({1})", GetType().Name, _id);
     }
 }

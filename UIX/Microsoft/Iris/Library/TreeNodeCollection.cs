@@ -13,9 +13,9 @@ namespace Microsoft.Iris.Library
     {
         private TreeNode _nodeSubject;
 
-        internal TreeNodeCollection(TreeNode nodeSubject) => this._nodeSubject = nodeSubject;
+        internal TreeNodeCollection(TreeNode nodeSubject) => _nodeSubject = nodeSubject;
 
-        public int Count => this._nodeSubject.ChildCount;
+        public int Count => _nodeSubject.ChildCount;
 
         bool ICollection.IsSynchronized => false;
 
@@ -51,9 +51,9 @@ namespace Microsoft.Iris.Library
             }
         }
 
-        IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-        public TreeNodeEnumerator GetEnumerator() => new TreeNodeEnumerator(this._nodeSubject);
+        public TreeNodeEnumerator GetEnumerator() => new TreeNodeEnumerator(_nodeSubject);
 
         void ICollection.CopyTo(Array destList, int destIndex)
         {
@@ -65,23 +65,23 @@ namespace Microsoft.Iris.Library
 
         int IList.Add(object value)
         {
-            this.Add((TreeNode)value);
-            return this._nodeSubject.ChildCount - 1;
+            Add((TreeNode)value);
+            return _nodeSubject.ChildCount - 1;
         }
 
-        public void Add(TreeNode nodeChild) => nodeChild.ChangeParent(this._nodeSubject, null, TreeNode.LinkType.Last);
+        public void Add(TreeNode nodeChild) => nodeChild.ChangeParent(_nodeSubject, null, TreeNode.LinkType.Last);
 
-        public void Clear() => this._nodeSubject.RemoveAllChildren(true);
+        public void Clear() => _nodeSubject.RemoveAllChildren(true);
 
-        bool IList.Contains(object nodeChild) => this.Contains((TreeNode)nodeChild);
+        bool IList.Contains(object nodeChild) => Contains((TreeNode)nodeChild);
 
-        public bool Contains(TreeNode nodeChild) => nodeChild.Parent == this._nodeSubject;
+        public bool Contains(TreeNode nodeChild) => nodeChild.Parent == _nodeSubject;
 
-        int IList.IndexOf(object nodeChild) => this.IndexOf((TreeNode)nodeChild);
+        int IList.IndexOf(object nodeChild) => IndexOf((TreeNode)nodeChild);
 
         public int IndexOf(TreeNode nodeChild)
         {
-            if (nodeChild.Parent != this._nodeSubject)
+            if (nodeChild.Parent != _nodeSubject)
                 return -1;
             int num = 0;
             foreach (TreeNode treeNode in this)
@@ -93,21 +93,21 @@ namespace Microsoft.Iris.Library
             return -1;
         }
 
-        void IList.Insert(int insertAtIndex, object nodeChild) => this.Insert(insertAtIndex, (TreeNode)nodeChild);
+        void IList.Insert(int insertAtIndex, object nodeChild) => Insert(insertAtIndex, (TreeNode)nodeChild);
 
         public void Insert(int insertAtIndex, TreeNode nodeChild)
         {
             TreeNode nodeSibling = null;
             TreeNode.LinkType lt = TreeNode.LinkType.Last;
-            if (insertAtIndex < this.Count)
+            if (insertAtIndex < Count)
             {
                 nodeSibling = this[insertAtIndex];
                 lt = TreeNode.LinkType.Before;
             }
-            nodeChild.ChangeParent(this._nodeSubject, nodeSibling, lt);
+            nodeChild.ChangeParent(_nodeSubject, nodeSibling, lt);
         }
 
-        void IList.Remove(object nodeChild) => this.Remove((TreeNode)nodeChild);
+        void IList.Remove(object nodeChild) => Remove((TreeNode)nodeChild);
 
         public void Remove(TreeNode nodeChild) => nodeChild.ChangeParent(null);
 

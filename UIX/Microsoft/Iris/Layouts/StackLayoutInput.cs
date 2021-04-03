@@ -15,18 +15,18 @@ namespace Microsoft.Iris.Layouts
         private StackPriority _priority;
         private Size _minimumSize;
 
-        public StackLayoutInput() => this.Priority = StackPriority.Low;
+        public StackLayoutInput() => Priority = StackPriority.Low;
 
         public StackPriority Priority
         {
-            get => this._priority;
-            set => this._priority = value;
+            get => _priority;
+            set => _priority = value;
         }
 
         public Size MinimumSize
         {
-            get => this._minimumSize;
-            set => this._minimumSize = value;
+            get => _minimumSize;
+            set => _minimumSize = value;
         }
 
         DataCookie ILayoutInput.Data => StackLayout.Data;

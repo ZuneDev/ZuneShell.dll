@@ -32,45 +32,45 @@ namespace Microsoft.Iris.UI
 
         public Class(MarkupTypeSchema type)
         {
-            this._typeSchema = type;
-            this._storage = new Dictionary<object, object>(type.TotalPropertiesAndLocalsCount);
-            this._scriptEnabled = true;
+            _typeSchema = type;
+            _storage = new Dictionary<object, object>(type.TotalPropertiesAndLocalsCount);
+            _scriptEnabled = true;
         }
 
         protected override void OnDispose()
         {
-            this._typeSchema.RunFinalEvaluates(this);
+            _typeSchema.RunFinalEvaluates(this);
             base.OnDispose();
-            this._scriptEnabled = false;
-            if (this._listeners != null)
+            _scriptEnabled = false;
+            if (_listeners != null)
             {
-                this._listeners.Dispose(this);
-                this._listeners = null;
+                _listeners.Dispose(this);
+                _listeners = null;
             }
-            this._notifier.ClearListeners();
-            this._storage.Clear();
-            if (this._disposables == null)
+            _notifier.ClearListeners();
+            _storage.Clear();
+            if (_disposables == null)
                 return;
-            for (int index = 0; index < this._disposables.Count; ++index)
-                this._disposables[index].Dispose(this);
+            for (int index = 0; index < _disposables.Count; ++index)
+                _disposables[index].Dispose(this);
         }
 
         public void RegisterDisposable(IDisposableObject disposable)
         {
-            if (this._disposables == null)
-                this._disposables = new Vector<IDisposableObject>();
-            this._disposables.Add(disposable);
+            if (_disposables == null)
+                _disposables = new Vector<IDisposableObject>();
+            _disposables.Add(disposable);
         }
 
         public bool UnregisterDisposable(ref IDisposableObject disposable)
         {
-            if (this._disposables != null)
+            if (_disposables != null)
             {
-                int index = this._disposables.IndexOf(disposable);
+                int index = _disposables.IndexOf(disposable);
                 if (index != -1)
                 {
-                    disposable = this._disposables[index];
-                    this._disposables.RemoveAt(index);
+                    disposable = _disposables[index];
+                    _disposables.RemoveAt(index);
                     return true;
                 }
             }
@@ -83,7 +83,7 @@ namespace Microsoft.Iris.UI
         {
         }
 
-        void INotifyObject.AddListener(Listener listener) => this._notifier.AddListener(listener);
+        void INotifyObject.AddListener(Listener listener) => _notifier.AddListener(listener);
 
         public virtual object ReadSymbol(SymbolReference symbolRef)
         {
@@ -92,7 +92,7 @@ namespace Microsoft.Iris.UI
             {
                 case SymbolOrigin.Properties:
                 case SymbolOrigin.Locals:
-                    obj = this._storage[symbolRef.Symbol];
+                    obj = _storage[symbolRef.Symbol];
                     break;
                 case SymbolOrigin.Reserved:
                     if (symbolRef.Symbol == nameof(Class) || symbolRef.Symbol == "this")
@@ -105,31 +105,31 @@ namespace Microsoft.Iris.UI
             return obj;
         }
 
-        public virtual void WriteSymbol(SymbolReference symbolRef, object value) => this.SetProperty(symbolRef.Symbol, value);
+        public virtual void WriteSymbol(SymbolReference symbolRef, object value) => SetProperty(symbolRef.Symbol, value);
 
-        public virtual object GetProperty(string name) => this._storage[name];
+        public virtual object GetProperty(string name) => _storage[name];
 
         public virtual void SetProperty(string name, object value)
         {
-            if (this._storage.ContainsKey(name) && Utility.IsEqual(this._storage[name], value))
+            if (_storage.ContainsKey(name) && Utility.IsEqual(_storage[name], value))
                 return;
-            this._storage[name] = value;
-            this._notifier.Fire(name);
+            _storage[name] = value;
+            _notifier.Fire(name);
         }
 
         public MarkupListeners Listeners
         {
-            get => this._listeners;
-            set => this._listeners = value;
+            get => _listeners;
+            set => _listeners = value;
         }
 
-        public Dictionary<object, object> Storage => this._storage;
+        public Dictionary<object, object> Storage => _storage;
 
         public void ScheduleScriptRun(uint scriptId, bool ignoreErrors)
         {
-            if (!this._scriptRunScheduler.Pending)
+            if (!_scriptRunScheduler.Pending)
                 DeferredCall.Post(DispatchPriority.Script, s_executePendingScriptsHandler, this);
-            this._scriptRunScheduler.ScheduleRun(scriptId, ignoreErrors);
+            _scriptRunScheduler.ScheduleRun(scriptId, ignoreErrors);
         }
 
         private static void ExecutePendingScripts(object args)
@@ -138,17 +138,17 @@ namespace Microsoft.Iris.UI
             @class._scriptRunScheduler.Execute(@class);
         }
 
-        public object RunScript(uint scriptId, bool ignoreErrors, ParameterContext parameterContext) => this._typeSchema.Run(this, scriptId, ignoreErrors, parameterContext);
+        public object RunScript(uint scriptId, bool ignoreErrors, ParameterContext parameterContext) => _typeSchema.Run(this, scriptId, ignoreErrors, parameterContext);
 
         public void NotifyScriptErrors()
         {
-            this._scriptEnabled = false;
+            _scriptEnabled = false;
             ErrorManager.ReportWarning("Script runtime failure: Scripting has been disabled for '{0}' due to runtime scripting errors", _typeSchema.Name);
         }
 
-        public bool ScriptEnabled => this._scriptEnabled;
+        public bool ScriptEnabled => _scriptEnabled;
 
-        public override string ToString() => this._typeSchema.ToString();
+        public override string ToString() => _typeSchema.ToString();
 
         [Conditional("DEBUG")]
         public void DEBUG_MarkInitialized()

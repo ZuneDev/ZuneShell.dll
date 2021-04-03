@@ -22,7 +22,7 @@ namespace Microsoft.Iris
         {
             if (invokedHandler == null)
                 return;
-            this.Invoked += invokedHandler;
+            Invoked += invokedHandler;
         }
 
         public Command(IModelItemOwner owner, EventHandler invokedHandler)
@@ -44,17 +44,17 @@ namespace Microsoft.Iris
         {
             get
             {
-                using (this.ThreadValidator)
-                    return this._availableFlag;
+                using (ThreadValidator)
+                    return _availableFlag;
             }
             set
             {
-                using (this.ThreadValidator)
+                using (ThreadValidator)
                 {
-                    if (this._availableFlag == value)
+                    if (_availableFlag == value)
                         return;
-                    this._availableFlag = value;
-                    this.FirePropertyChanged(nameof(Available));
+                    _availableFlag = value;
+                    FirePropertyChanged(nameof(Available));
                 }
             }
         }
@@ -63,60 +63,60 @@ namespace Microsoft.Iris
         {
             get
             {
-                using (this.ThreadValidator)
-                    return this._priority;
+                using (ThreadValidator)
+                    return _priority;
             }
             set
             {
-                using (this.ThreadValidator)
+                using (ThreadValidator)
                 {
-                    if (this._priority == value)
+                    if (_priority == value)
                         return;
-                    this._priority = value;
-                    this.FirePropertyChanged(nameof(Priority));
+                    _priority = value;
+                    FirePropertyChanged(nameof(Priority));
                 }
             }
         }
 
-        public void Invoke() => this.Invoke(this.Priority);
+        public void Invoke() => Invoke(Priority);
 
         public void Invoke(InvokePolicy invokePolicy)
         {
-            using (this.ThreadValidator)
+            using (ThreadValidator)
             {
                 if (invokePolicy != InvokePolicy.Synchronous)
                 {
                     DispatchPriority priority = DispatchPriority.AppEvent;
                     if (invokePolicy == InvokePolicy.AsynchronousLowPri)
                         priority = DispatchPriority.Idle;
-                    DeferredCall.Post(priority, new SimpleCallback(this.InvokeWorker));
+                    DeferredCall.Post(priority, new SimpleCallback(InvokeWorker));
                 }
                 else
-                    this.InvokeWorker();
+                    InvokeWorker();
             }
         }
 
         private void InvokeWorker()
         {
-            if (this.IsDisposed)
+            if (IsDisposed)
                 return;
-            this.FirePropertyChanged("Invoked");
-            if (this.GetEventHandler(s_invokedEvent) is EventHandler eventHandler)
+            FirePropertyChanged("Invoked");
+            if (GetEventHandler(s_invokedEvent) is EventHandler eventHandler)
                 eventHandler(this, EventArgs.Empty);
-            this.OnInvoked();
+            OnInvoked();
         }
 
         public event EventHandler Invoked
         {
             add
             {
-                using (this.ThreadValidator)
-                    this.AddEventHandler(s_invokedEvent, value);
+                using (ThreadValidator)
+                    AddEventHandler(s_invokedEvent, value);
             }
             remove
             {
-                using (this.ThreadValidator)
-                    this.RemoveEventHandler(s_invokedEvent, value);
+                using (ThreadValidator)
+                    RemoveEventHandler(s_invokedEvent, value);
             }
         }
 

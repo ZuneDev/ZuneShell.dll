@@ -17,41 +17,41 @@ namespace Microsoft.Iris.Animations
 
         public IUIValueRange Expression
         {
-            get => this._expressionObject;
-            set => this._expressionObject = value;
+            get => _expressionObject;
+            set => _expressionObject = value;
         }
 
         public Dictionary<string, IAnimationProvider> Options
         {
             get
             {
-                if (this._optionsList == null)
-                    this._optionsList = new Dictionary<string, IAnimationProvider>();
-                return this._optionsList;
+                if (_optionsList == null)
+                    _optionsList = new Dictionary<string, IAnimationProvider>();
+                return _optionsList;
             }
-            set => this._optionsList = value;
+            set => _optionsList = value;
         }
 
         public AnimationEventType Type
         {
-            get => this._type;
-            set => this._type = value;
+            get => _type;
+            set => _type = value;
         }
 
         public AnimationTemplate Build(ref AnimationArgs args)
         {
             AnimationTemplate animationTemplate = null;
-            if (this._optionsList != null)
+            if (_optionsList != null)
             {
                 object obj = null;
-                if (this._expressionObject != null)
-                    obj = this._expressionObject.ObjectValue;
+                if (_expressionObject != null)
+                    obj = _expressionObject.ObjectValue;
                 string key = null;
                 if (obj != null)
                     key = obj.ToString();
                 IAnimationProvider animationProvider = null;
-                if (key != null && this._optionsList.ContainsKey(key))
-                    animationProvider = this._optionsList[key];
+                if (key != null && _optionsList.ContainsKey(key))
+                    animationProvider = _optionsList[key];
                 if (animationProvider != null)
                     animationTemplate = animationProvider.Build(ref args);
             }

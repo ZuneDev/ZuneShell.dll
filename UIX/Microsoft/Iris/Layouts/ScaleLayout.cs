@@ -20,27 +20,27 @@ namespace Microsoft.Iris.Layouts
 
         public ScaleLayout()
         {
-            this._minimumScale = new Vector2(0.0f, 0.0f);
-            this._maximumScale = new Vector2(1f, 1f);
-            this._maintainAspectRatio = true;
+            _minimumScale = new Vector2(0.0f, 0.0f);
+            _maximumScale = new Vector2(1f, 1f);
+            _maintainAspectRatio = true;
         }
 
         public Vector2 MinimumScale
         {
-            get => this._minimumScale;
-            set => this._minimumScale = value;
+            get => _minimumScale;
+            set => _minimumScale = value;
         }
 
         public Vector2 MaximumScale
         {
-            get => this._maximumScale;
-            set => this._maximumScale = value;
+            get => _maximumScale;
+            set => _maximumScale = value;
         }
 
         public bool MaintainAspectRatio
         {
-            get => this._maintainAspectRatio;
-            set => this._maintainAspectRatio = value;
+            get => _maintainAspectRatio;
+            set => _maintainAspectRatio = value;
         }
 
         public ItemAlignment DefaultChildAlignment => ItemAlignment.Default;
@@ -48,22 +48,22 @@ namespace Microsoft.Iris.Layouts
         Size ILayout.Measure(ILayoutNode layoutNode, Size constraint)
         {
             Size zero = Size.Zero;
-            Size constraint1 = new Size(this.UnscaleConstraint(constraint.Width, this.MinimumScale.X), this.UnscaleConstraint(constraint.Height, this.MinimumScale.Y));
+            Size constraint1 = new Size(UnscaleConstraint(constraint.Width, MinimumScale.X), UnscaleConstraint(constraint.Height, MinimumScale.Y));
             Size size = DefaultLayout.Measure(layoutNode, constraint1);
             SizeF sizeF = new SizeF(1f, 1f);
             if (!size.IsZero)
                 sizeF = new SizeF(constraint.Width / (float)size.Width, constraint.Height / (float)size.Height);
-            if (this._maintainAspectRatio)
+            if (_maintainAspectRatio)
             {
                 float num = Math.Min(sizeF.Width, sizeF.Height);
                 sizeF = new SizeF(num, num);
             }
-            sizeF.Width = Math.Max(sizeF.Width, this.MinimumScale.X);
-            sizeF.Height = Math.Max(sizeF.Height, this.MinimumScale.Y);
+            sizeF.Width = Math.Max(sizeF.Width, MinimumScale.X);
+            sizeF.Height = Math.Max(sizeF.Height, MinimumScale.Y);
             if (MaximumScale.X != 0.0)
-                sizeF.Width = Math.Min(sizeF.Width, this.MaximumScale.X);
+                sizeF.Width = Math.Min(sizeF.Width, MaximumScale.X);
             if (MaximumScale.Y != 0.0)
-                sizeF.Height = Math.Min(sizeF.Height, this.MaximumScale.Y);
+                sizeF.Height = Math.Min(sizeF.Height, MaximumScale.Y);
             layoutNode.MeasureData = sizeF;
             size.Width = (int)Math.Round(size.Width * (double)sizeF.Width);
             size.Height = (int)Math.Round(size.Height * (double)sizeF.Height);

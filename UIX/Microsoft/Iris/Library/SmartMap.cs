@@ -17,36 +17,36 @@ namespace Microsoft.Iris.Library
             get
             {
                 int num = 0;
-                if (this._listEntries != null)
-                    num = this._listEntries.Length;
+                if (_listEntries != null)
+                    num = _listEntries.Length;
                 return num;
             }
         }
 
-        public bool IsEmpty => this.Count == 0;
+        public bool IsEmpty => Count == 0;
 
         public object this[uint key]
         {
             get
             {
-                int index = this.IndexOf(key);
-                return index < 0 ? null : this._listEntries[index].dataObject;
+                int index = IndexOf(key);
+                return index < 0 ? null : _listEntries[index].dataObject;
             }
             set
             {
-                int slotIndex = this.IndexOf(key);
+                int slotIndex = IndexOf(key);
                 if (value != null)
                 {
                     if (slotIndex >= 0)
-                        this._listEntries[slotIndex].dataObject = value;
+                        _listEntries[slotIndex].dataObject = value;
                     else
-                        this.Add(key, value, ~slotIndex);
+                        Add(key, value, ~slotIndex);
                 }
                 else
                 {
                     if (slotIndex < 0)
                         return;
-                    this.Remove(key, slotIndex);
+                    Remove(key, slotIndex);
                 }
             }
         }
@@ -56,11 +56,11 @@ namespace Microsoft.Iris.Library
             get
             {
                 uint[] numArray = null;
-                if (this._listEntries != null)
+                if (_listEntries != null)
                 {
-                    numArray = new uint[this._listEntries.Length];
-                    for (int index = 0; index < this._listEntries.Length; ++index)
-                        numArray[index] = this._listEntries[index].key;
+                    numArray = new uint[_listEntries.Length];
+                    for (int index = 0; index < _listEntries.Length; ++index)
+                        numArray[index] = _listEntries[index].key;
                 }
                 return numArray;
             }
@@ -71,11 +71,11 @@ namespace Microsoft.Iris.Library
             get
             {
                 object[] objArray = null;
-                if (this._listEntries != null)
+                if (_listEntries != null)
                 {
-                    objArray = new object[this._listEntries.Length];
-                    for (int index = 0; index < this._listEntries.Length; ++index)
-                        objArray[index] = this._listEntries[index].dataObject;
+                    objArray = new object[_listEntries.Length];
+                    for (int index = 0; index < _listEntries.Length; ++index)
+                        objArray[index] = _listEntries[index].dataObject;
                 }
                 return objArray;
             }
@@ -83,9 +83,9 @@ namespace Microsoft.Iris.Library
 
         public bool Lookup(object desired, out uint key)
         {
-            if (this._listEntries != null)
+            if (_listEntries != null)
             {
-                foreach (SmartMap.Entry listEntry in this._listEntries)
+                foreach (SmartMap.Entry listEntry in _listEntries)
                 {
                     if (listEntry.dataObject == desired)
                     {
@@ -100,18 +100,18 @@ namespace Microsoft.Iris.Library
 
         private int IndexOf(uint key)
         {
-            if (this._listEntries == null)
+            if (_listEntries == null)
                 return -1;
             uint num1 = uint.MaxValue;
             int index1 = 0;
-            if (this._listEntries.Length > 4)
+            if (_listEntries.Length > 4)
             {
                 int num2 = 0;
-                int num3 = this._listEntries.Length - 1;
+                int num3 = _listEntries.Length - 1;
                 while (num2 <= num3)
                 {
                     index1 = (num3 + num2) / 2;
-                    num1 = this._listEntries[index1].key;
+                    num1 = _listEntries[index1].key;
                     if ((int)key == (int)num1)
                         return index1;
                     if (key < num1)
@@ -122,10 +122,10 @@ namespace Microsoft.Iris.Library
             }
             else
             {
-                for (int index2 = 0; index2 < this._listEntries.Length; ++index2)
+                for (int index2 = 0; index2 < _listEntries.Length; ++index2)
                 {
                     index1 = index2;
-                    num1 = this._listEntries[index1].key;
+                    num1 = _listEntries[index1].key;
                     if ((int)key == (int)num1)
                         return index1;
                     if (key < num1)
@@ -140,34 +140,34 @@ namespace Microsoft.Iris.Library
         private void Add(uint key, object dataObject, int slotIndex)
         {
             SmartMap.Entry[] entryArray;
-            if (this._listEntries == null)
+            if (_listEntries == null)
             {
                 entryArray = new SmartMap.Entry[1];
             }
             else
             {
-                int length = this._listEntries.Length;
+                int length = _listEntries.Length;
                 entryArray = new SmartMap.Entry[length + 1];
                 Array.Copy(_listEntries, entryArray, slotIndex);
                 Array.Copy(_listEntries, slotIndex, entryArray, slotIndex + 1, length - slotIndex);
             }
-            this._listEntries = entryArray;
-            this._listEntries[slotIndex].key = key;
-            this._listEntries[slotIndex].dataObject = dataObject;
+            _listEntries = entryArray;
+            _listEntries[slotIndex].key = key;
+            _listEntries[slotIndex].dataObject = dataObject;
         }
 
         private void Remove(uint key, int slotIndex)
         {
-            int length = this._listEntries.Length;
+            int length = _listEntries.Length;
             if (length > 0)
             {
                 SmartMap.Entry[] entryArray = new SmartMap.Entry[length - 1];
                 Array.Copy(_listEntries, entryArray, slotIndex);
                 Array.Copy(_listEntries, slotIndex + 1, entryArray, slotIndex, length - (slotIndex + 1));
-                this._listEntries = entryArray;
+                _listEntries = entryArray;
             }
             else
-                this._listEntries = null;
+                _listEntries = null;
         }
 
         private struct Entry

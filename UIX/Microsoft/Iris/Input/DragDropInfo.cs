@@ -37,16 +37,16 @@ namespace Microsoft.Iris.Input
           InputModifiers modifiers,
           DragOperation operation)
         {
-            this._modifiers = modifiers;
-            this._operation = operation;
-            this.Initialize(rawSource, x, y, EventTypeForDragOperation(operation));
+            _modifiers = modifiers;
+            _operation = operation;
+            Initialize(rawSource, x, y, EventTypeForDragOperation(operation));
         }
 
         protected override InputInfo.InfoType PoolType => s_poolType;
 
-        public InputModifiers Modifiers => this._modifiers;
+        public InputModifiers Modifiers => _modifiers;
 
-        public DragOperation Operation => this._operation;
+        public DragOperation Operation => _operation;
 
         private static InputEventType EventTypeForDragOperation(DragOperation operation)
         {

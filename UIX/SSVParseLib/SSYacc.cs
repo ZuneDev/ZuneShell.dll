@@ -41,122 +41,122 @@ namespace SSVParseLib
         private SourceMarkupLoader m_owner;
         private bool m_hasErrors;
 
-        public string FromTerminal(int position) => this.elementFromProduction(position).lexeme().GetValue(this.m_lex);
+        public string FromTerminal(int position) => elementFromProduction(position).lexeme().GetValue(m_lex);
 
-        public string FromTerminalTrim(int position, int trimLeft, int trimRight) => this.elementFromProduction(position).lexeme().GetTrimmedValue(this.m_lex, trimLeft, trimRight);
+        public string FromTerminalTrim(int position, int trimLeft, int trimRight) => elementFromProduction(position).lexeme().GetTrimmedValue(m_lex, trimLeft, trimRight);
 
-        public object FromProduction(int position) => this.elementFromProduction(position).Object;
+        public object FromProduction(int position) => elementFromProduction(position).Object;
 
         public SSYaccStackElement ReturnObject(object value)
         {
-            SSYaccStackElement yaccStackElement = this.stackElement();
+            SSYaccStackElement yaccStackElement = stackElement();
             yaccStackElement.Object = value;
             return yaccStackElement;
         }
 
-        public int Line(int position) => this.elementFromProduction(position).lexeme().line();
+        public int Line(int position) => elementFromProduction(position).lexeme().line();
 
-        public int Column(int position) => this.elementFromProduction(position).lexeme().offset();
+        public int Column(int position) => elementFromProduction(position).lexeme().offset();
 
         public SSYacc(SSYaccTable q_table, SSLex q_lex)
         {
-            this.m_lex = q_lex;
-            this.m_table = q_table;
-            this.m_stack = new SSYaccStack(5, 5);
-            this.m_lexemeCache = new SSYaccCache();
-            this.Reset(null);
+            m_lex = q_lex;
+            m_table = q_table;
+            m_stack = new SSYaccStack(5, 5);
+            m_lexemeCache = new SSYaccCache();
+            Reset(null);
         }
 
         public void Reset(SourceMarkupLoader owner)
         {
-            this.m_cache = 0;
-            this.m_abort = false;
-            this.m_error = false;
-            this.m_endOfInput = false;
-            this.m_owner = owner;
-            this.m_action = 0;
-            this.m_endOfInput = false;
-            this.m_hasErrors = false;
-            this.m_larLookahead = null;
-            this.m_leftside = 0;
-            this.m_lexSubtable = null;
-            this.m_lookahead = null;
-            this.m_production = 0;
-            this.m_productionSize = 0;
-            this.m_state = 0;
-            this.m_endLexeme = null;
-            this.m_element = new SSYaccStackElement();
-            this.m_treeRoot = new SSYaccStackElement();
-            this.m_stack.Clear();
-            this.m_lexemeCache.Clear();
+            m_cache = 0;
+            m_abort = false;
+            m_error = false;
+            m_endOfInput = false;
+            m_owner = owner;
+            m_action = 0;
+            m_endOfInput = false;
+            m_hasErrors = false;
+            m_larLookahead = null;
+            m_leftside = 0;
+            m_lexSubtable = null;
+            m_lookahead = null;
+            m_production = 0;
+            m_productionSize = 0;
+            m_state = 0;
+            m_endLexeme = null;
+            m_element = new SSYaccStackElement();
+            m_treeRoot = new SSYaccStackElement();
+            m_stack.Clear();
+            m_lexemeCache.Clear();
             if (owner == null)
                 return;
-            this.m_endLexeme = SSLexLexeme.CreateEOFLexeme(this.m_lex);
-            this.m_element = this.stackElement();
-            this.push();
+            m_endLexeme = SSLexLexeme.CreateEOFLexeme(m_lex);
+            m_element = stackElement();
+            push();
         }
 
-        public virtual SSYaccStackElement reduce(int q_prod, int q_length) => this.stackElement();
+        public virtual SSYaccStackElement reduce(int q_prod, int q_length) => stackElement();
 
-        public virtual SSLexLexeme nextLexeme() => this.m_lex.next();
+        public virtual SSLexLexeme nextLexeme() => m_lex.next();
 
         public virtual SSYaccStackElement stackElement() => new SSYaccStackElement();
 
-        public virtual SSYaccStackElement shift(SSLexLexeme q_lexeme) => this.stackElement();
+        public virtual SSYaccStackElement shift(SSLexLexeme q_lexeme) => stackElement();
 
         public bool larLookahead(SSLexLexeme q_lex) => false;
 
         public virtual bool error(int q_state, SSLexLexeme q_look)
         {
-            this.m_hasErrors = true;
-            if (!this.m_lex.HasErrors)
+            m_hasErrors = true;
+            if (!m_lex.HasErrors)
             {
-                string str = q_look.GetValue(this.m_lex);
+                string str = q_look.GetValue(m_lex);
                 int line = q_look.line();
                 int column = q_look.offset();
                 string message = string.Format("Syntax Error: Unexpected character encountered: '{0}'", str);
                 if (str == "eof")
                 {
                     message = string.Format("Unexpected end of script (script beginning at line {0}, column {1})", line, column);
-                    line = this.m_lex.consumer().line();
-                    column = this.m_lex.consumer().offset();
+                    line = m_lex.consumer().line();
+                    column = m_lex.consumer().offset();
                 }
                 ErrorManager.ReportError(line, column, message);
             }
             return true;
         }
 
-        public SourceMarkupLoader Owner => this.m_owner;
+        public SourceMarkupLoader Owner => m_owner;
 
-        public bool HasErrors => this.m_hasErrors;
+        public bool HasErrors => m_hasErrors;
 
-        public bool larError(int q_state, SSLexLexeme q_look, SSLexLexeme q_larLook) => this.error(q_state, q_look);
+        public bool larError(int q_state, SSLexLexeme q_look, SSLexLexeme q_larLook) => error(q_state, q_look);
 
         public bool parse()
         {
-            if (this.doGetLexeme(true))
+            if (doGetLexeme(true))
                 return true;
-            while (!this.m_abort)
+            while (!m_abort)
             {
-                switch (this.m_action)
+                switch (m_action)
                 {
                     case 0:
-                        if (this.doShift())
+                        if (doShift())
                             return true;
                         continue;
                     case 1:
-                        if (this.doError())
+                        if (doError())
                             return true;
                         continue;
                     case 2:
-                        if (this.doReduce())
+                        if (doReduce())
                             return true;
                         continue;
                     case 3:
-                        this.m_treeRoot = this.m_element;
-                        return this.m_error;
+                        m_treeRoot = m_element;
+                        return m_error;
                     case 4:
-                        if (this.doConflict())
+                        if (doConflict())
                             return true;
                         continue;
                     default:
@@ -168,134 +168,134 @@ namespace SSVParseLib
 
         public bool doShift()
         {
-            this.m_element = this.shift(this.m_lookahead);
-            this.m_element.setLexeme(this.m_lookahead);
-            this.m_element.setState(this.m_state);
-            this.push();
-            return this.doGetLexeme(true);
+            m_element = shift(m_lookahead);
+            m_element.setLexeme(m_lookahead);
+            m_element.setState(m_state);
+            push();
+            return doGetLexeme(true);
         }
 
         public bool doReduce()
         {
-            this.m_element = this.reduce(this.m_production, this.m_productionSize);
-            this.pop(this.m_productionSize);
-            return this.goTo(this.m_leftside);
+            m_element = reduce(m_production, m_productionSize);
+            pop(m_productionSize);
+            return goTo(m_leftside);
         }
 
         public bool doError()
         {
-            this.m_error = true;
-            return this.error(this.m_state, this.m_lookahead);
+            m_error = true;
+            return error(m_state, m_lookahead);
         }
 
         public bool doLarError()
         {
-            this.m_error = true;
-            return this.larError(this.m_state, this.m_lookahead, this.m_larLookahead);
+            m_error = true;
+            return larError(m_state, m_lookahead, m_larLookahead);
         }
 
         public SSLexLexeme getLexemeCache()
         {
             SSLexLexeme ssLexLexeme = null;
-            if (this.m_cache != -1 && this.m_lexemeCache.hasElements())
-                ssLexLexeme = (SSLexLexeme)this.m_lexemeCache.Dequeue();
+            if (m_cache != -1 && m_lexemeCache.hasElements())
+                ssLexLexeme = (SSLexLexeme)m_lexemeCache.Dequeue();
             if (ssLexLexeme == null)
             {
-                this.m_cache = -1;
-                ssLexLexeme = this.nextLexeme() ?? this.m_endLexeme;
-                this.m_lexemeCache.Enqueue(ssLexLexeme);
+                m_cache = -1;
+                ssLexLexeme = nextLexeme() ?? m_endLexeme;
+                m_lexemeCache.Enqueue(ssLexLexeme);
             }
             return ssLexLexeme;
         }
 
         public bool doConflict()
         {
-            this.m_cache = 0;
-            int q_state = this.m_lexSubtable.lookup(0, this.m_lookahead.token());
-            while ((this.m_larLookahead = this.getLexemeCache()) != null)
+            m_cache = 0;
+            int q_state = m_lexSubtable.lookup(0, m_lookahead.token());
+            while ((m_larLookahead = getLexemeCache()) != null)
             {
-                q_state = this.m_lexSubtable.lookup(q_state, this.m_larLookahead.token());
+                q_state = m_lexSubtable.lookup(q_state, m_larLookahead.token());
                 if (q_state != -1)
                 {
-                    SSLexFinalState ssLexFinalState = this.m_lexSubtable.lookupFinal(q_state);
+                    SSLexFinalState ssLexFinalState = m_lexSubtable.lookupFinal(q_state);
                     if (ssLexFinalState.isFinal())
                     {
                         if (ssLexFinalState.isReduce())
                         {
-                            this.m_production = ssLexFinalState.token();
-                            SSYaccTableProd ssYaccTableProd = this.m_table.lookupProd(this.m_production);
-                            this.m_leftside = ssYaccTableProd.leftside();
-                            this.m_productionSize = ssYaccTableProd.size();
-                            return this.doReduce();
+                            m_production = ssLexFinalState.token();
+                            SSYaccTableProd ssYaccTableProd = m_table.lookupProd(m_production);
+                            m_leftside = ssYaccTableProd.leftside();
+                            m_productionSize = ssYaccTableProd.size();
+                            return doReduce();
                         }
-                        this.m_state = ssLexFinalState.token();
-                        return this.doShift();
+                        m_state = ssLexFinalState.token();
+                        return doShift();
                     }
                 }
                 else
                     break;
             }
-            return this.doLarError();
+            return doLarError();
         }
 
         public bool doGetLexeme(bool q_look)
         {
-            if ((this.m_lookahead = this.m_lexemeCache.remove()) == null)
-                return this.getLexeme(q_look);
-            if (this.larLookahead(this.m_lookahead))
+            if ((m_lookahead = m_lexemeCache.remove()) == null)
+                return getLexeme(q_look);
+            if (larLookahead(m_lookahead))
                 return true;
             if (q_look)
-                this.lookupAction(this.m_state, this.m_lookahead.token());
+                lookupAction(m_state, m_lookahead.token());
             return false;
         }
 
         public bool getLexeme(bool q_look)
         {
-            if (this.m_endOfInput)
+            if (m_endOfInput)
                 return true;
-            this.m_lookahead = this.nextLexeme();
-            if (this.m_lookahead == null)
+            m_lookahead = nextLexeme();
+            if (m_lookahead == null)
             {
-                this.m_endOfInput = true;
-                this.m_lookahead = this.m_endLexeme;
+                m_endOfInput = true;
+                m_lookahead = m_endLexeme;
             }
             if (q_look)
-                this.lookupAction(this.m_state, this.m_lookahead.token());
+                lookupAction(m_state, m_lookahead.token());
             return false;
         }
 
         public bool goTo(int q_goto)
         {
-            if (this.lookupGoto(this.m_state, this.m_leftside))
+            if (lookupGoto(m_state, m_leftside))
                 return true;
-            this.m_element.setState(this.m_state);
-            this.push();
-            this.lookupAction(this.m_state, this.m_lookahead.token());
+            m_element.setState(m_state);
+            push();
+            lookupAction(m_state, m_lookahead.token());
             return false;
         }
 
         public void lookupAction(int q_state, int q_token)
         {
-            SSYaccTableRowEntry yaccTableRowEntry = this.m_table.lookupRow(q_state).lookupAction(q_token);
+            SSYaccTableRowEntry yaccTableRowEntry = m_table.lookupRow(q_state).lookupAction(q_token);
             if (yaccTableRowEntry == null)
             {
-                this.m_action = 1;
+                m_action = 1;
             }
             else
             {
-                switch (this.m_action = yaccTableRowEntry.action())
+                switch (m_action = yaccTableRowEntry.action())
                 {
                     case 0:
-                        this.m_state = yaccTableRowEntry.entry();
+                        m_state = yaccTableRowEntry.entry();
                         break;
                     case 2:
-                        SSYaccTableProd ssYaccTableProd = this.m_table.lookupProd(yaccTableRowEntry.entry());
-                        this.m_production = yaccTableRowEntry.entry();
-                        this.m_leftside = ssYaccTableProd.leftside();
-                        this.m_productionSize = ssYaccTableProd.size();
+                        SSYaccTableProd ssYaccTableProd = m_table.lookupProd(yaccTableRowEntry.entry());
+                        m_production = yaccTableRowEntry.entry();
+                        m_leftside = ssYaccTableProd.leftside();
+                        m_productionSize = ssYaccTableProd.size();
                         break;
                     case 4:
-                        this.m_lexSubtable = this.m_table.larTable(yaccTableRowEntry.entry());
+                        m_lexSubtable = m_table.larTable(yaccTableRowEntry.entry());
                         break;
                 }
             }
@@ -303,29 +303,29 @@ namespace SSVParseLib
 
         public bool lookupGoto(int q_state, int q_token)
         {
-            SSYaccTableRowEntry yaccTableRowEntry = this.m_table.lookupRow(q_state).lookupGoto(q_token);
+            SSYaccTableRowEntry yaccTableRowEntry = m_table.lookupRow(q_state).lookupGoto(q_token);
             if (yaccTableRowEntry == null)
                 return true;
-            this.m_state = yaccTableRowEntry.entry();
+            m_state = yaccTableRowEntry.entry();
             return false;
         }
 
         public bool push()
         {
-            this.m_stack.push(this.m_element);
+            m_stack.push(m_element);
             return true;
         }
 
         public bool pop(int q_pop)
         {
             for (int index = 0; index < q_pop; ++index)
-                this.m_stack.pop();
-            this.m_state = this.m_stack.peek().state();
+                m_stack.pop();
+            m_state = m_stack.peek().state();
             return false;
         }
 
-        public SSYaccStackElement elementFromProduction(int q_index) => this.m_stack.elementAt(this.m_stack.getSize() - this.m_productionSize + q_index);
+        public SSYaccStackElement elementFromProduction(int q_index) => m_stack.elementAt(m_stack.getSize() - m_productionSize + q_index);
 
-        public SSYaccStackElement treeRoot() => this.m_treeRoot;
+        public SSYaccStackElement treeRoot() => m_treeRoot;
     }
 }

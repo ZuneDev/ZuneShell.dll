@@ -11,8 +11,8 @@ namespace Microsoft.Iris.Markup
         public string Name;
         public uint Offset = uint.MaxValue;
 
-        public NamedContentRecord(string name) => this.Name = name;
+        public NamedContentRecord(string name) => Name = name;
 
-        public void SetOffset(uint offset) => this.Offset = offset;
+        public void SetOffset(uint offset) => Offset = offset;
     }
 }

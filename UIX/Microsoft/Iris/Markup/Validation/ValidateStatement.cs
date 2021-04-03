@@ -18,15 +18,15 @@ namespace Microsoft.Iris.Markup.Validation
           StatementType statementType)
           : base(owner, line, column)
         {
-            this._statementType = statementType;
+            _statementType = statementType;
         }
 
-        public StatementType StatementType => this._statementType;
+        public StatementType StatementType => _statementType;
 
         public ValidateStatement Next
         {
-            get => this._next;
-            set => this._next = value;
+            get => _next;
+            set => _next = value;
         }
 
         public void AppendToEnd(ValidateStatement item)

@@ -25,27 +25,27 @@ namespace Microsoft.Iris.ViewItems
           int endVisibleOffscreen,
           int? focusedItem)
         {
-            this._beginVisible = beginVisible;
-            this._endVisible = endVisible;
-            this._beginVisibleOffscreen = beginVisibleOffscreen;
-            this._endVisibleOffscreen = endVisibleOffscreen;
-            this._focusedItem = focusedItem;
+            _beginVisible = beginVisible;
+            _endVisible = endVisible;
+            _beginVisibleOffscreen = beginVisibleOffscreen;
+            _endVisibleOffscreen = endVisibleOffscreen;
+            _focusedItem = focusedItem;
         }
 
-        public int? FocusedItem => this._focusedItem;
+        public int? FocusedItem => _focusedItem;
 
-        public int BeginVisible => this._beginVisible;
+        public int BeginVisible => _beginVisible;
 
-        public int EndVisible => this._endVisible;
+        public int EndVisible => _endVisible;
 
-        public int BeginVisibleOffscreen => this._beginVisibleOffscreen;
+        public int BeginVisibleOffscreen => _beginVisibleOffscreen;
 
-        public int EndVisibleOffscreen => this._endVisibleOffscreen;
+        public int EndVisibleOffscreen => _endVisibleOffscreen;
 
         public override DataCookie OutputID => DataCookie;
 
         public static DataCookie DataCookie => s_dataProperty;
 
-        public override string ToString() => InvariantString.Format("{0} (BeginVisibleOffscreen={1}, EndVisibleOffscreen={2})", this.GetType().Name, _beginVisibleOffscreen, _endVisibleOffscreen);
+        public override string ToString() => InvariantString.Format("{0} (BeginVisibleOffscreen={1}, EndVisibleOffscreen={2})", GetType().Name, _beginVisibleOffscreen, _endVisibleOffscreen);
     }
 }

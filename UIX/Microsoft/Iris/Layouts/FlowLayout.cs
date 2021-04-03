@@ -27,62 +27,62 @@ namespace Microsoft.Iris.Layouts
 
         public FlowLayout()
         {
-            this._orientationFlow = Orientation.Horizontal;
-            this._minimumSampleSizeValue = 3;
+            _orientationFlow = Orientation.Horizontal;
+            _minimumSampleSizeValue = 3;
         }
 
         public Orientation Orientation
         {
-            get => this._orientationFlow;
-            set => this._orientationFlow = value;
+            get => _orientationFlow;
+            set => _orientationFlow = value;
         }
 
         public MajorMinor Spacing
         {
-            get => this._spacingMajorMinor;
-            set => this._spacingMajorMinor = value;
+            get => _spacingMajorMinor;
+            set => _spacingMajorMinor = value;
         }
 
         public bool AllowWrap
         {
-            get => this._allowWrapFlag;
-            set => this._allowWrapFlag = value;
+            get => _allowWrapFlag;
+            set => _allowWrapFlag = value;
         }
 
         public StripAlignment StripAlignment
         {
-            get => this._stripAlignment;
-            set => this._stripAlignment = value;
+            get => _stripAlignment;
+            set => _stripAlignment = value;
         }
 
         public RepeatPolicy Repeat
         {
-            get => this._repeat;
-            set => this._repeat = value;
+            get => _repeat;
+            set => _repeat = value;
         }
 
         public MajorMinor RepeatGap
         {
-            get => this._repeatGapMajorMinor;
-            set => this._repeatGapMajorMinor = value;
+            get => _repeatGapMajorMinor;
+            set => _repeatGapMajorMinor = value;
         }
 
         public MissingItemPolicy MissingItemPolicy
         {
-            get => this._policyForMissingItems;
-            set => this._policyForMissingItems = value;
+            get => _policyForMissingItems;
+            set => _policyForMissingItems = value;
         }
 
         public int MinimumSampleSize
         {
-            get => this._minimumSampleSizeValue;
-            set => this._minimumSampleSizeValue = value;
+            get => _minimumSampleSizeValue;
+            set => _minimumSampleSizeValue = value;
         }
 
         public ItemAlignment DefaultChildAlignment
         {
-            get => this._defaultChildAlignment;
-            set => this._defaultChildAlignment = value;
+            get => _defaultChildAlignment;
+            set => _defaultChildAlignment = value;
         }
 
         Size ILayout.Measure(ILayoutNode layoutNode, Size constraint)
@@ -96,24 +96,24 @@ namespace Microsoft.Iris.Layouts
                 packet.Clear();
             packet.Subject = layoutNode;
             packet.Constraint = constraint;
-            packet.Available = new MajorMinor(constraint, this.Orientation);
+            packet.Available = new MajorMinor(constraint, Orientation);
             packet.Cache = (FlowSizeMemoryLayoutInput)packet.Subject.GetLayoutInput(FlowSizeMemoryLayoutInput.Data);
-            packet.RepeatOrientation = this.Orientation;
-            if (this.AllowWrap)
-                packet.RepeatOrientation = this.Orientation == Orientation.Vertical ? Orientation.Horizontal : Orientation.Vertical;
-            this.DetermineCount(packet);
+            packet.RepeatOrientation = Orientation;
+            if (AllowWrap)
+                packet.RepeatOrientation = Orientation == Orientation.Vertical ? Orientation.Horizontal : Orientation.Vertical;
+            DetermineCount(packet);
             if (layoutNode.LayoutChildrenCount == 0)
             {
                 if (packet.PotentialCount > 0)
                     layoutNode.RequestMoreChildren(1);
                 return Size.Zero;
             }
-            this.CreateRecordsFromChildren(packet);
-            this.HandleMissingRecords(packet);
-            this.MeasureRecords(packet);
+            CreateRecordsFromChildren(packet);
+            HandleMissingRecords(packet);
+            MeasureRecords(packet);
             if (packet.DesiredSize.IsEmpty && packet.PotentialCount != layoutNode.LayoutChildrenCount)
                 layoutNode.RequestMoreChildren(1);
-            return packet.DesiredSize.ToSize(this.Orientation);
+            return packet.DesiredSize.ToSize(Orientation);
         }
 
         void ILayout.Arrange(ILayoutNode layoutNode, LayoutSlot slot)
@@ -130,15 +130,15 @@ namespace Microsoft.Iris.Layouts
             measureData.ViewStart = new MajorMinor(new Size(view.Location), measureData.RepeatOrientation);
             measureData.ViewSize = new MajorMinor(view.Size, measureData.RepeatOrientation);
             measureData.ViewEnd = measureData.ViewStart + measureData.ViewSize;
-            this.DetermineRepeatPolicy(measureData);
-            this.ArrangeChildren(measureData);
-            this.CalculateVisualIntersections(measureData);
-            this.RequestMissingChildren(measureData);
+            DetermineRepeatPolicy(measureData);
+            ArrangeChildren(measureData);
+            CalculateVisualIntersections(measureData);
+            RequestMissingChildren(measureData);
             MajorMinor majorMinor = measureData.DesiredSize;
             if (measureData.Repeat)
             {
                 majorMinor = new MajorMinor(measureData.Available.Major, measureData.DesiredSize.Minor);
-                Rectangle rectangle = new Rectangle(new MajorMinor(-measureData.Available.Major / 2, 0).ToPoint(this._orientationFlow), majorMinor.ToSize(this._orientationFlow));
+                Rectangle rectangle = new Rectangle(new MajorMinor(-measureData.Available.Major / 2, 0).ToPoint(_orientationFlow), majorMinor.ToSize(_orientationFlow));
                 layoutNode.AddAreaOfInterest(new AreaOfInterest(rectangle, AreaOfInterestID.ScrollableRange));
             }
             layoutNode.SetVisibleIndexRange(measureData.BeginVisible, measureData.EndVisible, measureData.BeginVisibleOffscreen, measureData.EndVisibleOffscreen, measureData.FocusedItem);
@@ -170,7 +170,7 @@ namespace Microsoft.Iris.Layouts
 
         private void CreateRecordsFromChildren(FlowLayout.Packet packet)
         {
-            this.InitializeRecordList(ref packet.Records, packet.PotentialCount);
+            InitializeRecordList(ref packet.Records, packet.PotentialCount);
             Vector<int> availableDataIndices = packet.AvailableDataIndices;
             Vector<int> availableVirtualIndices = packet.AvailableVirtualIndices;
             bool flag = false;
@@ -180,7 +180,7 @@ namespace Microsoft.Iris.Layouts
                 int virtualIndex;
                 int dataIndex;
                 IndexType type;
-                this.GetIndex(layoutChild, childIndex, packet.PotentialCount, out virtualIndex, out dataIndex, out int _, out type);
+                GetIndex(layoutChild, childIndex, packet.PotentialCount, out virtualIndex, out dataIndex, out int _, out type);
                 Vector<FlowLayout.Record> vector = packet.Records;
                 if (type == IndexType.Content)
                 {
@@ -190,7 +190,7 @@ namespace Microsoft.Iris.Layouts
                 {
                     if (!flag)
                     {
-                        this.InitializeRecordList(ref packet.Dividers, packet.PotentialCount);
+                        InitializeRecordList(ref packet.Dividers, packet.PotentialCount);
                         flag = true;
                     }
                     vector = packet.Dividers;
@@ -213,7 +213,7 @@ namespace Microsoft.Iris.Layouts
                     else
                     {
                         layoutChild.Measure(packet.Constraint);
-                        record2.Size = new MajorMinor(layoutChild.DesiredSize, this.Orientation);
+                        record2.Size = new MajorMinor(layoutChild.DesiredSize, Orientation);
                         record2.SizeValid = true;
                     }
                 }
@@ -235,8 +235,8 @@ namespace Microsoft.Iris.Layouts
                         break;
                     if (!knownSiz.IsEmpty)
                     {
-                        MajorMinor majorMinor = new MajorMinor(knownSiz, this.Orientation);
-                        if (!this.AllowWrap)
+                        MajorMinor majorMinor = new MajorMinor(knownSiz, Orientation);
+                        if (!AllowWrap)
                             majorMinor = new MajorMinor(majorMinor.Major, 0);
                         FlowLayout.Record record = packet.Records[index];
                         if (!Record.IsNullOrEmpty(record))
@@ -287,10 +287,10 @@ namespace Microsoft.Iris.Layouts
             int count = packet.AvailableDataIndices.Count;
             if (packet.PotentialCount - count == 0)
                 return;
-            MissingItemPolicy missingItemPolicy = this.MissingItemPolicy;
-            if (count < this._minimumSampleSizeValue)
+            MissingItemPolicy missingItemPolicy = MissingItemPolicy;
+            if (count < _minimumSampleSizeValue)
                 missingItemPolicy = MissingItemPolicy.Wait;
-            MajorMinor a = this.MissingItemPolicy != MissingItemPolicy.SizeToSmallest ? MajorMinor.Zero : new MajorMinor(16777215, 16777215);
+            MajorMinor a = MissingItemPolicy != MissingItemPolicy.SizeToSmallest ? MajorMinor.Zero : new MajorMinor(16777215, 16777215);
             for (int index = 0; index < packet.Records.Count; ++index)
             {
                 FlowLayout.Record record = packet.Records[index];
@@ -347,7 +347,7 @@ namespace Microsoft.Iris.Layouts
             for (int index = 0; index < packet.Records.Count; ++index)
             {
                 FlowLayout.Record record = packet.Records[index];
-                this.MeasureRecord(packet, record, offset);
+                MeasureRecord(packet, record, offset);
                 MajorMinor majorMinor1 = offset + record.Size;
                 MajorMinor majorMinor2 = packet.Available - majorMinor1;
                 if (majorMinor2.Minor < 0)
@@ -357,18 +357,18 @@ namespace Microsoft.Iris.Layouts
                 }
                 if (majorMinor2.Major < 0)
                 {
-                    if (this.AllowWrap)
+                    if (AllowWrap)
                     {
                         if (num2 == 0)
                         {
                             record.SizeValid = false;
                             break;
                         }
-                        this.FinalizeStrip(packet, stripSize, offset, ref zero);
+                        FinalizeStrip(packet, stripSize, offset, ref zero);
                         ++num1;
                         num2 = 0;
                         stripSize = MajorMinor.Zero;
-                        offset = new MajorMinor(0, zero.Minor + this.Spacing.Minor);
+                        offset = new MajorMinor(0, zero.Minor + Spacing.Minor);
                         --index;
                     }
                     else
@@ -378,13 +378,13 @@ namespace Microsoft.Iris.Layouts
                 {
                     record.Strip = num1;
                     record.Offset = offset;
-                    FlowLayout.Record divider = this.GetDivider(packet, record);
+                    FlowLayout.Record divider = GetDivider(packet, record);
                     if (divider != null)
                     {
                         if (num2 > 0)
                         {
                             MajorMinor majorMinor3 = offset;
-                            majorMinor3.Major -= (this.Spacing.Major + divider.Size.Major) / 2;
+                            majorMinor3.Major -= (Spacing.Major + divider.Size.Major) / 2;
                             divider.Offset = majorMinor3;
                             divider.Strip = num1;
                         }
@@ -393,14 +393,14 @@ namespace Microsoft.Iris.Layouts
                     }
                     ++num2;
                     stripSize = new MajorMinor(majorMinor1.Major, Math.Max(record.Size.Minor, stripSize.Minor));
-                    offset.Major = majorMinor1.Major + this.Spacing.Major;
+                    offset.Major = majorMinor1.Major + Spacing.Major;
                     lastLaidOutIndex = index;
                 }
             }
             if (num2 != 0)
             {
-                this.HandleLastItem(packet, ref lastLaidOutIndex, ref offset, ref stripSize);
-                this.FinalizeStrip(packet, stripSize, offset, ref zero);
+                HandleLastItem(packet, ref lastLaidOutIndex, ref offset, ref stripSize);
+                FinalizeStrip(packet, stripSize, offset, ref zero);
             }
             packet.LastLaidOutRecord = lastLaidOutIndex;
             packet.StoppedAtRecord = count;
@@ -414,20 +414,20 @@ namespace Microsoft.Iris.Layouts
         {
             if (record.SizeValid)
                 return;
-            Size childConstraint = this.GetChildConstraint(packet, offset);
+            Size childConstraint = GetChildConstraint(packet, offset);
             record.Size = MajorMinor.Zero;
             if (record.Nodes != null && record.Nodes.Count > 0)
             {
                 for (int index = 0; index < record.Nodes.Count; ++index)
                 {
                     ILayoutNode node = record.Nodes[index];
-                    this.GetIndex(node, 0, packet.PotentialCount, out int _, out int _, out int _, out IndexType _);
+                    GetIndex(node, 0, packet.PotentialCount, out int _, out int _, out int _, out IndexType _);
                     node.Measure(childConstraint);
-                    MajorMinor a = new MajorMinor(node.DesiredSize, this.Orientation);
+                    MajorMinor a = new MajorMinor(node.DesiredSize, Orientation);
                     record.Size = index <= 0 || a.Equals(record.Size) ? a : MajorMinor.Max(a, record.Size);
                 }
                 packet.Cache.KnownSizes.ExpandTo(record.Index + 1);
-                packet.Cache.KnownSizes[record.Index] = record.Size.ToSize(this.Orientation);
+                packet.Cache.KnownSizes[record.Index] = record.Size.ToSize(Orientation);
             }
             else
                 record.Size = record.CachedSize;
@@ -437,7 +437,7 @@ namespace Microsoft.Iris.Layouts
         private Size GetChildConstraint(FlowLayout.Packet packet, MajorMinor offset)
         {
             Size constraint = packet.Constraint;
-            return this.AllowWrap ? constraint : (packet.Available - offset).ToSize(this.Orientation);
+            return AllowWrap ? constraint : (packet.Available - offset).ToSize(Orientation);
         }
 
         private void FinalizeStrip(
@@ -469,26 +469,26 @@ namespace Microsoft.Iris.Layouts
             FlowLayout.Record record = packet.Records[index];
             if (ListUtility.IsNullOrEmpty(record.Nodes))
                 return;
-            Size size = (packet.Available - offset).ToSize(this.Orientation);
+            Size size = (packet.Available - offset).ToSize(Orientation);
             foreach (ILayoutNode node in record.Nodes)
                 node.Measure(size);
             Size desiredSize = record.Nodes[0].DesiredSize;
             if (desiredSize.Width > size.Width || desiredSize.Height > size.Height)
                 return;
-            record.Size = new MajorMinor(desiredSize, this.Orientation);
+            record.Size = new MajorMinor(desiredSize, Orientation);
             record.SizeValid = true;
             int major = offset.Major + record.Size.Major;
-            offset = new MajorMinor(major + this.Spacing.Major, offset.Minor);
+            offset = new MajorMinor(major + Spacing.Major, offset.Minor);
             lastLaidOutIndex = index;
             stripSize = new MajorMinor(major, Math.Max(record.Size.Minor, stripSize.Minor));
         }
 
         private void DetermineRepeatPolicy(FlowLayout.Packet packet)
         {
-            MajorMinor majorMinor = new MajorMinor(packet.Slot.View.Size, this.Orientation);
+            MajorMinor majorMinor = new MajorMinor(packet.Slot.View.Size, Orientation);
             bool flag1 = packet.DesiredSize.Major <= majorMinor.Major;
             bool flag2;
-            switch (this.Repeat)
+            switch (Repeat)
             {
                 case RepeatPolicy.WhenTooBig:
                     flag2 = !flag1;
@@ -519,19 +519,19 @@ namespace Microsoft.Iris.Layouts
                 int major2 = packet.ViewStart.Major;
                 int major3 = packet.ViewEnd.Major;
                 int major4 = packet.PeripheralEnd.Major;
-                packet.BeginVisibleOffscreen = this.IndexFromPosition(packet, major1, false) - 1;
+                packet.BeginVisibleOffscreen = IndexFromPosition(packet, major1, false) - 1;
                 packet.BeginVisible = packet.BeginVisibleOffscreen;
                 if (major2 != major1)
-                    packet.BeginVisible = this.IndexFromPosition(packet, major2, false) - 1;
-                packet.EndVisible = this.IndexFromPosition(packet, major3, false);
+                    packet.BeginVisible = IndexFromPosition(packet, major2, false) - 1;
+                packet.EndVisible = IndexFromPosition(packet, major3, false);
                 packet.EndVisibleOffscreen = packet.EndVisible;
                 if (major4 == major3)
                     return;
-                packet.EndVisibleOffscreen = this.IndexFromPosition(packet, major4, false);
+                packet.EndVisibleOffscreen = IndexFromPosition(packet, major4, false);
             }
         }
 
-        private int GetRepeatMajor(FlowLayout.Packet packet, MajorMinor majorMinor) => this.Orientation != packet.RepeatOrientation ? majorMinor.Minor : majorMinor.Major;
+        private int GetRepeatMajor(FlowLayout.Packet packet, MajorMinor majorMinor) => Orientation != packet.RepeatOrientation ? majorMinor.Minor : majorMinor.Major;
 
         private int IndexFromPosition(FlowLayout.Packet packet, int position, bool exactMatch)
         {
@@ -539,14 +539,14 @@ namespace Microsoft.Iris.Layouts
             int generationValue = 0;
             if (packet.PotentialCount == packet.LastLaidOutRecord + 1)
             {
-                int itemsCount = this.GetRepeatMajor(packet, packet.DesiredSize) + this.GetRepeatMajor(packet, this.RepeatGap);
+                int itemsCount = GetRepeatMajor(packet, packet.DesiredSize) + GetRepeatMajor(packet, RepeatGap);
                 ListUtility.GetWrappedIndex(position, itemsCount, out dataIndex1, out generationValue);
             }
             int dataIndex2 = packet.PotentialCount;
             for (int index = 0; index < packet.Records.Count; ++index)
             {
                 FlowLayout.Record record = packet.Records[index];
-                if (exactMatch && this.GetRepeatMajor(packet, record.Offset) <= dataIndex1 && this.GetRepeatMajor(packet, record.Offset) + this.GetRepeatMajor(packet, record.Size) >= dataIndex1)
+                if (exactMatch && GetRepeatMajor(packet, record.Offset) <= dataIndex1 && GetRepeatMajor(packet, record.Offset) + GetRepeatMajor(packet, record.Size) >= dataIndex1)
                 {
                     dataIndex2 = record.Index;
                     break;
@@ -556,7 +556,7 @@ namespace Microsoft.Iris.Layouts
                     dataIndex2 = packet.PotentialCount;
                     break;
                 }
-                if (this.GetRepeatMajor(packet, record.Offset) >= dataIndex1 || index > packet.LastLaidOutRecord)
+                if (GetRepeatMajor(packet, record.Offset) >= dataIndex1 || index > packet.LastLaidOutRecord)
                 {
                     dataIndex2 = record.Index;
                     break;
@@ -595,12 +595,12 @@ namespace Microsoft.Iris.Layouts
 
         private void RequestMissingChildren(FlowLayout.Packet packet)
         {
-            this.FilterIntersectionPoints(packet);
+            FilterIntersectionPoints(packet);
             int visibleOffscreen = packet.BeginVisibleOffscreen;
             int num1 = packet.EndVisibleOffscreen - 1;
             int num2 = -1;
-            if (packet.AvailableDataIndices.Count < this._minimumSampleSizeValue)
-                num2 = this._minimumSampleSizeValue;
+            if (packet.AvailableDataIndices.Count < _minimumSampleSizeValue)
+                num2 = _minimumSampleSizeValue;
             Vector<int> indiciesList = null;
             for (int index = visibleOffscreen; index <= num1; ++index)
             {
@@ -629,7 +629,7 @@ namespace Microsoft.Iris.Layouts
                 int dataIndex;
                 int generationValue;
                 IndexType type;
-                this.GetIndex(layoutChild, childIndex, packet.PotentialCount, out virtualIndex, out dataIndex, out generationValue, out type);
+                GetIndex(layoutChild, childIndex, packet.PotentialCount, out virtualIndex, out dataIndex, out generationValue, out type);
                 FlowLayout.Record record = type != IndexType.Content ? packet.Dividers[dataIndex] : packet.Records[dataIndex];
                 if (!record.SizeValid)
                 {
@@ -640,12 +640,12 @@ namespace Microsoft.Iris.Layouts
                     if (type == IndexType.Content && strip != record.Strip)
                     {
                         strip = record.Strip;
-                        majorMinor1 = this.GetStripOffset(packet, strip);
+                        majorMinor1 = GetStripOffset(packet, strip);
                     }
-                    MajorMinor majorMinor2 = this.PositionFromIndex(packet, record.Offset, generationValue);
+                    MajorMinor majorMinor2 = PositionFromIndex(packet, record.Offset, generationValue);
                     majorMinor2.Major += majorMinor1.Major;
-                    Size size = new MajorMinor(new MajorMinor(layoutChild.DesiredSize, this.Orientation).Major, majorMinor1.Minor).ToSize(this.Orientation);
-                    Rectangle bounds = new Rectangle(majorMinor2.ToPoint(this.Orientation), size);
+                    Size size = new MajorMinor(new MajorMinor(layoutChild.DesiredSize, Orientation).Major, majorMinor1.Minor).ToSize(Orientation);
+                    Rectangle bounds = new Rectangle(majorMinor2.ToPoint(Orientation), size);
                     layoutChild.Arrange(packet.Slot, bounds);
                     if (layoutChild.ContainsAreaOfInterest(AreaOfInterestID.Focus))
                         packet.FocusedItem = new int?(virtualIndex);
@@ -660,8 +660,8 @@ namespace Microsoft.Iris.Layouts
             if (strip >= 0 && strip < packet.StripSizes.Count)
             {
                 MajorMinor stripSiz = packet.StripSizes[strip];
-                MajorMinor majorMinor1 = new MajorMinor(packet.Slot.Bounds, this.Orientation);
-                switch (this.StripAlignment)
+                MajorMinor majorMinor1 = new MajorMinor(packet.Slot.Bounds, Orientation);
+                switch (StripAlignment)
                 {
                     case StripAlignment.Center:
                         zero.Major = (majorMinor1.Major - stripSiz.Major) / 2;
@@ -670,9 +670,9 @@ namespace Microsoft.Iris.Layouts
                         zero.Major = majorMinor1.Major - stripSiz.Major;
                         break;
                 }
-                if (!this.AllowWrap)
+                if (!AllowWrap)
                 {
-                    MajorMinor majorMinor2 = new MajorMinor(packet.Slot.Bounds, this.Orientation);
+                    MajorMinor majorMinor2 = new MajorMinor(packet.Slot.Bounds, Orientation);
                     zero.Minor = majorMinor2.Minor;
                 }
                 else
@@ -689,10 +689,10 @@ namespace Microsoft.Iris.Layouts
             if (generationValue == 0)
                 return recordoffset;
             MajorMinor majorMinor = recordoffset;
-            if (this.Orientation == packet.RepeatOrientation)
-                majorMinor.Major = ListUtility.GetUnwrappedIndex(majorMinor.Major, generationValue, packet.DesiredSize.Major + this.RepeatGap.Major);
+            if (Orientation == packet.RepeatOrientation)
+                majorMinor.Major = ListUtility.GetUnwrappedIndex(majorMinor.Major, generationValue, packet.DesiredSize.Major + RepeatGap.Major);
             else
-                majorMinor.Minor = ListUtility.GetUnwrappedIndex(majorMinor.Minor, generationValue, packet.DesiredSize.Minor + this.RepeatGap.Minor);
+                majorMinor.Minor = ListUtility.GetUnwrappedIndex(majorMinor.Minor, generationValue, packet.DesiredSize.Minor + RepeatGap.Minor);
             return majorMinor;
         }
 
@@ -708,18 +708,18 @@ namespace Microsoft.Iris.Layouts
 
             public static bool IsNullOrEmpty(FlowLayout.Record record) => record == null || record.Index == int.MinValue;
 
-            public void Clear() => this.Initialize(RecordSourceType.Unspecified);
+            public void Clear() => Initialize(RecordSourceType.Unspecified);
 
             public void Initialize(FlowLayout.RecordSourceType source)
             {
-                this.Index = int.MinValue;
-                if (this.Nodes != null)
-                    this.Nodes.Clear();
-                this.Size = MajorMinor.Zero;
-                this.SizeValid = false;
-                this.CachedSize = MajorMinor.Zero;
-                this.Offset = MajorMinor.Zero;
-                this.Strip = 0;
+                Index = int.MinValue;
+                if (Nodes != null)
+                    Nodes.Clear();
+                Size = MajorMinor.Zero;
+                SizeValid = false;
+                CachedSize = MajorMinor.Zero;
+                Offset = MajorMinor.Zero;
+                Strip = 0;
             }
 
             public override string ToString() => InvariantString.Format("Record[{0}] Size:{1}", Index, Size);
@@ -765,25 +765,25 @@ namespace Microsoft.Iris.Layouts
 
             public void Clear()
             {
-                this.PeripheralStart = MajorMinor.Zero;
-                this.PeripheralSize = MajorMinor.Zero;
-                this.PeripheralEnd = MajorMinor.Zero;
-                this.ViewStart = MajorMinor.Zero;
-                this.ViewSize = MajorMinor.Zero;
-                this.ViewEnd = MajorMinor.Zero;
-                this.PotentialCount = 0;
-                this.AvailableVirtualIndices.Clear();
-                this.AvailableDataIndices.Clear();
-                this.DesiredSize = MajorMinor.Zero;
-                this.StripSizes.Clear();
-                this.LastLaidOutRecord = 0;
-                this.StoppedAtRecord = 0;
-                this.Repeat = false;
-                this.BeginVisibleOffscreen = 0;
-                this.BeginVisible = 0;
-                this.EndVisible = 0;
-                this.EndVisibleOffscreen = 0;
-                this.FocusedItem = new int?();
+                PeripheralStart = MajorMinor.Zero;
+                PeripheralSize = MajorMinor.Zero;
+                PeripheralEnd = MajorMinor.Zero;
+                ViewStart = MajorMinor.Zero;
+                ViewSize = MajorMinor.Zero;
+                ViewEnd = MajorMinor.Zero;
+                PotentialCount = 0;
+                AvailableVirtualIndices.Clear();
+                AvailableDataIndices.Clear();
+                DesiredSize = MajorMinor.Zero;
+                StripSizes.Clear();
+                LastLaidOutRecord = 0;
+                StoppedAtRecord = 0;
+                Repeat = false;
+                BeginVisibleOffscreen = 0;
+                BeginVisible = 0;
+                EndVisible = 0;
+                EndVisibleOffscreen = 0;
+                FocusedItem = new int?();
             }
         }
     }

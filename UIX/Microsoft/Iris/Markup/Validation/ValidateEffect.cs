@@ -29,53 +29,53 @@ namespace Microsoft.Iris.Markup.Validation
 
         public override void RearrangePropertiesForSymbols()
         {
-            this.MovePropertyToFront("Techniques");
+            MovePropertyToFront("Techniques");
             base.RearrangePropertiesForSymbols();
         }
 
         protected override void FullValidation(ValidateContext context)
         {
             base.FullValidation(context);
-            this._foundTechniquesValidateProperty = this.FindProperty("Techniques");
-            if (this._foundTechniquesValidateProperty != null && this.FoundBaseType != null)
+            _foundTechniquesValidateProperty = FindProperty("Techniques");
+            if (_foundTechniquesValidateProperty != null && FoundBaseType != null)
             {
-                foreach (SymbolRecord symbolRecord in this.FoundBaseType.InheritableSymbolsTable)
+                foreach (SymbolRecord symbolRecord in FoundBaseType.InheritableSymbolsTable)
                 {
                     if (symbolRecord.SymbolOrigin == SymbolOrigin.Techniques)
                     {
-                        this._foundTechniquesValidateProperty.ReportError("Overriding Techniques property is not allowed; base class has already defined techniques");
-                        this.MarkHasErrors();
+                        _foundTechniquesValidateProperty.ReportError("Overriding Techniques property is not allowed; base class has already defined techniques");
+                        MarkHasErrors();
                         break;
                     }
                 }
             }
-            if (this._foundDynamicElementAssignments != null)
+            if (_foundDynamicElementAssignments != null)
             {
-                string[] dynamicElementAssignments = new string[this._foundDynamicElementAssignments.Count];
+                string[] dynamicElementAssignments = new string[_foundDynamicElementAssignments.Count];
                 int num = 0;
-                foreach (string key in this._foundDynamicElementAssignments.Keys)
+                foreach (string key in _foundDynamicElementAssignments.Keys)
                     dynamicElementAssignments[num++] = key;
-                ((EffectClassTypeSchema)this.TypeExport).SetDynamicElementAssignments(dynamicElementAssignments);
+                ((EffectClassTypeSchema)TypeExport).SetDynamicElementAssignments(dynamicElementAssignments);
             }
             string str = "DefaultImage";
             SymbolOrigin origin;
             TypeSchema checkSchema = context.ResolveSymbol(str, out origin, out ExpressionRestriction _);
             if (checkSchema == null || !ImageElementInstanceSchema.Type.IsAssignableFrom(checkSchema) || origin != SymbolOrigin.Techniques)
                 return;
-            ((EffectClassTypeSchema)this.TypeExport).SetDefaultElementSymbolIndex(context.TrackSymbolUsage(str, origin));
+            ((EffectClassTypeSchema)TypeExport).SetDefaultElementSymbolIndex(context.TrackSymbolUsage(str, origin));
         }
 
         public override void NotifyFoundPropertyAssignment(ValidateExpressionCall call)
         {
-            string effectElementName = this.GetEffectElementName(call);
+            string effectElementName = GetEffectElementName(call);
             if (effectElementName == null)
                 return;
-            this.TrackDynamicElementAssignment(effectElementName, call.MemberName);
+            TrackDynamicElementAssignment(effectElementName, call.MemberName);
         }
 
         public override void NotifyFoundMethodCall(ValidateExpressionCall call)
         {
-            string effectElementName = this.GetEffectElementName(call);
+            string effectElementName = GetEffectElementName(call);
             if (effectElementName == null)
                 return;
             if (s_methodNameMapping == null)
@@ -110,7 +110,7 @@ namespace Microsoft.Iris.Markup.Validation
             int num;
             if (!s_methodNameMapping.TryGetValue(call.MemberName, out num))
                 return;
-            this.TrackDynamicElementAssignment(effectElementName, (EffectProperty)num);
+            TrackDynamicElementAssignment(effectElementName, (EffectProperty)num);
         }
 
         private string GetEffectElementName(ValidateExpressionCall call)
@@ -119,15 +119,15 @@ namespace Microsoft.Iris.Markup.Validation
             return EffectElementInstanceSchema.Type.IsAssignableFrom(target.ObjectType) && target.ExpressionType == ExpressionType.Symbol ? ((ValidateExpressionSymbol)target).Symbol : null;
         }
 
-        private void TrackDynamicElementAssignment(string elementName, string propertyName) => this.TrackDynamicElementAssignment(EffectElementWrapper.MakeEffectPropertyName(elementName, propertyName));
+        private void TrackDynamicElementAssignment(string elementName, string propertyName) => TrackDynamicElementAssignment(EffectElementWrapper.MakeEffectPropertyName(elementName, propertyName));
 
-        private void TrackDynamicElementAssignment(string elementName, EffectProperty property) => this.TrackDynamicElementAssignment(EffectElementWrapper.MakeEffectPropertyName(elementName, property));
+        private void TrackDynamicElementAssignment(string elementName, EffectProperty property) => TrackDynamicElementAssignment(EffectElementWrapper.MakeEffectPropertyName(elementName, property));
 
         private void TrackDynamicElementAssignment(string dynamicPropertyName)
         {
-            if (this._foundDynamicElementAssignments == null)
-                this._foundDynamicElementAssignments = new Dictionary<string, object>();
-            this._foundDynamicElementAssignments[dynamicPropertyName] = null;
+            if (_foundDynamicElementAssignments == null)
+                _foundDynamicElementAssignments = new Dictionary<string, object>();
+            _foundDynamicElementAssignments[dynamicPropertyName] = null;
         }
 
         public void TrackInstanceProperty(
@@ -135,43 +135,43 @@ namespace Microsoft.Iris.Markup.Validation
           string name,
           ValidateProperty property)
         {
-            if (this._foundInstancePropertyAssignments == null)
+            if (_foundInstancePropertyAssignments == null)
             {
-                this._foundInstancePropertyAssignments = new Map<string, ValidateProperty>();
-                this._foundElementSymbolIndex = new Map<string, int>();
+                _foundInstancePropertyAssignments = new Map<string, ValidateProperty>();
+                _foundElementSymbolIndex = new Map<string, int>();
             }
             ValidateProperty validateProperty;
-            this._foundInstancePropertyAssignments.TryGetValue(name, out validateProperty);
+            _foundInstancePropertyAssignments.TryGetValue(name, out validateProperty);
             property.AppendToEnd(validateProperty);
-            this._foundInstancePropertyAssignments[name] = property;
+            _foundInstancePropertyAssignments[name] = property;
             SymbolOrigin origin;
             TypeSchema typeSchema = context.ResolveSymbol(name, out origin, out ExpressionRestriction _);
             if (typeSchema == null)
             {
                 property.ReportError("Element '{0}' property '{1}' is being assigned a value which requires it to be set dynamically, but the property cannot be changed dynamically", property.FoundProperty.Owner.ToString(), property.FoundProperty.Name);
-                this.MarkHasErrors();
+                MarkHasErrors();
             }
             else
             {
-                this._foundElementSymbolIndex[name] = context.TrackSymbolUsage(name, origin);
+                _foundElementSymbolIndex[name] = context.TrackSymbolUsage(name, origin);
                 PropertySchema property1 = typeSchema.FindProperty(property.FoundProperty.Name);
                 if (property1 == null)
                 {
                     property.ReportError("Element '{0}' property '{1}' is being assigned a value which requires it to be set dynamically, but the property cannot be changed dynamically", property.FoundProperty.Owner.ToString(), property.FoundProperty.Name);
-                    this.MarkHasErrors();
+                    MarkHasErrors();
                 }
                 else
                 {
                     property.UpdateFoundProperty(property1);
-                    this.TrackDynamicElementAssignment(name, property.FoundProperty.Name);
+                    TrackDynamicElementAssignment(name, property.FoundProperty.Name);
                 }
             }
         }
 
-        public int GetElementSymbolIndex(string name) => this._foundElementSymbolIndex[name];
+        public int GetElementSymbolIndex(string name) => _foundElementSymbolIndex[name];
 
-        public ValidateProperty FoundTechniquesValidateProperty => this._foundTechniquesValidateProperty;
+        public ValidateProperty FoundTechniquesValidateProperty => _foundTechniquesValidateProperty;
 
-        public Map<string, ValidateProperty> FoundInstancePropertyAssignments => this._foundInstancePropertyAssignments;
+        public Map<string, ValidateProperty> FoundInstancePropertyAssignments => _foundInstancePropertyAssignments;
     }
 }

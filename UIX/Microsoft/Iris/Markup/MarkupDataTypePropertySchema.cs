@@ -18,8 +18,8 @@ namespace Microsoft.Iris.Markup
         {
         }
 
-        public override TypeSchema AlternateType => this._underlyingCollectionType;
+        public override TypeSchema AlternateType => _underlyingCollectionType;
 
-        public void SetUnderlyingCollectionType(TypeSchema underlyingCollectionType) => this._underlyingCollectionType = underlyingCollectionType;
+        public void SetUnderlyingCollectionType(TypeSchema underlyingCollectionType) => _underlyingCollectionType = underlyingCollectionType;
     }
 }

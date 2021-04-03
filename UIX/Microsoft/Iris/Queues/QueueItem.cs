@@ -14,11 +14,11 @@ namespace Microsoft.Iris.Queues
         protected QueueItem _next;
         protected QueueItem.Chain _owner;
 
-        public bool IsPending => this._owner != null;
+        public bool IsPending => _owner != null;
 
         public abstract void Dispatch();
 
-        public override string ToString() => this.GetType().Name;
+        public override string ToString() => GetType().Name;
 
         internal class Chain
         {
@@ -36,14 +36,14 @@ namespace Microsoft.Iris.Queues
 
             protected void Link(QueueItem item, QueueItem anchor, bool before)
             {
-                this.UpdateOwners(item, item, null, this);
-                this.LinkItems(item, item, anchor, before);
+                UpdateOwners(item, item, null, this);
+                LinkItems(item, item, anchor, before);
             }
 
             protected void Unlink(QueueItem item)
             {
-                this.UnlinkItems(item, item);
-                this.UpdateOwners(item, item, this, null);
+                UnlinkItems(item, item);
+                UpdateOwners(item, item, this, null);
             }
 
             protected void TransferFromChain(
@@ -53,9 +53,9 @@ namespace Microsoft.Iris.Queues
               QueueItem anchor,
               bool before)
             {
-                this.UnlinkItems(first, last);
-                this.UpdateOwners(first, last, oldOwner, this);
-                this.LinkItems(first, last, anchor, before);
+                UnlinkItems(first, last);
+                UpdateOwners(first, last, oldOwner, this);
+                LinkItems(first, last, anchor, before);
             }
 
             protected static bool IsOnlyChild(QueueItem item) => item._next == item;
@@ -127,30 +127,30 @@ namespace Microsoft.Iris.Queues
 
                 public ChainEnumerator(QueueItem tail)
                 {
-                    this._currentItem = null;
-                    this._stopItem = tail;
+                    _currentItem = null;
+                    _stopItem = tail;
                 }
 
-                public QueueItem Current => this._currentItem;
+                public QueueItem Current => _currentItem;
 
                 public bool MoveNext()
                 {
-                    if (this._stopItem == null)
+                    if (_stopItem == null)
                     {
-                        this._currentItem = null;
+                        _currentItem = null;
                         return false;
                     }
-                    if (this._currentItem != null)
+                    if (_currentItem != null)
                     {
-                        if (this._currentItem == this._stopItem)
+                        if (_currentItem == _stopItem)
                         {
-                            this._currentItem = this._stopItem = null;
+                            _currentItem = _stopItem = null;
                             return false;
                         }
-                        this._currentItem = this._currentItem._next;
+                        _currentItem = _currentItem._next;
                     }
                     else
-                        this._currentItem = this._stopItem._next;
+                        _currentItem = _stopItem._next;
                     return true;
                 }
             }
@@ -165,53 +165,53 @@ namespace Microsoft.Iris.Queues
                 get
                 {
                     QueueItem queueItem = null;
-                    if (this._tail != null)
-                        queueItem = this._tail._next;
+                    if (_tail != null)
+                        queueItem = _tail._next;
                     return queueItem;
                 }
             }
 
             public override void Dispose()
             {
-                while (this._tail != null)
-                    this.Remove(this._tail);
+                while (_tail != null)
+                    Remove(_tail);
                 base.Dispose();
             }
 
             public bool Append(QueueItem item)
             {
                 ValidateAdd(item);
-                bool flag = this._tail == null;
-                this.Link(item, this._tail, false);
-                this._tail = item;
+                bool flag = _tail == null;
+                Link(item, _tail, false);
+                _tail = item;
                 return flag;
             }
 
             public bool Append(QueueItem.FIFO items)
             {
-                bool flag = this._tail == null;
+                bool flag = _tail == null;
                 QueueItem tail = items._tail;
                 if (tail == null)
                     return false;
-                this.TransferFromChain(items, items.Head, tail, this._tail, false);
+                TransferFromChain(items, items.Head, tail, _tail, false);
                 items._tail = null;
-                this._tail = tail;
+                _tail = tail;
                 return flag;
             }
 
             public void Remove(QueueItem item)
             {
-                this.ValidateRemove(item);
-                if (item == this._tail)
-                    this._tail = IsOnlyChild(this._tail) ? null : PrevItem(this._tail);
-                this.Unlink(item);
+                ValidateRemove(item);
+                if (item == _tail)
+                    _tail = IsOnlyChild(_tail) ? null : PrevItem(_tail);
+                Unlink(item);
             }
 
             public void Advance()
             {
-                if (this._tail == null)
+                if (_tail == null)
                     return;
-                this._tail = NextItem(this._tail);
+                _tail = NextItem(_tail);
             }
         }
 
@@ -221,29 +221,29 @@ namespace Microsoft.Iris.Queues
 
             public override void Dispose()
             {
-                while (this._top != null)
-                    this.Pop();
+                while (_top != null)
+                    Pop();
                 base.Dispose();
             }
 
             public void Push(QueueItem item)
             {
                 ValidateAdd(item);
-                this.Link(item, this._top, true);
-                this._top = item;
+                Link(item, _top, true);
+                _top = item;
             }
 
-            public QueueItem Peek() => this._top;
+            public QueueItem Peek() => _top;
 
             public QueueItem Pop()
             {
-                QueueItem top = this._top;
+                QueueItem top = _top;
                 if (top != null)
                 {
-                    this._top = top._next;
-                    if (this._top == top)
-                        this._top = null;
-                    this.Unlink(top);
+                    _top = top._next;
+                    if (_top == top)
+                        _top = null;
+                    Unlink(top);
                 }
                 return top;
             }

@@ -14,20 +14,20 @@ namespace Microsoft.Iris.ModelItems
     {
         private Size _size;
 
-        public LayoutOutput(Size size) => this._size = size;
+        public LayoutOutput(Size size) => _size = size;
 
         public Size Size
         {
-            get => this._size;
+            get => _size;
             private set
             {
-                if (!(this._size != value))
+                if (!(_size != value))
                     return;
-                this._size = value;
-                this.FireNotification(NotificationID.Size);
+                _size = value;
+                FireNotification(NotificationID.Size);
             }
         }
 
-        public void OnLayoutComplete(Size size) => this.Size = size;
+        public void OnLayoutComplete(Size size) => Size = size;
     }
 }

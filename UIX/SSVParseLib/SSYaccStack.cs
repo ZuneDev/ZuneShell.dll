@@ -14,16 +14,16 @@ namespace SSVParseLib
         {
         }
 
-        public void Clear() => this.m_list.Clear();
+        public void Clear() => m_list.Clear();
 
-        public void push(SSYaccStackElement q_ele) => this.m_list.Add(q_ele);
+        public void push(SSYaccStackElement q_ele) => m_list.Add(q_ele);
 
-        public void pop() => this.m_list.RemoveAt(this.m_list.Count - 1);
+        public void pop() => m_list.RemoveAt(m_list.Count - 1);
 
-        public SSYaccStackElement elementAt(int index) => this.m_list[index];
+        public SSYaccStackElement elementAt(int index) => m_list[index];
 
-        public int getSize() => this.m_list.Count;
+        public int getSize() => m_list.Count;
 
-        public SSYaccStackElement peek() => this.elementAt(this.m_list.Count - 1);
+        public SSYaccStackElement peek() => elementAt(m_list.Count - 1);
     }
 }

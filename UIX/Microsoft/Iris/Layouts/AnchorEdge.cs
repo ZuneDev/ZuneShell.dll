@@ -26,65 +26,65 @@ namespace Microsoft.Iris.Layouts
 
         public AnchorEdge(string id, float percent)
         {
-            this.Id = id;
-            this.Percent = percent;
+            Id = id;
+            Percent = percent;
         }
 
         public string Id
         {
-            get => this._idName;
-            set => this._idName = value;
+            get => _idName;
+            set => _idName = value;
         }
 
         public float Percent
         {
-            get => this._percentValue;
-            set => this._percentValue = value;
+            get => _percentValue;
+            set => _percentValue = value;
         }
 
         public int Offset
         {
-            get => this._offsetValue;
-            set => this._offsetValue = value;
+            get => _offsetValue;
+            set => _offsetValue = value;
         }
 
         public float MaximumPercent
         {
-            get => this._maximumPercentValue;
+            get => _maximumPercentValue;
             set
             {
-                this._maximumPercentValue = value;
-                this._maximumSetFlag = true;
+                _maximumPercentValue = value;
+                _maximumSetFlag = true;
             }
         }
 
         public int MaximumOffset
         {
-            get => this._maximumOffsetValue;
+            get => _maximumOffsetValue;
             set
             {
-                this._maximumOffsetValue = value;
-                this._maximumSetFlag = true;
+                _maximumOffsetValue = value;
+                _maximumSetFlag = true;
             }
         }
 
         public float MinimumPercent
         {
-            get => this._minimumPercentValue;
+            get => _minimumPercentValue;
             set
             {
-                this._minimumPercentValue = value;
-                this._minimumSetFlag = true;
+                _minimumPercentValue = value;
+                _minimumSetFlag = true;
             }
         }
 
         public int MinimumOffset
         {
-            get => this._minimumOffsetValue;
+            get => _minimumOffsetValue;
             set
             {
-                this._minimumOffsetValue = value;
-                this._minimumSetFlag = true;
+                _minimumOffsetValue = value;
+                _minimumSetFlag = true;
             }
         }
 
@@ -92,27 +92,27 @@ namespace Microsoft.Iris.Layouts
         {
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.Append("(");
-            stringBuilder.Append(this._idName);
+            stringBuilder.Append(_idName);
             stringBuilder.Append(", ");
-            stringBuilder.Append(this._percentValue);
-            if (this._offsetValue != 0)
+            stringBuilder.Append(_percentValue);
+            if (_offsetValue != 0)
             {
                 stringBuilder.Append(", ");
-                stringBuilder.Append(this._offsetValue);
+                stringBuilder.Append(_offsetValue);
             }
             if (_maximumPercentValue > 0.0)
             {
                 stringBuilder.Append(", MaximumPercent=");
-                stringBuilder.Append(this._maximumPercentValue);
+                stringBuilder.Append(_maximumPercentValue);
                 stringBuilder.Append(", MaximumOffset=");
-                stringBuilder.Append(this._maximumOffsetValue);
+                stringBuilder.Append(_maximumOffsetValue);
             }
             if (_minimumPercentValue > 0.0)
             {
                 stringBuilder.Append(", MinimumPercent=");
-                stringBuilder.Append(this._minimumPercentValue);
+                stringBuilder.Append(_minimumPercentValue);
                 stringBuilder.Append(", MinimumOffset=");
-                stringBuilder.Append(this._minimumOffsetValue);
+                stringBuilder.Append(_minimumOffsetValue);
             }
             stringBuilder.Append(")");
             return stringBuilder.ToString();
@@ -130,13 +130,13 @@ namespace Microsoft.Iris.Layouts
         public override bool Equals(object obj)
         {
             AnchorEdge anchorEdge = obj as AnchorEdge;
-            return (object)anchorEdge != null && this.Id == anchorEdge.Id && (Percent == (double)anchorEdge.Percent && this.Offset == anchorEdge.Offset) && (this.MaximumSet == anchorEdge.MaximumSet && MaximumPercent == (double)anchorEdge.MaximumPercent && (this.MaximumOffset == anchorEdge.MaximumOffset && this.MinimumSet == anchorEdge.MinimumSet)) && MinimumPercent == (double)anchorEdge.MinimumPercent && this.MinimumOffset == anchorEdge.MinimumOffset;
+            return (object)anchorEdge != null && Id == anchorEdge.Id && (Percent == (double)anchorEdge.Percent && Offset == anchorEdge.Offset) && (MaximumSet == anchorEdge.MaximumSet && MaximumPercent == (double)anchorEdge.MaximumPercent && (MaximumOffset == anchorEdge.MaximumOffset && MinimumSet == anchorEdge.MinimumSet)) && MinimumPercent == (double)anchorEdge.MinimumPercent && MinimumOffset == anchorEdge.MinimumOffset;
         }
 
-        public override int GetHashCode() => (this.Id != null ? this.Id.GetHashCode() : 0) ^ this.Percent.GetHashCode() ^ this.Offset << 8 ^ this.MaximumSet.GetHashCode() ^ this.MaximumPercent.GetHashCode() ^ this.MaximumOffset << 16 ^ this.MinimumSet.GetHashCode() ^ this.MinimumPercent.GetHashCode() ^ this.MinimumOffset << 24;
+        public override int GetHashCode() => (Id != null ? Id.GetHashCode() : 0) ^ Percent.GetHashCode() ^ Offset << 8 ^ MaximumSet.GetHashCode() ^ MaximumPercent.GetHashCode() ^ MaximumOffset << 16 ^ MinimumSet.GetHashCode() ^ MinimumPercent.GetHashCode() ^ MinimumOffset << 24;
 
-        internal bool MaximumSet => this._maximumSetFlag;
+        internal bool MaximumSet => _maximumSetFlag;
 
-        internal bool MinimumSet => this._minimumSetFlag;
+        internal bool MinimumSet => _minimumSetFlag;
     }
 }

@@ -35,13 +35,13 @@ namespace Microsoft.Iris.RenderAPI
         {
         }
 
-        public RenderException(RenderException.ErrorCode code) => this.m_code = code;
+        public RenderException(RenderException.ErrorCode code) => m_code = code;
 
         public RenderException(RenderException.ErrorCode code, string stReason)
           : base(stReason)
-          => this.m_code = code;
+          => m_code = code;
 
-        public RenderException.ErrorCode Error => this.m_code;
+        public RenderException.ErrorCode Error => m_code;
 
         [SecurityPermission(SecurityAction.Demand, SerializationFormatter = true)]
         public override void GetObjectData(SerializationInfo info, StreamingContext context)

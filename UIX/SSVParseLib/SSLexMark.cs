@@ -14,11 +14,11 @@ namespace SSVParseLib
 
         public SSLexMark(int q_line, int q_offset, int q_index)
         {
-            this.m_index = q_index;
-            this.m_line = q_line;
-            this.m_offset = q_offset;
+            m_index = q_index;
+            m_line = q_line;
+            m_offset = q_offset;
         }
 
-        public int index() => this.m_index;
+        public int index() => m_index;
     }
 }

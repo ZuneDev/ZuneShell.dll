@@ -17,19 +17,19 @@ namespace Microsoft.Iris
           MarkupDataTypeSchema typeSchema)
           : base(typeSchema)
         {
-            this._internalObject = internalObject;
+            _internalObject = internalObject;
         }
 
         public override object GetProperty(string propertyName)
         {
             propertyName = NotifyService.CanonicalizeString(propertyName);
-            return AssemblyLoadResult.UnwrapObject(this._internalObject.GetProperty(propertyName));
+            return AssemblyLoadResult.UnwrapObject(_internalObject.GetProperty(propertyName));
         }
 
         public override void SetProperty(string propertyName, object value)
         {
             propertyName = NotifyService.CanonicalizeString(propertyName);
-            this._internalObject.SetProperty(propertyName, AssemblyLoadResult.WrapObject(value));
+            _internalObject.SetProperty(propertyName, AssemblyLoadResult.WrapObject(value));
         }
     }
 }

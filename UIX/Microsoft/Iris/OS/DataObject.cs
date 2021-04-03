@@ -15,24 +15,24 @@ namespace Microsoft.Iris.OS
         private IntPtr _dataStream;
         private string[] _data;
 
-        public DataObject(IntPtr dataStream) => this._dataStream = dataStream;
+        public DataObject(IntPtr dataStream) => _dataStream = dataStream;
 
         public object GetExternalData()
         {
             object obj = null;
-            if (this._dataStream != IntPtr.Zero)
+            if (_dataStream != IntPtr.Zero)
             {
                 try
                 {
-                    this._data = null;
-                    RendererApi.IFC(new HRESULT(NativeApi.SpExtractDroppedFileNames(this._dataStream, new NativeApi.ExtractDroppedFileNamesCallback(this.ExtractDroppedFileNamesCallback))));
+                    _data = null;
+                    RendererApi.IFC(new HRESULT(NativeApi.SpExtractDroppedFileNames(_dataStream, new NativeApi.ExtractDroppedFileNamesCallback(ExtractDroppedFileNamesCallback))));
                     obj = _data;
                 }
                 catch (COMException ex)
                 {
                 }
             }
-            this._data = null;
+            _data = null;
             return obj;
         }
 
@@ -42,16 +42,16 @@ namespace Microsoft.Iris.OS
           string filename)
         {
             if (currentIndex == 0U)
-                this._data = new string[totalCount];
-            this._data[currentIndex] = filename;
+                _data = new string[totalCount];
+            _data[currentIndex] = filename;
         }
 
         public void Dispose()
         {
-            if (!(this._dataStream != IntPtr.Zero))
+            if (!(_dataStream != IntPtr.Zero))
                 return;
-            Marshal.Release(this._dataStream);
-            this._dataStream = IntPtr.Zero;
+            Marshal.Release(_dataStream);
+            _dataStream = IntPtr.Zero;
         }
     }
 }

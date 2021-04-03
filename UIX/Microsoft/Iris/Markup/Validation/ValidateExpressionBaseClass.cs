@@ -15,11 +15,11 @@ namespace Microsoft.Iris.Markup.Validation
 
         public override void Validate(TypeRestriction typeRestriction, ValidateContext context)
         {
-            if (this.Usage == ExpressionUsage.LValue)
-                this.ReportError("Expression cannot be used as the target an assignment (related symbol: '{0}')", "this");
+            if (Usage == ExpressionUsage.LValue)
+                ReportError("Expression cannot be used as the target an assignment (related symbol: '{0}')", "this");
             if (context.CurrentMethod == null || !context.CurrentMethod.HasOverrideKeyword)
-                this.ReportError("'base' keyword can only be used in an override method");
-            this.DeclareEvaluationType(context.Owner.TypeExport, TypeRestriction.None);
+                ReportError("'base' keyword can only be used in an override method");
+            DeclareEvaluationType(context.Owner.TypeExport, TypeRestriction.None);
         }
     }
 }

@@ -19,14 +19,14 @@ namespace Microsoft.Iris.RenderAPI.Drawing
 
         public SizeF(SizeF size)
         {
-            this.width = size.width;
-            this.height = size.height;
+            width = size.width;
+            height = size.height;
         }
 
         public SizeF(PointF pt)
         {
-            this.width = pt.X;
-            this.height = pt.Y;
+            width = pt.X;
+            height = pt.Y;
         }
 
         public SizeF(float width, float height)
@@ -43,26 +43,26 @@ namespace Microsoft.Iris.RenderAPI.Drawing
 
         public static bool operator !=(SizeF sz1, SizeF sz2) => !(sz1 == sz2);
 
-        public PointF ToPointF() => new PointF(this.Width, this.Height);
+        public PointF ToPointF() => new PointF(Width, Height);
 
         internal bool IsZero => Width == 0.0 && Height == 0.0;
 
         public float Width
         {
-            get => this.width;
-            set => this.width = value;
+            get => width;
+            set => width = value;
         }
 
         public float Height
         {
-            get => this.height;
-            set => this.height = value;
+            get => height;
+            set => height = value;
         }
 
         public void Scale(float flScale)
         {
-            this.Width *= flScale;
-            this.Height *= flScale;
+            Width *= flScale;
+            Height *= flScale;
         }
 
         public static SizeF Scale(SizeF size, float flScale)
@@ -72,11 +72,11 @@ namespace Microsoft.Iris.RenderAPI.Drawing
             return sizeF;
         }
 
-        public override bool Equals(object obj) => obj is SizeF sizeF && sizeF.Width == (double)this.Width && sizeF.Height == (double)this.Height;
+        public override bool Equals(object obj) => obj is SizeF sizeF && sizeF.Width == (double)Width && sizeF.Height == (double)Height;
 
-        public bool Equals(SizeF comp) => comp.Width == (double)this.Width && comp.Height == (double)this.Height;
+        public bool Equals(SizeF comp) => comp.Width == (double)Width && comp.Height == (double)Height;
 
-        public override int GetHashCode() => this.width.GetHashCode() ^ this.height.GetHashCode();
+        public override int GetHashCode() => width.GetHashCode() ^ height.GetHashCode();
 
         public static SizeF Min(SizeF sz1, SizeF sz2) => new SizeF(Math.Min(sz1.Width, sz2.Width), Math.Min(sz1.Height, sz2.Height));
 
@@ -86,9 +86,9 @@ namespace Microsoft.Iris.RenderAPI.Drawing
         {
             StringBuilder stringBuilder = new StringBuilder(32);
             stringBuilder.Append("(Width=");
-            stringBuilder.Append(this.Width.ToString(NumberFormatInfo.InvariantInfo));
+            stringBuilder.Append(Width.ToString(NumberFormatInfo.InvariantInfo));
             stringBuilder.Append(", Height=");
-            stringBuilder.Append(this.Height.ToString(NumberFormatInfo.InvariantInfo));
+            stringBuilder.Append(Height.ToString(NumberFormatInfo.InvariantInfo));
             stringBuilder.Append(")");
             return stringBuilder.ToString();
         }

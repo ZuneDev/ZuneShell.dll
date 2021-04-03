@@ -31,41 +31,41 @@ namespace Microsoft.Iris
         public VideoStream()
         {
             UIDispatcher.VerifyOnApplicationThread();
-            this._clients = new ArrayList();
+            _clients = new ArrayList();
             if (UISession.Default.RenderSession.GraphicsDevice.IsVideoComposited)
             {
-                this._renderStream = UISession.Default.RenderSession.CreateVideoStream(this);
-                this._renderStream.InvalidateContentEvent += new InvalidateContentHandler(this.OnRenderVideoStreamChange);
+                _renderStream = UISession.Default.RenderSession.CreateVideoStream(this);
+                _renderStream.InvalidateContentEvent += new InvalidateContentHandler(OnRenderVideoStreamChange);
             }
-            this._presentationBuilder = new VideoPresentationBuilder();
-            this._presentationBuilder.DisplayMode = VideoDisplayMode.FullInScene;
-            this._presentationBuilder.ContentOverscanMode = VideoOverscanMode.InvalidContent;
-            this._largestPosition = new WindowPosition();
-            this._largestSize = new WindowSize();
-            this._isRendering = false;
+            _presentationBuilder = new VideoPresentationBuilder();
+            _presentationBuilder.DisplayMode = VideoDisplayMode.FullInScene;
+            _presentationBuilder.ContentOverscanMode = VideoOverscanMode.InvalidContent;
+            _largestPosition = new WindowPosition();
+            _largestSize = new WindowSize();
+            _isRendering = false;
         }
 
         public void Dispose()
         {
             UIDispatcher.VerifyOnApplicationThread();
-            if (this._disposed)
+            if (_disposed)
                 throw new InvalidOperationException("The stream has already been disposed");
-            this.Dispose(true);
-            this._disposed = true;
+            Dispose(true);
+            _disposed = true;
         }
 
         private void Dispose(bool inDisposeFlag)
         {
             if (!inDisposeFlag)
                 return;
-            if (this._renderStream != null)
+            if (_renderStream != null)
             {
-                this._renderStream.InvalidateContentEvent -= new InvalidateContentHandler(this.OnRenderVideoStreamChange);
-                this._renderStream.UnregisterUsage(this);
-                this._renderStream = null;
+                _renderStream.InvalidateContentEvent -= new InvalidateContentHandler(OnRenderVideoStreamChange);
+                _renderStream.UnregisterUsage(this);
+                _renderStream = null;
             }
-            this._presentationBuilder = null;
-            this._clients.Clear();
+            _presentationBuilder = null;
+            _clients.Clear();
         }
 
         public int StreamID
@@ -73,7 +73,7 @@ namespace Microsoft.Iris
             get
             {
                 UIDispatcher.VerifyOnApplicationThread();
-                return this._renderStream.StreamID;
+                return _renderStream.StreamID;
             }
         }
 
@@ -82,17 +82,17 @@ namespace Microsoft.Iris
             get
             {
                 UIDispatcher.VerifyOnApplicationThread();
-                return this._contentOverscanPer;
+                return _contentOverscanPer;
             }
             set
             {
                 UIDispatcher.VerifyOnApplicationThread();
                 if (value < 0.0 || value > 0.5)
                     throw new ArgumentException("Valdid range for content overscan is [0, .5]");
-                if (Math2.WithinEpsilon(this._contentOverscanPer, value))
+                if (Math2.WithinEpsilon(_contentOverscanPer, value))
                     return;
-                this._contentOverscanPer = value;
-                this.Invalidate(true);
+                _contentOverscanPer = value;
+                Invalidate(true);
             }
         }
 
@@ -101,17 +101,17 @@ namespace Microsoft.Iris
             get
             {
                 UIDispatcher.VerifyOnApplicationThread();
-                return this._srcVideo.Width;
+                return _srcVideo.Width;
             }
             set
             {
                 UIDispatcher.VerifyOnApplicationThread();
                 if (value < 0)
                     throw new ArgumentException("ContentWidth cannot be negative");
-                if (this._srcVideo.Width == value)
+                if (_srcVideo.Width == value)
                     return;
-                this._srcVideo.Width = value;
-                this.Invalidate(true);
+                _srcVideo.Width = value;
+                Invalidate(true);
             }
         }
 
@@ -120,17 +120,17 @@ namespace Microsoft.Iris
             get
             {
                 UIDispatcher.VerifyOnApplicationThread();
-                return this._srcVideo.Height;
+                return _srcVideo.Height;
             }
             set
             {
                 UIDispatcher.VerifyOnApplicationThread();
                 if (value < 0)
                     throw new ArgumentException("ContentHeight cannot be negative");
-                if (this._srcVideo.Height == value)
+                if (_srcVideo.Height == value)
                     return;
-                this._srcVideo.Height = value;
-                this.Invalidate(true);
+                _srcVideo.Height = value;
+                Invalidate(true);
             }
         }
 
@@ -139,17 +139,17 @@ namespace Microsoft.Iris
             get
             {
                 UIDispatcher.VerifyOnApplicationThread();
-                return this._srcAspect.Width;
+                return _srcAspect.Width;
             }
             set
             {
                 UIDispatcher.VerifyOnApplicationThread();
                 if (value < 0)
                     throw new ArgumentException("ContentAspectWidth cannot be negative");
-                if (this._srcAspect.Width == value)
+                if (_srcAspect.Width == value)
                     return;
-                this._srcAspect.Width = value;
-                this.Invalidate(true);
+                _srcAspect.Width = value;
+                Invalidate(true);
             }
         }
 
@@ -158,70 +158,70 @@ namespace Microsoft.Iris
             get
             {
                 UIDispatcher.VerifyOnApplicationThread();
-                return this._srcAspect.Height;
+                return _srcAspect.Height;
             }
             set
             {
                 UIDispatcher.VerifyOnApplicationThread();
                 if (value < 0)
                     throw new ArgumentException("ContentAspectHeight cannot be negative");
-                if (this._srcAspect.Height == value)
+                if (_srcAspect.Height == value)
                     return;
-                this._srcAspect.Height = value;
-                this.Invalidate(true);
+                _srcAspect.Height = value;
+                Invalidate(true);
             }
         }
 
-        public WindowPosition DisplayPosition => this._largestPosition;
+        public WindowPosition DisplayPosition => _largestPosition;
 
-        public WindowSize DisplaySize => this._largestSize;
+        public WindowSize DisplaySize => _largestSize;
 
-        public bool DisplayVisibility => this._isRendering;
+        public bool DisplayVisibility => _isRendering;
 
-        internal IVideoStream RenderStream => this._renderStream;
+        internal IVideoStream RenderStream => _renderStream;
 
         void IUIVideoStream.RegisterPortal(IUIVideoPortal portal)
         {
-            portal.PortalChange += new EventHandler(this.OnVideoClientChange);
-            this._clients.Add(portal);
+            portal.PortalChange += new EventHandler(OnVideoClientChange);
+            _clients.Add(portal);
             portal.OnStreamChange(true);
-            this.Invalidate(false);
+            Invalidate(false);
         }
 
         void IUIVideoStream.RevokePortal(IUIVideoPortal portal)
         {
-            portal.PortalChange -= new EventHandler(this.OnVideoClientChange);
-            if (this._clients.Contains(portal))
+            portal.PortalChange -= new EventHandler(OnVideoClientChange);
+            if (_clients.Contains(portal))
             {
-                this._clients.Remove(portal);
+                _clients.Remove(portal);
             }
             else
             {
-                int num = this._disposed ? 1 : 0;
+                int num = _disposed ? 1 : 0;
             }
             portal.OnRevokeStream();
-            this.Invalidate(false);
+            Invalidate(false);
         }
 
         BasicVideoPresentation IUIVideoStream.GetPresentation(
           IUIVideoPortal portal)
         {
             BasicVideoPresentation videoPresentation = null;
-            if (!this._disposed)
+            if (!_disposed)
             {
-                this._presentationBuilder.CompleteDestination = RectangleF.FromRectangle(portal.LogicalContentRect);
-                this._presentationBuilder.DestinationAspectRatio = new SizeF(portal.LogicalContentRect.Width, portal.LogicalContentRect.Height);
-                videoPresentation = this._presentationBuilder.BuildPresentation();
+                _presentationBuilder.CompleteDestination = RectangleF.FromRectangle(portal.LogicalContentRect);
+                _presentationBuilder.DestinationAspectRatio = new SizeF(portal.LogicalContentRect.Width, portal.LogicalContentRect.Height);
+                videoPresentation = _presentationBuilder.BuildPresentation();
             }
             return videoPresentation;
         }
 
         private void OnVideoClientChange(object sender, EventArgs args)
         {
-            this.Invalidate(false);
+            Invalidate(false);
             Rectangle rectangle1 = new Rectangle();
             int num1 = 0;
-            foreach (IUIVideoPortal client in this._clients)
+            foreach (IUIVideoPortal client in _clients)
             {
                 if (client.IsUIVisible)
                 {
@@ -234,56 +234,56 @@ namespace Microsoft.Iris
                     }
                 }
             }
-            this._largestPosition = new WindowPosition(rectangle1.Left, rectangle1.Top);
-            this._largestSize = new WindowSize(rectangle1.Width, rectangle1.Height);
-            this.Invalidate(false);
+            _largestPosition = new WindowPosition(rectangle1.Left, rectangle1.Top);
+            _largestSize = new WindowSize(rectangle1.Width, rectangle1.Height);
+            Invalidate(false);
         }
 
         private void OnRenderVideoStreamChange()
         {
-            this._srcAspect.Height = this._renderStream.ContentAspectHeight;
-            this._srcAspect.Width = this._renderStream.ContentAspectWidth;
-            this._srcVideo.Height = this._renderStream.ContentHeight;
-            this._srcVideo.Width = this._renderStream.ContentWidth;
-            this.Invalidate(true);
+            _srcAspect.Height = _renderStream.ContentAspectHeight;
+            _srcAspect.Width = _renderStream.ContentAspectWidth;
+            _srcVideo.Height = _renderStream.ContentHeight;
+            _srcVideo.Width = _renderStream.ContentWidth;
+            Invalidate(true);
         }
 
         public event EventHandler DisplayDetailsChanged;
 
         private void Invalidate(bool streamChange)
         {
-            if (this._deferredInvalidate)
+            if (_deferredInvalidate)
                 return;
-            DeferredCall.Post(DispatchPriority.AppEvent, new DeferredHandler(this.InvalidateWorker), streamChange);
-            this._deferredInvalidate = true;
+            DeferredCall.Post(DispatchPriority.AppEvent, new DeferredHandler(InvalidateWorker), streamChange);
+            _deferredInvalidate = true;
         }
 
         private void InvalidateWorker(object param)
         {
             bool fFormatChanged = (bool)param;
-            bool flag = this._srcAspect.Width > 0 && this._srcAspect.Height > 0 && this._srcVideo.Width >= 0 && this._srcVideo.Height >= 0;
+            bool flag = _srcAspect.Width > 0 && _srcAspect.Height > 0 && _srcVideo.Width >= 0 && _srcVideo.Height >= 0;
             if (fFormatChanged && flag)
             {
-                this._presentationBuilder.SourceDimensions = new SizeF(_srcVideo.Width, _srcVideo.Height);
-                this._presentationBuilder.ContentAspectRatio = new SizeF(_srcAspect.Width, _srcAspect.Height);
-                this._presentationBuilder.ContentOverscanFactor = this._contentOverscanPer * 100f;
+                _presentationBuilder.SourceDimensions = new SizeF(_srcVideo.Width, _srcVideo.Height);
+                _presentationBuilder.ContentAspectRatio = new SizeF(_srcAspect.Width, _srcAspect.Height);
+                _presentationBuilder.ContentOverscanFactor = _contentOverscanPer * 100f;
             }
-            this._isRendering = false;
-            foreach (IUIVideoPortal client in this._clients)
+            _isRendering = false;
+            foreach (IUIVideoPortal client in _clients)
             {
                 client.OnStreamChange(fFormatChanged);
                 if (client.IsUIVisible)
-                    this._isRendering = true;
+                    _isRendering = true;
             }
-            this._deferredInvalidate = false;
-            this.FireDisplayDetailsChanged();
+            _deferredInvalidate = false;
+            FireDisplayDetailsChanged();
         }
 
         private void FireDisplayDetailsChanged()
         {
-            if (this.DisplayDetailsChanged == null)
+            if (DisplayDetailsChanged == null)
                 return;
-            this.DisplayDetailsChanged(this, EventArgs.Empty);
+            DisplayDetailsChanged(this, EventArgs.Empty);
         }
     }
 }

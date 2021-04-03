@@ -14,19 +14,19 @@ namespace Microsoft.Iris.Markup.Validation
 
         public ValidateParameterDefinitionList(SourceMarkupLoader owner, int line, int column)
           : base(owner, line, column)
-          => this._paramDefinitionList = new ArrayList();
+          => _paramDefinitionList = new ArrayList();
 
-        public void AppendToEnd(ValidateParameterDefinition expression) => this._paramDefinitionList.Add(expression);
+        public void AppendToEnd(ValidateParameterDefinition expression) => _paramDefinitionList.Add(expression);
 
-        public ArrayList Parameters => this._paramDefinitionList;
+        public ArrayList Parameters => _paramDefinitionList;
 
         public void Validate(ValidateContext context)
         {
-            foreach (ValidateParameterDefinition paramDefinition in this._paramDefinitionList)
+            foreach (ValidateParameterDefinition paramDefinition in _paramDefinitionList)
             {
                 paramDefinition.Validate(null, context);
                 if (paramDefinition.HasErrors)
-                    this.MarkHasErrors();
+                    MarkHasErrors();
             }
         }
     }

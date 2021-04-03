@@ -18,27 +18,27 @@ namespace Microsoft.Iris
 
         public ThreadSafetyBlock(IThreadSafeObject safe)
         {
-            this._safe = safe != null ? safe : throw new ArgumentNullException(nameof(safe));
-            this._currentThread = Thread.CurrentThread;
-            this._error = false;
-            if (this._safe.Affinity == this._currentThread)
+            _safe = safe != null ? safe : throw new ArgumentNullException(nameof(safe));
+            _currentThread = Thread.CurrentThread;
+            _error = false;
+            if (_safe.Affinity == _currentThread)
                 return;
-            if (this._currentThread == UIDispatcher.MainUIThread)
-                this._safe.Affinity = UIDispatcher.MainUIThread;
+            if (_currentThread == UIDispatcher.MainUIThread)
+                _safe.Affinity = UIDispatcher.MainUIThread;
             else
-                this.ThrowError();
+                ThrowError();
         }
 
         public void Dispose()
         {
-            if (this._error || this._safe.Affinity == this._currentThread)
+            if (_error || _safe.Affinity == _currentThread)
                 return;
-            this.ThrowError();
+            ThrowError();
         }
 
         private void ThrowError()
         {
-            this._error = true;
+            _error = true;
             throw new InvalidOperationException("Access to object occurred on an invalid thread");
         }
     }

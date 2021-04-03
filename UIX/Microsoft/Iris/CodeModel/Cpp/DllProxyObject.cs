@@ -115,9 +115,9 @@ namespace Microsoft.Iris.CodeModel.Cpp
             return flag;
         }
 
-        protected DllProxyObject() => this._handle = 0UL;
+        protected DllProxyObject() => _handle = 0UL;
 
-        ~DllProxyObject() => RegisterAppThreadRelease(new DllProxyObject.AppThreadReleaseEntry(this._nativeObject, this._handle, this.OwningLoadResult));
+        ~DllProxyObject() => RegisterAppThreadRelease(new DllProxyObject.AppThreadReleaseEntry(_nativeObject, _handle, OwningLoadResult));
 
         protected static void RegisterAppThreadRelease(DllProxyObject.AppThreadReleaseEntry entry)
         {
@@ -135,13 +135,13 @@ namespace Microsoft.Iris.CodeModel.Cpp
 
         private void Load(IntPtr nativeObject, IntPtr marshalAs, DllTypeSchemaBase type)
         {
-            this._type = type;
-            this._nativeObject = nativeObject;
-            this.OwningLoadResult.RegisterProxyUsage();
-            this._handle = s_handleTable.RegisterProxy(this);
-            NativeApi.SpSetStateCache(this._nativeObject, this._handle);
-            NativeApi.SpAddRefExternalObject(this._nativeObject);
-            this.LoadWorker(nativeObject, marshalAs);
+            _type = type;
+            _nativeObject = nativeObject;
+            OwningLoadResult.RegisterProxyUsage();
+            _handle = s_handleTable.RegisterProxy(this);
+            NativeApi.SpSetStateCache(_nativeObject, _handle);
+            NativeApi.SpAddRefExternalObject(_nativeObject);
+            LoadWorker(nativeObject, marshalAs);
         }
 
         protected virtual void LoadWorker(IntPtr nativeObject, IntPtr nativeMarshalAs)
@@ -170,17 +170,17 @@ namespace Microsoft.Iris.CodeModel.Cpp
             return hresult;
         }
 
-        public ulong Handle => this._handle;
+        public ulong Handle => _handle;
 
-        public IntPtr NativeObject => this._nativeObject;
+        public IntPtr NativeObject => _nativeObject;
 
         public TypeSchema TypeSchema => _type;
 
-        protected DllLoadResult OwningLoadResult => this._type.Owner as DllLoadResult;
+        protected DllLoadResult OwningLoadResult => _type.Owner as DllLoadResult;
 
         private static bool CheckNativeReturn(uint hr) => DllLoadResult.CheckNativeReturn(hr, "IUIXObject");
 
-        bool IDisposableObject.IsDisposed => this._nativeObject == IntPtr.Zero;
+        bool IDisposableObject.IsDisposed => _nativeObject == IntPtr.Zero;
 
         void IDisposableObject.DeclareOwner(object owner)
         {
@@ -192,8 +192,8 @@ namespace Microsoft.Iris.CodeModel.Cpp
 
         void IDisposableObject.Dispose(object owner)
         {
-            this.OnDispose();
-            new DllProxyObject.AppThreadReleaseEntry(this._nativeObject, this._handle, this.OwningLoadResult).Release();
+            OnDispose();
+            new DllProxyObject.AppThreadReleaseEntry(_nativeObject, _handle, OwningLoadResult).Release();
             GC.SuppressFinalize(this);
         }
 
@@ -227,7 +227,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
 
         public string DEBUG_Description() => string.Empty;
 
-        public override string ToString() => this._type is DllTypeSchema type ? type.InvokeToString(this) : this.GetType().Name;
+        public override string ToString() => _type is DllTypeSchema type ? type.InvokeToString(this) : GetType().Name;
 
         internal struct AppThreadReleaseEntry
         {
@@ -238,34 +238,34 @@ namespace Microsoft.Iris.CodeModel.Cpp
 
             public AppThreadReleaseEntry(IntPtr nativeObject, ulong handle, DllLoadResult loadResult)
             {
-                this._nativeObject = nativeObject;
-                this._handle = handle;
-                this._loadResult = loadResult;
-                this._releaseHandle = true;
+                _nativeObject = nativeObject;
+                _handle = handle;
+                _loadResult = loadResult;
+                _releaseHandle = true;
             }
 
             public AppThreadReleaseEntry(IntPtr nativeObject)
             {
-                this._nativeObject = nativeObject;
-                this._releaseHandle = false;
-                this._handle = 0UL;
-                this._loadResult = null;
+                _nativeObject = nativeObject;
+                _releaseHandle = false;
+                _handle = 0UL;
+                _loadResult = null;
             }
 
             public void Release()
             {
-                if (this._releaseHandle)
+                if (_releaseHandle)
                 {
-                    s_handleTable.ReleaseProxy(this._handle);
+                    s_handleTable.ReleaseProxy(_handle);
                     ulong state;
-                    NativeApi.SpGetStateCache(this._nativeObject, out state);
-                    if ((long)this._handle == (long)state)
-                        NativeApi.SpSetStateCache(this._nativeObject, 0UL);
+                    NativeApi.SpGetStateCache(_nativeObject, out state);
+                    if ((long)_handle == (long)state)
+                        NativeApi.SpSetStateCache(_nativeObject, 0UL);
                 }
-                NativeApi.SpReleaseExternalObject(this._nativeObject);
-                if (!this._releaseHandle)
+                NativeApi.SpReleaseExternalObject(_nativeObject);
+                if (!_releaseHandle)
                     return;
-                this._loadResult.UnregisterProxyUsage();
+                _loadResult.UnregisterProxyUsage();
             }
         }
     }

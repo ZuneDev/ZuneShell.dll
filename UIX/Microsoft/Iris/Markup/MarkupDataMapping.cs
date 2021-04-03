@@ -14,30 +14,30 @@ namespace Microsoft.Iris.Markup
         private string _provider;
         private object _assemblyDataProviderCookie;
 
-        public MarkupDataMapping(string name) => this._name = name;
+        public MarkupDataMapping(string name) => _name = name;
 
         public MarkupDataTypeSchema TargetType
         {
-            get => this._targetType;
-            set => this._targetType = value;
+            get => _targetType;
+            set => _targetType = value;
         }
 
         public string Provider
         {
-            get => this._provider;
-            set => this._provider = value;
+            get => _provider;
+            set => _provider = value;
         }
 
         public MarkupDataMappingEntry[] Mappings
         {
-            get => this._mappings;
-            set => this._mappings = value;
+            get => _mappings;
+            set => _mappings = value;
         }
 
         public object AssemblyDataProviderCookie
         {
-            get => this._assemblyDataProviderCookie;
-            set => this._assemblyDataProviderCookie = value;
+            get => _assemblyDataProviderCookie;
+            set => _assemblyDataProviderCookie = value;
         }
 
         public override string ToString() => string.Format("({0}, {1})", _provider, _targetType);

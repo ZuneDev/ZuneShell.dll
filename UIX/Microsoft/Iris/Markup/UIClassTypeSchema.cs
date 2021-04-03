@@ -46,9 +46,9 @@ namespace Microsoft.Iris.Markup
             try
             {
                 uint scriptOffset = uint.MaxValue;
-                if (this._namedContentTable != null)
+                if (_namedContentTable != null)
                 {
-                    foreach (NamedContentRecord namedContentRecord in this._namedContentTable)
+                    foreach (NamedContentRecord namedContentRecord in _namedContentTable)
                     {
                         if (namedContentRecord.Name == name)
                         {
@@ -59,13 +59,13 @@ namespace Microsoft.Iris.Markup
                 }
                 if (scriptOffset == uint.MaxValue)
                 {
-                    UIClassTypeSchema markupTypeBase = (UIClassTypeSchema)this.MarkupTypeBase;
+                    UIClassTypeSchema markupTypeBase = (UIClassTypeSchema)MarkupTypeBase;
                     if (markupTypeBase != null)
                         return markupTypeBase.ConstructNamedContent(name, markupType, parameterContext);
                 }
                 if (scriptOffset != uint.MaxValue)
                 {
-                    object obj = this.RunAtOffset(markupType, scriptOffset, parameterContext);
+                    object obj = RunAtOffset(markupType, scriptOffset, parameterContext);
                     if (obj != Interpreter.ScriptError)
                         return (ViewItem)obj;
                     ErrorManager.ReportWarning("Script runtime failure: Scripting errors have prevented '{0}' named content from being constructed", name);
@@ -83,14 +83,14 @@ namespace Microsoft.Iris.Markup
             Host ownerHost = instance as Host;
             UIClass childUi = ownerHost.ChildUI;
             childUi.DeclareHost(ownerHost);
-            this.InitializeInstance(ownerHost.ChildUI);
+            InitializeInstance(ownerHost.ChildUI);
             if (childUi.RootItem != null)
                 ownerHost.Children.Add(childUi.RootItem);
             childUi.DeclareOwner(ownerHost);
         }
 
-        public NamedContentRecord[] NamedContentTable => this._namedContentTable;
+        public NamedContentRecord[] NamedContentTable => _namedContentTable;
 
-        public void SetNamedContentTable(NamedContentRecord[] namedContentTable) => this._namedContentTable = namedContentTable;
+        public void SetNamedContentTable(NamedContentRecord[] namedContentTable) => _namedContentTable = namedContentTable;
     }
 }

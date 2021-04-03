@@ -22,18 +22,18 @@ namespace Microsoft.Iris.Markup
 
         public object DefaultValue
         {
-            get => this._defaultValue;
-            set => this._defaultValue = value;
+            get => _defaultValue;
+            set => _defaultValue = value;
         }
 
         public bool InvalidatesQuery
         {
-            get => this._invalidatesQuery;
-            set => this._invalidatesQuery = value;
+            get => _invalidatesQuery;
+            set => _invalidatesQuery = value;
         }
 
-        public override TypeSchema AlternateType => this._underlyingCollectionType;
+        public override TypeSchema AlternateType => _underlyingCollectionType;
 
-        public void SetUnderlyingCollectionType(TypeSchema underlyingCollectionType) => this._underlyingCollectionType = underlyingCollectionType;
+        public void SetUnderlyingCollectionType(TypeSchema underlyingCollectionType) => _underlyingCollectionType = underlyingCollectionType;
     }
 }

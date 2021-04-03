@@ -16,20 +16,20 @@ namespace Microsoft.Iris.Layouts
 
         public int AngleDegrees
         {
-            get => this._angleDegrees;
-            set => this._angleDegrees = value;
+            get => _angleDegrees;
+            set => _angleDegrees = value;
         }
 
         public ItemAlignment DefaultChildAlignment => ItemAlignment.Default;
 
-        private bool IsVertical => this.AngleDegrees == 90 || this.AngleDegrees == 270;
+        private bool IsVertical => AngleDegrees == 90 || AngleDegrees == 270;
 
         Size ILayout.Measure(ILayoutNode layoutNode, Size constraint)
         {
-            if (this.IsVertical)
+            if (IsVertical)
                 constraint = new Size(constraint.Height, constraint.Width);
             Size size = DefaultLayout.Measure(layoutNode, constraint);
-            if (this.IsVertical)
+            if (IsVertical)
                 size = new Size(size.Height, size.Width);
             return size;
         }
@@ -39,7 +39,7 @@ namespace Microsoft.Iris.Layouts
             if (layoutNode.LayoutChildrenCount <= 0)
                 return;
             Rectangle rectangle = new Rectangle(slot.Bounds);
-            switch (this.AngleDegrees)
+            switch (AngleDegrees)
             {
                 case 90:
                     Point offset1 = new Point(rectangle.Width, rectangle.Width);
@@ -61,7 +61,7 @@ namespace Microsoft.Iris.Layouts
                     break;
             }
             Rotation rotation = Rotation.Default;
-            rotation.AngleDegrees = this.AngleDegrees;
+            rotation.AngleDegrees = AngleDegrees;
             foreach (ILayoutNode layoutChild in layoutNode.LayoutChildren)
                 layoutChild.Arrange(slot, rectangle, Vector3.UnitVector, rotation);
         }

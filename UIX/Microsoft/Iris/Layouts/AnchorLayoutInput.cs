@@ -20,44 +20,44 @@ namespace Microsoft.Iris.Layouts
 
         public AnchorEdge Left
         {
-            get => this._anchorLeft;
-            set => this._anchorLeft = value;
+            get => _anchorLeft;
+            set => _anchorLeft = value;
         }
 
         public AnchorEdge Top
         {
-            get => this._anchorTop;
-            set => this._anchorTop = value;
+            get => _anchorTop;
+            set => _anchorTop = value;
         }
 
         public AnchorEdge Right
         {
-            get => this._anchorRight;
-            set => this._anchorRight = value;
+            get => _anchorRight;
+            set => _anchorRight = value;
         }
 
         public AnchorEdge Bottom
         {
-            get => this._anchorBottom;
-            set => this._anchorBottom = value;
+            get => _anchorBottom;
+            set => _anchorBottom = value;
         }
 
         public bool ContributesToWidth
         {
-            get => this._contributesToWidthFlag;
-            set => this._contributesToWidthFlag = value;
+            get => _contributesToWidthFlag;
+            set => _contributesToWidthFlag = value;
         }
 
         public bool ContributesToHeight
         {
-            get => this._contributesToHeightFlag;
-            set => this._contributesToHeightFlag = value;
+            get => _contributesToHeightFlag;
+            set => _contributesToHeightFlag = value;
         }
 
         DataCookie ILayoutInput.Data => Data;
 
         internal static DataCookie Data => AnchorLayout.InputData;
 
-        public override string ToString() => InvariantString.Format("AnchorLayoutInput(Left={0}, Top={1}, Right={2}, Bottom={3}{4}{5})", Left, Top, Right, Bottom, this.ContributesToWidth ? ", ContributesToWidth=true" : string.Empty, this.ContributesToHeight ? ", ContributesToHeight=true" : string.Empty);
+        public override string ToString() => InvariantString.Format("AnchorLayoutInput(Left={0}, Top={1}, Right={2}, Bottom={3}{4}{5})", Left, Top, Right, Bottom, ContributesToWidth ? ", ContributesToWidth=true" : string.Empty, ContributesToHeight ? ", ContributesToHeight=true" : string.Empty);
     }
 }

@@ -13,17 +13,17 @@ namespace Microsoft.Iris.InputHandlers
     {
         private object _value;
 
-        protected override void ConfigureInteractivity() => this.UI.SetEventContext(this);
+        protected override void ConfigureInteractivity() => UI.SetEventContext(this);
 
         public object Value
         {
-            get => this._value;
+            get => _value;
             set
             {
-                if (this._value == value)
+                if (_value == value)
                     return;
-                this._value = value;
-                this.FireNotification(NotificationID.Value);
+                _value = value;
+                FireNotification(NotificationID.Value);
             }
         }
     }

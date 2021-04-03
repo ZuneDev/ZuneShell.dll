@@ -17,7 +17,7 @@ namespace Microsoft.Iris.Markup
         private bool _warningsOnly = true;
         private NotifyService _notifier = new NotifyService();
 
-        private MarkupServices() => ErrorManager.OnErrors += new NotifyErrorBatch(this.OnErrorBatch);
+        private MarkupServices() => ErrorManager.OnErrors += new NotifyErrorBatch(OnErrorBatch);
 
         public static MarkupServices Instance
         {
@@ -34,24 +34,24 @@ namespace Microsoft.Iris.Markup
             foreach (ErrorRecord error in errors)
             {
                 if (!error.Warning)
-                    this._warningsOnly = false;
-                this._errors.Add(new MarkupError(error));
+                    _warningsOnly = false;
+                _errors.Add(new MarkupError(error));
             }
-            this.FireNotification(NotificationID.ErrorsDetected);
+            FireNotification(NotificationID.ErrorsDetected);
         }
 
         public IList Errors => _errors;
 
-        public bool WarningsOnly => this._warningsOnly;
+        public bool WarningsOnly => _warningsOnly;
 
         public void ClearErrors()
         {
-            this._errors.Clear();
-            this._warningsOnly = true;
+            _errors.Clear();
+            _warningsOnly = true;
         }
 
-        void INotifyObject.AddListener(Listener listener) => this._notifier.AddListener(listener);
+        void INotifyObject.AddListener(Listener listener) => _notifier.AddListener(listener);
 
-        private void FireNotification(string id) => this._notifier.Fire(id);
+        private void FireNotification(string id) => _notifier.Fire(id);
     }
 }

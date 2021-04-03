@@ -17,24 +17,24 @@ namespace Microsoft.Iris.CodeModel.Cpp
             get
             {
                 object obj = null;
-                if (this._reference.IsAllocated)
-                    obj = this._reference.Target;
+                if (_reference.IsAllocated)
+                    obj = _reference.Target;
                 return obj;
             }
             set
             {
                 if (value != null)
                 {
-                    if (this._reference.IsAllocated)
-                        this._reference.Target = value;
+                    if (_reference.IsAllocated)
+                        _reference.Target = value;
                     else
-                        this._reference = GCHandle.Alloc(value, GCHandleType.Weak);
+                        _reference = GCHandle.Alloc(value, GCHandleType.Weak);
                 }
                 else
                 {
-                    if (!this._reference.IsAllocated)
+                    if (!_reference.IsAllocated)
                         return;
-                    this._reference.Free();
+                    _reference.Free();
                 }
             }
         }

@@ -30,9 +30,9 @@ namespace Microsoft.Iris.Markup.Validation
           int column)
           : base(owner, line, column, ExpressionType.Call)
         {
-            this._target = target;
-            this._memberName = memberName;
-            this._parameterList = parameterList;
+            _target = target;
+            _memberName = memberName;
+            _parameterList = parameterList;
         }
 
         public ValidateExpressionCall(
@@ -44,81 +44,81 @@ namespace Microsoft.Iris.Markup.Validation
           int column)
           : base(owner, line, column, ExpressionType.Call)
         {
-            this._typeIdentifier = typeIdentifier;
-            this._memberName = memberName;
-            this._parameterList = parameterList;
+            _typeIdentifier = typeIdentifier;
+            _memberName = memberName;
+            _parameterList = parameterList;
         }
 
-        public ValidateExpression Target => !this._foundTargetIsStatic ? this._target : null;
+        public ValidateExpression Target => !_foundTargetIsStatic ? _target : null;
 
-        public string MemberName => this._memberName;
+        public string MemberName => _memberName;
 
-        public ValidateParameter ParameterList => this._parameterList;
+        public ValidateParameter ParameterList => _parameterList;
 
         public override void Validate(TypeRestriction typeRestriction, ValidateContext context)
         {
             int foundTargetTypeIndex = -1;
             TypeSchema targetType;
-            if (this._target != null)
+            if (_target != null)
             {
-                if (this._target.ExpressionType == ExpressionType.Symbol)
+                if (_target.ExpressionType == ExpressionType.Symbol)
                 {
-                    ValidateExpressionSymbol target = (ValidateExpressionSymbol)this._target;
+                    ValidateExpressionSymbol target = (ValidateExpressionSymbol)_target;
                     target.Validate(TypeRestriction.NotVoid, context, true);
                     foundTargetTypeIndex = target.FoundSymbolIndex;
-                    this._foundTargetIsStatic = target.FoundSymbolIsType;
+                    _foundTargetIsStatic = target.FoundSymbolIsType;
                 }
                 else
-                    this._target.Validate(TypeRestriction.NotVoid, context);
-                if (this._target.HasErrors)
+                    _target.Validate(TypeRestriction.NotVoid, context);
+                if (_target.HasErrors)
                 {
-                    this.MarkHasErrors();
+                    MarkHasErrors();
                     return;
                 }
-                targetType = this._target.ObjectType;
+                targetType = _target.ObjectType;
             }
             else
             {
-                this._typeIdentifier.Validate();
-                if (this._typeIdentifier.HasErrors)
+                _typeIdentifier.Validate();
+                if (_typeIdentifier.HasErrors)
                 {
-                    this.MarkHasErrors();
+                    MarkHasErrors();
                     return;
                 }
-                targetType = this._typeIdentifier.FoundType;
-                foundTargetTypeIndex = this._typeIdentifier.FoundTypeIndex;
-                this._foundTargetIsStatic = true;
+                targetType = _typeIdentifier.FoundType;
+                foundTargetTypeIndex = _typeIdentifier.FoundTypeIndex;
+                _foundTargetIsStatic = true;
             }
             ExpressionRestriction expressionRestriction = ExpressionRestriction.None;
             bool canRead = true;
             bool canWrite = false;
-            this._foundParameterTypes = this.BuildParameterTypeList(context);
-            if (this._foundParameterTypes == null)
+            _foundParameterTypes = BuildParameterTypeList(context);
+            if (_foundParameterTypes == null)
                 return;
-            if (this._target != null && this._target.ExpressionType == ExpressionType.BaseClass)
-                this.ValidateBaseCall(typeRestriction, context);
-            else if (this._parameterList == null)
+            if (_target != null && _target.ExpressionType == ExpressionType.BaseClass)
+                ValidateBaseCall(typeRestriction, context);
+            else if (_parameterList == null)
             {
-                if (!this.ValidatePropertyOrEvent(targetType, typeRestriction, context, foundTargetTypeIndex, ref expressionRestriction, ref canRead, ref canWrite))
+                if (!ValidatePropertyOrEvent(targetType, typeRestriction, context, foundTargetTypeIndex, ref expressionRestriction, ref canRead, ref canWrite))
                     return;
             }
-            else if (!this.ValidateMethodCall(targetType, typeRestriction, context, ref expressionRestriction))
+            else if (!ValidateMethodCall(targetType, typeRestriction, context, ref expressionRestriction))
                 return;
             if (expressionRestriction == ExpressionRestriction.NoAccess)
             {
-                this.ReportError("Expression access to '{0}' is not available", this._memberName);
+                ReportError("Expression access to '{0}' is not available", _memberName);
             }
             else
             {
-                if (this.Usage == ExpressionUsage.LValue && (!canWrite || expressionRestriction == ExpressionRestriction.ReadOnly))
-                    this.ReportError("Expression access to '{0}' only supports read operations", this._memberName);
-                if (this.Usage == ExpressionUsage.RValue && !canRead)
-                    this.ReportError("Expression access to '{0}' only supports write operations", this._memberName);
-                if (this.HasErrors)
+                if (Usage == ExpressionUsage.LValue && (!canWrite || expressionRestriction == ExpressionRestriction.ReadOnly))
+                    ReportError("Expression access to '{0}' only supports read operations", _memberName);
+                if (Usage == ExpressionUsage.RValue && !canRead)
+                    ReportError("Expression access to '{0}' only supports write operations", _memberName);
+                if (HasErrors)
                     return;
-                if (this._foundMemberType == SchemaType.Property && this.Usage == ExpressionUsage.LValue)
+                if (_foundMemberType == SchemaType.Property && Usage == ExpressionUsage.LValue)
                     context.Owner.NotifyFoundPropertyAssignment(this);
-                if (this._foundMemberType != SchemaType.Method)
+                if (_foundMemberType != SchemaType.Method)
                     return;
                 context.Owner.NotifyFoundMethodCall(this);
             }
@@ -133,45 +133,45 @@ namespace Microsoft.Iris.Markup.Validation
           ref bool canRead,
           ref bool canWrite)
         {
-            PropertySchema propertyDeep = targetType.FindPropertyDeep(this._memberName);
-            if (propertyDeep != null && (propertyDeep.IsStatic || !this._foundTargetIsStatic))
+            PropertySchema propertyDeep = targetType.FindPropertyDeep(_memberName);
+            if (propertyDeep != null && (propertyDeep.IsStatic || !_foundTargetIsStatic))
             {
-                this._foundMemberType = SchemaType.Property;
-                this._foundMemberIndex = this.Owner.TrackImportedProperty(propertyDeep);
+                _foundMemberType = SchemaType.Property;
+                _foundMemberIndex = Owner.TrackImportedProperty(propertyDeep);
                 expressionRestriction = propertyDeep.ExpressionRestriction;
                 canRead = propertyDeep.CanRead;
                 canWrite = propertyDeep.CanWrite && !propertyDeep.Owner.IsRuntimeImmutable;
-                this.DeclareEvaluationType(propertyDeep.PropertyType, typeRestriction);
-                if (!this._foundTargetIsStatic && propertyDeep.NotifiesOnChange)
-                    this.DeclareNotifies(context);
+                DeclareEvaluationType(propertyDeep.PropertyType, typeRestriction);
+                if (!_foundTargetIsStatic && propertyDeep.NotifiesOnChange)
+                    DeclareNotifies(context);
             }
-            if (this._foundMemberType == SchemaType.None && !this._foundTargetIsStatic)
+            if (_foundMemberType == SchemaType.None && !_foundTargetIsStatic)
             {
-                EventSchema eventDeep = targetType.FindEventDeep(this._memberName);
+                EventSchema eventDeep = targetType.FindEventDeep(_memberName);
                 if (eventDeep != null)
                 {
-                    this._foundMemberType = SchemaType.Event;
-                    this._foundMemberIndex = this.Owner.TrackImportedEvent(eventDeep);
+                    _foundMemberType = SchemaType.Event;
+                    _foundMemberIndex = Owner.TrackImportedEvent(eventDeep);
                     expressionRestriction = ExpressionRestriction.ReadOnly;
-                    this.DeclareEvaluationType(VoidSchema.Type, typeRestriction);
-                    this.DeclareNotifies(context);
+                    DeclareEvaluationType(VoidSchema.Type, typeRestriction);
+                    DeclareNotifies(context);
                 }
             }
-            if (this._foundMemberType == SchemaType.None && this._foundTargetIsStatic)
+            if (_foundMemberType == SchemaType.None && _foundTargetIsStatic)
             {
-                object canonicalInstance = targetType.FindCanonicalInstance(this._memberName);
+                object canonicalInstance = targetType.FindCanonicalInstance(_memberName);
                 if (canonicalInstance != null)
                 {
-                    this._foundMemberType = SchemaType.CanonicalInstance;
-                    this._foundMemberIndex = foundTargetTypeIndex;
-                    this._foundCanonicalInstance = canonicalInstance;
+                    _foundMemberType = SchemaType.CanonicalInstance;
+                    _foundMemberIndex = foundTargetTypeIndex;
+                    _foundCanonicalInstance = canonicalInstance;
                     expressionRestriction = ExpressionRestriction.ReadOnly;
-                    this.DeclareEvaluationType(targetType, typeRestriction);
+                    DeclareEvaluationType(targetType, typeRestriction);
                 }
             }
-            if (this._foundMemberType != SchemaType.None)
+            if (_foundMemberType != SchemaType.None)
                 return true;
-            this.ReportError("Unable to find a Property, Event, or Method called \"{0}\" on '{1}'", this._memberName, targetType.Name);
+            ReportError("Unable to find a Property, Event, or Method called \"{0}\" on '{1}'", _memberName, targetType.Name);
             return false;
         }
 
@@ -182,19 +182,19 @@ namespace Microsoft.Iris.Markup.Validation
           ref ExpressionRestriction expressionRestriction)
         {
             expressionRestriction = ExpressionRestriction.ReadOnly;
-            TypeSchema[] foundParameterTypes = this._foundParameterTypes;
-            MethodSchema methodDeep = targetType.FindMethodDeep(this._memberName, foundParameterTypes);
-            if (methodDeep != null && (methodDeep.IsStatic || !this._foundTargetIsStatic))
+            TypeSchema[] foundParameterTypes = _foundParameterTypes;
+            MethodSchema methodDeep = targetType.FindMethodDeep(_memberName, foundParameterTypes);
+            if (methodDeep != null && (methodDeep.IsStatic || !_foundTargetIsStatic))
             {
-                this._foundMemberType = SchemaType.Method;
-                this._foundMemberIndex = this.Owner.TrackImportedMethod(methodDeep);
-                this.DeclareEvaluationType(methodDeep.ReturnType, typeRestriction);
+                _foundMemberType = SchemaType.Method;
+                _foundMemberIndex = Owner.TrackImportedMethod(methodDeep);
+                DeclareEvaluationType(methodDeep.ReturnType, typeRestriction);
             }
-            if (this._foundMemberType != SchemaType.None)
+            if (_foundMemberType != SchemaType.None)
                 return true;
             if (foundParameterTypes.Length == 0)
             {
-                this.ReportError("Unable to find a Property, Event, or Method called \"{0}\" on '{1}'", this._memberName, targetType.Name);
+                ReportError("Unable to find a Property, Event, or Method called \"{0}\" on '{1}'", _memberName, targetType.Name);
                 return false;
             }
             string empty = string.Empty;
@@ -206,7 +206,7 @@ namespace Microsoft.Iris.Markup.Validation
                 empty += typeSchema.Name;
                 flag = false;
             }
-            this.ReportError("Unable to find a Method \"{0}\" that accepts parameters '{1}' on '{2}'", this._memberName, empty, targetType.Name);
+            ReportError("Unable to find a Method \"{0}\" that accepts parameters '{1}' on '{2}'", _memberName, empty, targetType.Name);
             return false;
         }
 
@@ -215,39 +215,39 @@ namespace Microsoft.Iris.Markup.Validation
             MarkupMethodSchema markupMethodSchema = context.CurrentMethod != null ? context.CurrentMethod.FoundBaseMethod : null;
             if (markupMethodSchema != null)
             {
-                if (this._parameterList == null || this._memberName != markupMethodSchema.Name)
-                    this.ReportError("'base' keyword can only be used to call the base virtual method inside an override");
-                else if (new MethodSignatureKey(markupMethodSchema.Name, markupMethodSchema.ParameterTypes).Equals(new MethodSignatureKey(this._memberName, this._foundParameterTypes)))
+                if (_parameterList == null || _memberName != markupMethodSchema.Name)
+                    ReportError("'base' keyword can only be used to call the base virtual method inside an override");
+                else if (new MethodSignatureKey(markupMethodSchema.Name, markupMethodSchema.ParameterTypes).Equals(new MethodSignatureKey(_memberName, _foundParameterTypes)))
                 {
-                    this._foundMemberType = SchemaType.Method;
-                    this._foundMemberIndex = this.Owner.TrackImportedMethod(markupMethodSchema);
-                    this.DeclareEvaluationType(markupMethodSchema.ReturnType, typeRestriction);
+                    _foundMemberType = SchemaType.Method;
+                    _foundMemberIndex = Owner.TrackImportedMethod(markupMethodSchema);
+                    DeclareEvaluationType(markupMethodSchema.ReturnType, typeRestriction);
                 }
                 else
-                    this.ReportError("'base' keyword can only be used to call the base virtual method inside an override");
+                    ReportError("'base' keyword can only be used to call the base virtual method inside an override");
             }
             else
-                this.MarkHasErrors();
+                MarkHasErrors();
         }
 
         private TypeSchema[] BuildParameterTypeList(ValidateContext context)
         {
             TypeSchema[] typeSchemaArray = TypeSchema.EmptyList;
-            if (this._parameterList != ValidateParameter.EmptyList)
+            if (_parameterList != ValidateParameter.EmptyList)
             {
                 int length = 0;
-                for (ValidateParameter validateParameter = this._parameterList; validateParameter != null; validateParameter = validateParameter.Next)
+                for (ValidateParameter validateParameter = _parameterList; validateParameter != null; validateParameter = validateParameter.Next)
                 {
                     validateParameter.Validate(context);
                     if (validateParameter.HasErrors)
-                        this.MarkHasErrors();
+                        MarkHasErrors();
                     ++length;
                 }
-                if (this.HasErrors)
+                if (HasErrors)
                     return null;
                 typeSchemaArray = new TypeSchema[length];
                 int index = 0;
-                for (ValidateParameter validateParameter = this._parameterList; validateParameter != null; validateParameter = validateParameter.Next)
+                for (ValidateParameter validateParameter = _parameterList; validateParameter != null; validateParameter = validateParameter.Next)
                 {
                     typeSchemaArray[index] = validateParameter.FoundParameterType;
                     ++index;
@@ -256,14 +256,14 @@ namespace Microsoft.Iris.Markup.Validation
             return typeSchemaArray;
         }
 
-        public void SetAsIndexAssignment() => this._isIndexAssignment = true;
+        public void SetAsIndexAssignment() => _isIndexAssignment = true;
 
-        public SchemaType FoundMemberType => this._foundMemberType;
+        public SchemaType FoundMemberType => _foundMemberType;
 
-        public int FoundMemberIndex => this._foundMemberIndex;
+        public int FoundMemberIndex => _foundMemberIndex;
 
-        public object FoundCanonicalInstance => this._foundCanonicalInstance;
+        public object FoundCanonicalInstance => _foundCanonicalInstance;
 
-        public bool IsIndexAssignment => this._isIndexAssignment;
+        public bool IsIndexAssignment => _isIndexAssignment;
     }
 }

@@ -12,8 +12,8 @@ namespace Microsoft.Iris.Animations
     {
         private float _progress;
 
-        public AnimationCompleteArgs(float progress) => this._progress = progress;
+        public AnimationCompleteArgs(float progress) => _progress = progress;
 
-        public float Progress => this._progress;
+        public float Progress => _progress;
     }
 }

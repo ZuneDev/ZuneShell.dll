@@ -17,12 +17,12 @@ namespace Microsoft.Iris.Markup
           ConstructHandler construct)
           : base(UIXTypes.MapIDToType(ownerTypeID))
         {
-            this._parameterTypes = UIXTypes.MapIDsToTypes(parameterTypeIDs);
-            this._construct = construct;
+            _parameterTypes = UIXTypes.MapIDsToTypes(parameterTypeIDs);
+            _construct = construct;
         }
 
-        public override TypeSchema[] ParameterTypes => this._parameterTypes;
+        public override TypeSchema[] ParameterTypes => _parameterTypes;
 
-        public override object Construct(object[] parameters) => this._construct(parameters);
+        public override object Construct(object[] parameters) => _construct(parameters);
     }
 }

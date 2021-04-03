@@ -22,26 +22,26 @@ namespace Microsoft.Iris.Drawing
 
         public Rotation(float angleRadians, Vector3 axis)
         {
-            this._axis = axis;
-            this._angleRad = angleRadians;
+            _axis = axis;
+            _angleRad = angleRadians;
         }
 
         public Vector3 Axis
         {
-            get => this._axis;
-            set => this._axis = value;
+            get => _axis;
+            set => _axis = value;
         }
 
         public float AngleRadians
         {
-            get => this._angleRad;
-            set => this._angleRad = value;
+            get => _angleRad;
+            set => _angleRad = value;
         }
 
         public int AngleDegrees
         {
             get => (int)(_angleRad * 180.0 / 3.14159274101257);
-            set => this._angleRad = (float)(value * 3.14159274101257 / 180.0);
+            set => _angleRad = (float)(value * 3.14159274101257 / 180.0);
         }
 
         public override bool Equals(object obj) => obj is Rotation rotation && this == rotation;
@@ -50,7 +50,7 @@ namespace Microsoft.Iris.Drawing
 
         public static bool operator !=(Rotation left, Rotation right) => left.Axis != right.Axis || left.AngleRadians != (double)right.AngleRadians;
 
-        public override int GetHashCode() => this.Axis.GetHashCode() ^ this.AngleRadians.GetHashCode();
+        public override int GetHashCode() => Axis.GetHashCode() ^ AngleRadians.GetHashCode();
 
         public override string ToString()
         {
@@ -58,7 +58,7 @@ namespace Microsoft.Iris.Drawing
             stringBuilder.Append("(Axis=");
             stringBuilder.Append(Axis);
             stringBuilder.Append(", Angle=");
-            stringBuilder.Append(this.AngleRadians);
+            stringBuilder.Append(AngleRadians);
             stringBuilder.Append(")");
             return stringBuilder.ToString();
         }

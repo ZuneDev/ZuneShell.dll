@@ -35,26 +35,26 @@ namespace Microsoft.Iris.Drawing
         private NotifyService _notifier = new NotifyService();
         private IList _listeners = new ArrayList();
 
-        public Camera() => this._camera = UISession.Default.RenderSession.CreateCamera(this);
+        public Camera() => _camera = UISession.Default.RenderSession.CreateCamera(this);
 
         protected override void OnDispose()
         {
             base.OnDispose();
-            Vector<ActiveSequence> activeAnimations = this.GetActiveAnimations(false);
+            Vector<ActiveSequence> activeAnimations = GetActiveAnimations(false);
             if (activeAnimations != null)
             {
                 foreach (DisposableObject disposableObject in activeAnimations)
                     disposableObject.Dispose(this);
             }
-            this._camera.UnregisterUsage(this);
-            this._camera = null;
+            _camera.UnregisterUsage(this);
+            _camera = null;
         }
 
-        public void AddListener(Listener listener) => this._notifier.AddListener(listener);
+        public void AddListener(Listener listener) => _notifier.AddListener(listener);
 
         protected void FireNotification(string id)
         {
-            this._notifier.Fire(id);
+            _notifier.Fire(id);
             foreach (object listener in _listeners)
             {
                 if (listener is ViewItem viewItem)
@@ -65,38 +65,38 @@ namespace Microsoft.Iris.Drawing
         public override void RegisterUsage(object consumer)
         {
             base.RegisterUsage(consumer);
-            this._listeners.Add(consumer);
+            _listeners.Add(consumer);
         }
 
         public override void UnregisterUsage(object consumer)
         {
-            this._listeners.Remove(consumer);
+            _listeners.Remove(consumer);
             base.UnregisterUsage(consumer);
         }
 
         public bool Perspective
         {
-            get => this._camera.Perspective;
+            get => _camera.Perspective;
             set
             {
-                if (this._camera.Perspective == value)
+                if (_camera.Perspective == value)
                     return;
-                this._camera.Perspective = value;
-                this.FireNotification(NotificationID.Perspective);
+                _camera.Perspective = value;
+                FireNotification(NotificationID.Perspective);
             }
         }
 
         public Vector3 Eye
         {
-            get => this._hasEyeNoSend ? this._vEyeNoSend : this._camera.Eye;
+            get => _hasEyeNoSend ? _vEyeNoSend : _camera.Eye;
             set
             {
-                if (!(this._camera.Eye != value))
+                if (!(_camera.Eye != value))
                     return;
-                this.CameraEyeNoSend = value;
-                if (this._eyeAnimation == null || !this.PlayAnimation(this._eyeAnimation, null))
-                    this.CameraEye = value;
-                this.FireNotification(NotificationID.Eye);
+                CameraEyeNoSend = value;
+                if (_eyeAnimation == null || !PlayAnimation(_eyeAnimation, null))
+                    CameraEye = value;
+                FireNotification(NotificationID.Eye);
             }
         }
 
@@ -104,8 +104,8 @@ namespace Microsoft.Iris.Drawing
         {
             set
             {
-                this._hasEyeNoSend = true;
-                this._vEyeNoSend = value;
+                _hasEyeNoSend = true;
+                _vEyeNoSend = value;
             }
         }
 
@@ -113,22 +113,22 @@ namespace Microsoft.Iris.Drawing
         {
             set
             {
-                this._camera.Eye = value;
-                this._hasEyeNoSend = false;
+                _camera.Eye = value;
+                _hasEyeNoSend = false;
             }
         }
 
         public Vector3 At
         {
-            get => this._hasAtNoSend ? this._vAtNoSend : this._camera.At;
+            get => _hasAtNoSend ? _vAtNoSend : _camera.At;
             set
             {
-                if (!(this._camera.At != value))
+                if (!(_camera.At != value))
                     return;
-                this.CameraAtNoSend = value;
-                if (this._atAnimation == null || !this.PlayAnimation(this._atAnimation, null))
-                    this.CameraAt = value;
-                this.FireNotification(NotificationID.At);
+                CameraAtNoSend = value;
+                if (_atAnimation == null || !PlayAnimation(_atAnimation, null))
+                    CameraAt = value;
+                FireNotification(NotificationID.At);
             }
         }
 
@@ -136,8 +136,8 @@ namespace Microsoft.Iris.Drawing
         {
             set
             {
-                this._hasAtNoSend = true;
-                this._vAtNoSend = value;
+                _hasAtNoSend = true;
+                _vAtNoSend = value;
             }
         }
 
@@ -145,22 +145,22 @@ namespace Microsoft.Iris.Drawing
         {
             set
             {
-                this._camera.At = value;
-                this._hasAtNoSend = false;
+                _camera.At = value;
+                _hasAtNoSend = false;
             }
         }
 
         public Vector3 Up
         {
-            get => this._hasUpNoSend ? this._vUpNoSend : this._camera.Up;
+            get => _hasUpNoSend ? _vUpNoSend : _camera.Up;
             set
             {
-                if (!(this._camera.Up != value))
+                if (!(_camera.Up != value))
                     return;
-                this.CameraUpNoSend = value;
-                if (this._upAnimation == null || !this.PlayAnimation(this._upAnimation, null))
-                    this.CameraUp = value;
-                this.FireNotification(NotificationID.Up);
+                CameraUpNoSend = value;
+                if (_upAnimation == null || !PlayAnimation(_upAnimation, null))
+                    CameraUp = value;
+                FireNotification(NotificationID.Up);
             }
         }
 
@@ -168,8 +168,8 @@ namespace Microsoft.Iris.Drawing
         {
             set
             {
-                this._hasUpNoSend = true;
-                this._vUpNoSend = value;
+                _hasUpNoSend = true;
+                _vUpNoSend = value;
             }
         }
 
@@ -177,22 +177,22 @@ namespace Microsoft.Iris.Drawing
         {
             set
             {
-                this._camera.Up = value;
-                this._hasUpNoSend = false;
+                _camera.Up = value;
+                _hasUpNoSend = false;
             }
         }
 
         public float Zn
         {
-            get => this._hasZnNoSend ? this._flZnNoSend : this._camera.Zn;
+            get => _hasZnNoSend ? _flZnNoSend : _camera.Zn;
             set
             {
                 if (_camera.Zn == (double)value)
                     return;
-                this.CameraZnNoSend = value;
-                if (this._znAnimation == null || !this.PlayAnimation(this._znAnimation, null))
-                    this.CameraZn = value;
-                this.FireNotification(NotificationID.Zn);
+                CameraZnNoSend = value;
+                if (_znAnimation == null || !PlayAnimation(_znAnimation, null))
+                    CameraZn = value;
+                FireNotification(NotificationID.Zn);
             }
         }
 
@@ -200,8 +200,8 @@ namespace Microsoft.Iris.Drawing
         {
             set
             {
-                this._hasZnNoSend = true;
-                this._flZnNoSend = value;
+                _hasZnNoSend = true;
+                _flZnNoSend = value;
             }
         }
 
@@ -209,67 +209,67 @@ namespace Microsoft.Iris.Drawing
         {
             set
             {
-                this._camera.Zn = value;
-                this._hasZnNoSend = false;
+                _camera.Zn = value;
+                _hasZnNoSend = false;
             }
         }
 
-        internal ICamera APICamera => this._camera;
+        internal ICamera APICamera => _camera;
 
         IAnimatable IAnimatableOwner.AnimationTarget => _camera;
 
         public IAnimationProvider EyeAnimation
         {
-            get => this._eyeAnimation;
+            get => _eyeAnimation;
             set
             {
-                if (this._eyeAnimation == value)
+                if (_eyeAnimation == value)
                     return;
-                this._eyeAnimation = value;
-                this.FireNotification(NotificationID.EyeAnimation);
+                _eyeAnimation = value;
+                FireNotification(NotificationID.EyeAnimation);
             }
         }
 
         public IAnimationProvider AtAnimation
         {
-            get => this._atAnimation;
+            get => _atAnimation;
             set
             {
-                if (this._atAnimation == value)
+                if (_atAnimation == value)
                     return;
-                this._atAnimation = value;
-                this.FireNotification(NotificationID.AtAnimation);
+                _atAnimation = value;
+                FireNotification(NotificationID.AtAnimation);
             }
         }
 
         public IAnimationProvider UpAnimation
         {
-            get => this._upAnimation;
+            get => _upAnimation;
             set
             {
-                if (this._upAnimation == value)
+                if (_upAnimation == value)
                     return;
-                this._upAnimation = value;
-                this.FireNotification(NotificationID.UpAnimation);
+                _upAnimation = value;
+                FireNotification(NotificationID.UpAnimation);
             }
         }
 
         public IAnimationProvider ZnAnimation
         {
-            get => this._znAnimation;
+            get => _znAnimation;
             set
             {
-                if (this._znAnimation == value)
+                if (_znAnimation == value)
                     return;
-                this._znAnimation = value;
-                this.FireNotification(NotificationID.ZnAnimation);
+                _znAnimation = value;
+                FireNotification(NotificationID.ZnAnimation);
             }
         }
 
         public bool PlayAnimation(IAnimationProvider ab, AnimationHandle animationHandle)
         {
             AnimationArgs args = new AnimationArgs(this);
-            return this.PlayAnimation(ab, ref args, UIClass.ShouldPlayAnimation(ab), animationHandle);
+            return PlayAnimation(ab, ref args, UIClass.ShouldPlayAnimation(ab), animationHandle);
         }
 
         private bool PlayAnimation(
@@ -278,16 +278,16 @@ namespace Microsoft.Iris.Drawing
           bool shouldPlayAnimation,
           AnimationHandle animationHandle)
         {
-            AnimationTemplate anim = this.BuildAnimation(ab, ref args);
+            AnimationTemplate anim = BuildAnimation(ab, ref args);
             if (anim == null)
                 return false;
             if (shouldPlayAnimation)
             {
-                this.PlayAnimation(anim, ref args, null, animationHandle);
+                PlayAnimation(anim, ref args, null, animationHandle);
             }
             else
             {
-                this.ApplyFinalAnimationState(anim, ref args);
+                ApplyFinalAnimationState(anim, ref args);
                 animationHandle?.FireCompleted();
             }
             return true;
@@ -306,10 +306,10 @@ namespace Microsoft.Iris.Drawing
             if (onCompleteHandler != null)
                 instance.AnimationCompleted += onCompleteHandler;
             animationHandle?.AssociateWithAnimationInstance(instance);
-            instance.AnimationCompleted += new EventHandler(this.OnAnimationComplete);
-            this.GetActiveAnimations(true).Add(instance);
-            this.OnAnimationListChanged();
-            this.PlayAnimationWorker(instance);
+            instance.AnimationCompleted += new EventHandler(OnAnimationComplete);
+            GetActiveAnimations(true).Add(instance);
+            OnAnimationListChanged();
+            PlayAnimationWorker(instance);
             if (!(anim is Animation animation))
                 return;
             int num = animation.DisableMouseInput ? 1 : 0;
@@ -317,7 +317,7 @@ namespace Microsoft.Iris.Drawing
 
         private void PlayAnimationWorker(ActiveSequence newSequence)
         {
-            this.StopOverlappingAnimations(newSequence);
+            StopOverlappingAnimations(newSequence);
             newSequence.Play();
         }
 
@@ -330,13 +330,13 @@ namespace Microsoft.Iris.Drawing
 
         private void StopOverlappingAnimations(ActiveSequence newSequence)
         {
-            Vector<ActiveSequence> activeAnimations = this.GetActiveAnimations(false);
+            Vector<ActiveSequence> activeAnimations = GetActiveAnimations(false);
             if (activeAnimations == null)
                 return;
             ActiveTransitions activeTransitions = newSequence.GetActiveTransitions();
             StopCommandSet stopCommand = null;
             foreach (ActiveSequence playingSequence in activeAnimations)
-                this.StopAnimationIfOverlapping(playingSequence, newSequence, activeTransitions, ref stopCommand);
+                StopAnimationIfOverlapping(playingSequence, newSequence, activeTransitions, ref stopCommand);
         }
 
         private bool StopAnimationIfOverlapping(
@@ -365,12 +365,12 @@ namespace Microsoft.Iris.Drawing
         private void OnAnimationComplete(object sender, EventArgs args)
         {
             ActiveSequence activeSequence = sender as ActiveSequence;
-            activeSequence.AnimationCompleted -= new EventHandler(this.OnAnimationComplete);
-            Vector<ActiveSequence> activeAnimations = this.GetActiveAnimations(false);
+            activeSequence.AnimationCompleted -= new EventHandler(OnAnimationComplete);
+            Vector<ActiveSequence> activeAnimations = GetActiveAnimations(false);
             activeAnimations.Remove(activeSequence);
-            this.OnAnimationListChanged();
+            OnAnimationListChanged();
             if (activeAnimations.Count == 0)
-                this._activeAnimations = null;
+                _activeAnimations = null;
             if (activeSequence.Template is Animation template)
             {
                 int num = template.DisableMouseInput ? 1 : 0;
@@ -380,9 +380,9 @@ namespace Microsoft.Iris.Drawing
 
         private void StopActiveAnimations()
         {
-            if (this._activeAnimations == null)
+            if (_activeAnimations == null)
                 return;
-            foreach (ActiveSequence activeAnimation in this.GetActiveAnimations(true))
+            foreach (ActiveSequence activeAnimation in GetActiveAnimations(true))
                 activeAnimation.Stop();
         }
 
@@ -399,7 +399,7 @@ namespace Microsoft.Iris.Drawing
                 baseKeyframe?.Apply(this, ref args);
         }
 
-        private Vector<ActiveSequence> GetActiveAnimations(bool createIfNone) => this.GetAnimationSequence(ref this._activeAnimations, createIfNone);
+        private Vector<ActiveSequence> GetActiveAnimations(bool createIfNone) => GetAnimationSequence(ref _activeAnimations, createIfNone);
 
         private Vector<ActiveSequence> GetAnimationSequence(
           ref Vector<ActiveSequence> currentAnimationsList,

@@ -15,11 +15,11 @@ namespace Microsoft.Iris.Markup.Validation
 
         public ValidateExpressionSymbol(SourceMarkupLoader owner, string symbol, int line, int column)
           : base(owner, line, column, ExpressionType.Symbol)
-          => this._symbol = symbol;
+          => _symbol = symbol;
 
-        public string Symbol => this._symbol;
+        public string Symbol => _symbol;
 
-        public override void Validate(TypeRestriction typeRestriction, ValidateContext context) => this.Validate(typeRestriction, context, false);
+        public override void Validate(TypeRestriction typeRestriction, ValidateContext context) => Validate(typeRestriction, context, false);
 
         public void Validate(
           TypeRestriction typeRestriction,
@@ -27,49 +27,49 @@ namespace Microsoft.Iris.Markup.Validation
           bool allowTypeSymbols)
         {
             ExpressionRestriction expressionRestriction;
-            TypeSchema evaluationType = context.ResolveSymbol(this._symbol, out this._foundSymbolOrigin, out expressionRestriction);
+            TypeSchema evaluationType = context.ResolveSymbol(_symbol, out _foundSymbolOrigin, out expressionRestriction);
             if (evaluationType == null)
             {
                 if (allowTypeSymbols)
                 {
-                    ValidateTypeIdentifier validateTypeIdentifier = new ValidateTypeIdentifier(this.Owner, null, this._symbol, this.Line, this.Column);
+                    ValidateTypeIdentifier validateTypeIdentifier = new ValidateTypeIdentifier(Owner, null, _symbol, Line, Column);
                     validateTypeIdentifier.Validate();
                     if (validateTypeIdentifier.HasErrors)
                     {
-                        this.MarkHasErrors();
+                        MarkHasErrors();
                         return;
                     }
                     evaluationType = validateTypeIdentifier.FoundType;
-                    this._foundSymbolIndex = validateTypeIdentifier.FoundTypeIndex;
-                    this._foundSymbolIsType = true;
+                    _foundSymbolIndex = validateTypeIdentifier.FoundTypeIndex;
+                    _foundSymbolIsType = true;
                 }
                 else
                 {
-                    this.ReportError("Unable to locate symbol \"{0}\" within Properties, Locals, Input, or Content", this._symbol);
+                    ReportError("Unable to locate symbol \"{0}\" within Properties, Locals, Input, or Content", _symbol);
                     return;
                 }
             }
-            if (this._foundSymbolOrigin != SymbolOrigin.None)
-                this._foundSymbolIndex = context.TrackSymbolUsage(this._symbol, this._foundSymbolOrigin);
-            this.DeclareEvaluationType(evaluationType, typeRestriction);
+            if (_foundSymbolOrigin != SymbolOrigin.None)
+                _foundSymbolIndex = context.TrackSymbolUsage(_symbol, _foundSymbolOrigin);
+            DeclareEvaluationType(evaluationType, typeRestriction);
             if (expressionRestriction == ExpressionRestriction.NoAccess)
             {
-                this.ReportError("Expression access to '{0}' is not available", this._symbol);
+                ReportError("Expression access to '{0}' is not available", _symbol);
             }
             else
             {
-                if (this.Usage == ExpressionUsage.LValue && expressionRestriction != ExpressionRestriction.None)
-                    this.ReportError("Expression access to '{0}' only supports read operations", this._symbol);
+                if (Usage == ExpressionUsage.LValue && expressionRestriction != ExpressionRestriction.None)
+                    ReportError("Expression access to '{0}' only supports read operations", _symbol);
                 if (expressionRestriction != ExpressionRestriction.None)
                     return;
-                this.DeclareNotifies(context);
+                DeclareNotifies(context);
             }
         }
 
-        public int FoundSymbolIndex => this._foundSymbolIndex;
+        public int FoundSymbolIndex => _foundSymbolIndex;
 
-        public SymbolOrigin FoundSymbolOrigin => this._foundSymbolOrigin;
+        public SymbolOrigin FoundSymbolOrigin => _foundSymbolOrigin;
 
-        public bool FoundSymbolIsType => this._foundSymbolIsType;
+        public bool FoundSymbolIsType => _foundSymbolIsType;
     }
 }

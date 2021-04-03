@@ -43,43 +43,43 @@ namespace Microsoft.Iris.Drawing
                 sizeMaximumSurface = UIImage.MaximumSurfaceSize(UISession.Default);
             if (callbacks != null)
             {
-                this._hosted = true;
-                this._timers = new ArrayList(6);
-                this._timerTickHandler = new EventHandler(this.OnTimerTick);
+                _hosted = true;
+                _timers = new ArrayList(6);
+                _timerTickHandler = new EventHandler(OnTimerTick);
             }
-            RendererApi.IFC(NativeApi.SpRichTextBuildObject(richTextMode, sizeMaximumSurface, callbacks, out this._rtoHandle));
-            this._oversampled = false;
-            this._lock = new object();
-            this._rrcb = new NativeApi.ReportRunCallback(this.OnReportRun);
+            RendererApi.IFC(NativeApi.SpRichTextBuildObject(richTextMode, sizeMaximumSurface, callbacks, out _rtoHandle));
+            _oversampled = false;
+            _lock = new object();
+            _rrcb = new NativeApi.ReportRunCallback(OnReportRun);
         }
 
-        public void Dispose() => this.Dispose(true);
+        public void Dispose() => Dispose(true);
 
         private void Dispose(bool inDispose)
         {
             if (!inDispose)
                 return;
             GC.SuppressFinalize(this);
-            lock (this._lock)
+            lock (_lock)
             {
-                NativeApi.SpRichTextDestroyObject(this._rtoHandle);
-                this._rtoHandle.h = IntPtr.Zero;
+                NativeApi.SpRichTextDestroyObject(_rtoHandle);
+                _rtoHandle.h = IntPtr.Zero;
             }
-            if (this._timers == null)
+            if (_timers == null)
                 return;
-            for (int index = 0; index < this._timers.Count; ++index)
-                this.DisposeTimer((DispatcherTimer)this._timers[index]);
-            this._timers.Clear();
+            for (int index = 0; index < _timers.Count; ++index)
+                DisposeTimer((DispatcherTimer)_timers[index]);
+            _timers.Clear();
         }
 
-        ~RichText() => this.Dispose(false);
+        ~RichText() => Dispose(false);
 
         public string Content
         {
             set
             {
-                lock (this._lock)
-                    RendererApi.IFC(NativeApi.SpRichTextSetContent(this._rtoHandle, value));
+                lock (_lock)
+                    RendererApi.IFC(NativeApi.SpRichTextSetContent(_rtoHandle, value));
             }
         }
 
@@ -89,13 +89,13 @@ namespace Microsoft.Iris.Drawing
             {
                 string str = null;
                 int textLength = 0;
-                lock (this._lock)
+                lock (_lock)
                 {
-                    RendererApi.IFC(NativeApi.SpRichTextGetSimpleContentLength(this._rtoHandle, out textLength));
+                    RendererApi.IFC(NativeApi.SpRichTextGetSimpleContentLength(_rtoHandle, out textLength));
                     if (textLength != 0)
                     {
                         StringBuilder textBuffer = new StringBuilder(textLength);
-                        RendererApi.IFC(NativeApi.SpRichTextGetSimpleContent(this._rtoHandle, textBuffer, textBuffer.Capacity));
+                        RendererApi.IFC(NativeApi.SpRichTextGetSimpleContent(_rtoHandle, textBuffer, textBuffer.Capacity));
                         str = textBuffer.ToString();
                     }
                 }
@@ -107,21 +107,21 @@ namespace Microsoft.Iris.Drawing
         {
             set
             {
-                if (this._oversampled == value)
+                if (_oversampled == value)
                     return;
-                lock (this._lock)
-                    RendererApi.IFC(NativeApi.SpRichTextSetOversampleMode(this._rtoHandle, value));
-                this._oversampled = value;
+                lock (_lock)
+                    RendererApi.IFC(NativeApi.SpRichTextSetOversampleMode(_rtoHandle, value));
+                _oversampled = value;
             }
-            get => this._oversampled;
+            get => _oversampled;
         }
 
         public int MaxLength
         {
             set
             {
-                lock (this._lock)
-                    RendererApi.IFC(NativeApi.SpRichTextSetMaximumLength(this._rtoHandle, value));
+                lock (_lock)
+                    RendererApi.IFC(NativeApi.SpRichTextSetMaximumLength(_rtoHandle, value));
             }
         }
 
@@ -129,49 +129,49 @@ namespace Microsoft.Iris.Drawing
         {
             set
             {
-                lock (this._lock)
-                    RendererApi.IFC(NativeApi.SpRichTextSetDetectUrls(this._rtoHandle, value));
+                lock (_lock)
+                    RendererApi.IFC(NativeApi.SpRichTextSetDetectUrls(_rtoHandle, value));
             }
         }
 
-        public bool HasCallbacks => this._hosted;
+        public bool HasCallbacks => _hosted;
 
         public bool ReadOnly
         {
             set
             {
-                lock (this._lock)
-                    RendererApi.IFC(NativeApi.SpRichTextSetReadOnly(this._rtoHandle, value));
+                lock (_lock)
+                    RendererApi.IFC(NativeApi.SpRichTextSetReadOnly(_rtoHandle, value));
             }
         }
 
         public void SetWordWrap(bool wordWrap)
         {
-            lock (this._lock)
-                RendererApi.IFC(NativeApi.SpRichTextSetWordWrap(this._rtoHandle, wordWrap));
+            lock (_lock)
+                RendererApi.IFC(NativeApi.SpRichTextSetWordWrap(_rtoHandle, wordWrap));
         }
 
         public Size GetNaturalBounds()
         {
             int cWidth;
             int cHeight;
-            lock (this._lock)
-                RendererApi.IFC(NativeApi.SpRichTextGetNaturalBounds(this._rtoHandle, out cWidth, out cHeight));
+            lock (_lock)
+                RendererApi.IFC(NativeApi.SpRichTextGetNaturalBounds(_rtoHandle, out cWidth, out cHeight));
             return new Size(cWidth, cHeight);
         }
 
         public void SetSelectionRange(int selectionStart, int selectionEnd)
         {
-            lock (this._lock)
-                RendererApi.IFC(NativeApi.SpRichTextSetSelectionRange(this._rtoHandle, selectionStart, selectionEnd));
+            lock (_lock)
+                RendererApi.IFC(NativeApi.SpRichTextSetSelectionRange(_rtoHandle, selectionStart, selectionEnd));
         }
 
         public unsafe TextFlow Measure(string content, ref TextMeasureParams measureParams)
         {
             TextFlow textFlow = new TextFlow();
             GCHandle gcHandle = GCHandle.Alloc(textFlow);
-            this._currentlyMeasuringText = content != null ? content : string.Empty;
-            fixed (char* content1 = this._currentlyMeasuringText)
+            _currentlyMeasuringText = content != null ? content : string.Empty;
+            fixed (char* content1 = _currentlyMeasuringText)
             fixed (char* chPtr = measureParams._textStyle.FontFace)
             {
                 var style = new TextStyle.MarshalledData(measureParams._textStyle)
@@ -186,61 +186,61 @@ namespace Microsoft.Iris.Drawing
                     fixed (TextStyle.MarshalledData* marshalledDataPtr = measureParams._formattedRangeStyles)
                     {
                         measureParams._data._pFormattedRangeStyles = marshalledDataPtr;
-                        lock (this._lock)
-                            RendererApi.IFC(NativeApi.SpRichTextMeasure(this._rtoHandle, ref measureParams._data, this._rrcb, GCHandle.ToIntPtr(gcHandle)));
+                        lock (_lock)
+                            RendererApi.IFC(NativeApi.SpRichTextMeasure(_rtoHandle, ref measureParams._data, _rrcb, GCHandle.ToIntPtr(gcHandle)));
                     }
                 }
             }
             gcHandle.Free();
-            this._currentlyMeasuringText = null;
+            _currentlyMeasuringText = null;
             return textFlow;
         }
 
         public void NotifyOfFocusChange(bool gainingFocus)
         {
-            lock (this._lock)
+            lock (_lock)
             {
-                RendererApi.IFC(NativeApi.SpRichTextSetFocus(this._rtoHandle, gainingFocus));
+                RendererApi.IFC(NativeApi.SpRichTextSetFocus(_rtoHandle, gainingFocus));
                 if (gainingFocus)
                     return;
-                this._inImeCompositionMode = false;
+                _inImeCompositionMode = false;
             }
         }
 
         public void ScrollUp(ScrollbarType whichBar)
         {
-            lock (this._lock)
-                RendererApi.IFC(NativeApi.SpRichTextScroll(this._rtoHandle, (int)whichBar, 0));
+            lock (_lock)
+                RendererApi.IFC(NativeApi.SpRichTextScroll(_rtoHandle, (int)whichBar, 0));
         }
 
         public void ScrollDown(ScrollbarType whichBar)
         {
-            lock (this._lock)
-                RendererApi.IFC(NativeApi.SpRichTextScroll(this._rtoHandle, (int)whichBar, 1));
+            lock (_lock)
+                RendererApi.IFC(NativeApi.SpRichTextScroll(_rtoHandle, (int)whichBar, 1));
         }
 
         public void PageUp(ScrollbarType whichBar)
         {
-            lock (this._lock)
-                RendererApi.IFC(NativeApi.SpRichTextScroll(this._rtoHandle, (int)whichBar, 2));
+            lock (_lock)
+                RendererApi.IFC(NativeApi.SpRichTextScroll(_rtoHandle, (int)whichBar, 2));
         }
 
         public void PageDown(ScrollbarType whichBar)
         {
-            lock (this._lock)
-                RendererApi.IFC(NativeApi.SpRichTextScroll(this._rtoHandle, (int)whichBar, 3));
+            lock (_lock)
+                RendererApi.IFC(NativeApi.SpRichTextScroll(_rtoHandle, (int)whichBar, 3));
         }
 
         public void ScrollToPosition(ScrollbarType whichBar, int whereTo)
         {
-            lock (this._lock)
-                RendererApi.IFC(NativeApi.SpRichTextScrollToPosition(this._rtoHandle, (int)whichBar, whereTo));
+            lock (_lock)
+                RendererApi.IFC(NativeApi.SpRichTextScrollToPosition(_rtoHandle, (int)whichBar, whereTo));
         }
 
         public void SetScrollbars(bool horizontalScrollbar, bool verticalScrollbar)
         {
-            lock (this._lock)
-                RendererApi.IFC(NativeApi.SpRichTextSetScrollbars(this._rtoHandle, horizontalScrollbar, verticalScrollbar));
+            lock (_lock)
+                RendererApi.IFC(NativeApi.SpRichTextSetScrollbars(_rtoHandle, horizontalScrollbar, verticalScrollbar));
         }
 
         public bool ForwardKeyStateNotification(
@@ -252,10 +252,10 @@ namespace Microsoft.Iris.Drawing
           ushort flags)
         {
             bool handled = true;
-            lock (this._lock)
+            lock (_lock)
             {
-                if (!this._inImeCompositionMode)
-                    RendererApi.IFC(NativeApi.SpRichTextForwardKeyState(this._rtoHandle, message, virtualKey, scanCode, repeatCount, modifierState, flags, out handled));
+                if (!_inImeCompositionMode)
+                    RendererApi.IFC(NativeApi.SpRichTextForwardKeyState(_rtoHandle, message, virtualKey, scanCode, repeatCount, modifierState, flags, out handled));
             }
             return handled;
         }
@@ -269,10 +269,10 @@ namespace Microsoft.Iris.Drawing
           ushort flags)
         {
             bool handled = true;
-            lock (this._lock)
+            lock (_lock)
             {
-                if (!this._inImeCompositionMode)
-                    RendererApi.IFC(NativeApi.SpRichTextForwardKeyCharacter(this._rtoHandle, message, character, scanCode, repeatCount, modifierState, flags, out handled));
+                if (!_inImeCompositionMode)
+                    RendererApi.IFC(NativeApi.SpRichTextForwardKeyCharacter(_rtoHandle, message, character, scanCode, repeatCount, modifierState, flags, out handled));
             }
             return handled;
         }
@@ -286,28 +286,28 @@ namespace Microsoft.Iris.Drawing
           int mouseWheelDelta)
         {
             bool handled = true;
-            lock (this._lock)
+            lock (_lock)
             {
-                if (!this._inImeCompositionMode)
-                    RendererApi.IFC(NativeApi.SpRichTextForwardMouseInput(this._rtoHandle, message, modifierState, mouseButton, x, y, mouseWheelDelta, out handled));
+                if (!_inImeCompositionMode)
+                    RendererApi.IFC(NativeApi.SpRichTextForwardMouseInput(_rtoHandle, message, modifierState, mouseButton, x, y, mouseWheelDelta, out handled));
             }
             return handled;
         }
 
         public HRESULT ForwardImeMessage(uint message, UIntPtr wParam, UIntPtr lParam)
         {
-            lock (this._lock)
+            lock (_lock)
             {
                 switch (message)
                 {
                     case 269:
-                        this._inImeCompositionMode = true;
+                        _inImeCompositionMode = true;
                         break;
                     case 270:
-                        this._inImeCompositionMode = false;
+                        _inImeCompositionMode = false;
                         break;
                 }
-                RendererApi.IFC(NativeApi.SpRichTextForwardImeMessage(this._rtoHandle, message, wParam, lParam));
+                RendererApi.IFC(NativeApi.SpRichTextForwardImeMessage(_rtoHandle, message, wParam, lParam));
             }
             return new HRESULT(0);
         }
@@ -317,40 +317,40 @@ namespace Microsoft.Iris.Drawing
             get
             {
                 bool canUndo;
-                lock (this._lock)
-                    RendererApi.IFC(NativeApi.SpRichTextCanUndo(this._rtoHandle, out canUndo));
+                lock (_lock)
+                    RendererApi.IFC(NativeApi.SpRichTextCanUndo(_rtoHandle, out canUndo));
                 return canUndo;
             }
         }
 
         public void Undo()
         {
-            lock (this._lock)
-                RendererApi.IFC(NativeApi.SpRichTextUndo(this._rtoHandle));
+            lock (_lock)
+                RendererApi.IFC(NativeApi.SpRichTextUndo(_rtoHandle));
         }
 
         public void Cut()
         {
-            lock (this._lock)
-                RendererApi.IFC(NativeApi.SpRichTextCut(this._rtoHandle));
+            lock (_lock)
+                RendererApi.IFC(NativeApi.SpRichTextCut(_rtoHandle));
         }
 
         public void Copy()
         {
-            lock (this._lock)
-                RendererApi.IFC(NativeApi.SpRichTextCopy(this._rtoHandle));
+            lock (_lock)
+                RendererApi.IFC(NativeApi.SpRichTextCopy(_rtoHandle));
         }
 
         public void Paste()
         {
-            lock (this._lock)
-                RendererApi.IFC(NativeApi.SpRichTextPaste(this._rtoHandle));
+            lock (_lock)
+                RendererApi.IFC(NativeApi.SpRichTextPaste(_rtoHandle));
         }
 
         public void Delete()
         {
-            lock (this._lock)
-                RendererApi.IFC(NativeApi.SpRichTextDelete(this._rtoHandle));
+            lock (_lock)
+                RendererApi.IFC(NativeApi.SpRichTextDelete(_rtoHandle));
         }
 
         public static LineAlignment ReverseAlignment(
@@ -387,32 +387,32 @@ namespace Microsoft.Iris.Drawing
 
         public void SetTimer(uint id, uint timeout)
         {
-            DispatcherTimer dispatcherTimer = this.FindTimer(id);
+            DispatcherTimer dispatcherTimer = FindTimer(id);
             if (dispatcherTimer == null)
             {
                 dispatcherTimer = new DispatcherTimer();
-                this._timers.Add(dispatcherTimer);
+                _timers.Add(dispatcherTimer);
             }
             dispatcherTimer.UserData = id;
             dispatcherTimer.Interval = (int)timeout;
-            dispatcherTimer.Tick += this._timerTickHandler;
+            dispatcherTimer.Tick += _timerTickHandler;
             dispatcherTimer.Start();
         }
 
         public void KillTimer(uint id)
         {
-            DispatcherTimer timer = this.FindTimer(id);
+            DispatcherTimer timer = FindTimer(id);
             if (timer == null)
                 return;
-            this.DisposeTimer(timer);
-            this._timers.Remove(timer);
+            DisposeTimer(timer);
+            _timers.Remove(timer);
         }
 
         private DispatcherTimer FindTimer(uint id)
         {
-            for (int index = 0; index < this._timers.Count; ++index)
+            for (int index = 0; index < _timers.Count; ++index)
             {
-                DispatcherTimer timer = (DispatcherTimer)this._timers[index];
+                DispatcherTimer timer = (DispatcherTimer)_timers[index];
                 if ((int)(uint)timer.UserData == (int)id)
                     return timer;
             }
@@ -421,15 +421,15 @@ namespace Microsoft.Iris.Drawing
 
         private void DisposeTimer(DispatcherTimer timer)
         {
-            timer.Tick -= this._timerTickHandler;
+            timer.Tick -= _timerTickHandler;
             timer.Stop();
         }
 
         private void OnTimerTick(object sender, EventArgs ea)
         {
             DispatcherTimer dispatcherTimer = (DispatcherTimer)sender;
-            lock (this._lock)
-                RendererApi.IFC(NativeApi.SpRichTextOnTimerTick(this._rtoHandle, (uint)dispatcherTimer.UserData));
+            lock (_lock)
+                RendererApi.IFC(NativeApi.SpRichTextOnTimerTick(_rtoHandle, (uint)dispatcherTimer.UserData));
         }
 
         private unsafe HRESULT OnReportRun(
@@ -440,20 +440,20 @@ namespace Microsoft.Iris.Drawing
           IntPtr dataPtr)
         {
             bool flag = false;
-            if (this._currentlyMeasuringText != null && _currentlyMeasuringText.Length == nChars)
+            if (_currentlyMeasuringText != null && _currentlyMeasuringText.Length == nChars)
             {
                 flag = true;
                 char* pointer = (char*)lpString.ToPointer();
                 for (int index = 0; index < nChars; ++index)
                 {
-                    if (this._currentlyMeasuringText[index] != pointer[index])
+                    if (_currentlyMeasuringText[index] != pointer[index])
                     {
                         flag = false;
                         break;
                     }
                 }
             }
-            string content = flag ? this._currentlyMeasuringText : Marshal.PtrToStringUni(lpString, (int)nChars);
+            string content = flag ? _currentlyMeasuringText : Marshal.PtrToStringUni(lpString, (int)nChars);
             TextRun run = TextRun.FromRunPacket(hGlyphRunInfo, runPacketPtr, content);
             if (run != null)
                 ((TextFlow)GCHandle.FromIntPtr(dataPtr).Target).Add(run);

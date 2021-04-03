@@ -27,50 +27,50 @@ namespace Microsoft.Iris.Layout
           Rectangle viewBounds,
           Rectangle viewPeripheralBounds)
         {
-            this._bounds = extent;
-            this._offset = offset;
-            this._viewBounds = viewBounds;
-            this._peripheralViewBounds = viewPeripheralBounds;
+            _bounds = extent;
+            _offset = offset;
+            _viewBounds = viewBounds;
+            _peripheralViewBounds = viewPeripheralBounds;
         }
 
         public Size Bounds
         {
-            get => this._bounds;
-            set => this._bounds = value;
+            get => _bounds;
+            set => _bounds = value;
         }
 
         public Point Offset
         {
-            get => this._offset;
-            set => this._offset = value;
+            get => _offset;
+            set => _offset = value;
         }
 
         public Rectangle View
         {
-            get => this._viewBounds;
-            set => this._viewBounds = value;
+            get => _viewBounds;
+            set => _viewBounds = value;
         }
 
         public Rectangle PeripheralView
         {
-            get => this._peripheralViewBounds;
-            set => this._peripheralViewBounds = value;
+            get => _peripheralViewBounds;
+            set => _peripheralViewBounds = value;
         }
 
         public void Deflate(Inset inset)
         {
             int num1 = inset.Left + inset.Right;
             int num2 = inset.Top + inset.Bottom;
-            this._bounds.Width -= num1;
-            if (this._bounds.Width < 0)
-                this._bounds.Width = 0;
-            this._bounds.Height -= num2;
-            if (this._bounds.Height < 0)
-                this._bounds.Height = 0;
-            this._viewBounds.X -= inset.Left;
-            this._viewBounds.Y -= inset.Top;
-            this._peripheralViewBounds.X -= inset.Left;
-            this._peripheralViewBounds.Y -= inset.Top;
+            _bounds.Width -= num1;
+            if (_bounds.Width < 0)
+                _bounds.Width = 0;
+            _bounds.Height -= num2;
+            if (_bounds.Height < 0)
+                _bounds.Height = 0;
+            _viewBounds.X -= inset.Left;
+            _viewBounds.Y -= inset.Top;
+            _peripheralViewBounds.X -= inset.Left;
+            _peripheralViewBounds.Y -= inset.Top;
         }
 
         public static bool operator ==(LayoutSlot left, LayoutSlot right) => left._bounds == right._bounds && left._offset == right._offset && left._viewBounds == right._viewBounds && left._peripheralViewBounds == right._peripheralViewBounds;
@@ -79,12 +79,12 @@ namespace Microsoft.Iris.Layout
 
         public override bool Equals(object obj) => obj is LayoutSlot layoutSlot && this == layoutSlot;
 
-        public override int GetHashCode() => this._bounds.GetHashCode() ^ this._offset.GetHashCode() ^ this._viewBounds.GetHashCode() ^ this._peripheralViewBounds.GetHashCode();
+        public override int GetHashCode() => _bounds.GetHashCode() ^ _offset.GetHashCode() ^ _viewBounds.GetHashCode() ^ _peripheralViewBounds.GetHashCode();
 
         public override string ToString()
         {
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.Append(this.GetType().Name);
+            stringBuilder.Append(GetType().Name);
             stringBuilder.Append("(");
             stringBuilder.Append("Bounds=");
             stringBuilder.Append(_bounds);
@@ -92,7 +92,7 @@ namespace Microsoft.Iris.Layout
             stringBuilder.Append(_offset);
             stringBuilder.Append(", View=");
             stringBuilder.Append(_viewBounds);
-            if (this._peripheralViewBounds != this._viewBounds)
+            if (_peripheralViewBounds != _viewBounds)
             {
                 stringBuilder.Append(", Peripheral=");
                 stringBuilder.Append(_peripheralViewBounds);

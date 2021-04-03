@@ -27,87 +27,87 @@ namespace Microsoft.Iris
         public GroupedList(IList source, IComparer comparer, int count)
           : base(true)
         {
-            this.Comparer = comparer;
-            this.SetSource(source, count);
+            Comparer = comparer;
+            SetSource(source, count);
         }
 
         public IList Source
         {
-            get => this._source;
-            set => this.SetSource(value, 1, false);
+            get => _source;
+            set => SetSource(value, 1, false);
         }
 
-        public void SetSource(IList source, int groupCount) => this.SetSource(source, groupCount, false);
+        public void SetSource(IList source, int groupCount) => SetSource(source, groupCount, false);
 
         private void SetSource(IList value, int groupCount, bool disposing)
         {
-            if (this._source == value)
+            if (_source == value)
                 return;
-            if (this._source is INotifyList sourceNotifyA)
-                sourceNotifyA.ContentsChanged -= new UIListContentsChangedHandler(this.SourceListModified);
-            if (this._source is IVirtualList sourceVirtual && sourceVirtual.SlowDataRequestsEnabled)
+            if (_source is INotifyList sourceNotifyA)
+                sourceNotifyA.ContentsChanged -= new UIListContentsChangedHandler(SourceListModified);
+            if (_source is IVirtualList sourceVirtual && sourceVirtual.SlowDataRequestsEnabled)
                 sourceVirtual.SlowDataAcquireCompleteHandler = null;
-            this._source = value;
-            if (this._source is INotifyList sourceNotifyB)
-                sourceNotifyB.ContentsChanged += new UIListContentsChangedHandler(this.SourceListModified);
-            if (this._source is IVirtualList sourceVirtualB && sourceVirtualB.SlowDataRequestsEnabled)
-                sourceVirtualB.SlowDataAcquireCompleteHandler = new SlowDataAcquireCompleteHandler(this.SourceSlowDataAcquired);
+            _source = value;
+            if (_source is INotifyList sourceNotifyB)
+                sourceNotifyB.ContentsChanged += new UIListContentsChangedHandler(SourceListModified);
+            if (_source is IVirtualList sourceVirtualB && sourceVirtualB.SlowDataRequestsEnabled)
+                sourceVirtualB.SlowDataAcquireCompleteHandler = new SlowDataAcquireCompleteHandler(SourceSlowDataAcquired);
             if (disposing)
                 return;
-            this.FirePropertyChanged("Source");
-            this.Regroup(groupCount);
+            FirePropertyChanged("Source");
+            Regroup(groupCount);
         }
 
         public IComparer Comparer
         {
-            get => this._comparer;
+            get => _comparer;
             set
             {
-                if (this._comparer == value)
+                if (_comparer == value)
                     return;
-                this._comparer = value;
-                this.Regroup();
-                this.FirePropertyChanged(nameof(Comparer));
+                _comparer = value;
+                Regroup();
+                FirePropertyChanged(nameof(Comparer));
             }
         }
 
-        public void Regroup() => this.Regroup(1);
+        public void Regroup() => Regroup(1);
 
         public void Regroup(int groupCount)
         {
-            foreach (ModelItem group in this._groups)
+            foreach (ModelItem group in _groups)
                 group.Dispose();
-            this._groups.Clear();
-            this.Clear();
-            this.Count = this.Source == null || this.Source.Count <= 0 ? 0 : Math.Max(1, groupCount);
+            _groups.Clear();
+            Clear();
+            Count = Source == null || Source.Count <= 0 ? 0 : Math.Max(1, groupCount);
         }
 
         protected override object OnRequestItem(int index)
         {
-            if (this._repairGroupsPending && index >= this._groups.Count)
+            if (_repairGroupsPending && index >= _groups.Count)
                 return null;
-            this.EnsureGroup(index);
-            return index >= this._groups.Count ? null : (object)this._groups[index];
+            EnsureGroup(index);
+            return index >= _groups.Count ? null : (object)_groups[index];
         }
 
         private void ScheduleAdjustCount()
         {
-            if (this._adjustCountPending || this.GetCountAdjustment() == 0)
+            if (_adjustCountPending || GetCountAdjustment() == 0)
                 return;
-            DeferredCall.Post(DispatchPriority.Housekeeping, new DeferredHandler(this.AdjustCount));
+            DeferredCall.Post(DispatchPriority.Housekeeping, new DeferredHandler(AdjustCount));
         }
 
         private int GetCountAdjustment()
         {
             int num1 = 0;
-            int num2 = this.Source != null ? this.Source.Count : 0;
-            Group lastGroup = this.GetLastGroup();
+            int num2 = Source != null ? Source.Count : 0;
+            Group lastGroup = GetLastGroup();
             int num3 = lastGroup != null ? lastGroup.EndIndex + 1 : 0;
             int num4 = num2 - num3;
-            int num5 = this.Count - this._groups.Count;
-            if (this._groups.Count == this.Count && num4 > 0)
+            int num5 = Count - _groups.Count;
+            if (_groups.Count == Count && num4 > 0)
             {
-                int num6 = num3 / this._groups.Count;
+                int num6 = num3 / _groups.Count;
                 num1 = Math.Max(1, num4 / num6);
             }
             else if (lastGroup == null || num5 > num4)
@@ -117,11 +117,11 @@ namespace Microsoft.Iris
 
         private void AdjustCount(object args)
         {
-            this._adjustCountPending = false;
-            int countAdjustment = this.GetCountAdjustment();
+            _adjustCountPending = false;
+            int countAdjustment = GetCountAdjustment();
             if (countAdjustment > 0)
             {
-                this.AddRange(countAdjustment);
+                AddRange(countAdjustment);
             }
             else
             {
@@ -129,26 +129,26 @@ namespace Microsoft.Iris
                     return;
                 int num = -countAdjustment;
                 for (int index = 0; index < num; ++index)
-                    this.RemoveAt(this.Count - 1);
+                    RemoveAt(Count - 1);
             }
         }
 
         private bool SourceSlowDataAcquired(IVirtualList list, int sourceIndex)
         {
-            Group groupForSourceIndex = this.GetGroupForSourceIndex(sourceIndex);
+            Group groupForSourceIndex = GetGroupForSourceIndex(sourceIndex);
             groupForSourceIndex?.NotifySlowDataAcquireComplete(sourceIndex - groupForSourceIndex.StartIndex);
             return false;
         }
 
         private void EnsureGroup(int maxGroup)
         {
-            if (this.Comparer != null && this.Source != null && this.Source.Count > 0)
+            if (Comparer != null && Source != null && Source.Count > 0)
             {
-                int previousGroupIndex = this._groups.Count - 1;
-                Group lastGroup = this.GetLastGroup();
-                this.GroupItems(ref lastGroup, ref previousGroupIndex, this.Source.Count - 1, maxGroup, true, false);
+                int previousGroupIndex = _groups.Count - 1;
+                Group lastGroup = GetLastGroup();
+                GroupItems(ref lastGroup, ref previousGroupIndex, Source.Count - 1, maxGroup, true, false);
             }
-            this.ScheduleAdjustCount();
+            ScheduleAdjustCount();
         }
 
         private void GroupItems(
@@ -159,21 +159,21 @@ namespace Microsoft.Iris
           bool createGroups,
           bool notify)
         {
-            if (this._groups.Count > maxGroup)
+            if (_groups.Count > maxGroup)
                 return;
             if (previousGroup == null)
             {
                 ++previousGroupIndex;
-                previousGroup = this.InsertGroup(previousGroupIndex, 0, notify);
+                previousGroup = InsertGroup(previousGroupIndex, 0, notify);
             }
             for (int index = previousGroup.EndIndex + 1; index <= endIndex; ++index)
             {
-                if (!this.TryInsertItemIntoGroup(previousGroup, index))
+                if (!TryInsertItemIntoGroup(previousGroup, index))
                 {
-                    if (!createGroups || this._groups.Count > maxGroup)
+                    if (!createGroups || _groups.Count > maxGroup)
                         break;
                     ++previousGroupIndex;
-                    previousGroup = this.InsertGroup(previousGroupIndex, index, notify);
+                    previousGroup = InsertGroup(previousGroupIndex, index, notify);
                 }
             }
         }
@@ -181,13 +181,13 @@ namespace Microsoft.Iris
         protected override void OnDispose(bool disposing)
         {
             if (disposing)
-                this.SetSource(null, 0, true);
+                SetSource(null, 0, true);
             base.OnDispose(disposing);
         }
 
         private void SourceListModified(IList listSender, UIListContentsChangedArgs args)
         {
-            if (this.Comparer == null)
+            if (Comparer == null)
                 return;
             bool flag = false;
             switch (args.Type)
@@ -196,39 +196,39 @@ namespace Microsoft.Iris
                 case UIListContentsChangeType.AddRange:
                 case UIListContentsChangeType.Insert:
                 case UIListContentsChangeType.InsertRange:
-                    if (this.Count != 0)
+                    if (Count != 0)
                     {
-                        Group lastGroup = this.GetLastGroup();
+                        Group lastGroup = GetLastGroup();
                         if (lastGroup != null && args.NewIndex <= lastGroup.EndIndex + 1)
                         {
                             flag = true;
                             int newIndex = args.NewIndex;
                             int num = args.NewIndex + args.Count - 1;
                             int groupIndex;
-                            Group groupForSourceIndex = this.GetGroupForSourceIndex(newIndex - 1, out groupIndex);
-                            for (int index = groupIndex + 1; index < this._groups.Count; ++index)
-                                this._groups[index].StartIndex += args.Count;
+                            Group groupForSourceIndex = GetGroupForSourceIndex(newIndex - 1, out groupIndex);
+                            for (int index = groupIndex + 1; index < _groups.Count; ++index)
+                                _groups[index].StartIndex += args.Count;
                             if (groupForSourceIndex != null && groupForSourceIndex.ContainsSourceIndex(newIndex))
                             {
-                                this.SplitGroup(groupForSourceIndex, groupIndex, newIndex - 1, num + 1);
+                                SplitGroup(groupForSourceIndex, groupIndex, newIndex - 1, num + 1);
                                 break;
                             }
                             break;
                         }
                         break;
                     }
-                    this.Count = 1;
+                    Count = 1;
                     break;
                 case UIListContentsChangeType.Remove:
                     int groupIndex1;
-                    Group groupForSourceIndex1 = this.GetGroupForSourceIndex(args.OldIndex, out groupIndex1);
-                    for (int index = groupIndex1 + 1; index < this._groups.Count; ++index)
-                        --this._groups[index].StartIndex;
+                    Group groupForSourceIndex1 = GetGroupForSourceIndex(args.OldIndex, out groupIndex1);
+                    for (int index = groupIndex1 + 1; index < _groups.Count; ++index)
+                        --_groups[index].StartIndex;
                     if (groupForSourceIndex1 != null)
                     {
                         if (groupForSourceIndex1.Count == 1)
                         {
-                            this.RemoveGroup(groupIndex1);
+                            RemoveGroup(groupIndex1);
                             flag = true;
                             break;
                         }
@@ -240,49 +240,49 @@ namespace Microsoft.Iris
                 case UIListContentsChangeType.Modified:
                     throw new NotImplementedException();
                 default:
-                    this.Regroup();
+                    Regroup();
                     break;
             }
-            if (!flag || this._repairGroupsPending)
+            if (!flag || _repairGroupsPending)
                 return;
-            this._repairGroupsPending = true;
-            DeferredCall.Post(DispatchPriority.Housekeeping, new DeferredHandler(this.RepairGroups));
+            _repairGroupsPending = true;
+            DeferredCall.Post(DispatchPriority.Housekeeping, new DeferredHandler(RepairGroups));
         }
 
         private void RepairGroups(object args)
         {
-            this._repairGroupsPending = false;
-            for (int previousGroupIndex = -1; previousGroupIndex < this._groups.Count; ++previousGroupIndex)
+            _repairGroupsPending = false;
+            for (int previousGroupIndex = -1; previousGroupIndex < _groups.Count; ++previousGroupIndex)
             {
-                Group previousGroup = previousGroupIndex > -1 ? this._groups[previousGroupIndex] : null;
-                Group group = previousGroupIndex + 1 < this._groups.Count ? this._groups[previousGroupIndex + 1] : null;
+                Group previousGroup = previousGroupIndex > -1 ? _groups[previousGroupIndex] : null;
+                Group group = previousGroupIndex + 1 < _groups.Count ? _groups[previousGroupIndex + 1] : null;
                 int num1 = previousGroup != null ? previousGroup.EndIndex + 1 : 0;
-                int num2 = group != null ? group.StartIndex - 1 : this.Source.Count - 1;
+                int num2 = group != null ? group.StartIndex - 1 : Source.Count - 1;
                 if (group != null)
                 {
-                    while (num2 >= num1 && this.TryInsertItemIntoGroup(group, num2))
+                    while (num2 >= num1 && TryInsertItemIntoGroup(group, num2))
                         --num2;
                 }
                 if (num1 <= num2)
-                    this.GroupItems(ref previousGroup, ref previousGroupIndex, num2, int.MaxValue, group != null, true);
-                if (this.TryMergeWithNext(previousGroupIndex))
+                    GroupItems(ref previousGroup, ref previousGroupIndex, num2, int.MaxValue, group != null, true);
+                if (TryMergeWithNext(previousGroupIndex))
                     --previousGroupIndex;
             }
-            this.AdjustCount(null);
+            AdjustCount(null);
         }
 
-        private bool IsEqualToNext(int sourceIndex) => this.Comparer.Compare(this.Source[sourceIndex], this.Source[sourceIndex + 1]) == 0;
+        private bool IsEqualToNext(int sourceIndex) => Comparer.Compare(Source[sourceIndex], Source[sourceIndex + 1]) == 0;
 
         private bool TryMergeWithNext(int i)
         {
-            if (i >= 0 && i < this._groups.Count - 1)
+            if (i >= 0 && i < _groups.Count - 1)
             {
-                Group group1 = this._groups[i];
-                if (this.IsEqualToNext(group1.EndIndex))
+                Group group1 = _groups[i];
+                if (IsEqualToNext(group1.EndIndex))
                 {
-                    Group group2 = this._groups[i + 1];
+                    Group group2 = _groups[i + 1];
                     group1.AddRange(group2.Count);
-                    this.RemoveGroup(i + 1);
+                    RemoveGroup(i + 1);
                     return true;
                 }
             }
@@ -291,9 +291,9 @@ namespace Microsoft.Iris
 
         private void RemoveGroup(int groupIndex)
         {
-            this._groups[groupIndex].Dispose();
-            this._groups.RemoveAt(groupIndex);
-            this.RemoveAt(groupIndex);
+            _groups[groupIndex].Dispose();
+            _groups.RemoveAt(groupIndex);
+            RemoveAt(groupIndex);
         }
 
         private bool TryInsertItemIntoGroup(Group group, int index)
@@ -301,7 +301,7 @@ namespace Microsoft.Iris
             int sourceIndex = index - 1;
             if (index < group.StartIndex)
                 sourceIndex = index;
-            if (!this.IsEqualToNext(sourceIndex))
+            if (!IsEqualToNext(sourceIndex))
                 return false;
             group.StartIndex = Math.Min(group.StartIndex, index);
             group.Insert(index - group.StartIndex);
@@ -317,10 +317,10 @@ namespace Microsoft.Iris
             int count = group.EndIndex - firstGroupSourceEndIndex;
             for (int index = 0; index < count; ++index)
                 group.RemoveAt(group.Count - 1);
-            return this.InsertGroup(groupIndex + 1, secondGroupSourceStartIndex, count, true);
+            return InsertGroup(groupIndex + 1, secondGroupSourceStartIndex, count, true);
         }
 
-        private Group InsertGroup(int groupInsertIndex, int sourceIndex, bool notify) => this.InsertGroup(groupInsertIndex, sourceIndex, 1, notify);
+        private Group InsertGroup(int groupInsertIndex, int sourceIndex, bool notify) => InsertGroup(groupInsertIndex, sourceIndex, 1, notify);
 
         private Group InsertGroup(
           int groupInsertIndex,
@@ -330,22 +330,22 @@ namespace Microsoft.Iris
         {
             Group group = new Group(this, startSourceIndex, count);
             group.Count = count;
-            this._groups.Insert(groupInsertIndex, group);
+            _groups.Insert(groupInsertIndex, group);
             if (notify)
-                this.Insert(groupInsertIndex);
+                Insert(groupInsertIndex);
             return group;
         }
 
-        private Group GetLastGroup() => this._groups.Count <= 0 ? null : this._groups[this._groups.Count - 1];
+        private Group GetLastGroup() => _groups.Count <= 0 ? null : _groups[_groups.Count - 1];
 
         private Group GetGroupForSourceIndex(int sourceIndex, out int groupIndex)
         {
             int num1 = 0;
-            int num2 = this._groups.Count - 1;
+            int num2 = _groups.Count - 1;
             groupIndex = num1 + (num2 - num1) / 2;
             while (num1 <= num2)
             {
-                Group group = this._groups[groupIndex];
+                Group group = _groups[groupIndex];
                 if (group.StartIndex <= sourceIndex && sourceIndex <= group.EndIndex)
                     return group;
                 if (group.StartIndex < sourceIndex)
@@ -358,11 +358,11 @@ namespace Microsoft.Iris
             return null;
         }
 
-        public Group GetGroupForSourceIndex(int sourceIndex) => this.GetGroupForSourceIndex(sourceIndex, out int _);
+        public Group GetGroupForSourceIndex(int sourceIndex) => GetGroupForSourceIndex(sourceIndex, out int _);
 
         public int GetGroupIndexForSourceIndex(int sourceIndex)
         {
-            for (int index = 0; index < this.Count; ++index)
+            for (int index = 0; index < Count; ++index)
             {
                 Group group = (Group)this[index];
                 if (group != null)

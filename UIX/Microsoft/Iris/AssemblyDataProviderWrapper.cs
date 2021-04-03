@@ -15,15 +15,15 @@ namespace Microsoft.Iris
 
         public AssemblyDataProviderWrapper(string name, DataProviderQueryFactory factory)
         {
-            this._name = name;
-            this._factory = factory;
+            _name = name;
+            _factory = factory;
         }
 
-        public string Name => this._name;
+        public string Name => _name;
 
         public MarkupDataQuery Build(MarkupDataQuerySchema querySchema) => new AssemblyMarkupDataQuery(querySchema, this);
 
-        public IDataProviderQuery ConstructQuery(object queryTypeCookie) => this._factory(queryTypeCookie);
+        public IDataProviderQuery ConstructQuery(object queryTypeCookie) => _factory(queryTypeCookie);
 
         public override string ToString() => string.Format("{0} ({1})", _name, _factory);
     }

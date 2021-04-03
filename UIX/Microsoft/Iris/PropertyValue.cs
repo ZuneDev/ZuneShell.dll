@@ -15,12 +15,12 @@ namespace Microsoft.Iris
 
         public PropertyValue(string name, object value)
         {
-            this._name = name != null ? name : throw new ArgumentNullException(nameof(name));
-            this._value = value;
+            _name = name != null ? name : throw new ArgumentNullException(nameof(name));
+            _value = value;
         }
 
-        public string Name => this._name;
+        public string Name => _name;
 
-        public object Value => this._value;
+        public object Value => _value;
     }
 }

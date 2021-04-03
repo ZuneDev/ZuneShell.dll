@@ -12,13 +12,13 @@ namespace Microsoft.Iris.CodeModel.Cpp
     {
         protected IntPtr _interface;
 
-        ~DllInterfaceProxy() => RegisterAppThreadRelease(new DllProxyObject.AppThreadReleaseEntry(this._interface));
+        ~DllInterfaceProxy() => RegisterAppThreadRelease(new DllProxyObject.AppThreadReleaseEntry(_interface));
 
-        protected override void OnDispose() => new DllProxyObject.AppThreadReleaseEntry(this._interface).Release();
+        protected override void OnDispose() => new DllProxyObject.AppThreadReleaseEntry(_interface).Release();
 
         protected override void LoadWorker(IntPtr nativeObject, IntPtr nativeMarshalAs)
         {
-            this._interface = nativeMarshalAs;
+            _interface = nativeMarshalAs;
             base.LoadWorker(nativeObject, nativeMarshalAs);
         }
     }

@@ -14,8 +14,8 @@ namespace Microsoft.Iris.Markup
 
         public AssemblyEventSchema(AssemblyTypeSchema owner, EventInfo eventInfo)
           : base(owner)
-          => this._eventInfo = eventInfo;
+          => _eventInfo = eventInfo;
 
-        public override string Name => this._eventInfo.Name;
+        public override string Name => _eventInfo.Name;
     }
 }

@@ -35,55 +35,55 @@ namespace Microsoft.Iris
 
         public object Result
         {
-            get => this._result;
+            get => _result;
             set
             {
-                if (Equals(this._result, value))
+                if (Equals(_result, value))
                     return;
-                this._result = value;
-                this.FirePropertyChanged(nameof(Result));
+                _result = value;
+                FirePropertyChanged(nameof(Result));
             }
         }
 
         public DataProviderQueryStatus Status
         {
-            get => this._status;
+            get => _status;
             set
             {
-                if (this._status == value)
+                if (_status == value)
                     return;
-                this._status = value;
-                this.FirePropertyChanged(nameof(Status));
+                _status = value;
+                FirePropertyChanged(nameof(Status));
             }
         }
 
         public bool Enabled
         {
-            get => this._enabled;
+            get => _enabled;
             set
             {
-                if (this._enabled == value)
+                if (_enabled == value)
                     return;
-                this._enabled = value;
-                this.FirePropertyChanged(nameof(Enabled));
-                if (!this._enabled || !this._isInvalid)
+                _enabled = value;
+                FirePropertyChanged(nameof(Enabled));
+                if (!_enabled || !_isInvalid)
                     return;
-                this.DeferredBeginExecute(null);
+                DeferredBeginExecute(null);
             }
         }
 
-        protected bool Initialized => this._initialized;
+        protected bool Initialized => _initialized;
 
-        public void Refresh() => this.BeginExecute();
+        public void Refresh() => BeginExecute();
 
         public virtual object GetProperty(string propertyName)
         {
-            lock (this.SynchronizedPropertyStorage)
+            lock (SynchronizedPropertyStorage)
             {
-                if (this._propertyValues != null)
+                if (_propertyValues != null)
                 {
                     object obj;
-                    if (this._propertyValues.TryGetValue(propertyName, out obj))
+                    if (_propertyValues.TryGetValue(propertyName, out obj))
                         return obj;
                 }
             }
@@ -93,52 +93,52 @@ namespace Microsoft.Iris
         public virtual void SetProperty(string propertyName, object value)
         {
             bool flag1 = false;
-            lock (this.SynchronizedPropertyStorage)
+            lock (SynchronizedPropertyStorage)
             {
                 bool flag2 = false;
-                if (this._propertyValues == null)
+                if (_propertyValues == null)
                 {
-                    this._propertyValues = new Dictionary<string, object>();
+                    _propertyValues = new Dictionary<string, object>();
                     flag2 = true;
                 }
-                if (!flag2 && this._propertyValues.ContainsKey(propertyName))
+                if (!flag2 && _propertyValues.ContainsKey(propertyName))
                 {
-                    if (Equals(this._propertyValues[propertyName], value))
+                    if (Equals(_propertyValues[propertyName], value))
                         goto label_8;
                 }
-                this._propertyValues[propertyName] = value;
+                _propertyValues[propertyName] = value;
                 flag1 = true;
             }
         label_8:
             if (!flag1)
                 return;
-            this.FirePropertyChanged(propertyName);
+            FirePropertyChanged(propertyName);
         }
 
         protected void FirePropertyChanged(string propertyName)
         {
-            this.OnPropertyChanged(propertyName);
-            if (this._internalQuery != null)
-                this._internalQuery.FireNotificationThreadSafe(propertyName);
-            bool invalidatesQuery = this._typeSchema.InvalidatesQuery(propertyName);
-            if (this.PropertyChanged != null)
-                this.PropertyChanged(this, new DataProviderPropertyChangedEventArgs(propertyName, invalidatesQuery));
-            if (this._isInvalid || !invalidatesQuery)
+            OnPropertyChanged(propertyName);
+            if (_internalQuery != null)
+                _internalQuery.FireNotificationThreadSafe(propertyName);
+            bool invalidatesQuery = _typeSchema.InvalidatesQuery(propertyName);
+            if (PropertyChanged != null)
+                PropertyChanged(this, new DataProviderPropertyChangedEventArgs(propertyName, invalidatesQuery));
+            if (_isInvalid || !invalidatesQuery)
                 return;
-            this._isInvalid = true;
-            if (!this._enabled)
+            _isInvalid = true;
+            if (!_enabled)
                 return;
-            Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredBeginExecute), DeferredInvokePriority.Low);
+            Application.DeferredInvoke(new DeferredInvokeHandler(DeferredBeginExecute), DeferredInvokePriority.Low);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void DeferredBeginExecute(object args)
         {
-            if (!this._isInvalid)
+            if (!_isInvalid)
                 return;
-            this._isInvalid = false;
-            this.BeginExecute();
+            _isInvalid = false;
+            BeginExecute();
         }
 
         protected virtual void OnPropertyChanged(string propertyName)
@@ -149,11 +149,11 @@ namespace Microsoft.Iris
         {
         }
 
-        public bool IsDisposed => this._isDisposed;
+        public bool IsDisposed => _isDisposed;
 
-        void IDisposableObject.DeclareOwner(object owner) => this.DeclareOwnerWorker(owner);
+        void IDisposableObject.DeclareOwner(object owner) => DeclareOwnerWorker(owner);
 
-        void IDataProviderQuery.DeclareOwner(object owner) => this.DeclareOwnerWorker(owner);
+        void IDataProviderQuery.DeclareOwner(object owner) => DeclareOwnerWorker(owner);
 
         private void DeclareOwnerWorker(object owner)
         {
@@ -163,41 +163,41 @@ namespace Microsoft.Iris
         {
         }
 
-        void IDisposableObject.Dispose(object owner) => this.DisposeWorker(owner);
+        void IDisposableObject.Dispose(object owner) => DisposeWorker(owner);
 
-        void IDataProviderQuery.Dispose(object owner) => this.DisposeWorker(owner);
+        void IDataProviderQuery.Dispose(object owner) => DisposeWorker(owner);
 
         private void DisposeWorker(object owner)
         {
-            if (this._isDisposed)
+            if (_isDisposed)
                 return;
-            this.OnDispose();
-            this._isDisposed = true;
+            OnDispose();
+            _isDisposed = true;
         }
 
         protected DataProviderQuery(object typeCookie)
         {
-            this._typeSchema = typeCookie as MarkupDataQuerySchema;
-            if (this._typeSchema == null)
+            _typeSchema = typeCookie as MarkupDataQuerySchema;
+            if (_typeSchema == null)
                 throw new ArgumentException(nameof(typeCookie), "typeCookie must be the queryTypeCookie passed to ConstructQuery");
-            this._isInvalid = true;
+            _isInvalid = true;
         }
 
         object AssemblyObjectProxyHelper.IFrameworkProxyObject.FrameworkObject => _internalQuery;
 
-        internal string ProviderName => this._typeSchema.ProviderName;
+        internal string ProviderName => _typeSchema.ProviderName;
 
-        void IDataProviderQuery.SetInternalObject(MarkupDataQuery internalQuery) => this._internalQuery = internalQuery;
+        void IDataProviderQuery.SetInternalObject(MarkupDataQuery internalQuery) => _internalQuery = internalQuery;
 
         void IDataProviderQuery.OnInitialize()
         {
-            this._initialized = true;
-            if (!this._enabled)
+            _initialized = true;
+            if (!_enabled)
                 return;
-            this.DeferredBeginExecute(null);
+            DeferredBeginExecute(null);
         }
 
-        public override string ToString() => this._typeSchema.Name;
+        public override string ToString() => _typeSchema.Name;
 
         private object SynchronizedPropertyStorage => _internalQuery;
     }

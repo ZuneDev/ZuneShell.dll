@@ -23,23 +23,23 @@ namespace Microsoft.Iris.Markup
         {
         }
 
-        string IErrorContextSource.GetErrorContextDescription() => this._type.Owner.ErrorContextUri;
+        string IErrorContextSource.GetErrorContextDescription() => _type.Owner.ErrorContextUri;
 
         void IErrorContextSource.GetErrorPosition(ref int line, ref int column)
         {
-            uint currentOffset = this._loadResult.ObjectSection.CurrentOffset;
+            uint currentOffset = _loadResult.ObjectSection.CurrentOffset;
             if (currentOffset > 0U)
                 --currentOffset;
-            this._loadResult.LineNumberTable.Lookup(currentOffset, out line, out column);
+            _loadResult.LineNumberTable.Lookup(currentOffset, out line, out column);
         }
 
-        public IMarkupTypeBase Instance => this._instance;
+        public IMarkupTypeBase Instance => _instance;
 
-        public MarkupTypeSchema MarkupType => this._type;
+        public MarkupTypeSchema MarkupType => _type;
 
-        public uint InitialBytecodeOffset => this._initialBytecodeOffset;
+        public uint InitialBytecodeOffset => _initialBytecodeOffset;
 
-        public MarkupLoadResult LoadResult => this._loadResult;
+        public MarkupLoadResult LoadResult => _loadResult;
 
         public object ReadSymbol(SymbolReference symbolRef)
         {
@@ -47,13 +47,13 @@ namespace Microsoft.Iris.Markup
             switch (symbolRef.Origin)
             {
                 case SymbolOrigin.ScopedLocal:
-                    this._scopedLocals.TryGetValue(symbolRef.Symbol, out obj);
+                    _scopedLocals.TryGetValue(symbolRef.Symbol, out obj);
                     break;
                 case SymbolOrigin.Parameter:
-                    obj = this._parameterContext.ReadParameter(symbolRef.Symbol);
+                    obj = _parameterContext.ReadParameter(symbolRef.Symbol);
                     break;
                 default:
-                    obj = this._instance.ReadSymbol(symbolRef);
+                    obj = _instance.ReadSymbol(symbolRef);
                     break;
             }
             return obj;
@@ -64,15 +64,15 @@ namespace Microsoft.Iris.Markup
             switch (symbolRef.Origin)
             {
                 case SymbolOrigin.ScopedLocal:
-                    if (this._scopedLocals == null)
-                        this._scopedLocals = new Map<object, object>();
-                    this._scopedLocals[symbolRef.Symbol] = value;
+                    if (_scopedLocals == null)
+                        _scopedLocals = new Map<object, object>();
+                    _scopedLocals[symbolRef.Symbol] = value;
                     break;
                 case SymbolOrigin.Parameter:
-                    this._parameterContext.WriteParameter(symbolRef.Symbol, value);
+                    _parameterContext.WriteParameter(symbolRef.Symbol, value);
                     break;
                 default:
-                    this._instance.WriteSymbol(symbolRef, value);
+                    _instance.WriteSymbol(symbolRef, value);
                     break;
             }
         }
@@ -81,7 +81,7 @@ namespace Microsoft.Iris.Markup
         {
             if (symbolRef.Origin != SymbolOrigin.ScopedLocal)
                 return;
-            this._scopedLocals.Remove(symbolRef.Symbol);
+            _scopedLocals.Remove(symbolRef.Symbol);
         }
 
         public static InterpreterContext Acquire(

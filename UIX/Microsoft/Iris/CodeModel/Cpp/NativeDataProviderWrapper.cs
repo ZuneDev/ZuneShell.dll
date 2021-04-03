@@ -17,11 +17,11 @@ namespace Microsoft.Iris.CodeModel.Cpp
 
         public NativeDataProviderWrapper(string name, IntPtr factory)
         {
-            this._name = name;
-            this._factory = factory;
+            _name = name;
+            _factory = factory;
         }
 
-        public string Name => this._name;
+        public string Name => _name;
 
         public MarkupDataQuery Build(MarkupDataQuerySchema querySchema) => new NativeMarkupDataQuery(querySchema, this);
 
@@ -32,7 +32,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
           ulong queryHandle)
         {
             IntPtr query;
-            int num = (int)NativeApi.SpDataProviderConstructQuery(this._factory, providerName, queryTypeHandle, resultTypeHandle, queryHandle, out query);
+            int num = (int)NativeApi.SpDataProviderConstructQuery(_factory, providerName, queryTypeHandle, resultTypeHandle, queryHandle, out query);
             return query;
         }
 

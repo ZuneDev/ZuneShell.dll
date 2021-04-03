@@ -11,7 +11,7 @@ namespace Microsoft.Iris.Library
         public static readonly DataCookie NULL = new DataCookie();
         private uint m_value;
 
-        private DataCookie(uint value) => this.m_value = value;
+        private DataCookie(uint value) => m_value = value;
 
         public static bool operator ==(DataCookie hl, DataCookie hr) => (int)hl.m_value == (int)hr.m_value;
 
@@ -30,7 +30,7 @@ namespace Microsoft.Iris.Library
             return (int)m_value == (int)num;
         }
 
-        public override int GetHashCode() => (int)this.m_value;
+        public override int GetHashCode() => (int)m_value;
 
         internal static DataCookie FromUInt32(uint value) => new DataCookie(value);
 

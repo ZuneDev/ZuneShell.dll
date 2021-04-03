@@ -21,178 +21,178 @@ namespace Microsoft.Iris.Drawing
         private Color _textColor;
         private bool _fragment;
 
-        public bool IsInitialized() => this._flags.Data != 0;
+        public bool IsInitialized() => _flags.Data != 0;
 
         public string FontFace
         {
-            get => this._fontFace;
+            get => _fontFace;
             set
             {
-                this._flags[1] = !string.IsNullOrEmpty(value);
-                this._fontFace = value;
+                _flags[1] = !string.IsNullOrEmpty(value);
+                _fontFace = value;
             }
         }
 
         public float FontSize
         {
-            get => this._fontHeightPts;
+            get => _fontHeightPts;
             set
             {
-                this._flags[2] = true;
-                this._fontHeightPts = value;
+                _flags[2] = true;
+                _fontHeightPts = value;
             }
         }
 
         public float AltFontSize
         {
-            get => _altFontHeightPts == 0.0 ? this._fontHeightPts : this._altFontHeightPts;
+            get => _altFontHeightPts == 0.0 ? _fontHeightPts : _altFontHeightPts;
             set
             {
-                this._flags[512] = true;
-                this._altFontHeightPts = value;
+                _flags[512] = true;
+                _altFontHeightPts = value;
             }
         }
 
         public bool Bold
         {
-            get => this._flags[65536];
+            get => _flags[65536];
             set
             {
-                this._flags[4] = true;
-                this._flags[65536] = value;
+                _flags[4] = true;
+                _flags[65536] = value;
             }
         }
 
         public bool Italic
         {
-            get => this._flags[131072];
+            get => _flags[131072];
             set
             {
-                this._flags[8] = true;
-                this._flags[131072] = value;
+                _flags[8] = true;
+                _flags[131072] = value;
             }
         }
 
         public bool Underline
         {
-            get => this._flags[262144];
+            get => _flags[262144];
             set
             {
-                this._flags[16] = true;
-                this._flags[262144] = value;
+                _flags[16] = true;
+                _flags[262144] = value;
             }
         }
 
         public Color Color
         {
-            get => this._textColor;
+            get => _textColor;
             set
             {
-                this._flags[64] = true;
-                this._textColor = value;
+                _flags[64] = true;
+                _textColor = value;
             }
         }
 
         public float LineSpacing
         {
-            get => this._lineSpacing;
+            get => _lineSpacing;
             set
             {
-                this._flags[32] = true;
-                this._lineSpacing = value;
+                _flags[32] = true;
+                _lineSpacing = value;
             }
         }
 
         public bool EnableKerning
         {
-            get => this._flags[524288];
+            get => _flags[524288];
             set
             {
-                this._flags[128] = true;
-                this._flags[524288] = value;
+                _flags[128] = true;
+                _flags[524288] = value;
             }
         }
 
         public float CharacterSpacing
         {
-            get => this._characterSpacing;
+            get => _characterSpacing;
             set
             {
-                this._flags[256] = true;
-                this._characterSpacing = value;
+                _flags[256] = true;
+                _characterSpacing = value;
             }
         }
 
         public bool Fragment
         {
-            get => this._fragment;
-            set => this._fragment = value;
+            get => _fragment;
+            set => _fragment = value;
         }
 
         public void Add(TextStyle additional)
         {
-            this._fragment = additional._fragment;
+            _fragment = additional._fragment;
             if (additional._flags[1])
-                this.FontFace = additional.FontFace;
+                FontFace = additional.FontFace;
             if (additional._flags[2])
-                this.FontSize = additional.FontSize;
+                FontSize = additional.FontSize;
             if (additional._flags[512])
-                this.AltFontSize = additional._altFontHeightPts;
+                AltFontSize = additional._altFontHeightPts;
             if (additional._flags[4])
-                this.Bold = additional.Bold;
+                Bold = additional.Bold;
             if (additional._flags[8])
-                this.Italic = additional.Italic;
+                Italic = additional.Italic;
             if (additional._flags[16])
-                this.Underline = additional.Underline;
+                Underline = additional.Underline;
             if (additional._flags[32])
-                this.LineSpacing = additional.LineSpacing;
+                LineSpacing = additional.LineSpacing;
             if (additional._flags[128])
-                this.EnableKerning = additional.EnableKerning;
+                EnableKerning = additional.EnableKerning;
             if (additional._flags[256])
-                this.CharacterSpacing = additional.CharacterSpacing;
+                CharacterSpacing = additional.CharacterSpacing;
             if (!additional._flags[64])
                 return;
-            this.Color = additional.Color;
+            Color = additional.Color;
         }
 
-        public bool HasColor => this._flags[64];
+        public bool HasColor => _flags[64];
 
         public override string ToString()
         {
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.Append("{TextStyle");
-            if (this._flags[1])
+            if (_flags[1])
             {
                 stringBuilder.Append(" Font = \"");
-                stringBuilder.Append(this.FontFace);
+                stringBuilder.Append(FontFace);
                 stringBuilder.Append("\"");
             }
-            if (this._flags[2])
+            if (_flags[2])
             {
                 stringBuilder.Append(" Pt = ");
-                stringBuilder.Append(this.FontSize);
+                stringBuilder.Append(FontSize);
             }
-            if (this._flags[4])
+            if (_flags[4])
             {
                 stringBuilder.Append(" Bold = ");
-                stringBuilder.Append(this.Bold);
+                stringBuilder.Append(Bold);
             }
-            if (this._flags[8])
+            if (_flags[8])
             {
                 stringBuilder.Append(" Italic = ");
-                stringBuilder.Append(this.Italic);
+                stringBuilder.Append(Italic);
             }
-            if (this._flags[16])
+            if (_flags[16])
             {
                 stringBuilder.Append(" Underline = ");
-                stringBuilder.Append(this.Underline);
+                stringBuilder.Append(Underline);
             }
-            if (this._flags[32])
+            if (_flags[32])
             {
                 stringBuilder.Append(" LineSpacing = ");
-                stringBuilder.Append(this.LineSpacing);
+                stringBuilder.Append(LineSpacing);
             }
-            if (this._flags[64])
+            if (_flags[64])
             {
                 stringBuilder.Append(" Color = ");
                 stringBuilder.Append(Color);
@@ -233,13 +233,13 @@ namespace Microsoft.Iris.Drawing
 
             public unsafe MarshalledData(TextStyle from)
             {
-                this._flags = from._flags.Data;
-                this._fontHeightPts = from._fontHeightPts;
-                this._altFontHeightPts = from._altFontHeightPts;
-                this._lineSpacing = from._lineSpacing;
-                this._characterSpacing = from._characterSpacing;
-                this._textColor = from._textColor;
-                this._fontFace = null;
+                _flags = from._flags.Data;
+                _fontHeightPts = from._fontHeightPts;
+                _altFontHeightPts = from._altFontHeightPts;
+                _lineSpacing = from._lineSpacing;
+                _characterSpacing = from._characterSpacing;
+                _textColor = from._textColor;
+                _fontFace = null;
             }
         }
     }

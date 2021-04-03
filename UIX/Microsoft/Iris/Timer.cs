@@ -18,7 +18,7 @@ namespace Microsoft.Iris
           : base(owner, description)
         {
             UIDispatcher.VerifyOnApplicationThread();
-            this._dispatcherTimer = new DispatcherTimer(this);
+            _dispatcherTimer = new DispatcherTimer(this);
         }
 
         public Timer(IModelItemOwner owner)
@@ -36,7 +36,7 @@ namespace Microsoft.Iris
             if (disposing)
             {
                 UIDispatcher.VerifyOnApplicationThread();
-                this.Stop();
+                Stop();
             }
             base.OnDispose(disposing);
         }
@@ -44,8 +44,8 @@ namespace Microsoft.Iris
         void ITimerOwner.OnTimerPropertyChanged(string id)
         {
             if (ReferenceEquals(id, NotificationID.Interval))
-                this.FirePropertyChanged("TimeSpanInterval");
-            this.FirePropertyChanged(id);
+                FirePropertyChanged("TimeSpanInterval");
+            FirePropertyChanged(id);
         }
 
         public TimeSpan TimeSpanInterval
@@ -53,12 +53,12 @@ namespace Microsoft.Iris
             get
             {
                 UIDispatcher.VerifyOnApplicationThread();
-                return this._dispatcherTimer.TimeSpanInterval;
+                return _dispatcherTimer.TimeSpanInterval;
             }
             set
             {
                 UIDispatcher.VerifyOnApplicationThread();
-                this._dispatcherTimer.TimeSpanInterval = !(value < TimeSpan.Zero) ? value : throw new ArgumentException("Must have non-negative time interval");
+                _dispatcherTimer.TimeSpanInterval = !(value < TimeSpan.Zero) ? value : throw new ArgumentException("Must have non-negative time interval");
             }
         }
 
@@ -67,12 +67,12 @@ namespace Microsoft.Iris
             get
             {
                 UIDispatcher.VerifyOnApplicationThread();
-                return this._dispatcherTimer.Interval;
+                return _dispatcherTimer.Interval;
             }
             set
             {
                 UIDispatcher.VerifyOnApplicationThread();
-                this._dispatcherTimer.Interval = value >= 0 ? value : throw new ArgumentException("Must have non-negative time interval");
+                _dispatcherTimer.Interval = value >= 0 ? value : throw new ArgumentException("Must have non-negative time interval");
             }
         }
 
@@ -81,12 +81,12 @@ namespace Microsoft.Iris
             get
             {
                 UIDispatcher.VerifyOnApplicationThread();
-                return this._dispatcherTimer.Enabled;
+                return _dispatcherTimer.Enabled;
             }
             set
             {
                 UIDispatcher.VerifyOnApplicationThread();
-                this._dispatcherTimer.Enabled = value;
+                _dispatcherTimer.Enabled = value;
             }
         }
 
@@ -95,12 +95,12 @@ namespace Microsoft.Iris
             get
             {
                 UIDispatcher.VerifyOnApplicationThread();
-                return this._dispatcherTimer.AutoRepeat;
+                return _dispatcherTimer.AutoRepeat;
             }
             set
             {
                 UIDispatcher.VerifyOnApplicationThread();
-                this._dispatcherTimer.AutoRepeat = value;
+                _dispatcherTimer.AutoRepeat = value;
             }
         }
 
@@ -109,27 +109,27 @@ namespace Microsoft.Iris
             add
             {
                 UIDispatcher.VerifyOnApplicationThread();
-                this._dispatcherTimer.Tick += value;
+                _dispatcherTimer.Tick += value;
             }
             remove
             {
                 UIDispatcher.VerifyOnApplicationThread();
-                this._dispatcherTimer.Tick -= value;
+                _dispatcherTimer.Tick -= value;
             }
         }
 
         public void Start()
         {
             UIDispatcher.VerifyOnApplicationThread();
-            this._dispatcherTimer.Start();
+            _dispatcherTimer.Start();
         }
 
         public void Stop()
         {
             UIDispatcher.VerifyOnApplicationThread();
-            this._dispatcherTimer.Stop();
+            _dispatcherTimer.Stop();
         }
 
-        public override string ToString() => this.GetType().Name + this._dispatcherTimer.ToString();
+        public override string ToString() => GetType().Name + _dispatcherTimer.ToString();
     }
 }

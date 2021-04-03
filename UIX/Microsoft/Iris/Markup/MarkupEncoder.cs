@@ -24,8 +24,8 @@ namespace Microsoft.Iris.Markup
           MarkupConstantsTable constantsTable,
           MarkupLineNumberTable lineNumberTable)
         {
-            this._constantsTable = constantsTable;
-            this._lineNumberTable = lineNumberTable;
+            _constantsTable = constantsTable;
+            _lineNumberTable = lineNumberTable;
         }
 
         public ByteCodeReader EncodeOBJECTSection(
@@ -33,15 +33,15 @@ namespace Microsoft.Iris.Markup
           string uri,
           string sourceFilePathBestGuess)
         {
-            this._sourceFilePathBestGuess = sourceFilePathBestGuess;
-            this._writer = new ByteCodeWriter();
+            _sourceFilePathBestGuess = sourceFilePathBestGuess;
+            _writer = new ByteCodeWriter();
             if (parseResult.ClassList.Count > 0)
             {
                 for (int index = 0; index < parseResult.ClassList.Count; ++index)
-                    this.EncodeClass(parseResult.ClassList[index]);
+                    EncodeClass(parseResult.ClassList[index]);
             }
-            ByteCodeReader reader = this._writer.CreateReader();
-            this._writer = null;
+            ByteCodeReader reader = _writer.CreateReader();
+            _writer = null;
             return reader;
         }
 
@@ -58,48 +58,48 @@ namespace Microsoft.Iris.Markup
                 int totalInitialEvaluates = 0;
                 int totalFinalEvaluates = 0;
                 if (cls.ActionList.Count > 0)
-                    this.EncodeScript(cls.ActionList, out totalInitialEvaluates, out totalFinalEvaluates);
+                    EncodeScript(cls.ActionList, out totalInitialEvaluates, out totalFinalEvaluates);
                 if (cls.TriggerList.Count > 0)
-                    this.EncodeListenerGroupRefresh(cls);
+                    EncodeListenerGroupRefresh(cls);
                 if (cls.MethodList != null && cls.MethodList.Count > 0)
-                    this.EncodeMethods(cls.TypeExport, cls.MethodList);
+                    EncodeMethods(cls.TypeExport, cls.MethodList);
                 if (cls.FoundPropertiesValidateProperty != null)
                 {
-                    uint offset = this.GetOffset();
+                    uint offset = GetOffset();
                     cls.TypeExport.SetInitializePropertiesOffset(offset);
-                    this.EncodeInitializeProperty(cls.FoundPropertiesValidateProperty);
+                    EncodeInitializeProperty(cls.FoundPropertiesValidateProperty);
                     cls.RemoveProperty(cls.FoundPropertiesValidateProperty);
-                    this._writer.WriteByte(OpCode.ReturnVoid);
+                    _writer.WriteByte(OpCode.ReturnVoid);
                 }
                 if (ui != null && ui.FoundContentValidateProperty != null)
                 {
-                    uint offset = this.GetOffset();
+                    uint offset = GetOffset();
                     cls.TypeExport.SetInitializeContentOffset(offset);
-                    this.EncodeInitializeProperty(ui.FoundContentValidateProperty);
+                    EncodeInitializeProperty(ui.FoundContentValidateProperty);
                     cls.RemoveProperty(ui.FoundContentValidateProperty);
-                    this._writer.WriteByte(OpCode.ReturnVoid);
+                    _writer.WriteByte(OpCode.ReturnVoid);
                 }
                 if (validateEffect != null)
-                    this.EncodeTechniquesProperty((EffectClassTypeSchema)cls.TypeExport, validateEffect);
-                uint offset1 = this.GetOffset();
+                    EncodeTechniquesProperty((EffectClassTypeSchema)cls.TypeExport, validateEffect);
+                uint offset1 = GetOffset();
                 cls.TypeExport.SetInitializeLocalsInputOffset(offset1);
                 for (ValidateProperty property = cls.PropertyList; property != null; property = property.Next)
-                    this.EncodeInitializeProperty(property);
+                    EncodeInitializeProperty(property);
                 if (cls.TypeExport.ListenerCount > 0U)
-                    this.EncodeListenerInitialize(cls);
+                    EncodeListenerInitialize(cls);
                 if (totalInitialEvaluates > 0)
-                    this.EstablishInitialOrFinalEvaluateOffsets(cls, totalInitialEvaluates, true);
+                    EstablishInitialOrFinalEvaluateOffsets(cls, totalInitialEvaluates, true);
                 if (totalFinalEvaluates > 0)
-                    this.EstablishInitialOrFinalEvaluateOffsets(cls, totalFinalEvaluates, false);
-                this._writer.WriteByte(OpCode.ReturnVoid);
+                    EstablishInitialOrFinalEvaluateOffsets(cls, totalFinalEvaluates, false);
+                _writer.WriteByte(OpCode.ReturnVoid);
                 if (ui == null)
                     return;
-                this.EncodeNamedContent(ui);
+                EncodeNamedContent(ui);
             }
             else
             {
-                this.EncodeObjectBySource(cls.IndirectedObject);
-                this._writer.WriteByte(OpCode.ReturnValue);
+                EncodeObjectBySource(cls.IndirectedObject);
+                _writer.WriteByte(OpCode.ReturnValue);
             }
         }
 
@@ -109,47 +109,47 @@ namespace Microsoft.Iris.Markup
             {
                 if (objectTag.DynamicConstructionType != null)
                 {
-                    this.EncodeObjectBySource(objectTag.DynamicConstructionType);
-                    this._writer.WriteByte(OpCode.ConstructObjectIndirect);
-                    this._writer.WriteUInt16(objectTag.FoundTypeIndex);
+                    EncodeObjectBySource(objectTag.DynamicConstructionType);
+                    _writer.WriteByte(OpCode.ConstructObjectIndirect);
+                    _writer.WriteUInt16(objectTag.FoundTypeIndex);
                     bool forceVerifyValues = objectTag.FoundType is MarkupTypeSchema;
-                    this.EncodeInitializeProperties(objectTag, forceVerifyValues);
-                    this.EncodeObjectBySource(objectTag.DynamicConstructionType);
+                    EncodeInitializeProperties(objectTag, forceVerifyValues);
+                    EncodeObjectBySource(objectTag.DynamicConstructionType);
                     if (!objectTag.FoundType.HasInitializer)
                         return;
-                    this._writer.WriteByte(OpCode.InitializeInstanceIndirect);
+                    _writer.WriteByte(OpCode.InitializeInstanceIndirect);
                 }
                 else
                 {
-                    this._writer.WriteByte(OpCode.ConstructObject);
-                    this._writer.WriteUInt16(objectTag.FoundTypeIndex);
-                    this.EncodeInitializeProperties(objectTag);
-                    this.EncodeInitializeInstance(objectTag.FoundType, objectTag.FoundTypeIndex);
+                    _writer.WriteByte(OpCode.ConstructObject);
+                    _writer.WriteUInt16(objectTag.FoundTypeIndex);
+                    EncodeInitializeProperties(objectTag);
+                    EncodeInitializeInstance(objectTag.FoundType, objectTag.FoundTypeIndex);
                 }
             }
             else
-                this.EncodeObjectBySource(objectTag.IndirectedObject);
+                EncodeObjectBySource(objectTag.IndirectedObject);
         }
 
-        private void EncodeInitializeProperties(ValidateObjectTag objectTag) => this.EncodeInitializeProperties(objectTag, false);
+        private void EncodeInitializeProperties(ValidateObjectTag objectTag) => EncodeInitializeProperties(objectTag, false);
 
         private void EncodeInitializeProperties(ValidateObjectTag objectTag, bool forceVerifyValues)
         {
             if (objectTag.PropertyCount <= 0)
                 return;
             for (ValidateProperty property = objectTag.PropertyList; property != null; property = property.Next)
-                this.EncodeInitializeProperty(property, objectTag.DynamicConstructionType);
+                EncodeInitializeProperty(property, objectTag.DynamicConstructionType);
         }
 
         private void EncodeInitializeInstance(TypeSchema type, int typeIndex)
         {
             if (!type.HasInitializer)
                 return;
-            this._writer.WriteByte(OpCode.InitializeInstance);
-            this._writer.WriteUInt16(typeIndex);
+            _writer.WriteByte(OpCode.InitializeInstance);
+            _writer.WriteUInt16(typeIndex);
         }
 
-        private void EncodeInitializeProperty(ValidateProperty property) => this.EncodeInitializeProperty(property, null);
+        private void EncodeInitializeProperty(ValidateProperty property) => EncodeInitializeProperty(property, null);
 
         private void EncodeInitializeProperty(
           ValidateProperty property,
@@ -159,26 +159,26 @@ namespace Microsoft.Iris.Markup
                 return;
             if (property.ValueApplyMode == ValueApplyMode.SingleValueSet)
             {
-                this.EncodeObjectBySource(property.Value);
-                this.RecordLineNumber(property);
+                EncodeObjectBySource(property.Value);
+                RecordLineNumber(property);
                 if (dynamicConstructionType == null)
                 {
-                    this._writer.WriteByte(OpCode.PropertyInitialize);
-                    this._writer.WriteUInt16(property.FoundPropertyIndex);
+                    _writer.WriteByte(OpCode.PropertyInitialize);
+                    _writer.WriteUInt16(property.FoundPropertyIndex);
                 }
                 else
                 {
-                    this.EncodeObjectBySource(dynamicConstructionType);
-                    this._writer.WriteByte(OpCode.PropertyInitializeIndirect);
-                    this._writer.WriteUInt16(property.FoundPropertyIndex);
+                    EncodeObjectBySource(dynamicConstructionType);
+                    _writer.WriteByte(OpCode.PropertyInitializeIndirect);
+                    _writer.WriteUInt16(property.FoundPropertyIndex);
                 }
             }
             else
             {
                 if ((property.ValueApplyMode & ValueApplyMode.CollectionPopulateAndSet) != ValueApplyMode.SingleValueSet)
                 {
-                    this._writer.WriteByte(OpCode.ConstructObject);
-                    this._writer.WriteUInt16(property.FoundPropertyTypeIndex);
+                    _writer.WriteByte(OpCode.ConstructObject);
+                    _writer.WriteUInt16(property.FoundPropertyTypeIndex);
                 }
                 for (ValidateObjectTag next = (ValidateObjectTag)property.Value; next != null; next = next.Next)
                 {
@@ -187,41 +187,41 @@ namespace Microsoft.Iris.Markup
                         uint fixUpLocation = uint.MaxValue;
                         if (property.ShouldSkipDictionaryAddIfContains)
                         {
-                            this._writer.WriteByte(OpCode.JumpIfDictionaryContains);
-                            this._writer.WriteUInt16((property.ValueApplyMode & ValueApplyMode.CollectionAdd) != ValueApplyMode.SingleValueSet ? property.FoundPropertyIndex : -1);
-                            this._writer.WriteUInt16(this._constantsTable.Add(StringSchema.Type, next.Name, MarkupConstantPersistMode.Binary));
-                            fixUpLocation = this.GetOffset();
-                            this._writer.WriteUInt32(uint.MaxValue);
+                            _writer.WriteByte(OpCode.JumpIfDictionaryContains);
+                            _writer.WriteUInt16((property.ValueApplyMode & ValueApplyMode.CollectionAdd) != ValueApplyMode.SingleValueSet ? property.FoundPropertyIndex : -1);
+                            _writer.WriteUInt16(_constantsTable.Add(StringSchema.Type, next.Name, MarkupConstantPersistMode.Binary));
+                            fixUpLocation = GetOffset();
+                            _writer.WriteUInt32(uint.MaxValue);
                         }
-                        this.EncodeConstructObject(next);
+                        EncodeConstructObject(next);
                         if ((property.ValueApplyMode & ValueApplyMode.MultiValueDictionary) != ValueApplyMode.SingleValueSet)
                         {
-                            this._writer.WriteByte(OpCode.PropertyDictionaryAdd);
-                            this._writer.WriteUInt16((property.ValueApplyMode & ValueApplyMode.CollectionAdd) != ValueApplyMode.SingleValueSet ? property.FoundPropertyIndex : -1);
-                            this._writer.WriteUInt16(this._constantsTable.Add(StringSchema.Type, next.Name, MarkupConstantPersistMode.Binary));
+                            _writer.WriteByte(OpCode.PropertyDictionaryAdd);
+                            _writer.WriteUInt16((property.ValueApplyMode & ValueApplyMode.CollectionAdd) != ValueApplyMode.SingleValueSet ? property.FoundPropertyIndex : -1);
+                            _writer.WriteUInt16(_constantsTable.Add(StringSchema.Type, next.Name, MarkupConstantPersistMode.Binary));
                         }
                         else
                         {
-                            this._writer.WriteByte(OpCode.PropertyListAdd);
-                            this._writer.WriteUInt16((property.ValueApplyMode & ValueApplyMode.CollectionAdd) != ValueApplyMode.SingleValueSet ? property.FoundPropertyIndex : -1);
+                            _writer.WriteByte(OpCode.PropertyListAdd);
+                            _writer.WriteUInt16((property.ValueApplyMode & ValueApplyMode.CollectionAdd) != ValueApplyMode.SingleValueSet ? property.FoundPropertyIndex : -1);
                         }
                         if (fixUpLocation != uint.MaxValue)
-                            this.FixUpJumpOffset(fixUpLocation);
+                            FixUpJumpOffset(fixUpLocation);
                     }
                 }
                 if ((property.ValueApplyMode & ValueApplyMode.CollectionPopulateAndSet) == ValueApplyMode.SingleValueSet)
                     return;
                 if (dynamicConstructionType == null)
                 {
-                    this._writer.WriteByte(OpCode.PropertyInitialize);
-                    this._writer.WriteUInt16(property.FoundPropertyIndex);
+                    _writer.WriteByte(OpCode.PropertyInitialize);
+                    _writer.WriteUInt16(property.FoundPropertyIndex);
                 }
                 else
                 {
-                    this.EncodeObjectBySource(dynamicConstructionType);
-                    this.RecordLineNumber(property);
-                    this._writer.WriteByte(OpCode.PropertyInitializeIndirect);
-                    this._writer.WriteUInt16(property.FoundPropertyIndex);
+                    EncodeObjectBySource(dynamicConstructionType);
+                    RecordLineNumber(property);
+                    _writer.WriteByte(OpCode.PropertyInitializeIndirect);
+                    _writer.WriteUInt16(property.FoundPropertyIndex);
                 }
             }
         }
@@ -231,16 +231,16 @@ namespace Microsoft.Iris.Markup
             switch (obj.ObjectSourceType)
             {
                 case ObjectSourceType.ObjectTag:
-                    this.EncodeConstructObject((ValidateObjectTag)obj);
+                    EncodeConstructObject((ValidateObjectTag)obj);
                     break;
                 case ObjectSourceType.FromString:
-                    this.EncodeFromString((ValidateFromString)obj);
+                    EncodeFromString((ValidateFromString)obj);
                     break;
                 case ObjectSourceType.Code:
-                    this.EncodeCode((ValidateCode)obj);
+                    EncodeCode((ValidateCode)obj);
                     break;
                 case ObjectSourceType.Expression:
-                    this.EncodeExpression((ValidateExpression)obj, null);
+                    EncodeExpression((ValidateExpression)obj, null);
                     break;
             }
         }
@@ -261,30 +261,30 @@ namespace Microsoft.Iris.Markup
                     persistMode = MarkupConstantPersistMode.FromString;
                     persistData = fromString.FromString;
                 }
-                int rawValue = this._constantsTable.Add(fromString.ObjectType, fromString.FromStringInstance, persistMode, persistData);
-                this._writer.WriteByte(OpCode.PushConstant);
-                this._writer.WriteUInt16(rawValue);
+                int rawValue = _constantsTable.Add(fromString.ObjectType, fromString.FromStringInstance, persistMode, persistData);
+                _writer.WriteByte(OpCode.PushConstant);
+                _writer.WriteUInt16(rawValue);
             }
             else if (fromString.ObjectType.SupportsBinaryEncoding)
             {
-                this._writer.WriteByte(OpCode.ConstructFromBinary);
-                this._writer.WriteUInt16(fromString.TypeHintIndex);
-                fromString.ObjectType.EncodeBinary(this._writer, fromString.FromStringInstance);
+                _writer.WriteByte(OpCode.ConstructFromBinary);
+                _writer.WriteUInt16(fromString.TypeHintIndex);
+                fromString.ObjectType.EncodeBinary(_writer, fromString.FromStringInstance);
             }
             else
             {
-                int rawValue = this._constantsTable.Add(StringSchema.Type, fromString.FromString, MarkupConstantPersistMode.FromString);
-                this._writer.WriteByte(OpCode.ConstructFromString);
-                this._writer.WriteUInt16(fromString.TypeHintIndex);
-                this._writer.WriteUInt16(rawValue);
+                int rawValue = _constantsTable.Add(StringSchema.Type, fromString.FromString, MarkupConstantPersistMode.FromString);
+                _writer.WriteByte(OpCode.ConstructFromString);
+                _writer.WriteUInt16(fromString.TypeHintIndex);
+                _writer.WriteUInt16(rawValue);
             }
         }
 
         private void EncodeCanonicalInstance(object instance, TypeSchema type, string memberName)
         {
-            int rawValue = this._constantsTable.Add(type, instance, MarkupConstantPersistMode.Canonical, memberName);
-            this._writer.WriteByte(OpCode.PushConstant);
-            this._writer.WriteUInt16(rawValue);
+            int rawValue = _constantsTable.Add(type, instance, MarkupConstantPersistMode.Canonical, memberName);
+            _writer.WriteByte(OpCode.PushConstant);
+            _writer.WriteUInt16(rawValue);
         }
 
         private void EncodeNamedContent(ValidateUI ui)
@@ -295,203 +295,203 @@ namespace Microsoft.Iris.Markup
             int index = 0;
             foreach (ValidateProperty namedContentProperty in ui.FoundNamedContentProperties)
             {
-                uint offset = this.GetOffset();
+                uint offset = GetOffset();
                 namedContentTable[index].SetOffset(offset);
-                this.EncodeObjectBySource(namedContentProperty.Value);
-                this._writer.WriteByte(OpCode.ReturnValue);
+                EncodeObjectBySource(namedContentProperty.Value);
+                _writer.WriteByte(OpCode.ReturnValue);
                 ++index;
             }
         }
 
         private void EncodeCode(ValidateCode code)
         {
-            uint offset = this.GetOffset();
+            uint offset = GetOffset();
             code.TrackEncodingOffset(offset);
-            this.EncodeStatement(code.StatementCompound);
+            EncodeStatement(code.StatementCompound);
             if (code.ReturnStatements != null)
             {
                 foreach (ValidateStatementReturn returnStatement in code.ReturnStatements)
                 {
                     if (!returnStatement.IsTrailingReturn)
-                        this.FixUpJumpOffset(returnStatement.JumpFixupOffset);
+                        FixUpJumpOffset(returnStatement.JumpFixupOffset);
                 }
             }
             if (code.Embedded)
                 return;
             if (code.ObjectType != VoidSchema.Type)
-                this._writer.WriteByte(OpCode.ReturnValue);
+                _writer.WriteByte(OpCode.ReturnValue);
             else
-                this._writer.WriteByte(OpCode.ReturnVoid);
+                _writer.WriteByte(OpCode.ReturnVoid);
         }
 
         private void EncodeStatement(ValidateStatement statement)
         {
-            this.RecordLineNumber(statement);
+            RecordLineNumber(statement);
             if (statement.StatementType != StatementType.Compound)
-                this.DeclareDebugPoint(statement.Line, statement.Column);
+                DeclareDebugPoint(statement.Line, statement.Column);
             switch (statement.StatementType)
             {
                 case StatementType.Assignment:
                     ValidateStatementAssignment statementAssignment = (ValidateStatementAssignment)statement;
                     if (statementAssignment.DeclaredScopedLocal != null)
-                        this.EncodeStatement(statementAssignment.DeclaredScopedLocal);
-                    this.EncodeExpression(statementAssignment.RValue);
-                    this.EncodeExpression(statementAssignment.LValue);
-                    this._writer.WriteByte(OpCode.DiscardValue);
+                        EncodeStatement(statementAssignment.DeclaredScopedLocal);
+                    EncodeExpression(statementAssignment.RValue);
+                    EncodeExpression(statementAssignment.LValue);
+                    _writer.WriteByte(OpCode.DiscardValue);
                     break;
                 case StatementType.Expression:
                     ValidateStatementExpression statementExpression = (ValidateStatementExpression)statement;
-                    this.EncodeExpression(statementExpression.Expression);
+                    EncodeExpression(statementExpression.Expression);
                     if (statementExpression.Expression.ObjectType == VoidSchema.Type)
                         break;
-                    this._writer.WriteByte(OpCode.DiscardValue);
+                    _writer.WriteByte(OpCode.DiscardValue);
                     break;
                 case StatementType.ForEach:
                     ValidateStatementForEach statementForEach = (ValidateStatementForEach)statement;
-                    this.EncodeScopedLocal(statementForEach.ScopedLocal);
-                    this.EncodeExpression(statementForEach.Expression);
-                    this._writer.WriteByte(OpCode.MethodInvoke);
-                    this._writer.WriteUInt16(statementForEach.FoundGetEnumeratorIndex);
-                    uint offset1 = this.GetOffset();
-                    this._writer.WriteByte(OpCode.MethodInvokePeek);
-                    this._writer.WriteUInt16(statementForEach.FoundMoveNextIndex);
-                    this._writer.WriteByte(OpCode.JumpIfFalse);
-                    uint offset2 = this.GetOffset();
-                    this._writer.WriteUInt32(uint.MaxValue);
-                    this._writer.WriteByte(OpCode.PropertyGetPeek);
-                    this._writer.WriteUInt16(statementForEach.FoundCurrentIndex);
-                    this._writer.WriteByte(OpCode.VerifyTypeCast);
-                    this._writer.WriteUInt16(statementForEach.ScopedLocal.FoundTypeIndex);
-                    this._writer.WriteByte(OpCode.WriteSymbol);
-                    this._writer.WriteUInt16(statementForEach.ScopedLocal.FoundSymbolIndex);
-                    this.EncodeStatement(statementForEach.StatementCompound);
-                    this._writer.WriteByte(OpCode.Jump);
-                    this._writer.WriteUInt32(offset1);
-                    this.FixUpJumpOffset(offset2);
-                    uint offset3 = this.GetOffset();
-                    this._writer.WriteByte(OpCode.DiscardValue);
-                    this.EncodeScopedLocalsWipe(statementForEach.ScopedLocalsToClear);
+                    EncodeScopedLocal(statementForEach.ScopedLocal);
+                    EncodeExpression(statementForEach.Expression);
+                    _writer.WriteByte(OpCode.MethodInvoke);
+                    _writer.WriteUInt16(statementForEach.FoundGetEnumeratorIndex);
+                    uint offset1 = GetOffset();
+                    _writer.WriteByte(OpCode.MethodInvokePeek);
+                    _writer.WriteUInt16(statementForEach.FoundMoveNextIndex);
+                    _writer.WriteByte(OpCode.JumpIfFalse);
+                    uint offset2 = GetOffset();
+                    _writer.WriteUInt32(uint.MaxValue);
+                    _writer.WriteByte(OpCode.PropertyGetPeek);
+                    _writer.WriteUInt16(statementForEach.FoundCurrentIndex);
+                    _writer.WriteByte(OpCode.VerifyTypeCast);
+                    _writer.WriteUInt16(statementForEach.ScopedLocal.FoundTypeIndex);
+                    _writer.WriteByte(OpCode.WriteSymbol);
+                    _writer.WriteUInt16(statementForEach.ScopedLocal.FoundSymbolIndex);
+                    EncodeStatement(statementForEach.StatementCompound);
+                    _writer.WriteByte(OpCode.Jump);
+                    _writer.WriteUInt32(offset1);
+                    FixUpJumpOffset(offset2);
+                    uint offset3 = GetOffset();
+                    _writer.WriteByte(OpCode.DiscardValue);
+                    EncodeScopedLocalsWipe(statementForEach.ScopedLocalsToClear);
                     foreach (ValidateStatementBreak breakStatement in statementForEach.BreakStatements)
                     {
                         if (breakStatement.IsContinue)
-                            this.FixUpJumpOffset(breakStatement.JumpFixupOffset, offset1);
+                            FixUpJumpOffset(breakStatement.JumpFixupOffset, offset1);
                         else
-                            this.FixUpJumpOffset(breakStatement.JumpFixupOffset, offset3);
+                            FixUpJumpOffset(breakStatement.JumpFixupOffset, offset3);
                     }
                     break;
                 case StatementType.While:
                     ValidateStatementWhile validateStatementWhile = (ValidateStatementWhile)statement;
-                    uint offset4 = this.GetOffset();
+                    uint offset4 = GetOffset();
                     if (validateStatementWhile.IsDoWhile)
-                        this.EncodeStatement(validateStatementWhile.Body);
-                    this.EncodeExpression(validateStatementWhile.Condition);
-                    this._writer.WriteByte(OpCode.JumpIfFalse);
-                    uint offset5 = this.GetOffset();
-                    this._writer.WriteUInt32(uint.MaxValue);
+                        EncodeStatement(validateStatementWhile.Body);
+                    EncodeExpression(validateStatementWhile.Condition);
+                    _writer.WriteByte(OpCode.JumpIfFalse);
+                    uint offset5 = GetOffset();
+                    _writer.WriteUInt32(uint.MaxValue);
                     if (!validateStatementWhile.IsDoWhile)
-                        this.EncodeStatement(validateStatementWhile.Body);
-                    this._writer.WriteByte(OpCode.Jump);
-                    this._writer.WriteUInt32(offset4);
-                    this.FixUpJumpOffset(offset5);
-                    uint offset6 = this.GetOffset();
+                        EncodeStatement(validateStatementWhile.Body);
+                    _writer.WriteByte(OpCode.Jump);
+                    _writer.WriteUInt32(offset4);
+                    FixUpJumpOffset(offset5);
+                    uint offset6 = GetOffset();
                     foreach (ValidateStatementBreak breakStatement in validateStatementWhile.BreakStatements)
                     {
                         if (breakStatement.IsContinue)
-                            this.FixUpJumpOffset(breakStatement.JumpFixupOffset, offset4);
+                            FixUpJumpOffset(breakStatement.JumpFixupOffset, offset4);
                         else
-                            this.FixUpJumpOffset(breakStatement.JumpFixupOffset, offset6);
+                            FixUpJumpOffset(breakStatement.JumpFixupOffset, offset6);
                     }
                     break;
                 case StatementType.If:
                     ValidateStatementIf validateStatementIf = (ValidateStatementIf)statement;
-                    this.EncodeExpression(validateStatementIf.Condition);
-                    this._writer.WriteByte(OpCode.JumpIfFalse);
-                    uint offset7 = this.GetOffset();
-                    this._writer.WriteUInt32(uint.MaxValue);
-                    this.EncodeStatement(validateStatementIf.StatementCompound);
-                    this.FixUpJumpOffset(offset7);
+                    EncodeExpression(validateStatementIf.Condition);
+                    _writer.WriteByte(OpCode.JumpIfFalse);
+                    uint offset7 = GetOffset();
+                    _writer.WriteUInt32(uint.MaxValue);
+                    EncodeStatement(validateStatementIf.StatementCompound);
+                    FixUpJumpOffset(offset7);
                     break;
                 case StatementType.IfElse:
                     ValidateStatementIfElse validateStatementIfElse = (ValidateStatementIfElse)statement;
-                    this.EncodeExpression(validateStatementIfElse.Condition);
-                    this._writer.WriteByte(OpCode.JumpIfFalse);
-                    uint offset8 = this.GetOffset();
-                    this._writer.WriteUInt32(uint.MaxValue);
-                    this.EncodeStatement(validateStatementIfElse.StatementCompoundTrue);
-                    this._writer.WriteByte(OpCode.Jump);
-                    uint offset9 = this.GetOffset();
-                    this._writer.WriteUInt32(uint.MaxValue);
-                    this.FixUpJumpOffset(offset8);
-                    this.EncodeStatement(validateStatementIfElse.StatementCompoundFalse);
-                    this.FixUpJumpOffset(offset9);
+                    EncodeExpression(validateStatementIfElse.Condition);
+                    _writer.WriteByte(OpCode.JumpIfFalse);
+                    uint offset8 = GetOffset();
+                    _writer.WriteUInt32(uint.MaxValue);
+                    EncodeStatement(validateStatementIfElse.StatementCompoundTrue);
+                    _writer.WriteByte(OpCode.Jump);
+                    uint offset9 = GetOffset();
+                    _writer.WriteUInt32(uint.MaxValue);
+                    FixUpJumpOffset(offset8);
+                    EncodeStatement(validateStatementIfElse.StatementCompoundFalse);
+                    FixUpJumpOffset(offset9);
                     break;
                 case StatementType.Return:
                     ValidateStatementReturn validateStatementReturn = (ValidateStatementReturn)statement;
                     if (validateStatementReturn.Expression != null)
-                        this.EncodeExpression(validateStatementReturn.Expression);
+                        EncodeExpression(validateStatementReturn.Expression);
                     if (validateStatementReturn.IsTrailingReturn)
                         break;
-                    this.EncodeScopedLocalsWipe(validateStatementReturn.ScopedLocalsToClear);
-                    this._writer.WriteByte(OpCode.Jump);
-                    uint offset10 = this.GetOffset();
-                    this._writer.WriteUInt32(uint.MaxValue);
+                    EncodeScopedLocalsWipe(validateStatementReturn.ScopedLocalsToClear);
+                    _writer.WriteByte(OpCode.Jump);
+                    uint offset10 = GetOffset();
+                    _writer.WriteUInt32(uint.MaxValue);
                     validateStatementReturn.TrackJumpFixupOffset(offset10);
                     break;
                 case StatementType.ScopedLocal:
-                    this.EncodeScopedLocal((ValidateStatementScopedLocal)statement);
+                    EncodeScopedLocal((ValidateStatementScopedLocal)statement);
                     break;
                 case StatementType.Compound:
                     ValidateStatementCompound statementCompound = (ValidateStatementCompound)statement;
                     for (ValidateStatement statement1 = statementCompound.StatementList; statement1 != null; statement1 = statement1.Next)
-                        this.EncodeStatement(statement1);
-                    this.EncodeScopedLocalsWipe(statementCompound.ScopedLocalsToClear);
+                        EncodeStatement(statement1);
+                    EncodeScopedLocalsWipe(statementCompound.ScopedLocalsToClear);
                     break;
                 case StatementType.Break:
                     ValidateStatementBreak validateStatementBreak = (ValidateStatementBreak)statement;
-                    this.EncodeScopedLocalsWipe(validateStatementBreak.ScopedLocalsToClear);
-                    this._writer.WriteByte(OpCode.Jump);
-                    uint offset11 = this.GetOffset();
-                    this._writer.WriteUInt32(uint.MaxValue);
+                    EncodeScopedLocalsWipe(validateStatementBreak.ScopedLocalsToClear);
+                    _writer.WriteByte(OpCode.Jump);
+                    uint offset11 = GetOffset();
+                    _writer.WriteUInt32(uint.MaxValue);
                     validateStatementBreak.TrackJumpFixupOffset(offset11);
                     break;
             }
         }
 
-        private void EncodeExpression(ValidateExpression expression) => this.EncodeExpression(expression, null);
+        private void EncodeExpression(ValidateExpression expression) => EncodeExpression(expression, null);
 
         private void EncodeExpression(
           ValidateExpression expression,
           ListenerEncodeMode listenerEncodeMode)
         {
-            this.RecordLineNumber(expression);
-            expression.TrackEncodingOffset(this.GetOffset());
+            RecordLineNumber(expression);
+            expression.TrackEncodingOffset(GetOffset());
             switch (expression.ExpressionType)
             {
                 case ExpressionType.Assignment:
                     ValidateExpressionAssignment expressionAssignment = (ValidateExpressionAssignment)expression;
                     if (!expressionAssignment.IsIndexAssignment)
-                        this.EncodeExpression(expressionAssignment.RValue);
-                    this.EncodeExpression(expressionAssignment.LValue);
+                        EncodeExpression(expressionAssignment.RValue);
+                    EncodeExpression(expressionAssignment.LValue);
                     break;
                 case ExpressionType.Symbol:
                     bool flag1 = true;
                     ValidateExpressionSymbol expressionSymbol = (ValidateExpressionSymbol)expression;
                     if (expressionSymbol.NotifyIndex >= 0 && listenerEncodeMode != null)
                     {
-                        this.EncodeListenerHookup(listenerEncodeMode, expressionSymbol.NotifyIndex, ListenerType.Symbol, expressionSymbol.FoundSymbolIndex, expressionSymbol.IsNotifierRoot);
+                        EncodeListenerHookup(listenerEncodeMode, expressionSymbol.NotifyIndex, ListenerType.Symbol, expressionSymbol.FoundSymbolIndex, expressionSymbol.IsNotifierRoot);
                         flag1 = !expressionSymbol.IsNotifierRoot;
                     }
                     if (!flag1)
                         break;
-                    this._writer.WriteByte(expressionSymbol.Usage != ExpressionUsage.RValue ? OpCode.WriteSymbolPeek : OpCode.LookupSymbol);
-                    this._writer.WriteUInt16(expressionSymbol.FoundSymbolIndex);
+                    _writer.WriteByte(expressionSymbol.Usage != ExpressionUsage.RValue ? OpCode.WriteSymbolPeek : OpCode.LookupSymbol);
+                    _writer.WriteUInt16(expressionSymbol.FoundSymbolIndex);
                     break;
                 case ExpressionType.Call:
                     ValidateExpressionCall validateExpressionCall = (ValidateExpressionCall)expression;
                     bool flag2 = false;
                     if (validateExpressionCall.Target != null)
                     {
-                        this.EncodeExpression(validateExpressionCall.Target, listenerEncodeMode);
+                        EncodeExpression(validateExpressionCall.Target, listenerEncodeMode);
                         flag2 = true;
                     }
                     switch (validateExpressionCall.FoundMemberType)
@@ -500,167 +500,167 @@ namespace Microsoft.Iris.Markup
                             bool flag3 = true;
                             if (validateExpressionCall.NotifyIndex >= 0 && listenerEncodeMode != null)
                             {
-                                this.EncodeListenerHookup(listenerEncodeMode, validateExpressionCall.NotifyIndex, ListenerType.Property, validateExpressionCall.FoundMemberIndex, validateExpressionCall.IsNotifierRoot);
+                                EncodeListenerHookup(listenerEncodeMode, validateExpressionCall.NotifyIndex, ListenerType.Property, validateExpressionCall.FoundMemberIndex, validateExpressionCall.IsNotifierRoot);
                                 flag3 = !validateExpressionCall.IsNotifierRoot;
                             }
                             if (!flag3)
                                 return;
                             OpCode opCode = validateExpressionCall.Usage != ExpressionUsage.RValue ? (flag2 ? OpCode.PropertyAssign : OpCode.PropertyAssignStatic) : (flag2 ? OpCode.PropertyGet : OpCode.PropertyGetStatic);
-                            this.RecordLineNumber(expression);
-                            this._writer.WriteByte(opCode);
-                            this._writer.WriteUInt16(validateExpressionCall.FoundMemberIndex);
+                            RecordLineNumber(expression);
+                            _writer.WriteByte(opCode);
+                            _writer.WriteUInt16(validateExpressionCall.FoundMemberIndex);
                             return;
                         case SchemaType.Method:
                             if (validateExpressionCall.ParameterList != ValidateParameter.EmptyList)
                             {
                                 for (ValidateParameter validateParameter = validateExpressionCall.ParameterList; validateParameter != null; validateParameter = validateParameter.Next)
-                                    this.EncodeExpression(validateParameter.Expression);
+                                    EncodeExpression(validateParameter.Expression);
                             }
-                            this.RecordLineNumber(expression);
-                            this._writer.WriteByte(validateExpressionCall.IsIndexAssignment ? (flag2 ? OpCode.MethodInvokePushLastParam : OpCode.MethodInvokeStaticPushLastParam) : (flag2 ? OpCode.MethodInvoke : OpCode.MethodInvokeStatic));
-                            this._writer.WriteUInt16(validateExpressionCall.FoundMemberIndex);
+                            RecordLineNumber(expression);
+                            _writer.WriteByte(validateExpressionCall.IsIndexAssignment ? (flag2 ? OpCode.MethodInvokePushLastParam : OpCode.MethodInvokeStaticPushLastParam) : (flag2 ? OpCode.MethodInvoke : OpCode.MethodInvokeStatic));
+                            _writer.WriteUInt16(validateExpressionCall.FoundMemberIndex);
                             return;
                         case SchemaType.Event:
                             if (validateExpressionCall.NotifyIndex < 0 || listenerEncodeMode == null)
                                 return;
-                            this.EncodeListenerHookup(listenerEncodeMode, validateExpressionCall.NotifyIndex, ListenerType.Event, validateExpressionCall.FoundMemberIndex, validateExpressionCall.IsNotifierRoot);
+                            EncodeListenerHookup(listenerEncodeMode, validateExpressionCall.NotifyIndex, ListenerType.Event, validateExpressionCall.FoundMemberIndex, validateExpressionCall.IsNotifierRoot);
                             return;
                         case SchemaType.CanonicalInstance:
-                            this.EncodeCanonicalInstance(validateExpressionCall.FoundCanonicalInstance, validateExpressionCall.ObjectType, validateExpressionCall.MemberName);
+                            EncodeCanonicalInstance(validateExpressionCall.FoundCanonicalInstance, validateExpressionCall.ObjectType, validateExpressionCall.MemberName);
                             return;
                         default:
                             return;
                     }
                 case ExpressionType.Cast:
                     ValidateExpressionCast validateExpressionCast = (ValidateExpressionCast)expression;
-                    this.EncodeExpression(validateExpressionCast.Castee, listenerEncodeMode);
-                    this.RecordLineNumber(expression);
+                    EncodeExpression(validateExpressionCast.Castee, listenerEncodeMode);
+                    RecordLineNumber(expression);
                     if (validateExpressionCast.FoundCastMethod == CastMethod.Cast)
                     {
-                        this._writer.WriteByte(OpCode.VerifyTypeCast);
-                        this._writer.WriteUInt16(validateExpressionCast.FoundTypeCastIndex);
+                        _writer.WriteByte(OpCode.VerifyTypeCast);
+                        _writer.WriteUInt16(validateExpressionCast.FoundTypeCastIndex);
                         break;
                     }
-                    this._writer.WriteByte(OpCode.ConvertType);
-                    this._writer.WriteUInt16(validateExpressionCast.FoundTypeCastIndex);
-                    this._writer.WriteUInt16(validateExpressionCast.FoundCasteeTypeIndex);
+                    _writer.WriteByte(OpCode.ConvertType);
+                    _writer.WriteUInt16(validateExpressionCast.FoundTypeCastIndex);
+                    _writer.WriteUInt16(validateExpressionCast.FoundCasteeTypeIndex);
                     break;
                 case ExpressionType.New:
                     ValidateExpressionNew validateExpressionNew = (ValidateExpressionNew)expression;
                     if (!validateExpressionNew.IsParameterizedConstruction)
                     {
-                        this._writer.WriteByte(OpCode.ConstructObject);
-                        this._writer.WriteUInt16(validateExpressionNew.FoundConstructTypeIndex);
+                        _writer.WriteByte(OpCode.ConstructObject);
+                        _writer.WriteUInt16(validateExpressionNew.FoundConstructTypeIndex);
                     }
                     else
                     {
                         for (ValidateParameter validateParameter = validateExpressionNew.ParameterList; validateParameter != null; validateParameter = validateParameter.Next)
-                            this.EncodeExpression(validateParameter.Expression);
-                        this.RecordLineNumber(expression);
-                        this._writer.WriteByte(OpCode.ConstructObjectParam);
-                        this._writer.WriteUInt16(validateExpressionNew.FoundConstructTypeIndex);
-                        this._writer.WriteUInt16(validateExpressionNew.FoundParameterizedConstructorIndex);
+                            EncodeExpression(validateParameter.Expression);
+                        RecordLineNumber(expression);
+                        _writer.WriteByte(OpCode.ConstructObjectParam);
+                        _writer.WriteUInt16(validateExpressionNew.FoundConstructTypeIndex);
+                        _writer.WriteUInt16(validateExpressionNew.FoundParameterizedConstructorIndex);
                     }
-                    this.EncodeInitializeInstance(validateExpressionNew.FoundConstructType, validateExpressionNew.FoundConstructTypeIndex);
+                    EncodeInitializeInstance(validateExpressionNew.FoundConstructType, validateExpressionNew.FoundConstructTypeIndex);
                     break;
                 case ExpressionType.Operation:
                     ValidateExpressionOperation expressionOperation = (ValidateExpressionOperation)expression;
-                    this.EncodeExpression(expressionOperation.LeftSide);
+                    EncodeExpression(expressionOperation.LeftSide);
                     uint fixUpLocation = uint.MaxValue;
                     if (expressionOperation.FoundOperationTargetType == BooleanSchema.Type && (expressionOperation.Op == OperationType.LogicalAnd || expressionOperation.Op == OperationType.LogicalOr))
                     {
-                        this.RecordLineNumber(expression);
-                        this._writer.WriteByte(expressionOperation.Op == OperationType.LogicalOr ? OpCode.JumpIfTruePeek : OpCode.JumpIfFalsePeek);
-                        fixUpLocation = this.GetOffset();
-                        this._writer.WriteUInt32(uint.MaxValue);
+                        RecordLineNumber(expression);
+                        _writer.WriteByte(expressionOperation.Op == OperationType.LogicalOr ? OpCode.JumpIfTruePeek : OpCode.JumpIfFalsePeek);
+                        fixUpLocation = GetOffset();
+                        _writer.WriteUInt32(uint.MaxValue);
                     }
                     if (expressionOperation.RightSide != null)
-                        this.EncodeExpression(expressionOperation.RightSide);
-                    this.RecordLineNumber(expression);
-                    this._writer.WriteByte(OpCode.Operation);
-                    this._writer.WriteUInt16(expressionOperation.FoundOperationTargetTypeIndex);
-                    this._writer.WriteByte((byte)expressionOperation.Op);
+                        EncodeExpression(expressionOperation.RightSide);
+                    RecordLineNumber(expression);
+                    _writer.WriteByte(OpCode.Operation);
+                    _writer.WriteUInt16(expressionOperation.FoundOperationTargetTypeIndex);
+                    _writer.WriteByte((byte)expressionOperation.Op);
                     if (fixUpLocation == uint.MaxValue)
                         break;
-                    this.FixUpJumpOffset(fixUpLocation);
+                    FixUpJumpOffset(fixUpLocation);
                     break;
                 case ExpressionType.IsCheck:
                     ValidateExpressionIsCheck expressionIsCheck = (ValidateExpressionIsCheck)expression;
-                    this.EncodeExpression(expressionIsCheck.Expression);
-                    this.RecordLineNumber(expression);
-                    this._writer.WriteByte(OpCode.IsCheck);
-                    this._writer.WriteUInt16(expressionIsCheck.TypeIdentifier.FoundTypeIndex);
+                    EncodeExpression(expressionIsCheck.Expression);
+                    RecordLineNumber(expression);
+                    _writer.WriteByte(OpCode.IsCheck);
+                    _writer.WriteUInt16(expressionIsCheck.TypeIdentifier.FoundTypeIndex);
                     break;
                 case ExpressionType.As:
                     ValidateExpressionAs validateExpressionAs = (ValidateExpressionAs)expression;
-                    this.EncodeExpression(validateExpressionAs.Expression);
-                    this.RecordLineNumber(expression);
-                    this._writer.WriteByte(OpCode.As);
-                    this._writer.WriteUInt16(validateExpressionAs.TypeIdentifier.FoundTypeIndex);
+                    EncodeExpression(validateExpressionAs.Expression);
+                    RecordLineNumber(expression);
+                    _writer.WriteByte(OpCode.As);
+                    _writer.WriteUInt16(validateExpressionAs.TypeIdentifier.FoundTypeIndex);
                     break;
                 case ExpressionType.Constant:
                     ValidateExpressionConstant expressionConstant = (ValidateExpressionConstant)expression;
                     if (expressionConstant.ConstantType != ConstantType.Null)
                     {
-                        int rawValue = this._constantsTable.Add(expressionConstant.ObjectType, expressionConstant.FoundConstant, MarkupConstantPersistMode.Binary);
-                        this._writer.WriteByte(OpCode.PushConstant);
-                        this._writer.WriteUInt16(rawValue);
+                        int rawValue = _constantsTable.Add(expressionConstant.ObjectType, expressionConstant.FoundConstant, MarkupConstantPersistMode.Binary);
+                        _writer.WriteByte(OpCode.PushConstant);
+                        _writer.WriteUInt16(rawValue);
                         break;
                     }
-                    this._writer.WriteByte(OpCode.PushNull);
+                    _writer.WriteByte(OpCode.PushNull);
                     break;
                 case ExpressionType.DeclareTrigger:
-                    this.EncodeExpression(((ValidateExpressionDeclareTrigger)expression).Expression);
+                    EncodeExpression(((ValidateExpressionDeclareTrigger)expression).Expression);
                     break;
                 case ExpressionType.TypeOf:
                     ValidateExpressionTypeOf expressionTypeOf = (ValidateExpressionTypeOf)expression;
-                    this._writer.WriteByte(OpCode.TypeOf);
-                    this._writer.WriteUInt16(expressionTypeOf.TypeIdentifier.FoundTypeIndex);
+                    _writer.WriteByte(OpCode.TypeOf);
+                    _writer.WriteUInt16(expressionTypeOf.TypeIdentifier.FoundTypeIndex);
                     break;
                 case ExpressionType.List:
                     ArrayList expressions = ((ValidateExpressionList)expression).Expressions;
                     for (int index = 0; index < expressions.Count; ++index)
                     {
                         ValidateExpression expression1 = (ValidateExpression)expressions[index];
-                        this.EncodeExpression(expression1);
+                        EncodeExpression(expression1);
                         if (index < expressions.Count - 1 && expression1.ObjectType != VoidSchema.Type)
-                            this._writer.WriteByte(OpCode.DiscardValue);
+                            _writer.WriteByte(OpCode.DiscardValue);
                     }
                     break;
                 case ExpressionType.Index:
-                    this.EncodeExpression(((ValidateExpressionIndex)expression).CallExpression);
+                    EncodeExpression(((ValidateExpressionIndex)expression).CallExpression);
                     break;
                 case ExpressionType.Ternary:
                     ValidateExpressionTernary expressionTernary = (ValidateExpressionTernary)expression;
-                    this.EncodeExpression(expressionTernary.Condition);
-                    this._writer.WriteByte(OpCode.JumpIfFalse);
-                    uint offset1 = this.GetOffset();
-                    this._writer.WriteUInt32(uint.MaxValue);
-                    this.EncodeExpression(expressionTernary.TrueClause);
-                    this._writer.WriteByte(OpCode.Jump);
-                    uint offset2 = this.GetOffset();
-                    this._writer.WriteUInt32(uint.MaxValue);
-                    this.FixUpJumpOffset(offset1);
-                    this.EncodeExpression(expressionTernary.FalseClause);
-                    this.FixUpJumpOffset(offset2);
+                    EncodeExpression(expressionTernary.Condition);
+                    _writer.WriteByte(OpCode.JumpIfFalse);
+                    uint offset1 = GetOffset();
+                    _writer.WriteUInt32(uint.MaxValue);
+                    EncodeExpression(expressionTernary.TrueClause);
+                    _writer.WriteByte(OpCode.Jump);
+                    uint offset2 = GetOffset();
+                    _writer.WriteUInt32(uint.MaxValue);
+                    FixUpJumpOffset(offset1);
+                    EncodeExpression(expressionTernary.FalseClause);
+                    FixUpJumpOffset(offset2);
                     break;
                 case ExpressionType.NullCoalescing:
                     ValidateExpressionNullCoalescing expressionNullCoalescing = (ValidateExpressionNullCoalescing)expression;
-                    this.EncodeExpression(expressionNullCoalescing.Condition);
-                    this._writer.WriteByte(OpCode.JumpIfNullPeek);
-                    uint offset3 = this.GetOffset();
-                    this._writer.WriteUInt32(uint.MaxValue);
-                    this._writer.WriteByte(OpCode.Jump);
-                    uint offset4 = this.GetOffset();
-                    this._writer.WriteUInt32(uint.MaxValue);
-                    this.FixUpJumpOffset(offset3);
-                    this._writer.WriteByte(OpCode.DiscardValue);
-                    this.EncodeExpression(expressionNullCoalescing.NullClause);
-                    this.FixUpJumpOffset(offset4);
+                    EncodeExpression(expressionNullCoalescing.Condition);
+                    _writer.WriteByte(OpCode.JumpIfNullPeek);
+                    uint offset3 = GetOffset();
+                    _writer.WriteUInt32(uint.MaxValue);
+                    _writer.WriteByte(OpCode.Jump);
+                    uint offset4 = GetOffset();
+                    _writer.WriteUInt32(uint.MaxValue);
+                    FixUpJumpOffset(offset3);
+                    _writer.WriteByte(OpCode.DiscardValue);
+                    EncodeExpression(expressionNullCoalescing.NullClause);
+                    FixUpJumpOffset(offset4);
                     break;
                 case ExpressionType.This:
                 case ExpressionType.BaseClass:
-                    this._writer.WriteByte(OpCode.PushThis);
+                    _writer.WriteByte(OpCode.PushThis);
                     break;
             }
         }
@@ -671,13 +671,13 @@ namespace Microsoft.Iris.Markup
                 return;
             if (!statementScopedLocal.FoundType.IsNullAssignable)
             {
-                this._writer.WriteByte(OpCode.ConstructObject);
-                this._writer.WriteUInt16(statementScopedLocal.FoundTypeIndex);
+                _writer.WriteByte(OpCode.ConstructObject);
+                _writer.WriteUInt16(statementScopedLocal.FoundTypeIndex);
             }
             else
-                this._writer.WriteByte(OpCode.PushNull);
-            this._writer.WriteByte(OpCode.WriteSymbol);
-            this._writer.WriteUInt16(statementScopedLocal.FoundSymbolIndex);
+                _writer.WriteByte(OpCode.PushNull);
+            _writer.WriteByte(OpCode.WriteSymbol);
+            _writer.WriteUInt16(statementScopedLocal.FoundSymbolIndex);
         }
 
         private void EncodeScopedLocalsWipe(Vector<int> scopedLocalsToClear)
@@ -686,8 +686,8 @@ namespace Microsoft.Iris.Markup
                 return;
             foreach (int rawValue in scopedLocalsToClear)
             {
-                this._writer.WriteByte(OpCode.ClearSymbol);
-                this._writer.WriteUInt16(rawValue);
+                _writer.WriteByte(OpCode.ClearSymbol);
+                _writer.WriteUInt16(rawValue);
             }
         }
 
@@ -701,21 +701,21 @@ namespace Microsoft.Iris.Markup
             uint rawValue = listenerEncodeMode.SequentialListenerIndex((uint)localListenerIndex);
             if (isRoot)
             {
-                this._writer.WriteByte(OpCode.Listen);
-                this._writer.WriteUInt16(rawValue);
-                this._writer.WriteByte((byte)listenerType);
-                this._writer.WriteUInt16(targetIndex);
-                this._writer.WriteUInt32(listenerEncodeMode.ScriptId);
+                _writer.WriteByte(OpCode.Listen);
+                _writer.WriteUInt16(rawValue);
+                _writer.WriteByte((byte)listenerType);
+                _writer.WriteUInt16(targetIndex);
+                _writer.WriteUInt32(listenerEncodeMode.ScriptId);
             }
             else
             {
                 uint num = listenerEncodeMode.RunOnNonTailTrigger ? listenerEncodeMode.ScriptId : uint.MaxValue;
-                this._writer.WriteByte(OpCode.DestructiveListen);
-                this._writer.WriteUInt16(rawValue);
-                this._writer.WriteByte((byte)listenerType);
-                this._writer.WriteUInt16(targetIndex);
-                this._writer.WriteUInt32(num);
-                this._writer.WriteUInt32(listenerEncodeMode.RefreshId);
+                _writer.WriteByte(OpCode.DestructiveListen);
+                _writer.WriteUInt16(rawValue);
+                _writer.WriteByte((byte)listenerType);
+                _writer.WriteUInt16(targetIndex);
+                _writer.WriteUInt32(num);
+                _writer.WriteUInt32(listenerEncodeMode.RefreshId);
             }
             return isRoot;
         }
@@ -733,7 +733,7 @@ namespace Microsoft.Iris.Markup
                     ++totalInitialEvaluates;
                 if (action.FinalEvaluate)
                     ++totalFinalEvaluates;
-                this.EncodeCode(action);
+                EncodeCode(action);
             }
         }
 
@@ -741,8 +741,8 @@ namespace Microsoft.Iris.Markup
         {
             foreach (ValidateMethod method in methodList)
             {
-                uint offset = this.GetOffset();
-                this.EncodeCode(method.Body);
+                uint offset = GetOffset();
+                EncodeCode(method.Body);
                 uint codeOffset = typeSchema.EncodeScriptOffsetAsId(offset);
                 method.MethodExport.SetCodeOffset(codeOffset);
             }
@@ -755,15 +755,15 @@ namespace Microsoft.Iris.Markup
             foreach (TriggerRecord triggerRecord in triggerList)
             {
                 listenerEncodeMode.TriggerContainer = triggerRecord;
-                this.EncodeExpression(triggerRecord.SourceExpression, listenerEncodeMode);
-                this._writer.WriteByte(37);
+                EncodeExpression(triggerRecord.SourceExpression, listenerEncodeMode);
+                _writer.WriteByte(37);
             }
         }
 
         private void EncodeListenerInitialize(ValidateClass cls)
         {
-            this._writer.WriteByte(OpCode.ConstructListenerStorage);
-            this._writer.WriteUInt16(cls.TypeExport.ListenerCount);
+            _writer.WriteByte(OpCode.ConstructListenerStorage);
+            _writer.WriteUInt16(cls.TypeExport.ListenerCount);
             Vector<TriggerRecord> triggerList = cls.TriggerList;
             uint[] refreshGroupOffsets = new uint[triggerList.Count];
             for (int index = 0; index < triggerList.Count; ++index)
@@ -808,9 +808,9 @@ namespace Microsoft.Iris.Markup
             int num = 0;
             for (ValidateObjectTag objectTag = validateObjectTag1; objectTag != null; objectTag = objectTag.Next)
             {
-                techniqueOffsets[num++] = this.GetOffset();
-                this.EncodeConstructObject(objectTag);
-                this._writer.WriteByte(OpCode.ReturnValue);
+                techniqueOffsets[num++] = GetOffset();
+                EncodeConstructObject(objectTag);
+                _writer.WriteByte(OpCode.ReturnValue);
             }
             typeExport.SetTechniqueOffsets(techniqueOffsets);
             validateEffect.RemoveProperty(validateEffect.FoundTechniquesValidateProperty);
@@ -818,27 +818,27 @@ namespace Microsoft.Iris.Markup
                 return;
             uint[] instancePropertyAssignments = new uint[length];
             for (int index = 0; index < length; ++index)
-                instancePropertyAssignments[index] = this.GetOffset();
+                instancePropertyAssignments[index] = GetOffset();
             foreach (KeyValueEntry<string, ValidateProperty> propertyAssignment in validateEffect.FoundInstancePropertyAssignments)
             {
                 int elementSymbolIndex = validateEffect.GetElementSymbolIndex(propertyAssignment.Key);
-                this._writer.WriteByte(OpCode.LookupSymbol);
-                this._writer.WriteUInt16(elementSymbolIndex);
+                _writer.WriteByte(OpCode.LookupSymbol);
+                _writer.WriteUInt16(elementSymbolIndex);
                 for (ValidateProperty next = propertyAssignment.Value; next != null; next = next.Next)
-                    this.EncodeInitializeProperty(next);
-                this._writer.WriteByte(OpCode.DiscardValue);
+                    EncodeInitializeProperty(next);
+                _writer.WriteByte(OpCode.DiscardValue);
             }
-            this._writer.WriteByte(OpCode.ReturnVoid);
+            _writer.WriteByte(OpCode.ReturnVoid);
             typeExport.SetInstancePropertyAssignments(instancePropertyAssignments);
         }
 
-        private uint GetOffset() => this._writer.DataSize;
+        private uint GetOffset() => _writer.DataSize;
 
-        private void FixUpJumpOffset(uint fixUpLocation, uint fixedOffset) => this._writer.Overwrite(fixUpLocation, fixedOffset);
+        private void FixUpJumpOffset(uint fixUpLocation, uint fixedOffset) => _writer.Overwrite(fixUpLocation, fixedOffset);
 
-        private void FixUpJumpOffset(uint fixUpLocation) => this.FixUpJumpOffset(fixUpLocation, this.GetOffset());
+        private void FixUpJumpOffset(uint fixUpLocation) => FixUpJumpOffset(fixUpLocation, GetOffset());
 
-        private void RecordLineNumber(Validate validate) => this._lineNumberTable.AddRecord(this.GetOffset(), validate.Line, validate.Column);
+        private void RecordLineNumber(Validate validate) => _lineNumberTable.AddRecord(GetOffset(), validate.Line, validate.Column);
 
         [Conditional("DEBUG")]
         private void DEBUG_EmitStart()

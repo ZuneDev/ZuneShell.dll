@@ -28,205 +28,205 @@ namespace Microsoft.Iris.InputHandlers
 
         public ScrollingHandler()
         {
-            this._handleDirectionalKeysFlag = true;
-            this._handlePageKeysFlag = true;
-            this._handlePageCommandsFlag = true;
-            this._handleHomeEndKeysFlag = true;
-            this._handleMouseWheelFlag = true;
-            this._useFocusBehavior = true;
-            this.HandlerStage = InputHandlerStage.Direct | InputHandlerStage.Bubbled;
+            _handleDirectionalKeysFlag = true;
+            _handlePageKeysFlag = true;
+            _handlePageCommandsFlag = true;
+            _handleHomeEndKeysFlag = true;
+            _handleMouseWheelFlag = true;
+            _useFocusBehavior = true;
+            HandlerStage = InputHandlerStage.Direct | InputHandlerStage.Bubbled;
         }
 
         protected override void ConfigureInteractivity()
         {
             base.ConfigureInteractivity();
-            if (!this.HandleDirect)
+            if (!HandleDirect)
                 return;
-            if (this._handleDirectionalKeysFlag || this._handlePageKeysFlag || (this._handleHomeEndKeysFlag || this._handlePageCommandsFlag))
-                this.UI.KeyInteractive = true;
-            if (!this._handleMouseWheelFlag)
+            if (_handleDirectionalKeysFlag || _handlePageKeysFlag || (_handleHomeEndKeysFlag || _handlePageCommandsFlag))
+                UI.KeyInteractive = true;
+            if (!_handleMouseWheelFlag)
                 return;
-            this.UI.MouseInteractive = true;
+            UI.MouseInteractive = true;
         }
 
         public bool HandleDirectionalKeys
         {
-            get => this._handleDirectionalKeysFlag;
+            get => _handleDirectionalKeysFlag;
             set
             {
-                if (this._handleDirectionalKeysFlag == value)
+                if (_handleDirectionalKeysFlag == value)
                     return;
-                this._handleDirectionalKeysFlag = value;
-                this.FireNotification(NotificationID.HandleDirectionalKeys);
+                _handleDirectionalKeysFlag = value;
+                FireNotification(NotificationID.HandleDirectionalKeys);
             }
         }
 
         public bool HandlePageKeys
         {
-            get => this._handlePageKeysFlag;
+            get => _handlePageKeysFlag;
             set
             {
-                if (this._handlePageKeysFlag == value)
+                if (_handlePageKeysFlag == value)
                     return;
-                this._handlePageKeysFlag = value;
-                this.FireNotification(NotificationID.HandlePageKeys);
+                _handlePageKeysFlag = value;
+                FireNotification(NotificationID.HandlePageKeys);
             }
         }
 
         public bool HandleHomeEndKeys
         {
-            get => this._handleHomeEndKeysFlag;
+            get => _handleHomeEndKeysFlag;
             set
             {
-                if (this._handleHomeEndKeysFlag == value)
+                if (_handleHomeEndKeysFlag == value)
                     return;
-                this._handleHomeEndKeysFlag = value;
-                this.FireNotification(NotificationID.HandleHomeEndKeys);
+                _handleHomeEndKeysFlag = value;
+                FireNotification(NotificationID.HandleHomeEndKeys);
             }
         }
 
         public bool HandlePageCommands
         {
-            get => this._handlePageCommandsFlag;
+            get => _handlePageCommandsFlag;
             set
             {
-                if (this._handlePageCommandsFlag == value)
+                if (_handlePageCommandsFlag == value)
                     return;
-                this._handlePageCommandsFlag = value;
-                this.FireNotification(NotificationID.HandlePageCommands);
+                _handlePageCommandsFlag = value;
+                FireNotification(NotificationID.HandlePageCommands);
             }
         }
 
         public bool HandleMouseWheel
         {
-            get => this._handleMouseWheelFlag;
+            get => _handleMouseWheelFlag;
             set
             {
-                if (this._handleMouseWheelFlag == value)
+                if (_handleMouseWheelFlag == value)
                     return;
-                this._handleMouseWheelFlag = value;
-                this.FireNotification(NotificationID.HandleMouseWheel);
+                _handleMouseWheelFlag = value;
+                FireNotification(NotificationID.HandleMouseWheel);
             }
         }
 
         public ScrollModel ScrollModel
         {
-            get => this._model;
+            get => _model;
             set
             {
-                if (this._model == value)
+                if (_model == value)
                     return;
-                this._model = value;
-                this.FireNotification(NotificationID.ScrollModel);
+                _model = value;
+                FireNotification(NotificationID.ScrollModel);
             }
         }
 
         public bool UseFocusBehavior
         {
-            get => this._useFocusBehavior;
+            get => _useFocusBehavior;
             set
             {
-                if (this._useFocusBehavior == value)
+                if (_useFocusBehavior == value)
                     return;
-                this._useFocusBehavior = value;
-                this.FireNotification(NotificationID.UseFocusBehavior);
+                _useFocusBehavior = value;
+                FireNotification(NotificationID.UseFocusBehavior);
             }
         }
 
-        private bool ValidScrollModel => this._model != null && this._model.Enabled;
+        private bool ValidScrollModel => _model != null && _model.Enabled;
 
         protected override void OnGainKeyFocus(UIClass sender, KeyFocusInfo info)
         {
-            if (!this.ValidScrollModel || !this._useFocusBehavior)
+            if (!ValidScrollModel || !_useFocusBehavior)
                 return;
-            this._model.NotifyFocusChange(info.Target as UIClass);
+            _model.NotifyFocusChange(info.Target as UIClass);
         }
 
         protected override void OnKeyDown(UIClass ui, KeyStateInfo info)
         {
-            if (!this.ValidScrollModel)
+            if (!ValidScrollModel)
                 return;
-            if (info.Key != this._currentCampingKey)
-                this.EndCamp();
+            if (info.Key != _currentCampingKey)
+                EndCamp();
             Keys key = info.Key;
             InputHandlerModifiers modifiers = GetModifiers(info.Modifiers);
-            KeyHandler.TranslateKey(ref key, ref modifiers, this.Orientation);
-            switch (this.ShouldHandleKey(key))
+            KeyHandler.TranslateKey(ref key, ref modifiers, Orientation);
+            switch (ShouldHandleKey(key))
             {
                 case HandleKeyPolicy.None:
                     return;
                 case HandleKeyPolicy.Up:
-                    this._model.ScrollUp(this._useFocusBehavior);
+                    _model.ScrollUp(_useFocusBehavior);
                     break;
                 case HandleKeyPolicy.Down:
-                    this._model.ScrollDown(this._useFocusBehavior);
+                    _model.ScrollDown(_useFocusBehavior);
                     break;
                 case HandleKeyPolicy.PageUp:
-                    this._model.PageUp(this._useFocusBehavior);
+                    _model.PageUp(_useFocusBehavior);
                     break;
                 case HandleKeyPolicy.PageDown:
-                    this._model.PageDown(this._useFocusBehavior);
+                    _model.PageDown(_useFocusBehavior);
                     break;
                 case HandleKeyPolicy.Home:
-                    this._model.Home(this._useFocusBehavior);
+                    _model.Home(_useFocusBehavior);
                     break;
                 case HandleKeyPolicy.End:
-                    this._model.End(this._useFocusBehavior);
+                    _model.End(_useFocusBehavior);
                     break;
             }
-            this.BeginCamp(info.Key);
+            BeginCamp(info.Key);
             info.MarkHandled();
         }
 
         private void BeginCamp(Keys key)
         {
-            if (!this.IsCamping)
-                this._model.BeginCamp();
-            this._currentCampingKey = key;
+            if (!IsCamping)
+                _model.BeginCamp();
+            _currentCampingKey = key;
         }
 
         private void EndCamp()
         {
-            if (!this.IsCamping)
+            if (!IsCamping)
                 return;
-            this._model.EndCamp();
-            this._currentCampingKey = Keys.None;
+            _model.EndCamp();
+            _currentCampingKey = Keys.None;
         }
 
-        private bool IsCamping => this._currentCampingKey != Keys.None;
+        private bool IsCamping => _currentCampingKey != Keys.None;
 
         protected override void OnKeyUp(UIClass ui, KeyStateInfo info)
         {
-            if (!this.ValidScrollModel)
+            if (!ValidScrollModel)
                 return;
-            if (info.Key == this._currentCampingKey)
-                this.EndCamp();
+            if (info.Key == _currentCampingKey)
+                EndCamp();
             Keys key = info.Key;
             InputHandlerModifiers modifiers = GetModifiers(info.Modifiers);
-            KeyHandler.TranslateKey(ref key, ref modifiers, this.Orientation);
-            if (this.ShouldHandleKey(key) == HandleKeyPolicy.None)
+            KeyHandler.TranslateKey(ref key, ref modifiers, Orientation);
+            if (ShouldHandleKey(key) == HandleKeyPolicy.None)
                 return;
             info.MarkHandled();
         }
 
-        protected override void OnLoseDeepKeyFocus() => this.EndCamp();
+        protected override void OnLoseDeepKeyFocus() => EndCamp();
 
         protected override void OnCommandDown(UIClass ui, KeyCommandInfo info)
         {
-            if (!this.ValidScrollModel || info.Action != KeyAction.Down)
+            if (!ValidScrollModel || info.Action != KeyAction.Down)
                 return;
             switch (info.Command)
             {
                 case CommandCode.ChannelUp:
-                    if (!this._handlePageCommandsFlag)
+                    if (!_handlePageCommandsFlag)
                         break;
-                    this._model.PageUp();
+                    _model.PageUp();
                     info.MarkHandled();
                     break;
                 case CommandCode.ChannelDown:
-                    if (!this._handlePageCommandsFlag)
+                    if (!_handlePageCommandsFlag)
                         break;
-                    this._model.PageDown();
+                    _model.PageDown();
                     info.MarkHandled();
                     break;
             }
@@ -238,7 +238,7 @@ namespace Microsoft.Iris.InputHandlers
             {
                 case CommandCode.ChannelUp:
                 case CommandCode.ChannelDown:
-                    if (!this._handlePageCommandsFlag)
+                    if (!_handlePageCommandsFlag)
                         break;
                     info.MarkHandled();
                     break;
@@ -247,16 +247,16 @@ namespace Microsoft.Iris.InputHandlers
 
         protected override void OnMouseWheel(UIClass ui, MouseWheelInfo info)
         {
-            if (!this._handleMouseWheelFlag || !this.ValidScrollModel || this.InputHasKeyModifiers(info))
+            if (!_handleMouseWheelFlag || !ValidScrollModel || InputHasKeyModifiers(info))
                 return;
-            this._cumulativeMouseWheelDelta += -info.WheelDelta;
-            if (Math.Abs(this._cumulativeMouseWheelDelta) >= 120)
+            _cumulativeMouseWheelDelta += -info.WheelDelta;
+            if (Math.Abs(_cumulativeMouseWheelDelta) >= 120)
             {
-                if (this._cumulativeMouseWheelDelta > 0)
-                    this._model.ScrollDown(this._cumulativeMouseWheelDelta / 120);
+                if (_cumulativeMouseWheelDelta > 0)
+                    _model.ScrollDown(_cumulativeMouseWheelDelta / 120);
                 else
-                    this._model.ScrollUp(Math.Abs(this._cumulativeMouseWheelDelta / 120));
-                this._cumulativeMouseWheelDelta %= 120;
+                    _model.ScrollUp(Math.Abs(_cumulativeMouseWheelDelta / 120));
+                _cumulativeMouseWheelDelta %= 120;
             }
             info.MarkHandled();
         }
@@ -267,56 +267,56 @@ namespace Microsoft.Iris.InputHandlers
             switch (key)
             {
                 case Keys.PageUp:
-                    if (this._handlePageKeysFlag)
+                    if (_handlePageKeysFlag)
                     {
                         handleKeyPolicy = HandleKeyPolicy.PageUp;
                         break;
                     }
                     break;
                 case Keys.Next:
-                    if (this._handlePageKeysFlag)
+                    if (_handlePageKeysFlag)
                     {
                         handleKeyPolicy = HandleKeyPolicy.PageDown;
                         break;
                     }
                     break;
                 case Keys.End:
-                    if (this._handleHomeEndKeysFlag)
+                    if (_handleHomeEndKeysFlag)
                     {
                         handleKeyPolicy = HandleKeyPolicy.End;
                         break;
                     }
                     break;
                 case Keys.Home:
-                    if (this._handleHomeEndKeysFlag)
+                    if (_handleHomeEndKeysFlag)
                     {
                         handleKeyPolicy = HandleKeyPolicy.Home;
                         break;
                     }
                     break;
                 case Keys.Left:
-                    if (this._handleDirectionalKeysFlag && this.Orientation == Orientation.Horizontal)
+                    if (_handleDirectionalKeysFlag && Orientation == Orientation.Horizontal)
                     {
-                        handleKeyPolicy = this.UI.Zone.Session.IsRtl ? HandleKeyPolicy.Down : HandleKeyPolicy.Up;
+                        handleKeyPolicy = UI.Zone.Session.IsRtl ? HandleKeyPolicy.Down : HandleKeyPolicy.Up;
                         break;
                     }
                     break;
                 case Keys.Up:
-                    if (this._handleDirectionalKeysFlag && this.Orientation == Orientation.Vertical)
+                    if (_handleDirectionalKeysFlag && Orientation == Orientation.Vertical)
                     {
                         handleKeyPolicy = HandleKeyPolicy.Up;
                         break;
                     }
                     break;
                 case Keys.Right:
-                    if (this._handleDirectionalKeysFlag && this.Orientation == Orientation.Horizontal)
+                    if (_handleDirectionalKeysFlag && Orientation == Orientation.Horizontal)
                     {
-                        handleKeyPolicy = this.UI.Zone.Session.IsRtl ? HandleKeyPolicy.Up : HandleKeyPolicy.Down;
+                        handleKeyPolicy = UI.Zone.Session.IsRtl ? HandleKeyPolicy.Up : HandleKeyPolicy.Down;
                         break;
                     }
                     break;
                 case Keys.Down:
-                    if (this._handleDirectionalKeysFlag && this.Orientation == Orientation.Vertical)
+                    if (_handleDirectionalKeysFlag && Orientation == Orientation.Vertical)
                     {
                         handleKeyPolicy = HandleKeyPolicy.Down;
                         break;
@@ -331,7 +331,7 @@ namespace Microsoft.Iris.InputHandlers
             get
             {
                 Orientation orientation = Orientation.Horizontal;
-                if (this._model.TargetViewItem is Scroller targetViewItem)
+                if (_model.TargetViewItem is Scroller targetViewItem)
                     orientation = targetViewItem.Orientation;
                 return orientation;
             }

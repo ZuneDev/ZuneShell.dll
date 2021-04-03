@@ -27,71 +27,71 @@ namespace Microsoft.Iris.Animations
           IAnimatable animatableTarget,
           UISession session)
         {
-            this._animatableTarget = animatableTarget;
-            this._session = session;
-            this._template = template_;
-            this._ready = new Vector<AnimationProxy>();
+            _animatableTarget = animatableTarget;
+            _session = session;
+            _template = template_;
+            _ready = new Vector<AnimationProxy>();
         }
 
         protected override void OnDispose()
         {
             base.OnDispose();
-            Vector<AnimationProxy> animationCollection = this.GetAnimationCollection();
+            Vector<AnimationProxy> animationCollection = GetAnimationCollection();
             if (animationCollection != null)
             {
                 foreach (DisposableObject disposableObject in animationCollection)
                     disposableObject.Dispose(this);
-                this.FireComplete(false);
+                FireComplete(false);
             }
-            this._session = null;
-            this._animatableTarget = null;
-            this._template = null;
-            this._ready = null;
+            _session = null;
+            _animatableTarget = null;
+            _template = null;
+            _ready = null;
         }
 
-        public UISession Session => this._session;
+        public UISession Session => _session;
 
-        internal IAnimatable Target => this._animatableTarget;
+        internal IAnimatable Target => _animatableTarget;
 
-        public AnimationTemplate Template => this._template;
+        public AnimationTemplate Template => _template;
 
-        public bool Playing => this._playing != null;
+        public bool Playing => _playing != null;
 
-        internal Vector<AnimationProxy> PendingProxies => this._ready;
+        internal Vector<AnimationProxy> PendingProxies => _ready;
 
         public void Play()
         {
-            Vector<AnimationProxy> ready = this._ready;
-            this._ready = null;
+            Vector<AnimationProxy> ready = _ready;
+            _ready = null;
             if (ready.Count > 0)
             {
                 foreach (AnimationProxy animationProxy in ready)
                     animationProxy.Play();
-                this._playing = ready;
-                this.FireStart();
+                _playing = ready;
+                FireStart();
             }
             else
             {
-                this.FireStart();
-                this.FireComplete(true);
+                FireStart();
+                FireComplete(true);
             }
         }
 
-        public void Stop() => this.Stop(null);
+        public void Stop() => Stop(null);
 
         public void Stop(StopCommandSet stopSetCommand)
         {
             if (UIDispatcher.IsUIThread)
             {
-                this.StopWorker(stopSetCommand);
+                StopWorker(stopSetCommand);
             }
             else
             {
                 try
                 {
-                    if (!this.Session.IsValid)
+                    if (!Session.IsValid)
                         return;
-                    DeferredCall.Post(DispatchPriority.High, new DeferredHandler(this.DeferredStop), stopSetCommand);
+                    DeferredCall.Post(DispatchPriority.High, new DeferredHandler(DeferredStop), stopSetCommand);
                 }
                 catch (InvalidOperationException ex)
                 {
@@ -101,9 +101,9 @@ namespace Microsoft.Iris.Animations
 
         private void StopWorker(StopCommandSet stopSetCommand)
         {
-            if (this._playing == null)
+            if (_playing == null)
                 return;
-            foreach (AnimationProxy animationProxy in this._playing)
+            foreach (AnimationProxy animationProxy in _playing)
             {
                 if (stopSetCommand != null)
                     animationProxy.Stop(stopSetCommand[animationProxy.Type]);
@@ -112,11 +112,11 @@ namespace Microsoft.Iris.Animations
             }
         }
 
-        private void DeferredStop(object args) => this.StopWorker((StopCommandSet)args);
+        private void DeferredStop(object args) => StopWorker((StopCommandSet)args);
 
         public bool ValidatePlayable()
         {
-            foreach (AnimationProxy animationProxy in this._ready)
+            foreach (AnimationProxy animationProxy in _ready)
             {
                 if (!animationProxy.ValidatePlayable())
                     return false;
@@ -127,38 +127,38 @@ namespace Microsoft.Iris.Animations
         internal void OnAttachChildAnimation(AnimationProxy child)
         {
             child.DeclareOwner(this);
-            this._ready.Add(child);
+            _ready.Add(child);
         }
 
-        private Vector<AnimationProxy> GetAnimationCollection() => this._ready ?? this._playing;
+        private Vector<AnimationProxy> GetAnimationCollection() => _ready ?? _playing;
 
         internal void OnDetachChildAnimation(AnimationProxy child, float progress)
         {
-            Vector<AnimationProxy> animationCollection = this.GetAnimationCollection();
+            Vector<AnimationProxy> animationCollection = GetAnimationCollection();
             if (animationCollection == null)
                 return;
             animationCollection.Remove(child);
             child.Dispose(this);
             if (_lastProgress < (double)progress)
-                this._lastProgress = progress;
-            if (animationCollection != this._playing || animationCollection.Count != 0)
+                _lastProgress = progress;
+            if (animationCollection != _playing || animationCollection.Count != 0)
                 return;
-            this.FireComplete(true);
+            FireComplete(true);
         }
 
-        private void FireStart() => this.OnStart();
+        private void FireStart() => OnStart();
 
         private void FireComplete(bool notify)
         {
-            if (this._playing != null)
-                this._playing = null;
-            this.OnStop(this._lastProgress, notify);
+            if (_playing != null)
+                _playing = null;
+            OnStop(_lastProgress, notify);
         }
 
         public StopCommandSet GetStopCommandSet()
         {
             StopCommandSet stopCommandSet = null;
-            foreach (AnimationProxy animation in this.GetAnimationCollection())
+            foreach (AnimationProxy animation in GetAnimationCollection())
             {
                 if (animation.HasDynamicKeyframes)
                 {
@@ -172,7 +172,7 @@ namespace Microsoft.Iris.Animations
 
         public ActiveTransitions GetActiveTransitions()
         {
-            Vector<AnimationProxy> animationCollection = this.GetAnimationCollection();
+            Vector<AnimationProxy> animationCollection = GetAnimationCollection();
             ActiveTransitions activeTransitions = ActiveTransitions.None;
             foreach (AnimationProxy animationProxy in animationCollection)
             {
@@ -251,24 +251,24 @@ namespace Microsoft.Iris.Animations
         {
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.Append("{ActiveSequence Template=\"");
-            if (this._template.DebugID != null)
+            if (_template.DebugID != null)
             {
-                stringBuilder.Append(this._template.DebugID);
+                stringBuilder.Append(_template.DebugID);
             }
             else
             {
-                Animation template = this._template as Animation;
+                Animation template = _template as Animation;
                 if (template != null)
                     stringBuilder.Append(template.Type);
                 else
                     stringBuilder.Append("<Unknown>");
             }
             stringBuilder.Append("\", Target=");
-            stringBuilder.Append(this._animatableTarget.GetType().Name);
-            if (this._animatableTarget is IVisual)
+            stringBuilder.Append(_animatableTarget.GetType().Name);
+            if (_animatableTarget is IVisual)
             {
                 stringBuilder.Append(", IVisual=");
-                stringBuilder.Append(((IVisual)this._animatableTarget).DebugID);
+                stringBuilder.Append(((IVisual)_animatableTarget).DebugID);
             }
             stringBuilder.Append("}");
             return stringBuilder.ToString();
@@ -282,27 +282,27 @@ namespace Microsoft.Iris.Animations
 
         internal void OnStart()
         {
-            ++this._playingCount;
-            if (this._playingCount != 1 || this.AnimationStarted == null)
+            ++_playingCount;
+            if (_playingCount != 1 || AnimationStarted == null)
                 return;
-            this.AnimationStarted(this, EventArgs.Empty);
+            AnimationStarted(this, EventArgs.Empty);
         }
 
         internal void OnStop(float progress, bool notify)
         {
-            --this._playingCount;
-            if (notify && this._playingCount == 0)
+            --_playingCount;
+            if (notify && _playingCount == 0)
             {
                 EventArgs e = new AnimationCompleteArgs(progress);
-                if (this.AnimationCompleted != null)
-                    this.AnimationCompleted(this, e);
-                if (this.AfterAnimationCompleted == null)
+                if (AnimationCompleted != null)
+                    AnimationCompleted(this, e);
+                if (AfterAnimationCompleted == null)
                     return;
-                this.AfterAnimationCompleted(this, e);
+                AfterAnimationCompleted(this, e);
             }
             else
             {
-                int playingCount = this._playingCount;
+                int playingCount = _playingCount;
             }
         }
     }

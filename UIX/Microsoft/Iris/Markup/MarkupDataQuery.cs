@@ -12,12 +12,12 @@ namespace Microsoft.Iris.Markup
 
         public MarkupDataQuery(MarkupDataQuerySchema type)
           : base(type)
-          => this._owner = type;
+          => _owner = type;
 
         protected void ApplyDefaultValues()
         {
             Map map = null;
-            for (MarkupDataQuerySchema owner = this._owner; owner != null; owner = owner.Base as MarkupDataQuerySchema)
+            for (MarkupDataQuerySchema owner = _owner; owner != null; owner = owner.Base as MarkupDataQuerySchema)
             {
                 foreach (MarkupDataQueryPropertySchema property in owner.Properties)
                 {

@@ -13,18 +13,18 @@ namespace Microsoft.Iris.Markup.Validation
         private ValidateProperty _scriptsProperty;
         private bool _hasErrors;
 
-        public ValidateScripts(ValidateProperty scriptsProperty) => this._scriptsProperty = scriptsProperty;
+        public ValidateScripts(ValidateProperty scriptsProperty) => _scriptsProperty = scriptsProperty;
 
         public void Validate(ValidateContext context)
         {
-            if (this._scriptsProperty.Value != null && !this._scriptsProperty.IsCodeValue)
+            if (_scriptsProperty.Value != null && !_scriptsProperty.IsCodeValue)
             {
-                this._scriptsProperty.ReportError("Expecting <Script> block");
-                this.MarkHasErrors();
+                _scriptsProperty.ReportError("Expecting <Script> block");
+                MarkHasErrors();
             }
             else
             {
-                ValidateCode next = (ValidateCode)this._scriptsProperty.Value;
+                ValidateCode next = (ValidateCode)_scriptsProperty.Value;
                 int num = 0;
                 while (next != null)
                 {
@@ -42,8 +42,8 @@ namespace Microsoft.Iris.Markup.Validation
             }
         }
 
-        public bool HasErrors => this._hasErrors;
+        public bool HasErrors => _hasErrors;
 
-        private void MarkHasErrors() => this._hasErrors = true;
+        private void MarkHasErrors() => _hasErrors = true;
     }
 }

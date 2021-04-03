@@ -27,14 +27,14 @@ namespace Microsoft.Iris.RenderAPI.Drawing
 
         public float X
         {
-            get => this.x;
-            set => this.x = value;
+            get => x;
+            set => x = value;
         }
 
         public float Y
         {
-            get => this.y;
-            set => this.y = value;
+            get => y;
+            set => y = value;
         }
 
         public static PointF operator +(PointF pt, Size sz) => new PointF(pt.X + sz.Width, pt.Y + sz.Height);
@@ -51,19 +51,19 @@ namespace Microsoft.Iris.RenderAPI.Drawing
 
         public static bool operator !=(PointF left, PointF right) => !(left == right);
 
-        public Point ToPoint() => new Point((int)this.x, (int)this.y);
+        public Point ToPoint() => new Point((int)x, (int)y);
 
-        public override bool Equals(object obj) => obj is PointF pointF && pointF.X == (double)this.X && pointF.Y == (double)this.Y;
+        public override bool Equals(object obj) => obj is PointF pointF && pointF.X == (double)X && pointF.Y == (double)Y;
 
-        public override int GetHashCode() => this.x.GetHashCode() ^ this.y.GetHashCode();
+        public override int GetHashCode() => x.GetHashCode() ^ y.GetHashCode();
 
         public override string ToString()
         {
             StringBuilder stringBuilder = new StringBuilder(32);
             stringBuilder.Append("(X=");
-            stringBuilder.Append(this.X.ToString(NumberFormatInfo.InvariantInfo));
+            stringBuilder.Append(X.ToString(NumberFormatInfo.InvariantInfo));
             stringBuilder.Append(", Y=");
-            stringBuilder.Append(this.Y.ToString(NumberFormatInfo.InvariantInfo));
+            stringBuilder.Append(Y.ToString(NumberFormatInfo.InvariantInfo));
             stringBuilder.Append(")");
             return stringBuilder.ToString();
         }

@@ -30,8 +30,8 @@ namespace Microsoft.Iris.Markup.Validation
 
         public override void RearrangePropertiesForSymbols()
         {
-            this.MovePropertyToFront("Content");
-            this.MovePropertyToFront("Input");
+            MovePropertyToFront("Content");
+            MovePropertyToFront("Input");
             base.RearrangePropertiesForSymbols();
         }
 
@@ -40,47 +40,47 @@ namespace Microsoft.Iris.Markup.Validation
             if (context.CurrentPass == LoadPass.Full)
                 context.DeclareReservedSymbols(s_uiReservedSymbols);
             if (context.CurrentPass == LoadPass.DeclareTypes)
-                this.RemoveNamedContentProperties();
+                RemoveNamedContentProperties();
             base.Validate(typeRestriction, context);
         }
 
         protected override void FullValidation(ValidateContext context)
         {
             base.FullValidation(context);
-            ValidateProperty property = this.FindProperty("Input");
+            ValidateProperty property = FindProperty("Input");
             if (property != null)
             {
                 if (property.Value != null && !property.IsObjectTagValue)
-                    this.ReportError("Property '{0}' values must be in expanded form", property.PropertyName);
+                    ReportError("Property '{0}' values must be in expanded form", property.PropertyName);
                 else
                     property.ReversePropertyValues();
             }
-            if (this._foundNamedContentProperties != null)
+            if (_foundNamedContentProperties != null)
             {
                 context.NotifyScopedLocalFrameEnter();
                 context.NotifyScopedLocal("RepeatedItem", ObjectSchema.Type, true, SymbolOrigin.Parameter);
                 context.NotifyScopedLocal("RepeatedItemIndex", IndexSchema.Type, true, SymbolOrigin.Parameter);
-                this._namedContentTable = new NamedContentRecord[this._foundNamedContentProperties.Count];
-                for (int index = 0; index < this._foundNamedContentProperties.Count; ++index)
+                _namedContentTable = new NamedContentRecord[_foundNamedContentProperties.Count];
+                for (int index = 0; index < _foundNamedContentProperties.Count; ++index)
                 {
-                    if (index >= this._namedContentTable.Length)
+                    if (index >= _namedContentTable.Length)
                     {
-                        NamedContentRecord[] namedContentRecordArray = new NamedContentRecord[this._foundNamedContentProperties.Count];
-                        this._namedContentTable.CopyTo(namedContentRecordArray, 0);
-                        this._namedContentTable = namedContentRecordArray;
+                        NamedContentRecord[] namedContentRecordArray = new NamedContentRecord[_foundNamedContentProperties.Count];
+                        _namedContentTable.CopyTo(namedContentRecordArray, 0);
+                        _namedContentTable = namedContentRecordArray;
                     }
-                    this.ValidateNamedContent(this._foundNamedContentProperties[index], context, index);
+                    ValidateNamedContent(_foundNamedContentProperties[index], context, index);
                 }
                 context.NotifyScopedLocalFrameExit();
-                if (this.HasErrors)
+                if (HasErrors)
                     return;
-                ((UIClassTypeSchema)this.TypeExport).SetNamedContentTable(this._namedContentTable);
+                ((UIClassTypeSchema)TypeExport).SetNamedContentTable(_namedContentTable);
             }
-            this._foundContentValidateProperty = this.FindProperty("Content");
-            if (this._foundContentValidateProperty == null)
+            _foundContentValidateProperty = FindProperty("Content");
+            if (_foundContentValidateProperty == null)
                 return;
             bool flag = false;
-            for (MarkupTypeSchema markupTypeSchema = this.FoundBaseType; markupTypeSchema != null; markupTypeSchema = markupTypeSchema.MarkupTypeBase)
+            for (MarkupTypeSchema markupTypeSchema = FoundBaseType; markupTypeSchema != null; markupTypeSchema = markupTypeSchema.MarkupTypeBase)
             {
                 SymbolRecord[] inheritableSymbolsTable = markupTypeSchema.InheritableSymbolsTable;
                 for (int index = 0; index < inheritableSymbolsTable.Length; ++index)
@@ -93,9 +93,9 @@ namespace Microsoft.Iris.Markup.Validation
                         SymbolOrigin origin;
                         TypeSchema checkSchema = context.ResolveSymbolNoBaseTypes(name, out origin);
                         if (origin != SymbolOrigin.Content)
-                            this.ReportError("Missing content name declaration: base type '{0}' has declared content name '{1}' of type '{2}'", markupTypeSchema.Name, name, type.Name);
+                            ReportError("Missing content name declaration: base type '{0}' has declared content name '{1}' of type '{2}'", markupTypeSchema.Name, name, type.Name);
                         else if (!type.IsAssignableFrom(checkSchema))
-                            this.ReportError("Content Name '{0}' exists in base class '{1}' with type '{2}' and type override '{3}' does not match", inheritableSymbolsTable[index].Name, markupTypeSchema.Name, type.Name, checkSchema.Name);
+                            ReportError("Content Name '{0}' exists in base class '{1}' with type '{2}' and type override '{3}' does not match", inheritableSymbolsTable[index].Name, markupTypeSchema.Name, type.Name, checkSchema.Name);
                     }
                 }
                 if (flag)
@@ -108,8 +108,8 @@ namespace Microsoft.Iris.Markup.Validation
             base.NotifyDiscoveredObjectTag(objectTag);
             if (!RepeaterSchema.Type.IsAssignableFrom(objectTag.FoundType))
                 return;
-            this.ExtractInlineContentOnRepeater(objectTag, "Content", "ContentName");
-            this.ExtractInlineContentOnRepeater(objectTag, "Divider", "DividerName");
+            ExtractInlineContentOnRepeater(objectTag, "Content", "ContentName");
+            ExtractInlineContentOnRepeater(objectTag, "Divider", "DividerName");
         }
 
         private void ExtractInlineContentOnRepeater(
@@ -120,31 +120,31 @@ namespace Microsoft.Iris.Markup.Validation
             ValidateProperty property = repeater.FindProperty(contentAttribute, true);
             if (property == null)
                 return;
-            string str1 = this.FoundBaseType == null ? "0" : this.FoundBaseType.LocallyUniqueId;
-            string str2 = string.Format("#Inline{0}{1}.{2}", contentAttribute, str1, this._inlineContentIndex++);
+            string str1 = FoundBaseType == null ? "0" : FoundBaseType.LocallyUniqueId;
+            string str2 = string.Format("#Inline{0}{1}.{2}", contentAttribute, str1, _inlineContentIndex++);
             property.RepurposeProperty("Content", new PropertyAttribute("Name", str2));
             if (repeater.FindProperty(contentNameAttribute) == null)
                 repeater.AddStringProperty(contentNameAttribute, str2);
-            if (this._foundNamedContentProperties == null)
-                this._foundNamedContentProperties = new Vector<ValidateProperty>();
-            this._foundNamedContentProperties.Add(property);
+            if (_foundNamedContentProperties == null)
+                _foundNamedContentProperties = new Vector<ValidateProperty>();
+            _foundNamedContentProperties.Add(property);
         }
 
         private void RemoveNamedContentProperties()
         {
-            for (ValidateProperty validateProperty = this.PropertyList; validateProperty != null; validateProperty = validateProperty.Next)
+            for (ValidateProperty validateProperty = PropertyList; validateProperty != null; validateProperty = validateProperty.Next)
             {
                 if (validateProperty.PropertyName == "Content" && validateProperty.PropertyAttributeList != null)
                 {
-                    if (this._foundNamedContentProperties == null)
-                        this._foundNamedContentProperties = new Vector<ValidateProperty>();
-                    this._foundNamedContentProperties.Add(validateProperty);
+                    if (_foundNamedContentProperties == null)
+                        _foundNamedContentProperties = new Vector<ValidateProperty>();
+                    _foundNamedContentProperties.Add(validateProperty);
                 }
             }
-            if (this._foundNamedContentProperties == null)
+            if (_foundNamedContentProperties == null)
                 return;
-            foreach (ValidateProperty namedContentProperty in this._foundNamedContentProperties)
-                this.RemoveProperty(namedContentProperty);
+            foreach (ValidateProperty namedContentProperty in _foundNamedContentProperties)
+                RemoveProperty(namedContentProperty);
         }
 
         private void ValidateNamedContent(
@@ -155,21 +155,21 @@ namespace Microsoft.Iris.Markup.Validation
             PropertyAttribute propertyAttributeList = namedContentProperty.PropertyAttributeList;
             if (propertyAttributeList.Name != "Name" || propertyAttributeList.Next != null)
             {
-                this.ReportError("Named Content must have a single 'Name' attribute");
+                ReportError("Named Content must have a single 'Name' attribute");
             }
             else
             {
                 namedContentProperty.AllowPropertyAttributes();
                 namedContentProperty.Validate(this, context);
                 if (namedContentProperty.HasErrors)
-                    this.MarkHasErrors();
+                    MarkHasErrors();
                 NamedContentRecord namedContentRecord = new NamedContentRecord(propertyAttributeList.Value);
-                this._namedContentTable[index] = namedContentRecord;
+                _namedContentTable[index] = namedContentRecord;
             }
         }
 
-        public Vector<ValidateProperty> FoundNamedContentProperties => this._foundNamedContentProperties;
+        public Vector<ValidateProperty> FoundNamedContentProperties => _foundNamedContentProperties;
 
-        public ValidateProperty FoundContentValidateProperty => this._foundContentValidateProperty;
+        public ValidateProperty FoundContentValidateProperty => _foundContentValidateProperty;
     }
 }

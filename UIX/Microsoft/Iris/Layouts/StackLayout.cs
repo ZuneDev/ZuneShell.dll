@@ -28,7 +28,7 @@ namespace Microsoft.Iris.Layouts
                 int num = 0;
                 foreach (ILayoutNode layoutChild in layoutNode.LayoutChildren)
                 {
-                    StackLayoutInput layoutInputForNode = this.GetLayoutInputForNode(layoutChild);
+                    StackLayoutInput layoutInputForNode = GetLayoutInputForNode(layoutChild);
                     Size size2 = layoutChild.Measure(constraint);
                     size1.Height = Math.Max(size1.Height, layoutChild.DesiredSize.Height);
                     if (layoutInputForNode.Priority == StackPriority.High)
@@ -56,7 +56,7 @@ namespace Microsoft.Iris.Layouts
                 if (x < width1)
                 {
                     int width3 = width1 - x;
-                    StackLayoutInput layoutInputForNode = this.GetLayoutInputForNode(layoutChild);
+                    StackLayoutInput layoutInputForNode = GetLayoutInputForNode(layoutChild);
                     if (layoutInputForNode.Priority == StackPriority.High)
                     {
                         if (layoutChild.DesiredSize.Width > width3)

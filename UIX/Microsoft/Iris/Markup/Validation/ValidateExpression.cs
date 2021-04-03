@@ -22,37 +22,37 @@ namespace Microsoft.Iris.Markup.Validation
           ExpressionType expressionType)
           : base(owner, line, column, ObjectSourceType.Expression)
         {
-            this._expressionType = expressionType;
-            this._usage = ExpressionUsage.RValue;
+            _expressionType = expressionType;
+            _usage = ExpressionUsage.RValue;
         }
 
-        public override TypeSchema ObjectType => this._evaluationType;
+        public override TypeSchema ObjectType => _evaluationType;
 
-        public ExpressionType ExpressionType => this._expressionType;
+        public ExpressionType ExpressionType => _expressionType;
 
-        public void MakeLValueUsage() => this._usage = ExpressionUsage.LValue;
+        public void MakeLValueUsage() => _usage = ExpressionUsage.LValue;
 
-        public void MakeDeclareTriggerUsage() => this._usage = ExpressionUsage.DeclareTrigger;
+        public void MakeDeclareTriggerUsage() => _usage = ExpressionUsage.DeclareTrigger;
 
-        public uint EncodeStartOffset => this._encodeStartOffset;
+        public uint EncodeStartOffset => _encodeStartOffset;
 
         protected void DeclareEvaluationType(TypeSchema evaluationType, TypeRestriction typeRestriction)
         {
             if (!typeRestriction.Check(this, evaluationType))
                 return;
-            this._evaluationType = evaluationType;
+            _evaluationType = evaluationType;
         }
 
-        public ExpressionUsage Usage => this._usage;
+        public ExpressionUsage Usage => _usage;
 
-        protected void DeclareNotifies(ValidateContext context) => this._notifyIndex = context.TrackDeclareNotifies(this);
+        protected void DeclareNotifies(ValidateContext context) => _notifyIndex = context.TrackDeclareNotifies(this);
 
-        public int NotifyIndex => this._notifyIndex;
+        public int NotifyIndex => _notifyIndex;
 
-        public bool IsNotifierRoot => this._isNotifierRoot;
+        public bool IsNotifierRoot => _isNotifierRoot;
 
-        public void MarkNotifierRoot() => this._isNotifierRoot = true;
+        public void MarkNotifierRoot() => _isNotifierRoot = true;
 
-        public void TrackEncodingOffset(uint startOffset) => this._encodeStartOffset = startOffset;
+        public void TrackEncodingOffset(uint startOffset) => _encodeStartOffset = startOffset;
     }
 }

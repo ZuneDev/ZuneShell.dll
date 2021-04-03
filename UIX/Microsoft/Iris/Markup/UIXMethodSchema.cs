@@ -23,21 +23,21 @@ namespace Microsoft.Iris.Markup
           bool isStatic)
           : base(UIXTypes.MapIDToType(ownerTypeID))
         {
-            this._name = name;
-            this._parameterTypes = UIXTypes.MapIDsToTypes(parameterTypeIDs);
-            this._returnType = UIXTypes.MapIDToType(returnTypeID);
-            this._invoke = invoke;
-            this._isStatic = isStatic;
+            _name = name;
+            _parameterTypes = UIXTypes.MapIDsToTypes(parameterTypeIDs);
+            _returnType = UIXTypes.MapIDToType(returnTypeID);
+            _invoke = invoke;
+            _isStatic = isStatic;
         }
 
-        public override string Name => this._name;
+        public override string Name => _name;
 
-        public override TypeSchema[] ParameterTypes => this._parameterTypes;
+        public override TypeSchema[] ParameterTypes => _parameterTypes;
 
-        public override TypeSchema ReturnType => this._returnType;
+        public override TypeSchema ReturnType => _returnType;
 
-        public override bool IsStatic => this._isStatic;
+        public override bool IsStatic => _isStatic;
 
-        public override object Invoke(object instance, object[] parameters) => this._invoke(instance, parameters);
+        public override object Invoke(object instance, object[] parameters) => _invoke(instance, parameters);
     }
 }

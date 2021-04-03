@@ -16,10 +16,10 @@ namespace Microsoft.Iris.Library
         {
         }
 
-        protected void FireNotification(string id) => this._notifier.Fire(id);
+        protected void FireNotification(string id) => _notifier.Fire(id);
 
-        protected void FireThreadSafeNotification(string id) => this._notifier.FireThreadSafe(id);
+        protected void FireThreadSafeNotification(string id) => _notifier.FireThreadSafe(id);
 
-        public void AddListener(Listener listener) => this._notifier.AddListener(listener);
+        public void AddListener(Listener listener) => _notifier.AddListener(listener);
     }
 }

@@ -12,31 +12,31 @@ namespace Microsoft.Iris.Library
     {
         private SmartMap _dataMap;
 
-        public void Create() => this._dataMap = new SmartMap();
+        public void Create() => _dataMap = new SmartMap();
 
-        public object GetData(DataCookie cookie) => this._dataMap[GetKey(cookie)];
+        public object GetData(DataCookie cookie) => _dataMap[GetKey(cookie)];
 
-        public void SetData(DataCookie cookie, object value) => this._dataMap[GetKey(cookie)] = value;
+        public void SetData(DataCookie cookie, object value) => _dataMap[GetKey(cookie)] = value;
 
-        public Delegate GetEventHandler(EventCookie cookie) => this._dataMap[GetKey(cookie)] as Delegate;
+        public Delegate GetEventHandler(EventCookie cookie) => _dataMap[GetKey(cookie)] as Delegate;
 
         public bool AddEventHandler(EventCookie cookie, Delegate handlerToAdd)
         {
             uint key = GetKey(cookie);
-            Delegate data = this._dataMap[key] as Delegate;
-            this._dataMap[key] = Delegate.Combine(data, handlerToAdd);
+            Delegate data = _dataMap[key] as Delegate;
+            _dataMap[key] = Delegate.Combine(data, handlerToAdd);
             return (object)data == null;
         }
 
         public bool RemoveEventHandler(EventCookie cookie, Delegate handlerToRemove)
         {
             uint key = GetKey(cookie);
-            Delegate @delegate = Delegate.Remove(this._dataMap[key] as Delegate, handlerToRemove);
-            this._dataMap[key] = @delegate;
+            Delegate @delegate = Delegate.Remove(_dataMap[key] as Delegate, handlerToRemove);
+            _dataMap[key] = @delegate;
             return (object)@delegate == null;
         }
 
-        public void RemoveEventHandlers(EventCookie cookie) => this._dataMap[GetKey(cookie)] = null;
+        public void RemoveEventHandlers(EventCookie cookie) => _dataMap[GetKey(cookie)] = null;
 
         private static uint GetKey(DataCookie cookie) => DataCookie.ToUInt32(cookie);
 

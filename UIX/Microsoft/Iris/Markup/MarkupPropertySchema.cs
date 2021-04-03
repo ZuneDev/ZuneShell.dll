@@ -33,21 +33,21 @@ namespace Microsoft.Iris.Markup
         protected MarkupPropertySchema(MarkupTypeSchema owner, string name, TypeSchema propertyType)
           : base(owner)
         {
-            this._name = NotifyService.CanonicalizeString(name);
-            this._propertyType = propertyType;
+            _name = NotifyService.CanonicalizeString(name);
+            _propertyType = propertyType;
         }
 
-        public void SetOverrideCriteria(PropertyOverrideCriteria overrideCriteria) => this._overrideCriteria = overrideCriteria;
+        public void SetOverrideCriteria(PropertyOverrideCriteria overrideCriteria) => _overrideCriteria = overrideCriteria;
 
-        public void SetRequiredForCreation(bool requiredForCreation) => this._requiredForCreation = requiredForCreation;
+        public void SetRequiredForCreation(bool requiredForCreation) => _requiredForCreation = requiredForCreation;
 
-        public override string Name => this._name;
+        public override string Name => _name;
 
-        public override TypeSchema PropertyType => this._propertyType;
+        public override TypeSchema PropertyType => _propertyType;
 
         public override TypeSchema AlternateType => (TypeSchema)null;
 
-        public PropertyOverrideCriteria OverrideCriteria => this._overrideCriteria;
+        public PropertyOverrideCriteria OverrideCriteria => _overrideCriteria;
 
         public override bool CanRead => true;
 
@@ -57,7 +57,7 @@ namespace Microsoft.Iris.Markup
 
         public override ExpressionRestriction ExpressionRestriction => ExpressionRestriction.None;
 
-        public override bool RequiredForCreation => this._requiredForCreation;
+        public override bool RequiredForCreation => _requiredForCreation;
 
         public override RangeValidator RangeValidator => (RangeValidator)null;
 

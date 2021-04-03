@@ -23,21 +23,21 @@ namespace Microsoft.Iris
 
         public object UnderlyingCollectionTypeCookie => _propertySchema.AlternateType;
 
-        public string PropertyName => this._propertySchema.Name;
+        public string PropertyName => _propertySchema.Name;
 
-        public string PropertyTypeName => GetCanonicalTypeName(this._propertySchema.PropertyType);
+        public string PropertyTypeName => GetCanonicalTypeName(_propertySchema.PropertyType);
 
-        public Type PropertyType => this._assemblyPropertyType;
+        public Type PropertyType => _assemblyPropertyType;
 
-        public string UnderlyingCollectionTypeName => GetCanonicalTypeName(this._propertySchema.AlternateType);
+        public string UnderlyingCollectionTypeName => GetCanonicalTypeName(_propertySchema.AlternateType);
 
-        public Type UnderlyingCollectionType => this._assemblyAlternateType;
+        public Type UnderlyingCollectionType => _assemblyAlternateType;
 
-        public string Source => this._source;
+        public string Source => _source;
 
-        public string Target => this._target;
+        public string Target => _target;
 
-        public object DefaultValue => this._defaultValue;
+        public object DefaultValue => _defaultValue;
 
         internal DataProviderMapping(PropertySchema propertySchema, object defaultValue)
           : this(propertySchema, null, null, defaultValue)
@@ -50,14 +50,14 @@ namespace Microsoft.Iris
           string target,
           object defaultValue)
         {
-            this._propertySchema = propertySchema;
-            this._source = source;
-            this._target = target;
-            this._defaultValue = defaultValue;
-            this._assemblyPropertyType = AssemblyLoadResult.MapType(this._propertySchema.PropertyType);
-            if (this._propertySchema.AlternateType == null)
+            _propertySchema = propertySchema;
+            _source = source;
+            _target = target;
+            _defaultValue = defaultValue;
+            _assemblyPropertyType = AssemblyLoadResult.MapType(_propertySchema.PropertyType);
+            if (_propertySchema.AlternateType == null)
                 return;
-            this._assemblyAlternateType = AssemblyLoadResult.MapType(this._propertySchema.AlternateType);
+            _assemblyAlternateType = AssemblyLoadResult.MapType(_propertySchema.AlternateType);
         }
 
         internal static string GetCanonicalTypeName(TypeSchema typeSchema)

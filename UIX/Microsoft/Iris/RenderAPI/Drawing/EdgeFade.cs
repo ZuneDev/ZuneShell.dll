@@ -24,97 +24,97 @@ namespace Microsoft.Iris.RenderAPI.Drawing
 
         public EdgeFade()
         {
-            this._orientation = Orientation.Horizontal;
-            this._maskColor = Color.FromArgb(byte.MaxValue, 0, 0, 0);
-            this._fadeAmountValue = 1f;
+            _orientation = Orientation.Horizontal;
+            _maskColor = Color.FromArgb(byte.MaxValue, 0, 0, 0);
+            _fadeAmountValue = 1f;
         }
 
-        public void Dispose() => this.DisposeGradients();
+        public void Dispose() => DisposeGradients();
 
         private void DisposeGradients()
         {
-            if (this._minFadeGradient != null)
+            if (_minFadeGradient != null)
             {
-                this._minFadeGradient.UnregisterUsage(this);
-                this._minFadeGradient = null;
+                _minFadeGradient.UnregisterUsage(this);
+                _minFadeGradient = null;
             }
-            if (this._maxFadeGradient == null)
+            if (_maxFadeGradient == null)
                 return;
-            this._maxFadeGradient.UnregisterUsage(this);
-            this._maxFadeGradient = null;
+            _maxFadeGradient.UnregisterUsage(this);
+            _maxFadeGradient = null;
         }
 
         public float FadeSize
         {
-            get => this._fadeSizeValue;
+            get => _fadeSizeValue;
             set
             {
                 if (_fadeSizeValue == (double)value)
                     return;
-                this._fadeSizeValue = value;
-                this.UpdateFades(true);
+                _fadeSizeValue = value;
+                UpdateFades(true);
             }
         }
 
         public float FadeAmount
         {
-            get => this._fadeAmountValue;
+            get => _fadeAmountValue;
             set
             {
                 if (value < 0.0 || value > 1.0)
                     throw new ArgumentOutOfRangeException(nameof(value), value, "FadeAmount must be between 0.0 and 1.0.");
                 if (_fadeAmountValue == (double)value)
                     return;
-                this._fadeAmountValue = value;
-                this.UpdateFades(true);
+                _fadeAmountValue = value;
+                UpdateFades(true);
             }
         }
 
         public float MinOffset
         {
-            get => this._minOffsetValue;
+            get => _minOffsetValue;
             set
             {
                 if (_minOffsetValue == (double)value)
                     return;
-                this._minOffsetValue = value;
-                this.UpdateFades(true);
+                _minOffsetValue = value;
+                UpdateFades(true);
             }
         }
 
         public float MaxOffset
         {
-            get => this._maxOffsetValue;
+            get => _maxOffsetValue;
             set
             {
                 if (_maxOffsetValue == (double)value)
                     return;
-                this._maxOffsetValue = value;
-                this.UpdateFades(true);
+                _maxOffsetValue = value;
+                UpdateFades(true);
             }
         }
 
         public Orientation Orientation
         {
-            get => this._orientation;
+            get => _orientation;
             set
             {
-                if (this._orientation == value)
+                if (_orientation == value)
                     return;
-                this._orientation = value;
-                this.UpdateFades(false);
+                _orientation = value;
+                UpdateFades(false);
             }
         }
 
         public Color ColorMask
         {
-            get => this._maskColor;
+            get => _maskColor;
             set
             {
-                if (!(this._maskColor != value))
+                if (!(_maskColor != value))
                     return;
-                this._maskColor = value;
-                this.UpdateFades(false);
+                _maskColor = value;
+                UpdateFades(false);
             }
         }
 
@@ -125,79 +125,79 @@ namespace Microsoft.Iris.RenderAPI.Drawing
           bool maxFlag)
         {
             visContainer.RemoveAllGradients();
-            this.CreateFades(renderSession);
-            this.UpdateFades(true);
-            if (minFlag && this._minFadeGradient != null)
-                visContainer.AddGradient(this._minFadeGradient);
-            if (!maxFlag || this._maxFadeGradient == null)
+            CreateFades(renderSession);
+            UpdateFades(true);
+            if (minFlag && _minFadeGradient != null)
+                visContainer.AddGradient(_minFadeGradient);
+            if (!maxFlag || _maxFadeGradient == null)
                 return;
-            visContainer.AddGradient(this._maxFadeGradient);
+            visContainer.AddGradient(_maxFadeGradient);
         }
 
         internal bool NeedFades => _fadeSizeValue != 0.0 && _fadeAmountValue != 0.0;
 
         private void CreateFades(IRenderSession renderSession)
         {
-            if (!this.NeedFades)
+            if (!NeedFades)
                 return;
-            if (this._minFadeGradient == null)
+            if (_minFadeGradient == null)
             {
-                this._minFadeGradient = renderSession.CreateGradient(this);
-                this._minFadeGradient.Orientation = this._orientation;
-                this._minFadeGradient.ColorMask = this._maskColor.RenderConvert();
+                _minFadeGradient = renderSession.CreateGradient(this);
+                _minFadeGradient.Orientation = _orientation;
+                _minFadeGradient.ColorMask = _maskColor.RenderConvert();
             }
-            if (this._maxFadeGradient != null)
+            if (_maxFadeGradient != null)
                 return;
-            this._maxFadeGradient = renderSession.CreateGradient(this);
-            this._maxFadeGradient.Orientation = this._orientation;
-            this._maxFadeGradient.ColorMask = this._maskColor.RenderConvert();
+            _maxFadeGradient = renderSession.CreateGradient(this);
+            _maxFadeGradient.Orientation = _orientation;
+            _maxFadeGradient.ColorMask = _maskColor.RenderConvert();
         }
 
         private void UpdateFades(bool isOffsetChange)
         {
-            if (!this.NeedFades)
+            if (!NeedFades)
             {
-                this.DisposeGradients();
+                DisposeGradients();
             }
             else
             {
-                if (this._minFadeGradient == null)
+                if (_minFadeGradient == null)
                     return;
-                this._minFadeGradient.Orientation = this._orientation;
-                this._maxFadeGradient.Orientation = this._orientation;
-                this._minFadeGradient.ColorMask = this._maskColor.RenderConvert();
-                this._maxFadeGradient.ColorMask = this._maskColor.RenderConvert();
+                _minFadeGradient.Orientation = _orientation;
+                _maxFadeGradient.Orientation = _orientation;
+                _minFadeGradient.ColorMask = _maskColor.RenderConvert();
+                _maxFadeGradient.ColorMask = _maskColor.RenderConvert();
                 if (!isOffsetChange)
                     return;
-                this._minFadeGradient.Clear();
-                this._maxFadeGradient.Clear();
+                _minFadeGradient.Clear();
+                _maxFadeGradient.Clear();
                 float flValue1 = 1f;
-                float flValue2 = 1f - this._fadeAmountValue;
+                float flValue2 = 1f - _fadeAmountValue;
                 float flPosition1;
                 float flPosition2;
-                if (!UISession.Default.IsRtl || this._orientation == Orientation.Vertical)
+                if (!UISession.Default.IsRtl || _orientation == Orientation.Vertical)
                 {
-                    flPosition1 = this._minOffsetValue;
-                    flPosition2 = this._maxOffsetValue;
+                    flPosition1 = _minOffsetValue;
+                    flPosition2 = _maxOffsetValue;
                 }
                 else
                 {
-                    flPosition1 = -this._maxOffsetValue;
-                    flPosition2 = -this._minOffsetValue;
+                    flPosition1 = -_maxOffsetValue;
+                    flPosition2 = -_minOffsetValue;
                 }
                 if (FadeSize > 0.0)
                 {
-                    this._minFadeGradient.AddValue(flPosition1, flValue2, RelativeSpace.Min);
-                    this._minFadeGradient.AddValue(flPosition1 + this.FadeSize, flValue1, RelativeSpace.Min);
-                    this._maxFadeGradient.AddValue(flPosition2 - this.FadeSize, flValue1, RelativeSpace.Max);
-                    this._maxFadeGradient.AddValue(flPosition2, flValue2, RelativeSpace.Max);
+                    _minFadeGradient.AddValue(flPosition1, flValue2, RelativeSpace.Min);
+                    _minFadeGradient.AddValue(flPosition1 + FadeSize, flValue1, RelativeSpace.Min);
+                    _maxFadeGradient.AddValue(flPosition2 - FadeSize, flValue1, RelativeSpace.Max);
+                    _maxFadeGradient.AddValue(flPosition2, flValue2, RelativeSpace.Max);
                 }
                 else
                 {
-                    this._minFadeGradient.AddValue(flPosition1 + this.FadeSize, flValue2, RelativeSpace.Min);
-                    this._minFadeGradient.AddValue(flPosition1, flValue1, RelativeSpace.Min);
-                    this._maxFadeGradient.AddValue(flPosition2, flValue1, RelativeSpace.Max);
-                    this._maxFadeGradient.AddValue(flPosition2 - this.FadeSize, flValue2, RelativeSpace.Max);
+                    _minFadeGradient.AddValue(flPosition1 + FadeSize, flValue2, RelativeSpace.Min);
+                    _minFadeGradient.AddValue(flPosition1, flValue1, RelativeSpace.Min);
+                    _maxFadeGradient.AddValue(flPosition2, flValue1, RelativeSpace.Max);
+                    _maxFadeGradient.AddValue(flPosition2 - FadeSize, flValue2, RelativeSpace.Max);
                 }
             }
         }

@@ -33,40 +33,40 @@ namespace Microsoft.Iris.Markup
           bool isStatic)
           : base(UIXTypes.MapIDToType(ownerTypeID))
         {
-            this._name = name;
-            this._propertyType = UIXTypes.MapIDToType(typeID);
-            this._alternateType = UIXTypes.MapIDToType(alternateTypeID);
-            this._expressionRestriction = expressionRestriction;
-            this._requiredForCreation = requiredForCreation;
-            this._rangeValidator = rangeValidator;
-            this._notifiesOnChange = notifiesOnChange;
-            this._getValue = getValue;
-            this._setValue = setValue;
-            this._isStatic = isStatic;
+            _name = name;
+            _propertyType = UIXTypes.MapIDToType(typeID);
+            _alternateType = UIXTypes.MapIDToType(alternateTypeID);
+            _expressionRestriction = expressionRestriction;
+            _requiredForCreation = requiredForCreation;
+            _rangeValidator = rangeValidator;
+            _notifiesOnChange = notifiesOnChange;
+            _getValue = getValue;
+            _setValue = setValue;
+            _isStatic = isStatic;
         }
 
-        public override string Name => this._name;
+        public override string Name => _name;
 
-        public override TypeSchema PropertyType => this._propertyType;
+        public override TypeSchema PropertyType => _propertyType;
 
-        public override TypeSchema AlternateType => this._alternateType;
+        public override TypeSchema AlternateType => _alternateType;
 
-        public override bool CanRead => this._getValue != null;
+        public override bool CanRead => _getValue != null;
 
-        public override bool CanWrite => this._setValue != null;
+        public override bool CanWrite => _setValue != null;
 
-        public override bool IsStatic => this._isStatic;
+        public override bool IsStatic => _isStatic;
 
-        public override ExpressionRestriction ExpressionRestriction => this._expressionRestriction;
+        public override ExpressionRestriction ExpressionRestriction => _expressionRestriction;
 
-        public override bool RequiredForCreation => this._requiredForCreation;
+        public override bool RequiredForCreation => _requiredForCreation;
 
-        public override RangeValidator RangeValidator => this._rangeValidator;
+        public override RangeValidator RangeValidator => _rangeValidator;
 
-        public override bool NotifiesOnChange => this._notifiesOnChange;
+        public override bool NotifiesOnChange => _notifiesOnChange;
 
-        public override object GetValue(object instance) => this._getValue(instance);
+        public override object GetValue(object instance) => _getValue(instance);
 
-        public override void SetValue(ref object instance, object value) => this._setValue(ref instance, value);
+        public override void SetValue(ref object instance, object value) => _setValue(ref instance, value);
     }
 }

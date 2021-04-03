@@ -14,11 +14,11 @@ namespace Microsoft.Iris.Markup
 
         public AssemblyMarkupDataType(MarkupDataTypeSchema type, IDataProviderObject externalObject)
           : base(type)
-          => this._externalObject = externalObject;
+          => _externalObject = externalObject;
 
         protected override bool ExternalObjectGetProperty(string propertyName, out object value)
         {
-            object property = this._externalObject.GetProperty(propertyName);
+            object property = _externalObject.GetProperty(propertyName);
             value = AssemblyLoadResult.WrapObject(property);
             return true;
         }
@@ -26,7 +26,7 @@ namespace Microsoft.Iris.Markup
         protected override bool ExternalObjectSetProperty(string propertyName, object value)
         {
             object obj = AssemblyLoadResult.UnwrapObject(value);
-            this._externalObject.SetProperty(propertyName, obj);
+            _externalObject.SetProperty(propertyName, obj);
             return true;
         }
 

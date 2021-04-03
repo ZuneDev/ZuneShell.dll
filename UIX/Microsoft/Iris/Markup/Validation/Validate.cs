@@ -18,38 +18,38 @@ namespace Microsoft.Iris.Markup.Validation
 
         public Validate(SourceMarkupLoader owner, int line, int column)
         {
-            this._owner = owner;
-            this._line = line;
-            this._column = column;
-            this._owner.TrackValidateObject(this);
+            _owner = owner;
+            _line = line;
+            _column = column;
+            _owner.TrackValidateObject(this);
         }
 
         protected Validate()
         {
         }
 
-        public SourceMarkupLoader Owner => this._owner;
+        public SourceMarkupLoader Owner => _owner;
 
-        public int Line => this._line;
+        public int Line => _line;
 
-        public int Column => this._column;
+        public int Column => _column;
 
         public ValidateMetadata Metadata
         {
             get
             {
-                if (this._metadata == null)
-                    this._metadata = new ValidateMetadata();
-                return this._metadata;
+                if (_metadata == null)
+                    _metadata = new ValidateMetadata();
+                return _metadata;
             }
         }
 
-        public bool HasErrors => this._hasErrors;
+        public bool HasErrors => _hasErrors;
 
         public void MarkHasErrors()
         {
-            this._owner.MarkHasErrors();
-            this._hasErrors = true;
+            _owner.MarkHasErrors();
+            _hasErrors = true;
         }
 
         public void ReportError(
@@ -59,25 +59,25 @@ namespace Microsoft.Iris.Markup.Validation
           string param2,
           string param3)
         {
-            this.ReportError(string.Format(error, param0, param1, param2, param3));
+            ReportError(string.Format(error, param0, param1, param2, param3));
         }
 
-        public void ReportError(string error, string param0, string param1, string param2) => this.ReportError(string.Format(error, param0, param1, param2));
+        public void ReportError(string error, string param0, string param1, string param2) => ReportError(string.Format(error, param0, param1, param2));
 
-        public void ReportError(string error, string param0, string param1) => this.ReportError(string.Format(error, param0, param1));
+        public void ReportError(string error, string param0, string param1) => ReportError(string.Format(error, param0, param1));
 
-        public void ReportError(string error, string param0) => this.ReportError(string.Format(error, param0));
+        public void ReportError(string error, string param0) => ReportError(string.Format(error, param0));
 
         public void ReportError(string error)
         {
-            this.MarkHasErrors();
-            this._owner.ReportError(error, this._line, this._column);
+            MarkHasErrors();
+            _owner.ReportError(error, _line, _column);
         }
 
         public void ReportErrorWithAdjustedPosition(string error, int lineOffset, int columnOffset)
         {
-            this.MarkHasErrors();
-            this._owner.ReportError(error, this._line + lineOffset, this._column + columnOffset);
+            MarkHasErrors();
+            _owner.ReportError(error, _line + lineOffset, _column + columnOffset);
         }
     }
 }

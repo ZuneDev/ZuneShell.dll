@@ -17,18 +17,18 @@ namespace Microsoft.Iris.ViewItems
 
         public IndexLayoutInput(Index index, IndexType type)
         {
-            this._index = index;
-            this._type = type;
+            _index = index;
+            _type = type;
         }
 
-        public Index Index => this._index;
+        public Index Index => _index;
 
-        public IndexType Type => this._type;
+        public IndexType Type => _type;
 
         DataCookie ILayoutInput.Data => Data;
 
         public static DataCookie Data => s_dataProperty;
 
-        public override string ToString() => InvariantString.Format("{0}(Index={1}, Type={2})", this.GetType().Name, Index, _type);
+        public override string ToString() => InvariantString.Format("{0}(Index={1}, Type={2})", GetType().Name, Index, _type);
     }
 }

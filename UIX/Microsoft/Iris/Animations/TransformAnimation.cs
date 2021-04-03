@@ -18,70 +18,70 @@ namespace Microsoft.Iris.Animations
 
         public TransformAnimation()
         {
-            this._timeScaleValue = 1f;
-            this._magnitudeValue = 1f;
-            this._filter = KeyframeFilter.All;
+            _timeScaleValue = 1f;
+            _magnitudeValue = 1f;
+            _filter = KeyframeFilter.All;
         }
 
         public float TimeScale
         {
-            get => this._timeScaleValue;
+            get => _timeScaleValue;
             set
             {
                 if (_timeScaleValue == (double)value)
                     return;
-                this._timeScaleValue = value;
-                this.ClearCache();
+                _timeScaleValue = value;
+                ClearCache();
             }
         }
 
         public float Delay
         {
-            get => this._timeOffsetValue;
+            get => _timeOffsetValue;
             set
             {
                 if (_timeOffsetValue == (double)value)
                     return;
-                this._timeOffsetValue = value;
-                this.ClearCache();
+                _timeOffsetValue = value;
+                ClearCache();
             }
         }
 
         public float Magnitude
         {
-            get => this._magnitudeValue;
+            get => _magnitudeValue;
             set
             {
                 if (_magnitudeValue == (double)value)
                     return;
-                this._magnitudeValue = value;
-                this.ClearCache();
+                _magnitudeValue = value;
+                ClearCache();
             }
         }
 
         public KeyframeFilter Filter
         {
-            get => this._filter;
+            get => _filter;
             set
             {
-                if (this._filter == value)
+                if (_filter == value)
                     return;
-                this._filter = value;
-                this.ClearCache();
+                _filter = value;
+                ClearCache();
             }
         }
 
         protected override AnimationTemplate BuildWorker(ref AnimationArgs args)
         {
-            if (this._cacheAnimation != null)
-                return this._cacheAnimation;
-            float timeScale = this.GetTimeScale(ref args);
-            float delayTime = this.GetDelayTime(ref args);
-            float magnitude = this.GetMagnitude(ref args);
+            if (_cacheAnimation != null)
+                return _cacheAnimation;
+            float timeScale = GetTimeScale(ref args);
+            float delayTime = GetDelayTime(ref args);
+            float magnitude = GetMagnitude(ref args);
             bool flag1 = timeScale != 1.0;
             bool flag2 = delayTime != 0.0;
             bool flag3 = magnitude != 1.0;
-            int filter = (int)this._filter;
+            int filter = (int)_filter;
             AnimationTemplate anim1 = base.BuildWorker(ref args);
             DumpAnimation(anim1, "Source");
             if (!flag1 && !flag2 && !flag3)
@@ -89,13 +89,13 @@ namespace Microsoft.Iris.Animations
             AnimationTemplate anim2 = (AnimationTemplate)anim1.Clone();
             anim2.DebugID += "'";
             if (flag1)
-                this.ApplyTimeScale(anim2, timeScale);
+                ApplyTimeScale(anim2, timeScale);
             if (flag2)
-                this.ApplyTimeOffset(anim2, delayTime);
+                ApplyTimeOffset(anim2, delayTime);
             if (flag3)
-                this.ApplyMagnitude(anim2, magnitude);
-            if (this.CanCache)
-                this._cacheAnimation = anim2;
+                ApplyMagnitude(anim2, magnitude);
+            if (CanCache)
+                _cacheAnimation = anim2;
             return anim2;
         }
 
@@ -105,17 +105,17 @@ namespace Microsoft.Iris.Animations
                 ;
         }
 
-        protected virtual float GetTimeScale(ref AnimationArgs args) => this._timeScaleValue;
+        protected virtual float GetTimeScale(ref AnimationArgs args) => _timeScaleValue;
 
-        protected virtual float GetDelayTime(ref AnimationArgs args) => this._timeOffsetValue;
+        protected virtual float GetDelayTime(ref AnimationArgs args) => _timeOffsetValue;
 
-        protected virtual float GetMagnitude(ref AnimationArgs args) => this._magnitudeValue;
+        protected virtual float GetMagnitude(ref AnimationArgs args) => _magnitudeValue;
 
         private void ApplyTimeScale(AnimationTemplate anim, float timeScaleValue)
         {
             foreach (BaseKeyframe keyframe in anim.Keyframes)
             {
-                if (this.ShouldApplyTransform(keyframe))
+                if (ShouldApplyTransform(keyframe))
                     keyframe.Time *= timeScaleValue;
             }
             DumpAnimation(anim, "Result");
@@ -126,7 +126,7 @@ namespace Microsoft.Iris.Animations
             ArrayList arrayList = new ArrayList();
             foreach (BaseKeyframe keyframe in anim.Keyframes)
             {
-                if (this.ShouldApplyTransform(keyframe))
+                if (ShouldApplyTransform(keyframe))
                 {
                     if (keyframe.Time == 0.0)
                         arrayList.Add(keyframe.Clone());
@@ -142,7 +142,7 @@ namespace Microsoft.Iris.Animations
         {
             foreach (BaseKeyframe keyframe in anim.Keyframes)
             {
-                if (this.ShouldApplyTransform(keyframe))
+                if (ShouldApplyTransform(keyframe))
                     keyframe.MagnifyValue(magnitudeValue);
             }
             DumpAnimation(anim, "Result");
@@ -167,10 +167,10 @@ namespace Microsoft.Iris.Animations
             }
         }
 
-        private bool ShouldApplyTransform(BaseKeyframe key) => this._filter == KeyframeFilter.All || this.GetKeyframeFilter(key) == this._filter;
+        private bool ShouldApplyTransform(BaseKeyframe key) => _filter == KeyframeFilter.All || GetKeyframeFilter(key) == _filter;
 
-        protected override void OnSourceChanged() => this.ClearCache();
+        protected override void OnSourceChanged() => ClearCache();
 
-        protected void ClearCache() => this._cacheAnimation = null;
+        protected void ClearCache() => _cacheAnimation = null;
     }
 }

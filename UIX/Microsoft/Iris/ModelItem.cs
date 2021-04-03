@@ -36,10 +36,10 @@ namespace Microsoft.Iris
         public ModelItem(IModelItemOwner owner, string description)
         {
             ThreadSafety.InitializeObject(this);
-            this._dataMap = new DynamicData();
-            this._dataMap.Create();
-            this.SetData(s_descriptionProperty, description);
-            this.Owner = owner;
+            _dataMap = new DynamicData();
+            _dataMap.Create();
+            SetData(s_descriptionProperty, description);
+            Owner = owner;
         }
 
         public ModelItem(IModelItemOwner owner)
@@ -54,39 +54,39 @@ namespace Microsoft.Iris
 
         ~ModelItem()
         {
-            string name = this.GetType().Name;
-            string data = (string)this.GetData(s_descriptionProperty);
-            this.OnDispose(false);
+            string name = GetType().Name;
+            string data = (string)GetData(s_descriptionProperty);
+            OnDispose(false);
         }
 
-        public void Dispose() => this.Dispose(ModelItemDisposeMode.RemoveOwnerReference);
+        public void Dispose() => Dispose(ModelItemDisposeMode.RemoveOwnerReference);
 
         public void Dispose(ModelItemDisposeMode disposeMode)
         {
-            using (this.ThreadValidator)
+            using (ThreadValidator)
             {
-                if (this._isDisposed)
+                if (_isDisposed)
                     return;
-                if (this._owner != null)
+                if (_owner != null)
                 {
                     if (disposeMode == ModelItemDisposeMode.RemoveOwnerReference)
-                        this._owner.UnregisterObject(this);
-                    this._owner = null;
+                        _owner.UnregisterObject(this);
+                    _owner = null;
                 }
                 try
                 {
                     GC.SuppressFinalize(this);
-                    this.OnDispose(true);
+                    OnDispose(true);
                 }
                 finally
                 {
                     try
                     {
-                        this.DisposeOwnedObjects();
+                        DisposeOwnedObjects();
                     }
                     finally
                     {
-                        this._isDisposed = true;
+                        _isDisposed = true;
                     }
                 }
             }
@@ -100,29 +100,29 @@ namespace Microsoft.Iris
 
         Thread IThreadSafeObject.Affinity
         {
-            get => this._affinity;
-            set => this._affinity = value;
+            get => _affinity;
+            set => _affinity = value;
         }
 
         public IModelItemOwner Owner
         {
             get
             {
-                using (this.ThreadValidator)
-                    return this._owner;
+                using (ThreadValidator)
+                    return _owner;
             }
             set
             {
-                using (this.ThreadValidator)
+                using (ThreadValidator)
                 {
-                    if (this._owner == value)
+                    if (_owner == value)
                         return;
-                    IModelItemOwner owner = this._owner;
+                    IModelItemOwner owner = _owner;
                     owner?.UnregisterObject(this);
-                    this._owner = value;
-                    if (this._owner != null)
-                        this._owner.RegisterObject(this);
-                    this.OnOwnerChanged(this._owner, owner);
+                    _owner = value;
+                    if (_owner != null)
+                        _owner.RegisterObject(this);
+                    OnOwnerChanged(_owner, owner);
                 }
             }
         }
@@ -131,8 +131,8 @@ namespace Microsoft.Iris
         {
             get
             {
-                using (this.ThreadValidator)
-                    return this._isDisposed;
+                using (ThreadValidator)
+                    return _isDisposed;
             }
         }
 
@@ -140,17 +140,17 @@ namespace Microsoft.Iris
         {
             get
             {
-                using (this.ThreadValidator)
-                    return (string)this.GetData(s_descriptionProperty);
+                using (ThreadValidator)
+                    return (string)GetData(s_descriptionProperty);
             }
             set
             {
-                using (this.ThreadValidator)
+                using (ThreadValidator)
                 {
-                    if (!(this.Description != value))
+                    if (!(Description != value))
                         return;
-                    this.SetData(s_descriptionProperty, value);
-                    this.FirePropertyChanged(nameof(Description));
+                    SetData(s_descriptionProperty, value);
+                    FirePropertyChanged(nameof(Description));
                 }
             }
         }
@@ -159,20 +159,20 @@ namespace Microsoft.Iris
         {
             get
             {
-                using (this.ThreadValidator)
+                using (ThreadValidator)
                 {
-                    object data = this.GetData(s_uniqueIdProperty);
+                    object data = GetData(s_uniqueIdProperty);
                     return data == null ? Guid.Empty : (Guid)data;
                 }
             }
             set
             {
-                using (this.ThreadValidator)
+                using (ThreadValidator)
                 {
-                    if (!(this.UniqueId != value))
+                    if (!(UniqueId != value))
                         return;
-                    this.SetData(s_uniqueIdProperty, value);
-                    this.FirePropertyChanged(nameof(UniqueId));
+                    SetData(s_uniqueIdProperty, value);
+                    FirePropertyChanged(nameof(UniqueId));
                 }
             }
         }
@@ -181,13 +181,13 @@ namespace Microsoft.Iris
         {
             get
             {
-                using (this.ThreadValidator)
+                using (ThreadValidator)
                 {
-                    IDictionary dictionary = (IDictionary)this.GetData(s_extraDataProperty);
+                    IDictionary dictionary = (IDictionary)GetData(s_extraDataProperty);
                     if (dictionary == null)
                     {
                         dictionary = new HybridDictionary();
-                        this.SetData(s_extraDataProperty, dictionary);
+                        SetData(s_extraDataProperty, dictionary);
                     }
                     return dictionary;
                 }
@@ -198,24 +198,24 @@ namespace Microsoft.Iris
         {
             add
             {
-                using (this.ThreadValidator)
-                    this.AddEventHandler(s_propertyChangedEvent, value);
+                using (ThreadValidator)
+                    AddEventHandler(s_propertyChangedEvent, value);
             }
             remove
             {
-                using (this.ThreadValidator)
-                    this.RemoveEventHandler(s_propertyChangedEvent, value);
+                using (ThreadValidator)
+                    RemoveEventHandler(s_propertyChangedEvent, value);
             }
         }
 
         protected void FirePropertyChanged(string property)
         {
-            using (this.ThreadValidator)
+            using (ThreadValidator)
             {
                 if (property == null)
                     throw new ArgumentNullException(nameof(property));
-                this.OnPropertyChanged(property);
-                if (!(this.GetEventHandler(s_propertyChangedEvent) is PropertyChangedEventHandler eventHandler))
+                OnPropertyChanged(property);
+                if (!(GetEventHandler(s_propertyChangedEvent) is PropertyChangedEventHandler eventHandler))
                     return;
                 eventHandler(this, new PropertyChangedEventArgs(property));
             }
@@ -231,23 +231,23 @@ namespace Microsoft.Iris
 
         void IModelItemOwner.RegisterObject(ModelItem item)
         {
-            using (this.ThreadValidator)
+            using (ThreadValidator)
             {
                 if (item == null)
                     throw new ArgumentNullException(nameof(item));
                 if (item == this)
                     throw new ArgumentException("Cannot make a ModelItem the owner of itself");
-                this.GetOwnedObjects(true).Add(item);
+                GetOwnedObjects(true).Add(item);
             }
         }
 
         void IModelItemOwner.UnregisterObject(ModelItem item)
         {
-            using (this.ThreadValidator)
+            using (ThreadValidator)
             {
                 if (item == null)
                     throw new ArgumentNullException(nameof(item));
-                Vector<ModelItem> ownedObjects = this.GetOwnedObjects(false);
+                Vector<ModelItem> ownedObjects = GetOwnedObjects(false);
                 if (ownedObjects == null || !ownedObjects.Contains(item))
                     throw new ArgumentException(InvariantString.Format("Cannot unregister an object that was never registered.  Owner \"{0}\" was unable to identify \"{1}\".", this, item));
                 ownedObjects.Remove(item);
@@ -256,21 +256,21 @@ namespace Microsoft.Iris
 
         private void DisposeOwnedObjects()
         {
-            Vector<ModelItem> ownedObjects = this.GetOwnedObjects(false);
+            Vector<ModelItem> ownedObjects = GetOwnedObjects(false);
             if (ownedObjects == null)
                 return;
             foreach (ModelItem modelItem in ownedObjects)
                 modelItem.Dispose(ModelItemDisposeMode.KeepOwnerReference);
-            this.SetData(s_ownedObjectsProperty, null);
+            SetData(s_ownedObjectsProperty, null);
         }
 
         private Vector<ModelItem> GetOwnedObjects(bool createIfNoneFlag)
         {
-            Vector<ModelItem> vector = (Vector<ModelItem>)this.GetData(s_ownedObjectsProperty);
+            Vector<ModelItem> vector = (Vector<ModelItem>)GetData(s_ownedObjectsProperty);
             if (vector == null && createIfNoneFlag)
             {
                 vector = new Vector<ModelItem>();
-                this.SetData(s_ownedObjectsProperty, vector);
+                SetData(s_ownedObjectsProperty, vector);
             }
             return vector;
         }
@@ -279,45 +279,45 @@ namespace Microsoft.Iris
         {
             get
             {
-                using (this.ThreadValidator)
+                using (ThreadValidator)
                 {
-                    object data = this.GetData(s_selectedProperty);
+                    object data = GetData(s_selectedProperty);
                     return data != null && (bool)data;
                 }
             }
             set
             {
-                using (this.ThreadValidator)
+                using (ThreadValidator)
                 {
-                    if (this.Selected == value)
+                    if (Selected == value)
                         return;
-                    this.SetData(s_selectedProperty, value);
-                    this.FirePropertyChanged(nameof(Selected));
+                    SetData(s_selectedProperty, value);
+                    FirePropertyChanged(nameof(Selected));
                 }
             }
         }
 
         public override string ToString()
         {
-            using (this.ThreadValidator)
+            using (ThreadValidator)
             {
-                string name = this.GetType().Name;
-                string description = this.Description;
+                string name = GetType().Name;
+                string description = Description;
                 return description != null ? InvariantString.Format("{0}:\"{1}\"", name, description) : name;
             }
         }
 
-        internal object GetData(DataCookie cookie) => this._dataMap.GetData(cookie);
+        internal object GetData(DataCookie cookie) => _dataMap.GetData(cookie);
 
-        internal void SetData(DataCookie cookie, object value) => this._dataMap.SetData(cookie, value);
+        internal void SetData(DataCookie cookie, object value) => _dataMap.SetData(cookie, value);
 
-        internal Delegate GetEventHandler(EventCookie cookie) => this._dataMap.GetEventHandler(cookie);
+        internal Delegate GetEventHandler(EventCookie cookie) => _dataMap.GetEventHandler(cookie);
 
-        internal void AddEventHandler(EventCookie cookie, Delegate handlerToAdd) => this._dataMap.AddEventHandler(cookie, handlerToAdd);
+        internal void AddEventHandler(EventCookie cookie, Delegate handlerToAdd) => _dataMap.AddEventHandler(cookie, handlerToAdd);
 
-        internal void RemoveEventHandler(EventCookie cookie, Delegate handlerToRemove) => this._dataMap.RemoveEventHandler(cookie, handlerToRemove);
+        internal void RemoveEventHandler(EventCookie cookie, Delegate handlerToRemove) => _dataMap.RemoveEventHandler(cookie, handlerToRemove);
 
-        internal void RemoveEventHandlers(EventCookie cookie) => this._dataMap.RemoveEventHandlers(cookie);
+        internal void RemoveEventHandlers(EventCookie cookie) => _dataMap.RemoveEventHandlers(cookie);
 
         private static uint GetKey(EventCookie cookie)
         {

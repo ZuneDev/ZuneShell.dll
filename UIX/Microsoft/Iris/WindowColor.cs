@@ -18,7 +18,7 @@ namespace Microsoft.Iris
             CheckByte(red, nameof(red));
             CheckByte(green, nameof(green));
             CheckByte(blue, nameof(blue));
-            this._color = new Color(red, green, blue);
+            _color = new Color(red, green, blue);
         }
 
         public WindowColor(float red, float green, float blue)
@@ -26,16 +26,16 @@ namespace Microsoft.Iris
             CheckFloat(red, nameof(red));
             CheckFloat(green, nameof(green));
             CheckFloat(blue, nameof(blue));
-            this._color = new Color(red, green, blue);
+            _color = new Color(red, green, blue);
         }
 
-        public byte R => this._color.R;
+        public byte R => _color.R;
 
-        public byte G => this._color.G;
+        public byte G => _color.G;
 
-        public byte B => this._color.B;
+        public byte B => _color.B;
 
-        internal Color GetInternalColor() => this._color;
+        internal Color GetInternalColor() => _color;
 
         private static void CheckByte(int value, string name)
         {

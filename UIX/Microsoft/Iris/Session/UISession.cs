@@ -55,20 +55,20 @@ namespace Microsoft.Iris.Session
           TimeoutHandler handlerTimeout,
           uint timeoutSecValue)
         {
-            this._syncWindowHandler = new SimpleCallback(this.SyncWindowHandler);
-            this._queueSyncLayoutComplete = new SimpleQueue();
-            this._processInitialization = new SimpleCallback(this.ProcessInitialization);
-            this._processLayout = new SimpleCallback(this.ProcessLayout);
-            this._applyLayout = new SimpleCallback(this.ApplyLayout);
-            this._processPaint = new SimpleCallback(this.ProcessPaint);
-            this._inputManager = new InputManager(this);
+            _syncWindowHandler = new SimpleCallback(SyncWindowHandler);
+            _queueSyncLayoutComplete = new SimpleQueue();
+            _processInitialization = new SimpleCallback(ProcessInitialization);
+            _processLayout = new SimpleCallback(ProcessLayout);
+            _applyLayout = new SimpleCallback(ApplyLayout);
+            _processPaint = new SimpleCallback(ProcessPaint);
+            _inputManager = new InputManager(this);
             s_theOnlySession = this;
-            this._dispatcher = new UIDispatcher(this, handlerTimeout, timeoutSecValue, true);
+            _dispatcher = new UIDispatcher(this, handlerTimeout, timeoutSecValue, true);
             int pdwDefaultLayout;
             Win32Api.IFWIN32(Win32Api.GetProcessDefaultLayout(out pdwDefaultLayout));
-            this._rtl = pdwDefaultLayout == 1;
-            this._engine = RenderApi.CreateEngine(IrisEngineInfo.CreateLocal(), Dispatcher);
-            this._session = this._engine.Session;
+            _rtl = pdwDefaultLayout == 1;
+            _engine = RenderApi.CreateEngine(IrisEngineInfo.CreateLocal(), Dispatcher);
+            _session = _engine.Session;
             TextImageCache.Initialize(this);
             ScavengeImageCache.Initialize(this);
         }
@@ -78,30 +78,30 @@ namespace Microsoft.Iris.Session
           GraphicsRenderingQuality renderingQuality,
           SoundDeviceType soundType)
         {
-            this._engine.Initialize(graphicsType, renderingQuality, soundType);
-            this._effectManager = new EffectManager(this._session);
-            this._soundManager = new SoundManager(this, this._session);
-            this._animationManager = new AnimationManager(this._session);
-            this._inputManager.ConnectToRenderer();
+            _engine.Initialize(graphicsType, renderingQuality, soundType);
+            _effectManager = new EffectManager(_session);
+            _soundManager = new SoundManager(this, _session);
+            _animationManager = new AnimationManager(_session);
+            _inputManager.ConnectToRenderer();
         }
 
-        internal bool IsGraphicsDeviceRecommended(GraphicsDeviceType graphicsType) => this._engine.IsGraphicsDeviceAvailable(graphicsType, true);
+        internal bool IsGraphicsDeviceRecommended(GraphicsDeviceType graphicsType) => _engine.IsGraphicsDeviceAvailable(graphicsType, true);
 
-        internal bool IsGraphicsDeviceAvailable(GraphicsDeviceType graphicsType) => this._engine.IsGraphicsDeviceAvailable(graphicsType, false);
+        internal bool IsGraphicsDeviceAvailable(GraphicsDeviceType graphicsType) => _engine.IsGraphicsDeviceAvailable(graphicsType, false);
 
-        internal bool IsSoundDeviceAvailable(SoundDeviceType soundType) => this._engine.IsSoundDeviceAvailable(soundType);
+        internal bool IsSoundDeviceAvailable(SoundDeviceType soundType) => _engine.IsSoundDeviceAvailable(soundType);
 
-        internal bool ProcessNativeEvents() => this._engine.ProcessNativeEvents();
+        internal bool ProcessNativeEvents() => _engine.ProcessNativeEvents();
 
-        internal void WaitForWork(uint nTimeoutInMsecs) => this._engine.WaitForWork(nTimeoutInMsecs);
+        internal void WaitForWork(uint nTimeoutInMsecs) => _engine.WaitForWork(nTimeoutInMsecs);
 
-        internal void InterThreadWake() => this._engine.InterThreadWake();
+        internal void InterThreadWake() => _engine.InterThreadWake();
 
-        internal void FlushBatch() => this._engine.FlushBatch();
+        internal void FlushBatch() => _engine.FlushBatch();
 
-        internal IRenderSession RenderSession => this._session;
+        internal IRenderSession RenderSession => _session;
 
-        internal AnimationManager AnimationManager => this._animationManager;
+        internal AnimationManager AnimationManager => _animationManager;
 
         public void Dispose()
         {
@@ -109,34 +109,34 @@ namespace Microsoft.Iris.Session
                 TextImageCache.Instance.PrepareToShutdown();
             if (ScavengeImageCache.Instance != null)
                 ScavengeImageCache.Instance.PrepareToShutdown();
-            if (this._soundManager != null)
+            if (_soundManager != null)
             {
-                this._soundManager.Dispose();
-                this._soundManager = null;
+                _soundManager.Dispose();
+                _soundManager = null;
             }
-            if (this._animationManager != null)
+            if (_animationManager != null)
             {
-                this._animationManager.Dispose();
-                this._animationManager = null;
+                _animationManager.Dispose();
+                _animationManager = null;
             }
-            if (this._form != null)
-                this._form.Visible = false;
-            this._inputManager.PrepareToShutDown();
-            this._queueSyncLayoutComplete = null;
-            this._form = null;
-            this._dispatcher.ShutDown(true);
+            if (_form != null)
+                _form.Visible = false;
+            _inputManager.PrepareToShutDown();
+            _queueSyncLayoutComplete = null;
+            _form = null;
+            _dispatcher.ShutDown(true);
             s_theOnlySession = null;
-            this._effectManager.Dispose();
-            this._effectManager = null;
-            if (this._engine != null)
+            _effectManager.Dispose();
+            _effectManager = null;
+            if (_engine != null)
             {
-                this._engine.Dispose();
-                this._engine = null;
-                this._session = null;
+                _engine.Dispose();
+                _engine = null;
+                _session = null;
             }
             TextImageCache.Uninitialize(this);
             ScavengeImageCache.Uninitialize(this);
-            this._dispatcher.Dispose();
+            _dispatcher.Dispose();
             if (RenderApi.DebugModule == null)
                 return;
             RenderApi.DebugModule.Dispose();
@@ -153,106 +153,106 @@ namespace Microsoft.Iris.Session
 
         public bool IsRtl
         {
-            get => this._rtl;
-            set => this._rtl = value;
+            get => _rtl;
+            set => _rtl = value;
         }
 
-        public UIDispatcher Dispatcher => this._dispatcher;
+        public UIDispatcher Dispatcher => _dispatcher;
 
-        public InputManager InputManager => this._inputManager;
+        public InputManager InputManager => _inputManager;
 
-        public EffectManager EffectManager => this._effectManager;
+        public EffectManager EffectManager => _effectManager;
 
         internal UIZone RootZone
         {
             get
             {
                 UIZone uiZone = null;
-                if (this._form != null)
-                    uiZone = this._form.Zone;
+                if (_form != null)
+                    uiZone = _form.Zone;
                 return uiZone;
             }
         }
 
-        public bool InLayout => this._layingOut;
+        public bool InLayout => _layingOut;
 
         internal void ScheduleUiTask(UiTask task)
         {
             switch (task)
             {
                 case UiTask.Initialization:
-                    this.ScheduleInitialization();
+                    ScheduleInitialization();
                     break;
                 case UiTask.LayoutComputation:
-                    this.ScheduleLayout();
+                    ScheduleLayout();
                     break;
                 case UiTask.LayoutApplication:
-                    this.ScheduleApplyLayout();
+                    ScheduleApplyLayout();
                     break;
                 case UiTask.Painting:
-                    this.SchedulePaint();
+                    SchedulePaint();
                     break;
             }
         }
 
         private void ScheduleLayout()
         {
-            if (this._layoutRequestedFlag)
+            if (_layoutRequestedFlag)
                 return;
-            DeferredCall.Post(DispatchPriority.Layout, this._processLayout);
-            this._layoutRequestedFlag = true;
+            DeferredCall.Post(DispatchPriority.Layout, _processLayout);
+            _layoutRequestedFlag = true;
         }
 
         private void ScheduleApplyLayout()
         {
-            if (this._applyLayoutRequestedFlag)
+            if (_applyLayoutRequestedFlag)
                 return;
-            DeferredCall.Post(DispatchPriority.LayoutApply, this._applyLayout);
-            this._applyLayoutRequestedFlag = true;
+            DeferredCall.Post(DispatchPriority.LayoutApply, _applyLayout);
+            _applyLayoutRequestedFlag = true;
         }
 
         private void SchedulePaint()
         {
-            if (this._paintRequestedFlag)
+            if (_paintRequestedFlag)
                 return;
-            DeferredCall.Post(DispatchPriority.Render, this._processPaint);
-            this._paintRequestedFlag = true;
+            DeferredCall.Post(DispatchPriority.Render, _processPaint);
+            _paintRequestedFlag = true;
         }
 
         private void ScheduleInitialization()
         {
-            if (this._initRequestedFlag)
+            if (_initRequestedFlag)
                 return;
-            DeferredCall.Post(DispatchPriority.High, this._processInitialization);
-            this._initRequestedFlag = true;
+            DeferredCall.Post(DispatchPriority.High, _processInitialization);
+            _initRequestedFlag = true;
         }
 
         public void RequestUpdateView(bool syncWindow)
         {
-            this.InputManager.SuspendInputUntil(DispatchPriority.Idle);
-            this.Dispatcher.TemporarilyBlockRPCs();
-            if (!syncWindow || this._syncWindowPending)
+            InputManager.SuspendInputUntil(DispatchPriority.Idle);
+            Dispatcher.TemporarilyBlockRPCs();
+            if (!syncWindow || _syncWindowPending)
                 return;
-            this._syncWindowPending = true;
-            DeferredCall.Post(DispatchPriority.RenderSync, this._syncWindowHandler);
+            _syncWindowPending = true;
+            DeferredCall.Post(DispatchPriority.RenderSync, _syncWindowHandler);
         }
 
         private void SyncWindowHandler()
         {
-            this._syncWindowPending = false;
-            this._session.GraphicsDevice.RenderNowIfPossible();
+            _syncWindowPending = false;
+            _session.GraphicsDevice.RenderNowIfPossible();
         }
 
-        internal void EnqueueSyncLayoutCompleteHandler(object snd, EventHandler eh) => this._queueSyncLayoutComplete.PostItem(DeferredCall.Create(eh, snd, EventArgs.Empty));
+        internal void EnqueueSyncLayoutCompleteHandler(object snd, EventHandler eh) => _queueSyncLayoutComplete.PostItem(DeferredCall.Create(eh, snd, EventArgs.Empty));
 
         private void ProcessInitialization()
         {
             using (TaskReentrancyDetection.Enter("Initialization"))
             {
-                if (!this.IsValid || !this._initRequestedFlag)
+                if (!IsValid || !_initRequestedFlag)
                     return;
-                this._initRequestedFlag = false;
-                this.RootZone?.ProcessUiTask(UiTask.Initialization, null);
+                _initRequestedFlag = false;
+                RootZone?.ProcessUiTask(UiTask.Initialization, null);
             }
         }
 
@@ -260,18 +260,18 @@ namespace Microsoft.Iris.Session
         {
             using (TaskReentrancyDetection.Enter("Layout"))
             {
-                if (!this.IsValid || !this._layoutRequestedFlag)
+                if (!IsValid || !_layoutRequestedFlag)
                     return;
-                this._layoutRequestedFlag = false;
-                UIZone rootZone = this.RootZone;
+                _layoutRequestedFlag = false;
+                UIZone rootZone = RootZone;
                 if (rootZone == null)
                     return;
-                this._layingOut = true;
+                _layingOut = true;
                 rootZone.ProcessUiTask(UiTask.LayoutComputation, null);
                 QueueItem nextItem;
-                while ((nextItem = this._queueSyncLayoutComplete.GetNextItem()) != null)
+                while ((nextItem = _queueSyncLayoutComplete.GetNextItem()) != null)
                     nextItem.Dispatch();
-                this._layingOut = false;
+                _layingOut = false;
             }
         }
 
@@ -279,10 +279,10 @@ namespace Microsoft.Iris.Session
         {
             using (TaskReentrancyDetection.Enter(nameof(ApplyLayout)))
             {
-                if (!this.IsValid || !this._applyLayoutRequestedFlag)
+                if (!IsValid || !_applyLayoutRequestedFlag)
                     return;
-                this._applyLayoutRequestedFlag = false;
-                this.RootZone?.ProcessUiTask(UiTask.LayoutApplication, null);
+                _applyLayoutRequestedFlag = false;
+                RootZone?.ProcessUiTask(UiTask.LayoutApplication, null);
             }
         }
 
@@ -290,16 +290,16 @@ namespace Microsoft.Iris.Session
         {
             using (TaskReentrancyDetection.Enter("Paint"))
             {
-                if (!this.IsValid || !this._paintRequestedFlag)
+                if (!IsValid || !_paintRequestedFlag)
                     return;
-                this._paintRequestedFlag = false;
-                this.RootZone?.ProcessUiTask(UiTask.Painting, null);
+                _paintRequestedFlag = false;
+                RootZone?.ProcessUiTask(UiTask.Painting, null);
             }
         }
 
         internal void FireOnUnhandledException(object sender, Exception e)
         {
-            UISession.UnhandledExceptionHandler unhandledException = this.OnUnhandledException;
+            UISession.UnhandledExceptionHandler unhandledException = OnUnhandledException;
             if (unhandledException == null)
                 return;
             UISession.UnhandledExceptionArgs args = new UISession.UnhandledExceptionArgs(e);
@@ -308,11 +308,11 @@ namespace Microsoft.Iris.Session
 
         public event UISession.UnhandledExceptionHandler OnUnhandledException;
 
-        public Form Form => this._form;
+        public Form Form => _form;
 
-        internal IRenderWindow GetRenderWindow() => this._engine.Window;
+        internal IRenderWindow GetRenderWindow() => _engine.Window;
 
-        public SoundManager SoundManager => this._soundManager;
+        public SoundManager SoundManager => _soundManager;
 
         public void PlaySound(string stSoundSource)
         {
@@ -351,15 +351,15 @@ namespace Microsoft.Iris.Session
             }.Play();
         }
 
-        internal void RegisterHost(Form form) => this._form = form;
+        internal void RegisterHost(Form form) => _form = form;
 
         public class UnhandledExceptionArgs : EventArgs
         {
             private Exception _e;
 
-            public UnhandledExceptionArgs(Exception e) => this._e = e;
+            public UnhandledExceptionArgs(Exception e) => _e = e;
 
-            public Exception Error => this._e;
+            public Exception Error => _e;
         }
 
         public delegate void UnhandledExceptionHandler(
@@ -389,8 +389,8 @@ namespace Microsoft.Iris.Session
 
             public PlaySoundArgs(UISession session, string source)
             {
-                this.uiSession = session;
-                this.stSoundSource = source;
+                uiSession = session;
+                stSoundSource = source;
             }
         }
 
@@ -401,8 +401,8 @@ namespace Microsoft.Iris.Session
 
             public PlaySystemSoundArgs(UISession session, SystemSoundEvent soundEventId)
             {
-                this.uiSession = session;
-                this.systemSoundEvent = soundEventId;
+                uiSession = session;
+                systemSoundEvent = soundEventId;
             }
         }
     }

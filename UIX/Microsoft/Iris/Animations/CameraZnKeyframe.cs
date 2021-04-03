@@ -20,7 +20,7 @@ namespace Microsoft.Iris.Animations
           float baseValue,
           ref AnimationArgs args)
         {
-            if (this.RelativeTo == RelativeTo.Final)
+            if (RelativeTo == RelativeTo.Final)
                 baseValue *= args.NewZn;
             return baseValue;
         }

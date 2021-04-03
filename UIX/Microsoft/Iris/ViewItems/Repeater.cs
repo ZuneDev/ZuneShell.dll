@@ -55,78 +55,78 @@ namespace Microsoft.Iris.ViewItems
 
         protected override void OnDispose()
         {
-            if (this._source is INotifyList sourceA)
-                sourceA.ContentsChanged -= new UIListContentsChangedHandler(this.QueueListContentsChanged);
-            if (this._source is IVirtualList sourceB)
+            if (_source is INotifyList sourceA)
+                sourceA.ContentsChanged -= new UIListContentsChangedHandler(QueueListContentsChanged);
+            if (_source is IVirtualList sourceB)
                 sourceB.RepeaterHost = null;
-            this._source = null;
+            _source = null;
             base.OnDispose();
         }
 
         protected override void OnZoneAttached()
         {
             base.OnZoneAttached();
-            this.UI.DescendentKeyFocusChange += new InputEventHandler(this.OnDescendentKeyFocusChange);
-            this.UI.DescendentMouseFocusChange += new InputEventHandler(this.OnDescendentMouseFocusChange);
+            UI.DescendentKeyFocusChange += new InputEventHandler(OnDescendentKeyFocusChange);
+            UI.DescendentMouseFocusChange += new InputEventHandler(OnDescendentMouseFocusChange);
         }
 
         protected override void OnZoneDetached()
         {
             base.OnZoneDetached();
-            this.UI.DescendentKeyFocusChange -= new InputEventHandler(this.OnDescendentKeyFocusChange);
-            this.UI.DescendentMouseFocusChange -= new InputEventHandler(this.OnDescendentMouseFocusChange);
+            UI.DescendentKeyFocusChange -= new InputEventHandler(OnDescendentKeyFocusChange);
+            UI.DescendentMouseFocusChange -= new InputEventHandler(OnDescendentMouseFocusChange);
         }
 
         public string ContentName
         {
-            get => this._contentName;
+            get => _contentName;
             set
             {
-                if (!(this._contentName != value))
+                if (!(_contentName != value))
                     return;
-                this._contentName = value;
-                this.RebuildChildren();
-                this.FireNotification(NotificationID.ContentName);
+                _contentName = value;
+                RebuildChildren();
+                FireNotification(NotificationID.ContentName);
             }
         }
 
         public string DividerName
         {
-            get => this._dividerName;
+            get => _dividerName;
             set
             {
-                if (!(this._dividerName != value))
+                if (!(_dividerName != value))
                     return;
-                this._dividerName = value;
-                this.RebuildChildren();
-                this.FireNotification(NotificationID.DividerName);
+                _dividerName = value;
+                RebuildChildren();
+                FireNotification(NotificationID.DividerName);
             }
         }
 
         public IList Source
         {
-            get => this._source;
+            get => _source;
             set
             {
-                if (this._source == value)
+                if (_source == value)
                     return;
-                if (this._source != null)
+                if (_source != null)
                 {
-                    if (this._source is INotifyList sourceA)
-                        sourceA.ContentsChanged -= new UIListContentsChangedHandler(this.QueueListContentsChanged);
-                    if (this._source is IVirtualList sourceB)
+                    if (_source is INotifyList sourceA)
+                        sourceA.ContentsChanged -= new UIListContentsChangedHandler(QueueListContentsChanged);
+                    if (_source is IVirtualList sourceB)
                         sourceB.RepeaterHost = null;
                 }
-                this._source = value;
+                _source = value;
                 if (value != null)
                 {
                     if (value is INotifyList notifyList)
-                        notifyList.ContentsChanged += new UIListContentsChangedHandler(this.QueueListContentsChanged);
-                    if (this._source is IVirtualList source)
+                        notifyList.ContentsChanged += new UIListContentsChangedHandler(QueueListContentsChanged);
+                    if (_source is IVirtualList source)
                         source.RepeaterHost = this;
                 }
-                this.RebuildChildren();
-                this.FireNotification(NotificationID.Source);
+                RebuildChildren();
+                FireNotification(NotificationID.Source);
             }
         }
 
@@ -134,67 +134,67 @@ namespace Microsoft.Iris.ViewItems
         {
             get
             {
-                if (this._contentSelector == null)
+                if (_contentSelector == null)
                 {
-                    this._contentSelector = new RepeaterContentSelector(this);
-                    this.PreRepeatHandler = this._contentSelector.ContentTypeHandler;
+                    _contentSelector = new RepeaterContentSelector(this);
+                    PreRepeatHandler = _contentSelector.ContentTypeHandler;
                 }
-                return this._contentSelector.Selectors;
+                return _contentSelector.Selectors;
             }
         }
 
         public Repeater.ContentTypeHandler PreRepeatHandler
         {
-            get => this._ctproc;
-            set => this._ctproc = value;
+            get => _ctproc;
+            set => _ctproc = value;
         }
 
         public bool IgnoreCustomRepeaters
         {
-            get => this._ignoreCustomRepeaters;
-            set => this._ignoreCustomRepeaters = value;
+            get => _ignoreCustomRepeaters;
+            set => _ignoreCustomRepeaters = value;
         }
 
         public override bool DiscardOffscreenVisuals
         {
-            get => this._discardOffscreenVisuals;
+            get => _discardOffscreenVisuals;
             set
             {
-                if (this._discardOffscreenVisuals == value)
+                if (_discardOffscreenVisuals == value)
                     return;
-                if (this._repeatedItemLayoutComplete == null && this.HasChildren)
-                    this._repeatedItemLayoutComplete = new LayoutCompleteEventHandler(this.OnRepeatedItemLayoutComplete);
-                if (this._discardOffscreenVisuals)
+                if (_repeatedItemLayoutComplete == null && HasChildren)
+                    _repeatedItemLayoutComplete = new LayoutCompleteEventHandler(OnRepeatedItemLayoutComplete);
+                if (_discardOffscreenVisuals)
                 {
-                    foreach (ViewItem child in this.Children)
-                        child.LayoutComplete -= this._repeatedItemLayoutComplete;
+                    foreach (ViewItem child in Children)
+                        child.LayoutComplete -= _repeatedItemLayoutComplete;
                 }
-                this._discardOffscreenVisuals = value;
-                if (this._discardOffscreenVisuals)
+                _discardOffscreenVisuals = value;
+                if (_discardOffscreenVisuals)
                 {
-                    foreach (ViewItem child in this.Children)
-                        child.LayoutComplete += this._repeatedItemLayoutComplete;
+                    foreach (ViewItem child in Children)
+                        child.LayoutComplete += _repeatedItemLayoutComplete;
                 }
-                this.FireNotification(NotificationID.DiscardOffscreenVisuals);
+                FireNotification(NotificationID.DiscardOffscreenVisuals);
             }
         }
 
         public bool MaintainFocusedItemOnSourceChanges
         {
-            get => !this._maintainFocusScreenLocation;
+            get => !_maintainFocusScreenLocation;
             set
             {
-                if (this._maintainFocusScreenLocation == value)
+                if (_maintainFocusScreenLocation == value)
                     return;
-                this._maintainFocusScreenLocation = value;
-                this.FireNotification(NotificationID.MaintainFocusedItemOnSourceChanges);
+                _maintainFocusScreenLocation = value;
+                FireNotification(NotificationID.MaintainFocusedItemOnSourceChanges);
             }
         }
 
         internal bool GetFocusedIndex(ref int index)
         {
             bool flag = false;
-            if (this.GetExtendedLayoutOutput(VisibleIndexRangeLayoutOutput.DataCookie) is VisibleIndexRangeLayoutOutput extendedLayoutOutput && extendedLayoutOutput.FocusedItem.HasValue)
+            if (GetExtendedLayoutOutput(VisibleIndexRangeLayoutOutput.DataCookie) is VisibleIndexRangeLayoutOutput extendedLayoutOutput && extendedLayoutOutput.FocusedItem.HasValue)
             {
                 index = extendedLayoutOutput.FocusedItem.Value;
                 flag = true;
@@ -204,70 +204,70 @@ namespace Microsoft.Iris.ViewItems
 
         public override bool HideNamedChildren => true;
 
-        public void ForceRefresh() => this.RebuildChildren();
+        public void ForceRefresh() => RebuildChildren();
 
         private int InternalCount
         {
-            get => this._itemsCount;
+            get => _itemsCount;
             set
             {
-                if (this._itemsCount == value)
+                if (_itemsCount == value)
                     return;
-                this._itemsCount = value;
-                this.SetLayoutInput(new CountLayoutInput(this._itemsCount));
+                _itemsCount = value;
+                SetLayoutInput(new CountLayoutInput(_itemsCount));
             }
         }
 
         private void RebuildChildren()
         {
-            if (this.HasVisual)
-                this.UI.DestroyVisualTree(this, true);
-            if (this._repeatedViewItems != null)
+            if (HasVisual)
+                UI.DestroyVisualTree(this, true);
+            if (_repeatedViewItems != null)
             {
-                UIClass keyFocusDescendant = this.UI.KeyFocusDescendant;
-                foreach (Repeater.RepeatedViewItemSet repeatedViewItem in this._repeatedViewItems)
-                    this.DisposeRepeatedViewItemSet(repeatedViewItem, ref keyFocusDescendant);
+                UIClass keyFocusDescendant = UI.KeyFocusDescendant;
+                foreach (Repeater.RepeatedViewItemSet repeatedViewItem in _repeatedViewItems)
+                    DisposeRepeatedViewItemSet(repeatedViewItem, ref keyFocusDescendant);
             }
-            this._repeatedViewItems = new Vector<Repeater.RepeatedViewItemSet>();
-            this._outstandingDataIndexRequests = new Vector<int>();
-            this._pendingIndexRequest = new int?();
-            this._lastMouseFocusedItem = null;
-            this._lastKeyFocusedItem = null;
+            _repeatedViewItems = new Vector<Repeater.RepeatedViewItemSet>();
+            _outstandingDataIndexRequests = new Vector<int>();
+            _pendingIndexRequest = new int?();
+            _lastMouseFocusedItem = null;
+            _lastKeyFocusedItem = null;
             int num = 0;
-            if (this._source != null)
-                num = this._source.Count;
-            this.InternalCount = num;
-            ++this._sourceGeneration;
-            this.RequestRepeatOfIndexUpdate();
+            if (_source != null)
+                num = _source.Count;
+            InternalCount = num;
+            ++_sourceGeneration;
+            RequestRepeatOfIndexUpdate();
         }
 
         public override void OnCommit()
         {
-            if (this.LayoutRequestedCount <= 0 && this.LayoutRequestedIndices == null || this.LayoutRequestedCount > 0 && this.LayoutRequestedIndices == null && (this._repeatedViewItems != null && this.InternalCount == this._repeatedViewItems.Count))
+            if (LayoutRequestedCount <= 0 && LayoutRequestedIndices == null || LayoutRequestedCount > 0 && LayoutRequestedIndices == null && (_repeatedViewItems != null && InternalCount == _repeatedViewItems.Count))
                 return;
-            this.RequestRepeatOfIndexUpdate();
+            RequestRepeatOfIndexUpdate();
         }
 
         public void UpdateBinding()
         {
-            if (this._source == null)
+            if (_source == null)
                 return;
-            if (this._itemsCount != this._source.Count)
+            if (_itemsCount != _source.Count)
             {
-                this.RebuildChildren();
+                RebuildChildren();
             }
             else
             {
                 if (Debug.Trace.IsCategoryEnabled(TraceCategory.Repeating, 5))
                 {
-                    int num = this._pendingIndexRequest.HasValue ? 1 : 0;
+                    int num = _pendingIndexRequest.HasValue ? 1 : 0;
                 }
-                Vector<int> vector = this.GetLayoutRepeatRequests();
-                if (this._pendingIndexRequest.HasValue)
+                Vector<int> vector = GetLayoutRepeatRequests();
+                if (_pendingIndexRequest.HasValue)
                 {
                     if (vector == null)
                         vector = new Vector<int>();
-                    vector.Add(this._pendingIndexRequest.Value);
+                    vector.Add(_pendingIndexRequest.Value);
                 }
                 if (vector == null)
                     return;
@@ -276,11 +276,11 @@ namespace Microsoft.Iris.ViewItems
                     int dataIndex;
                     int generationValue;
                     object dataItemObject;
-                    if (this.GetDataItem(virtualIndex, out dataIndex, out generationValue, out dataItemObject))
+                    if (GetDataItem(virtualIndex, out dataIndex, out generationValue, out dataItemObject))
                     {
-                        this.RepeatItem(virtualIndex, dataIndex, generationValue, dataItemObject);
-                        if (this._pendingIndexRequest.HasValue && this._pendingIndexRequest.Value == virtualIndex)
-                            this._pendingIndexRequest = new int?();
+                        RepeatItem(virtualIndex, dataIndex, generationValue, dataItemObject);
+                        if (_pendingIndexRequest.HasValue && _pendingIndexRequest.Value == virtualIndex)
+                            _pendingIndexRequest = new int?();
                     }
                 }
             }
@@ -288,17 +288,17 @@ namespace Microsoft.Iris.ViewItems
 
         private Vector<int> GetLayoutRepeatRequests()
         {
-            if (this.LayoutRequestedCount == 0 && this.LayoutRequestedIndices == null)
+            if (LayoutRequestedCount == 0 && LayoutRequestedIndices == null)
                 return null;
-            int layoutRequestedCount = this.LayoutRequestedCount;
-            Vector<int> requestedIndices = this.LayoutRequestedIndices;
+            int layoutRequestedCount = LayoutRequestedCount;
+            Vector<int> requestedIndices = LayoutRequestedIndices;
             Vector<int> indicesToRequest = null;
             if (layoutRequestedCount > 0)
-                indicesToRequest = this.GetMissingIndices(layoutRequestedCount);
+                indicesToRequest = GetMissingIndices(layoutRequestedCount);
             if (requestedIndices != null)
             {
                 foreach (int requestIndex in requestedIndices)
-                    this.RequestRepeatOfIndex(ref indicesToRequest, requestIndex);
+                    RequestRepeatOfIndex(ref indicesToRequest, requestIndex);
             }
             return indicesToRequest;
         }
@@ -309,23 +309,23 @@ namespace Microsoft.Iris.ViewItems
             int dataStartIndex = 0;
             if (!ListUtility.IsNullOrEmpty(_repeatedViewItems))
             {
-                foreach (Repeater.RepeatedViewItemSet repeatedViewItem in this._repeatedViewItems)
+                foreach (Repeater.RepeatedViewItemSet repeatedViewItem in _repeatedViewItems)
                 {
                     int dataIndex = repeatedViewItem.DataIndex;
                     if (dataIndex > dataStartIndex)
-                        this.RequestRepeatOfIndexRange(ref indicesToRequest, dataStartIndex, dataIndex, ref howManyMoreCount);
+                        RequestRepeatOfIndexRange(ref indicesToRequest, dataStartIndex, dataIndex, ref howManyMoreCount);
                     else if (dataIndex < dataStartIndex)
                     {
-                        this.RequestRepeatOfIndexRange(ref indicesToRequest, dataStartIndex, this._itemsCount, ref howManyMoreCount);
-                        this.RequestRepeatOfIndexRange(ref indicesToRequest, 0, dataIndex, ref howManyMoreCount);
+                        RequestRepeatOfIndexRange(ref indicesToRequest, dataStartIndex, _itemsCount, ref howManyMoreCount);
+                        RequestRepeatOfIndexRange(ref indicesToRequest, 0, dataIndex, ref howManyMoreCount);
                     }
                     dataStartIndex = dataIndex + 1;
-                    if (howManyMoreCount <= 0 || dataStartIndex >= this._itemsCount)
+                    if (howManyMoreCount <= 0 || dataStartIndex >= _itemsCount)
                         break;
                 }
             }
-            if (howManyMoreCount > 0 && dataStartIndex < this._itemsCount)
-                this.RequestRepeatOfIndexRange(ref indicesToRequest, dataStartIndex, this._itemsCount, ref howManyMoreCount);
+            if (howManyMoreCount > 0 && dataStartIndex < _itemsCount)
+                RequestRepeatOfIndexRange(ref indicesToRequest, dataStartIndex, _itemsCount, ref howManyMoreCount);
             return indicesToRequest;
         }
 
@@ -339,7 +339,7 @@ namespace Microsoft.Iris.ViewItems
                 return;
             for (int requestIndex = dataStartIndex; requestIndex < dataEndIndex; ++requestIndex)
             {
-                if (this.RequestRepeatOfIndex(ref indicesToRequest, requestIndex))
+                if (RequestRepeatOfIndex(ref indicesToRequest, requestIndex))
                     --howManyMoreCount;
                 if (howManyMoreCount <= 0)
                     break;
@@ -348,7 +348,7 @@ namespace Microsoft.Iris.ViewItems
 
         private bool RequestRepeatOfIndex(ref Vector<int> indicesToRequest, int requestIndex)
         {
-            if (indicesToRequest != null && indicesToRequest.Contains(requestIndex) || this.HasVirtualIndexBeenRepeated(requestIndex))
+            if (indicesToRequest != null && indicesToRequest.Contains(requestIndex) || HasVirtualIndexBeenRepeated(requestIndex))
                 return false;
             if (indicesToRequest == null)
                 indicesToRequest = new Vector<int>();
@@ -363,21 +363,21 @@ namespace Microsoft.Iris.ViewItems
           out object dataItemObject)
         {
             bool flag = false;
-            ListUtility.GetWrappedIndex(virtualIndex, this._source.Count, out dataIndex, out generationValue);
-            if (!ListUtility.IsValidIndex(this._source, dataIndex))
+            ListUtility.GetWrappedIndex(virtualIndex, _source.Count, out dataIndex, out generationValue);
+            if (!ListUtility.IsValidIndex(_source, dataIndex))
                 dataItemObject = null;
-            else if (this._source is IVirtualList source && !source.IsItemAvailable(dataIndex))
+            else if (_source is IVirtualList source && !source.IsItemAvailable(dataIndex))
             {
-                if (!this._outstandingDataIndexRequests.Contains(dataIndex))
+                if (!_outstandingDataIndexRequests.Contains(dataIndex))
                 {
-                    this._outstandingDataIndexRequests.Add(dataIndex);
-                    source.RequestItem(dataIndex, this.QueryHandler);
+                    _outstandingDataIndexRequests.Add(dataIndex);
+                    source.RequestItem(dataIndex, QueryHandler);
                 }
                 dataItemObject = null;
             }
             else
             {
-                dataItemObject = this._source[dataIndex];
+                dataItemObject = _source[dataIndex];
                 flag = true;
             }
             return flag;
@@ -396,7 +396,7 @@ namespace Microsoft.Iris.ViewItems
             if (_source is IVirtualList)
             {
                 source = (IVirtualList)_source;
-                flag = !this.HasDataIndexBeenRepeated(dataIndex);
+                flag = !HasDataIndexBeenRepeated(dataIndex);
             }
             Index index = new Index(virtualIndex, dataIndex, this);
             ErrorManager.EnterContext(UI.TypeSchema);
@@ -404,26 +404,26 @@ namespace Microsoft.Iris.ViewItems
             {
                 ViewItem repeatedItem;
                 ViewItem dividerItem;
-                this.CreateRepeatedItem(index, dataItemObject, out repeatedItem, out dividerItem);
+                CreateRepeatedItem(index, dataItemObject, out repeatedItem, out dividerItem);
                 int repeatedItemIndex;
                 int viewItemIndex;
-                this.GetInsertIndex(index.Value, out repeatedItemIndex, out viewItemIndex);
+                GetInsertIndex(index.Value, out repeatedItemIndex, out viewItemIndex);
                 if (repeatedItem != null)
-                    this.Children.Insert(viewItemIndex, repeatedItem);
+                    Children.Insert(viewItemIndex, repeatedItem);
                 if (dividerItem != null)
-                    this.Children.Insert(viewItemIndex, dividerItem);
+                    Children.Insert(viewItemIndex, dividerItem);
                 if (repeatedItem == null)
                     return;
-                this._repeatedViewItems.Insert(repeatedItemIndex, new Repeater.RepeatedViewItemSet(index, generationValue, repeatedItem, dividerItem));
+                _repeatedViewItems.Insert(repeatedItemIndex, new Repeater.RepeatedViewItemSet(index, generationValue, repeatedItem, dividerItem));
                 if (flag)
                     source.NotifyVisualsCreated(dataIndex);
-                if (virtualIndex == this._defaultFocusIndex)
-                    this.SetAsDefaultFocusRecipient(repeatedItem);
-                if (!this._discardOffscreenVisuals)
+                if (virtualIndex == _defaultFocusIndex)
+                    SetAsDefaultFocusRecipient(repeatedItem);
+                if (!_discardOffscreenVisuals)
                     return;
-                if (this._repeatedItemLayoutComplete == null)
-                    this._repeatedItemLayoutComplete = new LayoutCompleteEventHandler(this.OnRepeatedItemLayoutComplete);
-                repeatedItem.LayoutComplete += this._repeatedItemLayoutComplete;
+                if (_repeatedItemLayoutComplete == null)
+                    _repeatedItemLayoutComplete = new LayoutCompleteEventHandler(OnRepeatedItemLayoutComplete);
+                repeatedItem.LayoutComplete += _repeatedItemLayoutComplete;
             }
             finally
             {
@@ -443,11 +443,11 @@ namespace Microsoft.Iris.ViewItems
          index
             });
             string contentTypeName = null;
-            this.GetContentTypeForRepeatedItem(dataItemObject, out contentTypeName);
+            GetContentTypeForRepeatedItem(dataItemObject, out contentTypeName);
             repeatedItem = null;
             if (!string.IsNullOrEmpty(contentTypeName))
             {
-                repeatedItem = this.UI.ConstructNamedContent(contentTypeName, parameterContext);
+                repeatedItem = UI.ConstructNamedContent(contentTypeName, parameterContext);
                 if (repeatedItem == null)
                 {
                     if (contentTypeName[0] == '#')
@@ -459,9 +459,9 @@ namespace Microsoft.Iris.ViewItems
             else
                 ErrorManager.ReportError("Repeater has no content to repeat");
             dividerItem = null;
-            if (index.SourceValue != 0 && this._dividerName != null)
+            if (index.SourceValue != 0 && _dividerName != null)
             {
-                dividerItem = this.UI.ConstructNamedContent(this._dividerName, parameterContext);
+                dividerItem = UI.ConstructNamedContent(_dividerName, parameterContext);
                 if (dividerItem == null)
                     ErrorManager.ReportError("Repeater failed to find divider content to repeat (DividerName was '{0}')", _dividerName);
             }
@@ -474,34 +474,34 @@ namespace Microsoft.Iris.ViewItems
 
         private void RequestRepeatOfIndexUpdate()
         {
-            if (this._haveRequestedUpdate)
+            if (_haveRequestedUpdate)
                 return;
-            DeferredCall.Post(DispatchPriority.RepeatItem, new SimpleCallback(this.UpdateBindingCallback));
-            this._haveRequestedUpdate = true;
+            DeferredCall.Post(DispatchPriority.RepeatItem, new SimpleCallback(UpdateBindingCallback));
+            _haveRequestedUpdate = true;
         }
 
         private void UpdateBindingCallback()
         {
-            this._haveRequestedUpdate = false;
-            this.UpdateBinding();
+            _haveRequestedUpdate = false;
+            UpdateBinding();
         }
 
         private void ItemRequestCallback(object senderObject, int dataIndex, object dataItemObject)
         {
             IVirtualList virtualList = (IVirtualList)senderObject;
-            if (this.IsDisposed || virtualList != this._source || !this._outstandingDataIndexRequests.Contains(dataIndex))
+            if (IsDisposed || virtualList != _source || !_outstandingDataIndexRequests.Contains(dataIndex))
                 return;
-            this._outstandingDataIndexRequests.Remove(dataIndex);
-            this.RequestRepeatOfIndexUpdate();
+            _outstandingDataIndexRequests.Remove(dataIndex);
+            RequestRepeatOfIndexUpdate();
         }
 
         private void OnDescendentMouseFocusChange(UIClass sender, InputInfo inputInfo)
         {
             MouseFocusInfo mouseFocusInfo = (MouseFocusInfo)inputInfo;
-            ViewItem childFromDescendant = this.GetDirectChildFromDescendant(mouseFocusInfo.State ? mouseFocusInfo.Target as UIClass : null);
-            if (childFromDescendant == this._lastMouseFocusedItem)
+            ViewItem childFromDescendant = GetDirectChildFromDescendant(mouseFocusInfo.State ? mouseFocusInfo.Target as UIClass : null);
+            if (childFromDescendant == _lastMouseFocusedItem)
                 return;
-            this.UpdateKeepAliveState(ref this._lastMouseFocusedItem, childFromDescendant, this._lastKeyFocusedItem);
+            UpdateKeepAliveState(ref _lastMouseFocusedItem, childFromDescendant, _lastKeyFocusedItem);
         }
 
         private void OnDescendentKeyFocusChange(UIClass sender, InputInfo inputInfo)
@@ -509,10 +509,10 @@ namespace Microsoft.Iris.ViewItems
             KeyFocusInfo keyFocusInfo = (KeyFocusInfo)inputInfo;
             if (!keyFocusInfo.State)
                 return;
-            ViewItem childFromDescendant = this.GetDirectChildFromDescendant(keyFocusInfo.Target as UIClass);
-            if (childFromDescendant == null || childFromDescendant == this._lastKeyFocusedItem)
+            ViewItem childFromDescendant = GetDirectChildFromDescendant(keyFocusInfo.Target as UIClass);
+            if (childFromDescendant == null || childFromDescendant == _lastKeyFocusedItem)
                 return;
-            this.UpdateKeepAliveState(ref this._lastKeyFocusedItem, childFromDescendant, this._lastMouseFocusedItem);
+            UpdateKeepAliveState(ref _lastKeyFocusedItem, childFromDescendant, _lastMouseFocusedItem);
         }
 
         private void UpdateKeepAliveState(
@@ -548,49 +548,49 @@ namespace Microsoft.Iris.ViewItems
             int virtualIndex = ((IndexLayoutInput)viewItem.GetLayoutInput(IndexLayoutInput.Data)).Index.Value;
             if (!viewItem.IsOffscreen)
                 return;
-            Repeater.RepeatedViewItemSet repeatedInstance = this.GetRepeatedInstance(virtualIndex);
-            DeferredCall.Post(DispatchPriority.Housekeeping, new DeferredHandler(this.DeferredDisposeViewItem), repeatedInstance);
-            this._repeatedViewItems.Remove(repeatedInstance);
-            viewItem.LayoutComplete -= this._repeatedItemLayoutComplete;
+            Repeater.RepeatedViewItemSet repeatedInstance = GetRepeatedInstance(virtualIndex);
+            DeferredCall.Post(DispatchPriority.Housekeeping, new DeferredHandler(DeferredDisposeViewItem), repeatedInstance);
+            _repeatedViewItems.Remove(repeatedInstance);
+            viewItem.LayoutComplete -= _repeatedItemLayoutComplete;
             int dataIndex = repeatedInstance.DataIndex;
-            if (this.HasDataIndexBeenRepeated(dataIndex) || !(this._source is IVirtualList source))
+            if (HasDataIndexBeenRepeated(dataIndex) || !(_source is IVirtualList source))
                 return;
             source.NotifyVisualsReleased(dataIndex);
         }
 
-        private void DeferredDisposeViewItem(object arg) => this.DisposeRepeatedViewItemSet((Repeater.RepeatedViewItemSet)arg);
+        private void DeferredDisposeViewItem(object arg) => DisposeRepeatedViewItemSet((Repeater.RepeatedViewItemSet)arg);
 
         private void DisposeRepeatedViewItemSet(Repeater.RepeatedViewItemSet viewItemSet)
         {
-            UIClass keyFocusDescendant = this.UI.KeyFocusDescendant;
-            this.DisposeRepeatedViewItemSet(viewItemSet, ref keyFocusDescendant);
+            UIClass keyFocusDescendant = UI.KeyFocusDescendant;
+            DisposeRepeatedViewItemSet(viewItemSet, ref keyFocusDescendant);
         }
 
         private void DisposeRepeatedViewItemSet(
           Repeater.RepeatedViewItemSet viewItemSet,
           ref UIClass keyFocusDescendant)
         {
-            if (viewItemSet.Repeated == this._lastKeyFocusedItem)
-                this._lastKeyFocusedItem = null;
-            if (viewItemSet.Repeated == this._lastMouseFocusedItem)
-                this._lastMouseFocusedItem = null;
+            if (viewItemSet.Repeated == _lastKeyFocusedItem)
+                _lastKeyFocusedItem = null;
+            if (viewItemSet.Repeated == _lastMouseFocusedItem)
+                _lastMouseFocusedItem = null;
             viewItemSet.DisposeViewItems();
             if (keyFocusDescendant == null || keyFocusDescendant.IsValid)
                 return;
             keyFocusDescendant = null;
-            this.FireNotification(NotificationID.FocusedItemDiscarded);
+            FireNotification(NotificationID.FocusedItemDiscarded);
         }
 
         private void GetRepeatedStats(out int minRepeatedIndex, out int maxRepeatedIndex)
         {
-            if (this._repeatedViewItems.Count == 0)
+            if (_repeatedViewItems.Count == 0)
             {
                 minRepeatedIndex = maxRepeatedIndex = -1;
             }
             else
             {
-                Repeater.RepeatedViewItemSet repeatedViewItem1 = this._repeatedViewItems[0];
-                Repeater.RepeatedViewItemSet repeatedViewItem2 = this._repeatedViewItems[this._repeatedViewItems.Count - 1];
+                Repeater.RepeatedViewItemSet repeatedViewItem1 = _repeatedViewItems[0];
+                Repeater.RepeatedViewItemSet repeatedViewItem2 = _repeatedViewItems[_repeatedViewItems.Count - 1];
                 minRepeatedIndex = repeatedViewItem1.VirtualIndex;
                 maxRepeatedIndex = repeatedViewItem2.VirtualIndex;
             }
@@ -598,7 +598,7 @@ namespace Microsoft.Iris.ViewItems
 
         private bool HasDataIndexBeenRepeated(int dataIndex)
         {
-            foreach (Repeater.RepeatedViewItemSet repeatedViewItem in this._repeatedViewItems)
+            foreach (Repeater.RepeatedViewItemSet repeatedViewItem in _repeatedViewItems)
             {
                 if (dataIndex == repeatedViewItem.DataIndex)
                     return true;
@@ -608,7 +608,7 @@ namespace Microsoft.Iris.ViewItems
 
         private bool HasVirtualIndexBeenRepeated(int virtualIndex)
         {
-            foreach (Repeater.RepeatedViewItemSet repeatedViewItem in this._repeatedViewItems)
+            foreach (Repeater.RepeatedViewItemSet repeatedViewItem in _repeatedViewItems)
             {
                 if (virtualIndex == repeatedViewItem.VirtualIndex)
                     return true;
@@ -618,29 +618,29 @@ namespace Microsoft.Iris.ViewItems
 
         private void GetInsertIndex(int virtualIndex, out int repeatedItemIndex, out int viewItemIndex)
         {
-            repeatedItemIndex = this.GetIndexOfClosestRepeatedItem(virtualIndex);
-            viewItemIndex = this.GetViewItemIndex(repeatedItemIndex);
+            repeatedItemIndex = GetIndexOfClosestRepeatedItem(virtualIndex);
+            viewItemIndex = GetViewItemIndex(repeatedItemIndex);
         }
 
-        private int GetViewItemIndex(int repeatedItemIndex) => this._dividerName == null ? repeatedItemIndex : (repeatedItemIndex != 0 ? repeatedItemIndex * 2 - 1 : 0);
+        private int GetViewItemIndex(int repeatedItemIndex) => _dividerName == null ? repeatedItemIndex : (repeatedItemIndex != 0 ? repeatedItemIndex * 2 - 1 : 0);
 
         private void GetContentTypeForRepeatedItem(object repeatObject, out string contentTypeName)
         {
-            contentTypeName = this._contentName;
-            if (!this._ignoreCustomRepeaters && repeatObject is ICustomRepeatedItem customRepeatedItem && customRepeatedItem.UIName != null)
+            contentTypeName = _contentName;
+            if (!_ignoreCustomRepeaters && repeatObject is ICustomRepeatedItem customRepeatedItem && customRepeatedItem.UIName != null)
                 contentTypeName = customRepeatedItem.UIName;
-            if (this._ctproc == null)
+            if (_ctproc == null)
                 return;
-            this._ctproc(repeatObject, ref contentTypeName);
+            _ctproc(repeatObject, ref contentTypeName);
         }
 
-        private Microsoft.Iris.Data.ItemRequestCallback QueryHandler => new Microsoft.Iris.Data.ItemRequestCallback(this.ItemRequestCallback);
+        private Microsoft.Iris.Data.ItemRequestCallback QueryHandler => new Microsoft.Iris.Data.ItemRequestCallback(ItemRequestCallback);
 
         protected override NavigationPolicies ForcedNavigationFlags => NavigationPolicies.Group;
 
         private void QueueListContentsChanged(IList senderList, UIListContentsChangedArgs args)
         {
-            RepeaterListContentsChangedArgs contentsChangedArgs = new RepeaterListContentsChangedArgs(args, this, this._sourceGeneration);
+            RepeaterListContentsChangedArgs contentsChangedArgs = new RepeaterListContentsChangedArgs(args, this, _sourceGeneration);
             DeferredCall.Post(DispatchPriority.Normal, s_listContentsChangedHandler, contentsChangedArgs);
         }
 
@@ -660,9 +660,9 @@ namespace Microsoft.Iris.ViewItems
             int count = args.Count;
             int? nullable = new int?();
             IndexLayoutInput indexLayoutInput = null;
-            if (this._lastKeyFocusedItem != null)
+            if (_lastKeyFocusedItem != null)
             {
-                indexLayoutInput = this._lastKeyFocusedItem.GetLayoutInput(IndexLayoutInput.Data) as IndexLayoutInput;
+                indexLayoutInput = _lastKeyFocusedItem.GetLayoutInput(IndexLayoutInput.Data) as IndexLayoutInput;
                 nullable = new int?(indexLayoutInput.Index.Value);
             }
             bool flag = false;
@@ -670,75 +670,75 @@ namespace Microsoft.Iris.ViewItems
             {
                 case UIListContentsChangeType.Add:
                 case UIListContentsChangeType.AddRange:
-                    this.InternalCount += count;
-                    this.RequestRepeatOfIndexUpdate();
-                    this.ShiftRepeatedItemDataIndices(this._itemsCount, count, this.InternalCount);
+                    InternalCount += count;
+                    RequestRepeatOfIndexUpdate();
+                    ShiftRepeatedItemDataIndices(_itemsCount, count, InternalCount);
                     flag = true;
                     break;
                 case UIListContentsChangeType.Remove:
-                    Vector<Repeater.RepeatedViewItemSet> repeatedInstances1 = this.GetAllRepeatedInstances(oldIndex);
+                    Vector<Repeater.RepeatedViewItemSet> repeatedInstances1 = GetAllRepeatedInstances(oldIndex);
                     if (!ListUtility.IsNullOrEmpty(repeatedInstances1))
                     {
                         foreach (Repeater.RepeatedViewItemSet viewItemSet in repeatedInstances1)
                         {
-                            this.DisposeRepeatedViewItemSet(viewItemSet);
-                            this._repeatedViewItems.Remove(viewItemSet);
+                            DisposeRepeatedViewItemSet(viewItemSet);
+                            _repeatedViewItems.Remove(viewItemSet);
                         }
                     }
-                    this.ShiftPendingRequestIndices(oldIndex, -1);
-                    --this.InternalCount;
-                    this.ShiftRepeatedItemDataIndices(oldIndex, -1, this.InternalCount);
+                    ShiftPendingRequestIndices(oldIndex, -1);
+                    --InternalCount;
+                    ShiftRepeatedItemDataIndices(oldIndex, -1, InternalCount);
                     flag = true;
                     break;
                 case UIListContentsChangeType.Move:
-                    if (oldIndex == newIndex || this.MoveRepeatedViewItemSet(oldIndex, newIndex))
+                    if (oldIndex == newIndex || MoveRepeatedViewItemSet(oldIndex, newIndex))
                         break;
                     goto default;
                 case UIListContentsChangeType.Insert:
                 case UIListContentsChangeType.InsertRange:
-                    this.InternalCount += count;
-                    this.ShiftRepeatedItemDataIndices(newIndex, count, this.InternalCount);
-                    this.ShiftPendingRequestIndices(newIndex, count);
-                    this.RequestRepeatOfIndexUpdate();
+                    InternalCount += count;
+                    ShiftRepeatedItemDataIndices(newIndex, count, InternalCount);
+                    ShiftPendingRequestIndices(newIndex, count);
+                    RequestRepeatOfIndexUpdate();
                     flag = true;
                     break;
                 case UIListContentsChangeType.Clear:
-                    this.RebuildChildren();
+                    RebuildChildren();
                     break;
                 case UIListContentsChangeType.Modified:
-                    Vector<Repeater.RepeatedViewItemSet> repeatedInstances2 = this.GetAllRepeatedInstances(oldIndex);
+                    Vector<Repeater.RepeatedViewItemSet> repeatedInstances2 = GetAllRepeatedInstances(oldIndex);
                     if (!ListUtility.IsNullOrEmpty(repeatedInstances2))
                     {
                         foreach (Repeater.RepeatedViewItemSet viewItemSet in repeatedInstances2)
                         {
-                            this.DisposeRepeatedViewItemSet(viewItemSet);
-                            this._repeatedViewItems.Remove(viewItemSet);
+                            DisposeRepeatedViewItemSet(viewItemSet);
+                            _repeatedViewItems.Remove(viewItemSet);
                         }
                         break;
                     }
                     break;
                 default:
-                    this.RebuildChildren();
+                    RebuildChildren();
                     break;
             }
-            if (nullable.HasValue && nullable.Value != indexLayoutInput.Index.Value && (this.UI.KeyFocus && this.UI.KeyFocusDescendant != null) && this.HasDescendant(UI.KeyFocusDescendant.RootItem))
+            if (nullable.HasValue && nullable.Value != indexLayoutInput.Index.Value && (UI.KeyFocus && UI.KeyFocusDescendant != null) && HasDescendant(UI.KeyFocusDescendant.RootItem))
                 NavigationServices.SeedDefaultFocus(_lastKeyFocusedItem);
-            if (!this._maintainFocusScreenLocation || !flag || this._focusNeedsRepairing)
+            if (!_maintainFocusScreenLocation || !flag || _focusNeedsRepairing)
                 return;
-            RectangleF descendantFocusRect = this.GetDescendantFocusRect();
+            RectangleF descendantFocusRect = GetDescendantFocusRect();
             if (!(descendantFocusRect != RectangleF.Zero))
                 return;
-            this._focusNeedsRepairing = true;
-            bool keyFocusIsDefault = this.UISession.InputManager.Queue.PendingKeyFocusIsDefault;
-            DeferredCall.Post(DispatchPriority.LayoutSync, new DeferredHandler(this.PatchUpFocus), new Repeater.FocusRepairArgs(descendantFocusRect, keyFocusIsDefault));
-            this.UI.UISession.InputManager.SuspendInputUntil(DispatchPriority.LayoutSync);
+            _focusNeedsRepairing = true;
+            bool keyFocusIsDefault = UISession.InputManager.Queue.PendingKeyFocusIsDefault;
+            DeferredCall.Post(DispatchPriority.LayoutSync, new DeferredHandler(PatchUpFocus), new Repeater.FocusRepairArgs(descendantFocusRect, keyFocusIsDefault));
+            UI.UISession.InputManager.SuspendInputUntil(DispatchPriority.LayoutSync);
         }
 
         private void PatchUpFocus(object focusArgs)
         {
-            if (!this._focusNeedsRepairing)
+            if (!_focusNeedsRepairing)
                 return;
-            this._focusNeedsRepairing = false;
+            _focusNeedsRepairing = false;
             Repeater.FocusRepairArgs focusRepairArgs = (Repeater.FocusRepairArgs)focusArgs;
             INavigationSite result;
             if (!NavigationServices.FindFromPoint(this, focusRepairArgs.focusBounds.Center, out result) || result == null || !(result is ViewItem viewItem))
@@ -748,7 +748,7 @@ namespace Microsoft.Iris.ViewItems
 
         private void ShiftRepeatedItemDataIndices(int baseIndex, int offsetValue, int updatedItemCount)
         {
-            foreach (Repeater.RepeatedViewItemSet repeatedViewItem in this._repeatedViewItems)
+            foreach (Repeater.RepeatedViewItemSet repeatedViewItem in _repeatedViewItems)
             {
                 int dataIndex = repeatedViewItem.DataIndex;
                 if (dataIndex >= baseIndex)
@@ -760,18 +760,18 @@ namespace Microsoft.Iris.ViewItems
 
         private void ShiftPendingRequestIndices(int shiftBaseIndex, int adjustmentValue)
         {
-            if (this._pendingIndexRequest.HasValue)
+            if (_pendingIndexRequest.HasValue)
             {
-                if (adjustmentValue < 0 && this._pendingIndexRequest.Value == shiftBaseIndex)
-                    this._pendingIndexRequest = new int?();
-                else if (this._pendingIndexRequest.Value >= shiftBaseIndex)
-                    this._pendingIndexRequest = new int?(this._pendingIndexRequest.Value + adjustmentValue);
+                if (adjustmentValue < 0 && _pendingIndexRequest.Value == shiftBaseIndex)
+                    _pendingIndexRequest = new int?();
+                else if (_pendingIndexRequest.Value >= shiftBaseIndex)
+                    _pendingIndexRequest = new int?(_pendingIndexRequest.Value + adjustmentValue);
             }
-            if (this.LayoutRequestedIndices == null)
+            if (LayoutRequestedIndices == null)
                 return;
             if (adjustmentValue < 0)
-                this.LayoutRequestedIndices.Remove(shiftBaseIndex);
-            this.ShiftIndices(this.LayoutRequestedIndices, shiftBaseIndex, adjustmentValue);
+                LayoutRequestedIndices.Remove(shiftBaseIndex);
+            ShiftIndices(LayoutRequestedIndices, shiftBaseIndex, adjustmentValue);
         }
 
         private void ShiftIndices(Vector<int> indices, int shiftBaseIndex, int adjustmentValue)
@@ -790,7 +790,7 @@ namespace Microsoft.Iris.ViewItems
         private Vector<Repeater.RepeatedViewItemSet> GetAllRepeatedInstances(int dataIndex)
         {
             Vector<Repeater.RepeatedViewItemSet> vector = null;
-            foreach (Repeater.RepeatedViewItemSet repeatedViewItem in this._repeatedViewItems)
+            foreach (Repeater.RepeatedViewItemSet repeatedViewItem in _repeatedViewItems)
             {
                 if (repeatedViewItem.DataIndex == dataIndex)
                 {
@@ -804,9 +804,9 @@ namespace Microsoft.Iris.ViewItems
 
         private Repeater.RepeatedViewItemSet GetRepeatedInstance(int virtualIndex)
         {
-            if (this._repeatedViewItems != null)
+            if (_repeatedViewItems != null)
             {
-                foreach (Repeater.RepeatedViewItemSet repeatedViewItem in this._repeatedViewItems)
+                foreach (Repeater.RepeatedViewItemSet repeatedViewItem in _repeatedViewItems)
                 {
                     if (repeatedViewItem.VirtualIndex == virtualIndex)
                         return repeatedViewItem;
@@ -818,9 +818,9 @@ namespace Microsoft.Iris.ViewItems
         private int GetIndexOfClosestRepeatedItem(int virtualIndex)
         {
             int num = 0;
-            for (int index = this._repeatedViewItems.Count - 1; index >= 0; --index)
+            for (int index = _repeatedViewItems.Count - 1; index >= 0; --index)
             {
-                if (this._repeatedViewItems[index].VirtualIndex < virtualIndex)
+                if (_repeatedViewItems[index].VirtualIndex < virtualIndex)
                 {
                     num = index + 1;
                     break;
@@ -833,9 +833,9 @@ namespace Microsoft.Iris.ViewItems
         {
             Map<int, Repeater.RepeatedAndIndex> map1 = new Map<int, Repeater.RepeatedAndIndex>();
             Map<int, Repeater.RepeatedAndIndex> map2 = new Map<int, Repeater.RepeatedAndIndex>();
-            for (int index = 0; index < this._repeatedViewItems.Count; ++index)
+            for (int index = 0; index < _repeatedViewItems.Count; ++index)
             {
-                Repeater.RepeatedViewItemSet repeatedViewItem = this._repeatedViewItems[index];
+                Repeater.RepeatedViewItemSet repeatedViewItem = _repeatedViewItems[index];
                 if (repeatedViewItem.DataIndex == dataOldIndex)
                     map1[repeatedViewItem.Generation] = new Repeater.RepeatedAndIndex(repeatedViewItem, index);
                 else if (repeatedViewItem.DataIndex == dataNewIndex)
@@ -853,15 +853,15 @@ namespace Microsoft.Iris.ViewItems
                 else
                 {
                     Repeater.RepeatedAndIndex repeatedAndIndex2 = map2[key];
-                    if (!this.MoveRepeatedViewItemSetWorker(repeatedAndIndex1.repeated, repeatedAndIndex2.repeated, dataOldIndex, dataNewIndex))
+                    if (!MoveRepeatedViewItemSetWorker(repeatedAndIndex1.repeated, repeatedAndIndex2.repeated, dataOldIndex, dataNewIndex))
                     {
                         flag = false;
                     }
                     else
                     {
-                        this._repeatedViewItems.Remove(repeatedAndIndex1.repeated);
+                        _repeatedViewItems.Remove(repeatedAndIndex1.repeated);
                         vector.Add(repeatedAndIndex1.repeated);
-                        int unwrappedIndex = ListUtility.GetUnwrappedIndex(dataNewIndex, key, this.InternalCount);
+                        int unwrappedIndex = ListUtility.GetUnwrappedIndex(dataNewIndex, key, InternalCount);
                         repeatedAndIndex1.repeated.SetIndex(unwrappedIndex, dataNewIndex);
                     }
                 }
@@ -874,17 +874,17 @@ namespace Microsoft.Iris.ViewItems
                     flag = false;
                 }
             }
-            this.ShiftRepeatedItemDataIndices(dataOldIndex + 1, -1, this.InternalCount);
-            this.ShiftRepeatedItemDataIndices(dataNewIndex, 1, this.InternalCount);
+            ShiftRepeatedItemDataIndices(dataOldIndex + 1, -1, InternalCount);
+            ShiftRepeatedItemDataIndices(dataNewIndex, 1, InternalCount);
             if (vector.Count > 0)
             {
                 int index1 = 0;
                 Repeater.RepeatedViewItemSet repeatedViewItemSet = vector[index1];
-                for (int index2 = 0; index2 < this._repeatedViewItems.Count; ++index2)
+                for (int index2 = 0; index2 < _repeatedViewItems.Count; ++index2)
                 {
-                    if (this._repeatedViewItems[index2].VirtualIndex > repeatedViewItemSet.VirtualIndex)
+                    if (_repeatedViewItems[index2].VirtualIndex > repeatedViewItemSet.VirtualIndex)
                     {
-                        this._repeatedViewItems.Insert(index2, repeatedViewItemSet);
+                        _repeatedViewItems.Insert(index2, repeatedViewItemSet);
                         ++index1;
                         if (index1 < vector.Count)
                             repeatedViewItemSet = vector[index1];
@@ -893,11 +893,11 @@ namespace Microsoft.Iris.ViewItems
                     }
                 }
                 for (; index1 < vector.Count; ++index1)
-                    this._repeatedViewItems.Add(vector[index1]);
+                    _repeatedViewItems.Add(vector[index1]);
             }
             if (!flag)
                 return false;
-            this.MarkLayoutInvalid();
+            MarkLayoutInvalid();
             return true;
         }
 
@@ -914,13 +914,13 @@ namespace Microsoft.Iris.ViewItems
             if (itemFinal.Divider != null && lt == LinkType.Before)
                 viewItem = itemFinal.Divider;
             item.Repeated.MoveNode(viewItem, lt);
-            if (this.DividerName != null)
+            if (DividerName != null)
             {
                 ViewItem divider = item.Divider;
                 ViewItem repeated = item.Repeated;
                 if (divider == null)
                 {
-                    Repeater.RepeatedViewItemSet repeatedViewItem = this._repeatedViewItems[this.GetIndexOfClosestRepeatedItem(item.VirtualIndex)];
+                    Repeater.RepeatedViewItemSet repeatedViewItem = _repeatedViewItems[GetIndexOfClosestRepeatedItem(item.VirtualIndex)];
                     if (repeatedViewItem == null)
                         return false;
                     divider = repeatedViewItem.Divider;
@@ -948,7 +948,7 @@ namespace Microsoft.Iris.ViewItems
             FindChildResult findChildResult = FindChildResult.Failure;
             if (part.IDValid && part.StringPartValid && part.StringPart == c_childIDSentinel)
             {
-                resultItem = this.GetRepeatedItemForVirtualIndex(part.ID);
+                resultItem = GetRepeatedItemForVirtualIndex(part.ID);
                 findChildResult = resultItem == null || !resultItem.HasVisual ? FindChildResult.PotentiallyFaultIn : FindChildResult.Success;
             }
             return findChildResult;
@@ -956,29 +956,29 @@ namespace Microsoft.Iris.ViewItems
 
         internal int DefaultFocusIndex
         {
-            get => this._defaultFocusIndex;
+            get => _defaultFocusIndex;
             set
             {
-                if (this._defaultFocusIndex == value)
+                if (_defaultFocusIndex == value)
                     return;
-                ViewItem itemForVirtualIndex1 = this.GetRepeatedItemForVirtualIndex(this._defaultFocusIndex);
+                ViewItem itemForVirtualIndex1 = GetRepeatedItemForVirtualIndex(_defaultFocusIndex);
                 if (itemForVirtualIndex1 != null && itemForVirtualIndex1.FocusOrder == 2147483646)
                     itemForVirtualIndex1.FocusOrder = int.MaxValue;
-                this._defaultFocusIndex = value;
-                ViewItem itemForVirtualIndex2 = this.GetRepeatedItemForVirtualIndex(this._defaultFocusIndex);
+                _defaultFocusIndex = value;
+                ViewItem itemForVirtualIndex2 = GetRepeatedItemForVirtualIndex(_defaultFocusIndex);
                 if (itemForVirtualIndex2 != null)
-                    this.SetAsDefaultFocusRecipient(itemForVirtualIndex2);
-                this.FireNotification(NotificationID.DefaultFocusIndex);
+                    SetAsDefaultFocusRecipient(itemForVirtualIndex2);
+                FireNotification(NotificationID.DefaultFocusIndex);
             }
         }
 
         internal void ScrollIndexIntoView(int index)
         {
-            ViewItem itemForVirtualIndex = this.GetRepeatedItemForVirtualIndex(index);
+            ViewItem itemForVirtualIndex = GetRepeatedItemForVirtualIndex(index);
             if (itemForVirtualIndex != null)
                 itemForVirtualIndex.ScrollIntoView();
             else
-                this.FaultInChild(index, PendingIndexRequestType.ScrollIndexIntoView, s_scrollIndexIntoViewHandler);
+                FaultInChild(index, PendingIndexRequestType.ScrollIndexIntoView, s_scrollIndexIntoViewHandler);
         }
 
         private static void ScrollIndexIntoViewItemFaultedIn(ViewItem repeater, ViewItem faultedItem)
@@ -990,11 +990,11 @@ namespace Microsoft.Iris.ViewItems
 
         private void SetAsDefaultFocusRecipient(ViewItem childItem) => childItem.FocusOrder = 2147483646;
 
-        internal void NavigateIntoIndex(int index) => this.NavigateIntoIndex(index, true);
+        internal void NavigateIntoIndex(int index) => NavigateIntoIndex(index, true);
 
         internal void NavigateIntoIndex(int index, bool allowFaultIn)
         {
-            ViewItem itemForVirtualIndex = this.GetRepeatedItemForVirtualIndex(index);
+            ViewItem itemForVirtualIndex = GetRepeatedItemForVirtualIndex(index);
             if (itemForVirtualIndex != null && itemForVirtualIndex.HasVisual)
             {
                 itemForVirtualIndex.NavigateInto();
@@ -1003,7 +1003,7 @@ namespace Microsoft.Iris.ViewItems
             {
                 if (!allowFaultIn)
                     return;
-                this.FaultInChild(index, PendingIndexRequestType.NavigateIntoIndex, s_navigateIntoIndexHandler);
+                FaultInChild(index, PendingIndexRequestType.NavigateIntoIndex, s_navigateIntoIndexHandler);
             }
         }
 
@@ -1014,25 +1014,25 @@ namespace Microsoft.Iris.ViewItems
             faultedItem.NavigateInto();
         }
 
-        internal override void FaultInChild(ViewItemID child, ChildFaultedInDelegate handler) => this.FaultInChild(child.ID, PendingIndexRequestType.FaultInChild, handler);
+        internal override void FaultInChild(ViewItemID child, ChildFaultedInDelegate handler) => FaultInChild(child.ID, PendingIndexRequestType.FaultInChild, handler);
 
         private void FaultInChild(
           int virtualIndex,
           Repeater.PendingIndexRequestType type,
           ChildFaultedInDelegate handler)
         {
-            if (this._pendingIndexRequest.HasValue && type < this._pendingIndexRequestType)
+            if (_pendingIndexRequest.HasValue && type < _pendingIndexRequestType)
                 return;
-            this._pendingIndexRequest = new int?(virtualIndex);
-            this._pendingIndexRequestType = type;
-            this.RequestRepeatOfIndexUpdate();
+            _pendingIndexRequest = new int?(virtualIndex);
+            _pendingIndexRequestType = type;
+            RequestRepeatOfIndexUpdate();
             DeferredCall.Post(DispatchPriority.LayoutSync, new Repeater.FaultInChildThunk(this, virtualIndex, handler).Thunk);
         }
 
         internal ViewItem GetRepeatedItemForVirtualIndex(int index)
         {
             ViewItem viewItem = null;
-            Repeater.RepeatedViewItemSet repeatedInstance = this.GetRepeatedInstance(index);
+            Repeater.RepeatedViewItemSet repeatedInstance = GetRepeatedInstance(index);
             if (repeatedInstance != null)
                 viewItem = repeatedInstance.Repeated;
             return viewItem;
@@ -1043,22 +1043,22 @@ namespace Microsoft.Iris.ViewItems
         {
             if (!Debug.Trace.IsCategoryEnabled(TraceCategory.Repeating, level))
                 return;
-            for (int index = 0; index < this._repeatedViewItems.Count; ++index)
+            for (int index = 0; index < _repeatedViewItems.Count; ++index)
             {
-                Repeater.RepeatedViewItemSet repeatedViewItem = this._repeatedViewItems[index];
+                Repeater.RepeatedViewItemSet repeatedViewItem = _repeatedViewItems[index];
             }
             if (!Debug.Trace.IsCategoryEnabled(TraceCategory.Repeating, (byte)(level + 1U)))
                 return;
-            foreach (ViewItem child in this.Children)
+            foreach (ViewItem child in Children)
                 ;
         }
 
         [Conditional("DEBUG")]
         private void DEBUG_DumpRepeatedItem(Repeater.RepeatedViewItemSet item, byte level)
         {
-            if (!Debug.Trace.IsCategoryEnabled(TraceCategory.Repeating, level) || !ListUtility.IsValidIndex(this._source, item.DataIndex))
+            if (!Debug.Trace.IsCategoryEnabled(TraceCategory.Repeating, level) || !ListUtility.IsValidIndex(_source, item.DataIndex))
                 return;
-            this._source[item.DataIndex]?.ToString();
+            _source[item.DataIndex]?.ToString();
         }
 
         [Conditional("DEBUG")]
@@ -1093,34 +1093,34 @@ namespace Microsoft.Iris.ViewItems
               ViewItem repeatedItem,
               ViewItem dividerItem)
             {
-                this._index = index;
-                this._generationValue = generationValue;
-                this._repeatedItem = repeatedItem;
-                this._dividerItem = dividerItem;
+                _index = index;
+                _generationValue = generationValue;
+                _repeatedItem = repeatedItem;
+                _dividerItem = dividerItem;
             }
 
-            public int DataIndex => this._index.SourceValue;
+            public int DataIndex => _index.SourceValue;
 
-            public int VirtualIndex => this._index.Value;
+            public int VirtualIndex => _index.Value;
 
-            public int Generation => this._generationValue;
+            public int Generation => _generationValue;
 
-            public ViewItem Repeated => this._repeatedItem;
+            public ViewItem Repeated => _repeatedItem;
 
             public ViewItem Divider
             {
-                get => this._dividerItem;
-                set => this._dividerItem = value;
+                get => _dividerItem;
+                set => _dividerItem = value;
             }
 
-            public void SetIndex(int virtualIndex, int dataIndex) => this._index.SetValue(virtualIndex, dataIndex);
+            public void SetIndex(int virtualIndex, int dataIndex) => _index.SetValue(virtualIndex, dataIndex);
 
             public void DisposeViewItems()
             {
-                this.DisposeViewItem(this._repeatedItem);
-                if (this._dividerItem == null)
+                DisposeViewItem(_repeatedItem);
+                if (_dividerItem == null)
                     return;
-                this.DisposeViewItem(this._dividerItem);
+                DisposeViewItem(_dividerItem);
             }
 
             private void DisposeViewItem(ViewItem vi)
@@ -1131,12 +1131,12 @@ namespace Microsoft.Iris.ViewItems
                 ui.DisposeViewItemTree(vi);
             }
 
-            public override string ToString() => this.ToString(string.Empty);
+            public override string ToString() => ToString(string.Empty);
 
             public string ToString(string dataName)
             {
                 string str = null;
-                if (this._dividerItem != null)
+                if (_dividerItem != null)
                     str = InvariantString.Format(", Divider({0})", _dividerItem.GetType().Name);
                 return InvariantString.Format("[{0},{1}] {2} ({3} {4})", VirtualIndex, DataIndex, dataName, _repeatedItem.GetType().Name, str);
             }
@@ -1165,19 +1165,19 @@ namespace Microsoft.Iris.ViewItems
               int virtualIndex,
               ChildFaultedInDelegate faultInHandler)
             {
-                this._repeater = repeater;
-                this._virtualIndex = virtualIndex;
-                this._faultInHandler = faultInHandler;
+                _repeater = repeater;
+                _virtualIndex = virtualIndex;
+                _faultInHandler = faultInHandler;
             }
 
-            public SimpleCallback Thunk => new SimpleCallback(this.CallFaultInHandler);
+            public SimpleCallback Thunk => new SimpleCallback(CallFaultInHandler);
 
             private void CallFaultInHandler()
             {
                 ViewItem childItem = null;
-                if (!this._repeater.IsDisposed)
-                    childItem = this._repeater.GetRepeatedItemForVirtualIndex(this._virtualIndex);
-                this._faultInHandler(_repeater, childItem);
+                if (!_repeater.IsDisposed)
+                    childItem = _repeater.GetRepeatedItemForVirtualIndex(_virtualIndex);
+                _faultInHandler(_repeater, childItem);
             }
         }
 

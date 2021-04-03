@@ -21,76 +21,76 @@ namespace Microsoft.Iris.Animations
 
         public TransformByAttributeAnimation()
         {
-            this.Delay = 0.0f;
-            this.Magnitude = 0.0f;
-            this.TimeScale = 0.0f;
-            this.Attribute = TransformAttribute.Index;
+            Delay = 0.0f;
+            Magnitude = 0.0f;
+            TimeScale = 0.0f;
+            Attribute = TransformAttribute.Index;
         }
 
         public TransformAttribute Attribute
         {
-            get => this._attrib;
-            set => this._attrib = value;
+            get => _attrib;
+            set => _attrib = value;
         }
 
         public float MaxTimeScale
         {
-            get => this._maxTimeScaleValue;
+            get => _maxTimeScaleValue;
             set
             {
                 if (_maxTimeScaleValue == (double)value)
                     return;
-                this._maxTimeScaleValue = value;
-                this.ClearCache();
+                _maxTimeScaleValue = value;
+                ClearCache();
             }
         }
 
         public float MaxDelay
         {
-            get => this._maxTimeOffsetValue;
+            get => _maxTimeOffsetValue;
             set
             {
                 if (_maxTimeOffsetValue == (double)value)
                     return;
-                this._maxTimeOffsetValue = value;
-                this.ClearCache();
+                _maxTimeOffsetValue = value;
+                ClearCache();
             }
         }
 
         public float MaxMagnitude
         {
-            get => this._maxMagnitudeValue;
+            get => _maxMagnitudeValue;
             set
             {
                 if (_maxMagnitudeValue == (double)value)
                     return;
-                this._maxMagnitudeValue = value;
-                this.ClearCache();
+                _maxMagnitudeValue = value;
+                ClearCache();
             }
         }
 
         public float Override
         {
-            get => this._overrideValue;
+            get => _overrideValue;
             set
             {
-                if (this._haveOverrideFlag && _overrideValue == (double)value)
+                if (_haveOverrideFlag && _overrideValue == (double)value)
                     return;
-                this._overrideValue = value;
-                this._haveOverrideFlag = true;
-                this.ClearCache();
+                _overrideValue = value;
+                _haveOverrideFlag = true;
+                ClearCache();
             }
         }
 
         public ValueTransformer ValueTransformer
         {
-            get => this._valueTransformer;
+            get => _valueTransformer;
             set
             {
-                if (this._valueTransformer == value)
+                if (_valueTransformer == value)
                     return;
-                this._valueTransformer = value;
-                this.ClearCache();
+                _valueTransformer = value;
+                ClearCache();
             }
         }
 
@@ -99,9 +99,9 @@ namespace Microsoft.Iris.Animations
             float timeScale = base.GetTimeScale(ref args);
             if (timeScale == 0.0)
                 return 1f;
-            float val1 = 1f + this.GetValue(ref args) * timeScale;
+            float val1 = 1f + GetValue(ref args) * timeScale;
             if (_maxTimeScaleValue != 0.0)
-                val1 = Math.Min(val1, this._maxTimeScaleValue);
+                val1 = Math.Min(val1, _maxTimeScaleValue);
             if (val1 < 0.0)
                 val1 = 0.0f;
             return val1;
@@ -112,9 +112,9 @@ namespace Microsoft.Iris.Animations
             float delayTime = base.GetDelayTime(ref args);
             if (delayTime == 0.0)
                 return 0.0f;
-            float val1 = this.GetValue(ref args) * delayTime;
+            float val1 = GetValue(ref args) * delayTime;
             if (_maxTimeOffsetValue != 0.0)
-                val1 = Math.Min(val1, this._maxTimeOffsetValue);
+                val1 = Math.Min(val1, _maxTimeOffsetValue);
             if (val1 < 0.0)
                 val1 = 0.0f;
             return val1;
@@ -125,28 +125,28 @@ namespace Microsoft.Iris.Animations
             float magnitude = base.GetMagnitude(ref args);
             if (magnitude == 0.0)
                 return 1f;
-            float val1 = 1f + this.GetValue(ref args) * magnitude;
+            float val1 = 1f + GetValue(ref args) * magnitude;
             if (_maxMagnitudeValue != 0.0)
-                val1 = Math.Min(val1, this._maxMagnitudeValue);
+                val1 = Math.Min(val1, _maxMagnitudeValue);
             return val1;
         }
 
         private float GetValue(ref AnimationArgs args)
         {
-            float num = this.GetValueWorker(ref args);
-            if (this._valueTransformer != null)
-                num = this._valueTransformer.Transform(num);
+            float num = GetValueWorker(ref args);
+            if (_valueTransformer != null)
+                num = _valueTransformer.Transform(num);
             return num;
         }
 
         protected virtual float GetValueWorker(ref AnimationArgs args)
         {
-            if (this._haveOverrideFlag)
-                return this._overrideValue;
-            switch (this._attrib)
+            if (_haveOverrideFlag)
+                return _overrideValue;
+            switch (_attrib)
             {
                 case TransformAttribute.Index:
-                    return this.GetIndex(ref args);
+                    return GetIndex(ref args);
                 case TransformAttribute.Width:
                     return args.NewSize.X;
                 case TransformAttribute.Height:

@@ -27,113 +27,113 @@ namespace Microsoft.Iris.Layouts
 
         public ScrollIntoViewDisposition(int paddingValue)
         {
-            this.Reset();
-            this._beginPadding = this._endPadding = paddingValue;
+            Reset();
+            _beginPadding = _endPadding = paddingValue;
         }
 
         public void CopyFrom(ScrollIntoViewDisposition other)
         {
-            this._beginPadding = other._beginPadding;
-            this._endPadding = other._endPadding;
-            this._lockedPosition = other._lockedPosition;
-            this._lockedAlignment = other._lockedAlignment;
-            this._locked = other._locked;
-            this._enabled = other._enabled;
-            this._positioningPolicy = other._positioningPolicy;
-            this._relativeBeginPadding = other._relativeBeginPadding;
-            this._relativeEndPadding = other._relativeEndPadding;
+            _beginPadding = other._beginPadding;
+            _endPadding = other._endPadding;
+            _lockedPosition = other._lockedPosition;
+            _lockedAlignment = other._lockedAlignment;
+            _locked = other._locked;
+            _enabled = other._enabled;
+            _positioningPolicy = other._positioningPolicy;
+            _relativeBeginPadding = other._relativeBeginPadding;
+            _relativeEndPadding = other._relativeEndPadding;
         }
 
         public void Reset()
         {
-            this._beginPadding = this._endPadding = 0;
-            this._lockedPosition = -1f;
-            this._lockedAlignment = 0.5f;
-            this._enabled = true;
-            this._locked = false;
-            this._positioningPolicy = ContentPositioningPolicy.RespectPaddingAndLocking;
-            this._relativeBeginPadding = RelativeEdge.Near;
-            this._relativeEndPadding = RelativeEdge.Far;
+            _beginPadding = _endPadding = 0;
+            _lockedPosition = -1f;
+            _lockedAlignment = 0.5f;
+            _enabled = true;
+            _locked = false;
+            _positioningPolicy = ContentPositioningPolicy.RespectPaddingAndLocking;
+            _relativeBeginPadding = RelativeEdge.Near;
+            _relativeEndPadding = RelativeEdge.Far;
         }
 
-        public bool IsDefault => this._beginPadding == 0 && this._endPadding == 0 && (this.BeginPaddingRelativeTo == RelativeEdge.Near && this.EndPaddingRelativeTo == RelativeEdge.Far) && !this.Locked;
+        public bool IsDefault => _beginPadding == 0 && _endPadding == 0 && (BeginPaddingRelativeTo == RelativeEdge.Near && EndPaddingRelativeTo == RelativeEdge.Far) && !Locked;
 
         public int Padding
         {
-            get => this.BeginPadding;
+            get => BeginPadding;
             set
             {
-                this.EndPadding = value;
-                this.BeginPadding = value;
+                EndPadding = value;
+                BeginPadding = value;
             }
         }
 
         public int BeginPadding
         {
-            get => this._beginPadding;
-            set => this._beginPadding = value;
+            get => _beginPadding;
+            set => _beginPadding = value;
         }
 
         public int EndPadding
         {
-            get => this._endPadding;
-            set => this._endPadding = value;
+            get => _endPadding;
+            set => _endPadding = value;
         }
 
         public RelativeEdge BeginPaddingRelativeTo
         {
-            get => this._relativeBeginPadding;
-            set => this._relativeBeginPadding = value;
+            get => _relativeBeginPadding;
+            set => _relativeBeginPadding = value;
         }
 
         public RelativeEdge EndPaddingRelativeTo
         {
-            get => this._relativeEndPadding;
-            set => this._relativeEndPadding = value;
+            get => _relativeEndPadding;
+            set => _relativeEndPadding = value;
         }
 
         public bool Locked
         {
-            get => this._locked;
-            set => this._locked = value;
+            get => _locked;
+            set => _locked = value;
         }
 
         public float LockedPosition
         {
-            get => this._lockedPosition;
-            set => this._lockedPosition = value;
+            get => _lockedPosition;
+            set => _lockedPosition = value;
         }
 
         public float LockedAlignment
         {
-            get => this._lockedAlignment;
-            set => this._lockedAlignment = value;
+            get => _lockedAlignment;
+            set => _lockedAlignment = value;
         }
 
         public bool Enabled
         {
-            get => this._enabled;
-            set => this._enabled = value;
+            get => _enabled;
+            set => _enabled = value;
         }
 
         public ContentPositioningPolicy ContentPositioningBehavior
         {
-            get => this._positioningPolicy;
-            set => this._positioningPolicy = value;
+            get => _positioningPolicy;
+            set => _positioningPolicy = value;
         }
 
         public override string ToString()
         {
-            string str1 = InvariantString.Format("{0}(", this.GetType().Name);
+            string str1 = InvariantString.Format("{0}(", GetType().Name);
             string str2;
-            if (!this._enabled)
+            if (!_enabled)
             {
                 str2 = InvariantString.Format("{0}Disabled", str1);
             }
             else
             {
                 str2 = InvariantString.Format("{0}(BeginPadding={1}({2}), EndPadding={3}({4})", str1, _beginPadding, _relativeBeginPadding, _endPadding, _relativeEndPadding);
-                if (this.Locked)
+                if (Locked)
                     str2 = InvariantString.Format("{0}, LockedPosition={1}, LockedAlignment={2}", str2, _lockedPosition, _lockedAlignment);
             }
             return str2 + ")";

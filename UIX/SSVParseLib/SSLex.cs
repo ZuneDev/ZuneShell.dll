@@ -19,31 +19,31 @@ namespace SSVParseLib
         public SSLex(SSLexTable q_table, SSLexConsumer q_consumer)
         {
             q_table.Reset();
-            this.m_table = q_table;
-            this.m_consumer = q_consumer;
-            this.m_currentChar = new char[1];
+            m_table = q_table;
+            m_consumer = q_consumer;
+            m_currentChar = new char[1];
         }
 
         public void Reset(SSLexConsumer consumer)
         {
-            this.m_table.Reset();
-            this.m_consumer = consumer;
-            this.m_currentChar[0] = char.MinValue;
-            this.m_state = 0;
-            this.m_hasErrors = false;
+            m_table.Reset();
+            m_consumer = consumer;
+            m_currentChar[0] = char.MinValue;
+            m_state = 0;
+            m_hasErrors = false;
         }
 
-        public SSLexConsumer consumer() => this.m_consumer;
+        public SSLexConsumer consumer() => m_consumer;
 
         public virtual bool error(SSLexLexeme q_lexeme)
         {
-            this.m_hasErrors = true;
-            string message = string.Format("Syntax Error: Unexpected character encountered: '{0}'", this.m_currentChar[0]);
+            m_hasErrors = true;
+            string message = string.Format("Syntax Error: Unexpected character encountered: '{0}'", m_currentChar[0]);
             ErrorManager.ReportError(q_lexeme.line(), q_lexeme.offset() + q_lexeme.length() - 1, message);
             return true;
         }
 
-        public bool HasErrors => this.m_hasErrors;
+        public bool HasErrors => m_hasErrors;
 
         public virtual bool complete(SSLexLexeme q_lexeme) => true;
 
@@ -56,28 +56,28 @@ namespace SSVParseLib
                 SSLexFinalState q_final;
                 do
                 {
-                    this.m_state = 0;
+                    m_state = 0;
                     bool flag = false;
                     q_mark = new SSLexMark?();
-                    q_final = this.m_table.lookupFinal(this.m_state);
+                    q_final = m_table.lookupFinal(m_state);
                     if (q_final.isFinal())
-                        this.m_consumer.mark();
-                    while (this.m_consumer.next())
+                        m_consumer.mark();
+                    while (m_consumer.next())
                     {
                         flag = true;
-                        this.m_currentChar[0] = this.m_consumer.getCurrent();
-                        this.m_state = this.m_table.lookup(this.m_state, this.m_currentChar[0]);
-                        if (this.m_state != -1)
+                        m_currentChar[0] = m_consumer.getCurrent();
+                        m_state = m_table.lookup(m_state, m_currentChar[0]);
+                        if (m_state != -1)
                         {
-                            SSLexFinalState ssLexFinalState = this.m_table.lookupFinal(this.m_state);
+                            SSLexFinalState ssLexFinalState = m_table.lookupFinal(m_state);
                             if (ssLexFinalState.isFinal())
                             {
-                                q_mark = new SSLexMark?(this.m_consumer.mark());
+                                q_mark = new SSLexMark?(m_consumer.mark());
                                 q_final = ssLexFinalState;
                             }
                             if (ssLexFinalState.isContextStart())
                             {
-                                SSLexMark? nullable = new SSLexMark?(this.m_consumer.mark());
+                                SSLexMark? nullable = new SSLexMark?(m_consumer.mark());
                             }
                         }
                         else
@@ -86,14 +86,14 @@ namespace SSVParseLib
                     if (flag)
                     {
                         if (q_final.isContextEnd() && q_mark.HasValue)
-                            this.m_consumer.flushEndOfLine(ref q_mark);
+                            m_consumer.flushEndOfLine(ref q_mark);
                         if (q_final.isIgnore() && q_mark.HasValue)
                         {
-                            this.m_consumer.flushLexeme(q_mark.Value);
+                            m_consumer.flushLexeme(q_mark.Value);
                             if (q_final.isPop() && q_final.isPush())
-                                this.m_table.gotoSubtable(q_final.pushIndex());
+                                m_table.gotoSubtable(q_final.pushIndex());
                             else if (q_final.isPop())
-                                this.m_table.popSubtable();
+                                m_table.popSubtable();
                         }
                         else
                             goto label_19;
@@ -102,15 +102,15 @@ namespace SSVParseLib
                         goto label_34;
                 }
                 while (!q_final.isPush());
-                this.m_table.pushSubtable(q_final.pushIndex());
+                m_table.pushSubtable(q_final.pushIndex());
                 continue;
             label_19:
                 if (!q_final.isFinal() || !q_mark.HasValue)
                 {
-                    ssLexLexeme = new SSLexLexeme(this.m_consumer);
-                    if (!this.error(ssLexLexeme))
+                    ssLexLexeme = new SSLexLexeme(m_consumer);
+                    if (!error(ssLexLexeme))
                     {
-                        this.m_consumer.flushLexeme();
+                        m_consumer.flushLexeme();
                         ssLexLexeme = null;
                     }
                     else
@@ -119,18 +119,18 @@ namespace SSVParseLib
                 else
                 {
                     if (q_final.isPop() && q_final.isPush())
-                        this.m_table.gotoSubtable(q_final.pushIndex());
+                        m_table.gotoSubtable(q_final.pushIndex());
                     else if (q_final.isPop())
-                        this.m_table.popSubtable();
+                        m_table.popSubtable();
                     else if (q_final.isPush())
-                        this.m_table.pushSubtable(q_final.pushIndex());
-                    if (q_final.isStartOfLine() && this.m_consumer.line() != 0 && this.m_consumer.offset() != 0)
-                        this.m_consumer.flushStartOfLine(ref q_mark);
-                    ssLexLexeme = new SSLexLexeme(this.m_consumer, q_final, q_mark.Value);
+                        m_table.pushSubtable(q_final.pushIndex());
+                    if (q_final.isStartOfLine() && m_consumer.line() != 0 && m_consumer.offset() != 0)
+                        m_consumer.flushStartOfLine(ref q_mark);
+                    ssLexLexeme = new SSLexLexeme(m_consumer, q_final, q_mark.Value);
                     if (q_final.isKeyword())
-                        this.m_table.findKeyword(ssLexLexeme);
-                    this.m_consumer.flushLexeme(q_mark.Value);
-                    if (!this.complete(ssLexLexeme))
+                        m_table.findKeyword(ssLexLexeme);
+                    m_consumer.flushLexeme(q_mark.Value);
+                    if (!complete(ssLexLexeme))
                         ssLexLexeme = null;
                     else
                         break;

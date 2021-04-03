@@ -50,53 +50,53 @@ namespace Microsoft.Iris.Input
 
         public InputQueue(InputManager manager)
         {
-            this._inputManager = manager;
-            this._filterStack = new QueueItem.Stack();
-            this._rawMousePos = new Point();
-            this._appMousePos = new Point();
-            this._desiredKeyFocusReason = KeyFocusReason.Default;
-            this._inputIdleQueue = new SimpleQueue();
-            this._inputIdleQueue.Wake += new EventHandler(this.OnChildQueueWake);
-            this._invalidKeyFocusCallback = new SimpleCallback(this.InvalidKeyFocusCallback);
+            _inputManager = manager;
+            _filterStack = new QueueItem.Stack();
+            _rawMousePos = new Point();
+            _appMousePos = new Point();
+            _desiredKeyFocusReason = KeyFocusReason.Default;
+            _inputIdleQueue = new SimpleQueue();
+            _inputIdleQueue.Wake += new EventHandler(OnChildQueueWake);
+            _invalidKeyFocusCallback = new SimpleCallback(InvalidKeyFocusCallback);
         }
 
-        public ICookedInputSite InstantaneousKeyFocus => this._currentKeyFocus;
+        public ICookedInputSite InstantaneousKeyFocus => _currentKeyFocus;
 
-        public ICookedInputSite PendingKeyFocus => this._desiredKeyFocus;
+        public ICookedInputSite PendingKeyFocus => _desiredKeyFocus;
 
-        public bool PendingKeyFocusIsDefault => this._desiredKeyFocusReason == KeyFocusReason.Default;
+        public bool PendingKeyFocusIsDefault => _desiredKeyFocusReason == KeyFocusReason.Default;
 
-        public ICookedInputSite LastCompletedKeyFocus => this._lastCompletedKeyFocus;
+        public ICookedInputSite LastCompletedKeyFocus => _lastCompletedKeyFocus;
 
-        public ICookedInputSite CurrentMouseFocus => this._appMouseFocusTarget;
+        public ICookedInputSite CurrentMouseFocus => _appMouseFocusTarget;
 
-        public InputModifiers DragModifiers => this._rawDragModifiers;
+        public InputModifiers DragModifiers => _rawDragModifiers;
 
-        public void RequestKeyFocus(ICookedInputSite desired) => this.RequestKeyFocus(desired, KeyFocusReason.Other);
+        public void RequestKeyFocus(ICookedInputSite desired) => RequestKeyFocus(desired, KeyFocusReason.Other);
 
         public void RequestKeyFocus(ICookedInputSite desired, KeyFocusReason reason)
         {
-            if (this._desiredKeyFocus != desired)
+            if (_desiredKeyFocus != desired)
             {
-                this._desiredKeyFocus = desired;
-                this._desiredKeyFocusReason = reason;
+                _desiredKeyFocus = desired;
+                _desiredKeyFocusReason = reason;
             }
             else if (reason != KeyFocusReason.Default)
-                this._desiredKeyFocusReason = reason;
+                _desiredKeyFocusReason = reason;
             if (desired != null)
-                this._inputManager.RequestHostKeyFocus(desired);
-            if (this._desiredKeyFocus == this._currentKeyFocus)
+                _inputManager.RequestHostKeyFocus(desired);
+            if (_desiredKeyFocus == _currentKeyFocus)
                 return;
-            this.OnWake();
+            OnWake();
         }
 
         public void PrepareToShutDown()
         {
-            this.RequestKeyFocus(null);
-            this.RawMouseLeave();
+            RequestKeyFocus(null);
+            RawMouseLeave();
         }
 
-        public void RawKeyAction(KeyInfo info) => this.PostItem(this.GenerateGenericInput(info));
+        public void RawKeyAction(KeyInfo info) => PostItem(GenerateGenericInput(info));
 
         public void RawMouseMove(
           IRawInputSite site,
@@ -104,28 +104,28 @@ namespace Microsoft.Iris.Input
           InputModifiers modifiers,
           ref RawMouseData rawEventData)
         {
-            this._rawMouseSite = site;
-            this._rawMouseNaturalSite = naturalSite;
-            this._rawMousePos.X = rawEventData._positionX;
-            this._rawMousePos.Y = rawEventData._positionY;
-            this._rawScreenPos.X = rawEventData._screenX;
-            this._rawScreenPos.Y = rawEventData._screenY;
-            this._rawMouseModifiers = modifiers;
-            this.SetMouseMoved();
+            _rawMouseSite = site;
+            _rawMouseNaturalSite = naturalSite;
+            _rawMousePos.X = rawEventData._positionX;
+            _rawMousePos.Y = rawEventData._positionY;
+            _rawScreenPos.X = rawEventData._screenX;
+            _rawScreenPos.Y = rawEventData._screenY;
+            _rawMouseModifiers = modifiers;
+            SetMouseMoved();
         }
 
         public void RawMouseLeave()
         {
-            this.CancelMouseCapture(null);
-            this._mouseWheelDelta = 0;
-            this._rawMouseSite = null;
-            this._rawMouseNaturalSite = null;
-            this._rawMousePos.X = -1;
-            this._rawMousePos.Y = -1;
-            this._rawScreenPos.X = -1;
-            this._rawScreenPos.Y = -1;
-            this._rawMouseModifiers = InputModifiers.None;
-            this.SetMouseMoved();
+            CancelMouseCapture(null);
+            _mouseWheelDelta = 0;
+            _rawMouseSite = null;
+            _rawMouseNaturalSite = null;
+            _rawMousePos.X = -1;
+            _rawMousePos.Y = -1;
+            _rawScreenPos.X = -1;
+            _rawScreenPos.Y = -1;
+            _rawMouseModifiers = InputModifiers.None;
+            SetMouseMoved();
         }
 
         public void RawMouseButtonState(
@@ -136,17 +136,17 @@ namespace Microsoft.Iris.Input
           MouseButtons button,
           bool state)
         {
-            this.PostItem(this.GenerateMouseButton(site, naturalSite, this._rawMousePos.X, this._rawMousePos.Y, this._rawScreenPos.X, this._rawScreenPos.Y, modifiers, button, state, message));
+            PostItem(GenerateMouseButton(site, naturalSite, _rawMousePos.X, _rawMousePos.Y, _rawScreenPos.X, _rawScreenPos.Y, modifiers, button, state, message));
         }
 
         public void RawMouseWheel(InputModifiers modifiers, ref RawMouseData rawEventData)
         {
-            bool flag = this._mouseWheelDelta != 0;
-            this._mouseWheelDelta += rawEventData._wheelDelta;
-            this._rawMouseModifiers = modifiers;
-            if (flag || this._mouseWheelDelta == 0)
+            bool flag = _mouseWheelDelta != 0;
+            _mouseWheelDelta += rawEventData._wheelDelta;
+            _rawMouseModifiers = modifiers;
+            if (flag || _mouseWheelDelta == 0)
                 return;
-            this.OnWake();
+            OnWake();
         }
 
         public void SimulateDragEnter(
@@ -157,10 +157,10 @@ namespace Microsoft.Iris.Input
           int y,
           InputModifiers modifiers)
         {
-            this.SimulateDragDrop(dragSource, rawTargetSite, data, x, y, modifiers, DragOperation.Enter);
+            SimulateDragDrop(dragSource, rawTargetSite, data, x, y, modifiers, DragOperation.Enter);
         }
 
-        public void SimulateDragOver(InputModifiers modifiers) => this.SimulateDragDrop(this._dragSource, this._rawDropTargetSite, null, this._rawDragPoint.X, this._rawDragPoint.Y, modifiers, DragOperation.Over);
+        public void SimulateDragOver(InputModifiers modifiers) => SimulateDragDrop(_dragSource, _rawDropTargetSite, null, _rawDragPoint.X, _rawDragPoint.Y, modifiers, DragOperation.Over);
 
         public void SimulateDragOver(
           IRawInputSite rawTargetSite,
@@ -168,7 +168,7 @@ namespace Microsoft.Iris.Input
           int y,
           InputModifiers modifiers)
         {
-            this.SimulateDragDrop(this._dragSource, rawTargetSite, null, x, y, modifiers, DragOperation.Over);
+            SimulateDragDrop(_dragSource, rawTargetSite, null, x, y, modifiers, DragOperation.Over);
         }
 
         public void SimulateDragEnd(
@@ -176,10 +176,10 @@ namespace Microsoft.Iris.Input
           InputModifiers modifiers,
           DragOperation formOperation)
         {
-            this.PushFilterStack(this.GenerateDragDrop(this._dragSource, null, this._rawDragPoint.X, this._rawDragPoint.Y, modifiers, DragOperation.DragComplete));
-            this.SimulateDragDrop(this._dragSource, rawTargetSite, null, this._rawDragPoint.X, this._rawDragPoint.Y, modifiers, formOperation);
-            this.OnWake();
-            this._dragSource = null;
+            PushFilterStack(GenerateDragDrop(_dragSource, null, _rawDragPoint.X, _rawDragPoint.Y, modifiers, DragOperation.DragComplete));
+            SimulateDragDrop(_dragSource, rawTargetSite, null, _rawDragPoint.X, _rawDragPoint.Y, modifiers, formOperation);
+            OnWake();
+            _dragSource = null;
         }
 
         private void SimulateDragDrop(
@@ -191,12 +191,12 @@ namespace Microsoft.Iris.Input
           InputModifiers modifiers,
           DragOperation formOperation)
         {
-            this._dragSource = dragSource;
-            InputItem dragDropItem = this.GenerateDragDropItem(dragSource, rawTargetSite, data, x, y, modifiers, formOperation);
+            _dragSource = dragSource;
+            InputItem dragDropItem = GenerateDragDropItem(dragSource, rawTargetSite, data, x, y, modifiers, formOperation);
             if (dragDropItem == null)
                 return;
-            this.PushFilterStack(dragDropItem);
-            this.OnWake();
+            PushFilterStack(dragDropItem);
+            OnWake();
         }
 
         public void RawDragDrop(
@@ -208,28 +208,28 @@ namespace Microsoft.Iris.Input
           DragOperation formOperation,
           RawDragData rawEventData)
         {
-            if (this._dragSource == null)
+            if (_dragSource == null)
             {
-                if (formOperation == DragOperation.Over && data == null && this._pendingDragData != null)
+                if (formOperation == DragOperation.Over && data == null && _pendingDragData != null)
                 {
-                    data = this._pendingDragData;
+                    data = _pendingDragData;
                     formOperation = DragOperation.Enter;
                 }
-                this._pendingDragData = null;
-                InputItem dragDropItem = this.GenerateDragDropItem(null, rawSite, data, x, y, modifiers, formOperation);
+                _pendingDragData = null;
+                InputItem dragDropItem = GenerateDragDropItem(null, rawSite, data, x, y, modifiers, formOperation);
                 if (dragDropItem == null)
                     return;
-                this.PostItem(dragDropItem);
+                PostItem(dragDropItem);
             }
             else if (formOperation == DragOperation.Enter)
             {
-                this._pendingDragData = data;
+                _pendingDragData = data;
             }
             else
             {
                 if (formOperation != DragOperation.Leave)
                     return;
-                this._pendingDragData = null;
+                _pendingDragData = null;
             }
         }
 
@@ -243,53 +243,53 @@ namespace Microsoft.Iris.Input
           DragOperation formOperation)
         {
             InputItem inputItem = null;
-            IRawInputSite rawDropTargetSite = this._rawDropTargetSite;
+            IRawInputSite rawDropTargetSite = _rawDropTargetSite;
             if (formOperation == DragOperation.Enter)
-                this._dragData = data;
-            this._rawDropTargetSite = rawSite;
-            this._rawDragPoint = new Point(x, y);
-            this._rawDragModifiers = modifiers;
+                _dragData = data;
+            _rawDropTargetSite = rawSite;
+            _rawDragPoint = new Point(x, y);
+            _rawDragModifiers = modifiers;
             if (formOperation != DragOperation.Drop)
             {
-                this._dragging = true;
+                _dragging = true;
                 if (rawDropTargetSite == rawSite)
                 {
-                    if (!this._dragOver)
+                    if (!_dragOver)
                     {
-                        this._dragOver = true;
-                        this.OnWake();
+                        _dragOver = true;
+                        OnWake();
                     }
                 }
                 else
-                    inputItem = this.GenerateDragDrop(null, rawSite, x, y, modifiers, DragOperation.Over);
+                    inputItem = GenerateDragDrop(null, rawSite, x, y, modifiers, DragOperation.Over);
             }
             else
             {
-                inputItem = this.GenerateDragDrop(this._appDropTarget, rawSite, x, y, modifiers, DragOperation.Drop);
-                this._appDropTarget = null;
+                inputItem = GenerateDragDrop(_appDropTarget, rawSite, x, y, modifiers, DragOperation.Drop);
+                _appDropTarget = null;
             }
             if (formOperation == DragOperation.Drop || formOperation == DragOperation.Leave)
             {
-                this._dragOver = false;
-                this._dragging = false;
-                this._rawDropTargetSite = null;
-                this._rawDragPoint = new Point();
-                this._rawDragModifiers = InputModifiers.None;
+                _dragOver = false;
+                _dragging = false;
+                _rawDropTargetSite = null;
+                _rawDragPoint = new Point();
+                _rawDragModifiers = InputModifiers.None;
                 if (formOperation == DragOperation.Leave)
-                    this._dragData = null;
+                    _dragData = null;
             }
             return inputItem;
         }
 
         public object GetDragDropValue()
         {
-            object dragData = this._dragData;
-            if (!this._dragging)
-                this._dragData = null;
+            object dragData = _dragData;
+            if (!_dragging)
+                _dragData = null;
             return dragData;
         }
 
-        public void RawInputIdleItem(QueueItem item) => this._inputIdleQueue.PostItem(item);
+        public void RawInputIdleItem(QueueItem item) => _inputIdleQueue.PostItem(item);
 
         public void RevalidateInputSiteUsage(ICookedInputSite target, bool recursiveFlag)
         {
@@ -298,26 +298,26 @@ namespace Microsoft.Iris.Input
             {
                 if (!recursiveFlag)
                 {
-                    this._revalidateKeyFocus = true;
-                    this._revalidateMouseFocus = true;
-                    this.SetMouseMoved();
+                    _revalidateKeyFocus = true;
+                    _revalidateMouseFocus = true;
+                    SetMouseMoved();
                     return;
                 }
                 flag1 = true;
             }
-            this.CancelMouseCapture(target);
+            CancelMouseCapture(target);
             bool flag2 = false;
-            if (!this._mouseMoved && this._appMouseFocusTarget != null && (flag1 || this._appMouseFocusTarget == target || recursiveFlag && this._inputManager.IsSiteInfluencedByPeer(this._appMouseFocusTarget, target)))
+            if (!_mouseMoved && _appMouseFocusTarget != null && (flag1 || _appMouseFocusTarget == target || recursiveFlag && _inputManager.IsSiteInfluencedByPeer(_appMouseFocusTarget, target)))
             {
-                this._revalidateMouseFocus = true;
-                this.SetMouseMoved();
-                if (this._appMouseFocusTarget == this._desiredKeyFocus)
+                _revalidateMouseFocus = true;
+                SetMouseMoved();
+                if (_appMouseFocusTarget == _desiredKeyFocus)
                     flag2 = true;
             }
-            if (this._revalidateKeyFocus || !flag2 && (this._desiredKeyFocus == null || !flag1 && this._desiredKeyFocus != target && (!recursiveFlag || !this._inputManager.IsSiteInfluencedByPeer(this._desiredKeyFocus, target))))
+            if (_revalidateKeyFocus || !flag2 && (_desiredKeyFocus == null || !flag1 && _desiredKeyFocus != target && (!recursiveFlag || !_inputManager.IsSiteInfluencedByPeer(_desiredKeyFocus, target))))
                 return;
-            this._revalidateKeyFocus = true;
-            this.OnWake();
+            _revalidateKeyFocus = true;
+            OnWake();
         }
 
         public override QueueItem GetNextItem()
@@ -329,12 +329,12 @@ namespace Microsoft.Iris.Input
                 QueueItem queueItem2;
                 do
                 {
-                    queueItem2 = this.PeekFilterStack();
+                    queueItem2 = PeekFilterStack();
                     if (queueItem2 != null)
                     {
-                        queueItem1 = this.FilterItem(queueItem2);
+                        queueItem1 = FilterItem(queueItem2);
                         if (queueItem1 == null)
-                            this.PopFilterStack();
+                            PopFilterStack();
                         else
                             goto label_5;
                     }
@@ -348,29 +348,29 @@ namespace Microsoft.Iris.Input
             label_5:
                 if (queueItem1 != queueItem2)
                 {
-                    this.PushFilterStack(queueItem1);
+                    PushFilterStack(queueItem1);
                     queueItem1 = null;
                 }
                 else
                     break;
             }
-            this.PopFilterStack();
+            PopFilterStack();
         label_8:
             return queueItem1;
         }
 
-        private void PushFilterStack(QueueItem item) => this._filterStack.Push(item);
+        private void PushFilterStack(QueueItem item) => _filterStack.Push(item);
 
-        private QueueItem PopFilterStack() => this._filterStack.Pop();
+        private QueueItem PopFilterStack() => _filterStack.Pop();
 
         private QueueItem PeekFilterStack()
         {
-            QueueItem queueItem = this._filterStack.Peek();
+            QueueItem queueItem = _filterStack.Peek();
             if (queueItem == null)
             {
-                queueItem = this.GetNextRawInputItem();
+                queueItem = GetNextRawInputItem();
                 if (queueItem != null)
-                    this.PushFilterStack(queueItem);
+                    PushFilterStack(queueItem);
             }
             return queueItem;
         }
@@ -382,60 +382,60 @@ namespace Microsoft.Iris.Input
                 switch (inputItem.Info)
                 {
                     case MouseActionInfo mouseActionInfo:
-                        this.MapMouseInput(mouseActionInfo);
+                        MapMouseInput(mouseActionInfo);
                         Point clientOffset = new Point(mouseActionInfo.X, mouseActionInfo.Y);
                         switch (mouseActionInfo)
                         {
                             case MouseMoveInfo _:
-                                QueueItem queueItem1 = this.UpdateMouseFocus(mouseActionInfo.Target, mouseActionInfo.RawSource, clientOffset);
+                                QueueItem queueItem1 = UpdateMouseFocus(mouseActionInfo.Target, mouseActionInfo.RawSource, clientOffset);
                                 if (queueItem1 != null)
                                     return queueItem1;
-                                if (this.IsAppMouseMove(mouseActionInfo))
+                                if (IsAppMouseMove(mouseActionInfo))
                                 {
-                                    this.FinalizeMouseHit(inputItem, mouseActionInfo);
+                                    FinalizeMouseHit(inputItem, mouseActionInfo);
                                     break;
                                 }
                                 item = null;
                                 break;
                             case MouseButtonInfo mouseButtonInfo:
-                                if (this.IsAppMouseMove(mouseActionInfo))
+                                if (IsAppMouseMove(mouseActionInfo))
                                 {
                                     InputModifiers modifiers1 = mouseButtonInfo.Modifiers;
-                                    InputModifiers modifiersForButtons = this.GetModifiersForButtons(mouseButtonInfo.Button);
+                                    InputModifiers modifiersForButtons = GetModifiersForButtons(mouseButtonInfo.Button);
                                     InputModifiers modifiers2 = !mouseButtonInfo.IsDown ? modifiers1 | modifiersForButtons : modifiers1 & ~modifiersForButtons;
-                                    return this.GenerateMouseMove(mouseActionInfo.RawSource, mouseActionInfo.NaturalHit, mouseActionInfo.X, mouseActionInfo.Y, mouseButtonInfo.ScreenX, mouseButtonInfo.ScreenY, modifiers2);
+                                    return GenerateMouseMove(mouseActionInfo.RawSource, mouseActionInfo.NaturalHit, mouseActionInfo.X, mouseActionInfo.Y, mouseButtonInfo.ScreenX, mouseButtonInfo.ScreenY, modifiers2);
                                 }
-                                this.FinalizeMouseHit(inputItem, mouseActionInfo);
-                                this.UpdateMouseCapture(mouseActionInfo.RawSource, mouseActionInfo.Target, mouseButtonInfo.Modifiers);
-                                this._appMouseFocusButtons = mouseButtonInfo.Modifiers & InputModifiers.AllButtons;
+                                FinalizeMouseHit(inputItem, mouseActionInfo);
+                                UpdateMouseCapture(mouseActionInfo.RawSource, mouseActionInfo.Target, mouseButtonInfo.Modifiers);
+                                _appMouseFocusButtons = mouseButtonInfo.Modifiers & InputModifiers.AllButtons;
                                 break;
                             case MouseWheelInfo _:
-                                inputItem.UpdateInputSite(this._appMouseFocusTarget);
+                                inputItem.UpdateInputSite(_appMouseFocusTarget);
                                 break;
                         }
                         break;
                     case MouseFocusInfo mouseFocusInfo:
-                        if (!mouseFocusInfo.State && this._appMouseFocusButtons != InputModifiers.None)
+                        if (!mouseFocusInfo.State && _appMouseFocusButtons != InputModifiers.None)
                         {
-                            QueueItem queueItem2 = this.UpdateOrphanedButtons(mouseFocusInfo.RawSource, mouseFocusInfo.X, mouseFocusInfo.Y);
+                            QueueItem queueItem2 = UpdateOrphanedButtons(mouseFocusInfo.RawSource, mouseFocusInfo.X, mouseFocusInfo.Y);
                             if (queueItem2 != null)
                                 return queueItem2;
                             break;
                         }
                         break;
                     case KeyActionInfo _:
-                        QueueItem queueItem3 = this.UpdateKeyFocus();
+                        QueueItem queueItem3 = UpdateKeyFocus();
                         if (queueItem3 != null)
                             return queueItem3;
-                        inputItem.UpdateInputSite(this._currentKeyFocus);
+                        inputItem.UpdateInputSite(_currentKeyFocus);
                         break;
                     case DragDropInfo dragDropInfo:
                         if (dragDropInfo.Operation == DragOperation.Over)
                         {
-                            InputItem inputItemB = this.UpdateDragOver(this._inputManager.HitTestInput(this._rawDropTargetSite, null));
+                            InputItem inputItemB = UpdateDragOver(_inputManager.HitTestInput(_rawDropTargetSite, null));
                             if (inputItemB != null)
                                 return inputItemB;
-                            inputItemB.UpdateInputSite(this._appDropTarget);
+                            inputItemB.UpdateInputSite(_appDropTarget);
                             break;
                         }
                         break;
@@ -463,94 +463,94 @@ namespace Microsoft.Iris.Input
         private QueueItem GetNextRawInputItem()
         {
             QueueItem queueItem;
-            if ((queueItem = this.InjectRawInput_Prty()) == null && (queueItem = this.InjectRawInput_Norm()) == null)
-                queueItem = this.InjectRawInput_Idle();
+            if ((queueItem = InjectRawInput_Prty()) == null && (queueItem = InjectRawInput_Norm()) == null)
+                queueItem = InjectRawInput_Idle();
             return queueItem;
         }
 
-        private QueueItem InjectRawInput_Prty() => this.UpdateKeyFocus();
+        private QueueItem InjectRawInput_Prty() => UpdateKeyFocus();
 
         private QueueItem InjectRawInput_Norm() => base.GetNextItem();
 
         private QueueItem InjectRawInput_Idle()
         {
-            if (this._mouseWheelDelta != 0)
+            if (_mouseWheelDelta != 0)
             {
-                QueueItem mouseWheel = this.GenerateMouseWheel(this._rawMouseSite, this._rawMouseNaturalSite, this._rawMousePos.X, this._rawMousePos.Y, this._rawScreenPos.X, this._rawScreenPos.Y, this._rawMouseModifiers, this._mouseWheelDelta);
-                this._mouseWheelDelta = 0;
+                QueueItem mouseWheel = GenerateMouseWheel(_rawMouseSite, _rawMouseNaturalSite, _rawMousePos.X, _rawMousePos.Y, _rawScreenPos.X, _rawScreenPos.Y, _rawMouseModifiers, _mouseWheelDelta);
+                _mouseWheelDelta = 0;
                 return mouseWheel;
             }
-            if (this._mouseMoved)
+            if (_mouseMoved)
             {
-                QueueItem mouseMove = this.GenerateMouseMove(this._rawMouseSite, this._rawMouseNaturalSite, this._rawMousePos.X, this._rawMousePos.Y, this._rawScreenPos.X, this._rawScreenPos.Y, this._rawMouseModifiers);
-                this._mouseMoved = false;
+                QueueItem mouseMove = GenerateMouseMove(_rawMouseSite, _rawMouseNaturalSite, _rawMousePos.X, _rawMousePos.Y, _rawScreenPos.X, _rawScreenPos.Y, _rawMouseModifiers);
+                _mouseMoved = false;
                 return mouseMove;
             }
-            if (!this._dragOver)
-                return this._inputIdleQueue.GetNextItem();
-            InputItem dragDrop = this.GenerateDragDrop(null, this._rawDropTargetSite, this._rawDragPoint.X, this._rawDragPoint.Y, this._rawDragModifiers, DragOperation.Over);
-            this._dragOver = false;
+            if (!_dragOver)
+                return _inputIdleQueue.GetNextItem();
+            InputItem dragDrop = GenerateDragDrop(null, _rawDropTargetSite, _rawDragPoint.X, _rawDragPoint.Y, _rawDragModifiers, DragOperation.Over);
+            _dragOver = false;
             return dragDrop;
         }
 
-        private void OnChildQueueWake(object sender, EventArgs args) => this.OnWake();
+        private void OnChildQueueWake(object sender, EventArgs args) => OnWake();
 
-        private void MapMouseInput(MouseActionInfo info) => this._inputManager.MapMouseInput(info, this._appMouseFocusCapture);
+        private void MapMouseInput(MouseActionInfo info) => _inputManager.MapMouseInput(info, _appMouseFocusCapture);
 
         private void FinalizeMouseHit(InputItem item, MouseActionInfo mouse)
         {
             item.UpdateInputSite(mouse.Target);
-            this._appMousePos = new Point(mouse.X, mouse.Y);
-            this._appNaturalTarget = mouse.NaturalHit;
+            _appMousePos = new Point(mouse.X, mouse.Y);
+            _appNaturalTarget = mouse.NaturalHit;
         }
 
         private QueueItem CheckForInvalidKeyFocus()
         {
             QueueItem queueItem = null;
-            if (!this.IsValidInputSite(this._desiredKeyFocus) || !this._inputManager.IsValidKeyFocusSite(this._desiredKeyFocus))
+            if (!IsValidInputSite(_desiredKeyFocus) || !_inputManager.IsValidKeyFocusSite(_desiredKeyFocus))
             {
-                ++this._keyFocusRepairCount;
-                this._revalidateKeyFocus = true;
-                queueItem = this.GenerateInvalidKeyFocusCallback();
+                ++_keyFocusRepairCount;
+                _revalidateKeyFocus = true;
+                queueItem = GenerateInvalidKeyFocusCallback();
             }
             else
             {
-                int focusRepairCount = (int)this._keyFocusRepairCount;
-                this._keyFocusRepairCount = 0U;
-                this._revalidateKeyFocus = false;
+                int focusRepairCount = (int)_keyFocusRepairCount;
+                _keyFocusRepairCount = 0U;
+                _revalidateKeyFocus = false;
             }
             return queueItem;
         }
 
-        private void InvalidKeyFocusCallback() => this._inputManager.RepairInvalidKeyFocus(this._keyFocusRepairCount);
+        private void InvalidKeyFocusCallback() => _inputManager.RepairInvalidKeyFocus(_keyFocusRepairCount);
 
         private QueueItem UpdateKeyFocus()
         {
             QueueItem queueItem = null;
-            if (this._revalidateKeyFocus || this._currentKeyFocus != this._desiredKeyFocus)
+            if (_revalidateKeyFocus || _currentKeyFocus != _desiredKeyFocus)
             {
-                queueItem = this.CheckForInvalidKeyFocus();
-                if (queueItem == null && this._currentKeyFocus != this._desiredKeyFocus)
+                queueItem = CheckForInvalidKeyFocus();
+                if (queueItem == null && _currentKeyFocus != _desiredKeyFocus)
                 {
-                    if (this._currentKeyFocus != null)
+                    if (_currentKeyFocus != null)
                     {
-                        if (!this.IsValidInputSite(this._currentKeyFocus))
-                            this._currentKeyFocus = null;
-                        queueItem = this.GenerateKeyFocus(this._currentKeyFocus, false, this._desiredKeyFocus, this._desiredKeyFocusReason);
-                        this._currentKeyFocus = null;
+                        if (!IsValidInputSite(_currentKeyFocus))
+                            _currentKeyFocus = null;
+                        queueItem = GenerateKeyFocus(_currentKeyFocus, false, _desiredKeyFocus, _desiredKeyFocusReason);
+                        _currentKeyFocus = null;
                     }
-                    if (queueItem == null && this._desiredKeyFocus != null)
+                    if (queueItem == null && _desiredKeyFocus != null)
                     {
-                        this._currentKeyFocus = this._desiredKeyFocus;
-                        if (!this.IsValidInputSite(this._lastCompletedKeyFocus))
-                            this._lastCompletedKeyFocus = null;
-                        queueItem = this.GenerateKeyFocus(this._currentKeyFocus, true, this._lastCompletedKeyFocus, this._desiredKeyFocusReason);
+                        _currentKeyFocus = _desiredKeyFocus;
+                        if (!IsValidInputSite(_lastCompletedKeyFocus))
+                            _lastCompletedKeyFocus = null;
+                        queueItem = GenerateKeyFocus(_currentKeyFocus, true, _lastCompletedKeyFocus, _desiredKeyFocusReason);
                     }
-                    if (this._currentKeyFocus == this._desiredKeyFocus)
-                        this._lastCompletedKeyFocus = this._currentKeyFocus;
+                    if (_currentKeyFocus == _desiredKeyFocus)
+                        _lastCompletedKeyFocus = _currentKeyFocus;
                 }
-                if (queueItem == null && this._currentKeyFocus != null)
-                    queueItem = this.GenerateKeyFocus(this._currentKeyFocus, true, this._lastCompletedKeyFocus, KeyFocusReason.Validation);
+                if (queueItem == null && _currentKeyFocus != null)
+                    queueItem = GenerateKeyFocus(_currentKeyFocus, true, _lastCompletedKeyFocus, KeyFocusReason.Validation);
             }
             return queueItem;
         }
@@ -561,34 +561,34 @@ namespace Microsoft.Iris.Input
           Point clientOffset)
         {
             QueueItem queueItem = null;
-            if (this._revalidateMouseFocus || this._appMouseFocusTarget != target)
+            if (_revalidateMouseFocus || _appMouseFocusTarget != target)
             {
-                this._revalidateMouseFocus = false;
-                if (this._appMouseFocusTarget != target)
+                _revalidateMouseFocus = false;
+                if (_appMouseFocusTarget != target)
                 {
-                    if (this._appMouseFocusTarget != null)
+                    if (_appMouseFocusTarget != null)
                     {
-                        if (!this.IsValidInputSite(this._appMouseFocusTarget))
-                            this._appMouseFocusTarget = null;
-                        queueItem = this.GenerateMouseFocus(this._appMouseFocusTarget, this._appMouseFocusSite, this._appMousePos.X, this._appMousePos.Y, false, target);
-                        this._appMouseFocusSite = null;
-                        this._appMouseFocusTarget = null;
-                        this._appMousePos.X = -1;
-                        this._appMousePos.Y = -1;
+                        if (!IsValidInputSite(_appMouseFocusTarget))
+                            _appMouseFocusTarget = null;
+                        queueItem = GenerateMouseFocus(_appMouseFocusTarget, _appMouseFocusSite, _appMousePos.X, _appMousePos.Y, false, target);
+                        _appMouseFocusSite = null;
+                        _appMouseFocusTarget = null;
+                        _appMousePos.X = -1;
+                        _appMousePos.Y = -1;
                     }
                     if (queueItem == null && target != null)
                     {
-                        this._appMouseFocusSite = site;
-                        this._appMouseFocusTarget = target;
-                        if (!this.IsValidInputSite(this._lastCompletedMouseFocus))
-                            this._lastCompletedMouseFocus = null;
-                        queueItem = this.GenerateMouseFocus(this._appMouseFocusTarget, this._appMouseFocusSite, clientOffset.X, clientOffset.Y, true, this._lastCompletedMouseFocus);
+                        _appMouseFocusSite = site;
+                        _appMouseFocusTarget = target;
+                        if (!IsValidInputSite(_lastCompletedMouseFocus))
+                            _lastCompletedMouseFocus = null;
+                        queueItem = GenerateMouseFocus(_appMouseFocusTarget, _appMouseFocusSite, clientOffset.X, clientOffset.Y, true, _lastCompletedMouseFocus);
                     }
-                    if (this._appMouseFocusTarget == target)
-                        this._lastCompletedMouseFocus = this._appMouseFocusTarget;
+                    if (_appMouseFocusTarget == target)
+                        _lastCompletedMouseFocus = _appMouseFocusTarget;
                 }
-                if (queueItem == null && this._appMouseFocusTarget != null)
-                    queueItem = this.GenerateMouseFocus(this._appMouseFocusTarget, this._appMouseFocusSite, clientOffset.X, clientOffset.Y, true, this._lastCompletedMouseFocus);
+                if (queueItem == null && _appMouseFocusTarget != null)
+                    queueItem = GenerateMouseFocus(_appMouseFocusTarget, _appMouseFocusSite, clientOffset.X, clientOffset.Y, true, _lastCompletedMouseFocus);
             }
             return queueItem;
         }
@@ -602,96 +602,96 @@ namespace Microsoft.Iris.Input
             ICookedInputSite cookedInputSite = null;
             if (flag)
                 cookedInputSite = target;
-            if (this._appMouseFocusCapture == cookedInputSite)
+            if (_appMouseFocusCapture == cookedInputSite)
                 return;
-            this._inputManager.RequestHostMouseCapture(site, cookedInputSite != null);
-            this._appMouseFocusCapture = cookedInputSite;
-            this.SetMouseMoved();
+            _inputManager.RequestHostMouseCapture(site, cookedInputSite != null);
+            _appMouseFocusCapture = cookedInputSite;
+            SetMouseMoved();
         }
 
         private QueueItem UpdateOrphanedButtons(IRawInputSite site, int x, int y)
         {
             MouseButtons button;
             uint message;
-            if ((this._appMouseFocusButtons & InputModifiers.LeftMouse) != InputModifiers.None)
+            if ((_appMouseFocusButtons & InputModifiers.LeftMouse) != InputModifiers.None)
             {
-                this._appMouseFocusButtons &= ~InputModifiers.LeftMouse;
+                _appMouseFocusButtons &= ~InputModifiers.LeftMouse;
                 button = MouseButtons.Left;
                 message = 514U;
             }
-            else if ((this._appMouseFocusButtons & InputModifiers.MiddleMouse) != InputModifiers.None)
+            else if ((_appMouseFocusButtons & InputModifiers.MiddleMouse) != InputModifiers.None)
             {
-                this._appMouseFocusButtons &= ~InputModifiers.MiddleMouse;
+                _appMouseFocusButtons &= ~InputModifiers.MiddleMouse;
                 button = MouseButtons.Middle;
                 message = 520U;
             }
-            else if ((this._appMouseFocusButtons & InputModifiers.RightMouse) != InputModifiers.None)
+            else if ((_appMouseFocusButtons & InputModifiers.RightMouse) != InputModifiers.None)
             {
-                this._appMouseFocusButtons &= ~InputModifiers.RightMouse;
+                _appMouseFocusButtons &= ~InputModifiers.RightMouse;
                 button = MouseButtons.Right;
                 message = 517U;
             }
-            else if ((this._appMouseFocusButtons & InputModifiers.XMouse1) != InputModifiers.None)
+            else if ((_appMouseFocusButtons & InputModifiers.XMouse1) != InputModifiers.None)
             {
-                this._appMouseFocusButtons &= ~InputModifiers.XMouse1;
+                _appMouseFocusButtons &= ~InputModifiers.XMouse1;
                 button = MouseButtons.XButton1;
                 message = 524U;
             }
-            else if ((this._appMouseFocusButtons & InputModifiers.XMouse2) != InputModifiers.None)
+            else if ((_appMouseFocusButtons & InputModifiers.XMouse2) != InputModifiers.None)
             {
-                this._appMouseFocusButtons &= ~InputModifiers.XMouse2;
+                _appMouseFocusButtons &= ~InputModifiers.XMouse2;
                 button = MouseButtons.XButton2;
                 message = 524U;
             }
             else
             {
-                this._appMouseFocusButtons = InputModifiers.None;
+                _appMouseFocusButtons = InputModifiers.None;
                 return null;
             }
-            return this.GenerateMouseButton(site, null, x, y, this._rawScreenPos.X, this._rawScreenPos.Y, this._appMouseFocusButtons, button, false, message);
+            return GenerateMouseButton(site, null, x, y, _rawScreenPos.X, _rawScreenPos.Y, _appMouseFocusButtons, button, false, message);
         }
 
         private InputItem UpdateDragOver(ICookedInputSite target)
         {
-            if (target != this._appDropTarget)
+            if (target != _appDropTarget)
             {
-                if (this._appDropTarget != null)
+                if (_appDropTarget != null)
                 {
-                    ICookedInputSite appDropTarget = this._appDropTarget;
-                    this._appDropTarget = null;
-                    return this.GenerateDragDrop(appDropTarget, null, this._rawDragPoint.X, this._rawDragPoint.Y, this._rawMouseModifiers, DragOperation.Leave);
+                    ICookedInputSite appDropTarget = _appDropTarget;
+                    _appDropTarget = null;
+                    return GenerateDragDrop(appDropTarget, null, _rawDragPoint.X, _rawDragPoint.Y, _rawMouseModifiers, DragOperation.Leave);
                 }
                 if (target != null)
                 {
-                    this._appDropTarget = target;
-                    return this.GenerateDragDrop(target, this._rawDropTargetSite, this._rawDragPoint.X, this._rawDragPoint.Y, this._rawDragModifiers, DragOperation.Enter);
+                    _appDropTarget = target;
+                    return GenerateDragDrop(target, _rawDropTargetSite, _rawDragPoint.X, _rawDragPoint.Y, _rawDragModifiers, DragOperation.Enter);
                 }
             }
             return null;
         }
 
-        private bool IsAppMouseMove(MouseActionInfo mouseInfo) => mouseInfo.Target != this._appMouseFocusTarget || mouseInfo.NaturalHit != this._appNaturalTarget || mouseInfo.X != this._appMousePos.X || mouseInfo.Y != this._appMousePos.Y;
+        private bool IsAppMouseMove(MouseActionInfo mouseInfo) => mouseInfo.Target != _appMouseFocusTarget || mouseInfo.NaturalHit != _appNaturalTarget || mouseInfo.X != _appMousePos.X || mouseInfo.Y != _appMousePos.Y;
 
-        private bool IsValidInputSite(ICookedInputSite target) => target == null || this._inputManager.IsValidCookedInputSite(target);
+        private bool IsValidInputSite(ICookedInputSite target) => target == null || _inputManager.IsValidCookedInputSite(target);
 
         private void SetMouseMoved()
         {
-            if (this._mouseMoved)
+            if (_mouseMoved)
                 return;
-            this._mouseMoved = true;
-            this.OnWake();
+            _mouseMoved = true;
+            OnWake();
         }
 
         private void CancelMouseCapture(ICookedInputSite cancelSite)
         {
-            if (this._appMouseFocusCapture == null || cancelSite != this._appMouseFocusCapture && cancelSite != null)
+            if (_appMouseFocusCapture == null || cancelSite != _appMouseFocusCapture && cancelSite != null)
                 return;
-            this.UpdateMouseCapture(this._appMouseFocusCapture.RawInputSource, null, InputModifiers.None);
+            UpdateMouseCapture(_appMouseFocusCapture.RawInputSource, null, InputModifiers.None);
         }
 
-        private QueueItem GenerateGenericInput(InputInfo info) => InputItem.Create(this._inputManager, null, info);
+        private QueueItem GenerateGenericInput(InputInfo info) => InputItem.Create(_inputManager, null, info);
 
-        private QueueItem GenerateInvalidKeyFocusCallback() => DeferredCall.Create(this._invalidKeyFocusCallback);
+        private QueueItem GenerateInvalidKeyFocusCallback() => DeferredCall.Create(_invalidKeyFocusCallback);
 
         private QueueItem GenerateKeyFocus(
           ICookedInputSite target,
@@ -699,7 +699,7 @@ namespace Microsoft.Iris.Input
           ICookedInputSite other,
           KeyFocusReason reason)
         {
-            return InputItem.Create(this._inputManager, target, KeyFocusInfo.Create(focus, other, reason));
+            return InputItem.Create(_inputManager, target, KeyFocusInfo.Create(focus, other, reason));
         }
 
         private InputItem GenerateMouseFocus(
@@ -710,7 +710,7 @@ namespace Microsoft.Iris.Input
           bool focus,
           ICookedInputSite other)
         {
-            return InputItem.Create(this._inputManager, target, MouseFocusInfo.Create(site, x, y, focus, other));
+            return InputItem.Create(_inputManager, target, MouseFocusInfo.Create(site, x, y, focus, other));
         }
 
         private InputItem GenerateMouseMove(
@@ -722,7 +722,7 @@ namespace Microsoft.Iris.Input
           int screenY,
           InputModifiers modifiers)
         {
-            return InputItem.Create(this._inputManager, null, MouseMoveInfo.Create(site, naturalSite, x, y, screenX, screenY, modifiers));
+            return InputItem.Create(_inputManager, null, MouseMoveInfo.Create(site, naturalSite, x, y, screenX, screenY, modifiers));
         }
 
         private InputItem GenerateMouseButton(
@@ -737,7 +737,7 @@ namespace Microsoft.Iris.Input
           bool state,
           uint message)
         {
-            return InputItem.Create(this._inputManager, null, MouseButtonInfo.Create(site, naturalSite, x, y, screenX, screenY, modifiers, button, state, message));
+            return InputItem.Create(_inputManager, null, MouseButtonInfo.Create(site, naturalSite, x, y, screenX, screenY, modifiers, button, state, message));
         }
 
         private InputItem GenerateMouseWheel(
@@ -750,7 +750,7 @@ namespace Microsoft.Iris.Input
           InputModifiers modifiers,
           int wheelDelta)
         {
-            return InputItem.Create(this._inputManager, null, MouseWheelInfo.Create(site, naturalSite, x, y, screenX, screenY, modifiers, wheelDelta));
+            return InputItem.Create(_inputManager, null, MouseWheelInfo.Create(site, naturalSite, x, y, screenX, screenY, modifiers, wheelDelta));
         }
 
         private InputItem GenerateDragDrop(
@@ -762,7 +762,7 @@ namespace Microsoft.Iris.Input
           DragOperation operation)
         {
             InputInfo info = DragDropInfo.Create(rawSite, x, y, modifiers, operation);
-            return InputItem.Create(this._inputManager, cookedSite, info);
+            return InputItem.Create(_inputManager, cookedSite, info);
         }
     }
 }

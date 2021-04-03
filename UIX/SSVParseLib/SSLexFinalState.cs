@@ -24,31 +24,31 @@ namespace SSVParseLib
 
         public SSLexFinalState(int[] q_final, int q_index)
         {
-            this.m_token = q_final[q_index];
-            this.m_pushIndex = q_final[q_index + 1];
-            this.m_flags = q_final[q_index + 2];
+            m_token = q_final[q_index];
+            m_pushIndex = q_final[q_index + 1];
+            m_flags = q_final[q_index + 2];
         }
 
-        public int token() => this.m_token;
+        public int token() => m_token;
 
-        public int pushIndex() => this.m_pushIndex;
+        public int pushIndex() => m_pushIndex;
 
-        public bool isPop() => (this.m_flags & 8) != 0;
+        public bool isPop() => (m_flags & 8) != 0;
 
-        public bool isPush() => (this.m_flags & 32) != 0;
+        public bool isPush() => (m_flags & 32) != 0;
 
-        public bool isFinal() => (this.m_flags & 16) != 0;
+        public bool isFinal() => (m_flags & 16) != 0;
 
-        public bool isIgnore() => (this.m_flags & 64) != 0;
+        public bool isIgnore() => (m_flags & 64) != 0;
 
-        public bool isReduce() => (this.m_flags & 256) != 0;
+        public bool isReduce() => (m_flags & 256) != 0;
 
-        public bool isContextEnd() => (this.m_flags & 128) != 0;
+        public bool isContextEnd() => (m_flags & 128) != 0;
 
-        public bool isStartOfLine() => (this.m_flags & 2) != 0;
+        public bool isStartOfLine() => (m_flags & 2) != 0;
 
-        public bool isContextStart() => (this.m_flags & 1) != 0;
+        public bool isContextStart() => (m_flags & 1) != 0;
 
-        public bool isKeyword() => (this.m_flags & 512) != 0;
+        public bool isKeyword() => (m_flags & 512) != 0;
     }
 }

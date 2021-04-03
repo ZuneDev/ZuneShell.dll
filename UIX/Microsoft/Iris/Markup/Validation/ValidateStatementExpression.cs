@@ -17,17 +17,17 @@ namespace Microsoft.Iris.Markup.Validation
           int column)
           : base(owner, line, column, StatementType.Expression)
         {
-            this._expression = expression;
+            _expression = expression;
         }
 
-        public ValidateExpression Expression => this._expression;
+        public ValidateExpression Expression => _expression;
 
         public override void Validate(ValidateCode container, ValidateContext context)
         {
-            this._expression.Validate(TypeRestriction.None, context);
-            if (!this._expression.HasErrors)
+            _expression.Validate(TypeRestriction.None, context);
+            if (!_expression.HasErrors)
                 return;
-            this.MarkHasErrors();
+            MarkHasErrors();
         }
     }
 }

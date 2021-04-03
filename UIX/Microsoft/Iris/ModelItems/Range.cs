@@ -21,41 +21,41 @@ namespace Microsoft.Iris.ModelItems
                 begin = end;
                 end = num;
             }
-            this._begin = begin;
-            this._end = end;
+            _begin = begin;
+            _end = end;
         }
 
         public int Begin
         {
-            get => this._begin;
-            set => this._begin = value;
+            get => _begin;
+            set => _begin = value;
         }
 
         public int End
         {
-            get => this._end;
-            set => this._end = value;
+            get => _end;
+            set => _end = value;
         }
 
-        public bool IsEmpty => this._begin == this._end;
+        public bool IsEmpty => _begin == _end;
 
-        public bool IsEqual(Range other) => other.Begin == this.Begin && other.End == this.End;
+        public bool IsEqual(Range other) => other.Begin == Begin && other.End == End;
 
-        public override bool Equals(object other) => other is Range other1 && this.IsEqual(other1);
+        public override bool Equals(object other) => other is Range other1 && IsEqual(other1);
 
-        public override int GetHashCode() => this.Begin.GetHashCode() ^ this.End.GetHashCode();
+        public override int GetHashCode() => Begin.GetHashCode() ^ End.GetHashCode();
 
-        public bool Contains(int point) => point >= this._begin && point <= this._end;
+        public bool Contains(int point) => point >= _begin && point <= _end;
 
-        public bool Intersects(Range other) => this.Begin <= other.End && this.End >= other.Begin;
+        public bool Intersects(Range other) => Begin <= other.End && End >= other.Begin;
 
         public bool Split(int split, out Range before, out Range after)
         {
-            before = new Range(this._begin, split);
+            before = new Range(_begin, split);
             bool flag;
-            if (split < this._end)
+            if (split < _end)
             {
-                after = new Range(split + 1, this._end);
+                after = new Range(split + 1, _end);
                 flag = true;
             }
             else
@@ -68,8 +68,8 @@ namespace Microsoft.Iris.ModelItems
 
         public List<int> ToList()
         {
-            List<int> intList = new List<int>(this._end - this._begin);
-            for (int begin = this._begin; begin <= this._end; ++begin)
+            List<int> intList = new List<int>(_end - _begin);
+            for (int begin = _begin; begin <= _end; ++begin)
                 intList.Add(begin);
             return intList;
         }

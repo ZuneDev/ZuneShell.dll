@@ -15,47 +15,47 @@ namespace Microsoft.Iris.Markup
         public AssemblyMarkupDataQuery(MarkupDataQuerySchema type, AssemblyDataProviderWrapper provider)
           : base(type)
         {
-            this._externalQuery = provider.ConstructQuery(type);
-            this._externalQuery.DeclareOwner(this);
-            this._externalQuery.SetInternalObject(this);
-            this.ApplyDefaultValues();
+            _externalQuery = provider.ConstructQuery(type);
+            _externalQuery.DeclareOwner(this);
+            _externalQuery.SetInternalObject(this);
+            ApplyDefaultValues();
         }
 
         public override void NotifyInitialized()
         {
             base.NotifyInitialized();
-            if (this._externalQuery == null)
+            if (_externalQuery == null)
                 return;
-            this._externalQuery.OnInitialize();
+            _externalQuery.OnInitialize();
         }
 
         protected override void OnDispose()
         {
             base.OnDispose();
-            if (this._externalQuery == null)
+            if (_externalQuery == null)
                 return;
-            this._externalQuery.Dispose(this);
+            _externalQuery.Dispose(this);
         }
 
-        public override void Refresh() => this._externalQuery.Refresh();
+        public override void Refresh() => _externalQuery.Refresh();
 
         public override object Result
         {
-            get => AssemblyLoadResult.WrapObject(this._externalQuery.Result);
-            set => this._externalQuery.Result = AssemblyLoadResult.UnwrapObject(value);
+            get => AssemblyLoadResult.WrapObject(_externalQuery.Result);
+            set => _externalQuery.Result = AssemblyLoadResult.UnwrapObject(value);
         }
 
-        public override DataProviderQueryStatus Status => this._externalQuery.Status;
+        public override DataProviderQueryStatus Status => _externalQuery.Status;
 
         public override bool Enabled
         {
-            get => this._externalQuery.Enabled;
-            set => this._externalQuery.Enabled = value;
+            get => _externalQuery.Enabled;
+            set => _externalQuery.Enabled = value;
         }
 
         protected override bool ExternalObjectGetProperty(string propertyName, out object value)
         {
-            object property = this._externalQuery.GetProperty(propertyName);
+            object property = _externalQuery.GetProperty(propertyName);
             value = AssemblyLoadResult.WrapObject(property);
             return true;
         }
@@ -63,7 +63,7 @@ namespace Microsoft.Iris.Markup
         protected override bool ExternalObjectSetProperty(string propertyName, object value)
         {
             object obj = AssemblyLoadResult.UnwrapObject(value);
-            this._externalQuery.SetProperty(propertyName, obj);
+            _externalQuery.SetProperty(propertyName, obj);
             return true;
         }
 

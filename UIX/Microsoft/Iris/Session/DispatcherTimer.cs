@@ -23,11 +23,11 @@ namespace Microsoft.Iris.Session
 
         public DispatcherTimer(ITimerOwner owner)
         {
-            this._owner = owner;
-            this._interval = TimeSpan.FromMilliseconds(100.0);
-            this._autoRepeat = true;
-            this._timeBase = SystemTickCount.Milliseconds;
-            this._timeoutManager = UIDispatcher.CurrentDispatcher.TimeoutManager;
+            _owner = owner;
+            _interval = TimeSpan.FromMilliseconds(100.0);
+            _autoRepeat = true;
+            _timeBase = SystemTickCount.Milliseconds;
+            _timeoutManager = UIDispatcher.CurrentDispatcher.TimeoutManager;
         }
 
         public DispatcherTimer()
@@ -37,97 +37,97 @@ namespace Microsoft.Iris.Session
 
         public TimeSpan TimeSpanInterval
         {
-            get => this._interval;
+            get => _interval;
             set
             {
-                if (!(this._interval != value))
+                if (!(_interval != value))
                     return;
-                this._interval = value;
-                if (this.Enabled)
-                    this.Start();
-                this.FireNotification(NotificationID.Interval);
+                _interval = value;
+                if (Enabled)
+                    Start();
+                FireNotification(NotificationID.Interval);
             }
         }
 
         public int Interval
         {
-            get => (int)this.TimeSpanInterval.TotalMilliseconds;
-            set => this.TimeSpanInterval = TimeSpan.FromMilliseconds(value);
+            get => (int)TimeSpanInterval.TotalMilliseconds;
+            set => TimeSpanInterval = TimeSpan.FromMilliseconds(value);
         }
 
         public bool Enabled
         {
-            get => this._callback != null;
+            get => _callback != null;
             set
             {
-                if (this.Enabled == value)
+                if (Enabled == value)
                     return;
                 if (value)
-                    this.Start();
+                    Start();
                 else
-                    this.Stop();
+                    Stop();
             }
         }
 
         public bool AutoRepeat
         {
-            get => this._autoRepeat;
+            get => _autoRepeat;
             set
             {
-                if (this._autoRepeat == value)
+                if (_autoRepeat == value)
                     return;
-                this._autoRepeat = value;
-                this.FireNotification(NotificationID.AutoRepeat);
+                _autoRepeat = value;
+                FireNotification(NotificationID.AutoRepeat);
             }
         }
 
         internal object UserData
         {
-            get => this._userData;
+            get => _userData;
             set
             {
-                if (this._userData == value)
+                if (_userData == value)
                     return;
-                this._userData = value;
+                _userData = value;
             }
         }
 
         public void Start()
         {
-            bool enabled = this.Enabled;
-            this.StopWorker();
-            this._timeBase = SystemTickCount.Milliseconds;
-            this._callback = new DispatcherTimer.TimerCallback(this);
-            this.ScheduleCallback(this._timeBase);
-            this.FireEnabledChange(enabled);
+            bool enabled = Enabled;
+            StopWorker();
+            _timeBase = SystemTickCount.Milliseconds;
+            _callback = new DispatcherTimer.TimerCallback(this);
+            ScheduleCallback(_timeBase);
+            FireEnabledChange(enabled);
         }
 
         public void Stop()
         {
-            bool enabled = this.Enabled;
-            this.StopWorker();
-            this.FireEnabledChange(enabled);
+            bool enabled = Enabled;
+            StopWorker();
+            FireEnabledChange(enabled);
         }
 
         private void StopWorker()
         {
-            if (this._callback == null)
+            if (_callback == null)
                 return;
-            this._timeoutManager.CancelTimeout(_callback);
-            this._callback = null;
+            _timeoutManager.CancelTimeout(_callback);
+            _callback = null;
         }
 
         private void FireEnabledChange(bool wasEnabled)
         {
-            if (this.Enabled == wasEnabled)
+            if (Enabled == wasEnabled)
                 return;
-            this.FireNotification(NotificationID.Enabled);
+            FireNotification(NotificationID.Enabled);
         }
 
         public override string ToString()
         {
             string str = " one-shot";
-            if (this._autoRepeat)
+            if (_autoRepeat)
                 str = " repeating";
             return "[" + Interval + str + "] -> " + DebugHelpers.DEBUG_ObjectToString(Tick);
         }
@@ -136,61 +136,61 @@ namespace Microsoft.Iris.Session
 
         private void ScheduleCallback(long currentTimeInMilliseconds)
         {
-            if (this._callback == null)
+            if (_callback == null)
                 return;
-            TimeSpan timeSpan1 = this._interval;
-            TimeSpan timeSpan2 = TimeSpan.FromMilliseconds(currentTimeInMilliseconds - this._timeBase);
+            TimeSpan timeSpan1 = _interval;
+            TimeSpan timeSpan2 = TimeSpan.FromMilliseconds(currentTimeInMilliseconds - _timeBase);
             if (timeSpan2 >= timeSpan1)
             {
                 long ticks = timeSpan1.Ticks;
                 if (ticks > 0L)
                     timeSpan1 = TimeSpan.FromTicks(ticks * ((timeSpan2.Ticks + ticks / 2L) / ticks));
             }
-            this._timeBase += (long)timeSpan1.TotalMilliseconds;
-            this._timeoutManager.SetTimeoutRelative(_callback, TimeSpan.FromMilliseconds(this._timeBase - currentTimeInMilliseconds));
+            _timeBase += (long)timeSpan1.TotalMilliseconds;
+            _timeoutManager.SetTimeoutRelative(_callback, TimeSpan.FromMilliseconds(_timeBase - currentTimeInMilliseconds));
         }
 
         private void CallTickHandlers(DispatcherTimer.TimerCallback callback)
         {
-            if (!this.CallbackValid(callback))
+            if (!CallbackValid(callback))
                 return;
-            if (this._autoRepeat)
+            if (_autoRepeat)
             {
-                this.ScheduleCallback(SystemTickCount.Milliseconds);
+                ScheduleCallback(SystemTickCount.Milliseconds);
             }
             else
             {
-                this._callback = null;
-                this.FireEnabledChange(true);
+                _callback = null;
+                FireEnabledChange(true);
             }
-            if (this.Tick != null)
-                this.Tick(this._owner != null ? _owner : (object)this, EventArgs.Empty);
-            this.FireNotification(NotificationID.Tick);
+            if (Tick != null)
+                Tick(_owner != null ? _owner : (object)this, EventArgs.Empty);
+            FireNotification(NotificationID.Tick);
         }
 
-        private bool CallbackValid(DispatcherTimer.TimerCallback callback) => callback == this._callback;
+        private bool CallbackValid(DispatcherTimer.TimerCallback callback) => callback == _callback;
 
         private void FireNotification(string id)
         {
-            if (this._owner == null)
+            if (_owner == null)
                 return;
-            this._owner.OnTimerPropertyChanged(id);
+            _owner.OnTimerPropertyChanged(id);
         }
 
         private class TimerCallback : QueueItem
         {
             private DispatcherTimer _timer;
 
-            public TimerCallback(DispatcherTimer timer) => this._timer = timer;
+            public TimerCallback(DispatcherTimer timer) => _timer = timer;
 
-            public override void Dispatch() => this._timer.CallTickHandlers(this);
+            public override void Dispatch() => _timer.CallTickHandlers(this);
 
             public override string ToString()
             {
                 string str = "";
-                if (!this._timer.CallbackValid(this))
+                if (!_timer.CallbackValid(this))
                     str = "CANCELED ";
-                return str + this.GetType().Name + " -> " + _timer;
+                return str + GetType().Name + " -> " + _timer;
             }
         }
 

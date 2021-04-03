@@ -23,46 +23,46 @@ namespace Microsoft.Iris.InputHandlers
         protected override void ConfigureInteractivity()
         {
             base.ConfigureInteractivity();
-            if (!this.HandleDirect)
+            if (!HandleDirect)
                 return;
-            this.UI.MouseInteractive = true;
+            UI.MouseInteractive = true;
         }
 
         public DropAction AllowedDropActions
         {
-            get => this._allowedDropActions;
+            get => _allowedDropActions;
             set
             {
-                if (this._allowedDropActions == value)
+                if (_allowedDropActions == value)
                     return;
-                this._allowedDropActions = value;
-                this.FireNotification(NotificationID.AllowedDropActions);
-                if (!this.Dragging)
+                _allowedDropActions = value;
+                FireNotification(NotificationID.AllowedDropActions);
+                if (!Dragging)
                     return;
                 DragDropHelper.OnAllowedDropActionsChanged();
             }
         }
 
-        public bool Dragging => this._dragging;
+        public bool Dragging => _dragging;
 
-        public object EventContext => this.CheckEventContext(ref this._eventContext);
+        public object EventContext => CheckEventContext(ref _eventContext);
 
         protected override void OnDragEnter(UIClass ui, DragDropInfo info)
         {
-            this._dragging = true;
+            _dragging = true;
             DragDropHelper.TargetHandler = this;
-            this.FireNotification(NotificationID.Dragging);
-            this.FireNotification(NotificationID.DragEnter);
-            this.SetEventContext(info.Target, ref this._eventContext, NotificationID.EventContext);
+            FireNotification(NotificationID.Dragging);
+            FireNotification(NotificationID.DragEnter);
+            SetEventContext(info.Target, ref _eventContext, NotificationID.EventContext);
             info.MarkHandled();
             base.OnDragEnter(ui, info);
         }
 
         protected override void OnDragOver(UIClass ui, DragDropInfo info)
         {
-            if (this.Dragging)
+            if (Dragging)
             {
-                this.FireNotification(NotificationID.DragOver);
+                FireNotification(NotificationID.DragOver);
                 info.MarkHandled();
             }
             base.OnDragOver(ui, info);
@@ -70,20 +70,20 @@ namespace Microsoft.Iris.InputHandlers
 
         protected override void OnDragLeave(UIClass ui, DragDropInfo info)
         {
-            if (this.Dragging)
+            if (Dragging)
             {
-                this.EndDrag(NotificationID.DragLeave);
+                EndDrag(NotificationID.DragLeave);
                 info.MarkHandled();
-                this.SetEventContext(null, ref this._eventContext, NotificationID.EventContext);
+                SetEventContext(null, ref _eventContext, NotificationID.EventContext);
             }
             base.OnDragLeave(ui, info);
         }
 
         protected override void OnDropped(UIClass ui, DragDropInfo info)
         {
-            if (this.Dragging)
+            if (Dragging)
             {
-                this.EndDrag(NotificationID.Dropped);
+                EndDrag(NotificationID.Dropped);
                 info.MarkHandled();
             }
             base.OnDropped(ui, info);
@@ -91,9 +91,9 @@ namespace Microsoft.Iris.InputHandlers
 
         private void EndDrag(string eventName)
         {
-            this._dragging = false;
-            this.FireNotification(NotificationID.Dragging);
-            this.FireNotification(eventName);
+            _dragging = false;
+            FireNotification(NotificationID.Dragging);
+            FireNotification(eventName);
             DragDropHelper.TargetHandler = null;
         }
 

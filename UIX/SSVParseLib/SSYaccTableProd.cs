@@ -13,12 +13,12 @@ namespace SSVParseLib
 
         public SSYaccTableProd(int q_size, int q_leftside)
         {
-            this.m_size = q_size;
-            this.m_leftside = q_leftside;
+            m_size = q_size;
+            m_leftside = q_leftside;
         }
 
-        public int size() => this.m_size;
+        public int size() => m_size;
 
-        public int leftside() => this.m_leftside;
+        public int leftside() => m_leftside;
     }
 }

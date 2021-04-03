@@ -25,70 +25,70 @@ namespace Microsoft.Iris.CodeModel.Cpp
 
         protected DllTypeSchemaBase(DllLoadResult owner, uint ID)
           : base(owner)
-          => this._typeID = ID;
+          => _typeID = ID;
 
         protected override void OnDispose()
         {
             base.OnDispose();
-            if (this._constructors != null)
+            if (_constructors != null)
             {
-                foreach (KeyValueEntry<MethodSignatureKey, DllConstructorSchema> constructor in this._constructors)
+                foreach (KeyValueEntry<MethodSignatureKey, DllConstructorSchema> constructor in _constructors)
                 {
                     if (constructor.Value != null)
                         constructor.Value.Dispose(this);
                 }
-                this._constructors = null;
+                _constructors = null;
             }
-            if (this._properties != null)
+            if (_properties != null)
             {
-                foreach (DllPropertySchema dllPropertySchema in this._properties.Values)
+                foreach (DllPropertySchema dllPropertySchema in _properties.Values)
                     dllPropertySchema?.Dispose(this);
-                this._properties = null;
+                _properties = null;
             }
-            if (this._methods != null)
+            if (_methods != null)
             {
-                foreach (KeyValueEntry<MethodSignatureKey, DllMethodSchema> method in this._methods)
+                foreach (KeyValueEntry<MethodSignatureKey, DllMethodSchema> method in _methods)
                 {
                     if (method.Value != null)
                         method.Value.Dispose(this);
                 }
-                this._methods = null;
+                _methods = null;
             }
-            if (this._events == null)
+            if (_events == null)
                 return;
-            foreach (DllEventSchema dllEventSchema in this._events.Values)
+            foreach (DllEventSchema dllEventSchema in _events.Values)
                 dllEventSchema?.Dispose(this);
         }
 
         public override object ConstructDefault() => (object)null;
 
-        public override int FindTypeHint => (int)this._typeID;
+        public override int FindTypeHint => (int)_typeID;
 
-        public override bool HasDefaultConstructor => this.GetBit(Bits.HasDefaultConstructor);
+        public override bool HasDefaultConstructor => GetBit(Bits.HasDefaultConstructor);
 
-        public override bool IsRuntimeImmutable => this.GetBit(Bits.IsRuntimeImmutable);
+        public override bool IsRuntimeImmutable => GetBit(Bits.IsRuntimeImmutable);
 
         public override ConstructorSchema FindConstructor(TypeSchema[] parameters)
         {
             DllConstructorSchema constructorSchema = null;
-            if (this._constructors != null)
-                this._constructors.TryGetValue(new MethodSignatureKey(parameters), out constructorSchema);
+            if (_constructors != null)
+                _constructors.TryGetValue(new MethodSignatureKey(parameters), out constructorSchema);
             return constructorSchema;
         }
 
         public override PropertySchema FindProperty(string name)
         {
-            if (this._properties != null)
+            if (_properties != null)
             {
-                foreach (DllPropertySchema dllPropertySchema in this._properties.Values)
+                foreach (DllPropertySchema dllPropertySchema in _properties.Values)
                 {
                     if (dllPropertySchema != null && dllPropertySchema.Name == name)
                         return dllPropertySchema;
                 }
             }
-            if (this.Equivalents != null)
+            if (Equivalents != null)
             {
-                foreach (TypeSchema equivalent in this.Equivalents)
+                foreach (TypeSchema equivalent in Equivalents)
                 {
                     PropertySchema property = equivalent.FindProperty(name);
                     if (property != null)
@@ -100,15 +100,15 @@ namespace Microsoft.Iris.CodeModel.Cpp
 
         public override MethodSchema FindMethod(string name, TypeSchema[] parameters)
         {
-            if (this._methods != null)
+            if (_methods != null)
             {
                 DllMethodSchema dllMethodSchema = null;
-                if (this._methods.TryGetValue(new MethodSignatureKey(name, parameters), out dllMethodSchema))
+                if (_methods.TryGetValue(new MethodSignatureKey(name, parameters), out dllMethodSchema))
                     return dllMethodSchema;
             }
-            if (this.Equivalents != null)
+            if (Equivalents != null)
             {
-                foreach (TypeSchema equivalent in this.Equivalents)
+                foreach (TypeSchema equivalent in Equivalents)
                 {
                     MethodSchema method = equivalent.FindMethod(name, parameters);
                     if (method != null)
@@ -121,9 +121,9 @@ namespace Microsoft.Iris.CodeModel.Cpp
         public override EventSchema FindEvent(string name)
         {
             DllEventSchema dllEventSchema1 = null;
-            if (this._events != null)
+            if (_events != null)
             {
-                foreach (DllEventSchema dllEventSchema2 in this._events.Values)
+                foreach (DllEventSchema dllEventSchema2 in _events.Values)
                 {
                     if (dllEventSchema2 != null && dllEventSchema2.Name == name)
                     {
@@ -140,26 +140,26 @@ namespace Microsoft.Iris.CodeModel.Cpp
             get
             {
                 PropertySchema[] propertySchemaArray = PropertySchema.EmptyList;
-                if (this._properties != null && this._properties.Count > 0)
+                if (_properties != null && _properties.Count > 0)
                 {
-                    propertySchemaArray = new PropertySchema[this._properties.Count];
+                    propertySchemaArray = new PropertySchema[_properties.Count];
                     int num = 0;
-                    foreach (PropertySchema propertySchema in this._properties.Values)
+                    foreach (PropertySchema propertySchema in _properties.Values)
                         propertySchemaArray[num++] = propertySchema;
                 }
                 return propertySchemaArray;
             }
         }
 
-        public uint MarshalAs => this._marshalAs;
+        public uint MarshalAs => _marshalAs;
 
-        public override string Name => this._name;
+        public override string Name => _name;
 
         public override string AlternateName => (string)null;
 
-        public override TypeSchema Base => this._baseType;
+        public override TypeSchema Base => _baseType;
 
-        public override Type RuntimeType => DllLoadResult.RuntimeTypeForMarshalAs(this._marshalAs);
+        public override Type RuntimeType => DllLoadResult.RuntimeTypeForMarshalAs(_marshalAs);
 
         public override Result TypeConverter(
           object from,
@@ -202,9 +202,9 @@ namespace Microsoft.Iris.CodeModel.Cpp
 
         public override bool Disposable => true;
 
-        protected bool GetBit(DllTypeSchemaBase.Bits lookupBit) => this._bits[(int)lookupBit];
+        protected bool GetBit(DllTypeSchemaBase.Bits lookupBit) => _bits[(int)lookupBit];
 
-        protected void SetBit(DllTypeSchemaBase.Bits changeBit, bool value) => this._bits[(int)changeBit] = value;
+        protected void SetBit(DllTypeSchemaBase.Bits changeBit, bool value) => _bits[(int)changeBit] = value;
 
         protected enum Bits : uint
         {

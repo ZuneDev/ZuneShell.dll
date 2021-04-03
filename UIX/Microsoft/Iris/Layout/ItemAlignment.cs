@@ -16,27 +16,27 @@ namespace Microsoft.Iris.Layout
 
         public ItemAlignment(Alignment horizontal, Alignment vertical)
         {
-            this._horizontal = horizontal;
-            this._vertical = vertical;
+            _horizontal = horizontal;
+            _vertical = vertical;
         }
 
         public Alignment Horizontal
         {
-            get => this._horizontal;
-            set => this._horizontal = value;
+            get => _horizontal;
+            set => _horizontal = value;
         }
 
         public Alignment Vertical
         {
-            get => this._vertical;
-            set => this._vertical = value;
+            get => _vertical;
+            set => _vertical = value;
         }
 
-        public Alignment GetAlignment(Orientation orientation) => orientation != Orientation.Horizontal ? this.Vertical : this.Horizontal;
+        public Alignment GetAlignment(Orientation orientation) => orientation != Orientation.Horizontal ? Vertical : Horizontal;
 
         public override bool Equals(object obj) => obj is ItemAlignment itemAlignment && this == itemAlignment;
 
-        public override int GetHashCode() => (int)((Alignment)((int)this.Horizontal << 16) ^ this.Vertical);
+        public override int GetHashCode() => (int)((Alignment)((int)Horizontal << 16) ^ Vertical);
 
         public static bool operator ==(ItemAlignment left, ItemAlignment right) => left.Horizontal == right.Horizontal && left.Vertical == right.Vertical;
 

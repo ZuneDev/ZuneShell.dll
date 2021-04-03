@@ -19,15 +19,15 @@ namespace Microsoft.Iris.ViewItems
           Repeater target,
           int generation)
         {
-            this._changedArgs = args;
-            this._target = target;
-            this._generation = generation;
+            _changedArgs = args;
+            _target = target;
+            _generation = generation;
         }
 
-        public UIListContentsChangedArgs ChangedArgs => this._changedArgs;
+        public UIListContentsChangedArgs ChangedArgs => _changedArgs;
 
-        public Repeater Target => this._target;
+        public Repeater Target => _target;
 
-        public int Generation => this._generation;
+        public int Generation => _generation;
     }
 }

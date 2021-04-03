@@ -26,49 +26,49 @@ namespace Microsoft.Iris.ModelItems
 
         public Choice()
         {
-            this._chosen = s_noSelectionSentinal;
-            this._default = 0;
+            _chosen = s_noSelectionSentinal;
+            _default = 0;
         }
 
         protected override void OnDispose()
         {
-            this.SetOptions(null, true);
+            SetOptions(null, true);
             base.OnDispose();
         }
 
         public IList Options
         {
-            get => this._options;
-            set => this.SetOptions(value, false);
+            get => _options;
+            set => SetOptions(value, false);
         }
 
         private void SetOptions(IList value, bool disposing)
         {
-            if (this._options == value)
+            if (_options == value)
                 return;
-            if (this._options != null && this._options is INotifyList options)
-                options.ContentsChanged -= new UIListContentsChangedHandler(this.OnListContentsChanged);
-            this._options = value;
+            if (_options != null && _options is INotifyList options)
+                options.ContentsChanged -= new UIListContentsChangedHandler(OnListContentsChanged);
+            _options = value;
             if (value != null && value is INotifyList notifyList)
-                notifyList.ContentsChanged += new UIListContentsChangedHandler(this.OnListContentsChanged);
+                notifyList.ContentsChanged += new UIListContentsChangedHandler(OnListContentsChanged);
             if (disposing)
                 return;
-            int chosen = this._chosen;
-            this.Clear();
-            if (this.ValidateIndex(chosen))
-                this.SetChosenIndex(chosen);
-            else if (!ListUtility.IsNullOrEmpty(this._options))
-                this.SetChosenIndex(0);
-            this.FireNotification(NotificationID.Options);
+            int chosen = _chosen;
+            Clear();
+            if (ValidateIndex(chosen))
+                SetChosenIndex(chosen);
+            else if (!ListUtility.IsNullOrEmpty(_options))
+                SetChosenIndex(0);
+            FireNotification(NotificationID.Options);
         }
 
-        private bool ValidateIndex(int index) => this.ValidateIndex(index, out string _);
+        private bool ValidateIndex(int index) => ValidateIndex(index, out string _);
 
         public bool ValidateIndex(int index, out string error)
         {
             bool flag = true;
             error = null;
-            if (this._options != null && (index < 0 || index >= this._options.Count))
+            if (_options != null && (index < 0 || index >= _options.Count))
             {
                 error = string.Format("Selected Index {0} is not a valid index in SourceList of size {1}", index, _options.Count);
                 flag = false;
@@ -80,9 +80,9 @@ namespace Microsoft.Iris.ModelItems
         {
             bool flag = false;
             index = -1;
-            if (this._options != null)
+            if (_options != null)
             {
-                index = this._options.IndexOf(option);
+                index = _options.IndexOf(option);
                 if (index >= 0)
                     flag = true;
             }
@@ -96,92 +96,92 @@ namespace Microsoft.Iris.ModelItems
             return true;
         }
 
-        public object ChosenValue => !this.HasSelection || this.OptionsCount == 0 ? null : this._options[this._chosen];
+        public object ChosenValue => !HasSelection || OptionsCount == 0 ? null : _options[_chosen];
 
         public int ChosenIndex
         {
-            get => this._chosen;
-            set => this.SetChosenIndex(value);
+            get => _chosen;
+            set => SetChosenIndex(value);
         }
 
         public int DefaultIndex
         {
-            get => this._default;
+            get => _default;
             set
             {
-                if (this._default == value)
+                if (_default == value)
                     return;
-                this._default = value;
-                this.FireNotification(NotificationID.DefaultIndex);
+                _default = value;
+                FireNotification(NotificationID.DefaultIndex);
             }
         }
 
         private void SetChosenIndex(int index)
         {
-            if (this._chosen == index)
+            if (_chosen == index)
                 return;
-            bool hasSelection = this.HasSelection;
+            bool hasSelection = HasSelection;
             bool hasPreviousValue;
             bool hasNextValue;
-            this.CapturePrevNextState(out hasPreviousValue, out hasNextValue);
-            this._chosen = index;
-            this.FireNotification(NotificationID.ChosenIndex);
-            this.FireNotification(NotificationID.ChosenValue);
-            this.FireNotification(NotificationID.Value);
-            if (this.HasSelection != hasSelection)
-                this.FireNotification(NotificationID.HasSelection);
-            this.FirePrevNextNotifications(hasPreviousValue, hasNextValue);
+            CapturePrevNextState(out hasPreviousValue, out hasNextValue);
+            _chosen = index;
+            FireNotification(NotificationID.ChosenIndex);
+            FireNotification(NotificationID.ChosenValue);
+            FireNotification(NotificationID.Value);
+            if (HasSelection != hasSelection)
+                FireNotification(NotificationID.HasSelection);
+            FirePrevNextNotifications(hasPreviousValue, hasNextValue);
         }
 
-        public bool HasSelection => this._chosen != s_noSelectionSentinal && this._options != null;
+        public bool HasSelection => _chosen != s_noSelectionSentinal && _options != null;
 
-        public bool HasPreviousValue => this.HasPreviousValueWorker(this._wrap);
+        public bool HasPreviousValue => HasPreviousValueWorker(_wrap);
 
         public bool HasPreviousValueWorker(bool wrap)
         {
-            if (!this.HasSelection)
+            if (!HasSelection)
                 return false;
-            return wrap || this._chosen > 0;
+            return wrap || _chosen > 0;
         }
 
-        public bool HasNextValue => this.HasNextValueWorker(this._wrap);
+        public bool HasNextValue => HasNextValueWorker(_wrap);
 
         public bool HasNextValueWorker(bool wrap)
         {
-            if (!this.HasSelection)
+            if (!HasSelection)
                 return false;
-            return wrap || this._chosen < this.OptionsCount - 1;
+            return wrap || _chosen < OptionsCount - 1;
         }
 
         public bool Wrap
         {
-            get => this._wrap;
+            get => _wrap;
             set
             {
-                if (this._wrap == value)
+                if (_wrap == value)
                     return;
                 bool hasPreviousValue;
                 bool hasNextValue;
-                this.CapturePrevNextState(out hasPreviousValue, out hasNextValue);
-                this._wrap = value;
-                this.FireNotification(NotificationID.Wrap);
-                this.FirePrevNextNotifications(hasPreviousValue, hasNextValue);
+                CapturePrevNextState(out hasPreviousValue, out hasNextValue);
+                _wrap = value;
+                FireNotification(NotificationID.Wrap);
+                FirePrevNextNotifications(hasPreviousValue, hasNextValue);
             }
         }
 
         private void CapturePrevNextState(out bool hasPreviousValue, out bool hasNextValue)
         {
-            hasPreviousValue = this.HasPreviousValue;
-            hasNextValue = this.HasNextValue;
+            hasPreviousValue = HasPreviousValue;
+            hasNextValue = HasNextValue;
         }
 
         private void FirePrevNextNotifications(bool hadPreviousValue, bool hadNextValue)
         {
-            if (hadPreviousValue != this.HasPreviousValue)
-                this.FireNotification(NotificationID.HasPreviousValue);
-            if (hadNextValue == this.HasNextValue)
+            if (hadPreviousValue != HasPreviousValue)
+                FireNotification(NotificationID.HasPreviousValue);
+            if (hadNextValue == HasNextValue)
                 return;
-            this.FireNotification(NotificationID.HasNextValue);
+            FireNotification(NotificationID.HasNextValue);
         }
 
         private int OptionsCount
@@ -189,46 +189,46 @@ namespace Microsoft.Iris.ModelItems
             get
             {
                 int num = 0;
-                if (this._options != null)
-                    num = this._options.Count;
+                if (_options != null)
+                    num = _options.Count;
                 return num;
             }
         }
 
-        public void PreviousValue() => this.PreviousValue(this._wrap);
+        public void PreviousValue() => PreviousValue(_wrap);
 
         public void PreviousValue(bool wrap)
         {
-            if (!this.HasPreviousValueWorker(wrap))
+            if (!HasPreviousValueWorker(wrap))
                 return;
-            int index = this._chosen - 1;
+            int index = _chosen - 1;
             if (index < 0)
-                index = this.OptionsCount - 1;
-            this.SetChosenIndex(index);
+                index = OptionsCount - 1;
+            SetChosenIndex(index);
         }
 
-        public void NextValue() => this.NextValue(this._wrap);
+        public void NextValue() => NextValue(_wrap);
 
         public void NextValue(bool wrap)
         {
-            if (!this.HasNextValueWorker(wrap))
+            if (!HasNextValueWorker(wrap))
                 return;
-            int index = this._chosen + 1;
-            if (index >= this.OptionsCount)
+            int index = _chosen + 1;
+            if (index >= OptionsCount)
                 index = 0;
-            this.SetChosenIndex(index);
+            SetChosenIndex(index);
         }
 
         public void DefaultValue()
         {
-            if (this._default < 0 || this._default >= this.OptionsCount)
+            if (_default < 0 || _default >= OptionsCount)
                 return;
-            this.SetChosenIndex(this._default);
+            SetChosenIndex(_default);
         }
 
-        object IUIValueRange.ObjectValue => this.ChosenValue;
+        object IUIValueRange.ObjectValue => ChosenValue;
 
-        public void Clear() => this.SetChosenIndex(s_noSelectionSentinal);
+        public void Clear() => SetChosenIndex(s_noSelectionSentinal);
 
         private void OnListContentsChanged(IList senderList, UIListContentsChangedArgs args)
         {
@@ -242,35 +242,35 @@ namespace Microsoft.Iris.ModelItems
                 case UIListContentsChangeType.AddRange:
                 case UIListContentsChangeType.Insert:
                 case UIListContentsChangeType.InsertRange:
-                    if (this._chosen < newIndex)
+                    if (_chosen < newIndex)
                         break;
-                    this.SetChosenIndex(this._chosen + count);
+                    SetChosenIndex(_chosen + count);
                     break;
                 case UIListContentsChangeType.Remove:
-                    if (oldIndex == this._chosen)
+                    if (oldIndex == _chosen)
                     {
-                        this.Clear();
+                        Clear();
                         break;
                     }
-                    if (this._chosen <= oldIndex)
+                    if (_chosen <= oldIndex)
                         break;
-                    this.SetChosenIndex(this._chosen - 1);
+                    SetChosenIndex(_chosen - 1);
                     break;
                 case UIListContentsChangeType.Move:
-                    if (oldIndex == newIndex || this._chosen < oldIndex)
+                    if (oldIndex == newIndex || _chosen < oldIndex)
                         break;
-                    if (this._chosen == oldIndex)
+                    if (_chosen == oldIndex)
                     {
-                        this.SetChosenIndex(newIndex);
+                        SetChosenIndex(newIndex);
                         break;
                     }
-                    if (this._chosen >= newIndex)
+                    if (_chosen >= newIndex)
                         break;
-                    this.SetChosenIndex(newIndex - 1);
+                    SetChosenIndex(newIndex - 1);
                     break;
                 case UIListContentsChangeType.Clear:
                 case UIListContentsChangeType.Reset:
-                    this.Clear();
+                    Clear();
                     break;
             }
         }

@@ -25,46 +25,46 @@ namespace Microsoft.Iris.Markup.Validation
           int column)
           : base(owner, line, column, StatementType.ScopedLocal)
         {
-            this._name = name;
-            this._typeIdentifier = typeIdentifier;
+            _name = name;
+            _typeIdentifier = typeIdentifier;
         }
 
-        public string Name => this._name;
+        public string Name => _name;
 
-        public ValidateTypeIdentifier TypeIdentifier => this._typeIdentifier;
+        public ValidateTypeIdentifier TypeIdentifier => _typeIdentifier;
 
         public override void Validate(ValidateCode container, ValidateContext context)
         {
-            if (context.CurrentPass >= LoadPass.PopulatePublicModel && !this._typeIdentifier.Validated)
+            if (context.CurrentPass >= LoadPass.PopulatePublicModel && !_typeIdentifier.Validated)
             {
-                this._typeIdentifier.Validate();
-                if (this._typeIdentifier.HasErrors)
+                _typeIdentifier.Validate();
+                if (_typeIdentifier.HasErrors)
                 {
-                    this.MarkHasErrors();
+                    MarkHasErrors();
                     return;
                 }
-                this._foundType = this._typeIdentifier.FoundType;
-                this._foundTypeIndex = this._typeIdentifier.FoundTypeIndex;
+                _foundType = _typeIdentifier.FoundType;
+                _foundTypeIndex = _typeIdentifier.FoundTypeIndex;
             }
             if (context.CurrentPass != LoadPass.Full)
                 return;
-            Result result = context.NotifyScopedLocal(this._name, this._foundType);
+            Result result = context.NotifyScopedLocal(_name, _foundType);
             if (result.Failed)
-                this.ReportError(result.Error);
+                ReportError(result.Error);
             else
-                this._foundSymbolIndex = context.TrackSymbolUsage(this._name, SymbolOrigin.ScopedLocal);
+                _foundSymbolIndex = context.TrackSymbolUsage(_name, SymbolOrigin.ScopedLocal);
         }
 
         public bool HasInitialAssignment
         {
-            get => this._hasInitialAssignment;
-            set => this._hasInitialAssignment = value;
+            get => _hasInitialAssignment;
+            set => _hasInitialAssignment = value;
         }
 
-        public TypeSchema FoundType => this._foundType;
+        public TypeSchema FoundType => _foundType;
 
-        public int FoundTypeIndex => this._foundTypeIndex;
+        public int FoundTypeIndex => _foundTypeIndex;
 
-        public int FoundSymbolIndex => this._foundSymbolIndex;
+        public int FoundSymbolIndex => _foundSymbolIndex;
     }
 }

@@ -30,7 +30,7 @@ namespace Microsoft.Iris.Markup
         protected override void SealWorker()
         {
             base.SealWorker();
-            this._defaultProperty = this.FindPropertyDeep("Default");
+            _defaultProperty = FindPropertyDeep("Default");
         }
 
         public override MarkupType MarkupType => MarkupType.Effect;
@@ -38,31 +38,31 @@ namespace Microsoft.Iris.Markup
         protected override void OnDispose()
         {
             base.OnDispose();
-            if (this._effectTemplate == null)
+            if (_effectTemplate == null)
                 return;
-            this._effectTemplate.UnregisterUsage(this);
-            this._effectTemplate = null;
+            _effectTemplate.UnregisterUsage(this);
+            _effectTemplate = null;
         }
 
         protected override TypeSchema DefaultBase => EffectInstanceSchema.Type;
 
         public override Type RuntimeType => typeof(EffectClass);
 
-        public string DefaultElementSymbol => this._defaultElementSymbolIndex >= 0 ? this.SymbolReferenceTable[this._defaultElementSymbolIndex].Symbol : null;
+        public string DefaultElementSymbol => _defaultElementSymbolIndex >= 0 ? SymbolReferenceTable[_defaultElementSymbolIndex].Symbol : null;
 
         protected override Class ConstructNewInstance()
         {
-            this.EnsureEffectTemplate();
-            return new EffectClass(this, this._effectTemplate);
+            EnsureEffectTemplate();
+            return new EffectClass(this, _effectTemplate);
         }
 
         protected override bool RunInitialEvaluates(IMarkupTypeBase scriptHost)
         {
             bool flag = true;
-            if (this._instancePropertyAssignments != null && this._templateIndexBuilt >= 0)
+            if (_instancePropertyAssignments != null && _templateIndexBuilt >= 0)
             {
                 ErrorManager.EnterContext(this);
-                flag = this.RunInitializeScript(scriptHost, this._instancePropertyAssignments[this._templateIndexBuilt]);
+                flag = RunInitializeScript(scriptHost, _instancePropertyAssignments[_templateIndexBuilt]);
                 ErrorManager.ExitContext();
             }
             return flag && base.RunInitialEvaluates(scriptHost);
@@ -70,16 +70,16 @@ namespace Microsoft.Iris.Markup
 
         private void EnsureEffectTemplate()
         {
-            if (this._effectTemplate != null)
+            if (_effectTemplate != null)
                 return;
-            this._effectTemplate = UISession.Default.RenderSession.CreateEffectTemplate(this, this.Name);
+            _effectTemplate = UISession.Default.RenderSession.CreateEffectTemplate(this, Name);
             ErrorManager.EnterContext(this);
             Class @class = new Class(this);
             @class.DeclareOwner(this);
-            this._templateIndexBuilt = -1;
-            for (int index = 0; index < this._techniqueOffsets.Length; ++index)
+            _templateIndexBuilt = -1;
+            for (int index = 0; index < _techniqueOffsets.Length; ++index)
             {
-                object obj = this.RunAtOffset(@class, this._techniqueOffsets[index]);
+                object obj = RunAtOffset(@class, _techniqueOffsets[index]);
                 if (obj == Interpreter.ScriptError)
                 {
                     if (!ErrorManager.IgnoringErrors)
@@ -88,14 +88,14 @@ namespace Microsoft.Iris.Markup
                 else
                 {
                     EffectInput input = (EffectInput)obj;
-                    if (this._dynamicElementAssignments != null)
+                    if (_dynamicElementAssignments != null)
                     {
-                        foreach (string elementAssignment in this._dynamicElementAssignments)
-                            this._effectTemplate.AddEffectProperty(elementAssignment);
+                        foreach (string elementAssignment in _dynamicElementAssignments)
+                            _effectTemplate.AddEffectProperty(elementAssignment);
                     }
-                    if (this._effectTemplate.Build(input))
+                    if (_effectTemplate.Build(input))
                     {
-                        this._templateIndexBuilt = index;
+                        _templateIndexBuilt = index;
                         break;
                     }
                 }
@@ -104,20 +104,20 @@ namespace Microsoft.Iris.Markup
             ErrorManager.ExitContext();
         }
 
-        public uint[] TechniqueOffsets => this._techniqueOffsets;
+        public uint[] TechniqueOffsets => _techniqueOffsets;
 
-        public uint[] InstancePropertyAssignments => this._instancePropertyAssignments;
+        public uint[] InstancePropertyAssignments => _instancePropertyAssignments;
 
-        public string[] DynamicElementAssignments => this._dynamicElementAssignments;
+        public string[] DynamicElementAssignments => _dynamicElementAssignments;
 
-        public int DefaultElementSymbolIndex => this._defaultElementSymbolIndex;
+        public int DefaultElementSymbolIndex => _defaultElementSymbolIndex;
 
-        public void SetTechniqueOffsets(uint[] techniqueOffsets) => this._techniqueOffsets = techniqueOffsets;
+        public void SetTechniqueOffsets(uint[] techniqueOffsets) => _techniqueOffsets = techniqueOffsets;
 
-        public void SetInstancePropertyAssignments(uint[] instancePropertyAssignments) => this._instancePropertyAssignments = instancePropertyAssignments;
+        public void SetInstancePropertyAssignments(uint[] instancePropertyAssignments) => _instancePropertyAssignments = instancePropertyAssignments;
 
-        public void SetDynamicElementAssignments(string[] dynamicElementAssignments) => this._dynamicElementAssignments = dynamicElementAssignments;
+        public void SetDynamicElementAssignments(string[] dynamicElementAssignments) => _dynamicElementAssignments = dynamicElementAssignments;
 
-        public void SetDefaultElementSymbolIndex(int symbolIndex) => this._defaultElementSymbolIndex = symbolIndex;
+        public void SetDefaultElementSymbolIndex(int symbolIndex) => _defaultElementSymbolIndex = symbolIndex;
     }
 }

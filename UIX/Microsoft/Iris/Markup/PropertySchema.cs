@@ -15,11 +15,11 @@ namespace Microsoft.Iris.Markup
 
         public PropertySchema(TypeSchema owner)
         {
-            this._owner = owner;
-            this.DeclareOwner(owner);
+            _owner = owner;
+            DeclareOwner(owner);
         }
 
-        public TypeSchema Owner => this._owner;
+        public TypeSchema Owner => _owner;
 
         public abstract string Name { get; }
 

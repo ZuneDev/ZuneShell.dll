@@ -23,38 +23,38 @@ namespace Microsoft.Iris.Markup.Validation
           int column)
           : base(owner, line, column, ExpressionType.Ternary)
         {
-            this._condition = condition;
-            this._trueClause = trueClause;
-            this._falseClause = falseClause;
+            _condition = condition;
+            _trueClause = trueClause;
+            _falseClause = falseClause;
         }
 
-        public ValidateExpression Condition => this._condition;
+        public ValidateExpression Condition => _condition;
 
-        public ValidateExpression TrueClause => this._trueClause;
+        public ValidateExpression TrueClause => _trueClause;
 
-        public ValidateExpression FalseClause => this._falseClause;
+        public ValidateExpression FalseClause => _falseClause;
 
         public override void Validate(TypeRestriction typeRestriction, ValidateContext context)
         {
-            if (this.Usage == ExpressionUsage.LValue)
-                this.ReportError("Expression cannot be used as the target an assignment (related symbol: '{0}')", "Ternary");
-            this._condition.Validate(new TypeRestriction(BooleanSchema.Type), context);
-            if (this._condition.HasErrors)
-                this.MarkHasErrors();
-            this._trueClause.Validate(typeRestriction, context);
-            if (this._trueClause.HasErrors)
-                this.MarkHasErrors();
-            this._falseClause.Validate(typeRestriction, context);
-            if (this._falseClause.HasErrors)
-                this.MarkHasErrors();
-            if (this._trueClause.ObjectType == null || this._falseClause.ObjectType == null)
+            if (Usage == ExpressionUsage.LValue)
+                ReportError("Expression cannot be used as the target an assignment (related symbol: '{0}')", "Ternary");
+            _condition.Validate(new TypeRestriction(BooleanSchema.Type), context);
+            if (_condition.HasErrors)
+                MarkHasErrors();
+            _trueClause.Validate(typeRestriction, context);
+            if (_trueClause.HasErrors)
+                MarkHasErrors();
+            _falseClause.Validate(typeRestriction, context);
+            if (_falseClause.HasErrors)
+                MarkHasErrors();
+            if (_trueClause.ObjectType == null || _falseClause.ObjectType == null)
                 return;
-            if (this._trueClause.ObjectType.IsAssignableFrom(this._falseClause.ObjectType))
-                this.DeclareEvaluationType(this._trueClause.ObjectType, typeRestriction);
-            else if (this._falseClause.ObjectType.IsAssignableFrom(this._trueClause.ObjectType))
-                this.DeclareEvaluationType(this._falseClause.ObjectType, typeRestriction);
+            if (_trueClause.ObjectType.IsAssignableFrom(_falseClause.ObjectType))
+                DeclareEvaluationType(_trueClause.ObjectType, typeRestriction);
+            else if (_falseClause.ObjectType.IsAssignableFrom(_trueClause.ObjectType))
+                DeclareEvaluationType(_falseClause.ObjectType, typeRestriction);
             else
-                this.ReportError("Both expressions for the {0} operator must match: '{1}' and '{2}' are not compatible", "?:", this._trueClause.ObjectType.Name, this._falseClause.ObjectType.Name);
+                ReportError("Both expressions for the {0} operator must match: '{1}' and '{2}' are not compatible", "?:", _trueClause.ObjectType.Name, _falseClause.ObjectType.Name);
         }
     }
 }

@@ -15,15 +15,15 @@ namespace Microsoft.Iris.Drawing
 
         public RawImageItemKey(string id)
           : base(id)
-          => this._uniqueId = ++s_uniqueId;
+          => _uniqueId = ++s_uniqueId;
 
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(this, obj))
                 return true;
-            return obj is RawImageItemKey rawImageItemKey && this._uniqueId == rawImageItemKey._uniqueId;
+            return obj is RawImageItemKey rawImageItemKey && _uniqueId == rawImageItemKey._uniqueId;
         }
 
-        public override int GetHashCode() => this._uniqueId;
+        public override int GetHashCode() => _uniqueId;
     }
 }

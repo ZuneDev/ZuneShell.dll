@@ -13,14 +13,14 @@ namespace Microsoft.Iris.Markup
 
         public TypeSchema Constraint
         {
-            get => this._constraint;
-            set => this._constraint = value;
+            get => _constraint;
+            set => _constraint = value;
         }
 
         public TypeSchema Type
         {
-            get => this._type;
-            set => this._type = value;
+            get => _type;
+            set => _type = value;
         }
     }
 }

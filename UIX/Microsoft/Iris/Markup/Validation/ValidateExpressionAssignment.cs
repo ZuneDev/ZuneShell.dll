@@ -20,36 +20,36 @@ namespace Microsoft.Iris.Markup.Validation
           int column)
           : base(owner, line, column, ExpressionType.Assignment)
         {
-            this._lvalue = lvalue;
-            this._rvalue = rvalue;
+            _lvalue = lvalue;
+            _rvalue = rvalue;
         }
 
-        public ValidateExpression LValue => this._lvalue;
+        public ValidateExpression LValue => _lvalue;
 
-        public ValidateExpression RValue => this._rvalue;
+        public ValidateExpression RValue => _rvalue;
 
-        public bool IsIndexAssignment => this._isIndexAssignment;
+        public bool IsIndexAssignment => _isIndexAssignment;
 
         public override void Validate(TypeRestriction typeRestriction, ValidateContext context)
         {
-            if (this._lvalue.ExpressionType == ExpressionType.Index)
+            if (_lvalue.ExpressionType == ExpressionType.Index)
             {
-                this._isIndexAssignment = true;
-                ((ValidateExpressionIndex)this._lvalue).SetAssignmentValue(this._rvalue);
+                _isIndexAssignment = true;
+                ((ValidateExpressionIndex)_lvalue).SetAssignmentValue(_rvalue);
             }
-            this._lvalue.MakeLValueUsage();
-            this._lvalue.Validate(TypeRestriction.NotVoid, context);
-            if (this._lvalue.HasErrors)
-                this.MarkHasErrors();
-            if (this._lvalue.ObjectType != null)
-                this.DeclareEvaluationType(this._lvalue.ObjectType, typeRestriction);
-            if (!this._rvalue.HasErrors && this._rvalue.ObjectType == null)
-                this._rvalue.Validate(TypeRestriction.NotVoid, context);
-            if (this._rvalue.HasErrors)
-                this.MarkHasErrors();
-            if (this.HasErrors || this._lvalue.ObjectType.IsAssignableFrom(this._rvalue.ObjectType))
+            _lvalue.MakeLValueUsage();
+            _lvalue.Validate(TypeRestriction.NotVoid, context);
+            if (_lvalue.HasErrors)
+                MarkHasErrors();
+            if (_lvalue.ObjectType != null)
+                DeclareEvaluationType(_lvalue.ObjectType, typeRestriction);
+            if (!_rvalue.HasErrors && _rvalue.ObjectType == null)
+                _rvalue.Validate(TypeRestriction.NotVoid, context);
+            if (_rvalue.HasErrors)
+                MarkHasErrors();
+            if (HasErrors || _lvalue.ObjectType.IsAssignableFrom(_rvalue.ObjectType))
                 return;
-            this.ReportError("Invalid assignment: Type '{0}' cannot be assigned to type '{1}'", this._rvalue.ObjectType.Name, this._lvalue.ObjectType.Name);
+            ReportError("Invalid assignment: Type '{0}' cannot be assigned to type '{1}'", _rvalue.ObjectType.Name, _lvalue.ObjectType.Name);
         }
     }
 }

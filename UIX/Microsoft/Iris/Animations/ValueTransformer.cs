@@ -19,58 +19,58 @@ namespace Microsoft.Iris.Animations
 
         public ValueTransformer()
         {
-            this._multiply = 1f;
-            this._divide = 1f;
-            this._mod = float.MaxValue;
+            _multiply = 1f;
+            _divide = 1f;
+            _mod = float.MaxValue;
         }
 
         public float Transform(float value)
         {
-            value *= this._multiply;
-            value /= this._divide;
-            value += this._add;
-            value -= this._subtract;
+            value *= _multiply;
+            value /= _divide;
+            value += _add;
+            value -= _subtract;
             if (_mod != 3.40282346638529E+38)
-                value %= this._mod;
-            if (this._absolute)
+                value %= _mod;
+            if (_absolute)
                 value = Math.Abs(value);
             return value;
         }
 
         public float Add
         {
-            get => this._add;
-            set => this._add = value;
+            get => _add;
+            set => _add = value;
         }
 
         public float Subtract
         {
-            get => this._subtract;
-            set => this._subtract = value;
+            get => _subtract;
+            set => _subtract = value;
         }
 
         public float Multiply
         {
-            get => this._multiply;
-            set => this._multiply = value;
+            get => _multiply;
+            set => _multiply = value;
         }
 
         public float Divide
         {
-            get => this._divide;
-            set => this._divide = value;
+            get => _divide;
+            set => _divide = value;
         }
 
         public float Mod
         {
-            get => this._mod;
-            set => this._mod = value;
+            get => _mod;
+            set => _mod = value;
         }
 
         public bool Absolute
         {
-            get => this._absolute;
-            set => this._absolute = value;
+            get => _absolute;
+            set => _absolute = value;
         }
     }
 }

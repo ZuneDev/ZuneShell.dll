@@ -16,19 +16,19 @@ namespace Microsoft.Iris.Library
         {
         }
 
-        public bool IsDisposed => this._isDisposed;
+        public bool IsDisposed => _isDisposed;
 
-        public void DeclareOwner(object owner) => this.OnOwnerDeclared(owner);
+        public void DeclareOwner(object owner) => OnOwnerDeclared(owner);
 
-        public void TransferOwnership(object owner) => this.OnOwnerDeclared(owner);
+        public void TransferOwnership(object owner) => OnOwnerDeclared(owner);
 
         protected virtual void OnOwnerDeclared(object owner)
         {
         }
 
-        public void Dispose(object owner) => this.OnDispose();
+        public void Dispose(object owner) => OnDispose();
 
-        protected virtual void OnDispose() => this._isDisposed = true;
+        protected virtual void OnDispose() => _isDisposed = true;
 
         [Conditional("DEBUG")]
         public void DEBUG_DeclareDisposeUnnecessary()

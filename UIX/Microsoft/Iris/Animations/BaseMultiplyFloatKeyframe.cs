@@ -8,7 +8,7 @@ namespace Microsoft.Iris.Animations
 {
     internal abstract class BaseMultiplyFloatKeyframe : BaseFloatKeyframe
     {
-        public BaseMultiplyFloatKeyframe() => this.Value = 1f;
+        public BaseMultiplyFloatKeyframe() => Value = 1f;
 
         public override bool Multiply => true;
     }

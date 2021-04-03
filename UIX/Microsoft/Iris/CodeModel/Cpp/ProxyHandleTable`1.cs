@@ -27,9 +27,9 @@ namespace Microsoft.Iris.CodeModel.Cpp
 
         public ProxyHandleTable()
         {
-            this._oldestFreeIndex = -1;
-            this._newestFreeIndex = -1;
-            this._filledBoundary = 0;
+            _oldestFreeIndex = -1;
+            _newestFreeIndex = -1;
+            _filledBoundary = 0;
         }
 
         protected bool InternalLookupByHandle(ulong handle, out T obj)
@@ -38,8 +38,8 @@ namespace Microsoft.Iris.CodeModel.Cpp
             obj = default(T);
             int index;
             uint uniquenessBits;
-            this.DecodeHandle(handle, out index, out uniquenessBits);
-            ProxyHandleTable<T>.ListEntry entry = this._entries[index];
+            DecodeHandle(handle, out index, out uniquenessBits);
+            ProxyHandleTable<T>.ListEntry entry = _entries[index];
             if ((int)uniquenessBits == (int)entry.Uniquifier)
             {
                 flag = true;
@@ -50,30 +50,30 @@ namespace Microsoft.Iris.CodeModel.Cpp
 
         protected ulong AllocateHandle(T obj)
         {
-            this.EnsureSpaceForNewEntry();
-            int index = this.ReserveIndexForNewEntry();
-            return this.StoreNewEntry(obj, index);
+            EnsureSpaceForNewEntry();
+            int index = ReserveIndexForNewEntry();
+            return StoreNewEntry(obj, index);
         }
 
         private void EnsureSpaceForNewEntry()
         {
-            if (this._entries != null && (this._oldestFreeIndex != -1 || this._filledBoundary != this._entries.Length))
+            if (_entries != null && (_oldestFreeIndex != -1 || _filledBoundary != _entries.Length))
                 return;
-            this.EnlargeList();
+            EnlargeList();
         }
 
         private int ReserveIndexForNewEntry()
         {
             int index;
-            if (this._oldestFreeIndex != -1)
+            if (_oldestFreeIndex != -1)
             {
-                index = this.FreeListIndexToRealIndex(this._oldestFreeIndex);
-                this._oldestFreeIndex = this._entries[index].FreeIndex;
-                if (this._oldestFreeIndex == -1)
-                    this._newestFreeIndex = -1;
+                index = FreeListIndexToRealIndex(_oldestFreeIndex);
+                _oldestFreeIndex = _entries[index].FreeIndex;
+                if (_oldestFreeIndex == -1)
+                    _newestFreeIndex = -1;
             }
             else
-                index = this._filledBoundary++;
+                index = _filledBoundary++;
             return index;
         }
 
@@ -81,12 +81,12 @@ namespace Microsoft.Iris.CodeModel.Cpp
         {
             ulong handle;
             uint uniquifier;
-            this.GenerateHandle(index, out handle, out uniquifier);
+            GenerateHandle(index, out handle, out uniquifier);
             int index1 = -2;
-            this.AddRef(ref index1);
-            this._entries[index].Uniquifier = uniquifier;
-            this._entries[index].Value = obj;
-            this._entries[index].FreeIndex = index1;
+            AddRef(ref index1);
+            _entries[index].Uniquifier = uniquifier;
+            _entries[index].Value = obj;
+            _entries[index].FreeIndex = index1;
             return handle;
         }
 
@@ -96,9 +96,9 @@ namespace Microsoft.Iris.CodeModel.Cpp
 
         private void GenerateHandle(int insertIndex, out ulong handle, out uint uniquifier)
         {
-            ++this._lifetimeCount;
-            uniquifier = this.TableIndex << 30;
-            uniquifier |= this._lifetimeCount & 1073741823U;
+            ++_lifetimeCount;
+            uniquifier = TableIndex << 30;
+            uniquifier |= _lifetimeCount & 1073741823U;
             handle = (ulong)uniquifier << 32;
             uint num = (uint)insertIndex;
             handle |= num;
@@ -113,23 +113,23 @@ namespace Microsoft.Iris.CodeModel.Cpp
 
         private void EnlargeList()
         {
-            if (this._entries == null)
+            if (_entries == null)
             {
-                this._entries = new ProxyHandleTable<T>.ListEntry[4];
+                _entries = new ProxyHandleTable<T>.ListEntry[4];
             }
             else
             {
-                ProxyHandleTable<T>.ListEntry[] listEntryArray = new ProxyHandleTable<T>.ListEntry[this._entries.Length * 2];
-                Array.Copy(_entries, listEntryArray, this._entries.Length);
-                this._entries = listEntryArray;
+                ProxyHandleTable<T>.ListEntry[] listEntryArray = new ProxyHandleTable<T>.ListEntry[_entries.Length * 2];
+                Array.Copy(_entries, listEntryArray, _entries.Length);
+                _entries = listEntryArray;
             }
         }
 
         protected void AddRefHandle(ulong handle)
         {
             int index;
-            this.DecodeHandle(handle, out index, out uint _);
-            this.AddRef(ref this._entries[index].FreeIndex);
+            DecodeHandle(handle, out index, out uint _);
+            AddRef(ref _entries[index].FreeIndex);
         }
 
         private void AddRef(ref int index) => --index;
@@ -140,27 +140,27 @@ namespace Microsoft.Iris.CodeModel.Cpp
         {
             bool flag = false;
             int index;
-            this.DecodeHandle(handle, out index, out uint _);
-            this.Release(ref this._entries[index].FreeIndex);
-            oldValue = this._entries[index].Value;
-            if (this._entries[index].FreeIndex == -2)
+            DecodeHandle(handle, out index, out uint _);
+            Release(ref _entries[index].FreeIndex);
+            oldValue = _entries[index].Value;
+            if (_entries[index].FreeIndex == -2)
             {
                 flag = true;
-                this.RemoveEntry(index);
+                RemoveEntry(index);
             }
             return flag;
         }
 
         private void RemoveEntry(int index)
         {
-            this._entries[index].Value = default(T);
-            int freeListIndex = this.RealIndexToFreeListIndex(index);
-            if (this._newestFreeIndex != -1)
-                this._entries[this.FreeListIndexToRealIndex(this._newestFreeIndex)].FreeIndex = freeListIndex;
+            _entries[index].Value = default(T);
+            int freeListIndex = RealIndexToFreeListIndex(index);
+            if (_newestFreeIndex != -1)
+                _entries[FreeListIndexToRealIndex(_newestFreeIndex)].FreeIndex = freeListIndex;
             else
-                this._oldestFreeIndex = freeListIndex;
-            this._newestFreeIndex = freeListIndex;
-            this._entries[index].FreeIndex = -1;
+                _oldestFreeIndex = freeListIndex;
+            _newestFreeIndex = freeListIndex;
+            _entries[index].FreeIndex = -1;
         }
 
         protected ProxyHandleTable<T>.ProxyHandleTableEnumerator GetTableEnumerator() => new ProxyHandleTable<T>.ProxyHandleTableEnumerator(this);
@@ -185,23 +185,23 @@ namespace Microsoft.Iris.CodeModel.Cpp
 
             public ProxyHandleTableEnumerator(ProxyHandleTable<T> table)
             {
-                this._table = table;
-                this._index = -1;
+                _table = table;
+                _index = -1;
             }
 
             public bool MoveNext()
             {
                 do
                 {
-                    ++this._index;
+                    ++_index;
                 }
-                while (this._index < this._table._filledBoundary && this._table._entries[this._index].FreeIndex > -2);
-                return this._index < this._table._filledBoundary;
+                while (_index < _table._filledBoundary && _table._entries[_index].FreeIndex > -2);
+                return _index < _table._filledBoundary;
             }
 
-            public T Current => this._table._entries[this._index].Value;
+            public T Current => _table._entries[_index].Value;
 
-            public void Reset() => this._index = -1;
+            public void Reset() => _index = -1;
         }
     }
 }

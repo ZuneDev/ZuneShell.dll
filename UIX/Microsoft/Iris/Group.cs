@@ -16,39 +16,39 @@ namespace Microsoft.Iris
         internal Group(GroupedList groupedList, int startIndex, int count)
           : base(groupedList, true, null)
         {
-            this._groupedList = groupedList;
-            this._startIndex = startIndex;
-            this.Count = count;
+            _groupedList = groupedList;
+            _startIndex = startIndex;
+            Count = count;
         }
 
         public int StartIndex
         {
-            get => this._startIndex;
+            get => _startIndex;
             internal set
             {
-                if (this._startIndex == value)
+                if (_startIndex == value)
                     return;
-                this._startIndex = value;
-                this.FirePropertyChanged(nameof(StartIndex));
-                this.FirePropertyChanged("EndIndex");
+                _startIndex = value;
+                FirePropertyChanged(nameof(StartIndex));
+                FirePropertyChanged("EndIndex");
             }
         }
 
-        public int EndIndex => this.StartIndex + this.Count - 1;
+        public int EndIndex => StartIndex + Count - 1;
 
-        internal override void OnCountChanged() => this.FirePropertyChanged("EndIndex");
+        internal override void OnCountChanged() => FirePropertyChanged("EndIndex");
 
-        private int GetSourceIndex(int groupedIndex) => this.StartIndex + groupedIndex;
+        private int GetSourceIndex(int groupedIndex) => StartIndex + groupedIndex;
 
-        internal bool ContainsSourceIndex(int sourceIndex) => this.StartIndex <= sourceIndex && sourceIndex <= this.EndIndex;
+        internal bool ContainsSourceIndex(int sourceIndex) => StartIndex <= sourceIndex && sourceIndex <= EndIndex;
 
-        protected override object OnRequestItem(int index) => this._groupedList.Source[this.GetSourceIndex(index)];
+        protected override object OnRequestItem(int index) => _groupedList.Source[GetSourceIndex(index)];
 
         protected override void OnRequestSlowData(int groupedIndex)
         {
-            if (!(this._groupedList.Source is IVirtualList source) || !source.SlowDataRequestsEnabled)
+            if (!(_groupedList.Source is IVirtualList source) || !source.SlowDataRequestsEnabled)
                 return;
-            int sourceIndex = this.GetSourceIndex(groupedIndex);
+            int sourceIndex = GetSourceIndex(groupedIndex);
             if (sourceIndex >= source.Count)
                 return;
             source.NotifyRequestSlowData(sourceIndex);

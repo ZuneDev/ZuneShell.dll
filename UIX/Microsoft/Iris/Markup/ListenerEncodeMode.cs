@@ -16,18 +16,18 @@ namespace Microsoft.Iris.Markup
 
         public ListenerEncodeMode(MarkupTypeSchema typeSchema)
         {
-            this._typeSchema = typeSchema;
+            _typeSchema = typeSchema;
             if (typeSchema.MarkupTypeBase == null)
                 return;
-            this._totalListenersOnBaseType = typeSchema.MarkupTypeBase.TotalListenerCount;
+            _totalListenersOnBaseType = typeSchema.MarkupTypeBase.TotalListenerCount;
         }
 
-        public uint SequentialListenerIndex(uint localListenerIndex) => this._totalListenersOnBaseType + localListenerIndex;
+        public uint SequentialListenerIndex(uint localListenerIndex) => _totalListenersOnBaseType + localListenerIndex;
 
-        public uint ScriptId => this._typeSchema.EncodeScriptOffsetAsId(this.TriggerContainer.ActionCode.EncodeStartOffset);
+        public uint ScriptId => _typeSchema.EncodeScriptOffsetAsId(TriggerContainer.ActionCode.EncodeStartOffset);
 
-        public uint RefreshId => this._typeSchema.EncodeScriptOffsetAsId(this.TriggerContainer.SourceExpression.EncodeStartOffset);
+        public uint RefreshId => _typeSchema.EncodeScriptOffsetAsId(TriggerContainer.SourceExpression.EncodeStartOffset);
 
-        public bool RunOnNonTailTrigger => this.TriggerContainer.SourceExpression.ExpressionType != ExpressionType.Call || ((ValidateExpressionCall)this.TriggerContainer.SourceExpression).FoundMemberType != SchemaType.Event;
+        public bool RunOnNonTailTrigger => TriggerContainer.SourceExpression.ExpressionType != ExpressionType.Call || ((ValidateExpressionCall)TriggerContainer.SourceExpression).FoundMemberType != SchemaType.Event;
     }
 }

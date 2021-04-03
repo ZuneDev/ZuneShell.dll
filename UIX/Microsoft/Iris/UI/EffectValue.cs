@@ -16,11 +16,11 @@ namespace Microsoft.Iris.UI
 
         public EffectValue(object value, EffectValueType type)
         {
-            this._value = value;
-            this._type = type;
+            _value = value;
+            _type = type;
         }
 
-        public void SetValueOnEffect(IEffect effect, string property) => SetValueOnEffect(effect, property, this._value, this._type);
+        public void SetValueOnEffect(IEffect effect, string property) => SetValueOnEffect(effect, property, _value, _type);
 
         public static void SetValueOnEffect(
           IEffect effect,

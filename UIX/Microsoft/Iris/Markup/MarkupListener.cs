@@ -21,30 +21,30 @@ namespace Microsoft.Iris.Markup
           IMarkupTypeBase scriptHost,
           uint scriptId)
         {
-            this._watch = watch;
-            this._scriptHost = scriptHost;
-            this._scriptId = scriptId;
-            this._watch = NotifyService.CanonicalizeString(this._watch);
+            _watch = watch;
+            _scriptHost = scriptHost;
+            _scriptId = scriptId;
+            _watch = NotifyService.CanonicalizeString(_watch);
             notifier.AddListener(this);
         }
 
         public override void Dispose()
         {
-            this._scriptHost = null;
-            this._scriptId = uint.MaxValue;
+            _scriptHost = null;
+            _scriptId = uint.MaxValue;
             base.Dispose();
         }
 
-        internal IMarkupTypeBase ScriptHost => this._scriptHost;
+        internal IMarkupTypeBase ScriptHost => _scriptHost;
 
         public override void OnNotify()
         {
             base.OnNotify();
-            if (this._scriptId == uint.MaxValue)
+            if (_scriptId == uint.MaxValue)
                 return;
-            this._scriptHost.ScheduleScriptRun(this._scriptId, false);
+            _scriptHost.ScheduleScriptRun(_scriptId, false);
         }
 
-        public override string ToString() => string.Format("{0}{4}: {1}->0x{2:X8} on '{3}'", this.GetType().Name, _watch, _scriptId, _scriptHost, "");
+        public override string ToString() => string.Format("{0}{4}: {1}->0x{2:X8} on '{3}'", GetType().Name, _watch, _scriptId, _scriptHost, "");
     }
 }

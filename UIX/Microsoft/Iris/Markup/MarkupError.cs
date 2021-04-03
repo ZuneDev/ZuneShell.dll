@@ -15,26 +15,26 @@ namespace Microsoft.Iris.Markup
 
         internal MarkupError(ErrorRecord error)
         {
-            this._error = error;
-            this._context = error.Context;
-            if (this._context == null || error.Line == -1)
+            _error = error;
+            _context = error.Context;
+            if (_context == null || error.Line == -1)
                 return;
             if (error.Column != -1)
-                this._context = string.Format("{0} ({1},{2})", _context, error.Line, error.Column);
+                _context = string.Format("{0} ({1},{2})", _context, error.Line, error.Column);
             else
-                this._context = string.Format("{0} ({1})", _context, error.Line);
+                _context = string.Format("{0} ({1})", _context, error.Line);
         }
 
-        public bool IsError => !this._error.Warning;
+        public bool IsError => !_error.Warning;
 
-        public string Message => this._error.Message;
+        public string Message => _error.Message;
 
-        public string Context => this._context;
+        public string Context => _context;
 
-        public string Uri => this._error.Context;
+        public string Uri => _error.Context;
 
-        public int Line => this._error.Line;
+        public int Line => _error.Line;
 
-        public int Column => this._error.Column;
+        public int Column => _error.Column;
     }
 }

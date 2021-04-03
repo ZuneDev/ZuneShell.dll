@@ -10,36 +10,36 @@ namespace Microsoft.Iris.Queues
     {
         private QueueItem.FIFO _fifo;
 
-        public SimpleQueue() => this._fifo = new QueueItem.FIFO();
+        public SimpleQueue() => _fifo = new QueueItem.FIFO();
 
         public override void Dispose()
         {
-            this._fifo.Dispose();
+            _fifo.Dispose();
             base.Dispose();
         }
 
-        public bool IsEmpty => this._fifo.Head == null;
+        public bool IsEmpty => _fifo.Head == null;
 
         public override QueueItem GetNextItem()
         {
-            QueueItem head = this._fifo.Head;
+            QueueItem head = _fifo.Head;
             if (head != null)
-                this._fifo.Remove(head);
+                _fifo.Remove(head);
             return head;
         }
 
         public void PostItem(QueueItem item)
         {
-            if (!this._fifo.Append(item))
+            if (!_fifo.Append(item))
                 return;
-            this.OnWake();
+            OnWake();
         }
 
         internal void PostItems(QueueItem.FIFO items)
         {
-            if (!this._fifo.Append(items))
+            if (!_fifo.Append(items))
                 return;
-            this.OnWake();
+            OnWake();
         }
     }
 }

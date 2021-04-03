@@ -12,7 +12,7 @@ namespace Microsoft.Iris.Animations
 {
     internal class ScaleKeyframe : BaseVector3Keyframe
     {
-        public ScaleKeyframe() => this.Value = Vector3.UnitVector;
+        public ScaleKeyframe() => Value = Vector3.UnitVector;
 
         public override bool Multiply => true;
 
@@ -23,7 +23,7 @@ namespace Microsoft.Iris.Animations
           Vector3 baseValueVector,
           ref AnimationArgs args)
         {
-            return GetEffectiveScaleValue(this.RelativeTo, targetObject, baseValueVector, ref args);
+            return GetEffectiveScaleValue(RelativeTo, targetObject, baseValueVector, ref args);
         }
 
         public static Vector3 GetEffectiveScaleValue(
@@ -46,8 +46,8 @@ namespace Microsoft.Iris.Animations
 
         public override void MagnifyValue(float magnifyValue)
         {
-            Vector3 vector3 = this.Value;
-            this.Value = new Vector3(this.MagnifyDimension(vector3.X, magnifyValue), this.MagnifyDimension(vector3.Y, magnifyValue), this.MagnifyDimension(vector3.Z, magnifyValue));
+            Vector3 vector3 = Value;
+            Value = new Vector3(MagnifyDimension(vector3.X, magnifyValue), MagnifyDimension(vector3.Y, magnifyValue), MagnifyDimension(vector3.Z, magnifyValue));
         }
 
         private float MagnifyDimension(float dimensionValue, float magnifyValue)

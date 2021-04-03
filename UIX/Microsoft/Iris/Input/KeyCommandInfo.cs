@@ -31,14 +31,14 @@ namespace Microsoft.Iris.Input
 
         private void Initialize(KeyAction action, InputDeviceType deviceType, CommandCode command)
         {
-            this._command = command;
-            this.Initialize(action, action == KeyAction.Down ? InputEventType.CommandDown : InputEventType.CommandUp, deviceType);
+            _command = command;
+            Initialize(action, action == KeyAction.Down ? InputEventType.CommandDown : InputEventType.CommandUp, deviceType);
         }
 
-        public CommandCode Command => this._command;
+        public CommandCode Command => _command;
 
         protected override InputInfo.InfoType PoolType => s_poolType;
 
-        public override string ToString() => InvariantString.Format("{0}({1}, Command={2})", this.GetType().Name, Action, _command);
+        public override string ToString() => InvariantString.Format("{0}({1}, Command={2})", GetType().Name, Action, _command);
     }
 }

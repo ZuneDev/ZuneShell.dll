@@ -13,12 +13,12 @@ namespace Microsoft.Iris
     {
         private IDictionary<string, int> _propertyNameToId;
 
-        public SimpleAnimationPropertyMap(IDictionary<string, int> propertyNameToId) => this._propertyNameToId = propertyNameToId;
+        public SimpleAnimationPropertyMap(IDictionary<string, int> propertyNameToId) => _propertyNameToId = propertyNameToId;
 
         public uint GetPropertyId(string propertyName)
         {
             int num;
-            this._propertyNameToId.TryGetValue(propertyName, out num);
+            _propertyNameToId.TryGetValue(propertyName, out num);
             return (uint)num;
         }
 

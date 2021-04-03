@@ -24,45 +24,45 @@ namespace Microsoft.Iris.Layout
 
         public SharedSize()
         {
-            this._minimumSize = Size.Zero;
-            this._maximumSize = Size.Zero;
-            this._desiredSize = Size.Zero;
-            this._accumulatingSize = true;
+            _minimumSize = Size.Zero;
+            _maximumSize = Size.Zero;
+            _desiredSize = Size.Zero;
+            _accumulatingSize = true;
         }
 
         public Size MaximumSize
         {
-            get => this._maximumSize;
+            get => _maximumSize;
             set
             {
-                if (!(this._maximumSize != value))
+                if (!(_maximumSize != value))
                     return;
-                Size size1 = this.Size;
-                this._maximumSize = value;
-                Size size2 = this.Size;
-                this.FireNotification(NotificationID.MaximumSize);
+                Size size1 = Size;
+                _maximumSize = value;
+                Size size2 = Size;
+                FireNotification(NotificationID.MaximumSize);
                 if (!(size1 != size2))
                     return;
-                this.FireNotification(NotificationID.Size);
-                this.InvalidateDependents(true);
+                FireNotification(NotificationID.Size);
+                InvalidateDependents(true);
             }
         }
 
         public Size MinimumSize
         {
-            get => this._minimumSize;
+            get => _minimumSize;
             set
             {
-                if (!(this._minimumSize != value))
+                if (!(_minimumSize != value))
                     return;
-                Size size1 = this.Size;
-                this._minimumSize = value;
-                Size size2 = this.Size;
-                this.FireNotification(NotificationID.MinimumSize);
+                Size size1 = Size;
+                _minimumSize = value;
+                Size size2 = Size;
+                FireNotification(NotificationID.MinimumSize);
                 if (!(size1 != size2))
                     return;
-                this.FireNotification(NotificationID.Size);
-                this.InvalidateDependents(true);
+                FireNotification(NotificationID.Size);
+                InvalidateDependents(true);
             }
         }
 
@@ -70,62 +70,62 @@ namespace Microsoft.Iris.Layout
         {
             get
             {
-                Size size = Size.Max(this._desiredSize, this.MinimumSize);
-                Size maximumSize = this.MaximumSize;
+                Size size = Size.Max(_desiredSize, MinimumSize);
+                Size maximumSize = MaximumSize;
                 if (maximumSize.Width > 0)
                     size.Width = Math.Min(size.Width, maximumSize.Width);
                 if (maximumSize.Height > 0)
                     size.Height = Math.Min(size.Height, maximumSize.Height);
                 return size;
             }
-            set => this.SetSize(value, true);
+            set => SetSize(value, true);
         }
 
         public void AutoSize()
         {
-            this.SetSize(Size.Zero, false);
-            this.InvalidateDependents(true);
+            SetSize(Size.Zero, false);
+            InvalidateDependents(true);
         }
 
         private void SetSize(Size value, bool stopAccumulating)
         {
-            if (this._desiredSize != value)
+            if (_desiredSize != value)
             {
-                Size size1 = this.Size;
-                this._desiredSize = value;
-                Size size2 = this.Size;
+                Size size1 = Size;
+                _desiredSize = value;
+                Size size2 = Size;
                 if (size1 != size2)
                 {
-                    this.FireNotification(NotificationID.Size);
+                    FireNotification(NotificationID.Size);
                     if (stopAccumulating)
-                        this.InvalidateDependents(true);
+                        InvalidateDependents(true);
                 }
             }
-            this._accumulatingSize = !stopAccumulating;
+            _accumulatingSize = !stopAccumulating;
         }
 
         public void Register(ViewItem viewitem)
         {
-            if (this._dependents == null)
-                this._dependents = new Vector<ViewItem>();
-            this._dependents.Add(viewitem);
+            if (_dependents == null)
+                _dependents = new Vector<ViewItem>();
+            _dependents.Add(viewitem);
         }
 
-        public void Unregister(ViewItem viewitem) => this._dependents.Remove(viewitem);
+        public void Unregister(ViewItem viewitem) => _dependents.Remove(viewitem);
 
         public void AdjustConstraint(ref Size constraint, ref Size minSize, SharedSizePolicy policy)
         {
-            Size size1 = this.Size;
-            Size maximumSize = this.MaximumSize;
+            Size size1 = Size;
+            Size maximumSize = MaximumSize;
             Size size2 = constraint;
             Size size3 = size1;
             Size size4 = minSize;
             if ((policy & SharedSizePolicy.SharesWidth) != 0)
             {
-                if (!this._accumulatingSize)
+                if (!_accumulatingSize)
                 {
                     int num = Math.Max(size4.Width, Math.Min(size1.Width, size2.Width));
-                    if (num >= this.MinimumSize.Width && (num <= maximumSize.Width || maximumSize.Width == 0))
+                    if (num >= MinimumSize.Width && (num <= maximumSize.Width || maximumSize.Width == 0))
                     {
                         size4.Width = num;
                         size2.Width = num;
@@ -145,10 +145,10 @@ namespace Microsoft.Iris.Layout
             }
             if ((policy & SharedSizePolicy.SharesHeight) != 0)
             {
-                if (!this._accumulatingSize)
+                if (!_accumulatingSize)
                 {
                     int num = Math.Max(size4.Height, Math.Min(size1.Height, size2.Height));
-                    if (num >= this.MinimumSize.Height && (num <= maximumSize.Height || maximumSize.Height == 0))
+                    if (num >= MinimumSize.Height && (num <= maximumSize.Height || maximumSize.Height == 0))
                     {
                         size4.Height = num;
                         size2.Height = num;
@@ -172,38 +172,38 @@ namespace Microsoft.Iris.Layout
 
         public void AccumulateSize(Size size, SharedSizePolicy policy)
         {
-            if (!this._accumulatingSize)
+            if (!_accumulatingSize)
                 return;
-            Size size1 = this.Size;
+            Size size1 = Size;
             if ((policy & SharedSizePolicy.ContributesToWidth) != 0 && size.Width > size1.Width)
                 size1.Width = size.Width;
             if ((policy & SharedSizePolicy.ContributesToHeight) != 0 && size.Height > size1.Height)
                 size1.Height = size.Height;
-            this.SetSize(size1, false);
-            this.EnsureApplySize();
+            SetSize(size1, false);
+            EnsureApplySize();
         }
 
         private void EnsureApplySize()
         {
-            if (this._applyPending)
+            if (_applyPending)
                 return;
-            this._applyPending = true;
-            DeferredCall.Post(DispatchPriority.LayoutPass2, new SimpleCallback(this.ApplySize));
+            _applyPending = true;
+            DeferredCall.Post(DispatchPriority.LayoutPass2, new SimpleCallback(ApplySize));
         }
 
         private void ApplySize()
         {
-            this._accumulatingSize = false;
-            this._applyPending = false;
-            this.InvalidateDependents(false);
+            _accumulatingSize = false;
+            _applyPending = false;
+            InvalidateDependents(false);
         }
 
         private void InvalidateDependents(bool forceInvalid)
         {
-            if (this._dependents == null)
+            if (_dependents == null)
                 return;
-            Size size1 = this.Size;
-            foreach (ViewItem dependent in this._dependents)
+            Size size1 = Size;
+            foreach (ViewItem dependent in _dependents)
             {
                 if (forceInvalid)
                 {

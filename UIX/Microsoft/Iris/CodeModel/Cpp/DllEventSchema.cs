@@ -21,30 +21,30 @@ namespace Microsoft.Iris.CodeModel.Cpp
         {
         }
 
-        public bool Load(IntPtr eventSchema) => this.QueryEventName(eventSchema) && this.QueryIsStatic(eventSchema);
+        public bool Load(IntPtr eventSchema) => QueryEventName(eventSchema) && QueryIsStatic(eventSchema);
 
         [Conditional("DEBUG")]
         public void DEBUG_Dump()
         {
         }
 
-        public override string Name => this._name;
+        public override string Name => _name;
 
-        public bool IsStatic => this._isStatic;
+        public bool IsStatic => _isStatic;
 
         private unsafe bool QueryEventName(IntPtr eventSchema)
         {
             bool flag = false;
             char* name;
-            if (this.CheckNativeReturn(NativeApi.SpQueryEventName(eventSchema, out name)))
+            if (CheckNativeReturn(NativeApi.SpQueryEventName(eventSchema, out name)))
             {
-                this._name = NotifyService.CanonicalizeString(new string(name));
+                _name = NotifyService.CanonicalizeString(new string(name));
                 flag = true;
             }
             return flag;
         }
 
-        private bool QueryIsStatic(IntPtr eventSchema) => this.CheckNativeReturn(NativeApi.SpQueryEventIsStatic(eventSchema, out this._isStatic));
+        private bool QueryIsStatic(IntPtr eventSchema) => CheckNativeReturn(NativeApi.SpQueryEventIsStatic(eventSchema, out _isStatic));
 
         private bool CheckNativeReturn(uint hr) => DllLoadResult.CheckNativeReturn(hr, "IUIXEvent");
     }

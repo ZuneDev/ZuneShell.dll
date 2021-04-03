@@ -15,21 +15,21 @@ namespace Microsoft.Iris.Markup
           string watch,
           DelegateListener.OnNotifyCallback callback)
         {
-            this._watch = watch;
-            this._onNotify = callback;
+            _watch = watch;
+            _onNotify = callback;
             notifier.AddListener(this);
         }
 
         public override void Dispose()
         {
             base.Dispose();
-            this._onNotify = null;
+            _onNotify = null;
         }
 
         public override void OnNotify()
         {
             base.OnNotify();
-            this._onNotify(this);
+            _onNotify(this);
         }
 
         public delegate void OnNotifyCallback(DelegateListener listener);

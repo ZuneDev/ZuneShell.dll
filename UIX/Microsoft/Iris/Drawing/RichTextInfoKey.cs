@@ -34,46 +34,46 @@ namespace Microsoft.Iris.Drawing
         public RichTextInfoKey(TextRun run, string samplingMode, bool outline, Color textColor)
           : base(run.Content)
         {
-            this._samplingMode = samplingMode;
-            this._content = run.Content;
-            this._srcSizeF = run.RenderBounds.Size;
-            this._naturalSize = run.NaturalExtent;
-            this._rasterizedOffset = run.RasterizedOffset;
-            this._fontFaceUniqueId = run.FontFaceUniqueId;
-            this._fontSize = run.FontSize;
-            this._fontWeight = run.FontWeight;
-            this._rasterizerConfig = run.RasterizerConfig;
-            this._textColor = textColor;
-            this._flags = 0;
+            _samplingMode = samplingMode;
+            _content = run.Content;
+            _srcSizeF = run.RenderBounds.Size;
+            _naturalSize = run.NaturalExtent;
+            _rasterizedOffset = run.RasterizedOffset;
+            _fontFaceUniqueId = run.FontFaceUniqueId;
+            _fontSize = run.FontSize;
+            _fontWeight = run.FontWeight;
+            _rasterizerConfig = run.RasterizerConfig;
+            _textColor = textColor;
+            _flags = 0;
             if (run.Italic)
-                this._flags |= 1;
+                _flags |= 1;
             if (outline)
-                this._flags |= 4;
+                _flags |= 4;
             switch (run.UnderlineStyle)
             {
                 case NativeApi.UnderlineStyle.Solid:
-                    this._flags |= 2;
+                    _flags |= 2;
                     break;
                 case NativeApi.UnderlineStyle.Thick:
-                    this._flags |= 8;
+                    _flags |= 8;
                     break;
                 case NativeApi.UnderlineStyle.Dotted:
                 case NativeApi.UnderlineStyle.Dash:
                 case NativeApi.UnderlineStyle.DashDot:
                 case NativeApi.UnderlineStyle.DashDotDot:
-                    this._flags |= 16;
+                    _flags |= 16;
                     break;
             }
-            this._hashCode = this._samplingMode.GetHashCode() ^ this._content.GetHashCode() ^ this._srcSizeF.GetHashCode() ^ this._naturalSize.GetHashCode() ^ this._rasterizedOffset.GetHashCode() ^ this._fontFaceUniqueId.GetHashCode() ^ this._fontSize ^ this._fontWeight ^ this._flags ^ _rasterizerConfig ^ this._textColor.GetHashCode();
+            _hashCode = _samplingMode.GetHashCode() ^ _content.GetHashCode() ^ _srcSizeF.GetHashCode() ^ _naturalSize.GetHashCode() ^ _rasterizedOffset.GetHashCode() ^ _fontFaceUniqueId.GetHashCode() ^ _fontSize ^ _fontWeight ^ _flags ^ _rasterizerConfig ^ _textColor.GetHashCode();
         }
 
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(this, obj))
                 return true;
-            return obj is RichTextInfoKey richTextInfoKey && this._hashCode == richTextInfoKey._hashCode && (this._fontFaceUniqueId == richTextInfoKey._fontFaceUniqueId && this._fontSize == richTextInfoKey._fontSize) && (this._fontWeight == richTextInfoKey._fontWeight && this._flags == richTextInfoKey._flags && (_rasterizerConfig == richTextInfoKey._rasterizerConfig && this._samplingMode.Equals(richTextInfoKey._samplingMode))) && (this._srcSizeF.Equals(richTextInfoKey._srcSizeF) && this._naturalSize.Equals(richTextInfoKey._naturalSize) && (this._rasterizedOffset.Equals(richTextInfoKey._rasterizedOffset) && this._textColor.Equals(richTextInfoKey._textColor))) && this._content.Equals(richTextInfoKey._content);
+            return obj is RichTextInfoKey richTextInfoKey && _hashCode == richTextInfoKey._hashCode && (_fontFaceUniqueId == richTextInfoKey._fontFaceUniqueId && _fontSize == richTextInfoKey._fontSize) && (_fontWeight == richTextInfoKey._fontWeight && _flags == richTextInfoKey._flags && (_rasterizerConfig == richTextInfoKey._rasterizerConfig && _samplingMode.Equals(richTextInfoKey._samplingMode))) && (_srcSizeF.Equals(richTextInfoKey._srcSizeF) && _naturalSize.Equals(richTextInfoKey._naturalSize) && (_rasterizedOffset.Equals(richTextInfoKey._rasterizedOffset) && _textColor.Equals(richTextInfoKey._textColor))) && _content.Equals(richTextInfoKey._content);
         }
 
-        public override int GetHashCode() => this._hashCode;
+        public override int GetHashCode() => _hashCode;
     }
 }

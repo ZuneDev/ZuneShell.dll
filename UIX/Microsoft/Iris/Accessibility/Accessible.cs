@@ -41,71 +41,71 @@ namespace Microsoft.Iris.Accessibility
         private static readonly DataCookie s_popupStateSlot = DataCookie.ReserveSlot();
         private static readonly DataCookie s_multiSelectableStateSlot = DataCookie.ReserveSlot();
 
-        public Accessible() => this.SetData(s_roleSlot, AccRole.Client);
+        public Accessible() => SetData(s_roleSlot, AccRole.Client);
 
         public void Attach(AccessibleProxy proxy)
         {
-            this._proxy = proxy;
-            this.FireNotification(NotificationID.Enabled);
+            _proxy = proxy;
+            FireNotification(NotificationID.Enabled);
         }
 
         public void Detach()
         {
-            this.SetData(s_defaultActionCommandSlot, null);
-            this._proxy = null;
+            SetData(s_defaultActionCommandSlot, null);
+            _proxy = null;
         }
 
-        public bool Enabled => this._proxy != null;
+        public bool Enabled => _proxy != null;
 
         public string Description
         {
-            get => (string)this.GetData(s_descriptionSlot);
+            get => (string)GetData(s_descriptionSlot);
             set
             {
-                string description = this.Description;
+                string description = Description;
                 if (!(value != description))
                     return;
-                this.SetData(s_descriptionSlot, value);
-                this.FireAccessiblePropertyChanged(NotificationID.Description, AccessibleProperty.Description);
+                SetData(s_descriptionSlot, value);
+                FireAccessiblePropertyChanged(NotificationID.Description, AccessibleProperty.Description);
             }
         }
 
         public string DefaultAction
         {
-            get => (string)this.GetData(s_defaultActionSlot);
+            get => (string)GetData(s_defaultActionSlot);
             set
             {
-                string defaultAction = this.DefaultAction;
+                string defaultAction = DefaultAction;
                 if (!(value != defaultAction))
                     return;
-                this.SetData(s_defaultActionSlot, value);
-                this.FireAccessiblePropertyChanged(NotificationID.DefaultAction, AccessibleProperty.DefaultAction);
+                SetData(s_defaultActionSlot, value);
+                FireAccessiblePropertyChanged(NotificationID.DefaultAction, AccessibleProperty.DefaultAction);
             }
         }
 
         public IUICommand DefaultActionCommand
         {
-            get => (IUICommand)this.GetData(s_defaultActionCommandSlot);
+            get => (IUICommand)GetData(s_defaultActionCommandSlot);
             set
             {
-                IUICommand defaultActionCommand = this.DefaultActionCommand;
+                IUICommand defaultActionCommand = DefaultActionCommand;
                 if (value == defaultActionCommand)
                     return;
-                this.SetData(s_defaultActionCommandSlot, value);
-                this.FireAccessiblePropertyChanged(NotificationID.DefaultActionCommand, AccessibleProperty.DefaultActionCommand);
+                SetData(s_defaultActionCommandSlot, value);
+                FireAccessiblePropertyChanged(NotificationID.DefaultActionCommand, AccessibleProperty.DefaultActionCommand);
             }
         }
 
         public string Help
         {
-            get => (string)this.GetData(s_helpSlot);
+            get => (string)GetData(s_helpSlot);
             set
             {
-                string help = this.Help;
+                string help = Help;
                 if (!(value != help))
                     return;
-                this.SetData(s_helpSlot, value);
-                this.FireAccessiblePropertyChanged(NotificationID.Help, AccessibleProperty.Help);
+                SetData(s_helpSlot, value);
+                FireAccessiblePropertyChanged(NotificationID.Help, AccessibleProperty.Help);
             }
         }
 
@@ -113,42 +113,42 @@ namespace Microsoft.Iris.Accessibility
         {
             get
             {
-                object data = this.GetData(s_helpTopicSlot);
+                object data = GetData(s_helpTopicSlot);
                 return data != null ? (int)data : -1;
             }
             set
             {
-                int helpTopic = this.HelpTopic;
+                int helpTopic = HelpTopic;
                 if (value == helpTopic)
                     return;
-                this.SetData(s_helpTopicSlot, value);
-                this.FireAccessiblePropertyChanged(NotificationID.HelpTopic, AccessibleProperty.HelpTopic);
+                SetData(s_helpTopicSlot, value);
+                FireAccessiblePropertyChanged(NotificationID.HelpTopic, AccessibleProperty.HelpTopic);
             }
         }
 
         public string KeyboardShortcut
         {
-            get => (string)this.GetData(s_keyboardShortcutSlot);
+            get => (string)GetData(s_keyboardShortcutSlot);
             set
             {
-                string keyboardShortcut = this.KeyboardShortcut;
+                string keyboardShortcut = KeyboardShortcut;
                 if (!(value != keyboardShortcut))
                     return;
-                this.SetData(s_keyboardShortcutSlot, value);
-                this.FireAccessiblePropertyChanged(NotificationID.KeyboardShortcut, AccessibleProperty.KeyboardShortcut);
+                SetData(s_keyboardShortcutSlot, value);
+                FireAccessiblePropertyChanged(NotificationID.KeyboardShortcut, AccessibleProperty.KeyboardShortcut);
             }
         }
 
         public string Name
         {
-            get => (string)this.GetData(s_nameSlot);
+            get => (string)GetData(s_nameSlot);
             set
             {
-                string name = this.Name;
+                string name = Name;
                 if (!(value != name))
                     return;
-                this.SetData(s_nameSlot, value);
-                this.FireAccessiblePropertyChanged(NotificationID.Name, AccessibleProperty.Name);
+                SetData(s_nameSlot, value);
+                FireAccessiblePropertyChanged(NotificationID.Name, AccessibleProperty.Name);
             }
         }
 
@@ -156,29 +156,29 @@ namespace Microsoft.Iris.Accessibility
         {
             get
             {
-                object data = this.GetData(s_roleSlot);
+                object data = GetData(s_roleSlot);
                 return data != null ? (AccRole)data : AccRole.None;
             }
             set
             {
-                AccRole role = this.Role;
+                AccRole role = Role;
                 if (value == role)
                     return;
-                this.SetData(s_roleSlot, value);
-                this.FireAccessiblePropertyChanged(NotificationID.Role, AccessibleProperty.Role);
+                SetData(s_roleSlot, value);
+                FireAccessiblePropertyChanged(NotificationID.Role, AccessibleProperty.Role);
             }
         }
 
         public string Value
         {
-            get => (string)this.GetData(s_valueSlot);
+            get => (string)GetData(s_valueSlot);
             set
             {
-                string str = this.Value;
+                string str = Value;
                 if (!(value != str))
                     return;
-                this.SetData(s_valueSlot, value);
-                this.FireAccessiblePropertyChanged(NotificationID.Value, AccessibleProperty.Value);
+                SetData(s_valueSlot, value);
+                FireAccessiblePropertyChanged(NotificationID.Value, AccessibleProperty.Value);
             }
         }
 
@@ -186,16 +186,16 @@ namespace Microsoft.Iris.Accessibility
         {
             get
             {
-                object data = this.GetData(s_animatedStateSlot);
+                object data = GetData(s_animatedStateSlot);
                 return data != null && (bool)data;
             }
             set
             {
-                bool isAnimated = this.IsAnimated;
+                bool isAnimated = IsAnimated;
                 if (value == isAnimated)
                     return;
-                this.SetData(s_animatedStateSlot, value);
-                this.FireAccessiblePropertyChanged(NotificationID.IsAnimated, AccessibleProperty.IsAnimated);
+                SetData(s_animatedStateSlot, value);
+                FireAccessiblePropertyChanged(NotificationID.IsAnimated, AccessibleProperty.IsAnimated);
             }
         }
 
@@ -203,16 +203,16 @@ namespace Microsoft.Iris.Accessibility
         {
             get
             {
-                object data = this.GetData(s_unavailableStateSlot);
+                object data = GetData(s_unavailableStateSlot);
                 return data != null && (bool)data;
             }
             set
             {
-                bool isUnavailable = this.IsUnavailable;
+                bool isUnavailable = IsUnavailable;
                 if (value == isUnavailable)
                     return;
-                this.SetData(s_unavailableStateSlot, value);
-                this.FireAccessiblePropertyChanged(NotificationID.IsUnavailable, AccessibleProperty.IsUnavailable);
+                SetData(s_unavailableStateSlot, value);
+                FireAccessiblePropertyChanged(NotificationID.IsUnavailable, AccessibleProperty.IsUnavailable);
             }
         }
 
@@ -220,16 +220,16 @@ namespace Microsoft.Iris.Accessibility
         {
             get
             {
-                object data = this.GetData(s_selectedStateSlot);
+                object data = GetData(s_selectedStateSlot);
                 return data != null && (bool)data;
             }
             set
             {
-                bool isSelected = this.IsSelected;
+                bool isSelected = IsSelected;
                 if (value == isSelected)
                     return;
-                this.SetData(s_selectedStateSlot, value);
-                this.FireAccessiblePropertyChanged(NotificationID.IsSelected, AccessibleProperty.IsSelected);
+                SetData(s_selectedStateSlot, value);
+                FireAccessiblePropertyChanged(NotificationID.IsSelected, AccessibleProperty.IsSelected);
             }
         }
 
@@ -237,16 +237,16 @@ namespace Microsoft.Iris.Accessibility
         {
             get
             {
-                object data = this.GetData(s_busyStateSlot);
+                object data = GetData(s_busyStateSlot);
                 return data != null && (bool)data;
             }
             set
             {
-                bool isBusy = this.IsBusy;
+                bool isBusy = IsBusy;
                 if (value == isBusy)
                     return;
-                this.SetData(s_busyStateSlot, value);
-                this.FireAccessiblePropertyChanged(NotificationID.IsBusy, AccessibleProperty.IsBusy);
+                SetData(s_busyStateSlot, value);
+                FireAccessiblePropertyChanged(NotificationID.IsBusy, AccessibleProperty.IsBusy);
             }
         }
 
@@ -254,16 +254,16 @@ namespace Microsoft.Iris.Accessibility
         {
             get
             {
-                object data = this.GetData(s_pressedStateSlot);
+                object data = GetData(s_pressedStateSlot);
                 return data != null && (bool)data;
             }
             set
             {
-                bool isPressed = this.IsPressed;
+                bool isPressed = IsPressed;
                 if (value == isPressed)
                     return;
-                this.SetData(s_pressedStateSlot, value);
-                this.FireAccessiblePropertyChanged(NotificationID.IsPressed, AccessibleProperty.IsPressed);
+                SetData(s_pressedStateSlot, value);
+                FireAccessiblePropertyChanged(NotificationID.IsPressed, AccessibleProperty.IsPressed);
             }
         }
 
@@ -271,16 +271,16 @@ namespace Microsoft.Iris.Accessibility
         {
             get
             {
-                object data = this.GetData(s_checkedStateSlot);
+                object data = GetData(s_checkedStateSlot);
                 return data != null && (bool)data;
             }
             set
             {
-                bool isChecked = this.IsChecked;
+                bool isChecked = IsChecked;
                 if (value == isChecked)
                     return;
-                this.SetData(s_checkedStateSlot, value);
-                this.FireAccessiblePropertyChanged(NotificationID.IsChecked, AccessibleProperty.IsChecked);
+                SetData(s_checkedStateSlot, value);
+                FireAccessiblePropertyChanged(NotificationID.IsChecked, AccessibleProperty.IsChecked);
             }
         }
 
@@ -288,16 +288,16 @@ namespace Microsoft.Iris.Accessibility
         {
             get
             {
-                object data = this.GetData(s_collapsedStateSlot);
+                object data = GetData(s_collapsedStateSlot);
                 return data != null && (bool)data;
             }
             set
             {
-                bool isCollapsed = this.IsCollapsed;
+                bool isCollapsed = IsCollapsed;
                 if (value == isCollapsed)
                     return;
-                this.SetData(s_collapsedStateSlot, value);
-                this.FireAccessiblePropertyChanged(NotificationID.IsCollapsed, AccessibleProperty.IsCollapsed);
+                SetData(s_collapsedStateSlot, value);
+                FireAccessiblePropertyChanged(NotificationID.IsCollapsed, AccessibleProperty.IsCollapsed);
             }
         }
 
@@ -305,16 +305,16 @@ namespace Microsoft.Iris.Accessibility
         {
             get
             {
-                object data = this.GetData(s_defaultStateSlot);
+                object data = GetData(s_defaultStateSlot);
                 return data != null && (bool)data;
             }
             set
             {
-                bool isDefault = this.IsDefault;
+                bool isDefault = IsDefault;
                 if (value == isDefault)
                     return;
-                this.SetData(s_defaultStateSlot, value);
-                this.FireAccessiblePropertyChanged(NotificationID.IsDefault, AccessibleProperty.IsDefault);
+                SetData(s_defaultStateSlot, value);
+                FireAccessiblePropertyChanged(NotificationID.IsDefault, AccessibleProperty.IsDefault);
             }
         }
 
@@ -322,16 +322,16 @@ namespace Microsoft.Iris.Accessibility
         {
             get
             {
-                object data = this.GetData(s_marqueeStateSlot);
+                object data = GetData(s_marqueeStateSlot);
                 return data != null && (bool)data;
             }
             set
             {
-                bool isMarquee = this.IsMarquee;
+                bool isMarquee = IsMarquee;
                 if (value == isMarquee)
                     return;
-                this.SetData(s_marqueeStateSlot, value);
-                this.FireAccessiblePropertyChanged(NotificationID.IsMarquee, AccessibleProperty.IsMarquee);
+                SetData(s_marqueeStateSlot, value);
+                FireAccessiblePropertyChanged(NotificationID.IsMarquee, AccessibleProperty.IsMarquee);
             }
         }
 
@@ -339,16 +339,16 @@ namespace Microsoft.Iris.Accessibility
         {
             get
             {
-                object data = this.GetData(s_mixedStateSlot);
+                object data = GetData(s_mixedStateSlot);
                 return data != null && (bool)data;
             }
             set
             {
-                bool isMixed = this.IsMixed;
+                bool isMixed = IsMixed;
                 if (value == isMixed)
                     return;
-                this.SetData(s_mixedStateSlot, value);
-                this.FireAccessiblePropertyChanged(NotificationID.IsMixed, AccessibleProperty.IsMixed);
+                SetData(s_mixedStateSlot, value);
+                FireAccessiblePropertyChanged(NotificationID.IsMixed, AccessibleProperty.IsMixed);
             }
         }
 
@@ -356,16 +356,16 @@ namespace Microsoft.Iris.Accessibility
         {
             get
             {
-                object data = this.GetData(s_expandedStateSlot);
+                object data = GetData(s_expandedStateSlot);
                 return data != null && (bool)data;
             }
             set
             {
-                bool isExpanded = this.IsExpanded;
+                bool isExpanded = IsExpanded;
                 if (value == isExpanded)
                     return;
-                this.SetData(s_expandedStateSlot, value);
-                this.FireAccessiblePropertyChanged(NotificationID.IsExpanded, AccessibleProperty.IsExpanded);
+                SetData(s_expandedStateSlot, value);
+                FireAccessiblePropertyChanged(NotificationID.IsExpanded, AccessibleProperty.IsExpanded);
             }
         }
 
@@ -373,16 +373,16 @@ namespace Microsoft.Iris.Accessibility
         {
             get
             {
-                object data = this.GetData(s_traversedStateSlot);
+                object data = GetData(s_traversedStateSlot);
                 return data != null && (bool)data;
             }
             set
             {
-                bool isTraversed = this.IsTraversed;
+                bool isTraversed = IsTraversed;
                 if (value == isTraversed)
                     return;
-                this.SetData(s_traversedStateSlot, value);
-                this.FireAccessiblePropertyChanged(NotificationID.IsTraversed, AccessibleProperty.IsTraversed);
+                SetData(s_traversedStateSlot, value);
+                FireAccessiblePropertyChanged(NotificationID.IsTraversed, AccessibleProperty.IsTraversed);
             }
         }
 
@@ -390,16 +390,16 @@ namespace Microsoft.Iris.Accessibility
         {
             get
             {
-                object data = this.GetData(s_selectableStateSlot);
+                object data = GetData(s_selectableStateSlot);
                 return data != null && (bool)data;
             }
             set
             {
-                bool isSelectable = this.IsSelectable;
+                bool isSelectable = IsSelectable;
                 if (value == isSelectable)
                     return;
-                this.SetData(s_selectableStateSlot, value);
-                this.FireAccessiblePropertyChanged(NotificationID.IsSelectable, AccessibleProperty.IsSelectable);
+                SetData(s_selectableStateSlot, value);
+                FireAccessiblePropertyChanged(NotificationID.IsSelectable, AccessibleProperty.IsSelectable);
             }
         }
 
@@ -407,16 +407,16 @@ namespace Microsoft.Iris.Accessibility
         {
             get
             {
-                object data = this.GetData(s_multiSelectableStateSlot);
+                object data = GetData(s_multiSelectableStateSlot);
                 return data != null && (bool)data;
             }
             set
             {
-                bool isMultiSelectable = this.IsMultiSelectable;
+                bool isMultiSelectable = IsMultiSelectable;
                 if (value == isMultiSelectable)
                     return;
-                this.SetData(s_multiSelectableStateSlot, value);
-                this.FireAccessiblePropertyChanged(NotificationID.IsMultiSelectable, AccessibleProperty.IsMultiSelectable);
+                SetData(s_multiSelectableStateSlot, value);
+                FireAccessiblePropertyChanged(NotificationID.IsMultiSelectable, AccessibleProperty.IsMultiSelectable);
             }
         }
 
@@ -424,16 +424,16 @@ namespace Microsoft.Iris.Accessibility
         {
             get
             {
-                object data = this.GetData(s_protectedStateSlot);
+                object data = GetData(s_protectedStateSlot);
                 return data != null && (bool)data;
             }
             set
             {
-                bool isProtected = this.IsProtected;
+                bool isProtected = IsProtected;
                 if (value == isProtected)
                     return;
-                this.SetData(s_protectedStateSlot, value);
-                this.FireAccessiblePropertyChanged(NotificationID.IsProtected, AccessibleProperty.IsProtected);
+                SetData(s_protectedStateSlot, value);
+                FireAccessiblePropertyChanged(NotificationID.IsProtected, AccessibleProperty.IsProtected);
             }
         }
 
@@ -441,16 +441,16 @@ namespace Microsoft.Iris.Accessibility
         {
             get
             {
-                object data = this.GetData(s_popupStateSlot);
+                object data = GetData(s_popupStateSlot);
                 return data != null && (bool)data;
             }
             set
             {
-                bool hasPopup = this.HasPopup;
+                bool hasPopup = HasPopup;
                 if (value == hasPopup)
                     return;
-                this.SetData(s_popupStateSlot, value);
-                this.FireAccessiblePropertyChanged(NotificationID.HasPopup, AccessibleProperty.HasPopup);
+                SetData(s_popupStateSlot, value);
+                FireAccessiblePropertyChanged(NotificationID.HasPopup, AccessibleProperty.HasPopup);
             }
         }
 
@@ -458,10 +458,10 @@ namespace Microsoft.Iris.Accessibility
           string propertyName,
           AccessibleProperty accessibleProperty)
         {
-            this.FireNotification(propertyName);
-            if (this._proxy != null)
+            FireNotification(propertyName);
+            if (_proxy != null)
             {
-                this._proxy.NotifyAccessiblePropertyChanged(accessibleProperty);
+                _proxy.NotifyAccessiblePropertyChanged(accessibleProperty);
             }
             else
             {
@@ -471,8 +471,8 @@ namespace Microsoft.Iris.Accessibility
             }
         }
 
-        protected object GetData(DataCookie cookie) => this._dataMap.GetData(cookie);
+        protected object GetData(DataCookie cookie) => _dataMap.GetData(cookie);
 
-        protected void SetData(DataCookie cookie, object value) => this._dataMap.SetData(cookie, value);
+        protected void SetData(DataCookie cookie, object value) => _dataMap.SetData(cookie, value);
     }
 }

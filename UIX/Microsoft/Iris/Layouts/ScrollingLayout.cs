@@ -20,29 +20,29 @@ namespace Microsoft.Iris.Layouts
 
         public ScrollingLayout(Orientation orientation, int prefetch)
         {
-            this._orientation = orientation;
-            this._prefetch = prefetch;
+            _orientation = orientation;
+            _prefetch = prefetch;
         }
 
         public Orientation Orientation
         {
-            get => this._orientation;
+            get => _orientation;
             set
             {
-                if (this._orientation == value)
+                if (_orientation == value)
                     return;
-                this._orientation = value;
+                _orientation = value;
             }
         }
 
         public int Prefetch
         {
-            get => this._prefetch;
+            get => _prefetch;
             set
             {
-                if (this._prefetch == value)
+                if (_prefetch == value)
                     return;
-                this._prefetch = value;
+                _prefetch = value;
             }
         }
 
@@ -53,7 +53,7 @@ namespace Microsoft.Iris.Layouts
             Size size;
             if (!(layoutNode.GetLayoutInput(ScrollingLayoutInput.Data) is ScrollingLayoutInput layoutInput) || layoutInput.Enabled)
             {
-                Size infiniteConstraint = this.GetInfiniteConstraint(constraint);
+                Size infiniteConstraint = GetInfiniteConstraint(constraint);
                 size = DefaultLayout.Measure(layoutNode, infiniteConstraint);
                 layoutNode.MeasureData = size;
             }
@@ -72,7 +72,7 @@ namespace Microsoft.Iris.Layouts
             {
                 if (sli.Enabled)
                 {
-                    scrollingLayoutOutput = this.Arrange(layoutNode, slot, sli, ref scrollAmount);
+                    scrollingLayoutOutput = Arrange(layoutNode, slot, sli, ref scrollAmount);
                 }
                 else
                 {
@@ -95,13 +95,13 @@ namespace Microsoft.Iris.Layouts
         {
             LayoutSlot childSlot;
             Rectangle viewBounds;
-            this.GetChildSlot(slot, scrollAmount, out childSlot, out viewBounds);
+            GetChildSlot(slot, scrollAmount, out childSlot, out viewBounds);
             int num = scrollAmount;
-            ScrollingLayoutOutput scrollingLayoutOutput = this.ArrangeChildren(layoutNode, slot, childSlot, viewBounds, sli, true, ref scrollAmount);
+            ScrollingLayoutOutput scrollingLayoutOutput = ArrangeChildren(layoutNode, slot, childSlot, viewBounds, sli, true, ref scrollAmount);
             if (num != scrollAmount)
             {
-                this.GetChildSlot(slot, scrollAmount, out childSlot, out viewBounds);
-                scrollingLayoutOutput = this.ArrangeChildren(layoutNode, slot, childSlot, viewBounds, sli, false, ref scrollAmount);
+                GetChildSlot(slot, scrollAmount, out childSlot, out viewBounds);
+                scrollingLayoutOutput = ArrangeChildren(layoutNode, slot, childSlot, viewBounds, sli, false, ref scrollAmount);
             }
             return scrollingLayoutOutput;
         }
@@ -112,10 +112,10 @@ namespace Microsoft.Iris.Layouts
           out LayoutSlot childSlot,
           out Rectangle viewBounds)
         {
-            Size infiniteConstraint = this.GetInfiniteConstraint(slot.Bounds);
+            Size infiniteConstraint = GetInfiniteConstraint(slot.Bounds);
             Size bounds = slot.Bounds;
             viewBounds = new Rectangle(Point.Zero, bounds);
-            Point offset = this.ScrollAmountToOffset(this._prefetch);
+            Point offset = ScrollAmountToOffset(_prefetch);
             Rectangle viewPeripheralBounds = viewBounds;
             viewPeripheralBounds.Inflate(offset.X, offset.Y);
             childSlot = new LayoutSlot(infiniteConstraint, slot.Offset, viewBounds, viewPeripheralBounds);
@@ -135,7 +135,7 @@ namespace Microsoft.Iris.Layouts
             bool flag1 = false;
             VisibleIndexRangeLayoutOutput rangeLayoutOutput = null;
             Rectangle rectangle1 = Rectangle.Zero;
-            Rectangle bounds = new Rectangle(new MajorMinor(-scrollAmount, 0).ToPoint(this.Orientation), Size.Max(slot.Bounds, (Size)layoutNode.MeasureData));
+            Rectangle bounds = new Rectangle(new MajorMinor(-scrollAmount, 0).ToPoint(Orientation), Size.Max(slot.Bounds, (Size)layoutNode.MeasureData));
             foreach (ILayoutNode layoutChild in layoutNode.LayoutChildren)
             {
                 layoutChild.Arrange(childSlot, bounds);
@@ -146,7 +146,7 @@ namespace Microsoft.Iris.Layouts
                     flag2 = layoutChild.TryGetAreaOfInterest(AreaOfInterestID.Focus, out area1);
                 if (flag2)
                     areaOfInterestBounds = area1.Rectangle;
-                if (this.IsFocusAreaOfInterest(area1.Id) && !sli.ScrollIntoViewDisposition.Enabled)
+                if (IsFocusAreaOfInterest(area1.Id) && !sli.ScrollIntoViewDisposition.Enabled)
                     DisallowScrollFocusIntoView();
                 scrollAreaOfInterestIntoView &= ScrollFocusIntoView;
                 if (area1.Id == AreaOfInterestID.ScrollIntoViewRequest && !areaOfInterestBounds.IsZero)
@@ -160,7 +160,7 @@ namespace Microsoft.Iris.Layouts
                     rectangle2 = Rectangle.Union(rectangle2, area2.Rectangle);
                 rectangle1 = Rectangle.Union(rectangle1, rectangle2);
             }
-            ScrollingLayoutOutput scrollAmount1 = this.CalculateScrollAmount(layoutNode, viewBounds, rectangle1, sli, applyPendingScrollData, scrollAreaOfInterestIntoView, areaOfInterestBounds, ref scrollAmount);
+            ScrollingLayoutOutput scrollAmount1 = CalculateScrollAmount(layoutNode, viewBounds, rectangle1, sli, applyPendingScrollData, scrollAreaOfInterestIntoView, areaOfInterestBounds, ref scrollAmount);
             scrollAmount1.VisibleIndices = rangeLayoutOutput;
             scrollAmount1.ProcessedExplicitScrollIntoViewRequest = flag1;
             scrollAmount1.ScrollFocusIntoView = ScrollFocusIntoView;
@@ -179,11 +179,11 @@ namespace Microsoft.Iris.Layouts
           Rectangle areaOfInterestBounds,
           ref int scrollAmount)
         {
-            int space1 = this.ItemToSpace(viewBounds.Size);
-            int space2 = this.ItemToSpace(scrollableBounds.Size);
+            int space1 = ItemToSpace(viewBounds.Size);
+            int space2 = ItemToSpace(scrollableBounds.Size);
             int num1 = -(space1 - space2);
             int num2 = (int)Math.Round(space1 * (double)sli.PageStep);
-            int num3 = this.ItemToSpace(scrollableBounds.Location.ToSize());
+            int num3 = ItemToSpace(scrollableBounds.Location.ToSize());
             int num4 = num3 + num1;
             if (num1 < 0)
             {
@@ -192,9 +192,9 @@ namespace Microsoft.Iris.Layouts
             }
             if (!areaOfInterestBounds.IsZero && scrollAreaOfInterestIntoView)
             {
-                scrollAmount = this.ScrollIntoView(layoutNode, areaOfInterestBounds, scrollAmount, space1, space2, num3, num4, sli.ScrollIntoViewDisposition);
+                scrollAmount = ScrollIntoView(layoutNode, areaOfInterestBounds, scrollAmount, space1, space2, num3, num4, sli.ScrollIntoViewDisposition);
                 if (sli.SecondaryScrollIntoViewDisposition != null && sli.SecondaryScrollIntoViewDisposition.Enabled)
-                    scrollAmount = this.ScrollIntoView(layoutNode, areaOfInterestBounds, scrollAmount, space1, space2, num3, num4, sli.SecondaryScrollIntoViewDisposition);
+                    scrollAmount = ScrollIntoView(layoutNode, areaOfInterestBounds, scrollAmount, space1, space2, num3, num4, sli.SecondaryScrollIntoViewDisposition);
                 scrollAmount = Math.Max(scrollAmount, num3);
                 scrollAmount = Math.Min(scrollAmount, num4);
             }
@@ -220,7 +220,7 @@ namespace Microsoft.Iris.Layouts
             }
             else
                 scrollAmount = 0;
-            int space3 = this.ItemToSpace(scrollableBounds.Location.ToSize());
+            int space3 = ItemToSpace(scrollableBounds.Location.ToSize());
             bool flag1 = -scrollAmount < space3;
             bool flag2 = -scrollAmount + space2 > space1;
             float num6 = 1f;
@@ -261,8 +261,8 @@ namespace Microsoft.Iris.Layouts
           ScrollIntoViewDisposition scrollIntoView)
         {
             Rectangle rectangle = areaOfInterestBounds;
-            int num1 = this.ItemToSpace(rectangle.Location.ToSize());
-            int space = this.ItemToSpace(rectangle.Size);
+            int num1 = ItemToSpace(rectangle.Location.ToSize());
+            int space = ItemToSpace(rectangle.Size);
             int num2 = num1 + space;
             int num3 = scrollAmount;
             int num4 = viewMajorSpace;
@@ -315,14 +315,14 @@ namespace Microsoft.Iris.Layouts
             return scrollAmount;
         }
 
-        private int ItemToSpace(Size size) => new MajorMinor(size, this._orientation).Major;
+        private int ItemToSpace(Size size) => new MajorMinor(size, _orientation).Major;
 
-        protected Point ScrollAmountToOffset(int scrollAmount) => new MajorMinor(scrollAmount, 0).ToPoint(this._orientation);
+        protected Point ScrollAmountToOffset(int scrollAmount) => new MajorMinor(scrollAmount, 0).ToPoint(_orientation);
 
-        protected Size GetInfiniteConstraint(Size maxExtent) => new MajorMinor(maxExtent, this._orientation)
+        protected Size GetInfiniteConstraint(Size maxExtent) => new MajorMinor(maxExtent, _orientation)
         {
             Major = 16777215
-        }.ToSize(this._orientation);
+        }.ToSize(_orientation);
 
         public static void ResetScrollFocusIntoView() => s_allowScrollFocusIntoView = true;
 

@@ -21,10 +21,10 @@ namespace Microsoft.Iris
           int newIndex,
           int count)
         {
-            this._count = count;
-            this._type = type;
-            this._oldIndex = oldIndex;
-            this._newIndex = newIndex;
+            _count = count;
+            _type = type;
+            _oldIndex = oldIndex;
+            _newIndex = newIndex;
         }
 
         internal ListContentsChangedArgs(ListContentsChangeType type, int oldIndex, int newIndex)
@@ -32,12 +32,12 @@ namespace Microsoft.Iris
         {
         }
 
-        public ListContentsChangeType Type => this._type;
+        public ListContentsChangeType Type => _type;
 
-        public int OldIndex => this._oldIndex;
+        public int OldIndex => _oldIndex;
 
-        public int NewIndex => this._newIndex;
+        public int NewIndex => _newIndex;
 
-        public int Count => this._count;
+        public int Count => _count;
     }
 }

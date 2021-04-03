@@ -15,11 +15,11 @@ namespace Microsoft.Iris.CodeModel.Cpp
 
         public UIXIDVerifier(DllLoadResult loadResult)
         {
-            this._loadResult = loadResult;
-            this._uniqueIDs = new Map<uint, uint>();
+            _loadResult = loadResult;
+            _uniqueIDs = new Map<uint, uint>();
         }
 
-        public bool RegisterID(uint ID) => this.CheckForSchemaMatch(ID) && this.CheckForDuplicate(ID);
+        public bool RegisterID(uint ID) => CheckForSchemaMatch(ID) && CheckForDuplicate(ID);
 
         private bool CheckForSchemaMatch(uint ID)
         {
@@ -32,13 +32,13 @@ namespace Microsoft.Iris.CodeModel.Cpp
         private bool CheckForDuplicate(uint ID)
         {
             uint num = 0;
-            bool flag = this._uniqueIDs.TryGetValue(ID, out num);
+            bool flag = _uniqueIDs.TryGetValue(ID, out num);
             if (flag && num == 0U)
             {
                 ErrorManager.ReportError("Duplicate ID '0x{0:X8}' found in schema from '{1}'", ID, _loadResult.Uri);
                 ++num;
             }
-            this._uniqueIDs[ID] = num;
+            _uniqueIDs[ID] = num;
             return !flag;
         }
     }

@@ -15,13 +15,13 @@ namespace Microsoft.Iris.ViewItems
 
         public RepeaterContentSelector(Repeater ownerRepeater)
         {
-            this._ownerRepeater = ownerRepeater;
-            this._selectorsList = new ArrayList();
+            _ownerRepeater = ownerRepeater;
+            _selectorsList = new ArrayList();
         }
 
-        public IList Selectors => this._selectorsList;
+        public IList Selectors => _selectorsList;
 
-        public Repeater.ContentTypeHandler ContentTypeHandler => new Repeater.ContentTypeHandler(this.GetContentTypeForRepeatedItem);
+        public Repeater.ContentTypeHandler ContentTypeHandler => new Repeater.ContentTypeHandler(GetContentTypeForRepeatedItem);
 
         public void GetContentTypeForRepeatedItem(object itemObject, ref string contentName)
         {
@@ -29,7 +29,7 @@ namespace Microsoft.Iris.ViewItems
                 return;
             foreach (TypeSelector selectors in _selectorsList)
             {
-                if (selectors.IsMatch(itemObject, this._ownerRepeater))
+                if (selectors.IsMatch(itemObject, _ownerRepeater))
                 {
                     contentName = selectors.ContentName;
                     break;

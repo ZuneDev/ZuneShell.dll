@@ -25,16 +25,16 @@ namespace Microsoft.Iris.Markup
         protected override void OnDispose()
         {
             base.OnDispose();
-            foreach (DisposableObject disposableObject in this.ExportTable)
+            foreach (DisposableObject disposableObject in ExportTable)
                 disposableObject.Dispose(this);
-            this.SetExportTable(null);
+            SetExportTable(null);
         }
 
         public override TypeSchema FindType(string name)
         {
-            for (int index = 0; index < this.ExportTable.Length; ++index)
+            for (int index = 0; index < ExportTable.Length; ++index)
             {
-                TypeSchema typeSchema = this.ExportTable[index];
+                TypeSchema typeSchema = ExportTable[index];
                 if (typeSchema.Name == name || typeSchema.AlternateName == name)
                     return typeSchema;
             }

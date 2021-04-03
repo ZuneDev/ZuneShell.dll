@@ -22,31 +22,31 @@ namespace Microsoft.Iris.Markup.Validation
           int column)
           : base(owner, line, column, StatementType.Return)
         {
-            this._expression = expression;
+            _expression = expression;
         }
 
-        public ValidateExpression Expression => this._expression;
+        public ValidateExpression Expression => _expression;
 
         public override void Validate(ValidateCode container, ValidateContext context)
         {
-            if (this._expression != null)
+            if (_expression != null)
             {
-                this._expression.Validate(new TypeRestriction(ObjectSchema.Type), context);
-                if (this._expression.HasErrors)
-                    this.MarkHasErrors();
+                _expression.Validate(new TypeRestriction(ObjectSchema.Type), context);
+                if (_expression.HasErrors)
+                    MarkHasErrors();
             }
             container.TrackReturnStatement(this);
-            this._scopedLocalsToClear = context.GetImmediateFrameUnwindList(this.Owner);
+            _scopedLocalsToClear = context.GetImmediateFrameUnwindList(Owner);
         }
 
-        public Vector<int> ScopedLocalsToClear => this._scopedLocalsToClear;
+        public Vector<int> ScopedLocalsToClear => _scopedLocalsToClear;
 
-        public uint JumpFixupOffset => this._jumpFixupOffset;
+        public uint JumpFixupOffset => _jumpFixupOffset;
 
-        public void TrackJumpFixupOffset(uint jumpFixupOffset) => this._jumpFixupOffset = jumpFixupOffset;
+        public void TrackJumpFixupOffset(uint jumpFixupOffset) => _jumpFixupOffset = jumpFixupOffset;
 
-        public bool IsTrailingReturn => this._isTrailingReturn;
+        public bool IsTrailingReturn => _isTrailingReturn;
 
-        public void MarkAsTrailingReturn() => this._isTrailingReturn = true;
+        public void MarkAsTrailingReturn() => _isTrailingReturn = true;
     }
 }

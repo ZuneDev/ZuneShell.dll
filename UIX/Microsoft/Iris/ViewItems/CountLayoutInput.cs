@@ -14,18 +14,18 @@ namespace Microsoft.Iris.ViewItems
         private static readonly DataCookie s_dataProperty = DataCookie.ReserveSlot();
         private int _count;
 
-        public CountLayoutInput(int count) => this._count = count;
+        public CountLayoutInput(int count) => _count = count;
 
         public int Count
         {
-            get => this._count;
-            set => this._count = value;
+            get => _count;
+            set => _count = value;
         }
 
         DataCookie ILayoutInput.Data => Data;
 
         public static DataCookie Data => s_dataProperty;
 
-        public override string ToString() => InvariantString.Format("{0}(Count={1})", this.GetType().Name, _count);
+        public override string ToString() => InvariantString.Format("{0}(Count={1})", GetType().Name, _count);
     }
 }

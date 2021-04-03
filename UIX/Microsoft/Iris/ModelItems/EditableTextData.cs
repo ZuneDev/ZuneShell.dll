@@ -19,33 +19,33 @@ namespace Microsoft.Iris.ModelItems
 
         public EditableTextData()
         {
-            this._value = string.Empty;
-            this._maxLength = int.MaxValue;
+            _value = string.Empty;
+            _maxLength = int.MaxValue;
         }
 
         public string Value
         {
-            get => this._value;
+            get => _value;
             set
             {
-                if (this.ReadOnly || !(this._value != value))
+                if (ReadOnly || !(_value != value))
                     return;
-                this._value = value;
-                this.FireCodeEvent(this.ValueChanged);
-                this.FireThreadSafeNotification(NotificationID.Value);
+                _value = value;
+                FireCodeEvent(ValueChanged);
+                FireThreadSafeNotification(NotificationID.Value);
             }
         }
 
         public int MaxLength
         {
-            get => this._maxLength;
+            get => _maxLength;
             set
             {
-                if (this._maxLength == value)
+                if (_maxLength == value)
                     return;
-                this._maxLength = value;
-                this.FireCodeEvent(this.MaxLengthChanged);
-                this.FireThreadSafeNotification(NotificationID.MaxLength);
+                _maxLength = value;
+                FireCodeEvent(MaxLengthChanged);
+                FireThreadSafeNotification(NotificationID.MaxLength);
             }
         }
 
@@ -58,14 +58,14 @@ namespace Microsoft.Iris.ModelItems
 
         public bool ReadOnly
         {
-            get => this._readOnly;
+            get => _readOnly;
             set
             {
-                if (this._readOnly == value)
+                if (_readOnly == value)
                     return;
-                this._readOnly = value;
-                this.FireCodeEvent(this.ReadOnlyChanged);
-                this.FireThreadSafeNotification(NotificationID.ReadOnly);
+                _readOnly = value;
+                FireCodeEvent(ReadOnlyChanged);
+                FireThreadSafeNotification(NotificationID.ReadOnly);
             }
         }
 
@@ -77,13 +77,13 @@ namespace Microsoft.Iris.ModelItems
 
         public event EventHandler ValueChanged;
 
-        public void Submit() => DeferredCall.Post(DispatchPriority.AppEvent, new SimpleCallback(this.AsyncInvoke));
+        public void Submit() => DeferredCall.Post(DispatchPriority.AppEvent, new SimpleCallback(AsyncInvoke));
 
         private void AsyncInvoke()
         {
-            this.FireCodeEvent(this.Submitted);
-            this.FireThreadSafeNotification(NotificationID.Submitted);
-            this.OnSubmitted();
+            FireCodeEvent(Submitted);
+            FireThreadSafeNotification(NotificationID.Submitted);
+            OnSubmitted();
         }
 
         protected virtual void OnSubmitted()

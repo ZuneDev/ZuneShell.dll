@@ -15,8 +15,8 @@ namespace Microsoft.Iris.Markup
         {
         }
 
-        public override object GetValue(object instance) => ((Host)instance).GetChildUIProperty(this.Name);
+        public override object GetValue(object instance) => ((Host)instance).GetChildUIProperty(Name);
 
-        public override void SetValue(ref object instance, object value) => ((Host)instance).SetChildUIProperty(this.Name, value);
+        public override void SetValue(ref object instance, object value) => ((Host)instance).SetChildUIProperty(Name, value);
     }
 }

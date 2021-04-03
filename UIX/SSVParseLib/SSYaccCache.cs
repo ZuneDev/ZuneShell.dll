@@ -10,13 +10,13 @@ namespace SSVParseLib
 {
     internal class SSYaccCache : Queue
     {
-        public bool hasElements() => this.Count != 0;
+        public bool hasElements() => Count != 0;
 
         public SSLexLexeme remove()
         {
             SSLexLexeme ssLexLexeme = null;
-            if (this.Count != 0)
-                ssLexLexeme = (SSLexLexeme)this.Dequeue();
+            if (Count != 0)
+                ssLexLexeme = (SSLexLexeme)Dequeue();
             return ssLexLexeme;
         }
     }

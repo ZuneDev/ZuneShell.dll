@@ -24,33 +24,33 @@ namespace Microsoft.Iris.Markup.Validation
           int column)
           : base(owner, line, column)
         {
-            this._expression = expression;
+            _expression = expression;
         }
 
         protected ValidateParameter()
         {
         }
 
-        public ValidateExpression Expression => this._expression;
+        public ValidateExpression Expression => _expression;
 
         public ValidateParameter Next
         {
-            get => this._next;
-            set => this._next = value;
+            get => _next;
+            set => _next = value;
         }
 
-        public void Validate(ValidateContext context) => this.Validate(context, false);
+        public void Validate(ValidateContext context) => Validate(context, false);
 
         public void Validate(ValidateContext context, bool voidAcceptable)
         {
-            this._expression.Validate(!voidAcceptable ? new TypeRestriction(ObjectSchema.Type) : new TypeRestriction(ObjectSchema.Type, VoidSchema.Type), context);
-            if (this._expression.HasErrors)
-                this.MarkHasErrors();
+            _expression.Validate(!voidAcceptable ? new TypeRestriction(ObjectSchema.Type) : new TypeRestriction(ObjectSchema.Type, VoidSchema.Type), context);
+            if (_expression.HasErrors)
+                MarkHasErrors();
             else
-                this._foundParameterType = this._expression.ObjectType;
+                _foundParameterType = _expression.ObjectType;
         }
 
-        public TypeSchema FoundParameterType => this._foundParameterType;
+        public TypeSchema FoundParameterType => _foundParameterType;
 
         public void AppendToEnd(ValidateParameter item)
         {

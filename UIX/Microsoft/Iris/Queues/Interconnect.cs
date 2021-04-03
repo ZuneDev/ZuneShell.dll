@@ -12,7 +12,7 @@ namespace Microsoft.Iris.Queues
     {
         private Map<Thread, Feeder> _feeders;
 
-        public Interconnect() => this._feeders = new Map<Thread, Feeder>();
+        public Interconnect() => _feeders = new Map<Thread, Feeder>();
 
         private Feeder GetFeeder(Thread thread, bool lazyCreate)
         {
@@ -21,15 +21,15 @@ namespace Microsoft.Iris.Queues
             lock (this)
             {
                 Feeder feeder;
-                if (!this._feeders.TryGetValue(thread, out feeder) && lazyCreate)
-                    this._feeders[thread] = feeder = new Feeder();
+                if (!_feeders.TryGetValue(thread, out feeder) && lazyCreate)
+                    _feeders[thread] = feeder = new Feeder();
                 return feeder;
             }
         }
 
         public Feeder EnterDispatch(Dispatcher dispatcher, bool isRoot)
         {
-            Feeder feeder = this.GetFeeder(Thread.CurrentThread, isRoot);
+            Feeder feeder = GetFeeder(Thread.CurrentThread, isRoot);
             if (isRoot)
                 feeder.EnterDispatch(dispatcher);
             return feeder;
@@ -38,17 +38,17 @@ namespace Microsoft.Iris.Queues
         public void LeaveDispatch(Dispatcher dispatcher, bool isRoot)
         {
             Thread currentThread = Thread.CurrentThread;
-            Feeder feeder = this.GetFeeder(currentThread, false);
+            Feeder feeder = GetFeeder(currentThread, false);
             if (!isRoot)
                 return;
             feeder.LeaveDispatch(dispatcher);
             lock (this)
-                this._feeders.Remove(currentThread);
+                _feeders.Remove(currentThread);
             if (!feeder.HasItems)
                 return;
             dispatcher.DrainFeeder();
         }
 
-        public void PostItem(Thread thread, QueueItem item, int priority) => this.GetFeeder(thread, false)?.PostItem(item, priority);
+        public void PostItem(Thread thread, QueueItem item, int priority) => GetFeeder(thread, false)?.PostItem(item, priority);
     }
 }

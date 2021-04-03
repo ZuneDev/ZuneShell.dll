@@ -10,8 +10,8 @@ namespace Microsoft.Iris.Input
     {
         private InputManager _manager;
 
-        internal InputDevice(InputManager manager) => this._manager = manager;
+        internal InputDevice(InputManager manager) => _manager = manager;
 
-        internal InputManager Manager => this._manager;
+        internal InputManager Manager => _manager;
     }
 }

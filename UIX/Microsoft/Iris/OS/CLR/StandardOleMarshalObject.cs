@@ -60,7 +60,7 @@ namespace Microsoft.Iris.OS.CLR
           out int pSize)
         {
             Guid riid1 = riid;
-            IntPtr stdMarshaller = this.GetStdMarshaller(ref riid1, dwDestContext, mshlflags);
+            IntPtr stdMarshaller = GetStdMarshaller(ref riid1, dwDestContext, mshlflags);
             try
             {
                 return UnsafeNativeMethods.CoGetMarshalSizeMax(out pSize, ref riid1, stdMarshaller, dwDestContext, pvDestContext, mshlflags);
@@ -81,7 +81,7 @@ namespace Microsoft.Iris.OS.CLR
           int mshlflags)
         {
             Guid riid1 = riid;
-            IntPtr stdMarshaller = this.GetStdMarshaller(ref riid1, dwDestContext, mshlflags);
+            IntPtr stdMarshaller = GetStdMarshaller(ref riid1, dwDestContext, mshlflags);
             try
             {
                 return UnsafeNativeMethods.CoMarshalInterface(pStm, ref riid1, stdMarshaller, dwDestContext, pvDestContext, mshlflags);

@@ -46,18 +46,18 @@ namespace Microsoft.Iris.Input
           int scanCode,
           ushort eventFlags)
         {
-            this._key = key;
-            this.Initialize(action, action == KeyAction.Down ? InputEventType.KeyDown : InputEventType.KeyUp, deviceType, modifiers, repeatCount, systemKey, nativeMessageID, scanCode, eventFlags);
+            _key = key;
+            Initialize(action, action == KeyAction.Down ? InputEventType.KeyDown : InputEventType.KeyUp, deviceType, modifiers, repeatCount, systemKey, nativeMessageID, scanCode, eventFlags);
         }
 
-        public bool IsRepeatOf(KeyStateInfo other) => other != null && this._key == other._key && this.IsRepeatOf((KeyActionInfo)other);
+        public bool IsRepeatOf(KeyStateInfo other) => other != null && _key == other._key && IsRepeatOf((KeyActionInfo)other);
 
-        public KeyStateInfo MakeRepeatableCopy() => Create(this.Action, this.DeviceType, this.Modifiers, this.RepeatCount, this._key, this.SystemKey, this.NativeMessageID, this.ScanCode, this.KeyboardFlags);
+        public KeyStateInfo MakeRepeatableCopy() => Create(Action, DeviceType, Modifiers, RepeatCount, _key, SystemKey, NativeMessageID, ScanCode, KeyboardFlags);
 
-        public Keys Key => this._key;
+        public Keys Key => _key;
 
         protected override InputInfo.InfoType PoolType => s_poolType;
 
-        public override string ToString() => InvariantString.Format("{0}({1}, Key={2})", this.GetType().Name, Action, _key);
+        public override string ToString() => InvariantString.Format("{0}({1}, Key={2})", GetType().Name, Action, _key);
     }
 }

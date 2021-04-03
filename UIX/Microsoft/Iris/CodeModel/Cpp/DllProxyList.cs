@@ -33,15 +33,15 @@ namespace Microsoft.Iris.CodeModel.Cpp
         protected override void LoadWorker(IntPtr nativeObject, IntPtr nativeMarshalAs)
         {
             base.LoadWorker(nativeObject, nativeMarshalAs);
-            NativeApi.SUCCEEDED(NativeApi.SpUIXListWantSlowDataRequests(this._interface, out this._wantSlowDataRequests));
-            if (!this._wantSlowDataRequests)
+            NativeApi.SUCCEEDED(NativeApi.SpUIXListWantSlowDataRequests(_interface, out _wantSlowDataRequests));
+            if (!_wantSlowDataRequests)
                 return;
-            this._updater = new UpdateHelper(this);
+            _updater = new UpdateHelper(this);
         }
 
         protected override void OnDispose()
         {
-            this.UpdateCallbackRegistration(true);
+            UpdateCallbackRegistration(true);
             base.OnDispose();
         }
 
@@ -50,30 +50,30 @@ namespace Microsoft.Iris.CodeModel.Cpp
             int count = 0;
             UIXVariant uixVariant;
             UIXVariant.MarshalObject(value, &uixVariant);
-            NativeApi.SUCCEEDED(NativeApi.SpUIXListAdd(this._interface, &uixVariant, out count));
+            NativeApi.SUCCEEDED(NativeApi.SpUIXListAdd(_interface, &uixVariant, out count));
             UIXVariant.CleanupMarshalledObject(&uixVariant);
             return count;
         }
 
-        public bool Contains(object value) => this.IndexOf(value) >= 0;
+        public bool Contains(object value) => IndexOf(value) >= 0;
 
         public unsafe int IndexOf(object value)
         {
             int index = -1;
             UIXVariant uixVariant;
             UIXVariant.MarshalObject(value, &uixVariant);
-            NativeApi.SUCCEEDED(NativeApi.SpUIXListIndexOf(this._interface, &uixVariant, out index));
+            NativeApi.SUCCEEDED(NativeApi.SpUIXListIndexOf(_interface, &uixVariant, out index));
             UIXVariant.CleanupMarshalledObject(&uixVariant);
             return index;
         }
 
-        public void Clear() => NativeApi.SUCCEEDED(NativeApi.SpUIXListClear(this._interface));
+        public void Clear() => NativeApi.SUCCEEDED(NativeApi.SpUIXListClear(_interface));
 
         public unsafe void Insert(int index, object value)
         {
             UIXVariant uixVariant;
             UIXVariant.MarshalObject(value, &uixVariant);
-            NativeApi.SUCCEEDED(NativeApi.SpUIXListInsert(this._interface, index, &uixVariant));
+            NativeApi.SUCCEEDED(NativeApi.SpUIXListInsert(_interface, index, &uixVariant));
             UIXVariant.CleanupMarshalledObject(&uixVariant);
         }
 
@@ -81,11 +81,11 @@ namespace Microsoft.Iris.CodeModel.Cpp
         {
             UIXVariant uixVariant;
             UIXVariant.MarshalObject(value, &uixVariant);
-            NativeApi.SUCCEEDED(NativeApi.SpUIXListRemove(this._interface, &uixVariant));
+            NativeApi.SUCCEEDED(NativeApi.SpUIXListRemove(_interface, &uixVariant));
             UIXVariant.CleanupMarshalledObject(&uixVariant);
         }
 
-        public void RemoveAt(int index) => NativeApi.SUCCEEDED(NativeApi.SpUIXListRemoveAt(this._interface, index));
+        public void RemoveAt(int index) => NativeApi.SUCCEEDED(NativeApi.SpUIXListRemoveAt(_interface, index));
 
         public void CopyTo(Array array, int index) => throw new NotImplementedException();
 
@@ -94,7 +94,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
             get
             {
                 int count = 0;
-                NativeApi.SUCCEEDED(NativeApi.SpUIXListGetCount(this._interface, out count));
+                NativeApi.SUCCEEDED(NativeApi.SpUIXListGetCount(_interface, out count));
                 return count;
             }
         }
@@ -108,7 +108,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
         bool IVirtualList.IsItemAvailable(int index)
         {
             bool isAvailable;
-            NativeApi.SUCCEEDED(NativeApi.SpUIXListIsItemAvailable(this._interface, index, out isAvailable));
+            NativeApi.SUCCEEDED(NativeApi.SpUIXListIsItemAvailable(_interface, index, out isAvailable));
             return isAvailable;
         }
 
@@ -124,7 +124,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
             {
                 object obj = null;
                 UIXVariant inboundObject;
-                if (NativeApi.SUCCEEDED(NativeApi.SpUIXListGetItem(this._interface, index, out inboundObject)))
+                if (NativeApi.SUCCEEDED(NativeApi.SpUIXListGetItem(_interface, index, out inboundObject)))
                     obj = UIXVariant.GetValue(inboundObject, OwningLoadResult);
                 return obj;
             }
@@ -132,14 +132,14 @@ namespace Microsoft.Iris.CodeModel.Cpp
             {
                 UIXVariant uixVariant;
                 UIXVariant.MarshalObject(value, &uixVariant);
-                NativeApi.SUCCEEDED(NativeApi.SpUIXListSetItem(this._interface, index, &uixVariant));
+                NativeApi.SUCCEEDED(NativeApi.SpUIXListSetItem(_interface, index, &uixVariant));
                 UIXVariant.CleanupMarshalledObject(&uixVariant);
             }
         }
 
         public object SyncRoot => (object)null;
 
-        IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         public StackIListEnumerator GetEnumerator() => new StackIListEnumerator(this);
 
@@ -147,22 +147,22 @@ namespace Microsoft.Iris.CodeModel.Cpp
         {
             add
             {
-                if (this._contentsChanged == null)
-                    this.UpdateCallbackRegistration();
-                this._contentsChanged += value;
+                if (_contentsChanged == null)
+                    UpdateCallbackRegistration();
+                _contentsChanged += value;
             }
             remove
             {
-                this._contentsChanged -= value;
-                if (this._contentsChanged != null)
+                _contentsChanged -= value;
+                if (_contentsChanged != null)
                     return;
-                this.UpdateCallbackRegistration();
+                UpdateCallbackRegistration();
             }
         }
 
         public void Move(int oldIndex, int newIndex)
         {
-            int num = (int)NativeApi.SpUIXListMove(this._interface, oldIndex, newIndex);
+            int num = (int)NativeApi.SpUIXListMove(_interface, oldIndex, newIndex);
         }
 
         public void ListChanged(int nativeType, int oldIndex, int newIndex, int count)
@@ -181,13 +181,13 @@ namespace Microsoft.Iris.CodeModel.Cpp
                 case UIListContentsChangeType.Reset:
                     if (!flag1)
                         break;
-                    if (this._contentsChanged != null)
-                        this._contentsChanged(this, new UIListContentsChangedArgs(type, oldIndex, newIndex, count));
+                    if (_contentsChanged != null)
+                        _contentsChanged(this, new UIListContentsChangedArgs(type, oldIndex, newIndex, count));
                     if (flag2)
-                        this.FireNotification(NotificationID.Count);
-                    if (this._updater == null)
+                        FireNotification(NotificationID.Count);
+                    if (_updater == null)
                         break;
-                    this.ForwardListChangeToUpdater(type, oldIndex, newIndex, count);
+                    ForwardListChangeToUpdater(type, oldIndex, newIndex, count);
                     break;
                 case UIListContentsChangeType.Move:
                 case UIListContentsChangeType.Modified:
@@ -208,8 +208,8 @@ namespace Microsoft.Iris.CodeModel.Cpp
             switch (type)
             {
                 case UIListContentsChangeType.Remove:
-                    this._updater.RemoveIndex(oldIndex);
-                    this._updater.AdjustIndices(oldIndex, -1);
+                    _updater.RemoveIndex(oldIndex);
+                    _updater.AdjustIndices(oldIndex, -1);
                     break;
                 case UIListContentsChangeType.Move:
                     int lowThreshold;
@@ -227,93 +227,93 @@ namespace Microsoft.Iris.CodeModel.Cpp
                         highThreshold = oldIndex;
                         amt = 1;
                     }
-                    this._updater.RemoveIndex(oldIndex);
-                    this._updater.AdjustIndices(lowThreshold, highThreshold, amt);
-                    this._updater.AddIndex(newIndex);
+                    _updater.RemoveIndex(oldIndex);
+                    _updater.AdjustIndices(lowThreshold, highThreshold, amt);
+                    _updater.AddIndex(newIndex);
                     break;
                 case UIListContentsChangeType.Insert:
-                    this._updater.AdjustIndices(newIndex, 1);
+                    _updater.AdjustIndices(newIndex, 1);
                     break;
                 case UIListContentsChangeType.InsertRange:
-                    this._updater.AdjustIndices(newIndex, count);
+                    _updater.AdjustIndices(newIndex, count);
                     break;
                 case UIListContentsChangeType.Clear:
                 case UIListContentsChangeType.Reset:
-                    this._updater.Clear();
+                    _updater.Clear();
                     break;
             }
         }
 
-        public bool SlowDataRequestsEnabled => this._wantSlowDataRequests;
+        public bool SlowDataRequestsEnabled => _wantSlowDataRequests;
 
-        public void NotifyRequestSlowData(int index) => NativeApi.SUCCEEDED(NativeApi.SpUIXListFetchSlowData(this._interface, index));
+        public void NotifyRequestSlowData(int index) => NativeApi.SUCCEEDED(NativeApi.SpUIXListFetchSlowData(_interface, index));
 
         public void SlowDataAcquireComplete(int index)
         {
             bool flag = false;
-            if (this._slowDataAcquireCompleteHandler != null)
-                flag = this._slowDataAcquireCompleteHandler(this, index);
+            if (_slowDataAcquireCompleteHandler != null)
+                flag = _slowDataAcquireCompleteHandler(this, index);
             if (flag)
                 return;
-            this._updater.NotifySlowDataAcquireComplete(index);
+            _updater.NotifySlowDataAcquireComplete(index);
         }
 
         public SlowDataAcquireCompleteHandler SlowDataAcquireCompleteHandler
         {
-            get => this._slowDataAcquireCompleteHandler;
+            get => _slowDataAcquireCompleteHandler;
             set
             {
-                if (!(value != this._slowDataAcquireCompleteHandler))
+                if (!(value != _slowDataAcquireCompleteHandler))
                     return;
-                this._slowDataAcquireCompleteHandler = value;
-                this.UpdateCallbackRegistration();
+                _slowDataAcquireCompleteHandler = value;
+                UpdateCallbackRegistration();
             }
         }
 
         public void NotifyVisualsCreated(int index)
         {
-            if (this._updater != null)
-                this._updater.AddIndex(index);
-            NativeApi.SUCCEEDED(NativeApi.SpUIXListNotifyVisualsCreated(this._interface, index));
+            if (_updater != null)
+                _updater.AddIndex(index);
+            NativeApi.SUCCEEDED(NativeApi.SpUIXListNotifyVisualsCreated(_interface, index));
         }
 
         public void NotifyVisualsReleased(int index)
         {
-            if (this._updater != null)
-                this._updater.RemoveIndex(index);
-            NativeApi.SUCCEEDED(NativeApi.SpUIXListNotifyVisualsReleased(this._interface, index));
+            if (_updater != null)
+                _updater.RemoveIndex(index);
+            NativeApi.SUCCEEDED(NativeApi.SpUIXListNotifyVisualsReleased(_interface, index));
         }
 
         public Repeater RepeaterHost
         {
-            get => this._repeater;
+            get => _repeater;
             set
             {
-                if (value == this._repeater)
+                if (value == _repeater)
                     return;
-                this._repeater = value;
-                this.UpdateCallbackRegistration();
+                _repeater = value;
+                UpdateCallbackRegistration();
             }
         }
 
-        private void UpdateCallbackRegistration() => this.UpdateCallbackRegistration(false);
+        private void UpdateCallbackRegistration() => UpdateCallbackRegistration(false);
 
         private void UpdateCallbackRegistration(bool inDispose)
         {
-            bool flag = (this._slowDataAcquireCompleteHandler != null || this._contentsChanged != null || this._repeater != null) & !inDispose;
-            if (flag == this._callbacksRegistered)
+            bool flag = (_slowDataAcquireCompleteHandler != null || _contentsChanged != null || _repeater != null) & !inDispose;
+            if (flag == _callbacksRegistered)
                 return;
             if (flag)
             {
-                int num1 = (int)NativeApi.SpUIXListRegisterCallbacks(this._interface, this);
+                int num1 = (int)NativeApi.SpUIXListRegisterCallbacks(_interface, this);
             }
             else
             {
-                int num2 = (int)NativeApi.SpUIXListUnregisterCallbacks(this._interface, this);
-                if (this._updater != null)
-                    this._updater.Clear();
+                int num2 = (int)NativeApi.SpUIXListUnregisterCallbacks(_interface, this);
+                if (_updater != null)
+                    _updater.Clear();
             }
-            this._callbacksRegistered = flag;
+            _callbacksRegistered = flag;
         }
     }
 }

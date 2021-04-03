@@ -15,16 +15,16 @@ namespace Microsoft.Iris.Library
 
         public StackIListReverseEnumerator(IList list)
         {
-            this._list = list;
-            this._currentIndex = list.Count;
+            _list = list;
+            _currentIndex = list.Count;
         }
 
         public StackIListReverseEnumerator GetEnumerator() => this;
 
-        public bool MoveNext() => --this._currentIndex >= 0;
+        public bool MoveNext() => --_currentIndex >= 0;
 
-        public object Current => this._list[this._currentIndex];
+        public object Current => _list[_currentIndex];
 
-        public void Reset() => this._currentIndex = this._list.Count;
+        public void Reset() => _currentIndex = _list.Count;
     }
 }

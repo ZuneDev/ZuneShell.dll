@@ -64,42 +64,42 @@ namespace Microsoft.Iris.Markup
           string[] parameterNames)
           : base(owner)
         {
-            this._name = name;
-            this._returnType = returnType;
-            this._parameterTypes = parameterTypes;
-            this._parameterNames = parameterNames;
-            for (int index = 0; index < this._parameterNames.Length; ++index)
-                this._parameterNames[index] = NotifyService.CanonicalizeString(this._parameterNames[index]);
+            _name = name;
+            _returnType = returnType;
+            _parameterTypes = parameterTypes;
+            _parameterNames = parameterNames;
+            for (int index = 0; index < _parameterNames.Length; ++index)
+                _parameterNames[index] = NotifyService.CanonicalizeString(_parameterNames[index]);
         }
 
-        public override string Name => this._name;
+        public override string Name => _name;
 
-        public override TypeSchema[] ParameterTypes => this._parameterTypes;
+        public override TypeSchema[] ParameterTypes => _parameterTypes;
 
-        public string[] ParameterNames => this._parameterNames;
+        public string[] ParameterNames => _parameterNames;
 
-        public override TypeSchema ReturnType => this._returnType;
+        public override TypeSchema ReturnType => _returnType;
 
         public override bool IsStatic => false;
 
-        public bool IsVirtual => this._virtualId >= 0;
+        public bool IsVirtual => _virtualId >= 0;
 
-        public int VirtualId => this._virtualId;
+        public int VirtualId => _virtualId;
 
-        public bool IsVirtualThunk => this._isVirtualThunk;
+        public bool IsVirtualThunk => _isVirtualThunk;
 
-        public uint CodeOffset => this._codeOffset;
+        public uint CodeOffset => _codeOffset;
 
-        public void SetCodeOffset(uint codeOffset) => this._codeOffset = codeOffset;
+        public void SetCodeOffset(uint codeOffset) => _codeOffset = codeOffset;
 
-        public void SetVirtualId(int virtualId) => this._virtualId = virtualId;
+        public void SetVirtualId(int virtualId) => _virtualId = virtualId;
 
         public override object Invoke(object instance, object[] parameters)
         {
-            IMarkupTypeBase markupTypeBase = this.GetMarkupTypeBase(instance);
+            IMarkupTypeBase markupTypeBase = GetMarkupTypeBase(instance);
             if (markupTypeBase == null)
                 return null;
-            return this._isVirtualThunk ? this.CallVirt(markupTypeBase, parameters) : this.CallDirect(markupTypeBase, parameters);
+            return _isVirtualThunk ? CallVirt(markupTypeBase, parameters) : CallDirect(markupTypeBase, parameters);
         }
 
         private object CallVirt(IMarkupTypeBase markupInstance, object[] parameters)
@@ -110,7 +110,7 @@ namespace Microsoft.Iris.Markup
             {
                 foreach (MarkupMethodSchema virtualMethod in typeSchema.VirtualMethods)
                 {
-                    if (virtualMethod.VirtualId == this._virtualId)
+                    if (virtualMethod.VirtualId == _virtualId)
                     {
                         markupMethodSchema = virtualMethod;
                         break;
@@ -124,7 +124,7 @@ namespace Microsoft.Iris.Markup
             return markupMethodSchema.CallDirect(markupInstance, parameters);
         }
 
-        private object CallDirect(IMarkupTypeBase markupInstance, object[] parameters) => markupInstance.RunScript(this._codeOffset, false, new ParameterContext(this._parameterNames, parameters));
+        private object CallDirect(IMarkupTypeBase markupInstance, object[] parameters) => markupInstance.RunScript(_codeOffset, false, new ParameterContext(_parameterNames, parameters));
 
         protected abstract IMarkupTypeBase GetMarkupTypeBase(object instance);
     }

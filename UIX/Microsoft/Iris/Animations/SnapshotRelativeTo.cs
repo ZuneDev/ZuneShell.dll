@@ -14,8 +14,8 @@ namespace Microsoft.Iris.Animations
 
         public SnapshotRelativeTo(RectangleF bounds)
           : base(SnapshotPolicy.Once)
-          => this._bounds = bounds;
+          => _bounds = bounds;
 
-        public RectangleF Bounds => this._bounds;
+        public RectangleF Bounds => _bounds;
     }
 }

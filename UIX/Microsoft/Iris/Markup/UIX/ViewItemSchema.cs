@@ -387,20 +387,20 @@ namespace Microsoft.Iris.Markup.UIX
 
             public int Add(object value)
             {
-                switch (this._mode)
+                switch (_mode)
                 {
                     case ListProxyMode.Children:
-                        this._subject.Children.Add((Microsoft.Iris.Library.TreeNode)value);
+                        _subject.Children.Add((Microsoft.Iris.Library.TreeNode)value);
                         break;
                     case ListProxyMode.Animation:
                         if (value != null)
                         {
-                            this._subject.AttachAnimation((IAnimationProvider)value);
+                            _subject.AttachAnimation((IAnimationProvider)value);
                             break;
                         }
                         break;
                 }
-                this._subject = null;
+                _subject = null;
                 return 0;
             }
 
@@ -438,8 +438,8 @@ namespace Microsoft.Iris.Markup.UIX
 
             private void SetSubject(ViewItem subject, ViewItemSchema.ListProxyMode mode)
             {
-                this._subject = subject;
-                this._mode = mode;
+                _subject = subject;
+                _mode = mode;
             }
 
             private ListProxy()

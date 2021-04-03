@@ -21,10 +21,10 @@ namespace Microsoft.Iris.Markup
         public SourceMarkupLoadResult(Resource resource, string uri)
           : base(uri)
         {
-            this._resource = resource;
+            _resource = resource;
             if (uri != resource.Uri)
-                this._uriUnderlying = resource.Uri;
-            this._loader = SourceMarkupLoader.Load(this, resource);
+                _uriUnderlying = resource.Uri;
+            _loader = SourceMarkupLoader.Load(this, resource);
         }
 
         public SourceMarkupLoadResult(string uri)
@@ -34,24 +34,24 @@ namespace Microsoft.Iris.Markup
 
         public override bool IsSource => true;
 
-        internal SourceMarkupLoader Loader => this._loader;
+        internal SourceMarkupLoader Loader => _loader;
 
-        public override MarkupConstantsTable ConstantsTable => this._constantsTable;
+        public override MarkupConstantsTable ConstantsTable => _constantsTable;
 
-        public override MarkupImportTables ImportTables => this._importTables;
+        public override MarkupImportTables ImportTables => _importTables;
 
         public override void Load(LoadPass currentPass)
         {
-            if (this._doneWithLoader)
+            if (_doneWithLoader)
                 return;
             ErrorManager.EnterContext(ErrorContextUri);
-            this._loader.Validate(currentPass);
+            _loader.Validate(currentPass);
             ErrorManager.ExitContext();
             if (currentPass != LoadPass.Done)
                 return;
             if (!MarkupSystem.TrackAdditionalMetadata)
-                this._loader = null;
-            this._doneWithLoader = true;
+                _loader = null;
+            _doneWithLoader = true;
         }
 
         public void ValidateType(MarkupTypeSchema typeSchema, LoadPass currentPass)
@@ -66,19 +66,19 @@ namespace Microsoft.Iris.Markup
 
         public void ValidationComplete()
         {
-            if (this._resource != null)
+            if (_resource != null)
             {
-                this._resource.Free();
-                this._resource = null;
+                _resource.Free();
+                _resource = null;
             }
-            if (this.Status == LoadResultStatus.Loading)
-                this.SetStatus(LoadResultStatus.Success);
-            foreach (MarkupTypeSchema markupTypeSchema in this.ExportTable)
+            if (Status == LoadResultStatus.Loading)
+                SetStatus(LoadResultStatus.Success);
+            foreach (MarkupTypeSchema markupTypeSchema in ExportTable)
                 markupTypeSchema.Seal();
         }
 
-        public void SetConstantsTable(MarkupConstantsTable constantsTable) => this._constantsTable = constantsTable;
+        public void SetConstantsTable(MarkupConstantsTable constantsTable) => _constantsTable = constantsTable;
 
-        public void SetImportTables(MarkupImportTables importTables) => this._importTables = importTables;
+        public void SetImportTables(MarkupImportTables importTables) => _importTables = importTables;
     }
 }

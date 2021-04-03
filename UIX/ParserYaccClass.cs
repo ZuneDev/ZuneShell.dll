@@ -111,277 +111,277 @@ internal class ParserYaccClass : SSYacc
         switch (q_prod)
         {
             case 1:
-                return this.ReturnObject(new ValidateCode(this.Owner, new ValidateStatementCompound(this.Owner, (ValidateStatement)this.FromProduction(1), this.CurrentLine, this.CurrentColumn), this.CurrentLine, this.CurrentColumn));
+                return ReturnObject(new ValidateCode(Owner, new ValidateStatementCompound(Owner, (ValidateStatement)FromProduction(1), CurrentLine, CurrentColumn), CurrentLine, CurrentColumn));
             case 2:
-                return this.ReturnObject(this.FromProduction(2));
+                return ReturnObject(FromProduction(2));
             case 3:
-                return this.ReturnObject(this.FromProduction(1));
+                return ReturnObject(FromProduction(1));
             case 4:
-                return this.ReturnObject(new ValidateMethodList(this.Owner, this.CurrentLine, this.CurrentColumn));
+                return ReturnObject(new ValidateMethodList(Owner, CurrentLine, CurrentColumn));
             case 5:
-                ValidateMethodList validateMethodList = (ValidateMethodList)this.FromProduction(0);
-                ValidateMethod expression1 = (ValidateMethod)this.FromProduction(1);
+                ValidateMethodList validateMethodList = (ValidateMethodList)FromProduction(0);
+                ValidateMethod expression1 = (ValidateMethod)FromProduction(1);
                 validateMethodList.AppendToEnd(expression1);
-                return this.ReturnObject(validateMethodList);
+                return ReturnObject(validateMethodList);
             case 6:
-                return this.ReturnObject(new Vector<MethodSpecifier>());
+                return ReturnObject(new Vector<MethodSpecifier>());
             case 7:
-                Vector<MethodSpecifier> vector = (Vector<MethodSpecifier>)this.FromProduction(0);
-                MethodSpecifier methodSpecifier = (MethodSpecifier)this.FromProduction(1);
+                Vector<MethodSpecifier> vector = (Vector<MethodSpecifier>)FromProduction(0);
+                MethodSpecifier methodSpecifier = (MethodSpecifier)FromProduction(1);
                 vector.Add(methodSpecifier);
-                return this.ReturnObject(vector);
+                return ReturnObject(vector);
             case 8:
-                return this.ReturnObject(MethodSpecifier.Virtual);
+                return ReturnObject(MethodSpecifier.Virtual);
             case 9:
-                return this.ReturnObject(MethodSpecifier.Override);
+                return ReturnObject(MethodSpecifier.Override);
             case 10:
-                return this.ReturnObject(this.ConstructValidateMethod(true));
+                return ReturnObject(ConstructValidateMethod(true));
             case 11:
-                return this.ReturnObject(new ValidateParameterDefinitionList(this.Owner, this.CurrentLine, this.CurrentColumn));
+                return ReturnObject(new ValidateParameterDefinitionList(Owner, CurrentLine, CurrentColumn));
             case 12:
-                return this.ReturnObject((ValidateParameterDefinitionList)this.FromProduction(0));
+                return ReturnObject((ValidateParameterDefinitionList)FromProduction(0));
             case 13:
-                ValidateParameterDefinition expression2 = (ValidateParameterDefinition)this.FromProduction(0);
-                ValidateParameterDefinitionList parameterDefinitionList1 = new ValidateParameterDefinitionList(this.Owner, expression2.Line, expression2.Column);
+                ValidateParameterDefinition expression2 = (ValidateParameterDefinition)FromProduction(0);
+                ValidateParameterDefinitionList parameterDefinitionList1 = new ValidateParameterDefinitionList(Owner, expression2.Line, expression2.Column);
                 parameterDefinitionList1.AppendToEnd(expression2);
-                return this.ReturnObject(parameterDefinitionList1);
+                return ReturnObject(parameterDefinitionList1);
             case 14:
-                ValidateParameterDefinitionList parameterDefinitionList2 = (ValidateParameterDefinitionList)this.FromProduction(0);
-                ValidateParameterDefinition expression3 = (ValidateParameterDefinition)this.FromProduction(2);
+                ValidateParameterDefinitionList parameterDefinitionList2 = (ValidateParameterDefinitionList)FromProduction(0);
+                ValidateParameterDefinition expression3 = (ValidateParameterDefinition)FromProduction(2);
                 parameterDefinitionList2.AppendToEnd(expression3);
-                return this.ReturnObject(parameterDefinitionList2);
+                return ReturnObject(parameterDefinitionList2);
             case 15:
-                ValidateTypeIdentifier typeIdentifier1 = (ValidateTypeIdentifier)this.FromProduction(0);
-                string name = this.FromTerminal(1);
-                return this.ReturnObject(new ValidateParameterDefinition(this.Owner, this.Line(1), this.Column(1), name, typeIdentifier1));
+                ValidateTypeIdentifier typeIdentifier1 = (ValidateTypeIdentifier)FromProduction(0);
+                string name = FromTerminal(1);
+                return ReturnObject(new ValidateParameterDefinition(Owner, Line(1), Column(1), name, typeIdentifier1));
             case 16:
-                return this.ReturnObject(new ValidateExpressionList(this.Owner, this.CurrentLine, this.CurrentColumn));
+                return ReturnObject(new ValidateExpressionList(Owner, CurrentLine, CurrentColumn));
             case 17:
-                return this.ReturnObject(this.FromProduction(0));
+                return ReturnObject(FromProduction(0));
             case 18:
-                ValidateExpression expression4 = (ValidateExpression)this.FromProduction(0);
-                ValidateExpressionList validateExpressionList1 = new ValidateExpressionList(this.Owner, expression4.Line, expression4.Column);
+                ValidateExpression expression4 = (ValidateExpression)FromProduction(0);
+                ValidateExpressionList validateExpressionList1 = new ValidateExpressionList(Owner, expression4.Line, expression4.Column);
                 validateExpressionList1.AppendToEnd(expression4);
-                return this.ReturnObject(validateExpressionList1);
+                return ReturnObject(validateExpressionList1);
             case 19:
-                ValidateExpressionList validateExpressionList2 = (ValidateExpressionList)this.FromProduction(0);
-                ValidateExpression expression5 = (ValidateExpression)this.FromProduction(2);
+                ValidateExpressionList validateExpressionList2 = (ValidateExpressionList)FromProduction(0);
+                ValidateExpression expression5 = (ValidateExpression)FromProduction(2);
                 validateExpressionList2.AppendToEnd(expression5);
-                return this.ReturnObject(validateExpressionList2);
+                return ReturnObject(validateExpressionList2);
             case 20:
-                ValidateTypeIdentifier typeIdentifier2 = (ValidateTypeIdentifier)this.FromProduction(0);
-                return this.ReturnObject(new ValidateStatementScopedLocal(this.Owner, this.FromTerminal(1), typeIdentifier2, this.Line(1), this.Column(1)));
+                ValidateTypeIdentifier typeIdentifier2 = (ValidateTypeIdentifier)FromProduction(0);
+                return ReturnObject(new ValidateStatementScopedLocal(Owner, FromTerminal(1), typeIdentifier2, Line(1), Column(1)));
             case 21:
-                ValidateTypeIdentifier typeIdentifier3 = (ValidateTypeIdentifier)this.FromProduction(0);
-                string str = this.FromTerminal(1);
-                return this.ReturnObject(new ValidateStatementAssignment(this.Owner, new ValidateStatementScopedLocal(this.Owner, str, typeIdentifier3, this.Line(1), this.Column(1)), new ValidateExpressionSymbol(this.Owner, str, this.Line(1), this.Column(1)), (ValidateExpression)this.FromProduction(3), this.Line(1), this.Column(1)));
+                ValidateTypeIdentifier typeIdentifier3 = (ValidateTypeIdentifier)FromProduction(0);
+                string str = FromTerminal(1);
+                return ReturnObject(new ValidateStatementAssignment(Owner, new ValidateStatementScopedLocal(Owner, str, typeIdentifier3, Line(1), Column(1)), new ValidateExpressionSymbol(Owner, str, Line(1), Column(1)), (ValidateExpression)FromProduction(3), Line(1), Column(1)));
             case 22:
-                return this.ReturnObject(this.FromProduction(0));
+                return ReturnObject(FromProduction(0));
             case 23:
-                ValidateExpressionList validateExpressionList3 = (ValidateExpressionList)this.FromProduction(0);
-                return this.ReturnObject(new ValidateStatementExpression(this.Owner, validateExpressionList3, validateExpressionList3.Line, validateExpressionList3.Column));
+                ValidateExpressionList validateExpressionList3 = (ValidateExpressionList)FromProduction(0);
+                return ReturnObject(new ValidateStatementExpression(Owner, validateExpressionList3, validateExpressionList3.Line, validateExpressionList3.Column));
             case 24:
-                return this.ReturnObject(new ValidateStatementIf(this.Owner, (ValidateExpression)this.FromProduction(2), ValidateStatementCompound.Encapsulate((ValidateStatement)this.FromProduction(4)), this.Line(0), this.Column(0)));
+                return ReturnObject(new ValidateStatementIf(Owner, (ValidateExpression)FromProduction(2), ValidateStatementCompound.Encapsulate((ValidateStatement)FromProduction(4)), Line(0), Column(0)));
             case 25:
-                ValidateExpression condition1 = (ValidateExpression)this.FromProduction(2);
-                ValidateStatement statement1 = (ValidateStatement)this.FromProduction(4);
-                ValidateStatement statement2 = (ValidateStatement)this.FromProduction(6);
+                ValidateExpression condition1 = (ValidateExpression)FromProduction(2);
+                ValidateStatement statement1 = (ValidateStatement)FromProduction(4);
+                ValidateStatement statement2 = (ValidateStatement)FromProduction(6);
                 ValidateStatementCompound statementCompoundTrue = ValidateStatementCompound.Encapsulate(statement1);
                 ValidateStatementCompound statementCompoundFalse = ValidateStatementCompound.Encapsulate(statement2);
-                return this.ReturnObject(new ValidateStatementIfElse(this.Owner, condition1, statementCompoundTrue, statementCompoundFalse, this.Line(0), this.Column(0)));
+                return ReturnObject(new ValidateStatementIfElse(Owner, condition1, statementCompoundTrue, statementCompoundFalse, Line(0), Column(0)));
             case 26:
-                ValidateTypeIdentifier typeIdentifier4 = (ValidateTypeIdentifier)this.FromProduction(2);
-                return this.ReturnObject(new ValidateStatementForEach(this.Owner, new ValidateStatementScopedLocal(this.Owner, this.FromTerminal(3), typeIdentifier4, this.Line(3), this.Column(3)), (ValidateExpression)this.FromProduction(5), ValidateStatementCompound.Encapsulate((ValidateStatement)this.FromProduction(7)), this.Line(0), this.Column(0)));
+                ValidateTypeIdentifier typeIdentifier4 = (ValidateTypeIdentifier)FromProduction(2);
+                return ReturnObject(new ValidateStatementForEach(Owner, new ValidateStatementScopedLocal(Owner, FromTerminal(3), typeIdentifier4, Line(3), Column(3)), (ValidateExpression)FromProduction(5), ValidateStatementCompound.Encapsulate((ValidateStatement)FromProduction(7)), Line(0), Column(0)));
             case 27:
-                ValidateExpression condition2 = (ValidateExpression)this.FromProduction(2);
-                return this.ReturnObject(new ValidateStatementWhile(this.Owner, (ValidateStatement)this.FromProduction(4), condition2, false, this.Line(0), this.Column(0)));
+                ValidateExpression condition2 = (ValidateExpression)FromProduction(2);
+                return ReturnObject(new ValidateStatementWhile(Owner, (ValidateStatement)FromProduction(4), condition2, false, Line(0), Column(0)));
             case 28:
-                return this.ReturnObject(new ValidateStatementWhile(this.Owner, (ValidateStatement)this.FromProduction(1), (ValidateExpression)this.FromProduction(4), true, this.Line(0), this.Column(0)));
+                return ReturnObject(new ValidateStatementWhile(Owner, (ValidateStatement)FromProduction(1), (ValidateExpression)FromProduction(4), true, Line(0), Column(0)));
             case 29:
-                ValidateStatement statementList1 = (ValidateStatement)this.FromProduction(2);
-                ValidateExpression condition3 = (ValidateExpression)this.FromProduction(4);
-                ValidateExpression expression6 = (ValidateExpression)this.FromProduction(6);
-                ValidateStatement statementList2 = (ValidateStatement)this.FromProduction(8);
-                ValidateStatementExpression statementExpression = new ValidateStatementExpression(this.Owner, expression6, expression6.Line, expression6.Column);
+                ValidateStatement statementList1 = (ValidateStatement)FromProduction(2);
+                ValidateExpression condition3 = (ValidateExpression)FromProduction(4);
+                ValidateExpression expression6 = (ValidateExpression)FromProduction(6);
+                ValidateStatement statementList2 = (ValidateStatement)FromProduction(8);
+                ValidateStatementExpression statementExpression = new ValidateStatementExpression(Owner, expression6, expression6.Line, expression6.Column);
                 statementList2.AppendToEnd(statementExpression);
-                ValidateStatementWhile validateStatementWhile = new ValidateStatementWhile(this.Owner, new ValidateStatementCompound(this.Owner, statementList2, statementList2.Line, statementList2.Column), condition3, false, this.Line(0), this.Column(0));
+                ValidateStatementWhile validateStatementWhile = new ValidateStatementWhile(Owner, new ValidateStatementCompound(Owner, statementList2, statementList2.Line, statementList2.Column), condition3, false, Line(0), Column(0));
                 statementList1.AppendToEnd(validateStatementWhile);
-                return this.ReturnObject(new ValidateStatementCompound(this.Owner, statementList1, this.Line(0), this.Column(0)));
+                return ReturnObject(new ValidateStatementCompound(Owner, statementList1, Line(0), Column(0)));
             case 30:
-                return this.ReturnObject(this.FromProduction(0));
+                return ReturnObject(FromProduction(0));
             case 31:
-                ValidateExpression expression7 = (ValidateExpression)this.FromProduction(0);
-                return this.ReturnObject(new ValidateStatementExpression(this.Owner, expression7, expression7.Line, expression7.Column));
+                ValidateExpression expression7 = (ValidateExpression)FromProduction(0);
+                return ReturnObject(new ValidateStatementExpression(Owner, expression7, expression7.Line, expression7.Column));
             case 32:
-                return this.ReturnObject(new ValidateStatementReturn(this.Owner, null, this.Line(0), this.Column(0)));
+                return ReturnObject(new ValidateStatementReturn(Owner, null, Line(0), Column(0)));
             case 33:
-                return this.ReturnObject(new ValidateStatementReturn(this.Owner, (ValidateExpression)this.FromProduction(1), this.Line(0), this.Column(0)));
+                return ReturnObject(new ValidateStatementReturn(Owner, (ValidateExpression)FromProduction(1), Line(0), Column(0)));
             case 34:
-                return this.ReturnObject(new ValidateStatementBreak(this.Owner, false, this.Line(0), this.Column(0)));
+                return ReturnObject(new ValidateStatementBreak(Owner, false, Line(0), Column(0)));
             case 35:
-                return this.ReturnObject(new ValidateStatementBreak(this.Owner, true, this.Line(0), this.Column(0)));
+                return ReturnObject(new ValidateStatementBreak(Owner, true, Line(0), Column(0)));
             case 36:
-                return this.ReturnObject(new ValidateStatementAttribute(this.Owner, this.FromTerminal(1), (ValidateParameter)this.FromProduction(3), this.Line(1), this.Column(1)));
+                return ReturnObject(new ValidateStatementAttribute(Owner, FromTerminal(1), (ValidateParameter)FromProduction(3), Line(1), Column(1)));
             case 37:
-                return this.ReturnObject(new ValidateStatementCompound(this.Owner, (ValidateStatement)this.FromProduction(1), this.Line(0), this.Column(0)));
+                return ReturnObject(new ValidateStatementCompound(Owner, (ValidateStatement)FromProduction(1), Line(0), Column(0)));
             case 38:
-                ValidateStatement validateStatement1 = (ValidateStatement)this.FromProduction(0);
-                ValidateStatement validateStatement2 = (ValidateStatement)this.FromProduction(1);
+                ValidateStatement validateStatement1 = (ValidateStatement)FromProduction(0);
+                ValidateStatement validateStatement2 = (ValidateStatement)FromProduction(1);
                 if (validateStatement1 != null)
                     validateStatement1.AppendToEnd(validateStatement2);
                 else
                     validateStatement1 = validateStatement2;
-                return this.ReturnObject(validateStatement1);
+                return ReturnObject(validateStatement1);
             case 39:
-                return this.ReturnObject(null);
+                return ReturnObject(null);
             case 40:
-                return this.ReturnObject(new ValidateExpressionCall(this.Owner, (ValidateExpression)this.FromProduction(0), this.FromTerminal(2), (ValidateParameter)this.FromProduction(4), this.Line(2), this.Column(2)));
+                return ReturnObject(new ValidateExpressionCall(Owner, (ValidateExpression)FromProduction(0), FromTerminal(2), (ValidateParameter)FromProduction(4), Line(2), Column(2)));
             case 41:
-                string memberName = this.FromTerminal(0);
-                ValidateParameter parameterList = (ValidateParameter)this.FromProduction(2);
-                return this.ReturnObject(new ValidateExpressionCall(this.Owner, new ValidateExpressionThis(this.Owner, this.Line(0), this.Column(0)), memberName, parameterList, this.Line(0), this.Column(0)));
+                string memberName = FromTerminal(0);
+                ValidateParameter parameterList = (ValidateParameter)FromProduction(2);
+                return ReturnObject(new ValidateExpressionCall(Owner, new ValidateExpressionThis(Owner, Line(0), Column(0)), memberName, parameterList, Line(0), Column(0)));
             case 42:
-                return this.ReturnObject(new ValidateExpressionCall(this.Owner, (ValidateExpression)this.FromProduction(0), this.FromTerminal(2), null, this.Line(2), this.Column(2)));
+                return ReturnObject(new ValidateExpressionCall(Owner, (ValidateExpression)FromProduction(0), FromTerminal(2), null, Line(2), Column(2)));
             case 43:
-                return this.ReturnObject(new ValidateExpressionCall(this.Owner, new ValidateTypeIdentifier(this.Owner, this.FromTerminal(0), this.FromTerminal(2), this.Line(0), this.Column(0)), this.FromTerminal(4), null, this.Line(4), this.Column(4)));
+                return ReturnObject(new ValidateExpressionCall(Owner, new ValidateTypeIdentifier(Owner, FromTerminal(0), FromTerminal(2), Line(0), Column(0)), FromTerminal(4), null, Line(4), Column(4)));
             case 44:
-                return this.ReturnObject(new ValidateExpressionCall(this.Owner, new ValidateTypeIdentifier(this.Owner, this.FromTerminal(0), this.FromTerminal(2), this.Line(0), this.Column(0)), this.FromTerminal(4), (ValidateParameter)this.FromProduction(6), this.Line(4), this.Column(4)));
+                return ReturnObject(new ValidateExpressionCall(Owner, new ValidateTypeIdentifier(Owner, FromTerminal(0), FromTerminal(2), Line(0), Column(0)), FromTerminal(4), (ValidateParameter)FromProduction(6), Line(4), Column(4)));
             case 45:
-                return this.ReturnObject(new ValidateExpressionIndex(this.Owner, (ValidateExpression)this.FromProduction(0), (ValidateParameter)this.FromProduction(2), this.Line(1), this.Column(1)));
+                return ReturnObject(new ValidateExpressionIndex(Owner, (ValidateExpression)FromProduction(0), (ValidateParameter)FromProduction(2), Line(1), Column(1)));
             case 46:
-                return this.ReturnObject(new ValidateExpressionNew(this.Owner, (ValidateTypeIdentifier)this.FromProduction(1), (ValidateParameter)this.FromProduction(3), this.Line(0), this.Column(0)));
+                return ReturnObject(new ValidateExpressionNew(Owner, (ValidateTypeIdentifier)FromProduction(1), (ValidateParameter)FromProduction(3), Line(0), Column(0)));
             case 47:
-                return this.ReturnObject(new ValidateExpressionSymbol(this.Owner, this.FromTerminal(0), this.Line(0), this.Column(0)));
+                return ReturnObject(new ValidateExpressionSymbol(Owner, FromTerminal(0), Line(0), Column(0)));
             case 48:
-                return this.ReturnObject(new ValidateExpressionConstant(this.Owner, this.FromTerminalTrim(0, 1, 1), ConstantType.String, this.Line(0), this.Column(0)));
+                return ReturnObject(new ValidateExpressionConstant(Owner, FromTerminalTrim(0, 1, 1), ConstantType.String, Line(0), Column(0)));
             case 49:
-                return this.ReturnObject(new ValidateExpressionConstant(this.Owner, this.FromTerminalTrim(0, 2, 1), ConstantType.StringLiteral, this.Line(0), this.Column(0)));
+                return ReturnObject(new ValidateExpressionConstant(Owner, FromTerminalTrim(0, 2, 1), ConstantType.StringLiteral, Line(0), Column(0)));
             case 50:
-                return this.ReturnObject(new ValidateExpressionConstant(this.Owner, this.FromTerminal(0), ConstantType.Integer, this.Line(0), this.Column(0)));
+                return ReturnObject(new ValidateExpressionConstant(Owner, FromTerminal(0), ConstantType.Integer, Line(0), Column(0)));
             case 51:
-                return this.ReturnObject(new ValidateExpressionConstant(this.Owner, this.FromTerminalTrim(0, 0, 1), ConstantType.LongInteger, this.Line(0), this.Column(0)));
+                return ReturnObject(new ValidateExpressionConstant(Owner, FromTerminalTrim(0, 0, 1), ConstantType.LongInteger, Line(0), Column(0)));
             case 52:
-                return this.ReturnObject(new ValidateExpressionConstant(this.Owner, this.FromTerminal(0), ConstantType.Float, this.Line(0), this.Column(0)));
+                return ReturnObject(new ValidateExpressionConstant(Owner, FromTerminal(0), ConstantType.Float, Line(0), Column(0)));
             case 53:
-                return this.ReturnObject(new ValidateExpressionConstant(this.Owner, true, this.Line(0), this.Column(0)));
+                return ReturnObject(new ValidateExpressionConstant(Owner, true, Line(0), Column(0)));
             case 54:
-                return this.ReturnObject(new ValidateExpressionConstant(this.Owner, false, this.Line(0), this.Column(0)));
+                return ReturnObject(new ValidateExpressionConstant(Owner, false, Line(0), Column(0)));
             case 55:
-                return this.ReturnObject(new ValidateExpressionConstant(this.Owner, null, ConstantType.Null, this.Line(0), this.Column(0)));
+                return ReturnObject(new ValidateExpressionConstant(Owner, null, ConstantType.Null, Line(0), Column(0)));
             case 56:
-                return this.ReturnObject(new ValidateExpressionThis(this.Owner, this.Line(0), this.Column(0)));
+                return ReturnObject(new ValidateExpressionThis(Owner, Line(0), Column(0)));
             case 57:
-                return this.ReturnObject(new ValidateExpressionBaseClass(this.Owner, this.Line(0), this.Column(0)));
+                return ReturnObject(new ValidateExpressionBaseClass(Owner, Line(0), Column(0)));
             case 58:
-                return this.ReturnObject(new ValidateExpressionTypeOf(this.Owner, (ValidateTypeIdentifier)this.FromProduction(2), this.Line(0), this.Column(0)));
+                return ReturnObject(new ValidateExpressionTypeOf(Owner, (ValidateTypeIdentifier)FromProduction(2), Line(0), Column(0)));
             case 59:
-                return this.ReturnObject((ValidateExpression)this.FromProduction(1));
+                return ReturnObject((ValidateExpression)FromProduction(1));
             case 60:
-                return this.ReturnObject(new ValidateExpressionDeclareTrigger(this.Owner, (ValidateExpression)this.FromProduction(1), this.Line(0), this.Column(0)));
+                return ReturnObject(new ValidateExpressionDeclareTrigger(Owner, (ValidateExpression)FromProduction(1), Line(0), Column(0)));
             case 61:
-                return this.ReturnObject(this.ConstructValidateExpressionUnaryOperation(OperationType.LogicalNot));
+                return ReturnObject(ConstructValidateExpressionUnaryOperation(OperationType.LogicalNot));
             case 62:
-                return this.ReturnObject(this.ConstructValidateExpressionUnaryOperation(OperationType.MathNegate));
+                return ReturnObject(ConstructValidateExpressionUnaryOperation(OperationType.MathNegate));
             case 63:
-                return this.ReturnObject(this.ConstructValidateExpressionPostUnaryOperation(OperationType.PostIncrement));
+                return ReturnObject(ConstructValidateExpressionPostUnaryOperation(OperationType.PostIncrement));
             case 64:
-                return this.ReturnObject(this.ConstructValidateExpressionPostUnaryOperation(OperationType.PostDecrement));
+                return ReturnObject(ConstructValidateExpressionPostUnaryOperation(OperationType.PostDecrement));
             case 65:
-                string prefix = this.FromTerminal(1);
-                string typeName = this.FromTerminal(3);
-                ValidateExpression castee = (ValidateExpression)this.FromProduction(5);
-                return this.ReturnObject(new ValidateExpressionCast(this.Owner, new ValidateTypeIdentifier(this.Owner, prefix, typeName, this.Line(1), this.Column(1)), castee, this.Line(0), this.Column(0)));
+                string prefix = FromTerminal(1);
+                string typeName = FromTerminal(3);
+                ValidateExpression castee = (ValidateExpression)FromProduction(5);
+                return ReturnObject(new ValidateExpressionCast(Owner, new ValidateTypeIdentifier(Owner, prefix, typeName, Line(1), Column(1)), castee, Line(0), Column(0)));
             case 66:
-                return this.ReturnObject(new ValidateExpressionCast(this.Owner, (ValidateExpression)this.FromProduction(1), (ValidateExpression)this.FromProduction(3), this.Line(0), this.Column(0)));
+                return ReturnObject(new ValidateExpressionCast(Owner, (ValidateExpression)FromProduction(1), (ValidateExpression)FromProduction(3), Line(0), Column(0)));
             case 67:
-                return this.ReturnObject(this.ConstructValidateExpressionOperation(OperationType.MathMultiply));
+                return ReturnObject(ConstructValidateExpressionOperation(OperationType.MathMultiply));
             case 68:
-                return this.ReturnObject(this.ConstructValidateExpressionOperation(OperationType.MathDivide));
+                return ReturnObject(ConstructValidateExpressionOperation(OperationType.MathDivide));
             case 69:
-                return this.ReturnObject(this.ConstructValidateExpressionOperation(OperationType.MathModulus));
+                return ReturnObject(ConstructValidateExpressionOperation(OperationType.MathModulus));
             case 70:
-                return this.ReturnObject(this.ConstructValidateExpressionOperation(OperationType.MathAdd));
+                return ReturnObject(ConstructValidateExpressionOperation(OperationType.MathAdd));
             case 71:
-                return this.ReturnObject(this.ConstructValidateExpressionOperation(OperationType.MathSubtract));
+                return ReturnObject(ConstructValidateExpressionOperation(OperationType.MathSubtract));
             case 72:
-                return this.ReturnObject(this.ConstructValidateExpressionOperation(OperationType.RelationalLessThan));
+                return ReturnObject(ConstructValidateExpressionOperation(OperationType.RelationalLessThan));
             case 73:
-                return this.ReturnObject(this.ConstructValidateExpressionOperation(OperationType.RelationalGreaterThan));
+                return ReturnObject(ConstructValidateExpressionOperation(OperationType.RelationalGreaterThan));
             case 74:
-                return this.ReturnObject(this.ConstructValidateExpressionOperation(OperationType.RelationalLessThanEquals));
+                return ReturnObject(ConstructValidateExpressionOperation(OperationType.RelationalLessThanEquals));
             case 75:
-                return this.ReturnObject(this.ConstructValidateExpressionOperation(OperationType.RelationalGreaterThanEquals));
+                return ReturnObject(ConstructValidateExpressionOperation(OperationType.RelationalGreaterThanEquals));
             case 76:
-                return this.ReturnObject(new ValidateExpressionIsCheck(this.Owner, (ValidateExpression)this.FromProduction(0), (ValidateTypeIdentifier)this.FromProduction(2), this.Line(1), this.Column(1)));
+                return ReturnObject(new ValidateExpressionIsCheck(Owner, (ValidateExpression)FromProduction(0), (ValidateTypeIdentifier)FromProduction(2), Line(1), Column(1)));
             case 77:
-                return this.ReturnObject(new ValidateExpressionAs(this.Owner, (ValidateExpression)this.FromProduction(0), (ValidateTypeIdentifier)this.FromProduction(2), this.Line(1), this.Column(1)));
+                return ReturnObject(new ValidateExpressionAs(Owner, (ValidateExpression)FromProduction(0), (ValidateTypeIdentifier)FromProduction(2), Line(1), Column(1)));
             case 78:
-                return this.ReturnObject(this.ConstructValidateExpressionOperation(OperationType.RelationalEquals));
+                return ReturnObject(ConstructValidateExpressionOperation(OperationType.RelationalEquals));
             case 79:
-                return this.ReturnObject(this.ConstructValidateExpressionOperation(OperationType.RelationalNotEquals));
+                return ReturnObject(ConstructValidateExpressionOperation(OperationType.RelationalNotEquals));
             case 80:
-                return this.ReturnObject(this.ConstructValidateExpressionOperation(OperationType.LogicalAnd));
+                return ReturnObject(ConstructValidateExpressionOperation(OperationType.LogicalAnd));
             case 81:
-                return this.ReturnObject(this.ConstructValidateExpressionOperation(OperationType.LogicalOr));
+                return ReturnObject(ConstructValidateExpressionOperation(OperationType.LogicalOr));
             case 82:
-                return this.ReturnObject(new ValidateExpressionNullCoalescing(this.Owner, (ValidateExpression)this.FromProduction(0), (ValidateExpression)this.FromProduction(2), this.Line(1), this.Column(1)));
+                return ReturnObject(new ValidateExpressionNullCoalescing(Owner, (ValidateExpression)FromProduction(0), (ValidateExpression)FromProduction(2), Line(1), Column(1)));
             case 83:
-                return this.ReturnObject(new ValidateExpressionTernary(this.Owner, (ValidateExpression)this.FromProduction(0), (ValidateExpression)this.FromProduction(2), (ValidateExpression)this.FromProduction(4), this.Line(1), this.Column(1)));
+                return ReturnObject(new ValidateExpressionTernary(Owner, (ValidateExpression)FromProduction(0), (ValidateExpression)FromProduction(2), (ValidateExpression)FromProduction(4), Line(1), Column(1)));
             case 84:
-                return this.ReturnObject(new ValidateExpressionAssignment(this.Owner, (ValidateExpression)this.FromProduction(0), (ValidateExpression)this.FromProduction(2), this.Line(1), this.Column(1)));
+                return ReturnObject(new ValidateExpressionAssignment(Owner, (ValidateExpression)FromProduction(0), (ValidateExpression)FromProduction(2), Line(1), Column(1)));
             case 85:
-                return this.ReturnObject(ValidateParameter.EmptyList);
+                return ReturnObject(ValidateParameter.EmptyList);
             case 86:
-                return this.ReturnObject((ValidateParameter)this.FromProduction(0));
+                return ReturnObject((ValidateParameter)FromProduction(0));
             case 87:
-                ValidateExpression expression8 = (ValidateExpression)this.FromProduction(0);
-                return this.ReturnObject(new ValidateParameter(this.Owner, expression8, expression8.Line, expression8.Column));
+                ValidateExpression expression8 = (ValidateExpression)FromProduction(0);
+                return ReturnObject(new ValidateParameter(Owner, expression8, expression8.Line, expression8.Column));
             case 88:
-                ValidateParameter validateParameter1 = (ValidateParameter)this.FromProduction(0);
-                ValidateExpression expression9 = (ValidateExpression)this.FromProduction(2);
-                ValidateParameter validateParameter2 = new ValidateParameter(this.Owner, expression9, expression9.Line, expression9.Column);
+                ValidateParameter validateParameter1 = (ValidateParameter)FromProduction(0);
+                ValidateExpression expression9 = (ValidateExpression)FromProduction(2);
+                ValidateParameter validateParameter2 = new ValidateParameter(Owner, expression9, expression9.Line, expression9.Column);
                 validateParameter1.AppendToEnd(validateParameter2);
-                return this.ReturnObject(validateParameter1);
+                return ReturnObject(validateParameter1);
             case 89:
-                return this.ReturnObject(new ValidateTypeIdentifier(this.Owner, this.FromTerminal(0), this.FromTerminal(2), this.Line(0), this.Column(0)));
+                return ReturnObject(new ValidateTypeIdentifier(Owner, FromTerminal(0), FromTerminal(2), Line(0), Column(0)));
             case 90:
-                return this.ReturnObject(new ValidateTypeIdentifier(this.Owner, null, this.FromTerminal(0), this.Line(0), this.Column(0)));
+                return ReturnObject(new ValidateTypeIdentifier(Owner, null, FromTerminal(0), Line(0), Column(0)));
             default:
-                return this.stackElement();
+                return stackElement();
         }
     }
 
     private ValidateExpressionOperation ConstructValidateExpressionOperation(
       OperationType op)
     {
-        ValidateExpression leftSide = (ValidateExpression)this.FromProduction(0);
-        ValidateExpression rightSide = (ValidateExpression)this.FromProduction(2);
-        return new ValidateExpressionOperation(this.Owner, leftSide, op, rightSide, this.Line(1), this.Column(1));
+        ValidateExpression leftSide = (ValidateExpression)FromProduction(0);
+        ValidateExpression rightSide = (ValidateExpression)FromProduction(2);
+        return new ValidateExpressionOperation(Owner, leftSide, op, rightSide, Line(1), Column(1));
     }
 
     private ValidateExpressionOperation ConstructValidateExpressionUnaryOperation(
       OperationType op)
     {
-        return new ValidateExpressionOperation(this.Owner, (ValidateExpression)this.FromProduction(1), op, null, this.Line(0), this.Column(0));
+        return new ValidateExpressionOperation(Owner, (ValidateExpression)FromProduction(1), op, null, Line(0), Column(0));
     }
 
     private ValidateExpressionOperation ConstructValidateExpressionPostUnaryOperation(
       OperationType op)
     {
-        return new ValidateExpressionOperation(this.Owner, (ValidateExpression)this.FromProduction(0), op, null, this.Line(1), this.Column(1));
+        return new ValidateExpressionOperation(Owner, (ValidateExpression)FromProduction(0), op, null, Line(1), Column(1));
     }
 
     private ValidateMethod ConstructValidateMethod(bool hasBody)
     {
-        string methodName = this.FromTerminal(2);
-        ValidateTypeIdentifier returnType = (ValidateTypeIdentifier)this.FromProduction(1);
-        Vector<MethodSpecifier> specifiers = (Vector<MethodSpecifier>)this.FromProduction(0);
-        ValidateParameterDefinitionList paramList = (ValidateParameterDefinitionList)this.FromProduction(4);
-        ValidateCode body = new ValidateCode(this.Owner, new ValidateStatementCompound(this.Owner, hasBody ? (ValidateStatement)this.FromProduction(7) : null, this.Line(6), this.Column(6)), this.Line(6), this.Column(6));
-        return new ValidateMethod(this.Owner, this.Line(2), this.Column(2), methodName, returnType, specifiers, paramList, body);
+        string methodName = FromTerminal(2);
+        ValidateTypeIdentifier returnType = (ValidateTypeIdentifier)FromProduction(1);
+        Vector<MethodSpecifier> specifiers = (Vector<MethodSpecifier>)FromProduction(0);
+        ValidateParameterDefinitionList paramList = (ValidateParameterDefinitionList)FromProduction(4);
+        ValidateCode body = new ValidateCode(Owner, new ValidateStatementCompound(Owner, hasBody ? (ValidateStatement)FromProduction(7) : null, Line(6), Column(6)), Line(6), Column(6));
+        return new ValidateMethod(Owner, Line(2), Column(2), methodName, returnType, specifiers, paramList, body);
     }
 
-    private int CurrentLine => this.m_lex.consumer().line();
+    private int CurrentLine => m_lex.consumer().line();
 
-    private int CurrentColumn => this.m_lex.consumer().offset();
+    private int CurrentColumn => m_lex.consumer().offset();
 }

@@ -24,18 +24,18 @@ namespace Microsoft.Iris.Layouts
 
         public PopupPosition[] PopupPositions
         {
-            get => this._popupPositions;
+            get => _popupPositions;
             set
             {
-                this._popupPositions = value;
-                this._usesTargetSize = false;
-                if (this._popupPositions == null)
+                _popupPositions = value;
+                _usesTargetSize = false;
+                if (_popupPositions == null)
                     return;
-                for (int index = 0; index < this._popupPositions.Length; ++index)
+                for (int index = 0; index < _popupPositions.Length; ++index)
                 {
-                    if (this._popupPositions[index].Target != InterestPoint.TopLeft)
+                    if (_popupPositions[index].Target != InterestPoint.TopLeft)
                     {
-                        this._usesTargetSize = true;
+                        _usesTargetSize = true;
                         break;
                     }
                 }
@@ -44,11 +44,11 @@ namespace Microsoft.Iris.Layouts
 
         public MouseTarget MouseTarget
         {
-            get => this._mouseTarget;
-            set => this._mouseTarget = value;
+            get => _mouseTarget;
+            set => _mouseTarget = value;
         }
 
-        internal bool UsesTargetSize => this._usesTargetSize;
+        internal bool UsesTargetSize => _usesTargetSize;
 
         public override string ToString()
         {

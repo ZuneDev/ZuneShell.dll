@@ -29,59 +29,59 @@ namespace Microsoft.Iris.Markup.Validation
           ValidateCode body)
           : base(owner, line, column)
         {
-            this._methodName = methodName;
-            this._returnType = returnType;
-            this._specifiers = specifiers;
-            this._paramList = paramList;
-            this._body = body;
-            this._body.MarkAsNotEmbedded();
-            this._body.DisallowTriggers();
+            _methodName = methodName;
+            _returnType = returnType;
+            _specifiers = specifiers;
+            _paramList = paramList;
+            _body = body;
+            _body.MarkAsNotEmbedded();
+            _body.DisallowTriggers();
         }
 
         public void Validate(ValidateClass validateOwner, ValidateContext context)
         {
-            if (this.HasErrors)
+            if (HasErrors)
                 return;
             if (context.CurrentPass == LoadPass.PopulatePublicModel)
             {
-                this._returnType.Validate();
-                if (this._paramList != null)
-                    this._paramList.Validate(context);
-                context.NotifyMethodFound(this._methodName);
-                if (this._paramList != null && this._paramList.HasErrors || (this._returnType.HasErrors || this.HasErrors))
+                _returnType.Validate();
+                if (_paramList != null)
+                    _paramList.Validate(context);
+                context.NotifyMethodFound(_methodName);
+                if (_paramList != null && _paramList.HasErrors || (_returnType.HasErrors || HasErrors))
                 {
-                    this.MarkHasErrors();
+                    MarkHasErrors();
                 }
                 else
                 {
                     TypeSchema[] parameterTypes = TypeSchema.EmptyList;
                     string[] parameterNames = MarkupMethodSchema.s_emptyStringArray;
-                    if (this._paramList != null)
+                    if (_paramList != null)
                     {
-                        int count = this._paramList.Parameters.Count;
+                        int count = _paramList.Parameters.Count;
                         parameterTypes = new TypeSchema[count];
                         parameterNames = new string[count];
                         for (int index = 0; index < count; ++index)
                         {
-                            ValidateParameterDefinition parameter = (ValidateParameterDefinition)this._paramList.Parameters[index];
+                            ValidateParameterDefinition parameter = (ValidateParameterDefinition)_paramList.Parameters[index];
                             parameterNames[index] = parameter.Name;
                             parameterTypes[index] = parameter.FoundType;
                         }
                     }
-                    this._methodExport = MarkupMethodSchema.Build(validateOwner.ObjectType, validateOwner.TypeExport, this._methodName, this._returnType.FoundType, parameterTypes, parameterNames);
-                    for (int index1 = 0; index1 < this._specifiers.Count; ++index1)
+                    _methodExport = MarkupMethodSchema.Build(validateOwner.ObjectType, validateOwner.TypeExport, _methodName, _returnType.FoundType, parameterTypes, parameterNames);
+                    for (int index1 = 0; index1 < _specifiers.Count; ++index1)
                     {
-                        for (int index2 = index1 + 1; index2 < this._specifiers.Count; ++index2)
+                        for (int index2 = index1 + 1; index2 < _specifiers.Count; ++index2)
                         {
-                            if (this._specifiers[index1] == this._specifiers[index2])
-                                this.ReportError("Duplicate modifier '{0}'", this._specifiers[index1].ToString());
+                            if (_specifiers[index1] == _specifiers[index2])
+                                ReportError("Duplicate modifier '{0}'", _specifiers[index1].ToString());
                         }
                     }
-                    this._hasVirtualKeyword = this._specifiers.Contains(MethodSpecifier.Virtual);
-                    this._hasOverrideKeyword = this._specifiers.Contains(MethodSpecifier.Override);
-                    if (!this._hasVirtualKeyword || !this._hasOverrideKeyword)
+                    _hasVirtualKeyword = _specifiers.Contains(MethodSpecifier.Virtual);
+                    _hasOverrideKeyword = _specifiers.Contains(MethodSpecifier.Override);
+                    if (!_hasVirtualKeyword || !_hasOverrideKeyword)
                         return;
-                    this.ReportError("Only one of 'virtual' and 'override' is allowed");
+                    ReportError("Only one of 'virtual' and 'override' is allowed");
                 }
             }
             else
@@ -92,41 +92,41 @@ namespace Microsoft.Iris.Markup.Validation
                 MarkupTypeSchema typeSchema = validateOwner.TypeExport.Base as MarkupTypeSchema;
                 if (typeSchema != null)
                 {
-                    MarkupMethodSchema methodExact = this.FindMethodExact(typeSchema, this._methodExport, true);
+                    MarkupMethodSchema methodExact = FindMethodExact(typeSchema, _methodExport, true);
                     if (methodExact != null)
                     {
-                        if (methodExact.IsVirtual && !this._hasOverrideKeyword)
-                            this.ReportError("Method '{0}' is virtual in '{1}', must use 'override' to override", this._methodName, methodExact.Owner.Name);
+                        if (methodExact.IsVirtual && !_hasOverrideKeyword)
+                            ReportError("Method '{0}' is virtual in '{1}', must use 'override' to override", _methodName, methodExact.Owner.Name);
                         if (!methodExact.IsVirtual)
-                            this.ReportError("Method '{0}' was already defined in '{1}' with the same signature and was not declared virtual", this._methodName, methodExact.Owner.Name);
-                        if ((this._hasVirtualKeyword || this._hasOverrideKeyword) && methodExact.ReturnType != this._methodExport.ReturnType)
-                            this.ReportError("Method '{0}' overrides base method from '{1}', but return types do not match: '{2}' on override, '{3}' on base.", this._methodName, methodExact.Owner.Name, this._methodExport.ReturnType.Name, methodExact.ReturnType.Name);
-                        if (methodExact.IsVirtual && this._hasOverrideKeyword)
+                            ReportError("Method '{0}' was already defined in '{1}' with the same signature and was not declared virtual", _methodName, methodExact.Owner.Name);
+                        if ((_hasVirtualKeyword || _hasOverrideKeyword) && methodExact.ReturnType != _methodExport.ReturnType)
+                            ReportError("Method '{0}' overrides base method from '{1}', but return types do not match: '{2}' on override, '{3}' on base.", _methodName, methodExact.Owner.Name, _methodExport.ReturnType.Name, methodExact.ReturnType.Name);
+                        if (methodExact.IsVirtual && _hasOverrideKeyword)
                         {
-                            for (MarkupTypeSchema markupTypeSchema = typeSchema; markupTypeSchema != null && this._foundBaseMethod == null; markupTypeSchema = markupTypeSchema.Base as MarkupTypeSchema)
+                            for (MarkupTypeSchema markupTypeSchema = typeSchema; markupTypeSchema != null && _foundBaseMethod == null; markupTypeSchema = markupTypeSchema.Base as MarkupTypeSchema)
                             {
                                 foreach (MarkupMethodSchema virtualMethod in markupTypeSchema.VirtualMethods)
                                 {
                                     if (virtualMethod.VirtualId == methodExact.VirtualId)
                                     {
-                                        this._foundBaseMethod = virtualMethod;
+                                        _foundBaseMethod = virtualMethod;
                                         break;
                                     }
                                 }
                             }
                         }
-                        this._methodExport.SetVirtualId(methodExact.VirtualId);
+                        _methodExport.SetVirtualId(methodExact.VirtualId);
                     }
-                    else if (this._hasOverrideKeyword)
-                        this.ReportError("Method '{0}' declared override, but no base method found to override", this._methodName);
+                    else if (_hasOverrideKeyword)
+                        ReportError("Method '{0}' declared override, but no base method found to override", _methodName);
                 }
-                else if (this._hasOverrideKeyword)
-                    this.ReportError("Method '{0}' declared override, but no base method found to override", this._methodName);
-                if (this._hasVirtualKeyword || this._hasOverrideKeyword)
-                    validateOwner.AddVirtualMethod(this._methodExport, this._foundBaseMethod);
-                if (this._paramList != null)
-                    this._paramList.Validate(context);
-                this._body.Validate(new TypeRestriction(this._returnType.FoundType), context);
+                else if (_hasOverrideKeyword)
+                    ReportError("Method '{0}' declared override, but no base method found to override", _methodName);
+                if (_hasVirtualKeyword || _hasOverrideKeyword)
+                    validateOwner.AddVirtualMethod(_methodExport, _foundBaseMethod);
+                if (_paramList != null)
+                    _paramList.Validate(context);
+                _body.Validate(new TypeRestriction(_returnType.FoundType), context);
                 context.NotifyMethodScopeExit(this);
             }
         }
@@ -166,22 +166,22 @@ namespace Microsoft.Iris.Markup.Validation
             return flag;
         }
 
-        public MarkupMethodSchema MethodExport => this._methodExport;
+        public MarkupMethodSchema MethodExport => _methodExport;
 
-        public MarkupMethodSchema FoundBaseMethod => this._foundBaseMethod;
+        public MarkupMethodSchema FoundBaseMethod => _foundBaseMethod;
 
-        public bool HasVirtualKeyword => this._hasVirtualKeyword;
+        public bool HasVirtualKeyword => _hasVirtualKeyword;
 
-        public bool HasOverrideKeyword => this._hasOverrideKeyword;
+        public bool HasOverrideKeyword => _hasOverrideKeyword;
 
-        public ValidateCode Body => this._body;
+        public ValidateCode Body => _body;
 
         public override string ToString()
         {
             string str = "";
-            if (this._paramList != null)
+            if (_paramList != null)
             {
-                foreach (ValidateParameterDefinition parameter in this._paramList.Parameters)
+                foreach (ValidateParameterDefinition parameter in _paramList.Parameters)
                 {
                     if (str.Length > 0)
                         str += ", ";

@@ -12,18 +12,18 @@ namespace SSVParseLib
         private SSLexLexeme m_lexeme;
         private object m_object;
 
-        public int state() => this.m_state;
+        public int state() => m_state;
 
-        public SSLexLexeme lexeme() => this.m_lexeme;
+        public SSLexLexeme lexeme() => m_lexeme;
 
-        public void setState(int q_state) => this.m_state = q_state;
+        public void setState(int q_state) => m_state = q_state;
 
-        public void setLexeme(SSLexLexeme q_lexeme) => this.m_lexeme = q_lexeme;
+        public void setLexeme(SSLexLexeme q_lexeme) => m_lexeme = q_lexeme;
 
         public object Object
         {
-            get => this.m_object;
-            set => this.m_object = value;
+            get => m_object;
+            set => m_object = value;
         }
     }
 }

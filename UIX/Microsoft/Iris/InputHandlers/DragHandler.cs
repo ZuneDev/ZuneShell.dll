@@ -39,178 +39,178 @@ namespace Microsoft.Iris.InputHandlers
         private List<object> _addedContexts;
         private List<object> _removedContexts;
 
-        public DragHandler() => this._beginDragPolicy = BeginDragPolicy.Down;
+        public DragHandler() => _beginDragPolicy = BeginDragPolicy.Down;
 
         public override void OnZoneDetached()
         {
-            this.CancelDrag();
+            CancelDrag();
             base.OnZoneDetached();
         }
 
         protected override void ConfigureInteractivity()
         {
             base.ConfigureInteractivity();
-            if (this.HandleDirect)
-                this.UI.MouseInteractive = true;
-            if (this._relativeTo != null)
+            if (HandleDirect)
+                UI.MouseInteractive = true;
+            if (_relativeTo != null)
                 return;
-            this.SetRelativeTo(null);
+            SetRelativeTo(null);
         }
 
         public BeginDragPolicy BeginDragPolicy
         {
-            get => this._beginDragPolicy;
+            get => _beginDragPolicy;
             set
             {
-                if (this._beginDragPolicy == value)
+                if (_beginDragPolicy == value)
                     return;
-                this._beginDragPolicy = value;
-                this.FireNotification(NotificationID.BeginDragPolicy);
+                _beginDragPolicy = value;
+                FireNotification(NotificationID.BeginDragPolicy);
             }
         }
 
-        public bool Dragging => this._inDrag;
+        public bool Dragging => _inDrag;
 
         private void SetDragging(bool value)
         {
-            if (this._inDrag == value)
+            if (_inDrag == value)
                 return;
-            this._inDrag = value;
-            this.FireNotification(NotificationID.Dragging);
+            _inDrag = value;
+            FireNotification(NotificationID.Dragging);
         }
 
-        public Vector2 BeginPosition => this.NormalizeCoordinates(this._beginPosition);
+        public Vector2 BeginPosition => NormalizeCoordinates(_beginPosition);
 
         private void SetBeginPosition(Vector2 relativeCoordinate)
         {
-            if (!(this._beginPosition != relativeCoordinate))
+            if (!(_beginPosition != relativeCoordinate))
                 return;
-            this._beginPosition = relativeCoordinate;
-            this.FireNotification(NotificationID.BeginPosition);
-            this.FireNotification(NotificationID.RelativeDragSize);
+            _beginPosition = relativeCoordinate;
+            FireNotification(NotificationID.BeginPosition);
+            FireNotification(NotificationID.RelativeDragSize);
         }
 
-        public Vector2 EndPosition => this.NormalizeCoordinates(this._endPosition);
+        public Vector2 EndPosition => NormalizeCoordinates(_endPosition);
 
         private void SetEndPosition(Vector2 relativeCoordinate)
         {
-            if (!(this._endPosition != relativeCoordinate))
+            if (!(_endPosition != relativeCoordinate))
                 return;
-            this._endPosition = relativeCoordinate;
-            this.FireNotification(NotificationID.EndPosition);
-            this.FireNotification(NotificationID.RelativeDragSize);
+            _endPosition = relativeCoordinate;
+            FireNotification(NotificationID.EndPosition);
+            FireNotification(NotificationID.RelativeDragSize);
         }
 
-        public Size ScreenDragSize => (this.ScreenEndPosition - this.ScreenBeginPosition).ToSize();
+        public Size ScreenDragSize => (ScreenEndPosition - ScreenBeginPosition).ToSize();
 
         public Vector2 LocalDragSize
         {
             get
             {
-                Size screenDragSize = this.ScreenDragSize;
-                Vector3 vector3 = this._relativeTo != null ? this._relativeTo.ComputeEffectiveScale() : Vector3.UnitVector;
+                Size screenDragSize = ScreenDragSize;
+                Vector3 vector3 = _relativeTo != null ? _relativeTo.ComputeEffectiveScale() : Vector3.UnitVector;
                 return new Vector2(screenDragSize.Width / vector3.X, screenDragSize.Height / vector3.Y);
             }
         }
 
-        public Vector2 RelativeDragSize => this.EndPosition - this.BeginPosition;
+        public Vector2 RelativeDragSize => EndPosition - BeginPosition;
 
-        public InputHandlerModifiers ActiveModifiers => this._activeModifiers;
+        public InputHandlerModifiers ActiveModifiers => _activeModifiers;
 
         private void SetActiveModifiers(InputHandlerModifiers value)
         {
-            if (this._activeModifiers == value)
+            if (_activeModifiers == value)
                 return;
-            this._activeModifiers = value;
-            this.FireNotification(NotificationID.ActiveModifiers);
+            _activeModifiers = value;
+            FireNotification(NotificationID.ActiveModifiers);
         }
 
         public CursorID DragCursor
         {
-            get => this._dragCursor;
+            get => _dragCursor;
             set
             {
-                if (this._dragCursor == value)
+                if (_dragCursor == value)
                     return;
-                this._dragCursor = value;
-                this.FireNotification(NotificationID.DragCursor);
+                _dragCursor = value;
+                FireNotification(NotificationID.DragCursor);
             }
         }
 
         private Point ScreenBeginPosition
         {
-            get => this._screenBeginPosition;
+            get => _screenBeginPosition;
             set
             {
-                if (!(this._screenBeginPosition != value))
+                if (!(_screenBeginPosition != value))
                     return;
-                this._screenBeginPosition = value;
-                this.FireNotification(NotificationID.ScreenDragSize);
-                this.FireNotification(NotificationID.LocalDragSize);
+                _screenBeginPosition = value;
+                FireNotification(NotificationID.ScreenDragSize);
+                FireNotification(NotificationID.LocalDragSize);
             }
         }
 
         private Point ScreenEndPosition
         {
-            get => this._screenEndPosition;
+            get => _screenEndPosition;
             set
             {
-                if (!(this._screenEndPosition != value))
+                if (!(_screenEndPosition != value))
                     return;
-                this._screenEndPosition = value;
-                this.FireNotification(NotificationID.ScreenDragSize);
-                this.FireNotification(NotificationID.LocalDragSize);
+                _screenEndPosition = value;
+                FireNotification(NotificationID.ScreenDragSize);
+                FireNotification(NotificationID.LocalDragSize);
             }
         }
 
         public bool CancelOnEscape
         {
-            get => this._cancelOnEscape;
+            get => _cancelOnEscape;
             set
             {
-                if (this._cancelOnEscape == value)
+                if (_cancelOnEscape == value)
                     return;
-                if (this.Dragging)
-                    this.HookSessionInput(value);
-                this._cancelOnEscape = value;
-                this.FireNotification(NotificationID.CancelOnEscape);
+                if (Dragging)
+                    HookSessionInput(value);
+                _cancelOnEscape = value;
+                FireNotification(NotificationID.CancelOnEscape);
             }
         }
 
         public ViewItem RelativeTo
         {
-            get => !this._hasRelativeTo ? null : this._relativeTo;
+            get => !_hasRelativeTo ? null : _relativeTo;
             set
             {
-                bool hasRelativeTo = this._hasRelativeTo;
-                this._hasRelativeTo = value != null;
-                ViewItem relativeTo = this._relativeTo;
-                this.SetRelativeTo(value);
-                if (hasRelativeTo == this._hasRelativeTo && relativeTo == this._relativeTo)
+                bool hasRelativeTo = _hasRelativeTo;
+                _hasRelativeTo = value != null;
+                ViewItem relativeTo = _relativeTo;
+                SetRelativeTo(value);
+                if (hasRelativeTo == _hasRelativeTo && relativeTo == _relativeTo)
                     return;
-                this.FireNotification(NotificationID.RelativeTo);
+                FireNotification(NotificationID.RelativeTo);
             }
         }
 
         private void SetRelativeTo(ViewItem relativeTo)
         {
-            if (this._relativeTo == relativeTo && relativeTo != null)
+            if (_relativeTo == relativeTo && relativeTo != null)
                 return;
-            LayoutCompleteEventHandler completeEventHandler = new LayoutCompleteEventHandler(this.OnRelativeToLayoutComplete);
-            if (this._relativeTo != null)
-                this._relativeTo.LayoutComplete -= completeEventHandler;
-            this._relativeTo = relativeTo;
-            if (this._relativeTo == null && this.UI != null)
-                this._relativeTo = this.UI.RootItem;
-            if (this._relativeTo == null)
+            LayoutCompleteEventHandler completeEventHandler = new LayoutCompleteEventHandler(OnRelativeToLayoutComplete);
+            if (_relativeTo != null)
+                _relativeTo.LayoutComplete -= completeEventHandler;
+            _relativeTo = relativeTo;
+            if (_relativeTo == null && UI != null)
+                _relativeTo = UI.RootItem;
+            if (_relativeTo == null)
                 return;
-            this._relativeTo.LayoutComplete += completeEventHandler;
+            _relativeTo.LayoutComplete += completeEventHandler;
         }
 
         public void ResetDragOrigin()
         {
-            this.SetBeginPosition(this._endPosition);
-            this.ScreenBeginPosition = this.ScreenEndPosition;
+            SetBeginPosition(_endPosition);
+            ScreenBeginPosition = ScreenEndPosition;
         }
 
         private void BeginDrag(
@@ -220,62 +220,62 @@ namespace Microsoft.Iris.InputHandlers
           Point screenEnd,
           InputHandlerModifiers modifiers)
         {
-            this.SetDragging(true);
-            this._pendingDrag = false;
-            this._contextBounds = RectangleF.Zero;
-            if (this.CancelOnEscape)
-                this.HookSessionInput(true);
-            this.SetBeginPosition(relativeBegin);
-            this.SetEndPosition(relativeEnd);
-            this.ScreenBeginPosition = screenBegin;
-            this.ScreenEndPosition = screenEnd;
-            this.SetActiveModifiers(modifiers);
-            this.FireNotification(NotificationID.Started);
-            this.UpdateCursor();
+            SetDragging(true);
+            _pendingDrag = false;
+            _contextBounds = RectangleF.Zero;
+            if (CancelOnEscape)
+                HookSessionInput(true);
+            SetBeginPosition(relativeBegin);
+            SetEndPosition(relativeEnd);
+            ScreenBeginPosition = screenBegin;
+            ScreenEndPosition = screenEnd;
+            SetActiveModifiers(modifiers);
+            FireNotification(NotificationID.Started);
+            UpdateCursor();
         }
 
         private void EndDrag(bool completed)
         {
-            if (this.Dragging)
+            if (Dragging)
             {
-                if (this.CancelOnEscape)
-                    this.HookSessionInput(false);
-                this.SetDragging(false);
+                if (CancelOnEscape)
+                    HookSessionInput(false);
+                SetDragging(false);
                 if (completed)
-                    this.FireNotification(NotificationID.Ended);
+                    FireNotification(NotificationID.Ended);
                 else
-                    this.FireNotification(NotificationID.Canceled);
-                this.UpdateCursor();
+                    FireNotification(NotificationID.Canceled);
+                UpdateCursor();
             }
-            this._pendingDrag = false;
+            _pendingDrag = false;
         }
 
         private void InDrag(Vector2 uiPoint, Point screenPoint, InputHandlerModifiers modifiers)
         {
-            if (screenPoint != this.ScreenEndPosition)
+            if (screenPoint != ScreenEndPosition)
             {
-                this.SetEndPosition(this.TransformToRelative(uiPoint));
-                this.ScreenEndPosition = screenPoint;
+                SetEndPosition(TransformToRelative(uiPoint));
+                ScreenEndPosition = screenPoint;
             }
-            this.SetActiveModifiers(modifiers);
+            SetActiveModifiers(modifiers);
         }
 
         protected override void OnMousePrimaryDown(UIClass ui, MouseButtonInfo info)
         {
-            if (!this.Dragging)
+            if (!Dragging)
             {
-                Vector2 relative = this.TransformToRelative(this.TransformToUI(new Point(info.X, info.Y), (UIClass)info.Target));
+                Vector2 relative = TransformToRelative(TransformToUI(new Point(info.X, info.Y), (UIClass)info.Target));
                 Point point = new Point(info.ScreenX, info.ScreenY);
-                if (this.BeginDragPolicy == BeginDragPolicy.Down)
+                if (BeginDragPolicy == BeginDragPolicy.Down)
                 {
-                    this.BeginDrag(relative, relative, point, point, GetModifiers(info.Modifiers));
+                    BeginDrag(relative, relative, point, point, GetModifiers(info.Modifiers));
                     info.MarkHandled();
                 }
                 else
                 {
-                    this._pendingDrag = true;
-                    this._initialPosition = relative;
-                    this._initialScreenPosition = point;
+                    _pendingDrag = true;
+                    _initialPosition = relative;
+                    _initialScreenPosition = point;
                 }
             }
             base.OnMousePrimaryDown(ui, info);
@@ -283,10 +283,10 @@ namespace Microsoft.Iris.InputHandlers
 
         protected override void OnMousePrimaryUp(UIClass ui, MouseButtonInfo info)
         {
-            bool dragging = this.Dragging;
-            if (dragging || this._pendingDrag)
+            bool dragging = Dragging;
+            if (dragging || _pendingDrag)
             {
-                this.EndDrag(true);
+                EndDrag(true);
                 if (dragging)
                     info.MarkHandled();
             }
@@ -296,19 +296,19 @@ namespace Microsoft.Iris.InputHandlers
         protected override void OnMouseMove(UIClass ui, MouseMoveInfo info)
         {
             if ((info.Modifiers & InputModifiers.LeftMouse) == InputModifiers.None)
-                this.EndDrag(true);
-            else if (this.Dragging || this._pendingDrag)
+                EndDrag(true);
+            else if (Dragging || _pendingDrag)
             {
-                Vector2 ui1 = this.TransformToUI(new Point(info.X, info.Y), (UIClass)info.Target);
+                Vector2 ui1 = TransformToUI(new Point(info.X, info.Y), (UIClass)info.Target);
                 Point point = new Point(info.ScreenX, info.ScreenY);
-                if (this.Dragging)
+                if (Dragging)
                 {
-                    this.InDrag(ui1, point, GetModifiers(info.Modifiers));
+                    InDrag(ui1, point, GetModifiers(info.Modifiers));
                     info.MarkHandled();
                 }
-                else if (Math.Abs(point.X - this._initialScreenPosition.X) >= Win32Api.GetSystemMetrics(68) || Math.Abs(point.Y - this._initialScreenPosition.Y) >= Win32Api.GetSystemMetrics(69))
+                else if (Math.Abs(point.X - _initialScreenPosition.X) >= Win32Api.GetSystemMetrics(68) || Math.Abs(point.Y - _initialScreenPosition.Y) >= Win32Api.GetSystemMetrics(69))
                 {
-                    this.BeginDrag(this._initialPosition, this.TransformToRelative(ui1), this._initialScreenPosition, point, GetModifiers(info.Modifiers));
+                    BeginDrag(_initialPosition, TransformToRelative(ui1), _initialScreenPosition, point, GetModifiers(info.Modifiers));
                     info.MarkHandled();
                 }
             }
@@ -317,37 +317,37 @@ namespace Microsoft.Iris.InputHandlers
 
         protected override void OnLoseMouseFocus(UIClass ui, MouseFocusInfo info)
         {
-            this.CancelDrag();
+            CancelDrag();
             base.OnLoseMouseFocus(ui, info);
         }
 
-        private void OnRelativeToLayoutComplete(object sender) => this.SetLastLayoutSize(this._relativeTo.LayoutSize);
+        private void OnRelativeToLayoutComplete(object sender) => SetLastLayoutSize(_relativeTo.LayoutSize);
 
         protected void SetLastLayoutSize(Size size)
         {
-            Vector2 beginPosition = this.BeginPosition;
-            Vector2 endPosition = this.EndPosition;
-            Vector2 relativeDragSize = this.RelativeDragSize;
-            this._lastKnownSize = size;
-            if (!this.Dragging)
+            Vector2 beginPosition = BeginPosition;
+            Vector2 endPosition = EndPosition;
+            Vector2 relativeDragSize = RelativeDragSize;
+            _lastKnownSize = size;
+            if (!Dragging)
                 return;
-            Point client = this._relativeTo.ScreenToClient(this._screenEndPosition);
-            this.SetEndPosition(new Vector2(client.X, client.Y));
-            if (beginPosition != this.BeginPosition)
-                this.FireNotification(NotificationID.BeginPosition);
-            if (endPosition != this.EndPosition)
-                this.FireNotification(NotificationID.EndPosition);
-            if (!(relativeDragSize != this.RelativeDragSize))
+            Point client = _relativeTo.ScreenToClient(_screenEndPosition);
+            SetEndPosition(new Vector2(client.X, client.Y));
+            if (beginPosition != BeginPosition)
+                FireNotification(NotificationID.BeginPosition);
+            if (endPosition != EndPosition)
+                FireNotification(NotificationID.EndPosition);
+            if (!(relativeDragSize != RelativeDragSize))
                 return;
-            this.FireNotification(NotificationID.RelativeDragSize);
+            FireNotification(NotificationID.RelativeDragSize);
         }
 
         private void HookSessionInput(bool hook)
         {
             if (hook)
-                this.UI.SessionInput += new SessionInputHandler(this.OnSessionInput);
+                UI.SessionInput += new SessionInputHandler(OnSessionInput);
             else
-                this.UI.SessionInput -= new SessionInputHandler(this.OnSessionInput);
+                UI.SessionInput -= new SessionInputHandler(OnSessionInput);
         }
 
         private void OnSessionInput(InputInfo originalEvent, EventRouteStages stageHandled)
@@ -355,15 +355,15 @@ namespace Microsoft.Iris.InputHandlers
             if (!(originalEvent is KeyStateInfo keyStateInfo))
                 return;
             if (keyStateInfo.Key == Keys.Escape)
-                this.CancelDrag();
+                CancelDrag();
             keyStateInfo.MarkHandled();
         }
 
         private Vector2 TransformToRelative(Vector2 uiPoint)
         {
-            if (this._relativeTo != null)
+            if (_relativeTo != null)
             {
-                RectangleF rectangleF = this._relativeTo.TransformFromAncestor(this.UI.RootItem, new RectangleF(uiPoint.X, uiPoint.Y, 0.0f, 0.0f));
+                RectangleF rectangleF = _relativeTo.TransformFromAncestor(UI.RootItem, new RectangleF(uiPoint.X, uiPoint.Y, 0.0f, 0.0f));
                 uiPoint.X = rectangleF.X;
                 uiPoint.Y = rectangleF.Y;
             }
@@ -373,8 +373,8 @@ namespace Microsoft.Iris.InputHandlers
         private RectangleF TransformFromRelative(RectangleF relativeBounds)
         {
             RectangleF rectangleF = relativeBounds;
-            if (this._relativeTo != null)
-                rectangleF = this._relativeTo.TransformToAncestor(this.UI.RootItem, relativeBounds);
+            if (_relativeTo != null)
+                rectangleF = _relativeTo.TransformToAncestor(UI.RootItem, relativeBounds);
             return rectangleF;
         }
 
@@ -382,46 +382,46 @@ namespace Microsoft.Iris.InputHandlers
         {
             float x = uiPoint.X;
             float y = uiPoint.Y;
-            if (reference != this.UI)
+            if (reference != UI)
             {
                 RectangleF rect = new RectangleF(x, y, 0.0f, 0.0f);
-                RectangleF ancestor = reference.RootItem.TransformToAncestor(this.UI.RootItem, rect);
+                RectangleF ancestor = reference.RootItem.TransformToAncestor(UI.RootItem, rect);
                 x = ancestor.X;
                 y = ancestor.Y;
             }
             return new Vector2(x, y);
         }
 
-        private Vector2 NormalizeCoordinates(Vector2 pt) => this._lastKnownSize.Width == 0 || this._lastKnownSize.Height == 0 ? Vector2.Zero : new Vector2(pt.X / _lastKnownSize.Width, pt.Y / _lastKnownSize.Height);
+        private Vector2 NormalizeCoordinates(Vector2 pt) => _lastKnownSize.Width == 0 || _lastKnownSize.Height == 0 ? Vector2.Zero : new Vector2(pt.X / _lastKnownSize.Width, pt.Y / _lastKnownSize.Height);
 
-        internal override CursorID GetCursor() => this._dragCursor != CursorID.NotSpecified && this.Dragging ? this._dragCursor : CursorID.NotSpecified;
+        internal override CursorID GetCursor() => _dragCursor != CursorID.NotSpecified && Dragging ? _dragCursor : CursorID.NotSpecified;
 
-        public void CancelDrag() => this.EndDrag(false);
+        public void CancelDrag() => EndDrag(false);
 
         private void GetDragBounds(out RectangleF relativeBounds, out RectangleF uiBounds)
         {
-            relativeBounds = new RectangleF(Math.Min(this._beginPosition.X, this._endPosition.X), Math.Min(this._beginPosition.Y, this._endPosition.Y), Math.Abs(this._beginPosition.X - this._endPosition.X), Math.Abs(this._beginPosition.Y - this._endPosition.Y));
-            uiBounds = this.TransformFromRelative(relativeBounds);
+            relativeBounds = new RectangleF(Math.Min(_beginPosition.X, _endPosition.X), Math.Min(_beginPosition.Y, _endPosition.Y), Math.Abs(_beginPosition.X - _endPosition.X), Math.Abs(_beginPosition.Y - _endPosition.Y));
+            uiBounds = TransformFromRelative(relativeBounds);
         }
 
         public IList GetEventContexts()
         {
             IList added = new List<object>();
             RectangleF uiBounds;
-            this.GetDragBounds(out RectangleF _, out uiBounds);
-            GetEventContexts(this.UI, added, null, RectangleF.Zero, uiBounds);
+            GetDragBounds(out RectangleF _, out uiBounds);
+            GetEventContexts(UI, added, null, RectangleF.Zero, uiBounds);
             return added;
         }
 
         public IList GetAddedEventContexts()
         {
-            this.UpdateEventContexts();
+            UpdateEventContexts();
             return _addedContexts;
         }
 
         public IList GetRemovedEventContexts()
         {
-            this.UpdateEventContexts();
+            UpdateEventContexts();
             return _removedContexts;
         }
 
@@ -429,13 +429,13 @@ namespace Microsoft.Iris.InputHandlers
         {
             RectangleF relativeBounds;
             RectangleF uiBounds;
-            this.GetDragBounds(out relativeBounds, out uiBounds);
-            if (!(relativeBounds != this._contextBounds))
+            GetDragBounds(out relativeBounds, out uiBounds);
+            if (!(relativeBounds != _contextBounds))
                 return;
-            this._addedContexts = new List<object>();
-            this._removedContexts = new List<object>();
-            GetEventContexts(this.UI, _addedContexts, _removedContexts, this.TransformFromRelative(this._contextBounds), uiBounds);
-            this._contextBounds = relativeBounds;
+            _addedContexts = new List<object>();
+            _removedContexts = new List<object>();
+            GetEventContexts(UI, _addedContexts, _removedContexts, TransformFromRelative(_contextBounds), uiBounds);
+            _contextBounds = relativeBounds;
         }
 
         private static void GetEventContexts(

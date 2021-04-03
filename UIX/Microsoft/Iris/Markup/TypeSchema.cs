@@ -21,21 +21,21 @@ namespace Microsoft.Iris.Markup
 
         public TypeSchema(LoadResult owner)
         {
-            this._owner = owner;
-            this._id = ++s_uniqueId;
-            s_idToTypeSchema[this._id] = this;
-            this.DeclareOwner(owner);
+            _owner = owner;
+            _id = ++s_uniqueId;
+            s_idToTypeSchema[_id] = this;
+            DeclareOwner(owner);
         }
 
         protected override void OnDispose()
         {
-            s_idToTypeSchema.Remove(this._id);
+            s_idToTypeSchema.Remove(_id);
             base.OnDispose();
         }
 
-        public LoadResult Owner => this._owner;
+        public LoadResult Owner => _owner;
 
-        public Vector<TypeSchema> Equivalents => this._equivalents;
+        public Vector<TypeSchema> Equivalents => _equivalents;
 
         public abstract string Name { get; }
 
@@ -109,17 +109,17 @@ namespace Microsoft.Iris.Markup
         public bool IsAssignableFrom(object check)
         {
             if (check == null)
-                return this.IsNullAssignable;
-            return check is ISchemaInfo schemaInfo ? this.IsAssignableFrom(schemaInfo.TypeSchema) : this.IsNativeAssignableFrom(check);
+                return IsNullAssignable;
+            return check is ISchemaInfo schemaInfo ? IsAssignableFrom(schemaInfo.TypeSchema) : IsNativeAssignableFrom(check);
         }
 
         public bool IsAssignableFrom(TypeSchema checkSchema)
         {
             if (checkSchema == null)
                 return false;
-            if (checkSchema == NullSchema.Type && this.IsNullAssignable)
+            if (checkSchema == NullSchema.Type && IsNullAssignable)
                 return true;
-            if (!this.Contractual)
+            if (!Contractual)
             {
                 for (TypeSchema typeSchema = checkSchema; typeSchema != null; typeSchema = typeSchema.Base)
                 {
@@ -135,7 +135,7 @@ namespace Microsoft.Iris.Markup
                     }
                 }
             }
-            return this.IsNativeAssignableFrom(checkSchema);
+            return IsNativeAssignableFrom(checkSchema);
         }
 
         public PropertySchema FindPropertyDeep(string name)
@@ -152,15 +152,15 @@ namespace Microsoft.Iris.Markup
         public Vector<string> FindRequiredPropertyNamesDeep()
         {
             Vector<string> list = new Vector<string>();
-            this.FindRequiredPropertyNamesDeep(list);
+            FindRequiredPropertyNamesDeep(list);
             return list;
         }
 
         private void FindRequiredPropertyNamesDeep(Vector<string> list)
         {
-            if (this.Base != null)
-                this.Base.FindRequiredPropertyNamesDeep(list);
-            foreach (PropertySchema property in this.Properties)
+            if (Base != null)
+                Base.FindRequiredPropertyNamesDeep(list);
+            foreach (PropertySchema property in Properties)
             {
                 int index = list.IndexOf(property.Name);
                 if (index != -1)
@@ -230,13 +230,13 @@ namespace Microsoft.Iris.Markup
             RegisterOneWayEquivalence(typeB, typeA);
         }
 
-        public void ShareEquivalents(Vector<TypeSchema> equivalents) => this._equivalents = equivalents;
+        public void ShareEquivalents(Vector<TypeSchema> equivalents) => _equivalents = equivalents;
 
-        public virtual string ErrorContextDescription => string.Format("{0} (Owner='{1}')", Name, this.Owner.Uri ?? "Unavailable");
+        public virtual string ErrorContextDescription => string.Format("{0} (Owner='{1}')", Name, Owner.Uri ?? "Unavailable");
 
         public static string NameFromInstance(object instance) => !(instance is ISchemaInfo schemaInfo) ? instance.GetType().Name : schemaInfo.TypeSchema.Name;
 
-        public ulong UniqueId => this._id;
+        public ulong UniqueId => _id;
 
         public static TypeSchema LookupById(ulong id)
         {

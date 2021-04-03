@@ -29,52 +29,52 @@ namespace Microsoft.Iris.Markup.Validation
           int offset)
           : base(owner, line, offset, ObjectSourceType.Code)
         {
-            this._statementCompound = statementCompound;
-            this._embedded = true;
+            _statementCompound = statementCompound;
+            _embedded = true;
         }
 
-        public ValidateStatementCompound StatementCompound => this._statementCompound;
+        public ValidateStatementCompound StatementCompound => _statementCompound;
 
-        public bool Embedded => this._embedded;
+        public bool Embedded => _embedded;
 
-        public override TypeSchema ObjectType => this._returnType;
+        public override TypeSchema ObjectType => _returnType;
 
         public override void Validate(TypeRestriction typeRestriction, ValidateContext context)
         {
-            if (this._allowTriggers)
+            if (_allowTriggers)
                 context.StartDeclaredTriggerTracking();
-            this._statementCompound.Validate(this, context);
-            if (this._allowTriggers)
-                this._declaredTriggerExpressions = context.StopDeclaredTriggerTracking();
-            if (this._statementCompound.HasErrors)
-                this.MarkHasErrors();
-            if (this._returnStatements.Count > 0)
+            _statementCompound.Validate(this, context);
+            if (_allowTriggers)
+                _declaredTriggerExpressions = context.StopDeclaredTriggerTracking();
+            if (_statementCompound.HasErrors)
+                MarkHasErrors();
+            if (_returnStatements.Count > 0)
             {
-                for (int index = 0; index < this._returnStatements.Count; ++index)
+                for (int index = 0; index < _returnStatements.Count; ++index)
                 {
-                    ValidateStatementReturn returnStatement = this._returnStatements[index];
+                    ValidateStatementReturn returnStatement = _returnStatements[index];
                     if (returnStatement.HasErrors)
                         return;
                     TypeSchema type = VoidSchema.Type;
                     ValidateExpression expression = returnStatement.Expression;
                     if (expression != null)
                         type = expression.ObjectType;
-                    this.ValidateReturnType(type);
-                    if (this.HasErrors)
+                    ValidateReturnType(type);
+                    if (HasErrors)
                         return;
                 }
             }
             else
-                this._returnType = VoidSchema.Type;
+                _returnType = VoidSchema.Type;
             string errorMessage = "'{0}' cannot be used in this context (expecting types compatible with '{1}')";
             if (typeRestriction.Primary == VoidSchema.Type && typeRestriction.Secondary == null)
                 errorMessage = "Return values are not supported for this code block (currently returning '{0}')";
-            else if (this._returnStatements.Count == 0)
+            else if (_returnStatements.Count == 0)
                 errorMessage = "Code block must have at least one return statement of type '{0}'";
-            if (!typeRestriction.Check(this, errorMessage, this._returnType))
+            if (!typeRestriction.Check(this, errorMessage, _returnType))
                 return;
             ValidateStatementReturn validateStatementReturn = null;
-            ValidateStatement validateStatement = this._statementCompound.StatementList;
+            ValidateStatement validateStatement = _statementCompound.StatementList;
             if (validateStatement != null)
             {
                 while (validateStatement.Next != null)
@@ -85,69 +85,69 @@ namespace Microsoft.Iris.Markup.Validation
                     validateStatementReturn.MarkAsTrailingReturn();
                 }
             }
-            if (this._returnType == VoidSchema.Type || validateStatementReturn != null)
+            if (_returnType == VoidSchema.Type || validateStatementReturn != null)
                 return;
-            this.ReportError("Code block must end with a return of type '{0}'", this._returnType.Name);
+            ReportError("Code block must end with a return of type '{0}'", _returnType.Name);
         }
 
         private void ValidateReturnType(TypeSchema type)
         {
-            if (this._returnType == null)
+            if (_returnType == null)
             {
-                this._returnType = type;
+                _returnType = type;
             }
             else
             {
-                if (this._returnType == type)
+                if (_returnType == type)
                     return;
-                if (type.IsAssignableFrom(this._returnType))
+                if (type.IsAssignableFrom(_returnType))
                 {
-                    this._returnType = type;
+                    _returnType = type;
                 }
                 else
                 {
-                    if (this._returnType.IsAssignableFrom(type))
+                    if (_returnType.IsAssignableFrom(type))
                         return;
-                    this.ReportError("Return type cannot be determined due to inconsistant return type statements (mismatched types are: '{0}' and '{1}')", this._returnType.Name, type.Name);
+                    ReportError("Return type cannot be determined due to inconsistant return type statements (mismatched types are: '{0}' and '{1}')", _returnType.Name, type.Name);
                 }
             }
         }
 
-        public void MarkAsNotEmbedded() => this._embedded = false;
+        public void MarkAsNotEmbedded() => _embedded = false;
 
-        public void DisallowTriggers() => this._allowTriggers = false;
+        public void DisallowTriggers() => _allowTriggers = false;
 
-        public uint EncodeStartOffset => this._encodeStartOffset;
+        public uint EncodeStartOffset => _encodeStartOffset;
 
-        public Vector<ValidateStatementReturn> ReturnStatements => this._returnStatements;
+        public Vector<ValidateStatementReturn> ReturnStatements => _returnStatements;
 
-        public Vector<ValidateExpression> DeclaredTriggerExpressions => this._declaredTriggerExpressions;
+        public Vector<ValidateExpression> DeclaredTriggerExpressions => _declaredTriggerExpressions;
 
         public bool InitialEvaluate
         {
             get
             {
-                if (this._hasInitialEvaluateStatement)
-                    return this._initialEvaluate;
-                return !this._hasDeclaredTriggerStatements && !this._finalEvaluate && !this._embedded;
+                if (_hasInitialEvaluateStatement)
+                    return _initialEvaluate;
+                return !_hasDeclaredTriggerStatements && !_finalEvaluate && !_embedded;
             }
         }
 
-        public bool FinalEvaluate => this._finalEvaluate;
+        public bool FinalEvaluate => _finalEvaluate;
 
-        public void TrackReturnStatement(ValidateStatementReturn returnStatement) => this._returnStatements.Add(returnStatement);
+        public void TrackReturnStatement(ValidateStatementReturn returnStatement) => _returnStatements.Add(returnStatement);
 
-        public void TrackEncodingOffset(uint startOffset) => this._encodeStartOffset = startOffset;
+        public void TrackEncodingOffset(uint startOffset) => _encodeStartOffset = startOffset;
 
         public void MarkInitialEvaluate(bool initialEvaluate)
         {
-            this._hasInitialEvaluateStatement = true;
-            this._initialEvaluate = initialEvaluate;
+            _hasInitialEvaluateStatement = true;
+            _initialEvaluate = initialEvaluate;
         }
 
-        public void MarkFinalEvaluate(bool finalEvaluate) => this._finalEvaluate = finalEvaluate;
+        public void MarkFinalEvaluate(bool finalEvaluate) => _finalEvaluate = finalEvaluate;
 
-        public void MarkDeclaredTriggerStatements() => this._hasDeclaredTriggerStatements = true;
+        public void MarkDeclaredTriggerStatements() => _hasDeclaredTriggerStatements = true;
 
         public ValidateCode Next
         {

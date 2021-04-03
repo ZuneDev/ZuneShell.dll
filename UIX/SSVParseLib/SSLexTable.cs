@@ -22,30 +22,30 @@ namespace SSVParseLib
 
         public SSLexTable()
         {
-            this.m_stack = new Stack();
-            this.m_subTables = null;
+            m_stack = new Stack();
+            m_subTables = null;
         }
 
         public void findKeyword(SSLexLexeme z_lexeme) => throw new Exception("Code has been disabled.");
 
         public void gotoSubtable(int q_index)
         {
-            this.m_stack.Pop();
-            this.m_stack.Push(this.m_subTables[q_index]);
+            m_stack.Pop();
+            m_stack.Push(m_subTables[q_index]);
         }
 
-        public void pushSubtable(int q_index) => this.m_stack.Push(this.m_subTables[q_index]);
+        public void pushSubtable(int q_index) => m_stack.Push(m_subTables[q_index]);
 
-        public void popSubtable() => this.m_stack.Pop();
+        public void popSubtable() => m_stack.Pop();
 
-        public int lookup(int q_state, int q_next) => ((SSLexSubtable)this.m_stack.Peek()).lookup(q_state, q_next);
+        public int lookup(int q_state, int q_next) => ((SSLexSubtable)m_stack.Peek()).lookup(q_state, q_next);
 
-        public SSLexFinalState lookupFinal(int q_state) => ((SSLexSubtable)this.m_stack.Peek()).lookupFinal(q_state);
+        public SSLexFinalState lookupFinal(int q_state) => ((SSLexSubtable)m_stack.Peek()).lookupFinal(q_state);
 
         public void Reset()
         {
-            this.m_stack.Clear();
-            this.pushSubtable(0);
+            m_stack.Clear();
+            pushSubtable(0);
         }
     }
 }

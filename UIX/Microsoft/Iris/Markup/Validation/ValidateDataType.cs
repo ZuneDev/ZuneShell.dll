@@ -26,7 +26,7 @@ namespace Microsoft.Iris.Markup.Validation
         protected override void PopulatePublicModel(ValidateContext context)
         {
             base.PopulatePublicModel(context);
-            this._provider = this.ExtractStringProperty("Provider", false);
+            _provider = ExtractStringProperty("Provider", false);
         }
 
         protected override void AnnotateProperty(
@@ -45,9 +45,9 @@ namespace Microsoft.Iris.Markup.Validation
             string stringProperty3 = objectTag.ExtractStringProperty("Target", false);
             if (stringProperty1 != null || stringProperty2 != null || stringProperty3 != null)
             {
-                if (this._foundInlineMappings == null)
-                    this._foundInlineMappings = new Map<string, MarkupDataMappingEntry>();
-                this._foundInlineMappings[propertyExport.Name] = new MarkupDataMappingEntry()
+                if (_foundInlineMappings == null)
+                    _foundInlineMappings = new Map<string, MarkupDataMappingEntry>();
+                _foundInlineMappings[propertyExport.Name] = new MarkupDataMappingEntry()
                 {
                     DefaultValue = ValidateDataMapping.ConvertDefaultValue(this, propertyExport.PropertyType, stringProperty1),
                     Source = stringProperty2,
@@ -57,25 +57,25 @@ namespace Microsoft.Iris.Markup.Validation
             }
             if (!objectTag.HasErrors)
                 return;
-            this.MarkHasErrors();
+            MarkHasErrors();
         }
 
         protected override void FullValidation(ValidateContext context)
         {
             base.FullValidation(context);
-            if (this._foundInlineMappings != null && this._provider == null)
-                this.ReportError("Inline mappings are allowed only on provider-specific types.  Must specify 'Provider' attribute on '{0}'", this.Name);
-            if (this._provider == null)
+            if (_foundInlineMappings != null && _provider == null)
+                ReportError("Inline mappings are allowed only on provider-specific types.  Must specify 'Provider' attribute on '{0}'", Name);
+            if (_provider == null)
                 return;
-            if (this._foundInlineMappings == null)
-                this._foundInlineMappings = new Map<string, MarkupDataMappingEntry>();
-            MarkupDataTypeSchema typeExport = (MarkupDataTypeSchema)this.TypeExport;
-            MarkupDataMappingEntry[] mappingEntries = MarkupDataProvider.FillInDefaultMappings(typeExport, this._foundInlineMappings);
-            ValidateDataMapping.AddDataMappingProviderList(ref this._foundDataMappingSet, Owner.LoadResultTarget, null, typeExport, this._provider, mappingEntries);
+            if (_foundInlineMappings == null)
+                _foundInlineMappings = new Map<string, MarkupDataMappingEntry>();
+            MarkupDataTypeSchema typeExport = (MarkupDataTypeSchema)TypeExport;
+            MarkupDataMappingEntry[] mappingEntries = MarkupDataProvider.FillInDefaultMappings(typeExport, _foundInlineMappings);
+            ValidateDataMapping.AddDataMappingProviderList(ref _foundDataMappingSet, Owner.LoadResultTarget, null, typeExport, _provider, mappingEntries);
             foreach (MarkupDataMappingEntry dataMappingEntry in mappingEntries)
-                this.Owner.TrackImportedProperty(dataMappingEntry.Property);
+                Owner.TrackImportedProperty(dataMappingEntry.Property);
         }
 
-        public Vector<MarkupDataMapping> FoundDataMappingSet => this._foundDataMappingSet;
+        public Vector<MarkupDataMapping> FoundDataMappingSet => _foundDataMappingSet;
     }
 }

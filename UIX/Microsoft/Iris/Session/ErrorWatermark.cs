@@ -10,8 +10,8 @@ namespace Microsoft.Iris.Session
     {
         private uint _currentErrorCount;
 
-        public ErrorWatermark(uint currentErrorCount) => this._currentErrorCount = currentErrorCount;
+        public ErrorWatermark(uint currentErrorCount) => _currentErrorCount = currentErrorCount;
 
-        public bool ErrorsDetected => (int)this._currentErrorCount != (int)ErrorManager.TotalErrorsReported;
+        public bool ErrorsDetected => (int)_currentErrorCount != (int)ErrorManager.TotalErrorsReported;
     }
 }

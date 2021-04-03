@@ -17,14 +17,14 @@ namespace Microsoft.Iris.Animations
           AnimationProxy animation,
           ref AnimationArgs args)
         {
-            Vector2 effectiveValue = this.GetEffectiveValue(targetObject, this._valueVector, ref args);
+            Vector2 effectiveValue = GetEffectiveValue(targetObject, _valueVector, ref args);
             animation.AddVector2Keyframe(this, effectiveValue);
         }
 
         public Vector2 Value
         {
-            get => this._valueVector;
-            set => this._valueVector = value;
+            get => _valueVector;
+            set => _valueVector = value;
         }
 
         public override object ObjectValue => Value;
@@ -39,12 +39,12 @@ namespace Microsoft.Iris.Animations
 
         public override void Apply(IAnimatableOwner animationTarget, ref AnimationArgs args)
         {
-            Vector2 effectiveValue = this.GetEffectiveValue(animationTarget.AnimationTarget, this._valueVector, ref args);
-            this.Apply(animationTarget, effectiveValue);
+            Vector2 effectiveValue = GetEffectiveValue(animationTarget.AnimationTarget, _valueVector, ref args);
+            Apply(animationTarget, effectiveValue);
         }
 
         public abstract void Apply(IAnimatableOwner animationTarget, Vector2 valueVector);
 
-        public override void MagnifyValue(float magnifyValue) => this.Value *= magnifyValue;
+        public override void MagnifyValue(float magnifyValue) => Value *= magnifyValue;
     }
 }

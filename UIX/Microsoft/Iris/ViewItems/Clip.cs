@@ -26,30 +26,30 @@ namespace Microsoft.Iris.ViewItems
 
         public Clip()
         {
-            this._showNear = true;
-            this._showFar = true;
-            this._farPercent = 1f;
-            this.ClipMouse = true;
-            this._edgefade = new EdgeFade();
+            _showNear = true;
+            _showFar = true;
+            _farPercent = 1f;
+            ClipMouse = true;
+            _edgefade = new EdgeFade();
         }
 
         protected override void OnDispose()
         {
-            this._edgefade.Dispose();
-            this._edgefade = null;
+            _edgefade.Dispose();
+            _edgefade = null;
             base.OnDispose();
         }
 
         public Orientation Orientation
         {
-            get => this._edgefade.Orientation;
+            get => _edgefade.Orientation;
             set
             {
-                if (this.Orientation == value)
+                if (Orientation == value)
                     return;
-                this._edgefade.Orientation = value;
-                this.OnOrientationChanged();
-                this.FireNotification(NotificationID.Orientation);
+                _edgefade.Orientation = value;
+                OnOrientationChanged();
+                FireNotification(NotificationID.Orientation);
             }
         }
 
@@ -59,136 +59,136 @@ namespace Microsoft.Iris.ViewItems
 
         public float FadeSize
         {
-            get => this._edgefade.FadeSize;
+            get => _edgefade.FadeSize;
             set
             {
                 if (FadeSize == (double)value)
                     return;
-                this._edgefade.FadeSize = value;
-                this.MarkPaintInvalid();
-                this.FireNotification(NotificationID.FadeSize);
+                _edgefade.FadeSize = value;
+                MarkPaintInvalid();
+                FireNotification(NotificationID.FadeSize);
             }
         }
 
         public float NearOffset
         {
-            get => this._nearOffset;
+            get => _nearOffset;
             set
             {
                 if (_nearOffset == (double)value)
                     return;
-                this._nearOffset = value;
-                this.MarkPaintInvalid();
-                this.FireNotification(NotificationID.NearOffset);
+                _nearOffset = value;
+                MarkPaintInvalid();
+                FireNotification(NotificationID.NearOffset);
             }
         }
 
         public float FarOffset
         {
-            get => this._farOffset;
+            get => _farOffset;
             set
             {
                 if (_farOffset == (double)value)
                     return;
-                this._farOffset = value;
-                this.MarkPaintInvalid();
-                this.FireNotification(NotificationID.FarOffset);
+                _farOffset = value;
+                MarkPaintInvalid();
+                FireNotification(NotificationID.FarOffset);
             }
         }
 
         public float NearPercent
         {
-            get => this._nearPercent;
+            get => _nearPercent;
             set
             {
                 if (_nearPercent == (double)value)
                     return;
-                this._nearPercent = value;
-                this.MarkPaintInvalid();
-                this.FireNotification(NotificationID.NearPercent);
+                _nearPercent = value;
+                MarkPaintInvalid();
+                FireNotification(NotificationID.NearPercent);
             }
         }
 
         public float FarPercent
         {
-            get => this._farPercent;
+            get => _farPercent;
             set
             {
                 if (_farPercent == (double)value)
                     return;
-                this._farPercent = value;
-                this.MarkPaintInvalid();
-                this.FireNotification(NotificationID.FarPercent);
+                _farPercent = value;
+                MarkPaintInvalid();
+                FireNotification(NotificationID.FarPercent);
             }
         }
 
         public bool ShowNear
         {
-            get => this._showNear;
+            get => _showNear;
             set
             {
-                if (this._showNear == value)
+                if (_showNear == value)
                     return;
-                this._showNear = value;
-                this.MarkPaintInvalid();
-                this.FireNotification(NotificationID.ShowNear);
+                _showNear = value;
+                MarkPaintInvalid();
+                FireNotification(NotificationID.ShowNear);
             }
         }
 
         public bool ShowFar
         {
-            get => this._showFar;
+            get => _showFar;
             set
             {
-                if (this._showFar == value)
+                if (_showFar == value)
                     return;
-                this._showFar = value;
-                this.MarkPaintInvalid();
-                this.FireNotification(NotificationID.ShowFar);
+                _showFar = value;
+                MarkPaintInvalid();
+                FireNotification(NotificationID.ShowFar);
             }
         }
 
         public Color ColorMask
         {
-            get => this._edgefade.ColorMask;
+            get => _edgefade.ColorMask;
             set
             {
-                if (!(this._edgefade.ColorMask != value))
+                if (!(_edgefade.ColorMask != value))
                     return;
-                this._edgefade.ColorMask = value;
-                this.FireNotification(NotificationID.ColorMask);
+                _edgefade.ColorMask = value;
+                FireNotification(NotificationID.ColorMask);
             }
         }
 
         public float FadeAmount
         {
-            get => this._edgefade.FadeAmount;
+            get => _edgefade.FadeAmount;
             set
             {
                 if (_edgefade.FadeAmount == (double)value)
                     return;
-                this._edgefade.FadeAmount = value;
-                this.MarkPaintInvalid();
-                this.FireNotification(NotificationID.FadeAmount);
-                this.UpdateEdgeFade();
+                _edgefade.FadeAmount = value;
+                MarkPaintInvalid();
+                FireNotification(NotificationID.FadeAmount);
+                UpdateEdgeFade();
             }
         }
 
         protected override void OnPaint(bool visible)
         {
             base.OnPaint(visible);
-            this.UpdateEdgeFade();
+            UpdateEdgeFade();
         }
 
         protected void UpdateEdgeFade()
         {
-            IVisualContainer visualContainer = this.VisualContainer;
+            IVisualContainer visualContainer = VisualContainer;
             if (visualContainer == null)
                 return;
-            float num = this.Orientation == Orientation.Horizontal ? this.VisualSize.X : this.VisualSize.Y;
-            this._edgefade.MinOffset = num * this.NearPercent + this.NearOffset;
-            this._edgefade.MaxOffset = num * (this.FarPercent - 1f) + this.FarOffset;
-            this._edgefade.ApplyGradients(visualContainer, this.UISession.RenderSession, this._showNear, this._showFar);
+            float num = Orientation == Orientation.Horizontal ? VisualSize.X : VisualSize.Y;
+            _edgefade.MinOffset = num * NearPercent + NearOffset;
+            _edgefade.MaxOffset = num * (FarPercent - 1f) + FarOffset;
+            _edgefade.ApplyGradients(visualContainer, UISession.RenderSession, _showNear, _showFar);
         }
 
         public override void ClipAreaOfInterest(ref AreaOfInterest interest, Size usedSize)
@@ -196,27 +196,27 @@ namespace Microsoft.Iris.ViewItems
             if (interest.Id != AreaOfInterestID.Focus && interest.Id != AreaOfInterestID.FocusOverride)
                 return;
             Rectangle displayRectangle = interest.DisplayRectangle;
-            int fadeSize = (int)this.FadeSize;
-            if (this.Orientation == Orientation.Horizontal)
+            int fadeSize = (int)FadeSize;
+            if (Orientation == Orientation.Horizontal)
             {
                 int right = displayRectangle.Right;
-                if (this.ShowNear)
+                if (ShowNear)
                 {
                     displayRectangle.X = Math.Max(displayRectangle.X, fadeSize);
                     displayRectangle.Width = right - displayRectangle.X;
                 }
-                if (this.ShowFar)
+                if (ShowFar)
                     displayRectangle.Width = Math.Min(right, usedSize.Width - fadeSize) - displayRectangle.X;
             }
             else
             {
                 int bottom = displayRectangle.Bottom;
-                if (this.ShowNear)
+                if (ShowNear)
                 {
                     displayRectangle.Y = Math.Max(displayRectangle.Y, fadeSize);
                     displayRectangle.Height = bottom - displayRectangle.Y;
                 }
-                if (this.ShowFar)
+                if (ShowFar)
                     displayRectangle.Height = Math.Min(bottom, usedSize.Height - fadeSize) - displayRectangle.Y;
             }
             if (displayRectangle.Width > 0 && displayRectangle.Height > 0)

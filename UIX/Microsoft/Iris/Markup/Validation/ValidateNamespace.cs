@@ -20,16 +20,16 @@ namespace Microsoft.Iris.Markup.Validation
           int column)
           : base(owner, line, column)
         {
-            this._prefix = prefix;
-            this._uri = uri;
+            _prefix = prefix;
+            _uri = uri;
         }
 
-        public string Prefix => this._prefix;
+        public string Prefix => _prefix;
 
         public ValidateNamespace Next
         {
-            get => this._next;
-            set => this._next = value;
+            get => _next;
+            set => _next = value;
         }
 
         public void AppendToEnd(ValidateNamespace item)
@@ -42,15 +42,15 @@ namespace Microsoft.Iris.Markup.Validation
 
         public LoadResult Validate()
         {
-            if (this._uri == "Me")
+            if (_uri == "Me")
                 return Owner.LoadResultTarget;
-            LoadResult loadResult = MarkupSystem.ResolveLoadResult(this._uri, this.Owner.LoadResultTarget.IslandReferences);
+            LoadResult loadResult = MarkupSystem.ResolveLoadResult(_uri, Owner.LoadResultTarget.IslandReferences);
             if (loadResult == null || loadResult is ErrorLoadResult)
-                this.ReportError("Unable to load '{0}' (xmlns prefix '{1}')", this._uri, this._prefix);
+                ReportError("Unable to load '{0}' (xmlns prefix '{1}')", _uri, _prefix);
             else if (loadResult.Status == LoadResultStatus.Error)
-                this.MarkHasErrors();
+                MarkHasErrors();
             if (MarkupSystem.CompileMode)
-                loadResult.SetCompilerReferenceName(this._uri);
+                loadResult.SetCompilerReferenceName(_uri);
             return loadResult;
         }
     }

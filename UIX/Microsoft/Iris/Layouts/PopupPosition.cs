@@ -14,27 +14,27 @@ namespace Microsoft.Iris.Layouts
 
         public PopupPosition(InterestPoint target, InterestPoint popup, FlipDirection flipDirection)
         {
-            this._target = target;
-            this._popup = popup;
-            this._flipDirection = flipDirection;
+            _target = target;
+            _popup = popup;
+            _flipDirection = flipDirection;
         }
 
         public InterestPoint Target
         {
-            get => this._target;
-            set => this._target = value;
+            get => _target;
+            set => _target = value;
         }
 
         public InterestPoint Popup
         {
-            get => this._popup;
-            set => this._popup = value;
+            get => _popup;
+            set => _popup = value;
         }
 
         public FlipDirection Flipped
         {
-            get => this._flipDirection;
-            set => this._flipDirection = value;
+            get => _flipDirection;
+            set => _flipDirection = value;
         }
     }
 }

@@ -20,42 +20,42 @@ namespace Microsoft.Iris.Animations
         {
         }
 
-        public Interpolation(InterpolationType type) => this._type = type;
+        public Interpolation(InterpolationType type) => _type = type;
 
         public InterpolationType Type
         {
-            get => this._type;
-            set => this._type = value;
+            get => _type;
+            set => _type = value;
         }
 
         public float Weight
         {
-            get => this._weight;
-            set => this._weight = value;
+            get => _weight;
+            set => _weight = value;
         }
 
         public float BezierHandle1
         {
-            get => this._bezierHandle1;
-            set => this._bezierHandle1 = value;
+            get => _bezierHandle1;
+            set => _bezierHandle1 = value;
         }
 
         public float BezierHandle2
         {
-            get => this._bezierHandle2;
-            set => this._bezierHandle2 = value;
+            get => _bezierHandle2;
+            set => _bezierHandle2 = value;
         }
 
         public float EasePercent
         {
-            get => this._easePercent;
-            set => this._easePercent = value;
+            get => _easePercent;
+            set => _easePercent = value;
         }
 
         public override string ToString()
         {
             string str;
-            switch (this.Type)
+            switch (Type)
             {
                 case InterpolationType.SCurve:
                     str = "SCurve";
@@ -96,11 +96,11 @@ namespace Microsoft.Iris.Animations
             if (obj is Interpolation)
             {
                 Interpolation interpolation = (Interpolation)obj;
-                flag = this._type == interpolation._type && _weight == (double)interpolation._weight && (_bezierHandle1 == (double)interpolation._bezierHandle1 && _bezierHandle2 == (double)interpolation._bezierHandle2) && _easePercent == (double)interpolation._easePercent;
+                flag = _type == interpolation._type && _weight == (double)interpolation._weight && (_bezierHandle1 == (double)interpolation._bezierHandle1 && _bezierHandle2 == (double)interpolation._bezierHandle2) && _easePercent == (double)interpolation._easePercent;
             }
             return flag;
         }
 
-        public override int GetHashCode() => this._type.GetHashCode() ^ this._weight.GetHashCode() ^ this._bezierHandle1.GetHashCode() ^ this._bezierHandle2.GetHashCode() ^ this._easePercent.GetHashCode();
+        public override int GetHashCode() => _type.GetHashCode() ^ _weight.GetHashCode() ^ _bezierHandle1.GetHashCode() ^ _bezierHandle2.GetHashCode() ^ _easePercent.GetHashCode();
     }
 }

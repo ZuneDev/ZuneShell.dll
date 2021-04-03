@@ -10,18 +10,18 @@ namespace Microsoft.Iris.Library
     {
         private int _usageCount;
 
-        public SharedDisposableObject() => this.DeclareOwner(this);
+        public SharedDisposableObject() => DeclareOwner(this);
 
         protected override void OnDispose() => base.OnDispose();
 
-        public virtual void RegisterUsage(object consumer) => ++this._usageCount;
+        public virtual void RegisterUsage(object consumer) => ++_usageCount;
 
         public virtual void UnregisterUsage(object consumer)
         {
-            --this._usageCount;
-            if (this._usageCount != 0)
+            --_usageCount;
+            if (_usageCount != 0)
                 return;
-            this.Dispose(this);
+            Dispose(this);
         }
     }
 }

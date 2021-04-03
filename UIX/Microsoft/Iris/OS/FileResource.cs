@@ -17,22 +17,22 @@ namespace Microsoft.Iris.OS
 
         public FileResource(string uri, string filePath, bool forceSynchronous)
           : base(uri, forceSynchronous)
-          => this._filePath = filePath;
+          => _filePath = filePath;
 
-        public override string Identifier => this._filePath;
+        public override string Identifier => _filePath;
 
         protected override void StartAcquisition(bool forceSynchronous)
         {
             if (forceSynchronous)
-                this.SynchronousDownload();
+                SynchronousDownload();
             else
-                this.AsynchronousDownload();
+                AsynchronousDownload();
         }
 
         private void AsynchronousDownload()
         {
-            this._pendingCallback = new NativeApi.DownloadCompleteHandler(this.OnFileDownloadComplete);
-            int num = (int)NativeApi.SpFileDownload(this._filePath, this._pendingCallback, IntPtr.Zero, out this._handle);
+            _pendingCallback = new NativeApi.DownloadCompleteHandler(OnFileDownloadComplete);
+            int num = (int)NativeApi.SpFileDownload(_filePath, _pendingCallback, IntPtr.Zero, out _handle);
         }
 
         private void OnFileDownloadComplete(IntPtr handle, int error, uint length, IntPtr context)
@@ -40,13 +40,13 @@ namespace Microsoft.Iris.OS
             IntPtr buffer = IntPtr.Zero;
             string errorDetails = null;
             if (error == 0)
-                buffer = NativeApi.DownloadGetBuffer(this._handle);
+                buffer = NativeApi.DownloadGetBuffer(_handle);
             else
                 errorDetails = string.Format("Failed to complete download from '{0}'", _filePath);
-            int num = (int)NativeApi.SpDownloadClose(this._handle);
-            this._handle = IntPtr.Zero;
-            this._pendingCallback = null;
-            this.NotifyAcquisitionComplete(buffer, length, true, errorDetails);
+            int num = (int)NativeApi.SpDownloadClose(_handle);
+            _handle = IntPtr.Zero;
+            _pendingCallback = null;
+            NotifyAcquisitionComplete(buffer, length, true, errorDetails);
         }
 
         private void SynchronousDownload()
@@ -54,7 +54,7 @@ namespace Microsoft.Iris.OS
             IntPtr num1 = IntPtr.Zero;
             uint num2 = 0;
             string errorDetails = null;
-            IntPtr file = Win32Api.CreateFile(this._filePath, 2147483648U, 1U, IntPtr.Zero, 3U, 0U, IntPtr.Zero);
+            IntPtr file = Win32Api.CreateFile(_filePath, 2147483648U, 1U, IntPtr.Zero, 3U, 0U, IntPtr.Zero);
             if (file == Win32Api.INVALID_HANDLE_VALUE)
             {
                 errorDetails = string.Format("File not found: '{0}'", _filePath);
@@ -75,16 +75,16 @@ namespace Microsoft.Iris.OS
             }
             if (file != IntPtr.Zero)
                 Win32Api.CloseHandle(file);
-            this.NotifyAcquisitionComplete(num1, num2, true, errorDetails);
+            NotifyAcquisitionComplete(num1, num2, true, errorDetails);
         }
 
         protected override void CancelAcquisition()
         {
-            if (!(this._handle != IntPtr.Zero))
+            if (!(_handle != IntPtr.Zero))
                 return;
-            int num = (int)NativeApi.SpDownloadClose(this._handle);
-            this._handle = IntPtr.Zero;
-            this._pendingCallback = null;
+            int num = (int)NativeApi.SpDownloadClose(_handle);
+            _handle = IntPtr.Zero;
+            _pendingCallback = null;
         }
     }
 }

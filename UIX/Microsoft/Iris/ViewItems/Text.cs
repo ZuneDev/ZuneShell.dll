@@ -74,27 +74,27 @@ namespace Microsoft.Iris.ViewItems
 
         public Text()
         {
-            this.Layout = this;
-            this._font = s_defaultFont;
-            this._textColor = Color.Black;
-            this._textHighlightColor = Color.White;
-            this._backHighlightColor = Color.Black;
-            this._scale = 1f;
-            this._fadeSize = 32f;
-            this._maxLines = int.MaxValue;
-            this._passwordChar = '•';
-            this._lineAlignment = LineAlignment.Near;
-            this._richTextRasterizer = SharedNonOversampledRasterizer;
-            this._renderingHelper = new TextFlowRenderingHelper();
-            this.ContributesToWidth = true;
-            this.TextFitsWidth = true;
-            this.TextFitsHeight = true;
-            this.SetClipped(false);
-            this.MarkScaleDirty();
+            Layout = this;
+            _font = s_defaultFont;
+            _textColor = Color.Black;
+            _textHighlightColor = Color.White;
+            _backHighlightColor = Color.Black;
+            _scale = 1f;
+            _fadeSize = 32f;
+            _maxLines = int.MaxValue;
+            _passwordChar = '•';
+            _lineAlignment = LineAlignment.Near;
+            _richTextRasterizer = SharedNonOversampledRasterizer;
+            _renderingHelper = new TextFlowRenderingHelper();
+            ContributesToWidth = true;
+            TextFitsWidth = true;
+            TextFitsHeight = true;
+            SetClipped(false);
+            MarkScaleDirty();
             if (s_simpleTextMeasureAvailable)
                 return;
-            this.ClearBit(Bits.FastMeasurePossible);
-            this.SetBit(Bits.FastMeasureValid);
+            ClearBit(Bits.FastMeasurePossible);
+            SetBit(Bits.FastMeasureValid);
         }
 
         public Text(UIClass ownerUI)
@@ -104,17 +104,17 @@ namespace Microsoft.Iris.ViewItems
 
         protected override void OnDispose()
         {
-            this.DisposeFlow();
-            this.UnregisterFragmentUsage();
+            DisposeFlow();
+            UnregisterFragmentUsage();
             base.OnDispose();
         }
 
         private void DisposeFlow()
         {
-            if (this._flow == null)
+            if (_flow == null)
                 return;
-            this._flow.Dispose(this);
-            this._flow = null;
+            _flow.Dispose(this);
+            _flow = null;
         }
 
         public static void Initialize()
@@ -178,114 +178,114 @@ namespace Microsoft.Iris.ViewItems
 
         public string Content
         {
-            get => this._content;
+            get => _content;
             set
             {
-                if (!(this._content != value))
+                if (!(_content != value))
                     return;
                 if (value != null && value.Length > 3)
                 {
-                    this._content = value.TrimEnd(s_whitespaceChars);
+                    _content = value.TrimEnd(s_whitespaceChars);
                     char ch1 = value[value.Length - 1];
                     char ch2 = value[value.Length - 2];
                     if (ch1 == ' ' && ch2 != ' ')
-                        this._content += (string)(object)ch1;
+                        _content += (string)(object)ch1;
                 }
                 else
-                    this._content = value;
-                this._parsedContent = null;
-                this._parsedContentMarkedRanges = null;
-                this.OnDisplayedContentChange();
-                this.FireNotification(NotificationID.Content);
+                    _content = value;
+                _parsedContent = null;
+                _parsedContentMarkedRanges = null;
+                OnDisplayedContentChange();
+                FireNotification(NotificationID.Content);
             }
         }
 
-        public void MarkScaleDirty() => this.SetBit(Bits.ScaleDirty);
+        public void MarkScaleDirty() => SetBit(Bits.ScaleDirty);
 
         private bool InMeasure
         {
-            get => this.GetBit(Bits.InMeasure);
-            set => this.SetBit(Bits.InMeasure, value);
+            get => GetBit(Bits.InMeasure);
+            set => SetBit(Bits.InMeasure, value);
         }
 
         public void OnDisplayedContentChange()
         {
-            if (this.InMeasure)
+            if (InMeasure)
                 return;
-            this.MarkTextLayoutInvalid();
-            this.MarkPaintInvalid();
-            this.ForceContentChange();
+            MarkTextLayoutInvalid();
+            MarkPaintInvalid();
+            ForceContentChange();
         }
 
         public Font Font
         {
-            get => this._font;
+            get => _font;
             set
             {
-                if (this._font == value)
+                if (_font == value)
                     return;
-                this._font = value;
-                this.MarkPaintInvalid();
-                this.MarkTextLayoutInvalid();
-                this.ForceContentChange();
-                this.FireNotification(NotificationID.Font);
+                _font = value;
+                MarkPaintInvalid();
+                MarkTextLayoutInvalid();
+                ForceContentChange();
+                FireNotification(NotificationID.Font);
             }
         }
 
         public Color Color
         {
-            get => this._textColor;
+            get => _textColor;
             set
             {
-                if (!(this._textColor != value))
+                if (!(_textColor != value))
                     return;
-                this._textColor = value;
-                if (this.KeepFlowAlive)
+                _textColor = value;
+                if (KeepFlowAlive)
                 {
-                    this.MarkPaintInvalid();
+                    MarkPaintInvalid();
                 }
                 else
                 {
-                    this.MarkLayoutInvalid();
-                    if (this.HasEverPainted)
-                        this.KeepFlowAlive = true;
+                    MarkLayoutInvalid();
+                    if (HasEverPainted)
+                        KeepFlowAlive = true;
                 }
-                this.FireNotification(NotificationID.Color);
+                FireNotification(NotificationID.Color);
             }
         }
 
         public Color HighlightColor
         {
-            get => this._backHighlightColor;
+            get => _backHighlightColor;
             set
             {
-                if (!(this._backHighlightColor != value))
+                if (!(_backHighlightColor != value))
                     return;
-                this._backHighlightColor = value;
-                this.MarkPaintInvalid();
-                this.FireNotification(NotificationID.HighlightColor);
+                _backHighlightColor = value;
+                MarkPaintInvalid();
+                FireNotification(NotificationID.HighlightColor);
             }
         }
 
         public Color TextHighlightColor
         {
-            get => this._textHighlightColor;
+            get => _textHighlightColor;
             set
             {
-                if (!(this.TextHighlightColor != value))
+                if (!(TextHighlightColor != value))
                     return;
-                this._textHighlightColor = value;
-                this.MarkPaintInvalid();
-                this.FireNotification(NotificationID.TextHighlightColor);
+                _textHighlightColor = value;
+                MarkPaintInvalid();
+                FireNotification(NotificationID.TextHighlightColor);
             }
         }
 
         public TextSharpness TextSharpness
         {
-            get => !this._richTextRasterizer.Oversample ? TextSharpness.Sharp : TextSharpness.Soft;
+            get => !_richTextRasterizer.Oversample ? TextSharpness.Sharp : TextSharpness.Soft;
             set
             {
-                if (this.TextSharpness == value)
+                if (TextSharpness == value)
                     return;
                 bool flag = false;
                 switch (value)
@@ -297,179 +297,179 @@ namespace Microsoft.Iris.ViewItems
                         flag = true;
                         break;
                 }
-                if (this._richTextRasterizer == s_sharedNonOversampledRasterizer && flag)
-                    this._richTextRasterizer = SharedOversampledRasterizer;
-                else if (this._richTextRasterizer == s_sharedOversampledRasterizer && !flag)
-                    this._richTextRasterizer = SharedNonOversampledRasterizer;
+                if (_richTextRasterizer == s_sharedNonOversampledRasterizer && flag)
+                    _richTextRasterizer = SharedOversampledRasterizer;
+                else if (_richTextRasterizer == s_sharedOversampledRasterizer && !flag)
+                    _richTextRasterizer = SharedNonOversampledRasterizer;
                 else
-                    this._richTextRasterizer.Oversample = flag;
-                this.MarkTextLayoutInvalid();
-                this.ForceContentChange();
-                this.FireNotification(NotificationID.TextSharpness);
+                    _richTextRasterizer.Oversample = flag;
+                MarkTextLayoutInvalid();
+                ForceContentChange();
+                FireNotification(NotificationID.TextSharpness);
             }
         }
 
         public bool WordWrap
         {
-            get => this.GetBit(Bits.WordWrap);
+            get => GetBit(Bits.WordWrap);
             set
             {
-                if (this.WordWrap == value)
+                if (WordWrap == value)
                     return;
-                this.SetBit(Bits.WordWrap, value);
+                SetBit(Bits.WordWrap, value);
                 if (value)
-                    this.KeepFlowAlive = true;
-                this.MarkPaintInvalid();
-                this.MarkTextLayoutInvalid();
-                this.UpdateWordWrapForExternalRasterizer();
-                this.FireNotification(NotificationID.WordWrap);
+                    KeepFlowAlive = true;
+                MarkPaintInvalid();
+                MarkTextLayoutInvalid();
+                UpdateWordWrapForExternalRasterizer();
+                FireNotification(NotificationID.WordWrap);
             }
         }
 
         public bool UsePasswordMask
         {
-            get => this.GetBit(Bits.PasswordMasked);
+            get => GetBit(Bits.PasswordMasked);
             set
             {
-                if (this.UsePasswordMask == value)
+                if (UsePasswordMask == value)
                     return;
-                this.SetBit(Bits.PasswordMasked, value);
-                this.MarkPaintInvalid();
-                this.MarkTextLayoutInvalid();
-                this.FireNotification(NotificationID.UsePasswordMask);
+                SetBit(Bits.PasswordMasked, value);
+                MarkPaintInvalid();
+                MarkTextLayoutInvalid();
+                FireNotification(NotificationID.UsePasswordMask);
             }
         }
 
         public char PasswordMask
         {
-            get => this._passwordChar;
+            get => _passwordChar;
             set
             {
                 if (_passwordChar == value)
                     return;
-                this._passwordChar = value;
-                if (this.UsePasswordMask)
+                _passwordChar = value;
+                if (UsePasswordMask)
                 {
-                    this.MarkPaintInvalid();
-                    this.MarkTextLayoutInvalid();
+                    MarkPaintInvalid();
+                    MarkTextLayoutInvalid();
                 }
-                this.FireNotification(NotificationID.PasswordMask);
+                FireNotification(NotificationID.PasswordMask);
             }
         }
 
         public int MaximumLines
         {
-            get => this._maxLines;
+            get => _maxLines;
             set
             {
-                if (this._maxLines == value)
+                if (_maxLines == value)
                     return;
-                this._maxLines = value;
-                this.MarkPaintInvalid();
-                this.MarkTextLayoutInvalid();
-                this.FireNotification(NotificationID.MaximumLines);
+                _maxLines = value;
+                MarkPaintInvalid();
+                MarkTextLayoutInvalid();
+                FireNotification(NotificationID.MaximumLines);
             }
         }
 
         public LineAlignment LineAlignment
         {
-            get => this._lineAlignment;
+            get => _lineAlignment;
             set
             {
-                if (this._lineAlignment == value)
+                if (_lineAlignment == value)
                     return;
-                this._lineAlignment = value;
-                this.MarkPaintInvalid();
-                this.MarkTextLayoutInvalid();
-                this.FireNotification(NotificationID.LineAlignment);
+                _lineAlignment = value;
+                MarkPaintInvalid();
+                MarkTextLayoutInvalid();
+                FireNotification(NotificationID.LineAlignment);
             }
         }
 
         public float LineSpacing
         {
-            get => !this.GetBit(Bits.LineSpacingSet) ? 0.0f : this._lineSpacing;
+            get => !GetBit(Bits.LineSpacingSet) ? 0.0f : _lineSpacing;
             set
             {
                 if (LineSpacing == (double)value)
                     return;
-                this._lineSpacing = value;
-                this.SetBit(Bits.LineSpacingSet);
-                this.MarkPaintInvalid();
-                this.MarkTextLayoutInvalid();
-                this.FireNotification(NotificationID.LineSpacing);
+                _lineSpacing = value;
+                SetBit(Bits.LineSpacingSet);
+                MarkPaintInvalid();
+                MarkTextLayoutInvalid();
+                FireNotification(NotificationID.LineSpacing);
             }
         }
 
         public float CharacterSpacing
         {
-            get => !this.GetBit(Bits.CharacterSpacingSet) ? 0.0f : this._characterSpacing;
+            get => !GetBit(Bits.CharacterSpacingSet) ? 0.0f : _characterSpacing;
             set
             {
                 if (CharacterSpacing == (double)value)
                     return;
-                this._characterSpacing = value;
-                this.SetBit(Bits.CharacterSpacingSet);
-                this.MarkPaintInvalid();
-                this.MarkTextLayoutInvalid();
-                this.FireNotification(NotificationID.CharacterSpacing);
+                _characterSpacing = value;
+                SetBit(Bits.CharacterSpacingSet);
+                MarkPaintInvalid();
+                MarkTextLayoutInvalid();
+                FireNotification(NotificationID.CharacterSpacing);
             }
         }
 
         public bool EnableKerning
         {
-            get => this.GetBit(Bits.EnableKerningSet) && this._enableKerning;
+            get => GetBit(Bits.EnableKerningSet) && _enableKerning;
             set
             {
-                if (this.EnableKerning == value)
+                if (EnableKerning == value)
                     return;
-                this._enableKerning = value;
-                this.SetBit(Bits.EnableKerningSet);
-                this.MarkPaintInvalid();
-                this.MarkTextLayoutInvalid();
-                this.FireNotification(NotificationID.EnableKerning);
+                _enableKerning = value;
+                SetBit(Bits.EnableKerningSet);
+                MarkPaintInvalid();
+                MarkTextLayoutInvalid();
+                FireNotification(NotificationID.EnableKerning);
             }
         }
 
         public float FadeSize
         {
-            get => this._fadeSize;
+            get => _fadeSize;
             set
             {
                 if (_fadeSize == (double)value)
                     return;
-                this._fadeSize = value;
-                this.InvalidateGradients();
-                this.FireNotification(NotificationID.FadeSize);
+                _fadeSize = value;
+                InvalidateGradients();
+                FireNotification(NotificationID.FadeSize);
             }
         }
 
         public TextStyle Style
         {
-            get => this._textStyle;
+            get => _textStyle;
             set
             {
-                if (this._textStyle == value)
+                if (_textStyle == value)
                     return;
-                this._textStyle = value;
-                this.MarkPaintInvalid();
-                this.MarkTextLayoutInvalid();
-                this.ForceContentChange();
-                this.FireNotification(NotificationID.Style);
+                _textStyle = value;
+                MarkPaintInvalid();
+                MarkTextLayoutInvalid();
+                ForceContentChange();
+                FireNotification(NotificationID.Style);
             }
         }
 
         public IDictionary NamedStyles
         {
-            get => this._namedStyles;
+            get => _namedStyles;
             set
             {
-                if (this._namedStyles == value)
+                if (_namedStyles == value)
                     return;
-                this._namedStyles = value;
-                this.MarkPaintInvalid();
-                this.MarkTextLayoutInvalid();
-                this.ForceContentChange();
-                this.FireNotification(NotificationID.NamedStyles);
+                _namedStyles = value;
+                MarkPaintInvalid();
+                MarkTextLayoutInvalid();
+                ForceContentChange();
+                FireNotification(NotificationID.NamedStyles);
             }
         }
 
@@ -477,25 +477,25 @@ namespace Microsoft.Iris.ViewItems
 
         public bool DisableIme
         {
-            get => this._disableIme;
+            get => _disableIme;
             set
             {
-                if (this._disableIme == value)
+                if (_disableIme == value)
                     return;
-                this._disableIme = value;
-                this.FireNotification(NotificationID.DisableIme);
+                _disableIme = value;
+                FireNotification(NotificationID.DisableIme);
             }
         }
 
-        public Rectangle LastLineBounds => this._flow != null ? this._flow.GetLastLineBounds(this._lineAlignmentOffset) : new Rectangle(this._textSize);
+        public Rectangle LastLineBounds => _flow != null ? _flow.GetLastLineBounds(_lineAlignmentOffset) : new Rectangle(_textSize);
 
         public int NumberOfLines
         {
             get
             {
-                if (this._flow == null)
+                if (_flow == null)
                     return 1;
-                return this._flow.Count < 1 ? 0 : this._flow[this._flow.Count - 1].Line;
+                return _flow.Count < 1 ? 0 : _flow[_flow.Count - 1].Line;
             }
         }
 
@@ -503,64 +503,64 @@ namespace Microsoft.Iris.ViewItems
         {
             get
             {
-                if (this._flow == null)
+                if (_flow == null)
                     return 1;
-                return this._flow.FirstFitRunOnFinalLine == null ? 0 : this._flow.FirstFitRunOnFinalLine.Line;
+                return _flow.FirstFitRunOnFinalLine == null ? 0 : _flow.FirstFitRunOnFinalLine.Line;
             }
         }
 
         public bool ContributesToWidth
         {
-            get => this.GetBit(Bits.ContributesToWidth);
+            get => GetBit(Bits.ContributesToWidth);
             set
             {
-                if (this.ContributesToWidth == value)
+                if (ContributesToWidth == value)
                     return;
-                this.SetBit(Bits.ContributesToWidth, value);
-                this.FireNotification(NotificationID.ContributesToWidth);
-                this.MarkLayoutInvalid();
+                SetBit(Bits.ContributesToWidth, value);
+                FireNotification(NotificationID.ContributesToWidth);
+                MarkLayoutInvalid();
             }
         }
 
         public TextBounds BoundsType
         {
-            get => this._boundsType;
+            get => _boundsType;
             set
             {
-                if (this._boundsType == value)
+                if (_boundsType == value)
                     return;
-                this._boundsType = value;
-                this.MarkLayoutInvalid();
-                this.FireNotification(NotificationID.BoundsType);
+                _boundsType = value;
+                MarkLayoutInvalid();
+                FireNotification(NotificationID.BoundsType);
             }
         }
 
-        public bool Clipped => this.GetBit(Bits.Clipped);
+        public bool Clipped => GetBit(Bits.Clipped);
 
         private void SetClipped(bool value)
         {
-            if (this.GetBit(Bits.Clipped) == value)
+            if (GetBit(Bits.Clipped) == value)
                 return;
-            this.SetBit(Bits.Clipped, value);
-            this.FireNotification(NotificationID.Clipped);
+            SetBit(Bits.Clipped, value);
+            FireNotification(NotificationID.Clipped);
         }
 
         public RichText ExternalRasterizer
         {
             set
             {
-                if (this._richTextRasterizer == value)
+                if (_richTextRasterizer == value)
                     return;
-                bool oversample = this._richTextRasterizer.Oversample;
-                this._richTextRasterizer = value;
+                bool oversample = _richTextRasterizer.Oversample;
+                _richTextRasterizer = value;
                 if (value != null)
                 {
-                    this._richTextRasterizer.Oversample = oversample;
-                    this.MarkScaleDirty();
+                    _richTextRasterizer.Oversample = oversample;
+                    MarkScaleDirty();
                 }
                 else
-                    this._richTextRasterizer = !oversample ? SharedNonOversampledRasterizer : SharedOversampledRasterizer;
-                this.MarkTextLayoutInvalid();
+                    _richTextRasterizer = !oversample ? SharedNonOversampledRasterizer : SharedOversampledRasterizer;
+                MarkTextLayoutInvalid();
             }
         }
 
@@ -568,79 +568,79 @@ namespace Microsoft.Iris.ViewItems
         {
             set
             {
-                if (this._externalEditingHandler == value)
+                if (_externalEditingHandler == value)
                     return;
-                this._externalEditingHandler = value;
-                this.UpdateWordWrapForExternalRasterizer();
+                _externalEditingHandler = value;
+                UpdateWordWrapForExternalRasterizer();
             }
         }
 
         private void UpdateWordWrapForExternalRasterizer()
         {
-            if (this._externalEditingHandler == null)
+            if (_externalEditingHandler == null)
                 return;
-            this._externalEditingHandler.WordWrap = this.WordWrap;
+            _externalEditingHandler.WordWrap = WordWrap;
         }
 
         public ItemAlignment DefaultChildAlignment => ItemAlignment.Default;
 
-        public bool IsViewDependent(ViewItem node) => this.GetBit(Bits.ViewDependent);
+        public bool IsViewDependent(ViewItem node) => GetBit(Bits.ViewDependent);
 
         public void GetInitialChildrenRequests(out int more) => more = 0;
 
         Size ILayout.Measure(ILayoutNode layoutNode, Size constraint)
         {
             Size zero = Size.Zero;
-            this.InMeasure = true;
-            LineAlignment alignment = RichText.ReverseAlignment(this._lineAlignment, this.UISession.IsRtl);
-            if (!this.TextLayoutInvalid && this._flow != null && (!this.WordWrap && alignment == LineAlignment.Near) && (this.TextFitsWidth && constraint.Width >= this._textSize.Width && (this.TextFitsHeight && constraint.Height >= this._textSize.Height)))
+            InMeasure = true;
+            LineAlignment alignment = RichText.ReverseAlignment(_lineAlignment, UISession.IsRtl);
+            if (!TextLayoutInvalid && _flow != null && (!WordWrap && alignment == LineAlignment.Near) && (TextFitsWidth && constraint.Width >= _textSize.Width && (TextFitsHeight && constraint.Height >= _textSize.Height)))
             {
-                Size size = Size.Min(this._textSize, constraint);
-                this.InMeasure = false;
+                Size size = Size.Min(_textSize, constraint);
+                InMeasure = false;
                 return size;
             }
             int boundingWidth = constraint.Width;
-            if (!this.ContributesToWidth)
+            if (!ContributesToWidth)
             {
                 boundingWidth = 16777215;
                 layoutNode.LayoutContributesToWidth = false;
             }
-            this.MeasureText(boundingWidth, constraint.Height, alignment);
-            if (alignment != LineAlignment.Near && this._flow.Bounds.Width < boundingWidth && this._flow.Bounds.Height >= 0)
-                this.MeasureText(this._flow.Bounds.Width, this._flow.Bounds.Height, alignment);
+            MeasureText(boundingWidth, constraint.Height, alignment);
+            if (alignment != LineAlignment.Near && _flow.Bounds.Width < boundingWidth && _flow.Bounds.Height >= 0)
+                MeasureText(_flow.Bounds.Width, _flow.Bounds.Height, alignment);
             bool flag1 = false;
             bool flag2 = false;
-            if (this._flow.Count > 0)
+            if (_flow.Count > 0)
             {
-                Size naturalSize = this.GetNaturalSize();
+                Size naturalSize = GetNaturalSize();
                 flag1 = naturalSize.Width > boundingWidth;
                 flag2 = naturalSize.Height > constraint.Height;
             }
             int x = 0;
             int y = 0;
-            if (this._flow.Bounds.Left < 0)
-                x = -this._flow.Bounds.Left;
-            if (this._flow.Bounds.Top < 0)
-                y = -this._flow.Bounds.Top;
+            if (_flow.Bounds.Left < 0)
+                x = -_flow.Bounds.Left;
+            if (_flow.Bounds.Top < 0)
+                y = -_flow.Bounds.Top;
             Point point1 = new Point(x, y);
-            this.ClipToHeight = false;
+            ClipToHeight = false;
             int num1 = -1;
             int num2 = 0;
             int val1_1 = 0;
             int val1_2 = 0;
-            int num3 = this.MaximumLines;
+            int num3 = MaximumLines;
             if (num3 == 0)
                 num3 = int.MaxValue;
             int index;
-            for (index = 0; index < this._flow.Count; ++index)
+            for (index = 0; index < _flow.Count; ++index)
             {
-                TextRun run = this._flow[index];
+                TextRun run = _flow[index];
                 if (run.Line > num3)
                 {
                     flag2 = true;
                     break;
                 }
-                if (this.BoundsType != TextBounds.Full)
+                if (BoundsType != TextBounds.Full)
                 {
                     if (run.Line != num1)
                     {
@@ -651,128 +651,128 @@ namespace Microsoft.Iris.ViewItems
                     }
                     Point offsetPoint = point1;
                     offsetPoint.Y -= num2;
-                    if ((this.BoundsType & TextBounds.AlignToAscender) != TextBounds.Full)
+                    if ((BoundsType & TextBounds.AlignToAscender) != TextBounds.Full)
                     {
                         val1_1 = Math.Max(val1_1, run.AscenderInset);
                         offsetPoint.Y -= run.AscenderInset;
                     }
-                    if ((this.BoundsType & TextBounds.AlignToBaseline) != TextBounds.Full)
+                    if ((BoundsType & TextBounds.AlignToBaseline) != TextBounds.Full)
                         val1_2 = Math.Max(val1_2, run.BaselineInset);
                     run.ApplyOffset(offsetPoint);
                 }
-                int num4 = (this.BoundsType & TextBounds.AlignToBaseline) != TextBounds.Full ? run.BaselineInset : 0;
+                int num4 = (BoundsType & TextBounds.AlignToBaseline) != TextBounds.Full ? run.BaselineInset : 0;
                 if (run.LayoutBounds.Bottom - num4 > constraint.Height)
                 {
                     if (run.Line == 1)
-                        this.ClipToHeight = true;
+                        ClipToHeight = true;
                     else
                         break;
                 }
-                this._flow.AddFit(run);
+                _flow.AddFit(run);
             }
-            this._lastVisibleRun = index - 1;
-            this.TextFitsWidth = this.WordWrap || !flag1;
-            this.TextFitsHeight = !flag2;
-            if (!this.TextFitsHeight && this._flow.HasVisibleRuns)
+            _lastVisibleRun = index - 1;
+            TextFitsWidth = WordWrap || !flag1;
+            TextFitsHeight = !flag2;
+            if (!TextFitsHeight && _flow.HasVisibleRuns)
             {
-                this._lastLineExtentLeft = _flow.FirstFitRunOnFinalLine.LayoutBounds.Left;
-                this._lastLineExtentRight = _flow.LastFitRun.LayoutBounds.Right;
+                _lastLineExtentLeft = _flow.FirstFitRunOnFinalLine.LayoutBounds.Left;
+                _lastLineExtentRight = _flow.LastFitRun.LayoutBounds.Right;
             }
             else
-                this._lastLineExtentLeft = this._lastLineExtentRight = 0.0f;
-            this.InvalidateGradients();
-            if (this.UpdateFragmentsAfterLayout)
+                _lastLineExtentLeft = _lastLineExtentRight = 0.0f;
+            InvalidateGradients();
+            if (UpdateFragmentsAfterLayout)
                 ((ViewItem)layoutNode).MarkLayoutOutputDirty(true);
-            Point point2 = new Point(this._flow.Bounds.Location.X + point1.X, this._flow.Bounds.Location.Y + point1.Y);
-            this._textSize = new Size(this._flow.Bounds.Width + point2.X, this._flow.FitBounds.Height + point2.Y - (val1_1 + val1_2));
-            Size constraint1 = Size.Min(this._textSize, constraint);
+            Point point2 = new Point(_flow.Bounds.Location.X + point1.X, _flow.Bounds.Location.Y + point1.Y);
+            _textSize = new Size(_flow.Bounds.Width + point2.X, _flow.FitBounds.Height + point2.Y - (val1_1 + val1_2));
+            Size constraint1 = Size.Min(_textSize, constraint);
             DefaultLayout.Measure(layoutNode, constraint1);
-            this.FireNotification(NotificationID.LastLineBounds);
-            this.InMeasure = false;
+            FireNotification(NotificationID.LastLineBounds);
+            InMeasure = false;
             return constraint1;
         }
 
         void ILayout.Arrange(ILayoutNode layoutNode, LayoutSlot slot)
         {
-            this._slotSize = slot.Bounds;
-            if (!this.ContributesToWidth)
-                this.TextFitsWidth = this._textSize.Width <= slot.Bounds.Width;
-            this._lineAlignmentOffset = 0;
-            if (this.TextFitsWidth)
+            _slotSize = slot.Bounds;
+            if (!ContributesToWidth)
+                TextFitsWidth = _textSize.Width <= slot.Bounds.Width;
+            _lineAlignmentOffset = 0;
+            if (TextFitsWidth)
             {
-                if (this.LineAlignment == LineAlignment.Center)
-                    this._lineAlignmentOffset = (this._slotSize.Width - this._textSize.Width) / 2;
-                else if (this.LineAlignment == LineAlignment.Far)
-                    this._lineAlignmentOffset = this._slotSize.Width - this._textSize.Width;
+                if (LineAlignment == LineAlignment.Center)
+                    _lineAlignmentOffset = (_slotSize.Width - _textSize.Width) / 2;
+                else if (LineAlignment == LineAlignment.Far)
+                    _lineAlignmentOffset = _slotSize.Width - _textSize.Width;
             }
             bool flag1 = false;
-            if (this._flow != null)
+            if (_flow != null)
             {
                 Rectangle view = slot.View;
                 Size size = view.Size;
-                bool flag2 = this._textSize.Width > size.Width || this._textSize.Height > size.Height;
-                flag1 = ((flag1 ? 1 : 0) | (!this.KeepFlowAlive ? 0 : (flag2 ? 1 : 0))) != 0;
-                this._flow.ResetVisibleTracking();
+                bool flag2 = _textSize.Width > size.Width || _textSize.Height > size.Height;
+                flag1 = ((flag1 ? 1 : 0) | (!KeepFlowAlive ? 0 : (flag2 ? 1 : 0))) != 0;
+                _flow.ResetVisibleTracking();
                 if (flag1)
                 {
                     bool flag3 = false;
-                    for (int index = 0; index <= this._lastVisibleRun; ++index)
+                    for (int index = 0; index <= _lastVisibleRun; ++index)
                     {
-                        TextRun textRun = this._flow[index];
+                        TextRun textRun = _flow[index];
                         bool flag4 = !textRun.LayoutBounds.IsEmpty && textRun.LayoutBounds.IntersectsWith(view);
                         if (!flag3 && textRun.Visible != flag4)
                         {
-                            this.MarkPaintInvalid();
-                            this.UpdateFragmentsAfterLayout = true;
+                            MarkPaintInvalid();
+                            UpdateFragmentsAfterLayout = true;
                             flag3 = true;
                         }
                         if (flag4)
-                            this._flow.AddVisible(index);
+                            _flow.AddVisible(index);
                         else
                             textRun.Visible = false;
                     }
                 }
                 else
                 {
-                    for (int index = 0; index <= this._lastVisibleRun; ++index)
+                    for (int index = 0; index <= _lastVisibleRun; ++index)
                     {
-                        TextRun textRun = this._flow[index];
+                        TextRun textRun = _flow[index];
                         if (!textRun.LayoutBounds.IsEmpty)
                         {
                             if (!textRun.Visible)
-                                this.MarkPaintInvalid();
-                            this._flow.AddVisible(index);
+                                MarkPaintInvalid();
+                            _flow.AddVisible(index);
                         }
                     }
                 }
             }
-            this.KeepFlowAlive |= flag1;
-            this.SetBit(Bits.ViewDependent, flag1);
+            KeepFlowAlive |= flag1;
+            SetBit(Bits.ViewDependent, flag1);
             DefaultLayout.Arrange(layoutNode, slot);
         }
 
         private Size GetNaturalSize()
         {
-            if (!this.FastMeasurePossible)
-                return this._richTextRasterizer.GetNaturalBounds();
-            return this._flow.Count == 1 ? this._flow[0].NaturalExtent : Size.Zero;
+            if (!FastMeasurePossible)
+                return _richTextRasterizer.GetNaturalBounds();
+            return _flow.Count == 1 ? _flow[0].NaturalExtent : Size.Zero;
         }
 
         private void MeasureText(int boundingWidth, int boundingHeight, LineAlignment alignment)
         {
-            if (this.FastMeasurePossible)
-                this.DoFastMeasure(boundingWidth, boundingHeight, alignment);
+            if (FastMeasurePossible)
+                DoFastMeasure(boundingWidth, boundingHeight, alignment);
             else
-                this.DoRichEditMeasure(boundingWidth, boundingHeight, alignment);
+                DoRichEditMeasure(boundingWidth, boundingHeight, alignment);
         }
 
         private void DoFastMeasure(int boundingWidth, int boundingHeight, LineAlignment alignment)
         {
-            TextStyle effectiveTextStyle = this.GetEffectiveTextStyle();
+            TextStyle effectiveTextStyle = GetEffectiveTextStyle();
             Size constraint = new Size(boundingWidth, boundingHeight);
-            this.DisposeFlow();
-            this._flow = SharedSimpleTextRasterizer.Measure(this._content, alignment, effectiveTextStyle, constraint);
-            this._flow.DeclareOwner(this);
+            DisposeFlow();
+            _flow = SharedSimpleTextRasterizer.Measure(_content, alignment, effectiveTextStyle, constraint);
+            _flow.DeclareOwner(this);
         }
 
         private void DoRichEditMeasure(int boundingWidth, int boundingHeight, LineAlignment alignment)
@@ -782,65 +782,65 @@ namespace Microsoft.Iris.ViewItems
             float width = Math.Min(boundingWidth, 4095f);
             float height = Math.Min(boundingHeight, 8191f);
             measureParams.SetConstraint(new SizeF(width, height));
-            TextStyle effectiveTextStyle = this.GetEffectiveTextStyle();
+            TextStyle effectiveTextStyle = GetEffectiveTextStyle();
             string empty = string.Empty;
             string content;
-            if (!this.UsedForEditing)
+            if (!UsedForEditing)
             {
-                content = this.Content;
-                if (this._namedStyles != null)
+                content = Content;
+                if (_namedStyles != null)
                 {
-                    if (this._parsedContent == null && content != null)
+                    if (_parsedContent == null && content != null)
                     {
-                        this._parsedContentMarkedRanges = new ArrayList();
-                        this._parsedContent = ParseMarkedUpText(content, this._parsedContentMarkedRanges);
+                        _parsedContentMarkedRanges = new ArrayList();
+                        _parsedContent = ParseMarkedUpText(content, _parsedContentMarkedRanges);
                     }
-                    content = this._parsedContent;
+                    content = _parsedContent;
                 }
-                measureParams.SetWordWrap(this.WordWrap);
+                measureParams.SetWordWrap(WordWrap);
             }
             else
-                content = this._richTextRasterizer.SimpleContent;
-            measureParams.SetEditMode(this.UsedForEditing);
-            if (this.UsePasswordMask)
-                measureParams.SetPasswordChar(this._passwordChar);
+                content = _richTextRasterizer.SimpleContent;
+            measureParams.SetEditMode(UsedForEditing);
+            if (UsePasswordMask)
+                measureParams.SetPasswordChar(_passwordChar);
             measureParams.SetFormat(alignment, effectiveTextStyle);
-            if ((this._boundsType & TextBounds.TrimLeftSideBearing) != TextBounds.Full && this._lineAlignment == LineAlignment.Near)
+            if ((_boundsType & TextBounds.TrimLeftSideBearing) != TextBounds.Full && _lineAlignment == LineAlignment.Near)
                 measureParams.TrimLeftSideBearing();
-            if (!this.UsedForEditing || this.GetBit(Bits.ScaleDirty))
+            if (!UsedForEditing || GetBit(Bits.ScaleDirty))
             {
-                this.ClearBit(Bits.ScaleDirty);
-                measureParams.SetScale(this._scale);
+                ClearBit(Bits.ScaleDirty);
+                measureParams.SetScale(_scale);
             }
-            if (this._parsedContent != null)
-                this.ApplyContentFormatting(ref measureParams);
-            this.DisposeFlow();
-            this._flow = this._richTextRasterizer.Measure(content, ref measureParams);
+            if (_parsedContent != null)
+                ApplyContentFormatting(ref measureParams);
+            DisposeFlow();
+            _flow = _richTextRasterizer.Measure(content, ref measureParams);
             measureParams.Dispose();
-            this._flow.DeclareOwner(this);
-            this.UpdateFragmentsAfterLayout = true;
+            _flow.DeclareOwner(this);
+            UpdateFragmentsAfterLayout = true;
         }
 
         private bool FastMeasurePossible
         {
             get
             {
-                if (!this.GetBit(Bits.FastMeasureValid))
+                if (!GetBit(Bits.FastMeasureValid))
                 {
-                    bool flag = this.UsingSharedRasterizer && !this.WordWrap && (this._namedStyles == null && _scale == 1.0) && (this.TextSharpness == TextSharpness.Sharp && !this.UsePasswordMask) && !this.Zone.Session.IsRtl;
+                    bool flag = UsingSharedRasterizer && !WordWrap && (_namedStyles == null && _scale == 1.0) && (TextSharpness == TextSharpness.Sharp && !UsePasswordMask) && !Zone.Session.IsRtl;
                     if (flag)
-                        flag = SharedSimpleTextRasterizer.CanMeasure(this.Content, this.GetEffectiveTextStyle());
-                    this.SetBit(Bits.FastMeasurePossible, flag);
-                    this.SetBit(Bits.FastMeasureValid);
+                        flag = SharedSimpleTextRasterizer.CanMeasure(Content, GetEffectiveTextStyle());
+                    SetBit(Bits.FastMeasurePossible, flag);
+                    SetBit(Bits.FastMeasureValid);
                 }
-                return this.GetBit(Bits.FastMeasurePossible);
+                return GetBit(Bits.FastMeasurePossible);
             }
         }
 
         internal TextStyle GetEffectiveTextStyle()
         {
             TextStyle textStyle = new TextStyle();
-            Font font = this._font ?? s_defaultFont;
+            Font font = _font ?? s_defaultFont;
             textStyle.FontFace = font.FontName;
             textStyle.FontSize = font.FontSize;
             if (font.AltFontSize != (double)font.FontSize)
@@ -851,45 +851,45 @@ namespace Microsoft.Iris.ViewItems
                 textStyle.Italic = true;
             if ((font.FontStyle & FontStyles.Underline) != FontStyles.None)
                 textStyle.Underline = true;
-            textStyle.Color = this._textColor;
-            if (this.GetBit(Bits.LineSpacingSet))
-                textStyle.LineSpacing = this.LineSpacing;
-            if (this.GetBit(Bits.CharacterSpacingSet))
-                textStyle.CharacterSpacing = this.CharacterSpacing;
-            if (this.GetBit(Bits.EnableKerningSet))
-                textStyle.EnableKerning = this.EnableKerning;
-            if (this._textStyle != null)
-                textStyle.Add(this._textStyle);
+            textStyle.Color = _textColor;
+            if (GetBit(Bits.LineSpacingSet))
+                textStyle.LineSpacing = LineSpacing;
+            if (GetBit(Bits.CharacterSpacingSet))
+                textStyle.CharacterSpacing = CharacterSpacing;
+            if (GetBit(Bits.EnableKerningSet))
+                textStyle.EnableKerning = EnableKerning;
+            if (_textStyle != null)
+                textStyle.Add(_textStyle);
             return textStyle;
         }
 
         protected override void OnLayoutComplete(ViewItem sender)
         {
             ArrayList arrayList = null;
-            if (this.UpdateFragmentsAfterLayout)
+            if (UpdateFragmentsAfterLayout)
             {
-                if (this._namedStyles != null)
-                    arrayList = this.AnnotateFragments();
+                if (_namedStyles != null)
+                    arrayList = AnnotateFragments();
                 bool flag = false;
-                if (this._fragments != null || arrayList != null)
-                    flag = this.TextLayoutInvalid || !AreFragmentListsEquivalent(_fragments, arrayList);
+                if (_fragments != null || arrayList != null)
+                    flag = TextLayoutInvalid || !AreFragmentListsEquivalent(_fragments, arrayList);
                 if (flag)
                 {
-                    this.UnregisterFragmentUsage();
-                    this._fragments = arrayList;
-                    this.RegisterFragmentUsage();
-                    this.FireNotification(NotificationID.Fragments);
+                    UnregisterFragmentUsage();
+                    _fragments = arrayList;
+                    RegisterFragmentUsage();
+                    FireNotification(NotificationID.Fragments);
                 }
-                else if (this._fragments != null)
+                else if (_fragments != null)
                 {
-                    for (int index = 0; index < this._fragments.Count; ++index)
-                        ((TextFragment)this._fragments[index]).NotifyPaintInvalid();
+                    for (int index = 0; index < _fragments.Count; ++index)
+                        ((TextFragment)_fragments[index]).NotifyPaintInvalid();
                 }
-                this.ResetMarkedRanges();
-                this.UpdateFragmentsAfterLayout = false;
+                ResetMarkedRanges();
+                UpdateFragmentsAfterLayout = false;
             }
-            this.SetClipped(!this.TextFitsWidth || !this.TextFitsHeight);
-            this.TextLayoutInvalid = false;
+            SetClipped(!TextFitsWidth || !TextFitsHeight);
+            TextLayoutInvalid = false;
             base.OnLayoutComplete(sender);
         }
 
@@ -909,16 +909,16 @@ namespace Microsoft.Iris.ViewItems
 
         private void ApplyContentFormatting(ref TextMeasureParams measureParams)
         {
-            if (this._parsedContentMarkedRanges == null || this._namedStyles == null)
+            if (_parsedContentMarkedRanges == null || _namedStyles == null)
                 return;
-            if (!this.UsingSharedRasterizer)
+            if (!UsingSharedRasterizer)
             {
                 ErrorManager.ReportError("Text: Complex formatting unsupported on text that is editable");
             }
             else
             {
-                measureParams.AllocateFormattedRanges(this._parsedContentMarkedRanges.Count, this._namedStyles.Count);
-                TextStyle[] array = new TextStyle[this._namedStyles.Count];
+                measureParams.AllocateFormattedRanges(_parsedContentMarkedRanges.Count, _namedStyles.Count);
+                TextStyle[] array = new TextStyle[_namedStyles.Count];
                 int index1 = 0;
                 foreach (TextStyle style in _namedStyles.Values)
                 {
@@ -927,12 +927,12 @@ namespace Microsoft.Iris.ViewItems
                     ++index1;
                 }
                 TextMeasureParams.FormattedRange[] formattedRanges = measureParams.FormattedRanges;
-                for (int index2 = 0; index2 < this._parsedContentMarkedRanges.Count; ++index2)
+                for (int index2 = 0; index2 < _parsedContentMarkedRanges.Count; ++index2)
                 {
-                    Microsoft.Iris.ViewItems.Text.MarkedRange contentMarkedRange = (Microsoft.Iris.ViewItems.Text.MarkedRange)this._parsedContentMarkedRanges[index2];
-                    if (this._namedStyles.Contains(contentMarkedRange.tagName))
+                    Microsoft.Iris.ViewItems.Text.MarkedRange contentMarkedRange = (Microsoft.Iris.ViewItems.Text.MarkedRange)_parsedContentMarkedRanges[index2];
+                    if (_namedStyles.Contains(contentMarkedRange.tagName))
                     {
-                        TextStyle namedStyle = this._namedStyles[contentMarkedRange.tagName] as TextStyle;
+                        TextStyle namedStyle = _namedStyles[contentMarkedRange.tagName] as TextStyle;
                         contentMarkedRange.cachedStyle = namedStyle;
                         if (namedStyle != null)
                         {
@@ -951,18 +951,18 @@ namespace Microsoft.Iris.ViewItems
         private ArrayList AnnotateFragments()
         {
             ArrayList arrayList = null;
-            if (this._parsedContentMarkedRanges != null && this._flow != null)
+            if (_parsedContentMarkedRanges != null && _flow != null)
             {
-                for (int firstVisibleIndex = this._flow.FirstVisibleIndex; firstVisibleIndex <= this._flow.LastVisibleIndex; ++firstVisibleIndex)
+                for (int firstVisibleIndex = _flow.FirstVisibleIndex; firstVisibleIndex <= _flow.LastVisibleIndex; ++firstVisibleIndex)
                 {
-                    TextRun textRun = this._flow[firstVisibleIndex];
+                    TextRun textRun = _flow[firstVisibleIndex];
                     textRun.IsFragment = false;
                     if (textRun.RunColor.A != byte.MaxValue)
                     {
                         Microsoft.Iris.ViewItems.Text.MarkedRange markedRange = null;
-                        for (int index = 0; index < this._parsedContentMarkedRanges.Count; ++index)
+                        for (int index = 0; index < _parsedContentMarkedRanges.Count; ++index)
                         {
-                            Microsoft.Iris.ViewItems.Text.MarkedRange contentMarkedRange = (Microsoft.Iris.ViewItems.Text.MarkedRange)this._parsedContentMarkedRanges[index];
+                            Microsoft.Iris.ViewItems.Text.MarkedRange contentMarkedRange = (Microsoft.Iris.ViewItems.Text.MarkedRange)_parsedContentMarkedRanges[index];
                             if (contentMarkedRange.RangeIDAsColor == textRun.RunColor)
                             {
                                 textRun.OverrideColor = contentMarkedRange.GetEffectiveColor(Color.Transparent);
@@ -980,7 +980,7 @@ namespace Microsoft.Iris.ViewItems
                                     arrayList = new ArrayList();
                                 arrayList.Add(markedRange.fragment);
                             }
-                            markedRange.fragment.InternalRuns.Add(new TextRunData(textRun, this.IsOnLastLine(textRun), this, this._lineAlignmentOffset));
+                            markedRange.fragment.InternalRuns.Add(new TextRunData(textRun, IsOnLastLine(textRun), this, _lineAlignmentOffset));
                         }
                     }
                 }
@@ -990,9 +990,9 @@ namespace Microsoft.Iris.ViewItems
 
         private void RegisterFragmentUsage()
         {
-            if (this._fragments == null)
+            if (_fragments == null)
                 return;
-            foreach (TextFragment fragment in this._fragments)
+            foreach (TextFragment fragment in _fragments)
             {
                 if (fragment.Runs != null)
                 {
@@ -1004,9 +1004,9 @@ namespace Microsoft.Iris.ViewItems
 
         private void UnregisterFragmentUsage()
         {
-            if (this._fragments == null)
+            if (_fragments == null)
                 return;
-            foreach (TextFragment fragment in this._fragments)
+            foreach (TextFragment fragment in _fragments)
             {
                 if (fragment.Runs != null)
                 {
@@ -1014,15 +1014,15 @@ namespace Microsoft.Iris.ViewItems
                         run.Run.UnregisterUsage(this);
                 }
             }
-            this._fragments = null;
+            _fragments = null;
         }
 
         private void ResetMarkedRanges()
         {
-            if (this._parsedContentMarkedRanges == null)
+            if (_parsedContentMarkedRanges == null)
                 return;
-            for (int index = 0; index < this._parsedContentMarkedRanges.Count; ++index)
-                ((Microsoft.Iris.ViewItems.Text.MarkedRange)this._parsedContentMarkedRanges[index]).fragment = null;
+            for (int index = 0; index < _parsedContentMarkedRanges.Count; ++index)
+                ((Microsoft.Iris.ViewItems.Text.MarkedRange)_parsedContentMarkedRanges[index]).fragment = null;
         }
 
         private static string ParseMarkedUpText(string content, ArrayList markedRanges)
@@ -1107,18 +1107,18 @@ namespace Microsoft.Iris.ViewItems
           ref IGradient gradientMultiLine)
         {
             bool flag1 = true;
-            if (this.TextFitsWidth && this.TextFitsHeight)
+            if (TextFitsWidth && TextFitsHeight)
                 flag1 = false;
-            float fadeSize = this.FadeSize;
+            float fadeSize = FadeSize;
             if (!flag1 || fadeSize <= 0.0)
                 return;
-            if (!this.WordWrap)
+            if (!WordWrap)
             {
-                if (this.TextFitsWidth)
+                if (TextFitsWidth)
                     return;
                 float num = 0.0f;
                 float flPosition = 0.0f;
-                LineAlignment lineAlignment = this.LineAlignment;
+                LineAlignment lineAlignment = LineAlignment;
                 if (lineAlignment == LineAlignment.Center)
                 {
                     flPosition = num = fadeSize;
@@ -1126,14 +1126,14 @@ namespace Microsoft.Iris.ViewItems
                 else
                 {
                     bool flag2 = lineAlignment == LineAlignment.Near;
-                    if (this.UISession.IsRtl)
+                    if (UISession.IsRtl)
                         flag2 = !flag2;
                     if (flag2)
                         num = fadeSize;
                     else
                         flPosition = fadeSize;
                 }
-                IGradient gradient = this.UISession.RenderSession.CreateGradient(this);
+                IGradient gradient = UISession.RenderSession.CreateGradient(this);
                 gradient.Orientation = Orientation.Horizontal;
                 if (flPosition > 0.0)
                 {
@@ -1143,19 +1143,19 @@ namespace Microsoft.Iris.ViewItems
                 if (num > 0.0)
                 {
                     gradient.AddValue(_slotSize.Width - num, 1f, RelativeSpace.Min);
-                    gradient.AddValue(this._slotSize.Width + 1, 0.0f, RelativeSpace.Min);
+                    gradient.AddValue(_slotSize.Width + 1, 0.0f, RelativeSpace.Min);
                 }
                 gradientClipLeftRight = gradient;
             }
             else
             {
-                if (this.TextFitsHeight)
+                if (TextFitsHeight)
                     return;
                 float flPosition1 = 0.0f;
                 float flPosition2 = 0.0f;
-                if (!this.UISession.IsRtl)
+                if (!UISession.IsRtl)
                 {
-                    if (this._flow.LastFitRun != null)
+                    if (_flow.LastFitRun != null)
                     {
                         flPosition2 = _flow.LastFitRun.LayoutBounds.Width;
                         flPosition1 = flPosition2 - fadeSize;
@@ -1166,7 +1166,7 @@ namespace Microsoft.Iris.ViewItems
                     flPosition2 = 0.0f;
                     flPosition1 = flPosition2 + fadeSize;
                 }
-                IGradient gradient = this.UISession.RenderSession.CreateGradient(this);
+                IGradient gradient = UISession.RenderSession.CreateGradient(this);
                 gradient.ColorMask = new ColorF(byte.MaxValue, 0, 0, 0);
                 gradient.Orientation = Orientation.Horizontal;
                 gradient.AddValue(flPosition1, 1f, RelativeSpace.Min);
@@ -1175,14 +1175,14 @@ namespace Microsoft.Iris.ViewItems
             }
         }
 
-        private bool UsingSharedRasterizer => !this._richTextRasterizer.HasCallbacks;
+        private bool UsingSharedRasterizer => !_richTextRasterizer.HasCallbacks;
 
-        private bool UsedForEditing => this._externalEditingHandler != null;
+        private bool UsedForEditing => _externalEditingHandler != null;
 
         private void ResetCachedScaleState()
         {
-            this.IgnoreEffectiveScaleChanges = false;
-            this._recentScaleChanges = null;
+            IgnoreEffectiveScaleChanges = false;
+            _recentScaleChanges = null;
         }
 
         private void CreateVisuals(IVisualContainer topVisual, IRenderSession renderSession)
@@ -1190,23 +1190,23 @@ namespace Microsoft.Iris.ViewItems
             VisualOrder nOrder = VisualOrder.First;
             IGradient gradientClipLeftRight = null;
             IGradient gradientMultiLine = null;
-            this.CreateFadeGradientsHelper(ref gradientClipLeftRight, ref gradientMultiLine);
-            TextRun textRun = this.UISession.IsRtl ? this._flow.FirstFitRunOnFinalLine : this._flow.LastFitRun;
-            for (int firstVisibleIndex = this._flow.FirstVisibleIndex; firstVisibleIndex <= this._flow.LastVisibleIndex; ++firstVisibleIndex)
+            CreateFadeGradientsHelper(ref gradientClipLeftRight, ref gradientMultiLine);
+            TextRun textRun = UISession.IsRtl ? _flow.FirstFitRunOnFinalLine : _flow.LastFitRun;
+            for (int firstVisibleIndex = _flow.FirstVisibleIndex; firstVisibleIndex <= _flow.LastVisibleIndex; ++firstVisibleIndex)
             {
-                TextRun run = this._flow[firstVisibleIndex];
+                TextRun run = _flow[firstVisibleIndex];
                 if (run.Visible && !run.IsFragment)
                 {
-                    Color effectiveColor = this.GetEffectiveColor(run);
-                    IImage imageForRun = GetImageForRun(this.UISession, run, effectiveColor);
+                    Color effectiveColor = GetEffectiveColor(run);
+                    IImage imageForRun = GetImageForRun(UISession, run, effectiveColor);
                     if (imageForRun != null)
                     {
                         float x = run.RenderBounds.Left + _lineAlignmentOffset;
                         if (run.Highlighted)
                         {
-                            RectangleF lineBound = (RectangleF)this._flow.LineBounds[run.Line - 1];
+                            RectangleF lineBound = (RectangleF)_flow.LineBounds[run.Line - 1];
                             ISprite sprite = renderSession.CreateSprite(this, this);
-                            sprite.Effect = EffectManager.CreateColorFillEffect(this, this._backHighlightColor);
+                            sprite.Effect = EffectManager.CreateColorFillEffect(this, _backHighlightColor);
                             sprite.Effect.UnregisterUsage(this);
                             sprite.Position = new Vector3(x, lineBound.Top, 0.0f);
                             sprite.Size = new Vector2(run.RenderBounds.Width, lineBound.Height);
@@ -1215,7 +1215,7 @@ namespace Microsoft.Iris.ViewItems
                             run.HighlightSprite = sprite;
                         }
                         ISprite sprite1 = renderSession.CreateSprite(this, this);
-                        sprite1.Effect = EffectClass.CreateImageRenderEffectWithFallback(this.Effect, this, imageForRun);
+                        sprite1.Effect = EffectClass.CreateImageRenderEffectWithFallback(Effect, this, imageForRun);
                         sprite1.Effect.UnregisterUsage(this);
                         sprite1.Position = new Vector3(x, run.RenderBounds.Top, 0.0f);
                         sprite1.Size = new Vector2(run.RenderBounds.Width, run.RenderBounds.Height);
@@ -1236,99 +1236,99 @@ namespace Microsoft.Iris.ViewItems
 
         private Color GetEffectiveColor(TextRun run)
         {
-            Color color = this._textColor;
+            Color color = _textColor;
             if (run.Highlighted)
-                color = this._textHighlightColor;
+                color = _textHighlightColor;
             else if (run.OverrideColor != Color.Transparent)
                 color = run.OverrideColor;
-            else if (run.Link && this._externalEditingHandler != null && this._externalEditingHandler.LinkColor != Color.Transparent)
-                color = this._externalEditingHandler.LinkColor;
-            else if (this._textStyle != null && this._textStyle.HasColor)
-                color = this._textStyle.Color;
+            else if (run.Link && _externalEditingHandler != null && _externalEditingHandler.LinkColor != Color.Transparent)
+                color = _externalEditingHandler.LinkColor;
+            else if (_textStyle != null && _textStyle.HasColor)
+                color = _textStyle.Color;
             return color;
         }
 
         protected override void DisposeAllContent()
         {
             base.DisposeAllContent();
-            this.DisposeContent(true);
+            DisposeContent(true);
         }
 
         protected virtual void DisposeContent(bool removeFromTree)
         {
             if (removeFromTree)
-                this.VisualContainer.RemoveAllChildren();
-            this.Effect?.DoneWithRenderEffects(this);
-            if (this._flow == null)
+                VisualContainer.RemoveAllChildren();
+            Effect?.DoneWithRenderEffects(this);
+            if (_flow == null)
                 return;
-            this._flow.ClearSprites();
+            _flow.ClearSprites();
         }
 
         protected override void OnPaint(bool visible)
         {
-            this.DisposeAllContent();
+            DisposeAllContent();
             base.OnPaint(visible);
-            this.ResetCachedScaleState();
-            if (this._flow == null)
+            ResetCachedScaleState();
+            if (_flow == null)
             {
-                if (this._content == null && this.UsingSharedRasterizer)
+                if (_content == null && UsingSharedRasterizer)
                     return;
-                this.MarkTextLayoutInvalid();
+                MarkTextLayoutInvalid();
             }
             else
             {
-                this.CreateVisuals(this.VisualContainer, this.UISession.RenderSession);
-                if (!this.KeepFlowAlive)
-                    this.DisposeFlow();
-                this.HasEverPainted = true;
+                CreateVisuals(VisualContainer, UISession.RenderSession);
+                if (!KeepFlowAlive)
+                    DisposeFlow();
+                HasEverPainted = true;
             }
         }
 
-        private bool IsOnLastLine(TextRun run) => this._flow.IsOnLastLine(run);
+        private bool IsOnLastLine(TextRun run) => _flow.IsOnLastLine(run);
 
         private void InvalidateGradients()
         {
-            this._renderingHelper.InvalidateGradients();
-            this.MarkPaintInvalid();
+            _renderingHelper.InvalidateGradients();
+            MarkPaintInvalid();
         }
 
         protected override void OnEffectiveScaleChange()
         {
-            float y = this.ComputeEffectiveScale().Y;
-            if (!this.ScaleDifferenceIsGreaterThanThreshold(y, this._scale))
+            float y = ComputeEffectiveScale().Y;
+            if (!ScaleDifferenceIsGreaterThanThreshold(y, _scale))
                 return;
-            Vector<float> vector = this._recentScaleChanges;
-            if (!this.IgnoreEffectiveScaleChanges && vector != null)
+            Vector<float> vector = _recentScaleChanges;
+            if (!IgnoreEffectiveScaleChanges && vector != null)
             {
                 foreach (float newScale in vector)
                 {
-                    if (!this.ScaleDifferenceIsGreaterThanThreshold(y, newScale))
+                    if (!ScaleDifferenceIsGreaterThanThreshold(y, newScale))
                     {
-                        this.IgnoreEffectiveScaleChanges = true;
+                        IgnoreEffectiveScaleChanges = true;
                         break;
                     }
                 }
             }
-            if (this.IgnoreEffectiveScaleChanges)
+            if (IgnoreEffectiveScaleChanges)
                 return;
             if (vector == null)
                 vector = new Vector<float>(4);
             vector.Add(y);
-            this._recentScaleChanges = vector;
-            this.MarkTextLayoutInvalid();
-            this._scale = y;
-            this.MarkScaleDirty();
+            _recentScaleChanges = vector;
+            MarkTextLayoutInvalid();
+            _scale = y;
+            MarkScaleDirty();
         }
 
         private bool ScaleDifferenceIsGreaterThanThreshold(float oldScale, float newScale) => Math.Abs(oldScale - newScale) > 0.00999999977648258;
 
         private void MarkTextLayoutInvalid()
         {
-            this.TextLayoutInvalid = true;
+            TextLayoutInvalid = true;
             if (s_simpleTextMeasureAvailable)
-                this.ClearBit(Bits.FastMeasureValid);
-            this.DisposeFlow();
-            this.MarkLayoutInvalid();
+                ClearBit(Bits.FastMeasureValid);
+            DisposeFlow();
+            MarkLayoutInvalid();
         }
 
         internal static IImage GetImageForRun(UISession session, TextRun run, Color textColor)
@@ -1352,10 +1352,10 @@ namespace Microsoft.Iris.ViewItems
         {
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.Append(base.ToString());
-            if (this._content != null)
+            if (_content != null)
             {
                 stringBuilder.Append(" (Content=\"");
-                stringBuilder.Append(this._content);
+                stringBuilder.Append(_content);
                 stringBuilder.Append("\")");
             }
             return stringBuilder.ToString();
@@ -1363,55 +1363,55 @@ namespace Microsoft.Iris.ViewItems
 
         private bool TextFitsWidth
         {
-            get => this.GetBit(Bits.TextFitsWidth);
-            set => this.SetBit(Bits.TextFitsWidth, value);
+            get => GetBit(Bits.TextFitsWidth);
+            set => SetBit(Bits.TextFitsWidth, value);
         }
 
         private bool TextFitsHeight
         {
-            get => this.GetBit(Bits.TextFitsHeight);
-            set => this.SetBit(Bits.TextFitsHeight, value);
+            get => GetBit(Bits.TextFitsHeight);
+            set => SetBit(Bits.TextFitsHeight, value);
         }
 
         private bool ClipToHeight
         {
-            get => this.GetBit(Bits.ClipToHeight);
-            set => this.SetBit(Bits.ClipToHeight, value);
+            get => GetBit(Bits.ClipToHeight);
+            set => SetBit(Bits.ClipToHeight, value);
         }
 
         private bool KeepFlowAlive
         {
-            get => this.GetBit(Bits.KeepFlowAlive);
-            set => this.SetBit(Bits.KeepFlowAlive, value);
+            get => GetBit(Bits.KeepFlowAlive);
+            set => SetBit(Bits.KeepFlowAlive, value);
         }
 
         private bool HasEverPainted
         {
-            get => this.GetBit(Bits.HasEverPainted);
-            set => this.SetBit(Bits.HasEverPainted, value);
+            get => GetBit(Bits.HasEverPainted);
+            set => SetBit(Bits.HasEverPainted, value);
         }
 
         private bool TextLayoutInvalid
         {
-            get => this.GetBit(Bits.TextLayoutInvalid);
-            set => this.SetBit(Bits.TextLayoutInvalid, value);
+            get => GetBit(Bits.TextLayoutInvalid);
+            set => SetBit(Bits.TextLayoutInvalid, value);
         }
 
         private bool UpdateFragmentsAfterLayout
         {
-            get => this.GetBit(Bits.UpdateFragmentsAfterLayout);
-            set => this.SetBit(Bits.UpdateFragmentsAfterLayout, value);
+            get => GetBit(Bits.UpdateFragmentsAfterLayout);
+            set => SetBit(Bits.UpdateFragmentsAfterLayout, value);
         }
 
         private bool IgnoreEffectiveScaleChanges
         {
-            get => this.GetBit(Bits.IgnoreEffectiveScaleChanges);
-            set => this.SetBit(Bits.IgnoreEffectiveScaleChanges, value);
+            get => GetBit(Bits.IgnoreEffectiveScaleChanges);
+            set => SetBit(Bits.IgnoreEffectiveScaleChanges, value);
         }
 
-        private bool GetBit(Microsoft.Iris.ViewItems.Text.Bits lookupBit) => ((Microsoft.Iris.ViewItems.Text.Bits)this._bits & lookupBit) != 0;
+        private bool GetBit(Microsoft.Iris.ViewItems.Text.Bits lookupBit) => ((Microsoft.Iris.ViewItems.Text.Bits)_bits & lookupBit) != 0;
 
-        private void SetBit(Microsoft.Iris.ViewItems.Text.Bits changeBit, bool value) => this._bits = value ? (uint)((Microsoft.Iris.ViewItems.Text.Bits)this._bits | changeBit) : (uint)((Microsoft.Iris.ViewItems.Text.Bits)this._bits & ~changeBit);
+        private void SetBit(Microsoft.Iris.ViewItems.Text.Bits changeBit, bool value) => _bits = value ? (uint)((Microsoft.Iris.ViewItems.Text.Bits)_bits | changeBit) : (uint)((Microsoft.Iris.ViewItems.Text.Bits)_bits & ~changeBit);
 
         private void SetBit(Microsoft.Iris.ViewItems.Text.Bits changeBit)
         {
@@ -1437,13 +1437,13 @@ namespace Microsoft.Iris.ViewItems
             public TextFragment fragment;
             private static uint s_rangeIDIndicator = 1073741824;
 
-            public Color RangeIDAsColor => new Color(s_rangeIDIndicator | this.rangeID);
+            public Color RangeIDAsColor => new Color(s_rangeIDIndicator | rangeID);
 
             public Color GetEffectiveColor(Color defaultColor)
             {
-                if (this.cachedStyle != null && this.cachedStyle.HasColor)
-                    return this.cachedStyle.Color;
-                return this.parentRange != null ? this.parentRange.GetEffectiveColor(defaultColor) : defaultColor;
+                if (cachedStyle != null && cachedStyle.HasColor)
+                    return cachedStyle.Color;
+                return parentRange != null ? parentRange.GetEffectiveColor(defaultColor) : defaultColor;
             }
 
             public bool IsInFragment

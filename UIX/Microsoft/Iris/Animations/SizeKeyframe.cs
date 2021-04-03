@@ -18,7 +18,7 @@ namespace Microsoft.Iris.Animations
           Vector2 baseValueVector,
           ref AnimationArgs args)
         {
-            if (this.RelativeTo == RelativeTo.Final)
+            if (RelativeTo == RelativeTo.Final)
                 baseValueVector += args.NewSize;
             return baseValueVector;
         }

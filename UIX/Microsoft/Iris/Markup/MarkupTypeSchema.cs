@@ -58,18 +58,18 @@ namespace Microsoft.Iris.Markup
         public MarkupTypeSchema(MarkupLoadResult owner, string name)
           : base(owner)
         {
-            this._owner = owner;
-            this._name = name;
+            _owner = owner;
+            _name = name;
         }
 
         public abstract MarkupType MarkupType { get; }
 
-        public void SetBaseType(MarkupTypeSchema baseType) => this._baseType = baseType;
+        public void SetBaseType(MarkupTypeSchema baseType) => _baseType = baseType;
 
         public object LoadData
         {
-            get => this._loadData;
-            set => this._loadData = value;
+            get => _loadData;
+            set => _loadData = value;
         }
 
         public virtual void BuildProperties()
@@ -78,44 +78,44 @@ namespace Microsoft.Iris.Markup
 
         public void Seal()
         {
-            if (this._sealed)
+            if (_sealed)
                 return;
-            this.SealWorker();
+            SealWorker();
         }
 
         protected virtual void SealWorker()
         {
-            this._sealed = true;
-            this._loadData = null;
-            if (this._baseType == null)
+            _sealed = true;
+            _loadData = null;
+            if (_baseType == null)
             {
-                this._typeDepth = 1U;
+                _typeDepth = 1U;
             }
             else
             {
-                this._baseType.Seal();
-                this._typeDepth = this._baseType._typeDepth + 1U;
+                _baseType.Seal();
+                _typeDepth = _baseType._typeDepth + 1U;
             }
         }
 
-        public bool Sealed => this._sealed;
+        public bool Sealed => _sealed;
 
         protected override void OnDispose()
         {
             base.OnDispose();
-            foreach (DisposableObject property in this._properties)
+            foreach (DisposableObject property in _properties)
                 property.Dispose(this);
-            foreach (DisposableObject method in this._methods)
+            foreach (DisposableObject method in _methods)
                 method.Dispose(this);
-            foreach (DisposableObject virtualMethod in this._virtualMethods)
+            foreach (DisposableObject virtualMethod in _virtualMethods)
                 virtualMethod.Dispose(this);
         }
 
-        public override string Name => this._name;
+        public override string Name => _name;
 
         public override string AlternateName => (string)null;
 
-        public override TypeSchema Base => this._baseType == null ? this.DefaultBase : _baseType;
+        public override TypeSchema Base => _baseType == null ? DefaultBase : _baseType;
 
         public override bool Contractual => false;
 
@@ -123,7 +123,7 @@ namespace Microsoft.Iris.Markup
 
         public override bool IsNativeAssignableFrom(TypeSchema checkSchema) => false;
 
-        public MarkupTypeSchema MarkupTypeBase => this._baseType;
+        public MarkupTypeSchema MarkupTypeBase => _baseType;
 
         protected abstract TypeSchema DefaultBase { get; }
 
@@ -165,43 +165,43 @@ namespace Microsoft.Iris.Markup
             return obj;
         }
 
-        protected object RunAtOffset(IMarkupTypeBase markupType, uint scriptOffset) => this.RunAtOffset(markupType, scriptOffset, new ParameterContext());
+        protected object RunAtOffset(IMarkupTypeBase markupType, uint scriptOffset) => RunAtOffset(markupType, scriptOffset, new ParameterContext());
 
         public override ConstructorSchema FindConstructor(TypeSchema[] parameters) => (ConstructorSchema)null;
 
         public override PropertySchema FindProperty(string name)
         {
-            for (int index = 0; index < this._properties.Length; ++index)
+            for (int index = 0; index < _properties.Length; ++index)
             {
-                PropertySchema property = this._properties[index];
+                PropertySchema property = _properties[index];
                 if (name == property.Name)
                     return property;
             }
             return null;
         }
 
-        public override PropertySchema[] Properties => this._properties;
+        public override PropertySchema[] Properties => _properties;
 
-        public override MethodSchema[] Methods => this._methods;
+        public override MethodSchema[] Methods => _methods;
 
         public override MethodSchema FindMethod(string name, TypeSchema[] parameters)
         {
             MethodSchema methodSchema = null;
-            if (this._methodLookupTable != null)
-                this._methodLookupTable.TryGetValue(new MethodSignatureKey(name, parameters), out methodSchema);
+            if (_methodLookupTable != null)
+                _methodLookupTable.TryGetValue(new MethodSignatureKey(name, parameters), out methodSchema);
             return methodSchema;
         }
 
-        public MethodSchema[] VirtualMethods => this._virtualMethods;
+        public MethodSchema[] VirtualMethods => _virtualMethods;
 
         public override bool HasInitializer => true;
 
         protected void InitializeInstance(IMarkupTypeBase classBase)
         {
-            if (!this.InitializePropertiesLocalsInputContent(classBase, true))
+            if (!InitializePropertiesLocalsInputContent(classBase, true))
                 return;
-            this.RefreshAllListeners(classBase);
-            if (!this.RunInitialEvaluates(classBase))
+            RefreshAllListeners(classBase);
+            if (!RunInitialEvaluates(classBase))
                 return;
             classBase.NotifyInitialized();
         }
@@ -213,19 +213,19 @@ namespace Microsoft.Iris.Markup
             ErrorManager.EnterContext(this);
             try
             {
-                if (!this.RunInitializeScript(classBase, this._initializePropertiesOffset))
+                if (!RunInitializeScript(classBase, _initializePropertiesOffset))
                     return false;
-                if (this._baseType != null)
+                if (_baseType != null)
                 {
-                    bool shouldInitializeContent1 = shouldInitializeContent && this._initializeContentOffset == uint.MaxValue;
-                    if (!this._baseType.InitializePropertiesLocalsInputContent(classBase, shouldInitializeContent1))
+                    bool shouldInitializeContent1 = shouldInitializeContent && _initializeContentOffset == uint.MaxValue;
+                    if (!_baseType.InitializePropertiesLocalsInputContent(classBase, shouldInitializeContent1))
                         return false;
                 }
-                if (!this.RunInitializeScript(classBase, this._initializeLocalsInputOffset))
+                if (!RunInitializeScript(classBase, _initializeLocalsInputOffset))
                     return false;
                 if (shouldInitializeContent)
                 {
-                    if (!this.RunInitializeScript(classBase, this._initializeContentOffset))
+                    if (!RunInitializeScript(classBase, _initializeContentOffset))
                         return false;
                 }
             }
@@ -238,16 +238,16 @@ namespace Microsoft.Iris.Markup
 
         private void RefreshAllListeners(IMarkupTypeBase scriptHost)
         {
-            if (this._baseType != null)
-                this._baseType.RefreshAllListeners(scriptHost);
-            this.RunOffsets(scriptHost, this._refreshGroupOffsets, true);
+            if (_baseType != null)
+                _baseType.RefreshAllListeners(scriptHost);
+            RunOffsets(scriptHost, _refreshGroupOffsets, true);
         }
 
-        protected virtual bool RunInitialEvaluates(IMarkupTypeBase scriptHost) => (this._baseType == null || this._baseType.RunInitialEvaluates(scriptHost)) && this.RunOffsets(scriptHost, this._initialEvaluateOffsets);
+        protected virtual bool RunInitialEvaluates(IMarkupTypeBase scriptHost) => (_baseType == null || _baseType.RunInitialEvaluates(scriptHost)) && RunOffsets(scriptHost, _initialEvaluateOffsets);
 
-        public bool RunFinalEvaluates(IMarkupTypeBase scriptHost) => (this._baseType == null || this._baseType.RunFinalEvaluates(scriptHost)) && this.RunOffsets(scriptHost, this._finalEvaluateOffsets);
+        public bool RunFinalEvaluates(IMarkupTypeBase scriptHost) => (_baseType == null || _baseType.RunFinalEvaluates(scriptHost)) && RunOffsets(scriptHost, _finalEvaluateOffsets);
 
-        private bool RunOffsets(IMarkupTypeBase scriptHost, uint[] scriptOffsets) => this.RunOffsets(scriptHost, scriptOffsets, false);
+        private bool RunOffsets(IMarkupTypeBase scriptHost, uint[] scriptOffsets) => RunOffsets(scriptHost, scriptOffsets, false);
 
         private bool RunOffsets(IMarkupTypeBase scriptHost, uint[] scriptOffsets, bool ignoreErrors)
         {
@@ -257,7 +257,7 @@ namespace Microsoft.Iris.Markup
                 ErrorManager.EnterContext(this, ignoreErrors);
                 foreach (uint scriptOffset in scriptOffsets)
                 {
-                    if (!this.RunInitializeScript(scriptHost, scriptOffset))
+                    if (!RunInitializeScript(scriptHost, scriptOffset))
                     {
                         flag = false;
                         break;
@@ -270,7 +270,7 @@ namespace Microsoft.Iris.Markup
 
         protected bool RunInitializeScript(IMarkupTypeBase scriptHost, uint scriptOffset)
         {
-            if (scriptOffset == uint.MaxValue || this.RunAtOffset(scriptHost, scriptOffset) != Interpreter.ScriptError || ErrorManager.IgnoringErrors)
+            if (scriptOffset == uint.MaxValue || RunAtOffset(scriptHost, scriptOffset) != Interpreter.ScriptError || ErrorManager.IgnoringErrors)
                 return true;
             ErrorManager.ReportWarning("Script runtime failure: Scripting errors have prevented '{0}' from properly initializing and will affect its operation", _name);
             return false;
@@ -309,81 +309,81 @@ namespace Microsoft.Iris.Markup
 
         public override int FindTypeHint => -1;
 
-        public SymbolReference[] SymbolReferenceTable => this._symbolReferenceTable;
+        public SymbolReference[] SymbolReferenceTable => _symbolReferenceTable;
 
         public SymbolRecord[] InheritableSymbolsTable
         {
             get
             {
-                if (this._inheritableSymbolsTable == null)
+                if (_inheritableSymbolsTable == null)
                 {
-                    if (this._addressOfInheritableSymbolsTable != IntPtr.Zero)
-                        CompiledMarkupLoader.DecodeInheritableSymbolTable(this, null, this._addressOfInheritableSymbolsTable);
+                    if (_addressOfInheritableSymbolsTable != IntPtr.Zero)
+                        CompiledMarkupLoader.DecodeInheritableSymbolTable(this, null, _addressOfInheritableSymbolsTable);
                     else
-                        this._inheritableSymbolsTable = SymbolRecord.EmptyList;
+                        _inheritableSymbolsTable = SymbolRecord.EmptyList;
                 }
-                return this._inheritableSymbolsTable;
+                return _inheritableSymbolsTable;
             }
         }
 
-        public uint TypeDepth => this._typeDepth;
+        public uint TypeDepth => _typeDepth;
 
-        public int TotalPropertiesAndLocalsCount => this._totalPropertiesAndLocalsCount;
+        public int TotalPropertiesAndLocalsCount => _totalPropertiesAndLocalsCount;
 
-        public uint InitializePropertiesOffset => this._initializePropertiesOffset;
+        public uint InitializePropertiesOffset => _initializePropertiesOffset;
 
-        public uint InitializeLocalsInputOffset => this._initializeLocalsInputOffset;
+        public uint InitializeLocalsInputOffset => _initializeLocalsInputOffset;
 
-        public uint InitializeContentOffset => this._initializeContentOffset;
+        public uint InitializeContentOffset => _initializeContentOffset;
 
-        public uint[] RefreshGroupOffsets => this._refreshGroupOffsets;
+        public uint[] RefreshGroupOffsets => _refreshGroupOffsets;
 
-        public uint[] InitialEvaluateOffsets => this._initialEvaluateOffsets;
+        public uint[] InitialEvaluateOffsets => _initialEvaluateOffsets;
 
-        public uint[] FinalEvaluateOffsets => this._finalEvaluateOffsets;
+        public uint[] FinalEvaluateOffsets => _finalEvaluateOffsets;
 
-        public uint ListenerCount => this._listenerCount;
+        public uint ListenerCount => _listenerCount;
 
-        public uint TotalListenerCount => this._listenerCount + (this._baseType == null ? 0U : this._baseType.TotalListenerCount);
+        public uint TotalListenerCount => _listenerCount + (_baseType == null ? 0U : _baseType.TotalListenerCount);
 
-        public uint EncodeScriptOffsetAsId(uint scriptOffset) => scriptOffset | this._typeDepth << 27;
+        public uint EncodeScriptOffsetAsId(uint scriptOffset) => scriptOffset | _typeDepth << 27;
 
-        public string LocallyUniqueId => this._typeDepth.ToString();
+        public string LocallyUniqueId => _typeDepth.ToString();
 
-        public void SetTypeDepth(uint typeDepth) => this._typeDepth = typeDepth;
+        public void SetTypeDepth(uint typeDepth) => _typeDepth = typeDepth;
 
-        public void SetPropertyList(PropertySchema[] properties) => this._properties = properties;
+        public void SetPropertyList(PropertySchema[] properties) => _properties = properties;
 
         public void SetMethodList(MethodSchema[] methods)
         {
-            this._methods = methods;
-            this._methodLookupTable = new Map<MethodSignatureKey, MethodSchema>(methods.Length);
-            foreach (MethodSchema method in this._methods)
-                this._methodLookupTable[new MethodSignatureKey(method.Name, method.ParameterTypes)] = method;
+            _methods = methods;
+            _methodLookupTable = new Map<MethodSignatureKey, MethodSchema>(methods.Length);
+            foreach (MethodSchema method in _methods)
+                _methodLookupTable[new MethodSignatureKey(method.Name, method.ParameterTypes)] = method;
         }
 
-        public void SetVirtualMethodList(MethodSchema[] virtualMethods) => this._virtualMethods = virtualMethods;
+        public void SetVirtualMethodList(MethodSchema[] virtualMethods) => _virtualMethods = virtualMethods;
 
-        public void SetSymbolReferenceTable(SymbolReference[] symbolTable) => this._symbolReferenceTable = symbolTable;
+        public void SetSymbolReferenceTable(SymbolReference[] symbolTable) => _symbolReferenceTable = symbolTable;
 
-        public void SetInheritableSymbolsTable(SymbolRecord[] symbolTable) => this._inheritableSymbolsTable = symbolTable;
+        public void SetInheritableSymbolsTable(SymbolRecord[] symbolTable) => _inheritableSymbolsTable = symbolTable;
 
-        public void SetAddressOfInheritableSymbolTable(IntPtr address) => this._addressOfInheritableSymbolsTable = address;
+        public void SetAddressOfInheritableSymbolTable(IntPtr address) => _addressOfInheritableSymbolsTable = address;
 
-        public void SetRefreshListenerGroupOffsets(uint[] refreshGroupOffsets) => this._refreshGroupOffsets = refreshGroupOffsets;
+        public void SetRefreshListenerGroupOffsets(uint[] refreshGroupOffsets) => _refreshGroupOffsets = refreshGroupOffsets;
 
-        public void SetInitialEvaluateOffsets(uint[] initialEvaluateOffsets) => this._initialEvaluateOffsets = initialEvaluateOffsets;
+        public void SetInitialEvaluateOffsets(uint[] initialEvaluateOffsets) => _initialEvaluateOffsets = initialEvaluateOffsets;
 
-        public void SetFinalEvaluateOffsets(uint[] finalEvaluateOffsets) => this._finalEvaluateOffsets = finalEvaluateOffsets;
+        public void SetFinalEvaluateOffsets(uint[] finalEvaluateOffsets) => _finalEvaluateOffsets = finalEvaluateOffsets;
 
-        public void SetListenerCount(uint listenerCount) => this._listenerCount = listenerCount;
+        public void SetListenerCount(uint listenerCount) => _listenerCount = listenerCount;
 
-        public void SetTotalPropertiesAndLocalsCount(int totalPropertiesAndLocalsCount) => this._totalPropertiesAndLocalsCount = totalPropertiesAndLocalsCount;
+        public void SetTotalPropertiesAndLocalsCount(int totalPropertiesAndLocalsCount) => _totalPropertiesAndLocalsCount = totalPropertiesAndLocalsCount;
 
-        public void SetInitializePropertiesOffset(uint offset) => this._initializePropertiesOffset = offset;
+        public void SetInitializePropertiesOffset(uint offset) => _initializePropertiesOffset = offset;
 
-        public void SetInitializeLocalsInputOffset(uint offset) => this._initializeLocalsInputOffset = offset;
+        public void SetInitializeLocalsInputOffset(uint offset) => _initializeLocalsInputOffset = offset;
 
-        public void SetInitializeContentOffset(uint offset) => this._initializeContentOffset = offset;
+        public void SetInitializeContentOffset(uint offset) => _initializeContentOffset = offset;
     }
 }

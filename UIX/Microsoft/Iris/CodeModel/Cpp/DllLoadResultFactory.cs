@@ -66,9 +66,9 @@ namespace Microsoft.Iris.CodeModel.Cpp
 
         private DllLoadResultFactory(string dllName)
         {
-            this._dllName = dllName;
-            int num = (int)NativeApi.SpLoadDll(this._dllName, out this._module);
-            if ((int)NativeApi.SpCreateDllLoadResultFactory(this._module, out this._schemaFactory) >= 0)
+            _dllName = dllName;
+            int num = (int)NativeApi.SpLoadDll(_dllName, out _module);
+            if ((int)NativeApi.SpCreateDllLoadResultFactory(_module, out _schemaFactory) >= 0)
                 return;
             ErrorManager.ReportError("Unable to create IUIXSchemaFactory from '{0}'", dllName);
         }
@@ -76,31 +76,31 @@ namespace Microsoft.Iris.CodeModel.Cpp
         protected override void OnDispose()
         {
             base.OnDispose();
-            s_dllFactoriesCache.Remove(this._dllName);
-            if (this._schemaFactory != IntPtr.Zero)
+            s_dllFactoriesCache.Remove(_dllName);
+            if (_schemaFactory != IntPtr.Zero)
             {
-                NativeApi.SpReleaseExternalObject(this._schemaFactory);
-                this._schemaFactory = IntPtr.Zero;
+                NativeApi.SpReleaseExternalObject(_schemaFactory);
+                _schemaFactory = IntPtr.Zero;
             }
-            if (!(this._module != IntPtr.Zero))
+            if (!(_module != IntPtr.Zero))
                 return;
-            NativeApi.SpSendDllSchemaUnloadNotification(this._module);
-            NativeApi.SpFreeDll(this._module);
-            this._module = IntPtr.Zero;
+            NativeApi.SpSendDllSchemaUnloadNotification(_module);
+            NativeApi.SpFreeDll(_module);
+            _module = IntPtr.Zero;
         }
 
         private DllLoadResult GetLoadResult(string fullUri, string qualifier)
         {
             DllLoadResult dllLoadResult = null;
             IntPtr loadResult = IntPtr.Zero;
-            if (this._schemaFactory != IntPtr.Zero)
+            if (_schemaFactory != IntPtr.Zero)
             {
-                if ((int)NativeApi.SpCreateDllLoadResult(this._schemaFactory, qualifier, out loadResult) < 0)
+                if ((int)NativeApi.SpCreateDllLoadResult(_schemaFactory, qualifier, out loadResult) < 0)
                     ErrorManager.ReportError("Unable to create IUIXSchema from '{0}'", fullUri);
                 else if (loadResult != IntPtr.Zero)
                 {
                     dllLoadResult = new DllLoadResult(this, loadResult, fullUri);
-                    this.RegisterUsage(dllLoadResult);
+                    RegisterUsage(dllLoadResult);
                 }
                 else
                     ErrorManager.ReportError("NULL object returned from {0}", "IUIXSchemaFactory::GetSchema");
@@ -112,7 +112,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
         {
             s_loadResultCache.Remove(loadResult.Uri);
             s_loadResultIDCache.Remove(loadResult.SchemaComponent);
-            this.UnregisterUsage(loadResult);
+            UnregisterUsage(loadResult);
         }
     }
 }

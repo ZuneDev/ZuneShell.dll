@@ -36,27 +36,27 @@ namespace Microsoft.Iris.Drawing
           bool antialiasEdges)
           : base(nineGrid, maximumSize, flippable, antialiasEdges)
         {
-            this.Source = uniqueID;
-            this._uniqueID = uniqueID;
-            this._imageSize = imageSize;
-            this._stride = stride;
-            this._format = format;
-            this._contentSize = imageSize;
-            int cbCopy = this._imageSize.Height * Math.Abs(stride);
-            this._length = (uint)cbCopy;
+            Source = uniqueID;
+            _uniqueID = uniqueID;
+            _imageSize = imageSize;
+            _stride = stride;
+            _format = format;
+            _contentSize = imageSize;
+            int cbCopy = _imageSize.Height * Math.Abs(stride);
+            _length = (uint)cbCopy;
             if (!takeOwnership)
             {
-                this._data = NativeApi.MemAlloc(this._length, false);
-                Memory.Copy(this._data, data, cbCopy);
+                _data = NativeApi.MemAlloc(_length, false);
+                Memory.Copy(_data, data, cbCopy);
             }
             else
-                this._data = data;
+                _data = data;
         }
 
         ~RawImage()
         {
-            FreeBuffer(this._data);
-            this._data = IntPtr.Zero;
+            FreeBuffer(_data);
+            _data = IntPtr.Zero;
         }
 
         internal static void FreeBuffer(IntPtr data)
@@ -70,15 +70,15 @@ namespace Microsoft.Iris.Drawing
         {
             ImageCache instance = ScavengeImageCache.Instance;
             ImageCacheItem imageCacheItem = null;
-            string str = this.GetHashCode().ToString();
-            if (this._cacheItemKey == null)
-                this._cacheItemKey = new RawImageItemKey(str);
+            string str = GetHashCode().ToString();
+            if (_cacheItemKey == null)
+                _cacheItemKey = new RawImageItemKey(str);
             else
                 imageCacheItem = instance.Lookup(_cacheItemKey);
             if (imageCacheItem == null)
             {
-                Size maxSize = ClampSize(this._maximumSize);
-                imageCacheItem = new RawImageItem(UISession.Default.RenderSession, this, str, this._data, this._length, this._imageSize, this._stride, this._format, maxSize, this.IsFlipped, this._antialiasEdges);
+                Size maxSize = ClampSize(_maximumSize);
+                imageCacheItem = new RawImageItem(UISession.Default.RenderSession, this, str, _data, _length, _imageSize, _stride, _format, maxSize, IsFlipped, _antialiasEdges);
                 instance.Add(_cacheItemKey, imageCacheItem);
             }
             needAsyncLoad = false;

@@ -16,32 +16,32 @@ namespace Microsoft.Iris.Animations
 
         public event EventHandler Completed;
 
-        public bool Playing => this._playing > 0;
+        public bool Playing => _playing > 0;
 
         internal void AssociateWithAnimationInstance(ActiveSequence anim)
         {
-            anim.AnimationCompleted += new EventHandler(this.OnAnimationCompleted);
-            ++this._playing;
-            if (this._playing != 1)
+            anim.AnimationCompleted += new EventHandler(OnAnimationCompleted);
+            ++_playing;
+            if (_playing != 1)
                 return;
-            this.FireNotification(NotificationID.Playing);
+            FireNotification(NotificationID.Playing);
         }
 
         internal void FireCompleted()
         {
-            if (this.Completed != null)
-                this.Completed(this, EventArgs.Empty);
-            this.FireNotification(NotificationID.Completed);
+            if (Completed != null)
+                Completed(this, EventArgs.Empty);
+            FireNotification(NotificationID.Completed);
         }
 
         private void OnAnimationCompleted(object sender, EventArgs args)
         {
-            ((ActiveSequence)sender).AnimationCompleted -= new EventHandler(this.OnAnimationCompleted);
-            --this._playing;
-            if (this._playing != 0)
+            ((ActiveSequence)sender).AnimationCompleted -= new EventHandler(OnAnimationCompleted);
+            --_playing;
+            if (_playing != 0)
                 return;
-            this.FireNotification(NotificationID.Playing);
-            this.FireCompleted();
+            FireNotification(NotificationID.Playing);
+            FireCompleted();
         }
     }
 }

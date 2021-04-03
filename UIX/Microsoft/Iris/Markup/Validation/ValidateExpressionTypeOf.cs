@@ -19,19 +19,19 @@ namespace Microsoft.Iris.Markup.Validation
           int column)
           : base(owner, line, column, ExpressionType.TypeOf)
         {
-            this._typeIdentifier = typeIdentifier;
+            _typeIdentifier = typeIdentifier;
         }
 
-        public ValidateTypeIdentifier TypeIdentifier => this._typeIdentifier;
+        public ValidateTypeIdentifier TypeIdentifier => _typeIdentifier;
 
         public override void Validate(TypeRestriction typeRestriction, ValidateContext context)
         {
-            if (this.Usage == ExpressionUsage.LValue)
-                this.ReportError("Expression cannot be used as the target an assignment (related symbol: '{0}')", "Operation");
-            this._typeIdentifier.Validate();
-            if (this._typeIdentifier.HasErrors)
-                this.MarkHasErrors();
-            this.DeclareEvaluationType(TypeSchemaDefinition.Type, typeRestriction);
+            if (Usage == ExpressionUsage.LValue)
+                ReportError("Expression cannot be used as the target an assignment (related symbol: '{0}')", "Operation");
+            _typeIdentifier.Validate();
+            if (_typeIdentifier.HasErrors)
+                MarkHasErrors();
+            DeclareEvaluationType(TypeSchemaDefinition.Type, typeRestriction);
         }
     }
 }

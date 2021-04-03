@@ -21,27 +21,27 @@ namespace Microsoft.Iris.ViewItems
         {
             if (visContainer == null)
                 return;
-            this.DisposeFadeGradients(visContainer);
-            textViewItem.CreateFadeGradientsHelper(ref this._gradientClipLeftRight, ref this._gradientMultiLine);
-            if (this._gradientClipLeftRight != null)
-                visContainer.AddGradient(this._gradientClipLeftRight);
-            if (this._gradientMultiLine == null)
+            DisposeFadeGradients(visContainer);
+            textViewItem.CreateFadeGradientsHelper(ref _gradientClipLeftRight, ref _gradientMultiLine);
+            if (_gradientClipLeftRight != null)
+                visContainer.AddGradient(_gradientClipLeftRight);
+            if (_gradientMultiLine == null)
                 return;
-            visContainer.AddGradient(this._gradientMultiLine);
+            visContainer.AddGradient(_gradientMultiLine);
         }
 
         private void DisposeFadeGradients(IVisualContainer visContainer)
         {
             visContainer.RemoveAllGradients();
-            if (this._gradientMultiLine != null)
+            if (_gradientMultiLine != null)
             {
-                this._gradientMultiLine.UnregisterUsage(this);
-                this._gradientMultiLine = null;
+                _gradientMultiLine.UnregisterUsage(this);
+                _gradientMultiLine = null;
             }
-            if (this._gradientClipLeftRight == null)
+            if (_gradientClipLeftRight == null)
                 return;
-            this._gradientClipLeftRight.UnregisterUsage(this);
-            this._gradientClipLeftRight = null;
+            _gradientClipLeftRight.UnregisterUsage(this);
+            _gradientClipLeftRight = null;
         }
     }
 }

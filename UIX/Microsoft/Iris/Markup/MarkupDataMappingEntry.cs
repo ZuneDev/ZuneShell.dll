@@ -15,26 +15,26 @@ namespace Microsoft.Iris.Markup
 
         public string Source
         {
-            get => this._source;
-            set => this._source = value;
+            get => _source;
+            set => _source = value;
         }
 
         public string Target
         {
-            get => this._target;
-            set => this._target = value;
+            get => _target;
+            set => _target = value;
         }
 
         public MarkupDataTypePropertySchema Property
         {
-            get => this._property;
-            set => this._property = value;
+            get => _property;
+            set => _property = value;
         }
 
         public object DefaultValue
         {
-            get => this._defaultValue;
-            set => this._defaultValue = value;
+            get => _defaultValue;
+            set => _defaultValue = value;
         }
     }
 }

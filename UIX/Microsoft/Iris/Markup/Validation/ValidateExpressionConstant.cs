@@ -25,8 +25,8 @@ namespace Microsoft.Iris.Markup.Validation
           int column)
           : base(owner, line, column, ExpressionType.Constant)
         {
-            this._constantInline = constantInline;
-            this._constantType = constantType;
+            _constantInline = constantInline;
+            _constantType = constantType;
         }
 
         public ValidateExpressionConstant(
@@ -36,71 +36,71 @@ namespace Microsoft.Iris.Markup.Validation
           int column)
           : base(owner, line, column, ExpressionType.Constant)
         {
-            this._constantInline = null;
-            this._constantType = ConstantType.Boolean;
-            this._foundConstant = BooleanBoxes.Box(constantValue);
+            _constantInline = null;
+            _constantType = ConstantType.Boolean;
+            _foundConstant = BooleanBoxes.Box(constantValue);
         }
 
-        public ConstantType ConstantType => this._constantType;
+        public ConstantType ConstantType => _constantType;
 
         public override void Validate(TypeRestriction typeRestriction, ValidateContext context)
         {
-            if (this.Usage == ExpressionUsage.LValue)
-                this.ReportError("Expression cannot be used as the target an assignment (related symbol: '{0}')", this._constantInline);
+            if (Usage == ExpressionUsage.LValue)
+                ReportError("Expression cannot be used as the target an assignment (related symbol: '{0}')", _constantInline);
             TypeSchema evaluationType;
-            switch (this._constantType)
+            switch (_constantType)
             {
                 case ConstantType.String:
                     int errorIndex;
                     string invalidSequence;
-                    this._foundConstant = StringUtility.Unescape(this._constantInline, out errorIndex, out invalidSequence);
-                    if (this._foundConstant == null)
-                        this.ReportErrorWithAdjustedPosition(string.Format("Invalid escape sequence '{0}' in string literal", invalidSequence), 0, errorIndex + 1);
+                    _foundConstant = StringUtility.Unescape(_constantInline, out errorIndex, out invalidSequence);
+                    if (_foundConstant == null)
+                        ReportErrorWithAdjustedPosition(string.Format("Invalid escape sequence '{0}' in string literal", invalidSequence), 0, errorIndex + 1);
                     evaluationType = StringSchema.Type;
                     break;
                 case ConstantType.StringLiteral:
-                    this._foundConstant = _constantInline;
-                    this._constantType = ConstantType.String;
+                    _foundConstant = _constantInline;
+                    _constantType = ConstantType.String;
                     evaluationType = StringSchema.Type;
                     break;
                 case ConstantType.Integer:
-                    Result result1 = Int32Schema.Type.TypeConverter(_constantInline, StringSchema.Type, out this._foundConstant);
+                    Result result1 = Int32Schema.Type.TypeConverter(_constantInline, StringSchema.Type, out _foundConstant);
                     if (result1.Failed)
-                        this.ReportError(result1.Error);
+                        ReportError(result1.Error);
                     evaluationType = Int32Schema.Type;
                     break;
                 case ConstantType.LongInteger:
-                    Result result2 = Int64Schema.Type.TypeConverter(_constantInline, StringSchema.Type, out this._foundConstant);
+                    Result result2 = Int64Schema.Type.TypeConverter(_constantInline, StringSchema.Type, out _foundConstant);
                     if (result2.Failed)
-                        this.ReportError(result2.Error);
+                        ReportError(result2.Error);
                     evaluationType = Int64Schema.Type;
                     break;
                 case ConstantType.Float:
-                    Result result3 = SingleSchema.Type.TypeConverter(_constantInline, StringSchema.Type, out this._foundConstant);
+                    Result result3 = SingleSchema.Type.TypeConverter(_constantInline, StringSchema.Type, out _foundConstant);
                     if (result3.Failed)
-                        this.ReportError(result3.Error);
+                        ReportError(result3.Error);
                     evaluationType = SingleSchema.Type;
                     break;
                 case ConstantType.Boolean:
                     evaluationType = BooleanSchema.Type;
                     break;
                 case ConstantType.Null:
-                    this._foundConstant = null;
+                    _foundConstant = null;
                     evaluationType = NullSchema.Type;
                     break;
                 default:
                     evaluationType = null;
                     break;
             }
-            this.DeclareEvaluationType(evaluationType, typeRestriction);
-            if (this.ObjectType == null)
-                this.MarkHasErrors();
+            DeclareEvaluationType(evaluationType, typeRestriction);
+            if (ObjectType == null)
+                MarkHasErrors();
             else
-                this._foundTypeIndex = this.Owner.TrackImportedType(this.ObjectType);
+                _foundTypeIndex = Owner.TrackImportedType(ObjectType);
         }
 
-        public object FoundConstant => this._foundConstant;
+        public object FoundConstant => _foundConstant;
 
-        public int FoundTypeIndex => this._foundTypeIndex;
+        public int FoundTypeIndex => _foundTypeIndex;
     }
 }

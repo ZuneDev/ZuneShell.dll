@@ -16,22 +16,22 @@ namespace Microsoft.Iris.Markup.Validation
 
         public ValidateExpressionList(SourceMarkupLoader owner, int line, int column)
           : base(owner, line, column, ExpressionType.List)
-          => this._expressionList = new ArrayList();
+          => _expressionList = new ArrayList();
 
-        public void AppendToEnd(ValidateExpression expression) => this._expressionList.Add(expression);
+        public void AppendToEnd(ValidateExpression expression) => _expressionList.Add(expression);
 
-        public ArrayList Expressions => this._expressionList;
+        public ArrayList Expressions => _expressionList;
 
         public override void Validate(TypeRestriction typeRestriction, ValidateContext context)
         {
-            if (this.Usage == ExpressionUsage.LValue)
-                this.ReportError("Expression cannot be used as the target an assignment (related symbol: '{0}')", "Expression List");
-            if (this._expressionList.Count > 0)
+            if (Usage == ExpressionUsage.LValue)
+                ReportError("Expression cannot be used as the target an assignment (related symbol: '{0}')", "Expression List");
+            if (_expressionList.Count > 0)
             {
-                for (int index = 0; index < this._expressionList.Count; ++index)
+                for (int index = 0; index < _expressionList.Count; ++index)
                 {
-                    ValidateExpression expression = (ValidateExpression)this._expressionList[index];
-                    if (index < this._expressionList.Count - 1)
+                    ValidateExpression expression = (ValidateExpression)_expressionList[index];
+                    if (index < _expressionList.Count - 1)
                     {
                         expression.Validate(TypeRestriction.None, context);
                     }
@@ -39,18 +39,18 @@ namespace Microsoft.Iris.Markup.Validation
                     {
                         expression.Validate(typeRestriction, context);
                         if (expression.ObjectType != null)
-                            this.DeclareEvaluationType(expression.ObjectType, typeRestriction);
+                            DeclareEvaluationType(expression.ObjectType, typeRestriction);
                     }
                 }
             }
             else
-                this.DeclareEvaluationType(VoidSchema.Type, typeRestriction);
-            if (this.ObjectType == null)
-                this.MarkHasErrors();
+                DeclareEvaluationType(VoidSchema.Type, typeRestriction);
+            if (ObjectType == null)
+                MarkHasErrors();
             else
-                this._foundTypeIndex = this.Owner.TrackImportedType(this.ObjectType);
+                _foundTypeIndex = Owner.TrackImportedType(ObjectType);
         }
 
-        public int FoundTypeIndex => this._foundTypeIndex;
+        public int FoundTypeIndex => _foundTypeIndex;
     }
 }

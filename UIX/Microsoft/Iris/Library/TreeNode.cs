@@ -23,28 +23,28 @@ namespace Microsoft.Iris.Library
 
         public TreeNode()
         {
-            this._dataMap = new DynamicData();
-            this._dataMap.Create();
+            _dataMap = new DynamicData();
+            _dataMap.Create();
         }
 
         protected override void OnDispose()
         {
             base.OnDispose();
-            this.ChangeParent(null);
-            this.RemoveEventHandlers(s_deepParentChangeEvent);
+            ChangeParent(null);
+            RemoveEventHandlers(s_deepParentChangeEvent);
         }
 
-        public bool IsZoned => this._zone != null;
+        public bool IsZoned => _zone != null;
 
-        public void ChangeParent(TreeNode nodeNewParent) => this.ChangeParent(nodeNewParent, null, LinkType.First);
+        public void ChangeParent(TreeNode nodeNewParent) => ChangeParent(nodeNewParent, null, LinkType.First);
 
         public void ChangeParent(TreeNode nodeNewParent, TreeNode nodeSibling, TreeNode.LinkType lt)
         {
-            if (this._nodeParent == nodeNewParent)
+            if (_nodeParent == nodeNewParent)
                 return;
             UIZone zone = null;
-            TreeNode nodeParent = this._nodeParent;
-            if (this._nodeParent != null)
+            TreeNode nodeParent = _nodeParent;
+            if (_nodeParent != null)
             {
                 DoUnlink(this);
                 nodeParent.OnChildrenChanged();
@@ -55,34 +55,34 @@ namespace Microsoft.Iris.Library
                 zone = nodeNewParent.Zone;
                 nodeNewParent.OnChildrenChanged();
             }
-            this.PropagateZone(zone);
-            this.FireTreeChangeWorker();
+            PropagateZone(zone);
+            FireTreeChangeWorker();
         }
 
         public void PropagateZone(UIZone zone)
         {
-            if (this._zone == zone)
+            if (_zone == zone)
                 return;
-            if (this._zone != null)
-                this.OnZoneDetached();
-            this._zone = zone;
+            if (_zone != null)
+                OnZoneDetached();
+            _zone = zone;
             if (zone != null)
-                this.OnZoneAttached();
-            foreach (TreeNode child in this.Children)
+                OnZoneAttached();
+            foreach (TreeNode child in Children)
                 child.PropagateZone(zone);
         }
 
         public void MoveNode(TreeNode nodeSibling, TreeNode.LinkType lt)
         {
-            TreeNode nodeParent = this._nodeParent;
+            TreeNode nodeParent = _nodeParent;
             DoUnlink(this);
             DoLink(nodeParent, this, nodeSibling, lt);
         }
 
         public void RemoveAllChildren(bool disposeChildrenFlag)
         {
-            while (this._nodeFirstChild != null)
-                this._nodeFirstChild.ChangeParent(null);
+            while (_nodeFirstChild != null)
+                _nodeFirstChild.ChangeParent(null);
         }
 
         protected virtual void OnZoneAttached()
@@ -99,29 +99,29 @@ namespace Microsoft.Iris.Library
 
         public event EventHandler DeepParentChange
         {
-            add => this.AddEventHandler(s_deepParentChangeEvent, value);
-            remove => this.RemoveEventHandler(s_deepParentChangeEvent, value);
+            add => AddEventHandler(s_deepParentChangeEvent, value);
+            remove => RemoveEventHandler(s_deepParentChangeEvent, value);
         }
 
-        public UIZone Zone => this._zone;
+        public UIZone Zone => _zone;
 
-        UIZone ITreeNode.Zone => this._zone;
+        UIZone ITreeNode.Zone => _zone;
 
-        public UISession UISession => this._zone.Session;
+        public UISession UISession => _zone.Session;
 
-        public bool HasChildren => this._nodeFirstChild != null;
+        public bool HasChildren => _nodeFirstChild != null;
 
         public abstract bool IsRoot { get; }
 
         ITreeNode ITreeNode.Parent => _nodeParent;
 
-        public TreeNode Parent => this._nodeParent;
+        public TreeNode Parent => _nodeParent;
 
-        public TreeNode NextSibling => this._nodeNext;
+        public TreeNode NextSibling => _nodeNext;
 
-        public TreeNode PreviousSibling => this._nodePrevious;
+        public TreeNode PreviousSibling => _nodePrevious;
 
-        public TreeNode FirstSibling => this._nodeParent == null ? this : this._nodeParent._nodeFirstChild;
+        public TreeNode FirstSibling => _nodeParent == null ? this : _nodeParent._nodeFirstChild;
 
         public TreeNode LastSibling
         {
@@ -134,9 +134,9 @@ namespace Microsoft.Iris.Library
             }
         }
 
-        public TreeNode FirstChild => this._nodeFirstChild;
+        public TreeNode FirstChild => _nodeFirstChild;
 
-        public TreeNode LastChild => this._nodeFirstChild != null ? this._nodeFirstChild.LastSibling : null;
+        public TreeNode LastChild => _nodeFirstChild != null ? _nodeFirstChild.LastSibling : null;
 
         public TreeNodeCollection Children => new TreeNodeCollection(this);
 
@@ -157,7 +157,7 @@ namespace Microsoft.Iris.Library
             get
             {
                 int num = 0;
-                for (TreeNode treeNode = this._nodeFirstChild; treeNode != null; treeNode = treeNode._nodeNext)
+                for (TreeNode treeNode = _nodeFirstChild; treeNode != null; treeNode = treeNode._nodeNext)
                     ++num;
                 return num;
             }
@@ -229,24 +229,24 @@ namespace Microsoft.Iris.Library
 
         private void FireTreeChangeWorker()
         {
-            foreach (TreeNode child in this.Children)
+            foreach (TreeNode child in Children)
                 child.FireTreeChangeWorker();
-            if (!(this.GetEventHandler(s_deepParentChangeEvent) is EventHandler eventHandler))
+            if (!(GetEventHandler(s_deepParentChangeEvent) is EventHandler eventHandler))
                 return;
             eventHandler(this, EventArgs.Empty);
         }
 
-        protected object GetData(DataCookie cookie) => this._dataMap.GetData(cookie);
+        protected object GetData(DataCookie cookie) => _dataMap.GetData(cookie);
 
-        protected void SetData(DataCookie cookie, object value) => this._dataMap.SetData(cookie, value);
+        protected void SetData(DataCookie cookie, object value) => _dataMap.SetData(cookie, value);
 
-        protected Delegate GetEventHandler(EventCookie cookie) => this._dataMap.GetEventHandler(cookie);
+        protected Delegate GetEventHandler(EventCookie cookie) => _dataMap.GetEventHandler(cookie);
 
-        protected bool AddEventHandler(EventCookie cookie, Delegate handlerToAdd) => this._dataMap.AddEventHandler(cookie, handlerToAdd);
+        protected bool AddEventHandler(EventCookie cookie, Delegate handlerToAdd) => _dataMap.AddEventHandler(cookie, handlerToAdd);
 
-        protected bool RemoveEventHandler(EventCookie cookie, Delegate handlerToRemove) => this._dataMap.RemoveEventHandler(cookie, handlerToRemove);
+        protected bool RemoveEventHandler(EventCookie cookie, Delegate handlerToRemove) => _dataMap.RemoveEventHandler(cookie, handlerToRemove);
 
-        protected void RemoveEventHandlers(EventCookie cookie) => this._dataMap.RemoveEventHandlers(cookie);
+        protected void RemoveEventHandlers(EventCookie cookie) => _dataMap.RemoveEventHandlers(cookie);
 
         private static uint GetKey(EventCookie cookie) => EventCookie.ToUInt32(cookie);
 

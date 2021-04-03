@@ -21,39 +21,39 @@ namespace Microsoft.Iris.Markup.Validation
           int column)
           : base(owner, line, column, ExpressionType.NullCoalescing)
         {
-            this._condition = condition;
-            this._nullClause = nullClause;
+            _condition = condition;
+            _nullClause = nullClause;
         }
 
-        public ValidateExpression Condition => this._condition;
+        public ValidateExpression Condition => _condition;
 
-        public ValidateExpression NullClause => this._nullClause;
+        public ValidateExpression NullClause => _nullClause;
 
         public override void Validate(TypeRestriction typeRestriction, ValidateContext context)
         {
-            if (this.Usage == ExpressionUsage.LValue)
-                this.ReportError("Expression cannot be used as the target an assignment (related symbol: '{0}')", "Null coalescing");
-            this._condition.Validate(typeRestriction, context);
-            if (this._condition.HasErrors)
-                this.MarkHasErrors();
-            if (this._condition.ObjectType != null)
-                this.DeclareEvaluationType(this._condition.ObjectType, typeRestriction);
-            this._nullClause.Validate(typeRestriction, context);
-            if (this._condition.HasErrors)
-                this.MarkHasErrors();
-            if (this._condition.ObjectType == null || this._nullClause.ObjectType == null)
+            if (Usage == ExpressionUsage.LValue)
+                ReportError("Expression cannot be used as the target an assignment (related symbol: '{0}')", "Null coalescing");
+            _condition.Validate(typeRestriction, context);
+            if (_condition.HasErrors)
+                MarkHasErrors();
+            if (_condition.ObjectType != null)
+                DeclareEvaluationType(_condition.ObjectType, typeRestriction);
+            _nullClause.Validate(typeRestriction, context);
+            if (_condition.HasErrors)
+                MarkHasErrors();
+            if (_condition.ObjectType == null || _nullClause.ObjectType == null)
                 return;
-            if (this._condition.ObjectType == NullSchema.Type)
+            if (_condition.ObjectType == NullSchema.Type)
             {
-                this.ReportError("Null constant may not be used as the condition for ?? operator");
+                ReportError("Null constant may not be used as the condition for ?? operator");
             }
             else
             {
-                if (!this._condition.ObjectType.IsNullAssignable)
-                    this.ReportError("The {0} operator must be used with a reference type ('{1}' is not null assignable)", "??", this._condition.ObjectType.Name);
-                if (this._condition.ObjectType.IsAssignableFrom(this._nullClause.ObjectType))
+                if (!_condition.ObjectType.IsNullAssignable)
+                    ReportError("The {0} operator must be used with a reference type ('{1}' is not null assignable)", "??", _condition.ObjectType.Name);
+                if (_condition.ObjectType.IsAssignableFrom(_nullClause.ObjectType))
                     return;
-                this.ReportError("Both expressions for the {0} operator must match: '{1}' and '{2}' are not compatible", "??", this._condition.ObjectType.Name, this._nullClause.ObjectType.Name);
+                ReportError("Both expressions for the {0} operator must match: '{1}' and '{2}' are not compatible", "??", _condition.ObjectType.Name, _nullClause.ObjectType.Name);
             }
         }
     }

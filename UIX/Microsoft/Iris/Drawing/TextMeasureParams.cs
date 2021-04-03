@@ -24,25 +24,25 @@ namespace Microsoft.Iris.Drawing
         {
             if (!UISession.Default.IsRtl)
                 return;
-            this._data._flags |= MeasureFlags.IsRtl;
+            _data._flags |= MeasureFlags.IsRtl;
         }
 
         public void Dispose()
         {
-            if (this._formattedRangeStyleFontFaces == null)
+            if (_formattedRangeStyleFontFaces == null)
                 return;
-            foreach (GCHandle rangeStyleFontFace in this._formattedRangeStyleFontFaces)
+            foreach (GCHandle rangeStyleFontFace in _formattedRangeStyleFontFaces)
             {
                 if (rangeStyleFontFace.IsAllocated)
                     rangeStyleFontFace.Free();
             }
-            this._formattedRangeStyleFontFaces = null;
+            _formattedRangeStyleFontFaces = null;
         }
 
         public unsafe void SetContent(char* content)
         {
-            this._data._flags |= MeasureFlags.Content;
-            this._data._content = content;
+            _data._flags |= MeasureFlags.Content;
+            _data._content = content;
         }
 
         public void SetFormat(LineAlignment lineAlignment, TextStyle style)
@@ -50,67 +50,67 @@ namespace Microsoft.Iris.Drawing
             switch (lineAlignment)
             {
                 case LineAlignment.Near:
-                    this._data._alignment = 1;
+                    _data._alignment = 1;
                     break;
                 case LineAlignment.Center:
-                    this._data._alignment = 3;
+                    _data._alignment = 3;
                     break;
                 case LineAlignment.Far:
-                    this._data._alignment = 2;
+                    _data._alignment = 2;
                     break;
             }
-            this._textStyle = style;
+            _textStyle = style;
         }
 
-        public void TrimLeftSideBearing() => this._data._flags |= MeasureFlags.TrimLeftSideBearing;
+        public void TrimLeftSideBearing() => _data._flags |= MeasureFlags.TrimLeftSideBearing;
 
         public void SetEditMode(bool inEditMode)
         {
             if (inEditMode)
-                this._data._flags |= MeasureFlags.FormatOnly;
+                _data._flags |= MeasureFlags.FormatOnly;
             else
-                this._data._flags &= ~MeasureFlags.FormatOnly;
+                _data._flags &= ~MeasureFlags.FormatOnly;
         }
 
-        public void SetScale(float scale) => this._data._scale = scale;
+        public void SetScale(float scale) => _data._scale = scale;
 
         public void SetWordWrap(bool wordWrap)
         {
-            this._data._flags |= MeasureFlags.WordWrap;
+            _data._flags |= MeasureFlags.WordWrap;
             if (wordWrap)
-                this._data._flags |= MeasureFlags.WordWrapValue;
+                _data._flags |= MeasureFlags.WordWrapValue;
             else
-                this._data._flags &= ~MeasureFlags.WordWrapValue;
+                _data._flags &= ~MeasureFlags.WordWrapValue;
         }
 
         public void SetPasswordChar(char passwordChar)
         {
-            this._data._flags |= MeasureFlags.PasswordMasked;
-            this._data._passwordChar = passwordChar;
+            _data._flags |= MeasureFlags.PasswordMasked;
+            _data._passwordChar = passwordChar;
         }
 
-        public void SetConstraint(SizeF constraint) => this._data._constraint = constraint;
+        public void SetConstraint(SizeF constraint) => _data._constraint = constraint;
 
         public void AllocateFormattedRanges(int formattedRangeCount, int formattedRangeStylesCount)
         {
-            this._formattedRanges = new TextMeasureParams.FormattedRange[formattedRangeCount];
-            this._formattedRangeStyles = new TextStyle.MarshalledData[formattedRangeStylesCount];
-            this._formattedRangeStyleFontFaces = new GCHandle[formattedRangeStylesCount];
-            this._data._formattedRangeCount = formattedRangeCount;
-            this._data._formattedRangeStylesCount = formattedRangeStylesCount;
+            _formattedRanges = new TextMeasureParams.FormattedRange[formattedRangeCount];
+            _formattedRangeStyles = new TextStyle.MarshalledData[formattedRangeStylesCount];
+            _formattedRangeStyleFontFaces = new GCHandle[formattedRangeStylesCount];
+            _data._formattedRangeCount = formattedRangeCount;
+            _data._formattedRangeStylesCount = formattedRangeStylesCount;
         }
 
-        public TextMeasureParams.FormattedRange[] FormattedRanges => this._formattedRanges;
+        public TextMeasureParams.FormattedRange[] FormattedRanges => _formattedRanges;
 
         public unsafe void SetFormattedRangeStyle(int index, TextStyle style)
         {
-            this._formattedRangeStyles[index] = new TextStyle.MarshalledData(style);
+            _formattedRangeStyles[index] = new TextStyle.MarshalledData(style);
             string fontFace = style.FontFace;
             if (fontFace == null)
                 return;
             GCHandle gcHandle = GCHandle.Alloc(fontFace, GCHandleType.Pinned);
-            this._formattedRangeStyles[index]._fontFace = (char*)gcHandle.AddrOfPinnedObject().ToPointer();
-            this._formattedRangeStyleFontFaces[index] = gcHandle;
+            _formattedRangeStyles[index]._fontFace = (char*)gcHandle.AddrOfPinnedObject().ToPointer();
+            _formattedRangeStyleFontFaces[index] = gcHandle;
         }
 
         internal struct MarshalledData

@@ -257,18 +257,18 @@ namespace Microsoft.Iris.Session
 
             public Context(object contextObject, bool ignoreErrors)
             {
-                this._contextObject = contextObject;
-                this._callback = null;
-                this._ignoreErrors = ignoreErrors;
-                this._errorCountOnEnter = s_totalErrorsReported;
+                _contextObject = contextObject;
+                _callback = null;
+                _ignoreErrors = ignoreErrors;
+                _errorCountOnEnter = s_totalErrorsReported;
             }
 
             public Context(IErrorContextSource contextSource)
             {
-                this._callback = contextSource;
-                this._contextObject = null;
-                this._ignoreErrors = false;
-                this._errorCountOnEnter = s_totalErrorsReported;
+                _callback = contextSource;
+                _contextObject = null;
+                _ignoreErrors = false;
+                _errorCountOnEnter = s_totalErrorsReported;
             }
 
             public string Description
@@ -276,14 +276,14 @@ namespace Microsoft.Iris.Session
                 get
                 {
                     string str = null;
-                    if (this._callback != null)
-                        str = this._callback.GetErrorContextDescription();
-                    else if (this._contextObject != null)
+                    if (_callback != null)
+                        str = _callback.GetErrorContextDescription();
+                    else if (_contextObject != null)
                     {
-                        if (this._contextObject is string)
-                            str = (string)this._contextObject;
-                        else if (this._contextObject is TypeSchema)
-                            str = ((TypeSchema)this._contextObject).ErrorContextDescription;
+                        if (_contextObject is string)
+                            str = (string)_contextObject;
+                        else if (_contextObject is TypeSchema)
+                            str = ((TypeSchema)_contextObject).ErrorContextDescription;
                     }
                     return str;
                 }
@@ -291,16 +291,16 @@ namespace Microsoft.Iris.Session
 
             public void GetErrorPosition(ref int line, ref int column)
             {
-                if (this._callback == null)
+                if (_callback == null)
                     return;
-                this._callback.GetErrorPosition(ref line, ref column);
+                _callback.GetErrorPosition(ref line, ref column);
             }
 
-            public bool IgnoreErrors => this._ignoreErrors;
+            public bool IgnoreErrors => _ignoreErrors;
 
-            public uint TotalErrorsOnEnter => this._errorCountOnEnter;
+            public uint TotalErrorsOnEnter => _errorCountOnEnter;
 
-            public override string ToString() => this._callback != null ? this._callback.ToString() : this.Description;
+            public override string ToString() => _callback != null ? _callback.ToString() : Description;
         }
     }
 }

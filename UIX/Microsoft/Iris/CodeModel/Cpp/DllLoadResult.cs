@@ -87,14 +87,14 @@ namespace Microsoft.Iris.CodeModel.Cpp
 
         private TypeSchema MapIntrinsicType(uint typeID)
         {
-            if (this._intrinsicTypes == null)
-                this._intrinsicTypes = new Map<uint, TypeSchema>();
+            if (_intrinsicTypes == null)
+                _intrinsicTypes = new Map<uint, TypeSchema>();
             TypeSchema typeSchema;
             DllLoadResult.IntrinsicTypeData intrinsicTypeData;
-            if (!this._intrinsicTypes.TryGetValue(typeID, out typeSchema) && s_intrinsicData.TryGetValue(typeID, out intrinsicTypeData))
+            if (!_intrinsicTypes.TryGetValue(typeID, out typeSchema) && s_intrinsicData.TryGetValue(typeID, out intrinsicTypeData))
             {
                 typeSchema = !intrinsicTypeData.DemandCreateTypeSchema ? intrinsicTypeData.FrameworkEquivalent : new DllIntrinsicTypeSchema(this, typeID, intrinsicTypeData.FrameworkEquivalent);
-                this._intrinsicTypes[typeID] = typeSchema;
+                _intrinsicTypes[typeID] = typeSchema;
             }
             return typeSchema;
         }
@@ -102,31 +102,31 @@ namespace Microsoft.Iris.CodeModel.Cpp
         private TypeSchema MapLocalType(uint typeID)
         {
             TypeSchema typeSchema = null;
-            this._userDefinedTypes.TryGetValue(typeID, out typeSchema);
+            _userDefinedTypes.TryGetValue(typeID, out typeSchema);
             return typeSchema;
         }
 
         public DllLoadResult(DllLoadResultFactory sourceFactory, IntPtr nativeSchema, string uri)
           : base(uri)
         {
-            this._source = sourceFactory;
-            this._status = LoadResultStatus.Loading;
-            this._schema = nativeSchema;
-            this._loadPass = LoadPass.Invalid;
-            this._component = s_nextID++;
+            _source = sourceFactory;
+            _status = LoadResultStatus.Loading;
+            _schema = nativeSchema;
+            _loadPass = LoadPass.Invalid;
+            _component = s_nextID++;
         }
 
         public override void Load(LoadPass pass)
         {
-            if (pass <= this._loadPass || pass != LoadPass.DeclareTypes)
+            if (pass <= _loadPass || pass != LoadPass.DeclareTypes)
                 return;
-            this._status = !this.SetSchemaID() || !this.LoadTypes() ? LoadResultStatus.Error : LoadResultStatus.Success;
-            this._loadPass = LoadPass.Done;
+            _status = !SetSchemaID() || !LoadTypes() ? LoadResultStatus.Error : LoadResultStatus.Success;
+            _loadPass = LoadPass.Done;
         }
 
-        public ushort SchemaComponent => this._component;
+        public ushort SchemaComponent => _component;
 
-        private bool SetSchemaID() => this.CheckNativeReturn(NativeApi.SpSetSchemaID(this._schema, this.SchemaComponent));
+        private bool SetSchemaID() => CheckNativeReturn(NativeApi.SpSetSchemaID(_schema, SchemaComponent));
 
         private bool LoadTypes()
         {
@@ -134,13 +134,13 @@ namespace Microsoft.Iris.CodeModel.Cpp
             UIXIDVerifier idVerifier = new UIXIDVerifier(this);
             uint typeCount;
             uint enumCount;
-            if (this.CheckNativeReturn(NativeApi.SpQueryTypeCount(this._schema, out typeCount)) && this.CheckNativeReturn(NativeApi.SpQueryEnumCount(this._schema, out enumCount)))
+            if (CheckNativeReturn(NativeApi.SpQueryTypeCount(_schema, out typeCount)) && CheckNativeReturn(NativeApi.SpQueryEnumCount(_schema, out enumCount)))
             {
                 int capacity = (int)typeCount + (int)enumCount;
                 if (capacity > 0)
                 {
-                    this._userDefinedTypes = new Map<uint, TypeSchema>(capacity);
-                    if (!this.LoadClasses(typeCount, idVerifier) || !this.LoadEnums(enumCount, idVerifier) || !this.ResolveTypes(idVerifier))
+                    _userDefinedTypes = new Map<uint, TypeSchema>(capacity);
+                    if (!LoadClasses(typeCount, idVerifier) || !LoadEnums(enumCount, idVerifier) || !ResolveTypes(idVerifier))
                         goto label_4;
                 }
                 flag = true;
@@ -156,7 +156,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
             {
                 for (uint index = 0; index < numClasses; ++index)
                 {
-                    if (!this.GetTypeSchema(index, idVerifier))
+                    if (!GetTypeSchema(index, idVerifier))
                         flag = true;
                 }
             }
@@ -168,11 +168,11 @@ namespace Microsoft.Iris.CodeModel.Cpp
             bool flag = false;
             IntPtr type;
             uint ID;
-            if (this.CheckNativeReturn(NativeApi.SpGetTypeSchema(this._schema, index, out type, out ID)))
+            if (CheckNativeReturn(NativeApi.SpGetTypeSchema(_schema, index, out type, out ID)))
             {
                 if (type != IntPtr.Zero)
                 {
-                    this.StoreType(new DllTypeSchema(this, ID, type), ID, true, idVerifier);
+                    StoreType(new DllTypeSchema(this, ID, type), ID, true, idVerifier);
                     flag = idVerifier.RegisterID(ID);
                 }
                 else
@@ -181,7 +181,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
             return flag;
         }
 
-        private void StoreType(TypeSchema schema, uint ID, bool isClass, UIXIDVerifier idVerifier) => this._userDefinedTypes[ID] = schema;
+        private void StoreType(TypeSchema schema, uint ID, bool isClass, UIXIDVerifier idVerifier) => _userDefinedTypes[ID] = schema;
 
         private static void DEBUG_DumpType(object param)
         {
@@ -194,7 +194,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
             {
                 for (uint index = 0; index < numEnums; ++index)
                 {
-                    if (!this.GetEnumSchema(index, idVerifier))
+                    if (!GetEnumSchema(index, idVerifier))
                         flag = true;
                 }
             }
@@ -206,11 +206,11 @@ namespace Microsoft.Iris.CodeModel.Cpp
             bool flag = false;
             IntPtr enumType;
             uint ID;
-            if (this.CheckNativeReturn(NativeApi.SpGetEnumSchema(this._schema, index, out enumType, out ID)))
+            if (CheckNativeReturn(NativeApi.SpGetEnumSchema(_schema, index, out enumType, out ID)))
             {
                 if (enumType != IntPtr.Zero)
                 {
-                    this.StoreType(new DllEnumSchema(this, ID, enumType), ID, false, idVerifier);
+                    StoreType(new DllEnumSchema(this, ID, enumType), ID, false, idVerifier);
                     flag = idVerifier.RegisterID(ID);
                 }
                 else
@@ -222,9 +222,9 @@ namespace Microsoft.Iris.CodeModel.Cpp
         private bool ResolveTypes(UIXIDVerifier idVerifier)
         {
             bool flag = false;
-            if (this._userDefinedTypes != null && this._userDefinedTypes.Count > 0)
+            if (_userDefinedTypes != null && _userDefinedTypes.Count > 0)
             {
-                foreach (TypeSchema typeSchema in this._userDefinedTypes.Values)
+                foreach (TypeSchema typeSchema in _userDefinedTypes.Values)
                 {
                     switch (typeSchema)
                     {
@@ -258,29 +258,29 @@ namespace Microsoft.Iris.CodeModel.Cpp
         protected override void OnDispose()
         {
             base.OnDispose();
-            if (this._userDefinedTypes != null && this._userDefinedTypes.Count > 0)
+            if (_userDefinedTypes != null && _userDefinedTypes.Count > 0)
             {
-                foreach (DisposableObject disposableObject in this._userDefinedTypes.Values)
+                foreach (DisposableObject disposableObject in _userDefinedTypes.Values)
                     disposableObject.Dispose(this);
             }
-            if (this._intrinsicTypes != null && this._intrinsicTypes.Count > 0)
+            if (_intrinsicTypes != null && _intrinsicTypes.Count > 0)
             {
-                foreach (TypeSchema typeSchema in this._intrinsicTypes.Values)
+                foreach (TypeSchema typeSchema in _intrinsicTypes.Values)
                 {
                     if (typeSchema is DllIntrinsicTypeSchema intrinsicTypeSchema)
                         intrinsicTypeSchema.Dispose(this);
                 }
             }
-            NativeApi.SpReleaseExternalObject(this._schema);
-            this._schema = IntPtr.Zero;
-            this._source.NotifyLoadResultDisposed(this);
+            NativeApi.SpReleaseExternalObject(_schema);
+            _schema = IntPtr.Zero;
+            _source.NotifyLoadResultDisposed(this);
         }
 
         public override TypeSchema FindType(string name)
         {
-            if (this._userDefinedTypes != null && this._userDefinedTypes.Count > 0)
+            if (_userDefinedTypes != null && _userDefinedTypes.Count > 0)
             {
-                foreach (TypeSchema typeSchema in this._userDefinedTypes.Values)
+                foreach (TypeSchema typeSchema in _userDefinedTypes.Values)
                 {
                     if (typeSchema.Name == name)
                         return typeSchema;
@@ -289,7 +289,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
             return null;
         }
 
-        public override LoadResultStatus Status => this._status;
+        public override LoadResultStatus Status => _status;
 
         public override LoadResult[] Dependencies => EmptyList;
 
@@ -323,15 +323,15 @@ namespace Microsoft.Iris.CodeModel.Cpp
 
             public IntrinsicTypeData(TypeSchema frameworkEquivalent, Type runtimeMarshalAsType)
             {
-                this._frameworkType = frameworkEquivalent;
-                this._runtimeType = runtimeMarshalAsType;
+                _frameworkType = frameworkEquivalent;
+                _runtimeType = runtimeMarshalAsType;
             }
 
-            public TypeSchema FrameworkEquivalent => this._frameworkType;
+            public TypeSchema FrameworkEquivalent => _frameworkType;
 
-            public Type MarshalAsRuntimeType => this._runtimeType;
+            public Type MarshalAsRuntimeType => _runtimeType;
 
-            public bool DemandCreateTypeSchema => this.MarshalAsRuntimeType != null;
+            public bool DemandCreateTypeSchema => MarshalAsRuntimeType != null;
         }
     }
 }

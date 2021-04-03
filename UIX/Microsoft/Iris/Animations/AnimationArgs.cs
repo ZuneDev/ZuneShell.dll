@@ -34,25 +34,25 @@ namespace Microsoft.Iris.Animations
 
         public AnimationArgs(Camera cam)
         {
-            this.ViewItem = null;
-            this.OldPosition = Vector3.Zero;
-            this.OldSize = Vector2.Zero;
-            this.OldScale = Vector3.Zero;
-            this.OldRotation = Rotation.Default;
-            this.OldAlpha = 0.0f;
-            this.NewPosition = Vector3.Zero;
-            this.NewSize = Vector2.Zero;
-            this.NewScale = Vector3.Zero;
-            this.NewRotation = Rotation.Default;
-            this.NewAlpha = 0.0f;
-            this.OldEye = cam.Eye;
-            this.NewEye = cam.Eye;
-            this.OldAt = cam.At;
-            this.NewAt = cam.At;
-            this.OldUp = cam.Up;
-            this.NewUp = cam.Up;
-            this.OldZn = cam.Zn;
-            this.NewZn = cam.Zn;
+            ViewItem = null;
+            OldPosition = Vector3.Zero;
+            OldSize = Vector2.Zero;
+            OldScale = Vector3.Zero;
+            OldRotation = Rotation.Default;
+            OldAlpha = 0.0f;
+            NewPosition = Vector3.Zero;
+            NewSize = Vector2.Zero;
+            NewScale = Vector3.Zero;
+            NewRotation = Rotation.Default;
+            NewAlpha = 0.0f;
+            OldEye = cam.Eye;
+            NewEye = cam.Eye;
+            OldAt = cam.At;
+            NewAt = cam.At;
+            OldUp = cam.Up;
+            NewUp = cam.Up;
+            OldZn = cam.Zn;
+            NewZn = cam.Zn;
         }
 
         public AnimationArgs(
@@ -68,25 +68,25 @@ namespace Microsoft.Iris.Animations
           Rotation newRotation,
           float newAlpha)
         {
-            this.ViewItem = vi;
-            this.OldPosition = oldPosition;
-            this.OldSize = oldSize;
-            this.OldScale = oldScale;
-            this.OldRotation = oldRotation;
-            this.OldAlpha = oldAlpha;
-            this.NewPosition = newPosition;
-            this.NewSize = newSize;
-            this.NewScale = newScale;
-            this.NewRotation = newRotation;
-            this.NewAlpha = newAlpha;
-            this.OldEye = Vector3.Zero;
-            this.NewEye = Vector3.Zero;
-            this.OldAt = Vector3.Zero;
-            this.NewAt = Vector3.Zero;
-            this.OldUp = Vector3.Zero;
-            this.NewUp = Vector3.Zero;
-            this.OldZn = 0.0f;
-            this.NewZn = 0.0f;
+            ViewItem = vi;
+            OldPosition = oldPosition;
+            OldSize = oldSize;
+            OldScale = oldScale;
+            OldRotation = oldRotation;
+            OldAlpha = oldAlpha;
+            NewPosition = newPosition;
+            NewSize = newSize;
+            NewScale = newScale;
+            NewRotation = newRotation;
+            NewAlpha = newAlpha;
+            OldEye = Vector3.Zero;
+            NewEye = Vector3.Zero;
+            OldAt = Vector3.Zero;
+            NewAt = Vector3.Zero;
+            OldUp = Vector3.Zero;
+            NewUp = Vector3.Zero;
+            OldZn = 0.0f;
+            NewZn = 0.0f;
         }
 
         public AnimationArgs(

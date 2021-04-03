@@ -37,12 +37,12 @@ namespace Microsoft.Iris.Layout
 
         public AreaOfInterest(Rectangle rectangle, Rectangle displayRectangle, AreaOfInterestID id)
         {
-            this._rectangle = rectangle;
-            this._displayRectangle = displayRectangle;
-            this._id = id;
+            _rectangle = rectangle;
+            _displayRectangle = displayRectangle;
+            _id = id;
         }
 
-        public AreaOfInterest Transform(Point offset) => new AreaOfInterest(Rectangle.Offset(this._rectangle, offset), Rectangle.Offset(this._displayRectangle, offset), this.Id);
+        public AreaOfInterest Transform(Point offset) => new AreaOfInterest(Rectangle.Offset(_rectangle, offset), Rectangle.Offset(_displayRectangle, offset), Id);
 
         public static void AddAreaOfInterest(
           AreaOfInterest interest,
@@ -60,7 +60,7 @@ namespace Microsoft.Iris.Layout
 
         public override string ToString() => InvariantString.Format("AreaOfInterest(\"{0}\", {1}, {2})", Id, Rectangle, DisplayRectangle);
 
-        public override int GetHashCode() => this._rectangle.GetHashCode() ^ this._displayRectangle.GetHashCode() ^ this._id.GetHashCode();
+        public override int GetHashCode() => _rectangle.GetHashCode() ^ _displayRectangle.GetHashCode() ^ _id.GetHashCode();
 
         public override bool Equals(object other)
         {
@@ -74,20 +74,20 @@ namespace Microsoft.Iris.Layout
             }
         }
 
-        public bool Equals(AreaOfInterest other) => this._rectangle == other._rectangle && this._displayRectangle == other._displayRectangle && this._id == other._id;
+        public bool Equals(AreaOfInterest other) => _rectangle == other._rectangle && _displayRectangle == other._displayRectangle && _id == other._id;
 
         public static bool operator ==(AreaOfInterest a, AreaOfInterest b) => a._rectangle == b._rectangle && a._displayRectangle == b._displayRectangle && a._id == b._id;
 
         public static bool operator !=(AreaOfInterest a, AreaOfInterest b) => a._rectangle != b._rectangle || a._displayRectangle != b._displayRectangle || a._id != b._id;
 
-        public Rectangle Rectangle => this._rectangle;
+        public Rectangle Rectangle => _rectangle;
 
         public Rectangle DisplayRectangle
         {
-            get => this._displayRectangle;
-            set => this._displayRectangle = value;
+            get => _displayRectangle;
+            set => _displayRectangle = value;
         }
 
-        public AreaOfInterestID Id => this._id;
+        public AreaOfInterestID Id => _id;
     }
 }

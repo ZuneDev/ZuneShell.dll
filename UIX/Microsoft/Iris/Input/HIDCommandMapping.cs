@@ -58,9 +58,9 @@ namespace Microsoft.Iris.Input
 
         private HIDCommandMapping(CommandCode command, uint usage, uint usagePage)
         {
-            this._command = command;
-            this._usage = usage;
-            this._usagePage = usagePage;
+            _command = command;
+            _usage = usage;
+            _usagePage = usagePage;
         }
 
         public static CommandCode Find(uint usage, uint usagePage)

@@ -15,9 +15,9 @@ namespace Microsoft.Iris.CodeModel.Cpp
         public DllIntrinsicTypeSchema(DllLoadResult owner, uint ID, TypeSchema equivalentType)
           : base(owner, ID)
         {
-            this._baseType = ObjectSchema.Type;
-            this._name = InvariantString.Format("<DLL Intrinsic> {0}", equivalentType.Name);
-            this._marshalAs = ID;
+            _baseType = ObjectSchema.Type;
+            _name = InvariantString.Format("<DLL Intrinsic> {0}", equivalentType.Name);
+            _marshalAs = ID;
             RegisterOneWayEquivalence(this, equivalentType);
         }
     }

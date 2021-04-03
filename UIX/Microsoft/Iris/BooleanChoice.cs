@@ -24,7 +24,7 @@ namespace Microsoft.Iris
         {
             if (options == null)
                 return;
-            this.Options = options;
+            Options = options;
         }
 
         public BooleanChoice(IModelItemOwner owner, string description)
@@ -48,19 +48,19 @@ namespace Microsoft.Iris
         {
             get
             {
-                using (this.ThreadValidator)
-                    return this.ChosenIndex == 1;
+                using (ThreadValidator)
+                    return ChosenIndex == 1;
             }
             set
             {
-                using (this.ThreadValidator)
+                using (ThreadValidator)
                 {
-                    if (value == this.Value)
+                    if (value == Value)
                         return;
                     if (value)
-                        this.ChosenIndex = 1;
+                        ChosenIndex = 1;
                     else
-                        this.ChosenIndex = 0;
+                        ChosenIndex = 0;
                 }
             }
         }

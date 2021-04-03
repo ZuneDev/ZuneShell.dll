@@ -22,24 +22,24 @@ namespace Microsoft.Iris.RenderAPI.Audio
 
         internal SoundManager(UISession uiSession, IRenderSession renderSession)
         {
-            this._uiSession = uiSession;
-            this._renderSession = renderSession;
-            this._dictContent = new Dictionary<string, SoundManager.SoundContent>(InvariantString.OrdinalComparer);
+            _uiSession = uiSession;
+            _renderSession = renderSession;
+            _dictContent = new Dictionary<string, SoundManager.SoundContent>(InvariantString.OrdinalComparer);
         }
 
-        ~SoundManager() => this.Dispose(false);
+        ~SoundManager() => Dispose(false);
 
         public void Dispose()
         {
             GC.SuppressFinalize(this);
-            this.Dispose(true);
+            Dispose(true);
         }
 
         protected virtual void Dispose(bool fInDispose)
         {
-            if (fInDispose && this._dictContent != null)
+            if (fInDispose && _dictContent != null)
             {
-                foreach (SoundManager.SoundContent soundContent in this._dictContent.Values)
+                foreach (SoundManager.SoundContent soundContent in _dictContent.Values)
                 {
                     if (soundContent.soundBuffer != null)
                         soundContent.soundBuffer.UnregisterUsage(this);
@@ -49,33 +49,33 @@ namespace Microsoft.Iris.RenderAPI.Audio
                         soundContent.soundData.Dispose();
                     }
                 }
-                this._dictContent.Clear();
+                _dictContent.Clear();
             }
-            this._dictContent = null;
-            this._renderSession = null;
-            this._uiSession = null;
+            _dictContent = null;
+            _renderSession = null;
+            _uiSession = null;
         }
 
         internal string GetSystemSoundEventSource(SystemSoundEvent systemSoundEvent)
         {
-            if (this._systemSoundEventTable == null)
-                this._systemSoundEventTable = new SystemSoundEventTable();
-            string filePath = this._systemSoundEventTable.GetFilePath(systemSoundEvent);
+            if (_systemSoundEventTable == null)
+                _systemSoundEventTable = new SystemSoundEventTable();
+            string filePath = _systemSoundEventTable.GetFilePath(systemSoundEvent);
             return string.IsNullOrEmpty(filePath) ? null : string.Format("file://{0}", filePath);
         }
 
         public void SetVolume(float flVolume)
         {
-            if (this._renderSession.SoundDevice == null)
+            if (_renderSession.SoundDevice == null)
                 return;
-            this._renderSession.SoundDevice.Volume = flVolume;
+            _renderSession.SoundDevice.Volume = flVolume;
         }
 
         public void SetMute(bool fMute)
         {
-            if (this._renderSession.SoundDevice == null)
+            if (_renderSession.SoundDevice == null)
                 return;
-            this._renderSession.SoundDevice.Mute = fMute;
+            _renderSession.SoundDevice.Mute = fMute;
         }
 
         internal ISoundBuffer GetSoundBuffer(string source)
@@ -83,7 +83,7 @@ namespace Microsoft.Iris.RenderAPI.Audio
             bool flag = false;
             string cacheKey = SoundData.GetCacheKey(source);
             SoundManager.SoundContent soundContent;
-            if (!this._dictContent.TryGetValue(cacheKey, out soundContent))
+            if (!_dictContent.TryGetValue(cacheKey, out soundContent))
             {
                 Resource resource = ResourceManager.Instance.GetResource(source);
                 if (resource == null)
@@ -93,10 +93,10 @@ namespace Microsoft.Iris.RenderAPI.Audio
                 soundContent.soundData.Load();
                 flag = true;
             }
-            if (soundContent.soundBuffer == null && soundContent.soundData.IsAvailable && this._renderSession.SoundDevice != null)
-                soundContent.soundBuffer = this._renderSession.SoundDevice.CreateSoundBuffer(this, soundContent.soundData);
+            if (soundContent.soundBuffer == null && soundContent.soundData.IsAvailable && _renderSession.SoundDevice != null)
+                soundContent.soundBuffer = _renderSession.SoundDevice.CreateSoundBuffer(this, soundContent.soundData);
             if (flag)
-                this._dictContent[cacheKey] = soundContent;
+                _dictContent[cacheKey] = soundContent;
             return soundContent.soundBuffer;
         }
 

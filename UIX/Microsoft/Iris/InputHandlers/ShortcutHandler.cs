@@ -18,77 +18,77 @@ namespace Microsoft.Iris.InputHandlers
         private IUICommand _command;
         private bool _handle;
 
-        public ShortcutHandler() => this._handle = true;
+        public ShortcutHandler() => _handle = true;
 
         protected override void ConfigureInteractivity()
         {
             base.ConfigureInteractivity();
-            if (!this.HandleDirect)
+            if (!HandleDirect)
                 return;
-            this.UI.KeyInteractive = true;
+            UI.KeyInteractive = true;
         }
 
         public ShortcutHandlerCommand Shortcut
         {
-            get => this._shortcut;
+            get => _shortcut;
             set
             {
-                if (this._shortcut == value)
+                if (_shortcut == value)
                     return;
-                this._shortcut = value;
-                this.FireNotification(NotificationID.Shortcut);
+                _shortcut = value;
+                FireNotification(NotificationID.Shortcut);
             }
         }
 
         public IUICommand Command
         {
-            get => this._command;
+            get => _command;
             set
             {
-                if (this._command == value)
+                if (_command == value)
                     return;
-                this._command = value;
-                this.FireNotification(NotificationID.Command);
+                _command = value;
+                FireNotification(NotificationID.Command);
             }
         }
 
         public bool Handle
         {
-            get => this._handle;
+            get => _handle;
             set
             {
-                if (this._handle == value)
+                if (_handle == value)
                     return;
-                this._handle = value;
-                this.FireNotification(NotificationID.Handle);
+                _handle = value;
+                FireNotification(NotificationID.Handle);
             }
         }
 
         protected override void OnCommandDown(UIClass ui, KeyCommandInfo info)
         {
-            if (info.Command != (CommandCode)this._shortcut)
+            if (info.Command != (CommandCode)_shortcut)
                 return;
-            this.InvokeCommand();
-            if (!this._handle)
+            InvokeCommand();
+            if (!_handle)
                 return;
             info.MarkHandled();
         }
 
         protected override void OnCommandUp(UIClass ui, KeyCommandInfo info)
         {
-            if (info.Command != (CommandCode)this._shortcut || !this._handle)
+            if (info.Command != (CommandCode)_shortcut || !_handle)
                 return;
             info.MarkHandled();
         }
 
         private void InvokeCommand()
         {
-            this.FireNotification(NotificationID.Invoked);
-            if (this._command == null)
+            FireNotification(NotificationID.Invoked);
+            if (_command == null)
                 return;
-            this._command.Invoke();
+            _command.Invoke();
         }
 
-        public override string ToString() => InvariantString.Format("{0}({1})", this.GetType().Name, _shortcut);
+        public override string ToString() => InvariantString.Format("{0}({1})", GetType().Name, _shortcut);
     }
 }

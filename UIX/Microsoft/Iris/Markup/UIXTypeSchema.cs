@@ -41,12 +41,12 @@ namespace Microsoft.Iris.Markup
           UIXTypeFlags flags)
           : base(MarkupSystem.UIXGlobal)
         {
-            this._typeID = typeID;
-            this._baseTypeID = baseTypeID;
-            this._name = name;
-            this._alternateName = alternateName;
-            this._instanceType = instanceType;
-            this._flags = flags;
+            _typeID = typeID;
+            _baseTypeID = baseTypeID;
+            _name = name;
+            _alternateName = alternateName;
+            _instanceType = instanceType;
+            _flags = flags;
             UIXTypes.RegisterTypeForID(typeID, this);
         }
 
@@ -72,62 +72,62 @@ namespace Microsoft.Iris.Markup
                 methods = MethodSchema.EmptyList;
             if (events == null)
                 events = EventSchema.EmptyList;
-            this._defaultConstructor = defaultConstructor;
-            this._constructors = constructors;
-            this._properties = properties;
-            this._methods = methods;
-            this._events = events;
-            this._findCanonicalInstance = findCanonicalInstance;
-            this._typeConverter = typeConverter;
-            this._supportsTypeConversion = supportsTypeConversion;
-            this._encodeBinary = encodeBinary;
-            this._decodeBinary = decodeBinary;
-            this._performOperation = performOperation;
-            this._supportsOperation = supportsOperation;
+            _defaultConstructor = defaultConstructor;
+            _constructors = constructors;
+            _properties = properties;
+            _methods = methods;
+            _events = events;
+            _findCanonicalInstance = findCanonicalInstance;
+            _typeConverter = typeConverter;
+            _supportsTypeConversion = supportsTypeConversion;
+            _encodeBinary = encodeBinary;
+            _decodeBinary = decodeBinary;
+            _performOperation = performOperation;
+            _supportsOperation = supportsOperation;
         }
 
         protected override void OnDispose()
         {
             base.OnDispose();
-            foreach (DisposableObject constructor in this._constructors)
+            foreach (DisposableObject constructor in _constructors)
                 constructor.Dispose(this);
-            foreach (DisposableObject property in this._properties)
+            foreach (DisposableObject property in _properties)
                 property.Dispose(this);
-            foreach (DisposableObject method in this._methods)
+            foreach (DisposableObject method in _methods)
                 method.Dispose(this);
-            foreach (DisposableObject disposableObject in this._events)
+            foreach (DisposableObject disposableObject in _events)
                 disposableObject.Dispose(this);
         }
 
-        public override string Name => this._name;
+        public override string Name => _name;
 
-        public override string AlternateName => this._alternateName;
+        public override string AlternateName => _alternateName;
 
         public override TypeSchema Base
         {
             get
             {
-                if (this._baseTypeID != -1 && this._baseType == null)
-                    this._baseType = UIXTypes.MapIDToType(this._baseTypeID);
-                return this._baseType;
+                if (_baseTypeID != -1 && _baseType == null)
+                    _baseType = UIXTypes.MapIDToType(_baseTypeID);
+                return _baseType;
             }
         }
 
         public override bool Contractual => false;
 
-        public override Type RuntimeType => this._instanceType;
+        public override Type RuntimeType => _instanceType;
 
-        public override bool IsNativeAssignableFrom(object check) => this.RuntimeType.IsAssignableFrom(check.GetType());
+        public override bool IsNativeAssignableFrom(object check) => RuntimeType.IsAssignableFrom(check.GetType());
 
         public override bool IsNativeAssignableFrom(TypeSchema checkSchema) => false;
 
-        public override bool Disposable => (this._flags & UIXTypeFlags.Disposable) != UIXTypeFlags.None;
+        public override bool Disposable => (_flags & UIXTypeFlags.Disposable) != UIXTypeFlags.None;
 
-        public override bool IsStatic => (this._flags & UIXTypeFlags.Static) != UIXTypeFlags.None;
+        public override bool IsStatic => (_flags & UIXTypeFlags.Static) != UIXTypeFlags.None;
 
-        public override object ConstructDefault() => this._defaultConstructor();
+        public override object ConstructDefault() => _defaultConstructor();
 
-        public override bool HasDefaultConstructor => this._defaultConstructor != null;
+        public override bool HasDefaultConstructor => _defaultConstructor != null;
 
         public override bool HasInitializer => false;
 
@@ -137,9 +137,9 @@ namespace Microsoft.Iris.Markup
 
         public override ConstructorSchema FindConstructor(TypeSchema[] parameters)
         {
-            for (int index1 = 0; index1 < this._constructors.Length; ++index1)
+            for (int index1 = 0; index1 < _constructors.Length; ++index1)
             {
-                ConstructorSchema constructor = this._constructors[index1];
+                ConstructorSchema constructor = _constructors[index1];
                 TypeSchema[] parameterTypes = constructor.ParameterTypes;
                 if (parameters.Length == parameterTypes.Length)
                 {
@@ -161,28 +161,28 @@ namespace Microsoft.Iris.Markup
 
         public override PropertySchema FindProperty(string name)
         {
-            for (int index = 0; index < this._properties.Length; ++index)
+            for (int index = 0; index < _properties.Length; ++index)
             {
-                PropertySchema property = this._properties[index];
+                PropertySchema property = _properties[index];
                 if (name == property.Name)
                     return property;
             }
             return null;
         }
 
-        public override ConstructorSchema[] Constructors => this._constructors;
+        public override ConstructorSchema[] Constructors => _constructors;
 
-        public override PropertySchema[] Properties => this._properties;
+        public override PropertySchema[] Properties => _properties;
 
-        public override MethodSchema[] Methods => this._methods;
+        public override MethodSchema[] Methods => _methods;
 
-        public override EventSchema[] Events => this._events;
+        public override EventSchema[] Events => _events;
 
         public override MethodSchema FindMethod(string name, TypeSchema[] parameters)
         {
-            for (int index1 = 0; index1 < this._methods.Length; ++index1)
+            for (int index1 = 0; index1 < _methods.Length; ++index1)
             {
-                MethodSchema method = this._methods[index1];
+                MethodSchema method = _methods[index1];
                 if (name == method.Name)
                 {
                     TypeSchema[] parameterTypes = method.ParameterTypes;
@@ -207,49 +207,49 @@ namespace Microsoft.Iris.Markup
 
         public override EventSchema FindEvent(string name)
         {
-            for (int index = 0; index < this._events.Length; ++index)
+            for (int index = 0; index < _events.Length; ++index)
             {
-                EventSchema eventSchema = this._events[index];
+                EventSchema eventSchema = _events[index];
                 if (name == eventSchema.Name)
                     return eventSchema;
             }
             return null;
         }
 
-        public override object FindCanonicalInstance(string name) => this._findCanonicalInstance != null ? this._findCanonicalInstance(name) : null;
+        public override object FindCanonicalInstance(string name) => _findCanonicalInstance != null ? _findCanonicalInstance(name) : null;
 
         public override Result TypeConverter(
           object from,
           TypeSchema fromType,
           out object instance)
         {
-            return this._typeConverter(from, fromType, out instance);
+            return _typeConverter(from, fromType, out instance);
         }
 
-        public override bool SupportsTypeConversion(TypeSchema fromType) => this._supportsTypeConversion != null && this._supportsTypeConversion(fromType);
+        public override bool SupportsTypeConversion(TypeSchema fromType) => _supportsTypeConversion != null && _supportsTypeConversion(fromType);
 
-        public override void EncodeBinary(ByteCodeWriter writer, object instance) => this._encodeBinary(writer, instance);
+        public override void EncodeBinary(ByteCodeWriter writer, object instance) => _encodeBinary(writer, instance);
 
-        public override object DecodeBinary(ByteCodeReader reader) => this._decodeBinary(reader);
+        public override object DecodeBinary(ByteCodeReader reader) => _decodeBinary(reader);
 
-        public override bool SupportsBinaryEncoding => this._encodeBinary != null;
+        public override bool SupportsBinaryEncoding => _encodeBinary != null;
 
         public override int FindTypeHint => _typeID;
 
         public override object PerformOperation(object left, object right, OperationType op)
         {
             object obj = null;
-            if (this._performOperation != null)
-                obj = this._performOperation(left, right, op);
+            if (_performOperation != null)
+                obj = _performOperation(left, right, op);
             return obj;
         }
 
-        public override bool SupportsOperation(OperationType op) => this._supportsOperation != null && this._supportsOperation(op);
+        public override bool SupportsOperation(OperationType op) => _supportsOperation != null && _supportsOperation(op);
 
-        public override bool IsNullAssignable => !this._instanceType.IsValueType;
+        public override bool IsNullAssignable => !_instanceType.IsValueType;
 
-        public override bool IsRuntimeImmutable => (this._flags & UIXTypeFlags.Immutable) != UIXTypeFlags.None;
+        public override bool IsRuntimeImmutable => (_flags & UIXTypeFlags.Immutable) != UIXTypeFlags.None;
 
-        public override string ErrorContextDescription => this.Name;
+        public override string ErrorContextDescription => Name;
     }
 }

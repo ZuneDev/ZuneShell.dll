@@ -23,29 +23,29 @@ namespace Microsoft.Iris.Markup.Validation
           int column)
           : base(owner, line, column, StatementType.While)
         {
-            this._body = body;
-            this._condition = condition;
-            this._isDoWhile = isDoWhile;
+            _body = body;
+            _condition = condition;
+            _isDoWhile = isDoWhile;
         }
 
-        public ValidateExpression Condition => this._condition;
+        public ValidateExpression Condition => _condition;
 
-        public ValidateStatement Body => this._body;
+        public ValidateStatement Body => _body;
 
-        public bool IsDoWhile => this._isDoWhile;
+        public bool IsDoWhile => _isDoWhile;
 
         public override void Validate(ValidateCode container, ValidateContext context)
         {
             context.NotifyScopedLocalFrameEnter(this);
             try
             {
-                this._condition.Validate(new TypeRestriction(BooleanSchema.Type), context);
-                if (this._condition.HasErrors)
-                    this.MarkHasErrors();
-                this._body.Validate(container, context);
-                if (!this._body.HasErrors)
+                _condition.Validate(new TypeRestriction(BooleanSchema.Type), context);
+                if (_condition.HasErrors)
+                    MarkHasErrors();
+                _body.Validate(container, context);
+                if (!_body.HasErrors)
                     return;
-                this.MarkHasErrors();
+                MarkHasErrors();
             }
             finally
             {

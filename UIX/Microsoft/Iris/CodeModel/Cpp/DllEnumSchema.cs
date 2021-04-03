@@ -20,42 +20,42 @@ namespace Microsoft.Iris.CodeModel.Cpp
         public DllEnumSchema(LoadResult owner, uint id, IntPtr nativeSchema)
           : base(owner)
         {
-            this._id = id;
-            this._nativeSchema = nativeSchema;
+            _id = id;
+            _nativeSchema = nativeSchema;
         }
 
         [Conditional("DEBUG")]
         public void DEBUG_DumpEnum()
         {
             int val1 = 0;
-            foreach (KeyValueEntry<string, int> nameToValue in this.NameToValueMap)
+            foreach (KeyValueEntry<string, int> nameToValue in NameToValueMap)
             {
                 if (nameToValue.Key != null)
                     val1 = Math.Max(val1, nameToValue.Key.Length);
             }
             string.Format("{{0,{0}}} = 0x{{1:x8}}", val1);
-            foreach (KeyValueEntry<string, int> nameToValue in this.NameToValueMap)
+            foreach (KeyValueEntry<string, int> nameToValue in NameToValueMap)
                 ;
         }
 
-        public uint ID => this._id;
+        public uint ID => _id;
 
         public bool Load()
         {
             string name;
-            bool flag = this.QueryName(out name);
+            bool flag = QueryName(out name);
             if (flag)
             {
                 bool isFlags;
-                flag = this.QueryIsFlags(out isFlags);
+                flag = QueryIsFlags(out isFlags);
                 if (flag)
                 {
                     string[] names;
                     int[] values;
-                    flag = this.QueryNamesAndValues(out names, out values);
+                    flag = QueryNamesAndValues(out names, out values);
                     if (flag)
                     {
-                        this.Initialize(name, typeof(DllEnumProxy), isFlags, names, values);
+                        Initialize(name, typeof(DllEnumProxy), isFlags, names, values);
                         flag = true;
                     }
                 }
@@ -66,12 +66,12 @@ namespace Microsoft.Iris.CodeModel.Cpp
         private unsafe bool QueryName(out string name)
         {
             char* name1;
-            bool flag = this.CheckNativeReturn(NativeApi.SpQueryEnumName(this._nativeSchema, out name1));
+            bool flag = CheckNativeReturn(NativeApi.SpQueryEnumName(_nativeSchema, out name1));
             name = !flag ? null : new string(name1);
             return flag;
         }
 
-        private bool QueryIsFlags(out bool isFlags) => this.CheckNativeReturn(NativeApi.SpQueryEnumIsFlags(this._nativeSchema, out isFlags));
+        private bool QueryIsFlags(out bool isFlags) => CheckNativeReturn(NativeApi.SpQueryEnumIsFlags(_nativeSchema, out isFlags));
 
         private unsafe bool QueryNamesAndValues(out string[] names, out int[] values)
         {
@@ -79,7 +79,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
             names = null;
             values = null;
             uint valueCount;
-            if (this.CheckNativeReturn(NativeApi.SpQueryEnumValueCount(this._nativeSchema, out valueCount)))
+            if (CheckNativeReturn(NativeApi.SpQueryEnumValueCount(_nativeSchema, out valueCount)))
             {
                 bool flag2 = false;
                 if (valueCount > 0U)
@@ -90,7 +90,7 @@ namespace Microsoft.Iris.CodeModel.Cpp
                     {
                         char* name;
                         int num;
-                        if (this.CheckNativeReturn(NativeApi.SpGetEnumNameValue(this._nativeSchema, index, out name, out num)))
+                        if (CheckNativeReturn(NativeApi.SpGetEnumNameValue(_nativeSchema, index, out name, out num)))
                         {
                             if ((IntPtr)name != IntPtr.Zero)
                             {
@@ -115,11 +115,11 @@ namespace Microsoft.Iris.CodeModel.Cpp
         protected override void OnDispose()
         {
             base.OnDispose();
-            NativeApi.SpReleaseExternalObject(this._nativeSchema);
-            this._nativeSchema = IntPtr.Zero;
+            NativeApi.SpReleaseExternalObject(_nativeSchema);
+            _nativeSchema = IntPtr.Zero;
         }
 
-        public object GetBoxedValue(int value) => this.EnumValueToObject(value);
+        public object GetBoxedValue(int value) => EnumValueToObject(value);
 
         protected override object EnumValueToObject(int value) => new DllEnumProxy(this, value);
 
@@ -129,12 +129,12 @@ namespace Microsoft.Iris.CodeModel.Cpp
         {
             string str = null;
             IntPtr result;
-            if (this.CheckNativeReturn(NativeApi.SpInvokeEnumToString(this._nativeSchema, proxy.Value, out result)))
+            if (CheckNativeReturn(NativeApi.SpInvokeEnumToString(_nativeSchema, proxy.Value, out result)))
                 str = DllProxyServices.GetString(result);
             return str;
         }
 
-        private DllLoadResult OwnerLoadResult => (DllLoadResult)this.Owner;
+        private DllLoadResult OwnerLoadResult => (DllLoadResult)Owner;
 
         private bool CheckNativeReturn(uint hr) => DllLoadResult.CheckNativeReturn(hr, "IUIXEnum");
     }

@@ -21,12 +21,12 @@ namespace Microsoft.Iris.Markup
         public override object ReadSymbol(SymbolReference symbolRef)
         {
             object obj;
-            return symbolRef.Origin == SymbolOrigin.Properties && this.ExternalObjectGetProperty(symbolRef.Symbol, out obj) ? obj : base.ReadSymbol(symbolRef);
+            return symbolRef.Origin == SymbolOrigin.Properties && ExternalObjectGetProperty(symbolRef.Symbol, out obj) ? obj : base.ReadSymbol(symbolRef);
         }
 
         public override void WriteSymbol(SymbolReference symbolRef, object value)
         {
-            if (symbolRef.Origin == SymbolOrigin.Properties && this.ExternalObjectSetProperty(symbolRef.Symbol, value))
+            if (symbolRef.Origin == SymbolOrigin.Properties && ExternalObjectSetProperty(symbolRef.Symbol, value))
                 return;
             base.WriteSymbol(symbolRef, value);
         }
@@ -34,12 +34,12 @@ namespace Microsoft.Iris.Markup
         public override object GetProperty(string name)
         {
             object obj;
-            return this.ExternalObjectGetProperty(name, out obj) ? obj : base.GetProperty(name);
+            return ExternalObjectGetProperty(name, out obj) ? obj : base.GetProperty(name);
         }
 
         public override void SetProperty(string name, object value)
         {
-            if (this.ExternalObjectSetProperty(name, value))
+            if (ExternalObjectSetProperty(name, value))
                 return;
             base.SetProperty(name, value);
         }
@@ -47,7 +47,7 @@ namespace Microsoft.Iris.Markup
         public void FireNotificationThreadSafe(string property)
         {
             property = NotifyService.CanonicalizeString(property);
-            this._notifier.FireThreadSafe(property);
+            _notifier.FireThreadSafe(property);
         }
 
         protected virtual bool ExternalObjectGetProperty(string propertyName, out object value)

@@ -21,8 +21,8 @@ namespace Microsoft.Iris.Markup
         {
             get
             {
-                if (this._externalAssemblyObject == null)
-                    this._externalAssemblyObject = new ProviderlessDataProviderObject(this, (MarkupDataTypeSchema)this.TypeSchema);
+                if (_externalAssemblyObject == null)
+                    _externalAssemblyObject = new ProviderlessDataProviderObject(this, (MarkupDataTypeSchema)TypeSchema);
                 return _externalAssemblyObject;
             }
         }
@@ -31,25 +31,25 @@ namespace Microsoft.Iris.Markup
 
         public override object ReadSymbol(SymbolReference symbolRef)
         {
-            lock (this.SynchronizedPropertyStorage)
+            lock (SynchronizedPropertyStorage)
                 return base.ReadSymbol(symbolRef);
         }
 
         public override void WriteSymbol(SymbolReference symbolRef, object value)
         {
-            lock (this.SynchronizedPropertyStorage)
+            lock (SynchronizedPropertyStorage)
                 base.WriteSymbol(symbolRef, value);
         }
 
         public override object GetProperty(string name)
         {
-            lock (this.SynchronizedPropertyStorage)
+            lock (SynchronizedPropertyStorage)
                 return base.GetProperty(name);
         }
 
         public override void SetProperty(string name, object value)
         {
-            lock (this.SynchronizedPropertyStorage)
+            lock (SynchronizedPropertyStorage)
                 base.SetProperty(name, value);
         }
 

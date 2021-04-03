@@ -17,15 +17,15 @@ namespace Microsoft.Iris.OS
         public NativeXmlException(string message, uint hr, int lineNumber, int linePosition)
           : base(message)
         {
-            this._hr = hr;
-            this._lineNumber = lineNumber;
-            this._linePosition = linePosition;
+            _hr = hr;
+            _lineNumber = lineNumber;
+            _linePosition = linePosition;
         }
 
-        public uint HR => this._hr;
+        public uint HR => _hr;
 
-        public int LineNumber => this._lineNumber;
+        public int LineNumber => _lineNumber;
 
-        public int LinePosition => this._linePosition;
+        public int LinePosition => _linePosition;
     }
 }

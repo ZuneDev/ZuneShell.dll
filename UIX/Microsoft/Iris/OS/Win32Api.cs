@@ -303,9 +303,9 @@ namespace Microsoft.Iris.OS
 
             public static bool operator !=(Win32Api.HANDLE hl, Win32Api.HANDLE hr) => hl.h != hr.h;
 
-            public override bool Equals(object oCompare) => this.h == (IntPtr)oCompare;
+            public override bool Equals(object oCompare) => h == (IntPtr)oCompare;
 
-            public override int GetHashCode() => (int)this.h.ToInt64();
+            public override int GetHashCode() => (int)h.ToInt64();
         }
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
@@ -375,7 +375,7 @@ namespace Microsoft.Iris.OS
             public int pt_x;
             public int pt_y;
 
-            public override string ToString() => InvariantString.Format("{0} -> {1}, wp=0x{2,0:x} lp=0x{3,0:x}", DumpMessage(this.message), hwnd, wParam, lParam);
+            public override string ToString() => InvariantString.Format("{0} -> {1}, wp=0x{2,0:x} lp=0x{3,0:x}", DumpMessage(message), hwnd, wParam, lParam);
         }
 
         public struct KEYBDINPUT

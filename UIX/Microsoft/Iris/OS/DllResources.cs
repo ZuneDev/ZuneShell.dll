@@ -22,7 +22,7 @@ namespace Microsoft.Iris.OS
         private static bool s_staticDllResourcesOnly = true;
         private Dictionary<string, string> _shortNameToFullPath;
 
-        private DllResources() => this._shortNameToFullPath = new Dictionary<string, string>(InvariantString.OrdinalIgnoreCaseComparer);
+        private DllResources() => _shortNameToFullPath = new Dictionary<string, string>(InvariantString.OrdinalIgnoreCaseComparer);
 
         public static DllResources Instance => s_instance;
 
@@ -40,7 +40,7 @@ namespace Microsoft.Iris.OS
             ParseResource(hierarchicalPart, out host, out identifier);
             if (host != null)
             {
-                string fullPath = this.GetFullPath(host);
+                string fullPath = GetFullPath(host);
                 if (fullPath != null)
                     resource = new DllResource(uri, fullPath, identifier);
             }
@@ -52,7 +52,7 @@ namespace Microsoft.Iris.OS
         public string GetFullPath(string moduleName)
         {
             string str = null;
-            if (!this._shortNameToFullPath.TryGetValue(moduleName, out str))
+            if (!_shortNameToFullPath.TryGetValue(moduleName, out str))
             {
                 AssemblyName name = null;
                 try
@@ -69,7 +69,7 @@ namespace Microsoft.Iris.OS
                 if (name != null)
                     assembly = AssemblyLoadResult.FindAssembly(name, out Exception _);
                 str = assembly == null ? moduleName : assembly.Location;
-                this._shortNameToFullPath[moduleName] = str;
+                _shortNameToFullPath[moduleName] = str;
             }
             return str;
         }

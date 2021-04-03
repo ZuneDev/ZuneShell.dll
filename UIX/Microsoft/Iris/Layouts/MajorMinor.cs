@@ -28,12 +28,12 @@ namespace Microsoft.Iris.Layouts
             switch (o)
             {
                 case Orientation.Horizontal:
-                    this.major = size.Width;
-                    this.minor = size.Height;
+                    major = size.Width;
+                    minor = size.Height;
                     break;
                 default:
-                    this.major = size.Height;
-                    this.minor = size.Width;
+                    major = size.Height;
+                    minor = size.Width;
                     break;
             }
         }
@@ -54,13 +54,13 @@ namespace Microsoft.Iris.Layouts
             switch (o)
             {
                 case Orientation.Horizontal:
-                    return new Size(this.major, this.minor);
+                    return new Size(major, minor);
                 default:
-                    return new Size(this.minor, this.major);
+                    return new Size(minor, major);
             }
         }
 
-        public Point ToPoint(Orientation o) => this.ToSize(o).ToPoint();
+        public Point ToPoint(Orientation o) => ToSize(o).ToPoint();
 
         public static MajorMinor Min(MajorMinor a, MajorMinor b) => new MajorMinor(Math.Min(a.Major, b.Major), Math.Min(a.Minor, b.Minor));
 
@@ -82,23 +82,23 @@ namespace Microsoft.Iris.Layouts
 
         public override bool Equals(object obj) => obj is MajorMinor majorMinor && majorMinor == this;
 
-        public override int GetHashCode() => this.major ^ this.minor;
+        public override int GetHashCode() => major ^ minor;
 
-        public MajorMinor Swap() => new MajorMinor(this.Minor, this.Major);
+        public MajorMinor Swap() => new MajorMinor(Minor, Major);
 
         public int Major
         {
-            get => this.major;
-            set => this.major = value;
+            get => major;
+            set => major = value;
         }
 
         public int Minor
         {
-            get => this.minor;
-            set => this.minor = value;
+            get => minor;
+            set => minor = value;
         }
 
-        public bool IsEmpty => this.Major == 0 || this.Minor == 0;
+        public bool IsEmpty => Major == 0 || Minor == 0;
 
         public override string ToString() => InvariantString.Format("(Major={0}, Minor={1})", Major, Minor);
     }

@@ -19,8 +19,8 @@ namespace Microsoft.Iris.Animations
 
         public Color Color
         {
-            get => new Color(this.Value.W, this.Value.X, this.Value.Y, this.Value.Z);
-            set => this.Value = value.RenderConvert().ToVector4();
+            get => new Color(Value.W, Value.X, Value.Y, Value.Z);
+            set => Value = value.RenderConvert().ToVector4();
         }
     }
 }

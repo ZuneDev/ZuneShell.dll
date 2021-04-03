@@ -38,14 +38,14 @@ namespace Microsoft.Iris.Markup
           TypeSchema baseType)
           : base(assemblyType, baseType)
         {
-            this._frameworkType = frameworkType;
-            this._constructDefaultType = constructDefaultType;
+            _frameworkType = frameworkType;
+            _constructDefaultType = constructDefaultType;
         }
 
-        public override Type RuntimeType => this._frameworkType;
+        public override Type RuntimeType => _frameworkType;
 
-        public override bool HasDefaultConstructor => base.HasDefaultConstructor || this._constructDefaultType != null;
+        public override bool HasDefaultConstructor => base.HasDefaultConstructor || _constructDefaultType != null;
 
-        public override object ConstructDefault() => base.HasDefaultConstructor ? base.ConstructDefault() : AssemblyLoadResult.WrapObject(this, Activator.CreateInstance(this._constructDefaultType));
+        public override object ConstructDefault() => base.HasDefaultConstructor ? base.ConstructDefault() : AssemblyLoadResult.WrapObject(this, Activator.CreateInstance(_constructDefaultType));
     }
 }

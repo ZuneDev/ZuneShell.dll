@@ -17,6 +17,6 @@ namespace Microsoft.Iris
             _method = method
         }.Thunk);
 
-        private void Thunk(object args) => this._method(args);
+        private void Thunk(object args) => _method(args);
     }
 }

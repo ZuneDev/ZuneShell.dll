@@ -13,23 +13,23 @@ namespace Microsoft.Iris.CodeModel.Cpp
 
         public DllEnumProxy(DllEnumSchema schema, int value)
         {
-            this._value = value;
-            this._schema = schema;
+            _value = value;
+            _schema = schema;
         }
 
-        public int Value => this._value;
+        public int Value => _value;
 
-        public DllEnumSchema Type => this._schema;
+        public DllEnumSchema Type => _schema;
 
-        public override string ToString() => this._schema.InvokeToString(this);
+        public override string ToString() => _schema.InvokeToString(this);
 
-        public override int GetHashCode() => this._value.GetHashCode();
+        public override int GetHashCode() => _value.GetHashCode();
 
         public override bool Equals(object other)
         {
             bool flag = false;
             if (other is DllEnumProxy dllEnumProxy)
-                flag = this._schema == dllEnumProxy._schema && this._value == dllEnumProxy._value;
+                flag = _schema == dllEnumProxy._schema && _value == dllEnumProxy._value;
             return flag;
         }
     }

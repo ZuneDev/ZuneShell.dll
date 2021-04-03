@@ -21,31 +21,31 @@ namespace Microsoft.Iris.Navigation
 
         public FindFromPointWorker(INavigationSite startSite, Direction biasDirection)
         {
-            this._startSite = startSite;
-            this._biasDirection = biasDirection;
+            _startSite = startSite;
+            _biasDirection = biasDirection;
         }
 
         public bool FindFromPoint(PointF pt, out INavigationSite result)
         {
             result = null;
             FindFromPointWorker.FindFromPointInfo itemA = null;
-            if (this._candidatesList == null)
+            if (_candidatesList == null)
             {
-                this._candidatesList = new List<FindFromPointWorker.FindFromPointInfo>();
-                this.CollectChildrenToSearch(this._startSite, false);
+                _candidatesList = new List<FindFromPointWorker.FindFromPointInfo>();
+                CollectChildrenToSearch(_startSite, false);
             }
-            if (this._candidatesList.Count > 0)
+            if (_candidatesList.Count > 0)
             {
-                itemA = this._candidatesList[0];
-                for (int index = 1; index < this._candidatesList.Count; ++index)
+                itemA = _candidatesList[0];
+                for (int index = 1; index < _candidatesList.Count; ++index)
                 {
-                    if (this.CompareItems(itemA, this._candidatesList[index], pt) > 0)
-                        itemA = this._candidatesList[index];
+                    if (CompareItems(itemA, _candidatesList[index], pt) > 0)
+                        itemA = _candidatesList[index];
                 }
             }
             if (itemA != null)
                 result = itemA.Site;
-            return this._candidatesList.Count > 0;
+            return _candidatesList.Count > 0;
         }
 
         private void CollectChildrenToSearch(INavigationSite originSite, bool preferContainerFocus)
@@ -56,8 +56,8 @@ namespace Microsoft.Iris.Navigation
                 {
                     preferContainerFocus |= NavigationItem.IsPreferContainerFocus(child);
                     if (child.Navigability != NavigationClass.None)
-                        this._candidatesList.Add(new FindFromPointWorker.FindFromPointInfo(child, preferContainerFocus));
-                    this.CollectChildrenToSearch(child, preferContainerFocus);
+                        _candidatesList.Add(new FindFromPointWorker.FindFromPointInfo(child, preferContainerFocus));
+                    CollectChildrenToSearch(child, preferContainerFocus);
                 }
             }
         }
@@ -89,20 +89,20 @@ namespace Microsoft.Iris.Navigation
             INavigationSite site2 = itemB.Site;
             if (site1 == site2)
                 return 0;
-            if (this.IsItemADescendant(site1, site2))
+            if (IsItemADescendant(site1, site2))
                 return !itemB.PreferContainerFocus ? -1 : 1;
-            if (this.IsItemADescendant(site2, site1))
+            if (IsItemADescendant(site2, site1))
                 return !itemA.PreferContainerFocus ? 1 : -1;
-            RectangleF rectangleF1 = this.LocationForSite(site1);
-            RectangleF rectangleF2 = this.LocationForSite(site2);
+            RectangleF rectangleF1 = LocationForSite(site1);
+            RectangleF rectangleF2 = LocationForSite(site2);
             PointF center1 = rectangleF1.Center;
             PointF center2 = rectangleF2.Center;
-            if (this._biasDirection != Direction.Next)
+            if (_biasDirection != Direction.Next)
             {
                 float num1 = center1.X - center2.X;
                 float num2 = center1.Y - center2.Y;
                 float num3 = 0.0f;
-                switch (this._biasDirection)
+                switch (_biasDirection)
                 {
                     case Direction.North:
                         num3 = num2;
@@ -150,8 +150,8 @@ namespace Microsoft.Iris.Navigation
 
             public FindFromPointInfo(INavigationSite site, bool preferContainerFocus)
             {
-                this.Site = site;
-                this.PreferContainerFocus = preferContainerFocus;
+                Site = site;
+                PreferContainerFocus = preferContainerFocus;
             }
         }
     }

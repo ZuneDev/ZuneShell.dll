@@ -46,124 +46,124 @@ namespace Microsoft.Iris.Drawing
           NativeApi.RasterizeRunPacket* runPacketPtr,
           string content)
         {
-            this._hGlyphRunInfo = hGlyphRunInfo;
-            this._hRasterizeRunPacket = new IntPtr(runPacketPtr);
-            this._layoutBounds = runPacketPtr->rcLayoutBounds;
-            this._renderBounds = runPacketPtr->rcfRenderBounds;
-            this._naturalX = runPacketPtr->naturalX;
-            this._naturalY = runPacketPtr->naturalY;
-            this._rasterizeX = runPacketPtr->rasterizeX;
-            this._rasterizeY = runPacketPtr->rasterizeY;
-            this._rasterizerConfig = runPacketPtr->AAConfig;
-            this._runColor = runPacketPtr->clrText;
-            this._overrideColor = Color.Transparent;
-            this._highlightColor = runPacketPtr->clrBackground;
-            this._fontFaceUniqueId = runPacketPtr->fontFaceUniqueId;
-            this._lfHeight = runPacketPtr->lf.lfHeight;
-            this._lfWeight = runPacketPtr->lf.lfWeight;
-            this.SetBit(Bits.Italic, runPacketPtr->lf.lfItalic != 0);
-            this.SetBit(Bits.Underline, runPacketPtr->lf.lfUnderline != 0);
-            this.SetBit(Bits.Link, (runPacketPtr->dwEffects & 32) != 0);
-            this._underlineBounds = runPacketPtr->rcUnderlineBounds;
-            this._lineNumber = runPacketPtr->nLineNumber;
-            this._naturalRunExtent = runPacketPtr->sizeNatural;
-            this._ascenderInset = runPacketPtr->ascenderInset;
-            this._baselineInset = runPacketPtr->baselineInset;
-            this._content = content;
+            _hGlyphRunInfo = hGlyphRunInfo;
+            _hRasterizeRunPacket = new IntPtr(runPacketPtr);
+            _layoutBounds = runPacketPtr->rcLayoutBounds;
+            _renderBounds = runPacketPtr->rcfRenderBounds;
+            _naturalX = runPacketPtr->naturalX;
+            _naturalY = runPacketPtr->naturalY;
+            _rasterizeX = runPacketPtr->rasterizeX;
+            _rasterizeY = runPacketPtr->rasterizeY;
+            _rasterizerConfig = runPacketPtr->AAConfig;
+            _runColor = runPacketPtr->clrText;
+            _overrideColor = Color.Transparent;
+            _highlightColor = runPacketPtr->clrBackground;
+            _fontFaceUniqueId = runPacketPtr->fontFaceUniqueId;
+            _lfHeight = runPacketPtr->lf.lfHeight;
+            _lfWeight = runPacketPtr->lf.lfWeight;
+            SetBit(Bits.Italic, runPacketPtr->lf.lfItalic != 0);
+            SetBit(Bits.Underline, runPacketPtr->lf.lfUnderline != 0);
+            SetBit(Bits.Link, (runPacketPtr->dwEffects & 32) != 0);
+            _underlineBounds = runPacketPtr->rcUnderlineBounds;
+            _lineNumber = runPacketPtr->nLineNumber;
+            _naturalRunExtent = runPacketPtr->sizeNatural;
+            _ascenderInset = runPacketPtr->ascenderInset;
+            _baselineInset = runPacketPtr->baselineInset;
+            _content = content;
         }
 
         protected override void OnDispose()
         {
-            NativeApi.SpRichTextDestroyGlyphRunInfo(this._hGlyphRunInfo);
+            NativeApi.SpRichTextDestroyGlyphRunInfo(_hGlyphRunInfo);
             base.OnDispose();
         }
 
-        public string Content => this._content;
+        public string Content => _content;
 
-        public RectangleF RenderBounds => this._renderBounds;
+        public RectangleF RenderBounds => _renderBounds;
 
-        public Rectangle LayoutBounds => this._layoutBounds;
+        public Rectangle LayoutBounds => _layoutBounds;
 
-        public Size NaturalExtent => this._naturalRunExtent;
+        public Size NaturalExtent => _naturalRunExtent;
 
-        public Color RunColor => this._runColor;
+        public Color RunColor => _runColor;
 
         public Color OverrideColor
         {
-            get => this._overrideColor;
-            set => this._overrideColor = value;
+            get => _overrideColor;
+            set => _overrideColor = value;
         }
 
-        public Color Color => this._overrideColor != Color.Transparent ? this._overrideColor : this._runColor;
+        public Color Color => _overrideColor != Color.Transparent ? _overrideColor : _runColor;
 
-        public bool Highlighted => this._highlightColor.A != 0;
+        public bool Highlighted => _highlightColor.A != 0;
 
-        public Color HighlightColor => this._highlightColor;
+        public Color HighlightColor => _highlightColor;
 
-        public int FontFaceUniqueId => this._fontFaceUniqueId;
+        public int FontFaceUniqueId => _fontFaceUniqueId;
 
-        public int FontSize => this._lfHeight;
+        public int FontSize => _lfHeight;
 
-        public int FontWeight => this._lfWeight;
+        public int FontWeight => _lfWeight;
 
-        public bool Italic => this.GetBit(Bits.Italic);
+        public bool Italic => GetBit(Bits.Italic);
 
-        public bool Underline => this.GetBit(Bits.Underline);
+        public bool Underline => GetBit(Bits.Underline);
 
-        public Point RasterizedOffset => new Point(this._rasterizeX - this._naturalX, this._rasterizeY - this._naturalY);
+        public Point RasterizedOffset => new Point(_rasterizeX - _naturalX, _rasterizeY - _naturalY);
 
-        public int AscenderInset => this._ascenderInset;
+        public int AscenderInset => _ascenderInset;
 
-        public int BaselineInset => this._baselineInset;
+        public int BaselineInset => _baselineInset;
 
-        public int Line => this._lineNumber;
+        public int Line => _lineNumber;
 
         public bool Visible
         {
-            get => this.GetBit(Bits.Visible);
-            set => this.SetBit(Bits.Visible, value);
+            get => GetBit(Bits.Visible);
+            set => SetBit(Bits.Visible, value);
         }
 
         public bool IsFragment
         {
-            get => this.GetBit(Bits.Fragment);
-            set => this.SetBit(Bits.Fragment, value);
+            get => GetBit(Bits.Fragment);
+            set => SetBit(Bits.Fragment, value);
         }
 
-        public Point Position => new Point(this._layoutBounds.X, this._layoutBounds.Y);
+        public Point Position => new Point(_layoutBounds.X, _layoutBounds.Y);
 
-        public Size Size => new Size(this._layoutBounds.Width, this._layoutBounds.Height);
+        public Size Size => new Size(_layoutBounds.Width, _layoutBounds.Height);
 
-        public byte RasterizerConfig => this._rasterizerConfig;
+        public byte RasterizerConfig => _rasterizerConfig;
 
-        public bool Link => this.GetBit(Bits.Link);
+        public bool Link => GetBit(Bits.Link);
 
         public unsafe NativeApi.UnderlineStyle UnderlineStyle
         {
-            get => this._hRasterizeRunPacket == IntPtr.Zero ? NativeApi.UnderlineStyle.None : ((NativeApi.RasterizeRunPacket*)(void*)this._hRasterizeRunPacket)->usUnderlineStyle;
+            get => _hRasterizeRunPacket == IntPtr.Zero ? NativeApi.UnderlineStyle.None : ((NativeApi.RasterizeRunPacket*)(void*)_hRasterizeRunPacket)->usUnderlineStyle;
             set
             {
-                if (!(this._hRasterizeRunPacket != IntPtr.Zero))
+                if (!(_hRasterizeRunPacket != IntPtr.Zero))
                     return;
-                ((NativeApi.RasterizeRunPacket*)(void*)this._hRasterizeRunPacket)->usUnderlineStyle = value;
+                ((NativeApi.RasterizeRunPacket*)(void*)_hRasterizeRunPacket)->usUnderlineStyle = value;
             }
         }
 
-        public Rectangle UnderlineBounds => this._underlineBounds;
+        public Rectangle UnderlineBounds => _underlineBounds;
 
         internal void ApplyOffset(Point offsetPoint)
         {
-            if (!(this._offsetPoint != offsetPoint))
+            if (!(_offsetPoint != offsetPoint))
                 return;
-            this._renderBounds.X -= _offsetPoint.X;
-            this._renderBounds.Y -= _offsetPoint.Y;
-            this._layoutBounds.X -= this._offsetPoint.X;
-            this._layoutBounds.Y -= this._offsetPoint.Y;
-            this._renderBounds.X += offsetPoint.X;
-            this._renderBounds.Y += offsetPoint.Y;
-            this._layoutBounds.X += offsetPoint.X;
-            this._layoutBounds.Y += offsetPoint.Y;
-            this._offsetPoint = offsetPoint;
+            _renderBounds.X -= _offsetPoint.X;
+            _renderBounds.Y -= _offsetPoint.Y;
+            _layoutBounds.X -= _offsetPoint.X;
+            _layoutBounds.Y -= _offsetPoint.Y;
+            _renderBounds.X += offsetPoint.X;
+            _renderBounds.Y += offsetPoint.Y;
+            _layoutBounds.X += offsetPoint.X;
+            _layoutBounds.Y += offsetPoint.Y;
+            _offsetPoint = offsetPoint;
         }
 
         internal Dib Rasterize(string samplingMode, Color textColor, bool outlineFlag)
@@ -171,7 +171,7 @@ namespace Microsoft.Iris.Drawing
             bool shadowMode = false;
             if (samplingMode == "sdw")
                 shadowMode = true;
-            return RichText.Rasterize(this._hGlyphRunInfo, outlineFlag, textColor, shadowMode);
+            return RichText.Rasterize(_hGlyphRunInfo, outlineFlag, textColor, shadowMode);
         }
 
         internal static unsafe TextRun FromRunPacket(
@@ -184,20 +184,20 @@ namespace Microsoft.Iris.Drawing
 
         public void RemoveSprites(IVisualContainer container)
         {
-            if (this.TextSprite != null)
+            if (TextSprite != null)
             {
                 container.RemoveChild(TextSprite);
-                this.TextSprite = null;
+                TextSprite = null;
             }
-            if (this.HighlightSprite == null)
+            if (HighlightSprite == null)
                 return;
             container.RemoveChild(HighlightSprite);
-            this.HighlightSprite = null;
+            HighlightSprite = null;
         }
 
-        private bool GetBit(TextRun.Bits lookupBit) => ((TextRun.Bits)this._bits & lookupBit) != 0;
+        private bool GetBit(TextRun.Bits lookupBit) => ((TextRun.Bits)_bits & lookupBit) != 0;
 
-        private void SetBit(TextRun.Bits changeBit, bool value) => this._bits = value ? (byte)((TextRun.Bits)this._bits | changeBit) : (byte)((TextRun.Bits)this._bits & ~changeBit);
+        private void SetBit(TextRun.Bits changeBit, bool value) => _bits = value ? (byte)((TextRun.Bits)_bits | changeBit) : (byte)((TextRun.Bits)_bits & ~changeBit);
 
         private enum Bits : byte
         {

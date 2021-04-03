@@ -25,24 +25,24 @@ namespace Microsoft.Iris.Accessibility
 
         internal AccessibleChildren(AccessibleProxy proxy, int position)
         {
-            this._proxy = proxy;
-            this._current = position;
+            _proxy = proxy;
+            _current = position;
         }
 
-        internal IEnumVARIANT Clone() => new AccessibleChildren(this._proxy, this._current);
+        internal IEnumVARIANT Clone() => new AccessibleChildren(_proxy, _current);
 
         internal int Next(int count, object[] children)
         {
             int index = 0;
             do
             {
-                ++this._current;
-                if (this._current >= this._proxy.UI.Children.Count)
+                ++_current;
+                if (_current >= _proxy.UI.Children.Count)
                 {
-                    this._current = this._proxy.UI.Children.Count;
+                    _current = _proxy.UI.Children.Count;
                     break;
                 }
-                UIClass child = (UIClass)this._proxy.UI.Children[this._current];
+                UIClass child = (UIClass)_proxy.UI.Children[_current];
                 children[index] = child.AccessibleProxy;
                 ++index;
             }
@@ -50,47 +50,47 @@ namespace Microsoft.Iris.Accessibility
             return index;
         }
 
-        internal void Reset() => this._current = -1;
+        internal void Reset() => _current = -1;
 
         internal bool Skip(int count)
         {
-            this._current += count;
-            if (this._current < this._proxy.UI.Children.Count)
+            _current += count;
+            if (_current < _proxy.UI.Children.Count)
                 return true;
-            this._current = this._proxy.UI.Children.Count;
+            _current = _proxy.UI.Children.Count;
             return false;
         }
 
         IEnumVARIANT IEnumVARIANT.Clone()
         {
-            this.VerifyEnumeratorAccess();
-            return this.Clone();
+            VerifyEnumeratorAccess();
+            return Clone();
         }
 
         unsafe int IEnumVARIANT.Next(int celt, object[] rgVar, IntPtr pceltFetched)
         {
-            this.VerifyEnumeratorAccess();
-            int num = this.Next(celt, rgVar);
+            VerifyEnumeratorAccess();
+            int num = Next(celt, rgVar);
             *(int*)(void*)pceltFetched = num;
             return num != celt ? 1 : 0;
         }
 
         int IEnumVARIANT.Reset()
         {
-            this.VerifyEnumeratorAccess();
-            this.Reset();
+            VerifyEnumeratorAccess();
+            Reset();
             return 0;
         }
 
         int IEnumVARIANT.Skip(int celt)
         {
-            this.VerifyEnumeratorAccess();
-            return !this.Skip(celt) ? 1 : 0;
+            VerifyEnumeratorAccess();
+            return !Skip(celt) ? 1 : 0;
         }
 
         private void VerifyEnumeratorAccess()
         {
-            if (this._proxy.UI != null && UIDispatcher.IsUIThread)
+            if (_proxy.UI != null && UIDispatcher.IsUIThread)
                 return;
             Marshal.ThrowExceptionForHR(-2147467259);
         }

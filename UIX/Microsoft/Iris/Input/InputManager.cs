@@ -42,41 +42,41 @@ namespace Microsoft.Iris.Input
 
         internal InputManager(UISession session)
         {
-            this._session = session;
-            this._keyFocusCanBeNull = true;
-            this._lastInputTime = DateTime.MinValue;
-            this._inputQueue = new InputQueue(this);
-            this._resumeInput = new SimpleCallback(this.ResumeInput);
-            this._refreshHitTargetHandler = new SimpleCallback(this.RefreshHitTargetHandler);
+            _session = session;
+            _keyFocusCanBeNull = true;
+            _lastInputTime = DateTime.MinValue;
+            _inputQueue = new InputQueue(this);
+            _resumeInput = new SimpleCallback(ResumeInput);
+            _refreshHitTargetHandler = new SimpleCallback(RefreshHitTargetHandler);
         }
 
-        internal void ConnectToRenderer() => this.Session.RenderSession.InputSystem.RegisterRawInputCallbacks(this);
+        internal void ConnectToRenderer() => Session.RenderSession.InputSystem.RegisterRawInputCallbacks(this);
 
         internal void PrepareToShutDown()
         {
-            this.KeyCoalescePolicy = null;
-            this.EndKeyCoalesce();
-            this.InvalidKeyFocus = null;
-            this._inputDisabled = true;
-            this.Session.RenderSession.InputSystem.UnregisterRawInputCallbacks();
-            this._inputQueue.PrepareToShutDown();
+            KeyCoalescePolicy = null;
+            EndKeyCoalesce();
+            InvalidKeyFocus = null;
+            _inputDisabled = true;
+            Session.RenderSession.InputSystem.UnregisterRawInputCallbacks();
+            _inputQueue.PrepareToShutDown();
         }
 
-        internal UISession Session => this._session;
+        internal UISession Session => _session;
 
-        internal InputQueue Queue => this._inputQueue;
+        internal InputQueue Queue => _inputQueue;
 
-        internal InputModifiers Modifiers => this.Keyboard.KeyboardModifiers | this.Mouse.MouseModifiers;
+        internal InputModifiers Modifiers => Keyboard.KeyboardModifiers | Mouse.MouseModifiers;
 
-        internal InputModifiers DragModifiers => this._inputQueue.DragModifiers;
+        internal InputModifiers DragModifiers => _inputQueue.DragModifiers;
 
         internal KeyboardDevice Keyboard
         {
             get
             {
-                if (this._keyboardDevice == null)
-                    this._keyboardDevice = new KeyboardDevice(this);
-                return this._keyboardDevice;
+                if (_keyboardDevice == null)
+                    _keyboardDevice = new KeyboardDevice(this);
+                return _keyboardDevice;
             }
         }
 
@@ -84,9 +84,9 @@ namespace Microsoft.Iris.Input
         {
             get
             {
-                if (this._mouseDevice == null)
-                    this._mouseDevice = new MouseDevice(this);
-                return this._mouseDevice;
+                if (_mouseDevice == null)
+                    _mouseDevice = new MouseDevice(this);
+                return _mouseDevice;
             }
         }
 
@@ -94,53 +94,53 @@ namespace Microsoft.Iris.Input
         {
             get
             {
-                if (this._remoteDevice == null)
-                    this._remoteDevice = new HidDevice(this);
-                return this._remoteDevice;
+                if (_remoteDevice == null)
+                    _remoteDevice = new HidDevice(this);
+                return _remoteDevice;
             }
         }
 
-        public DateTime LastInputTime => this._lastInputTime;
+        public DateTime LastInputTime => _lastInputTime;
 
-        public bool InputEnabled => !this._inputDisabled;
+        public bool InputEnabled => !_inputDisabled;
 
         public bool KeyFocusCanBeNull
         {
-            get => this._inputDisabled || this._keyFocusCanBeNull;
+            get => _inputDisabled || _keyFocusCanBeNull;
             set
             {
-                if (this._keyFocusCanBeNull == value)
+                if (_keyFocusCanBeNull == value)
                     return;
-                this._keyFocusCanBeNull = value;
+                _keyFocusCanBeNull = value;
                 if (value)
                     return;
-                this._inputQueue.RevalidateInputSiteUsage(null, false);
+                _inputQueue.RevalidateInputSiteUsage(null, false);
             }
         }
 
-        public ICookedInputSite RawKeyFocus => this._inputQueue.PendingKeyFocus;
+        public ICookedInputSite RawKeyFocus => _inputQueue.PendingKeyFocus;
 
-        public ICookedInputSite RawInstantaneousKeyFocus => this._inputQueue.InstantaneousKeyFocus;
+        public ICookedInputSite RawInstantaneousKeyFocus => _inputQueue.InstantaneousKeyFocus;
 
-        public bool RawKeyFocusIsDefault => this._inputQueue.PendingKeyFocusIsDefault;
+        public bool RawKeyFocusIsDefault => _inputQueue.PendingKeyFocusIsDefault;
 
         public KeyCoalesceFilter KeyCoalescePolicy
         {
-            get => this._keyCoalescePolicy;
-            set => this._keyCoalescePolicy = value;
+            get => _keyCoalescePolicy;
+            set => _keyCoalescePolicy = value;
         }
 
         public Point MostRecentPhysicalMousePos
         {
-            get => this._physicalMouseOffset;
+            get => _physicalMouseOffset;
             set
             {
-                if (!(this._physicalMouseOffset != value))
+                if (!(_physicalMouseOffset != value))
                     return;
-                this._physicalMouseOffset = value;
-                if (this.MousePositionChanged == null)
+                _physicalMouseOffset = value;
+                if (MousePositionChanged == null)
                     return;
-                this.MousePositionChanged(this, EventArgs.Empty);
+                MousePositionChanged(this, EventArgs.Empty);
             }
         }
 
@@ -156,22 +156,22 @@ namespace Microsoft.Iris.Input
 
         public void SuspendInputUntil(DispatchPriority unlockPriority)
         {
-            DeferredCall.Post(unlockPriority, this._resumeInput);
-            this.Session.Dispatcher.BlockInputQueue(true);
-            ++this._inputSuspendCount;
+            DeferredCall.Post(unlockPriority, _resumeInput);
+            Session.Dispatcher.BlockInputQueue(true);
+            ++_inputSuspendCount;
         }
 
         private void ResumeInput()
         {
-            if (this._inputSuspendCount <= 0)
+            if (_inputSuspendCount <= 0)
                 return;
-            --this._inputSuspendCount;
-            if (this._inputSuspendCount != 0)
+            --_inputSuspendCount;
+            if (_inputSuspendCount != 0)
                 return;
-            this.Session.Dispatcher.BlockInputQueue(false);
+            Session.Dispatcher.BlockInputQueue(false);
         }
 
-        internal void UpdateLastInputTime() => this._lastInputTime = DateTime.UtcNow;
+        internal void UpdateLastInputTime() => _lastInputTime = DateTime.UtcNow;
 
         public InputHandlerFlags InputHandlerMask => InputHandlerFlags.All;
 
@@ -180,32 +180,32 @@ namespace Microsoft.Iris.Input
           InputModifiers modifiers,
           ref RawKeyboardData args)
         {
-            KeyInfo info = this.Keyboard.OnRawInput(message, modifiers, ref args);
+            KeyInfo info = Keyboard.OnRawInput(message, modifiers, ref args);
             if (info != null)
-                this._inputQueue.RawKeyAction(info);
-            this.UpdateLastInputTime();
+                _inputQueue.RawKeyAction(info);
+            UpdateLastInputTime();
         }
 
         public void HandleRawMouseInput(uint message, InputModifiers modifiers, ref RawMouseData args)
         {
-            this.Mouse.OnRawInput(message, modifiers, ref args);
-            this.UpdateLastInputTime();
+            Mouse.OnRawInput(message, modifiers, ref args);
+            UpdateLastInputTime();
         }
 
         public void HandleRawHidInput(ref RawHidData args)
         {
-            KeyActionInfo keyActionInfo = this.Remote.OnRawInput(HIDCommandMapping.Find(args._commandCode, args._usagePage), ref args);
+            KeyActionInfo keyActionInfo = Remote.OnRawInput(HIDCommandMapping.Find(args._commandCode, args._usagePage), ref args);
             if (keyActionInfo != null)
-                this._inputQueue.RawKeyAction(keyActionInfo);
-            this.UpdateLastInputTime();
+                _inputQueue.RawKeyAction(keyActionInfo);
+            UpdateLastInputTime();
         }
 
         public void HandleAppCommand(ref RawHidData args)
         {
-            KeyActionInfo keyActionInfo = this.Remote.OnRawInput(AppCommandMapping.Find(args._commandCode), ref args);
+            KeyActionInfo keyActionInfo = Remote.OnRawInput(AppCommandMapping.Find(args._commandCode), ref args);
             if (keyActionInfo != null)
-                this._inputQueue.RawKeyAction(keyActionInfo);
-            this.UpdateLastInputTime();
+                _inputQueue.RawKeyAction(keyActionInfo);
+            UpdateLastInputTime();
         }
 
         public void HandleRawDragInput(uint message, InputModifiers modifiers, ref RawDragData args)
@@ -215,9 +215,9 @@ namespace Microsoft.Iris.Input
                 object data = null;
                 if (message == 0U)
                     data = dataObject.GetExternalData();
-                this.Mouse.OnRawInput(message, modifiers, ref args, data);
+                Mouse.OnRawInput(message, modifiers, ref args, data);
             }
-            this.UpdateLastInputTime();
+            UpdateLastInputTime();
         }
 
         internal void RevalidateInputSiteUsage(
@@ -225,26 +225,26 @@ namespace Microsoft.Iris.Input
           bool recursiveFlag,
           bool knownDisabledFlag)
         {
-            if (this._ignoreHungKeyFocus && !knownDisabledFlag)
+            if (_ignoreHungKeyFocus && !knownDisabledFlag)
             {
-                this.StopIgnoringHungKeyFocus();
+                StopIgnoringHungKeyFocus();
                 target = null;
                 recursiveFlag = false;
             }
-            this._inputQueue.RevalidateInputSiteUsage(target, recursiveFlag);
-            if (this._refreshHitTargetPending)
+            _inputQueue.RevalidateInputSiteUsage(target, recursiveFlag);
+            if (_refreshHitTargetPending)
                 return;
-            this._refreshHitTargetPending = true;
-            DeferredCall.Post(DispatchPriority.RenderSync, this._refreshHitTargetHandler);
+            _refreshHitTargetPending = true;
+            DeferredCall.Post(DispatchPriority.RenderSync, _refreshHitTargetHandler);
         }
 
         private void RefreshHitTargetHandler()
         {
-            this._refreshHitTargetPending = false;
-            this.Session.Form.RefreshHitTarget();
+            _refreshHitTargetPending = false;
+            Session.Form.RefreshHitTarget();
         }
 
-        public bool IsPendingKeyFocusValid() => this.IsValidKeyFocusWorker(this._inputQueue.PendingKeyFocus);
+        public bool IsPendingKeyFocusValid() => IsValidKeyFocusWorker(_inputQueue.PendingKeyFocus);
 
         public void SimulateDragEnter(
           ICookedInputSite dragSource,
@@ -254,10 +254,10 @@ namespace Microsoft.Iris.Input
           int y,
           InputModifiers modifiers)
         {
-            this._inputQueue.SimulateDragEnter(dragSource, rawTargetSite, data, x, y, modifiers);
+            _inputQueue.SimulateDragEnter(dragSource, rawTargetSite, data, x, y, modifiers);
         }
 
-        public void SimulateDragOver(InputModifiers modifiers) => this._inputQueue.SimulateDragOver(modifiers);
+        public void SimulateDragOver(InputModifiers modifiers) => _inputQueue.SimulateDragOver(modifiers);
 
         public void SimulateDragOver(
           IRawInputSite rawTargetSite,
@@ -265,7 +265,7 @@ namespace Microsoft.Iris.Input
           int y,
           InputModifiers modifiers)
         {
-            this._inputQueue.SimulateDragOver(rawTargetSite, x, y, modifiers);
+            _inputQueue.SimulateDragOver(rawTargetSite, x, y, modifiers);
         }
 
         public void SimulateDragEnd(
@@ -273,27 +273,27 @@ namespace Microsoft.Iris.Input
           InputModifiers modifiers,
           DragOperation formOperation)
         {
-            this._inputQueue.SimulateDragEnd(rawTargetSite, modifiers, formOperation);
+            _inputQueue.SimulateDragEnd(rawTargetSite, modifiers, formOperation);
         }
 
-        public object GetDragDropValue() => this._inputQueue.GetDragDropValue();
+        public object GetDragDropValue() => _inputQueue.GetDragDropValue();
 
         internal bool FilterKeyboardEvent(KeyStateInfo info)
         {
             switch (info.Action)
             {
                 case KeyAction.Up:
-                    this.EndKeyCoalesce();
+                    EndKeyCoalesce();
                     break;
                 case KeyAction.Down:
                     if (info.RepeatCount == 2U)
                     {
-                        this.BeginKeyCoalesce(info);
+                        BeginKeyCoalesce(info);
                         break;
                     }
-                    if (info.RepeatCount > 2U && this.CoalesceRepeatedKey(info))
+                    if (info.RepeatCount > 2U && CoalesceRepeatedKey(info))
                         return false;
-                    this.EndKeyCoalesce();
+                    EndKeyCoalesce();
                     break;
             }
             return true;
@@ -301,40 +301,40 @@ namespace Microsoft.Iris.Input
 
         private bool BeginKeyCoalesce(KeyStateInfo info)
         {
-            this.EndKeyCoalesce();
-            if (this._keyCoalescePolicy == null || !this._keyCoalescePolicy(info.Key))
+            EndKeyCoalesce();
+            if (_keyCoalescePolicy == null || !_keyCoalescePolicy(info.Key))
                 return false;
-            this.SetCoalesceKeyEvent(info.MakeRepeatableCopy());
+            SetCoalesceKeyEvent(info.MakeRepeatableCopy());
             return true;
         }
 
         private void SetCoalesceKeyEvent(KeyStateInfo info)
         {
-            if (this._currentCoalesceKeyEvent != null)
-                this._currentCoalesceKeyEvent.Unlock();
-            this._currentCoalesceKeyEvent = info;
-            if (this._currentCoalesceKeyEvent == null)
+            if (_currentCoalesceKeyEvent != null)
+                _currentCoalesceKeyEvent.Unlock();
+            _currentCoalesceKeyEvent = info;
+            if (_currentCoalesceKeyEvent == null)
                 return;
-            this._currentCoalesceKeyEvent.Lock();
+            _currentCoalesceKeyEvent.Lock();
         }
 
         private bool CoalesceRepeatedKey(KeyStateInfo info)
         {
-            if (!info.IsRepeatOf(this._currentCoalesceKeyEvent))
+            if (!info.IsRepeatOf(_currentCoalesceKeyEvent))
                 return false;
-            this.SetCoalesceKeyEvent(info);
-            if (!this._currentCoalesceUndelivered)
+            SetCoalesceKeyEvent(info);
+            if (!_currentCoalesceUndelivered)
             {
-                this._currentCoalesceUndelivered = true;
-                this._inputQueue.RawInputIdleItem(DeferredCall.Create(s_deliverCoalescedKey, this));
+                _currentCoalesceUndelivered = true;
+                _inputQueue.RawInputIdleItem(DeferredCall.Create(s_deliverCoalescedKey, this));
             }
             return true;
         }
 
         private void EndKeyCoalesce()
         {
-            this.SetCoalesceKeyEvent(null);
-            this._currentCoalesceUndelivered = false;
+            SetCoalesceKeyEvent(null);
+            _currentCoalesceUndelivered = false;
         }
 
         private static void DeliverCoalescedKey(object args)
@@ -350,8 +350,8 @@ namespace Microsoft.Iris.Input
 
         public void MapMouseInput(MouseActionInfo info, ICookedInputSite captureSite)
         {
-            ICookedInputSite target = this.HitTestInput(info.RawSource, captureSite);
-            if (!this.IsValidCookedInputSite(target))
+            ICookedInputSite target = HitTestInput(info.RawSource, captureSite);
+            if (!IsValidCookedInputSite(target))
                 target = null;
             IRawInputSite naturalHit = info.NaturalHit;
             ICookedInputSite naturalTarget = null;
@@ -365,7 +365,7 @@ namespace Microsoft.Iris.Input
           ICookedInputSite targetRelative)
         {
             ICookedInputSite cookedInputSite = null;
-            if (!this._inputDisabled)
+            if (!_inputDisabled)
             {
                 ITreeNode treeNode = null;
                 if (targetRelative != null)
@@ -394,22 +394,22 @@ namespace Microsoft.Iris.Input
 
         internal bool IsValidKeyFocusSite(ICookedInputSite target)
         {
-            bool flag = this.IsValidKeyFocusWorker(target);
-            if (this._ignoreHungKeyFocus)
+            bool flag = IsValidKeyFocusWorker(target);
+            if (_ignoreHungKeyFocus)
             {
                 if (flag)
-                    this.StopIgnoringHungKeyFocus();
-                else if (target == this._ignoreHungKeyFocusTarget)
+                    StopIgnoringHungKeyFocus();
+                else if (target == _ignoreHungKeyFocusTarget)
                     flag = true;
                 else
-                    this.StopIgnoringHungKeyFocus();
+                    StopIgnoringHungKeyFocus();
             }
             return flag;
         }
 
         private bool IsValidKeyFocusWorker(ICookedInputSite candidate)
         {
-            bool flag = this.KeyFocusCanBeNull;
+            bool flag = KeyFocusCanBeNull;
             if (candidate is ITreeNode child)
             {
                 UIZone zone = child.Zone;
@@ -421,107 +421,107 @@ namespace Microsoft.Iris.Input
 
         internal void RepairInvalidKeyFocus(uint attemptCount)
         {
-            if (this._inputQueue.PendingKeyFocus is ITreeNode pendingKeyFocus && pendingKeyFocus.Zone == null)
+            if (_inputQueue.PendingKeyFocus is ITreeNode pendingKeyFocus && pendingKeyFocus.Zone == null)
             {
-                this._inputQueue.RequestKeyFocus(null, KeyFocusReason.Default);
-                if (this._keyFocusCanBeNull)
+                _inputQueue.RequestKeyFocus(null, KeyFocusReason.Default);
+                if (_keyFocusCanBeNull)
                     return;
             }
             if (attemptCount <= 1U)
             {
-                this.SuspendInputUntil(DispatchPriority.LayoutSync);
+                SuspendInputUntil(DispatchPriority.LayoutSync);
             }
             else
             {
-                if (this.InvalidKeyFocus != null)
-                    this.InvalidKeyFocus(this._inputQueue.LastCompletedKeyFocus);
-                ICookedInputSite pendingKeyFocusB = this._inputQueue.PendingKeyFocus;
-                if (this.IsValidKeyFocusWorker(pendingKeyFocusB))
+                if (InvalidKeyFocus != null)
+                    InvalidKeyFocus(_inputQueue.LastCompletedKeyFocus);
+                ICookedInputSite pendingKeyFocusB = _inputQueue.PendingKeyFocus;
+                if (IsValidKeyFocusWorker(pendingKeyFocusB))
                     return;
-                if (this._keyFocusCanBeNull)
+                if (_keyFocusCanBeNull)
                 {
-                    this._inputQueue.RequestKeyFocus(null, KeyFocusReason.Default);
+                    _inputQueue.RequestKeyFocus(null, KeyFocusReason.Default);
                 }
                 else
                 {
-                    this._ignoreHungKeyFocus = true;
-                    this._ignoreHungKeyFocusTarget = pendingKeyFocusB;
+                    _ignoreHungKeyFocus = true;
+                    _ignoreHungKeyFocusTarget = pendingKeyFocusB;
                 }
             }
         }
 
         private void StopIgnoringHungKeyFocus()
         {
-            this._ignoreHungKeyFocus = false;
-            this._ignoreHungKeyFocusTarget = null;
+            _ignoreHungKeyFocus = false;
+            _ignoreHungKeyFocusTarget = null;
         }
 
         internal void RequestHostKeyFocus(ICookedInputSite target)
         {
-            if (!this._session.IsValid || target is IInputCustomFocus inputCustomFocus && inputCustomFocus.OverrideHostFocus() || this._session.Form == null)
+            if (!_session.IsValid || target is IInputCustomFocus inputCustomFocus && inputCustomFocus.OverrideHostFocus() || _session.Form == null)
                 return;
-            this._session.Form.TakeFocus();
+            _session.Form.TakeFocus();
         }
 
         internal void RequestHostMouseCapture(IRawInputSite rawSource, bool state)
         {
-            if (this._session.Form == null)
+            if (_session.Form == null)
                 return;
-            this._session.Form.SetCapture(rawSource, state);
+            _session.Form.SetCapture(rawSource, state);
         }
 
         internal void DeliverInput(ICookedInputSite target, InputInfo info)
         {
-            if (info is KeyStateInfo info1 && !this.FilterKeyboardEvent(info1))
+            if (info is KeyStateInfo info1 && !FilterKeyboardEvent(info1))
                 return;
-            this.DeliverInputWorker(target, info, EventRouteStages.All);
+            DeliverInputWorker(target, info, EventRouteStages.All);
         }
 
-        public void ForwardInput(ICookedInputSite target, InputInfo info) => this.DeliverInputWorker(target, info, EventRouteStages.Direct);
+        public void ForwardInput(ICookedInputSite target, InputInfo info) => DeliverInputWorker(target, info, EventRouteStages.Direct);
 
         private void DeliverInputWorker(
           ICookedInputSite target,
           InputInfo info,
           EventRouteStages stages)
         {
-            if (this._inputDisabled)
+            if (_inputDisabled)
                 return;
-            InputManager.ZoneDeliveryInfo inputZoneRouting = this.ComputeInputZoneRouting(target, info);
-            if (this.CheckFocus(target, ref inputZoneRouting, info) && inputZoneRouting.zone != null)
+            InputManager.ZoneDeliveryInfo inputZoneRouting = ComputeInputZoneRouting(target, info);
+            if (CheckFocus(target, ref inputZoneRouting, info) && inputZoneRouting.zone != null)
             {
                 byte traceLevelForEvent = Trace.GetTraceLevelForEvent(info);
                 EventRouteStages stage = EventRouteStages.None;
-                if (this.PreviewInput != null && (stages & EventRouteStages.Preview) != EventRouteStages.None)
+                if (PreviewInput != null && (stages & EventRouteStages.Preview) != EventRouteStages.None)
                 {
-                    this.PreviewInput(this, new InputNotificationEventArgs(info, target, stage));
+                    PreviewInput(this, new InputNotificationEventArgs(info, target, stage));
                     if (info.Handled)
                         stage = EventRouteStages.Preview;
                 }
                 if (!info.Handled && (stages & EventRouteStages.Routed) != EventRouteStages.None)
                 {
-                    int num = (int)this.DeliverInputStageWorker(info, EventRouteStages.Routed, ref inputZoneRouting, traceLevelForEvent);
+                    int num = (int)DeliverInputStageWorker(info, EventRouteStages.Routed, ref inputZoneRouting, traceLevelForEvent);
                     if (info.Handled)
                         stage = EventRouteStages.Routed;
                 }
                 if (!info.Handled && (stages & EventRouteStages.Direct) != EventRouteStages.None)
                 {
-                    int num = (int)this.DeliverInputStageWorker(info, EventRouteStages.Direct, ref inputZoneRouting, traceLevelForEvent);
+                    int num = (int)DeliverInputStageWorker(info, EventRouteStages.Direct, ref inputZoneRouting, traceLevelForEvent);
                     if (info.Handled)
                         stage = EventRouteStages.Direct;
                 }
                 if (!info.Handled && (stages & EventRouteStages.Bubbled) != EventRouteStages.None)
                 {
-                    int num = (int)this.DeliverInputStageWorker(info, EventRouteStages.Bubbled, ref inputZoneRouting, traceLevelForEvent);
+                    int num = (int)DeliverInputStageWorker(info, EventRouteStages.Bubbled, ref inputZoneRouting, traceLevelForEvent);
                     if (info.Handled)
                         stage = EventRouteStages.Bubbled;
                 }
                 if (!info.Handled && (stages & EventRouteStages.Unhandled) != EventRouteStages.None)
                 {
-                    int num = (int)this.DeliverInputStageWorker(info, EventRouteStages.Unhandled, ref inputZoneRouting, traceLevelForEvent);
+                    int num = (int)DeliverInputStageWorker(info, EventRouteStages.Unhandled, ref inputZoneRouting, traceLevelForEvent);
                     if (info.Handled)
                         stage = EventRouteStages.Unhandled;
                 }
-                InputNotificationHandler notificationHandler = !info.Handled ? this.UnhandledInput : this.HandledInput;
+                InputNotificationHandler notificationHandler = !info.Handled ? UnhandledInput : HandledInput;
                 if (notificationHandler != null)
                     notificationHandler(this, new InputNotificationEventArgs(info, target, stage));
             }
@@ -582,8 +582,8 @@ namespace Microsoft.Iris.Input
                         InputManager.ZoneDeliveryInfo newFocusInfo = new InputManager.ZoneDeliveryInfo();
                         if (mouseFocusInfo.State)
                             newFocusInfo = deliveryInfo;
-                        ProcessFocusUpdates(InputDeviceType.Mouse, ref this._mouseFocusZone, newFocusInfo, target as ITreeNode);
-                        this._session.RootZone.UpdateCursor(null);
+                        ProcessFocusUpdates(InputDeviceType.Mouse, ref _mouseFocusZone, newFocusInfo, target as ITreeNode);
+                        _session.RootZone.UpdateCursor(null);
                     }
                     if (mouseFocusInfo.State && target == mouseFocusInfo.Other)
                         flag = false;
@@ -594,7 +594,7 @@ namespace Microsoft.Iris.Input
                         InputManager.ZoneDeliveryInfo newFocusInfo = new InputManager.ZoneDeliveryInfo();
                         if (keyFocusInfo.State)
                             newFocusInfo = deliveryInfo;
-                        ProcessFocusUpdates(InputDeviceType.Keyboard, ref this._keyFocusZone, newFocusInfo, target as ITreeNode);
+                        ProcessFocusUpdates(InputDeviceType.Keyboard, ref _keyFocusZone, newFocusInfo, target as ITreeNode);
                     }
                     if (keyFocusInfo.State && target == keyFocusInfo.Other)
                         flag = false;
@@ -639,9 +639,9 @@ namespace Microsoft.Iris.Input
             zone.UpdateInputFocusStates(focusType, deepFocusFlag, directFocusChild, obj);
         }
 
-        internal InputModifiers HACK_SystemModifiers => this._HACK_sysModifiers;
+        internal InputModifiers HACK_SystemModifiers => _HACK_sysModifiers;
 
-        internal void HACK_UpdateSystemModifiers(InputModifiers modifiers) => this._HACK_sysModifiers = modifiers;
+        internal void HACK_UpdateSystemModifiers(InputModifiers modifiers) => _HACK_sysModifiers = modifiers;
 
         private struct ZoneDeliveryInfo
         {

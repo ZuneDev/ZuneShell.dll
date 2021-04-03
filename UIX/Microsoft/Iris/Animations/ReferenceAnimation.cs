@@ -14,13 +14,13 @@ namespace Microsoft.Iris.Animations
 
         public IAnimationProvider Source
         {
-            get => this._sourceAnimation;
+            get => _sourceAnimation;
             set
             {
-                if (this._sourceAnimation == value)
+                if (_sourceAnimation == value)
                     return;
-                this._sourceAnimation = value;
-                this.OnSourceChanged();
+                _sourceAnimation = value;
+                OnSourceChanged();
             }
         }
 
@@ -28,14 +28,14 @@ namespace Microsoft.Iris.Animations
         {
         }
 
-        public AnimationEventType Type => this._sourceAnimation != null ? this._sourceAnimation.Type : AnimationEventType.Idle;
+        public AnimationEventType Type => _sourceAnimation != null ? _sourceAnimation.Type : AnimationEventType.Idle;
 
-        public AnimationTemplate Build(ref AnimationArgs args) => this.BuildWorker(ref args);
+        public AnimationTemplate Build(ref AnimationArgs args) => BuildWorker(ref args);
 
-        protected virtual AnimationTemplate BuildWorker(ref AnimationArgs args) => this._sourceAnimation.Build(ref args);
+        protected virtual AnimationTemplate BuildWorker(ref AnimationArgs args) => _sourceAnimation.Build(ref args);
 
-        public override string ToString() => InvariantString.Format("{0}({1})", this.GetType().Name, Source);
+        public override string ToString() => InvariantString.Format("{0}({1})", GetType().Name, Source);
 
-        public virtual bool CanCache => this._sourceAnimation == null || this._sourceAnimation.CanCache;
+        public virtual bool CanCache => _sourceAnimation == null || _sourceAnimation.CanCache;
     }
 }

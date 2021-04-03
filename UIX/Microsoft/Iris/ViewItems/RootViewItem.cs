@@ -17,25 +17,25 @@ namespace Microsoft.Iris.ViewItems
 
         public RootViewItem(UIZone zone, UIClass rootUI, Form form)
         {
-            this.DeclareOwner(rootUI);
-            this.PropagateZone(zone);
+            DeclareOwner(rootUI);
+            PropagateZone(zone);
             IVisualContainer rootVisual = form.RootVisual;
             rootVisual.MouseOptions = MouseOptions.Traversable;
-            this.VisualContainer = rootVisual;
+            VisualContainer = rootVisual;
         }
 
         internal void ApplyRootLayoutOutput(bool parentFullyVisibleFlag, out bool visibilityChangeFlag)
         {
-            Rectangle layoutBounds = this.LayoutBounds;
-            this.VisualPosition = new Vector3(layoutBounds.Left, layoutBounds.Top, 0.0f);
-            this.VisualSize = new Vector2(layoutBounds.Width, layoutBounds.Height);
-            this.VisualScale = this.LayoutScale;
-            if (this.LayoutVisible)
+            Rectangle layoutBounds = LayoutBounds;
+            VisualPosition = new Vector3(layoutBounds.Left, layoutBounds.Top, 0.0f);
+            VisualSize = new Vector2(layoutBounds.Width, layoutBounds.Height);
+            VisualScale = LayoutScale;
+            if (LayoutVisible)
                 parentFullyVisibleFlag = false;
-            visibilityChangeFlag = this._rootVisibleFlag != parentFullyVisibleFlag;
+            visibilityChangeFlag = _rootVisibleFlag != parentFullyVisibleFlag;
             if (!visibilityChangeFlag)
                 return;
-            this._rootVisibleFlag = parentFullyVisibleFlag;
+            _rootVisibleFlag = parentFullyVisibleFlag;
         }
 
         protected override NavigationPolicies ForcedNavigationFlags => NavigationPolicies.RememberFocus | NavigationPolicies.WrapTabOrder;

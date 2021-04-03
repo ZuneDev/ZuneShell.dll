@@ -19,9 +19,9 @@ namespace Microsoft.Iris.ModelItems
 
         public RangedValue(float min, float max, float step)
         {
-            this._min = min;
-            this._max = max;
-            this._step = step;
+            _min = min;
+            _max = max;
+            _step = step;
         }
 
         public RangedValue()
@@ -31,18 +31,18 @@ namespace Microsoft.Iris.ModelItems
 
         public float Value
         {
-            get => this._value;
+            get => _value;
             set
             {
-                value = Math.Max(value, this._min);
-                value = Math.Min(value, this._max);
+                value = Math.Max(value, _min);
+                value = Math.Min(value, _max);
                 if (_value == (double)value)
                     return;
                 using (new RangedValue.PrevNextNotifier(this))
                 {
-                    this._value = value;
-                    this.FireNotification(NotificationID.Value);
-                    this.FireNotification(NotificationID.ObjectValue);
+                    _value = value;
+                    FireNotification(NotificationID.Value);
+                    FireNotification(NotificationID.ObjectValue);
                 }
             }
         }
@@ -51,62 +51,62 @@ namespace Microsoft.Iris.ModelItems
 
         public float MinValue
         {
-            get => this._min;
+            get => _min;
             set
             {
                 if (_min == (double)value)
                     return;
                 using (new RangedValue.PrevNextNotifier(this))
                 {
-                    this._min = value;
-                    this.FireNotification(NotificationID.MinValue);
-                    this.FireNotification(NotificationID.Range);
-                    this.Value = this.Value;
+                    _min = value;
+                    FireNotification(NotificationID.MinValue);
+                    FireNotification(NotificationID.Range);
+                    Value = Value;
                 }
             }
         }
 
         public float MaxValue
         {
-            get => this._max;
+            get => _max;
             set
             {
                 if (_max == (double)value)
                     return;
                 using (new RangedValue.PrevNextNotifier(this))
                 {
-                    this._max = value;
-                    this.FireNotification(NotificationID.MaxValue);
-                    this.FireNotification(NotificationID.Range);
-                    this.Value = this.Value;
+                    _max = value;
+                    FireNotification(NotificationID.MaxValue);
+                    FireNotification(NotificationID.Range);
+                    Value = Value;
                 }
             }
         }
 
-        public float Range => this._max - this._min;
+        public float Range => _max - _min;
 
         public float Step
         {
-            get => this._step;
+            get => _step;
             set
             {
                 if (_step == (double)value)
                     return;
                 using (new RangedValue.PrevNextNotifier(this))
                 {
-                    this._step = value;
-                    this.FireNotification(NotificationID.Step);
+                    _step = value;
+                    FireNotification(NotificationID.Step);
                 }
             }
         }
 
-        public bool HasPreviousValue => _step < 0.0 ? _value < (double)this._max : _value > (double)this._min;
+        public bool HasPreviousValue => _step < 0.0 ? _value < (double)_max : _value > (double)_min;
 
-        public bool HasNextValue => _step < 0.0 ? _value > (double)this._min : _value < (double)this._max;
+        public bool HasNextValue => _step < 0.0 ? _value > (double)_min : _value < (double)_max;
 
-        public void PreviousValue() => this.Value -= this.Step;
+        public void PreviousValue() => Value -= Step;
 
-        public void NextValue() => this.Value += this.Step;
+        public void NextValue() => Value += Step;
 
         private struct PrevNextNotifier : IDisposable
         {
@@ -116,18 +116,18 @@ namespace Microsoft.Iris.ModelItems
 
             public PrevNextNotifier(RangedValue range)
             {
-                this._range = range;
-                this._hadPrev = range.HasPreviousValue;
-                this._hadNext = range.HasNextValue;
+                _range = range;
+                _hadPrev = range.HasPreviousValue;
+                _hadNext = range.HasNextValue;
             }
 
             public void Dispose()
             {
-                if (this._range.HasPreviousValue != this._hadPrev)
-                    this._range.FireNotification(NotificationID.HasPreviousValue);
-                if (this._range.HasNextValue == this._hadNext)
+                if (_range.HasPreviousValue != _hadPrev)
+                    _range.FireNotification(NotificationID.HasPreviousValue);
+                if (_range.HasNextValue == _hadNext)
                     return;
-                this._range.FireNotification(NotificationID.HasNextValue);
+                _range.FireNotification(NotificationID.HasNextValue);
             }
         }
     }

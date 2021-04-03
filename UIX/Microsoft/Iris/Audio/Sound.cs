@@ -22,21 +22,21 @@ namespace Microsoft.Iris.Audio
 
         internal string Source
         {
-            get => this._source;
+            get => _source;
             set
             {
-                this._source = value;
-                this._systemSoundEvent = SystemSoundEvent.None;
+                _source = value;
+                _systemSoundEvent = SystemSoundEvent.None;
             }
         }
 
         internal SystemSoundEvent SystemSoundEvent
         {
-            get => this._systemSoundEvent;
+            get => _systemSoundEvent;
             set
             {
-                this._systemSoundEvent = value;
-                this._source = null;
+                _systemSoundEvent = value;
+                _source = null;
             }
         }
 
@@ -47,10 +47,10 @@ namespace Microsoft.Iris.Audio
             SoundManager soundManager = UISession.Default.SoundManager;
             ISoundBuffer soundBuffer = null;
             string source = null;
-            if (this._source != null)
-                source = this._source;
-            else if (this._systemSoundEvent != SystemSoundEvent.None)
-                source = soundManager.GetSystemSoundEventSource(this._systemSoundEvent);
+            if (_source != null)
+                source = _source;
+            else if (_systemSoundEvent != SystemSoundEvent.None)
+                source = soundManager.GetSystemSoundEventSource(_systemSoundEvent);
             if (source != null)
                 soundBuffer = soundManager.GetSoundBuffer(source);
             if (soundBuffer == null)

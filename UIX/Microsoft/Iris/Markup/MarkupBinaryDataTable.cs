@@ -18,9 +18,9 @@ namespace Microsoft.Iris.Markup
 
         public MarkupBinaryDataTable(string uri, int stringCount)
         {
-            this._uri = uri;
-            this._strings = new Vector<string>(stringCount);
-            this._strings.ExpandTo(stringCount);
+            _uri = uri;
+            _strings = new Vector<string>(stringCount);
+            _strings.ExpandTo(stringCount);
         }
 
         public MarkupBinaryDataTable(string uri)
@@ -28,52 +28,52 @@ namespace Microsoft.Iris.Markup
         {
         }
 
-        public void SetStringTableReader(ByteCodeReader stringTableReader) => this._stringTableReader = stringTableReader;
+        public void SetStringTableReader(ByteCodeReader stringTableReader) => _stringTableReader = stringTableReader;
 
-        public string Uri => this._uri;
+        public string Uri => _uri;
 
         public int GetIndexOrAdd(string s)
         {
-            int num = this._strings.IndexOf(s);
+            int num = _strings.IndexOf(s);
             if (num == -1)
             {
-                this._strings.Add(s);
-                num = this._strings.Count - 1;
+                _strings.Add(s);
+                num = _strings.Count - 1;
             }
             return num;
         }
 
         public string GetStringByIndex(int index)
         {
-            string str = this._strings[index];
+            string str = _strings[index];
             if (str == null)
             {
-                this._stringTableReader.CurrentOffset = (uint)(index * 4);
-                this._stringTableReader.CurrentOffset = this._stringTableReader.ReadUInt32();
-                str = this._stringTableReader.ReadString();
-                this._strings[index] = str;
+                _stringTableReader.CurrentOffset = (uint)(index * 4);
+                _stringTableReader.CurrentOffset = _stringTableReader.ReadUInt32();
+                str = _stringTableReader.ReadString();
+                _strings[index] = str;
             }
             return str;
         }
 
-        public Vector<string> Strings => this._strings;
+        public Vector<string> Strings => _strings;
 
-        public MarkupConstantsTable ConstantsTable => this._constantsTable;
+        public MarkupConstantsTable ConstantsTable => _constantsTable;
 
-        public MarkupImportTables ImportTables => this._importTables;
+        public MarkupImportTables ImportTables => _importTables;
 
-        public SourceMarkupImportTables SourceMarkupImportTables => this._sourceMarkupImportTables;
+        public SourceMarkupImportTables SourceMarkupImportTables => _sourceMarkupImportTables;
 
-        public void SetConstantsTable(MarkupConstantsTable constantsTable) => this._constantsTable = constantsTable;
+        public void SetConstantsTable(MarkupConstantsTable constantsTable) => _constantsTable = constantsTable;
 
-        public void SetImportTables(MarkupImportTables importTables) => this._importTables = importTables;
+        public void SetImportTables(MarkupImportTables importTables) => _importTables = importTables;
 
-        public void SetSourceMarkupImportTables(SourceMarkupImportTables sourceMarkupImportTables) => this._sourceMarkupImportTables = sourceMarkupImportTables;
+        public void SetSourceMarkupImportTables(SourceMarkupImportTables sourceMarkupImportTables) => _sourceMarkupImportTables = sourceMarkupImportTables;
 
         public LoadResult[] SharedDependenciesTableWithBinaryDataTable
         {
-            get => this._sharedDependenciesTable;
-            set => this._sharedDependenciesTable = value;
+            get => _sharedDependenciesTable;
+            set => _sharedDependenciesTable = value;
         }
     }
 }

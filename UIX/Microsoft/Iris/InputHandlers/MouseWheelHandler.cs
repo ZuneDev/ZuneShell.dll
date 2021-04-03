@@ -14,36 +14,36 @@ namespace Microsoft.Iris.InputHandlers
     {
         private bool _handle;
 
-        public MouseWheelHandler() => this._handle = true;
+        public MouseWheelHandler() => _handle = true;
 
         protected override void ConfigureInteractivity()
         {
             base.ConfigureInteractivity();
-            if (!this.HandleDirect)
+            if (!HandleDirect)
                 return;
-            this.UI.MouseInteractive = true;
-            this.UI.KeyInteractive = true;
+            UI.MouseInteractive = true;
+            UI.KeyInteractive = true;
         }
 
         public bool Handle
         {
-            get => this._handle;
+            get => _handle;
             set
             {
-                if (this._handle == value)
+                if (_handle == value)
                     return;
-                this._handle = value;
-                this.FireNotification(NotificationID.Handle);
+                _handle = value;
+                FireNotification(NotificationID.Handle);
             }
         }
 
         protected override void OnMouseWheel(UIClass ui, MouseWheelInfo info)
         {
             if (info.WheelDelta > 0)
-                this.FireNotification(NotificationID.UpInvoked);
+                FireNotification(NotificationID.UpInvoked);
             else
-                this.FireNotification(NotificationID.DownInvoked);
-            if (!this._handle)
+                FireNotification(NotificationID.DownInvoked);
+            if (!_handle)
                 return;
             info.MarkHandled();
         }

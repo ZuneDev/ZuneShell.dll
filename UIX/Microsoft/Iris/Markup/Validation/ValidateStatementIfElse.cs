@@ -23,12 +23,12 @@ namespace Microsoft.Iris.Markup.Validation
           int column)
           : base(owner, line, column, StatementType.IfElse)
         {
-            this._condition = condition;
-            this._statementCompoundTrue = statementCompoundTrue;
-            this._statementCompoundFalse = statementCompoundFalse;
+            _condition = condition;
+            _statementCompoundTrue = statementCompoundTrue;
+            _statementCompoundFalse = statementCompoundFalse;
         }
 
-        public ValidateExpression Condition => this._condition;
+        public ValidateExpression Condition => _condition;
 
         public ValidateStatement StatementCompoundTrue => _statementCompoundTrue;
 
@@ -36,16 +36,16 @@ namespace Microsoft.Iris.Markup.Validation
 
         public override void Validate(ValidateCode container, ValidateContext context)
         {
-            this._condition.Validate(new TypeRestriction(BooleanSchema.Type), context);
-            if (this._condition.HasErrors)
-                this.MarkHasErrors();
-            this._statementCompoundTrue.Validate(container, context);
-            if (this._statementCompoundTrue.HasErrors)
-                this.MarkHasErrors();
-            this._statementCompoundFalse.Validate(container, context);
-            if (!this._statementCompoundFalse.HasErrors)
+            _condition.Validate(new TypeRestriction(BooleanSchema.Type), context);
+            if (_condition.HasErrors)
+                MarkHasErrors();
+            _statementCompoundTrue.Validate(container, context);
+            if (_statementCompoundTrue.HasErrors)
+                MarkHasErrors();
+            _statementCompoundFalse.Validate(container, context);
+            if (!_statementCompoundFalse.HasErrors)
                 return;
-            this.MarkHasErrors();
+            MarkHasErrors();
         }
     }
 }

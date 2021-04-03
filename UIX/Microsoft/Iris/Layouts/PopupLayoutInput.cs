@@ -28,45 +28,45 @@ namespace Microsoft.Iris.Layouts
 
         public PopupLayoutInput()
         {
-            this._stayInBounds = true;
-            this._respectMenuDropAlignment = true;
-            this.Placement = PlacementMode.Origin;
+            _stayInBounds = true;
+            _respectMenuDropAlignment = true;
+            Placement = PlacementMode.Origin;
         }
 
         public ViewItem PlacementTarget
         {
-            get => this._target;
-            set => this._target = value;
+            get => _target;
+            set => _target = value;
         }
 
         public PlacementMode Placement
         {
-            get => this._placementMode;
-            set => this._placementMode = value;
+            get => _placementMode;
+            set => _placementMode = value;
         }
 
         public Point Offset
         {
-            get => this._offset;
-            set => this._offset = value;
+            get => _offset;
+            set => _offset = value;
         }
 
         public bool StayInBounds
         {
-            get => this._stayInBounds;
-            set => this._stayInBounds = value;
+            get => _stayInBounds;
+            set => _stayInBounds = value;
         }
 
         public bool RespectMenuDropAlignment
         {
-            get => this._respectMenuDropAlignment;
-            set => this._respectMenuDropAlignment = value;
+            get => _respectMenuDropAlignment;
+            set => _respectMenuDropAlignment = value;
         }
 
         public bool ConstrainToTarget
         {
-            get => this._constrainToTarget;
-            set => this._constrainToTarget = value;
+            get => _constrainToTarget;
+            set => _constrainToTarget = value;
         }
 
         DataCookie ILayoutInput.Data => Data;
@@ -75,37 +75,37 @@ namespace Microsoft.Iris.Layouts
 
         internal RectangleF MouseRect
         {
-            get => this._mouseRect;
-            set => this._mouseRect = value;
+            get => _mouseRect;
+            set => _mouseRect = value;
         }
 
         public bool FlippedHorizontally
         {
-            get => this._flippedHorizontally;
+            get => _flippedHorizontally;
             set
             {
-                if (this._flippedHorizontally == value)
+                if (_flippedHorizontally == value)
                     return;
-                this._flippedHorizontally = value;
-                this.FireNotification(NotificationID.FlippedHorizontally);
+                _flippedHorizontally = value;
+                FireNotification(NotificationID.FlippedHorizontally);
             }
         }
 
         public bool FlippedVertically
         {
-            get => this._flippedVertically;
+            get => _flippedVertically;
             set
             {
-                if (this._flippedVertically == value)
+                if (_flippedVertically == value)
                     return;
-                this._flippedVertically = value;
-                this.FireNotification(NotificationID.FlippedVertically);
+                _flippedVertically = value;
+                FireNotification(NotificationID.FlippedVertically);
             }
         }
 
-        internal bool TargetIsMouse => this._placementMode != null && this._placementMode.MouseTarget == MouseTarget.Fixed;
+        internal bool TargetIsMouse => _placementMode != null && _placementMode.MouseTarget == MouseTarget.Fixed;
 
-        internal bool TargetIsFollowMouse => this._placementMode != null && this._placementMode.MouseTarget == MouseTarget.Follow;
+        internal bool TargetIsFollowMouse => _placementMode != null && _placementMode.MouseTarget == MouseTarget.Follow;
 
         internal static PopupLayoutInput Default
         {

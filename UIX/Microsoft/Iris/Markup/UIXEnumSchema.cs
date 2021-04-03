@@ -15,13 +15,13 @@ namespace Microsoft.Iris.Markup
         public UIXEnumSchema(short typeID, string name, Type runtimeType, bool isFlags)
           : base(MarkupSystem.UIXGlobal)
         {
-            this._typeID = typeID;
-            this.Initialize(name, runtimeType, isFlags, null, null);
+            _typeID = typeID;
+            Initialize(name, runtimeType, isFlags, null, null);
             UIXTypes.RegisterTypeForID(typeID, this);
         }
 
-        protected override void InitializeNameToValueMap() => this._nameToValueMap = UIXEnumData.GetDataForType(this._typeID);
+        protected override void InitializeNameToValueMap() => _nameToValueMap = UIXEnumData.GetDataForType(_typeID);
 
-        public override string ToString() => this.Name;
+        public override string ToString() => Name;
     }
 }

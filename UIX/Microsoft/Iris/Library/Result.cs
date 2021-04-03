@@ -19,12 +19,12 @@ namespace Microsoft.Iris.Library
 
         public static Result Fail(string format, object param1, object param2, object param3) => new Result(string.Format(format, param1, param2, param3));
 
-        public bool Failed => this._error != null;
+        public bool Failed => _error != null;
 
-        public string Error => this._error;
+        public string Error => _error;
 
-        public override string ToString() => this._error;
+        public override string ToString() => _error;
 
-        private Result(string error) => this._error = error;
+        private Result(string error) => _error = error;
     }
 }

@@ -18,34 +18,34 @@ namespace Microsoft.Iris.RenderAPI.Drawing
 
         public Dib(IntPtr hdib, IntPtr prgbData, Size sizePxl)
         {
-            this.m_hdib = hdib;
-            this.m_prgbData = prgbData;
-            this.m_sizePxl = sizePxl;
+            m_hdib = hdib;
+            m_prgbData = prgbData;
+            m_sizePxl = sizePxl;
         }
 
-        ~Dib() => this.Dispose(false);
+        ~Dib() => Dispose(false);
 
         public void Dispose()
         {
             GC.SuppressFinalize(this);
-            this.Dispose(true);
+            Dispose(true);
         }
 
         private void Dispose(bool fInDispose)
         {
-            if (!(this.m_hdib != IntPtr.Zero))
+            if (!(m_hdib != IntPtr.Zero))
                 return;
-            NativeApi.SpFreeDib(this.m_hdib);
-            this.m_hdib = IntPtr.Zero;
-            this.m_prgbData = IntPtr.Zero;
+            NativeApi.SpFreeDib(m_hdib);
+            m_hdib = IntPtr.Zero;
+            m_prgbData = IntPtr.Zero;
         }
 
-        public Size ContentSize => this.m_sizePxl;
+        public Size ContentSize => m_sizePxl;
 
-        public int Stride => this.m_sizePxl.Width * 4;
+        public int Stride => m_sizePxl.Width * 4;
 
         public ImageFormat ImageFormat => ImageFormat.A8R8G8B8;
 
-        internal IntPtr Data => this.m_prgbData;
+        internal IntPtr Data => m_prgbData;
     }
 }

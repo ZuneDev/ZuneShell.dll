@@ -19,8 +19,8 @@ namespace Microsoft.Iris.Markup.Validation
         {
         }
 
-        public Vector<ValidateStatementBreak> BreakStatements => this._breakStatements;
+        public Vector<ValidateStatementBreak> BreakStatements => _breakStatements;
 
-        public void TrackBreakStatement(ValidateStatementBreak breakStatement) => this._breakStatements.Add(breakStatement);
+        public void TrackBreakStatement(ValidateStatementBreak breakStatement) => _breakStatements.Add(breakStatement);
     }
 }

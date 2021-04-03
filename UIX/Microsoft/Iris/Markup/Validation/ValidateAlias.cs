@@ -23,44 +23,44 @@ namespace Microsoft.Iris.Markup.Validation
 
         public void Validate(LoadPass currentPass)
         {
-            if (this._currentValidationPass >= currentPass)
+            if (_currentValidationPass >= currentPass)
                 return;
-            this._currentValidationPass = currentPass;
-            if (this._currentValidationPass == LoadPass.DeclareTypes)
+            _currentValidationPass = currentPass;
+            if (_currentValidationPass == LoadPass.DeclareTypes)
             {
-                ValidateContext context = new ValidateContext(null, null, this._currentValidationPass);
-                this.Validate(TypeRestriction.None, context);
-                this._aliasName = this.GetInlinePropertyValueNoValidate("Name");
-                string propertyValueNoValidate = this.GetInlinePropertyValueNoValidate("Type");
+                ValidateContext context = new ValidateContext(null, null, _currentValidationPass);
+                Validate(TypeRestriction.None, context);
+                _aliasName = GetInlinePropertyValueNoValidate("Name");
+                string propertyValueNoValidate = GetInlinePropertyValueNoValidate("Type");
                 if (propertyValueNoValidate != null)
                 {
-                    this._typeIdentifier = new ValidateTypeIdentifier(this.Owner, propertyValueNoValidate, this.Line, this.Column);
-                    this.Owner.NotifyTypeIdentifierFound(this._typeIdentifier.Prefix, this._typeIdentifier.TypeName);
-                    string typeName = this._typeIdentifier.TypeName;
-                    if (this._aliasName == null)
-                        this._aliasName = typeName;
-                    LoadResult dependency = this.Owner.FindDependency(this._typeIdentifier.Prefix);
+                    _typeIdentifier = new ValidateTypeIdentifier(Owner, propertyValueNoValidate, Line, Column);
+                    Owner.NotifyTypeIdentifierFound(_typeIdentifier.Prefix, _typeIdentifier.TypeName);
+                    string typeName = _typeIdentifier.TypeName;
+                    if (_aliasName == null)
+                        _aliasName = typeName;
+                    LoadResult dependency = Owner.FindDependency(_typeIdentifier.Prefix);
                     if (dependency == null)
-                        this.ReportError("Xmlns prefix '{0}' was not found", this._typeIdentifier.Prefix);
-                    else if (!ValidateContext.IsValidSymbolName(this._aliasName))
+                        ReportError("Xmlns prefix '{0}' was not found", _typeIdentifier.Prefix);
+                    else if (!ValidateContext.IsValidSymbolName(_aliasName))
                     {
-                        this.ReportError("Invalid name \"{0}\".  Valid names must begin with either an alphabetic character or an underscore and can otherwise contain only alphabetic, numeric, or underscore characters", this._aliasName);
+                        ReportError("Invalid name \"{0}\".  Valid names must begin with either an alphabetic character or an underscore and can otherwise contain only alphabetic, numeric, or underscore characters", _aliasName);
                     }
                     else
                     {
-                        if (this.Owner.IsTypeNameTaken(this._aliasName))
-                            this.ReportError("Type '{0}' was specified more than once", this._aliasName);
-                        this.Owner.RegisterAlias(this._aliasName, dependency, typeName);
+                        if (Owner.IsTypeNameTaken(_aliasName))
+                            ReportError("Type '{0}' was specified more than once", _aliasName);
+                        Owner.RegisterAlias(_aliasName, dependency, typeName);
                     }
                 }
                 else
-                    this.ReportError("Alias Type property must be provided");
+                    ReportError("Alias Type property must be provided");
             }
             else
             {
-                if (this._currentValidationPass != LoadPass.Full || this.Owner.LoadResultTarget.FindType(this._aliasName) != null)
+                if (_currentValidationPass != LoadPass.Full || Owner.LoadResultTarget.FindType(_aliasName) != null)
                     return;
-                this.ReportError("Target type for alias '{0}' could not be found", this._aliasName);
+                ReportError("Target type for alias '{0}' could not be found", _aliasName);
             }
         }
     }
