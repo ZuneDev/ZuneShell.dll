@@ -10,6 +10,7 @@ using Microsoft.Iris.OS;
 using Microsoft.Iris.Session;
 using SSVParseLib;
 using System.Collections;
+using System.Xml;
 
 namespace Microsoft.Iris.Markup
 {
@@ -28,17 +29,17 @@ namespace Microsoft.Iris.Markup
             Stack parseStack = new Stack();
             bool flag = false;
             bool additionalMetadata = MarkupSystem.TrackAdditionalMetadata;
-            using (NativeXmlReader xmlReader = new NativeXmlReader(resource))
+            using (ManagedXmlReader xmlReader = new ManagedXmlReader(resource))
             {
                 try
                 {
                     string str1 = string.Empty;
-                    NativeXmlNodeType nodeType;
+                    XmlNodeType nodeType;
                     while (xmlReader.Read(out nodeType))
                     {
-                        if (parseResult.Root == null || parseStack.Count == 0 && nodeType == NativeXmlNodeType.EndElement)
+                        if (parseResult.Root == null || parseStack.Count == 0 && nodeType == XmlNodeType.EndElement)
                         {
-                            if (nodeType == NativeXmlNodeType.Element)
+                            if (nodeType == XmlNodeType.Element)
                             {
                                 parseResult.Root = xmlReader.Name;
                                 while (xmlReader.ReadAttribute())
@@ -64,7 +65,7 @@ namespace Microsoft.Iris.Markup
                         {
                             switch (nodeType)
                             {
-                                case NativeXmlNodeType.Element:
+                                case XmlNodeType.Element:
                                     if (flag)
                                     {
                                         ReportError(xmlReader, "Script tag may not contain XML elements, found: '{0}'", xmlReader.Name);
@@ -141,8 +142,8 @@ namespace Microsoft.Iris.Markup
                                         continue;
                                     }
                                     continue;
-                                case NativeXmlNodeType.Text:
-                                case NativeXmlNodeType.CDATA:
+                                case XmlNodeType.Text:
+                                case XmlNodeType.CDATA:
                                     if (parseStack.Count == 0)
                                     {
                                         ReportError(xmlReader, "Text/CDATA is not allowed under root tag ('{0}')", xmlReader.Value.Trim());
@@ -175,7 +176,7 @@ namespace Microsoft.Iris.Markup
                                             ReportError(xmlReader, "Object tag may not contain Text/CDATA: '{0}'", xmlReader.Value.Trim());
                                             continue;
                                     }
-                                case NativeXmlNodeType.Comment:
+                                case XmlNodeType.Comment:
                                     string str2 = null;
                                     if (additionalMetadata)
                                     {
@@ -190,7 +191,7 @@ namespace Microsoft.Iris.Markup
                                         continue;
                                     }
                                     continue;
-                                case NativeXmlNodeType.EndElement:
+                                case XmlNodeType.EndElement:
                                     flag = false;
                                     HandleEndElement(owner, parseResult, parseStack);
                                     continue;
@@ -291,7 +292,7 @@ namespace Microsoft.Iris.Markup
 
         private static ValidateObject CreateValidateObjectFromString(
           SourceMarkupLoader owner,
-          NativeXmlReader xmlReader)
+          ManagedXmlReader xmlReader)
         {
             if (xmlReader.IsInlineExpression)
                 return (ValidateObject)ParseCode(owner, xmlReader, CodeType.InlineExpression);
@@ -307,7 +308,7 @@ namespace Microsoft.Iris.Markup
 
         private static Validate ParseCode(
           SourceMarkupLoader owner,
-          NativeXmlReader xmlReader,
+          ManagedXmlReader xmlReader,
           Parser.CodeType codeType)
         {
             Validate validate = null;
@@ -348,9 +349,9 @@ namespace Microsoft.Iris.Markup
             return validate;
         }
 
-        private static void ReportError(NativeXmlReader xmlReader, string message) => ErrorManager.ReportError(xmlReader.LineNumber, xmlReader.LinePosition, message);
+        private static void ReportError(ManagedXmlReader xmlReader, string message) => ErrorManager.ReportError(xmlReader.LineNumber, xmlReader.LinePosition, message);
 
-        private static void ReportError(NativeXmlReader xmlReader, string message, object param) => ErrorManager.ReportError(xmlReader.LineNumber, xmlReader.LinePosition, message, param);
+        private static void ReportError(ManagedXmlReader xmlReader, string message, object param) => ErrorManager.ReportError(xmlReader.LineNumber, xmlReader.LinePosition, message, param);
 
         private enum CodeType
         {

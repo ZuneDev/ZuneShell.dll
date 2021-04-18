@@ -142,7 +142,7 @@ namespace Microsoft.Iris.Markup
             uint num = scriptId >> 27;
             while ((int)num != (int)markupTypeSchema._typeDepth)
                 markupTypeSchema = markupTypeSchema._baseType;
-            object obj = markupTypeSchema.RunAtOffset(markupType, scriptId & 134217727U, parameterContext);
+            object obj = markupTypeSchema.RunAtOffset(markupType, scriptId & 0x07FFFFFFU, parameterContext);
             ErrorManager.ExitContext();
             return obj;
         }

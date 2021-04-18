@@ -1,68 +1,48 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: Microsoft.Iris.OS.NativeXmlReader
-// Assembly: UIX, Version=4.8.0.0, Culture=neutral, PublicKeyToken=ddd0da4d3e678217
-// MVID: A56C6C9D-B7F6-46A9-8BDE-B3D9B8D60B11
-// Assembly location: C:\Program Files\Zune\UIX.dll
-
-using Microsoft.Iris.Data;
+﻿using Microsoft.Iris.Data;
 using Microsoft.Iris.Markup;
 using System;
+using System.IO;
 using System.Runtime.InteropServices;
+using System.Xml;
 
-namespace Microsoft.Iris.OS
+namespace Microsoft.Iris.Markup
 {
-    internal struct NativeXmlReader : IDisposable
+    internal struct ManagedXmlReader : IDisposable
     {
-        private IntPtr _reader;
-        private GCHandle _gcHandle;
-        private NativeXmlNodeType _prevNodeType;
-        private NativeXmlNodeType _curNodeType;
+        private XmlReader _reader;
+        private XmlNodeType _prevNodeType;
+        private XmlNodeType _curNodeType;
         private int _lineNumber;
         private int _linePosition;
         private bool _beforeFirstAttribute;
 
-        public NativeXmlReader(Resource resource)
-          : this(false)
-          => Init(resource.Buffer, (int)resource.Length, false);
+        public ManagedXmlReader(Resource resource) : this(false) => _reader = XmlReader.Create(resource.Uri);
 
-        public NativeXmlReader(string content, bool isFragment)
-          : this(false)
-        {
-            _gcHandle = GCHandle.Alloc(content, GCHandleType.Pinned);
-            Init(_gcHandle.AddrOfPinnedObject(), content.Length * 2, isFragment);
-        }
+        public ManagedXmlReader(string content, bool isFragment) : this(false) => _reader = XmlReader.Create(new StringReader(content));
 
-        private NativeXmlReader(bool placeHolder)
+        private ManagedXmlReader(bool placeHolder)
         {
             _lineNumber = -1;
             _linePosition = -1;
             _beforeFirstAttribute = true;
-            _reader = IntPtr.Zero;
-            _gcHandle = new GCHandle();
-            _curNodeType = NativeXmlNodeType.None;
-            _prevNodeType = NativeXmlNodeType.None;
-        }
-
-        private void Init(IntPtr buffer, int length, bool isFragment)
-        {
-            int xmlReader = (int)NativeApi.SpXmlLiteCreateXmlReader(buffer, length, isFragment, out _reader);
+            _reader = null;
+            _curNodeType = XmlNodeType.None;
+            _prevNodeType = XmlNodeType.None;
         }
 
         public void Dispose()
         {
-            NativeApi.SpXmlLiteDeleteXmlReader(_reader);
-            _reader = IntPtr.Zero;
-            if (!_gcHandle.IsAllocated)
-                return;
-            _gcHandle.Free();
+            _reader.Close();
+            _reader = null;
         }
 
-        public bool Read(out NativeXmlNodeType nodeType)
+        public bool Read(out XmlNodeType nodeType)
         {
             _beforeFirstAttribute = true;
             _lineNumber = InternalLineNumber;
             _linePosition = InternalLinePosition;
-            bool flag = SUCCEEDED(NativeApi.SpXmlLiteRead(_reader, out nodeType));
+            bool flag = _reader.Read();
+            nodeType = _reader.NodeType;
             _prevNodeType = _curNodeType;
             _curNodeType = nodeType;
             return flag;
@@ -83,83 +63,42 @@ namespace Microsoft.Iris.OS
             _beforeFirstAttribute = false;
             _lineNumber = InternalLineNumber;
             _linePosition = InternalLinePosition;
-            return SUCCEEDED(NativeApi.SpXmlLiteMoveToFirstAttribute(_reader));
+            return _reader.MoveToFirstAttribute();
         }
 
         private bool MoveToNextAttribute()
         {
             _lineNumber = InternalLineNumber;
             _linePosition = InternalLinePosition;
-            return SUCCEEDED(NativeApi.SpXmlLiteMoveToNextAttribute(_reader));
+            return _reader.MoveToNextAttribute();
         }
 
-        public bool IsEmptyElement => NativeApi.SpXmlLiteIsEmptyElement(_reader);
+        public bool IsEmptyElement => _reader.IsEmptyElement;
 
-        public string Name
-        {
-            get
-            {
-                IntPtr name;
-                uint length;
-                IFC(NativeApi.SpXmlLiteGetQualifiedName(_reader, out name, out length));
-                return NativeApi.PtrToStringUni(name, (int)length);
-            }
-        }
+        public string Name => _reader.Name;
 
-        public string LocalName
-        {
-            get
-            {
-                IntPtr name;
-                uint length;
-                IFC(NativeApi.SpXmlLiteGetLocalName(_reader, out name, out length));
-                return NativeApi.PtrToStringUni(name, (int)length);
-            }
-        }
+        public string LocalName => _reader.LocalName;
 
-        public string Prefix
-        {
-            get
-            {
-                IntPtr prefix;
-                uint length;
-                IFC(NativeApi.SpXmlLiteGetPrefix(_reader, out prefix, out length));
-                return NativeApi.PtrToStringUni(prefix, (int)length);
-            }
-        }
+        public string Prefix => _reader.Prefix;
 
-        public string Value
-        {
-            get
-            {
-                IntPtr psz;
-                uint length;
-                IFC(NativeApi.SpXmlLiteGetValue(_reader, out psz, out length));
-                return NativeApi.PtrToStringUni(psz, (int)length);
-            }
-        }
+        public string Value => _reader.Value;
 
         public unsafe bool IsInlineExpression
         {
             get
             {
-                IntPtr num;
-                uint length;
-                IFC(NativeApi.SpXmlLiteGetValue(_reader, out num, out length));
-                char* pointer = (char*)num.ToPointer();
-                return length > 0U && *pointer == '{' && pointer[length - 1U] == '}';
+                string value = _reader.Value;
+                return value.StartsWith("{") && value.EndsWith("}");
             }
         }
 
         public SSLexUnicodeBufferConsumer LexConsumerForValueWithPrefix(string prefix)
         {
-            IntPtr buffer;
-            uint length;
-            IFC(NativeApi.SpXmlLiteGetValue(_reader, out buffer, out length));
-            SSLexUnicodeBufferConsumer unicodeBufferConsumer = new SSLexUnicodeBufferConsumer(buffer, length, prefix);
+            char[] buffer = _reader.Value.ToCharArray();
+            SSLexUnicodeBufferConsumer unicodeBufferConsumer = new SSLexUnicodeBufferConsumer(buffer, (uint)buffer.Length, prefix);
             int lineNumber = _lineNumber;
             int column = _linePosition - prefix.Length + 1;
-            if (_curNodeType == NativeXmlNodeType.CDATA && _prevNodeType != NativeXmlNodeType.Whitespace)
+            if (_curNodeType == XmlNodeType.CDATA && _prevNodeType != XmlNodeType.Whitespace)
                 column += 9;
             unicodeBufferConsumer.SetDocumentOffset(lineNumber, column);
             return unicodeBufferConsumer;
@@ -169,25 +108,9 @@ namespace Microsoft.Iris.OS
 
         public int LinePosition => _linePosition;
 
-        private int InternalLineNumber
-        {
-            get
-            {
-                uint lineNumber;
-                IFC(NativeApi.SpXmlLiteGetLineNumber(_reader, out lineNumber));
-                return (int)lineNumber;
-            }
-        }
+        private int InternalLineNumber => ((IXmlLineInfo)_reader).LineNumber;
 
-        private int InternalLinePosition
-        {
-            get
-            {
-                uint linePosition;
-                IFC(NativeApi.SpXmlLiteGetLinePosition(_reader, out linePosition));
-                return (int)linePosition;
-            }
-        }
+        private int InternalLinePosition => ((IXmlLineInfo)_reader).LinePosition;
 
         private void IFC(uint hr) => SUCCEEDED(hr);
 
@@ -446,11 +369,11 @@ namespace Microsoft.Iris.OS
             }
             if (message != null)
             {
-                int lineNumber = _reader == IntPtr.Zero ? -1 : InternalLineNumber;
-                int linePosition = _reader == IntPtr.Zero ? -1 : InternalLinePosition;
-                throw new NativeXmlException(message, hr, lineNumber, linePosition);
+                int lineNumber = _reader == null ? -1 : InternalLineNumber;
+                int linePosition = _reader == null? -1 : InternalLinePosition;
+                throw new XmlException(message, new Exception(hr.ToString()), lineNumber, linePosition);
             }
-            throw new NativeXmlException("Unknown error", hr, -1, -1);
+            throw new XmlException("Unknown error", new Exception(hr.ToString()), -1, -1);
         }
     }
 }

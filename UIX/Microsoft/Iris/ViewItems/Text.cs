@@ -19,6 +19,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using System.Xml;
 
 namespace Microsoft.Iris.ViewItems
 {
@@ -67,9 +68,9 @@ namespace Microsoft.Iris.ViewItems
         private bool _enableKerning;
         private static char[] s_whitespaceChars = new char[3]
         {
-      ' ',
-      '\r',
-      '\n'
+            ' ',
+            '\r',
+            '\n'
         };
 
         public Text()
@@ -1032,19 +1033,19 @@ namespace Microsoft.Iris.ViewItems
             uint num = 0;
             try
             {
-                using (NativeXmlReader nativeXmlReader = new NativeXmlReader(content, true))
+                using (ManagedXmlReader nativeXmlReader = new ManagedXmlReader(content, true))
                 {
-                    Microsoft.Iris.ViewItems.Text.MarkedRange markedRange1 = null;
-                    NativeXmlNodeType nodeType;
+                    MarkedRange markedRange1 = null;
+                    XmlNodeType nodeType;
                     while (nativeXmlReader.Read(out nodeType))
                     {
                         switch (nodeType)
                         {
-                            case NativeXmlNodeType.Element:
+                            case XmlNodeType.Element:
                                 if (!nativeXmlReader.IsEmptyElement)
                                 {
                                     string name = nativeXmlReader.Name;
-                                    Microsoft.Iris.ViewItems.Text.MarkedRange markedRange2 = new Microsoft.Iris.ViewItems.Text.MarkedRange();
+                                    MarkedRange markedRange2 = new MarkedRange();
                                     markedRange2.tagName = name;
                                     markedRange2.firstCharacter = stringBuilder.Length;
                                     markedRange2.lastCharacter = int.MaxValue;
@@ -1062,19 +1063,19 @@ namespace Microsoft.Iris.ViewItems
                                     continue;
                                 }
                                 continue;
-                            case NativeXmlNodeType.Text:
-                            case NativeXmlNodeType.CDATA:
-                            case NativeXmlNodeType.Whitespace:
+                            case XmlNodeType.Text:
+                            case XmlNodeType.CDATA:
+                            case XmlNodeType.Whitespace:
                                 string str = nativeXmlReader.Value;
                                 if (str.IndexOf("\r\n", StringComparison.Ordinal) >= 0)
                                     str = str.Replace("\r\n", "\r");
                                 stringBuilder.Append(str);
                                 continue;
-                            case NativeXmlNodeType.EndElement:
+                            case XmlNodeType.EndElement:
                                 string name1 = nativeXmlReader.Name;
                                 for (int index = arrayList.Count - 1; index >= 0; --index)
                                 {
-                                    Microsoft.Iris.ViewItems.Text.MarkedRange markedRange2 = (Microsoft.Iris.ViewItems.Text.MarkedRange)arrayList[index];
+                                    MarkedRange markedRange2 = (MarkedRange)arrayList[index];
                                     markedRange2.lastCharacter = stringBuilder.Length;
                                     arrayList.RemoveAt(index);
                                     if (markedRange2.tagName == name1)
@@ -1092,7 +1093,7 @@ namespace Microsoft.Iris.ViewItems
                     }
                 }
             }
-            catch (NativeXmlException ex)
+            catch (XmlException ex)
             {
                 markedRanges.Clear();
                 stringBuilder = null;
@@ -1409,20 +1410,20 @@ namespace Microsoft.Iris.ViewItems
             set => SetBit(Bits.IgnoreEffectiveScaleChanges, value);
         }
 
-        private bool GetBit(Microsoft.Iris.ViewItems.Text.Bits lookupBit) => ((Microsoft.Iris.ViewItems.Text.Bits)_bits & lookupBit) != 0;
+        private bool GetBit(Bits lookupBit) => ((Bits)_bits & lookupBit) != 0;
 
-        private void SetBit(Microsoft.Iris.ViewItems.Text.Bits changeBit, bool value) => _bits = value ? (uint)((Microsoft.Iris.ViewItems.Text.Bits)_bits | changeBit) : (uint)((Microsoft.Iris.ViewItems.Text.Bits)_bits & ~changeBit);
+        private void SetBit(Bits changeBit, bool value) => _bits = value ? (uint)((Bits)_bits | changeBit) : (uint)((Bits)_bits & ~changeBit);
 
-        private void SetBit(Microsoft.Iris.ViewItems.Text.Bits changeBit)
+        private void SetBit(Bits changeBit)
         {
-            Microsoft.Iris.ViewItems.Text text = this;
-            text._bits = (uint)((Microsoft.Iris.ViewItems.Text.Bits)text._bits | changeBit);
+            Text text = this;
+            text._bits = (uint)((Bits)text._bits | changeBit);
         }
 
-        private void ClearBit(Microsoft.Iris.ViewItems.Text.Bits changeBit)
+        private void ClearBit(Bits changeBit)
         {
-            Microsoft.Iris.ViewItems.Text text = this;
-            text._bits = (uint)((Microsoft.Iris.ViewItems.Text.Bits)text._bits & ~changeBit);
+            Text text = this;
+            text._bits = (uint)((Bits)text._bits & ~changeBit);
         }
 
         private class MarkedRange
@@ -1432,7 +1433,7 @@ namespace Microsoft.Iris.ViewItems
             public int lastCharacter;
             public uint rangeID;
             public Dictionary<object, object> attributes;
-            public Microsoft.Iris.ViewItems.Text.MarkedRange parentRange;
+            public MarkedRange parentRange;
             public TextStyle cachedStyle;
             public TextFragment fragment;
             private static uint s_rangeIDIndicator = 1073741824;
@@ -1451,7 +1452,7 @@ namespace Microsoft.Iris.ViewItems
                 get
                 {
                     bool flag = false;
-                    for (Microsoft.Iris.ViewItems.Text.MarkedRange markedRange = this; markedRange != null; markedRange = markedRange.parentRange)
+                    for (MarkedRange markedRange = this; markedRange != null; markedRange = markedRange.parentRange)
                     {
                         TextStyle cachedStyle = markedRange.cachedStyle;
                         if (cachedStyle != null && cachedStyle.Fragment)

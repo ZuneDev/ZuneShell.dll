@@ -12,25 +12,51 @@ namespace Microsoft.Iris.Markup
 {
     internal class SSLexUnicodeBufferConsumer : SSLexConsumer
     {
-        private unsafe char* _buffer;
+        private char[] _buffer;
         private uint _length;
         private string _prefix;
 
-        public SSLexUnicodeBufferConsumer(IntPtr buffer, uint length)
+        public SSLexUnicodeBufferConsumer(char[] buffer, uint length)
           : this(buffer, length, "")
         {
         }
 
-        public unsafe SSLexUnicodeBufferConsumer(IntPtr buffer, uint length, string prefix)
+        public SSLexUnicodeBufferConsumer(IntPtr intPtr, uint length)
+          : this(intPtr, length, "")
         {
-            _buffer = (char*)buffer.ToPointer();
+        }
+
+        public unsafe SSLexUnicodeBufferConsumer(char[] buffer, uint length, string prefix)
+        {
+            _buffer = buffer;
+            _length = length;
+            _prefix = prefix;
+        }
+
+        public unsafe SSLexUnicodeBufferConsumer(IntPtr intPtr, uint length, string prefix)
+        {
+            _buffer = new char[length];
+            System.Runtime.InteropServices.Marshal.Copy(intPtr, _buffer, 0, (int)length);
             _length = length;
             _prefix = prefix;
         }
 
         public override bool getNext() => GetCharAt(m_index, out m_current);
 
-        public override unsafe string getSubstring(int start, int length) => start + length <= _prefix.Length ? _prefix.Substring(start, length) : NativeApi.PtrToStringUni(new IntPtr(_buffer + start - _prefix.Length), length);
+        public override unsafe string getSubstring(int start, int length)
+        {
+            if (start + length <= _prefix.Length)
+            {
+                return _prefix.Substring(start, length);
+            }
+            else
+            {
+                fixed (char* ptr = _buffer)
+                {
+                    return NativeApi.PtrToStringUni(new IntPtr(ptr + start - _prefix.Length), length);
+                }
+            }
+        }
 
         public unsafe bool GetCharAt(int position, out char ch)
         {
