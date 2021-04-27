@@ -5,6 +5,8 @@
 // Assembly location: C:\Program Files\Zune\UIX.dll
 
 using System;
+using System.IO;
+using System.IO.Pipes;
 using System.Threading;
 
 namespace Microsoft.Iris.Queues
@@ -14,6 +16,9 @@ namespace Microsoft.Iris.Queues
         private static Interconnect s_interconnect = new Interconnect();
         [ThreadStatic]
         private static Dispatcher s_threadDispatcher;
+        private static NamedPipeClientStream _debugPipe;
+        private static BinaryWriter _debugPipeWriter;
+        private static BinaryReader _debugPipeReader;
         private Thread _owningThread;
         private uint _enterCount;
         private Feeder _feeder;
@@ -66,7 +71,10 @@ namespace Microsoft.Iris.Queues
                 {
                     QueueItem nextItem = queue.GetNextItem();
                     if (nextItem != null)
+                    {
+                        SendDebugMessage(nextItem.ToDebugPacketString());
                         nextItem.Dispatch();
+                    }
                     else
                         break;
                 }
@@ -131,6 +139,55 @@ namespace Microsoft.Iris.Queues
                 _feeder.RecycleFIFOs(recycled);
             }
             return flag;
+        }
+
+        private static NamedPipeClientStream DebugPipe
+        {
+            get
+            {
+                if (_debugPipe == null && Application.IsDebug)
+                {
+                    _debugPipe = new NamedPipeClientStream(System.Reflection.Assembly.GetExecutingAssembly().FullName);
+                    _debugPipe.Connect();
+                }
+                return _debugPipe;
+            }
+        }
+
+        private static BinaryWriter DebugPipeWriter
+        {
+            get
+            {
+                if (_debugPipe != null && _debugPipeWriter == null)
+                    _debugPipeWriter = new BinaryWriter(DebugPipe);
+                return _debugPipeWriter;
+            }
+        }
+
+        private static BinaryReader DebugPipeReader
+        {
+            get
+            {
+                if (_debugPipe != null && _debugPipeReader == null)
+                    _debugPipeReader = new BinaryReader(DebugPipe);
+                return _debugPipeReader;
+            }
+        }
+
+        /// <summary>
+        /// Sends a message via <see cref="debugPipe"/>
+        /// </summary>
+        /// <param name="message"></param>
+        public static void SendDebugMessage(string message)
+        {
+            if (Application.IsDebug && DebugPipe.IsConnected && DebugPipe.CanWrite)
+            {
+                DebugPipe.WriteByte(0x01);
+                byte[] buffer = System.Text.Encoding.Unicode.GetBytes(message);
+                DebugPipe.Write(BitConverter.GetBytes(buffer.Length), 0, sizeof(int));
+                DebugPipe.Write(buffer, 0, buffer.Length);
+                DebugPipe.Flush();
+            }
         }
     }
 }

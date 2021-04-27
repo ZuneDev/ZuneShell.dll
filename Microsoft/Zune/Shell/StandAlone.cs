@@ -70,6 +70,16 @@ namespace Microsoft.Zune.Shell
                             {
                                 break;
                             }
+                        case "debug":
+                            try
+                            {
+                                Application.IsDebug = bool.Parse(commandLineArgument.Value);
+                                break;
+                            }
+                            catch (FormatException ex)
+                            {
+                                break;
+                            }
                         default:
                             hashtable[commandLineArgument.Name] = commandLineArgument.Value;
                             break;

@@ -190,7 +190,7 @@ namespace Microsoft.Iris.ViewItems
                     char ch1 = value[value.Length - 1];
                     char ch2 = value[value.Length - 2];
                     if (ch1 == ' ' && ch2 != ' ')
-                        _content += (string)(object)ch1;
+                        _content += ch1;
                 }
                 else
                     _content = value;

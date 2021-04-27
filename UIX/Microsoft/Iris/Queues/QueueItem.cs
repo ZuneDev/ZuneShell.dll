@@ -20,6 +20,8 @@ namespace Microsoft.Iris.Queues
 
         public override string ToString() => GetType().Name;
 
+        public virtual string ToDebugPacketString() => ToString();
+
         internal class Chain
         {
             public virtual void Dispose()

@@ -158,6 +158,36 @@ namespace Microsoft.Iris.Session
             UIDispatcher.Post(thread, priority, queueItem);
         }
 
+        public override string ToDebugPacketString()
+        {
+            string packetString = string.Empty; ;
+            switch (_callType)
+            {
+                case CallType.Simple:
+                    var simpleCallback = (SimpleCallback)_target;
+                    packetString = simpleCallback.Target.ToString() + "." + simpleCallback.Method.Name;
+                    break;
+                case CallType.OneParam:
+                    var deferredHandler = (DeferredHandler)_target;
+                    string targetStr = deferredHandler.Target?.ToString();
+                    if (!string.IsNullOrEmpty(targetStr))
+                        packetString += targetStr + ".";
+                    packetString += $"{deferredHandler.Method.Name}({_param})";
+                    break;
+                case CallType.Event:
+                    var eventHandler = (EventHandler)_target;
+                    packetString = $"{eventHandler.Target}.{eventHandler.Method.Name}({_param}, {_args})";
+                    break;
+                case CallType.RenderItem:
+                    var deferredInvokeItem = (IDeferredInvokeItem)_param;
+                    packetString = deferredInvokeItem.ToString();
+                    break;
+                default:
+                    throw new InvalidOperationException();
+            }
+            return packetString;
+        }
+
         private enum CallType
         {
             None,

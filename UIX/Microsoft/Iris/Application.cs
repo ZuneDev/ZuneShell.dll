@@ -133,6 +133,8 @@ namespace Microsoft.Iris
             get => DllResources.StaticDllResourcesOnly;
         }
 
+        public static bool IsDebug { get; set; }
+
         public static void Initialize()
         {
             if (IsInitialized)

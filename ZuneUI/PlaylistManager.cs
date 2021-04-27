@@ -707,7 +707,7 @@ namespace ZuneUI
             int[] columnIndexes = new int[1] { atom };
             object[] fieldValues = new object[1]
             {
-         defaultValue
+                defaultValue
             };
             ZuneLibrary.GetFieldValues(mediaId, listType, 1, columnIndexes, fieldValues, Instance.QueryContext);
             return (T)fieldValues[0];
@@ -744,10 +744,10 @@ namespace ZuneUI
             int[] columnIndexes = new int[4] { 177, 451, 344, 440 };
             object[] fieldValues = new object[4]
             {
-         MediaType.Undefined,
-         Guid.Empty,
-         string.Empty,
-         VideoDefinition.Unknown
+                MediaType.Undefined,
+                Guid.Empty,
+                string.Empty,
+                VideoDefinition.Unknown
             };
             ZuneLibrary.GetFieldValues(dbMediaId, EListType.eVideoList, columnIndexes.Length, columnIndexes, fieldValues, Instance.QueryContext);
             type = (MediaType)fieldValues[0];

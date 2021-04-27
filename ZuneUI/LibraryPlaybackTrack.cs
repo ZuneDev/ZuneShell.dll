@@ -36,34 +36,31 @@ namespace ZuneUI
         private long _duration;
         private static long[] c_podcastVideoLengths = new long[3]
         {
-      0L,
-      3000000000L,
-      6000000000L
+            0L,
+            3000000000L,
+            6000000000L
         };
         private static long[] c_podcastVideoMarkPlayedAtEOFMinus = new long[3]
         {
-      300000000L,
-      600000000L,
-      1200000000L
+            300000000L,
+            600000000L,
+            1200000000L
         };
 
-        public LibraryPlaybackTrack(
-          int mediaId,
-          MediaType mediaType,
-          ContainerPlayMarker containerPlayMarker)
+        public LibraryPlaybackTrack(int mediaId, MediaType mediaType, ContainerPlayMarker containerPlayMarker)
         {
             this._mediaId = mediaId;
             this._mediaType = mediaType;
             this._listType = PlaylistManager.MediaTypeToListType(mediaType);
             this._containerPlayMarker = containerPlayMarker;
             ThreadPool.QueueUserWorkItem(args =>
-           {
-               this._isInCollection = PlaylistManager.IsInCollection(this._mediaId, this._mediaType);
-               Application.DeferredInvoke(delegate
-         {
-             this.RatingChanged.Invoke();
-         }, null);
-           }, null);
+            {
+                this._isInCollection = PlaylistManager.IsInCollection(this._mediaId, this._mediaType);
+                Application.DeferredInvoke(delegate
+                {
+                    this.RatingChanged.Invoke();
+                }, null);
+            }, null);
         }
 
         public int MediaId => this._mediaId;

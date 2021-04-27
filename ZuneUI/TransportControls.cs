@@ -1898,50 +1898,50 @@ namespace ZuneUI
 
         private void UpdatePropertiesAndCommands()
         {
-            bool flag1 = this._playerState == PlayerState.Playing;
+            bool isPlaying = this._playerState == PlayerState.Playing;
             ArrayListDataSet arrayListDataSet;
-            bool flag2;
+            bool isPlaylist;
             bool flag3;
             PlaybackTrack playbackTrack;
             int num;
-            bool flag4;
+            bool supportsShuffle;
             if (this._playlistCurrent != null)
             {
                 arrayListDataSet = this._playlistCurrent.TrackList;
-                flag2 = true;
+                isPlaylist = true;
                 flag3 = this.IsCurrentPlaylistContextCompatible(this._pagePlaybackContext);
                 playbackTrack = this._playlistCurrent.CurrentTrack;
                 num = this._playlistCurrent.ListIndexOfCurrentTrack;
-                flag4 = this._playlistCurrent.QuickMixSession == null;
+                supportsShuffle = this._playlistCurrent.QuickMixSession == null;
             }
             else
             {
-                flag2 = false;
+                isPlaylist = false;
                 arrayListDataSet = null;
                 flag3 = true;
                 playbackTrack = null;
                 num = -1;
                 this.PlayingVideo = false;
-                flag4 = true;
+                supportsShuffle = true;
             }
             if (arrayListDataSet != this._currentPlaylist)
             {
                 this._currentPlaylist = arrayListDataSet;
                 this.FirePropertyChanged("CurrentPlaylist");
             }
-            if (flag2 != this._hasPlaylist)
+            if (isPlaylist != this._hasPlaylist)
             {
-                this._hasPlaylist = flag2;
+                this._hasPlaylist = isPlaylist;
                 this.FirePropertyChanged("HasPlaylist");
             }
-            if (flag4 != this._playlistSupportsShuffle)
+            if (supportsShuffle != this._playlistSupportsShuffle)
             {
-                this._playlistSupportsShuffle = flag4;
+                this._playlistSupportsShuffle = supportsShuffle;
                 this.FirePropertyChanged("PlaylistSupportsShuffle");
             }
-            if (flag1 != this._isPlaying)
+            if (isPlaying != this._isPlaying)
             {
-                this._isPlaying = flag1;
+                this._isPlaying = isPlaying;
                 this.FirePropertyChanged("Playing");
                 if (this._isPlaying)
                 {
