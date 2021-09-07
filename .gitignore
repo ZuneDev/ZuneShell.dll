@@ -338,3 +338,6 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+
+# Re-include some UIX decomps
+!UIX/Microsoft/Iris/Debug
