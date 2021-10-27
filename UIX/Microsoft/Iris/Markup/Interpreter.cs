@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Linq;
 using System.Xml;
 using Microsoft.Iris.Debug;
 using Microsoft.Iris.Library;
@@ -757,6 +758,7 @@ namespace Microsoft.Iris.Markup
 
         // Token: 0x04000949 RID: 2377
         private static Stack _stack = new Stack();
+        private static Stack _xmlStack = new Stack();
 
         // Token: 0x0400094A RID: 2378
         public static object ScriptError = new Interpreter.ScriptErrorObject();
@@ -838,13 +840,14 @@ namespace Microsoft.Iris.Markup
             }
         }
 
+        public static System.Collections.Generic.List<OpCode> ExecutedOpCodes { get; set; }
+            = new System.Collections.Generic.List<OpCode>();
+
         /// <summary>
         /// Attempts to generate source UIX from a compiled result
         /// </summary>
         private static object RunDecompile(InterpreterContext context, ByteCodeReader reader)
         {
-            Stack xmlStack = new Stack();
-
             MarkupLoadResult loadResult = context.LoadResult;
             IMarkupTypeBase instance = context.Instance;
             MarkupImportTables importTables = loadResult.ImportTables;
@@ -852,14 +855,25 @@ namespace Microsoft.Iris.Markup
             SymbolReference[] symbolReferenceTable = context.MarkupType.SymbolReferenceTable;
             Trace.IsCategoryEnabled(TraceCategory.Markup);
             Stack stack = _stack;
+            Stack xmlStack = _xmlStack;
             int count = stack.Count;
             if (instance != null)
             {
                 stack.Push(instance);
-                // TODO:
-                var instanceXml = XmlDoc.CreateElement("UI");
-                instanceXml.SetAttribute("Name", instance.TypeSchema.Name);
-                UIXElem.AppendChild(instanceXml);
+
+                // Make sure XmlDoc has been initialized
+                _ = XmlDoc;
+
+                // Add UI container to root
+                string key = instance.TypeSchema.Name;
+                XmlElement instanceXml = UIXElem.ChildNodes.OfType<XmlElement>()
+                    .FirstOrDefault(elem => elem?.GetAttribute("Name") == key);
+                if (instanceXml == null)
+                {
+                    instanceXml = XmlDoc.CreateElement("UI");
+                    instanceXml.SetAttribute("Name", key);
+                    UIXElem.AppendChild(instanceXml);
+                }
                 xmlStack.Push(instanceXml);
             }
             ErrorWatermark watermark = ErrorManager.Watermark;
@@ -869,6 +883,7 @@ namespace Microsoft.Iris.Markup
             while (!flag)
             {
                 OpCode opCode = (OpCode)reader.ReadByte();
+                ExecutedOpCodes.Add(opCode);
                 switch (opCode)
                 {
                     case OpCode.ConstructObject:
@@ -876,7 +891,13 @@ namespace Microsoft.Iris.Markup
                             int num = reader.ReadUInt16();
                             TypeSchema typeSchema = importTables.TypeImports[num];
                             object obj = typeSchema.ConstructDefault();
-                            var objXml = XmlDoc.CreateElement(obj.GetType().Name);
+
+                            string typeName = obj.GetType().Name;
+                            int idxTilde = typeName.IndexOf('`');
+                            if (idxTilde >= 0)
+                                typeName = typeName.Substring(0, idxTilde);
+                            var objXml = XmlDoc.CreateElement(typeName);
+
                             ReportErrorOnNull(obj, "Construction", typeSchema.Name);
                             if (!ErrorsDetected(watermark, ref result, ref flag))
                             {
@@ -983,8 +1004,8 @@ namespace Microsoft.Iris.Markup
                             int num7 = reader.ReadUInt16();
                             TypeSchema typeSchema7 = importTables.TypeImports[num7];
                             object obj6 = stack.Pop();
-                            typeSchema7.InitializeInstance(ref obj6);
                             var objXml6 = (XmlElement)xmlStack.Pop();
+                            typeSchema7.InitializeInstance(ref obj6);
                             objXml6.SetAttribute("Name", typeSchema7.Name);
                             ReportErrorOnNull(obj6, "Initialize", typeSchema7.Name);
                             if (!ErrorsDetected(watermark, ref result, ref flag))
@@ -1116,8 +1137,7 @@ namespace Microsoft.Iris.Markup
                                 // Add value to list
                                 var destObjXml = (XmlElement)xmlStack.Peek();
                                 // Create element if needed
-                                XmlElement propXmlElem2 = destObjXml.SelectSingleNode(propertySchema.Name) as XmlElement;
-                                if (propXmlElem2 == null)
+                                if (!(destObjXml.SelectSingleNode(propertySchema.Name) is XmlElement propXmlElem2))
                                 {
                                     propXmlElem2 = XmlDoc.CreateElement(propertySchema.Name);
                                     destObjXml.AppendChild(propXmlElem2);
@@ -1145,14 +1165,17 @@ namespace Microsoft.Iris.Markup
                                 // Add value to dictionary
                                 var destObjXml2 = (XmlElement)xmlStack.Peek();
                                 // Create element if needed
-                                XmlElement propXmlElem2 = destObjXml2.SelectSingleNode(propertySchema2.Name) as XmlElement;
-                                if (propXmlElem2 == null)
+                                if (propertySchema2 != null)
                                 {
-                                    propXmlElem2 = XmlDoc.CreateElement(propertySchema2.Name);
-                                    destObjXml2.AppendChild(propXmlElem2);
+                                    XmlElement propXmlElem2 = destObjXml2.SelectSingleNode(propertySchema2.Name) as XmlElement;
+                                    if (propXmlElem2 == null)
+                                    {
+                                        propXmlElem2 = XmlDoc.CreateElement(propertySchema2.Name);
+                                        destObjXml2.AppendChild(propXmlElem2);
+                                    }
+                                    propXmlElem2.AppendChild(valueXml3);
                                 }
                                 valueXml3.SetAttribute("Name", key);
-                                propXmlElem2.AppendChild(valueXml3);
                             }
                             break;
                         }
@@ -1198,6 +1221,7 @@ namespace Microsoft.Iris.Markup
                             if (!ErrorsDetected(watermark, ref result, ref flag))
                             {
                                 stack.Push(value5);
+                                xmlStack.Push(GenerateXmlRepresentation(value5));
                                 if (Trace.IsCategoryEnabled(TraceCategory.Markup))
                                 {
                                 }
@@ -1378,6 +1402,7 @@ namespace Microsoft.Iris.Markup
                         }
                     case OpCode.PushThis:
                         stack.Push(instance);
+                        xmlStack.Push(GenerateXmlRepresentation(instance));
                         break;
                     case OpCode.DiscardValue:
                         stack.Pop();
@@ -1523,13 +1548,19 @@ namespace Microsoft.Iris.Markup
                             break;
                         }
                 }
+
+                if (stack.Count != xmlStack.Count)
+                    throw new InvalidOperationException(
+                        $"Invalid stacks, stack:{stack.Count} != xmlStack{xmlStack.Count}! " +
+                        $"Check implementations for {opCode} and {ExecutedOpCodes[ExecutedOpCodes.Count - 2]}");
             }
             while (stack.Count > count)
             {
                 stack.Pop();
+                xmlStack.Pop();
             }
 
-            InterpreterContext.DecompileResult = XmlDoc;
+            InterpreterContext.DecompileResults.Add(XmlDoc);
             return result;
         }
 
@@ -1566,7 +1597,15 @@ namespace Microsoft.Iris.Markup
                 // Use reflection to recursively generate XML representations for each property
                 foreach (System.Reflection.PropertyInfo prop in objType.GetProperties())
                 {
-                    var propValue = GenerateXmlRepresentation(prop.GetValue(obj, null));
+                    if (!prop.CanWrite)
+                        continue;
+
+                    object value = prop.GetValue(obj, null);
+                    object defaultValue = prop.PropertyType.IsValueType ? Activator.CreateInstance(prop.PropertyType) : null;
+                    if (value.Equals(defaultValue))
+                        continue;
+
+                    var propValue = GenerateXmlRepresentation(value);
                     if (propValue is XmlElement propValueXml)
                     {
                         var propXml = XmlDoc.CreateElement(prop.Name);

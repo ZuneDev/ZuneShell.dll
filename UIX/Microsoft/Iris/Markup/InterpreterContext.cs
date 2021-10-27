@@ -6,6 +6,7 @@
 
 using Microsoft.Iris.Session;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace Microsoft.Iris.Markup
 {
@@ -19,7 +20,7 @@ namespace Microsoft.Iris.Markup
         private Map<object, object> _scopedLocals;
         private static Stack s_cache = new Stack();
         public static bool UseDecompile = false;
-        public static System.Xml.XmlDocument DecompileResult;
+        public static List<System.Xml.XmlDocument> DecompileResults = new List<System.Xml.XmlDocument>();
 
         private InterpreterContext()
         {
