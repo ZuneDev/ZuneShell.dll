@@ -1560,6 +1560,7 @@ namespace Microsoft.Iris.Markup
                 xmlStack.Pop();
             }
 
+            CleanUpXmlDoc();
             InterpreterContext.DecompileResults.Add(XmlDoc);
             return result;
         }
@@ -1619,6 +1620,27 @@ namespace Microsoft.Iris.Markup
                     }
                 }
                 return objXml;
+            }
+        }
+
+        private static void CleanUpXmlDoc()
+        {
+            XmlNamespaceManager nsManager = new XmlNamespaceManager(XmlDoc.NameTable);
+            var hosts = XmlDoc.DocumentElement.SelectNodes("*//Host",  nsManager);
+            foreach (XmlNode node in hosts)
+            {
+                if (!(node is XmlElement host))
+                    continue;
+
+                if (host.Attributes.Count == 1 && host.HasAttribute("Name"))
+                {
+                    string uiElemName = host.GetAttribute("Name");
+                    nsManager.AddNamespace("me", "Me");
+                    XmlDoc.DocumentElement.SetAttribute("xmlns:me", "Me");
+
+                    XmlElement uiElem = XmlDoc.CreateElement("me", uiElemName, "Me");
+                    host.ParentNode.ReplaceChild(uiElem, host);
+                }
             }
         }
     }
