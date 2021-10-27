@@ -48,7 +48,7 @@ namespace Microsoft.Zune.Service2
         }
         public static string GetEndPointUri(EServiceEndpointId eServiceEndpointId)
         {
-            return "catalog.zune.net/service?id=" + eServiceEndpointId.ToString();
+            return "catalog.zunes.me/service?id=" + eServiceEndpointId.ToString();
         }
 
         public int AddPaymentInstrument(PaymentInstrument paymentInstrument, AddPaymentInstrumentCompleteCallback completeCallback, AddPaymentInstrumentErrorCallback errorCallback)

@@ -51,71 +51,70 @@ namespace ZuneXml
         private string BuildServiceUri(int chunkStart, int chunkSize)
         {
             StringBuilder requestUri = new StringBuilder(128);
-            string property1 = (string)this.Query.GetProperty("Url");
-            if (!string.IsNullOrEmpty(property1))
+            string url = (string)this.Query.GetProperty("Url");
+            if (!string.IsNullOrEmpty(url))
             {
-                requestUri.Append(property1);
+                requestUri.Append(url);
             }
             else
             {
-                string property2 = (string)this.Query.GetProperty("Id");
-                if (this.RequireId && property2 == string.Empty)
+                string id = (string)this.Query.GetProperty("Id");
+                if (this.RequireId && id == string.Empty)
                     return null;
-                string property3 = (string)this.Query.GetProperty("ResourceType");
-                string property4 = (string)this.Query.GetProperty("Representation");
-                if (this.RequireResource && property3 == null || this.RequireRepresentation && property4 == null)
+                string resourceType = (string)this.Query.GetProperty("ResourceType");
+                string representation = (string)this.Query.GetProperty("Representation");
+                if (this.RequireResource && resourceType == null || this.RequireRepresentation && representation == null)
                     return null;
                 string endPointUri = Service.GetEndPointUri(this._endPoint);
                 requestUri.Append(endPointUri);
                 requestUri.Append("/");
-                if (!string.IsNullOrEmpty(property3))
+                if (!string.IsNullOrEmpty(resourceType))
                 {
-                    requestUri.Append(property3);
+                    requestUri.Append(resourceType);
                     requestUri.Append("/");
                 }
-                if (!string.IsNullOrEmpty(property2))
+                if (!string.IsNullOrEmpty(id))
                 {
-                    requestUri.Append(property2);
+                    requestUri.Append(id);
                     requestUri.Append("/");
                 }
-                if (!string.IsNullOrEmpty(property4))
+                if (!string.IsNullOrEmpty(representation))
                 {
-                    requestUri.Append(property4);
+                    requestUri.Append(representation);
                     requestUri.Append("/");
                 }
             }
             bool fFirst = true;
             this.AppendStuffAfterRepresentation(requestUri, ref fFirst);
-            string property5 = (string)this.Query.GetProperty("ClientType");
-            if (!string.IsNullOrEmpty(property5))
-                AppendParam(requestUri, "clientType", property5, ref fFirst);
-            string property6 = (string)this.Query.GetProperty("Cost");
-            if (!string.IsNullOrEmpty(property6))
-                AppendParam(requestUri, "cost", property6, ref fFirst);
-            string property7 = (string)this.Query.GetProperty("Tag");
-            if (!string.IsNullOrEmpty(property7))
-                AppendParam(requestUri, "tag", property7, ref fFirst);
-            string property8 = (string)this.Query.GetProperty("Store");
-            if (!string.IsNullOrEmpty(property8))
-                AppendParam(requestUri, "store", property8, ref fFirst);
-            object property9 = this.Query.GetProperty("ChunkSize");
-            if (property9 != null && (int)property9 > 0)
-                AppendParam(requestUri, nameof(chunkSize), property9.ToString(), ref fFirst);
-            object property10 = this.Query.GetProperty("IsActionable");
-            if (property10 != null)
+            string clientType = (string)this.Query.GetProperty("ClientType");
+            if (!string.IsNullOrEmpty(clientType))
+                AppendParam(requestUri, "clientType", clientType, ref fFirst);
+            string cost = (string)this.Query.GetProperty("Cost");
+            if (!string.IsNullOrEmpty(cost))
+                AppendParam(requestUri, "cost", cost, ref fFirst);
+            string tag = (string)this.Query.GetProperty("Tag");
+            if (!string.IsNullOrEmpty(tag))
+                AppendParam(requestUri, "tag", tag, ref fFirst);
+            string store = (string)this.Query.GetProperty("Store");
+            if (!string.IsNullOrEmpty(store))
+                AppendParam(requestUri, "store", store, ref fFirst);
+            object chunkSizeOverride = this.Query.GetProperty("ChunkSize");
+            if (chunkSizeOverride != null && (int)chunkSizeOverride > 0)
+                AppendParam(requestUri, nameof(chunkSize), chunkSizeOverride.ToString(), ref fFirst);
+            object isActionable = this.Query.GetProperty("IsActionable");
+            if (isActionable != null)
             {
-                bool flag = (bool)property10;
-                if (flag)
-                    AppendParam(requestUri, "isActionable", flag.ToString(), ref fFirst);
+                if ((bool)isActionable)
+                    AppendParam(requestUri, "isActionable", isActionable.ToString(), ref fFirst);
             }
             if (chunkSize > 0)
             {
                 AppendParam(requestUri, "count", chunkSize.ToString(), ref fFirst);
                 AppendParam(requestUri, "startIndex", chunkStart.ToString(), ref fFirst);
             }
-            string property11 = (string)this.Query.GetProperty("RequestSortBy");
-            if (!string.IsNullOrEmpty(property11))
-                AppendParam(requestUri, "orderby", property11, ref fFirst);
+            string requestSortBy = (string)this.Query.GetProperty("RequestSortBy");
+            if (!string.IsNullOrEmpty(requestSortBy))
+                AppendParam(requestUri, "orderby", requestSortBy, ref fFirst);
             string timeTravel = ClientConfiguration.Service.TimeTravel;
             if (!string.IsNullOrEmpty(timeTravel) && ZuneApplication.Service.IsSignedIn())
                 AppendParam(requestUri, "instant", Uri.EscapeDataString(timeTravel), ref fFirst);
@@ -124,22 +123,22 @@ namespace ZuneXml
 
         protected virtual void AppendStuffAfterRepresentation(StringBuilder requestUri, ref bool fFirst)
         {
-            string property1 = (string)this.Query.GetProperty("StartsWith");
-            if (!string.IsNullOrEmpty(property1))
-                AppendParam(requestUri, "startsWith", property1, ref fFirst);
-            string property2 = (string)this.Query.GetProperty("StartDate");
-            if (!string.IsNullOrEmpty(property2))
-                AppendParam(requestUri, "startDate", property2, ref fFirst);
-            string property3 = (string)this.Query.GetProperty("EndDate");
-            if (!string.IsNullOrEmpty(property3))
-                AppendParam(requestUri, "endDate", property3, ref fFirst);
-            object property4 = this.Query.GetProperty("MinWidth");
-            if (property4 != null && (int)property4 > 0)
-                AppendParam(requestUri, "minWidth", property4.ToString(), ref fFirst);
-            object property5 = this.Query.GetProperty("MinHeight");
-            if (property5 == null || (int)property5 <= 0)
+            string startsWith = (string)this.Query.GetProperty("StartsWith");
+            if (!string.IsNullOrEmpty(startsWith))
+                AppendParam(requestUri, "startsWith", startsWith, ref fFirst);
+            string startDate = (string)this.Query.GetProperty("StartDate");
+            if (!string.IsNullOrEmpty(startDate))
+                AppendParam(requestUri, "startDate", startDate, ref fFirst);
+            string endDate = (string)this.Query.GetProperty("EndDate");
+            if (!string.IsNullOrEmpty(endDate))
+                AppendParam(requestUri, "endDate", endDate, ref fFirst);
+            object minWidth = this.Query.GetProperty("MinWidth");
+            if (minWidth != null && (int)minWidth > 0)
+                AppendParam(requestUri, "minWidth", minWidth.ToString(), ref fFirst);
+            object minHeight = this.Query.GetProperty("MinHeight");
+            if (minHeight == null || (int)minHeight <= 0)
                 return;
-            AppendParam(requestUri, "minHeight", property5.ToString(), ref fFirst);
+            AppendParam(requestUri, "minHeight", minHeight.ToString(), ref fFirst);
         }
     }
 }
