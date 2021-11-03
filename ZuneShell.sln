@@ -8,7 +8,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UIX", "UIX\UIX.csproj", "{5
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UIXControls", "UIXControls\UIXControls.csproj", "{56AE007D-B441-4294-8582-D5C63CC1C206}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UIXSign", "UIX\UIXSign\UIXSign.csproj", "{F0323473-F9B6-4875-93B2-DF657C3F7197}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UIXSign", "UIXSign\UIXSign.csproj", "{F0323473-F9B6-4875-93B2-DF657C3F7197}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
