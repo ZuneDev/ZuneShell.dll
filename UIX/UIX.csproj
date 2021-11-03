@@ -38,6 +38,6 @@
     </ItemGroup>
 
     <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-      <Exec Command="..\UIXSign\bin\$(Platform)\$(Configuration)\net48\UIXSign.exe &quot;$(OutputPath)UIX.dll&quot;" />
+        <Exec Command="..\UIXSign\bin\$(Platform)\$(Configuration)\net48\UIXSign.exe &quot;$(OutputPath)UIX.dll&quot;" />
     </Target>
 </Project>
