@@ -35,7 +35,7 @@ namespace Microsoft.Iris.Debug
             if (s_isInitialized)
                 return;
             s_isInitialized = true;
-            NativeApi.SpInitializeTracing();
+            //NativeApi.SpInitializeTracing();
             TraceSettings.Refresh();
             TraceSettings.ListenForRegistryUpdates();
         }
@@ -45,143 +45,96 @@ namespace Microsoft.Iris.Debug
             if (!s_isInitialized)
                 return;
             TraceSettings.StopListeningForRegistryUpdates();
-            NativeApi.SpUninitializeTracing();
+            //NativeApi.SpUninitializeTracing();
             s_isInitialized = false;
         }
 
         [Conditional("DEBUG")]
-        public static void WriteLine(TraceCategory cat, object valueObject) => IsCategoryEnabled(cat, 1);
+        public static void WriteLine(TraceCategory cat, object valueObject) => WriteLine(cat, 1, valueObject);
 
         [Conditional("DEBUG")]
-        public static void WriteLine(TraceCategory cat, string format, object param) => IsCategoryEnabled(cat, 1);
+        public static void WriteLine(TraceCategory cat, string format, object param) => WriteLine(cat, 1, format, param);
 
         [Conditional("DEBUG")]
-        public static void WriteLine(TraceCategory cat, string format, object param1, object param2) => IsCategoryEnabled(cat, 1);
+        public static void WriteLine(TraceCategory cat, string format, object param1, object param2) => WriteLine(cat, 1, format, param1, param2);
 
         [Conditional("DEBUG")]
-        public static void WriteLine(
-          TraceCategory cat,
-          string format,
-          object param1,
-          object param2,
-          object param3)
+        public static void WriteLine(TraceCategory cat, string format, object param1, object param2, object param3)
         {
-            IsCategoryEnabled(cat, 1);
+            WriteLine(cat, 1, format, param1, param2, param3);
         }
 
         [Conditional("DEBUG")]
-        public static void WriteLine(
-          TraceCategory cat,
-          string format,
-          object param1,
-          object param2,
-          object param3,
-          object param4)
+        public static void WriteLine(TraceCategory cat, string format, params object[] pars)
         {
-            IsCategoryEnabled(cat, 1);
+            WriteLine(cat, 1, format, pars);
         }
 
         [Conditional("DEBUG")]
-        public static void WriteLine(
-          TraceCategory cat,
-          string format,
-          object param1,
-          object param2,
-          object param3,
-          object param4,
-          object param5)
+        public static void WriteLine(TraceCategory cat, byte levelFlag, object valueObject)
         {
-            IsCategoryEnabled(cat, 1);
+            if (IsCategoryEnabled(cat, levelFlag))
+                System.Diagnostics.Debug.WriteLine(BuildLine(valueObject.ToString()));
         }
 
         [Conditional("DEBUG")]
-        public static void WriteLine(TraceCategory cat, byte levelFlag, object valueObject) => IsCategoryEnabled(cat, levelFlag);
-
-        [Conditional("DEBUG")]
-        public static void WriteLine(TraceCategory cat, byte levelFlag, string format, object param) => IsCategoryEnabled(cat, levelFlag);
-
-        [Conditional("DEBUG")]
-        public static void WriteLine(
-          TraceCategory cat,
-          byte levelFlag,
-          string format,
-          object param1,
-          object param2)
+        public static void WriteLine(TraceCategory cat, byte levelFlag, string format, object param)
         {
-            IsCategoryEnabled(cat, levelFlag);
-        }
-
-        [Conditional("DEBUG")]
-        public static void WriteLine(
-          TraceCategory cat,
-          byte levelFlag,
-          string format,
-          object param1,
-          object param2,
-          object param3)
-        {
-            IsCategoryEnabled(cat, levelFlag);
-        }
-
-        [Conditional("DEBUG")]
-        public static void WriteLine(
-          TraceCategory cat,
-          byte levelFlag,
-          string format,
-          object param1,
-          object param2,
-          object param3,
-          object param4)
-        {
-            IsCategoryEnabled(cat, levelFlag);
-        }
-
-        [Conditional("DEBUG")]
-        public static void WriteLine(
-          TraceCategory cat,
-          byte levelFlag,
-          string format,
-          object param1,
-          object param2,
-          object param3,
-          object param4,
-          object param5)
-        {
-            IsCategoryEnabled(cat, levelFlag);
-        }
-
-        [Conditional("DEBUG")]
-        public static void WriteLine(
-          TraceCategory cat,
-          byte levelFlag,
-          string format,
-          object param1,
-          object param2,
-          object param3,
-          object param4,
-          object param5,
-          object param6)
-        {
-            IsCategoryEnabled(cat, levelFlag);
-        }
-
-        public static int IndentLevel
-        {
-            get => 0;
-            set
+            if (IsCategoryEnabled(cat, levelFlag))
             {
+                string content = string.Format(format, param);
+                System.Diagnostics.Debug.WriteLine(BuildLine(content));
             }
         }
 
+        [Conditional("DEBUG")]
+        public static void WriteLine(TraceCategory cat, byte levelFlag, string format, object param1, object param2)
+        {
+            if (IsCategoryEnabled(cat, levelFlag))
+            {
+                string content = string.Format(format, param1, param2);
+                System.Diagnostics.Debug.WriteLine(BuildLine(content));
+            }
+        }
+
+        [Conditional("DEBUG")]
+        public static void WriteLine(TraceCategory cat, byte levelFlag, string format, object param1, object param2, object param3)
+        {
+            if (IsCategoryEnabled(cat, levelFlag))
+            {
+                string content = string.Format(format, param1, param2, param3);
+                System.Diagnostics.Debug.WriteLine(BuildLine(content));
+            }
+        }
+
+        [Conditional("DEBUG")]
+        public static void WriteLine(TraceCategory cat, byte levelFlag, string format, params object[] pars)
+        {
+            if (IsCategoryEnabled(cat, levelFlag))
+            {
+                string content = string.Format(format, pars);
+                System.Diagnostics.Debug.WriteLine(BuildLine(content));
+            }
+        }
+
+        public static int IndentLevel { get; set; }
+
         public static bool IsCategoryEnabled(TraceCategory cat) => IsCategoryEnabled(cat, 1);
 
-        public static bool IsCategoryEnabled(TraceCategory cat, byte requestLevel) => false;
+        public static bool IsCategoryEnabled(TraceCategory cat, byte requestLevel)
+        {
+            return TraceSettings.GetCategoryLevel(cat) >= requestLevel;
+        }
 
         public static void EnableCategory(TraceCategory cat, bool enabled)
         {
-            byte level = 0;
-            if (enabled) level = 1;
-            TraceSettings.SetCategoryLevel(cat, level);
+            TraceSettings.SetCategoryLevel(cat, (byte)(enabled ? 1 : 0));
+        }
+
+        public static void EnableAllCategories(bool enabled)
+        {
+            foreach (Enum e in Enum.GetValues(typeof(TraceCategory)))
+                EnableCategory((TraceCategory)e, enabled);
         }
 
         [Conditional("DEBUG")]
@@ -213,24 +166,13 @@ namespace Microsoft.Iris.Debug
         public static void OpenBrace(TraceCategory cat, string format, object param, object param2) => IsCategoryEnabled(cat, 1);
 
         [Conditional("DEBUG")]
-        public static void OpenBrace(
-          TraceCategory cat,
-          string format,
-          object param,
-          object param2,
-          object param3)
+        public static void OpenBrace(TraceCategory cat, string format, object param, object param2, object param3)
         {
             IsCategoryEnabled(cat, 1);
         }
 
         [Conditional("DEBUG")]
-        public static void OpenBrace(
-          TraceCategory cat,
-          string format,
-          object param,
-          object param2,
-          object param3,
-          object param4)
+        public static void OpenBrace(TraceCategory cat, string format, object param, object param2, object param3, object param4)
         {
             IsCategoryEnabled(cat, 1);
         }
@@ -242,12 +184,7 @@ namespace Microsoft.Iris.Debug
         public static void OpenBrace(TraceCategory cat, byte levelFlag, string format, object param) => IsCategoryEnabled(cat, levelFlag);
 
         [Conditional("DEBUG")]
-        public static void OpenBrace(
-          TraceCategory cat,
-          byte levelFlag,
-          string format,
-          object param,
-          object param2)
+        public static void OpenBrace(TraceCategory cat, byte levelFlag, string format, object param, object param2)
         {
             IsCategoryEnabled(cat, levelFlag);
         }
@@ -378,11 +315,18 @@ namespace Microsoft.Iris.Debug
         [Conditional("DEBUG")]
         private static void Indent()
         {
+            IndentLevel++;
         }
 
         [Conditional("DEBUG")]
         private static void Unindent()
         {
+            IndentLevel--;
+        }
+
+        private static string BuildLine(string content)
+        {
+            return new string('\t', IndentLevel) + content;
         }
 
         internal static string DEBUG_SafeFormat(string format, object param)
