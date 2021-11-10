@@ -17,15 +17,12 @@
         <FileAlignment>512</FileAlignment>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-        <SignAssembly>false</SignAssembly>
         <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
     </PropertyGroup>
 
     <ItemGroup>
         <Reference Include="Accessibility" />
         <Reference Include="System" />
-        <Reference Include="System.Buffers" />
-        <Reference Include="System.Memory" />
         <Reference Include="System.XML" />
         <Reference Include="UIX.RenderApi">
             <HintPath>..\ZuneShell\lib\UIX.renderapi.dll</HintPath>
@@ -38,6 +35,6 @@
     </ItemGroup>
 
     <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-        <Exec Command="..\UIXSign\bin\$(Platform)\$(Configuration)\net48\UIXSign.exe &quot;$(OutputPath)UIX.dll&quot;" />
+        <Exec Command="..\UIXSign\bin\$(Platform)\Debug\net48\UIXSign.exe &quot;$(OutputPath)UIX.dll&quot;" />
     </Target>
 </Project>

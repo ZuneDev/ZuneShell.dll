@@ -70,16 +70,37 @@ namespace Microsoft.Zune.Shell
                             {
                                 break;
                             }
-                        case "debug":
+                        case "uixdebugpipe":
+                            Application.DebugSettings.OpenDebugPipe = true;
+                            break;
+                        case "uixdecomp":
+                            Application.DebugSettings.UseDecompiler = true;
+                            break;
+                        case "uixtrace":
                             try
                             {
-                                Application.IsDebug = bool.Parse(commandLineArgument.Value);
+                                int idx = commandLineArgument.Value.IndexOf(':');
+                                byte level;
+                                Iris.Debug.TraceCategory cat;
+                                if (idx != -1)
+                                {
+                                    level = byte.Parse(commandLineArgument.Value.Substring(idx + 1));
+                                    cat = (Iris.Debug.TraceCategory)Enum.Parse(typeof(Iris.Debug.TraceCategory), commandLineArgument.Value.Substring(0, idx));
+                                }
+                                else
+                                {
+                                    level = 1;
+                                    cat = (Iris.Debug.TraceCategory)Enum.Parse(typeof(Iris.Debug.TraceCategory), commandLineArgument.Value);
+                                }
+                                Application.DebugSettings.TraceSettings.SetCategoryLevel(cat, level);
                                 break;
                             }
                             catch (FormatException ex)
                             {
                                 break;
                             }
+                            break;
+
                         default:
                             hashtable[commandLineArgument.Name] = commandLineArgument.Value;
                             break;

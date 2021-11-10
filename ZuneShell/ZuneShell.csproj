@@ -31,4 +31,8 @@
             <HintPath>C:\Program Files\Zune\UIXControls.dll</HintPath>
         </Reference>
     </ItemGroup>
+
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+        <Exec Command="..\UIXSign\bin\$(Platform)\Debug\net48\UIXSign.exe &quot;$(OutputPath)ZuneShell.dll&quot;" />
+    </Target>
 </Project>
