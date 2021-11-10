@@ -36,6 +36,7 @@ namespace Microsoft.Iris
         private static bool s_IsRTL = false;
         private static Dictionary<int, IExternalAnimationInput> s_idToExternalAnimationInput;
         private static Dictionary<int, IAnimationInputProvider> s_animationProviders;
+        private static Debug.DebugSettings s_debugSettings;
 
         public static string Name
         {
@@ -133,7 +134,15 @@ namespace Microsoft.Iris
             get => DllResources.StaticDllResourcesOnly;
         }
 
-        public static bool IsDebug { get; set; }
+        public static Debug.DebugSettings DebugSettings
+        {
+            get
+            {
+                if (s_debugSettings == null)
+                    s_debugSettings = new Debug.DebugSettings();
+                return s_debugSettings;
+            }
+        }
 
         public static void Initialize()
         {

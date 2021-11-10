@@ -301,6 +301,8 @@ namespace Microsoft.Iris.Markup
             catch (FileLoadException ex)
             {
                 assemblyLoadException = ex;
+                Debug.Trace.EnableCategory(Debug.TraceCategory.MarkupCompiler, true);
+                Debug.Trace.WriteLine(Debug.TraceCategory.MarkupCompiler, ex.FusionLog);
             }
             catch (BadImageFormatException ex)
             {

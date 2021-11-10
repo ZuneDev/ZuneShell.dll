@@ -4,6 +4,7 @@
 // MVID: A56C6C9D-B7F6-46A9-8BDE-B3D9B8D60B11
 // Assembly location: C:\Program Files\Zune\UIX.dll
 
+using Microsoft.Iris.Debug;
 using Microsoft.Iris.Markup.UIX;
 using Microsoft.Iris.Session;
 using Microsoft.Iris.UI;
@@ -70,6 +71,11 @@ namespace Microsoft.Iris.Markup
                         return (ViewItem)obj;
                     ErrorManager.ReportWarning("Script runtime failure: Scripting errors have prevented '{0}' named content from being constructed", name);
                 }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine(TraceCategory.Markup, ex);
                 return null;
             }
             finally

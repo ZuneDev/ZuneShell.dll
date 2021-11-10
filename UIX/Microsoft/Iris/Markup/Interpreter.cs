@@ -25,11 +25,15 @@ namespace Microsoft.Iris.Markup
                 byteCodeReader = context.LoadResult.ObjectSection;
                 num = (long)((ulong)byteCodeReader.CurrentOffset);
                 byteCodeReader.CurrentOffset = context.InitialBytecodeOffset;
-                if (InterpreterContext.UseDecompile)
+                if (Application.DebugSettings.UseDecompiler)
                     result = RunDecompile(context, byteCodeReader);
                 else
                     result = Run(context, byteCodeReader);
                 flag = false;
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine(TraceCategory.Markup, $"Error detected: {ex};");
             }
             finally
             {
@@ -93,6 +97,7 @@ namespace Microsoft.Iris.Markup
                                 ErrorManager.ReportError("Script runtime failure: Dynamic construction type override failed. Attempting to construct '{0}' in place of '{1}'", (typeSchema3 != null) ? typeSchema3.Name : "null", typeSchema2.Name);
                                 if (ErrorsDetected(watermark, ref result, ref flag))
                                 {
+                                    Trace.WriteLine(TraceCategory.Markup, $"Error detected: {result};");
                                     break;
                                 }
                             }
@@ -196,9 +201,7 @@ namespace Microsoft.Iris.Markup
                             SymbolReference symbolRef = symbolReferenceTable[num8];
                             object obj8 = context.ReadSymbol(symbolRef);
                             stack.Push(obj8);
-                            if (Trace.IsCategoryEnabled(TraceCategory.Markup))
-                            {
-                            }
+                            Trace.WriteLine(TraceCategory.Markup, $"Looked up SymbolRef: {symbolRef};\tValue: {obj8};");
                             break;
                         }
                     case OpCode.WriteSymbol:
@@ -208,9 +211,7 @@ namespace Microsoft.Iris.Markup
                             int num9 = reader.ReadUInt16();
                             SymbolReference symbolRef2 = symbolReferenceTable[num9];
                             context.WriteSymbol(symbolRef2, value);
-                            if (Trace.IsCategoryEnabled(TraceCategory.Markup))
-                            {
-                            }
+                            Trace.WriteLine(TraceCategory.Markup, $"Wrote SymbolRef: {symbolRef2};\tValue: {value};");
                             break;
                         }
                     case OpCode.ClearSymbol:
@@ -218,9 +219,7 @@ namespace Microsoft.Iris.Markup
                             int num10 = reader.ReadUInt16();
                             SymbolReference symbolRef3 = symbolReferenceTable[num10];
                             context.ClearSymbol(symbolRef3);
-                            if (Trace.IsCategoryEnabled(TraceCategory.Markup))
-                            {
-                            }
+                            Trace.WriteLine(TraceCategory.Markup, $"Cleared SymbolRef: {symbolRef3};");
                             break;
                         }
                     case OpCode.PropertyInitialize:
@@ -253,6 +252,7 @@ namespace Microsoft.Iris.Markup
                                         }
                                         if (ErrorsDetected(watermark, ref result, ref flag))
                                         {
+                                            Trace.WriteLine(TraceCategory.Markup, $"Error detected: {result};");
                                             break;
                                         }
                                     }
@@ -276,6 +276,7 @@ namespace Microsoft.Iris.Markup
                                 ((IList)collection).Add(value2);
                                 if (ErrorsDetected(watermark, ref result, ref flag))
                                 {
+                                    Trace.WriteLine(TraceCategory.Markup, $"Error detected: {result};");
                                 }
                             }
                             break;
@@ -293,6 +294,7 @@ namespace Microsoft.Iris.Markup
                                 ((IDictionary)collection2)[key] = value3;
                                 if (ErrorsDetected(watermark, ref result, ref flag))
                                 {
+                                    Trace.WriteLine(TraceCategory.Markup, $"Error detected: {result};");
                                 }
                             }
                             break;
@@ -309,13 +311,15 @@ namespace Microsoft.Iris.Markup
                                 ReportErrorOnNullOrDisposed(instance2, "Property Set", propertySchema3.Name, propertySchema3.Owner);
                                 if (ErrorsDetected(watermark, ref result, ref flag))
                                 {
+                                    Trace.WriteLine(TraceCategory.Markup, $"Error detected: {result};");
                                     break;
                                 }
                             }
                             object value4 = stack.Peek();
                             propertySchema3.SetValue(ref instance2, value4);
-                            if (!ErrorsDetected(watermark, ref result, ref flag) && Trace.IsCategoryEnabled(TraceCategory.Markup))
+                            if (!ErrorsDetected(watermark, ref result, ref flag))
                             {
+                                Trace.WriteLine(TraceCategory.Markup, $"Assigned {propertySchema3.Owner.Name}.{propertySchema3.Name} = {value4};");
                             }
                             break;
                         }
@@ -332,6 +336,7 @@ namespace Microsoft.Iris.Markup
                                 ReportErrorOnNullOrDisposed(instance3, "Property Get", propertySchema4.Name, propertySchema4.Owner);
                                 if (ErrorsDetected(watermark, ref result, ref flag))
                                 {
+                                    Trace.WriteLine(TraceCategory.Markup, $"Error detected: {result};");
                                     break;
                                 }
                             }
@@ -339,9 +344,7 @@ namespace Microsoft.Iris.Markup
                             if (!ErrorsDetected(watermark, ref result, ref flag))
                             {
                                 stack.Push(value5);
-                                if (Trace.IsCategoryEnabled(TraceCategory.Markup))
-                                {
-                                }
+                                Trace.WriteLine(TraceCategory.Markup, $"{opCode}\t{propertySchema4.Owner.Name}.{propertySchema4.Name} = {value5};");
                             }
                             break;
                         }
@@ -376,6 +379,7 @@ namespace Microsoft.Iris.Markup
                                 ReportErrorOnNullOrDisposed(instance4, "Method Invoke", methodSchema.Name, methodSchema.Owner);
                                 if (ErrorsDetected(watermark, ref result, ref flag))
                                 {
+                                    Trace.WriteLine(TraceCategory.Markup, $"Error detected: {result};");
                                     break;
                                 }
                             }
@@ -413,6 +417,7 @@ namespace Microsoft.Iris.Markup
                                 }
                                 if (ErrorsDetected(watermark, ref result, ref flag))
                                 {
+                                    Trace.WriteLine(TraceCategory.Markup, $"Error detected: {result};");
                                 }
                             }
                             else if (!typeSchema10.IsNullAssignable)
@@ -420,6 +425,7 @@ namespace Microsoft.Iris.Markup
                                 ReportErrorOnNull(obj12, "Verify Type Cast", typeSchema10.Name);
                                 if (ErrorsDetected(watermark, ref result, ref flag))
                                 {
+                                    Trace.WriteLine(TraceCategory.Markup, $"Error detected: {result};");
                                 }
                             }
                             break;
@@ -462,9 +468,7 @@ namespace Microsoft.Iris.Markup
                             if (!ErrorsDetected(watermark, ref result, ref flag))
                             {
                                 stack.Push(obj15);
-                                if (Trace.IsCategoryEnabled(TraceCategory.Markup))
-                                {
-                                }
+                                Trace.WriteLine(TraceCategory.Markup, $"Operation\t{left} {op} {right} -> {obj15};");
                             }
                             break;
                         }
@@ -479,9 +483,7 @@ namespace Microsoft.Iris.Markup
                                 value6 = typeSchema13.IsAssignableFrom(obj16);
                             }
                             stack.Push(BooleanBoxes.Box(value6));
-                            if (Trace.IsCategoryEnabled(TraceCategory.Markup))
-                            {
-                            }
+                            Trace.WriteLine(TraceCategory.Markup, $"IsAssignableFrom\t{typeSchema13.Name} <- {obj16};");
                             break;
                         }
                     case OpCode.As:
@@ -494,9 +496,7 @@ namespace Microsoft.Iris.Markup
                                 stack.Pop();
                                 stack.Push(null);
                             }
-                            if (Trace.IsCategoryEnabled(TraceCategory.Markup))
-                            {
-                            }
+                            Trace.WriteLine(TraceCategory.Markup, $"{typeSchema14.Name} as {obj17};");
                             break;
                         }
                     case OpCode.TypeOf:
@@ -540,14 +540,12 @@ namespace Microsoft.Iris.Markup
                             uint currentOffset = reader.ReadUInt32();
                             object obj21 = (opCode == OpCode.JumpIfFalse) ? stack.Pop() : stack.Peek();
                             bool flag6 = (bool)obj21;
-                            bool flag7 = opCode == OpCode.JumpIfTruePeek;
-                            Trace.IsCategoryEnabled(TraceCategory.Markup);
-                            if (flag7 == flag6)
+                            bool isJumpIfTruePeek = opCode == OpCode.JumpIfTruePeek;
+                            Trace.WriteLine(TraceCategory.Markup, $"JumpIfTruePeek {isJumpIfTruePeek}");
+                            if (isJumpIfTruePeek == flag6)
                             {
                                 reader.CurrentOffset = currentOffset;
-                                if (Trace.IsCategoryEnabled(TraceCategory.Markup))
-                                {
-                                }
+                                Trace.WriteLine(TraceCategory.Markup, $"{opCode}\tJumped to 0x{currentOffset:X};");
                             }
                             break;
                         }
@@ -562,13 +560,11 @@ namespace Microsoft.Iris.Markup
                             if (!ErrorsDetected(watermark, ref result, ref flag))
                             {
                                 bool flag8 = ((IDictionary)collection3).Contains(key2);
-                                Trace.IsCategoryEnabled(TraceCategory.Markup);
+                                Trace.WriteLine(TraceCategory.Markup, $"JumpIfDictContains\t{stack.Peek()}.Contains({key2}) == {flag8};");
                                 if (flag8)
                                 {
                                     reader.CurrentOffset = currentOffset2;
-                                    if (Trace.IsCategoryEnabled(TraceCategory.Markup))
-                                    {
-                                    }
+                                    Trace.WriteLine(TraceCategory.Markup, $"Contained in dict, jumped to 0x{currentOffset2:X};");
                                 }
                             }
                             break;
@@ -581,9 +577,7 @@ namespace Microsoft.Iris.Markup
                             if (obj22 == null)
                             {
                                 reader.CurrentOffset = currentOffset3;
-                                if (Trace.IsCategoryEnabled(TraceCategory.Markup))
-                                {
-                                }
+                                Trace.WriteLine(TraceCategory.Markup, $"JumpIfNullPeek\tJumped to 0x{currentOffset3:X};");
                             }
                             break;
                         }
@@ -591,9 +585,7 @@ namespace Microsoft.Iris.Markup
                         {
                             uint currentOffset4 = reader.ReadUInt32();
                             reader.CurrentOffset = currentOffset4;
-                            if (Trace.IsCategoryEnabled(TraceCategory.Markup))
-                            {
-                            }
+                            Trace.WriteLine(TraceCategory.Markup, $"Jumped to 0x{currentOffset4:X};");
                             break;
                         }
                     case OpCode.ConstructListenerStorage:
@@ -609,9 +601,7 @@ namespace Microsoft.Iris.Markup
                             {
                                 instance.Listeners.AddEntries(listenerCount);
                             }
-                            if (Trace.IsCategoryEnabled(TraceCategory.Markup))
-                            {
-                            }
+                            Trace.WriteLine(TraceCategory.Markup, $"ConstructedListenerStorage instance.Listeners: {instance.Listeners};");
                             break;
                         }
                     case OpCode.Listen:
@@ -643,7 +633,7 @@ namespace Microsoft.Iris.Markup
                             if (obj23 != null)
                             {
                                 INotifyObject notifier = (INotifyObject)obj23;
-                                Trace.IsCategoryEnabled(TraceCategory.Markup);
+                                Trace.WriteLine(TraceCategory.Markup, $"{opCode}\tNotifier {notifier};\tWatch {watch};\tInstance {instance}");
                                 MarkupListeners listeners = instance.Listeners;
                                 listeners.RefreshListener(index5, notifier, watch, instance, scriptOffset, refreshOffset);
                             }
@@ -737,7 +727,7 @@ namespace Microsoft.Iris.Markup
         {
             if (instance == null)
             {
-                ErrorManager.ReportError("Script runtime failure: Null-reference while attempting a '{0}' of '{1}' on a null instance", operation, member);
+                ErrorManager.ReportError("Script runtime failure: Null-reference while attempting a '{0}' of '{1}' on a null instance of '{2}'", operation, member, typeSchema.Name);
                 return;
             }
             if (typeSchema.Disposable)
@@ -1561,7 +1551,7 @@ namespace Microsoft.Iris.Markup
             }
 
             CleanUpXmlDoc();
-            InterpreterContext.DecompileResults.Add(XmlDoc);
+            Application.DebugSettings.DecompileResults.Add(XmlDoc);
             return result;
         }
 
@@ -1621,6 +1611,20 @@ namespace Microsoft.Iris.Markup
                 }
                 return objXml;
             }
+        }
+
+        private static string SanitizeForXml(string name)
+        {
+            string outName = string.Empty;
+            var rx = new System.Text.RegularExpressions.Regex(@"\w+");
+            var matches = rx.Matches(name);
+            if (matches.Count == name.Length)
+                return name;
+
+            // Strip non-alphanumeric characters
+            foreach (System.Text.RegularExpressions.Match match in matches)
+                outName += match.Value;
+            return outName;
         }
 
         private static void CleanUpXmlDoc()

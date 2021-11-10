@@ -4,12 +4,14 @@
 // MVID: A56C6C9D-B7F6-46A9-8BDE-B3D9B8D60B11
 // Assembly location: C:\Program Files\Zune\UIX.dll
 
+using Microsoft.Iris.Debug;
 using Microsoft.Iris.Library;
 using Microsoft.Iris.Markup;
 using Microsoft.Iris.Markup.UIX;
 using Microsoft.Iris.Render;
 using Microsoft.Iris.Session;
 using Microsoft.Iris.UI;
+using System;
 
 namespace Microsoft.Iris.ViewItems
 {
@@ -142,6 +144,10 @@ namespace Microsoft.Iris.ViewItems
                     loadResult = MarkupSystem.Load(CrackSourceUri(source, out uiToCreate), host.InheritedIslandId);
                 host.CompleteSourceRequest(source, type, properties, loadResult, uiToCreate);
             }
+            catch (Exception ex)
+            {
+                Trace.WriteLine(TraceCategory.Markup, $"Error detected: {ex};");
+            }
             finally
             {
                 ErrorManager.ExitContext();
@@ -229,6 +235,11 @@ namespace Microsoft.Iris.ViewItems
                     DeferredCall.Post(DispatchPriority.LayoutSync, new SimpleCallback(DeliverLoadCompleteNotification));
                     flag = false;
                 }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debugger.Break();
+                Trace.WriteLine(TraceCategory.Markup, $"Error detected: {ex};");
             }
             finally
             {

@@ -35,17 +35,17 @@ namespace Microsoft.Iris.Debug
             if (s_isInitialized)
                 return;
             s_isInitialized = true;
-            //NativeApi.SpInitializeTracing();
-            TraceSettings.Refresh();
-            TraceSettings.ListenForRegistryUpdates();
+            NativeApi.SpInitializeTracing();
+            TraceSettings.Current.Refresh();
+            TraceSettings.Current.ListenForRegistryUpdates();
         }
 
         public static void Shutdown()
         {
             if (!s_isInitialized)
                 return;
-            TraceSettings.StopListeningForRegistryUpdates();
-            //NativeApi.SpUninitializeTracing();
+            TraceSettings.Current.StopListeningForRegistryUpdates();
+            NativeApi.SpUninitializeTracing();
             s_isInitialized = false;
         }
 
@@ -123,12 +123,12 @@ namespace Microsoft.Iris.Debug
 
         public static bool IsCategoryEnabled(TraceCategory cat, byte requestLevel)
         {
-            return TraceSettings.GetCategoryLevel(cat) >= requestLevel;
+            return TraceSettings.Current.GetCategoryLevel(cat) >= requestLevel;
         }
 
         public static void EnableCategory(TraceCategory cat, bool enabled)
         {
-            TraceSettings.SetCategoryLevel(cat, (byte)(enabled ? 1 : 0));
+            TraceSettings.Current.SetCategoryLevel(cat, (byte)(enabled ? 1 : 0));
         }
 
         public static void EnableAllCategories(bool enabled)

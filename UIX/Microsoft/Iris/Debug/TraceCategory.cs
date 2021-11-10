@@ -6,7 +6,7 @@
 
 namespace Microsoft.Iris.Debug
 {
-    internal enum TraceCategory
+    public enum TraceCategory
     {
         AnimationRendering = 0,
         Critical = 1,
