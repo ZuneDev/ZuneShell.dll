@@ -10,9 +10,12 @@ namespace UIXSign
 {
     class Program
     {
-        static void Main(string[] args)
+        static int Main(string[] args)
         {
             string dll = args[0];
+            if (!File.Exists(dll))
+                return -1;
+
             string outputName = args.Length >= 2 ? args[1] : "UIX_signed.dll";
             string outputDir = Path.GetDirectoryName(dll);
             string dllCopy = Path.Combine(outputDir, outputName);
@@ -61,6 +64,8 @@ namespace UIXSign
             File.Delete(dllCopy);
             Console.WriteLine("DLL modded:");
             Console.WriteLine(dll);
+
+            return 0;
         }
     }
 }

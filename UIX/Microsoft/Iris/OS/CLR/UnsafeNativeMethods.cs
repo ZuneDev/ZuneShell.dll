@@ -8,12 +8,10 @@ using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security;
-using System.Security.Permissions;
 
 namespace Microsoft.Iris.OS.CLR
 {
     [SuppressUnmanagedCodeSecurity]
-    [HostProtection(SecurityAction.LinkDemand, MayLeakOnAbort = true)]
     internal static class UnsafeNativeMethods
     {
         [DllImport("Ole32.dll")]
