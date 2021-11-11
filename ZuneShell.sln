@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30907.101
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZuneShell", "ZuneShell\ZuneShell.csproj", "{E93CFFA3-1EEB-4E71-9E83-7377C1422119}"
 EndProject
@@ -9,6 +9,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UIXControls", "UIXControls\UIXControls.csproj", "{56AE007D-B441-4294-8582-D5C63CC1C206}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UIXSign", "UIXSign\UIXSign.csproj", "{F0323473-F9B6-4875-93B2-DF657C3F7197}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZuneDBApi", "ZuneDBApi\ZuneDBApi.csproj", "{3040F871-DA7F-4286-AF17-7667525F25ED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -50,6 +52,14 @@ Global
 		{F0323473-F9B6-4875-93B2-DF657C3F7197}.Release|Any CPU.Build.0 = Release|x64
 		{F0323473-F9B6-4875-93B2-DF657C3F7197}.Release|x64.ActiveCfg = Release|x64
 		{F0323473-F9B6-4875-93B2-DF657C3F7197}.Release|x64.Build.0 = Release|x64
+		{3040F871-DA7F-4286-AF17-7667525F25ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3040F871-DA7F-4286-AF17-7667525F25ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3040F871-DA7F-4286-AF17-7667525F25ED}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{3040F871-DA7F-4286-AF17-7667525F25ED}.Debug|x64.Build.0 = Debug|Any CPU
+		{3040F871-DA7F-4286-AF17-7667525F25ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3040F871-DA7F-4286-AF17-7667525F25ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3040F871-DA7F-4286-AF17-7667525F25ED}.Release|x64.ActiveCfg = Release|Any CPU
+		{3040F871-DA7F-4286-AF17-7667525F25ED}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

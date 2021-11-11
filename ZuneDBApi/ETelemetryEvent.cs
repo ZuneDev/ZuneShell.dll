@@ -1,0 +1,25 @@
+public enum ETelemetryEvent
+{
+	eTelemetryEventConcurrentStreamingDenied = 20,
+	eTelemetryEventFulfillmentFailure = 19,
+	eTelemetryEventDownloadFailure = 18,
+	eTelemetryEventDownloadSuccess = 17,
+	eTelemetryEventSubscriptionAdd = 0x10,
+	eTelemetryEventZunePassPurchase = 0xF,
+	eTelemetryEventAccountCreate = 14,
+	eTelemetryEventSignIn = 13,
+	eTelemetryEventZunePassDownload = 12,
+	eTelemetryEventManualDownload = 11,
+	eTelemetryEventRentalDownload = 10,
+	eTelemetryEventDTODownload = 9,
+	eTelemetryEventPlayback = 8,
+	eTelemetryEventMediaSyncComplete = 7,
+	eTelemetryEventSyncStart = 6,
+	eTelemetryEventDeviceConnect = 5,
+	eTelemetryEventNowPlaying = 4,
+	eTelemetryEventQuickMix = 3,
+	eTelemetryEventMixView = 2,
+	eTelemetryEventBuildPlaylist = 1,
+	eTelemetryEventCDBurn = 0,
+	eTelemetryEventUndefined = -1
+}
