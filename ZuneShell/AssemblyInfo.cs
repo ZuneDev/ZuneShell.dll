@@ -10,3 +10,4 @@ using System.Security.Permissions;
 [assembly: AssemblyFileVersion("4.8.2345.0")]
 //[assembly: AssemblyDelaySign(true)]
 [assembly: AssemblyVersion("4.7.0.0")]
+[assembly: SecurityPermission(SecurityAction.RequestMinimum, SkipVerification = true)]

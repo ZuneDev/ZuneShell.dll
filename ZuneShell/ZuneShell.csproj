@@ -9,7 +9,9 @@
         <AssemblyName>ZuneShell</AssemblyName>
         <ApplicationVersion>4.7.0.0</ApplicationVersion>
 
-        <TargetFramework>net5.0</TargetFramework>
+        <TargetFramework>net35</TargetFramework>
+        <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+        <OldToolsVersion>3.5</OldToolsVersion>
         <Platforms>x64;x86</Platforms>
 
         <FileAlignment>512</FileAlignment>
@@ -18,18 +20,16 @@
     </PropertyGroup>
 
     <ItemGroup>
-		<PackageReference Include="Accessibility" Version="4.6.0-preview3-27504-2" />
-		<PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" />
-		<!--<ProjectReference Include="..\UIX\UIX.csproj" />-->
+        <Reference Include="Accessibility" />
+        <Reference Include="System" />
+        <Reference Include="System.Xml" />
+        <ProjectReference Include="..\UIX\UIX.csproj" />
         <Reference Include="ZuneDBApi">
             <HintPath>C:\Program Files\Zune\ZuneDBApi.dll</HintPath>
         </Reference>
         <Reference Include="UIXControls">
             <HintPath>C:\Program Files\Zune\UIXControls.dll</HintPath>
         </Reference>
-		<Reference Include="UIX">
-			<HintPath>..\UIX\bin\$(Platform)\$(Configuration)\$(TargetFramework)\UIX.dll</HintPath>
-		</Reference>
     </ItemGroup>
 
     <Target Name="PostBuild" AfterTargets="PostBuildEvent">
