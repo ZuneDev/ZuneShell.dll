@@ -1,9 +1,0 @@
-{
-  "profiles": {
-    "ZuneShell": {
-      "commandName": "Executable",
-      "executablePath": "C:\\Program Files\\Zune\\Zune.exe",
-      "nativeDebugging": true
-    }
-  }
-}

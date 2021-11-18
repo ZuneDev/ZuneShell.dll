@@ -16,7 +16,6 @@ using Microsoft.Iris.Session;
 using Microsoft.Iris.UI;
 using Microsoft.Iris.ViewItems;
 using System;
-using Range = Microsoft.Iris.ModelItems.Range;
 
 namespace Microsoft.Iris.InputHandlers
 {
