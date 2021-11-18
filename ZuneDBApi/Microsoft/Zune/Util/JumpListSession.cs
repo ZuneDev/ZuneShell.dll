@@ -31,7 +31,7 @@ namespace Microsoft.Zune.Util
 			//IL_00d3: Expected I, but got I8
 			if (m_spJumpList.p == null)
 			{
-				_003CModule_003E._ZuneShipAssert(1002u, 214u);
+				Module._ZuneShipAssert(1002u, 214u);
 				return -2147418113;
 			}
 			disallowedDestinationList = null;
@@ -40,7 +40,7 @@ namespace Microsoft.Zune.Util
 			int num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint*, int>)(*(ulong*)(*(long*)p + 24)))((nint)p, &num);
 			if (num2 >= 0)
 			{
-				IJumpListEntry** ptr = (IJumpListEntry**)_003CModule_003E.new_005B_005D((ulong)num * 8uL);
+				IJumpListEntry** ptr = (IJumpListEntry**)Module.new_005B_005D((ulong)num * 8uL);
 				num2 = (((long)(nint)ptr == 0) ? (-2147024882) : num2);
 				if (num2 >= 0)
 				{
@@ -73,7 +73,7 @@ namespace Microsoft.Zune.Util
 				}
 				if (0L != (nint)ptr)
 				{
-					_003CModule_003E.delete_005B_005D(ptr);
+					Module.delete_005B_005D(ptr);
 				}
 			}
 			return num2;
@@ -94,10 +94,10 @@ namespace Microsoft.Zune.Util
 			catch
 			{
 				//try-fault
-				_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIJumpListEntry_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIJumpListEntry_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIJumpListEntry_003E);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIJumpListEntry_003E*, void>)(&Module.CComPtrNtv_003CIJumpListEntry_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIJumpListEntry_003E);
 				throw;
 			}
-			_003CModule_003E.CComPtrNtv_003CIJumpListEntry_003E_002ERelease(&cComPtrNtv_003CIJumpListEntry_003E);
+			Module.CComPtrNtv_003CIJumpListEntry_003E_002ERelease(&cComPtrNtv_003CIJumpListEntry_003E);
 			return 0;
 		}
 
@@ -116,10 +116,10 @@ namespace Microsoft.Zune.Util
 			catch
 			{
 				//try-fault
-				_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIJumpListCategory_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIJumpListCategory_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIJumpListCategory_003E);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIJumpListCategory_003E*, void>)(&Module.CComPtrNtv_003CIJumpListCategory_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIJumpListCategory_003E);
 				throw;
 			}
-			_003CModule_003E.CComPtrNtv_003CIJumpListCategory_003E_002ERelease(&cComPtrNtv_003CIJumpListCategory_003E);
+			Module.CComPtrNtv_003CIJumpListCategory_003E_002ERelease(&cComPtrNtv_003CIJumpListCategory_003E);
 			return 0;
 		}
 
@@ -129,7 +129,7 @@ namespace Microsoft.Zune.Util
 			IJumpList* p = m_spJumpList.p;
 			if (p == null)
 			{
-				_003CModule_003E._ZuneShipAssert(1002u, 303u);
+				Module._ZuneShipAssert(1002u, 303u);
 				return -2147418113;
 			}
 			return ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)p + 56)))((nint)p);
@@ -141,7 +141,7 @@ namespace Microsoft.Zune.Util
 			IJumpList* p = m_spJumpList.p;
 			if (p == null)
 			{
-				_003CModule_003E._ZuneShipAssert(1002u, 319u);
+				Module._ZuneShipAssert(1002u, 319u);
 				return -2147418113;
 			}
 			return ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)p + 64)))((nint)p);

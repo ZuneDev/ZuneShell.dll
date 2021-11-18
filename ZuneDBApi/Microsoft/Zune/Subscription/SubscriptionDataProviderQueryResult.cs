@@ -12,8 +12,8 @@ namespace Microsoft.Zune.Subscription
 		public SubscriptionDataProviderQueryResult(DataProviderQuery owner, object typeCookie, string feedUrl, string serviceId, string sort)
 			: base(owner, typeCookie)
 		{
-			m_episodeList = new VirtualSubscriptionEpisodeList(owner, base.Mappings["Items"].UnderlyingCollectionTypeCookie, feedUrl, sort);
-			m_seriesInfo = new SubscriptionSeriesInfo(owner, base.Mappings["PodcastSeriesInfo"].PropertyTypeCookie, serviceId);
+			m_episodeList = new VirtualSubscriptionEpisodeList(owner, Mappings["Items"].UnderlyingCollectionTypeCookie, feedUrl, sort);
+			m_seriesInfo = new SubscriptionSeriesInfo(owner, Mappings["PodcastSeriesInfo"].PropertyTypeCookie, serviceId);
 			if (!string.IsNullOrEmpty(feedUrl))
 			{
 				m_episodeList.AsyncRetrieveEpisodeList(m_seriesInfo);

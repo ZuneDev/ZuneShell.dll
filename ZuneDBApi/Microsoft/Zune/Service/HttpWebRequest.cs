@@ -327,17 +327,17 @@ namespace Microsoft.Zune.Service
 				IStream* ptr2 = null;
 				if (num >= 0)
 				{
-					num = _003CModule_003E.CreateStreamOnHGlobal(null, 1, &ptr2);
+					num = Module.CreateStreamOnHGlobal(null, 1, &ptr2);
 					if (num >= 0)
 					{
-						CWebRequestCallbackWrapper* ptr3 = (CWebRequestCallbackWrapper*)_003CModule_003E.@new(56uL);
+						CWebRequestCallbackWrapper* ptr3 = (CWebRequestCallbackWrapper*)Module.@new(56uL);
 						CWebRequestCallbackWrapper* ptr4;
 						try
 						{
 							if (ptr3 != null)
 							{
 								Uri uri = _uri;
-								ptr4 = _003CModule_003E.Microsoft_002EZune_002EService_002ECWebRequestCallbackWrapper_002E_007Bctor_007D(ptr3, uri, ptr, ptr2, responseComplete, stateInfo);
+								ptr4 = Module.Microsoft_002EZune_002EService_002ECWebRequestCallbackWrapper_002E_007Bctor_007D(ptr3, uri, ptr, ptr2, responseComplete, stateInfo);
 							}
 							else
 							{
@@ -347,7 +347,7 @@ namespace Microsoft.Zune.Service
 						catch
 						{
 							//try-fault
-							_003CModule_003E.delete(ptr3);
+							Module.delete(ptr3);
 							throw;
 						}
 						int num2 = (((long)(nint)ptr4 != 0) ? num : (-2147024882));
@@ -424,12 +424,12 @@ namespace Microsoft.Zune.Service
 						}
 						while (num < _asyncRequests.Count);
 					}
-					m_hRequestsCompleteEvent = _003CModule_003E.CreateEventW(null, 1, 0, null);
+					m_hRequestsCompleteEvent = Module.CreateEventW(null, 1, 0, null);
 					managedLock.Unlock();
 					if (m_hRequestsCompleteEvent != null)
 					{
-						_003CModule_003E.WaitForSingleObject(m_hRequestsCompleteEvent, 120000u);
-						_003CModule_003E.CloseHandle(m_hRequestsCompleteEvent);
+						Module.WaitForSingleObject(m_hRequestsCompleteEvent, 120000u);
+						Module.CloseHandle(m_hRequestsCompleteEvent);
 					}
 				}
 			}
@@ -467,7 +467,7 @@ namespace Microsoft.Zune.Service
 				if (m_hRequestsCompleteEvent != null && _asyncRequests.Count == 0)
 				{
 					managedLock.Unlock();
-					_003CModule_003E.SetEvent(m_hRequestsCompleteEvent);
+					Module.SetEvent(m_hRequestsCompleteEvent);
 				}
 			}
 			catch
@@ -512,20 +512,22 @@ namespace Microsoft.Zune.Service
 			//IL_0260: Expected I8, but got I
 			if (ppRequest == null)
 			{
-				_003CModule_003E._ZuneShipAssert(1001u, 774u);
+				Module._ZuneShipAssert(1001u, 774u);
 				return -2147467261;
 			}
 			*(long*)ppRequest = 0L;
-			fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(_uri.AbsoluteUri)))
+			fixed (char* _uri.AbsoluteUriPtr = _uri.AbsoluteUri.ToCharArray())
 			{
-				fixed (ushort* ptr2 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(_method)))
+				ushort* ptr = (ushort*)_uri.AbsoluteUriPtr;
+				fixed (char* _methodPtr = _method.ToCharArray())
 				{
+					ushort* ptr2 = (ushort*)_methodPtr;
 					CComPtrNtv_003CIService_003E cComPtrNtv_003CIService_003E;
 					*(long*)(&cComPtrNtv_003CIService_003E) = 0L;
 					int num;
 					try
 					{
-						num = _003CModule_003E.GetSingleton((_GUID)_003CModule_003E._GUID_bb2d1edd_1bd5_4be1_8d38_36d4f0849911, (void**)(&cComPtrNtv_003CIService_003E));
+						num = Module.GetSingleton((_GUID)Module._GUID_bb2d1edd_1bd5_4be1_8d38_36d4f0849911, (void**)(&cComPtrNtv_003CIService_003E));
 						CComPtrNtv_003CIHttpWebRequest_003E cComPtrNtv_003CIHttpWebRequest_003E;
 						*(long*)(&cComPtrNtv_003CIHttpWebRequest_003E) = 0L;
 						try
@@ -539,15 +541,15 @@ namespace Microsoft.Zune.Service
 								{
 									if (_authorization != (string)null && _authorization.Length > 0)
 									{
-										_003CModule_003E.Microsoft_002EZune_002EService_002E_003FA0x12f4bdec_002ESetHeader((IHttpWebRequest*)(*(ulong*)(&cComPtrNtv_003CIHttpWebRequest_003E)), "Authorization: " + _authorization);
+										Module.Microsoft_002EZune_002EService_002E_003FA0x12f4bdec_002ESetHeader((IHttpWebRequest*)(*(ulong*)(&cComPtrNtv_003CIHttpWebRequest_003E)), "Authorization: " + _authorization);
 									}
 									if (_acceptLanguage != (string)null && _acceptLanguage.Length > 0)
 									{
-										_003CModule_003E.Microsoft_002EZune_002EService_002E_003FA0x12f4bdec_002ESetHeader((IHttpWebRequest*)(*(ulong*)(&cComPtrNtv_003CIHttpWebRequest_003E)), "Accept-Language: " + _acceptLanguage);
+										Module.Microsoft_002EZune_002EService_002E_003FA0x12f4bdec_002ESetHeader((IHttpWebRequest*)(*(ulong*)(&cComPtrNtv_003CIHttpWebRequest_003E)), "Accept-Language: " + _acceptLanguage);
 									}
 									if (_keepAlive)
 									{
-										_003CModule_003E.Microsoft_002EZune_002EService_002E_003FA0x12f4bdec_002ESetHeader((IHttpWebRequest*)(*(ulong*)(&cComPtrNtv_003CIHttpWebRequest_003E)), "Proxy-Connection: Keep-Alive");
+										Module.Microsoft_002EZune_002EService_002E_003FA0x12f4bdec_002ESetHeader((IHttpWebRequest*)(*(ulong*)(&cComPtrNtv_003CIHttpWebRequest_003E)), "Proxy-Connection: Keep-Alive");
 									}
 									if (_acceptGZipEncoding)
 									{
@@ -579,8 +581,9 @@ namespace Microsoft.Zune.Service
 										}
 										if (num >= 0 && !string.IsNullOrEmpty(_browserCookieUrl))
 										{
-											fixed (ushort* ptr3 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(_browserCookieUrl)))
+											fixed (char* _browserCookieUrlPtr = _browserCookieUrl.ToCharArray())
 											{
+												ushort* ptr3 = (ushort*)_browserCookieUrlPtr;
 												try
 												{
 													long num8 = *(long*)(*(ulong*)(&cComPtrNtv_003CIHttpWebRequest_003E)) + 144;
@@ -598,8 +601,9 @@ namespace Microsoft.Zune.Service
 									}
 								}
 							}
-							fixed (ushort* ptr4 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(_contentType)))
+							fixed (char* _contentTypePtr = _contentType.ToCharArray())
 							{
+								ushort* ptr4 = (ushort*)_contentTypePtr;
 								if (num >= 0)
 								{
 									MemoryStream requestStream = _requestStream;
@@ -644,18 +648,18 @@ namespace Microsoft.Zune.Service
 						catch
 						{
 							//try-fault
-							_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIHttpWebRequest_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIHttpWebRequest_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIHttpWebRequest_003E);
+							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIHttpWebRequest_003E*, void>)(&Module.CComPtrNtv_003CIHttpWebRequest_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIHttpWebRequest_003E);
 							throw;
 						}
-						_003CModule_003E.CComPtrNtv_003CIHttpWebRequest_003E_002ERelease(&cComPtrNtv_003CIHttpWebRequest_003E);
+						Module.CComPtrNtv_003CIHttpWebRequest_003E_002ERelease(&cComPtrNtv_003CIHttpWebRequest_003E);
 					}
 					catch
 					{
 						//try-fault
-						_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIService_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIService_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIService_003E);
+						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIService_003E*, void>)(&Module.CComPtrNtv_003CIService_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIService_003E);
 						throw;
 					}
-					_003CModule_003E.CComPtrNtv_003CIService_003E_002ERelease(&cComPtrNtv_003CIService_003E);
+					Module.CComPtrNtv_003CIService_003E_002ERelease(&cComPtrNtv_003CIService_003E);
 					return num;
 				}
 			}

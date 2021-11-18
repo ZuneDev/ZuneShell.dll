@@ -39,20 +39,20 @@ namespace Microsoft.Zune.Service
 			//IL_0153: Expected I, but got I8
 			int num = CreateComObject();
 			CComPtrNtv_003CINewsletterSettings_003E cComPtrNtv_003CINewsletterSettings_003E;
-			_003CModule_003E.CComPtrNtv_003CINewsletterSettings_003E_002E_007Bctor_007D(&cComPtrNtv_003CINewsletterSettings_003E);
+			Module.CComPtrNtv_003CINewsletterSettings_003E_002E_007Bctor_007D(&cComPtrNtv_003CINewsletterSettings_003E);
 			HRESULT result;
 			try
 			{
 				CComPtrNtv_003CIPrivacySettings_003E cComPtrNtv_003CIPrivacySettings_003E;
-				_003CModule_003E.CComPtrNtv_003CIPrivacySettings_003E_002E_007Bctor_007D(&cComPtrNtv_003CIPrivacySettings_003E);
+				Module.CComPtrNtv_003CIPrivacySettings_003E_002E_007Bctor_007D(&cComPtrNtv_003CIPrivacySettings_003E);
 				try
 				{
 					if (num >= 0 && accountSettings != null)
 					{
-						num = CreateAccountSettings(accountSettings, _003CModule_003E.CComPtrNtv_003CINewsletterSettings_003E_002E_0026(&cComPtrNtv_003CINewsletterSettings_003E), _003CModule_003E.CComPtrNtv_003CIPrivacySettings_003E_002E_0026(&cComPtrNtv_003CIPrivacySettings_003E));
+						num = CreateAccountSettings(accountSettings, Module.CComPtrNtv_003CINewsletterSettings_003E_002E_0026(&cComPtrNtv_003CINewsletterSettings_003E), Module.CComPtrNtv_003CIPrivacySettings_003E_002E_0026(&cComPtrNtv_003CIPrivacySettings_003E));
 					}
 					CComPtrNtv_003CIPassportIdentity_003E cComPtrNtv_003CIPassportIdentity_003E;
-					_003CModule_003E.CComPtrNtv_003CIPassportIdentity_003E_002E_007Bctor_007D(&cComPtrNtv_003CIPassportIdentity_003E);
+					Module.CComPtrNtv_003CIPassportIdentity_003E_002E_007Bctor_007D(&cComPtrNtv_003CIPassportIdentity_003E);
 					try
 					{
 						if (num >= 0 && passportIdentity != null)
@@ -60,7 +60,7 @@ namespace Microsoft.Zune.Service
 							num = passportIdentity.GetComPointer((IPassportIdentity**)(&cComPtrNtv_003CIPassportIdentity_003E));
 						}
 						CComPtrNtv_003CIPassportIdentity_003E cComPtrNtv_003CIPassportIdentity_003E2;
-						_003CModule_003E.CComPtrNtv_003CIPassportIdentity_003E_002E_007Bctor_007D(&cComPtrNtv_003CIPassportIdentity_003E2);
+						Module.CComPtrNtv_003CIPassportIdentity_003E_002E_007Bctor_007D(&cComPtrNtv_003CIPassportIdentity_003E2);
 						try
 						{
 							if (num >= 0 && parentPassportIdentity != null)
@@ -89,25 +89,30 @@ namespace Microsoft.Zune.Service
 									{
 										if (num >= 0)
 										{
-											_SYSTEMTIME sYSTEMTIME = _003CModule_003E.DateTimeToSystemTime(birthday);
-											fixed (ushort* ptr3 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(firstName)))
+											_SYSTEMTIME sYSTEMTIME = Module.DateTimeToSystemTime(birthday);
+											fixed (char* firstNamePtr = firstName.ToCharArray())
 											{
+												ushort* ptr3 = (ushort*)firstNamePtr;
 												try
 												{
-													fixed (ushort* ptr4 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(lastName)))
+													fixed (char* lastNamePtr = lastName.ToCharArray())
 													{
+														ushort* ptr4 = (ushort*)lastNamePtr;
 														try
 														{
-															fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(zuneTag)))
+															fixed (char* zuneTagPtr = zuneTag.ToCharArray())
 															{
+																ushort* ptr = (ushort*)zuneTagPtr;
 																try
 																{
-																	fixed (ushort* ptr5 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(email)))
+																	fixed (char* emailPtr = email.ToCharArray())
 																	{
+																		ushort* ptr5 = (ushort*)emailPtr;
 																		try
 																		{
-																			fixed (ushort* ptr2 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(locale)))
+																			fixed (char* localePtr = locale.ToCharArray())
 																			{
+																				ushort* ptr2 = (ushort*)localePtr;
 																				try
 																				{
 																					IAccountManagement* p = m_spAccountManagement.p;
@@ -174,58 +179,58 @@ namespace Microsoft.Zune.Service
 									catch
 									{
 										//try-fault
-										_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIServiceError_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIServiceError_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIServiceError_003E);
+										Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIServiceError_003E*, void>)(&Module.CComPtrNtv_003CIServiceError_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIServiceError_003E);
 										throw;
 									}
-									_003CModule_003E.CComPtrNtv_003CIServiceError_003E_002ERelease(&cComPtrNtv_003CIServiceError_003E);
+									Module.CComPtrNtv_003CIServiceError_003E_002ERelease(&cComPtrNtv_003CIServiceError_003E);
 								}
 								catch
 								{
 									//try-fault
-									_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIAddress_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIAddress_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIAddress_003E);
+									Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIAddress_003E*, void>)(&Module.CComPtrNtv_003CIAddress_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIAddress_003E);
 									throw;
 								}
-								_003CModule_003E.CComPtrNtv_003CIAddress_003E_002ERelease(&cComPtrNtv_003CIAddress_003E);
+								Module.CComPtrNtv_003CIAddress_003E_002ERelease(&cComPtrNtv_003CIAddress_003E);
 							}
 							catch
 							{
 								//try-fault
-								_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CICreditCard_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CICreditCard_003E_002E_007Bdtor_007D), &cComPtrNtv_003CICreditCard_003E);
+								Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CICreditCard_003E*, void>)(&Module.CComPtrNtv_003CICreditCard_003E_002E_007Bdtor_007D), &cComPtrNtv_003CICreditCard_003E);
 								throw;
 							}
-							_003CModule_003E.CComPtrNtv_003CICreditCard_003E_002ERelease(&cComPtrNtv_003CICreditCard_003E);
+							Module.CComPtrNtv_003CICreditCard_003E_002ERelease(&cComPtrNtv_003CICreditCard_003E);
 						}
 						catch
 						{
 							//try-fault
-							_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIPassportIdentity_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIPassportIdentity_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIPassportIdentity_003E2);
+							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIPassportIdentity_003E*, void>)(&Module.CComPtrNtv_003CIPassportIdentity_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIPassportIdentity_003E2);
 							throw;
 						}
-						_003CModule_003E.CComPtrNtv_003CIPassportIdentity_003E_002ERelease(&cComPtrNtv_003CIPassportIdentity_003E2);
+						Module.CComPtrNtv_003CIPassportIdentity_003E_002ERelease(&cComPtrNtv_003CIPassportIdentity_003E2);
 					}
 					catch
 					{
 						//try-fault
-						_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIPassportIdentity_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIPassportIdentity_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIPassportIdentity_003E);
+						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIPassportIdentity_003E*, void>)(&Module.CComPtrNtv_003CIPassportIdentity_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIPassportIdentity_003E);
 						throw;
 					}
-					_003CModule_003E.CComPtrNtv_003CIPassportIdentity_003E_002ERelease(&cComPtrNtv_003CIPassportIdentity_003E);
+					Module.CComPtrNtv_003CIPassportIdentity_003E_002ERelease(&cComPtrNtv_003CIPassportIdentity_003E);
 				}
 				catch
 				{
 					//try-fault
-					_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIPrivacySettings_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIPrivacySettings_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIPrivacySettings_003E);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIPrivacySettings_003E*, void>)(&Module.CComPtrNtv_003CIPrivacySettings_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIPrivacySettings_003E);
 					throw;
 				}
-				_003CModule_003E.CComPtrNtv_003CIPrivacySettings_003E_002ERelease(&cComPtrNtv_003CIPrivacySettings_003E);
+				Module.CComPtrNtv_003CIPrivacySettings_003E_002ERelease(&cComPtrNtv_003CIPrivacySettings_003E);
 			}
 			catch
 			{
 				//try-fault
-				_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CINewsletterSettings_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CINewsletterSettings_003E_002E_007Bdtor_007D), &cComPtrNtv_003CINewsletterSettings_003E);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CINewsletterSettings_003E*, void>)(&Module.CComPtrNtv_003CINewsletterSettings_003E_002E_007Bdtor_007D), &cComPtrNtv_003CINewsletterSettings_003E);
 				throw;
 			}
-			_003CModule_003E.CComPtrNtv_003CINewsletterSettings_003E_002ERelease(&cComPtrNtv_003CINewsletterSettings_003E);
+			Module.CComPtrNtv_003CINewsletterSettings_003E_002ERelease(&cComPtrNtv_003CINewsletterSettings_003E);
 			return result;
 		}
 
@@ -251,12 +256,14 @@ namespace Microsoft.Zune.Service
 				{
 					if (num >= 0)
 					{
-						fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(zuneTag)))
+						fixed (char* zuneTagPtr = zuneTag.ToCharArray())
 						{
+							ushort* ptr = (ushort*)zuneTagPtr;
 							try
 							{
-								fixed (ushort* ptr2 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(countryCode)))
+								fixed (char* countryCodePtr = countryCode.ToCharArray())
 								{
+									ushort* ptr2 = (ushort*)countryCodePtr;
 									try
 									{
 										IAccountManagement* p = m_spAccountManagement.p;
@@ -296,7 +303,7 @@ namespace Microsoft.Zune.Service
 								{
 									suggestedNames.Add(new string((char*)ptr3));
 								}
-								_003CModule_003E.SysFreeString(ptr3);
+								Module.SysFreeString(ptr3);
 								if (num < 0)
 								{
 									break;
@@ -315,18 +322,18 @@ namespace Microsoft.Zune.Service
 				catch
 				{
 					//try-fault
-					_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIServiceError_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIServiceError_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIServiceError_003E);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIServiceError_003E*, void>)(&Module.CComPtrNtv_003CIServiceError_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIServiceError_003E);
 					throw;
 				}
-				_003CModule_003E.CComPtrNtv_003CIServiceError_003E_002ERelease(&cComPtrNtv_003CIServiceError_003E);
+				Module.CComPtrNtv_003CIServiceError_003E_002ERelease(&cComPtrNtv_003CIServiceError_003E);
 			}
 			catch
 			{
 				//try-fault
-				_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIAvailableZuneTagInformation_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIAvailableZuneTagInformation_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIAvailableZuneTagInformation_003E);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIAvailableZuneTagInformation_003E*, void>)(&Module.CComPtrNtv_003CIAvailableZuneTagInformation_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIAvailableZuneTagInformation_003E);
 				throw;
 			}
-			_003CModule_003E.CComPtrNtv_003CIAvailableZuneTagInformation_003E_002ERelease(&cComPtrNtv_003CIAvailableZuneTagInformation_003E);
+			Module.CComPtrNtv_003CIAvailableZuneTagInformation_003E_002ERelease(&cComPtrNtv_003CIAvailableZuneTagInformation_003E);
 			return result;
 		}
 
@@ -374,26 +381,26 @@ namespace Microsoft.Zune.Service
 					catch
 					{
 						//try-fault
-						_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIServiceError_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIServiceError_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIServiceError_003E);
+						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIServiceError_003E*, void>)(&Module.CComPtrNtv_003CIServiceError_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIServiceError_003E);
 						throw;
 					}
-					_003CModule_003E.CComPtrNtv_003CIServiceError_003E_002ERelease(&cComPtrNtv_003CIServiceError_003E);
+					Module.CComPtrNtv_003CIServiceError_003E_002ERelease(&cComPtrNtv_003CIServiceError_003E);
 				}
 				catch
 				{
 					//try-fault
-					_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIPassportIdentity_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIPassportIdentity_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIPassportIdentity_003E);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIPassportIdentity_003E*, void>)(&Module.CComPtrNtv_003CIPassportIdentity_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIPassportIdentity_003E);
 					throw;
 				}
-				_003CModule_003E.CComPtrNtv_003CIPassportIdentity_003E_002ERelease(&cComPtrNtv_003CIPassportIdentity_003E);
+				Module.CComPtrNtv_003CIPassportIdentity_003E_002ERelease(&cComPtrNtv_003CIPassportIdentity_003E);
 			}
 			catch
 			{
 				//try-fault
-				_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CICreditCard_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CICreditCard_003E_002E_007Bdtor_007D), &cComPtrNtv_003CICreditCard_003E);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CICreditCard_003E*, void>)(&Module.CComPtrNtv_003CICreditCard_003E_002E_007Bdtor_007D), &cComPtrNtv_003CICreditCard_003E);
 				throw;
 			}
-			_003CModule_003E.CComPtrNtv_003CICreditCard_003E_002ERelease(&cComPtrNtv_003CICreditCard_003E);
+			Module.CComPtrNtv_003CICreditCard_003E_002ERelease(&cComPtrNtv_003CICreditCard_003E);
 			return result;
 		}
 
@@ -408,16 +415,16 @@ namespace Microsoft.Zune.Service
 			GetAccountCallbackWrapper* ptr = null;
 			if (num >= 0)
 			{
-				GetAccountCallbackWrapper* ptr2 = (GetAccountCallbackWrapper*)_003CModule_003E.@new(32uL);
+				GetAccountCallbackWrapper* ptr2 = (GetAccountCallbackWrapper*)Module.@new(32uL);
 				GetAccountCallbackWrapper* ptr3;
 				try
 				{
-					ptr3 = ((ptr2 == null) ? null : _003CModule_003E.Microsoft_002EZune_002EService_002EGetAccountCallbackWrapper_002E_007Bctor_007D(ptr2, onSuccess, onError));
+					ptr3 = ((ptr2 == null) ? null : Module.Microsoft_002EZune_002EService_002EGetAccountCallbackWrapper_002E_007Bctor_007D(ptr2, onSuccess, onError));
 				}
 				catch
 				{
 					//try-fault
-					_003CModule_003E.delete(ptr2);
+					Module.delete(ptr2);
 					throw;
 				}
 				ptr = ptr3;
@@ -451,10 +458,10 @@ namespace Microsoft.Zune.Service
 			catch
 			{
 				//try-fault
-				_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIPassportIdentity_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIPassportIdentity_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIPassportIdentity_003E);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIPassportIdentity_003E*, void>)(&Module.CComPtrNtv_003CIPassportIdentity_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIPassportIdentity_003E);
 				throw;
 			}
-			_003CModule_003E.CComPtrNtv_003CIPassportIdentity_003E_002ERelease(&cComPtrNtv_003CIPassportIdentity_003E);
+			Module.CComPtrNtv_003CIPassportIdentity_003E_002ERelease(&cComPtrNtv_003CIPassportIdentity_003E);
 			return result;
 		}
 
@@ -501,26 +508,26 @@ namespace Microsoft.Zune.Service
 					catch
 					{
 						//try-fault
-						_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIServiceError_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIServiceError_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIServiceError_003E);
+						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIServiceError_003E*, void>)(&Module.CComPtrNtv_003CIServiceError_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIServiceError_003E);
 						throw;
 					}
-					_003CModule_003E.CComPtrNtv_003CIServiceError_003E_002ERelease(&cComPtrNtv_003CIServiceError_003E);
+					Module.CComPtrNtv_003CIServiceError_003E_002ERelease(&cComPtrNtv_003CIServiceError_003E);
 				}
 				catch
 				{
 					//try-fault
-					_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIAccountUser_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIAccountUser_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIAccountUser_003E);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIAccountUser_003E*, void>)(&Module.CComPtrNtv_003CIAccountUser_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIAccountUser_003E);
 					throw;
 				}
-				_003CModule_003E.CComPtrNtv_003CIAccountUser_003E_002ERelease(&cComPtrNtv_003CIAccountUser_003E);
+				Module.CComPtrNtv_003CIAccountUser_003E_002ERelease(&cComPtrNtv_003CIAccountUser_003E);
 			}
 			catch
 			{
 				//try-fault
-				_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIPassportIdentity_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIPassportIdentity_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIPassportIdentity_003E);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIPassportIdentity_003E*, void>)(&Module.CComPtrNtv_003CIPassportIdentity_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIPassportIdentity_003E);
 				throw;
 			}
-			_003CModule_003E.CComPtrNtv_003CIPassportIdentity_003E_002ERelease(&cComPtrNtv_003CIPassportIdentity_003E);
+			Module.CComPtrNtv_003CIPassportIdentity_003E_002ERelease(&cComPtrNtv_003CIPassportIdentity_003E);
 			return result;
 		}
 
@@ -568,26 +575,26 @@ namespace Microsoft.Zune.Service
 					catch
 					{
 						//try-fault
-						_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIServiceError_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIServiceError_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIServiceError_003E);
+						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIServiceError_003E*, void>)(&Module.CComPtrNtv_003CIServiceError_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIServiceError_003E);
 						throw;
 					}
-					_003CModule_003E.CComPtrNtv_003CIServiceError_003E_002ERelease(&cComPtrNtv_003CIServiceError_003E);
+					Module.CComPtrNtv_003CIServiceError_003E_002ERelease(&cComPtrNtv_003CIServiceError_003E);
 				}
 				catch
 				{
 					//try-fault
-					_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIAccountUser_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIAccountUser_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIAccountUser_003E);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIAccountUser_003E*, void>)(&Module.CComPtrNtv_003CIAccountUser_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIAccountUser_003E);
 					throw;
 				}
-				_003CModule_003E.CComPtrNtv_003CIAccountUser_003E_002ERelease(&cComPtrNtv_003CIAccountUser_003E);
+				Module.CComPtrNtv_003CIAccountUser_003E_002ERelease(&cComPtrNtv_003CIAccountUser_003E);
 			}
 			catch
 			{
 				//try-fault
-				_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIPassportIdentity_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIPassportIdentity_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIPassportIdentity_003E);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIPassportIdentity_003E*, void>)(&Module.CComPtrNtv_003CIPassportIdentity_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIPassportIdentity_003E);
 				throw;
 			}
-			_003CModule_003E.CComPtrNtv_003CIPassportIdentity_003E_002ERelease(&cComPtrNtv_003CIPassportIdentity_003E);
+			Module.CComPtrNtv_003CIPassportIdentity_003E_002ERelease(&cComPtrNtv_003CIPassportIdentity_003E);
 			return result;
 		}
 
@@ -626,18 +633,18 @@ namespace Microsoft.Zune.Service
 				catch
 				{
 					//try-fault
-					_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIServiceError_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIServiceError_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIServiceError_003E);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIServiceError_003E*, void>)(&Module.CComPtrNtv_003CIServiceError_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIServiceError_003E);
 					throw;
 				}
-				_003CModule_003E.CComPtrNtv_003CIServiceError_003E_002ERelease(&cComPtrNtv_003CIServiceError_003E);
+				Module.CComPtrNtv_003CIServiceError_003E_002ERelease(&cComPtrNtv_003CIServiceError_003E);
 			}
 			catch
 			{
 				//try-fault
-				_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CINewsletterSettings_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CINewsletterSettings_003E_002E_007Bdtor_007D), &cComPtrNtv_003CINewsletterSettings_003E);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CINewsletterSettings_003E*, void>)(&Module.CComPtrNtv_003CINewsletterSettings_003E_002E_007Bdtor_007D), &cComPtrNtv_003CINewsletterSettings_003E);
 				throw;
 			}
-			_003CModule_003E.CComPtrNtv_003CINewsletterSettings_003E_002ERelease(&cComPtrNtv_003CINewsletterSettings_003E);
+			Module.CComPtrNtv_003CINewsletterSettings_003E_002ERelease(&cComPtrNtv_003CINewsletterSettings_003E);
 			return result;
 		}
 
@@ -686,26 +693,26 @@ namespace Microsoft.Zune.Service
 					catch
 					{
 						//try-fault
-						_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIServiceError_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIServiceError_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIServiceError_003E);
+						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIServiceError_003E*, void>)(&Module.CComPtrNtv_003CIServiceError_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIServiceError_003E);
 						throw;
 					}
-					_003CModule_003E.CComPtrNtv_003CIServiceError_003E_002ERelease(&cComPtrNtv_003CIServiceError_003E);
+					Module.CComPtrNtv_003CIServiceError_003E_002ERelease(&cComPtrNtv_003CIServiceError_003E);
 				}
 				catch
 				{
 					//try-fault
-					_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIPassportIdentity_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIPassportIdentity_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIPassportIdentity_003E);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIPassportIdentity_003E*, void>)(&Module.CComPtrNtv_003CIPassportIdentity_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIPassportIdentity_003E);
 					throw;
 				}
-				_003CModule_003E.CComPtrNtv_003CIPassportIdentity_003E_002ERelease(&cComPtrNtv_003CIPassportIdentity_003E);
+				Module.CComPtrNtv_003CIPassportIdentity_003E_002ERelease(&cComPtrNtv_003CIPassportIdentity_003E);
 			}
 			catch
 			{
 				//try-fault
-				_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIPrivacySettings_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIPrivacySettings_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIPrivacySettings_003E);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIPrivacySettings_003E*, void>)(&Module.CComPtrNtv_003CIPrivacySettings_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIPrivacySettings_003E);
 				throw;
 			}
-			_003CModule_003E.CComPtrNtv_003CIPrivacySettings_003E_002ERelease(&cComPtrNtv_003CIPrivacySettings_003E);
+			Module.CComPtrNtv_003CIPrivacySettings_003E_002ERelease(&cComPtrNtv_003CIPrivacySettings_003E);
 			return result;
 		}
 
@@ -769,42 +776,42 @@ namespace Microsoft.Zune.Service
 							catch
 							{
 								//try-fault
-								_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIServiceError_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIServiceError_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIServiceError_003E);
+								Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIServiceError_003E*, void>)(&Module.CComPtrNtv_003CIServiceError_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIServiceError_003E);
 								throw;
 							}
-							_003CModule_003E.CComPtrNtv_003CIServiceError_003E_002ERelease(&cComPtrNtv_003CIServiceError_003E);
+							Module.CComPtrNtv_003CIServiceError_003E_002ERelease(&cComPtrNtv_003CIServiceError_003E);
 						}
 						catch
 						{
 							//try-fault
-							_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIPassportIdentity_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIPassportIdentity_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIPassportIdentity_003E2);
+							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIPassportIdentity_003E*, void>)(&Module.CComPtrNtv_003CIPassportIdentity_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIPassportIdentity_003E2);
 							throw;
 						}
-						_003CModule_003E.CComPtrNtv_003CIPassportIdentity_003E_002ERelease(&cComPtrNtv_003CIPassportIdentity_003E2);
+						Module.CComPtrNtv_003CIPassportIdentity_003E_002ERelease(&cComPtrNtv_003CIPassportIdentity_003E2);
 					}
 					catch
 					{
 						//try-fault
-						_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIPassportIdentity_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIPassportIdentity_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIPassportIdentity_003E);
+						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIPassportIdentity_003E*, void>)(&Module.CComPtrNtv_003CIPassportIdentity_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIPassportIdentity_003E);
 						throw;
 					}
-					_003CModule_003E.CComPtrNtv_003CIPassportIdentity_003E_002ERelease(&cComPtrNtv_003CIPassportIdentity_003E);
+					Module.CComPtrNtv_003CIPassportIdentity_003E_002ERelease(&cComPtrNtv_003CIPassportIdentity_003E);
 				}
 				catch
 				{
 					//try-fault
-					_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIPrivacySettings_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIPrivacySettings_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIPrivacySettings_003E);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIPrivacySettings_003E*, void>)(&Module.CComPtrNtv_003CIPrivacySettings_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIPrivacySettings_003E);
 					throw;
 				}
-				_003CModule_003E.CComPtrNtv_003CIPrivacySettings_003E_002ERelease(&cComPtrNtv_003CIPrivacySettings_003E);
+				Module.CComPtrNtv_003CIPrivacySettings_003E_002ERelease(&cComPtrNtv_003CIPrivacySettings_003E);
 			}
 			catch
 			{
 				//try-fault
-				_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CINewsletterSettings_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CINewsletterSettings_003E_002E_007Bdtor_007D), &cComPtrNtv_003CINewsletterSettings_003E);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CINewsletterSettings_003E*, void>)(&Module.CComPtrNtv_003CINewsletterSettings_003E_002E_007Bdtor_007D), &cComPtrNtv_003CINewsletterSettings_003E);
 				throw;
 			}
-			_003CModule_003E.CComPtrNtv_003CINewsletterSettings_003E_002ERelease(&cComPtrNtv_003CINewsletterSettings_003E);
+			Module.CComPtrNtv_003CINewsletterSettings_003E_002ERelease(&cComPtrNtv_003CINewsletterSettings_003E);
 			return result;
 		}
 
@@ -814,18 +821,20 @@ namespace Microsoft.Zune.Service
 			//IL_0065: Expected I, but got I8
 			int num = CreateComObject();
 			WBSTRString wBSTRString;
-			_003CModule_003E.WBSTRString_002E_007Bctor_007D(&wBSTRString);
+			Module.WBSTRString_002E_007Bctor_007D(&wBSTRString);
 			HRESULT result;
 			try
 			{
 				if (num >= 0)
 				{
-					fixed (ushort* ptr2 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(countryCode)))
+					fixed (char* countryCodePtr = countryCode.ToCharArray())
 					{
+						ushort* ptr2 = (ushort*)countryCodePtr;
 						try
 						{
-							fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(languageCode)))
+							fixed (char* languageCodePtr = languageCode.ToCharArray())
 							{
+								ushort* ptr = (ushort*)languageCodePtr;
 								try
 								{
 									IAccountManagement* p = m_spAccountManagement.p;
@@ -857,10 +866,10 @@ namespace Microsoft.Zune.Service
 			catch
 			{
 				//try-fault
-				_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<WBSTRString*, void>)(&_003CModule_003E.WBSTRString_002E_007Bdtor_007D), &wBSTRString);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<WBSTRString*, void>)(&Module.WBSTRString_002E_007Bdtor_007D), &wBSTRString);
 				throw;
 			}
-			_003CModule_003E.WBSTRString_002E_007Bdtor_007D(&wBSTRString);
+			Module.WBSTRString_002E_007Bdtor_007D(&wBSTRString);
 			return result;
 		}
 
@@ -873,8 +882,9 @@ namespace Microsoft.Zune.Service
 			tagSAFEARRAY* ptr = null;
 			if (num >= 0)
 			{
-				fixed (ushort* ptr2 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(offerId)))
+				fixed (char* offerIdPtr = offerId.ToCharArray())
 				{
+					ushort* ptr2 = (ushort*)offerIdPtr;
 					try
 					{
 						IAccountManagement* p = m_spAccountManagement.p;
@@ -892,12 +902,12 @@ namespace Microsoft.Zune.Service
 			int num3 = 0;
 			if (num >= 0)
 			{
-				num = _003CModule_003E.SafeArrayGetUBound(ptr, 1u, &num3);
+				num = Module.SafeArrayGetUBound(ptr, 1u, &num3);
 			}
 			int num4 = 0;
 			if (num >= 0)
 			{
-				num = _003CModule_003E.SafeArrayGetLBound(ptr, 1u, &num4);
+				num = Module.SafeArrayGetLBound(ptr, 1u, &num4);
 				if (num >= 0)
 				{
 					bulletStrings = new ArrayList(num3 - num4 + 1);
@@ -907,7 +917,7 @@ namespace Microsoft.Zune.Service
 						do
 						{
 							ushort* value = null;
-							num = _003CModule_003E.SafeArrayGetElement(ptr, &num5, &value);
+							num = Module.SafeArrayGetElement(ptr, &num5, &value);
 							if (num < 0)
 							{
 								break;
@@ -921,7 +931,7 @@ namespace Microsoft.Zune.Service
 			}
 			if (ptr != null)
 			{
-				_003CModule_003E.SafeArrayDestroy(ptr);
+				Module.SafeArrayDestroy(ptr);
 			}
 			return new HRESULT(num);
 		}
@@ -944,28 +954,34 @@ namespace Microsoft.Zune.Service
 					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, IAddress**, int>)(*(ulong*)(*(long*)p + 32)))((nint)p, (IAddress**)(&cComPtrNtv_003CIAddress_003E));
 					if (num >= 0)
 					{
-						fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(address.Street1)))
+						fixed (char* address.Street1Ptr = address.Street1.ToCharArray())
 						{
+							ushort* ptr = (ushort*)address.Street1Ptr;
 							try
 							{
-								fixed (ushort* ptr2 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(address.Street2)))
+								fixed (char* address.Street2Ptr = address.Street2.ToCharArray())
 								{
+									ushort* ptr2 = (ushort*)address.Street2Ptr;
 									try
 									{
-										fixed (ushort* ptr3 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(address.City)))
+										fixed (char* address.CityPtr = address.City.ToCharArray())
 										{
+											ushort* ptr3 = (ushort*)address.CityPtr;
 											try
 											{
-												fixed (ushort* ptr4 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(address.State)))
+												fixed (char* address.StatePtr = address.State.ToCharArray())
 												{
+													ushort* ptr4 = (ushort*)address.StatePtr;
 													try
 													{
-														fixed (ushort* ptr5 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(address.District)))
+														fixed (char* address.DistrictPtr = address.District.ToCharArray())
 														{
+															ushort* ptr5 = (ushort*)address.DistrictPtr;
 															try
 															{
-																fixed (ushort* ptr6 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(address.PostalCode)))
+																fixed (char* address.PostalCodePtr = address.PostalCode.ToCharArray())
 																{
+																	ushort* ptr6 = (ushort*)address.PostalCodePtr;
 																	try
 																	{
 																		long num2 = *(long*)(*(ulong*)(&cComPtrNtv_003CIAddress_003E)) + 24;
@@ -1031,10 +1047,10 @@ namespace Microsoft.Zune.Service
 			catch
 			{
 				//try-fault
-				_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIAddress_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIAddress_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIAddress_003E);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIAddress_003E*, void>)(&Module.CComPtrNtv_003CIAddress_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIAddress_003E);
 				throw;
 			}
-			_003CModule_003E.CComPtrNtv_003CIAddress_003E_002ERelease(&cComPtrNtv_003CIAddress_003E);
+			Module.CComPtrNtv_003CIAddress_003E_002ERelease(&cComPtrNtv_003CIAddress_003E);
 			return num;
 		}
 
@@ -1067,37 +1083,45 @@ namespace Microsoft.Zune.Service
 						num = CreateAddress(creditCard.Address, (IAddress**)(&cComPtrNtv_003CIAddress_003E));
 						if (num >= 0)
 						{
-							_SYSTEMTIME sYSTEMTIME = _003CModule_003E.DateTimeToSystemTime(creditCard.ExpirationDate);
-							fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(creditCard.AccountHolderName)))
+							_SYSTEMTIME sYSTEMTIME = Module.DateTimeToSystemTime(creditCard.ExpirationDate);
+							fixed (char* creditCard.AccountHolderNamePtr = creditCard.AccountHolderName.ToCharArray())
 							{
+								ushort* ptr = (ushort*)creditCard.AccountHolderNamePtr;
 								try
 								{
-									fixed (ushort* ptr2 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(creditCard.AccountNumber)))
+									fixed (char* creditCard.AccountNumberPtr = creditCard.AccountNumber.ToCharArray())
 									{
+										ushort* ptr2 = (ushort*)creditCard.AccountNumberPtr;
 										try
 										{
-											fixed (ushort* ptr3 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(creditCard.CCVNumber)))
+											fixed (char* creditCard.CCVNumberPtr = creditCard.CCVNumber.ToCharArray())
 											{
+												ushort* ptr3 = (ushort*)creditCard.CCVNumberPtr;
 												try
 												{
-													fixed (ushort* ptr4 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(creditCard.Locale)))
+													fixed (char* creditCard.LocalePtr = creditCard.Locale.ToCharArray())
 													{
+														ushort* ptr4 = (ushort*)creditCard.LocalePtr;
 														try
 														{
-															fixed (ushort* ptr5 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(creditCard.PhoneNumber)))
+															fixed (char* creditCard.PhoneNumberPtr = creditCard.PhoneNumber.ToCharArray())
 															{
+																ushort* ptr5 = (ushort*)creditCard.PhoneNumberPtr;
 																try
 																{
-																	fixed (ushort* ptr6 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(creditCard.Email)))
+																	fixed (char* creditCard.EmailPtr = creditCard.Email.ToCharArray())
 																	{
+																		ushort* ptr6 = (ushort*)creditCard.EmailPtr;
 																		try
 																		{
-																			fixed (ushort* ptr7 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(creditCard.ContactFirstName)))
+																			fixed (char* creditCard.ContactFirstNamePtr = creditCard.ContactFirstName.ToCharArray())
 																			{
+																				ushort* ptr7 = (ushort*)creditCard.ContactFirstNamePtr;
 																				try
 																				{
-																					fixed (ushort* ptr8 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(creditCard.ContactLastName)))
+																					fixed (char* creditCard.ContactLastNamePtr = creditCard.ContactLastName.ToCharArray())
 																					{
+																						ushort* ptr8 = (ushort*)creditCard.ContactLastNamePtr;
 																						try
 																						{
 																							long num2 = *(long*)(*(ulong*)(&cComPtrNtv_003CICreditCard_003E)) + 24;
@@ -1187,18 +1211,18 @@ namespace Microsoft.Zune.Service
 				catch
 				{
 					//try-fault
-					_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIAddress_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIAddress_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIAddress_003E);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIAddress_003E*, void>)(&Module.CComPtrNtv_003CIAddress_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIAddress_003E);
 					throw;
 				}
-				_003CModule_003E.CComPtrNtv_003CIAddress_003E_002ERelease(&cComPtrNtv_003CIAddress_003E);
+				Module.CComPtrNtv_003CIAddress_003E_002ERelease(&cComPtrNtv_003CIAddress_003E);
 			}
 			catch
 			{
 				//try-fault
-				_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CICreditCard_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CICreditCard_003E_002E_007Bdtor_007D), &cComPtrNtv_003CICreditCard_003E);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CICreditCard_003E*, void>)(&Module.CComPtrNtv_003CICreditCard_003E_002E_007Bdtor_007D), &cComPtrNtv_003CICreditCard_003E);
 				throw;
 			}
-			_003CModule_003E.CComPtrNtv_003CICreditCard_003E_002ERelease(&cComPtrNtv_003CICreditCard_003E);
+			Module.CComPtrNtv_003CICreditCard_003E_002ERelease(&cComPtrNtv_003CICreditCard_003E);
 			return num;
 		}
 
@@ -1227,8 +1251,8 @@ namespace Microsoft.Zune.Service
 					{
 						NewsletterOptions newsletterOptions;
 						*(EmailFormat*)(&newsletterOptions) = accountSettings.EmailFormat;
-						System.Runtime.CompilerServices.Unsafe.As<NewsletterOptions, int>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref newsletterOptions, 4)) = (accountSettings.AllowZuneEmails ? 1 : 0);
-						System.Runtime.CompilerServices.Unsafe.As<NewsletterOptions, int>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref newsletterOptions, 8)) = (accountSettings.AllowPartnerEmails ? 1 : 0);
+                        Unsafe.As<NewsletterOptions, int>(ref Unsafe.AddByteOffset(ref newsletterOptions, 4)) = (accountSettings.AllowZuneEmails ? 1 : 0);
+                        Unsafe.As<NewsletterOptions, int>(ref Unsafe.AddByteOffset(ref newsletterOptions, 8)) = (accountSettings.AllowPartnerEmails ? 1 : 0);
 						long num2 = *(long*)(&cComPtrNtv_003CINewsletterSettings_003E);
 						NewsletterOptions newsletterOptions2 = newsletterOptions;
 						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, NewsletterOptions, int>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CINewsletterSettings_003E)) + 24)))((nint)num2, newsletterOptions2);
@@ -1290,18 +1314,18 @@ namespace Microsoft.Zune.Service
 				catch
 				{
 					//try-fault
-					_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIPrivacySettings_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIPrivacySettings_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIPrivacySettings_003E);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIPrivacySettings_003E*, void>)(&Module.CComPtrNtv_003CIPrivacySettings_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIPrivacySettings_003E);
 					throw;
 				}
-				_003CModule_003E.CComPtrNtv_003CIPrivacySettings_003E_002ERelease(&cComPtrNtv_003CIPrivacySettings_003E);
+				Module.CComPtrNtv_003CIPrivacySettings_003E_002ERelease(&cComPtrNtv_003CIPrivacySettings_003E);
 			}
 			catch
 			{
 				//try-fault
-				_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CINewsletterSettings_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CINewsletterSettings_003E_002E_007Bdtor_007D), &cComPtrNtv_003CINewsletterSettings_003E);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CINewsletterSettings_003E*, void>)(&Module.CComPtrNtv_003CINewsletterSettings_003E_002E_007Bdtor_007D), &cComPtrNtv_003CINewsletterSettings_003E);
 				throw;
 			}
-			_003CModule_003E.CComPtrNtv_003CINewsletterSettings_003E_002ERelease(&cComPtrNtv_003CINewsletterSettings_003E);
+			Module.CComPtrNtv_003CINewsletterSettings_003E_002ERelease(&cComPtrNtv_003CINewsletterSettings_003E);
 			return num;
 		}
 
@@ -1372,37 +1396,44 @@ namespace Microsoft.Zune.Service
 											_SYSTEMTIME sYSTEMTIME;
 											if (flag)
 											{
-												sYSTEMTIME = _003CModule_003E.DateTimeToSystemTime(accountUser.Birthday);
+												sYSTEMTIME = Module.DateTimeToSystemTime(accountUser.Birthday);
 											}
-											fixed (ushort* ptr2 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(accountUser.ZuneTag)))
+											fixed (char* accountUser.ZuneTagPtr = accountUser.ZuneTag.ToCharArray())
 											{
+												ushort* ptr2 = (ushort*)accountUser.ZuneTagPtr;
 												try
 												{
-													fixed (ushort* ptr3 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(accountUser.Locale)))
+													fixed (char* accountUser.LocalePtr = accountUser.Locale.ToCharArray())
 													{
+														ushort* ptr3 = (ushort*)accountUser.LocalePtr;
 														try
 														{
-															fixed (ushort* ptr4 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(accountUser.FirstName)))
+															fixed (char* accountUser.FirstNamePtr = accountUser.FirstName.ToCharArray())
 															{
+																ushort* ptr4 = (ushort*)accountUser.FirstNamePtr;
 																try
 																{
-																	fixed (ushort* ptr5 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(accountUser.LastName)))
+																	fixed (char* accountUser.LastNamePtr = accountUser.LastName.ToCharArray())
 																	{
+																		ushort* ptr5 = (ushort*)accountUser.LastNamePtr;
 																		try
 																		{
-																			fixed (ushort* ptr6 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(accountUser.Email)))
+																			fixed (char* accountUser.EmailPtr = accountUser.Email.ToCharArray())
 																			{
+																				ushort* ptr6 = (ushort*)accountUser.EmailPtr;
 																				try
 																				{
-																					fixed (ushort* ptr7 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(accountUser.PhoneNumber)))
+																					fixed (char* accountUser.PhoneNumberPtr = accountUser.PhoneNumber.ToCharArray())
 																					{
+																						ushort* ptr7 = (ushort*)accountUser.PhoneNumberPtr;
 																						try
 																						{
-																							fixed (ushort* ptr8 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(accountUser.MobilePhoneNumber)))
+																							fixed (char* accountUser.MobilePhoneNumberPtr = accountUser.MobilePhoneNumber.ToCharArray())
 																							{
+																								ushort* ptr8 = (ushort*)accountUser.MobilePhoneNumberPtr;
 																								try
 																								{
-																									_SYSTEMTIME* ptr = (_SYSTEMTIME*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref flag ? ref sYSTEMTIME : ref *(_SYSTEMTIME*)null);
+																									_SYSTEMTIME* ptr = (_SYSTEMTIME*)Unsafe.AsPointer(ref flag ? ref sYSTEMTIME : ref *(_SYSTEMTIME*)null);
 																									long num2 = *(long*)(*(ulong*)(&cComPtrNtv_003CIAccountUser_003E)) + 24;
 																									long num3 = *(long*)(&cComPtrNtv_003CIAccountUser_003E);
 																									_003F val = ptr2;
@@ -1486,50 +1517,50 @@ namespace Microsoft.Zune.Service
 								catch
 								{
 									//try-fault
-									_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIPassportIdentity_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIPassportIdentity_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIPassportIdentity_003E);
+									Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIPassportIdentity_003E*, void>)(&Module.CComPtrNtv_003CIPassportIdentity_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIPassportIdentity_003E);
 									throw;
 								}
-								_003CModule_003E.CComPtrNtv_003CIPassportIdentity_003E_002ERelease(&cComPtrNtv_003CIPassportIdentity_003E);
+								Module.CComPtrNtv_003CIPassportIdentity_003E_002ERelease(&cComPtrNtv_003CIPassportIdentity_003E);
 							}
 							catch
 							{
 								//try-fault
-								_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CICreditCard_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CICreditCard_003E_002E_007Bdtor_007D), &cComPtrNtv_003CICreditCard_003E);
+								Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CICreditCard_003E*, void>)(&Module.CComPtrNtv_003CICreditCard_003E_002E_007Bdtor_007D), &cComPtrNtv_003CICreditCard_003E);
 								throw;
 							}
-							_003CModule_003E.CComPtrNtv_003CICreditCard_003E_002ERelease(&cComPtrNtv_003CICreditCard_003E);
+							Module.CComPtrNtv_003CICreditCard_003E_002ERelease(&cComPtrNtv_003CICreditCard_003E);
 						}
 						catch
 						{
 							//try-fault
-							_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIPrivacySettings_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIPrivacySettings_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIPrivacySettings_003E);
+							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIPrivacySettings_003E*, void>)(&Module.CComPtrNtv_003CIPrivacySettings_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIPrivacySettings_003E);
 							throw;
 						}
-						_003CModule_003E.CComPtrNtv_003CIPrivacySettings_003E_002ERelease(&cComPtrNtv_003CIPrivacySettings_003E);
+						Module.CComPtrNtv_003CIPrivacySettings_003E_002ERelease(&cComPtrNtv_003CIPrivacySettings_003E);
 					}
 					catch
 					{
 						//try-fault
-						_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CINewsletterSettings_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CINewsletterSettings_003E_002E_007Bdtor_007D), &cComPtrNtv_003CINewsletterSettings_003E);
+						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CINewsletterSettings_003E*, void>)(&Module.CComPtrNtv_003CINewsletterSettings_003E_002E_007Bdtor_007D), &cComPtrNtv_003CINewsletterSettings_003E);
 						throw;
 					}
-					_003CModule_003E.CComPtrNtv_003CINewsletterSettings_003E_002ERelease(&cComPtrNtv_003CINewsletterSettings_003E);
+					Module.CComPtrNtv_003CINewsletterSettings_003E_002ERelease(&cComPtrNtv_003CINewsletterSettings_003E);
 				}
 				catch
 				{
 					//try-fault
-					_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIAddress_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIAddress_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIAddress_003E);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIAddress_003E*, void>)(&Module.CComPtrNtv_003CIAddress_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIAddress_003E);
 					throw;
 				}
-				_003CModule_003E.CComPtrNtv_003CIAddress_003E_002ERelease(&cComPtrNtv_003CIAddress_003E);
+				Module.CComPtrNtv_003CIAddress_003E_002ERelease(&cComPtrNtv_003CIAddress_003E);
 			}
 			catch
 			{
 				//try-fault
-				_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIAccountUser_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIAccountUser_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIAccountUser_003E);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIAccountUser_003E*, void>)(&Module.CComPtrNtv_003CIAccountUser_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIAccountUser_003E);
 				throw;
 			}
-			_003CModule_003E.CComPtrNtv_003CIAccountUser_003E_002ERelease(&cComPtrNtv_003CIAccountUser_003E);
+			Module.CComPtrNtv_003CIAccountUser_003E_002ERelease(&cComPtrNtv_003CIAccountUser_003E);
 			return num;
 		}
 
@@ -1548,7 +1579,7 @@ namespace Microsoft.Zune.Service
 				*(long*)(&cComPtrNtv_003CIService_003E) = 0L;
 				try
 				{
-					num = _003CModule_003E.GetSingleton((_GUID)_003CModule_003E._GUID_bb2d1edd_1bd5_4be1_8d38_36d4f0849911, (void**)(&cComPtrNtv_003CIService_003E));
+					num = Module.GetSingleton((_GUID)Module._GUID_bb2d1edd_1bd5_4be1_8d38_36d4f0849911, (void**)(&cComPtrNtv_003CIService_003E));
 					CComPtrNtv_003CIUnknown_003E cComPtrNtv_003CIUnknown_003E;
 					*(long*)(&cComPtrNtv_003CIUnknown_003E) = 0L;
 					try
@@ -1564,7 +1595,7 @@ namespace Microsoft.Zune.Service
 						{
 							if (num >= 0)
 							{
-								num = _003CModule_003E.CComPtrNtv_003CIUnknown_003E_002EQueryInterface_003Cstruct_0020IAccountManagement_003E(&cComPtrNtv_003CIUnknown_003E, (IAccountManagement**)(&cComPtrNtv_003CIAccountManagement_003E));
+								num = Module.CComPtrNtv_003CIUnknown_003E_002EQueryInterface_003Cstruct_0020IAccountManagement_003E(&cComPtrNtv_003CIUnknown_003E, (IAccountManagement**)(&cComPtrNtv_003CIAccountManagement_003E));
 								if (num >= 0)
 								{
 									long num3 = *(long*)(&cComPtrNtv_003CIAccountManagement_003E);
@@ -1580,26 +1611,26 @@ namespace Microsoft.Zune.Service
 						catch
 						{
 							//try-fault
-							_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIAccountManagement_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIAccountManagement_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIAccountManagement_003E);
+							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIAccountManagement_003E*, void>)(&Module.CComPtrNtv_003CIAccountManagement_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIAccountManagement_003E);
 							throw;
 						}
-						_003CModule_003E.CComPtrNtv_003CIAccountManagement_003E_002ERelease(&cComPtrNtv_003CIAccountManagement_003E);
+						Module.CComPtrNtv_003CIAccountManagement_003E_002ERelease(&cComPtrNtv_003CIAccountManagement_003E);
 					}
 					catch
 					{
 						//try-fault
-						_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIUnknown_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIUnknown_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIUnknown_003E);
+						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIUnknown_003E*, void>)(&Module.CComPtrNtv_003CIUnknown_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIUnknown_003E);
 						throw;
 					}
-					_003CModule_003E.CComPtrNtv_003CIUnknown_003E_002ERelease(&cComPtrNtv_003CIUnknown_003E);
+					Module.CComPtrNtv_003CIUnknown_003E_002ERelease(&cComPtrNtv_003CIUnknown_003E);
 				}
 				catch
 				{
 					//try-fault
-					_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIService_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIService_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIService_003E);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIService_003E*, void>)(&Module.CComPtrNtv_003CIService_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIService_003E);
 					throw;
 				}
-				_003CModule_003E.CComPtrNtv_003CIService_003E_002ERelease(&cComPtrNtv_003CIService_003E);
+				Module.CComPtrNtv_003CIService_003E_002ERelease(&cComPtrNtv_003CIService_003E);
 			}
 			return num;
 		}

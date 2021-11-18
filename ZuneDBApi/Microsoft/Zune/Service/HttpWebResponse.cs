@@ -90,7 +90,7 @@ namespace Microsoft.Zune.Service
 			if (pResponse != null)
 			{
 				WBSTRString wBSTRString;
-				_003CModule_003E.WBSTRString_002E_007Bctor_007D(&wBSTRString);
+				Module.WBSTRString_002E_007Bctor_007D(&wBSTRString);
 				try
 				{
 					((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort**, int>)(*(ulong*)(*(long*)pResponse + 104)))((nint)pResponse, (ushort**)(&wBSTRString));
@@ -109,21 +109,21 @@ namespace Microsoft.Zune.Service
 						_contentLength = (long)contentLength;
 					}
 					WBSTRString wBSTRString2;
-					_003CModule_003E.WBSTRString_002E_007Bctor_007D(&wBSTRString2);
+					Module.WBSTRString_002E_007Bctor_007D(&wBSTRString2);
 					try
 					{
-						((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, ushort**, int>)(*(ulong*)(*(long*)pResponse + 112)))((nint)pResponse, (ushort*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003F_003F_C_0040_1BK_0040DOFICLFP_0040_003F_0024AAC_003F_0024AAo_003F_0024AAn_003F_0024AAt_003F_0024AAe_003F_0024AAn_003F_0024AAt_003F_0024AA_003F9_003F_0024AAT_003F_0024AAy_003F_0024AAp_003F_0024AAe_003F_0024AA_003F_0024AA_0040), (ushort**)(&wBSTRString2));
+						((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, ushort**, int>)(*(ulong*)(*(long*)pResponse + 112)))((nint)pResponse, (ushort*)Unsafe.AsPointer(ref Module._003F_003F_C_0040_1BK_0040DOFICLFP_0040_003F_0024AAC_003F_0024AAo_003F_0024AAn_003F_0024AAt_003F_0024AAe_003F_0024AAn_003F_0024AAt_003F_0024AA_003F9_003F_0024AAT_003F_0024AAy_003F_0024AAp_003F_0024AAe_003F_0024AA_003F_0024AA_0040), (ushort**)(&wBSTRString2));
 						bool flag2 = *(long*)(&wBSTRString2) != 0L && ((*(ushort*)(*(ulong*)(&wBSTRString2)) != 0) ? true : false);
 						if (flag2)
 						{
 							_contentType = new string((char*)(*(ulong*)(&wBSTRString2)));
 						}
 						WBSTRString wBSTRString3;
-						_003CModule_003E.WBSTRString_002E_007Bctor_007D(&wBSTRString3);
+						Module.WBSTRString_002E_007Bctor_007D(&wBSTRString3);
 						try
 						{
 							string s = null;
-							((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, ushort**, int>)(*(ulong*)(*(long*)pResponse + 112)))((nint)pResponse, (ushort*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003F_003F_C_0040_1BA_0040FICLJLAN_0040_003F_0024AAE_003F_0024AAx_003F_0024AAp_003F_0024AAi_003F_0024AAr_003F_0024AAe_003F_0024AAs_003F_0024AA_003F_0024AA_0040), (ushort**)(&wBSTRString3));
+							((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, ushort**, int>)(*(ulong*)(*(long*)pResponse + 112)))((nint)pResponse, (ushort*)Unsafe.AsPointer(ref Module._003F_003F_C_0040_1BA_0040FICLJLAN_0040_003F_0024AAE_003F_0024AAx_003F_0024AAp_003F_0024AAi_003F_0024AAr_003F_0024AAe_003F_0024AAs_003F_0024AA_003F_0024AA_0040), (ushort**)(&wBSTRString3));
 							bool flag3 = *(long*)(&wBSTRString3) != 0L && ((*(ushort*)(*(ulong*)(&wBSTRString3)) != 0) ? true : false);
 							if (flag3)
 							{
@@ -141,26 +141,26 @@ namespace Microsoft.Zune.Service
 						catch
 						{
 							//try-fault
-							_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<WBSTRString*, void>)(&_003CModule_003E.WBSTRString_002E_007Bdtor_007D), &wBSTRString3);
+							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<WBSTRString*, void>)(&Module.WBSTRString_002E_007Bdtor_007D), &wBSTRString3);
 							throw;
 						}
-						_003CModule_003E.WBSTRString_002E_007Bdtor_007D(&wBSTRString3);
+						Module.WBSTRString_002E_007Bdtor_007D(&wBSTRString3);
 					}
 					catch
 					{
 						//try-fault
-						_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<WBSTRString*, void>)(&_003CModule_003E.WBSTRString_002E_007Bdtor_007D), &wBSTRString2);
+						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<WBSTRString*, void>)(&Module.WBSTRString_002E_007Bdtor_007D), &wBSTRString2);
 						throw;
 					}
-					_003CModule_003E.WBSTRString_002E_007Bdtor_007D(&wBSTRString2);
+					Module.WBSTRString_002E_007Bdtor_007D(&wBSTRString2);
 				}
 				catch
 				{
 					//try-fault
-					_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<WBSTRString*, void>)(&_003CModule_003E.WBSTRString_002E_007Bdtor_007D), &wBSTRString);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<WBSTRString*, void>)(&Module.WBSTRString_002E_007Bdtor_007D), &wBSTRString);
 					throw;
 				}
-				_003CModule_003E.WBSTRString_002E_007Bdtor_007D(&wBSTRString);
+				Module.WBSTRString_002E_007Bdtor_007D(&wBSTRString);
 			}
 			IStream* pStream2 = m_pStream;
 			if (pStream2 != null)

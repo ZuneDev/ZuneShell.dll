@@ -87,7 +87,7 @@ internal class CComPtrMgd_003CIFirmwareUpdater_003E : IDisposable
 		//IL_0036: Expected I, but got I8
 		if (ppT == null)
 		{
-			_003CModule_003E._ZuneShipAssert(1001u, 168u);
+			Module._ZuneShipAssert(1001u, 168u);
 			return -2147467261;
 		}
 		*(long*)ppT = (nint)p;
@@ -105,9 +105,9 @@ internal class CComPtrMgd_003CIFirmwareUpdater_003E : IDisposable
 		IFirmwareUpdater* ptr = p;
 		if (ptr == null)
 		{
-			_003CModule_003E._ZuneShipAssert(1001u, 186u);
+			Module._ZuneShipAssert(1001u, 186u);
 			return -2147467261;
 		}
-		return ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, void**, int>)(*(ulong*)(*(ulong*)ptr)))((nint)ptr, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._GUID_f066fc29_e525_4ddc_abe6_5213d22c14d2), (void**)pp);
+		return ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, void**, int>)(*(ulong*)(*(ulong*)ptr)))((nint)ptr, (_GUID*)Unsafe.AsPointer(ref Module._GUID_f066fc29_e525_4ddc_abe6_5213d22c14d2), (void**)pp);
 	}
 }

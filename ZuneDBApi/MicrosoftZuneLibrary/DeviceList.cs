@@ -26,18 +26,18 @@ namespace MicrosoftZuneLibrary
 			[return: MarshalAs(UnmanagedType.U1)]
 			get
 			{
-				if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 60uL)) & 2u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 57uL)) >= 5u)
+				if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 60uL)) & 2u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 57uL)) >= 5u)
 				{
-					_003CModule_003E.WPP_SF_l(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 48uL), 39, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0x6a82d7e8_002EWPP_DeviceListAPI_cpp_Traceguids), m_fInitialized ? 1 : 0);
+					Module.WPP_SF_l(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 48uL), 39, (_GUID*)Unsafe.AsPointer(ref Module._003FA0x6a82d7e8_002EWPP_DeviceListAPI_cpp_Traceguids), m_fInitialized ? 1 : 0);
 				}
 				return m_fInitialized;
 			}
 			[param: MarshalAs(UnmanagedType.U1)]
 			set
 			{
-				if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 60uL)) & 2u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 57uL)) >= 5u)
+				if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 60uL)) & 2u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 57uL)) >= 5u)
 				{
-					_003CModule_003E.WPP_SF_l(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 48uL), 40, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0x6a82d7e8_002EWPP_DeviceListAPI_cpp_Traceguids), value ? 1 : 0);
+					Module.WPP_SF_l(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 48uL), 40, (_GUID*)Unsafe.AsPointer(ref Module._003FA0x6a82d7e8_002EWPP_DeviceListAPI_cpp_Traceguids), value ? 1 : 0);
 				}
 				m_fInitialized = value;
 			}
@@ -48,13 +48,13 @@ namespace MicrosoftZuneLibrary
 			get
 			{
 				ManagedLock managedLock = null;
-				if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 60uL)) & 2u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 57uL)) >= 5u)
+				if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 60uL)) & 2u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 57uL)) >= 5u)
 				{
-					_003CModule_003E.WPP_SF_d(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 48uL), 37, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0x6a82d7e8_002EWPP_DeviceListAPI_cpp_Traceguids), m_slDevices.Count);
+					Module.WPP_SF_d(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 48uL), 37, (_GUID*)Unsafe.AsPointer(ref Module._003FA0x6a82d7e8_002EWPP_DeviceListAPI_cpp_Traceguids), m_slDevices.Count);
 				}
-				if (!m_fInitialized && _003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 60uL)) & 2u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 57uL)) >= 5u)
+				if (!m_fInitialized && Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 60uL)) & 2u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 57uL)) >= 5u)
 				{
-					_003CModule_003E.WPP_SF_(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 48uL), 38, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0x6a82d7e8_002EWPP_DeviceListAPI_cpp_Traceguids));
+					Module.WPP_SF_(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 48uL), 38, (_GUID*)Unsafe.AsPointer(ref Module._003FA0x6a82d7e8_002EWPP_DeviceListAPI_cpp_Traceguids));
 				}
 				object @lock = m_lock;
 				if (@lock != null && m_slDevices != null)
@@ -118,29 +118,29 @@ namespace MicrosoftZuneLibrary
 				{
 					m_spEndpointHostManagerMediator = spEndpointHostManagerMediator;
 					base._002Ector();
-					if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 60uL)) & 2u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 57uL)) >= 5u)
+					if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 60uL)) & 2u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 57uL)) >= 5u)
 					{
-						_003CModule_003E.WPP_SF_(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 48uL), 10, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0x6a82d7e8_002EWPP_DeviceListAPI_cpp_Traceguids));
+						Module.WPP_SF_(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 48uL), 10, (_GUID*)Unsafe.AsPointer(ref Module._003FA0x6a82d7e8_002EWPP_DeviceListAPI_cpp_Traceguids));
 					}
 					m_fInitialized = false;
 					m_lock = new object();
 					m_slDevices = new SortedList();
-					EndpointHostManagerMediator* ptr = (EndpointHostManagerMediator*)_003CModule_003E.@new(56uL);
+					EndpointHostManagerMediator* ptr = (EndpointHostManagerMediator*)Module.@new(56uL);
 					EndpointHostManagerMediator* lp;
 					try
 					{
-						lp = ((ptr == null) ? null : _003CModule_003E.EndpointHostManagerMediator_002E_007Bctor_007D(ptr, this));
+						lp = ((ptr == null) ? null : Module.EndpointHostManagerMediator_002E_007Bctor_007D(ptr, this));
 					}
 					catch
 					{
 						//try-fault
-						_003CModule_003E.delete(ptr);
+						Module.delete(ptr);
 						throw;
 					}
 					m_spEndpointHostManagerMediator.op_Assign(lp);
-					if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 60uL)) & 2u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 57uL)) >= 5u)
+					if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 60uL)) & 2u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 57uL)) >= 5u)
 					{
-						_003CModule_003E.WPP_SF_(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 48uL), 11, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0x6a82d7e8_002EWPP_DeviceListAPI_cpp_Traceguids));
+						Module.WPP_SF_(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 48uL), 11, (_GUID*)Unsafe.AsPointer(ref Module._003FA0x6a82d7e8_002EWPP_DeviceListAPI_cpp_Traceguids));
 					}
 				}
 				catch
@@ -161,15 +161,15 @@ namespace MicrosoftZuneLibrary
 		private unsafe void _007EDeviceList()
 		{
 			ManagedLock managedLock = null;
-			if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 60uL)) & 2u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 57uL)) >= 5u)
+			if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 60uL)) & 2u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 57uL)) >= 5u)
 			{
-				_003CModule_003E.WPP_SF_(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 48uL), 12, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0x6a82d7e8_002EWPP_DeviceListAPI_cpp_Traceguids));
+				Module.WPP_SF_(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 48uL), 12, (_GUID*)Unsafe.AsPointer(ref Module._003FA0x6a82d7e8_002EWPP_DeviceListAPI_cpp_Traceguids));
 			}
 			m_spEndpointHostManager.Release();
 			CComPtrMgd_003CEndpointHostManagerMediator_003E spEndpointHostManagerMediator = m_spEndpointHostManagerMediator;
 			if ((long)(nint)spEndpointHostManagerMediator.p == 0)
 			{
-				_003CModule_003E.EndpointHostManagerMediator_002EShutdown(spEndpointHostManagerMediator.p);
+				Module.EndpointHostManagerMediator_002EShutdown(spEndpointHostManagerMediator.p);
 			}
 			m_spEndpointHostManagerMediator.Release();
 			ManagedLock managedLock2 = new ManagedLock(m_lock);
@@ -192,54 +192,54 @@ namespace MicrosoftZuneLibrary
 			((IDisposable)managedLock).Dispose();
 			m_lock = null;
 			m_singletonInstance = null;
-			if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 60uL)) & 2u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 57uL)) >= 5u)
+			if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 60uL)) & 2u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 57uL)) >= 5u)
 			{
-				_003CModule_003E.WPP_SF_(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 48uL), 13, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0x6a82d7e8_002EWPP_DeviceListAPI_cpp_Traceguids));
+				Module.WPP_SF_(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 48uL), 13, (_GUID*)Unsafe.AsPointer(ref Module._003FA0x6a82d7e8_002EWPP_DeviceListAPI_cpp_Traceguids));
 			}
 		}
 
 		public unsafe int InitializeAndEnumerate()
 		{
-			if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 60uL)) & 2u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 57uL)) >= 5u)
+			if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 60uL)) & 2u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 57uL)) >= 5u)
 			{
-				_003CModule_003E.WPP_SF_(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 48uL), 14, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0x6a82d7e8_002EWPP_DeviceListAPI_cpp_Traceguids));
+				Module.WPP_SF_(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 48uL), 14, (_GUID*)Unsafe.AsPointer(ref Module._003FA0x6a82d7e8_002EWPP_DeviceListAPI_cpp_Traceguids));
 			}
-			int num = _003CModule_003E.EndpointHostManagerMediator_002EInitializeAndEnumerate(m_spEndpointHostManagerMediator.p);
-			if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 60uL)) & 2u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 57uL)) >= 5u)
+			int num = Module.EndpointHostManagerMediator_002EInitializeAndEnumerate(m_spEndpointHostManagerMediator.p);
+			if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 60uL)) & 2u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 57uL)) >= 5u)
 			{
-				_003CModule_003E.WPP_SF_d(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 48uL), 15, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0x6a82d7e8_002EWPP_DeviceListAPI_cpp_Traceguids), num);
+				Module.WPP_SF_d(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 48uL), 15, (_GUID*)Unsafe.AsPointer(ref Module._003FA0x6a82d7e8_002EWPP_DeviceListAPI_cpp_Traceguids), num);
 			}
 			return num;
 		}
 
 		public unsafe void SetEndpointHostManager(IEndpointHostManager* pEndpointHostManager)
 		{
-			if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 60uL)) & 2u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 57uL)) >= 5u)
+			if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 60uL)) & 2u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 57uL)) >= 5u)
 			{
-				_003CModule_003E.WPP_SF_(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 48uL), 16, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0x6a82d7e8_002EWPP_DeviceListAPI_cpp_Traceguids));
+				Module.WPP_SF_(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 48uL), 16, (_GUID*)Unsafe.AsPointer(ref Module._003FA0x6a82d7e8_002EWPP_DeviceListAPI_cpp_Traceguids));
 			}
 			m_spEndpointHostManager.op_Assign(pEndpointHostManager);
-			if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 60uL)) & 2u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 57uL)) >= 5u)
+			if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 60uL)) & 2u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 57uL)) >= 5u)
 			{
-				_003CModule_003E.WPP_SF_(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 48uL), 17, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0x6a82d7e8_002EWPP_DeviceListAPI_cpp_Traceguids));
+				Module.WPP_SF_(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 48uL), 17, (_GUID*)Unsafe.AsPointer(ref Module._003FA0x6a82d7e8_002EWPP_DeviceListAPI_cpp_Traceguids));
 			}
 		}
 
 		public unsafe Device GetItem(int idx)
 		{
 			ManagedLock managedLock = null;
-			if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 60uL)) & 2u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 57uL)) >= 5u)
+			if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 60uL)) & 2u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 57uL)) >= 5u)
 			{
-				_003CModule_003E.WPP_SF_d(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 48uL), 18, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0x6a82d7e8_002EWPP_DeviceListAPI_cpp_Traceguids), idx);
+				Module.WPP_SF_d(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 48uL), 18, (_GUID*)Unsafe.AsPointer(ref Module._003FA0x6a82d7e8_002EWPP_DeviceListAPI_cpp_Traceguids), idx);
 			}
 			ManagedLock managedLock2 = new ManagedLock(m_lock);
 			Device result;
 			try
 			{
 				managedLock = managedLock2;
-				if (!m_fInitialized && _003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 60uL)) & 2u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 57uL)) >= 5u)
+				if (!m_fInitialized && Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 60uL)) & 2u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 57uL)) >= 5u)
 				{
-					_003CModule_003E.WPP_SF_(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 48uL), 19, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0x6a82d7e8_002EWPP_DeviceListAPI_cpp_Traceguids));
+					Module.WPP_SF_(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 48uL), 19, (_GUID*)Unsafe.AsPointer(ref Module._003FA0x6a82d7e8_002EWPP_DeviceListAPI_cpp_Traceguids));
 				}
 				SortedList slDevices = m_slDevices;
 				if (slDevices != null && idx < slDevices.Count)
@@ -247,9 +247,9 @@ namespace MicrosoftZuneLibrary
 					object byIndex = m_slDevices.GetByIndex(idx);
 					if (byIndex != null)
 					{
-						if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 60uL)) & 2u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 57uL)) >= 5u)
+						if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 60uL)) & 2u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 57uL)) >= 5u)
 						{
-							_003CModule_003E.WPP_SF_(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 48uL), 20, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0x6a82d7e8_002EWPP_DeviceListAPI_cpp_Traceguids));
+							Module.WPP_SF_(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 48uL), 20, (_GUID*)Unsafe.AsPointer(ref Module._003FA0x6a82d7e8_002EWPP_DeviceListAPI_cpp_Traceguids));
 						}
 						result = (Device)byIndex;
 						goto IL_010f;
@@ -265,9 +265,9 @@ namespace MicrosoftZuneLibrary
 			Device result2;
 			try
 			{
-				if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 60uL)) & 2u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 57uL)) >= 5u)
+				if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 60uL)) & 2u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 57uL)) >= 5u)
 				{
-					_003CModule_003E.WPP_SF_(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 48uL), 21, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0x6a82d7e8_002EWPP_DeviceListAPI_cpp_Traceguids));
+					Module.WPP_SF_(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 48uL), 21, (_GUID*)Unsafe.AsPointer(ref Module._003FA0x6a82d7e8_002EWPP_DeviceListAPI_cpp_Traceguids));
 				}
 				result2 = null;
 			}
@@ -288,20 +288,21 @@ namespace MicrosoftZuneLibrary
 		{
 			string strName = null;
 			device.GetFriendlyName(ref strName);
-			fixed (ushort* a = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(strName)))
+			fixed (char* strNamePtr = strName.ToCharArray())
 			{
-				if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 60uL)) & 4u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 57uL)) >= 5u)
+				ushort* a = (ushort*)strNamePtr;
+				if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 60uL)) & 4u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 57uL)) >= 5u)
 				{
-					_003CModule_003E.WPP_SF_S(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 48uL), 22, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0x6a82d7e8_002EWPP_DeviceListAPI_cpp_Traceguids), a);
+					Module.WPP_SF_S(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 48uL), 22, (_GUID*)Unsafe.AsPointer(ref Module._003FA0x6a82d7e8_002EWPP_DeviceListAPI_cpp_Traceguids), a);
 				}
-				if (!m_fInitialized && _003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 60uL)) & 2u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 57uL)) >= 5u)
+				if (!m_fInitialized && Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 60uL)) & 2u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 57uL)) >= 5u)
 				{
-					_003CModule_003E.WPP_SF_(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 48uL), 23, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0x6a82d7e8_002EWPP_DeviceListAPI_cpp_Traceguids));
+					Module.WPP_SF_(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 48uL), 23, (_GUID*)Unsafe.AsPointer(ref Module._003FA0x6a82d7e8_002EWPP_DeviceListAPI_cpp_Traceguids));
 				}
 				HideDeviceInternal(device.EndpointId, fHide: true);
-				if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 60uL)) & 2u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 57uL)) >= 5u)
+				if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 60uL)) & 2u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 57uL)) >= 5u)
 				{
-					_003CModule_003E.WPP_SF_(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 48uL), 24, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0x6a82d7e8_002EWPP_DeviceListAPI_cpp_Traceguids));
+					Module.WPP_SF_(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 48uL), 24, (_GUID*)Unsafe.AsPointer(ref Module._003FA0x6a82d7e8_002EWPP_DeviceListAPI_cpp_Traceguids));
 				}
 			}
 		}
@@ -310,20 +311,21 @@ namespace MicrosoftZuneLibrary
 		{
 			string strName = null;
 			device.GetFriendlyName(ref strName);
-			fixed (ushort* a = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(strName)))
+			fixed (char* strNamePtr = strName.ToCharArray())
 			{
-				if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 60uL)) & 4u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 57uL)) >= 5u)
+				ushort* a = (ushort*)strNamePtr;
+				if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 60uL)) & 4u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 57uL)) >= 5u)
 				{
-					_003CModule_003E.WPP_SF_S(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 48uL), 25, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0x6a82d7e8_002EWPP_DeviceListAPI_cpp_Traceguids), a);
+					Module.WPP_SF_S(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 48uL), 25, (_GUID*)Unsafe.AsPointer(ref Module._003FA0x6a82d7e8_002EWPP_DeviceListAPI_cpp_Traceguids), a);
 				}
-				if (!m_fInitialized && _003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 60uL)) & 2u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 57uL)) >= 5u)
+				if (!m_fInitialized && Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 60uL)) & 2u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 57uL)) >= 5u)
 				{
-					_003CModule_003E.WPP_SF_(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 48uL), 26, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0x6a82d7e8_002EWPP_DeviceListAPI_cpp_Traceguids));
+					Module.WPP_SF_(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 48uL), 26, (_GUID*)Unsafe.AsPointer(ref Module._003FA0x6a82d7e8_002EWPP_DeviceListAPI_cpp_Traceguids));
 				}
 				HideDeviceInternal(device.EndpointId, fHide: false);
-				if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 60uL)) & 2u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 57uL)) >= 5u)
+				if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 60uL)) & 2u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 57uL)) >= 5u)
 				{
-					_003CModule_003E.WPP_SF_(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 48uL), 27, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0x6a82d7e8_002EWPP_DeviceListAPI_cpp_Traceguids));
+					Module.WPP_SF_(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 48uL), 27, (_GUID*)Unsafe.AsPointer(ref Module._003FA0x6a82d7e8_002EWPP_DeviceListAPI_cpp_Traceguids));
 				}
 			}
 		}
@@ -334,27 +336,27 @@ namespace MicrosoftZuneLibrary
 			Device device = null;
 			if (pEndpointHost == null)
 			{
-				_003CModule_003E._ZuneShipAssert(1001u, 184u);
+				Module._ZuneShipAssert(1001u, 184u);
 				return -2147467261;
 			}
 			int num = -1;
 			device = null;
-			if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 60uL)) & 2u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 57uL)) >= 5u)
+			if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 60uL)) & 2u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 57uL)) >= 5u)
 			{
-				_003CModule_003E.WPP_SF_(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 48uL), 28, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0x6a82d7e8_002EWPP_DeviceListAPI_cpp_Traceguids));
+				Module.WPP_SF_(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 48uL), 28, (_GUID*)Unsafe.AsPointer(ref Module._003FA0x6a82d7e8_002EWPP_DeviceListAPI_cpp_Traceguids));
 			}
 			int num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EEndpointHostProperty, int*, int>)(*(ulong*)(*(long*)pEndpointHost + 136)))((nint)pEndpointHost, EEndpointHostProperty.eEndpointHostPropertyDatabaseEndpointId, &num);
 			if (num2 >= 0 && num > 0)
 			{
-				if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 60uL)) & 2u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 57uL)) >= 5u)
+				if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 60uL)) & 2u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 57uL)) >= 5u)
 				{
-					_003CModule_003E.WPP_SF_(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 48uL), 29, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0x6a82d7e8_002EWPP_DeviceListAPI_cpp_Traceguids));
+					Module.WPP_SF_(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 48uL), 29, (_GUID*)Unsafe.AsPointer(ref Module._003FA0x6a82d7e8_002EWPP_DeviceListAPI_cpp_Traceguids));
 				}
 				num2 = AddDeviceToList(pEndpointHost, ref device);
 			}
-			if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 60uL)) & 2u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 57uL)) >= 5u)
+			if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 60uL)) & 2u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 57uL)) >= 5u)
 			{
-				_003CModule_003E.WPP_SF_d(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 48uL), 30, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0x6a82d7e8_002EWPP_DeviceListAPI_cpp_Traceguids), num2);
+				Module.WPP_SF_d(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 48uL), 30, (_GUID*)Unsafe.AsPointer(ref Module._003FA0x6a82d7e8_002EWPP_DeviceListAPI_cpp_Traceguids), num2);
 			}
 			return num2;
 		}
@@ -365,7 +367,7 @@ namespace MicrosoftZuneLibrary
 			ManagedLock managedLock = null;
 			if (pEndpointHost == null)
 			{
-				_003CModule_003E._ZuneShipAssert(1001u, 284u);
+				Module._ZuneShipAssert(1001u, 284u);
 				return -2147467261;
 			}
 			object @lock = m_lock;
@@ -379,9 +381,9 @@ namespace MicrosoftZuneLibrary
 			{
 				managedLock = managedLock2;
 				int nDeviceId = -1;
-				if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 60uL)) & 2u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 57uL)) >= 5u)
+				if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 60uL)) & 2u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 57uL)) >= 5u)
 				{
-					_003CModule_003E.WPP_SF_(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 48uL), 33, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0x6a82d7e8_002EWPP_DeviceListAPI_cpp_Traceguids));
+					Module.WPP_SF_(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 48uL), 33, (_GUID*)Unsafe.AsPointer(ref Module._003FA0x6a82d7e8_002EWPP_DeviceListAPI_cpp_Traceguids));
 				}
 				if (m_slDevices == null)
 				{
@@ -395,9 +397,9 @@ namespace MicrosoftZuneLibrary
 						ResetUpdater(nDeviceId, fFireDisconnect: true);
 					}
 				}
-				if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 60uL)) & 2u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 57uL)) >= 5u)
+				if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 60uL)) & 2u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 57uL)) >= 5u)
 				{
-					_003CModule_003E.WPP_SF_d(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 48uL), 34, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0x6a82d7e8_002EWPP_DeviceListAPI_cpp_Traceguids), num);
+					Module.WPP_SF_d(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 48uL), 34, (_GUID*)Unsafe.AsPointer(ref Module._003FA0x6a82d7e8_002EWPP_DeviceListAPI_cpp_Traceguids), num);
 				}
 			}
 			catch
@@ -424,14 +426,14 @@ namespace MicrosoftZuneLibrary
 			IEndpointHostManager* p = m_spEndpointHostManager.p;
 			if (p == null)
 			{
-				_003CModule_003E._ZuneShipAssert(1002u, 329u);
+				Module._ZuneShipAssert(1002u, 329u);
 				return -2147418113;
 			}
 			int num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort**, int>)(*(ulong*)(*(long*)p + 120)))((nint)p, &ptr);
 			if (num >= 0 && ptr != null)
 			{
 				strCachePath = new string((char*)ptr);
-				_003CModule_003E.SysFreeString(ptr);
+				Module.SysFreeString(ptr);
 			}
 			return num;
 		}
@@ -439,20 +441,21 @@ namespace MicrosoftZuneLibrary
 		public unsafe int SetTranscodedFilesCachePath(string strCachePath)
 		{
 			//IL_0046: Expected I, but got I8
-			fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(strCachePath)))
+			fixed (char* strCachePathPtr = strCachePath.ToCharArray())
 			{
+				ushort* ptr = (ushort*)strCachePathPtr;
 				int result;
 				if (ptr != null)
 				{
-					ushort* ptr2 = _003CModule_003E.SysAllocString(ptr);
+					ushort* ptr2 = Module.SysAllocString(ptr);
 					IEndpointHostManager* p = m_spEndpointHostManager.p;
 					if (p == null)
 					{
-						_003CModule_003E._ZuneShipAssert(1002u, 353u);
+						Module._ZuneShipAssert(1002u, 353u);
 						return -2147418113;
 					}
 					result = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, int>)(*(ulong*)(*(long*)p + 128)))((nint)p, ptr2);
-					_003CModule_003E.SysFreeString(ptr2);
+					Module.SysFreeString(ptr2);
 				}
 				else
 				{
@@ -468,7 +471,7 @@ namespace MicrosoftZuneLibrary
 			IEndpointHostManager* p = m_spEndpointHostManager.p;
 			if (p == null)
 			{
-				_003CModule_003E._ZuneShipAssert(1002u, 372u);
+				Module._ZuneShipAssert(1002u, 372u);
 				return -2147418113;
 			}
 			IEndpointHostManager* ptr = p;
@@ -481,7 +484,7 @@ namespace MicrosoftZuneLibrary
 			IEndpointHostManager* p = m_spEndpointHostManager.p;
 			if (p == null)
 			{
-				_003CModule_003E._ZuneShipAssert(1002u, 384u);
+				Module._ZuneShipAssert(1002u, 384u);
 				return -2147418113;
 			}
 			return ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)p + 112)))((nint)p);
@@ -493,7 +496,7 @@ namespace MicrosoftZuneLibrary
 			ManagedLock managedLock = null;
 			if (pEndpointHost == null)
 			{
-				_003CModule_003E._ZuneShipAssert(1001u, 220u);
+				Module._ZuneShipAssert(1001u, 220u);
 				return -2147467261;
 			}
 			if (m_lock == null)
@@ -501,9 +504,9 @@ namespace MicrosoftZuneLibrary
 				return -2147467261;
 			}
 			int num = -1;
-			if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 60uL)) & 2u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 57uL)) >= 5u)
+			if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 60uL)) & 2u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 57uL)) >= 5u)
 			{
-				_003CModule_003E.WPP_SF_(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 48uL), 31, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0x6a82d7e8_002EWPP_DeviceListAPI_cpp_Traceguids));
+				Module.WPP_SF_(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 48uL), 31, (_GUID*)Unsafe.AsPointer(ref Module._003FA0x6a82d7e8_002EWPP_DeviceListAPI_cpp_Traceguids));
 			}
 			ManagedLock managedLock2 = new ManagedLock(m_lock);
 			int num2;
@@ -543,9 +546,9 @@ namespace MicrosoftZuneLibrary
 						}
 					}
 				}
-				if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 60uL)) & 2u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 57uL)) >= 5u)
+				if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 60uL)) & 2u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 57uL)) >= 5u)
 				{
-					_003CModule_003E.WPP_SF_d(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 48uL), 32, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0x6a82d7e8_002EWPP_DeviceListAPI_cpp_Traceguids), num2);
+					Module.WPP_SF_d(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 48uL), 32, (_GUID*)Unsafe.AsPointer(ref Module._003FA0x6a82d7e8_002EWPP_DeviceListAPI_cpp_Traceguids), num2);
 				}
 			}
 			catch
@@ -565,12 +568,12 @@ namespace MicrosoftZuneLibrary
 			ManagedLock managedLock = null;
 			if (m_spEndpointHostManager.p == null)
 			{
-				_003CModule_003E._ZuneShipAssert(1002u, 397u);
+				Module._ZuneShipAssert(1002u, 397u);
 				return -2147418113;
 			}
 			if (pEndpointHost == null)
 			{
-				_003CModule_003E._ZuneShipAssert(1001u, 398u);
+				Module._ZuneShipAssert(1001u, 398u);
 				return -2147467261;
 			}
 			object @lock = m_lock;
@@ -584,9 +587,9 @@ namespace MicrosoftZuneLibrary
 			{
 				managedLock = managedLock2;
 				int num = 0;
-				if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 60uL)) & 2u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 57uL)) >= 5u)
+				if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 60uL)) & 2u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 57uL)) >= 5u)
 				{
-					_003CModule_003E.WPP_SF_(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 48uL), 35, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0x6a82d7e8_002EWPP_DeviceListAPI_cpp_Traceguids));
+					Module.WPP_SF_(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 48uL), 35, (_GUID*)Unsafe.AsPointer(ref Module._003FA0x6a82d7e8_002EWPP_DeviceListAPI_cpp_Traceguids));
 				}
 				num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EEndpointHostProperty, int*, int>)(*(ulong*)(*(long*)pEndpointHost + 136)))((nint)pEndpointHost, EEndpointHostProperty.eEndpointHostPropertyDatabaseEndpointId, &num);
 				if (num2 >= 0)
@@ -599,9 +602,9 @@ namespace MicrosoftZuneLibrary
 				{
 					m_slDevices?.Remove(num);
 				}
-				if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 60uL)) & 2u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 57uL)) >= 5u)
+				if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 60uL)) & 2u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 57uL)) >= 5u)
 				{
-					_003CModule_003E.WPP_SF_d(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 48uL), 36, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0x6a82d7e8_002EWPP_DeviceListAPI_cpp_Traceguids), num2);
+					Module.WPP_SF_d(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 48uL), 36, (_GUID*)Unsafe.AsPointer(ref Module._003FA0x6a82d7e8_002EWPP_DeviceListAPI_cpp_Traceguids), num2);
 				}
 			}
 			catch
@@ -628,12 +631,13 @@ namespace MicrosoftZuneLibrary
 			*(long*)(&cComPtrNtv_003CIEndpointNotification_003E) = 0L;
 			try
 			{
-				fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(strEndpointId)))
+				fixed (char* strEndpointIdPtr = strEndpointId.ToCharArray())
 				{
+					ushort* ptr = (ushort*)strEndpointIdPtr;
 					try
 					{
 						CComPtrMgd_003CIEndpointHostManager_003E spEndpointHostManager = m_spEndpointHostManager;
-						if (spEndpointHostManager.p != null && _003CModule_003E.IUnknown_002EQueryInterface_003Cstruct_0020IEndpointNotification_003E((IUnknown*)spEndpointHostManager.p, (IEndpointNotification**)(&cComPtrNtv_003CIEndpointNotification_003E)) >= 0)
+						if (spEndpointHostManager.p != null && Module.IUnknown_002EQueryInterface_003Cstruct_0020IEndpointNotification_003E((IUnknown*)spEndpointHostManager.p, (IEndpointNotification**)(&cComPtrNtv_003CIEndpointNotification_003E)) >= 0)
 						{
 							if (fHide)
 							{
@@ -660,10 +664,10 @@ namespace MicrosoftZuneLibrary
 			catch
 			{
 				//try-fault
-				_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIEndpointNotification_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIEndpointNotification_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIEndpointNotification_003E);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIEndpointNotification_003E*, void>)(&Module.CComPtrNtv_003CIEndpointNotification_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIEndpointNotification_003E);
 				throw;
 			}
-			_003CModule_003E.CComPtrNtv_003CIEndpointNotification_003E_002ERelease(&cComPtrNtv_003CIEndpointNotification_003E);
+			Module.CComPtrNtv_003CIEndpointNotification_003E_002ERelease(&cComPtrNtv_003CIEndpointNotification_003E);
 		}
 
 		private void ResetUpdater(int nDeviceId, [MarshalAs(UnmanagedType.U1)] bool fFireDisconnect)

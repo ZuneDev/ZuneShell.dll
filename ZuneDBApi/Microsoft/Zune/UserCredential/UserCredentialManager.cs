@@ -47,16 +47,16 @@ namespace Microsoft.Zune.UserCredential
 				return -2147467261;
 			}
 			int num = 0;
-			CUserCredentialProviderProxy* ptr = (CUserCredentialProviderProxy*)_003CModule_003E.@new(24uL);
+			CUserCredentialProviderProxy* ptr = (CUserCredentialProviderProxy*)Module.@new(24uL);
 			CUserCredentialProviderProxy* ptr2;
 			try
 			{
-				ptr2 = ((ptr == null) ? null : _003CModule_003E.Microsoft_002EZune_002EUserCredential_002ECUserCredentialProviderProxy_002E_007Bctor_007D(ptr));
+				ptr2 = ((ptr == null) ? null : Module.Microsoft_002EZune_002EUserCredential_002ECUserCredentialProviderProxy_002E_007Bctor_007D(ptr));
 			}
 			catch
 			{
 				//try-fault
-				_003CModule_003E.delete(ptr);
+				Module.delete(ptr);
 				throw;
 			}
 			CUserCredentialProviderProxy* ptr3 = ptr2;
@@ -67,10 +67,10 @@ namespace Microsoft.Zune.UserCredential
 				{
 					return -2147024882;
 				}
-				num = _003CModule_003E.GetSingleton((_GUID)_003CModule_003E._GUID_41c80590_c50b_4d27_b860_7c87f3f0cb54, (void**)(&ptr4));
+				num = Module.GetSingleton((_GUID)Module._GUID_41c80590_c50b_4d27_b860_7c87f3f0cb54, (void**)(&ptr4));
 				if (num >= 0)
 				{
-					num = _003CModule_003E.Microsoft_002EZune_002EUserCredential_002ECUserCredentialProviderProxy_002EInitialize(ptr2, credentialHandler);
+					num = Module.Microsoft_002EZune_002EUserCredential_002ECUserCredentialProviderProxy_002EInitialize(ptr2, credentialHandler);
 					if (num >= 0)
 					{
 						IUserCredentialManager* intPtr = ptr4;

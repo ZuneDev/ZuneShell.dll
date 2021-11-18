@@ -93,32 +93,33 @@ namespace Microsoft.Zune.Subscription
 			UpdateQueryStatus(DataProviderQueryStatus.RequestingData);
 			ISubscriptionViewer* ptr = null;
 			VirtualSubscriptionEpisodeListProxy* ptr2 = null;
-			int num = _003CModule_003E.ZuneLibraryExports_002ECreateNativeSubscriptionViewer((void**)(&ptr));
+			int num = ZuneDBApi.Module.ZuneLibraryExports_002ECreateNativeSubscriptionViewer((void**)(&ptr));
 			if (num >= 0)
 			{
-				VirtualSubscriptionEpisodeListProxy* ptr3 = (VirtualSubscriptionEpisodeListProxy*)_003CModule_003E.@new(40uL);
+                VirtualSubscriptionEpisodeListProxy* ptr3 = (VirtualSubscriptionEpisodeListProxy*)ZuneDBApi.Module.@new(40uL);
 				VirtualSubscriptionEpisodeListProxy* ptr4;
 				try
 				{
-					ptr4 = ((ptr3 == null) ? null : _003CModule_003E.Microsoft_002EZune_002ESubscription_002EVirtualSubscriptionEpisodeListProxy_002E_007Bctor_007D(ptr3, seriesInfo, this));
+					ptr4 = ((ptr3 == null) ? null : ZuneDBApi.Module.Microsoft_002EZune_002ESubscription_002EVirtualSubscriptionEpisodeListProxy_002E_007Bctor_007D(ptr3, seriesInfo, this));
 				}
 				catch
 				{
-					//try-fault
-					_003CModule_003E.delete(ptr3);
+                    //try-fault
+                    ZuneDBApi.Module.delete(ptr3);
 					throw;
 				}
 				ptr2 = ptr4;
 				num = (((long)(nint)ptr4 == 0) ? (-2147024882) : num);
 				if (num >= 0)
 				{
-					fixed (ushort* ptr5 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(m_feedUrl)))
+					fixed (char* m_feedUrlPtr = m_feedUrl.ToCharArray())
 					{
+						ushort* ptr5 = (ushort*)m_feedUrlPtr;
 						try
 						{
 							long num2 = *(long*)ptr + 24;
-							ISubscriptionViewer* intPtr = ptr;
-							((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, ISubscriptionViewerCallback*, int>)(*(ulong*)num2))((nint)intPtr, ptr5, (ISubscriptionViewerCallback*)ptr4);
+                            ISubscriptionViewer* intPtr = ptr;
+							((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, ISubscriptionViewerCallback*, int>)(*(ulong*)num2))((System.nint)intPtr, (ushort*)ptr5, (ISubscriptionViewerCallback*)(ISubscriptionViewerCallback*)ptr4);
 						}
 						catch
 						{
@@ -193,7 +194,7 @@ namespace Microsoft.Zune.Subscription
 			List<SubscriptionDataProviderItem> items = m_items;
 			if (items != null)
 			{
-				base.Count = items.Count;
+                Count = items.Count;
 			}
 		}
 

@@ -44,14 +44,14 @@ namespace Microsoft.Zune.User
 			//IL_008c: Expected I, but got I8
 			IUserManager* ptr = null;
 			DynamicArray_003Cint_003E dynamicArray_003Cint_003E;
-			*(long*)(&dynamicArray_003Cint_003E) = (nint)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003F_003F_7_003F_0024DynamicArray_0040H_0040_00406B_0040);
-			System.Runtime.CompilerServices.Unsafe.As<DynamicArray_003Cint_003E, long>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref dynamicArray_003Cint_003E, 8)) = 0L;
-			System.Runtime.CompilerServices.Unsafe.As<DynamicArray_003Cint_003E, int>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref dynamicArray_003Cint_003E, 16)) = 0;
-			System.Runtime.CompilerServices.Unsafe.As<DynamicArray_003Cint_003E, int>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref dynamicArray_003Cint_003E, 20)) = 0;
+			*(long*)(&dynamicArray_003Cint_003E) = (nint)Unsafe.AsPointer(ref Module._003F_003F_7_003F_0024DynamicArray_0040H_0040_00406B_0040);
+            Unsafe.As<DynamicArray_003Cint_003E, long>(ref Unsafe.AddByteOffset(ref dynamicArray_003Cint_003E, 8)) = 0L;
+            Unsafe.As<DynamicArray_003Cint_003E, int>(ref Unsafe.AddByteOffset(ref dynamicArray_003Cint_003E, 16)) = 0;
+            Unsafe.As<DynamicArray_003Cint_003E, int>(ref Unsafe.AddByteOffset(ref dynamicArray_003Cint_003E, 20)) = 0;
 			int num;
 			try
 			{
-				num = _003CModule_003E.GetSingleton((_GUID)_003CModule_003E._GUID_c9e0f18a_6c53_47d0_991e_dbd4fe395101, (void**)(&ptr));
+				num = Module.GetSingleton((_GUID)Module._GUID_c9e0f18a_6c53_47d0_991e_dbd4fe395101, (void**)(&ptr));
 				if (num >= 0)
 				{
 					IUserManager* intPtr = ptr;
@@ -59,15 +59,15 @@ namespace Microsoft.Zune.User
 					if (num >= 0)
 					{
 						int num2 = 0;
-						if (0 < System.Runtime.CompilerServices.Unsafe.As<DynamicArray_003Cint_003E, int>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref dynamicArray_003Cint_003E, 16)))
+						if (0 < Unsafe.As<DynamicArray_003Cint_003E, int>(ref Unsafe.AddByteOffset(ref dynamicArray_003Cint_003E, 16)))
 						{
 							do
 							{
-								int* ptr2 = _003CModule_003E.DynamicArray_003Cint_003E_002E_005B_005D(&dynamicArray_003Cint_003E, num2);
+								int* ptr2 = Module.DynamicArray_003Cint_003E_002E_005B_005D(&dynamicArray_003Cint_003E, num2);
 								userIdList.Add(*ptr2);
 								num2++;
 							}
-							while (num2 < System.Runtime.CompilerServices.Unsafe.As<DynamicArray_003Cint_003E, int>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref dynamicArray_003Cint_003E, 16)));
+							while (num2 < Unsafe.As<DynamicArray_003Cint_003E, int>(ref Unsafe.AddByteOffset(ref dynamicArray_003Cint_003E, 16)));
 						}
 					}
 				}
@@ -81,10 +81,10 @@ namespace Microsoft.Zune.User
 			catch
 			{
 				//try-fault
-				_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<DynamicArray_003Cint_003E*, void>)(&_003CModule_003E.DynamicArray_003Cint_003E_002E_007Bdtor_007D), &dynamicArray_003Cint_003E);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<DynamicArray_003Cint_003E*, void>)(&Module.DynamicArray_003Cint_003E_002E_007Bdtor_007D), &dynamicArray_003Cint_003E);
 				throw;
 			}
-			_003CModule_003E.DynamicArray_003Cint_003E_002E_007Bdtor_007D(&dynamicArray_003Cint_003E);
+			Module.DynamicArray_003Cint_003E_002E_007Bdtor_007D(&dynamicArray_003Cint_003E);
 			return num;
 		}
 
@@ -96,9 +96,10 @@ namespace Microsoft.Zune.User
 			userId = -1;
 			IUserManager* ptr = null;
 			int num = -1;
-			fixed (ushort* ptr2 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(passportId)))
+			fixed (char* passportIdPtr = passportId.ToCharArray())
 			{
-				int num2 = _003CModule_003E.GetSingleton((_GUID)_003CModule_003E._GUID_c9e0f18a_6c53_47d0_991e_dbd4fe395101, (void**)(&ptr));
+				ushort* ptr2 = (ushort*)passportIdPtr;
+				int num2 = Module.GetSingleton((_GUID)Module._GUID_c9e0f18a_6c53_47d0_991e_dbd4fe395101, (void**)(&ptr));
 				if (num2 >= 0)
 				{
 					long num3 = *(long*)ptr + 40;
@@ -124,7 +125,7 @@ namespace Microsoft.Zune.User
 			//IL_0022: Expected I, but got I8
 			//IL_0035: Expected I, but got I8
 			IUserManager* ptr = null;
-			int num = _003CModule_003E.GetSingleton((_GUID)_003CModule_003E._GUID_c9e0f18a_6c53_47d0_991e_dbd4fe395101, (void**)(&ptr));
+			int num = Module.GetSingleton((_GUID)Module._GUID_c9e0f18a_6c53_47d0_991e_dbd4fe395101, (void**)(&ptr));
 			if (num >= 0)
 			{
 				IUserManager* intPtr = ptr;
@@ -144,7 +145,7 @@ namespace Microsoft.Zune.User
 			//IL_0022: Expected I, but got I8
 			//IL_0035: Expected I, but got I8
 			IUserManager* ptr = null;
-			int num = _003CModule_003E.GetSingleton((_GUID)_003CModule_003E._GUID_c9e0f18a_6c53_47d0_991e_dbd4fe395101, (void**)(&ptr));
+			int num = Module.GetSingleton((_GUID)Module._GUID_c9e0f18a_6c53_47d0_991e_dbd4fe395101, (void**)(&ptr));
 			if (num >= 0)
 			{
 				IUserManager* intPtr = ptr;

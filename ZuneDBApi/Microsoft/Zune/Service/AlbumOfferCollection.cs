@@ -69,7 +69,7 @@ namespace Microsoft.Zune.Service
 				do
 				{
 					MusicAlbumMetadata musicAlbumMetadata;
-					_003CModule_003E.MusicAlbumMetadata_002E_007Bctor_007D(&musicAlbumMetadata);
+					Module.MusicAlbumMetadata_002E_007Bctor_007D(&musicAlbumMetadata);
 					try
 					{
 						CComPtrNtv_003CIContextData_003E cComPtrNtv_003CIContextData_003E;
@@ -81,66 +81,66 @@ namespace Microsoft.Zune.Service
 								num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, MusicAlbumMetadata*, IContextData**, int>)(*(ulong*)(*(long*)pCollection + 32)))((nint)pCollection, num3, &musicAlbumMetadata, (IContextData**)(&cComPtrNtv_003CIContextData_003E));
 							}
 							CComPtrNtv_003CIPriceInfo_003E cComPtrNtv_003CIPriceInfo_003E;
-							_003CModule_003E.CComPtrNtv_003CIPriceInfo_003E_002E_007Bctor_007D(&cComPtrNtv_003CIPriceInfo_003E);
+							Module.CComPtrNtv_003CIPriceInfo_003E_002E_007Bctor_007D(&cComPtrNtv_003CIPriceInfo_003E);
 							try
 							{
 								int releaseYear = 0;
 								if (num >= 0)
 								{
-									long num4 = System.Runtime.CompilerServices.Unsafe.As<MusicAlbumMetadata, long>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref musicAlbumMetadata, 88));
-									int num5 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)System.Runtime.CompilerServices.Unsafe.As<MusicAlbumMetadata, ulong>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref musicAlbumMetadata, 88)) + 144)))((nint)num4);
-									long num6 = System.Runtime.CompilerServices.Unsafe.As<MusicAlbumMetadata, long>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref musicAlbumMetadata, 88));
-									int num7 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, int, int>)(*(ulong*)(*(long*)System.Runtime.CompilerServices.Unsafe.As<MusicAlbumMetadata, ulong>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref musicAlbumMetadata, 88)) + 176)))((nint)num6, 1, 1);
-									long num8 = System.Runtime.CompilerServices.Unsafe.As<MusicAlbumMetadata, long>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref musicAlbumMetadata, 88));
-									int num9 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EMediaRights, EMediaFormat, int>)(*(ulong*)(*(long*)System.Runtime.CompilerServices.Unsafe.As<MusicAlbumMetadata, ulong>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref musicAlbumMetadata, 88)) + 72)))((nint)num8, (EMediaRights)4, (EMediaFormat)0);
-									if (System.Runtime.CompilerServices.Unsafe.As<MusicAlbumMetadata, long>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref musicAlbumMetadata, 64)) != 0L)
+									long num4 = Unsafe.As<MusicAlbumMetadata, long>(ref Unsafe.AddByteOffset(ref musicAlbumMetadata, 88));
+									int num5 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)Unsafe.As<MusicAlbumMetadata, ulong>(ref Unsafe.AddByteOffset(ref musicAlbumMetadata, 88)) + 144)))((nint)num4);
+									long num6 = Unsafe.As<MusicAlbumMetadata, long>(ref Unsafe.AddByteOffset(ref musicAlbumMetadata, 88));
+									int num7 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, int, int>)(*(ulong*)(*(long*)Unsafe.As<MusicAlbumMetadata, ulong>(ref Unsafe.AddByteOffset(ref musicAlbumMetadata, 88)) + 176)))((nint)num6, 1, 1);
+									long num8 = Unsafe.As<MusicAlbumMetadata, long>(ref Unsafe.AddByteOffset(ref musicAlbumMetadata, 88));
+									int num9 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EMediaRights, EMediaFormat, int>)(*(ulong*)(*(long*)Unsafe.As<MusicAlbumMetadata, ulong>(ref Unsafe.AddByteOffset(ref musicAlbumMetadata, 88)) + 72)))((nint)num8, (EMediaRights)4, (EMediaFormat)0);
+									if (Unsafe.As<MusicAlbumMetadata, long>(ref Unsafe.AddByteOffset(ref musicAlbumMetadata, 64)) != 0L)
 									{
-										releaseYear = _003CModule_003E._wtoi((ushort*)System.Runtime.CompilerServices.Unsafe.As<MusicAlbumMetadata, ulong>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref musicAlbumMetadata, 64)));
+										releaseYear = Module._wtoi((ushort*)Unsafe.As<MusicAlbumMetadata, ulong>(ref Unsafe.AddByteOffset(ref musicAlbumMetadata, 64)));
 									}
 									EMediaFormat eMediaFormat = ((num9 == 0) ? ((EMediaFormat)1) : ((EMediaFormat)0));
-									long num10 = System.Runtime.CompilerServices.Unsafe.As<MusicAlbumMetadata, long>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref musicAlbumMetadata, 88));
-									if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EMediaRights, EMediaFormat, int>)(*(ulong*)(*(long*)System.Runtime.CompilerServices.Unsafe.As<MusicAlbumMetadata, ulong>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref musicAlbumMetadata, 88)) + 72)))((nint)num10, (EMediaRights)4, eMediaFormat) != 0)
+									long num10 = Unsafe.As<MusicAlbumMetadata, long>(ref Unsafe.AddByteOffset(ref musicAlbumMetadata, 88));
+									if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EMediaRights, EMediaFormat, int>)(*(ulong*)(*(long*)Unsafe.As<MusicAlbumMetadata, ulong>(ref Unsafe.AddByteOffset(ref musicAlbumMetadata, 88)) + 72)))((nint)num10, (EMediaRights)4, eMediaFormat) != 0)
 									{
 										EMediaFormat eMediaFormat2 = ((num9 == 0) ? ((EMediaFormat)1) : ((EMediaFormat)0));
-										long num11 = System.Runtime.CompilerServices.Unsafe.As<MusicAlbumMetadata, long>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref musicAlbumMetadata, 88));
-										IPriceInfo** intPtr = _003CModule_003E.CComPtrNtv_003CIPriceInfo_003E_002E_0026(&cComPtrNtv_003CIPriceInfo_003E);
-										num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EMediaRights, EMediaFormat, IPriceInfo**, int>)(*(ulong*)(*(long*)System.Runtime.CompilerServices.Unsafe.As<MusicAlbumMetadata, ulong>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref musicAlbumMetadata, 88)) + 104)))((nint)num11, (EMediaRights)4, eMediaFormat2, intPtr);
+										long num11 = Unsafe.As<MusicAlbumMetadata, long>(ref Unsafe.AddByteOffset(ref musicAlbumMetadata, 88));
+										IPriceInfo** intPtr = Module.CComPtrNtv_003CIPriceInfo_003E_002E_0026(&cComPtrNtv_003CIPriceInfo_003E);
+										num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EMediaRights, EMediaFormat, IPriceInfo**, int>)(*(ulong*)(*(long*)Unsafe.As<MusicAlbumMetadata, ulong>(ref Unsafe.AddByteOffset(ref musicAlbumMetadata, 88)) + 104)))((nint)num11, (EMediaRights)4, eMediaFormat2, intPtr);
 									}
 									if (num >= 0)
 									{
-										Guid id = _003CModule_003E.GUIDToGuid(System.Runtime.CompilerServices.Unsafe.As<MusicAlbumMetadata, _GUID>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref musicAlbumMetadata, 8)));
-										string recommendationContext = GetRecommendationContext(id, mapIdToContext, _003CModule_003E.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E));
+										Guid id = Module.GUIDToGuid(Unsafe.As<MusicAlbumMetadata, _GUID>(ref Unsafe.AddByteOffset(ref musicAlbumMetadata, 8)));
+										string recommendationContext = GetRecommendationContext(id, mapIdToContext, Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E));
 										bool inCollection = ((num5 != 0) ? true : false);
 										bool previouslyPurchased = ((num7 != 0) ? true : false);
-										bool premium = ((System.Runtime.CompilerServices.Unsafe.As<MusicAlbumMetadata, int>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref musicAlbumMetadata, 84)) != 0) ? true : false);
+										bool premium = ((Unsafe.As<MusicAlbumMetadata, int>(ref Unsafe.AddByteOffset(ref musicAlbumMetadata, 84)) != 0) ? true : false);
 										bool isMP = ((num9 != 0) ? true : false);
-										list.Add(new AlbumOffer(id, new string((char*)System.Runtime.CompilerServices.Unsafe.As<MusicAlbumMetadata, ulong>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref musicAlbumMetadata, 40))), new string((char*)System.Runtime.CompilerServices.Unsafe.As<MusicAlbumMetadata, ulong>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref musicAlbumMetadata, 48))), new string((char*)System.Runtime.CompilerServices.Unsafe.As<MusicAlbumMetadata, ulong>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref musicAlbumMetadata, 56))), releaseYear, new string((char*)System.Runtime.CompilerServices.Unsafe.As<MusicAlbumMetadata, ulong>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref musicAlbumMetadata, 72))), new PriceInfo((IPriceInfo*)(*(ulong*)(&cComPtrNtv_003CIPriceInfo_003E))), isMP, premium, previouslyPurchased, inCollection, recommendationContext));
+										list.Add(new AlbumOffer(id, new string((char*)Unsafe.As<MusicAlbumMetadata, ulong>(ref Unsafe.AddByteOffset(ref musicAlbumMetadata, 40))), new string((char*)Unsafe.As<MusicAlbumMetadata, ulong>(ref Unsafe.AddByteOffset(ref musicAlbumMetadata, 48))), new string((char*)Unsafe.As<MusicAlbumMetadata, ulong>(ref Unsafe.AddByteOffset(ref musicAlbumMetadata, 56))), releaseYear, new string((char*)Unsafe.As<MusicAlbumMetadata, ulong>(ref Unsafe.AddByteOffset(ref musicAlbumMetadata, 72))), new PriceInfo((IPriceInfo*)(*(ulong*)(&cComPtrNtv_003CIPriceInfo_003E))), isMP, premium, previouslyPurchased, inCollection, recommendationContext));
 									}
 								}
 							}
 							catch
 							{
 								//try-fault
-								_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIPriceInfo_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIPriceInfo_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIPriceInfo_003E);
+								Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIPriceInfo_003E*, void>)(&Module.CComPtrNtv_003CIPriceInfo_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIPriceInfo_003E);
 								throw;
 							}
-							_003CModule_003E.CComPtrNtv_003CIPriceInfo_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIPriceInfo_003E);
+							Module.CComPtrNtv_003CIPriceInfo_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIPriceInfo_003E);
 						}
 						catch
 						{
 							//try-fault
-							_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
 							throw;
 						}
-						_003CModule_003E.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+						Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
 					}
 					catch
 					{
 						//try-fault
-						_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<MusicAlbumMetadata*, void>)(&_003CModule_003E.MusicAlbumMetadata_002E_007Bdtor_007D), &musicAlbumMetadata);
+						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<MusicAlbumMetadata*, void>)(&Module.MusicAlbumMetadata_002E_007Bdtor_007D), &musicAlbumMetadata);
 						throw;
 					}
-					_003CModule_003E.MusicAlbumMetadata_002E_007Bdtor_007D(&musicAlbumMetadata);
+					Module.MusicAlbumMetadata_002E_007Bdtor_007D(&musicAlbumMetadata);
 					num3++;
 				}
 				while (num3 < num2);

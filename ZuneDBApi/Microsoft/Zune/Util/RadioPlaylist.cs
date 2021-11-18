@@ -44,7 +44,7 @@ namespace Microsoft.Zune.Util
 			{
 				result = new string((char*)ptr);
 			}
-			_003CModule_003E.SysFreeString(ptr);
+			Module.SysFreeString(ptr);
 			return (string)result;
 		}
 

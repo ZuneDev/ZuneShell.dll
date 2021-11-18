@@ -42,7 +42,7 @@ namespace MicrosoftZuneLibrary
 			try
 			{
 				m_owner = owner;
-				base.StoreQueryResults = true;
+                StoreQueryResults = true;
 				m_pQueryList = pQueryList;
 				pQueryList.AddRef();
 				m_fBlockChanges = false;
@@ -53,7 +53,7 @@ namespace MicrosoftZuneLibrary
 				{
 					m_pQueryList.Advise(this);
 				}
-				base.Count = m_pQueryList.Count;
+                Count = m_pQueryList.Count;
 			}
 			catch
 			{
@@ -85,11 +85,12 @@ namespace MicrosoftZuneLibrary
 			if (m_owner.GetSortAttributes(out sorts, out ascendings))
 			{
 				int result;
-				fixed (ushort* wszName = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(sorts[0])))
+				fixed (char* sorts0Ptr = sorts[0].ToCharArray())
 				{
+					ushort* wszName = (ushort*)sorts0Ptr;
 					try
 					{
-						uint atom = (uint)_003CModule_003E.CSchemaMap_002EGetIndex(wszName);
+						uint atom = (uint)ZuneDBApi.Module.CSchemaMap_002EGetIndex(wszName);
 						result = m_pQueryList.SearchForString(atom, ascendings[0], searchString);
 					}
 					catch
@@ -128,7 +129,7 @@ namespace MicrosoftZuneLibrary
 			if (!m_fDisposed && m_pQueryList.CheckItemIndex((uint)index))
 			{
 				LibraryDataProviderListItem libraryDataProviderListItem = new LibraryDataProviderListItem(m_owner, this, m_itemTypeCookie, m_QueryRN, index);
-				libraryDataProviderListItem.SetSlowDataThumbnailExtraction(base.SlowDataRequestsEnabled);
+				libraryDataProviderListItem.SetSlowDataThumbnailExtraction(SlowDataRequestsEnabled);
 				m_fItemsAdded = true;
 				return libraryDataProviderListItem;
 			}

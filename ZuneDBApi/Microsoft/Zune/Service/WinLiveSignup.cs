@@ -41,8 +41,9 @@ namespace Microsoft.Zune.Service
 				{
 					if ((byte)((result.hr >= 0) ? 1u : 0u) != 0)
 					{
-						fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(locale)))
+						fixed (char* localePtr = locale.ToCharArray())
 						{
+							ushort* ptr = (ushort*)localePtr;
 							try
 							{
 								IWinLiveSignup* p = m_spWinLiveSignup.p;
@@ -69,18 +70,18 @@ namespace Microsoft.Zune.Service
 				catch
 				{
 					//try-fault
-					_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIServiceError_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIServiceError_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIServiceError_003E);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIServiceError_003E*, void>)(&Module.CComPtrNtv_003CIServiceError_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIServiceError_003E);
 					throw;
 				}
-				_003CModule_003E.CComPtrNtv_003CIServiceError_003E_002ERelease(&cComPtrNtv_003CIServiceError_003E);
+				Module.CComPtrNtv_003CIServiceError_003E_002ERelease(&cComPtrNtv_003CIServiceError_003E);
 			}
 			catch
 			{
 				//try-fault
-				_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIWinLiveInformation_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIWinLiveInformation_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIWinLiveInformation_003E);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIWinLiveInformation_003E*, void>)(&Module.CComPtrNtv_003CIWinLiveInformation_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIWinLiveInformation_003E);
 				throw;
 			}
-			_003CModule_003E.CComPtrNtv_003CIWinLiveInformation_003E_002ERelease(&cComPtrNtv_003CIWinLiveInformation_003E);
+			Module.CComPtrNtv_003CIWinLiveInformation_003E_002ERelease(&cComPtrNtv_003CIWinLiveInformation_003E);
 			return result;
 		}
 
@@ -100,16 +101,19 @@ namespace Microsoft.Zune.Service
 				{
 					if ((byte)((result.hr >= 0) ? 1u : 0u) != 0)
 					{
-						fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(signinName)))
+						fixed (char* signinNamePtr = signinName.ToCharArray())
 						{
+							ushort* ptr = (ushort*)signinNamePtr;
 							try
 							{
-								fixed (ushort* ptr2 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(firstName)))
+								fixed (char* firstNamePtr = firstName.ToCharArray())
 								{
+									ushort* ptr2 = (ushort*)firstNamePtr;
 									try
 									{
-										fixed (ushort* ptr3 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(lastName)))
+										fixed (char* lastNamePtr = lastName.ToCharArray())
 										{
+											ushort* ptr3 = (ushort*)lastNamePtr;
 											try
 											{
 												IWinLiveSignup* p = m_spWinLiveSignup.p;
@@ -152,18 +156,18 @@ namespace Microsoft.Zune.Service
 				catch
 				{
 					//try-fault
-					_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIServiceError_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIServiceError_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIServiceError_003E);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIServiceError_003E*, void>)(&Module.CComPtrNtv_003CIServiceError_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIServiceError_003E);
 					throw;
 				}
-				_003CModule_003E.CComPtrNtv_003CIServiceError_003E_002ERelease(&cComPtrNtv_003CIServiceError_003E);
+				Module.CComPtrNtv_003CIServiceError_003E_002ERelease(&cComPtrNtv_003CIServiceError_003E);
 			}
 			catch
 			{
 				//try-fault
-				_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIWinLiveAvailableInformation_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIWinLiveAvailableInformation_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIWinLiveAvailableInformation_003E);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIWinLiveAvailableInformation_003E*, void>)(&Module.CComPtrNtv_003CIWinLiveAvailableInformation_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIWinLiveAvailableInformation_003E);
 				throw;
 			}
-			_003CModule_003E.CComPtrNtv_003CIWinLiveAvailableInformation_003E_002ERelease(&cComPtrNtv_003CIWinLiveAvailableInformation_003E);
+			Module.CComPtrNtv_003CIWinLiveAvailableInformation_003E_002ERelease(&cComPtrNtv_003CIWinLiveAvailableInformation_003E);
 			return result;
 		}
 
@@ -173,38 +177,45 @@ namespace Microsoft.Zune.Service
 			//IL_00ec: Expected I, but got I8
 			HRESULT result = CreateComObject();
 			CComPtrNtv_003CIServiceError_003E cComPtrNtv_003CIServiceError_003E;
-			_003CModule_003E.CComPtrNtv_003CIServiceError_003E_002E_007Bctor_007D(&cComPtrNtv_003CIServiceError_003E);
+			Module.CComPtrNtv_003CIServiceError_003E_002E_007Bctor_007D(&cComPtrNtv_003CIServiceError_003E);
 			try
 			{
 				if (result.IsSuccess)
 				{
-					_SYSTEMTIME sYSTEMTIME = _003CModule_003E.DateTimeToSystemTime(birthday);
-					fixed (ushort* ptr2 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(signinName)))
+					_SYSTEMTIME sYSTEMTIME = Module.DateTimeToSystemTime(birthday);
+					fixed (char* signinNamePtr = signinName.ToCharArray())
 					{
+						ushort* ptr2 = (ushort*)signinNamePtr;
 						try
 						{
-							fixed (ushort* ptr3 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(signinPassword)))
+							fixed (char* signinPasswordPtr = signinPassword.ToCharArray())
 							{
+								ushort* ptr3 = (ushort*)signinPasswordPtr;
 								try
 								{
-									fixed (ushort* ptr4 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(secretQuestion)))
+									fixed (char* secretQuestionPtr = secretQuestion.ToCharArray())
 									{
+										ushort* ptr4 = (ushort*)secretQuestionPtr;
 										try
 										{
-											fixed (ushort* ptr5 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(secretAnswer)))
+											fixed (char* secretAnswerPtr = secretAnswer.ToCharArray())
 											{
+												ushort* ptr5 = (ushort*)secretAnswerPtr;
 												try
 												{
-													fixed (ushort* ptr6 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(countryCode)))
+													fixed (char* countryCodePtr = countryCode.ToCharArray())
 													{
+														ushort* ptr6 = (ushort*)countryCodePtr;
 														try
 														{
-															fixed (ushort* ptr7 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(hipChallenge)))
+															fixed (char* hipChallengePtr = hipChallenge.ToCharArray())
 															{
+																ushort* ptr7 = (ushort*)hipChallengePtr;
 																try
 																{
-																	fixed (ushort* ptr8 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(hipSolution)))
+																	fixed (char* hipSolutionPtr = hipSolution.ToCharArray())
 																	{
+																		ushort* ptr8 = (ushort*)hipSolutionPtr;
 																		try
 																		{
 																			IWinLiveSignup* ptr = m_spWinLiveSignup.op_MemberSelection();
@@ -275,10 +286,10 @@ namespace Microsoft.Zune.Service
 			catch
 			{
 				//try-fault
-				_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIServiceError_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIServiceError_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIServiceError_003E);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIServiceError_003E*, void>)(&Module.CComPtrNtv_003CIServiceError_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIServiceError_003E);
 				throw;
 			}
-			_003CModule_003E.CComPtrNtv_003CIServiceError_003E_002ERelease(&cComPtrNtv_003CIServiceError_003E);
+			Module.CComPtrNtv_003CIServiceError_003E_002ERelease(&cComPtrNtv_003CIServiceError_003E);
 			return result;
 		}
 
@@ -297,7 +308,7 @@ namespace Microsoft.Zune.Service
 				*(long*)(&cComPtrNtv_003CIService_003E) = 0L;
 				try
 				{
-					num = _003CModule_003E.GetSingleton((_GUID)_003CModule_003E._GUID_bb2d1edd_1bd5_4be1_8d38_36d4f0849911, (void**)(&cComPtrNtv_003CIService_003E));
+					num = Module.GetSingleton((_GUID)Module._GUID_bb2d1edd_1bd5_4be1_8d38_36d4f0849911, (void**)(&cComPtrNtv_003CIService_003E));
 					CComPtrNtv_003CIUnknown_003E cComPtrNtv_003CIUnknown_003E;
 					*(long*)(&cComPtrNtv_003CIUnknown_003E) = 0L;
 					try
@@ -313,7 +324,7 @@ namespace Microsoft.Zune.Service
 						{
 							if (num >= 0)
 							{
-								num = _003CModule_003E.IUnknown_002EQueryInterface_003Cstruct_0020IWinLiveSignup_003E((IUnknown*)(*(ulong*)(&cComPtrNtv_003CIUnknown_003E)), (IWinLiveSignup**)(&cComPtrNtv_003CIWinLiveSignup_003E));
+								num = Module.IUnknown_002EQueryInterface_003Cstruct_0020IWinLiveSignup_003E((IUnknown*)(*(ulong*)(&cComPtrNtv_003CIUnknown_003E)), (IWinLiveSignup**)(&cComPtrNtv_003CIWinLiveSignup_003E));
 								if (num >= 0)
 								{
 									long num3 = *(long*)(&cComPtrNtv_003CIWinLiveSignup_003E);
@@ -328,26 +339,26 @@ namespace Microsoft.Zune.Service
 						catch
 						{
 							//try-fault
-							_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIWinLiveSignup_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIWinLiveSignup_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIWinLiveSignup_003E);
+							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIWinLiveSignup_003E*, void>)(&Module.CComPtrNtv_003CIWinLiveSignup_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIWinLiveSignup_003E);
 							throw;
 						}
-						_003CModule_003E.CComPtrNtv_003CIWinLiveSignup_003E_002ERelease(&cComPtrNtv_003CIWinLiveSignup_003E);
+						Module.CComPtrNtv_003CIWinLiveSignup_003E_002ERelease(&cComPtrNtv_003CIWinLiveSignup_003E);
 					}
 					catch
 					{
 						//try-fault
-						_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIUnknown_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIUnknown_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIUnknown_003E);
+						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIUnknown_003E*, void>)(&Module.CComPtrNtv_003CIUnknown_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIUnknown_003E);
 						throw;
 					}
-					_003CModule_003E.CComPtrNtv_003CIUnknown_003E_002ERelease(&cComPtrNtv_003CIUnknown_003E);
+					Module.CComPtrNtv_003CIUnknown_003E_002ERelease(&cComPtrNtv_003CIUnknown_003E);
 				}
 				catch
 				{
 					//try-fault
-					_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIService_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIService_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIService_003E);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIService_003E*, void>)(&Module.CComPtrNtv_003CIService_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIService_003E);
 					throw;
 				}
-				_003CModule_003E.CComPtrNtv_003CIService_003E_002ERelease(&cComPtrNtv_003CIService_003E);
+				Module.CComPtrNtv_003CIService_003E_002ERelease(&cComPtrNtv_003CIService_003E);
 			}
 			return new HRESULT(num);
 		}

@@ -17,7 +17,7 @@ namespace Microsoft.Zune.Service
 			else if (pContextData != null)
 			{
 				WBSTRString wBSTRString;
-				_003CModule_003E.WBSTRString_002E_007Bctor_007D(&wBSTRString);
+				Module.WBSTRString_002E_007Bctor_007D(&wBSTRString);
 				try
 				{
 					((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort**, int>)(*(ulong*)(*(long*)pContextData + 24)))((nint)pContextData, (ushort**)(&wBSTRString));
@@ -30,10 +30,10 @@ namespace Microsoft.Zune.Service
 				catch
 				{
 					//try-fault
-					_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<WBSTRString*, void>)(&_003CModule_003E.WBSTRString_002E_007Bdtor_007D), &wBSTRString);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<WBSTRString*, void>)(&Module.WBSTRString_002E_007Bdtor_007D), &wBSTRString);
 					throw;
 				}
-				_003CModule_003E.WBSTRString_002E_007Bdtor_007D(&wBSTRString);
+				Module.WBSTRString_002E_007Bdtor_007D(&wBSTRString);
 			}
 			return result;
 		}

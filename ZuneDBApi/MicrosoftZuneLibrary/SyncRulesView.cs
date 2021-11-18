@@ -88,16 +88,16 @@ namespace MicrosoftZuneLibrary
 							((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint>)(*(ulong*)(*(long*)intPtr + 16)))((nint)intPtr);
 						}
 					}
-					SyncRulesViewMediator* ptr2 = (SyncRulesViewMediator*)_003CModule_003E.@new(32uL);
+					SyncRulesViewMediator* ptr2 = (SyncRulesViewMediator*)Module.@new(32uL);
 					SyncRulesViewMediator* lp;
 					try
 					{
-						lp = ((ptr2 == null) ? null : _003CModule_003E.SyncRulesViewMediator_002E_007Bctor_007D(ptr2, this, pSyncRulesView));
+						lp = ((ptr2 == null) ? null : Module.SyncRulesViewMediator_002E_007Bctor_007D(ptr2, this, pSyncRulesView));
 					}
 					catch
 					{
 						//try-fault
-						_003CModule_003E.delete(ptr2);
+						Module.delete(ptr2);
 						throw;
 					}
 					m_spSyncRulesViewMediator.op_Assign(lp);
@@ -129,7 +129,7 @@ namespace MicrosoftZuneLibrary
 			SyncRulesViewMediator* p = m_spSyncRulesViewMediator.p;
 			if (p != null)
 			{
-				_003CModule_003E.SyncRulesViewMediator_002EShutdown(p);
+				Module.SyncRulesViewMediator_002EShutdown(p);
 				m_spSyncRulesViewMediator.Release();
 			}
 			ISyncRulesView* p2 = m_spSyncRulesView.p;
@@ -149,15 +149,15 @@ namespace MicrosoftZuneLibrary
 			if (p != null && ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, SSyncRuleDetails*, int>)(*(ulong*)(*(long*)p + 48)))((nint)p, (uint)index, &sSyncRuleDetails) >= 0)
 			{
 				syncRuleDetails.syncCategory = *(ESyncCategory*)(&sSyncRuleDetails);
-				syncRuleDetails.mediaType = System.Runtime.CompilerServices.Unsafe.As<SSyncRuleDetails, EMediaTypes>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref sSyncRuleDetails, 4));
-				syncRuleDetails.allMedia = System.Runtime.CompilerServices.Unsafe.As<SSyncRuleDetails, bool>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref sSyncRuleDetails, 8));
-				syncRuleDetails.mediaId = System.Runtime.CompilerServices.Unsafe.As<SSyncRuleDetails, int>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref sSyncRuleDetails, 12));
-				syncRuleDetails.included = System.Runtime.CompilerServices.Unsafe.As<SSyncRuleDetails, bool>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref sSyncRuleDetails, 20));
-				syncRuleDetails.complex = System.Runtime.CompilerServices.Unsafe.As<SSyncRuleDetails, bool>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref sSyncRuleDetails, 21));
-				syncRuleDetails.calculated = System.Runtime.CompilerServices.Unsafe.As<SSyncRuleDetails, bool>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref sSyncRuleDetails, 22));
-				syncRuleDetails.totalItems = System.Runtime.CompilerServices.Unsafe.As<SSyncRuleDetails, long>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref sSyncRuleDetails, 24));
-				syncRuleDetails.totalSize = System.Runtime.CompilerServices.Unsafe.As<SSyncRuleDetails, long>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref sSyncRuleDetails, 32));
-				syncRuleDetails.ignore = System.Runtime.CompilerServices.Unsafe.As<SSyncRuleDetails, bool>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref sSyncRuleDetails, 23));
+				syncRuleDetails.mediaType = Unsafe.As<SSyncRuleDetails, EMediaTypes>(ref Unsafe.AddByteOffset(ref sSyncRuleDetails, 4));
+				syncRuleDetails.allMedia = Unsafe.As<SSyncRuleDetails, bool>(ref Unsafe.AddByteOffset(ref sSyncRuleDetails, 8));
+				syncRuleDetails.mediaId = Unsafe.As<SSyncRuleDetails, int>(ref Unsafe.AddByteOffset(ref sSyncRuleDetails, 12));
+				syncRuleDetails.included = Unsafe.As<SSyncRuleDetails, bool>(ref Unsafe.AddByteOffset(ref sSyncRuleDetails, 20));
+				syncRuleDetails.complex = Unsafe.As<SSyncRuleDetails, bool>(ref Unsafe.AddByteOffset(ref sSyncRuleDetails, 21));
+				syncRuleDetails.calculated = Unsafe.As<SSyncRuleDetails, bool>(ref Unsafe.AddByteOffset(ref sSyncRuleDetails, 22));
+				syncRuleDetails.totalItems = Unsafe.As<SSyncRuleDetails, long>(ref Unsafe.AddByteOffset(ref sSyncRuleDetails, 24));
+				syncRuleDetails.totalSize = Unsafe.As<SSyncRuleDetails, long>(ref Unsafe.AddByteOffset(ref sSyncRuleDetails, 32));
+				syncRuleDetails.ignore = Unsafe.As<SSyncRuleDetails, bool>(ref Unsafe.AddByteOffset(ref sSyncRuleDetails, 23));
 			}
 			return syncRuleDetails;
 		}

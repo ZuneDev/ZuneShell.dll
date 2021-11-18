@@ -40,7 +40,7 @@ namespace Microsoft.Zune.Service
 									HRESULT hRESULT2 = (propertyError.Hr = num3);
 									m_propertyErrors.Add(propertyError);
 								}
-								_003CModule_003E.SysFreeString(ptr);
+								Module.SysFreeString(ptr);
 								num2++;
 							}
 							while (num2 < num);

@@ -67,7 +67,7 @@ namespace MicrosoftZuneLibrary
 					break;
 				}
 				IL_0118:
-				staticLibraryDataProviderObject2 = (StaticLibraryDataProviderObject)(Result = new StaticLibraryDataProviderObject(this, base.ResultTypeCookie, eListType, libraryId, userId, deviceId, thumbnailFallbackImageUrl));
+				staticLibraryDataProviderObject2 = (StaticLibraryDataProviderObject)(Result = new StaticLibraryDataProviderObject(this, ResultTypeCookie, eListType, libraryId, userId, deviceId, thumbnailFallbackImageUrl));
 				Status = DataProviderQueryStatus.RequestingData;
 				Status = DataProviderQueryStatus.Complete;
 				break;

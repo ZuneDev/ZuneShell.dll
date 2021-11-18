@@ -28,41 +28,42 @@ namespace Microsoft.Zune.Subscription
 			//IL_0144: Expected I, but got I8
 			//IL_0175: Expected I, but got I8
 			_0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040 _0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040;
-			*(long*)(&_0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040) = (nint)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003F_003F_C_0040_1BA_0040CEPEGMDB_0040_003F_0024AAF_003F_0024AAe_003F_0024AAe_003F_0024AAd_003F_0024AAU_003F_0024AAr_003F_0024AAl_003F_0024AA_003F_0024AA_0040);
-			System.Runtime.CompilerServices.Unsafe.As<_0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, int>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, 8)) = 134217987;
-			System.Runtime.CompilerServices.Unsafe.As<_0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, long>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, 16)) = (nint)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003F_003F_C_0040_1BE_0040ILMBBNLH_0040_003F_0024AAE_003F_0024AAr_003F_0024AAr_003F_0024AAo_003F_0024AAr_003F_0024AAC_003F_0024AAo_003F_0024AAd_003F_0024AAe_003F_0024AA_003F_0024AA_0040);
-			System.Runtime.CompilerServices.Unsafe.As<_0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, int>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, 24)) = 100663562;
-			System.Runtime.CompilerServices.Unsafe.As<_0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, long>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, 32)) = (nint)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003F_003F_C_0040_1M_0040MNHBCACD_0040_003F_0024AAT_003F_0024AAi_003F_0024AAt_003F_0024AAl_003F_0024AAe_003F_0024AA_003F_0024AA_0040);
-			System.Runtime.CompilerServices.Unsafe.As<_0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, int>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, 40)) = 16801793;
-			System.Runtime.CompilerServices.Unsafe.As<_0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, long>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, 48)) = (nint)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003F_003F_C_0040_1BA_0040DPIPFNMB_0040_003F_0024AAH_003F_0024AAo_003F_0024AAm_003F_0024AAe_003F_0024AAU_003F_0024AAr_003F_0024AAl_003F_0024AA_003F_0024AA_0040);
-			System.Runtime.CompilerServices.Unsafe.As<_0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, int>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, 56)) = 134242316;
-			System.Runtime.CompilerServices.Unsafe.As<_0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, long>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, 64)) = (nint)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003F_003F_C_0040_1O_0040OPPNLDOF_0040_003F_0024AAA_003F_0024AAr_003F_0024AAt_003F_0024AAU_003F_0024AAr_003F_0024AAl_003F_0024AA_003F_0024AA_0040);
-			System.Runtime.CompilerServices.Unsafe.As<_0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, int>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, 72)) = 134242317;
-			System.Runtime.CompilerServices.Unsafe.As<_0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, long>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, 80)) = (nint)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003F_003F_C_0040_1BI_0040DLMANABL_0040_003F_0024AAD_003F_0024AAe_003F_0024AAs_003F_0024AAc_003F_0024AAr_003F_0024AAi_003F_0024AAp_003F_0024AAt_003F_0024AAi_003F_0024AAo_003F_0024AAn_003F_0024AA_003F_0024AA_0040);
-			System.Runtime.CompilerServices.Unsafe.As<_0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, int>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, 88)) = 134242306;
-			System.Runtime.CompilerServices.Unsafe.As<_0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, long>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, 96)) = (nint)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003F_003F_C_0040_1BC_0040BFOBHOBE_0040_003F_0024AAE_003F_0024AAx_003F_0024AAp_003F_0024AAl_003F_0024AAi_003F_0024AAc_003F_0024AAi_003F_0024AAt_003F_0024AA_003F_0024AA_0040);
-			System.Runtime.CompilerServices.Unsafe.As<_0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, int>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, 104)) = 83910662;
-			System.Runtime.CompilerServices.Unsafe.As<_0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, long>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, 112)) = (nint)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003F_003F_C_0040_1BE_0040NPMHDJAF_0040_003F_0024AAC_003F_0024AAo_003F_0024AAp_003F_0024AAy_003F_0024AAr_003F_0024AAi_003F_0024AAg_003F_0024AAh_003F_0024AAt_003F_0024AA_003F_0024AA_0040);
-			System.Runtime.CompilerServices.Unsafe.As<_0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, int>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, 120)) = 16801801;
-			System.Runtime.CompilerServices.Unsafe.As<_0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, long>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, 128)) = (nint)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003F_003F_C_0040_1O_0040IKCDCNCP_0040_003F_0024AAA_003F_0024AAu_003F_0024AAt_003F_0024AAh_003F_0024AAo_003F_0024AAr_003F_0024AA_003F_0024AA_0040);
-			System.Runtime.CompilerServices.Unsafe.As<_0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, int>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, 136)) = 16801796;
-			System.Runtime.CompilerServices.Unsafe.As<_0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, long>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, 144)) = (nint)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003F_003F_C_0040_1BE_0040GMGHCDOJ_0040_003F_0024AAO_003F_0024AAw_003F_0024AAn_003F_0024AAe_003F_0024AAr_003F_0024AAN_003F_0024AAa_003F_0024AAm_003F_0024AAe_003F_0024AA_003F_0024AA_0040);
-			System.Runtime.CompilerServices.Unsafe.As<_0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, int>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, 152)) = 16801799;
+			*(long*)(&_0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040) = (nint)Unsafe.AsPointer(ref Module._003F_003F_C_0040_1BA_0040CEPEGMDB_0040_003F_0024AAF_003F_0024AAe_003F_0024AAe_003F_0024AAd_003F_0024AAU_003F_0024AAr_003F_0024AAl_003F_0024AA_003F_0024AA_0040);
+            Unsafe.As<_0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, int>(ref Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, 8)) = 134217987;
+            Unsafe.As<_0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, long>(ref Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, 16)) = (nint)Unsafe.AsPointer(ref Module._003F_003F_C_0040_1BE_0040ILMBBNLH_0040_003F_0024AAE_003F_0024AAr_003F_0024AAr_003F_0024AAo_003F_0024AAr_003F_0024AAC_003F_0024AAo_003F_0024AAd_003F_0024AAe_003F_0024AA_003F_0024AA_0040);
+            Unsafe.As<_0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, int>(ref Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, 24)) = 100663562;
+            Unsafe.As<_0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, long>(ref Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, 32)) = (nint)Unsafe.AsPointer(ref Module._003F_003F_C_0040_1M_0040MNHBCACD_0040_003F_0024AAT_003F_0024AAi_003F_0024AAt_003F_0024AAl_003F_0024AAe_003F_0024AA_003F_0024AA_0040);
+            Unsafe.As<_0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, int>(ref Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, 40)) = 16801793;
+            Unsafe.As<_0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, long>(ref Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, 48)) = (nint)Unsafe.AsPointer(ref Module._003F_003F_C_0040_1BA_0040DPIPFNMB_0040_003F_0024AAH_003F_0024AAo_003F_0024AAm_003F_0024AAe_003F_0024AAU_003F_0024AAr_003F_0024AAl_003F_0024AA_003F_0024AA_0040);
+            Unsafe.As<_0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, int>(ref Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, 56)) = 134242316;
+            Unsafe.As<_0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, long>(ref Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, 64)) = (nint)Unsafe.AsPointer(ref Module._003F_003F_C_0040_1O_0040OPPNLDOF_0040_003F_0024AAA_003F_0024AAr_003F_0024AAt_003F_0024AAU_003F_0024AAr_003F_0024AAl_003F_0024AA_003F_0024AA_0040);
+            Unsafe.As<_0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, int>(ref Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, 72)) = 134242317;
+            Unsafe.As<_0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, long>(ref Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, 80)) = (nint)Unsafe.AsPointer(ref Module._003F_003F_C_0040_1BI_0040DLMANABL_0040_003F_0024AAD_003F_0024AAe_003F_0024AAs_003F_0024AAc_003F_0024AAr_003F_0024AAi_003F_0024AAp_003F_0024AAt_003F_0024AAi_003F_0024AAo_003F_0024AAn_003F_0024AA_003F_0024AA_0040);
+            Unsafe.As<_0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, int>(ref Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, 88)) = 134242306;
+            Unsafe.As<_0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, long>(ref Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, 96)) = (nint)Unsafe.AsPointer(ref Module._003F_003F_C_0040_1BC_0040BFOBHOBE_0040_003F_0024AAE_003F_0024AAx_003F_0024AAp_003F_0024AAl_003F_0024AAi_003F_0024AAc_003F_0024AAi_003F_0024AAt_003F_0024AA_003F_0024AA_0040);
+            Unsafe.As<_0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, int>(ref Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, 104)) = 83910662;
+            Unsafe.As<_0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, long>(ref Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, 112)) = (nint)Unsafe.AsPointer(ref Module._003F_003F_C_0040_1BE_0040NPMHDJAF_0040_003F_0024AAC_003F_0024AAo_003F_0024AAp_003F_0024AAy_003F_0024AAr_003F_0024AAi_003F_0024AAg_003F_0024AAh_003F_0024AAt_003F_0024AA_003F_0024AA_0040);
+            Unsafe.As<_0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, int>(ref Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, 120)) = 16801801;
+            Unsafe.As<_0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, long>(ref Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, 128)) = (nint)Unsafe.AsPointer(ref Module._003F_003F_C_0040_1O_0040IKCDCNCP_0040_003F_0024AAA_003F_0024AAu_003F_0024AAt_003F_0024AAh_003F_0024AAo_003F_0024AAr_003F_0024AA_003F_0024AA_0040);
+            Unsafe.As<_0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, int>(ref Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, 136)) = 16801796;
+            Unsafe.As<_0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, long>(ref Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, 144)) = (nint)Unsafe.AsPointer(ref Module._003F_003F_C_0040_1BE_0040GMGHCDOJ_0040_003F_0024AAO_003F_0024AAw_003F_0024AAn_003F_0024AAe_003F_0024AAr_003F_0024AAN_003F_0024AAa_003F_0024AAm_003F_0024AAe_003F_0024AA_003F_0024AA_0040);
+            Unsafe.As<_0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, int>(ref Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, 152)) = 16801799;
 			CComPropVariant cComPropVariant;
-			// IL initblk instruction
-			System.Runtime.CompilerServices.Unsafe.InitBlock(ref cComPropVariant, 0, 24);
+            // IL initblk instruction
+            Unsafe.InitBlock(ref cComPropVariant, 0, 24);
 			object result;
 			try
 			{
-				fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(propertyName)))
+				fixed (char* propertyNamePtr = propertyName.ToCharArray())
 				{
-					if (_003CModule_003E._wcsicmp(ptr, (ushort*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003F_003F_C_0040_1BE_0040NCILDCLH_0040_003F_0024AAL_003F_0024AAi_003F_0024AAb_003F_0024AAr_003F_0024AAa_003F_0024AAr_003F_0024AAy_003F_0024AAI_003F_0024AAd_003F_0024AA_003F_0024AA_0040)) != 0 && _003CModule_003E._wcsicmp(ptr, (ushort*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003F_003F_C_0040_1BI_0040KPFACBGA_0040_003F_0024AAS_003F_0024AAe_003F_0024AAr_003F_0024AAi_003F_0024AAe_003F_0024AAs_003F_0024AAS_003F_0024AAt_003F_0024AAa_003F_0024AAt_003F_0024AAe_003F_0024AA_003F_0024AA_0040)) != 0 && _003CModule_003E._wcsicmp(ptr, (ushort*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003F_003F_C_0040_1CC_0040GKFOINAA_0040_003F_0024AAN_003F_0024AAu_003F_0024AAm_003F_0024AAb_003F_0024AAe_003F_0024AAr_003F_0024AAO_003F_0024AAf_003F_0024AAE_003F_0024AAp_003F_0024AAi_003F_0024AAs_003F_0024AAo_003F_0024AAd_003F_0024AAe_003F_0024AAs_003F_0024AA_003F_0024AA_0040)) != 0 && m_pSeriesPropertySet != null)
+					ushort* ptr = (ushort*)propertyNamePtr;
+					if (Module._wcsicmp(ptr, (ushort*)Unsafe.AsPointer(ref Module._003F_003F_C_0040_1BE_0040NCILDCLH_0040_003F_0024AAL_003F_0024AAi_003F_0024AAb_003F_0024AAr_003F_0024AAa_003F_0024AAr_003F_0024AAy_003F_0024AAI_003F_0024AAd_003F_0024AA_003F_0024AA_0040)) != 0 && Module._wcsicmp(ptr, (ushort*)Unsafe.AsPointer(ref Module._003F_003F_C_0040_1BI_0040KPFACBGA_0040_003F_0024AAS_003F_0024AAe_003F_0024AAr_003F_0024AAi_003F_0024AAe_003F_0024AAs_003F_0024AAS_003F_0024AAt_003F_0024AAa_003F_0024AAt_003F_0024AAe_003F_0024AA_003F_0024AA_0040)) != 0 && Module._wcsicmp(ptr, (ushort*)Unsafe.AsPointer(ref Module._003F_003F_C_0040_1CC_0040GKFOINAA_0040_003F_0024AAN_003F_0024AAu_003F_0024AAm_003F_0024AAb_003F_0024AAe_003F_0024AAr_003F_0024AAO_003F_0024AAf_003F_0024AAE_003F_0024AAp_003F_0024AAi_003F_0024AAs_003F_0024AAo_003F_0024AAd_003F_0024AAe_003F_0024AAs_003F_0024AA_003F_0024AA_0040)) != 0 && m_pSeriesPropertySet != null)
 					{
 						int num = 0;
 						PROPERTY_TO_PID_MAP* ptr2 = (PROPERTY_TO_PID_MAP*)(&_0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040);
 						while (true)
 						{
-							if (_003CModule_003E._wcsicmp(ptr, (ushort*)(*(ulong*)ptr2)) != 0)
+							if (Module._wcsicmp(ptr, (ushort*)(*(ulong*)ptr2)) != 0)
 							{
 								num++;
 								ptr2 = (PROPERTY_TO_PID_MAP*)((ulong)(nint)ptr2 + 16uL);
@@ -72,27 +73,27 @@ namespace Microsoft.Zune.Subscription
 								}
 								continue;
 							}
-							uint num2 = *(uint*)((long)num * 16L + (ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, 8)));
+							uint num2 = *(uint*)((long)num * 16L + (ref Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, 8)));
 							IMSMediaSchemaPropertySet* pSeriesPropertySet = m_pSeriesPropertySet;
-							if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, uint, tagPROPVARIANT*, int>)(*(ulong*)(*(long*)pSeriesPropertySet + 48)))((nint)pSeriesPropertySet, num2, 0u, (tagPROPVARIANT*)(&cComPropVariant)) < 0 || *(ushort*)(&cComPropVariant) == 0)
+							if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)pSeriesPropertySet + 48)))((nint)pSeriesPropertySet, num2, 0u, (PROPVARIANT)(&cComPropVariant)) < 0 || *(ushort*)(&cComPropVariant) == 0)
 							{
 								break;
 							}
-							result = SubscriptionDataProviderQueryResult.ConvertVariantToType(base.Mappings[propertyName].PropertyTypeName, &cComPropVariant);
+							result = SubscriptionDataProviderQueryResult.ConvertVariantToType(Mappings[propertyName].PropertyTypeName, &cComPropVariant);
 							goto end_IL_00fe;
 						}
 					}
-					result = base.Mappings[propertyName].DefaultValue;
+					result = Mappings[propertyName].DefaultValue;
 					end_IL_00fe:;
 				}
 			}
 			catch
 			{
 				//try-fault
-				_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPropVariant*, void>)(&_003CModule_003E.CComPropVariant_002E_007Bdtor_007D), &cComPropVariant);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPropVariant*, void>)(&Module.CComPropVariant_002E_007Bdtor_007D), &cComPropVariant);
 				throw;
 			}
-			_003CModule_003E.CComPropVariant_002EClear(&cComPropVariant);
+			Module.CComPropVariant_002EClear(&cComPropVariant);
 			return result;
 		}
 
@@ -124,11 +125,11 @@ namespace Microsoft.Zune.Subscription
 			//IL_009a: Expected I4, but got I8
 			//IL_00c8: Expected I, but got I8
 			CComPropVariant cComPropVariant;
-			// IL initblk instruction
-			System.Runtime.CompilerServices.Unsafe.InitBlock(ref cComPropVariant, 0, 24);
+            // IL initblk instruction
+            Unsafe.InitBlock(ref cComPropVariant, 0, 24);
 			try
 			{
-				if (pSeriesPropertySet != null && ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, uint, tagPROPVARIANT*, int>)(*(ulong*)(*(long*)pSeriesPropertySet + 48)))((nint)pSeriesPropertySet, 16801793u, 0u, (tagPROPVARIANT*)(&cComPropVariant)) >= 0 && *(ushort*)(&cComPropVariant) != 0)
+				if (pSeriesPropertySet != null && ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)pSeriesPropertySet + 48)))((nint)pSeriesPropertySet, 16801793u, 0u, (PROPVARIANT)(&cComPropVariant)) >= 0 && *(ushort*)(&cComPropVariant) != 0)
 				{
 					IMSMediaSchemaPropertySet* pSeriesPropertySet2 = m_pSeriesPropertySet;
 					if (0L != (nint)pSeriesPropertySet2)
@@ -143,12 +144,12 @@ namespace Microsoft.Zune.Subscription
 						Guid guid = new Guid(m_serviceId);
 						_GUID gUID;
 						*(int*)(&gUID) = 0;
-						// IL initblk instruction
-						System.Runtime.CompilerServices.Unsafe.InitBlockUnaligned(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref gUID, 4), 0, 12);
-						gUID = _003CModule_003E.GuidToGUID(guid);
+                        // IL initblk instruction
+                        Unsafe.InitBlockUnaligned(ref Unsafe.AddByteOffset(ref gUID, 4), 0, 12);
+						gUID = Module.GuidToGUID(guid);
 						tagPROPVARIANT tagPROPVARIANT;
 						*(short*)(&tagPROPVARIANT) = 72;
-						System.Runtime.CompilerServices.Unsafe.As<tagPROPVARIANT, long>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref tagPROPVARIANT, 8)) = (nint)(&gUID);
+                        Unsafe.As<tagPROPVARIANT, long>(ref Unsafe.AddByteOffset(ref tagPROPVARIANT, 8)) = (nint)(&gUID);
 						IMSMediaSchemaPropertySet* pSeriesPropertySet3 = m_pSeriesPropertySet;
 						tagPROPVARIANT tagPROPVARIANT2 = tagPROPVARIANT;
 						((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, tagPROPVARIANT, int>)(*(ulong*)(*(long*)pSeriesPropertySet3 + 56)))((nint)pSeriesPropertySet3, 67133455u, tagPROPVARIANT2);
@@ -158,10 +159,10 @@ namespace Microsoft.Zune.Subscription
 			catch
 			{
 				//try-fault
-				_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPropVariant*, void>)(&_003CModule_003E.CComPropVariant_002E_007Bdtor_007D), &cComPropVariant);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPropVariant*, void>)(&Module.CComPropVariant_002E_007Bdtor_007D), &cComPropVariant);
 				throw;
 			}
-			_003CModule_003E.CComPropVariant_002EClear(&cComPropVariant);
+			Module.CComPropVariant_002EClear(&cComPropVariant);
 		}
 	}
 }

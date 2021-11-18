@@ -46,7 +46,7 @@ namespace Microsoft.Zune.Util
 				m_featuresChangedHandler = (FeaturesChangedHandler)Delegate.Combine(m_featuresChangedHandler, value);
 				bool featuresHaveChanged = false;
 				IFeatureEnablementManager* ptr = null;
-				int singleton = _003CModule_003E.GetSingleton((_GUID)_003CModule_003E._GUID_9581b41a_b5cf_4ebf_9d1a_975477e081ca, (void**)(&ptr));
+				int singleton = Module.GetSingleton((_GUID)Module._GUID_9581b41a_b5cf_4ebf_9d1a_975477e081ca, (void**)(&ptr));
 				if (singleton >= 0)
 				{
 					IFeatureEnablementManager* intPtr = ptr;
@@ -100,16 +100,16 @@ namespace Microsoft.Zune.Util
 			//IL_0058: Expected I, but got I8
 			//IL_006d: Expected I, but got I8
 			int num = 0;
-			FeatureChangedInteropWrapper* ptr = (FeatureChangedInteropWrapper*)_003CModule_003E.@new(24uL);
+			FeatureChangedInteropWrapper* ptr = (FeatureChangedInteropWrapper*)Module.@new(24uL);
 			FeatureChangedInteropWrapper* ptr2;
 			try
 			{
-				ptr2 = ((ptr == null) ? null : _003CModule_003E.Microsoft_002EZune_002EUtil_002EFeatureChangedInteropWrapper_002E_007Bctor_007D(ptr, FeaturesHaveChanged));
+				ptr2 = ((ptr == null) ? null : Module.Microsoft_002EZune_002EUtil_002EFeatureChangedInteropWrapper_002E_007Bctor_007D(ptr, FeaturesHaveChanged));
 			}
 			catch
 			{
 				//try-fault
-				_003CModule_003E.delete(ptr);
+				Module.delete(ptr);
 				throw;
 			}
 			num = ((0L != (nint)ptr2) ? (-2147024882) : num);
@@ -119,7 +119,7 @@ namespace Microsoft.Zune.Util
 			{
 				if (num >= 0)
 				{
-					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, void**, int>)(*(ulong*)(*(ulong*)ptr2)))((nint)ptr2, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._GUID_f5fcfd66_9e9a_436a_8b10_aeb4d6ce2b3d), (void**)(&cComPtrNtv_003CIAsyncCallback_003E));
+					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, void**, int>)(*(ulong*)(*(ulong*)ptr2)))((nint)ptr2, (_GUID*)Unsafe.AsPointer(ref Module._GUID_f5fcfd66_9e9a_436a_8b10_aeb4d6ce2b3d), (void**)(&cComPtrNtv_003CIAsyncCallback_003E));
 					if (num >= 0)
 					{
 						m_spAsyncCallback.op_Assign((IAsyncCallback*)(*(ulong*)(&cComPtrNtv_003CIAsyncCallback_003E)));
@@ -129,10 +129,10 @@ namespace Microsoft.Zune.Util
 			catch
 			{
 				//try-fault
-				_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIAsyncCallback_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIAsyncCallback_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIAsyncCallback_003E);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIAsyncCallback_003E*, void>)(&Module.CComPtrNtv_003CIAsyncCallback_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIAsyncCallback_003E);
 				throw;
 			}
-			_003CModule_003E.CComPtrNtv_003CIAsyncCallback_003E_002ERelease(&cComPtrNtv_003CIAsyncCallback_003E);
+			Module.CComPtrNtv_003CIAsyncCallback_003E_002ERelease(&cComPtrNtv_003CIAsyncCallback_003E);
 			return num;
 		}
 

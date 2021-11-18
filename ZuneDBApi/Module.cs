@@ -1,0 +1,433 @@
+﻿global using System.Runtime.InteropServices.ComTypes;
+global using Vanara.PInvoke;
+global using static Vanara.PInvoke.User32;
+global using static Vanara.PInvoke.Kernel32;
+global using static Vanara.PInvoke.Ole32;
+global using static Vanara.PInvoke.Gdi32;
+global using static Vanara.PInvoke.Shell32;
+global using ZuneDBApi;
+global using GC = System.GC;
+global using HRESULT = ZuneUI.HRESULT;
+
+using System;
+
+namespace ZuneDBApi
+{
+    internal static unsafe class Module
+    {
+        private static bool s_bIsLonghornOrBetter;
+        private static bool s_bIsLonghornOrBetterInitialized;
+
+        public static HANDLE ToHandle(void* h) => new(new IntPtr(h));
+        public static void* ToPointer(this HANDLE h) => h.DangerousGetHandle().ToPointer();
+
+        public static HINSTANCE ToHInstance(void* h) => new(new IntPtr(h));
+        public static void* ToPointer(this HINSTANCE h) => h.DangerousGetHandle().ToPointer();
+
+        public static T AddByteOffset<T>(ref T obj, int offset)
+        {
+            return System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref obj, new IntPtr(offset));
+        }
+
+        public static int CloseClipboard()
+        {
+            return User32.CloseClipboard() ? 1 : 0;
+        }
+
+        public static int CloseHandle(void* h)
+        {
+            return Kernel32.CloseHandle(new IntPtr(h)) ? 1 : 0;
+        }
+
+        public static int CoCreateInstance(Guid rclsid, IUnknown* pUnkOuter, uint dwClsContext, Guid riid, void** ppv)
+        {
+            return Ole32.CoCreateInstance(rclsid, pUnkOuter, (CLSCTX)dwClsContext, riid, out ppv);
+        }
+
+        public static int CompareStringW(uint localeId, uint dwCmpFlags, ushort* lpString1, int cchCount1, ushort* lpString2, int cchCount2)
+        {
+            return CompareString(new(localeId), (COMPARE_STRING)dwCmpFlags, new((char*)lpString1), cchCount1, new((char*)lpString2), cchCount2);
+        }
+
+        public static void* CopyImage(void* h, uint type, int cx, int cy, uint flags)
+        {
+            return User32.CopyImage(ToHandle(h), (LoadImageType)type, cx, cy, (CopyImageOptions)flags).ToPointer();
+        }
+
+        public static int CopyRect(RECT* lprcDst, RECT* lprcSrc)
+        {
+            return User32.CopyRect(out *lprcDst, in *lprcSrc) ? 1 : 0;
+        }
+
+        public static void* CreateEventW(SECURITY_ATTRIBUTES lpEventAttributes, int bManualReset, int bInitialState, ushort* lpName)
+        {
+            return ((IntPtr)Kernel32.CreateEvent(lpEventAttributes, bManualReset != 0, bInitialState != 0, new((char*)lpName))).ToPointer();
+        }
+
+        public static int CreateHMESettings(IHMESettings** obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static HWND* CreateWindowExW(uint dwExStyle, ushort* lpClassName, ushort* lpWindowName,
+            uint dwStyle, int X, int Y, int nWidth, int nHeight, HWND* hWndParent, HMENU* hMenu, HINSTANCE* hInstance, void* lpParam)
+        {
+            return (HWND*)User32.CreateWindowEx(
+                (WindowStylesEx)dwExStyle,
+                new string((char*)lpClassName),
+                new string((char*)lpWindowName),
+                (WindowStyles)dwStyle,
+                X, Y, nWidth, nHeight,
+                *hWndParent,
+                *hMenu,
+                *hInstance,
+                new IntPtr(lpParam)).DangerousGetHandle().ToPointer();
+        }
+
+        internal static FILETIME DateTimeToFileTime(DateTime dateTime)
+        {
+            FILETIME result = default;
+            try
+            {
+                result.dwLowDateTime = (int)(dateTime.ToFileTimeUtc() & uint.MaxValue);
+                result.dwHighDateTime = (int)(dateTime.ToFileTimeUtc() >> sizeof(int));
+            }
+            catch (Exception)
+            {
+            }
+            return result;
+        }
+
+        internal static SYSTEMTIME DateTimeToSystemTime(DateTime dateTime)
+        {
+            SYSTEMTIME result = default;
+            FILETIME filetime = DateTimeToFileTime(dateTime);
+
+            Module.FileTimeToSystemTime(&filetime, &result);
+            return result;
+        }
+
+        public static long DefWindowProcW(HWND* hWnd, uint Msg, ulong wParam, long lParam)
+        {
+            return User32.DefWindowProc(*hWnd, Msg, new IntPtr((int)wParam), new IntPtr(lParam)).ToInt64();
+        }
+
+        public static void DeleteCriticalSection(CRITICAL_SECTION* lpCriticalSection)
+        {
+            Kernel32.DeleteCriticalSection(ref *lpCriticalSection);
+        }
+
+        public static int DeleteObject(void* obj)
+        {
+            return Gdi32.DeleteObject(*(HGDIOBJ*)obj) ? 1 : 0;
+        }
+
+        public static uint DragQueryFileW(HDROP* hDrop, uint iFile, ushort* lpszFile, uint cch)
+        {
+            return Shell32.DragQueryFile(*hDrop, iFile, new((char*)lpszFile), cch);
+        }
+
+        public static void EnterCriticalSection(CRITICAL_SECTION* lpCriticalSection)
+        {
+            Kernel32.EnterCriticalSection(ref *lpCriticalSection);
+        }
+
+        internal static DateTime FileTimeToDateTime(FILETIME ftValue)
+        {
+            long fileTime = ftValue.dwLowDateTime | ftValue.dwHighDateTime >> sizeof(int);
+            DateTime result = DateTime.MinValue;
+            try
+            {
+                result = DateTime.FromFileTimeUtc(fileTime);
+            }
+            catch (Exception)
+            {
+            }
+            return result;
+        }
+
+        public static int FileTimeToSystemTime(FILETIME* lpFileTime, SYSTEMTIME* lpSystemTime)
+        {
+            return Kernel32.FileTimeToSystemTime(*lpFileTime, out *lpSystemTime) ? 1 : 0;
+        }
+
+        public static HWND* FindWindowExW(HWND* hWndParent, HWND* hWndChildAfter, ushort* lpszClass, ushort* lpszWindow)
+        {
+            var window = User32.FindWindowEx(*hWndParent, *hWndChildAfter, new((char*)lpszClass), new((char*)lpszWindow));
+            return &window;
+        }
+
+        internal static uint FormatMessage(uint dwFlags, void* lpSource, uint dwMessageId, uint dwLanguageId, ushort* lpBuffer, uint nSize, sbyte** Arguments)
+        {
+            return FormatMessageW(dwFlags, lpSource, dwMessageId, dwLanguageId, lpBuffer, nSize, Arguments);
+        }
+
+        public static uint FormatMessageW(uint dwFlags, void* lpSource, uint dwMessageId, uint dwLanguageId, ushort* lpBuffer, uint nSize, sbyte** Arguments)
+        {
+            return Kernel32.FormatMessage((FormatMessageFlags)dwFlags, ToHInstance(lpSource), dwMessageId, dwLanguageId, lpBuffer, nSize, new IntPtr(Arguments));
+        }
+
+        public static int GetClassInfoW(HINSTANCE* hInstance, ushort* lpClassName, ref WNDCLASS lpWndClass)
+        {
+            return User32.GetClassInfo(*hInstance, new((char*)lpClassName), out lpWndClass) ? 1 : 0;
+        }
+
+        public static int GetClientRect(HWND* hWnd, RECT* lpRect)
+        {
+            return User32.GetClientRect(*hWnd, out *lpRect) ? 1 : 0;
+        }
+
+        public static void* GetClipboardData(uint uFormat)
+        {
+            return User32.GetClipboardData(uFormat).ToPointer();
+        }
+
+        public static int GetCursorPos(POINTS* lpPoint)
+        {
+            var success = User32.GetCursorPos(out var point);
+            *lpPoint = new((short)point.X, (short)point.Y);
+            return success ? 1 : 0;
+        }
+
+        internal static string GetErrorDescription(int hr)
+        {
+            void* ptr = null;
+            if (FormatMessage(4864, null, (uint)(hr & 65535), 0, (ushort*)(&ptr), 0, null) == 0)
+            {
+                return string.Format("Unknown Error: 0x{0:x}", hr);
+            }
+            string arg = new((char*)ptr);
+            string result = string.Format("{0} Error: 0x{1:x}", arg, hr);
+            if (ptr != null)
+            {
+                LocalFree(ptr);
+            }
+            return result;
+        }
+
+        public static HWND* GetForegroundWindow()
+        {
+            HWND hWnd = User32.GetForegroundWindow();
+            return &hWnd;
+        }
+
+        public static uint GetLastError()
+        {
+            return (uint)Kernel32.GetLastError();
+        }
+
+        public static int GetMonitorInfoW(HMONITOR* hMonitor, MONITORINFO* lpmi)
+        {
+            return User32.GetMonitorInfo(*hMonitor, ref *lpmi) ? 1 : 0;
+        }
+
+        public static int GetObjectW(void* hgdiobj, int bufferSize, void* lpvObject)
+        {
+            return Gdi32.GetObject(new(new IntPtr(hgdiobj)), bufferSize, new IntPtr(lpvObject));
+        }
+
+        public static int GetVersionExW(ref OSVERSIONINFOEX lpVersionInformation)
+        {
+            return Kernel32.GetVersionEx(ref lpVersionInformation) ? 1 : 0;
+        }
+
+        public static HWND* GetWindow(HWND* hWnd, uint uCmd)
+        {
+            var window = User32.GetWindow(*hWnd, (GetWindowCmd)uCmd);
+            return &window;
+        }
+
+        public static long GetWindowLongPtrW(HWND* hWnd, int nIndex)
+        {
+            return User32.GetWindowLongPtr(*hWnd, (WindowLongFlags)nIndex).ToInt64();
+        }
+
+        public static int GetWindowPlacement(HWND* hWnd, WINDOWPLACEMENT* lpwndpl)
+        {
+            return User32.GetWindowPlacement(*hWnd, ref *lpwndpl) ? 1 : 0;
+        }
+
+        public static void* GlobalLock(void* hMem)
+        {
+            return Kernel32.GlobalLock(new(new IntPtr(hMem))).ToPointer();
+        }
+
+        public static int InflateRect(RECT* lprc, int dx, int dy)
+        {
+            return User32.InflateRect(ref *lprc, dx, dy) ? 1 : 0;
+        }
+
+        public static void InitializeCriticalSection(CRITICAL_SECTION* lpCriticalSection)
+        {
+            Kernel32.InitializeCriticalSection(out *lpCriticalSection);
+        }
+
+        internal unsafe static void InitIsLonghornOrBetter()
+        {
+            // This is kinda pointless, since .NET 5 barely runs on Windows 7, let alone Longhorn...
+            // ...but you never know when someone's going to try it anyway.
+            s_bIsLonghornOrBetter = false;
+            OSVERSIONINFOEX osversioninfow = default;
+            if (GetVersionExW(ref osversioninfow) == 1)
+            {
+                s_bIsLonghornOrBetter = (osversioninfow.dwPlatformId == PlatformID.Win32NT)
+                    && (osversioninfow.dwMajorVersion >= 6);
+            }
+            s_bIsLonghornOrBetterInitialized = true;
+        }
+
+        public static int IntersectRect(RECT* lprcDest, RECT* lprcSrc1, RECT* lprcSrc2)
+        {
+            return User32.IntersectRect(out *lprcDest, *lprcSrc1, *lprcSrc2)? 1 : 0;
+        }
+
+        public static int IsClipboardFormatAvailable(uint uFormat)
+        {
+            return User32.IsClipboardFormatAvailable(uFormat) ? 1 : 0;
+        }
+
+        internal static bool IsLonghornOrBetter()
+        {
+            if (!s_bIsLonghornOrBetterInitialized)
+                InitIsLonghornOrBetter();
+            return s_bIsLonghornOrBetter;
+        }
+
+        public static int IsWindow(HWND* hWnd)
+        {
+            return User32.IsWindow(*hWnd) ? 1 : 0;
+        }
+
+        public static int KillTimer(HWND* hWnd, ulong uIDEvent)
+        {
+            return User32.KillTimer(*hWnd, new IntPtr((void*)uIDEvent)) ? 1 : 0;
+        }
+
+        public static void LeaveCriticalSection(CRITICAL_SECTION* lpCriticalSection)
+        {
+            Kernel32.LeaveCriticalSection(ref *lpCriticalSection);
+        }
+
+        public static HICON* LoadCursorW(HINSTANCE* hInstance, ushort* lpCursorName)
+        {
+            var cur = User32.LoadCursor(*hInstance, new string((char*)lpCursorName));
+            return (HICON*)cur.DangerousGetHandle().ToPointer();
+        }
+
+        public static int LoadStringW(HINSTANCE* hInstance, uint uID, ushort* lpBuffer, int nBufferMax)
+        {
+            var result = User32.LoadString(*hInstance, (int)uID, out IntPtr buffer, nBufferMax);
+            lpBuffer = (ushort*)buffer.ToPointer();
+            return result;
+        }
+
+        public static void* LocalFree(void* hMem)
+        {
+            return Kernel32.LocalFree(new(new IntPtr(hMem))).DangerousGetHandle().ToPointer();
+        }
+
+        public static int lstrlenW(ushort* lpString)
+        {
+            return Kernel32.lstrlen(new((char*)lpString));
+        }
+
+        public static HMONITOR* MonitorFromPoint(POINTS point, uint dwFlags)
+        {
+            var mon = User32.MonitorFromPoint(point.ToPoint(), (MonitorFlags)dwFlags);
+            return &mon;
+        }
+
+        public static HMONITOR* MonitorFromWindow(HWND* hWnd, uint dwFlags)
+        {
+            var mon = User32.MonitorFromWindow(*hWnd, (MonitorFlags)dwFlags);
+            return &mon;
+        }
+
+        public static int MoveWindow(HWND* hWnd, int X, int Y, int nWidth, int nHeight, int bRepaint)
+        {
+            return User32.MoveWindow(*hWnd, X, Y, nWidth, nHeight, bRepaint == 1) ? 1 : 0;
+        }
+
+        public static int OffsetRect(RECT* lprc, int dx, int dy)
+        {
+            return User32.OffsetRect(ref *lprc, dx, dy) ? 1 : 0;
+        }
+
+        public static int OpenClipboard(HWND* hWndNewOwner)
+        {
+            return User32.OpenClipboard(*hWndNewOwner) ? 1 : 0;
+        }
+
+        public static int PostMessageW(HWND* hWnd, uint Msg, ulong wParam, long lParam)
+        {
+            return User32.PostMessage(*hWnd, Msg, new IntPtr((void*)wParam), new IntPtr((void*)lParam)) ? 1 : 0;
+        }
+
+        public static int PropVariantClear(PROPVARIANT pvar)
+        {
+            return Ole32.PropVariantClear(pvar).Code;
+        }
+
+        public static int PropVariantCopy(PROPVARIANT pDst, PROPVARIANT pSrc)
+        {
+            return Ole32.PropVariantCopy(pDst, pSrc).Code;
+        }
+
+        public static int PtInRect(RECT* lprc, POINTS pt)
+        {
+            return User32.PtInRect(*lprc, pt.ToPoint()) ? 1 : 0;
+        }
+
+        public static ushort RegisterClassW(ref WNDCLASS lpWndClass)
+        {
+            return User32.RegisterClass(lpWndClass);
+        }
+
+        public static uint RegisterWindowMessageW(ushort* lpString)
+        {
+            return User32.RegisterWindowMessage(new((char*)lpString));
+        }
+
+        public static int ScreenToClient(HWND* hWnd, POINTS* lpPoint)
+        {
+            var point = (*lpPoint).ToPoint();
+            var result = User32.ScreenToClient(*hWnd, ref point);
+            (*lpPoint) = new((short)point.X, (short)point.Y);
+            return result ? 1 : 0;
+        }
+
+        public static uint SendInput(uint cInputs, INPUT* pInputs, int cbSize)
+        {
+            // TODO: This ain't right
+            return User32.SendInput(cInputs, new[] { *pInputs }, cbSize);
+        }
+
+        public static long SendMessageTimeoutW(HWND* hWnd, uint Msg, ulong wParam, long lParam, uint fuFlags, uint uTimeout, ulong* lpdwResult)
+        {
+            IntPtr msgResult = new(lpdwResult);
+            IntPtr result = User32.SendMessageTimeout(*hWnd, Msg, new((long)wParam), new(lParam), (SMTO)fuFlags, uTimeout, ref msgResult);
+            lpdwResult = (ulong*)msgResult.ToPointer();
+            return result.ToInt64();
+        }
+
+        public static int SetEvent(void* hEvent)
+        {
+            return Kernel32.SetEvent(new IntPtr(hEvent)) ? 1 : 0;
+        }
+
+        public static int SetForegroundWindow(HWND* hWnd)
+        {
+            return User32.SetForegroundWindow(*hWnd) ? 1 : 0;
+        }
+
+        public static uint SetThreadExecutionState(uint esFlags)
+        {
+            return (uint)Kernel32.SetThreadExecutionState((EXECUTION_STATE)esFlags);
+        }
+
+        public static ulong SetTimer(HWND* hWnd, ulong nIDEvent, uint uElapse, Timerproc lpTimerFunc)
+        {
+            return (ulong)User32.SetTimer(*hWnd, new((long)nIDEvent), uElapse, lpTimerFunc).ToInt64();
+        }
+    }
+}

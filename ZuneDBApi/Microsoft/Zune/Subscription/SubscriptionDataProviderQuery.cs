@@ -25,12 +25,12 @@ namespace Microsoft.Zune.Subscription
 				else
 				{
 					((SubscriptionDataProviderQueryResult)Result).OnDispose();
-					Result = new SubscriptionDataProviderQueryResult(this, base.ResultTypeCookie, text, serviceId, text2);
+					Result = new SubscriptionDataProviderQueryResult(this, ResultTypeCookie, text, serviceId, text2);
 				}
 			}
 			else
 			{
-				Result = new SubscriptionDataProviderQueryResult(this, base.ResultTypeCookie, text, serviceId, text2);
+				Result = new SubscriptionDataProviderQueryResult(this, ResultTypeCookie, text, serviceId, text2);
 			}
 		}
 

@@ -21,7 +21,7 @@ namespace Microsoft.Zune.Messaging
 			{
 				if (OnComposeCompletedInternal == null)
 				{
-					_003CModule_003E.Microsoft_002EZune_002EMessaging_002EMessagingSubscriber_002ESubscribe(m_pMessagingSubscriber, (EZuneNetMessagingEventType)2);
+					Module.Microsoft_002EZune_002EMessaging_002EMessagingSubscriber_002ESubscribe(m_pMessagingSubscriber, (EZuneNetMessagingEventType)2);
 				}
 				OnComposeCompletedInternal = (ComposeCompletedHandler)Delegate.Combine(OnComposeCompletedInternal, value);
 			}
@@ -29,7 +29,7 @@ namespace Microsoft.Zune.Messaging
 			{
 				if ((OnComposeCompletedInternal = (ComposeCompletedHandler)Delegate.Remove(OnComposeCompletedInternal, value)) == null)
 				{
-					_003CModule_003E.Microsoft_002EZune_002EMessaging_002EMessagingSubscriber_002EUnsubscribe(m_pMessagingSubscriber, (EZuneNetMessagingEventType)2);
+					Module.Microsoft_002EZune_002EMessaging_002EMessagingSubscriber_002EUnsubscribe(m_pMessagingSubscriber, (EZuneNetMessagingEventType)2);
 				}
 			}
 		}
@@ -41,7 +41,7 @@ namespace Microsoft.Zune.Messaging
 			{
 				if (OnDeviceMessagesPostedInternal == null)
 				{
-					_003CModule_003E.Microsoft_002EZune_002EMessaging_002EMessagingSubscriber_002ESubscribe(m_pMessagingSubscriber, (EZuneNetMessagingEventType)1);
+					Module.Microsoft_002EZune_002EMessaging_002EMessagingSubscriber_002ESubscribe(m_pMessagingSubscriber, (EZuneNetMessagingEventType)1);
 				}
 				OnDeviceMessagesPostedInternal = (DeviceItemsPostedHandler)Delegate.Combine(OnDeviceMessagesPostedInternal, value);
 			}
@@ -49,7 +49,7 @@ namespace Microsoft.Zune.Messaging
 			{
 				if ((OnDeviceMessagesPostedInternal = (DeviceItemsPostedHandler)Delegate.Remove(OnDeviceMessagesPostedInternal, value)) == null)
 				{
-					_003CModule_003E.Microsoft_002EZune_002EMessaging_002EMessagingSubscriber_002EUnsubscribe(m_pMessagingSubscriber, (EZuneNetMessagingEventType)1);
+					Module.Microsoft_002EZune_002EMessaging_002EMessagingSubscriber_002EUnsubscribe(m_pMessagingSubscriber, (EZuneNetMessagingEventType)1);
 				}
 			}
 		}
@@ -61,7 +61,7 @@ namespace Microsoft.Zune.Messaging
 			{
 				if (OnDeviceCartItemsPostedInternal == null)
 				{
-					_003CModule_003E.Microsoft_002EZune_002EMessaging_002EMessagingSubscriber_002ESubscribe(m_pMessagingSubscriber, (EZuneNetMessagingEventType)3);
+					Module.Microsoft_002EZune_002EMessaging_002EMessagingSubscriber_002ESubscribe(m_pMessagingSubscriber, (EZuneNetMessagingEventType)3);
 				}
 				OnDeviceCartItemsPostedInternal = (DeviceItemsPostedHandler)Delegate.Combine(OnDeviceCartItemsPostedInternal, value);
 			}
@@ -69,7 +69,7 @@ namespace Microsoft.Zune.Messaging
 			{
 				if ((OnDeviceCartItemsPostedInternal = (DeviceItemsPostedHandler)Delegate.Remove(OnDeviceCartItemsPostedInternal, value)) == null)
 				{
-					_003CModule_003E.Microsoft_002EZune_002EMessaging_002EMessagingSubscriber_002EUnsubscribe(m_pMessagingSubscriber, (EZuneNetMessagingEventType)3);
+					Module.Microsoft_002EZune_002EMessaging_002EMessagingSubscriber_002EUnsubscribe(m_pMessagingSubscriber, (EZuneNetMessagingEventType)3);
 				}
 			}
 		}
@@ -78,16 +78,16 @@ namespace Microsoft.Zune.Messaging
 		{
 			//IL_001f: Expected I, but got I8
 			//IL_003b: Expected I, but got I8
-			MessagingSubscriber* ptr = (MessagingSubscriber*)_003CModule_003E.@new(24uL);
+			MessagingSubscriber* ptr = (MessagingSubscriber*)Module.@new(24uL);
 			MessagingSubscriber* ptr2;
 			try
 			{
-				ptr2 = ((ptr == null) ? null : _003CModule_003E.Microsoft_002EZune_002EMessaging_002EMessagingSubscriber_002E_007Bctor_007D(ptr, this));
+				ptr2 = ((ptr == null) ? null : Module.Microsoft_002EZune_002EMessaging_002EMessagingSubscriber_002E_007Bctor_007D(ptr, this));
 			}
 			catch
 			{
 				//try-fault
-				_003CModule_003E.delete(ptr);
+				Module.delete(ptr);
 				throw;
 			}
 			m_pMessagingSubscriber = ptr2;

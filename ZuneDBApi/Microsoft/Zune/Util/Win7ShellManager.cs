@@ -96,11 +96,12 @@ namespace Microsoft.Zune.Util
 			int num;
 			try
 			{
-				num = _003CModule_003E.GetSingleton((_GUID)_003CModule_003E._GUID_a89c52eb_97a9_417b_9872_46c040f1b76f, (void**)(&cComPtrNtv_003CIWin7ShellManager_003E));
+				num = Module.GetSingleton((_GUID)Module._GUID_a89c52eb_97a9_417b_9872_46c040f1b76f, (void**)(&cComPtrNtv_003CIWin7ShellManager_003E));
 				if (num >= 0)
 				{
-					fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(path)))
+					fixed (char* pathPtr = path.ToCharArray())
 					{
+						ushort* ptr = (ushort*)pathPtr;
 						try
 						{
 							long num2 = *(long*)(*(ulong*)(&cComPtrNtv_003CIWin7ShellManager_003E)) + 96;
@@ -119,10 +120,10 @@ namespace Microsoft.Zune.Util
 			catch
 			{
 				//try-fault
-				_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIWin7ShellManager_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIWin7ShellManager_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIWin7ShellManager_003E);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIWin7ShellManager_003E*, void>)(&Module.CComPtrNtv_003CIWin7ShellManager_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIWin7ShellManager_003E);
 				throw;
 			}
-			_003CModule_003E.CComPtrNtv_003CIWin7ShellManager_003E_002ERelease(&cComPtrNtv_003CIWin7ShellManager_003E);
+			Module.CComPtrNtv_003CIWin7ShellManager_003E_002ERelease(&cComPtrNtv_003CIWin7ShellManager_003E);
 			return num;
 		}
 
@@ -135,13 +136,14 @@ namespace Microsoft.Zune.Util
 			int num;
 			try
 			{
-				num = _003CModule_003E.GetSingleton((_GUID)_003CModule_003E._GUID_a89c52eb_97a9_417b_9872_46c040f1b76f, (void**)(&cComPtrNtv_003CIWin7ShellManager_003E));
+				num = Module.GetSingleton((_GUID)Module._GUID_a89c52eb_97a9_417b_9872_46c040f1b76f, (void**)(&cComPtrNtv_003CIWin7ShellManager_003E));
 				int num2 = 0;
 				int num5;
 				if (num >= 0)
 				{
-					fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(path)))
+					fixed (char* pathPtr = path.ToCharArray())
 					{
+						ushort* ptr = (ushort*)pathPtr;
 						try
 						{
 							long num3 = *(long*)(*(ulong*)(&cComPtrNtv_003CIWin7ShellManager_003E)) + 104;
@@ -169,10 +171,10 @@ namespace Microsoft.Zune.Util
 			catch
 			{
 				//try-fault
-				_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIWin7ShellManager_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIWin7ShellManager_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIWin7ShellManager_003E);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIWin7ShellManager_003E*, void>)(&Module.CComPtrNtv_003CIWin7ShellManager_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIWin7ShellManager_003E);
 				throw;
 			}
-			_003CModule_003E.CComPtrNtv_003CIWin7ShellManager_003E_002ERelease(&cComPtrNtv_003CIWin7ShellManager_003E);
+			Module.CComPtrNtv_003CIWin7ShellManager_003E_002ERelease(&cComPtrNtv_003CIWin7ShellManager_003E);
 			return num;
 		}
 
@@ -186,7 +188,7 @@ namespace Microsoft.Zune.Util
 			//IL_005b: Expected I, but got I8
 			IWin7ShellManager* ptr = null;
 			IJumpList* ptr2 = null;
-			int num = _003CModule_003E.GetSingleton((_GUID)_003CModule_003E._GUID_a89c52eb_97a9_417b_9872_46c040f1b76f, (void**)(&ptr));
+			int num = Module.GetSingleton((_GUID)Module._GUID_a89c52eb_97a9_417b_9872_46c040f1b76f, (void**)(&ptr));
 			if (num >= 0)
 			{
 				IWin7ShellManager* intPtr = ptr;
@@ -220,13 +222,13 @@ namespace Microsoft.Zune.Util
 			//IL_0064: Expected I, but got I8
 			IWin7ShellManager* ptr = null;
 			IThumbBar* ptr2 = null;
-			int num = _003CModule_003E.GetSingleton((_GUID)_003CModule_003E._GUID_a89c52eb_97a9_417b_9872_46c040f1b76f, (void**)(&ptr));
+			int num = Module.GetSingleton((_GUID)Module._GUID_a89c52eb_97a9_417b_9872_46c040f1b76f, (void**)(&ptr));
 			if (num >= 0)
 			{
 				long num2 = *(long*)ptr + 32;
 				IWin7ShellManager* intPtr = ptr;
 				void* intPtr2 = hWnd.ToPointer();
-				num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, HWND__*, IThumbBar**, int>)(*(ulong*)num2))((nint)intPtr, (HWND__*)intPtr2, &ptr2);
+				num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, HWND*, IThumbBar**, int>)(*(ulong*)num2))((nint)intPtr, (HWND*)intPtr2, &ptr2);
 				if (num >= 0)
 				{
 					thumbBar = new ThumbBar(ptr2);
@@ -252,13 +254,13 @@ namespace Microsoft.Zune.Util
 			//IL_002a: Expected I, but got I8
 			//IL_003d: Expected I, but got I8
 			IWin7ShellManager* ptr = null;
-			int num = _003CModule_003E.GetSingleton((_GUID)_003CModule_003E._GUID_a89c52eb_97a9_417b_9872_46c040f1b76f, (void**)(&ptr));
+			int num = Module.GetSingleton((_GUID)Module._GUID_a89c52eb_97a9_417b_9872_46c040f1b76f, (void**)(&ptr));
 			if (num >= 0)
 			{
 				long num2 = *(long*)ptr + 40;
 				IWin7ShellManager* intPtr = ptr;
 				void* intPtr2 = hWnd.ToPointer();
-				num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, HWND__*, int>)(*(ulong*)num2))((nint)intPtr, (HWND__*)intPtr2);
+				num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, HWND*, int>)(*(ulong*)num2))((nint)intPtr, (HWND*)intPtr2);
 			}
 			if (0L != (nint)ptr)
 			{
@@ -273,18 +275,20 @@ namespace Microsoft.Zune.Util
 			//IL_0013: Expected I, but got I8
 			//IL_003e: Expected I, but got I8
 			//IL_0051: Expected I, but got I8
-			fixed (ushort* ptr2 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(title)))
+			fixed (char* titlePtr = title.ToCharArray())
 			{
-				fixed (ushort* ptr3 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(helpText)))
+				ushort* ptr2 = (ushort*)titlePtr;
+				fixed (char* helpTextPtr = helpText.ToCharArray())
 				{
+					ushort* ptr3 = (ushort*)helpTextPtr;
 					IWin7ShellManager* ptr = null;
-					int num = _003CModule_003E.GetSingleton((_GUID)_003CModule_003E._GUID_a89c52eb_97a9_417b_9872_46c040f1b76f, (void**)(&ptr));
+					int num = Module.GetSingleton((_GUID)Module._GUID_a89c52eb_97a9_417b_9872_46c040f1b76f, (void**)(&ptr));
 					if (num >= 0)
 					{
 						long num2 = *(long*)ptr + 80;
 						IWin7ShellManager* intPtr = ptr;
 						void* intPtr2 = hWnd.ToPointer();
-						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EWin7LibraryKind, HWND__*, ushort*, ushort*, int>)(*(ulong*)num2))((nint)intPtr, libraryKind, (HWND__*)intPtr2, ptr2, ptr3);
+						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EWin7LibraryKind, HWND*, ushort*, ushort*, int>)(*(ulong*)num2))((nint)intPtr, libraryKind, (HWND*)intPtr2, ptr2, ptr3);
 					}
 					if (0L != (nint)ptr)
 					{
@@ -302,7 +306,7 @@ namespace Microsoft.Zune.Util
 			//IL_0021: Expected I, but got I8
 			//IL_0034: Expected I, but got I8
 			IWin7ShellManager* ptr = null;
-			int num = _003CModule_003E.GetSingleton((_GUID)_003CModule_003E._GUID_a89c52eb_97a9_417b_9872_46c040f1b76f, (void**)(&ptr));
+			int num = Module.GetSingleton((_GUID)Module._GUID_a89c52eb_97a9_417b_9872_46c040f1b76f, (void**)(&ptr));
 			if (num >= 0)
 			{
 				IWin7ShellManager* intPtr = ptr;
@@ -322,7 +326,7 @@ namespace Microsoft.Zune.Util
 			//IL_0021: Expected I, but got I8
 			//IL_0034: Expected I, but got I8
 			IWin7Libraries* ptr = null;
-			int num = _003CModule_003E.GetSingleton((_GUID)_003CModule_003E._GUID_e24c5c6a_85a5_440e_93e1_bb51e32033ac, (void**)(&ptr));
+			int num = Module.GetSingleton((_GUID)Module._GUID_e24c5c6a_85a5_440e_93e1_bb51e32033ac, (void**)(&ptr));
 			if (num >= 0)
 			{
 				IWin7Libraries* intPtr = ptr;
@@ -379,18 +383,18 @@ namespace Microsoft.Zune.Util
 			//IL_0048: Expected I, but got I8
 			//IL_005b: Expected I, but got I8
 			IWin7ShellManager* ptr = null;
-			if (_003CModule_003E.GetSingleton((_GUID)_003CModule_003E._GUID_a89c52eb_97a9_417b_9872_46c040f1b76f, (void**)(&ptr)) >= 0)
+			if (Module.GetSingleton((_GUID)Module._GUID_a89c52eb_97a9_417b_9872_46c040f1b76f, (void**)(&ptr)) >= 0)
 			{
-				Win7ShellManagerMediator* ptr2 = (Win7ShellManagerMediator*)_003CModule_003E.@new(24uL);
+				Win7ShellManagerMediator* ptr2 = (Win7ShellManagerMediator*)Module.@new(24uL);
 				Win7ShellManagerMediator* ptr3;
 				try
 				{
-					ptr3 = ((ptr2 == null) ? null : _003CModule_003E.Microsoft_002EZune_002EUtil_002EWin7ShellManagerMediator_002E_007Bctor_007D(ptr2, this));
+					ptr3 = ((ptr2 == null) ? null : Module.Microsoft_002EZune_002EUtil_002EWin7ShellManagerMediator_002E_007Bctor_007D(ptr2, this));
 				}
 				catch
 				{
 					//try-fault
-					_003CModule_003E.delete(ptr2);
+					Module.delete(ptr2);
 					throw;
 				}
 				IWin7ShellManager* intPtr = ptr;

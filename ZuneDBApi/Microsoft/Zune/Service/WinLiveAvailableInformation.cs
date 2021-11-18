@@ -37,7 +37,7 @@ namespace Microsoft.Zune.Service
 								{
 									m_suggestedNames.Add(new string((char*)ptr));
 								}
-								_003CModule_003E.SysFreeString(ptr);
+								Module.SysFreeString(ptr);
 								num2++;
 							}
 							while (num2 < num);
@@ -81,7 +81,7 @@ namespace Microsoft.Zune.Service
 						{
 							m_signinName = new string((char*)ptr);
 						}
-						_003CModule_003E.SysFreeString(ptr);
+						Module.SysFreeString(ptr);
 					}
 				}
 				return m_signinName;

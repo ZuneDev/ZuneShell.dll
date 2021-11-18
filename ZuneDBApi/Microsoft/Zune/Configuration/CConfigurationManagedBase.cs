@@ -15,7 +15,7 @@ namespace Microsoft.Zune.Configuration
 
 		private object m_lock;
 
-		private unsafe HKEY__* m_hHive;
+		private unsafe HKEY* m_hHive;
 
 		private ConfigurationChangeEventHandler m_configurationChangeEventHandler;
 
@@ -28,13 +28,13 @@ namespace Microsoft.Zune.Configuration
 				//IL_0003: Expected I, but got I8
 				//IL_001f: Expected I, but got I8
 				IConfigurationManager* ptr = null;
-				int configurationManagerInstance = _003CModule_003E.GetConfigurationManagerInstance(&ptr);
+				int configurationManagerInstance = Module.GetConfigurationManagerInstance(&ptr);
 				if (configurationManagerInstance >= 0)
 				{
 					IConfigurationManager* intPtr = ptr;
 					return string.Concat(new string((char*)((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*>)(*(ulong*)(*(long*)intPtr + 192)))((nint)intPtr)) + "\\", ConfigurationPath);
 				}
-				throw new ApplicationException(_003CModule_003E.GetErrorDescription(configurationManagerInstance));
+				throw new ApplicationException(Module.GetErrorDescription(configurationManagerInstance));
 			}
 		}
 
@@ -90,10 +90,10 @@ namespace Microsoft.Zune.Configuration
 			default:
 				throw new ArgumentException("hive");
 			case RegistryHive.LocalMachine:
-				m_hHive = (HKEY__*)18446744071562067970uL;
+				m_hHive = (HKEY*)18446744071562067970uL;
 				break;
 			case RegistryHive.CurrentUser:
-				m_hHive = (HKEY__*)18446744071562067969uL;
+				m_hHive = (HKEY*)18446744071562067969uL;
 				break;
 			}
 			m_lock = new object();
@@ -122,26 +122,29 @@ namespace Microsoft.Zune.Configuration
 			//IL_0028: Expected I, but got I8
 			//IL_0051: Expected I, but got I8
 			int num = 0;
-			fixed (ushort* ptr2 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(m_basePath)))
+			fixed (char* m_basePathPtr = m_basePath.ToCharArray())
 			{
-				fixed (ushort* ptr3 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(m_instance)))
+				ushort* ptr2 = (ushort*)m_basePathPtr;
+				fixed (char* m_instancePtr = m_instance.ToCharArray())
 				{
-					fixed (ushort* ptr4 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(propertyName)))
+					ushort* ptr3 = (ushort*)m_instancePtr;
+					fixed (char* propertyNamePtr = propertyName.ToCharArray())
 					{
+						ushort* ptr4 = (ushort*)propertyNamePtr;
 						IConfigurationManager* ptr = null;
-						int num2 = _003CModule_003E.GetConfigurationManagerInstance(&ptr);
+						int num2 = Module.GetConfigurationManagerInstance(&ptr);
 						if (num2 >= 0)
 						{
 							long num3 = *(long*)ptr + 8;
 							IConfigurationManager* intPtr = ptr;
-							HKEY__* hHive = m_hHive;
-							num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, HKEY__*, ushort*, ushort*, ushort*, int*, int, int>)(*(ulong*)num3))((nint)intPtr, hHive, ptr2, ptr3, ptr4, &num, defaultValue ? 1 : 0);
+							HKEY* hHive = m_hHive;
+							num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, HKEY*, ushort*, ushort*, ushort*, int*, int, int>)(*(ulong*)num3))((nint)intPtr, hHive, ptr2, ptr3, ptr4, &num, defaultValue ? 1 : 0);
 							if (num2 >= 0)
 							{
 								return (num != 0) ? true : false;
 							}
 						}
-						throw new ApplicationException(_003CModule_003E.GetErrorDescription(num2));
+						throw new ApplicationException(Module.GetErrorDescription(num2));
 					}
 				}
 			}
@@ -151,29 +154,32 @@ namespace Microsoft.Zune.Configuration
 		{
 			//IL_0024: Expected I, but got I8
 			//IL_004b: Expected I, but got I8
-			fixed (ushort* ptr2 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(m_basePath)))
+			fixed (char* m_basePathPtr = m_basePath.ToCharArray())
 			{
-				fixed (ushort* ptr3 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(m_instance)))
+				ushort* ptr2 = (ushort*)m_basePathPtr;
+				fixed (char* m_instancePtr = m_instance.ToCharArray())
 				{
-					fixed (ushort* ptr4 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(propertyName)))
+					ushort* ptr3 = (ushort*)m_instancePtr;
+					fixed (char* propertyNamePtr = propertyName.ToCharArray())
 					{
+						ushort* ptr4 = (ushort*)propertyNamePtr;
 						IConfigurationManager* ptr = null;
-						int num = _003CModule_003E.GetConfigurationManagerInstance(&ptr);
+						int num = Module.GetConfigurationManagerInstance(&ptr);
 						if (num < 0)
 						{
 							goto IL_0050;
 						}
 						long num2 = *(long*)ptr + 16;
 						IConfigurationManager* intPtr = ptr;
-						HKEY__* hHive = m_hHive;
-						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, HKEY__*, ushort*, ushort*, ushort*, int, int>)(*(ulong*)num2))((nint)intPtr, hHive, ptr2, ptr3, ptr4, value ? 1 : 0);
+						HKEY* hHive = m_hHive;
+						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, HKEY*, ushort*, ushort*, ushort*, int, int>)(*(ulong*)num2))((nint)intPtr, hHive, ptr2, ptr3, ptr4, value ? 1 : 0);
 						if (num < 0)
 						{
 							goto IL_0050;
 						}
 						goto end_IL_0023;
 						IL_0050:
-						throw new ApplicationException(_003CModule_003E.GetErrorDescription(num));
+						throw new ApplicationException(Module.GetErrorDescription(num));
 						end_IL_0023:;
 					}
 				}
@@ -185,26 +191,29 @@ namespace Microsoft.Zune.Configuration
 			//IL_0027: Expected I, but got I8
 			//IL_0050: Expected I, but got I8
 			int result = 0;
-			fixed (ushort* ptr2 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(m_basePath)))
+			fixed (char* m_basePathPtr = m_basePath.ToCharArray())
 			{
-				fixed (ushort* ptr3 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(m_instance)))
+				ushort* ptr2 = (ushort*)m_basePathPtr;
+				fixed (char* m_instancePtr = m_instance.ToCharArray())
 				{
-					fixed (ushort* ptr4 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(propertyName)))
+					ushort* ptr3 = (ushort*)m_instancePtr;
+					fixed (char* propertyNamePtr = propertyName.ToCharArray())
 					{
+						ushort* ptr4 = (ushort*)propertyNamePtr;
 						IConfigurationManager* ptr = null;
-						int num = _003CModule_003E.GetConfigurationManagerInstance(&ptr);
+						int num = Module.GetConfigurationManagerInstance(&ptr);
 						if (num >= 0)
 						{
 							long num2 = *(long*)ptr + 32;
 							IConfigurationManager* intPtr = ptr;
-							HKEY__* hHive = m_hHive;
-							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, HKEY__*, ushort*, ushort*, ushort*, int*, int, int>)(*(ulong*)num2))((nint)intPtr, hHive, ptr2, ptr3, ptr4, &result, defaultValue);
+							HKEY* hHive = m_hHive;
+							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, HKEY*, ushort*, ushort*, ushort*, int*, int, int>)(*(ulong*)num2))((nint)intPtr, hHive, ptr2, ptr3, ptr4, &result, defaultValue);
 							if (num >= 0)
 							{
 								return result;
 							}
 						}
-						throw new ApplicationException(_003CModule_003E.GetErrorDescription(num));
+						throw new ApplicationException(Module.GetErrorDescription(num));
 					}
 				}
 			}
@@ -214,29 +223,32 @@ namespace Microsoft.Zune.Configuration
 		{
 			//IL_0024: Expected I, but got I8
 			//IL_004b: Expected I, but got I8
-			fixed (ushort* ptr2 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(m_basePath)))
+			fixed (char* m_basePathPtr = m_basePath.ToCharArray())
 			{
-				fixed (ushort* ptr3 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(m_instance)))
+				ushort* ptr2 = (ushort*)m_basePathPtr;
+				fixed (char* m_instancePtr = m_instance.ToCharArray())
 				{
-					fixed (ushort* ptr4 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(propertyName)))
+					ushort* ptr3 = (ushort*)m_instancePtr;
+					fixed (char* propertyNamePtr = propertyName.ToCharArray())
 					{
+						ushort* ptr4 = (ushort*)propertyNamePtr;
 						IConfigurationManager* ptr = null;
-						int num = _003CModule_003E.GetConfigurationManagerInstance(&ptr);
+						int num = Module.GetConfigurationManagerInstance(&ptr);
 						if (num < 0)
 						{
 							goto IL_0050;
 						}
 						long num2 = *(long*)ptr + 40;
 						IConfigurationManager* intPtr = ptr;
-						HKEY__* hHive = m_hHive;
-						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, HKEY__*, ushort*, ushort*, ushort*, int, int>)(*(ulong*)num2))((nint)intPtr, hHive, ptr2, ptr3, ptr4, value);
+						HKEY* hHive = m_hHive;
+						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, HKEY*, ushort*, ushort*, ushort*, int, int>)(*(ulong*)num2))((nint)intPtr, hHive, ptr2, ptr3, ptr4, value);
 						if (num < 0)
 						{
 							goto IL_0050;
 						}
 						goto end_IL_0023;
 						IL_0050:
-						throw new ApplicationException(_003CModule_003E.GetErrorDescription(num));
+						throw new ApplicationException(Module.GetErrorDescription(num));
 						end_IL_0023:;
 					}
 				}
@@ -248,26 +260,29 @@ namespace Microsoft.Zune.Configuration
 			//IL_0028: Expected I, but got I8
 			//IL_0051: Expected I, but got I8
 			long result = 0L;
-			fixed (ushort* ptr2 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(m_basePath)))
+			fixed (char* m_basePathPtr = m_basePath.ToCharArray())
 			{
-				fixed (ushort* ptr3 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(m_instance)))
+				ushort* ptr2 = (ushort*)m_basePathPtr;
+				fixed (char* m_instancePtr = m_instance.ToCharArray())
 				{
-					fixed (ushort* ptr4 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(propertyName)))
+					ushort* ptr3 = (ushort*)m_instancePtr;
+					fixed (char* propertyNamePtr = propertyName.ToCharArray())
 					{
+						ushort* ptr4 = (ushort*)propertyNamePtr;
 						IConfigurationManager* ptr = null;
-						int num = _003CModule_003E.GetConfigurationManagerInstance(&ptr);
+						int num = Module.GetConfigurationManagerInstance(&ptr);
 						if (num >= 0)
 						{
 							long num2 = *(long*)ptr + 56;
 							IConfigurationManager* intPtr = ptr;
-							HKEY__* hHive = m_hHive;
-							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, HKEY__*, ushort*, ushort*, ushort*, long*, long, int>)(*(ulong*)num2))((nint)intPtr, hHive, ptr2, ptr3, ptr4, &result, defaultValue);
+							HKEY* hHive = m_hHive;
+							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, HKEY*, ushort*, ushort*, ushort*, long*, long, int>)(*(ulong*)num2))((nint)intPtr, hHive, ptr2, ptr3, ptr4, &result, defaultValue);
 							if (num >= 0)
 							{
 								return result;
 							}
 						}
-						throw new ApplicationException(_003CModule_003E.GetErrorDescription(num));
+						throw new ApplicationException(Module.GetErrorDescription(num));
 					}
 				}
 			}
@@ -277,29 +292,32 @@ namespace Microsoft.Zune.Configuration
 		{
 			//IL_0024: Expected I, but got I8
 			//IL_004b: Expected I, but got I8
-			fixed (ushort* ptr2 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(m_basePath)))
+			fixed (char* m_basePathPtr = m_basePath.ToCharArray())
 			{
-				fixed (ushort* ptr3 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(m_instance)))
+				ushort* ptr2 = (ushort*)m_basePathPtr;
+				fixed (char* m_instancePtr = m_instance.ToCharArray())
 				{
-					fixed (ushort* ptr4 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(propertyName)))
+					ushort* ptr3 = (ushort*)m_instancePtr;
+					fixed (char* propertyNamePtr = propertyName.ToCharArray())
 					{
+						ushort* ptr4 = (ushort*)propertyNamePtr;
 						IConfigurationManager* ptr = null;
-						int num = _003CModule_003E.GetConfigurationManagerInstance(&ptr);
+						int num = Module.GetConfigurationManagerInstance(&ptr);
 						if (num < 0)
 						{
 							goto IL_0050;
 						}
 						long num2 = *(long*)ptr + 64;
 						IConfigurationManager* intPtr = ptr;
-						HKEY__* hHive = m_hHive;
-						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, HKEY__*, ushort*, ushort*, ushort*, long, int>)(*(ulong*)num2))((nint)intPtr, hHive, ptr2, ptr3, ptr4, value);
+						HKEY* hHive = m_hHive;
+						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, HKEY*, ushort*, ushort*, ushort*, long, int>)(*(ulong*)num2))((nint)intPtr, hHive, ptr2, ptr3, ptr4, value);
 						if (num < 0)
 						{
 							goto IL_0050;
 						}
 						goto end_IL_0023;
 						IL_0050:
-						throw new ApplicationException(_003CModule_003E.GetErrorDescription(num));
+						throw new ApplicationException(Module.GetErrorDescription(num));
 						end_IL_0023:;
 					}
 				}
@@ -311,26 +329,29 @@ namespace Microsoft.Zune.Configuration
 			//IL_002f: Expected I, but got I8
 			//IL_0058: Expected I, but got I8
 			double result = 0.0;
-			fixed (ushort* ptr2 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(m_basePath)))
+			fixed (char* m_basePathPtr = m_basePath.ToCharArray())
 			{
-				fixed (ushort* ptr3 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(m_instance)))
+				ushort* ptr2 = (ushort*)m_basePathPtr;
+				fixed (char* m_instancePtr = m_instance.ToCharArray())
 				{
-					fixed (ushort* ptr4 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(propertyName)))
+					ushort* ptr3 = (ushort*)m_instancePtr;
+					fixed (char* propertyNamePtr = propertyName.ToCharArray())
 					{
+						ushort* ptr4 = (ushort*)propertyNamePtr;
 						IConfigurationManager* ptr = null;
-						int num = _003CModule_003E.GetConfigurationManagerInstance(&ptr);
+						int num = Module.GetConfigurationManagerInstance(&ptr);
 						if (num >= 0)
 						{
 							long num2 = *(long*)ptr + 80;
 							IConfigurationManager* intPtr = ptr;
-							HKEY__* hHive = m_hHive;
-							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, HKEY__*, ushort*, ushort*, ushort*, double*, double, int>)(*(ulong*)num2))((nint)intPtr, hHive, ptr2, ptr3, ptr4, &result, defaultValue);
+							HKEY* hHive = m_hHive;
+							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, HKEY*, ushort*, ushort*, ushort*, double*, double, int>)(*(ulong*)num2))((nint)intPtr, hHive, ptr2, ptr3, ptr4, &result, defaultValue);
 							if (num >= 0)
 							{
 								return result;
 							}
 						}
-						throw new ApplicationException(_003CModule_003E.GetErrorDescription(num));
+						throw new ApplicationException(Module.GetErrorDescription(num));
 					}
 				}
 			}
@@ -340,29 +361,32 @@ namespace Microsoft.Zune.Configuration
 		{
 			//IL_0024: Expected I, but got I8
 			//IL_004b: Expected I, but got I8
-			fixed (ushort* ptr2 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(m_basePath)))
+			fixed (char* m_basePathPtr = m_basePath.ToCharArray())
 			{
-				fixed (ushort* ptr3 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(m_instance)))
+				ushort* ptr2 = (ushort*)m_basePathPtr;
+				fixed (char* m_instancePtr = m_instance.ToCharArray())
 				{
-					fixed (ushort* ptr4 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(propertyName)))
+					ushort* ptr3 = (ushort*)m_instancePtr;
+					fixed (char* propertyNamePtr = propertyName.ToCharArray())
 					{
+						ushort* ptr4 = (ushort*)propertyNamePtr;
 						IConfigurationManager* ptr = null;
-						int num = _003CModule_003E.GetConfigurationManagerInstance(&ptr);
+						int num = Module.GetConfigurationManagerInstance(&ptr);
 						if (num < 0)
 						{
 							goto IL_0050;
 						}
 						long num2 = *(long*)ptr + 88;
 						IConfigurationManager* intPtr = ptr;
-						HKEY__* hHive = m_hHive;
-						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, HKEY__*, ushort*, ushort*, ushort*, double, int>)(*(ulong*)num2))((nint)intPtr, hHive, ptr2, ptr3, ptr4, value);
+						HKEY* hHive = m_hHive;
+						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, HKEY*, ushort*, ushort*, ushort*, double, int>)(*(ulong*)num2))((nint)intPtr, hHive, ptr2, ptr3, ptr4, value);
 						if (num < 0)
 						{
 							goto IL_0050;
 						}
 						goto end_IL_0023;
 						IL_0050:
-						throw new ApplicationException(_003CModule_003E.GetErrorDescription(num));
+						throw new ApplicationException(Module.GetErrorDescription(num));
 						end_IL_0023:;
 					}
 				}
@@ -377,34 +401,37 @@ namespace Microsoft.Zune.Configuration
 			DateTime dateTime = default(DateTime);
 			_FILETIME fILETIME;
 			*(int*)(&fILETIME) = 0;
-			// IL initblk instruction
-			System.Runtime.CompilerServices.Unsafe.InitBlockUnaligned(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref fILETIME, 4), 0, 4);
+            // IL initblk instruction
+            Unsafe.InitBlockUnaligned(ref Unsafe.AddByteOffset(ref fILETIME, 4), 0, 4);
 			_FILETIME fILETIME2;
 			*(long*)(&fILETIME2) = defaultValue.ToFileTimeUtc();
-			fixed (ushort* ptr2 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(m_basePath)))
+			fixed (char* m_basePathPtr = m_basePath.ToCharArray())
 			{
-				fixed (ushort* ptr3 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(m_instance)))
+				ushort* ptr2 = (ushort*)m_basePathPtr;
+				fixed (char* m_instancePtr = m_instance.ToCharArray())
 				{
-					fixed (ushort* ptr4 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(propertyName)))
+					ushort* ptr3 = (ushort*)m_instancePtr;
+					fixed (char* propertyNamePtr = propertyName.ToCharArray())
 					{
+						ushort* ptr4 = (ushort*)propertyNamePtr;
 						IConfigurationManager* ptr = null;
-						int num = _003CModule_003E.GetConfigurationManagerInstance(&ptr);
+						int num = Module.GetConfigurationManagerInstance(&ptr);
 						if (num >= 0)
 						{
 							long num2 = *(long*)ptr + 104;
 							IConfigurationManager* intPtr = ptr;
-							HKEY__* hHive = m_hHive;
+							HKEY* hHive = m_hHive;
 							_003F val = ptr2;
 							_003F val2 = ptr3;
 							_003F val3 = ptr4;
 							_FILETIME fILETIME3 = fILETIME2;
-							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, HKEY__*, ushort*, ushort*, ushort*, _FILETIME*, _FILETIME, int>)(*(ulong*)num2))((nint)intPtr, hHive, (ushort*)(nint)val, (ushort*)(nint)val2, (ushort*)(nint)val3, &fILETIME, fILETIME3);
+							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, HKEY*, ushort*, ushort*, ushort*, _FILETIME*, _FILETIME, int>)(*(ulong*)num2))((nint)intPtr, hHive, (ushort*)(nint)val, (ushort*)(nint)val2, (ushort*)(nint)val3, &fILETIME, fILETIME3);
 							if (num >= 0)
 							{
 								return DateTime.FromFileTimeUtc(*(long*)(&fILETIME));
 							}
 						}
-						throw new ApplicationException(_003CModule_003E.GetErrorDescription(num));
+						throw new ApplicationException(Module.GetErrorDescription(num));
 					}
 				}
 			}
@@ -416,33 +443,36 @@ namespace Microsoft.Zune.Configuration
 			//IL_0056: Expected I, but got I8
 			_FILETIME fILETIME;
 			*(long*)(&fILETIME) = value.ToFileTimeUtc();
-			fixed (ushort* ptr2 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(m_basePath)))
+			fixed (char* m_basePathPtr = m_basePath.ToCharArray())
 			{
-				fixed (ushort* ptr3 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(m_instance)))
+				ushort* ptr2 = (ushort*)m_basePathPtr;
+				fixed (char* m_instancePtr = m_instance.ToCharArray())
 				{
-					fixed (ushort* ptr4 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(propertyName)))
+					ushort* ptr3 = (ushort*)m_instancePtr;
+					fixed (char* propertyNamePtr = propertyName.ToCharArray())
 					{
+						ushort* ptr4 = (ushort*)propertyNamePtr;
 						IConfigurationManager* ptr = null;
-						int num = _003CModule_003E.GetConfigurationManagerInstance(&ptr);
+						int num = Module.GetConfigurationManagerInstance(&ptr);
 						if (num < 0)
 						{
 							goto IL_005b;
 						}
 						long num2 = *(long*)ptr + 112;
 						IConfigurationManager* intPtr = ptr;
-						HKEY__* hHive = m_hHive;
+						HKEY* hHive = m_hHive;
 						_003F val = ptr2;
 						_003F val2 = ptr3;
 						_003F val3 = ptr4;
 						_FILETIME fILETIME2 = fILETIME;
-						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, HKEY__*, ushort*, ushort*, ushort*, _FILETIME, int>)(*(ulong*)num2))((nint)intPtr, hHive, (ushort*)(nint)val, (ushort*)(nint)val2, (ushort*)(nint)val3, fILETIME2);
+						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, HKEY*, ushort*, ushort*, ushort*, _FILETIME, int>)(*(ulong*)num2))((nint)intPtr, hHive, (ushort*)(nint)val, (ushort*)(nint)val2, (ushort*)(nint)val3, fILETIME2);
 						if (num < 0)
 						{
 							goto IL_005b;
 						}
 						goto end_IL_002d;
 						IL_005b:
-						throw new ApplicationException(_003CModule_003E.GetErrorDescription(num));
+						throw new ApplicationException(Module.GetErrorDescription(num));
 						end_IL_002d:;
 					}
 				}
@@ -456,33 +486,37 @@ namespace Microsoft.Zune.Configuration
 			//IL_0066: Expected I, but got I8
 			//IL_00ad: Expected I, but got I8
 			string result = null;
-			fixed (ushort* ptr2 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(m_basePath)))
+			fixed (char* m_basePathPtr = m_basePath.ToCharArray())
 			{
-				fixed (ushort* ptr3 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(m_instance)))
+				ushort* ptr2 = (ushort*)m_basePathPtr;
+				fixed (char* m_instancePtr = m_instance.ToCharArray())
 				{
-					fixed (ushort* ptr4 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(propertyName)))
+					ushort* ptr3 = (ushort*)m_instancePtr;
+					fixed (char* propertyNamePtr = propertyName.ToCharArray())
 					{
-						fixed (ushort* ptr5 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(defaultValue)))
+						ushort* ptr4 = (ushort*)propertyNamePtr;
+						fixed (char* defaultValuePtr = defaultValue.ToCharArray())
 						{
+							ushort* ptr5 = (ushort*)defaultValuePtr;
 							IConfigurationManager* ptr = null;
-							int num = _003CModule_003E.GetConfigurationManagerInstance(&ptr);
+							int num = Module.GetConfigurationManagerInstance(&ptr);
 							uint num2 = 0u;
 							if (num >= 0)
 							{
 								long num3 = *(long*)ptr + 128;
 								IConfigurationManager* intPtr = ptr;
-								HKEY__* hHive = m_hHive;
-								num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, HKEY__*, ushort*, ushort*, ushort*, ushort*, uint*, ushort*, int>)(*(ulong*)num3))((nint)intPtr, hHive, ptr2, ptr3, ptr4, null, &num2, ptr5);
+								HKEY* hHive = m_hHive;
+								num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, HKEY*, ushort*, ushort*, ushort*, ushort*, uint*, ushort*, int>)(*(ulong*)num3))((nint)intPtr, hHive, ptr2, ptr3, ptr4, null, &num2, ptr5);
 								if (num >= 0)
 								{
-									ushort* ptr6 = (ushort*)_003CModule_003E.new_005B_005D((ulong)num2 * 2uL);
+									ushort* ptr6 = (ushort*)Module.new_005B_005D((ulong)num2 * 2uL);
 									num = (((long)(nint)ptr6 == 0) ? (-2147024882) : num);
 									if (num >= 0)
 									{
 										long num4 = *(long*)ptr + 128;
 										IConfigurationManager* intPtr2 = ptr;
-										HKEY__* hHive2 = m_hHive;
-										num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, HKEY__*, ushort*, ushort*, ushort*, ushort*, uint*, ushort*, int>)(*(ulong*)num4))((nint)intPtr2, hHive2, ptr2, ptr3, ptr4, ptr6, &num2, ptr5);
+										HKEY* hHive2 = m_hHive;
+										num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, HKEY*, ushort*, ushort*, ushort*, ushort*, uint*, ushort*, int>)(*(ulong*)num4))((nint)intPtr2, hHive2, ptr2, ptr3, ptr4, ptr6, &num2, ptr5);
 										if (num >= 0)
 										{
 											result = new string((char*)ptr6);
@@ -490,7 +524,7 @@ namespace Microsoft.Zune.Configuration
 									}
 									if (ptr6 != null)
 									{
-										_003CModule_003E.delete_005B_005D(ptr6);
+										Module.delete_005B_005D(ptr6);
 									}
 									if (num >= 0)
 									{
@@ -498,7 +532,7 @@ namespace Microsoft.Zune.Configuration
 									}
 								}
 							}
-							throw new ApplicationException(_003CModule_003E.GetErrorDescription(num));
+							throw new ApplicationException(Module.GetErrorDescription(num));
 						}
 					}
 				}
@@ -509,31 +543,35 @@ namespace Microsoft.Zune.Configuration
 		{
 			//IL_002c: Expected I, but got I8
 			//IL_0057: Expected I, but got I8
-			fixed (ushort* ptr2 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(m_basePath)))
+			fixed (char* m_basePathPtr = m_basePath.ToCharArray())
 			{
-				fixed (ushort* ptr3 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(m_instance)))
+				ushort* ptr2 = (ushort*)m_basePathPtr;
+				fixed (char* m_instancePtr = m_instance.ToCharArray())
 				{
-					fixed (ushort* ptr4 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(propertyName)))
+					ushort* ptr3 = (ushort*)m_instancePtr;
+					fixed (char* propertyNamePtr = propertyName.ToCharArray())
 					{
-						fixed (ushort* ptr5 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(value)))
+						ushort* ptr4 = (ushort*)propertyNamePtr;
+						fixed (char* valuePtr = value.ToCharArray())
 						{
+							ushort* ptr5 = (ushort*)valuePtr;
 							IConfigurationManager* ptr = null;
-							int num = _003CModule_003E.GetConfigurationManagerInstance(&ptr);
+							int num = Module.GetConfigurationManagerInstance(&ptr);
 							if (num < 0)
 							{
 								goto IL_005c;
 							}
 							long num2 = *(long*)ptr + 136;
 							IConfigurationManager* intPtr = ptr;
-							HKEY__* hHive = m_hHive;
-							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, HKEY__*, ushort*, ushort*, ushort*, ushort*, int>)(*(ulong*)num2))((nint)intPtr, hHive, ptr2, ptr3, ptr4, ptr5);
+							HKEY* hHive = m_hHive;
+							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, HKEY*, ushort*, ushort*, ushort*, ushort*, int>)(*(ulong*)num2))((nint)intPtr, hHive, ptr2, ptr3, ptr4, ptr5);
 							if (num < 0)
 							{
 								goto IL_005c;
 							}
 							goto end_IL_002b;
 							IL_005c:
-							throw new ApplicationException(_003CModule_003E.GetErrorDescription(num));
+							throw new ApplicationException(Module.GetErrorDescription(num));
 							end_IL_002b:;
 						}
 					}
@@ -550,32 +588,35 @@ namespace Microsoft.Zune.Configuration
 			//IL_00aa: Expected I, but got I8
 			//IL_00dc: Expected I, but got I8
 			List<string> list = null;
-			fixed (ushort* ptr3 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(m_basePath)))
+			fixed (char* m_basePathPtr = m_basePath.ToCharArray())
 			{
-				fixed (ushort* ptr4 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(m_instance)))
+				ushort* ptr3 = (ushort*)m_basePathPtr;
+				fixed (char* m_instancePtr = m_instance.ToCharArray())
 				{
-					fixed (ushort* ptr5 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(propertyName)))
+					ushort* ptr4 = (ushort*)m_instancePtr;
+					fixed (char* propertyNamePtr = propertyName.ToCharArray())
 					{
+						ushort* ptr5 = (ushort*)propertyNamePtr;
 						IConfigurationManager* ptr = null;
-						int num = _003CModule_003E.GetConfigurationManagerInstance(&ptr);
+						int num = Module.GetConfigurationManagerInstance(&ptr);
 						ushort* ptr2 = null;
 						uint num2 = 0u;
 						if (num >= 0)
 						{
 							long num3 = *(long*)ptr + 144;
 							IConfigurationManager* intPtr = ptr;
-							HKEY__* hHive = m_hHive;
-							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, HKEY__*, ushort*, ushort*, ushort*, ushort*, uint*, int>)(*(ulong*)num3))((nint)intPtr, hHive, ptr3, ptr4, ptr5, null, &num2);
+							HKEY* hHive = m_hHive;
+							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, HKEY*, ushort*, ushort*, ushort*, ushort*, uint*, int>)(*(ulong*)num3))((nint)intPtr, hHive, ptr3, ptr4, ptr5, null, &num2);
 							if (num >= 0)
 							{
-								ptr2 = (ushort*)_003CModule_003E.new_005B_005D((ulong)num2 * 2uL);
+								ptr2 = (ushort*)Module.new_005B_005D((ulong)num2 * 2uL);
 								num = (((long)(nint)ptr2 == 0) ? (-2147024882) : num);
 								if (num >= 0)
 								{
 									long num4 = *(long*)ptr + 144;
 									IConfigurationManager* intPtr2 = ptr;
-									HKEY__* hHive2 = m_hHive;
-									num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, HKEY__*, ushort*, ushort*, ushort*, ushort*, uint*, int>)(*(ulong*)num4))((nint)intPtr2, hHive2, ptr3, ptr4, ptr5, ptr2, &num2);
+									HKEY* hHive2 = m_hHive;
+									num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, HKEY*, ushort*, ushort*, ushort*, ushort*, uint*, int>)(*(ulong*)num4))((nint)intPtr2, hHive2, ptr3, ptr4, ptr5, ptr2, &num2);
 									if (num >= 0)
 									{
 										list = new List<string>();
@@ -586,7 +627,7 @@ namespace Microsoft.Zune.Configuration
 											{
 												string item = new string((char*)ptr6);
 												list.Add(item);
-												ptr6 = (ushort*)((long)(_003CModule_003E.lstrlenW(ptr6) + 1) * 2L + (nint)ptr6);
+												ptr6 = (ushort*)((long)(Module.lstrlenW(ptr6) + 1) * 2L + (nint)ptr6);
 											}
 											while (*ptr6 != 0);
 										}
@@ -604,11 +645,11 @@ namespace Microsoft.Zune.Configuration
 						IL_00ef:
 						if (ptr2 != null)
 						{
-							_003CModule_003E.delete_005B_005D(ptr2);
+							Module.delete_005B_005D(ptr2);
 						}
 						if (num < 0)
 						{
-							throw new ApplicationException(_003CModule_003E.GetErrorDescription(num));
+							throw new ApplicationException(Module.GetErrorDescription(num));
 						}
 						return list;
 					}
@@ -622,14 +663,17 @@ namespace Microsoft.Zune.Configuration
 			//IL_008f: Expected I4, but got I8
 			//IL_00e1: Expected I, but got I8
 			//IL_0133: Expected I, but got I8
-			fixed (ushort* ptr4 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(m_basePath)))
+			fixed (char* m_basePathPtr = m_basePath.ToCharArray())
 			{
-				fixed (ushort* ptr5 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(m_instance)))
+				ushort* ptr4 = (ushort*)m_basePathPtr;
+				fixed (char* m_instancePtr = m_instance.ToCharArray())
 				{
-					fixed (ushort* ptr6 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(propertyName)))
+					ushort* ptr5 = (ushort*)m_instancePtr;
+					fixed (char* propertyNamePtr = propertyName.ToCharArray())
 					{
+						ushort* ptr6 = (ushort*)propertyNamePtr;
 						IConfigurationManager* ptr = null;
-						int num = _003CModule_003E.GetConfigurationManagerInstance(&ptr);
+						int num = Module.GetConfigurationManagerInstance(&ptr);
 						uint num2 = 0u;
 						if (num < 0)
 						{
@@ -647,15 +691,15 @@ namespace Microsoft.Zune.Configuration
 						}
 						num2++;
 						ulong num4 = (ulong)num2 * 2uL;
-						ushort* ptr2 = (ushort*)_003CModule_003E.new_005B_005D(num4);
+						ushort* ptr2 = (ushort*)Module.new_005B_005D(num4);
 						if (ptr2 == null)
 						{
 							num = -2147024882;
 						}
 						else
 						{
-							// IL initblk instruction
-							System.Runtime.CompilerServices.Unsafe.InitBlockUnaligned(ptr2, 0, num4);
+                            // IL initblk instruction
+                            Unsafe.InitBlockUnaligned(ptr2, 0, num4);
 							ushort* ptr3 = ptr2;
 							int num5 = 0;
 							if (0 < value.Count)
@@ -663,11 +707,12 @@ namespace Microsoft.Zune.Configuration
 								do
 								{
 									int length = value[num5].Length;
-									fixed (ushort* s = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(value[num5])))
+									fixed (char* value[num5]Ptr = value[num5].ToCharArray())
 									{
+										ushort* s = (ushort*)value[num5]Ptr;
 										try
 										{
-											if (_003CModule_003E.wmemcpy_s(ptr3, num2, s, (ulong)length) == 0)
+											if (Module.wmemcpy_s(ptr3, num2, s, (ulong)length) == 0)
 											{
 												num2 += (uint)(-1 - length);
 												ptr3 = (ushort*)((long)length * 2L + (nint)ptr3 + 2);
@@ -701,13 +746,13 @@ namespace Microsoft.Zune.Configuration
 							{
 								long num6 = *(long*)ptr + 152;
 								IConfigurationManager* intPtr = ptr;
-								HKEY__* hHive = m_hHive;
-								num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, HKEY__*, ushort*, ushort*, ushort*, ushort*, int>)(*(ulong*)num6))((nint)intPtr, hHive, ptr4, ptr5, ptr6, ptr2);
+								HKEY* hHive = m_hHive;
+								num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, HKEY*, ushort*, ushort*, ushort*, ushort*, int>)(*(ulong*)num6))((nint)intPtr, hHive, ptr4, ptr5, ptr6, ptr2);
 							}
 						}
 						if (ptr2 != null)
 						{
-							_003CModule_003E.delete_005B_005D(ptr2);
+							Module.delete_005B_005D(ptr2);
 						}
 						if (num < 0)
 						{
@@ -715,7 +760,7 @@ namespace Microsoft.Zune.Configuration
 						}
 						goto end_IL_0024;
 						IL_0141:
-						throw new ApplicationException(_003CModule_003E.GetErrorDescription(num));
+						throw new ApplicationException(Module.GetErrorDescription(num));
 						end_IL_0024:;
 					}
 				}
@@ -728,21 +773,24 @@ namespace Microsoft.Zune.Configuration
 			//IL_0058: Expected I, but got I8
 			//IL_0058: Expected I, but got I8
 			//IL_0090: Expected I, but got I8
-			fixed (ushort* ptr2 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(m_basePath)))
+			fixed (char* m_basePathPtr = m_basePath.ToCharArray())
 			{
-				fixed (ushort* ptr3 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(m_instance)))
+				ushort* ptr2 = (ushort*)m_basePathPtr;
+				fixed (char* m_instancePtr = m_instance.ToCharArray())
 				{
-					fixed (ushort* ptr4 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(propertyName)))
+					ushort* ptr3 = (ushort*)m_instancePtr;
+					fixed (char* propertyNamePtr = propertyName.ToCharArray())
 					{
+						ushort* ptr4 = (ushort*)propertyNamePtr;
 						IConfigurationManager* ptr = null;
-						int num = _003CModule_003E.GetConfigurationManagerInstance(&ptr);
+						int num = Module.GetConfigurationManagerInstance(&ptr);
 						uint num2 = 0u;
 						if (num >= 0)
 						{
 							long num3 = *(long*)ptr + 160;
 							IConfigurationManager* intPtr = ptr;
-							HKEY__* hHive = m_hHive;
-							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, HKEY__*, ushort*, ushort*, ushort*, byte*, uint*, int>)(*(ulong*)num3))((nint)intPtr, hHive, ptr2, ptr3, ptr4, null, &num2);
+							HKEY* hHive = m_hHive;
+							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, HKEY*, ushort*, ushort*, ushort*, byte*, uint*, int>)(*(ulong*)num3))((nint)intPtr, hHive, ptr2, ptr3, ptr4, null, &num2);
 							if (num >= 0)
 							{
 								byte[] array = new byte[num2];
@@ -752,8 +800,8 @@ namespace Microsoft.Zune.Configuration
 									{
 										long num4 = *(long*)ptr + 160;
 										IConfigurationManager* intPtr2 = ptr;
-										HKEY__* hHive2 = m_hHive;
-										num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, HKEY__*, ushort*, ushort*, ushort*, byte*, uint*, int>)(*(ulong*)num4))((nint)intPtr2, hHive2, ptr2, ptr3, ptr4, ptr5, &num2);
+										HKEY* hHive2 = m_hHive;
+										num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, HKEY*, ushort*, ushort*, ushort*, byte*, uint*, int>)(*(ulong*)num4))((nint)intPtr2, hHive2, ptr2, ptr3, ptr4, ptr5, &num2);
 									}
 									catch
 									{
@@ -768,7 +816,7 @@ namespace Microsoft.Zune.Configuration
 								}
 							}
 						}
-						throw new ApplicationException(_003CModule_003E.GetErrorDescription(num));
+						throw new ApplicationException(Module.GetErrorDescription(num));
 					}
 				}
 			}
@@ -779,16 +827,19 @@ namespace Microsoft.Zune.Configuration
 			//IL_0034: Expected I, but got I8
 			//IL_0061: Expected I, but got I8
 			//The blocks IL_0031, IL_0040, IL_0066 are reachable both inside and outside the pinned region starting at IL_0030. ILSpy has duplicated these blocks in order to place them both within and outside the `fixed` statement.
-			fixed (ushort* ptr2 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(m_basePath)))
+			fixed (char* m_basePathPtr = m_basePath.ToCharArray())
 			{
-				fixed (ushort* ptr3 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(m_instance)))
+				ushort* ptr2 = (ushort*)m_basePathPtr;
+				fixed (char* m_instancePtr = m_instance.ToCharArray())
 				{
-					fixed (ushort* ptr4 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(propertyName)))
+					ushort* ptr3 = (ushort*)m_instancePtr;
+					fixed (char* propertyNamePtr = propertyName.ToCharArray())
 					{
+						ushort* ptr4 = (ushort*)propertyNamePtr;
 						/*pinned*/ref byte reference = ref *(byte*)null;
 						IConfigurationManager* ptr;
 						IConfigurationManager* intPtr;
-						HKEY__* hHive;
+						HKEY* hHive;
 						_003F val;
 						_003F val2;
 						_003F val3;
@@ -800,7 +851,7 @@ namespace Microsoft.Zune.Configuration
 							fixed (byte* ptr5 = &value[0])
 							{
 								ptr = null;
-								num = _003CModule_003E.GetConfigurationManagerInstance(&ptr);
+								num = Module.GetConfigurationManagerInstance(&ptr);
 								if (num < 0)
 								{
 									goto IL_0066;
@@ -813,21 +864,21 @@ namespace Microsoft.Zune.Configuration
 								val3 = ptr4;
 								val4 = ptr5;
 								intPtr2 = (nint)value.LongLength;
-								num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, HKEY__*, ushort*, ushort*, ushort*, byte*, uint, int>)(*(ulong*)num2))((nint)intPtr, hHive, (ushort*)(nint)val, (ushort*)(nint)val2, (ushort*)(nint)val3, (byte*)(nint)val4, (uint)(nint)intPtr2);
+								num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, HKEY*, ushort*, ushort*, ushort*, byte*, uint, int>)(*(ulong*)num2))((nint)intPtr, hHive, (ushort*)(nint)val, (ushort*)(nint)val2, (ushort*)(nint)val3, (byte*)(nint)val4, (uint)(nint)intPtr2);
 								if (num < 0)
 								{
 									goto IL_0066;
 								}
 								goto end_IL_0031;
 								IL_0066:
-								throw new ApplicationException(_003CModule_003E.GetErrorDescription(num));
+								throw new ApplicationException(Module.GetErrorDescription(num));
 								end_IL_0031:;
 							}
 						}
 						else
 						{
 							ptr = null;
-							num = _003CModule_003E.GetConfigurationManagerInstance(&ptr);
+							num = Module.GetConfigurationManagerInstance(&ptr);
 							if (num < 0)
 							{
 								goto IL_0066_2;
@@ -840,7 +891,7 @@ namespace Microsoft.Zune.Configuration
 							val3 = ptr4;
 							val4 = ref reference;
 							intPtr2 = (nint)value.LongLength;
-							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, HKEY__*, ushort*, ushort*, ushort*, byte*, uint, int>)(*(ulong*)num2))((nint)intPtr, hHive, (ushort*)(nint)val, (ushort*)(nint)val2, (ushort*)(nint)val3, (byte*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref val4), (uint)(nint)intPtr2);
+							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, HKEY*, ushort*, ushort*, ushort*, byte*, uint, int>)(*(ulong*)num2))((nint)intPtr, hHive, (ushort*)(nint)val, (ushort*)(nint)val2, (ushort*)(nint)val3, (byte*)Unsafe.AsPointer(ref val4), (uint)(nint)intPtr2);
 							if (num < 0)
 							{
 								goto IL_0066_2;
@@ -848,7 +899,7 @@ namespace Microsoft.Zune.Configuration
 						}
 						goto end_IL_0024;
 						IL_0066_2:
-						throw new ApplicationException(_003CModule_003E.GetErrorDescription(num));
+						throw new ApplicationException(Module.GetErrorDescription(num));
 						end_IL_0024:;
 					}
 				}
@@ -880,32 +931,34 @@ namespace Microsoft.Zune.Configuration
 			IConfigurationManager* ptr = null;
 			if (m_pNotificationMarshaller != null)
 			{
-				_003CModule_003E._ZuneShipAssert(1004u, 1181u);
+				Module._ZuneShipAssert(1004u, 1181u);
 				num = -2147418113;
 			}
-			fixed (ushort* ptr4 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(m_basePath)))
+			fixed (char* m_basePathPtr = m_basePath.ToCharArray())
 			{
-				fixed (ushort* ptr5 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(m_instance)))
+				ushort* ptr4 = (ushort*)m_basePathPtr;
+				fixed (char* m_instancePtr = m_instance.ToCharArray())
 				{
+					ushort* ptr5 = (ushort*)m_instancePtr;
 					if (num < 0)
 					{
 						goto IL_00ab;
 					}
-					num = _003CModule_003E.GetConfigurationManagerInstance(&ptr);
+					num = Module.GetConfigurationManagerInstance(&ptr);
 					if (num < 0)
 					{
 						goto IL_00ab;
 					}
-					NotificationMarshaller* ptr2 = (NotificationMarshaller*)_003CModule_003E.@new(24uL);
+					NotificationMarshaller* ptr2 = (NotificationMarshaller*)Module.@new(24uL);
 					NotificationMarshaller* ptr3;
 					try
 					{
-						ptr3 = ((ptr2 == null) ? null : _003CModule_003E.Microsoft_002EZune_002EConfiguration_002ENotificationMarshaller_002E_007Bctor_007D(ptr2, handler));
+						ptr3 = ((ptr2 == null) ? null : Module.Microsoft_002EZune_002EConfiguration_002ENotificationMarshaller_002E_007Bctor_007D(ptr2, handler));
 					}
 					catch
 					{
 						//try-fault
-						_003CModule_003E.delete(ptr2);
+						Module.delete(ptr2);
 						throw;
 					}
 					m_pNotificationMarshaller = ptr3;
@@ -916,15 +969,15 @@ namespace Microsoft.Zune.Configuration
 					}
 					long num2 = *(long*)ptr + 176;
 					IConfigurationManager* intPtr = ptr;
-					HKEY__* hHive = m_hHive;
-					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, HKEY__*, ushort*, ushort*, INotifySubscriber*, int>)(*(ulong*)num2))((nint)intPtr, hHive, ptr4, ptr5, (INotifySubscriber*)ptr3);
+					HKEY* hHive = m_hHive;
+					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, HKEY*, ushort*, ushort*, INotifySubscriber*, int>)(*(ulong*)num2))((nint)intPtr, hHive, ptr4, ptr5, (INotifySubscriber*)ptr3);
 					if (num < 0)
 					{
 						goto IL_00ab;
 					}
 					goto end_IL_003e;
 					IL_00ab:
-					throw new ApplicationException(_003CModule_003E.GetErrorDescription(num));
+					throw new ApplicationException(Module.GetErrorDescription(num));
 					end_IL_003e:;
 				}
 			}
@@ -939,26 +992,28 @@ namespace Microsoft.Zune.Configuration
 			int num = 0;
 			IConfigurationManager* ptr = null;
 			num = (((long)(nint)m_pNotificationMarshaller == 0) ? (-2147418113) : num);
-			fixed (ushort* ptr2 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(m_basePath)))
+			fixed (char* m_basePathPtr = m_basePath.ToCharArray())
 			{
-				fixed (ushort* ptr3 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(m_instance)))
+				ushort* ptr2 = (ushort*)m_basePathPtr;
+				fixed (char* m_instancePtr = m_instance.ToCharArray())
 				{
+					ushort* ptr3 = (ushort*)m_instancePtr;
 					if (num < 0)
 					{
 						goto IL_0069;
 					}
-					num = _003CModule_003E.GetConfigurationManagerInstance(&ptr);
+					num = Module.GetConfigurationManagerInstance(&ptr);
 					if (num < 0)
 					{
 						goto IL_0069;
 					}
 					long num2 = *(long*)ptr + 184;
 					IConfigurationManager* intPtr = ptr;
-					HKEY__* hHive = m_hHive;
+					HKEY* hHive = m_hHive;
 					_003F val = ptr2;
 					_003F val2 = ptr3;
 					NotificationMarshaller* pNotificationMarshaller = m_pNotificationMarshaller;
-					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, HKEY__*, ushort*, ushort*, INotifySubscriber*, int>)(*(ulong*)num2))((nint)intPtr, hHive, (ushort*)(nint)val, (ushort*)(nint)val2, (INotifySubscriber*)pNotificationMarshaller);
+					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, HKEY*, ushort*, ushort*, INotifySubscriber*, int>)(*(ulong*)num2))((nint)intPtr, hHive, (ushort*)(nint)val, (ushort*)(nint)val2, (INotifySubscriber*)pNotificationMarshaller);
 					if (num < 0)
 					{
 						goto IL_0069;
@@ -971,7 +1026,7 @@ namespace Microsoft.Zune.Configuration
 					}
 					goto end_IL_0034;
 					IL_0069:
-					throw new ApplicationException(_003CModule_003E.GetErrorDescription(num));
+					throw new ApplicationException(Module.GetErrorDescription(num));
 					end_IL_0034:;
 				}
 			}

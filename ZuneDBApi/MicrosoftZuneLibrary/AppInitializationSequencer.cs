@@ -22,22 +22,22 @@ namespace MicrosoftZuneLibrary
 		{
 			//IL_0024: Expected I, but got I8
 			//IL_0043: Expected I, but got I8
-			AsyncCallbackWrapper* ptr = (AsyncCallbackWrapper*)_003CModule_003E.@new(24uL);
+			AsyncCallbackWrapper* ptr = (AsyncCallbackWrapper*)Module.@new(24uL);
 			AsyncCallbackWrapper* ptr2;
 			try
 			{
-				ptr2 = ((ptr == null) ? null : _003CModule_003E.Microsoft_002EZune_002EUtil_002EAsyncCallbackWrapper_002E_007Bctor_007D(ptr, CorePhase2Ready));
+				ptr2 = ((ptr == null) ? null : Module.Microsoft_002EZune_002EUtil_002EAsyncCallbackWrapper_002E_007Bctor_007D(ptr, CorePhase2Ready));
 			}
 			catch
 			{
 				//try-fault
-				_003CModule_003E.delete(ptr);
+				Module.delete(ptr);
 				throw;
 			}
 			int num2;
 			if (ptr2 != null)
 			{
-				int num = _003CModule_003E.ZuneLibraryExports_002EPhase3Initialization((IAsyncCallback*)ptr2);
+				int num = Module.ZuneLibraryExports_002EPhase3Initialization((IAsyncCallback*)ptr2);
 				((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint>)(*(ulong*)(*(long*)ptr2 + 16)))((nint)ptr2);
 				if (num >= 0)
 				{

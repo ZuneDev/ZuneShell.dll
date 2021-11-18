@@ -14,7 +14,7 @@ namespace MicrosoftZuneLibrary
 			FirmwareUpdateMediator* mediator = m_mediator;
 			if (mediator != null)
 			{
-				_003CModule_003E.MicrosoftZuneLibrary_002EFirmwareUpdateMediator_002EForceCancel(mediator);
+				Module.MicrosoftZuneLibrary_002EFirmwareUpdateMediator_002EForceCancel(mediator);
 			}
 		}
 	}

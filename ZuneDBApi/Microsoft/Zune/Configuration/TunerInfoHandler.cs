@@ -55,7 +55,7 @@ namespace Microsoft.Zune.Configuration
 			//IL_0034: Expected I, but got I8
 			IService* ptr = null;
 			int num = 0;
-			if (_003CModule_003E.GetSingleton((_GUID)_003CModule_003E._GUID_bb2d1edd_1bd5_4be1_8d38_36d4f0849911, (void**)(&ptr)) >= 0)
+			if (Module.GetSingleton((_GUID)Module._GUID_bb2d1edd_1bd5_4be1_8d38_36d4f0849911, (void**)(&ptr)) >= 0)
 			{
 				IService* intPtr = ptr;
 				num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)intPtr + 200)))((nint)intPtr);
@@ -107,17 +107,17 @@ namespace Microsoft.Zune.Configuration
 			//IL_0077: Expected I, but got I8
 			//IL_007b: Expected I, but got I8
 			IService* ptr = null;
-			int singleton = _003CModule_003E.GetSingleton((_GUID)_003CModule_003E._GUID_bb2d1edd_1bd5_4be1_8d38_36d4f0849911, (void**)(&ptr));
-			RefreshCallback* ptr2 = (RefreshCallback*)_003CModule_003E.@new(24uL);
+			int singleton = Module.GetSingleton((_GUID)Module._GUID_bb2d1edd_1bd5_4be1_8d38_36d4f0849911, (void**)(&ptr));
+			RefreshCallback* ptr2 = (RefreshCallback*)Module.@new(24uL);
 			RefreshCallback* ptr3;
 			try
 			{
-				ptr3 = ((ptr2 == null) ? null : _003CModule_003E.Microsoft_002EZune_002EConfiguration_002ERefreshCallback_002E_007Bctor_007D(ptr2, this));
+				ptr3 = ((ptr2 == null) ? null : Module.Microsoft_002EZune_002EConfiguration_002ERefreshCallback_002E_007Bctor_007D(ptr2, this));
 			}
 			catch
 			{
 				//try-fault
-				_003CModule_003E.delete(ptr2);
+				Module.delete(ptr2);
 				throw;
 			}
 			singleton = (((long)(nint)ptr3 == 0) ? (-2147024882) : singleton);
@@ -136,9 +136,9 @@ namespace Microsoft.Zune.Configuration
 				((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint>)(*(ulong*)(*(long*)intPtr2 + 16)))((nint)intPtr2);
 				ptr = null;
 			}
-			if (singleton < 0 && _003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 156uL)) & (true ? 1u : 0u)) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 153uL)) >= 5u)
+			if (singleton < 0 && Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 156uL)) & (true ? 1u : 0u)) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 153uL)) >= 5u)
 			{
-				_003CModule_003E.WPP_SF_D(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 144uL), 10, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0x2af74624_002EWPP_RegisteredDevicesApi_cpp_Traceguids), (uint)singleton);
+				Module.WPP_SF_D(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 144uL), 10, (_GUID*)Unsafe.AsPointer(ref Module._003FA0x2af74624_002EWPP_RegisteredDevicesApi_cpp_Traceguids), (uint)singleton);
 			}
 		}
 
@@ -150,24 +150,25 @@ namespace Microsoft.Zune.Configuration
 			//IL_0090: Expected I, but got I8
 			//IL_0094: Expected I, but got I8
 			IService* ptr = null;
-			int singleton = _003CModule_003E.GetSingleton((_GUID)_003CModule_003E._GUID_bb2d1edd_1bd5_4be1_8d38_36d4f0849911, (void**)(&ptr));
-			DeregisterCallback* ptr2 = (DeregisterCallback*)_003CModule_003E.@new(24uL);
+			int singleton = Module.GetSingleton((_GUID)Module._GUID_bb2d1edd_1bd5_4be1_8d38_36d4f0849911, (void**)(&ptr));
+			DeregisterCallback* ptr2 = (DeregisterCallback*)Module.@new(24uL);
 			DeregisterCallback* ptr3;
 			try
 			{
-				ptr3 = ((ptr2 == null) ? null : _003CModule_003E.Microsoft_002EZune_002EConfiguration_002EDeregisterCallback_002E_007Bctor_007D(ptr2, this));
+				ptr3 = ((ptr2 == null) ? null : Module.Microsoft_002EZune_002EConfiguration_002EDeregisterCallback_002E_007Bctor_007D(ptr2, this));
 			}
 			catch
 			{
 				//try-fault
-				_003CModule_003E.delete(ptr2);
+				Module.delete(ptr2);
 				throw;
 			}
 			singleton = (((long)(nint)ptr3 == 0) ? (-2147024882) : singleton);
 			if (singleton >= 0)
 			{
-				fixed (ushort* ptr4 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(info.m_tunerId)))
+				fixed (char* info.m_tunerIdPtr = info.m_tunerId.ToCharArray())
 				{
+					ushort* ptr4 = (ushort*)info.m_tunerIdPtr;
 					try
 					{
 						long num = *(long*)ptr + 560;
@@ -191,9 +192,9 @@ namespace Microsoft.Zune.Configuration
 				((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint>)(*(ulong*)(*(long*)intPtr2 + 16)))((nint)intPtr2);
 				ptr = null;
 			}
-			if (singleton < 0 && _003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 156uL)) & (true ? 1u : 0u)) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 153uL)) >= 5u)
+			if (singleton < 0 && Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 156uL)) & (true ? 1u : 0u)) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 153uL)) >= 5u)
 			{
-				_003CModule_003E.WPP_SF_D(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 144uL), 11, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0x2af74624_002EWPP_RegisteredDevicesApi_cpp_Traceguids), (uint)singleton);
+				Module.WPP_SF_D(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 144uL), 11, (_GUID*)Unsafe.AsPointer(ref Module._003FA0x2af74624_002EWPP_RegisteredDevicesApi_cpp_Traceguids), (uint)singleton);
 			}
 		}
 
@@ -296,11 +297,12 @@ namespace Microsoft.Zune.Configuration
 			}
 			do
 			{
-				fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(list[num].m_tunerId)))
+				fixed (char* list[num].m_tunerIdPtr = list[num].m_tunerId.ToCharArray())
 				{
+					ushort* ptr = (ushort*)list[num].m_tunerIdPtr;
 					try
 					{
-						if (2 == _003CModule_003E.CompareStringW(1033u, 1u, pwszTunerId, -1, ptr, -1))
+						if (2 == Module.CompareStringW(1033u, 1u, pwszTunerId, -1, ptr, -1))
 						{
 							goto IL_0076;
 						}

@@ -80,12 +80,14 @@ namespace Microsoft.Zune.Playlist
 			}
 			else
 			{
-				fixed (ushort* ptr2 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(title)))
+				fixed (char* titlePtr = title.ToCharArray())
 				{
+					ushort* ptr2 = (ushort*)titlePtr;
 					try
 					{
-						fixed (ushort* ptr3 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(author)))
+						fixed (char* authorPtr = author.ToCharArray())
 						{
+							ushort* ptr3 = (ushort*)authorPtr;
 							try
 							{
 								EPlaylistCreateConflictAction ePlaylistCreateConflictAction = (EPlaylistCreateConflictAction)0;
@@ -99,11 +101,11 @@ namespace Microsoft.Zune.Playlist
 								}
 								_GUID gUID;
 								*(int*)(&gUID) = 0;
-								// IL initblk instruction
-								System.Runtime.CompilerServices.Unsafe.InitBlockUnaligned(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref gUID, 4), 0, 12);
+                                // IL initblk instruction
+                                Unsafe.InitBlockUnaligned(ref Unsafe.AddByteOffset(ref gUID, 4), 0, 12);
 								if (serviceMediaId != null)
 								{
-									gUID = _003CModule_003E.GuidToGUID((Guid)serviceMediaId);
+									gUID = Module.GuidToGUID((Guid)serviceMediaId);
 								}
 								bool flag6 = ((!(flag3 || flag)) ? true : false);
 								EPlaylistType ePlaylistType;
@@ -125,7 +127,7 @@ namespace Microsoft.Zune.Playlist
 									}
 									ePlaylistType = ePlaylistType2;
 								}
-								_GUID* ptr = (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref serviceMediaId != null ? ref gUID : ref *(_GUID*)null);
+								_GUID* ptr = (_GUID*)Unsafe.AsPointer(ref serviceMediaId != null ? ref gUID : ref *(_GUID*)null);
 								long num = *(long*)m_pPlaylistManager + 24;
 								IPlaylistManager* pPlaylistManager = m_pPlaylistManager;
 								int num2;
@@ -282,8 +284,9 @@ namespace Microsoft.Zune.Playlist
 			}
 			else
 			{
-				fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(newTitle)))
+				fixed (char* newTitlePtr = newTitle.ToCharArray())
 				{
+					ushort* ptr = (ushort*)newTitlePtr;
 					try
 					{
 						long num = *(long*)m_pPlaylistManager + 72;
@@ -308,23 +311,23 @@ namespace Microsoft.Zune.Playlist
 			{
 				return -2147467261;
 			}
-			PlaylistAsyncOperation* ptr = (PlaylistAsyncOperation*)_003CModule_003E.@new(24uL);
+			PlaylistAsyncOperation* ptr = (PlaylistAsyncOperation*)Module.@new(24uL);
 			PlaylistAsyncOperation* ptr2;
 			try
 			{
-				ptr2 = ((ptr == null) ? null : _003CModule_003E.Microsoft_002EZune_002EPlaylist_002EPlaylistAsyncOperation_002E_007Bctor_007D(ptr));
+				ptr2 = ((ptr == null) ? null : Module.Microsoft_002EZune_002EPlaylist_002EPlaylistAsyncOperation_002E_007Bctor_007D(ptr));
 			}
 			catch
 			{
 				//try-fault
-				_003CModule_003E.delete(ptr);
+				Module.delete(ptr);
 				throw;
 			}
 			int num = (((long)(nint)ptr2 == 0) ? (-2147024882) : 0);
 			int num2 = num;
 			if (num >= 0)
 			{
-				num2 = _003CModule_003E.Microsoft_002EZune_002EPlaylist_002EPlaylistAsyncOperation_002EAsyncSavePlaylistAsStatic(ptr2, playlistId, m_pPlaylistManager, playlistAsyncOperationCompleted);
+				num2 = Module.Microsoft_002EZune_002EPlaylist_002EPlaylistAsyncOperation_002EAsyncSavePlaylistAsStatic(ptr2, playlistId, m_pPlaylistManager, playlistAsyncOperationCompleted);
 				if (num2 >= 0)
 				{
 					goto IL_0066;
@@ -332,7 +335,7 @@ namespace Microsoft.Zune.Playlist
 			}
 			if (ptr2 != null)
 			{
-				_003CModule_003E.Microsoft_002EZune_002EPlaylist_002EPlaylistAsyncOperation_002E__delDtor(ptr2, 1u);
+				Module.Microsoft_002EZune_002EPlaylist_002EPlaylistAsyncOperation_002E__delDtor(ptr2, 1u);
 			}
 			goto IL_0066;
 			IL_0066:
@@ -347,28 +350,29 @@ namespace Microsoft.Zune.Playlist
 			string result = candidateTitle;
 			if (m_pPlaylistManager != null)
 			{
-				fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(candidateTitle)))
+				fixed (char* candidateTitlePtr = candidateTitle.ToCharArray())
 				{
+					ushort* ptr = (ushort*)candidateTitlePtr;
 					try
 					{
 						CComPropVariant cComPropVariant;
-						// IL initblk instruction
-						System.Runtime.CompilerServices.Unsafe.InitBlock(ref cComPropVariant, 0, 24);
+                        // IL initblk instruction
+                        Unsafe.InitBlock(ref cComPropVariant, 0, 24);
 						try
 						{
 							long num = *(long*)m_pPlaylistManager + 136;
 							IPlaylistManager* pPlaylistManager = m_pPlaylistManager;
 							int num2;
-							((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, int*, tagPROPVARIANT*, int>)(*(ulong*)num))((nint)pPlaylistManager, ptr, &num2, (tagPROPVARIANT*)(&cComPropVariant));
-							result = new string((char*)System.Runtime.CompilerServices.Unsafe.As<CComPropVariant, ulong>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref cComPropVariant, 8)));
+							((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, int*, PROPVARIANT, int>)(*(ulong*)num))((nint)pPlaylistManager, ptr, &num2, (PROPVARIANT)(&cComPropVariant));
+							result = new string((char*)Unsafe.As<CComPropVariant, ulong>(ref Unsafe.AddByteOffset(ref cComPropVariant, 8)));
 						}
 						catch
 						{
 							//try-fault
-							_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPropVariant*, void>)(&_003CModule_003E.CComPropVariant_002E_007Bdtor_007D), &cComPropVariant);
+							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPropVariant*, void>)(&Module.CComPropVariant_002E_007Bdtor_007D), &cComPropVariant);
 							throw;
 						}
-						_003CModule_003E.CComPropVariant_002EClear(&cComPropVariant);
+						Module.CComPropVariant_002EClear(&cComPropVariant);
 					}
 					catch
 					{
@@ -392,7 +396,7 @@ namespace Microsoft.Zune.Playlist
 			else
 			{
 				int num = -1;
-				_GUID gUID = _003CModule_003E.GuidToGUID(serviceMediaId);
+				_GUID gUID = Module.GuidToGUID(serviceMediaId);
 				IPlaylistManager* pPlaylistManager = m_pPlaylistManager;
 				hr = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID, int*, int>)(*(ulong*)(*(long*)pPlaylistManager + 168)))((nint)pPlaylistManager, gUID, &num);
 				playlistId = num;
@@ -456,13 +460,13 @@ namespace Microsoft.Zune.Playlist
 		{
 			//IL_0009: Expected I, but got I8
 			IPlaylistManager* pPlaylistManager = null;
-			int singleton = _003CModule_003E.GetSingleton((_GUID)_003CModule_003E._GUID_c2d9122b_f648_4b95_92fc_11f2e7f326d7, (void**)(&pPlaylistManager));
+			int singleton = Module.GetSingleton((_GUID)Module._GUID_c2d9122b_f648_4b95_92fc_11f2e7f326d7, (void**)(&pPlaylistManager));
 			if (singleton >= 0)
 			{
 				m_pPlaylistManager = pPlaylistManager;
 				return;
 			}
-			throw new ApplicationException(_003CModule_003E.GetErrorDescription(singleton));
+			throw new ApplicationException(Module.GetErrorDescription(singleton));
 		}
 
 		protected virtual void Dispose([MarshalAs(UnmanagedType.U1)] bool P_0)

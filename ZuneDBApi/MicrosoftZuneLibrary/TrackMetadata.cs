@@ -131,7 +131,7 @@ namespace MicrosoftZuneLibrary
 						throw new COMException("ITrackInfo::GetComposer failed", num);
 					}
 					result = new string((char*)ptr);
-					_003CModule_003E.SysFreeString(ptr);
+					Module.SysFreeString(ptr);
 				}
 				return result;
 			}
@@ -141,17 +141,18 @@ namespace MicrosoftZuneLibrary
 				ITrackInfo* pTrackInfo = m_pTrackInfo;
 				if (pTrackInfo != null && Composer.CompareTo(value) != 0)
 				{
-					fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(value)))
+					fixed (char* valuePtr = value.ToCharArray())
 					{
+						ushort* ptr = (ushort*)valuePtr;
 						try
 						{
-							ushort* ptr2 = _003CModule_003E.SysAllocString(ptr);
+							ushort* ptr2 = Module.SysAllocString(ptr);
 							if (ptr2 == null)
 							{
 								throw new COMException("SysAllocString failed", -2147024882);
 							}
 							int num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, int>)(*(ulong*)(*(long*)pTrackInfo + 32)))((nint)pTrackInfo, ptr2);
-							_003CModule_003E.SysFreeString(ptr2);
+							Module.SysFreeString(ptr2);
 							if (num != 0)
 							{
 								throw new COMException("ITrackInfo::SetComposer failed", num);
@@ -194,7 +195,7 @@ namespace MicrosoftZuneLibrary
 						throw new COMException("ITrackInfo::GetConductor failed", num);
 					}
 					result = new string((char*)ptr);
-					_003CModule_003E.SysFreeString(ptr);
+					Module.SysFreeString(ptr);
 				}
 				return result;
 			}
@@ -204,17 +205,18 @@ namespace MicrosoftZuneLibrary
 				ITrackInfo* pTrackInfo = m_pTrackInfo;
 				if (pTrackInfo != null && Conductor.CompareTo(value) != 0)
 				{
-					fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(value)))
+					fixed (char* valuePtr = value.ToCharArray())
 					{
+						ushort* ptr = (ushort*)valuePtr;
 						try
 						{
-							ushort* ptr2 = _003CModule_003E.SysAllocString(ptr);
+							ushort* ptr2 = Module.SysAllocString(ptr);
 							if (ptr2 == null)
 							{
 								throw new COMException("SysAllocString failed", -2147024882);
 							}
 							int num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, int>)(*(ulong*)(*(long*)pTrackInfo + 48)))((nint)pTrackInfo, ptr2);
-							_003CModule_003E.SysFreeString(ptr2);
+							Module.SysFreeString(ptr2);
 							if (num != 0)
 							{
 								throw new COMException("ITrackInfo::SetConductor failed", num);
@@ -257,7 +259,7 @@ namespace MicrosoftZuneLibrary
 						throw new COMException("ITrackInfo::GetGenre failed", num);
 					}
 					result = new string((char*)ptr);
-					_003CModule_003E.SysFreeString(ptr);
+					Module.SysFreeString(ptr);
 				}
 				return result;
 			}
@@ -267,17 +269,18 @@ namespace MicrosoftZuneLibrary
 				ITrackInfo* pTrackInfo = m_pTrackInfo;
 				if (pTrackInfo != null && Genre.CompareTo(value) != 0)
 				{
-					fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(value)))
+					fixed (char* valuePtr = value.ToCharArray())
 					{
+						ushort* ptr = (ushort*)valuePtr;
 						try
 						{
-							ushort* ptr2 = _003CModule_003E.SysAllocString(ptr);
+							ushort* ptr2 = Module.SysAllocString(ptr);
 							if (ptr2 == null)
 							{
 								throw new COMException("SysAllocString failed", -2147024882);
 							}
 							int num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, int>)(*(ulong*)(*(long*)pTrackInfo + 96)))((nint)pTrackInfo, ptr2);
-							_003CModule_003E.SysFreeString(ptr2);
+							Module.SysFreeString(ptr2);
 							if (num != 0)
 							{
 								throw new COMException("ITrackInfo::SetGenre failed", num);
@@ -320,7 +323,7 @@ namespace MicrosoftZuneLibrary
 						throw new COMException("ITrackInfo::GetArtist failed", num);
 					}
 					result = new string((char*)ptr);
-					_003CModule_003E.SysFreeString(ptr);
+					Module.SysFreeString(ptr);
 				}
 				return result;
 			}
@@ -330,17 +333,18 @@ namespace MicrosoftZuneLibrary
 				ITrackInfo* pTrackInfo = m_pTrackInfo;
 				if (pTrackInfo != null && TrackArtist.CompareTo(value) != 0)
 				{
-					fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(value)))
+					fixed (char* valuePtr = value.ToCharArray())
 					{
+						ushort* ptr = (ushort*)valuePtr;
 						try
 						{
-							ushort* ptr2 = _003CModule_003E.SysAllocString(ptr);
+							ushort* ptr2 = Module.SysAllocString(ptr);
 							if (ptr2 == null)
 							{
 								throw new COMException("SysAllocString failed", -2147024882);
 							}
 							int num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, int>)(*(ulong*)(*(long*)pTrackInfo + 64)))((nint)pTrackInfo, ptr2);
-							_003CModule_003E.SysFreeString(ptr2);
+							Module.SysFreeString(ptr2);
 							if (num != 0)
 							{
 								throw new COMException("ITrackInfo::SetArtist failed", num);
@@ -383,7 +387,7 @@ namespace MicrosoftZuneLibrary
 						throw new COMException("ITrackInfo::GetTitle failed", num);
 					}
 					result = new string((char*)ptr);
-					_003CModule_003E.SysFreeString(ptr);
+					Module.SysFreeString(ptr);
 				}
 				return result;
 			}
@@ -393,17 +397,18 @@ namespace MicrosoftZuneLibrary
 				ITrackInfo* pTrackInfo = m_pTrackInfo;
 				if (pTrackInfo != null && TrackTitle.CompareTo(value) != 0)
 				{
-					fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(value)))
+					fixed (char* valuePtr = value.ToCharArray())
 					{
+						ushort* ptr = (ushort*)valuePtr;
 						try
 						{
-							ushort* ptr2 = _003CModule_003E.SysAllocString(ptr);
+							ushort* ptr2 = Module.SysAllocString(ptr);
 							if (ptr2 == null)
 							{
 								throw new COMException("SysAllocString failed", -2147024882);
 							}
 							int num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, int>)(*(ulong*)(*(long*)pTrackInfo + 80)))((nint)pTrackInfo, ptr2);
-							_003CModule_003E.SysFreeString(ptr2);
+							Module.SysFreeString(ptr2);
 							if (num != 0)
 							{
 								throw new COMException("ITrackInfo::SetTitle failed", num);

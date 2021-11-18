@@ -1,23 +1,23 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<AssemblyName>ZuneDBApi</AssemblyName>
 		<GenerateAssemblyInfo>False</GenerateAssemblyInfo>
-		<TargetFramework>net20</TargetFramework>
-		<PlatformTarget>x64</PlatformTarget>
-	</PropertyGroup>
-	<PropertyGroup>
-		<LangVersion>Preview</LangVersion>
+		<TargetFramework>net5.0</TargetFramework>
+		<PlatformTarget>x86;x64</PlatformTarget>
+		<ApplicationManifest>app.manifest</ApplicationManifest>
+		<LangVersion>latest</LangVersion>
 		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 	</PropertyGroup>
-	<PropertyGroup>
-		<ApplicationManifest>app.manifest</ApplicationManifest>
-	</PropertyGroup>
-	<ItemGroup />
+	
 	<ItemGroup>
-		<Reference Include="Microsoft.VisualC" />
-		<Reference Include="System.Xml" />
 		<Reference Include="UIX">
 			<HintPath>C:\Program Files\Zune\UIX.dll</HintPath>
 		</Reference>
+
+		<PackageReference Include="Vanara.PInvoke.User32" Version="3.3.14" />
+		<PackageReference Include="Vanara.PInvoke.Kernel32" Version="3.3.14" />
+		<PackageReference Include="Vanara.PInvoke.Ole" Version="3.3.14" />
+		<PackageReference Include="Vanara.PInvoke.Gdi32" Version="3.3.14" />
+		<PackageReference Include="Vanara.PInvoke.Shell32" Version="3.3.14" />
 	</ItemGroup>
 </Project>

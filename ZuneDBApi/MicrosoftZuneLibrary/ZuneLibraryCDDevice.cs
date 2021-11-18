@@ -73,10 +73,10 @@ namespace MicrosoftZuneLibrary
 				//IL_001e: Expected I, but got I8
 				//IL_0037: Expected I, but got I8
 				bool flag = true;
-				if (!_003CModule_003E.IsLonghornOrBetter())
+				if (!Module.IsLonghornOrBetter())
 				{
 					IUnknown* ptr;
-					flag = (byte)((_003CModule_003E.CoCreateInstance((_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.CLSID_MsftDiscMaster2), null, 23u, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._GUID_27354130_7f64_5b0f_8f00_5d77afbe261e), (void**)(&ptr)) >= 0) ? 1u : 0u) != 0;
+					flag = (byte)((Module.CoCreateInstance((_GUID*)Unsafe.AsPointer(ref Module.CLSID_MsftDiscMaster2), null, 23u, (_GUID*)Unsafe.AsPointer(ref Module._GUID_27354130_7f64_5b0f_8f00_5d77afbe261e), (void**)(&ptr)) >= 0) ? 1u : 0u) != 0;
 					if (flag)
 					{
 						IUnknown* intPtr = ptr;
@@ -322,7 +322,7 @@ namespace MicrosoftZuneLibrary
 						if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort**, int>)(*(ulong*)(*(long*)ptr + 32)))((nint)intPtr, &ptr2) >= 0)
 						{
 							result = new string((char*)ptr2);
-							_003CModule_003E.SysFreeString(ptr2);
+							Module.SysFreeString(ptr2);
 						}
 						IWMPCDMediaInfo* intPtr2 = ptr;
 						((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint>)(*(ulong*)(*(long*)intPtr2 + 16)))((nint)intPtr2);
@@ -469,7 +469,7 @@ namespace MicrosoftZuneLibrary
 					if (num >= 0)
 					{
 						strBuilder.Append(new string((char*)ptr2));
-						_003CModule_003E.SysFreeString(ptr2);
+						Module.SysFreeString(ptr2);
 					}
 					IWMPCDMediaInfo* intPtr2 = ptr;
 					((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint>)(*(ulong*)(*(long*)intPtr2 + 16)))((nint)intPtr2);
@@ -510,10 +510,10 @@ namespace MicrosoftZuneLibrary
 			((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EQueryPropertyBagProp, int, int>)(*(ulong*)(*(long*)iQueryPropertyBag + 56)))((nint)iQueryPropertyBag, (EQueryPropertyBagProp)21, 437);
 			IPlaylist* ptr = null;
 			IDatabaseQueryResults* ptr2 = null;
-			int num = _003CModule_003E.ZuneLibraryExports_002EQueryDatabase(EQueryType.eQueryTypePlaylistContentByPlaylistId, iQueryPropertyBag, &ptr2, null);
+			int num = Module.ZuneLibraryExports_002EQueryDatabase(EQueryType.eQueryTypePlaylistContentByPlaylistId, iQueryPropertyBag, &ptr2, null);
 			if (num >= 0)
 			{
-				num = _003CModule_003E.ZuneLibraryExports_002ECreateEmptyPlaylist(&ptr);
+				num = Module.ZuneLibraryExports_002ECreateEmptyPlaylist(&ptr);
 			}
 			uint num2 = 0u;
 			if (num >= 0)
@@ -528,42 +528,42 @@ namespace MicrosoftZuneLibrary
 						while (num3 < num2)
 						{
 							CComPropVariant cComPropVariant;
-							// IL initblk instruction
-							System.Runtime.CompilerServices.Unsafe.InitBlock(ref cComPropVariant, 0, 24);
+                            // IL initblk instruction
+                            Unsafe.InitBlock(ref cComPropVariant, 0, 24);
 							try
 							{
 								CComPropVariant cComPropVariant2;
-								// IL initblk instruction
-								System.Runtime.CompilerServices.Unsafe.InitBlock(ref cComPropVariant2, 0, 24);
+                                // IL initblk instruction
+                                Unsafe.InitBlock(ref cComPropVariant2, 0, 24);
 								try
 								{
 									IDatabaseQueryResults* intPtr2 = ptr2;
-									num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, uint, tagPROPVARIANT*, int>)(*(ulong*)(*(long*)ptr2 + 48)))((nint)intPtr2, num3, 233u, (tagPROPVARIANT*)(&cComPropVariant));
+									num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)ptr2 + 48)))((nint)intPtr2, num3, 233u, (PROPVARIANT)(&cComPropVariant));
 									if (num >= 0)
 									{
 										IDatabaseQueryResults* intPtr3 = ptr2;
-										num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, uint, tagPROPVARIANT*, int>)(*(ulong*)(*(long*)ptr2 + 48)))((nint)intPtr3, num3, 234u, (tagPROPVARIANT*)(&cComPropVariant2));
+										num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)ptr2 + 48)))((nint)intPtr3, num3, 234u, (PROPVARIANT)(&cComPropVariant2));
 										if (num >= 0)
 										{
-											num = _003CModule_003E.ZuneLibraryExports_002EAddItemToPlaylist(System.Runtime.CompilerServices.Unsafe.As<CComPropVariant, int>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref cComPropVariant, 8)), System.Runtime.CompilerServices.Unsafe.As<CComPropVariant, int>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref cComPropVariant2, 8)), ptr);
+											num = Module.ZuneLibraryExports_002EAddItemToPlaylist(Unsafe.As<CComPropVariant, int>(ref Unsafe.AddByteOffset(ref cComPropVariant, 8)), Unsafe.As<CComPropVariant, int>(ref Unsafe.AddByteOffset(ref cComPropVariant2, 8)), ptr);
 										}
 									}
 								}
 								catch
 								{
 									//try-fault
-									_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPropVariant*, void>)(&_003CModule_003E.CComPropVariant_002E_007Bdtor_007D), &cComPropVariant2);
+									Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPropVariant*, void>)(&Module.CComPropVariant_002E_007Bdtor_007D), &cComPropVariant2);
 									throw;
 								}
-								_003CModule_003E.CComPropVariant_002EClear(&cComPropVariant2);
+								Module.CComPropVariant_002EClear(&cComPropVariant2);
 							}
 							catch
 							{
 								//try-fault
-								_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPropVariant*, void>)(&_003CModule_003E.CComPropVariant_002E_007Bdtor_007D), &cComPropVariant);
+								Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPropVariant*, void>)(&Module.CComPropVariant_002E_007Bdtor_007D), &cComPropVariant);
 								throw;
 							}
-							_003CModule_003E.CComPropVariant_002EClear(&cComPropVariant);
+							Module.CComPropVariant_002EClear(&cComPropVariant);
 							num3++;
 							if (num < 0)
 							{
@@ -698,15 +698,16 @@ namespace MicrosoftZuneLibrary
 			{
 				return -2147024809;
 			}
-			fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(strVolumeLabel)))
+			fixed (char* strVolumeLabelPtr = strVolumeLabel.ToCharArray())
 			{
-				ushort* ptr2 = _003CModule_003E.SysAllocString(ptr);
+				ushort* ptr = (ushort*)strVolumeLabelPtr;
+				ushort* ptr2 = Module.SysAllocString(ptr);
 				if (ptr2 == null)
 				{
 					return -2147024882;
 				}
 				HRESULT result = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, int>)(*(ulong*)(*(long*)burnPublisher + 64)))((nint)burnPublisher, ptr2);
-				_003CModule_003E.SysFreeString(ptr2);
+				Module.SysFreeString(ptr2);
 				return result;
 			}
 		}
@@ -762,16 +763,16 @@ namespace MicrosoftZuneLibrary
 		{
 			//IL_0019: Expected I, but got I8
 			//IL_0046: Expected I, but got I8
-			CBurnPublisherCallback* ptr = (CBurnPublisherCallback*)_003CModule_003E.@new(24uL);
+			CBurnPublisherCallback* ptr = (CBurnPublisherCallback*)Module.@new(24uL);
 			CBurnPublisherCallback* ptr2;
 			try
 			{
-				ptr2 = ((ptr == null) ? null : _003CModule_003E.MicrosoftZuneLibrary_002ECBurnPublisherCallback_002E_007Bctor_007D(ptr, this));
+				ptr2 = ((ptr == null) ? null : Module.MicrosoftZuneLibrary_002ECBurnPublisherCallback_002E_007Bctor_007D(ptr, this));
 			}
 			catch
 			{
 				//try-fault
-				_003CModule_003E.delete(ptr);
+				Module.delete(ptr);
 				throw;
 			}
 			int result;

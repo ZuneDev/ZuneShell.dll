@@ -75,16 +75,16 @@ namespace Microsoft.Zune.QuickMix
 			{
 				return -2147467261;
 			}
-			QuickMixCallbackProxy* ptr = (QuickMixCallbackProxy*)_003CModule_003E.@new(48uL);
+			QuickMixCallbackProxy* ptr = (QuickMixCallbackProxy*)Module.@new(48uL);
 			QuickMixCallbackProxy* ptr2;
 			try
 			{
-				ptr2 = ((ptr == null) ? null : _003CModule_003E.Microsoft_002EZune_002EQuickMix_002EQuickMixCallbackProxy_002E_007Bctor_007D(ptr, similarBatchHandler, batchEndHandler));
+				ptr2 = ((ptr == null) ? null : Module.Microsoft_002EZune_002EQuickMix_002EQuickMixCallbackProxy_002E_007Bctor_007D(ptr, similarBatchHandler, batchEndHandler));
 			}
 			catch
 			{
 				//try-fault
-				_003CModule_003E.delete(ptr);
+				Module.delete(ptr);
 				throw;
 			}
 			int num = (((long)(nint)ptr2 == 0) ? (-2147024882) : 0);
@@ -112,16 +112,16 @@ namespace Microsoft.Zune.QuickMix
 			{
 				return -2147467261;
 			}
-			QuickMixCallbackProxy* ptr = (QuickMixCallbackProxy*)_003CModule_003E.@new(48uL);
+			QuickMixCallbackProxy* ptr = (QuickMixCallbackProxy*)Module.@new(48uL);
 			QuickMixCallbackProxy* ptr2;
 			try
 			{
-				ptr2 = ((ptr == null) ? null : _003CModule_003E.Microsoft_002EZune_002EQuickMix_002EQuickMixCallbackProxy_002E_007Bctor_007D(ptr, similarBatchHandler, batchEndHandler));
+				ptr2 = ((ptr == null) ? null : Module.Microsoft_002EZune_002EQuickMix_002EQuickMixCallbackProxy_002E_007Bctor_007D(ptr, similarBatchHandler, batchEndHandler));
 			}
 			catch
 			{
 				//try-fault
-				_003CModule_003E.delete(ptr);
+				Module.delete(ptr);
 				throw;
 			}
 			int num = (((long)(nint)ptr2 == 0) ? (-2147024882) : 0);
@@ -150,16 +150,16 @@ namespace Microsoft.Zune.QuickMix
 			{
 				return -2147467261;
 			}
-			QuickMixCallbackProxy* ptr = (QuickMixCallbackProxy*)_003CModule_003E.@new(48uL);
+			QuickMixCallbackProxy* ptr = (QuickMixCallbackProxy*)Module.@new(48uL);
 			QuickMixCallbackProxy* ptr2;
 			try
 			{
-				ptr2 = ((ptr == null) ? null : _003CModule_003E.Microsoft_002EZune_002EQuickMix_002EQuickMixCallbackProxy_002E_007Bctor_007D(ptr, similarBatchHandler, batchEndHandler));
+				ptr2 = ((ptr == null) ? null : Module.Microsoft_002EZune_002EQuickMix_002EQuickMixCallbackProxy_002E_007Bctor_007D(ptr, similarBatchHandler, batchEndHandler));
 			}
 			catch
 			{
 				//try-fault
-				_003CModule_003E.delete(ptr);
+				Module.delete(ptr);
 				throw;
 			}
 			int num = (((long)(nint)ptr2 == 0) ? (-2147024882) : 0);
@@ -183,7 +183,7 @@ namespace Microsoft.Zune.QuickMix
 			//IL_0023: Expected I, but got I8
 			//IL_0031: Expected I, but got I8
 			WBSTRString wBSTRString;
-			_003CModule_003E.WBSTRString_002E_007Bctor_007D(&wBSTRString);
+			Module.WBSTRString_002E_007Bctor_007D(&wBSTRString);
 			HRESULT result;
 			try
 			{
@@ -198,10 +198,10 @@ namespace Microsoft.Zune.QuickMix
 			catch
 			{
 				//try-fault
-				_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<WBSTRString*, void>)(&_003CModule_003E.WBSTRString_002E_007Bdtor_007D), &wBSTRString);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<WBSTRString*, void>)(&Module.WBSTRString_002E_007Bdtor_007D), &wBSTRString);
 				throw;
 			}
-			_003CModule_003E.WBSTRString_002E_007Bdtor_007D(&wBSTRString);
+			Module.WBSTRString_002E_007Bdtor_007D(&wBSTRString);
 			return result;
 		}
 
@@ -209,8 +209,9 @@ namespace Microsoft.Zune.QuickMix
 		{
 			//IL_0048: Expected I, but got I8
 			int num = -1;
-			fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(playlistTitle)))
+			fixed (char* playlistTitlePtr = playlistTitle.ToCharArray())
 			{
+				ushort* ptr = (ushort*)playlistTitlePtr;
 				int num2;
 				EPlaylistCreateConflictAction ePlaylistCreateConflictAction;
 				if (createOption != 0)

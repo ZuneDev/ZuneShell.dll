@@ -12,7 +12,7 @@ namespace MicrosoftZuneInterop
 		public unsafe QueryPropertyBag()
 		{
 			IQueryPropertyBag* pPropertyBag;
-			_003CModule_003E.ZuneLibraryExports_002ECreatePropertyBag(&pPropertyBag);
+			Module.ZuneLibraryExports_002ECreatePropertyBag(&pPropertyBag);
 			m_pPropertyBag = pPropertyBag;
 		}
 
@@ -63,8 +63,9 @@ namespace MicrosoftZuneInterop
 				{
 					goto IL_00c4;
 				}
-				fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars((string)value)))
+				fixed (char* (string)valuePtr = (string)value.ToCharArray())
 				{
+					ushort* ptr = (ushort*)(string)valuePtr;
 					try
 					{
 						long num4 = *(long*)m_pPropertyBag + 40;
@@ -85,7 +86,7 @@ namespace MicrosoftZuneInterop
 			}
 			goto IL_00c4;
 			IL_00c4:
-			throw new ApplicationException(_003CModule_003E.GetErrorDescription(num));
+			throw new ApplicationException(Module.GetErrorDescription(num));
 		}
 
 		[return: MarshalAs(UnmanagedType.U1)]
@@ -106,14 +107,15 @@ namespace MicrosoftZuneInterop
 		{
 			//IL_0017: Expected I, but got I8
 			//IL_0023: Expected I, but got I8
-			fixed (ushort* ptr2 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(propertyName)))
+			fixed (char* propertyNamePtr = propertyName.ToCharArray())
 			{
+				ushort* ptr2 = (ushort*)propertyNamePtr;
 				int num = 0;
-				PropIdMapEntry* ptr = (PropIdMapEntry*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.MicrosoftZuneInterop_002E_003FA0x52c37a46_002EkPropIdMap);
+				PropIdMapEntry* ptr = (PropIdMapEntry*)Unsafe.AsPointer(ref Module.MicrosoftZuneInterop_002E_003FA0x52c37a46_002EkPropIdMap);
 				EQueryPropertyBagProp eQueryPropertyBagProp;
 				while (true)
 				{
-					if (_003CModule_003E._wcsicmp(ptr2, (ushort*)(*(ulong*)ptr)) != 0)
+					if (Module._wcsicmp(ptr2, (ushort*)(*(ulong*)ptr)) != 0)
 					{
 						num++;
 						ptr = (PropIdMapEntry*)((ulong)(nint)ptr + 16uL);
@@ -124,7 +126,7 @@ namespace MicrosoftZuneInterop
 					}
 					else
 					{
-						eQueryPropertyBagProp = *(EQueryPropertyBagProp*)((long)num * 16L + (ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref _003CModule_003E.MicrosoftZuneInterop_002E_003FA0x52c37a46_002EkPropIdMap, 8)));
+						eQueryPropertyBagProp = *(EQueryPropertyBagProp*)((long)num * 16L + (ref Unsafe.AddByteOffset(ref Module.MicrosoftZuneInterop_002E_003FA0x52c37a46_002EkPropIdMap, 8)));
 						if (eQueryPropertyBagProp != (EQueryPropertyBagProp)(-1))
 						{
 							break;
@@ -146,7 +148,7 @@ namespace MicrosoftZuneInterop
 			//IL_0022: Expected I, but got I8
 			//IL_0064: Expected I8, but got I
 			int count = multiIds.Count;
-			IDList* ptr = (IDList*)_003CModule_003E.@new(16uL);
+			IDList* ptr = (IDList*)Module.@new(16uL);
 			IDList* ptr2;
 			try
 			{
@@ -163,7 +165,7 @@ namespace MicrosoftZuneInterop
 			catch
 			{
 				//try-fault
-				_003CModule_003E.delete(ptr);
+				Module.delete(ptr);
 				throw;
 			}
 			if (ptr2 != null)
@@ -171,7 +173,7 @@ namespace MicrosoftZuneInterop
 				*(int*)ptr2 = count;
 				ulong num = (ulong)count;
 				ulong num2 = ((num > 4611686018427387903L) ? ulong.MaxValue : (num * 4));
-				*(long*)((ulong)(nint)ptr2 + 8uL) = (nint)_003CModule_003E.new_005B_005D(num2);
+				*(long*)((ulong)(nint)ptr2 + 8uL) = (nint)Module.new_005B_005D(num2);
 				int num3 = 0;
 				long num4 = 0L;
 				long num5 = count;
@@ -200,7 +202,7 @@ namespace MicrosoftZuneInterop
 			int* ptr = null;
 			int* ptr2 = null;
 			IMultiSortAttributes* ptr3;
-			if (_003CModule_003E.ZuneLibraryExports_002ECreateMultiSortAttributes(num, &ptr3) >= 0)
+			if (Module.ZuneLibraryExports_002ECreateMultiSortAttributes(num, &ptr3) >= 0)
 			{
 				IMultiSortAttributes* intPtr = ptr3;
 				ptr = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int*>)(*(ulong*)(*(long*)intPtr + 32)))((nint)intPtr);
@@ -221,11 +223,12 @@ namespace MicrosoftZuneInterop
 				do
 				{
 					EQuerySortType eQuerySortType = (sortAscendings[num2] ? EQuerySortType.eQuerySortOrderAscending : EQuerySortType.eQuerySortOrderDescending);
-					fixed (ushort* wszName = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(sortStrings[num2])))
+					fixed (char* sortStrings[num2]Ptr = sortStrings[num2].ToCharArray())
 					{
+						ushort* wszName = (ushort*)sortStrings[num2]Ptr;
 						try
 						{
-							int num5 = _003CModule_003E.CSchemaMap_002EGetIndex(wszName);
+							int num5 = Module.CSchemaMap_002EGetIndex(wszName);
 							eQuerySortType = ((num5 != -1) ? eQuerySortType : EQuerySortType.eQuerySortOrderNone);
 							*(int*)((byte*)ptr5 + (nuint)ptr4) = num5;
 							*ptr4 = (int)eQuerySortType;

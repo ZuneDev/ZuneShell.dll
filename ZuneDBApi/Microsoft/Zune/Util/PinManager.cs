@@ -30,18 +30,18 @@ namespace Microsoft.Zune.Util
 						{
 							PinManager pinManager = new PinManager();
 							IMetadataManager* ptr;
-							int singleton = _003CModule_003E.GetSingleton((_GUID)_003CModule_003E._GUID_6dd7146d_7a19_4fbb_9235_9e6c382fcc71, (void**)(&ptr));
+							int singleton = Module.GetSingleton((_GUID)Module._GUID_6dd7146d_7a19_4fbb_9235_9e6c382fcc71, (void**)(&ptr));
 							if (singleton < 0)
 							{
-								throw new ApplicationException(_003CModule_003E.GetErrorDescription(singleton));
+								throw new ApplicationException(Module.GetErrorDescription(singleton));
 							}
 							IMetadataManager* intPtr = ptr;
-							__s_GUID gUID_b396c324_6ab3_4e8e_a5cd_aafb3e01bedc = _003CModule_003E._GUID_b396c324_6ab3_4e8e_a5cd_aafb3e01bedc;
+							__s_GUID gUID_b396c324_6ab3_4e8e_a5cd_aafb3e01bedc = Module._GUID_b396c324_6ab3_4e8e_a5cd_aafb3e01bedc;
 							IPinProvider* pPinProvider;
 							int num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID, void**, int>)(*(ulong*)(*(long*)ptr + 24)))((nint)intPtr, (_GUID)gUID_b396c324_6ab3_4e8e_a5cd_aafb3e01bedc, (void**)(&pPinProvider));
 							if (num < 0)
 							{
-								throw new ApplicationException(_003CModule_003E.GetErrorDescription(num));
+								throw new ApplicationException(Module.GetErrorDescription(num));
 							}
 							Thread.MemoryBarrier();
 							pinManager.m_pPinProvider = pPinProvider;
@@ -84,12 +84,14 @@ namespace Microsoft.Zune.Util
 		{
 			//IL_001b: Incompatible stack types: I8 vs Ref
 			//IL_0043: Expected I, but got I8
-			fixed (ushort* ptr2 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(szPinServiceRef)))
+			fixed (char* szPinServiceRefPtr = szPinServiceRef.ToCharArray())
 			{
-				fixed (ushort* ptr3 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(szDescription)))
+				ushort* ptr2 = (ushort*)szPinServiceRefPtr;
+				fixed (char* szDescriptionPtr = szDescription.ToCharArray())
 				{
+					ushort* ptr3 = (ushort*)szDescriptionPtr;
 					int num = -1;
-					int* ptr = (int*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref EPinType.ePinTypeQuickMix == ePinType ? ref nOrdinal : ref *(int*)null);
+					int* ptr = (int*)Unsafe.AsPointer(ref EPinType.ePinTypeQuickMix == ePinType ? ref nOrdinal : ref *(int*)null);
 					long num2 = *(long*)m_pPinProvider + 24;
 					IPinProvider* pPinProvider = m_pPinProvider;
 					int hr = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EPinType, ushort*, ushort*, EServiceMediaType, int, int*, int*, int>)(*(ulong*)num2))((nint)pPinProvider, ePinType, ptr2, ptr3, ePinServiceTypeId, nUserId, ptr, &num);
@@ -104,7 +106,7 @@ namespace Microsoft.Zune.Util
 			//IL_000b: Incompatible stack types: I8 vs Ref
 			//IL_002a: Expected I, but got I8
 			int num = -1;
-			int* ptr = (int*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref EPinType.ePinTypeQuickMix == ePinType ? ref nOrdinal : ref *(int*)null);
+			int* ptr = (int*)Unsafe.AsPointer(ref EPinType.ePinTypeQuickMix == ePinType ? ref nOrdinal : ref *(int*)null);
 			IPinProvider* pPinProvider = m_pPinProvider;
 			int hr = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EPinType, int, EMediaTypes, int, int*, int*, int>)(*(ulong*)(*(long*)pPinProvider + 32)))((nint)pPinProvider, ePinType, nPinMediaId, ePinTypeId, nUserId, ptr, &num);
 			pinId = num;
@@ -114,8 +116,9 @@ namespace Microsoft.Zune.Util
 		public unsafe HRESULT FindPin(EPinType ePinType, string szPinServiceRef, EServiceMediaType ePinServiceTypeId, int nUserId, int nMaxAge, out int nPinId)
 		{
 			//IL_002d: Expected I, but got I8
-			fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(szPinServiceRef)))
+			fixed (char* szPinServiceRefPtr = szPinServiceRef.ToCharArray())
 			{
+				ushort* ptr = (ushort*)szPinServiceRefPtr;
 				int num = -1;
 				long num2 = *(long*)m_pPinProvider + 40;
 				IPinProvider* pPinProvider = m_pPinProvider;

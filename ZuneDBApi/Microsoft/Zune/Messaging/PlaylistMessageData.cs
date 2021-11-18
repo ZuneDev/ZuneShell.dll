@@ -62,11 +62,11 @@ namespace Microsoft.Zune.Messaging
 			//IL_0172: Expected I, but got I8
 			if (ppPropSet == null)
 			{
-				_003CModule_003E._ZuneShipAssert(1001u, 141u);
+				Module._ZuneShipAssert(1001u, 141u);
 				return -2147467261;
 			}
 			IMSMediaSchemaPropertyList* ptr = null;
-			int num = _003CModule_003E.ZuneLibraryExports_002ECreatePropertySetList((_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.ID_MS_MEDIA_SCHEMA_PLAYLIST), 3229617665u, &ptr);
+			int num = Module.ZuneLibraryExports_002ECreatePropertySetList((_GUID*)Unsafe.AsPointer(ref Module.ID_MS_MEDIA_SCHEMA_PLAYLIST), 3229617665u, &ptr);
 			if (num >= 0)
 			{
 				num = AddTracksToPropList(ptr);
@@ -74,19 +74,20 @@ namespace Microsoft.Zune.Messaging
 			IMSMediaSchemaPropertySet* ptr2 = null;
 			if (num >= 0)
 			{
-				num = _003CModule_003E.ZuneLibraryExports_002ECreatePropertySet((_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.ID_MS_MEDIA_SCHEMA_PLAYLIST), 3229617665u, &ptr2);
+				num = Module.ZuneLibraryExports_002ECreatePropertySet((_GUID*)Unsafe.AsPointer(ref Module.ID_MS_MEDIA_SCHEMA_PLAYLIST), 3229617665u, &ptr2);
 			}
-			fixed (ushort* ptr3 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(m_title)))
+			fixed (char* m_titlePtr = m_title.ToCharArray())
 			{
+				ushort* ptr3 = (ushort*)m_titlePtr;
 				if (num >= 0)
 				{
 					CComPropVariant cComPropVariant;
-					// IL initblk instruction
-					System.Runtime.CompilerServices.Unsafe.InitBlock(ref cComPropVariant, 0, 24);
+                    // IL initblk instruction
+                    Unsafe.InitBlock(ref cComPropVariant, 0, 24);
 					try
 					{
 						*(short*)(&cComPropVariant) = 8;
-						System.Runtime.CompilerServices.Unsafe.As<CComPropVariant, long>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref cComPropVariant, 8)) = (nint)_003CModule_003E.SysAllocString(ptr3);
+                        Unsafe.As<CComPropVariant, long>(ref Unsafe.AddByteOffset(ref cComPropVariant, 8)) = (nint)Module.SysAllocString(ptr3);
 						tagPROPVARIANT tagPROPVARIANT = (tagPROPVARIANT)cComPropVariant;
 						IMSMediaSchemaPropertySet* intPtr = ptr2;
 						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, tagPROPVARIANT, int>)(*(ulong*)(*(long*)ptr2 + 56)))((nint)intPtr, 16777217u, tagPROPVARIANT);
@@ -94,22 +95,23 @@ namespace Microsoft.Zune.Messaging
 					catch
 					{
 						//try-fault
-						_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPropVariant*, void>)(&_003CModule_003E.CComPropVariant_002E_007Bdtor_007D), &cComPropVariant);
+						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPropVariant*, void>)(&Module.CComPropVariant_002E_007Bdtor_007D), &cComPropVariant);
 						throw;
 					}
-					_003CModule_003E.CComPropVariant_002EClear(&cComPropVariant);
+					Module.CComPropVariant_002EClear(&cComPropVariant);
 				}
-				fixed (ushort* ptr4 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(m_author)))
+				fixed (char* m_authorPtr = m_author.ToCharArray())
 				{
+					ushort* ptr4 = (ushort*)m_authorPtr;
 					if (num >= 0)
 					{
 						CComPropVariant cComPropVariant2;
-						// IL initblk instruction
-						System.Runtime.CompilerServices.Unsafe.InitBlock(ref cComPropVariant2, 0, 24);
+                        // IL initblk instruction
+                        Unsafe.InitBlock(ref cComPropVariant2, 0, 24);
 						try
 						{
 							*(short*)(&cComPropVariant2) = 8;
-							System.Runtime.CompilerServices.Unsafe.As<CComPropVariant, long>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref cComPropVariant2, 8)) = (nint)_003CModule_003E.SysAllocString(ptr4);
+                            Unsafe.As<CComPropVariant, long>(ref Unsafe.AddByteOffset(ref cComPropVariant2, 8)) = (nint)Module.SysAllocString(ptr4);
 							tagPROPVARIANT tagPROPVARIANT2 = (tagPROPVARIANT)cComPropVariant2;
 							IMSMediaSchemaPropertySet* intPtr2 = ptr2;
 							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, tagPROPVARIANT, int>)(*(ulong*)(*(long*)ptr2 + 56)))((nint)intPtr2, 16777219u, tagPROPVARIANT2);
@@ -117,14 +119,14 @@ namespace Microsoft.Zune.Messaging
 						catch
 						{
 							//try-fault
-							_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPropVariant*, void>)(&_003CModule_003E.CComPropVariant_002E_007Bdtor_007D), &cComPropVariant2);
+							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPropVariant*, void>)(&Module.CComPropVariant_002E_007Bdtor_007D), &cComPropVariant2);
 							throw;
 						}
-						_003CModule_003E.CComPropVariant_002EClear(&cComPropVariant2);
+						Module.CComPropVariant_002EClear(&cComPropVariant2);
 					}
 					CComPropVariant cComPropVariant3;
-					// IL initblk instruction
-					System.Runtime.CompilerServices.Unsafe.InitBlock(ref cComPropVariant3, 0, 24);
+                    // IL initblk instruction
+                    Unsafe.InitBlock(ref cComPropVariant3, 0, 24);
 					try
 					{
 						if (num < 0)
@@ -132,7 +134,7 @@ namespace Microsoft.Zune.Messaging
 							goto IL_0144;
 						}
 						*(short*)(&cComPropVariant3) = 13;
-						System.Runtime.CompilerServices.Unsafe.As<CComPropVariant, long>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref cComPropVariant3, 8)) = (nint)ptr;
+                        Unsafe.As<CComPropVariant, long>(ref Unsafe.AddByteOffset(ref cComPropVariant3, 8)) = (nint)ptr;
 						tagPROPVARIANT tagPROPVARIANT3 = (tagPROPVARIANT)cComPropVariant3;
 						IMSMediaSchemaPropertySet* intPtr3 = ptr2;
 						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, tagPROPVARIANT, int>)(*(ulong*)(*(long*)ptr2 + 56)))((nint)intPtr3, 3229617665u, tagPROPVARIANT3);
@@ -161,10 +163,10 @@ namespace Microsoft.Zune.Messaging
 					catch
 					{
 						//try-fault
-						_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPropVariant*, void>)(&_003CModule_003E.CComPropVariant_002E_007Bdtor_007D), &cComPropVariant3);
+						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPropVariant*, void>)(&Module.CComPropVariant_002E_007Bdtor_007D), &cComPropVariant3);
 						throw;
 					}
-					_003CModule_003E.CComPropVariant_002EClear(&cComPropVariant3);
+					Module.CComPropVariant_002EClear(&cComPropVariant3);
 					return num;
 				}
 			}
@@ -185,7 +187,7 @@ namespace Microsoft.Zune.Messaging
 			//The blocks IL_0024, IL_0035, IL_004d, IL_0063, IL_0075, IL_0091, IL_0098, IL_018f, IL_019a are reachable both inside and outside the pinned region starting at IL_00f7. ILSpy has duplicated these blocks in order to place them both within and outside the `fixed` statement.
 			if (pPropList == null)
 			{
-				_003CModule_003E._ZuneShipAssert(1001u, 45u);
+				Module._ZuneShipAssert(1001u, 45u);
 				return -2147467261;
 			}
 			int num = 0;
@@ -197,18 +199,19 @@ namespace Microsoft.Zune.Messaging
 					DataProviderObject dataProviderObject = m_tracks[num2] as DataProviderObject;
 					if (dataProviderObject != null)
 					{
-						_GUID gUID = _003CModule_003E.GUID_NULL;
+						_GUID gUID = Module.GUID_NULL;
 						object property = dataProviderObject.GetProperty("ZuneMediaId");
 						if (property != null)
 						{
-							gUID = _003CModule_003E.GuidToGUID((Guid)property);
+							gUID = Module.GuidToGUID((Guid)property);
 						}
 						string text = dataProviderObject.GetProperty("Title") as string;
 						object s = ((!(text == (string)null)) ? text : "");
 						while (true)
 						{
-							fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars((string)s)))
+							fixed (char* (string)sPtr = (string)s.ToCharArray())
 							{
+								ushort* ptr = (ushort*)(string)sPtr;
 								while (true)
 								{
 									if (num2 < m_tracks.Count)
@@ -226,11 +229,11 @@ namespace Microsoft.Zune.Messaging
 									}
 									return num;
 								}
-								gUID = _003CModule_003E.GUID_NULL;
+								gUID = Module.GUID_NULL;
 								property = dataProviderObject.GetProperty("ZuneMediaId");
 								if (property != null)
 								{
-									gUID = _003CModule_003E.GuidToGUID((Guid)property);
+									gUID = Module.GuidToGUID((Guid)property);
 								}
 								text = dataProviderObject.GetProperty("Title") as string;
 								s = ((!(text == (string)null)) ? text : "");

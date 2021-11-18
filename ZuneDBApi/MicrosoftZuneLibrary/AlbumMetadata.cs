@@ -28,7 +28,7 @@ namespace MicrosoftZuneLibrary
 					{
 						throw new COMException("IAlbumInfo::IsExactMatch failed", num2);
 					}
-					bool flag = ((num != 0) ? true : false);
+					bool flag = (num != 0);
 					result = flag;
 				}
 				return result;
@@ -109,7 +109,7 @@ namespace MicrosoftZuneLibrary
 						throw new COMException("IAlbumInfo::GetCoverUrl failed", num);
 					}
 					result = new string((char*)ptr);
-					_003CModule_003E.SysFreeString(ptr);
+					Module.SysFreeString(ptr);
 				}
 				return result;
 			}
@@ -120,17 +120,18 @@ namespace MicrosoftZuneLibrary
 				IAlbumInfo* pAlbumInfo = m_pAlbumInfo;
 				if (pAlbumInfo != null)
 				{
-					fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(value)))
+					fixed (char* valuePtr = value.ToCharArray())
 					{
+						ushort* ptr = (ushort*)valuePtr;
 						try
 						{
-							ushort* ptr2 = _003CModule_003E.SysAllocString(ptr);
+							ushort* ptr2 = Module.SysAllocString(ptr);
 							if (ptr2 == null)
 							{
 								throw new COMException("SysAllocString failed", -2147024882);
 							}
 							int num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, int>)(*(ulong*)(*(long*)pAlbumInfo + 152)))((nint)pAlbumInfo, ptr2);
-							_003CModule_003E.SysFreeString(ptr2);
+							Module.SysFreeString(ptr2);
 							if (num != 0)
 							{
 								throw new COMException("IAlbumInfo::SetCoverUrl failed", num);
@@ -311,7 +312,7 @@ namespace MicrosoftZuneLibrary
 						throw new COMException("IAlbumInfo::GetAlbumArtistYomi failed", num);
 					}
 					result = new string((char*)ptr);
-					_003CModule_003E.SysFreeString(ptr);
+					Module.SysFreeString(ptr);
 				}
 				return result;
 			}
@@ -322,17 +323,18 @@ namespace MicrosoftZuneLibrary
 				IAlbumInfo* pAlbumInfo = m_pAlbumInfo;
 				if (pAlbumInfo != null)
 				{
-					fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(value)))
+					fixed (char* valuePtr = value.ToCharArray())
 					{
+						ushort* ptr = (ushort*)valuePtr;
 						try
 						{
-							ushort* ptr2 = _003CModule_003E.SysAllocString(ptr);
+							ushort* ptr2 = Module.SysAllocString(ptr);
 							if (ptr2 == null)
 							{
 								throw new COMException("SysAllocString failed", -2147024882);
 							}
 							int num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, int>)(*(ulong*)(*(long*)pAlbumInfo + 88)))((nint)pAlbumInfo, ptr2);
-							_003CModule_003E.SysFreeString(ptr2);
+							Module.SysFreeString(ptr2);
 							if (num != 0)
 							{
 								throw new COMException("IAlbumInfo::SetAlbumArtistYomi failed", num);
@@ -374,7 +376,7 @@ namespace MicrosoftZuneLibrary
 						throw new COMException("IAlbumInfo::GetAlbumArtist failed", num);
 					}
 					result = new string((char*)ptr);
-					_003CModule_003E.SysFreeString(ptr);
+					Module.SysFreeString(ptr);
 				}
 				return result;
 			}
@@ -385,17 +387,18 @@ namespace MicrosoftZuneLibrary
 				IAlbumInfo* pAlbumInfo = m_pAlbumInfo;
 				if (pAlbumInfo != null)
 				{
-					fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(value)))
+					fixed (char* valuePtr = value.ToCharArray())
 					{
+						ushort* ptr = (ushort*)valuePtr;
 						try
 						{
-							ushort* ptr2 = _003CModule_003E.SysAllocString(ptr);
+							ushort* ptr2 = Module.SysAllocString(ptr);
 							if (ptr2 == null)
 							{
 								throw new COMException("SysAllocString failed", -2147024882);
 							}
 							int num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, int>)(*(ulong*)(*(long*)pAlbumInfo + 72)))((nint)pAlbumInfo, ptr2);
-							_003CModule_003E.SysFreeString(ptr2);
+							Module.SysFreeString(ptr2);
 							if (num != 0)
 							{
 								throw new COMException("IAlbumInfo::SetAlbumArtist failed", num);
@@ -437,7 +440,7 @@ namespace MicrosoftZuneLibrary
 						throw new COMException("IAlbumInfo::GetTitleYomi failed", num);
 					}
 					result = new string((char*)ptr);
-					_003CModule_003E.SysFreeString(ptr);
+					Module.SysFreeString(ptr);
 				}
 				return result;
 			}
@@ -448,17 +451,18 @@ namespace MicrosoftZuneLibrary
 				IAlbumInfo* pAlbumInfo = m_pAlbumInfo;
 				if (pAlbumInfo != null)
 				{
-					fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(value)))
+					fixed (char* valuePtr = value.ToCharArray())
 					{
+						ushort* ptr = (ushort*)valuePtr;
 						try
 						{
-							ushort* ptr2 = _003CModule_003E.SysAllocString(ptr);
+							ushort* ptr2 = Module.SysAllocString(ptr);
 							if (ptr2 == null)
 							{
 								throw new COMException("SysAllocString failed", -2147024882);
 							}
 							int num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, int>)(*(ulong*)(*(long*)pAlbumInfo + 56)))((nint)pAlbumInfo, ptr2);
-							_003CModule_003E.SysFreeString(ptr2);
+							Module.SysFreeString(ptr2);
 							if (num != 0)
 							{
 								throw new COMException("IAlbumInfo::SetTitleYomi failed", num);
@@ -500,7 +504,7 @@ namespace MicrosoftZuneLibrary
 						throw new COMException("IAlbumInfo::GetTitle failed", num);
 					}
 					result = new string((char*)ptr);
-					_003CModule_003E.SysFreeString(ptr);
+					Module.SysFreeString(ptr);
 				}
 				return result;
 			}
@@ -511,17 +515,18 @@ namespace MicrosoftZuneLibrary
 				IAlbumInfo* pAlbumInfo = m_pAlbumInfo;
 				if (pAlbumInfo != null)
 				{
-					fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(value)))
+					fixed (char* valuePtr = value.ToCharArray())
 					{
+						ushort* ptr = (ushort*)valuePtr;
 						try
 						{
-							ushort* ptr2 = _003CModule_003E.SysAllocString(ptr);
+							ushort* ptr2 = Module.SysAllocString(ptr);
 							if (ptr2 == null)
 							{
 								throw new COMException("SysAllocString failed", -2147024882);
 							}
 							int num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, int>)(*(ulong*)(*(long*)pAlbumInfo + 40)))((nint)pAlbumInfo, ptr2);
-							_003CModule_003E.SysFreeString(ptr2);
+							Module.SysFreeString(ptr2);
 							if (num != 0)
 							{
 								throw new COMException("IAlbumInfo::SetTitle failed", num);

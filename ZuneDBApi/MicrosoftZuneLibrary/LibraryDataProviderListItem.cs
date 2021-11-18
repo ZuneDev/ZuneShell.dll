@@ -17,9 +17,9 @@ namespace MicrosoftZuneLibrary
 		internal unsafe LibraryDataProviderListItem(LibraryDataProviderQuery owner, LibraryVirtualList listOwner, object typeCookie, int QueryRN, int index)
 			: base(owner, typeCookie)
 		{
-			if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 89uL)) >= 7u)
+			if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 89uL)) >= 7u)
 			{
-				_003CModule_003E.WPP_SF_DD(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 80uL), 11, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), m_uTraceId, (uint)index);
+				Module.WPP_SF_DD(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 80uL), 11, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), m_uTraceId, (uint)index);
 			}
 			m_DontUseDirectly_Index = index;
 			m_QueryRN = QueryRN;
@@ -47,9 +47,9 @@ namespace MicrosoftZuneLibrary
 					int indexForLibraryId = (int)listOwner.QueryList.GetIndexForLibraryId(m_DontUseDirectly_Index, m_LibraryId);
 					if (indexForLibraryId != -1)
 					{
-						if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 89uL)) >= 7u)
+						if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 89uL)) >= 7u)
 						{
-							_003CModule_003E.WPP_SF_DDD(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 80uL), 50, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), m_uTraceId, (uint)m_DontUseDirectly_Index, (uint)indexForLibraryId);
+							Module.WPP_SF_DDD(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 80uL), 50, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), m_uTraceId, (uint)m_DontUseDirectly_Index, (uint)indexForLibraryId);
 						}
 						m_DontUseDirectly_Index = indexForLibraryId;
 						m_QueryRN = m_listOwner.GetQueryRN();
@@ -86,19 +86,19 @@ namespace MicrosoftZuneLibrary
 
 		protected unsafe override void NotifySlowDataAcquireComplete()
 		{
-			if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 89uL)) >= 7u)
+			if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 89uL)) >= 7u)
 			{
-				_003CModule_003E.WPP_SF_D(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 80uL), 20, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), m_uTraceId);
+				Module.WPP_SF_D(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 80uL), 20, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), m_uTraceId);
 			}
 			int index = GetIndex();
-			if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 89uL)) >= 7u)
+			if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 89uL)) >= 7u)
 			{
-				_003CModule_003E.WPP_SF_DD(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 80uL), 21, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), m_uTraceId, (uint)index);
+				Module.WPP_SF_DD(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 80uL), 21, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), m_uTraceId, (uint)index);
 			}
 			m_listOwner.NotifySlowDataAcquireComplete(index);
-			if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 89uL)) >= 7u)
+			if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 89uL)) >= 7u)
 			{
-				_003CModule_003E.WPP_SF_D(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 80uL), 22, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), m_uTraceId);
+				Module.WPP_SF_D(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 80uL), 22, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), m_uTraceId);
 			}
 		}
 
@@ -115,9 +115,9 @@ namespace MicrosoftZuneLibrary
 
 		protected unsafe override void UpdateThumbnail(object args)
 		{
-			if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 89uL)) >= 7u)
+			if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 89uL)) >= 7u)
 			{
-				_003CModule_003E.WPP_SF_(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 80uL), 48, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids));
+				Module.WPP_SF_(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 80uL), 48, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids));
 			}
 			if (!m_listOwner.IsDisposed)
 			{
@@ -127,9 +127,9 @@ namespace MicrosoftZuneLibrary
 			{
 				((IDisposable)(AsyncGetThumbnailState)args).Dispose();
 			}
-			if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 89uL)) >= 7u)
+			if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 89uL)) >= 7u)
 			{
-				_003CModule_003E.WPP_SF_(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 80uL), 49, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids));
+				Module.WPP_SF_(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 80uL), 49, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids));
 			}
 		}
 	}

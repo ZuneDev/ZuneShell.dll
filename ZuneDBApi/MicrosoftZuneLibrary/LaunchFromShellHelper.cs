@@ -81,11 +81,12 @@ namespace MicrosoftZuneLibrary
 			//IL_00d0: Expected I, but got I8
 			EventWaitHandle eventWaitHandle = null;
 			IDataObjectEnumerator* ptr = null;
-			fixed (ushort* ptr2 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(_startParam)))
+			fixed (char* _startParamPtr = _startParam.ToCharArray())
 			{
+				ushort* ptr2 = (ushort*)_startParamPtr;
 				FileFoundCallback fileFoundCallback = FileFound;
 				delegate* unmanaged[Cdecl, Cdecl]<ushort*, EMediaTypes, void> delegate_002A = (delegate* unmanaged[Cdecl, Cdecl]<ushort*, EMediaTypes, void>)Marshal.GetFunctionPointerForDelegate(fileFoundCallback).ToPointer();
-				int num = _003CModule_003E.ZuneLibraryExports_002ECreateDataObjectEnum(&ptr);
+				int num = Module.ZuneLibraryExports_002ECreateDataObjectEnum(&ptr);
 				try
 				{
 					if (num >= 0)
@@ -134,7 +135,7 @@ namespace MicrosoftZuneLibrary
 				{
 					if (ptr != null)
 					{
-						_003CModule_003E.ZuneLibraryExports_002EDestroyDataObjectEnum(ptr);
+						Module.ZuneLibraryExports_002EDestroyDataObjectEnum(ptr);
 						ptr = null;
 					}
 				}

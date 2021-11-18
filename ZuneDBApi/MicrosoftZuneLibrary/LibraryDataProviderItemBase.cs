@@ -48,11 +48,11 @@ namespace MicrosoftZuneLibrary
 		internal unsafe LibraryDataProviderItemBase(DataProviderQuery query, object typeCookie)
 			: base(query, typeCookie)
 		{
-			m_uTraceId = _003CModule_003E.MicrosoftZuneLibrary_002E_003FA0xea57f500_002Es_uNextTraceId;
-			_003CModule_003E.MicrosoftZuneLibrary_002E_003FA0xea57f500_002Es_uNextTraceId++;
-			if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 89uL)) >= 7u)
+			m_uTraceId = Module.MicrosoftZuneLibrary_002E_003FA0xea57f500_002Es_uNextTraceId;
+			Module.MicrosoftZuneLibrary_002E_003FA0xea57f500_002Es_uNextTraceId++;
+			if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 89uL)) >= 7u)
 			{
-				_003CModule_003E.WPP_SF_D(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 80uL), 10, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), m_uTraceId);
+				Module.WPP_SF_D(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 80uL), 10, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), m_uTraceId);
 			}
 		}
 
@@ -69,7 +69,7 @@ namespace MicrosoftZuneLibrary
 					return obj;
 				}
 			}
-			if (base.Mappings.TryGetValue(propertyName, out value))
+			if (Mappings.TryGetValue(propertyName, out value))
 			{
 				if (!string.IsNullOrEmpty(value.Source))
 				{
@@ -84,15 +84,16 @@ namespace MicrosoftZuneLibrary
 						Image[] thumbnail = m_thumbnail;
 						if (thumbnail[num] != null)
 						{
-							if (((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 89uL)) >= 7u)
+							if (((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 89uL)) >= 7u)
 							{
-								fixed (ushort* a = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(thumbnail[num].Source)))
+								fixed (char* thumbnail[num].SourcePtr = thumbnail[num].Source.ToCharArray())
 								{
+									ushort* a = (ushort*)thumbnail[num].SourcePtr;
 									try
 									{
-										if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 89uL)) >= 7u)
+										if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 89uL)) >= 7u)
 										{
-											_003CModule_003E.WPP_SF_DdS(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 80uL), 14, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), m_uTraceId, num, a);
+											Module.WPP_SF_DdS(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 80uL), 14, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), m_uTraceId, num, a);
 										}
 									}
 									catch
@@ -121,7 +122,7 @@ namespace MicrosoftZuneLibrary
 		public override void SetProperty(string propertyName, object value)
 		{
 			DataProviderMapping value2 = null;
-			if (!base.Mappings.TryGetValue(propertyName, out value2) || string.IsNullOrEmpty(value2.Source))
+			if (!Mappings.TryGetValue(propertyName, out value2) || string.IsNullOrEmpty(value2.Source))
 			{
 				return;
 			}
@@ -131,16 +132,16 @@ namespace MicrosoftZuneLibrary
 				SetNewThumbnail(newThumbnail);
 				return;
 			}
-			if (object.Equals(value, GetProperty(propertyName)))
+			if (Equals(value, GetProperty(propertyName)))
 			{
 				return;
 			}
-			if (!(base.TypeName == "Playlist") || !(value2.Source == "Title"))
+			if (!(TypeName == "Playlist") || !(value2.Source == "Title"))
 			{
 				int num = SetFieldValue(value2.Source, value);
 				if (num < 0)
 				{
-					_003CModule_003E.SQMAddNumbersToStream("IgnoredErrorEvent", 1u, (uint)num);
+					Module.SQMAddNumbersToStream("IgnoredErrorEvent", 1u, (uint)num);
 					goto IL_00eb;
 				}
 				if (value2.Source == "UserRating")
@@ -161,12 +162,12 @@ namespace MicrosoftZuneLibrary
 
 		public virtual void GetMediaIdAndType(out int mediaId, out EMediaTypes mediaType)
 		{
-			if (base.TypeName == "PlaylistContentItem")
+			if (TypeName == "PlaylistContentItem")
 			{
 				mediaId = (int)GetProperty("MediaId");
 				mediaType = (EMediaTypes)GetProperty("MediaType");
 			}
-			else if (base.TypeName == "SyncItem")
+			else if (TypeName == "SyncItem")
 			{
 				mediaId = (int)GetProperty("LibraryId");
 				mediaType = (EMediaTypes)GetProperty("MediaType");
@@ -174,7 +175,7 @@ namespace MicrosoftZuneLibrary
 			else
 			{
 				mediaId = (int)GetProperty("LibraryId");
-				mediaType = LibraryDataProvider.NameToMediaType(base.TypeName);
+				mediaType = LibraryDataProvider.NameToMediaType(TypeName);
 			}
 		}
 
@@ -183,10 +184,10 @@ namespace MicrosoftZuneLibrary
 			//IL_0003: Expected I, but got I8
 			ushort* ptr = null;
 			EMediaTypes eMediaTypes = LibraryDataProvider.NameToMediaType(typeName);
-			if (_003CModule_003E.ZuneLibraryExports_002ELocateArt(MediaId, eMediaTypes, fCacheOnly, &ptr) >= 0)
+			if (Module.ZuneLibraryExports_002ELocateArt(MediaId, eMediaTypes, fCacheOnly, &ptr) >= 0)
 			{
 				string result = new string((char*)ptr);
-				_003CModule_003E.SysFreeString(ptr);
+				Module.SysFreeString(ptr);
 				return result;
 			}
 			return null;
@@ -194,22 +195,22 @@ namespace MicrosoftZuneLibrary
 
 		public unsafe virtual void InvalidateAllProperties()
 		{
-			if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 89uL)) >= 7u)
+			if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 89uL)) >= 7u)
 			{
-				_003CModule_003E.WPP_SF_D(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 80uL), 55, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), m_uTraceId);
+				Module.WPP_SF_D(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 80uL), 55, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), m_uTraceId);
 			}
-			foreach (DataProviderMapping value in base.Mappings.Values)
+			foreach (DataProviderMapping value in Mappings.Values)
 			{
 				FirePropertyChanged(value.PropertyName);
 			}
 			m_setProperties = null;
-			if (HasThumbnailArt() && (base.TypeName == "Album" || base.TypeName == "Artist" || base.TypeName == "App" || base.TypeName == "Photo"))
+			if (HasThumbnailArt() && (TypeName == "Album" || TypeName == "Artist" || TypeName == "App" || TypeName == "Photo"))
 			{
 				CheckThumbnail();
 			}
-			if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 89uL)) >= 7u)
+			if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 89uL)) >= 7u)
 			{
-				_003CModule_003E.WPP_SF_D(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 80uL), 56, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), m_uTraceId);
+				Module.WPP_SF_D(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 80uL), 56, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), m_uTraceId);
 			}
 		}
 
@@ -221,22 +222,23 @@ namespace MicrosoftZuneLibrary
 		[return: MarshalAs(UnmanagedType.U1)]
 		protected unsafe bool SetNewThumbnail(string strThumbnailPath)
 		{
-			if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 89uL)) >= 7u)
+			if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 89uL)) >= 7u)
 			{
-				_003CModule_003E.WPP_SF_D(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 80uL), 28, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), m_uTraceId);
+				Module.WPP_SF_D(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 80uL), 28, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), m_uTraceId);
 			}
 			int num = -2147418113;
-			if (base.TypeName == "Album")
+			if (TypeName == "Album")
 			{
 				int num2 = (int)GetFieldValue(typeof(int), 355u, -1);
-				fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(strThumbnailPath)))
+				fixed (char* strThumbnailPathPtr = strThumbnailPath.ToCharArray())
 				{
+					ushort* ptr = (ushort*)strThumbnailPathPtr;
 					try
 					{
-						num = _003CModule_003E.ZuneLibraryExports_002ESetAlbumArt(num2, ptr);
+						num = Module.ZuneLibraryExports_002ESetAlbumArt(num2, ptr);
 						if (num < 0)
 						{
-							_003CModule_003E.SQMAddNumbersToStream("IgnoredErrorEvent", 1u, (uint)num);
+							Module.SQMAddNumbersToStream("IgnoredErrorEvent", 1u, (uint)num);
 						}
 						SetSlowDataThumbnailExtraction(useSlowData: false);
 						InvalidateAllProperties();
@@ -249,9 +251,9 @@ namespace MicrosoftZuneLibrary
 					}
 				}
 			}
-			if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 89uL)) >= 7u)
+			if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 89uL)) >= 7u)
 			{
-				_003CModule_003E.WPP_SF_Dd(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 80uL), 29, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), m_uTraceId, num);
+				Module.WPP_SF_Dd(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 80uL), 29, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), m_uTraceId, num);
 			}
 			return (byte)((num >= 0) ? 1u : 0u) != 0;
 		}
@@ -259,26 +261,26 @@ namespace MicrosoftZuneLibrary
 		[return: MarshalAs(UnmanagedType.U1)]
 		public unsafe bool SetNewThumbnail(SafeBitmap safeBitmap)
 		{
-			if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 89uL)) >= 7u)
+			if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 89uL)) >= 7u)
 			{
-				_003CModule_003E.WPP_SF_D(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 80uL), 30, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), m_uTraceId);
+				Module.WPP_SF_D(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 80uL), 30, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), m_uTraceId);
 			}
 			int num = -2147418113;
-			if (base.TypeName == "Album" && safeBitmap != null)
+			if (TypeName == "Album" && safeBitmap != null)
 			{
 				int num2 = (int)GetFieldValue(typeof(int), 355u, -1);
 				void* ptr = (void*)safeBitmap.DangerousGetHandle();
-				num = _003CModule_003E.ZuneLibraryExports_002ESetAlbumArt(num2, (HBITMAP__*)ptr);
+				num = Module.ZuneLibraryExports_002ESetAlbumArt(num2, (HBITMAP*)ptr);
 				if (num < 0)
 				{
-					_003CModule_003E.SQMAddNumbersToStream("IgnoredErrorEvent", 1u, (uint)num);
+					Module.SQMAddNumbersToStream("IgnoredErrorEvent", 1u, (uint)num);
 				}
 				SetSlowDataThumbnailExtraction(useSlowData: false);
 				InvalidateAllProperties();
 			}
-			if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 89uL)) >= 7u)
+			if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 89uL)) >= 7u)
 			{
-				_003CModule_003E.WPP_SF_D(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 80uL), 31, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), m_uTraceId);
+				Module.WPP_SF_D(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 80uL), 31, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), m_uTraceId);
 			}
 			return (byte)((num >= 0) ? 1u : 0u) != 0;
 		}
@@ -286,13 +288,13 @@ namespace MicrosoftZuneLibrary
 		protected internal unsafe virtual void OnRequestSlowData()
 		{
 			DataProviderMapping value = null;
-			if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 89uL)) >= 7u)
+			if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 89uL)) >= 7u)
 			{
-				_003CModule_003E.WPP_SF_D(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 80uL), 18, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), m_uTraceId);
+				Module.WPP_SF_D(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 80uL), 18, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), m_uTraceId);
 			}
 			int thumbnailIndex = 0;
 			_ = string.Empty;
-			string typeName = base.TypeName;
+			string typeName = TypeName;
 			m_fHasGottenSlowDataRequest = true;
 			string text;
 			switch (typeName)
@@ -312,7 +314,7 @@ namespace MicrosoftZuneLibrary
 			}
 			if (!string.IsNullOrEmpty(text))
 			{
-				if (base.Mappings.TryGetValue(text, out value) && !string.IsNullOrEmpty(value.Source))
+				if (Mappings.TryGetValue(text, out value) && !string.IsNullOrEmpty(value.Source))
 				{
 					thumbnailIndex = ThumbnailSizeIndexFromSizeName(value.Source, 0);
 				}
@@ -324,22 +326,22 @@ namespace MicrosoftZuneLibrary
 			NotifySlowDataAcquireComplete();
 			goto IL_00fa;
 			IL_00fa:
-			if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 89uL)) >= 7u)
+			if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 89uL)) >= 7u)
 			{
-				_003CModule_003E.WPP_SF_D(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 80uL), 19, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), m_uTraceId);
+				Module.WPP_SF_D(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 80uL), 19, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), m_uTraceId);
 			}
 		}
 
 		[return: MarshalAs(UnmanagedType.U1)]
 		protected unsafe bool BeginGetThumbnail(string thumbnailPropertyName, int thumbnailIndex, [MarshalAs(UnmanagedType.U1)] bool slowDataQuery)
 		{
-			if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 89uL)) >= 7u)
+			if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 89uL)) >= 7u)
 			{
-				_003CModule_003E.WPP_SF_D(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 80uL), 23, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), m_uTraceId);
+				Module.WPP_SF_D(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 80uL), 23, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), m_uTraceId);
 			}
 			EnsureThumbnailStorage();
 			bool flag = false;
-			if (m_thumbnail[thumbnailIndex] == null || base.TypeName == "Album")
+			if (m_thumbnail[thumbnailIndex] == null || TypeName == "Album")
 			{
 				try
 				{
@@ -347,9 +349,9 @@ namespace MicrosoftZuneLibrary
 					AsyncGetThumbnailState asyncGetThumbnailState = m_fThumbnailRequested[thumbnailIndex];
 					if (asyncGetThumbnailState == null)
 					{
-						if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 89uL)) >= 7u)
+						if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 89uL)) >= 7u)
 						{
-							_003CModule_003E.WPP_SF_D(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 80uL), 24, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), m_uTraceId);
+							Module.WPP_SF_D(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 80uL), 24, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), m_uTraceId);
 							int num = 1;
 						}
 						else
@@ -368,9 +370,9 @@ namespace MicrosoftZuneLibrary
 					}
 					bool isComplete = asyncGetThumbnailState.isComplete;
 					flag = !isComplete;
-					if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 89uL)) >= 7u)
+					if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 89uL)) >= 7u)
 					{
-						_003CModule_003E.WPP_SF_Dl(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 80uL), 25, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), m_uTraceId, isComplete ? 1 : 0);
+						Module.WPP_SF_Dl(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 80uL), 25, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), m_uTraceId, isComplete ? 1 : 0);
 						int num2 = 1;
 					}
 					else
@@ -383,9 +385,9 @@ namespace MicrosoftZuneLibrary
 					}
 					goto end_IL_006c;
 					IL_018d:
-					if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 89uL)) >= 7u)
+					if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 89uL)) >= 7u)
 					{
-						_003CModule_003E.WPP_SF_D(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 80uL), 26, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), m_uTraceId);
+						Module.WPP_SF_D(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 80uL), 26, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), m_uTraceId);
 						int num3 = 1;
 					}
 					else
@@ -405,18 +407,18 @@ namespace MicrosoftZuneLibrary
 					Monitor.Exit(m_lockObject);
 				}
 			}
-			if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 89uL)) >= 7u)
+			if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 89uL)) >= 7u)
 			{
-				_003CModule_003E.WPP_SF_D(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 80uL), 27, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), m_uTraceId);
+				Module.WPP_SF_D(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 80uL), 27, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), m_uTraceId);
 			}
 			return flag;
 		}
 
 		protected unsafe static void GetThumbnailOnWorkerThread(object listItem)
 		{
-			if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 89uL)) >= 7u)
+			if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 89uL)) >= 7u)
 			{
-				_003CModule_003E.WPP_SF_(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 80uL), 34, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids));
+				Module.WPP_SF_(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 80uL), 34, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids));
 			}
 			bool flag = true;
 			while (flag)
@@ -426,9 +428,9 @@ namespace MicrosoftZuneLibrary
 				try
 				{
 					Monitor.Enter(m_lockObject);
-					if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 89uL)) >= 7u)
+					if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 89uL)) >= 7u)
 					{
-						_003CModule_003E.WPP_SF_d(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 80uL), 35, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), m_thumbnailsToProcess.Count);
+						Module.WPP_SF_d(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 80uL), 35, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), m_thumbnailsToProcess.Count);
 						int num = 1;
 					}
 					else
@@ -442,9 +444,9 @@ namespace MicrosoftZuneLibrary
 						if (asyncGetThumbnailState != null)
 						{
 							flag2 = asyncGetThumbnailState.isComplete;
-							if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 89uL)) >= 7u)
+							if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 89uL)) >= 7u)
 							{
-								_003CModule_003E.WPP_SF_Dll(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 80uL), 36, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), asyncGetThumbnailState.listItem.m_uTraceId, flag2 ? 1 : 0, asyncGetThumbnailState.slowDataQuery ? 1 : 0);
+								Module.WPP_SF_Dll(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 80uL), 36, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), asyncGetThumbnailState.listItem.m_uTraceId, flag2 ? 1 : 0, asyncGetThumbnailState.slowDataQuery ? 1 : 0);
 								int num2 = 1;
 							}
 							else
@@ -459,9 +461,9 @@ namespace MicrosoftZuneLibrary
 						m_thumbnailWorkerAlive = false;
 						flag = false;
 						flag2 = true;
-						if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 89uL)) >= 7u)
+						if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 89uL)) >= 7u)
 						{
-							_003CModule_003E.WPP_SF_(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 80uL), 37, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids));
+							Module.WPP_SF_(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 80uL), 37, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids));
 							int num3 = 1;
 						}
 						else
@@ -487,17 +489,17 @@ namespace MicrosoftZuneLibrary
 					LibraryDataProviderItemBase listItem2 = asyncGetThumbnailState.listItem;
 					if (listItem2 != null)
 					{
-						if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 89uL)) >= 7u)
+						if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 89uL)) >= 7u)
 						{
-							_003CModule_003E.WPP_SF_D(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 80uL), 38, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), listItem2.m_uTraceId);
+							Module.WPP_SF_D(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 80uL), 38, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), listItem2.m_uTraceId);
 						}
 						Application.DeferredInvoke(asyncGetThumbnailState.listItem.NotifySlowDataAcquireCompleteDelegate, null);
 					}
 					continue;
 				}
-				if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 89uL)) >= 7u)
+				if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 89uL)) >= 7u)
 				{
-					_003CModule_003E.WPP_SF_D(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 80uL), 39, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), asyncGetThumbnailState.listItem.m_uTraceId);
+					Module.WPP_SF_D(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 80uL), 39, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), asyncGetThumbnailState.listItem.m_uTraceId);
 				}
 				LibraryDataProviderItemBase listItem3 = asyncGetThumbnailState.listItem;
 				asyncGetThumbnailState.thumbnail = null;
@@ -508,15 +510,15 @@ namespace MicrosoftZuneLibrary
 					{
 						if (!listItem3.ArtNeedsUpdating(artUrl, asyncGetThumbnailState.thumbnailIndex))
 						{
-							if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 89uL)) >= 7u)
+							if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 89uL)) >= 7u)
 							{
-								_003CModule_003E.WPP_SF_D(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 80uL), 40, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), listItem3.m_uTraceId);
+								Module.WPP_SF_D(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 80uL), 40, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), listItem3.m_uTraceId);
 							}
 							continue;
 						}
-						if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 89uL)) >= 7u)
+						if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 89uL)) >= 7u)
 						{
-							_003CModule_003E.WPP_SF_D(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 80uL), 41, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), listItem3.m_uTraceId);
+							Module.WPP_SF_D(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 80uL), 41, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), listItem3.m_uTraceId);
 						}
 						int num5 = s_thumbnailSizes[asyncGetThumbnailState.thumbnailIndex];
 						asyncGetThumbnailState.thumbnail = new Image("file://" + artUrl, num5, num5, flippable: false, asyncGetThumbnailState.antialiasImageEdges);
@@ -524,17 +526,17 @@ namespace MicrosoftZuneLibrary
 				}
 				Application.DeferredInvoke(listItem3.UpdateThumbnail, asyncGetThumbnailState);
 			}
-			if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 89uL)) >= 7u)
+			if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 89uL)) >= 7u)
 			{
-				_003CModule_003E.WPP_SF_(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 80uL), 42, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids));
+				Module.WPP_SF_(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 80uL), 42, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids));
 			}
 		}
 
 		protected unsafe virtual void UpdateThumbnail(object args)
 		{
-			if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 89uL)) >= 7u)
+			if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 89uL)) >= 7u)
 			{
-				_003CModule_003E.WPP_SF_(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 80uL), 43, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids));
+				Module.WPP_SF_(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 80uL), 43, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids));
 			}
 			AsyncGetThumbnailState asyncGetThumbnailState = (AsyncGetThumbnailState)args;
 			if (asyncGetThumbnailState.slowDataQuery)
@@ -544,9 +546,9 @@ namespace MicrosoftZuneLibrary
 			uint a = (uint)(((int?)asyncGetThumbnailState.listItem?.m_uTraceId) ?? (-1));
 			if (asyncGetThumbnailState.thumbnail == null)
 			{
-				if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 89uL)) >= 7u)
+				if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 89uL)) >= 7u)
 				{
-					_003CModule_003E.WPP_SF_D(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 80uL), 44, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), a);
+					Module.WPP_SF_D(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 80uL), 44, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), a);
 				}
 				string text = ThumbnailFallbackImageUrl();
 				if (!string.IsNullOrEmpty(text))
@@ -557,35 +559,35 @@ namespace MicrosoftZuneLibrary
 			int thumbnailIndex = asyncGetThumbnailState.thumbnailIndex;
 			if (m_thumbnail[thumbnailIndex] != asyncGetThumbnailState.thumbnail)
 			{
-				if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 89uL)) >= 7u)
+				if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 89uL)) >= 7u)
 				{
-					_003CModule_003E.WPP_SF_Dd(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 80uL), 45, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), a, thumbnailIndex);
+					Module.WPP_SF_Dd(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 80uL), 45, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), a, thumbnailIndex);
 				}
 				m_thumbnail[asyncGetThumbnailState.thumbnailIndex] = asyncGetThumbnailState.thumbnail;
 				if (asyncGetThumbnailState.thumbnailPropertyName != (string)null)
 				{
-					if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 89uL)) >= 7u)
+					if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 89uL)) >= 7u)
 					{
-						_003CModule_003E.WPP_SF_D(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 80uL), 46, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), a);
+						Module.WPP_SF_D(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 80uL), 46, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), a);
 					}
 					FirePropertyChanged(asyncGetThumbnailState.thumbnailPropertyName);
 				}
 			}
 			((IDisposable)asyncGetThumbnailState).Dispose();
-			if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 89uL)) >= 7u)
+			if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 89uL)) >= 7u)
 			{
-				_003CModule_003E.WPP_SF_(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 80uL), 47, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids));
+				Module.WPP_SF_(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 80uL), 47, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids));
 			}
 		}
 
 		protected void CheckThumbnail()
 		{
-			string artUrl = GetArtUrl((int)GetFieldValue(typeof(int), 355u, -1), base.TypeName, fCacheOnly: true);
+			string artUrl = GetArtUrl((int)GetFieldValue(typeof(int), 355u, -1), TypeName, fCacheOnly: true);
 			if (!string.IsNullOrEmpty(artUrl) && ArtNeedsUpdating(artUrl))
 			{
 				Application.DeferredInvoke(ClearThumbnailCacheOnAppThread, null);
 			}
-			else if (string.IsNullOrEmpty(artUrl) && base.TypeName == "Photo")
+			else if (string.IsNullOrEmpty(artUrl) && TypeName == "Photo")
 			{
 				Application.DeferredInvoke(ClearThumbnailCacheOnAppThread, null);
 			}
@@ -593,23 +595,23 @@ namespace MicrosoftZuneLibrary
 
 		protected unsafe void ClearThumbnailCacheOnAppThread(object stateObj)
 		{
-			if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 89uL)) >= 7u)
+			if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 89uL)) >= 7u)
 			{
-				_003CModule_003E.WPP_SF_D(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 80uL), 53, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), m_uTraceId);
+				Module.WPP_SF_D(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 80uL), 53, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), m_uTraceId);
 			}
-			if (base.TypeName == "Album")
+			if (TypeName == "Album")
 			{
 				ClearThumbnailCache();
 				FirePropertyChanged("AlbumArtSmall");
 			}
-			else if (base.TypeName == "Photo")
+			else if (TypeName == "Photo")
 			{
 				ClearThumbnailCache();
 				FirePropertyChanged("Thumbnail");
 			}
-			if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 89uL)) >= 7u)
+			if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 89uL)) >= 7u)
 			{
-				_003CModule_003E.WPP_SF_D(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 80uL), 54, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), m_uTraceId);
+				Module.WPP_SF_D(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 80uL), 54, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), m_uTraceId);
 			}
 		}
 
@@ -660,31 +662,31 @@ namespace MicrosoftZuneLibrary
 
 		private unsafe void EnsureThumbnailStorage()
 		{
-			if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 89uL)) >= 7u)
+			if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 89uL)) >= 7u)
 			{
-				_003CModule_003E.WPP_SF_D(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 80uL), 15, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), m_uTraceId);
+				Module.WPP_SF_D(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 80uL), 15, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), m_uTraceId);
 			}
 			if (m_thumbnail == null)
 			{
-				if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 89uL)) >= 7u)
+				if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 89uL)) >= 7u)
 				{
-					_003CModule_003E.WPP_SF_D(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 80uL), 16, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), m_uTraceId);
+					Module.WPP_SF_D(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 80uL), 16, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), m_uTraceId);
 				}
 				m_fThumbnailRequested = new AsyncGetThumbnailState[3];
 				m_thumbnail = new Image[3];
 				m_thumbnailSize = new long[3];
 			}
-			if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 89uL)) >= 7u)
+			if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 89uL)) >= 7u)
 			{
-				_003CModule_003E.WPP_SF_D(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 80uL), 17, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), m_uTraceId);
+				Module.WPP_SF_D(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 80uL), 17, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), m_uTraceId);
 			}
 		}
 
 		private unsafe void ClearThumbnailCache()
 		{
-			if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 89uL)) >= 7u)
+			if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 89uL)) >= 7u)
 			{
-				_003CModule_003E.WPP_SF_D(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 80uL), 32, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), m_uTraceId);
+				Module.WPP_SF_D(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 80uL), 32, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), m_uTraceId);
 			}
 			if (m_thumbnail != null)
 			{
@@ -718,25 +720,25 @@ namespace MicrosoftZuneLibrary
 					SetSlowDataThumbnailExtraction(useSlowData: false);
 				}
 			}
-			if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 89uL)) >= 7u)
+			if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 89uL)) >= 7u)
 			{
-				_003CModule_003E.WPP_SF_D(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 80uL), 33, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), m_uTraceId);
+				Module.WPP_SF_D(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 80uL), 33, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), m_uTraceId);
 			}
 		}
 
 		[return: MarshalAs(UnmanagedType.U1)]
 		private bool HasThumbnailArt()
 		{
-			int num = ((base.TypeName != "Album" || (bool)GetFieldValue(typeof(bool), 191u, false)) ? 1 : 0);
+			int num = ((TypeName != "Album" || (bool)GetFieldValue(typeof(bool), 191u, false)) ? 1 : 0);
 			return (byte)num != 0;
 		}
 
 		[return: MarshalAs(UnmanagedType.U1)]
 		private unsafe bool ArtNeedsUpdating(string strThumbnailPath, int thumbnailIndex)
 		{
-			if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 89uL)) >= 7u)
+			if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 89uL)) >= 7u)
 			{
-				_003CModule_003E.WPP_SF_D(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 80uL), 51, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), m_uTraceId);
+				Module.WPP_SF_D(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 80uL), 51, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), m_uTraceId);
 			}
 			bool flag = false;
 			if (m_thumbnailSize != null)
@@ -785,9 +787,9 @@ namespace MicrosoftZuneLibrary
 					}
 				}
 			}
-			if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 89uL)) >= 7u)
+			if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 89uL)) >= 7u)
 			{
-				_003CModule_003E.WPP_SF_Dl(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 80uL), 52, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), m_uTraceId, flag ? 1 : 0);
+				Module.WPP_SF_Dl(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 80uL), 52, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), m_uTraceId, flag ? 1 : 0);
 			}
 			return flag;
 		}

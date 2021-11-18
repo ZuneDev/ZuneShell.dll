@@ -12,7 +12,7 @@ namespace MicrosoftZuneLibrary
 		public override object GetProperty(string propertyName)
 		{
 			DataProviderMapping value = null;
-			if (base.Mappings.TryGetValue(propertyName, out value))
+			if (Mappings.TryGetValue(propertyName, out value))
 			{
 				return value.DefaultValue;
 			}

@@ -10,7 +10,7 @@ namespace MicrosoftZuneLibrary
 	[SecurityPermission(SecurityAction.LinkDemand, UnmanagedCode = true)]
 	public class SafeBitmap : SafeHandleZeroOrMinusOneIsInvalid
 	{
-		public unsafe SafeBitmap(HBITMAP__* hBitmap)
+		public unsafe SafeBitmap(HBITMAP* hBitmap)
 			: base(ownsHandle: true)
 		{
 			try
@@ -29,7 +29,7 @@ namespace MicrosoftZuneLibrary
 		[return: MarshalAs(UnmanagedType.U1)]
 		protected unsafe override bool ReleaseHandle()
 		{
-			return (_003CModule_003E.DeleteObject((void*)handle) != 0) ? true : false;
+			return (Module.DeleteObject((void*)handle) != 0) ? true : false;
 		}
 	}
 }

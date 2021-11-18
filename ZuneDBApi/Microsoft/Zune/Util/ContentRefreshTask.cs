@@ -64,23 +64,23 @@ namespace Microsoft.Zune.Util
 			//IL_006a: Expected I, but got I8
 			//IL_007c: Expected I, but got I8
 			int num = 0;
-			AsyncCallbackWrapper* ptr = (AsyncCallbackWrapper*)_003CModule_003E.@new(24uL);
+			AsyncCallbackWrapper* ptr = (AsyncCallbackWrapper*)Module.@new(24uL);
 			AsyncCallbackWrapper* ptr2;
 			try
 			{
-				ptr2 = ((ptr == null) ? null : _003CModule_003E.Microsoft_002EZune_002EUtil_002EAsyncCallbackWrapper_002E_007Bctor_007D(ptr, completeHandler));
+				ptr2 = ((ptr == null) ? null : Module.Microsoft_002EZune_002EUtil_002EAsyncCallbackWrapper_002E_007Bctor_007D(ptr, completeHandler));
 			}
 			catch
 			{
 				//try-fault
-				_003CModule_003E.delete(ptr);
+				Module.delete(ptr);
 				throw;
 			}
 			num = (((long)(nint)ptr2 == 0) ? (-2147418113) : num);
 			IContentRefreshTask* ptr3 = null;
 			if (num >= 0)
 			{
-				num = _003CModule_003E.ZuneLibraryExports_002ECreateContentRefreshTask((IAsyncCallback*)ptr2, &ptr3);
+				num = Module.ZuneLibraryExports_002ECreateContentRefreshTask((IAsyncCallback*)ptr2, &ptr3);
 				if (num >= 0)
 				{
 					if (0L != (nint)ptr3)

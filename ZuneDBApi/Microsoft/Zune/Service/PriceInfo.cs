@@ -96,11 +96,11 @@ namespace Microsoft.Zune.Service
 			bool flag = (m_hasPoints = ((((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)pPriceInfo + 40)))((nint)pPriceInfo) != 0) ? true : false));
 			bool flag2 = (m_hasCurrency = ((((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)pPriceInfo + 48)))((nint)pPriceInfo) != 0) ? true : false));
 			WBSTRString wBSTRString;
-			_003CModule_003E.WBSTRString_002E_007Bctor_007D(&wBSTRString);
+			Module.WBSTRString_002E_007Bctor_007D(&wBSTRString);
 			try
 			{
 				WBSTRString wBSTRString2;
-				_003CModule_003E.WBSTRString_002E_007Bctor_007D(&wBSTRString2);
+				Module.WBSTRString_002E_007Bctor_007D(&wBSTRString2);
 				try
 				{
 					int num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort**, int>)(*(ulong*)(*(long*)pPriceInfo + 64)))((nint)pPriceInfo, (ushort**)(&wBSTRString));
@@ -117,18 +117,18 @@ namespace Microsoft.Zune.Service
 				catch
 				{
 					//try-fault
-					_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<WBSTRString*, void>)(&_003CModule_003E.WBSTRString_002E_007Bdtor_007D), &wBSTRString2);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<WBSTRString*, void>)(&Module.WBSTRString_002E_007Bdtor_007D), &wBSTRString2);
 					throw;
 				}
-				_003CModule_003E.WBSTRString_002E_007Bdtor_007D(&wBSTRString2);
+				Module.WBSTRString_002E_007Bdtor_007D(&wBSTRString2);
 			}
 			catch
 			{
 				//try-fault
-				_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<WBSTRString*, void>)(&_003CModule_003E.WBSTRString_002E_007Bdtor_007D), &wBSTRString);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<WBSTRString*, void>)(&Module.WBSTRString_002E_007Bdtor_007D), &wBSTRString);
 				throw;
 			}
-			_003CModule_003E.WBSTRString_002E_007Bdtor_007D(&wBSTRString);
+			Module.WBSTRString_002E_007Bdtor_007D(&wBSTRString);
 		}
 	}
 }

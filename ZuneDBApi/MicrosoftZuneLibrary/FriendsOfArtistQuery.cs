@@ -135,7 +135,7 @@ namespace MicrosoftZuneLibrary
 			int* ptr = null;
 			int* ptr2 = null;
 			int num2 = ((!asyncQueryParams.GetFriends) ? 1 : 100);
-			if (_003CModule_003E.ZuneLibraryExports_002EUserCardsForMedia(_003CModule_003E.GuidToGUID(asyncQueryParams.ArtistId), EMediaTypes.eMediaTypePersonArtist, asyncQueryParams.UserId, 14, num2, &num, &ptr, &ptr2) >= 0)
+			if (Module.ZuneLibraryExports_002EUserCardsForMedia(Module.GuidToGUID(asyncQueryParams.ArtistId), EMediaTypes.eMediaTypePersonArtist, asyncQueryParams.UserId, 14, num2, &num, &ptr, &ptr2) >= 0)
 			{
 				bool flag = num > 0;
 				IList list = null;
@@ -159,21 +159,21 @@ namespace MicrosoftZuneLibrary
 							if (asyncQueryParams.ResolveZuneTags)
 							{
 								_0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040 _0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040;
-								_003CModule_003E.DBPropertyRequestStruct_002E_007Bctor_007D((DBPropertyRequestStruct*)(&_0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040), 187u);
+								Module.DBPropertyRequestStruct_002E_007Bctor_007D((DBPropertyRequestStruct*)(&_0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040), 187u);
 								try
 								{
-									if (_003CModule_003E.ZuneLibraryExports_002EGetFieldValues(*(int*)(num4 + (nint)ptr), EListType.eUserCardList, 1, (DBPropertyRequestStruct*)(&_0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040), null) >= 0 && System.Runtime.CompilerServices.Unsafe.As<_0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040, int>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040, 4)) >= 0 && System.Runtime.CompilerServices.Unsafe.As<_0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040, ushort>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040, 8)) == 8)
+									if (Module.ZuneLibraryExports_002EGetFieldValues(*(int*)(num4 + (nint)ptr), EListType.eUserCardList, 1, (DBPropertyRequestStruct*)(&_0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040), null) >= 0 && Unsafe.As<_0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040, int>(ref Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040, 4)) >= 0 && Unsafe.As<_0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040, ushort>(ref Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040, 8)) == 8)
 									{
-										friendOfArtist.ZuneTag = new string((char*)System.Runtime.CompilerServices.Unsafe.As<_0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040, ulong>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040, 16)));
+										friendOfArtist.ZuneTag = new string((char*)Unsafe.As<_0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040, ulong>(ref Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040, 16)));
 									}
 								}
 								catch
 								{
 									//try-fault
-									_003CModule_003E.___CxxCallUnwindVecDtor((delegate*<void*, ulong, int, delegate*<void*, void>, void>)(&_003CModule_003E.__ehvec_dtor), (void*)(&_0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040), 32uL, 1, (delegate*<void*, void>)(delegate*<DBPropertyRequestStruct*, void>)(&_003CModule_003E.DBPropertyRequestStruct_002E_007Bdtor_007D));
+									Module.___CxxCallUnwindVecDtor((delegate*<void*, ulong, int, delegate*<void*, void>, void>)(&Module.__ehvec_dtor), (void*)(&_0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040), 32uL, 1, (delegate*<void*, void>)(delegate*<DBPropertyRequestStruct*, void>)(&Module.DBPropertyRequestStruct_002E_007Bdtor_007D));
 									throw;
 								}
-								_003CModule_003E.__ehvec_dtor(&_0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040, 32uL, 1, (delegate*<void*, void>)(delegate*<DBPropertyRequestStruct*, void>)(&_003CModule_003E.DBPropertyRequestStruct_002E_007Bdtor_007D));
+								Module.__ehvec_dtor(&_0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040, 32uL, 1, (delegate*<void*, void>)(delegate*<DBPropertyRequestStruct*, void>)(&Module.DBPropertyRequestStruct_002E_007Bdtor_007D));
 							}
 							list.Add(friendOfArtist);
 							if (((uint)(*(int*)(num4 + (nint)ptr2)) & 2u) != 0)
@@ -199,11 +199,11 @@ namespace MicrosoftZuneLibrary
 			}
 			if (ptr != null)
 			{
-				_003CModule_003E.delete_005B_005D(ptr);
+				Module.delete_005B_005D(ptr);
 			}
 			if (ptr2 != null)
 			{
-				_003CModule_003E.delete_005B_005D(ptr2);
+				Module.delete_005B_005D(ptr2);
 			}
 		}
 

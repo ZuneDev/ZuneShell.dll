@@ -144,7 +144,7 @@ namespace MicrosoftZuneLibrary
 			NSSMediator* pNSSMediator = m_pNSSMediator;
 			if (pNSSMediator != null)
 			{
-				_003CModule_003E.NSSMediator_002EShutdown(pNSSMediator);
+				Module.NSSMediator_002EShutdown(pNSSMediator);
 			}
 			NSSMediator* pNSSMediator2 = m_pNSSMediator;
 			if (0L != (nint)pNSSMediator2)
@@ -161,12 +161,12 @@ namespace MicrosoftZuneLibrary
 			//IL_0065: Expected I, but got I8
 			fixed (IHMESettings** ptr = &m_pSettings)
 			{
-				int num = _003CModule_003E.CreateHMESettings(ptr);
+				int num = Module.CreateHMESettings(ptr);
 				fixed (INSSManager** ptr2 = &m_pNSSManager)
 				{
 					if (num >= 0)
 					{
-						num = _003CModule_003E.CreateNSSManager(ptr2);
+						num = Module.CreateNSSManager(ptr2);
 					}
 					NSSMediator* pNSSMediator = m_pNSSMediator;
 					if (0L != (nint)pNSSMediator)
@@ -174,20 +174,20 @@ namespace MicrosoftZuneLibrary
 						((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint>)(*(ulong*)(*(long*)pNSSMediator + 16)))((nint)pNSSMediator);
 						m_pNSSMediator = null;
 					}
-					NSSMediator* ptr3 = (NSSMediator*)_003CModule_003E.@new(40uL);
+					NSSMediator* ptr3 = (NSSMediator*)Module.@new(40uL);
 					NSSMediator* ptr4;
 					try
 					{
-						ptr4 = ((ptr3 == null) ? null : _003CModule_003E.NSSMediator_002E_007Bctor_007D(ptr3, m_pNSSManager, this));
+						ptr4 = ((ptr3 == null) ? null : Module.NSSMediator_002E_007Bctor_007D(ptr3, m_pNSSManager, this));
 					}
 					catch
 					{
 						//try-fault
-						_003CModule_003E.delete(ptr3);
+						Module.delete(ptr3);
 						throw;
 					}
 					m_pNSSMediator = ptr4;
-					_003CModule_003E.SafeAddRef_003Cclass_0020NSSMediator_003E(ptr4);
+					Module.SafeAddRef_003Cclass_0020NSSMediator_003E(ptr4);
 					return num;
 				}
 			}
@@ -199,7 +199,7 @@ namespace MicrosoftZuneLibrary
 			IHMESettings* pSettings = m_pSettings;
 			if (pSettings == null)
 			{
-				_003CModule_003E._ZuneShipAssert(1002u, 76u);
+				Module._ZuneShipAssert(1002u, 76u);
 				return -2147418113;
 			}
 			return ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)pSettings + 136)))((nint)pSettings);
@@ -214,7 +214,7 @@ namespace MicrosoftZuneLibrary
 			IHMESettings* pSettings = m_pSettings;
 			if (pSettings == null)
 			{
-				_003CModule_003E._ZuneShipAssert(1002u, 119u);
+				Module._ZuneShipAssert(1002u, 119u);
 				return -2147418113;
 			}
 			IHMESettings* intPtr = pSettings;
@@ -246,7 +246,7 @@ namespace MicrosoftZuneLibrary
 			IHMESettings* pSettings = m_pSettings;
 			if (pSettings == null)
 			{
-				_003CModule_003E._ZuneShipAssert(1002u, 144u);
+				Module._ZuneShipAssert(1002u, 144u);
 				return -2147418113;
 			}
 			return ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, int>)(*(ulong*)(*(long*)pSettings + 160)))((nint)pSettings, 0);
@@ -258,7 +258,7 @@ namespace MicrosoftZuneLibrary
 			IHMESettings* pSettings = m_pSettings;
 			if (pSettings == null)
 			{
-				_003CModule_003E._ZuneShipAssert(1002u, 153u);
+				Module._ZuneShipAssert(1002u, 153u);
 				return -2147418113;
 			}
 			return ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, int>)(*(ulong*)(*(long*)pSettings + 120)))((nint)pSettings, 0);
@@ -270,7 +270,7 @@ namespace MicrosoftZuneLibrary
 			IHMESettings* pSettings = m_pSettings;
 			if (pSettings == null)
 			{
-				_003CModule_003E._ZuneShipAssert(1002u, 162u);
+				Module._ZuneShipAssert(1002u, 162u);
 				return -2147418113;
 			}
 			return ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, byte, int>)(*(ulong*)(*(long*)pSettings + 24)))((nint)pSettings, fForce ? ((byte)1) : ((byte)0));
@@ -282,7 +282,7 @@ namespace MicrosoftZuneLibrary
 			IHMESettings* pSettings = m_pSettings;
 			if (pSettings == null)
 			{
-				_003CModule_003E._ZuneShipAssert(1002u, 181u);
+				Module._ZuneShipAssert(1002u, 181u);
 				return -2147418113;
 			}
 			ushort* ptr;
@@ -290,7 +290,7 @@ namespace MicrosoftZuneLibrary
 			if (num >= 0)
 			{
 				strName = new string((char*)ptr);
-				_003CModule_003E.SysFreeString(ptr);
+				Module.SysFreeString(ptr);
 			}
 			return num;
 		}
@@ -300,11 +300,12 @@ namespace MicrosoftZuneLibrary
 			//IL_0044: Expected I, but got I8
 			if (m_pSettings == null)
 			{
-				_003CModule_003E._ZuneShipAssert(1002u, 197u);
+				Module._ZuneShipAssert(1002u, 197u);
 				return -2147418113;
 			}
-			fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(strName)))
+			fixed (char* strNamePtr = strName.ToCharArray())
 			{
+				ushort* ptr = (ushort*)strNamePtr;
 				int result;
 				if (ptr != null)
 				{
@@ -368,7 +369,7 @@ namespace MicrosoftZuneLibrary
 			IHMESettings* pSettings = m_pSettings;
 			if (pSettings == null)
 			{
-				_003CModule_003E._ZuneShipAssert(1002u, 248u);
+				Module._ZuneShipAssert(1002u, 248u);
 				return -2147418113;
 			}
 			int num = (bEnabled ? 1 : 0);
@@ -404,7 +405,7 @@ namespace MicrosoftZuneLibrary
 			INSSManager* pNSSManager = m_pNSSManager;
 			if (pNSSManager == null)
 			{
-				_003CModule_003E._ZuneShipAssert(1002u, 297u);
+				Module._ZuneShipAssert(1002u, 297u);
 				return -2147418113;
 			}
 			int num = -1;
@@ -482,7 +483,7 @@ namespace MicrosoftZuneLibrary
 			//IL_0225: Expected I, but got I8
 			if (m_pDeviceList == null)
 			{
-				_003CModule_003E._ZuneShipAssert(1002u, 338u);
+				Module._ZuneShipAssert(1002u, 338u);
 				return -2147418113;
 			}
 			INSSDevice* ptr = null;
@@ -490,17 +491,17 @@ namespace MicrosoftZuneLibrary
 			INSSProperty* ptr3 = null;
 			ushort* ptr4 = null;
 			tagVARIANT tagVARIANT;
-			fixed (tagVARIANT* ptr5 = &System.Runtime.CompilerServices.Unsafe.AsRef<tagVARIANT>(&tagVARIANT))
+			fixed (tagVARIANT* ptr5 = &Unsafe.AsRef<tagVARIANT>(&tagVARIANT))
 			{
-				_003CModule_003E.VariantInit(ptr5);
-				fixed (INSSDevice** ptr6 = &System.Runtime.CompilerServices.Unsafe.AsRef<INSSDevice*>(&ptr))
+				Module.VariantInit(ptr5);
+				fixed (INSSDevice** ptr6 = &Unsafe.AsRef<INSSDevice*>(&ptr))
 				{
 					long num = *(long*)m_pDeviceList + 56;
 					INSSDevices* pDeviceList = m_pDeviceList;
 					int num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, INSSDevice**, int>)(*(ulong*)num))((nint)pDeviceList, (int)dwIndex, ptr6);
 					if (num2 >= 0)
 					{
-						fixed (ushort** ptr7 = &System.Runtime.CompilerServices.Unsafe.AsRef<ushort*>(&ptr4))
+						fixed (ushort** ptr7 = &Unsafe.AsRef<ushort*>(&ptr4))
 						{
 							try
 							{
@@ -518,9 +519,9 @@ namespace MicrosoftZuneLibrary
 						if (num2 >= 0)
 						{
 							strMAC = new string((char*)ptr4);
-							_003CModule_003E.SysFreeString(ptr4);
+							Module.SysFreeString(ptr4);
 							ptr4 = null;
-							fixed (INSSProperties** ptr8 = &System.Runtime.CompilerServices.Unsafe.AsRef<INSSProperties*>(&ptr2))
+							fixed (INSSProperties** ptr8 = &Unsafe.AsRef<INSSProperties*>(&ptr2))
 							{
 								try
 								{
@@ -537,13 +538,13 @@ namespace MicrosoftZuneLibrary
 							}
 							if (num2 >= 0)
 							{
-								fixed (INSSProperty** ptr9 = &System.Runtime.CompilerServices.Unsafe.AsRef<INSSProperty*>(&ptr3))
+								fixed (INSSProperty** ptr9 = &Unsafe.AsRef<INSSProperty*>(&ptr3))
 								{
 									try
 									{
 										long num5 = *(long*)ptr2 + 72;
 										INSSProperties* intPtr3 = ptr2;
-										num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, INSSProperty**, int>)(*(ulong*)num5))((nint)intPtr3, (ushort*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003F_003F_C_0040_1BK_0040BFIEKNFP_0040_003F_0024AAF_003F_0024AAr_003F_0024AAi_003F_0024AAe_003F_0024AAn_003F_0024AAd_003F_0024AAl_003F_0024AAy_003F_0024AAN_003F_0024AAa_003F_0024AAm_003F_0024AAe_003F_0024AA_003F_0024AA_0040), ptr9);
+										num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, INSSProperty**, int>)(*(ulong*)num5))((nint)intPtr3, (ushort*)Unsafe.AsPointer(ref Module._003F_003F_C_0040_1BK_0040BFIEKNFP_0040_003F_0024AAF_003F_0024AAr_003F_0024AAi_003F_0024AAe_003F_0024AAn_003F_0024AAd_003F_0024AAl_003F_0024AAy_003F_0024AAN_003F_0024AAa_003F_0024AAm_003F_0024AAe_003F_0024AA_003F_0024AA_0040), ptr9);
 										if (num2 < 0)
 										{
 											ptr3 = null;
@@ -571,9 +572,9 @@ namespace MicrosoftZuneLibrary
 										{
 											if (*(ushort*)(&tagVARIANT) == 8)
 											{
-												strName = new string((char*)System.Runtime.CompilerServices.Unsafe.As<tagVARIANT, ulong>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref tagVARIANT, 8)));
+												strName = new string((char*)Unsafe.As<tagVARIANT, ulong>(ref Unsafe.AddByteOffset(ref tagVARIANT, 8)));
 											}
-											_003CModule_003E.VariantClear(ptr5);
+											Module.VariantClear(ptr5);
 											if (0L != (nint)ptr3)
 											{
 												INSSProperty* intPtr5 = ptr3;
@@ -581,13 +582,13 @@ namespace MicrosoftZuneLibrary
 												ptr3 = null;
 											}
 										}
-										fixed (INSSProperty** ptr10 = &System.Runtime.CompilerServices.Unsafe.AsRef<INSSProperty*>(&ptr3))
+										fixed (INSSProperty** ptr10 = &Unsafe.AsRef<INSSProperty*>(&ptr3))
 										{
 											try
 											{
 												long num7 = *(long*)ptr2 + 72;
 												INSSProperties* intPtr6 = ptr2;
-												num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, INSSProperty**, int>)(*(ulong*)num7))((nint)intPtr6, (ushort*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003F_003F_C_0040_1BK_0040GBMCOKGG_0040_003F_0024AAS_003F_0024AAe_003F_0024AAr_003F_0024AAi_003F_0024AAa_003F_0024AAl_003F_0024AAN_003F_0024AAu_003F_0024AAm_003F_0024AAb_003F_0024AAe_003F_0024AAr_003F_0024AA_003F_0024AA_0040), ptr10);
+												num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, INSSProperty**, int>)(*(ulong*)num7))((nint)intPtr6, (ushort*)Unsafe.AsPointer(ref Module._003F_003F_C_0040_1BK_0040GBMCOKGG_0040_003F_0024AAS_003F_0024AAe_003F_0024AAr_003F_0024AAi_003F_0024AAa_003F_0024AAl_003F_0024AAN_003F_0024AAu_003F_0024AAm_003F_0024AAb_003F_0024AAe_003F_0024AAr_003F_0024AA_003F_0024AA_0040), ptr10);
 												if (num2 < 0)
 												{
 													ptr3 = null;
@@ -613,9 +614,9 @@ namespace MicrosoftZuneLibrary
 											{
 												if (*(ushort*)(&tagVARIANT) == 8)
 												{
-													strSerialNumber = new string((char*)System.Runtime.CompilerServices.Unsafe.As<tagVARIANT, ulong>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref tagVARIANT, 8)));
+													strSerialNumber = new string((char*)Unsafe.As<tagVARIANT, ulong>(ref Unsafe.AddByteOffset(ref tagVARIANT, 8)));
 												}
-												_003CModule_003E.VariantClear(ptr5);
+												Module.VariantClear(ptr5);
 												if (0L != (nint)ptr3)
 												{
 													INSSProperty* intPtr8 = ptr3;
@@ -631,7 +632,7 @@ namespace MicrosoftZuneLibrary
 					}
 					if (ptr4 != null)
 					{
-						_003CModule_003E.SysFreeString(ptr4);
+						Module.SysFreeString(ptr4);
 					}
 					if (0L != (nint)ptr)
 					{
@@ -651,7 +652,7 @@ namespace MicrosoftZuneLibrary
 						((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint>)(*(ulong*)(*(long*)intPtr11 + 16)))((nint)intPtr11);
 						ptr3 = null;
 					}
-					_003CModule_003E.VariantClear(ptr5);
+					Module.VariantClear(ptr5);
 					return num2;
 				}
 			}
@@ -671,14 +672,14 @@ namespace MicrosoftZuneLibrary
 			bool flag = false;
 			INSSDevice* ptr = null;
 			AuthorizationStatus authorizationStatus = (AuthorizationStatus)0;
-			fixed (INSSDevice** ptr2 = &System.Runtime.CompilerServices.Unsafe.AsRef<INSSDevice*>(&ptr))
+			fixed (INSSDevice** ptr2 = &Unsafe.AsRef<INSSDevice*>(&ptr))
 			{
 				long num = *(long*)m_pDeviceList + 56;
 				INSSDevices* pDeviceList = m_pDeviceList;
 				int num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, INSSDevice**, int>)(*(ulong*)num))((nint)pDeviceList, (int)dwIndex, ptr2);
 				if (num2 >= 0)
 				{
-					fixed (AuthorizationStatus* ptr3 = &System.Runtime.CompilerServices.Unsafe.AsRef<AuthorizationStatus>(&authorizationStatus))
+					fixed (AuthorizationStatus* ptr3 = &Unsafe.AsRef<AuthorizationStatus>(&authorizationStatus))
 					{
 						try
 						{
@@ -715,11 +716,11 @@ namespace MicrosoftZuneLibrary
 			//IL_0070: Expected I, but got I8
 			if (m_pDeviceList == null)
 			{
-				_003CModule_003E._ZuneShipAssert(1002u, 470u);
+				Module._ZuneShipAssert(1002u, 470u);
 				return -2147418113;
 			}
 			INSSDevice* ptr = null;
-			fixed (INSSDevice** ptr2 = &System.Runtime.CompilerServices.Unsafe.AsRef<INSSDevice*>(&ptr))
+			fixed (INSSDevice** ptr2 = &Unsafe.AsRef<INSSDevice*>(&ptr))
 			{
 				long num = *(long*)m_pDeviceList + 56;
 				INSSDevices* pDeviceList = m_pDeviceList;

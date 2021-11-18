@@ -46,23 +46,23 @@ namespace Microsoft.Zune.Util
 			//IL_0092: Expected I, but got I8
 			//IL_0096: Expected I, but got I8
 			IUpdateManager* ptr = null;
-			UpdateProxy* ptr2 = (UpdateProxy*)_003CModule_003E.@new(24uL);
+			UpdateProxy* ptr2 = (UpdateProxy*)Module.@new(24uL);
 			UpdateProxy* ptr3;
 			try
 			{
-				ptr3 = ((ptr2 == null) ? null : _003CModule_003E.Microsoft_002EZune_002EUtil_002EUpdateProxy_002E_007Bctor_007D(ptr2, updateProgressHandler));
+				ptr3 = ((ptr2 == null) ? null : Module.Microsoft_002EZune_002EUtil_002EUpdateProxy_002E_007Bctor_007D(ptr2, updateProgressHandler));
 			}
 			catch
 			{
 				//try-fault
-				_003CModule_003E.delete(ptr2);
+				Module.delete(ptr2);
 				throw;
 			}
 			UpdateProxy* ptr4 = ptr3;
 			try
 			{
 				Monitor.Enter(sm_lock);
-				if (_003CModule_003E.GetSingleton((_GUID)_003CModule_003E._GUID_9d21716a_ca61_4e24_a1ba_47b9e70e1e2c, (void**)(&ptr)) >= 0)
+				if (Module.GetSingleton((_GUID)Module._GUID_9d21716a_ca61_4e24_a1ba_47b9e70e1e2c, (void**)(&ptr)) >= 0)
 				{
 					m_spUpdateManager.op_Assign(ptr);
 					IUpdateManager* p = m_spUpdateManager.p;
@@ -112,16 +112,16 @@ namespace Microsoft.Zune.Util
 			//IL_005d: Expected I, but got I8
 			//IL_006b: Expected I, but got I8
 			//IL_00ad: Expected I, but got I8
-			UpdateProxy* ptr = (UpdateProxy*)_003CModule_003E.@new(24uL);
+			UpdateProxy* ptr = (UpdateProxy*)Module.@new(24uL);
 			UpdateProxy* ptr2;
 			try
 			{
-				ptr2 = ((ptr == null) ? null : _003CModule_003E.Microsoft_002EZune_002EUtil_002EUpdateProxy_002E_007Bctor_007D(ptr, updateProgressHandler));
+				ptr2 = ((ptr == null) ? null : Module.Microsoft_002EZune_002EUtil_002EUpdateProxy_002E_007Bctor_007D(ptr, updateProgressHandler));
 			}
 			catch
 			{
 				//try-fault
-				_003CModule_003E.delete(ptr);
+				Module.delete(ptr);
 				throw;
 			}
 			UpdateProxy* ptr3 = ptr2;
@@ -135,7 +135,7 @@ namespace Microsoft.Zune.Util
 					*(long*)(&cComPtrNtv_003CIUpdateManager_003E) = 0L;
 					try
 					{
-						if (_003CModule_003E.GetSingleton((_GUID)_003CModule_003E._GUID_9d21716a_ca61_4e24_a1ba_47b9e70e1e2c, (void**)(&cComPtrNtv_003CIUpdateManager_003E)) >= 0)
+						if (Module.GetSingleton((_GUID)Module._GUID_9d21716a_ca61_4e24_a1ba_47b9e70e1e2c, (void**)(&cComPtrNtv_003CIUpdateManager_003E)) >= 0)
 						{
 							IUpdateManager* ptr4 = (IUpdateManager*)(*(ulong*)(&cComPtrNtv_003CIUpdateManager_003E));
 							m_spUpdateManager.op_Assign((IUpdateManager*)(*(ulong*)(&cComPtrNtv_003CIUpdateManager_003E)));
@@ -144,10 +144,10 @@ namespace Microsoft.Zune.Util
 					catch
 					{
 						//try-fault
-						_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIUpdateManager_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIUpdateManager_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIUpdateManager_003E);
+						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIUpdateManager_003E*, void>)(&Module.CComPtrNtv_003CIUpdateManager_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIUpdateManager_003E);
 						throw;
 					}
-					_003CModule_003E.CComPtrNtv_003CIUpdateManager_003E_002ERelease(&cComPtrNtv_003CIUpdateManager_003E);
+					Module.CComPtrNtv_003CIUpdateManager_003E_002ERelease(&cComPtrNtv_003CIUpdateManager_003E);
 				}
 				CComPtrMgd_003CIUpdateManager_003E spUpdateManager = m_spUpdateManager;
 				IUpdateManager* p2 = spUpdateManager.p;
@@ -159,7 +159,7 @@ namespace Microsoft.Zune.Util
 			}
 			finally
 			{
-				_003CModule_003E.SafeRelease_003Cclass_0020Microsoft_003A_003AZune_003A_003AUtil_003A_003AUpdateProxy_003E(&ptr3);
+				Module.SafeRelease_003Cclass_0020Microsoft_003A_003AZune_003A_003AUtil_003A_003AUpdateProxy_003E(&ptr3);
 				m_spUpdateManager.Release();
 				Monitor.Exit(sm_lock);
 			}

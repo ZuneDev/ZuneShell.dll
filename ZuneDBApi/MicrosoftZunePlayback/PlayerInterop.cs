@@ -186,16 +186,16 @@ namespace MicrosoftZunePlayback
 			{
 				//IL_004a: Expected I, but got I8
 				_windowHost = value;
-				tagRECT tagRECT;
+				RECT tagRECT;
 				*(int*)(&tagRECT) = value.Left;
-				System.Runtime.CompilerServices.Unsafe.As<tagRECT, int>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref tagRECT, 4)) = value.Top;
-				System.Runtime.CompilerServices.Unsafe.As<tagRECT, int>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref tagRECT, 8)) = value.Right;
-				System.Runtime.CompilerServices.Unsafe.As<tagRECT, int>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref tagRECT, 12)) = value.Bottom;
+                Unsafe.As<RECT, int>(ref Unsafe.AddByteOffset(ref tagRECT, 4)) = value.Top;
+                Unsafe.As<RECT, int>(ref Unsafe.AddByteOffset(ref tagRECT, 8)) = value.Right;
+                Unsafe.As<RECT, int>(ref Unsafe.AddByteOffset(ref tagRECT, 12)) = value.Bottom;
 				IMCDynamicImage* uDynamicImage = _uDynamicImage;
 				if (uDynamicImage != null)
 				{
-					tagRECT tagRECT2 = tagRECT;
-					((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, tagRECT, int>)(*(ulong*)(*(long*)uDynamicImage + 32)))((nint)uDynamicImage, tagRECT2);
+					RECT tagRECT2 = tagRECT;
+					((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, RECT, int>)(*(ulong*)(*(long*)uDynamicImage + 32)))((nint)uDynamicImage, tagRECT2);
 				}
 			}
 		}
@@ -434,12 +434,14 @@ namespace MicrosoftZunePlayback
 			else if (b != null)
 			{
 				bool result;
-				fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(b.Id)))
+				fixed (char* b.IdPtr = b.Id.ToCharArray())
 				{
+					ushort* ptr = (ushort*)b.IdPtr;
 					try
 					{
-						fixed (ushort* ptr3 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(b.SourceFile)))
+						fixed (char* b.SourceFilePtr = b.SourceFile.ToCharArray())
 						{
+							ushort* ptr3 = (ushort*)b.SourceFilePtr;
 							try
 							{
 								int num7;
@@ -450,11 +452,11 @@ namespace MicrosoftZunePlayback
 									ref ushort reference;
 									long num;
 									ref ushort reference2;
-									fixed (ushort* ptr2 = &System.Runtime.CompilerServices.Unsafe.AsRef<ushort>(ptr))
+									fixed (ushort* ptr2 = &Unsafe.AsRef<ushort>(ptr))
 									{
 										num = *(long*)a;
-										num2 = System.Runtime.CompilerServices.Unsafe.ReadUnaligned<short>((void*)num);
-										num3 = System.Runtime.CompilerServices.Unsafe.ReadUnaligned<short>(ptr2);
+										num2 = Unsafe.ReadUnaligned<short>((void*)num);
+										num3 = Unsafe.ReadUnaligned<short>(ptr2);
 										if (num2 >= num3 && num2 <= num3)
 										{
 											if (num2 == 0)
@@ -462,11 +464,11 @@ namespace MicrosoftZunePlayback
 												long num4;
 												short num5;
 												short num6;
-												fixed (ushort* ptr4 = &System.Runtime.CompilerServices.Unsafe.AsRef<ushort>(ptr3))
+												fixed (ushort* ptr4 = &Unsafe.AsRef<ushort>(ptr3))
 												{
 													num4 = *(long*)((ulong)(nint)a + 24uL);
-													num5 = System.Runtime.CompilerServices.Unsafe.ReadUnaligned<short>((void*)num4);
-													num6 = System.Runtime.CompilerServices.Unsafe.ReadUnaligned<short>(ptr4);
+													num5 = Unsafe.ReadUnaligned<short>((void*)num4);
+													num6 = Unsafe.ReadUnaligned<short>(ptr4);
 													if (num5 < num6 || num5 > num6)
 													{
 														num7 = 0;
@@ -487,7 +489,7 @@ namespace MicrosoftZunePlayback
 												}
 												while (true)
 												{
-													fixed (ushort* ptr4 = &System.Runtime.CompilerServices.Unsafe.Add(ref reference, 1))
+													fixed (ushort* ptr4 = &Unsafe.Add(ref reference, 1))
 													{
 														IL_00b1:
 														if (num5 > num6)
@@ -509,8 +511,8 @@ namespace MicrosoftZunePlayback
 														num7 = 0;
 														goto IL_00df_2;
 														IL_00c9:
-														num5 = System.Runtime.CompilerServices.Unsafe.ReadUnaligned<short>((void*)num4);
-														num6 = System.Runtime.CompilerServices.Unsafe.ReadUnaligned<short>(ptr4);
+														num5 = Unsafe.ReadUnaligned<short>((void*)num4);
+														num6 = Unsafe.ReadUnaligned<short>(ptr4);
 														if (num5 >= num6)
 														{
 															goto IL_00b1;
@@ -530,7 +532,7 @@ namespace MicrosoftZunePlayback
 									}
 									while (true)
 									{
-										fixed (ushort* ptr2 = &System.Runtime.CompilerServices.Unsafe.Add(ref reference2, 1))
+										fixed (ushort* ptr2 = &Unsafe.Add(ref reference2, 1))
 										{
 											if (num2 <= num3)
 											{
@@ -543,11 +545,11 @@ namespace MicrosoftZunePlayback
 												long num4;
 												short num5;
 												short num6;
-												fixed (ushort* ptr4 = &System.Runtime.CompilerServices.Unsafe.AsRef<ushort>(ptr3))
+												fixed (ushort* ptr4 = &Unsafe.AsRef<ushort>(ptr3))
 												{
 													num4 = *(long*)((ulong)(nint)a + 24uL);
-													num5 = System.Runtime.CompilerServices.Unsafe.ReadUnaligned<short>((void*)num4);
-													num6 = System.Runtime.CompilerServices.Unsafe.ReadUnaligned<short>(ptr4);
+													num5 = Unsafe.ReadUnaligned<short>((void*)num4);
+													num6 = Unsafe.ReadUnaligned<short>(ptr4);
 													if (num5 < num6 || num5 > num6)
 													{
 														num7 = 0;
@@ -568,7 +570,7 @@ namespace MicrosoftZunePlayback
 												}
 												while (true)
 												{
-													fixed (ushort* ptr4 = &System.Runtime.CompilerServices.Unsafe.Add(ref reference, 1))
+													fixed (ushort* ptr4 = &Unsafe.Add(ref reference, 1))
 													{
 														IL_00b1_2:
 														if (num5 > num6)
@@ -590,8 +592,8 @@ namespace MicrosoftZunePlayback
 														num7 = 0;
 														goto IL_00df_4;
 														IL_00c9_2:
-														num5 = System.Runtime.CompilerServices.Unsafe.ReadUnaligned<short>((void*)num4);
-														num6 = System.Runtime.CompilerServices.Unsafe.ReadUnaligned<short>(ptr4);
+														num5 = Unsafe.ReadUnaligned<short>((void*)num4);
+														num6 = Unsafe.ReadUnaligned<short>(ptr4);
 														if (num5 >= num6)
 														{
 															goto IL_00b1_2;
@@ -715,10 +717,10 @@ namespace MicrosoftZunePlayback
 				switch (_state)
 				{
 				case MCPlayerState.Closed:
-					_003CModule_003E.SetEvent(_gotStateCloseEvent);
+					Module.SetEvent(_gotStateCloseEvent);
 					break;
 				case MCPlayerState.Uninitialized:
-					_003CModule_003E.SetEvent(_gotStateUninitializeEvent);
+					Module.SetEvent(_gotStateUninitializeEvent);
 					break;
 				}
 			}
@@ -748,9 +750,9 @@ namespace MicrosoftZunePlayback
 				else if (string.Compare(text, "mbrheuristicsdata", StringComparison.Ordinal) == 0)
 				{
 					_MBRHEURISTICDATA mBRHEURISTICDATA;
-					// IL cpblk instruction
-					System.Runtime.CompilerServices.Unsafe.CopyBlock(ref mBRHEURISTICDATA, pData, 48);
-					BandwidthUpdateArgs value2 = new BandwidthUpdateArgs(*(long*)(&mBRHEURISTICDATA), System.Runtime.CompilerServices.Unsafe.As<_MBRHEURISTICDATA, float>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref mBRHEURISTICDATA, 8)), System.Runtime.CompilerServices.Unsafe.As<_MBRHEURISTICDATA, int>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref mBRHEURISTICDATA, 12)), System.Runtime.CompilerServices.Unsafe.As<_MBRHEURISTICDATA, int>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref mBRHEURISTICDATA, 16)), System.Runtime.CompilerServices.Unsafe.As<_MBRHEURISTICDATA, int>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref mBRHEURISTICDATA, 20)), System.Runtime.CompilerServices.Unsafe.As<_MBRHEURISTICDATA, int>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref mBRHEURISTICDATA, 24)), System.Runtime.CompilerServices.Unsafe.As<_MBRHEURISTICDATA, int>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref mBRHEURISTICDATA, 28)), System.Runtime.CompilerServices.Unsafe.As<_MBRHEURISTICDATA, int>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref mBRHEURISTICDATA, 32)), System.Runtime.CompilerServices.Unsafe.As<_MBRHEURISTICDATA, int>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref mBRHEURISTICDATA, 36)), System.Runtime.CompilerServices.Unsafe.As<_MBRHEURISTICDATA, int>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref mBRHEURISTICDATA, 40)), System.Runtime.CompilerServices.Unsafe.As<_MBRHEURISTICDATA, MBRHeuristicState>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref mBRHEURISTICDATA, 44)));
+                    // IL cpblk instruction
+                    Unsafe.CopyBlock(ref mBRHEURISTICDATA, pData, 48);
+					BandwidthUpdateArgs value2 = new BandwidthUpdateArgs(*(long*)(&mBRHEURISTICDATA), Unsafe.As<_MBRHEURISTICDATA, float>(ref Unsafe.AddByteOffset(ref mBRHEURISTICDATA, 8)), Unsafe.As<_MBRHEURISTICDATA, int>(ref Unsafe.AddByteOffset(ref mBRHEURISTICDATA, 12)), Unsafe.As<_MBRHEURISTICDATA, int>(ref Unsafe.AddByteOffset(ref mBRHEURISTICDATA, 16)), Unsafe.As<_MBRHEURISTICDATA, int>(ref Unsafe.AddByteOffset(ref mBRHEURISTICDATA, 20)), Unsafe.As<_MBRHEURISTICDATA, int>(ref Unsafe.AddByteOffset(ref mBRHEURISTICDATA, 24)), Unsafe.As<_MBRHEURISTICDATA, int>(ref Unsafe.AddByteOffset(ref mBRHEURISTICDATA, 28)), Unsafe.As<_MBRHEURISTICDATA, int>(ref Unsafe.AddByteOffset(ref mBRHEURISTICDATA, 32)), Unsafe.As<_MBRHEURISTICDATA, int>(ref Unsafe.AddByteOffset(ref mBRHEURISTICDATA, 36)), Unsafe.As<_MBRHEURISTICDATA, int>(ref Unsafe.AddByteOffset(ref mBRHEURISTICDATA, 40)), Unsafe.As<_MBRHEURISTICDATA, MBRHeuristicState>(ref Unsafe.AddByteOffset(ref mBRHEURISTICDATA, 44)));
 					raise_PlayerBandwithUpdate(this, value2);
 				}
 			}
@@ -834,35 +836,35 @@ namespace MicrosoftZunePlayback
 			IMCDynamicImage* ptr4 = null;
 			IMCVolumeControl* ptr5 = null;
 			IZuneSpectrumMgr* ptr6 = null;
-			if ((_gotStateCloseEvent = _003CModule_003E.CreateEventW(null, 0, 0, null)) == null)
+			if ((_gotStateCloseEvent = Module.CreateEventW(null, 0, 0, null)) == null)
 			{
 				throw new COMException("PlayerInterop failed to CreateEvent for close", 0);
 			}
-			if ((_gotStateUninitializeEvent = _003CModule_003E.CreateEventW(null, 0, 0, null)) == null)
+			if ((_gotStateUninitializeEvent = Module.CreateEventW(null, 0, 0, null)) == null)
 			{
 				throw new COMException("PlayerInterop failed to CreateEvent for uninit", 0);
 			}
-			int num = _003CModule_003E.WmpCoreInitialize();
+			int num = Module.WmpCoreInitialize();
 			if (num < 0)
 			{
 				throw new COMException("Playback core initialization failed.", num);
 			}
-			num = _003CModule_003E.CWmpPlayer_GetInstance(&ptr);
+			num = Module.CWmpPlayer_GetInstance(&ptr);
 			if (num >= 0 && ptr != null)
 			{
 				_uPlayer = ptr;
 				IMCPlayer* intPtr = ptr;
-				num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, void**, int>)(*(ulong*)(*(ulong*)ptr)))((nint)intPtr, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._GUID_2f33a725_95cb_4080_adef_93a067a707ba), (void**)(&ptr2));
+				num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, void**, int>)(*(ulong*)(*(ulong*)ptr)))((nint)intPtr, (_GUID*)Unsafe.AsPointer(ref Module._GUID_2f33a725_95cb_4080_adef_93a067a707ba), (void**)(&ptr2));
 				if (num >= 0 && ptr2 != null)
 				{
 					_uTransport = ptr2;
 					IMCPlayer* uPlayer = _uPlayer;
-					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, void**, int>)(*(ulong*)(*(ulong*)uPlayer)))((nint)uPlayer, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._GUID_58864c93_45f9_4c6d_aa3f_80f6caa08281), (void**)(&ptr3));
+					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, void**, int>)(*(ulong*)(*(ulong*)uPlayer)))((nint)uPlayer, (_GUID*)Unsafe.AsPointer(ref Module._GUID_58864c93_45f9_4c6d_aa3f_80f6caa08281), (void**)(&ptr3));
 					if (num >= 0 && ptr3 != null)
 					{
 						_uSetUri = ptr3;
 						IMCPlayer* uPlayer2 = _uPlayer;
-						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, void**, int>)(*(ulong*)(*(ulong*)uPlayer2)))((nint)uPlayer2, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._GUID_102e281e_28ad_4688_aaff_f560f8053d90), (void**)(&ptr4));
+						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, void**, int>)(*(ulong*)(*(ulong*)uPlayer2)))((nint)uPlayer2, (_GUID*)Unsafe.AsPointer(ref Module._GUID_102e281e_28ad_4688_aaff_f560f8053d90), (void**)(&ptr4));
 						if (num >= 0 && ptr4 != null)
 						{
 							_uDynamicImage = ptr4;
@@ -874,25 +876,25 @@ namespace MicrosoftZunePlayback
 								throw new COMException("PlayerInterop failed to initialize IMCDynamicImage", num);
 							}
 							IMCPlayer* uPlayer3 = _uPlayer;
-							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, void**, int>)(*(ulong*)(*(ulong*)uPlayer3)))((nint)uPlayer3, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._GUID_f6ba930c_78c3_488c_924d_2d3fc1e8fb70), (void**)(&ptr5));
+							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, void**, int>)(*(ulong*)(*(ulong*)uPlayer3)))((nint)uPlayer3, (_GUID*)Unsafe.AsPointer(ref Module._GUID_f6ba930c_78c3_488c_924d_2d3fc1e8fb70), (void**)(&ptr5));
 							if (num >= 0 && ptr5 != null)
 							{
 								_uVolumeControl = ptr5;
 								IMCPlayer* uPlayer4 = _uPlayer;
-								num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, void**, int>)(*(ulong*)(*(ulong*)uPlayer4)))((nint)uPlayer4, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._GUID_aff1732d_13f3_45e5_a52f_a854729e8730), (void**)(&ptr6));
+								num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, void**, int>)(*(ulong*)(*(ulong*)uPlayer4)))((nint)uPlayer4, (_GUID*)Unsafe.AsPointer(ref Module._GUID_aff1732d_13f3_45e5_a52f_a854729e8730), (void**)(&ptr6));
 								if (num >= 0 && ptr6 != null)
 								{
 									_uZuneSpectrumMgr = ptr6;
-									CPlayerInteropEventSink* ptr7 = (CPlayerInteropEventSink*)_003CModule_003E.@new(48uL);
+									CPlayerInteropEventSink* ptr7 = (CPlayerInteropEventSink*)Module.@new(48uL);
 									CPlayerInteropEventSink* ptr8;
 									try
 									{
-										ptr8 = ((ptr7 == null) ? null : _003CModule_003E.MicrosoftZunePlayback_002ECPlayerInteropEventSink_002E_007Bctor_007D(ptr7, this));
+										ptr8 = ((ptr7 == null) ? null : Module.MicrosoftZunePlayback_002ECPlayerInteropEventSink_002E_007Bctor_007D(ptr7, this));
 									}
 									catch
 									{
 										//try-fault
-										_003CModule_003E.delete(ptr7);
+										Module.delete(ptr7);
 										throw;
 									}
 									_uEventSink = ptr8;
@@ -903,7 +905,7 @@ namespace MicrosoftZunePlayback
 									long num2 = *(long*)_uPlayer + 24;
 									IMCPlayer* uPlayer5 = _uPlayer;
 									void* intPtr3 = _windowHandle.ToPointer();
-									num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, HWND__*, uint, IMCPlayerEvents*, int>)(*(ulong*)num2))((nint)uPlayer5, (HWND__*)intPtr3, 0u, (IMCPlayerEvents*)ptr8);
+									num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, HWND*, uint, IMCPlayerEvents*, int>)(*(ulong*)num2))((nint)uPlayer5, (HWND*)intPtr3, 0u, (IMCPlayerEvents*)ptr8);
 									if (num < 0)
 									{
 										throw new COMException("PlayerInterop failed to initialize IMCPlayer", num);
@@ -975,18 +977,18 @@ namespace MicrosoftZunePlayback
 				_fShuttingDown = true;
 				IMCPlayer* uPlayer = _uPlayer;
 				((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)uPlayer + 40)))((nint)uPlayer);
-				_003CModule_003E.WaitForSingleObject(_gotStateCloseEvent, 5000u);
+				Module.WaitForSingleObject(_gotStateCloseEvent, 5000u);
 				IMCPlayer* uPlayer2 = _uPlayer;
 				((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)uPlayer2 + 32)))((nint)uPlayer2);
-				byte condition = (byte)((_003CModule_003E.WaitForSingleObject(_gotStateUninitializeEvent, 5000u) == 0 && _state == MCPlayerState.Uninitialized) ? 1 : 0);
+				byte condition = (byte)((Module.WaitForSingleObject(_gotStateUninitializeEvent, 5000u) == 0 && _state == MCPlayerState.Uninitialized) ? 1 : 0);
 				ShipAssert.AssertId(condition != 0, 80000u, 0u);
 				flag = _state != 0 || flag;
 				IMCPlayer* uPlayer3 = _uPlayer;
 				((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)uPlayer3 + 64)))((nint)uPlayer3);
 			}
-			_003CModule_003E.CloseHandle(_gotStateCloseEvent);
+			Module.CloseHandle(_gotStateCloseEvent);
 			_gotStateCloseEvent = null;
-			_003CModule_003E.CloseHandle(_gotStateUninitializeEvent);
+			Module.CloseHandle(_gotStateUninitializeEvent);
 			_gotStateUninitializeEvent = null;
 			if (!flag)
 			{
@@ -1032,7 +1034,7 @@ namespace MicrosoftZunePlayback
 					((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint>)(*(ulong*)(*(long*)uZuneSpectrumMgr + 16)))((nint)uZuneSpectrumMgr);
 					_uZuneSpectrumMgr = null;
 				}
-				_003CModule_003E.WmpCoreDeinitialize();
+				Module.WmpCoreDeinitialize();
 			}
 		}
 
@@ -1150,8 +1152,9 @@ namespace MicrosoftZunePlayback
 			{
 				return;
 			}
-			fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(uri)))
+			fixed (char* uriPtr = uri.ToCharArray())
 			{
+				ushort* ptr = (ushort*)uriPtr;
 				try
 				{
 					IMCPlayerSetUri* uSetUri = _uSetUri;
@@ -1178,8 +1181,9 @@ namespace MicrosoftZunePlayback
 			{
 				return;
 			}
-			fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(uri)))
+			fixed (char* uriPtr = uri.ToCharArray())
 			{
+				ushort* ptr = (ushort*)uriPtr;
 				try
 				{
 					IMCPlayerSetUri* uSetUri = _uSetUri;
@@ -1249,14 +1253,14 @@ namespace MicrosoftZunePlayback
 			CPlayerInteropEventSink* uEventSink = _uEventSink;
 			if (uEventSink != null && *(long*)((ulong)(nint)uEventSink + 40uL) == 0L)
 			{
-				*(long*)((ulong)(nint)_uEventSink + 40uL) = (nint)_003CModule_003E.CreateEventW(null, 0, 0, null);
+				*(long*)((ulong)(nint)_uEventSink + 40uL) = (nint)Module.CreateEventW(null, 0, 0, null);
 				if (*(long*)((ulong)(nint)_uEventSink + 40uL) == 0L)
 				{
 					throw new COMException("PlayerInterop failed to CreateEvent for ProgressivePlaybackReleaseFile", 0);
 				}
 				IMCTransport* uTransport = _uTransport;
 				((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)uTransport + 104)))((nint)uTransport);
-				byte condition = ((_003CModule_003E.WaitForSingleObject((void*)(*(ulong*)((ulong)(nint)_uEventSink + 40uL)), 30000u) == 0) ? ((byte)1) : ((byte)0));
+				byte condition = ((Module.WaitForSingleObject((void*)(*(ulong*)((ulong)(nint)_uEventSink + 40uL)), 30000u) == 0) ? ((byte)1) : ((byte)0));
 				ShipAssert.AssertId(condition != 0, 80001u, 0u);
 			}
 		}
@@ -1272,7 +1276,7 @@ namespace MicrosoftZunePlayback
 				if (uEventSink != null && *(long*)((ulong)(nint)uEventSink + 40uL) != 0L)
 				{
 					((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)uTransport + 112)))((nint)uTransport);
-					_003CModule_003E.CloseHandle((void*)(*(ulong*)((ulong)(nint)_uEventSink + 40uL)));
+					Module.CloseHandle((void*)(*(ulong*)((ulong)(nint)_uEventSink + 40uL)));
 					*(long*)((ulong)(nint)_uEventSink + 40uL) = 0L;
 				}
 			}

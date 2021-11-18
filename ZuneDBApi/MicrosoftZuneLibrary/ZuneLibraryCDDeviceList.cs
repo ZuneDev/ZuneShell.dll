@@ -65,20 +65,20 @@ namespace MicrosoftZuneLibrary
 				return;
 			}
 			((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint>)(*(ulong*)(*(long*)pDeviceList2 + 8)))((nint)pDeviceList2);
-			CDDeviceCallback* ptr = (CDDeviceCallback*)_003CModule_003E.@new(24uL);
+			CDDeviceCallback* ptr = (CDDeviceCallback*)Module.@new(24uL);
 			CDDeviceCallback* ptr2;
 			try
 			{
-				ptr2 = ((ptr == null) ? null : _003CModule_003E.MicrosoftZuneLibrary_002ECDDeviceCallback_002E_007Bctor_007D(ptr, this));
+				ptr2 = ((ptr == null) ? null : Module.MicrosoftZuneLibrary_002ECDDeviceCallback_002E_007Bctor_007D(ptr, this));
 			}
 			catch
 			{
 				//try-fault
-				_003CModule_003E.delete(ptr);
+				Module.delete(ptr);
 				throw;
 			}
 			IZuneCDDeviceCallback* ptr3;
-			if (ptr2 == null || ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, void**, int>)(*(ulong*)(*(ulong*)ptr2)))((nint)ptr2, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.IID_IUnknown), (void**)(&ptr3)) < 0)
+			if (ptr2 == null || ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, void**, int>)(*(ulong*)(*(ulong*)ptr2)))((nint)ptr2, (_GUID*)Unsafe.AsPointer(ref Module.IID_IUnknown), (void**)(&ptr3)) < 0)
 			{
 				return;
 			}

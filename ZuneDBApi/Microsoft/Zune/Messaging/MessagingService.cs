@@ -37,7 +37,7 @@ namespace Microsoft.Zune.Messaging
 			//IL_0008: Expected I, but got I8
 			//IL_0011: Expected I, but got I8
 			IZuneNetMessaging* pMessaging = null;
-			if (_003CModule_003E.GetSingleton((_GUID)_003CModule_003E._GUID_bf368f0d_4743_439c_9142_e487c9534104, (void**)(&pMessaging)) >= 0)
+			if (Module.GetSingleton((_GUID)Module._GUID_bf368f0d_4743_439c_9142_e487c9534104, (void**)(&pMessaging)) >= 0)
 			{
 				m_pMessaging = pMessaging;
 			}
@@ -67,8 +67,9 @@ namespace Microsoft.Zune.Messaging
 			bool result = false;
 			if (m_pMessaging != null)
 			{
-				fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(strMessageUrl)))
+				fixed (char* strMessageUrlPtr = strMessageUrl.ToCharArray())
 				{
+					ushort* ptr = (ushort*)strMessageUrlPtr;
 					try
 					{
 						long num = *(long*)m_pMessaging + 24;
@@ -93,8 +94,9 @@ namespace Microsoft.Zune.Messaging
 			bool result = false;
 			if (m_pMessaging != null)
 			{
-				fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(strMessageUrl)))
+				fixed (char* strMessageUrlPtr = strMessageUrl.ToCharArray())
 				{
+					ushort* ptr = (ushort*)strMessageUrlPtr;
 					try
 					{
 						long num = *(long*)m_pMessaging + 32;
@@ -119,8 +121,9 @@ namespace Microsoft.Zune.Messaging
 			bool result = false;
 			if (m_pMessaging != null)
 			{
-				fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(strPostUrl)))
+				fixed (char* strPostUrlPtr = strPostUrl.ToCharArray())
 				{
+					ushort* ptr = (ushort*)strPostUrlPtr;
 					try
 					{
 						long num = *(long*)m_pMessaging + 40;
@@ -145,8 +148,9 @@ namespace Microsoft.Zune.Messaging
 			bool result = false;
 			if (m_pMessaging != null)
 			{
-				fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(strPostUrl)))
+				fixed (char* strPostUrlPtr = strPostUrl.ToCharArray())
 				{
+					ushort* ptr = (ushort*)strPostUrlPtr;
 					try
 					{
 						long num = *(long*)m_pMessaging + 48;
@@ -171,12 +175,14 @@ namespace Microsoft.Zune.Messaging
 			bool result = false;
 			if (m_pMessaging != null)
 			{
-				fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(strPostUrl)))
+				fixed (char* strPostUrlPtr = strPostUrl.ToCharArray())
 				{
+					ushort* ptr = (ushort*)strPostUrlPtr;
 					try
 					{
-						fixed (ushort* ptr2 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(strZuneTag)))
+						fixed (char* strZuneTagPtr = strZuneTag.ToCharArray())
 						{
+							ushort* ptr2 = (ushort*)strZuneTagPtr;
 							try
 							{
 								long num = *(long*)m_pMessaging + 56;
@@ -217,22 +223,25 @@ namespace Microsoft.Zune.Messaging
 					int num;
 					if (callback != null)
 					{
-						num = _003CModule_003E.Microsoft_002EZune_002EMessaging_002EAddCommentCallbackWrapper_002ECreateInstance(callback, (IMessagingCallback**)(&cComPtrNtv_003CIMessagingCallback_003E));
+						num = Module.Microsoft_002EZune_002EMessaging_002EAddCommentCallbackWrapper_002ECreateInstance(callback, (IMessagingCallback**)(&cComPtrNtv_003CIMessagingCallback_003E));
 						if (num < 0)
 						{
 							goto IL_0086;
 						}
 					}
-					fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(strPostUrl)))
+					fixed (char* strPostUrlPtr = strPostUrl.ToCharArray())
 					{
+						ushort* ptr = (ushort*)strPostUrlPtr;
 						try
 						{
-							fixed (ushort* ptr2 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(strZuneTag)))
+							fixed (char* strZuneTagPtr = strZuneTag.ToCharArray())
 							{
+								ushort* ptr2 = (ushort*)strZuneTagPtr;
 								try
 								{
-									fixed (ushort* ptr3 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(strMessage)))
+									fixed (char* strMessagePtr = strMessage.ToCharArray())
 									{
+										ushort* ptr3 = (ushort*)strMessagePtr;
 										try
 										{
 											long num2 = *(long*)m_pMessaging + 112;
@@ -283,10 +292,10 @@ namespace Microsoft.Zune.Messaging
 				catch
 				{
 					//try-fault
-					_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIMessagingCallback_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIMessagingCallback_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIMessagingCallback_003E);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIMessagingCallback_003E*, void>)(&Module.CComPtrNtv_003CIMessagingCallback_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIMessagingCallback_003E);
 					throw;
 				}
-				_003CModule_003E.CComPtrNtv_003CIMessagingCallback_003E_002ERelease(&cComPtrNtv_003CIMessagingCallback_003E);
+				Module.CComPtrNtv_003CIMessagingCallback_003E_002ERelease(&cComPtrNtv_003CIMessagingCallback_003E);
 			}
 			return result;
 		}
@@ -306,18 +315,20 @@ namespace Microsoft.Zune.Messaging
 					int num;
 					if (callback != null)
 					{
-						num = _003CModule_003E.Microsoft_002EZune_002EMessaging_002EMessagingCallbackWrapper_002ECreateInstance(callback, null, (IMessagingCallback**)(&cComPtrNtv_003CIMessagingCallback_003E));
+						num = Module.Microsoft_002EZune_002EMessaging_002EMessagingCallbackWrapper_002ECreateInstance(callback, null, (IMessagingCallback**)(&cComPtrNtv_003CIMessagingCallback_003E));
 						if (num < 0)
 						{
 							goto IL_0073;
 						}
 					}
-					fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(strPostUrl)))
+					fixed (char* strPostUrlPtr = strPostUrl.ToCharArray())
 					{
+						ushort* ptr = (ushort*)strPostUrlPtr;
 						try
 						{
-							fixed (ushort* ptr2 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(strZuneTag)))
+							fixed (char* strZuneTagPtr = strZuneTag.ToCharArray())
 							{
+								ushort* ptr2 = (ushort*)strZuneTagPtr;
 								try
 								{
 									long num2 = *(long*)m_pMessaging + 120;
@@ -359,10 +370,10 @@ namespace Microsoft.Zune.Messaging
 				catch
 				{
 					//try-fault
-					_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIMessagingCallback_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIMessagingCallback_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIMessagingCallback_003E);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIMessagingCallback_003E*, void>)(&Module.CComPtrNtv_003CIMessagingCallback_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIMessagingCallback_003E);
 					throw;
 				}
-				_003CModule_003E.CComPtrNtv_003CIMessagingCallback_003E_002ERelease(&cComPtrNtv_003CIMessagingCallback_003E);
+				Module.CComPtrNtv_003CIMessagingCallback_003E_002ERelease(&cComPtrNtv_003CIMessagingCallback_003E);
 			}
 			return result;
 		}
@@ -386,24 +397,28 @@ namespace Microsoft.Zune.Messaging
 				{
 					if (callback != null)
 					{
-						num = _003CModule_003E.Microsoft_002EZune_002EMessaging_002EMessagingCallbackWrapper_002ECreateInstance(callback, state, &ptr2);
+						num = Module.Microsoft_002EZune_002EMessaging_002EMessagingCallbackWrapper_002ECreateInstance(callback, state, &ptr2);
 					}
 					if (num >= 0)
 					{
-						fixed (ushort* ptr3 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(strPostUrl)))
+						fixed (char* strPostUrlPtr = strPostUrl.ToCharArray())
 						{
+							ushort* ptr3 = (ushort*)strPostUrlPtr;
 							try
 							{
-								fixed (ushort* ptr4 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(strMessage)))
+								fixed (char* strMessagePtr = strMessage.ToCharArray())
 								{
+									ushort* ptr4 = (ushort*)strMessagePtr;
 									try
 									{
-										fixed (ushort* ptr5 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(strRecipientZuneTags)))
+										fixed (char* strRecipientZuneTagsPtr = strRecipientZuneTags.ToCharArray())
 										{
+											ushort* ptr5 = (ushort*)strRecipientZuneTagsPtr;
 											try
 											{
-												fixed (ushort* ptr6 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(strRequestType)))
+												fixed (char* strRequestTypePtr = strRequestType.ToCharArray())
 												{
+													ushort* ptr6 = (ushort*)strRequestTypePtr;
 													try
 													{
 														long num2 = *(long*)m_pMessaging + 64;
@@ -485,18 +500,20 @@ namespace Microsoft.Zune.Messaging
 					int num;
 					if (callback != null)
 					{
-						num = _003CModule_003E.Microsoft_002EZune_002EMessaging_002EMessagingCallbackWrapper_002ECreateInstance(callback, state, (IMessagingCallback**)(&cComPtrNtv_003CIMessagingCallback_003E));
+						num = Module.Microsoft_002EZune_002EMessaging_002EMessagingCallbackWrapper_002ECreateInstance(callback, state, (IMessagingCallback**)(&cComPtrNtv_003CIMessagingCallback_003E));
 						if (num < 0)
 						{
 							goto IL_0074;
 						}
 					}
-					fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(strPostUrl)))
+					fixed (char* strPostUrlPtr = strPostUrl.ToCharArray())
 					{
+						ushort* ptr = (ushort*)strPostUrlPtr;
 						try
 						{
-							fixed (ushort* ptr2 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(strMessage)))
+							fixed (char* strMessagePtr = strMessage.ToCharArray())
 							{
+								ushort* ptr2 = (ushort*)strMessagePtr;
 								try
 								{
 									long num2 = *(long*)m_pMessaging + 72;
@@ -538,10 +555,10 @@ namespace Microsoft.Zune.Messaging
 				catch
 				{
 					//try-fault
-					_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIMessagingCallback_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIMessagingCallback_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIMessagingCallback_003E);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIMessagingCallback_003E*, void>)(&Module.CComPtrNtv_003CIMessagingCallback_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIMessagingCallback_003E);
 					throw;
 				}
-				_003CModule_003E.CComPtrNtv_003CIMessagingCallback_003E_002ERelease(&cComPtrNtv_003CIMessagingCallback_003E);
+				Module.CComPtrNtv_003CIMessagingCallback_003E_002ERelease(&cComPtrNtv_003CIMessagingCallback_003E);
 			}
 			return result;
 		}
@@ -561,18 +578,20 @@ namespace Microsoft.Zune.Messaging
 				int num;
 				if (callback != null)
 				{
-					num = _003CModule_003E.Microsoft_002EZune_002EMessaging_002EMessagingCallbackWrapper_002ECreateInstance(callback, state, &ptr);
+					num = Module.Microsoft_002EZune_002EMessaging_002EMessagingCallbackWrapper_002ECreateInstance(callback, state, &ptr);
 					if (num < 0)
 					{
 						goto IL_0074;
 					}
 				}
-				fixed (ushort* ptr2 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(strFavoritesUrl)))
+				fixed (char* strFavoritesUrlPtr = strFavoritesUrl.ToCharArray())
 				{
+					ushort* ptr2 = (ushort*)strFavoritesUrlPtr;
 					try
 					{
-						fixed (ushort* ptr3 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(strInstructions)))
+						fixed (char* strInstructionsPtr = strInstructions.ToCharArray())
 						{
+							ushort* ptr3 = (ushort*)strInstructionsPtr;
 							try
 							{
 								long num2 = *(long*)m_pMessaging + 80;
@@ -635,18 +654,20 @@ namespace Microsoft.Zune.Messaging
 				int num;
 				if (callback != null)
 				{
-					num = _003CModule_003E.Microsoft_002EZune_002EMessaging_002EMessagingCallbackWrapper_002ECreateInstance(callback, state, &ptr);
+					num = Module.Microsoft_002EZune_002EMessaging_002EMessagingCallbackWrapper_002ECreateInstance(callback, state, &ptr);
 					if (num < 0)
 					{
 						goto IL_0071;
 					}
 				}
-				fixed (ushort* ptr2 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(strProfileUrl)))
+				fixed (char* strProfileUrlPtr = strProfileUrl.ToCharArray())
 				{
+					ushort* ptr2 = (ushort*)strProfileUrlPtr;
 					try
 					{
-						fixed (ushort* ptr3 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(strFieldValue)))
+						fixed (char* strFieldValuePtr = strFieldValue.ToCharArray())
 						{
+							ushort* ptr3 = (ushort*)strFieldValuePtr;
 							try
 							{
 								long num2 = *(long*)m_pMessaging + 88;
@@ -709,18 +730,20 @@ namespace Microsoft.Zune.Messaging
 					int num;
 					if (callback != null)
 					{
-						num = _003CModule_003E.Microsoft_002EZune_002EMessaging_002EMessagingCallbackWrapper_002ECreateInstance(callback, state, (IMessagingCallback**)(&cComPtrNtv_003CIMessagingCallback_003E));
+						num = Module.Microsoft_002EZune_002EMessaging_002EMessagingCallbackWrapper_002ECreateInstance(callback, state, (IMessagingCallback**)(&cComPtrNtv_003CIMessagingCallback_003E));
 						if (num < 0)
 						{
 							goto IL_008c;
 						}
 					}
-					fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(strProfileImageUrl)))
+					fixed (char* strProfileImageUrlPtr = strProfileImageUrl.ToCharArray())
 					{
+						ushort* ptr = (ushort*)strProfileImageUrlPtr;
 						try
 						{
-							fixed (ushort* ptr2 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(strProfileImageResource)))
+							fixed (char* strProfileImageResourcePtr = strProfileImageResource.ToCharArray())
 							{
+								ushort* ptr2 = (ushort*)strProfileImageResourcePtr;
 								try
 								{
 									long num2 = *(long*)m_pMessaging + 96;
@@ -762,10 +785,10 @@ namespace Microsoft.Zune.Messaging
 				catch
 				{
 					//try-fault
-					_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIMessagingCallback_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIMessagingCallback_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIMessagingCallback_003E);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIMessagingCallback_003E*, void>)(&Module.CComPtrNtv_003CIMessagingCallback_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIMessagingCallback_003E);
 					throw;
 				}
-				_003CModule_003E.CComPtrNtv_003CIMessagingCallback_003E_002ERelease(&cComPtrNtv_003CIMessagingCallback_003E);
+				Module.CComPtrNtv_003CIMessagingCallback_003E_002ERelease(&cComPtrNtv_003CIMessagingCallback_003E);
 			}
 			return result;
 		}
@@ -786,7 +809,7 @@ namespace Microsoft.Zune.Messaging
 				{
 					if (callback != null)
 					{
-						num = _003CModule_003E.Microsoft_002EZune_002EMessaging_002EMessagingCallbackWrapper_002ECreateInstance(callback, state, (IMessagingCallback**)(&cComPtrNtv_003CIMessagingCallback_003E));
+						num = Module.Microsoft_002EZune_002EMessaging_002EMessagingCallbackWrapper_002ECreateInstance(callback, state, (IMessagingCallback**)(&cComPtrNtv_003CIMessagingCallback_003E));
 					}
 					bool success = false;
 					int num4;
@@ -796,16 +819,17 @@ namespace Microsoft.Zune.Messaging
 						num = ((!success) ? (-2147467259) : num);
 						if (num >= 0)
 						{
-							fixed (ushort* ptr2 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(strProfileImageUrl)))
+							fixed (char* strProfileImageUrlPtr = strProfileImageUrl.ToCharArray())
 							{
+								ushort* ptr2 = (ushort*)strProfileImageUrlPtr;
 								try
 								{
-									HBITMAP__* ptr = (HBITMAP__*)(int)profileImage.DangerousGetHandle();
+									HBITMAP* ptr = (HBITMAP*)(int)profileImage.DangerousGetHandle();
 									long num2 = *(long*)m_pMessaging + 104;
 									IZuneNetMessaging* pMessaging = m_pMessaging;
 									_003F val = ptr2;
 									long num3 = *(long*)(&cComPtrNtv_003CIMessagingCallback_003E);
-									num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, HBITMAP__*, IMessagingCallback*, int>)(*(ulong*)num2))((nint)pMessaging, (ushort*)(nint)val, ptr, (IMessagingCallback*)num3);
+									num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, HBITMAP*, IMessagingCallback*, int>)(*(ulong*)num2))((nint)pMessaging, (ushort*)(nint)val, ptr, (IMessagingCallback*)num3);
 								}
 								catch
 								{
@@ -833,10 +857,10 @@ namespace Microsoft.Zune.Messaging
 				catch
 				{
 					//try-fault
-					_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIMessagingCallback_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIMessagingCallback_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIMessagingCallback_003E);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIMessagingCallback_003E*, void>)(&Module.CComPtrNtv_003CIMessagingCallback_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIMessagingCallback_003E);
 					throw;
 				}
-				_003CModule_003E.CComPtrNtv_003CIMessagingCallback_003E_002ERelease(&cComPtrNtv_003CIMessagingCallback_003E);
+				Module.CComPtrNtv_003CIMessagingCallback_003E_002ERelease(&cComPtrNtv_003CIMessagingCallback_003E);
 			}
 			return result;
 		}
@@ -850,12 +874,14 @@ namespace Microsoft.Zune.Messaging
 			{
 				ushort* ptr = null;
 				int num = 0;
-				fixed (ushort* ptr2 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(title)))
+				fixed (char* titlePtr = title.ToCharArray())
 				{
+					ushort* ptr2 = (ushort*)titlePtr;
 					try
 					{
-						fixed (ushort* ptr3 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(collectionName)))
+						fixed (char* collectionNamePtr = collectionName.ToCharArray())
 						{
+							ushort* ptr3 = (ushort*)collectionNamePtr;
 							try
 							{
 								long num2 = *(long*)m_pMessaging + 152;
@@ -866,7 +892,7 @@ namespace Microsoft.Zune.Messaging
 								}
 								if (ptr != null)
 								{
-									_003CModule_003E.SysFreeString(ptr);
+									Module.SysFreeString(ptr);
 								}
 							}
 							catch
@@ -895,16 +921,19 @@ namespace Microsoft.Zune.Messaging
 			bool result = false;
 			if (m_pMessaging != null)
 			{
-				fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(title)))
+				fixed (char* titlePtr = title.ToCharArray())
 				{
+					ushort* ptr = (ushort*)titlePtr;
 					try
 					{
-						fixed (ushort* ptr2 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(collectionName)))
+						fixed (char* collectionNamePtr = collectionName.ToCharArray())
 						{
+							ushort* ptr2 = (ushort*)collectionNamePtr;
 							try
 							{
-								fixed (ushort* ptr3 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(localFilePath)))
+								fixed (char* localFilePathPtr = localFilePath.ToCharArray())
 								{
+									ushort* ptr3 = (ushort*)localFilePathPtr;
 									try
 									{
 										long num = *(long*)m_pMessaging + 144;
@@ -944,8 +973,9 @@ namespace Microsoft.Zune.Messaging
 			int num = 0;
 			if (m_pMessaging != null)
 			{
-				fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(collectionName)))
+				fixed (char* collectionNamePtr = collectionName.ToCharArray())
 				{
+					ushort* ptr = (ushort*)collectionNamePtr;
 					try
 					{
 						long num2 = *(long*)m_pMessaging + 160;

@@ -27,7 +27,7 @@ namespace Microsoft.Zune.Service
 			//IL_0008: Expected I, but got I8
 			//IL_0011: Expected I, but got I8
 			IUriResourceTracker* pUriResourceTracker = null;
-			if (_003CModule_003E.GetSingleton((_GUID)_003CModule_003E._GUID_ddbb9148_dea1_47dd_a0c1_1fdcf002c1e2, (void**)(&pUriResourceTracker)) >= 0)
+			if (Module.GetSingleton((_GUID)Module._GUID_ddbb9148_dea1_47dd_a0c1_1fdcf002c1e2, (void**)(&pUriResourceTracker)) >= 0)
 			{
 				m_pUriResourceTracker = pUriResourceTracker;
 			}
@@ -57,8 +57,9 @@ namespace Microsoft.Zune.Service
 			bool result = false;
 			if (m_pUriResourceTracker != null)
 			{
-				fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(strUrlResource)))
+				fixed (char* strUrlResourcePtr = strUrlResource.ToCharArray())
 				{
+					ushort* ptr = (ushort*)strUrlResourcePtr;
 					try
 					{
 						long num = *(long*)m_pUriResourceTracker + 24;
@@ -83,8 +84,9 @@ namespace Microsoft.Zune.Service
 			bool result = false;
 			if (m_pUriResourceTracker != null)
 			{
-				fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(strUrlResource)))
+				fixed (char* strUrlResourcePtr = strUrlResource.ToCharArray())
 				{
+					ushort* ptr = (ushort*)strUrlResourcePtr;
 					try
 					{
 						long num = *(long*)m_pUriResourceTracker + 32;

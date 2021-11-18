@@ -72,7 +72,7 @@ namespace Microsoft.Zune.Service
 				do
 				{
 					MusicTrackMetadata musicTrackMetadata;
-					_003CModule_003E.MusicTrackMetadata_002E_007Bctor_007D(&musicTrackMetadata);
+					Module.MusicTrackMetadata_002E_007Bctor_007D(&musicTrackMetadata);
 					try
 					{
 						CComPtrNtv_003CIContextData_003E cComPtrNtv_003CIContextData_003E;
@@ -84,66 +84,66 @@ namespace Microsoft.Zune.Service
 								num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, MusicTrackMetadata*, IContextData**, int>)(*(ulong*)(*(long*)pCollection + 32)))((nint)pCollection, num3, &musicTrackMetadata, (IContextData**)(&cComPtrNtv_003CIContextData_003E));
 							}
 							CComPtrNtv_003CIPriceInfo_003E cComPtrNtv_003CIPriceInfo_003E;
-							_003CModule_003E.CComPtrNtv_003CIPriceInfo_003E_002E_007Bctor_007D(&cComPtrNtv_003CIPriceInfo_003E);
+							Module.CComPtrNtv_003CIPriceInfo_003E_002E_007Bctor_007D(&cComPtrNtv_003CIPriceInfo_003E);
 							try
 							{
 								if (num >= 0)
 								{
-									long num4 = System.Runtime.CompilerServices.Unsafe.As<MusicTrackMetadata, long>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref musicTrackMetadata, 152));
-									EMediaRights eMediaRights = ((((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)System.Runtime.CompilerServices.Unsafe.As<MusicTrackMetadata, ulong>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref musicTrackMetadata, 152)) + 208)))((nint)num4) != 0) ? ((EMediaRights)5) : ((EMediaRights)3));
-									long num5 = System.Runtime.CompilerServices.Unsafe.As<MusicTrackMetadata, long>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref musicTrackMetadata, 152));
-									int num6 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)System.Runtime.CompilerServices.Unsafe.As<MusicTrackMetadata, ulong>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref musicTrackMetadata, 152)) + 144)))((nint)num5);
-									long num7 = System.Runtime.CompilerServices.Unsafe.As<MusicTrackMetadata, long>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref musicTrackMetadata, 152));
-									int num8 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, int, int>)(*(ulong*)(*(long*)System.Runtime.CompilerServices.Unsafe.As<MusicTrackMetadata, ulong>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref musicTrackMetadata, 152)) + 176)))((nint)num7, 1, 1);
-									long num9 = System.Runtime.CompilerServices.Unsafe.As<MusicTrackMetadata, long>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref musicTrackMetadata, 152));
-									int num10 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EMediaRights, EMediaFormat, int>)(*(ulong*)(*(long*)System.Runtime.CompilerServices.Unsafe.As<MusicTrackMetadata, ulong>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref musicTrackMetadata, 152)) + 72)))((nint)num9, eMediaRights, (EMediaFormat)0);
+									long num4 = Unsafe.As<MusicTrackMetadata, long>(ref Unsafe.AddByteOffset(ref musicTrackMetadata, 152));
+									EMediaRights eMediaRights = ((((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)Unsafe.As<MusicTrackMetadata, ulong>(ref Unsafe.AddByteOffset(ref musicTrackMetadata, 152)) + 208)))((nint)num4) != 0) ? ((EMediaRights)5) : ((EMediaRights)3));
+									long num5 = Unsafe.As<MusicTrackMetadata, long>(ref Unsafe.AddByteOffset(ref musicTrackMetadata, 152));
+									int num6 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)Unsafe.As<MusicTrackMetadata, ulong>(ref Unsafe.AddByteOffset(ref musicTrackMetadata, 152)) + 144)))((nint)num5);
+									long num7 = Unsafe.As<MusicTrackMetadata, long>(ref Unsafe.AddByteOffset(ref musicTrackMetadata, 152));
+									int num8 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, int, int>)(*(ulong*)(*(long*)Unsafe.As<MusicTrackMetadata, ulong>(ref Unsafe.AddByteOffset(ref musicTrackMetadata, 152)) + 176)))((nint)num7, 1, 1);
+									long num9 = Unsafe.As<MusicTrackMetadata, long>(ref Unsafe.AddByteOffset(ref musicTrackMetadata, 152));
+									int num10 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EMediaRights, EMediaFormat, int>)(*(ulong*)(*(long*)Unsafe.As<MusicTrackMetadata, ulong>(ref Unsafe.AddByteOffset(ref musicTrackMetadata, 152)) + 72)))((nint)num9, eMediaRights, (EMediaFormat)0);
 									if (eMediaRights != (EMediaRights)5)
 									{
 										EMediaFormat eMediaFormat = ((num10 == 0) ? ((EMediaFormat)1) : ((EMediaFormat)0));
-										long num11 = System.Runtime.CompilerServices.Unsafe.As<MusicTrackMetadata, long>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref musicTrackMetadata, 152));
-										if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EMediaRights, EMediaFormat, int>)(*(ulong*)(*(long*)System.Runtime.CompilerServices.Unsafe.As<MusicTrackMetadata, ulong>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref musicTrackMetadata, 152)) + 72)))((nint)num11, eMediaRights, eMediaFormat) != 0)
+										long num11 = Unsafe.As<MusicTrackMetadata, long>(ref Unsafe.AddByteOffset(ref musicTrackMetadata, 152));
+										if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EMediaRights, EMediaFormat, int>)(*(ulong*)(*(long*)Unsafe.As<MusicTrackMetadata, ulong>(ref Unsafe.AddByteOffset(ref musicTrackMetadata, 152)) + 72)))((nint)num11, eMediaRights, eMediaFormat) != 0)
 										{
 											EMediaFormat eMediaFormat2 = ((num10 == 0) ? ((EMediaFormat)1) : ((EMediaFormat)0));
-											long num12 = System.Runtime.CompilerServices.Unsafe.As<MusicTrackMetadata, long>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref musicTrackMetadata, 152));
-											num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EMediaRights, EMediaFormat, IPriceInfo**, int>)(*(ulong*)(*(long*)System.Runtime.CompilerServices.Unsafe.As<MusicTrackMetadata, ulong>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref musicTrackMetadata, 152)) + 104)))((nint)num12, eMediaRights, eMediaFormat2, (IPriceInfo**)(&cComPtrNtv_003CIPriceInfo_003E));
+											long num12 = Unsafe.As<MusicTrackMetadata, long>(ref Unsafe.AddByteOffset(ref musicTrackMetadata, 152));
+											num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EMediaRights, EMediaFormat, IPriceInfo**, int>)(*(ulong*)(*(long*)Unsafe.As<MusicTrackMetadata, ulong>(ref Unsafe.AddByteOffset(ref musicTrackMetadata, 152)) + 104)))((nint)num12, eMediaRights, eMediaFormat2, (IPriceInfo**)(&cComPtrNtv_003CIPriceInfo_003E));
 										}
 									}
 									if (num >= 0)
 									{
-										Guid id = _003CModule_003E.GUIDToGuid(System.Runtime.CompilerServices.Unsafe.As<MusicTrackMetadata, _GUID>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref musicTrackMetadata, 8)));
+										Guid id = Module.GUIDToGuid(Unsafe.As<MusicTrackMetadata, _GUID>(ref Unsafe.AddByteOffset(ref musicTrackMetadata, 8)));
 										string recommendationContext = GetRecommendationContext(id, mapIdToContext, (IContextData*)(*(ulong*)(&cComPtrNtv_003CIContextData_003E)));
-										long num13 = System.Runtime.CompilerServices.Unsafe.As<MusicTrackMetadata, long>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref musicTrackMetadata, 152));
-										bool subscriptionFree = ((((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)System.Runtime.CompilerServices.Unsafe.As<MusicTrackMetadata, ulong>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref musicTrackMetadata, 152)) + 208)))((nint)num13) != 0) ? true : false);
+										long num13 = Unsafe.As<MusicTrackMetadata, long>(ref Unsafe.AddByteOffset(ref musicTrackMetadata, 152));
+										bool subscriptionFree = ((((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)Unsafe.As<MusicTrackMetadata, ulong>(ref Unsafe.AddByteOffset(ref musicTrackMetadata, 152)) + 208)))((nint)num13) != 0) ? true : false);
 										bool inCollection = ((num6 != 0) ? true : false);
 										bool previouslyPurchased = ((num8 != 0) ? true : false);
 										bool isMP = ((num10 != 0) ? true : false);
-										list.Add(new TrackOffer(id, System.Runtime.CompilerServices.Unsafe.As<MusicTrackMetadata, int>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref musicTrackMetadata, 72)), new string((char*)System.Runtime.CompilerServices.Unsafe.As<MusicTrackMetadata, ulong>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref musicTrackMetadata, 80))), new string((char*)System.Runtime.CompilerServices.Unsafe.As<MusicTrackMetadata, ulong>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref musicTrackMetadata, 88))), new string((char*)System.Runtime.CompilerServices.Unsafe.As<MusicTrackMetadata, ulong>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref musicTrackMetadata, 96))), recommendationContext, new PriceInfo((IPriceInfo*)(*(ulong*)(&cComPtrNtv_003CIPriceInfo_003E))), isMP, previouslyPurchased, inCollection, subscriptionFree));
+										list.Add(new TrackOffer(id, Unsafe.As<MusicTrackMetadata, int>(ref Unsafe.AddByteOffset(ref musicTrackMetadata, 72)), new string((char*)Unsafe.As<MusicTrackMetadata, ulong>(ref Unsafe.AddByteOffset(ref musicTrackMetadata, 80))), new string((char*)Unsafe.As<MusicTrackMetadata, ulong>(ref Unsafe.AddByteOffset(ref musicTrackMetadata, 88))), new string((char*)Unsafe.As<MusicTrackMetadata, ulong>(ref Unsafe.AddByteOffset(ref musicTrackMetadata, 96))), recommendationContext, new PriceInfo((IPriceInfo*)(*(ulong*)(&cComPtrNtv_003CIPriceInfo_003E))), isMP, previouslyPurchased, inCollection, subscriptionFree));
 									}
 								}
 							}
 							catch
 							{
 								//try-fault
-								_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIPriceInfo_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIPriceInfo_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIPriceInfo_003E);
+								Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIPriceInfo_003E*, void>)(&Module.CComPtrNtv_003CIPriceInfo_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIPriceInfo_003E);
 								throw;
 							}
-							_003CModule_003E.CComPtrNtv_003CIPriceInfo_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIPriceInfo_003E);
+							Module.CComPtrNtv_003CIPriceInfo_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIPriceInfo_003E);
 						}
 						catch
 						{
 							//try-fault
-							_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
 							throw;
 						}
-						_003CModule_003E.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+						Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
 					}
 					catch
 					{
 						//try-fault
-						_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<MusicTrackMetadata*, void>)(&_003CModule_003E.MusicTrackMetadata_002E_007Bdtor_007D), &musicTrackMetadata);
+						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<MusicTrackMetadata*, void>)(&Module.MusicTrackMetadata_002E_007Bdtor_007D), &musicTrackMetadata);
 						throw;
 					}
-					_003CModule_003E.MusicTrackMetadata_002E_007Bdtor_007D(&musicTrackMetadata);
+					Module.MusicTrackMetadata_002E_007Bdtor_007D(&musicTrackMetadata);
 					num3++;
 				}
 				while (num3 < num2);

@@ -21,14 +21,15 @@ namespace Microsoft.Zune.Util
 				{
 					result = new string((char*)ptr);
 				}
-				_003CModule_003E.SysFreeString(ptr);
+				Module.SysFreeString(ptr);
 				return (string)result;
 			}
 			set
 			{
 				//IL_0023: Expected I, but got I8
-				fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(value)))
+				fixed (char* valuePtr = value.ToCharArray())
 				{
+					ushort* ptr = (ushort*)valuePtr;
 					IJumpListCategory* p = m_spCategory.p;
 					long num = *(long*)p + 32;
 					((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, int>)(*(ulong*)num))((nint)p, ptr);
@@ -51,10 +52,10 @@ namespace Microsoft.Zune.Util
 			catch
 			{
 				//try-fault
-				_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIJumpListEntry_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIJumpListEntry_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIJumpListEntry_003E);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIJumpListEntry_003E*, void>)(&Module.CComPtrNtv_003CIJumpListEntry_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIJumpListEntry_003E);
 				throw;
 			}
-			_003CModule_003E.CComPtrNtv_003CIJumpListEntry_003E_002ERelease(&cComPtrNtv_003CIJumpListEntry_003E);
+			Module.CComPtrNtv_003CIJumpListEntry_003E_002ERelease(&cComPtrNtv_003CIJumpListEntry_003E);
 			return 0;
 		}
 

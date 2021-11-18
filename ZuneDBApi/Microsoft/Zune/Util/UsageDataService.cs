@@ -14,7 +14,7 @@ namespace Microsoft.Zune.Util
 			//IL_0042: Expected I, but got I8
 			bool flag = false;
 			IUsageDataManager* ptr = null;
-			if (_003CModule_003E.GetSingleton((_GUID)_003CModule_003E._GUID_2f36e709_c431_4836_ab2b_ab57aef0cf1a, (void**)(&ptr)) >= 0)
+			if (Module.GetSingleton((_GUID)Module._GUID_2f36e709_c431_4836_ab2b_ab57aef0cf1a, (void**)(&ptr)) >= 0)
 			{
 				int num = 0;
 				IUsageDataManager* intPtr = ptr;
@@ -37,7 +37,7 @@ namespace Microsoft.Zune.Util
 			//IL_0020: Expected I, but got I8
 			//IL_0033: Expected I, but got I8
 			IUsageDataManager* ptr = null;
-			if (_003CModule_003E.GetSingleton((_GUID)_003CModule_003E._GUID_2f36e709_c431_4836_ab2b_ab57aef0cf1a, (void**)(&ptr)) >= 0)
+			if (Module.GetSingleton((_GUID)Module._GUID_2f36e709_c431_4836_ab2b_ab57aef0cf1a, (void**)(&ptr)) >= 0)
 			{
 				IUsageDataManager* intPtr = ptr;
 				((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, int>)(*(ulong*)(*(long*)ptr + 32)))((nint)intPtr, fCanPostUsageData ? 1 : 0);
@@ -55,11 +55,12 @@ namespace Microsoft.Zune.Util
 			//IL_0032: Expected I, but got I8
 			//IL_004e: Expected I, but got I8
 			IUsageDataManager* ptr = null;
-			if (_003CModule_003E.GetSingleton((_GUID)_003CModule_003E._GUID_2f36e709_c431_4836_ab2b_ab57aef0cf1a, (void**)(&ptr)) >= 0)
+			if (Module.GetSingleton((_GUID)Module._GUID_2f36e709_c431_4836_ab2b_ab57aef0cf1a, (void**)(&ptr)) >= 0)
 			{
-				_GUID gUID = _003CModule_003E.GuidToGUID(guidTrackId);
-				fixed (ushort* ptr2 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(strReferrer)))
+				_GUID gUID = Module.GuidToGUID(guidTrackId);
+				fixed (char* strReferrerPtr = strReferrer.ToCharArray())
 				{
+					ushort* ptr2 = (ushort*)strReferrerPtr;
 					try
 					{
 						long num = *(long*)ptr + 104;
@@ -87,11 +88,12 @@ namespace Microsoft.Zune.Util
 			//IL_0032: Expected I, but got I8
 			//IL_004e: Expected I, but got I8
 			IUsageDataManager* ptr = null;
-			if (_003CModule_003E.GetSingleton((_GUID)_003CModule_003E._GUID_2f36e709_c431_4836_ab2b_ab57aef0cf1a, (void**)(&ptr)) >= 0)
+			if (Module.GetSingleton((_GUID)Module._GUID_2f36e709_c431_4836_ab2b_ab57aef0cf1a, (void**)(&ptr)) >= 0)
 			{
-				_GUID gUID = _003CModule_003E.GuidToGUID(guidTrackId);
-				fixed (ushort* ptr2 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(strReferrer)))
+				_GUID gUID = Module.GuidToGUID(guidTrackId);
+				fixed (char* strReferrerPtr = strReferrer.ToCharArray())
 				{
+					ushort* ptr2 = (ushort*)strReferrerPtr;
 					try
 					{
 						long num = *(long*)ptr + 112;
@@ -119,11 +121,12 @@ namespace Microsoft.Zune.Util
 			//IL_0032: Expected I, but got I8
 			//IL_004e: Expected I, but got I8
 			IUsageDataManager* ptr = null;
-			if (_003CModule_003E.GetSingleton((_GUID)_003CModule_003E._GUID_2f36e709_c431_4836_ab2b_ab57aef0cf1a, (void**)(&ptr)) >= 0)
+			if (Module.GetSingleton((_GUID)Module._GUID_2f36e709_c431_4836_ab2b_ab57aef0cf1a, (void**)(&ptr)) >= 0)
 			{
-				_GUID gUID = _003CModule_003E.GuidToGUID(guidTrackId);
-				fixed (ushort* ptr2 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(strReferrer)))
+				_GUID gUID = Module.GuidToGUID(guidTrackId);
+				fixed (char* strReferrerPtr = strReferrer.ToCharArray())
 				{
+					ushort* ptr2 = (ushort*)strReferrerPtr;
 					try
 					{
 						long num = *(long*)ptr + 120;
@@ -151,11 +154,12 @@ namespace Microsoft.Zune.Util
 			//IL_0035: Expected I, but got I8
 			//IL_0051: Expected I, but got I8
 			IUsageDataManager* ptr = null;
-			if (_003CModule_003E.GetSingleton((_GUID)_003CModule_003E._GUID_2f36e709_c431_4836_ab2b_ab57aef0cf1a, (void**)(&ptr)) >= 0)
+			if (Module.GetSingleton((_GUID)Module._GUID_2f36e709_c431_4836_ab2b_ab57aef0cf1a, (void**)(&ptr)) >= 0)
 			{
-				_GUID gUID = _003CModule_003E.GuidToGUID(guidTrackId);
-				fixed (ushort* ptr2 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(strReferrer)))
+				_GUID gUID = Module.GuidToGUID(guidTrackId);
+				fixed (char* strReferrerPtr = strReferrer.ToCharArray())
 				{
+					ushort* ptr2 = (ushort*)strReferrerPtr;
 					try
 					{
 						long num = *(long*)ptr + 128;
@@ -183,13 +187,14 @@ namespace Microsoft.Zune.Util
 			//IL_0035: Expected I, but got I8
 			//IL_0051: Expected I, but got I8
 			IUsageDataManager* ptr = null;
-			if (_003CModule_003E.GetSingleton((_GUID)_003CModule_003E._GUID_2f36e709_c431_4836_ab2b_ab57aef0cf1a, (void**)(&ptr)) >= 0)
+			if (Module.GetSingleton((_GUID)Module._GUID_2f36e709_c431_4836_ab2b_ab57aef0cf1a, (void**)(&ptr)) >= 0)
 			{
-				fixed (ushort* ptr2 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(strReferrer)))
+				fixed (char* strReferrerPtr = strReferrer.ToCharArray())
 				{
+					ushort* ptr2 = (ushort*)strReferrerPtr;
 					try
 					{
-						_GUID gUID = _003CModule_003E.GuidToGUID(guidMediaId);
+						_GUID gUID = Module.GuidToGUID(guidMediaId);
 						long num = *(long*)ptr + 136;
 						IUsageDataManager* intPtr = ptr;
 						((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, ushort*, int>)(*(ulong*)num))((nint)intPtr, &gUID, ptr2);
@@ -215,9 +220,9 @@ namespace Microsoft.Zune.Util
 			//IL_0029: Expected I, but got I8
 			//IL_003c: Expected I, but got I8
 			IUsageDataManager* ptr = null;
-			if (_003CModule_003E.GetSingleton((_GUID)_003CModule_003E._GUID_2f36e709_c431_4836_ab2b_ab57aef0cf1a, (void**)(&ptr)) >= 0)
+			if (Module.GetSingleton((_GUID)Module._GUID_2f36e709_c431_4836_ab2b_ab57aef0cf1a, (void**)(&ptr)) >= 0)
 			{
-				_GUID gUID = _003CModule_003E.GuidToGUID(guidMediaId);
+				_GUID gUID = Module.GuidToGUID(guidMediaId);
 				IUsageDataManager* intPtr = ptr;
 				((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, _GUID*, int>)(*(ulong*)(*(long*)ptr + 40)))((nint)intPtr, purchase ? 1 : 0, &gUID);
 			}

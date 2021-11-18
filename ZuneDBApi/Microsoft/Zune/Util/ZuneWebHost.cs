@@ -22,9 +22,9 @@ namespace Microsoft.Zune.Util
 		{
 			get
 			{
-				if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 28uL)) & 0x8000u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 25uL)) >= 5u)
+				if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 28uL)) & 0x8000u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 25uL)) >= 5u)
 				{
-					_003CModule_003E.WPP_SF_(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 16uL), 10, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0xd3863cf3_002EWPP_ZuneWebHostInterop_cpp_Traceguids));
+					Module.WPP_SF_(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 16uL), 10, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xd3863cf3_002EWPP_ZuneWebHostInterop_cpp_Traceguids));
 				}
 				if (s_zuneWebHost == null)
 				{
@@ -43,9 +43,9 @@ namespace Microsoft.Zune.Util
 						Monitor.Exit(s_lock);
 					}
 				}
-				if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 28uL)) & 0x8000u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 25uL)) >= 5u)
+				if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 28uL)) & 0x8000u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 25uL)) >= 5u)
 				{
-					_003CModule_003E.WPP_SF_(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 16uL), 11, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0xd3863cf3_002EWPP_ZuneWebHostInterop_cpp_Traceguids));
+					Module.WPP_SF_(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 16uL), 11, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xd3863cf3_002EWPP_ZuneWebHostInterop_cpp_Traceguids));
 				}
 				return s_zuneWebHost;
 			}
@@ -60,39 +60,40 @@ namespace Microsoft.Zune.Util
 			//IL_00a8: Expected I, but got I8
 			//IL_00a8: Expected I, but got I8
 			//IL_0102: Expected I8, but got I
-			if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 28uL)) & 0x8000u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 25uL)) >= 5u)
+			if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 28uL)) & 0x8000u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 25uL)) >= 5u)
 			{
-				_003CModule_003E.WPP_SF_(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 16uL), 12, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0xd3863cf3_002EWPP_ZuneWebHostInterop_cpp_Traceguids));
+				Module.WPP_SF_(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 16uL), 12, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xd3863cf3_002EWPP_ZuneWebHostInterop_cpp_Traceguids));
 			}
-			HWND__* ptr = null;
+			HWND* ptr = null;
 			CComPtrNtv_003CIZuneWebHost_003E cComPtrNtv_003CIZuneWebHost_003E;
 			*(long*)(&cComPtrNtv_003CIZuneWebHost_003E) = 0L;
 			long result;
 			try
 			{
-				_003CModule_003E.GetSingleton((_GUID)_003CModule_003E._GUID_51005f8f_675e_45e1_ae94_8edef996a02e, (void**)(&cComPtrNtv_003CIZuneWebHost_003E));
-				fixed (ushort* ptr3 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(navUrl)))
+				Module.GetSingleton((_GUID)Module._GUID_51005f8f_675e_45e1_ae94_8edef996a02e, (void**)(&cComPtrNtv_003CIZuneWebHost_003E));
+				fixed (char* navUrlPtr = navUrl.ToCharArray())
 				{
-					ZuneWebHostEventSink* ptr2 = (ZuneWebHostEventSink*)_003CModule_003E.@new(24uL);
+					ushort* ptr3 = (ushort*)navUrlPtr;
+					ZuneWebHostEventSink* ptr2 = (ZuneWebHostEventSink*)Module.@new(24uL);
 					ZuneWebHostEventSink* zuneWebHostEventSink;
 					try
 					{
-						zuneWebHostEventSink = ((ptr2 == null) ? null : _003CModule_003E.Microsoft_002EZune_002EUtil_002EZuneWebHostEventSink_002E_007Bctor_007D(ptr2, this, (IZuneWebHost*)(*(ulong*)(&cComPtrNtv_003CIZuneWebHost_003E))));
+						zuneWebHostEventSink = ((ptr2 == null) ? null : Module.Microsoft_002EZune_002EUtil_002EZuneWebHostEventSink_002E_007Bctor_007D(ptr2, this, (IZuneWebHost*)(*(ulong*)(&cComPtrNtv_003CIZuneWebHost_003E))));
 					}
 					catch
 					{
 						//try-fault
-						_003CModule_003E.delete(ptr2);
+						Module.delete(ptr2);
 						throw;
 					}
 					m_zuneWebHostEventSink = zuneWebHostEventSink;
 					long num = *(long*)(*(ulong*)(&cComPtrNtv_003CIZuneWebHost_003E)) + 24;
 					long num2 = *(long*)(&cComPtrNtv_003CIZuneWebHost_003E);
-					int num3 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, HWND__*, int, int, HWND__**, int>)(*(ulong*)num))((nint)num2, ptr3, (HWND__*)hWndHost, width, height, &ptr);
-					if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 28uL)) & 0x8000u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 25uL)) >= 5u)
+					int num3 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, HWND*, int, int, HWND**, int>)(*(ulong*)num))((nint)num2, ptr3, (HWND*)hWndHost, width, height, &ptr);
+					if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 28uL)) & 0x8000u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 25uL)) >= 5u)
 					{
-						sbyte* a = (sbyte*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref num3 < 0 ? ref _003CModule_003E._003F_003F_C_0040_07PPOLEBIF_0040_003F5ERROR_003F3_003F_0024AA_0040 : ref System.Runtime.CompilerServices.Unsafe.As<_0024ArrayType_0024_0024_0024BY00_0024_0024CBD, _0024ArrayType_0024_0024_0024BY07_0024_0024CBD>(ref _003CModule_003E._003F_003F_C_0040_00CNPNBAHC_0040_003F_0024AA_0040));
-						_003CModule_003E.WPP_SF_sD(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 16uL), 13, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0xd3863cf3_002EWPP_ZuneWebHostInterop_cpp_Traceguids), a, (uint)num3);
+						sbyte* a = (sbyte*)Unsafe.AsPointer(ref num3 < 0 ? ref Module._003F_003F_C_0040_07PPOLEBIF_0040_003F5ERROR_003F3_003F_0024AA_0040 : ref Unsafe.As<_0024ArrayType_0024_0024_0024BY00_0024_0024CBD, _0024ArrayType_0024_0024_0024BY07_0024_0024CBD>(ref Module._003F_003F_C_0040_00CNPNBAHC_0040_003F_0024AA_0040));
+						Module.WPP_SF_sD(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 16uL), 13, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xd3863cf3_002EWPP_ZuneWebHostInterop_cpp_Traceguids), a, (uint)num3);
 					}
 					result = (nint)ptr;
 				}
@@ -100,10 +101,10 @@ namespace Microsoft.Zune.Util
 			catch
 			{
 				//try-fault
-				_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIZuneWebHost_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIZuneWebHost_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIZuneWebHost_003E);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIZuneWebHost_003E*, void>)(&Module.CComPtrNtv_003CIZuneWebHost_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIZuneWebHost_003E);
 				throw;
 			}
-			_003CModule_003E.CComPtrNtv_003CIZuneWebHost_003E_002ERelease(&cComPtrNtv_003CIZuneWebHost_003E);
+			Module.CComPtrNtv_003CIZuneWebHost_003E_002ERelease(&cComPtrNtv_003CIZuneWebHost_003E);
 			return result;
 		}
 
@@ -112,73 +113,73 @@ namespace Microsoft.Zune.Util
 		{
 			//IL_004d: Expected I, but got I8
 			bool result = false;
-			if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 28uL)) & 0x8000u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 25uL)) >= 5u)
+			if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 28uL)) & 0x8000u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 25uL)) >= 5u)
 			{
-				_003CModule_003E.WPP_SF_(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 16uL), 14, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0xd3863cf3_002EWPP_ZuneWebHostInterop_cpp_Traceguids));
+				Module.WPP_SF_(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 16uL), 14, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xd3863cf3_002EWPP_ZuneWebHostInterop_cpp_Traceguids));
 			}
 			if (hWndHost != 0L)
 			{
-				HWND__* window = _003CModule_003E.GetWindow((HWND__*)hWndHost, 5u);
+				HWND* window = Module.GetWindow((HWND*)hWndHost, 5u);
 				if (window != null)
 				{
-					_003CModule_003E.MoveWindow(window, 0, 0, width, height, 0);
+					Module.MoveWindow(window, 0, 0, width, height, 0);
 					result = true;
 				}
 			}
-			if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 28uL)) & 0x8000u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 25uL)) >= 5u)
+			if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 28uL)) & 0x8000u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 25uL)) >= 5u)
 			{
-				_003CModule_003E.WPP_SF_(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 16uL), 15, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0xd3863cf3_002EWPP_ZuneWebHostInterop_cpp_Traceguids));
+				Module.WPP_SF_(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 16uL), 15, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xd3863cf3_002EWPP_ZuneWebHostInterop_cpp_Traceguids));
 			}
 			return result;
 		}
 
 		public unsafe void SetNavigationCompleteHandler(NavigationCompleteHandler navigationCompleteHandler)
 		{
-			if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 28uL)) & 0x8000u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 25uL)) >= 5u)
+			if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 28uL)) & 0x8000u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 25uL)) >= 5u)
 			{
-				_003CModule_003E.WPP_SF_(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 16uL), 16, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0xd3863cf3_002EWPP_ZuneWebHostInterop_cpp_Traceguids));
+				Module.WPP_SF_(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 16uL), 16, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xd3863cf3_002EWPP_ZuneWebHostInterop_cpp_Traceguids));
 			}
 			m_navCompleteHandler = navigationCompleteHandler;
 		}
 
 		public unsafe void SetNavigationErrorHandler(NavigationErrorHandler navigationErrorHandler)
 		{
-			if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 28uL)) & 0x8000u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 25uL)) >= 5u)
+			if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 28uL)) & 0x8000u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 25uL)) >= 5u)
 			{
-				_003CModule_003E.WPP_SF_(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 16uL), 17, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0xd3863cf3_002EWPP_ZuneWebHostInterop_cpp_Traceguids));
+				Module.WPP_SF_(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 16uL), 17, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xd3863cf3_002EWPP_ZuneWebHostInterop_cpp_Traceguids));
 			}
 			m_navErrorHandler = navigationErrorHandler;
 		}
 
 		public unsafe void OnNavigationComplete(string data)
 		{
-			if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 28uL)) & 0x8000u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 25uL)) >= 5u)
+			if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 28uL)) & 0x8000u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 25uL)) >= 5u)
 			{
-				_003CModule_003E.WPP_SF_(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 16uL), 18, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0xd3863cf3_002EWPP_ZuneWebHostInterop_cpp_Traceguids));
+				Module.WPP_SF_(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 16uL), 18, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xd3863cf3_002EWPP_ZuneWebHostInterop_cpp_Traceguids));
 			}
 			if (m_navCompleteHandler != null)
 			{
 				m_navCompleteHandler(data);
 			}
-			if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 28uL)) & 0x8000u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 25uL)) >= 5u)
+			if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 28uL)) & 0x8000u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 25uL)) >= 5u)
 			{
-				_003CModule_003E.WPP_SF_(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 16uL), 19, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0xd3863cf3_002EWPP_ZuneWebHostInterop_cpp_Traceguids));
+				Module.WPP_SF_(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 16uL), 19, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xd3863cf3_002EWPP_ZuneWebHostInterop_cpp_Traceguids));
 			}
 		}
 
 		public unsafe void OnNavigationError(string navUrl, int errorCode)
 		{
-			if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 28uL)) & 0x8000u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 25uL)) >= 5u)
+			if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 28uL)) & 0x8000u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 25uL)) >= 5u)
 			{
-				_003CModule_003E.WPP_SF_(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 16uL), 20, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0xd3863cf3_002EWPP_ZuneWebHostInterop_cpp_Traceguids));
+				Module.WPP_SF_(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 16uL), 20, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xd3863cf3_002EWPP_ZuneWebHostInterop_cpp_Traceguids));
 			}
 			if (m_navErrorHandler != null)
 			{
 				m_navErrorHandler(navUrl, errorCode);
 			}
-			if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 28uL)) & 0x8000u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 25uL)) >= 5u)
+			if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 28uL)) & 0x8000u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 25uL)) >= 5u)
 			{
-				_003CModule_003E.WPP_SF_(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 16uL), 21, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0xd3863cf3_002EWPP_ZuneWebHostInterop_cpp_Traceguids));
+				Module.WPP_SF_(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 16uL), 21, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xd3863cf3_002EWPP_ZuneWebHostInterop_cpp_Traceguids));
 			}
 		}
 	}

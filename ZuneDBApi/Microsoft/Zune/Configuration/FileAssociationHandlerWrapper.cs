@@ -36,15 +36,15 @@ namespace Microsoft.Zune.Configuration
 			int num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, global::FileAssociationInfo*, uint*, int>)(*(ulong*)(*(long*)pFileAssociationHandler + 24)))((nint)pFileAssociationHandler, null, &num);
 			if (num2 >= 0)
 			{
-				ptr = (global::FileAssociationInfo*)_003CModule_003E.new_005B_005D((ulong)num * 32uL);
+				ptr = (global::FileAssociationInfo*)Module.new_005B_005D((ulong)num * 32uL);
 				if (ptr == null)
 				{
 					num2 = -2147024882;
 				}
 				else
 				{
-					// IL initblk instruction
-					System.Runtime.CompilerServices.Unsafe.InitBlock(ptr, 0, (long)num * 32L);
+                    // IL initblk instruction
+                    Unsafe.InitBlock(ptr, 0, (long)num * 32L);
 					pFileAssociationHandler = m_pFileAssociationHandler;
 					num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, global::FileAssociationInfo*, uint*, int>)(*(ulong*)(*(long*)pFileAssociationHandler + 24)))((nint)pFileAssociationHandler, ptr, &num);
 					if (num2 >= 0)
@@ -74,7 +74,7 @@ namespace Microsoft.Zune.Configuration
 			//IL_0039: Expected I, but got I8
 			//IL_005f: Expected I, but got I8
 			uint count = (uint)fileAssociationInfoList.Count;
-			global::FileAssociationInfo* ptr = (global::FileAssociationInfo*)_003CModule_003E.new_005B_005D((ulong)count * 32uL);
+			global::FileAssociationInfo* ptr = (global::FileAssociationInfo*)Module.new_005B_005D((ulong)count * 32uL);
 			int num;
 			if (ptr == null)
 			{
@@ -132,15 +132,18 @@ namespace Microsoft.Zune.Configuration
 			//IL_002c: Expected I8, but got I
 			//IL_0037: Expected I8, but got I
 			//IL_0045: Expected I8, but got I
-			fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(fileAssocInfo.Extension)))
+			fixed (char* fileAssocInfo.ExtensionPtr = fileAssocInfo.Extension.ToCharArray())
 			{
-				fixed (ushort* ptr2 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(fileAssocInfo.ProgId)))
+				ushort* ptr = (ushort*)fileAssocInfo.ExtensionPtr;
+				fixed (char* fileAssocInfo.ProgIdPtr = fileAssocInfo.ProgId.ToCharArray())
 				{
-					fixed (ushort* ptr3 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(fileAssocInfo.Description)))
+					ushort* ptr2 = (ushort*)fileAssocInfo.ProgIdPtr;
+					fixed (char* fileAssocInfo.DescriptionPtr = fileAssocInfo.Description.ToCharArray())
 					{
-						*(long*)pFileAssocInfo = (nint)_003CModule_003E.SysAllocString(ptr);
-						*(long*)((ulong)(nint)pFileAssocInfo + 8uL) = (nint)_003CModule_003E.SysAllocString(ptr2);
-						ushort* ptr4 = _003CModule_003E.SysAllocString(ptr3);
+						ushort* ptr3 = (ushort*)fileAssocInfo.DescriptionPtr;
+						*(long*)pFileAssocInfo = (nint)Module.SysAllocString(ptr);
+						*(long*)((ulong)(nint)pFileAssocInfo + 8uL) = (nint)Module.SysAllocString(ptr2);
+						ushort* ptr4 = Module.SysAllocString(ptr3);
 						*(long*)((ulong)(nint)pFileAssocInfo + 16uL) = (nint)ptr4;
 						*(int*)((ulong)(nint)pFileAssocInfo + 24uL) = (fileAssocInfo.IsCurrentlyOwned ? 1 : 0);
 						if (*(long*)pFileAssocInfo != 0L && *(long*)((ulong)(nint)pFileAssocInfo + 8uL) != 0L && ptr4 != null)
@@ -173,24 +176,24 @@ namespace Microsoft.Zune.Configuration
 					long num2 = *(long*)((ulong)(nint)ptr - 16uL);
 					if (num2 != 0L)
 					{
-						_003CModule_003E.SysFreeString((ushort*)num2);
+						Module.SysFreeString((ushort*)num2);
 					}
 					long num3 = *(long*)((ulong)(nint)ptr - 8uL);
 					if (num3 != 0L)
 					{
-						_003CModule_003E.SysFreeString((ushort*)num3);
+						Module.SysFreeString((ushort*)num3);
 					}
 					ulong num4 = *(ulong*)ptr;
 					if (num4 != 0L)
 					{
-						_003CModule_003E.SysFreeString((ushort*)num4);
+						Module.SysFreeString((ushort*)num4);
 					}
 					ptr = (global::FileAssociationInfo*)((ulong)(nint)ptr + 32uL);
 					num += uint.MaxValue;
 				}
 				while (num != 0);
 			}
-			_003CModule_003E.delete_005B_005D(rgFileInfo);
+			Module.delete_005B_005D(rgFileInfo);
 		}
 
 		protected virtual void Dispose([MarshalAs(UnmanagedType.U1)] bool P_0)

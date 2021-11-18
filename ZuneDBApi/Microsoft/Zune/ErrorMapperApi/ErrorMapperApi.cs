@@ -10,7 +10,7 @@ namespace Microsoft.Zune.ErrorMapperApi
 			ushort* ptr = null;
 			ushort* ptr2 = null;
 			int hr = 0;
-			if (_003CModule_003E.ZuneLibraryExports_002EGetMappedErrorDescriptionAndUrl(hrOrig, eCondition, &hr, &ptr, &ptr2) < 0)
+			if (Module.ZuneLibraryExports_002EGetMappedErrorDescriptionAndUrl(hrOrig, eCondition, &hr, &ptr, &ptr2) < 0)
 			{
 				errorMapperResult.Hr = hrOrig;
 				errorMapperResult.Description = "";
@@ -22,8 +22,8 @@ namespace Microsoft.Zune.ErrorMapperApi
 				errorMapperResult.Description = new string((char*)ptr);
 				errorMapperResult.WebHelpUrl = new string((char*)ptr2);
 			}
-			_003CModule_003E.SysFreeString(ptr);
-			_003CModule_003E.SysFreeString(ptr2);
+			Module.SysFreeString(ptr);
+			Module.SysFreeString(ptr2);
 			return errorMapperResult;
 		}
 

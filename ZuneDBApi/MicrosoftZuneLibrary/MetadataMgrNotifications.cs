@@ -242,20 +242,20 @@ namespace MicrosoftZuneLibrary
 			//IL_002d: Expected I, but got I8
 			//IL_0049: Expected I, but got I8
 			//IL_0071: Expected I, but got I8
-			NativeMetadataNotifications* ptr = (NativeMetadataNotifications*)_003CModule_003E.@new(24uL);
+			NativeMetadataNotifications* ptr = (NativeMetadataNotifications*)Module.@new(24uL);
 			NativeMetadataNotifications* ptr2;
 			try
 			{
-				ptr2 = ((ptr == null) ? null : _003CModule_003E.MicrosoftZuneLibrary_002ENativeMetadataNotifications_002E_007Bctor_007D(ptr, this));
+				ptr2 = ((ptr == null) ? null : Module.MicrosoftZuneLibrary_002ENativeMetadataNotifications_002E_007Bctor_007D(ptr, this));
 			}
 			catch
 			{
 				//try-fault
-				_003CModule_003E.delete(ptr);
+				Module.delete(ptr);
 				throw;
 			}
 			IMetadataChangeNotify* ptr3;
-			if (ptr2 == null || ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, void**, int>)(*(ulong*)(*(ulong*)ptr2)))((nint)ptr2, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._GUID_d67cdf64_5ea9_44ea_bf5c_29a422f4c23f), (void**)(&ptr3)) < 0)
+			if (ptr2 == null || ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, void**, int>)(*(ulong*)(*(ulong*)ptr2)))((nint)ptr2, (_GUID*)Unsafe.AsPointer(ref Module._GUID_d67cdf64_5ea9_44ea_bf5c_29a422f4c23f), (void**)(&ptr3)) < 0)
 			{
 				return;
 			}
@@ -263,7 +263,7 @@ namespace MicrosoftZuneLibrary
 			{
 				try
 				{
-					if (_003CModule_003E.ZuneLibraryExports_002EMetadataChangeAdvise(ptr3, ptr4) >= 0)
+					if (Module.ZuneLibraryExports_002EMetadataChangeAdvise(ptr3, ptr4) >= 0)
 					{
 						m_fAdvised = true;
 					}
@@ -290,7 +290,7 @@ namespace MicrosoftZuneLibrary
 			{
 				if (m_fAdvised)
 				{
-					_003CModule_003E.ZuneLibraryExports_002EMetadataChangeUnAdvise(m_AdviseCookie);
+					Module.ZuneLibraryExports_002EMetadataChangeUnAdvise(m_AdviseCookie);
 					m_fAdvised = false;
 				}
 				m_disposed = true;

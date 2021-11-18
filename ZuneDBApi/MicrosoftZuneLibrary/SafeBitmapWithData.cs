@@ -27,7 +27,7 @@ namespace MicrosoftZuneLibrary
 
 		public int ScanLineWidth => ((_iWidth + 1) * 3) & -4;
 
-		internal unsafe SafeBitmapWithData(void* pData, HBITMAP__* hBitmap)
+		internal unsafe SafeBitmapWithData(void* pData, HBITMAP* hBitmap)
 		{
 			//Discarded unreachable code: IL_00b9
 			_pImageData = pData;
@@ -38,11 +38,11 @@ namespace MicrosoftZuneLibrary
 				byte condition = (byte)(((long)(nint)pData != 0) ? 1 : 0);
 				Debug.Assert(condition != 0);
 				tagBITMAP tagBITMAP;
-				if (_003CModule_003E.GetObjectW(hBitmap, 32, &tagBITMAP) != 0)
+				if (Module.GetObjectW(hBitmap, 32, &tagBITMAP) != 0)
 				{
 					goto IL_004c;
 				}
-				uint lastError = _003CModule_003E.GetLastError();
+				uint lastError = Module.GetLastError();
 				num = (((int)lastError > 0) ? ((int)(lastError & 0xFFFF) | -2147024896) : ((int)lastError));
 				if (num >= 0)
 				{
@@ -50,8 +50,8 @@ namespace MicrosoftZuneLibrary
 				}
 				goto end_IL_000e;
 				IL_004c:
-				_iWidth = System.Runtime.CompilerServices.Unsafe.As<tagBITMAP, int>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref tagBITMAP, 4));
-				_iHeight = System.Runtime.CompilerServices.Unsafe.As<tagBITMAP, int>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref tagBITMAP, 8));
+				_iWidth = Unsafe.As<tagBITMAP, int>(ref Unsafe.AddByteOffset(ref tagBITMAP, 4));
+				_iHeight = Unsafe.As<tagBITMAP, int>(ref Unsafe.AddByteOffset(ref tagBITMAP, 8));
 				goto IL_00c3;
 				end_IL_000e:;
 			}
@@ -63,11 +63,11 @@ namespace MicrosoftZuneLibrary
 			}
 			try
 			{
-				if (_003CModule_003E.WPP_GLOBAL_Control != System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 28uL)) & 2u) != 0 && (uint)(*(byte*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 25uL)) >= 5u)
+				if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 28uL)) & 2u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 25uL)) >= 5u)
 				{
-					_003CModule_003E.WPP_SF_D(*(ulong*)((ulong)(nint)_003CModule_003E.WPP_GLOBAL_Control + 16uL), 10, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._003FA0x4101eecd_002EWPP_SafeBitmap_cpp_Traceguids), (uint)num);
+					Module.WPP_SF_D(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 16uL), 10, (_GUID*)Unsafe.AsPointer(ref Module._003FA0x4101eecd_002EWPP_SafeBitmap_cpp_Traceguids), (uint)num);
 				}
-				throw new ApplicationException(_003CModule_003E.GetErrorDescription(num));
+				throw new ApplicationException(Module.GetErrorDescription(num));
 			}
 			catch
 			{
@@ -87,7 +87,7 @@ namespace MicrosoftZuneLibrary
 			}
 		}
 
-		internal unsafe SafeBitmapWithData(int iHeight, int iWidth, void* pData, HBITMAP__* hBitmap)
+		internal unsafe SafeBitmapWithData(int iHeight, int iWidth, void* pData, HBITMAP* hBitmap)
 		{
 			_pImageData = pData;
 			_iHeight = iHeight;
@@ -131,9 +131,9 @@ namespace MicrosoftZuneLibrary
 			//IL_0007: Expected I, but got I8
 			//IL_0024: Expected I, but got I8
 			object result = null;
-			HBITMAP__* hBitmap = null;
+			HBITMAP* hBitmap = null;
 			void* pData = null;
-			if (_003CModule_003E.ZuneLibraryExports_002ECopyThumbnailBitmapData((HBITMAP__*)handle.ToInt64(), srcX, srcY, srcWidth, srcHeight, dstWidth, dstHeight, &hBitmap, &pData) >= 0)
+			if (Module.ZuneLibraryExports_002ECopyThumbnailBitmapData((HBITMAP*)handle.ToInt64(), srcX, srcY, srcWidth, srcHeight, dstWidth, dstHeight, &hBitmap, &pData) >= 0)
 			{
 				result = new SafeBitmapWithData(dstHeight, dstWidth, pData, hBitmap);
 			}
@@ -143,13 +143,14 @@ namespace MicrosoftZuneLibrary
 		public unsafe static SafeBitmapWithData CreateThumbnailBitmap(string strFilename)
 		{
 			object result = null;
-			fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(strFilename)))
+			fixed (char* strFilenamePtr = strFilename.ToCharArray())
 			{
+				ushort* ptr = (ushort*)strFilenamePtr;
 				int iWidth;
 				int iHeight;
 				void* pData;
-				HBITMAP__* hBitmap;
-				if (_003CModule_003E.ZuneLibraryExports_002EGetThumbnailBitmapData(ptr, &iWidth, &iHeight, &pData, &hBitmap) >= 0)
+				HBITMAP* hBitmap;
+				if (Module.ZuneLibraryExports_002EGetThumbnailBitmapData(ptr, &iWidth, &iHeight, &pData, &hBitmap) >= 0)
 				{
 					result = new SafeBitmapWithData(iHeight, iWidth, pData, hBitmap);
 				}

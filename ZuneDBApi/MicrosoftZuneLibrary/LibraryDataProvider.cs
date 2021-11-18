@@ -104,7 +104,7 @@ namespace MicrosoftZuneLibrary
 						{
 							try
 							{
-								flag = (byte)((uint)(byte)((_003CModule_003E.ZuneLibraryExports_002EDeleteMedia(mediaType, ptr, list.Count, ((DeleteFromLibraryEventArgs)args).DeleteFromDisk ? 1 : 0, 1) >= 0) ? 1u : 0u) & (true ? 1u : 0u)) != 0;
+								flag = (byte)((uint)(byte)((Module.ZuneLibraryExports_002EDeleteMedia(mediaType, ptr, list.Count, ((DeleteFromLibraryEventArgs)args).DeleteFromDisk ? 1 : 0, 1) >= 0) ? 1u : 0u) & (true ? 1u : 0u)) != 0;
 							}
 							catch
 							{
@@ -214,11 +214,11 @@ namespace MicrosoftZuneLibrary
 				case BulkItemAction.DeleteFromDevice:
 				case BulkItemAction.RemoveSyncRules:
 				case BulkItemAction.ExcludeFromSync:
-					_003CModule_003E.SQMAddWrapper("SocialSyncDeleteProfileCard", count);
+					Module.SQMAddWrapper("SocialSyncDeleteProfileCard", count);
 					break;
 				case BulkItemAction.AddSyncRules:
 				case BulkItemAction.UnexcludeFromSync:
-					_003CModule_003E.SQMAddWrapper("SocialSyncAddProfileCard", count);
+					Module.SQMAddWrapper("SocialSyncAddProfileCard", count);
 					break;
 				}
 			}

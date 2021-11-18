@@ -30,7 +30,7 @@ namespace Microsoft.Zune.Service
 						{
 							m_serviceTicket = new string((char*)ptr);
 						}
-						_003CModule_003E.SysFreeString(ptr);
+						Module.SysFreeString(ptr);
 					}
 				}
 				return m_serviceTicket;
@@ -54,7 +54,7 @@ namespace Microsoft.Zune.Service
 						{
 							m_password = new string((char*)ptr);
 						}
-						_003CModule_003E.SysFreeString(ptr);
+						Module.SysFreeString(ptr);
 					}
 				}
 				return m_username;
@@ -78,7 +78,7 @@ namespace Microsoft.Zune.Service
 						{
 							m_username = new string((char*)ptr);
 						}
-						_003CModule_003E.SysFreeString(ptr);
+						Module.SysFreeString(ptr);
 					}
 				}
 				return m_username;

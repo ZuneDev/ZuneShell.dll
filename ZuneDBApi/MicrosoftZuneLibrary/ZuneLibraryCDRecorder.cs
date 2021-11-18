@@ -109,20 +109,20 @@ namespace MicrosoftZuneLibrary
 				return;
 			}
 			((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint>)(*(ulong*)(*(long*)pRecordManager2 + 8)))((nint)pRecordManager2);
-			RecordManagerCallback* ptr = (RecordManagerCallback*)_003CModule_003E.@new(24uL);
+			RecordManagerCallback* ptr = (RecordManagerCallback*)Module.@new(24uL);
 			RecordManagerCallback* ptr2;
 			try
 			{
-				ptr2 = ((ptr == null) ? null : _003CModule_003E.MicrosoftZuneLibrary_002ERecordManagerCallback_002E_007Bctor_007D(ptr, this));
+				ptr2 = ((ptr == null) ? null : Module.MicrosoftZuneLibrary_002ERecordManagerCallback_002E_007Bctor_007D(ptr, this));
 			}
 			catch
 			{
 				//try-fault
-				_003CModule_003E.delete(ptr);
+				Module.delete(ptr);
 				throw;
 			}
 			IRecordManagerCallback* ptr3;
-			if (ptr2 == null || ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, void**, int>)(*(ulong*)(*(ulong*)ptr2)))((nint)ptr2, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._GUID_dbb19183_e14e_49cc_a75a_0dbf88f7cc57), (void**)(&ptr3)) < 0)
+			if (ptr2 == null || ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, void**, int>)(*(ulong*)(*(ulong*)ptr2)))((nint)ptr2, (_GUID*)Unsafe.AsPointer(ref Module._GUID_dbb19183_e14e_49cc_a75a_0dbf88f7cc57), (void**)(&ptr3)) < 0)
 			{
 				return;
 			}
@@ -209,8 +209,9 @@ namespace MicrosoftZuneLibrary
 				num = device.GetTrackUrl(dwTrackNumber, stringBuilder);
 				if (num >= 0)
 				{
-					fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(stringBuilder.ToString())))
+					fixed (char* stringBuilder.ToString()Ptr = stringBuilder.ToString().ToCharArray())
 					{
+						ushort* ptr = (ushort*)stringBuilder.ToString()Ptr;
 						try
 						{
 							long num2 = *(long*)m_pRecordManager + 40;
@@ -239,8 +240,9 @@ namespace MicrosoftZuneLibrary
 				num = device.GetTrackUrl(dwTrackNumber, stringBuilder);
 				if (num >= 0)
 				{
-					fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(stringBuilder.ToString())))
+					fixed (char* stringBuilder.ToString()Ptr = stringBuilder.ToString().ToCharArray())
 					{
+						ushort* ptr = (ushort*)stringBuilder.ToString()Ptr;
 						try
 						{
 							long num2 = *(long*)m_pRecordManager + 48;
@@ -269,8 +271,9 @@ namespace MicrosoftZuneLibrary
 				StringBuilder stringBuilder = new StringBuilder();
 				if (device.GetTrackUrl(dwTrackNumber, stringBuilder) >= 0)
 				{
-					fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(stringBuilder.ToString())))
+					fixed (char* stringBuilder.ToString()Ptr = stringBuilder.ToString().ToCharArray())
 					{
+						ushort* ptr = (ushort*)stringBuilder.ToString()Ptr;
 						try
 						{
 							long num2 = *(long*)m_pRecordManager + 56;
@@ -315,8 +318,9 @@ namespace MicrosoftZuneLibrary
 				num = device.GetTrackUrl(dwTrackNumber, stringBuilder);
 				if (num >= 0)
 				{
-					fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(stringBuilder.ToString())))
+					fixed (char* stringBuilder.ToString()Ptr = stringBuilder.ToString().ToCharArray())
 					{
+						ushort* ptr = (ushort*)stringBuilder.ToString()Ptr;
 						try
 						{
 							long num2 = *(long*)m_pRecordManager + 24;
@@ -345,8 +349,9 @@ namespace MicrosoftZuneLibrary
 				num = device.GetTrackUrl(dwTrackNumber, stringBuilder);
 				if (num >= 0)
 				{
-					fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(stringBuilder.ToString())))
+					fixed (char* stringBuilder.ToString()Ptr = stringBuilder.ToString().ToCharArray())
 					{
+						ushort* ptr = (ushort*)stringBuilder.ToString()Ptr;
 						try
 						{
 							long num2 = *(long*)m_pRecordManager + 32;

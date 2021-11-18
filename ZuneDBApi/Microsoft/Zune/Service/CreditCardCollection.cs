@@ -93,20 +93,20 @@ namespace Microsoft.Zune.Service
 							}
 						}
 					}
-					_003CModule_003E.SysFreeString(ptr);
-					_003CModule_003E.SysFreeString(ptr2);
-					_003CModule_003E.SysFreeString(ptr3);
-					_003CModule_003E.SysFreeString(ptr4);
-					_003CModule_003E.SysFreeString(ptr5);
-					_003CModule_003E.SysFreeString(ptr6);
-					_003CModule_003E.SysFreeString(ptr7);
-					_003CModule_003E.SysFreeString(ptr8);
-					_003CModule_003E.SysFreeString(ptr9);
-					_003CModule_003E.SysFreeString(ptr10);
-					_003CModule_003E.SysFreeString(ptr11);
-					_003CModule_003E.SysFreeString(ptr12);
-					_003CModule_003E.SysFreeString(ptr13);
-					_003CModule_003E.SysFreeString(ptr14);
+					Module.SysFreeString(ptr);
+					Module.SysFreeString(ptr2);
+					Module.SysFreeString(ptr3);
+					Module.SysFreeString(ptr4);
+					Module.SysFreeString(ptr5);
+					Module.SysFreeString(ptr6);
+					Module.SysFreeString(ptr7);
+					Module.SysFreeString(ptr8);
+					Module.SysFreeString(ptr9);
+					Module.SysFreeString(ptr10);
+					Module.SysFreeString(ptr11);
+					Module.SysFreeString(ptr12);
+					Module.SysFreeString(ptr13);
+					Module.SysFreeString(ptr14);
 					num3++;
 				}
 				while (num3 < num2);

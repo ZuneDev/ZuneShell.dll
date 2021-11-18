@@ -13,14 +13,14 @@ namespace Microsoft.Zune.Configuration
 			global::IFileAssociationHandler* ptr = null;
 			try
 			{
-				int num = _003CModule_003E.ZuneLibraryExports_002ECreateNativeFileAssociationHandler((void**)(&ptr));
+				int num = Module.ZuneLibraryExports_002ECreateNativeFileAssociationHandler((void**)(&ptr));
 				if (num >= 0)
 				{
 					fileAssociationHandlerWrapper = new FileAssociationHandlerWrapper(ptr);
 					ptr = null;
 					return fileAssociationHandlerWrapper;
 				}
-				throw new ApplicationException(_003CModule_003E.GetErrorDescription(num));
+				throw new ApplicationException(Module.GetErrorDescription(num));
 			}
 			finally
 			{

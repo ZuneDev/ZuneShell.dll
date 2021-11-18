@@ -29,9 +29,9 @@ namespace Microsoft.Zune.QuickMix
 				{
 					QUICK_MIX_STATUS_INFO qUICK_MIX_STATUS_INFO;
 					*(sbyte*)(&qUICK_MIX_STATUS_INFO) = 0;
-					// IL initblk instruction
-					System.Runtime.CompilerServices.Unsafe.InitBlockUnaligned(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref qUICK_MIX_STATUS_INFO, 1), 0, 15);
-					int singleton = _003CModule_003E.GetSingleton((_GUID)_003CModule_003E._GUID_d69e22ae_7e21_4959_be6e_14462eb96f64, (void**)(&cComPtrNtv_003CIQuickMixManager_003E));
+                    // IL initblk instruction
+                    Unsafe.InitBlockUnaligned(ref Unsafe.AddByteOffset(ref qUICK_MIX_STATUS_INFO, 1), 0, 15);
+					int singleton = Module.GetSingleton((_GUID)Module._GUID_d69e22ae_7e21_4959_be6e_14462eb96f64, (void**)(&cComPtrNtv_003CIQuickMixManager_003E));
 					if (singleton >= 0)
 					{
 						long num = *(long*)(&cComPtrNtv_003CIQuickMixManager_003E);
@@ -42,10 +42,10 @@ namespace Microsoft.Zune.QuickMix
 				catch
 				{
 					//try-fault
-					_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIQuickMixManager_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIQuickMixManager_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIQuickMixManager_003E);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIQuickMixManager_003E*, void>)(&Module.CComPtrNtv_003CIQuickMixManager_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIQuickMixManager_003E);
 					throw;
 				}
-				_003CModule_003E.CComPtrNtv_003CIQuickMixManager_003E_002ERelease(&cComPtrNtv_003CIQuickMixManager_003E);
+				Module.CComPtrNtv_003CIQuickMixManager_003E_002ERelease(&cComPtrNtv_003CIQuickMixManager_003E);
 				return flag;
 			}
 		}
@@ -94,22 +94,22 @@ namespace Microsoft.Zune.QuickMix
 				{
 					QUICK_MIX_STATUS_INFO qUICK_MIX_STATUS_INFO;
 					*(sbyte*)(&qUICK_MIX_STATUS_INFO) = 0;
-					// IL initblk instruction
-					System.Runtime.CompilerServices.Unsafe.InitBlockUnaligned(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref qUICK_MIX_STATUS_INFO, 1), 0, 15);
-					if (_003CModule_003E.GetSingleton((_GUID)_003CModule_003E._GUID_d69e22ae_7e21_4959_be6e_14462eb96f64, (void**)(&cComPtrNtv_003CIQuickMixManager_003E)) >= 0)
+                    // IL initblk instruction
+                    Unsafe.InitBlockUnaligned(ref Unsafe.AddByteOffset(ref qUICK_MIX_STATUS_INFO, 1), 0, 15);
+					if (Module.GetSingleton((_GUID)Module._GUID_d69e22ae_7e21_4959_be6e_14462eb96f64, (void**)(&cComPtrNtv_003CIQuickMixManager_003E)) >= 0)
 					{
 						long num = *(long*)(&cComPtrNtv_003CIQuickMixManager_003E);
 						((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, QUICK_MIX_STATUS_INFO*, int>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CIQuickMixManager_003E)) + 56)))((nint)num, &qUICK_MIX_STATUS_INFO);
 					}
-					value(System.Runtime.CompilerServices.Unsafe.As<QUICK_MIX_STATUS_INFO, float>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref qUICK_MIX_STATUS_INFO, 4)), System.Runtime.CompilerServices.Unsafe.As<QUICK_MIX_STATUS_INFO, int>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref qUICK_MIX_STATUS_INFO, 12)));
+					value(Unsafe.As<QUICK_MIX_STATUS_INFO, float>(ref Unsafe.AddByteOffset(ref qUICK_MIX_STATUS_INFO, 4)), Unsafe.As<QUICK_MIX_STATUS_INFO, int>(ref Unsafe.AddByteOffset(ref qUICK_MIX_STATUS_INFO, 12)));
 				}
 				catch
 				{
 					//try-fault
-					_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIQuickMixManager_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIQuickMixManager_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIQuickMixManager_003E);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIQuickMixManager_003E*, void>)(&Module.CComPtrNtv_003CIQuickMixManager_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIQuickMixManager_003E);
 					throw;
 				}
-				_003CModule_003E.CComPtrNtv_003CIQuickMixManager_003E_002ERelease(&cComPtrNtv_003CIQuickMixManager_003E);
+				Module.CComPtrNtv_003CIQuickMixManager_003E_002ERelease(&cComPtrNtv_003CIQuickMixManager_003E);
 			}
 			remove
 			{
@@ -131,12 +131,13 @@ namespace Microsoft.Zune.QuickMix
 				*(long*)(&cComPtrNtv_003CIQuickMixSession_003E) = 0L;
 				try
 				{
-					int num = _003CModule_003E.GetSingleton((_GUID)_003CModule_003E._GUID_d69e22ae_7e21_4959_be6e_14462eb96f64, (void**)(&cComPtrNtv_003CIQuickMixManager_003E));
+					int num = Module.GetSingleton((_GUID)Module._GUID_d69e22ae_7e21_4959_be6e_14462eb96f64, (void**)(&cComPtrNtv_003CIQuickMixManager_003E));
 					if (num >= 0)
 					{
-						_GUID gUID = _003CModule_003E.GuidToGUID(serviceMediaId);
-						fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(mediaTitle)))
+						_GUID gUID = Module.GuidToGUID(serviceMediaId);
+						fixed (char* mediaTitlePtr = mediaTitle.ToCharArray())
 						{
+							ushort* ptr = (ushort*)mediaTitlePtr;
 							try
 							{
 								long num2 = *(long*)(*(ulong*)(&cComPtrNtv_003CIQuickMixManager_003E)) + 24;
@@ -160,18 +161,18 @@ namespace Microsoft.Zune.QuickMix
 				catch
 				{
 					//try-fault
-					_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIQuickMixSession_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIQuickMixSession_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIQuickMixSession_003E);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIQuickMixSession_003E*, void>)(&Module.CComPtrNtv_003CIQuickMixSession_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIQuickMixSession_003E);
 					throw;
 				}
-				_003CModule_003E.CComPtrNtv_003CIQuickMixSession_003E_002ERelease(&cComPtrNtv_003CIQuickMixSession_003E);
+				Module.CComPtrNtv_003CIQuickMixSession_003E_002ERelease(&cComPtrNtv_003CIQuickMixSession_003E);
 			}
 			catch
 			{
 				//try-fault
-				_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIQuickMixManager_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIQuickMixManager_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIQuickMixManager_003E);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIQuickMixManager_003E*, void>)(&Module.CComPtrNtv_003CIQuickMixManager_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIQuickMixManager_003E);
 				throw;
 			}
-			_003CModule_003E.CComPtrNtv_003CIQuickMixManager_003E_002ERelease(&cComPtrNtv_003CIQuickMixManager_003E);
+			Module.CComPtrNtv_003CIQuickMixManager_003E_002ERelease(&cComPtrNtv_003CIQuickMixManager_003E);
 			return result;
 		}
 
@@ -189,7 +190,7 @@ namespace Microsoft.Zune.QuickMix
 				*(long*)(&cComPtrNtv_003CIQuickMixSession_003E) = 0L;
 				try
 				{
-					int num = _003CModule_003E.GetSingleton((_GUID)_003CModule_003E._GUID_d69e22ae_7e21_4959_be6e_14462eb96f64, (void**)(&cComPtrNtv_003CIQuickMixManager_003E));
+					int num = Module.GetSingleton((_GUID)Module._GUID_d69e22ae_7e21_4959_be6e_14462eb96f64, (void**)(&cComPtrNtv_003CIQuickMixManager_003E));
 					if (num >= 0)
 					{
 						fixed (int* ptr = &seedMediaIds[0])
@@ -218,18 +219,18 @@ namespace Microsoft.Zune.QuickMix
 				catch
 				{
 					//try-fault
-					_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIQuickMixSession_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIQuickMixSession_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIQuickMixSession_003E);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIQuickMixSession_003E*, void>)(&Module.CComPtrNtv_003CIQuickMixSession_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIQuickMixSession_003E);
 					throw;
 				}
-				_003CModule_003E.CComPtrNtv_003CIQuickMixSession_003E_002ERelease(&cComPtrNtv_003CIQuickMixSession_003E);
+				Module.CComPtrNtv_003CIQuickMixSession_003E_002ERelease(&cComPtrNtv_003CIQuickMixSession_003E);
 			}
 			catch
 			{
 				//try-fault
-				_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIQuickMixManager_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIQuickMixManager_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIQuickMixManager_003E);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIQuickMixManager_003E*, void>)(&Module.CComPtrNtv_003CIQuickMixManager_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIQuickMixManager_003E);
 				throw;
 			}
-			_003CModule_003E.CComPtrNtv_003CIQuickMixManager_003E_002ERelease(&cComPtrNtv_003CIQuickMixManager_003E);
+			Module.CComPtrNtv_003CIQuickMixManager_003E_002ERelease(&cComPtrNtv_003CIQuickMixManager_003E);
 			return result;
 		}
 
@@ -251,23 +252,23 @@ namespace Microsoft.Zune.QuickMix
 			try
 			{
 				QuickMixProgressHandler progressHandler = QuickMixProgressHandlerInternal;
-				QuickMixCallbackProxy* ptr = (QuickMixCallbackProxy*)_003CModule_003E.@new(48uL);
+				QuickMixCallbackProxy* ptr = (QuickMixCallbackProxy*)Module.@new(48uL);
 				QuickMixCallbackProxy* ptr2;
 				try
 				{
-					ptr2 = ((ptr == null) ? null : _003CModule_003E.Microsoft_002EZune_002EQuickMix_002EQuickMixCallbackProxy_002E_007Bctor_007D(ptr, progressHandler));
+					ptr2 = ((ptr == null) ? null : Module.Microsoft_002EZune_002EQuickMix_002EQuickMixCallbackProxy_002E_007Bctor_007D(ptr, progressHandler));
 				}
 				catch
 				{
 					//try-fault
-					_003CModule_003E.delete(ptr);
+					Module.delete(ptr);
 					throw;
 				}
 				int num = (((long)(nint)ptr2 == 0) ? (-2147024882) : 0);
 				num2 = num;
 				if (num >= 0)
 				{
-					num2 = _003CModule_003E.GetSingleton((_GUID)_003CModule_003E._GUID_d69e22ae_7e21_4959_be6e_14462eb96f64, (void**)(&cComPtrNtv_003CIQuickMixManager_003E));
+					num2 = Module.GetSingleton((_GUID)Module._GUID_d69e22ae_7e21_4959_be6e_14462eb96f64, (void**)(&cComPtrNtv_003CIQuickMixManager_003E));
 					if (num2 >= 0)
 					{
 						QuickMixCallbackProxy* ptr3 = (QuickMixCallbackProxy*)((ptr2 == null) ? 0 : ((ulong)(nint)ptr2 + 8uL));
@@ -283,10 +284,10 @@ namespace Microsoft.Zune.QuickMix
 			catch
 			{
 				//try-fault
-				_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIQuickMixManager_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIQuickMixManager_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIQuickMixManager_003E);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIQuickMixManager_003E*, void>)(&Module.CComPtrNtv_003CIQuickMixManager_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIQuickMixManager_003E);
 				throw;
 			}
-			_003CModule_003E.CComPtrNtv_003CIQuickMixManager_003E_002ERelease(&cComPtrNtv_003CIQuickMixManager_003E);
+			Module.CComPtrNtv_003CIQuickMixManager_003E_002ERelease(&cComPtrNtv_003CIQuickMixManager_003E);
 			return num2;
 		}
 

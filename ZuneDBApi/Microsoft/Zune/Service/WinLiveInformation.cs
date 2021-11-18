@@ -44,7 +44,7 @@ namespace Microsoft.Zune.Service
 								{
 									m_domains.Add(new string((char*)ptr));
 								}
-								_003CModule_003E.SysFreeString(ptr);
+								Module.SysFreeString(ptr);
 								num2++;
 							}
 							while (num2 < num);
@@ -84,11 +84,11 @@ namespace Microsoft.Zune.Service
 					{
 						int num = 0;
 						IWinLiveInformation* p = spWinLiveInformation.p;
-						HBITMAP__* ptr = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, HBITMAP__*>)(*(ulong*)(*(long*)p + 56)))((nint)p);
+						HBITMAP* ptr = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, HBITMAP*>)(*(ulong*)(*(long*)p + 56)))((nint)p);
 						num = (((long)(nint)ptr == 0) ? (-2147467259) : num);
-						HBITMAP__* ptr2 = null;
+						HBITMAP* ptr2 = null;
 						void* pData = null;
-						if (num >= 0 && _003CModule_003E.ZuneLibraryExports_002ECopyThumbnailBitmapData(ptr, &ptr2, &pData) >= 0)
+						if (num >= 0 && Module.ZuneLibraryExports_002ECopyThumbnailBitmapData(ptr, &ptr2, &pData) >= 0)
 						{
 							try
 							{
@@ -99,7 +99,7 @@ namespace Microsoft.Zune.Service
 								m_hipImage = null;
 								if (ptr2 != null)
 								{
-									_003CModule_003E.DeleteObject(ptr2);
+									Module.DeleteObject(ptr2);
 								}
 							}
 						}
@@ -126,7 +126,7 @@ namespace Microsoft.Zune.Service
 						{
 							m_hipChallenge = new string((char*)ptr);
 						}
-						_003CModule_003E.SysFreeString(ptr);
+						Module.SysFreeString(ptr);
 					}
 				}
 				return m_hipChallenge;
@@ -150,7 +150,7 @@ namespace Microsoft.Zune.Service
 						{
 							m_privacyUrl = new string((char*)ptr);
 						}
-						_003CModule_003E.SysFreeString(ptr);
+						Module.SysFreeString(ptr);
 					}
 				}
 				return m_privacyUrl;
@@ -189,7 +189,7 @@ namespace Microsoft.Zune.Service
 						{
 							m_termsOfServiceUrl = new string((char*)ptr);
 						}
-						_003CModule_003E.SysFreeString(ptr);
+						Module.SysFreeString(ptr);
 					}
 				}
 				return m_termsOfServiceUrl;

@@ -10,7 +10,7 @@ namespace Microsoft.Zune.Util
 			fOnBatteryPower = true;
 			int num = 0;
 			SYSTEM_BATTERY_STATE sYSTEM_BATTERY_STATE;
-			int num2 = _003CModule_003E.CallNtPowerInformation((POWER_INFORMATION_LEVEL)5, null, 0u, &sYSTEM_BATTERY_STATE, 32u);
+			int num2 = Module.CallNtPowerInformation((POWER_INFORMATION_LEVEL)5, null, 0u, &sYSTEM_BATTERY_STATE, 32u);
 			if (num2 != 0)
 			{
 				num = num2 | 0x10000000;

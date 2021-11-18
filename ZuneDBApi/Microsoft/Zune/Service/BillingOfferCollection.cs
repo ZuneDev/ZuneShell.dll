@@ -70,8 +70,8 @@ namespace Microsoft.Zune.Service
 							arrayList.Add(new BillingOffer(id, (EBillingOfferType)eBillingOfferType, new string((char*)ptr), new string((char*)ptr2), points, price, taxes, trial));
 						}
 					}
-					_003CModule_003E.SysFreeString(ptr);
-					_003CModule_003E.SysFreeString(ptr2);
+					Module.SysFreeString(ptr);
+					Module.SysFreeString(ptr2);
 					num3++;
 				}
 				while (num3 < num2);

@@ -18,7 +18,7 @@ namespace MicrosoftZuneLibrary
 			{
 				return;
 			}
-			foreach (DataProviderMapping value in base.Mappings.Values)
+			foreach (DataProviderMapping value in Mappings.Values)
 			{
 				if (value.UnderlyingCollectionTypeCookie != null)
 				{
@@ -34,7 +34,7 @@ namespace MicrosoftZuneLibrary
 			{
 				return m_isEmpty;
 			}
-			if (base.Mappings.TryGetValue(propertyName, out value))
+			if (Mappings.TryGetValue(propertyName, out value))
 			{
 				return m_virtualListResultSet;
 			}

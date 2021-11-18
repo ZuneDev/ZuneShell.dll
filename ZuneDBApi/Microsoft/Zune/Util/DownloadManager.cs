@@ -63,7 +63,7 @@ namespace Microsoft.Zune.Util
 				//IL_0037: Expected I, but got I8
 				bool result = false;
 				IDownloadManager* ptr = null;
-				if (_003CModule_003E.GetSingleton((_GUID)_003CModule_003E._GUID_399f851b_a600_4e88_90c3_03b8f2770076, (void**)(&ptr)) >= 0)
+				if (Module.GetSingleton((_GUID)Module._GUID_399f851b_a600_4e88_90c3_03b8f2770076, (void**)(&ptr)) >= 0)
 				{
 					IDownloadManager* intPtr = ptr;
 					result = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, byte>)(*(ulong*)(*(long*)intPtr + 144)))((nint)intPtr) != 0;
@@ -136,11 +136,11 @@ namespace Microsoft.Zune.Util
 		{
 			add
 			{
-				_003CModule_003E.Microsoft_002EZune_002EUtil_002EDownloadManagerProxy_002EAddDelegate(m_pDownloadManagerProxy, value);
+				Module.Microsoft_002EZune_002EUtil_002EDownloadManagerProxy_002EAddDelegate(m_pDownloadManagerProxy, value);
 			}
 			remove
 			{
-				_003CModule_003E.Microsoft_002EZune_002EUtil_002EDownloadManagerProxy_002ERemoveDelegate(m_pDownloadManagerProxy, value);
+				Module.Microsoft_002EZune_002EUtil_002EDownloadManagerProxy_002ERemoveDelegate(m_pDownloadManagerProxy, value);
 			}
 		}
 
@@ -182,9 +182,10 @@ namespace Microsoft.Zune.Util
 			IDownloadManager* ptr = null;
 			IDownloadTask* ptr2 = null;
 			DownloadTask result = null;
-			fixed (ushort* ptr3 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(taskId)))
+			fixed (char* taskIdPtr = taskId.ToCharArray())
 			{
-				int singleton = _003CModule_003E.GetSingleton((_GUID)_003CModule_003E._GUID_399f851b_a600_4e88_90c3_03b8f2770076, (void**)(&ptr));
+				ushort* ptr3 = (ushort*)taskIdPtr;
+				int singleton = Module.GetSingleton((_GUID)Module._GUID_399f851b_a600_4e88_90c3_03b8f2770076, (void**)(&ptr));
 				if (singleton >= 0)
 				{
 					long num = *(long*)ptr + 72;
@@ -263,12 +264,12 @@ namespace Microsoft.Zune.Util
 
 		public unsafe void PauseQueue()
 		{
-			_003CModule_003E.Microsoft_002EZune_002EUtil_002EDownloadManagerProxy_002EPauseQueue(m_pDownloadManagerProxy);
+			Module.Microsoft_002EZune_002EUtil_002EDownloadManagerProxy_002EPauseQueue(m_pDownloadManagerProxy);
 		}
 
 		public unsafe void ResumeQueue()
 		{
-			_003CModule_003E.Microsoft_002EZune_002EUtil_002EDownloadManagerProxy_002EResumeQueue(m_pDownloadManagerProxy);
+			Module.Microsoft_002EZune_002EUtil_002EDownloadManagerProxy_002EResumeQueue(m_pDownloadManagerProxy);
 		}
 
 		[return: MarshalAs(UnmanagedType.U1)]
@@ -285,7 +286,7 @@ namespace Microsoft.Zune.Util
 			//IL_00a0: Expected I, but got I8
 			bool flag = false;
 			IDownloadManager* ptr = null;
-			if (_003CModule_003E.GetSingleton((_GUID)_003CModule_003E._GUID_399f851b_a600_4e88_90c3_03b8f2770076, (void**)(&ptr)) >= 0)
+			if (Module.GetSingleton((_GUID)Module._GUID_399f851b_a600_4e88_90c3_03b8f2770076, (void**)(&ptr)) >= 0)
 			{
 				IDownloadManager* intPtr = ptr;
 				int num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)intPtr + 88)))((nint)intPtr);
@@ -333,20 +334,20 @@ namespace Microsoft.Zune.Util
 			m_completedDownloadTasks = new ArrayListDataSet();
 			m_failedDownloadTasks = new ArrayListDataSet();
 			m_cancelledDownloadTasks = new ArrayListDataSet();
-			DownloadManagerProxy* ptr = (DownloadManagerProxy*)_003CModule_003E.@new(112uL);
+			DownloadManagerProxy* ptr = (DownloadManagerProxy*)Module.@new(112uL);
 			DownloadManagerProxy* ptr2;
 			try
 			{
-				ptr2 = ((ptr == null) ? null : _003CModule_003E.Microsoft_002EZune_002EUtil_002EDownloadManagerProxy_002E_007Bctor_007D(ptr));
+				ptr2 = ((ptr == null) ? null : Module.Microsoft_002EZune_002EUtil_002EDownloadManagerProxy_002E_007Bctor_007D(ptr));
 			}
 			catch
 			{
 				//try-fault
-				_003CModule_003E.delete(ptr);
+				Module.delete(ptr);
 				throw;
 			}
 			m_pDownloadManagerProxy = ptr2;
-			if (ptr2 != null && _003CModule_003E.Microsoft_002EZune_002EUtil_002EDownloadManagerProxy_002EInitialize(ptr2) >= 0)
+			if (ptr2 != null && Module.Microsoft_002EZune_002EUtil_002EDownloadManagerProxy_002EInitialize(ptr2) >= 0)
 			{
 				OnProgressChanged += (m_defaultUpdateHandler = DefaultUpdateHandler);
 			}
@@ -409,7 +410,7 @@ namespace Microsoft.Zune.Util
 			*(long*)(&cComPtrNtv_003CIDownloadManager_003E) = 0L;
 			try
 			{
-				int singleton = _003CModule_003E.GetSingleton((_GUID)_003CModule_003E._GUID_399f851b_a600_4e88_90c3_03b8f2770076, (void**)(&cComPtrNtv_003CIDownloadManager_003E));
+				int singleton = Module.GetSingleton((_GUID)Module._GUID_399f851b_a600_4e88_90c3_03b8f2770076, (void**)(&cComPtrNtv_003CIDownloadManager_003E));
 				int num = 0;
 				if (singleton >= 0)
 				{
@@ -445,10 +446,10 @@ namespace Microsoft.Zune.Util
 						catch
 						{
 							//try-fault
-							_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIDownloadTask_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIDownloadTask_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIDownloadTask_003E);
+							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIDownloadTask_003E*, void>)(&Module.CComPtrNtv_003CIDownloadTask_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIDownloadTask_003E);
 							throw;
 						}
-						_003CModule_003E.CComPtrNtv_003CIDownloadTask_003E_002ERelease(&cComPtrNtv_003CIDownloadTask_003E);
+						Module.CComPtrNtv_003CIDownloadTask_003E_002ERelease(&cComPtrNtv_003CIDownloadTask_003E);
 						num3++;
 					}
 					while (num3 < num);
@@ -458,10 +459,10 @@ namespace Microsoft.Zune.Util
 			catch
 			{
 				//try-fault
-				_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIDownloadManager_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIDownloadManager_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIDownloadManager_003E);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIDownloadManager_003E*, void>)(&Module.CComPtrNtv_003CIDownloadManager_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIDownloadManager_003E);
 				throw;
 			}
-			_003CModule_003E.CComPtrNtv_003CIDownloadManager_003E_002ERelease(&cComPtrNtv_003CIDownloadManager_003E);
+			Module.CComPtrNtv_003CIDownloadManager_003E_002ERelease(&cComPtrNtv_003CIDownloadManager_003E);
 		}
 
 		private void DeferredUpdateActiveList(object args)
@@ -518,7 +519,7 @@ namespace Microsoft.Zune.Util
 				if (num2 >= 0)
 				{
 					m_cancelledDownloadTasks.RemoveAt(num2);
-					_003CModule_003E.Microsoft_002EZune_002EUtil_002EDownloadManagerProxy_002ERemoveCancelledCount(m_pDownloadManagerProxy);
+					Module.Microsoft_002EZune_002EUtil_002EDownloadManagerProxy_002ERemoveCancelledCount(m_pDownloadManagerProxy);
 				}
 				break;
 			}
@@ -528,7 +529,7 @@ namespace Microsoft.Zune.Util
 				if (num >= 0)
 				{
 					m_failedDownloadTasks.RemoveAt(num);
-					_003CModule_003E.Microsoft_002EZune_002EUtil_002EDownloadManagerProxy_002ERemoveFailedCount(m_pDownloadManagerProxy);
+					Module.Microsoft_002EZune_002EUtil_002EDownloadManagerProxy_002ERemoveFailedCount(m_pDownloadManagerProxy);
 				}
 				break;
 			}

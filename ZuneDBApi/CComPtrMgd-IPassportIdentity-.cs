@@ -87,9 +87,9 @@ internal class CComPtrMgd_003CIPassportIdentity_003E : IDisposable
 		IPassportIdentity* ptr = p;
 		if (ptr == null)
 		{
-			_003CModule_003E._ZuneShipAssert(1001u, 186u);
+			Module._ZuneShipAssert(1001u, 186u);
 			return -2147467261;
 		}
-		return ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, void**, int>)(*(ulong*)(*(ulong*)ptr)))((nint)ptr, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003CModule_003E._GUID_655b468c_1224_467d_b720_3bac7f99b6ba), (void**)pp);
+		return ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, void**, int>)(*(ulong*)(*(ulong*)ptr)))((nint)ptr, (_GUID*)Unsafe.AsPointer(ref Module._GUID_655b468c_1224_467d_b720_3bac7f99b6ba), (void**)pp);
 	}
 }

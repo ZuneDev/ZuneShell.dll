@@ -72,7 +72,7 @@ namespace Microsoft.Zune.Service
 				do
 				{
 					AppMetadata appMetadata;
-					_003CModule_003E.AppMetadata_002E_007Bctor_007D(&appMetadata);
+					Module.AppMetadata_002E_007Bctor_007D(&appMetadata);
 					try
 					{
 						if (num >= 0)
@@ -82,16 +82,16 @@ namespace Microsoft.Zune.Service
 						DateTime result = default(DateTime);
 						if (num >= 0)
 						{
-							if (System.Runtime.CompilerServices.Unsafe.As<AppMetadata, long>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref appMetadata, 72)) == 0L || !DateTime.TryParse(new string((char*)System.Runtime.CompilerServices.Unsafe.As<AppMetadata, ulong>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref appMetadata, 72))), out result))
+							if (Unsafe.As<AppMetadata, long>(ref Unsafe.AddByteOffset(ref appMetadata, 72)) == 0L || !DateTime.TryParse(new string((char*)Unsafe.As<AppMetadata, ulong>(ref Unsafe.AddByteOffset(ref appMetadata, 72))), out result))
 							{
 								result = DateTime.MinValue;
 							}
-							Guid id = _003CModule_003E.GUIDToGuid(System.Runtime.CompilerServices.Unsafe.As<AppMetadata, _GUID>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref appMetadata, 8)));
-							long num4 = System.Runtime.CompilerServices.Unsafe.As<AppMetadata, long>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref appMetadata, 136));
-							bool inCollection = ((((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)System.Runtime.CompilerServices.Unsafe.As<AppMetadata, ulong>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref appMetadata, 136)) + 144)))((nint)num4) != 0) ? true : false);
+							Guid id = Module.GUIDToGuid(Unsafe.As<AppMetadata, _GUID>(ref Unsafe.AddByteOffset(ref appMetadata, 8)));
+							long num4 = Unsafe.As<AppMetadata, long>(ref Unsafe.AddByteOffset(ref appMetadata, 136));
+							bool inCollection = ((((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)Unsafe.As<AppMetadata, ulong>(ref Unsafe.AddByteOffset(ref appMetadata, 136)) + 144)))((nint)num4) != 0) ? true : false);
 							_0024ArrayType_0024_0024_0024BY01W4EMediaRights_0040_0040 _0024ArrayType_0024_0024_0024BY01W4EMediaRights_0040_0040;
 							*(int*)(&_0024ArrayType_0024_0024_0024BY01W4EMediaRights_0040_0040) = 3;
-							System.Runtime.CompilerServices.Unsafe.As<_0024ArrayType_0024_0024_0024BY01W4EMediaRights_0040_0040, int>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY01W4EMediaRights_0040_0040, 4)) = 11;
+                            Unsafe.As<_0024ArrayType_0024_0024_0024BY01W4EMediaRights_0040_0040, int>(ref Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY01W4EMediaRights_0040_0040, 4)) = 11;
 							EMediaRights* ptr = (EMediaRights*)(&_0024ArrayType_0024_0024_0024BY01W4EMediaRights_0040_0040);
 							uint num5 = 2u;
 							do
@@ -100,25 +100,25 @@ namespace Microsoft.Zune.Service
 								*(long*)(&cComPtrNtv_003CIPriceInfo_003E) = 0L;
 								try
 								{
-									_GUID gUID_NULL = _003CModule_003E.GUID_NULL;
-									_GUID gUID_NULL2 = _003CModule_003E.GUID_NULL;
+									_GUID gUID_NULL = Module.GUID_NULL;
+									_GUID gUID_NULL2 = Module.GUID_NULL;
 									int num6 = (int)(*ptr);
-									long num7 = System.Runtime.CompilerServices.Unsafe.As<AppMetadata, long>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref appMetadata, 136));
-									if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EMediaRights, EMediaFormat, _GUID*, _GUID*, IPriceInfo**, ushort**, int>)(*(ulong*)(*(long*)System.Runtime.CompilerServices.Unsafe.As<AppMetadata, ulong>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref appMetadata, 136)) + 136)))((nint)num7, (EMediaRights)num6, (EMediaFormat)5, &gUID_NULL2, &gUID_NULL, (IPriceInfo**)(&cComPtrNtv_003CIPriceInfo_003E), null) >= 0)
+									long num7 = Unsafe.As<AppMetadata, long>(ref Unsafe.AddByteOffset(ref appMetadata, 136));
+									if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EMediaRights, EMediaFormat, _GUID*, _GUID*, IPriceInfo**, ushort**, int>)(*(ulong*)(*(long*)Unsafe.As<AppMetadata, ulong>(ref Unsafe.AddByteOffset(ref appMetadata, 136)) + 136)))((nint)num7, (EMediaRights)num6, (EMediaFormat)5, &gUID_NULL2, &gUID_NULL, (IPriceInfo**)(&cComPtrNtv_003CIPriceInfo_003E), null) >= 0)
 									{
 										bool isTrialPurchase = num6 == 11;
-										long num8 = System.Runtime.CompilerServices.Unsafe.As<AppMetadata, long>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref appMetadata, 136));
-										bool previouslyPurchased = ((((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EMediaRights, EMediaFormat, int, int, int>)(*(ulong*)(*(long*)System.Runtime.CompilerServices.Unsafe.As<AppMetadata, ulong>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref appMetadata, 136)) + 168)))((nint)num8, (EMediaRights)num6, (EMediaFormat)5, 1, 1) != 0) ? true : false);
-										list.Add(new AppOffer(id, new string((char*)System.Runtime.CompilerServices.Unsafe.As<AppMetadata, ulong>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref appMetadata, 24))), new string((char*)System.Runtime.CompilerServices.Unsafe.As<AppMetadata, ulong>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref appMetadata, 48))), new string((char*)System.Runtime.CompilerServices.Unsafe.As<AppMetadata, ulong>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref appMetadata, 56))), new string((char*)System.Runtime.CompilerServices.Unsafe.As<AppMetadata, ulong>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref appMetadata, 64))), new string((char*)System.Runtime.CompilerServices.Unsafe.As<AppMetadata, ulong>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref appMetadata, 88))), new string((char*)System.Runtime.CompilerServices.Unsafe.As<AppMetadata, ulong>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref appMetadata, 96))), new string((char*)System.Runtime.CompilerServices.Unsafe.As<AppMetadata, ulong>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref appMetadata, 112))), new PriceInfo((IPriceInfo*)(*(ulong*)(&cComPtrNtv_003CIPriceInfo_003E))), result, previouslyPurchased, inCollection, isTrialPurchase));
+										long num8 = Unsafe.As<AppMetadata, long>(ref Unsafe.AddByteOffset(ref appMetadata, 136));
+										bool previouslyPurchased = ((((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EMediaRights, EMediaFormat, int, int, int>)(*(ulong*)(*(long*)Unsafe.As<AppMetadata, ulong>(ref Unsafe.AddByteOffset(ref appMetadata, 136)) + 168)))((nint)num8, (EMediaRights)num6, (EMediaFormat)5, 1, 1) != 0) ? true : false);
+										list.Add(new AppOffer(id, new string((char*)Unsafe.As<AppMetadata, ulong>(ref Unsafe.AddByteOffset(ref appMetadata, 24))), new string((char*)Unsafe.As<AppMetadata, ulong>(ref Unsafe.AddByteOffset(ref appMetadata, 48))), new string((char*)Unsafe.As<AppMetadata, ulong>(ref Unsafe.AddByteOffset(ref appMetadata, 56))), new string((char*)Unsafe.As<AppMetadata, ulong>(ref Unsafe.AddByteOffset(ref appMetadata, 64))), new string((char*)Unsafe.As<AppMetadata, ulong>(ref Unsafe.AddByteOffset(ref appMetadata, 88))), new string((char*)Unsafe.As<AppMetadata, ulong>(ref Unsafe.AddByteOffset(ref appMetadata, 96))), new string((char*)Unsafe.As<AppMetadata, ulong>(ref Unsafe.AddByteOffset(ref appMetadata, 112))), new PriceInfo((IPriceInfo*)(*(ulong*)(&cComPtrNtv_003CIPriceInfo_003E))), result, previouslyPurchased, inCollection, isTrialPurchase));
 									}
 								}
 								catch
 								{
 									//try-fault
-									_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIPriceInfo_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIPriceInfo_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIPriceInfo_003E);
+									Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIPriceInfo_003E*, void>)(&Module.CComPtrNtv_003CIPriceInfo_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIPriceInfo_003E);
 									throw;
 								}
-								_003CModule_003E.CComPtrNtv_003CIPriceInfo_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIPriceInfo_003E);
+								Module.CComPtrNtv_003CIPriceInfo_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIPriceInfo_003E);
 								ptr = (EMediaRights*)((ulong)(nint)ptr + 4uL);
 								num5 += uint.MaxValue;
 							}
@@ -128,10 +128,10 @@ namespace Microsoft.Zune.Service
 					catch
 					{
 						//try-fault
-						_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<AppMetadata*, void>)(&_003CModule_003E.AppMetadata_002E_007Bdtor_007D), &appMetadata);
+						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<AppMetadata*, void>)(&Module.AppMetadata_002E_007Bdtor_007D), &appMetadata);
 						throw;
 					}
-					_003CModule_003E.AppMetadata_002E_007Bdtor_007D(&appMetadata);
+					Module.AppMetadata_002E_007Bdtor_007D(&appMetadata);
 					num3++;
 				}
 				while (num3 < num2);

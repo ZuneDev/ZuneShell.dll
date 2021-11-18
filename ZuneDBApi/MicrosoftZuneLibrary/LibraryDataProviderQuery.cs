@@ -25,7 +25,7 @@ namespace MicrosoftZuneLibrary
 		internal LibraryDataProviderQuery(object queryTypeCookie)
 			: base(queryTypeCookie)
 		{
-			LibraryDataProviderQueryResult libraryDataProviderQueryResult = new LibraryDataProviderQueryResult(this, null, base.ResultTypeCookie);
+			LibraryDataProviderQueryResult libraryDataProviderQueryResult = new LibraryDataProviderQueryResult(this, null, ResultTypeCookie);
 			libraryDataProviderQueryResult.SetIsEmpty(isEmpty: true);
 			Result = libraryDataProviderQueryResult;
 		}
@@ -42,13 +42,14 @@ namespace MicrosoftZuneLibrary
 			{
 				return;
 			}
-			if ((uint)System.Runtime.CompilerServices.Unsafe.As<EtwControlerState, byte>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref _003CModule_003E.g_EtwControlerState, 8)) > 1u && ((uint)System.Runtime.CompilerServices.Unsafe.As<EtwControlerState, int>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref _003CModule_003E.g_EtwControlerState, 4)) & 0x10u) != 0)
+			if ((uint)Unsafe.As<EtwControlerState, byte>(ref Unsafe.AddByteOffset(ref Module.g_EtwControlerState, 8)) > 1u && ((uint)Unsafe.As<EtwControlerState, int>(ref Unsafe.AddByteOffset(ref Module.g_EtwControlerState, 4)) & 0x10u) != 0)
 			{
-				fixed (ushort* pwszDetail = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(ToString())))
+				fixed (char* ToString()Ptr = ToString().ToCharArray())
 				{
+					ushort* pwszDetail = (ushort*)ToString()Ptr;
 					try
 					{
-						_003CModule_003E.PERFTRACE_COLLECTIONEVENT((_COLLECTION_EVENT)28, pwszDetail);
+						Module.PERFTRACE_COLLECTIONEVENT((_COLLECTION_EVENT)28, pwszDetail);
 					}
 					catch
 					{
@@ -246,8 +247,9 @@ namespace MicrosoftZuneLibrary
 			object property10 = GetProperty("Keywords");
 			if (property10 != null)
 			{
-				fixed (ushort* ptr2 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars((string)property10)))
+				fixed (char* (string)property10Ptr = (string)property10.ToCharArray())
 				{
+					ushort* ptr2 = (ushort*)(string)property10Ptr;
 					try
 					{
 						long num10 = *(long*)iQueryPropertyBag + 40;
@@ -311,8 +313,9 @@ namespace MicrosoftZuneLibrary
 			object property14 = GetProperty("TOC");
 			if (property14 != null)
 			{
-				fixed (ushort* ptr3 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars((string)property14)))
+				fixed (char* (string)property14Ptr = (string)property14.ToCharArray())
 				{
+					ushort* ptr3 = (ushort*)(string)property14Ptr;
 					try
 					{
 						long num17 = *(long*)iQueryPropertyBag + 40;
@@ -351,8 +354,9 @@ namespace MicrosoftZuneLibrary
 			property16 = GetProperty("InitTime");
 			if (property16 != null)
 			{
-				fixed (ushort* ptr4 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars((string)property16)))
+				fixed (char* (string)property16Ptr = (string)property16.ToCharArray())
 				{
+					ushort* ptr4 = (ushort*)(string)property16Ptr;
 					try
 					{
 						long num21 = *(long*)iQueryPropertyBag + 40;
@@ -588,9 +592,9 @@ namespace MicrosoftZuneLibrary
 				if (eQueryType != EQueryType.eQueryTypeInvalid)
 				{
 					ushort* ptr6 = null;
-					num29 = _003CModule_003E.ZuneLibraryExports_002EQueryDatabase(eQueryType, iQueryPropertyBag, &ptr5, &ptr6);
+					num29 = Module.ZuneLibraryExports_002EQueryDatabase(eQueryType, iQueryPropertyBag, &ptr5, &ptr6);
 					text = new string((char*)ptr6);
-					_003CModule_003E.SysFreeString(ptr6);
+					Module.SysFreeString(ptr6);
 				}
 				else
 				{
@@ -636,19 +640,20 @@ namespace MicrosoftZuneLibrary
 					ReleaseBehavior releaseBehavior2 = ((m_virtualListResultSet = new LibraryVirtualList(this, deferredSetResultArgs.QueryList, autoRefresh, antialiasEdges)).VisualReleaseBehavior = ((!deferredSetResultArgs.RetainedList) ? ReleaseBehavior.ReleaseReference : ReleaseBehavior.KeepReference));
 					isEmpty = deferredSetResultArgs.QueryList.IsEmpty;
 				}
-				LibraryDataProviderQueryResult libraryDataProviderQueryResult = new LibraryDataProviderQueryResult(this, m_virtualListResultSet, base.ResultTypeCookie);
+				LibraryDataProviderQueryResult libraryDataProviderQueryResult = new LibraryDataProviderQueryResult(this, m_virtualListResultSet, ResultTypeCookie);
 				libraryDataProviderQueryResult.SetIsEmpty(isEmpty);
 				Result = libraryDataProviderQueryResult;
 				Status = DataProviderQueryStatus.Complete;
-				if ((uint)System.Runtime.CompilerServices.Unsafe.As<EtwControlerState, byte>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref _003CModule_003E.g_EtwControlerState, 8)) <= 1u || (System.Runtime.CompilerServices.Unsafe.As<EtwControlerState, int>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref _003CModule_003E.g_EtwControlerState, 4)) & 0x10) == 0)
+				if ((uint)Unsafe.As<EtwControlerState, byte>(ref Unsafe.AddByteOffset(ref Module.g_EtwControlerState, 8)) <= 1u || (Unsafe.As<EtwControlerState, int>(ref Unsafe.AddByteOffset(ref Module.g_EtwControlerState, 4)) & 0x10) == 0)
 				{
 					return;
 				}
-				fixed (ushort* pwszDetail = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(ToString())))
+				fixed (char* ToString()Ptr = ToString().ToCharArray())
 				{
+					ushort* pwszDetail = (ushort*)ToString()Ptr;
 					try
 					{
-						_003CModule_003E.PERFTRACE_COLLECTIONEVENT((_COLLECTION_EVENT)29, pwszDetail);
+						Module.PERFTRACE_COLLECTIONEVENT((_COLLECTION_EVENT)29, pwszDetail);
 					}
 					catch
 					{

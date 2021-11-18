@@ -26,7 +26,7 @@ namespace Microsoft.Zune.Util
 				}
 				goto default;
 			default:
-				_003CModule_003E.Microsoft_002EZune_002EUtil_002E_003FA0x6d314898_002ENotifyInstantMessenger(AlbumName, ArtistName, TrackTitle, TrackNumber, ZuneMediaId);
+				Module.Microsoft_002EZune_002EUtil_002E_003FA0x6d314898_002ENotifyInstantMessenger(AlbumName, ArtistName, TrackTitle, TrackNumber, ZuneMediaId);
 				break;
 			case EMediaTypes.eMediaTypeInvalid:
 				break;
@@ -37,7 +37,7 @@ namespace Microsoft.Zune.Util
 		{
 			if (ClientConfiguration.Playback.NotifyIMClient)
 			{
-				_003CModule_003E.Microsoft_002EZune_002EUtil_002E_003FA0x6d314898_002EResetInstantMessenger();
+				Module.Microsoft_002EZune_002EUtil_002E_003FA0x6d314898_002EResetInstantMessenger();
 			}
 		}
 	}

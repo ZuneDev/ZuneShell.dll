@@ -66,9 +66,10 @@ namespace Microsoft.Zune.Util
 			IRadioStationManager* ptr = null;
 			IRadioPlaylist* ptr2 = null;
 			RadioPlaylist result = null;
-			fixed (ushort* ptr3 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(uri)))
+			fixed (char* uriPtr = uri.ToCharArray())
 			{
-				int singleton = _003CModule_003E.GetSingleton((_GUID)_003CModule_003E._GUID_e1c20902_172d_4c40_bc82_5164f64ab783, (void**)(&ptr));
+				ushort* ptr3 = (ushort*)uriPtr;
+				int singleton = Module.GetSingleton((_GUID)Module._GUID_e1c20902_172d_4c40_bc82_5164f64ab783, (void**)(&ptr));
 				if (singleton >= 0)
 				{
 					long num = *(long*)ptr + 24;
@@ -100,26 +101,29 @@ namespace Microsoft.Zune.Util
 			//IL_0060: Expected I, but got I8
 			//IL_0073: Expected I, but got I8
 			//IL_0086: Expected I, but got I8
-			RadioStationProxy* ptr = (RadioStationProxy*)_003CModule_003E.@new(24uL);
+			RadioStationProxy* ptr = (RadioStationProxy*)Module.@new(24uL);
 			RadioStationProxy* ptr2;
 			try
 			{
-				ptr2 = ((ptr == null) ? null : _003CModule_003E.Microsoft_002EZune_002EUtil_002ERadioStationProxy_002E_007Bctor_007D(ptr, radioStationProgressHandler));
+				ptr2 = ((ptr == null) ? null : Module.Microsoft_002EZune_002EUtil_002ERadioStationProxy_002E_007Bctor_007D(ptr, radioStationProgressHandler));
 			}
 			catch
 			{
 				//try-fault
-				_003CModule_003E.delete(ptr);
+				Module.delete(ptr);
 				throw;
 			}
-			fixed (ushort* ptr4 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(title)))
+			fixed (char* titlePtr = title.ToCharArray())
 			{
-				fixed (ushort* ptr5 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(sourceUrl)))
+				ushort* ptr4 = (ushort*)titlePtr;
+				fixed (char* sourceUrlPtr = sourceUrl.ToCharArray())
 				{
-					fixed (ushort* ptr6 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(imageUrl)))
+					ushort* ptr5 = (ushort*)sourceUrlPtr;
+					fixed (char* imageUrlPtr = imageUrl.ToCharArray())
 					{
+						ushort* ptr6 = (ushort*)imageUrlPtr;
 						IRadioStationManager* ptr3;
-						if (_003CModule_003E.GetSingleton((_GUID)_003CModule_003E._GUID_e1c20902_172d_4c40_bc82_5164f64ab783, (void**)(&ptr3)) >= 0)
+						if (Module.GetSingleton((_GUID)Module._GUID_e1c20902_172d_4c40_bc82_5164f64ab783, (void**)(&ptr3)) >= 0)
 						{
 							long num = *(long*)ptr3 + 32;
 							IRadioStationManager* intPtr = ptr3;
@@ -145,22 +149,23 @@ namespace Microsoft.Zune.Util
 			//IL_004b: Expected I, but got I8
 			//IL_005e: Expected I, but got I8
 			//IL_0071: Expected I, but got I8
-			RadioStationProxy* ptr = (RadioStationProxy*)_003CModule_003E.@new(24uL);
+			RadioStationProxy* ptr = (RadioStationProxy*)Module.@new(24uL);
 			RadioStationProxy* ptr2;
 			try
 			{
-				ptr2 = ((ptr == null) ? null : _003CModule_003E.Microsoft_002EZune_002EUtil_002ERadioStationProxy_002E_007Bctor_007D(ptr, radioStationProgressHandler));
+				ptr2 = ((ptr == null) ? null : Module.Microsoft_002EZune_002EUtil_002ERadioStationProxy_002E_007Bctor_007D(ptr, radioStationProgressHandler));
 			}
 			catch
 			{
 				//try-fault
-				_003CModule_003E.delete(ptr);
+				Module.delete(ptr);
 				throw;
 			}
-			fixed (ushort* ptr4 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(title)))
+			fixed (char* titlePtr = title.ToCharArray())
 			{
+				ushort* ptr4 = (ushort*)titlePtr;
 				IRadioStationManager* ptr3;
-				if (_003CModule_003E.GetSingleton((_GUID)_003CModule_003E._GUID_e1c20902_172d_4c40_bc82_5164f64ab783, (void**)(&ptr3)) >= 0)
+				if (Module.GetSingleton((_GUID)Module._GUID_e1c20902_172d_4c40_bc82_5164f64ab783, (void**)(&ptr3)) >= 0)
 				{
 					long num = *(long*)ptr3 + 40;
 					IRadioStationManager* intPtr = ptr3;

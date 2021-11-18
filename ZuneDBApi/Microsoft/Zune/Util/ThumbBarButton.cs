@@ -102,14 +102,15 @@ namespace Microsoft.Zune.Util
 				{
 					result = new string((char*)ptr);
 				}
-				_003CModule_003E.SysFreeString(ptr);
+				Module.SysFreeString(ptr);
 				return (string)result;
 			}
 			set
 			{
 				//IL_0023: Expected I, but got I8
-				fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(value)))
+				fixed (char* valuePtr = value.ToCharArray())
 				{
+					ushort* ptr = (ushort*)valuePtr;
 					IThumbBarButton* p = m_spButton.p;
 					long num = *(long*)p + 48;
 					((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, int>)(*(ulong*)num))((nint)p, ptr);

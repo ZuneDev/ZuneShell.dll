@@ -209,37 +209,37 @@ namespace Microsoft.Zune.Service
 				return;
 			}
 			WBSTRString wBSTRString;
-			_003CModule_003E.WBSTRString_002E_007Bctor_007D(&wBSTRString);
+			Module.WBSTRString_002E_007Bctor_007D(&wBSTRString);
 			try
 			{
 				WBSTRString wBSTRString2;
-				_003CModule_003E.WBSTRString_002E_007Bctor_007D(&wBSTRString2);
+				Module.WBSTRString_002E_007Bctor_007D(&wBSTRString2);
 				try
 				{
 					WBSTRString wBSTRString3;
-					_003CModule_003E.WBSTRString_002E_007Bctor_007D(&wBSTRString3);
+					Module.WBSTRString_002E_007Bctor_007D(&wBSTRString3);
 					try
 					{
 						WBSTRString wBSTRString4;
-						_003CModule_003E.WBSTRString_002E_007Bctor_007D(&wBSTRString4);
+						Module.WBSTRString_002E_007Bctor_007D(&wBSTRString4);
 						try
 						{
 							WBSTRString wBSTRString5;
-							_003CModule_003E.WBSTRString_002E_007Bctor_007D(&wBSTRString5);
+							Module.WBSTRString_002E_007Bctor_007D(&wBSTRString5);
 							try
 							{
 								WBSTRString wBSTRString6;
-								_003CModule_003E.WBSTRString_002E_007Bctor_007D(&wBSTRString6);
+								Module.WBSTRString_002E_007Bctor_007D(&wBSTRString6);
 								try
 								{
 									WBSTRString wBSTRString7;
-									_003CModule_003E.WBSTRString_002E_007Bctor_007D(&wBSTRString7);
+									Module.WBSTRString_002E_007Bctor_007D(&wBSTRString7);
 									try
 									{
 										_SYSTEMTIME stValue;
 										*(short*)(&stValue) = 0;
-										// IL initblk instruction
-										System.Runtime.CompilerServices.Unsafe.InitBlockUnaligned(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref stValue, 2), 0, 14);
+                                        // IL initblk instruction
+                                        Unsafe.InitBlockUnaligned(ref Unsafe.AddByteOffset(ref stValue, 2), 0, 14);
 										CComPtrNtv_003CIAddress_003E cComPtrNtv_003CIAddress_003E;
 										*(long*)(&cComPtrNtv_003CIAddress_003E) = 0L;
 										try
@@ -261,7 +261,7 @@ namespace Microsoft.Zune.Service
 														m_email = new string((char*)(*(ulong*)(&wBSTRString5)));
 														m_phoneNumber = new string((char*)(*(ulong*)(&wBSTRString6)));
 														m_mobilePhoneNumber = new string((char*)(*(ulong*)(&wBSTRString7)));
-														DateTime dateTime = (m_birthday = _003CModule_003E.SystemTimeToDateTime(stValue));
+														DateTime dateTime = (m_birthday = Module.SystemTimeToDateTime(stValue));
 														m_accountUserType = (AccountUserType)((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EAccountUserType>)(*(ulong*)(*(long*)pAccountUser + 48)))((nint)pAccountUser);
 														if (*(long*)(&cComPtrNtv_003CIAddress_003E) != 0L)
 														{
@@ -276,82 +276,82 @@ namespace Microsoft.Zune.Service
 												catch
 												{
 													//try-fault
-													_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIPrivacySettings_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIPrivacySettings_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIPrivacySettings_003E);
+													Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIPrivacySettings_003E*, void>)(&Module.CComPtrNtv_003CIPrivacySettings_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIPrivacySettings_003E);
 													throw;
 												}
-												_003CModule_003E.CComPtrNtv_003CIPrivacySettings_003E_002ERelease(&cComPtrNtv_003CIPrivacySettings_003E);
+												Module.CComPtrNtv_003CIPrivacySettings_003E_002ERelease(&cComPtrNtv_003CIPrivacySettings_003E);
 											}
 											catch
 											{
 												//try-fault
-												_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CINewsletterSettings_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CINewsletterSettings_003E_002E_007Bdtor_007D), &cComPtrNtv_003CINewsletterSettings_003E);
+												Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CINewsletterSettings_003E*, void>)(&Module.CComPtrNtv_003CINewsletterSettings_003E_002E_007Bdtor_007D), &cComPtrNtv_003CINewsletterSettings_003E);
 												throw;
 											}
-											_003CModule_003E.CComPtrNtv_003CINewsletterSettings_003E_002ERelease(&cComPtrNtv_003CINewsletterSettings_003E);
+											Module.CComPtrNtv_003CINewsletterSettings_003E_002ERelease(&cComPtrNtv_003CINewsletterSettings_003E);
 										}
 										catch
 										{
 											//try-fault
-											_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIAddress_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIAddress_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIAddress_003E);
+											Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIAddress_003E*, void>)(&Module.CComPtrNtv_003CIAddress_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIAddress_003E);
 											throw;
 										}
-										_003CModule_003E.CComPtrNtv_003CIAddress_003E_002ERelease(&cComPtrNtv_003CIAddress_003E);
+										Module.CComPtrNtv_003CIAddress_003E_002ERelease(&cComPtrNtv_003CIAddress_003E);
 									}
 									catch
 									{
 										//try-fault
-										_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<WBSTRString*, void>)(&_003CModule_003E.WBSTRString_002E_007Bdtor_007D), &wBSTRString7);
+										Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<WBSTRString*, void>)(&Module.WBSTRString_002E_007Bdtor_007D), &wBSTRString7);
 										throw;
 									}
-									_003CModule_003E.WBSTRString_002E_007Bdtor_007D(&wBSTRString7);
+									Module.WBSTRString_002E_007Bdtor_007D(&wBSTRString7);
 								}
 								catch
 								{
 									//try-fault
-									_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<WBSTRString*, void>)(&_003CModule_003E.WBSTRString_002E_007Bdtor_007D), &wBSTRString6);
+									Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<WBSTRString*, void>)(&Module.WBSTRString_002E_007Bdtor_007D), &wBSTRString6);
 									throw;
 								}
-								_003CModule_003E.WBSTRString_002E_007Bdtor_007D(&wBSTRString6);
+								Module.WBSTRString_002E_007Bdtor_007D(&wBSTRString6);
 							}
 							catch
 							{
 								//try-fault
-								_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<WBSTRString*, void>)(&_003CModule_003E.WBSTRString_002E_007Bdtor_007D), &wBSTRString5);
+								Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<WBSTRString*, void>)(&Module.WBSTRString_002E_007Bdtor_007D), &wBSTRString5);
 								throw;
 							}
-							_003CModule_003E.WBSTRString_002E_007Bdtor_007D(&wBSTRString5);
+							Module.WBSTRString_002E_007Bdtor_007D(&wBSTRString5);
 						}
 						catch
 						{
 							//try-fault
-							_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<WBSTRString*, void>)(&_003CModule_003E.WBSTRString_002E_007Bdtor_007D), &wBSTRString4);
+							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<WBSTRString*, void>)(&Module.WBSTRString_002E_007Bdtor_007D), &wBSTRString4);
 							throw;
 						}
-						_003CModule_003E.WBSTRString_002E_007Bdtor_007D(&wBSTRString4);
+						Module.WBSTRString_002E_007Bdtor_007D(&wBSTRString4);
 					}
 					catch
 					{
 						//try-fault
-						_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<WBSTRString*, void>)(&_003CModule_003E.WBSTRString_002E_007Bdtor_007D), &wBSTRString3);
+						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<WBSTRString*, void>)(&Module.WBSTRString_002E_007Bdtor_007D), &wBSTRString3);
 						throw;
 					}
-					_003CModule_003E.WBSTRString_002E_007Bdtor_007D(&wBSTRString3);
+					Module.WBSTRString_002E_007Bdtor_007D(&wBSTRString3);
 				}
 				catch
 				{
 					//try-fault
-					_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<WBSTRString*, void>)(&_003CModule_003E.WBSTRString_002E_007Bdtor_007D), &wBSTRString2);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<WBSTRString*, void>)(&Module.WBSTRString_002E_007Bdtor_007D), &wBSTRString2);
 					throw;
 				}
-				_003CModule_003E.WBSTRString_002E_007Bdtor_007D(&wBSTRString2);
+				Module.WBSTRString_002E_007Bdtor_007D(&wBSTRString2);
 			}
 			catch
 			{
 				//try-fault
-				_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<WBSTRString*, void>)(&_003CModule_003E.WBSTRString_002E_007Bdtor_007D), &wBSTRString);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<WBSTRString*, void>)(&Module.WBSTRString_002E_007Bdtor_007D), &wBSTRString);
 				throw;
 			}
-			_003CModule_003E.WBSTRString_002E_007Bdtor_007D(&wBSTRString);
+			Module.WBSTRString_002E_007Bdtor_007D(&wBSTRString);
 		}
 
 		public AccountUser()

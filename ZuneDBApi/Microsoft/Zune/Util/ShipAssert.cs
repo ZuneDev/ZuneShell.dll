@@ -11,7 +11,7 @@ namespace Microsoft.Zune.Util
 			//IL_000c: Expected I, but got I8
 			if (!condition)
 			{
-				_003CModule_003E.ZuneLibraryExports_002EShipAssert(id, param, null);
+				Module.ZuneLibraryExports_002EShipAssert(id, param, null);
 			}
 		}
 
@@ -20,7 +20,7 @@ namespace Microsoft.Zune.Util
 			//IL_000c: Expected I, but got I8
 			if (!condition)
 			{
-				_003CModule_003E.ZuneLibraryExports_002EShipAssert(id, param, null);
+				Module.ZuneLibraryExports_002EShipAssert(id, param, null);
 			}
 		}
 
@@ -30,11 +30,12 @@ namespace Microsoft.Zune.Util
 			{
 				return;
 			}
-			fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(msg)))
+			fixed (char* msgPtr = msg.ToCharArray())
 			{
+				ushort* ptr = (ushort*)msgPtr;
 				try
 				{
-					_003CModule_003E.ZuneLibraryExports_002EShipAssert(id, param, ptr);
+					Module.ZuneLibraryExports_002EShipAssert(id, param, ptr);
 				}
 				catch
 				{
@@ -51,11 +52,12 @@ namespace Microsoft.Zune.Util
 			{
 				return;
 			}
-			fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(msg)))
+			fixed (char* msgPtr = msg.ToCharArray())
 			{
+				ushort* ptr = (ushort*)msgPtr;
 				try
 				{
-					_003CModule_003E.ZuneLibraryExports_002EShipAssert(id, param, ptr);
+					Module.ZuneLibraryExports_002EShipAssert(id, param, ptr);
 				}
 				catch
 				{
@@ -80,7 +82,7 @@ namespace Microsoft.Zune.Util
 					num = ((uint)(array[1] & 0xFF) | ((uint)array[0] << 8)) << 16;
 				}
 				num |= (uint)frame.GetILOffset() & 0xFFFFu;
-				_003CModule_003E.ZuneLibraryExports_002EShipAssert(1006u, num, null);
+				Module.ZuneLibraryExports_002EShipAssert(1006u, num, null);
 			}
 		}
 	}

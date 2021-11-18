@@ -13,7 +13,7 @@ namespace Microsoft.Zune.Util
 			//IL_004c: Expected I, but got I8
 			if (m_spThumbBar.p == null)
 			{
-				_003CModule_003E._ZuneShipAssert(1002u, 193u);
+				Module._ZuneShipAssert(1002u, 193u);
 				return -2147418113;
 			}
 			CComPtrNtv_003CIThumbBarButton_003E cComPtrNtv_003CIThumbBarButton_003E;
@@ -27,10 +27,10 @@ namespace Microsoft.Zune.Util
 			catch
 			{
 				//try-fault
-				_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIThumbBarButton_003E*, void>)(&_003CModule_003E.CComPtrNtv_003CIThumbBarButton_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIThumbBarButton_003E);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIThumbBarButton_003E*, void>)(&Module.CComPtrNtv_003CIThumbBarButton_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIThumbBarButton_003E);
 				throw;
 			}
-			_003CModule_003E.CComPtrNtv_003CIThumbBarButton_003E_002ERelease(&cComPtrNtv_003CIThumbBarButton_003E);
+			Module.CComPtrNtv_003CIThumbBarButton_003E_002ERelease(&cComPtrNtv_003CIThumbBarButton_003E);
 			return 0;
 		}
 
@@ -40,7 +40,7 @@ namespace Microsoft.Zune.Util
 			IThumbBar* p = m_spThumbBar.p;
 			if (p == null)
 			{
-				_003CModule_003E._ZuneShipAssert(1002u, 215u);
+				Module._ZuneShipAssert(1002u, 215u);
 				return -2147418113;
 			}
 			return ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)p + 32)))((nint)p);

@@ -113,16 +113,16 @@ namespace MicrosoftZuneLibrary
 					{
 						m_spGasGauge.op_Assign(pGasGauge);
 					}
-					GasGaugeMediator* ptr = (GasGaugeMediator*)_003CModule_003E.@new(32uL);
+					GasGaugeMediator* ptr = (GasGaugeMediator*)Module.@new(32uL);
 					GasGaugeMediator* lp;
 					try
 					{
-						lp = ((ptr == null) ? null : _003CModule_003E.GasGaugeMediator_002E_007Bctor_007D(ptr, this, pGasGauge));
+						lp = ((ptr == null) ? null : Module.GasGaugeMediator_002E_007Bctor_007D(ptr, this, pGasGauge));
 					}
 					catch
 					{
 						//try-fault
-						_003CModule_003E.delete(ptr);
+						Module.delete(ptr);
 						throw;
 					}
 					m_spGasGaugeMediator.op_Assign(lp);
@@ -171,7 +171,7 @@ namespace MicrosoftZuneLibrary
 			GasGaugeMediator* p = m_spGasGaugeMediator.p;
 			if (p != null)
 			{
-				_003CModule_003E.GasGaugeMediator_002EShutdown(p);
+				Module.GasGaugeMediator_002EShutdown(p);
 			}
 			m_spGasGauge.Release();
 			m_spGasGaugeMediator.Release();

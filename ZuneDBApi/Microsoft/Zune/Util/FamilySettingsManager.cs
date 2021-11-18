@@ -31,18 +31,18 @@ namespace Microsoft.Zune.Util
 						{
 							FamilySettingsManager familySettingsManager = new FamilySettingsManager();
 							IMetadataManager* ptr;
-							int singleton = _003CModule_003E.GetSingleton((_GUID)_003CModule_003E._GUID_6dd7146d_7a19_4fbb_9235_9e6c382fcc71, (void**)(&ptr));
+							int singleton = Module.GetSingleton((_GUID)Module._GUID_6dd7146d_7a19_4fbb_9235_9e6c382fcc71, (void**)(&ptr));
 							if (singleton < 0)
 							{
-								throw new ApplicationException(_003CModule_003E.GetErrorDescription(singleton));
+								throw new ApplicationException(Module.GetErrorDescription(singleton));
 							}
 							IMetadataManager* intPtr = ptr;
-							__s_GUID gUID_04f38ab5_391b_4b5a_a2c1_d4b74aeb4be = _003CModule_003E._GUID_04f38ab5_391b_4b5a_a2c1_d4b74aeb4be9;
+							__s_GUID gUID_04f38ab5_391b_4b5a_a2c1_d4b74aeb4be = Module._GUID_04f38ab5_391b_4b5a_a2c1_d4b74aeb4be9;
 							IFamilySettingsProvider* pProvider;
 							int num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID, void**, int>)(*(ulong*)(*(long*)ptr + 24)))((nint)intPtr, (_GUID)gUID_04f38ab5_391b_4b5a_a2c1_d4b74aeb4be, (void**)(&pProvider));
 							if (num < 0)
 							{
-								throw new ApplicationException(_003CModule_003E.GetErrorDescription(num));
+								throw new ApplicationException(Module.GetErrorDescription(num));
 							}
 							Thread.MemoryBarrier();
 							familySettingsManager.m_pProvider = pProvider;
@@ -85,8 +85,9 @@ namespace Microsoft.Zune.Util
 		{
 			//IL_002c: Expected I, but got I8
 			int num = -1;
-			fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(szRatingSystem)))
+			fixed (char* szRatingSystemPtr = szRatingSystem.ToCharArray())
 			{
+				ushort* ptr = (ushort*)szRatingSystemPtr;
 				long num2 = *(long*)m_pProvider + 24;
 				IFamilySettingsProvider* pProvider = m_pProvider;
 				int hr = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, int, ushort*, int, int, int*, int>)(*(ulong*)num2))((nint)pProvider, nSettingId, nUserId, ptr, nRatingLevel, fBlockUnrated ? 1 : 0, &num);
@@ -99,24 +100,24 @@ namespace Microsoft.Zune.Util
 		{
 			//IL_001f: Expected I, but got I8
 			IntSet intSet;
-			_003CModule_003E.DataStructs_002EIntSet_002E_007Bctor_007D(&intSet);
+			Module.DataStructs_002EIntSet_002E_007Bctor_007D(&intSet);
 			HRESULT result;
 			try
 			{
 				IFamilySettingsProvider* pProvider = m_pProvider;
 				int num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, IntSet*, int>)(*(ulong*)(*(long*)pProvider + 32)))((nint)pProvider, nUserId, &intSet);
-				if (num >= 0 && !(System.Runtime.CompilerServices.Unsafe.As<IntSet, int>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref intSet, 8)) == -1))
+				if (num >= 0 && !(Unsafe.As<IntSet, int>(ref Unsafe.AddByteOffset(ref intSet, 8)) == -1))
 				{
-					rgSettingIds = new int[_003CModule_003E.DataStructs_002EIntSet_002EMemberCount(&intSet)];
-					int num2 = System.Runtime.CompilerServices.Unsafe.As<IntSet, int>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref intSet, 4));
+					rgSettingIds = new int[Module.DataStructs_002EIntSet_002EMemberCount(&intSet)];
+					int num2 = Unsafe.As<IntSet, int>(ref Unsafe.AddByteOffset(ref intSet, 4));
 					int num3 = 0;
-					if (System.Runtime.CompilerServices.Unsafe.As<IntSet, int>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref intSet, 4)) != -1)
+					if (Unsafe.As<IntSet, int>(ref Unsafe.AddByteOffset(ref intSet, 4)) != -1)
 					{
 						do
 						{
 							rgSettingIds[num3] = num2;
 							num3++;
-							num2 = _003CModule_003E.DataStructs_002EIntSet_002EGetNextMember(&intSet, num2);
+							num2 = Module.DataStructs_002EIntSet_002EGetNextMember(&intSet, num2);
 						}
 						while (num2 != -1);
 					}
@@ -126,10 +127,10 @@ namespace Microsoft.Zune.Util
 			catch
 			{
 				//try-fault
-				_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IntSet*, void>)(&_003CModule_003E.DataStructs_002EIntSet_002E_007Bdtor_007D), &intSet);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IntSet*, void>)(&Module.DataStructs_002EIntSet_002E_007Bdtor_007D), &intSet);
 				throw;
 			}
-			_003CModule_003E.DataStructs_002EIntSet_002EFreeData(&intSet);
+			Module.DataStructs_002EIntSet_002EFreeData(&intSet);
 			return result;
 		}
 
@@ -139,18 +140,18 @@ namespace Microsoft.Zune.Util
 			//IL_0023: Expected I, but got I8
 			//IL_0033: Expected I, but got I8
 			CComPropVariant cComPropVariant;
-			// IL initblk instruction
-			System.Runtime.CompilerServices.Unsafe.InitBlock(ref cComPropVariant, 0, 24);
+            // IL initblk instruction
+            Unsafe.InitBlock(ref cComPropVariant, 0, 24);
 			HRESULT result;
 			try
 			{
 				IFamilySettingsProvider* pProvider = m_pProvider;
 				int num;
 				int num2;
-				int num3 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, tagPROPVARIANT*, int*, int*, int>)(*(ulong*)(*(long*)pProvider + 40)))((nint)pProvider, nSettingId, (tagPROPVARIANT*)(&cComPropVariant), &num, &num2);
+				int num3 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, PROPVARIANT, int*, int*, int>)(*(ulong*)(*(long*)pProvider + 40)))((nint)pProvider, nSettingId, (PROPVARIANT)(&cComPropVariant), &num, &num2);
 				if (0 == num3)
 				{
-					szRatingSystem = new string((char*)System.Runtime.CompilerServices.Unsafe.As<CComPropVariant, ulong>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref cComPropVariant, 8)));
+					szRatingSystem = new string((char*)Unsafe.As<CComPropVariant, ulong>(ref Unsafe.AddByteOffset(ref cComPropVariant, 8)));
 					nRatingLevel = num;
 					bool flag = (fBlockUnrated = ((num2 != 0) ? true : false));
 				}
@@ -159,18 +160,19 @@ namespace Microsoft.Zune.Util
 			catch
 			{
 				//try-fault
-				_003CModule_003E.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPropVariant*, void>)(&_003CModule_003E.CComPropVariant_002E_007Bdtor_007D), &cComPropVariant);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPropVariant*, void>)(&Module.CComPropVariant_002E_007Bdtor_007D), &cComPropVariant);
 				throw;
 			}
-			_003CModule_003E.CComPropVariant_002EClear(&cComPropVariant);
+			Module.CComPropVariant_002EClear(&cComPropVariant);
 			return result;
 		}
 
 		public unsafe HRESULT GetSettingForSystem(int nUserId, string szRatingSystem, out int nRatingLevel, out bool fBlockUnrated)
 		{
 			//IL_002a: Expected I, but got I8
-			fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(szRatingSystem)))
+			fixed (char* szRatingSystemPtr = szRatingSystem.ToCharArray())
 			{
+				ushort* ptr = (ushort*)szRatingSystemPtr;
 				long num = *(long*)m_pProvider + 48;
 				IFamilySettingsProvider* pProvider = m_pProvider;
 				int num2;

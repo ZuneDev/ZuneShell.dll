@@ -106,17 +106,17 @@ namespace MicrosoftZunePlayback
 			//IL_00b6: Expected I, but got I8
 			_ignore = false;
 			IZuneMBRBandwidthTest* p = null;
-			int num = _003CModule_003E.MBRBandwidthTest_CreateInstance(&p);
+			int num = Module.MBRBandwidthTest_CreateInstance(&p);
 			m_spMBRBandwidthTest.Attach(p);
 			if (m_spMBRBandwidthTest.p != null && num >= 0)
 			{
-				CMBRBandwidthTestEventSink* ptr = (CMBRBandwidthTestEventSink*)_003CModule_003E.@new(24uL);
+				CMBRBandwidthTestEventSink* ptr = (CMBRBandwidthTestEventSink*)Module.@new(24uL);
 				CMBRBandwidthTestEventSink* lp;
 				try
 				{
 					if (ptr != null)
 					{
-						lp = _003CModule_003E.MicrosoftZunePlayback_002ECMBRBandwidthTestEventSink_002E_007Bctor_007D(ptr, this, _async);
+						lp = Module.MicrosoftZunePlayback_002ECMBRBandwidthTestEventSink_002E_007Bctor_007D(ptr, this, _async);
 					}
 					else
 					{
@@ -126,7 +126,7 @@ namespace MicrosoftZunePlayback
 				catch
 				{
 					//try-fault
-					_003CModule_003E.delete(ptr);
+					Module.delete(ptr);
 					throw;
 				}
 				m_spMBRBTestSink.op_Assign(lp);
@@ -134,8 +134,9 @@ namespace MicrosoftZunePlayback
 				{
 					throw new OutOfMemoryException();
 				}
-				fixed (ushort* ptr2 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref _003CModule_003E.PtrToStringChars(Uri)))
+				fixed (char* UriPtr = Uri.ToCharArray())
 				{
+					ushort* ptr2 = (ushort*)UriPtr;
 					IZuneMBRBandwidthTest* p2 = m_spMBRBandwidthTest.p;
 					CMBRBandwidthTestEventSink* p3 = m_spMBRBTestSink.p;
 					long num2 = *(long*)p2 + 24;

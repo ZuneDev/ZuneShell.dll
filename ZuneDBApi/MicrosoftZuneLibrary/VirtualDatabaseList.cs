@@ -158,7 +158,7 @@ namespace MicrosoftZuneLibrary
 				return;
 			}
 			bool flag = false;
-			_003CModule_003E.PERFTRACE_COLLECTIONEVENT((_COLLECTION_EVENT)14, null);
+            ZuneDBApi.Module.PERFTRACE_COLLECTIONEVENT((_COLLECTION_EVENT)14, null);
 			foreach (ListNotifyData lNotifyDatum in m_lNotifyData)
 			{
 				if (!m_fDisposed)
@@ -181,7 +181,7 @@ namespace MicrosoftZuneLibrary
 				}
 				break;
 			}
-			_003CModule_003E.PERFTRACE_COLLECTIONEVENT((_COLLECTION_EVENT)15, null);
+            ZuneDBApi.Module.PERFTRACE_COLLECTIONEVENT((_COLLECTION_EVENT)15, null);
 			m_lNotifyData.Clear();
 			m_pQueryList.EndBulkEventsComplete(fAbandon: false);
 			if (flag)
@@ -225,7 +225,7 @@ namespace MicrosoftZuneLibrary
 				}
 				else
 				{
-					base.Count = num;
+                    Count = num;
 				}
 			}
 		}

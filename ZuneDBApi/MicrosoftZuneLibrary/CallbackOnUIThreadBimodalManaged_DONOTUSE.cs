@@ -13,16 +13,16 @@ namespace MicrosoftZuneLibrary
 		{
 			//IL_0026: Expected I, but got I8
 			_pUI = pUI;
-			CallbackOnUIThreadBimodalUnmanaged_DONOTUSE* ptr = (CallbackOnUIThreadBimodalUnmanaged_DONOTUSE*)_003CModule_003E.@new(16uL);
+			CallbackOnUIThreadBimodalUnmanaged_DONOTUSE* ptr = (CallbackOnUIThreadBimodalUnmanaged_DONOTUSE*)Module.@new(16uL);
 			CallbackOnUIThreadBimodalUnmanaged_DONOTUSE* pUnmanaged;
 			try
 			{
-				pUnmanaged = ((ptr == null) ? null : _003CModule_003E.MicrosoftZuneLibrary_002ECallbackOnUIThreadBimodalUnmanaged_DONOTUSE_002E_007Bctor_007D(ptr, this));
+				pUnmanaged = ((ptr == null) ? null : Module.MicrosoftZuneLibrary_002ECallbackOnUIThreadBimodalUnmanaged_DONOTUSE_002E_007Bctor_007D(ptr, this));
 			}
 			catch
 			{
 				//try-fault
-				_003CModule_003E.delete(ptr);
+				Module.delete(ptr);
 				throw;
 			}
 			_pUnmanaged = pUnmanaged;
@@ -38,7 +38,7 @@ namespace MicrosoftZuneLibrary
 			CallbackOnUIThreadBimodalUnmanaged_DONOTUSE* pUnmanaged = _pUnmanaged;
 			if (pUnmanaged != null)
 			{
-				_003CModule_003E.MicrosoftZuneLibrary_002ECallbackOnUIThreadBimodalUnmanaged_DONOTUSE_002E__delDtor(pUnmanaged, 1u);
+				Module.MicrosoftZuneLibrary_002ECallbackOnUIThreadBimodalUnmanaged_DONOTUSE_002E__delDtor(pUnmanaged, 1u);
 			}
 		}
 
@@ -51,7 +51,7 @@ namespace MicrosoftZuneLibrary
 
 		public unsafe void Callback(int id, IntPtr pData, IntPtr pInterface)
 		{
-			_003CModule_003E.MicrosoftZuneLibrary_002ECallbackOnUIThreadBimodalUnmanaged_DONOTUSE_002ECallback(_pUnmanaged, id, (void*)pData, (INativeDeferredCallback*)pInterface.ToPointer());
+			Module.MicrosoftZuneLibrary_002ECallbackOnUIThreadBimodalUnmanaged_DONOTUSE_002ECallback(_pUnmanaged, id, (void*)pData, (INativeDeferredCallback*)pInterface.ToPointer());
 		}
 
 		protected virtual void Dispose([MarshalAs(UnmanagedType.U1)] bool P_0)
