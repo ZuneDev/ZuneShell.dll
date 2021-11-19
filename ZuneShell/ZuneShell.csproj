@@ -33,6 +33,6 @@
     </ItemGroup>
 
     <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-        <Exec Command="..\UIXSign\bin\$(Platform)\Debug\net48\UIXSign.exe &quot;$(OutputPath)ZuneShell.dll&quot;" />
+        <Exec Command="..\UIXSign\bin\$(Platform)\Debug\net48\UIXSign.exe &quot;$(OutputPath)$(AssemblyName).dll&quot;" />
     </Target>
 </Project>
