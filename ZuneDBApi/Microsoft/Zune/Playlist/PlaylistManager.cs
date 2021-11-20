@@ -131,7 +131,7 @@ namespace Microsoft.Zune.Playlist
 								long num = *(long*)m_pPlaylistManager + 24;
 								IPlaylistManager* pPlaylistManager = m_pPlaylistManager;
 								int num2;
-								hr = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, ushort*, _GUID*, int*, EPlaylistType, EPlaylistCreateConflictAction, int, tagVARIANT*, int>)(*(ulong*)num))((nint)pPlaylistManager, ptr2, ptr3, ptr, &num2, ePlaylistType, ePlaylistCreateConflictAction, flag6 ? 1 : 0, null);
+								hr = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, ushort*, _GUID*, int*, EPlaylistType, EPlaylistCreateConflictAction, int, VARIANT*, int>)(*(ulong*)num))((nint)pPlaylistManager, ptr2, ptr3, ptr, &num2, ePlaylistType, ePlaylistCreateConflictAction, flag6 ? 1 : 0, null);
 								playlistId = num2;
 							}
 							catch

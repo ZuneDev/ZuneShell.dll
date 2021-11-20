@@ -23,10 +23,10 @@ namespace Microsoft.Zune.Util
 					int num2 = 0;
 					if (((DictionaryEntry)item).Key.GetType() == typeof(string))
 					{
-						tagVARIANT tagVARIANT;
+						VARIANT tagVARIANT;
 						IntPtr pDstNativeVariant = (IntPtr)(&tagVARIANT);
 						Marshal.GetNativeVariantForObject(((DictionaryEntry)item).Key, pDstNativeVariant);
-						tagVARIANT tagVARIANT2;
+						VARIANT tagVARIANT2;
 						if (((DictionaryEntry)item).Value.GetType() == typeof(Guid))
 						{
 							string obj = ((DictionaryEntry)item).Value.ToString();

@@ -19,5 +19,6 @@
 		<PackageReference Include="Vanara.PInvoke.Ole" Version="3.3.14" />
 		<PackageReference Include="Vanara.PInvoke.Gdi32" Version="3.3.14" />
 		<PackageReference Include="Vanara.PInvoke.Shell32" Version="3.3.14" />
+		<PackageReference Include="Vanara.PInvoke.Security" Version="3.3.14" />
 	</ItemGroup>
 </Project>

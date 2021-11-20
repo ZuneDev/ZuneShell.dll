@@ -3,13 +3,16 @@ global using Vanara.PInvoke;
 global using static Vanara.PInvoke.User32;
 global using static Vanara.PInvoke.Kernel32;
 global using static Vanara.PInvoke.Ole32;
+global using static Vanara.PInvoke.OleAut32;
 global using static Vanara.PInvoke.Gdi32;
 global using static Vanara.PInvoke.Shell32;
+global using static Vanara.PInvoke.AdvApi32;
 global using ZuneDBApi;
 global using GC = System.GC;
 global using HRESULT = ZuneUI.HRESULT;
 
 using System;
+using System.Runtime.InteropServices;
 
 namespace ZuneDBApi
 {
@@ -39,9 +42,9 @@ namespace ZuneDBApi
             return Kernel32.CloseHandle(new IntPtr(h)) ? 1 : 0;
         }
 
-        public static int CoCreateInstance(Guid rclsid, IUnknown* pUnkOuter, uint dwClsContext, Guid riid, void** ppv)
+        public static int CoCreateInstance(Guid rclsid, object pUnkOuter, uint dwClsContext, Guid riid, out object ppv)
         {
-            return Ole32.CoCreateInstance(rclsid, pUnkOuter, (CLSCTX)dwClsContext, riid, out ppv);
+            return Ole32.CoCreateInstance(rclsid, pUnkOuter, (CLSCTX)dwClsContext, riid, out ppv).Code;
         }
 
         public static int CompareStringW(uint localeId, uint dwCmpFlags, ushort* lpString1, int cchCount1, ushort* lpString2, int cchCount2)
@@ -164,7 +167,8 @@ namespace ZuneDBApi
 
         public static uint FormatMessageW(uint dwFlags, void* lpSource, uint dwMessageId, uint dwLanguageId, ushort* lpBuffer, uint nSize, sbyte** Arguments)
         {
-            return Kernel32.FormatMessage((FormatMessageFlags)dwFlags, ToHInstance(lpSource), dwMessageId, dwLanguageId, lpBuffer, nSize, new IntPtr(Arguments));
+            System.Text.StringBuilder builder = new(new string((char*)lpBuffer));
+            return (uint)Kernel32.FormatMessage((FormatMessageFlags)dwFlags, ToHInstance(lpSource), dwMessageId, dwLanguageId, builder, nSize, new IntPtr(Arguments));
         }
 
         public static int GetClassInfoW(HINSTANCE* hInstance, ushort* lpClassName, ref WNDCLASS lpWndClass)
@@ -429,5 +433,69 @@ namespace ZuneDBApi
         {
             return (ulong)User32.SetTimer(*hWnd, new((long)nIDEvent), uElapse, lpTimerFunc).ToInt64();
         }
+
+        [DllImport("ZuneNativeLib")]
+        public unsafe static extern int SetUIThreadCBWorker(IUIThreadCallbackWorker* pUIThreadCallbackWorker);
+
+        [DllImport("ZuneNativeLib", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        public static extern void SQMAddNumbersToStream(string sqmDataId, uint countTotal, uint dw1);
+
+        [DllImport("ZuneNativeLib", CharSet = CharSet.Unicode)]
+        public static extern void SQMAddWrapper(string sqmDataId, int nData);
+
+        public static ushort* SysAllocString(ushort* psz)
+        {
+            return (ushort*)OleAut32.SysAllocString(new string((char*)psz)).DangerousGetHandle().ToPointer();
+        }
+
+        public static void SysFreeString(ushort* psz)
+        {
+            OleAut32.SysFreeString(new IntPtr(psz));
+        }
+
+        public static uint SysStringLen(ushort* psz)
+        {
+            return OleAut32.SysStringLen(new SafeBSTR(new(psz)));
+        }
+
+        internal unsafe static DateTime SystemTimeToDateTime(SYSTEMTIME stValue)
+        {
+            FILETIME ftValue = default;
+
+            Module.SystemTimeToFileTime(&stValue, &ftValue);
+            return Module.FileTimeToDateTime(ftValue);
+        }
+
+        public static int SystemTimeToFileTime(SYSTEMTIME* lpSystemTime, FILETIME* lpFileTime)
+        {
+            return Kernel32.SystemTimeToFileTime(in *lpSystemTime, out *lpFileTime) ? 1 : 0;
+        }
+
+        public static uint TraceEvent(ulong sessionHandle, PEVENT_TRACE_HEADER EventTrace)
+        {
+            return (uint)AdvApi32.TraceEvent(new TRACEHANDLE(sessionHandle), EventTrace).ToHRESULT().Code;
+        }
+
+        public static uint TraceMessage(ulong sessionHandle, uint MessageFlags, Guid MessageGuid, ushort MessageNumber, void* arglist)
+        {
+            return (uint)AdvApi32.TraceMessageVa(new TRACEHANDLE(sessionHandle), (TRACE_MESSAGE)MessageFlags, in MessageGuid, MessageNumber, new IntPtr(arglist)).ToHRESULT().Code;
+        }
+
+        public static int VariantClear(VARIANT* pvarg)
+        {
+            return OleAut32.VariantClear(new IntPtr(pvarg)).Code;
+        }
+
+        public static void VariantInit(VARIANT* pvarg)
+        {
+            OleAut32.VariantInit(ref *pvarg);
+        }
+
+        public static uint WaitForSingleObject(void* hHandle, uint dwMilliseconds)
+        {
+            return (uint)WaitForSingleObject(new IntPtr(hHandle), dwMilliseconds);
+        }
+        [DllImport(Lib.Kernel32, SetLastError = true, ExactSpelling = true)]
+        private static extern WAIT_STATUS WaitForSingleObject([In] IntPtr hHandle, uint dwMilliseconds);
     }
 }

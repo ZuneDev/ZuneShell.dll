@@ -37,7 +37,7 @@ namespace Microsoft.Zune.Service
 			//IL_0112: Expected I, but got I8
 			//IL_0112: Expected I, but got I8
 			//IL_0153: Expected I, but got I8
-			int num = CreateComObject();
+			int hresult = CreateComObject();
 			CComPtrNtv_003CINewsletterSettings_003E cComPtrNtv_003CINewsletterSettings_003E;
 			Module.CComPtrNtv_003CINewsletterSettings_003E_002E_007Bctor_007D(&cComPtrNtv_003CINewsletterSettings_003E);
 			HRESULT result;
@@ -47,47 +47,47 @@ namespace Microsoft.Zune.Service
 				Module.CComPtrNtv_003CIPrivacySettings_003E_002E_007Bctor_007D(&cComPtrNtv_003CIPrivacySettings_003E);
 				try
 				{
-					if (num >= 0 && accountSettings != null)
+					if (hresult >= 0 && accountSettings != null)
 					{
-						num = CreateAccountSettings(accountSettings, Module.CComPtrNtv_003CINewsletterSettings_003E_002E_0026(&cComPtrNtv_003CINewsletterSettings_003E), Module.CComPtrNtv_003CIPrivacySettings_003E_002E_0026(&cComPtrNtv_003CIPrivacySettings_003E));
+						hresult = CreateAccountSettings(accountSettings, Module.CComPtrNtv_003CINewsletterSettings_003E_002E_0026(&cComPtrNtv_003CINewsletterSettings_003E), Module.CComPtrNtv_003CIPrivacySettings_003E_002E_0026(&cComPtrNtv_003CIPrivacySettings_003E));
 					}
 					CComPtrNtv_003CIPassportIdentity_003E cComPtrNtv_003CIPassportIdentity_003E;
 					Module.CComPtrNtv_003CIPassportIdentity_003E_002E_007Bctor_007D(&cComPtrNtv_003CIPassportIdentity_003E);
 					try
 					{
-						if (num >= 0 && passportIdentity != null)
+						if (hresult >= 0 && passportIdentity != null)
 						{
-							num = passportIdentity.GetComPointer((IPassportIdentity**)(&cComPtrNtv_003CIPassportIdentity_003E));
+							hresult = passportIdentity.GetComPointer((IPassportIdentity**)(&cComPtrNtv_003CIPassportIdentity_003E));
 						}
 						CComPtrNtv_003CIPassportIdentity_003E cComPtrNtv_003CIPassportIdentity_003E2;
 						Module.CComPtrNtv_003CIPassportIdentity_003E_002E_007Bctor_007D(&cComPtrNtv_003CIPassportIdentity_003E2);
 						try
 						{
-							if (num >= 0 && parentPassportIdentity != null)
+							if (hresult >= 0 && parentPassportIdentity != null)
 							{
-								num = parentPassportIdentity.GetComPointer((IPassportIdentity**)(&cComPtrNtv_003CIPassportIdentity_003E2));
+								hresult = parentPassportIdentity.GetComPointer((IPassportIdentity**)(&cComPtrNtv_003CIPassportIdentity_003E2));
 							}
 							CComPtrNtv_003CICreditCard_003E cComPtrNtv_003CICreditCard_003E;
 							*(long*)(&cComPtrNtv_003CICreditCard_003E) = 0L;
 							try
 							{
-								if (num >= 0 && parentCreditCard != null)
+								if (hresult >= 0 && parentCreditCard != null)
 								{
-									num = CreateCreditCard(parentCreditCard, (ICreditCard**)(&cComPtrNtv_003CICreditCard_003E));
+									hresult = CreateCreditCard(parentCreditCard, (ICreditCard**)(&cComPtrNtv_003CICreditCard_003E));
 								}
 								CComPtrNtv_003CIAddress_003E cComPtrNtv_003CIAddress_003E;
 								*(long*)(&cComPtrNtv_003CIAddress_003E) = 0L;
 								try
 								{
-									if (num >= 0 && address != null)
+									if (hresult >= 0 && address != null)
 									{
-										num = CreateAddress(address, (IAddress**)(&cComPtrNtv_003CIAddress_003E));
+										hresult = CreateAddress(address, (IAddress**)(&cComPtrNtv_003CIAddress_003E));
 									}
 									CComPtrNtv_003CIServiceError_003E cComPtrNtv_003CIServiceError_003E;
 									*(long*)(&cComPtrNtv_003CIServiceError_003E) = 0L;
 									try
 									{
-										if (num >= 0)
+										if (hresult >= 0)
 										{
 											_SYSTEMTIME sYSTEMTIME = Module.DateTimeToSystemTime(birthday);
 											fixed (char* firstNamePtr = firstName.ToCharArray())
@@ -128,7 +128,7 @@ namespace Microsoft.Zune.Service
 																					long num6 = *(long*)(&cComPtrNtv_003CIPrivacySettings_003E);
 																					long num7 = *(long*)(&cComPtrNtv_003CIPassportIdentity_003E2);
 																					long num8 = *(long*)(&cComPtrNtv_003CICreditCard_003E);
-																					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, IPassportIdentity*, ushort*, ushort*, _SYSTEMTIME*, ushort*, ushort*, ushort*, IAddress*, INewsletterSettings*, IPrivacySettings*, IPassportIdentity*, ICreditCard*, IServiceError**, int>)(*(ulong*)num2))((nint)p, (IPassportIdentity*)num3, (ushort*)(nint)val, (ushort*)(nint)val2, &sYSTEMTIME, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, (IAddress*)num4, (INewsletterSettings*)num5, (IPrivacySettings*)num6, (IPassportIdentity*)num7, (ICreditCard*)num8, (IServiceError**)(&cComPtrNtv_003CIServiceError_003E));
+																					hresult = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, IPassportIdentity*, ushort*, ushort*, _SYSTEMTIME*, ushort*, ushort*, ushort*, IAddress*, INewsletterSettings*, IPrivacySettings*, IPassportIdentity*, ICreditCard*, IServiceError**, int>)(*(ulong*)num2))((nint)p, (IPassportIdentity*)num3, (ushort*)(nint)val, (ushort*)(nint)val2, &sYSTEMTIME, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, (IAddress*)num4, (INewsletterSettings*)num5, (IPrivacySettings*)num6, (IPassportIdentity*)num7, (ICreditCard*)num8, (IServiceError**)(&cComPtrNtv_003CIServiceError_003E));
 																				}
 																				catch
 																				{
@@ -174,7 +174,7 @@ namespace Microsoft.Zune.Service
 										{
 											serviceError = new ServiceError((IServiceError*)(*(ulong*)(&cComPtrNtv_003CIServiceError_003E)));
 										}
-										result = new HRESULT(num);
+										result = new HRESULT(hresult);
 									}
 									catch
 									{
@@ -1657,7 +1657,7 @@ namespace Microsoft.Zune.Service
 			}
 		}
 
-		public sealed override void Dispose()
+		public void Dispose()
 		{
 			Dispose(true);
 			GC.SuppressFinalize(this);

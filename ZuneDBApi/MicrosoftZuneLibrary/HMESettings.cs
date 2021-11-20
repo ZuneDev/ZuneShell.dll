@@ -490,8 +490,8 @@ namespace MicrosoftZuneLibrary
 			INSSProperties* ptr2 = null;
 			INSSProperty* ptr3 = null;
 			ushort* ptr4 = null;
-			tagVARIANT tagVARIANT;
-			fixed (tagVARIANT* ptr5 = &Unsafe.AsRef<tagVARIANT>(&tagVARIANT))
+			VARIANT tagVARIANT;
+			fixed (VARIANT* ptr5 = &Unsafe.AsRef<VARIANT>(&tagVARIANT))
 			{
 				Module.VariantInit(ptr5);
 				fixed (INSSDevice** ptr6 = &Unsafe.AsRef<INSSDevice*>(&ptr))
@@ -564,7 +564,7 @@ namespace MicrosoftZuneLibrary
 									{
 										long num6 = *(long*)ptr3 + 64;
 										INSSProperty* intPtr4 = ptr3;
-										num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, tagVARIANT*, int>)(*(ulong*)num6))((nint)intPtr4, ptr5);
+										num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, VARIANT*, int>)(*(ulong*)num6))((nint)intPtr4, ptr5);
 									}
 									if (num2 >= 0)
 									{
@@ -572,7 +572,7 @@ namespace MicrosoftZuneLibrary
 										{
 											if (*(ushort*)(&tagVARIANT) == 8)
 											{
-												strName = new string((char*)Unsafe.As<tagVARIANT, ulong>(ref Unsafe.AddByteOffset(ref tagVARIANT, 8)));
+												strName = new string((char*)Unsafe.As<VARIANT, ulong>(ref Unsafe.AddByteOffset(ref tagVARIANT, 8)));
 											}
 											Module.VariantClear(ptr5);
 											if (0L != (nint)ptr3)
@@ -608,13 +608,13 @@ namespace MicrosoftZuneLibrary
 											{
 												long num8 = *(long*)ptr3 + 64;
 												INSSProperty* intPtr7 = ptr3;
-												num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, tagVARIANT*, int>)(*(ulong*)num8))((nint)intPtr7, ptr5);
+												num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, VARIANT*, int>)(*(ulong*)num8))((nint)intPtr7, ptr5);
 											}
 											if (num2 >= 0 && ptr3 != null)
 											{
 												if (*(ushort*)(&tagVARIANT) == 8)
 												{
-													strSerialNumber = new string((char*)Unsafe.As<tagVARIANT, ulong>(ref Unsafe.AddByteOffset(ref tagVARIANT, 8)));
+													strSerialNumber = new string((char*)Unsafe.As<VARIANT, ulong>(ref Unsafe.AddByteOffset(ref tagVARIANT, 8)));
 												}
 												Module.VariantClear(ptr5);
 												if (0L != (nint)ptr3)

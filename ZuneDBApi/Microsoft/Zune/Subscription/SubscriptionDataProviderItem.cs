@@ -188,9 +188,9 @@ namespace Microsoft.Zune.Subscription
 			//IL_0046: Expected I, but got I8
 			if (m_nEpisodeId > 0 && propertyName == "DownloadErrorCode")
 			{
-				tagVARIANT tagVARIANT;
+				VARIANT tagVARIANT;
 				*(short*)(&tagVARIANT) = 3;
-                Unsafe.As<tagVARIANT, int>(ref Unsafe.AddByteOffset(ref tagVARIANT, 8)) = (int)value;
+                Unsafe.As<VARIANT, int>(ref Unsafe.AddByteOffset(ref tagVARIANT, 8)) = (int)value;
 				DBPropertySubmitStruct dBPropertySubmitStruct;
 				*(int*)(&dBPropertySubmitStruct) = 144;
                 Unsafe.As<DBPropertySubmitStruct, long>(ref Unsafe.AddByteOffset(ref dBPropertySubmitStruct, 8)) = (nint)(&tagVARIANT);

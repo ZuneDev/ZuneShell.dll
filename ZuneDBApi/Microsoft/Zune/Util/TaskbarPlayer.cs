@@ -118,7 +118,7 @@ namespace Microsoft.Zune.Util
 				bool result = false;
 				if (Unsafe.As<CComPtrNtv_003CMicrosoft_003A_003AZune_003A_003AUtil_003A_003AITrayDeskBand_003E, long>(ref Module.Microsoft_002EZune_002EUtil_002E_003FA0x0277dc26_002Es_spTrayDeskBand) == 0)
 				{
-					Module.CoCreateInstance((_GUID*)Unsafe.AsPointer(ref Module.CLSID_TrayDeskBand), null, 4u, (_GUID*)Unsafe.AsPointer(ref Module.IID_ITrayDeskBand), (void**)Unsafe.AsPointer(ref Module.Microsoft_002EZune_002EUtil_002E_003FA0x0277dc26_002Es_spTrayDeskBand));
+					Module.CoCreateInstance((GUID*)Unsafe.AsPointer(ref Module.CLSID_TrayDeskBand), null, 4u, (_GUID*)Unsafe.AsPointer(ref Module.IID_ITrayDeskBand), (void**)Unsafe.AsPointer(ref Module.Microsoft_002EZune_002EUtil_002E_003FA0x0277dc26_002Es_spTrayDeskBand));
 				}
 				if (Unsafe.As<CComPtrNtv_003CMicrosoft_003A_003AZune_003A_003AUtil_003A_003AITrayDeskBand_003E, long>(ref Module.Microsoft_002EZune_002EUtil_002E_003FA0x0277dc26_002Es_spTrayDeskBand) != 0L)
 				{

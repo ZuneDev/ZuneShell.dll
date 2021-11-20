@@ -92,7 +92,7 @@ namespace Microsoft.Zune.Util
 					__s_GUID gUID_a2889317_d0c7_41d8_abc7_1eb4cb8d46d = Module._GUID_a2889317_d0c7_41d8_abc7_1eb4cb8d46d6;
 					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID, void**, int>)(*(ulong*)(*(long*)ptr + 24)))((nint)intPtr, (_GUID)gUID_a2889317_d0c7_41d8_abc7_1eb4cb8d46d, (void**)(&ptr2));
 				}
-				tagVARIANT tagVARIANT;
+				VARIANT tagVARIANT;
 				*(short*)(&tagVARIANT) = 0;
                 // IL initblk instruction
                 Unsafe.InitBlockUnaligned(ref Unsafe.AddByteOffset(ref tagVARIANT, 2), 0, 22);
@@ -105,7 +105,7 @@ namespace Microsoft.Zune.Util
 						{
 							long num2 = *(long*)ptr2 + 88;
 							IFolderProvider* intPtr2 = ptr2;
-							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, EMediaTypes, tagVARIANT*, int>)(*(ulong*)num2))((nint)intPtr2, ptr3, EMediaTypes.eMediaTypeImage, &tagVARIANT);
+							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, EMediaTypes, VARIANT*, int>)(*(ulong*)num2))((nint)intPtr2, ptr3, EMediaTypes.eMediaTypeImage, &tagVARIANT);
 						}
 						catch
 						{
@@ -116,7 +116,7 @@ namespace Microsoft.Zune.Util
 					}
 					if (num >= 0)
 					{
-						nFolderId = Unsafe.As<tagVARIANT, int>(ref Unsafe.AddByteOffset(ref tagVARIANT, 8));
+						nFolderId = Unsafe.As<VARIANT, int>(ref Unsafe.AddByteOffset(ref tagVARIANT, 8));
 					}
 				}
 			}
@@ -162,17 +162,17 @@ namespace Microsoft.Zune.Util
 					__s_GUID gUID_16a9f8be_e76c_4391_ad74_8df74b7a3c = Module._GUID_16a9f8be_e76c_4391_ad74_8df74b7a3c21;
 					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID, void**, int>)(*(ulong*)(*(long*)ptr + 24)))((nint)intPtr, (_GUID)gUID_16a9f8be_e76c_4391_ad74_8df74b7a3c, (void**)(&ptr2));
 				}
-				tagVARIANT tagVARIANT;
+				VARIANT tagVARIANT;
 				*(short*)(&tagVARIANT) = 0;
                 // IL initblk instruction
                 Unsafe.InitBlockUnaligned(ref Unsafe.AddByteOffset(ref tagVARIANT, 2), 0, 22);
 				if (num >= 0)
 				{
 					IFileProvider* intPtr2 = ptr2;
-					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, EMediaTypes, tagVARIANT*, int>)(*(ulong*)(*(long*)ptr2 + 528)))((nint)intPtr2, nMediaId, EMediaTypes.eMediaTypeImage, &tagVARIANT);
+					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, EMediaTypes, VARIANT*, int>)(*(ulong*)(*(long*)ptr2 + 528)))((nint)intPtr2, nMediaId, EMediaTypes.eMediaTypeImage, &tagVARIANT);
 					if (num >= 0)
 					{
-						nFolderId = Unsafe.As<tagVARIANT, int>(ref Unsafe.AddByteOffset(ref tagVARIANT, 8));
+						nFolderId = Unsafe.As<VARIANT, int>(ref Unsafe.AddByteOffset(ref tagVARIANT, 8));
 					}
 				}
 			}
@@ -222,7 +222,7 @@ namespace Microsoft.Zune.Util
 					__s_GUID gUID_a2889317_d0c7_41d8_abc7_1eb4cb8d46d = Module._GUID_a2889317_d0c7_41d8_abc7_1eb4cb8d46d6;
 					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID, void**, int>)(*(ulong*)(*(long*)ptr + 24)))((nint)intPtr, (_GUID)gUID_a2889317_d0c7_41d8_abc7_1eb4cb8d46d, (void**)(&ptr2));
 				}
-				tagVARIANT tagVARIANT;
+				VARIANT tagVARIANT;
 				*(short*)(&tagVARIANT) = 0;
                 // IL initblk instruction
                 Unsafe.InitBlockUnaligned(ref Unsafe.AddByteOffset(ref tagVARIANT, 2), 0, 22);
@@ -235,7 +235,7 @@ namespace Microsoft.Zune.Util
 						{
 							long num2 = *(long*)ptr2 + 224;
 							IFolderProvider* intPtr2 = ptr2;
-							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, int, tagVARIANT*, int>)(*(ulong*)num2))((nint)intPtr2, ptr3, nParentFolderId, &tagVARIANT);
+							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, int, VARIANT*, int>)(*(ulong*)num2))((nint)intPtr2, ptr3, nParentFolderId, &tagVARIANT);
 						}
 						catch
 						{
@@ -246,7 +246,7 @@ namespace Microsoft.Zune.Util
 					}
 					if (num >= 0)
 					{
-						nCreatedFolderId = Unsafe.As<tagVARIANT, int>(ref Unsafe.AddByteOffset(ref tagVARIANT, 8));
+						nCreatedFolderId = Unsafe.As<VARIANT, int>(ref Unsafe.AddByteOffset(ref tagVARIANT, 8));
 					}
 				}
 			}
