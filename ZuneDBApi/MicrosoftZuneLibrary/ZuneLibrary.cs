@@ -1236,7 +1236,7 @@ namespace MicrosoftZuneLibrary
 					}
 				}
 				IService* ptr3 = null;
-				if (Module.GetSingleton((_GUID)Module._GUID_bb2d1edd_1bd5_4be1_8d38_36d4f0849911, (void**)(&ptr3)) >= 0)
+				if (Module.GetSingleton((_GUID)Module.GUID_IService, (void**)(&ptr3)) >= 0)
 				{
 					IService* intPtr2 = ptr3;
 					_GUID gUID;

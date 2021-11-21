@@ -527,7 +527,7 @@ namespace Microsoft.Zune.Service
 					int num;
 					try
 					{
-						num = Module.GetSingleton((_GUID)Module._GUID_bb2d1edd_1bd5_4be1_8d38_36d4f0849911, (void**)(&cComPtrNtv_003CIService_003E));
+						num = Module.GetSingleton((_GUID)Module.GUID_IService, (void**)(&cComPtrNtv_003CIService_003E));
 						CComPtrNtv_003CIHttpWebRequest_003E cComPtrNtv_003CIHttpWebRequest_003E;
 						*(long*)(&cComPtrNtv_003CIHttpWebRequest_003E) = 0L;
 						try

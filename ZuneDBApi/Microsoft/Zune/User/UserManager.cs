@@ -51,7 +51,7 @@ namespace Microsoft.Zune.User
 			int num;
 			try
 			{
-				num = Module.GetSingleton((_GUID)Module._GUID_c9e0f18a_6c53_47d0_991e_dbd4fe395101, (void**)(&ptr));
+				num = Module.GetSingleton(Module.GUID_IUserManager, (void**)(&ptr));
 				if (num >= 0)
 				{
 					IUserManager* intPtr = ptr;
@@ -99,7 +99,7 @@ namespace Microsoft.Zune.User
 			fixed (char* passportIdPtr = passportId.ToCharArray())
 			{
 				ushort* ptr2 = (ushort*)passportIdPtr;
-				int num2 = Module.GetSingleton((_GUID)Module._GUID_c9e0f18a_6c53_47d0_991e_dbd4fe395101, (void**)(&ptr));
+				int num2 = Module.GetSingleton(Module.GUID_IUserManager, (void**)(&ptr));
 				if (num2 >= 0)
 				{
 					long num3 = *(long*)ptr + 40;
@@ -125,7 +125,7 @@ namespace Microsoft.Zune.User
 			//IL_0022: Expected I, but got I8
 			//IL_0035: Expected I, but got I8
 			IUserManager* ptr = null;
-			int num = Module.GetSingleton((_GUID)Module._GUID_c9e0f18a_6c53_47d0_991e_dbd4fe395101, (void**)(&ptr));
+			int num = Module.GetSingleton(Module.GUID_IUserManager, (void**)(&ptr));
 			if (num >= 0)
 			{
 				IUserManager* intPtr = ptr;
@@ -145,7 +145,7 @@ namespace Microsoft.Zune.User
 			//IL_0022: Expected I, but got I8
 			//IL_0035: Expected I, but got I8
 			IUserManager* ptr = null;
-			int num = Module.GetSingleton((_GUID)Module._GUID_c9e0f18a_6c53_47d0_991e_dbd4fe395101, (void**)(&ptr));
+			int num = Module.GetSingleton(Module.GUID_IUserManager, (void**)(&ptr));
 			if (num >= 0)
 			{
 				IUserManager* intPtr = ptr;

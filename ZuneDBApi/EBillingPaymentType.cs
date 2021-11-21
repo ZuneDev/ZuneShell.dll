@@ -1,10 +1,9 @@
-using System.Runtime.CompilerServices;
-using Microsoft.VisualC;
-
-[MiscellaneousBits(64)]
-[DebugInfoInPDB]
-[NativeCppClass]
 internal enum EBillingPaymentType
 {
-
+    Unknown = -1,
+    None,
+    CreditCard,
+    DirectDebit,
+    Wholesale,
+    Token
 }

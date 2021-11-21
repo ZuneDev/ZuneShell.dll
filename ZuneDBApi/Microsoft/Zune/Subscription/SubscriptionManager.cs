@@ -832,7 +832,7 @@ namespace Microsoft.Zune.Subscription
 			//IL_003b: Expected I, but got I8
 			int result = 1;
 			IService* ptr = null;
-			if (Module.GetSingleton((_GUID)Module._GUID_bb2d1edd_1bd5_4be1_8d38_36d4f0849911, (void**)(&ptr)) >= 0)
+			if (Module.GetSingleton((_GUID)Module.GUID_IService, (void**)(&ptr)) >= 0)
 			{
 				IService* intPtr = ptr;
 				((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, int*, int>)(*(ulong*)(*(long*)ptr + 384)))((nint)intPtr, null, &result);

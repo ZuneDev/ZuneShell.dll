@@ -13,7 +13,7 @@ namespace Microsoft.Zune.Util
 			//IL_0037: Expected I, but got I8
 			IFeatureEnablementManager* ptr = null;
 			bool result = false;
-			if (Module.GetSingleton((_GUID)Module._GUID_9581b41a_b5cf_4ebf_9d1a_975477e081ca, (void**)(&ptr)) >= 0)
+			if (Module.GetSingleton(Module.GUID_IFeatureEnablementManager, (void**)(&ptr)) >= 0)
 			{
 				IFeatureEnablementManager* intPtr = ptr;
 				((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EFeatures, bool*, int>)(*(ulong*)(*(long*)ptr + 24)))((nint)intPtr, (EFeatures)eFeature, &result);
@@ -32,7 +32,7 @@ namespace Microsoft.Zune.Util
 			//IL_0020: Expected I, but got I8
 			//IL_0033: Expected I, but got I8
 			IFeatureEnablementManager* ptr = null;
-			if (Module.GetSingleton((_GUID)Module._GUID_9581b41a_b5cf_4ebf_9d1a_975477e081ca, (void**)(&ptr)) >= 0)
+			if (Module.GetSingleton(Module.GUID_IFeatureEnablementManager, (void**)(&ptr)) >= 0)
 			{
 				IFeatureEnablementManager* intPtr = ptr;
 				((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EFeatures, int>)(*(ulong*)(*(long*)ptr + 32)))((nint)intPtr, (EFeatures)eFeature);
@@ -53,7 +53,7 @@ namespace Microsoft.Zune.Util
 			IFeatureEnablementManager* ptr = null;
 			string result = null;
 			ushort* ptr2 = null;
-			if (Module.GetSingleton((_GUID)Module._GUID_9581b41a_b5cf_4ebf_9d1a_975477e081ca, (void**)(&ptr)) >= 0)
+			if (Module.GetSingleton(Module.GUID_IFeatureEnablementManager, (void**)(&ptr)) >= 0)
 			{
 				IFeatureEnablementManager* intPtr = ptr;
 				if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort**, int>)(*(ulong*)(*(long*)ptr + 40)))((nint)intPtr, &ptr2) >= 0)
@@ -78,7 +78,7 @@ namespace Microsoft.Zune.Util
 			IFeatureEnablementManager* ptr = null;
 			uint num = uint.MaxValue;
 			uint num2 = uint.MaxValue;
-			if (Module.GetSingleton((_GUID)Module._GUID_9581b41a_b5cf_4ebf_9d1a_975477e081ca, (void**)(&ptr)) >= 0)
+			if (Module.GetSingleton(Module.GUID_IFeatureEnablementManager, (void**)(&ptr)) >= 0)
 			{
 				IFeatureEnablementManager* intPtr = ptr;
 				num = ((((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint*, int>)(*(ulong*)(*(long*)ptr + 56)))((nint)intPtr, &num2) >= 0) ? num2 : num);
@@ -98,7 +98,7 @@ namespace Microsoft.Zune.Util
 			//IL_0033: Expected I, but got I8
 			IFeatureEnablementManager* ptr = null;
 			int result = -1;
-			if (Module.GetSingleton((_GUID)Module._GUID_9581b41a_b5cf_4ebf_9d1a_975477e081ca, (void**)(&ptr)) >= 0)
+			if (Module.GetSingleton(Module.GUID_IFeatureEnablementManager, (void**)(&ptr)) >= 0)
 			{
 				IFeatureEnablementManager* intPtr = ptr;
 				result = (int)((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint>)(*(ulong*)(*(long*)intPtr + 64)))((nint)intPtr);
@@ -119,7 +119,7 @@ namespace Microsoft.Zune.Util
 			//IL_003d: Expected I, but got I8
 			IFeatureEnablementManager* ptr = null;
 			bool result = false;
-			if (Module.GetSingleton((_GUID)Module._GUID_9581b41a_b5cf_4ebf_9d1a_975477e081ca, (void**)(&ptr)) >= 0)
+			if (Module.GetSingleton(Module.GUID_IFeatureEnablementManager, (void**)(&ptr)) >= 0)
 			{
 				IFeatureEnablementManager* intPtr = ptr;
 				bool flag = ((((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)intPtr + 72)))((nint)intPtr) != 0) ? true : false);
@@ -147,7 +147,7 @@ namespace Microsoft.Zune.Util
 			string result;
 			try
 			{
-				int singleton = Module.GetSingleton((_GUID)Module._GUID_bb2d1edd_1bd5_4be1_8d38_36d4f0849911, (void**)(&cComPtrNtv_003CIService_003E));
+				int singleton = Module.GetSingleton(Module.GUID_IService, (void**)(&cComPtrNtv_003CIService_003E));
 				result = null;
 				if (singleton >= 0)
 				{
@@ -212,7 +212,7 @@ namespace Microsoft.Zune.Util
 			string result;
 			try
 			{
-				if (Module.GetSingleton((_GUID)Module._GUID_bb2d1edd_1bd5_4be1_8d38_36d4f0849911, (void**)(&cComPtrNtv_003CIService_003E)) >= 0)
+				if (Module.GetSingleton(Module.GUID_IService, (void**)(&cComPtrNtv_003CIService_003E)) >= 0)
 				{
 					WBSTRString wBSTRString;
 					Module.WBSTRString_002E_007Bctor_007D(&wBSTRString);
@@ -290,7 +290,7 @@ namespace Microsoft.Zune.Util
 			string result;
 			try
 			{
-				int singleton = Module.GetSingleton((_GUID)Module._GUID_bb2d1edd_1bd5_4be1_8d38_36d4f0849911, (void**)(&cComPtrNtv_003CIService_003E));
+				int singleton = Module.GetSingleton(Module.GUID_IService, (void**)(&cComPtrNtv_003CIService_003E));
 				result = null;
 				if (singleton >= 0)
 				{
@@ -355,7 +355,7 @@ namespace Microsoft.Zune.Util
 			string result;
 			try
 			{
-				int singleton = Module.GetSingleton((_GUID)Module._GUID_bb2d1edd_1bd5_4be1_8d38_36d4f0849911, (void**)(&cComPtrNtv_003CIService_003E));
+				int singleton = Module.GetSingleton(Module.GUID_IService, (void**)(&cComPtrNtv_003CIService_003E));
 				result = null;
 				if (singleton >= 0)
 				{

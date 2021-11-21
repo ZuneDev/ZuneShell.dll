@@ -55,7 +55,7 @@ namespace Microsoft.Zune.Configuration
 			//IL_0034: Expected I, but got I8
 			IService* ptr = null;
 			int num = 0;
-			if (Module.GetSingleton((_GUID)Module._GUID_bb2d1edd_1bd5_4be1_8d38_36d4f0849911, (void**)(&ptr)) >= 0)
+			if (Module.GetSingleton((_GUID)Module.GUID_IService, (void**)(&ptr)) >= 0)
 			{
 				IService* intPtr = ptr;
 				num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)intPtr + 200)))((nint)intPtr);
@@ -107,7 +107,7 @@ namespace Microsoft.Zune.Configuration
 			//IL_0077: Expected I, but got I8
 			//IL_007b: Expected I, but got I8
 			IService* ptr = null;
-			int singleton = Module.GetSingleton((_GUID)Module._GUID_bb2d1edd_1bd5_4be1_8d38_36d4f0849911, (void**)(&ptr));
+			int singleton = Module.GetSingleton((_GUID)Module.GUID_IService, (void**)(&ptr));
 			RefreshCallback* ptr2 = (RefreshCallback*)Module.@new(24uL);
 			RefreshCallback* ptr3;
 			try
@@ -150,7 +150,7 @@ namespace Microsoft.Zune.Configuration
 			//IL_0090: Expected I, but got I8
 			//IL_0094: Expected I, but got I8
 			IService* ptr = null;
-			int singleton = Module.GetSingleton((_GUID)Module._GUID_bb2d1edd_1bd5_4be1_8d38_36d4f0849911, (void**)(&ptr));
+			int singleton = Module.GetSingleton((_GUID)Module.GUID_IService, (void**)(&ptr));
 			DeregisterCallback* ptr2 = (DeregisterCallback*)Module.@new(24uL);
 			DeregisterCallback* ptr3;
 			try
@@ -166,9 +166,9 @@ namespace Microsoft.Zune.Configuration
 			singleton = (((long)(nint)ptr3 == 0) ? (-2147024882) : singleton);
 			if (singleton >= 0)
 			{
-				fixed (char* info.m_tunerIdPtr = info.m_tunerId.ToCharArray())
+				fixed (char* infoTunerIdPtr = info.m_tunerId.ToCharArray())
 				{
-					ushort* ptr4 = (ushort*)info.m_tunerIdPtr;
+					ushort* ptr4 = (ushort*)infoTunerIdPtr;
 					try
 					{
 						long num = *(long*)ptr + 560;
@@ -297,9 +297,9 @@ namespace Microsoft.Zune.Configuration
 			}
 			do
 			{
-				fixed (char* list[num].m_tunerIdPtr = list[num].m_tunerId.ToCharArray())
+				fixed (char* currentTunerIdPtr = list[num].m_tunerId.ToCharArray())
 				{
-					ushort* ptr = (ushort*)list[num].m_tunerIdPtr;
+					ushort* ptr = (ushort*)currentTunerIdPtr;
 					try
 					{
 						if (2 == Module.CompareStringW(1033u, 1u, pwszTunerId, -1, ptr, -1))

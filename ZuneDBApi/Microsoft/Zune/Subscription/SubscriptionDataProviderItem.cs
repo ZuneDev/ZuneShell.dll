@@ -217,7 +217,7 @@ namespace Microsoft.Zune.Subscription
 			int num = 1;
 			int nSeriesId = -1;
 			int nEpisodeId = -1;
-			int singleton = Module.GetSingleton((_GUID)Module._GUID_bb2d1edd_1bd5_4be1_8d38_36d4f0849911, (void**)(&ptr));
+			int singleton = Module.GetSingleton((_GUID)Module.GUID_IService, (void**)(&ptr));
 			if (singleton >= 0)
 			{
 				IService* intPtr = ptr;
@@ -378,7 +378,7 @@ namespace Microsoft.Zune.Subscription
 			}
 			IService* ptr = null;
 			int num = 1;
-			int num2 = Module.GetSingleton((_GUID)Module._GUID_bb2d1edd_1bd5_4be1_8d38_36d4f0849911, (void**)(&ptr));
+			int num2 = Module.GetSingleton((_GUID)Module.GUID_IService, (void**)(&ptr));
 			if (num2 >= 0)
 			{
 				IService* intPtr = ptr;

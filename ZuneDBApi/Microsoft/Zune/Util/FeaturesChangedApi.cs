@@ -46,7 +46,7 @@ namespace Microsoft.Zune.Util
 				m_featuresChangedHandler = (FeaturesChangedHandler)Delegate.Combine(m_featuresChangedHandler, value);
 				bool featuresHaveChanged = false;
 				IFeatureEnablementManager* ptr = null;
-				int singleton = Module.GetSingleton((_GUID)Module._GUID_9581b41a_b5cf_4ebf_9d1a_975477e081ca, (void**)(&ptr));
+				int singleton = Module.GetSingleton(Module.GUID_IFeatureEnablementManager, (void**)(&ptr));
 				if (singleton >= 0)
 				{
 					IFeatureEnablementManager* intPtr = ptr;

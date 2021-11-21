@@ -34,46 +34,16 @@ namespace Microsoft.Zune.Service
 			//IL_0008: Expected I, but got I8
 			//IL_0011: Expected I, but got I8
 			IService* pService = null;
-			if (Module.GetSingleton((_GUID)Module._GUID_bb2d1edd_1bd5_4be1_8d38_36d4f0849911, (void**)(&pService)) >= 0)
+			if (Module.GetSingleton((_GUID)Module.GUID_IService, (void**)(&pService)) >= 0)
 			{
 				m_pService = pService;
 			}
 		}
 
-		private unsafe static int PaymentTypeToBillingPaymentType(PaymentType ePaymentType, EBillingPaymentType* pePaymentType)
+		private unsafe static int PaymentTypeToBillingPaymentType(PaymentType ePaymentType, ref EBillingPaymentType pePaymentType)
 		{
-			if (pePaymentType == null)
-			{
-				Module._ZuneShipAssert(1001u, 501u);
-				return -2147467261;
-			}
-			int result = 0;
-			switch (ePaymentType)
-			{
-			default:
-				Module._ZuneShipAssert(1003u, 532u);
-				result = -2147024809;
-				break;
-			case PaymentType.Token:
-				*pePaymentType = (EBillingPaymentType)4;
-				break;
-			case PaymentType.Wholesale:
-				*pePaymentType = (EBillingPaymentType)3;
-				break;
-			case PaymentType.DirectDebit:
-				*pePaymentType = (EBillingPaymentType)2;
-				break;
-			case PaymentType.CreditCard:
-				*pePaymentType = (EBillingPaymentType)1;
-				break;
-			case PaymentType.None:
-				*pePaymentType = (EBillingPaymentType)0;
-				break;
-			case PaymentType.Unknown:
-				*pePaymentType = (EBillingPaymentType)(-1);
-				break;
-			}
-			return result;
+			pePaymentType = (EBillingPaymentType)(int)ePaymentType;
+			return 0;
 		}
 
 		private unsafe static int PaymentTypeToMediaPaymentType(PaymentType ePaymentType, EMediaPaymentType* pePaymentType)
@@ -574,8 +544,7 @@ namespace Microsoft.Zune.Service
 						IService* pService = m_pService;
 						if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, int*, int>)(*(ulong*)num2))((nint)pService, ptr, &num) >= 0)
 						{
-							bool flag = ((num != 0) ? true : false);
-							result = flag;
+							result = num != 0;
 						}
 					}
 					catch

@@ -10,9 +10,11 @@ global using static Vanara.PInvoke.AdvApi32;
 global using ZuneDBApi;
 global using GC = System.GC;
 global using HRESULT = ZuneUI.HRESULT;
+global using _GUID = System.Guid;
 
 using System;
 using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
 
 namespace ZuneDBApi
 {
@@ -20,6 +22,16 @@ namespace ZuneDBApi
     {
         private static bool s_bIsLonghornOrBetter;
         private static bool s_bIsLonghornOrBetterInitialized;
+        internal static readonly string WINDOWCLASS_MsnMsgrUIManager = "MsnMsgrUIManager";
+        internal static readonly _GUID GUID_IService = new("bb2d1edd-1bd5-4be1-8d38-36d4f0849911");
+        internal static readonly _GUID GUID_IUserManager = new("c9e0f18a-6c53-47d0-991e-dbd4fe395101");
+        internal static readonly _GUID GUID_IFeatureEnablementManager = new("9581b41a-b5cf-4ebf-9d1a-975477e081ca");
+        internal static readonly _GUID GUID_ITelemetryManager = new("ab28333b-a55c-4312-a7a3-2dd60d4a7154");
+
+        internal static void _ZuneShipAssert(uint v1, uint v2)
+        {
+            System.Diagnostics.Debug.WriteLine($"ShipAssert: {v1:X2} {v2:X2}");
+        }
 
         public static HANDLE ToHandle(void* h) => new(new IntPtr(h));
         public static void* ToPointer(this HANDLE h) => h.DangerousGetHandle().ToPointer();
@@ -229,6 +241,10 @@ namespace ZuneDBApi
         {
             return Gdi32.GetObject(new(new IntPtr(hgdiobj)), bufferSize, new IntPtr(lpvObject));
         }
+
+        [DllImport("ZuneService", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
+        [MethodImpl(MethodImplOptions.Unmanaged)]
+        public unsafe static extern int GetServiceEndPointUri(EServiceEndpointId endpointId, ushort** uri);
 
         public static int GetVersionExW(ref OSVERSIONINFOEX lpVersionInformation)
         {

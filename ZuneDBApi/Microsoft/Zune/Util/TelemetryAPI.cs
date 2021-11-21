@@ -21,27 +21,27 @@ namespace Microsoft.Zune.Util
 				foreach (DictionaryEntry item in dictionary)
 				{
 					int num2 = 0;
-					if (((DictionaryEntry)item).Key.GetType() == typeof(string))
+					if (item.Key.GetType() == typeof(string))
 					{
 						VARIANT tagVARIANT;
 						IntPtr pDstNativeVariant = (IntPtr)(&tagVARIANT);
-						Marshal.GetNativeVariantForObject(((DictionaryEntry)item).Key, pDstNativeVariant);
+						Marshal.GetNativeVariantForObject(item.Key, pDstNativeVariant);
 						VARIANT tagVARIANT2;
-						if (((DictionaryEntry)item).Value.GetType() == typeof(Guid))
+						if (item.Value.GetType() == typeof(Guid))
 						{
-							string obj = ((DictionaryEntry)item).Value.ToString();
+							string obj = item.Value.ToString();
 							IntPtr pDstNativeVariant2 = (IntPtr)(&tagVARIANT2);
 							Marshal.GetNativeVariantForObject(obj, pDstNativeVariant2);
 						}
 						else
 						{
-							if (((DictionaryEntry)item).Value.GetType() != typeof(string) && ((DictionaryEntry)item).Value.GetType() != typeof(int) && ((DictionaryEntry)item).Value.GetType() != typeof(long))
+							if (item.Value.GetType() != typeof(string) && item.Value.GetType() != typeof(int) && item.Value.GetType() != typeof(long))
 							{
 								num2 = -2147024809;
 								continue;
 							}
 							IntPtr pDstNativeVariant3 = (IntPtr)(&tagVARIANT2);
-							Marshal.GetNativeVariantForObject(((DictionaryEntry)item).Value, pDstNativeVariant3);
+							Marshal.GetNativeVariantForObject(item.Value, pDstNativeVariant3);
 						}
 						Module.SafeArrayPutElement(ptr, &num, &tagVARIANT);
 						Module.SafeArrayPutElement(ptr2, &num, &tagVARIANT2);
@@ -56,7 +56,7 @@ namespace Microsoft.Zune.Util
 				*(long*)(&cComPtrNtv_003CITelemetryManager_003E) = 0L;
 				try
 				{
-					if (Module.GetSingleton((_GUID)Module._GUID_ab28333b_a55c_4312_a7a3_2dd60d4a7154, (void**)(&cComPtrNtv_003CITelemetryManager_003E)) >= 0)
+					if (Module.GetSingleton(Module.GUID_ITelemetryManager, (void**)(&cComPtrNtv_003CITelemetryManager_003E)) >= 0)
 					{
 						long num3 = *(long*)(*(ulong*)(&cComPtrNtv_003CITelemetryManager_003E)) + 48;
 						long num4 = *(long*)(&cComPtrNtv_003CITelemetryManager_003E);
@@ -92,7 +92,7 @@ namespace Microsoft.Zune.Util
 				*(long*)(&cComPtrNtv_003CITelemetryManager_003E) = 0L;
 				try
 				{
-					if (Module.GetSingleton((_GUID)Module._GUID_ab28333b_a55c_4312_a7a3_2dd60d4a7154, (void**)(&cComPtrNtv_003CITelemetryManager_003E)) >= 0)
+					if (Module.GetSingleton(Module.GUID_ITelemetryManager, (void**)(&cComPtrNtv_003CITelemetryManager_003E)) >= 0)
 					{
 						long num = *(long*)(*(ulong*)(&cComPtrNtv_003CITelemetryManager_003E)) + 64;
 						long num2 = *(long*)(&cComPtrNtv_003CITelemetryManager_003E);
@@ -120,7 +120,7 @@ namespace Microsoft.Zune.Util
 				*(long*)(&cComPtrNtv_003CITelemetryManager_003E) = 0L;
 				try
 				{
-					if (Module.GetSingleton((_GUID)Module._GUID_ab28333b_a55c_4312_a7a3_2dd60d4a7154, (void**)(&cComPtrNtv_003CITelemetryManager_003E)) >= 0)
+					if (Module.GetSingleton(Module.GUID_ITelemetryManager, (void**)(&cComPtrNtv_003CITelemetryManager_003E)) >= 0)
 					{
 						long num = *(long*)(*(ulong*)(&cComPtrNtv_003CITelemetryManager_003E)) + 56;
 						long num2 = *(long*)(&cComPtrNtv_003CITelemetryManager_003E);
