@@ -63,9 +63,9 @@ namespace MicrosoftZuneInterop
 				{
 					goto IL_00c4;
 				}
-				fixed (char* (string)valuePtr = (string)value.ToCharArray())
+				fixed (char* valuePtr = ((string)value).ToCharArray())
 				{
-					ushort* ptr = (ushort*)(string)valuePtr;
+					ushort* ptr = (ushort*)valuePtr;
 					try
 					{
 						long num4 = *(long*)m_pPropertyBag + 40;
@@ -223,9 +223,9 @@ namespace MicrosoftZuneInterop
 				do
 				{
 					EQuerySortType eQuerySortType = (sortAscendings[num2] ? EQuerySortType.eQuerySortOrderAscending : EQuerySortType.eQuerySortOrderDescending);
-					fixed (char* sortStrings[num2]Ptr = sortStrings[num2].ToCharArray())
+					fixed (char* sortStringsNum2Ptr = sortStrings[num2].ToCharArray())
 					{
-						ushort* wszName = (ushort*)sortStrings[num2]Ptr;
+						ushort* wszName = (ushort*)sortStringsNum2Ptr;
 						try
 						{
 							int num5 = Module.CSchemaMap_002EGetIndex(wszName);

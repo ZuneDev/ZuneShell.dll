@@ -1371,9 +1371,9 @@ namespace MicrosoftZuneLibrary
 					{
 						IWlanProfile* ptr2 = null;
 						WlanProfile wlanProfile = profileList[num2];
-						fixed (char* wlanProfile.SSIDPtr = wlanProfile.SSID.ToCharArray())
+						fixed (char* SSIDPtr = wlanProfile.SSID.ToCharArray())
 						{
-							ushort* ptr3 = (ushort*)wlanProfile.SSIDPtr;
+							ushort* ptr3 = (ushort*)SSIDPtr;
 							try
 							{
 								ushort* ptr4;
@@ -1382,7 +1382,7 @@ namespace MicrosoftZuneLibrary
 								{
 									ptr4 = Module.SysAllocString(ptr3);
 									ptr5 = null;
-									if ((!wlanProfile.Encrypted && (string)null == wlanProfile.Key) || (wlanProfile.Encrypted && null == wlanProfile.EncryptedKey))
+									if ((!wlanProfile.Encrypted && null == wlanProfile.Key) || (wlanProfile.Encrypted && null == wlanProfile.EncryptedKey))
 									{
 										goto IL_035c;
 									}
@@ -1390,9 +1390,9 @@ namespace MicrosoftZuneLibrary
 									{
 										goto IL_0142;
 									}
-									fixed (char* wlanProfile.KeyPtr = wlanProfile.Key.ToCharArray())
+									fixed (char* keyPtr = wlanProfile.Key.ToCharArray())
 									{
-										ushort* ptr6 = (ushort*)wlanProfile.KeyPtr;
+										ushort* ptr6 = (ushort*)keyPtr;
 										try
 										{
 											if (ptr6 != null)

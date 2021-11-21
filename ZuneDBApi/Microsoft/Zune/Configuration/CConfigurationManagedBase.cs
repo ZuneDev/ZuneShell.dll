@@ -707,9 +707,9 @@ namespace Microsoft.Zune.Configuration
 								do
 								{
 									int length = value[num5].Length;
-									fixed (char* value[num5]Ptr = value[num5].ToCharArray())
+									fixed (char* valueNum5Ptr = value[num5].ToCharArray())
 									{
-										ushort* s = (ushort*)value[num5]Ptr;
+										ushort* s = (ushort*)valueNum5Ptr;
 										try
 										{
 											if (Module.wmemcpy_s(ptr3, num2, s, (ulong)length) == 0)
