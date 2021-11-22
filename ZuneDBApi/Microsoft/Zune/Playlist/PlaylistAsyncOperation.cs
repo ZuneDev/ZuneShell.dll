@@ -6,8 +6,7 @@ namespace Microsoft.Zune.Playlist
 {
 	[StructLayout(LayoutKind.Sequential, Size = 24)]
 	[NativeCppClass]
-	[DebugInfoInPDB]
-		internal struct PlaylistAsyncOperation
+			internal struct PlaylistAsyncOperation
 	{
 		private long _003Calignment_0020member_003E;
 	}

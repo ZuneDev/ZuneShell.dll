@@ -3,7 +3,6 @@ using System.Runtime.InteropServices;
 using Microsoft.VisualC;
 
 [StructLayout(LayoutKind.Sequential, Size = 160)]
-[DebugInfoInPDB]
 [NativeCppClass]
 [UnsafeValueType]
 internal struct MusicTrackMetadata

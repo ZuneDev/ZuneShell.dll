@@ -5,7 +5,6 @@ using Microsoft.VisualC;
 [StructLayout(LayoutKind.Explicit, Size = 32)]
 [NativeCppClass]
 [UnsafeValueType]
-[DebugInfoInPDB]
 internal struct WPP_PROJECT_CONTROL_BLOCK
 {
 }

@@ -3,7 +3,6 @@ using System.Runtime.InteropServices;
 using Microsoft.VisualC;
 
 [StructLayout(LayoutKind.Sequential, Size = 16)]
-[DebugInfoInPDB]
 [NativeCppClass]
 internal struct WString
 {

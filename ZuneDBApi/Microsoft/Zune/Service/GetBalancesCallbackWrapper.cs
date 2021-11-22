@@ -5,8 +5,7 @@ using Microsoft.VisualC;
 namespace Microsoft.Zune.Service
 {
 	[StructLayout(LayoutKind.Sequential, Size = 32)]
-	[DebugInfoInPDB]
-		[NativeCppClass]
+			[NativeCppClass]
 	internal struct GetBalancesCallbackWrapper
 	{
 		private long _003Calignment_0020member_003E;

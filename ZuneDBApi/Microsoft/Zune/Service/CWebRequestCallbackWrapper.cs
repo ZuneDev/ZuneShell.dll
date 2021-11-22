@@ -6,8 +6,7 @@ namespace Microsoft.Zune.Service
 {
 	[StructLayout(LayoutKind.Sequential, Size = 56)]
 		[NativeCppClass]
-	[DebugInfoInPDB]
-	internal struct CWebRequestCallbackWrapper
+		internal struct CWebRequestCallbackWrapper
 	{
 		private long _003Calignment_0020member_003E;
 	}

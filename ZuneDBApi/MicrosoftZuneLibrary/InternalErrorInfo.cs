@@ -5,8 +5,7 @@ using Microsoft.VisualC;
 namespace MicrosoftZuneLibrary
 {
 	[StructLayout(LayoutKind.Sequential, Size = 56)]
-	[DebugInfoInPDB]
-	[NativeCppClass]
+		[NativeCppClass]
 		internal struct InternalErrorInfo
 	{
 		private long _003Calignment_0020member_003E;

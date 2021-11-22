@@ -4,7 +4,6 @@ using Microsoft.VisualC;
 
 [StructLayout(LayoutKind.Sequential, Size = 32)]
 [NativeCppClass]
-[DebugInfoInPDB]
 internal struct MCPlayerStatus
 {
 	private long _003Calignment_0020member_003E;

@@ -5,8 +5,7 @@ using Microsoft.VisualC;
 namespace MicrosoftZuneLibrary
 {
 	[StructLayout(LayoutKind.Sequential, Size = 24)]
-	[DebugInfoInPDB]
-	[NativeCppClass]
+		[NativeCppClass]
 		internal struct NativeMetadataNotifications
 	{
 		private long _003Calignment_0020member_003E;

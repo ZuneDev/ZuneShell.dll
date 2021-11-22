@@ -4,7 +4,6 @@ using Microsoft.VisualC;
 
 [StructLayout(LayoutKind.Sequential, Size = 8)]
 [NativeCppClass]
-[DebugInfoInPDB]
 internal struct CComPtrNtv_003CIEndpointHost_003E
 {
 	private long _003Calignment_0020member_003E;

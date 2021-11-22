@@ -6,8 +6,7 @@ namespace MicrosoftZuneLibrary
 {
 	[StructLayout(LayoutKind.Sequential, Size = 16)]
 	[NativeCppClass]
-	[DebugInfoInPDB]
-		internal struct CallbackOnUIThreadBimodalUnmanaged_DONOTUSE
+			internal struct CallbackOnUIThreadBimodalUnmanaged_DONOTUSE
 	{
 		private long _003Calignment_0020member_003E;
 	}

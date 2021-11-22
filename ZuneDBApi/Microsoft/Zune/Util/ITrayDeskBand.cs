@@ -5,8 +5,7 @@ using Microsoft.VisualC;
 namespace Microsoft.Zune.Util
 {
 	[StructLayout(LayoutKind.Sequential, Size = 8)]
-	[DebugInfoInPDB]
-	[NativeCppClass]
+		[NativeCppClass]
 		internal static struct ITrayDeskBand
 	{
 		private long _003Calignment_0020member_003E;

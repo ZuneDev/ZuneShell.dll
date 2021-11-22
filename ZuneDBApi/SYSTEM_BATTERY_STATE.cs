@@ -3,7 +3,6 @@ using System.Runtime.InteropServices;
 using Microsoft.VisualC;
 
 [StructLayout(LayoutKind.Sequential, Size = 32)]
-[DebugInfoInPDB]
 [UnsafeValueType]
 [NativeCppClass]
 internal struct SYSTEM_BATTERY_STATE

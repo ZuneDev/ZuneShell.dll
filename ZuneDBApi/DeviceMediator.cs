@@ -3,7 +3,6 @@ using System.Runtime.InteropServices;
 using Microsoft.VisualC;
 
 [StructLayout(LayoutKind.Sequential, Size = 72)]
-[DebugInfoInPDB]
 [NativeCppClass]
 internal struct DeviceMediator
 {

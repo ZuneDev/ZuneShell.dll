@@ -3,7 +3,6 @@ using System.Runtime.InteropServices;
 using Microsoft.VisualC;
 
 [StructLayout(LayoutKind.Sequential, Size = 8)]
-[DebugInfoInPDB]
 [NativeCppClass]
 internal struct CComPtrNtv_003CIFirmwareUpdateErrorInfo_003E
 {

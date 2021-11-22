@@ -6,8 +6,7 @@ namespace Microsoft.Zune.Configuration
 {
 	[StructLayout(LayoutKind.Sequential, Size = 24)]
 		[NativeCppClass]
-	[DebugInfoInPDB]
-	internal struct NotificationMarshaller
+		internal struct NotificationMarshaller
 	{
 		private long _003Calignment_0020member_003E;
 	}

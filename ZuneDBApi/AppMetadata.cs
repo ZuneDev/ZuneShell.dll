@@ -3,7 +3,6 @@ using System.Runtime.InteropServices;
 using Microsoft.VisualC;
 
 [StructLayout(LayoutKind.Sequential, Size = 144)]
-[DebugInfoInPDB]
 [UnsafeValueType]
 [NativeCppClass]
 internal struct AppMetadata
