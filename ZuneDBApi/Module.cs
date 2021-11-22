@@ -61,6 +61,11 @@ namespace ZuneDBApi
         public static HINSTANCE ToHInstance(void* h) => new(new IntPtr(h));
         public static void* ToPointer(this HINSTANCE h) => h.DangerousGetHandle().ToPointer();
 
+        internal static void delete(void* ptr)
+        {
+            Marshal.FreeHGlobal((IntPtr)ptr);
+        }
+
         public static T AddByteOffset<T>(ref T obj, int offset)
         {
             return Unsafe.AddByteOffset(ref obj, new IntPtr(offset));
@@ -267,6 +272,9 @@ namespace ZuneDBApi
         [DllImport(ZUNESERVICE_DLL, CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
         [MethodImpl(MethodImplOptions.Unmanaged)]
         public unsafe static extern int GetServiceEndPointUri(EServiceEndpointId endpointId, ushort** uri);
+
+        [MethodImpl(MethodImplOptions.Unmanaged | MethodImplOptions.PreserveSig)]
+        public unsafe static extern int GetSingleton(_GUID guid, void** outReference);
 
         public static int GetVersionExW(ref OSVERSIONINFOEX lpVersionInformation)
         {
@@ -620,5 +628,9 @@ namespace ZuneDBApi
         [DllImport(ZUNENATIVELIB_DLL, CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
         [MethodImpl(MethodImplOptions.Unmanaged)]
         public unsafe static extern int CreateEmptyPlaylist(IPlaylist** outPlaylist);
+
+        [DllImport(ZUNENATIVELIB_DLL, CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
+        [MethodImpl(MethodImplOptions.Unmanaged)]
+        public unsafe static extern int DoesFileExist(ushort* path, int* error);
     }
 }

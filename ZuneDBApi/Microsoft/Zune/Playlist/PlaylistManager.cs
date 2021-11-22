@@ -324,15 +324,15 @@ namespace Microsoft.Zune.Playlist
 				num2 = Module.Microsoft_002EZune_002EPlaylist_002EPlaylistAsyncOperation_002EAsyncSavePlaylistAsStatic(ptr2, playlistId, m_pPlaylistManager, playlistAsyncOperationCompleted);
 				if (num2 >= 0)
 				{
-					goto IL_0066;
+					goto done;
 				}
 			}
 			if (ptr2 != null)
 			{
 				Module.Microsoft_002EZune_002EPlaylist_002EPlaylistAsyncOperation_002E__delDtor(ptr2, 1u);
 			}
-			goto IL_0066;
-			IL_0066:
+			goto done;
+			done:
 			return new HRESULT(num2);
 		}
 
