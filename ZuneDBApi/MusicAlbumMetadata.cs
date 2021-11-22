@@ -3,7 +3,6 @@ using System.Runtime.InteropServices;
 using Microsoft.VisualC;
 
 [StructLayout(LayoutKind.Sequential, Size = 112)]
-[MiscellaneousBits(65)]
 [DebugInfoInPDB]
 [UnsafeValueType]
 [NativeCppClass]

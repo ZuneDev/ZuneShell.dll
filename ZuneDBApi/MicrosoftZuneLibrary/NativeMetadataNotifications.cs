@@ -7,8 +7,7 @@ namespace MicrosoftZuneLibrary
 	[StructLayout(LayoutKind.Sequential, Size = 24)]
 	[DebugInfoInPDB]
 	[NativeCppClass]
-	[MiscellaneousBits(64)]
-	internal struct NativeMetadataNotifications
+		internal struct NativeMetadataNotifications
 	{
 		private long _003Calignment_0020member_003E;
 	}

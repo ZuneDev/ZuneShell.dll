@@ -3,7 +3,6 @@ using Microsoft.VisualC;
 
 [DebugInfoInPDB]
 [NativeCppClass]
-[MiscellaneousBits(64)]
 internal enum EPassportPolicy
 {
 

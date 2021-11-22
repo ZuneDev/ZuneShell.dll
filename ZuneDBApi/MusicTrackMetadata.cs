@@ -5,7 +5,6 @@ using Microsoft.VisualC;
 [StructLayout(LayoutKind.Sequential, Size = 160)]
 [DebugInfoInPDB]
 [NativeCppClass]
-[MiscellaneousBits(65)]
 [UnsafeValueType]
 internal struct MusicTrackMetadata
 {

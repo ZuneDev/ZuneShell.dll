@@ -4,7 +4,6 @@ using Microsoft.VisualC;
 
 [StructLayout(LayoutKind.Sequential, Size = 8)]
 [NativeCppClass]
-[MiscellaneousBits(65)]
 [DebugInfoInPDB]
 internal struct DOT11_AUTH_CIPHER_PAIR
 {

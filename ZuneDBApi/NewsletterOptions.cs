@@ -4,7 +4,6 @@ using Microsoft.VisualC;
 
 [StructLayout(LayoutKind.Sequential, Size = 12)]
 [DebugInfoInPDB]
-[MiscellaneousBits(65)]
 [NativeCppClass]
 internal struct NewsletterOptions
 {

@@ -4,7 +4,6 @@ using Microsoft.VisualC;
 
 [StructLayout(LayoutKind.Sequential, Size = 200)]
 [UnsafeValueType]
-[MiscellaneousBits(65)]
 [NativeCppClass]
 [DebugInfoInPDB]
 internal struct VideoMetadata

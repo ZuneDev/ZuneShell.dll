@@ -6,8 +6,7 @@ namespace MicrosoftZunePlayback
 {
 	[StructLayout(LayoutKind.Sequential, Size = 24)]
 	[DebugInfoInPDB]
-	[MiscellaneousBits(64)]
-	[NativeCppClass]
+		[NativeCppClass]
 	internal struct CMBRBandwidthTestEventSink
 	{
 		private long _003Calignment_0020member_003E;

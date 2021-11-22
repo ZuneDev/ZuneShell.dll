@@ -4,7 +4,6 @@ using Microsoft.VisualC;
 
 [StructLayout(LayoutKind.Sequential, Size = 32)]
 [NativeCppClass]
-[MiscellaneousBits(65)]
 [DebugInfoInPDB]
 internal struct MCPlayerStatus
 {

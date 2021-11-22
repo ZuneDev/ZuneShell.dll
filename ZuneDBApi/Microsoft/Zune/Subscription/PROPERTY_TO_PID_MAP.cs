@@ -7,8 +7,7 @@ namespace Microsoft.Zune.Subscription
 	[StructLayout(LayoutKind.Sequential, Size = 16)]
 	[NativeCppClass]
 	[DebugInfoInPDB]
-	[MiscellaneousBits(65)]
-	internal struct PROPERTY_TO_PID_MAP
+		internal struct PROPERTY_TO_PID_MAP
 	{
 		private long _003Calignment_0020member_003E;
 	}

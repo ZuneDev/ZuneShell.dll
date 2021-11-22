@@ -6,8 +6,7 @@ namespace Microsoft.Zune.Service
 {
 	[StructLayout(LayoutKind.Sequential, Size = 32)]
 	[NativeCppClass]
-	[MiscellaneousBits(64)]
-	[DebugInfoInPDB]
+		[DebugInfoInPDB]
 	internal struct GetPaymentInstrumentsCallbackWrapper
 	{
 		private long _003Calignment_0020member_003E;

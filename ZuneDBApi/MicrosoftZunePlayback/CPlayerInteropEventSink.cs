@@ -5,8 +5,7 @@ using Microsoft.VisualC;
 namespace MicrosoftZunePlayback
 {
 	[StructLayout(LayoutKind.Sequential, Size = 48)]
-	[MiscellaneousBits(64)]
-	[NativeCppClass]
+		[NativeCppClass]
 	[DebugInfoInPDB]
 	internal struct CPlayerInteropEventSink
 	{

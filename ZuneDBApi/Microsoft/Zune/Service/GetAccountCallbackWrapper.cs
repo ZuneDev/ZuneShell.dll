@@ -5,8 +5,7 @@ using Microsoft.VisualC;
 namespace Microsoft.Zune.Service
 {
 	[StructLayout(LayoutKind.Sequential, Size = 32)]
-	[MiscellaneousBits(64)]
-	[DebugInfoInPDB]
+		[DebugInfoInPDB]
 	[NativeCppClass]
 	internal struct GetAccountCallbackWrapper
 	{

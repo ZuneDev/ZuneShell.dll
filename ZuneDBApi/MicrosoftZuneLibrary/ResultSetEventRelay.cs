@@ -7,8 +7,7 @@ namespace MicrosoftZuneLibrary
 	[StructLayout(LayoutKind.Sequential, Size = 56)]
 	[DebugInfoInPDB]
 	[NativeCppClass]
-	[MiscellaneousBits(64)]
-	internal struct ResultSetEventRelay
+		internal struct ResultSetEventRelay
 	{
 		private long _003Calignment_0020member_003E;
 	}

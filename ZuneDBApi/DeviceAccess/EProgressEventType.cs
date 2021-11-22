@@ -4,8 +4,7 @@ using Microsoft.VisualC;
 namespace DeviceAccess
 {
 	[DebugInfoInPDB]
-	[MiscellaneousBits(64)]
-	[NativeCppClass]
+		[NativeCppClass]
 	internal enum EProgressEventType
 	{
 

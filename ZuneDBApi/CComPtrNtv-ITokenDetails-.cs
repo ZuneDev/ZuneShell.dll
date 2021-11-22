@@ -4,7 +4,6 @@ using Microsoft.VisualC;
 
 [StructLayout(LayoutKind.Sequential, Size = 8)]
 [NativeCppClass]
-[MiscellaneousBits(64)]
 [DebugInfoInPDB]
 internal struct CComPtrNtv_003CITokenDetails_003E
 {

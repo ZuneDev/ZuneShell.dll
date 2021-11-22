@@ -5,8 +5,7 @@ using Microsoft.VisualC;
 namespace Microsoft.Zune.Service
 {
 	[StructLayout(LayoutKind.Sequential, Size = 64)]
-	[MiscellaneousBits(64)]
-	[UnsafeValueType]
+		[UnsafeValueType]
 	[NativeCppClass]
 	[DebugInfoInPDB]
 	internal struct GetOfferDetailsCallbackWrapper

@@ -3,7 +3,6 @@ using System.Runtime.InteropServices;
 using Microsoft.VisualC;
 
 [StructLayout(LayoutKind.Sequential, Size = 24)]
-[MiscellaneousBits(64)]
 [NativeCppClass]
 [DebugInfoInPDB]
 internal struct DynamicArray_003Cunsigned_0020short_0020_002A_003E

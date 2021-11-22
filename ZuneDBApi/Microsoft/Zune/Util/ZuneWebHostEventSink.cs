@@ -5,8 +5,7 @@ using Microsoft.VisualC;
 namespace Microsoft.Zune.Util
 {
 	[StructLayout(LayoutKind.Sequential, Size = 24)]
-	[MiscellaneousBits(64)]
-	[DebugInfoInPDB]
+		[DebugInfoInPDB]
 	[NativeCppClass]
 	internal struct ZuneWebHostEventSink
 	{

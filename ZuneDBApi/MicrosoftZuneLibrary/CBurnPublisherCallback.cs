@@ -5,8 +5,7 @@ using Microsoft.VisualC;
 namespace MicrosoftZuneLibrary
 {
 	[StructLayout(LayoutKind.Sequential, Size = 24)]
-	[MiscellaneousBits(64)]
-	[NativeCppClass]
+		[NativeCppClass]
 	[DebugInfoInPDB]
 	internal struct CBurnPublisherCallback
 	{

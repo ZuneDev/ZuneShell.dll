@@ -5,8 +5,7 @@ using Microsoft.VisualC;
 namespace MicrosoftZuneLibrary
 {
 	[StructLayout(LayoutKind.Sequential, Size = 40)]
-	[MiscellaneousBits(64)]
-	[DebugInfoInPDB]
+		[DebugInfoInPDB]
 	[NativeCppClass]
 	internal struct CheckForUpdatesCallback
 	{

@@ -7,8 +7,7 @@ namespace MicrosoftZuneInterop
 	[StructLayout(LayoutKind.Sequential, Size = 16)]
 	[NativeCppClass]
 	[DebugInfoInPDB]
-	[MiscellaneousBits(65)]
-	internal struct PropIdMapEntry
+		internal struct PropIdMapEntry
 	{
 		private long _003Calignment_0020member_003E;
 	}

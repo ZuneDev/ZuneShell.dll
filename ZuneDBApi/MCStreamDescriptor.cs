@@ -5,7 +5,6 @@ using Microsoft.VisualC;
 [StructLayout(LayoutKind.Sequential, Size = 24)]
 [DebugInfoInPDB]
 [NativeCppClass]
-[MiscellaneousBits(65)]
 internal struct MCStreamDescriptor
 {
 	private long _003Calignment_0020member_003E;

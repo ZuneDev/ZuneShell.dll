@@ -5,8 +5,7 @@ using Microsoft.VisualC;
 namespace Microsoft.Zune.Subscription
 {
 	[StructLayout(LayoutKind.Sequential, Size = 24)]
-	[MiscellaneousBits(64)]
-	[NativeCppClass]
+		[NativeCppClass]
 	[DebugInfoInPDB]
 	internal struct CSubscriptionCredentialProviderProxy
 	{

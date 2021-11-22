@@ -7,8 +7,7 @@ namespace Microsoft.Zune.Util
 	[StructLayout(LayoutKind.Sequential, Size = 24)]
 	[DebugInfoInPDB]
 	[NativeCppClass]
-	[MiscellaneousBits(64)]
-	internal struct PurchaseOffersCallbackWrapper
+		internal struct PurchaseOffersCallbackWrapper
 	{
 		private long _003Calignment_0020member_003E;
 	}

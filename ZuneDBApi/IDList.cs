@@ -4,7 +4,6 @@ using Microsoft.VisualC;
 
 [StructLayout(LayoutKind.Sequential, Size = 16)]
 [NativeCppClass]
-[MiscellaneousBits(65)]
 [DebugInfoInPDB]
 internal struct IDList
 {

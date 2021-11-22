@@ -5,8 +5,7 @@ using Microsoft.VisualC;
 namespace Microsoft.Zune.Service
 {
 	[StructLayout(LayoutKind.Sequential, Size = 12)]
-	[MiscellaneousBits(65)]
-	[NativeCppClass]
+		[NativeCppClass]
 	[DebugInfoInPDB]
 	internal struct VideoOfferParams
 	{

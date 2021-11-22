@@ -4,7 +4,6 @@ using Microsoft.VisualC;
 
 [StructLayout(LayoutKind.Sequential, Size = 136)]
 [DebugInfoInPDB]
-[MiscellaneousBits(65)]
 [UnsafeValueType]
 [NativeCppClass]
 internal struct QUICK_MIX_MEDIA_INFO
