@@ -58,7 +58,7 @@ namespace ZuneDBApi
 
         public static T AddByteOffset<T>(ref T obj, int offset)
         {
-            return System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref obj, new IntPtr(offset));
+            return Unsafe.AddByteOffset(ref obj, new IntPtr(offset));
         }
 
         public static int CloseClipboard()

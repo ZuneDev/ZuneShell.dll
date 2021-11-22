@@ -4,8 +4,8 @@ using System.Runtime.InteropServices;
 namespace Microsoft.Zune.Subscription
 {
 	[StructLayout(LayoutKind.Sequential, Size = 40)]
-		[NativeCppClass]
-		internal struct VirtualSubscriptionEpisodeListProxy
+	[NativeCppClass]
+	internal struct VirtualSubscriptionEpisodeListProxy
 	{
 		private long _003Calignment_0020member_003E;
 	}
