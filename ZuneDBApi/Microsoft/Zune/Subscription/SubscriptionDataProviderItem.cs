@@ -153,7 +153,7 @@ namespace Microsoft.Zune.Subscription
 							}
 							uint num3 = *(uint*)((long)num2 * 16L + _0024ArrayType_0024_0024_0024BY07UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040 + 8);
 							IMSMediaSchemaPropertySet* pEpisodePropertySet = m_pEpisodePropertySet;
-							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)pEpisodePropertySet + 48)))((System.nint)pEpisodePropertySet, (uint)num3, (uint)0u, (PROPVARIANT)cComPropVariant);
+							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)pEpisodePropertySet + 48)))((nint)pEpisodePropertySet, (uint)num3, (uint)0u, (PROPVARIANT)cComPropVariant);
 						}
 						if (num < 0)
 						{
@@ -298,11 +298,11 @@ namespace Microsoft.Zune.Subscription
 						if (num2 >= 0)
 						{
 							IMSMediaSchemaPropertySet* pEpisodePropertySet = m_pEpisodePropertySet;
-							num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)pEpisodePropertySet + 48)))((System.nint)pEpisodePropertySet, (uint)16797697u, (uint)0u, (PROPVARIANT)cComPropVariant);
+							num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)pEpisodePropertySet + 48)))((nint)pEpisodePropertySet, (uint)16797697u, (uint)0u, (PROPVARIANT)cComPropVariant);
 							if (num2 >= 0)
 							{
 								IMSMediaSchemaPropertySet* pEpisodePropertySet2 = m_pEpisodePropertySet;
-								num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)pEpisodePropertySet2 + 48)))((System.nint)pEpisodePropertySet2, (uint)134238215u, (uint)0u, (PROPVARIANT)cComPropVariant2);
+								num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)pEpisodePropertySet2 + 48)))((nint)pEpisodePropertySet2, (uint)134238215u, (uint)0u, (PROPVARIANT)cComPropVariant2);
 								if (num2 >= 0)
 								{
 									long num3 = *(long*)ptr + 160;

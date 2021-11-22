@@ -1,6 +1,5 @@
 using System;
 using System.Runtime.CompilerServices;
-using _003CCppImplementationDetails_003E;
 using Microsoft.Iris;
 
 namespace Microsoft.Zune.Subscription
@@ -19,7 +18,6 @@ namespace Microsoft.Zune.Subscription
 			//IL_000f: Expected I, but got I8
 			m_serviceId = serviceId;
 			m_pSeriesPropertySet = null;
-			base._002Ector(owner, typeCookie);
 		}
 
 		public unsafe override object GetProperty(string propertyName)
@@ -72,9 +70,9 @@ namespace Microsoft.Zune.Subscription
 								}
 								continue;
 							}
-							uint num2 = *(uint*)((long)num * 16L + (ref Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, 8)));
+							uint num2 = *(uint*)((long)num * 16L + _0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040 + 8);
 							IMSMediaSchemaPropertySet* pSeriesPropertySet = m_pSeriesPropertySet;
-							if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)pSeriesPropertySet + 48)))((System.nint)pSeriesPropertySet, num2, 0u, cComPropVariant) < 0 || *(ushort*)(&cComPropVariant) == 0)
+							if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)pSeriesPropertySet + 48)))((nint)pSeriesPropertySet, num2, 0u, cComPropVariant) < 0 || *(ushort*)(&cComPropVariant) == 0)
 							{
 								break;
 							}
@@ -126,16 +124,16 @@ namespace Microsoft.Zune.Subscription
 			PROPVARIANT cComPropVariant = new();
 			try
 			{
-				if (pSeriesPropertySet != null && ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)pSeriesPropertySet + 48)))((System.nint)pSeriesPropertySet, (uint)16801793u, (uint)0u, (PROPVARIANT)cComPropVariant) >= 0 && *(ushort*)(&cComPropVariant) != 0)
+				if (pSeriesPropertySet != null && ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)pSeriesPropertySet + 48)))((nint)pSeriesPropertySet, (uint)16801793u, (uint)0u, (PROPVARIANT)cComPropVariant) >= 0 && *(ushort*)(&cComPropVariant) != 0)
 				{
                     IMSMediaSchemaPropertySet* pSeriesPropertySet2 = m_pSeriesPropertySet;
 					if (0L != (nint)pSeriesPropertySet2)
 					{
-						((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint>)(*(ulong*)(*(long*)pSeriesPropertySet2 + 16)))((System.nint)pSeriesPropertySet2);
+						((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint>)(*(ulong*)(*(long*)pSeriesPropertySet2 + 16)))((nint)pSeriesPropertySet2);
                         m_pSeriesPropertySet = null;
 					}
                     m_pSeriesPropertySet = pSeriesPropertySet;
-					((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint>)(*(ulong*)(*(long*)pSeriesPropertySet + 8)))((System.nint)pSeriesPropertySet);
+					((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint>)(*(ulong*)(*(long*)pSeriesPropertySet + 8)))((nint)pSeriesPropertySet);
 					if (!string.IsNullOrEmpty(m_serviceId))
 					{
                         Guid guid = new(m_serviceId);

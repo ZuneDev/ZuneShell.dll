@@ -248,7 +248,7 @@ namespace MicrosoftZuneLibrary
 				try
 				{
 					IDatabaseQueryResults* pResults2 = m_pResults;
-					if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)pResults2 + 48)))((System.nint)pResults2, (uint)index, (uint)Atom, (PROPVARIANT)cComPropVariant) >= 0)
+					if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)pResults2 + 48)))((nint)pResults2, (uint)index, (uint)Atom, (PROPVARIANT)cComPropVariant) >= 0)
 					{
 						result = MarshalResult(type, cComPropVariant, defaultValue);
 						goto IL_00ef;
@@ -305,7 +305,7 @@ namespace MicrosoftZuneLibrary
 					goto end_IL_0016;
 					IL_002e:
 					IDatabaseQueryResults* pResults = m_pResults;
-					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)pResults + 64)))((System.nint)pResults, (uint)index, (uint)Atom, (PROPVARIANT)cComPropVariant);
+					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)pResults + 64)))((nint)pResults, (uint)index, (uint)Atom, (PROPVARIANT)cComPropVariant);
 					end_IL_0016:;
 				}
 				catch
@@ -555,7 +555,7 @@ namespace MicrosoftZuneLibrary
 						uint num3 = 0u;
 						if (0u < (uint)(*(int*)((ulong)(nint)propVariant + 8uL)))
 						{
-                                    PROPVARIANT ptr = (PROPVARIANT)((ulong)(System.nint)propVariant + 16uL);
+                                    PROPVARIANT ptr = (PROPVARIANT)((ulong)(nint)propVariant + 16uL);
 							long num4 = 0L;
 							do
 							{

@@ -5,7 +5,6 @@ using Microsoft.VisualC;
 [StructLayout(LayoutKind.Sequential, Size = 144)]
 [DebugInfoInPDB]
 [UnsafeValueType]
-[MiscellaneousBits(65)]
 [NativeCppClass]
 internal struct AppMetadata
 {
