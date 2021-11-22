@@ -41,7 +41,7 @@ namespace Microsoft.Zune.Service
 		{
 			get
 			{
-				if (m_ratingImage == null && m_ratingImageUrl != (string)null)
+				if (m_ratingImage == null && m_ratingImageUrl != null)
 				{
 					m_ratingImage = new Image(m_ratingImageUrl);
 				}
@@ -53,7 +53,7 @@ namespace Microsoft.Zune.Service
 		{
 			get
 			{
-				if (m_previewImage == null && m_previewImageUrl != (string)null)
+				if (m_previewImage == null && m_previewImageUrl != null)
 				{
 					m_previewImage = new Image(m_previewImageUrl);
 				}

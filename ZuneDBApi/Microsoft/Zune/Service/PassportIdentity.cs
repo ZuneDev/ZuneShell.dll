@@ -19,7 +19,7 @@ namespace Microsoft.Zune.Service
 			{
 				//IL_0020: Expected I, but got I8
 				//IL_0036: Expected I, but got I8
-				if (m_serviceTicket == (string)null)
+				if (m_serviceTicket == null)
 				{
 					CComPtrMgd_003CIPassportIdentity_003E spPassportIdentity = m_spPassportIdentity;
 					if (spPassportIdentity.p != null)
@@ -43,7 +43,7 @@ namespace Microsoft.Zune.Service
 			{
 				//IL_0020: Expected I, but got I8
 				//IL_0036: Expected I, but got I8
-				if (m_password == (string)null)
+				if (m_password == null)
 				{
 					CComPtrMgd_003CIPassportIdentity_003E spPassportIdentity = m_spPassportIdentity;
 					if (spPassportIdentity.p != null)
@@ -67,7 +67,7 @@ namespace Microsoft.Zune.Service
 			{
 				//IL_0020: Expected I, but got I8
 				//IL_0036: Expected I, but got I8
-				if (m_username == (string)null)
+				if (m_username == null)
 				{
 					CComPtrMgd_003CIPassportIdentity_003E spPassportIdentity = m_spPassportIdentity;
 					if (spPassportIdentity.p != null)

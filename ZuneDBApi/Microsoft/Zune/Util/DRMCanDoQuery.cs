@@ -11,7 +11,7 @@ namespace Microsoft.Zune.Util
 		public unsafe DRMCanDoQuery()
 		{
 			IDRMQuery* pDRMQuery;
-			int num = Module.ZuneLibraryExports_002ECreateDRMQuery(&pDRMQuery);
+			int num = Module.CreateDRMQuery(&pDRMQuery);
 			if (num < 0)
 			{
 				throw new ApplicationException(Module.GetErrorDescription(num));

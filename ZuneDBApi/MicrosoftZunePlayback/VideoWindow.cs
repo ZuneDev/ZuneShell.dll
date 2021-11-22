@@ -26,7 +26,6 @@ namespace MicrosoftZunePlayback
 			_top = top;
 			_right = right;
 			_bottom = bottom;
-			base._002Ector();
 		}
 
 		[return: MarshalAs(UnmanagedType.U1)]

@@ -59,7 +59,7 @@ namespace Microsoft.Zune.Service
 					float price = 0f;
 					int num4 = 1;
 					int num5 = 0;
-					global::EBillingOfferType eBillingOfferType = (global::EBillingOfferType)0;
+					global::EBillingOfferType eBillingOfferType = 0;
 					if (num >= 0)
 					{
 						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, ulong*, global::EBillingOfferType*, ushort**, ushort**, uint*, float*, int*, int*, int>)(*(ulong*)(*(long*)pCollection + 32)))((nint)pCollection, num3, &id, &eBillingOfferType, &ptr, &ptr2, &points, &price, &num4, &num5);

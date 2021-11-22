@@ -166,16 +166,16 @@ namespace ZuneUI
         {
             ArrayList tempFilenames = new ArrayList(filenames);
             ThreadPool.QueueUserWorkItem(o =>
-           {
-               if (ZuneApplication.AddMedia(tempFilenames, this.MediaType))
-                   return;
-               Application.DeferredInvoke(delegate
-         {
-             NotificationArea.Instance.Add(new MessageNotification(Shell.LoadString(StringId.IDS_LIBRARY_ADD_FILE_FAILED), NotificationTask.Library, NotificationState.OneShot)
-             {
-                 SubMessage = Shell.LoadString(StringId.IDS_LIBRARY_ADD_FILE_FAILED_SUBMESSAGE)
-             });
-         }, null);
+            {
+                if (ZuneApplication.AddMedia(tempFilenames, this.MediaType))
+                    return;
+                Application.DeferredInvoke(delegate
+                {
+                    NotificationArea.Instance.Add(new MessageNotification(Shell.LoadString(StringId.IDS_LIBRARY_ADD_FILE_FAILED), NotificationTask.Library, NotificationState.OneShot)
+                    {
+                        SubMessage = Shell.LoadString(StringId.IDS_LIBRARY_ADD_FILE_FAILED_SUBMESSAGE)
+                    });
+                }, null);
            });
         }
 

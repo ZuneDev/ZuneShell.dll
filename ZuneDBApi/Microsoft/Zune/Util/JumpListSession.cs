@@ -40,7 +40,7 @@ namespace Microsoft.Zune.Util
 			int num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint*, int>)(*(ulong*)(*(long*)p + 24)))((nint)p, &num);
 			if (num2 >= 0)
 			{
-				IJumpListEntry** ptr = (IJumpListEntry**)Module.new_005B_005D((ulong)num * 8uL);
+				IJumpListEntry** ptr = (IJumpListEntry**)Module.new_005B_005D(num * 8uL);
 				num2 = (((long)(nint)ptr == 0) ? (-2147024882) : num2);
 				if (num2 >= 0)
 				{

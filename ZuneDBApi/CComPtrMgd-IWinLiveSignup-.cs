@@ -49,9 +49,9 @@ internal class CComPtrMgd_003CIWinLiveSignup_003E : IDisposable
 	}
 
 	[return: MarshalAs(UnmanagedType.U1)]
-	public unsafe bool operator !()
+	public static unsafe bool operator !(CComPtrMgd_003CIWinLiveSignup_003E obj)
 	{
-		return (long)(nint)p == 0;
+		return (long)(nint)obj.p == 0;
 	}
 
 	protected virtual void Dispose([MarshalAs(UnmanagedType.U1)] bool P_0)
@@ -67,14 +67,13 @@ internal class CComPtrMgd_003CIWinLiveSignup_003E : IDisposable
 		}
 		finally
 		{
-			base.Finalize();
+			//base.Finalize();
 		}
 	}
 
-	public sealed override void Dispose()
+	public void Dispose()
 	{
 		Dispose(true);
-		GC.SuppressFinalize(this);
 	}
 
 	~CComPtrMgd_003CIWinLiveSignup_003E()

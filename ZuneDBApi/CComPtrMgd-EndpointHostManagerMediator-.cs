@@ -42,14 +42,13 @@ internal class CComPtrMgd_003CEndpointHostManagerMediator_003E : IDisposable
 		}
 		finally
 		{
-			base.Finalize();
+			//base.Finalize();
 		}
 	}
 
-	public sealed override void Dispose()
+	public void Dispose()
 	{
 		Dispose(true);
-		GC.SuppressFinalize(this);
 	}
 
 	~CComPtrMgd_003CEndpointHostManagerMediator_003E()
@@ -77,8 +76,8 @@ internal class CComPtrMgd_003CEndpointHostManagerMediator_003E : IDisposable
 	}
 
 	[return: MarshalAs(UnmanagedType.U1)]
-	public unsafe bool operator !()
+	public static unsafe bool operator !(CComPtrMgd_003CEndpointHostManagerMediator_003E obj)
 	{
-		return (long)(nint)p == 0;
+		return (long)(nint)obj.p == 0;
 	}
 }

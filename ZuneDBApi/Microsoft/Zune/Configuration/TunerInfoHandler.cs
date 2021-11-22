@@ -55,7 +55,7 @@ namespace Microsoft.Zune.Configuration
 			//IL_0034: Expected I, but got I8
 			IService* ptr = null;
 			int num = 0;
-			if (Module.GetSingleton((_GUID)Module.GUID_IService, (void**)(&ptr)) >= 0)
+			if (Module.GetSingleton(Module.GUID_IService, (void**)(&ptr)) >= 0)
 			{
 				IService* intPtr = ptr;
 				num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)intPtr + 200)))((nint)intPtr);
@@ -107,7 +107,7 @@ namespace Microsoft.Zune.Configuration
 			//IL_0077: Expected I, but got I8
 			//IL_007b: Expected I, but got I8
 			IService* ptr = null;
-			int singleton = Module.GetSingleton((_GUID)Module.GUID_IService, (void**)(&ptr));
+			int singleton = Module.GetSingleton(Module.GUID_IService, (void**)(&ptr));
 			RefreshCallback* ptr2 = (RefreshCallback*)Module.@new(24uL);
 			RefreshCallback* ptr3;
 			try
@@ -136,7 +136,7 @@ namespace Microsoft.Zune.Configuration
 				((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint>)(*(ulong*)(*(long*)intPtr2 + 16)))((nint)intPtr2);
 				ptr = null;
 			}
-			if (singleton < 0 && Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 156uL)) & (true ? 1u : 0u)) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 153uL)) >= 5u)
+			if (singleton < 0 && Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 156uL)) & (true ? 1u : 0u)) != 0 && *(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 153uL) >= 5u)
 			{
 				Module.WPP_SF_D(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 144uL), 10, (_GUID*)Unsafe.AsPointer(ref Module._003FA0x2af74624_002EWPP_RegisteredDevicesApi_cpp_Traceguids), (uint)singleton);
 			}
@@ -150,7 +150,7 @@ namespace Microsoft.Zune.Configuration
 			//IL_0090: Expected I, but got I8
 			//IL_0094: Expected I, but got I8
 			IService* ptr = null;
-			int singleton = Module.GetSingleton((_GUID)Module.GUID_IService, (void**)(&ptr));
+			int singleton = Module.GetSingleton(Module.GUID_IService, (void**)(&ptr));
 			DeregisterCallback* ptr2 = (DeregisterCallback*)Module.@new(24uL);
 			DeregisterCallback* ptr3;
 			try
@@ -192,7 +192,7 @@ namespace Microsoft.Zune.Configuration
 				((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint>)(*(ulong*)(*(long*)intPtr2 + 16)))((nint)intPtr2);
 				ptr = null;
 			}
-			if (singleton < 0 && Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 156uL)) & (true ? 1u : 0u)) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 153uL)) >= 5u)
+			if (singleton < 0 && Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 156uL)) & (true ? 1u : 0u)) != 0 && *(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 153uL) >= 5u)
 			{
 				Module.WPP_SF_D(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 144uL), 11, (_GUID*)Unsafe.AsPointer(ref Module._003FA0x2af74624_002EWPP_RegisteredDevicesApi_cpp_Traceguids), (uint)singleton);
 			}

@@ -232,7 +232,7 @@ namespace Microsoft.Zune.QuickMix
 				}
 				else
 				{
-					ePlaylistCreateConflictAction = (EPlaylistCreateConflictAction)0;
+					ePlaylistCreateConflictAction = 0;
 				}
 				IQuickMixSession* p = m_spSession.p;
 				long num3 = *(long*)p + 72;

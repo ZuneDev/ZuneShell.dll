@@ -13,8 +13,7 @@ namespace Microsoft.Zune.Service
 
 		public IList Items => m_items;
 
-		internal unsafe TrackOfferCollection()
-			: this()
+		internal unsafe TrackOfferCollection() : base()
 		{
 			//IL_0015: Expected I, but got I8
 			m_items = null;
@@ -96,21 +95,21 @@ namespace Microsoft.Zune.Service
 									long num7 = Unsafe.As<MusicTrackMetadata, long>(ref Unsafe.AddByteOffset(ref musicTrackMetadata, 152));
 									int num8 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, int, int>)(*(ulong*)(*(long*)Unsafe.As<MusicTrackMetadata, ulong>(ref Unsafe.AddByteOffset(ref musicTrackMetadata, 152)) + 176)))((nint)num7, 1, 1);
 									long num9 = Unsafe.As<MusicTrackMetadata, long>(ref Unsafe.AddByteOffset(ref musicTrackMetadata, 152));
-									int num10 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EMediaRights, EMediaFormat, int>)(*(ulong*)(*(long*)Unsafe.As<MusicTrackMetadata, ulong>(ref Unsafe.AddByteOffset(ref musicTrackMetadata, 152)) + 72)))((nint)num9, eMediaRights, (EMediaFormat)0);
+									int num10 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EMediaRights, EMediaFormat, int>)(*(ulong*)(*(long*)Unsafe.As<MusicTrackMetadata, ulong>(ref Unsafe.AddByteOffset(ref musicTrackMetadata, 152)) + 72)))((nint)num9, eMediaRights, 0);
 									if (eMediaRights != (EMediaRights)5)
 									{
-										EMediaFormat eMediaFormat = ((num10 == 0) ? ((EMediaFormat)1) : ((EMediaFormat)0));
+										EMediaFormat eMediaFormat = ((num10 == 0) ? ((EMediaFormat)1) : 0);
 										long num11 = Unsafe.As<MusicTrackMetadata, long>(ref Unsafe.AddByteOffset(ref musicTrackMetadata, 152));
 										if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EMediaRights, EMediaFormat, int>)(*(ulong*)(*(long*)Unsafe.As<MusicTrackMetadata, ulong>(ref Unsafe.AddByteOffset(ref musicTrackMetadata, 152)) + 72)))((nint)num11, eMediaRights, eMediaFormat) != 0)
 										{
-											EMediaFormat eMediaFormat2 = ((num10 == 0) ? ((EMediaFormat)1) : ((EMediaFormat)0));
+											EMediaFormat eMediaFormat2 = ((num10 == 0) ? ((EMediaFormat)1) : 0);
 											long num12 = Unsafe.As<MusicTrackMetadata, long>(ref Unsafe.AddByteOffset(ref musicTrackMetadata, 152));
 											num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EMediaRights, EMediaFormat, IPriceInfo**, int>)(*(ulong*)(*(long*)Unsafe.As<MusicTrackMetadata, ulong>(ref Unsafe.AddByteOffset(ref musicTrackMetadata, 152)) + 104)))((nint)num12, eMediaRights, eMediaFormat2, (IPriceInfo**)(&cComPtrNtv_003CIPriceInfo_003E));
 										}
 									}
 									if (num >= 0)
 									{
-										Guid id = Module.GUIDToGuid(Unsafe.As<MusicTrackMetadata, _GUID>(ref Unsafe.AddByteOffset(ref musicTrackMetadata, 8)));
+										Guid id = Unsafe.As<MusicTrackMetadata, _GUID>(ref Unsafe.AddByteOffset(ref musicTrackMetadata, 8));
 										string recommendationContext = GetRecommendationContext(id, mapIdToContext, (IContextData*)(*(ulong*)(&cComPtrNtv_003CIContextData_003E)));
 										long num13 = Unsafe.As<MusicTrackMetadata, long>(ref Unsafe.AddByteOffset(ref musicTrackMetadata, 152));
 										bool subscriptionFree = ((((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)Unsafe.As<MusicTrackMetadata, ulong>(ref Unsafe.AddByteOffset(ref musicTrackMetadata, 152)) + 208)))((nint)num13) != 0) ? true : false);
@@ -188,7 +187,7 @@ namespace Microsoft.Zune.Service
 			}
 		}
 
-		public sealed override void Dispose()
+		public void Dispose()
 		{
 			Dispose(true);
 			GC.SuppressFinalize(this);

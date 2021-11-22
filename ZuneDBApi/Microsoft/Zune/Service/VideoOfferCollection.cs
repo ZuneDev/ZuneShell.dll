@@ -14,8 +14,7 @@ namespace Microsoft.Zune.Service
 
 		public IList Items => m_items;
 
-		internal unsafe VideoOfferCollection()
-			: this()
+		internal unsafe VideoOfferCollection() : base()
 		{
 			//IL_0015: Expected I, but got I8
 			m_items = null;
@@ -95,8 +94,8 @@ namespace Microsoft.Zune.Service
 							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, VideoMetadata*, IContextData**, int>)(*(ulong*)(*(long*)pCollection + 32)))((nint)pCollection, num3, &videoMetadata, null);
 							if (num >= 0)
 							{
-								Guid id = Module.GUIDToGuid(Unsafe.As<VideoMetadata, _GUID>(ref Unsafe.AddByteOffset(ref videoMetadata, 8)));
-								Guid albumId = Module.GUIDToGuid(Unsafe.As<VideoMetadata, _GUID>(ref Unsafe.AddByteOffset(ref videoMetadata, 80)));
+								Guid id = Unsafe.As<VideoMetadata, _GUID>(ref Unsafe.AddByteOffset(ref videoMetadata, 8));
+								Guid albumId = Unsafe.As<VideoMetadata, _GUID>(ref Unsafe.AddByteOffset(ref videoMetadata, 80));
 								string title = new string((char*)Unsafe.As<VideoMetadata, ulong>(ref Unsafe.AddByteOffset(ref videoMetadata, 32)));
 								string seriesTitle = new string((char*)Unsafe.As<VideoMetadata, ulong>(ref Unsafe.AddByteOffset(ref videoMetadata, 120)));
 								string artist = new string((char*)Unsafe.As<VideoMetadata, ulong>(ref Unsafe.AddByteOffset(ref videoMetadata, 48)));
@@ -373,7 +372,7 @@ namespace Microsoft.Zune.Service
 			}
 		}
 
-		public sealed override void Dispose()
+		public void Dispose()
 		{
 			Dispose(true);
 			GC.SuppressFinalize(this);

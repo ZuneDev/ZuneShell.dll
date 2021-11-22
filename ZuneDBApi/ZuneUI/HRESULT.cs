@@ -273,7 +273,7 @@ namespace ZuneUI
 		[return: MarshalAs(UnmanagedType.U1)]
 		public override bool Equals(object oCompare)
 		{
-			int num = ((oCompare is HRESULT && hr == ((HRESULT)(HRESULT)oCompare).hr) ? 1 : 0);
+			int num = ((oCompare is HRESULT && hr == ((HRESULT)oCompare).hr) ? 1 : 0);
 			return (byte)num != 0;
 		}
 

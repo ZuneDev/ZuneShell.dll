@@ -34,7 +34,7 @@ namespace Microsoft.Zune.Service
 			//IL_0008: Expected I, but got I8
 			//IL_0011: Expected I, but got I8
 			IService* pService = null;
-			if (Module.GetSingleton((_GUID)Module.GUID_IService, (void**)(&pService)) >= 0)
+			if (Module.GetSingleton(Module.GUID_IService, (void**)(&pService)) >= 0)
 			{
 				m_pService = pService;
 			}
@@ -648,7 +648,7 @@ namespace Microsoft.Zune.Service
 				flag = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, int*, int>)(*(ulong*)(*(long*)pService + 384)))((nint)pService, &gUID_NULL, &num) >= 0 || flag;
 			}
 			iUserId = num;
-			Guid guid = (guidUserGuid = Module.GUIDToGuid(gUID_NULL));
+			Guid guid = (guidUserGuid = gUID_NULL);
 			return flag;
 		}
 
@@ -672,7 +672,7 @@ namespace Microsoft.Zune.Service
 			//IL_0035: Expected I, but got I8
 			//IL_0035: Expected I, but got I8
 			bool flag = false;
-			_GUID gUID = Module.GuidToGUID(guidUserGuid);
+			_GUID gUID = guidUserGuid;
 			int num = 0;
 			IService* pService = m_pService;
 			if (pService != null)
@@ -802,7 +802,7 @@ namespace Microsoft.Zune.Service
 				IContextData* intPtr3;
 				IService* pService3;
 				IMediaCollection* intPtr4;
-				if (!(deviceEndpointId != (string)null) || deviceEndpointId.Equals(""))
+				if (!(deviceEndpointId != null) || deviceEndpointId.Equals(""))
 				{
 					if (items != null)
 					{
@@ -833,7 +833,7 @@ namespace Microsoft.Zune.Service
 									{
 										if (typeName.Equals("PlaylistContentItem"))
 										{
-											eContentType = (global::EContentType)0;
+											eContentType = 0;
 											guid = (Guid)dataProviderObject.GetProperty("ZuneMediaId");
 											s = (string)dataProviderObject.GetProperty("Title");
 											s2 = (string)dataProviderObject.GetProperty("AlbumName");
@@ -870,7 +870,7 @@ namespace Microsoft.Zune.Service
 									}
 									else
 									{
-										eContentType = (global::EContentType)0;
+										eContentType = 0;
 										guid = (Guid)dataProviderObject.GetProperty("Id");
 										s = (string)dataProviderObject.GetProperty("Title");
 										s2 = (string)dataProviderObject.GetProperty("AlbumTitle");
@@ -890,7 +890,7 @@ namespace Microsoft.Zune.Service
 							}
 							else if (current is TrackOffer)
 							{
-								eContentType = (global::EContentType)0;
+								eContentType = 0;
 								TrackOffer trackOffer = current as TrackOffer;
 								guid = trackOffer.Id;
 								s = trackOffer.Title;
@@ -943,7 +943,7 @@ namespace Microsoft.Zune.Service
 							{
 								continue;
 							}
-							gUID = Module.GuidToGUID(guid);
+							gUID = guid;
 							fixed (char* sPtr = s.ToCharArray())
 							{
 								ushort* ptr5 = (ushort*)sPtr;
@@ -998,7 +998,7 @@ namespace Microsoft.Zune.Service
 																										num3 = eDownloadContextEvent;
 																										val2 = ptr9;
 																										intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
-																										((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)(nint)val, num3, (ushort*)(nint)val2, intPtr);
+																										((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)val, num3, (ushort*)val2, intPtr);
 																										long num4 = *(long*)ptr4 + 40;
 																										intPtr2 = ptr4;
 																										reference4 = ref gUID;
@@ -1029,7 +1029,7 @@ namespace Microsoft.Zune.Service
 																									num3 = eDownloadContextEvent;
 																									val2 = ref reference3;
 																									intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
-																									((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)(nint)val, num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
+																									((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)val, num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
 																									long num4 = *(long*)ptr4 + 40;
 																									intPtr2 = ptr4;
 																									reference4 = ref gUID;
@@ -2529,7 +2529,7 @@ namespace Microsoft.Zune.Service
 									{
 										if (typeName.Equals("PlaylistContentItem"))
 										{
-											eContentType = (global::EContentType)0;
+											eContentType = 0;
 											guid = (Guid)dataProviderObject.GetProperty("ZuneMediaId");
 											s = (string)dataProviderObject.GetProperty("Title");
 											s2 = (string)dataProviderObject.GetProperty("AlbumName");
@@ -2566,7 +2566,7 @@ namespace Microsoft.Zune.Service
 									}
 									else
 									{
-										eContentType = (global::EContentType)0;
+										eContentType = 0;
 										guid = (Guid)dataProviderObject.GetProperty("Id");
 										s = (string)dataProviderObject.GetProperty("Title");
 										s2 = (string)dataProviderObject.GetProperty("AlbumTitle");
@@ -2586,7 +2586,7 @@ namespace Microsoft.Zune.Service
 							}
 							else if (current is TrackOffer)
 							{
-								eContentType = (global::EContentType)0;
+								eContentType = 0;
 								TrackOffer trackOffer = current as TrackOffer;
 								guid = trackOffer.Id;
 								s = trackOffer.Title;
@@ -2639,7 +2639,7 @@ namespace Microsoft.Zune.Service
 							{
 								continue;
 							}
-							gUID = Module.GuidToGUID(guid);
+							gUID = guid;
 							fixed (char* sPtr = s.ToCharArray())
 							{
 								ushort* ptr5 = (ushort*)sPtr;
@@ -4235,7 +4235,7 @@ namespace Microsoft.Zune.Service
 				int num = 0;
 				int num2 = 0;
 				int num3 = 0;
-				_GUID gUID = Module.GuidToGUID(guidMediaId);
+				_GUID gUID = guidMediaId;
 				IService* pService = m_pService;
 				if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID, global::EContentType, int*, int*, int*, int>)(*(ulong*)(*(long*)pService + 616)))((nint)pService, gUID, (global::EContentType)eContentType, &num, &num2, &num3) >= 0)
 				{
@@ -4253,7 +4253,7 @@ namespace Microsoft.Zune.Service
 			//IL_0028: Expected I, but got I8
 			if (m_pService != null)
 			{
-				_GUID gUID = Module.GuidToGUID(guidMediaId);
+				_GUID gUID = guidMediaId;
 				IService* pService = m_pService;
 				((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID, global::EContentType, int>)(*(ulong*)(*(long*)pService + 624)))((nint)pService, gUID, (global::EContentType)eContentType);
 			}
@@ -4269,7 +4269,7 @@ namespace Microsoft.Zune.Service
 			if (m_pService != null)
 			{
 				ushort* ptr = null;
-				_GUID gUID = Module.GuidToGUID(guidMediaId);
+				_GUID gUID = guidMediaId;
 				IService* pService = m_pService;
 				num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID, global::EContentType, global::EContentUriFlags, EMediaFormat, EMediaRights, ushort**, _GUID*, int>)(*(ulong*)(*(long*)pService + 584)))((nint)pService, gUID, (global::EContentType)eContentType, (global::EContentUriFlags)eContentUriFlags, eMediaFormat, eMediaRights, &ptr, &gUID_NULL);
 				if (num >= 0)
@@ -4288,7 +4288,7 @@ namespace Microsoft.Zune.Service
 			goto IL_005e;
 			IL_005e:
 			uriOut = text;
-			Guid guid = (mediaInstanceIdOut = Module.GUIDToGuid(gUID_NULL));
+			Guid guid = (mediaInstanceIdOut = gUID_NULL);
 			return num;
 		}
 
@@ -4342,7 +4342,7 @@ namespace Microsoft.Zune.Service
 					ushort* ptr = (ushort*)strDeviceEndpointIdPtr;
 					try
 					{
-						_GUID gUID = Module.GuidToGUID(guidMediaId);
+						_GUID gUID = guidMediaId;
 						long num4 = *(long*)m_pService + 640;
 						IService* pService = m_pService;
 						if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID, global::EContentType, ushort*, int*, int*, int*, int>)(*(ulong*)num4))((nint)pService, gUID, (global::EContentType)eContentType, ptr, &num2, &num, &num3) >= 0)
@@ -4434,8 +4434,8 @@ namespace Microsoft.Zune.Service
 															long num = *(long*)m_pService + 120;
 															IService* pService = m_pService;
 															((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num))((nint)pService, ptr, (global::EDownloadContextEvent)(-1), null, (IContextData**)(&cComPtrNtv_003CIContextData_003E));
-															_GUID gUID = Module.GuidToGUID(guidAlbumMediaId);
-															_GUID gUID2 = Module.GuidToGUID(guidTrackMediaId);
+															_GUID gUID = guidAlbumMediaId;
+															_GUID gUID2 = guidTrackMediaId;
 															long num2 = *(long*)m_pService + 904;
 															IService* pService2 = m_pService;
 															_003F val = ptr2;
@@ -4508,7 +4508,7 @@ namespace Microsoft.Zune.Service
 					ushort* ptr = (ushort*)strTitlePtr;
 					try
 					{
-						_GUID gUID = Module.GuidToGUID(guidArtistMediaId);
+						_GUID gUID = guidArtistMediaId;
 						long num = *(long*)m_pService + 912;
 						IService* pService = m_pService;
 						result = (byte)((((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, int, _GUID*, ushort*, int>)(*(ulong*)num))((nint)pService, iUserId, iRating, &gUID, ptr) >= 0) ? 1u : 0u) != 0;
@@ -4531,7 +4531,7 @@ namespace Microsoft.Zune.Service
 			bool flag = false;
 			if (m_pService != null)
 			{
-				_GUID gUID = Module.GuidToGUID(guidMediaId);
+				_GUID gUID = guidMediaId;
 				IService* pService = m_pService;
 				int num;
 				flag = 0 == ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, _GUID*, global::EContentType, int*, int>)(*(ulong*)(*(long*)pService + 920)))((nint)pService, iUserId, &gUID, (global::EContentType)eContentType, &num);
@@ -4640,7 +4640,7 @@ namespace Microsoft.Zune.Service
 					Module.DBPropertyRequestStruct_002E_007Bctor_007D((DBPropertyRequestStruct*)(&_0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040), 177u);
 					try
 					{
-						if (Module.ZuneLibraryExports_002EGetFieldValues(dbMediaId, ContentTypeToListType(EContentType.Video), 1, (DBPropertyRequestStruct*)(&_0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040), null) >= 0 && Unsafe.As<_0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040, int>(ref Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040, 4)) >= 0)
+						if (Module.GetFieldValues(dbMediaId, ContentTypeToListType(EContentType.Video), 1, (DBPropertyRequestStruct*)(&_0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040), null) >= 0 && Unsafe.As<_0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040, int>(ref Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040, 4)) >= 0)
 						{
 							eMediaTypes = ((Unsafe.As<_0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040, ushort>(ref Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040, 8)) == 3) ? Unsafe.As<_0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040, EMediaTypes>(ref Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040, 16)) : eMediaTypes);
 						}
@@ -4648,7 +4648,7 @@ namespace Microsoft.Zune.Service
 					catch
 					{
 						//try-fault
-						Module.___CxxCallUnwindVecDtor((delegate*<void*, ulong, int, delegate*<void*, void>, void>)(&Module.__ehvec_dtor), (void*)(&_0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040), 32uL, 1, (delegate*<void*, void>)(delegate*<DBPropertyRequestStruct*, void>)(&Module.DBPropertyRequestStruct_002E_007Bdtor_007D));
+						Module.___CxxCallUnwindVecDtor((delegate*<void*, ulong, int, delegate*<void*, void>, void>)(&Module.__ehvec_dtor), &_0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040, 32uL, 1, (delegate*<void*, void>)(delegate*<DBPropertyRequestStruct*, void>)(&Module.DBPropertyRequestStruct_002E_007Bdtor_007D));
 						throw;
 					}
 					Module.__ehvec_dtor(&_0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040, 32uL, 1, (delegate*<void*, void>)(delegate*<DBPropertyRequestStruct*, void>)(&Module.DBPropertyRequestStruct_002E_007Bdtor_007D));
@@ -4670,7 +4670,7 @@ namespace Microsoft.Zune.Service
 				Module.DBPropertyRequestStruct_002E_007Bctor_007D((DBPropertyRequestStruct*)(&_0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_00402), 149u);
 				try
 				{
-					if (Module.ZuneLibraryExports_002EGetFieldValues(dbMediaId, ContentTypeToListType(eContentType), 1, (DBPropertyRequestStruct*)(&_0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_00402), null) < 0 || Unsafe.As<_0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040, int>(ref Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_00402, 4)) < 0 || Unsafe.As<_0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040, ushort>(ref Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_00402, 8)) != 3)
+					if (Module.GetFieldValues(dbMediaId, ContentTypeToListType(eContentType), 1, (DBPropertyRequestStruct*)(&_0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_00402), null) < 0 || Unsafe.As<_0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040, int>(ref Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_00402, 4)) < 0 || Unsafe.As<_0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040, ushort>(ref Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_00402, 8)) != 3)
 					{
 						goto IL_0118;
 					}
@@ -4701,7 +4701,7 @@ namespace Microsoft.Zune.Service
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindVecDtor((delegate*<void*, ulong, int, delegate*<void*, void>, void>)(&Module.__ehvec_dtor), (void*)(&_0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_00402), 32uL, 1, (delegate*<void*, void>)(delegate*<DBPropertyRequestStruct*, void>)(&Module.DBPropertyRequestStruct_002E_007Bdtor_007D));
+					Module.___CxxCallUnwindVecDtor((delegate*<void*, ulong, int, delegate*<void*, void>, void>)(&Module.__ehvec_dtor), &_0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_00402, 32uL, 1, (delegate*<void*, void>)(delegate*<DBPropertyRequestStruct*, void>)(&Module.DBPropertyRequestStruct_002E_007Bdtor_007D));
 					throw;
 				}
 				Module.__ehvec_dtor(&_0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_00402, 32uL, 1, (delegate*<void*, void>)(delegate*<DBPropertyRequestStruct*, void>)(&Module.DBPropertyRequestStruct_002E_007Bdtor_007D));
@@ -4982,7 +4982,7 @@ namespace Microsoft.Zune.Service
 				}
 				Module.CComPtrNtv_003CISignInState_003E_002ERelease(&cComPtrNtv_003CISignInState_003E);
 			}
-			return Module.GUIDToGuid(gUID_NULL);
+			return gUID_NULL;
 		}
 
 		public unsafe string GetLocale()
@@ -5193,7 +5193,7 @@ namespace Microsoft.Zune.Service
 			//IL_0090: Expected I, but got I8
 			int num = 0;
 			num = (((long)(nint)m_pService == 0) ? (-2147467259) : num);
-			_GUID offerId2 = Module.GuidToGUID(offerId);
+			_GUID offerId2 = offerId;
 			CComPtrNtv_003CIGetOfferDetailsCallback_003E cComPtrNtv_003CIGetOfferDetailsCallback_003E;
 			*(long*)(&cComPtrNtv_003CIGetOfferDetailsCallback_003E) = 0L;
 			HRESULT result;
@@ -5349,8 +5349,8 @@ namespace Microsoft.Zune.Service
 											num3 = -1;
 											num4 = 0L;
 											intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
-											((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)(nint)val, (global::EDownloadContextEvent)num3, (ushort*)num4, intPtr);
-											gUID = Module.GuidToGUID(guid);
+											((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)val, (global::EDownloadContextEvent)num3, (ushort*)num4, intPtr);
+											gUID = guid;
 											intPtr2 = ptr3;
 											reference3 = ref gUID;
 											num5 = 1;
@@ -5381,7 +5381,7 @@ namespace Microsoft.Zune.Service
 										num4 = 0L;
 										intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
 										((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)Unsafe.AsPointer(ref val), (global::EDownloadContextEvent)num3, (ushort*)num4, intPtr);
-										gUID = Module.GuidToGUID(guid);
+										gUID = guid;
 										intPtr2 = ptr3;
 										reference3 = ref gUID;
 										num5 = 1;
@@ -5452,7 +5452,7 @@ namespace Microsoft.Zune.Service
 											long num10 = *(long*)m_pService + 120;
 											pService3 = m_pService;
 											((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num10))((nint)pService3, ptr5, (global::EDownloadContextEvent)(-1), null, (IContextData**)(&cComPtrNtv_003CIContextData_003E2));
-											gUID2 = Module.GuidToGUID(guid2);
+											gUID2 = guid2;
 											intPtr3 = ptr3;
 											reference5 = ref gUID2;
 											num11 = 0;
@@ -5479,7 +5479,7 @@ namespace Microsoft.Zune.Service
 										long num10 = *(long*)m_pService + 120;
 										pService3 = m_pService;
 										((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num10))((nint)pService3, (ushort*)Unsafe.AsPointer(ref reference4), (global::EDownloadContextEvent)(-1), null, (IContextData**)(&cComPtrNtv_003CIContextData_003E2));
-										gUID2 = Module.GuidToGUID(guid2);
+										gUID2 = guid2;
 										intPtr3 = ptr3;
 										reference5 = ref gUID2;
 										num11 = 0;
@@ -5518,7 +5518,7 @@ namespace Microsoft.Zune.Service
 						{
 							if (num >= 0)
 							{
-								_GUID gUID3 = Module.GuidToGUID((Guid)enumerator3.Current);
+								_GUID gUID3 = (Guid)enumerator3.Current;
 								IMediaCollection* intPtr4 = ptr3;
 								num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)(*(long*)ptr3 + 40)))((nint)intPtr4, &gUID3, (global::EContentType)3, null, null, null, null);
 							}
@@ -5535,7 +5535,7 @@ namespace Microsoft.Zune.Service
 						{
 							if (num >= 0)
 							{
-								_GUID gUID4 = Module.GuidToGUID((Guid)enumerator4.Current);
+								_GUID gUID4 = (Guid)enumerator4.Current;
 								IMediaCollection* intPtr5 = ptr3;
 								num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)(*(long*)ptr3 + 40)))((nint)intPtr5, &gUID4, (global::EContentType)7, null, null, null, null);
 							}
@@ -5663,9 +5663,9 @@ namespace Microsoft.Zune.Service
 				num = PaymentTypeToMediaPaymentType(payment.Type, &eMediaPaymentType);
 				if (num >= 0)
 				{
-					fixed (char* payment.IdPtr = payment.Id.ToCharArray())
+					fixed (char* paymentIdPtr = payment.Id.ToCharArray())
 					{
-						ushort* ptr7 = (ushort*)payment.IdPtr;
+						ushort* ptr7 = (ushort*)paymentIdPtr;
 						try
 						{
 							long num2 = *(long*)m_pService + 712;
@@ -5735,7 +5735,7 @@ namespace Microsoft.Zune.Service
 					num = -2147024882;
 					goto IL_0103;
 				}
-				_GUID gUID = Module.GuidToGUID(userId);
+				_GUID gUID = userId;
 				ulong num2 = (ulong)artists.Count;
 				_GUID* ptr3 = (_GUID*)Module.new_005B_005D((num2 > 1152921504606846975L) ? ulong.MaxValue : (num2 * 16));
 				int num3 = 0;
@@ -5744,7 +5744,7 @@ namespace Microsoft.Zune.Service
 					_GUID* ptr4 = ptr3;
 					do
 					{
-						_GUID gUID2 = Module.GuidToGUID((Guid)artists[num3]);
+						_GUID gUID2 = (Guid)artists[num3];
                         // IL cpblk instruction
                         Unsafe.CopyBlockUnaligned(ptr4, ref gUID2, 16);
 						num3++;
@@ -5847,7 +5847,7 @@ namespace Microsoft.Zune.Service
 					num = -2147024882;
 					goto IL_0091;
 				}
-				_GUID gUID = Module.GuidToGUID(mediaId);
+				_GUID gUID = mediaId;
 				fixed (char* messagePtr = message.ToCharArray())
 				{
 					ushort* ptr3 = (ushort*)messagePtr;
@@ -5910,7 +5910,7 @@ namespace Microsoft.Zune.Service
 					num = -2147024882;
 					goto IL_00a5;
 				}
-				_GUID gUID = Module.GuidToGUID(mediaId);
+				_GUID gUID = mediaId;
 				fixed (char* titlePtr = title.ToCharArray())
 				{
 					ushort* ptr3 = (ushort*)titlePtr;
@@ -6008,7 +6008,7 @@ namespace Microsoft.Zune.Service
 							IService* pService = m_pService;
 							if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, MusicAlbumMetadata*, int>)(*(ulong*)num))((nint)pService, ptr, &musicAlbumMetadata) >= 0)
 							{
-								Guid guid = (guidAlbum = Module.GUIDToGuid(Unsafe.As<MusicAlbumMetadata, _GUID>(ref Unsafe.AddByteOffset(ref musicAlbumMetadata, 8))));
+								Guid guid = (guidAlbum = Unsafe.As<MusicAlbumMetadata, _GUID>(ref Unsafe.AddByteOffset(ref musicAlbumMetadata, 8)));
 								result = true;
 							}
 						}
@@ -6049,7 +6049,7 @@ namespace Microsoft.Zune.Service
 						_GUID guid;
 						if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, _GUID*, int>)(*(ulong*)num))((nint)pService, ptr, &guid) >= 0)
 						{
-							Guid guid2 = (guidMusicVideo = Module.GUIDToGuid(guid));
+							Guid guid2 = (guidMusicVideo = guid);
 							result = true;
 						}
 					}
@@ -6078,12 +6078,12 @@ namespace Microsoft.Zune.Service
 						long num = *(long*)m_pService + 568;
 						IService* pService = m_pService;
 						DRMQueryState eCanPlay;
-						_FILETIME fILETIME;
+						FILETIME fILETIME;
 						int num2;
 						int num3;
-						if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, DRMQueryState*, _FILETIME*, int*, int*, int>)(*(ulong*)num))((nint)pService, ptr, &eCanPlay, &fILETIME, &num2, &num3) >= 0)
+						if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, DRMQueryState*, FILETIME*, int*, int*, int>)(*(ulong*)num))((nint)pService, ptr, &eCanPlay, &fILETIME, &num2, &num3) >= 0)
 						{
-							long num4 = (long)(uint)Unsafe.As<_FILETIME, int>(ref Unsafe.AddByteOffset(ref fILETIME, 4)) * 4294967296L + (uint)(*(int*)(&fILETIME));
+							long num4 = (uint)Unsafe.As<FILETIME, int>(ref Unsafe.AddByteOffset(ref fILETIME, 4)) * 4294967296L + (uint)(*(int*)(&fILETIME));
 							DateTime expiryDate = DateTime.MaxValue;
 							if (num4 > 0)
 							{
@@ -6117,15 +6117,15 @@ namespace Microsoft.Zune.Service
 			DRMInfo result = null;
 			if (m_pService != null)
 			{
-				_GUID gUID = Module.GuidToGUID(mediaId);
+				_GUID gUID = mediaId;
 				IService* pService = m_pService;
 				DRMQueryState eCanPlay;
-				_FILETIME fILETIME;
+				FILETIME fILETIME;
 				int num;
 				int num2;
-				if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID, global::EContentType, DRMQueryState*, _FILETIME*, int*, int*, int>)(*(ulong*)(*(long*)pService + 576)))((nint)pService, gUID, (global::EContentType)eContentType, &eCanPlay, &fILETIME, &num, &num2) >= 0)
+				if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID, global::EContentType, DRMQueryState*, FILETIME*, int*, int*, int>)(*(ulong*)(*(long*)pService + 576)))((nint)pService, gUID, (global::EContentType)eContentType, &eCanPlay, &fILETIME, &num, &num2) >= 0)
 				{
-					long num3 = (long)(uint)Unsafe.As<_FILETIME, int>(ref Unsafe.AddByteOffset(ref fILETIME, 4)) * 4294967296L + (uint)(*(int*)(&fILETIME));
+					long num3 = (uint)Unsafe.As<FILETIME, int>(ref Unsafe.AddByteOffset(ref fILETIME, 4)) * 4294967296L + (uint)(*(int*)(&fILETIME));
 					DateTime expiryDate = DateTime.MaxValue;
 					if (num3 > 0)
 					{
@@ -6241,7 +6241,7 @@ namespace Microsoft.Zune.Service
 					}
 					goto IL_006d;
 					IL_006d:
-					if (text != (string)null && text.Length > 0)
+					if (text != null && text.Length > 0)
 					{
 						DateTime.TryParse(text, out result);
 					}
@@ -6293,7 +6293,7 @@ namespace Microsoft.Zune.Service
 					}
 					goto IL_006d;
 					IL_006d:
-					if (text != (string)null && text.Length > 0)
+					if (text != null && text.Length > 0)
 					{
 						DateTime.TryParse(text, null, DateTimeStyles.AdjustToUniversal | DateTimeStyles.AssumeUniversal, out result);
 					}
@@ -6464,64 +6464,64 @@ namespace Microsoft.Zune.Service
 				else
 				{
 					_SYSTEMTIME sYSTEMTIME = Module.DateTimeToSystemTime(creditCard.ExpirationDate);
-					fixed (char* creditCard.Address.Street1Ptr = creditCard.Address.Street1.ToCharArray())
+					fixed (char* creditCardAddressStreet1Ptr = creditCard.Address.Street1.ToCharArray())
 					{
-						ushort* ptr3 = (ushort*)creditCard.Address.Street1Ptr;
+						ushort* ptr3 = (ushort*)creditCardAddressStreet1Ptr;
 						try
 						{
-							fixed (char* creditCard.Address.Street2Ptr = creditCard.Address.Street2.ToCharArray())
+							fixed (char* creditCardAddressStreet2Ptr = creditCard.Address.Street2.ToCharArray())
 							{
-								ushort* ptr4 = (ushort*)creditCard.Address.Street2Ptr;
+								ushort* ptr4 = (ushort*)creditCardAddressStreet2Ptr;
 								try
 								{
-									fixed (char* creditCard.Address.CityPtr = creditCard.Address.City.ToCharArray())
+									fixed (char* creditCardAddressCityPtr = creditCard.Address.City.ToCharArray())
 									{
-										ushort* ptr5 = (ushort*)creditCard.Address.CityPtr;
+										ushort* ptr5 = (ushort*)creditCardAddressCityPtr;
 										try
 										{
-											fixed (char* creditCard.Address.DistrictPtr = creditCard.Address.District.ToCharArray())
+											fixed (char* creditCardAddressDistrictPtr = creditCard.Address.District.ToCharArray())
 											{
-												ushort* ptr6 = (ushort*)creditCard.Address.DistrictPtr;
+												ushort* ptr6 = (ushort*)creditCardAddressDistrictPtr;
 												try
 												{
-													fixed (char* creditCard.Address.StatePtr = creditCard.Address.State.ToCharArray())
+													fixed (char* creditCardAddressStatePtr = creditCard.Address.State.ToCharArray())
 													{
-														ushort* ptr7 = (ushort*)creditCard.Address.StatePtr;
+														ushort* ptr7 = (ushort*)creditCardAddressStatePtr;
 														try
 														{
-															fixed (char* creditCard.Address.PostalCodePtr = creditCard.Address.PostalCode.ToCharArray())
+															fixed (char* creditCardAddressPostalCodePtr = creditCard.Address.PostalCode.ToCharArray())
 															{
-																ushort* ptr8 = (ushort*)creditCard.Address.PostalCodePtr;
+																ushort* ptr8 = (ushort*)creditCardAddressPostalCodePtr;
 																try
 																{
-																	fixed (char* creditCard.PhonePrefixPtr = creditCard.PhonePrefix.ToCharArray())
+																	fixed (char* creditCardPhonePrefixPtr = creditCard.PhonePrefix.ToCharArray())
 																	{
-																		ushort* ptr9 = (ushort*)creditCard.PhonePrefixPtr;
+																		ushort* ptr9 = (ushort*)creditCardPhonePrefixPtr;
 																		try
 																		{
-																			fixed (char* creditCard.PhoneNumberPtr = creditCard.PhoneNumber.ToCharArray())
+																			fixed (char* creditCardPhoneNumberPtr = creditCard.PhoneNumber.ToCharArray())
 																			{
-																				ushort* ptr10 = (ushort*)creditCard.PhoneNumberPtr;
+																				ushort* ptr10 = (ushort*)creditCardPhoneNumberPtr;
 																				try
 																				{
-																					fixed (char* creditCard.PhoneExtensionPtr = creditCard.PhoneExtension.ToCharArray())
+																					fixed (char* creditCardPhoneExtensionPtr = creditCard.PhoneExtension.ToCharArray())
 																					{
-																						ushort* ptr11 = (ushort*)creditCard.PhoneExtensionPtr;
+																						ushort* ptr11 = (ushort*)creditCardPhoneExtensionPtr;
 																						try
 																						{
-																							fixed (char* creditCard.AccountHolderNamePtr = creditCard.AccountHolderName.ToCharArray())
+																							fixed (char* creditCardAccountHolderNamePtr = creditCard.AccountHolderName.ToCharArray())
 																							{
-																								ushort* ptr12 = (ushort*)creditCard.AccountHolderNamePtr;
+																								ushort* ptr12 = (ushort*)creditCardAccountHolderNamePtr;
 																								try
 																								{
-																									fixed (char* creditCard.AccountNumberPtr = creditCard.AccountNumber.ToCharArray())
+																									fixed (char* creditCardAccountNumberPtr = creditCard.AccountNumber.ToCharArray())
 																									{
-																										ushort* ptr13 = (ushort*)creditCard.AccountNumberPtr;
+																										ushort* ptr13 = (ushort*)creditCardAccountNumberPtr;
 																										try
 																										{
-																											fixed (char* creditCard.CCVNumberPtr = creditCard.CCVNumber.ToCharArray())
+																											fixed (char* creditCardCCVNumberPtr = creditCard.CCVNumber.ToCharArray())
 																											{
-																												ushort* ptr14 = (ushort*)creditCard.CCVNumberPtr;
+																												ushort* ptr14 = (ushort*)creditCardCCVNumberPtr;
 																												try
 																												{
 																													long num = *(long*)m_pService + 808;
@@ -6664,64 +6664,64 @@ namespace Microsoft.Zune.Service
 					if (num >= 0)
 					{
 						_SYSTEMTIME sYSTEMTIME = Module.DateTimeToSystemTime(creditCard.ExpirationDate);
-						fixed (char* creditCard.Address.Street1Ptr = creditCard.Address.Street1.ToCharArray())
+						fixed (char* creditCardAddressStreet1Ptr = creditCard.Address.Street1.ToCharArray())
 						{
-							ushort* ptr = (ushort*)creditCard.Address.Street1Ptr;
+							ushort* ptr = (ushort*)creditCardAddressStreet1Ptr;
 							try
 							{
-								fixed (char* creditCard.Address.Street2Ptr = creditCard.Address.Street2.ToCharArray())
+								fixed (char* creditCardAddressStreet2Ptr = creditCard.Address.Street2.ToCharArray())
 								{
-									ushort* ptr2 = (ushort*)creditCard.Address.Street2Ptr;
+									ushort* ptr2 = (ushort*)creditCardAddressStreet2Ptr;
 									try
 									{
-										fixed (char* creditCard.Address.CityPtr = creditCard.Address.City.ToCharArray())
+										fixed (char* creditCardAddressCityPtr = creditCard.Address.City.ToCharArray())
 										{
-											ushort* ptr3 = (ushort*)creditCard.Address.CityPtr;
+											ushort* ptr3 = (ushort*)creditCardAddressCityPtr;
 											try
 											{
-												fixed (char* creditCard.Address.DistrictPtr = creditCard.Address.District.ToCharArray())
+												fixed (char* creditCardAddressDistrictPtr = creditCard.Address.District.ToCharArray())
 												{
-													ushort* ptr4 = (ushort*)creditCard.Address.DistrictPtr;
+													ushort* ptr4 = (ushort*)creditCardAddressDistrictPtr;
 													try
 													{
-														fixed (char* creditCard.Address.StatePtr = creditCard.Address.State.ToCharArray())
+														fixed (char* creditCardAddressStatePtr = creditCard.Address.State.ToCharArray())
 														{
-															ushort* ptr5 = (ushort*)creditCard.Address.StatePtr;
+															ushort* ptr5 = (ushort*)creditCardAddressStatePtr;
 															try
 															{
-																fixed (char* creditCard.Address.PostalCodePtr = creditCard.Address.PostalCode.ToCharArray())
+																fixed (char* creditCardAddressPostalCodePtr = creditCard.Address.PostalCode.ToCharArray())
 																{
-																	ushort* ptr6 = (ushort*)creditCard.Address.PostalCodePtr;
+																	ushort* ptr6 = (ushort*)creditCardAddressPostalCodePtr;
 																	try
 																	{
-																		fixed (char* creditCard.PhonePrefixPtr = creditCard.PhonePrefix.ToCharArray())
+																		fixed (char* creditCardPhonePrefixPtr = creditCard.PhonePrefix.ToCharArray())
 																		{
-																			ushort* ptr7 = (ushort*)creditCard.PhonePrefixPtr;
+																			ushort* ptr7 = (ushort*)creditCardPhonePrefixPtr;
 																			try
 																			{
-																				fixed (char* creditCard.PhoneNumberPtr = creditCard.PhoneNumber.ToCharArray())
+																				fixed (char* creditCardPhoneNumberPtr = creditCard.PhoneNumber.ToCharArray())
 																				{
-																					ushort* ptr8 = (ushort*)creditCard.PhoneNumberPtr;
+																					ushort* ptr8 = (ushort*)creditCardPhoneNumberPtr;
 																					try
 																					{
-																						fixed (char* creditCard.PhoneExtensionPtr = creditCard.PhoneExtension.ToCharArray())
+																						fixed (char* creditCardPhoneExtensionPtr = creditCard.PhoneExtension.ToCharArray())
 																						{
-																							ushort* ptr9 = (ushort*)creditCard.PhoneExtensionPtr;
+																							ushort* ptr9 = (ushort*)creditCardPhoneExtensionPtr;
 																							try
 																							{
-																								fixed (char* creditCard.AccountHolderNamePtr = creditCard.AccountHolderName.ToCharArray())
+																								fixed (char* creditCardAccountHolderNamePtr = creditCard.AccountHolderName.ToCharArray())
 																								{
-																									ushort* ptr10 = (ushort*)creditCard.AccountHolderNamePtr;
+																									ushort* ptr10 = (ushort*)creditCardAccountHolderNamePtr;
 																									try
 																									{
-																										fixed (char* creditCard.AccountNumberPtr = creditCard.AccountNumber.ToCharArray())
+																										fixed (char* creditCardAccountNumberPtr = creditCard.AccountNumber.ToCharArray())
 																										{
-																											ushort* ptr11 = (ushort*)creditCard.AccountNumberPtr;
+																											ushort* ptr11 = (ushort*)creditCardAccountNumberPtr;
 																											try
 																											{
-																												fixed (char* creditCard.CCVNumberPtr = creditCard.CCVNumber.ToCharArray())
+																												fixed (char* creditCardCCVNumberPtr = creditCard.CCVNumber.ToCharArray())
 																												{
-																													ushort* ptr12 = (ushort*)creditCard.CCVNumberPtr;
+																													ushort* ptr12 = (ushort*)creditCardCCVNumberPtr;
 																													try
 																													{
 																														long num2 = *(long*)m_pService + 800;
@@ -6988,9 +6988,9 @@ namespace Microsoft.Zune.Service
 				num = PaymentTypeToBillingPaymentType(paymentInstrument.Type, &eBillingPaymentType);
 				if (num >= 0)
 				{
-					fixed (char* paymentInstrument.IdPtr = paymentInstrument.Id.ToCharArray())
+					fixed (char* paymentInstrumentIdPtr = paymentInstrument.Id.ToCharArray())
 					{
-						ushort* ptr4 = (ushort*)paymentInstrument.IdPtr;
+						ushort* ptr4 = (ushort*)paymentInstrumentIdPtr;
 						try
 						{
 							long num2 = *(long*)m_pService + 768;
@@ -7030,12 +7030,12 @@ namespace Microsoft.Zune.Service
 			EBillingPaymentType eBillingPaymentType = (EBillingPaymentType)(-1);
 			if (num >= 0)
 			{
-				num = PaymentTypeToBillingPaymentType(paymentInstrument.Type, &eBillingPaymentType);
+				num = PaymentTypeToBillingPaymentType(paymentInstrument.Type, ref eBillingPaymentType);
 				if (num >= 0)
 				{
-					fixed (char* paymentInstrument.IdPtr = paymentInstrument.Id.ToCharArray())
+					fixed (char* paymentInstrumentIdPtr = paymentInstrument.Id.ToCharArray())
 					{
-						ushort* ptr = (ushort*)paymentInstrument.IdPtr;
+						ushort* ptr = (ushort*)paymentInstrumentIdPtr;
 						try
 						{
 							long num2 = *(long*)m_pService + 760;
@@ -7814,7 +7814,7 @@ namespace Microsoft.Zune.Service
 					goto IL_0059;
 				}
 			}
-			_GUID gUID = Module.GuidToGUID(guidMediaInstanceId);
+			_GUID gUID = guidMediaInstanceId;
 			IService* pService = m_pService;
 			((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, global::EStreamingActionType, _GUID, IAsyncCallback*, int>)(*(ulong*)(*(long*)pService + 984)))((nint)pService, (global::EStreamingActionType)eStreamingActionType, gUID, (IAsyncCallback*)ptr);
 			goto IL_0059;
@@ -7843,7 +7843,7 @@ namespace Microsoft.Zune.Service
 			}
 		}
 
-		public sealed override void Dispose()
+		public void Dispose()
 		{
 			Dispose(true);
 			GC.SuppressFinalize(this);

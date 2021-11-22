@@ -65,7 +65,7 @@ namespace Microsoft.Zune.Service
 			[return: MarshalAs(UnmanagedType.U1)]
 			get
 			{
-				return m_canPlay == (DRMQueryState)0;
+				return m_canPlay == 0;
 			}
 		}
 

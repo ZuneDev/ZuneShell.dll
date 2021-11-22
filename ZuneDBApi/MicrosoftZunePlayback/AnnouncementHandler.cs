@@ -1,4 +1,4 @@
 namespace MicrosoftZunePlayback
 {
-	public delegate void AnnouncementHandler(Announcement);
+	public delegate void AnnouncementHandler(Announcement announcement);
 }

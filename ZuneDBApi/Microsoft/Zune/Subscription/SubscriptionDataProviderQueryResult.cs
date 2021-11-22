@@ -51,7 +51,7 @@ namespace Microsoft.Zune.Subscription
 			throw new NotSupportedException();
 		}
 
-		public unsafe static object ConvertVariantToType(string typeName, CComPropVariant* varValue)
+		public unsafe static object ConvertVariantToType(string typeName, PROPVARIANT* varValue)
 		{
 			//IL_0055: Expected I, but got I8
 			object result = null;

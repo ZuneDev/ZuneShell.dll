@@ -17,7 +17,6 @@ namespace Microsoft.Zune.Service
 			try
 			{
 				m_spAccountManagement = spAccountManagement;
-				base._002Ector();
 			}
 			catch
 			{
@@ -954,34 +953,34 @@ namespace Microsoft.Zune.Service
 					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, IAddress**, int>)(*(ulong*)(*(long*)p + 32)))((nint)p, (IAddress**)(&cComPtrNtv_003CIAddress_003E));
 					if (num >= 0)
 					{
-						fixed (char* address.Street1Ptr = address.Street1.ToCharArray())
+						fixed (char* addressStreet1Ptr = address.Street1.ToCharArray())
 						{
-							ushort* ptr = (ushort*)address.Street1Ptr;
+							ushort* ptr = (ushort*)addressStreet1Ptr;
 							try
 							{
-								fixed (char* address.Street2Ptr = address.Street2.ToCharArray())
+								fixed (char* addressStreet2Ptr = address.Street2.ToCharArray())
 								{
-									ushort* ptr2 = (ushort*)address.Street2Ptr;
+									ushort* ptr2 = (ushort*)addressStreet2Ptr;
 									try
 									{
-										fixed (char* address.CityPtr = address.City.ToCharArray())
+										fixed (char* addressCityPtr = address.City.ToCharArray())
 										{
-											ushort* ptr3 = (ushort*)address.CityPtr;
+											ushort* ptr3 = (ushort*)addressCityPtr;
 											try
 											{
-												fixed (char* address.StatePtr = address.State.ToCharArray())
+												fixed (char* addressStatePtr = address.State.ToCharArray())
 												{
-													ushort* ptr4 = (ushort*)address.StatePtr;
+													ushort* ptr4 = (ushort*)addressStatePtr;
 													try
 													{
-														fixed (char* address.DistrictPtr = address.District.ToCharArray())
+														fixed (char* addressDistrictPtr = address.District.ToCharArray())
 														{
-															ushort* ptr5 = (ushort*)address.DistrictPtr;
+															ushort* ptr5 = (ushort*)addressDistrictPtr;
 															try
 															{
-																fixed (char* address.PostalCodePtr = address.PostalCode.ToCharArray())
+																fixed (char* addressPostalCodePtr = address.PostalCode.ToCharArray())
 																{
-																	ushort* ptr6 = (ushort*)address.PostalCodePtr;
+																	ushort* ptr6 = (ushort*)addressPostalCodePtr;
 																	try
 																	{
 																		long num2 = *(long*)(*(ulong*)(&cComPtrNtv_003CIAddress_003E)) + 24;
@@ -1084,44 +1083,44 @@ namespace Microsoft.Zune.Service
 						if (num >= 0)
 						{
 							_SYSTEMTIME sYSTEMTIME = Module.DateTimeToSystemTime(creditCard.ExpirationDate);
-							fixed (char* creditCard.AccountHolderNamePtr = creditCard.AccountHolderName.ToCharArray())
+							fixed (char* creditCardAccountHolderNamePtr = creditCard.AccountHolderName.ToCharArray())
 							{
-								ushort* ptr = (ushort*)creditCard.AccountHolderNamePtr;
+								ushort* ptr = (ushort*)creditCardAccountHolderNamePtr;
 								try
 								{
-									fixed (char* creditCard.AccountNumberPtr = creditCard.AccountNumber.ToCharArray())
+									fixed (char* creditCardAccountNumberPtr = creditCard.AccountNumber.ToCharArray())
 									{
-										ushort* ptr2 = (ushort*)creditCard.AccountNumberPtr;
+										ushort* ptr2 = (ushort*)creditCardAccountNumberPtr;
 										try
 										{
-											fixed (char* creditCard.CCVNumberPtr = creditCard.CCVNumber.ToCharArray())
+											fixed (char* creditCardCCVNumberPtr = creditCard.CCVNumber.ToCharArray())
 											{
-												ushort* ptr3 = (ushort*)creditCard.CCVNumberPtr;
+												ushort* ptr3 = (ushort*)creditCardCCVNumberPtr;
 												try
 												{
-													fixed (char* creditCard.LocalePtr = creditCard.Locale.ToCharArray())
+													fixed (char* creditCardLocalePtr = creditCard.Locale.ToCharArray())
 													{
-														ushort* ptr4 = (ushort*)creditCard.LocalePtr;
+														ushort* ptr4 = (ushort*)creditCardLocalePtr;
 														try
 														{
-															fixed (char* creditCard.PhoneNumberPtr = creditCard.PhoneNumber.ToCharArray())
+															fixed (char* creditCardPhoneNumberPtr = creditCard.PhoneNumber.ToCharArray())
 															{
-																ushort* ptr5 = (ushort*)creditCard.PhoneNumberPtr;
+																ushort* ptr5 = (ushort*)creditCardPhoneNumberPtr;
 																try
 																{
-																	fixed (char* creditCard.EmailPtr = creditCard.Email.ToCharArray())
+																	fixed (char* creditCardEmailPtr = creditCard.Email.ToCharArray())
 																	{
-																		ushort* ptr6 = (ushort*)creditCard.EmailPtr;
+																		ushort* ptr6 = (ushort*)creditCardEmailPtr;
 																		try
 																		{
-																			fixed (char* creditCard.ContactFirstNamePtr = creditCard.ContactFirstName.ToCharArray())
+																			fixed (char* creditCardContactFirstNamePtr = creditCard.ContactFirstName.ToCharArray())
 																			{
-																				ushort* ptr7 = (ushort*)creditCard.ContactFirstNamePtr;
+																				ushort* ptr7 = (ushort*)creditCardContactFirstNamePtr;
 																				try
 																				{
-																					fixed (char* creditCard.ContactLastNamePtr = creditCard.ContactLastName.ToCharArray())
+																					fixed (char* creditCardContactLastNamePtr = creditCard.ContactLastName.ToCharArray())
 																					{
-																						ushort* ptr8 = (ushort*)creditCard.ContactLastNamePtr;
+																						ushort* ptr8 = (ushort*)creditCardContactLastNamePtr;
 																						try
 																						{
 																							long num2 = *(long*)(*(ulong*)(&cComPtrNtv_003CICreditCard_003E)) + 24;
@@ -1398,39 +1397,39 @@ namespace Microsoft.Zune.Service
 											{
 												sYSTEMTIME = Module.DateTimeToSystemTime(accountUser.Birthday);
 											}
-											fixed (char* accountUser.ZuneTagPtr = accountUser.ZuneTag.ToCharArray())
+											fixed (char* accountUserZuneTagPtr = accountUser.ZuneTag.ToCharArray())
 											{
-												ushort* ptr2 = (ushort*)accountUser.ZuneTagPtr;
+												ushort* ptr2 = (ushort*)accountUserZuneTagPtr;
 												try
 												{
-													fixed (char* accountUser.LocalePtr = accountUser.Locale.ToCharArray())
+													fixed (char* accountUserLocalePtr = accountUser.Locale.ToCharArray())
 													{
-														ushort* ptr3 = (ushort*)accountUser.LocalePtr;
+														ushort* ptr3 = (ushort*)accountUserLocalePtr;
 														try
 														{
-															fixed (char* accountUser.FirstNamePtr = accountUser.FirstName.ToCharArray())
+															fixed (char* accountUserFirstNamePtr = accountUser.FirstName.ToCharArray())
 															{
-																ushort* ptr4 = (ushort*)accountUser.FirstNamePtr;
+																ushort* ptr4 = (ushort*)accountUserFirstNamePtr;
 																try
 																{
-																	fixed (char* accountUser.LastNamePtr = accountUser.LastName.ToCharArray())
+																	fixed (char* accountUserLastNamePtr = accountUser.LastName.ToCharArray())
 																	{
-																		ushort* ptr5 = (ushort*)accountUser.LastNamePtr;
+																		ushort* ptr5 = (ushort*)accountUserLastNamePtr;
 																		try
 																		{
-																			fixed (char* accountUser.EmailPtr = accountUser.Email.ToCharArray())
+																			fixed (char* accountUserEmailPtr = accountUser.Email.ToCharArray())
 																			{
-																				ushort* ptr6 = (ushort*)accountUser.EmailPtr;
+																				ushort* ptr6 = (ushort*)accountUserEmailPtr;
 																				try
 																				{
-																					fixed (char* accountUser.PhoneNumberPtr = accountUser.PhoneNumber.ToCharArray())
+																					fixed (char* accountUserPhoneNumberPtr = accountUser.PhoneNumber.ToCharArray())
 																					{
-																						ushort* ptr7 = (ushort*)accountUser.PhoneNumberPtr;
+																						ushort* ptr7 = (ushort*)accountUserPhoneNumberPtr;
 																						try
 																						{
-																							fixed (char* accountUser.MobilePhoneNumberPtr = accountUser.MobilePhoneNumber.ToCharArray())
+																							fixed (char* accountUserMobilePhoneNumberPtr = accountUser.MobilePhoneNumber.ToCharArray())
 																							{
-																								ushort* ptr8 = (ushort*)accountUser.MobilePhoneNumberPtr;
+																								ushort* ptr8 = (ushort*)accountUserMobilePhoneNumberPtr;
 																								try
 																								{
 																									_SYSTEMTIME* ptr = (_SYSTEMTIME*)Unsafe.AsPointer(ref flag ? ref sYSTEMTIME : ref *(_SYSTEMTIME*)null);
@@ -1579,7 +1578,7 @@ namespace Microsoft.Zune.Service
 				*(long*)(&cComPtrNtv_003CIService_003E) = 0L;
 				try
 				{
-					num = Module.GetSingleton((_GUID)Module.GUID_IService, (void**)(&cComPtrNtv_003CIService_003E));
+					num = Module.GetSingleton(Module.GUID_IService, (void**)(&cComPtrNtv_003CIService_003E));
 					CComPtrNtv_003CIUnknown_003E cComPtrNtv_003CIUnknown_003E;
 					*(long*)(&cComPtrNtv_003CIUnknown_003E) = 0L;
 					try
@@ -1651,16 +1650,11 @@ namespace Microsoft.Zune.Service
 					((IDisposable)m_spAccountManagement).Dispose();
 				}
 			}
-			else
-			{
-				Finalize();
-			}
 		}
 
 		public void Dispose()
 		{
 			Dispose(true);
-			GC.SuppressFinalize(this);
 		}
 	}
 }

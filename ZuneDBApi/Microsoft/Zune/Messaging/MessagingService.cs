@@ -721,7 +721,7 @@ namespace Microsoft.Zune.Messaging
 			//IL_0071: Expected I, but got I8
 			//IL_0071: Expected I, but got I8
 			bool result = false;
-			if (m_pMessaging != null && strProfileImageResource != (string)null && strProfileImageUrl != (string)null)
+			if (m_pMessaging != null && strProfileImageResource != null && strProfileImageUrl != null)
 			{
 				CComPtrNtv_003CIMessagingCallback_003E cComPtrNtv_003CIMessagingCallback_003E;
 				*(long*)(&cComPtrNtv_003CIMessagingCallback_003E) = 0L;
@@ -800,7 +800,7 @@ namespace Microsoft.Zune.Messaging
 			//IL_0090: Expected I, but got I8
 			//IL_0090: Expected I, but got I8
 			bool result = false;
-			if (m_pMessaging != null && profileImage != null && strProfileImageUrl != (string)null)
+			if (m_pMessaging != null && profileImage != null && strProfileImageUrl != null)
 			{
 				int num = 0;
 				CComPtrNtv_003CIMessagingCallback_003E cComPtrNtv_003CIMessagingCallback_003E;

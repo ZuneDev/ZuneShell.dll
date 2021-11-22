@@ -31,15 +31,15 @@ namespace Microsoft.Zune.Util
 						{
 							FamilySettingsManager familySettingsManager = new FamilySettingsManager();
 							IMetadataManager* ptr;
-							int singleton = Module.GetSingleton((_GUID)Module._GUID_6dd7146d_7a19_4fbb_9235_9e6c382fcc71, (void**)(&ptr));
+							int singleton = Module.GetSingleton(Module.GUID_IMetadataManager, (void**)(&ptr));
 							if (singleton < 0)
 							{
 								throw new ApplicationException(Module.GetErrorDescription(singleton));
 							}
 							IMetadataManager* intPtr = ptr;
-							__s_GUID gUID_04f38ab5_391b_4b5a_a2c1_d4b74aeb4be = Module._GUID_04f38ab5_391b_4b5a_a2c1_d4b74aeb4be9;
+							_GUID guid_IFamilySettingsProvider = Module.GUID_IFamilySettingsProvider;
 							IFamilySettingsProvider* pProvider;
-							int num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID, void**, int>)(*(ulong*)(*(long*)ptr + 24)))((nint)intPtr, (_GUID)gUID_04f38ab5_391b_4b5a_a2c1_d4b74aeb4be, (void**)(&pProvider));
+							int num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID, void**, int>)(*(ulong*)(*(long*)ptr + 24)))((nint)intPtr, guid_IFamilySettingsProvider, (void**)(&pProvider));
 							if (num < 0)
 							{
 								throw new ApplicationException(Module.GetErrorDescription(num));
@@ -139,7 +139,7 @@ namespace Microsoft.Zune.Util
 			//IL_0008: Expected I4, but got I8
 			//IL_0023: Expected I, but got I8
 			//IL_0033: Expected I, but got I8
-			CComPropVariant cComPropVariant;
+			PROPVARIANT cComPropVariant;
             // IL initblk instruction
             Unsafe.InitBlock(ref cComPropVariant, 0, 24);
 			HRESULT result;
@@ -148,10 +148,10 @@ namespace Microsoft.Zune.Util
 				IFamilySettingsProvider* pProvider = m_pProvider;
 				int num;
 				int num2;
-				int num3 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, PROPVARIANT, int*, int*, int>)(*(ulong*)(*(long*)pProvider + 40)))((nint)pProvider, nSettingId, (PROPVARIANT)(&cComPropVariant), &num, &num2);
+				int num3 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, PROPVARIANT, int*, int*, int>)(*(ulong*)(*(long*)pProvider + 40)))((System.nint)pProvider, (int)nSettingId, (PROPVARIANT)cComPropVariant, (int*)&num, (int*)&num2);
 				if (0 == num3)
 				{
-					szRatingSystem = new string((char*)Unsafe.As<CComPropVariant, ulong>(ref Unsafe.AddByteOffset(ref cComPropVariant, 8)));
+					szRatingSystem = new string((char*)Unsafe.As<PROPVARIANT, ulong>(ref Unsafe.AddByteOffset(ref cComPropVariant, 8)));
 					nRatingLevel = num;
 					bool flag = (fBlockUnrated = ((num2 != 0) ? true : false));
 				}
@@ -160,7 +160,7 @@ namespace Microsoft.Zune.Util
 			catch
 			{
 				//try-fault
-				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPropVariant*, void>)(&Module.CComPropVariant_002E_007Bdtor_007D), &cComPropVariant);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<PROPVARIANT*, void>)(&Module.CComPropVariant_002E_007Bdtor_007D), &cComPropVariant);
 				throw;
 			}
 			Module.CComPropVariant_002EClear(&cComPropVariant);
@@ -205,14 +205,13 @@ namespace Microsoft.Zune.Util
 			}
 			finally
 			{
-				base.Finalize();
+				//base.Finalize();
 			}
 		}
 
-		public sealed override void Dispose()
+		public void Dispose()
 		{
 			Dispose(true);
-			GC.SuppressFinalize(this);
 		}
 
 		~FamilySettingsManager()

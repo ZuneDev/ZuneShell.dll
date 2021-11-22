@@ -671,7 +671,7 @@ namespace MicrosoftZuneLibrary
 			}
 			bool flag = false;
 			INSSDevice* ptr = null;
-			AuthorizationStatus authorizationStatus = (AuthorizationStatus)0;
+			AuthorizationStatus authorizationStatus = 0;
 			fixed (INSSDevice** ptr2 = &Unsafe.AsRef<INSSDevice*>(&ptr))
 			{
 				long num = *(long*)m_pDeviceList + 56;

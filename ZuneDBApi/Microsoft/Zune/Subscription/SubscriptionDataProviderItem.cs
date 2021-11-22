@@ -51,7 +51,7 @@ namespace Microsoft.Zune.Subscription
             Unsafe.As<_0024ArrayType_0024_0024_0024BY07UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, long>(ref Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY07UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, 112)) = (nint)Unsafe.AsPointer(ref Module._003F_003F_C_0040_1CC_0040PFACMMFM_0040_003F_0024AAE_003F_0024AAp_003F_0024AAi_003F_0024AAs_003F_0024AAo_003F_0024AAd_003F_0024AAe_003F_0024AAM_003F_0024AAe_003F_0024AAd_003F_0024AAi_003F_0024AAa_003F_0024AAT_003F_0024AAy_003F_0024AAp_003F_0024AAe_003F_0024AA_003F_0024AA_0040);
             Unsafe.As<_0024ArrayType_0024_0024_0024BY07UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, int>(ref Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY07UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, 120)) = 100683786;
 			int num = 0;
-			CComPropVariant cComPropVariant;
+            PROPVARIANT cComPropVariant;
             // IL initblk instruction
             Unsafe.InitBlock(ref cComPropVariant, 0, 24);
 			object result;
@@ -62,12 +62,12 @@ namespace Microsoft.Zune.Subscription
 					ushort* ptr = (ushort*)propertyNamePtr;
 					if (Module._wcsicmp(ptr, (ushort*)Unsafe.AsPointer(ref Module._003F_003F_C_0040_1BE_0040NCILDCLH_0040_003F_0024AAL_003F_0024AAi_003F_0024AAb_003F_0024AAr_003F_0024AAa_003F_0024AAr_003F_0024AAy_003F_0024AAI_003F_0024AAd_003F_0024AA_003F_0024AA_0040)) == 0)
 					{
-                        Unsafe.As<CComPropVariant, int>(ref Unsafe.AddByteOffset(ref cComPropVariant, 8)) = m_nEpisodeId;
+                        Unsafe.As<PROPVARIANT, int>(ref Unsafe.AddByteOffset(ref cComPropVariant, 8)) = m_nEpisodeId;
 						*(short*)(&cComPropVariant) = 3;
 					}
 					else if (Module._wcsicmp(ptr, (ushort*)Unsafe.AsPointer(ref Module._003F_003F_C_0040_1BC_0040JCKMNCPP_0040_003F_0024AAS_003F_0024AAe_003F_0024AAr_003F_0024AAi_003F_0024AAe_003F_0024AAs_003F_0024AAI_003F_0024AAd_003F_0024AA_003F_0024AA_0040)) == 0)
 					{
-                        Unsafe.As<CComPropVariant, int>(ref Unsafe.AddByteOffset(ref cComPropVariant, 8)) = m_nSeriesId;
+                        Unsafe.As<PROPVARIANT, int>(ref Unsafe.AddByteOffset(ref cComPropVariant, 8)) = m_nSeriesId;
 						*(short*)(&cComPropVariant) = 3;
 					}
 					else
@@ -77,20 +77,20 @@ namespace Microsoft.Zune.Subscription
 							int nEpisodeId = m_nEpisodeId;
 							if (nEpisodeId >= 0)
 							{
-								num = GetDatabaseValue(nEpisodeId, 145u, (PROPVARIANT)(&cComPropVariant));
+								num = GetDatabaseValue(nEpisodeId, 145u, cComPropVariant);
 								if (num < 0)
 								{
 									goto IL_02b0;
 								}
-								if (m_eLastDownloadState != (EItemDownloadState)Unsafe.As<CComPropVariant, int>(ref Unsafe.AddByteOffset(ref cComPropVariant, 8)))
+								if (m_eLastDownloadState != (EItemDownloadState)Unsafe.As<PROPVARIANT, int>(ref Unsafe.AddByteOffset(ref cComPropVariant, 8)))
 								{
 									InvalidateDownloadState();
 								}
-								m_eLastDownloadState = Unsafe.As<CComPropVariant, EItemDownloadState>(ref Unsafe.AddByteOffset(ref cComPropVariant, 8));
+								m_eLastDownloadState = Unsafe.As<PROPVARIANT, EItemDownloadState>(ref Unsafe.AddByteOffset(ref cComPropVariant, 8));
 							}
 							else
 							{
-                                Unsafe.As<CComPropVariant, int>(ref Unsafe.AddByteOffset(ref cComPropVariant, 8)) = 0;
+                                Unsafe.As<PROPVARIANT, int>(ref Unsafe.AddByteOffset(ref cComPropVariant, 8)) = 0;
 								*(short*)(&cComPropVariant) = 3;
 							}
 						}
@@ -99,11 +99,11 @@ namespace Microsoft.Zune.Subscription
 							int nEpisodeId2 = m_nEpisodeId;
 							if (nEpisodeId2 >= 0)
 							{
-								num = GetDatabaseValue(nEpisodeId2, 146u, (PROPVARIANT)(&cComPropVariant));
+								num = GetDatabaseValue(nEpisodeId2, 146u, cComPropVariant);
 							}
 							else
 							{
-                                Unsafe.As<CComPropVariant, int>(ref Unsafe.AddByteOffset(ref cComPropVariant, 8)) = 0;
+                                Unsafe.As<PROPVARIANT, int>(ref Unsafe.AddByteOffset(ref cComPropVariant, 8)) = 0;
 								*(short*)(&cComPropVariant) = 3;
 							}
 						}
@@ -115,7 +115,7 @@ namespace Microsoft.Zune.Subscription
 							{
 								goto IL_028b;
 							}
-							num = GetDatabaseValue(nEpisodeId3, 262u, (PROPVARIANT)(&cComPropVariant));
+							num = GetDatabaseValue(nEpisodeId3, 262u, cComPropVariant);
 						}
 						else if (Module._wcsicmp(ptr, (ushort*)Unsafe.AsPointer(ref Module._003F_003F_C_0040_1BE_0040HHOJDPEL_0040_003F_0024AAS_003F_0024AAo_003F_0024AAu_003F_0024AAr_003F_0024AAc_003F_0024AAe_003F_0024AAU_003F_0024AAr_003F_0024AAl_003F_0024AA_003F_0024AA_0040)) == 0)
 						{
@@ -125,7 +125,7 @@ namespace Microsoft.Zune.Subscription
 							{
 								goto IL_028b;
 							}
-							num = GetDatabaseValue(nEpisodeId4, 317u, (PROPVARIANT)(&cComPropVariant));
+							num = GetDatabaseValue(nEpisodeId4, 317u, cComPropVariant);
 						}
 						else if (Module._wcsicmp(ptr, (ushort*)Unsafe.AsPointer(ref Module._003F_003F_C_0040_1CE_0040ELHJHONN_0040_003F_0024AAD_003F_0024AAo_003F_0024AAw_003F_0024AAn_003F_0024AAl_003F_0024AAo_003F_0024AAa_003F_0024AAd_003F_0024AAE_003F_0024AAr_003F_0024AAr_003F_0024AAo_003F_0024AAr_003F_0024AAC_003F_0024AAo_003F_0024AAd_003F_0024AAe_003F_0024AA_003F_0024AA_0040)) == 0)
 						{
@@ -135,7 +135,7 @@ namespace Microsoft.Zune.Subscription
 							{
 								goto IL_028b;
 							}
-							num = GetDatabaseValue(nEpisodeId5, 144u, (PROPVARIANT)(&cComPropVariant));
+							num = GetDatabaseValue(nEpisodeId5, 144u, cComPropVariant);
 						}
 						else
 						{
@@ -151,9 +151,9 @@ namespace Microsoft.Zune.Subscription
 								}
 								goto IL_028b;
 							}
-							uint num3 = *(uint*)((long)num2 * 16L + (ref Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY07UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, 8)));
+							uint num3 = *(uint*)((long)num2 * 16L + _0024ArrayType_0024_0024_0024BY07UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040 + 8);
 							IMSMediaSchemaPropertySet* pEpisodePropertySet = m_pEpisodePropertySet;
-							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)pEpisodePropertySet + 48)))((nint)pEpisodePropertySet, num3, 0u, (PROPVARIANT)(&cComPropVariant));
+							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)pEpisodePropertySet + 48)))((System.nint)pEpisodePropertySet, (uint)num3, (uint)0u, (PROPVARIANT)cComPropVariant);
 						}
 						if (num < 0)
 						{
@@ -176,7 +176,7 @@ namespace Microsoft.Zune.Subscription
 			catch
 			{
 				//try-fault
-				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPropVariant*, void>)(&Module.CComPropVariant_002E_007Bdtor_007D), &cComPropVariant);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<PROPVARIANT*, void>)(&Module.CComPropVariant_002E_007Bdtor_007D), &cComPropVariant);
 				throw;
 			}
 			Module.CComPropVariant_002EClear(&cComPropVariant);
@@ -194,7 +194,7 @@ namespace Microsoft.Zune.Subscription
 				DBPropertySubmitStruct dBPropertySubmitStruct;
 				*(int*)(&dBPropertySubmitStruct) = 144;
                 Unsafe.As<DBPropertySubmitStruct, long>(ref Unsafe.AddByteOffset(ref dBPropertySubmitStruct, 8)) = (nint)(&tagVARIANT);
-				int num = Module.ZuneLibraryExports_002ESetFieldValues(m_nEpisodeId, EListType.ePodcastEpisodeList, 1, &dBPropertySubmitStruct, null);
+				int num = Module.SetFieldValues(m_nEpisodeId, EListType.ePodcastEpisodeList, 1, &dBPropertySubmitStruct, null);
 				if (0 == num)
 				{
 					FirePropertyChanged(propertyName);
@@ -217,14 +217,14 @@ namespace Microsoft.Zune.Subscription
 			int num = 1;
 			int nSeriesId = -1;
 			int nEpisodeId = -1;
-			int singleton = Module.GetSingleton((_GUID)Module.GUID_IService, (void**)(&ptr));
+			int singleton = Module.GetSingleton(Module.GUID_IService, (void**)(&ptr));
 			if (singleton >= 0)
 			{
 				IService* intPtr = ptr;
 				singleton = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, int*, int>)(*(ulong*)(*(long*)ptr + 384)))((nint)intPtr, null, &num);
 				if (singleton >= 0)
 				{
-					singleton = Module.GetSingleton((_GUID)Module._GUID_9dc7c984_41d5_4130_a5ac_46d0825cd29d, (void**)(&ptr2));
+					singleton = Module.GetSingleton(Module.GUID_ISubscriptionManager, (void**)(&ptr2));
 					if (singleton >= 0)
 					{
 						ISubscriptionManager* intPtr2 = ptr2;
@@ -279,13 +279,13 @@ namespace Microsoft.Zune.Subscription
 			//IL_00e2: Expected I, but got I8
 			//IL_00e6: Expected I, but got I8
 			ISubscriptionManager* ptr = null;
-			CComPropVariant cComPropVariant;
+			PROPVARIANT cComPropVariant;
             // IL initblk instruction
             Unsafe.InitBlock(ref cComPropVariant, 0, 24);
 			int num2;
 			try
 			{
-				CComPropVariant cComPropVariant2;
+				PROPVARIANT cComPropVariant2;
                 // IL initblk instruction
                 Unsafe.InitBlock(ref cComPropVariant2, 0, 24);
 				try
@@ -294,22 +294,22 @@ namespace Microsoft.Zune.Subscription
 					fixed (char* m_feedUrlPtr = m_feedUrl.ToCharArray())
 					{
 						ushort* ptr2 = (ushort*)m_feedUrlPtr;
-						num2 = Module.GetSingleton((_GUID)Module._GUID_9dc7c984_41d5_4130_a5ac_46d0825cd29d, (void**)(&ptr));
+						num2 = Module.GetSingleton(Module.GUID_ISubscriptionManager, (void**)(&ptr));
 						if (num2 >= 0)
 						{
 							IMSMediaSchemaPropertySet* pEpisodePropertySet = m_pEpisodePropertySet;
-							num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)pEpisodePropertySet + 48)))((nint)pEpisodePropertySet, 16797697u, 0u, (PROPVARIANT)(&cComPropVariant));
+							num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)pEpisodePropertySet + 48)))((System.nint)pEpisodePropertySet, (uint)16797697u, (uint)0u, (PROPVARIANT)cComPropVariant);
 							if (num2 >= 0)
 							{
 								IMSMediaSchemaPropertySet* pEpisodePropertySet2 = m_pEpisodePropertySet;
-								num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)pEpisodePropertySet2 + 48)))((nint)pEpisodePropertySet2, 134238215u, 0u, (PROPVARIANT)(&cComPropVariant2));
+								num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)pEpisodePropertySet2 + 48)))((System.nint)pEpisodePropertySet2, (uint)134238215u, (uint)0u, (PROPVARIANT)cComPropVariant2);
 								if (num2 >= 0)
 								{
 									long num3 = *(long*)ptr + 160;
 									ISubscriptionManager* intPtr = ptr;
 									_003F val = ptr2;
-									long num4 = Unsafe.As<CComPropVariant, long>(ref Unsafe.AddByteOffset(ref cComPropVariant, 8));
-									long num5 = Unsafe.As<CComPropVariant, long>(ref Unsafe.AddByteOffset(ref cComPropVariant2, 8));
+									long num4 = Unsafe.As<PROPVARIANT, long>(ref Unsafe.AddByteOffset(ref cComPropVariant, 8));
+									long num5 = Unsafe.As<PROPVARIANT, long>(ref Unsafe.AddByteOffset(ref cComPropVariant2, 8));
 									num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EMediaTypes, ushort*, ushort*, ushort*, int*, int>)(*(ulong*)num3))((nint)intPtr, EMediaTypes.eMediaTypePodcastSeries, (ushort*)(nint)val, (ushort*)num4, (ushort*)num5, &num);
 								}
 							}
@@ -337,7 +337,7 @@ namespace Microsoft.Zune.Subscription
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPropVariant*, void>)(&Module.CComPropVariant_002E_007Bdtor_007D), &cComPropVariant2);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<PROPVARIANT*, void>)(&Module.CComPropVariant_002E_007Bdtor_007D), &cComPropVariant2);
 					throw;
 				}
 				Module.CComPropVariant_002EClear(&cComPropVariant2);
@@ -345,7 +345,7 @@ namespace Microsoft.Zune.Subscription
 			catch
 			{
 				//try-fault
-				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPropVariant*, void>)(&Module.CComPropVariant_002E_007Bdtor_007D), &cComPropVariant);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<PROPVARIANT*, void>)(&Module.CComPropVariant_002E_007Bdtor_007D), &cComPropVariant);
 				throw;
 			}
 			Module.CComPropVariant_002EClear(&cComPropVariant);
@@ -378,7 +378,7 @@ namespace Microsoft.Zune.Subscription
 			}
 			IService* ptr = null;
 			int num = 1;
-			int num2 = Module.GetSingleton((_GUID)Module.GUID_IService, (void**)(&ptr));
+			int num2 = Module.GetSingleton(Module.GUID_IService, (void**)(&ptr));
 			if (num2 >= 0)
 			{
 				IService* intPtr = ptr;
@@ -391,15 +391,15 @@ namespace Microsoft.Zune.Subscription
 			{
 				if (num2 >= 0)
 				{
-					num2 = Module.ZuneLibraryExports_002ECreatePropertyBag(&ptr2);
+					num2 = Module.CreatePropertyBag(&ptr2);
 					if (num2 >= 0)
 					{
 						IQueryPropertyBag* intPtr2 = ptr2;
 						int num3 = num;
-						num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EQueryPropertyBagProp, int, int>)(*(ulong*)(*(long*)ptr2 + 56)))((nint)intPtr2, (EQueryPropertyBagProp)0, num3);
+						num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EQueryPropertyBagProp, int, int>)(*(ulong*)(*(long*)ptr2 + 56)))((nint)intPtr2, 0, num3);
 						if (num2 >= 0)
 						{
-							num2 = Module.ZuneLibraryExports_002EGetFieldValues(nMediaId, EListType.ePodcastEpisodeList, 1, &dBPropertyRequestStruct, ptr2);
+							num2 = Module.GetFieldValues(nMediaId, EListType.ePodcastEpisodeList, 1, &dBPropertyRequestStruct, ptr2);
 							if (num2 >= 0)
 							{
 								num2 = ((Unsafe.As<DBPropertyRequestStruct, int>(ref Unsafe.AddByteOffset(ref dBPropertyRequestStruct, 4)) < 0) ? Unsafe.As<DBPropertyRequestStruct, int>(ref Unsafe.AddByteOffset(ref dBPropertyRequestStruct, 4)) : Module.PropVariantCopy(pvarValue, (PROPVARIANT)Unsafe.AsPointer(ref Unsafe.AddByteOffset(ref dBPropertyRequestStruct, 8))));

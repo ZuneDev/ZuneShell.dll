@@ -47,7 +47,7 @@ namespace Microsoft.Zune.Util
 			IMetadataManager* ptr = null;
 			try
 			{
-				num = Module.GetSingleton((_GUID)Module._GUID_6dd7146d_7a19_4fbb_9235_9e6c382fcc71, (void**)(&ptr));
+				num = Module.GetSingleton(Module.GUID_IMetadataManager, (void**)(&ptr));
 				if (num >= 0)
 				{
 					long num2 = *(long*)ptr + 440;
@@ -85,7 +85,7 @@ namespace Microsoft.Zune.Util
 			IFolderProvider* ptr2 = null;
 			try
 			{
-				num = Module.GetSingleton((_GUID)Module._GUID_6dd7146d_7a19_4fbb_9235_9e6c382fcc71, (void**)(&ptr));
+				num = Module.GetSingleton(Module.GUID_IMetadataManager, (void**)(&ptr));
 				if (num >= 0)
 				{
 					IMetadataManager* intPtr = ptr;
@@ -155,7 +155,7 @@ namespace Microsoft.Zune.Util
 			IFileProvider* ptr2 = null;
 			try
 			{
-				num = Module.GetSingleton((_GUID)Module._GUID_6dd7146d_7a19_4fbb_9235_9e6c382fcc71, (void**)(&ptr));
+				num = Module.GetSingleton(Module.GUID_IMetadataManager, (void**)(&ptr));
 				if (num >= 0)
 				{
 					IMetadataManager* intPtr = ptr;
@@ -215,7 +215,7 @@ namespace Microsoft.Zune.Util
 			IFolderProvider* ptr2 = null;
 			try
 			{
-				num = Module.GetSingleton((_GUID)Module._GUID_6dd7146d_7a19_4fbb_9235_9e6c382fcc71, (void**)(&ptr));
+				num = Module.GetSingleton(Module.GUID_IMetadataManager, (void**)(&ptr));
 				if (num >= 0)
 				{
 					IMetadataManager* intPtr = ptr;
@@ -287,7 +287,7 @@ namespace Microsoft.Zune.Util
 			IFolderProvider* ptr2 = null;
 			try
 			{
-				num = Module.GetSingleton((_GUID)Module._GUID_6dd7146d_7a19_4fbb_9235_9e6c382fcc71, (void**)(&ptr));
+				num = Module.GetSingleton(Module.GUID_IMetadataManager, (void**)(&ptr));
 				if (num >= 0)
 				{
 					IMetadataManager* intPtr = ptr;
@@ -355,7 +355,7 @@ namespace Microsoft.Zune.Util
 			IFolderProvider* ptr2 = null;
 			try
 			{
-				num = Module.GetSingleton((_GUID)Module._GUID_6dd7146d_7a19_4fbb_9235_9e6c382fcc71, (void**)(&ptr));
+				num = Module.GetSingleton(Module.GUID_IMetadataManager, (void**)(&ptr));
 				if (num >= 0)
 				{
 					IMetadataManager* intPtr = ptr;
@@ -419,7 +419,7 @@ namespace Microsoft.Zune.Util
 			IFolderProvider* ptr2 = null;
 			try
 			{
-				num = Module.GetSingleton((_GUID)Module._GUID_6dd7146d_7a19_4fbb_9235_9e6c382fcc71, (void**)(&ptr));
+				num = Module.GetSingleton(Module.GUID_IMetadataManager, (void**)(&ptr));
 				if (num >= 0)
 				{
 					IMetadataManager* intPtr = ptr;

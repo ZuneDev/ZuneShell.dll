@@ -88,7 +88,7 @@ namespace Microsoft.Zune.Service
 						num = (((long)(nint)ptr == 0) ? (-2147467259) : num);
 						HBITMAP* ptr2 = null;
 						void* pData = null;
-						if (num >= 0 && Module.ZuneLibraryExports_002ECopyThumbnailBitmapData(ptr, &ptr2, &pData) >= 0)
+						if (num >= 0 && Module.CopyThumbnailBitmapData(ptr, &ptr2, &pData) >= 0)
 						{
 							try
 							{
@@ -115,7 +115,7 @@ namespace Microsoft.Zune.Service
 			{
 				//IL_0020: Expected I, but got I8
 				//IL_0036: Expected I, but got I8
-				if (m_hipChallenge == (string)null)
+				if (m_hipChallenge == null)
 				{
 					CComPtrMgd_003CIWinLiveInformation_003E spWinLiveInformation = m_spWinLiveInformation;
 					if (spWinLiveInformation.p != null)
@@ -139,7 +139,7 @@ namespace Microsoft.Zune.Service
 			{
 				//IL_0020: Expected I, but got I8
 				//IL_0036: Expected I, but got I8
-				if (m_privacyUrl == (string)null)
+				if (m_privacyUrl == null)
 				{
 					CComPtrMgd_003CIWinLiveInformation_003E spWinLiveInformation = m_spWinLiveInformation;
 					if (spWinLiveInformation.p != null)
@@ -178,7 +178,7 @@ namespace Microsoft.Zune.Service
 			{
 				//IL_0020: Expected I, but got I8
 				//IL_0036: Expected I, but got I8
-				if (m_termsOfServiceUrl == (string)null)
+				if (m_termsOfServiceUrl == null)
 				{
 					CComPtrMgd_003CIWinLiveInformation_003E spWinLiveInformation = m_spWinLiveInformation;
 					if (spWinLiveInformation.p != null)
@@ -235,7 +235,7 @@ namespace Microsoft.Zune.Service
 			}
 		}
 
-		public sealed override void Dispose()
+		public void Dispose()
 		{
 			Dispose(true);
 			GC.SuppressFinalize(this);

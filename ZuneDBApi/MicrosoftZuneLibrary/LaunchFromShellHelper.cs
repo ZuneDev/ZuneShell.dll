@@ -86,18 +86,18 @@ namespace MicrosoftZuneLibrary
 				ushort* ptr2 = (ushort*)_startParamPtr;
 				FileFoundCallback fileFoundCallback = FileFound;
 				delegate* unmanaged[Cdecl, Cdecl]<ushort*, EMediaTypes, void> delegate_002A = (delegate* unmanaged[Cdecl, Cdecl]<ushort*, EMediaTypes, void>)Marshal.GetFunctionPointerForDelegate(fileFoundCallback).ToPointer();
-				int num = Module.ZuneLibraryExports_002ECreateDataObjectEnum(&ptr);
+				int num = Module.CreateDataObjectEnum(&ptr);
 				try
 				{
 					if (num >= 0)
 					{
 						long num2 = *(long*)ptr;
 						IDataObjectEnumerator* intPtr = ptr;
-						_003F val = ptr2;
+						var val = ptr2;
 						bool startParamIsDataObject = _startParamIsDataObject;
 						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, int, delegate* unmanaged[Cdecl, Cdecl]<ushort*, EMediaTypes, void>, int>)(*(ulong*)num2))((nint)intPtr, (ushort*)(nint)val, startParamIsDataObject ? 1 : 0, delegate_002A);
 					}
-					if (_eventName != (string)null)
+					if (_eventName != null)
 					{
 						try
 						{
@@ -135,7 +135,7 @@ namespace MicrosoftZuneLibrary
 				{
 					if (ptr != null)
 					{
-						Module.ZuneLibraryExports_002EDestroyDataObjectEnum(ptr);
+						Module.DestroyDataObjectEnum(ptr);
 						ptr = null;
 					}
 				}

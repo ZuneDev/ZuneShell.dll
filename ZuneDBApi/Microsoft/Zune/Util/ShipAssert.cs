@@ -11,7 +11,7 @@ namespace Microsoft.Zune.Util
 			//IL_000c: Expected I, but got I8
 			if (!condition)
 			{
-				Module.ZuneLibraryExports_002EShipAssert(id, param, null);
+				Module.ShipAssert(id, param, null);
 			}
 		}
 
@@ -20,7 +20,7 @@ namespace Microsoft.Zune.Util
 			//IL_000c: Expected I, but got I8
 			if (!condition)
 			{
-				Module.ZuneLibraryExports_002EShipAssert(id, param, null);
+				Module.ShipAssert(id, param, null);
 			}
 		}
 
@@ -35,7 +35,7 @@ namespace Microsoft.Zune.Util
 				ushort* ptr = (ushort*)msgPtr;
 				try
 				{
-					Module.ZuneLibraryExports_002EShipAssert(id, param, ptr);
+					Module.ShipAssert(id, param, ptr);
 				}
 				catch
 				{
@@ -57,7 +57,7 @@ namespace Microsoft.Zune.Util
 				ushort* ptr = (ushort*)msgPtr;
 				try
 				{
-					Module.ZuneLibraryExports_002EShipAssert(id, param, ptr);
+					Module.ShipAssert(id, param, ptr);
 				}
 				catch
 				{
@@ -76,13 +76,13 @@ namespace Microsoft.Zune.Util
 				StackFrame frame = new StackTrace(1, fNeedFileInfo: false).GetFrame(0);
 				string name = frame.GetMethod().Name;
 				uint num = 0u;
-				if (name != (string)null && name.Length >= 2)
+				if (name != null && name.Length >= 2)
 				{
 					char[] array = name.ToCharArray(0, 2);
 					num = ((uint)(array[1] & 0xFF) | ((uint)array[0] << 8)) << 16;
 				}
 				num |= (uint)frame.GetILOffset() & 0xFFFFu;
-				Module.ZuneLibraryExports_002EShipAssert(1006u, num, null);
+				Module.ShipAssert(1006u, num, null);
 			}
 		}
 	}

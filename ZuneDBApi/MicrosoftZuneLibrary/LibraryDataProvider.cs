@@ -72,16 +72,16 @@ namespace MicrosoftZuneLibrary
 					switch (action)
 					{
 					case BulkItemAction.UnexcludeFromSync:
-						flag = (byte)((uint)(byte)((((SyncEventArgs)args).Device.Rules.Unexclude(list.ToArray(), mediaType) >= 0) ? 1u : 0u) & (true ? 1u : 0u)) != 0;
+						flag = (byte)((byte)((((SyncEventArgs)args).Device.Rules.Unexclude(list.ToArray(), mediaType) >= 0) ? 1u : 0u) & (true ? 1u : 0u)) != 0;
 						break;
 					case BulkItemAction.ExcludeFromSync:
-						flag = (byte)((uint)(byte)((((SyncEventArgs)args).Device.Rules.Exclude(list.ToArray(), mediaType) >= 0) ? 1u : 0u) & (true ? 1u : 0u)) != 0;
+						flag = (byte)((byte)((((SyncEventArgs)args).Device.Rules.Exclude(list.ToArray(), mediaType) >= 0) ? 1u : 0u) & (true ? 1u : 0u)) != 0;
 						break;
 					case BulkItemAction.RemoveSyncRules:
-						flag = (byte)((uint)(byte)((((SyncEventArgs)args).Device.Rules.Remove(list.ToArray(), mediaType, fDeviceFolderIds: false) >= 0) ? 1u : 0u) & (true ? 1u : 0u)) != 0;
+						flag = (byte)((byte)((((SyncEventArgs)args).Device.Rules.Remove(list.ToArray(), mediaType, fDeviceFolderIds: false) >= 0) ? 1u : 0u) & (true ? 1u : 0u)) != 0;
 						break;
 					case BulkItemAction.AddSyncRules:
-						flag = (byte)((uint)(byte)((((SyncEventArgs)args).Device.Rules.Add(list.ToArray(), mediaType) >= 0) ? 1u : 0u) & (true ? 1u : 0u)) != 0;
+						flag = (byte)((byte)((((SyncEventArgs)args).Device.Rules.Add(list.ToArray(), mediaType) >= 0) ? 1u : 0u) & (true ? 1u : 0u)) != 0;
 						if (((TypeDiscoveringSyncEventArgs)args).ContainedTypes == null)
 						{
 							((TypeDiscoveringSyncEventArgs)args).ContainedTypes = new List<EMediaTypes>();
@@ -92,7 +92,7 @@ namespace MicrosoftZuneLibrary
 					case BulkItemAction.ReverseSync:
 					{
 						ESyncOperationStatus operationStatus = ESyncOperationStatus.osInvalid;
-						flag = (byte)((action != BulkItemAction.DeleteFromDevice) ? ((uint)(byte)((((SyncEventArgs)args).Device.ReverseSync(list.ToArray(), mediaType, ref operationStatus) >= 0) ? 1u : 0u) & (true ? 1u : 0u)) : ((uint)(byte)((((SyncEventArgs)args).Device.DeleteMedia(list.ToArray(), mediaType, ref operationStatus) >= 0) ? 1u : 0u) & (true ? 1u : 0u))) != 0;
+						flag = (byte)((action != BulkItemAction.DeleteFromDevice) ? ((byte)((((SyncEventArgs)args).Device.ReverseSync(list.ToArray(), mediaType, ref operationStatus) >= 0) ? 1u : 0u) & (true ? 1u : 0u)) : ((byte)((((SyncEventArgs)args).Device.DeleteMedia(list.ToArray(), mediaType, ref operationStatus) >= 0) ? 1u : 0u) & (true ? 1u : 0u))) != 0;
 						((DeferrableSyncEventArgs)args).Status = operationStatus;
 						break;
 					}
@@ -104,7 +104,7 @@ namespace MicrosoftZuneLibrary
 						{
 							try
 							{
-								flag = (byte)((uint)(byte)((Module.ZuneLibraryExports_002EDeleteMedia(mediaType, ptr, list.Count, ((DeleteFromLibraryEventArgs)args).DeleteFromDisk ? 1 : 0, 1) >= 0) ? 1u : 0u) & (true ? 1u : 0u)) != 0;
+								flag = (byte)((byte)((Module.DeleteMedia(mediaType, ptr, list.Count, ((DeleteFromLibraryEventArgs)args).DeleteFromDisk ? 1 : 0, 1) >= 0) ? 1u : 0u) & (true ? 1u : 0u)) != 0;
 							}
 							catch
 							{

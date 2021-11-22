@@ -308,7 +308,7 @@ namespace Microsoft.Zune.Service
 				*(long*)(&cComPtrNtv_003CIService_003E) = 0L;
 				try
 				{
-					num = Module.GetSingleton((_GUID)Module.GUID_IService, (void**)(&cComPtrNtv_003CIService_003E));
+					num = Module.GetSingleton(Module.GUID_IService, (void**)(&cComPtrNtv_003CIService_003E));
 					CComPtrNtv_003CIUnknown_003E cComPtrNtv_003CIUnknown_003E;
 					*(long*)(&cComPtrNtv_003CIUnknown_003E) = 0L;
 					try

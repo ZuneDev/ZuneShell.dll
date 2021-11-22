@@ -37,7 +37,7 @@ namespace MicrosoftZuneLibrary
 			int num2;
 			if (ptr2 != null)
 			{
-				int num = Module.ZuneLibraryExports_002EPhase3Initialization((IAsyncCallback*)ptr2);
+				int num = Module.Phase3Initialization((IAsyncCallback*)ptr2);
 				((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint>)(*(ulong*)(*(long*)ptr2 + 16)))((nint)ptr2);
 				if (num >= 0)
 				{

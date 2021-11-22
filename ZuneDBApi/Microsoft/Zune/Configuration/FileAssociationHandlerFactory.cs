@@ -13,7 +13,7 @@ namespace Microsoft.Zune.Configuration
 			global::IFileAssociationHandler* ptr = null;
 			try
 			{
-				int num = Module.ZuneLibraryExports_002ECreateNativeFileAssociationHandler((void**)(&ptr));
+				int num = Module.CreateNativeFileAssociationHandler((void**)(&ptr));
 				if (num >= 0)
 				{
 					fileAssociationHandlerWrapper = new FileAssociationHandlerWrapper(ptr);

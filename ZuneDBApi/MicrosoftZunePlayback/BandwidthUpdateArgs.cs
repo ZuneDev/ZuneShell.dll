@@ -72,7 +72,7 @@ namespace MicrosoftZunePlayback
 				int testLength2 = _testLength;
 				if (testLength2 != 0 && currentState != MBRHeuristicState.Playback)
 				{
-					_percentComplete = (int)(double)((testPosition2 >= testLength2) ? 100f : ((float)((double)(float)testPosition2 / (double)(float)testLength2 * 100.0)));
+					_percentComplete = (int)((testPosition2 >= testLength2) ? 100f : ((float)((float)testPosition2 / (double)(float)testLength2 * 100.0)));
 					return;
 				}
 			}

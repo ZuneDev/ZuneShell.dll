@@ -70,7 +70,7 @@ namespace Microsoft.Zune.Service
 			m_price = price;
 			m_taxes = taxes;
 			m_trial = trial;
-			if (offerName != (string)null)
+			if (offerName != null)
 			{
 				m_offerName = m_offerName.Trim();
 			}

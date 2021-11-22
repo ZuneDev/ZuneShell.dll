@@ -32,7 +32,7 @@ namespace Microsoft.Zune.Configuration
 		{
 			get
 			{
-				if (!(m_name == (string)null) && m_name.Length != 0)
+				if (!(m_name == null) && m_name.Length != 0)
 				{
 					return m_name;
 				}
@@ -47,11 +47,11 @@ namespace Microsoft.Zune.Configuration
 			m_tunerType = tunerType;
 			m_tunerRegisterType = tunerRegisterType;
 			m_tunerVersion = tunerVersion;
-			if (dateCreated == (string)null || !DateTime.TryParse(dateCreated, out m_dtCreated))
+			if (dateCreated == null || !DateTime.TryParse(dateCreated, out m_dtCreated))
 			{
 				m_dtCreated = DateTime.MinValue;
 			}
-			if (dateLastUsed == (string)null || !DateTime.TryParse(dateLastUsed, out m_dtLastUsed))
+			if (dateLastUsed == null || !DateTime.TryParse(dateLastUsed, out m_dtLastUsed))
 			{
 				m_dtLastUsed = DateTime.MinValue;
 			}

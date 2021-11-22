@@ -38,7 +38,7 @@ namespace Microsoft.Zune.Configuration
 			}
 		}
 
-		public string ConfigurationPath => (!(m_basePath == (string)null)) ? string.Concat(m_basePath + "\\", m_instance) : m_instance;
+		public string ConfigurationPath => (!(m_basePath == null)) ? string.Concat(m_basePath + "\\", m_instance) : m_instance;
 
 		[SpecialName]
 		public unsafe event ConfigurationChangeEventHandler OnConfigurationChanged
@@ -399,11 +399,11 @@ namespace Microsoft.Zune.Configuration
 			//IL_0047: Expected I, but got I8
 			//IL_0072: Expected I, but got I8
 			DateTime dateTime = default(DateTime);
-			_FILETIME fILETIME;
+			FILETIME fILETIME;
 			*(int*)(&fILETIME) = 0;
             // IL initblk instruction
             Unsafe.InitBlockUnaligned(ref Unsafe.AddByteOffset(ref fILETIME, 4), 0, 4);
-			_FILETIME fILETIME2;
+			FILETIME fILETIME2;
 			*(long*)(&fILETIME2) = defaultValue.ToFileTimeUtc();
 			fixed (char* m_basePathPtr = m_basePath.ToCharArray())
 			{
@@ -424,8 +424,8 @@ namespace Microsoft.Zune.Configuration
 							_003F val = ptr2;
 							_003F val2 = ptr3;
 							_003F val3 = ptr4;
-							_FILETIME fILETIME3 = fILETIME2;
-							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, HKEY*, ushort*, ushort*, ushort*, _FILETIME*, _FILETIME, int>)(*(ulong*)num2))((nint)intPtr, hHive, (ushort*)(nint)val, (ushort*)(nint)val2, (ushort*)(nint)val3, &fILETIME, fILETIME3);
+							FILETIME fILETIME3 = fILETIME2;
+							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, HKEY*, ushort*, ushort*, ushort*, FILETIME*, FILETIME, int>)(*(ulong*)num2))((nint)intPtr, hHive, (ushort*)(nint)val, (ushort*)(nint)val2, (ushort*)(nint)val3, &fILETIME, fILETIME3);
 							if (num >= 0)
 							{
 								return DateTime.FromFileTimeUtc(*(long*)(&fILETIME));
@@ -441,7 +441,7 @@ namespace Microsoft.Zune.Configuration
 		{
 			//IL_002e: Expected I, but got I8
 			//IL_0056: Expected I, but got I8
-			_FILETIME fILETIME;
+			FILETIME fILETIME;
 			*(long*)(&fILETIME) = value.ToFileTimeUtc();
 			fixed (char* m_basePathPtr = m_basePath.ToCharArray())
 			{
@@ -464,8 +464,8 @@ namespace Microsoft.Zune.Configuration
 						_003F val = ptr2;
 						_003F val2 = ptr3;
 						_003F val3 = ptr4;
-						_FILETIME fILETIME2 = fILETIME;
-						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, HKEY*, ushort*, ushort*, ushort*, _FILETIME, int>)(*(ulong*)num2))((nint)intPtr, hHive, (ushort*)(nint)val, (ushort*)(nint)val2, (ushort*)(nint)val3, fILETIME2);
+						FILETIME fILETIME2 = fILETIME;
+						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, HKEY*, ushort*, ushort*, ushort*, FILETIME, int>)(*(ulong*)num2))((nint)intPtr, hHive, (ushort*)(nint)val, (ushort*)(nint)val2, (ushort*)(nint)val3, fILETIME2);
 						if (num < 0)
 						{
 							goto IL_005b;
@@ -509,7 +509,7 @@ namespace Microsoft.Zune.Configuration
 								num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, HKEY*, ushort*, ushort*, ushort*, ushort*, uint*, ushort*, int>)(*(ulong*)num3))((nint)intPtr, hHive, ptr2, ptr3, ptr4, null, &num2, ptr5);
 								if (num >= 0)
 								{
-									ushort* ptr6 = (ushort*)Module.new_005B_005D((ulong)num2 * 2uL);
+									ushort* ptr6 = (ushort*)Module.new_005B_005D(num2 * 2uL);
 									num = (((long)(nint)ptr6 == 0) ? (-2147024882) : num);
 									if (num >= 0)
 									{
@@ -609,7 +609,7 @@ namespace Microsoft.Zune.Configuration
 							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, HKEY*, ushort*, ushort*, ushort*, ushort*, uint*, int>)(*(ulong*)num3))((nint)intPtr, hHive, ptr3, ptr4, ptr5, null, &num2);
 							if (num >= 0)
 							{
-								ptr2 = (ushort*)Module.new_005B_005D((ulong)num2 * 2uL);
+								ptr2 = (ushort*)Module.new_005B_005D(num2 * 2uL);
 								num = (((long)(nint)ptr2 == 0) ? (-2147024882) : num);
 								if (num >= 0)
 								{
@@ -627,7 +627,7 @@ namespace Microsoft.Zune.Configuration
 											{
 												string item = new string((char*)ptr6);
 												list.Add(item);
-												ptr6 = (ushort*)((long)(Module.lstrlenW(ptr6) + 1) * 2L + (nint)ptr6);
+												ptr6 = (ushort*)((Module.lstrlenW(ptr6) + 1) * 2L + (nint)ptr6);
 											}
 											while (*ptr6 != 0);
 										}
@@ -690,7 +690,7 @@ namespace Microsoft.Zune.Configuration
 							while (num3 < value.Count);
 						}
 						num2++;
-						ulong num4 = (ulong)num2 * 2uL;
+						ulong num4 = num2 * 2uL;
 						ushort* ptr2 = (ushort*)Module.new_005B_005D(num4);
 						if (ptr2 == null)
 						{
@@ -715,7 +715,7 @@ namespace Microsoft.Zune.Configuration
 											if (Module.wmemcpy_s(ptr3, num2, s, (ulong)length) == 0)
 											{
 												num2 += (uint)(-1 - length);
-												ptr3 = (ushort*)((long)length * 2L + (nint)ptr3 + 2);
+												ptr3 = (ushort*)(length * 2L + (nint)ptr3 + 2);
 												goto IL_00ee;
 											}
 										}
@@ -864,7 +864,7 @@ namespace Microsoft.Zune.Configuration
 								val3 = ptr4;
 								val4 = ptr5;
 								intPtr2 = (nint)value.LongLength;
-								num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, HKEY*, ushort*, ushort*, ushort*, byte*, uint, int>)(*(ulong*)num2))((nint)intPtr, hHive, (ushort*)(nint)val, (ushort*)(nint)val2, (ushort*)(nint)val3, (byte*)(nint)val4, (uint)(nint)intPtr2);
+								num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, HKEY*, ushort*, ushort*, ushort*, byte*, uint, int>)(*(ulong*)num2))((nint)intPtr, hHive, (ushort*)(nint)val, (ushort*)(nint)val2, (ushort*)(nint)val3, (byte*)val4, (uint)(nint)intPtr2);
 								if (num < 0)
 								{
 									goto IL_0066;

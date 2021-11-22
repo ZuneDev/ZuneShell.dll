@@ -14,7 +14,6 @@ namespace Microsoft.Zune.Service
 		public IList Items => m_items;
 
 		internal unsafe AlbumOfferCollection()
-			: this()
 		{
 			//IL_0015: Expected I, but got I8
 			m_items = null;
@@ -92,23 +91,23 @@ namespace Microsoft.Zune.Service
 									long num6 = Unsafe.As<MusicAlbumMetadata, long>(ref Unsafe.AddByteOffset(ref musicAlbumMetadata, 88));
 									int num7 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, int, int>)(*(ulong*)(*(long*)Unsafe.As<MusicAlbumMetadata, ulong>(ref Unsafe.AddByteOffset(ref musicAlbumMetadata, 88)) + 176)))((nint)num6, 1, 1);
 									long num8 = Unsafe.As<MusicAlbumMetadata, long>(ref Unsafe.AddByteOffset(ref musicAlbumMetadata, 88));
-									int num9 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EMediaRights, EMediaFormat, int>)(*(ulong*)(*(long*)Unsafe.As<MusicAlbumMetadata, ulong>(ref Unsafe.AddByteOffset(ref musicAlbumMetadata, 88)) + 72)))((nint)num8, (EMediaRights)4, (EMediaFormat)0);
+									int num9 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EMediaRights, EMediaFormat, int>)(*(ulong*)(*(long*)Unsafe.As<MusicAlbumMetadata, ulong>(ref Unsafe.AddByteOffset(ref musicAlbumMetadata, 88)) + 72)))((nint)num8, (EMediaRights)4, 0);
 									if (Unsafe.As<MusicAlbumMetadata, long>(ref Unsafe.AddByteOffset(ref musicAlbumMetadata, 64)) != 0L)
 									{
 										releaseYear = Module._wtoi((ushort*)Unsafe.As<MusicAlbumMetadata, ulong>(ref Unsafe.AddByteOffset(ref musicAlbumMetadata, 64)));
 									}
-									EMediaFormat eMediaFormat = ((num9 == 0) ? ((EMediaFormat)1) : ((EMediaFormat)0));
+									EMediaFormat eMediaFormat = ((num9 == 0) ? ((EMediaFormat)1) : 0);
 									long num10 = Unsafe.As<MusicAlbumMetadata, long>(ref Unsafe.AddByteOffset(ref musicAlbumMetadata, 88));
 									if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EMediaRights, EMediaFormat, int>)(*(ulong*)(*(long*)Unsafe.As<MusicAlbumMetadata, ulong>(ref Unsafe.AddByteOffset(ref musicAlbumMetadata, 88)) + 72)))((nint)num10, (EMediaRights)4, eMediaFormat) != 0)
 									{
-										EMediaFormat eMediaFormat2 = ((num9 == 0) ? ((EMediaFormat)1) : ((EMediaFormat)0));
+										EMediaFormat eMediaFormat2 = ((num9 == 0) ? ((EMediaFormat)1) : 0);
 										long num11 = Unsafe.As<MusicAlbumMetadata, long>(ref Unsafe.AddByteOffset(ref musicAlbumMetadata, 88));
 										IPriceInfo** intPtr = Module.CComPtrNtv_003CIPriceInfo_003E_002E_0026(&cComPtrNtv_003CIPriceInfo_003E);
 										num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EMediaRights, EMediaFormat, IPriceInfo**, int>)(*(ulong*)(*(long*)Unsafe.As<MusicAlbumMetadata, ulong>(ref Unsafe.AddByteOffset(ref musicAlbumMetadata, 88)) + 104)))((nint)num11, (EMediaRights)4, eMediaFormat2, intPtr);
 									}
 									if (num >= 0)
 									{
-										Guid id = Module.GUIDToGuid(Unsafe.As<MusicAlbumMetadata, _GUID>(ref Unsafe.AddByteOffset(ref musicAlbumMetadata, 8)));
+										Guid id = Unsafe.As<MusicAlbumMetadata, _GUID>(ref Unsafe.AddByteOffset(ref musicAlbumMetadata, 8));
 										string recommendationContext = GetRecommendationContext(id, mapIdToContext, Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E));
 										bool inCollection = ((num5 != 0) ? true : false);
 										bool previouslyPurchased = ((num7 != 0) ? true : false);
@@ -185,7 +184,7 @@ namespace Microsoft.Zune.Service
 			}
 		}
 
-		public sealed override void Dispose()
+		public void Dispose()
 		{
 			Dispose(true);
 			GC.SuppressFinalize(this);

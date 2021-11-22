@@ -100,7 +100,7 @@ namespace Microsoft.Zune.Service
 		{
 			get
 			{
-				if (m_previewImage == null && m_previewImageUrl != (string)null)
+				if (m_previewImage == null && m_previewImageUrl != null)
 				{
 					m_previewImage = new Image(m_previewImageUrl);
 				}

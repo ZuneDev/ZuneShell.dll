@@ -80,7 +80,7 @@ namespace Microsoft.Zune.Util
 			IContentRefreshTask* ptr3 = null;
 			if (num >= 0)
 			{
-				num = Module.ZuneLibraryExports_002ECreateContentRefreshTask((IAsyncCallback*)ptr2, &ptr3);
+				num = Module.CreateContentRefreshTask((IAsyncCallback*)ptr2, &ptr3);
 				if (num >= 0)
 				{
 					if (0L != (nint)ptr3)

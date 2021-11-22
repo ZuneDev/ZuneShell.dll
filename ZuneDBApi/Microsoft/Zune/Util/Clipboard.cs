@@ -70,7 +70,7 @@ namespace Microsoft.Zune.Util
 				{
 					num = 87;
 				}
-				if (num < 0 && Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 28uL)) & 2u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 25uL)) >= 5u)
+				if (num < 0 && Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 28uL)) & 2u) != 0 && *(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 25uL) >= 5u)
 				{
 					Module.WPP_SF_D(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 16uL), 10, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xd81a90d8_002EWPP_Clipboard_cpp_Traceguids), (uint)num);
 				}
@@ -101,7 +101,7 @@ namespace Microsoft.Zune.Util
 				uint lastError2 = Module.GetLastError();
 				num = (((int)lastError2 > 0) ? ((int)(lastError2 & 0xFFFF) | -2147024896) : ((int)lastError2));
 			}
-			if (num < 0 && Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 28uL)) & 2u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 25uL)) >= 5u)
+			if (num < 0 && Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 28uL)) & 2u) != 0 && *(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 25uL) >= 5u)
 			{
 				Module.WPP_SF_D(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 16uL), 11, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xd81a90d8_002EWPP_Clipboard_cpp_Traceguids), (uint)num);
 			}
@@ -151,7 +151,7 @@ namespace Microsoft.Zune.Util
 					num = (((int)lastError3 > 0) ? ((int)(lastError3 & 0xFFFF) | -2147024896) : ((int)lastError3));
 				}
 			}
-			if (num < 0 && Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 28uL)) & 2u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 25uL)) >= 5u)
+			if (num < 0 && Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 28uL)) & 2u) != 0 && *(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 25uL) >= 5u)
 			{
 				Module.WPP_SF_D(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 16uL), 12, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xd81a90d8_002EWPP_Clipboard_cpp_Traceguids), (uint)num);
 			}

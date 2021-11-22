@@ -63,7 +63,7 @@ namespace MicrosoftZuneLibrary
 			}
 			try
 			{
-				if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 28uL)) & 2u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 25uL)) >= 5u)
+				if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 28uL)) & 2u) != 0 && *(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 25uL) >= 5u)
 				{
 					Module.WPP_SF_D(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 16uL), 10, (_GUID*)Unsafe.AsPointer(ref Module._003FA0x4101eecd_002EWPP_SafeBitmap_cpp_Traceguids), (uint)num);
 				}
@@ -133,7 +133,7 @@ namespace MicrosoftZuneLibrary
 			object result = null;
 			HBITMAP* hBitmap = null;
 			void* pData = null;
-			if (Module.ZuneLibraryExports_002ECopyThumbnailBitmapData((HBITMAP*)handle.ToInt64(), srcX, srcY, srcWidth, srcHeight, dstWidth, dstHeight, &hBitmap, &pData) >= 0)
+			if (Module.CopyThumbnailBitmapData((HBITMAP*)handle.ToInt64(), srcX, srcY, srcWidth, srcHeight, dstWidth, dstHeight, &hBitmap, &pData) >= 0)
 			{
 				result = new SafeBitmapWithData(dstHeight, dstWidth, pData, hBitmap);
 			}
@@ -150,7 +150,7 @@ namespace MicrosoftZuneLibrary
 				int iHeight;
 				void* pData;
 				HBITMAP* hBitmap;
-				if (Module.ZuneLibraryExports_002EGetThumbnailBitmapData(ptr, &iWidth, &iHeight, &pData, &hBitmap) >= 0)
+				if (Module.GetThumbnailBitmapData(ptr, &iWidth, &iHeight, &pData, &hBitmap) >= 0)
 				{
 					result = new SafeBitmapWithData(iHeight, iWidth, pData, hBitmap);
 				}

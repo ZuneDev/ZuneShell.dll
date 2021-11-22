@@ -30,7 +30,7 @@ namespace Microsoft.Zune.Util
 						{
 							PinManager pinManager = new PinManager();
 							IMetadataManager* ptr;
-							int singleton = Module.GetSingleton((_GUID)Module._GUID_6dd7146d_7a19_4fbb_9235_9e6c382fcc71, (void**)(&ptr));
+							int singleton = Module.GetSingleton(Module.GUID_IMetadataManager, (void**)(&ptr));
 							if (singleton < 0)
 							{
 								throw new ApplicationException(Module.GetErrorDescription(singleton));

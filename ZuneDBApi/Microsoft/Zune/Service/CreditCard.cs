@@ -375,7 +375,7 @@ namespace Microsoft.Zune.Service
 
 		public override string ToString()
 		{
-			if (m_accountNumber != (string)null && m_accountNumber.Length > 4)
+			if (m_accountNumber != null && m_accountNumber.Length > 4)
 			{
 				string accountNumber = m_accountNumber;
 				string text = accountNumber;

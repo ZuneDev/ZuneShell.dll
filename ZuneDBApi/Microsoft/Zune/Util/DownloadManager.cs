@@ -300,7 +300,7 @@ namespace Microsoft.Zune.Util
 						if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, IDownloadTask**, int>)(*(ulong*)(*(long*)ptr + 104)))((nint)intPtr2, num2, &ptr2) >= 0)
 						{
 							IDownloadTask* intPtr3 = ptr2;
-							if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EDownloadType>)(*(ulong*)(*(long*)intPtr3 + 144)))((nint)intPtr3) == (EDownloadType)0)
+							if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EDownloadType>)(*(ulong*)(*(long*)intPtr3 + 144)))((nint)intPtr3) == 0)
 							{
 								IDownloadTask* intPtr4 = ptr2;
 								flag = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int*, EDownloadTaskState>)(*(ulong*)(*(long*)ptr2 + 200)))((nint)intPtr4, null) == EDownloadTaskState.DLTaskPendingAttach || flag;
@@ -433,7 +433,7 @@ namespace Microsoft.Zune.Util
 							if (singleton >= 0)
 							{
 								long num5 = *(long*)(&cComPtrNtv_003CIDownloadTask_003E);
-								if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EDownloadType>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CIDownloadTask_003E)) + 144)))((nint)num5) == (EDownloadType)0)
+								if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EDownloadType>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CIDownloadTask_003E)) + 144)))((nint)num5) == 0)
 								{
 									long num6 = *(long*)(&cComPtrNtv_003CIDownloadTask_003E);
 									if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int*, EDownloadTaskState>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CIDownloadTask_003E)) + 200)))((nint)num6, null) != EDownloadTaskState.DLTaskComplete)

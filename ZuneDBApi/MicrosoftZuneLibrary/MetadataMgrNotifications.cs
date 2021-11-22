@@ -263,7 +263,7 @@ namespace MicrosoftZuneLibrary
 			{
 				try
 				{
-					if (Module.ZuneLibraryExports_002EMetadataChangeAdvise(ptr3, ptr4) >= 0)
+					if (Module.MetadataChangeAdvise(ptr3, ptr4) >= 0)
 					{
 						m_fAdvised = true;
 					}
@@ -290,7 +290,7 @@ namespace MicrosoftZuneLibrary
 			{
 				if (m_fAdvised)
 				{
-					Module.ZuneLibraryExports_002EMetadataChangeUnAdvise(m_AdviseCookie);
+					Module.MetadataChangeUnAdvise(m_AdviseCookie);
 					m_fAdvised = false;
 				}
 				m_disposed = true;
@@ -314,7 +314,7 @@ namespace MicrosoftZuneLibrary
 			}
 		}
 
-		public sealed override void Dispose()
+		public void Dispose()
 		{
 			Dispose(true);
 			GC.SuppressFinalize(this);

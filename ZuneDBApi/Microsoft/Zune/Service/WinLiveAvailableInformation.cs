@@ -70,7 +70,7 @@ namespace Microsoft.Zune.Service
 			{
 				//IL_0020: Expected I, but got I8
 				//IL_0036: Expected I, but got I8
-				if (m_signinName == (string)null)
+				if (m_signinName == null)
 				{
 					CComPtrMgd_003CIWinLiveAvailableInformation_003E spWinLiveAvailableInformation = m_spWinLiveAvailableInformation;
 					if (spWinLiveAvailableInformation.p != null)

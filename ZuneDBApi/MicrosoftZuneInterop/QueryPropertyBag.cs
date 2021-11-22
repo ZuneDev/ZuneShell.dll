@@ -12,7 +12,7 @@ namespace MicrosoftZuneInterop
 		public unsafe QueryPropertyBag()
 		{
 			IQueryPropertyBag* pPropertyBag;
-			Module.ZuneLibraryExports_002ECreatePropertyBag(&pPropertyBag);
+			Module.CreatePropertyBag(&pPropertyBag);
 			m_pPropertyBag = pPropertyBag;
 		}
 
@@ -126,7 +126,7 @@ namespace MicrosoftZuneInterop
 					}
 					else
 					{
-						eQueryPropertyBagProp = *(EQueryPropertyBagProp*)((long)num * 16L + (ref Unsafe.AddByteOffset(ref Module.MicrosoftZuneInterop_002E_003FA0x52c37a46_002EkPropIdMap, 8)));
+						eQueryPropertyBagProp = *(EQueryPropertyBagProp*)((long)num * 16L + Module.MicrosoftZuneInterop_002E_003FA0x52c37a46_002EkPropIdMap + 8);
 						if (eQueryPropertyBagProp != (EQueryPropertyBagProp)(-1))
 						{
 							break;
@@ -202,7 +202,7 @@ namespace MicrosoftZuneInterop
 			int* ptr = null;
 			int* ptr2 = null;
 			IMultiSortAttributes* ptr3;
-			if (Module.ZuneLibraryExports_002ECreateMultiSortAttributes(num, &ptr3) >= 0)
+			if (Module.CreateMultiSortAttributes(num, &ptr3) >= 0)
 			{
 				IMultiSortAttributes* intPtr = ptr3;
 				ptr = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int*>)(*(ulong*)(*(long*)intPtr + 32)))((nint)intPtr);
@@ -262,14 +262,13 @@ namespace MicrosoftZuneInterop
 			}
 			finally
 			{
-				base.Finalize();
+				//base.Finalize();
 			}
 		}
 
-		public sealed override void Dispose()
+		public void Dispose()
 		{
 			Dispose(true);
-			GC.SuppressFinalize(this);
 		}
 
 		~QueryPropertyBag()

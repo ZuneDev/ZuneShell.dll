@@ -71,8 +71,8 @@ namespace Microsoft.Zune.Service
 							m_sellText = new string((char*)(*(ulong*)(&wBSTRString3)));
 							m_eTokenType = (ETokenType)eTokenType;
 							m_ePurchaseOfferType = (EPurchaseOfferType)ePurchaseOfferType;
-							Guid guid = (m_mediaOfferId = Module.GUIDToGuid(gUID_NULL));
-							Guid guid2 = (m_mediaId = Module.GUIDToGuid(gUID_NULL2));
+							Guid guid = (m_mediaOfferId = gUID_NULL);
+							Guid guid2 = (m_mediaId = gUID_NULL2);
 							m_billingOfferId = billingOfferId;
 						}
 					}

@@ -11,6 +11,7 @@ global using ZuneDBApi;
 global using GC = System.GC;
 global using HRESULT = ZuneUI.HRESULT;
 global using _GUID = System.Guid;
+global using _SYSTEMTIME = Vanara.PInvoke.SYSTEMTIME;
 
 using System;
 using System.Runtime.InteropServices;
@@ -20,13 +21,29 @@ namespace ZuneDBApi
 {
     internal static unsafe class Module
     {
+        internal const string ZUNENATIVELIB_DLL = "ZuneNativeLib";
+        internal const string ZUNESERVICE_DLL = "ZuneService";
+
         private static bool s_bIsLonghornOrBetter;
         private static bool s_bIsLonghornOrBetterInitialized;
+
         internal static readonly string WINDOWCLASS_MsnMsgrUIManager = "MsnMsgrUIManager";
+
+        internal static readonly _GUID GUID_NULL = _GUID.Empty;
         internal static readonly _GUID GUID_IService = new("bb2d1edd-1bd5-4be1-8d38-36d4f0849911");
         internal static readonly _GUID GUID_IUserManager = new("c9e0f18a-6c53-47d0-991e-dbd4fe395101");
         internal static readonly _GUID GUID_IFeatureEnablementManager = new("9581b41a-b5cf-4ebf-9d1a-975477e081ca");
         internal static readonly _GUID GUID_ITelemetryManager = new("ab28333b-a55c-4312-a7a3-2dd60d4a7154");
+        internal static readonly _GUID GUID_IMetadataManager = new("6dd7146d-7a19-4fbb-9235-9e6c382fcc71");
+        internal static readonly _GUID GUID_IDeviceSyncRulesProvider = new("b12dc962-cc1b-46c5-a92a-68f1f2b9bff3");
+        internal static readonly _GUID GUID_IFirmwareUpdater2 = new("f066fc29-e525-4ddc-abe6-5213d22c14d2");
+        internal static readonly _GUID GUID_IRecordManager = new("c1cad55a-5652-40c7-842c-39cbe209379e");
+        internal static readonly _GUID GUID_IQuickMixManager = new("d69e22ae-7e21-4959-be6e-14462eb96f64");
+        internal static readonly _GUID GUID_IPlaylistManager = new("c2d9122b-f648-4b95-92fc-11f2e7f326d7");
+        internal static readonly _GUID GUID_IDeviceContentProvider = new("7472ae89-073d-420b-9828-51f9d80ca2a6");
+        internal static readonly _GUID GUID_ISubscriptionManager = new("9dc7c984-41d5-4130-a5ac-46d0825cd29d");
+        internal static readonly _GUID GUID_IUsageDataManager = new("2f36e709-c431-4836-ab2b-ab57aef0cf1a");
+        internal static readonly _GUID GUID_IFamilySettingsProvider = new("04f38ab5-391b-4b5a-a2c1-d4b74aeb4be9");
 
         internal static void _ZuneShipAssert(uint v1, uint v2)
         {
@@ -54,7 +71,7 @@ namespace ZuneDBApi
             return Kernel32.CloseHandle(new IntPtr(h)) ? 1 : 0;
         }
 
-        public static int CoCreateInstance(Guid rclsid, object pUnkOuter, uint dwClsContext, Guid riid, out object ppv)
+        public static int CoCreateInstance(_GUID rclsid, object pUnkOuter, uint dwClsContext, _GUID riid, out object ppv)
         {
             return Ole32.CoCreateInstance(rclsid, pUnkOuter, (CLSCTX)dwClsContext, riid, out ppv).Code;
         }
@@ -113,9 +130,9 @@ namespace ZuneDBApi
             return result;
         }
 
-        internal static SYSTEMTIME DateTimeToSystemTime(DateTime dateTime)
+        internal static _SYSTEMTIME DateTimeToSystemTime(DateTime dateTime)
         {
-            SYSTEMTIME result = default;
+            _SYSTEMTIME result = default;
             FILETIME filetime = DateTimeToFileTime(dateTime);
 
             Module.FileTimeToSystemTime(&filetime, &result);
@@ -161,7 +178,7 @@ namespace ZuneDBApi
             return result;
         }
 
-        public static int FileTimeToSystemTime(FILETIME* lpFileTime, SYSTEMTIME* lpSystemTime)
+        public static int FileTimeToSystemTime(FILETIME* lpFileTime, _SYSTEMTIME* lpSystemTime)
         {
             return Kernel32.FileTimeToSystemTime(*lpFileTime, out *lpSystemTime) ? 1 : 0;
         }
@@ -242,7 +259,7 @@ namespace ZuneDBApi
             return Gdi32.GetObject(new(new IntPtr(hgdiobj)), bufferSize, new IntPtr(lpvObject));
         }
 
-        [DllImport("ZuneService", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
+        [DllImport(ZUNESERVICE_DLL, CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
         [MethodImpl(MethodImplOptions.Unmanaged)]
         public unsafe static extern int GetServiceEndPointUri(EServiceEndpointId endpointId, ushort** uri);
 
@@ -450,13 +467,13 @@ namespace ZuneDBApi
             return (ulong)User32.SetTimer(*hWnd, new((long)nIDEvent), uElapse, lpTimerFunc).ToInt64();
         }
 
-        [DllImport("ZuneNativeLib")]
+        [DllImport(ZUNENATIVELIB_DLL)]
         public unsafe static extern int SetUIThreadCBWorker(IUIThreadCallbackWorker* pUIThreadCallbackWorker);
 
-        [DllImport("ZuneNativeLib", CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        [DllImport(ZUNENATIVELIB_DLL, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
         public static extern void SQMAddNumbersToStream(string sqmDataId, uint countTotal, uint dw1);
 
-        [DllImport("ZuneNativeLib", CharSet = CharSet.Unicode)]
+        [DllImport(ZUNENATIVELIB_DLL, CharSet = CharSet.Unicode)]
         public static extern void SQMAddWrapper(string sqmDataId, int nData);
 
         public static ushort* SysAllocString(ushort* psz)
@@ -474,7 +491,7 @@ namespace ZuneDBApi
             return OleAut32.SysStringLen(new SafeBSTR(new(psz)));
         }
 
-        internal unsafe static DateTime SystemTimeToDateTime(SYSTEMTIME stValue)
+        internal unsafe static DateTime SystemTimeToDateTime(_SYSTEMTIME stValue)
         {
             FILETIME ftValue = default;
 
@@ -482,7 +499,7 @@ namespace ZuneDBApi
             return Module.FileTimeToDateTime(ftValue);
         }
 
-        public static int SystemTimeToFileTime(SYSTEMTIME* lpSystemTime, FILETIME* lpFileTime)
+        public static int SystemTimeToFileTime(_SYSTEMTIME* lpSystemTime, FILETIME* lpFileTime)
         {
             return Kernel32.SystemTimeToFileTime(in *lpSystemTime, out *lpFileTime) ? 1 : 0;
         }
@@ -492,7 +509,7 @@ namespace ZuneDBApi
             return (uint)AdvApi32.TraceEvent(new TRACEHANDLE(sessionHandle), EventTrace).ToHRESULT().Code;
         }
 
-        public static uint TraceMessage(ulong sessionHandle, uint MessageFlags, Guid MessageGuid, ushort MessageNumber, void* arglist)
+        public static uint TraceMessage(ulong sessionHandle, uint MessageFlags, _GUID MessageGuid, ushort MessageNumber, void* arglist)
         {
             return (uint)AdvApi32.TraceMessageVa(new TRACEHANDLE(sessionHandle), (TRACE_MESSAGE)MessageFlags, in MessageGuid, MessageNumber, new IntPtr(arglist)).ToHRESULT().Code;
         }
@@ -513,5 +530,90 @@ namespace ZuneDBApi
         }
         [DllImport(Lib.Kernel32, SetLastError = true, ExactSpelling = true)]
         private static extern WAIT_STATUS WaitForSingleObject([In] IntPtr hHandle, uint dwMilliseconds);
+
+        [DllImport(ZUNENATIVELIB_DLL, CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
+        [MethodImpl(MethodImplOptions.Unmanaged)]
+        public static extern int AddDeviceSyncRule(EDeviceSyncRuleType syncRuleType, [MarshalAs(UnmanagedType.U1)] bool b1, int i1, EMediaTypes mediaType, int i2);
+
+        [DllImport(ZUNENATIVELIB_DLL, CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
+        [MethodImpl(MethodImplOptions.Unmanaged)]
+        public static extern int AddDeviceSyncRuleWithValue(EDeviceSyncRuleType syncRuleType, int i1, EMediaTypes mediaType, int i2, int i3);
+
+        [DllImport(ZUNENATIVELIB_DLL, CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
+        [MethodImpl(MethodImplOptions.Unmanaged)]
+        public unsafe static extern int AddGrovelerScanDirectory(ushort* directory, EMediaTypes mediaType);
+
+        [DllImport(ZUNENATIVELIB_DLL, CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
+        [MethodImpl(MethodImplOptions.Unmanaged)]
+        public unsafe static extern int AddItemToPlaylist(int i1, int i2, IPlaylist* playlist);
+
+        [DllImport(ZUNENATIVELIB_DLL, CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
+        [MethodImpl(MethodImplOptions.Unmanaged)]
+        public unsafe static extern int AddMedia(IMSMediaSchemaPropertySet* properties, EMediaTypes mediaType, int* i1);
+
+        [DllImport(ZUNENATIVELIB_DLL, CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
+        [MethodImpl(MethodImplOptions.Unmanaged)]
+        public unsafe static extern int AddMedia(ushort* path, EMediaTypes mediaType, uint u1, bool* b1, int* i1);
+
+        [DllImport(ZUNENATIVELIB_DLL, CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
+        [MethodImpl(MethodImplOptions.Unmanaged)]
+        public unsafe static extern int AddTransientMedia(ushort* path, EMediaTypes mediaType, int* i1);
+
+        [DllImport(ZUNENATIVELIB_DLL, CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
+        [MethodImpl(MethodImplOptions.Unmanaged)]
+        public unsafe static extern int CanAddFromFolder(ushort* folder);
+
+        [DllImport(ZUNENATIVELIB_DLL, CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
+        [MethodImpl(MethodImplOptions.Unmanaged)]
+        public unsafe static extern int CanAddMedia(ushort* folder, EMediaTypes mediaType);
+
+        [DllImport(ZUNENATIVELIB_DLL, CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
+        [MethodImpl(MethodImplOptions.Unmanaged)]
+        public static extern int CleanupTransientMedia();
+
+        [DllImport(ZUNENATIVELIB_DLL, CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
+        [MethodImpl(MethodImplOptions.Unmanaged)]
+        public unsafe static extern int CompareWithoutArticles(ushort* str1, ushort* str2, int* i1);
+
+        [DllImport(ZUNENATIVELIB_DLL, CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
+        [MethodImpl(MethodImplOptions.Unmanaged)]
+        public unsafe static extern int GetSyncRuleForMedia(int rule1, EMediaTypes mediaType, int rule2, EDeviceSyncRuleType* syncRuleType);
+
+        [DllImport(ZUNENATIVELIB_DLL, CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
+        [MethodImpl(MethodImplOptions.Unmanaged)]
+        public unsafe static extern int LocateArt(int mediaId, EMediaTypes mediaType, [MarshalAs(UnmanagedType.U1)] bool cacheOnly, ushort** outString);
+
+        [DllImport(ZUNENATIVELIB_DLL, CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
+        [MethodImpl(MethodImplOptions.Unmanaged)]
+        public unsafe static extern int QueryDatabase(EQueryType queryType, IQueryPropertyBag* bag, IDatabaseQueryResults** results, ushort** outString);
+
+        [DllImport(ZUNENATIVELIB_DLL, CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
+        [MethodImpl(MethodImplOptions.Unmanaged)]
+        public unsafe static extern int CopyThumbnailBitmapData(HBITMAP* src, HBITMAP** dst, void** pData);
+
+        [DllImport(ZUNENATIVELIB_DLL, CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
+        [MethodImpl(MethodImplOptions.Unmanaged)]
+        public unsafe static extern int CopyThumbnailBitmapData(HBITMAP* src, int srcX, int srcY, int srcWidth, int srcHeight,
+            int dstWidth, int dstHeight, HBITMAP** dst, void** pData);
+
+        [DllImport(ZUNENATIVELIB_DLL, CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
+        [MethodImpl(MethodImplOptions.Unmanaged)]
+        public unsafe static extern int CreateAlbumPropSet(_GUID albumId, ushort* albumTitle, ushort* artistTitle, IMSMediaSchemaPropertySet** propSet);
+
+        [DllImport(ZUNENATIVELIB_DLL, CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
+        [MethodImpl(MethodImplOptions.Unmanaged)]
+        public unsafe static extern int CreateContentRefreshTask(IAsyncCallback* callback, IContentRefreshTask** task);
+
+        [DllImport(ZUNENATIVELIB_DLL, CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
+        [MethodImpl(MethodImplOptions.Unmanaged)]
+        public unsafe static extern int CreateDataObjectEnum(IDataObjectEnumerator** objEnum);
+
+        [DllImport(ZUNENATIVELIB_DLL, CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
+        [MethodImpl(MethodImplOptions.Unmanaged)]
+        public unsafe static extern int CreateDRMQuery(IDRMQuery** drmQuery);
+
+        [DllImport(ZUNENATIVELIB_DLL, CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
+        [MethodImpl(MethodImplOptions.Unmanaged)]
+        public unsafe static extern int CreateEmptyPlaylist(IPlaylist** outPlaylist);
     }
 }

@@ -31,7 +31,7 @@ namespace Microsoft.Zune.QuickMix
 					*(sbyte*)(&qUICK_MIX_STATUS_INFO) = 0;
                     // IL initblk instruction
                     Unsafe.InitBlockUnaligned(ref Unsafe.AddByteOffset(ref qUICK_MIX_STATUS_INFO, 1), 0, 15);
-					int singleton = Module.GetSingleton((_GUID)Module._GUID_d69e22ae_7e21_4959_be6e_14462eb96f64, (void**)(&cComPtrNtv_003CIQuickMixManager_003E));
+					int singleton = Module.GetSingleton(Module.GUID_IQuickMixManager, (void**)(&cComPtrNtv_003CIQuickMixManager_003E));
 					if (singleton >= 0)
 					{
 						long num = *(long*)(&cComPtrNtv_003CIQuickMixManager_003E);
@@ -96,7 +96,7 @@ namespace Microsoft.Zune.QuickMix
 					*(sbyte*)(&qUICK_MIX_STATUS_INFO) = 0;
                     // IL initblk instruction
                     Unsafe.InitBlockUnaligned(ref Unsafe.AddByteOffset(ref qUICK_MIX_STATUS_INFO, 1), 0, 15);
-					if (Module.GetSingleton((_GUID)Module._GUID_d69e22ae_7e21_4959_be6e_14462eb96f64, (void**)(&cComPtrNtv_003CIQuickMixManager_003E)) >= 0)
+					if (Module.GetSingleton(Module.GUID_IQuickMixManager, (void**)(&cComPtrNtv_003CIQuickMixManager_003E)) >= 0)
 					{
 						long num = *(long*)(&cComPtrNtv_003CIQuickMixManager_003E);
 						((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, QUICK_MIX_STATUS_INFO*, int>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CIQuickMixManager_003E)) + 56)))((nint)num, &qUICK_MIX_STATUS_INFO);
@@ -131,10 +131,10 @@ namespace Microsoft.Zune.QuickMix
 				*(long*)(&cComPtrNtv_003CIQuickMixSession_003E) = 0L;
 				try
 				{
-					int num = Module.GetSingleton((_GUID)Module._GUID_d69e22ae_7e21_4959_be6e_14462eb96f64, (void**)(&cComPtrNtv_003CIQuickMixManager_003E));
+					int num = Module.GetSingleton(Module.GUID_IQuickMixManager, (void**)(&cComPtrNtv_003CIQuickMixManager_003E));
 					if (num >= 0)
 					{
-						_GUID gUID = Module.GuidToGUID(serviceMediaId);
+						_GUID gUID = serviceMediaId;
 						fixed (char* mediaTitlePtr = mediaTitle.ToCharArray())
 						{
 							ushort* ptr = (ushort*)mediaTitlePtr;
@@ -190,7 +190,7 @@ namespace Microsoft.Zune.QuickMix
 				*(long*)(&cComPtrNtv_003CIQuickMixSession_003E) = 0L;
 				try
 				{
-					int num = Module.GetSingleton((_GUID)Module._GUID_d69e22ae_7e21_4959_be6e_14462eb96f64, (void**)(&cComPtrNtv_003CIQuickMixManager_003E));
+					int num = Module.GetSingleton(Module.GUID_IQuickMixManager, (void**)(&cComPtrNtv_003CIQuickMixManager_003E));
 					if (num >= 0)
 					{
 						fixed (int* ptr = &seedMediaIds[0])
@@ -268,7 +268,7 @@ namespace Microsoft.Zune.QuickMix
 				num2 = num;
 				if (num >= 0)
 				{
-					num2 = Module.GetSingleton((_GUID)Module._GUID_d69e22ae_7e21_4959_be6e_14462eb96f64, (void**)(&cComPtrNtv_003CIQuickMixManager_003E));
+					num2 = Module.GetSingleton(Module.GUID_IQuickMixManager, (void**)(&cComPtrNtv_003CIQuickMixManager_003E));
 					if (num2 >= 0)
 					{
 						QuickMixCallbackProxy* ptr3 = (QuickMixCallbackProxy*)((ptr2 == null) ? 0 : ((ulong)(nint)ptr2 + 8uL));

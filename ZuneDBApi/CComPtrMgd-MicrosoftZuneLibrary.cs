@@ -43,14 +43,13 @@ internal class CComPtrMgd_003CMicrosoftZuneLibrary_003A_003AFirmwareUpdateMediat
 		}
 		finally
 		{
-			base.Finalize();
+			//base.Finalize();
 		}
 	}
 
-	public sealed override void Dispose()
+	public void Dispose()
 	{
 		Dispose(true);
-		GC.SuppressFinalize(this);
 	}
 
 	~CComPtrMgd_003CMicrosoftZuneLibrary_003A_003AFirmwareUpdateMediator_003E()
@@ -58,9 +57,9 @@ internal class CComPtrMgd_003CMicrosoftZuneLibrary_003A_003AFirmwareUpdateMediat
 		Dispose(false);
 	}
 
-	public unsafe implicit operator FirmwareUpdateMediator*()
+	public static unsafe implicit operator FirmwareUpdateMediator*(CComPtrMgd_003CMicrosoftZuneLibrary_003A_003AFirmwareUpdateMediator_003E obj)
 	{
-		return p;
+		return obj.p;
 	}
 
 	[SpecialName]
@@ -83,8 +82,8 @@ internal class CComPtrMgd_003CMicrosoftZuneLibrary_003A_003AFirmwareUpdateMediat
 	}
 
 	[return: MarshalAs(UnmanagedType.U1)]
-	public unsafe bool operator !()
+	public static unsafe bool operator !(CComPtrMgd_003CMicrosoftZuneLibrary_003A_003AFirmwareUpdateMediator_003E obj)
 	{
-		return (long)(nint)p == 0;
+		return (long)(nint)obj.p == 0;
 	}
 }

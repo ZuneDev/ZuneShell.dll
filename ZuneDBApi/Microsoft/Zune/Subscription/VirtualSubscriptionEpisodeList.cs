@@ -93,7 +93,7 @@ namespace Microsoft.Zune.Subscription
 			UpdateQueryStatus(DataProviderQueryStatus.RequestingData);
 			ISubscriptionViewer* ptr = null;
 			VirtualSubscriptionEpisodeListProxy* ptr2 = null;
-			int num = ZuneDBApi.Module.ZuneLibraryExports_002ECreateNativeSubscriptionViewer((void**)(&ptr));
+			int num = ZuneDBApi.Module.CreateNativeSubscriptionViewer((void**)(&ptr));
 			if (num >= 0)
 			{
                 VirtualSubscriptionEpisodeListProxy* ptr3 = (VirtualSubscriptionEpisodeListProxy*)ZuneDBApi.Module.@new(40uL);
@@ -156,7 +156,7 @@ namespace Microsoft.Zune.Subscription
 			Monitor.Enter(m_lock);
 			try
 			{
-				if (sortProperty != (string)null)
+				if (sortProperty != null)
 				{
 					SetSortProperty(sortProperty);
 				}

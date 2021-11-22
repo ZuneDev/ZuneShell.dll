@@ -36,15 +36,15 @@ namespace Microsoft.Zune.Configuration
 			int num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, global::FileAssociationInfo*, uint*, int>)(*(ulong*)(*(long*)pFileAssociationHandler + 24)))((nint)pFileAssociationHandler, null, &num);
 			if (num2 >= 0)
 			{
-				ptr = (global::FileAssociationInfo*)Module.new_005B_005D((ulong)num * 32uL);
+				ptr = (global::FileAssociationInfo*)Module.new_005B_005D(num * 32uL);
 				if (ptr == null)
 				{
 					num2 = -2147024882;
 				}
 				else
 				{
-                    // IL initblk instruction
-                    Unsafe.InitBlock(ptr, 0, (long)num * 32L);
+					// IL initblk instruction
+					*ptr = default;
 					pFileAssociationHandler = m_pFileAssociationHandler;
 					num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, global::FileAssociationInfo*, uint*, int>)(*(ulong*)(*(long*)pFileAssociationHandler + 24)))((nint)pFileAssociationHandler, ptr, &num);
 					if (num2 >= 0)
@@ -74,7 +74,7 @@ namespace Microsoft.Zune.Configuration
 			//IL_0039: Expected I, but got I8
 			//IL_005f: Expected I, but got I8
 			uint count = (uint)fileAssociationInfoList.Count;
-			global::FileAssociationInfo* ptr = (global::FileAssociationInfo*)Module.new_005B_005D((ulong)count * 32uL);
+			global::FileAssociationInfo* ptr = (global::FileAssociationInfo*)Module.new_005B_005D(count * 32uL);
 			int num;
 			if (ptr == null)
 			{
@@ -89,7 +89,7 @@ namespace Microsoft.Zune.Configuration
 				}
 				while (true)
 				{
-					num = FileInfoToStruct(fileAssociationInfoList[(int)num2], (global::FileAssociationInfo*)((long)num2 * 32L + (nint)ptr));
+					num = FileInfoToStruct(fileAssociationInfoList[(int)num2], (global::FileAssociationInfo*)(num2 * 32L + (nint)ptr));
 					if (num < 0)
 					{
 						break;
@@ -132,15 +132,15 @@ namespace Microsoft.Zune.Configuration
 			//IL_002c: Expected I8, but got I
 			//IL_0037: Expected I8, but got I
 			//IL_0045: Expected I8, but got I
-			fixed (char* fileAssocInfo.ExtensionPtr = fileAssocInfo.Extension.ToCharArray())
+			fixed (char* fileAssocInfoExtensionPtr = fileAssocInfo.Extension.ToCharArray())
 			{
-				ushort* ptr = (ushort*)fileAssocInfo.ExtensionPtr;
-				fixed (char* fileAssocInfo.ProgIdPtr = fileAssocInfo.ProgId.ToCharArray())
+				ushort* ptr = (ushort*)fileAssocInfoExtensionPtr;
+				fixed (char* fileAssocInfoProgIdPtr = fileAssocInfo.ProgId.ToCharArray())
 				{
-					ushort* ptr2 = (ushort*)fileAssocInfo.ProgIdPtr;
-					fixed (char* fileAssocInfo.DescriptionPtr = fileAssocInfo.Description.ToCharArray())
+					ushort* ptr2 = (ushort*)fileAssocInfoProgIdPtr;
+					fixed (char* fileAssocInfoDescriptionPtr = fileAssocInfo.Description.ToCharArray())
 					{
-						ushort* ptr3 = (ushort*)fileAssocInfo.DescriptionPtr;
+						ushort* ptr3 = (ushort*)fileAssocInfoDescriptionPtr;
 						*(long*)pFileAssocInfo = (nint)Module.SysAllocString(ptr);
 						*(long*)((ulong)(nint)pFileAssocInfo + 8uL) = (nint)Module.SysAllocString(ptr2);
 						ushort* ptr4 = Module.SysAllocString(ptr3);
@@ -202,16 +202,11 @@ namespace Microsoft.Zune.Configuration
 			{
 				_007EFileAssociationHandlerWrapper();
 			}
-			else
-			{
-				Finalize();
-			}
 		}
 
-		public sealed override void Dispose()
+		public void Dispose()
 		{
 			Dispose(true);
-			GC.SuppressFinalize(this);
 		}
 	}
 }

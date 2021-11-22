@@ -102,7 +102,6 @@ namespace MicrosoftZuneLibrary
 			//IL_009b: Expected I, but got I8
 			//IL_00b2: Expected I, but got I8
 			m_pRecordManager = pRecordManager;
-			base._002Ector();
 			IRecordManager* pRecordManager2 = m_pRecordManager;
 			if (pRecordManager2 == null)
 			{
@@ -209,9 +208,9 @@ namespace MicrosoftZuneLibrary
 				num = device.GetTrackUrl(dwTrackNumber, stringBuilder);
 				if (num >= 0)
 				{
-					fixed (char* stringBuilder.ToString()Ptr = stringBuilder.ToString().ToCharArray())
+					fixed (char* stringBuilderPtr = stringBuilder.ToString().ToCharArray())
 					{
-						ushort* ptr = (ushort*)stringBuilder.ToString()Ptr;
+						ushort* ptr = (ushort*)stringBuilderPtr;
 						try
 						{
 							long num2 = *(long*)m_pRecordManager + 40;
@@ -240,9 +239,9 @@ namespace MicrosoftZuneLibrary
 				num = device.GetTrackUrl(dwTrackNumber, stringBuilder);
 				if (num >= 0)
 				{
-					fixed (char* stringBuilder.ToString()Ptr = stringBuilder.ToString().ToCharArray())
+					fixed (char* stringBuilderPtr = stringBuilder.ToString().ToCharArray())
 					{
-						ushort* ptr = (ushort*)stringBuilder.ToString()Ptr;
+						ushort* ptr = (ushort*)stringBuilderPtr;
 						try
 						{
 							long num2 = *(long*)m_pRecordManager + 48;
@@ -271,9 +270,9 @@ namespace MicrosoftZuneLibrary
 				StringBuilder stringBuilder = new StringBuilder();
 				if (device.GetTrackUrl(dwTrackNumber, stringBuilder) >= 0)
 				{
-					fixed (char* stringBuilder.ToString()Ptr = stringBuilder.ToString().ToCharArray())
+					fixed (char* stringBuilderPtr = stringBuilder.ToString().ToCharArray())
 					{
-						ushort* ptr = (ushort*)stringBuilder.ToString()Ptr;
+						ushort* ptr = (ushort*)stringBuilderPtr;
 						try
 						{
 							long num2 = *(long*)m_pRecordManager + 56;
@@ -318,9 +317,9 @@ namespace MicrosoftZuneLibrary
 				num = device.GetTrackUrl(dwTrackNumber, stringBuilder);
 				if (num >= 0)
 				{
-					fixed (char* stringBuilder.ToString()Ptr = stringBuilder.ToString().ToCharArray())
+					fixed (char* stringBuilderPtr = stringBuilder.ToString().ToCharArray())
 					{
-						ushort* ptr = (ushort*)stringBuilder.ToString()Ptr;
+						ushort* ptr = (ushort*)stringBuilderPtr;
 						try
 						{
 							long num2 = *(long*)m_pRecordManager + 24;
@@ -349,9 +348,9 @@ namespace MicrosoftZuneLibrary
 				num = device.GetTrackUrl(dwTrackNumber, stringBuilder);
 				if (num >= 0)
 				{
-					fixed (char* stringBuilder.ToString()Ptr = stringBuilder.ToString().ToCharArray())
+					fixed (char* stringBuilderPtr = stringBuilder.ToString().ToCharArray())
 					{
-						ushort* ptr = (ushort*)stringBuilder.ToString()Ptr;
+						ushort* ptr = (ushort*)stringBuilderPtr;
 						try
 						{
 							long num2 = *(long*)m_pRecordManager + 32;
@@ -489,7 +488,7 @@ namespace MicrosoftZuneLibrary
 			}
 		}
 
-		public sealed override void Dispose()
+		public void Dispose()
 		{
 			Dispose(true);
 			GC.SuppressFinalize(this);

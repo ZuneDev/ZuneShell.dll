@@ -56,7 +56,7 @@ namespace MicrosoftZuneLibrary
 						catch
 						{
 							//try-fault
-							ptr = null;
+							//ptr = null;
 							throw;
 						}
 					}
@@ -416,7 +416,6 @@ namespace MicrosoftZuneLibrary
 			m_pDevice = pDevice;
 			m_pBurnPublisher = null;
 			m_fIsBurner = 0;
-			base._002Ector();
 		}
 
 		private void _007EZuneLibraryCDDevice()
@@ -510,10 +509,10 @@ namespace MicrosoftZuneLibrary
 			((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EQueryPropertyBagProp, int, int>)(*(ulong*)(*(long*)iQueryPropertyBag + 56)))((nint)iQueryPropertyBag, (EQueryPropertyBagProp)21, 437);
 			IPlaylist* ptr = null;
 			IDatabaseQueryResults* ptr2 = null;
-			int num = Module.ZuneLibraryExports_002EQueryDatabase(EQueryType.eQueryTypePlaylistContentByPlaylistId, iQueryPropertyBag, &ptr2, null);
+			int num = Module.QueryDatabase(EQueryType.eQueryTypePlaylistContentByPlaylistId, iQueryPropertyBag, &ptr2, null);
 			if (num >= 0)
 			{
-				num = Module.ZuneLibraryExports_002ECreateEmptyPlaylist(&ptr);
+				num = Module.CreateEmptyPlaylist(&ptr);
 			}
 			uint num2 = 0u;
 			if (num >= 0)
@@ -527,32 +526,28 @@ namespace MicrosoftZuneLibrary
 						uint num3 = 0u;
 						while (num3 < num2)
 						{
-							CComPropVariant cComPropVariant;
-                            // IL initblk instruction
-                            Unsafe.InitBlock(ref cComPropVariant, 0, 24);
+							PROPVARIANT cComPropVariant = new();
 							try
 							{
-								CComPropVariant cComPropVariant2;
-                                // IL initblk instruction
-                                Unsafe.InitBlock(ref cComPropVariant2, 0, 24);
+								PROPVARIANT cComPropVariant2 = new();
 								try
 								{
 									IDatabaseQueryResults* intPtr2 = ptr2;
-									num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)ptr2 + 48)))((nint)intPtr2, num3, 233u, (PROPVARIANT)(&cComPropVariant));
+									num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)ptr2 + 48)))((System.nint)intPtr2, (uint)num3, (uint)233u, (PROPVARIANT)cComPropVariant);
 									if (num >= 0)
 									{
 										IDatabaseQueryResults* intPtr3 = ptr2;
-										num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)ptr2 + 48)))((nint)intPtr3, num3, 234u, (PROPVARIANT)(&cComPropVariant2));
+										num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)ptr2 + 48)))((System.nint)intPtr3, (uint)num3, (uint)234u, (PROPVARIANT)cComPropVariant2);
 										if (num >= 0)
 										{
-											num = Module.ZuneLibraryExports_002EAddItemToPlaylist(Unsafe.As<CComPropVariant, int>(ref Unsafe.AddByteOffset(ref cComPropVariant, 8)), Unsafe.As<CComPropVariant, int>(ref Unsafe.AddByteOffset(ref cComPropVariant2, 8)), ptr);
+											num = Module.AddItemToPlaylist(Unsafe.As<PROPVARIANT, int>(ref Unsafe.AddByteOffset(ref cComPropVariant, 8)), Unsafe.As<PROPVARIANT, int>(ref Unsafe.AddByteOffset(ref cComPropVariant2, 8)), ptr);
 										}
 									}
 								}
 								catch
 								{
 									//try-fault
-									Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPropVariant*, void>)(&Module.CComPropVariant_002E_007Bdtor_007D), &cComPropVariant2);
+									Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<PROPVARIANT*, void>)(&Module.CComPropVariant_002E_007Bdtor_007D), &cComPropVariant2);
 									throw;
 								}
 								Module.CComPropVariant_002EClear(&cComPropVariant2);
@@ -560,7 +555,7 @@ namespace MicrosoftZuneLibrary
 							catch
 							{
 								//try-fault
-								Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPropVariant*, void>)(&Module.CComPropVariant_002E_007Bdtor_007D), &cComPropVariant);
+								Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<PROPVARIANT*, void>)(&Module.CComPropVariant_002E_007Bdtor_007D), &cComPropVariant);
 								throw;
 							}
 							Module.CComPropVariant_002EClear(&cComPropVariant);
@@ -815,14 +810,13 @@ namespace MicrosoftZuneLibrary
 			}
 			finally
 			{
-				base.Finalize();
+				//base.Finalize();
 			}
 		}
 
-		public sealed override void Dispose()
+		public void Dispose()
 		{
 			Dispose(true);
-			GC.SuppressFinalize(this);
 		}
 
 		~ZuneLibraryCDDevice()

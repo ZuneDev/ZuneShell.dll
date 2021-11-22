@@ -186,11 +186,13 @@ namespace MicrosoftZunePlayback
 			{
 				//IL_004a: Expected I, but got I8
 				_windowHost = value;
-				RECT tagRECT;
-				*(int*)(&tagRECT) = value.Left;
-                Unsafe.As<RECT, int>(ref Unsafe.AddByteOffset(ref tagRECT, 4)) = value.Top;
-                Unsafe.As<RECT, int>(ref Unsafe.AddByteOffset(ref tagRECT, 8)) = value.Right;
-                Unsafe.As<RECT, int>(ref Unsafe.AddByteOffset(ref tagRECT, 12)) = value.Bottom;
+				RECT tagRECT = new()
+				{
+					left = value.Left,
+					top = value.Top,
+					right = value.Right,
+					bottom = value.Bottom
+				};
 				IMCDynamicImage* uDynamicImage = _uDynamicImage;
 				if (uDynamicImage != null)
 				{
@@ -434,14 +436,14 @@ namespace MicrosoftZunePlayback
 			else if (b != null)
 			{
 				bool result;
-				fixed (char* b.IdPtr = b.Id.ToCharArray())
+				fixed (char* bIdPtr = b.Id.ToCharArray())
 				{
-					ushort* ptr = (ushort*)b.IdPtr;
+					ushort* ptr = (ushort*)bIdPtr;
 					try
 					{
-						fixed (char* b.SourceFilePtr = b.SourceFile.ToCharArray())
+						fixed (char* bSourceFilePtr = b.SourceFile.ToCharArray())
 						{
-							ushort* ptr3 = (ushort*)b.SourceFilePtr;
+							ushort* ptr3 = (ushort*)bSourceFilePtr;
 							try
 							{
 								int num7;
@@ -663,7 +665,6 @@ namespace MicrosoftZunePlayback
 			_gotStateCloseEvent = null;
 			_gotStateUninitializeEvent = null;
 			_fShuttingDown = false;
-			base._002Ector();
 		}
 
 		internal unsafe void OnAlertOccurred(MCHResultAnnouncement* pAlert)
@@ -736,7 +737,7 @@ namespace MicrosoftZunePlayback
 				if (string.Compare(text, "presentationinfo", StringComparison.Ordinal) == 0)
 				{
 					byte needOverscan = (byte)((*(bool*)((ulong)(nint)pData + 16uL)) ? 1 : 0);
-					value = new PresentationInfo((int)(double)(*(float*)pData), (int)(double)(*(float*)((ulong)(nint)pData + 4uL)), *(int*)((ulong)(nint)pData + 8uL), *(int*)((ulong)(nint)pData + 12uL), needOverscan != 0);
+					value = new PresentationInfo((int)*(float*)pData, (int)*(float*)((ulong)(nint)pData + 4uL), *(int*)((ulong)(nint)pData + 8uL), *(int*)((ulong)(nint)pData + 12uL), needOverscan != 0);
 				}
 				else if (string.Compare(text, "volumeinfo", StringComparison.Ordinal) == 0)
 				{
@@ -1148,7 +1149,7 @@ namespace MicrosoftZunePlayback
 		public unsafe void SetUri(string uri, long startPositionIn100nsUnits, int UriID)
 		{
 			//IL_0033: Expected I, but got I8
-			if (!(uri != (string)null))
+			if (!(uri != null))
 			{
 				return;
 			}
@@ -1177,7 +1178,7 @@ namespace MicrosoftZunePlayback
 		public unsafe void SetNextUri(string uri, long startPositionIn100nsUnits, int UriID)
 		{
 			//IL_0033: Expected I, but got I8
-			if (!(uri != (string)null))
+			if (!(uri != null))
 			{
 				return;
 			}

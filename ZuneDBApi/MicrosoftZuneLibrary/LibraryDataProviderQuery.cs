@@ -42,11 +42,11 @@ namespace MicrosoftZuneLibrary
 			{
 				return;
 			}
-			if ((uint)Unsafe.As<EtwControlerState, byte>(ref Unsafe.AddByteOffset(ref Module.g_EtwControlerState, 8)) > 1u && ((uint)Unsafe.As<EtwControlerState, int>(ref Unsafe.AddByteOffset(ref Module.g_EtwControlerState, 4)) & 0x10u) != 0)
+			if (Unsafe.As<EtwControlerState, byte>(ref Unsafe.AddByteOffset(ref Module.g_EtwControlerState, 8)) > 1u && ((uint)Unsafe.As<EtwControlerState, int>(ref Unsafe.AddByteOffset(ref Module.g_EtwControlerState, 4)) & 0x10u) != 0)
 			{
-				fixed (char* ToString()Ptr = ToString().ToCharArray())
+				fixed (char* stringPtr = ToString().ToCharArray())
 				{
-					ushort* pwszDetail = (ushort*)ToString()Ptr;
+					ushort* pwszDetail = (ushort*)stringPtr;
 					try
 					{
 						Module.PERFTRACE_COLLECTIONEVENT((_COLLECTION_EVENT)28, pwszDetail);
@@ -194,11 +194,11 @@ namespace MicrosoftZuneLibrary
 			if (property6 != null)
 			{
 				int num8 = (int)property6;
-				((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EQueryPropertyBagProp, int, int>)(*(ulong*)(*(long*)iQueryPropertyBag + 56)))((nint)iQueryPropertyBag, (EQueryPropertyBagProp)0, num8);
+				((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EQueryPropertyBagProp, int, int>)(*(ulong*)(*(long*)iQueryPropertyBag + 56)))((nint)iQueryPropertyBag, 0, num8);
 			}
 			else
 			{
-				((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EQueryPropertyBagProp, int, int>)(*(ulong*)(*(long*)iQueryPropertyBag + 56)))((nint)iQueryPropertyBag, (EQueryPropertyBagProp)0, 1);
+				((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EQueryPropertyBagProp, int, int>)(*(ulong*)(*(long*)iQueryPropertyBag + 56)))((nint)iQueryPropertyBag, 0, 1);
 			}
 			object property7 = GetProperty("InLibrary");
 			if (property7 != null)
@@ -247,9 +247,9 @@ namespace MicrosoftZuneLibrary
 			object property10 = GetProperty("Keywords");
 			if (property10 != null)
 			{
-				fixed (char* (string)property10Ptr = (string)property10.ToCharArray())
+				fixed (char* property10Ptr = ((string)property10).ToCharArray())
 				{
-					ushort* ptr2 = (ushort*)(string)property10Ptr;
+					ushort* ptr2 = (ushort*)property10Ptr;
 					try
 					{
 						long num10 = *(long*)iQueryPropertyBag + 40;
@@ -313,9 +313,9 @@ namespace MicrosoftZuneLibrary
 			object property14 = GetProperty("TOC");
 			if (property14 != null)
 			{
-				fixed (char* (string)property14Ptr = (string)property14.ToCharArray())
+				fixed (char* property14Ptr = ((string)property14).ToCharArray())
 				{
-					ushort* ptr3 = (ushort*)(string)property14Ptr;
+					ushort* ptr3 = (ushort*)property14Ptr;
 					try
 					{
 						long num17 = *(long*)iQueryPropertyBag + 40;
@@ -354,9 +354,9 @@ namespace MicrosoftZuneLibrary
 			property16 = GetProperty("InitTime");
 			if (property16 != null)
 			{
-				fixed (char* (string)property16Ptr = (string)property16.ToCharArray())
+				fixed (char* property16Ptr = ((string)property16).ToCharArray())
 				{
-					ushort* ptr4 = (ushort*)(string)property16Ptr;
+					ushort* ptr4 = (ushort*)property16Ptr;
 					try
 					{
 						long num21 = *(long*)iQueryPropertyBag + 40;
@@ -592,7 +592,7 @@ namespace MicrosoftZuneLibrary
 				if (eQueryType != EQueryType.eQueryTypeInvalid)
 				{
 					ushort* ptr6 = null;
-					num29 = Module.ZuneLibraryExports_002EQueryDatabase(eQueryType, iQueryPropertyBag, &ptr5, &ptr6);
+					num29 = Module.QueryDatabase(eQueryType, iQueryPropertyBag, &ptr5, &ptr6);
 					text = new string((char*)ptr6);
 					Module.SysFreeString(ptr6);
 				}
@@ -644,13 +644,13 @@ namespace MicrosoftZuneLibrary
 				libraryDataProviderQueryResult.SetIsEmpty(isEmpty);
 				Result = libraryDataProviderQueryResult;
 				Status = DataProviderQueryStatus.Complete;
-				if ((uint)Unsafe.As<EtwControlerState, byte>(ref Unsafe.AddByteOffset(ref Module.g_EtwControlerState, 8)) <= 1u || (Unsafe.As<EtwControlerState, int>(ref Unsafe.AddByteOffset(ref Module.g_EtwControlerState, 4)) & 0x10) == 0)
+				if (Unsafe.As<EtwControlerState, byte>(ref Unsafe.AddByteOffset(ref Module.g_EtwControlerState, 8)) <= 1u || (Unsafe.As<EtwControlerState, int>(ref Unsafe.AddByteOffset(ref Module.g_EtwControlerState, 4)) & 0x10) == 0)
 				{
 					return;
 				}
-				fixed (char* ToString()Ptr = ToString().ToCharArray())
+				fixed (char* stringPtr = ToString().ToCharArray())
 				{
-					ushort* pwszDetail = (ushort*)ToString()Ptr;
+					ushort* pwszDetail = (ushort*)stringPtr;
 					try
 					{
 						Module.PERFTRACE_COLLECTIONEVENT((_COLLECTION_EVENT)29, pwszDetail);

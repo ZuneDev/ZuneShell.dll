@@ -2,5 +2,5 @@ using ZuneUI;
 
 namespace Microsoft.Zune.Playlist
 {
-	public delegate void PlaylistAsyncOperationCompleted(HRESULT);
+	public delegate void PlaylistAsyncOperationCompleted(HRESULT hr);
 }

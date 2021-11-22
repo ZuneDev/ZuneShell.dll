@@ -64,7 +64,7 @@ namespace MicrosoftZuneLibrary
 				{
 					Packages[index].Selected = value;
 				}
-				if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 60uL)) & 4u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 57uL)) >= 6u)
+				if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 60uL)) & 4u) != 0 && *(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 57uL) >= 6u)
 				{
 					Module.WPP_SF_dld(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 48uL), 10, (_GUID*)Unsafe.AsPointer(ref Module._003FA0x15529884_002EWPP_FirmwareUpdateAPI_cpp_Traceguids), index, value ? 1 : 0, num2);
 				}
@@ -89,7 +89,6 @@ namespace MicrosoftZuneLibrary
 			try
 			{
 				m_spUpdatePackageCollection = spUpdatePackageCollection;
-				base._002Ector();
 				m_spUpdatePackageCollection.op_Assign(pCollection);
 			}
 			catch
@@ -124,7 +123,7 @@ namespace MicrosoftZuneLibrary
 			uint num = 0u;
 			IFirmwareUpdateCollection* p = m_spUpdatePackageCollection.p;
 			int num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint*, int>)(*(ulong*)(*(long*)p + 24)))((nint)p, &num);
-			if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 60uL)) & 4u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 57uL)) >= 6u)
+			if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 60uL)) & 4u) != 0 && *(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 57uL) >= 6u)
 			{
 				Module.WPP_SF_d(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 48uL), 11, (_GUID*)Unsafe.AsPointer(ref Module._003FA0x15529884_002EWPP_FirmwareUpdateAPI_cpp_Traceguids), (int)num);
 			}
@@ -156,7 +155,7 @@ namespace MicrosoftZuneLibrary
 							num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EFirmwareUpdateType*, int>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CIFirmwareMetadata_003E)) + 48)))((nint)num5, &eFirmwareUpdateType);
 							if (num2 >= 0)
 							{
-								if (eFirmwareUpdateType == (EFirmwareUpdateType)0)
+								if (eFirmwareUpdateType == 0)
 								{
 									m_GamesPackage = firmwareUpdatePackage;
 								}
@@ -166,12 +165,12 @@ namespace MicrosoftZuneLibrary
 								}
 							}
 						}
-						fixed (char* firmwareUpdatePackage.NamePtr = firmwareUpdatePackage.Name.ToCharArray())
+						fixed (char* firmwareUpdatePackageNamePtr = firmwareUpdatePackage.Name.ToCharArray())
 						{
-							ushort* a = (ushort*)firmwareUpdatePackage.NamePtr;
+							ushort* a = (ushort*)firmwareUpdatePackageNamePtr;
 							try
 							{
-								if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 60uL)) & 4u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 57uL)) >= 6u)
+								if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 60uL)) & 4u) != 0 && *(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 57uL) >= 6u)
 								{
 									Module.WPP_SF_dSdl(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 48uL), 12, (_GUID*)Unsafe.AsPointer(ref Module._003FA0x15529884_002EWPP_FirmwareUpdateAPI_cpp_Traceguids), (int)num3, a, (int)eFirmwareUpdateType, firmwareUpdatePackage.Selected ? 1 : 0);
 								}
@@ -211,7 +210,7 @@ namespace MicrosoftZuneLibrary
 			{
 				return;
 			}
-			if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 60uL)) & 4u) != 0 && (uint)(*(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 57uL)) >= 6u)
+			if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 60uL)) & 4u) != 0 && *(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 57uL) >= 6u)
 			{
 				Module.WPP_SF_(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 48uL), 13, (_GUID*)Unsafe.AsPointer(ref Module._003FA0x15529884_002EWPP_FirmwareUpdateAPI_cpp_Traceguids));
 			}
@@ -247,7 +246,7 @@ namespace MicrosoftZuneLibrary
 			}
 		}
 
-		public sealed override void Dispose()
+		public void Dispose()
 		{
 			Dispose(true);
 			GC.SuppressFinalize(this);

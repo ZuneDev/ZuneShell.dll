@@ -1,18 +1,39 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<AssemblyName>ZuneDBApi</AssemblyName>
+		<AssemblyVersion>4.8.2345.0</AssemblyVersion>
+		
 		<GenerateAssemblyInfo>False</GenerateAssemblyInfo>
 		<TargetFramework>net5.0</TargetFramework>
-		<PlatformTarget>x86;x64</PlatformTarget>
+		<Platforms>x64;x86</Platforms>
 		<ApplicationManifest>app.manifest</ApplicationManifest>
 		<LangVersion>latest</LangVersion>
 		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+		<Platform Condition=" '$(Platform)' == '' ">x64</Platform>
+	</PropertyGroup>
+
+	<PropertyGroup Condition=" $(AssemblyVersion.StartsWith('5.')) ">
+		<DefineConstants>$(DefineConstants);ZUNE_5</DefineConstants>
 	</PropertyGroup>
 	
 	<ItemGroup>
 		<Reference Include="UIX">
 			<HintPath>C:\Program Files\Zune\UIX.dll</HintPath>
 		</Reference>
+
+		<None Remove="ZuneNativeLib.dll" />
+		<Content Include="ZuneNativeLib.dll">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<Link Condition=" '$(Platform)' == 'x64' ">C:\Program Files\Zune\ZuneNativeLib.dll</Link>
+			<Link Condition=" '$(Platform)' == 'x86' ">C:\Program Files (x86)\Zune\ZuneNativeLib.dll</Link>
+		</Content>
+
+		<None Remove="ZuneService.dll" />
+		<Content Include="ZuneService.dll">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<Link Condition=" '$(Platform)' == 'x64' ">C:\Program Files\Zune\ZuneService.dll</Link>
+			<Link Condition=" '$(Platform)' == 'x86' ">C:\Program Files (x86)\Zune\ZuneService.dll</Link>
+		</Content>
 
 		<PackageReference Include="Vanara.PInvoke.User32" Version="3.3.14" />
 		<PackageReference Include="Vanara.PInvoke.Kernel32" Version="3.3.14" />

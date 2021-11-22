@@ -33,7 +33,7 @@ namespace Microsoft.Zune.Service
 		{
 			get
 			{
-				if (m_coverArt == null && m_coverArtUrl != (string)null)
+				if (m_coverArt == null && m_coverArtUrl != null)
 				{
 					m_coverArt = new Image(m_coverArtUrl);
 				}

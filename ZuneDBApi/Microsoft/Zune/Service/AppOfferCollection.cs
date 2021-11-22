@@ -14,8 +14,7 @@ namespace Microsoft.Zune.Service
 
 		public IList Items => m_items;
 
-		internal unsafe AppOfferCollection()
-			: this()
+		internal unsafe AppOfferCollection() : base()
 		{
 			//IL_0015: Expected I, but got I8
 			m_items = null;
@@ -86,7 +85,7 @@ namespace Microsoft.Zune.Service
 							{
 								result = DateTime.MinValue;
 							}
-							Guid id = Module.GUIDToGuid(Unsafe.As<AppMetadata, _GUID>(ref Unsafe.AddByteOffset(ref appMetadata, 8)));
+							Guid id = Unsafe.As<AppMetadata, _GUID>(ref Unsafe.AddByteOffset(ref appMetadata, 8));
 							long num4 = Unsafe.As<AppMetadata, long>(ref Unsafe.AddByteOffset(ref appMetadata, 136));
 							bool inCollection = ((((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)Unsafe.As<AppMetadata, ulong>(ref Unsafe.AddByteOffset(ref appMetadata, 136)) + 144)))((nint)num4) != 0) ? true : false);
 							_0024ArrayType_0024_0024_0024BY01W4EMediaRights_0040_0040 _0024ArrayType_0024_0024_0024BY01W4EMediaRights_0040_0040;
@@ -176,7 +175,7 @@ namespace Microsoft.Zune.Service
 			}
 		}
 
-		public sealed override void Dispose()
+		public void Dispose()
 		{
 			Dispose(true);
 			GC.SuppressFinalize(this);

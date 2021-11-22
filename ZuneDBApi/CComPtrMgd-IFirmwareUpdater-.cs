@@ -46,7 +46,7 @@ internal class CComPtrMgd_003CIFirmwareUpdater_003E : IDisposable
 		}
 	}
 
-	public sealed override void Dispose()
+	public void Dispose()
 	{
 		Dispose(true);
 		GC.SuppressFinalize(this);
@@ -99,7 +99,7 @@ internal class CComPtrMgd_003CIFirmwareUpdater_003E : IDisposable
 		return 0;
 	}
 
-	public unsafe int QueryInterface_003CIFirmwareUpdater2_003E(IFirmwareUpdater2** pp)
+	public unsafe int QueryInterfaceIFirmwareUpdater2(IFirmwareUpdater2** pp)
 	{
 		//IL_002e: Expected I, but got I8
 		IFirmwareUpdater* ptr = p;
@@ -108,6 +108,6 @@ internal class CComPtrMgd_003CIFirmwareUpdater_003E : IDisposable
 			Module._ZuneShipAssert(1001u, 186u);
 			return -2147467261;
 		}
-		return ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, void**, int>)(*(ulong*)(*(ulong*)ptr)))((nint)ptr, (_GUID*)Unsafe.AsPointer(ref Module._GUID_f066fc29_e525_4ddc_abe6_5213d22c14d2), (void**)pp);
+		return ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, void**, int>)(*(ulong*)(*(ulong*)ptr)))((nint)ptr, &Module.GUID_IFirmwareUpdater2, (void**)pp);
 	}
 }

@@ -20,7 +20,6 @@ namespace Microsoft.Zune.Service
 			{
 				m_pRequest = pRequest;
 				m_cancelOnShutdown = cancelOnShutdown;
-				base._002Ector();
 			}
 		}
 
@@ -516,9 +515,9 @@ namespace Microsoft.Zune.Service
 				return -2147467261;
 			}
 			*(long*)ppRequest = 0L;
-			fixed (char* _uri.AbsoluteUriPtr = _uri.AbsoluteUri.ToCharArray())
+			fixed (char* _uriAbsoluteUriPtr = _uri.AbsoluteUri.ToCharArray())
 			{
-				ushort* ptr = (ushort*)_uri.AbsoluteUriPtr;
+				ushort* ptr = (ushort*)_uriAbsoluteUriPtr;
 				fixed (char* _methodPtr = _method.ToCharArray())
 				{
 					ushort* ptr2 = (ushort*)_methodPtr;
@@ -527,7 +526,7 @@ namespace Microsoft.Zune.Service
 					int num;
 					try
 					{
-						num = Module.GetSingleton((_GUID)Module.GUID_IService, (void**)(&cComPtrNtv_003CIService_003E));
+						num = Module.GetSingleton(Module.GUID_IService, (void**)(&cComPtrNtv_003CIService_003E));
 						CComPtrNtv_003CIHttpWebRequest_003E cComPtrNtv_003CIHttpWebRequest_003E;
 						*(long*)(&cComPtrNtv_003CIHttpWebRequest_003E) = 0L;
 						try
@@ -539,11 +538,11 @@ namespace Microsoft.Zune.Service
 								num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, ushort*, IHttpWebRequest**, int>)(*(ulong*)num2))((nint)num3, ptr, ptr2, (IHttpWebRequest**)(&cComPtrNtv_003CIHttpWebRequest_003E));
 								if (num >= 0)
 								{
-									if (_authorization != (string)null && _authorization.Length > 0)
+									if (_authorization != null && _authorization.Length > 0)
 									{
 										Module.Microsoft_002EZune_002EService_002E_003FA0x12f4bdec_002ESetHeader((IHttpWebRequest*)(*(ulong*)(&cComPtrNtv_003CIHttpWebRequest_003E)), "Authorization: " + _authorization);
 									}
-									if (_acceptLanguage != (string)null && _acceptLanguage.Length > 0)
+									if (_acceptLanguage != null && _acceptLanguage.Length > 0)
 									{
 										Module.Microsoft_002EZune_002EService_002E_003FA0x12f4bdec_002ESetHeader((IHttpWebRequest*)(*(ulong*)(&cComPtrNtv_003CIHttpWebRequest_003E)), "Accept-Language: " + _acceptLanguage);
 									}
@@ -575,7 +574,7 @@ namespace Microsoft.Zune.Service
 										case HttpRequestCachePolicy.BypassCache:
 										{
 											long num5 = *(long*)(&cComPtrNtv_003CIHttpWebRequest_003E);
-											num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EHttpCacheLevel, int>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CIHttpWebRequest_003E)) + 24)))((nint)num5, (EHttpCacheLevel)0);
+											num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EHttpCacheLevel, int>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CIHttpWebRequest_003E)) + 24)))((nint)num5, 0);
 											break;
 										}
 										}

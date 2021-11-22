@@ -10,7 +10,7 @@ namespace Microsoft.Zune.ErrorMapperApi
 			ushort* ptr = null;
 			ushort* ptr2 = null;
 			int hr = 0;
-			if (Module.ZuneLibraryExports_002EGetMappedErrorDescriptionAndUrl(hrOrig, eCondition, &hr, &ptr, &ptr2) < 0)
+			if (Module.GetMappedErrorDescriptionAndUrl(hrOrig, eCondition, &hr, &ptr, &ptr2) < 0)
 			{
 				errorMapperResult.Hr = hrOrig;
 				errorMapperResult.Description = "";
