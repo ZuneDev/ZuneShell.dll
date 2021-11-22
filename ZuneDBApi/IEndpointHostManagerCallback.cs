@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 [StructLayout(LayoutKind.Sequential, Size = 8)]
 [NativeCppClass]
-internal static struct IEndpointHostManagerCallback
+internal struct IEndpointHostManagerCallback
 {
 	private long _003Calignment_0020member_003E;
 }

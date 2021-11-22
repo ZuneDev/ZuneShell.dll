@@ -1,6 +1,3 @@
-using System.Runtime.CompilerServices;
-
-[NativeCppClass]
 internal enum EMediaPaymentType
 {
     Unknown = -1,

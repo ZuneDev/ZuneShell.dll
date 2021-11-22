@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 [StructLayout(LayoutKind.Sequential, Size = 8)]
 [NativeCppClass]
-internal static struct ISubscriptionManagerCredentialProvider
+internal struct ISubscriptionManagerCredentialProvider
 {
 	private long _003Calignment_0020member_003E;
 }

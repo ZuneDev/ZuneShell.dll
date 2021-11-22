@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 [StructLayout(LayoutKind.Sequential, Size = 8)]
 [NativeCppClass]
-internal static struct IGetPaymentInstrumentsCallback
+internal struct IGetPaymentInstrumentsCallback
 {
 	private long _003Calignment_0020member_003E;
 }
