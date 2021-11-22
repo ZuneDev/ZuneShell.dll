@@ -63,7 +63,7 @@ namespace Microsoft.Zune.Util
 				//IL_0037: Expected I, but got I8
 				bool result = false;
 				IDownloadManager* ptr = null;
-				if (Module.GetSingleton((_GUID)Module._GUID_399f851b_a600_4e88_90c3_03b8f2770076, (void**)(&ptr)) >= 0)
+				if (Module.GetSingleton(Module.GUID_IDownloadManager, (void**)(&ptr)) >= 0)
 				{
 					IDownloadManager* intPtr = ptr;
 					result = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, byte>)(*(ulong*)(*(long*)intPtr + 144)))((nint)intPtr) != 0;
@@ -185,7 +185,7 @@ namespace Microsoft.Zune.Util
 			fixed (char* taskIdPtr = taskId.ToCharArray())
 			{
 				ushort* ptr3 = (ushort*)taskIdPtr;
-				int singleton = Module.GetSingleton((_GUID)Module._GUID_399f851b_a600_4e88_90c3_03b8f2770076, (void**)(&ptr));
+				int singleton = Module.GetSingleton(Module.GUID_IDownloadManager, (void**)(&ptr));
 				if (singleton >= 0)
 				{
 					long num = *(long*)ptr + 72;
@@ -286,7 +286,7 @@ namespace Microsoft.Zune.Util
 			//IL_00a0: Expected I, but got I8
 			bool flag = false;
 			IDownloadManager* ptr = null;
-			if (Module.GetSingleton((_GUID)Module._GUID_399f851b_a600_4e88_90c3_03b8f2770076, (void**)(&ptr)) >= 0)
+			if (Module.GetSingleton(Module.GUID_IDownloadManager, (void**)(&ptr)) >= 0)
 			{
 				IDownloadManager* intPtr = ptr;
 				int num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)intPtr + 88)))((nint)intPtr);
@@ -410,7 +410,7 @@ namespace Microsoft.Zune.Util
 			*(long*)(&cComPtrNtv_003CIDownloadManager_003E) = 0L;
 			try
 			{
-				int singleton = Module.GetSingleton((_GUID)Module._GUID_399f851b_a600_4e88_90c3_03b8f2770076, (void**)(&cComPtrNtv_003CIDownloadManager_003E));
+				int singleton = Module.GetSingleton(Module.GUID_IDownloadManager, (void**)(&cComPtrNtv_003CIDownloadManager_003E));
 				int num = 0;
 				if (singleton >= 0)
 				{
@@ -606,14 +606,13 @@ namespace Microsoft.Zune.Util
 			}
 			finally
 			{
-				base.Finalize();
+				//base.Finalize();
 			}
 		}
 
-		public sealed override void Dispose()
+		public void Dispose()
 		{
 			Dispose(true);
-			GC.SuppressFinalize(this);
 		}
 
 		~DownloadManager()

@@ -260,7 +260,7 @@ namespace Microsoft.Zune.Subscription
 						{
 							long num4 = *(long*)m_pSubscriptionManager + 32;
 							ISubscriptionManager* pSubscriptionManager = m_pSubscriptionManager;
-							_003F val = ptr3;
+							var val = ptr3;
 							IMSMediaSchemaPropertySet* intPtr6 = ptr;
 							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, ushort*, EMediaTypes, ESubscriptionSource, IMSMediaSchemaPropertySet*, int*, int>)(*(ulong*)num4))((nint)pSubscriptionManager, lastSignedInUserId, (ushort*)(nint)val, eSubscriptionMediaType, subscriptionSource, intPtr6, &num2);
 						}
@@ -858,14 +858,13 @@ namespace Microsoft.Zune.Subscription
 			}
 			finally
 			{
-				base.Finalize();
+				//base.Finalize();
 			}
 		}
 
 		public void Dispose()
 		{
 			Dispose(true);
-			GC.SuppressFinalize(this);
 		}
 
 		~SubscriptionManager()

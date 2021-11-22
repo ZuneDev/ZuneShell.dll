@@ -42,14 +42,13 @@ internal class CComPtrMgd_003CIGasGauge_003E : IDisposable
 		}
 		finally
 		{
-			base.Finalize();
+			//base.Finalize();
 		}
 	}
 
-	public sealed override void Dispose()
+	public void Dispose()
 	{
 		Dispose(true);
-		GC.SuppressFinalize(this);
 	}
 
 	~CComPtrMgd_003CIGasGauge_003E()
@@ -57,9 +56,9 @@ internal class CComPtrMgd_003CIGasGauge_003E : IDisposable
 		Dispose(false);
 	}
 
-	public unsafe implicit operator IGasGauge*()
+	public static unsafe implicit operator IGasGauge*(CComPtrMgd_003CIGasGauge_003E obj)
 	{
-		return p;
+		return obj.p;
 	}
 
 	[SpecialName]

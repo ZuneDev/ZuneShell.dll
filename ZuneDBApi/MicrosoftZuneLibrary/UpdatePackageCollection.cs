@@ -240,16 +240,11 @@ namespace MicrosoftZuneLibrary
 					((IDisposable)m_spUpdatePackageCollection).Dispose();
 				}
 			}
-			else
-			{
-				Finalize();
-			}
 		}
 
 		public void Dispose()
 		{
 			Dispose(true);
-			GC.SuppressFinalize(this);
 		}
 	}
 }

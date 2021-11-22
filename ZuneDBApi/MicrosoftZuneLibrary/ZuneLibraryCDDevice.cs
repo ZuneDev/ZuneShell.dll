@@ -810,7 +810,7 @@ namespace MicrosoftZuneLibrary
 			}
 			finally
 			{
-				//base.Finalize();
+				////base.Finalize();
 			}
 		}
 

@@ -108,7 +108,6 @@ namespace MicrosoftZuneLibrary
 			try
 			{
 				m_spUpdateStep = spUpdateStep;
-				base._002Ector();
 				m_spUpdateStep.op_Assign(pUpdateStep);
 			}
 			catch
@@ -156,16 +155,11 @@ namespace MicrosoftZuneLibrary
 					((IDisposable)m_spUpdateStep).Dispose();
 				}
 			}
-			else
-			{
-				Finalize();
-			}
 		}
 
-		public sealed override void Dispose()
+		public void Dispose()
 		{
 			Dispose(true);
-			GC.SuppressFinalize(this);
 		}
 	}
 }

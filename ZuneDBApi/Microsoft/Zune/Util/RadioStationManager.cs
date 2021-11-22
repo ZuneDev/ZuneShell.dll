@@ -69,7 +69,7 @@ namespace Microsoft.Zune.Util
 			fixed (char* uriPtr = uri.ToCharArray())
 			{
 				ushort* ptr3 = (ushort*)uriPtr;
-				int singleton = Module.GetSingleton((_GUID)Module._GUID_e1c20902_172d_4c40_bc82_5164f64ab783, (void**)(&ptr));
+				int singleton = Module.GetSingleton(Module.GUID_IRadioStationManager, (void**)(&ptr));
 				if (singleton >= 0)
 				{
 					long num = *(long*)ptr + 24;
@@ -123,7 +123,7 @@ namespace Microsoft.Zune.Util
 					{
 						ushort* ptr6 = (ushort*)imageUrlPtr;
 						IRadioStationManager* ptr3;
-						if (Module.GetSingleton((_GUID)Module._GUID_e1c20902_172d_4c40_bc82_5164f64ab783, (void**)(&ptr3)) >= 0)
+						if (Module.GetSingleton(Module.GUID_IRadioStationManager, (void**)(&ptr3)) >= 0)
 						{
 							long num = *(long*)ptr3 + 32;
 							IRadioStationManager* intPtr = ptr3;
@@ -165,7 +165,7 @@ namespace Microsoft.Zune.Util
 			{
 				ushort* ptr4 = (ushort*)titlePtr;
 				IRadioStationManager* ptr3;
-				if (Module.GetSingleton((_GUID)Module._GUID_e1c20902_172d_4c40_bc82_5164f64ab783, (void**)(&ptr3)) >= 0)
+				if (Module.GetSingleton(Module.GUID_IRadioStationManager, (void**)(&ptr3)) >= 0)
 				{
 					long num = *(long*)ptr3 + 40;
 					IRadioStationManager* intPtr = ptr3;
@@ -201,14 +201,13 @@ namespace Microsoft.Zune.Util
 			}
 			finally
 			{
-				base.Finalize();
+				//base.Finalize();
 			}
 		}
 
-		public sealed override void Dispose()
+		public void Dispose()
 		{
 			Dispose(true);
-			GC.SuppressFinalize(this);
 		}
 
 		~RadioStationManager()

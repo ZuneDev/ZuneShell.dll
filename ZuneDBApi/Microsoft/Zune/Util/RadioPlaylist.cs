@@ -11,7 +11,6 @@ namespace Microsoft.Zune.Util
 		{
 			//IL_001e: Expected I, but got I8
 			m_pRadioPlaylist = pRadioPlaylist;
-			base._002Ector();
 			IRadioPlaylist* pRadioPlaylist2 = m_pRadioPlaylist;
 			((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint>)(*(ulong*)(*(long*)pRadioPlaylist2 + 8)))((nint)pRadioPlaylist2);
 		}
@@ -61,14 +60,13 @@ namespace Microsoft.Zune.Util
 			}
 			finally
 			{
-				base.Finalize();
+				//base.Finalize();
 			}
 		}
 
-		public sealed override void Dispose()
+		public void Dispose()
 		{
 			Dispose(true);
-			GC.SuppressFinalize(this);
 		}
 
 		~RadioPlaylist()

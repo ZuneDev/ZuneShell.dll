@@ -73,7 +73,6 @@ namespace Microsoft.Zune.Service
 			try
 			{
 				m_spServiceError = spServiceError;
-				base._002Ector();
 				m_spServiceError.op_Assign(pServiceError);
 			}
 			catch
@@ -100,16 +99,11 @@ namespace Microsoft.Zune.Service
 					((IDisposable)m_spServiceError).Dispose();
 				}
 			}
-			else
-			{
-				Finalize();
-			}
 		}
 
-		public sealed override void Dispose()
+		public void Dispose()
 		{
 			Dispose(true);
-			GC.SuppressFinalize(this);
 		}
 	}
 }

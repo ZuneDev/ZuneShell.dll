@@ -35,7 +35,6 @@ namespace Microsoft.Zune.Util
 			m_fUpdateFound = updateFound;
 			m_fCriticalUpdateFound = criticalUpdateFound;
 			m_hr = hr;
-			base._002Ector();
 		}
 	}
 }

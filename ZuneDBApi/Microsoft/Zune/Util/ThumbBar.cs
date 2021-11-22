@@ -14,6 +14,7 @@ namespace Microsoft.Zune.Util
 			if (m_spThumbBar.p == null)
 			{
 				Module._ZuneShipAssert(1002u, 193u);
+				button = null;
 				return -2147418113;
 			}
 			CComPtrNtv_003CIThumbBarButton_003E cComPtrNtv_003CIThumbBarButton_003E;
@@ -52,7 +53,6 @@ namespace Microsoft.Zune.Util
 			try
 			{
 				m_spThumbBar = spThumbBar;
-				base._002Ector();
 				m_spThumbBar.op_Assign(thumbBar);
 			}
 			catch
@@ -79,16 +79,11 @@ namespace Microsoft.Zune.Util
 					((IDisposable)m_spThumbBar).Dispose();
 				}
 			}
-			else
-			{
-				Finalize();
-			}
 		}
 
-		public sealed override void Dispose()
+		public void Dispose()
 		{
 			Dispose(true);
-			GC.SuppressFinalize(this);
 		}
 	}
 }

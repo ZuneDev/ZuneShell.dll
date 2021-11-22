@@ -96,10 +96,7 @@ namespace Microsoft.Zune.Playlist
 								{
 									ePlaylistCreateConflictAction = (EPlaylistCreateConflictAction)1;
 								}
-								_GUID gUID;
-								*(int*)(&gUID) = 0;
-                                // IL initblk instruction
-                                Unsafe.InitBlockUnaligned(ref Unsafe.AddByteOffset(ref gUID, 4), 0, 12);
+								_GUID gUID = new();
 								if (serviceMediaId != null)
 								{
 									gUID = (Guid)serviceMediaId;
@@ -182,7 +179,7 @@ namespace Microsoft.Zune.Playlist
 									catch
 									{
 										//try-fault
-										ptr3 = null;
+										playlistContentIds = null;
 										throw;
 									}
 								}
@@ -190,7 +187,7 @@ namespace Microsoft.Zune.Playlist
 							catch
 							{
 								//try-fault
-								ptr2 = null;
+								mediaTypeIds = null;
 								throw;
 							}
 						}
@@ -198,7 +195,7 @@ namespace Microsoft.Zune.Playlist
 					catch
 					{
 						//try-fault
-						ptr = null;
+						mediaIds = null;
 						throw;
 					}
 				}
@@ -225,7 +222,7 @@ namespace Microsoft.Zune.Playlist
 				catch
 				{
 					//try-fault
-					ptr = null;
+					playlistContentIds = null;
 					throw;
 				}
 			}
@@ -253,7 +250,7 @@ namespace Microsoft.Zune.Playlist
 					catch
 					{
 						//try-fault
-						ptr = null;
+						playlistContentIds = null;
 						throw;
 					}
 				}

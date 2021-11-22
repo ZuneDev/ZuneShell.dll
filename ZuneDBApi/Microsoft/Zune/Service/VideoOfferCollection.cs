@@ -2,8 +2,6 @@ using System;
 using System.Collections;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using _003CCppImplementationDetails_003E;
-
 namespace Microsoft.Zune.Service
 {
 	public class VideoOfferCollection : OfferCollection, IDisposable
@@ -368,14 +366,13 @@ namespace Microsoft.Zune.Service
 			}
 			finally
 			{
-				base.Finalize();
+				//base.Finalize();
 			}
 		}
 
 		public void Dispose()
 		{
 			Dispose(true);
-			GC.SuppressFinalize(this);
 		}
 
 		~VideoOfferCollection()

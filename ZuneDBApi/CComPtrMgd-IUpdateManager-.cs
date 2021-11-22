@@ -29,9 +29,9 @@ internal class CComPtrMgd_003CIUpdateManager_003E : IDisposable
 		}
 	}
 
-	public unsafe implicit operator IUpdateManager*()
+	public static unsafe implicit operator IUpdateManager*(CComPtrMgd_003CIUpdateManager_003E obj)
 	{
-		return p;
+		return obj.p;
 	}
 
 	[SpecialName]
@@ -66,14 +66,13 @@ internal class CComPtrMgd_003CIUpdateManager_003E : IDisposable
 		}
 		finally
 		{
-			base.Finalize();
+			//base.Finalize();
 		}
 	}
 
-	public sealed override void Dispose()
+	public void Dispose()
 	{
 		Dispose(true);
-		GC.SuppressFinalize(this);
 	}
 
 	~CComPtrMgd_003CIUpdateManager_003E()

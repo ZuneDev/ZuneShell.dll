@@ -42,14 +42,13 @@ internal class CComPtrMgd_003CIFirmwareMetadata_003E : IDisposable
 		}
 		finally
 		{
-			base.Finalize();
+			//base.Finalize();
 		}
 	}
 
-	public sealed override void Dispose()
+	public void Dispose()
 	{
 		Dispose(true);
-		GC.SuppressFinalize(this);
 	}
 
 	~CComPtrMgd_003CIFirmwareMetadata_003E()
@@ -57,9 +56,9 @@ internal class CComPtrMgd_003CIFirmwareMetadata_003E : IDisposable
 		Dispose(false);
 	}
 
-	public unsafe implicit operator IFirmwareMetadata*()
+	public static unsafe implicit operator IFirmwareMetadata*(CComPtrMgd_003CIFirmwareMetadata_003E obj)
 	{
-		return p;
+		return obj.p;
 	}
 
 	[SpecialName]

@@ -254,16 +254,11 @@ namespace MicrosoftZuneLibrary
 					base.Dispose();
 				}
 			}
-			else
-			{
-				Finalize();
-			}
 		}
 
 		public new void Dispose()
 		{
 			Dispose(true);
-			GC.SuppressFinalize(this);
 		}
 	}
 }

@@ -1289,16 +1289,11 @@ namespace MicrosoftZunePlayback
 			{
 				_007EPlayerInterop();
 			}
-			else
-			{
-				Finalize();
-			}
 		}
 
-		public sealed override void Dispose()
+		public void Dispose()
 		{
 			Dispose(true);
-			GC.SuppressFinalize(this);
 		}
 	}
 }

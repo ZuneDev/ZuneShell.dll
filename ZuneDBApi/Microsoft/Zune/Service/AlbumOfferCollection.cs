@@ -180,14 +180,13 @@ namespace Microsoft.Zune.Service
 			}
 			finally
 			{
-				base.Finalize();
+				//base.Finalize();
 			}
 		}
 
 		public void Dispose()
 		{
 			Dispose(true);
-			GC.SuppressFinalize(this);
 		}
 
 		~AlbumOfferCollection()

@@ -535,7 +535,7 @@ namespace Microsoft.Zune.Util
 				}
 				finally
 				{
-					base.Finalize();
+					//base.Finalize();
 				}
 			}
 		}
@@ -543,7 +543,6 @@ namespace Microsoft.Zune.Util
 		public new void Dispose()
 		{
 			Dispose(true);
-			GC.SuppressFinalize(this);
 		}
 
 		~TaskbarPlayer()

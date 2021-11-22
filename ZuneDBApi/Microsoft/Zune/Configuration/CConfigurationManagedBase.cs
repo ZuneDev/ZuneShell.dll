@@ -84,7 +84,6 @@ namespace Microsoft.Zune.Configuration
 			m_basePath = basePath;
 			m_instance = instance;
 			m_pNotificationMarshaller = null;
-			base._002Ector();
 			switch (hive)
 			{
 			default:
@@ -806,7 +805,7 @@ namespace Microsoft.Zune.Configuration
 									catch
 									{
 										//try-fault
-										ptr5 = null;
+										array = null;
 										throw;
 									}
 								}
@@ -1045,14 +1044,13 @@ namespace Microsoft.Zune.Configuration
 			}
 			finally
 			{
-				base.Finalize();
+				//base.Finalize();
 			}
 		}
 
-		public sealed override void Dispose()
+		public void Dispose()
 		{
 			Dispose(true);
-			GC.SuppressFinalize(this);
 		}
 
 		~CConfigurationManagedBase()

@@ -90,7 +90,6 @@ namespace Microsoft.Zune.Util
 			try
 			{
 				m_spEntry = spEntry;
-				base._002Ector();
 				m_spEntry.op_Assign(pEntry);
 			}
 			catch
@@ -117,16 +116,11 @@ namespace Microsoft.Zune.Util
 					((IDisposable)m_spEntry).Dispose();
 				}
 			}
-			else
-			{
-				Finalize();
-			}
 		}
 
-		public sealed override void Dispose()
+		public void Dispose()
 		{
 			Dispose(true);
-			GC.SuppressFinalize(this);
 		}
 	}
 }

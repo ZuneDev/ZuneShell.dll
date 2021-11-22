@@ -32,7 +32,6 @@ namespace Microsoft.Zune.Subscription
 			m_feedUrl = feedUrl;
 			m_owner = owner;
 			m_typeCookie = typeCookie;
-			base._002Ector();
 			try
 			{
 				m_items = new List<SubscriptionDataProviderItem>();
@@ -242,16 +241,11 @@ namespace Microsoft.Zune.Subscription
 					base.Dispose();
 				}
 			}
-			else
-			{
-				Finalize();
-			}
 		}
 
 		public new void Dispose()
 		{
 			Dispose(true);
-			GC.SuppressFinalize(this);
 		}
 	}
 }

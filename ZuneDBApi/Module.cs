@@ -26,7 +26,6 @@ namespace ZuneDBApi
 
         private static bool s_bIsLonghornOrBetter;
         private static bool s_bIsLonghornOrBetterInitialized;
-
         internal static readonly string WINDOWCLASS_MsnMsgrUIManager = "MsnMsgrUIManager";
 
         internal static readonly _GUID GUID_NULL = _GUID.Empty;
@@ -44,6 +43,12 @@ namespace ZuneDBApi
         internal static readonly _GUID GUID_ISubscriptionManager = new("9dc7c984-41d5-4130-a5ac-46d0825cd29d");
         internal static readonly _GUID GUID_IUsageDataManager = new("2f36e709-c431-4836-ab2b-ab57aef0cf1a");
         internal static readonly _GUID GUID_IFamilySettingsProvider = new("04f38ab5-391b-4b5a-a2c1-d4b74aeb4be9");
+        internal static readonly _GUID GUID_IUriResourceTracker = new("ddbb9148-dea1-47dd-a0c1-1fdcf002c1e2");
+        internal static readonly _GUID GUID_IRadioStationManager = new("e1c20902-172d-4c40-bc82-5164f64ab783");
+        internal static readonly _GUID GUID_IPinProvider = new("b396c324-6ab3-4e8e-a5cd-aafb3e01bedc");
+        internal static readonly _GUID GUID_IZuneNetMessaging = new("bf368f0d-4743-439c-9142-e487c9534104");
+        internal static readonly _GUID GUID_IDownloadManager = new("399f851b-a600-4e88-90c3-03b8f2770076");
+        internal static readonly _GUID GUID_IPassportIdentity = new("655b468c-1224-467d-b720-3bac7f99b6ba");
 
         internal static void _ZuneShipAssert(uint v1, uint v2)
         {

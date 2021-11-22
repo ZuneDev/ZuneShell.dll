@@ -1,7 +1,6 @@
 using System.Collections.Specialized;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using _003CCppImplementationDetails_003E;
 using MicrosoftZuneLibrary;
 
 namespace Microsoft.Zune.Util

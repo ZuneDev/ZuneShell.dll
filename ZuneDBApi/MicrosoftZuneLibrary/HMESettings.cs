@@ -439,7 +439,7 @@ namespace MicrosoftZuneLibrary
 					catch
 					{
 						//try-fault
-						ptr = null;
+						m_pDeviceList = null;
 						throw;
 					}
 				}
@@ -512,7 +512,7 @@ namespace MicrosoftZuneLibrary
 							catch
 							{
 								//try-fault
-								ptr7 = null;
+								ptr4 = null;
 								throw;
 							}
 						}
@@ -532,7 +532,7 @@ namespace MicrosoftZuneLibrary
 								catch
 								{
 									//try-fault
-									ptr8 = null;
+									ptr2 = null;
 									throw;
 								}
 							}
@@ -554,7 +554,7 @@ namespace MicrosoftZuneLibrary
 									catch
 									{
 										//try-fault
-										ptr9 = null;
+										ptr3 = null;
 										throw;
 									}
 								}
@@ -598,7 +598,7 @@ namespace MicrosoftZuneLibrary
 											catch
 											{
 												//try-fault
-												ptr10 = null;
+												ptr3 = null;
 												throw;
 											}
 										}
@@ -614,7 +614,7 @@ namespace MicrosoftZuneLibrary
 											{
 												if (*(ushort*)(&tagVARIANT) == 8)
 												{
-													strSerialNumber = new string((char*)Unsafe.As<VARIANT, ulong>(ref Unsafe.AddByteOffset(ref tagVARIANT, 8)));
+													strSerialNumber = new string((char*)(&tagVARIANT + 8));
 												}
 												Module.VariantClear(ptr5);
 												if (0L != (nint)ptr3)
@@ -690,7 +690,7 @@ namespace MicrosoftZuneLibrary
 						catch
 						{
 							//try-fault
-							ptr3 = null;
+							authorizationStatus = (AuthorizationStatus)0;
 							throw;
 						}
 					}
@@ -761,14 +761,13 @@ namespace MicrosoftZuneLibrary
 			}
 			finally
 			{
-				base.Finalize();
+				//base.Finalize();
 			}
 		}
 
-		public sealed override void Dispose()
+		public void Dispose()
 		{
 			Dispose(true);
-			GC.SuppressFinalize(this);
 		}
 
 		~HMESettings()

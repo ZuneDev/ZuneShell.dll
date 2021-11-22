@@ -202,7 +202,6 @@ namespace Microsoft.Zune.Service
 			try
 			{
 				m_spWinLiveInformation = spWinLiveInformation;
-				base._002Ector();
 				m_spWinLiveInformation.op_Assign(pWinLiveInformation);
 			}
 			catch
@@ -229,16 +228,11 @@ namespace Microsoft.Zune.Service
 					((IDisposable)m_spWinLiveInformation).Dispose();
 				}
 			}
-			else
-			{
-				Finalize();
-			}
 		}
 
 		public void Dispose()
 		{
 			Dispose(true);
-			GC.SuppressFinalize(this);
 		}
 	}
 }

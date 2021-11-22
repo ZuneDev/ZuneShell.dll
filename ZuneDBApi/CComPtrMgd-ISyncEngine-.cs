@@ -29,9 +29,9 @@ internal class CComPtrMgd_003CISyncEngine_003E : IDisposable
 		}
 	}
 
-	public unsafe implicit operator ISyncEngine*()
+	public static unsafe implicit operator ISyncEngine*(CComPtrMgd_003CISyncEngine_003E obj)
 	{
-		return p;
+		return obj.p;
 	}
 
 	[SpecialName]
@@ -67,14 +67,13 @@ internal class CComPtrMgd_003CISyncEngine_003E : IDisposable
 		}
 		finally
 		{
-			base.Finalize();
+			//base.Finalize();
 		}
 	}
 
-	public sealed override void Dispose()
+	public void Dispose()
 	{
 		Dispose(true);
-		GC.SuppressFinalize(this);
 	}
 
 	~CComPtrMgd_003CISyncEngine_003E()

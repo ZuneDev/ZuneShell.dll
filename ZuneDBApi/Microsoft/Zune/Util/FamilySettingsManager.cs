@@ -139,9 +139,7 @@ namespace Microsoft.Zune.Util
 			//IL_0008: Expected I4, but got I8
 			//IL_0023: Expected I, but got I8
 			//IL_0033: Expected I, but got I8
-			PROPVARIANT cComPropVariant;
-            // IL initblk instruction
-            Unsafe.InitBlock(ref cComPropVariant, 0, 24);
+			PROPVARIANT cComPropVariant = new();
 			HRESULT result;
 			try
 			{

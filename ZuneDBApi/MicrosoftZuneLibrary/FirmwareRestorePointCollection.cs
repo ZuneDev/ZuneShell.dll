@@ -59,7 +59,6 @@ namespace MicrosoftZuneLibrary
 			try
 			{
 				m_spRestorePointCollection = spRestorePointCollection;
-				base._002Ector();
 				if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 60uL)) & 4u) != 0 && *(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 57uL) >= 5u)
 				{
 					Module.WPP_SF_q(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 48uL), 68, (_GUID*)Unsafe.AsPointer(ref Module._003FA0x15529884_002EWPP_FirmwareUpdateAPI_cpp_Traceguids), pRestorePointCollection);
@@ -104,16 +103,11 @@ namespace MicrosoftZuneLibrary
 					((IDisposable)m_spRestorePointCollection).Dispose();
 				}
 			}
-			else
-			{
-				Finalize();
-			}
 		}
 
-		public sealed override void Dispose()
+		public void Dispose()
 		{
 			Dispose(true);
-			GC.SuppressFinalize(this);
 		}
 	}
 }

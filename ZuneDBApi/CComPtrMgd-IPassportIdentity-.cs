@@ -42,14 +42,13 @@ internal class CComPtrMgd_003CIPassportIdentity_003E : IDisposable
 		}
 		finally
 		{
-			base.Finalize();
+			//base.Finalize();
 		}
 	}
 
-	public sealed override void Dispose()
+	public void Dispose()
 	{
 		Dispose(true);
-		GC.SuppressFinalize(this);
 	}
 
 	~CComPtrMgd_003CIPassportIdentity_003E()
@@ -57,9 +56,9 @@ internal class CComPtrMgd_003CIPassportIdentity_003E : IDisposable
 		Dispose(false);
 	}
 
-	public unsafe implicit operator IPassportIdentity*()
+	public static unsafe implicit operator IPassportIdentity*(CComPtrMgd_003CIPassportIdentity_003E obj)
 	{
-		return p;
+		return obj.p;
 	}
 
 	[SpecialName]
@@ -90,6 +89,6 @@ internal class CComPtrMgd_003CIPassportIdentity_003E : IDisposable
 			Module._ZuneShipAssert(1001u, 186u);
 			return -2147467261;
 		}
-		return ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, void**, int>)(*(ulong*)(*(ulong*)ptr)))((nint)ptr, (_GUID*)Unsafe.AsPointer(ref Module._GUID_655b468c_1224_467d_b720_3bac7f99b6ba), (void**)pp);
+		return ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, void**, int>)(*(ulong*)(*(ulong*)ptr)))((nint)ptr, (_GUID*)Unsafe.AsPointer(ref Module.GUID_IPassportIdentity), (void**)pp);
 	}
 }

@@ -20,7 +20,6 @@ namespace MicrosoftZuneLibrary
 		public ManagedLock(object pObject)
 		{
 			m_pObject = pObject;
-			base._002Ector();
 			Monitor.Enter(m_pObject);
 			m_locked = true;
 		}
@@ -61,16 +60,11 @@ namespace MicrosoftZuneLibrary
 			{
 				_007EManagedLock();
 			}
-			else
-			{
-				Finalize();
-			}
 		}
 
-		public sealed override void Dispose()
+		public void Dispose()
 		{
 			Dispose(true);
-			GC.SuppressFinalize(this);
 		}
 	}
 }

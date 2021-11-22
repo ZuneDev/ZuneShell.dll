@@ -15,7 +15,6 @@ namespace MicrosoftZuneLibrary
 			RequestGeneration = requestGeneration;
 			QueryList = queryList;
 			RetainedList = retainedList;
-			base._002Ector();
 		}
 	}
 }

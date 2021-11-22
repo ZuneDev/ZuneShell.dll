@@ -91,7 +91,6 @@ namespace Microsoft.Zune.Service
 			try
 			{
 				m_spPassportIdentity = spPassportIdentity;
-				base._002Ector();
 				m_spPassportIdentity.op_Assign(pPassportIdentity);
 			}
 			catch
@@ -124,16 +123,11 @@ namespace Microsoft.Zune.Service
 					((IDisposable)m_spPassportIdentity).Dispose();
 				}
 			}
-			else
-			{
-				Finalize();
-			}
 		}
 
-		public sealed override void Dispose()
+		public void Dispose()
 		{
 			Dispose(true);
-			GC.SuppressFinalize(this);
 		}
 	}
 }

@@ -117,7 +117,6 @@ namespace MicrosoftZuneLibrary
 				try
 				{
 					m_spEndpointHostManagerMediator = spEndpointHostManagerMediator;
-					base._002Ector();
 					if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 60uL)) & 2u) != 0 && *(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 57uL) >= 5u)
 					{
 						Module.WPP_SF_(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 48uL), 10, (_GUID*)Unsafe.AsPointer(ref Module._003FA0x6a82d7e8_002EWPP_DeviceListAPI_cpp_Traceguids));
@@ -719,16 +718,11 @@ namespace MicrosoftZuneLibrary
 					}
 				}
 			}
-			else
-			{
-				Finalize();
-			}
 		}
 
-		public sealed override void Dispose()
+		public void Dispose()
 		{
 			Dispose(true);
-			GC.SuppressFinalize(this);
 		}
 	}
 }

@@ -22,7 +22,6 @@ namespace MicrosoftZuneLibrary
 			try
 			{
 				m_spEndpointHost = spEndpointHost;
-				base._002Ector();
 				if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 60uL)) & 0x200u) != 0 && *(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 57uL) >= 5u)
 				{
 					Module.WPP_SF_(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 48uL), 10, (_GUID*)Unsafe.AsPointer(ref Module._003FA0x09bc4a52_002EWPP_SyncRulesAPI_cpp_Traceguids));
@@ -282,8 +281,8 @@ namespace MicrosoftZuneLibrary
 					if (num >= 0)
 					{
 						long num2 = *(long*)(&cComPtrNtv_003CIMetadataManager_003E);
-						__s_GUID gUID_b12dc962_cc1b_46c5_a92a_68f1f2b9bff = Module.GUID_IDeviceSyncRulesProvider;
-						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID, void**, int>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CIMetadataManager_003E)) + 24)))((nint)num2, (_GUID)gUID_b12dc962_cc1b_46c5_a92a_68f1f2b9bff, (void**)(&cComPtrNtv_003CIDeviceSyncRulesProvider_003E));
+						_GUID guid_GUID_IDeviceSyncRulesProvider = Module.GUID_IDeviceSyncRulesProvider;
+						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID, void**, int>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CIMetadataManager_003E)) + 24)))((nint)num2, (_GUID)guid_GUID_IDeviceSyncRulesProvider, (void**)(&cComPtrNtv_003CIDeviceSyncRulesProvider_003E));
 						if (num >= 0)
 						{
 							ESyncMode eSyncMode = ESyncMode.eSyncModeInvalid;
@@ -512,16 +511,11 @@ namespace MicrosoftZuneLibrary
 					((IDisposable)m_spEndpointHost).Dispose();
 				}
 			}
-			else
-			{
-				Finalize();
-			}
 		}
 
-		public sealed override void Dispose()
+		public void Dispose()
 		{
 			Dispose(true);
-			GC.SuppressFinalize(this);
 		}
 	}
 }

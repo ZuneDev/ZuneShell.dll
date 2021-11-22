@@ -84,7 +84,6 @@ namespace Microsoft.Zune.Util
 			try
 			{
 				m_spAsyncCallback = spAsyncCallback;
-				base._002Ector();
 			}
 			catch
 			{
@@ -152,16 +151,11 @@ namespace Microsoft.Zune.Util
 					((IDisposable)m_spAsyncCallback).Dispose();
 				}
 			}
-			else
-			{
-				Finalize();
-			}
 		}
 
-		public sealed override void Dispose()
+		public void Dispose()
 		{
 			Dispose(true);
-			GC.SuppressFinalize(this);
 		}
 	}
 }

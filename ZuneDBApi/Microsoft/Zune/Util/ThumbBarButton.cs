@@ -142,7 +142,6 @@ namespace Microsoft.Zune.Util
 			try
 			{
 				m_spButton = spButton;
-				base._002Ector();
 				m_spButton.op_Assign(pButton);
 			}
 			catch
@@ -169,16 +168,11 @@ namespace Microsoft.Zune.Util
 					((IDisposable)m_spButton).Dispose();
 				}
 			}
-			else
-			{
-				Finalize();
-			}
 		}
 
-		public sealed override void Dispose()
+		public void Dispose()
 		{
 			Dispose(true);
-			GC.SuppressFinalize(this);
 		}
 	}
 }

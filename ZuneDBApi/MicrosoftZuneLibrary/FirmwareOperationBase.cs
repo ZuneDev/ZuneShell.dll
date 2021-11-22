@@ -65,7 +65,6 @@ namespace MicrosoftZuneLibrary
 				try
 				{
 					m_spFirmwareMediator = spFirmwareMediator;
-					base._002Ector();
 					m_Canceled = false;
 					m_FirmwareLock = new object();
 				}
@@ -493,16 +492,11 @@ namespace MicrosoftZuneLibrary
 					}
 				}
 			}
-			else
-			{
-				Finalize();
-			}
 		}
 
-		public sealed override void Dispose()
+		public void Dispose()
 		{
 			Dispose(true);
-			GC.SuppressFinalize(this);
 		}
 	}
 }

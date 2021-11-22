@@ -32,6 +32,7 @@ namespace Microsoft.Zune.Util
 			if (m_spJumpList.p == null)
 			{
 				Module._ZuneShipAssert(1002u, 214u);
+				disallowedDestinationList = null;
 				return -2147418113;
 			}
 			disallowedDestinationList = null;
@@ -153,7 +154,6 @@ namespace Microsoft.Zune.Util
 			try
 			{
 				m_spJumpList = spJumpList;
-				base._002Ector();
 				m_spJumpList.op_Assign(pJumpList);
 			}
 			catch
@@ -180,16 +180,11 @@ namespace Microsoft.Zune.Util
 					((IDisposable)m_spJumpList).Dispose();
 				}
 			}
-			else
-			{
-				Finalize();
-			}
 		}
 
-		public sealed override void Dispose()
+		public void Dispose()
 		{
 			Dispose(true);
-			GC.SuppressFinalize(this);
 		}
 	}
 }

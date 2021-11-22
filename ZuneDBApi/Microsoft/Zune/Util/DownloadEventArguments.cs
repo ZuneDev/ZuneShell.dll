@@ -19,7 +19,6 @@ namespace Microsoft.Zune.Util
 			m_percent = percent;
 			m_state = state;
 			m_hrError = hrError;
-			base._002Ector();
 		}
 	}
 }

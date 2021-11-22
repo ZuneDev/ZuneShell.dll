@@ -1292,16 +1292,11 @@ namespace MicrosoftZuneLibrary
 			{
 				_007EZuneLibrary();
 			}
-			else
-			{
-				Finalize();
-			}
 		}
 
 		public void Dispose()
 		{
 			Dispose(true);
-			GC.SuppressFinalize(this);
 		}
 	}
 }

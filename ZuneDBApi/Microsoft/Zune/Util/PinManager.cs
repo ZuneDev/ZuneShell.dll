@@ -36,9 +36,9 @@ namespace Microsoft.Zune.Util
 								throw new ApplicationException(Module.GetErrorDescription(singleton));
 							}
 							IMetadataManager* intPtr = ptr;
-							__s_GUID gUID_b396c324_6ab3_4e8e_a5cd_aafb3e01bedc = Module._GUID_b396c324_6ab3_4e8e_a5cd_aafb3e01bedc;
+							_GUID guid_IPinProvider = Module.GUID_IPinProvider;
 							IPinProvider* pPinProvider;
-							int num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID, void**, int>)(*(ulong*)(*(long*)ptr + 24)))((nint)intPtr, (_GUID)gUID_b396c324_6ab3_4e8e_a5cd_aafb3e01bedc, (void**)(&pPinProvider));
+							int num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID, void**, int>)(*(ulong*)(*(long*)ptr + 24)))((nint)intPtr, (_GUID)guid_IPinProvider, (void**)(&pPinProvider));
 							if (num < 0)
 							{
 								throw new ApplicationException(Module.GetErrorDescription(num));
@@ -163,14 +163,13 @@ namespace Microsoft.Zune.Util
 			}
 			finally
 			{
-				base.Finalize();
+				//base.Finalize();
 			}
 		}
 
-		public sealed override void Dispose()
+		public void Dispose()
 		{
 			Dispose(true);
-			GC.SuppressFinalize(this);
 		}
 
 		~PinManager()

@@ -60,7 +60,6 @@ namespace MicrosoftZunePlayback
 					m_spMBRBTestSink = spMBRBTestSink;
 					_ignore = true;
 					_async = true;
-					base._002Ector();
 				}
 				catch
 				{
@@ -255,15 +254,14 @@ namespace MicrosoftZunePlayback
 				}
 				finally
 				{
-					base.Finalize();
+					//base.Finalize();
 				}
 			}
 		}
 
-		public sealed override void Dispose()
+		public void Dispose()
 		{
 			Dispose(true);
-			GC.SuppressFinalize(this);
 		}
 
 		~BandwidthTestInterop()

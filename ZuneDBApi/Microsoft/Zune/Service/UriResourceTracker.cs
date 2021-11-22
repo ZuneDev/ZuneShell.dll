@@ -27,7 +27,7 @@ namespace Microsoft.Zune.Service
 			//IL_0008: Expected I, but got I8
 			//IL_0011: Expected I, but got I8
 			IUriResourceTracker* pUriResourceTracker = null;
-			if (Module.GetSingleton((_GUID)Module._GUID_ddbb9148_dea1_47dd_a0c1_1fdcf002c1e2, (void**)(&pUriResourceTracker)) >= 0)
+			if (Module.GetSingleton(Module.GUID_IUriResourceTracker, (void**)(&pUriResourceTracker)) >= 0)
 			{
 				m_pUriResourceTracker = pUriResourceTracker;
 			}
@@ -117,14 +117,13 @@ namespace Microsoft.Zune.Service
 			}
 			finally
 			{
-				base.Finalize();
+				//base.Finalize();
 			}
 		}
 
-		public sealed override void Dispose()
+		public void Dispose()
 		{
 			Dispose(true);
-			GC.SuppressFinalize(this);
 		}
 
 		~UriResourceTracker()

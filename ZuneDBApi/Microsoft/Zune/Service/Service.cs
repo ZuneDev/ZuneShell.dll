@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using _003CCppImplementationDetails_003E;
 using Microsoft.Iris;
 using Microsoft.Zune.Util;
 using ZuneUI;
@@ -7839,14 +7838,13 @@ namespace Microsoft.Zune.Service
 			}
 			finally
 			{
-				base.Finalize();
+				//base.Finalize();
 			}
 		}
 
 		public void Dispose()
 		{
 			Dispose(true);
-			GC.SuppressFinalize(this);
 		}
 
 		~Service()

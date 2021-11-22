@@ -42,14 +42,13 @@ internal class CComPtrMgd_003CIFirmwareUpdateCollection_003E : IDisposable
 		}
 		finally
 		{
-			base.Finalize();
+			//base.Finalize();
 		}
 	}
 
-	public sealed override void Dispose()
+	public void Dispose()
 	{
 		Dispose(true);
-		GC.SuppressFinalize(this);
 	}
 
 	~CComPtrMgd_003CIFirmwareUpdateCollection_003E()
@@ -57,9 +56,9 @@ internal class CComPtrMgd_003CIFirmwareUpdateCollection_003E : IDisposable
 		Dispose(false);
 	}
 
-	public unsafe implicit operator IFirmwareUpdateCollection*()
+	public static unsafe implicit operator IFirmwareUpdateCollection*(CComPtrMgd_003CIFirmwareUpdateCollection_003E obj)
 	{
-		return p;
+		return obj.p;
 	}
 
 	[SpecialName]

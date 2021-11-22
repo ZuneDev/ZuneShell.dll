@@ -65,7 +65,6 @@ namespace MicrosoftZunePlayback
 			_testLength = testLength;
 			_testPosition = testPosition;
 			_currentState = currentState;
-			base._002Ector();
 			int testPosition2 = _testPosition;
 			if (testPosition2 != 0)
 			{

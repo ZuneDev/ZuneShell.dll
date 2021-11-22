@@ -42,14 +42,13 @@ internal class CComPtrMgd_003CIThumbBar_003E : IDisposable
 		}
 		finally
 		{
-			base.Finalize();
+			//base.Finalize();
 		}
 	}
 
-	public sealed override void Dispose()
+	public void Dispose()
 	{
 		Dispose(true);
-		GC.SuppressFinalize(this);
 	}
 
 	~CComPtrMgd_003CIThumbBar_003E()
@@ -57,9 +56,9 @@ internal class CComPtrMgd_003CIThumbBar_003E : IDisposable
 		Dispose(false);
 	}
 
-	public unsafe implicit operator IThumbBar*()
+	public static unsafe implicit operator IThumbBar*(CComPtrMgd_003CIThumbBar_003E obj)
 	{
-		return p;
+		return obj.p;
 	}
 
 	[SpecialName]

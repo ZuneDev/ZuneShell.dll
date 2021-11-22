@@ -94,7 +94,6 @@ namespace Microsoft.Zune.Service
 			try
 			{
 				m_spWinLiveAvailableInformation = spWinLiveAvailableInformation;
-				base._002Ector();
 				m_spWinLiveAvailableInformation.op_Assign(pWinLiveAvailableInformation);
 			}
 			catch
@@ -121,16 +120,11 @@ namespace Microsoft.Zune.Service
 					((IDisposable)m_spWinLiveAvailableInformation).Dispose();
 				}
 			}
-			else
-			{
-				Finalize();
-			}
 		}
 
-		public sealed override void Dispose()
+		public void Dispose()
 		{
 			Dispose(true);
-			GC.SuppressFinalize(this);
 		}
 	}
 }

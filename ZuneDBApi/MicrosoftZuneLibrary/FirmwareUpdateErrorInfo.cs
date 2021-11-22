@@ -65,7 +65,6 @@ namespace MicrosoftZuneLibrary
 			try
 			{
 				m_spErrorInfo = spErrorInfo;
-				base._002Ector();
 				m_spErrorInfo.op_Assign(pErrorInfo);
 			}
 			catch
@@ -94,16 +93,11 @@ namespace MicrosoftZuneLibrary
 					((IDisposable)m_spErrorInfo).Dispose();
 				}
 			}
-			else
-			{
-				Finalize();
-			}
 		}
 
-		public sealed override void Dispose()
+		public void Dispose()
 		{
 			Dispose(true);
-			GC.SuppressFinalize(this);
 		}
 	}
 }

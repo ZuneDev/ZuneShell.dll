@@ -1,6 +1,5 @@
 using System;
 using System.Runtime.CompilerServices;
-using _003CCppImplementationDetails_003E;
 using Microsoft.Iris;
 
 namespace Microsoft.Zune.Subscription

@@ -15,7 +15,6 @@ namespace Microsoft.Zune.Service
 			try
 			{
 				m_spWinLiveSignup = spWinLiveSignup;
-				base._002Ector();
 			}
 			catch
 			{
@@ -379,16 +378,11 @@ namespace Microsoft.Zune.Service
 					((IDisposable)m_spWinLiveSignup).Dispose();
 				}
 			}
-			else
-			{
-				Finalize();
-			}
 		}
 
-		public sealed override void Dispose()
+		public void Dispose()
 		{
 			Dispose(true);
-			GC.SuppressFinalize(this);
 		}
 	}
 }

@@ -4,7 +4,6 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Threading;
-using _003CCppImplementationDetails_003E;
 using DataStructs;
 
 namespace MicrosoftZuneLibrary
@@ -233,7 +232,7 @@ namespace MicrosoftZuneLibrary
 					FILETIME fILETIME;
 					if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EEndpointHostProperty, FILETIME*, int>)(*(ulong*)(*(long*)p + 88)))((nint)p, EEndpointHostProperty.eEndpointHostPropertyLastConnectTime, &fILETIME) >= 0)
 					{
-						long fileTime = (uint)Unsafe.As<FILETIME, int>(ref Unsafe.AddByteOffset(ref fILETIME, 4)) * 4294967296L + (uint)(*(int*)(&fILETIME));
+						long fileTime = (uint)(&fILETIME + 4) * 4294967296L + (uint)(*(int*)(&fILETIME));
 						try
 						{
 							result = DateTime.FromFileTime(fileTime);
@@ -262,7 +261,7 @@ namespace MicrosoftZuneLibrary
 					FILETIME fILETIME;
 					if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EEndpointHostProperty, FILETIME*, int>)(*(ulong*)(*(long*)p + 88)))((nint)p, EEndpointHostProperty.eEndpointHostPropertyLastSyncTime, &fILETIME) >= 0)
 					{
-						long fileTime = (uint)Unsafe.As<FILETIME, int>(ref Unsafe.AddByteOffset(ref fILETIME, 4)) * 4294967296L + (uint)(*(int*)(&fILETIME));
+						long fileTime = (uint)(&fILETIME + 4) * 4294967296L + (uint)(*(int*)(&fILETIME));
 						try
 						{
 							result = DateTime.FromFileTime(fileTime);
@@ -1169,7 +1168,8 @@ namespace MicrosoftZuneLibrary
 						if (num < 0)
 						{
 							IEndpointHost* p3 = m_spEndpointHost.p;
-							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EEndpointHostProperty, _GUID*, int>)(*(ulong*)(*(long*)p3 + 176)))((nint)p3, EEndpointHostProperty.eEndpointHostPropertyUserGuid, (_GUID*)Unsafe.AsPointer(ref Module.GUID_NULL));
+							_GUID GUID_NULL = Module.GUID_NULL;
+							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EEndpointHostProperty, _GUID*, int>)(*(ulong*)(*(long*)p3 + 176)))((nint)p3, EEndpointHostProperty.eEndpointHostPropertyUserGuid, (_GUID*)Unsafe.AsPointer(ref GUID_NULL));
 						}
 					}
 					catch
@@ -2482,7 +2482,7 @@ namespace MicrosoftZuneLibrary
 					catch
 					{
 						//try-fault
-						ptr = null;
+						array = null;
 						throw;
 					}
 				}
@@ -2538,7 +2538,7 @@ namespace MicrosoftZuneLibrary
 					catch
 					{
 						//try-fault
-						ptr = null;
+						array = null;
 						throw;
 					}
 				}
@@ -3089,7 +3089,6 @@ namespace MicrosoftZuneLibrary
 						try
 						{
 							m_spDeviceMediator = spDeviceMediator;
-							base._002Ector();
 							if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 60uL)) & 2u) != 0 && *(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 57uL) >= 5u)
 							{
 								Module.WPP_SF_(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 48uL), 10, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xc0985b64_002EWPP_DeviceAPI_cpp_Traceguids));
@@ -3804,16 +3803,11 @@ namespace MicrosoftZuneLibrary
 					}
 				}
 			}
-			else
-			{
-				Finalize();
-			}
 		}
 
 		public void Dispose()
 		{
 			Dispose(true);
-			GC.SuppressFinalize(this);
 		}
 	}
 }

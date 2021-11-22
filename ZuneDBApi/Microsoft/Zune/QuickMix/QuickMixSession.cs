@@ -16,7 +16,6 @@ namespace Microsoft.Zune.QuickMix
 			try
 			{
 				m_spSession = spSession;
-				base._002Ector();
 				m_spSession.op_Assign(pSession);
 			}
 			catch
@@ -268,15 +267,14 @@ namespace Microsoft.Zune.QuickMix
 				}
 				finally
 				{
-					base.Finalize();
+					//base.Finalize();
 				}
 			}
 		}
 
-		public sealed override void Dispose()
+		public void Dispose()
 		{
 			Dispose(true);
-			GC.SuppressFinalize(this);
 		}
 
 		~QuickMixSession()

@@ -3,8 +3,6 @@ using System.Collections;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading;
-using _003CCppImplementationDetails_003E;
-
 namespace MicrosoftZuneLibrary
 {
 	public class ZuneQueryList : IDisposable

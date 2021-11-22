@@ -34,14 +34,12 @@ namespace Microsoft.Zune.Util
 		{
 			m_x = x;
 			m_y = y;
-			base._002Ector();
 		}
 
 		public Point()
 		{
 			m_x = 0;
 			m_y = 0;
-			base._002Ector();
 		}
 	}
 }

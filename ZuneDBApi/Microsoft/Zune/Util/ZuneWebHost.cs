@@ -2,8 +2,6 @@ using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading;
-using _003CCppImplementationDetails_003E;
-
 namespace Microsoft.Zune.Util
 {
 	public class ZuneWebHost

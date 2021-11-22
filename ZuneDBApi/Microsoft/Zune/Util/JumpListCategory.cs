@@ -65,7 +65,6 @@ namespace Microsoft.Zune.Util
 			try
 			{
 				m_spCategory = spCategory;
-				base._002Ector();
 				m_spCategory.op_Assign(pCategory);
 			}
 			catch
@@ -92,16 +91,11 @@ namespace Microsoft.Zune.Util
 					((IDisposable)m_spCategory).Dispose();
 				}
 			}
-			else
-			{
-				Finalize();
-			}
 		}
 
-		public sealed override void Dispose()
+		public void Dispose()
 		{
 			Dispose(true);
-			GC.SuppressFinalize(this);
 		}
 	}
 }

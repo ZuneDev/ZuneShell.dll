@@ -154,7 +154,6 @@ namespace MicrosoftZuneLibrary
 			try
 			{
 				m_spFirmwareMetadata = spFirmwareMetadata;
-				base._002Ector();
 				m_spFirmwareMetadata.op_Assign(pFirmwareMetadata);
 				m_fSelected = false;
 			}
@@ -184,16 +183,11 @@ namespace MicrosoftZuneLibrary
 					((IDisposable)m_spFirmwareMetadata).Dispose();
 				}
 			}
-			else
-			{
-				Finalize();
-			}
 		}
 
-		public sealed override void Dispose()
+		public void Dispose()
 		{
 			Dispose(true);
-			GC.SuppressFinalize(this);
 		}
 	}
 }

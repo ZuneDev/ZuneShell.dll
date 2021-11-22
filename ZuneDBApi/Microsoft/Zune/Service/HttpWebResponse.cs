@@ -85,7 +85,6 @@ namespace Microsoft.Zune.Service
 			//IL_010d: Expected I, but got I8
 			//IL_0199: Expected I, but got I8
 			m_pStream = pStream;
-			base._002Ector();
 			_statusCode = statusCode;
 			if (pResponse != null)
 			{
@@ -182,14 +181,13 @@ namespace Microsoft.Zune.Service
 			}
 			finally
 			{
-				base.Finalize();
+				//base.Finalize();
 			}
 		}
 
-		public sealed override void Dispose()
+		public void Dispose()
 		{
 			Dispose(true);
-			GC.SuppressFinalize(this);
 		}
 
 		~HttpWebResponse()

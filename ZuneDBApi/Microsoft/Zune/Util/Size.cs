@@ -34,14 +34,12 @@ namespace Microsoft.Zune.Util
 		{
 			m_width = width;
 			m_height = height;
-			base._002Ector();
 		}
 
 		public Size()
 		{
 			m_width = 0;
 			m_height = 0;
-			base._002Ector();
 		}
 	}
 }

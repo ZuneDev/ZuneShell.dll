@@ -11,7 +11,6 @@ namespace MicrosoftZunePlayback
 		public BandwidthTestErrorArgs(int errorCode)
 		{
 			_errorCode = errorCode;
-			base._002Ector();
 		}
 	}
 }

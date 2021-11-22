@@ -72,7 +72,6 @@ namespace MicrosoftZuneLibrary
 				try
 				{
 					m_spSyncRulesViewMediator = spSyncRulesViewMediator;
-					base._002Ector();
 					if (pSyncRulesView != null)
 					{
 						IGasGauge* ptr = null;
@@ -214,16 +213,11 @@ namespace MicrosoftZuneLibrary
 					}
 				}
 			}
-			else
-			{
-				Finalize();
-			}
 		}
 
-		public sealed override void Dispose()
+		public void Dispose()
 		{
 			Dispose(true);
-			GC.SuppressFinalize(this);
 		}
 	}
 }

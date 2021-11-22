@@ -290,7 +290,6 @@ namespace MicrosoftZuneLibrary
 			try
 			{
 				m_spFirmwareUpdater = spFirmwareUpdater;
-				base._002Ector();
 				try
 				{
 					if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 60uL)) & 4u) != 0 && *(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 57uL) >= 5u)

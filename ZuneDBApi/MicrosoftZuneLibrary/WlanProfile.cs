@@ -175,14 +175,13 @@ namespace MicrosoftZuneLibrary
 		{
 			if (!P_0)
 			{
-				Finalize();
+				//Finalize();
 			}
 		}
 
-		public sealed override void Dispose()
+		public void Dispose()
 		{
 			Dispose(true);
-			GC.SuppressFinalize(this);
 		}
 	}
 }

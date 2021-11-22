@@ -63,7 +63,7 @@ namespace MicrosoftZuneLibrary
 				catch
 				{
 					//try-fault
-					ptr4 = null;
+					m_AdviseCookie = 0;
 					throw;
 				}
 			}
@@ -100,14 +100,13 @@ namespace MicrosoftZuneLibrary
 			}
 			finally
 			{
-				base.Finalize();
+				//base.Finalize();
 			}
 		}
 
 		public void Dispose()
 		{
 			Dispose(true);
-			GC.SuppressFinalize(this);
 		}
 
 		~InteropNotifications()

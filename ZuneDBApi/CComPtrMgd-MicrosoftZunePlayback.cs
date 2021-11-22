@@ -30,9 +30,9 @@ internal class CComPtrMgd_003CMicrosoftZunePlayback_003A_003ACMBRBandwidthTestEv
 		}
 	}
 
-	public unsafe implicit operator CMBRBandwidthTestEventSink*()
+	public static unsafe implicit operator CMBRBandwidthTestEventSink*(CComPtrMgd_003CMicrosoftZunePlayback_003A_003ACMBRBandwidthTestEventSink_003E obj)
 	{
-		return p;
+		return obj.p;
 	}
 
 	[SpecialName]
@@ -61,14 +61,13 @@ internal class CComPtrMgd_003CMicrosoftZunePlayback_003A_003ACMBRBandwidthTestEv
 		}
 		finally
 		{
-			base.Finalize();
+			//base.Finalize();
 		}
 	}
 
-	public sealed override void Dispose()
+	public void Dispose()
 	{
 		Dispose(true);
-		GC.SuppressFinalize(this);
 	}
 
 	~CComPtrMgd_003CMicrosoftZunePlayback_003A_003ACMBRBandwidthTestEventSink_003E()

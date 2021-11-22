@@ -263,14 +263,13 @@ namespace Microsoft.Zune.Messaging
 			}
 			finally
 			{
-				base.Finalize();
+				//base.Finalize();
 			}
 		}
 
 		public void Dispose()
 		{
 			Dispose(true);
-			GC.SuppressFinalize(this);
 		}
 
 		~PlaylistMessageData()

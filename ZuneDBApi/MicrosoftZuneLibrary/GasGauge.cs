@@ -108,7 +108,6 @@ namespace MicrosoftZuneLibrary
 				try
 				{
 					m_spGasGaugeMediator = spGasGaugeMediator;
-					base._002Ector();
 					if (pGasGauge != null)
 					{
 						m_spGasGauge.op_Assign(pGasGauge);
@@ -214,16 +213,11 @@ namespace MicrosoftZuneLibrary
 					}
 				}
 			}
-			else
-			{
-				Finalize();
-			}
 		}
 
-		public sealed override void Dispose()
+		public void Dispose()
 		{
 			Dispose(true);
-			GC.SuppressFinalize(this);
 		}
 	}
 }

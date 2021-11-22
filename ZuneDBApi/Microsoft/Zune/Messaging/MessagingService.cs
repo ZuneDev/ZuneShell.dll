@@ -37,7 +37,7 @@ namespace Microsoft.Zune.Messaging
 			//IL_0008: Expected I, but got I8
 			//IL_0011: Expected I, but got I8
 			IZuneNetMessaging* pMessaging = null;
-			if (Module.GetSingleton((_GUID)Module._GUID_bf368f0d_4743_439c_9142_e487c9534104, (void**)(&pMessaging)) >= 0)
+			if (Module.GetSingleton(Module.GUID_IZuneNetMessaging, (void**)(&pMessaging)) >= 0)
 			{
 				m_pMessaging = pMessaging;
 			}
@@ -1017,14 +1017,13 @@ namespace Microsoft.Zune.Messaging
 			}
 			finally
 			{
-				base.Finalize();
+				//base.Finalize();
 			}
 		}
 
-		public sealed override void Dispose()
+		public void Dispose()
 		{
 			Dispose(true);
-			GC.SuppressFinalize(this);
 		}
 
 		~MessagingService()

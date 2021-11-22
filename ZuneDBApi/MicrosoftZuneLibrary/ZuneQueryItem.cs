@@ -50,16 +50,11 @@ namespace MicrosoftZuneLibrary
 			{
 				_007EZuneQueryItem();
 			}
-			else
-			{
-				Finalize();
-			}
 		}
 
-		public sealed override void Dispose()
+		public void Dispose()
 		{
 			Dispose(true);
-			GC.SuppressFinalize(this);
 		}
 	}
 }

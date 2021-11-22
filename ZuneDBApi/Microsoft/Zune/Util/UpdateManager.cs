@@ -171,7 +171,6 @@ namespace Microsoft.Zune.Util
 			try
 			{
 				m_spUpdateManager = spUpdateManager;
-				base._002Ector();
 			}
 			catch
 			{
@@ -199,16 +198,11 @@ namespace Microsoft.Zune.Util
 					((IDisposable)m_spUpdateManager).Dispose();
 				}
 			}
-			else
-			{
-				Finalize();
-			}
 		}
 
-		public sealed override void Dispose()
+		public void Dispose()
 		{
 			Dispose(true);
-			GC.SuppressFinalize(this);
 		}
 	}
 }

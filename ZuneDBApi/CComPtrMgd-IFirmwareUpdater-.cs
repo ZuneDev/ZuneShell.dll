@@ -42,14 +42,13 @@ internal class CComPtrMgd_003CIFirmwareUpdater_003E : IDisposable
 		}
 		finally
 		{
-			base.Finalize();
+			//base.Finalize();
 		}
 	}
 
 	public void Dispose()
 	{
 		Dispose(true);
-		GC.SuppressFinalize(this);
 	}
 
 	~CComPtrMgd_003CIFirmwareUpdater_003E()
@@ -57,9 +56,9 @@ internal class CComPtrMgd_003CIFirmwareUpdater_003E : IDisposable
 		Dispose(false);
 	}
 
-	public unsafe implicit operator IFirmwareUpdater*()
+	public static unsafe implicit operator IFirmwareUpdater*(CComPtrMgd_003CIFirmwareUpdater_003E obj)
 	{
-		return p;
+		return obj.p;
 	}
 
 	[SpecialName]

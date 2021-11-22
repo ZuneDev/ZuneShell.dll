@@ -58,7 +58,6 @@ namespace MicrosoftZuneLibrary
 			m_fAdvised = false;
 			m_disposed = false;
 			m_RefCount = 0;
-			base._002Ector();
 			IWMPCDDeviceList* pDeviceList2 = m_pDeviceList;
 			if (pDeviceList2 == null)
 			{
@@ -99,7 +98,7 @@ namespace MicrosoftZuneLibrary
 				catch
 				{
 					//try-fault
-					ptr4 = null;
+					m_dwAdviseCookie = 0;
 					throw;
 				}
 			}
@@ -197,14 +196,13 @@ namespace MicrosoftZuneLibrary
 			}
 			finally
 			{
-				base.Finalize();
+				//base.Finalize();
 			}
 		}
 
-		public sealed override void Dispose()
+		public void Dispose()
 		{
 			Dispose(true);
-			GC.SuppressFinalize(this);
 		}
 
 		~ZuneLibraryCDDeviceList()
