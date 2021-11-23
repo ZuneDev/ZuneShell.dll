@@ -1,4 +1,4 @@
-internal enum EFirmwareUpdateOption
+public enum EFirmwareUpdateOption
 {
 
 }

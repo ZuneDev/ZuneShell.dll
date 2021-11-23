@@ -1,4 +1,4 @@
-internal enum ECallbackPriorityNative
+public enum ECallbackPriorityNative
 {
 
 }

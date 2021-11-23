@@ -1,4 +1,4 @@
-internal enum EDownloadType
+public enum EDownloadType
 {
 
 }

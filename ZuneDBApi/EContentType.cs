@@ -1,4 +1,4 @@
-internal enum EContentType
+public enum EContentType
 {
 
 }

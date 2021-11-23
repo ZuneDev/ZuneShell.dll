@@ -1,4 +1,4 @@
-internal enum EAutoPlaylistRuleOperators
+public enum EAutoPlaylistRuleOperators
 {
 
 }

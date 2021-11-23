@@ -1,4 +1,4 @@
-internal enum EAccountUserType
+public enum EAccountUserType
 {
 
 }

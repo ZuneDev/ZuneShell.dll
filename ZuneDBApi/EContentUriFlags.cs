@@ -1,4 +1,4 @@
-internal enum EContentUriFlags
+public enum EContentUriFlags
 {
 
 }

@@ -1,4 +1,4 @@
-internal enum ECreditCardType
+public enum ECreditCardType
 {
 
 }

@@ -1,4 +1,4 @@
-internal enum EPassportPolicy
+public enum EPassportPolicy
 {
 
 }

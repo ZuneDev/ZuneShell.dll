@@ -1,4 +1,4 @@
-internal enum EPrivacySettingValue
+public enum EPrivacySettingValue
 {
 
 }

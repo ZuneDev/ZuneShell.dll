@@ -1,4 +1,4 @@
-internal enum EFavoritesAction
+public enum EFavoritesAction
 {
 
 }

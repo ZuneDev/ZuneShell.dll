@@ -1,4 +1,4 @@
-internal enum EventReason
+public enum EventReason
 {
 
 }

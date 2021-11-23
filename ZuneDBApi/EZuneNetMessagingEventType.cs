@@ -1,4 +1,4 @@
-internal enum EZuneNetMessagingEventType
+public enum EZuneNetMessagingEventType
 {
 
 }

@@ -1,4 +1,4 @@
-internal enum EConcernType
+public enum EConcernType
 {
 
 }

@@ -1,4 +1,4 @@
-internal enum EMediaFormat
+public enum EMediaFormat
 {
 
 }

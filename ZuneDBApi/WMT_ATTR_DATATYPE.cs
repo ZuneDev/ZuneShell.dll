@@ -1,6 +1,6 @@
 using System.Runtime.CompilerServices;
 
-internal enum WMT_ATTR_DATATYPE
+public enum WMT_ATTR_DATATYPE
 {
 
 }

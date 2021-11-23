@@ -1,4 +1,4 @@
-internal enum EQueryPropertyBagProp
+public enum EQueryPropertyBagProp
 {
 
 }

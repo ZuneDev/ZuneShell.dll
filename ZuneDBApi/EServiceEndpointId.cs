@@ -1,4 +1,4 @@
-internal enum EServiceEndpointId
+public enum EServiceEndpointId
 {
 
 }

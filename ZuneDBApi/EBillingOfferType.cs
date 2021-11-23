@@ -1,4 +1,4 @@
-internal enum EBillingOfferType
+public enum EBillingOfferType
 {
 
 }

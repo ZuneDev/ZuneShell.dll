@@ -1,4 +1,4 @@
-internal enum EWindowPositionKeys
+public enum EWindowPositionKeys
 {
 
 }

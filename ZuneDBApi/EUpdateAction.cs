@@ -1,4 +1,4 @@
-internal enum EUpdateAction
+public enum EUpdateAction
 {
 
 }

@@ -1,4 +1,4 @@
-internal enum ESeasonPurchaseFlags
+public enum ESeasonPurchaseFlags
 {
 
 }

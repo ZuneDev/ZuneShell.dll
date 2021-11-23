@@ -1,4 +1,4 @@
-internal enum EFeatures
+public enum EFeatures
 {
 
 }

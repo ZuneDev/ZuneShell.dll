@@ -1,4 +1,4 @@
-internal enum AuthorizationStatus
+public enum AuthorizationStatus
 {
 
 }

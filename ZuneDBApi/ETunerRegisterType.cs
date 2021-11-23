@@ -1,4 +1,4 @@
-internal enum ETunerRegisterType
+public enum ETunerRegisterType
 {
 
 }

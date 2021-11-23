@@ -1,4 +1,4 @@
-internal enum EMediaPaymentType
+public enum EMediaPaymentType
 {
     Unknown = -1,
     CreditCard = 1,

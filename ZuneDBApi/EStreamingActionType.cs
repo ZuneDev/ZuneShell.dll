@@ -1,4 +1,4 @@
-internal enum EStreamingActionType
+public enum EStreamingActionType
 {
 
 }

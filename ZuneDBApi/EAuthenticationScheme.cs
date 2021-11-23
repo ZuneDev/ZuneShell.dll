@@ -1,4 +1,4 @@
-internal enum EAuthenticationScheme
+public enum EAuthenticationScheme
 {
 
 }

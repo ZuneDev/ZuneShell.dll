@@ -1,4 +1,4 @@
-internal enum EClientTypeFlags
+public enum EClientTypeFlags
 {
 
 }

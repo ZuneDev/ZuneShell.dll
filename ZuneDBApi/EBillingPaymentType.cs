@@ -1,4 +1,4 @@
-internal enum EBillingPaymentType
+public enum EBillingPaymentType
 {
     Unknown = -1,
     None,

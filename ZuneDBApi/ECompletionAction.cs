@@ -1,4 +1,4 @@
-internal enum ECompletionAction
+public enum ECompletionAction
 {
 
 }

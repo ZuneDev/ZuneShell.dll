@@ -1,4 +1,4 @@
-internal enum EGetOffersFlags
+public enum EGetOffersFlags
 {
 
 }

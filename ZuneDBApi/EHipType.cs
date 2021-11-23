@@ -1,4 +1,4 @@
-internal enum EHipType
+public enum EHipType
 {
 
 }

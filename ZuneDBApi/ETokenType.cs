@@ -1,4 +1,4 @@
-internal enum ETokenType
+public enum ETokenType
 {
 
 }

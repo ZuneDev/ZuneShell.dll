@@ -1,4 +1,4 @@
-internal enum DRMQueryState
+public enum DRMQueryState
 {
 
 }

@@ -1,4 +1,4 @@
-internal enum EMediaRights
+public enum EMediaRights
 {
 
 }

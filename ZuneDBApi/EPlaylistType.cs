@@ -1,4 +1,4 @@
-internal enum EPlaylistType
+public enum EPlaylistType
 {
 
 }

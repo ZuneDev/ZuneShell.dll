@@ -1,4 +1,4 @@
-internal enum WMIDPREQUESTCODE
+public enum WMIDPREQUESTCODE
 {
 
 }

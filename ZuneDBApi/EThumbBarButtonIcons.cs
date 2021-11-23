@@ -1,4 +1,4 @@
-internal enum EThumbBarButtonIcons
+public enum EThumbBarButtonIcons
 {
 
 }

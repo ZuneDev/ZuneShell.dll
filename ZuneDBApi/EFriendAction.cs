@@ -1,4 +1,4 @@
-internal enum EFriendAction
+public enum EFriendAction
 {
 
 }

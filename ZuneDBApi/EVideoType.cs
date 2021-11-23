@@ -1,4 +1,4 @@
-internal enum EVideoType
+public enum EVideoType
 {
 
 }

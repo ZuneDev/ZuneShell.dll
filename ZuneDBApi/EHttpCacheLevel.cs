@@ -1,4 +1,4 @@
-internal enum EHttpCacheLevel
+public enum EHttpCacheLevel
 {
 
 }

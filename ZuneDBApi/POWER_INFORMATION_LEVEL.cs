@@ -1,4 +1,4 @@
-internal enum POWER_INFORMATION_LEVEL
+public enum POWER_INFORMATION_LEVEL
 {
 
 }

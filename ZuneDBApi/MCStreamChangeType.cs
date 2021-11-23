@@ -1,4 +1,4 @@
-internal enum MCStreamChangeType
+public enum MCStreamChangeType
 {
 
 }

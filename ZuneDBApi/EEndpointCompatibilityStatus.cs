@@ -1,4 +1,4 @@
-internal enum EEndpointCompatibilityStatus
+public enum EEndpointCompatibilityStatus
 {
 
 }

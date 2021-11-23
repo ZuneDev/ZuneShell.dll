@@ -1,4 +1,4 @@
-internal enum EPurchaseOffersFlags
+public enum EPurchaseOffersFlags
 {
 
 }

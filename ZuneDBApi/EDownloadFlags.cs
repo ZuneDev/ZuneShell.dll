@@ -1,4 +1,4 @@
-internal enum EDownloadFlags
+public enum EDownloadFlags
 {
 
 }

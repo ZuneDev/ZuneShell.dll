@@ -1,4 +1,4 @@
-internal enum EPlaylistLimitType
+public enum EPlaylistLimitType
 {
 
 }

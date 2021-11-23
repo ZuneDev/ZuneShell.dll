@@ -1,4 +1,4 @@
-internal enum EPlaylistCreateConflictAction
+public enum EPlaylistCreateConflictAction
 {
 
 }

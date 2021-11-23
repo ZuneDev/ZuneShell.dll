@@ -1,4 +1,4 @@
-internal enum EPurchaseOfferType
+public enum EPurchaseOfferType
 {
 
 }
