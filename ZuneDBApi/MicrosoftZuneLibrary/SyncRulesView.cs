@@ -6,9 +6,9 @@ namespace MicrosoftZuneLibrary
 {
 	public class SyncRulesView : IDisposable
 	{
-		private readonly CComPtrMgd<ISyncRulesView> m_spSyncRulesView;
+		private readonly CComPtrMgd_003CISyncRulesView_003E m_spSyncRulesView;
 
-		private readonly CComPtrMgd<SyncRulesViewMediator> m_spSyncRulesViewMediator;
+		private readonly CComPtrMgd_003CSyncRulesViewMediator_003E m_spSyncRulesViewMediator;
 
 		private SyncRulesViewItemAddedHandler m_itemAddedHandler;
 
@@ -64,11 +64,11 @@ namespace MicrosoftZuneLibrary
 			//IL_0052: Expected I, but got I8
 			//IL_0073: Expected I, but got I8
 			//IL_008e: Expected I, but got I8
-			CComPtrMgd<ISyncRulesView> spSyncRulesView = new CComPtrMgd<ISyncRulesView>();
+			CComPtrMgd_003CISyncRulesView_003E spSyncRulesView = new CComPtrMgd_003CISyncRulesView_003E();
 			try
 			{
 				m_spSyncRulesView = spSyncRulesView;
-				CComPtrMgd<SyncRulesViewMediator> spSyncRulesViewMediator = new CComPtrMgd<SyncRulesViewMediator>();
+				CComPtrMgd_003CSyncRulesViewMediator_003E spSyncRulesViewMediator = new CComPtrMgd_003CSyncRulesViewMediator_003E();
 				try
 				{
 					m_spSyncRulesViewMediator = spSyncRulesViewMediator;
@@ -147,16 +147,16 @@ namespace MicrosoftZuneLibrary
 			SSyncRuleDetails sSyncRuleDetails;
 			if (p != null && ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, SSyncRuleDetails*, int>)(*(ulong*)(*(long*)p + 48)))((nint)p, (uint)index, &sSyncRuleDetails) >= 0)
 			{
-				syncRuleDetails.syncCategory = *(ESyncCategory*)(&sSyncRuleDetails);
-				syncRuleDetails.mediaType = Unsafe.As<SSyncRuleDetails, EMediaTypes>(ref Unsafe.AddByteOffset(ref sSyncRuleDetails, 4));
-				syncRuleDetails.allMedia = Unsafe.As<SSyncRuleDetails, bool>(ref Unsafe.AddByteOffset(ref sSyncRuleDetails, 8));
-				syncRuleDetails.mediaId = Unsafe.As<SSyncRuleDetails, int>(ref Unsafe.AddByteOffset(ref sSyncRuleDetails, 12));
-				syncRuleDetails.included = Unsafe.As<SSyncRuleDetails, bool>(ref Unsafe.AddByteOffset(ref sSyncRuleDetails, 20));
-				syncRuleDetails.complex = Unsafe.As<SSyncRuleDetails, bool>(ref Unsafe.AddByteOffset(ref sSyncRuleDetails, 21));
-				syncRuleDetails.calculated = Unsafe.As<SSyncRuleDetails, bool>(ref Unsafe.AddByteOffset(ref sSyncRuleDetails, 22));
-				syncRuleDetails.totalItems = Unsafe.As<SSyncRuleDetails, long>(ref Unsafe.AddByteOffset(ref sSyncRuleDetails, 24));
-				syncRuleDetails.totalSize = Unsafe.As<SSyncRuleDetails, long>(ref Unsafe.AddByteOffset(ref sSyncRuleDetails, 32));
-				syncRuleDetails.ignore = Unsafe.As<SSyncRuleDetails, bool>(ref Unsafe.AddByteOffset(ref sSyncRuleDetails, 23));
+				syncRuleDetails.syncCategory = sSyncRuleDetails.syncCategory;
+				syncRuleDetails.mediaType = sSyncRuleDetails.mediaType;
+				syncRuleDetails.allMedia = sSyncRuleDetails.allMedia;
+				syncRuleDetails.mediaId = sSyncRuleDetails.mediaId;
+				syncRuleDetails.included = sSyncRuleDetails.included;
+				syncRuleDetails.complex = sSyncRuleDetails.complex;
+				syncRuleDetails.calculated = sSyncRuleDetails.calculated;
+				syncRuleDetails.totalItems = sSyncRuleDetails.totalItems;
+				syncRuleDetails.totalSize = sSyncRuleDetails.totalSize;
+				syncRuleDetails.ignore = sSyncRuleDetails.ignore;
 			}
 			return syncRuleDetails;
 		}

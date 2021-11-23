@@ -5,5 +5,23 @@ using System.Runtime.InteropServices;
 [NativeCppClass]
 internal struct SSyncRuleDetails
 {
-	private long _003Calignment_0020member_003E;
+	public ESyncCategory syncCategory;
+
+	public EMediaTypes mediaType;
+
+	public bool allMedia;
+
+	public int mediaId;
+
+	public bool included;
+
+	public bool complex;
+
+	public bool calculated;
+
+	public bool ignore;
+
+	public long totalItems;
+
+	public long totalSize;
 }
