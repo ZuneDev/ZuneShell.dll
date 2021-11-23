@@ -7,11 +7,11 @@ namespace Microsoft.Zune.Service
 {
 	public class WinLiveSignup : IDisposable
 	{
-		private readonly CComPtrMgd_003CIWinLiveSignup_003E m_spWinLiveSignup;
+		private readonly CComPtrMgd<IWinLiveSignup> m_spWinLiveSignup;
 
 		public WinLiveSignup()
 		{
-			CComPtrMgd_003CIWinLiveSignup_003E spWinLiveSignup = new CComPtrMgd_003CIWinLiveSignup_003E();
+			CComPtrMgd<IWinLiveSignup> spWinLiveSignup = new CComPtrMgd<IWinLiveSignup>();
 			try
 			{
 				m_spWinLiveSignup = spWinLiveSignup;

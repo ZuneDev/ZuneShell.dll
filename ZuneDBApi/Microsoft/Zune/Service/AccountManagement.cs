@@ -9,11 +9,11 @@ namespace Microsoft.Zune.Service
 {
 	public class AccountManagement : IDisposable
 	{
-		private readonly CComPtrMgd_003CIAccountManagement_003E m_spAccountManagement;
+		private readonly CComPtrMgd<IAccountManagement> m_spAccountManagement;
 
 		public AccountManagement()
 		{
-			CComPtrMgd_003CIAccountManagement_003E spAccountManagement = new CComPtrMgd_003CIAccountManagement_003E();
+			CComPtrMgd<IAccountManagement> spAccountManagement = new CComPtrMgd<IAccountManagement>();
 			try
 			{
 				m_spAccountManagement = spAccountManagement;

@@ -5,7 +5,7 @@ namespace MicrosoftZuneLibrary
 {
 	public class UpdateStep : IDisposable
 	{
-		private readonly CComPtrMgd_003CIFirmwareUpdateCallbackData_003E m_spUpdateStep;
+		private readonly CComPtrMgd<IFirmwareUpdateCallbackData> m_spUpdateStep;
 
 		private int m_cTotalSteps;
 
@@ -104,7 +104,7 @@ namespace MicrosoftZuneLibrary
 
 		internal unsafe UpdateStep(IFirmwareUpdateCallbackData* pUpdateStep)
 		{
-			CComPtrMgd_003CIFirmwareUpdateCallbackData_003E spUpdateStep = new CComPtrMgd_003CIFirmwareUpdateCallbackData_003E();
+			CComPtrMgd<IFirmwareUpdateCallbackData> spUpdateStep = new CComPtrMgd<IFirmwareUpdateCallbackData>();
 			try
 			{
 				m_spUpdateStep = spUpdateStep;

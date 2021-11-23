@@ -8,11 +8,11 @@ namespace Microsoft.Zune.QuickMix
 {
 	public class QuickMixSession : IDisposable
 	{
-		private readonly CComPtrMgd_003CIQuickMixSession_003E m_spSession;
+		private readonly CComPtrMgd<IQuickMixSession> m_spSession;
 
 		public unsafe QuickMixSession(IQuickMixSession* pSession)
 		{
-			CComPtrMgd_003CIQuickMixSession_003E spSession = new CComPtrMgd_003CIQuickMixSession_003E();
+			CComPtrMgd<IQuickMixSession> spSession = new CComPtrMgd<IQuickMixSession>();
 			try
 			{
 				m_spSession = spSession;

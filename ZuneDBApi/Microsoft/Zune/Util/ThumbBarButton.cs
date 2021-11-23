@@ -6,7 +6,7 @@ namespace Microsoft.Zune.Util
 {
 	public class ThumbBarButton : IDisposable
 	{
-		private readonly CComPtrMgd_003CIThumbBarButton_003E m_spButton;
+		private readonly CComPtrMgd<IThumbBarButton> m_spButton;
 
 		public unsafe bool ShowBackground
 		{
@@ -138,7 +138,7 @@ namespace Microsoft.Zune.Util
 
 		internal unsafe ThumbBarButton(IThumbBarButton* pButton)
 		{
-			CComPtrMgd_003CIThumbBarButton_003E spButton = new CComPtrMgd_003CIThumbBarButton_003E();
+			CComPtrMgd<IThumbBarButton> spButton = new CComPtrMgd<IThumbBarButton>();
 			try
 			{
 				m_spButton = spButton;

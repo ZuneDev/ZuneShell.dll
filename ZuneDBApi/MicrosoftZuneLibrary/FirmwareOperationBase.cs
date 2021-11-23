@@ -9,7 +9,7 @@ namespace MicrosoftZuneLibrary
 {
 	public abstract class FirmwareOperationBase : IDisposable
 	{
-		internal readonly CComPtrMgd_003CIEndpointHost_003E m_spEndpointHost;
+		internal readonly CComPtrMgd<IEndpointHost> m_spEndpointHost;
 
 		internal object m_FirmwareLock;
 
@@ -19,7 +19,7 @@ namespace MicrosoftZuneLibrary
 
 		internal bool m_DeviceRebooting;
 
-		internal readonly CComPtrMgd_003CMicrosoftZuneLibrary_003A_003AFirmwareUpdateMediator_003E m_spFirmwareMediator;
+		internal readonly CComPtrMgd<MicrosoftZuneLibrary_003A_003AFirmwareUpdateMediator> m_spFirmwareMediator;
 
 		internal FirmwareCompleteHandler m_OnCompleteHandler;
 
@@ -57,11 +57,11 @@ namespace MicrosoftZuneLibrary
 
 		internal FirmwareOperationBase()
 		{
-			CComPtrMgd_003CIEndpointHost_003E spEndpointHost = new CComPtrMgd_003CIEndpointHost_003E();
+			CComPtrMgd<IEndpointHost> spEndpointHost = new CComPtrMgd<IEndpointHost>();
 			try
 			{
 				m_spEndpointHost = spEndpointHost;
-				CComPtrMgd_003CMicrosoftZuneLibrary_003A_003AFirmwareUpdateMediator_003E spFirmwareMediator = new CComPtrMgd_003CMicrosoftZuneLibrary_003A_003AFirmwareUpdateMediator_003E();
+				CComPtrMgd<MicrosoftZuneLibrary_003A_003AFirmwareUpdateMediator> spFirmwareMediator = new CComPtrMgd<MicrosoftZuneLibrary_003A_003AFirmwareUpdateMediator>();
 				try
 				{
 					m_spFirmwareMediator = spFirmwareMediator;
@@ -350,7 +350,7 @@ namespace MicrosoftZuneLibrary
 				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIEndpointHostManager_003E*, void>)(&Module.CComPtrNtv_003CIEndpointHostManager_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIEndpointHostManager_003E);
 				throw;
 			}
-			CComPtrMgd_003CIEndpointHost_003E spEndpointHost;
+			CComPtrMgd<IEndpointHost> spEndpointHost;
 			try
 			{
 				try

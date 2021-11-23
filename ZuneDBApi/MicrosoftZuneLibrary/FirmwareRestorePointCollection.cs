@@ -6,7 +6,7 @@ namespace MicrosoftZuneLibrary
 {
 	public class FirmwareRestorePointCollection : IDisposable
 	{
-		private readonly CComPtrMgd_003CIFirmwareRestorePointCollection_003E m_spRestorePointCollection;
+		private readonly CComPtrMgd<IFirmwareRestorePointCollection> m_spRestorePointCollection;
 
 		public unsafe int Count
 		{
@@ -33,7 +33,7 @@ namespace MicrosoftZuneLibrary
 			*(long*)(&cComPtrNtv_003CIFirmwareRestorePoint_003E) = 0L;
 			try
 			{
-				CComPtrMgd_003CIFirmwareRestorePointCollection_003E spRestorePointCollection = m_spRestorePointCollection;
+				CComPtrMgd<IFirmwareRestorePointCollection> spRestorePointCollection = m_spRestorePointCollection;
 				if (spRestorePointCollection.p != null)
 				{
 					IFirmwareRestorePointCollection* p = spRestorePointCollection.p;
@@ -55,7 +55,7 @@ namespace MicrosoftZuneLibrary
 
 		internal unsafe FirmwareRestorePointCollection(IFirmwareRestorePointCollection* pRestorePointCollection)
 		{
-			CComPtrMgd_003CIFirmwareRestorePointCollection_003E spRestorePointCollection = new CComPtrMgd_003CIFirmwareRestorePointCollection_003E();
+			CComPtrMgd<IFirmwareRestorePointCollection> spRestorePointCollection = new CComPtrMgd<IFirmwareRestorePointCollection>();
 			try
 			{
 				m_spRestorePointCollection = spRestorePointCollection;

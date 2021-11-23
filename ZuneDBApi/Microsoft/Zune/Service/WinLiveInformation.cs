@@ -7,7 +7,7 @@ namespace Microsoft.Zune.Service
 {
 	public class WinLiveInformation : IDisposable
 	{
-		private readonly CComPtrMgd_003CIWinLiveInformation_003E m_spWinLiveInformation;
+		private readonly CComPtrMgd<IWinLiveInformation> m_spWinLiveInformation;
 
 		private string m_termsOfServiceUrl;
 
@@ -79,7 +79,7 @@ namespace Microsoft.Zune.Service
 				//IL_0041: Expected I, but got I8
 				if (m_hipImage == null)
 				{
-					CComPtrMgd_003CIWinLiveInformation_003E spWinLiveInformation = m_spWinLiveInformation;
+					CComPtrMgd<IWinLiveInformation> spWinLiveInformation = m_spWinLiveInformation;
 					if (spWinLiveInformation.p != null)
 					{
 						int num = 0;
@@ -117,7 +117,7 @@ namespace Microsoft.Zune.Service
 				//IL_0036: Expected I, but got I8
 				if (m_hipChallenge == null)
 				{
-					CComPtrMgd_003CIWinLiveInformation_003E spWinLiveInformation = m_spWinLiveInformation;
+					CComPtrMgd<IWinLiveInformation> spWinLiveInformation = m_spWinLiveInformation;
 					if (spWinLiveInformation.p != null)
 					{
 						ushort* ptr = null;
@@ -141,7 +141,7 @@ namespace Microsoft.Zune.Service
 				//IL_0036: Expected I, but got I8
 				if (m_privacyUrl == null)
 				{
-					CComPtrMgd_003CIWinLiveInformation_003E spWinLiveInformation = m_spWinLiveInformation;
+					CComPtrMgd<IWinLiveInformation> spWinLiveInformation = m_spWinLiveInformation;
 					if (spWinLiveInformation.p != null)
 					{
 						ushort* ptr = null;
@@ -180,7 +180,7 @@ namespace Microsoft.Zune.Service
 				//IL_0036: Expected I, but got I8
 				if (m_termsOfServiceUrl == null)
 				{
-					CComPtrMgd_003CIWinLiveInformation_003E spWinLiveInformation = m_spWinLiveInformation;
+					CComPtrMgd<IWinLiveInformation> spWinLiveInformation = m_spWinLiveInformation;
 					if (spWinLiveInformation.p != null)
 					{
 						ushort* ptr = null;
@@ -198,7 +198,7 @@ namespace Microsoft.Zune.Service
 
 		internal unsafe WinLiveInformation(IWinLiveInformation* pWinLiveInformation)
 		{
-			CComPtrMgd_003CIWinLiveInformation_003E spWinLiveInformation = new CComPtrMgd_003CIWinLiveInformation_003E();
+			CComPtrMgd<IWinLiveInformation> spWinLiveInformation = new CComPtrMgd<IWinLiveInformation>();
 			try
 			{
 				m_spWinLiveInformation = spWinLiveInformation;

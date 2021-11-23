@@ -7,7 +7,7 @@ namespace MicrosoftZuneLibrary
 {
 	public class UpdatePackageCollection : IDisposable
 	{
-		private readonly CComPtrMgd_003CIFirmwareUpdateCollection_003E m_spUpdatePackageCollection;
+		private readonly CComPtrMgd<IFirmwareUpdateCollection> m_spUpdatePackageCollection;
 
 		private List<FirmwareUpdatePackage> m_packages;
 
@@ -85,7 +85,7 @@ namespace MicrosoftZuneLibrary
 
 		internal unsafe UpdatePackageCollection(IFirmwareUpdateCollection* pCollection)
 		{
-			CComPtrMgd_003CIFirmwareUpdateCollection_003E spUpdatePackageCollection = new CComPtrMgd_003CIFirmwareUpdateCollection_003E();
+			CComPtrMgd<IFirmwareUpdateCollection> spUpdatePackageCollection = new CComPtrMgd<IFirmwareUpdateCollection>();
 			try
 			{
 				m_spUpdatePackageCollection = spUpdatePackageCollection;

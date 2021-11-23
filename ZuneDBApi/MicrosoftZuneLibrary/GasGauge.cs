@@ -6,9 +6,9 @@ namespace MicrosoftZuneLibrary
 {
 	public class GasGauge : IDisposable
 	{
-		private readonly CComPtrMgd_003CIGasGauge_003E m_spGasGauge;
+		private readonly CComPtrMgd<IGasGauge> m_spGasGauge;
 
-		private readonly CComPtrMgd_003CGasGaugeMediator_003E m_spGasGaugeMediator;
+		private readonly CComPtrMgd<GasGaugeMediator> m_spGasGaugeMediator;
 
 		private CategorySpaceUsedUpdatedHandler m_categorySpaceUsedUpdatedHandler;
 
@@ -100,11 +100,11 @@ namespace MicrosoftZuneLibrary
 		internal unsafe GasGauge(IGasGauge* pGasGauge)
 		{
 			//IL_004a: Expected I, but got I8
-			CComPtrMgd_003CIGasGauge_003E spGasGauge = new CComPtrMgd_003CIGasGauge_003E();
+			CComPtrMgd<IGasGauge> spGasGauge = new CComPtrMgd<IGasGauge>();
 			try
 			{
 				m_spGasGauge = spGasGauge;
-				CComPtrMgd_003CGasGaugeMediator_003E spGasGaugeMediator = new CComPtrMgd_003CGasGaugeMediator_003E();
+				CComPtrMgd<GasGaugeMediator> spGasGaugeMediator = new CComPtrMgd<GasGaugeMediator>();
 				try
 				{
 					m_spGasGaugeMediator = spGasGaugeMediator;

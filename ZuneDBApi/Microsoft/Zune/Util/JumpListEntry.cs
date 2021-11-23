@@ -6,7 +6,7 @@ namespace Microsoft.Zune.Util
 {
 	public class JumpListEntry : IDisposable
 	{
-		private readonly CComPtrMgd_003CIJumpListEntry_003E m_spEntry;
+		private readonly CComPtrMgd<IJumpListEntry> m_spEntry;
 
 		public unsafe int IconIndex
 		{
@@ -86,7 +86,7 @@ namespace Microsoft.Zune.Util
 
 		internal unsafe JumpListEntry(IJumpListEntry* pEntry)
 		{
-			CComPtrMgd_003CIJumpListEntry_003E spEntry = new CComPtrMgd_003CIJumpListEntry_003E();
+			CComPtrMgd<IJumpListEntry> spEntry = new CComPtrMgd<IJumpListEntry>();
 			try
 			{
 				m_spEntry = spEntry;

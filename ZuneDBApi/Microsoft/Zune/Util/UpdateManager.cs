@@ -6,7 +6,7 @@ namespace Microsoft.Zune.Util
 {
 	public class UpdateManager : IDisposable
 	{
-		private readonly CComPtrMgd_003CIUpdateManager_003E m_spUpdateManager;
+		private readonly CComPtrMgd<IUpdateManager> m_spUpdateManager;
 
 		private static UpdateManager sm_updateManager = null;
 
@@ -91,7 +91,7 @@ namespace Microsoft.Zune.Util
 			try
 			{
 				Monitor.Enter(sm_lock);
-				CComPtrMgd_003CIUpdateManager_003E spUpdateManager = m_spUpdateManager;
+				CComPtrMgd<IUpdateManager> spUpdateManager = m_spUpdateManager;
 				IUpdateManager* p = spUpdateManager.p;
 				if (0L != (nint)p)
 				{
@@ -149,7 +149,7 @@ namespace Microsoft.Zune.Util
 					}
 					Module.CComPtrNtv_003CIUpdateManager_003E_002ERelease(&cComPtrNtv_003CIUpdateManager_003E);
 				}
-				CComPtrMgd_003CIUpdateManager_003E spUpdateManager = m_spUpdateManager;
+				CComPtrMgd<IUpdateManager> spUpdateManager = m_spUpdateManager;
 				IUpdateManager* p2 = spUpdateManager.p;
 				if (0L != (nint)p2)
 				{
@@ -167,7 +167,7 @@ namespace Microsoft.Zune.Util
 
 		private UpdateManager()
 		{
-			CComPtrMgd_003CIUpdateManager_003E spUpdateManager = new CComPtrMgd_003CIUpdateManager_003E();
+			CComPtrMgd<IUpdateManager> spUpdateManager = new CComPtrMgd<IUpdateManager>();
 			try
 			{
 				m_spUpdateManager = spUpdateManager;

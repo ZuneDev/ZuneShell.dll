@@ -7,7 +7,7 @@ namespace Microsoft.Zune.Service
 {
 	public class ServiceError : IDisposable
 	{
-		private readonly CComPtrMgd_003CIServiceError_003E m_spServiceError;
+		private readonly CComPtrMgd<IServiceError> m_spServiceError;
 
 		private IList<PropertyError> m_propertyErrors;
 
@@ -69,7 +69,7 @@ namespace Microsoft.Zune.Service
 
 		internal unsafe ServiceError(IServiceError* pServiceError)
 		{
-			CComPtrMgd_003CIServiceError_003E spServiceError = new CComPtrMgd_003CIServiceError_003E();
+			CComPtrMgd<IServiceError> spServiceError = new CComPtrMgd<IServiceError>();
 			try
 			{
 				m_spServiceError = spServiceError;

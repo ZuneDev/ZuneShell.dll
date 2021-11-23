@@ -6,7 +6,7 @@ namespace Microsoft.Zune.Util
 {
 	public class JumpListCategory : IDisposable
 	{
-		private readonly CComPtrMgd_003CIJumpListCategory_003E m_spCategory;
+		private readonly CComPtrMgd<IJumpListCategory> m_spCategory;
 
 		public unsafe string Name
 		{
@@ -61,7 +61,7 @@ namespace Microsoft.Zune.Util
 
 		internal unsafe JumpListCategory(IJumpListCategory* pCategory)
 		{
-			CComPtrMgd_003CIJumpListCategory_003E spCategory = new CComPtrMgd_003CIJumpListCategory_003E();
+			CComPtrMgd<IJumpListCategory> spCategory = new CComPtrMgd<IJumpListCategory>();
 			try
 			{
 				m_spCategory = spCategory;

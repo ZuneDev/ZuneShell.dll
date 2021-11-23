@@ -5,7 +5,7 @@ namespace MicrosoftZuneLibrary
 {
 	public class FirmwareUpdatePackage : IDisposable
 	{
-		private readonly CComPtrMgd_003CIFirmwareMetadata_003E m_spFirmwareMetadata;
+		private readonly CComPtrMgd<IFirmwareMetadata> m_spFirmwareMetadata;
 
 		private bool m_fSelected;
 
@@ -29,7 +29,7 @@ namespace MicrosoftZuneLibrary
 			{
 				//IL_002f: Expected I, but got I8
 				TimeSpan result = default(TimeSpan);
-				CComPtrMgd_003CIFirmwareMetadata_003E spFirmwareMetadata = m_spFirmwareMetadata;
+				CComPtrMgd<IFirmwareMetadata> spFirmwareMetadata = m_spFirmwareMetadata;
 				if (spFirmwareMetadata.p != null)
 				{
 					uint num = 0u;
@@ -150,7 +150,7 @@ namespace MicrosoftZuneLibrary
 
 		internal unsafe FirmwareUpdatePackage(IFirmwareMetadata* pFirmwareMetadata)
 		{
-			CComPtrMgd_003CIFirmwareMetadata_003E spFirmwareMetadata = new CComPtrMgd_003CIFirmwareMetadata_003E();
+			CComPtrMgd<IFirmwareMetadata> spFirmwareMetadata = new CComPtrMgd<IFirmwareMetadata>();
 			try
 			{
 				m_spFirmwareMetadata = spFirmwareMetadata;

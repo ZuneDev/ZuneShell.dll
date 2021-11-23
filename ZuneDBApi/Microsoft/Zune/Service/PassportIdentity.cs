@@ -5,7 +5,7 @@ namespace Microsoft.Zune.Service
 {
 	public class PassportIdentity : IDisposable
 	{
-		private readonly CComPtrMgd_003CIPassportIdentity_003E m_spPassportIdentity;
+		private readonly CComPtrMgd<IPassportIdentity> m_spPassportIdentity;
 
 		private string m_username;
 
@@ -21,7 +21,7 @@ namespace Microsoft.Zune.Service
 				//IL_0036: Expected I, but got I8
 				if (m_serviceTicket == null)
 				{
-					CComPtrMgd_003CIPassportIdentity_003E spPassportIdentity = m_spPassportIdentity;
+					CComPtrMgd<IPassportIdentity> spPassportIdentity = m_spPassportIdentity;
 					if (spPassportIdentity.p != null)
 					{
 						ushort* ptr = null;
@@ -45,7 +45,7 @@ namespace Microsoft.Zune.Service
 				//IL_0036: Expected I, but got I8
 				if (m_password == null)
 				{
-					CComPtrMgd_003CIPassportIdentity_003E spPassportIdentity = m_spPassportIdentity;
+					CComPtrMgd<IPassportIdentity> spPassportIdentity = m_spPassportIdentity;
 					if (spPassportIdentity.p != null)
 					{
 						ushort* ptr = null;
@@ -69,7 +69,7 @@ namespace Microsoft.Zune.Service
 				//IL_0036: Expected I, but got I8
 				if (m_username == null)
 				{
-					CComPtrMgd_003CIPassportIdentity_003E spPassportIdentity = m_spPassportIdentity;
+					CComPtrMgd<IPassportIdentity> spPassportIdentity = m_spPassportIdentity;
 					if (spPassportIdentity.p != null)
 					{
 						ushort* ptr = null;
@@ -87,7 +87,7 @@ namespace Microsoft.Zune.Service
 
 		internal unsafe PassportIdentity(IPassportIdentity* pPassportIdentity)
 		{
-			CComPtrMgd_003CIPassportIdentity_003E spPassportIdentity = new CComPtrMgd_003CIPassportIdentity_003E();
+			CComPtrMgd<IPassportIdentity> spPassportIdentity = new CComPtrMgd<IPassportIdentity>();
 			try
 			{
 				m_spPassportIdentity = spPassportIdentity;
@@ -103,8 +103,8 @@ namespace Microsoft.Zune.Service
 
 		internal unsafe int GetComPointer(IPassportIdentity** ppPassportIdentity)
 		{
-			CComPtrMgd_003CIPassportIdentity_003E spPassportIdentity = m_spPassportIdentity;
-			return (spPassportIdentity.p == null) ? (-2147467259) : spPassportIdentity.QueryInterface_003CIPassportIdentity_003E(ppPassportIdentity);
+			CComPtrMgd<IPassportIdentity> spPassportIdentity = m_spPassportIdentity;
+			return (spPassportIdentity.p == null) ? (-2147467259) : spPassportIdentity.QueryInterface(ppPassportIdentity);
 		}
 
 		public void _007EPassportIdentity()

@@ -6,7 +6,7 @@ namespace MicrosoftZuneLibrary
 {
 	public class FirmwareRestorePoint : IDisposable
 	{
-		private readonly CComPtrMgd_003CIFirmwareRestorePoint_003E m_spRestorePoint;
+		private readonly CComPtrMgd<IFirmwareRestorePoint> m_spRestorePoint;
 
 		internal unsafe IFirmwareRestorePoint* NativeRestorePointPtr => m_spRestorePoint.p;
 
@@ -66,7 +66,7 @@ namespace MicrosoftZuneLibrary
 
 		internal unsafe FirmwareRestorePoint(IFirmwareRestorePoint* pRestorePoint)
 		{
-			CComPtrMgd_003CIFirmwareRestorePoint_003E spRestorePoint = new CComPtrMgd_003CIFirmwareRestorePoint_003E();
+			CComPtrMgd<IFirmwareRestorePoint> spRestorePoint = new CComPtrMgd<IFirmwareRestorePoint>();
 			try
 			{
 				m_spRestorePoint = spRestorePoint;

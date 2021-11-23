@@ -6,7 +6,7 @@ namespace MicrosoftZuneLibrary
 {
 	public class FirmwareUpdateErrorInfo : IDisposable
 	{
-		private readonly CComPtrMgd_003CIFirmwareUpdateErrorInfo_003E m_spErrorInfo;
+		private readonly CComPtrMgd<IFirmwareUpdateErrorInfo> m_spErrorInfo;
 
 		public unsafe string Url
 		{
@@ -61,7 +61,7 @@ namespace MicrosoftZuneLibrary
 
 		internal unsafe FirmwareUpdateErrorInfo(IFirmwareUpdateErrorInfo* pErrorInfo)
 		{
-			CComPtrMgd_003CIFirmwareUpdateErrorInfo_003E spErrorInfo = new CComPtrMgd_003CIFirmwareUpdateErrorInfo_003E();
+			CComPtrMgd<IFirmwareUpdateErrorInfo> spErrorInfo = new CComPtrMgd<IFirmwareUpdateErrorInfo>();
 			try
 			{
 				m_spErrorInfo = spErrorInfo;

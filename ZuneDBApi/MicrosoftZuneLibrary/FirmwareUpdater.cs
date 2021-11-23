@@ -9,7 +9,7 @@ namespace MicrosoftZuneLibrary
 {
 	public class FirmwareUpdater : FirmwareOperationBase
 	{
-		private readonly CComPtrMgd_003CIFirmwareUpdater_003E m_spFirmwareUpdater;
+		private readonly CComPtrMgd<IFirmwareUpdater> m_spFirmwareUpdater;
 
 		private FirmwareRestorer m_Restorer;
 
@@ -84,7 +84,7 @@ namespace MicrosoftZuneLibrary
 					int num = EnsureNativeObject();
 					if (num >= 0)
 					{
-						num = m_spFirmwareUpdater.QueryInterfaceIFirmwareUpdater2((IFirmwareUpdater2**)(&cComPtrNtv_003CIFirmwareUpdater2_003E));
+						num = m_spFirmwareUpdater.QueryInterface((IFirmwareUpdater2**)(&cComPtrNtv_003CIFirmwareUpdater2_003E));
 						if (num >= 0)
 						{
 							int num2 = 0;
@@ -286,7 +286,7 @@ namespace MicrosoftZuneLibrary
 
 		internal unsafe FirmwareUpdater(IEndpointHost* pEndpointHost, [MarshalAs(UnmanagedType.U1)] bool fFirmwareProcessSupported)
 		{
-			CComPtrMgd_003CIFirmwareUpdater_003E spFirmwareUpdater = new CComPtrMgd_003CIFirmwareUpdater_003E();
+			CComPtrMgd<IFirmwareUpdater> spFirmwareUpdater = new CComPtrMgd<IFirmwareUpdater>();
 			try
 			{
 				m_spFirmwareUpdater = spFirmwareUpdater;
@@ -700,7 +700,7 @@ namespace MicrosoftZuneLibrary
 							*(long*)(&cComPtrNtv_003CIFirmwareUpdater2_003E) = 0L;
 							try
 							{
-								num = m_spFirmwareUpdater.QueryInterfaceIFirmwareUpdater2((IFirmwareUpdater2**)(&cComPtrNtv_003CIFirmwareUpdater2_003E));
+								num = m_spFirmwareUpdater.QueryInterface((IFirmwareUpdater2**)(&cComPtrNtv_003CIFirmwareUpdater2_003E));
 								if (num >= 0)
 								{
 									FirmwareUpdateMediator* p3 = m_spFirmwareMediator.p;
@@ -770,7 +770,7 @@ namespace MicrosoftZuneLibrary
 						num = EnsureNativeObject();
 						if (num >= 0)
 						{
-							num = m_spFirmwareUpdater.QueryInterfaceIFirmwareUpdater2((IFirmwareUpdater2**)(&cComPtrNtv_003CIFirmwareUpdater2_003E));
+							num = m_spFirmwareUpdater.QueryInterface((IFirmwareUpdater2**)(&cComPtrNtv_003CIFirmwareUpdater2_003E));
 							if (num >= 0)
 							{
 								long num2 = *(long*)(&cComPtrNtv_003CIFirmwareUpdater2_003E);
@@ -821,12 +821,12 @@ namespace MicrosoftZuneLibrary
 			Monitor.Enter(m_FirmwareLock);
 			try
 			{
-				CComPtrMgd_003CMicrosoftZuneLibrary_003A_003AFirmwareUpdateMediator_003E spFirmwareMediator = m_spFirmwareMediator;
+				CComPtrMgd<MicrosoftZuneLibrary_003A_003AFirmwareUpdateMediator> spFirmwareMediator = m_spFirmwareMediator;
 				if (spFirmwareMediator.p != null)
 				{
 					Module.MicrosoftZuneLibrary_002EFirmwareUpdateMediator_002EFirmwareProcessCanceled(spFirmwareMediator.p);
 				}
-				CComPtrMgd_003CIFirmwareUpdater_003E spFirmwareUpdater = m_spFirmwareUpdater;
+				CComPtrMgd<IFirmwareUpdater> spFirmwareUpdater = m_spFirmwareUpdater;
 				if (spFirmwareUpdater.p != null)
 				{
 					IFirmwareUpdater* p = spFirmwareUpdater.p;

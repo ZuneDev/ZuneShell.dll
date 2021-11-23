@@ -10,9 +10,9 @@ namespace MicrosoftZunePlayback
 
 		private BandwidthTestErrorEventHandler _003Cbacking_store_003EBandwidthTestError;
 
-		private readonly CComPtrMgd_003CIZuneMBRBandwidthTest_003E m_spMBRBandwidthTest;
+		private readonly CComPtrMgd<IZuneMBRBandwidthTest> m_spMBRBandwidthTest;
 
-		private readonly CComPtrMgd_003CMicrosoftZunePlayback_003A_003ACMBRBandwidthTestEventSink_003E m_spMBRBTestSink;
+		private readonly CComPtrMgd<CMBRBandwidthTestEventSink> m_spMBRBTestSink;
 
 		private bool _ignore;
 
@@ -50,11 +50,11 @@ namespace MicrosoftZunePlayback
 
 		public BandwidthTestInterop()
 		{
-			CComPtrMgd_003CIZuneMBRBandwidthTest_003E spMBRBandwidthTest = new CComPtrMgd_003CIZuneMBRBandwidthTest_003E();
+			CComPtrMgd<IZuneMBRBandwidthTest> spMBRBandwidthTest = new CComPtrMgd<IZuneMBRBandwidthTest>();
 			try
 			{
 				m_spMBRBandwidthTest = spMBRBandwidthTest;
-				CComPtrMgd_003CMicrosoftZunePlayback_003A_003ACMBRBandwidthTestEventSink_003E spMBRBTestSink = new CComPtrMgd_003CMicrosoftZunePlayback_003A_003ACMBRBandwidthTestEventSink_003E();
+				CComPtrMgd<CMBRBandwidthTestEventSink> spMBRBTestSink = new();
 				try
 				{
 					m_spMBRBTestSink = spMBRBTestSink;
@@ -169,7 +169,7 @@ namespace MicrosoftZunePlayback
 				m_spMBRBandwidthTest.Release();
 				m_spMBRBandwidthTest.op_Assign(null);
 			}
-			CComPtrMgd_003CMicrosoftZunePlayback_003A_003ACMBRBandwidthTestEventSink_003E spMBRBTestSink = m_spMBRBTestSink;
+			CComPtrMgd<CMBRBandwidthTestEventSink> spMBRBTestSink = m_spMBRBTestSink;
 			if (spMBRBTestSink.p != null)
 			{
 				spMBRBTestSink.Release();

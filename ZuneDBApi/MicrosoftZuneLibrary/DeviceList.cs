@@ -11,9 +11,9 @@ namespace MicrosoftZuneLibrary
 
 		private DeviceAddedHandler _003Cbacking_store_003EAdded;
 
-		private readonly CComPtrMgd_003CIEndpointHostManager_003E m_spEndpointHostManager;
+		private readonly CComPtrMgd<IEndpointHostManager> m_spEndpointHostManager;
 
-		private readonly CComPtrMgd_003CEndpointHostManagerMediator_003E m_spEndpointHostManagerMediator;
+		private readonly CComPtrMgd<EndpointHostManagerMediator> m_spEndpointHostManagerMediator;
 
 		private SortedList m_slDevices;
 
@@ -109,11 +109,11 @@ namespace MicrosoftZuneLibrary
 		private unsafe DeviceList()
 		{
 			//IL_0093: Expected I, but got I8
-			CComPtrMgd_003CIEndpointHostManager_003E spEndpointHostManager = new CComPtrMgd_003CIEndpointHostManager_003E();
+			CComPtrMgd<IEndpointHostManager> spEndpointHostManager = new CComPtrMgd<IEndpointHostManager>();
 			try
 			{
 				m_spEndpointHostManager = spEndpointHostManager;
-				CComPtrMgd_003CEndpointHostManagerMediator_003E spEndpointHostManagerMediator = new CComPtrMgd_003CEndpointHostManagerMediator_003E();
+				CComPtrMgd<EndpointHostManagerMediator> spEndpointHostManagerMediator = new CComPtrMgd<EndpointHostManagerMediator>();
 				try
 				{
 					m_spEndpointHostManagerMediator = spEndpointHostManagerMediator;
@@ -165,7 +165,7 @@ namespace MicrosoftZuneLibrary
 				Module.WPP_SF_(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 48uL), 12, (_GUID*)Unsafe.AsPointer(ref Module._003FA0x6a82d7e8_002EWPP_DeviceListAPI_cpp_Traceguids));
 			}
 			m_spEndpointHostManager.Release();
-			CComPtrMgd_003CEndpointHostManagerMediator_003E spEndpointHostManagerMediator = m_spEndpointHostManagerMediator;
+			CComPtrMgd<EndpointHostManagerMediator> spEndpointHostManagerMediator = m_spEndpointHostManagerMediator;
 			if ((long)(nint)spEndpointHostManagerMediator.p == 0)
 			{
 				Module.EndpointHostManagerMediator_002EShutdown(spEndpointHostManagerMediator.p);
@@ -635,7 +635,7 @@ namespace MicrosoftZuneLibrary
 					ushort* ptr = (ushort*)strEndpointIdPtr;
 					try
 					{
-						CComPtrMgd_003CIEndpointHostManager_003E spEndpointHostManager = m_spEndpointHostManager;
+						CComPtrMgd<IEndpointHostManager> spEndpointHostManager = m_spEndpointHostManager;
 						if (spEndpointHostManager.p != null && Module.IUnknown_002EQueryInterface_003Cstruct_0020IEndpointNotification_003E((IUnknown*)spEndpointHostManager.p, (IEndpointNotification**)(&cComPtrNtv_003CIEndpointNotification_003E)) >= 0)
 						{
 							if (fHide)

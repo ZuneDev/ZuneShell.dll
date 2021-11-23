@@ -11,7 +11,7 @@ namespace Microsoft.Zune.Util
 
 		private FeaturesChangedHandler m_featuresChangedHandler;
 
-		private readonly CComPtrMgd_003CIAsyncCallback_003E m_spAsyncCallback;
+		private readonly CComPtrMgd<IAsyncCallback> m_spAsyncCallback;
 
 		public static FeaturesChangedApi Instance
 		{
@@ -80,7 +80,7 @@ namespace Microsoft.Zune.Util
 
 		private FeaturesChangedApi()
 		{
-			CComPtrMgd_003CIAsyncCallback_003E spAsyncCallback = new CComPtrMgd_003CIAsyncCallback_003E();
+			CComPtrMgd<IAsyncCallback> spAsyncCallback = new CComPtrMgd<IAsyncCallback>();
 			try
 			{
 				m_spAsyncCallback = spAsyncCallback;

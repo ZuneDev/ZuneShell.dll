@@ -9,7 +9,7 @@ namespace MicrosoftZuneLibrary
 {
 	public class FirmwareRestorer : FirmwareOperationBase
 	{
-		private readonly CComPtrMgd_003CIFirmwareRestorer_003E m_spFirmwareRestorer;
+		private readonly CComPtrMgd<IFirmwareRestorer> m_spFirmwareRestorer;
 
 		private FirmwareUpdater m_Updater;
 
@@ -156,7 +156,7 @@ namespace MicrosoftZuneLibrary
 
 		internal unsafe FirmwareRestorer(IEndpointHost* pEndpointHost, [MarshalAs(UnmanagedType.U1)] bool fFirmwareProcessSupported, FirmwareUpdater updater)
 		{
-			CComPtrMgd_003CIFirmwareRestorer_003E spFirmwareRestorer = new CComPtrMgd_003CIFirmwareRestorer_003E();
+			CComPtrMgd<IFirmwareRestorer> spFirmwareRestorer = new CComPtrMgd<IFirmwareRestorer>();
 			try
 			{
 				m_spFirmwareRestorer = spFirmwareRestorer;
@@ -517,12 +517,12 @@ namespace MicrosoftZuneLibrary
 			Monitor.Enter(m_FirmwareLock);
 			try
 			{
-				CComPtrMgd_003CMicrosoftZuneLibrary_003A_003AFirmwareUpdateMediator_003E spFirmwareMediator = m_spFirmwareMediator;
+				CComPtrMgd<MicrosoftZuneLibrary_003A_003AFirmwareUpdateMediator> spFirmwareMediator = m_spFirmwareMediator;
 				if (spFirmwareMediator.p != null)
 				{
 					Module.MicrosoftZuneLibrary_002EFirmwareUpdateMediator_002EFirmwareProcessCanceled(spFirmwareMediator.p);
 				}
-				CComPtrMgd_003CIFirmwareRestorer_003E spFirmwareRestorer = m_spFirmwareRestorer;
+				CComPtrMgd<IFirmwareRestorer> spFirmwareRestorer = m_spFirmwareRestorer;
 				if (spFirmwareRestorer.p != null)
 				{
 					IFirmwareRestorer* p = spFirmwareRestorer.p;

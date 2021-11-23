@@ -6,7 +6,7 @@ namespace Microsoft.Zune.Service
 {
 	public class WinLiveAvailableInformation : IDisposable
 	{
-		private readonly CComPtrMgd_003CIWinLiveAvailableInformation_003E m_spWinLiveAvailableInformation;
+		private readonly CComPtrMgd<IWinLiveAvailableInformation> m_spWinLiveAvailableInformation;
 
 		private string m_signinName;
 
@@ -72,7 +72,7 @@ namespace Microsoft.Zune.Service
 				//IL_0036: Expected I, but got I8
 				if (m_signinName == null)
 				{
-					CComPtrMgd_003CIWinLiveAvailableInformation_003E spWinLiveAvailableInformation = m_spWinLiveAvailableInformation;
+					CComPtrMgd<IWinLiveAvailableInformation> spWinLiveAvailableInformation = m_spWinLiveAvailableInformation;
 					if (spWinLiveAvailableInformation.p != null)
 					{
 						ushort* ptr = null;
@@ -90,7 +90,7 @@ namespace Microsoft.Zune.Service
 
 		internal unsafe WinLiveAvailableInformation(IWinLiveAvailableInformation* pWinLiveAvailableInformation)
 		{
-			CComPtrMgd_003CIWinLiveAvailableInformation_003E spWinLiveAvailableInformation = new CComPtrMgd_003CIWinLiveAvailableInformation_003E();
+			CComPtrMgd<IWinLiveAvailableInformation> spWinLiveAvailableInformation = new CComPtrMgd<IWinLiveAvailableInformation>();
 			try
 			{
 				m_spWinLiveAvailableInformation = spWinLiveAvailableInformation;

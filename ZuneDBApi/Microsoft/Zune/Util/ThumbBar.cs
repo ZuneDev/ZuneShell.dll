@@ -5,7 +5,7 @@ namespace Microsoft.Zune.Util
 {
 	public class ThumbBar : IDisposable
 	{
-		private readonly CComPtrMgd_003CIThumbBar_003E m_spThumbBar;
+		private readonly CComPtrMgd<IThumbBar> m_spThumbBar;
 
 		public unsafe int CreateButton(out ThumbBarButton button)
 		{
@@ -49,7 +49,7 @@ namespace Microsoft.Zune.Util
 
 		internal unsafe ThumbBar(IThumbBar* thumbBar)
 		{
-			CComPtrMgd_003CIThumbBar_003E spThumbBar = new CComPtrMgd_003CIThumbBar_003E();
+			CComPtrMgd<IThumbBar> spThumbBar = new CComPtrMgd<IThumbBar>();
 			try
 			{
 				m_spThumbBar = spThumbBar;

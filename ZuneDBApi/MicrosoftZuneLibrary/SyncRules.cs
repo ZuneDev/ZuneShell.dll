@@ -7,7 +7,7 @@ namespace MicrosoftZuneLibrary
 {
 	public class SyncRules : IDisposable
 	{
-		private readonly CComPtrMgd_003CIEndpointHost_003E m_spEndpointHost;
+		private readonly CComPtrMgd<IEndpointHost> m_spEndpointHost;
 
 		private int m_iDeviceID;
 
@@ -18,7 +18,7 @@ namespace MicrosoftZuneLibrary
 		internal unsafe SyncRules(IEndpointHost* pEndpointHost)
 		{
 			//IL_0083: Expected I, but got I8
-			CComPtrMgd_003CIEndpointHost_003E spEndpointHost = new CComPtrMgd_003CIEndpointHost_003E();
+			CComPtrMgd<IEndpointHost> spEndpointHost = new CComPtrMgd<IEndpointHost>();
 			try
 			{
 				m_spEndpointHost = spEndpointHost;
@@ -383,7 +383,7 @@ namespace MicrosoftZuneLibrary
 		public unsafe int GetDontSyncHatedContent(ref bool fDontSyncHatedContent)
 		{
 			//IL_0040: Expected I, but got I8
-			CComPtrMgd_003CIEndpointHost_003E spEndpointHost = m_spEndpointHost;
+			CComPtrMgd<IEndpointHost> spEndpointHost = m_spEndpointHost;
 			if (spEndpointHost.p == null)
 			{
 				Module._ZuneShipAssert(1002u, 554u);
@@ -415,7 +415,7 @@ namespace MicrosoftZuneLibrary
 		{
 			//IL_0027: Expected I, but got I8
 			//IL_0061: Expected I, but got I8
-			CComPtrMgd_003CIEndpointHost_003E spEndpointHost = m_spEndpointHost;
+			CComPtrMgd<IEndpointHost> spEndpointHost = m_spEndpointHost;
 			if (spEndpointHost.p == null)
 			{
 				Module._ZuneShipAssert(1002u, 592u);

@@ -6,7 +6,7 @@ namespace Microsoft.Zune.Util
 {
 	public class JumpListSession : IDisposable
 	{
-		private readonly CComPtrMgd_003CIJumpList_003E m_spJumpList;
+		private readonly CComPtrMgd<IJumpList> m_spJumpList;
 
 		public unsafe bool IsAlive
 		{
@@ -150,7 +150,7 @@ namespace Microsoft.Zune.Util
 
 		internal unsafe JumpListSession(IJumpList* pJumpList)
 		{
-			CComPtrMgd_003CIJumpList_003E spJumpList = new CComPtrMgd_003CIJumpList_003E();
+			CComPtrMgd<IJumpList> spJumpList = new CComPtrMgd<IJumpList>();
 			try
 			{
 				m_spJumpList = spJumpList;

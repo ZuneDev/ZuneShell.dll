@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading;
+using WaitCallback = Vanara.PInvoke.Kernel32.WaitCallback;
 
 namespace MicrosoftZuneLibrary
 {

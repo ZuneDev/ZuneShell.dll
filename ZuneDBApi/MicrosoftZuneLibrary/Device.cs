@@ -14,13 +14,13 @@ namespace MicrosoftZuneLibrary
 
 		private object m_Lock;
 
-		private readonly CComPtrMgd_003CIEndpointHost_003E m_spEndpointHost;
+		private readonly CComPtrMgd<IEndpointHost> m_spEndpointHost;
 
-		private readonly CComPtrMgd_003CISyncEngine_003E m_spSyncEngine;
+		private readonly CComPtrMgd<ISyncEngine> m_spSyncEngine;
 
-		private readonly CComPtrMgd_003CIWlanProvider_003E m_spWlanProvider;
+		private readonly CComPtrMgd<IWlanProvider> m_spWlanProvider;
 
-		private readonly CComPtrMgd_003CDeviceMediator_003E m_spDeviceMediator;
+		private readonly CComPtrMgd<DeviceMediator> m_spDeviceMediator;
 
 		private SyncBeganHandler m_SyncBegan;
 
@@ -85,7 +85,7 @@ namespace MicrosoftZuneLibrary
 				//IL_0014: Expected I, but got I8
 				//IL_002c: Expected I, but got I8
 				string result = null;
-				CComPtrMgd_003CIEndpointHost_003E spEndpointHost = m_spEndpointHost;
+				CComPtrMgd<IEndpointHost> spEndpointHost = m_spEndpointHost;
 				if (spEndpointHost.p != null)
 				{
 					ushort* ptr = null;
@@ -144,7 +144,7 @@ namespace MicrosoftZuneLibrary
 				//IL_0014: Expected I, but got I8
 				//IL_002c: Expected I, but got I8
 				string result = null;
-				CComPtrMgd_003CIEndpointHost_003E spEndpointHost = m_spEndpointHost;
+				CComPtrMgd<IEndpointHost> spEndpointHost = m_spEndpointHost;
 				if (spEndpointHost.p != null)
 				{
 					ushort* ptr = null;
@@ -166,7 +166,7 @@ namespace MicrosoftZuneLibrary
 				//IL_0014: Expected I, but got I8
 				//IL_002c: Expected I, but got I8
 				string result = null;
-				CComPtrMgd_003CIEndpointHost_003E spEndpointHost = m_spEndpointHost;
+				CComPtrMgd<IEndpointHost> spEndpointHost = m_spEndpointHost;
 				if (spEndpointHost.p != null)
 				{
 					ushort* ptr = null;
@@ -225,7 +225,7 @@ namespace MicrosoftZuneLibrary
 			{
 				//IL_002d: Expected I, but got I8
 				DateTime result = DateTime.Now;
-				CComPtrMgd_003CIEndpointHost_003E spEndpointHost = m_spEndpointHost;
+				CComPtrMgd<IEndpointHost> spEndpointHost = m_spEndpointHost;
 				if (spEndpointHost.p != null)
 				{
 					IEndpointHost* p = spEndpointHost.p;
@@ -254,7 +254,7 @@ namespace MicrosoftZuneLibrary
 			{
 				//IL_002d: Expected I, but got I8
 				DateTime result = DateTime.Now;
-				CComPtrMgd_003CIEndpointHost_003E spEndpointHost = m_spEndpointHost;
+				CComPtrMgd<IEndpointHost> spEndpointHost = m_spEndpointHost;
 				if (spEndpointHost.p != null)
 				{
 					IEndpointHost* p = spEndpointHost.p;
@@ -361,7 +361,7 @@ namespace MicrosoftZuneLibrary
 				//IL_0018: Expected I, but got I8
 				//IL_0030: Expected I, but got I8
 				string result = string.Empty;
-				CComPtrMgd_003CIEndpointHost_003E spEndpointHost = m_spEndpointHost;
+				CComPtrMgd<IEndpointHost> spEndpointHost = m_spEndpointHost;
 				if (spEndpointHost.p != null)
 				{
 					ushort* ptr = null;
@@ -833,7 +833,7 @@ namespace MicrosoftZuneLibrary
 		{
 			//IL_0027: Expected I, but got I8
 			//IL_003f: Expected I, but got I8
-			CComPtrMgd_003CIEndpointHost_003E spEndpointHost = m_spEndpointHost;
+			CComPtrMgd<IEndpointHost> spEndpointHost = m_spEndpointHost;
 			if (spEndpointHost.p == null)
 			{
 				Module._ZuneShipAssert(1002u, 777u);
@@ -880,7 +880,7 @@ namespace MicrosoftZuneLibrary
 		{
 			//IL_0027: Expected I, but got I8
 			//IL_003f: Expected I, but got I8
-			CComPtrMgd_003CIEndpointHost_003E spEndpointHost = m_spEndpointHost;
+			CComPtrMgd<IEndpointHost> spEndpointHost = m_spEndpointHost;
 			if (spEndpointHost.p == null)
 			{
 				Module._ZuneShipAssert(1002u, 821u);
@@ -901,7 +901,7 @@ namespace MicrosoftZuneLibrary
 		{
 			//IL_0027: Expected I, but got I8
 			//IL_003f: Expected I, but got I8
-			CComPtrMgd_003CIEndpointHost_003E spEndpointHost = m_spEndpointHost;
+			CComPtrMgd<IEndpointHost> spEndpointHost = m_spEndpointHost;
 			if (spEndpointHost.p == null)
 			{
 				Module._ZuneShipAssert(1002u, 842u);
@@ -921,7 +921,7 @@ namespace MicrosoftZuneLibrary
 		public unsafe int GetUserGuid(ref Guid guidUserGuid)
 		{
 			//IL_0042: Expected I, but got I8
-			CComPtrMgd_003CIEndpointHost_003E spEndpointHost = m_spEndpointHost;
+			CComPtrMgd<IEndpointHost> spEndpointHost = m_spEndpointHost;
 			if (spEndpointHost.p == null)
 			{
 				Module._ZuneShipAssert(1002u, 863u);
@@ -956,7 +956,7 @@ namespace MicrosoftZuneLibrary
 		{
 			//IL_0027: Expected I, but got I8
 			//IL_003f: Expected I, but got I8
-			CComPtrMgd_003CIEndpointHost_003E spEndpointHost = m_spEndpointHost;
+			CComPtrMgd<IEndpointHost> spEndpointHost = m_spEndpointHost;
 			if (spEndpointHost.p == null)
 			{
 				Module._ZuneShipAssert(1002u, 1029u);
@@ -977,7 +977,7 @@ namespace MicrosoftZuneLibrary
 		{
 			//IL_0027: Expected I, but got I8
 			//IL_003f: Expected I, but got I8
-			CComPtrMgd_003CIEndpointHost_003E spEndpointHost = m_spEndpointHost;
+			CComPtrMgd<IEndpointHost> spEndpointHost = m_spEndpointHost;
 			if (spEndpointHost.p == null)
 			{
 				Module._ZuneShipAssert(1002u, 1051u);
@@ -997,7 +997,7 @@ namespace MicrosoftZuneLibrary
 		public unsafe int GetIsTvOutSupported(ref bool fIsTvOutSupported)
 		{
 			//IL_003d: Expected I, but got I8
-			CComPtrMgd_003CIEndpointHost_003E spEndpointHost = m_spEndpointHost;
+			CComPtrMgd<IEndpointHost> spEndpointHost = m_spEndpointHost;
 			if (spEndpointHost.p == null)
 			{
 				Module._ZuneShipAssert(1002u, 1073u);
@@ -1016,7 +1016,7 @@ namespace MicrosoftZuneLibrary
 		public unsafe int GetIsRestorePointSupported(ref bool fIsRestorePointSupported)
 		{
 			//IL_003e: Expected I, but got I8
-			CComPtrMgd_003CIEndpointHost_003E spEndpointHost = m_spEndpointHost;
+			CComPtrMgd<IEndpointHost> spEndpointHost = m_spEndpointHost;
 			if (spEndpointHost.p == null)
 			{
 				Module._ZuneShipAssert(1002u, 1095u);
@@ -1035,7 +1035,7 @@ namespace MicrosoftZuneLibrary
 		public unsafe int GetCapability(EEndpointCapability capabilityId, ref bool fHasCapability)
 		{
 			//IL_003d: Expected I, but got I8
-			CComPtrMgd_003CIEndpointHost_003E spEndpointHost = m_spEndpointHost;
+			CComPtrMgd<IEndpointHost> spEndpointHost = m_spEndpointHost;
 			if (spEndpointHost.p == null)
 			{
 				Module._ZuneShipAssert(1002u, 1117u);
@@ -1211,7 +1211,7 @@ namespace MicrosoftZuneLibrary
 		public unsafe int GetOOBECompleted(ref bool oobeCompleted)
 		{
 			//IL_0040: Expected I, but got I8
-			CComPtrMgd_003CIEndpointHost_003E spEndpointHost = m_spEndpointHost;
+			CComPtrMgd<IEndpointHost> spEndpointHost = m_spEndpointHost;
 			if (spEndpointHost.p == null)
 			{
 				Module._ZuneShipAssert(1002u, 1241u);
@@ -1230,7 +1230,7 @@ namespace MicrosoftZuneLibrary
 		public unsafe int GetPurchaseEnabled(ref bool purchaseEnabled)
 		{
 			//IL_0040: Expected I, but got I8
-			CComPtrMgd_003CIEndpointHost_003E spEndpointHost = m_spEndpointHost;
+			CComPtrMgd<IEndpointHost> spEndpointHost = m_spEndpointHost;
 			if (spEndpointHost.p == null)
 			{
 				Module._ZuneShipAssert(1002u, 1220u);
@@ -1258,7 +1258,7 @@ namespace MicrosoftZuneLibrary
 		public unsafe int GetAndResetLastLoginError(ref int hrLogin)
 		{
 			//IL_0042: Expected I, but got I8
-			CComPtrMgd_003CIEndpointHost_003E spEndpointHost = m_spEndpointHost;
+			CComPtrMgd<IEndpointHost> spEndpointHost = m_spEndpointHost;
 			if (spEndpointHost.p == null)
 			{
 				Module._ZuneShipAssert(1002u, 1279u);
@@ -1274,7 +1274,7 @@ namespace MicrosoftZuneLibrary
 		public unsafe int GetAndResetLastDownloadError(ref int hrDownload)
 		{
 			//IL_0042: Expected I, but got I8
-			CComPtrMgd_003CIEndpointHost_003E spEndpointHost = m_spEndpointHost;
+			CComPtrMgd<IEndpointHost> spEndpointHost = m_spEndpointHost;
 			if (spEndpointHost.p == null)
 			{
 				Module._ZuneShipAssert(1002u, 1301u);
@@ -2331,7 +2331,7 @@ namespace MicrosoftZuneLibrary
 		{
 			//IL_0027: Expected I, but got I8
 			//IL_003f: Expected I, but got I8
-			CComPtrMgd_003CIEndpointHost_003E spEndpointHost = m_spEndpointHost;
+			CComPtrMgd<IEndpointHost> spEndpointHost = m_spEndpointHost;
 			if (spEndpointHost.p == null)
 			{
 				Module._ZuneShipAssert(1002u, 2266u);
@@ -2351,7 +2351,7 @@ namespace MicrosoftZuneLibrary
 		public unsafe int GetSpaceFree(ref ulong ui64SpaceFree)
 		{
 			//IL_0042: Expected I, but got I8
-			CComPtrMgd_003CIEndpointHost_003E spEndpointHost = m_spEndpointHost;
+			CComPtrMgd<IEndpointHost> spEndpointHost = m_spEndpointHost;
 			if (spEndpointHost.p == null)
 			{
 				Module._ZuneShipAssert(1002u, 2286u);
@@ -2629,7 +2629,7 @@ namespace MicrosoftZuneLibrary
 		public unsafe int GetVideoTranscodeOptimization(ref ETranscodeOptimization transcodeOptimization)
 		{
 			//IL_0040: Expected I, but got I8
-			CComPtrMgd_003CIEndpointHost_003E spEndpointHost = m_spEndpointHost;
+			CComPtrMgd<IEndpointHost> spEndpointHost = m_spEndpointHost;
 			if (spEndpointHost.p == null)
 			{
 				Module._ZuneShipAssert(1002u, 2500u);
@@ -2660,7 +2660,7 @@ namespace MicrosoftZuneLibrary
 		public unsafe int GetPhotoVideoReverseSync(ref bool bReverseSync)
 		{
 			//IL_0040: Expected I, but got I8
-			CComPtrMgd_003CIEndpointHost_003E spEndpointHost = m_spEndpointHost;
+			CComPtrMgd<IEndpointHost> spEndpointHost = m_spEndpointHost;
 			if (spEndpointHost.p == null)
 			{
 				Module._ZuneShipAssert(1002u, 2530u);
@@ -2691,7 +2691,7 @@ namespace MicrosoftZuneLibrary
 		public unsafe int GetDeletePhotoVideoAfterReverseSync(ref bool bDeleteAfterSync)
 		{
 			//IL_0041: Expected I, but got I8
-			CComPtrMgd_003CIEndpointHost_003E spEndpointHost = m_spEndpointHost;
+			CComPtrMgd<IEndpointHost> spEndpointHost = m_spEndpointHost;
 			if (spEndpointHost.p == null)
 			{
 				Module._ZuneShipAssert(1002u, 2563u);
@@ -2723,7 +2723,7 @@ namespace MicrosoftZuneLibrary
 		{
 			//IL_0027: Expected I, but got I8
 			//IL_0042: Expected I, but got I8
-			CComPtrMgd_003CIEndpointHost_003E spEndpointHost = m_spEndpointHost;
+			CComPtrMgd<IEndpointHost> spEndpointHost = m_spEndpointHost;
 			if (spEndpointHost.p == null)
 			{
 				Module._ZuneShipAssert(1002u, 2596u);
@@ -2770,7 +2770,7 @@ namespace MicrosoftZuneLibrary
 		{
 			//IL_0027: Expected I, but got I8
 			//IL_0042: Expected I, but got I8
-			CComPtrMgd_003CIEndpointHost_003E spEndpointHost = m_spEndpointHost;
+			CComPtrMgd<IEndpointHost> spEndpointHost = m_spEndpointHost;
 			if (spEndpointHost.p == null)
 			{
 				Module._ZuneShipAssert(1002u, 2643u);
@@ -2816,7 +2816,7 @@ namespace MicrosoftZuneLibrary
 		public unsafe int GetPhotoTranscodeSetting(ref ETranscodePhotoSetting ePhotoSetting)
 		{
 			//IL_0040: Expected I, but got I8
-			CComPtrMgd_003CIEndpointHost_003E spEndpointHost = m_spEndpointHost;
+			CComPtrMgd<IEndpointHost> spEndpointHost = m_spEndpointHost;
 			if (spEndpointHost.p == null)
 			{
 				Module._ZuneShipAssert(1002u, 2690u);
@@ -2952,7 +2952,7 @@ namespace MicrosoftZuneLibrary
 		public unsafe int DeleteAllGuestContent(ref ESyncOperationStatus operationStatus)
 		{
 			//IL_003f: Expected I, but got I8
-			CComPtrMgd_003CISyncEngine_003E spSyncEngine = m_spSyncEngine;
+			CComPtrMgd<ISyncEngine> spSyncEngine = m_spSyncEngine;
 			if (spSyncEngine.p == null)
 			{
 				Module._ZuneShipAssert(1002u, 2836u);
@@ -3054,7 +3054,7 @@ namespace MicrosoftZuneLibrary
 		{
 			//IL_0027: Expected I, but got I8
 			//IL_0042: Expected I, but got I8
-			CComPtrMgd_003CISyncEngine_003E spSyncEngine = m_spSyncEngine;
+			CComPtrMgd<ISyncEngine> spSyncEngine = m_spSyncEngine;
 			if (spSyncEngine.p == null)
 			{
 				Module._ZuneShipAssert(1002u, 2986u);
@@ -3073,19 +3073,19 @@ namespace MicrosoftZuneLibrary
 
 		internal unsafe Device()
 		{
-			CComPtrMgd_003CIEndpointHost_003E spEndpointHost = new CComPtrMgd_003CIEndpointHost_003E();
+			CComPtrMgd<IEndpointHost> spEndpointHost = new CComPtrMgd<IEndpointHost>();
 			try
 			{
 				m_spEndpointHost = spEndpointHost;
-				CComPtrMgd_003CISyncEngine_003E spSyncEngine = new CComPtrMgd_003CISyncEngine_003E();
+				CComPtrMgd<ISyncEngine> spSyncEngine = new CComPtrMgd<ISyncEngine>();
 				try
 				{
 					m_spSyncEngine = spSyncEngine;
-					CComPtrMgd_003CIWlanProvider_003E spWlanProvider = new CComPtrMgd_003CIWlanProvider_003E();
+					CComPtrMgd<IWlanProvider> spWlanProvider = new CComPtrMgd<IWlanProvider>();
 					try
 					{
 						m_spWlanProvider = spWlanProvider;
-						CComPtrMgd_003CDeviceMediator_003E spDeviceMediator = new CComPtrMgd_003CDeviceMediator_003E();
+						CComPtrMgd<DeviceMediator> spDeviceMediator = new CComPtrMgd<DeviceMediator>();
 						try
 						{
 							m_spDeviceMediator = spDeviceMediator;
@@ -3156,7 +3156,7 @@ namespace MicrosoftZuneLibrary
 			{
 				managedLock = managedLock2;
 				m_fInitializationCompleted = false;
-				CComPtrMgd_003CIEndpointHost_003E spEndpointHost = m_spEndpointHost;
+				CComPtrMgd<IEndpointHost> spEndpointHost = m_spEndpointHost;
 				if (spEndpointHost.p != pEndpointHost)
 				{
 					spEndpointHost.op_Assign(pEndpointHost);
