@@ -46,28 +46,22 @@ namespace MicrosoftZuneLibrary
 
 		public FirmwareUpdatePackage this[int index] => Packages[index];
 
-		public unsafe bool Selected
+		[return: MarshalAs(UnmanagedType.U1)]
+		public bool get_Selected(int index) => this.Packages[index].Selected;
+
+		public unsafe void set_Selected(int index, [MarshalAs(UnmanagedType.U1)] bool value)
 		{
-			[return: MarshalAs(UnmanagedType.U1)]
-			get
+			//IL_001f: Expected I, but got I8
+			uint num = (uint)index;
+			IFirmwareUpdateCollection* p = m_spUpdatePackageCollection.p;
+			int num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, uint*, int, int>)(*(ulong*)(*(long*)p + 40)))((nint)p, 1u, &num, value ? 1 : 0);
+			if (num2 >= 0)
 			{
-				return Packages[index].Selected;
+				Packages[index].Selected = value;
 			}
-			[param: MarshalAs(UnmanagedType.U1)]
-			set
+			if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 60uL)) & 4u) != 0 && *(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 57uL) >= 6u)
 			{
-				//IL_001f: Expected I, but got I8
-				uint num = (uint)index;
-				IFirmwareUpdateCollection* p = m_spUpdatePackageCollection.p;
-				int num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, uint*, int, int>)(*(ulong*)(*(long*)p + 40)))((nint)p, 1u, &num, value ? 1 : 0);
-				if (num2 >= 0)
-				{
-					Packages[index].Selected = value;
-				}
-				if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 60uL)) & 4u) != 0 && *(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 57uL) >= 6u)
-				{
-					Module.WPP_SF_dld(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 48uL), 10, (_GUID*)Unsafe.AsPointer(ref Module._003FA0x15529884_002EWPP_FirmwareUpdateAPI_cpp_Traceguids), index, value ? 1 : 0, num2);
-				}
+				Module.WPP_SF_dld(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 48uL), 10, (_GUID*)Unsafe.AsPointer(ref Module._003FA0x15529884_002EWPP_FirmwareUpdateAPI_cpp_Traceguids), index, value ? 1 : 0, num2);
 			}
 		}
 

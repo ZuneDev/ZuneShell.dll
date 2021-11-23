@@ -794,7 +794,7 @@ namespace Microsoft.Zune.Service
 				IContextData** intPtr;
 				IMediaCollection* intPtr2;
 				ref _GUID reference4;
-				global::EContentType num5;
+				EContentType num5;
 				_003F val3;
 				_003F val4;
 				_003F val5;
@@ -814,7 +814,7 @@ namespace Microsoft.Zune.Service
 							string s2 = null;
 							string s3 = null;
 							text = null;
-							global::EContentType eContentType = (global::EContentType)(-1);
+							EContentType eContentType = EContentType.Unknown;
 							if (current is DataProviderObject)
 							{
 								DataProviderObject dataProviderObject = current as DataProviderObject;
@@ -832,7 +832,7 @@ namespace Microsoft.Zune.Service
 									{
 										if (typeName.Equals("PlaylistContentItem"))
 										{
-											eContentType = 0;
+											eContentType = EContentType.MusicTrack;
 											guid = (Guid)dataProviderObject.GetProperty("ZuneMediaId");
 											s = (string)dataProviderObject.GetProperty("Title");
 											s2 = (string)dataProviderObject.GetProperty("AlbumName");
@@ -842,14 +842,14 @@ namespace Microsoft.Zune.Service
 										{
 											if (typeName.Equals("Video"))
 											{
-												eContentType = (global::EContentType)3;
+												eContentType = EContentType.Video;
 												guid = (Guid)dataProviderObject.GetProperty("ZuneMediaId");
 												s = (string)dataProviderObject.GetProperty("Title");
 												s3 = (string)dataProviderObject.GetProperty("Title");
 											}
 											else if (typeName.Equals("AppData") || typeName.Equals("ZuneHDAppData"))
 											{
-												eContentType = (global::EContentType)7;
+												eContentType = EContentType.App;
 												guid = (Guid)dataProviderObject.GetProperty("Id");
 												s = (string)dataProviderObject.GetProperty("Title");
 												s3 = (string)dataProviderObject.GetProperty("Author");
@@ -857,7 +857,7 @@ namespace Microsoft.Zune.Service
 										}
 										else
 										{
-											eContentType = (global::EContentType)3;
+											eContentType = EContentType.Video;
 											guid = (Guid)dataProviderObject.GetProperty("Id");
 											s = (string)dataProviderObject.GetProperty("Title");
 											DataProviderObject dataProviderObject2 = (DataProviderObject)dataProviderObject.GetProperty("PrimaryArtist");
@@ -869,7 +869,7 @@ namespace Microsoft.Zune.Service
 									}
 									else
 									{
-										eContentType = 0;
+										eContentType = EContentType.MusicTrack;
 										guid = (Guid)dataProviderObject.GetProperty("Id");
 										s = (string)dataProviderObject.GetProperty("Title");
 										s2 = (string)dataProviderObject.GetProperty("AlbumTitle");
@@ -882,7 +882,7 @@ namespace Microsoft.Zune.Service
 								}
 								else
 								{
-									eContentType = (global::EContentType)1;
+									eContentType = EContentType.MusicAlbum;
 									guid = (Guid)dataProviderObject.GetProperty("Id");
 									s = (string)dataProviderObject.GetProperty("Title");
 								}
@@ -899,7 +899,7 @@ namespace Microsoft.Zune.Service
 							}
 							else if (current is VideoOffer)
 							{
-								eContentType = (global::EContentType)3;
+								eContentType = EContentType.Video;
 								VideoOffer videoOffer = current as VideoOffer;
 								guid = videoOffer.Id;
 								s = videoOffer.Title;
@@ -908,7 +908,7 @@ namespace Microsoft.Zune.Service
 							}
 							else if (current is AlbumOffer)
 							{
-								eContentType = (global::EContentType)1;
+								eContentType = EContentType.MusicAlbum;
 								AlbumOffer albumOffer = current as AlbumOffer;
 								guid = albumOffer.Id;
 								s = albumOffer.Title;
@@ -920,14 +920,14 @@ namespace Microsoft.Zune.Service
 								string property = ((DownloadTask)current).GetProperty("Type");
 								if (!string.IsNullOrEmpty(property))
 								{
-									eContentType = (global::EContentType)GetContentType(property);
+									eContentType = (EContentType)GetContentType(property);
 								}
 								string property2 = ((DownloadTask)current).GetProperty("ServiceId");
 								if (!string.IsNullOrEmpty(property2))
 								{
 									try
 									{
-										Guid guid2 = new Guid(property2);
+										Guid guid2 = new(property2);
 										guid = guid2;
 									}
 									catch (FormatException ex2)
@@ -1006,7 +1006,7 @@ namespace Microsoft.Zune.Service
 																										val4 = ptr6;
 																										val5 = ptr7;
 																										intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
-																										num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
+																										num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																									}
 																									catch
 																									{
@@ -1037,7 +1037,7 @@ namespace Microsoft.Zune.Service
 																									val4 = ptr6;
 																									val5 = ptr7;
 																									intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
-																									num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
+																									num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																								}
 																								catch
 																								{
@@ -1087,7 +1087,7 @@ namespace Microsoft.Zune.Service
 																									val4 = ptr6;
 																									val5 = ptr7;
 																									intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
-																									num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
+																									num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																								}
 																								catch
 																								{
@@ -1118,7 +1118,7 @@ namespace Microsoft.Zune.Service
 																								val4 = ptr6;
 																								val5 = ptr7;
 																								intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
-																								num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
+																								num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																							}
 																							catch
 																							{
@@ -1184,7 +1184,7 @@ namespace Microsoft.Zune.Service
 																								val4 = ptr6;
 																								val5 = ptr7;
 																								intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
-																								num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
+																								num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																							}
 																							catch
 																							{
@@ -1215,7 +1215,7 @@ namespace Microsoft.Zune.Service
 																							val4 = ptr6;
 																							val5 = ptr7;
 																							intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
-																							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
+																							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																						}
 																						catch
 																						{
@@ -1265,7 +1265,7 @@ namespace Microsoft.Zune.Service
 																							val4 = ptr6;
 																							val5 = ptr7;
 																							intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
-																							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
+																							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																						}
 																						catch
 																						{
@@ -1296,7 +1296,7 @@ namespace Microsoft.Zune.Service
 																						val4 = ptr6;
 																						val5 = ptr7;
 																						intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
-																						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
+																						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																					}
 																					catch
 																					{
@@ -1379,7 +1379,7 @@ namespace Microsoft.Zune.Service
 																								val4 = ptr6;
 																								val5 = ptr7;
 																								intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
-																								num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
+																								num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																							}
 																							catch
 																							{
@@ -1410,7 +1410,7 @@ namespace Microsoft.Zune.Service
 																							val4 = ptr6;
 																							val5 = ptr7;
 																							intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
-																							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
+																							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																						}
 																						catch
 																						{
@@ -1460,7 +1460,7 @@ namespace Microsoft.Zune.Service
 																							val4 = ptr6;
 																							val5 = ptr7;
 																							intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
-																							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
+																							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																						}
 																						catch
 																						{
@@ -1491,7 +1491,7 @@ namespace Microsoft.Zune.Service
 																						val4 = ptr6;
 																						val5 = ptr7;
 																						intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
-																						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
+																						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																					}
 																					catch
 																					{
@@ -1557,7 +1557,7 @@ namespace Microsoft.Zune.Service
 																						val4 = ptr6;
 																						val5 = ptr7;
 																						intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
-																						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
+																						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																					}
 																					catch
 																					{
@@ -1588,7 +1588,7 @@ namespace Microsoft.Zune.Service
 																					val4 = ptr6;
 																					val5 = ptr7;
 																					intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
-																					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
+																					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																				}
 																				catch
 																				{
@@ -1638,7 +1638,7 @@ namespace Microsoft.Zune.Service
 																					val4 = ptr6;
 																					val5 = ptr7;
 																					intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
-																					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
+																					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																				}
 																				catch
 																				{
@@ -1669,7 +1669,7 @@ namespace Microsoft.Zune.Service
 																				val4 = ptr6;
 																				val5 = ptr7;
 																				intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
-																				num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
+																				num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																			}
 																			catch
 																			{
@@ -1769,7 +1769,7 @@ namespace Microsoft.Zune.Service
 																								val4 = ptr6;
 																								val5 = ptr7;
 																								intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
-																								num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
+																								num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																							}
 																							catch
 																							{
@@ -1800,7 +1800,7 @@ namespace Microsoft.Zune.Service
 																							val4 = ptr6;
 																							val5 = ptr7;
 																							intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
-																							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
+																							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																						}
 																						catch
 																						{
@@ -1850,7 +1850,7 @@ namespace Microsoft.Zune.Service
 																							val4 = ptr6;
 																							val5 = ptr7;
 																							intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
-																							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
+																							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																						}
 																						catch
 																						{
@@ -1881,7 +1881,7 @@ namespace Microsoft.Zune.Service
 																						val4 = ptr6;
 																						val5 = ptr7;
 																						intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
-																						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
+																						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																					}
 																					catch
 																					{
@@ -1947,7 +1947,7 @@ namespace Microsoft.Zune.Service
 																						val4 = ptr6;
 																						val5 = ptr7;
 																						intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
-																						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
+																						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																					}
 																					catch
 																					{
@@ -1978,7 +1978,7 @@ namespace Microsoft.Zune.Service
 																					val4 = ptr6;
 																					val5 = ptr7;
 																					intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
-																					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
+																					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																				}
 																				catch
 																				{
@@ -2028,7 +2028,7 @@ namespace Microsoft.Zune.Service
 																					val4 = ptr6;
 																					val5 = ptr7;
 																					intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
-																					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
+																					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																				}
 																				catch
 																				{
@@ -2059,7 +2059,7 @@ namespace Microsoft.Zune.Service
 																				val4 = ptr6;
 																				val5 = ptr7;
 																				intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
-																				num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
+																				num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																			}
 																			catch
 																			{
@@ -2142,7 +2142,7 @@ namespace Microsoft.Zune.Service
 																						val4 = ptr6;
 																						val5 = ptr7;
 																						intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
-																						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
+																						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																					}
 																					catch
 																					{
@@ -2173,7 +2173,7 @@ namespace Microsoft.Zune.Service
 																					val4 = ptr6;
 																					val5 = ptr7;
 																					intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
-																					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
+																					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																				}
 																				catch
 																				{
@@ -2223,7 +2223,7 @@ namespace Microsoft.Zune.Service
 																					val4 = ptr6;
 																					val5 = ptr7;
 																					intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
-																					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
+																					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																				}
 																				catch
 																				{
@@ -2254,7 +2254,7 @@ namespace Microsoft.Zune.Service
 																				val4 = ptr6;
 																				val5 = ptr7;
 																				intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
-																				num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
+																				num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																			}
 																			catch
 																			{
@@ -2320,7 +2320,7 @@ namespace Microsoft.Zune.Service
 																				val4 = ptr6;
 																				val5 = ptr7;
 																				intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
-																				num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
+																				num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																			}
 																			catch
 																			{
@@ -2351,7 +2351,7 @@ namespace Microsoft.Zune.Service
 																			val4 = ptr6;
 																			val5 = ptr7;
 																			intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
-																			num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
+																			num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																		}
 																		catch
 																		{
@@ -2401,7 +2401,7 @@ namespace Microsoft.Zune.Service
 																			val4 = ptr6;
 																			val5 = ptr7;
 																			intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
-																			num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
+																			num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																		}
 																		catch
 																		{
@@ -2432,7 +2432,7 @@ namespace Microsoft.Zune.Service
 																		val4 = ptr6;
 																		val5 = ptr7;
 																		intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
-																		num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
+																		num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																	}
 																	catch
 																	{
@@ -2510,7 +2510,7 @@ namespace Microsoft.Zune.Service
 							string s2 = null;
 							string s3 = null;
 							text = null;
-							global::EContentType eContentType = (global::EContentType)(-1);
+							EContentType eContentType = (EContentType)(-1);
 							if (current is DataProviderObject)
 							{
 								DataProviderObject dataProviderObject = current as DataProviderObject;
@@ -2538,14 +2538,14 @@ namespace Microsoft.Zune.Service
 										{
 											if (typeName.Equals("Video"))
 											{
-												eContentType = (global::EContentType)3;
+												eContentType = (EContentType)3;
 												guid = (Guid)dataProviderObject.GetProperty("ZuneMediaId");
 												s = (string)dataProviderObject.GetProperty("Title");
 												s3 = (string)dataProviderObject.GetProperty("Title");
 											}
 											else if (typeName.Equals("AppData") || typeName.Equals("ZuneHDAppData"))
 											{
-												eContentType = (global::EContentType)7;
+												eContentType = (EContentType)7;
 												guid = (Guid)dataProviderObject.GetProperty("Id");
 												s = (string)dataProviderObject.GetProperty("Title");
 												s3 = (string)dataProviderObject.GetProperty("Author");
@@ -2553,7 +2553,7 @@ namespace Microsoft.Zune.Service
 										}
 										else
 										{
-											eContentType = (global::EContentType)3;
+											eContentType = (EContentType)3;
 											guid = (Guid)dataProviderObject.GetProperty("Id");
 											s = (string)dataProviderObject.GetProperty("Title");
 											DataProviderObject dataProviderObject2 = (DataProviderObject)dataProviderObject.GetProperty("PrimaryArtist");
@@ -2578,7 +2578,7 @@ namespace Microsoft.Zune.Service
 								}
 								else
 								{
-									eContentType = (global::EContentType)1;
+									eContentType = (EContentType)1;
 									guid = (Guid)dataProviderObject.GetProperty("Id");
 									s = (string)dataProviderObject.GetProperty("Title");
 								}
@@ -2595,7 +2595,7 @@ namespace Microsoft.Zune.Service
 							}
 							else if (current is VideoOffer)
 							{
-								eContentType = (global::EContentType)3;
+								eContentType = (EContentType)3;
 								VideoOffer videoOffer = current as VideoOffer;
 								guid = videoOffer.Id;
 								s = videoOffer.Title;
@@ -2604,7 +2604,7 @@ namespace Microsoft.Zune.Service
 							}
 							else if (current is AlbumOffer)
 							{
-								eContentType = (global::EContentType)1;
+								eContentType = (EContentType)1;
 								AlbumOffer albumOffer = current as AlbumOffer;
 								guid = albumOffer.Id;
 								s = albumOffer.Title;
@@ -2616,7 +2616,7 @@ namespace Microsoft.Zune.Service
 								string property = ((DownloadTask)current).GetProperty("Type");
 								if (!string.IsNullOrEmpty(property))
 								{
-									eContentType = (global::EContentType)GetContentType(property);
+									eContentType = (EContentType)GetContentType(property);
 								}
 								string property2 = ((DownloadTask)current).GetProperty("ServiceId");
 								if (!string.IsNullOrEmpty(property2))
@@ -2702,7 +2702,7 @@ namespace Microsoft.Zune.Service
 																										val4 = ptr6;
 																										val5 = ptr7;
 																										intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
-																										num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
+																										num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																									}
 																									catch
 																									{
@@ -2733,7 +2733,7 @@ namespace Microsoft.Zune.Service
 																									val4 = ptr6;
 																									val5 = ptr7;
 																									intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
-																									num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
+																									num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																								}
 																								catch
 																								{
@@ -2783,7 +2783,7 @@ namespace Microsoft.Zune.Service
 																									val4 = ptr6;
 																									val5 = ptr7;
 																									intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
-																									num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
+																									num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																								}
 																								catch
 																								{
@@ -2814,7 +2814,7 @@ namespace Microsoft.Zune.Service
 																								val4 = ptr6;
 																								val5 = ptr7;
 																								intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
-																								num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
+																								num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																							}
 																							catch
 																							{
@@ -2880,7 +2880,7 @@ namespace Microsoft.Zune.Service
 																								val4 = ptr6;
 																								val5 = ptr7;
 																								intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
-																								num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
+																								num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																							}
 																							catch
 																							{
@@ -2911,7 +2911,7 @@ namespace Microsoft.Zune.Service
 																							val4 = ptr6;
 																							val5 = ptr7;
 																							intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
-																							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
+																							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																						}
 																						catch
 																						{
@@ -2961,7 +2961,7 @@ namespace Microsoft.Zune.Service
 																							val4 = ptr6;
 																							val5 = ptr7;
 																							intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
-																							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
+																							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																						}
 																						catch
 																						{
@@ -2992,7 +2992,7 @@ namespace Microsoft.Zune.Service
 																						val4 = ptr6;
 																						val5 = ptr7;
 																						intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
-																						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
+																						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																					}
 																					catch
 																					{
@@ -3075,7 +3075,7 @@ namespace Microsoft.Zune.Service
 																								val4 = ptr6;
 																								val5 = ptr7;
 																								intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
-																								num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
+																								num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																							}
 																							catch
 																							{
@@ -3106,7 +3106,7 @@ namespace Microsoft.Zune.Service
 																							val4 = ptr6;
 																							val5 = ptr7;
 																							intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
-																							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
+																							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																						}
 																						catch
 																						{
@@ -3156,7 +3156,7 @@ namespace Microsoft.Zune.Service
 																							val4 = ptr6;
 																							val5 = ptr7;
 																							intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
-																							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
+																							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																						}
 																						catch
 																						{
@@ -3187,7 +3187,7 @@ namespace Microsoft.Zune.Service
 																						val4 = ptr6;
 																						val5 = ptr7;
 																						intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
-																						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
+																						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																					}
 																					catch
 																					{
@@ -3253,7 +3253,7 @@ namespace Microsoft.Zune.Service
 																						val4 = ptr6;
 																						val5 = ptr7;
 																						intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
-																						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
+																						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																					}
 																					catch
 																					{
@@ -3284,7 +3284,7 @@ namespace Microsoft.Zune.Service
 																					val4 = ptr6;
 																					val5 = ptr7;
 																					intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
-																					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
+																					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																				}
 																				catch
 																				{
@@ -3334,7 +3334,7 @@ namespace Microsoft.Zune.Service
 																					val4 = ptr6;
 																					val5 = ptr7;
 																					intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
-																					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
+																					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																				}
 																				catch
 																				{
@@ -3365,7 +3365,7 @@ namespace Microsoft.Zune.Service
 																				val4 = ptr6;
 																				val5 = ptr7;
 																				intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
-																				num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
+																				num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																			}
 																			catch
 																			{
@@ -3465,7 +3465,7 @@ namespace Microsoft.Zune.Service
 																								val4 = ptr6;
 																								val5 = ptr7;
 																								intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
-																								num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
+																								num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																							}
 																							catch
 																							{
@@ -3496,7 +3496,7 @@ namespace Microsoft.Zune.Service
 																							val4 = ptr6;
 																							val5 = ptr7;
 																							intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
-																							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
+																							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																						}
 																						catch
 																						{
@@ -3546,7 +3546,7 @@ namespace Microsoft.Zune.Service
 																							val4 = ptr6;
 																							val5 = ptr7;
 																							intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
-																							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
+																							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																						}
 																						catch
 																						{
@@ -3577,7 +3577,7 @@ namespace Microsoft.Zune.Service
 																						val4 = ptr6;
 																						val5 = ptr7;
 																						intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
-																						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
+																						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																					}
 																					catch
 																					{
@@ -3643,7 +3643,7 @@ namespace Microsoft.Zune.Service
 																						val4 = ptr6;
 																						val5 = ptr7;
 																						intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
-																						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
+																						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																					}
 																					catch
 																					{
@@ -3674,7 +3674,7 @@ namespace Microsoft.Zune.Service
 																					val4 = ptr6;
 																					val5 = ptr7;
 																					intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
-																					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
+																					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																				}
 																				catch
 																				{
@@ -3724,7 +3724,7 @@ namespace Microsoft.Zune.Service
 																					val4 = ptr6;
 																					val5 = ptr7;
 																					intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
-																					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
+																					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																				}
 																				catch
 																				{
@@ -3755,7 +3755,7 @@ namespace Microsoft.Zune.Service
 																				val4 = ptr6;
 																				val5 = ptr7;
 																				intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
-																				num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
+																				num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																			}
 																			catch
 																			{
@@ -3838,7 +3838,7 @@ namespace Microsoft.Zune.Service
 																						val4 = ptr6;
 																						val5 = ptr7;
 																						intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
-																						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
+																						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																					}
 																					catch
 																					{
@@ -3869,7 +3869,7 @@ namespace Microsoft.Zune.Service
 																					val4 = ptr6;
 																					val5 = ptr7;
 																					intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
-																					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
+																					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																				}
 																				catch
 																				{
@@ -3919,7 +3919,7 @@ namespace Microsoft.Zune.Service
 																					val4 = ptr6;
 																					val5 = ptr7;
 																					intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
-																					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
+																					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																				}
 																				catch
 																				{
@@ -3950,7 +3950,7 @@ namespace Microsoft.Zune.Service
 																				val4 = ptr6;
 																				val5 = ptr7;
 																				intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
-																				num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
+																				num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																			}
 																			catch
 																			{
@@ -4016,7 +4016,7 @@ namespace Microsoft.Zune.Service
 																				val4 = ptr6;
 																				val5 = ptr7;
 																				intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
-																				num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
+																				num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																			}
 																			catch
 																			{
@@ -4047,7 +4047,7 @@ namespace Microsoft.Zune.Service
 																			val4 = ptr6;
 																			val5 = ptr7;
 																			intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
-																			num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
+																			num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																		}
 																		catch
 																		{
@@ -4097,7 +4097,7 @@ namespace Microsoft.Zune.Service
 																			val4 = ptr6;
 																			val5 = ptr7;
 																			intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
-																			num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
+																			num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																		}
 																		catch
 																		{
@@ -4128,7 +4128,7 @@ namespace Microsoft.Zune.Service
 																		val4 = ptr6;
 																		val5 = ptr7;
 																		intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
-																		num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
+																		num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																	}
 																	catch
 																	{
@@ -4236,7 +4236,7 @@ namespace Microsoft.Zune.Service
 				int num3 = 0;
 				_GUID gUID = guidMediaId;
 				IService* pService = m_pService;
-				if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID, global::EContentType, int*, int*, int*, int>)(*(ulong*)(*(long*)pService + 616)))((nint)pService, gUID, (global::EContentType)eContentType, &num, &num2, &num3) >= 0)
+				if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID, EContentType, int*, int*, int*, int>)(*(ulong*)(*(long*)pService + 616)))((nint)pService, gUID, (EContentType)eContentType, &num, &num2, &num3) >= 0)
 				{
 					bool flag = ((num != 0 || num2 != 0) ? true : false);
 					result = flag;
@@ -4254,7 +4254,7 @@ namespace Microsoft.Zune.Service
 			{
 				_GUID gUID = guidMediaId;
 				IService* pService = m_pService;
-				((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID, global::EContentType, int>)(*(ulong*)(*(long*)pService + 624)))((nint)pService, gUID, (global::EContentType)eContentType);
+				((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID, EContentType, int>)(*(ulong*)(*(long*)pService + 624)))((nint)pService, gUID, (EContentType)eContentType);
 			}
 		}
 
@@ -4270,7 +4270,7 @@ namespace Microsoft.Zune.Service
 				ushort* ptr = null;
 				_GUID gUID = guidMediaId;
 				IService* pService = m_pService;
-				num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID, global::EContentType, global::EContentUriFlags, EMediaFormat, EMediaRights, ushort**, _GUID*, int>)(*(ulong*)(*(long*)pService + 584)))((nint)pService, gUID, (global::EContentType)eContentType, (global::EContentUriFlags)eContentUriFlags, eMediaFormat, eMediaRights, &ptr, &gUID_NULL);
+				num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID, EContentType, global::EContentUriFlags, EMediaFormat, EMediaRights, ushort**, _GUID*, int>)(*(ulong*)(*(long*)pService + 584)))((nint)pService, gUID, (EContentType)eContentType, (global::EContentUriFlags)eContentUriFlags, eMediaFormat, eMediaRights, &ptr, &gUID_NULL);
 				if (num >= 0)
 				{
 					if (ptr == null)
@@ -4344,7 +4344,7 @@ namespace Microsoft.Zune.Service
 						_GUID gUID = guidMediaId;
 						long num4 = *(long*)m_pService + 640;
 						IService* pService = m_pService;
-						if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID, global::EContentType, ushort*, int*, int*, int*, int>)(*(ulong*)num4))((nint)pService, gUID, (global::EContentType)eContentType, ptr, &num2, &num, &num3) >= 0)
+						if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID, EContentType, ushort*, int*, int*, int*, int>)(*(ulong*)num4))((nint)pService, gUID, (EContentType)eContentType, ptr, &num2, &num, &num3) >= 0)
 						{
 							bool flag = ((num2 != 0) ? true : false);
 							result = flag;
@@ -4533,7 +4533,7 @@ namespace Microsoft.Zune.Service
 				_GUID gUID = guidMediaId;
 				IService* pService = m_pService;
 				int num;
-				flag = 0 == ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, _GUID*, global::EContentType, int*, int>)(*(ulong*)(*(long*)pService + 920)))((nint)pService, iUserId, &gUID, (global::EContentType)eContentType, &num);
+				flag = 0 == ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, _GUID*, EContentType, int*, int>)(*(ulong*)(*(long*)pService + 920)))((nint)pService, iUserId, &gUID, (EContentType)eContentType, &num);
 				if (flag)
 				{
 					piRating = num;
@@ -5357,7 +5357,7 @@ namespace Microsoft.Zune.Service
 											num7 = 0L;
 											num8 = 0L;
 											num9 = *(long*)(&cComPtrNtv_003CIContextData_003E);
-											num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)(*(long*)ptr3 + 40)))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference3), (global::EContentType)num5, (ushort*)num6, (ushort*)num7, (ushort*)num8, (IContextData*)num9);
+											num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)(*(long*)ptr3 + 40)))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference3), (EContentType)num5, (ushort*)num6, (ushort*)num7, (ushort*)num8, (IContextData*)num9);
 										}
 										catch
 										{
@@ -5388,7 +5388,7 @@ namespace Microsoft.Zune.Service
 										num7 = 0L;
 										num8 = 0L;
 										num9 = *(long*)(&cComPtrNtv_003CIContextData_003E);
-										num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)(*(long*)ptr3 + 40)))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference3), (global::EContentType)num5, (ushort*)num6, (ushort*)num7, (ushort*)num8, (IContextData*)num9);
+										num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)(*(long*)ptr3 + 40)))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference3), (EContentType)num5, (ushort*)num6, (ushort*)num7, (ushort*)num8, (IContextData*)num9);
 									}
 									catch
 									{
@@ -5459,7 +5459,7 @@ namespace Microsoft.Zune.Service
 											num13 = 0L;
 											num14 = 0L;
 											num15 = *(long*)(&cComPtrNtv_003CIContextData_003E2);
-											num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)(*(long*)ptr3 + 40)))((nint)intPtr3, (_GUID*)Unsafe.AsPointer(ref reference5), (global::EContentType)num11, (ushort*)num12, (ushort*)num13, (ushort*)num14, (IContextData*)num15);
+											num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)(*(long*)ptr3 + 40)))((nint)intPtr3, (_GUID*)Unsafe.AsPointer(ref reference5), (EContentType)num11, (ushort*)num12, (ushort*)num13, (ushort*)num14, (IContextData*)num15);
 										}
 										catch
 										{
@@ -5486,7 +5486,7 @@ namespace Microsoft.Zune.Service
 										num13 = 0L;
 										num14 = 0L;
 										num15 = *(long*)(&cComPtrNtv_003CIContextData_003E2);
-										num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)(*(long*)ptr3 + 40)))((nint)intPtr3, (_GUID*)Unsafe.AsPointer(ref reference5), (global::EContentType)num11, (ushort*)num12, (ushort*)num13, (ushort*)num14, (IContextData*)num15);
+										num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)(*(long*)ptr3 + 40)))((nint)intPtr3, (_GUID*)Unsafe.AsPointer(ref reference5), (EContentType)num11, (ushort*)num12, (ushort*)num13, (ushort*)num14, (IContextData*)num15);
 									}
 									catch
 									{
@@ -5519,7 +5519,7 @@ namespace Microsoft.Zune.Service
 							{
 								_GUID gUID3 = (Guid)enumerator3.Current;
 								IMediaCollection* intPtr4 = ptr3;
-								num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)(*(long*)ptr3 + 40)))((nint)intPtr4, &gUID3, (global::EContentType)3, null, null, null, null);
+								num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)(*(long*)ptr3 + 40)))((nint)intPtr4, &gUID3, (EContentType)3, null, null, null, null);
 							}
 						}
 						while (enumerator3.MoveNext());
@@ -5536,7 +5536,7 @@ namespace Microsoft.Zune.Service
 							{
 								_GUID gUID4 = (Guid)enumerator4.Current;
 								IMediaCollection* intPtr5 = ptr3;
-								num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, global::EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)(*(long*)ptr3 + 40)))((nint)intPtr5, &gUID4, (global::EContentType)7, null, null, null, null);
+								num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)(*(long*)ptr3 + 40)))((nint)intPtr5, &gUID4, (EContentType)7, null, null, null, null);
 							}
 						}
 						while (enumerator4.MoveNext());
@@ -5854,7 +5854,7 @@ namespace Microsoft.Zune.Service
 					{
 						long num2 = *(long*)m_pService + 520;
 						IService* pService = m_pService;
-						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, global::EConcernType, global::EContentType, _GUID, ushort*, IAsyncCallback*, int>)(*(ulong*)num2))((nint)pService, (global::EConcernType)concernType, (global::EContentType)contentType, gUID, ptr3, (IAsyncCallback*)ptr2);
+						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, global::EConcernType, EContentType, _GUID, ushort*, IAsyncCallback*, int>)(*(ulong*)num2))((nint)pService, (global::EConcernType)concernType, (EContentType)contentType, gUID, ptr3, (IAsyncCallback*)ptr2);
 					}
 					catch
 					{
@@ -6122,7 +6122,7 @@ namespace Microsoft.Zune.Service
 				FILETIME fILETIME;
 				int num;
 				int num2;
-				if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID, global::EContentType, DRMQueryState*, FILETIME*, int*, int*, int>)(*(ulong*)(*(long*)pService + 576)))((nint)pService, gUID, (global::EContentType)eContentType, &eCanPlay, &fILETIME, &num, &num2) >= 0)
+				if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID, EContentType, DRMQueryState*, FILETIME*, int*, int*, int>)(*(ulong*)(*(long*)pService + 576)))((nint)pService, gUID, (EContentType)eContentType, &eCanPlay, &fILETIME, &num, &num2) >= 0)
 				{
 					long num3 = (uint)Unsafe.As<FILETIME, int>(ref Unsafe.AddByteOffset(ref fILETIME, 4)) * 4294967296L + (uint)(*(int*)(&fILETIME));
 					DateTime expiryDate = DateTime.MaxValue;
