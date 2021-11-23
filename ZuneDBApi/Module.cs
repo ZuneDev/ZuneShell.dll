@@ -52,6 +52,7 @@ namespace ZuneDBApi
         internal static readonly _GUID GUID_IZuneNetMessaging = new("bf368f0d-4743-439c-9142-e487c9534104");
         internal static readonly _GUID GUID_IDownloadManager = new("399f851b-a600-4e88-90c3-03b8f2770076");
         internal static readonly _GUID GUID_IPassportIdentity = new("655b468c-1224-467d-b720-3bac7f99b6ba");
+        internal static readonly _GUID GUID_UpdateProxy = new("9d21716a-ca61-4e24-a1ba-47b9e70e1e2c");
 
         internal static void _ZuneShipAssert(uint v1, uint v2)
         {

@@ -23,7 +23,7 @@ namespace Microsoft.Zune.Util
 						Monitor.Enter(sm_lock);
 						if (sm_updateManager == null)
 						{
-							UpdateManager updateManager = new UpdateManager();
+							UpdateManager updateManager = new();
 							Thread.MemoryBarrier();
 							sm_updateManager = updateManager;
 						}
@@ -62,7 +62,7 @@ namespace Microsoft.Zune.Util
 			try
 			{
 				Monitor.Enter(sm_lock);
-				if (Module.GetSingleton((_GUID)Module._GUID_9d21716a_ca61_4e24_a1ba_47b9e70e1e2c, (void**)(&ptr)) >= 0)
+				if (Module.GetSingleton(Module.GUID_UpdateProxy, (void**)(&ptr)) >= 0)
 				{
 					m_spUpdateManager.op_Assign(ptr);
 					IUpdateManager* p = m_spUpdateManager.p;
@@ -135,7 +135,7 @@ namespace Microsoft.Zune.Util
 					*(long*)(&cComPtrNtv_003CIUpdateManager_003E) = 0L;
 					try
 					{
-						if (Module.GetSingleton((_GUID)Module._GUID_9d21716a_ca61_4e24_a1ba_47b9e70e1e2c, (void**)(&cComPtrNtv_003CIUpdateManager_003E)) >= 0)
+						if (Module.GetSingleton(Module.GUID_UpdateProxy, (void**)(&cComPtrNtv_003CIUpdateManager_003E)) >= 0)
 						{
 							IUpdateManager* ptr4 = (IUpdateManager*)(*(ulong*)(&cComPtrNtv_003CIUpdateManager_003E));
 							m_spUpdateManager.op_Assign((IUpdateManager*)(*(ulong*)(&cComPtrNtv_003CIUpdateManager_003E)));

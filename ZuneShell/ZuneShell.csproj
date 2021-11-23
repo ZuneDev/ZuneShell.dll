@@ -21,9 +21,7 @@
 		<PackageReference Include="Accessibility" Version="4.6.0-preview3-27504-2" />
 		<PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" />
 		<!--<ProjectReference Include="..\UIX\UIX.csproj" />-->
-        <Reference Include="ZuneDBApi">
-            <HintPath>C:\Program Files\Zune\ZuneDBApi.dll</HintPath>
-        </Reference>
+		<ProjectReference Include="..\ZuneDBApi\ZuneDBApi.csproj" />
         <Reference Include="UIXControls">
             <HintPath>C:\Program Files\Zune\UIXControls.dll</HintPath>
         </Reference>
