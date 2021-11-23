@@ -44,20 +44,20 @@ namespace MicrosoftZuneLibrary
 				Module.delete(ptr);
 				throw;
 			}
-			IInteropNotify* ptr3;
-			if (ptr2 == null || ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, void**, int>)(*(ulong*)(*(ulong*)ptr2)))((nint)ptr2, (_GUID*)Unsafe.AsPointer(ref Module._GUID_3fb2d757_8ddb_46a9_9dd2_3424e2903e46), (void**)(&ptr3)) < 0)
+			IInteropNotify* interopNotify;
+			if (ptr2 == null || ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, void**, int>)(*(ulong*)(*(ulong*)ptr2)))((nint)ptr2, (_GUID*)Unsafe.AsPointer(ref Module._GUID_3fb2d757_8ddb_46a9_9dd2_3424e2903e46), (void**)(&interopNotify)) < 0)
 			{
 				return;
 			}
-			fixed (ulong* ptr4 = &m_AdviseCookie)
+			fixed (ulong* adviseCookie = &m_AdviseCookie)
 			{
 				try
 				{
-					if (Module.InteropNotifyAdvise(ptr3, ptr4) >= 0)
+					if (Module.InteropNotifyAdvise(interopNotify, adviseCookie) >= 0)
 					{
 						m_fAdvised = true;
 					}
-					IInteropNotify* intPtr = ptr3;
+					IInteropNotify* intPtr = interopNotify;
 					((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint>)(*(ulong*)(*(long*)intPtr + 16)))((nint)intPtr);
 				}
 				catch

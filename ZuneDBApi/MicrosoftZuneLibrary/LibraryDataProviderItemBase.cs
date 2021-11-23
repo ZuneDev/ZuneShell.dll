@@ -182,12 +182,12 @@ namespace MicrosoftZuneLibrary
 		public unsafe static string GetArtUrl(int MediaId, string typeName, [MarshalAs(UnmanagedType.U1)] bool fCacheOnly)
 		{
 			//IL_0003: Expected I, but got I8
-			ushort* ptr = null;
+			ushort* artUrl = null;
 			EMediaTypes eMediaTypes = LibraryDataProvider.NameToMediaType(typeName);
-			if (Module.LocateArt(MediaId, eMediaTypes, fCacheOnly, &ptr) >= 0)
+			if (Module.LocateArt(MediaId, eMediaTypes, fCacheOnly, &artUrl) >= 0)
 			{
-				string result = new string((char*)ptr);
-				Module.SysFreeString(ptr);
+				string result = new string((char*)artUrl);
+				Module.SysFreeString(artUrl);
 				return result;
 			}
 			return null;
@@ -229,13 +229,13 @@ namespace MicrosoftZuneLibrary
 			int num = -2147418113;
 			if (TypeName == "Album")
 			{
-				int num2 = (int)GetFieldValue(typeof(int), 355u, -1);
+				int mediaId = (int)GetFieldValue(typeof(int), 355u, -1);
 				fixed (char* strThumbnailPathPtr = strThumbnailPath.ToCharArray())
 				{
 					ushort* ptr = (ushort*)strThumbnailPathPtr;
 					try
 					{
-						num = Module.SetAlbumArt(num2, ptr);
+						num = Module.SetAlbumArt(mediaId, ptr);
 						if (num < 0)
 						{
 							Module.SQMAddNumbersToStream("IgnoredErrorEvent", 1u, (uint)num);

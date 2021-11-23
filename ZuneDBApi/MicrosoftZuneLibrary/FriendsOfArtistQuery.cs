@@ -130,25 +130,25 @@ namespace MicrosoftZuneLibrary
 			//IL_00d2: Expected I, but got I8
 			//IL_00f7: Expected I, but got I8
 			AsyncQueryParams asyncQueryParams = (AsyncQueryParams)obj;
-			int num = 0;
+			int numFriends = 0;
 			int* ptr = null;
 			int* ptr2 = null;
 			int num2 = ((!asyncQueryParams.GetFriends) ? 1 : 100);
-			if (Module.UserCardsForMedia(asyncQueryParams.ArtistId, EMediaTypes.eMediaTypePersonArtist, asyncQueryParams.UserId, 14, num2, &num, &ptr, &ptr2) >= 0)
+			if (Module.UserCardsForMedia(asyncQueryParams.ArtistId, EMediaTypes.eMediaTypePersonArtist, asyncQueryParams.UserId, 14, num2, &numFriends, &ptr, &ptr2) >= 0)
 			{
-				bool flag = num > 0;
+				bool flag = numFriends > 0;
 				IList list = null;
 				IList list2 = null;
 				IList list3 = null;
 				IList list4 = null;
 				if (asyncQueryParams.GetFriends && flag)
 				{
-					list = new ArrayList(num);
-					list2 = new ArrayList(num);
-					list3 = new ArrayList(num);
-					list4 = new ArrayList(num);
+					list = new ArrayList(numFriends);
+					list2 = new ArrayList(numFriends);
+					list3 = new ArrayList(numFriends);
+					list4 = new ArrayList(numFriends);
 					int num3 = 0;
-					if (0 < num)
+					if (0 < numFriends)
 					{
 						long num4 = 0L;
 						do
@@ -190,7 +190,7 @@ namespace MicrosoftZuneLibrary
 							num3++;
 							num4 += 4;
 						}
-						while (num3 < num);
+						while (num3 < numFriends);
 					}
 				}
 				SetResultsParams args = new SetResultsParams(flag, list, list2, list3, list4);

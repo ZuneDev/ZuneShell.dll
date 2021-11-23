@@ -585,41 +585,41 @@ namespace MicrosoftZuneLibrary
 					break;
 				}
 			}
-			int num29 = 0;
-			IDatabaseQueryResults* ptr5 = null;
+			int hresult = 0;
+			IDatabaseQueryResults* queryResults = null;
 			if ((byte)((num != m_requestGeneration) ? 1 : 0) == 0)
 			{
 				if (eQueryType != EQueryType.eQueryTypeInvalid)
 				{
-					ushort* ptr6 = null;
-					num29 = Module.QueryDatabase(eQueryType, iQueryPropertyBag, &ptr5, &ptr6);
-					text = new string((char*)ptr6);
-					Module.SysFreeString(ptr6);
+					ushort* errorText = null;
+					hresult = Module.QueryDatabase(eQueryType, iQueryPropertyBag, &queryResults, &errorText);
+					text = new string((char*)errorText);
+					Module.SysFreeString(errorText);
 				}
 				else
 				{
-					num29 = 0;
+					hresult = 0;
 				}
 			}
-			if ((byte)((num != m_requestGeneration) ? 1 : 0) == 0 && num29 >= 0)
+			if ((byte)((num != m_requestGeneration) ? 1 : 0) == 0 && hresult >= 0)
 			{
 				ZuneQueryList queryList = null;
-				if (ptr5 != null)
+				if (queryResults != null)
 				{
-					queryList = new ZuneQueryList(ptr5, text2);
+					queryList = new ZuneQueryList(queryResults, text2);
 				}
 				Application.DeferredInvoke(DeferredSetResult, new DeferredSetResultArgs(num, queryList, retainedList));
 			}
 			((IDisposable)queryPropertyBag)?.Dispose();
-			if (0L != (nint)ptr5)
+			if (0L != (nint)queryResults)
 			{
-				IDatabaseQueryResults* intPtr5 = ptr5;
+				IDatabaseQueryResults* intPtr5 = queryResults;
 				((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint>)(*(ulong*)(*(long*)intPtr5 + 16)))((nint)intPtr5);
-				ptr5 = null;
+				queryResults = null;
 			}
-			if (num29 < 0)
+			if (hresult < 0)
 			{
-				throw new COMException("Could not perform query " + text, num29);
+				throw new COMException("Could not perform query " + text, hresult);
 			}
 		}
 

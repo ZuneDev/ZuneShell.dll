@@ -247,11 +247,11 @@ namespace MicrosoftZuneLibrary
 
 		public unsafe int GetSyncRuleValueForMedia(int iMediaItemId, ref int iValue)
 		{
-			int num;
-			int num2 = Module.GetSyncRuleValueForMedia(EDeviceSyncRuleType.eDeviceSyncRuleTypeSyncEpisodesCount, m_iDeviceID, EMediaTypes.eMediaTypePodcastSeries, iMediaItemId, &num);
+			int value;
+			int num2 = Module.GetSyncRuleValueForMedia(EDeviceSyncRuleType.eDeviceSyncRuleTypeSyncEpisodesCount, m_iDeviceID, EMediaTypes.eMediaTypePodcastSeries, iMediaItemId, &value);
 			if (num2 >= 0)
 			{
-				iValue = num;
+				iValue = value;
 			}
 			return num2;
 		}
@@ -476,17 +476,16 @@ namespace MicrosoftZuneLibrary
 			}
 			if (rgIds != null)
 			{
-				fixed (int* ptr = &rgIds[0])
+				fixed (int* rgIdsPtr = &rgIds[0])
 				{
 					try
 					{
-						int* ptr2 = ptr;
-						num = Module.DeleteDeviceSyncRules(ruleType, m_iDeviceID, mediaType, ptr2, rgIds.Length, fDeviceFolderIds);
+						num = Module.DeleteDeviceSyncRules(ruleType, m_iDeviceID, mediaType, rgIdsPtr, rgIds.Length, fDeviceFolderIds);
 					}
 					catch
 					{
 						//try-fault
-						ptr = null;
+						rgIds = null;
 						throw;
 					}
 				}

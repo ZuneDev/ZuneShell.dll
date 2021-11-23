@@ -38,16 +38,15 @@ namespace MicrosoftZuneLibrary
 		public unsafe int Initialize(string path, out bool dbRebuilt)
 		{
 			Module.ZuneEtwInit();
-			Module.WPP_INIT_CONTROL_ARRAY((WPP_PROJECT_CONTROL_BLOCK*)Unsafe.AsPointer(ref Module.WPP_MAIN_CB));
+            Module.WPP_INIT_CONTROL_ARRAY((WPP_PROJECT_CONTROL_BLOCK*)Unsafe.AsPointer(ref Module.WPP_MAIN_CB));
 			Module.WPP_INIT_GUID_ARRAY((_GUID**)Unsafe.AsPointer(ref Module.WPP_REGISTRATION_GUIDS));
 			Module.WPP_GLOBAL_Control = (WPP_PROJECT_CONTROL_BLOCK*)Unsafe.AsPointer(ref Module.WPP_MAIN_CB);
-			Module.WppInitUm((ushort*)Unsafe.AsPointer(ref Module._003F_003F_C_0040_1BK_0040DJDIBCLF_0040_003F_0024AAZ_003F_0024AAu_003F_0024AAn_003F_0024AAe_003F_0024AA_003F5_003F_0024AAI_003F_0024AAn_003F_0024AAt_003F_0024AAe_003F_0024AAr_003F_0024AAo_003F_0024AAp_003F_0024AA_003F_0024AA_0040));
+			Module.WppInitUm((ushort*)Unsafe.AsPointer(ref Module.WPP_APPNAME));
 			fixed (char* pathPtr = path.ToCharArray())
 			{
-				ushort* ptr = (ushort*)pathPtr;
-				int num = 0;
-				int result = Module.StartupZuneNativeLib(ptr, &num);
-				bool flag = (dbRebuilt = ((num != 0) ? true : false));
+				int dbRebuiltResult = 0;
+				int result = Module.StartupZuneNativeLib((ushort*)pathPtr, &dbRebuiltResult);
+				bool flag = dbRebuilt = (dbRebuiltResult != 0);
 				return result;
 			}
 		}
@@ -163,11 +162,11 @@ namespace MicrosoftZuneLibrary
 		{
 			//IL_0003: Expected I, but got I8
 			//IL_0021: Expected I, but got I8
-			IWMPCDDeviceList* ptr = null;
-			if (Module.GetCDDeviceList(&ptr) >= 0)
+			IWMPCDDeviceList* deviceList = null;
+			if (Module.GetCDDeviceList(&deviceList) >= 0)
 			{
-				ZuneLibraryCDDeviceList zuneLibraryCDDeviceList = new ZuneLibraryCDDeviceList(ptr);
-				IWMPCDDeviceList* intPtr = ptr;
+				ZuneLibraryCDDeviceList zuneLibraryCDDeviceList = new ZuneLibraryCDDeviceList(deviceList);
+				IWMPCDDeviceList* intPtr = deviceList;
 				((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint>)(*(ulong*)(*(long*)intPtr + 16)))((nint)intPtr);
 				zuneLibraryCDDeviceList?.AddRef();
 				return zuneLibraryCDDeviceList;
@@ -382,10 +381,10 @@ namespace MicrosoftZuneLibrary
 			if (!(handler == null))
 			{
 				WMISGetAlbumForAlbumIdCallbackWrapper* ptr = (WMISGetAlbumForAlbumIdCallbackWrapper*)Module.@new(24uL);
-				WMISGetAlbumForAlbumIdCallbackWrapper* ptr2;
+				WMISGetAlbumForAlbumIdCallbackWrapper* callback;
 				try
 				{
-					ptr2 = ((ptr == null) ? null : Module.MicrosoftZuneLibrary_002EWMISGetAlbumForAlbumIdCallbackWrapper_002E_007Bctor_007D(ptr, handler));
+					callback = ((ptr == null) ? null : Module.MicrosoftZuneLibrary_002EWMISGetAlbumForAlbumIdCallbackWrapper_002E_007Bctor_007D(ptr, handler));
 				}
 				catch
 				{
@@ -393,13 +392,13 @@ namespace MicrosoftZuneLibrary
 					Module.delete(ptr);
 					throw;
 				}
-				IAlbumInfo* ptr3 = null;
+				IAlbumInfo* albumInfo = null;
 				if (dbAlbumMetadata != null)
 				{
-					ptr3 = dbAlbumMetadata.AlbumInfo;
+					albumInfo = dbAlbumMetadata.AlbumInfo;
 				}
-				Module.GetAlbumMetadataForAlbumId(WMISAlbumId, WMISVolume, ptr3, (IWMISGetAlbumForAlbumIdCallback*)ptr2);
-				((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint>)(*(ulong*)(*(long*)ptr2 + 16)))((nint)ptr2);
+				Module.GetAlbumMetadataForAlbumId(WMISAlbumId, WMISVolume, albumInfo, (IWMISGetAlbumForAlbumIdCallback*)callback);
+				((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint>)(*(ulong*)(*(long*)callback + 16)))((nint)callback);
 			}
 		}
 
@@ -519,7 +518,7 @@ namespace MicrosoftZuneLibrary
 							throw;
 						}
 					}
-					goto IL_003d;
+					goto done;
 				}
 			}
 			catch
@@ -530,7 +529,7 @@ namespace MicrosoftZuneLibrary
 			}
 			((IDisposable)managedLock).Dispose();
 			return false;
-			IL_003d:
+			done:
 			((IDisposable)managedLock).Dispose();
 			return result;
 		}
@@ -603,26 +602,26 @@ namespace MicrosoftZuneLibrary
 			int result = -1;
 			fixed (char* strTitlePtr = strTitle.ToCharArray())
 			{
-				ushort* ptr2 = (ushort*)strTitlePtr;
+				ushort* title = (ushort*)strTitlePtr;
 				fixed (char* strAlbumPtr = strAlbum.ToCharArray())
 				{
-					ushort* ptr3 = (ushort*)strAlbumPtr;
+					ushort* album = (ushort*)strAlbumPtr;
 					fixed (char* strArtistPtr = strArtist.ToCharArray())
 					{
-						ushort* ptr4 = (ushort*)strArtistPtr;
+						ushort* artist = (ushort*)strArtistPtr;
 						fixed (char* strGenrePtr = strGenre.ToCharArray())
 						{
-							ushort* ptr5 = (ushort*)strGenrePtr;
-							int num = (int)duration.TotalMilliseconds;
-							IMSMediaSchemaPropertySet* ptr = null;
+							ushort* genre = (ushort*)strGenrePtr;
+							int durationMill = (int)duration.TotalMilliseconds;
+							IMSMediaSchemaPropertySet* set = null;
 							_GUID gUID = guidAlbumServiceMediaId;
-							if (Module.CreateTrackPropSet(guidTrackServiceMediaId, gUID, iTrackNumber, ptr2, num, ptr3, ptr4, ptr5, &ptr) >= 0)
+							if (Module.CreateTrackPropSet(guidTrackServiceMediaId, gUID, iTrackNumber, title, durationMill, album, artist, genre, &set) >= 0)
 							{
-								Module.AddMedia(ptr, EMediaTypes.eMediaTypeAudio, &result);
+								Module.AddMedia(set, EMediaTypes.eMediaTypeAudio, &result);
 							}
-							if (ptr != null)
+							if (set != null)
 							{
-								IMSMediaSchemaPropertySet* intPtr = ptr;
+								IMSMediaSchemaPropertySet* intPtr = set;
 								((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint>)(*(ulong*)(*(long*)intPtr + 16)))((nint)intPtr);
 							}
 							return result;
@@ -638,14 +637,14 @@ namespace MicrosoftZuneLibrary
 			int num = -1;
 			fixed (char* strTitlePtr = strTitle.ToCharArray())
 			{
-				ushort* ptr = (ushort*)strTitlePtr;
-				int num2 = (int)duration.TotalMilliseconds;
+				ushort* title = (ushort*)strTitlePtr;
+				int durationMill = (int)duration.TotalMilliseconds;
 				CComPtrNtv_003CIMSMediaSchemaPropertySet_003E cComPtrNtv_003CIMSMediaSchemaPropertySet_003E;
 				*(long*)(&cComPtrNtv_003CIMSMediaSchemaPropertySet_003E) = 0L;
 				int result;
 				try
 				{
-					if (Module.CreateVideoPropSet(guidVideoMediaId, ptr, num2, (IMSMediaSchemaPropertySet**)(&cComPtrNtv_003CIMSMediaSchemaPropertySet_003E)) >= 0)
+					if (Module.CreateVideoPropSet(guidVideoMediaId, title, durationMill, (IMSMediaSchemaPropertySet**)(&cComPtrNtv_003CIMSMediaSchemaPropertySet_003E)) >= 0)
 					{
 						Module.AddMedia((IMSMediaSchemaPropertySet*)(*(ulong*)(&cComPtrNtv_003CIMSMediaSchemaPropertySet_003E)), EMediaTypes.eMediaTypeVideo, &num);
 					}
@@ -733,9 +732,9 @@ namespace MicrosoftZuneLibrary
 			{
 				return false;
 			}
-			fixed (int* ptr = &mediaIds[0])
+			fixed (int* mediaIdsPtr = &mediaIds[0])
 			{
-				return (byte)((Module.DeleteMedia(mediaType, ptr, mediaIds.Length, fDeleteFileOnDisk ? 1 : 0, 1) >= 0) ? 1u : 0u) != 0;
+				return (byte)((Module.DeleteMedia(mediaType, mediaIdsPtr, mediaIds.Length, fDeleteFileOnDisk ? 1 : 0, 1) >= 0) ? 1u : 0u) != 0;
 			}
 		}
 
@@ -744,8 +743,7 @@ namespace MicrosoftZuneLibrary
 		{
 			fixed (char* folderNamePtr = folderName.ToCharArray())
 			{
-				ushort* ptr = (ushort*)folderNamePtr;
-				int num = Module.DeleteRootFolder(ptr, mediaType);
+				int num = Module.DeleteRootFolder((ushort*)folderNamePtr, mediaType);
 				if (num < 0)
 				{
 					Module.SQMAddNumbersToStream("IgnoredErrorEvent", 1u, (uint)num);
@@ -1016,104 +1014,103 @@ namespace MicrosoftZuneLibrary
 			//IL_0032: Expected I, but got I8
 			//IL_0035: Expected I, but got I8
 			//IL_0038: Expected I, but got I8
-			DynamicArray_003Cunsigned_0020short_0020_002A_003E obj;
-			Module.DynamicArray_003Cunsigned_0020short_0020_002A_003E_002E_007Bctor_007D(&obj);
+			DynamicArray_003Cunsigned_0020short_0020_002A_003E dynMusic;
+			Module.DynamicArray_003Cunsigned_0020short_0020_002A_003E_002E_007Bctor_007D(&dynMusic);
 			int result;
 			try
 			{
-				DynamicArray_003Cunsigned_0020short_0020_002A_003E obj2;
-				Module.DynamicArray_003Cunsigned_0020short_0020_002A_003E_002E_007Bctor_007D(&obj2);
+				DynamicArray_003Cunsigned_0020short_0020_002A_003E dynVideos;
+				Module.DynamicArray_003Cunsigned_0020short_0020_002A_003E_002E_007Bctor_007D(&dynVideos);
 				try
 				{
-					DynamicArray_003Cunsigned_0020short_0020_002A_003E obj3;
-					Module.DynamicArray_003Cunsigned_0020short_0020_002A_003E_002E_007Bctor_007D(&obj3);
+					DynamicArray_003Cunsigned_0020short_0020_002A_003E dynPictures;
+					Module.DynamicArray_003Cunsigned_0020short_0020_002A_003E_002E_007Bctor_007D(&dynPictures);
 					try
 					{
-						DynamicArray_003Cunsigned_0020short_0020_002A_003E obj4;
-						Module.DynamicArray_003Cunsigned_0020short_0020_002A_003E_002E_007Bctor_007D(&obj4);
+						DynamicArray_003Cunsigned_0020short_0020_002A_003E dynPodcasts;
+						Module.DynamicArray_003Cunsigned_0020short_0020_002A_003E_002E_007Bctor_007D(&dynPodcasts);
 						try
 						{
-							DynamicArray_003Cunsigned_0020short_0020_002A_003E obj5;
-							Module.DynamicArray_003Cunsigned_0020short_0020_002A_003E_002E_007Bctor_007D(&obj5);
+							DynamicArray_003Cunsigned_0020short_0020_002A_003E dynApplications;
+							Module.DynamicArray_003Cunsigned_0020short_0020_002A_003E_002E_007Bctor_007D(&dynApplications);
 							try
 							{
-								ushort* ptr = null;
-								ushort* ptr2 = null;
-								ushort* ptr3 = null;
-								ushort* ptr4 = null;
-								ushort* ptr5 = null;
-								result = Module.GetKnownFolders(&obj, &obj2, &obj3, &obj4, &obj5, &ptr, &ptr2, &ptr3, &ptr4, &ptr5);
-								music = Module.BstrArrayToStringArray(&obj);
-								videos = Module.BstrArrayToStringArray(&obj2);
-								pictures = Module.BstrArrayToStringArray(&obj3);
-								podcasts = Module.BstrArrayToStringArray(&obj4);
-								applications = Module.BstrArrayToStringArray(&obj5);
-								ripFolder = new string((char*)ptr);
-								Module.SysFreeString(ptr);
-								videoMediaFolder = new string((char*)ptr2);
-								Module.SysFreeString(ptr2);
-								photoMediaFolder = new string((char*)ptr3);
-								Module.SysFreeString(ptr3);
-								podcastMediaFolder = new string((char*)ptr4);
-								Module.SysFreeString(ptr4);
-								applicationsFolder = new string((char*)ptr5);
-								Module.SysFreeString(ptr5);
+								ushort* ripFolderPtr = null;
+								ushort* videoPtr = null;
+								ushort* photoPtr = null;
+								ushort* podcastPtr = null;
+								ushort* applicationPtr = null;
+								result = Module.GetKnownFolders(&dynMusic, &dynVideos, &dynPictures, &dynPodcasts, &dynApplications, &ripFolderPtr, &videoPtr, &photoPtr, &podcastPtr, &applicationPtr);
+								music = Module.BstrArrayToStringArray(&dynMusic);
+								videos = Module.BstrArrayToStringArray(&dynVideos);
+								pictures = Module.BstrArrayToStringArray(&dynPictures);
+								podcasts = Module.BstrArrayToStringArray(&dynPodcasts);
+								applications = Module.BstrArrayToStringArray(&dynApplications);
+								ripFolder = new string((char*)ripFolderPtr);
+								Module.SysFreeString(ripFolderPtr);
+								videoMediaFolder = new string((char*)videoPtr);
+								Module.SysFreeString(videoPtr);
+								photoMediaFolder = new string((char*)photoPtr);
+								Module.SysFreeString(photoPtr);
+								podcastMediaFolder = new string((char*)podcastPtr);
+								Module.SysFreeString(podcastPtr);
+								applicationsFolder = new string((char*)applicationPtr);
+								Module.SysFreeString(applicationPtr);
 							}
 							catch
 							{
 								//try-fault
-								Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<DynamicArray_003Cunsigned_0020short_0020_002A_003E*, void>)(&Module.DynamicArray_003Cunsigned_0020short_0020_002A_003E_002E_007Bdtor_007D), &obj5);
+								Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<DynamicArray_003Cunsigned_0020short_0020_002A_003E*, void>)(&Module.DynamicArray_003Cunsigned_0020short_0020_002A_003E_002E_007Bdtor_007D), &dynApplications);
 								throw;
 							}
-							Module.DynamicArray_003Cunsigned_0020short_0020_002A_003E_002E_007Bdtor_007D(&obj5);
+							Module.DynamicArray_003Cunsigned_0020short_0020_002A_003E_002E_007Bdtor_007D(&dynApplications);
 						}
 						catch
 						{
 							//try-fault
-							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<DynamicArray_003Cunsigned_0020short_0020_002A_003E*, void>)(&Module.DynamicArray_003Cunsigned_0020short_0020_002A_003E_002E_007Bdtor_007D), &obj4);
+							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<DynamicArray_003Cunsigned_0020short_0020_002A_003E*, void>)(&Module.DynamicArray_003Cunsigned_0020short_0020_002A_003E_002E_007Bdtor_007D), &dynPodcasts);
 							throw;
 						}
-						Module.DynamicArray_003Cunsigned_0020short_0020_002A_003E_002E_007Bdtor_007D(&obj4);
+						Module.DynamicArray_003Cunsigned_0020short_0020_002A_003E_002E_007Bdtor_007D(&dynPodcasts);
 					}
 					catch
 					{
 						//try-fault
-						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<DynamicArray_003Cunsigned_0020short_0020_002A_003E*, void>)(&Module.DynamicArray_003Cunsigned_0020short_0020_002A_003E_002E_007Bdtor_007D), &obj3);
+						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<DynamicArray_003Cunsigned_0020short_0020_002A_003E*, void>)(&Module.DynamicArray_003Cunsigned_0020short_0020_002A_003E_002E_007Bdtor_007D), &dynPictures);
 						throw;
 					}
-					Module.DynamicArray_003Cunsigned_0020short_0020_002A_003E_002E_007Bdtor_007D(&obj3);
+					Module.DynamicArray_003Cunsigned_0020short_0020_002A_003E_002E_007Bdtor_007D(&dynPictures);
 				}
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<DynamicArray_003Cunsigned_0020short_0020_002A_003E*, void>)(&Module.DynamicArray_003Cunsigned_0020short_0020_002A_003E_002E_007Bdtor_007D), &obj2);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<DynamicArray_003Cunsigned_0020short_0020_002A_003E*, void>)(&Module.DynamicArray_003Cunsigned_0020short_0020_002A_003E_002E_007Bdtor_007D), &dynVideos);
 					throw;
 				}
-				Module.DynamicArray_003Cunsigned_0020short_0020_002A_003E_002E_007Bdtor_007D(&obj2);
+				Module.DynamicArray_003Cunsigned_0020short_0020_002A_003E_002E_007Bdtor_007D(&dynVideos);
 			}
 			catch
 			{
 				//try-fault
-				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<DynamicArray_003Cunsigned_0020short_0020_002A_003E*, void>)(&Module.DynamicArray_003Cunsigned_0020short_0020_002A_003E_002E_007Bdtor_007D), &obj);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<DynamicArray_003Cunsigned_0020short_0020_002A_003E*, void>)(&Module.DynamicArray_003Cunsigned_0020short_0020_002A_003E_002E_007Bdtor_007D), &dynMusic);
 				throw;
 			}
-			Module.DynamicArray_003Cunsigned_0020short_0020_002A_003E_002E_007Bdtor_007D(&obj);
+			Module.DynamicArray_003Cunsigned_0020short_0020_002A_003E_002E_007Bdtor_007D(&dynMusic);
 			return result;
 		}
 
 		public unsafe int GetLocalizedPathOfFolder([In] string physicalPath, [In][MarshalAs(UnmanagedType.U1)] bool fNetworkPathsAllowed, out string localizedPath)
 		{
 			//IL_0003: Expected I, but got I8
-			ushort* ptr = null;
+			ushort* localizedPathPtr = null;
 			localizedPath = null;
 			fixed (char* physicalPathPtr = physicalPath.ToCharArray())
 			{
-				ushort* ptr2 = (ushort*)physicalPathPtr;
-				int num = Module.GetLocalizedPathOfFolder(ptr2, fNetworkPathsAllowed, &ptr);
+				int num = Module.GetLocalizedPathOfFolder((ushort*)physicalPathPtr, fNetworkPathsAllowed, &localizedPathPtr);
 				if (num >= 0)
 				{
-					localizedPath = new string((char*)ptr);
-					Module.SysFreeString(ptr);
+					localizedPath = new string((char*)localizedPathPtr);
+					Module.SysFreeString(localizedPathPtr);
 				}
 				return num;
 			}
@@ -1139,9 +1136,7 @@ namespace MicrosoftZuneLibrary
 			fixed (char* pathPtr = path.ToCharArray())
 			{
 				ushort* ptr = (ushort*)pathPtr;
-				int num = 0;
-				int num2 = ((Module.DoesFileExist(ptr, &num) >= 0 && num != 0) ? 1 : 0);
-				return (byte)num2 != 0;
+				return Module.DoesFileExist(ptr, out int exists) >= 0 && exists != 0;
 			}
 		}
 

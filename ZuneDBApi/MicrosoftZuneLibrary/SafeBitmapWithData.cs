@@ -145,12 +145,11 @@ namespace MicrosoftZuneLibrary
 			object result = null;
 			fixed (char* strFilenamePtr = strFilename.ToCharArray())
 			{
-				ushort* ptr = (ushort*)strFilenamePtr;
 				int iWidth;
 				int iHeight;
 				void* pData;
 				HBITMAP* hBitmap;
-				if (Module.GetThumbnailBitmapData(ptr, &iWidth, &iHeight, &pData, &hBitmap) >= 0)
+				if (Module.GetThumbnailBitmapData((ushort*)strFilenamePtr, &iWidth, &iHeight, &pData, &hBitmap) >= 0)
 				{
 					result = new SafeBitmapWithData(iHeight, iWidth, pData, hBitmap);
 				}

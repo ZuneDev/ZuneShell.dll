@@ -32,15 +32,14 @@ namespace Microsoft.Zune.Util
 			}
 			fixed (char* msgPtr = msg.ToCharArray())
 			{
-				ushort* ptr = (ushort*)msgPtr;
 				try
 				{
-					Module.ShipAssert(id, param, ptr);
+					Module.ShipAssert(id, param, (ushort*)msgPtr);
 				}
 				catch
 				{
 					//try-fault
-					ptr = null;
+					msg = null;
 					throw;
 				}
 			}
@@ -54,15 +53,14 @@ namespace Microsoft.Zune.Util
 			}
 			fixed (char* msgPtr = msg.ToCharArray())
 			{
-				ushort* ptr = (ushort*)msgPtr;
 				try
 				{
-					Module.ShipAssert(id, param, ptr);
+					Module.ShipAssert(id, param, (ushort*)msgPtr);
 				}
 				catch
 				{
 					//try-fault
-					ptr = null;
+					msg = null;
 					throw;
 				}
 			}

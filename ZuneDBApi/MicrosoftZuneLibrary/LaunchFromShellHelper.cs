@@ -80,19 +80,19 @@ namespace MicrosoftZuneLibrary
 			//IL_00be: Expected I, but got I8
 			//IL_00d0: Expected I, but got I8
 			EventWaitHandle eventWaitHandle = null;
-			IDataObjectEnumerator* ptr = null;
+			IDataObjectEnumerator* dataObjEnum = null;
 			fixed (char* _startParamPtr = _startParam.ToCharArray())
 			{
 				ushort* ptr2 = (ushort*)_startParamPtr;
 				FileFoundCallback fileFoundCallback = FileFound;
 				delegate* unmanaged[Cdecl, Cdecl]<ushort*, EMediaTypes, void> delegate_002A = (delegate* unmanaged[Cdecl, Cdecl]<ushort*, EMediaTypes, void>)Marshal.GetFunctionPointerForDelegate(fileFoundCallback).ToPointer();
-				int num = Module.CreateDataObjectEnum(&ptr);
+				int num = Module.CreateDataObjectEnum(&dataObjEnum);
 				try
 				{
 					if (num >= 0)
 					{
-						long num2 = *(long*)ptr;
-						IDataObjectEnumerator* intPtr = ptr;
+						long num2 = *(long*)dataObjEnum;
+						IDataObjectEnumerator* intPtr = dataObjEnum;
 						var val = ptr2;
 						bool startParamIsDataObject = _startParamIsDataObject;
 						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, int, delegate* unmanaged[Cdecl, Cdecl]<ushort*, EMediaTypes, void>, int>)(*(ulong*)num2))((nint)intPtr, (ushort*)(nint)val, startParamIsDataObject ? 1 : 0, delegate_002A);
@@ -126,17 +126,17 @@ namespace MicrosoftZuneLibrary
 						bool flag = true;
 						while (!_cancelled && num >= 0 && flag)
 						{
-							IDataObjectEnumerator* intPtr2 = ptr;
-							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, bool*, int>)(*(ulong*)(*(long*)ptr + 8)))((nint)intPtr2, &flag);
+							IDataObjectEnumerator* intPtr2 = dataObjEnum;
+							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, bool*, int>)(*(ulong*)(*(long*)dataObjEnum + 8)))((nint)intPtr2, &flag);
 						}
 					}
 				}
 				finally
 				{
-					if (ptr != null)
+					if (dataObjEnum != null)
 					{
-						Module.DestroyDataObjectEnum(ptr);
-						ptr = null;
+						Module.DestroyDataObjectEnum(dataObjEnum);
+						dataObjEnum = null;
 					}
 				}
 				GC.KeepAlive(fileFoundCallback);

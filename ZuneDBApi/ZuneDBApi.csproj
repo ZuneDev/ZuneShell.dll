@@ -34,6 +34,7 @@
 			<Link Condition=" '$(Platform)' == 'x64' ">C:\Program Files\Zune\ZuneService.dll</Link>
 			<Link Condition=" '$(Platform)' == 'x86' ">C:\Program Files (x86)\Zune\ZuneService.dll</Link>
 		</Content>
+		<PackageReference Include="Microsoft.Diagnostics.Tracing.TraceEvent" Version="2.0.74" />
 
 		<PackageReference Include="Vanara.PInvoke.User32" Version="3.3.14" />
 		<PackageReference Include="Vanara.PInvoke.Kernel32" Version="3.3.14" />
