@@ -89,6 +89,38 @@ namespace ZuneDBApi
             return Unsafe.AddByteOffset(ref obj, new IntPtr(offset));
         }
 
+        internal static string[] BstrArrayToStringArray(DynamicArray_003Cunsigned_0020short_0020_002A_003E* bstrArray)
+        {
+            string[] array = null;
+            int num = *(int*)((ulong)(nint)bstrArray + 16uL);
+            try
+            {
+                array = new string[num];
+                for (int i = 0; i < num; i++)
+                {
+                    ushort** ptr = (ushort**)(bstrArray + i);
+                    array[i] = new string((char*)*ptr);
+                }
+            }
+            finally
+            {
+                int num2 = 0;
+                if (0 < num)
+                {
+                    do
+                    {
+                        if ((long)(*(ushort**)(bstrArray + num2)) != 0L)
+				        {
+                            SysFreeString(*(ushort**)(bstrArray + num2));
+                        }
+                        num2++;
+                    }
+                    while (num2 < num);
+                }
+            }
+            return array;
+        }
+
         public static int CloseClipboard()
         {
             return User32.CloseClipboard() ? 1 : 0;
