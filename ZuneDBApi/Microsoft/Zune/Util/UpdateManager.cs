@@ -131,23 +131,22 @@ namespace Microsoft.Zune.Util
 				IUpdateManager* p = m_spUpdateManager.p;
 				if (0L == (nint)p)
 				{
-					CComPtrNtv_003CIUpdateManager_003E cComPtrNtv_003CIUpdateManager_003E;
-					*(long*)(&cComPtrNtv_003CIUpdateManager_003E) = 0L;
+					CComPtrNtv<IUpdateManager> cComPtrNtv_003CIUpdateManager_003E = new();
 					try
 					{
-						if (Module.GetSingleton(Module.GUID_UpdateProxy, (void**)(&cComPtrNtv_003CIUpdateManager_003E)) >= 0)
+						if (Module.GetSingleton(Module.GUID_UpdateProxy, (void**)(cComPtrNtv_003CIUpdateManager_003E.p)) >= 0)
 						{
-							IUpdateManager* ptr4 = (IUpdateManager*)(*(ulong*)(&cComPtrNtv_003CIUpdateManager_003E));
-							m_spUpdateManager.op_Assign((IUpdateManager*)(*(ulong*)(&cComPtrNtv_003CIUpdateManager_003E)));
+							IUpdateManager* ptr4 = (IUpdateManager*)(*(ulong*)(cComPtrNtv_003CIUpdateManager_003E.p));
+							m_spUpdateManager.op_Assign((IUpdateManager*)(*(ulong*)(cComPtrNtv_003CIUpdateManager_003E.p)));
 						}
 					}
 					catch
 					{
 						//try-fault
-						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIUpdateManager_003E*, void>)(&Module.CComPtrNtv_003CIUpdateManager_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIUpdateManager_003E);
+						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IUpdateManager*, void>)(&Module.CComPtrNtv_003CIUpdateManager_003E_002E_007Bdtor_007D), cComPtrNtv_003CIUpdateManager_003E.p);
 						throw;
 					}
-					Module.CComPtrNtv_003CIUpdateManager_003E_002ERelease(&cComPtrNtv_003CIUpdateManager_003E);
+					cComPtrNtv_003CIUpdateManager_003E.Dispose();
 				}
 				CComPtrMgd<IUpdateManager> spUpdateManager = m_spUpdateManager;
 				IUpdateManager* p2 = spUpdateManager.p;

@@ -127,16 +127,15 @@ namespace MicrosoftZuneLibrary
 				while (num3 < num)
 				{
 					FirmwareUpdatePackage firmwareUpdatePackage = null;
-					CComPtrNtv_003CIFirmwareMetadata_003E cComPtrNtv_003CIFirmwareMetadata_003E;
-					*(long*)(&cComPtrNtv_003CIFirmwareMetadata_003E) = 0L;
+					CComPtrNtv<IFirmwareMetadata> cComPtrNtv_003CIFirmwareMetadata_003E = new();
 					try
 					{
 						IFirmwareUpdateCollection* p2 = m_spUpdatePackageCollection.p;
 						uint num4 = num3;
-						num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, IFirmwareMetadata**, int>)(*(ulong*)(*(long*)p2 + 32)))((nint)p2, num4, (IFirmwareMetadata**)(&cComPtrNtv_003CIFirmwareMetadata_003E));
+						num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, IFirmwareMetadata**, int>)(*(ulong*)(*(long*)p2 + 32)))((nint)p2, num4, (IFirmwareMetadata**)(cComPtrNtv_003CIFirmwareMetadata_003E.p));
 						if (num2 >= 0)
 						{
-							firmwareUpdatePackage = new FirmwareUpdatePackage((IFirmwareMetadata*)(*(ulong*)(&cComPtrNtv_003CIFirmwareMetadata_003E)));
+							firmwareUpdatePackage = new FirmwareUpdatePackage((IFirmwareMetadata*)(*(ulong*)(cComPtrNtv_003CIFirmwareMetadata_003E.p)));
 							m_packages.Add(firmwareUpdatePackage);
 							IFirmwareUpdateCollection* p3 = m_spUpdatePackageCollection.p;
 							bool selected = firmwareUpdatePackage.Selected;
@@ -145,8 +144,8 @@ namespace MicrosoftZuneLibrary
 						EFirmwareUpdateType eFirmwareUpdateType = (EFirmwareUpdateType)(-1);
 						if (num2 >= 0)
 						{
-							long num5 = *(long*)(&cComPtrNtv_003CIFirmwareMetadata_003E);
-							num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EFirmwareUpdateType*, int>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CIFirmwareMetadata_003E)) + 48)))((nint)num5, &eFirmwareUpdateType);
+							long num5 = *(long*)(cComPtrNtv_003CIFirmwareMetadata_003E.p);
+							num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EFirmwareUpdateType*, int>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CIFirmwareMetadata_003E.p)) + 48)))((nint)num5, &eFirmwareUpdateType);
 							if (num2 >= 0)
 							{
 								if (eFirmwareUpdateType == 0)
@@ -180,10 +179,10 @@ namespace MicrosoftZuneLibrary
 					catch
 					{
 						//try-fault
-						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIFirmwareMetadata_003E*, void>)(&Module.CComPtrNtv_003CIFirmwareMetadata_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIFirmwareMetadata_003E);
+						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IFirmwareMetadata*, void>)(&Module.CComPtrNtv_003CIFirmwareMetadata_003E_002E_007Bdtor_007D), cComPtrNtv_003CIFirmwareMetadata_003E.p);
 						throw;
 					}
-					Module.CComPtrNtv_003CIFirmwareMetadata_003E_002ERelease(&cComPtrNtv_003CIFirmwareMetadata_003E);
+					cComPtrNtv_003CIFirmwareMetadata_003E.Dispose();
 					num3++;
 					if (num2 < 0)
 					{

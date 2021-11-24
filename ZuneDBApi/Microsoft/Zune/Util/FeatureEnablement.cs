@@ -142,12 +142,11 @@ namespace Microsoft.Zune.Util
 			//IL_006a: Expected I, but got I8
 			//IL_006a: Expected I, but got I8
 			//IL_0077: Expected I, but got I8
-			CComPtrNtv_003CIService_003E cComPtrNtv_003CIService_003E;
-			*(long*)(&cComPtrNtv_003CIService_003E) = 0L;
+			CComPtrNtv<IService> cComPtrNtv_003CIService_003E = new();
 			string result;
 			try
 			{
-				int singleton = Module.GetSingleton(Module.GUID_IService, (void**)(&cComPtrNtv_003CIService_003E));
+				int singleton = Module.GetSingleton(Module.GUID_IService, (void**)(cComPtrNtv_003CIService_003E.p));
 				result = null;
 				if (singleton >= 0)
 				{
@@ -155,18 +154,17 @@ namespace Microsoft.Zune.Util
 					Module.WBSTRString_002E_007Bctor_007D(&wBSTRString);
 					try
 					{
-						CComPtrNtv_003CITunerConfig_003E cComPtrNtv_003CITunerConfig_003E;
-						*(long*)(&cComPtrNtv_003CITunerConfig_003E) = 0L;
+						CComPtrNtv<ITunerConfig> cComPtrNtv_003CITunerConfig_003E = new();
 						try
 						{
-							long num = *(long*)(&cComPtrNtv_003CIService_003E);
-							if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CIService_003E)) + 168)))((nint)num) != 0)
+							long num = *(long*)(cComPtrNtv_003CIService_003E.p);
+							if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CIService_003E.p)) + 168)))((nint)num) != 0)
 							{
-								long num2 = *(long*)(&cComPtrNtv_003CIService_003E);
-								if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ITunerConfig**, int>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CIService_003E)) + 176)))((nint)num2, (ITunerConfig**)(&cComPtrNtv_003CITunerConfig_003E)) >= 0)
+								long num2 = *(long*)(cComPtrNtv_003CIService_003E.p);
+								if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ITunerConfig**, int>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CIService_003E.p)) + 176)))((nint)num2, (ITunerConfig**)(cComPtrNtv_003CITunerConfig_003E.p)) >= 0)
 								{
-									long num3 = *(long*)(&cComPtrNtv_003CITunerConfig_003E);
-									Module.WString_002EAttachBSTR((WString*)(&wBSTRString), ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CITunerConfig_003E)) + 72)))((nint)num3));
+									long num3 = *(long*)(cComPtrNtv_003CITunerConfig_003E.p);
+									Module.WString_002EAttachBSTR((WString*)(&wBSTRString), ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CITunerConfig_003E.p)) + 72)))((nint)num3));
 								}
 							}
 							result = new string((char*)(*(ulong*)(&wBSTRString)));
@@ -174,10 +172,10 @@ namespace Microsoft.Zune.Util
 						catch
 						{
 							//try-fault
-							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CITunerConfig_003E*, void>)(&Module.CComPtrNtv_003CITunerConfig_003E_002E_007Bdtor_007D), &cComPtrNtv_003CITunerConfig_003E);
+							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ITunerConfig*, void>)(&Module.CComPtrNtv_003CITunerConfig_003E_002E_007Bdtor_007D), cComPtrNtv_003CITunerConfig_003E.p);
 							throw;
 						}
-						Module.CComPtrNtv_003CITunerConfig_003E_002ERelease(&cComPtrNtv_003CITunerConfig_003E);
+						cComPtrNtv_003CITunerConfig_003E.Dispose();
 					}
 					catch
 					{
@@ -191,10 +189,10 @@ namespace Microsoft.Zune.Util
 			catch
 			{
 				//try-fault
-				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIService_003E*, void>)(&Module.CComPtrNtv_003CIService_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIService_003E);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IService*, void>)(&Module.CComPtrNtv_003CIService_003E_002E_007Bdtor_007D), cComPtrNtv_003CIService_003E.p);
 				throw;
 			}
-			Module.CComPtrNtv_003CIService_003E_002ERelease(&cComPtrNtv_003CIService_003E);
+			cComPtrNtv_003CIService_003E.Dispose();
 			return result;
 		}
 
@@ -207,29 +205,27 @@ namespace Microsoft.Zune.Util
 			//IL_0068: Expected I, but got I8
 			//IL_0068: Expected I, but got I8
 			//IL_0075: Expected I, but got I8
-			CComPtrNtv_003CIService_003E cComPtrNtv_003CIService_003E;
-			*(long*)(&cComPtrNtv_003CIService_003E) = 0L;
+			CComPtrNtv<IService> cComPtrNtv_003CIService_003E = new();
 			string result;
 			try
 			{
-				if (Module.GetSingleton(Module.GUID_IService, (void**)(&cComPtrNtv_003CIService_003E)) >= 0)
+				if (Module.GetSingleton(Module.GUID_IService, (void**)(cComPtrNtv_003CIService_003E.p)) >= 0)
 				{
 					WBSTRString wBSTRString;
 					Module.WBSTRString_002E_007Bctor_007D(&wBSTRString);
 					try
 					{
-						CComPtrNtv_003CITunerConfig_003E cComPtrNtv_003CITunerConfig_003E;
-						*(long*)(&cComPtrNtv_003CITunerConfig_003E) = 0L;
+						CComPtrNtv<ITunerConfig> cComPtrNtv_003CITunerConfig_003E = new();
 						try
 						{
-							long num = *(long*)(&cComPtrNtv_003CIService_003E);
-							if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CIService_003E)) + 168)))((nint)num) != 0)
+							long num = *(long*)(cComPtrNtv_003CIService_003E.p);
+							if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CIService_003E.p)) + 168)))((nint)num) != 0)
 							{
-								long num2 = *(long*)(&cComPtrNtv_003CIService_003E);
-								if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ITunerConfig**, int>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CIService_003E)) + 176)))((nint)num2, (ITunerConfig**)(&cComPtrNtv_003CITunerConfig_003E)) >= 0)
+								long num2 = *(long*)(cComPtrNtv_003CIService_003E.p);
+								if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ITunerConfig**, int>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CIService_003E.p)) + 176)))((nint)num2, (ITunerConfig**)(cComPtrNtv_003CITunerConfig_003E.p)) >= 0)
 								{
-									long num3 = *(long*)(&cComPtrNtv_003CITunerConfig_003E);
-									Module.WString_002EAttachBSTR((WString*)(&wBSTRString), ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CITunerConfig_003E)) + 80)))((nint)num3));
+									long num3 = *(long*)(cComPtrNtv_003CITunerConfig_003E.p);
+									Module.WString_002EAttachBSTR((WString*)(&wBSTRString), ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CITunerConfig_003E.p)) + 80)))((nint)num3));
 								}
 							}
 							result = new string((char*)(*(ulong*)(&wBSTRString)));
@@ -237,10 +233,10 @@ namespace Microsoft.Zune.Util
 						catch
 						{
 							//try-fault
-							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CITunerConfig_003E*, void>)(&Module.CComPtrNtv_003CITunerConfig_003E_002E_007Bdtor_007D), &cComPtrNtv_003CITunerConfig_003E);
+							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ITunerConfig*, void>)(&Module.CComPtrNtv_003CITunerConfig_003E_002E_007Bdtor_007D), cComPtrNtv_003CITunerConfig_003E.p);
 							throw;
 						}
-						Module.CComPtrNtv_003CITunerConfig_003E_002ERelease(&cComPtrNtv_003CITunerConfig_003E);
+						cComPtrNtv_003CITunerConfig_003E.Dispose();
 					}
 					catch
 					{
@@ -255,7 +251,7 @@ namespace Microsoft.Zune.Util
 			catch
 			{
 				//try-fault
-				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIService_003E*, void>)(&Module.CComPtrNtv_003CIService_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIService_003E);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IService*, void>)(&Module.CComPtrNtv_003CIService_003E_002E_007Bdtor_007D), cComPtrNtv_003CIService_003E.p);
 				throw;
 			}
 			string result2;
@@ -266,13 +262,13 @@ namespace Microsoft.Zune.Util
 			catch
 			{
 				//try-fault
-				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIService_003E*, void>)(&Module.CComPtrNtv_003CIService_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIService_003E);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IService*, void>)(&Module.CComPtrNtv_003CIService_003E_002E_007Bdtor_007D), cComPtrNtv_003CIService_003E.p);
 				throw;
 			}
-			Module.CComPtrNtv_003CIService_003E_002ERelease(&cComPtrNtv_003CIService_003E);
+			cComPtrNtv_003CIService_003E.Dispose();
 			return result2;
 			IL_00b4:
-			Module.CComPtrNtv_003CIService_003E_002ERelease(&cComPtrNtv_003CIService_003E);
+			cComPtrNtv_003CIService_003E.Dispose();
 			return result;
 		}
 
@@ -285,12 +281,11 @@ namespace Microsoft.Zune.Util
 			//IL_006a: Expected I, but got I8
 			//IL_006a: Expected I, but got I8
 			//IL_0077: Expected I, but got I8
-			CComPtrNtv_003CIService_003E cComPtrNtv_003CIService_003E;
-			*(long*)(&cComPtrNtv_003CIService_003E) = 0L;
+			CComPtrNtv<IService> cComPtrNtv_003CIService_003E = new();
 			string result;
 			try
 			{
-				int singleton = Module.GetSingleton(Module.GUID_IService, (void**)(&cComPtrNtv_003CIService_003E));
+				int singleton = Module.GetSingleton(Module.GUID_IService, (void**)(cComPtrNtv_003CIService_003E.p));
 				result = null;
 				if (singleton >= 0)
 				{
@@ -298,18 +293,17 @@ namespace Microsoft.Zune.Util
 					Module.WBSTRString_002E_007Bctor_007D(&wBSTRString);
 					try
 					{
-						CComPtrNtv_003CITunerConfig_003E cComPtrNtv_003CITunerConfig_003E;
-						*(long*)(&cComPtrNtv_003CITunerConfig_003E) = 0L;
+						CComPtrNtv<ITunerConfig> cComPtrNtv_003CITunerConfig_003E = new();
 						try
 						{
-							long num = *(long*)(&cComPtrNtv_003CIService_003E);
-							if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CIService_003E)) + 168)))((nint)num) != 0)
+							long num = *(long*)(cComPtrNtv_003CIService_003E.p);
+							if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CIService_003E.p)) + 168)))((nint)num) != 0)
 							{
-								long num2 = *(long*)(&cComPtrNtv_003CIService_003E);
-								if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ITunerConfig**, int>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CIService_003E)) + 176)))((nint)num2, (ITunerConfig**)(&cComPtrNtv_003CITunerConfig_003E)) >= 0)
+								long num2 = *(long*)(cComPtrNtv_003CIService_003E.p);
+								if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ITunerConfig**, int>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CIService_003E.p)) + 176)))((nint)num2, (ITunerConfig**)(cComPtrNtv_003CITunerConfig_003E.p)) >= 0)
 								{
-									long num3 = *(long*)(&cComPtrNtv_003CITunerConfig_003E);
-									Module.WString_002EAttachBSTR((WString*)(&wBSTRString), ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CITunerConfig_003E)) + 88)))((nint)num3));
+									long num3 = *(long*)(cComPtrNtv_003CITunerConfig_003E.p);
+									Module.WString_002EAttachBSTR((WString*)(&wBSTRString), ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CITunerConfig_003E.p)) + 88)))((nint)num3));
 								}
 							}
 							result = new string((char*)(*(ulong*)(&wBSTRString)));
@@ -317,10 +311,10 @@ namespace Microsoft.Zune.Util
 						catch
 						{
 							//try-fault
-							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CITunerConfig_003E*, void>)(&Module.CComPtrNtv_003CITunerConfig_003E_002E_007Bdtor_007D), &cComPtrNtv_003CITunerConfig_003E);
+							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ITunerConfig*, void>)(&Module.CComPtrNtv_003CITunerConfig_003E_002E_007Bdtor_007D), cComPtrNtv_003CITunerConfig_003E.p);
 							throw;
 						}
-						Module.CComPtrNtv_003CITunerConfig_003E_002ERelease(&cComPtrNtv_003CITunerConfig_003E);
+						cComPtrNtv_003CITunerConfig_003E.Dispose();
 					}
 					catch
 					{
@@ -334,10 +328,10 @@ namespace Microsoft.Zune.Util
 			catch
 			{
 				//try-fault
-				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIService_003E*, void>)(&Module.CComPtrNtv_003CIService_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIService_003E);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IService*, void>)(&Module.CComPtrNtv_003CIService_003E_002E_007Bdtor_007D), cComPtrNtv_003CIService_003E.p);
 				throw;
 			}
-			Module.CComPtrNtv_003CIService_003E_002ERelease(&cComPtrNtv_003CIService_003E);
+			cComPtrNtv_003CIService_003E.Dispose();
 			return result;
 		}
 
@@ -350,12 +344,11 @@ namespace Microsoft.Zune.Util
 			//IL_006a: Expected I, but got I8
 			//IL_006a: Expected I, but got I8
 			//IL_0077: Expected I, but got I8
-			CComPtrNtv_003CIService_003E cComPtrNtv_003CIService_003E;
-			*(long*)(&cComPtrNtv_003CIService_003E) = 0L;
+			CComPtrNtv<IService> cComPtrNtv_003CIService_003E = new();
 			string result;
 			try
 			{
-				int singleton = Module.GetSingleton(Module.GUID_IService, (void**)(&cComPtrNtv_003CIService_003E));
+				int singleton = Module.GetSingleton(Module.GUID_IService, (void**)(cComPtrNtv_003CIService_003E.p));
 				result = null;
 				if (singleton >= 0)
 				{
@@ -363,18 +356,17 @@ namespace Microsoft.Zune.Util
 					Module.WBSTRString_002E_007Bctor_007D(&wBSTRString);
 					try
 					{
-						CComPtrNtv_003CITunerConfig_003E cComPtrNtv_003CITunerConfig_003E;
-						*(long*)(&cComPtrNtv_003CITunerConfig_003E) = 0L;
+						CComPtrNtv<ITunerConfig> cComPtrNtv_003CITunerConfig_003E = new();
 						try
 						{
-							long num = *(long*)(&cComPtrNtv_003CIService_003E);
-							if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CIService_003E)) + 168)))((nint)num) != 0)
+							long num = *(long*)(cComPtrNtv_003CIService_003E.p);
+							if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CIService_003E.p)) + 168)))((nint)num) != 0)
 							{
-								long num2 = *(long*)(&cComPtrNtv_003CIService_003E);
-								if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ITunerConfig**, int>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CIService_003E)) + 176)))((nint)num2, (ITunerConfig**)(&cComPtrNtv_003CITunerConfig_003E)) >= 0)
+								long num2 = *(long*)(cComPtrNtv_003CIService_003E.p);
+								if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ITunerConfig**, int>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CIService_003E.p)) + 176)))((nint)num2, (ITunerConfig**)(cComPtrNtv_003CITunerConfig_003E.p)) >= 0)
 								{
-									long num3 = *(long*)(&cComPtrNtv_003CITunerConfig_003E);
-									Module.WString_002EAttachBSTR((WString*)(&wBSTRString), ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CITunerConfig_003E)) + 96)))((nint)num3));
+									long num3 = *(long*)(cComPtrNtv_003CITunerConfig_003E.p);
+									Module.WString_002EAttachBSTR((WString*)(&wBSTRString), ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CITunerConfig_003E.p)) + 96)))((nint)num3));
 								}
 							}
 							result = new string((char*)(*(ulong*)(&wBSTRString)));
@@ -382,10 +374,10 @@ namespace Microsoft.Zune.Util
 						catch
 						{
 							//try-fault
-							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CITunerConfig_003E*, void>)(&Module.CComPtrNtv_003CITunerConfig_003E_002E_007Bdtor_007D), &cComPtrNtv_003CITunerConfig_003E);
+							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ITunerConfig*, void>)(&Module.CComPtrNtv_003CITunerConfig_003E_002E_007Bdtor_007D), cComPtrNtv_003CITunerConfig_003E.p);
 							throw;
 						}
-						Module.CComPtrNtv_003CITunerConfig_003E_002ERelease(&cComPtrNtv_003CITunerConfig_003E);
+						cComPtrNtv_003CITunerConfig_003E.Dispose();
 					}
 					catch
 					{
@@ -399,10 +391,10 @@ namespace Microsoft.Zune.Util
 			catch
 			{
 				//try-fault
-				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIService_003E*, void>)(&Module.CComPtrNtv_003CIService_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIService_003E);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IService*, void>)(&Module.CComPtrNtv_003CIService_003E_002E_007Bdtor_007D), cComPtrNtv_003CIService_003E.p);
 				throw;
 			}
-			Module.CComPtrNtv_003CIService_003E_002ERelease(&cComPtrNtv_003CIService_003E);
+			cComPtrNtv_003CIService_003E.Dispose();
 			return result;
 		}
 

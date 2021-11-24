@@ -180,7 +180,7 @@ namespace Microsoft.Zune.Service
 									int num14;
 									bool flag6;
 									ushort* ptr2;
-									CComPtrNtv_003CIPriceInfo_003E cComPtrNtv_003CIPriceInfo_003E;
+									CComPtrNtv<IPriceInfo> cComPtrNtv_003CIPriceInfo_003E;
 									bool flag7;
 									bool isRental;
 									bool isMusicVideo;
@@ -196,7 +196,7 @@ namespace Microsoft.Zune.Service
 											flag6 = flag5;
 										}
 										string expirationDate = new string((char*)Unsafe.AsPointer(ref (long)(nint)ptr2 != 0 ? ref *(_0024ArrayType_0024_0024_0024BY00_0024_0024CBG*)ptr2 : ref Module._003F_003F_C_0040_11LOCGONAA_0040_003F_0024AA_003F_0024AA_0040));
-										VideoOffer value = new VideoOffer(id, title, seriesTitle, Unsafe.As<VideoMetadata, int>(ref Unsafe.AddByteOffset(ref videoMetadata, 128)), Unsafe.As<VideoMetadata, int>(ref Unsafe.AddByteOffset(ref videoMetadata, 132)), artist, albumId, genre, releaseYear, previewImageUrl, productionCompany, new PriceInfo(Module.CComPtrNtv_003CIPriceInfo_003E_002E_002EPEAUIPriceInfo_0040_0040(&cComPtrNtv_003CIPriceInfo_003E)), flag7, isRental, flag4, isMusicVideo, flag3, flag6, flag, expirationDate);
+										VideoOffer value = new VideoOffer(id, title, seriesTitle, Unsafe.As<VideoMetadata, int>(ref Unsafe.AddByteOffset(ref videoMetadata, 128)), Unsafe.As<VideoMetadata, int>(ref Unsafe.AddByteOffset(ref videoMetadata, 132)), artist, albumId, genre, releaseYear, previewImageUrl, productionCompany, new PriceInfo(Module.CComPtrNtv_003CIPriceInfo_003E_002E_002EPEAUIPriceInfo_0040_0040(cComPtrNtv_003CIPriceInfo_003E.p)), flag7, isRental, flag4, isMusicVideo, flag3, flag6, flag, expirationDate);
 										list.Add(value);
 										num4 = 1;
 										if (!flag8 || !flag9 || !flag6)
@@ -232,12 +232,12 @@ namespace Microsoft.Zune.Service
 									catch
 									{
 										//try-fault
-										Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIPriceInfo_003E*, void>)(&Module.CComPtrNtv_003CIPriceInfo_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIPriceInfo_003E);
+										Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IPriceInfo*, void>)(&Module.CComPtrNtv_003CIPriceInfo_003E_002E_007Bdtor_007D), cComPtrNtv_003CIPriceInfo_003E.p);
 										throw;
 									}
 									goto IL_05f1;
 									IL_0423:
-									Module.CComPtrNtv_003CIPriceInfo_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIPriceInfo_003E);
+									Module.CComPtrNtv_003CIPriceInfo_003E_002E_007Bdtor_007D(cComPtrNtv_003CIPriceInfo_003E.p);
 									goto IL_0610;
 									IL_0610:
 									num9++;
@@ -256,7 +256,7 @@ namespace Microsoft.Zune.Service
 									ESeasonPurchaseFlags eSeasonPurchaseFlags = ((!flag7) ? ((ESeasonPurchaseFlags)1) : ((ESeasonPurchaseFlags)2));
 									long num18 = Unsafe.As<VideoMetadata, long>(ref Unsafe.AddByteOffset(ref videoMetadata, 192));
 									flag3 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ESeasonPurchaseFlags, int>)(*(ulong*)(*(long*)Unsafe.As<VideoMetadata, ulong>(ref Unsafe.AddByteOffset(ref videoMetadata, 192)) + 224)))((nint)num18, eSeasonPurchaseFlags) == 1;
-									Module.CComPtrNtv_003CIPriceInfo_003E_002E_007Bctor_007D(&cComPtrNtv_003CIPriceInfo_003E);
+									Module.CComPtrNtv_003CIPriceInfo_003E_002E_007Bctor_007D(cComPtrNtv_003CIPriceInfo_003E.p);
 									try
 									{
 										ptr2 = null;
@@ -268,13 +268,13 @@ namespace Microsoft.Zune.Service
 										if (num19 != -1)
 										{
 											long num20 = Unsafe.As<VideoMetadata, long>(ref Unsafe.AddByteOffset(ref videoMetadata, 192));
-											IPriceInfo** intPtr = Module.CComPtrNtv_003CIPriceInfo_003E_002E_0026(&cComPtrNtv_003CIPriceInfo_003E);
+											IPriceInfo** intPtr = Module.CComPtrNtv_003CIPriceInfo_003E_002E_0026(cComPtrNtv_003CIPriceInfo_003E.p);
 											num21 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EMediaRights, EMediaFormat, EMediaFormat, _GUID*, _GUID*, _GUID*, IPriceInfo**, ushort**, int>)(*(ulong*)(*(long*)Unsafe.As<VideoMetadata, ulong>(ref Unsafe.AddByteOffset(ref videoMetadata, 192)) + 128)))((nint)num20, (EMediaRights)num12, (EMediaFormat)num14, (EMediaFormat)num19, &gUID_NULL2, &gUID_NULL3, &gUID_NULL, intPtr, &ptr2);
 										}
 										else
 										{
 											long num22 = Unsafe.As<VideoMetadata, long>(ref Unsafe.AddByteOffset(ref videoMetadata, 192));
-											IPriceInfo** intPtr2 = Module.CComPtrNtv_003CIPriceInfo_003E_002E_0026(&cComPtrNtv_003CIPriceInfo_003E);
+											IPriceInfo** intPtr2 = Module.CComPtrNtv_003CIPriceInfo_003E_002E_0026(cComPtrNtv_003CIPriceInfo_003E.p);
 											num21 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EMediaRights, EMediaFormat, _GUID*, _GUID*, IPriceInfo**, ushort**, int>)(*(ulong*)(*(long*)Unsafe.As<VideoMetadata, ulong>(ref Unsafe.AddByteOffset(ref videoMetadata, 192)) + 136)))((nint)num22, (EMediaRights)num12, (EMediaFormat)num14, &gUID_NULL2, &gUID_NULL, intPtr2, &ptr2);
 										}
 										if (num21 >= 0)
@@ -298,7 +298,7 @@ namespace Microsoft.Zune.Service
 									catch
 									{
 										//try-fault
-										Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIPriceInfo_003E*, void>)(&Module.CComPtrNtv_003CIPriceInfo_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIPriceInfo_003E);
+										Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IPriceInfo*, void>)(&Module.CComPtrNtv_003CIPriceInfo_003E_002E_007Bdtor_007D), cComPtrNtv_003CIPriceInfo_003E.p);
 										throw;
 									}
 									goto IL_05f1;
@@ -310,10 +310,10 @@ namespace Microsoft.Zune.Service
 									catch
 									{
 										//try-fault
-										Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIPriceInfo_003E*, void>)(&Module.CComPtrNtv_003CIPriceInfo_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIPriceInfo_003E);
+										Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IPriceInfo*, void>)(&Module.CComPtrNtv_003CIPriceInfo_003E_002E_007Bdtor_007D), cComPtrNtv_003CIPriceInfo_003E.p);
 										throw;
 									}
-									Module.CComPtrNtv_003CIPriceInfo_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIPriceInfo_003E);
+									Module.CComPtrNtv_003CIPriceInfo_003E_002E_007Bdtor_007D(cComPtrNtv_003CIPriceInfo_003E.p);
 									goto IL_0610;
 								}
 							}

@@ -1301,14 +1301,13 @@ namespace MicrosoftZuneLibrary
 					Module._ZuneShipAssert(1001u, 1325u);
 					return -2147467261;
 				}
-				CComPtrNtv_003CIWlanProvider_003E cComPtrNtv_003CIWlanProvider_003E;
-				*(long*)(&cComPtrNtv_003CIWlanProvider_003E) = 0L;
+				CComPtrNtv<IWlanProvider> cComPtrNtv_003CIWlanProvider_003E = new();
 				try
 				{
-					num = Module.GetInterfaceProperty_003Cstruct_0020IEndpointHost_002Cenum_0020EEndpointHostProperty_002Cstruct_0020IWlanProvider_003E(m_spEndpointHost.p, EEndpointHostProperty.eEndpointHostPropertyWlanProvider, (IWlanProvider**)(&cComPtrNtv_003CIWlanProvider_003E));
+					num = Module.GetInterfaceProperty_003Cstruct_0020IEndpointHost_002Cenum_0020EEndpointHostProperty_002Cstruct_0020IWlanProvider_003E(m_spEndpointHost.p, EEndpointHostProperty.eEndpointHostPropertyWlanProvider, (IWlanProvider**)(cComPtrNtv_003CIWlanProvider_003E.p));
 					if (num >= 0)
 					{
-						m_spWlanProvider.op_Assign((IWlanProvider*)(*(ulong*)(&cComPtrNtv_003CIWlanProvider_003E)));
+						m_spWlanProvider.op_Assign((IWlanProvider*)(*(ulong*)(cComPtrNtv_003CIWlanProvider_003E.p)));
 						DeviceMediator* p = m_spDeviceMediator.p;
 						DeviceMediator* ptr = (DeviceMediator*)((p == null) ? 0 : ((ulong)(nint)p + 16uL));
 						IWlanProvider* p2 = m_spWlanProvider.p;
@@ -1318,10 +1317,10 @@ namespace MicrosoftZuneLibrary
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIWlanProvider_003E*, void>)(&Module.CComPtrNtv_003CIWlanProvider_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIWlanProvider_003E);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IWlanProvider*, void>)(&Module.CComPtrNtv_003CIWlanProvider_003E_002E_007Bdtor_007D), cComPtrNtv_003CIWlanProvider_003E.p);
 					throw;
 				}
-				Module.CComPtrNtv_003CIWlanProvider_003E_002ERelease(&cComPtrNtv_003CIWlanProvider_003E);
+				cComPtrNtv_003CIWlanProvider_003E.Dispose();
 			}
 			return num;
 		}
@@ -2552,13 +2551,11 @@ namespace MicrosoftZuneLibrary
 			//IL_005f: Expected I, but got I8
 			//IL_007f: Expected I, but got I8
 			//IL_007f: Expected I, but got I8
-			CComPtrNtv_003CIMetadataManager_003E cComPtrNtv_003CIMetadataManager_003E;
-			*(long*)(&cComPtrNtv_003CIMetadataManager_003E) = 0L;
+			CComPtrNtv<IMetadataManager> cComPtrNtv_003CIMetadataManager_003E = new();
 			int num;
 			try
 			{
-				CComPtrNtv_003CIDeviceContentProvider_003E cComPtrNtv_003CIDeviceContentProvider_003E;
-				*(long*)(&cComPtrNtv_003CIDeviceContentProvider_003E) = 0L;
+				CComPtrNtv<IDeviceContentProvider> cComPtrNtv_003CIDeviceContentProvider_003E = new();
 				try
 				{
 					IntSet intSet;
@@ -2570,17 +2567,17 @@ namespace MicrosoftZuneLibrary
                     Unsafe.As<IntSet, long>(ref Unsafe.AddByteOffset(ref intSet, 24)) = 0L;
 					try
 					{
-						num = Module.GetSingleton(Module.GUID_IMetadataManager, (void**)(&cComPtrNtv_003CIMetadataManager_003E));
+						num = Module.GetSingleton(Module.GUID_IMetadataManager, (void**)(cComPtrNtv_003CIMetadataManager_003E.p));
 						if (num >= 0)
 						{
-							long num2 = *(long*)(&cComPtrNtv_003CIMetadataManager_003E);
+							long num2 = *(long*)(cComPtrNtv_003CIMetadataManager_003E.p);
 							_GUID guid_IDeviceContentProvider = Module.GUID_IDeviceContentProvider;
-							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID, void**, int>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CIMetadataManager_003E)) + 24)))((nint)num2, (_GUID)guid_IDeviceContentProvider, (void**)(&cComPtrNtv_003CIDeviceContentProvider_003E));
+							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID, void**, int>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CIMetadataManager_003E.p)) + 24)))((nint)num2, (_GUID)guid_IDeviceContentProvider, (void**)(cComPtrNtv_003CIDeviceContentProvider_003E.p));
 							if (num >= 0)
 							{
-								long num3 = *(long*)(&cComPtrNtv_003CIDeviceContentProvider_003E);
+								long num3 = *(long*)(cComPtrNtv_003CIDeviceContentProvider_003E.p);
 								int iDeviceID = m_iDeviceID;
-								num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, IntSet*, int>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CIDeviceContentProvider_003E)) + 96)))((nint)num3, iDeviceID, &intSet);
+								num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, IntSet*, int>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CIDeviceContentProvider_003E.p)) + 96)))((nint)num3, iDeviceID, &intSet);
 								if (num >= 0 && !(Unsafe.As<IntSet, int>(ref Unsafe.AddByteOffset(ref intSet, 8)) == -1))
 								{
 									rgIds = new int[Module.DataStructs_002EIntSet_002EMemberCount(&intSet)];
@@ -2611,18 +2608,18 @@ namespace MicrosoftZuneLibrary
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIDeviceContentProvider_003E*, void>)(&Module.CComPtrNtv_003CIDeviceContentProvider_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIDeviceContentProvider_003E);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IDeviceContentProvider*, void>)(&Module.CComPtrNtv_003CIDeviceContentProvider_003E_002E_007Bdtor_007D), cComPtrNtv_003CIDeviceContentProvider_003E.p);
 					throw;
 				}
-				Module.CComPtrNtv_003CIDeviceContentProvider_003E_002ERelease(&cComPtrNtv_003CIDeviceContentProvider_003E);
+				cComPtrNtv_003CIDeviceContentProvider_003E.Dispose();
 			}
 			catch
 			{
 				//try-fault
-				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIMetadataManager_003E*, void>)(&Module.CComPtrNtv_003CIMetadataManager_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIMetadataManager_003E);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IMetadataManager*, void>)(&Module.CComPtrNtv_003CIMetadataManager_003E_002E_007Bdtor_007D), cComPtrNtv_003CIMetadataManager_003E.p);
 				throw;
 			}
-			Module.CComPtrNtv_003CIMetadataManager_003E_002ERelease(&cComPtrNtv_003CIMetadataManager_003E);
+			cComPtrNtv_003CIMetadataManager_003E.Dispose();
 			return num;
 		}
 
@@ -3186,8 +3183,7 @@ namespace MicrosoftZuneLibrary
 				}
 				m_spSyncEngine.Release();
 				DeviceMediator* p = m_spDeviceMediator.p;
-				CComPtrNtv_003CDeviceMediator_003E cComPtrNtv_003CDeviceMediator_003E;
-				Module.CComPtrNtv_003CDeviceMediator_003E_002E_007Bctor_007D(&cComPtrNtv_003CDeviceMediator_003E, p);
+				CComPtrNtv<DeviceMediator> cComPtrNtv_003CDeviceMediator_003E = new(p);
 				try
 				{
 					if (num >= 0)
@@ -3215,11 +3211,11 @@ namespace MicrosoftZuneLibrary
 						m_spDeviceMediator.op_Assign(lp);
 						num = (((long)(nint)m_spDeviceMediator.p == 0) ? (-2147024882) : num);
 					}
-					if (*(long*)(&cComPtrNtv_003CDeviceMediator_003E) != 0L)
+					if (*(long*)(cComPtrNtv_003CDeviceMediator_003E.p) != 0L)
 					{
-						Module.DeviceMediator_002EShutdown((DeviceMediator*)(*(ulong*)(&cComPtrNtv_003CDeviceMediator_003E)));
+						Module.DeviceMediator_002EShutdown((DeviceMediator*)(*(ulong*)(cComPtrNtv_003CDeviceMediator_003E.p)));
 					}
-					Module.CComPtrNtv_003CDeviceMediator_003E_002ERelease(&cComPtrNtv_003CDeviceMediator_003E);
+					cComPtrNtv_003CDeviceMediator_003E.Dispose();
 					m_spWlanProvider.Release();
 					m_fClientUpdateRequired = false;
 					m_fFirmwareUpdateRequired = false;
@@ -3242,22 +3238,21 @@ namespace MicrosoftZuneLibrary
 							Module.SysFreeString(ptr2);
 							if (num >= 0)
 							{
-								CComPtrNtv_003CIDeviceAssetProvider_003E cComPtrNtv_003CIDeviceAssetProvider_003E;
-								*(long*)(&cComPtrNtv_003CIDeviceAssetProvider_003E) = 0L;
+								CComPtrNtv<IDeviceAssetProvider> cComPtrNtv_003CIDeviceAssetProvider_003E = new();
 								try
 								{
-									if (Module.GetEndpointHostInterfaceProperty_003Cstruct_0020IDeviceAssetProvider_003E(m_spEndpointHost.p, EEndpointHostProperty.eEndpointHostPropertyDeviceAssetProvider, (IDeviceAssetProvider**)(&cComPtrNtv_003CIDeviceAssetProvider_003E)) >= 0)
+									if (Module.GetEndpointHostInterfaceProperty_003Cstruct_0020IDeviceAssetProvider_003E(m_spEndpointHost.p, EEndpointHostProperty.eEndpointHostPropertyDeviceAssetProvider, (IDeviceAssetProvider**)(cComPtrNtv_003CIDeviceAssetProvider_003E.p)) >= 0)
 									{
-										CreateDeviceAssetSet((IDeviceAssetProvider*)(*(ulong*)(&cComPtrNtv_003CIDeviceAssetProvider_003E)));
+										CreateDeviceAssetSet((IDeviceAssetProvider*)(*(ulong*)(cComPtrNtv_003CIDeviceAssetProvider_003E.p)));
 									}
 								}
 								catch
 								{
 									//try-fault
-									Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIDeviceAssetProvider_003E*, void>)(&Module.CComPtrNtv_003CIDeviceAssetProvider_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIDeviceAssetProvider_003E);
+									Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IDeviceAssetProvider*, void>)(&Module.CComPtrNtv_003CIDeviceAssetProvider_003E_002E_007Bdtor_007D), cComPtrNtv_003CIDeviceAssetProvider_003E.p);
 									throw;
 								}
-								Module.CComPtrNtv_003CIDeviceAssetProvider_003E_002ERelease(&cComPtrNtv_003CIDeviceAssetProvider_003E);
+								cComPtrNtv_003CIDeviceAssetProvider_003E.Dispose();
 							}
 						}
 					}
@@ -3269,10 +3264,10 @@ namespace MicrosoftZuneLibrary
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CDeviceMediator_003E*, void>)(&Module.CComPtrNtv_003CDeviceMediator_003E_002E_007Bdtor_007D), &cComPtrNtv_003CDeviceMediator_003E);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<DeviceMediator*, void>)(&Module.CComPtrNtv_003CDeviceMediator_003E_002E_007Bdtor_007D), cComPtrNtv_003CDeviceMediator_003E.p);
 					throw;
 				}
-				Module.CComPtrNtv_003CDeviceMediator_003E_002ERelease(&cComPtrNtv_003CDeviceMediator_003E);
+				cComPtrNtv_003CDeviceMediator_003E.Dispose();
 			}
 			catch
 			{
@@ -3384,26 +3379,25 @@ namespace MicrosoftZuneLibrary
 											}
 											if (num >= 0)
 											{
-												CComPtrNtv_003CISyncEngine_003E cComPtrNtv_003CISyncEngine_003E;
-												*(long*)(&cComPtrNtv_003CISyncEngine_003E) = 0L;
+												CComPtrNtv<ISyncEngine> cComPtrNtv_003CISyncEngine_003E = new();
 												try
 												{
 													m_spSyncEngine.Release();
-													num = Module.GetInterfaceProperty_003Cstruct_0020IEndpointHost_002Cenum_0020EEndpointHostProperty_002Cstruct_0020ISyncEngine_003E(m_spEndpointHost.p, EEndpointHostProperty.eEndpointHostPropertySyncEngine, (ISyncEngine**)(&cComPtrNtv_003CISyncEngine_003E));
+													num = Module.GetInterfaceProperty_003Cstruct_0020IEndpointHost_002Cenum_0020EEndpointHostProperty_002Cstruct_0020ISyncEngine_003E(m_spEndpointHost.p, EEndpointHostProperty.eEndpointHostPropertySyncEngine, (ISyncEngine**)(cComPtrNtv_003CISyncEngine_003E.p));
 													if (num >= 0)
 													{
-														ISyncEngine* p3 = (ISyncEngine*)(*(ulong*)(&cComPtrNtv_003CISyncEngine_003E));
-														*(long*)(&cComPtrNtv_003CISyncEngine_003E) = 0L;
+														ISyncEngine* p3 = (ISyncEngine*)(*(ulong*)(cComPtrNtv_003CISyncEngine_003E.p));
+														*(long*)(cComPtrNtv_003CISyncEngine_003E.p) = 0L;
 														m_spSyncEngine.Attach(p3);
 													}
 												}
 												catch
 												{
 													//try-fault
-													Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CISyncEngine_003E*, void>)(&Module.CComPtrNtv_003CISyncEngine_003E_002E_007Bdtor_007D), &cComPtrNtv_003CISyncEngine_003E);
+													Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ISyncEngine*, void>)(&Module.CComPtrNtv_003CISyncEngine_003E_002E_007Bdtor_007D), cComPtrNtv_003CISyncEngine_003E.p);
 													throw;
 												}
-												Module.CComPtrNtv_003CISyncEngine_003E_002ERelease(&cComPtrNtv_003CISyncEngine_003E);
+												cComPtrNtv_003CISyncEngine_003E.Dispose();
 												goto IL_0341;
 											}
 										}
@@ -3436,27 +3430,26 @@ namespace MicrosoftZuneLibrary
 				IL_0341:
 				if (num >= 0)
 				{
-					CComPtrNtv_003CIGasGauge_003E cComPtrNtv_003CIGasGauge_003E;
-					*(long*)(&cComPtrNtv_003CIGasGauge_003E) = 0L;
+					CComPtrNtv<IGasGauge> cComPtrNtv_003CIGasGauge_003E = new();
 					try
 					{
-						CComPtrNtv_003CIGasGauge_003E cComPtrNtv_003CIGasGauge_003E2;
-						*(long*)(&cComPtrNtv_003CIGasGauge_003E2) = 0L;
+						CComPtrNtv<IGasGauge> cComPtrNtv_003CIGasGauge_003E2;
+						*(long*)(cComPtrNtv_003CIGasGauge_003E.p2) = 0L;
 						try
 						{
-							num = Module.GetEndpointHostInterfaceProperty_003Cstruct_0020IGasGauge_003E(m_spEndpointHost.p, EEndpointHostProperty.eEndpointHostPropertyPredictedGasGauge, (IGasGauge**)(&cComPtrNtv_003CIGasGauge_003E));
+							num = Module.GetEndpointHostInterfaceProperty_003Cstruct_0020IGasGauge_003E(m_spEndpointHost.p, EEndpointHostProperty.eEndpointHostPropertyPredictedGasGauge, (IGasGauge**)(cComPtrNtv_003CIGasGauge_003E.p));
 							if (num >= 0)
 							{
 								if (null == m_predictedGasGauge)
 								{
-									m_predictedGasGauge = new GasGauge((IGasGauge*)(*(ulong*)(&cComPtrNtv_003CIGasGauge_003E)));
+									m_predictedGasGauge = new GasGauge((IGasGauge*)(*(ulong*)(cComPtrNtv_003CIGasGauge_003E.p)));
 								}
-								num = Module.GetEndpointHostInterfaceProperty_003Cstruct_0020IGasGauge_003E(m_spEndpointHost.p, EEndpointHostProperty.eEndpointHostPropertyActualGasGauge, (IGasGauge**)(&cComPtrNtv_003CIGasGauge_003E2));
+								num = Module.GetEndpointHostInterfaceProperty_003Cstruct_0020IGasGauge_003E(m_spEndpointHost.p, EEndpointHostProperty.eEndpointHostPropertyActualGasGauge, (IGasGauge**)(cComPtrNtv_003CIGasGauge_003E.p2));
 								if (num >= 0)
 								{
 									if (null == m_actualGasGauge)
 									{
-										m_actualGasGauge = new GasGauge((IGasGauge*)(*(ulong*)(&cComPtrNtv_003CIGasGauge_003E2)));
+										m_actualGasGauge = new GasGauge((IGasGauge*)(*(ulong*)(cComPtrNtv_003CIGasGauge_003E.p2)));
 									}
 									if (m_predictedGasGauge == null || m_actualGasGauge == null)
 									{
@@ -3468,18 +3461,18 @@ namespace MicrosoftZuneLibrary
 						catch
 						{
 							//try-fault
-							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIGasGauge_003E*, void>)(&Module.CComPtrNtv_003CIGasGauge_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIGasGauge_003E2);
+							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IGasGauge*, void>)(&Module.CComPtrNtv_003CIGasGauge_003E_002E_007Bdtor_007D), cComPtrNtv_003CIGasGauge_003E.p2);
 							throw;
 						}
-						Module.CComPtrNtv_003CIGasGauge_003E_002ERelease(&cComPtrNtv_003CIGasGauge_003E2);
+						Module.CComPtrNtv_003CIGasGauge_003E_002ERelease(cComPtrNtv_003CIGasGauge_003E.p2);
 					}
 					catch
 					{
 						//try-fault
-						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIGasGauge_003E*, void>)(&Module.CComPtrNtv_003CIGasGauge_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIGasGauge_003E);
+						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IGasGauge*, void>)(&Module.CComPtrNtv_003CIGasGauge_003E_002E_007Bdtor_007D), cComPtrNtv_003CIGasGauge_003E.p);
 						throw;
 					}
-					Module.CComPtrNtv_003CIGasGauge_003E_002ERelease(&cComPtrNtv_003CIGasGauge_003E);
+					cComPtrNtv_003CIGasGauge_003E.Dispose();
 					goto IL_03fc;
 				}
 				goto IL_0404;

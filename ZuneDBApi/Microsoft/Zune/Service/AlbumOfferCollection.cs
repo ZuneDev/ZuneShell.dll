@@ -67,20 +67,17 @@ namespace Microsoft.Zune.Service
 			{
 				do
 				{
-					MusicAlbumMetadata musicAlbumMetadata;
-					Module.MusicAlbumMetadata_002E_007Bctor_007D(&musicAlbumMetadata);
+					MusicAlbumMetadata musicAlbumMetadata = new();
 					try
 					{
-						CComPtrNtv_003CIContextData_003E cComPtrNtv_003CIContextData_003E;
-						*(long*)(&cComPtrNtv_003CIContextData_003E) = 0L;
+						CComPtrNtv<IContextData> cComPtrNtv_003CIContextData_003E = new();
 						try
 						{
 							if (num >= 0)
 							{
-								num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, MusicAlbumMetadata*, IContextData**, int>)(*(ulong*)(*(long*)pCollection + 32)))((nint)pCollection, num3, &musicAlbumMetadata, (IContextData**)(&cComPtrNtv_003CIContextData_003E));
+								num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, MusicAlbumMetadata*, IContextData**, int>)(*(ulong*)(*(long*)pCollection + 32)))((nint)pCollection, num3, &musicAlbumMetadata, (IContextData**)(cComPtrNtv_003CIContextData_003E.p));
 							}
-							CComPtrNtv_003CIPriceInfo_003E cComPtrNtv_003CIPriceInfo_003E;
-							Module.CComPtrNtv_003CIPriceInfo_003E_002E_007Bctor_007D(&cComPtrNtv_003CIPriceInfo_003E);
+							CComPtrNtv<IPriceInfo> cComPtrNtv_003CIPriceInfo_003E = new();
 							try
 							{
 								int releaseYear = 0;
@@ -102,36 +99,36 @@ namespace Microsoft.Zune.Service
 									{
 										EMediaFormat eMediaFormat2 = ((num9 == 0) ? ((EMediaFormat)1) : 0);
 										long num11 = Unsafe.As<MusicAlbumMetadata, long>(ref Unsafe.AddByteOffset(ref musicAlbumMetadata, 88));
-										IPriceInfo** intPtr = Module.CComPtrNtv_003CIPriceInfo_003E_002E_0026(&cComPtrNtv_003CIPriceInfo_003E);
+										IPriceInfo** intPtr = Module.CComPtrNtv_003CIPriceInfo_003E_002E_0026(cComPtrNtv_003CIPriceInfo_003E.p);
 										num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EMediaRights, EMediaFormat, IPriceInfo**, int>)(*(ulong*)(*(long*)Unsafe.As<MusicAlbumMetadata, ulong>(ref Unsafe.AddByteOffset(ref musicAlbumMetadata, 88)) + 104)))((nint)num11, (EMediaRights)4, eMediaFormat2, intPtr);
 									}
 									if (num >= 0)
 									{
 										Guid id = Unsafe.As<MusicAlbumMetadata, _GUID>(ref Unsafe.AddByteOffset(ref musicAlbumMetadata, 8));
-										string recommendationContext = GetRecommendationContext(id, mapIdToContext, Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E));
+										string recommendationContext = GetRecommendationContext(id, mapIdToContext, Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p));
 										bool inCollection = ((num5 != 0) ? true : false);
 										bool previouslyPurchased = ((num7 != 0) ? true : false);
 										bool premium = ((Unsafe.As<MusicAlbumMetadata, int>(ref Unsafe.AddByteOffset(ref musicAlbumMetadata, 84)) != 0) ? true : false);
 										bool isMP = ((num9 != 0) ? true : false);
-										list.Add(new AlbumOffer(id, new string((char*)Unsafe.As<MusicAlbumMetadata, ulong>(ref Unsafe.AddByteOffset(ref musicAlbumMetadata, 40))), new string((char*)Unsafe.As<MusicAlbumMetadata, ulong>(ref Unsafe.AddByteOffset(ref musicAlbumMetadata, 48))), new string((char*)Unsafe.As<MusicAlbumMetadata, ulong>(ref Unsafe.AddByteOffset(ref musicAlbumMetadata, 56))), releaseYear, new string((char*)Unsafe.As<MusicAlbumMetadata, ulong>(ref Unsafe.AddByteOffset(ref musicAlbumMetadata, 72))), new PriceInfo((IPriceInfo*)(*(ulong*)(&cComPtrNtv_003CIPriceInfo_003E))), isMP, premium, previouslyPurchased, inCollection, recommendationContext));
+										list.Add(new AlbumOffer(id, new string((char*)Unsafe.As<MusicAlbumMetadata, ulong>(ref Unsafe.AddByteOffset(ref musicAlbumMetadata, 40))), new string((char*)Unsafe.As<MusicAlbumMetadata, ulong>(ref Unsafe.AddByteOffset(ref musicAlbumMetadata, 48))), new string((char*)Unsafe.As<MusicAlbumMetadata, ulong>(ref Unsafe.AddByteOffset(ref musicAlbumMetadata, 56))), releaseYear, new string((char*)Unsafe.As<MusicAlbumMetadata, ulong>(ref Unsafe.AddByteOffset(ref musicAlbumMetadata, 72))), new PriceInfo((IPriceInfo*)(*(ulong*)(cComPtrNtv_003CIPriceInfo_003E.p))), isMP, premium, previouslyPurchased, inCollection, recommendationContext));
 									}
 								}
 							}
 							catch
 							{
 								//try-fault
-								Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIPriceInfo_003E*, void>)(&Module.CComPtrNtv_003CIPriceInfo_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIPriceInfo_003E);
+								Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IPriceInfo*, void>)(&Module.CComPtrNtv_003CIPriceInfo_003E_002E_007Bdtor_007D), cComPtrNtv_003CIPriceInfo_003E.p);
 								throw;
 							}
-							Module.CComPtrNtv_003CIPriceInfo_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIPriceInfo_003E);
+							Module.CComPtrNtv_003CIPriceInfo_003E_002E_007Bdtor_007D(cComPtrNtv_003CIPriceInfo_003E.p);
 						}
 						catch
 						{
 							//try-fault
-							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 							throw;
 						}
-						Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+						Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(cComPtrNtv_003CIContextData_003E.p);
 					}
 					catch
 					{

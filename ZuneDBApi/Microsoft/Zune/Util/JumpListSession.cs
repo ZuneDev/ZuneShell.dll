@@ -84,21 +84,20 @@ namespace Microsoft.Zune.Util
 		{
 			//IL_0020: Expected I, but got I8
 			//IL_002a: Expected I, but got I8
-			CComPtrNtv_003CIJumpListEntry_003E cComPtrNtv_003CIJumpListEntry_003E;
-			*(long*)(&cComPtrNtv_003CIJumpListEntry_003E) = 0L;
+			CComPtrNtv<IJumpListEntry> cComPtrNtv_003CIJumpListEntry_003E = new();
 			try
 			{
 				IJumpList* p = m_spJumpList.p;
-				((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, IJumpListEntry**, int>)(*(ulong*)(*(long*)p + 40)))((nint)p, (IJumpListEntry**)(&cComPtrNtv_003CIJumpListEntry_003E));
-				task = new JumpListEntry((IJumpListEntry*)(*(ulong*)(&cComPtrNtv_003CIJumpListEntry_003E)));
+				((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, IJumpListEntry**, int>)(*(ulong*)(*(long*)p + 40)))((nint)p, (IJumpListEntry**)(cComPtrNtv_003CIJumpListEntry_003E.p));
+				task = new JumpListEntry((IJumpListEntry*)(*(ulong*)(cComPtrNtv_003CIJumpListEntry_003E.p)));
 			}
 			catch
 			{
 				//try-fault
-				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIJumpListEntry_003E*, void>)(&Module.CComPtrNtv_003CIJumpListEntry_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIJumpListEntry_003E);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IJumpListEntry*, void>)(&Module.CComPtrNtv_003CIJumpListEntry_003E_002E_007Bdtor_007D), cComPtrNtv_003CIJumpListEntry_003E.p);
 				throw;
 			}
-			Module.CComPtrNtv_003CIJumpListEntry_003E_002ERelease(&cComPtrNtv_003CIJumpListEntry_003E);
+			cComPtrNtv_003CIJumpListEntry_003E.Dispose();
 			return 0;
 		}
 
@@ -106,21 +105,20 @@ namespace Microsoft.Zune.Util
 		{
 			//IL_0020: Expected I, but got I8
 			//IL_002a: Expected I, but got I8
-			CComPtrNtv_003CIJumpListCategory_003E cComPtrNtv_003CIJumpListCategory_003E;
-			*(long*)(&cComPtrNtv_003CIJumpListCategory_003E) = 0L;
+			CComPtrNtv<IJumpListCategory> cComPtrNtv_003CIJumpListCategory_003E = new();
 			try
 			{
 				IJumpList* p = m_spJumpList.p;
-				((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, IJumpListCategory**, int>)(*(ulong*)(*(long*)p + 48)))((nint)p, (IJumpListCategory**)(&cComPtrNtv_003CIJumpListCategory_003E));
-				category = new JumpListCategory((IJumpListCategory*)(*(ulong*)(&cComPtrNtv_003CIJumpListCategory_003E)));
+				((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, IJumpListCategory**, int>)(*(ulong*)(*(long*)p + 48)))((nint)p, (IJumpListCategory**)(cComPtrNtv_003CIJumpListCategory_003E.p));
+				category = new JumpListCategory((IJumpListCategory*)(*(ulong*)(cComPtrNtv_003CIJumpListCategory_003E.p)));
 			}
 			catch
 			{
 				//try-fault
-				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIJumpListCategory_003E*, void>)(&Module.CComPtrNtv_003CIJumpListCategory_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIJumpListCategory_003E);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IJumpListCategory*, void>)(&Module.CComPtrNtv_003CIJumpListCategory_003E_002E_007Bdtor_007D), cComPtrNtv_003CIJumpListCategory_003E.p);
 				throw;
 			}
-			Module.CComPtrNtv_003CIJumpListCategory_003E_002ERelease(&cComPtrNtv_003CIJumpListCategory_003E);
+			cComPtrNtv_003CIJumpListCategory_003E.Dispose();
 			return 0;
 		}
 

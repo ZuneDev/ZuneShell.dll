@@ -240,19 +240,16 @@ namespace Microsoft.Zune.Service
 										*(short*)(&stValue) = 0;
                                         // IL initblk instruction
                                         Unsafe.InitBlockUnaligned(ref Unsafe.AddByteOffset(ref stValue, 2), 0, 14);
-										CComPtrNtv_003CIAddress_003E cComPtrNtv_003CIAddress_003E;
-										*(long*)(&cComPtrNtv_003CIAddress_003E) = 0L;
+										CComPtrNtv<IAddress> cComPtrNtv_003CIAddress_003E = new();
 										try
 										{
-											CComPtrNtv_003CINewsletterSettings_003E cComPtrNtv_003CINewsletterSettings_003E;
-											*(long*)(&cComPtrNtv_003CINewsletterSettings_003E) = 0L;
+											CComPtrNtv<INewsletterSettings> cComPtrNtv_003CINewsletterSettings_003E = new();
 											try
 											{
-												CComPtrNtv_003CIPrivacySettings_003E cComPtrNtv_003CIPrivacySettings_003E;
-												*(long*)(&cComPtrNtv_003CIPrivacySettings_003E) = 0L;
+												CComPtrNtv<IPrivacySettings> cComPtrNtv_003CIPrivacySettings_003E = new();
 												try
 												{
-													if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort**, ushort**, _SYSTEMTIME*, ushort**, ushort**, ushort**, ushort**, ushort**, IAddress**, INewsletterSettings**, IPrivacySettings**, IPassportIdentity**, ICreditCard**, int>)(*(ulong*)(*(long*)pAccountUser + 32)))((nint)pAccountUser, (ushort**)(&wBSTRString), (ushort**)(&wBSTRString2), &stValue, (ushort**)(&wBSTRString3), (ushort**)(&wBSTRString4), (ushort**)(&wBSTRString5), (ushort**)(&wBSTRString6), (ushort**)(&wBSTRString7), (IAddress**)(&cComPtrNtv_003CIAddress_003E), (INewsletterSettings**)(&cComPtrNtv_003CINewsletterSettings_003E), (IPrivacySettings**)(&cComPtrNtv_003CIPrivacySettings_003E), null, null) >= 0)
+													if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort**, ushort**, _SYSTEMTIME*, ushort**, ushort**, ushort**, ushort**, ushort**, IAddress**, INewsletterSettings**, IPrivacySettings**, IPassportIdentity**, ICreditCard**, int>)(*(ulong*)(*(long*)pAccountUser + 32)))((nint)pAccountUser, (ushort**)(&wBSTRString), (ushort**)(&wBSTRString2), &stValue, (ushort**)(&wBSTRString3), (ushort**)(&wBSTRString4), (ushort**)(&wBSTRString5), (ushort**)(&wBSTRString6), (ushort**)(&wBSTRString7), (IAddress**)(cComPtrNtv_003CIAddress_003E.p), (INewsletterSettings**)(cComPtrNtv_003CINewsletterSettings_003E.p), (IPrivacySettings**)(&ptrNtvIPrivacySettings), null, null) >= 0)
 													{
 														m_zuneTag = new string((char*)(*(ulong*)(&wBSTRString)));
 														m_locale = new string((char*)(*(ulong*)(&wBSTRString2)));
@@ -263,39 +260,39 @@ namespace Microsoft.Zune.Service
 														m_mobilePhoneNumber = new string((char*)(*(ulong*)(&wBSTRString7)));
 														DateTime dateTime = (m_birthday = Module.SystemTimeToDateTime(stValue));
 														m_accountUserType = (AccountUserType)((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EAccountUserType>)(*(ulong*)(*(long*)pAccountUser + 48)))((nint)pAccountUser);
-														if (*(long*)(&cComPtrNtv_003CIAddress_003E) != 0L)
+														if (*(long*)(cComPtrNtv_003CIAddress_003E.p) != 0L)
 														{
-															m_address = new Address((IAddress*)(*(ulong*)(&cComPtrNtv_003CIAddress_003E)));
+															m_address = new Address((IAddress*)(*(ulong*)(cComPtrNtv_003CIAddress_003E.p)));
 														}
-														if (*(long*)(&cComPtrNtv_003CINewsletterSettings_003E) != 0L && *(long*)(&cComPtrNtv_003CIPrivacySettings_003E) != 0L)
+														if (*(long*)(cComPtrNtv_003CINewsletterSettings_003E.p) != 0L && *(long*)(cComPtrNtv_003CIPrivacySettings_003E.p) != 0L)
 														{
-															m_accountSettings = new AccountSettings((INewsletterSettings*)(*(ulong*)(&cComPtrNtv_003CINewsletterSettings_003E)), (IPrivacySettings*)(*(ulong*)(&cComPtrNtv_003CIPrivacySettings_003E)));
+															m_accountSettings = new AccountSettings((INewsletterSettings*)(*(ulong*)(cComPtrNtv_003CINewsletterSettings_003E.p)), (IPrivacySettings*)(*(ulong*)(cComPtrNtv_003CIPrivacySettings_003E.p)));
 														}
 													}
 												}
 												catch
 												{
 													//try-fault
-													Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIPrivacySettings_003E*, void>)(&Module.CComPtrNtv_003CIPrivacySettings_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIPrivacySettings_003E);
+													Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IPrivacySettings*, void>)(&Module.CComPtrNtv_003CIPrivacySettings_003E_002E_007Bdtor_007D), cComPtrNtv_003CIPrivacySettings_003E.p);
 													throw;
 												}
-												Module.CComPtrNtv_003CIPrivacySettings_003E_002ERelease(&cComPtrNtv_003CIPrivacySettings_003E);
+												cComPtrNtv_003CIPrivacySettings_003E.Dispose();
 											}
 											catch
 											{
 												//try-fault
-												Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CINewsletterSettings_003E*, void>)(&Module.CComPtrNtv_003CINewsletterSettings_003E_002E_007Bdtor_007D), &cComPtrNtv_003CINewsletterSettings_003E);
+												Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<INewsletterSettings*, void>)(&Module.CComPtrNtv_003CINewsletterSettings_003E_002E_007Bdtor_007D), cComPtrNtv_003CINewsletterSettings_003E.p);
 												throw;
 											}
-											Module.CComPtrNtv_003CINewsletterSettings_003E_002ERelease(&cComPtrNtv_003CINewsletterSettings_003E);
+											cComPtrNtv_003CINewsletterSettings_003E.Dispose();
 										}
 										catch
 										{
 											//try-fault
-											Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIAddress_003E*, void>)(&Module.CComPtrNtv_003CIAddress_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIAddress_003E);
+											Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IAddress*, void>)(&Module.CComPtrNtv_003CIAddress_003E_002E_007Bdtor_007D), cComPtrNtv_003CIAddress_003E.p);
 											throw;
 										}
-										Module.CComPtrNtv_003CIAddress_003E_002ERelease(&cComPtrNtv_003CIAddress_003E);
+										cComPtrNtv_003CIAddress_003E.Dispose();
 									}
 									catch
 									{

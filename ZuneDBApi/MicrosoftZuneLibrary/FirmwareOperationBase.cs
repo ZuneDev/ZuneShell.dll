@@ -19,7 +19,7 @@ namespace MicrosoftZuneLibrary
 
 		internal bool m_DeviceRebooting;
 
-		internal readonly CComPtrMgd<MicrosoftZuneLibrary_003A_003AFirmwareUpdateMediator> m_spFirmwareMediator;
+		internal readonly CComPtrMgd<FirmwareUpdateMediator> m_spFirmwareMediator;
 
 		internal FirmwareCompleteHandler m_OnCompleteHandler;
 
@@ -45,14 +45,7 @@ namespace MicrosoftZuneLibrary
 
 		public HRESULT CheckPowerRequirements(out bool fOnBatteryPower)
 		{
-			bool fOnBatteryPower2 = true;
-			HRESULT hRESULT = PowerRequirements.CheckOnBatteryPower(out fOnBatteryPower2);
-			HRESULT hRESULT2 = hRESULT;
-			if ((byte)((hRESULT2.hr >= 0) ? 1u : 0u) != 0)
-			{
-				fOnBatteryPower = fOnBatteryPower2;
-			}
-			return hRESULT;
+            return PowerRequirements.CheckOnBatteryPower(out fOnBatteryPower);
 		}
 
 		internal FirmwareOperationBase()
@@ -61,7 +54,7 @@ namespace MicrosoftZuneLibrary
 			try
 			{
 				m_spEndpointHost = spEndpointHost;
-				CComPtrMgd<MicrosoftZuneLibrary_003A_003AFirmwareUpdateMediator> spFirmwareMediator = new CComPtrMgd<MicrosoftZuneLibrary_003A_003AFirmwareUpdateMediator>();
+				CComPtrMgd<FirmwareUpdateMediator> spFirmwareMediator = new();
 				try
 				{
 					m_spFirmwareMediator = spFirmwareMediator;
@@ -114,8 +107,7 @@ namespace MicrosoftZuneLibrary
 		{
 			//IL_001e: Expected I, but got I8
 			//IL_0038: Expected I, but got I8
-			CComPtrNtv_003CIFirmwareUpdateErrorInfo_003E cComPtrNtv_003CIFirmwareUpdateErrorInfo_003E;
-			*(long*)(&cComPtrNtv_003CIFirmwareUpdateErrorInfo_003E) = 0L;
+			CComPtrNtv<IFirmwareUpdateErrorInfo> cComPtrNtv_003CIFirmwareUpdateErrorInfo_003E = new();
 			try
 			{
 				InternalErrorInfo* ptr = (InternalErrorInfo*)Module.@new(56uL);
@@ -130,17 +122,17 @@ namespace MicrosoftZuneLibrary
 					Module.delete(ptr);
 					throw;
 				}
-				Module.CComPtrNtv_003CIFirmwareUpdateErrorInfo_003E_002E_003D(&cComPtrNtv_003CIFirmwareUpdateErrorInfo_003E, (IFirmwareUpdateErrorInfo*)lp);
-				FirmwareProcessCompleteArgs args = new FirmwareProcessCompleteArgs(new FirmwareUpdateErrorInfo((IFirmwareUpdateErrorInfo*)(*(ulong*)(&cComPtrNtv_003CIFirmwareUpdateErrorInfo_003E))), null, CompletionAction.Complete, disconnectDeviceOnComplete);
+				cComPtrNtv_003CIFirmwareUpdateErrorInfo_003E.set_p((IFirmwareUpdateErrorInfo*)lp);
+				FirmwareProcessCompleteArgs args = new FirmwareProcessCompleteArgs(new FirmwareUpdateErrorInfo((IFirmwareUpdateErrorInfo*)(*(ulong*)(cComPtrNtv_003CIFirmwareUpdateErrorInfo_003E.p))), null, CompletionAction.Complete, disconnectDeviceOnComplete);
 				Application.DeferredInvokeOnWorkerThread(ProcessCompleteWorker, ProcessCompleteWorkerComplete, args);
 			}
 			catch
 			{
 				//try-fault
-				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIFirmwareUpdateErrorInfo_003E*, void>)(&Module.CComPtrNtv_003CIFirmwareUpdateErrorInfo_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIFirmwareUpdateErrorInfo_003E);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IFirmwareUpdateErrorInfo*, void>)(&Module.CComPtrNtv_003CIFirmwareUpdateErrorInfo_003E_002E_007Bdtor_007D), cComPtrNtv_003CIFirmwareUpdateErrorInfo_003E.p);
 				throw;
 			}
-			Module.CComPtrNtv_003CIFirmwareUpdateErrorInfo_003E_002ERelease(&cComPtrNtv_003CIFirmwareUpdateErrorInfo_003E);
+			cComPtrNtv_003CIFirmwareUpdateErrorInfo_003E.Dispose();
 		}
 
 		internal unsafe void OnFirmwareProcessCompleteWorker(object data)
@@ -236,8 +228,7 @@ namespace MicrosoftZuneLibrary
 			//IL_00e1: Expected I, but got I8
 			//IL_00e1: Expected I, but got I8
 			//IL_00e1: Expected I, but got I8
-			CComPtrNtv_003CIFirmwareUpdateNotification_003E cComPtrNtv_003CIFirmwareUpdateNotification_003E;
-			*(long*)(&cComPtrNtv_003CIFirmwareUpdateNotification_003E) = 0L;
+			CComPtrNtv<IFirmwareUpdateNotification> cComPtrNtv_003CIFirmwareUpdateNotification_003E = new();
 			try
 			{
 				if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 60uL)) & 4u) != 0 && *(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 57uL) >= 5u)
@@ -245,8 +236,8 @@ namespace MicrosoftZuneLibrary
 					Module.WPP_SF_(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 48uL), 26, (_GUID*)Unsafe.AsPointer(ref Module._003FA0x15529884_002EWPP_FirmwareUpdateAPI_cpp_Traceguids));
 				}
 				m_DeviceRebooting = false;
-				int firmwareUpdateNotification = GetFirmwareUpdateNotification((IFirmwareUpdateNotification**)(&cComPtrNtv_003CIFirmwareUpdateNotification_003E));
-				if (*(long*)(&cComPtrNtv_003CIFirmwareUpdateNotification_003E) != 0L && firmwareUpdateNotification >= 0)
+				int firmwareUpdateNotification = GetFirmwareUpdateNotification((IFirmwareUpdateNotification**)(cComPtrNtv_003CIFirmwareUpdateNotification_003E.p));
+				if (*(long*)(cComPtrNtv_003CIFirmwareUpdateNotification_003E.p) != 0L && firmwareUpdateNotification >= 0)
 				{
 					WBSTRString wBSTRString;
 					Module.WBSTRString_002E_007Bctor_007D(&wBSTRString);
@@ -260,9 +251,9 @@ namespace MicrosoftZuneLibrary
 							{
 								Module.WPP_SF_S(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 48uL), 27, (_GUID*)Unsafe.AsPointer(ref Module._003FA0x15529884_002EWPP_FirmwareUpdateAPI_cpp_Traceguids), (ushort*)(*(ulong*)(&wBSTRString)));
 							}
-							long num = *(long*)(&cComPtrNtv_003CIFirmwareUpdateNotification_003E);
+							long num = *(long*)(cComPtrNtv_003CIFirmwareUpdateNotification_003E.p);
 							long num2 = *(long*)(&wBSTRString);
-							((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, int>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CIFirmwareUpdateNotification_003E)) + 48)))((nint)num, (ushort*)num2);
+							((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, int>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CIFirmwareUpdateNotification_003E.p)) + 48)))((nint)num, (ushort*)num2);
 						}
 					}
 					catch
@@ -282,10 +273,10 @@ namespace MicrosoftZuneLibrary
 			catch
 			{
 				//try-fault
-				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIFirmwareUpdateNotification_003E*, void>)(&Module.CComPtrNtv_003CIFirmwareUpdateNotification_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIFirmwareUpdateNotification_003E);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IFirmwareUpdateNotification*, void>)(&Module.CComPtrNtv_003CIFirmwareUpdateNotification_003E_002E_007Bdtor_007D), cComPtrNtv_003CIFirmwareUpdateNotification_003E.p);
 				throw;
 			}
-			Module.CComPtrNtv_003CIFirmwareUpdateNotification_003E_002ERelease(&cComPtrNtv_003CIFirmwareUpdateNotification_003E);
+			cComPtrNtv_003CIFirmwareUpdateNotification_003E.Dispose();
 		}
 
 		internal unsafe int GetFirmwareUpdateNotification(IFirmwareUpdateNotification** ppNotification)
@@ -296,17 +287,16 @@ namespace MicrosoftZuneLibrary
 			//IL_016b: Expected I, but got I8
 			//IL_0174: Expected I, but got I8
 			//IL_017c: Expected I8, but got I
-			CComPtrNtv_003CIEndpointHostManager_003E cComPtrNtv_003CIEndpointHostManager_003E;
-			*(long*)(&cComPtrNtv_003CIEndpointHostManager_003E) = 0L;
-			CComPtrNtv_003CIEndpointManager_003E cComPtrNtv_003CIEndpointManager_003E;
-			CComPtrNtv_003CIFirmwareUpdateNotification_003E cComPtrNtv_003CIFirmwareUpdateNotification_003E;
+			CComPtrNtv<IEndpointHostManager> cComPtrNtv_003CIEndpointHostManager_003E = new();
+			CComPtrNtv<IEndpointManager> cComPtrNtv_003CIEndpointManager_003E = new();
+			CComPtrNtv<IFirmwareUpdateNotification> cComPtrNtv_003CIFirmwareUpdateNotification_003E = new();
 			EEndpointClass eEndpointClass;
 			try
 			{
-				*(long*)(&cComPtrNtv_003CIEndpointManager_003E) = 0L;
+				*(long*)(cComPtrNtv_003CIEndpointManager_003E.p) = 0L;
 				try
 				{
-					*(long*)(&cComPtrNtv_003CIFirmwareUpdateNotification_003E) = 0L;
+					*(long*)(cComPtrNtv_003CIFirmwareUpdateNotification_003E.p) = 0L;
 					try
 					{
 						eEndpointClass = EEndpointClass.eEndpointClassInvalid;
@@ -323,31 +313,31 @@ namespace MicrosoftZuneLibrary
 					catch
 					{
 						//try-fault
-						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIFirmwareUpdateNotification_003E*, void>)(&Module.CComPtrNtv_003CIFirmwareUpdateNotification_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIFirmwareUpdateNotification_003E);
+						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IFirmwareUpdateNotification*, void>)(&Module.CComPtrNtv_003CIFirmwareUpdateNotification_003E_002E_007Bdtor_007D), cComPtrNtv_003CIFirmwareUpdateNotification_003E.p);
 						throw;
 					}
 					goto end_IL_000a;
 					IL_0072:
-					Module.CComPtrNtv_003CIFirmwareUpdateNotification_003E_002ERelease(&cComPtrNtv_003CIFirmwareUpdateNotification_003E);
+					cComPtrNtv_003CIFirmwareUpdateNotification_003E.Dispose();
 					goto IL_0089;
 					end_IL_000a:;
 				}
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIEndpointManager_003E*, void>)(&Module.CComPtrNtv_003CIEndpointManager_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIEndpointManager_003E);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IEndpointManager*, void>)(&Module.CComPtrNtv_003CIEndpointManager_003E_002E_007Bdtor_007D), cComPtrNtv_003CIEndpointManager_003E.p);
 					throw;
 				}
 				goto end_IL_0005;
 				IL_0089:
-				Module.CComPtrNtv_003CIEndpointManager_003E_002ERelease(&cComPtrNtv_003CIEndpointManager_003E);
+				cComPtrNtv_003CIEndpointManager_003E.Dispose();
 				goto IL_00a0;
 				end_IL_0005:;
 			}
 			catch
 			{
 				//try-fault
-				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIEndpointHostManager_003E*, void>)(&Module.CComPtrNtv_003CIEndpointHostManager_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIEndpointHostManager_003E);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IEndpointHostManager*, void>)(&Module.CComPtrNtv_003CIEndpointHostManager_003E_002E_007Bdtor_007D), cComPtrNtv_003CIEndpointHostManager_003E.p);
 				throw;
 			}
 			CComPtrMgd<IEndpointHost> spEndpointHost;
@@ -367,31 +357,31 @@ namespace MicrosoftZuneLibrary
 					catch
 					{
 						//try-fault
-						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIFirmwareUpdateNotification_003E*, void>)(&Module.CComPtrNtv_003CIFirmwareUpdateNotification_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIFirmwareUpdateNotification_003E);
+						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IFirmwareUpdateNotification*, void>)(&Module.CComPtrNtv_003CIFirmwareUpdateNotification_003E_002E_007Bdtor_007D), cComPtrNtv_003CIFirmwareUpdateNotification_003E.p);
 						throw;
 					}
 					goto end_IL_00ae;
 					IL_00de:
-					Module.CComPtrNtv_003CIFirmwareUpdateNotification_003E_002ERelease(&cComPtrNtv_003CIFirmwareUpdateNotification_003E);
+					cComPtrNtv_003CIFirmwareUpdateNotification_003E.Dispose();
 					goto IL_00f5;
 					end_IL_00ae:;
 				}
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIEndpointManager_003E*, void>)(&Module.CComPtrNtv_003CIEndpointManager_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIEndpointManager_003E);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IEndpointManager*, void>)(&Module.CComPtrNtv_003CIEndpointManager_003E_002E_007Bdtor_007D), cComPtrNtv_003CIEndpointManager_003E.p);
 					throw;
 				}
 				goto end_IL_00ae_2;
 				IL_00f5:
-				Module.CComPtrNtv_003CIEndpointManager_003E_002ERelease(&cComPtrNtv_003CIEndpointManager_003E);
+				cComPtrNtv_003CIEndpointManager_003E.Dispose();
 				goto IL_010c;
 				end_IL_00ae_2:;
 			}
 			catch
 			{
 				//try-fault
-				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIEndpointHostManager_003E*, void>)(&Module.CComPtrNtv_003CIEndpointHostManager_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIEndpointHostManager_003E);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IEndpointHostManager*, void>)(&Module.CComPtrNtv_003CIEndpointHostManager_003E_002E_007Bdtor_007D), cComPtrNtv_003CIEndpointHostManager_003E.p);
 				throw;
 			}
 			int num;
@@ -404,20 +394,20 @@ namespace MicrosoftZuneLibrary
 						num = Module.GetEnumProperty_003Cstruct_0020IEndpointHost_002Cenum_0020EEndpointHostProperty_002Cenum_0020EEndpointClass_003E(spEndpointHost.p, EEndpointHostProperty.eEndpointHostPropertyClassId, &eEndpointClass);
 						if (num >= 0)
 						{
-							num = Module.GetSingleton((_GUID)Module._GUID_0a3d3343_00d9_4c61_9a86_2d778793e05f, (void**)(&cComPtrNtv_003CIEndpointHostManager_003E));
+							num = Module.GetSingleton(Module.GUID_IEndpointHostManager, (void**)(cComPtrNtv_003CIEndpointHostManager_003E.p));
 							if (num >= 0)
 							{
-								long num2 = *(long*)(&cComPtrNtv_003CIEndpointHostManager_003E);
-								num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, IEndpointManager**, int>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CIEndpointHostManager_003E)) + 88)))((nint)num2, (IEndpointManager**)(&cComPtrNtv_003CIEndpointManager_003E));
+								long num2 = *(long*)(cComPtrNtv_003CIEndpointHostManager_003E.p);
+								num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, IEndpointManager**, int>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CIEndpointHostManager_003E.p)) + 88)))((nint)num2, (IEndpointManager**)(cComPtrNtv_003CIEndpointManager_003E.p));
 								if (num >= 0)
 								{
-									long num3 = *(long*)(&cComPtrNtv_003CIEndpointManager_003E);
+									long num3 = *(long*)(cComPtrNtv_003CIEndpointManager_003E.p);
 									EEndpointClass num4 = eEndpointClass;
-									num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EEndpointClass, IFirmwareUpdateNotification**, int>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CIEndpointManager_003E)) + 88)))((nint)num3, num4, (IFirmwareUpdateNotification**)(&cComPtrNtv_003CIFirmwareUpdateNotification_003E));
+									num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EEndpointClass, IFirmwareUpdateNotification**, int>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CIEndpointManager_003E.p)) + 88)))((nint)num3, num4, (IFirmwareUpdateNotification**)(cComPtrNtv_003CIFirmwareUpdateNotification_003E.p));
 									if (num >= 0)
 									{
-										IFirmwareUpdateNotification* ptr = (IFirmwareUpdateNotification*)(*(ulong*)(&cComPtrNtv_003CIFirmwareUpdateNotification_003E));
-										*(long*)(&cComPtrNtv_003CIFirmwareUpdateNotification_003E) = 0L;
+										IFirmwareUpdateNotification* ptr = (IFirmwareUpdateNotification*)(*(ulong*)(cComPtrNtv_003CIFirmwareUpdateNotification_003E.p));
+										*(long*)(cComPtrNtv_003CIFirmwareUpdateNotification_003E.p) = 0L;
 										*(long*)ppNotification = (nint)ptr;
 									}
 								}
@@ -431,32 +421,32 @@ namespace MicrosoftZuneLibrary
 					catch
 					{
 						//try-fault
-						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIFirmwareUpdateNotification_003E*, void>)(&Module.CComPtrNtv_003CIFirmwareUpdateNotification_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIFirmwareUpdateNotification_003E);
+						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IFirmwareUpdateNotification*, void>)(&Module.CComPtrNtv_003CIFirmwareUpdateNotification_003E_002E_007Bdtor_007D), cComPtrNtv_003CIFirmwareUpdateNotification_003E.p);
 						throw;
 					}
-					Module.CComPtrNtv_003CIFirmwareUpdateNotification_003E_002ERelease(&cComPtrNtv_003CIFirmwareUpdateNotification_003E);
+					cComPtrNtv_003CIFirmwareUpdateNotification_003E.Dispose();
 				}
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIEndpointManager_003E*, void>)(&Module.CComPtrNtv_003CIEndpointManager_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIEndpointManager_003E);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IEndpointManager*, void>)(&Module.CComPtrNtv_003CIEndpointManager_003E_002E_007Bdtor_007D), cComPtrNtv_003CIEndpointManager_003E.p);
 					throw;
 				}
-				Module.CComPtrNtv_003CIEndpointManager_003E_002ERelease(&cComPtrNtv_003CIEndpointManager_003E);
+				cComPtrNtv_003CIEndpointManager_003E.Dispose();
 			}
 			catch
 			{
 				//try-fault
-				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIEndpointHostManager_003E*, void>)(&Module.CComPtrNtv_003CIEndpointHostManager_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIEndpointHostManager_003E);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IEndpointHostManager*, void>)(&Module.CComPtrNtv_003CIEndpointHostManager_003E_002E_007Bdtor_007D), cComPtrNtv_003CIEndpointHostManager_003E.p);
 				throw;
 			}
-			Module.CComPtrNtv_003CIEndpointHostManager_003E_002ERelease(&cComPtrNtv_003CIEndpointHostManager_003E);
+			cComPtrNtv_003CIEndpointHostManager_003E.Dispose();
 			return num;
 			IL_00a0:
-			Module.CComPtrNtv_003CIEndpointHostManager_003E_002ERelease(&cComPtrNtv_003CIEndpointHostManager_003E);
+			cComPtrNtv_003CIEndpointHostManager_003E.Dispose();
 			return -2147467261;
 			IL_010c:
-			Module.CComPtrNtv_003CIEndpointHostManager_003E_002ERelease(&cComPtrNtv_003CIEndpointHostManager_003E);
+			cComPtrNtv_003CIEndpointHostManager_003E.Dispose();
 			return -2147418113;
 		}
 

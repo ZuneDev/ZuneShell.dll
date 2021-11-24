@@ -267,28 +267,26 @@ namespace MicrosoftZuneLibrary
 				Module._ZuneShipAssert(1002u, 454u);
 				return -2147418113;
 			}
-			CComPtrNtv_003CIMetadataManager_003E cComPtrNtv_003CIMetadataManager_003E;
-			*(long*)(&cComPtrNtv_003CIMetadataManager_003E) = 0L;
+			CComPtrNtv<IMetadataManager> cComPtrNtv_003CIMetadataManager_003E = new();
 			int num;
 			try
 			{
-				CComPtrNtv_003CIDeviceSyncRulesProvider_003E cComPtrNtv_003CIDeviceSyncRulesProvider_003E;
-				*(long*)(&cComPtrNtv_003CIDeviceSyncRulesProvider_003E) = 0L;
+				CComPtrNtv<IDeviceSyncRulesProvider> cComPtrNtv_003CIDeviceSyncRulesProvider_003E = new();
 				try
 				{
 					mode = ESyncMode.eSyncModeInvalid;
-					num = Module.GetSingleton(Module.GUID_IMetadataManager, (void**)(&cComPtrNtv_003CIMetadataManager_003E));
+					num = Module.GetSingleton(Module.GUID_IMetadataManager, (void**)(cComPtrNtv_003CIMetadataManager_003E.p));
 					if (num >= 0)
 					{
-						long num2 = *(long*)(&cComPtrNtv_003CIMetadataManager_003E);
+						long num2 = *(long*)(cComPtrNtv_003CIMetadataManager_003E.p);
 						_GUID guid_GUID_IDeviceSyncRulesProvider = Module.GUID_IDeviceSyncRulesProvider;
-						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID, void**, int>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CIMetadataManager_003E)) + 24)))((nint)num2, (_GUID)guid_GUID_IDeviceSyncRulesProvider, (void**)(&cComPtrNtv_003CIDeviceSyncRulesProvider_003E));
+						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID, void**, int>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CIMetadataManager_003E.p)) + 24)))((nint)num2, (_GUID)guid_GUID_IDeviceSyncRulesProvider, (void**)(cComPtrNtv_003CIDeviceSyncRulesProvider_003E.p));
 						if (num >= 0)
 						{
 							ESyncMode eSyncMode = ESyncMode.eSyncModeInvalid;
-							long num3 = *(long*)(&cComPtrNtv_003CIDeviceSyncRulesProvider_003E);
+							long num3 = *(long*)(cComPtrNtv_003CIDeviceSyncRulesProvider_003E.p);
 							int iDeviceID = m_iDeviceID;
-							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, ESyncCategory, ESyncMode*, byte, int>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CIDeviceSyncRulesProvider_003E)) + 128)))((nint)num3, iDeviceID, cat, &eSyncMode, fEstablishingPartnership ? ((byte)1) : ((byte)0));
+							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, ESyncCategory, ESyncMode*, byte, int>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CIDeviceSyncRulesProvider_003E.p)) + 128)))((nint)num3, iDeviceID, cat, &eSyncMode, fEstablishingPartnership ? ((byte)1) : ((byte)0));
 							if (num >= 0)
 							{
 								mode = eSyncMode;
@@ -303,18 +301,18 @@ namespace MicrosoftZuneLibrary
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIDeviceSyncRulesProvider_003E*, void>)(&Module.CComPtrNtv_003CIDeviceSyncRulesProvider_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIDeviceSyncRulesProvider_003E);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IDeviceSyncRulesProvider*, void>)(&Module.CComPtrNtv_003CIDeviceSyncRulesProvider_003E_002E_007Bdtor_007D), cComPtrNtv_003CIDeviceSyncRulesProvider_003E.p);
 					throw;
 				}
-				Module.CComPtrNtv_003CIDeviceSyncRulesProvider_003E_002ERelease(&cComPtrNtv_003CIDeviceSyncRulesProvider_003E);
+				cComPtrNtv_003CIDeviceSyncRulesProvider_003E.Dispose();
 			}
 			catch
 			{
 				//try-fault
-				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIMetadataManager_003E*, void>)(&Module.CComPtrNtv_003CIMetadataManager_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIMetadataManager_003E);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IMetadataManager*, void>)(&Module.CComPtrNtv_003CIMetadataManager_003E_002E_007Bdtor_007D), cComPtrNtv_003CIMetadataManager_003E.p);
 				throw;
 			}
-			Module.CComPtrNtv_003CIMetadataManager_003E_002ERelease(&cComPtrNtv_003CIMetadataManager_003E);
+			cComPtrNtv_003CIMetadataManager_003E.Dispose();
 			return num;
 		}
 
@@ -330,26 +328,24 @@ namespace MicrosoftZuneLibrary
 				Module._ZuneShipAssert(1002u, 504u);
 				return -2147418113;
 			}
-			CComPtrNtv_003CIMetadataManager_003E cComPtrNtv_003CIMetadataManager_003E;
-			*(long*)(&cComPtrNtv_003CIMetadataManager_003E) = 0L;
+			CComPtrNtv<IMetadataManager> cComPtrNtv_003CIMetadataManager_003E = new();
 			int num;
 			try
 			{
-				CComPtrNtv_003CIDeviceSyncRulesProvider_003E cComPtrNtv_003CIDeviceSyncRulesProvider_003E;
-				*(long*)(&cComPtrNtv_003CIDeviceSyncRulesProvider_003E) = 0L;
+				CComPtrNtv<IDeviceSyncRulesProvider> cComPtrNtv_003CIDeviceSyncRulesProvider_003E = new();
 				try
 				{
-					num = Module.GetSingleton(Module.GUID_IMetadataManager, (void**)(&cComPtrNtv_003CIMetadataManager_003E));
+					num = Module.GetSingleton(Module.GUID_IMetadataManager, (void**)(cComPtrNtv_003CIMetadataManager_003E.p));
 					if (num >= 0)
 					{
-						long num2 = *(long*)(&cComPtrNtv_003CIMetadataManager_003E);
+						long num2 = *(long*)(cComPtrNtv_003CIMetadataManager_003E.p);
 						_GUID gUID_b12dc962_cc1b_46c5_a92a_68f1f2b9bff = Module.GUID_IDeviceSyncRulesProvider;
-						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID, void**, int>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CIMetadataManager_003E)) + 24)))((nint)num2, gUID_b12dc962_cc1b_46c5_a92a_68f1f2b9bff, (void**)(&cComPtrNtv_003CIDeviceSyncRulesProvider_003E));
+						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID, void**, int>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CIMetadataManager_003E.p)) + 24)))((nint)num2, gUID_b12dc962_cc1b_46c5_a92a_68f1f2b9bff, (void**)(cComPtrNtv_003CIDeviceSyncRulesProvider_003E.p));
 						if (num >= 0)
 						{
-							long num3 = *(long*)(&cComPtrNtv_003CIDeviceSyncRulesProvider_003E);
+							long num3 = *(long*)(cComPtrNtv_003CIDeviceSyncRulesProvider_003E.p);
 							int iDeviceID = m_iDeviceID;
-							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, ESyncCategory, ESyncMode, int>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CIDeviceSyncRulesProvider_003E)) + 136)))((nint)num3, iDeviceID, cat, mode);
+							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, ESyncCategory, ESyncMode, int>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CIDeviceSyncRulesProvider_003E.p)) + 136)))((nint)num3, iDeviceID, cat, mode);
 							if (num >= 0)
 							{
 								IEndpointHost* p = m_spEndpointHost.p;
@@ -365,18 +361,18 @@ namespace MicrosoftZuneLibrary
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIDeviceSyncRulesProvider_003E*, void>)(&Module.CComPtrNtv_003CIDeviceSyncRulesProvider_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIDeviceSyncRulesProvider_003E);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IDeviceSyncRulesProvider*, void>)(&Module.CComPtrNtv_003CIDeviceSyncRulesProvider_003E_002E_007Bdtor_007D), cComPtrNtv_003CIDeviceSyncRulesProvider_003E.p);
 					throw;
 				}
-				Module.CComPtrNtv_003CIDeviceSyncRulesProvider_003E_002ERelease(&cComPtrNtv_003CIDeviceSyncRulesProvider_003E);
+				cComPtrNtv_003CIDeviceSyncRulesProvider_003E.Dispose();
 			}
 			catch
 			{
 				//try-fault
-				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIMetadataManager_003E*, void>)(&Module.CComPtrNtv_003CIMetadataManager_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIMetadataManager_003E);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IMetadataManager*, void>)(&Module.CComPtrNtv_003CIMetadataManager_003E_002E_007Bdtor_007D), cComPtrNtv_003CIMetadataManager_003E.p);
 				throw;
 			}
-			Module.CComPtrNtv_003CIMetadataManager_003E_002ERelease(&cComPtrNtv_003CIMetadataManager_003E);
+			cComPtrNtv_003CIMetadataManager_003E.Dispose();
 			return num;
 		}
 

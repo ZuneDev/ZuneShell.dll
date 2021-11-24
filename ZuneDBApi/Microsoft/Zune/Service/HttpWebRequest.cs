@@ -521,39 +521,37 @@ namespace Microsoft.Zune.Service
 				fixed (char* _methodPtr = _method.ToCharArray())
 				{
 					ushort* ptr2 = (ushort*)_methodPtr;
-					CComPtrNtv_003CIService_003E cComPtrNtv_003CIService_003E;
-					*(long*)(&cComPtrNtv_003CIService_003E) = 0L;
+					CComPtrNtv<IService> cComPtrNtv_003CIService_003E = new();
 					int num;
 					try
 					{
-						num = Module.GetSingleton(Module.GUID_IService, (void**)(&cComPtrNtv_003CIService_003E));
-						CComPtrNtv_003CIHttpWebRequest_003E cComPtrNtv_003CIHttpWebRequest_003E;
-						*(long*)(&cComPtrNtv_003CIHttpWebRequest_003E) = 0L;
+						num = Module.GetSingleton(Module.GUID_IService, (void**)(cComPtrNtv_003CIService_003E.p));
+						CComPtrNtv<IHttpWebRequest> cComPtrNtv_003CIHttpWebRequest_003E = new();
 						try
 						{
 							if (num >= 0)
 							{
-								long num2 = *(long*)(*(ulong*)(&cComPtrNtv_003CIService_003E)) + 976;
-								long num3 = *(long*)(&cComPtrNtv_003CIService_003E);
-								num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, ushort*, IHttpWebRequest**, int>)(*(ulong*)num2))((nint)num3, ptr, ptr2, (IHttpWebRequest**)(&cComPtrNtv_003CIHttpWebRequest_003E));
+								long num2 = *(long*)(*(ulong*)(cComPtrNtv_003CIService_003E.p)) + 976;
+								long num3 = *(long*)(cComPtrNtv_003CIService_003E.p);
+								num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, ushort*, IHttpWebRequest**, int>)(*(ulong*)num2))((nint)num3, ptr, ptr2, (IHttpWebRequest**)(cComPtrNtv_003CIHttpWebRequest_003E.p));
 								if (num >= 0)
 								{
 									if (_authorization != null && _authorization.Length > 0)
 									{
-										Module.Microsoft_002EZune_002EService_002E_003FA0x12f4bdec_002ESetHeader((IHttpWebRequest*)(*(ulong*)(&cComPtrNtv_003CIHttpWebRequest_003E)), "Authorization: " + _authorization);
+										Module.Microsoft_002EZune_002EService_002E_003FA0x12f4bdec_002ESetHeader((IHttpWebRequest*)(*(ulong*)(cComPtrNtv_003CIHttpWebRequest_003E.p)), "Authorization: " + _authorization);
 									}
 									if (_acceptLanguage != null && _acceptLanguage.Length > 0)
 									{
-										Module.Microsoft_002EZune_002EService_002E_003FA0x12f4bdec_002ESetHeader((IHttpWebRequest*)(*(ulong*)(&cComPtrNtv_003CIHttpWebRequest_003E)), "Accept-Language: " + _acceptLanguage);
+										Module.Microsoft_002EZune_002EService_002E_003FA0x12f4bdec_002ESetHeader((IHttpWebRequest*)(*(ulong*)(cComPtrNtv_003CIHttpWebRequest_003E.p)), "Accept-Language: " + _acceptLanguage);
 									}
 									if (_keepAlive)
 									{
-										Module.Microsoft_002EZune_002EService_002E_003FA0x12f4bdec_002ESetHeader((IHttpWebRequest*)(*(ulong*)(&cComPtrNtv_003CIHttpWebRequest_003E)), "Proxy-Connection: Keep-Alive");
+										Module.Microsoft_002EZune_002EService_002E_003FA0x12f4bdec_002ESetHeader((IHttpWebRequest*)(*(ulong*)(cComPtrNtv_003CIHttpWebRequest_003E.p)), "Proxy-Connection: Keep-Alive");
 									}
 									if (_acceptGZipEncoding)
 									{
-										long num4 = *(long*)(&cComPtrNtv_003CIHttpWebRequest_003E);
-										num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, int>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CIHttpWebRequest_003E)) + 104)))((nint)num4, 1);
+										long num4 = *(long*)(cComPtrNtv_003CIHttpWebRequest_003E.p);
+										num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, int>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CIHttpWebRequest_003E.p)) + 104)))((nint)num4, 1);
 									}
 									if (num >= 0)
 									{
@@ -561,20 +559,20 @@ namespace Microsoft.Zune.Service
 										{
 										case HttpRequestCachePolicy.Refresh:
 										{
-											long num7 = *(long*)(&cComPtrNtv_003CIHttpWebRequest_003E);
-											num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EHttpCacheLevel, int>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CIHttpWebRequest_003E)) + 24)))((nint)num7, (EHttpCacheLevel)2);
+											long num7 = *(long*)(cComPtrNtv_003CIHttpWebRequest_003E.p);
+											num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EHttpCacheLevel, int>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CIHttpWebRequest_003E.p)) + 24)))((nint)num7, (EHttpCacheLevel)2);
 											break;
 										}
 										case HttpRequestCachePolicy.Default:
 										{
-											long num6 = *(long*)(&cComPtrNtv_003CIHttpWebRequest_003E);
-											num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EHttpCacheLevel, int>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CIHttpWebRequest_003E)) + 24)))((nint)num6, (EHttpCacheLevel)1);
+											long num6 = *(long*)(cComPtrNtv_003CIHttpWebRequest_003E.p);
+											num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EHttpCacheLevel, int>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CIHttpWebRequest_003E.p)) + 24)))((nint)num6, (EHttpCacheLevel)1);
 											break;
 										}
 										case HttpRequestCachePolicy.BypassCache:
 										{
-											long num5 = *(long*)(&cComPtrNtv_003CIHttpWebRequest_003E);
-											num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EHttpCacheLevel, int>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CIHttpWebRequest_003E)) + 24)))((nint)num5, 0);
+											long num5 = *(long*)(cComPtrNtv_003CIHttpWebRequest_003E.p);
+											num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EHttpCacheLevel, int>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CIHttpWebRequest_003E.p)) + 24)))((nint)num5, 0);
 											break;
 										}
 										}
@@ -585,8 +583,8 @@ namespace Microsoft.Zune.Service
 												ushort* ptr3 = (ushort*)_browserCookieUrlPtr;
 												try
 												{
-													long num8 = *(long*)(*(ulong*)(&cComPtrNtv_003CIHttpWebRequest_003E)) + 144;
-													long num9 = *(long*)(&cComPtrNtv_003CIHttpWebRequest_003E);
+													long num8 = *(long*)(*(ulong*)(cComPtrNtv_003CIHttpWebRequest_003E.p)) + 144;
+													long num9 = *(long*)(cComPtrNtv_003CIHttpWebRequest_003E.p);
 													num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, int>)(*(ulong*)num8))((nint)num9, ptr3);
 												}
 												catch
@@ -614,8 +612,8 @@ namespace Microsoft.Zune.Service
 										{
 											try
 											{
-												long num11 = *(long*)(*(ulong*)(&cComPtrNtv_003CIHttpWebRequest_003E)) + 136;
-												long num12 = *(long*)(&cComPtrNtv_003CIHttpWebRequest_003E);
+												long num11 = *(long*)(*(ulong*)(cComPtrNtv_003CIHttpWebRequest_003E.p)) + 136;
+												long num12 = *(long*)(cComPtrNtv_003CIHttpWebRequest_003E.p);
 												num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, int, byte*, int>)(*(ulong*)num11))((nint)num12, ptr4, (int)num10, ptr5);
 											}
 											catch
@@ -631,13 +629,13 @@ namespace Microsoft.Zune.Service
 										long maxResponseLength = _maxResponseLength;
 										if (maxResponseLength > 0)
 										{
-											long num13 = *(long*)(&cComPtrNtv_003CIHttpWebRequest_003E);
-											num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ulong, int>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CIHttpWebRequest_003E)) + 88)))((nint)num13, (ulong)maxResponseLength);
+											long num13 = *(long*)(cComPtrNtv_003CIHttpWebRequest_003E.p);
+											num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ulong, int>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CIHttpWebRequest_003E.p)) + 88)))((nint)num13, (ulong)maxResponseLength);
 										}
 										if (num >= 0)
 										{
-											IHttpWebRequest* ptr6 = (IHttpWebRequest*)(*(ulong*)(&cComPtrNtv_003CIHttpWebRequest_003E));
-											*(long*)(&cComPtrNtv_003CIHttpWebRequest_003E) = 0L;
+											IHttpWebRequest* ptr6 = (IHttpWebRequest*)(*(ulong*)(cComPtrNtv_003CIHttpWebRequest_003E.p));
+											*(long*)(cComPtrNtv_003CIHttpWebRequest_003E.p) = 0L;
 											*(long*)ppRequest = (nint)ptr6;
 										}
 									}
@@ -647,18 +645,18 @@ namespace Microsoft.Zune.Service
 						catch
 						{
 							//try-fault
-							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIHttpWebRequest_003E*, void>)(&Module.CComPtrNtv_003CIHttpWebRequest_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIHttpWebRequest_003E);
+							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IHttpWebRequest*, void>)(&Module.CComPtrNtv_003CIHttpWebRequest_003E_002E_007Bdtor_007D), cComPtrNtv_003CIHttpWebRequest_003E.p);
 							throw;
 						}
-						Module.CComPtrNtv_003CIHttpWebRequest_003E_002ERelease(&cComPtrNtv_003CIHttpWebRequest_003E);
+						cComPtrNtv_003CIHttpWebRequest_003E.Dispose();
 					}
 					catch
 					{
 						//try-fault
-						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIService_003E*, void>)(&Module.CComPtrNtv_003CIService_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIService_003E);
+						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IService*, void>)(&Module.CComPtrNtv_003CIService_003E_002E_007Bdtor_007D), cComPtrNtv_003CIService_003E.p);
 						throw;
 					}
-					Module.CComPtrNtv_003CIService_003E_002ERelease(&cComPtrNtv_003CIService_003E);
+					cComPtrNtv_003CIService_003E.Dispose();
 					return num;
 				}
 			}

@@ -223,8 +223,7 @@ namespace Microsoft.Zune.Service
 			{
 				return;
 			}
-			CComPtrNtv_003CIAddress_003E cComPtrNtv_003CIAddress_003E;
-			*(long*)(&cComPtrNtv_003CIAddress_003E) = 0L;
+			CComPtrNtv<IAddress> cComPtrNtv_003CIAddress_003E = new();
 			try
 			{
 				WBSTRString wBSTRString;
@@ -264,9 +263,9 @@ namespace Microsoft.Zune.Service
                                                 // IL initblk instruction
                                                 Unsafe.InitBlockUnaligned(ref Unsafe.AddByteOffset(ref stValue, 2), 0, 14);
 												ECreditCardType creditCardType;
-												if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, IAddress**, ECreditCardType*, ushort**, ushort**, ushort**, ushort**, ushort**, ushort**, ushort**, ushort**, _SYSTEMTIME*, int>)(*(ulong*)(*(long*)pAddress + 32)))((nint)pAddress, (IAddress**)(&cComPtrNtv_003CIAddress_003E), &creditCardType, (ushort**)(&wBSTRString), (ushort**)(&wBSTRString2), (ushort**)(&wBSTRString3), (ushort**)(&wBSTRString4), (ushort**)(&wBSTRString5), (ushort**)(&wBSTRString6), (ushort**)(&wBSTRString7), (ushort**)(&wBSTRString8), &stValue) >= 0)
+												if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, IAddress**, ECreditCardType*, ushort**, ushort**, ushort**, ushort**, ushort**, ushort**, ushort**, ushort**, _SYSTEMTIME*, int>)(*(ulong*)(*(long*)pAddress + 32)))((nint)pAddress, (IAddress**)(cComPtrNtv_003CIAddress_003E.p), &creditCardType, (ushort**)(&wBSTRString), (ushort**)(&wBSTRString2), (ushort**)(&wBSTRString3), (ushort**)(&wBSTRString4), (ushort**)(&wBSTRString5), (ushort**)(&wBSTRString6), (ushort**)(&wBSTRString7), (ushort**)(&wBSTRString8), &stValue) >= 0)
 												{
-													m_address = new Address((IAddress*)(*(ulong*)(&cComPtrNtv_003CIAddress_003E)));
+													m_address = new Address((IAddress*)(*(ulong*)(cComPtrNtv_003CIAddress_003E.p)));
 													m_creditCardType = (CreditCardType)creditCardType;
 													m_accountHolderName = new string((char*)(*(ulong*)(&wBSTRString)));
 													m_accountNumber = new string((char*)(*(ulong*)(&wBSTRString2)));
@@ -347,10 +346,10 @@ namespace Microsoft.Zune.Service
 			catch
 			{
 				//try-fault
-				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIAddress_003E*, void>)(&Module.CComPtrNtv_003CIAddress_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIAddress_003E);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IAddress*, void>)(&Module.CComPtrNtv_003CIAddress_003E_002E_007Bdtor_007D), cComPtrNtv_003CIAddress_003E.p);
 				throw;
 			}
-			Module.CComPtrNtv_003CIAddress_003E_002ERelease(&cComPtrNtv_003CIAddress_003E);
+			cComPtrNtv_003CIAddress_003E.Dispose();
 		}
 
 		public CreditCard(string id, Address address, CreditCardType creditCardType, string accountHolderName, string accountNumber, string ccvNumber, DateTime expirationDate, string phonePrefix, string phoneNumber, string phoneExtension)

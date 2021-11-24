@@ -6,9 +6,9 @@ namespace MicrosoftZuneLibrary
 {
 	public class SyncRulesView : IDisposable
 	{
-		private readonly CComPtrMgd_003CISyncRulesView_003E m_spSyncRulesView;
+		private readonly CComPtrMgd<ISyncRulesView> m_spSyncRulesView;
 
-		private readonly CComPtrMgd_003CSyncRulesViewMediator_003E m_spSyncRulesViewMediator;
+		private readonly CComPtrMgd<SyncRulesViewMediator> m_spSyncRulesViewMediator;
 
 		private SyncRulesViewItemAddedHandler m_itemAddedHandler;
 
@@ -64,11 +64,11 @@ namespace MicrosoftZuneLibrary
 			//IL_0052: Expected I, but got I8
 			//IL_0073: Expected I, but got I8
 			//IL_008e: Expected I, but got I8
-			CComPtrMgd_003CISyncRulesView_003E spSyncRulesView = new CComPtrMgd_003CISyncRulesView_003E();
+			CComPtrMgd<ISyncRulesView> spSyncRulesView = new();
 			try
 			{
 				m_spSyncRulesView = spSyncRulesView;
-				CComPtrMgd_003CSyncRulesViewMediator_003E spSyncRulesViewMediator = new CComPtrMgd_003CSyncRulesViewMediator_003E();
+				CComPtrMgd<SyncRulesViewMediator> spSyncRulesViewMediator = new();
 				try
 				{
 					m_spSyncRulesViewMediator = spSyncRulesViewMediator;

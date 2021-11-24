@@ -91,12 +91,11 @@ namespace Microsoft.Zune.Util
 		{
 			//IL_0035: Expected I, but got I8
 			//IL_0035: Expected I, but got I8
-			CComPtrNtv_003CIWin7ShellManager_003E cComPtrNtv_003CIWin7ShellManager_003E;
-			*(long*)(&cComPtrNtv_003CIWin7ShellManager_003E) = 0L;
+			CComPtrNtv<IWin7ShellManager> cComPtrNtv_003CIWin7ShellManager_003E = new();
 			int num;
 			try
 			{
-				num = Module.GetSingleton((_GUID)Module._GUID_a89c52eb_97a9_417b_9872_46c040f1b76f, (void**)(&cComPtrNtv_003CIWin7ShellManager_003E));
+				num = Module.GetSingleton((_GUID)Module._GUID_a89c52eb_97a9_417b_9872_46c040f1b76f, (void**)(cComPtrNtv_003CIWin7ShellManager_003E.p));
 				if (num >= 0)
 				{
 					fixed (char* pathPtr = path.ToCharArray())
@@ -104,8 +103,8 @@ namespace Microsoft.Zune.Util
 						ushort* ptr = (ushort*)pathPtr;
 						try
 						{
-							long num2 = *(long*)(*(ulong*)(&cComPtrNtv_003CIWin7ShellManager_003E)) + 96;
-							long num3 = *(long*)(&cComPtrNtv_003CIWin7ShellManager_003E);
+							long num2 = *(long*)(*(ulong*)(cComPtrNtv_003CIWin7ShellManager_003E.p)) + 96;
+							long num3 = *(long*)(cComPtrNtv_003CIWin7ShellManager_003E.p);
 							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EWin7LibraryKind, int, ushort*, int>)(*(ulong*)num2))((nint)num3, libraryKind, defaultSaveFolder ? 1 : 0, ptr);
 						}
 						catch
@@ -120,10 +119,10 @@ namespace Microsoft.Zune.Util
 			catch
 			{
 				//try-fault
-				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIWin7ShellManager_003E*, void>)(&Module.CComPtrNtv_003CIWin7ShellManager_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIWin7ShellManager_003E);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IWin7ShellManager*, void>)(&Module.CComPtrNtv_003CIWin7ShellManager_003E_002E_007Bdtor_007D), cComPtrNtv_003CIWin7ShellManager_003E.p);
 				throw;
 			}
-			Module.CComPtrNtv_003CIWin7ShellManager_003E_002ERelease(&cComPtrNtv_003CIWin7ShellManager_003E);
+			cComPtrNtv_003CIWin7ShellManager_003E.Dispose();
 			return num;
 		}
 
@@ -131,12 +130,11 @@ namespace Microsoft.Zune.Util
 		{
 			//IL_0037: Expected I, but got I8
 			//IL_0037: Expected I, but got I8
-			CComPtrNtv_003CIWin7ShellManager_003E cComPtrNtv_003CIWin7ShellManager_003E;
-			*(long*)(&cComPtrNtv_003CIWin7ShellManager_003E) = 0L;
+			CComPtrNtv<IWin7ShellManager> cComPtrNtv_003CIWin7ShellManager_003E = new();
 			int num;
 			try
 			{
-				num = Module.GetSingleton((_GUID)Module._GUID_a89c52eb_97a9_417b_9872_46c040f1b76f, (void**)(&cComPtrNtv_003CIWin7ShellManager_003E));
+				num = Module.GetSingleton((_GUID)Module._GUID_a89c52eb_97a9_417b_9872_46c040f1b76f, (void**)(cComPtrNtv_003CIWin7ShellManager_003E.p));
 				int num2 = 0;
 				int num5;
 				if (num >= 0)
@@ -146,8 +144,8 @@ namespace Microsoft.Zune.Util
 						ushort* ptr = (ushort*)pathPtr;
 						try
 						{
-							long num3 = *(long*)(*(ulong*)(&cComPtrNtv_003CIWin7ShellManager_003E)) + 104;
-							long num4 = *(long*)(&cComPtrNtv_003CIWin7ShellManager_003E);
+							long num3 = *(long*)(*(ulong*)(cComPtrNtv_003CIWin7ShellManager_003E.p)) + 104;
+							long num4 = *(long*)(cComPtrNtv_003CIWin7ShellManager_003E.p);
 							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EWin7LibraryKind, int*, ushort*, int>)(*(ulong*)num3))((nint)num4, libraryKind, &num2, ptr);
 						}
 						catch
@@ -171,10 +169,10 @@ namespace Microsoft.Zune.Util
 			catch
 			{
 				//try-fault
-				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIWin7ShellManager_003E*, void>)(&Module.CComPtrNtv_003CIWin7ShellManager_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIWin7ShellManager_003E);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IWin7ShellManager*, void>)(&Module.CComPtrNtv_003CIWin7ShellManager_003E_002E_007Bdtor_007D), cComPtrNtv_003CIWin7ShellManager_003E.p);
 				throw;
 			}
-			Module.CComPtrNtv_003CIWin7ShellManager_003E_002ERelease(&cComPtrNtv_003CIWin7ShellManager_003E);
+			cComPtrNtv_003CIWin7ShellManager_003E.Dispose();
 			return num;
 		}
 

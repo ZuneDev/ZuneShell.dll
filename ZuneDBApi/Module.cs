@@ -26,10 +26,11 @@ namespace ZuneDBApi
         internal const string ZUNENATIVELIB_DLL = "ZuneNativeLib";
         internal const string ZUNESERVICE_DLL = "ZuneService";
 
-        private static bool s_bIsLonghornOrBetter;
-        private static bool s_bIsLonghornOrBetterInitialized;
-        internal static readonly string WPP_APPNAME = "ZuneInterop";
-        internal static readonly string WINDOWCLASS_MsnMsgrUIManager = "MsnMsgrUIManager";
+        internal const string WNDMSG_ZuneTaskbarPlayerCommandMsg = "ZuneTaskbarPlayerCommandMsg";
+        internal const string WNDMSG_ZuneTaskbarPlayerStateMsg = "ZuneTaskbarPlayerStateMsg";
+        internal const string WPP_APPNAME = "ZuneInterop";
+        internal const string WNDCLASS_MsnMsgrUIManager = "MsnMsgrUIManager";
+        internal const string WNDCLASS_ZuneTaskbarPlayerCommandDispatch = "ZuneTaskbarPlayerCommandDispatch";
 
         internal static readonly _GUID GUID_NULL = _GUID.Empty;
         internal static readonly _GUID GUID_IService = new("bb2d1edd-1bd5-4be1-8d38-36d4f0849911");
@@ -53,6 +54,11 @@ namespace ZuneDBApi
         internal static readonly _GUID GUID_IDownloadManager = new("399f851b-a600-4e88-90c3-03b8f2770076");
         internal static readonly _GUID GUID_IPassportIdentity = new("655b468c-1224-467d-b720-3bac7f99b6ba");
         internal static readonly _GUID GUID_UpdateProxy = new("9d21716a-ca61-4e24-a1ba-47b9e70e1e2c");
+        internal static readonly _GUID GUID_IEndpointHostManager = new("0a3d3343-00d9-4c61-9a86-2d778793e05f");
+        internal static readonly _GUID GUID_ITrayDeskband = new("f2d3efa4-12f4-466b-a41c-d9ec613ad509");
+
+        private static bool s_bIsLonghornOrBetter;
+        private static bool s_bIsLonghornOrBetterInitialized;
 
         internal static void _ZuneShipAssert(uint v1, uint v2)
         {
@@ -408,10 +414,10 @@ namespace ZuneDBApi
             Kernel32.LeaveCriticalSection(ref *lpCriticalSection);
         }
 
-        public static HICON* LoadCursorW(HINSTANCE* hInstance, ushort* lpCursorName)
+        public static HCURSOR* LoadCursorW(HINSTANCE* hInstance, ushort* lpCursorName)
         {
             var cur = User32.LoadCursor(*hInstance, new string((char*)lpCursorName));
-            return (HICON*)cur.DangerousGetHandle().ToPointer();
+            return (HCURSOR*)cur.DangerousGetHandle().ToPointer();
         }
 
         public static int LoadStringW(HINSTANCE* hInstance, uint uID, ushort* lpBuffer, int nBufferMax)

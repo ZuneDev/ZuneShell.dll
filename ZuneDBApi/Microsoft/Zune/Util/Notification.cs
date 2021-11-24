@@ -65,7 +65,7 @@ namespace Microsoft.Zune.Util
 
 		internal unsafe static void SendInstantMessengerMessage(tagCOPYDATASTRUCT* pcds)
 		{
-			fixed (char* textPtr = Module.WINDOWCLASS_MsnMsgrUIManager)
+			fixed (char* textPtr = Module.WNDCLASS_MsnMsgrUIManager)
             {
 				ushort* @class = (ushort*)textPtr;
 				ushort* window = null;// (ushort*)(&Module.??_C@_11LOCGONAA@?$AA?$AA@);

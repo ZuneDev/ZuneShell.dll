@@ -52,14 +52,13 @@ namespace Microsoft.Zune.Util
 						num2 = -2147024809;
 					}
 				}
-				CComPtrNtv_003CITelemetryManager_003E cComPtrNtv_003CITelemetryManager_003E;
-				*(long*)(&cComPtrNtv_003CITelemetryManager_003E) = 0L;
+				CComPtrNtv<ITelemetryManager> cComPtrNtv_003CITelemetryManager_003E = new();
 				try
 				{
-					if (Module.GetSingleton(Module.GUID_ITelemetryManager, (void**)(&cComPtrNtv_003CITelemetryManager_003E)) >= 0)
+					if (Module.GetSingleton(Module.GUID_ITelemetryManager, (void**)(cComPtrNtv_003CITelemetryManager_003E.p)) >= 0)
 					{
-						long num3 = *(long*)(*(ulong*)(&cComPtrNtv_003CITelemetryManager_003E)) + 48;
-						long num4 = *(long*)(&cComPtrNtv_003CITelemetryManager_003E);
+						long num3 = *(long*)(*(ulong*)(cComPtrNtv_003CITelemetryManager_003E.p)) + 48;
+						long num4 = *(long*)(cComPtrNtv_003CITelemetryManager_003E.p);
 						((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, tagSAFEARRAY*, tagSAFEARRAY*, int>)(*(ulong*)num3))((nint)num4, ptr3, ptr, ptr2);
 					}
 					if (ptr != null)
@@ -74,10 +73,10 @@ namespace Microsoft.Zune.Util
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CITelemetryManager_003E*, void>)(&Module.CComPtrNtv_003CITelemetryManager_003E_002E_007Bdtor_007D), &cComPtrNtv_003CITelemetryManager_003E);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ITelemetryManager*, void>)(&Module.CComPtrNtv_003CITelemetryManager_003E_002E_007Bdtor_007D), cComPtrNtv_003CITelemetryManager_003E.p);
 					throw;
 				}
-				Module.CComPtrNtv_003CITelemetryManager_003E_002ERelease(&cComPtrNtv_003CITelemetryManager_003E);
+				cComPtrNtv_003CITelemetryManager_003E.Dispose();
 			}
 		}
 
@@ -88,24 +87,23 @@ namespace Microsoft.Zune.Util
 			fixed (char* keyPtr = key.ToCharArray())
 			{
 				ushort* ptr = (ushort*)keyPtr;
-				CComPtrNtv_003CITelemetryManager_003E cComPtrNtv_003CITelemetryManager_003E;
-				*(long*)(&cComPtrNtv_003CITelemetryManager_003E) = 0L;
+				CComPtrNtv<ITelemetryManager> cComPtrNtv_003CITelemetryManager_003E = new();
 				try
 				{
-					if (Module.GetSingleton(Module.GUID_ITelemetryManager, (void**)(&cComPtrNtv_003CITelemetryManager_003E)) >= 0)
+					if (Module.GetSingleton(Module.GUID_ITelemetryManager, (void**)(cComPtrNtv_003CITelemetryManager_003E.p)) >= 0)
 					{
-						long num = *(long*)(*(ulong*)(&cComPtrNtv_003CITelemetryManager_003E)) + 64;
-						long num2 = *(long*)(&cComPtrNtv_003CITelemetryManager_003E);
+						long num = *(long*)(*(ulong*)(cComPtrNtv_003CITelemetryManager_003E.p)) + 64;
+						long num2 = *(long*)(cComPtrNtv_003CITelemetryManager_003E.p);
 						((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ETelemetryEvent, ushort*, int, int>)(*(ulong*)num))((nint)num2, evt, ptr, value);
 					}
 				}
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CITelemetryManager_003E*, void>)(&Module.CComPtrNtv_003CITelemetryManager_003E_002E_007Bdtor_007D), &cComPtrNtv_003CITelemetryManager_003E);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ITelemetryManager*, void>)(&Module.CComPtrNtv_003CITelemetryManager_003E_002E_007Bdtor_007D), cComPtrNtv_003CITelemetryManager_003E.p);
 					throw;
 				}
-				Module.CComPtrNtv_003CITelemetryManager_003E_002ERelease(&cComPtrNtv_003CITelemetryManager_003E);
+				cComPtrNtv_003CITelemetryManager_003E.Dispose();
 			}
 		}
 
@@ -116,24 +114,23 @@ namespace Microsoft.Zune.Util
 			fixed (char* eventParameterPtr = eventParameter.ToCharArray())
 			{
 				ushort* ptr = (ushort*)eventParameterPtr;
-				CComPtrNtv_003CITelemetryManager_003E cComPtrNtv_003CITelemetryManager_003E;
-				*(long*)(&cComPtrNtv_003CITelemetryManager_003E) = 0L;
+				CComPtrNtv<ITelemetryManager> cComPtrNtv_003CITelemetryManager_003E = new();
 				try
 				{
-					if (Module.GetSingleton(Module.GUID_ITelemetryManager, (void**)(&cComPtrNtv_003CITelemetryManager_003E)) >= 0)
+					if (Module.GetSingleton(Module.GUID_ITelemetryManager, (void**)(cComPtrNtv_003CITelemetryManager_003E.p)) >= 0)
 					{
-						long num = *(long*)(*(ulong*)(&cComPtrNtv_003CITelemetryManager_003E)) + 56;
-						long num2 = *(long*)(&cComPtrNtv_003CITelemetryManager_003E);
+						long num = *(long*)(*(ulong*)(cComPtrNtv_003CITelemetryManager_003E.p)) + 56;
+						long num2 = *(long*)(cComPtrNtv_003CITelemetryManager_003E.p);
 						((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ETelemetryEvent, ushort*, int>)(*(ulong*)num))((nint)num2, eEvent, ptr);
 					}
 				}
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CITelemetryManager_003E*, void>)(&Module.CComPtrNtv_003CITelemetryManager_003E_002E_007Bdtor_007D), &cComPtrNtv_003CITelemetryManager_003E);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ITelemetryManager*, void>)(&Module.CComPtrNtv_003CITelemetryManager_003E_002E_007Bdtor_007D), cComPtrNtv_003CITelemetryManager_003E.p);
 					throw;
 				}
-				Module.CComPtrNtv_003CITelemetryManager_003E_002ERelease(&cComPtrNtv_003CITelemetryManager_003E);
+				cComPtrNtv_003CITelemetryManager_003E.Dispose();
 			}
 		}
 	}

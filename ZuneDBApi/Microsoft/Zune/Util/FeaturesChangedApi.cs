@@ -112,26 +112,25 @@ namespace Microsoft.Zune.Util
 				throw;
 			}
 			num = ((0L != (nint)ptr2) ? (-2147024882) : num);
-			CComPtrNtv_003CIAsyncCallback_003E cComPtrNtv_003CIAsyncCallback_003E;
-			*(long*)(&cComPtrNtv_003CIAsyncCallback_003E) = 0L;
+			CComPtrNtv<IAsyncCallback> cComPtrNtv_003CIAsyncCallback_003E = new();
 			try
 			{
 				if (num >= 0)
 				{
-					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, void**, int>)(*(ulong*)(*(ulong*)ptr2)))((nint)ptr2, (_GUID*)Unsafe.AsPointer(ref Module._GUID_f5fcfd66_9e9a_436a_8b10_aeb4d6ce2b3d), (void**)(&cComPtrNtv_003CIAsyncCallback_003E));
+					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, void**, int>)(*(ulong*)(*(ulong*)ptr2)))((nint)ptr2, (_GUID*)Unsafe.AsPointer(ref Module._GUID_f5fcfd66_9e9a_436a_8b10_aeb4d6ce2b3d), (void**)(cComPtrNtv_003CIAsyncCallback_003E.p));
 					if (num >= 0)
 					{
-						m_spAsyncCallback.op_Assign((IAsyncCallback*)(*(ulong*)(&cComPtrNtv_003CIAsyncCallback_003E)));
+						m_spAsyncCallback.op_Assign((IAsyncCallback*)(*(ulong*)(cComPtrNtv_003CIAsyncCallback_003E.p)));
 					}
 				}
 			}
 			catch
 			{
 				//try-fault
-				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIAsyncCallback_003E*, void>)(&Module.CComPtrNtv_003CIAsyncCallback_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIAsyncCallback_003E);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IAsyncCallback*, void>)(&Module.CComPtrNtv_003CIAsyncCallback_003E_002E_007Bdtor_007D), cComPtrNtv_003CIAsyncCallback_003E.p);
 				throw;
 			}
-			Module.CComPtrNtv_003CIAsyncCallback_003E_002ERelease(&cComPtrNtv_003CIAsyncCallback_003E);
+			cComPtrNtv_003CIAsyncCallback_003E.Dispose();
 			return num;
 		}
 

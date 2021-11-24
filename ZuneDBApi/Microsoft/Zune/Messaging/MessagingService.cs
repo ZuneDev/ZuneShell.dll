@@ -216,14 +216,13 @@ namespace Microsoft.Zune.Messaging
 			bool result = false;
 			if (m_pMessaging != null)
 			{
-				CComPtrNtv_003CIMessagingCallback_003E cComPtrNtv_003CIMessagingCallback_003E;
-				*(long*)(&cComPtrNtv_003CIMessagingCallback_003E) = 0L;
+				CComPtrNtv<IMessagingCallback> cComPtrNtv_003CIMessagingCallback_003E = new();
 				try
 				{
 					int num;
 					if (callback != null)
 					{
-						num = Module.Microsoft_002EZune_002EMessaging_002EAddCommentCallbackWrapper_002ECreateInstance(callback, (IMessagingCallback**)(&cComPtrNtv_003CIMessagingCallback_003E));
+						num = Module.Microsoft_002EZune_002EMessaging_002EAddCommentCallbackWrapper_002ECreateInstance(callback, (IMessagingCallback**)(cComPtrNtv_003CIMessagingCallback_003E.p));
 						if (num < 0)
 						{
 							goto IL_0086;
@@ -249,7 +248,7 @@ namespace Microsoft.Zune.Messaging
 											_003F val = ptr;
 											_003F val2 = ptr2;
 											_003F val3 = ptr3;
-											long num3 = *(long*)(&cComPtrNtv_003CIMessagingCallback_003E);
+											long num3 = *(long*)(cComPtrNtv_003CIMessagingCallback_003E.p);
 											num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, ushort*, ushort*, IMessagingCallback*, int>)(*(ulong*)num2))((nint)pMessaging, (ushort*)(nint)val, (ushort*)(nint)val2, (ushort*)(nint)val3, (IMessagingCallback*)num3);
 										}
 										catch
@@ -292,10 +291,10 @@ namespace Microsoft.Zune.Messaging
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIMessagingCallback_003E*, void>)(&Module.CComPtrNtv_003CIMessagingCallback_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIMessagingCallback_003E);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IMessagingCallback*, void>)(&Module.CComPtrNtv_003CIMessagingCallback_003E_002E_007Bdtor_007D), cComPtrNtv_003CIMessagingCallback_003E.p);
 					throw;
 				}
-				Module.CComPtrNtv_003CIMessagingCallback_003E_002ERelease(&cComPtrNtv_003CIMessagingCallback_003E);
+				cComPtrNtv_003CIMessagingCallback_003E.Dispose();
 			}
 			return result;
 		}
@@ -308,14 +307,13 @@ namespace Microsoft.Zune.Messaging
 			bool result = false;
 			if (m_pMessaging != null)
 			{
-				CComPtrNtv_003CIMessagingCallback_003E cComPtrNtv_003CIMessagingCallback_003E;
-				*(long*)(&cComPtrNtv_003CIMessagingCallback_003E) = 0L;
+				CComPtrNtv<IMessagingCallback> cComPtrNtv_003CIMessagingCallback_003E = new();
 				try
 				{
 					int num;
 					if (callback != null)
 					{
-						num = Module.Microsoft_002EZune_002EMessaging_002EMessagingCallbackWrapper_002ECreateInstance(callback, null, (IMessagingCallback**)(&cComPtrNtv_003CIMessagingCallback_003E));
+						num = Module.Microsoft_002EZune_002EMessaging_002EMessagingCallbackWrapper_002ECreateInstance(callback, null, (IMessagingCallback**)(cComPtrNtv_003CIMessagingCallback_003E.p));
 						if (num < 0)
 						{
 							goto IL_0073;
@@ -335,7 +333,7 @@ namespace Microsoft.Zune.Messaging
 									IZuneNetMessaging* pMessaging = m_pMessaging;
 									_003F val = ptr;
 									_003F val2 = ptr2;
-									long num3 = *(long*)(&cComPtrNtv_003CIMessagingCallback_003E);
+									long num3 = *(long*)(cComPtrNtv_003CIMessagingCallback_003E.p);
 									num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, ushort*, IMessagingCallback*, int>)(*(ulong*)num2))((nint)pMessaging, (ushort*)(nint)val, (ushort*)(nint)val2, (IMessagingCallback*)num3);
 								}
 								catch
@@ -370,10 +368,10 @@ namespace Microsoft.Zune.Messaging
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIMessagingCallback_003E*, void>)(&Module.CComPtrNtv_003CIMessagingCallback_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIMessagingCallback_003E);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IMessagingCallback*, void>)(&Module.CComPtrNtv_003CIMessagingCallback_003E_002E_007Bdtor_007D), cComPtrNtv_003CIMessagingCallback_003E.p);
 					throw;
 				}
-				Module.CComPtrNtv_003CIMessagingCallback_003E_002ERelease(&cComPtrNtv_003CIMessagingCallback_003E);
+				cComPtrNtv_003CIMessagingCallback_003E.Dispose();
 			}
 			return result;
 		}
@@ -493,14 +491,13 @@ namespace Microsoft.Zune.Messaging
 			bool result = false;
 			if (m_pMessaging != null)
 			{
-				CComPtrNtv_003CIMessagingCallback_003E cComPtrNtv_003CIMessagingCallback_003E;
-				*(long*)(&cComPtrNtv_003CIMessagingCallback_003E) = 0L;
+				CComPtrNtv<IMessagingCallback> cComPtrNtv_003CIMessagingCallback_003E = new();
 				try
 				{
 					int num;
 					if (callback != null)
 					{
-						num = Module.Microsoft_002EZune_002EMessaging_002EMessagingCallbackWrapper_002ECreateInstance(callback, state, (IMessagingCallback**)(&cComPtrNtv_003CIMessagingCallback_003E));
+						num = Module.Microsoft_002EZune_002EMessaging_002EMessagingCallbackWrapper_002ECreateInstance(callback, state, (IMessagingCallback**)(cComPtrNtv_003CIMessagingCallback_003E.p));
 						if (num < 0)
 						{
 							goto IL_0074;
@@ -520,7 +517,7 @@ namespace Microsoft.Zune.Messaging
 									IZuneNetMessaging* pMessaging = m_pMessaging;
 									_003F val = ptr;
 									_003F val2 = ptr2;
-									long num3 = *(long*)(&cComPtrNtv_003CIMessagingCallback_003E);
+									long num3 = *(long*)(cComPtrNtv_003CIMessagingCallback_003E.p);
 									num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, ushort*, IMessagingCallback*, int>)(*(ulong*)num2))((nint)pMessaging, (ushort*)(nint)val, (ushort*)(nint)val2, (IMessagingCallback*)num3);
 								}
 								catch
@@ -555,10 +552,10 @@ namespace Microsoft.Zune.Messaging
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIMessagingCallback_003E*, void>)(&Module.CComPtrNtv_003CIMessagingCallback_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIMessagingCallback_003E);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IMessagingCallback*, void>)(&Module.CComPtrNtv_003CIMessagingCallback_003E_002E_007Bdtor_007D), cComPtrNtv_003CIMessagingCallback_003E.p);
 					throw;
 				}
-				Module.CComPtrNtv_003CIMessagingCallback_003E_002ERelease(&cComPtrNtv_003CIMessagingCallback_003E);
+				cComPtrNtv_003CIMessagingCallback_003E.Dispose();
 			}
 			return result;
 		}
@@ -723,14 +720,13 @@ namespace Microsoft.Zune.Messaging
 			bool result = false;
 			if (m_pMessaging != null && strProfileImageResource != null && strProfileImageUrl != null)
 			{
-				CComPtrNtv_003CIMessagingCallback_003E cComPtrNtv_003CIMessagingCallback_003E;
-				*(long*)(&cComPtrNtv_003CIMessagingCallback_003E) = 0L;
+				CComPtrNtv<IMessagingCallback> cComPtrNtv_003CIMessagingCallback_003E = new();
 				try
 				{
 					int num;
 					if (callback != null)
 					{
-						num = Module.Microsoft_002EZune_002EMessaging_002EMessagingCallbackWrapper_002ECreateInstance(callback, state, (IMessagingCallback**)(&cComPtrNtv_003CIMessagingCallback_003E));
+						num = Module.Microsoft_002EZune_002EMessaging_002EMessagingCallbackWrapper_002ECreateInstance(callback, state, (IMessagingCallback**)(cComPtrNtv_003CIMessagingCallback_003E.p));
 						if (num < 0)
 						{
 							goto IL_008c;
@@ -750,7 +746,7 @@ namespace Microsoft.Zune.Messaging
 									IZuneNetMessaging* pMessaging = m_pMessaging;
 									_003F val = ptr;
 									_003F val2 = ptr2;
-									long num3 = *(long*)(&cComPtrNtv_003CIMessagingCallback_003E);
+									long num3 = *(long*)(cComPtrNtv_003CIMessagingCallback_003E.p);
 									num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, ushort*, IMessagingCallback*, int>)(*(ulong*)num2))((nint)pMessaging, (ushort*)(nint)val, (ushort*)(nint)val2, (IMessagingCallback*)num3);
 								}
 								catch
@@ -785,10 +781,10 @@ namespace Microsoft.Zune.Messaging
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIMessagingCallback_003E*, void>)(&Module.CComPtrNtv_003CIMessagingCallback_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIMessagingCallback_003E);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IMessagingCallback*, void>)(&Module.CComPtrNtv_003CIMessagingCallback_003E_002E_007Bdtor_007D), cComPtrNtv_003CIMessagingCallback_003E.p);
 					throw;
 				}
-				Module.CComPtrNtv_003CIMessagingCallback_003E_002ERelease(&cComPtrNtv_003CIMessagingCallback_003E);
+				cComPtrNtv_003CIMessagingCallback_003E.Dispose();
 			}
 			return result;
 		}
@@ -803,13 +799,12 @@ namespace Microsoft.Zune.Messaging
 			if (m_pMessaging != null && profileImage != null && strProfileImageUrl != null)
 			{
 				int num = 0;
-				CComPtrNtv_003CIMessagingCallback_003E cComPtrNtv_003CIMessagingCallback_003E;
-				*(long*)(&cComPtrNtv_003CIMessagingCallback_003E) = 0L;
+				CComPtrNtv<IMessagingCallback> cComPtrNtv_003CIMessagingCallback_003E = new();
 				try
 				{
 					if (callback != null)
 					{
-						num = Module.Microsoft_002EZune_002EMessaging_002EMessagingCallbackWrapper_002ECreateInstance(callback, state, (IMessagingCallback**)(&cComPtrNtv_003CIMessagingCallback_003E));
+						num = Module.Microsoft_002EZune_002EMessaging_002EMessagingCallbackWrapper_002ECreateInstance(callback, state, (IMessagingCallback**)(cComPtrNtv_003CIMessagingCallback_003E.p));
 					}
 					bool success = false;
 					int num4;
@@ -828,7 +823,7 @@ namespace Microsoft.Zune.Messaging
 									long num2 = *(long*)m_pMessaging + 104;
 									IZuneNetMessaging* pMessaging = m_pMessaging;
 									_003F val = ptr2;
-									long num3 = *(long*)(&cComPtrNtv_003CIMessagingCallback_003E);
+									long num3 = *(long*)(cComPtrNtv_003CIMessagingCallback_003E.p);
 									num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, HBITMAP*, IMessagingCallback*, int>)(*(ulong*)num2))((nint)pMessaging, (ushort*)(nint)val, ptr, (IMessagingCallback*)num3);
 								}
 								catch
@@ -857,10 +852,10 @@ namespace Microsoft.Zune.Messaging
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIMessagingCallback_003E*, void>)(&Module.CComPtrNtv_003CIMessagingCallback_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIMessagingCallback_003E);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IMessagingCallback*, void>)(&Module.CComPtrNtv_003CIMessagingCallback_003E_002E_007Bdtor_007D), cComPtrNtv_003CIMessagingCallback_003E.p);
 					throw;
 				}
-				Module.CComPtrNtv_003CIMessagingCallback_003E_002ERelease(&cComPtrNtv_003CIMessagingCallback_003E);
+				cComPtrNtv_003CIMessagingCallback_003E.Dispose();
 			}
 			return result;
 		}

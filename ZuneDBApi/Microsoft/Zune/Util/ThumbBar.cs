@@ -17,21 +17,20 @@ namespace Microsoft.Zune.Util
 				button = null;
 				return -2147418113;
 			}
-			CComPtrNtv_003CIThumbBarButton_003E cComPtrNtv_003CIThumbBarButton_003E;
-			*(long*)(&cComPtrNtv_003CIThumbBarButton_003E) = 0L;
+			CComPtrNtv<IThumbBarButton> cComPtrNtv_003CIThumbBarButton_003E = new();
 			try
 			{
 				IThumbBar* p = m_spThumbBar.p;
-				((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, IThumbBarButton**, int>)(*(ulong*)(*(long*)p + 24)))((nint)p, (IThumbBarButton**)(&cComPtrNtv_003CIThumbBarButton_003E));
-				button = new ThumbBarButton((IThumbBarButton*)(*(ulong*)(&cComPtrNtv_003CIThumbBarButton_003E)));
+				((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, IThumbBarButton**, int>)(*(ulong*)(*(long*)p + 24)))((nint)p, (IThumbBarButton**)(cComPtrNtv_003CIThumbBarButton_003E.p));
+				button = new ThumbBarButton((IThumbBarButton*)(*(ulong*)(cComPtrNtv_003CIThumbBarButton_003E.p)));
 			}
 			catch
 			{
 				//try-fault
-				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIThumbBarButton_003E*, void>)(&Module.CComPtrNtv_003CIThumbBarButton_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIThumbBarButton_003E);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IThumbBarButton*, void>)(&Module.CComPtrNtv_003CIThumbBarButton_003E_002E_007Bdtor_007D), cComPtrNtv_003CIThumbBarButton_003E.p);
 				throw;
 			}
-			Module.CComPtrNtv_003CIThumbBarButton_003E_002ERelease(&cComPtrNtv_003CIThumbBarButton_003E);
+			cComPtrNtv_003CIThumbBarButton_003E.Dispose();
 			return 0;
 		}
 

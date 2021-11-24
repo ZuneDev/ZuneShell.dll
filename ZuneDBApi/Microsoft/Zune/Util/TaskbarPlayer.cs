@@ -46,8 +46,9 @@ namespace Microsoft.Zune.Util
 		private static object sm_lock = new object();
 
 		private static TaskbarPlayer sm_taskbarPlayer = null;
+        private CComPtrNtv<ITrayDeskBand> s_spTrayDeskBand;
 
-		public Size RestoreSize => m_restoreSize;
+        public Size RestoreSize => m_restoreSize;
 
 		public Point RestorePosition => m_restorePosition;
 
@@ -116,14 +117,14 @@ namespace Microsoft.Zune.Util
 				//IL_004b: Expected I, but got I8
 				//IL_004b: Expected I, but got I8
 				bool result = false;
-				if (Unsafe.As<CComPtrNtv_003CMicrosoft_003A_003AZune_003A_003AUtil_003A_003AITrayDeskBand_003E, long>(ref Module.Microsoft_002EZune_002EUtil_002E_003FA0x0277dc26_002Es_spTrayDeskBand) == 0)
+				if (!s_spTrayDeskBand)
 				{
-					Module.CoCreateInstance(Module.CLSID_TrayDeskBand, null, 4u, Module.IID_ITrayDeskBand, (void**)Unsafe.AsPointer(ref Module.Microsoft_002EZune_002EUtil_002E_003FA0x0277dc26_002Es_spTrayDeskBand));
+					Module.CoCreateInstance(Module.CLSID_TrayDeskBand, null, 4u, Module.IID_ITrayDeskBand, (void**)Unsafe.AsPointer(ref s_spTrayDeskBand));
 				}
-				if (Unsafe.As<CComPtrNtv_003CMicrosoft_003A_003AZune_003A_003AUtil_003A_003AITrayDeskBand_003E, long>(ref Module.Microsoft_002EZune_002EUtil_002E_003FA0x0277dc26_002Es_spTrayDeskBand) != 0L)
+				else
 				{
-					long microsoft_002EZune_002EUtil_002E_003FA0x0277dc26_002Es_spTrayDeskBand = Unsafe.As<CComPtrNtv_003CMicrosoft_003A_003AZune_003A_003AUtil_003A_003AITrayDeskBand_003E, long>(ref Module.Microsoft_002EZune_002EUtil_002E_003FA0x0277dc26_002Es_spTrayDeskBand);
-					result = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, int>)(*(ulong*)(*(long*)Unsafe.As<CComPtrNtv_003CMicrosoft_003A_003AZune_003A_003AUtil_003A_003AITrayDeskBand_003E, ulong>(ref Module.Microsoft_002EZune_002EUtil_002E_003FA0x0277dc26_002Es_spTrayDeskBand) + 40)))((nint)microsoft_002EZune_002EUtil_002E_003FA0x0277dc26_002Es_spTrayDeskBand, (_GUID*)Unsafe.AsPointer(ref Module._GUID_f2d3efa4_12f4_466b_a41c_d9ec613ad509)) == 0;
+					long microsoft_002EZune_002EUtil_002E_003FA0x0277dc26_002Es_spTrayDeskBand = Unsafe.As<CComPtrNtv<ITrayDeskBand>, long>(ref s_spTrayDeskBand);
+					result = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, int>)(*(ulong*)(*(long*)Unsafe.As<CComPtrNtv<ITrayDeskBand>, ulong>(ref s_spTrayDeskBand) + 40)))((nint)microsoft_002EZune_002EUtil_002E_003FA0x0277dc26_002Es_spTrayDeskBand, (_GUID*)Unsafe.AsPointer(ref Module.GUID_ITrayDeskband)) == 0;
 				}
 				return result;
 			}
@@ -139,26 +140,26 @@ namespace Microsoft.Zune.Util
 				//IL_0083: Expected I, but got I8
 				//IL_009b: Expected I, but got I8
 				//IL_009b: Expected I, but got I8
-				if (Unsafe.As<CComPtrNtv_003CMicrosoft_003A_003AZune_003A_003AUtil_003A_003AITrayDeskBand_003E, long>(ref Module.Microsoft_002EZune_002EUtil_002E_003FA0x0277dc26_002Es_spTrayDeskBand) == 0)
+				if (!s_spTrayDeskBand)
 				{
-					Module.CoCreateInstance(Module.CLSID_TrayDeskBand, null, 4u, Module.IID_ITrayDeskBand, (void**)Unsafe.AsPointer(ref Module.Microsoft_002EZune_002EUtil_002E_003FA0x0277dc26_002Es_spTrayDeskBand));
+					Module.CoCreateInstance(Module.CLSID_TrayDeskBand, null, 4u, Module.IID_ITrayDeskBand, (void**)Unsafe.AsPointer(ref s_spTrayDeskBand));
 				}
-				if (Unsafe.As<CComPtrNtv_003CMicrosoft_003A_003AZune_003A_003AUtil_003A_003AITrayDeskBand_003E, long>(ref Module.Microsoft_002EZune_002EUtil_002E_003FA0x0277dc26_002Es_spTrayDeskBand) != 0L)
+				else
 				{
-					long microsoft_002EZune_002EUtil_002E_003FA0x0277dc26_002Es_spTrayDeskBand = Unsafe.As<CComPtrNtv_003CMicrosoft_003A_003AZune_003A_003AUtil_003A_003AITrayDeskBand_003E, long>(ref Module.Microsoft_002EZune_002EUtil_002E_003FA0x0277dc26_002Es_spTrayDeskBand);
-					((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)Unsafe.As<CComPtrNtv_003CMicrosoft_003A_003AZune_003A_003AUtil_003A_003AITrayDeskBand_003E, ulong>(ref Module.Microsoft_002EZune_002EUtil_002E_003FA0x0277dc26_002Es_spTrayDeskBand) + 48)))((nint)microsoft_002EZune_002EUtil_002E_003FA0x0277dc26_002Es_spTrayDeskBand);
+					long microsoft_002EZune_002EUtil_002E_003FA0x0277dc26_002Es_spTrayDeskBand = Unsafe.As<CComPtrNtv<ITrayDeskBand>, long>(ref s_spTrayDeskBand);
+					((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)Unsafe.As<CComPtrNtv<ITrayDeskBand>, ulong>(ref s_spTrayDeskBand) + 48)))((nint)microsoft_002EZune_002EUtil_002E_003FA0x0277dc26_002Es_spTrayDeskBand);
 					if (value)
 					{
-						long microsoft_002EZune_002EUtil_002E_003FA0x0277dc26_002Es_spTrayDeskBand2 = Unsafe.As<CComPtrNtv_003CMicrosoft_003A_003AZune_003A_003AUtil_003A_003AITrayDeskBand_003E, long>(ref Module.Microsoft_002EZune_002EUtil_002E_003FA0x0277dc26_002Es_spTrayDeskBand);
-						((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, int>)(*(ulong*)(*(long*)Unsafe.As<CComPtrNtv_003CMicrosoft_003A_003AZune_003A_003AUtil_003A_003AITrayDeskBand_003E, ulong>(ref Module.Microsoft_002EZune_002EUtil_002E_003FA0x0277dc26_002Es_spTrayDeskBand) + 24)))((nint)microsoft_002EZune_002EUtil_002E_003FA0x0277dc26_002Es_spTrayDeskBand2, (_GUID*)Unsafe.AsPointer(ref Module._GUID_f2d3efa4_12f4_466b_a41c_d9ec613ad509));
+						long microsoft_002EZune_002EUtil_002E_003FA0x0277dc26_002Es_spTrayDeskBand2 = Unsafe.As<CComPtrNtv<ITrayDeskBand>, long>(ref s_spTrayDeskBand);
+						((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, int>)(*(ulong*)(*(long*)Unsafe.As<CComPtrNtv<ITrayDeskBand>, ulong>(ref s_spTrayDeskBand) + 24)))((nint)microsoft_002EZune_002EUtil_002E_003FA0x0277dc26_002Es_spTrayDeskBand2, (_GUID*)Unsafe.AsPointer(ref Module.GUID_ITrayDeskband));
 					}
 					else
 					{
-						long microsoft_002EZune_002EUtil_002E_003FA0x0277dc26_002Es_spTrayDeskBand3 = Unsafe.As<CComPtrNtv_003CMicrosoft_003A_003AZune_003A_003AUtil_003A_003AITrayDeskBand_003E, long>(ref Module.Microsoft_002EZune_002EUtil_002E_003FA0x0277dc26_002Es_spTrayDeskBand);
-						((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, int>)(*(ulong*)(*(long*)Unsafe.As<CComPtrNtv_003CMicrosoft_003A_003AZune_003A_003AUtil_003A_003AITrayDeskBand_003E, ulong>(ref Module.Microsoft_002EZune_002EUtil_002E_003FA0x0277dc26_002Es_spTrayDeskBand) + 32)))((nint)microsoft_002EZune_002EUtil_002E_003FA0x0277dc26_002Es_spTrayDeskBand3, (_GUID*)Unsafe.AsPointer(ref Module._GUID_f2d3efa4_12f4_466b_a41c_d9ec613ad509));
+						long microsoft_002EZune_002EUtil_002E_003FA0x0277dc26_002Es_spTrayDeskBand3 = Unsafe.As<CComPtrNtv<ITrayDeskBand>, long>(ref s_spTrayDeskBand);
+						((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, int>)(*(ulong*)(*(long*)Unsafe.As<CComPtrNtv<ITrayDeskBand>, ulong>(ref s_spTrayDeskBand) + 32)))((nint)microsoft_002EZune_002EUtil_002E_003FA0x0277dc26_002Es_spTrayDeskBand3, (_GUID*)Unsafe.AsPointer(ref Module.GUID_ITrayDeskband));
 					}
-					long microsoft_002EZune_002EUtil_002E_003FA0x0277dc26_002Es_spTrayDeskBand4 = Unsafe.As<CComPtrNtv_003CMicrosoft_003A_003AZune_003A_003AUtil_003A_003AITrayDeskBand_003E, long>(ref Module.Microsoft_002EZune_002EUtil_002E_003FA0x0277dc26_002Es_spTrayDeskBand);
-					((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)Unsafe.As<CComPtrNtv_003CMicrosoft_003A_003AZune_003A_003AUtil_003A_003AITrayDeskBand_003E, ulong>(ref Module.Microsoft_002EZune_002EUtil_002E_003FA0x0277dc26_002Es_spTrayDeskBand) + 48)))((nint)microsoft_002EZune_002EUtil_002E_003FA0x0277dc26_002Es_spTrayDeskBand4);
+					long microsoft_002EZune_002EUtil_002E_003FA0x0277dc26_002Es_spTrayDeskBand4 = Unsafe.As<CComPtrNtv<ITrayDeskBand>, long>(ref s_spTrayDeskBand);
+					((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)Unsafe.As<CComPtrNtv<ITrayDeskBand>, ulong>(ref s_spTrayDeskBand) + 48)))((nint)microsoft_002EZune_002EUtil_002E_003FA0x0277dc26_002Es_spTrayDeskBand4);
 				}
 			}
 		}
@@ -184,28 +185,22 @@ namespace Microsoft.Zune.Util
 						HMONITOR* ptr = Module.MonitorFromWindow(m_hWndFrame, 2u);
 						if (ptr != null)
 						{
-							MONITORINFO tagMONITORINFO;
-                            // IL initblk instruction
-                            Unsafe.InitBlockUnaligned(ref Module.AddByteOffset(ref tagMONITORINFO, 4), 0, 36);
-							*(int*)(&tagMONITORINFO) = 40;
-							WINDOWPLACEMENT tagWINDOWPLACEMENT;
-                            // IL initblk instruction
-                            Unsafe.InitBlockUnaligned(ref Module.AddByteOffset(ref tagWINDOWPLACEMENT, 4), 0, 40);
-							*(int*)(&tagWINDOWPLACEMENT) = 44;
+							MONITORINFO tagMONITORINFO = new() { cbSize = 40 };
+							WINDOWPLACEMENT tagWINDOWPLACEMENT = new() { length = 44 };
 							if (Module.GetMonitorInfoW(ptr, &tagMONITORINFO) != 0 && Module.GetWindowPlacement(m_hWndFrame, &tagWINDOWPLACEMENT) != 0)
 							{
-								WindowState windowState2 = (RestoreState = Unsafe.As<WINDOWPLACEMENT, WindowState>(ref Module.AddByteOffset(ref tagWINDOWPLACEMENT, 4)) & WindowState.Maximized);
-								Module.OffsetRect((RECT*)Unsafe.AsPointer(ref Module.AddByteOffset(ref tagWINDOWPLACEMENT, 28)), Unsafe.As<MONITORINFO, int>(ref Module.AddByteOffset(ref tagMONITORINFO, 20)), Unsafe.As<MONITORINFO, int>(ref Module.AddByteOffset(ref tagMONITORINFO, 24)));
+								RestoreState = Unsafe.As<WindowPlacementFlags, WindowState>(ref tagWINDOWPLACEMENT.flags) & WindowState.Maximized;
+								Module.OffsetRect(&tagWINDOWPLACEMENT.rcNormalPosition, tagMONITORINFO.rcWork.left, tagMONITORINFO.rcWork.top);
 								RECT tagRECT;
-								if (Module.IntersectRect(&tagRECT, (RECT*)Unsafe.AsPointer(ref Module.AddByteOffset(ref tagWINDOWPLACEMENT, 28)), (RECT*)Unsafe.AsPointer(ref Module.AddByteOffset(ref tagMONITORINFO, 20))) == 0)
+								if (Module.IntersectRect(&tagRECT, &tagWINDOWPLACEMENT.rcNormalPosition, &tagMONITORINFO.rcWork) == 0)
 								{
-									Module.CopyRect((RECT*)Unsafe.AsPointer(ref Module.AddByteOffset(ref tagWINDOWPLACEMENT, 28)), (RECT*)Unsafe.AsPointer(ref Module.AddByteOffset(ref tagMONITORINFO, 20)));
-									Module.InflateRect((RECT*)Unsafe.AsPointer(ref Module.AddByteOffset(ref tagWINDOWPLACEMENT, 28)), -100, -100);
+									Module.CopyRect(&tagWINDOWPLACEMENT.rcNormalPosition, &tagMONITORINFO.rcWork);
+									Module.InflateRect(&tagWINDOWPLACEMENT.rcNormalPosition, -100, -100);
 								}
-								RestorePosition.X = Unsafe.As<WINDOWPLACEMENT, int>(ref Module.AddByteOffset(ref tagWINDOWPLACEMENT, 28));
-								RestorePosition.Y = Unsafe.As<WINDOWPLACEMENT, int>(ref Module.AddByteOffset(ref tagWINDOWPLACEMENT, 32));
-								RestoreSize.Width = Unsafe.As<WINDOWPLACEMENT, int>(ref Module.AddByteOffset(ref tagWINDOWPLACEMENT, 36)) - Unsafe.As<WINDOWPLACEMENT, int>(ref Module.AddByteOffset(ref tagWINDOWPLACEMENT, 28));
-								RestoreSize.Height = Unsafe.As<WINDOWPLACEMENT, int>(ref Module.AddByteOffset(ref tagWINDOWPLACEMENT, 40)) - Unsafe.As<WINDOWPLACEMENT, int>(ref Module.AddByteOffset(ref tagWINDOWPLACEMENT, 32));
+								RestorePosition.X = tagWINDOWPLACEMENT.rcNormalPosition.left;
+								RestorePosition.Y = tagWINDOWPLACEMENT.rcNormalPosition.top;
+								RestoreSize.Width = tagWINDOWPLACEMENT.rcNormalPosition.right - tagWINDOWPLACEMENT.rcNormalPosition.left;
+								RestoreSize.Height = tagWINDOWPLACEMENT.rcNormalPosition.bottom - tagWINDOWPLACEMENT.rcNormalPosition.top;
 							}
 						}
 					}
@@ -255,23 +250,21 @@ namespace Microsoft.Zune.Util
 				m_hWndFrame = (HWND*)hWndFrame.ToPointer();
 				m_commandHandler = commandHandler;
 				Module.gcroot_003CMicrosoft_003A_003AZune_003A_003AUtil_003A_003ATaskbarPlayer_0020_005E_003E_002E_003D((gcroot_003CMicrosoft_003A_003AZune_003A_003AUtil_003A_003ATaskbarPlayer_0020_005E_003E*)Unsafe.AsPointer(ref Module.Microsoft_002EZune_002EUtil_002Esm_gcTaskbarPlayer), this);
-				m_uTaskbarPlayerStateMsg = Module.RegisterWindowMessageW((ushort*)Unsafe.AsPointer(ref Module._003F_003F_C_0040_1DE_0040LJLIMGOK_0040_003F_0024AAZ_003F_0024AAu_003F_0024AAn_003F_0024AAe_003F_0024AAT_003F_0024AAa_003F_0024AAs_003F_0024AAk_003F_0024AAb_003F_0024AAa_003F_0024AAr_003F_0024AAP_003F_0024AAl_003F_0024AAa_003F_0024AAy_003F_0024AAe_003F_0024AAr_003F_0024AAS_003F_0024AAt_003F_0024AAa_003F_0024AAt_003F_0024AAe_003F_0024AAM_003F_0024AAs_003F_0024AAg_003F_0024AA_003F_0024AA_0040));
-				m_uTaskbarPlayerCommandMsg = Module.RegisterWindowMessageW((ushort*)Unsafe.AsPointer(ref Module._003F_003F_C_0040_1DI_0040BOCHIFKJ_0040_003F_0024AAZ_003F_0024AAu_003F_0024AAn_003F_0024AAe_003F_0024AAT_003F_0024AAa_003F_0024AAs_003F_0024AAk_003F_0024AAb_003F_0024AAa_003F_0024AAr_003F_0024AAP_003F_0024AAl_003F_0024AAa_003F_0024AAy_003F_0024AAe_003F_0024AAr_003F_0024AAC_003F_0024AAo_003F_0024AAm_003F_0024AAm_003F_0024AAa_003F_0024AAn_003F_0024AAd_003F_0024AAM_003F_0024AAs_003F_0024AAg_003F_0024AA_003F_0024AA_0040));
+				m_uTaskbarPlayerStateMsg = RegisterWindowMessage(Module.WNDMSG_ZuneTaskbarPlayerStateMsg);
+				m_uTaskbarPlayerCommandMsg = RegisterWindowMessage(Module.WNDMSG_ZuneTaskbarPlayerCommandMsg);
 				HINSTANCE* ptr = (HINSTANCE*)Module.GetWindowLongPtrW(m_hWndFrame, -6);
-				WNDCLASS tagWNDCLASSW = default;
-                // IL initblk instruction
-                Unsafe.InitBlock(ref Module.AddByteOffset(ref tagWNDCLASSW, 8), 0, 64);
-				if (Module.GetClassInfoW(ptr, (ushort*)Unsafe.AsPointer(ref Module._003F_003F_C_0040_1EG_0040LILHHEEP_0040_003F_0024AAZ_003F_0024AAu_003F_0024AAn_003F_0024AAe_003F_0024AAT_003F_0024AAa_003F_0024AAs_003F_0024AAk_003F_0024AAb_003F_0024AAa_003F_0024AAr_003F_0024AAP_003F_0024AAl_003F_0024AAa_003F_0024AAy_003F_0024AAe_003F_0024AAr_003F_0024AAC_003F_0024AAo_003F_0024AAm_003F_0024AAm_003F_0024AAa_003F_0024AAn_003F_0024AAd_003F_0024AAD_003F_0024AAi_003F_0024AAs_003F_0024AAp_003F_0024AAa_003F_0024AAt_003F_0024AAc_003F_0024AAh_0040), ref tagWNDCLASSW) == 0)
+				WNDCLASS tagWNDCLASSW = new();
+				if (!GetClassInfo(*ptr, Module.WNDCLASS_ZuneTaskbarPlayerCommandDispatch, out tagWNDCLASSW))
 				{
-					*(int*)(&tagWNDCLASSW) = 512;
-                    Unsafe.As<WNDCLASS, long>(ref Module.AddByteOffset(ref tagWNDCLASSW, 8)) = (nint)Module.__unep_0040_003FCommandDispatcherWindowProc_0040Util_0040Zune_0040Microsoft_0040_0040_0024_0024FYA_JPEAUHWND___0040_0040I_K_J_0040Z;
-                    Unsafe.As<WNDCLASS, long>(ref Module.AddByteOffset(ref tagWNDCLASSW, 24)) = (nint)ptr;
-                    Unsafe.As<WNDCLASS, long>(ref Module.AddByteOffset(ref tagWNDCLASSW, 40)) = (nint)Module.LoadCursorW(null, (ushort*)32514);
-                    Unsafe.As<WNDCLASS, long>(ref Module.AddByteOffset(ref tagWNDCLASSW, 48)) = 1L;
-                    Unsafe.As<WNDCLASS, long>(ref Module.AddByteOffset(ref tagWNDCLASSW, 64)) = (nint)Unsafe.AsPointer(ref Module._003F_003F_C_0040_1EG_0040LILHHEEP_0040_003F_0024AAZ_003F_0024AAu_003F_0024AAn_003F_0024AAe_003F_0024AAT_003F_0024AAa_003F_0024AAs_003F_0024AAk_003F_0024AAb_003F_0024AAa_003F_0024AAr_003F_0024AAP_003F_0024AAl_003F_0024AAa_003F_0024AAy_003F_0024AAe_003F_0024AAr_003F_0024AAC_003F_0024AAo_003F_0024AAm_003F_0024AAm_003F_0024AAa_003F_0024AAn_003F_0024AAd_003F_0024AAD_003F_0024AAi_003F_0024AAs_003F_0024AAp_003F_0024AAa_003F_0024AAt_003F_0024AAc_003F_0024AAh_0040);
-					Module.RegisterClassW(&tagWNDCLASSW);
+					tagWNDCLASSW.style = WindowClassStyles.CS_NOCLOSE;
+					tagWNDCLASSW.lpfnWndProc = (nint)Module.__unep_0040_003FCommandDispatcherWindowProc_0040Util_0040Zune_0040Microsoft_0040_0040_0024_0024FYA_JPEAUHWND___0040_0040I_K_J_0040Z;
+					tagWNDCLASSW.hInstance = *ptr;
+					tagWNDCLASSW.hCursor = *Module.LoadCursorW(null, (ushort*)32514);
+					tagWNDCLASSW.hbrBackground = GetSysColorBrush(SystemColorIndex.COLOR_BACKGROUND);
+					RegisterClass(tagWNDCLASSW);
 				}
-				if (Module.CreateWindowExW(128u, (ushort*)Unsafe.AsPointer(ref Module._003F_003F_C_0040_1EG_0040LILHHEEP_0040_003F_0024AAZ_003F_0024AAu_003F_0024AAn_003F_0024AAe_003F_0024AAT_003F_0024AAa_003F_0024AAs_003F_0024AAk_003F_0024AAb_003F_0024AAa_003F_0024AAr_003F_0024AAP_003F_0024AAl_003F_0024AAa_003F_0024AAy_003F_0024AAe_003F_0024AAr_003F_0024AAC_003F_0024AAo_003F_0024AAm_003F_0024AAm_003F_0024AAa_003F_0024AAn_003F_0024AAd_003F_0024AAD_003F_0024AAi_003F_0024AAs_003F_0024AAp_003F_0024AAa_003F_0024AAt_003F_0024AAc_003F_0024AAh_0040), (ushort*)Unsafe.AsPointer(ref Module._003F_003F_C_0040_1EG_0040LILHHEEP_0040_003F_0024AAZ_003F_0024AAu_003F_0024AAn_003F_0024AAe_003F_0024AAT_003F_0024AAa_003F_0024AAs_003F_0024AAk_003F_0024AAb_003F_0024AAa_003F_0024AAr_003F_0024AAP_003F_0024AAl_003F_0024AAa_003F_0024AAy_003F_0024AAe_003F_0024AAr_003F_0024AAC_003F_0024AAo_003F_0024AAm_003F_0024AAm_003F_0024AAa_003F_0024AAn_003F_0024AAd_003F_0024AAD_003F_0024AAi_003F_0024AAs_003F_0024AAp_003F_0024AAa_003F_0024AAt_003F_0024AAc_003F_0024AAh_0040), 2147483648u, 0, 0, 0, 0, null, null, ptr, null) != null)
+				if (CreateWindowEx(WindowStylesEx.WS_EX_TOOLWINDOW, Module.WNDCLASS_ZuneTaskbarPlayerCommandDispatch,
+					Module.WNDCLASS_ZuneTaskbarPlayerCommandDispatch, WindowStyles.WS_POPUP, 0, 0, 0, 0, hInstance: *ptr) != null)
 				{
 					m_fInitialized = true;
 				}
@@ -378,50 +371,46 @@ namespace Microsoft.Zune.Util
 			{
 				Module.PostMessageW(m_hWndCommandDispatcher, 16u, 0uL, 0L);
 			}
-			if (Unsafe.As<CComPtrNtv_003CMicrosoft_003A_003AZune_003A_003AUtil_003A_003AITrayDeskBand_003E, long>(ref Module.Microsoft_002EZune_002EUtil_002E_003FA0x0277dc26_002Es_spTrayDeskBand) != 0L)
+			if (s_spTrayDeskBand)
 			{
-				Module.CComPtrNtv_003CMicrosoft_003A_003AZune_003A_003AUtil_003A_003AITrayDeskBand_003E_002ERelease((CComPtrNtv_003CMicrosoft_003A_003AZune_003A_003AUtil_003A_003AITrayDeskBand_003E*)Unsafe.AsPointer(ref Module.Microsoft_002EZune_002EUtil_002E_003FA0x0277dc26_002Es_spTrayDeskBand));
+				s_spTrayDeskBand.Dispose();
 			}
 		}
 
 		private unsafe void DisplayPopup(int x, int y)
 		{
-			//IL_0030: Expected I4, but got I8
 			if (PopupVisible)
-			{
 				return;
-			}
 			POINTS tagPOINT;
-			*(int*)(&tagPOINT) = x;
-            Unsafe.As<POINTS, int>(ref Module.AddByteOffset(ref tagPOINT, 4)) = y;
+
+			tagPOINT.x = (short)y;
+			tagPOINT.y = (short)y;
 			HMONITOR* ptr = Module.MonitorFromPoint(tagPOINT, 2u);
 			if (ptr != null)
 			{
-				MONITORINFO tagMONITORINFO;
-                // IL initblk instruction
-                Unsafe.InitBlockUnaligned(ref Module.AddByteOffset(ref tagMONITORINFO, 4), 0, 36);
-				*(int*)(&tagMONITORINFO) = 40;
+				MONITORINFO tagMONITORINFO = new();
+				tagMONITORINFO.cbSize = 40;
 				if (Module.GetMonitorInfoW(ptr, &tagMONITORINFO) != 0)
 				{
-					if (x < Unsafe.As<MONITORINFO, int>(ref Module.AddByteOffset(ref tagMONITORINFO, 20)))
+					if (x < tagMONITORINFO.rcMonitor.left)
 					{
-						PopupPosition.X = Unsafe.As<MONITORINFO, int>(ref Module.AddByteOffset(ref tagMONITORINFO, 20));
+						PopupPosition.X = tagMONITORINFO.rcMonitor.left;
 					}
-					else if (x > Unsafe.As<MONITORINFO, int>(ref Module.AddByteOffset(ref tagMONITORINFO, 28)) - PopupSize.Width)
+					else if (x > tagMONITORINFO.rcMonitor.right - PopupSize.Width)
 					{
-						PopupPosition.X = Unsafe.As<MONITORINFO, int>(ref Module.AddByteOffset(ref tagMONITORINFO, 28)) - PopupSize.Width;
+						PopupPosition.X = tagMONITORINFO.rcMonitor.left - PopupSize.Width;
 					}
 					else
 					{
 						PopupPosition.X = x;
 					}
-					if (y < Unsafe.As<MONITORINFO, int>(ref Module.AddByteOffset(ref tagMONITORINFO, 24)))
+					if (y < tagMONITORINFO.rcMonitor.top)
 					{
-						PopupPosition.Y = Unsafe.As<MONITORINFO, int>(ref Module.AddByteOffset(ref tagMONITORINFO, 24));
+						PopupPosition.Y = tagMONITORINFO.rcMonitor.top;
 					}
-					else if (y > Unsafe.As<MONITORINFO, int>(ref Module.AddByteOffset(ref tagMONITORINFO, 32)) - PopupSize.Height)
+					else if (y > tagMONITORINFO.rcMonitor.bottom - PopupSize.Height)
 					{
-						PopupPosition.Y = Unsafe.As<MONITORINFO, int>(ref Module.AddByteOffset(ref tagMONITORINFO, 32)) - PopupSize.Height;
+						PopupPosition.Y = tagMONITORINFO.rcMonitor.bottom - PopupSize.Height;
 					}
 					else
 					{
@@ -466,15 +455,12 @@ namespace Microsoft.Zune.Util
 
 		private unsafe void GetKeyboardFocus()
 		{
-			//IL_0029: Expected I4, but got I8
 			HWND* hWndFrame = m_hWndFrame;
 			if (hWndFrame != null && Module.IsWindow(hWndFrame) != 0 && Module.GetForegroundWindow() != m_hWndFrame)
 			{
-				INPUT tagINPUT;
-                // IL initblk instruction
-                Unsafe.InitBlock(ref Module.AddByteOffset(ref tagINPUT, 8), 0, 32);
-				*(int*)(&tagINPUT) = 1;
-                Unsafe.As<INPUT, short>(ref Module.AddByteOffset(ref tagINPUT, 8)) = 0;
+				INPUT tagINPUT = new();
+				tagINPUT.type = INPUTTYPE.INPUT_KEYBOARD;
+				tagINPUT.ki = default;
 				Module.SendInput(1u, &tagINPUT, 40);
 				Module.SetForegroundWindow(m_hWndFrame);
 			}

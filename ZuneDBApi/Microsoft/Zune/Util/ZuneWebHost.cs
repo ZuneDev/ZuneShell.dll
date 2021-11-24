@@ -63,12 +63,11 @@ namespace Microsoft.Zune.Util
 				Module.WPP_SF_(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 16uL), 12, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xd3863cf3_002EWPP_ZuneWebHostInterop_cpp_Traceguids));
 			}
 			HWND* ptr = null;
-			CComPtrNtv_003CIZuneWebHost_003E cComPtrNtv_003CIZuneWebHost_003E;
-			*(long*)(&cComPtrNtv_003CIZuneWebHost_003E) = 0L;
+			CComPtrNtv<IZuneWebHost> cComPtrNtv_003CIZuneWebHost_003E = new();
 			long result;
 			try
 			{
-				Module.GetSingleton((_GUID)Module._GUID_51005f8f_675e_45e1_ae94_8edef996a02e, (void**)(&cComPtrNtv_003CIZuneWebHost_003E));
+				Module.GetSingleton((_GUID)Module._GUID_51005f8f_675e_45e1_ae94_8edef996a02e, (void**)(cComPtrNtv_003CIZuneWebHost_003E.p));
 				fixed (char* navUrlPtr = navUrl.ToCharArray())
 				{
 					ushort* ptr3 = (ushort*)navUrlPtr;
@@ -76,7 +75,7 @@ namespace Microsoft.Zune.Util
 					ZuneWebHostEventSink* zuneWebHostEventSink;
 					try
 					{
-						zuneWebHostEventSink = ((ptr2 == null) ? null : Module.Microsoft_002EZune_002EUtil_002EZuneWebHostEventSink_002E_007Bctor_007D(ptr2, this, (IZuneWebHost*)(*(ulong*)(&cComPtrNtv_003CIZuneWebHost_003E))));
+						zuneWebHostEventSink = ((ptr2 == null) ? null : Module.Microsoft_002EZune_002EUtil_002EZuneWebHostEventSink_002E_007Bctor_007D(ptr2, this, (IZuneWebHost*)(*(ulong*)(cComPtrNtv_003CIZuneWebHost_003E.p))));
 					}
 					catch
 					{
@@ -85,8 +84,8 @@ namespace Microsoft.Zune.Util
 						throw;
 					}
 					m_zuneWebHostEventSink = zuneWebHostEventSink;
-					long num = *(long*)(*(ulong*)(&cComPtrNtv_003CIZuneWebHost_003E)) + 24;
-					long num2 = *(long*)(&cComPtrNtv_003CIZuneWebHost_003E);
+					long num = *(long*)(*(ulong*)(cComPtrNtv_003CIZuneWebHost_003E.p)) + 24;
+					long num2 = *(long*)(cComPtrNtv_003CIZuneWebHost_003E.p);
 					int num3 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, HWND*, int, int, HWND**, int>)(*(ulong*)num))((nint)num2, ptr3, (HWND*)hWndHost, width, height, &ptr);
 					if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 28uL)) & 0x8000u) != 0 && *(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 25uL) >= 5u)
 					{
@@ -99,10 +98,10 @@ namespace Microsoft.Zune.Util
 			catch
 			{
 				//try-fault
-				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIZuneWebHost_003E*, void>)(&Module.CComPtrNtv_003CIZuneWebHost_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIZuneWebHost_003E);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IZuneWebHost*, void>)(&Module.CComPtrNtv_003CIZuneWebHost_003E_002E_007Bdtor_007D), cComPtrNtv_003CIZuneWebHost_003E.p);
 				throw;
 			}
-			Module.CComPtrNtv_003CIZuneWebHost_003E_002ERelease(&cComPtrNtv_003CIZuneWebHost_003E);
+			cComPtrNtv_003CIZuneWebHost_003E.Dispose();
 			return result;
 		}
 

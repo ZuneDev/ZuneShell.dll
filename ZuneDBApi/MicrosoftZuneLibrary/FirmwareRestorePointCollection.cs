@@ -29,27 +29,26 @@ namespace MicrosoftZuneLibrary
 			//IL_002f: Expected I, but got I8
 			//IL_003c: Expected I, but got I8
 			FirmwareRestorePoint result = null;
-			CComPtrNtv_003CIFirmwareRestorePoint_003E cComPtrNtv_003CIFirmwareRestorePoint_003E;
-			*(long*)(&cComPtrNtv_003CIFirmwareRestorePoint_003E) = 0L;
+			CComPtrNtv<IFirmwareRestorePoint> cComPtrNtv_003CIFirmwareRestorePoint_003E = new();
 			try
 			{
 				CComPtrMgd<IFirmwareRestorePointCollection> spRestorePointCollection = m_spRestorePointCollection;
 				if (spRestorePointCollection.p != null)
 				{
 					IFirmwareRestorePointCollection* p = spRestorePointCollection.p;
-					if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, IFirmwareRestorePoint**, int>)(*(ulong*)(*(long*)p + 32)))((nint)p, (uint)index, (IFirmwareRestorePoint**)(&cComPtrNtv_003CIFirmwareRestorePoint_003E)) >= 0)
+					if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, IFirmwareRestorePoint**, int>)(*(ulong*)(*(long*)p + 32)))((nint)p, (uint)index, (IFirmwareRestorePoint**)(cComPtrNtv_003CIFirmwareRestorePoint_003E.p)) >= 0)
 					{
-						result = new FirmwareRestorePoint((IFirmwareRestorePoint*)(*(ulong*)(&cComPtrNtv_003CIFirmwareRestorePoint_003E)));
+						result = new FirmwareRestorePoint((IFirmwareRestorePoint*)(*(ulong*)(cComPtrNtv_003CIFirmwareRestorePoint_003E.p)));
 					}
 				}
 			}
 			catch
 			{
 				//try-fault
-				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIFirmwareRestorePoint_003E*, void>)(&Module.CComPtrNtv_003CIFirmwareRestorePoint_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIFirmwareRestorePoint_003E);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IFirmwareRestorePoint*, void>)(&Module.CComPtrNtv_003CIFirmwareRestorePoint_003E_002E_007Bdtor_007D), cComPtrNtv_003CIFirmwareRestorePoint_003E.p);
 				throw;
 			}
-			Module.CComPtrNtv_003CIFirmwareRestorePoint_003E_002ERelease(&cComPtrNtv_003CIFirmwareRestorePoint_003E);
+			cComPtrNtv_003CIFirmwareRestorePoint_003E.Dispose();
 			return result;
 		}
 

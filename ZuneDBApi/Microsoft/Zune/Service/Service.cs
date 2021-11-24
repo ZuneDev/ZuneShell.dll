@@ -593,25 +593,24 @@ namespace Microsoft.Zune.Service
 			bool result = false;
 			if (IsSignedIn())
 			{
-				CComPtrNtv_003CISignInState_003E cComPtrNtv_003CISignInState_003E;
-				*(long*)(&cComPtrNtv_003CISignInState_003E) = 0L;
+				CComPtrNtv<ISignInState> cComPtrNtv_003CISignInState_003E = new();
 				try
 				{
 					IService* pService = m_pService;
-					if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ISignInState**, int>)(*(ulong*)(*(long*)pService + 344)))((nint)pService, (ISignInState**)(&cComPtrNtv_003CISignInState_003E)) >= 0)
+					if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ISignInState**, int>)(*(ulong*)(*(long*)pService + 344)))((nint)pService, (ISignInState**)(cComPtrNtv_003CISignInState_003E.p)) >= 0)
 					{
-						long num = *(long*)(&cComPtrNtv_003CISignInState_003E);
-						bool flag = ((((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CISignInState_003E)) + 184)))((nint)num) != 0) ? true : false);
+						long num = *(long*)(cComPtrNtv_003CISignInState_003E.p);
+						bool flag = ((((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CISignInState_003E.p)) + 184)))((nint)num) != 0) ? true : false);
 						result = flag;
 					}
 				}
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CISignInState_003E*, void>)(&Module.CComPtrNtv_003CISignInState_003E_002E_007Bdtor_007D), &cComPtrNtv_003CISignInState_003E);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ISignInState*, void>)(&Module.CComPtrNtv_003CISignInState_003E_002E_007Bdtor_007D), cComPtrNtv_003CISignInState_003E.p);
 					throw;
 				}
-				Module.CComPtrNtv_003CISignInState_003E_002ERelease(&cComPtrNtv_003CISignInState_003E);
+				cComPtrNtv_003CISignInState_003E.Dispose();
 			}
 			return result;
 		}
@@ -786,7 +785,7 @@ namespace Microsoft.Zune.Service
 				_GUID gUID;
 				ref ushort reference2;
 				ref ushort reference3;
-				CComPtrNtv_003CIContextData_003E cComPtrNtv_003CIContextData_003E;
+				CComPtrNtv<IContextData> cComPtrNtv_003CIContextData_003E;
 				IService* pService2;
 				ref ushort val;
 				global::EDownloadContextEvent num3;
@@ -988,7 +987,7 @@ namespace Microsoft.Zune.Service
 																								fixed (char* clientContextEventDataPtr = clientContextEventData.ToCharArray())
 																								{
 																									ushort* ptr9 = (ushort*)clientContextEventDataPtr;
-																									Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+																									cComPtrNtv_003CIContextData_003E = new();
 																									try
 																									{
 																										long num2 = *(long*)m_pService + 120;
@@ -996,7 +995,7 @@ namespace Microsoft.Zune.Service
 																										val = ptr8;
 																										num3 = eDownloadContextEvent;
 																										val2 = ptr9;
-																										intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+																										intPtr = cComPtrNtv_003CIContextData_003E = new();
 																										((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)val, num3, (ushort*)val2, intPtr);
 																										long num4 = *(long*)ptr4 + 40;
 																										intPtr2 = ptr4;
@@ -1005,21 +1004,21 @@ namespace Microsoft.Zune.Service
 																										val3 = ptr5;
 																										val4 = ptr6;
 																										val5 = ptr7;
-																										intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
+																										intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p);
 																										num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																									}
 																									catch
 																									{
 																										//try-fault
-																										Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+																										Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 																										throw;
 																									}
-																									Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+																									cComPtrNtv_003CIContextData_003E.Dispose();
 																								}
 																							}
 																							else
 																							{
-																								Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+																								cComPtrNtv_003CIContextData_003E = new();
 																								try
 																								{
 																									long num2 = *(long*)m_pService + 120;
@@ -1027,7 +1026,7 @@ namespace Microsoft.Zune.Service
 																									val = ptr8;
 																									num3 = eDownloadContextEvent;
 																									val2 = ref reference3;
-																									intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+																									intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 																									((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)val, num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
 																									long num4 = *(long*)ptr4 + 40;
 																									intPtr2 = ptr4;
@@ -1036,16 +1035,16 @@ namespace Microsoft.Zune.Service
 																									val3 = ptr5;
 																									val4 = ptr6;
 																									val5 = ptr7;
-																									intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
+																									intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p);
 																									num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																								}
 																								catch
 																								{
 																									//try-fault
-																									Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+																									Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 																									throw;
 																								}
-																								Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+																								cComPtrNtv_003CIContextData_003E.Dispose();
 																							}
 																						}
 																						catch
@@ -1069,7 +1068,7 @@ namespace Microsoft.Zune.Service
 																							fixed (char* clientContextEventDataPtr = clientContextEventData.ToCharArray())
 																							{
 																								ushort* ptr9 = (ushort*)clientContextEventDataPtr;
-																								Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+																								cComPtrNtv_003CIContextData_003E = new();
 																								try
 																								{
 																									long num2 = *(long*)m_pService + 120;
@@ -1077,7 +1076,7 @@ namespace Microsoft.Zune.Service
 																									val = ref reference2;
 																									num3 = eDownloadContextEvent;
 																									val2 = ref *ptr9;
-																									intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+																									intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 																									((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)Unsafe.AsPointer(ref val), num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
 																									long num4 = *(long*)ptr4 + 40;
 																									intPtr2 = ptr4;
@@ -1086,21 +1085,21 @@ namespace Microsoft.Zune.Service
 																									val3 = ptr5;
 																									val4 = ptr6;
 																									val5 = ptr7;
-																									intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
+																									intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p);
 																									num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																								}
 																								catch
 																								{
 																									//try-fault
-																									Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+																									Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 																									throw;
 																								}
-																								Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+																								cComPtrNtv_003CIContextData_003E.Dispose();
 																							}
 																						}
 																						else
 																						{
-																							Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+																							cComPtrNtv_003CIContextData_003E = new();
 																							try
 																							{
 																								long num2 = *(long*)m_pService + 120;
@@ -1108,7 +1107,7 @@ namespace Microsoft.Zune.Service
 																								val = ref reference2;
 																								num3 = eDownloadContextEvent;
 																								val2 = ref reference3;
-																								intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+																								intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 																								((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)Unsafe.AsPointer(ref val), num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
 																								long num4 = *(long*)ptr4 + 40;
 																								intPtr2 = ptr4;
@@ -1117,16 +1116,16 @@ namespace Microsoft.Zune.Service
 																								val3 = ptr5;
 																								val4 = ptr6;
 																								val5 = ptr7;
-																								intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
+																								intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p);
 																								num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																							}
 																							catch
 																							{
 																								//try-fault
-																								Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+																								Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 																								throw;
 																							}
-																							Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+																							cComPtrNtv_003CIContextData_003E.Dispose();
 																						}
 																					}
 																					catch
@@ -1166,7 +1165,7 @@ namespace Microsoft.Zune.Service
 																						fixed (char* clientContextEventDataPtr = clientContextEventData.ToCharArray())
 																						{
 																							ushort* ptr9 = (ushort*)clientContextEventDataPtr;
-																							Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+																							cComPtrNtv_003CIContextData_003E = new();
 																							try
 																							{
 																								long num2 = *(long*)m_pService + 120;
@@ -1174,7 +1173,7 @@ namespace Microsoft.Zune.Service
 																								val = ref *ptr8;
 																								num3 = eDownloadContextEvent;
 																								val2 = ref *ptr9;
-																								intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+																								intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 																								((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)Unsafe.AsPointer(ref val), num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
 																								long num4 = *(long*)ptr4 + 40;
 																								intPtr2 = ptr4;
@@ -1183,21 +1182,21 @@ namespace Microsoft.Zune.Service
 																								val3 = ptr5;
 																								val4 = ptr6;
 																								val5 = ptr7;
-																								intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
+																								intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p);
 																								num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																							}
 																							catch
 																							{
 																								//try-fault
-																								Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+																								Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 																								throw;
 																							}
-																							Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+																							cComPtrNtv_003CIContextData_003E.Dispose();
 																						}
 																					}
 																					else
 																					{
-																						Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+																						cComPtrNtv_003CIContextData_003E = new();
 																						try
 																						{
 																							long num2 = *(long*)m_pService + 120;
@@ -1205,7 +1204,7 @@ namespace Microsoft.Zune.Service
 																							val = ref *ptr8;
 																							num3 = eDownloadContextEvent;
 																							val2 = ref reference3;
-																							intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+																							intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 																							((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)Unsafe.AsPointer(ref val), num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
 																							long num4 = *(long*)ptr4 + 40;
 																							intPtr2 = ptr4;
@@ -1214,16 +1213,16 @@ namespace Microsoft.Zune.Service
 																							val3 = ptr5;
 																							val4 = ptr6;
 																							val5 = ptr7;
-																							intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
+																							intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p);
 																							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																						}
 																						catch
 																						{
 																							//try-fault
-																							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+																							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 																							throw;
 																						}
-																						Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+																						cComPtrNtv_003CIContextData_003E.Dispose();
 																					}
 																				}
 																				catch
@@ -1247,7 +1246,7 @@ namespace Microsoft.Zune.Service
 																					fixed (char* clientContextEventDataPtr = clientContextEventData.ToCharArray())
 																					{
 																						ushort* ptr9 = (ushort*)clientContextEventDataPtr;
-																						Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+																						cComPtrNtv_003CIContextData_003E = new();
 																						try
 																						{
 																							long num2 = *(long*)m_pService + 120;
@@ -1255,7 +1254,7 @@ namespace Microsoft.Zune.Service
 																							val = ref reference2;
 																							num3 = eDownloadContextEvent;
 																							val2 = ref *ptr9;
-																							intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+																							intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 																							((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)Unsafe.AsPointer(ref val), num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
 																							long num4 = *(long*)ptr4 + 40;
 																							intPtr2 = ptr4;
@@ -1264,21 +1263,21 @@ namespace Microsoft.Zune.Service
 																							val3 = ptr5;
 																							val4 = ptr6;
 																							val5 = ptr7;
-																							intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
+																							intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p);
 																							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																						}
 																						catch
 																						{
 																							//try-fault
-																							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+																							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 																							throw;
 																						}
-																						Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+																						cComPtrNtv_003CIContextData_003E.Dispose();
 																					}
 																				}
 																				else
 																				{
-																					Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+																					cComPtrNtv_003CIContextData_003E = new();
 																					try
 																					{
 																						long num2 = *(long*)m_pService + 120;
@@ -1286,7 +1285,7 @@ namespace Microsoft.Zune.Service
 																						val = ref reference2;
 																						num3 = eDownloadContextEvent;
 																						val2 = ref reference3;
-																						intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+																						intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 																						((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)Unsafe.AsPointer(ref val), num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
 																						long num4 = *(long*)ptr4 + 40;
 																						intPtr2 = ptr4;
@@ -1295,16 +1294,16 @@ namespace Microsoft.Zune.Service
 																						val3 = ptr5;
 																						val4 = ptr6;
 																						val5 = ptr7;
-																						intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
+																						intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p);
 																						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																					}
 																					catch
 																					{
 																						//try-fault
-																						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+																						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 																						throw;
 																					}
-																					Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+																					cComPtrNtv_003CIContextData_003E.Dispose();
 																				}
 																			}
 																			catch
@@ -1361,7 +1360,7 @@ namespace Microsoft.Zune.Service
 																						fixed (char* clientContextEventDataPtr = clientContextEventData.ToCharArray())
 																						{
 																							ushort* ptr9 = (ushort*)clientContextEventDataPtr;
-																							Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+																							cComPtrNtv_003CIContextData_003E = new();
 																							try
 																							{
 																								long num2 = *(long*)m_pService + 120;
@@ -1369,7 +1368,7 @@ namespace Microsoft.Zune.Service
 																								val = ref *ptr8;
 																								num3 = eDownloadContextEvent;
 																								val2 = ref *ptr9;
-																								intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+																								intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 																								((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)Unsafe.AsPointer(ref val), num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
 																								long num4 = *(long*)ptr4 + 40;
 																								intPtr2 = ptr4;
@@ -1378,21 +1377,21 @@ namespace Microsoft.Zune.Service
 																								val3 = ptr5;
 																								val4 = ptr6;
 																								val5 = ptr7;
-																								intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
+																								intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p);
 																								num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																							}
 																							catch
 																							{
 																								//try-fault
-																								Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+																								Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 																								throw;
 																							}
-																							Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+																							cComPtrNtv_003CIContextData_003E.Dispose();
 																						}
 																					}
 																					else
 																					{
-																						Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+																						cComPtrNtv_003CIContextData_003E = new();
 																						try
 																						{
 																							long num2 = *(long*)m_pService + 120;
@@ -1400,7 +1399,7 @@ namespace Microsoft.Zune.Service
 																							val = ref *ptr8;
 																							num3 = eDownloadContextEvent;
 																							val2 = ref reference3;
-																							intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+																							intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 																							((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)Unsafe.AsPointer(ref val), num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
 																							long num4 = *(long*)ptr4 + 40;
 																							intPtr2 = ptr4;
@@ -1409,16 +1408,16 @@ namespace Microsoft.Zune.Service
 																							val3 = ptr5;
 																							val4 = ptr6;
 																							val5 = ptr7;
-																							intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
+																							intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p);
 																							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																						}
 																						catch
 																						{
 																							//try-fault
-																							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+																							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 																							throw;
 																						}
-																						Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+																						cComPtrNtv_003CIContextData_003E.Dispose();
 																					}
 																				}
 																				catch
@@ -1442,7 +1441,7 @@ namespace Microsoft.Zune.Service
 																					fixed (char* clientContextEventDataPtr = clientContextEventData.ToCharArray())
 																					{
 																						ushort* ptr9 = (ushort*)clientContextEventDataPtr;
-																						Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+																						cComPtrNtv_003CIContextData_003E = new();
 																						try
 																						{
 																							long num2 = *(long*)m_pService + 120;
@@ -1450,7 +1449,7 @@ namespace Microsoft.Zune.Service
 																							val = ref reference2;
 																							num3 = eDownloadContextEvent;
 																							val2 = ref *ptr9;
-																							intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+																							intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 																							((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)Unsafe.AsPointer(ref val), num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
 																							long num4 = *(long*)ptr4 + 40;
 																							intPtr2 = ptr4;
@@ -1459,21 +1458,21 @@ namespace Microsoft.Zune.Service
 																							val3 = ptr5;
 																							val4 = ptr6;
 																							val5 = ptr7;
-																							intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
+																							intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p);
 																							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																						}
 																						catch
 																						{
 																							//try-fault
-																							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+																							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 																							throw;
 																						}
-																						Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+																						cComPtrNtv_003CIContextData_003E.Dispose();
 																					}
 																				}
 																				else
 																				{
-																					Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+																					cComPtrNtv_003CIContextData_003E = new();
 																					try
 																					{
 																						long num2 = *(long*)m_pService + 120;
@@ -1481,7 +1480,7 @@ namespace Microsoft.Zune.Service
 																						val = ref reference2;
 																						num3 = eDownloadContextEvent;
 																						val2 = ref reference3;
-																						intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+																						intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 																						((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)Unsafe.AsPointer(ref val), num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
 																						long num4 = *(long*)ptr4 + 40;
 																						intPtr2 = ptr4;
@@ -1490,16 +1489,16 @@ namespace Microsoft.Zune.Service
 																						val3 = ptr5;
 																						val4 = ptr6;
 																						val5 = ptr7;
-																						intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
+																						intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p);
 																						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																					}
 																					catch
 																					{
 																						//try-fault
-																						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+																						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 																						throw;
 																					}
-																					Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+																					cComPtrNtv_003CIContextData_003E.Dispose();
 																				}
 																			}
 																			catch
@@ -1539,7 +1538,7 @@ namespace Microsoft.Zune.Service
 																				fixed (char* clientContextEventDataPtr = clientContextEventData.ToCharArray())
 																				{
 																					ushort* ptr9 = (ushort*)clientContextEventDataPtr;
-																					Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+																					cComPtrNtv_003CIContextData_003E = new();
 																					try
 																					{
 																						long num2 = *(long*)m_pService + 120;
@@ -1547,7 +1546,7 @@ namespace Microsoft.Zune.Service
 																						val = ref *ptr8;
 																						num3 = eDownloadContextEvent;
 																						val2 = ref *ptr9;
-																						intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+																						intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 																						((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)Unsafe.AsPointer(ref val), num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
 																						long num4 = *(long*)ptr4 + 40;
 																						intPtr2 = ptr4;
@@ -1556,21 +1555,21 @@ namespace Microsoft.Zune.Service
 																						val3 = ptr5;
 																						val4 = ptr6;
 																						val5 = ptr7;
-																						intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
+																						intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p);
 																						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																					}
 																					catch
 																					{
 																						//try-fault
-																						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+																						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 																						throw;
 																					}
-																					Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+																					cComPtrNtv_003CIContextData_003E.Dispose();
 																				}
 																			}
 																			else
 																			{
-																				Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+																				cComPtrNtv_003CIContextData_003E = new();
 																				try
 																				{
 																					long num2 = *(long*)m_pService + 120;
@@ -1578,7 +1577,7 @@ namespace Microsoft.Zune.Service
 																					val = ref *ptr8;
 																					num3 = eDownloadContextEvent;
 																					val2 = ref reference3;
-																					intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+																					intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 																					((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)Unsafe.AsPointer(ref val), num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
 																					long num4 = *(long*)ptr4 + 40;
 																					intPtr2 = ptr4;
@@ -1587,16 +1586,16 @@ namespace Microsoft.Zune.Service
 																					val3 = ptr5;
 																					val4 = ptr6;
 																					val5 = ptr7;
-																					intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
+																					intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p);
 																					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																				}
 																				catch
 																				{
 																					//try-fault
-																					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+																					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 																					throw;
 																				}
-																				Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+																				cComPtrNtv_003CIContextData_003E.Dispose();
 																			}
 																		}
 																		catch
@@ -1620,7 +1619,7 @@ namespace Microsoft.Zune.Service
 																			fixed (char* clientContextEventDataPtr = clientContextEventData.ToCharArray())
 																			{
 																				ushort* ptr9 = (ushort*)clientContextEventDataPtr;
-																				Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+																				cComPtrNtv_003CIContextData_003E = new();
 																				try
 																				{
 																					long num2 = *(long*)m_pService + 120;
@@ -1628,7 +1627,7 @@ namespace Microsoft.Zune.Service
 																					val = ref reference2;
 																					num3 = eDownloadContextEvent;
 																					val2 = ref *ptr9;
-																					intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+																					intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 																					((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)Unsafe.AsPointer(ref val), num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
 																					long num4 = *(long*)ptr4 + 40;
 																					intPtr2 = ptr4;
@@ -1637,21 +1636,21 @@ namespace Microsoft.Zune.Service
 																					val3 = ptr5;
 																					val4 = ptr6;
 																					val5 = ptr7;
-																					intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
+																					intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p);
 																					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																				}
 																				catch
 																				{
 																					//try-fault
-																					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+																					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 																					throw;
 																				}
-																				Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+																				cComPtrNtv_003CIContextData_003E.Dispose();
 																			}
 																		}
 																		else
 																		{
-																			Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+																			cComPtrNtv_003CIContextData_003E = new();
 																			try
 																			{
 																				long num2 = *(long*)m_pService + 120;
@@ -1659,7 +1658,7 @@ namespace Microsoft.Zune.Service
 																				val = ref reference2;
 																				num3 = eDownloadContextEvent;
 																				val2 = ref reference3;
-																				intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+																				intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 																				((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)Unsafe.AsPointer(ref val), num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
 																				long num4 = *(long*)ptr4 + 40;
 																				intPtr2 = ptr4;
@@ -1668,16 +1667,16 @@ namespace Microsoft.Zune.Service
 																				val3 = ptr5;
 																				val4 = ptr6;
 																				val5 = ptr7;
-																				intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
+																				intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p);
 																				num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																			}
 																			catch
 																			{
 																				//try-fault
-																				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+																				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 																				throw;
 																			}
-																			Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+																			cComPtrNtv_003CIContextData_003E.Dispose();
 																		}
 																	}
 																	catch
@@ -1751,7 +1750,7 @@ namespace Microsoft.Zune.Service
 																						fixed (char* clientContextEventDataPtr = clientContextEventData.ToCharArray())
 																						{
 																							ushort* ptr9 = (ushort*)clientContextEventDataPtr;
-																							Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+																							cComPtrNtv_003CIContextData_003E = new();
 																							try
 																							{
 																								long num2 = *(long*)m_pService + 120;
@@ -1759,7 +1758,7 @@ namespace Microsoft.Zune.Service
 																								val = ref *ptr8;
 																								num3 = eDownloadContextEvent;
 																								val2 = ref *ptr9;
-																								intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+																								intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 																								((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)Unsafe.AsPointer(ref val), num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
 																								long num4 = *(long*)ptr4 + 40;
 																								intPtr2 = ptr4;
@@ -1768,21 +1767,21 @@ namespace Microsoft.Zune.Service
 																								val3 = ptr5;
 																								val4 = ptr6;
 																								val5 = ptr7;
-																								intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
+																								intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p);
 																								num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																							}
 																							catch
 																							{
 																								//try-fault
-																								Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+																								Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 																								throw;
 																							}
-																							Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+																							cComPtrNtv_003CIContextData_003E.Dispose();
 																						}
 																					}
 																					else
 																					{
-																						Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+																						cComPtrNtv_003CIContextData_003E = new();
 																						try
 																						{
 																							long num2 = *(long*)m_pService + 120;
@@ -1790,7 +1789,7 @@ namespace Microsoft.Zune.Service
 																							val = ref *ptr8;
 																							num3 = eDownloadContextEvent;
 																							val2 = ref reference3;
-																							intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+																							intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 																							((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)Unsafe.AsPointer(ref val), num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
 																							long num4 = *(long*)ptr4 + 40;
 																							intPtr2 = ptr4;
@@ -1799,16 +1798,16 @@ namespace Microsoft.Zune.Service
 																							val3 = ptr5;
 																							val4 = ptr6;
 																							val5 = ptr7;
-																							intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
+																							intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p);
 																							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																						}
 																						catch
 																						{
 																							//try-fault
-																							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+																							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 																							throw;
 																						}
-																						Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+																						cComPtrNtv_003CIContextData_003E.Dispose();
 																					}
 																				}
 																				catch
@@ -1832,7 +1831,7 @@ namespace Microsoft.Zune.Service
 																					fixed (char* clientContextEventDataPtr = clientContextEventData.ToCharArray())
 																					{
 																						ushort* ptr9 = (ushort*)clientContextEventDataPtr;
-																						Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+																						cComPtrNtv_003CIContextData_003E = new();
 																						try
 																						{
 																							long num2 = *(long*)m_pService + 120;
@@ -1840,7 +1839,7 @@ namespace Microsoft.Zune.Service
 																							val = ref reference2;
 																							num3 = eDownloadContextEvent;
 																							val2 = ref *ptr9;
-																							intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+																							intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 																							((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)Unsafe.AsPointer(ref val), num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
 																							long num4 = *(long*)ptr4 + 40;
 																							intPtr2 = ptr4;
@@ -1849,21 +1848,21 @@ namespace Microsoft.Zune.Service
 																							val3 = ptr5;
 																							val4 = ptr6;
 																							val5 = ptr7;
-																							intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
+																							intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p);
 																							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																						}
 																						catch
 																						{
 																							//try-fault
-																							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+																							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 																							throw;
 																						}
-																						Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+																						cComPtrNtv_003CIContextData_003E.Dispose();
 																					}
 																				}
 																				else
 																				{
-																					Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+																					cComPtrNtv_003CIContextData_003E = new();
 																					try
 																					{
 																						long num2 = *(long*)m_pService + 120;
@@ -1871,7 +1870,7 @@ namespace Microsoft.Zune.Service
 																						val = ref reference2;
 																						num3 = eDownloadContextEvent;
 																						val2 = ref reference3;
-																						intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+																						intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 																						((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)Unsafe.AsPointer(ref val), num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
 																						long num4 = *(long*)ptr4 + 40;
 																						intPtr2 = ptr4;
@@ -1880,16 +1879,16 @@ namespace Microsoft.Zune.Service
 																						val3 = ptr5;
 																						val4 = ptr6;
 																						val5 = ptr7;
-																						intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
+																						intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p);
 																						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																					}
 																					catch
 																					{
 																						//try-fault
-																						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+																						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 																						throw;
 																					}
-																					Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+																					cComPtrNtv_003CIContextData_003E.Dispose();
 																				}
 																			}
 																			catch
@@ -1929,7 +1928,7 @@ namespace Microsoft.Zune.Service
 																				fixed (char* clientContextEventDataPtr = clientContextEventData.ToCharArray())
 																				{
 																					ushort* ptr9 = (ushort*)clientContextEventDataPtr;
-																					Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+																					cComPtrNtv_003CIContextData_003E = new();
 																					try
 																					{
 																						long num2 = *(long*)m_pService + 120;
@@ -1937,7 +1936,7 @@ namespace Microsoft.Zune.Service
 																						val = ref *ptr8;
 																						num3 = eDownloadContextEvent;
 																						val2 = ref *ptr9;
-																						intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+																						intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 																						((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)Unsafe.AsPointer(ref val), num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
 																						long num4 = *(long*)ptr4 + 40;
 																						intPtr2 = ptr4;
@@ -1946,21 +1945,21 @@ namespace Microsoft.Zune.Service
 																						val3 = ptr5;
 																						val4 = ptr6;
 																						val5 = ptr7;
-																						intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
+																						intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p);
 																						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																					}
 																					catch
 																					{
 																						//try-fault
-																						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+																						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 																						throw;
 																					}
-																					Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+																					cComPtrNtv_003CIContextData_003E.Dispose();
 																				}
 																			}
 																			else
 																			{
-																				Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+																				cComPtrNtv_003CIContextData_003E = new();
 																				try
 																				{
 																					long num2 = *(long*)m_pService + 120;
@@ -1968,7 +1967,7 @@ namespace Microsoft.Zune.Service
 																					val = ref *ptr8;
 																					num3 = eDownloadContextEvent;
 																					val2 = ref reference3;
-																					intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+																					intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 																					((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)Unsafe.AsPointer(ref val), num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
 																					long num4 = *(long*)ptr4 + 40;
 																					intPtr2 = ptr4;
@@ -1977,16 +1976,16 @@ namespace Microsoft.Zune.Service
 																					val3 = ptr5;
 																					val4 = ptr6;
 																					val5 = ptr7;
-																					intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
+																					intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p);
 																					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																				}
 																				catch
 																				{
 																					//try-fault
-																					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+																					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 																					throw;
 																				}
-																				Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+																				cComPtrNtv_003CIContextData_003E.Dispose();
 																			}
 																		}
 																		catch
@@ -2010,7 +2009,7 @@ namespace Microsoft.Zune.Service
 																			fixed (char* clientContextEventDataPtr = clientContextEventData.ToCharArray())
 																			{
 																				ushort* ptr9 = (ushort*)clientContextEventDataPtr;
-																				Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+																				cComPtrNtv_003CIContextData_003E = new();
 																				try
 																				{
 																					long num2 = *(long*)m_pService + 120;
@@ -2018,7 +2017,7 @@ namespace Microsoft.Zune.Service
 																					val = ref reference2;
 																					num3 = eDownloadContextEvent;
 																					val2 = ref *ptr9;
-																					intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+																					intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 																					((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)Unsafe.AsPointer(ref val), num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
 																					long num4 = *(long*)ptr4 + 40;
 																					intPtr2 = ptr4;
@@ -2027,21 +2026,21 @@ namespace Microsoft.Zune.Service
 																					val3 = ptr5;
 																					val4 = ptr6;
 																					val5 = ptr7;
-																					intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
+																					intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p);
 																					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																				}
 																				catch
 																				{
 																					//try-fault
-																					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+																					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 																					throw;
 																				}
-																				Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+																				cComPtrNtv_003CIContextData_003E.Dispose();
 																			}
 																		}
 																		else
 																		{
-																			Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+																			cComPtrNtv_003CIContextData_003E = new();
 																			try
 																			{
 																				long num2 = *(long*)m_pService + 120;
@@ -2049,7 +2048,7 @@ namespace Microsoft.Zune.Service
 																				val = ref reference2;
 																				num3 = eDownloadContextEvent;
 																				val2 = ref reference3;
-																				intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+																				intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 																				((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)Unsafe.AsPointer(ref val), num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
 																				long num4 = *(long*)ptr4 + 40;
 																				intPtr2 = ptr4;
@@ -2058,16 +2057,16 @@ namespace Microsoft.Zune.Service
 																				val3 = ptr5;
 																				val4 = ptr6;
 																				val5 = ptr7;
-																				intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
+																				intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p);
 																				num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																			}
 																			catch
 																			{
 																				//try-fault
-																				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+																				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 																				throw;
 																			}
-																			Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+																			cComPtrNtv_003CIContextData_003E.Dispose();
 																		}
 																	}
 																	catch
@@ -2124,7 +2123,7 @@ namespace Microsoft.Zune.Service
 																				fixed (char* clientContextEventDataPtr = clientContextEventData.ToCharArray())
 																				{
 																					ushort* ptr9 = (ushort*)clientContextEventDataPtr;
-																					Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+																					cComPtrNtv_003CIContextData_003E = new();
 																					try
 																					{
 																						long num2 = *(long*)m_pService + 120;
@@ -2132,7 +2131,7 @@ namespace Microsoft.Zune.Service
 																						val = ref *ptr8;
 																						num3 = eDownloadContextEvent;
 																						val2 = ref *ptr9;
-																						intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+																						intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 																						((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)Unsafe.AsPointer(ref val), num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
 																						long num4 = *(long*)ptr4 + 40;
 																						intPtr2 = ptr4;
@@ -2141,21 +2140,21 @@ namespace Microsoft.Zune.Service
 																						val3 = ptr5;
 																						val4 = ptr6;
 																						val5 = ptr7;
-																						intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
+																						intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p);
 																						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																					}
 																					catch
 																					{
 																						//try-fault
-																						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+																						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 																						throw;
 																					}
-																					Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+																					cComPtrNtv_003CIContextData_003E.Dispose();
 																				}
 																			}
 																			else
 																			{
-																				Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+																				cComPtrNtv_003CIContextData_003E = new();
 																				try
 																				{
 																					long num2 = *(long*)m_pService + 120;
@@ -2163,7 +2162,7 @@ namespace Microsoft.Zune.Service
 																					val = ref *ptr8;
 																					num3 = eDownloadContextEvent;
 																					val2 = ref reference3;
-																					intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+																					intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 																					((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)Unsafe.AsPointer(ref val), num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
 																					long num4 = *(long*)ptr4 + 40;
 																					intPtr2 = ptr4;
@@ -2172,16 +2171,16 @@ namespace Microsoft.Zune.Service
 																					val3 = ptr5;
 																					val4 = ptr6;
 																					val5 = ptr7;
-																					intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
+																					intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p);
 																					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																				}
 																				catch
 																				{
 																					//try-fault
-																					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+																					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 																					throw;
 																				}
-																				Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+																				cComPtrNtv_003CIContextData_003E.Dispose();
 																			}
 																		}
 																		catch
@@ -2205,7 +2204,7 @@ namespace Microsoft.Zune.Service
 																			fixed (char* clientContextEventDataPtr = clientContextEventData.ToCharArray())
 																			{
 																				ushort* ptr9 = (ushort*)clientContextEventDataPtr;
-																				Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+																				cComPtrNtv_003CIContextData_003E = new();
 																				try
 																				{
 																					long num2 = *(long*)m_pService + 120;
@@ -2213,7 +2212,7 @@ namespace Microsoft.Zune.Service
 																					val = ref reference2;
 																					num3 = eDownloadContextEvent;
 																					val2 = ref *ptr9;
-																					intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+																					intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 																					((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)Unsafe.AsPointer(ref val), num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
 																					long num4 = *(long*)ptr4 + 40;
 																					intPtr2 = ptr4;
@@ -2222,21 +2221,21 @@ namespace Microsoft.Zune.Service
 																					val3 = ptr5;
 																					val4 = ptr6;
 																					val5 = ptr7;
-																					intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
+																					intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p);
 																					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																				}
 																				catch
 																				{
 																					//try-fault
-																					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+																					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 																					throw;
 																				}
-																				Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+																				cComPtrNtv_003CIContextData_003E.Dispose();
 																			}
 																		}
 																		else
 																		{
-																			Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+																			cComPtrNtv_003CIContextData_003E = new();
 																			try
 																			{
 																				long num2 = *(long*)m_pService + 120;
@@ -2244,7 +2243,7 @@ namespace Microsoft.Zune.Service
 																				val = ref reference2;
 																				num3 = eDownloadContextEvent;
 																				val2 = ref reference3;
-																				intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+																				intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 																				((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)Unsafe.AsPointer(ref val), num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
 																				long num4 = *(long*)ptr4 + 40;
 																				intPtr2 = ptr4;
@@ -2253,16 +2252,16 @@ namespace Microsoft.Zune.Service
 																				val3 = ptr5;
 																				val4 = ptr6;
 																				val5 = ptr7;
-																				intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
+																				intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p);
 																				num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																			}
 																			catch
 																			{
 																				//try-fault
-																				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+																				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 																				throw;
 																			}
-																			Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+																			cComPtrNtv_003CIContextData_003E.Dispose();
 																		}
 																	}
 																	catch
@@ -2302,7 +2301,7 @@ namespace Microsoft.Zune.Service
 																		fixed (char* clientContextEventDataPtr = clientContextEventData.ToCharArray())
 																		{
 																			ushort* ptr9 = (ushort*)clientContextEventDataPtr;
-																			Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+																			cComPtrNtv_003CIContextData_003E = new();
 																			try
 																			{
 																				long num2 = *(long*)m_pService + 120;
@@ -2310,7 +2309,7 @@ namespace Microsoft.Zune.Service
 																				val = ref *ptr8;
 																				num3 = eDownloadContextEvent;
 																				val2 = ref *ptr9;
-																				intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+																				intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 																				((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)Unsafe.AsPointer(ref val), num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
 																				long num4 = *(long*)ptr4 + 40;
 																				intPtr2 = ptr4;
@@ -2319,21 +2318,21 @@ namespace Microsoft.Zune.Service
 																				val3 = ptr5;
 																				val4 = ptr6;
 																				val5 = ptr7;
-																				intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
+																				intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p);
 																				num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																			}
 																			catch
 																			{
 																				//try-fault
-																				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+																				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 																				throw;
 																			}
-																			Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+																			cComPtrNtv_003CIContextData_003E.Dispose();
 																		}
 																	}
 																	else
 																	{
-																		Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+																		cComPtrNtv_003CIContextData_003E = new();
 																		try
 																		{
 																			long num2 = *(long*)m_pService + 120;
@@ -2341,7 +2340,7 @@ namespace Microsoft.Zune.Service
 																			val = ref *ptr8;
 																			num3 = eDownloadContextEvent;
 																			val2 = ref reference3;
-																			intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+																			intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 																			((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)Unsafe.AsPointer(ref val), num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
 																			long num4 = *(long*)ptr4 + 40;
 																			intPtr2 = ptr4;
@@ -2350,16 +2349,16 @@ namespace Microsoft.Zune.Service
 																			val3 = ptr5;
 																			val4 = ptr6;
 																			val5 = ptr7;
-																			intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
+																			intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p);
 																			num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																		}
 																		catch
 																		{
 																			//try-fault
-																			Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+																			Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 																			throw;
 																		}
-																		Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+																		cComPtrNtv_003CIContextData_003E.Dispose();
 																	}
 																}
 																catch
@@ -2383,7 +2382,7 @@ namespace Microsoft.Zune.Service
 																	fixed (char* clientContextEventDataPtr = clientContextEventData.ToCharArray())
 																	{
 																		ushort* ptr9 = (ushort*)clientContextEventDataPtr;
-																		Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+																		cComPtrNtv_003CIContextData_003E = new();
 																		try
 																		{
 																			long num2 = *(long*)m_pService + 120;
@@ -2391,7 +2390,7 @@ namespace Microsoft.Zune.Service
 																			val = ref reference2;
 																			num3 = eDownloadContextEvent;
 																			val2 = ref *ptr9;
-																			intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+																			intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 																			((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)Unsafe.AsPointer(ref val), num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
 																			long num4 = *(long*)ptr4 + 40;
 																			intPtr2 = ptr4;
@@ -2400,21 +2399,21 @@ namespace Microsoft.Zune.Service
 																			val3 = ptr5;
 																			val4 = ptr6;
 																			val5 = ptr7;
-																			intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
+																			intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p);
 																			num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																		}
 																		catch
 																		{
 																			//try-fault
-																			Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+																			Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 																			throw;
 																		}
-																		Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+																		cComPtrNtv_003CIContextData_003E.Dispose();
 																	}
 																}
 																else
 																{
-																	Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+																	cComPtrNtv_003CIContextData_003E = new();
 																	try
 																	{
 																		long num2 = *(long*)m_pService + 120;
@@ -2422,7 +2421,7 @@ namespace Microsoft.Zune.Service
 																		val = ref reference2;
 																		num3 = eDownloadContextEvent;
 																		val2 = ref reference3;
-																		intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+																		intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 																		((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)Unsafe.AsPointer(ref val), num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
 																		long num4 = *(long*)ptr4 + 40;
 																		intPtr2 = ptr4;
@@ -2431,16 +2430,16 @@ namespace Microsoft.Zune.Service
 																		val3 = ptr5;
 																		val4 = ptr6;
 																		val5 = ptr7;
-																		intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
+																		intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p);
 																		num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																	}
 																	catch
 																	{
 																		//try-fault
-																		Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+																		Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 																		throw;
 																	}
-																	Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+																	cComPtrNtv_003CIContextData_003E.Dispose();
 																}
 															}
 															catch
@@ -2684,7 +2683,7 @@ namespace Microsoft.Zune.Service
 																								fixed (char* clientContextEventDataPtr = clientContextEventData.ToCharArray())
 																								{
 																									ushort* ptr9 = (ushort*)clientContextEventDataPtr;
-																									Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+																									cComPtrNtv_003CIContextData_003E = new();
 																									try
 																									{
 																										long num2 = *(long*)m_pService + 120;
@@ -2692,7 +2691,7 @@ namespace Microsoft.Zune.Service
 																										val = ref *ptr8;
 																										num3 = eDownloadContextEvent;
 																										val2 = ref *ptr9;
-																										intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+																										intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 																										((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)Unsafe.AsPointer(ref val), num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
 																										long num4 = *(long*)ptr4 + 40;
 																										intPtr2 = ptr4;
@@ -2701,21 +2700,21 @@ namespace Microsoft.Zune.Service
 																										val3 = ptr5;
 																										val4 = ptr6;
 																										val5 = ptr7;
-																										intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
+																										intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p);
 																										num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																									}
 																									catch
 																									{
 																										//try-fault
-																										Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+																										Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 																										throw;
 																									}
-																									Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+																									cComPtrNtv_003CIContextData_003E.Dispose();
 																								}
 																							}
 																							else
 																							{
-																								Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+																								cComPtrNtv_003CIContextData_003E = new();
 																								try
 																								{
 																									long num2 = *(long*)m_pService + 120;
@@ -2723,7 +2722,7 @@ namespace Microsoft.Zune.Service
 																									val = ref *ptr8;
 																									num3 = eDownloadContextEvent;
 																									val2 = ref reference3;
-																									intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+																									intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 																									((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)Unsafe.AsPointer(ref val), num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
 																									long num4 = *(long*)ptr4 + 40;
 																									intPtr2 = ptr4;
@@ -2732,16 +2731,16 @@ namespace Microsoft.Zune.Service
 																									val3 = ptr5;
 																									val4 = ptr6;
 																									val5 = ptr7;
-																									intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
+																									intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p);
 																									num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																								}
 																								catch
 																								{
 																									//try-fault
-																									Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+																									Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 																									throw;
 																								}
-																								Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+																								cComPtrNtv_003CIContextData_003E.Dispose();
 																							}
 																						}
 																						catch
@@ -2765,7 +2764,7 @@ namespace Microsoft.Zune.Service
 																							fixed (char* clientContextEventDataPtr = clientContextEventData.ToCharArray())
 																							{
 																								ushort* ptr9 = (ushort*)clientContextEventDataPtr;
-																								Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+																								cComPtrNtv_003CIContextData_003E = new();
 																								try
 																								{
 																									long num2 = *(long*)m_pService + 120;
@@ -2773,7 +2772,7 @@ namespace Microsoft.Zune.Service
 																									val = ref reference2;
 																									num3 = eDownloadContextEvent;
 																									val2 = ref *ptr9;
-																									intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+																									intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 																									((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)Unsafe.AsPointer(ref val), num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
 																									long num4 = *(long*)ptr4 + 40;
 																									intPtr2 = ptr4;
@@ -2782,21 +2781,21 @@ namespace Microsoft.Zune.Service
 																									val3 = ptr5;
 																									val4 = ptr6;
 																									val5 = ptr7;
-																									intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
+																									intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p);
 																									num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																								}
 																								catch
 																								{
 																									//try-fault
-																									Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+																									Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 																									throw;
 																								}
-																								Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+																								cComPtrNtv_003CIContextData_003E.Dispose();
 																							}
 																						}
 																						else
 																						{
-																							Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+																							cComPtrNtv_003CIContextData_003E = new();
 																							try
 																							{
 																								long num2 = *(long*)m_pService + 120;
@@ -2804,7 +2803,7 @@ namespace Microsoft.Zune.Service
 																								val = ref reference2;
 																								num3 = eDownloadContextEvent;
 																								val2 = ref reference3;
-																								intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+																								intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 																								((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)Unsafe.AsPointer(ref val), num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
 																								long num4 = *(long*)ptr4 + 40;
 																								intPtr2 = ptr4;
@@ -2813,16 +2812,16 @@ namespace Microsoft.Zune.Service
 																								val3 = ptr5;
 																								val4 = ptr6;
 																								val5 = ptr7;
-																								intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
+																								intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p);
 																								num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																							}
 																							catch
 																							{
 																								//try-fault
-																								Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+																								Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 																								throw;
 																							}
-																							Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+																							cComPtrNtv_003CIContextData_003E.Dispose();
 																						}
 																					}
 																					catch
@@ -2862,7 +2861,7 @@ namespace Microsoft.Zune.Service
 																						fixed (char* clientContextEventDataPtr = clientContextEventData.ToCharArray())
 																						{
 																							ushort* ptr9 = (ushort*)clientContextEventDataPtr;
-																							Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+																							cComPtrNtv_003CIContextData_003E = new();
 																							try
 																							{
 																								long num2 = *(long*)m_pService + 120;
@@ -2870,7 +2869,7 @@ namespace Microsoft.Zune.Service
 																								val = ref *ptr8;
 																								num3 = eDownloadContextEvent;
 																								val2 = ref *ptr9;
-																								intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+																								intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 																								((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)Unsafe.AsPointer(ref val), num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
 																								long num4 = *(long*)ptr4 + 40;
 																								intPtr2 = ptr4;
@@ -2879,21 +2878,21 @@ namespace Microsoft.Zune.Service
 																								val3 = ptr5;
 																								val4 = ptr6;
 																								val5 = ptr7;
-																								intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
+																								intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p);
 																								num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																							}
 																							catch
 																							{
 																								//try-fault
-																								Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+																								Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 																								throw;
 																							}
-																							Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+																							cComPtrNtv_003CIContextData_003E.Dispose();
 																						}
 																					}
 																					else
 																					{
-																						Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+																						cComPtrNtv_003CIContextData_003E = new();
 																						try
 																						{
 																							long num2 = *(long*)m_pService + 120;
@@ -2901,7 +2900,7 @@ namespace Microsoft.Zune.Service
 																							val = ref *ptr8;
 																							num3 = eDownloadContextEvent;
 																							val2 = ref reference3;
-																							intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+																							intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 																							((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)Unsafe.AsPointer(ref val), num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
 																							long num4 = *(long*)ptr4 + 40;
 																							intPtr2 = ptr4;
@@ -2910,16 +2909,16 @@ namespace Microsoft.Zune.Service
 																							val3 = ptr5;
 																							val4 = ptr6;
 																							val5 = ptr7;
-																							intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
+																							intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p);
 																							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																						}
 																						catch
 																						{
 																							//try-fault
-																							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+																							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 																							throw;
 																						}
-																						Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+																						cComPtrNtv_003CIContextData_003E.Dispose();
 																					}
 																				}
 																				catch
@@ -2943,7 +2942,7 @@ namespace Microsoft.Zune.Service
 																					fixed (char* clientContextEventDataPtr = clientContextEventData.ToCharArray())
 																					{
 																						ushort* ptr9 = (ushort*)clientContextEventDataPtr;
-																						Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+																						cComPtrNtv_003CIContextData_003E = new();
 																						try
 																						{
 																							long num2 = *(long*)m_pService + 120;
@@ -2951,7 +2950,7 @@ namespace Microsoft.Zune.Service
 																							val = ref reference2;
 																							num3 = eDownloadContextEvent;
 																							val2 = ref *ptr9;
-																							intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+																							intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 																							((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)Unsafe.AsPointer(ref val), num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
 																							long num4 = *(long*)ptr4 + 40;
 																							intPtr2 = ptr4;
@@ -2960,21 +2959,21 @@ namespace Microsoft.Zune.Service
 																							val3 = ptr5;
 																							val4 = ptr6;
 																							val5 = ptr7;
-																							intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
+																							intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p);
 																							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																						}
 																						catch
 																						{
 																							//try-fault
-																							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+																							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 																							throw;
 																						}
-																						Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+																						cComPtrNtv_003CIContextData_003E.Dispose();
 																					}
 																				}
 																				else
 																				{
-																					Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+																					cComPtrNtv_003CIContextData_003E = new();
 																					try
 																					{
 																						long num2 = *(long*)m_pService + 120;
@@ -2982,7 +2981,7 @@ namespace Microsoft.Zune.Service
 																						val = ref reference2;
 																						num3 = eDownloadContextEvent;
 																						val2 = ref reference3;
-																						intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+																						intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 																						((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)Unsafe.AsPointer(ref val), num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
 																						long num4 = *(long*)ptr4 + 40;
 																						intPtr2 = ptr4;
@@ -2991,16 +2990,16 @@ namespace Microsoft.Zune.Service
 																						val3 = ptr5;
 																						val4 = ptr6;
 																						val5 = ptr7;
-																						intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
+																						intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p);
 																						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																					}
 																					catch
 																					{
 																						//try-fault
-																						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+																						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 																						throw;
 																					}
-																					Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+																					cComPtrNtv_003CIContextData_003E.Dispose();
 																				}
 																			}
 																			catch
@@ -3057,7 +3056,7 @@ namespace Microsoft.Zune.Service
 																						fixed (char* clientContextEventDataPtr = clientContextEventData.ToCharArray())
 																						{
 																							ushort* ptr9 = (ushort*)clientContextEventDataPtr;
-																							Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+																							cComPtrNtv_003CIContextData_003E = new();
 																							try
 																							{
 																								long num2 = *(long*)m_pService + 120;
@@ -3065,7 +3064,7 @@ namespace Microsoft.Zune.Service
 																								val = ref *ptr8;
 																								num3 = eDownloadContextEvent;
 																								val2 = ref *ptr9;
-																								intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+																								intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 																								((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)Unsafe.AsPointer(ref val), num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
 																								long num4 = *(long*)ptr4 + 40;
 																								intPtr2 = ptr4;
@@ -3074,21 +3073,21 @@ namespace Microsoft.Zune.Service
 																								val3 = ptr5;
 																								val4 = ptr6;
 																								val5 = ptr7;
-																								intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
+																								intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p);
 																								num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																							}
 																							catch
 																							{
 																								//try-fault
-																								Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+																								Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 																								throw;
 																							}
-																							Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+																							cComPtrNtv_003CIContextData_003E.Dispose();
 																						}
 																					}
 																					else
 																					{
-																						Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+																						cComPtrNtv_003CIContextData_003E = new();
 																						try
 																						{
 																							long num2 = *(long*)m_pService + 120;
@@ -3096,7 +3095,7 @@ namespace Microsoft.Zune.Service
 																							val = ref *ptr8;
 																							num3 = eDownloadContextEvent;
 																							val2 = ref reference3;
-																							intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+																							intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 																							((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)Unsafe.AsPointer(ref val), num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
 																							long num4 = *(long*)ptr4 + 40;
 																							intPtr2 = ptr4;
@@ -3105,16 +3104,16 @@ namespace Microsoft.Zune.Service
 																							val3 = ptr5;
 																							val4 = ptr6;
 																							val5 = ptr7;
-																							intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
+																							intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p);
 																							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																						}
 																						catch
 																						{
 																							//try-fault
-																							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+																							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 																							throw;
 																						}
-																						Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+																						cComPtrNtv_003CIContextData_003E.Dispose();
 																					}
 																				}
 																				catch
@@ -3138,7 +3137,7 @@ namespace Microsoft.Zune.Service
 																					fixed (char* clientContextEventDataPtr = clientContextEventData.ToCharArray())
 																					{
 																						ushort* ptr9 = (ushort*)clientContextEventDataPtr;
-																						Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+																						cComPtrNtv_003CIContextData_003E = new();
 																						try
 																						{
 																							long num2 = *(long*)m_pService + 120;
@@ -3146,7 +3145,7 @@ namespace Microsoft.Zune.Service
 																							val = ref reference2;
 																							num3 = eDownloadContextEvent;
 																							val2 = ref *ptr9;
-																							intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+																							intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 																							((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)Unsafe.AsPointer(ref val), num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
 																							long num4 = *(long*)ptr4 + 40;
 																							intPtr2 = ptr4;
@@ -3155,21 +3154,21 @@ namespace Microsoft.Zune.Service
 																							val3 = ptr5;
 																							val4 = ptr6;
 																							val5 = ptr7;
-																							intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
+																							intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p);
 																							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																						}
 																						catch
 																						{
 																							//try-fault
-																							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+																							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 																							throw;
 																						}
-																						Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+																						cComPtrNtv_003CIContextData_003E.Dispose();
 																					}
 																				}
 																				else
 																				{
-																					Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+																					cComPtrNtv_003CIContextData_003E = new();
 																					try
 																					{
 																						long num2 = *(long*)m_pService + 120;
@@ -3177,7 +3176,7 @@ namespace Microsoft.Zune.Service
 																						val = ref reference2;
 																						num3 = eDownloadContextEvent;
 																						val2 = ref reference3;
-																						intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+																						intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 																						((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)Unsafe.AsPointer(ref val), num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
 																						long num4 = *(long*)ptr4 + 40;
 																						intPtr2 = ptr4;
@@ -3186,16 +3185,16 @@ namespace Microsoft.Zune.Service
 																						val3 = ptr5;
 																						val4 = ptr6;
 																						val5 = ptr7;
-																						intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
+																						intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p);
 																						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																					}
 																					catch
 																					{
 																						//try-fault
-																						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+																						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 																						throw;
 																					}
-																					Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+																					cComPtrNtv_003CIContextData_003E.Dispose();
 																				}
 																			}
 																			catch
@@ -3235,7 +3234,7 @@ namespace Microsoft.Zune.Service
 																				fixed (char* clientContextEventDataPtr = clientContextEventData.ToCharArray())
 																				{
 																					ushort* ptr9 = (ushort*)clientContextEventDataPtr;
-																					Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+																					cComPtrNtv_003CIContextData_003E = new();
 																					try
 																					{
 																						long num2 = *(long*)m_pService + 120;
@@ -3243,7 +3242,7 @@ namespace Microsoft.Zune.Service
 																						val = ref *ptr8;
 																						num3 = eDownloadContextEvent;
 																						val2 = ref *ptr9;
-																						intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+																						intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 																						((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)Unsafe.AsPointer(ref val), num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
 																						long num4 = *(long*)ptr4 + 40;
 																						intPtr2 = ptr4;
@@ -3252,21 +3251,21 @@ namespace Microsoft.Zune.Service
 																						val3 = ptr5;
 																						val4 = ptr6;
 																						val5 = ptr7;
-																						intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
+																						intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p);
 																						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																					}
 																					catch
 																					{
 																						//try-fault
-																						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+																						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 																						throw;
 																					}
-																					Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+																					cComPtrNtv_003CIContextData_003E.Dispose();
 																				}
 																			}
 																			else
 																			{
-																				Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+																				cComPtrNtv_003CIContextData_003E = new();
 																				try
 																				{
 																					long num2 = *(long*)m_pService + 120;
@@ -3274,7 +3273,7 @@ namespace Microsoft.Zune.Service
 																					val = ref *ptr8;
 																					num3 = eDownloadContextEvent;
 																					val2 = ref reference3;
-																					intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+																					intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 																					((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)Unsafe.AsPointer(ref val), num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
 																					long num4 = *(long*)ptr4 + 40;
 																					intPtr2 = ptr4;
@@ -3283,16 +3282,16 @@ namespace Microsoft.Zune.Service
 																					val3 = ptr5;
 																					val4 = ptr6;
 																					val5 = ptr7;
-																					intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
+																					intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p);
 																					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																				}
 																				catch
 																				{
 																					//try-fault
-																					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+																					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 																					throw;
 																				}
-																				Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+																				cComPtrNtv_003CIContextData_003E.Dispose();
 																			}
 																		}
 																		catch
@@ -3316,7 +3315,7 @@ namespace Microsoft.Zune.Service
 																			fixed (char* clientContextEventDataPtr = clientContextEventData.ToCharArray())
 																			{
 																				ushort* ptr9 = (ushort*)clientContextEventDataPtr;
-																				Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+																				cComPtrNtv_003CIContextData_003E = new();
 																				try
 																				{
 																					long num2 = *(long*)m_pService + 120;
@@ -3324,7 +3323,7 @@ namespace Microsoft.Zune.Service
 																					val = ref reference2;
 																					num3 = eDownloadContextEvent;
 																					val2 = ref *ptr9;
-																					intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+																					intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 																					((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)Unsafe.AsPointer(ref val), num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
 																					long num4 = *(long*)ptr4 + 40;
 																					intPtr2 = ptr4;
@@ -3333,21 +3332,21 @@ namespace Microsoft.Zune.Service
 																					val3 = ptr5;
 																					val4 = ptr6;
 																					val5 = ptr7;
-																					intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
+																					intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p);
 																					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																				}
 																				catch
 																				{
 																					//try-fault
-																					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+																					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 																					throw;
 																				}
-																				Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+																				cComPtrNtv_003CIContextData_003E.Dispose();
 																			}
 																		}
 																		else
 																		{
-																			Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+																			cComPtrNtv_003CIContextData_003E = new();
 																			try
 																			{
 																				long num2 = *(long*)m_pService + 120;
@@ -3355,7 +3354,7 @@ namespace Microsoft.Zune.Service
 																				val = ref reference2;
 																				num3 = eDownloadContextEvent;
 																				val2 = ref reference3;
-																				intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+																				intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 																				((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)Unsafe.AsPointer(ref val), num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
 																				long num4 = *(long*)ptr4 + 40;
 																				intPtr2 = ptr4;
@@ -3364,16 +3363,16 @@ namespace Microsoft.Zune.Service
 																				val3 = ptr5;
 																				val4 = ptr6;
 																				val5 = ptr7;
-																				intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
+																				intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p);
 																				num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																			}
 																			catch
 																			{
 																				//try-fault
-																				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+																				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 																				throw;
 																			}
-																			Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+																			cComPtrNtv_003CIContextData_003E.Dispose();
 																		}
 																	}
 																	catch
@@ -3447,7 +3446,7 @@ namespace Microsoft.Zune.Service
 																						fixed (char* clientContextEventDataPtr = clientContextEventData.ToCharArray())
 																						{
 																							ushort* ptr9 = (ushort*)clientContextEventDataPtr;
-																							Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+																							cComPtrNtv_003CIContextData_003E = new();
 																							try
 																							{
 																								long num2 = *(long*)m_pService + 120;
@@ -3455,7 +3454,7 @@ namespace Microsoft.Zune.Service
 																								val = ref *ptr8;
 																								num3 = eDownloadContextEvent;
 																								val2 = ref *ptr9;
-																								intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+																								intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 																								((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)Unsafe.AsPointer(ref val), num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
 																								long num4 = *(long*)ptr4 + 40;
 																								intPtr2 = ptr4;
@@ -3464,21 +3463,21 @@ namespace Microsoft.Zune.Service
 																								val3 = ptr5;
 																								val4 = ptr6;
 																								val5 = ptr7;
-																								intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
+																								intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p);
 																								num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																							}
 																							catch
 																							{
 																								//try-fault
-																								Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+																								Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 																								throw;
 																							}
-																							Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+																							cComPtrNtv_003CIContextData_003E.Dispose();
 																						}
 																					}
 																					else
 																					{
-																						Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+																						cComPtrNtv_003CIContextData_003E = new();
 																						try
 																						{
 																							long num2 = *(long*)m_pService + 120;
@@ -3486,7 +3485,7 @@ namespace Microsoft.Zune.Service
 																							val = ref *ptr8;
 																							num3 = eDownloadContextEvent;
 																							val2 = ref reference3;
-																							intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+																							intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 																							((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)Unsafe.AsPointer(ref val), num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
 																							long num4 = *(long*)ptr4 + 40;
 																							intPtr2 = ptr4;
@@ -3495,16 +3494,16 @@ namespace Microsoft.Zune.Service
 																							val3 = ptr5;
 																							val4 = ptr6;
 																							val5 = ptr7;
-																							intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
+																							intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p);
 																							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																						}
 																						catch
 																						{
 																							//try-fault
-																							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+																							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 																							throw;
 																						}
-																						Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+																						cComPtrNtv_003CIContextData_003E.Dispose();
 																					}
 																				}
 																				catch
@@ -3528,7 +3527,7 @@ namespace Microsoft.Zune.Service
 																					fixed (char* clientContextEventDataPtr = clientContextEventData.ToCharArray())
 																					{
 																						ushort* ptr9 = (ushort*)clientContextEventDataPtr;
-																						Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+																						cComPtrNtv_003CIContextData_003E = new();
 																						try
 																						{
 																							long num2 = *(long*)m_pService + 120;
@@ -3536,7 +3535,7 @@ namespace Microsoft.Zune.Service
 																							val = ref reference2;
 																							num3 = eDownloadContextEvent;
 																							val2 = ref *ptr9;
-																							intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+																							intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 																							((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)Unsafe.AsPointer(ref val), num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
 																							long num4 = *(long*)ptr4 + 40;
 																							intPtr2 = ptr4;
@@ -3545,21 +3544,21 @@ namespace Microsoft.Zune.Service
 																							val3 = ptr5;
 																							val4 = ptr6;
 																							val5 = ptr7;
-																							intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
+																							intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p);
 																							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																						}
 																						catch
 																						{
 																							//try-fault
-																							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+																							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 																							throw;
 																						}
-																						Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+																						cComPtrNtv_003CIContextData_003E.Dispose();
 																					}
 																				}
 																				else
 																				{
-																					Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+																					cComPtrNtv_003CIContextData_003E = new();
 																					try
 																					{
 																						long num2 = *(long*)m_pService + 120;
@@ -3567,7 +3566,7 @@ namespace Microsoft.Zune.Service
 																						val = ref reference2;
 																						num3 = eDownloadContextEvent;
 																						val2 = ref reference3;
-																						intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+																						intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 																						((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)Unsafe.AsPointer(ref val), num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
 																						long num4 = *(long*)ptr4 + 40;
 																						intPtr2 = ptr4;
@@ -3576,16 +3575,16 @@ namespace Microsoft.Zune.Service
 																						val3 = ptr5;
 																						val4 = ptr6;
 																						val5 = ptr7;
-																						intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
+																						intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p);
 																						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																					}
 																					catch
 																					{
 																						//try-fault
-																						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+																						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 																						throw;
 																					}
-																					Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+																					cComPtrNtv_003CIContextData_003E.Dispose();
 																				}
 																			}
 																			catch
@@ -3625,7 +3624,7 @@ namespace Microsoft.Zune.Service
 																				fixed (char* clientContextEventDataPtr = clientContextEventData.ToCharArray())
 																				{
 																					ushort* ptr9 = (ushort*)clientContextEventDataPtr;
-																					Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+																					cComPtrNtv_003CIContextData_003E = new();
 																					try
 																					{
 																						long num2 = *(long*)m_pService + 120;
@@ -3633,7 +3632,7 @@ namespace Microsoft.Zune.Service
 																						val = ref *ptr8;
 																						num3 = eDownloadContextEvent;
 																						val2 = ref *ptr9;
-																						intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+																						intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 																						((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)Unsafe.AsPointer(ref val), num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
 																						long num4 = *(long*)ptr4 + 40;
 																						intPtr2 = ptr4;
@@ -3642,21 +3641,21 @@ namespace Microsoft.Zune.Service
 																						val3 = ptr5;
 																						val4 = ptr6;
 																						val5 = ptr7;
-																						intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
+																						intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p);
 																						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																					}
 																					catch
 																					{
 																						//try-fault
-																						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+																						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 																						throw;
 																					}
-																					Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+																					cComPtrNtv_003CIContextData_003E.Dispose();
 																				}
 																			}
 																			else
 																			{
-																				Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+																				cComPtrNtv_003CIContextData_003E = new();
 																				try
 																				{
 																					long num2 = *(long*)m_pService + 120;
@@ -3664,7 +3663,7 @@ namespace Microsoft.Zune.Service
 																					val = ref *ptr8;
 																					num3 = eDownloadContextEvent;
 																					val2 = ref reference3;
-																					intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+																					intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 																					((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)Unsafe.AsPointer(ref val), num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
 																					long num4 = *(long*)ptr4 + 40;
 																					intPtr2 = ptr4;
@@ -3673,16 +3672,16 @@ namespace Microsoft.Zune.Service
 																					val3 = ptr5;
 																					val4 = ptr6;
 																					val5 = ptr7;
-																					intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
+																					intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p);
 																					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																				}
 																				catch
 																				{
 																					//try-fault
-																					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+																					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 																					throw;
 																				}
-																				Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+																				cComPtrNtv_003CIContextData_003E.Dispose();
 																			}
 																		}
 																		catch
@@ -3706,7 +3705,7 @@ namespace Microsoft.Zune.Service
 																			fixed (char* clientContextEventDataPtr = clientContextEventData.ToCharArray())
 																			{
 																				ushort* ptr9 = (ushort*)clientContextEventDataPtr;
-																				Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+																				cComPtrNtv_003CIContextData_003E = new();
 																				try
 																				{
 																					long num2 = *(long*)m_pService + 120;
@@ -3714,7 +3713,7 @@ namespace Microsoft.Zune.Service
 																					val = ref reference2;
 																					num3 = eDownloadContextEvent;
 																					val2 = ref *ptr9;
-																					intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+																					intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 																					((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)Unsafe.AsPointer(ref val), num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
 																					long num4 = *(long*)ptr4 + 40;
 																					intPtr2 = ptr4;
@@ -3723,21 +3722,21 @@ namespace Microsoft.Zune.Service
 																					val3 = ptr5;
 																					val4 = ptr6;
 																					val5 = ptr7;
-																					intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
+																					intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p);
 																					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																				}
 																				catch
 																				{
 																					//try-fault
-																					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+																					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 																					throw;
 																				}
-																				Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+																				cComPtrNtv_003CIContextData_003E.Dispose();
 																			}
 																		}
 																		else
 																		{
-																			Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+																			cComPtrNtv_003CIContextData_003E = new();
 																			try
 																			{
 																				long num2 = *(long*)m_pService + 120;
@@ -3745,7 +3744,7 @@ namespace Microsoft.Zune.Service
 																				val = ref reference2;
 																				num3 = eDownloadContextEvent;
 																				val2 = ref reference3;
-																				intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+																				intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 																				((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)Unsafe.AsPointer(ref val), num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
 																				long num4 = *(long*)ptr4 + 40;
 																				intPtr2 = ptr4;
@@ -3754,16 +3753,16 @@ namespace Microsoft.Zune.Service
 																				val3 = ptr5;
 																				val4 = ptr6;
 																				val5 = ptr7;
-																				intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
+																				intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p);
 																				num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																			}
 																			catch
 																			{
 																				//try-fault
-																				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+																				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 																				throw;
 																			}
-																			Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+																			cComPtrNtv_003CIContextData_003E.Dispose();
 																		}
 																	}
 																	catch
@@ -3820,7 +3819,7 @@ namespace Microsoft.Zune.Service
 																				fixed (char* clientContextEventDataPtr = clientContextEventData.ToCharArray())
 																				{
 																					ushort* ptr9 = (ushort*)clientContextEventDataPtr;
-																					Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+																					cComPtrNtv_003CIContextData_003E = new();
 																					try
 																					{
 																						long num2 = *(long*)m_pService + 120;
@@ -3828,7 +3827,7 @@ namespace Microsoft.Zune.Service
 																						val = ref *ptr8;
 																						num3 = eDownloadContextEvent;
 																						val2 = ref *ptr9;
-																						intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+																						intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 																						((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)Unsafe.AsPointer(ref val), num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
 																						long num4 = *(long*)ptr4 + 40;
 																						intPtr2 = ptr4;
@@ -3837,21 +3836,21 @@ namespace Microsoft.Zune.Service
 																						val3 = ptr5;
 																						val4 = ptr6;
 																						val5 = ptr7;
-																						intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
+																						intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p);
 																						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																					}
 																					catch
 																					{
 																						//try-fault
-																						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+																						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 																						throw;
 																					}
-																					Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+																					cComPtrNtv_003CIContextData_003E.Dispose();
 																				}
 																			}
 																			else
 																			{
-																				Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+																				cComPtrNtv_003CIContextData_003E = new();
 																				try
 																				{
 																					long num2 = *(long*)m_pService + 120;
@@ -3859,7 +3858,7 @@ namespace Microsoft.Zune.Service
 																					val = ref *ptr8;
 																					num3 = eDownloadContextEvent;
 																					val2 = ref reference3;
-																					intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+																					intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 																					((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)Unsafe.AsPointer(ref val), num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
 																					long num4 = *(long*)ptr4 + 40;
 																					intPtr2 = ptr4;
@@ -3868,16 +3867,16 @@ namespace Microsoft.Zune.Service
 																					val3 = ptr5;
 																					val4 = ptr6;
 																					val5 = ptr7;
-																					intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
+																					intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p);
 																					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																				}
 																				catch
 																				{
 																					//try-fault
-																					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+																					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 																					throw;
 																				}
-																				Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+																				cComPtrNtv_003CIContextData_003E.Dispose();
 																			}
 																		}
 																		catch
@@ -3901,7 +3900,7 @@ namespace Microsoft.Zune.Service
 																			fixed (char* clientContextEventDataPtr = clientContextEventData.ToCharArray())
 																			{
 																				ushort* ptr9 = (ushort*)clientContextEventDataPtr;
-																				Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+																				cComPtrNtv_003CIContextData_003E = new();
 																				try
 																				{
 																					long num2 = *(long*)m_pService + 120;
@@ -3909,7 +3908,7 @@ namespace Microsoft.Zune.Service
 																					val = ref reference2;
 																					num3 = eDownloadContextEvent;
 																					val2 = ref *ptr9;
-																					intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+																					intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 																					((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)Unsafe.AsPointer(ref val), num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
 																					long num4 = *(long*)ptr4 + 40;
 																					intPtr2 = ptr4;
@@ -3918,21 +3917,21 @@ namespace Microsoft.Zune.Service
 																					val3 = ptr5;
 																					val4 = ptr6;
 																					val5 = ptr7;
-																					intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
+																					intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p);
 																					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																				}
 																				catch
 																				{
 																					//try-fault
-																					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+																					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 																					throw;
 																				}
-																				Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+																				cComPtrNtv_003CIContextData_003E.Dispose();
 																			}
 																		}
 																		else
 																		{
-																			Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+																			cComPtrNtv_003CIContextData_003E = new();
 																			try
 																			{
 																				long num2 = *(long*)m_pService + 120;
@@ -3940,7 +3939,7 @@ namespace Microsoft.Zune.Service
 																				val = ref reference2;
 																				num3 = eDownloadContextEvent;
 																				val2 = ref reference3;
-																				intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+																				intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 																				((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)Unsafe.AsPointer(ref val), num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
 																				long num4 = *(long*)ptr4 + 40;
 																				intPtr2 = ptr4;
@@ -3949,16 +3948,16 @@ namespace Microsoft.Zune.Service
 																				val3 = ptr5;
 																				val4 = ptr6;
 																				val5 = ptr7;
-																				intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
+																				intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p);
 																				num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																			}
 																			catch
 																			{
 																				//try-fault
-																				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+																				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 																				throw;
 																			}
-																			Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+																			cComPtrNtv_003CIContextData_003E.Dispose();
 																		}
 																	}
 																	catch
@@ -3998,7 +3997,7 @@ namespace Microsoft.Zune.Service
 																		fixed (char* clientContextEventDataPtr = clientContextEventData.ToCharArray())
 																		{
 																			ushort* ptr9 = (ushort*)clientContextEventDataPtr;
-																			Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+																			cComPtrNtv_003CIContextData_003E = new();
 																			try
 																			{
 																				long num2 = *(long*)m_pService + 120;
@@ -4006,7 +4005,7 @@ namespace Microsoft.Zune.Service
 																				val = ref *ptr8;
 																				num3 = eDownloadContextEvent;
 																				val2 = ref *ptr9;
-																				intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+																				intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 																				((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)Unsafe.AsPointer(ref val), num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
 																				long num4 = *(long*)ptr4 + 40;
 																				intPtr2 = ptr4;
@@ -4015,21 +4014,21 @@ namespace Microsoft.Zune.Service
 																				val3 = ptr5;
 																				val4 = ptr6;
 																				val5 = ptr7;
-																				intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
+																				intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p);
 																				num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																			}
 																			catch
 																			{
 																				//try-fault
-																				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+																				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 																				throw;
 																			}
-																			Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+																			cComPtrNtv_003CIContextData_003E.Dispose();
 																		}
 																	}
 																	else
 																	{
-																		Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+																		cComPtrNtv_003CIContextData_003E = new();
 																		try
 																		{
 																			long num2 = *(long*)m_pService + 120;
@@ -4037,7 +4036,7 @@ namespace Microsoft.Zune.Service
 																			val = ref *ptr8;
 																			num3 = eDownloadContextEvent;
 																			val2 = ref reference3;
-																			intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+																			intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 																			((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)Unsafe.AsPointer(ref val), num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
 																			long num4 = *(long*)ptr4 + 40;
 																			intPtr2 = ptr4;
@@ -4046,16 +4045,16 @@ namespace Microsoft.Zune.Service
 																			val3 = ptr5;
 																			val4 = ptr6;
 																			val5 = ptr7;
-																			intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
+																			intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p);
 																			num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																		}
 																		catch
 																		{
 																			//try-fault
-																			Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+																			Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 																			throw;
 																		}
-																		Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+																		cComPtrNtv_003CIContextData_003E.Dispose();
 																	}
 																}
 																catch
@@ -4079,7 +4078,7 @@ namespace Microsoft.Zune.Service
 																	fixed (char* clientContextEventDataPtr = clientContextEventData.ToCharArray())
 																	{
 																		ushort* ptr9 = (ushort*)clientContextEventDataPtr;
-																		Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+																		cComPtrNtv_003CIContextData_003E = new();
 																		try
 																		{
 																			long num2 = *(long*)m_pService + 120;
@@ -4087,7 +4086,7 @@ namespace Microsoft.Zune.Service
 																			val = ref reference2;
 																			num3 = eDownloadContextEvent;
 																			val2 = ref *ptr9;
-																			intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+																			intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 																			((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)Unsafe.AsPointer(ref val), num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
 																			long num4 = *(long*)ptr4 + 40;
 																			intPtr2 = ptr4;
@@ -4096,21 +4095,21 @@ namespace Microsoft.Zune.Service
 																			val3 = ptr5;
 																			val4 = ptr6;
 																			val5 = ptr7;
-																			intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
+																			intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p);
 																			num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																		}
 																		catch
 																		{
 																			//try-fault
-																			Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+																			Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 																			throw;
 																		}
-																		Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+																		cComPtrNtv_003CIContextData_003E.Dispose();
 																	}
 																}
 																else
 																{
-																	Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+																	cComPtrNtv_003CIContextData_003E = new();
 																	try
 																	{
 																		long num2 = *(long*)m_pService + 120;
@@ -4118,7 +4117,7 @@ namespace Microsoft.Zune.Service
 																		val = ref reference2;
 																		num3 = eDownloadContextEvent;
 																		val2 = ref reference3;
-																		intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+																		intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 																		((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)Unsafe.AsPointer(ref val), num3, (ushort*)Unsafe.AsPointer(ref val2), intPtr);
 																		long num4 = *(long*)ptr4 + 40;
 																		intPtr2 = ptr4;
@@ -4127,16 +4126,16 @@ namespace Microsoft.Zune.Service
 																		val3 = ptr5;
 																		val4 = ptr6;
 																		val5 = ptr7;
-																		intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(&cComPtrNtv_003CIContextData_003E);
+																		intPtr3 = Module.CComPtrNtv_003CIContextData_003E_002E_002EPEAUIContextData_0040_0040(cComPtrNtv_003CIContextData_003E.p);
 																		num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num4))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference4), num5, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, intPtr3);
 																	}
 																	catch
 																	{
 																		//try-fault
-																		Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+																		Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 																		throw;
 																	}
-																	Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+																	cComPtrNtv_003CIContextData_003E.Dispose();
 																}
 															}
 															catch
@@ -4426,13 +4425,12 @@ namespace Microsoft.Zune.Service
 													ushort* ptr = (ushort*)strServiceContextPtr;
 													try
 													{
-														CComPtrNtv_003CIContextData_003E cComPtrNtv_003CIContextData_003E;
-														*(long*)(&cComPtrNtv_003CIContextData_003E) = 0L;
+														CComPtrNtv<IContextData> cComPtrNtv_003CIContextData_003E = new();
 														try
 														{
 															long num = *(long*)m_pService + 120;
 															IService* pService = m_pService;
-															((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num))((nint)pService, ptr, (global::EDownloadContextEvent)(-1), null, (IContextData**)(&cComPtrNtv_003CIContextData_003E));
+															((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num))((nint)pService, ptr, (global::EDownloadContextEvent)(-1), null, (IContextData**)(cComPtrNtv_003CIContextData_003E.p));
 															_GUID gUID = guidAlbumMediaId;
 															_GUID gUID2 = guidTrackMediaId;
 															long num2 = *(long*)m_pService + 904;
@@ -4441,16 +4439,16 @@ namespace Microsoft.Zune.Service
 															_003F val2 = ptr3;
 															_003F val3 = ptr4;
 															_003F val4 = ptr5;
-															long num3 = *(long*)(&cComPtrNtv_003CIContextData_003E);
+															long num3 = *(long*)(cComPtrNtv_003CIContextData_003E.p);
 															result = (byte)((((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, int, _GUID*, _GUID*, int, ushort*, int, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)num2))((nint)pService2, iUserId, iRating, &gUID2, &gUID, iTrackNumber, (ushort*)(nint)val, msDuration, (ushort*)(nint)val2, (ushort*)(nint)val3, (ushort*)(nint)val4, (IContextData*)num3) >= 0) ? 1u : 0u) != 0;
 														}
 														catch
 														{
 															//try-fault
-															Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+															Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 															throw;
 														}
-														Module.CComPtrNtv_003CIContextData_003E_002ERelease(&cComPtrNtv_003CIContextData_003E);
+														cComPtrNtv_003CIContextData_003E.Dispose();
 													}
 													catch
 													{
@@ -4724,17 +4722,16 @@ namespace Microsoft.Zune.Service
 			string result = null;
 			if (m_pService != null && IsSignedIn())
 			{
-				CComPtrNtv_003CISignInState_003E cComPtrNtv_003CISignInState_003E;
-				*(long*)(&cComPtrNtv_003CISignInState_003E) = 0L;
+				CComPtrNtv<ISignInState> cComPtrNtv_003CISignInState_003E = new();
 				try
 				{
 					IService* pService = m_pService;
-					int num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ISignInState**, int>)(*(ulong*)(*(long*)pService + 344)))((nint)pService, (ISignInState**)(&cComPtrNtv_003CISignInState_003E));
+					int num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ISignInState**, int>)(*(ulong*)(*(long*)pService + 344)))((nint)pService, (ISignInState**)(cComPtrNtv_003CISignInState_003E.p));
 					ushort* ptr = null;
 					if (num >= 0)
 					{
-						long num2 = *(long*)(&cComPtrNtv_003CISignInState_003E);
-						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort**, int>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CISignInState_003E)) + 96)))((nint)num2, &ptr);
+						long num2 = *(long*)(cComPtrNtv_003CISignInState_003E.p);
+						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort**, int>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CISignInState_003E.p)) + 96)))((nint)num2, &ptr);
 						if (num < 0)
 						{
 							goto IL_0066;
@@ -4756,10 +4753,10 @@ namespace Microsoft.Zune.Service
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CISignInState_003E*, void>)(&Module.CComPtrNtv_003CISignInState_003E_002E_007Bdtor_007D), &cComPtrNtv_003CISignInState_003E);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ISignInState*, void>)(&Module.CComPtrNtv_003CISignInState_003E_002E_007Bdtor_007D), cComPtrNtv_003CISignInState_003E.p);
 					throw;
 				}
-				Module.CComPtrNtv_003CISignInState_003E_002ERelease(&cComPtrNtv_003CISignInState_003E);
+				cComPtrNtv_003CISignInState_003E.Dispose();
 			}
 			return result;
 		}
@@ -4773,17 +4770,16 @@ namespace Microsoft.Zune.Service
 			string result = null;
 			if (m_pService != null && IsSignedIn())
 			{
-				CComPtrNtv_003CISignInState_003E cComPtrNtv_003CISignInState_003E;
-				*(long*)(&cComPtrNtv_003CISignInState_003E) = 0L;
+				CComPtrNtv<ISignInState> cComPtrNtv_003CISignInState_003E = new();
 				try
 				{
 					IService* pService = m_pService;
-					int num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ISignInState**, int>)(*(ulong*)(*(long*)pService + 344)))((nint)pService, (ISignInState**)(&cComPtrNtv_003CISignInState_003E));
+					int num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ISignInState**, int>)(*(ulong*)(*(long*)pService + 344)))((nint)pService, (ISignInState**)(cComPtrNtv_003CISignInState_003E.p));
 					ushort* ptr = null;
 					if (num >= 0)
 					{
-						long num2 = *(long*)(&cComPtrNtv_003CISignInState_003E);
-						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EPassportPolicy, ushort**, int>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CISignInState_003E)) + 40)))((nint)num2, (EPassportPolicy)ePassportPolicy, &ptr);
+						long num2 = *(long*)(cComPtrNtv_003CISignInState_003E.p);
+						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EPassportPolicy, ushort**, int>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CISignInState_003E.p)) + 40)))((nint)num2, (EPassportPolicy)ePassportPolicy, &ptr);
 						if (num < 0)
 						{
 							goto IL_006a;
@@ -4805,10 +4801,10 @@ namespace Microsoft.Zune.Service
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CISignInState_003E*, void>)(&Module.CComPtrNtv_003CISignInState_003E_002E_007Bdtor_007D), &cComPtrNtv_003CISignInState_003E);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ISignInState*, void>)(&Module.CComPtrNtv_003CISignInState_003E_002E_007Bdtor_007D), cComPtrNtv_003CISignInState_003E.p);
 					throw;
 				}
-				Module.CComPtrNtv_003CISignInState_003E_002ERelease(&cComPtrNtv_003CISignInState_003E);
+				cComPtrNtv_003CISignInState_003E.Dispose();
 			}
 			return result;
 		}
@@ -4831,25 +4827,24 @@ namespace Microsoft.Zune.Service
 							ushort* ptr2 = (ushort*)passwordPtr;
 							try
 							{
-								CComPtrNtv_003CIPassportIdentity_003E cComPtrNtv_003CIPassportIdentity_003E;
-								*(long*)(&cComPtrNtv_003CIPassportIdentity_003E) = 0L;
+								CComPtrNtv<IPassportIdentity> cComPtrNtv_003CIPassportIdentity_003E = new();
 								try
 								{
 									long num2 = *(long*)m_pService + 440;
 									IService* pService = m_pService;
-									num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, ushort*, EPassportPolicy, IPassportIdentity**, int>)(*(ulong*)num2))((nint)pService, ptr, ptr2, (EPassportPolicy)ePassportPolicyId, (IPassportIdentity**)(&cComPtrNtv_003CIPassportIdentity_003E));
+									num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, ushort*, EPassportPolicy, IPassportIdentity**, int>)(*(ulong*)num2))((nint)pService, ptr, ptr2, (EPassportPolicy)ePassportPolicyId, (IPassportIdentity**)(cComPtrNtv_003CIPassportIdentity_003E.p));
 									if (num >= 0)
 									{
-										passportIdentity = new PassportIdentity((IPassportIdentity*)(*(ulong*)(&cComPtrNtv_003CIPassportIdentity_003E)));
+										passportIdentity = new PassportIdentity((IPassportIdentity*)(*(ulong*)(cComPtrNtv_003CIPassportIdentity_003E.p)));
 									}
 								}
 								catch
 								{
 									//try-fault
-									Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIPassportIdentity_003E*, void>)(&Module.CComPtrNtv_003CIPassportIdentity_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIPassportIdentity_003E);
+									Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IPassportIdentity*, void>)(&Module.CComPtrNtv_003CIPassportIdentity_003E_002E_007Bdtor_007D), cComPtrNtv_003CIPassportIdentity_003E.p);
 									throw;
 								}
-								Module.CComPtrNtv_003CIPassportIdentity_003E_002ERelease(&cComPtrNtv_003CIPassportIdentity_003E);
+								cComPtrNtv_003CIPassportIdentity_003E.Dispose();
 							}
 							catch
 							{
@@ -4879,17 +4874,16 @@ namespace Microsoft.Zune.Service
 			string result = null;
 			if (m_pService != null && IsSignedIn())
 			{
-				CComPtrNtv_003CISignInState_003E cComPtrNtv_003CISignInState_003E;
-				*(long*)(&cComPtrNtv_003CISignInState_003E) = 0L;
+				CComPtrNtv<ISignInState> cComPtrNtv_003CISignInState_003E = new();
 				try
 				{
 					IService* pService = m_pService;
-					int num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ISignInState**, int>)(*(ulong*)(*(long*)pService + 344)))((nint)pService, (ISignInState**)(&cComPtrNtv_003CISignInState_003E));
+					int num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ISignInState**, int>)(*(ulong*)(*(long*)pService + 344)))((nint)pService, (ISignInState**)(cComPtrNtv_003CISignInState_003E.p));
 					ushort* ptr = null;
 					if (num >= 0)
 					{
-						long num2 = *(long*)(&cComPtrNtv_003CISignInState_003E);
-						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort**, int>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CISignInState_003E)) + 32)))((nint)num2, &ptr);
+						long num2 = *(long*)(cComPtrNtv_003CISignInState_003E.p);
+						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort**, int>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CISignInState_003E.p)) + 32)))((nint)num2, &ptr);
 						if (num < 0)
 						{
 							goto IL_0066;
@@ -4911,10 +4905,10 @@ namespace Microsoft.Zune.Service
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CISignInState_003E*, void>)(&Module.CComPtrNtv_003CISignInState_003E_002E_007Bdtor_007D), &cComPtrNtv_003CISignInState_003E);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ISignInState*, void>)(&Module.CComPtrNtv_003CISignInState_003E_002E_007Bdtor_007D), cComPtrNtv_003CISignInState_003E.p);
 					throw;
 				}
-				Module.CComPtrNtv_003CISignInState_003E_002ERelease(&cComPtrNtv_003CISignInState_003E);
+				cComPtrNtv_003CISignInState_003E.Dispose();
 			}
 			return result;
 		}
@@ -4927,24 +4921,23 @@ namespace Microsoft.Zune.Service
 			ulong result = 0uL;
 			if (m_pService != null && IsSignedIn())
 			{
-				CComPtrNtv_003CISignInState_003E cComPtrNtv_003CISignInState_003E;
-				*(long*)(&cComPtrNtv_003CISignInState_003E) = 0L;
+				CComPtrNtv<ISignInState> cComPtrNtv_003CISignInState_003E = new();
 				try
 				{
 					IService* pService = m_pService;
-					if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ISignInState**, int>)(*(ulong*)(*(long*)pService + 344)))((nint)pService, (ISignInState**)(&cComPtrNtv_003CISignInState_003E)) >= 0)
+					if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ISignInState**, int>)(*(ulong*)(*(long*)pService + 344)))((nint)pService, (ISignInState**)(cComPtrNtv_003CISignInState_003E.p)) >= 0)
 					{
-						long num = *(long*)(&cComPtrNtv_003CISignInState_003E);
-						result = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ulong>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CISignInState_003E)) + 80)))((nint)num);
+						long num = *(long*)(cComPtrNtv_003CISignInState_003E.p);
+						result = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ulong>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CISignInState_003E.p)) + 80)))((nint)num);
 					}
 				}
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CISignInState_003E*, void>)(&Module.CComPtrNtv_003CISignInState_003E_002E_007Bdtor_007D), &cComPtrNtv_003CISignInState_003E);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ISignInState*, void>)(&Module.CComPtrNtv_003CISignInState_003E_002E_007Bdtor_007D), cComPtrNtv_003CISignInState_003E.p);
 					throw;
 				}
-				Module.CComPtrNtv_003CISignInState_003E_002ERelease(&cComPtrNtv_003CISignInState_003E);
+				cComPtrNtv_003CISignInState_003E.Dispose();
 			}
 			return result;
 		}
@@ -4957,16 +4950,15 @@ namespace Microsoft.Zune.Service
 			_GUID gUID_NULL = Module.GUID_NULL;
 			if (m_pService != null && IsSignedIn())
 			{
-				CComPtrNtv_003CISignInState_003E cComPtrNtv_003CISignInState_003E;
-				*(long*)(&cComPtrNtv_003CISignInState_003E) = 0L;
+				CComPtrNtv<ISignInState> cComPtrNtv_003CISignInState_003E = new();
 				try
 				{
 					IService* pService = m_pService;
-					int num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ISignInState**, int>)(*(ulong*)(*(long*)pService + 344)))((nint)pService, (ISignInState**)(&cComPtrNtv_003CISignInState_003E));
+					int num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ISignInState**, int>)(*(ulong*)(*(long*)pService + 344)))((nint)pService, (ISignInState**)(cComPtrNtv_003CISignInState_003E.p));
 					if (num >= 0)
 					{
-						long num2 = *(long*)(&cComPtrNtv_003CISignInState_003E);
-						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, int>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CISignInState_003E)) + 64)))((nint)num2, &gUID_NULL);
+						long num2 = *(long*)(cComPtrNtv_003CISignInState_003E.p);
+						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, int>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CISignInState_003E.p)) + 64)))((nint)num2, &gUID_NULL);
 						if (num < 0)
 						{
 							gUID_NULL = Module.GUID_NULL;
@@ -4976,10 +4968,10 @@ namespace Microsoft.Zune.Service
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CISignInState_003E*, void>)(&Module.CComPtrNtv_003CISignInState_003E_002E_007Bdtor_007D), &cComPtrNtv_003CISignInState_003E);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ISignInState*, void>)(&Module.CComPtrNtv_003CISignInState_003E_002E_007Bdtor_007D), cComPtrNtv_003CISignInState_003E.p);
 					throw;
 				}
-				Module.CComPtrNtv_003CISignInState_003E_002ERelease(&cComPtrNtv_003CISignInState_003E);
+				cComPtrNtv_003CISignInState_003E.Dispose();
 			}
 			return gUID_NULL;
 		}
@@ -4993,17 +4985,16 @@ namespace Microsoft.Zune.Service
 			string result = null;
 			if (m_pService != null && IsSignedIn())
 			{
-				CComPtrNtv_003CISignInState_003E cComPtrNtv_003CISignInState_003E;
-				*(long*)(&cComPtrNtv_003CISignInState_003E) = 0L;
+				CComPtrNtv<ISignInState> cComPtrNtv_003CISignInState_003E = new();
 				try
 				{
 					IService* pService = m_pService;
-					int num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ISignInState**, int>)(*(ulong*)(*(long*)pService + 344)))((nint)pService, (ISignInState**)(&cComPtrNtv_003CISignInState_003E));
+					int num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ISignInState**, int>)(*(ulong*)(*(long*)pService + 344)))((nint)pService, (ISignInState**)(cComPtrNtv_003CISignInState_003E.p));
 					ushort* ptr = null;
 					if (num >= 0)
 					{
-						long num2 = *(long*)(&cComPtrNtv_003CISignInState_003E);
-						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort**, int>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CISignInState_003E)) + 104)))((nint)num2, &ptr);
+						long num2 = *(long*)(cComPtrNtv_003CISignInState_003E.p);
+						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort**, int>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CISignInState_003E.p)) + 104)))((nint)num2, &ptr);
 						if (num < 0)
 						{
 							goto IL_0066;
@@ -5025,10 +5016,10 @@ namespace Microsoft.Zune.Service
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CISignInState_003E*, void>)(&Module.CComPtrNtv_003CISignInState_003E_002E_007Bdtor_007D), &cComPtrNtv_003CISignInState_003E);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ISignInState*, void>)(&Module.CComPtrNtv_003CISignInState_003E_002E_007Bdtor_007D), cComPtrNtv_003CISignInState_003E.p);
 					throw;
 				}
-				Module.CComPtrNtv_003CISignInState_003E_002ERelease(&cComPtrNtv_003CISignInState_003E);
+				cComPtrNtv_003CISignInState_003E.Dispose();
 			}
 			return result;
 		}
@@ -5042,25 +5033,24 @@ namespace Microsoft.Zune.Service
 			bool result = false;
 			if (m_pService != null && IsSignedIn())
 			{
-				CComPtrNtv_003CISignInState_003E cComPtrNtv_003CISignInState_003E;
-				*(long*)(&cComPtrNtv_003CISignInState_003E) = 0L;
+				CComPtrNtv<ISignInState> cComPtrNtv_003CISignInState_003E = new();
 				try
 				{
 					IService* pService = m_pService;
-					if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ISignInState**, int>)(*(ulong*)(*(long*)pService + 344)))((nint)pService, (ISignInState**)(&cComPtrNtv_003CISignInState_003E)) >= 0)
+					if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ISignInState**, int>)(*(ulong*)(*(long*)pService + 344)))((nint)pService, (ISignInState**)(cComPtrNtv_003CISignInState_003E.p)) >= 0)
 					{
-						long num = *(long*)(&cComPtrNtv_003CISignInState_003E);
-						bool flag = ((((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CISignInState_003E)) + 248)))((nint)num) != 0) ? true : false);
+						long num = *(long*)(cComPtrNtv_003CISignInState_003E.p);
+						bool flag = ((((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CISignInState_003E.p)) + 248)))((nint)num) != 0) ? true : false);
 						result = flag;
 					}
 				}
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CISignInState_003E*, void>)(&Module.CComPtrNtv_003CISignInState_003E_002E_007Bdtor_007D), &cComPtrNtv_003CISignInState_003E);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ISignInState*, void>)(&Module.CComPtrNtv_003CISignInState_003E_002E_007Bdtor_007D), cComPtrNtv_003CISignInState_003E.p);
 					throw;
 				}
-				Module.CComPtrNtv_003CISignInState_003E_002ERelease(&cComPtrNtv_003CISignInState_003E);
+				cComPtrNtv_003CISignInState_003E.Dispose();
 			}
 			return result;
 		}
@@ -5074,25 +5064,24 @@ namespace Microsoft.Zune.Service
 			bool result = false;
 			if (m_pService != null && IsSignedIn())
 			{
-				CComPtrNtv_003CISignInState_003E cComPtrNtv_003CISignInState_003E;
-				*(long*)(&cComPtrNtv_003CISignInState_003E) = 0L;
+				CComPtrNtv<ISignInState> cComPtrNtv_003CISignInState_003E = new();
 				try
 				{
 					IService* pService = m_pService;
-					if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ISignInState**, int>)(*(ulong*)(*(long*)pService + 344)))((nint)pService, (ISignInState**)(&cComPtrNtv_003CISignInState_003E)) >= 0)
+					if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ISignInState**, int>)(*(ulong*)(*(long*)pService + 344)))((nint)pService, (ISignInState**)(cComPtrNtv_003CISignInState_003E.p)) >= 0)
 					{
-						long num = *(long*)(&cComPtrNtv_003CISignInState_003E);
-						bool flag = ((((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CISignInState_003E)) + 200)))((nint)num) != 0) ? true : false);
+						long num = *(long*)(cComPtrNtv_003CISignInState_003E.p);
+						bool flag = ((((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CISignInState_003E.p)) + 200)))((nint)num) != 0) ? true : false);
 						result = flag;
 					}
 				}
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CISignInState_003E*, void>)(&Module.CComPtrNtv_003CISignInState_003E_002E_007Bdtor_007D), &cComPtrNtv_003CISignInState_003E);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ISignInState*, void>)(&Module.CComPtrNtv_003CISignInState_003E_002E_007Bdtor_007D), cComPtrNtv_003CISignInState_003E.p);
 					throw;
 				}
-				Module.CComPtrNtv_003CISignInState_003E_002ERelease(&cComPtrNtv_003CISignInState_003E);
+				cComPtrNtv_003CISignInState_003E.Dispose();
 			}
 			return result;
 		}
@@ -5105,24 +5094,23 @@ namespace Microsoft.Zune.Service
 			int result = 0;
 			if (m_pService != null && IsSignedIn())
 			{
-				CComPtrNtv_003CISignInState_003E cComPtrNtv_003CISignInState_003E;
-				*(long*)(&cComPtrNtv_003CISignInState_003E) = 0L;
+				CComPtrNtv<ISignInState> cComPtrNtv_003CISignInState_003E = new();
 				try
 				{
 					IService* pService = m_pService;
-					if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ISignInState**, int>)(*(ulong*)(*(long*)pService + 344)))((nint)pService, (ISignInState**)(&cComPtrNtv_003CISignInState_003E)) >= 0)
+					if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ISignInState**, int>)(*(ulong*)(*(long*)pService + 344)))((nint)pService, (ISignInState**)(cComPtrNtv_003CISignInState_003E.p)) >= 0)
 					{
-						long num = *(long*)(&cComPtrNtv_003CISignInState_003E);
-						result = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CISignInState_003E)) + 144)))((nint)num);
+						long num = *(long*)(cComPtrNtv_003CISignInState_003E.p);
+						result = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CISignInState_003E.p)) + 144)))((nint)num);
 					}
 				}
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CISignInState_003E*, void>)(&Module.CComPtrNtv_003CISignInState_003E_002E_007Bdtor_007D), &cComPtrNtv_003CISignInState_003E);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ISignInState*, void>)(&Module.CComPtrNtv_003CISignInState_003E_002E_007Bdtor_007D), cComPtrNtv_003CISignInState_003E.p);
 					throw;
 				}
-				Module.CComPtrNtv_003CISignInState_003E_002ERelease(&cComPtrNtv_003CISignInState_003E);
+				cComPtrNtv_003CISignInState_003E.Dispose();
 			}
 			return result;
 		}
@@ -5163,24 +5151,23 @@ namespace Microsoft.Zune.Service
 			int result = 0;
 			if (m_pService != null && IsSignedInWithSubscription())
 			{
-				CComPtrNtv_003CISignInState_003E cComPtrNtv_003CISignInState_003E;
-				*(long*)(&cComPtrNtv_003CISignInState_003E) = 0L;
+				CComPtrNtv<ISignInState> cComPtrNtv_003CISignInState_003E = new();
 				try
 				{
 					IService* pService = m_pService;
-					if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ISignInState**, int>)(*(ulong*)(*(long*)pService + 344)))((nint)pService, (ISignInState**)(&cComPtrNtv_003CISignInState_003E)) >= 0)
+					if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ISignInState**, int>)(*(ulong*)(*(long*)pService + 344)))((nint)pService, (ISignInState**)(cComPtrNtv_003CISignInState_003E.p)) >= 0)
 					{
-						long num = *(long*)(&cComPtrNtv_003CISignInState_003E);
-						result = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CISignInState_003E)) + 152)))((nint)num);
+						long num = *(long*)(cComPtrNtv_003CISignInState_003E.p);
+						result = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CISignInState_003E.p)) + 152)))((nint)num);
 					}
 				}
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CISignInState_003E*, void>)(&Module.CComPtrNtv_003CISignInState_003E_002E_007Bdtor_007D), &cComPtrNtv_003CISignInState_003E);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ISignInState*, void>)(&Module.CComPtrNtv_003CISignInState_003E_002E_007Bdtor_007D), cComPtrNtv_003CISignInState_003E.p);
 					throw;
 				}
-				Module.CComPtrNtv_003CISignInState_003E_002ERelease(&cComPtrNtv_003CISignInState_003E);
+				cComPtrNtv_003CISignInState_003E.Dispose();
 			}
 			return result;
 		}
@@ -5193,8 +5180,7 @@ namespace Microsoft.Zune.Service
 			int num = 0;
 			num = (((long)(nint)m_pService == 0) ? (-2147467259) : num);
 			_GUID offerId2 = offerId;
-			CComPtrNtv_003CIGetOfferDetailsCallback_003E cComPtrNtv_003CIGetOfferDetailsCallback_003E;
-			*(long*)(&cComPtrNtv_003CIGetOfferDetailsCallback_003E) = 0L;
+			CComPtrNtv<IGetOfferDetailsCallback> cComPtrNtv_003CIGetOfferDetailsCallback_003E = new();
 			HRESULT result;
 			try
 			{
@@ -5212,12 +5198,12 @@ namespace Microsoft.Zune.Service
 						Module.delete(ptr);
 						throw;
 					}
-					Module.CComPtrNtv_003CIGetOfferDetailsCallback_003E_002EAttach(&cComPtrNtv_003CIGetOfferDetailsCallback_003E, (IGetOfferDetailsCallback*)p);
-					num = ((*(long*)(&cComPtrNtv_003CIGetOfferDetailsCallback_003E) == 0) ? (-2147024882) : num);
+					Module.CComPtrNtv_003CIGetOfferDetailsCallback_003E_002EAttach(cComPtrNtv_003CIGetOfferDetailsCallback_003E.p, (IGetOfferDetailsCallback*)p);
+					num = ((*(long*)(cComPtrNtv_003CIGetOfferDetailsCallback_003E.p) == 0) ? (-2147024882) : num);
 					if (num >= 0)
 					{
 						IService* pService = m_pService;
-						long num2 = *(long*)(&cComPtrNtv_003CIGetOfferDetailsCallback_003E);
+						long num2 = *(long*)(cComPtrNtv_003CIGetOfferDetailsCallback_003E.p);
 						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, _GUID*, IGetOfferDetailsCallback*, int>)(*(ulong*)(*(long*)pService + 688)))((nint)pService, 1, &offerId2, (IGetOfferDetailsCallback*)num2);
 					}
 				}
@@ -5226,10 +5212,10 @@ namespace Microsoft.Zune.Service
 			catch
 			{
 				//try-fault
-				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIGetOfferDetailsCallback_003E*, void>)(&Module.CComPtrNtv_003CIGetOfferDetailsCallback_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIGetOfferDetailsCallback_003E);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IGetOfferDetailsCallback*, void>)(&Module.CComPtrNtv_003CIGetOfferDetailsCallback_003E_002E_007Bdtor_007D), cComPtrNtv_003CIGetOfferDetailsCallback_003E.p);
 				throw;
 			}
-			Module.CComPtrNtv_003CIGetOfferDetailsCallback_003E_002ERelease(&cComPtrNtv_003CIGetOfferDetailsCallback_003E);
+			cComPtrNtv_003CIGetOfferDetailsCallback_003E.Dispose();
 			return result;
 		}
 
@@ -5320,7 +5306,7 @@ namespace Microsoft.Zune.Service
 							/*pinned*/ref ushort reference2 = ref *(ushort*)null;
 							try
 							{
-								CComPtrNtv_003CIContextData_003E cComPtrNtv_003CIContextData_003E;
+								CComPtrNtv<IContextData> cComPtrNtv_003CIContextData_003E;
 								IService* pService2;
 								ref ushort val;
 								int num3;
@@ -5339,7 +5325,7 @@ namespace Microsoft.Zune.Service
 									fixed (char* textPtr = text.ToCharArray())
 									{
 										ushort* ptr4 = (ushort*)textPtr;
-										Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+										cComPtrNtv_003CIContextData_003E = new();
 										try
 										{
 											long num2 = *(long*)m_pService + 120;
@@ -5347,7 +5333,7 @@ namespace Microsoft.Zune.Service
 											val = ptr4;
 											num3 = -1;
 											num4 = 0L;
-											intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+											intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 											((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)val, (global::EDownloadContextEvent)num3, (ushort*)num4, intPtr);
 											gUID = guid;
 											intPtr2 = ptr3;
@@ -5356,21 +5342,21 @@ namespace Microsoft.Zune.Service
 											num6 = 0L;
 											num7 = 0L;
 											num8 = 0L;
-											num9 = *(long*)(&cComPtrNtv_003CIContextData_003E);
+											num9 = *(long*)(cComPtrNtv_003CIContextData_003E.p);
 											num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)(*(long*)ptr3 + 40)))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference3), (EContentType)num5, (ushort*)num6, (ushort*)num7, (ushort*)num8, (IContextData*)num9);
 										}
 										catch
 										{
 											//try-fault
-											Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+											Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 											throw;
 										}
-										Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+										cComPtrNtv_003CIContextData_003E.Dispose();
 									}
 								}
 								else
 								{
-									Module.CComPtrNtv_003CIContextData_003E_002E_007Bctor_007D(&cComPtrNtv_003CIContextData_003E);
+									cComPtrNtv_003CIContextData_003E = new();
 									try
 									{
 										long num2 = *(long*)m_pService + 120;
@@ -5378,7 +5364,7 @@ namespace Microsoft.Zune.Service
 										val = ref reference2;
 										num3 = -1;
 										num4 = 0L;
-										intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(&cComPtrNtv_003CIContextData_003E);
+										intPtr = Module.CComPtrNtv_003CIContextData_003E_002E_0026(cComPtrNtv_003CIContextData_003E.p);
 										((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num2))((nint)pService2, (ushort*)Unsafe.AsPointer(ref val), (global::EDownloadContextEvent)num3, (ushort*)num4, intPtr);
 										gUID = guid;
 										intPtr2 = ptr3;
@@ -5387,16 +5373,16 @@ namespace Microsoft.Zune.Service
 										num6 = 0L;
 										num7 = 0L;
 										num8 = 0L;
-										num9 = *(long*)(&cComPtrNtv_003CIContextData_003E);
+										num9 = *(long*)(cComPtrNtv_003CIContextData_003E.p);
 										num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)(*(long*)ptr3 + 40)))((nint)intPtr2, (_GUID*)Unsafe.AsPointer(ref reference3), (EContentType)num5, (ushort*)num6, (ushort*)num7, (ushort*)num8, (IContextData*)num9);
 									}
 									catch
 									{
 										//try-fault
-										Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E);
+										Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
 										throw;
 									}
-									Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E);
+									cComPtrNtv_003CIContextData_003E.Dispose();
 								}
 							}
 							catch
@@ -5430,7 +5416,7 @@ namespace Microsoft.Zune.Service
 							/*pinned*/ref ushort reference4 = ref *(ushort*)null;
 							try
 							{
-								CComPtrNtv_003CIContextData_003E cComPtrNtv_003CIContextData_003E2;
+								CComPtrNtv<IContextData> cComPtrNtv_003CIContextData_003E2;
 								IService* pService3;
 								_GUID gUID2;
 								IMediaCollection* intPtr3;
@@ -5445,12 +5431,12 @@ namespace Microsoft.Zune.Service
 									fixed (char* text2Ptr = text2.ToCharArray())
 									{
 										ushort* ptr5 = (ushort*)text2Ptr;
-										*(long*)(&cComPtrNtv_003CIContextData_003E2) = 0L;
+										*(long*)(cComPtrNtv_003CIContextData_003E.p2) = 0L;
 										try
 										{
 											long num10 = *(long*)m_pService + 120;
 											pService3 = m_pService;
-											((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num10))((nint)pService3, ptr5, (global::EDownloadContextEvent)(-1), null, (IContextData**)(&cComPtrNtv_003CIContextData_003E2));
+											((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num10))((nint)pService3, ptr5, (global::EDownloadContextEvent)(-1), null, (IContextData**)(cComPtrNtv_003CIContextData_003E.p2));
 											gUID2 = guid2;
 											intPtr3 = ptr3;
 											reference5 = ref gUID2;
@@ -5458,26 +5444,26 @@ namespace Microsoft.Zune.Service
 											num12 = 0L;
 											num13 = 0L;
 											num14 = 0L;
-											num15 = *(long*)(&cComPtrNtv_003CIContextData_003E2);
+											num15 = *(long*)(cComPtrNtv_003CIContextData_003E.p2);
 											num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)(*(long*)ptr3 + 40)))((nint)intPtr3, (_GUID*)Unsafe.AsPointer(ref reference5), (EContentType)num11, (ushort*)num12, (ushort*)num13, (ushort*)num14, (IContextData*)num15);
 										}
 										catch
 										{
 											//try-fault
-											Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E2);
+											Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p2);
 											throw;
 										}
-										Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E2);
+										Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(cComPtrNtv_003CIContextData_003E.p2);
 									}
 								}
 								else
 								{
-									*(long*)(&cComPtrNtv_003CIContextData_003E2) = 0L;
+									*(long*)(cComPtrNtv_003CIContextData_003E.p2) = 0L;
 									try
 									{
 										long num10 = *(long*)m_pService + 120;
 										pService3 = m_pService;
-										((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num10))((nint)pService3, (ushort*)Unsafe.AsPointer(ref reference4), (global::EDownloadContextEvent)(-1), null, (IContextData**)(&cComPtrNtv_003CIContextData_003E2));
+										((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EDownloadContextEvent, ushort*, IContextData**, int>)(*(ulong*)num10))((nint)pService3, (ushort*)Unsafe.AsPointer(ref reference4), (global::EDownloadContextEvent)(-1), null, (IContextData**)(cComPtrNtv_003CIContextData_003E.p2));
 										gUID2 = guid2;
 										intPtr3 = ptr3;
 										reference5 = ref gUID2;
@@ -5485,16 +5471,16 @@ namespace Microsoft.Zune.Service
 										num12 = 0L;
 										num13 = 0L;
 										num14 = 0L;
-										num15 = *(long*)(&cComPtrNtv_003CIContextData_003E2);
+										num15 = *(long*)(cComPtrNtv_003CIContextData_003E.p2);
 										num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, EContentType, ushort*, ushort*, ushort*, IContextData*, int>)(*(ulong*)(*(long*)ptr3 + 40)))((nint)intPtr3, (_GUID*)Unsafe.AsPointer(ref reference5), (EContentType)num11, (ushort*)num12, (ushort*)num13, (ushort*)num14, (IContextData*)num15);
 									}
 									catch
 									{
 										//try-fault
-										Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIContextData_003E*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIContextData_003E2);
+										Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p2);
 										throw;
 									}
-									Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(&cComPtrNtv_003CIContextData_003E2);
+									Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(cComPtrNtv_003CIContextData_003E.p2);
 								}
 							}
 							catch
@@ -5789,25 +5775,24 @@ namespace Microsoft.Zune.Service
 					ushort* ptr = (ushort*)tokenPtr;
 					try
 					{
-						CComPtrNtv_003CITokenDetails_003E cComPtrNtv_003CITokenDetails_003E;
-						*(long*)(&cComPtrNtv_003CITokenDetails_003E) = 0L;
+						CComPtrNtv<ITokenDetails> cComPtrNtv_003CITokenDetails_003E = new();
 						try
 						{
 							long num2 = *(long*)m_pService + 536;
 							IService* pService = m_pService;
-							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, ITokenDetails**, int>)(*(ulong*)num2))((nint)pService, ptr, (ITokenDetails**)(&cComPtrNtv_003CITokenDetails_003E));
+							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, ITokenDetails**, int>)(*(ulong*)num2))((nint)pService, ptr, (ITokenDetails**)(cComPtrNtv_003CITokenDetails_003E.p));
 							if (num >= 0)
 							{
-								tokenDetails = new TokenDetails((ITokenDetails*)(*(ulong*)(&cComPtrNtv_003CITokenDetails_003E)));
+								tokenDetails = new TokenDetails((ITokenDetails*)(*(ulong*)(cComPtrNtv_003CITokenDetails_003E.p)));
 							}
 						}
 						catch
 						{
 							//try-fault
-							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CITokenDetails_003E*, void>)(&Module.CComPtrNtv_003CITokenDetails_003E_002E_007Bdtor_007D), &cComPtrNtv_003CITokenDetails_003E);
+							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ITokenDetails*, void>)(&Module.CComPtrNtv_003CITokenDetails_003E_002E_007Bdtor_007D), cComPtrNtv_003CITokenDetails_003E.p);
 							throw;
 						}
-						Module.CComPtrNtv_003CITokenDetails_003E_002ERelease(&cComPtrNtv_003CITokenDetails_003E);
+						cComPtrNtv_003CITokenDetails_003E.Dispose();
 					}
 					catch
 					{
@@ -6152,24 +6137,23 @@ namespace Microsoft.Zune.Service
 			ulong result = 0uL;
 			if (IsSignedIn())
 			{
-				CComPtrNtv_003CISignInState_003E cComPtrNtv_003CISignInState_003E;
-				*(long*)(&cComPtrNtv_003CISignInState_003E) = 0L;
+				CComPtrNtv<ISignInState> cComPtrNtv_003CISignInState_003E = new();
 				try
 				{
 					IService* pService = m_pService;
-					if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ISignInState**, int>)(*(ulong*)(*(long*)pService + 344)))((nint)pService, (ISignInState**)(&cComPtrNtv_003CISignInState_003E)) >= 0)
+					if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ISignInState**, int>)(*(ulong*)(*(long*)pService + 344)))((nint)pService, (ISignInState**)(cComPtrNtv_003CISignInState_003E.p)) >= 0)
 					{
-						long num = *(long*)(&cComPtrNtv_003CISignInState_003E);
-						result = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ulong>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CISignInState_003E)) + 208)))((nint)num);
+						long num = *(long*)(cComPtrNtv_003CISignInState_003E.p);
+						result = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ulong>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CISignInState_003E.p)) + 208)))((nint)num);
 					}
 				}
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CISignInState_003E*, void>)(&Module.CComPtrNtv_003CISignInState_003E_002E_007Bdtor_007D), &cComPtrNtv_003CISignInState_003E);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ISignInState*, void>)(&Module.CComPtrNtv_003CISignInState_003E_002E_007Bdtor_007D), cComPtrNtv_003CISignInState_003E.p);
 					throw;
 				}
-				Module.CComPtrNtv_003CISignInState_003E_002ERelease(&cComPtrNtv_003CISignInState_003E);
+				cComPtrNtv_003CISignInState_003E.Dispose();
 			}
 			return result;
 		}
@@ -6182,24 +6166,23 @@ namespace Microsoft.Zune.Service
 			ulong result = 0uL;
 			if (IsSignedIn())
 			{
-				CComPtrNtv_003CISignInState_003E cComPtrNtv_003CISignInState_003E;
-				*(long*)(&cComPtrNtv_003CISignInState_003E) = 0L;
+				CComPtrNtv<ISignInState> cComPtrNtv_003CISignInState_003E = new();
 				try
 				{
 					IService* pService = m_pService;
-					if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ISignInState**, int>)(*(ulong*)(*(long*)pService + 344)))((nint)pService, (ISignInState**)(&cComPtrNtv_003CISignInState_003E)) >= 0)
+					if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ISignInState**, int>)(*(ulong*)(*(long*)pService + 344)))((nint)pService, (ISignInState**)(cComPtrNtv_003CISignInState_003E.p)) >= 0)
 					{
-						long num = *(long*)(&cComPtrNtv_003CISignInState_003E);
-						result = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ulong>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CISignInState_003E)) + 216)))((nint)num);
+						long num = *(long*)(cComPtrNtv_003CISignInState_003E.p);
+						result = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ulong>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CISignInState_003E.p)) + 216)))((nint)num);
 					}
 				}
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CISignInState_003E*, void>)(&Module.CComPtrNtv_003CISignInState_003E_002E_007Bdtor_007D), &cComPtrNtv_003CISignInState_003E);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ISignInState*, void>)(&Module.CComPtrNtv_003CISignInState_003E_002E_007Bdtor_007D), cComPtrNtv_003CISignInState_003E.p);
 					throw;
 				}
-				Module.CComPtrNtv_003CISignInState_003E_002ERelease(&cComPtrNtv_003CISignInState_003E);
+				cComPtrNtv_003CISignInState_003E.Dispose();
 			}
 			return result;
 		}
@@ -6213,18 +6196,17 @@ namespace Microsoft.Zune.Service
 			DateTime result = DateTime.MaxValue;
 			if (IsSignedIn())
 			{
-				CComPtrNtv_003CISignInState_003E cComPtrNtv_003CISignInState_003E;
-				*(long*)(&cComPtrNtv_003CISignInState_003E) = 0L;
+				CComPtrNtv<ISignInState> cComPtrNtv_003CISignInState_003E = new();
 				try
 				{
 					IService* pService = m_pService;
-					int num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ISignInState**, int>)(*(ulong*)(*(long*)pService + 344)))((nint)pService, (ISignInState**)(&cComPtrNtv_003CISignInState_003E));
+					int num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ISignInState**, int>)(*(ulong*)(*(long*)pService + 344)))((nint)pService, (ISignInState**)(cComPtrNtv_003CISignInState_003E.p));
 					ushort* ptr = null;
 					string text = null;
 					if (num >= 0)
 					{
-						long num2 = *(long*)(&cComPtrNtv_003CISignInState_003E);
-						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort**, int>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CISignInState_003E)) + 224)))((nint)num2, &ptr);
+						long num2 = *(long*)(cComPtrNtv_003CISignInState_003E.p);
+						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort**, int>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CISignInState_003E.p)) + 224)))((nint)num2, &ptr);
 						if (num >= 0)
 						{
 							if (ptr == null)
@@ -6248,10 +6230,10 @@ namespace Microsoft.Zune.Service
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CISignInState_003E*, void>)(&Module.CComPtrNtv_003CISignInState_003E_002E_007Bdtor_007D), &cComPtrNtv_003CISignInState_003E);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ISignInState*, void>)(&Module.CComPtrNtv_003CISignInState_003E_002E_007Bdtor_007D), cComPtrNtv_003CISignInState_003E.p);
 					throw;
 				}
-				Module.CComPtrNtv_003CISignInState_003E_002ERelease(&cComPtrNtv_003CISignInState_003E);
+				cComPtrNtv_003CISignInState_003E.Dispose();
 			}
 			return result;
 		}
@@ -6265,18 +6247,17 @@ namespace Microsoft.Zune.Service
 			DateTime result = DateTime.MaxValue;
 			if (IsSignedIn())
 			{
-				CComPtrNtv_003CISignInState_003E cComPtrNtv_003CISignInState_003E;
-				*(long*)(&cComPtrNtv_003CISignInState_003E) = 0L;
+				CComPtrNtv<ISignInState> cComPtrNtv_003CISignInState_003E = new();
 				try
 				{
 					IService* pService = m_pService;
-					int num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ISignInState**, int>)(*(ulong*)(*(long*)pService + 344)))((nint)pService, (ISignInState**)(&cComPtrNtv_003CISignInState_003E));
+					int num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ISignInState**, int>)(*(ulong*)(*(long*)pService + 344)))((nint)pService, (ISignInState**)(cComPtrNtv_003CISignInState_003E.p));
 					ushort* ptr = null;
 					string text = null;
 					if (num >= 0)
 					{
-						long num2 = *(long*)(&cComPtrNtv_003CISignInState_003E);
-						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort**, int>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CISignInState_003E)) + 232)))((nint)num2, &ptr);
+						long num2 = *(long*)(cComPtrNtv_003CISignInState_003E.p);
+						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort**, int>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CISignInState_003E.p)) + 232)))((nint)num2, &ptr);
 						if (num >= 0)
 						{
 							if (ptr == null)
@@ -6300,10 +6281,10 @@ namespace Microsoft.Zune.Service
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CISignInState_003E*, void>)(&Module.CComPtrNtv_003CISignInState_003E_002E_007Bdtor_007D), &cComPtrNtv_003CISignInState_003E);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ISignInState*, void>)(&Module.CComPtrNtv_003CISignInState_003E_002E_007Bdtor_007D), cComPtrNtv_003CISignInState_003E.p);
 					throw;
 				}
-				Module.CComPtrNtv_003CISignInState_003E_002ERelease(&cComPtrNtv_003CISignInState_003E);
+				cComPtrNtv_003CISignInState_003E.Dispose();
 			}
 			return result;
 		}
@@ -6317,24 +6298,23 @@ namespace Microsoft.Zune.Service
 			bool flag = false;
 			if (IsSignedIn())
 			{
-				CComPtrNtv_003CISignInState_003E cComPtrNtv_003CISignInState_003E;
-				*(long*)(&cComPtrNtv_003CISignInState_003E) = 0L;
+				CComPtrNtv<ISignInState> cComPtrNtv_003CISignInState_003E = new();
 				try
 				{
 					IService* pService = m_pService;
-					if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ISignInState**, int>)(*(ulong*)(*(long*)pService + 344)))((nint)pService, (ISignInState**)(&cComPtrNtv_003CISignInState_003E)) >= 0)
+					if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ISignInState**, int>)(*(ulong*)(*(long*)pService + 344)))((nint)pService, (ISignInState**)(cComPtrNtv_003CISignInState_003E.p)) >= 0)
 					{
-						long num = *(long*)(&cComPtrNtv_003CISignInState_003E);
-						flag = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CISignInState_003E)) + 240)))((nint)num) != 0 || flag;
+						long num = *(long*)(cComPtrNtv_003CISignInState_003E.p);
+						flag = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CISignInState_003E.p)) + 240)))((nint)num) != 0 || flag;
 					}
 				}
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CISignInState_003E*, void>)(&Module.CComPtrNtv_003CISignInState_003E_002E_007Bdtor_007D), &cComPtrNtv_003CISignInState_003E);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ISignInState*, void>)(&Module.CComPtrNtv_003CISignInState_003E_002E_007Bdtor_007D), cComPtrNtv_003CISignInState_003E.p);
 					throw;
 				}
-				Module.CComPtrNtv_003CISignInState_003E_002ERelease(&cComPtrNtv_003CISignInState_003E);
+				cComPtrNtv_003CISignInState_003E.Dispose();
 			}
 			return flag;
 		}
@@ -6348,25 +6328,24 @@ namespace Microsoft.Zune.Service
 			bool result = false;
 			if (IsSignedIn())
 			{
-				CComPtrNtv_003CISignInState_003E cComPtrNtv_003CISignInState_003E;
-				*(long*)(&cComPtrNtv_003CISignInState_003E) = 0L;
+				CComPtrNtv<ISignInState> cComPtrNtv_003CISignInState_003E = new();
 				try
 				{
 					IService* pService = m_pService;
-					if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ISignInState**, int>)(*(ulong*)(*(long*)pService + 344)))((nint)pService, (ISignInState**)(&cComPtrNtv_003CISignInState_003E)) >= 0)
+					if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ISignInState**, int>)(*(ulong*)(*(long*)pService + 344)))((nint)pService, (ISignInState**)(cComPtrNtv_003CISignInState_003E.p)) >= 0)
 					{
-						long num = *(long*)(&cComPtrNtv_003CISignInState_003E);
-						bool flag = ((((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CISignInState_003E)) + 120)))((nint)num) != 0) ? true : false);
+						long num = *(long*)(cComPtrNtv_003CISignInState_003E.p);
+						bool flag = ((((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CISignInState_003E.p)) + 120)))((nint)num) != 0) ? true : false);
 						result = flag;
 					}
 				}
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CISignInState_003E*, void>)(&Module.CComPtrNtv_003CISignInState_003E_002E_007Bdtor_007D), &cComPtrNtv_003CISignInState_003E);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ISignInState*, void>)(&Module.CComPtrNtv_003CISignInState_003E_002E_007Bdtor_007D), cComPtrNtv_003CISignInState_003E.p);
 					throw;
 				}
-				Module.CComPtrNtv_003CISignInState_003E_002ERelease(&cComPtrNtv_003CISignInState_003E);
+				cComPtrNtv_003CISignInState_003E.Dispose();
 			}
 			return result;
 		}
@@ -6380,25 +6359,24 @@ namespace Microsoft.Zune.Service
 			bool result = false;
 			if (IsSignedIn())
 			{
-				CComPtrNtv_003CISignInState_003E cComPtrNtv_003CISignInState_003E;
-				*(long*)(&cComPtrNtv_003CISignInState_003E) = 0L;
+				CComPtrNtv<ISignInState> cComPtrNtv_003CISignInState_003E = new();
 				try
 				{
 					IService* pService = m_pService;
-					if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ISignInState**, int>)(*(ulong*)(*(long*)pService + 344)))((nint)pService, (ISignInState**)(&cComPtrNtv_003CISignInState_003E)) >= 0)
+					if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ISignInState**, int>)(*(ulong*)(*(long*)pService + 344)))((nint)pService, (ISignInState**)(cComPtrNtv_003CISignInState_003E.p)) >= 0)
 					{
-						long num = *(long*)(&cComPtrNtv_003CISignInState_003E);
-						bool flag = ((((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CISignInState_003E)) + 128)))((nint)num) != 0) ? true : false);
+						long num = *(long*)(cComPtrNtv_003CISignInState_003E.p);
+						bool flag = ((((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CISignInState_003E.p)) + 128)))((nint)num) != 0) ? true : false);
 						result = flag;
 					}
 				}
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CISignInState_003E*, void>)(&Module.CComPtrNtv_003CISignInState_003E_002E_007Bdtor_007D), &cComPtrNtv_003CISignInState_003E);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ISignInState*, void>)(&Module.CComPtrNtv_003CISignInState_003E_002E_007Bdtor_007D), cComPtrNtv_003CISignInState_003E.p);
 					throw;
 				}
-				Module.CComPtrNtv_003CISignInState_003E_002ERelease(&cComPtrNtv_003CISignInState_003E);
+				cComPtrNtv_003CISignInState_003E.Dispose();
 			}
 			return result;
 		}
@@ -6656,8 +6634,7 @@ namespace Microsoft.Zune.Service
 			Module.WBSTRString_002E_007Bctor_007D(&wBSTRString);
 			try
 			{
-				CComPtrNtv_003CIServiceError_003E cComPtrNtv_003CIServiceError_003E;
-				*(long*)(&cComPtrNtv_003CIServiceError_003E) = 0L;
+				CComPtrNtv<IServiceError> cComPtrNtv_003CIServiceError_003E = new();
 				try
 				{
 					if (num >= 0)
@@ -6738,7 +6715,7 @@ namespace Microsoft.Zune.Service
 																														_003F val10 = ptr10;
 																														_003F val11 = ptr11;
 																														_003F val12 = ptr12;
-																														IServiceError** intPtr = Module.CComPtrNtv_003CIServiceError_003E_002E_0026(&cComPtrNtv_003CIServiceError_003E);
+																														IServiceError** intPtr = Module.CComPtrNtv_003CIServiceError_003E_002E_0026(cComPtrNtv_003CIServiceError_003E.p);
 																														num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, ushort*, ushort*, ushort*, ushort*, ushort*, ushort*, ushort*, ushort*, ECreditCardType, ushort*, ushort*, ushort*, _SYSTEMTIME, ushort**, IServiceError**, int>)(*(ulong*)num2))((nint)pService, (ushort*)(nint)val, (ushort*)(nint)val2, (ushort*)(nint)val3, (ushort*)(nint)val4, (ushort*)(nint)val5, (ushort*)(nint)val6, (ushort*)(nint)val7, (ushort*)(nint)val8, (ushort*)(nint)val9, (ECreditCardType)creditCardType, (ushort*)(nint)val10, (ushort*)(nint)val11, (ushort*)(nint)val12, sYSTEMTIME, (ushort**)(&wBSTRString), intPtr);
 																													}
 																													catch
@@ -6841,9 +6818,9 @@ namespace Microsoft.Zune.Service
 							paymentId = new string((char*)(*(ulong*)(&wBSTRString)));
 						}
 					}
-					if (*(long*)(&cComPtrNtv_003CIServiceError_003E) != 0L)
+					if (*(long*)(cComPtrNtv_003CIServiceError_003E.p) != 0L)
 					{
-						serviceError = new ServiceError((IServiceError*)(*(ulong*)(&cComPtrNtv_003CIServiceError_003E)));
+						serviceError = new ServiceError((IServiceError*)(*(ulong*)(cComPtrNtv_003CIServiceError_003E.p)));
 					}
 					else
 					{
@@ -6853,10 +6830,10 @@ namespace Microsoft.Zune.Service
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIServiceError_003E*, void>)(&Module.CComPtrNtv_003CIServiceError_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIServiceError_003E);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IServiceError*, void>)(&Module.CComPtrNtv_003CIServiceError_003E_002E_007Bdtor_007D), cComPtrNtv_003CIServiceError_003E.p);
 					throw;
 				}
-				Module.CComPtrNtv_003CIServiceError_003E_002ERelease(&cComPtrNtv_003CIServiceError_003E);
+				cComPtrNtv_003CIServiceError_003E.Dispose();
 			}
 			catch
 			{
@@ -7128,17 +7105,16 @@ namespace Microsoft.Zune.Service
 			CountryBaseDetails[] array = null;
 			if (m_pService != null)
 			{
-				CComPtrNtv_003CITunerConfig_003E cComPtrNtv_003CITunerConfig_003E;
-				*(long*)(&cComPtrNtv_003CITunerConfig_003E) = 0L;
+				CComPtrNtv<ITunerConfig> cComPtrNtv_003CITunerConfig_003E = new();
 				try
 				{
 					IService* pService = m_pService;
-					int num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ITunerConfig**, int>)(*(ulong*)(*(long*)pService + 176)))((nint)pService, (ITunerConfig**)(&cComPtrNtv_003CITunerConfig_003E));
+					int num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ITunerConfig**, int>)(*(ulong*)(*(long*)pService + 176)))((nint)pService, (ITunerConfig**)(cComPtrNtv_003CITunerConfig_003E.p));
 					int num2 = 0;
 					if (num >= 0)
 					{
-						long num3 = *(long*)(&cComPtrNtv_003CITunerConfig_003E);
-						num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CITunerConfig_003E)) + 112)))((nint)num3);
+						long num3 = *(long*)(cComPtrNtv_003CITunerConfig_003E.p);
+						num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CITunerConfig_003E.p)) + 112)))((nint)num3);
 						array = new CountryBaseDetails[num2];
 					}
 					int num4 = 0;
@@ -7146,8 +7122,8 @@ namespace Microsoft.Zune.Service
 					{
 						do
 						{
-							long num5 = *(long*)(&cComPtrNtv_003CITunerConfig_003E);
-							int num6 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, int>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CITunerConfig_003E)) + 120)))((nint)num5, num4);
+							long num5 = *(long*)(cComPtrNtv_003CITunerConfig_003E.p);
+							int num6 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, int>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CITunerConfig_003E.p)) + 120)))((nint)num5, num4);
 							ushort** ptr = null;
 							if (num6 != 0)
 							{
@@ -7166,8 +7142,8 @@ namespace Microsoft.Zune.Service
 								int num10 = 0;
 								if (num >= 0)
 								{
-									long num11 = *(long*)(&cComPtrNtv_003CITunerConfig_003E);
-									num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, int, ushort**, ushort**, int*, int*, int*, int*, int*, int>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CITunerConfig_003E)) + 128)))((nint)num11, num4, num6, (ushort**)(&wBSTRString), ptr, &teenagerAge, &adultAge, &num8, &num9, &num10);
+									long num11 = *(long*)(cComPtrNtv_003CITunerConfig_003E.p);
+									num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, int, ushort**, ushort**, int*, int*, int*, int*, int*, int>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CITunerConfig_003E.p)) + 128)))((nint)num11, num4, num6, (ushort**)(&wBSTRString), ptr, &teenagerAge, &adultAge, &num8, &num9, &num10);
 									if (num >= 0)
 									{
 										CountryFieldValidator[] array2 = new CountryFieldValidator[num10];
@@ -7180,8 +7156,8 @@ namespace Microsoft.Zune.Service
 												ushort* value2 = null;
 												ushort* value3 = null;
 												ushort* value4 = null;
-												long num13 = *(long*)(&cComPtrNtv_003CITunerConfig_003E);
-												num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, int, ushort**, ushort**, ushort**, ushort**, int>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CITunerConfig_003E)) + 136)))((nint)num13, num4, num12, &value, &value2, &value3, &value4);
+												long num13 = *(long*)(cComPtrNtv_003CITunerConfig_003E.p);
+												num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, int, ushort**, ushort**, ushort**, ushort**, int>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CITunerConfig_003E.p)) + 136)))((nint)num13, num4, num12, &value, &value2, &value3, &value4);
 												if (num >= 0)
 												{
 													CountryFieldValidator countryFieldValidator = (array2[num12] = new CountryFieldValidator(new string((char*)value), new string((char*)value2), new string((char*)value3), new string((char*)value4)));
@@ -7248,10 +7224,10 @@ namespace Microsoft.Zune.Service
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CITunerConfig_003E*, void>)(&Module.CComPtrNtv_003CITunerConfig_003E_002E_007Bdtor_007D), &cComPtrNtv_003CITunerConfig_003E);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ITunerConfig*, void>)(&Module.CComPtrNtv_003CITunerConfig_003E_002E_007Bdtor_007D), cComPtrNtv_003CITunerConfig_003E.p);
 					throw;
 				}
-				Module.CComPtrNtv_003CITunerConfig_003E_002ERelease(&cComPtrNtv_003CITunerConfig_003E);
+				cComPtrNtv_003CITunerConfig_003E.Dispose();
 			}
 			return array;
 		}
@@ -7293,17 +7269,16 @@ namespace Microsoft.Zune.Service
 			RatingSystemBase[] array = null;
 			if (m_pService != null)
 			{
-				CComPtrNtv_003CITunerConfig_003E cComPtrNtv_003CITunerConfig_003E;
-				*(long*)(&cComPtrNtv_003CITunerConfig_003E) = 0L;
+				CComPtrNtv<ITunerConfig> cComPtrNtv_003CITunerConfig_003E = new();
 				try
 				{
 					IService* pService = m_pService;
-					int num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ITunerConfig**, int>)(*(ulong*)(*(long*)pService + 176)))((nint)pService, (ITunerConfig**)(&cComPtrNtv_003CITunerConfig_003E));
+					int num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ITunerConfig**, int>)(*(ulong*)(*(long*)pService + 176)))((nint)pService, (ITunerConfig**)(cComPtrNtv_003CITunerConfig_003E.p));
 					int num2 = 0;
 					if (num >= 0)
 					{
-						long num3 = *(long*)(&cComPtrNtv_003CITunerConfig_003E);
-						num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CITunerConfig_003E)) + 144)))((nint)num3);
+						long num3 = *(long*)(cComPtrNtv_003CITunerConfig_003E.p);
+						num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CITunerConfig_003E.p)) + 144)))((nint)num3);
 						array = new RatingSystemBase[num2];
 					}
 					int num4 = 0;
@@ -7311,12 +7286,12 @@ namespace Microsoft.Zune.Service
 					{
 						do
 						{
-							long num5 = *(long*)(&cComPtrNtv_003CITunerConfig_003E);
-							int num6 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, int>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CITunerConfig_003E)) + 168)))((nint)num5, num4);
-							long num7 = *(long*)(&cComPtrNtv_003CITunerConfig_003E);
-							int num8 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, int>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CITunerConfig_003E)) + 160)))((nint)num7, num4);
-							long num9 = *(long*)(&cComPtrNtv_003CITunerConfig_003E);
-							int num10 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, int>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CITunerConfig_003E)) + 152)))((nint)num9, num4);
+							long num5 = *(long*)(cComPtrNtv_003CITunerConfig_003E.p);
+							int num6 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, int>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CITunerConfig_003E.p)) + 168)))((nint)num5, num4);
+							long num7 = *(long*)(cComPtrNtv_003CITunerConfig_003E.p);
+							int num8 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, int>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CITunerConfig_003E.p)) + 160)))((nint)num7, num4);
+							long num9 = *(long*)(cComPtrNtv_003CITunerConfig_003E.p);
+							int num10 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, int>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CITunerConfig_003E.p)) + 152)))((nint)num9, num4);
 							Dictionary<string, Dictionary<string, string>> dictionary = new Dictionary<string, Dictionary<string, string>>();
 							WBSTRString wBSTRString;
 							Module.WBSTRString_002E_007Bctor_007D(&wBSTRString);
@@ -7345,7 +7320,7 @@ namespace Microsoft.Zune.Service
 												{
 													do
 													{
-														ITunerConfig* ptr = Module.CComPtrNtv_003CITunerConfig_003E_002E_002D_003E(&cComPtrNtv_003CITunerConfig_003E);
+														ITunerConfig* ptr = Module.CComPtrNtv_003CITunerConfig_003E_002E_002D_003E(cComPtrNtv_003CITunerConfig_003E.p);
 														int num14 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, int, int>)(*(ulong*)(*(long*)ptr + 176)))((nint)ptr, num4, num13);
 														ushort** ptr2 = null;
 														if (num >= 0)
@@ -7368,7 +7343,7 @@ namespace Microsoft.Zune.Service
 														Module.WBSTRString_002E_007Bctor_007D(&wBSTRString6);
 														try
 														{
-															ITunerConfig* ptr4 = Module.CComPtrNtv_003CITunerConfig_003E_002E_002D_003E(&cComPtrNtv_003CITunerConfig_003E);
+															ITunerConfig* ptr4 = Module.CComPtrNtv_003CITunerConfig_003E_002E_002D_003E(cComPtrNtv_003CITunerConfig_003E.p);
 															num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, int, int, ushort**, ushort**, ushort**, ushort**, ushort**, int*, int*, ushort**, ushort**, int>)(*(ulong*)(*(long*)ptr4 + 184)))((nint)ptr4, num4, num13, num14, (ushort**)(&wBSTRString), (ushort**)(&wBSTRString2), (ushort**)(&wBSTRString3), (ushort**)(&wBSTRString4), (ushort**)(&wBSTRString6), &num11, &num12, ptr2, ptr3);
 															if (num >= 0)
 															{
@@ -7467,10 +7442,10 @@ namespace Microsoft.Zune.Service
 																			Module.WBSTRString_002E_007Bctor_007D(&wBSTRString11);
 																			try
 																			{
-																				long num22 = *(long*)(&cComPtrNtv_003CITunerConfig_003E);
+																				long num22 = *(long*)(cComPtrNtv_003CITunerConfig_003E.p);
 																				int order;
 																				int num23;
-																				num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, int, ushort**, int*, ushort**, ushort**, ushort**, ushort**, int*, int>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CITunerConfig_003E)) + 192)))((nint)num22, num4, num21, (ushort**)(&wBSTRString7), &order, (ushort**)(&wBSTRString10), (ushort**)(&wBSTRString8), (ushort**)(&wBSTRString9), (ushort**)(&wBSTRString11), &num23);
+																				num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, int, ushort**, int*, ushort**, ushort**, ushort**, ushort**, int*, int>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CITunerConfig_003E.p)) + 192)))((nint)num22, num4, num21, (ushort**)(&wBSTRString7), &order, (ushort**)(&wBSTRString10), (ushort**)(&wBSTRString8), (ushort**)(&wBSTRString9), (ushort**)(&wBSTRString11), &num23);
 																				if (num >= 0)
 																				{
 																					bool treatAsUnrated = ((num23 != 0) ? true : false);
@@ -7581,10 +7556,10 @@ namespace Microsoft.Zune.Service
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CITunerConfig_003E*, void>)(&Module.CComPtrNtv_003CITunerConfig_003E_002E_007Bdtor_007D), &cComPtrNtv_003CITunerConfig_003E);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ITunerConfig*, void>)(&Module.CComPtrNtv_003CITunerConfig_003E_002E_007Bdtor_007D), cComPtrNtv_003CITunerConfig_003E.p);
 					throw;
 				}
-				Module.CComPtrNtv_003CITunerConfig_003E_002E_007Bdtor_007D(&cComPtrNtv_003CITunerConfig_003E);
+				Module.CComPtrNtv_003CITunerConfig_003E_002E_007Bdtor_007D(cComPtrNtv_003CITunerConfig_003E.p);
 			}
 			return array;
 		}
@@ -7600,25 +7575,24 @@ namespace Microsoft.Zune.Service
 				ushort* ptr = (ushort*)strStudioPtr;
 				if (m_pService != null)
 				{
-					CComPtrNtv_003CITunerConfig_003E cComPtrNtv_003CITunerConfig_003E;
-					*(long*)(&cComPtrNtv_003CITunerConfig_003E) = 0L;
+					CComPtrNtv<ITunerConfig> cComPtrNtv_003CITunerConfig_003E = new();
 					try
 					{
 						IService* pService = m_pService;
-						if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ITunerConfig**, int>)(*(ulong*)(*(long*)pService + 176)))((nint)pService, (ITunerConfig**)(&cComPtrNtv_003CITunerConfig_003E)) >= 0)
+						if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ITunerConfig**, int>)(*(ulong*)(*(long*)pService + 176)))((nint)pService, (ITunerConfig**)(cComPtrNtv_003CITunerConfig_003E.p)) >= 0)
 						{
-							long num = *(long*)(*(ulong*)(&cComPtrNtv_003CITunerConfig_003E)) + 208;
-							long num2 = *(long*)(&cComPtrNtv_003CITunerConfig_003E);
+							long num = *(long*)(*(ulong*)(cComPtrNtv_003CITunerConfig_003E.p)) + 208;
+							long num2 = *(long*)(cComPtrNtv_003CITunerConfig_003E.p);
 							((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, int*, int>)(*(ulong*)num))((nint)num2, ptr, &result);
 						}
 					}
 					catch
 					{
 						//try-fault
-						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CITunerConfig_003E*, void>)(&Module.CComPtrNtv_003CITunerConfig_003E_002E_007Bdtor_007D), &cComPtrNtv_003CITunerConfig_003E);
+						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ITunerConfig*, void>)(&Module.CComPtrNtv_003CITunerConfig_003E_002E_007Bdtor_007D), cComPtrNtv_003CITunerConfig_003E.p);
 						throw;
 					}
-					Module.CComPtrNtv_003CITunerConfig_003E_002ERelease(&cComPtrNtv_003CITunerConfig_003E);
+					cComPtrNtv_003CITunerConfig_003E.Dispose();
 				}
 				return result;
 			}
@@ -7635,25 +7609,24 @@ namespace Microsoft.Zune.Service
 				ushort* ptr = (ushort*)strStudioPtr;
 				if (m_pService != null)
 				{
-					CComPtrNtv_003CITunerConfig_003E cComPtrNtv_003CITunerConfig_003E;
-					*(long*)(&cComPtrNtv_003CITunerConfig_003E) = 0L;
+					CComPtrNtv<ITunerConfig> cComPtrNtv_003CITunerConfig_003E = new();
 					try
 					{
 						IService* pService = m_pService;
-						if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ITunerConfig**, int>)(*(ulong*)(*(long*)pService + 176)))((nint)pService, (ITunerConfig**)(&cComPtrNtv_003CITunerConfig_003E)) >= 0)
+						if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ITunerConfig**, int>)(*(ulong*)(*(long*)pService + 176)))((nint)pService, (ITunerConfig**)(cComPtrNtv_003CITunerConfig_003E.p)) >= 0)
 						{
-							long num = *(long*)(*(ulong*)(&cComPtrNtv_003CITunerConfig_003E)) + 216;
-							long num2 = *(long*)(&cComPtrNtv_003CITunerConfig_003E);
+							long num = *(long*)(*(ulong*)(cComPtrNtv_003CITunerConfig_003E.p)) + 216;
+							long num2 = *(long*)(cComPtrNtv_003CITunerConfig_003E.p);
 							((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, int*, int>)(*(ulong*)num))((nint)num2, ptr, &result);
 						}
 					}
 					catch
 					{
 						//try-fault
-						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CITunerConfig_003E*, void>)(&Module.CComPtrNtv_003CITunerConfig_003E_002E_007Bdtor_007D), &cComPtrNtv_003CITunerConfig_003E);
+						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ITunerConfig*, void>)(&Module.CComPtrNtv_003CITunerConfig_003E_002E_007Bdtor_007D), cComPtrNtv_003CITunerConfig_003E.p);
 						throw;
 					}
-					Module.CComPtrNtv_003CITunerConfig_003E_002ERelease(&cComPtrNtv_003CITunerConfig_003E);
+					cComPtrNtv_003CITunerConfig_003E.Dispose();
 				}
 				return result;
 			}
@@ -7672,16 +7645,15 @@ namespace Microsoft.Zune.Service
 				ushort* ptr2 = (ushort*)strPhoneOsVersionPtr;
 				if (m_pService != null)
 				{
-					CComPtrNtv_003CITunerConfig_003E cComPtrNtv_003CITunerConfig_003E;
-					*(long*)(&cComPtrNtv_003CITunerConfig_003E) = 0L;
+					CComPtrNtv<ITunerConfig> cComPtrNtv_003CITunerConfig_003E = new();
 					try
 					{
 						IService* pService = m_pService;
-						int num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ITunerConfig**, int>)(*(ulong*)(*(long*)pService + 176)))((nint)pService, (ITunerConfig**)(&cComPtrNtv_003CITunerConfig_003E));
+						int num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ITunerConfig**, int>)(*(ulong*)(*(long*)pService + 176)))((nint)pService, (ITunerConfig**)(cComPtrNtv_003CITunerConfig_003E.p));
 						if (num >= 0)
 						{
-							long num2 = *(long*)(*(ulong*)(&cComPtrNtv_003CITunerConfig_003E)) + 224;
-							long num3 = *(long*)(&cComPtrNtv_003CITunerConfig_003E);
+							long num2 = *(long*)(*(ulong*)(cComPtrNtv_003CITunerConfig_003E.p)) + 224;
+							long num3 = *(long*)(cComPtrNtv_003CITunerConfig_003E.p);
 							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, ushort**, int>)(*(ulong*)num2))((nint)num3, ptr2, &ptr);
 							if (num >= 0)
 							{
@@ -7692,10 +7664,10 @@ namespace Microsoft.Zune.Service
 					catch
 					{
 						//try-fault
-						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CITunerConfig_003E*, void>)(&Module.CComPtrNtv_003CITunerConfig_003E_002E_007Bdtor_007D), &cComPtrNtv_003CITunerConfig_003E);
+						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ITunerConfig*, void>)(&Module.CComPtrNtv_003CITunerConfig_003E_002E_007Bdtor_007D), cComPtrNtv_003CITunerConfig_003E.p);
 						throw;
 					}
-					Module.CComPtrNtv_003CITunerConfig_003E_002ERelease(&cComPtrNtv_003CITunerConfig_003E);
+					cComPtrNtv_003CITunerConfig_003E.Dispose();
 				}
 				return result;
 			}
@@ -7709,24 +7681,23 @@ namespace Microsoft.Zune.Service
 			int result = 0;
 			if (m_pService != null)
 			{
-				CComPtrNtv_003CITunerConfig_003E cComPtrNtv_003CITunerConfig_003E;
-				*(long*)(&cComPtrNtv_003CITunerConfig_003E) = 0L;
+				CComPtrNtv<ITunerConfig> cComPtrNtv_003CITunerConfig_003E = new();
 				try
 				{
 					IService* pService = m_pService;
-					if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ITunerConfig**, int>)(*(ulong*)(*(long*)pService + 176)))((nint)pService, (ITunerConfig**)(&cComPtrNtv_003CITunerConfig_003E)) >= 0)
+					if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ITunerConfig**, int>)(*(ulong*)(*(long*)pService + 176)))((nint)pService, (ITunerConfig**)(cComPtrNtv_003CITunerConfig_003E.p)) >= 0)
 					{
-						long num = *(long*)(&cComPtrNtv_003CITunerConfig_003E);
-						((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int*, int>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CITunerConfig_003E)) + 232)))((nint)num, &result);
+						long num = *(long*)(cComPtrNtv_003CITunerConfig_003E.p);
+						((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int*, int>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CITunerConfig_003E.p)) + 232)))((nint)num, &result);
 					}
 				}
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CITunerConfig_003E*, void>)(&Module.CComPtrNtv_003CITunerConfig_003E_002E_007Bdtor_007D), &cComPtrNtv_003CITunerConfig_003E);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ITunerConfig*, void>)(&Module.CComPtrNtv_003CITunerConfig_003E_002E_007Bdtor_007D), cComPtrNtv_003CITunerConfig_003E.p);
 					throw;
 				}
-				Module.CComPtrNtv_003CITunerConfig_003E_002ERelease(&cComPtrNtv_003CITunerConfig_003E);
+				cComPtrNtv_003CITunerConfig_003E.Dispose();
 			}
 			return result;
 		}
@@ -7738,24 +7709,23 @@ namespace Microsoft.Zune.Service
 			AppOfferCollection appOfferCollection = null;
 			if (m_pService != null)
 			{
-				CComPtrNtv_003CIAppCollection_003E cComPtrNtv_003CIAppCollection_003E;
-				*(long*)(&cComPtrNtv_003CIAppCollection_003E) = 0L;
+				CComPtrNtv<IAppCollection> cComPtrNtv_003CIAppCollection_003E = new();
 				try
 				{
 					IService* pService = m_pService;
-					if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, IAppCollection**, int>)(*(ulong*)(*(long*)pService + 72)))((nint)pService, (IAppCollection**)(&cComPtrNtv_003CIAppCollection_003E)) >= 0)
+					if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, IAppCollection**, int>)(*(ulong*)(*(long*)pService + 72)))((nint)pService, (IAppCollection**)(cComPtrNtv_003CIAppCollection_003E.p)) >= 0)
 					{
 						appOfferCollection = new AppOfferCollection();
-						appOfferCollection.Init((IAppCollection*)(*(ulong*)(&cComPtrNtv_003CIAppCollection_003E)));
+						appOfferCollection.Init((IAppCollection*)(*(ulong*)(cComPtrNtv_003CIAppCollection_003E.p)));
 					}
 				}
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIAppCollection_003E*, void>)(&Module.CComPtrNtv_003CIAppCollection_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIAppCollection_003E);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IAppCollection*, void>)(&Module.CComPtrNtv_003CIAppCollection_003E_002E_007Bdtor_007D), cComPtrNtv_003CIAppCollection_003E.p);
 					throw;
 				}
-				Module.CComPtrNtv_003CIAppCollection_003E_002ERelease(&cComPtrNtv_003CIAppCollection_003E);
+				cComPtrNtv_003CIAppCollection_003E.Dispose();
 			}
 			return appOfferCollection;
 		}

@@ -626,8 +626,7 @@ namespace MicrosoftZuneLibrary
 			{
 				return;
 			}
-			CComPtrNtv_003CIEndpointNotification_003E cComPtrNtv_003CIEndpointNotification_003E;
-			*(long*)(&cComPtrNtv_003CIEndpointNotification_003E) = 0L;
+			CComPtrNtv<IEndpointNotification> cComPtrNtv_003CIEndpointNotification_003E = new();
 			try
 			{
 				fixed (char* strEndpointIdPtr = strEndpointId.ToCharArray())
@@ -636,18 +635,18 @@ namespace MicrosoftZuneLibrary
 					try
 					{
 						CComPtrMgd<IEndpointHostManager> spEndpointHostManager = m_spEndpointHostManager;
-						if (spEndpointHostManager.p != null && Module.IUnknown_002EQueryInterface_003Cstruct_0020IEndpointNotification_003E((IUnknown*)spEndpointHostManager.p, (IEndpointNotification**)(&cComPtrNtv_003CIEndpointNotification_003E)) >= 0)
+						if (spEndpointHostManager.p != null && Module.IUnknown_002EQueryInterface_003Cstruct_0020IEndpointNotification_003E((IUnknown*)spEndpointHostManager.p, (IEndpointNotification**)(cComPtrNtv_003CIEndpointNotification_003E.p)) >= 0)
 						{
 							if (fHide)
 							{
-								long num = *(long*)(*(ulong*)(&cComPtrNtv_003CIEndpointNotification_003E)) + 32;
-								long num2 = *(long*)(&cComPtrNtv_003CIEndpointNotification_003E);
+								long num = *(long*)(*(ulong*)(cComPtrNtv_003CIEndpointNotification_003E.p)) + 32;
+								long num2 = *(long*)(cComPtrNtv_003CIEndpointNotification_003E.p);
 								((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, int>)(*(ulong*)num))((nint)num2, ptr);
 							}
 							else
 							{
-								long num3 = *(long*)(*(ulong*)(&cComPtrNtv_003CIEndpointNotification_003E)) + 24;
-								long num4 = *(long*)(&cComPtrNtv_003CIEndpointNotification_003E);
+								long num3 = *(long*)(*(ulong*)(cComPtrNtv_003CIEndpointNotification_003E.p)) + 24;
+								long num4 = *(long*)(cComPtrNtv_003CIEndpointNotification_003E.p);
 								((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, int>)(*(ulong*)num3))((nint)num4, ptr);
 							}
 						}
@@ -663,10 +662,10 @@ namespace MicrosoftZuneLibrary
 			catch
 			{
 				//try-fault
-				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<CComPtrNtv_003CIEndpointNotification_003E*, void>)(&Module.CComPtrNtv_003CIEndpointNotification_003E_002E_007Bdtor_007D), &cComPtrNtv_003CIEndpointNotification_003E);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IEndpointNotification*, void>)(&Module.CComPtrNtv_003CIEndpointNotification_003E_002E_007Bdtor_007D), cComPtrNtv_003CIEndpointNotification_003E.p);
 				throw;
 			}
-			Module.CComPtrNtv_003CIEndpointNotification_003E_002ERelease(&cComPtrNtv_003CIEndpointNotification_003E);
+			cComPtrNtv_003CIEndpointNotification_003E.Dispose();
 		}
 
 		private void ResetUpdater(int nDeviceId, [MarshalAs(UnmanagedType.U1)] bool fFireDisconnect)
