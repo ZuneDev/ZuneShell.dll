@@ -5,7 +5,7 @@ namespace Microsoft.Zune.Subscription
 {
 	[StructLayout(LayoutKind.Sequential, Size = 72)]
 	[NativeCppClass]
-			internal struct CSubscriptionEventProxy
+			public struct CSubscriptionEventProxy
 	{
 		private long _003Calignment_0020member_003E;
 	}

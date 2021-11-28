@@ -5,7 +5,7 @@ namespace MicrosoftZuneLibrary
 {
 	[StructLayout(LayoutKind.Sequential, Size = 24)]
 	[NativeCppClass]
-	internal struct CBurnPublisherCallback
+	public struct CBurnPublisherCallback
 	{
 		private long _003Calignment_0020member_003E;
 	}

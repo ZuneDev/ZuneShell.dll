@@ -5,7 +5,7 @@ namespace Microsoft.Zune.Util
 {
 	[StructLayout(LayoutKind.Sequential, Size = 24)]
 		[NativeCppClass]
-		internal struct FeatureChangedInteropWrapper
+		public struct FeatureChangedInteropWrapper
 	{
 		private long _003Calignment_0020member_003E;
 	}

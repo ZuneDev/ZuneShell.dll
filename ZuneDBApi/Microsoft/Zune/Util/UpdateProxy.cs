@@ -5,7 +5,7 @@ namespace Microsoft.Zune.Util
 {
 	[StructLayout(LayoutKind.Sequential, Size = 24)]
 	[NativeCppClass]
-	internal struct UpdateProxy
+	public struct UpdateProxy
 	{
 		private long _003Calignment_0020member_003E;
 	}

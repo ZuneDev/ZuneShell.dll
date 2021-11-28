@@ -944,15 +944,15 @@ namespace MicrosoftZuneLibrary
 			DBPropertySubmitStruct* ptr4 = ptr3;
 			ulong num4 = num;
 			ulong num5 = ((num4 > 768614336404564650L) ? ulong.MaxValue : (num4 * 24));
-			PROPVARIANT* ptr5 = (PROPVARIANT*)Module.new_005B_005D((num5 > 18446744073709551607uL) ? ulong.MaxValue : (num5 + 8));
-			PROPVARIANT* ptr7;
+            PROPVARIANT* ptr5 = (PROPVARIANT*)Module.new_005B_005D((num5 > 18446744073709551607uL) ? ulong.MaxValue : (num5 + 8));
+            PROPVARIANT* ptr7;
 			try
 			{
 				if (ptr5 != null)
 				{
 					uint count2 = (uint)(*(int*)ptr5 = (int)num4);
-					PROPVARIANT* ptr6 = (PROPVARIANT*)((ulong)(nint)ptr5 + 8uL);
-					Module.__ehvec_ctor(ptr6, 24uL, (int)count2, (delegate*<void*, void>)(delegate*<PROPVARIANT*, PROPVARIANT*>)(&Module.CComPropVariant_002E_007Bctor_007D), (delegate*<void*, void>)(delegate*<PROPVARIANT*, void>)(&Module.CComPropVariant_002E_007Bdtor_007D));
+                    PROPVARIANT* ptr6 = (PROPVARIANT*)((ulong)(System.nint)ptr5 + 8uL);
+                    Module.__ehvec_ctor(ptr6, 24uL, (int)count2, (delegate*<void*, void>)(delegate*<PROPVARIANT*, PROPVARIANT*>)(&Module.CComPropVariant_002E_007Bctor_007D), (delegate*<void*, void>)(delegate*<PROPVARIANT*, void>)(&Module.CComPropVariant_002E_007Bdtor_007D));
 					ptr7 = ptr6;
 				}
 				else
@@ -966,7 +966,7 @@ namespace MicrosoftZuneLibrary
 				Module.delete_005B_005D(ptr5);
 				throw;
 			}
-			PROPVARIANT* ptr8 = ptr7;
+            PROPVARIANT* ptr8 = ptr7;
 			CComPtrNtv<IQueryPropertyBag> cComPtrNtv_003CIQueryPropertyBag_003E;
 			Module.CComPtrNtv_003CIQueryPropertyBag_003E_002E_007Bctor_007D(cComPtrNtv_003CIQueryPropertyBag_003E.p, propertyBag.GetIQueryPropertyBag());
 			try
@@ -978,7 +978,7 @@ namespace MicrosoftZuneLibrary
 						long num6 = i;
 						DBPropertySubmitStruct* ptr9 = (DBPropertySubmitStruct*)(num6 * 16 + (nint)ptr4);
 						*(int*)ptr9 = columnIndexes[i];
-						PROPVARIANT* ptr10 = (PROPVARIANT*)(num6 * 24 + (nint)ptr8);
+                        PROPVARIANT* ptr10 = (PROPVARIANT*)(num6 * 24 + (System.nint)ptr8);
                         ZuneQueryList.ConvertTypeToPropVariant(null, fieldValues[i], (PROPVARIANT)ptr10);
 						*(long*)((ulong)(nint)ptr9 + 8uL) = (nint)ptr10;
 					}

@@ -349,7 +349,7 @@ namespace Microsoft.Zune.Playlist
 					ushort* ptr = (ushort*)candidateTitlePtr;
 					try
 					{
-						PROPVARIANT cComPropVariant;
+                        PROPVARIANT cComPropVariant;
                         // IL initblk instruction
                         Unsafe.InitBlock(&cComPropVariant, 0, 24);
 						try
@@ -357,13 +357,13 @@ namespace Microsoft.Zune.Playlist
 							long num = *(long*)m_pPlaylistManager + 136;
 							IPlaylistManager* pPlaylistManager = m_pPlaylistManager;
 							int num2;
-							((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, int*, PROPVARIANT, int>)(*(ulong*)num))((nint)pPlaylistManager, (ushort*)ptr, (int*)&num2, (PROPVARIANT)cComPropVariant);
+							((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, int*, PROPVARIANT, int>)(*(ulong*)num))((System.nint)pPlaylistManager, (ushort*)(ushort*)ptr, (int*)(int*)&num2, (PROPVARIANT)(PROPVARIANT)cComPropVariant);
 							result = new string((char*)Unsafe.As<PROPVARIANT, ulong>(ref Unsafe.AddByteOffset(ref cComPropVariant, 8)));
 						}
 						catch
 						{
-							//try-fault
-							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<PROPVARIANT*, void>)(&Module.CComPropVariant_002E_007Bdtor_007D), &cComPropVariant);
+                            //try-fault
+                            Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<PROPVARIANT*, void>)(&Module.CComPropVariant_002E_007Bdtor_007D), &cComPropVariant);
 							throw;
 						}
 						Module.CComPropVariant_002EClear(&cComPropVariant);

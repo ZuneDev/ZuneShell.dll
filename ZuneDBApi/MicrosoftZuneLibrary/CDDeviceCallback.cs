@@ -5,7 +5,7 @@ namespace MicrosoftZuneLibrary
 {
 	[StructLayout(LayoutKind.Sequential, Size = 24)]
 	[NativeCppClass]
-			internal struct CDDeviceCallback
+			public struct CDDeviceCallback
 	{
 		private long _003Calignment_0020member_003E;
 	}

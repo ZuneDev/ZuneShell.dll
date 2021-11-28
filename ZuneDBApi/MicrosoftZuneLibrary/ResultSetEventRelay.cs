@@ -5,7 +5,7 @@ namespace MicrosoftZuneLibrary
 {
 	[StructLayout(LayoutKind.Sequential, Size = 56)]
 	[NativeCppClass]
-	internal struct ResultSetEventRelay
+	public struct ResultSetEventRelay
 	{
 		private long _003Calignment_0020member_003E;
 	}

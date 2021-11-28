@@ -136,17 +136,17 @@ namespace Microsoft.Zune.Util
 
 		public unsafe HRESULT GetSetting(int nSettingId, out string szRatingSystem, out int nRatingLevel, out bool fBlockUnrated)
 		{
-			//IL_0008: Expected I4, but got I8
-			//IL_0023: Expected I, but got I8
-			//IL_0033: Expected I, but got I8
-			PROPVARIANT cComPropVariant = new();
+            //IL_0008: Expected I4, but got I8
+            //IL_0023: Expected I, but got I8
+            //IL_0033: Expected I, but got I8
+            PROPVARIANT cComPropVariant = new();
 			HRESULT result;
 			try
 			{
 				IFamilySettingsProvider* pProvider = m_pProvider;
 				int num;
 				int num2;
-				int num3 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, PROPVARIANT, int*, int*, int>)(*(ulong*)(*(long*)pProvider + 40)))((nint)pProvider, (int)nSettingId, (PROPVARIANT)cComPropVariant, (int*)&num, (int*)&num2);
+				int num3 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, PROPVARIANT, int*, int*, int>)(*(ulong*)(*(long*)pProvider + 40)))((System.nint)pProvider, (int)(int)nSettingId, (PROPVARIANT)(PROPVARIANT)cComPropVariant, (int*)(int*)&num, (int*)(int*)&num2);
 				if (0 == num3)
 				{
 					szRatingSystem = new string((char*)Unsafe.As<PROPVARIANT, ulong>(ref Unsafe.AddByteOffset(ref cComPropVariant, 8)));
@@ -157,8 +157,8 @@ namespace Microsoft.Zune.Util
 			}
 			catch
 			{
-				//try-fault
-				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<PROPVARIANT*, void>)(&Module.CComPropVariant_002E_007Bdtor_007D), &cComPropVariant);
+                //try-fault
+                Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<PROPVARIANT*, void>)(&Module.CComPropVariant_002E_007Bdtor_007D), &cComPropVariant);
 				throw;
 			}
 			Module.CComPropVariant_002EClear(&cComPropVariant);

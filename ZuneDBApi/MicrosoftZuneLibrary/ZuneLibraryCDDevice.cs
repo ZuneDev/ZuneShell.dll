@@ -526,18 +526,18 @@ namespace MicrosoftZuneLibrary
 						uint num3 = 0u;
 						while (num3 < num2)
 						{
-							PROPVARIANT cComPropVariant = new();
+                            PROPVARIANT cComPropVariant = new();
 							try
 							{
-								PROPVARIANT cComPropVariant2 = new();
+                                PROPVARIANT cComPropVariant2 = new();
 								try
 								{
 									IDatabaseQueryResults* intPtr2 = ptr2;
-									num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)ptr2 + 48)))((nint)intPtr2, (uint)num3, (uint)233u, (PROPVARIANT)cComPropVariant);
+									num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)ptr2 + 48)))((System.nint)intPtr2, (uint)(uint)num3, (uint)(uint)233u, (PROPVARIANT)(PROPVARIANT)cComPropVariant);
 									if (num >= 0)
 									{
 										IDatabaseQueryResults* intPtr3 = ptr2;
-										num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)ptr2 + 48)))((nint)intPtr3, (uint)num3, (uint)234u, (PROPVARIANT)cComPropVariant2);
+										num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)ptr2 + 48)))((System.nint)intPtr3, (uint)(uint)num3, (uint)(uint)234u, (PROPVARIANT)(PROPVARIANT)cComPropVariant2);
 										if (num >= 0)
 										{
 											num = Module.AddItemToPlaylist(Unsafe.As<PROPVARIANT, int>(ref Unsafe.AddByteOffset(ref cComPropVariant, 8)), Unsafe.As<PROPVARIANT, int>(ref Unsafe.AddByteOffset(ref cComPropVariant2, 8)), ptr);
@@ -546,16 +546,16 @@ namespace MicrosoftZuneLibrary
 								}
 								catch
 								{
-									//try-fault
-									Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<PROPVARIANT*, void>)(&Module.CComPropVariant_002E_007Bdtor_007D), &cComPropVariant2);
+                                    //try-fault
+                                    Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<PROPVARIANT*, void>)(&Module.CComPropVariant_002E_007Bdtor_007D), &cComPropVariant2);
 									throw;
 								}
 								Module.CComPropVariant_002EClear(&cComPropVariant2);
 							}
 							catch
 							{
-								//try-fault
-								Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<PROPVARIANT*, void>)(&Module.CComPropVariant_002E_007Bdtor_007D), &cComPropVariant);
+                                //try-fault
+                                Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<PROPVARIANT*, void>)(&Module.CComPropVariant_002E_007Bdtor_007D), &cComPropVariant);
 								throw;
 							}
 							Module.CComPropVariant_002EClear(&cComPropVariant);

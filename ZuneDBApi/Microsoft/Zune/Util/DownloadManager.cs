@@ -136,11 +136,11 @@ namespace Microsoft.Zune.Util
 		{
 			add
 			{
-				Module.Microsoft_002EZune_002EUtil_002EDownloadManagerProxy_002EAddDelegate(m_pDownloadManagerProxy, value);
+				DownloadManagerProxy.AddDelegate(m_pDownloadManagerProxy, value);
 			}
 			remove
 			{
-				Module.Microsoft_002EZune_002EUtil_002EDownloadManagerProxy_002ERemoveDelegate(m_pDownloadManagerProxy, value);
+				DownloadManagerProxy.RemoveDelegate(m_pDownloadManagerProxy, value);
 			}
 		}
 
@@ -264,12 +264,12 @@ namespace Microsoft.Zune.Util
 
 		public unsafe void PauseQueue()
 		{
-			Module.Microsoft_002EZune_002EUtil_002EDownloadManagerProxy_002EPauseQueue(m_pDownloadManagerProxy);
+			DownloadManagerProxy.PauseQueue(m_pDownloadManagerProxy);
 		}
 
 		public unsafe void ResumeQueue()
 		{
-			Module.Microsoft_002EZune_002EUtil_002EDownloadManagerProxy_002EResumeQueue(m_pDownloadManagerProxy);
+			DownloadManagerProxy.ResumeQueue(m_pDownloadManagerProxy);
 		}
 
 		[return: MarshalAs(UnmanagedType.U1)]
@@ -338,7 +338,7 @@ namespace Microsoft.Zune.Util
 			DownloadManagerProxy* ptr2;
 			try
 			{
-				ptr2 = ((ptr == null) ? null : Module.Microsoft_002EZune_002EUtil_002EDownloadManagerProxy_002E_007Bctor_007D(ptr));
+				ptr2 = ((ptr == null) ? null : DownloadManagerProxy._007Bctor_007D(ptr));
 			}
 			catch
 			{
@@ -347,7 +347,7 @@ namespace Microsoft.Zune.Util
 				throw;
 			}
 			m_pDownloadManagerProxy = ptr2;
-			if (ptr2 != null && Module.Microsoft_002EZune_002EUtil_002EDownloadManagerProxy_002EInitialize(ptr2) >= 0)
+			if (ptr2 != null && DownloadManagerProxy.Initialize(ptr2) >= 0)
 			{
 				OnProgressChanged += (m_defaultUpdateHandler = DefaultUpdateHandler);
 			}
@@ -394,7 +394,7 @@ namespace Microsoft.Zune.Util
 			ThreadPool.QueueUserWorkItem(UpdateActiveListOnWorkerThread, this);
 		}
 
-		private unsafe static void UpdateActiveListOnWorkerThread(object args)
+		private unsafe void UpdateActiveListOnWorkerThread(object args)
 		{
 			//IL_0029: Expected I, but got I8
 			//IL_0029: Expected I, but got I8
@@ -444,7 +444,7 @@ namespace Microsoft.Zune.Util
 						catch
 						{
 							//try-fault
-							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IDownloadTask*, void>)(&Module.CComPtrNtv_003CIDownloadTask_003E_002E_007Bdtor_007D), cComPtrNtv_003CIDownloadTask_003E.p);
+							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IDownloadTask*, void>)(&Module.CComPtrNtv_003CIDownloadTask_003E._007Bdtor_007D), cComPtrNtv_003CIDownloadTask_003E.p);
 							throw;
 						}
 						cComPtrNtv_003CIDownloadTask_003E.Dispose();
@@ -457,7 +457,7 @@ namespace Microsoft.Zune.Util
 			catch
 			{
 				//try-fault
-				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IDownloadManager*, void>)(&Module.CComPtrNtv_003CIDownloadManager_003E_002E_007Bdtor_007D), cComPtrNtv_003CIDownloadManager_003E.p);
+				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IDownloadManager*, void>)(&Module.CComPtrNtv_003CIDownloadManager_003E._007Bdtor_007D), cComPtrNtv_003CIDownloadManager_003E.p);
 				throw;
 			}
 			cComPtrNtv_003CIDownloadManager_003E.Dispose();
@@ -517,7 +517,7 @@ namespace Microsoft.Zune.Util
 				if (num2 >= 0)
 				{
 					m_cancelledDownloadTasks.RemoveAt(num2);
-					Module.Microsoft_002EZune_002EUtil_002EDownloadManagerProxy_002ERemoveCancelledCount(m_pDownloadManagerProxy);
+					DownloadManagerProxy.RemoveCancelledCount(m_pDownloadManagerProxy);
 				}
 				break;
 			}
@@ -527,7 +527,7 @@ namespace Microsoft.Zune.Util
 				if (num >= 0)
 				{
 					m_failedDownloadTasks.RemoveAt(num);
-					Module.Microsoft_002EZune_002EUtil_002EDownloadManagerProxy_002ERemoveFailedCount(m_pDownloadManagerProxy);
+					DownloadManagerProxy.RemoveFailedCount(m_pDownloadManagerProxy);
 				}
 				break;
 			}

@@ -5,7 +5,7 @@ namespace MicrosoftZunePlayback
 {
 	[StructLayout(LayoutKind.Sequential, Size = 48)]
 		[NativeCppClass]
-		internal struct CPlayerInteropEventSink
+		public struct CPlayerInteropEventSink
 	{
 		private long _003Calignment_0020member_003E;
 	}

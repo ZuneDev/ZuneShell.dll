@@ -131,13 +131,13 @@ namespace Microsoft.Zune.Subscription
 			*(int*)(&gUID) = 0;
             // IL initblk instruction
             Unsafe.InitBlockUnaligned(ref Unsafe.AddByteOffset(ref gUID, 4), 0, 12);
-			tagPROPVARIANT tagPROPVARIANT;
+			PROPVARIANT tagPROPVARIANT;
 			*(short*)(&tagPROPVARIANT) = 1;
 			if (serviceId != Guid.Empty)
 			{
 				gUID = serviceId;
 				*(short*)(&tagPROPVARIANT) = 72;
-                Unsafe.As<tagPROPVARIANT, long>(ref Unsafe.AddByteOffset(ref tagPROPVARIANT, 8)) = (nint)(&gUID);
+                Unsafe.As<PROPVARIANT, long>(ref Unsafe.AddByteOffset(ref tagPROPVARIANT, 8)) = (nint)(&gUID);
 			}
 			if (num >= 0 && EMediaTypes.eMediaTypePlaylist != eSubscriptionMediaType)
 			{
@@ -156,23 +156,23 @@ namespace Microsoft.Zune.Subscription
 							goto IL_027f;
 						}
 						IMSMediaSchemaPropertySet* intPtr = ptr;
-						tagPROPVARIANT tagPROPVARIANT2 = tagPROPVARIANT;
-						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, tagPROPVARIANT, int>)(*(ulong*)(*(long*)ptr + 56)))((nint)intPtr, 67133455u, tagPROPVARIANT2);
+						PROPVARIANT tagPROPVARIANT2 = tagPROPVARIANT;
+						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)ptr + 56)))((nint)intPtr, 67133455u, tagPROPVARIANT2);
 					}
 				}
 				else
 				{
-					PROPVARIANT cComPropVariant;
+                    PROPVARIANT cComPropVariant;
                     // IL initblk instruction
                     Unsafe.InitBlock(ref cComPropVariant, 0, 24);
 					try
 					{
-						PROPVARIANT cComPropVariant2;
+                        PROPVARIANT cComPropVariant2;
                         // IL initblk instruction
                         Unsafe.InitBlock(ref cComPropVariant2, 0, 24);
 						try
 						{
-							PROPVARIANT cComPropVariant3;
+                            PROPVARIANT cComPropVariant3;
                             // IL initblk instruction
                             Unsafe.InitBlock(ref cComPropVariant3, 0, 24);
 							try
@@ -189,7 +189,7 @@ namespace Microsoft.Zune.Subscription
 										ushort* ptr2 = (ushort*)subscriptionTitlePtr;
 										try
 										{
-                                            Unsafe.As<PROPVARIANT, long>(ref Unsafe.AddByteOffset(ref cComPropVariant2, 8)) = (nint)Module.SysAllocString(ptr2);
+                                            Unsafe.As<PROPVARIANT, long>(ref Unsafe.AddByteOffset(ref cComPropVariant2, 8)) = (System.nint)Module.SysAllocString(ptr2);
 											*(short*)(&cComPropVariant2) = 8;
 											num3 = ((Unsafe.As<PROPVARIANT, long>(ref Unsafe.AddByteOffset(ref cComPropVariant2, 8)) != 0) ? num : (-2147024882));
 											num = num3;
@@ -203,24 +203,24 @@ namespace Microsoft.Zune.Subscription
 									}
 									if (num3 >= 0)
 									{
-										tagPROPVARIANT tagPROPVARIANT3 = (tagPROPVARIANT)cComPropVariant2;
+										PROPVARIANT tagPROPVARIANT3 = (PROPVARIANT)cComPropVariant2;
 										IMSMediaSchemaPropertySet* intPtr2 = ptr;
-										num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, tagPROPVARIANT, int>)(*(ulong*)(*(long*)ptr + 56)))((nint)intPtr2, 16777217u, tagPROPVARIANT3);
+										num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)ptr + 56)))((nint)intPtr2, 16777217u, tagPROPVARIANT3);
 										if (num >= 0)
 										{
-											tagPROPVARIANT tagPROPVARIANT4 = (tagPROPVARIANT)cComPropVariant;
+											PROPVARIANT tagPROPVARIANT4 = (PROPVARIANT)cComPropVariant;
 											IMSMediaSchemaPropertySet* intPtr3 = ptr;
-											num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, tagPROPVARIANT, int>)(*(ulong*)(*(long*)ptr + 56)))((nint)intPtr3, 100663307u, tagPROPVARIANT4);
+											num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)ptr + 56)))((nint)intPtr3, 100663307u, tagPROPVARIANT4);
 											if (num >= 0)
 											{
-												tagPROPVARIANT tagPROPVARIANT5 = (tagPROPVARIANT)cComPropVariant3;
+												PROPVARIANT tagPROPVARIANT5 = (PROPVARIANT)cComPropVariant3;
 												IMSMediaSchemaPropertySet* intPtr4 = ptr;
-												num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, tagPROPVARIANT, int>)(*(ulong*)(*(long*)ptr + 56)))((nint)intPtr4, 100663309u, tagPROPVARIANT5);
+												num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)ptr + 56)))((nint)intPtr4, 100663309u, tagPROPVARIANT5);
 												if (num >= 0 && 72 == *(ushort*)(&tagPROPVARIANT))
 												{
 													IMSMediaSchemaPropertySet* intPtr5 = ptr;
-													tagPROPVARIANT tagPROPVARIANT6 = tagPROPVARIANT;
-													num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, tagPROPVARIANT, int>)(*(ulong*)(*(long*)ptr + 56)))((nint)intPtr5, 67108873u, tagPROPVARIANT6);
+													PROPVARIANT tagPROPVARIANT6 = tagPROPVARIANT;
+													num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)ptr + 56)))((nint)intPtr5, 67108873u, tagPROPVARIANT6);
 												}
 											}
 										}
@@ -229,24 +229,24 @@ namespace Microsoft.Zune.Subscription
 							}
 							catch
 							{
-								//try-fault
-								Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<PROPVARIANT*, void>)(&Module.CComPropVariant_002E_007Bdtor_007D), &cComPropVariant3);
+                                //try-fault
+                                Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<PROPVARIANT*, void>)(&Module.CComPropVariant_002E_007Bdtor_007D), &cComPropVariant3);
 								throw;
 							}
 							Module.CComPropVariant_002E_007Bdtor_007D(&cComPropVariant3);
 						}
 						catch
 						{
-							//try-fault
-							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<PROPVARIANT*, void>)(&Module.CComPropVariant_002E_007Bdtor_007D), &cComPropVariant2);
+                            //try-fault
+                            Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<PROPVARIANT*, void>)(&Module.CComPropVariant_002E_007Bdtor_007D), &cComPropVariant2);
 							throw;
 						}
 						Module.CComPropVariant_002E_007Bdtor_007D(&cComPropVariant2);
 					}
 					catch
 					{
-						//try-fault
-						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<PROPVARIANT*, void>)(&Module.CComPropVariant_002E_007Bdtor_007D), &cComPropVariant);
+                        //try-fault
+                        Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<PROPVARIANT*, void>)(&Module.CComPropVariant_002E_007Bdtor_007D), &cComPropVariant);
 						throw;
 					}
 					Module.CComPropVariant_002E_007Bdtor_007D(&cComPropVariant);

@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 [StructLayout(LayoutKind.Sequential, Size = 40)]
 [NativeCppClass]
-internal struct SSyncRuleDetails
+public struct SSyncRuleDetails
 {
 	public ESyncCategory syncCategory;
 

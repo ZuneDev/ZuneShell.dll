@@ -1,6 +1,6 @@
 namespace Microsoft.Zune.Playlist
 {
-	internal struct GroupAndAtom
+	public struct GroupAndAtom
 	{
 		private int groupAndAtom;
 

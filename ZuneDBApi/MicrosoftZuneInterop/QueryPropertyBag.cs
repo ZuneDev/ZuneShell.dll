@@ -132,7 +132,7 @@ namespace MicrosoftZuneInterop
 							break;
 						}
 					}
-					throw new ArgumentException("Invalid property name: " + propertyName, "propertyName");
+					throw new ArgumentException("Invalid property name: " + propertyName, nameof(propertyName));
 				}
 				return eQueryPropertyBagProp;
 			}

@@ -5,7 +5,7 @@ namespace MicrosoftZuneLibrary
 {
 	[StructLayout(LayoutKind.Sequential, Size = 24)]
 	[NativeCppClass]
-	internal struct NativeInteropNotifications
+	public struct NativeInteropNotifications
 	{
 		private long _003Calignment_0020member_003E;
 	}

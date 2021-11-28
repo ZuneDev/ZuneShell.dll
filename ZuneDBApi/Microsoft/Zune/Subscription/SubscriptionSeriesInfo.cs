@@ -47,7 +47,7 @@ namespace Microsoft.Zune.Subscription
             Unsafe.As<_0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, int>(ref Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, 136)) = 16801796;
             Unsafe.As<_0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, long>(ref Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, 144)) = (nint)Unsafe.AsPointer(ref Module._003F_003F_C_0040_1BE_0040GMGHCDOJ_0040_003F_0024AAO_003F_0024AAw_003F_0024AAn_003F_0024AAe_003F_0024AAr_003F_0024AAN_003F_0024AAa_003F_0024AAm_003F_0024AAe_003F_0024AA_003F_0024AA_0040);
             Unsafe.As<_0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, int>(ref Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040, 152)) = 16801799;
-			PROPVARIANT cComPropVariant = new();
+            PROPVARIANT cComPropVariant = new();
 			object result;
 			try
 			{
@@ -72,7 +72,7 @@ namespace Microsoft.Zune.Subscription
 							}
 							uint num2 = *(uint*)((long)num * 16L + _0024ArrayType_0024_0024_0024BY09UPROPERTY_TO_PID_MAP_0040Subscription_0040Zune_0040Microsoft_0040_0040 + 8);
 							IMSMediaSchemaPropertySet* pSeriesPropertySet = m_pSeriesPropertySet;
-							if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)pSeriesPropertySet + 48)))((nint)pSeriesPropertySet, num2, 0u, cComPropVariant) < 0 || *(ushort*)(&cComPropVariant) == 0)
+							if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)pSeriesPropertySet + 48)))((System.nint)pSeriesPropertySet, (uint)num2, (uint)0u, (PROPVARIANT)cComPropVariant) < 0 || *(ushort*)(&cComPropVariant) == 0)
 							{
 								break;
 							}
@@ -86,8 +86,8 @@ namespace Microsoft.Zune.Subscription
 			}
 			catch
 			{
-				//try-fault
-				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<PROPVARIANT*, void>)(&Module.CComPropVariant_002E_007Bdtor_007D), &cComPropVariant);
+                //try-fault
+                Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<PROPVARIANT*, void>)(&Module.CComPropVariant_002E_007Bdtor_007D), &cComPropVariant);
 				throw;
 			}
 			Module.CComPropVariant_002EClear(&cComPropVariant);
@@ -114,42 +114,42 @@ namespace Microsoft.Zune.Subscription
 
 		internal unsafe void SetPropertySet(IMSMediaSchemaPropertySet* pSeriesPropertySet)
 		{
-			//IL_0008: Expected I4, but got I8
-			//IL_0025: Expected I, but got I8
-			//IL_0050: Expected I, but got I8
-			//IL_0059: Expected I, but got I8
-			//IL_006c: Expected I, but got I8
-			//IL_009a: Expected I4, but got I8
-			//IL_00c8: Expected I, but got I8
-			PROPVARIANT cComPropVariant = new();
+            //IL_0008: Expected I4, but got I8
+            //IL_0025: Expected I, but got I8
+            //IL_0050: Expected I, but got I8
+            //IL_0059: Expected I, but got I8
+            //IL_006c: Expected I, but got I8
+            //IL_009a: Expected I4, but got I8
+            //IL_00c8: Expected I, but got I8
+            PROPVARIANT cComPropVariant = new();
 			try
 			{
-				if (pSeriesPropertySet != null && ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)pSeriesPropertySet + 48)))((nint)pSeriesPropertySet, (uint)16801793u, (uint)0u, (PROPVARIANT)cComPropVariant) >= 0 && *(ushort*)(&cComPropVariant) != 0)
+				if (pSeriesPropertySet != null && ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)pSeriesPropertySet + 48)))((System.nint)pSeriesPropertySet, (uint)(uint)16801793u, (uint)(uint)0u, (PROPVARIANT)(PROPVARIANT)cComPropVariant) >= 0 && *(ushort*)(&cComPropVariant) != 0)
 				{
                     IMSMediaSchemaPropertySet* pSeriesPropertySet2 = m_pSeriesPropertySet;
-					if (0L != (nint)pSeriesPropertySet2)
+					if (0L != (System.nint)pSeriesPropertySet2)
 					{
-						((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint>)(*(ulong*)(*(long*)pSeriesPropertySet2 + 16)))((nint)pSeriesPropertySet2);
+						((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint>)(*(ulong*)(*(long*)pSeriesPropertySet2 + 16)))((System.nint)pSeriesPropertySet2);
                         m_pSeriesPropertySet = null;
 					}
                     m_pSeriesPropertySet = pSeriesPropertySet;
-					((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint>)(*(ulong*)(*(long*)pSeriesPropertySet + 8)))((nint)pSeriesPropertySet);
+					((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint>)(*(ulong*)(*(long*)pSeriesPropertySet + 8)))((System.nint)pSeriesPropertySet);
 					if (!string.IsNullOrEmpty(m_serviceId))
 					{
                         Guid guid = new(m_serviceId);
-                        tagPROPVARIANT tagPROPVARIANT;
+                        PROPVARIANT tagPROPVARIANT;
 						*(short*)(&tagPROPVARIANT) = 72;
-                        Unsafe.As<tagPROPVARIANT, long>(ref Unsafe.AddByteOffset(ref tagPROPVARIANT, 8)) = (nint)(&guid);
+                        Unsafe.As<PROPVARIANT, long>(ref Unsafe.AddByteOffset(ref tagPROPVARIANT, 8)) = (System.nint)(&guid);
                         IMSMediaSchemaPropertySet* pSeriesPropertySet3 = m_pSeriesPropertySet;
-                        tagPROPVARIANT tagPROPVARIANT2 = tagPROPVARIANT;
-						((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, tagPROPVARIANT, int>)(*(ulong*)(*(long*)pSeriesPropertySet3 + 56)))((nint)pSeriesPropertySet3, (uint)67133455u, (tagPROPVARIANT)tagPROPVARIANT2);
+                        PROPVARIANT tagPROPVARIANT2 = tagPROPVARIANT;
+						((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)pSeriesPropertySet3 + 56)))((System.nint)pSeriesPropertySet3, (uint)(uint)67133455u, (PROPVARIANT)(PROPVARIANT)tagPROPVARIANT2);
 					}
 				}
 			}
 			catch
 			{
-				//try-fault
-				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<PROPVARIANT*, void>)(&Module.CComPropVariant_002E_007Bdtor_007D), &cComPropVariant);
+                //try-fault
+                Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<PROPVARIANT*, void>)(&Module.CComPropVariant_002E_007Bdtor_007D), &cComPropVariant);
 				throw;
 			}
 			Module.CComPropVariant_002EClear(&cComPropVariant);

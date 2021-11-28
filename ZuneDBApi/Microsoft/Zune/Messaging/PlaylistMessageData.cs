@@ -81,21 +81,21 @@ namespace Microsoft.Zune.Messaging
 				ushort* ptr3 = (ushort*)m_titlePtr;
 				if (num >= 0)
 				{
-					PROPVARIANT cComPropVariant;
+                    PROPVARIANT cComPropVariant;
                     // IL initblk instruction
                     Unsafe.InitBlock(&cComPropVariant, 0, 24);
 					try
 					{
 						*(short*)(&cComPropVariant) = 8;
-                        Unsafe.As<PROPVARIANT, long>(ref Unsafe.AddByteOffset(ref cComPropVariant, 8)) = (nint)Module.SysAllocString(ptr3);
-						tagPROPVARIANT tagPROPVARIANT = (tagPROPVARIANT)cComPropVariant;
+                        Unsafe.As<PROPVARIANT, long>(ref Unsafe.AddByteOffset(ref cComPropVariant, 8)) = (System.nint)Module.SysAllocString(ptr3);
+						PROPVARIANT tagPROPVARIANT = (PROPVARIANT)cComPropVariant;
 						IMSMediaSchemaPropertySet* intPtr = ptr2;
-						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, tagPROPVARIANT, int>)(*(ulong*)(*(long*)ptr2 + 56)))((nint)intPtr, 16777217u, tagPROPVARIANT);
+						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)ptr2 + 56)))((nint)intPtr, 16777217u, tagPROPVARIANT);
 					}
 					catch
 					{
-						//try-fault
-						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<PROPVARIANT*, void>)(&Module.CComPropVariant_002E_007Bdtor_007D), &cComPropVariant);
+                        //try-fault
+                        Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<PROPVARIANT*, void>)(&Module.CComPropVariant_002E_007Bdtor_007D), &cComPropVariant);
 						throw;
 					}
 					Module.CComPropVariant_002EClear(&cComPropVariant);
@@ -105,26 +105,26 @@ namespace Microsoft.Zune.Messaging
 					ushort* ptr4 = (ushort*)m_authorPtr;
 					if (num >= 0)
 					{
-						PROPVARIANT cComPropVariant2;
+                        PROPVARIANT cComPropVariant2;
                         // IL initblk instruction
                         Unsafe.InitBlock(&cComPropVariant2, 0, 24);
 						try
 						{
 							*(short*)(&cComPropVariant2) = 8;
-                            Unsafe.As<PROPVARIANT, long>(ref Unsafe.AddByteOffset(ref cComPropVariant2, 8)) = (nint)Module.SysAllocString(ptr4);
-							tagPROPVARIANT tagPROPVARIANT2 = (tagPROPVARIANT)cComPropVariant2;
+                            Unsafe.As<PROPVARIANT, long>(ref Unsafe.AddByteOffset(ref cComPropVariant2, 8)) = (System.nint)Module.SysAllocString(ptr4);
+							PROPVARIANT tagPROPVARIANT2 = (PROPVARIANT)cComPropVariant2;
 							IMSMediaSchemaPropertySet* intPtr2 = ptr2;
-							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, tagPROPVARIANT, int>)(*(ulong*)(*(long*)ptr2 + 56)))((nint)intPtr2, 16777219u, tagPROPVARIANT2);
+							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)ptr2 + 56)))((nint)intPtr2, 16777219u, tagPROPVARIANT2);
 						}
 						catch
 						{
-							//try-fault
-							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<PROPVARIANT*, void>)(&Module.CComPropVariant_002E_007Bdtor_007D), &cComPropVariant2);
+                            //try-fault
+                            Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<PROPVARIANT*, void>)(&Module.CComPropVariant_002E_007Bdtor_007D), &cComPropVariant2);
 							throw;
 						}
 						Module.CComPropVariant_002EClear(&cComPropVariant2);
 					}
-					PROPVARIANT cComPropVariant3;
+                    PROPVARIANT cComPropVariant3;
                     // IL initblk instruction
                     Unsafe.InitBlock(&cComPropVariant3, 0, 24);
 					try
@@ -134,10 +134,10 @@ namespace Microsoft.Zune.Messaging
 							goto IL_0144;
 						}
 						*(short*)(&cComPropVariant3) = 13;
-                        Unsafe.As<PROPVARIANT, long>(ref Unsafe.AddByteOffset(ref cComPropVariant3, 8)) = (nint)ptr;
-						tagPROPVARIANT tagPROPVARIANT3 = (tagPROPVARIANT)cComPropVariant3;
+                        Unsafe.As<PROPVARIANT, long>(ref Unsafe.AddByteOffset(ref cComPropVariant3, 8)) = (System.nint)ptr;
+						PROPVARIANT tagPROPVARIANT3 = (PROPVARIANT)cComPropVariant3;
 						IMSMediaSchemaPropertySet* intPtr3 = ptr2;
-						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, tagPROPVARIANT, int>)(*(ulong*)(*(long*)ptr2 + 56)))((nint)intPtr3, 3229617665u, tagPROPVARIANT3);
+						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)ptr2 + 56)))((nint)intPtr3, 3229617665u, tagPROPVARIANT3);
 						if (num < 0)
 						{
 							goto IL_0144;
@@ -162,8 +162,8 @@ namespace Microsoft.Zune.Messaging
 					}
 					catch
 					{
-						//try-fault
-						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<PROPVARIANT*, void>)(&Module.CComPropVariant_002E_007Bdtor_007D), &cComPropVariant3);
+                        //try-fault
+                        Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<PROPVARIANT*, void>)(&Module.CComPropVariant_002E_007Bdtor_007D), &cComPropVariant3);
 						throw;
 					}
 					Module.CComPropVariant_002EClear(&cComPropVariant3);

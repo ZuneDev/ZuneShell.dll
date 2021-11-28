@@ -5,7 +5,7 @@ namespace Microsoft.Zune.UserCredential
 {
 	[StructLayout(LayoutKind.Sequential, Size = 24)]
 		[NativeCppClass]
-		internal struct CUserCredentialProviderProxy
+		public struct CUserCredentialProviderProxy
 	{
 		private long _003Calignment_0020member_003E;
 	}

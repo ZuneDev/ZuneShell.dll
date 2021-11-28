@@ -56,7 +56,9 @@ namespace ZuneDBApi
         internal static readonly _GUID GUID_UpdateProxy = new("9d21716a-ca61-4e24-a1ba-47b9e70e1e2c");
         internal static readonly _GUID GUID_IEndpointHostManager = new("0a3d3343-00d9-4c61-9a86-2d778793e05f");
         internal static readonly _GUID GUID_ITrayDeskband = new("f2d3efa4-12f4-466b-a41c-d9ec613ad509");
-
+        internal static readonly _GUID GUID_DownloadManagerProxy = new("399f851b-a600-4e88-90c3-03b8f2770076");
+        internal static readonly _GUID _GUID_60fcb6b3_8562_4ddf_99f8_b93c08ed5e83 = new("60fcb6b3-8562-4ddf-99f8-b93c08ed5e83");
+        internal static readonly _GUID _GUID_00000000_0000_0000_c000_000000000046 = new("00000000-0000-0000-c000-000000000046");
         private static bool s_bIsLonghornOrBetter;
         private static bool s_bIsLonghornOrBetterInitialized;
 
@@ -302,6 +304,11 @@ namespace ZuneDBApi
                 LocalFree(ptr);
             }
             return result;
+        }
+
+        internal static void ___CxxCallUnwindDtor(delegate*<void*, void> dg, void* p)
+        {
+            throw new NotImplementedException();
         }
 
         public static HWND* GetForegroundWindow()
@@ -878,6 +885,6 @@ namespace ZuneDBApi
 
         [DllImport(ZUNENATIVELIB_DLL, CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
         [MethodImpl(MethodImplOptions.Unmanaged)]
-        public unsafe static extern int ZunePropVariantChangeType(tagPROPVARIANT* propVariant1, tagPROPVARIANT* propVariant2, ushort num1, ushort num2);
+        public unsafe static extern int ZunePropVariantChangeType(ref PROPVARIANT propVariant1, ref PROPVARIANT propVariant2, ushort num1, ushort num2);
     }
 }

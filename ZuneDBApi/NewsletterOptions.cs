@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 [StructLayout(LayoutKind.Sequential, Size = 12)]
 [NativeCppClass]
-internal struct NewsletterOptions
+public struct NewsletterOptions
 {
 	private int _003Calignment_0020member_003E;
 }

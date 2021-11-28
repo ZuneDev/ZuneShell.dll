@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 [StructLayout(LayoutKind.Sequential, Size = 160)]
 [NativeCppClass]
 [UnsafeValueType]
-internal struct MusicTrackMetadata
+public struct MusicTrackMetadata
 {
 	private long _003Calignment_0020member_003E;
 }

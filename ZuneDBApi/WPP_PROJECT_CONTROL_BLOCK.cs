@@ -4,6 +4,6 @@ using System.Runtime.InteropServices;
 [StructLayout(LayoutKind.Explicit, Size = 32)]
 [NativeCppClass]
 [UnsafeValueType]
-internal struct WPP_PROJECT_CONTROL_BLOCK
+public struct WPP_PROJECT_CONTROL_BLOCK
 {
 }

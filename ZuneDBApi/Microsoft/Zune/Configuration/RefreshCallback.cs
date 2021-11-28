@@ -5,7 +5,7 @@ namespace Microsoft.Zune.Configuration
 {
 	[StructLayout(LayoutKind.Sequential, Size = 24)]
 	[NativeCppClass]
-	internal struct RefreshCallback
+	public struct RefreshCallback
 	{
 		private long _003Calignment_0020member_003E;
 	}
