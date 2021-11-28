@@ -111,7 +111,7 @@ namespace Microsoft.Zune.Service
 					Module.WBSTRString_002E_007Bctor_007D(&wBSTRString2);
 					try
 					{
-						((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, ushort**, int>)(*(ulong*)(*(long*)pResponse + 112)))((nint)pResponse, (ushort*)Unsafe.AsPointer(ref Module._003F_003F_C_0040_1BK_0040DOFICLFP_0040_003F_0024AAC_003F_0024AAo_003F_0024AAn_003F_0024AAt_003F_0024AAe_003F_0024AAn_003F_0024AAt_003F_0024AA_003F9_003F_0024AAT_003F_0024AAy_003F_0024AAp_003F_0024AAe_003F_0024AA_003F_0024AA_0040), (ushort**)(&wBSTRString2));
+						((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, ushort**, int>)(*(ulong*)(*(long*)pResponse + 112)))((nint)pResponse, (ushort*)Unsafe.AsPointer(ref Module.1BK_0040DOFICLFP__003F_0024AAC_003F_0024AAo_003F_0024AAn_003F_0024AAt_003F_0024AAe_003F_0024AAn_003F_0024AAt_003F_0024AA_003F9_003F_0024AAT_003F_0024AAy_003F_0024AAp_003F_0024AAe), (ushort**)(&wBSTRString2));
 						bool flag2 = *(long*)(&wBSTRString2) != 0L && ((*(ushort*)(*(ulong*)(&wBSTRString2)) != 0) ? true : false);
 						if (flag2)
 						{
@@ -122,7 +122,7 @@ namespace Microsoft.Zune.Service
 						try
 						{
 							string s = null;
-							((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, ushort**, int>)(*(ulong*)(*(long*)pResponse + 112)))((nint)pResponse, (ushort*)Unsafe.AsPointer(ref Module._003F_003F_C_0040_1BA_0040FICLJLAN_0040_003F_0024AAE_003F_0024AAx_003F_0024AAp_003F_0024AAi_003F_0024AAr_003F_0024AAe_003F_0024AAs_003F_0024AA_003F_0024AA_0040), (ushort**)(&wBSTRString3));
+							((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, ushort**, int>)(*(ulong*)(*(long*)pResponse + 112)))((nint)pResponse, (ushort*)Unsafe.AsPointer(ref Module.1BA_0040FICLJLAN__003F_0024AAE_003F_0024AAx_003F_0024AAp_003F_0024AAi_003F_0024AAr_003F_0024AAe_003F_0024AAs), (ushort**)(&wBSTRString3));
 							bool flag3 = *(long*)(&wBSTRString3) != 0L && ((*(ushort*)(*(ulong*)(&wBSTRString3)) != 0) ? true : false);
 							if (flag3)
 							{

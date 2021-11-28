@@ -50,7 +50,7 @@ namespace Microsoft.Zune.Playlist
 					EMediaTypes type = m_type;
 					uint atom;
 					EAutoPlaylistRuleOperators op;
-					int num3 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EMediaTypes, uint, uint, uint*, EAutoPlaylistRuleOperators*, PROPVARIANT, int>)(*(ulong*)(*(long*)ptr + 40)))((System.nint)intPtr, (EMediaTypes)(EMediaTypes)type, (uint)(uint)(uint)num, (uint)(uint)(uint)num2, (uint*)(uint*)&atom, (EAutoPlaylistRuleOperators*)(EAutoPlaylistRuleOperators*)&op, (PROPVARIANT)(PROPVARIANT)cComPropVariant);
+					int num3 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EMediaTypes, uint, uint, uint*, EAutoPlaylistRuleOperators*, PROPVARIANT, int>)(*(ulong*)(*(long*)ptr + 40)))((nint)intPtr, (EMediaTypes)(EMediaTypes)type, (uint)(uint)(uint)num, (uint)(uint)(uint)num2, (uint*)(uint*)&atom, (EAutoPlaylistRuleOperators*)(EAutoPlaylistRuleOperators*)&op, (PROPVARIANT)(PROPVARIANT)cComPropVariant);
 					if (num3 >= 0)
 					{
 						if (num3 == 1)
@@ -79,10 +79,10 @@ namespace Microsoft.Zune.Playlist
                     Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<PROPVARIANT*, void>)(&Module.CComPropVariant_002E_007Bdtor_007D), &cComPropVariant);
 					throw;
 				}
-				Module.CComPropVariant_002EClear(&cComPropVariant);
+				cComPropVariant.Clear();
 				break;
 				IL_00b3:
-				Module.CComPropVariant_002EClear(&cComPropVariant);
+				cComPropVariant.Clear();
 			}
 			while (flag);
 			int num4 = 0;
@@ -92,7 +92,7 @@ namespace Microsoft.Zune.Playlist
 			try
 			{
 				IAutoPlaylistRules* intPtr2 = ptr;
-				num5 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, uint*, PROPVARIANT, int>)(*(ulong*)(*(long*)ptr + 72)))((System.nint)intPtr2, (uint)(uint)0u, (uint*)(uint*)&atom2, (PROPVARIANT)(PROPVARIANT)cComPropVariant2);
+				num5 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, uint*, PROPVARIANT, int>)(*(ulong*)(*(long*)ptr + 72)))((nint)intPtr2, (uint)(uint)0u, (uint*)(uint*)&atom2, (PROPVARIANT)(PROPVARIANT)cComPropVariant2);
 				if (num5 < 0)
 				{
 					goto IL_0160;
@@ -123,12 +123,12 @@ namespace Microsoft.Zune.Playlist
 					throw;
 				}
 			IL_0126:
-				Module.CComPropVariant_002EClear(&cComPropVariant2);
+				cComPropVariant2.Clear();
 				cComPropVariant2 = default;
 				try
 				{
 					IAutoPlaylistRules* intPtr3 = ptr;
-					num5 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, uint*, PROPVARIANT, int>)(*(ulong*)(*(long*)ptr + 72)))((System.nint)intPtr3, (uint)(uint)(uint)num4, (uint*)(uint*)&atom2, (PROPVARIANT)(PROPVARIANT)cComPropVariant2);
+					num5 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, uint*, PROPVARIANT, int>)(*(ulong*)(*(long*)ptr + 72)))((nint)intPtr3, (uint)(uint)(uint)num4, (uint*)(uint*)&atom2, (PROPVARIANT)(PROPVARIANT)cComPropVariant2);
 					if (num5 >= 0)
 					{
 						continue;
@@ -144,7 +144,7 @@ namespace Microsoft.Zune.Playlist
 			}
 			goto IL_0160;
 			IL_0160:
-			Module.CComPropVariant_002EClear(&cComPropVariant2);
+			cComPropVariant2.Clear();
 		}
 
 		public AutoPlaylistBuilder(EMediaTypes type)
@@ -177,21 +177,14 @@ namespace Microsoft.Zune.Playlist
 			m_currentRuleSetGroup = 0;
 			IAutoPlaylistRules* pAutoPlaylistRules = m_pAutoPlaylistRules;
 			((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)pAutoPlaylistRules + 24)))((nint)pAutoPlaylistRules);
-			try
-			{
-                PROPVARIANT cComPropVariant = new(1, VarEnum.VT_I4);
-				IAutoPlaylistRules* pAutoPlaylistRules2 = m_pAutoPlaylistRules;
-				EMediaTypes type = m_type;
-				int currentRuleSetGroup = m_currentRuleSetGroup;
-				((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EMediaTypes, uint, uint, EAutoPlaylistRuleOperators, PROPVARIANT, int>)(*(ulong*)(*(long*)pAutoPlaylistRules2 + 32)))((System.nint)pAutoPlaylistRules2, (EMediaTypes)(EMediaTypes)type, (uint)(uint)(uint)currentRuleSetGroup, (uint)(uint)204u, (EAutoPlaylistRuleOperators)(EAutoPlaylistRuleOperators)(EAutoPlaylistRuleOperators)1, (PROPVARIANT)(PROPVARIANT)cComPropVariant);
-			}
-			catch
-			{
-                //try-fault
-                Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<PROPVARIANT*, void>)(&Module.CComPropVariant_002E_007Bdtor_007D), &cComPropVariant);
-				throw;
-			}
-			Module.CComPropVariant_002EClear(&cComPropVariant);
+			PROPVARIANT cComPropVariant = new(1, VarEnum.VT_I4);
+
+			IAutoPlaylistRules* pAutoPlaylistRules2 = m_pAutoPlaylistRules;
+			EMediaTypes type = m_type;
+			int currentRuleSetGroup = m_currentRuleSetGroup;
+			((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EMediaTypes, uint, uint, EAutoPlaylistRuleOperators, PROPVARIANT, int>)(*(ulong*)(*(long*)pAutoPlaylistRules2 + 32)))((nint)pAutoPlaylistRules2, (EMediaTypes)(EMediaTypes)type, (uint)(uint)(uint)currentRuleSetGroup, (uint)(uint)204u, (EAutoPlaylistRuleOperators)(EAutoPlaylistRuleOperators)(EAutoPlaylistRuleOperators)1, (PROPVARIANT)(PROPVARIANT)cComPropVariant);
+
+			cComPropVariant.Clear();
 		}
 
 		public unsafe HRESULT AddCriterion(string atomName, PlaylistRuleOperator op, object value)
@@ -208,7 +201,7 @@ namespace Microsoft.Zune.Playlist
 					IAutoPlaylistRules* pAutoPlaylistRules = m_pAutoPlaylistRules;
 					EMediaTypes type = m_type;
 					int currentRuleSetGroup = m_currentRuleSetGroup;
-					num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EMediaTypes, uint, uint, EAutoPlaylistRuleOperators, PROPVARIANT, int>)(*(ulong*)(*(long*)pAutoPlaylistRules + 32)))((System.nint)pAutoPlaylistRules, (EMediaTypes)(EMediaTypes)type, (uint)(uint)(uint)currentRuleSetGroup, (uint)(uint)(uint)num, (EAutoPlaylistRuleOperators)(EAutoPlaylistRuleOperators)(EAutoPlaylistRuleOperators)op, (PROPVARIANT)(PROPVARIANT)cComPropVariant);
+					num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EMediaTypes, uint, uint, EAutoPlaylistRuleOperators, PROPVARIANT, int>)(*(ulong*)(*(long*)pAutoPlaylistRules + 32)))((nint)pAutoPlaylistRules, (EMediaTypes)(EMediaTypes)type, (uint)(uint)(uint)currentRuleSetGroup, (uint)(uint)(uint)num, (EAutoPlaylistRuleOperators)(EAutoPlaylistRuleOperators)(EAutoPlaylistRuleOperators)op, (PROPVARIANT)(PROPVARIANT)cComPropVariant);
 				}
 				result = num2;
 			}
@@ -218,7 +211,7 @@ namespace Microsoft.Zune.Playlist
                 Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<PROPVARIANT*, void>)(&Module.CComPropVariant_002E_007Bdtor_007D), &cComPropVariant);
 				throw;
 			}
-			Module.CComPropVariant_002EClear(&cComPropVariant);
+			cComPropVariant.Clear();
 			return result;
 		}
 
@@ -265,7 +258,7 @@ namespace Microsoft.Zune.Playlist
 				if (num2 >= 0)
 				{
 					IAutoPlaylistRules* pAutoPlaylistRules = m_pAutoPlaylistRules;
-					num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)pAutoPlaylistRules + 64)))((System.nint)pAutoPlaylistRules, (uint)(uint)(uint)num, (PROPVARIANT)(PROPVARIANT)cComPropVariant);
+					num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)pAutoPlaylistRules + 64)))((nint)pAutoPlaylistRules, (uint)(uint)(uint)num, (PROPVARIANT)(PROPVARIANT)cComPropVariant);
 				}
 				result = num2;
 			}
@@ -275,7 +268,7 @@ namespace Microsoft.Zune.Playlist
                 Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<PROPVARIANT*, void>)(&Module.CComPropVariant_002E_007Bdtor_007D), &cComPropVariant);
 				throw;
 			}
-			Module.CComPropVariant_002EClear(&cComPropVariant);
+			cComPropVariant.Clear();
 			return result;
 		}
 

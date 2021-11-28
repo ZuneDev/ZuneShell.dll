@@ -494,57 +494,93 @@ namespace MicrosoftZuneLibrary
 			fixed (VARIANT* ptr5 = &Unsafe.AsRef<VARIANT>(&tagVARIANT))
 			{
 				Module.VariantInit(ptr5);
-				fixed (INSSDevice** ptr6 = &Unsafe.AsRef<INSSDevice*>(&ptr))
+				long num = *(long*)m_pDeviceList + 56;
+				INSSDevices* pDeviceList = m_pDeviceList;
+				int num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, INSSDevice**, int>)(*(ulong*)num))((nint)pDeviceList, (int)dwIndex, &ptr);
+				if (num2 >= 0)
 				{
-					long num = *(long*)m_pDeviceList + 56;
-					INSSDevices* pDeviceList = m_pDeviceList;
-					int num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, INSSDevice**, int>)(*(ulong*)num))((nint)pDeviceList, (int)dwIndex, ptr6);
+					try
+					{
+						long num3 = *(long*)ptr + 56;
+						INSSDevice* intPtr = ptr;
+						num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort**, int>)(*(ulong*)num3))((nint)intPtr, &ptr4);
+					}
+					catch
+					{
+						//try-fault
+						ptr4 = null;
+						throw;
+					}
+
 					if (num2 >= 0)
 					{
-						fixed (ushort** ptr7 = &Unsafe.AsRef<ushort*>(&ptr4))
+						strMAC = new string((char*)ptr4);
+						Module.SysFreeString(ptr4);
+						ptr4 = null;
+
+						try
+						{
+							long num4 = *(long*)ptr + 96;
+							INSSDevice* intPtr2 = ptr;
+							num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, INSSProperties**, int>)(*(ulong*)num4))((nint)intPtr2, &ptr2);
+						}
+						catch
+						{
+							//try-fault
+							ptr2 = null;
+							throw;
+						}
+
+						if (num2 >= 0)
 						{
 							try
 							{
-								long num3 = *(long*)ptr + 56;
-								INSSDevice* intPtr = ptr;
-								num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort**, int>)(*(ulong*)num3))((nint)intPtr, ptr7);
+								long num5 = *(long*)ptr2 + 72;
+								INSSProperties* intPtr3 = ptr2;
+								num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, INSSProperty**, int>)(*(ulong*)num5))((nint)intPtr3, (ushort*)Unsafe.AsPointer(ref Module.1BK_0040BFIEKNFP_FriendlyName), &ptr3);
+								if (num2 < 0)
+								{
+									ptr3 = null;
+									num2 = 0;
+								}
 							}
 							catch
 							{
 								//try-fault
-								ptr4 = null;
+								ptr3 = null;
 								throw;
 							}
-						}
-						if (num2 >= 0)
-						{
-							strMAC = new string((char*)ptr4);
-							Module.SysFreeString(ptr4);
-							ptr4 = null;
-							fixed (INSSProperties** ptr8 = &Unsafe.AsRef<INSSProperties*>(&ptr2))
-							{
-								try
-								{
-									long num4 = *(long*)ptr + 96;
-									INSSDevice* intPtr2 = ptr;
-									num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, INSSProperties**, int>)(*(ulong*)num4))((nint)intPtr2, ptr8);
-								}
-								catch
-								{
-									//try-fault
-									ptr2 = null;
-									throw;
-								}
-							}
+
 							if (num2 >= 0)
 							{
-								fixed (INSSProperty** ptr9 = &Unsafe.AsRef<INSSProperty*>(&ptr3))
+								if (ptr3 != null)
 								{
+									long num6 = *(long*)ptr3 + 64;
+									INSSProperty* intPtr4 = ptr3;
+									num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, VARIANT*, int>)(*(ulong*)num6))((nint)intPtr4, ptr5);
+								}
+								if (num2 >= 0)
+								{
+									if (ptr3 != null)
+									{
+										if (*(ushort*)(&tagVARIANT) == 8)
+										{
+											strName = new string((char*)Unsafe.As<VARIANT, ulong>(ref Unsafe.AddByteOffset(ref tagVARIANT, 8)));
+										}
+										Module.VariantClear(ptr5);
+										if (0L != (nint)ptr3)
+										{
+											INSSProperty* intPtr5 = ptr3;
+											((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint>)(*(ulong*)(*(long*)intPtr5 + 16)))((nint)intPtr5);
+											ptr3 = null;
+										}
+									}
+
 									try
 									{
-										long num5 = *(long*)ptr2 + 72;
-										INSSProperties* intPtr3 = ptr2;
-										num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, INSSProperty**, int>)(*(ulong*)num5))((nint)intPtr3, (ushort*)Unsafe.AsPointer(ref Module._003F_003F_C_0040_1BK_0040BFIEKNFP_0040_003F_0024AAF_003F_0024AAr_003F_0024AAi_003F_0024AAe_003F_0024AAn_003F_0024AAd_003F_0024AAl_003F_0024AAy_003F_0024AAN_003F_0024AAa_003F_0024AAm_003F_0024AAe_003F_0024AA_003F_0024AA_0040), ptr9);
+										long num7 = *(long*)ptr2 + 72;
+										INSSProperties* intPtr6 = ptr2;
+										num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, INSSProperty**, int>)(*(ulong*)num7))((nint)intPtr6, (ushort*)Unsafe.AsPointer(ref Module.1BK_0040GBMCOKGG_SerialNumber), &ptr3);
 										if (num2 < 0)
 										{
 											ptr3 = null;
@@ -557,72 +593,27 @@ namespace MicrosoftZuneLibrary
 										ptr3 = null;
 										throw;
 									}
-								}
-								if (num2 >= 0)
-								{
-									if (ptr3 != null)
-									{
-										long num6 = *(long*)ptr3 + 64;
-										INSSProperty* intPtr4 = ptr3;
-										num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, VARIANT*, int>)(*(ulong*)num6))((nint)intPtr4, ptr5);
-									}
+
 									if (num2 >= 0)
 									{
 										if (ptr3 != null)
 										{
+											long num8 = *(long*)ptr3 + 64;
+											INSSProperty* intPtr7 = ptr3;
+											num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, VARIANT*, int>)(*(ulong*)num8))((nint)intPtr7, ptr5);
+										}
+										if (num2 >= 0 && ptr3 != null)
+										{
 											if (*(ushort*)(&tagVARIANT) == 8)
 											{
-												strName = new string((char*)Unsafe.As<VARIANT, ulong>(ref Unsafe.AddByteOffset(ref tagVARIANT, 8)));
+												strSerialNumber = new string((char*)(&tagVARIANT + 8));
 											}
 											Module.VariantClear(ptr5);
 											if (0L != (nint)ptr3)
 											{
-												INSSProperty* intPtr5 = ptr3;
-												((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint>)(*(ulong*)(*(long*)intPtr5 + 16)))((nint)intPtr5);
+												INSSProperty* intPtr8 = ptr3;
+												((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint>)(*(ulong*)(*(long*)intPtr8 + 16)))((nint)intPtr8);
 												ptr3 = null;
-											}
-										}
-										fixed (INSSProperty** ptr10 = &Unsafe.AsRef<INSSProperty*>(&ptr3))
-										{
-											try
-											{
-												long num7 = *(long*)ptr2 + 72;
-												INSSProperties* intPtr6 = ptr2;
-												num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, INSSProperty**, int>)(*(ulong*)num7))((nint)intPtr6, (ushort*)Unsafe.AsPointer(ref Module._003F_003F_C_0040_1BK_0040GBMCOKGG_0040_003F_0024AAS_003F_0024AAe_003F_0024AAr_003F_0024AAi_003F_0024AAa_003F_0024AAl_003F_0024AAN_003F_0024AAu_003F_0024AAm_003F_0024AAb_003F_0024AAe_003F_0024AAr_003F_0024AA_003F_0024AA_0040), ptr10);
-												if (num2 < 0)
-												{
-													ptr3 = null;
-													num2 = 0;
-												}
-											}
-											catch
-											{
-												//try-fault
-												ptr3 = null;
-												throw;
-											}
-										}
-										if (num2 >= 0)
-										{
-											if (ptr3 != null)
-											{
-												long num8 = *(long*)ptr3 + 64;
-												INSSProperty* intPtr7 = ptr3;
-												num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, VARIANT*, int>)(*(ulong*)num8))((nint)intPtr7, ptr5);
-											}
-											if (num2 >= 0 && ptr3 != null)
-											{
-												if (*(ushort*)(&tagVARIANT) == 8)
-												{
-													strSerialNumber = new string((char*)(&tagVARIANT + 8));
-												}
-												Module.VariantClear(ptr5);
-												if (0L != (nint)ptr3)
-												{
-													INSSProperty* intPtr8 = ptr3;
-													((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint>)(*(ulong*)(*(long*)intPtr8 + 16)))((nint)intPtr8);
-													ptr3 = null;
-												}
 											}
 										}
 									}
@@ -630,31 +621,31 @@ namespace MicrosoftZuneLibrary
 							}
 						}
 					}
-					if (ptr4 != null)
-					{
-						Module.SysFreeString(ptr4);
-					}
-					if (0L != (nint)ptr)
-					{
-						INSSDevice* intPtr9 = ptr;
-						((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint>)(*(ulong*)(*(long*)intPtr9 + 16)))((nint)intPtr9);
-						ptr = null;
-					}
-					if (0L != (nint)ptr2)
-					{
-						INSSProperties* intPtr10 = ptr2;
-						((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint>)(*(ulong*)(*(long*)intPtr10 + 16)))((nint)intPtr10);
-						ptr2 = null;
-					}
-					if (0L != (nint)ptr3)
-					{
-						INSSProperty* intPtr11 = ptr3;
-						((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint>)(*(ulong*)(*(long*)intPtr11 + 16)))((nint)intPtr11);
-						ptr3 = null;
-					}
-					Module.VariantClear(ptr5);
-					return num2;
 				}
+				if (ptr4 != null)
+				{
+					Module.SysFreeString(ptr4);
+				}
+				if (0L != (nint)ptr)
+				{
+					INSSDevice* intPtr9 = ptr;
+					((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint>)(*(ulong*)(*(long*)intPtr9 + 16)))((nint)intPtr9);
+					ptr = null;
+				}
+				if (0L != (nint)ptr2)
+				{
+					INSSProperties* intPtr10 = ptr2;
+					((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint>)(*(ulong*)(*(long*)intPtr10 + 16)))((nint)intPtr10);
+					ptr2 = null;
+				}
+				if (0L != (nint)ptr3)
+				{
+					INSSProperty* intPtr11 = ptr3;
+					((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint>)(*(ulong*)(*(long*)intPtr11 + 16)))((nint)intPtr11);
+					ptr3 = null;
+				}
+				Module.VariantClear(ptr5);
+				return num2;
 			}
 		}
 
@@ -672,40 +663,37 @@ namespace MicrosoftZuneLibrary
 			bool flag = false;
 			INSSDevice* ptr = null;
 			AuthorizationStatus authorizationStatus = 0;
-			fixed (INSSDevice** ptr2 = &Unsafe.AsRef<INSSDevice*>(&ptr))
+			long num = *(long*)m_pDeviceList + 56;
+			INSSDevices* pDeviceList = m_pDeviceList;
+			int num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, INSSDevice**, int>)(*(ulong*)num))((nint)pDeviceList, (int)dwIndex, &ptr);
+			if (num2 >= 0)
 			{
-				long num = *(long*)m_pDeviceList + 56;
-				INSSDevices* pDeviceList = m_pDeviceList;
-				int num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, INSSDevice**, int>)(*(ulong*)num))((nint)pDeviceList, (int)dwIndex, ptr2);
+				fixed (AuthorizationStatus* ptr3 = &Unsafe.AsRef<AuthorizationStatus>(&authorizationStatus))
+				{
+					try
+					{
+						long num3 = *(long*)ptr + 64;
+						INSSDevice* intPtr = ptr;
+						num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, AuthorizationStatus*, int>)(*(ulong*)num3))((nint)intPtr, ptr3);
+					}
+					catch
+					{
+						//try-fault
+						authorizationStatus = (AuthorizationStatus)0;
+						throw;
+					}
+				}
 				if (num2 >= 0)
 				{
-					fixed (AuthorizationStatus* ptr3 = &Unsafe.AsRef<AuthorizationStatus>(&authorizationStatus))
-					{
-						try
-						{
-							long num3 = *(long*)ptr + 64;
-							INSSDevice* intPtr = ptr;
-							num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, AuthorizationStatus*, int>)(*(ulong*)num3))((nint)intPtr, ptr3);
-						}
-						catch
-						{
-							//try-fault
-							authorizationStatus = (AuthorizationStatus)0;
-							throw;
-						}
-					}
-					if (num2 >= 0)
-					{
-						flag = authorizationStatus == (AuthorizationStatus)2 || flag;
-					}
+					flag = authorizationStatus == (AuthorizationStatus)2 || flag;
 				}
-				if (0L != (nint)ptr)
-				{
-					INSSDevice* intPtr2 = ptr;
-					((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint>)(*(ulong*)(*(long*)intPtr2 + 16)))((nint)intPtr2);
-				}
-				return flag;
 			}
+			if (0L != (nint)ptr)
+			{
+				INSSDevice* intPtr2 = ptr;
+				((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint>)(*(ulong*)(*(long*)intPtr2 + 16)))((nint)intPtr2);
+			}
+			return flag;
 		}
 
 		public unsafe int EnableDevice(uint dwIndex, [MarshalAs(UnmanagedType.U1)] bool bEnabled)
@@ -720,24 +708,21 @@ namespace MicrosoftZuneLibrary
 				return -2147418113;
 			}
 			INSSDevice* ptr = null;
-			fixed (INSSDevice** ptr2 = &Unsafe.AsRef<INSSDevice*>(&ptr))
+			long num = *(long*)m_pDeviceList + 56;
+			INSSDevices* pDeviceList = m_pDeviceList;
+			int num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, INSSDevice**, int>)(*(ulong*)num))((nint)pDeviceList, (int)dwIndex, &ptr);
+			if (num2 >= 0)
 			{
-				long num = *(long*)m_pDeviceList + 56;
-				INSSDevices* pDeviceList = m_pDeviceList;
-				int num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, INSSDevice**, int>)(*(ulong*)num))((nint)pDeviceList, (int)dwIndex, ptr2);
-				if (num2 >= 0)
-				{
-					AuthorizationStatus authorizationStatus = (bEnabled ? ((AuthorizationStatus)2) : ((AuthorizationStatus)3));
-					INSSDevice* intPtr = ptr;
-					num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, AuthorizationStatus, int>)(*(ulong*)(*(long*)ptr + 72)))((nint)intPtr, authorizationStatus);
-				}
-				if (0L != (nint)ptr)
-				{
-					INSSDevice* intPtr2 = ptr;
-					((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint>)(*(ulong*)(*(long*)intPtr2 + 16)))((nint)intPtr2);
-				}
-				return num2;
+				AuthorizationStatus authorizationStatus = (bEnabled ? ((AuthorizationStatus)2) : ((AuthorizationStatus)3));
+				INSSDevice* intPtr = ptr;
+				num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, AuthorizationStatus, int>)(*(ulong*)(*(long*)ptr + 72)))((nint)intPtr, authorizationStatus);
 			}
+			if (0L != (nint)ptr)
+			{
+				INSSDevice* intPtr2 = ptr;
+				((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint>)(*(ulong*)(*(long*)intPtr2 + 16)))((nint)intPtr2);
+			}
+			return num2;
 		}
 
 		internal void NSSDeviceListChange()

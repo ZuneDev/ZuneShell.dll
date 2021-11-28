@@ -951,7 +951,7 @@ namespace MicrosoftZuneLibrary
 				if (ptr5 != null)
 				{
 					uint count2 = (uint)(*(int*)ptr5 = (int)num4);
-                    PROPVARIANT* ptr6 = (PROPVARIANT*)((ulong)(System.nint)ptr5 + 8uL);
+                    PROPVARIANT* ptr6 = (PROPVARIANT*)((ulong)(nint)ptr5 + 8uL);
                     Module.__ehvec_ctor(ptr6, 24uL, (int)count2, (delegate*<void*, void>)(delegate*<PROPVARIANT*, PROPVARIANT*>)(&Module.CComPropVariant_002E_007Bctor_007D), (delegate*<void*, void>)(delegate*<PROPVARIANT*, void>)(&Module.CComPropVariant_002E_007Bdtor_007D));
 					ptr7 = ptr6;
 				}
@@ -978,7 +978,7 @@ namespace MicrosoftZuneLibrary
 						long num6 = i;
 						DBPropertySubmitStruct* ptr9 = (DBPropertySubmitStruct*)(num6 * 16 + (nint)ptr4);
 						*(int*)ptr9 = columnIndexes[i];
-                        PROPVARIANT* ptr10 = (PROPVARIANT*)(num6 * 24 + (System.nint)ptr8);
+                        PROPVARIANT* ptr10 = (PROPVARIANT*)(num6 * 24 + (nint)ptr8);
                         ZuneQueryList.ConvertTypeToPropVariant(null, fieldValues[i], (PROPVARIANT)ptr10);
 						*(long*)((ulong)(nint)ptr9 + 8uL) = (nint)ptr10;
 					}

@@ -195,7 +195,7 @@ namespace Microsoft.Zune.Service
 											bool flag5 = ((((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EMediaRights, EMediaFormat, int, int, int>)(*(ulong*)(*(long*)Unsafe.As<VideoMetadata, ulong>(ref Unsafe.AddByteOffset(ref videoMetadata, 192)) + 168)))((nint)num13, eMediaRights, (EMediaFormat)num14, 1, 1) != 0) ? true : false);
 											flag6 = flag5;
 										}
-										string expirationDate = new string((char*)Unsafe.AsPointer(ref (long)(nint)ptr2 != 0 ? ref *(_0024ArrayType_0024_0024_0024BY00_0024_0024CBG*)ptr2 : ref Module._003F_003F_C_0040_11LOCGONAA_0040_003F_0024AA_003F_0024AA_0040));
+										string expirationDate = new string((char*)Unsafe.AsPointer(ref (long)(nint)ptr2 != 0 ? ref *(_0024ArrayType_0024_0024_0024BY00_0024_0024CBG*)ptr2 : ref Module.11LOCGONAA_));
 										VideoOffer value = new VideoOffer(id, title, seriesTitle, Unsafe.As<VideoMetadata, int>(ref Unsafe.AddByteOffset(ref videoMetadata, 128)), Unsafe.As<VideoMetadata, int>(ref Unsafe.AddByteOffset(ref videoMetadata, 132)), artist, albumId, genre, releaseYear, previewImageUrl, productionCompany, new PriceInfo(Module.CComPtrNtv_003CIPriceInfo_003E_002E_002EPEAUIPriceInfo_0040_0040(cComPtrNtv_003CIPriceInfo_003E.p)), flag7, isRental, flag4, isMusicVideo, flag3, flag6, flag, expirationDate);
 										list.Add(value);
 										num4 = 1;

@@ -40,7 +40,7 @@ namespace MicrosoftZuneLibrary
                 Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<PROPVARIANT*, void>)(&Module.CComPropVariant_002E_007Bdtor_007D), &cComPropVariant);
                 throw;
             }
-            Module.CComPropVariant_002EClear(&cComPropVariant);
+            cComPropVariant.Clear();
             return num;
         }
 
@@ -49,9 +49,7 @@ namespace MicrosoftZuneLibrary
             //IL_000a: Expected I4, but got I8
             //IL_001b: Expected I4, but got I8
             int result = 0;
-            PROPVARIANT cComPropVariant;
-            // IL initblk instruction
-            Unsafe.InitBlock(ref cComPropVariant, 0, 24);
+            PROPVARIANT cComPropVariant = new();
             try
             {
                 PROPVARIANT ptr = new();
@@ -60,14 +58,14 @@ namespace MicrosoftZuneLibrary
                     ptr = pPropVariant;
                     goto IL_002d;
                 }
-                if (Module.ZunePropVariantChangeType(cComPropVariant, pPropVariant, 1, 3) >= 0)
+                if (Module.ZunePropVariantChangeType(ref cComPropVariant, ref pPropVariant, 1, 3) >= 0)
                 {
                     ptr = cComPropVariant;
                     goto IL_002d;
                 }
                 goto end_IL_000a;
                 IL_002d:
-                result = *(int*)((ulong)(nint)ptr + 8uL);
+                result = ptr.intVal;
                 end_IL_000a:;
             }
             catch
@@ -76,7 +74,7 @@ namespace MicrosoftZuneLibrary
                 Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<PROPVARIANT*, void>)(&Module.CComPropVariant_002E_007Bdtor_007D), &cComPropVariant);
                 throw;
             }
-            Module.CComPropVariant_002EClear(&cComPropVariant);
+            cComPropVariant.Clear();
             return result;
         }
     }

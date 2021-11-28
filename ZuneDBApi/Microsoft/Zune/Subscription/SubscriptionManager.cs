@@ -127,17 +127,12 @@ namespace Microsoft.Zune.Subscription
 			}
 			int num2 = -1;
 			int lastSignedInUserId = GetLastSignedInUserId();
-			_GUID gUID;
-			*(int*)(&gUID) = 0;
-            // IL initblk instruction
-            Unsafe.InitBlockUnaligned(ref Unsafe.AddByteOffset(ref gUID, 4), 0, 12);
-			PROPVARIANT tagPROPVARIANT;
-			*(short*)(&tagPROPVARIANT) = 1;
+			_GUID gUID = Guid.Empty;
+			PROPVARIANT tagPROPVARIANT = new() { vt = VARTYPE.VT_NULL };
 			if (serviceId != Guid.Empty)
 			{
 				gUID = serviceId;
-				*(short*)(&tagPROPVARIANT) = 72;
-                Unsafe.As<PROPVARIANT, long>(ref Unsafe.AddByteOffset(ref tagPROPVARIANT, 8)) = (nint)(&gUID);
+				tagPROPVARIANT = new(gUID, VarEnum.VT_CLSID);
 			}
 			if (num >= 0 && EMediaTypes.eMediaTypePlaylist != eSubscriptionMediaType)
 			{
@@ -162,19 +157,13 @@ namespace Microsoft.Zune.Subscription
 				}
 				else
 				{
-                    PROPVARIANT cComPropVariant;
-                    // IL initblk instruction
-                    Unsafe.InitBlock(ref cComPropVariant, 0, 24);
+                    PROPVARIANT cComPropVariant = new();
 					try
 					{
-                        PROPVARIANT cComPropVariant2;
-                        // IL initblk instruction
-                        Unsafe.InitBlock(ref cComPropVariant2, 0, 24);
+                        PROPVARIANT cComPropVariant2 = new();
 						try
 						{
-                            PROPVARIANT cComPropVariant3;
-                            // IL initblk instruction
-                            Unsafe.InitBlock(ref cComPropVariant3, 0, 24);
+                            PROPVARIANT cComPropVariant3 = new();
 							try
 							{
 								EPlaylistType nSrc = (isPersonalChannel ? ((EPlaylistType)6) : ((EPlaylistType)5));
@@ -189,7 +178,7 @@ namespace Microsoft.Zune.Subscription
 										ushort* ptr2 = (ushort*)subscriptionTitlePtr;
 										try
 										{
-                                            Unsafe.As<PROPVARIANT, long>(ref Unsafe.AddByteOffset(ref cComPropVariant2, 8)) = (System.nint)Module.SysAllocString(ptr2);
+                                            Unsafe.As<PROPVARIANT, long>(ref Unsafe.AddByteOffset(ref cComPropVariant2, 8)) = (nint)Module.SysAllocString(ptr2);
 											*(short*)(&cComPropVariant2) = 8;
 											num3 = ((Unsafe.As<PROPVARIANT, long>(ref Unsafe.AddByteOffset(ref cComPropVariant2, 8)) != 0) ? num : (-2147024882));
 											num = num3;

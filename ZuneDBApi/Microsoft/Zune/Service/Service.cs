@@ -607,10 +607,9 @@ namespace Microsoft.Zune.Service
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ISignInState*, void>)(&Module.CComPtrNtv_003CISignInState_003E_002E_007Bdtor_007D), cComPtrNtv_003CISignInState_003E.p);
+					cComPtrNtv_003CISignInState_003E.Dispose();
 					throw;
 				}
-				cComPtrNtv_003CISignInState_003E.Dispose();
 			}
 			return result;
 		}
@@ -627,7 +626,7 @@ namespace Microsoft.Zune.Service
 				ulong num2 = 0uL;
 				if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int*, ulong*, int>)(*(ulong*)(*(long*)pService + 376)))((nint)pService, &num, &num2) >= 0)
 				{
-					bool flag = (activeSubscription = ((num != 0) ? true : false));
+					activeSubscription = num != 0;
 					subscriptionId = num2;
 				}
 			}
@@ -794,7 +793,7 @@ namespace Microsoft.Zune.Service
 				IMediaCollection* intPtr2;
 				ref _GUID reference4;
 				EContentType num5;
-				_003F val3;
+				var val3;
 				_003F val4;
 				_003F val5;
 				IContextData* intPtr3;
@@ -949,7 +948,7 @@ namespace Microsoft.Zune.Service
 								{
 									if (ptr5 == null)
 									{
-										fixed (ushort* ptr5 = &Unsafe.As<_0024ArrayType_0024_0024_0024BY00_0024_0024CBG, ushort>(ref Module._003F_003F_C_0040_11LOCGONAA_0040_003F_0024AA_003F_0024AA_0040))
+										fixed (ushort* ptr5 = &Unsafe.As<_0024ArrayType_0024_0024_0024BY00_0024_0024CBG, ushort>(ref Module.11LOCGONAA_))
 										{
 											fixed (char* s2Ptr = s2.ToCharArray())
 											{
@@ -958,7 +957,7 @@ namespace Microsoft.Zune.Service
 												{
 													if (ptr6 == null)
 													{
-														fixed (ushort* ptr6 = &Unsafe.As<_0024ArrayType_0024_0024_0024BY00_0024_0024CBG, ushort>(ref Module._003F_003F_C_0040_11LOCGONAA_0040_003F_0024AA_003F_0024AA_0040))
+														fixed (ushort* ptr6 = &Unsafe.As<_0024ArrayType_0024_0024_0024BY00_0024_0024CBG, ushort>(ref Module.11LOCGONAA_))
 														{
 															fixed (char* s3Ptr = s3.ToCharArray())
 															{
@@ -967,7 +966,7 @@ namespace Microsoft.Zune.Service
 																{
 																	if (ptr7 == null)
 																	{
-																		fixed (ushort* ptr7 = &Unsafe.As<_0024ArrayType_0024_0024_0024BY00_0024_0024CBG, ushort>(ref Module._003F_003F_C_0040_11LOCGONAA_0040_003F_0024AA_003F_0024AA_0040))
+																		fixed (ushort* ptr7 = &Unsafe.As<_0024ArrayType_0024_0024_0024BY00_0024_0024CBG, ushort>(ref Module.11LOCGONAA_))
 																		{
 																			reference2 = ref *(ushort*)null;
 																			try
@@ -1340,7 +1339,7 @@ namespace Microsoft.Zune.Service
 														{
 															if (ptr7 == null)
 															{
-																fixed (ushort* ptr7 = &Unsafe.As<_0024ArrayType_0024_0024_0024BY00_0024_0024CBG, ushort>(ref Module._003F_003F_C_0040_11LOCGONAA_0040_003F_0024AA_003F_0024AA_0040))
+																fixed (ushort* ptr7 = &Unsafe.As<_0024ArrayType_0024_0024_0024BY00_0024_0024CBG, ushort>(ref Module.11LOCGONAA_))
 																{
 																	reference2 = ref *(ushort*)null;
 																	try
@@ -1721,7 +1720,7 @@ namespace Microsoft.Zune.Service
 										{
 											if (ptr6 == null)
 											{
-												fixed (ushort* ptr6 = &Unsafe.As<_0024ArrayType_0024_0024_0024BY00_0024_0024CBG, ushort>(ref Module._003F_003F_C_0040_11LOCGONAA_0040_003F_0024AA_003F_0024AA_0040))
+												fixed (ushort* ptr6 = &Unsafe.As<_0024ArrayType_0024_0024_0024BY00_0024_0024CBG, ushort>(ref Module.11LOCGONAA_))
 												{
 													fixed (char* s3Ptr = s3.ToCharArray())
 													{
@@ -1730,7 +1729,7 @@ namespace Microsoft.Zune.Service
 														{
 															if (ptr7 == null)
 															{
-																fixed (ushort* ptr7 = &Unsafe.As<_0024ArrayType_0024_0024_0024BY00_0024_0024CBG, ushort>(ref Module._003F_003F_C_0040_11LOCGONAA_0040_003F_0024AA_003F_0024AA_0040))
+																fixed (ushort* ptr7 = &Unsafe.As<_0024ArrayType_0024_0024_0024BY00_0024_0024CBG, ushort>(ref Module.11LOCGONAA_))
 																{
 																	reference2 = ref *(ushort*)null;
 																	try
@@ -2103,7 +2102,7 @@ namespace Microsoft.Zune.Service
 												{
 													if (ptr7 == null)
 													{
-														fixed (ushort* ptr7 = &Unsafe.As<_0024ArrayType_0024_0024_0024BY00_0024_0024CBG, ushort>(ref Module._003F_003F_C_0040_11LOCGONAA_0040_003F_0024AA_003F_0024AA_0040))
+														fixed (ushort* ptr7 = &Unsafe.As<_0024ArrayType_0024_0024_0024BY00_0024_0024CBG, ushort>(ref Module.11LOCGONAA_))
 														{
 															reference2 = ref *(ushort*)null;
 															try
@@ -2645,7 +2644,7 @@ namespace Microsoft.Zune.Service
 								{
 									if (ptr5 == null)
 									{
-										fixed (ushort* ptr5 = &Unsafe.As<_0024ArrayType_0024_0024_0024BY00_0024_0024CBG, ushort>(ref Module._003F_003F_C_0040_11LOCGONAA_0040_003F_0024AA_003F_0024AA_0040))
+										fixed (ushort* ptr5 = &Unsafe.As<_0024ArrayType_0024_0024_0024BY00_0024_0024CBG, ushort>(ref Module.11LOCGONAA_))
 										{
 											fixed (char* s2Ptr = s2.ToCharArray())
 											{
@@ -2654,7 +2653,7 @@ namespace Microsoft.Zune.Service
 												{
 													if (ptr6 == null)
 													{
-														fixed (ushort* ptr6 = &Unsafe.As<_0024ArrayType_0024_0024_0024BY00_0024_0024CBG, ushort>(ref Module._003F_003F_C_0040_11LOCGONAA_0040_003F_0024AA_003F_0024AA_0040))
+														fixed (ushort* ptr6 = &Unsafe.As<_0024ArrayType_0024_0024_0024BY00_0024_0024CBG, ushort>(ref Module.11LOCGONAA_))
 														{
 															fixed (char* s3Ptr = s3.ToCharArray())
 															{
@@ -2663,7 +2662,7 @@ namespace Microsoft.Zune.Service
 																{
 																	if (ptr7 == null)
 																	{
-																		fixed (ushort* ptr7 = &Unsafe.As<_0024ArrayType_0024_0024_0024BY00_0024_0024CBG, ushort>(ref Module._003F_003F_C_0040_11LOCGONAA_0040_003F_0024AA_003F_0024AA_0040))
+																		fixed (ushort* ptr7 = &Unsafe.As<_0024ArrayType_0024_0024_0024BY00_0024_0024CBG, ushort>(ref Module.11LOCGONAA_))
 																		{
 																			reference2 = ref *(ushort*)null;
 																			try
@@ -3036,7 +3035,7 @@ namespace Microsoft.Zune.Service
 														{
 															if (ptr7 == null)
 															{
-																fixed (ushort* ptr7 = &Unsafe.As<_0024ArrayType_0024_0024_0024BY00_0024_0024CBG, ushort>(ref Module._003F_003F_C_0040_11LOCGONAA_0040_003F_0024AA_003F_0024AA_0040))
+																fixed (ushort* ptr7 = &Unsafe.As<_0024ArrayType_0024_0024_0024BY00_0024_0024CBG, ushort>(ref Module.11LOCGONAA_))
 																{
 																	reference2 = ref *(ushort*)null;
 																	try
@@ -3417,7 +3416,7 @@ namespace Microsoft.Zune.Service
 										{
 											if (ptr6 == null)
 											{
-												fixed (ushort* ptr6 = &Unsafe.As<_0024ArrayType_0024_0024_0024BY00_0024_0024CBG, ushort>(ref Module._003F_003F_C_0040_11LOCGONAA_0040_003F_0024AA_003F_0024AA_0040))
+												fixed (ushort* ptr6 = &Unsafe.As<_0024ArrayType_0024_0024_0024BY00_0024_0024CBG, ushort>(ref Module.11LOCGONAA_))
 												{
 													fixed (char* s3Ptr = s3.ToCharArray())
 													{
@@ -3426,7 +3425,7 @@ namespace Microsoft.Zune.Service
 														{
 															if (ptr7 == null)
 															{
-																fixed (ushort* ptr7 = &Unsafe.As<_0024ArrayType_0024_0024_0024BY00_0024_0024CBG, ushort>(ref Module._003F_003F_C_0040_11LOCGONAA_0040_003F_0024AA_003F_0024AA_0040))
+																fixed (ushort* ptr7 = &Unsafe.As<_0024ArrayType_0024_0024_0024BY00_0024_0024CBG, ushort>(ref Module.11LOCGONAA_))
 																{
 																	reference2 = ref *(ushort*)null;
 																	try
@@ -3799,7 +3798,7 @@ namespace Microsoft.Zune.Service
 												{
 													if (ptr7 == null)
 													{
-														fixed (ushort* ptr7 = &Unsafe.As<_0024ArrayType_0024_0024_0024BY00_0024_0024CBG, ushort>(ref Module._003F_003F_C_0040_11LOCGONAA_0040_003F_0024AA_003F_0024AA_0040))
+														fixed (ushort* ptr7 = &Unsafe.As<_0024ArrayType_0024_0024_0024BY00_0024_0024CBG, ushort>(ref Module.11LOCGONAA_))
 														{
 															reference2 = ref *(ushort*)null;
 															try
