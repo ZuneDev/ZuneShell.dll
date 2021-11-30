@@ -38,7 +38,7 @@ namespace Microsoft.Zune.Util
 							IMetadataManager* intPtr = ptr;
 							_GUID guid_IPinProvider = Module.GUID_IPinProvider;
 							IPinProvider* pPinProvider;
-							int num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID, void**, int>)(*(ulong*)(*(long*)ptr + 24)))((nint)intPtr, (_GUID)guid_IPinProvider, (void**)(&pPinProvider));
+							int num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID, void**, int>)(*(ulong*)(*(long*)ptr + 24)))((nint)intPtr, guid_IPinProvider, (void**)(&pPinProvider));
 							if (num < 0)
 							{
 								throw new ApplicationException(Module.GetErrorDescription(num));

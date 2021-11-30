@@ -124,7 +124,7 @@ namespace Microsoft.Zune.Subscription
             PROPVARIANT cComPropVariant = new();
 			try
 			{
-				if (pSeriesPropertySet != null && ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)pSeriesPropertySet + 48)))((nint)pSeriesPropertySet, (uint)(uint)16801793u, (uint)(uint)0u, (PROPVARIANT)(PROPVARIANT)cComPropVariant) >= 0 && *(ushort*)(&cComPropVariant) != 0)
+				if (pSeriesPropertySet != null && ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)pSeriesPropertySet + 48)))((nint)pSeriesPropertySet, 16801793u, 0u, cComPropVariant) >= 0 && *(ushort*)(&cComPropVariant) != 0)
 				{
                     IMSMediaSchemaPropertySet* pSeriesPropertySet2 = m_pSeriesPropertySet;
 					if (0L != (nint)pSeriesPropertySet2)
@@ -142,7 +142,7 @@ namespace Microsoft.Zune.Subscription
                         Unsafe.As<PROPVARIANT, long>(ref Unsafe.AddByteOffset(ref tagPROPVARIANT, 8)) = (nint)(&guid);
                         IMSMediaSchemaPropertySet* pSeriesPropertySet3 = m_pSeriesPropertySet;
                         PROPVARIANT tagPROPVARIANT2 = tagPROPVARIANT;
-						((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)pSeriesPropertySet3 + 56)))((nint)pSeriesPropertySet3, (uint)(uint)67133455u, (PROPVARIANT)(PROPVARIANT)tagPROPVARIANT2);
+						((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)pSeriesPropertySet3 + 56)))((nint)pSeriesPropertySet3, 67133455u, tagPROPVARIANT2);
 					}
 				}
 			}

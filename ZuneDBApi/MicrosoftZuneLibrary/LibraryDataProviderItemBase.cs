@@ -293,7 +293,7 @@ namespace MicrosoftZuneLibrary
 				Module.WPP_SF_D(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 80uL), 18, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), m_uTraceId);
 			}
 			int thumbnailIndex = 0;
-			_ = string.Empty;
+			_ = "";
 			string typeName = TypeName;
 			m_fHasGottenSlowDataRequest = true;
 			string text;
@@ -303,7 +303,7 @@ namespace MicrosoftZuneLibrary
 				text = "AlbumArtSmall";
 				break;
 			default:
-				text = string.Empty;
+				text = "";
 				break;
 			case "Photo":
 			case "Video":
@@ -802,25 +802,13 @@ namespace MicrosoftZuneLibrary
 
 		private static int ThumbnailSizeIndexFromSizeName(string thumbnailSizeName, int defaultSizeIndex)
 		{
-			int result;
-			switch (thumbnailSizeName)
-			{
-			case "LargeThumbnail":
-				return 1;
-			default:
-				result = defaultSizeIndex;
-				goto IL_003b;
-			case "SuperLargeThumbnail":
-				result = 2;
-				goto IL_003b;
-			case "SmallThumbnail":
-			case "Thumbnail":
-				{
-					return 0;
-				}
-				IL_003b:
-				return result;
-			}
+            return thumbnailSizeName switch
+            {
+                "LargeThumbnail" => 1,
+                "SuperLargeThumbnail" => 2,
+                "SmallThumbnail" or "Thumbnail" => 0,
+                _ => defaultSizeIndex,
+            };
 		}
 	}
 }

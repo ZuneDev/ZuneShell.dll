@@ -47,17 +47,11 @@ namespace Microsoft.Zune.Service
 			{
 				return;
 			}
-			WBSTRString wBSTRString;
-			Module.WBSTRString_002E_007Bctor_007D(&wBSTRString);
-			try
+			fixed (char* wBSTRString = "")
 			{
-				WBSTRString wBSTRString2;
-				Module.WBSTRString_002E_007Bctor_007D(&wBSTRString2);
-				try
+				fixed (char* wBSTRString2 = "")
 				{
-					WBSTRString wBSTRString3;
-					Module.WBSTRString_002E_007Bctor_007D(&wBSTRString3);
-					try
+					fixed (char* wBSTRString3 = "")
 					{
 						global::ETokenType eTokenType = (global::ETokenType)(-1);
 						global::EPurchaseOfferType ePurchaseOfferType = (global::EPurchaseOfferType)(-1);
@@ -66,9 +60,9 @@ namespace Microsoft.Zune.Service
 						ulong billingOfferId = 0uL;
 						if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort**, ushort**, ushort**, global::ETokenType*, global::EPurchaseOfferType*, ulong*, _GUID*, _GUID*, int>)(*(ulong*)(*(long*)pTokenDetails + 24)))((nint)pTokenDetails, (ushort**)(&wBSTRString), (ushort**)(&wBSTRString2), (ushort**)(&wBSTRString3), &eTokenType, &ePurchaseOfferType, &billingOfferId, &gUID_NULL, &gUID_NULL2) >= 0)
 						{
-                            Id = new string((char*)(*(ulong*)(&wBSTRString)));
-							m_offerName = new string((char*)(*(ulong*)(&wBSTRString2)));
-							m_sellText = new string((char*)(*(ulong*)(&wBSTRString3)));
+                            Id = new(wBSTRString);
+							m_offerName = new(wBSTRString2);
+							m_sellText = new(wBSTRString3);
 							m_eTokenType = (ETokenType)eTokenType;
 							m_ePurchaseOfferType = (EPurchaseOfferType)ePurchaseOfferType;
 							Guid guid = (m_mediaOfferId = gUID_NULL);
@@ -76,29 +70,8 @@ namespace Microsoft.Zune.Service
 							m_billingOfferId = billingOfferId;
 						}
 					}
-					catch
-					{
-						//try-fault
-						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<WBSTRString*, void>)(&Module.WBSTRString_002E_007Bdtor_007D), &wBSTRString3);
-						throw;
-					}
-					Module.WBSTRString_002E_007Bdtor_007D(&wBSTRString3);
 				}
-				catch
-				{
-					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<WBSTRString*, void>)(&Module.WBSTRString_002E_007Bdtor_007D), &wBSTRString2);
-					throw;
-				}
-				Module.WBSTRString_002E_007Bdtor_007D(&wBSTRString2);
 			}
-			catch
-			{
-				//try-fault
-				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<WBSTRString*, void>)(&Module.WBSTRString_002E_007Bdtor_007D), &wBSTRString);
-				throw;
-			}
-			Module.WBSTRString_002E_007Bdtor_007D(&wBSTRString);
 		}
 	}
 }

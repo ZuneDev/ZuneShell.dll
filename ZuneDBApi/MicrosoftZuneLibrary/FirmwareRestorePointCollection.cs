@@ -45,7 +45,7 @@ namespace MicrosoftZuneLibrary
 			catch
 			{
 				//try-fault
-				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IFirmwareRestorePoint*, void>)(&Module.CComPtrNtv_003CIFirmwareRestorePoint_003E_002E_007Bdtor_007D), cComPtrNtv_003CIFirmwareRestorePoint_003E.p);
+				cComPtrNtv_003CIFirmwareRestorePoint_003E.Dispose();
 				throw;
 			}
 			cComPtrNtv_003CIFirmwareRestorePoint_003E.Dispose();

@@ -146,7 +146,7 @@ namespace Microsoft.Zune.Util
 				IFamilySettingsProvider* pProvider = m_pProvider;
 				int num;
 				int num2;
-				int num3 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, PROPVARIANT, int*, int*, int>)(*(ulong*)(*(long*)pProvider + 40)))((nint)pProvider, (int)(int)nSettingId, (PROPVARIANT)(PROPVARIANT)cComPropVariant, (int*)(int*)&num, (int*)(int*)&num2);
+				int num3 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, PROPVARIANT, int*, int*, int>)(*(ulong*)(*(long*)pProvider + 40)))((nint)pProvider, nSettingId, cComPropVariant, &num, &num2);
 				if (0 == num3)
 				{
 					szRatingSystem = new string((char*)Unsafe.As<PROPVARIANT, ulong>(ref Unsafe.AddByteOffset(ref cComPropVariant, 8)));

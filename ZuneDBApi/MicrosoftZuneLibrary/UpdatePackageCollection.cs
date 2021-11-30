@@ -179,7 +179,7 @@ namespace MicrosoftZuneLibrary
 					catch
 					{
 						//try-fault
-						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IFirmwareMetadata*, void>)(&Module.CComPtrNtv_003CIFirmwareMetadata_003E_002E_007Bdtor_007D), cComPtrNtv_003CIFirmwareMetadata_003E.p);
+						cComPtrNtv_003CIFirmwareMetadata_003E.Dispose();
 						throw;
 					}
 					cComPtrNtv_003CIFirmwareMetadata_003E.Dispose();
@@ -230,7 +230,7 @@ namespace MicrosoftZuneLibrary
 				}
 				finally
 				{
-					((IDisposable)m_spUpdatePackageCollection).Dispose();
+					m_spUpdatePackageCollection.Dispose();
 				}
 			}
 		}

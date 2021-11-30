@@ -280,7 +280,7 @@ namespace MicrosoftZuneLibrary
 					{
 						long num2 = *(long*)(cComPtrNtv_003CIMetadataManager_003E.p);
 						_GUID guid_GUID_IDeviceSyncRulesProvider = Module.GUID_IDeviceSyncRulesProvider;
-						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID, void**, int>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CIMetadataManager_003E.p)) + 24)))((nint)num2, (_GUID)guid_GUID_IDeviceSyncRulesProvider, (void**)(cComPtrNtv_003CIDeviceSyncRulesProvider_003E.p));
+						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID, void**, int>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CIMetadataManager_003E.p)) + 24)))((nint)num2, guid_GUID_IDeviceSyncRulesProvider, (void**)(cComPtrNtv_003CIDeviceSyncRulesProvider_003E.p));
 						if (num >= 0)
 						{
 							ESyncMode eSyncMode = ESyncMode.eSyncModeInvalid;
@@ -298,21 +298,15 @@ namespace MicrosoftZuneLibrary
 						Module.WPP_SF_LLd(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 48uL), 30, (_GUID*)Unsafe.AsPointer(ref Module._003FA0x09bc4a52_002EWPP_SyncRulesAPI_cpp_Traceguids), (uint)cat, (uint)mode, num);
 					}
 				}
-				catch
+				finally
 				{
-					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IDeviceSyncRulesProvider*, void>)(&Module.CComPtrNtv_003CIDeviceSyncRulesProvider_003E_002E_007Bdtor_007D), cComPtrNtv_003CIDeviceSyncRulesProvider_003E.p);
-					throw;
+					cComPtrNtv_003CIDeviceSyncRulesProvider_003E.Dispose();
 				}
-				cComPtrNtv_003CIDeviceSyncRulesProvider_003E.Dispose();
 			}
-			catch
+			finally
 			{
-				//try-fault
-				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IMetadataManager*, void>)(&Module.CComPtrNtv_003CIMetadataManager_003E_002E_007Bdtor_007D), cComPtrNtv_003CIMetadataManager_003E.p);
-				throw;
+				cComPtrNtv_003CIMetadataManager_003E.Dispose();
 			}
-			cComPtrNtv_003CIMetadataManager_003E.Dispose();
 			return num;
 		}
 
@@ -358,21 +352,15 @@ namespace MicrosoftZuneLibrary
 						Module.WPP_SF_LLd(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 48uL), 31, (_GUID*)Unsafe.AsPointer(ref Module._003FA0x09bc4a52_002EWPP_SyncRulesAPI_cpp_Traceguids), (uint)cat, (uint)mode, num);
 					}
 				}
-				catch
+				finally
 				{
-					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IDeviceSyncRulesProvider*, void>)(&Module.CComPtrNtv_003CIDeviceSyncRulesProvider_003E_002E_007Bdtor_007D), cComPtrNtv_003CIDeviceSyncRulesProvider_003E.p);
-					throw;
+					cComPtrNtv_003CIDeviceSyncRulesProvider_003E.Dispose();
 				}
-				cComPtrNtv_003CIDeviceSyncRulesProvider_003E.Dispose();
 			}
-			catch
+			finally
 			{
-				//try-fault
-				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IMetadataManager*, void>)(&Module.CComPtrNtv_003CIMetadataManager_003E_002E_007Bdtor_007D), cComPtrNtv_003CIMetadataManager_003E.p);
-				throw;
+				cComPtrNtv_003CIMetadataManager_003E.Dispose();
 			}
-			cComPtrNtv_003CIMetadataManager_003E.Dispose();
 			return num;
 		}
 
@@ -503,7 +491,7 @@ namespace MicrosoftZuneLibrary
 				}
 				finally
 				{
-					((IDisposable)m_spEndpointHost).Dispose();
+					m_spEndpointHost.Dispose();
 				}
 			}
 		}

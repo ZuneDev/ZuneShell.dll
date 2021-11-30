@@ -679,7 +679,7 @@ namespace MicrosoftZuneLibrary
 					catch
 					{
 						//try-fault
-						authorizationStatus = (AuthorizationStatus)0;
+						authorizationStatus = 0;
 						throw;
 					}
 				}

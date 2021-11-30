@@ -178,36 +178,30 @@ namespace Microsoft.Zune.QuickMix
 		}
 
 		public unsafe HRESULT GetPlaylistTitle(out string playlistTitle)
-		{
-			//IL_0023: Expected I, but got I8
-			//IL_0031: Expected I, but got I8
-			WBSTRString wBSTRString;
-			Module.WBSTRString_002E_007Bctor_007D(&wBSTRString);
+        {
+            playlistTitle = null;
+            //IL_0023: Expected I, but got I8
+            //IL_0031: Expected I, but got I8
+            string wBSTRString = "";
 			HRESULT result;
-			try
+			fixed (char* wBSTRStringPtr = wBSTRString)
 			{
 				IQuickMixSession* p = m_spSession.p;
-				int num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort**, int>)(*(ulong*)(*(long*)p + 64)))((nint)p, (ushort**)(&wBSTRString));
+				int num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort**, int>)(*(ulong*)(*(long*)p + 64)))((nint)p, (ushort**)wBSTRStringPtr);
 				if (num >= 0)
 				{
-					playlistTitle = new string((char*)(*(ulong*)(&wBSTRString)));
+					playlistTitle = wBSTRString;
 				}
 				result = num;
 			}
-			catch
-			{
-				//try-fault
-				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<WBSTRString*, void>)(&Module.WBSTRString_002E_007Bdtor_007D), &wBSTRString);
-				throw;
-			}
-			Module.WBSTRString_002E_007Bdtor_007D(&wBSTRString);
 			return result;
-		}
+        }
 
-		public unsafe HRESULT SaveAsPlaylist(string playlistTitle, CreatePlaylistOption createOption, out int playlistId)
-		{
-			//IL_0048: Expected I, but got I8
-			int num = -1;
+        public unsafe HRESULT SaveAsPlaylist(string playlistTitle, CreatePlaylistOption createOption, out int playlistId)
+        {
+            playlistId = 0;
+            //IL_0048: Expected I, but got I8
+            int num = -1;
 			fixed (char* playlistTitlePtr = playlistTitle.ToCharArray())
 			{
 				ushort* ptr = (ushort*)playlistTitlePtr;
@@ -220,7 +214,7 @@ namespace Microsoft.Zune.QuickMix
 						if (createOption != CreatePlaylistOption.OverwriteOnConflict)
 						{
 							num2 = -2147418113;
-							goto IL_0051;
+							goto done;
 						}
 						ePlaylistCreateConflictAction = (EPlaylistCreateConflictAction)1;
 					}
@@ -240,13 +234,13 @@ namespace Microsoft.Zune.QuickMix
 				{
 					playlistId = num;
 				}
-				goto IL_0051;
-				IL_0051:
+				goto done;
+				done:
 				return num2;
 			}
-		}
+        }
 
-		protected virtual void Dispose([MarshalAs(UnmanagedType.U1)] bool P_0)
+        protected virtual void Dispose([MarshalAs(UnmanagedType.U1)] bool P_0)
 		{
 			if (P_0)
 			{

@@ -192,17 +192,17 @@ namespace Microsoft.Zune.Subscription
 									}
 									if (num3 >= 0)
 									{
-										PROPVARIANT tagPROPVARIANT3 = (PROPVARIANT)cComPropVariant2;
+										PROPVARIANT tagPROPVARIANT3 = cComPropVariant2;
 										IMSMediaSchemaPropertySet* intPtr2 = ptr;
 										num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)ptr + 56)))((nint)intPtr2, 16777217u, tagPROPVARIANT3);
 										if (num >= 0)
 										{
-											PROPVARIANT tagPROPVARIANT4 = (PROPVARIANT)cComPropVariant;
+											PROPVARIANT tagPROPVARIANT4 = cComPropVariant;
 											IMSMediaSchemaPropertySet* intPtr3 = ptr;
 											num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)ptr + 56)))((nint)intPtr3, 100663307u, tagPROPVARIANT4);
 											if (num >= 0)
 											{
-												PROPVARIANT tagPROPVARIANT5 = (PROPVARIANT)cComPropVariant3;
+												PROPVARIANT tagPROPVARIANT5 = cComPropVariant3;
 												IMSMediaSchemaPropertySet* intPtr4 = ptr;
 												num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)ptr + 56)))((nint)intPtr4, 100663309u, tagPROPVARIANT5);
 												if (num >= 0 && 72 == *(ushort*)(&tagPROPVARIANT))
@@ -727,7 +727,7 @@ namespace Microsoft.Zune.Subscription
 					num = 1;
 					goto IL_00b7;
 				case EMediaTypes.eMediaTypeUser:
-					subscriptionTitle = string.Empty;
+					subscriptionTitle = "";
 					goto IL_0041;
 				case EMediaTypes.eMediaTypePodcastSeries:
 					goto IL_004a;

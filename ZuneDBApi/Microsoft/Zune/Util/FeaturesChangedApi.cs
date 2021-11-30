@@ -127,7 +127,7 @@ namespace Microsoft.Zune.Util
 			catch
 			{
 				//try-fault
-				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IAsyncCallback*, void>)(&Module.CComPtrNtv_003CIAsyncCallback_003E_002E_007Bdtor_007D), cComPtrNtv_003CIAsyncCallback_003E.p);
+				cComPtrNtv_003CIAsyncCallback_003E.Dispose();
 				throw;
 			}
 			cComPtrNtv_003CIAsyncCallback_003E.Dispose();

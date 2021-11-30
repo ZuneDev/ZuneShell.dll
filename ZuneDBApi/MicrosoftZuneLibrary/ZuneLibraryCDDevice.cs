@@ -533,11 +533,11 @@ namespace MicrosoftZuneLibrary
 								try
 								{
 									IDatabaseQueryResults* intPtr2 = ptr2;
-									num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)ptr2 + 48)))((nint)intPtr2, (uint)(uint)num3, (uint)(uint)233u, (PROPVARIANT)(PROPVARIANT)cComPropVariant);
+									num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)ptr2 + 48)))((nint)intPtr2, num3, 233u, cComPropVariant);
 									if (num >= 0)
 									{
 										IDatabaseQueryResults* intPtr3 = ptr2;
-										num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)ptr2 + 48)))((nint)intPtr3, (uint)(uint)num3, (uint)(uint)234u, (PROPVARIANT)(PROPVARIANT)cComPropVariant2);
+										num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)ptr2 + 48)))((nint)intPtr3, num3, 234u, cComPropVariant2);
 										if (num >= 0)
 										{
 											num = Module.AddItemToPlaylist(Unsafe.As<PROPVARIANT, int>(ref Unsafe.AddByteOffset(ref cComPropVariant, 8)), Unsafe.As<PROPVARIANT, int>(ref Unsafe.AddByteOffset(ref cComPropVariant2, 8)), ptr);

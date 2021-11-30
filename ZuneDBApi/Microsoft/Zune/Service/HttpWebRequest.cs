@@ -302,10 +302,10 @@ namespace Microsoft.Zune.Service
 			catch
 			{
 				//try-fault
-				((IDisposable)managedLock).Dispose();
+				managedLock.Dispose();
 				throw;
 			}
-			((IDisposable)managedLock).Dispose();
+			managedLock.Dispose();
 			goto IL_0122;
 			IL_0122:
 			try
@@ -314,7 +314,7 @@ namespace Microsoft.Zune.Service
 			catch
 			{
 				//try-fault
-				((IDisposable)managedLock).Dispose();
+				managedLock.Dispose();
 				throw;
 			}
 			return;
@@ -385,13 +385,10 @@ namespace Microsoft.Zune.Service
 					throw new HttpWebException(num);
 				}
 			}
-			catch
+			finally
 			{
-				//try-fault
-				((IDisposable)managedLock).Dispose();
-				throw;
+				managedLock.Dispose();
 			}
-			((IDisposable)managedLock).Dispose();
 			goto IL_0122;
 		}
 
@@ -432,13 +429,10 @@ namespace Microsoft.Zune.Service
 					}
 				}
 			}
-			catch
+			finally
 			{
-				//try-fault
-				((IDisposable)managedLock).Dispose();
-				throw;
+				managedLock.Dispose();
 			}
-			((IDisposable)managedLock).Dispose();
 		}
 
 		internal unsafe static void OnAsyncRequestComplete(IHttpWebRequest* pRequest)
@@ -469,13 +463,10 @@ namespace Microsoft.Zune.Service
 					Module.SetEvent(m_hRequestsCompleteEvent);
 				}
 			}
-			catch
+			finally
 			{
-				//try-fault
-				((IDisposable)managedLock).Dispose();
-				throw;
+				managedLock.Dispose();
 			}
-			((IDisposable)managedLock).Dispose();
 		}
 
 		private HttpWebRequest(Uri uri)
@@ -515,10 +506,10 @@ namespace Microsoft.Zune.Service
 				return -2147467261;
 			}
 			*(long*)ppRequest = 0L;
-			fixed (char* _uriAbsoluteUriPtr = _uri.AbsoluteUri.ToCharArray())
+			fixed (char* _uriAbsoluteUriPtr = _uri.AbsoluteUri)
 			{
 				ushort* ptr = (ushort*)_uriAbsoluteUriPtr;
-				fixed (char* _methodPtr = _method.ToCharArray())
+				fixed (char* _methodPtr = _method)
 				{
 					ushort* ptr2 = (ushort*)_methodPtr;
 					CComPtrNtv<IService> cComPtrNtv_003CIService_003E = new();
@@ -578,7 +569,7 @@ namespace Microsoft.Zune.Service
 										}
 										if (num >= 0 && !string.IsNullOrEmpty(_browserCookieUrl))
 										{
-											fixed (char* _browserCookieUrlPtr = _browserCookieUrl.ToCharArray())
+											fixed (char* _browserCookieUrlPtr = _browserCookieUrl)
 											{
 												ushort* ptr3 = (ushort*)_browserCookieUrlPtr;
 												try
@@ -598,7 +589,7 @@ namespace Microsoft.Zune.Service
 									}
 								}
 							}
-							fixed (char* _contentTypePtr = _contentType.ToCharArray())
+							fixed (char* _contentTypePtr = _contentType)
 							{
 								ushort* ptr4 = (ushort*)_contentTypePtr;
 								if (num >= 0)
@@ -619,7 +610,7 @@ namespace Microsoft.Zune.Service
 											catch
 											{
 												//try-fault
-												ptr5 = null;
+												array = null;
 												throw;
 											}
 										}
@@ -642,21 +633,15 @@ namespace Microsoft.Zune.Service
 								}
 							}
 						}
-						catch
+						finally
 						{
-							//try-fault
-							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IHttpWebRequest*, void>)(&Module.CComPtrNtv_003CIHttpWebRequest_003E_002E_007Bdtor_007D), cComPtrNtv_003CIHttpWebRequest_003E.p);
-							throw;
+							cComPtrNtv_003CIHttpWebRequest_003E.Dispose();
 						}
-						cComPtrNtv_003CIHttpWebRequest_003E.Dispose();
 					}
-					catch
+					finally
 					{
-						//try-fault
-						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IService*, void>)(&Module.CComPtrNtv_003CIService_003E_002E_007Bdtor_007D), cComPtrNtv_003CIService_003E.p);
-						throw;
+						cComPtrNtv_003CIService_003E.Dispose();
 					}
-					cComPtrNtv_003CIService_003E.Dispose();
 					return num;
 				}
 			}
@@ -676,13 +661,10 @@ namespace Microsoft.Zune.Service
 				}
 				_asyncRequests.Add(value);
 			}
-			catch
+			finally
 			{
-				//try-fault
-				((IDisposable)managedLock).Dispose();
-				throw;
+				managedLock.Dispose();
 			}
-			((IDisposable)managedLock).Dispose();
 		}
 	}
 }

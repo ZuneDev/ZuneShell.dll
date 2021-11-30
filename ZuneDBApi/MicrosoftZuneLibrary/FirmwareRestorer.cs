@@ -292,7 +292,7 @@ namespace MicrosoftZuneLibrary
 							catch
 							{
 								//try-fault
-								Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IFirmwareRestorer*, void>)(&Module.CComPtrNtv_003CIFirmwareRestorer_003E_002E_007Bdtor_007D), cComPtrNtv_003CIFirmwareRestorer_003E.p);
+								cComPtrNtv_003CIFirmwareRestorer_003E.Dispose();
 								throw;
 							}
 							cComPtrNtv_003CIFirmwareRestorer_003E.Dispose();
@@ -301,7 +301,7 @@ namespace MicrosoftZuneLibrary
 					catch
 					{
 						//try-fault
-						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IFirmwareUpdater*, void>)(&Module.CComPtrNtv_003CIFirmwareUpdater_003E_002E_007Bdtor_007D), cComPtrNtv_003CIFirmwareUpdater_003E.p);
+						cComPtrNtv_003CIFirmwareUpdater_003E.Dispose();
 						throw;
 					}
 					cComPtrNtv_003CIFirmwareUpdater_003E.Dispose();
@@ -498,7 +498,7 @@ namespace MicrosoftZuneLibrary
 			catch
 			{
 				//try-fault
-				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IFirmwareRestorePointCollection*, void>)(&Module.CComPtrNtv_003CIFirmwareRestorePointCollection_003E_002E_007Bdtor_007D), cComPtrNtv_003CIFirmwareRestorePointCollection_003E.p);
+				cComPtrNtv_003CIFirmwareRestorePointCollection_003E.Dispose();
 				throw;
 			}
 			cComPtrNtv_003CIFirmwareRestorePointCollection_003E.Dispose();

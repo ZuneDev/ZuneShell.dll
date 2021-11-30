@@ -226,130 +226,60 @@ namespace Microsoft.Zune.Service
 			CComPtrNtv<IAddress> cComPtrNtv_003CIAddress_003E = new();
 			try
 			{
-				WBSTRString wBSTRString;
-				Module.WBSTRString_002E_007Bctor_007D(&wBSTRString);
-				try
+				string wBSTRString = "";
+				fixed (char* wBSTRStringPtr = wBSTRString)
 				{
-					WBSTRString wBSTRString2;
-					Module.WBSTRString_002E_007Bctor_007D(&wBSTRString2);
-					try
+					string wBSTRString2 = "";
+					fixed (char* wBSTRString2Ptr = wBSTRString2)
 					{
-						WBSTRString wBSTRString3;
-						Module.WBSTRString_002E_007Bctor_007D(&wBSTRString3);
-						try
+						string wBSTRString3 = "";
+						fixed (char* wBSTRString3Ptr = wBSTRString3)
 						{
-							WBSTRString wBSTRString4;
-							Module.WBSTRString_002E_007Bctor_007D(&wBSTRString4);
-							try
+							string wBSTRString4 = "";
+							fixed (char* wBSTRString4Ptr = wBSTRString4)
 							{
-								WBSTRString wBSTRString5;
-								Module.WBSTRString_002E_007Bctor_007D(&wBSTRString5);
-								try
+								string wBSTRString5 = "";
+								fixed (char* wBSTRString5Ptr = wBSTRString5)
 								{
-									WBSTRString wBSTRString6;
-									Module.WBSTRString_002E_007Bctor_007D(&wBSTRString6);
-									try
+									string wBSTRString6 = "";
+									fixed (char* wBSTRString6Ptr = wBSTRString6)
 									{
-										WBSTRString wBSTRString7;
-										Module.WBSTRString_002E_007Bctor_007D(&wBSTRString7);
-										try
+										string wBSTRString7 = "";
+										fixed (char* wBSTRString7Ptr = wBSTRString7)
 										{
-											WBSTRString wBSTRString8;
-											Module.WBSTRString_002E_007Bctor_007D(&wBSTRString8);
-											try
+											string wBSTRString8 = "";
+											fixed (char* wBSTRString8Ptr = wBSTRString8)
 											{
-												_SYSTEMTIME stValue;
-												*(short*)(&stValue) = 0;
-                                                // IL initblk instruction
-                                                Unsafe.InitBlockUnaligned(ref Unsafe.AddByteOffset(ref stValue, 2), 0, 14);
+												_SYSTEMTIME stValue = default;
 												ECreditCardType creditCardType;
-												if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, IAddress**, ECreditCardType*, ushort**, ushort**, ushort**, ushort**, ushort**, ushort**, ushort**, ushort**, _SYSTEMTIME*, int>)(*(ulong*)(*(long*)pAddress + 32)))((nint)pAddress, (IAddress**)(cComPtrNtv_003CIAddress_003E.p), &creditCardType, (ushort**)(&wBSTRString), (ushort**)(&wBSTRString2), (ushort**)(&wBSTRString3), (ushort**)(&wBSTRString4), (ushort**)(&wBSTRString5), (ushort**)(&wBSTRString6), (ushort**)(&wBSTRString7), (ushort**)(&wBSTRString8), &stValue) >= 0)
+												if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, IAddress**, ECreditCardType*, ushort**, ushort**, ushort**, ushort**, ushort**, ushort**, ushort**, ushort**, _SYSTEMTIME*, int>)(*(ulong*)(*(long*)pAddress + 32)))((nint)pAddress, (IAddress**)(cComPtrNtv_003CIAddress_003E.p), &creditCardType, (ushort**)(&wBSTRStringPtr), (ushort**)(&wBSTRString2Ptr), (ushort**)(&wBSTRString3Ptr), (ushort**)(&wBSTRString4Ptr), (ushort**)(&wBSTRString5Ptr), (ushort**)(&wBSTRString6Ptr), (ushort**)(&wBSTRString7Ptr), (ushort**)(&wBSTRString8Ptr), &stValue) >= 0)
 												{
 													m_address = new Address((IAddress*)(*(ulong*)(cComPtrNtv_003CIAddress_003E.p)));
 													m_creditCardType = (CreditCardType)creditCardType;
-													m_accountHolderName = new string((char*)(*(ulong*)(&wBSTRString)));
-													m_accountNumber = new string((char*)(*(ulong*)(&wBSTRString2)));
-													m_ccvNumber = new string((char*)(*(ulong*)(&wBSTRString3)));
-													m_locale = new string((char*)(*(ulong*)(&wBSTRString4)));
-													m_phoneNumber = new string((char*)(*(ulong*)(&wBSTRString5)));
-													m_email = new string((char*)(*(ulong*)(&wBSTRString6)));
-													m_contactFirstName = new string((char*)(*(ulong*)(&wBSTRString7)));
-													m_contactLastName = new string((char*)(*(ulong*)(&wBSTRString8)));
+													m_accountHolderName = wBSTRString;
+													m_accountNumber = wBSTRString2;
+													m_ccvNumber = wBSTRString3;
+													m_locale = wBSTRString4;
+													m_phoneNumber = wBSTRString5;
+													m_email = wBSTRString6;
+													m_contactFirstName = wBSTRString7;
+													m_contactLastName = wBSTRString8;
 													DateTime dateTime = (m_expirationDate = Module.SystemTimeToDateTime(stValue));
 													m_parentCreditCard = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, byte>)(*(ulong*)(*(long*)pAddress + 48)))((nint)pAddress) != 0;
 												}
 											}
-											catch
-											{
-												//try-fault
-												Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<WBSTRString*, void>)(&Module.WBSTRString_002E_007Bdtor_007D), &wBSTRString8);
-												throw;
-											}
-											Module.WBSTRString_002E_007Bdtor_007D(&wBSTRString8);
 										}
-										catch
-										{
-											//try-fault
-											Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<WBSTRString*, void>)(&Module.WBSTRString_002E_007Bdtor_007D), &wBSTRString7);
-											throw;
-										}
-										Module.WBSTRString_002E_007Bdtor_007D(&wBSTRString7);
 									}
-									catch
-									{
-										//try-fault
-										Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<WBSTRString*, void>)(&Module.WBSTRString_002E_007Bdtor_007D), &wBSTRString6);
-										throw;
-									}
-									Module.WBSTRString_002E_007Bdtor_007D(&wBSTRString6);
 								}
-								catch
-								{
-									//try-fault
-									Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<WBSTRString*, void>)(&Module.WBSTRString_002E_007Bdtor_007D), &wBSTRString5);
-									throw;
-								}
-								Module.WBSTRString_002E_007Bdtor_007D(&wBSTRString5);
 							}
-							catch
-							{
-								//try-fault
-								Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<WBSTRString*, void>)(&Module.WBSTRString_002E_007Bdtor_007D), &wBSTRString4);
-								throw;
-							}
-							Module.WBSTRString_002E_007Bdtor_007D(&wBSTRString4);
 						}
-						catch
-						{
-							//try-fault
-							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<WBSTRString*, void>)(&Module.WBSTRString_002E_007Bdtor_007D), &wBSTRString3);
-							throw;
-						}
-						Module.WBSTRString_002E_007Bdtor_007D(&wBSTRString3);
 					}
-					catch
-					{
-						//try-fault
-						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<WBSTRString*, void>)(&Module.WBSTRString_002E_007Bdtor_007D), &wBSTRString2);
-						throw;
-					}
-					Module.WBSTRString_002E_007Bdtor_007D(&wBSTRString2);
 				}
-				catch
-				{
-					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<WBSTRString*, void>)(&Module.WBSTRString_002E_007Bdtor_007D), &wBSTRString);
-					throw;
-				}
-				Module.WBSTRString_002E_007Bdtor_007D(&wBSTRString);
 			}
-			catch
+			finally
 			{
-				//try-fault
-				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IAddress*, void>)(&Module.CComPtrNtv_003CIAddress_003E_002E_007Bdtor_007D), cComPtrNtv_003CIAddress_003E.p);
-				throw;
+				cComPtrNtv_003CIAddress_003E.Dispose();
 			}
-			cComPtrNtv_003CIAddress_003E.Dispose();
 		}
 
 		public CreditCard(string id, Address address, CreditCardType creditCardType, string accountHolderName, string accountNumber, string ccvNumber, DateTime expirationDate, string phonePrefix, string phoneNumber, string phoneExtension)

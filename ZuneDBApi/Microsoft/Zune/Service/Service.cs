@@ -793,9 +793,9 @@ namespace Microsoft.Zune.Service
 				IMediaCollection* intPtr2;
 				ref _GUID reference4;
 				EContentType num5;
-				var val3;
-				_003F val4;
-				_003F val5;
+				object val3;
+				object val4;
+				object val5;
 				IContextData* intPtr3;
 				IService* pService3;
 				IMediaCollection* intPtr4;
@@ -1009,7 +1009,7 @@ namespace Microsoft.Zune.Service
 																									catch
 																									{
 																										//try-fault
-																										Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+																										cComPtrNtv_003CIContextData_003E.Dispose();
 																										throw;
 																									}
 																									cComPtrNtv_003CIContextData_003E.Dispose();
@@ -1040,7 +1040,7 @@ namespace Microsoft.Zune.Service
 																								catch
 																								{
 																									//try-fault
-																									Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+																									cComPtrNtv_003CIContextData_003E.Dispose();
 																									throw;
 																								}
 																								cComPtrNtv_003CIContextData_003E.Dispose();
@@ -1090,7 +1090,7 @@ namespace Microsoft.Zune.Service
 																								catch
 																								{
 																									//try-fault
-																									Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+																									cComPtrNtv_003CIContextData_003E.Dispose();
 																									throw;
 																								}
 																								cComPtrNtv_003CIContextData_003E.Dispose();
@@ -1121,7 +1121,7 @@ namespace Microsoft.Zune.Service
 																							catch
 																							{
 																								//try-fault
-																								Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+																								cComPtrNtv_003CIContextData_003E.Dispose();
 																								throw;
 																							}
 																							cComPtrNtv_003CIContextData_003E.Dispose();
@@ -1187,7 +1187,7 @@ namespace Microsoft.Zune.Service
 																							catch
 																							{
 																								//try-fault
-																								Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+																								cComPtrNtv_003CIContextData_003E.Dispose();
 																								throw;
 																							}
 																							cComPtrNtv_003CIContextData_003E.Dispose();
@@ -1218,7 +1218,7 @@ namespace Microsoft.Zune.Service
 																						catch
 																						{
 																							//try-fault
-																							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+																							cComPtrNtv_003CIContextData_003E.Dispose();
 																							throw;
 																						}
 																						cComPtrNtv_003CIContextData_003E.Dispose();
@@ -1268,7 +1268,7 @@ namespace Microsoft.Zune.Service
 																						catch
 																						{
 																							//try-fault
-																							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+																							cComPtrNtv_003CIContextData_003E.Dispose();
 																							throw;
 																						}
 																						cComPtrNtv_003CIContextData_003E.Dispose();
@@ -1299,7 +1299,7 @@ namespace Microsoft.Zune.Service
 																					catch
 																					{
 																						//try-fault
-																						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+																						cComPtrNtv_003CIContextData_003E.Dispose();
 																						throw;
 																					}
 																					cComPtrNtv_003CIContextData_003E.Dispose();
@@ -1382,7 +1382,7 @@ namespace Microsoft.Zune.Service
 																							catch
 																							{
 																								//try-fault
-																								Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+																								cComPtrNtv_003CIContextData_003E.Dispose();
 																								throw;
 																							}
 																							cComPtrNtv_003CIContextData_003E.Dispose();
@@ -1413,7 +1413,7 @@ namespace Microsoft.Zune.Service
 																						catch
 																						{
 																							//try-fault
-																							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+																							cComPtrNtv_003CIContextData_003E.Dispose();
 																							throw;
 																						}
 																						cComPtrNtv_003CIContextData_003E.Dispose();
@@ -1463,7 +1463,7 @@ namespace Microsoft.Zune.Service
 																						catch
 																						{
 																							//try-fault
-																							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+																							cComPtrNtv_003CIContextData_003E.Dispose();
 																							throw;
 																						}
 																						cComPtrNtv_003CIContextData_003E.Dispose();
@@ -1494,7 +1494,7 @@ namespace Microsoft.Zune.Service
 																					catch
 																					{
 																						//try-fault
-																						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+																						cComPtrNtv_003CIContextData_003E.Dispose();
 																						throw;
 																					}
 																					cComPtrNtv_003CIContextData_003E.Dispose();
@@ -1560,7 +1560,7 @@ namespace Microsoft.Zune.Service
 																					catch
 																					{
 																						//try-fault
-																						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+																						cComPtrNtv_003CIContextData_003E.Dispose();
 																						throw;
 																					}
 																					cComPtrNtv_003CIContextData_003E.Dispose();
@@ -1591,7 +1591,7 @@ namespace Microsoft.Zune.Service
 																				catch
 																				{
 																					//try-fault
-																					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+																					cComPtrNtv_003CIContextData_003E.Dispose();
 																					throw;
 																				}
 																				cComPtrNtv_003CIContextData_003E.Dispose();
@@ -1641,7 +1641,7 @@ namespace Microsoft.Zune.Service
 																				catch
 																				{
 																					//try-fault
-																					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+																					cComPtrNtv_003CIContextData_003E.Dispose();
 																					throw;
 																				}
 																				cComPtrNtv_003CIContextData_003E.Dispose();
@@ -1672,7 +1672,7 @@ namespace Microsoft.Zune.Service
 																			catch
 																			{
 																				//try-fault
-																				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+																				cComPtrNtv_003CIContextData_003E.Dispose();
 																				throw;
 																			}
 																			cComPtrNtv_003CIContextData_003E.Dispose();
@@ -1772,7 +1772,7 @@ namespace Microsoft.Zune.Service
 																							catch
 																							{
 																								//try-fault
-																								Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+																								cComPtrNtv_003CIContextData_003E.Dispose();
 																								throw;
 																							}
 																							cComPtrNtv_003CIContextData_003E.Dispose();
@@ -1803,7 +1803,7 @@ namespace Microsoft.Zune.Service
 																						catch
 																						{
 																							//try-fault
-																							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+																							cComPtrNtv_003CIContextData_003E.Dispose();
 																							throw;
 																						}
 																						cComPtrNtv_003CIContextData_003E.Dispose();
@@ -1853,7 +1853,7 @@ namespace Microsoft.Zune.Service
 																						catch
 																						{
 																							//try-fault
-																							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+																							cComPtrNtv_003CIContextData_003E.Dispose();
 																							throw;
 																						}
 																						cComPtrNtv_003CIContextData_003E.Dispose();
@@ -1884,7 +1884,7 @@ namespace Microsoft.Zune.Service
 																					catch
 																					{
 																						//try-fault
-																						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+																						cComPtrNtv_003CIContextData_003E.Dispose();
 																						throw;
 																					}
 																					cComPtrNtv_003CIContextData_003E.Dispose();
@@ -1950,7 +1950,7 @@ namespace Microsoft.Zune.Service
 																					catch
 																					{
 																						//try-fault
-																						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+																						cComPtrNtv_003CIContextData_003E.Dispose();
 																						throw;
 																					}
 																					cComPtrNtv_003CIContextData_003E.Dispose();
@@ -1981,7 +1981,7 @@ namespace Microsoft.Zune.Service
 																				catch
 																				{
 																					//try-fault
-																					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+																					cComPtrNtv_003CIContextData_003E.Dispose();
 																					throw;
 																				}
 																				cComPtrNtv_003CIContextData_003E.Dispose();
@@ -2031,7 +2031,7 @@ namespace Microsoft.Zune.Service
 																				catch
 																				{
 																					//try-fault
-																					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+																					cComPtrNtv_003CIContextData_003E.Dispose();
 																					throw;
 																				}
 																				cComPtrNtv_003CIContextData_003E.Dispose();
@@ -2062,7 +2062,7 @@ namespace Microsoft.Zune.Service
 																			catch
 																			{
 																				//try-fault
-																				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+																				cComPtrNtv_003CIContextData_003E.Dispose();
 																				throw;
 																			}
 																			cComPtrNtv_003CIContextData_003E.Dispose();
@@ -2145,7 +2145,7 @@ namespace Microsoft.Zune.Service
 																					catch
 																					{
 																						//try-fault
-																						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+																						cComPtrNtv_003CIContextData_003E.Dispose();
 																						throw;
 																					}
 																					cComPtrNtv_003CIContextData_003E.Dispose();
@@ -2176,7 +2176,7 @@ namespace Microsoft.Zune.Service
 																				catch
 																				{
 																					//try-fault
-																					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+																					cComPtrNtv_003CIContextData_003E.Dispose();
 																					throw;
 																				}
 																				cComPtrNtv_003CIContextData_003E.Dispose();
@@ -2226,7 +2226,7 @@ namespace Microsoft.Zune.Service
 																				catch
 																				{
 																					//try-fault
-																					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+																					cComPtrNtv_003CIContextData_003E.Dispose();
 																					throw;
 																				}
 																				cComPtrNtv_003CIContextData_003E.Dispose();
@@ -2257,7 +2257,7 @@ namespace Microsoft.Zune.Service
 																			catch
 																			{
 																				//try-fault
-																				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+																				cComPtrNtv_003CIContextData_003E.Dispose();
 																				throw;
 																			}
 																			cComPtrNtv_003CIContextData_003E.Dispose();
@@ -2323,7 +2323,7 @@ namespace Microsoft.Zune.Service
 																			catch
 																			{
 																				//try-fault
-																				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+																				cComPtrNtv_003CIContextData_003E.Dispose();
 																				throw;
 																			}
 																			cComPtrNtv_003CIContextData_003E.Dispose();
@@ -2354,7 +2354,7 @@ namespace Microsoft.Zune.Service
 																		catch
 																		{
 																			//try-fault
-																			Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+																			cComPtrNtv_003CIContextData_003E.Dispose();
 																			throw;
 																		}
 																		cComPtrNtv_003CIContextData_003E.Dispose();
@@ -2404,7 +2404,7 @@ namespace Microsoft.Zune.Service
 																		catch
 																		{
 																			//try-fault
-																			Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+																			cComPtrNtv_003CIContextData_003E.Dispose();
 																			throw;
 																		}
 																		cComPtrNtv_003CIContextData_003E.Dispose();
@@ -2435,7 +2435,7 @@ namespace Microsoft.Zune.Service
 																	catch
 																	{
 																		//try-fault
-																		Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+																		cComPtrNtv_003CIContextData_003E.Dispose();
 																		throw;
 																	}
 																	cComPtrNtv_003CIContextData_003E.Dispose();
@@ -2705,7 +2705,7 @@ namespace Microsoft.Zune.Service
 																									catch
 																									{
 																										//try-fault
-																										Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+																										cComPtrNtv_003CIContextData_003E.Dispose();
 																										throw;
 																									}
 																									cComPtrNtv_003CIContextData_003E.Dispose();
@@ -2736,7 +2736,7 @@ namespace Microsoft.Zune.Service
 																								catch
 																								{
 																									//try-fault
-																									Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+																									cComPtrNtv_003CIContextData_003E.Dispose();
 																									throw;
 																								}
 																								cComPtrNtv_003CIContextData_003E.Dispose();
@@ -2786,7 +2786,7 @@ namespace Microsoft.Zune.Service
 																								catch
 																								{
 																									//try-fault
-																									Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+																									cComPtrNtv_003CIContextData_003E.Dispose();
 																									throw;
 																								}
 																								cComPtrNtv_003CIContextData_003E.Dispose();
@@ -2817,7 +2817,7 @@ namespace Microsoft.Zune.Service
 																							catch
 																							{
 																								//try-fault
-																								Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+																								cComPtrNtv_003CIContextData_003E.Dispose();
 																								throw;
 																							}
 																							cComPtrNtv_003CIContextData_003E.Dispose();
@@ -2883,7 +2883,7 @@ namespace Microsoft.Zune.Service
 																							catch
 																							{
 																								//try-fault
-																								Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+																								cComPtrNtv_003CIContextData_003E.Dispose();
 																								throw;
 																							}
 																							cComPtrNtv_003CIContextData_003E.Dispose();
@@ -2914,7 +2914,7 @@ namespace Microsoft.Zune.Service
 																						catch
 																						{
 																							//try-fault
-																							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+																							cComPtrNtv_003CIContextData_003E.Dispose();
 																							throw;
 																						}
 																						cComPtrNtv_003CIContextData_003E.Dispose();
@@ -2964,7 +2964,7 @@ namespace Microsoft.Zune.Service
 																						catch
 																						{
 																							//try-fault
-																							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+																							cComPtrNtv_003CIContextData_003E.Dispose();
 																							throw;
 																						}
 																						cComPtrNtv_003CIContextData_003E.Dispose();
@@ -2995,7 +2995,7 @@ namespace Microsoft.Zune.Service
 																					catch
 																					{
 																						//try-fault
-																						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+																						cComPtrNtv_003CIContextData_003E.Dispose();
 																						throw;
 																					}
 																					cComPtrNtv_003CIContextData_003E.Dispose();
@@ -3078,7 +3078,7 @@ namespace Microsoft.Zune.Service
 																							catch
 																							{
 																								//try-fault
-																								Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+																								cComPtrNtv_003CIContextData_003E.Dispose();
 																								throw;
 																							}
 																							cComPtrNtv_003CIContextData_003E.Dispose();
@@ -3109,7 +3109,7 @@ namespace Microsoft.Zune.Service
 																						catch
 																						{
 																							//try-fault
-																							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+																							cComPtrNtv_003CIContextData_003E.Dispose();
 																							throw;
 																						}
 																						cComPtrNtv_003CIContextData_003E.Dispose();
@@ -3159,7 +3159,7 @@ namespace Microsoft.Zune.Service
 																						catch
 																						{
 																							//try-fault
-																							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+																							cComPtrNtv_003CIContextData_003E.Dispose();
 																							throw;
 																						}
 																						cComPtrNtv_003CIContextData_003E.Dispose();
@@ -3190,7 +3190,7 @@ namespace Microsoft.Zune.Service
 																					catch
 																					{
 																						//try-fault
-																						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+																						cComPtrNtv_003CIContextData_003E.Dispose();
 																						throw;
 																					}
 																					cComPtrNtv_003CIContextData_003E.Dispose();
@@ -3256,7 +3256,7 @@ namespace Microsoft.Zune.Service
 																					catch
 																					{
 																						//try-fault
-																						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+																						cComPtrNtv_003CIContextData_003E.Dispose();
 																						throw;
 																					}
 																					cComPtrNtv_003CIContextData_003E.Dispose();
@@ -3287,7 +3287,7 @@ namespace Microsoft.Zune.Service
 																				catch
 																				{
 																					//try-fault
-																					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+																					cComPtrNtv_003CIContextData_003E.Dispose();
 																					throw;
 																				}
 																				cComPtrNtv_003CIContextData_003E.Dispose();
@@ -3337,7 +3337,7 @@ namespace Microsoft.Zune.Service
 																				catch
 																				{
 																					//try-fault
-																					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+																					cComPtrNtv_003CIContextData_003E.Dispose();
 																					throw;
 																				}
 																				cComPtrNtv_003CIContextData_003E.Dispose();
@@ -3368,7 +3368,7 @@ namespace Microsoft.Zune.Service
 																			catch
 																			{
 																				//try-fault
-																				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+																				cComPtrNtv_003CIContextData_003E.Dispose();
 																				throw;
 																			}
 																			cComPtrNtv_003CIContextData_003E.Dispose();
@@ -3468,7 +3468,7 @@ namespace Microsoft.Zune.Service
 																							catch
 																							{
 																								//try-fault
-																								Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+																								cComPtrNtv_003CIContextData_003E.Dispose();
 																								throw;
 																							}
 																							cComPtrNtv_003CIContextData_003E.Dispose();
@@ -3499,7 +3499,7 @@ namespace Microsoft.Zune.Service
 																						catch
 																						{
 																							//try-fault
-																							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+																							cComPtrNtv_003CIContextData_003E.Dispose();
 																							throw;
 																						}
 																						cComPtrNtv_003CIContextData_003E.Dispose();
@@ -3549,7 +3549,7 @@ namespace Microsoft.Zune.Service
 																						catch
 																						{
 																							//try-fault
-																							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+																							cComPtrNtv_003CIContextData_003E.Dispose();
 																							throw;
 																						}
 																						cComPtrNtv_003CIContextData_003E.Dispose();
@@ -3580,7 +3580,7 @@ namespace Microsoft.Zune.Service
 																					catch
 																					{
 																						//try-fault
-																						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+																						cComPtrNtv_003CIContextData_003E.Dispose();
 																						throw;
 																					}
 																					cComPtrNtv_003CIContextData_003E.Dispose();
@@ -3646,7 +3646,7 @@ namespace Microsoft.Zune.Service
 																					catch
 																					{
 																						//try-fault
-																						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+																						cComPtrNtv_003CIContextData_003E.Dispose();
 																						throw;
 																					}
 																					cComPtrNtv_003CIContextData_003E.Dispose();
@@ -3677,7 +3677,7 @@ namespace Microsoft.Zune.Service
 																				catch
 																				{
 																					//try-fault
-																					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+																					cComPtrNtv_003CIContextData_003E.Dispose();
 																					throw;
 																				}
 																				cComPtrNtv_003CIContextData_003E.Dispose();
@@ -3727,7 +3727,7 @@ namespace Microsoft.Zune.Service
 																				catch
 																				{
 																					//try-fault
-																					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+																					cComPtrNtv_003CIContextData_003E.Dispose();
 																					throw;
 																				}
 																				cComPtrNtv_003CIContextData_003E.Dispose();
@@ -3758,7 +3758,7 @@ namespace Microsoft.Zune.Service
 																			catch
 																			{
 																				//try-fault
-																				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+																				cComPtrNtv_003CIContextData_003E.Dispose();
 																				throw;
 																			}
 																			cComPtrNtv_003CIContextData_003E.Dispose();
@@ -3841,7 +3841,7 @@ namespace Microsoft.Zune.Service
 																					catch
 																					{
 																						//try-fault
-																						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+																						cComPtrNtv_003CIContextData_003E.Dispose();
 																						throw;
 																					}
 																					cComPtrNtv_003CIContextData_003E.Dispose();
@@ -3872,7 +3872,7 @@ namespace Microsoft.Zune.Service
 																				catch
 																				{
 																					//try-fault
-																					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+																					cComPtrNtv_003CIContextData_003E.Dispose();
 																					throw;
 																				}
 																				cComPtrNtv_003CIContextData_003E.Dispose();
@@ -3922,7 +3922,7 @@ namespace Microsoft.Zune.Service
 																				catch
 																				{
 																					//try-fault
-																					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+																					cComPtrNtv_003CIContextData_003E.Dispose();
 																					throw;
 																				}
 																				cComPtrNtv_003CIContextData_003E.Dispose();
@@ -3953,7 +3953,7 @@ namespace Microsoft.Zune.Service
 																			catch
 																			{
 																				//try-fault
-																				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+																				cComPtrNtv_003CIContextData_003E.Dispose();
 																				throw;
 																			}
 																			cComPtrNtv_003CIContextData_003E.Dispose();
@@ -4019,7 +4019,7 @@ namespace Microsoft.Zune.Service
 																			catch
 																			{
 																				//try-fault
-																				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+																				cComPtrNtv_003CIContextData_003E.Dispose();
 																				throw;
 																			}
 																			cComPtrNtv_003CIContextData_003E.Dispose();
@@ -4050,7 +4050,7 @@ namespace Microsoft.Zune.Service
 																		catch
 																		{
 																			//try-fault
-																			Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+																			cComPtrNtv_003CIContextData_003E.Dispose();
 																			throw;
 																		}
 																		cComPtrNtv_003CIContextData_003E.Dispose();
@@ -4100,7 +4100,7 @@ namespace Microsoft.Zune.Service
 																		catch
 																		{
 																			//try-fault
-																			Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+																			cComPtrNtv_003CIContextData_003E.Dispose();
 																			throw;
 																		}
 																		cComPtrNtv_003CIContextData_003E.Dispose();
@@ -4131,7 +4131,7 @@ namespace Microsoft.Zune.Service
 																	catch
 																	{
 																		//try-fault
-																		Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+																		cComPtrNtv_003CIContextData_003E.Dispose();
 																		throw;
 																	}
 																	cComPtrNtv_003CIContextData_003E.Dispose();
@@ -4234,7 +4234,7 @@ namespace Microsoft.Zune.Service
 				int num3 = 0;
 				_GUID gUID = guidMediaId;
 				IService* pService = m_pService;
-				if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID, EContentType, int*, int*, int*, int>)(*(ulong*)(*(long*)pService + 616)))((nint)pService, gUID, (EContentType)eContentType, &num, &num2, &num3) >= 0)
+				if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID, EContentType, int*, int*, int*, int>)(*(ulong*)(*(long*)pService + 616)))((nint)pService, gUID, eContentType, &num, &num2, &num3) >= 0)
 				{
 					bool flag = ((num != 0 || num2 != 0) ? true : false);
 					result = flag;
@@ -4252,7 +4252,7 @@ namespace Microsoft.Zune.Service
 			{
 				_GUID gUID = guidMediaId;
 				IService* pService = m_pService;
-				((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID, EContentType, int>)(*(ulong*)(*(long*)pService + 624)))((nint)pService, gUID, (EContentType)eContentType);
+				((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID, EContentType, int>)(*(ulong*)(*(long*)pService + 624)))((nint)pService, gUID, eContentType);
 			}
 		}
 
@@ -4268,7 +4268,7 @@ namespace Microsoft.Zune.Service
 				ushort* ptr = null;
 				_GUID gUID = guidMediaId;
 				IService* pService = m_pService;
-				num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID, EContentType, global::EContentUriFlags, EMediaFormat, EMediaRights, ushort**, _GUID*, int>)(*(ulong*)(*(long*)pService + 584)))((nint)pService, gUID, (EContentType)eContentType, (global::EContentUriFlags)eContentUriFlags, eMediaFormat, eMediaRights, &ptr, &gUID_NULL);
+				num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID, EContentType, global::EContentUriFlags, EMediaFormat, EMediaRights, ushort**, _GUID*, int>)(*(ulong*)(*(long*)pService + 584)))((nint)pService, gUID, eContentType, (global::EContentUriFlags)eContentUriFlags, eMediaFormat, eMediaRights, &ptr, &gUID_NULL);
 				if (num >= 0)
 				{
 					if (ptr == null)
@@ -4342,7 +4342,7 @@ namespace Microsoft.Zune.Service
 						_GUID gUID = guidMediaId;
 						long num4 = *(long*)m_pService + 640;
 						IService* pService = m_pService;
-						if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID, EContentType, ushort*, int*, int*, int*, int>)(*(ulong*)num4))((nint)pService, gUID, (EContentType)eContentType, ptr, &num2, &num, &num3) >= 0)
+						if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID, EContentType, ushort*, int*, int*, int*, int>)(*(ulong*)num4))((nint)pService, gUID, eContentType, ptr, &num2, &num, &num3) >= 0)
 						{
 							bool flag = ((num2 != 0) ? true : false);
 							result = flag;
@@ -4444,7 +4444,7 @@ namespace Microsoft.Zune.Service
 														catch
 														{
 															//try-fault
-															Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+															cComPtrNtv_003CIContextData_003E.Dispose();
 															throw;
 														}
 														cComPtrNtv_003CIContextData_003E.Dispose();
@@ -4530,7 +4530,7 @@ namespace Microsoft.Zune.Service
 				_GUID gUID = guidMediaId;
 				IService* pService = m_pService;
 				int num;
-				flag = 0 == ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, _GUID*, EContentType, int*, int>)(*(ulong*)(*(long*)pService + 920)))((nint)pService, iUserId, &gUID, (EContentType)eContentType, &num);
+				flag = 0 == ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, _GUID*, EContentType, int*, int>)(*(ulong*)(*(long*)pService + 920)))((nint)pService, iUserId, &gUID, eContentType, &num);
 				if (flag)
 				{
 					piRating = num;
@@ -4752,7 +4752,7 @@ namespace Microsoft.Zune.Service
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ISignInState*, void>)(&Module.CComPtrNtv_003CISignInState_003E_002E_007Bdtor_007D), cComPtrNtv_003CISignInState_003E.p);
+					cComPtrNtv_003CISignInState_003E.Dispose();
 					throw;
 				}
 				cComPtrNtv_003CISignInState_003E.Dispose();
@@ -4800,7 +4800,7 @@ namespace Microsoft.Zune.Service
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ISignInState*, void>)(&Module.CComPtrNtv_003CISignInState_003E_002E_007Bdtor_007D), cComPtrNtv_003CISignInState_003E.p);
+					cComPtrNtv_003CISignInState_003E.Dispose();
 					throw;
 				}
 				cComPtrNtv_003CISignInState_003E.Dispose();
@@ -4840,7 +4840,7 @@ namespace Microsoft.Zune.Service
 								catch
 								{
 									//try-fault
-									Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IPassportIdentity*, void>)(&Module.CComPtrNtv_003CIPassportIdentity_003E_002E_007Bdtor_007D), cComPtrNtv_003CIPassportIdentity_003E.p);
+									cComPtrNtv_003CIPassportIdentity_003E.Dispose();
 									throw;
 								}
 								cComPtrNtv_003CIPassportIdentity_003E.Dispose();
@@ -4904,7 +4904,7 @@ namespace Microsoft.Zune.Service
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ISignInState*, void>)(&Module.CComPtrNtv_003CISignInState_003E_002E_007Bdtor_007D), cComPtrNtv_003CISignInState_003E.p);
+					cComPtrNtv_003CISignInState_003E.Dispose();
 					throw;
 				}
 				cComPtrNtv_003CISignInState_003E.Dispose();
@@ -4933,7 +4933,7 @@ namespace Microsoft.Zune.Service
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ISignInState*, void>)(&Module.CComPtrNtv_003CISignInState_003E_002E_007Bdtor_007D), cComPtrNtv_003CISignInState_003E.p);
+					cComPtrNtv_003CISignInState_003E.Dispose();
 					throw;
 				}
 				cComPtrNtv_003CISignInState_003E.Dispose();
@@ -4966,11 +4966,9 @@ namespace Microsoft.Zune.Service
 				}
 				catch
 				{
-					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ISignInState*, void>)(&Module.CComPtrNtv_003CISignInState_003E_002E_007Bdtor_007D), cComPtrNtv_003CISignInState_003E.p);
+					cComPtrNtv_003CISignInState_003E.Dispose();
 					throw;
 				}
-				cComPtrNtv_003CISignInState_003E.Dispose();
 			}
 			return gUID_NULL;
 		}
@@ -5015,10 +5013,9 @@ namespace Microsoft.Zune.Service
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ISignInState*, void>)(&Module.CComPtrNtv_003CISignInState_003E_002E_007Bdtor_007D), cComPtrNtv_003CISignInState_003E.p);
+					cComPtrNtv_003CISignInState_003E.Dispose();
 					throw;
 				}
-				cComPtrNtv_003CISignInState_003E.Dispose();
 			}
 			return result;
 		}
@@ -5046,10 +5043,9 @@ namespace Microsoft.Zune.Service
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ISignInState*, void>)(&Module.CComPtrNtv_003CISignInState_003E_002E_007Bdtor_007D), cComPtrNtv_003CISignInState_003E.p);
+					cComPtrNtv_003CISignInState_003E.Dispose();
 					throw;
 				}
-				cComPtrNtv_003CISignInState_003E.Dispose();
 			}
 			return result;
 		}
@@ -5077,10 +5073,9 @@ namespace Microsoft.Zune.Service
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ISignInState*, void>)(&Module.CComPtrNtv_003CISignInState_003E_002E_007Bdtor_007D), cComPtrNtv_003CISignInState_003E.p);
+					cComPtrNtv_003CISignInState_003E.Dispose();
 					throw;
 				}
-				cComPtrNtv_003CISignInState_003E.Dispose();
 			}
 			return result;
 		}
@@ -5106,10 +5101,9 @@ namespace Microsoft.Zune.Service
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ISignInState*, void>)(&Module.CComPtrNtv_003CISignInState_003E_002E_007Bdtor_007D), cComPtrNtv_003CISignInState_003E.p);
+					cComPtrNtv_003CISignInState_003E.Dispose();
 					throw;
 				}
-				cComPtrNtv_003CISignInState_003E.Dispose();
 			}
 			return result;
 		}
@@ -5163,10 +5157,9 @@ namespace Microsoft.Zune.Service
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ISignInState*, void>)(&Module.CComPtrNtv_003CISignInState_003E_002E_007Bdtor_007D), cComPtrNtv_003CISignInState_003E.p);
+					cComPtrNtv_003CISignInState_003E.Dispose();
 					throw;
 				}
-				cComPtrNtv_003CISignInState_003E.Dispose();
 			}
 			return result;
 		}
@@ -5197,7 +5190,7 @@ namespace Microsoft.Zune.Service
 						Module.delete(ptr);
 						throw;
 					}
-					Module.CComPtrNtv_003CIGetOfferDetailsCallback_003E_002EAttach(cComPtrNtv_003CIGetOfferDetailsCallback_003E.p, (IGetOfferDetailsCallback*)p);
+					cComPtrNtv_003CIGetOfferDetailsCallback_003E.Attach(cComPtrNtv_003CIGetOfferDetailsCallback_003E.p, (IGetOfferDetailsCallback*)p);
 					num = ((*(long*)(cComPtrNtv_003CIGetOfferDetailsCallback_003E.p) == 0) ? (-2147024882) : num);
 					if (num >= 0)
 					{
@@ -5211,10 +5204,9 @@ namespace Microsoft.Zune.Service
 			catch
 			{
 				//try-fault
-				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IGetOfferDetailsCallback*, void>)(&Module.CComPtrNtv_003CIGetOfferDetailsCallback_003E_002E_007Bdtor_007D), cComPtrNtv_003CIGetOfferDetailsCallback_003E.p);
+				cComPtrNtv_003CIGetOfferDetailsCallback_003E.Dispose();
 				throw;
 			}
-			cComPtrNtv_003CIGetOfferDetailsCallback_003E.Dispose();
 			return result;
 		}
 
@@ -5347,7 +5339,7 @@ namespace Microsoft.Zune.Service
 										catch
 										{
 											//try-fault
-											Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+											cComPtrNtv_003CIContextData_003E.Dispose();
 											throw;
 										}
 										cComPtrNtv_003CIContextData_003E.Dispose();
@@ -5378,7 +5370,7 @@ namespace Microsoft.Zune.Service
 									catch
 									{
 										//try-fault
-										Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
+										cComPtrNtv_003CIContextData_003E.Dispose();
 										throw;
 									}
 									cComPtrNtv_003CIContextData_003E.Dispose();
@@ -5730,7 +5722,7 @@ namespace Microsoft.Zune.Service
 					{
 						_GUID gUID2 = (Guid)artists[num3];
                         // IL cpblk instruction
-                        Unsafe.CopyBlockUnaligned(ptr4, ref gUID2, 16);
+                        Unsafe.CopyBlockUnaligned(ref *ptr4, ref gUID2, 16);
 						num3++;
 						ptr4 = (_GUID*)((ulong)(nint)ptr4 + 16uL);
 					}
@@ -5788,7 +5780,7 @@ namespace Microsoft.Zune.Service
 						catch
 						{
 							//try-fault
-							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ITokenDetails*, void>)(&Module.CComPtrNtv_003CITokenDetails_003E_002E_007Bdtor_007D), cComPtrNtv_003CITokenDetails_003E.p);
+							cComPtrNtv_003CITokenDetails_003E.Dispose();
 							throw;
 						}
 						cComPtrNtv_003CITokenDetails_003E.Dispose();
@@ -5838,7 +5830,7 @@ namespace Microsoft.Zune.Service
 					{
 						long num2 = *(long*)m_pService + 520;
 						IService* pService = m_pService;
-						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, global::EConcernType, EContentType, _GUID, ushort*, IAsyncCallback*, int>)(*(ulong*)num2))((nint)pService, (global::EConcernType)concernType, (EContentType)contentType, gUID, ptr3, (IAsyncCallback*)ptr2);
+						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, global::EConcernType, EContentType, _GUID, ushort*, IAsyncCallback*, int>)(*(ulong*)num2))((nint)pService, (global::EConcernType)concernType, contentType, gUID, ptr3, (IAsyncCallback*)ptr2);
 					}
 					catch
 					{
@@ -6106,7 +6098,7 @@ namespace Microsoft.Zune.Service
 				FILETIME fILETIME;
 				int num;
 				int num2;
-				if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID, EContentType, DRMQueryState*, FILETIME*, int*, int*, int>)(*(ulong*)(*(long*)pService + 576)))((nint)pService, gUID, (EContentType)eContentType, &eCanPlay, &fILETIME, &num, &num2) >= 0)
+				if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID, EContentType, DRMQueryState*, FILETIME*, int*, int*, int>)(*(ulong*)(*(long*)pService + 576)))((nint)pService, gUID, eContentType, &eCanPlay, &fILETIME, &num, &num2) >= 0)
 				{
 					long num3 = (uint)Unsafe.As<FILETIME, int>(ref Unsafe.AddByteOffset(ref fILETIME, 4)) * 4294967296L + (uint)(*(int*)(&fILETIME));
 					DateTime expiryDate = DateTime.MaxValue;
@@ -6149,10 +6141,9 @@ namespace Microsoft.Zune.Service
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ISignInState*, void>)(&Module.CComPtrNtv_003CISignInState_003E_002E_007Bdtor_007D), cComPtrNtv_003CISignInState_003E.p);
+					cComPtrNtv_003CISignInState_003E.Dispose();
 					throw;
 				}
-				cComPtrNtv_003CISignInState_003E.Dispose();
 			}
 			return result;
 		}
@@ -6178,10 +6169,9 @@ namespace Microsoft.Zune.Service
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ISignInState*, void>)(&Module.CComPtrNtv_003CISignInState_003E_002E_007Bdtor_007D), cComPtrNtv_003CISignInState_003E.p);
+					cComPtrNtv_003CISignInState_003E.Dispose();
 					throw;
 				}
-				cComPtrNtv_003CISignInState_003E.Dispose();
 			}
 			return result;
 		}
@@ -6229,10 +6219,9 @@ namespace Microsoft.Zune.Service
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ISignInState*, void>)(&Module.CComPtrNtv_003CISignInState_003E_002E_007Bdtor_007D), cComPtrNtv_003CISignInState_003E.p);
+					cComPtrNtv_003CISignInState_003E.Dispose();
 					throw;
 				}
-				cComPtrNtv_003CISignInState_003E.Dispose();
 			}
 			return result;
 		}
@@ -6280,10 +6269,9 @@ namespace Microsoft.Zune.Service
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ISignInState*, void>)(&Module.CComPtrNtv_003CISignInState_003E_002E_007Bdtor_007D), cComPtrNtv_003CISignInState_003E.p);
+					cComPtrNtv_003CISignInState_003E.Dispose();
 					throw;
 				}
-				cComPtrNtv_003CISignInState_003E.Dispose();
 			}
 			return result;
 		}
@@ -6310,7 +6298,7 @@ namespace Microsoft.Zune.Service
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ISignInState*, void>)(&Module.CComPtrNtv_003CISignInState_003E_002E_007Bdtor_007D), cComPtrNtv_003CISignInState_003E.p);
+					cComPtrNtv_003CISignInState_003E.Dispose();
 					throw;
 				}
 				cComPtrNtv_003CISignInState_003E.Dispose();
@@ -6341,7 +6329,7 @@ namespace Microsoft.Zune.Service
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ISignInState*, void>)(&Module.CComPtrNtv_003CISignInState_003E_002E_007Bdtor_007D), cComPtrNtv_003CISignInState_003E.p);
+					cComPtrNtv_003CISignInState_003E.Dispose();
 					throw;
 				}
 				cComPtrNtv_003CISignInState_003E.Dispose();
@@ -6372,7 +6360,7 @@ namespace Microsoft.Zune.Service
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ISignInState*, void>)(&Module.CComPtrNtv_003CISignInState_003E_002E_007Bdtor_007D), cComPtrNtv_003CISignInState_003E.p);
+					cComPtrNtv_003CISignInState_003E.Dispose();
 					throw;
 				}
 				cComPtrNtv_003CISignInState_003E.Dispose();
@@ -6629,8 +6617,7 @@ namespace Microsoft.Zune.Service
 			{
 				num = -2147467259;
 			}
-			WBSTRString wBSTRString;
-			Module.WBSTRString_002E_007Bctor_007D(&wBSTRString);
+			string WBSTRString = "";
 			try
 			{
 				CComPtrNtv<IServiceError> cComPtrNtv_003CIServiceError_003E = new();
@@ -6814,7 +6801,7 @@ namespace Microsoft.Zune.Service
 						}
 						if (num >= 0)
 						{
-							paymentId = new string((char*)(*(ulong*)(&wBSTRString)));
+							paymentId = wBSTRString;
 						}
 					}
 					if (*(long*)(cComPtrNtv_003CIServiceError_003E.p) != 0L)
@@ -6829,7 +6816,7 @@ namespace Microsoft.Zune.Service
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IServiceError*, void>)(&Module.CComPtrNtv_003CIServiceError_003E_002E_007Bdtor_007D), cComPtrNtv_003CIServiceError_003E.p);
+					cComPtrNtv_003CIServiceError_003E.Dispose();
 					throw;
 				}
 				cComPtrNtv_003CIServiceError_003E.Dispose();
@@ -7130,8 +7117,7 @@ namespace Microsoft.Zune.Service
 								ptr = (ushort**)Module.new_005B_005D((num7 > 2305843009213693951L) ? ulong.MaxValue : (num7 * 8));
 								num = (((long)(nint)ptr == 0) ? (-2147024882) : num);
 							}
-							WBSTRString wBSTRString;
-							Module.WBSTRString_002E_007Bctor_007D(&wBSTRString);
+							string WBSTRString = "";
 							try
 							{
 								int teenagerAge = 0;
@@ -7171,7 +7157,7 @@ namespace Microsoft.Zune.Service
 										}
 										if (num >= 0)
 										{
-											string abbreviation = new string((char*)(*(ulong*)(&wBSTRString)));
+											string abbreviation = wBSTRString;
 											string[] array3 = new string[num6];
 											int num14 = 0;
 											if (0 < num6)
@@ -7223,7 +7209,7 @@ namespace Microsoft.Zune.Service
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ITunerConfig*, void>)(&Module.CComPtrNtv_003CITunerConfig_003E_002E_007Bdtor_007D), cComPtrNtv_003CITunerConfig_003E.p);
+					cComPtrNtv_003CITunerConfig_003E.Dispose();
 					throw;
 				}
 				cComPtrNtv_003CITunerConfig_003E.Dispose();
@@ -7292,24 +7278,19 @@ namespace Microsoft.Zune.Service
 							long num9 = *(long*)(cComPtrNtv_003CITunerConfig_003E.p);
 							int num10 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, int>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CITunerConfig_003E.p)) + 152)))((nint)num9, num4);
 							Dictionary<string, Dictionary<string, string>> dictionary = new Dictionary<string, Dictionary<string, string>>();
-							WBSTRString wBSTRString;
-							Module.WBSTRString_002E_007Bctor_007D(&wBSTRString);
+							string WBSTRString = "";
 							try
 							{
-								WBSTRString wBSTRString2;
-								Module.WBSTRString_002E_007Bctor_007D(&wBSTRString2);
+								WBSTRstring wBSTRString2 = "";
 								try
 								{
-									WBSTRString wBSTRString3;
-									Module.WBSTRString_002E_007Bctor_007D(&wBSTRString3);
+									WBSTRstring wBSTRString3 = "";
 									try
 									{
-										WBSTRString wBSTRString4;
-										Module.WBSTRString_002E_007Bctor_007D(&wBSTRString4);
+										WBSTRstring wBSTRString4 = "";
 										try
 										{
-											WBSTRString wBSTRString5;
-											Module.WBSTRString_002E_007Bctor_007D(&wBSTRString5);
+											WBSTRstring wBSTRString5 = "";
 											try
 											{
 												int num11 = 0;
@@ -7338,15 +7319,14 @@ namespace Microsoft.Zune.Service
 														Module.WString_002EDeleteString((WString*)(&wBSTRString2));
 														Module.WString_002EDeleteString((WString*)(&wBSTRString3));
 														Module.WString_002EDeleteString((WString*)(&wBSTRString4));
-														WBSTRString wBSTRString6;
-														Module.WBSTRString_002E_007Bctor_007D(&wBSTRString6);
+														WBSTRstring wBSTRString6 = "";
 														try
 														{
 															ITunerConfig* ptr4 = Module.CComPtrNtv_003CITunerConfig_003E_002E_002D_003E(cComPtrNtv_003CITunerConfig_003E.p);
 															num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, int, int, ushort**, ushort**, ushort**, ushort**, ushort**, int*, int*, ushort**, ushort**, int>)(*(ulong*)(*(long*)ptr4 + 184)))((nint)ptr4, num4, num13, num14, (ushort**)(&wBSTRString), (ushort**)(&wBSTRString2), (ushort**)(&wBSTRString3), (ushort**)(&wBSTRString4), (ushort**)(&wBSTRString6), &num11, &num12, ptr2, ptr3);
 															if (num >= 0)
 															{
-																string key = new string((char*)(*(ulong*)(&wBSTRString6)));
+																string key = wBSTRString6;
 																Dictionary<string, string> dictionary2 = new Dictionary<string, string>();
 																if (num13 == num10)
 																{
@@ -7421,24 +7401,19 @@ namespace Microsoft.Zune.Service
 													{
 														do
 														{
-															WBSTRString wBSTRString7;
-															Module.WBSTRString_002E_007Bctor_007D(&wBSTRString7);
+															WBSTRstring wBSTRString7 = "";
 															try
 															{
-																WBSTRString wBSTRString8;
-																Module.WBSTRString_002E_007Bctor_007D(&wBSTRString8);
+																WBSTRstring wBSTRString8 = "";
 																try
 																{
-																	WBSTRString wBSTRString9;
-																	Module.WBSTRString_002E_007Bctor_007D(&wBSTRString9);
+																	WBSTRstring wBSTRString9 = "";
 																	try
 																	{
-																		WBSTRString wBSTRString10;
-																		Module.WBSTRString_002E_007Bctor_007D(&wBSTRString10);
+																		WBSTRstring wBSTRString10 = "";
 																		try
 																		{
-																			WBSTRString wBSTRString11;
-																			Module.WBSTRString_002E_007Bctor_007D(&wBSTRString11);
+																			WBSTRstring wBSTRString11 = "";
 																			try
 																			{
 																				long num22 = *(long*)(cComPtrNtv_003CITunerConfig_003E.p);
@@ -7451,7 +7426,7 @@ namespace Microsoft.Zune.Service
 																					ushort* value = (ushort*)(*(ulong*)(&wBSTRString9));
 																					ushort* value2 = (ushort*)(*(ulong*)(&wBSTRString10));
 																					ushort* value3 = (ushort*)(*(ulong*)(&wBSTRString8));
-																					RatingValue ratingValue = (array2[num21] = new RatingValue(new string((char*)(*(ulong*)(&wBSTRString7))), order, new string((char*)value3), new string((char*)value2), new string((char*)value), new string((char*)(*(ulong*)(&wBSTRString11))), treatAsUnrated));
+																					RatingValue ratingValue = (array2[num21] = new RatingValue(wBSTRString7, order, new string((char*)value3), new string((char*)value2), new string((char*)value), wBSTRString11, treatAsUnrated));
 																				}
 																			}
 																			catch
@@ -7504,7 +7479,7 @@ namespace Microsoft.Zune.Service
 														ushort* value4 = (ushort*)(*(ulong*)(&wBSTRString4));
 														ushort* value5 = (ushort*)(*(ulong*)(&wBSTRString3));
 														ushort* value6 = (ushort*)(*(ulong*)(&wBSTRString2));
-														RatingSystemBase ratingSystemBase = (array[num4] = new RatingSystemBase(new string((char*)(*(ulong*)(&wBSTRString))), new string((char*)value6), new string((char*)value5), new string((char*)value4), useImages, showBlockUnrated, new string((char*)(*(ulong*)(&wBSTRString5))), dictionary, array2));
+														RatingSystemBase ratingSystemBase = (array[num4] = new RatingSystemBase(wBSTRString, new string((char*)value6), new string((char*)value5), new string((char*)value4), useImages, showBlockUnrated, wBSTRString5, dictionary, array2));
 													}
 												}
 											}
@@ -7555,7 +7530,7 @@ namespace Microsoft.Zune.Service
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ITunerConfig*, void>)(&Module.CComPtrNtv_003CITunerConfig_003E_002E_007Bdtor_007D), cComPtrNtv_003CITunerConfig_003E.p);
+					cComPtrNtv_003CITunerConfig_003E.Dispose();
 					throw;
 				}
 				Module.CComPtrNtv_003CITunerConfig_003E_002E_007Bdtor_007D(cComPtrNtv_003CITunerConfig_003E.p);
@@ -7588,7 +7563,7 @@ namespace Microsoft.Zune.Service
 					catch
 					{
 						//try-fault
-						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ITunerConfig*, void>)(&Module.CComPtrNtv_003CITunerConfig_003E_002E_007Bdtor_007D), cComPtrNtv_003CITunerConfig_003E.p);
+						cComPtrNtv_003CITunerConfig_003E.Dispose();
 						throw;
 					}
 					cComPtrNtv_003CITunerConfig_003E.Dispose();
@@ -7622,7 +7597,7 @@ namespace Microsoft.Zune.Service
 					catch
 					{
 						//try-fault
-						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ITunerConfig*, void>)(&Module.CComPtrNtv_003CITunerConfig_003E_002E_007Bdtor_007D), cComPtrNtv_003CITunerConfig_003E.p);
+						cComPtrNtv_003CITunerConfig_003E.Dispose();
 						throw;
 					}
 					cComPtrNtv_003CITunerConfig_003E.Dispose();
@@ -7663,7 +7638,7 @@ namespace Microsoft.Zune.Service
 					catch
 					{
 						//try-fault
-						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ITunerConfig*, void>)(&Module.CComPtrNtv_003CITunerConfig_003E_002E_007Bdtor_007D), cComPtrNtv_003CITunerConfig_003E.p);
+						cComPtrNtv_003CITunerConfig_003E.Dispose();
 						throw;
 					}
 					cComPtrNtv_003CITunerConfig_003E.Dispose();
@@ -7693,7 +7668,7 @@ namespace Microsoft.Zune.Service
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ITunerConfig*, void>)(&Module.CComPtrNtv_003CITunerConfig_003E_002E_007Bdtor_007D), cComPtrNtv_003CITunerConfig_003E.p);
+					cComPtrNtv_003CITunerConfig_003E.Dispose();
 					throw;
 				}
 				cComPtrNtv_003CITunerConfig_003E.Dispose();
@@ -7721,7 +7696,7 @@ namespace Microsoft.Zune.Service
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IAppCollection*, void>)(&Module.CComPtrNtv_003CIAppCollection_003E_002E_007Bdtor_007D), cComPtrNtv_003CIAppCollection_003E.p);
+					cComPtrNtv_003CIAppCollection_003E.Dispose();
 					throw;
 				}
 				cComPtrNtv_003CIAppCollection_003E.Dispose();

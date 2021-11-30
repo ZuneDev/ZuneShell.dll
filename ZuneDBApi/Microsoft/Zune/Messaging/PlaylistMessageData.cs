@@ -88,7 +88,7 @@ namespace Microsoft.Zune.Messaging
 					{
 						*(short*)(&cComPropVariant) = 8;
                         Unsafe.As<PROPVARIANT, long>(ref Unsafe.AddByteOffset(ref cComPropVariant, 8)) = (nint)Module.SysAllocString(ptr3);
-						PROPVARIANT tagPROPVARIANT = (PROPVARIANT)cComPropVariant;
+						PROPVARIANT tagPROPVARIANT = cComPropVariant;
 						IMSMediaSchemaPropertySet* intPtr = ptr2;
 						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)ptr2 + 56)))((nint)intPtr, 16777217u, tagPROPVARIANT);
 					}
@@ -112,7 +112,7 @@ namespace Microsoft.Zune.Messaging
 						{
 							*(short*)(&cComPropVariant2) = 8;
                             Unsafe.As<PROPVARIANT, long>(ref Unsafe.AddByteOffset(ref cComPropVariant2, 8)) = (nint)Module.SysAllocString(ptr4);
-							PROPVARIANT tagPROPVARIANT2 = (PROPVARIANT)cComPropVariant2;
+							PROPVARIANT tagPROPVARIANT2 = cComPropVariant2;
 							IMSMediaSchemaPropertySet* intPtr2 = ptr2;
 							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)ptr2 + 56)))((nint)intPtr2, 16777219u, tagPROPVARIANT2);
 						}
@@ -135,7 +135,7 @@ namespace Microsoft.Zune.Messaging
 						}
 						*(short*)(&cComPropVariant3) = 13;
                         Unsafe.As<PROPVARIANT, long>(ref Unsafe.AddByteOffset(ref cComPropVariant3, 8)) = (nint)ptr;
-						PROPVARIANT tagPROPVARIANT3 = (PROPVARIANT)cComPropVariant3;
+						PROPVARIANT tagPROPVARIANT3 = cComPropVariant3;
 						IMSMediaSchemaPropertySet* intPtr3 = ptr2;
 						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)ptr2 + 56)))((nint)intPtr3, 3229617665u, tagPROPVARIANT3);
 						if (num < 0)
@@ -206,7 +206,7 @@ namespace Microsoft.Zune.Messaging
 							gUID = (Guid)property;
 						}
 						string text = dataProviderObject.GetProperty("Title") as string;
-						object s = ((!(text == (string)null)) ? text : "");
+						object s = ((!(text == null)) ? text : "");
 						while (true)
 						{
 							fixed (char* sPtr = ((string)s).ToCharArray())
@@ -236,7 +236,7 @@ namespace Microsoft.Zune.Messaging
 									gUID = (Guid)property;
 								}
 								text = dataProviderObject.GetProperty("Title") as string;
-								s = ((!(text == (string)null)) ? text : "");
+								s = ((!(text == null)) ? text : "");
 							}
 						}
 					}

@@ -662,7 +662,7 @@ namespace MicrosoftZuneLibrary
 			catch
 			{
 				//try-fault
-				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IEndpointNotification*, void>)(&Module.CComPtrNtv_003CIEndpointNotification_003E_002E_007Bdtor_007D), cComPtrNtv_003CIEndpointNotification_003E.p);
+				cComPtrNtv_003CIEndpointNotification_003E.Dispose();
 				throw;
 			}
 			cComPtrNtv_003CIEndpointNotification_003E.Dispose();

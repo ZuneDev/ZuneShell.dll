@@ -118,7 +118,7 @@ namespace Microsoft.Zune.Subscription
 						{
 							long num2 = *(long*)ptr + 24;
                             ISubscriptionViewer* intPtr = ptr;
-							((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, ISubscriptionViewerCallback*, int>)(*(ulong*)num2))((nint)intPtr, (ushort*)ptr5, (ISubscriptionViewerCallback*)(ISubscriptionViewerCallback*)ptr4);
+							((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, ISubscriptionViewerCallback*, int>)(*(ulong*)num2))((nint)intPtr, ptr5, (ISubscriptionViewerCallback*)ptr4);
 						}
 						catch
 						{

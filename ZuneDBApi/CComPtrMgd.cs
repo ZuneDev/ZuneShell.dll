@@ -6,6 +6,12 @@ internal unsafe class CComPtrMgd<TPtr> : IDisposable where TPtr : unmanaged
 {
     public TPtr* p = null;
 
+    public CComPtrMgd() { }
+
+    public CComPtrMgd(IntPtr p) : this((TPtr*)p.ToPointer()) { }
+
+    public CComPtrMgd(TPtr* p) => op_Assign(p);
+
     private void _007ECComPtrMgd()
     {
         Release();

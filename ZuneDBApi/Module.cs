@@ -57,8 +57,11 @@ namespace ZuneDBApi
         internal static readonly _GUID GUID_IEndpointHostManager = new("0a3d3343-00d9-4c61-9a86-2d778793e05f");
         internal static readonly _GUID GUID_ITrayDeskband = new("f2d3efa4-12f4-466b-a41c-d9ec613ad509");
         internal static readonly _GUID GUID_DownloadManagerProxy = new("399f851b-a600-4e88-90c3-03b8f2770076");
+        internal static readonly _GUID GUID_IWin7ShellManager = new("a89c52eb-97a9-417b-9872-46c040f1b76f");
+        internal static readonly _GUID GUID_IWin7Libraries = new("e24c5c6a-85a5-440e-93e1-bb51e32033ac");
         internal static readonly _GUID _GUID_60fcb6b3_8562_4ddf_99f8_b93c08ed5e83 = new("60fcb6b3-8562-4ddf-99f8-b93c08ed5e83");
         internal static readonly _GUID _GUID_00000000_0000_0000_c000_000000000046 = new("00000000-0000-0000-c000-000000000046");
+
         private static bool s_bIsLonghornOrBetter;
         private static bool s_bIsLonghornOrBetterInitialized;
 

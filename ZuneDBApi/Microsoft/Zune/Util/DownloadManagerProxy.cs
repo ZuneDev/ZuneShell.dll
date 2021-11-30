@@ -18,7 +18,7 @@ namespace Microsoft.Zune.Util
 
 		internal unsafe static uint AddRef(DownloadManagerProxy* P_0)
 		{
-			return (uint)Interlocked.Increment(ref *(int*)((long)(nint)P_0 + 28L));
+			return (uint)Interlocked.Increment(ref *(int*)((nint)P_0 + 28L));
 		}
 
 		internal unsafe static void DownloadBegan(DownloadManagerProxy* P_0, IDownloadTask* pDLTask)
@@ -29,7 +29,7 @@ namespace Microsoft.Zune.Util
 			{
 				return;
 			}
-			if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EDownloadType>)(*(ulong*)(*(long*)pDLTask + 144)))((nint)pDLTask) == (EDownloadType)0)
+			if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EDownloadType>)(*(ulong*)(*(long*)pDLTask + 144)))((nint)pDLTask) == 0)
 			{
 				CRITICAL_SECTION* ptr = (CRITICAL_SECTION*)((ulong)(nint)P_0 + 64uL);
 				EnterCriticalSection(ref *ptr);
@@ -51,7 +51,7 @@ namespace Microsoft.Zune.Util
 			//IL_001b: Expected I, but got I8
 			if (pDLTask != null)
 			{
-				if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EDownloadType>)(*(ulong*)(*(long*)pDLTask + 144)))((nint)pDLTask) == (EDownloadType)0)
+				if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EDownloadType>)(*(ulong*)(*(long*)pDLTask + 144)))((nint)pDLTask) == 0)
 				{
 					CRITICAL_SECTION* ptr = (CRITICAL_SECTION*)((ulong)(nint)P_0 + 64uL);
 					EnterCriticalSection(ref *ptr);
@@ -71,7 +71,7 @@ namespace Microsoft.Zune.Util
 			{
 				return;
 			}
-			if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EDownloadType>)(*(ulong*)(*(long*)pDLTask + 144)))((nint)pDLTask) == (EDownloadType)0)
+			if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EDownloadType>)(*(ulong*)(*(long*)pDLTask + 144)))((nint)pDLTask) == 0)
 			{
 				CRITICAL_SECTION* ptr = (CRITICAL_SECTION*)((ulong)(nint)P_0 + 64uL);
 				EnterCriticalSection(ref *ptr);
@@ -149,7 +149,7 @@ namespace Microsoft.Zune.Util
 						if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, IDownloadTask**, int>)(*(ulong*)(*(long*)num2 + 104)))((nint)num2, num5, (IDownloadTask**)(cComPtrNtvIDownloadTask.p)) >= 0)
 						{
 							long num6 = *(long*)(cComPtrNtvIDownloadTask.p);
-							if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EDownloadType>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtvIDownloadTask.p)) + 144)))((nint)num6) == (EDownloadType)0)
+							if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EDownloadType>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtvIDownloadTask.p)) + 144)))((nint)num6) == 0)
 							{
 								long num7 = *(long*)(cComPtrNtvIDownloadTask.p);
 								if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int*, EDownloadTaskState>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtvIDownloadTask.p)) + 200)))((nint)num7, null) != EDownloadTaskState.DLTaskComplete)
@@ -163,13 +163,10 @@ namespace Microsoft.Zune.Util
 							}
 						}
 					}
-					catch
+					finally
 					{
-						//try-fault
-						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IDownloadTask*, void>)(&CComPtrNtv<IDownloadTask>.dtor), cComPtrNtvIDownloadTask.p);
-						throw;
+						cComPtrNtvIDownloadTask.Dispose();
 					}
-					cComPtrNtvIDownloadTask.Dispose();
 					num5++;
 					continue;
 				IL_00a1:
@@ -243,7 +240,7 @@ namespace Microsoft.Zune.Util
 			//IL_001b: Expected I, but got I8
 			if (pDLTask != null)
 			{
-				if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EDownloadType>)(*(ulong*)(*(long*)pDLTask + 144)))((nint)pDLTask) == (EDownloadType)0)
+				if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EDownloadType>)(*(ulong*)(*(long*)pDLTask + 144)))((nint)pDLTask) == 0)
 				{
 					CRITICAL_SECTION* ptr = (CRITICAL_SECTION*)((ulong)(nint)P_0 + 64uL);
 					EnterCriticalSection(ref *ptr);
@@ -287,7 +284,7 @@ namespace Microsoft.Zune.Util
 
 		internal unsafe static uint Release(DownloadManagerProxy* P_0)
 		{
-			uint num = (uint)Interlocked.Decrement(ref *(int*)((long)(nint)P_0 + 28L));
+			uint num = (uint)Interlocked.Decrement(ref *(int*)((nint)P_0 + 28L));
 			if (0 == num && P_0 != null)
 			{
 				new CComPtrNtv<DownloadManagerProxy>(P_0).Dispose();
@@ -369,9 +366,9 @@ namespace Microsoft.Zune.Util
 			}
 			else
 			{
-				float num2 = (*(float*)((ulong)(nint)P_0 + 104uL) = (float)((double)fltTaskPercentDelta + (double)(*(float*)((ulong)(nint)P_0 + 104uL))));
+				float num2 = (*(float*)((ulong)(nint)P_0 + 104uL) = (float)(fltTaskPercentDelta + (double)(*(float*)((ulong)(nint)P_0 + 104uL))));
 				ptr2 = (DownloadManagerProxy*)((ulong)(nint)P_0 + 24uL);
-				*(float*)ptr2 = (float)((double)(float)(1.0 / (double)num) * (double)num2);
+				*(float*)ptr2 = (float)((float)(1.0 / num) * (double)num2);
 			}
 			if (*(float*)ptr2 > 100f)
 			{

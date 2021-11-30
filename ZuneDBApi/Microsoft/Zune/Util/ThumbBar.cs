@@ -21,13 +21,13 @@ namespace Microsoft.Zune.Util
 			try
 			{
 				IThumbBar* p = m_spThumbBar.p;
-				((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, IThumbBarButton**, int>)(*(ulong*)(*(long*)p + 24)))((nint)p, (IThumbBarButton**)(cComPtrNtv_003CIThumbBarButton_003E.p));
+				((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, IThumbBarButton**, int>)(*(ulong*)(*(long*)p + 24)))((nint)p, cComPtrNtv_003CIThumbBarButton_003E.GetPtrToPtr());
 				button = new ThumbBarButton((IThumbBarButton*)(*(ulong*)(cComPtrNtv_003CIThumbBarButton_003E.p)));
 			}
 			catch
 			{
 				//try-fault
-				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IThumbBarButton*, void>)(&Module.CComPtrNtv_003CIThumbBarButton_003E_002E_007Bdtor_007D), cComPtrNtv_003CIThumbBarButton_003E.p);
+				cComPtrNtv_003CIThumbBarButton_003E.Dispose();
 				throw;
 			}
 			cComPtrNtv_003CIThumbBarButton_003E.Dispose();
@@ -48,16 +48,13 @@ namespace Microsoft.Zune.Util
 
 		internal unsafe ThumbBar(IThumbBar* thumbBar)
 		{
-			CComPtrMgd<IThumbBar> spThumbBar = new CComPtrMgd<IThumbBar>();
 			try
 			{
-				m_spThumbBar = spThumbBar;
-				m_spThumbBar.op_Assign(thumbBar);
+				m_spThumbBar = new(thumbBar);
 			}
-			catch
-			{
-				//try-fault
-				((IDisposable)m_spThumbBar).Dispose();
+            catch
+            {
+				m_spThumbBar.Dispose();
 				throw;
 			}
 		}
@@ -70,13 +67,7 @@ namespace Microsoft.Zune.Util
 		{
 			if (P_0)
 			{
-				try
-				{
-				}
-				finally
-				{
-					((IDisposable)m_spThumbBar).Dispose();
-				}
+				m_spThumbBar.Dispose();
 			}
 		}
 

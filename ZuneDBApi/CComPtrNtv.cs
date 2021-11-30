@@ -3,9 +3,9 @@
 internal unsafe class CComPtrNtv<TPtr> : IDisposable where TPtr : unmanaged
 {
     private bool disposedValue;
-    public TPtr* p;
+    public TPtr* p = (TPtr*)IntPtr.Zero.ToPointer();
 
-    public bool IsNullPtr => p == IntPtr.Zero.ToPointer();
+    public bool IsNullPtr => p == null || p == IntPtr.Zero.ToPointer();
 
     internal CComPtrNtv()
     {
@@ -32,6 +32,14 @@ internal unsafe class CComPtrNtv<TPtr> : IDisposable where TPtr : unmanaged
     /// Returns true if the pointer is not null.
     /// </summary>
     public static implicit operator bool(CComPtrNtv<TPtr> obj) => obj.IsNullPtr;
+
+    public TPtr** GetPtrToPtr()
+    {
+        fixed (TPtr** ptr = &p)
+        {
+            return ptr;
+        }
+    }
 
     protected virtual void Dispose(bool disposing)
     {

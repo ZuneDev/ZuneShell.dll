@@ -109,7 +109,7 @@ namespace MicrosoftZuneLibrary
 			catch
 			{
 				//try-fault
-				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IFirmwareUpdater2*, void>)(&Module.CComPtrNtv_003CIFirmwareUpdater2_003E_002E_007Bdtor_007D), cComPtrNtv_003CIFirmwareUpdater2_003E.p);
+				cComPtrNtv_003CIFirmwareUpdater2_003E.Dispose();
 				throw;
 			}
 			cComPtrNtv_003CIFirmwareUpdater2_003E.Dispose();
@@ -453,7 +453,7 @@ namespace MicrosoftZuneLibrary
 					catch
 					{
 						//try-fault
-						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IFirmwareUpdater*, void>)(&Module.CComPtrNtv_003CIFirmwareUpdater_003E_002E_007Bdtor_007D), cComPtrNtv_003CIFirmwareUpdater_003E.p);
+						cComPtrNtv_003CIFirmwareUpdater_003E.Dispose();
 						throw;
 					}
 					cComPtrNtv_003CIFirmwareUpdater_003E.Dispose();
@@ -621,7 +621,7 @@ namespace MicrosoftZuneLibrary
 					catch
 					{
 						//try-fault
-						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IFirmwareUpdateErrorInfo*, void>)(&Module.CComPtrNtv_003CIFirmwareUpdateErrorInfo_003E_002E_007Bdtor_007D), cComPtrNtv_003CIFirmwareUpdateErrorInfo_003E.p);
+						cComPtrNtv_003CIFirmwareUpdateErrorInfo_003E.Dispose();
 						throw;
 					}
 					cComPtrNtv_003CIFirmwareUpdateErrorInfo_003E.Dispose();
@@ -634,7 +634,7 @@ namespace MicrosoftZuneLibrary
 			catch
 			{
 				//try-fault
-				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IFirmwareUpdateCallback*, void>)(&Module.CComPtrNtv_003CIFirmwareUpdateCallback_003E_002E_007Bdtor_007D), cComPtrNtv_003CIFirmwareUpdateCallback_003E.p);
+				cComPtrNtv_003CIFirmwareUpdateCallback_003E.Dispose();
 				throw;
 			}
 			cComPtrNtv_003CIFirmwareUpdateCallback_003E.Dispose();
@@ -708,7 +708,7 @@ namespace MicrosoftZuneLibrary
 							catch
 							{
 								//try-fault
-								Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IFirmwareUpdater2*, void>)(&Module.CComPtrNtv_003CIFirmwareUpdater2_003E_002E_007Bdtor_007D), cComPtrNtv_003CIFirmwareUpdater2_003E.p);
+								cComPtrNtv_003CIFirmwareUpdater2_003E.Dispose();
 								throw;
 							}
 							cComPtrNtv_003CIFirmwareUpdater2_003E.Dispose();
@@ -754,8 +754,7 @@ namespace MicrosoftZuneLibrary
 			}
 			try
 			{
-				WBSTRString wBSTRString;
-				Module.WBSTRString_002E_007Bctor_007D(&wBSTRString);
+				string wBSTRString = "";
 				try
 				{
 					CComPtrNtv<IFirmwareUpdater2> cComPtrNtv_003CIFirmwareUpdater2_003E = new();
@@ -772,7 +771,7 @@ namespace MicrosoftZuneLibrary
 								if (num >= 0)
 								{
 									ushort* ptr = (ushort*)(*(ulong*)(&wBSTRString));
-									driveLetter = new string((char*)(*(ulong*)(&wBSTRString)));
+									driveLetter = wBSTRString;
 								}
 							}
 						}
@@ -780,7 +779,7 @@ namespace MicrosoftZuneLibrary
 					catch
 					{
 						//try-fault
-						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IFirmwareUpdater2*, void>)(&Module.CComPtrNtv_003CIFirmwareUpdater2_003E_002E_007Bdtor_007D), cComPtrNtv_003CIFirmwareUpdater2_003E.p);
+						cComPtrNtv_003CIFirmwareUpdater2_003E.Dispose();
 						throw;
 					}
 					cComPtrNtv_003CIFirmwareUpdater2_003E.Dispose();
@@ -788,7 +787,7 @@ namespace MicrosoftZuneLibrary
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<WBSTRString*, void>)(&Module.WBSTRString_002E_007Bdtor_007D), &wBSTRString);
+					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<string*, void>)(&Module.WBSTRString_002E_007Bdtor_007D), &wBSTRString);
 					throw;
 				}
 				Module.WBSTRString_002E_007Bdtor_007D(&wBSTRString);

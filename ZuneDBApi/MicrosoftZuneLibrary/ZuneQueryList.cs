@@ -128,7 +128,7 @@ namespace MicrosoftZuneLibrary
 			//IL_004c: Expected I, but got I8
 			//IL_0055: Expected I, but got I8
 			//IL_006f: Expected I, but got I8
-			_ = string.Empty;
+			_ = "";
 			ushort* bstrQueryName = m_bstrQueryName;
 			if (bstrQueryName != null)
 			{
@@ -230,7 +230,7 @@ namespace MicrosoftZuneLibrary
 			{
 				if (type == typeof(string))
 				{
-					WMT_ATTR_DATATYPE wMT_ATTR_DATATYPE = *(WMT_ATTR_DATATYPE*)((long)(int)Atom * 32L + _003Fs_rgSchemaMapEntry_0040CSchemaMap_0040_00400QBU_SCHEMAMAPENTRY_00401_0040B + 16);
+					WMT_ATTR_DATATYPE wMT_ATTR_DATATYPE = *(WMT_ATTR_DATATYPE*)((int)Atom * 32L + _003Fs_rgSchemaMapEntry_0040CSchemaMap_0040_00400QBU_SCHEMAMAPENTRY_00401_0040B + 16);
 					if (wMT_ATTR_DATATYPE == (WMT_ATTR_DATATYPE)1)
 					{
 						ushort* value = null;
@@ -246,7 +246,7 @@ namespace MicrosoftZuneLibrary
 				try
 				{
 					IDatabaseQueryResults* pResults2 = m_pResults;
-					if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)pResults2 + 48)))((nint)pResults2, (uint)(uint)index, (uint)(uint)Atom, (PROPVARIANT)(PROPVARIANT)cComPropVariant) >= 0)
+					if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)pResults2 + 48)))((nint)pResults2, index, Atom, cComPropVariant) >= 0)
 					{
 						result = MarshalResult(type, cComPropVariant, defaultValue);
 						goto IL_00ef;
@@ -303,7 +303,7 @@ namespace MicrosoftZuneLibrary
 					goto end_IL_0016;
 					IL_002e:
 					IDatabaseQueryResults* pResults = m_pResults;
-					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)pResults + 64)))((nint)pResults, (uint)(uint)index, (uint)(uint)Atom, (PROPVARIANT)(PROPVARIANT)cComPropVariant);
+					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)pResults + 64)))((nint)pResults, index, Atom, cComPropVariant);
 					end_IL_0016:;
 				}
 				catch
@@ -758,7 +758,7 @@ namespace MicrosoftZuneLibrary
 		public unsafe static string AtomToAtomName(int atom)
 		{
 			//IL_0012: Expected I, but got I8
-			return new string((char*)(*(ulong*)((long)atom * 32L + Module._003Fs_rgSchemaMapEntry_0040CSchemaMap_0040_00400QBU_SCHEMAMAPENTRY_00401_0040B)));
+			return new string((char*)(*(ulong*)(atom * 32L + Module._003Fs_rgSchemaMapEntry_0040CSchemaMap_0040_00400QBU_SCHEMAMAPENTRY_00401_0040B)));
 		}
 
 		protected virtual void Dispose([MarshalAs(UnmanagedType.U1)] bool P_0)

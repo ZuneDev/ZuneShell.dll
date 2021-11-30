@@ -126,7 +126,7 @@ namespace MicrosoftZuneInterop
 					}
 					else
 					{
-						eQueryPropertyBagProp = *(EQueryPropertyBagProp*)((long)num * 16L + Module.MicrosoftZuneInterop_002E_003FA0x52c37a46_002EkPropIdMap + 8);
+						eQueryPropertyBagProp = *(EQueryPropertyBagProp*)(num * 16L + Module.MicrosoftZuneInterop_002E_003FA0x52c37a46_002EkPropIdMap + 8);
 						if (eQueryPropertyBagProp != (EQueryPropertyBagProp)(-1))
 						{
 							break;

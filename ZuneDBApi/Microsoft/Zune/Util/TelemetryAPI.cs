@@ -11,7 +11,7 @@ namespace Microsoft.Zune.Util
 		{
 			//IL_01b1: Expected I, but got I8
 			//IL_01b1: Expected I, but got I8
-			fixed (char* commandPtr = command.ToCharArray())
+			fixed (char* commandPtr = command)
 			{
 				ushort* ptr3 = (ushort*)commandPtr;
 				int count = dictionary.Keys.Count;
@@ -70,13 +70,10 @@ namespace Microsoft.Zune.Util
 						Module.SafeArrayDestroy(ptr2);
 					}
 				}
-				catch
+				finally
 				{
-					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ITelemetryManager*, void>)(&Module.CComPtrNtv_003CITelemetryManager_003E_002E_007Bdtor_007D), cComPtrNtv_003CITelemetryManager_003E.p);
-					throw;
+					cComPtrNtv_003CITelemetryManager_003E.Dispose();
 				}
-				cComPtrNtv_003CITelemetryManager_003E.Dispose();
 			}
 		}
 
@@ -84,7 +81,7 @@ namespace Microsoft.Zune.Util
 		{
 			//IL_0033: Expected I, but got I8
 			//IL_0033: Expected I, but got I8
-			fixed (char* keyPtr = key.ToCharArray())
+			fixed (char* keyPtr = key)
 			{
 				ushort* ptr = (ushort*)keyPtr;
 				CComPtrNtv<ITelemetryManager> cComPtrNtv_003CITelemetryManager_003E = new();
@@ -97,13 +94,10 @@ namespace Microsoft.Zune.Util
 						((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ETelemetryEvent, ushort*, int, int>)(*(ulong*)num))((nint)num2, evt, ptr, value);
 					}
 				}
-				catch
+				finally
 				{
-					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ITelemetryManager*, void>)(&Module.CComPtrNtv_003CITelemetryManager_003E_002E_007Bdtor_007D), cComPtrNtv_003CITelemetryManager_003E.p);
-					throw;
+					cComPtrNtv_003CITelemetryManager_003E.Dispose();
 				}
-				cComPtrNtv_003CITelemetryManager_003E.Dispose();
 			}
 		}
 
@@ -111,7 +105,7 @@ namespace Microsoft.Zune.Util
 		{
 			//IL_0032: Expected I, but got I8
 			//IL_0032: Expected I, but got I8
-			fixed (char* eventParameterPtr = eventParameter.ToCharArray())
+			fixed (char* eventParameterPtr = eventParameter)
 			{
 				ushort* ptr = (ushort*)eventParameterPtr;
 				CComPtrNtv<ITelemetryManager> cComPtrNtv_003CITelemetryManager_003E = new();
@@ -124,13 +118,10 @@ namespace Microsoft.Zune.Util
 						((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ETelemetryEvent, ushort*, int>)(*(ulong*)num))((nint)num2, eEvent, ptr);
 					}
 				}
-				catch
+				finally
 				{
-					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ITelemetryManager*, void>)(&Module.CComPtrNtv_003CITelemetryManager_003E_002E_007Bdtor_007D), cComPtrNtv_003CITelemetryManager_003E.p);
-					throw;
+					cComPtrNtv_003CITelemetryManager_003E.Dispose();
 				}
-				cComPtrNtv_003CITelemetryManager_003E.Dispose();
 			}
 		}
 	}

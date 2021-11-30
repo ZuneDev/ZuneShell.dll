@@ -67,7 +67,7 @@ namespace Microsoft.Zune.Messaging
 			bool result = false;
 			if (m_pMessaging != null)
 			{
-				fixed (char* strMessageUrlPtr = strMessageUrl.ToCharArray())
+				fixed (char* strMessageUrlPtr = strMessageUrl)
 				{
 					ushort* ptr = (ushort*)strMessageUrlPtr;
 					try
@@ -94,7 +94,7 @@ namespace Microsoft.Zune.Messaging
 			bool result = false;
 			if (m_pMessaging != null)
 			{
-				fixed (char* strMessageUrlPtr = strMessageUrl.ToCharArray())
+				fixed (char* strMessageUrlPtr = strMessageUrl)
 				{
 					ushort* ptr = (ushort*)strMessageUrlPtr;
 					try
@@ -121,7 +121,7 @@ namespace Microsoft.Zune.Messaging
 			bool result = false;
 			if (m_pMessaging != null)
 			{
-				fixed (char* strPostUrlPtr = strPostUrl.ToCharArray())
+				fixed (char* strPostUrlPtr = strPostUrl)
 				{
 					ushort* ptr = (ushort*)strPostUrlPtr;
 					try
@@ -148,7 +148,7 @@ namespace Microsoft.Zune.Messaging
 			bool result = false;
 			if (m_pMessaging != null)
 			{
-				fixed (char* strPostUrlPtr = strPostUrl.ToCharArray())
+				fixed (char* strPostUrlPtr = strPostUrl)
 				{
 					ushort* ptr = (ushort*)strPostUrlPtr;
 					try
@@ -175,12 +175,12 @@ namespace Microsoft.Zune.Messaging
 			bool result = false;
 			if (m_pMessaging != null)
 			{
-				fixed (char* strPostUrlPtr = strPostUrl.ToCharArray())
+				fixed (char* strPostUrlPtr = strPostUrl)
 				{
 					ushort* ptr = (ushort*)strPostUrlPtr;
 					try
 					{
-						fixed (char* strZuneTagPtr = strZuneTag.ToCharArray())
+						fixed (char* strZuneTagPtr = strZuneTag)
 						{
 							ushort* ptr2 = (ushort*)strZuneTagPtr;
 							try
@@ -228,26 +228,26 @@ namespace Microsoft.Zune.Messaging
 							goto IL_0086;
 						}
 					}
-					fixed (char* strPostUrlPtr = strPostUrl.ToCharArray())
+					fixed (char* strPostUrlPtr = strPostUrl)
 					{
 						ushort* ptr = (ushort*)strPostUrlPtr;
 						try
 						{
-							fixed (char* strZuneTagPtr = strZuneTag.ToCharArray())
+							fixed (char* strZuneTagPtr = strZuneTag)
 							{
 								ushort* ptr2 = (ushort*)strZuneTagPtr;
 								try
 								{
-									fixed (char* strMessagePtr = strMessage.ToCharArray())
+									fixed (char* strMessagePtr = strMessage)
 									{
 										ushort* ptr3 = (ushort*)strMessagePtr;
 										try
 										{
 											long num2 = *(long*)m_pMessaging + 112;
 											IZuneNetMessaging* pMessaging = m_pMessaging;
-											_003F val = ptr;
-											_003F val2 = ptr2;
-											_003F val3 = ptr3;
+											var val = ptr;
+											var val2 = ptr2;
+											var val3 = ptr3;
 											long num3 = *(long*)(cComPtrNtv_003CIMessagingCallback_003E.p);
 											num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, ushort*, ushort*, IMessagingCallback*, int>)(*(ulong*)num2))((nint)pMessaging, (ushort*)(nint)val, (ushort*)(nint)val2, (ushort*)(nint)val3, (IMessagingCallback*)num3);
 										}
@@ -291,7 +291,7 @@ namespace Microsoft.Zune.Messaging
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IMessagingCallback*, void>)(&Module.CComPtrNtv_003CIMessagingCallback_003E_002E_007Bdtor_007D), cComPtrNtv_003CIMessagingCallback_003E.p);
+					cComPtrNtv_003CIMessagingCallback_003E.Dispose();
 					throw;
 				}
 				cComPtrNtv_003CIMessagingCallback_003E.Dispose();
@@ -319,12 +319,12 @@ namespace Microsoft.Zune.Messaging
 							goto IL_0073;
 						}
 					}
-					fixed (char* strPostUrlPtr = strPostUrl.ToCharArray())
+					fixed (char* strPostUrlPtr = strPostUrl)
 					{
 						ushort* ptr = (ushort*)strPostUrlPtr;
 						try
 						{
-							fixed (char* strZuneTagPtr = strZuneTag.ToCharArray())
+							fixed (char* strZuneTagPtr = strZuneTag)
 							{
 								ushort* ptr2 = (ushort*)strZuneTagPtr;
 								try
@@ -368,7 +368,7 @@ namespace Microsoft.Zune.Messaging
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IMessagingCallback*, void>)(&Module.CComPtrNtv_003CIMessagingCallback_003E_002E_007Bdtor_007D), cComPtrNtv_003CIMessagingCallback_003E.p);
+					cComPtrNtv_003CIMessagingCallback_003E.Dispose();
 					throw;
 				}
 				cComPtrNtv_003CIMessagingCallback_003E.Dispose();
@@ -399,22 +399,22 @@ namespace Microsoft.Zune.Messaging
 					}
 					if (num >= 0)
 					{
-						fixed (char* strPostUrlPtr = strPostUrl.ToCharArray())
+						fixed (char* strPostUrlPtr = strPostUrl)
 						{
 							ushort* ptr3 = (ushort*)strPostUrlPtr;
 							try
 							{
-								fixed (char* strMessagePtr = strMessage.ToCharArray())
+								fixed (char* strMessagePtr = strMessage)
 								{
 									ushort* ptr4 = (ushort*)strMessagePtr;
 									try
 									{
-										fixed (char* strRecipientZuneTagsPtr = strRecipientZuneTags.ToCharArray())
+										fixed (char* strRecipientZuneTagsPtr = strRecipientZuneTags)
 										{
 											ushort* ptr5 = (ushort*)strRecipientZuneTagsPtr;
 											try
 											{
-												fixed (char* strRequestTypePtr = strRequestType.ToCharArray())
+												fixed (char* strRequestTypePtr = strRequestType)
 												{
 													ushort* ptr6 = (ushort*)strRequestTypePtr;
 													try
@@ -503,22 +503,20 @@ namespace Microsoft.Zune.Messaging
 							goto IL_0074;
 						}
 					}
-					fixed (char* strPostUrlPtr = strPostUrl.ToCharArray())
+					fixed (char* strPostUrlPtr = strPostUrl)
 					{
 						ushort* ptr = (ushort*)strPostUrlPtr;
 						try
 						{
-							fixed (char* strMessagePtr = strMessage.ToCharArray())
+							fixed (char* strMessagePtr = strMessage)
 							{
 								ushort* ptr2 = (ushort*)strMessagePtr;
 								try
 								{
 									long num2 = *(long*)m_pMessaging + 72;
 									IZuneNetMessaging* pMessaging = m_pMessaging;
-									_003F val = ptr;
-									_003F val2 = ptr2;
 									long num3 = *(long*)(cComPtrNtv_003CIMessagingCallback_003E.p);
-									num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, ushort*, IMessagingCallback*, int>)(*(ulong*)num2))((nint)pMessaging, (ushort*)(nint)val, (ushort*)(nint)val2, (IMessagingCallback*)num3);
+									num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, ushort*, IMessagingCallback*, int>)(*(ulong*)num2))((nint)pMessaging, (ushort*)(nint)ptr, (ushort*)(nint)ptr2, (IMessagingCallback*)num3);
 								}
 								catch
 								{
@@ -549,13 +547,10 @@ namespace Microsoft.Zune.Messaging
 					goto IL_0076;
 					end_IL_0013:;
 				}
-				catch
+				finally
 				{
-					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IMessagingCallback*, void>)(&Module.CComPtrNtv_003CIMessagingCallback_003E_002E_007Bdtor_007D), cComPtrNtv_003CIMessagingCallback_003E.p);
-					throw;
+					cComPtrNtv_003CIMessagingCallback_003E.Dispose();
 				}
-				cComPtrNtv_003CIMessagingCallback_003E.Dispose();
 			}
 			return result;
 		}
@@ -581,22 +576,20 @@ namespace Microsoft.Zune.Messaging
 						goto IL_0074;
 					}
 				}
-				fixed (char* strFavoritesUrlPtr = strFavoritesUrl.ToCharArray())
+				fixed (char* strFavoritesUrlPtr = strFavoritesUrl)
 				{
 					ushort* ptr2 = (ushort*)strFavoritesUrlPtr;
 					try
 					{
-						fixed (char* strInstructionsPtr = strInstructions.ToCharArray())
+						fixed (char* strInstructionsPtr = strInstructions)
 						{
 							ushort* ptr3 = (ushort*)strInstructionsPtr;
 							try
 							{
 								long num2 = *(long*)m_pMessaging + 80;
 								IZuneNetMessaging* pMessaging = m_pMessaging;
-								_003F val = ptr2;
-								_003F val2 = ptr3;
 								IMessagingCallback* intPtr = ptr;
-								num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EFavoritesAction, ushort*, ushort*, IMessagingCallback*, int>)(*(ulong*)num2))((nint)pMessaging, (EFavoritesAction)eAction, (ushort*)(nint)val, (ushort*)(nint)val2, intPtr);
+								num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EFavoritesAction, ushort*, ushort*, IMessagingCallback*, int>)(*(ulong*)num2))((nint)pMessaging, (EFavoritesAction)eAction, (ushort*)(nint)ptr, (ushort*)(nint)ptr2, intPtr);
 							}
 							catch
 							{
@@ -657,22 +650,20 @@ namespace Microsoft.Zune.Messaging
 						goto IL_0071;
 					}
 				}
-				fixed (char* strProfileUrlPtr = strProfileUrl.ToCharArray())
+				fixed (char* strProfileUrlPtr = strProfileUrl)
 				{
 					ushort* ptr2 = (ushort*)strProfileUrlPtr;
 					try
 					{
-						fixed (char* strFieldValuePtr = strFieldValue.ToCharArray())
+						fixed (char* strFieldValuePtr = strFieldValue)
 						{
 							ushort* ptr3 = (ushort*)strFieldValuePtr;
 							try
 							{
 								long num2 = *(long*)m_pMessaging + 88;
 								IZuneNetMessaging* pMessaging = m_pMessaging;
-								_003F val = ptr2;
-								_003F val2 = ptr3;
 								IMessagingCallback* intPtr = ptr;
-								num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, ushort*, IMessagingCallback*, int>)(*(ulong*)num2))((nint)pMessaging, (ushort*)(nint)val, (ushort*)(nint)val2, intPtr);
+								num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, ushort*, IMessagingCallback*, int>)(*(ulong*)num2))((nint)pMessaging, (ushort*)(nint)ptr, (ushort*)(nint)ptr2, intPtr);
 							}
 							catch
 							{
@@ -732,22 +723,20 @@ namespace Microsoft.Zune.Messaging
 							goto IL_008c;
 						}
 					}
-					fixed (char* strProfileImageUrlPtr = strProfileImageUrl.ToCharArray())
+					fixed (char* strProfileImageUrlPtr = strProfileImageUrl)
 					{
 						ushort* ptr = (ushort*)strProfileImageUrlPtr;
 						try
 						{
-							fixed (char* strProfileImageResourcePtr = strProfileImageResource.ToCharArray())
+							fixed (char* strProfileImageResourcePtr = strProfileImageResource)
 							{
 								ushort* ptr2 = (ushort*)strProfileImageResourcePtr;
 								try
 								{
 									long num2 = *(long*)m_pMessaging + 96;
 									IZuneNetMessaging* pMessaging = m_pMessaging;
-									_003F val = ptr;
-									_003F val2 = ptr2;
 									long num3 = *(long*)(cComPtrNtv_003CIMessagingCallback_003E.p);
-									num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, ushort*, IMessagingCallback*, int>)(*(ulong*)num2))((nint)pMessaging, (ushort*)(nint)val, (ushort*)(nint)val2, (IMessagingCallback*)num3);
+									num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, ushort*, IMessagingCallback*, int>)(*(ulong*)num2))((nint)pMessaging, (ushort*)(nint)ptr, (ushort*)(nint)ptr2, (IMessagingCallback*)num3);
 								}
 								catch
 								{
@@ -781,7 +770,7 @@ namespace Microsoft.Zune.Messaging
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IMessagingCallback*, void>)(&Module.CComPtrNtv_003CIMessagingCallback_003E_002E_007Bdtor_007D), cComPtrNtv_003CIMessagingCallback_003E.p);
+					cComPtrNtv_003CIMessagingCallback_003E.Dispose();
 					throw;
 				}
 				cComPtrNtv_003CIMessagingCallback_003E.Dispose();
@@ -814,7 +803,7 @@ namespace Microsoft.Zune.Messaging
 						num = ((!success) ? (-2147467259) : num);
 						if (num >= 0)
 						{
-							fixed (char* strProfileImageUrlPtr = strProfileImageUrl.ToCharArray())
+							fixed (char* strProfileImageUrlPtr = strProfileImageUrl)
 							{
 								ushort* ptr2 = (ushort*)strProfileImageUrlPtr;
 								try
@@ -822,9 +811,8 @@ namespace Microsoft.Zune.Messaging
 									HBITMAP* ptr = (HBITMAP*)(int)profileImage.DangerousGetHandle();
 									long num2 = *(long*)m_pMessaging + 104;
 									IZuneNetMessaging* pMessaging = m_pMessaging;
-									_003F val = ptr2;
 									long num3 = *(long*)(cComPtrNtv_003CIMessagingCallback_003E.p);
-									num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, HBITMAP*, IMessagingCallback*, int>)(*(ulong*)num2))((nint)pMessaging, (ushort*)(nint)val, ptr, (IMessagingCallback*)num3);
+									num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, HBITMAP*, IMessagingCallback*, int>)(*(ulong*)num2))((nint)pMessaging, (ushort*)(nint)ptr2, ptr, (IMessagingCallback*)num3);
 								}
 								catch
 								{
@@ -852,7 +840,7 @@ namespace Microsoft.Zune.Messaging
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IMessagingCallback*, void>)(&Module.CComPtrNtv_003CIMessagingCallback_003E_002E_007Bdtor_007D), cComPtrNtv_003CIMessagingCallback_003E.p);
+					cComPtrNtv_003CIMessagingCallback_003E.Dispose();
 					throw;
 				}
 				cComPtrNtv_003CIMessagingCallback_003E.Dispose();
@@ -869,12 +857,12 @@ namespace Microsoft.Zune.Messaging
 			{
 				ushort* ptr = null;
 				int num = 0;
-				fixed (char* titlePtr = title.ToCharArray())
+				fixed (char* titlePtr = title)
 				{
 					ushort* ptr2 = (ushort*)titlePtr;
 					try
 					{
-						fixed (char* collectionNamePtr = collectionName.ToCharArray())
+						fixed (char* collectionNamePtr = collectionName)
 						{
 							ushort* ptr3 = (ushort*)collectionNamePtr;
 							try
@@ -916,17 +904,17 @@ namespace Microsoft.Zune.Messaging
 			bool result = false;
 			if (m_pMessaging != null)
 			{
-				fixed (char* titlePtr = title.ToCharArray())
+				fixed (char* titlePtr = title)
 				{
 					ushort* ptr = (ushort*)titlePtr;
 					try
 					{
-						fixed (char* collectionNamePtr = collectionName.ToCharArray())
+						fixed (char* collectionNamePtr = collectionName)
 						{
 							ushort* ptr2 = (ushort*)collectionNamePtr;
 							try
 							{
-								fixed (char* localFilePathPtr = localFilePath.ToCharArray())
+								fixed (char* localFilePathPtr = localFilePath)
 								{
 									ushort* ptr3 = (ushort*)localFilePathPtr;
 									try
@@ -968,7 +956,7 @@ namespace Microsoft.Zune.Messaging
 			int num = 0;
 			if (m_pMessaging != null)
 			{
-				fixed (char* collectionNamePtr = collectionName.ToCharArray())
+				fixed (char* collectionNamePtr = collectionName)
 				{
 					ushort* ptr = (ushort*)collectionNamePtr;
 					try

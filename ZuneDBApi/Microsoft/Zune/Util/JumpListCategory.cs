@@ -48,28 +48,23 @@ namespace Microsoft.Zune.Util
 				((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, IJumpListEntry**, int>)(*(ulong*)(*(long*)p + 40)))((nint)p, (IJumpListEntry**)(cComPtrNtv_003CIJumpListEntry_003E.p));
 				destination = new JumpListEntry((IJumpListEntry*)(*(ulong*)(cComPtrNtv_003CIJumpListEntry_003E.p)));
 			}
-			catch
+			finally
 			{
-				//try-fault
-				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IJumpListEntry*, void>)(&Module.CComPtrNtv_003CIJumpListEntry_003E_002E_007Bdtor_007D), cComPtrNtv_003CIJumpListEntry_003E.p);
-				throw;
+				cComPtrNtv_003CIJumpListEntry_003E.Dispose();
 			}
-			cComPtrNtv_003CIJumpListEntry_003E.Dispose();
 			return 0;
 		}
 
 		internal unsafe JumpListCategory(IJumpListCategory* pCategory)
 		{
-			CComPtrMgd<IJumpListCategory> spCategory = new CComPtrMgd<IJumpListCategory>();
 			try
 			{
-				m_spCategory = spCategory;
-				m_spCategory.op_Assign(pCategory);
+				m_spCategory = new(pCategory);
 			}
 			catch
 			{
 				//try-fault
-				((IDisposable)m_spCategory).Dispose();
+				m_spCategory.Dispose();
 				throw;
 			}
 		}
@@ -82,13 +77,7 @@ namespace Microsoft.Zune.Util
 		{
 			if (P_0)
 			{
-				try
-				{
-				}
-				finally
-				{
-					((IDisposable)m_spCategory).Dispose();
-				}
+				m_spCategory.Dispose();
 			}
 		}
 

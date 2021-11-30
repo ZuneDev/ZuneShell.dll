@@ -357,7 +357,7 @@ namespace Microsoft.Zune.Playlist
 							long num = *(long*)m_pPlaylistManager + 136;
 							IPlaylistManager* pPlaylistManager = m_pPlaylistManager;
 							int num2;
-							((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, int*, PROPVARIANT, int>)(*(ulong*)num))((nint)pPlaylistManager, (ushort*)(ushort*)ptr, (int*)(int*)&num2, (PROPVARIANT)(PROPVARIANT)cComPropVariant);
+							((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, int*, PROPVARIANT, int>)(*(ulong*)num))((nint)pPlaylistManager, ptr, &num2, cComPropVariant);
 							result = new string((char*)Unsafe.As<PROPVARIANT, ulong>(ref Unsafe.AddByteOffset(ref cComPropVariant, 8)));
 						}
 						catch

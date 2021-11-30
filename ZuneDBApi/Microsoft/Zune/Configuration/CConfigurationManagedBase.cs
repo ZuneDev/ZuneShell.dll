@@ -839,9 +839,9 @@ namespace Microsoft.Zune.Configuration
 						IConfigurationManager* ptr;
 						IConfigurationManager* intPtr;
 						HKEY* hHive;
-						_003F val;
-						_003F val2;
-						_003F val3;
+						object val;
+						object val2;
+						object val3;
 						ref byte val4;
 						IntPtr intPtr2;
 						int num;

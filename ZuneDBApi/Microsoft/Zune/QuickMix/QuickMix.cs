@@ -26,11 +26,8 @@ namespace Microsoft.Zune.QuickMix
 				CComPtrNtv<IQuickMixManager> cComPtrNtv_003CIQuickMixManager_003E = new();
 				try
 				{
-					QUICK_MIX_STATUS_INFO qUICK_MIX_STATUS_INFO;
-					*(sbyte*)(&qUICK_MIX_STATUS_INFO) = 0;
-                    // IL initblk instruction
-                    Unsafe.InitBlockUnaligned(ref Unsafe.AddByteOffset(ref qUICK_MIX_STATUS_INFO, 1), 0, 15);
-					int singleton = Module.GetSingleton(Module.GUID_IQuickMixManager, (void**)(cComPtrNtv_003CIQuickMixManager_003E.p));
+					QUICK_MIX_STATUS_INFO qUICK_MIX_STATUS_INFO = default;
+					int singleton = Module.GetSingleton(Module.GUID_IQuickMixManager, (void**)(cComPtrNtv_003CIQuickMixManager_003E.GetPtrToPtr()));
 					if (singleton >= 0)
 					{
 						long num = *(long*)(cComPtrNtv_003CIQuickMixManager_003E.p);
@@ -41,7 +38,7 @@ namespace Microsoft.Zune.QuickMix
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IQuickMixManager*, void>)(&Module.CComPtrNtv_003CIQuickMixManager_003E_002E_007Bdtor_007D), cComPtrNtv_003CIQuickMixManager_003E.p);
+					cComPtrNtv_003CIQuickMixManager_003E.Dispose();
 					throw;
 				}
 				cComPtrNtv_003CIQuickMixManager_003E.Dispose();
@@ -90,11 +87,8 @@ namespace Microsoft.Zune.QuickMix
 				CComPtrNtv<IQuickMixManager> cComPtrNtv_003CIQuickMixManager_003E = new();
 				try
 				{
-					QUICK_MIX_STATUS_INFO qUICK_MIX_STATUS_INFO;
-					*(sbyte*)(&qUICK_MIX_STATUS_INFO) = 0;
-                    // IL initblk instruction
-                    Unsafe.InitBlockUnaligned(ref Unsafe.AddByteOffset(ref qUICK_MIX_STATUS_INFO, 1), 0, 15);
-					if (Module.GetSingleton(Module.GUID_IQuickMixManager, (void**)(cComPtrNtv_003CIQuickMixManager_003E.p)) >= 0)
+					QUICK_MIX_STATUS_INFO qUICK_MIX_STATUS_INFO = default;
+					if (Module.GetSingleton(Module.GUID_IQuickMixManager, (void**)(cComPtrNtv_003CIQuickMixManager_003E.GetPtrToPtr())) >= 0)
 					{
 						long num = *(long*)(cComPtrNtv_003CIQuickMixManager_003E.p);
 						((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, QUICK_MIX_STATUS_INFO*, int>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CIQuickMixManager_003E.p)) + 56)))((nint)num, &qUICK_MIX_STATUS_INFO);
@@ -104,7 +98,7 @@ namespace Microsoft.Zune.QuickMix
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IQuickMixManager*, void>)(&Module.CComPtrNtv_003CIQuickMixManager_003E_002E_007Bdtor_007D), cComPtrNtv_003CIQuickMixManager_003E.p);
+					cComPtrNtv_003CIQuickMixManager_003E.Dispose();
 					throw;
 				}
 				cComPtrNtv_003CIQuickMixManager_003E.Dispose();
@@ -116,18 +110,19 @@ namespace Microsoft.Zune.QuickMix
 		}
 
 		public unsafe HRESULT CreateSession(EQuickMixMode eQuickMixMode, Guid serviceMediaId, EMediaTypes eMediaType, string mediaTitle, out QuickMixSession quickMixSession)
-		{
-			//IL_0045: Expected I, but got I8
-			//IL_0045: Expected I, but got I8
-			//IL_005d: Expected I, but got I8
-			CComPtrNtv<IQuickMixManager> cComPtrNtv_003CIQuickMixManager_003E = new();
+        {
+            quickMixSession = null;
+            //IL_0045: Expected I, but got I8
+            //IL_0045: Expected I, but got I8
+            //IL_005d: Expected I, but got I8
+            CComPtrNtv<IQuickMixManager> cComPtrNtv_003CIQuickMixManager_003E = new();
 			HRESULT result;
 			try
 			{
 				CComPtrNtv<IQuickMixSession> cComPtrNtv_003CIQuickMixSession_003E = new();
 				try
 				{
-					int num = Module.GetSingleton(Module.GUID_IQuickMixManager, (void**)(cComPtrNtv_003CIQuickMixManager_003E.p));
+					int num = Module.GetSingleton(Module.GUID_IQuickMixManager, (void**)cComPtrNtv_003CIQuickMixManager_003E.p);
 					if (num >= 0)
 					{
 						_GUID gUID = serviceMediaId;
@@ -136,9 +131,9 @@ namespace Microsoft.Zune.QuickMix
 							ushort* ptr = (ushort*)mediaTitlePtr;
 							try
 							{
-								long num2 = *(long*)(*(ulong*)(cComPtrNtv_003CIQuickMixManager_003E.p)) + 24;
-								long num3 = *(long*)(cComPtrNtv_003CIQuickMixManager_003E.p);
-								num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EQuickMixMode, _GUID*, EMediaTypes, ushort*, IQuickMixSession**, int>)(*(ulong*)num2))((nint)num3, eQuickMixMode, &gUID, eMediaType, ptr, (IQuickMixSession**)(cComPtrNtv_003CIQuickMixSession_003E.p));
+								long num2 = *(long*)*(ulong*)cComPtrNtv_003CIQuickMixManager_003E.p + 24;
+								long num3 = *(long*)cComPtrNtv_003CIQuickMixManager_003E.p;
+								num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EQuickMixMode, _GUID*, EMediaTypes, ushort*, IQuickMixSession**, int>)(*(ulong*)num2))((nint)num3, eQuickMixMode, &gUID, eMediaType, ptr, (IQuickMixSession**)cComPtrNtv_003CIQuickMixSession_003E.p);
 							}
 							catch
 							{
@@ -149,86 +144,75 @@ namespace Microsoft.Zune.QuickMix
 						}
 						if (num >= 0)
 						{
-							quickMixSession = new QuickMixSession((IQuickMixSession*)(*(ulong*)(cComPtrNtv_003CIQuickMixSession_003E.p)));
+							quickMixSession = new QuickMixSession((IQuickMixSession*)*(ulong*)cComPtrNtv_003CIQuickMixSession_003E.p);
 						}
 					}
 					result = num;
 				}
-				catch
+				finally
 				{
-					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IQuickMixSession*, void>)(&Module.CComPtrNtv_003CIQuickMixSession_003E_002E_007Bdtor_007D), cComPtrNtv_003CIQuickMixSession_003E.p);
-					throw;
+					cComPtrNtv_003CIQuickMixSession_003E.Dispose();
 				}
-				cComPtrNtv_003CIQuickMixSession_003E.Dispose();
 			}
-			catch
+			finally
 			{
-				//try-fault
-				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IQuickMixManager*, void>)(&Module.CComPtrNtv_003CIQuickMixManager_003E_002E_007Bdtor_007D), cComPtrNtv_003CIQuickMixManager_003E.p);
-				throw;
+				cComPtrNtv_003CIQuickMixManager_003E.Dispose();
 			}
-			cComPtrNtv_003CIQuickMixManager_003E.Dispose();
 			return result;
-		}
+        }
 
-		public unsafe HRESULT CreateSession(EQuickMixMode eQuickMixMode, int[] seedMediaIds, EMediaTypes eMediaType, out QuickMixSession quickMixSession)
-		{
-			//IL_003d: Expected I, but got I8
-			//IL_003d: Expected I, but got I8
-			//IL_0055: Expected I, but got I8
-			CComPtrNtv<IQuickMixManager> cComPtrNtv_003CIQuickMixManager_003E = new();
+        public unsafe HRESULT CreateSession(EQuickMixMode eQuickMixMode, int[] seedMediaIds, EMediaTypes eMediaType, out QuickMixSession quickMixSession)
+        {
+            quickMixSession = null;
+            //IL_003d: Expected I, but got I8
+            //IL_003d: Expected I, but got I8
+            //IL_0055: Expected I, but got I8
+            CComPtrNtv<IQuickMixManager> cComPtrNtv_003CIQuickMixManager_003E = new();
 			HRESULT result;
 			try
 			{
 				CComPtrNtv<IQuickMixSession> cComPtrNtv_003CIQuickMixSession_003E = new();
 				try
 				{
-					int num = Module.GetSingleton(Module.GUID_IQuickMixManager, (void**)(cComPtrNtv_003CIQuickMixManager_003E.p));
+					int num = Module.GetSingleton(Module.GUID_IQuickMixManager, (void**)cComPtrNtv_003CIQuickMixManager_003E.p);
 					if (num >= 0)
 					{
 						fixed (int* ptr = &seedMediaIds[0])
 						{
 							try
 							{
-								long num2 = *(long*)(*(ulong*)(cComPtrNtv_003CIQuickMixManager_003E.p)) + 32;
-								long num3 = *(long*)(cComPtrNtv_003CIQuickMixManager_003E.p);
+								long num2 = *(long*)*(ulong*)cComPtrNtv_003CIQuickMixManager_003E.p + 32;
+								long num3 = *(long*)cComPtrNtv_003CIQuickMixManager_003E.p;
 								IntPtr intPtr = (nint)seedMediaIds.LongLength;
-								num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EQuickMixMode, int, int*, EMediaTypes, IQuickMixSession**, int>)(*(ulong*)num2))((nint)num3, eQuickMixMode, (int)(nint)intPtr, ptr, eMediaType, (IQuickMixSession**)(cComPtrNtv_003CIQuickMixSession_003E.p));
+								num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EQuickMixMode, int, int*, EMediaTypes, IQuickMixSession**, int>)(*(ulong*)num2))((nint)num3, eQuickMixMode, (int)(nint)intPtr, ptr, eMediaType, (IQuickMixSession**)cComPtrNtv_003CIQuickMixSession_003E.p);
 							}
 							catch
 							{
 								//try-fault
-								ptr = null;
+								seedMediaIds = null;
 								throw;
 							}
 						}
 						if (num >= 0)
 						{
-							quickMixSession = new QuickMixSession((IQuickMixSession*)(*(ulong*)(cComPtrNtv_003CIQuickMixSession_003E.p)));
+							quickMixSession = new QuickMixSession((IQuickMixSession*)*(ulong*)cComPtrNtv_003CIQuickMixSession_003E.p);
 						}
 					}
 					result = num;
 				}
-				catch
+				finally
 				{
-					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IQuickMixSession*, void>)(&Module.CComPtrNtv_003CIQuickMixSession_003E_002E_007Bdtor_007D), cComPtrNtv_003CIQuickMixSession_003E.p);
-					throw;
+					cComPtrNtv_003CIQuickMixSession_003E.Dispose();
 				}
-				cComPtrNtv_003CIQuickMixSession_003E.Dispose();
 			}
-			catch
+			finally
 			{
-				//try-fault
-				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IQuickMixManager*, void>)(&Module.CComPtrNtv_003CIQuickMixManager_003E_002E_007Bdtor_007D), cComPtrNtv_003CIQuickMixManager_003E.p);
-				throw;
+				cComPtrNtv_003CIQuickMixManager_003E.Dispose();
 			}
-			cComPtrNtv_003CIQuickMixManager_003E.Dispose();
 			return result;
-		}
+        }
 
-		private QuickMix()
+        private QuickMix()
 		{
 		}
 
@@ -274,11 +258,9 @@ namespace Microsoft.Zune.QuickMix
 					((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint>)(*(ulong*)(*(long*)ptr2 + 16)))((nint)ptr2);
 				}
 			}
-			catch
+			finally
 			{
-				//try-fault
-				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IQuickMixManager*, void>)(&Module.CComPtrNtv_003CIQuickMixManager_003E_002E_007Bdtor_007D), cComPtrNtv_003CIQuickMixManager_003E.p);
-				throw;
+				cComPtrNtv_003CIQuickMixManager_003E.Dispose();
 			}
 			cComPtrNtv_003CIQuickMixManager_003E.Dispose();
 			return num2;

@@ -150,8 +150,7 @@ namespace Microsoft.Zune.Util
 				result = null;
 				if (singleton >= 0)
 				{
-					WBSTRString wBSTRString;
-					Module.WBSTRString_002E_007Bctor_007D(&wBSTRString);
+					string WBSTRString = "";
 					try
 					{
 						CComPtrNtv<ITunerConfig> cComPtrNtv_003CITunerConfig_003E = new();
@@ -167,12 +166,12 @@ namespace Microsoft.Zune.Util
 									Module.WString_002EAttachBSTR((WString*)(&wBSTRString), ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CITunerConfig_003E.p)) + 72)))((nint)num3));
 								}
 							}
-							result = new string((char*)(*(ulong*)(&wBSTRString)));
+							result = wBSTRString;
 						}
 						catch
 						{
 							//try-fault
-							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ITunerConfig*, void>)(&Module.CComPtrNtv_003CITunerConfig_003E_002E_007Bdtor_007D), cComPtrNtv_003CITunerConfig_003E.p);
+							cComPtrNtv_003CITunerConfig_003E.Dispose();
 							throw;
 						}
 						cComPtrNtv_003CITunerConfig_003E.Dispose();
@@ -189,7 +188,7 @@ namespace Microsoft.Zune.Util
 			catch
 			{
 				//try-fault
-				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IService*, void>)(&Module.CComPtrNtv_003CIService_003E_002E_007Bdtor_007D), cComPtrNtv_003CIService_003E.p);
+				cComPtrNtv_003CIService_003E.Dispose();
 				throw;
 			}
 			cComPtrNtv_003CIService_003E.Dispose();
@@ -211,8 +210,7 @@ namespace Microsoft.Zune.Util
 			{
 				if (Module.GetSingleton(Module.GUID_IService, (void**)(cComPtrNtv_003CIService_003E.p)) >= 0)
 				{
-					WBSTRString wBSTRString;
-					Module.WBSTRString_002E_007Bctor_007D(&wBSTRString);
+					string WBSTRString = "";
 					try
 					{
 						CComPtrNtv<ITunerConfig> cComPtrNtv_003CITunerConfig_003E = new();
@@ -228,12 +226,12 @@ namespace Microsoft.Zune.Util
 									Module.WString_002EAttachBSTR((WString*)(&wBSTRString), ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CITunerConfig_003E.p)) + 80)))((nint)num3));
 								}
 							}
-							result = new string((char*)(*(ulong*)(&wBSTRString)));
+							result = wBSTRString;
 						}
 						catch
 						{
 							//try-fault
-							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ITunerConfig*, void>)(&Module.CComPtrNtv_003CITunerConfig_003E_002E_007Bdtor_007D), cComPtrNtv_003CITunerConfig_003E.p);
+							cComPtrNtv_003CITunerConfig_003E.Dispose();
 							throw;
 						}
 						cComPtrNtv_003CITunerConfig_003E.Dispose();
@@ -251,7 +249,7 @@ namespace Microsoft.Zune.Util
 			catch
 			{
 				//try-fault
-				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IService*, void>)(&Module.CComPtrNtv_003CIService_003E_002E_007Bdtor_007D), cComPtrNtv_003CIService_003E.p);
+				cComPtrNtv_003CIService_003E.Dispose();
 				throw;
 			}
 			string result2;
@@ -262,7 +260,7 @@ namespace Microsoft.Zune.Util
 			catch
 			{
 				//try-fault
-				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IService*, void>)(&Module.CComPtrNtv_003CIService_003E_002E_007Bdtor_007D), cComPtrNtv_003CIService_003E.p);
+				cComPtrNtv_003CIService_003E.Dispose();
 				throw;
 			}
 			cComPtrNtv_003CIService_003E.Dispose();
@@ -289,8 +287,7 @@ namespace Microsoft.Zune.Util
 				result = null;
 				if (singleton >= 0)
 				{
-					WBSTRString wBSTRString;
-					Module.WBSTRString_002E_007Bctor_007D(&wBSTRString);
+					string WBSTRString = "";
 					try
 					{
 						CComPtrNtv<ITunerConfig> cComPtrNtv_003CITunerConfig_003E = new();
@@ -306,12 +303,12 @@ namespace Microsoft.Zune.Util
 									Module.WString_002EAttachBSTR((WString*)(&wBSTRString), ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CITunerConfig_003E.p)) + 88)))((nint)num3));
 								}
 							}
-							result = new string((char*)(*(ulong*)(&wBSTRString)));
+							result = wBSTRString;
 						}
 						catch
 						{
 							//try-fault
-							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ITunerConfig*, void>)(&Module.CComPtrNtv_003CITunerConfig_003E_002E_007Bdtor_007D), cComPtrNtv_003CITunerConfig_003E.p);
+							cComPtrNtv_003CITunerConfig_003E.Dispose();
 							throw;
 						}
 						cComPtrNtv_003CITunerConfig_003E.Dispose();
@@ -328,7 +325,7 @@ namespace Microsoft.Zune.Util
 			catch
 			{
 				//try-fault
-				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IService*, void>)(&Module.CComPtrNtv_003CIService_003E_002E_007Bdtor_007D), cComPtrNtv_003CIService_003E.p);
+				cComPtrNtv_003CIService_003E.Dispose();
 				throw;
 			}
 			cComPtrNtv_003CIService_003E.Dispose();
@@ -352,8 +349,7 @@ namespace Microsoft.Zune.Util
 				result = null;
 				if (singleton >= 0)
 				{
-					WBSTRString wBSTRString;
-					Module.WBSTRString_002E_007Bctor_007D(&wBSTRString);
+					string WBSTRString = "";
 					try
 					{
 						CComPtrNtv<ITunerConfig> cComPtrNtv_003CITunerConfig_003E = new();
@@ -369,12 +365,12 @@ namespace Microsoft.Zune.Util
 									Module.WString_002EAttachBSTR((WString*)(&wBSTRString), ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CITunerConfig_003E.p)) + 96)))((nint)num3));
 								}
 							}
-							result = new string((char*)(*(ulong*)(&wBSTRString)));
+							result = wBSTRString;
 						}
 						catch
 						{
 							//try-fault
-							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ITunerConfig*, void>)(&Module.CComPtrNtv_003CITunerConfig_003E_002E_007Bdtor_007D), cComPtrNtv_003CITunerConfig_003E.p);
+							cComPtrNtv_003CITunerConfig_003E.Dispose();
 							throw;
 						}
 						cComPtrNtv_003CITunerConfig_003E.Dispose();
@@ -391,7 +387,7 @@ namespace Microsoft.Zune.Util
 			catch
 			{
 				//try-fault
-				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IService*, void>)(&Module.CComPtrNtv_003CIService_003E_002E_007Bdtor_007D), cComPtrNtv_003CIService_003E.p);
+				cComPtrNtv_003CIService_003E.Dispose();
 				throw;
 			}
 			cComPtrNtv_003CIService_003E.Dispose();

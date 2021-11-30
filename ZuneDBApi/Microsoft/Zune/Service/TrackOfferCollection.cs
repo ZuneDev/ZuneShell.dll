@@ -118,21 +118,15 @@ namespace Microsoft.Zune.Service
 									}
 								}
 							}
-							catch
+							finally
 							{
-								//try-fault
-								Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IPriceInfo*, void>)(&Module.CComPtrNtv_003CIPriceInfo_003E_002E_007Bdtor_007D), cComPtrNtv_003CIPriceInfo_003E.p);
-								throw;
+								cComPtrNtv_003CIPriceInfo_003E.Dispose();
 							}
-							Module.CComPtrNtv_003CIPriceInfo_003E_002E_007Bdtor_007D(cComPtrNtv_003CIPriceInfo_003E.p);
 						}
-						catch
+						finally
 						{
-							//try-fault
-							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IContextData*, void>)(&Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D), cComPtrNtv_003CIContextData_003E.p);
-							throw;
+							cComPtrNtv_003CIContextData_003E.Dispose();
 						}
-						Module.CComPtrNtv_003CIContextData_003E_002E_007Bdtor_007D(cComPtrNtv_003CIContextData_003E.p);
 					}
 					catch
 					{
@@ -146,14 +140,12 @@ namespace Microsoft.Zune.Service
 				while (num3 < num2);
 				if (num < 0)
 				{
-					goto IL_0274;
+					return num;
 				}
 			}
 			m_items = list;
 			m_pCollection = pCollection;
 			((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint>)(*(ulong*)(*(long*)pCollection + 8)))((nint)pCollection);
-			goto IL_0274;
-			IL_0274:
 			return num;
 		}
 

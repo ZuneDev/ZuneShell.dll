@@ -360,7 +360,7 @@ namespace MicrosoftZuneLibrary
 			{
 				//IL_0018: Expected I, but got I8
 				//IL_0030: Expected I, but got I8
-				string result = string.Empty;
+				string result = "";
 				CComPtrMgd<IEndpointHost> spEndpointHost = m_spEndpointHost;
 				if (spEndpointHost.p != null)
 				{
@@ -1317,7 +1317,7 @@ namespace MicrosoftZuneLibrary
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IWlanProvider*, void>)(&Module.CComPtrNtv_003CIWlanProvider_003E_002E_007Bdtor_007D), cComPtrNtv_003CIWlanProvider_003E.p);
+					cComPtrNtv_003CIWlanProvider_003E.Dispose();
 					throw;
 				}
 				cComPtrNtv_003CIWlanProvider_003E.Dispose();
@@ -2572,7 +2572,7 @@ namespace MicrosoftZuneLibrary
 						{
 							long num2 = *(long*)(cComPtrNtv_003CIMetadataManager_003E.p);
 							_GUID guid_IDeviceContentProvider = Module.GUID_IDeviceContentProvider;
-							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID, void**, int>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CIMetadataManager_003E.p)) + 24)))((nint)num2, (_GUID)guid_IDeviceContentProvider, (void**)(cComPtrNtv_003CIDeviceContentProvider_003E.p));
+							num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID, void**, int>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CIMetadataManager_003E.p)) + 24)))((nint)num2, guid_IDeviceContentProvider, (void**)(cComPtrNtv_003CIDeviceContentProvider_003E.p));
 							if (num >= 0)
 							{
 								long num3 = *(long*)(cComPtrNtv_003CIDeviceContentProvider_003E.p);
@@ -2608,7 +2608,7 @@ namespace MicrosoftZuneLibrary
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IDeviceContentProvider*, void>)(&Module.CComPtrNtv_003CIDeviceContentProvider_003E_002E_007Bdtor_007D), cComPtrNtv_003CIDeviceContentProvider_003E.p);
+					cComPtrNtv_003CIDeviceContentProvider_003E.Dispose();
 					throw;
 				}
 				cComPtrNtv_003CIDeviceContentProvider_003E.Dispose();
@@ -2616,7 +2616,7 @@ namespace MicrosoftZuneLibrary
 			catch
 			{
 				//try-fault
-				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IMetadataManager*, void>)(&Module.CComPtrNtv_003CIMetadataManager_003E_002E_007Bdtor_007D), cComPtrNtv_003CIMetadataManager_003E.p);
+				cComPtrNtv_003CIMetadataManager_003E.Dispose();
 				throw;
 			}
 			cComPtrNtv_003CIMetadataManager_003E.Dispose();
@@ -3249,7 +3249,7 @@ namespace MicrosoftZuneLibrary
 								catch
 								{
 									//try-fault
-									Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IDeviceAssetProvider*, void>)(&Module.CComPtrNtv_003CIDeviceAssetProvider_003E_002E_007Bdtor_007D), cComPtrNtv_003CIDeviceAssetProvider_003E.p);
+									cComPtrNtv_003CIDeviceAssetProvider_003E.Dispose();
 									throw;
 								}
 								cComPtrNtv_003CIDeviceAssetProvider_003E.Dispose();
@@ -3264,7 +3264,7 @@ namespace MicrosoftZuneLibrary
 				catch
 				{
 					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<DeviceMediator*, void>)(&Module.CComPtrNtv_003CDeviceMediator_003E_002E_007Bdtor_007D), cComPtrNtv_003CDeviceMediator_003E.p);
+					cComPtrNtv_003CDeviceMediator_003E.Dispose();
 					throw;
 				}
 				cComPtrNtv_003CDeviceMediator_003E.Dispose();
@@ -3394,7 +3394,7 @@ namespace MicrosoftZuneLibrary
 												catch
 												{
 													//try-fault
-													Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<ISyncEngine*, void>)(&Module.CComPtrNtv_003CISyncEngine_003E_002E_007Bdtor_007D), cComPtrNtv_003CISyncEngine_003E.p);
+													cComPtrNtv_003CISyncEngine_003E.Dispose();
 													throw;
 												}
 												cComPtrNtv_003CISyncEngine_003E.Dispose();
@@ -3469,7 +3469,7 @@ namespace MicrosoftZuneLibrary
 					catch
 					{
 						//try-fault
-						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IGasGauge*, void>)(&Module.CComPtrNtv_003CIGasGauge_003E_002E_007Bdtor_007D), cComPtrNtv_003CIGasGauge_003E.p);
+						cComPtrNtv_003CIGasGauge_003E.Dispose();
 						throw;
 					}
 					cComPtrNtv_003CIGasGauge_003E.Dispose();

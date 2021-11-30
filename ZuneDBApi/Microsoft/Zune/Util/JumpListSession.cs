@@ -94,7 +94,7 @@ namespace Microsoft.Zune.Util
 			catch
 			{
 				//try-fault
-				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IJumpListEntry*, void>)(&Module.CComPtrNtv_003CIJumpListEntry_003E_002E_007Bdtor_007D), cComPtrNtv_003CIJumpListEntry_003E.p);
+				cComPtrNtv_003CIJumpListEntry_003E.Dispose();
 				throw;
 			}
 			cComPtrNtv_003CIJumpListEntry_003E.Dispose();
@@ -115,7 +115,7 @@ namespace Microsoft.Zune.Util
 			catch
 			{
 				//try-fault
-				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IJumpListCategory*, void>)(&Module.CComPtrNtv_003CIJumpListCategory_003E_002E_007Bdtor_007D), cComPtrNtv_003CIJumpListCategory_003E.p);
+				cComPtrNtv_003CIJumpListCategory_003E.Dispose();
 				throw;
 			}
 			cComPtrNtv_003CIJumpListCategory_003E.Dispose();

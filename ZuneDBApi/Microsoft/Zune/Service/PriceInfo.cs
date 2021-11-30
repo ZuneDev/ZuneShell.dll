@@ -95,40 +95,24 @@ namespace Microsoft.Zune.Service
 			m_currencyPrice = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, double>)(*(ulong*)(*(long*)pPriceInfo + 32)))((nint)pPriceInfo);
 			bool flag = (m_hasPoints = ((((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)pPriceInfo + 40)))((nint)pPriceInfo) != 0) ? true : false));
 			bool flag2 = (m_hasCurrency = ((((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)pPriceInfo + 48)))((nint)pPriceInfo) != 0) ? true : false));
-			WBSTRString wBSTRString;
-			Module.WBSTRString_002E_007Bctor_007D(&wBSTRString);
-			try
+			string wBSTRString = "";
+			fixed (char* wBSTRStringPtr = wBSTRString)
 			{
-				WBSTRString wBSTRString2;
-				Module.WBSTRString_002E_007Bctor_007D(&wBSTRString2);
-				try
+				string wBSTRString2 = "";
+				fixed (char* wBSTRStringPtr2 = wBSTRString2)
 				{
-					int num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort**, int>)(*(ulong*)(*(long*)pPriceInfo + 64)))((nint)pPriceInfo, (ushort**)(&wBSTRString));
+					int num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort**, int>)(*(ulong*)(*(long*)pPriceInfo + 64)))((nint)pPriceInfo, (ushort**)wBSTRStringPtr);
 					if (num >= 0)
 					{
-						m_displayPrice = new string((char*)(*(ulong*)(&wBSTRString)));
-						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort**, int>)(*(ulong*)(*(long*)pPriceInfo + 72)))((nint)pPriceInfo, (ushort**)(&wBSTRString2));
+						m_displayPrice = wBSTRString;
+						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort**, int>)(*(ulong*)(*(long*)pPriceInfo + 72)))((nint)pPriceInfo, (ushort**)wBSTRString2Ptr);
 						if (num >= 0)
 						{
-							m_currencyCode = new string((char*)(*(ulong*)(&wBSTRString2)));
+							m_currencyCode = wBSTRString2;
 						}
 					}
 				}
-				catch
-				{
-					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<WBSTRString*, void>)(&Module.WBSTRString_002E_007Bdtor_007D), &wBSTRString2);
-					throw;
-				}
-				Module.WBSTRString_002E_007Bdtor_007D(&wBSTRString2);
 			}
-			catch
-			{
-				//try-fault
-				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<WBSTRString*, void>)(&Module.WBSTRString_002E_007Bdtor_007D), &wBSTRString);
-				throw;
-			}
-			Module.WBSTRString_002E_007Bdtor_007D(&wBSTRString);
 		}
 	}
 }

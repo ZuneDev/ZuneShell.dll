@@ -101,87 +101,39 @@ namespace Microsoft.Zune.Service
 			{
 				return;
 			}
-			WBSTRString wBSTRString;
-			Module.WBSTRString_002E_007Bctor_007D(&wBSTRString);
-			try
+			string wBSTRString = "";
+			fixed (char* wBSTRStringPtr = wBSTRString)
 			{
-				WBSTRString wBSTRString2;
-				Module.WBSTRString_002E_007Bctor_007D(&wBSTRString2);
-				try
+				string wBSTRString2 = "";
+				fixed (char* wBSTRStringPtr2 = wBSTRString2)
 				{
-					WBSTRString wBSTRString3;
-					Module.WBSTRString_002E_007Bctor_007D(&wBSTRString3);
-					try
+					string wBSTRString3 = "";
+					fixed (char* wBSTRStringPtr3 = wBSTRString3)
 					{
-						WBSTRString wBSTRString4;
-						Module.WBSTRString_002E_007Bctor_007D(&wBSTRString4);
-						try
+						string wBSTRString4 = "";
+						fixed (char* wBSTRStringPtr4 = wBSTRString4)
 						{
-							WBSTRString wBSTRString5;
-							Module.WBSTRString_002E_007Bctor_007D(&wBSTRString5);
-							try
+							string wBSTRString5 = "";
+							fixed (char* wBSTRStringPtr5 = wBSTRString5)
 							{
-								WBSTRString wBSTRString6;
-								Module.WBSTRString_002E_007Bctor_007D(&wBSTRString6);
-								try
+								string wBSTRString6 = "";
+								fixed (char* wBSTRStringPtr6 = wBSTRString6)
 								{
-									if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort**, ushort**, ushort**, ushort**, ushort**, ushort**, int>)(*(ulong*)(*(long*)pAddress + 32)))((nint)pAddress, (ushort**)(&wBSTRString), (ushort**)(&wBSTRString2), (ushort**)(&wBSTRString3), (ushort**)(&wBSTRString4), (ushort**)(&wBSTRString5), (ushort**)(&wBSTRString6)) >= 0)
+									if (((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort**, ushort**, ushort**, ushort**, ushort**, ushort**, int>)(*(ulong*)(*(long*)pAddress + 32)))((nint)pAddress, (ushort**)wBSTRStringPtr, (ushort**)wBSTRStringPtr2, (ushort**)wBSTRStringPtr3, (ushort**)wBSTRStringPtr4, (ushort**)wBSTRStringPtr5, (ushort**)wBSTRStringPtr6) >= 0)
 									{
-										m_street1 = new string((char*)(*(ulong*)(&wBSTRString)));
-										m_street2 = new string((char*)(*(ulong*)(&wBSTRString2)));
-										m_city = new string((char*)(*(ulong*)(&wBSTRString3)));
-										m_state = new string((char*)(*(ulong*)(&wBSTRString4)));
-										m_district = new string((char*)(*(ulong*)(&wBSTRString5)));
-										m_postalCode = new string((char*)(*(ulong*)(&wBSTRString6)));
+										m_street1 = wBSTRString;
+										m_street2 = wBSTRString2;
+										m_city = wBSTRString3;
+										m_state = wBSTRString4;
+										m_district = wBSTRString5;
+										m_postalCode = wBSTRString6;
 									}
 								}
-								catch
-								{
-									//try-fault
-									Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<WBSTRString*, void>)(&Module.WBSTRString_002E_007Bdtor_007D), &wBSTRString6);
-									throw;
-								}
-								Module.WBSTRString_002E_007Bdtor_007D(&wBSTRString6);
 							}
-							catch
-							{
-								//try-fault
-								Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<WBSTRString*, void>)(&Module.WBSTRString_002E_007Bdtor_007D), &wBSTRString5);
-								throw;
-							}
-							Module.WBSTRString_002E_007Bdtor_007D(&wBSTRString5);
 						}
-						catch
-						{
-							//try-fault
-							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<WBSTRString*, void>)(&Module.WBSTRString_002E_007Bdtor_007D), &wBSTRString4);
-							throw;
-						}
-						Module.WBSTRString_002E_007Bdtor_007D(&wBSTRString4);
 					}
-					catch
-					{
-						//try-fault
-						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<WBSTRString*, void>)(&Module.WBSTRString_002E_007Bdtor_007D), &wBSTRString3);
-						throw;
-					}
-					Module.WBSTRString_002E_007Bdtor_007D(&wBSTRString3);
 				}
-				catch
-				{
-					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<WBSTRString*, void>)(&Module.WBSTRString_002E_007Bdtor_007D), &wBSTRString2);
-					throw;
-				}
-				Module.WBSTRString_002E_007Bdtor_007D(&wBSTRString2);
 			}
-			catch
-			{
-				//try-fault
-				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<WBSTRString*, void>)(&Module.WBSTRString_002E_007Bdtor_007D), &wBSTRString);
-				throw;
-			}
-			Module.WBSTRString_002E_007Bdtor_007D(&wBSTRString);
 		}
 
 		public Address(string street1, string street2, string city, string district, string state, string postalCode)

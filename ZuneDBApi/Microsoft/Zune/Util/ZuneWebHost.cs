@@ -98,7 +98,7 @@ namespace Microsoft.Zune.Util
 			catch
 			{
 				//try-fault
-				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IZuneWebHost*, void>)(&Module.CComPtrNtv_003CIZuneWebHost_003E_002E_007Bdtor_007D), cComPtrNtv_003CIZuneWebHost_003E.p);
+				cComPtrNtv_003CIZuneWebHost_003E.Dispose();
 				throw;
 			}
 			cComPtrNtv_003CIZuneWebHost_003E.Dispose();

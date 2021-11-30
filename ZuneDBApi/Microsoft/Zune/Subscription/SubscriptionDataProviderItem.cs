@@ -291,11 +291,11 @@ namespace Microsoft.Zune.Subscription
                         if (num2 >= 0)
                         {
                             IMSMediaSchemaPropertySet* pEpisodePropertySet = m_pEpisodePropertySet;
-                            num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)pEpisodePropertySet + 48)))((nint)pEpisodePropertySet, (uint)(uint)16797697u, (uint)(uint)0u, (PROPVARIANT)(PROPVARIANT)cComPropVariant);
+                            num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)pEpisodePropertySet + 48)))((nint)pEpisodePropertySet, 16797697u, 0u, cComPropVariant);
                             if (num2 >= 0)
                             {
                                 IMSMediaSchemaPropertySet* pEpisodePropertySet2 = m_pEpisodePropertySet;
-                                num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)pEpisodePropertySet2 + 48)))((nint)pEpisodePropertySet2, (uint)(uint)134238215u, (uint)(uint)0u, (PROPVARIANT)(PROPVARIANT)cComPropVariant2);
+                                num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, uint, PROPVARIANT, int>)(*(ulong*)(*(long*)pEpisodePropertySet2 + 48)))((nint)pEpisodePropertySet2, 134238215u, 0u, cComPropVariant2);
                                 if (num2 >= 0)
                                 {
                                     long num3 = *(long*)ptr + 160;

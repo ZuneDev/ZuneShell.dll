@@ -11,7 +11,7 @@ namespace Microsoft.Zune.Service
 
 		public WinLiveSignup()
 		{
-			CComPtrMgd<IWinLiveSignup> spWinLiveSignup = new CComPtrMgd<IWinLiveSignup>();
+			CComPtrMgd<IWinLiveSignup> spWinLiveSignup = new();
 			try
 			{
 				m_spWinLiveSignup = spWinLiveSignup;
@@ -19,33 +19,35 @@ namespace Microsoft.Zune.Service
 			catch
 			{
 				//try-fault
-				((IDisposable)m_spWinLiveSignup).Dispose();
+				m_spWinLiveSignup.Dispose();
 				throw;
 			}
 		}
 
 		public unsafe HRESULT GetInformation(string locale, EHipType hipType, out WinLiveInformation information, out ServiceError serviceError)
-		{
-			//IL_004c: Expected I, but got I8
-			//IL_0074: Expected I, but got I8
-			//IL_0086: Expected I, but got I8
-			HRESULT result = CreateComObject();
+        {
+            information = null;
+            serviceError = null;
+            //IL_004c: Expected I, but got I8
+            //IL_0074: Expected I, but got I8
+            //IL_0086: Expected I, but got I8
+            HRESULT result = CreateComObject();
 			CComPtrNtv<IWinLiveInformation> cComPtrNtv_003CIWinLiveInformation_003E = new();
 			try
 			{
 				CComPtrNtv<IServiceError> cComPtrNtv_003CIServiceError_003E = new();
 				try
 				{
-					if ((byte)((result.hr >= 0) ? 1u : 0u) != 0)
+					if ((byte)(result.hr >= 0 ? 1u : 0u) != 0)
 					{
-						fixed (char* localePtr = locale.ToCharArray())
+						fixed (char* localePtr = locale)
 						{
 							ushort* ptr = (ushort*)localePtr;
 							try
 							{
 								IWinLiveSignup* p = m_spWinLiveSignup.p;
 								long num = *(long*)p + 32;
-								result.hr = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EHipType, IWinLiveInformation**, IServiceError**, int>)(*(ulong*)num))((nint)p, ptr, (global::EHipType)hipType, (IWinLiveInformation**)(cComPtrNtv_003CIWinLiveInformation_003E.p), (IServiceError**)(cComPtrNtv_003CIServiceError_003E.p));
+								result.hr = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, global::EHipType, IWinLiveInformation**, IServiceError**, int>)(*(ulong*)num))((nint)p, ptr, (global::EHipType)hipType, cComPtrNtv_003CIWinLiveInformation_003E.GetPtrToPtr(), cComPtrNtv_003CIServiceError_003E.GetPtrToPtr());
 							}
 							catch
 							{
@@ -55,65 +57,61 @@ namespace Microsoft.Zune.Service
 							}
 						}
 					}
-					if ((byte)((result.hr >= 0) ? 1u : 0u) != 0)
+					if ((byte)(result.hr >= 0 ? 1u : 0u) != 0)
 					{
-						information = new WinLiveInformation((IWinLiveInformation*)(*(ulong*)(cComPtrNtv_003CIWinLiveInformation_003E.p)));
+						information = new WinLiveInformation((IWinLiveInformation*)*(ulong*)cComPtrNtv_003CIWinLiveInformation_003E.p);
 					}
-					if (*(long*)(cComPtrNtv_003CIServiceError_003E.p) != 0L)
+					if (*(long*)cComPtrNtv_003CIServiceError_003E.p != 0L)
 					{
-						serviceError = new ServiceError((IServiceError*)(*(ulong*)(cComPtrNtv_003CIServiceError_003E.p)));
+						serviceError = new ServiceError((IServiceError*)*(ulong*)cComPtrNtv_003CIServiceError_003E.p);
 					}
 				}
-				catch
+				finally
 				{
-					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IServiceError*, void>)(&Module.CComPtrNtv_003CIServiceError_003E_002E_007Bdtor_007D), cComPtrNtv_003CIServiceError_003E.p);
-					throw;
+					cComPtrNtv_003CIServiceError_003E.Dispose();
 				}
-				cComPtrNtv_003CIServiceError_003E.Dispose();
 			}
-			catch
+			finally
 			{
-				//try-fault
-				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IWinLiveInformation*, void>)(&Module.CComPtrNtv_003CIWinLiveInformation_003E_002E_007Bdtor_007D), cComPtrNtv_003CIWinLiveInformation_003E.p);
-				throw;
+				cComPtrNtv_003CIWinLiveInformation_003E.Dispose();
 			}
-			cComPtrNtv_003CIWinLiveInformation_003E.Dispose();
 			return result;
-		}
+        }
 
-		public unsafe HRESULT CheckAvailableSigninName(string signinName, [MarshalAs(UnmanagedType.U1)] bool needSuggestedNames, string firstName, string lastName, out WinLiveAvailableInformation information, out ServiceError serviceError)
-		{
-			//IL_0060: Expected I, but got I8
-			//IL_009b: Expected I, but got I8
-			//IL_00ad: Expected I, but got I8
-			HRESULT result = CreateComObject();
+        public unsafe HRESULT CheckAvailableSigninName(string signinName, [MarshalAs(UnmanagedType.U1)] bool needSuggestedNames, string firstName, string lastName, out WinLiveAvailableInformation information, out ServiceError serviceError)
+        {
+            information = null;
+            serviceError = null;
+            //IL_0060: Expected I, but got I8
+            //IL_009b: Expected I, but got I8
+            //IL_00ad: Expected I, but got I8
+            HRESULT result = CreateComObject();
 			CComPtrNtv<IWinLiveAvailableInformation> cComPtrNtv_003CIWinLiveAvailableInformation_003E = new();
 			try
 			{
 				CComPtrNtv<IServiceError> cComPtrNtv_003CIServiceError_003E = new();
 				try
 				{
-					if ((byte)((result.hr >= 0) ? 1u : 0u) != 0)
+					if ((byte)(result.hr >= 0 ? 1u : 0u) != 0)
 					{
-						fixed (char* signinNamePtr = signinName.ToCharArray())
+						fixed (char* signinNamePtr = signinName)
 						{
 							ushort* ptr = (ushort*)signinNamePtr;
 							try
 							{
-								fixed (char* firstNamePtr = firstName.ToCharArray())
+								fixed (char* firstNamePtr = firstName)
 								{
 									ushort* ptr2 = (ushort*)firstNamePtr;
 									try
 									{
-										fixed (char* lastNamePtr = lastName.ToCharArray())
+										fixed (char* lastNamePtr = lastName)
 										{
 											ushort* ptr3 = (ushort*)lastNamePtr;
 											try
 											{
 												IWinLiveSignup* p = m_spWinLiveSignup.p;
 												long num = *(long*)p + 40;
-												result.hr = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, byte, ushort*, ushort*, IWinLiveAvailableInformation**, IServiceError**, int>)(*(ulong*)num))((nint)p, ptr, needSuggestedNames ? ((byte)1) : ((byte)0), ptr2, ptr3, (IWinLiveAvailableInformation**)(cComPtrNtv_003CIWinLiveAvailableInformation_003E.p), (IServiceError**)(cComPtrNtv_003CIServiceError_003E.p));
+												result.hr = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, byte, ushort*, ushort*, IWinLiveAvailableInformation**, IServiceError**, int>)(*(ulong*)num))((nint)p, ptr, needSuggestedNames ? (byte)1 : (byte)0, ptr2, ptr3, cComPtrNtv_003CIWinLiveAvailableInformation_003E.GetPtrToPtr(), cComPtrNtv_003CIServiceError_003E.GetPtrToPtr());
 											}
 											catch
 											{
@@ -139,82 +137,77 @@ namespace Microsoft.Zune.Service
 							}
 						}
 					}
-					if ((byte)((result.hr >= 0) ? 1u : 0u) != 0)
+					if ((byte)(result.hr >= 0 ? 1u : 0u) != 0)
 					{
-						information = new WinLiveAvailableInformation((IWinLiveAvailableInformation*)(*(ulong*)(cComPtrNtv_003CIWinLiveAvailableInformation_003E.p)));
+						information = new WinLiveAvailableInformation((IWinLiveAvailableInformation*)*(ulong*)cComPtrNtv_003CIWinLiveAvailableInformation_003E.p);
 					}
-					if (*(long*)(cComPtrNtv_003CIServiceError_003E.p) != 0L)
+					if (*(long*)cComPtrNtv_003CIServiceError_003E.p != 0L)
 					{
-						serviceError = new ServiceError((IServiceError*)(*(ulong*)(cComPtrNtv_003CIServiceError_003E.p)));
+						serviceError = new ServiceError((IServiceError*)*(ulong*)cComPtrNtv_003CIServiceError_003E.p);
 					}
 				}
-				catch
+				finally
 				{
-					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IServiceError*, void>)(&Module.CComPtrNtv_003CIServiceError_003E_002E_007Bdtor_007D), cComPtrNtv_003CIServiceError_003E.p);
-					throw;
+					cComPtrNtv_003CIServiceError_003E.Dispose();
 				}
-				cComPtrNtv_003CIServiceError_003E.Dispose();
 			}
-			catch
+			finally
 			{
-				//try-fault
-				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IWinLiveAvailableInformation*, void>)(&Module.CComPtrNtv_003CIWinLiveAvailableInformation_003E_002E_007Bdtor_007D), cComPtrNtv_003CIWinLiveAvailableInformation_003E.p);
-				throw;
+				cComPtrNtv_003CIWinLiveAvailableInformation_003E.Dispose();
 			}
-			cComPtrNtv_003CIWinLiveAvailableInformation_003E.Dispose();
 			return result;
-		}
+        }
 
-		public unsafe HRESULT CreateAccount(string signinName, string signinPassword, string secretQuestion, string secretAnswer, string countryCode, string hipChallenge, string hipSolution, DateTime birthday, int termsOfServiceVersion, int languagePreference, out ServiceError serviceError)
-		{
-			//IL_0091: Expected I, but got I8
-			//IL_00ec: Expected I, but got I8
-			HRESULT result = CreateComObject();
+        public unsafe HRESULT CreateAccount(string signinName, string signinPassword, string secretQuestion, string secretAnswer, string countryCode, string hipChallenge, string hipSolution, DateTime birthday, int termsOfServiceVersion, int languagePreference, out ServiceError serviceError)
+        {
+            serviceError = null;
+            //IL_0091: Expected I, but got I8
+            //IL_00ec: Expected I, but got I8
+            HRESULT result = CreateComObject();
 			CComPtrNtv<IServiceError> cComPtrNtv_003CIServiceError_003E = new();
 			try
 			{
 				if (result.IsSuccess)
 				{
 					_SYSTEMTIME sYSTEMTIME = Module.DateTimeToSystemTime(birthday);
-					fixed (char* signinNamePtr = signinName.ToCharArray())
+					fixed (char* signinNamePtr = signinName)
 					{
 						ushort* ptr2 = (ushort*)signinNamePtr;
 						try
 						{
-							fixed (char* signinPasswordPtr = signinPassword.ToCharArray())
+							fixed (char* signinPasswordPtr = signinPassword)
 							{
 								ushort* ptr3 = (ushort*)signinPasswordPtr;
 								try
 								{
-									fixed (char* secretQuestionPtr = secretQuestion.ToCharArray())
+									fixed (char* secretQuestionPtr = secretQuestion)
 									{
 										ushort* ptr4 = (ushort*)secretQuestionPtr;
 										try
 										{
-											fixed (char* secretAnswerPtr = secretAnswer.ToCharArray())
+											fixed (char* secretAnswerPtr = secretAnswer)
 											{
 												ushort* ptr5 = (ushort*)secretAnswerPtr;
 												try
 												{
-													fixed (char* countryCodePtr = countryCode.ToCharArray())
+													fixed (char* countryCodePtr = countryCode)
 													{
 														ushort* ptr6 = (ushort*)countryCodePtr;
 														try
 														{
-															fixed (char* hipChallengePtr = hipChallenge.ToCharArray())
+															fixed (char* hipChallengePtr = hipChallenge)
 															{
 																ushort* ptr7 = (ushort*)hipChallengePtr;
 																try
 																{
-																	fixed (char* hipSolutionPtr = hipSolution.ToCharArray())
+																	fixed (char* hipSolutionPtr = hipSolution)
 																	{
 																		ushort* ptr8 = (ushort*)hipSolutionPtr;
 																		try
 																		{
 																			IWinLiveSignup* ptr = m_spWinLiveSignup.op_MemberSelection();
 																			long num = *(long*)ptr + 48;
-																			result.hr = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, ushort*, ushort*, ushort*, ushort*, ushort*, ushort*, _SYSTEMTIME*, int, int, IServiceError**, int>)(*(ulong*)num))((nint)ptr, ptr2, ptr3, ptr4, ptr5, ptr6, ptr7, ptr8, &sYSTEMTIME, termsOfServiceVersion, languagePreference, (IServiceError**)(cComPtrNtv_003CIServiceError_003E.p));
+																			result.hr = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, ushort*, ushort*, ushort*, ushort*, ushort*, ushort*, _SYSTEMTIME*, int, int, IServiceError**, int>)(*(ulong*)num))((nint)ptr, ptr2, ptr3, ptr4, ptr5, ptr6, ptr7, ptr8, &sYSTEMTIME, termsOfServiceVersion, languagePreference, (IServiceError**)cComPtrNtv_003CIServiceError_003E.GetPtrToPtr();
 																		}
 																		catch
 																		{
@@ -272,22 +265,19 @@ namespace Microsoft.Zune.Service
 						}
 					}
 				}
-				if (*(long*)(cComPtrNtv_003CIServiceError_003E.p) != 0L)
+				if (*(long*)cComPtrNtv_003CIServiceError_003E.p != 0L)
 				{
-					serviceError = new ServiceError((IServiceError*)(*(ulong*)(cComPtrNtv_003CIServiceError_003E.p)));
+					serviceError = new ServiceError((IServiceError*)*(ulong*)cComPtrNtv_003CIServiceError_003E.p);
 				}
 			}
-			catch
+			finally
 			{
-				//try-fault
-				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IServiceError*, void>)(&Module.CComPtrNtv_003CIServiceError_003E_002E_007Bdtor_007D), cComPtrNtv_003CIServiceError_003E.p);
-				throw;
+				cComPtrNtv_003CIServiceError_003E.Dispose();
 			}
-			cComPtrNtv_003CIServiceError_003E.Dispose();
 			return result;
-		}
+        }
 
-		private unsafe HRESULT CreateComObject()
+        private unsafe HRESULT CreateComObject()
 		{
 			//IL_0045: Expected I, but got I8
 			//IL_0045: Expected I, but got I8
@@ -327,29 +317,20 @@ namespace Microsoft.Zune.Service
 								}
 							}
 						}
-						catch
+						finally
 						{
-							//try-fault
-							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IWinLiveSignup*, void>)(&Module.CComPtrNtv_003CIWinLiveSignup_003E_002E_007Bdtor_007D), cComPtrNtv_003CIWinLiveSignup_003E.p);
-							throw;
+							cComPtrNtv_003CIWinLiveSignup_003E.Dispose();
 						}
-						cComPtrNtv_003CIWinLiveSignup_003E.Dispose();
 					}
-					catch
+					finally
 					{
-						//try-fault
-						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IUnknown*, void>)(&Module.CComPtrNtv_003CIUnknown_003E_002E_007Bdtor_007D), cComPtrNtv_003CIUnknown_003E.p);
-						throw;
+						cComPtrNtv_003CIUnknown_003E.Dispose();
 					}
-					cComPtrNtv_003CIUnknown_003E.Dispose();
 				}
-				catch
+				finally
 				{
-					//try-fault
-					Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IService*, void>)(&Module.CComPtrNtv_003CIService_003E_002E_007Bdtor_007D), cComPtrNtv_003CIService_003E.p);
-					throw;
+					cComPtrNtv_003CIService_003E.Dispose();
 				}
-				cComPtrNtv_003CIService_003E.Dispose();
 			}
 			return new HRESULT(num);
 		}
@@ -362,13 +343,7 @@ namespace Microsoft.Zune.Service
 		{
 			if (P_0)
 			{
-				try
-				{
-				}
-				finally
-				{
-					((IDisposable)m_spWinLiveSignup).Dispose();
-				}
+				m_spWinLiveSignup.Dispose();
 			}
 		}
 

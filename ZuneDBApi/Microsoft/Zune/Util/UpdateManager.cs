@@ -143,7 +143,7 @@ namespace Microsoft.Zune.Util
 					catch
 					{
 						//try-fault
-						Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IUpdateManager*, void>)(&Module.CComPtrNtv_003CIUpdateManager_003E_002E_007Bdtor_007D), cComPtrNtv_003CIUpdateManager_003E.p);
+						cComPtrNtv_003CIUpdateManager_003E.Dispose();
 						throw;
 					}
 					cComPtrNtv_003CIUpdateManager_003E.Dispose();
