@@ -1125,10 +1125,12 @@ namespace Microsoft.Zune.Service
 					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, INewsletterSettings**, int>)(*(ulong*)(*(long*)p + 48)))((nint)p, (INewsletterSettings**)(cComPtrNtv_003CINewsletterSettings_003E.p));
 					if (num >= 0)
 					{
-						NewsletterOptions newsletterOptions;
-						*(EmailFormat*)(&newsletterOptions) = accountSettings.EmailFormat;
-                        Unsafe.As<NewsletterOptions, int>(ref Unsafe.AddByteOffset(ref newsletterOptions, 4)) = (accountSettings.AllowZuneEmails ? 1 : 0);
-                        Unsafe.As<NewsletterOptions, int>(ref Unsafe.AddByteOffset(ref newsletterOptions, 8)) = (accountSettings.AllowPartnerEmails ? 1 : 0);
+						NewsletterOptions newsletterOptions = new()
+						{
+							emailFormat = accountSettings.EmailFormat,
+							allowZuneEmails = accountSettings.AllowZuneEmails ? 1 : 0,
+							allowPartnerEmails = accountSettings.AllowPartnerEmails ? 1 : 0
+						};
 						long num2 = *(long*)(cComPtrNtv_003CINewsletterSettings_003E.p);
 						NewsletterOptions newsletterOptions2 = newsletterOptions;
 						num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, NewsletterOptions, int>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CINewsletterSettings_003E.p)) + 24)))((nint)num2, newsletterOptions2);

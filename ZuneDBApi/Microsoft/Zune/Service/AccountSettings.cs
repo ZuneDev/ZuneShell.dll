@@ -78,8 +78,8 @@ namespace Microsoft.Zune.Service
 				return;
 			}
 			m_emailFormat = *(EmailFormat*)(&newsletterOptions);
-			bool flag = (m_allowZuneEmails = ((Unsafe.As<NewsletterOptions, int>(ref Unsafe.AddByteOffset(ref newsletterOptions, 4)) != 0) ? true : false));
-			bool flag2 = (m_allowPartnerEmails = ((Unsafe.As<NewsletterOptions, int>(ref Unsafe.AddByteOffset(ref newsletterOptions, 8)) != 0) ? true : false));
+			m_allowZuneEmails = newsletterOptions.allowZuneEmails != 0;
+			m_allowPartnerEmails = newsletterOptions.allowPartnerEmails != 0;
 			int num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int>)(*(ulong*)(*(long*)pPrivacySettings + 32)))((nint)pPrivacySettings);
 			int num2 = 0;
 			if (0 >= num)
