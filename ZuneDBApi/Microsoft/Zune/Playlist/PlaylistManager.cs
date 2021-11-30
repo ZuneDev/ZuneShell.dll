@@ -90,18 +90,18 @@ namespace Microsoft.Zune.Playlist
 								EPlaylistCreateConflictAction ePlaylistCreateConflictAction = 0;
 								if (flag5)
 								{
-									ePlaylistCreateConflictAction = (EPlaylistCreateConflictAction)2;
+									ePlaylistCreateConflictAction = EPlaylistCreateConflictAction.RenameOnConflict;
 								}
 								else if (flag || flag4)
 								{
-									ePlaylistCreateConflictAction = (EPlaylistCreateConflictAction)1;
+									ePlaylistCreateConflictAction = EPlaylistCreateConflictAction.OverwriteOnConflict;
 								}
 								_GUID gUID = new();
 								if (serviceMediaId != null)
 								{
 									gUID = (Guid)serviceMediaId;
 								}
-								bool flag6 = ((!(flag3 || flag)) ? true : false);
+								bool flag6 = !(flag3 || flag);
 								EPlaylistType ePlaylistType;
 								if (flag)
 								{

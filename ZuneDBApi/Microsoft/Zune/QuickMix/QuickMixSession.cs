@@ -202,40 +202,24 @@ namespace Microsoft.Zune.QuickMix
             playlistId = 0;
             //IL_0048: Expected I, but got I8
             int num = -1;
-			fixed (char* playlistTitlePtr = playlistTitle.ToCharArray())
+			fixed (char* playlistTitlePtr = playlistTitle)
 			{
 				ushort* ptr = (ushort*)playlistTitlePtr;
 				int num2;
-				EPlaylistCreateConflictAction ePlaylistCreateConflictAction;
-				if (createOption != 0)
-				{
-					if (createOption != CreatePlaylistOption.RenameOnConflict)
-					{
-						if (createOption != CreatePlaylistOption.OverwriteOnConflict)
-						{
-							num2 = -2147418113;
-							goto done;
-						}
-						ePlaylistCreateConflictAction = (EPlaylistCreateConflictAction)1;
-					}
-					else
-					{
-						ePlaylistCreateConflictAction = (EPlaylistCreateConflictAction)2;
-					}
-				}
-				else
-				{
-					ePlaylistCreateConflictAction = 0;
-				}
-				IQuickMixSession* p = m_spSession.p;
+                var ePlaylistCreateConflictAction = createOption switch
+                {
+                    CreatePlaylistOption.OverwriteOnConflict => EPlaylistCreateConflictAction.OverwriteOnConflict,
+                    CreatePlaylistOption.RenameOnConflict => EPlaylistCreateConflictAction.RenameOnConflict,
+                    _ => EPlaylistCreateConflictAction.None,
+                };
+                IQuickMixSession* p = m_spSession.p;
 				long num3 = *(long*)p + 72;
 				num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, ushort*, EPlaylistCreateConflictAction, int*, int>)(*(ulong*)num3))((nint)p, ptr, ePlaylistCreateConflictAction, &num);
 				if (num2 >= 0)
 				{
 					playlistId = num;
 				}
-				goto done;
-				done:
+
 				return num2;
 			}
         }
@@ -250,7 +234,7 @@ namespace Microsoft.Zune.QuickMix
 				}
 				finally
 				{
-					((IDisposable)m_spSession).Dispose();
+					m_spSession.Dispose();
 				}
 			}
 			else
