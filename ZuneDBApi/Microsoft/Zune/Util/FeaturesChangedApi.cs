@@ -124,13 +124,10 @@ namespace Microsoft.Zune.Util
 					}
 				}
 			}
-			catch
+			finally
 			{
-				//try-fault
 				cComPtrNtv_003CIAsyncCallback_003E.Dispose();
-				throw;
 			}
-			cComPtrNtv_003CIAsyncCallback_003E.Dispose();
 			return num;
 		}
 
@@ -142,13 +139,7 @@ namespace Microsoft.Zune.Util
 		{
 			if (P_0)
 			{
-				try
-				{
-				}
-				finally
-				{
-					((IDisposable)m_spAsyncCallback).Dispose();
-				}
+				m_spAsyncCallback.Dispose();
 			}
 		}
 

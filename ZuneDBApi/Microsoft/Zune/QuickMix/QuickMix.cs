@@ -52,9 +52,8 @@ namespace Microsoft.Zune.QuickMix
 			{
 				if (sm_instance == null)
 				{
-					try
-					{
-						Monitor.Enter(sm_lock);
+					lock (sm_lock)
+                    {
 						if (sm_instance == null)
 						{
 							QuickMix quickMix = new QuickMix();
@@ -65,10 +64,6 @@ namespace Microsoft.Zune.QuickMix
 								sm_instance = quickMix;
 							}
 						}
-					}
-					finally
-					{
-						Monitor.Exit(sm_lock);
 					}
 				}
 				return sm_instance;

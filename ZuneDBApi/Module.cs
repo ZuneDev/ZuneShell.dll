@@ -18,6 +18,7 @@ using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 using Microsoft.Diagnostics.Tracing.Session;
 using Microsoft.Diagnostics.Tracing.Parsers;
+using Microsoft.Zune.Playlist;
 
 namespace ZuneDBApi
 {
@@ -59,9 +60,13 @@ namespace ZuneDBApi
         internal static readonly _GUID GUID_DownloadManagerProxy = new("399f851b-a600-4e88-90c3-03b8f2770076");
         internal static readonly _GUID GUID_IWin7ShellManager = new("a89c52eb-97a9-417b-9872-46c040f1b76f");
         internal static readonly _GUID GUID_IWin7Libraries = new("e24c5c6a-85a5-440e-93e1-bb51e32033ac");
+        internal static readonly _GUID GUID_IInteropNotify = new("3fb2d757-8ddb-46a9-9dd2-3424e2903e46");
         internal static readonly _GUID _GUID_60fcb6b3_8562_4ddf_99f8_b93c08ed5e83 = new("60fcb6b3-8562-4ddf-99f8-b93c08ed5e83");
         internal static readonly _GUID _GUID_00000000_0000_0000_c000_000000000046 = new("00000000-0000-0000-c000-000000000046");
-
+        internal static readonly _GUID GUID_IFolderProvider = new("a2889317-d0c7-41d8-abc7-1eb4cb8d46d6");
+        internal static readonly _GUID GUID_IFileProvider = new("16a9f8be-e76c-4391-ad74-8df74b7a3c21");
+        internal static readonly _GUID GUID_IZuneWebHost = new("51005f8f-675e-45e1-ae94-8edef996a02e");
+        internal static readonly _GUID GUIDIUserCredentialManager = new("41c80590-c50b-4d27-b860-7c87f3f0cb54");
         private static bool s_bIsLonghornOrBetter;
         private static bool s_bIsLonghornOrBetterInitialized;
 
@@ -89,6 +94,11 @@ namespace ZuneDBApi
 
         public static HINSTANCE ToHInstance(void* h) => new(new IntPtr(h));
         public static void* ToPointer(this HINSTANCE h) => h.DangerousGetHandle().ToPointer();
+
+        internal static void* @new(ulong v)
+        {
+            return Marshal.AllocHGlobal((int)v).ToPointer();
+        }
 
         internal static void delete(void* ptr)
         {

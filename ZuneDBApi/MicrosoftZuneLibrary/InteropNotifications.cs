@@ -45,7 +45,7 @@ namespace MicrosoftZuneLibrary
 				throw;
 			}
 			IInteropNotify* interopNotify;
-			if (ptr2 == null || ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, void**, int>)(*(ulong*)(*(ulong*)ptr2)))((nint)ptr2, (_GUID*)Unsafe.AsPointer(ref Module._GUID_3fb2d757_8ddb_46a9_9dd2_3424e2903e46), (void**)(&interopNotify)) < 0)
+			if (ptr2 == null || ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, void**, int>)(*(ulong*)(*(ulong*)ptr2)))((nint)ptr2, (_GUID*)Unsafe.AsPointer(ref Module.GUID_IInteropNotify), (void**)(&interopNotify)) < 0)
 			{
 				return;
 			}

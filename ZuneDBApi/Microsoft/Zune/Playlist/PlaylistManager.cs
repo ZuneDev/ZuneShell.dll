@@ -22,19 +22,14 @@ namespace Microsoft.Zune.Playlist
 			{
 				if (sm_instance == null)
 				{
-					try
-					{
-						Monitor.Enter(sm_lock);
+					lock (sm_lock)
+                    {
 						if (sm_instance == null)
 						{
 							PlaylistManager playlistManager = new PlaylistManager();
 							Thread.MemoryBarrier();
 							sm_instance = playlistManager;
 						}
-					}
-					finally
-					{
-						Monitor.Exit(sm_lock);
 					}
 				}
 				return sm_instance;
@@ -61,13 +56,13 @@ namespace Microsoft.Zune.Playlist
 		public unsafe HRESULT CreatePlaylist(string title, string author, [In] ValueType serviceMediaId, CreatePlaylistOption options, out int playlistId)
 		{
 			playlistId = -1;
-			bool flag = (options & CreatePlaylistOption.PrivatePlaylist) > CreatePlaylistOption.None;
-			bool flag2 = (options & CreatePlaylistOption.AutoPlaylist) > CreatePlaylistOption.None;
-			bool flag3 = (options & CreatePlaylistOption.SyncRule) > CreatePlaylistOption.None;
-			bool flag4 = (options & CreatePlaylistOption.OverwriteOnConflict) > CreatePlaylistOption.None;
-			bool flag5 = (options & CreatePlaylistOption.RenameOnConflict) > CreatePlaylistOption.None;
+			bool isPrivate = (options & CreatePlaylistOption.PrivatePlaylist) > CreatePlaylistOption.None;
+			bool isAuto = (options & CreatePlaylistOption.AutoPlaylist) > CreatePlaylistOption.None;
+			bool syncRule = (options & CreatePlaylistOption.SyncRule) > CreatePlaylistOption.None;
+			bool overwrite = (options & CreatePlaylistOption.OverwriteOnConflict) > CreatePlaylistOption.None;
+			bool rename = (options & CreatePlaylistOption.RenameOnConflict) > CreatePlaylistOption.None;
 			int hr;
-			if ((flag && (flag2 || flag3)) || (flag4 && flag5))
+			if ((isPrivate && (isAuto || syncRule)) || (overwrite && rename))
 			{
 				hr = -2147024809;
 			}
@@ -77,22 +72,22 @@ namespace Microsoft.Zune.Playlist
 			}
 			else
 			{
-				fixed (char* titlePtr = title.ToCharArray())
+				fixed (char* titlePtr = title)
 				{
 					ushort* ptr2 = (ushort*)titlePtr;
 					try
 					{
-						fixed (char* authorPtr = author.ToCharArray())
+						fixed (char* authorPtr = author)
 						{
 							ushort* ptr3 = (ushort*)authorPtr;
 							try
 							{
 								EPlaylistCreateConflictAction ePlaylistCreateConflictAction = 0;
-								if (flag5)
+								if (rename)
 								{
 									ePlaylistCreateConflictAction = EPlaylistCreateConflictAction.RenameOnConflict;
 								}
-								else if (flag || flag4)
+								else if (isPrivate || overwrite)
 								{
 									ePlaylistCreateConflictAction = EPlaylistCreateConflictAction.OverwriteOnConflict;
 								}
@@ -101,22 +96,22 @@ namespace Microsoft.Zune.Playlist
 								{
 									gUID = (Guid)serviceMediaId;
 								}
-								bool flag6 = !(flag3 || flag);
+								bool flag6 = !(syncRule || isPrivate);
 								EPlaylistType ePlaylistType;
-								if (flag)
+								if (isPrivate)
 								{
 									ePlaylistType = (EPlaylistType)4;
 								}
 								else
 								{
 									EPlaylistType ePlaylistType2;
-									if (flag3)
+									if (syncRule)
 									{
 										ePlaylistType2 = (EPlaylistType)3;
 									}
 									else
 									{
-										EPlaylistType ePlaylistType3 = (flag2 ? ((EPlaylistType)1) : 0);
+										EPlaylistType ePlaylistType3 = (isAuto ? ((EPlaylistType)1) : 0);
 										ePlaylistType2 = ePlaylistType3;
 									}
 									ePlaylistType = ePlaylistType2;
@@ -278,7 +273,7 @@ namespace Microsoft.Zune.Playlist
 			}
 			else
 			{
-				fixed (char* newTitlePtr = newTitle.ToCharArray())
+				fixed (char* newTitlePtr = newTitle)
 				{
 					ushort* ptr = (ushort*)newTitlePtr;
 					try
@@ -344,14 +339,12 @@ namespace Microsoft.Zune.Playlist
 			string result = candidateTitle;
 			if (m_pPlaylistManager != null)
 			{
-				fixed (char* candidateTitlePtr = candidateTitle.ToCharArray())
+				fixed (char* candidateTitlePtr = candidateTitle)
 				{
 					ushort* ptr = (ushort*)candidateTitlePtr;
 					try
 					{
-                        PROPVARIANT cComPropVariant;
-                        // IL initblk instruction
-                        Unsafe.InitBlock(&cComPropVariant, 0, 24);
+                        PROPVARIANT cComPropVariant = new();
 						try
 						{
 							long num = *(long*)m_pPlaylistManager + 136;

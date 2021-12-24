@@ -17,19 +17,14 @@ namespace Microsoft.Zune.User
 			{
 				if (sm_instance == null)
 				{
-					try
-					{
-						Monitor.Enter(sm_lock);
+					lock (sm_lock)
+                    {
 						if (sm_instance == null)
 						{
 							UserManager userManager = new UserManager();
 							Thread.MemoryBarrier();
 							sm_instance = userManager;
 						}
-					}
-					finally
-					{
-						Monitor.Exit(sm_lock);
 					}
 				}
 				return sm_instance;

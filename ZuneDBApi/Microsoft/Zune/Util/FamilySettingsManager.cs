@@ -24,9 +24,8 @@ namespace Microsoft.Zune.Util
 				//IL_0086: Expected I, but got I8
 				if (sm_manager == null)
 				{
-					try
-					{
-						Monitor.Enter(sm_lock);
+					lock (sm_lock)
+                    {
 						if (sm_manager == null)
 						{
 							FamilySettingsManager familySettingsManager = new FamilySettingsManager();
@@ -54,10 +53,6 @@ namespace Microsoft.Zune.Util
 							}
 							sm_manager = familySettingsManager;
 						}
-					}
-					finally
-					{
-						Monitor.Exit(sm_lock);
 					}
 				}
 				return sm_manager;

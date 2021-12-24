@@ -19,19 +19,14 @@ namespace Microsoft.Zune.Util
 			{
 				if (sm_radioStationManager == null)
 				{
-					try
-					{
-						Monitor.Enter(sm_lock);
+					lock (sm_lock)
+                    {
 						if (sm_radioStationManager == null)
 						{
 							RadioStationManager radioStationManager = new RadioStationManager();
 							Thread.MemoryBarrier();
 							sm_radioStationManager = radioStationManager;
 						}
-					}
-					finally
-					{
-						Monitor.Exit(sm_lock);
 					}
 				}
 				return sm_radioStationManager;

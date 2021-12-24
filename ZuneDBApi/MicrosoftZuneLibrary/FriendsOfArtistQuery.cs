@@ -85,9 +85,8 @@ namespace MicrosoftZuneLibrary
 
 		public void Query(Guid artistId, [MarshalAs(UnmanagedType.U1)] bool getFriends, int userId, [MarshalAs(UnmanagedType.U1)] bool resolveZuneTags)
 		{
-			try
-			{
-				Monitor.Enter(m_singletonInstance);
+			lock (m_singletonInstance)
+            {
 				QueryComplete = false;
 				if (!(artistId != m_artistId) && (!getFriends || m_getFriends) && userId == m_userId)
 				{
@@ -108,10 +107,6 @@ namespace MicrosoftZuneLibrary
 				{
 					QueryComplete = true;
 				}
-			}
-			finally
-			{
-				Monitor.Exit(m_singletonInstance);
 			}
 		}
 

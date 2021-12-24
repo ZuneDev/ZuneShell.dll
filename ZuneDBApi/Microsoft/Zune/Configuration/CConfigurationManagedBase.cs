@@ -45,33 +45,23 @@ namespace Microsoft.Zune.Configuration
 		{
 			add
 			{
-				try
-				{
-					Monitor.Enter(m_lock);
+				lock (m_lock)
+                {
 					if (null == m_configurationChangeEventHandler)
 					{
 						Subscribe(OnNativeConfigChangedCallback);
 					}
 					m_configurationChangeEventHandler = (ConfigurationChangeEventHandler)Delegate.Combine(m_configurationChangeEventHandler, value);
 				}
-				finally
-				{
-					Monitor.Exit(m_lock);
-				}
 			}
 			remove
 			{
-				try
-				{
-					Monitor.Enter(m_lock);
+				lock (m_lock)
+                {
 					if (null == (m_configurationChangeEventHandler = (ConfigurationChangeEventHandler)Delegate.Remove(m_configurationChangeEventHandler, value)))
 					{
 						Unsubscribe();
 					}
-				}
-				finally
-				{
-					Monitor.Exit(m_lock);
 				}
 			}
 		}

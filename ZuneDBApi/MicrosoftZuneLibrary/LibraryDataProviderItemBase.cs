@@ -343,9 +343,8 @@ namespace MicrosoftZuneLibrary
 			bool flag = false;
 			if (m_thumbnail[thumbnailIndex] == null || TypeName == "Album")
 			{
-				try
-				{
-					Monitor.Enter(m_lockObject);
+				lock (m_lockObject)
+                {
 					AsyncGetThumbnailState asyncGetThumbnailState = m_fThumbnailRequested[thumbnailIndex];
 					if (asyncGetThumbnailState == null)
 					{
@@ -384,7 +383,7 @@ namespace MicrosoftZuneLibrary
 						goto IL_018d;
 					}
 					goto end_IL_006c;
-					IL_018d:
+				IL_018d:
 					if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && *(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 89uL) >= 7u)
 					{
 						Module.WPP_SF_D(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 80uL), 26, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), m_uTraceId);
@@ -400,11 +399,7 @@ namespace MicrosoftZuneLibrary
 						m_thumbnailWorkerAlive = true;
 						ThreadPool.QueueUserWorkItem(GetThumbnailOnWorkerThread, null);
 					}
-					end_IL_006c:;
-				}
-				finally
-				{
-					Monitor.Exit(m_lockObject);
+				end_IL_006c:;
 				}
 			}
 			if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && *(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 89uL) >= 7u)
@@ -425,9 +420,9 @@ namespace MicrosoftZuneLibrary
 			{
 				AsyncGetThumbnailState asyncGetThumbnailState = null;
 				bool flag2 = true;
-				try
-				{
-					Monitor.Enter(m_lockObject);
+				
+				lock (m_lockObject)
+                {
 					if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 92uL)) & 0x40u) != 0 && *(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 89uL) >= 7u)
 					{
 						Module.WPP_SF_d(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 80uL), 35, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xea57f500_002EWPP_LibraryDataProvider_cpp_Traceguids), m_thumbnailsToProcess.Count);
@@ -472,10 +467,7 @@ namespace MicrosoftZuneLibrary
 						}
 					}
 				}
-				finally
-				{
-					Monitor.Exit(m_lockObject);
-				}
+
 				if (asyncGetThumbnailState == null)
 				{
 					continue;

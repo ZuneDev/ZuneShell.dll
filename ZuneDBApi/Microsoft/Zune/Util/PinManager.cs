@@ -23,9 +23,8 @@ namespace Microsoft.Zune.Util
 				//IL_0086: Expected I, but got I8
 				if (sm_PinManager == null)
 				{
-					try
-					{
-						Monitor.Enter(sm_lock);
+					lock (sm_lock)
+                    {
 						if (sm_PinManager == null)
 						{
 							PinManager pinManager = new PinManager();
@@ -53,10 +52,6 @@ namespace Microsoft.Zune.Util
 							}
 							sm_PinManager = pinManager;
 						}
-					}
-					finally
-					{
-						Monitor.Exit(sm_lock);
 					}
 				}
 				return sm_PinManager;

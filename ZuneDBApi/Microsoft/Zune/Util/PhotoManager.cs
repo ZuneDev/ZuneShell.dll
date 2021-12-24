@@ -18,19 +18,14 @@ namespace Microsoft.Zune.Util
 			{
 				if (sm_PhotoManager == null)
 				{
-					try
-					{
-						Monitor.Enter(sm_lock);
+					lock (sm_lock)
+                    {
 						if (sm_PhotoManager == null)
 						{
 							PhotoManager photoManager = new PhotoManager();
 							Thread.MemoryBarrier();
 							sm_PhotoManager = photoManager;
 						}
-					}
-					finally
-					{
-						Monitor.Exit(sm_lock);
 					}
 				}
 				return sm_PhotoManager;
@@ -89,16 +84,13 @@ namespace Microsoft.Zune.Util
 				if (num >= 0)
 				{
 					IMetadataManager* intPtr = ptr;
-					__s_GUID gUID_a2889317_d0c7_41d8_abc7_1eb4cb8d46d = Module._GUID_a2889317_d0c7_41d8_abc7_1eb4cb8d46d6;
-					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID, void**, int>)(*(ulong*)(*(long*)ptr + 24)))((nint)intPtr, (_GUID)gUID_a2889317_d0c7_41d8_abc7_1eb4cb8d46d, (void**)(&ptr2));
+					_GUID guid_IFolderProvider = Module.GUID_IFolderProvider;
+					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID, void**, int>)(*(ulong*)(*(long*)ptr + 24)))((nint)intPtr, guid_IFolderProvider, (void**)(&ptr2));
 				}
-				VARIANT tagVARIANT;
-				*(short*)(&tagVARIANT) = 0;
-                // IL initblk instruction
-                Unsafe.InitBlockUnaligned(ref Unsafe.AddByteOffset(ref tagVARIANT, 2), 0, 22);
+				VARIANT tagVARIANT = default;
 				if (num >= 0)
 				{
-					fixed (char* szFolderNamePtr = szFolderName.ToCharArray())
+					fixed (char* szFolderNamePtr = szFolderName)
 					{
 						ushort* ptr3 = (ushort*)szFolderNamePtr;
 						try
@@ -116,7 +108,7 @@ namespace Microsoft.Zune.Util
 					}
 					if (num >= 0)
 					{
-						nFolderId = Unsafe.As<VARIANT, int>(ref Unsafe.AddByteOffset(ref tagVARIANT, 8));
+						nFolderId = Unsafe.As<decimal, int>(ref tagVARIANT.decVal);
 					}
 				}
 			}
@@ -159,20 +151,17 @@ namespace Microsoft.Zune.Util
 				if (num >= 0)
 				{
 					IMetadataManager* intPtr = ptr;
-					__s_GUID gUID_16a9f8be_e76c_4391_ad74_8df74b7a3c = Module._GUID_16a9f8be_e76c_4391_ad74_8df74b7a3c21;
-					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID, void**, int>)(*(ulong*)(*(long*)ptr + 24)))((nint)intPtr, (_GUID)gUID_16a9f8be_e76c_4391_ad74_8df74b7a3c, (void**)(&ptr2));
+					_GUID guid_IFileProvider = Module.GUID_IFileProvider;
+					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID, void**, int>)(*(ulong*)(*(long*)ptr + 24)))((nint)intPtr, guid_IFileProvider, (void**)(&ptr2));
 				}
-				VARIANT tagVARIANT;
-				*(short*)(&tagVARIANT) = 0;
-                // IL initblk instruction
-                Unsafe.InitBlockUnaligned(ref Unsafe.AddByteOffset(ref tagVARIANT, 2), 0, 22);
+				VARIANT tagVARIANT = default;
 				if (num >= 0)
 				{
 					IFileProvider* intPtr2 = ptr2;
 					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, EMediaTypes, VARIANT*, int>)(*(ulong*)(*(long*)ptr2 + 528)))((nint)intPtr2, nMediaId, EMediaTypes.eMediaTypeImage, &tagVARIANT);
 					if (num >= 0)
 					{
-						nFolderId = Unsafe.As<VARIANT, int>(ref Unsafe.AddByteOffset(ref tagVARIANT, 8));
+						nFolderId = Unsafe.As<decimal, int>(ref tagVARIANT.decVal);
 					}
 				}
 			}
@@ -219,16 +208,13 @@ namespace Microsoft.Zune.Util
 				if (num >= 0)
 				{
 					IMetadataManager* intPtr = ptr;
-					__s_GUID gUID_a2889317_d0c7_41d8_abc7_1eb4cb8d46d = Module._GUID_a2889317_d0c7_41d8_abc7_1eb4cb8d46d6;
-					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID, void**, int>)(*(ulong*)(*(long*)ptr + 24)))((nint)intPtr, (_GUID)gUID_a2889317_d0c7_41d8_abc7_1eb4cb8d46d, (void**)(&ptr2));
+					_GUID guid_IFolderProvider = Module.GUID_IFolderProvider;
+					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID, void**, int>)(*(ulong*)(*(long*)ptr + 24)))((nint)intPtr, guid_IFolderProvider, (void**)(&ptr2));
 				}
-				VARIANT tagVARIANT;
-				*(short*)(&tagVARIANT) = 0;
-                // IL initblk instruction
-                Unsafe.InitBlockUnaligned(ref Unsafe.AddByteOffset(ref tagVARIANT, 2), 0, 22);
+				VARIANT tagVARIANT = default;
 				if (num >= 0)
 				{
-					fixed (char* szFolderNamePtr = szFolderName.ToCharArray())
+					fixed (char* szFolderNamePtr = szFolderName)
 					{
 						ushort* ptr3 = (ushort*)szFolderNamePtr;
 						try
@@ -246,7 +232,7 @@ namespace Microsoft.Zune.Util
 					}
 					if (num >= 0)
 					{
-						nCreatedFolderId = Unsafe.As<VARIANT, int>(ref Unsafe.AddByteOffset(ref tagVARIANT, 8));
+						nCreatedFolderId = Unsafe.As<decimal, int>(ref tagVARIANT.decVal);
 					}
 				}
 			}
@@ -291,11 +277,11 @@ namespace Microsoft.Zune.Util
 				if (num >= 0)
 				{
 					IMetadataManager* intPtr = ptr;
-					__s_GUID gUID_a2889317_d0c7_41d8_abc7_1eb4cb8d46d = Module._GUID_a2889317_d0c7_41d8_abc7_1eb4cb8d46d6;
-					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID, void**, int>)(*(ulong*)(*(long*)ptr + 24)))((nint)intPtr, (_GUID)gUID_a2889317_d0c7_41d8_abc7_1eb4cb8d46d, (void**)(&ptr2));
+					_GUID guid_IFolderProvider = Module.GUID_IFolderProvider;
+					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID, void**, int>)(*(ulong*)(*(long*)ptr + 24)))((nint)intPtr, guid_IFolderProvider, (void**)(&ptr2));
 					if (num >= 0)
 					{
-						fixed (char* szNewFolderNamePtr = szNewFolderName.ToCharArray())
+						fixed (char* szNewFolderNamePtr = szNewFolderName)
 						{
 							ushort* ptr3 = (ushort*)szNewFolderNamePtr;
 							try
@@ -359,8 +345,8 @@ namespace Microsoft.Zune.Util
 				if (num >= 0)
 				{
 					IMetadataManager* intPtr = ptr;
-					__s_GUID gUID_a2889317_d0c7_41d8_abc7_1eb4cb8d46d = Module._GUID_a2889317_d0c7_41d8_abc7_1eb4cb8d46d6;
-					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID, void**, int>)(*(ulong*)(*(long*)ptr + 24)))((nint)intPtr, (_GUID)gUID_a2889317_d0c7_41d8_abc7_1eb4cb8d46d, (void**)(&ptr2));
+					_GUID guid_IFolderProvider = Module.GUID_IFolderProvider;
+					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID, void**, int>)(*(ulong*)(*(long*)ptr + 24)))((nint)intPtr, guid_IFolderProvider, (void**)(&ptr2));
 					if (num >= 0)
 					{
 						fixed (int* ptr3 = &mediaIds[0])
@@ -375,7 +361,7 @@ namespace Microsoft.Zune.Util
 							catch
 							{
 								//try-fault
-								ptr3 = null;
+								mediaIds = null;
 								throw;
 							}
 						}
@@ -423,8 +409,8 @@ namespace Microsoft.Zune.Util
 				if (num >= 0)
 				{
 					IMetadataManager* intPtr = ptr;
-					__s_GUID gUID_a2889317_d0c7_41d8_abc7_1eb4cb8d46d = Module._GUID_a2889317_d0c7_41d8_abc7_1eb4cb8d46d6;
-					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID, void**, int>)(*(ulong*)(*(long*)ptr + 24)))((nint)intPtr, (_GUID)gUID_a2889317_d0c7_41d8_abc7_1eb4cb8d46d, (void**)(&ptr2));
+					_GUID guid_IFolderProvider = Module.GUID_IFolderProvider;
+					num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID, void**, int>)(*(ulong*)(*(long*)ptr + 24)))((nint)intPtr, guid_IFolderProvider, (void**)(&ptr2));
 					if (num >= 0)
 					{
 						fixed (char* szPathPtr = szPath.ToCharArray())

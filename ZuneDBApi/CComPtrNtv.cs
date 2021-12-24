@@ -41,6 +41,14 @@ internal unsafe class CComPtrNtv<TPtr> : IDisposable where TPtr : unmanaged
         }
     }
 
+    public ref TPtr* GetPinnableReference()
+    {
+        fixed (TPtr** ptr = &p)
+        {
+            return ref *ptr;
+        }
+    }
+
     protected virtual void Dispose(bool disposing)
     {
         if (!disposedValue)

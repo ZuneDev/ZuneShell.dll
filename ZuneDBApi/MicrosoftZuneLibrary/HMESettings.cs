@@ -565,7 +565,7 @@ namespace MicrosoftZuneLibrary
 									{
 										if (*(ushort*)(&tagVARIANT) == 8)
 										{
-											strName = new string((char*)Unsafe.As<VARIANT, ulong>(ref Unsafe.AddByteOffset(ref tagVARIANT, 8)));
+											strName = new string((char*)Unsafe.As<decimal, ulong>(ref tagVARIANT.decVal));
 										}
 										Module.VariantClear(ptr5);
 										if (0L != (nint)ptr3)

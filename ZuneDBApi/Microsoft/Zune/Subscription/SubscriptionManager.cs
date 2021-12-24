@@ -22,19 +22,14 @@ namespace Microsoft.Zune.Subscription
 			{
 				if (sm_instance == null)
 				{
-					try
-					{
-						Monitor.Enter(sm_lock);
+					lock (sm_lock)
+                    {
 						if (sm_instance == null)
 						{
 							SubscriptionManager subscriptionManager = new SubscriptionManager();
 							Thread.MemoryBarrier();
 							sm_instance = subscriptionManager;
 						}
-					}
-					finally
-					{
-						Monitor.Exit(sm_lock);
 					}
 				}
 				return sm_instance;
@@ -242,7 +237,7 @@ namespace Microsoft.Zune.Subscription
 				}
 				if (num >= 0)
 				{
-					fixed (char* feedUrlPtr = feedUrl.ToCharArray())
+					fixed (char* feedUrlPtr = feedUrl))
 					{
 						ushort* ptr3 = (ushort*)feedUrlPtr;
 						try
@@ -366,7 +361,7 @@ namespace Microsoft.Zune.Subscription
 				num = ValidateUrl(ref feedUrl);
 				if (num >= 0)
 				{
-					fixed (char* feedUrlPtr = feedUrl.ToCharArray())
+					fixed (char* feedUrlPtr = feedUrl))
 					{
 						ushort* ptr = (ushort*)feedUrlPtr;
 						try

@@ -21,7 +21,7 @@ namespace Microsoft.Zune.Service
 			catch
 			{
 				//try-fault
-				((IDisposable)m_spAccountManagement).Dispose();
+				m_spAccountManagement.Dispose();
 				throw;
 			}
 		}

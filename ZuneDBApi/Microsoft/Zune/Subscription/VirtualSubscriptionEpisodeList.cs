@@ -48,9 +48,8 @@ namespace Microsoft.Zune.Subscription
 
 		private void _007EVirtualSubscriptionEpisodeList()
 		{
-			Monitor.Enter(m_lock);
-			try
-			{
+			lock (m_lock)
+            {
 				List<SubscriptionDataProviderItem>.Enumerator enumerator = m_items.GetEnumerator();
 				while (enumerator.MoveNext())
 				{
@@ -58,25 +57,16 @@ namespace Microsoft.Zune.Subscription
 				}
 				m_items = null;
 			}
-			finally
-			{
-				Monitor.Exit(m_lock);
-			}
 		}
 
 		internal unsafe void AddItem(IMSMediaSchemaPropertySet* pEpisodeItem)
 		{
-			Monitor.Enter(m_lock);
-			try
-			{
+			lock (m_lock)
+            {
 				if (m_items != null)
 				{
 					m_items.Add(new SubscriptionDataProviderItem(m_owner, m_typeCookie, m_feedUrl, pEpisodeItem));
 				}
-			}
-			finally
-			{
-				Monitor.Exit(m_lock);
 			}
 		}
 
@@ -152,9 +142,8 @@ namespace Microsoft.Zune.Subscription
 
 		internal void Sort(string sortProperty)
 		{
-			Monitor.Enter(m_lock);
-			try
-			{
+			lock (m_lock)
+            {
 				if (sortProperty != null)
 				{
 					SetSortProperty(sortProperty);
@@ -164,10 +153,6 @@ namespace Microsoft.Zune.Subscription
 					m_items.Sort(CompareItems);
 				}
 				Application.DeferredInvoke(DeferredResetList, null);
-			}
-			finally
-			{
-				Monitor.Exit(m_lock);
 			}
 		}
 

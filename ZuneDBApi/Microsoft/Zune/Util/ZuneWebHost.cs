@@ -26,19 +26,14 @@ namespace Microsoft.Zune.Util
 				}
 				if (s_zuneWebHost == null)
 				{
-					try
-					{
-						Monitor.Enter(s_lock);
+					lock (s_lock)
+                    {
 						if (s_zuneWebHost == null)
 						{
 							ZuneWebHost zuneWebHost = new ZuneWebHost();
 							Thread.MemoryBarrier();
 							s_zuneWebHost = zuneWebHost;
 						}
-					}
-					finally
-					{
-						Monitor.Exit(s_lock);
 					}
 				}
 				if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 28uL)) & 0x8000u) != 0 && *(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 25uL) >= 5u)
@@ -67,7 +62,7 @@ namespace Microsoft.Zune.Util
 			long result;
 			try
 			{
-				Module.GetSingleton((_GUID)Module._GUID_51005f8f_675e_45e1_ae94_8edef996a02e, (void**)(cComPtrNtv_003CIZuneWebHost_003E.p));
+				Module.GetSingleton((_GUID)Module.GUID_IZuneWebHost, (void**)(cComPtrNtv_003CIZuneWebHost_003E.GetPtrToPtr()));
 				fixed (char* navUrlPtr = navUrl.ToCharArray())
 				{
 					ushort* ptr3 = (ushort*)navUrlPtr;
@@ -95,13 +90,10 @@ namespace Microsoft.Zune.Util
 					result = (nint)ptr;
 				}
 			}
-			catch
+			finally
 			{
-				//try-fault
 				cComPtrNtv_003CIZuneWebHost_003E.Dispose();
-				throw;
 			}
-			cComPtrNtv_003CIZuneWebHost_003E.Dispose();
 			return result;
 		}
 

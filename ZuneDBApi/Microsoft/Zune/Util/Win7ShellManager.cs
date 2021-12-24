@@ -23,19 +23,14 @@ namespace Microsoft.Zune.Util
 			{
 				if (sm_win7ShellManager == null)
 				{
-					try
-					{
-						Monitor.Enter(sm_lock);
+					lock (sm_lock)
+                    {
 						if (sm_win7ShellManager == null)
 						{
 							Win7ShellManager win7ShellManager = new Win7ShellManager();
 							Thread.MemoryBarrier();
 							sm_win7ShellManager = win7ShellManager;
 						}
-					}
-					finally
-					{
-						Monitor.Exit(sm_lock);
 					}
 				}
 				return sm_win7ShellManager;

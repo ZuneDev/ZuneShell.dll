@@ -15,19 +15,14 @@ namespace Microsoft.Zune.UserCredential
 			{
 				if (sm_instance == null)
 				{
-					try
-					{
-						Monitor.Enter(sm_lock);
+					lock (sm_lock)
+                    {
 						if (sm_instance == null)
 						{
 							UserCredentialManager userCredentialManager = new UserCredentialManager();
 							Thread.MemoryBarrier();
 							sm_instance = userCredentialManager;
 						}
-					}
-					finally
-					{
-						Monitor.Exit(sm_lock);
 					}
 				}
 				return sm_instance;
@@ -67,7 +62,7 @@ namespace Microsoft.Zune.UserCredential
 				{
 					return -2147024882;
 				}
-				num = Module.GetSingleton((_GUID)Module._GUID_41c80590_c50b_4d27_b860_7c87f3f0cb54, (void**)(&ptr4));
+				num = Module.GetSingleton(Module.GUIDIUserCredentialManager, (void**)(&ptr4));
 				if (num >= 0)
 				{
 					num = Module.Microsoft_002EZune_002EUserCredential_002ECUserCredentialProviderProxy_002EInitialize(ptr2, credentialHandler);

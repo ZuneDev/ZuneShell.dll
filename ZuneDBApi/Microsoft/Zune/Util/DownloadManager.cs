@@ -112,19 +112,14 @@ namespace Microsoft.Zune.Util
 			{
 				if (sm_downloadManager == null)
 				{
-					try
-					{
-						Monitor.Enter(sm_lock);
+                    lock (sm_lock)
+                    {
 						if (sm_downloadManager == null)
 						{
 							DownloadManager downloadManager = new DownloadManager();
 							Thread.MemoryBarrier();
 							sm_downloadManager = downloadManager;
 						}
-					}
-					finally
-					{
-						Monitor.Exit(sm_lock);
 					}
 				}
 				return sm_downloadManager;
@@ -427,7 +422,7 @@ namespace Microsoft.Zune.Util
 						try
 						{
 							long num4 = *(long*)(cComPtrNtv_003CIDownloadManager_003E.p);
-							singleton = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, IDownloadTask**, int>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CIDownloadManager_003E.p)) + 104)))((nint)num4, num3, (IDownloadTask**)(cComPtrNtv_003CIDownloadTask_003E.p));
+							singleton = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int, IDownloadTask**, int>)(*(ulong*)(*(long*)(*(ulong*)(cComPtrNtv_003CIDownloadManager_003E.p)) + 104)))((nint)num4, num3, (IDownloadTask**)(cComPtrNtv_003CIDownloadTask_003E.GetPtrToPtr()));
 							if (singleton >= 0)
 							{
 								long num5 = *(long*)(cComPtrNtv_003CIDownloadTask_003E.p);
@@ -441,26 +436,20 @@ namespace Microsoft.Zune.Util
 								}
 							}
 						}
-						catch
+						finally
 						{
-							//try-fault
-							Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IDownloadTask*, void>)(&Module.CComPtrNtv_003CIDownloadTask_003E._007Bdtor_007D), cComPtrNtv_003CIDownloadTask_003E.p);
-							throw;
+							cComPtrNtv_003CIDownloadTask_003E.Dispose();
 						}
-						cComPtrNtv_003CIDownloadTask_003E.Dispose();
 						num3++;
 					}
 					while (num3 < num);
 				}
 				Application.DeferredInvoke(DeferredUpdateActiveList, list);
 			}
-			catch
+			finally
 			{
-				//try-fault
-				Module.___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<IDownloadManager*, void>)(&Module.CComPtrNtv_003CIDownloadManager_003E._007Bdtor_007D), cComPtrNtv_003CIDownloadManager_003E.p);
-				throw;
+				cComPtrNtv_003CIDownloadManager_003E.Dispose();
 			}
-			cComPtrNtv_003CIDownloadManager_003E.Dispose();
 		}
 
 		private void DeferredUpdateActiveList(object args)

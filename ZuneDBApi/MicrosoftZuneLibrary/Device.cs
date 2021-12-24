@@ -3529,9 +3529,8 @@ namespace MicrosoftZuneLibrary
 			*pfFirmwareUpdateInProgress = false;
 			*pfFirmwareRestoreInProgress = false;
 			int num = 0;
-			try
-			{
-				Monitor.Enter(m_Lock);
+			lock (m_Lock)
+            {
 				if (Module.WPP_GLOBAL_Control != Unsafe.AsPointer(ref Module.WPP_GLOBAL_Control) && ((uint)(*(int*)((ulong)(nint)Module.WPP_GLOBAL_Control + 60uL)) & 2u) != 0 && *(byte*)((ulong)(nint)Module.WPP_GLOBAL_Control + 57uL) >= 5u)
 				{
 					Module.WPP_SF_(*(ulong*)((ulong)(nint)Module.WPP_GLOBAL_Control + 48uL), 24, (_GUID*)Unsafe.AsPointer(ref Module._003FA0xc0985b64_002EWPP_DeviceAPI_cpp_Traceguids));
@@ -3576,10 +3575,6 @@ namespace MicrosoftZuneLibrary
 				}
 				int num7 = 0;
 				return num;
-			}
-			finally
-			{
-				Monitor.Exit(m_Lock);
 			}
 		}
 
