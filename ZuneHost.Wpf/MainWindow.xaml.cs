@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -14,7 +13,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shell;
 
 namespace ZuneHost.Wpf
 {
@@ -34,9 +32,7 @@ namespace ZuneHost.Wpf
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             // Construct a single string of args. Be sure to skip executing path.
-            string strArgs = string.Join(" ", Environment.GetCommandLineArgs().Skip(1));
-
-            return;
+            string strArgs = string.Join(" ", Environment.GetCommandLineArgs().Skip(1).ToArray());
 
             // Make sure that ZuneDBApi can find all the Zune native libraries
             Console.WriteLine("Copying Zune files...");
@@ -62,7 +58,8 @@ namespace ZuneHost.Wpf
             }
 
             Console.WriteLine("Starting Zune...");
-            Thread zuneThread = new Thread(new ThreadStart(() => Microsoft.Zune.Shell.ZuneApplication.Launch(strArgs, IntPtr.Zero)));
+            Thread zuneThread = new Thread(new ThreadStart(() =>
+                Microsoft.Zune.Shell.ZuneApplication.Launch(strArgs, IntPtr.Zero)));
             zuneThread.Start();
         }
 
