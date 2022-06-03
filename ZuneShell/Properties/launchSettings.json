@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "ZuneShell": {
+      "commandName": "Project"
+    },
+    "Zune.exe": {
+      "commandName": "Executable",
+      "executablePath": "C:\\Program Files\\Zune\\Zune.exe"
+    }
+  }
+}
