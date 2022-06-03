@@ -15,13 +15,13 @@
     <Border BorderThickness="6" CornerRadius="10"
             Background="White">
         <Border.BorderBrush>
-            <LinearGradientBrush x:Name="ZuneGradient" StartPoint="0,0" EndPoint="1,0"
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0"
                                  SpreadMethod="Reflect">
                 <LinearGradientBrush.RelativeTransform>
                     <TranslateTransform x:Name="ZuneGradientTransform" X="0" Y="0"/>
                 </LinearGradientBrush.RelativeTransform>
-                <GradientStop x:Name="GradientStop1" Color="#EE0B77" Offset="0"/>
-                <GradientStop x:Name="GradientStop2" Color="#F37122" Offset="1"/>
+                <GradientStop Color="#EE0B77" Offset="0"/>
+                <GradientStop Color="#F37122" Offset="1"/>
             </LinearGradientBrush>
         </Border.BorderBrush>
 
@@ -48,7 +48,7 @@
                 <RowDefinition Height="3*"/>
                 <RowDefinition Height="2*"/>
             </Grid.RowDefinitions>
-            <Image Source="D:\Pictures\Icons\SVG\Zune Dev\EMendo\Zune Logo Fluent v12 (no shadow).png"
+            <Image Source="pack://application:,,,/ZuneHost.Wpf;component/Assets/ZuneFluentWordmark.png"
                    Stretch="Uniform" Grid.Row="1"/>
         </Grid>
     </Border>
