@@ -147,7 +147,9 @@ namespace Microsoft.Zune.Shell
 
         private static void Phase2InitializationWorker(object arg)
         {
-            Win32Window.Close(_hWndSplashScreen);
+            if (_hWndSplashScreen != IntPtr.Zero)
+                Win32Window.Close(_hWndSplashScreen);
+
             bool flag = _zuneLibrary.Phase2Initialization(out int hr);
             Application.DeferredInvoke(new DeferredInvokeHandler(Phase2InitializationUIStage), new object[2]
             {
