@@ -35,7 +35,6 @@ namespace ZuneHost.Wpf
             string strArgs = string.Join(" ", Environment.GetCommandLineArgs().Skip(1).ToArray());
 
             // Make sure that ZuneDBApi can find all the Zune native libraries
-            Console.WriteLine("Copying Zune files...");
             _zuneProgramFolder = Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
                 "Zune");
@@ -57,9 +56,9 @@ namespace ZuneHost.Wpf
                 }
             }
 
-            Console.WriteLine("Starting Zune...");
+            IntPtr hWnd = new System.Windows.Interop.WindowInteropHelper(this).Handle;
             Thread zuneThread = new Thread(new ThreadStart(() =>
-                Microsoft.Zune.Shell.ZuneApplication.Launch(strArgs, IntPtr.Zero)));
+                Microsoft.Zune.Shell.ZuneApplication.Launch(strArgs, hWnd)));
             zuneThread.Start();
         }
 
