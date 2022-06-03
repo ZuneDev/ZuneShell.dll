@@ -1,7 +1,5 @@
-﻿using Silk.NET.Windowing;
-using System;
+﻿using System;
 using System.IO;
-using System.Reflection;
 using System.Threading;
 
 namespace ZuneHost
@@ -33,7 +31,6 @@ namespace ZuneHost
                         File.Copy(file, targetPath);
                 }
             }
-            //AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
 
             Console.WriteLine("Starting Zune...");
 
@@ -43,34 +40,6 @@ namespace ZuneHost
             }));
             zuneThread.SetApartmentState(ApartmentState.STA);
             zuneThread.Start();
-
-            //Thread t = new(() =>
-            //    Microsoft.Zune.Shell.ZuneApplication.Launch(strArgs, IntPtr.Zero));
-            //t.SetApartmentState(ApartmentState.STA);
-            //t.Start();
-        }
-
-        private static Assembly? CurrentDomain_AssemblyResolve(object? sender, ResolveEventArgs args)
-        {
-            string fileName = args.Name[..args.Name.IndexOf(",")];
-
-            if (fileName == "ZuneDBApi")
-            {
-                string assemblyPath = Path.Combine(Directory.GetCurrentDirectory(), "ZuneDBApi.dll");
-                bool exists = File.Exists(assemblyPath);
-                return Assembly.LoadFrom(assemblyPath);
-            }
-            else if (!fileName.StartsWith("Zune"))
-            {
-                return null;
-            }
-            else
-            {
-                string assemblyPath = Path.Combine(
-                    _zuneProgramFolder ?? throw new ArgumentNullException(),
-                    fileName + ".dll");
-                return Assembly.Load(assemblyPath); 
-            }
         }
     }
 }
