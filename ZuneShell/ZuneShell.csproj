@@ -30,5 +30,8 @@
         <Reference Include="ZuneDBApi">
             <HintPath>C:\Program Files\Zune\ZuneDBApi.dll</HintPath>
         </Reference>
+        <Reference Include="UIXControls">
+            <HintPath>C:\Program Files\Zune\UIXcontrols.dll</HintPath>
+        </Reference>
     </ItemGroup>
 </Project>
