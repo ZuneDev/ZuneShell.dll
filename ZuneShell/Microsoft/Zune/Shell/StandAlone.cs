@@ -71,10 +71,10 @@ namespace Microsoft.Zune.Shell
                                 break;
                             }
                         case "uixdebugpipe":
-                            Application.DebugSettings.OpenDebugPipe = true;
+                            //Application.DebugSettings.OpenDebugPipe = true;
                             break;
                         case "uixdecomp":
-                            Application.DebugSettings.UseDecompiler = true;
+                            //Application.DebugSettings.UseDecompiler = true;
                             break;
                         case "uixtrace":
                             try
@@ -92,7 +92,7 @@ namespace Microsoft.Zune.Shell
                                     level = 1;
                                     cat = (Iris.Debug.TraceCategory)Enum.Parse(typeof(Iris.Debug.TraceCategory), commandLineArgument.Value);
                                 }
-                                Application.DebugSettings.TraceSettings.SetCategoryLevel(cat, level);
+                                //Application.DebugSettings.TraceSettings.SetCategoryLevel(cat, level);
                                 break;
                             }
                             catch (FormatException ex)
