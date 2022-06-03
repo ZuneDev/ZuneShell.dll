@@ -17,6 +17,9 @@
         <FileAlignment>512</FileAlignment>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+        <SignAssembly>True</SignAssembly>
+        <AssemblyOriginatorKeyFile>..\libs\MicrosoftIris\36MSApp1024.snk</AssemblyOriginatorKeyFile>
+        <DelaySign>True</DelaySign>
     </PropertyGroup>
 
     <ItemGroup>
