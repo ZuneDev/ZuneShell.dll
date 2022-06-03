@@ -1,14 +1,18 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30907.101
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32421.90
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZuneShell", "ZuneShell\ZuneShell.csproj", "{E93CFFA3-1EEB-4E71-9E83-7377C1422119}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UIX", "UIX\UIX.csproj", "{5681A1BD-B3EC-450B-BF6E-38187204B6BE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UIXControls", "UIXControls\UIXControls.csproj", "{56AE007D-B441-4294-8582-D5C63CC1C206}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UIXSign", "UIXSign\UIXSign.csproj", "{F0323473-F9B6-4875-93B2-DF657C3F7197}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "libs", "libs", "{7640D6FE-600E-44BE-A59F-E90602FA7754}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UIX", "libs\MicrosoftIris\UIX\UIX.csproj", "{78A8B08C-C0E9-4BAC-9AF6-58D3A55C05C9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UIX.RenderApi", "libs\MicrosoftIris\UIX.RenderApi\UIX.RenderApi.csproj", "{CB2B7609-C7B8-4E2A-82D8-DD631B70B621}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,14 +30,6 @@ Global
 		{E93CFFA3-1EEB-4E71-9E83-7377C1422119}.Release|Any CPU.Build.0 = Release|x64
 		{E93CFFA3-1EEB-4E71-9E83-7377C1422119}.Release|x64.ActiveCfg = Release|x64
 		{E93CFFA3-1EEB-4E71-9E83-7377C1422119}.Release|x64.Build.0 = Release|x64
-		{5681A1BD-B3EC-450B-BF6E-38187204B6BE}.Debug|Any CPU.ActiveCfg = Debug|x64
-		{5681A1BD-B3EC-450B-BF6E-38187204B6BE}.Debug|Any CPU.Build.0 = Debug|x64
-		{5681A1BD-B3EC-450B-BF6E-38187204B6BE}.Debug|x64.ActiveCfg = Debug|x64
-		{5681A1BD-B3EC-450B-BF6E-38187204B6BE}.Debug|x64.Build.0 = Debug|x64
-		{5681A1BD-B3EC-450B-BF6E-38187204B6BE}.Release|Any CPU.ActiveCfg = Release|x64
-		{5681A1BD-B3EC-450B-BF6E-38187204B6BE}.Release|Any CPU.Build.0 = Release|x64
-		{5681A1BD-B3EC-450B-BF6E-38187204B6BE}.Release|x64.ActiveCfg = Release|x64
-		{5681A1BD-B3EC-450B-BF6E-38187204B6BE}.Release|x64.Build.0 = Release|x64
 		{56AE007D-B441-4294-8582-D5C63CC1C206}.Debug|Any CPU.ActiveCfg = Debug|x64
 		{56AE007D-B441-4294-8582-D5C63CC1C206}.Debug|Any CPU.Build.0 = Debug|x64
 		{56AE007D-B441-4294-8582-D5C63CC1C206}.Debug|x64.ActiveCfg = Debug|x64
@@ -50,9 +46,29 @@ Global
 		{F0323473-F9B6-4875-93B2-DF657C3F7197}.Release|Any CPU.Build.0 = Release|x64
 		{F0323473-F9B6-4875-93B2-DF657C3F7197}.Release|x64.ActiveCfg = Release|x64
 		{F0323473-F9B6-4875-93B2-DF657C3F7197}.Release|x64.Build.0 = Release|x64
+		{78A8B08C-C0E9-4BAC-9AF6-58D3A55C05C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78A8B08C-C0E9-4BAC-9AF6-58D3A55C05C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78A8B08C-C0E9-4BAC-9AF6-58D3A55C05C9}.Debug|x64.ActiveCfg = Debug|x64
+		{78A8B08C-C0E9-4BAC-9AF6-58D3A55C05C9}.Debug|x64.Build.0 = Debug|x64
+		{78A8B08C-C0E9-4BAC-9AF6-58D3A55C05C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78A8B08C-C0E9-4BAC-9AF6-58D3A55C05C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78A8B08C-C0E9-4BAC-9AF6-58D3A55C05C9}.Release|x64.ActiveCfg = Release|x64
+		{78A8B08C-C0E9-4BAC-9AF6-58D3A55C05C9}.Release|x64.Build.0 = Release|x64
+		{CB2B7609-C7B8-4E2A-82D8-DD631B70B621}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB2B7609-C7B8-4E2A-82D8-DD631B70B621}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB2B7609-C7B8-4E2A-82D8-DD631B70B621}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{CB2B7609-C7B8-4E2A-82D8-DD631B70B621}.Debug|x64.Build.0 = Debug|Any CPU
+		{CB2B7609-C7B8-4E2A-82D8-DD631B70B621}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB2B7609-C7B8-4E2A-82D8-DD631B70B621}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CB2B7609-C7B8-4E2A-82D8-DD631B70B621}.Release|x64.ActiveCfg = Release|Any CPU
+		{CB2B7609-C7B8-4E2A-82D8-DD631B70B621}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{78A8B08C-C0E9-4BAC-9AF6-58D3A55C05C9} = {7640D6FE-600E-44BE-A59F-E90602FA7754}
+		{CB2B7609-C7B8-4E2A-82D8-DD631B70B621} = {7640D6FE-600E-44BE-A59F-E90602FA7754}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6B948258-B457-4B3D-955E-05ED3F03CF36}

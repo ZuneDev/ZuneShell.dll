@@ -27,12 +27,5 @@
         <Reference Include="ZuneDBApi">
             <HintPath>C:\Program Files\Zune\ZuneDBApi.dll</HintPath>
         </Reference>
-        <Reference Include="UIXControls">
-            <HintPath>C:\Program Files\Zune\UIXControls.dll</HintPath>
-        </Reference>
     </ItemGroup>
-
-    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-        <Exec Command="..\UIXSign\bin\$(Platform)\Debug\net48\UIXSign.exe &quot;$(OutputPath)$(AssemblyName).dll&quot;" />
-    </Target>
 </Project>
