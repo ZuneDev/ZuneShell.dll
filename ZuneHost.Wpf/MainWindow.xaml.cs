@@ -32,7 +32,11 @@ namespace ZuneHost.Wpf
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             // Construct a single string of args. Be sure to skip executing path.
-            string strArgs = string.Join(" ", Environment.GetCommandLineArgs().Skip(1).ToArray());
+            var args = Environment.GetCommandLineArgs().Skip(1);
+#if DEBUG
+            args.Concat(new[] { "-debug:true" });
+#endif
+            string strArgs = string.Join(" ", args.ToArray());
 
             // Make sure that ZuneDBApi can find all the Zune native libraries
             _zuneProgramFolder = Path.Combine(
