@@ -9,7 +9,7 @@
         <AssemblyName>ZuneShell</AssemblyName>
         <ApplicationVersion>4.7.0.0</ApplicationVersion>
 
-        <TargetFrameworks>net35;net6.0</TargetFrameworks>
+        <TargetFrameworks>net35;net40;net6.0</TargetFrameworks>
         <Platforms>x64;x86</Platforms>
 
         <FileAlignment>512</FileAlignment>
@@ -29,6 +29,10 @@
         <Reference Include="Accessibility" />
         <Reference Include="System" />
         <Reference Include="System.Xml" />
+    </ItemGroup>
+
+    <ItemGroup Condition=" '$(TargetFramework)' == 'net40' ">
+        <Reference Include="Accessibility" />
     </ItemGroup>
 
     <ItemGroup>
