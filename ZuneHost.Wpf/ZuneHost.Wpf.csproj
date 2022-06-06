@@ -7,15 +7,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <None Remove="Assets\ZuneFluentWordmark.png" />
-    </ItemGroup>
-
-    <ItemGroup>
         <ProjectReference Include="..\ZuneShell\ZuneShell.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <Resource Include="Assets\ZuneFluentWordmark.png" />
+        <None Remove="Assets\ZuneFluentWordmark.png" />
+        <Resource Include="Assets\ZuneFluentWordmark.png" />
     </ItemGroup>
 
 </Project>
