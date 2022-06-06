@@ -26,7 +26,7 @@ namespace ZuneXml
           : base(query)
         {
             this._endPoint = EServiceEndpointId.SEID_RootCatalog;
-            if (string.IsNullOrEmpty(ClientConfiguration.Service.TimeTravel) || !ZuneApplication.Service.IsSignedIn())
+            if (string.IsNullOrEmpty(ClientConfiguration.Service.TimeTravel) || !ZuneApplication.Service2.IsSignedIn())
                 return;
             query.PassportTicketType = EPassportPolicyId.MBI;
         }
@@ -65,7 +65,7 @@ namespace ZuneXml
                 string representation = (string)this.Query.GetProperty("Representation");
                 if (this.RequireResource && resourceType == null || this.RequireRepresentation && representation == null)
                     return null;
-                string endPointUri = Service.GetEndPointUri(this._endPoint);
+                string endPointUri = Service2.GetEndPointUri(this._endPoint);
                 requestUri.Append(endPointUri);
                 requestUri.Append("/");
                 if (!string.IsNullOrEmpty(resourceType))
@@ -116,7 +116,7 @@ namespace ZuneXml
             if (!string.IsNullOrEmpty(requestSortBy))
                 AppendParam(requestUri, "orderby", requestSortBy, ref fFirst);
             string timeTravel = ClientConfiguration.Service.TimeTravel;
-            if (!string.IsNullOrEmpty(timeTravel) && ZuneApplication.Service.IsSignedIn())
+            if (!string.IsNullOrEmpty(timeTravel) && ZuneApplication.Service2.IsSignedIn())
                 AppendParam(requestUri, "instant", Uri.EscapeDataString(timeTravel), ref fFirst);
             return requestUri.ToString();
         }

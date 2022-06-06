@@ -40,7 +40,7 @@ namespace ZuneUI
                 this.Description = Shell.LoadString(StringId.IDS_INCOLLECTION);
                 this.Available = true;
             }
-            else if (ZuneApplication.Service.IsDownloading(this.Id, EContentType.MusicTrack, out fIsDownloadPending, out fIsHidden))
+            else if (ZuneApplication.Service2.IsDownloading(this.Id, EContentType.MusicTrack, out fIsDownloadPending, out fIsHidden))
             {
                 this.Description = Shell.LoadString(StringId.IDS_PENDING);
                 this.Downloading = true;
@@ -64,7 +64,7 @@ namespace ZuneUI
 
         public override void FindInCollection() => MusicLibraryPage.FindInCollection(-1, -1, this.CollectionId);
 
-        public bool CanAddToCollection => this._lastSignedInUserHadActiveSubscription && ZuneApplication.Service.InHiddenCollection(this.Id, EContentType.MusicTrack);
+        public bool CanAddToCollection => this._lastSignedInUserHadActiveSubscription && ZuneApplication.Service2.InHiddenCollection(this.Id, EContentType.MusicTrack);
 
         public bool CanDownload => this._lastSignedInUserHadActiveSubscription && !this.CanFindInCollection && (!this.CanAddToCollection && !this.Downloading) && this.Id != Guid.Empty && Download.Instance.GetErrorCode(this.Id) != HRESULT._ZUNE_E_NO_SUBSCRIPTION_DOWNLOAD_RIGHTS.Int;
 

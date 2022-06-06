@@ -32,7 +32,7 @@ namespace ZuneUI
                 {
                     if (!(track.Id == Guid.Empty))
                     {
-                        bool flag2 = ZuneApplication.Service.InVisibleCollection(track.Id, EContentType.MusicTrack);
+                        bool flag2 = ZuneApplication.Service2.InVisibleCollection(track.Id, EContentType.MusicTrack);
                         if (filterType == TrackCollectionFilterType.IncludeIfAnyTrackNotInCollection)
                         {
                             if (!flag2)
@@ -60,7 +60,7 @@ namespace ZuneUI
         {
             bool flag = false;
             if (artistId != Guid.Empty)
-                flag = ZuneApplication.Service.InVisibleCollection(artistId, EContentType.Artist);
+                flag = ZuneApplication.Service2.InVisibleCollection(artistId, EContentType.Artist);
             return flag;
         }
 
@@ -121,7 +121,7 @@ namespace ZuneUI
                 if (id != Guid.Empty)
                 {
                     int piRating = 0;
-                    if (ZuneApplication.Service.GetUserRating(SignIn.Instance.LastSignedInUserId, id, EContentType.MusicTrack, ref piRating))
+                    if (ZuneApplication.Service2.GetUserRating(SignIn.Instance.LastSignedInUserId, id, EContentType.MusicTrack, ref piRating))
                         num = piRating;
                 }
             }
@@ -134,14 +134,14 @@ namespace ZuneUI
             if (item is Track)
             {
                 Track track = (Track)item;
-                flag = ZuneApplication.Service.SetUserTrackRating(SignIn.Instance.LastSignedInUserId, rating, track.Id, track.AlbumId, track.TrackNumber, track.Title, track.Duration.Milliseconds, track.AlbumTitle, track.Artist, track.PrimaryGenre.Title, (string)track.GetProperty("ReferrerContext"));
+                flag = ZuneApplication.Service2.SetUserTrackRating(SignIn.Instance.LastSignedInUserId, rating, track.Id, track.AlbumId, track.TrackNumber, track.Title, track.Duration.Milliseconds, track.AlbumTitle, track.Artist, track.PrimaryGenre.Title, (string)track.GetProperty("ReferrerContext"));
                 if (flag)
                     track.UserRating = rating;
             }
             return flag;
         }
 
-        public static bool SetArtistUserRating(Guid id, string name, int rating) => ZuneApplication.Service.SetUserArtistRating(SignIn.Instance.LastSignedInUserId, rating, id, name);
+        public static bool SetArtistUserRating(Guid id, string name, int rating) => ZuneApplication.Service2.SetUserArtistRating(SignIn.Instance.LastSignedInUserId, rating, id, name);
 
         public static string GetRecommendationsEndpoint() => Service.GetEndPointUri(EServiceEndpointId.SEID_Recommendations);
 

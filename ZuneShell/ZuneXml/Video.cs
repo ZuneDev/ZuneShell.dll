@@ -28,7 +28,7 @@ namespace ZuneXml
         {
             int dbMediaId = -1;
             if (this.Id != Guid.Empty)
-                ZuneApplication.Service.InVisibleCollection(this.Id, EContentType.Video, out dbMediaId);
+                ZuneApplication.Service2.InVisibleCollection(this.Id, EContentType.Video, out dbMediaId);
             return dbMediaId;
         }
 
@@ -76,7 +76,7 @@ namespace ZuneXml
 
         internal bool GetCanPreview() => (this.Rights.HasRights(MediaRightsEnum.Preview, VideoDefinitionEnum.None, PriceTypeEnum.None) || this.Rights.HasRights(MediaRightsEnum.PreviewStream, VideoDefinitionEnum.None, PriceTypeEnum.None)) && !this.IsParentallyBlocked;
 
-        internal bool GetCanSubscriptionPlay() => this.Rights.HasRights(MediaRightsEnum.SubscriptionStream, VideoDefinitionEnum.None, PriceTypeEnum.None) && ZuneApplication.Service.IsSignedInWithSubscription() && !this.IsParentallyBlocked;
+        internal bool GetCanSubscriptionPlay() => this.Rights.HasRights(MediaRightsEnum.SubscriptionStream, VideoDefinitionEnum.None, PriceTypeEnum.None) && ZuneApplication.Service2.IsSignedInWithSubscription() && !this.IsParentallyBlocked;
 
         internal bool GetCanPurchase() => this.GetCanPurchaseHD() || this.GetCanPurchaseSD();
 
@@ -102,7 +102,7 @@ namespace ZuneXml
         {
             bool flag = false;
             if (this.Id != Guid.Empty)
-                flag = ZuneApplication.Service.InVisibleCollection(this.Id, EContentType.Video);
+                flag = ZuneApplication.Service2.InVisibleCollection(this.Id, EContentType.Video);
             return flag;
         }
 
@@ -110,7 +110,7 @@ namespace ZuneXml
         {
             bool flag = false;
             if (this.Id != Guid.Empty)
-                flag = ZuneApplication.Service.GetMediaStatus(this.Id, EContentType.Video) == EMediaStatus.StatusInCollectionShortcut;
+                flag = ZuneApplication.Service2.GetMediaStatus(this.Id, EContentType.Video) == EMediaStatus.StatusInCollectionShortcut;
             return flag;
         }
 
@@ -120,7 +120,7 @@ namespace ZuneXml
             if (this.Id != Guid.Empty)
             {
                 bool fIsHidden = false;
-                flag = ZuneApplication.Service.IsDownloading(this.Id, EContentType.Video, out bool _, out fIsHidden);
+                flag = ZuneApplication.Service2.IsDownloading(this.Id, EContentType.Video, out bool _, out fIsHidden);
             }
             return flag;
         }
@@ -140,7 +140,7 @@ namespace ZuneXml
                 default:
                     return false;
             }
-            return ZuneApplication.Service.BlockRatedContent(system, rating);
+            return ZuneApplication.Service2.BlockRatedContent(system, rating);
         }
 
         protected Video(DataProviderQuery owner, object resultTypeCookie)

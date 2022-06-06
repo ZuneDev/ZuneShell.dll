@@ -108,7 +108,7 @@ namespace ZuneUI
                 eGetOffersFlags |= EGetOffersFlags.SeasonPurchase;
             if (subscriptionFreeTracksOnly)
                 eGetOffersFlags |= EGetOffersFlags.SubscriptionFreeTracks;
-            ZuneApplication.Service.GetOffers(guidAlbumIds, guidTrackIds, guidVideoIds, guidAppIds, mapIdToContext, eGetOffersFlags, deviceEndpointId, new GetOffersCompleteCallback(this.OnGetOffersComplete), new GetOffersErrorCallback(this.OnGetOffersError));
+            ZuneApplication.Service2.GetOffers(guidAlbumIds, guidTrackIds, guidVideoIds, guidAppIds, mapIdToContext, eGetOffersFlags, deviceEndpointId, new GetOffersCompleteCallback(this.OnGetOffersComplete), new GetOffersErrorCallback(this.OnGetOffersError));
         }
 
         private void UpdateContextMap(
@@ -151,26 +151,26 @@ namespace ZuneUI
             if (!this.m_fRequestingBalances)
             {
                 this.m_fRequestingBalances = true;
-                ZuneApplication.Service.GetBalances(new GetBalancesCompleteCallback(this.OnGetBalancesComplete), new GetBalancesErrorCallback(this.OnGetBalancesError));
+                ZuneApplication.Service2.GetBalances(new GetBalancesCompleteCallback(this.OnGetBalancesComplete), new GetBalancesErrorCallback(this.OnGetBalancesError));
             }
             if (this.m_fRequestingPointsOffers || this.m_pointsOffers != null)
                 return;
             this.m_fRequestingPointsOffers = true;
-            ZuneApplication.Service.GetPointsOffers(new GetBillingOffersCompleteCallback(this.OnGetPointsOffersComplete), new GetBillingOffersErrorCallback(this.OnGetPointsOffersError));
+            ZuneApplication.Service2.GetPointsOffers(new GetBillingOffersCompleteCallback(this.OnGetPointsOffersComplete), new GetBillingOffersErrorCallback(this.OnGetPointsOffersError));
         }
 
         public void PurchaseOffers(PaymentInstrument payment)
         {
             this.ErrorMessage = null;
             this.ErrorWebHelpUrl = null;
-            ZuneApplication.Service.PurchaseOffers(payment, this.m_albumOfferCollection, this.m_trackOfferCollection, this.m_videoOfferCollection, this.m_appOfferCollection, this.PurchaseOffersFlags, new PurchaseOffersCompleteHandler(this.OnPurchaseOffersComplete));
+            ZuneApplication.Service2.PurchaseOffers(payment, this.m_albumOfferCollection, this.m_trackOfferCollection, this.m_videoOfferCollection, this.m_appOfferCollection, this.PurchaseOffersFlags, new PurchaseOffersCompleteHandler(this.OnPurchaseOffersComplete));
             if (this.RentVideos)
                 this.Status = Shell.LoadString(StringId.IDS_PURCHASE_RENTAL_IN_PROGRESS);
             else
                 this.Status = Shell.LoadString(StringId.IDS_PURCHASE_IN_PROGRESS);
         }
 
-        public void ResumePurchase(string purchaseHandle, string token) => ZuneApplication.Service.ResumePurchase(purchaseHandle, token, new AsyncCompleteHandler(this.OnResumePurchaseComplete));
+        public void ResumePurchase(string purchaseHandle, string token) => ZuneApplication.Service2.ResumePurchase(purchaseHandle, token, new AsyncCompleteHandler(this.OnResumePurchaseComplete));
 
         public void PurchaseBestPointsOffer(PaymentInstrument paymentInstrument)
         {

@@ -40,7 +40,7 @@ namespace ZuneXml
         {
             int dbMediaId = -1;
             if (this.Id != Guid.Empty)
-                ZuneApplication.Service.InVisibleCollection(this.Id, EContentType.PodcastSeries, out dbMediaId);
+                ZuneApplication.Service2.InVisibleCollection(this.Id, EContentType.PodcastSeries, out dbMediaId);
             return dbMediaId;
         }
 

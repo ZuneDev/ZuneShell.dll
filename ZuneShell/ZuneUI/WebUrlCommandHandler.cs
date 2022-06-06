@@ -29,7 +29,7 @@ namespace ZuneUI
                         ePassportPolicy = EPassportPolicyId.MBI_SSL;
                 }
             }
-            ZuneApplication.Service.LaunchBrowserForExternalUrl(command, ePassportPolicy);
+            ZuneApplication.Service2.LaunchBrowserForExternalUrl(command, ePassportPolicy);
         }
     }
 }

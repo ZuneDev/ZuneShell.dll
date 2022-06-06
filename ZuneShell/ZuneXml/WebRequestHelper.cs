@@ -25,7 +25,7 @@ namespace ZuneXml
             request.CachePolicy = cachePolicy;
             if (passportTicketType != EPassportPolicyId.None)
             {
-                string passportTicket = ZuneApplication.Service.GetPassportTicket(passportTicketType);
+                string passportTicket = ZuneApplication.Service2.GetPassportTicket(passportTicketType);
                 if (!string.IsNullOrEmpty(passportTicket))
                     request.Authorization = "WLID1.0 " + passportTicket;
             }

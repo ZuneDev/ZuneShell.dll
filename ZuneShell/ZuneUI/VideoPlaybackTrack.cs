@@ -56,7 +56,7 @@ namespace ZuneUI
         {
             HRESULT hresult = HRESULT._S_OK;
             string uriOut = null;
-            if (!ZuneApplication.Service.InCompleteCollection(this._zuneMediaId, EContentType.Video) && !string.IsNullOrEmpty(this._uri))
+            if (!ZuneApplication.Service2.InCompleteCollection(this._zuneMediaId, EContentType.Video) && !string.IsNullOrEmpty(this._uri))
             {
                 uriOut = this._uri;
             }
@@ -69,7 +69,7 @@ namespace ZuneUI
                     eContentUriFlags |= EContentUriFlags.FallbackToPreview;
                 if (this.ForcePreview)
                     eContentUriFlags |= EContentUriFlags.ForcePreview;
-                hresult = ZuneApplication.Service.GetContentUri(this._zuneMediaId, EContentType.Video, eContentUriFlags, out uriOut, out this._zuneMediaInstanceId);
+                hresult = ZuneApplication.Service2.GetContentUri(this._zuneMediaId, EContentType.Video, eContentUriFlags, out uriOut, out this._zuneMediaInstanceId);
             }
             if (!string.IsNullOrEmpty(uriOut) && uriOut.Contains(".ism/manifest"))
                 this._isStreaming = true;

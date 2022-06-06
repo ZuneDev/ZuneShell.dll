@@ -13,6 +13,6 @@ namespace ZuneUI
 {
     public class HelpCommandHandler : ICommandHandler
     {
-        public void Execute(string command, IDictionary commandArgs) => ZuneApplication.Service.LaunchBrowserForExternalUrl((string)Registry.LocalMachine.OpenSubKey("Software\\Microsoft\\Zune").GetValue("Installation Directory") + command, EPassportPolicyId.None);
+        public void Execute(string command, IDictionary commandArgs) => ZuneApplication.Service2.LaunchBrowserForExternalUrl((string)Registry.LocalMachine.OpenSubKey("Software\\Microsoft\\Zune").GetValue("Installation Directory") + command, EPassportPolicyId.None);
     }
 }

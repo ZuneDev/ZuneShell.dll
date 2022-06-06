@@ -16,7 +16,7 @@ namespace ZuneUI
         {
             int dbMediaId = -1;
             bool fHidden = false;
-            return !ZuneApplication.Service.InCompleteCollection(serviceMediaId, EContentType.Artist, out dbMediaId, out fHidden) ? -1 : dbMediaId;
+            return !ZuneApplication.Service2.InCompleteCollection(serviceMediaId, EContentType.Artist, out dbMediaId, out fHidden) ? -1 : dbMediaId;
         }
     }
 }

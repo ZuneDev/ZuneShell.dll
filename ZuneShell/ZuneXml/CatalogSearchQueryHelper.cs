@@ -50,7 +50,7 @@ namespace ZuneXml
                 stringBuilder.Append(property4);
             }
             string timeTravel = ClientConfiguration.Service.TimeTravel;
-            if (!string.IsNullOrEmpty(timeTravel) && ZuneApplication.Service.IsSignedIn())
+            if (!string.IsNullOrEmpty(timeTravel) && ZuneApplication.Service2.IsSignedIn())
             {
                 stringBuilder.Append("&instant=");
                 stringBuilder.Append(Uri.EscapeDataString(timeTravel));

@@ -204,7 +204,7 @@ namespace ZuneUI
                 }
             }
             if (string.IsNullOrEmpty(uriOut) && this.ZuneMediaId != Guid.Empty)
-                hresult = ZuneApplication.Service.GetContentUri(this.ZuneMediaId, eContentType, Microsoft.Zune.Service.EContentUriFlags.None, out uriOut, out this._zuneMediaInstanceId);
+                hresult = ZuneApplication.Service2.GetContentUri(this.ZuneMediaId, eContentType, Microsoft.Zune.Service.EContentUriFlags.None, out uriOut, out this._zuneMediaInstanceId);
             uri = uriOut;
             return hresult;
         }

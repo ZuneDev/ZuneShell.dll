@@ -583,7 +583,7 @@ namespace ZuneUI
                 }
                 else
                 {
-                    if (!ZuneApplication.Service.InCompleteCollection(track.Id, Microsoft.Zune.Service.EContentType.MusicTrack, out dbMediaId, out bool _) && materializeMarketplaceTracks && (track.IsDownloading || track.CanDownload || track.CanPurchase))
+                    if (!ZuneApplication.Service2.InCompleteCollection(track.Id, Microsoft.Zune.Service.EContentType.MusicTrack, out dbMediaId, out bool _) && materializeMarketplaceTracks && (track.IsDownloading || track.CanDownload || track.CanPurchase))
                         dbMediaId = ZuneApplication.ZuneLibrary.AddTrack(track.Id, track.AlbumId, track.TrackNumber, track.Title, track.Duration, track.AlbumTitle, track.Artist, track.PrimaryGenre.Title);
                     if (dbMediaId >= 0)
                     {
@@ -675,7 +675,7 @@ namespace ZuneUI
             if (marketplacePlaybackTrack == null)
                 return;
             int dbMediaId;
-            if (!ZuneApplication.Service.InCompleteCollection(marketplacePlaybackTrack.ZuneMediaId, Microsoft.Zune.Service.EContentType.MusicTrack, out dbMediaId, out bool _))
+            if (!ZuneApplication.Service2.InCompleteCollection(marketplacePlaybackTrack.ZuneMediaId, Microsoft.Zune.Service.EContentType.MusicTrack, out dbMediaId, out bool _))
                 dbMediaId = ZuneApplication.ZuneLibrary.AddTrack(marketplacePlaybackTrack.ZuneMediaId, marketplacePlaybackTrack.AlbumId, marketplacePlaybackTrack.TrackNumber, marketplacePlaybackTrack.Title, marketplacePlaybackTrack.Duration, marketplacePlaybackTrack.Album, marketplacePlaybackTrack.Artist, marketplacePlaybackTrack.Genre);
             if (dbMediaId < 0)
                 return;

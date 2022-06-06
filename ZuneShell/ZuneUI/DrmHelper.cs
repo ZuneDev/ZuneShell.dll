@@ -34,7 +34,7 @@ namespace ZuneUI
                     flag = true;
                     break;
                 case DrmState.Expiring:
-                    DRMInfo fileDrmInfo = ZuneApplication.Service.GetFileDRMInfo(filename);
+                    DRMInfo fileDrmInfo = ZuneApplication.Service2.GetFileDRMInfo(filename);
                     if (fileDrmInfo != null && (fileDrmInfo.NoLicense || fileDrmInfo.LicenseExpired))
                     {
                         flag = true;
@@ -54,7 +54,7 @@ namespace ZuneUI
                     flag = true;
                     break;
                 case DrmState.Expiring:
-                    DRMInfo mediaDrmInfo = ZuneApplication.Service.GetMediaDRMInfo(mediaId, EContentType.Video);
+                    DRMInfo mediaDrmInfo = ZuneApplication.Service2.GetMediaDRMInfo(mediaId, EContentType.Video);
                     if (mediaDrmInfo != null && (mediaDrmInfo.NoLicense || mediaDrmInfo.LicenseExpired))
                     {
                         flag = true;

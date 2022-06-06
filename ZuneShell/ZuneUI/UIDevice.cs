@@ -1749,7 +1749,7 @@ namespace ZuneUI
                         case Track _:
                             Track track = (Track)dataProviderObject;
                             int dbMediaId1 = -1;
-                            if (!ZuneApplication.Service.InCompleteCollection(track.Id, Microsoft.Zune.Service.EContentType.MusicTrack, out dbMediaId1, out bool _) && (track.IsDownloading || track.CanDownload || track.CanPurchase))
+                            if (!ZuneApplication.Service2.InCompleteCollection(track.Id, Microsoft.Zune.Service.EContentType.MusicTrack, out dbMediaId1, out bool _) && (track.IsDownloading || track.CanDownload || track.CanPurchase))
                                 dbMediaId1 = ZuneApplication.ZuneLibrary.AddTrack(track.Id, track.AlbumId, track.TrackNumber, track.Title, track.Duration, track.AlbumTitle, track.Artist, track.PrimaryGenre.Title);
                             if (dbMediaId1 >= 0)
                             {
@@ -1783,7 +1783,7 @@ namespace ZuneUI
                         case MusicVideo _:
                             MusicVideo musicVideo = (MusicVideo)dataProviderObject;
                             int dbMediaId2 = -1;
-                            if (!ZuneApplication.Service.InCompleteCollection(musicVideo.Id, Microsoft.Zune.Service.EContentType.Video, out dbMediaId2, out bool _) && (musicVideo.IsDownloading || musicVideo.CanPurchase))
+                            if (!ZuneApplication.Service2.InCompleteCollection(musicVideo.Id, Microsoft.Zune.Service.EContentType.Video, out dbMediaId2, out bool _) && (musicVideo.IsDownloading || musicVideo.CanPurchase))
                                 dbMediaId2 = ZuneApplication.ZuneLibrary.AddVideo(musicVideo.Id, musicVideo.Title, musicVideo.Duration);
                             if (dbMediaId2 >= 0)
                             {

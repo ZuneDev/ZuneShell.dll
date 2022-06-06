@@ -76,7 +76,7 @@ namespace ZuneUI
           string deviceEndpointId,
           EventHandler onAllPending)
         {
-            ZuneApplication.Service.Download(items, eDownloadFlags, deviceEndpointId, this.ClientContextEvent, this.ClientContextEventValue, new DownloadEventHandler(this.OnDownloadEvent), new DownloadEventProgressHandler(this.OnDownloadProgressEvent), onAllPending);
+            ZuneApplication.Service2.Download(items, eDownloadFlags, deviceEndpointId, this.ClientContextEvent, this.ClientContextEventValue, new DownloadEventHandler(this.OnDownloadEvent), new DownloadEventProgressHandler(this.OnDownloadProgressEvent), onAllPending);
             if ((eDownloadFlags & ~(EDownloadFlags.CanBeOffline | EDownloadFlags.Subscription)) != EDownloadFlags.None)
                 return;
             bool flag = ZuneShell.DefaultInstance.CurrentPage is InboxPage;
@@ -88,7 +88,7 @@ namespace ZuneUI
 
         public void AddToCollection(IList items)
         {
-            ZuneApplication.Service.Download(items, EDownloadFlags.Subscription, null, this.ClientContextEvent, this.ClientContextEventValue, new DownloadEventHandler(this.OnDownloadEvent), new DownloadEventProgressHandler(this.OnDownloadProgressEvent), new EventHandler(this.OnAllPending));
+            ZuneApplication.Service2.Download(items, EDownloadFlags.Subscription, null, this.ClientContextEvent, this.ClientContextEventValue, new DownloadEventHandler(this.OnDownloadEvent), new DownloadEventProgressHandler(this.OnDownloadProgressEvent), new EventHandler(this.OnAllPending));
             foreach (object obj in items)
             {
                 if (obj is DataProviderObject)
@@ -117,10 +117,10 @@ namespace ZuneUI
         public bool IsDownloading(Guid mediaId, EContentType eContentType, out bool fPending)
         {
             bool fIsHidden = false;
-            return ZuneApplication.Service.IsDownloading(mediaId, eContentType, out fPending, out fIsHidden);
+            return ZuneApplication.Service2.IsDownloading(mediaId, eContentType, out fPending, out fIsHidden);
         }
 
-        public void CancelDownload(Guid mediaId) => ZuneApplication.Service.CancelDownload(mediaId, EContentType.MusicTrack);
+        public void CancelDownload(Guid mediaId) => ZuneApplication.Service2.CancelDownload(mediaId, EContentType.MusicTrack);
 
         public int ErrorCount => this.m_errors.Count;
 
@@ -143,7 +143,7 @@ namespace ZuneUI
         internal void Phase3Init()
         {
             DownloadManager.Instance.OnProgressChanged += new DownloadManagerUpdateHandler(this.OnProgressChanged);
-            ZuneApplication.Service.RegisterForDownloadNotification(new DownloadEventHandler(this.OnDownloadEvent), new DownloadEventProgressHandler(this.OnDownloadProgressEvent), new EventHandler(this.OnAllPending));
+            ZuneApplication.Service2.RegisterForDownloadNotification(new DownloadEventHandler(this.OnDownloadEvent), new DownloadEventProgressHandler(this.OnDownloadProgressEvent), new EventHandler(this.OnAllPending));
             SingletonModelItem<TransportControls>.Instance.PropertyChanged += new PropertyChangedEventHandler(this.OnTransportControlPropertyChanged);
         }
 
