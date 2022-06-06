@@ -3,15 +3,16 @@ using Microsoft.Zune.Util;
 using System;
 using System.Collections;
 using ZuneUI;
+using RealService = Microsoft.Zune.Service.Service;
 
-namespace Microsoft.Zune.Service2
+namespace Microsoft.Zune.Service
 {
-    public class Service : IDisposable
+    public class Service2 : IDisposable
     {
         private bool disposedValue;
 
-        private static Service _instance = new Service();
-        public static Service Instance => _instance;
+        private static Service2 _instance = new Service2();
+        public static Service2 Instance => _instance;
 
         public static EListType ContentTypeToListType(EContentType contentType)
         {
@@ -51,497 +52,336 @@ namespace Microsoft.Zune.Service2
             return "catalog.zunes.me/service?id=" + eServiceEndpointId.ToString();
         }
 
-        public int AddPaymentInstrument(PaymentInstrument paymentInstrument, AddPaymentInstrumentCompleteCallback completeCallback, AddPaymentInstrumentErrorCallback errorCallback)
+        public int AddPaymentInstrument(PaymentInstrument paymentInstrument, 
+            AddPaymentInstrumentCompleteCallback completeCallback,
+            AddPaymentInstrumentErrorCallback errorCallback)
         {
-            throw new NotImplementedException();
+            return RealService.Instance.AddPaymentInstrument(paymentInstrument, completeCallback, errorCallback);
         }
 
         public int AddPaymentInstrument(PaymentInstrument paymentInstrument, out string paymentId, out ServiceError serviceError)
         {
-            throw new NotImplementedException();
+            return RealService.Instance.AddPaymentInstrument(paymentInstrument, out paymentId, out serviceError);
         }
 
         public HRESULT AuthenticatePassport(string username, string password, EPassportPolicyId ePassportPolicyId, out PassportIdentity passportIdentity)
         {
-            throw new NotImplementedException();
+            return RealService.Instance.AuthenticatePassport(username, password, ePassportPolicyId, out passportIdentity);
         }
 
         public bool BlockExplicitContent()
         {
-            return true;
+            return RealService.Instance.BlockExplicitContent();
         }
 
         public bool BlockRatedContent(string system, string rating)
         {
-            return false;
+            return RealService.Instance.BlockRatedContent(system, rating);
         }
 
         public void CancelDownload(Guid guidMediaId, EContentType eContentType)
         {
-
+            RealService.Instance.CancelDownload(guidMediaId, eContentType);
         }
 
         public void CancelSignIn()
         {
-
+            RealService.Instance.CancelSignIn();
         }
 
         public bool CanDownloadSubscriptionContent()
         {
-            throw new NotImplementedException();
+            return RealService.Instance.CanDownloadSubscriptionContent();
         }
 
         public bool CanSignedInUserPostUsageData()
         {
-            throw new NotImplementedException();
+            return RealService.Instance.CanSignedInUserPostUsageData();
         }
 
         public bool ClearLastSignedInUser()
         {
-            throw new NotImplementedException();
+            return RealService.Instance.ClearLastSignedInUser();
         }
 
         public AppOfferCollection CreateEmptyAppCollection()
         {
-            throw new NotImplementedException();
+            return RealService.Instance.CreateEmptyAppCollection();
         }
 
         public bool DeleteSubscriptionDownloads(AsyncCompleteHandler eventHandler)
         {
-            throw new NotImplementedException();
+            return RealService.Instance.DeleteSubscriptionDownloads(eventHandler);
         }
 
         public void Download(IList items, EDownloadFlags eDownloadFlags, string deviceEndpointId, EDownloadContextEvent clientContextEvent, string clientContextEventData, DownloadEventHandler eventHandler, DownloadEventProgressHandler progressHandler, EventHandler allPendingHandler)
         {
-            throw new NotImplementedException();
+            RealService.Instance.Download(items, eDownloadFlags, deviceEndpointId, clientContextEvent, clientContextEventData, eventHandler, progressHandler, allPendingHandler);
         }
 
         public bool GetAlbumIdFromCompId(string compId, out Guid guidAlbum)
         {
-            throw new NotImplementedException();
+            return RealService.Instance.GetAlbumIdFromCompId(compId, out guidAlbum);
         }
 
         public void GetBalances(GetBalancesCompleteCallback completeCallback, GetBalancesErrorCallback errorCallback)
         {
-            throw new NotImplementedException();
+            RealService.Instance.GetBalances(completeCallback, errorCallback);
         }
 
         public EContentType GetContentType(string contentTypeStr)
         {
-            throw new NotImplementedException();
+            return RealService.Instance.GetContentType(contentTypeStr);
         }
 
         public HRESULT GetContentUri(Guid guidMediaId, EContentType eContentType, EContentUriFlags eContentUriFlags, bool fIsHD, bool fIsRental, out string uriOut)
         {
-            throw new NotImplementedException();
+            return RealService.Instance.GetContentUri(guidMediaId, eContentType, eContentUriFlags, fIsHD, fIsRental, out uriOut);
         }
 
         public HRESULT GetContentUri(Guid guidMediaId, EContentType eContentType, EContentUriFlags eContentUriFlags, out string uriOut, out Guid mediaInstanceIdOut)
         {
-            throw new NotImplementedException();
+            return RealService.Instance.GetContentUri(guidMediaId, eContentType, eContentUriFlags, out uriOut, out mediaInstanceIdOut);
         }
 
         public HRESULT GetContentUri(Guid guidMediaId, EContentType eContentType, EContentUriFlags eContentUriFlags, EMediaFormat eMediaFormat, EMediaRights eMediaRights, out string uriOut, out Guid mediaInstanceIdOut)
         {
             throw new NotImplementedException();
+            //return RealService.Instance.GetContentUri(guidMediaId, eContentType, eContentUriFlags, eMediaFormat, eMediaRights, out uriOut, out mediaInstanceIdOut);
         }
 
         public CountryBaseDetails[] GetCountryDetails()
         {
-            throw new NotImplementedException();
+            return RealService.Instance.GetCountryDetails();
         }
 
         public DRMInfo GetFileDRMInfo(string filePath)
         {
-            throw new NotImplementedException();
+            return RealService.Instance.GetFileDRMInfo(filePath);
         }
 
         public bool GetLastSignedInUserGuid(out int iUserId, out Guid guidUserGuid)
         {
-            iUserId = 2;
-            guidUserGuid = Guid.Empty;
-            return false;
-            throw new NotImplementedException();
+            return RealService.Instance.GetLastSignedInUserGuid(out iUserId, out guidUserGuid);
         }
 
         public void GetLastSignedInUserSubscriptionState(out bool activeSubscription, out ulong subscriptionId)
         {
-            throw new NotImplementedException();
+            RealService.Instance.GetLastSignedInUserSubscriptionState(out activeSubscription, out subscriptionId);
         }
 
         public string GetLocale()
         {
-            throw new NotImplementedException();
+            return RealService.Instance.GetLocale();
         }
 
         public string GetMachineId()
         {
-            throw new NotImplementedException();
+            return RealService.Instance.GetMachineId();
         }
 
         public DRMInfo GetMediaDRMInfo(Guid mediaId, EContentType eContentType)
         {
-            throw new NotImplementedException();
+            return RealService.Instance.GetMediaDRMInfo(mediaId, eContentType);
         }
 
         public EMediaStatus GetMediaStatus(Guid guidMediaId, EContentType eContentType)
         {
-            throw new NotImplementedException();
+            return RealService.Instance.GetMediaStatus(guidMediaId, eContentType);
         }
 
         public bool GetMusicVideoIdFromCompId(string compId, out Guid guidMusicVideo)
         {
-            throw new NotImplementedException();
+            return RealService.Instance.GetMusicVideoIdFromCompId(compId, out guidMusicVideo);
         }
 
         public HRESULT GetOfferDetails(Guid offerId, GetOfferDetailsCompleteCallback completeCallback, GetOfferDetailsErrorCallback errorCallback, object state)
         {
-            throw new NotImplementedException();
+            return RealService.Instance.GetOfferDetails(offerId, completeCallback, errorCallback, state);
         }
 
         public void GetOffers(IList albumGuids, IList trackGuids, IList videoGuids, IList appGuids, IDictionary mapIdToContext, EGetOffersFlags eGetOffersFlags, string deviceEndpointId, GetOffersCompleteCallback completeCallback, GetOffersErrorCallback errorCallback)
         {
-            throw new NotImplementedException();
+            RealService.Instance.GetOffers(albumGuids, trackGuids, videoGuids, appGuids, mapIdToContext, eGetOffersFlags, deviceEndpointId, completeCallback, errorCallback);
         }
 
         public ulong GetPassportPuid()
         {
-            throw new NotImplementedException();
+            return RealService.Instance.GetPassportPuid();
         }
 
         public string GetPassportTicket(EPassportPolicyId ePassportPolicy)
         {
-            throw new NotImplementedException();
+            return RealService.Instance.GetPassportTicket(ePassportPolicy);
         }
 
         public void GetPaymentInstruments(GetPaymentInstrumentsCompleteCallback completeCallback, GetPaymentInstrumentsErrorCallback errorCallback)
         {
-            throw new NotImplementedException();
+            RealService.Instance.GetPaymentInstruments(completeCallback, errorCallback);
         }
 
         public IList GetPersistedUsernames()
         {
-            return new System.Collections.Generic.List<string> () { };
-            throw new NotImplementedException();
+            return RealService.Instance.GetPersistedUsernames();
         }
 
         public string GetPhoneClientType(string strPhoneOsVersion)
         {
-            throw new NotImplementedException();
+            return RealService.Instance.GetPhoneClientType(strPhoneOsVersion);
         }
 
-        public int GetPointsBalance()
-        {
-            throw new NotImplementedException();
-        }
+        public int GetPointsBalance() => RealService.Instance.GetPointsBalance();
 
         public void GetPointsOffers(GetBillingOffersCompleteCallback completeCallback, GetBillingOffersErrorCallback errorCallback)
-        {
-            throw new NotImplementedException();
-        }
+            => RealService.Instance.GetPointsOffers(completeCallback, errorCallback);
 
-        public RatingSystemBase[] GetRatingSystems()
-        {
-            throw new NotImplementedException();
-        }
+        public RatingSystemBase[] GetRatingSystems() => RealService.Instance.GetRatingSystems();
 
-        public int GetRentalTermDays(string strStudio)
-        {
-            throw new NotImplementedException();
-        }
+        public int GetRentalTermDays(string strStudio) => RealService.Instance.GetRentalTermDays(strStudio);
 
-        public int GetRentalTermHours(string strStudio)
-        {
-            throw new NotImplementedException();
-        }
+        public int GetRentalTermHours(string strStudio) => RealService.Instance.GetRentalTermHours(strStudio);
 
-        public uint GetSignedInGeoId()
-        {
-            throw new NotImplementedException();
-        }
+        public uint GetSignedInGeoId() => RealService.Instance.GetSignedInGeoId();
 
-        public string GetSignedInUsername()
-        {
-            throw new NotImplementedException();
-        }
+        public string GetSignedInUsername() => RealService.Instance.GetSignedInUsername();
 
-        public string GetSignInAtStartupUsername()
-        {
-            return string.Empty;
-            throw new NotImplementedException();
-        }
+        public string GetSignInAtStartupUsername() => RealService.Instance.GetSignInAtStartupUsername();
 
         public void GetSubscriptionDetails(ulong offerId, GetBillingOffersCompleteCallback completeCallback, GetBillingOffersErrorCallback errorCallback)
-        {
-            throw new NotImplementedException();
-        }
+            => RealService.Instance.GetSubscriptionDetails(offerId, completeCallback, errorCallback);
 
-        public string GetSubscriptionDirectory()
-        {
-            throw new NotImplementedException();
-        }
+        public string GetSubscriptionDirectory() => RealService.Instance.GetSubscriptionDirectory();
 
-        public DateTime GetSubscriptionEndDate()
-        {
-            throw new NotImplementedException();
-        }
+        public DateTime GetSubscriptionEndDate() => RealService.Instance.GetSubscriptionEndDate();
 
-        public int GetSubscriptionFreeTrackBalance()
-        {
-            return 0;
-            throw new NotImplementedException();
-        }
+        public int GetSubscriptionFreeTrackBalance() => RealService.Instance.GetSubscriptionFreeTrackBalance();
 
-        public DateTime GetSubscriptionFreeTrackExpiration()
-        {
-            throw new NotImplementedException();
-        }
+        public DateTime GetSubscriptionFreeTrackExpiration() => RealService.Instance.GetSubscriptionFreeTrackExpiration();
 
-        public ulong GetSubscriptionOfferId()
-        {
-            throw new NotImplementedException();
-        }
+        public ulong GetSubscriptionOfferId() => RealService.Instance.GetSubscriptionOfferId();
 
         public void GetSubscriptionOffers(GetBillingOffersCompleteCallback completeCallback, GetBillingOffersErrorCallback errorCallback)
-        {
-            throw new NotImplementedException();
-        }
+            => RealService.Instance.GetSubscriptionOffers(completeCallback, errorCallback);
 
-        public ulong GetSubscriptionRenewalOfferId()
-        {
-            throw new NotImplementedException();
-        }
+        public ulong GetSubscriptionRenewalOfferId() => RealService.Instance.GetSubscriptionRenewalOfferId();
 
-        public int GetSubscriptionTrialDuration()
-        {
-            throw new NotImplementedException();
-        }
+        public int GetSubscriptionTrialDuration() => RealService.Instance.GetSubscriptionTrialDuration();
 
-        public ValueType GetUserGuid()
-        {
-            throw new NotImplementedException();
-        }
+        public ValueType GetUserGuid() => RealService.Instance.GetUserGuid();
 
         public bool GetUserRating(int iUserId, Guid guidMediaId, EContentType eContentType, ref int piRating)
-        {
-            throw new NotImplementedException();
-        }
+            => RealService.Instance.GetUserRating(iUserId, guidMediaId, eContentType, ref piRating);
 
         public string GetWMISEndPointUri(string strEndPointName)
-        {
-            throw new NotImplementedException();
-        }
+            => RealService.Instance.GetWMISEndPointUri(strEndPointName);
 
-        public string GetXboxPuid()
-        {
-            throw new NotImplementedException();
-        }
+        public string GetXboxPuid() => RealService.Instance.GetXboxPuid();
 
-        public string GetXboxTicket()
-        {
-            throw new NotImplementedException();
-        }
+        public string GetXboxTicket() => RealService.Instance.GetXboxTicket();
 
-        public string GetZuneTag()
-        {
-            throw new NotImplementedException();
-        }
+        public string GetZuneTag() => RealService.Instance.GetZuneTag();
 
-        public bool HasSignInBillingViolation()
-        {
-            throw new NotImplementedException();
-        }
+        public bool HasSignInBillingViolation() => RealService.Instance.HasSignInBillingViolation();
 
-        public bool HasSignInLabelTakedown()
-        {
-            throw new NotImplementedException();
-        }
+        public bool HasSignInLabelTakedown() => RealService.Instance.HasSignInLabelTakedown();
 
         public bool InCompleteCollection(Guid guidMediaId, EContentType eContentType, string strDeviceEndpointId)
-        {
-            throw new NotImplementedException();
-        }
+            => RealService.Instance.InCompleteCollection(guidMediaId, eContentType, strDeviceEndpointId);
 
         public bool InCompleteCollection(Guid guidMediaId, EContentType eContentType, out int dbMediaId, out bool fHidden)
-        {
-            throw new NotImplementedException();
-        }
+            => RealService.Instance.InCompleteCollection(guidMediaId, eContentType, out dbMediaId, out fHidden);
 
         public bool InCompleteCollection(Guid guidMediaId, EContentType eContentType, string strDeviceEndpointId, out int dbMediaId, out bool fHidden)
-        {
-            throw new NotImplementedException();
-        }
+            => RealService.Instance.InCompleteCollection(guidMediaId, eContentType, strDeviceEndpointId, out dbMediaId, out fHidden);
 
         public bool InCompleteCollection(Guid guidMediaId, EContentType eContentType)
-        {
-            throw new NotImplementedException();
-        }
+            => RealService.Instance.InCompleteCollection(guidMediaId, eContentType);
 
         public bool InHiddenCollection(Guid guidMediaId, EContentType eContentType)
-        {
-            throw new NotImplementedException();
-        }
+            => RealService.Instance.InHiddenCollection(guidMediaId, eContentType);
 
         public int InitializeWMISEndpointCollection()
-        {
-            throw new NotImplementedException();
-        }
+            => RealService.Instance.InitializeWMISEndpointCollection();
 
         public bool InVisibleCollection(Guid guidMediaId, EContentType eContentType)
-        {
-            throw new NotImplementedException();
-        }
+            => RealService.Instance.InVisibleCollection(guidMediaId, eContentType);
 
         public bool InVisibleCollection(Guid guidMediaId, EContentType eContentType, out int dbMediaId)
-        {
-            throw new NotImplementedException();
-        }
+            => RealService.Instance.InVisibleCollection(guidMediaId, eContentType, out dbMediaId);
 
         public bool IsDownloading(Guid guidMediaId, EContentType eContentType, out bool fIsDownloadPending, out bool fIsHidden)
-        {
-            throw new NotImplementedException();
-        }
+            => RealService.Instance.IsDownloading(guidMediaId, eContentType, out fIsDownloadPending, out fIsHidden);
 
-        public bool IsLightWeight()
-        {
-            throw new NotImplementedException();
-        }
+        public bool IsLightWeight() => RealService.Instance.IsLightWeight();
 
-        public bool IsParentallyControlled()
-        {
-            throw new NotImplementedException();
-        }
+        public bool IsParentallyControlled() => RealService.Instance.IsParentallyControlled();
 
-        public bool IsSignedIn()
-        {
-            throw new NotImplementedException();
-        }
+        public bool IsSignedIn() => RealService.Instance.IsSignedIn();
 
-        public bool IsSignedInWithSubscription()
-        {
-            throw new NotImplementedException();
-        }
+        public bool IsSignedInWithSubscription() => RealService.Instance.IsSignedInWithSubscription();
 
-        public bool IsSigningIn()
-        {
-            throw new NotImplementedException();
-        }
+        public bool IsSigningIn() => RealService.Instance.IsSigningIn();
 
         public bool LaunchBrowserForExternalUrl(string strUrl, EPassportPolicyId ePassportPolicy)
-        {
-            throw new NotImplementedException();
-        }
+            => RealService.Instance.LaunchBrowserForExternalUrl(strUrl, ePassportPolicy);
 
-        public int Phase3Initialize()
-        {
-            ZuneShell.DefaultInstance.CurrentPage.AutoHideToolbars = true;
-            //Win32MessageBox.Show("Navigated to page", "Welcome to the social", Win32MessageBoxType.MB_OK, null);
-            return 0;
-
-            throw new NotImplementedException();
-        }
+        public int Phase3Initialize() => RealService.Instance.Phase3Initialize();
 
         public bool PostAppReview(Guid mediaId, string title, string comment, int rating, AsyncCompleteHandler callback)
-        {
-            throw new NotImplementedException();
-        }
+            => RealService.Instance.PostAppReview(mediaId, title, comment, rating, callback);
 
         public int PurchaseBillingOffer(BillingOffer offer, PaymentInstrument paymentInstrument, AsyncCompleteHandler callback)
-        {
-            throw new NotImplementedException();
-        }
+            => RealService.Instance.PurchaseBillingOffer(offer, paymentInstrument, callback);
 
         public int PurchaseBillingOffer(BillingOffer offer, PaymentInstrument paymentInstrument)
-        {
-            throw new NotImplementedException();
-        }
+            => RealService.Instance.PurchaseBillingOffer(offer, paymentInstrument);
 
         public void PurchaseOffers(PaymentInstrument payment, AlbumOfferCollection albumOffers, TrackOfferCollection trackOffers, VideoOfferCollection videoOffers, AppOfferCollection appOffers, EPurchaseOffersFlags ePurchaseOffersFlags, PurchaseOffersCompleteHandler purchaseOffersHandler)
-        {
-            throw new NotImplementedException();
-        }
+            => RealService.Instance.PurchaseOffers(payment, albumOffers, trackOffers, videoOffers, appOffers, ePurchaseOffersFlags, purchaseOffersHandler);
 
-        public void RefreshAccount(AsyncCompleteHandler eventHandler)
-        {
-            throw new NotImplementedException();
-        }
+        public void RefreshAccount(AsyncCompleteHandler eventHandler) => RealService.Instance.RefreshAccount(eventHandler);
 
         public void RegisterForDownloadNotification(DownloadEventHandler eventHandler, DownloadEventProgressHandler progressHandler, EventHandler allPendingHandler)
-        {
-            return;
-            throw new NotImplementedException();
-        }
+            => RealService.Instance.RegisterForDownloadNotification(eventHandler, progressHandler, allPendingHandler);
 
         public void RemovePersistedUsername(string strUsername)
-        {
-            throw new NotImplementedException();
-        }
+            => RealService.Instance.RemovePersistedUsername(strUsername);
 
         public bool ReportAConcern(EConcernType concernType, EContentType contentType, Guid mediaId, string message, AsyncCompleteHandler callback)
-        {
-            throw new NotImplementedException();
-        }
+            => RealService.Instance.ReportAConcern(concernType, contentType, mediaId, message, callback);
 
         public bool ReportFavouriteArtists(Guid userId, IList artists, AsyncCompleteHandler callback)
-        {
-            throw new NotImplementedException();
-        }
+            => RealService.Instance.ReportFavouriteArtists(userId, artists, callback);
 
         public void ReportStreamingAction(EStreamingActionType eStreamingActionType, Guid guidMediaInstanceId, AsyncCompleteHandler eventHandler)
-        {
-            throw new NotImplementedException();
-        }
+            => RealService.Instance.ReportStreamingAction(eStreamingActionType, guidMediaInstanceId, eventHandler);
 
         public int ResumePurchase(string resumeHandle, string authorizationToken, AsyncCompleteHandler callback)
-        {
-            throw new NotImplementedException();
-        }
+            => RealService.Instance.ResumePurchase(resumeHandle, authorizationToken, callback);
 
         public bool SetLastSignedInUserGuid(ref Guid guidUserGuid, out int iUserId)
-        {
-            throw new NotImplementedException();
-        }
+            => RealService.Instance.SetLastSignedInUserGuid(ref guidUserGuid, out iUserId);
 
         public bool SetUserArtistRating(int iUserId, int iRating, Guid guidArtistMediaId, string strTitle)
-        {
-            throw new NotImplementedException();
-        }
+            => RealService.Instance.SetUserArtistRating(iUserId, iRating, guidArtistMediaId, strTitle);
 
         public bool SetUserTrackRating(int iUserId, int iRating, Guid guidTrackMediaId, Guid guidAlbumMediaId, int iTrackNumber, string strTitle, int msDuration, string strAlbum, string strArtist, string strGenre, string strServiceContext)
-        {
-            throw new NotImplementedException();
-        }
+            => RealService.Instance.SetUserTrackRating(iUserId, iRating, guidTrackMediaId, guidAlbumMediaId, iTrackNumber, strTitle, msDuration, strAlbum, strArtist, strGenre, strServiceContext);
 
         public void SignIn(string strUsername, string strPassword, bool fRememberUsername, bool fRememberPassword, bool fAutomaticallySignInAtStartup, AsyncCompleteHandler eventHandler)
-        {
-            return;
-            throw new NotImplementedException();
-        }
+            => RealService.Instance.SignIn(strUsername, strPassword, fRememberUsername, fRememberPassword, fAutomaticallySignInAtStartup, eventHandler);
 
-        public bool SignInAtStartup(string strUsername)
-        {
-            throw new NotImplementedException();
-        }
+        public bool SignInAtStartup(string strUsername) => RealService.Instance.SignInAtStartup(strUsername);
 
         public bool SignInPasswordRequired(string strUsername)
-        {
-            throw new NotImplementedException();
-        }
+            => RealService.Instance.SignInPasswordRequired(strUsername);
 
-        public void SignOut()
-        {
-            throw new NotImplementedException();
-        }
+        public void SignOut() => RealService.Instance.SignOut();
 
-        public bool SubscriptionPendingCancel()
-        {
-            throw new NotImplementedException();
-        }
+        public bool SubscriptionPendingCancel() => RealService.Instance.SubscriptionPendingCancel();
 
         public int VerifyToken(string token, out TokenDetails tokenDetails)
-        {
-            throw new NotImplementedException();
-        }
+            => RealService.Instance.VerifyToken(token, out tokenDetails);
 
 
         protected virtual void Dispose(bool disposing)
@@ -560,7 +400,7 @@ namespace Microsoft.Zune.Service2
         }
 
         // Override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
-        ~Service()
+        ~Service2()
         {
             // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
             Dispose(disposing: false);

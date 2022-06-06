@@ -28,7 +28,7 @@ namespace ZuneUI
                     {
                         case EDownloadTaskState.DLTaskCancelled:
                         case EDownloadTaskState.DLTaskFailed:
-                            switch (Microsoft.Zune.Service.Service.Instance.GetContentType(task.GetProperty("Type")))
+                            switch (Microsoft.Zune.Service.Service2.Instance.GetContentType(task.GetProperty("Type")))
                             {
                                 case Microsoft.Zune.Service.EContentType.MusicTrack:
                                 case Microsoft.Zune.Service.EContentType.Video:

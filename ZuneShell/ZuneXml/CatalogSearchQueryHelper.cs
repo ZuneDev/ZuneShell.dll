@@ -30,7 +30,7 @@ namespace ZuneXml
             string property2 = (string)this.Query.GetProperty("Keywords");
             if (string.IsNullOrEmpty(property1) || string.IsNullOrEmpty(property2))
                 return null;
-            string endPointUri = Microsoft.Zune.Service.Service.GetEndPointUri(this._endPoint);
+            string endPointUri = Microsoft.Zune.Service.Service2.GetEndPointUri(this._endPoint);
             StringBuilder stringBuilder = new StringBuilder(128);
             stringBuilder.Append(endPointUri);
             stringBuilder.Append("/");

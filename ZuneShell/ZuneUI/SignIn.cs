@@ -690,7 +690,7 @@ namespace ZuneUI
             string strPhoneOsVersion = string.Empty;
             if (phoneVersion != null)
                 strPhoneOsVersion = string.Format("{0}.{1}", phoneVersion.Major, phoneVersion.Minor);
-            return Microsoft.Zune.Service.Service.Instance.GetPhoneClientType(strPhoneOsVersion);
+            return Microsoft.Zune.Service.Service2.Instance.GetPhoneClientType(strPhoneOsVersion);
         }
 
         public void CheckConnectedPhoneForNewerFirmware()

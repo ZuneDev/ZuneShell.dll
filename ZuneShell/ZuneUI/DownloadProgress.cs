@@ -71,7 +71,7 @@ namespace ZuneUI
             get
             {
                 int dbMediaId;
-                if (!Microsoft.Zune.Service.Service.Instance.InCompleteCollection(this.ServiceId, this.ContentType, out dbMediaId, out bool _))
+                if (!Microsoft.Zune.Service.Service2.Instance.InCompleteCollection(this.ServiceId, this.ContentType, out dbMediaId, out bool _))
                     dbMediaId = -1;
                 return dbMediaId;
             }

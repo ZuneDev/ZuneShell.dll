@@ -64,7 +64,7 @@ namespace ZuneUI
             }
         }
 
-        protected override void OnInvoked() => Microsoft.Zune.Service.Service.Instance.ReportFavouriteArtists(this.m_userId, this.m_artists, new AsyncCompleteHandler(this.OnCompleteHandler));
+        protected override void OnInvoked() => Microsoft.Zune.Service.Service2.Instance.ReportFavouriteArtists(this.m_userId, this.m_artists, new AsyncCompleteHandler(this.OnCompleteHandler));
 
         private void OnCompleteHandler(HRESULT hr) => Application.DeferredInvoke(new DeferredInvokeHandler(this.OnCompleteHandler), hr);
 

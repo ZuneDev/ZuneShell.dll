@@ -30,7 +30,7 @@ namespace ZuneUI
 
         private static string GetViewUri(string id, string type)
         {
-            string endPointUri = Microsoft.Zune.Service.Service.GetEndPointUri(Microsoft.Zune.Service.EServiceEndpointId.SEID_Lynx);
+            string endPointUri = Microsoft.Zune.Service.Service2.GetEndPointUri(Microsoft.Zune.Service.EServiceEndpointId.SEID_Lynx);
             string str = FeatureEnablement.IsFeatureEnabled(Features.eSocial) ? "View" : "ViewUnsupportedMarket";
             return "Web\\" + UrlHelper.MakeUrlEx(endPointUri + "/redirect", nameof(type), type, nameof(id), id, "target", "web", "action", str);
         }
