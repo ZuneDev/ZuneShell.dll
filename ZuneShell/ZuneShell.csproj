@@ -18,6 +18,22 @@
         <SignAssembly>True</SignAssembly>
         <AssemblyOriginatorKeyFile>..\libs\MicrosoftIris\36MSApp1024.snk</AssemblyOriginatorKeyFile>
         <DelaySign>True</DelaySign>
+
+        <UseOpenZune>False</UseOpenZune>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Reference Include="ZuneDBApi">
+            <HintPath>C:\Program Files\Zune\ZuneDBApi.dll</HintPath>
+        </Reference>
+        <Reference Include="UIXControls">
+            <HintPath>C:\Program Files\Zune\UIXcontrols.dll</HintPath>
+        </Reference>
+        <ProjectReference Include="..\libs\MicrosoftIris\UIX\UIX.csproj" />
+    </ItemGroup>
+
+    <PropertyGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
+        <UseOpenZune>True</UseOpenZune>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(TargetFramework)' == 'net35' ">
@@ -35,13 +51,7 @@
         <Reference Include="Accessibility" />
     </ItemGroup>
 
-    <ItemGroup>
-        <Reference Include="ZuneDBApi">
-            <HintPath>C:\Program Files\Zune\ZuneDBApi.dll</HintPath>
-        </Reference>
-        <Reference Include="UIXControls">
-            <HintPath>C:\Program Files\Zune\UIXcontrols.dll</HintPath>
-        </Reference>
-        <ProjectReference Include="..\libs\MicrosoftIris\UIX\UIX.csproj" />
+    <ItemGroup Condition=" $(UseOpenZune) ">
+        <PackageReference Include="StrixMusic.Sdk" Version="0.0.2-alpha" />
     </ItemGroup>
 </Project>
