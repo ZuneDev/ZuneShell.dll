@@ -713,6 +713,9 @@ namespace ZuneUI
             return (T)fieldValues[0];
         }
 
+        public static T GetFieldValue<T>(int mediaId, EListType listType, FieldAtom atom, T defaultValue)
+            => GetFieldValue(mediaId, listType, (int)atom, defaultValue);
+
         public static void SetFieldValue<T>(int mediaId, EListType listType, int atom, T value)
         {
             int[] columnIndexes = new int[1] { atom };

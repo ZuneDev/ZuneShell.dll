@@ -1832,52 +1832,52 @@ namespace ZuneUI
         {
             int myID = ++this._lastKnownSetUriCallID;
             ThreadPool.QueueUserWorkItem(args =>
-           {
-               if (track != null)
-               {
-                   string trackUri;
-                   HRESULT uri = track.GetURI(out trackUri);
-                   if (string.IsNullOrEmpty(trackUri))
-                       trackUri = ".:* INVALID URI *:.";
-                   if (uri.IsSuccess)
-                       Application.DeferredInvoke(delegate
-                 {
-                     if (this.IsDisposed || myID != this._lastKnownSetUriCallID)
-                         return;
-                     this._playbackWrapper.SetUri(trackUri, 0L, track.PlaybackID);
-                     this.ReportStreamingAction(PlayerState.Stopped);
-                     this._tracksSubmittedToPlayer.Remove(track);
-                     this._tracksSubmittedToPlayer.Add(track);
-                     if (nextTrack != null)
-                         return;
-                     this._playbackWrapper.CancelNext();
-                     this.UpdatePropertiesAndCommands();
-                 }, null);
-                   else
-                       this.OnAlertSent(new Announcement()
-                       {
-                           HResult = uri.Int,
-                           PlaybackID = track.PlaybackID
-                       });
-               }
-               if (nextTrack == null)
-                   return;
-               string nextTrackUri;
-               HRESULT uri1 = nextTrack.GetURI(out nextTrackUri);
-               if (string.IsNullOrEmpty(nextTrackUri))
-                   nextTrackUri = ".:* INVALID URI *:.";
-               if (!uri1.IsSuccess)
-                   return;
-               Application.DeferredInvoke(delegate
-         {
-             if (this.IsDisposed || myID != this._lastKnownSetUriCallID)
-                 return;
-             this._playbackWrapper.SetNextUri(nextTrackUri, 0L, nextTrack.PlaybackID);
-             this._tracksSubmittedToPlayer.Remove(nextTrack);
-             this._tracksSubmittedToPlayer.Add(nextTrack);
-             this.UpdatePropertiesAndCommands();
-         }, null);
-           }, null);
+            {
+                if (track != null)
+                {
+                    string trackUri;
+                    HRESULT uri = track.GetURI(out trackUri);
+                    if (string.IsNullOrEmpty(trackUri))
+                        trackUri = ".:* INVALID URI *:.";
+                    if (uri.IsSuccess)
+                        Application.DeferredInvoke(delegate
+                        {
+                            if (this.IsDisposed || myID != this._lastKnownSetUriCallID)
+                                return;
+                            this._playbackWrapper.SetUri(trackUri, 0L, track.PlaybackID);
+                            this.ReportStreamingAction(PlayerState.Stopped);
+                            this._tracksSubmittedToPlayer.Remove(track);
+                            this._tracksSubmittedToPlayer.Add(track);
+                            if (nextTrack != null)
+                                return;
+                            this._playbackWrapper.CancelNext();
+                            this.UpdatePropertiesAndCommands();
+                        }, null);
+                    else
+                        this.OnAlertSent(new Announcement()
+                        {
+                            HResult = uri.Int,
+                            PlaybackID = track.PlaybackID
+                        });
+                }
+                if (nextTrack == null)
+                    return;
+                string nextTrackUri;
+                HRESULT uri1 = nextTrack.GetURI(out nextTrackUri);
+                if (string.IsNullOrEmpty(nextTrackUri))
+                    nextTrackUri = ".:* INVALID URI *:.";
+                if (!uri1.IsSuccess)
+                    return;
+                Application.DeferredInvoke(delegate
+                {
+                    if (this.IsDisposed || myID != this._lastKnownSetUriCallID)
+                        return;
+                    this._playbackWrapper.SetNextUri(nextTrackUri, 0L, nextTrack.PlaybackID);
+                    this._tracksSubmittedToPlayer.Remove(nextTrack);
+                    this._tracksSubmittedToPlayer.Add(nextTrack);
+                    this.UpdatePropertiesAndCommands();
+                }, null);
+            }, null);
         }
 
         private void UpdateNextTrack()

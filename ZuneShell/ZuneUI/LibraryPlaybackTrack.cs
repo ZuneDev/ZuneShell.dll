@@ -13,10 +13,21 @@ using MicrosoftZunePlayback;
 using System;
 using System.Threading;
 
+#if OPENZUNE
+using StrixMusic.Sdk.AppModels;
+using StrixMusic.Sdk.BaseModels;
+using StrixMusic.Sdk.MediaPlayback;
+using System.Globalization;
+using System.Threading.Tasks;
+#endif
+
 namespace ZuneUI
 {
     [Serializable]
     public class LibraryPlaybackTrack : PlaybackTrack
+#if OPENZUNE
+        , ITrackBase
+#endif
     {
         private const long c_bookmarkInterval = 10000000;
         private int _mediaId;
@@ -105,11 +116,11 @@ namespace ZuneUI
             }
         }
 
-        public override string Title => PlaylistManager.GetFieldValue(this._mediaId, this._listType, 344, string.Empty);
+        public override string Title => PlaylistManager.GetFieldValue(_mediaId, _listType, 344, string.Empty);
 
-        public override TimeSpan Duration => PlaylistManager.GetFieldValue(this._mediaId, this._listType, 151, TimeSpan.Zero);
+        public override TimeSpan Duration => PlaylistManager.GetFieldValue(_mediaId, _listType, 151, TimeSpan.Zero);
 
-        public int AlbumLibraryId => PlaylistManager.GetFieldValue(this._mediaId, this._listType, 11, -1);
+        public int AlbumLibraryId => PlaylistManager.GetFieldValue(_mediaId, _listType, 11, -1);
 
         public int AlbumArtistLibraryId
         {
@@ -156,11 +167,14 @@ namespace ZuneUI
 
         public override bool IsInVisibleCollection => PlaylistManager.IsInVisibleCollection(this._mediaId, this._mediaType);
 
-        private long Bookmark => this._mediaType == MediaType.PodcastEpisode || this._mediaType == MediaType.Video ? PlaylistManager.GetFieldValue(this._mediaId, this._listType, 35, 0L) : 0L;
+        private long Bookmark => this._mediaType == MediaType.PodcastEpisode || this._mediaType == MediaType.Video
+            ? PlaylistManager.GetFieldValue(_mediaId, _listType, 35, 0L) : 0L;
 
-        private string Album => PlaylistManager.GetFieldValue(this._mediaId, this._listType, this._mediaType == MediaType.PodcastEpisode ? 312 : 382, string.Empty);
+        private string Album => PlaylistManager.GetFieldValue(_mediaId, _listType, _mediaType == MediaType.PodcastEpisode
+            ? FieldAtom.TrackList_PodcastEpisodeAlbumName : FieldAtom.TrackList_AlbumName, string.Empty);
 
-        public string DisplayArtist => PlaylistManager.GetFieldValue(this._mediaId, this._listType, this._mediaType == MediaType.PodcastEpisode ? 24 : 138, string.Empty);
+        public string DisplayArtist => PlaylistManager.GetFieldValue(_mediaId, _listType, _mediaType == MediaType.PodcastEpisode
+            ? FieldAtom.TrackList_PodcastEpisodeArtistName : FieldAtom.TrackList_ArtistName, string.Empty);
 
         public override string ServiceContext
         {
@@ -173,14 +187,15 @@ namespace ZuneUI
             }
         }
 
-        private int TrackNumber => this._mediaType != MediaType.PodcastEpisode ? PlaylistManager.GetFieldValue(this._mediaId, this._listType, 437, 0) : 0;
+        private int TrackNumber => _mediaType != MediaType.PodcastEpisode ?
+            PlaylistManager.GetFieldValue(_mediaId, _listType, FieldAtom.TrackList_TrackNumber, 0) : 0;
 
         public override HRESULT GetURI(out string uri)
         {
             string uriOut = null;
             HRESULT hresult = HRESULT._S_OK;
             Microsoft.Zune.Service.EContentType eContentType;
-            if (PlaylistManager.GetFieldValue(this._mediaId, this._listType, 177, -1) == 43)
+            if (PlaylistManager.GetFieldValue(this._mediaId, this._listType, FieldAtom.TrackList_UnkIsVideo, -1) == 43)
             {
                 eContentType = Microsoft.Zune.Service.EContentType.Video;
             }
@@ -258,6 +273,11 @@ namespace ZuneUI
                     break;
             }
             Microsoft.Zune.Util.Notification.BroadcastNowPlaying(MediaType, this.Album, this.DisplayArtist, this.Title, this.TrackNumber, this.ZuneMediaId);
+
+#if OPENZUNE
+            m_playbackState = PlaybackState.Playing;
+            PlaybackStateChanged?.Invoke(this, m_playbackState);
+#endif
         }
 
         internal override void OnPositionChanged(long position)
@@ -504,5 +524,186 @@ namespace ZuneUI
             Medium,
             Long,
         }
+
+#if OPENZUNE
+        private PlaybackState m_playbackState = PlaybackState.None;
+
+        public event EventHandler<int?> TrackNumberChanged;
+        public event EventHandler<CultureInfo> LanguageChanged;
+        public event EventHandler<bool> IsExplicitChanged;
+        public event EventHandler<bool> IsPlayArtistCollectionAsyncAvailableChanged;
+        public event EventHandler<bool> IsPauseArtistCollectionAsyncAvailableChanged;
+        public event EventHandler<int> ArtistItemsCountChanged;
+        public event EventHandler<PlaybackState> PlaybackStateChanged;
+        public event EventHandler<string> NameChanged;
+        public event EventHandler<string> DescriptionChanged;
+        public event EventHandler<TimeSpan> DurationChanged;
+        public event EventHandler<DateTime?> LastPlayedChanged;
+        public event EventHandler<bool> IsChangeNameAsyncAvailableChanged;
+        public event EventHandler<bool> IsChangeDescriptionAsyncAvailableChanged;
+        public event EventHandler<bool> IsChangeDurationAsyncAvailableChanged;
+        public event EventHandler<int> ImagesCountChanged;
+        public event EventHandler<int> UrlsCountChanged;
+        public event EventHandler<int> GenresCountChanged;
+
+        TrackType ITrackBase.Type => MediaType switch
+        {
+            MediaType.Podcast or
+            MediaType.PodcastEpisode => TrackType.PodcastEpisode,
+
+            MediaType.PlaylistChannel => TrackType.RadioOrStream,
+
+            _ => TrackType.Song
+        };
+
+        int? ITrackBase.TrackNumber => TrackNumber;
+
+        int? ITrackBase.DiscNumber => null;
+
+        CultureInfo ITrackBase.Language => CultureInfo.CurrentCulture;
+
+        bool ITrackBase.IsExplicit => false;
+
+        bool ITrackBase.IsChangeAlbumAsyncAvailable => false;
+        bool ITrackBase.IsChangeTrackNumberAsyncAvailable => false;
+        bool ITrackBase.IsChangeLanguageAsyncAvailable => false;
+        bool ITrackBase.IsChangeLyricsAsyncAvailable => false;
+        bool ITrackBase.IsChangeIsExplicitAsyncAvailable => false;
+
+        int IArtistCollectionBase.TotalArtistItemsCount => DisplayArtist != null ? 1 : 0;
+
+        bool IArtistCollectionBase.IsPlayArtistCollectionAsyncAvailable => false;
+        bool IArtistCollectionBase.IsPauseArtistCollectionAsyncAvailable => false;
+
+        DateTime? IPlayableCollectionItem.AddedAt => null;
+
+        string IPlayableBase.Id => ZuneMediaId.ToString();
+
+        string IPlayableBase.Name => Title;
+
+        string IPlayableBase.Description => null;
+
+        DateTime? IPlayableBase.LastPlayed => null;
+
+        PlaybackState IPlayableBase.PlaybackState => m_playbackState;
+
+        bool IPlayableBase.IsChangeNameAsyncAvailable => false;
+
+        bool IPlayableBase.IsChangeDescriptionAsyncAvailable => false;
+
+        bool IPlayableBase.IsChangeDurationAsyncAvailable => false;
+
+        int IImageCollectionBase.TotalImageCount => 0;
+
+        int IUrlCollectionBase.TotalUrlCount => 1;
+
+        int IGenreCollectionBase.TotalGenreCount => 0;
+
+        Task ITrackBase.ChangeTrackNumberAsync(int? trackNumber, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task ITrackBase.ChangeLanguageAsync(CultureInfo language, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task ITrackBase.ChangeIsExplicitAsync(bool isExplicit, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task IArtistCollectionBase.PlayArtistCollectionAsync(CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task IArtistCollectionBase.PauseArtistCollectionAsync(CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task IArtistCollectionBase.RemoveArtistItemAsync(int index, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<bool> IArtistCollectionBase.IsAddArtistItemAvailableAsync(int index, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<bool> IArtistCollectionBase.IsRemoveArtistItemAvailableAsync(int index, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task IPlayableBase.ChangeNameAsync(string name, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task IPlayableBase.ChangeDescriptionAsync(string description, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task IPlayableBase.ChangeDurationAsync(TimeSpan duration, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<bool> IImageCollectionBase.IsAddImageAvailableAsync(int index, CancellationToken cancellationToken)
+        {
+            return Task.FromResult(false);
+        }
+
+        Task<bool> IImageCollectionBase.IsRemoveImageAvailableAsync(int index, CancellationToken cancellationToken)
+        {
+            return Task.FromResult(false);
+        }
+
+        Task IImageCollectionBase.RemoveImageAsync(int index, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task IUrlCollectionBase.RemoveUrlAsync(int index, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<bool> IUrlCollectionBase.IsAddUrlAvailableAsync(int index, CancellationToken cancellationToken)
+        {
+            return Task.FromResult(false);
+        }
+
+        Task<bool> IUrlCollectionBase.IsRemoveUrlAvailableAsync(int index, CancellationToken cancellationToken)
+        {
+            return Task.FromResult(false);
+        }
+
+        Task IGenreCollectionBase.RemoveGenreAsync(int index, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<bool> IGenreCollectionBase.IsAddGenreAvailableAsync(int index, CancellationToken cancellationToken)
+        {
+            return Task.FromResult(false);
+        }
+
+        Task<bool> IGenreCollectionBase.IsRemoveGenreAvailableAsync(int index, CancellationToken cancellationToken)
+        {
+            return Task.FromResult(false);
+        }
+
+        ValueTask IAsyncDisposable.DisposeAsync()
+        {
+            return ValueTask.CompletedTask;
+        }
+#endif
+
     }
 }
