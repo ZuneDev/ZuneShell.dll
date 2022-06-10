@@ -12,7 +12,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UIX.RenderApi", "libs\Micro
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZuneHost", "ZuneHost\ZuneHost.csproj", "{4041A91F-EF2A-4C47-9EBE-F4E862532345}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZuneHost.Wpf", "ZuneHost.Wpf\ZuneHost.Wpf.csproj", "{1FEAC59B-F012-4ACC-9F11-E7ADF4C77593}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZuneHost.Wpf", "ZuneHost.Wpf\ZuneHost.Wpf.csproj", "{1FEAC59B-F012-4ACC-9F11-E7ADF4C77593}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UIX.Debug", "libs\MicrosoftIris\UIX.Debug\UIX.Debug.csproj", "{8479F68C-4234-425E-93E7-71597AF528E9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -106,6 +108,22 @@ Global
 		{1FEAC59B-F012-4ACC-9F11-E7ADF4C77593}.Release|x64.Build.0 = Release|Any CPU
 		{1FEAC59B-F012-4ACC-9F11-E7ADF4C77593}.Release|x86.ActiveCfg = Release|Any CPU
 		{1FEAC59B-F012-4ACC-9F11-E7ADF4C77593}.Release|x86.Build.0 = Release|Any CPU
+		{8479F68C-4234-425E-93E7-71597AF528E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8479F68C-4234-425E-93E7-71597AF528E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8479F68C-4234-425E-93E7-71597AF528E9}.Debug|ARM32.ActiveCfg = Debug|Any CPU
+		{8479F68C-4234-425E-93E7-71597AF528E9}.Debug|ARM32.Build.0 = Debug|Any CPU
+		{8479F68C-4234-425E-93E7-71597AF528E9}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8479F68C-4234-425E-93E7-71597AF528E9}.Debug|x64.Build.0 = Debug|Any CPU
+		{8479F68C-4234-425E-93E7-71597AF528E9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8479F68C-4234-425E-93E7-71597AF528E9}.Debug|x86.Build.0 = Debug|Any CPU
+		{8479F68C-4234-425E-93E7-71597AF528E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8479F68C-4234-425E-93E7-71597AF528E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8479F68C-4234-425E-93E7-71597AF528E9}.Release|ARM32.ActiveCfg = Release|Any CPU
+		{8479F68C-4234-425E-93E7-71597AF528E9}.Release|ARM32.Build.0 = Release|Any CPU
+		{8479F68C-4234-425E-93E7-71597AF528E9}.Release|x64.ActiveCfg = Release|Any CPU
+		{8479F68C-4234-425E-93E7-71597AF528E9}.Release|x64.Build.0 = Release|Any CPU
+		{8479F68C-4234-425E-93E7-71597AF528E9}.Release|x86.ActiveCfg = Release|Any CPU
+		{8479F68C-4234-425E-93E7-71597AF528E9}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -113,6 +131,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{78A8B08C-C0E9-4BAC-9AF6-58D3A55C05C9} = {7640D6FE-600E-44BE-A59F-E90602FA7754}
 		{CB2B7609-C7B8-4E2A-82D8-DD631B70B621} = {7640D6FE-600E-44BE-A59F-E90602FA7754}
+		{8479F68C-4234-425E-93E7-71597AF528E9} = {7640D6FE-600E-44BE-A59F-E90602FA7754}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6B948258-B457-4B3D-955E-05ED3F03CF36}
