@@ -58,10 +58,8 @@
     </ItemGroup>
 
     <ItemGroup Condition=" $(UseOpenZune) ">
-        <PackageReference Include="StrixMusic.Sdk" Version="0.0.2-alpha" />
-        <Reference Include="StrixMusic.Cores.LocalFiles">
-            <HintPath>..\..\..\Arlodotexe\strix-music\src\Cores\Files\StrixMusic.Cores.LocalFiles\bin\Debug\netstandard2.0\StrixMusic.Cores.LocalFiles.dll</HintPath>
-        </Reference>
+        <PackageReference Include="StrixMusic.Sdk" Version="0.0.3-alpha" />
+        <PackageReference Include="StrixMusic.Cores.LocalFiles" Version="1.0.0" />
     </ItemGroup>
 
     <PropertyGroup Condition=" $(UseOpenZune) ">

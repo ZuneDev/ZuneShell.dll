@@ -40,7 +40,7 @@ public class Win32FileSystemService : IFileSystemService
 
     public Task<IFolderData> PickFolder()
     {
-        throw new System.NotImplementedException();
+        return Task.FromResult(RootFolder);
     }
 
     public Task RevokeAccess(IFolderData folder) => Task.CompletedTask;

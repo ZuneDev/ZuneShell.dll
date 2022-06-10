@@ -24,6 +24,16 @@ using System.Threading;
 using UIXControls;
 using ZuneUI;
 using ZuneXml;
+using System.Linq;
+
+#if OPENZUNE
+using Microsoft.Zune.Playback;
+using StrixMusic.Sdk.AdapterModels;
+using StrixMusic.Sdk.CoreModels;
+using StrixMusic.Sdk.MediaPlayback;
+using StrixMusic.Sdk.PluginModels;
+using StrixMusic.Sdk.Plugins.PlaybackHandler;
+#endif
 
 namespace Microsoft.Zune.Shell
 {
@@ -121,9 +131,64 @@ namespace Microsoft.Zune.Shell
                 Telemetry.Instance.StartUpload();
                 FeaturesChanged.Instance.StartUp();
                 CultureHelper.CheckValidRegionAndLanguage();
+
+#if OPENZUNE
+                string id = Guid.NewGuid().ToString();
+
+                var fileService = new OwlCore.AbstractStorage.Win32FileSystemService(@"D:\OneDrive\Music");
+                OwlCore.AbstractStorage.SystemIOFolderData settingsFolder =
+                    new(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Microsoft\Zune\OpenZune"));
+                settingsFolder.EnsureExists().Wait();
+                StrixMusic.Cores.LocalFiles.Services.LocalFilesCoreSettings settings = new(settingsFolder)
+                {
+                    InitWithEmptyMetadataRepos = true,
+                    ScanWithTagLib = true,
+                };
+
+                var localCore = new StrixMusic.Cores.LocalFiles.LocalFilesCore(
+                    id, settings, fileService, null);
+
+                var prefs = new MergedCollectionConfig
+                {
+                    CoreRanking = new string[]
+                    {
+                        localCore.InstanceId
+                    }
+                };
+                var mergedLayer = new MergedCore(new ICore[] { localCore }, prefs);
+
+                // Perform any async initialization needed. Authenticating, connecting to database, etc.
+                mergedLayer.InitAsync().ContinueWith(async task =>
+                {
+                    mergedLayer.Library.TracksCountChanged += LibraryTracksAdded;
+
+                    // Add plugins
+                    string mfAudioServiceId = Guid.NewGuid().ToString();
+                    PlaybackHandlerService playbackHandler = new();
+                    playbackHandler.RegisterAudioPlayer(MediaFoundationAudioService.Instance, mfAudioServiceId);
+
+                    StrixDataRootPluginWrapper pluginLayer = new(mergedLayer,
+                        new PlaybackHandlerPlugin(playbackHandler)
+                    );
+                    await pluginLayer.InitAsync();
+                });
+#endif
+
                 ((ZuneUI.Shell)ZuneShell.DefaultInstance).ApplicationInitializationIsComplete = true;
             }
         }
+
+#if OPENZUNE
+        private static async void LibraryTracksAdded(object sender, int count)
+        {
+            if (sender is StrixMusic.Sdk.AppModels.ILibrary library && count > 50)
+            {
+                library.TracksCountChanged -= LibraryTracksAdded;
+                var tracks = await library.GetTracksAsync(limit: 100, offset: 0).ToListAsync();
+                await library.PlayTrackCollectionAsync(tracks[0]);
+            }
+        }
+#endif
 
         private static void Phase2InitializationUIStage(object arg)
         {
