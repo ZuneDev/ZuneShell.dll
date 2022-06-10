@@ -1,7 +1,7 @@
-﻿using Microsoft.Zune.Service;
-using Microsoft.Zune.Util;
+﻿using Microsoft.Zune.Util;
 using System;
 using System.Collections;
+using System.Globalization;
 using ZuneUI;
 
 namespace Microsoft.Zune.Service
@@ -56,7 +56,7 @@ namespace Microsoft.Zune.Service
                 return keyValUri;
 
             string uri = null;
-            string culture = CultureHelper.GetCulture(null).ToString();
+            string culture = CultureInfo.CurrentCulture.ToString();
             switch (eServiceEndpointId)
             {
                 case EServiceEndpointId.SEID_RootCatalog:
@@ -69,7 +69,7 @@ namespace Microsoft.Zune.Service
                     uri = "https://stat.zunes.me";
                     break;
                 case EServiceEndpointId.SEID_ImageCatalog:
-                    uri = "https://image.catalog.zunes.me" + culture;
+                    uri = "https://image.catalog.zunes.me/" + culture;
                     break;
                 case EServiceEndpointId.SEID_Comments:
                     uri = "https://comments.zunes.me";
@@ -82,10 +82,10 @@ namespace Microsoft.Zune.Service
                     break;
                 case EServiceEndpointId.SEID_Commerce:
                 case EServiceEndpointId.SEID_CommerceV3:
-                    uri = "https://commerce.zunes.me/v3.2" + culture;
+                    uri = "https://commerce.zunes.me/v3.2/" + culture;
                     break;
                 case EServiceEndpointId.SEID_CommerceV2:
-                    uri = "https://stat.zunes.me/v2.0" + culture;
+                    uri = "https://stat.zunes.me/v2.0/" + culture;
                     break;
                 case EServiceEndpointId.SEID_WindowsLiveSignup:
                     uri = "https://login.zunes.me";
@@ -100,22 +100,22 @@ namespace Microsoft.Zune.Service
                     uri = "https://metaservices.zunes.me/image";
                     break;
                 case EServiceEndpointId.SEID_Tuners:
-                    uri = "https://tuners.zunes.me" + culture;
+                    uri = "https://tuners.zunes.me/" + culture;
                     break;
                 case EServiceEndpointId.SEID_Resources:
                     uri = "https://resources.zunes.me";
                     break;
                 case EServiceEndpointId.SEID_ZuneNet:
-                    uri = "https://zunes.me" + culture;
+                    uri = "https://zunes.me/" + culture;
                     break;
                 case EServiceEndpointId.SEID_Messaging:
                     uri = "https://messaging.zunes.me";
                     break;
                 case EServiceEndpointId.SEID_SocialApi:
-                    uri = "https://socialapi.zunes.me" + culture;
+                    uri = "https://socialapi.zunes.me/" + culture;
                     break;
                 case EServiceEndpointId.SEID_Forums:
-                    uri = "https://forums.zunes.me" + culture;
+                    uri = "https://forums.zunes.me/" + culture;
                     break;
             };
 

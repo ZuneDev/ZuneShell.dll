@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+        <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
+        <OutputType>Library</OutputType>
+        <AssemblyName>ZuneImpl</AssemblyName>
+        <ApplicationVersion>4.7.0.0</ApplicationVersion>
+
+        <TargetFrameworks>net35;net40;net6.0</TargetFrameworks>
+        <Platforms>x64;x86</Platforms>
+        <RootNamespace>Microsoft.Zune</RootNamespace>
+
+        <SignAssembly>True</SignAssembly>
+        <AssemblyOriginatorKeyFile>..\libs\MicrosoftIris\36MSApp1024.snk</AssemblyOriginatorKeyFile>
+        <DelaySign>True</DelaySign>
+
+        <UseOpenZune>False</UseOpenZune>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Reference Include="ZuneDBApi">
+            <HintPath>C:\Program Files\Zune\ZuneDBApi.dll</HintPath>
+        </Reference>
+
+        <!-- This is the last version of NAudio to support net35 and net6.0 -->
+        <PackageReference Include="NAudio" Version="1.10.0" />
+    </ItemGroup>
+
+    <PropertyGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
+        <UseOpenZune>True</UseOpenZune>
+    </PropertyGroup>
+
+    <ItemGroup Condition="$(UseOpenZune)">
+        <PackageReference Include="StrixMusic.Sdk" Version="0.0.2-alpha" />
+    </ItemGroup>
+
+    <PropertyGroup Condition=" $(UseOpenZune) ">
+        <ApplicationVersion>5.0.0.0</ApplicationVersion>
+        <DefineConstants>$(DefineConstants);OPENZUNE</DefineConstants>
+    </PropertyGroup>
+
+</Project>

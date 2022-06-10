@@ -23,13 +23,19 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Reference Include="ZuneDBApi">
-            <HintPath>C:\Program Files\Zune\ZuneDBApi.dll</HintPath>
-        </Reference>
         <Reference Include="UIXControls">
             <HintPath>C:\Program Files\Zune\UIXcontrols.dll</HintPath>
         </Reference>
         <ProjectReference Include="..\libs\MicrosoftIris\UIX\UIX.csproj" />
+        
+        <!--
+            Reference both the real and proxy ZuneDBApi, to make sure we have all the types.
+            Use the version from ZuneImpl when available.
+        -->
+        <ProjectReference Include="..\ZuneImpl\ZuneImpl.csproj" />
+        <Reference Include="ZuneDBApi">
+            <HintPath>C:\Program Files\Zune\ZuneDBApi.dll</HintPath>
+        </Reference>
     </ItemGroup>
 
     <PropertyGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
