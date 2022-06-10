@@ -46,7 +46,7 @@ namespace OwlCore.AbstractStorage
         public string FileExtension => File.Extension;
 
         /// <inheritdoc/>
-        public string Id => FluentStore.SDK.Helpers.StorageHelper.GetFileId(File);
+        public string Id => Extensions.StringExtensions.HashMD5Fast(Path);
 
         /// <inheritdoc/>
         public IFileDataProperties Properties { get; set; }

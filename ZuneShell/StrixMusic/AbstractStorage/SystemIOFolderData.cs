@@ -41,7 +41,7 @@ namespace OwlCore.AbstractStorage
         public string Path => Directory.FullName;
 
         /// <inheritdoc/>
-        public string Id => FluentStore.SDK.Helpers.StorageHelper.GetFileId(Directory);
+        public string Id => Extensions.StringExtensions.HashMD5Fast(Path);
 
         /// <inheritdoc/>
         public Task<IEnumerable<IFileData>> GetFilesAsync()
