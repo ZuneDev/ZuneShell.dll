@@ -79,16 +79,27 @@ namespace Microsoft.Zune.Playback
             return Task.CompletedTask;
         }
 
-        public Task Play(PlaybackItem sourceConfig, CancellationToken cancellationToken = default)
+        public async Task Play(PlaybackItem sourceConfig, CancellationToken cancellationToken = default)
         {
+            WaveStream reader = null;
             var stream = sourceConfig.MediaConfig.FileStreamSource;
-            Guard.IsNotNull(stream, "sourceConfig.MediaConfig.FileStreamSource");
+            if (stream != null)
+            {
+                reader = new StreamMediaFoundationReader(sourceConfig.MediaConfig.FileStreamSource);
+            }
+            else if (sourceConfig.MediaConfig.MediaSourceUri.IsFile)
+            {
+                reader = new MediaFoundationReader(sourceConfig.MediaConfig.MediaSourceUri.ToString());
+            }
+            else if (sourceConfig.MediaConfig.MediaSourceUri.Scheme.StartsWith("http"))
+            {
+                System.Net.Http.HttpClient client = new();
+                stream = await client.GetStreamAsync(sourceConfig.MediaConfig.MediaSourceUri);
+                reader = new StreamMediaFoundationReader(stream);
+            }
 
-            StreamMediaFoundationReader mfr = new(sourceConfig.MediaConfig.FileStreamSource);
-            m_audio.Init(mfr);
+            m_audio.Init(reader);
             m_audio.Play();
-
-            return Task.CompletedTask;
         }
 
         public Task Preload(PlaybackItem sourceConfig, CancellationToken cancellationToken = default)

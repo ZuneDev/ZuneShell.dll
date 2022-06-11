@@ -65,11 +65,19 @@ namespace OwlCore.AbstractStorage
         }
 
         /// <inheritdoc/>
-        public Task<IFolderData> CreateFolderAsync(string desiredName, CreationCollisionOption options)
+        public async Task<IFolderData> CreateFolderAsync(string desiredName, CreationCollisionOption options)
         {
-            if (options != CreationCollisionOption.FailIfExists)
+            if (options == CreationCollisionOption.OpenIfExists)
+            {
+                SystemIOFolderData folder = new(System.IO.Path.Combine(Path, desiredName));
+                await folder.EnsureExists();
+                return folder;
+            }
+            else if (options == CreationCollisionOption.FailIfExists)
+            {
                 throw new NotImplementedException();
-            return CreateFolderAsync(desiredName);
+            }
+            return await CreateFolderAsync(desiredName);
         }
 
         /// <inheritdoc/>

@@ -1844,6 +1844,7 @@ namespace ZuneUI
                         {
                             if (this.IsDisposed || myID != this._lastKnownSetUriCallID)
                                 return;
+                            trackUri = "https://www.newgrounds.com/audio/download/641172";
                             this._playbackWrapper.SetUri(trackUri, 0L, track.PlaybackID);
                             this.ReportStreamingAction(PlayerState.Stopped);
                             this._tracksSubmittedToPlayer.Remove(track);

@@ -28,7 +28,9 @@ using System.Linq;
 
 #if OPENZUNE
 using Microsoft.Zune.Playback;
+using OwlCore.Events;
 using StrixMusic.Sdk.AdapterModels;
+using StrixMusic.Sdk.AppModels;
 using StrixMusic.Sdk.CoreModels;
 using StrixMusic.Sdk.MediaPlayback;
 using StrixMusic.Sdk.PluginModels;
@@ -135,7 +137,7 @@ namespace Microsoft.Zune.Shell
 #if OPENZUNE
                 string id = Guid.NewGuid().ToString();
 
-                var fileService = new OwlCore.AbstractStorage.Win32FileSystemService(@"D:\OneDrive\Music");
+                var fileService = new OwlCore.AbstractStorage.Win32FileSystemService(@"D:\Music\Zune\Test");
                 OwlCore.AbstractStorage.SystemIOFolderData settingsFolder =
                     new(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Microsoft\Zune\OpenZune"));
                 settingsFolder.EnsureExists().Wait();
@@ -158,19 +160,34 @@ namespace Microsoft.Zune.Shell
                 var mergedLayer = new MergedCore(new ICore[] { localCore }, prefs);
 
                 // Perform any async initialization needed. Authenticating, connecting to database, etc.
-                mergedLayer.InitAsync().ContinueWith(async task =>
+                // Add plugins
+                string mfAudioServiceId = Guid.NewGuid().ToString();
+                PlaybackHandlerService playbackHandler = new();
+                playbackHandler.RegisterAudioPlayer(MediaFoundationAudioService.Instance, localCore.InstanceId);
+
+                StrixDataRootPluginWrapper dataRoot = new(mergedLayer,
+                    new PlaybackHandlerPlugin(playbackHandler)
+                );
+
+                dataRoot.InitAsync().ContinueWith(async task =>
                 {
-                    mergedLayer.Library.TracksCountChanged += LibraryTracksAdded;
+                    if (task.Status == System.Threading.Tasks.TaskStatus.Faulted)
+                    {
+                        Debug.WriteLine(task.Exception);
+                        return;
+                    }
 
-                    // Add plugins
-                    string mfAudioServiceId = Guid.NewGuid().ToString();
-                    PlaybackHandlerService playbackHandler = new();
-                    playbackHandler.RegisterAudioPlayer(MediaFoundationAudioService.Instance, mfAudioServiceId);
+                    dataRoot.Library.TracksChanged += LibraryTracksChanged;
+                    //mergedLayer.Library.TracksChanged += LibraryTracksChanged;
+                    //dataRoot.Library.TracksCountChanged += LibraryTracksAdded;
 
-                    StrixDataRootPluginWrapper pluginLayer = new(mergedLayer,
-                        new PlaybackHandlerPlugin(playbackHandler)
-                    );
-                    await pluginLayer.InitAsync();
+                    var tracks = await dataRoot.Library.GetTracksAsync(1, 0).ToListAsync();
+                    bool hasTracks = tracks.Count > 0;
+                    if (hasTracks)
+                    {
+                        var track = tracks[0];
+                        await playbackHandler.PlayAsync(track, dataRoot.Library, track);
+                    }
                 });
 #endif
 
@@ -179,14 +196,36 @@ namespace Microsoft.Zune.Shell
         }
 
 #if OPENZUNE
+        private static async void LibraryTracksChanged(object sender,
+            IReadOnlyList<CollectionChangedItem<ITrack>> addedItems,
+            IReadOnlyList<CollectionChangedItem<ITrack>> removedItems)
+        {
+            if (sender is ILibrary library && addedItems.Count > 0)
+            {
+                library.TracksChanged -= LibraryTracksChanged;
+
+                ITrack firstTrack = addedItems[0].Data;
+
+                await PlayTrack(library, firstTrack);
+            }
+        }
+
         private static async void LibraryTracksAdded(object sender, int count)
         {
-            if (sender is StrixMusic.Sdk.AppModels.ILibrary library && count > 50)
+            if (sender is ILibrary library && count > 0)
             {
                 library.TracksCountChanged -= LibraryTracksAdded;
-                var tracks = await library.GetTracksAsync(limit: 100, offset: 0).ToListAsync();
-                await library.PlayTrackCollectionAsync(tracks[0]);
+
+                ITrack firstTrack = await library.GetTracksAsync(limit: 1, offset: 0).FirstOrDefaultAsync();
+
+                await PlayTrack(library, firstTrack);
             }
+        }
+
+        private static async System.Threading.Tasks.Task PlayTrack(ILibrary library, ITrack track)
+        {
+            if (library.IsPlayTrackCollectionAsyncAvailable && track != null)
+                await library.PlayTrackCollectionAsync(track);
         }
 #endif
 
