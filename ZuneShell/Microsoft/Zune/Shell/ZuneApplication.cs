@@ -69,6 +69,11 @@ namespace Microsoft.Zune.Shell
         public static Service.Service Service => Zune.Service.Service.Instance;
         public static Service.Service2 Service2 => Zune.Service.Service2.Instance;
 
+#if OPENZUNE
+        public static IStrixDataRoot DataRoot { get; private set; }
+        public static IPlaybackHandlerService PlaybackHandler { get; private set; }
+#endif
+
         public static event EventHandler Closing;
 
         public static SetupInstallContext InstallContext
@@ -162,14 +167,14 @@ namespace Microsoft.Zune.Shell
                 // Perform any async initialization needed. Authenticating, connecting to database, etc.
                 // Add plugins
                 string mfAudioServiceId = Guid.NewGuid().ToString();
-                PlaybackHandlerService playbackHandler = new();
-                playbackHandler.RegisterAudioPlayer(MediaFoundationAudioService.Instance, localCore.InstanceId);
+                PlaybackHandler = new PlaybackHandlerService();
+                PlaybackHandler.RegisterAudioPlayer(MediaFoundationAudioService.Instance, localCore.InstanceId);
 
-                StrixDataRootPluginWrapper dataRoot = new(mergedLayer,
-                    new PlaybackHandlerPlugin(playbackHandler)
+                DataRoot = new StrixDataRootPluginWrapper(mergedLayer,
+                    new PlaybackHandlerPlugin(PlaybackHandler)
                 );
 
-                dataRoot.InitAsync().ContinueWith(async task =>
+                DataRoot.InitAsync().ContinueWith(async task =>
                 {
                     if (task.Status == System.Threading.Tasks.TaskStatus.Faulted)
                     {
@@ -177,16 +182,15 @@ namespace Microsoft.Zune.Shell
                         return;
                     }
 
-                    dataRoot.Library.TracksChanged += LibraryTracksChanged;
-                    //mergedLayer.Library.TracksChanged += LibraryTracksChanged;
-                    //dataRoot.Library.TracksCountChanged += LibraryTracksAdded;
+                    DataRoot.Library.TracksChanged += LibraryTracksChanged;
 
-                    var tracks = await dataRoot.Library.GetTracksAsync(1, 0).ToListAsync();
+                    var tracks = await DataRoot.Library.GetTracksAsync(1, 0).ToListAsync();
                     bool hasTracks = tracks.Count > 0;
                     if (hasTracks)
                     {
                         var track = tracks[0];
-                        await playbackHandler.PlayAsync(track, dataRoot.Library, track);
+                        await track.PlayArtistCollectionAsync();
+                        //await PlaybackHandler.PlayAsync(track, dataRoot.Library, track);
                     }
                 });
 #endif
@@ -206,7 +210,7 @@ namespace Microsoft.Zune.Shell
 
                 ITrack firstTrack = addedItems[0].Data;
 
-                await PlayTrack(library, firstTrack);
+                await firstTrack.PlayArtistCollectionAsync();
             }
         }
 
@@ -218,14 +222,8 @@ namespace Microsoft.Zune.Shell
 
                 ITrack firstTrack = await library.GetTracksAsync(limit: 1, offset: 0).FirstOrDefaultAsync();
 
-                await PlayTrack(library, firstTrack);
+                await firstTrack.PlayArtistCollectionAsync();
             }
-        }
-
-        private static async System.Threading.Tasks.Task PlayTrack(ILibrary library, ITrack track)
-        {
-            if (library.IsPlayTrackCollectionAsyncAvailable && track != null)
-                await library.PlayTrackCollectionAsync(track);
         }
 #endif
 
