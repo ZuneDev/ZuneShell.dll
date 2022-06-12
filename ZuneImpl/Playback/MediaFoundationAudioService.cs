@@ -83,19 +83,30 @@ namespace Microsoft.Zune.Playback
         {
             WaveStream reader = null;
             var stream = sourceConfig.MediaConfig.FileStreamSource;
+            var uri = sourceConfig.MediaConfig.MediaSourceUri;
+
             if (stream != null)
             {
-                reader = new StreamMediaFoundationReader(sourceConfig.MediaConfig.FileStreamSource);
+                reader = new StreamMediaFoundationReader(stream);
             }
-            else if (sourceConfig.MediaConfig.MediaSourceUri.IsFile)
+            else if (uri.IsFile)
             {
-                reader = new MediaFoundationReader(sourceConfig.MediaConfig.MediaSourceUri.ToString());
+                reader = new MediaFoundationReader(uri.ToString());
             }
-            else if (sourceConfig.MediaConfig.MediaSourceUri.Scheme.StartsWith("http"))
+            else if (uri.Scheme.StartsWith("http"))
             {
+                // Use this URI for testing: https://www.newgrounds.com/audio/download/641172
+
                 System.Net.Http.HttpClient client = new();
 
-                stream = await client.GetStreamAsync(sourceConfig.MediaConfig.MediaSourceUri, cancellationToken);
+                var httpStream = await client.GetStreamAsync(uri, cancellationToken);
+                cancellationToken.ThrowIfCancellationRequested();
+
+                // NAudio requires some fancy stuff to stream from the web. This is
+                // a relatively simple workaround that downloads the entire file
+                // into memory before playing.
+                stream = new System.IO.MemoryStream();
+                await httpStream.CopyToAsync(stream, cancellationToken);
                 cancellationToken.ThrowIfCancellationRequested();
 
                 reader = new StreamMediaFoundationReader(stream);
