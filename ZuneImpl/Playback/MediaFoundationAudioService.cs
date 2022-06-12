@@ -94,7 +94,10 @@ namespace Microsoft.Zune.Playback
             else if (sourceConfig.MediaConfig.MediaSourceUri.Scheme.StartsWith("http"))
             {
                 System.Net.Http.HttpClient client = new();
-                stream = await client.GetStreamAsync(sourceConfig.MediaConfig.MediaSourceUri);
+
+                stream = await client.GetStreamAsync(sourceConfig.MediaConfig.MediaSourceUri, cancellationToken);
+                cancellationToken.ThrowIfCancellationRequested();
+
                 reader = new StreamMediaFoundationReader(stream);
             }
 
