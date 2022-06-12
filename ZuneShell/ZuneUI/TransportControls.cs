@@ -140,16 +140,16 @@ namespace ZuneUI
             this._volume.MinValue = 0.0f;
             this._volume.MaxValue = 100f;
             this._volume.Value = num;
-            this._volume.PropertyChanged += new PropertyChangedEventHandler(this.OnVolumeControlChanged);
-            this._play = new Command(this, Shell.LoadString(StringId.IDS_PLAY), new EventHandler(this.OnPlayClicked));
+            this._volume.PropertyChanged += OnVolumeControlChanged;
+            this._play = new Command(this, Shell.LoadString(StringId.IDS_PLAY), OnPlayClicked);
             this._play.Available = false;
-            this._pause = new Command(this, Shell.LoadString(StringId.IDS_PAUSE), new EventHandler(this.OnPauseClicked));
+            this._pause = new Command(this, Shell.LoadString(StringId.IDS_PAUSE), OnPauseClicked);
             this._pause.Available = false;
-            this._back = new Command(this, Shell.LoadString(StringId.IDS_PREVIOUS), new EventHandler(this.OnBackClicked));
+            this._back = new Command(this, Shell.LoadString(StringId.IDS_PREVIOUS), OnBackClicked);
             this._back.Available = false;
-            this._forward = new Command(this, Shell.LoadString(StringId.IDS_NEXT), new EventHandler(this.OnForwardClicked));
+            this._forward = new Command(this, Shell.LoadString(StringId.IDS_NEXT), OnForwardClicked);
             this._forward.Available = false;
-            this._stop = new Command(this, Shell.LoadString(StringId.IDS_STOP), new EventHandler(this.OnStopClicked));
+            this._stop = new Command(this, Shell.LoadString(StringId.IDS_STOP), OnStopClicked);
             this._stop.Available = false;
             this._fastforwardhotkey = new Command(this, new EventHandler(this.OnFastforwardHotkeyPressed));
             this._rewindhotkey = new Command(this, new EventHandler(this.OnRewindHotkeyPressed));
@@ -1360,11 +1360,25 @@ namespace ZuneUI
         {
         }
 
-        private void OnPlayClicked(object sender, EventArgs e)
+        private
+#if OPENZUNE
+            async
+#endif
+            void OnPlayClicked(object sender, EventArgs e)
         {
             if (!this._play.Available)
                 return;
             SQMLog.Log(SQMDataId.PlayClicks, 1);
+
+#if OPENZUNE
+            var playbackHandler = Microsoft.Zune.Shell.ZuneApplication.PlaybackHandler;
+            if (playbackHandler != null)
+            {
+                await playbackHandler.ResumeAsync();
+                return;
+            }
+#endif
+
             if (this.Playing || this._playlistCurrent == null)
                 return;
             if (this._lastKnownPlayerState != MCPlayerState.Closed)
@@ -1384,11 +1398,25 @@ namespace ZuneUI
             }
         }
 
-        private void OnPauseClicked(object sender, EventArgs e)
+        private
+#if OPENZUNE
+            async
+#endif
+            void OnPauseClicked(object sender, EventArgs e)
         {
             if (!this._pause.Available)
                 return;
             SQMLog.Log(SQMDataId.PauseClicks, 1);
+
+#if OPENZUNE
+            var playbackHandler = Microsoft.Zune.Shell.ZuneApplication.PlaybackHandler;
+            if (playbackHandler != null)
+            {
+                await playbackHandler.PauseAsync();
+                return;
+            }
+#endif
+
             if (!this.Playing)
                 return;
             this.SetPlayerState(PlayerState.Paused);
@@ -1415,11 +1443,25 @@ namespace ZuneUI
                 this.UpdatePropertiesAndCommands();
         }
 
-        private void OnBackClicked(object sender, EventArgs e)
+        private
+#if OPENZUNE
+            async
+#endif
+            void OnBackClicked(object sender, EventArgs e)
         {
             if (!this._back.Available || this._playlistCurrent == null)
                 return;
             SQMLog.Log(SQMDataId.SkipBackwardClicks, 1);
+
+#if OPENZUNE
+            var playbackHandler = Microsoft.Zune.Shell.ZuneApplication.PlaybackHandler;
+            if (playbackHandler != null)
+            {
+                await playbackHandler.PreviousAsync();
+                return;
+            }
+#endif
+
             if (this._lastKnownPosition > 50000000L || !this._playlistCurrent.CanRetreat)
             {
                 this._playbackWrapper.SeekToAbsolutePosition(0L);
@@ -1431,11 +1473,25 @@ namespace ZuneUI
             }
         }
 
-        private void OnForwardClicked(object sender, EventArgs e)
+        private
+#if OPENZUNE
+            async
+#endif
+            void OnForwardClicked(object sender, EventArgs e)
         {
             if (!this._forward.Available || this._playlistCurrent == null)
                 return;
             SQMLog.Log(SQMDataId.SkipForwardClicks, 1);
+
+#if OPENZUNE
+            var playbackHandler = Microsoft.Zune.Shell.ZuneApplication.PlaybackHandler;
+            if (playbackHandler != null)
+            {
+                await playbackHandler.NextAsync();
+                return;
+            }
+#endif
+
             if (this._currentTrack != null && this._currentTrack.IsVideo)
                 return;
             if (this._lastKnownPlaybackTrack != null)
@@ -1844,7 +1900,6 @@ namespace ZuneUI
                         {
                             if (this.IsDisposed || myID != this._lastKnownSetUriCallID)
                                 return;
-                            trackUri = "https://www.newgrounds.com/audio/download/641172";
                             this._playbackWrapper.SetUri(trackUri, 0L, track.PlaybackID);
                             this.ReportStreamingAction(PlayerState.Stopped);
                             this._tracksSubmittedToPlayer.Remove(track);
