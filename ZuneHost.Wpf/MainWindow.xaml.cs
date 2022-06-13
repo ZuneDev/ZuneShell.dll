@@ -60,10 +60,30 @@ namespace ZuneHost.Wpf
                 }
             }
 
+            Microsoft.Iris.Application.DebugSettings.GenerateDataMappingModels = true;
+            Microsoft.Iris.Application.DebugSettings.DataMappingModels.CollectionChanged += DataMappingModels_CollectionChanged;
+
             IntPtr hWnd = new System.Windows.Interop.WindowInteropHelper(this).Handle;
             Thread zuneThread = new Thread(new ThreadStart(() =>
                 Microsoft.Zune.Shell.ZuneApplication.Launch(strArgs, hWnd)));
             zuneThread.Start();
+        }
+
+        private void DataMappingModels_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            string destDir = Path.Combine(Environment.CurrentDirectory, "DataMappings");
+            Directory.CreateDirectory(destDir);
+
+            foreach (var item in e.NewItems.Cast<Microsoft.Iris.Debug.DataMappingModel>())
+            {
+                FileInfo file = new(Path.Combine(destDir, $"{item.Provider}_{item.Type}.cs"));
+                if (file.Exists) file.Delete();
+
+                using var stream = file.Open(FileMode.Create);
+                using var writer = new StreamWriter(stream);
+                writer.Write(item.GeneratedCode);
+                writer.Flush();
+            }
         }
 
         public static void CopyAll(DirectoryInfo source, DirectoryInfo target)
