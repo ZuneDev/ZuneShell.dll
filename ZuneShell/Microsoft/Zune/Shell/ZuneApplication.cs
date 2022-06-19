@@ -451,7 +451,11 @@ namespace Microsoft.Zune.Shell
             DialogHelper.DialogNo = ZuneUI.Shell.LoadString(StringId.IDS_DIALOG_NO);
             DialogHelper.DialogOk = ZuneUI.Shell.LoadString(StringId.IDS_DIALOG_OK);
             XmlDataProviders.Register();
+#if false//OPENZUNE
+            Library.StrixLibraryDataProvider.Register();
+#else
             LibraryDataProvider.Register();
+#endif
             SubscriptionDataProvider.Register();
             StaticLibraryDataProvider.Register();
             AggregateDataProviderQuery.Register();
