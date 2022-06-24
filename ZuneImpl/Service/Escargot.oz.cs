@@ -7,7 +7,7 @@ namespace Microsoft.Zune.Service
 {
     partial class Escargot
     {
-        private static readonly HttpClient _client = new();
+        internal static readonly HttpClient _client = new();
 
         public static bool TrySignIn(string username, string password)
         {
@@ -28,6 +28,11 @@ namespace Microsoft.Zune.Service
             {
                 return false;
             }
+        }
+
+        public static void AuthenticateRequest(HttpRequestMessage request)
+        {
+            request.Headers.Authorization = new("Bearer", _token);
         }
     }
 }

@@ -241,7 +241,9 @@ namespace Microsoft.Zune.Service
 
         public string GetLocale()
         {
-            return Service.Instance.GetLocale();
+            return CommunityCommerce.IsSignedIn
+                ? CommunityCommerce.MemberInfo.AccountInfo.Locale
+                : null;
         }
 
         public string GetMachineId()
@@ -299,7 +301,12 @@ namespace Microsoft.Zune.Service
             return Service.Instance.GetPhoneClientType(strPhoneOsVersion);
         }
 
-        public int GetPointsBalance() => Service.Instance.GetPointsBalance();
+        public int GetPointsBalance()
+        {
+            return CommunityCommerce.IsSignedIn
+                ? (int)CommunityCommerce.MemberInfo.Balances.PointsBalance
+                : 0;
+        }
 
         public void GetPointsOffers(GetBillingOffersCompleteCallback completeCallback, GetBillingOffersErrorCallback errorCallback)
             => Service.Instance.GetPointsOffers(completeCallback, errorCallback);
@@ -344,11 +351,21 @@ namespace Microsoft.Zune.Service
         public string GetWMISEndPointUri(string strEndPointName)
             => Service.Instance.GetWMISEndPointUri(strEndPointName);
 
-        public string GetXboxPuid() => Service.Instance.GetXboxPuid();
+        public string GetXboxPuid()
+        {
+            return CommunityCommerce.IsSignedIn
+                ? CommunityCommerce.MemberInfo.AccountInfo.Xuid
+                : null;
+        }
 
         public string GetXboxTicket() => Service.Instance.GetXboxTicket();
 
-        public string GetZuneTag() => Service.Instance.GetZuneTag();
+        public string GetZuneTag()
+        {
+            return CommunityCommerce.IsSignedIn
+                ? CommunityCommerce.MemberInfo.AccountInfo.ZuneTag
+                : null;
+        }
 
         public bool HasSignInBillingViolation() => Service.Instance.HasSignInBillingViolation();
 
@@ -381,13 +398,13 @@ namespace Microsoft.Zune.Service
         public bool IsDownloading(Guid guidMediaId, EContentType eContentType, out bool fIsDownloadPending, out bool fIsHidden)
             => Service.Instance.IsDownloading(guidMediaId, eContentType, out fIsDownloadPending, out fIsHidden);
 
-        public bool IsLightWeight() => Service.Instance.IsLightWeight();
+        public bool IsLightWeight() => CommunityCommerce.IsSignedIn && CommunityCommerce.MemberInfo.AccountInfo.Lightweight;
 
-        public bool IsParentallyControlled() => Service.Instance.IsParentallyControlled();
+        public bool IsParentallyControlled() => CommunityCommerce.IsSignedIn && CommunityCommerce.MemberInfo.AccountInfo.ParentallyControlled;
 
-        public bool IsSignedIn() => Escargot.HasToken;
+        public bool IsSignedIn() => CommunityCommerce.IsSignedIn;
 
-        public bool IsSignedInWithSubscription() => Service.Instance.IsSignedInWithSubscription();
+        public bool IsSignedInWithSubscription() => CommunityCommerce.IsSignedIn && CommunityCommerce.MemberInfo.SubscriptionInfo.SubscriptionEnabled;
 
         public bool IsSigningIn() => Service.Instance.IsSigningIn();
 
@@ -439,13 +456,21 @@ namespace Microsoft.Zune.Service
 
         public void SignIn(string strUsername, string strPassword, bool fRememberUsername, bool fRememberPassword, bool fAutomaticallySignInAtStartup, AsyncCompleteHandler eventHandler)
         {
-            bool success = Escargot.TrySignIn(strUsername, strPassword);
-            if (success && fRememberPassword)
+            HRESULT hr = Escargot.TrySignIn(strUsername, strPassword) ? HRESULT._S_OK : HRESULT._NS_E_PASSPORT_LOGIN_FAILED;
+
+            if (hr.IsSuccess)
             {
-                Escargot.CacheToken();
+#if OPENZUNE
+                hr = CommunityCommerce.TrySignIn();
+#endif
+
+                if (hr.IsSuccess)
+                {
+                    if (fRememberPassword)
+                        Escargot.CacheToken();
+                }
             }
 
-            int hr = success ? 0 : unchecked((int)0x80070057);
             eventHandler(hr);
         }
 
@@ -457,6 +482,7 @@ namespace Microsoft.Zune.Service
         public void SignOut()
         {
             Escargot.ClearToken();
+            CommunityCommerce.SignOut();
         }
 
         public bool SubscriptionPendingCancel() => Service.Instance.SubscriptionPendingCancel();

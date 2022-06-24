@@ -25,6 +25,7 @@
 
         <!-- This is the last version of NAudio to support net35 and net6.0 -->
         <PackageReference Include="NAudio" Version="1.10.0" />
+        <PackageReference Include="Zune.Xml" Version="0.1.0" />
 
         <ProjectReference Include="..\libs\MicrosoftIris\UIX\UIX.csproj" />
     </ItemGroup>
