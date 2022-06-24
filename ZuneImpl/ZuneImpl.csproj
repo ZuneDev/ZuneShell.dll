@@ -36,11 +36,16 @@
     <ItemGroup Condition="$(UseOpenZune)">
         <PackageReference Include="StrixMusic.Sdk" Version="0.0.3-alpha" />
         <PackageReference Include="StrixMusic.Cores.LocalFiles" Version="1.0.0" />
+        <PackageReference Include="Meziantou.Framework.Win32.CredentialManager" Version="1.4.2" />
     </ItemGroup>
 
-    <PropertyGroup Condition=" $(UseOpenZune) ">
+    <PropertyGroup Condition="$(UseOpenZune)">
         <ApplicationVersion>5.0.0.0</ApplicationVersion>
         <DefineConstants>$(DefineConstants);OPENZUNE</DefineConstants>
     </PropertyGroup>
+
+    <ItemGroup Condition="!$(UseOpenZune)">
+        <ProjectReference Include="..\libs\Meziantou.Framework.Win32.CredentialManager\Meziantou.Framework.Win32.CredentialManager.csproj" />
+    </ItemGroup>
 
 </Project>

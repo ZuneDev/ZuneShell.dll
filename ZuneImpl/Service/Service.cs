@@ -10,8 +10,15 @@ namespace Microsoft.Zune.Service
     {
         private bool disposedValue;
 
-        private static Service2 _instance = new Service2();
+        private static Service2 _instance = new Service2(true);
         public static Service2 Instance => _instance;
+
+        public bool UseNewSignIn { get; }
+
+        private Service2(bool useNewSignIn)
+        {
+            UseNewSignIn = useNewSignIn;
+        }
 
         public static EListType ContentTypeToListType(EContentType contentType)
         {
@@ -313,7 +320,13 @@ namespace Microsoft.Zune.Service
 
         public uint GetSignedInGeoId() => Service.Instance.GetSignedInGeoId();
 
-        public string GetSignedInUsername() => Service.Instance.GetSignedInUsername();
+        public string GetSignedInUsername()
+        {
+            if (!UseNewSignIn)
+                return Service.Instance.GetSignedInUsername();
+            else
+                return Escargot.Username;
+        }
 
         public string GetSignInAtStartupUsername() => Service.Instance.GetSignInAtStartupUsername();
 
@@ -386,7 +399,13 @@ namespace Microsoft.Zune.Service
 
         public bool IsParentallyControlled() => Service.Instance.IsParentallyControlled();
 
-        public bool IsSignedIn() => Service.Instance.IsSignedIn();
+        public bool IsSignedIn()
+        {
+            if (!UseNewSignIn)
+                return Service.Instance.IsSignedIn();
+            else
+                return Escargot.HasToken;
+        }
 
         public bool IsSignedInWithSubscription() => Service.Instance.IsSignedInWithSubscription();
 
@@ -439,14 +458,40 @@ namespace Microsoft.Zune.Service
             => Service.Instance.SetUserTrackRating(iUserId, iRating, guidTrackMediaId, guidAlbumMediaId, iTrackNumber, strTitle, msDuration, strAlbum, strArtist, strGenre, strServiceContext);
 
         public void SignIn(string strUsername, string strPassword, bool fRememberUsername, bool fRememberPassword, bool fAutomaticallySignInAtStartup, AsyncCompleteHandler eventHandler)
-            => Service.Instance.SignIn(strUsername, strPassword, fRememberUsername, fRememberPassword, fAutomaticallySignInAtStartup, eventHandler);
+        {
+            if (!UseNewSignIn)
+            {
+                Service.Instance.SignIn(strUsername, strPassword, fRememberUsername, fRememberPassword, fAutomaticallySignInAtStartup, eventHandler);
+            }
+            else
+            {
+                bool success = Escargot.TrySignIn(strUsername, strPassword);
+                if (success && fRememberPassword)
+                {
+                    Escargot.CacheToken();
+                }
+
+                int hr = success ? 0 : unchecked((int)0x80070057);
+                eventHandler(hr);
+            }
+        }
 
         public bool SignInAtStartup(string strUsername) => Service.Instance.SignInAtStartup(strUsername);
 
         public bool SignInPasswordRequired(string strUsername)
             => Service.Instance.SignInPasswordRequired(strUsername);
 
-        public void SignOut() => Service.Instance.SignOut();
+        public void SignOut()
+        {
+            if (!UseNewSignIn)
+            {
+                Service.Instance.SignOut();
+            }
+            else
+            {
+                Escargot.ClearToken();
+            }
+        }
 
         public bool SubscriptionPendingCancel() => Service.Instance.SubscriptionPendingCancel();
 
