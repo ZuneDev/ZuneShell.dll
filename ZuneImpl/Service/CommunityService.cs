@@ -12,6 +12,9 @@ namespace Microsoft.Zune.Service
     {
         private bool disposedValue;
 
+        public static string AppUserAgent { get; set; }
+        public static string ApiVerionStr { get; set; }
+
         public EListType ContentTypeToListType(EContentType contentType)
         {
             switch (contentType)
@@ -411,7 +414,16 @@ namespace Microsoft.Zune.Service
         public bool LaunchBrowserForExternalUrl(string strUrl, EPassportPolicyId ePassportPolicy)
             => Service.Instance.LaunchBrowserForExternalUrl(strUrl, ePassportPolicy);
 
-        public int Phase3Initialize() => Service.Instance.Phase3Initialize();
+        public int Phase3Initialize()
+        {
+            var name = System.Reflection.Assembly.GetEntryAssembly()?.GetName();
+            if (ApiVerionStr == null)
+                ApiVerionStr = name?.Version?.ToString(2);
+            if (AppUserAgent == null)
+                AppUserAgent = $"{name?.Name}/{ApiVerionStr}";
+
+            return Service.Instance.Phase3Initialize();
+        }
 
         public bool PostAppReview(Guid mediaId, string title, string comment, int rating, AsyncCompleteHandler callback)
             => Service.Instance.PostAppReview(mediaId, title, comment, rating, callback);

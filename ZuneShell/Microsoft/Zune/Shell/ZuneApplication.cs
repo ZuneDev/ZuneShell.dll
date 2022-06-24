@@ -108,7 +108,7 @@ namespace Microsoft.Zune.Shell
             else
             {
                 SingletonModelItem<WindowSnapSimulator>.Instance.Phase3Init();
-                Service.Phase3Initialize();
+                Service2.Phase3Initialize();
                 SignIn.Instance.Phase3Init();
                 MetadataNotifications.Instance.Phase2Init();
                 SingletonModelItem<UIDeviceList>.Instance.Phase2Init();

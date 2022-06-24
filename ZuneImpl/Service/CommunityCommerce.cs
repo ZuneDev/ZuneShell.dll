@@ -23,7 +23,7 @@ namespace Microsoft.Zune.Service
             }
         }
 
-        public static CultureInfo Culture { get; private set; }
+        public static CultureInfo Culture { get; private set; } = CultureInfo.CurrentCulture;
 
         public static bool IsSignedIn => Escargot.HasToken && MemberInfo != null;
 

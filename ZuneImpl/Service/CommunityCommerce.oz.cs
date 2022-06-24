@@ -1,9 +1,6 @@
 ﻿#if OPENZUNE
 
-using System.IO;
 using System.Net.Http;
-using System.Xml.Serialization;
-using Zune.Xml.Commerce;
 using ZuneUI;
 
 namespace Microsoft.Zune.Service
@@ -19,8 +16,9 @@ namespace Microsoft.Zune.Service
 
             try
             {
-                HttpRequestMessage request = new(HttpMethod.Post, "https://commerce.zunes.me/v5.0/en-US/account/signin");
-                request.Headers.UserAgent.ParseAdd("Zune/5.0");
+                string url = Service2.Instance.GetEndPointUri(EServiceEndpointId.SEID_Commerce) + $"/account/signin";
+                HttpRequestMessage request = new(HttpMethod.Post, url);
+                request.Headers.UserAgent.ParseAdd(CommunityService.AppUserAgent);
 
                 var contentStream = GetSignInRequestBody();
                 request.Content = new StreamContent(contentStream);

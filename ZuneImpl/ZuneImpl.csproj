@@ -5,7 +5,7 @@
         <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
         <OutputType>Library</OutputType>
         <AssemblyName>ZuneImpl</AssemblyName>
-        <ApplicationVersion>4.7.0.0</ApplicationVersion>
+        <ApplicationVersion>4.8.0.0</ApplicationVersion>
 
         <TargetFrameworks>net35;net40;net6.0</TargetFrameworks>
         <Platforms>x64;x86</Platforms>
