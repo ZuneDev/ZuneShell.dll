@@ -133,12 +133,24 @@ namespace Meziantou.Framework.Win32
             }
         }
 
-        public static IReadOnlyList<Credential> EnumerateCrendentials()
+        public static
+#if NETSTANDARD1_0_OR_GREATER
+            IReadOnlyList<Credential>
+#else
+            IList<Credential>
+#endif
+            EnumerateCrendentials()
         {
             return EnumerateCrendentials(null);
         }
 
-        public static IReadOnlyList<Credential> EnumerateCrendentials(string filter)
+        public static
+#if NETSTANDARD1_0_OR_GREATER
+            IReadOnlyList<Credential>
+#else
+            IList<Credential>
+#endif
+            EnumerateCrendentials(string filter)
         {
             var result = new List<Credential>();
             var ret = Advapi32.CredEnumerate(filter, 0, out var count, out var pCredentials);
@@ -148,8 +160,8 @@ namespace Meziantou.Framework.Win32
                 {
                     for (var n = 0; n < count; n++)
                     {
-                        var credential = Marshal.ReadIntPtr(pCredentials, n * Marshal.SizeOf<IntPtr>());
-                        result.Add(ReadCredential(Marshal.PtrToStructure<CREDENTIAL>(credential)));
+                        var credential = Marshal.ReadIntPtr(pCredentials, n * MarshalEx.SizeOf<IntPtr>());
+                        result.Add(ReadCredential(MarshalEx.PtrToStructure<CREDENTIAL>(credential)));
                     }
                 }
                 else

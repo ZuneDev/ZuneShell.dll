@@ -14,9 +14,7 @@ namespace Meziantou.Framework.Win32
         public CREDENTIAL GetCredential()
         {
             if (!IsInvalid)
-            {
-                return Marshal.PtrToStructure<CREDENTIAL>(handle);
-            }
+                return MarshalEx.PtrToStructure<CREDENTIAL>(handle);
 
             throw new InvalidOperationException("Invalid CriticalHandle!");
         }
