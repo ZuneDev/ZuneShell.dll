@@ -65,7 +65,7 @@ namespace ZuneXml
                 string representation = (string)this.Query.GetProperty("Representation");
                 if (this.RequireResource && resourceType == null || this.RequireRepresentation && representation == null)
                     return null;
-                string endPointUri = Service2.GetEndPointUri(this._endPoint);
+                string endPointUri = ZuneApplication.Service2.GetEndPointUri(this._endPoint);
                 requestUri.Append(endPointUri);
                 requestUri.Append("/");
                 if (!string.IsNullOrEmpty(resourceType))

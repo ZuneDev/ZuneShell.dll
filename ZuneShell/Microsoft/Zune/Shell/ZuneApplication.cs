@@ -67,7 +67,7 @@ namespace Microsoft.Zune.Shell
         public static ZuneLibrary ZuneLibrary => _zuneLibrary;
 
         public static Service.Service Service => Zune.Service.Service.Instance;
-        public static Service.Service2 Service2 => Zune.Service.Service2.Instance;
+        public static IService Service2 => Zune.Service.Service2.Instance;
 
 #if OPENZUNE
         public static IStrixDataRoot DataRoot { get; private set; }
@@ -189,7 +189,7 @@ namespace Microsoft.Zune.Shell
                     if (hasTracks)
                     {
                         var track = tracks[0];
-                        await track.PlayArtistCollectionAsync();
+                        //await track.PlayArtistCollectionAsync();
                         //await PlaybackHandler.PlayAsync(track, dataRoot.Library, track);
                     }
                 });
