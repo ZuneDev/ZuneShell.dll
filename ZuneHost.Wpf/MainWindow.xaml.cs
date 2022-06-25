@@ -21,7 +21,10 @@ namespace ZuneHost.Wpf
     /// </summary>
     public partial class MainWindow : Window
     {
-        private string _zuneProgramFolder;
+        string _zuneProgramFolder;
+        int decompResultCount = 0;
+        string decompResultDir = Path.Combine(Environment.CurrentDirectory, "DecompileResults");
+        string dataMapDir = Path.Combine(Environment.CurrentDirectory, "DataMappings");
 
         public MainWindow()
         {
@@ -60,23 +63,46 @@ namespace ZuneHost.Wpf
                 }
             }
 
+            Microsoft.Iris.Application.DebugSettings.UseDecompiler = true;
             Microsoft.Iris.Application.DebugSettings.GenerateDataMappingModels = true;
+            Microsoft.Iris.Application.DebugSettings.DecompileResults.CollectionChanged += DecompileResults_CollectionChanged;
             Microsoft.Iris.Application.DebugSettings.DataMappingModels.CollectionChanged += DataMappingModels_CollectionChanged;
+            Directory.Delete(decompResultDir, true);
+            Directory.Delete(dataMapDir, true);
+            Directory.CreateDirectory(decompResultDir);
+            Directory.CreateDirectory(dataMapDir);
 
             IntPtr hWnd = new System.Windows.Interop.WindowInteropHelper(this).Handle;
             Thread zuneThread = new Thread(new ThreadStart(() =>
-                Microsoft.Zune.Shell.ZuneApplication.Launch(strArgs, hWnd)));
+            {
+                Microsoft.Zune.Shell.ZuneApplication.Launch(strArgs, hWnd);
+            }));
             zuneThread.Start();
+        }
+
+        
+        private void DecompileResults_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            foreach (var result in e.NewItems.Cast<Microsoft.Iris.Debug.DecompilationResult>())
+            {
+                int count = 0;
+                string ctx = Path.GetFileName(result.Context[(result.Context.LastIndexOf('/') + 1)..]);
+
+                FileInfo file = new(Path.Combine(decompResultDir, ctx + ".uix"));
+                while (file.Exists)
+                    file = new(Path.Combine(decompResultDir, $"{ctx}_{++count}.uix"));
+
+                using var stream = file.OpenWrite();
+                result.Doc.Save(stream);
+                stream.Flush();
+            }
         }
 
         private void DataMappingModels_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            string destDir = Path.Combine(Environment.CurrentDirectory, "DataMappings");
-            Directory.CreateDirectory(destDir);
-
             foreach (var item in e.NewItems.Cast<Microsoft.Iris.Debug.DataMappingModel>())
             {
-                FileInfo file = new(Path.Combine(destDir, $"{item.Provider}_{item.Type}.cs"));
+                FileInfo file = new(Path.Combine(dataMapDir, $"{item.Provider}_{item.Type}.cs"));
                 if (file.Exists) file.Delete();
 
                 using var stream = file.Open(FileMode.Create);
