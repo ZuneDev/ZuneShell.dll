@@ -184,14 +184,7 @@ namespace Microsoft.Zune.Shell
 
                     DataRoot.Library.TracksChanged += LibraryTracksChanged;
 
-                    var tracks = await DataRoot.Library.GetTracksAsync(1, 0).ToListAsync();
-                    bool hasTracks = tracks.Count > 0;
-                    if (hasTracks)
-                    {
-                        var track = tracks[0];
-                        //await track.PlayArtistCollectionAsync();
-                        //await PlaybackHandler.PlayAsync(track, dataRoot.Library, track);
-                    }
+                    await DataRoot.Library.PlayTrackCollectionAsync();
                 });
 #endif
 
