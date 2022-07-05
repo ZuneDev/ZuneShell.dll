@@ -74,6 +74,11 @@ namespace ZuneHost.Wpf
             IntPtr hWnd = new System.Windows.Interop.WindowInteropHelper(this).Handle;
             Thread zuneThread = new Thread(new ThreadStart(() =>
             {
+                IrisApp.Initialized += delegate
+                {
+                    IrisApp.AddImportRedirect("res://ZuneShellResources!", "clr-res://ZuneShell!");
+                };
+
                 Microsoft.Zune.Shell.ZuneApplication.Launch(strArgs, hWnd);
             }));
             zuneThread.Start();
