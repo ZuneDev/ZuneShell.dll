@@ -1,18 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
+using IrisApp = Microsoft.Iris.Application;
 
 namespace ZuneHost.Wpf
 {
@@ -22,7 +14,6 @@ namespace ZuneHost.Wpf
     public partial class MainWindow : Window
     {
         string _zuneProgramFolder;
-        int decompResultCount = 0;
         string decompResultDir = Path.Combine(Environment.CurrentDirectory, "DecompileResults");
         string dataMapDir = Path.Combine(Environment.CurrentDirectory, "DataMappings");
 
@@ -63,14 +54,22 @@ namespace ZuneHost.Wpf
                 }
             }
 
-            Microsoft.Iris.Application.DebugSettings.UseDecompiler = true;
-            Microsoft.Iris.Application.DebugSettings.GenerateDataMappingModels = true;
-            Microsoft.Iris.Application.DebugSettings.DecompileResults.CollectionChanged += DecompileResults_CollectionChanged;
-            Microsoft.Iris.Application.DebugSettings.DataMappingModels.CollectionChanged += DataMappingModels_CollectionChanged;
-            Directory.Delete(decompResultDir, true);
-            Directory.Delete(dataMapDir, true);
-            Directory.CreateDirectory(decompResultDir);
-            Directory.CreateDirectory(dataMapDir);
+            IrisApp.DebugSettings.UseDecompiler = false;
+            if (IrisApp.DebugSettings.UseDecompiler)
+            {
+                Directory.Delete(decompResultDir, true);
+                Directory.CreateDirectory(decompResultDir);
+                IrisApp.DebugSettings.DecompileResults.CollectionChanged += DecompileResults_CollectionChanged;
+                IrisApp.DebugSettings.Bridge.InterpreterStep += Bridge_InterpreterStep;
+            }
+
+            IrisApp.DebugSettings.GenerateDataMappingModels = false;
+            if (IrisApp.DebugSettings.GenerateDataMappingModels)
+            {
+                Directory.Delete(dataMapDir, true);
+                Directory.CreateDirectory(dataMapDir);
+                IrisApp.DebugSettings.DataMappingModels.CollectionChanged += DataMappingModels_CollectionChanged;
+            }
 
             IntPtr hWnd = new System.Windows.Interop.WindowInteropHelper(this).Handle;
             Thread zuneThread = new Thread(new ThreadStart(() =>
@@ -80,7 +79,6 @@ namespace ZuneHost.Wpf
             zuneThread.Start();
         }
 
-        
         private void DecompileResults_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             foreach (var result in e.NewItems.Cast<Microsoft.Iris.Debug.DecompilationResult>())
@@ -96,6 +94,11 @@ namespace ZuneHost.Wpf
                 result.Doc.Save(stream);
                 stream.Flush();
             }
+        }
+
+        private void Bridge_InterpreterStep(object sender, Microsoft.Iris.Debug.Data.InterpreterEntry e)
+        {
+            Debug.WriteLine(e.ToString());
         }
 
         private void DataMappingModels_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
