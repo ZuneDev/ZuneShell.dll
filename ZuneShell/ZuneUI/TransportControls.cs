@@ -1370,21 +1370,22 @@ namespace ZuneUI
                 return;
             SQMLog.Log(SQMDataId.PlayClicks, 1);
 
-#if OPENZUNE
-            var playbackHandler = Microsoft.Zune.Shell.ZuneApplication.PlaybackHandler;
-            if (playbackHandler != null)
-            {
-                await playbackHandler.ResumeAsync();
-                return;
-            }
-#endif
-
             if (this.Playing || this._playlistCurrent == null)
                 return;
             if (this._lastKnownPlayerState != MCPlayerState.Closed)
             {
                 this.SetPlayerState(PlayerState.Playing);
+
+#if OPENZUNE
+                var playbackHandler = Microsoft.Zune.Shell.ZuneApplication.PlaybackHandler;
+                if (playbackHandler != null)
+                {
+                    await playbackHandler.ResumeAsync();
+                }
+#else
                 this._playbackWrapper.Play();
+#endif
+
                 if (!this.PlayingVideo || this._playlistCurrent.PlayNavigationOptions != PlayNavigationOptions.NavigateVideosToNowPlaying)
                     return;
                 NowPlayingLand.NavigateToLand();
@@ -1408,22 +1409,27 @@ namespace ZuneUI
                 return;
             SQMLog.Log(SQMDataId.PauseClicks, 1);
 
+            if (!this.Playing)
+                return;
+
+            this.SetPlayerState(PlayerState.Paused);
+
 #if OPENZUNE
             var playbackHandler = Microsoft.Zune.Shell.ZuneApplication.PlaybackHandler;
             if (playbackHandler != null)
             {
                 await playbackHandler.PauseAsync();
-                return;
             }
-#endif
-
-            if (!this.Playing)
-                return;
-            this.SetPlayerState(PlayerState.Paused);
+#else
             this._playbackWrapper.Pause();
+#endif
         }
 
-        private void OnStopClicked(object sender, EventArgs e)
+        private
+#if OPENZUNE
+            async
+#endif
+            void OnStopClicked(object sender, EventArgs e)
         {
             if (!this._stop.Available)
                 return;
@@ -1437,7 +1443,16 @@ namespace ZuneUI
             if (this._playerState != PlayerState.Stopped)
             {
                 this.SetPlayerState(PlayerState.Stopped);
+#if OPENZUNE
+                var playbackHandler = Microsoft.Zune.Shell.ZuneApplication.PlaybackHandler;
+                if (playbackHandler != null)
+                {
+                    await playbackHandler.PauseAsync();
+                    await playbackHandler.SeekAsync(TimeSpan.Zero);
+                }
+#else
                 this._playbackWrapper.Stop();
+#endif
             }
             else
                 this.UpdatePropertiesAndCommands();
@@ -1453,22 +1468,21 @@ namespace ZuneUI
                 return;
             SQMLog.Log(SQMDataId.SkipBackwardClicks, 1);
 
-#if OPENZUNE
-            var playbackHandler = Microsoft.Zune.Shell.ZuneApplication.PlaybackHandler;
-            if (playbackHandler != null)
-            {
-                await playbackHandler.PreviousAsync();
-                return;
-            }
-#endif
-
             if (this._lastKnownPosition > 50000000L || !this._playlistCurrent.CanRetreat)
             {
                 this._playbackWrapper.SeekToAbsolutePosition(0L);
             }
             else
             {
+#if OPENZUNE
+                var playbackHandler = Microsoft.Zune.Shell.ZuneApplication.PlaybackHandler;
+                if (playbackHandler != null)
+                {
+                    await playbackHandler.PreviousAsync();
+                }
+#else
                 this._playlistCurrent.Retreat();
+#endif
                 this.SetUriOnPlayer();
             }
         }
@@ -1483,28 +1497,36 @@ namespace ZuneUI
                 return;
             SQMLog.Log(SQMDataId.SkipForwardClicks, 1);
 
-#if OPENZUNE
-            var playbackHandler = Microsoft.Zune.Shell.ZuneApplication.PlaybackHandler;
-            if (playbackHandler != null)
-            {
-                await playbackHandler.NextAsync();
-                return;
-            }
-#endif
-
             if (this._currentTrack != null && this._currentTrack.IsVideo)
                 return;
             if (this._lastKnownPlaybackTrack != null)
                 this._lastKnownPlaybackTrack.OnSkip();
             if (this._playlistCurrent.CanAdvance)
             {
+#if OPENZUNE
+                var playbackHandler = Microsoft.Zune.Shell.ZuneApplication.PlaybackHandler;
+                if (playbackHandler != null)
+                {
+                    await playbackHandler.NextAsync();
+                }
+#else
                 this._playlistCurrent.Advance();
+#endif
                 this.SetUriOnPlayer();
             }
             else
             {
                 this.SetPlayerState(PlayerState.Stopped);
+#if OPENZUNE
+                var playbackHandler = Microsoft.Zune.Shell.ZuneApplication.PlaybackHandler;
+                if (playbackHandler != null)
+                {
+                    await playbackHandler.PauseAsync();
+                    await playbackHandler.SeekAsync(TimeSpan.Zero);
+                }
+#else
                 this._playbackWrapper.Stop();
+#endif
             }
         }
 
