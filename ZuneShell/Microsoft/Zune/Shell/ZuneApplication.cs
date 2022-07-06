@@ -64,10 +64,31 @@ namespace Microsoft.Zune.Shell
 
         public static string DefaultCommandLineParameterSwitch => "PlayMedia";
 
+        public static Version Version => typeof(ZuneApplication).Assembly.GetName().Version;
+
         public static ZuneLibrary ZuneLibrary => _zuneLibrary;
 
         public static Service.Service Service => Zune.Service.Service.Instance;
         public static IService Service2 => Zune.Service.Service2.Instance;
+
+        public static bool IsStrixCompatible
+        {
+            get
+            {
+#if OPENZUNE
+                return true;
+#else
+                return false;
+#endif
+            }
+        }
+
+        public static Version StrixSdkVersion =>
+#if OPENZUNE
+                typeof(ICore).Assembly.GetName().Version;
+#else
+                null;
+#endif
 
 #if OPENZUNE
         public static IStrixDataRoot DataRoot { get; private set; }
@@ -184,7 +205,7 @@ namespace Microsoft.Zune.Shell
 
                     DataRoot.Library.TracksChanged += LibraryTracksChanged;
 
-                    await DataRoot.Library.PlayTrackCollectionAsync();
+                    //await DataRoot.Library.PlayTrackCollectionAsync();
                 });
 #endif
 

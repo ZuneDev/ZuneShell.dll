@@ -8,6 +8,8 @@
         <OutputType>Library</OutputType>
         <AssemblyName>ZuneShell</AssemblyName>
         <ApplicationVersion>4.7.0.0</ApplicationVersion>
+        <AssemblyVersion>$(ApplicationVersion)</AssemblyVersion>
+        <FileVersion>$(ApplicationVersion)</FileVersion>
 
         <TargetFrameworks>net35;net40;net6.0</TargetFrameworks>
         <Platforms>x64;x86</Platforms>
