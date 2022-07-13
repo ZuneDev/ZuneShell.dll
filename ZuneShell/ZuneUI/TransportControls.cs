@@ -109,30 +109,30 @@ namespace ZuneUI
             this._taskbarPlayer = TaskbarPlayer.Instance;
             this._videoStream = new VideoStream();
             if (!this.CanRender3DVideo)
-                this._videoStream.DisplayDetailsChanged += new EventHandler(this.OnVideoDetailsChanged);
+                this._videoStream.DisplayDetailsChanged += OnVideoDetailsChanged;
             this._shuffling = new BooleanChoice(this);
             this._shuffling.Value = ClientConfiguration.Playback.ModeShuffle;
-            this._shuffling.ChosenChanged += new EventHandler(this.OnShufflingChanged);
+            this._shuffling.ChosenChanged += OnShufflingChanged;
             this.UpdateShufflingDescription();
             this._repeating = new BooleanChoice(this);
             this._repeating.Value = ClientConfiguration.Playback.ModeLoop;
-            this._repeating.ChosenChanged += new EventHandler(this.OnRepeatingChanged);
+            this._repeating.ChosenChanged += OnRepeatingChanged;
             this.UpdateRepeatingDescription();
             this._muted = new BooleanChoice(this);
             this._muted.Value = ClientConfiguration.Playback.Mute;
-            this._muted.ChosenChanged += new EventHandler(this.OnMutingChanged);
+            this._muted.ChosenChanged += OnMutingChanged;
             this.UpdateMutingDescription();
             this._showTotalTime = new BooleanChoice(this);
             this._showTotalTime.Value = ClientConfiguration.Playback.ShowTotalTime;
-            this._showTotalTime.ChosenChanged += new EventHandler(this.OnShowTotalTimeChanged);
+            this._showTotalTime.ChosenChanged += OnShowTotalTimeChanged;
             this._showNowPlayingList = new BooleanChoice(this);
             this._showNowPlayingList.Value = ClientConfiguration.Playback.ShowNowPlayingList;
-            this._showNowPlayingList.ChosenChanged += new EventHandler(this.OnShowNowPlayingListChanged);
+            this._showNowPlayingList.ChosenChanged += OnShowNowPlayingListChanged;
             this.UpdateShowNowPlayingListDescription();
             this._fastforwarding = new BooleanChoice(this);
-            this._fastforwarding.ChosenChanged += new EventHandler(this.OnFastforwardingChanged);
+            this._fastforwarding.ChosenChanged += OnFastforwardingChanged;
             this._rewinding = new BooleanChoice(this);
-            this._rewinding.ChosenChanged += new EventHandler(this.OnRewindingChanged);
+            this._rewinding.ChosenChanged += OnRewindingChanged;
             float num = ClientConfiguration.Playback.Volume;
             if (num < 0.0 || num > 100.0)
                 num = 50f;
@@ -153,34 +153,34 @@ namespace ZuneUI
             this._stop.Available = false;
             this._fastforwardhotkey = new Command(this, new EventHandler(this.OnFastforwardHotkeyPressed));
             this._rewindhotkey = new Command(this, new EventHandler(this.OnRewindHotkeyPressed));
-            this._playbackWrapper.StatusChanged += new EventHandler(this.OnPlaybackStatusChanged);
-            this._playbackWrapper.TransportStatusChanged += new EventHandler(this.OnTransportStatusChanged);
-            this._playbackWrapper.TransportPositionChanged += new EventHandler(this.OnTransportPositionChanged);
-            this._playbackWrapper.UriSet += new EventHandler(this.OnUriSet);
-            this._playbackWrapper.AlertSent += new AnnouncementHandler(this.OnAlertSent);
-            this._playbackWrapper.PlayerPropertyChanged += new PlayerPropertyChangedEventHandler(this.OnPlayerPropertyChanged);
-            this._playbackWrapper.PlayerBandwithUpdate += new PlayerBandwithUpdateEventHandler(this.OnBandwidthCapacityUpdate);
+            this._playbackWrapper.StatusChanged += OnPlaybackStatusChanged;
+            this._playbackWrapper.TransportStatusChanged += OnTransportStatusChanged;
+            this._playbackWrapper.TransportPositionChanged += OnTransportPositionChanged;
+            this._playbackWrapper.UriSet += OnUriSet;
+            this._playbackWrapper.AlertSent += OnAlertSent;
+            this._playbackWrapper.PlayerPropertyChanged += OnPlayerPropertyChanged;
+            this._playbackWrapper.PlayerBandwithUpdate += OnBandwidthCapacityUpdate;
             this._lastKnownPlayerState = this._playbackWrapper.State;
             this._lastKnownTransportState = this._playbackWrapper.TransportState;
             this._lastKnownPosition = this._playbackWrapper.Position;
             this._shellInstance = (Shell)ZuneShell.DefaultInstance;
-            this._shellInstance.PropertyChanged += new PropertyChangedEventHandler(this.OnShellPropertyChanged);
+            this._shellInstance.PropertyChanged += OnShellPropertyChanged;
             this._timerDelayedConfigPersist = new Microsoft.Iris.Timer();
             this._timerDelayedConfigPersist.Interval = 500;
             this._timerDelayedConfigPersist.AutoRepeat = false;
-            this._timerDelayedConfigPersist.Tick += new EventHandler(this.OnDelayedConfigPersistTimerTick);
+            this._timerDelayedConfigPersist.Tick += OnDelayedConfigPersistTimerTick;
             this._playerState = PlayerState.Stopped;
             this._spectrumConfigList = new List<SpectrumOutputConfig>();
             this._isSpectrumAvailable = false;
             this.IsSeekEnabled = this._playbackWrapper.CanSeek;
-            Download.Instance.DownloadProgressEvent += new DownloadEventProgressHandler(this.OnDownloadProgressed);
+            Download.Instance.DownloadProgressEvent += OnDownloadProgressed;
             this._lastKnownCurrentTrackRating = -1;
-            this._currentTrackRatingChangedEventHandler = new EventHandler(this.OnCurrentTrackRatingChanged);
+            this._currentTrackRatingChangedEventHandler = OnCurrentTrackRatingChanged;
             this._isStreamingTimeoutTimer = new Microsoft.Iris.Timer(this);
             this._isStreamingTimeoutTimer.Interval = 30000;
             this._isStreamingTimeoutTimer.AutoRepeat = false;
-            this._isStreamingTimeoutTimer.Tick += new EventHandler(this.OnIsStreamingTimeout);
-            SignIn.Instance.SignInStatusUpdatedEvent += new EventHandler(this.OnSignInEvent);
+            this._isStreamingTimeoutTimer.Tick += OnIsStreamingTimeout;
+            SignIn.Instance.SignInStatusUpdatedEvent += OnSignInEvent;
         }
 
         protected override void OnDispose(bool fDisposing)
@@ -214,14 +214,14 @@ namespace ZuneUI
             }
             if (this._lastKnownPlaybackTrack != null)
                 this._lastKnownPlaybackTrack.OnEndPlayback(false);
-            this._playbackWrapper.StatusChanged -= new EventHandler(this.OnPlaybackStatusChanged);
-            this._playbackWrapper.TransportStatusChanged -= new EventHandler(this.OnTransportStatusChanged);
-            this._playbackWrapper.TransportPositionChanged -= new EventHandler(this.OnTransportPositionChanged);
-            this._playbackWrapper.UriSet -= new EventHandler(this.OnUriSet);
-            this._playbackWrapper.AlertSent -= new AnnouncementHandler(this.OnAlertSent);
-            this._playbackWrapper.PlayerPropertyChanged -= new PlayerPropertyChangedEventHandler(this.OnPlayerPropertyChanged);
+            this._playbackWrapper.StatusChanged -= OnPlaybackStatusChanged;
+            this._playbackWrapper.TransportStatusChanged -= OnTransportStatusChanged;
+            this._playbackWrapper.TransportPositionChanged -= OnTransportPositionChanged;
+            this._playbackWrapper.UriSet -= OnUriSet;
+            this._playbackWrapper.AlertSent -= OnAlertSent;
+            this._playbackWrapper.PlayerPropertyChanged -= OnPlayerPropertyChanged;
             if (this._videoStream != null && !this.CanRender3DVideo)
-                this._videoStream.DisplayDetailsChanged -= new EventHandler(this.OnVideoDetailsChanged);
+                this._videoStream.DisplayDetailsChanged -= OnVideoDetailsChanged;
             PlayerInterop.Instance.Dispose();
             if (this._videoStream != null)
             {
@@ -230,15 +230,15 @@ namespace ZuneUI
             }
             if (this._timerDelayedConfigPersist != null)
             {
-                this._timerDelayedConfigPersist.Tick -= new EventHandler(this.OnDelayedConfigPersistTimerTick);
+                this._timerDelayedConfigPersist.Tick -= OnDelayedConfigPersistTimerTick;
                 this._timerDelayedConfigPersist.Dispose();
                 this._timerDelayedConfigPersist = null;
             }
-            this._shellInstance.PropertyChanged -= new PropertyChangedEventHandler(this.OnShellPropertyChanged);
-            Download.Instance.DownloadProgressEvent -= new DownloadEventProgressHandler(this.OnDownloadProgressed);
+            this._shellInstance.PropertyChanged -= OnShellPropertyChanged;
+            Download.Instance.DownloadProgressEvent -= OnDownloadProgressed;
             if (this._currentTrack != null)
                 this._currentTrack.RatingChanged.Invoked -= this._currentTrackRatingChangedEventHandler;
-            SignIn.Instance.SignInStatusUpdatedEvent -= new EventHandler(this.OnSignInEvent);
+            SignIn.Instance.SignInStatusUpdatedEvent -= OnSignInEvent;
         }
 
         private void OnSignInEvent(object sender, EventArgs args)
