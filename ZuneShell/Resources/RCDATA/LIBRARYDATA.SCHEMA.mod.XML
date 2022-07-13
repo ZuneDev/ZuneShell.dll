@@ -1,0 +1,634 @@
+<!-- Copyright (C) Microsoft Corporation. All rights reserved. -->
+<DataSchema xmlns="http://schemas.microsoft.com/2007/uixdata"
+			xmlns:col="assembly://mscorlib/System.Collections" >
+
+  <Type Name="Media">
+    <Property Name="LibraryId"  Type="Int32"/>    
+    <Property Name="Title"      Type="String"/>
+    <Property Name="SyncState"  Type="Int32"/>
+    <Property Name="Type"       Type="String"/>
+    <Property Name="DeviceFileSize"     Type="Int64" />
+  </Type>
+
+  <Type Name="RateableMedia" Base="Media">
+    <Property Name="UserRating" Type="Int32" />
+  </Type>
+
+  <Type Name="Artist" Base="Media">
+    <Property Name="MediaId"    Type="String" />
+    <Property Name="NumberOfAlbums" Type="Int32" />
+  </Type>
+
+  <Type Name="Album" Base="Media">
+    <Property Name="ArtistLibraryId" Type="Int32" />
+    <Property Name="ArtistName" Type="String" />
+    <Property Name="MediaId"  Type="String" />
+    <Property Name="HasAlbumArt" Type="Boolean" />
+    <Property Name="AlbumArtSmall" Type="Image" />
+    <Property Name="AlbumArtLarge" Type="Image" />
+    <Property Name="AlbumArtSuperLarge" Type="Image" />
+    <Property Name="ThumbnailPath" Type="String" />
+    <Property Name="Popularity" Type="Int32" />
+    <Property Name="ReleaseDate" Type="DateTime" />
+    <Property Name="DateAdded" Type="DateTime" />
+    <Property Name="ContributingArtistCount" Type="Int32"/>
+    <Property Name="DisplayArtistCount" Type="Int32"/>
+  </Type>
+
+  <Type Name="Track" Base="RateableMedia">
+    <Property Name="AlbumLibraryId" Type="Int32" />
+    <Property Name="ArtistLibraryId" Type="Int32" />
+    <Property Name="AlbumArtistLibraryId" Type="Int32" />
+    <Property Name="ArtistName" Type="String" />
+    <Property Name="ContributingArtistNames" Type="col:IList" UnderlyingCollectionType="String" />
+    <Property Name="AlbumArtistName" Type="String" />
+    <Property Name="AlbumName" Type="String" />
+    <Property Name="ReleaseDate" Type="DateTime" />
+    <Property Name="Genre" Type="String" />
+    <Property Name="MediaId"   Type="String" />
+    <Property Name="TrackNumber" Type="Int32" />
+    <Property Name="Duration"  Type="TimeSpan" />
+    <Property Name="ComponentId" Type="String" />
+    <Property Name="FileName" Type="String" />
+    <Property Name="FolderName" Type="String" />
+    <Property Name="FilePath" Type="String" />
+    <Property Name="NowPlaying" Type="Boolean" />
+    <Property Name="InLibrary" Type="Boolean" />
+    <Property Name="DateLastPlayed" Type="DateTime"/>
+    <Property Name="PlayCount" Type="Int32"/>
+    <Property Name="FileSize" Type="Int64"/>
+    <Property Name="ComposerName" Type="String"/>
+    <Property Name="ConductorName" Type="String"/>
+    <Property Name="IsProtected" Type="Int32"/> 
+    <Property Name="DateAdded" Type="DateTime"/>
+    <Property Name="Bitrate" Type="Int32"/>
+    <Property Name="MediaType" Type="String"/>
+    <Property Name="DiscNumber" Type="String"/>
+    <Property Name="ContributingArtistCount" Type="Int32"/>
+    <Property Name="DateAlbumAdded" Type="DateTime" />
+  </Type>
+
+  <DataMapping TargetType="Artist" Provider="Library">
+    <Mapping Property="Type"       DefaultValue="Artist" />
+    <Mapping Property="Title"      Source="WM/AlbumArtist" />
+    <Mapping Property="LibraryId"  Source="UniqueID" />
+    <Mapping Property="MediaId"    Source="ZuneMediaID" />
+    <Mapping Property="NumberOfAlbums" Source="ArtistAlbumCount" />
+  </DataMapping>
+
+  <DataMapping TargetType="Album" Provider="Library">
+    <Mapping Property="Type"      DefaultValue="Album" />
+    <Mapping Property="Title"     Source="WM/AlbumTitle" />
+    <Mapping Property="LibraryId" Source="UniqueID" />
+    <Mapping Property="ArtistLibraryId" Source="CPArtistID" />
+    <Mapping Property="ArtistName" Source="WM/AlbumArtist" />
+    <Mapping Property="HasAlbumArt" Source="HasAlbumArt" />
+    <Mapping Property="AlbumArtSmall" Source="SmallThumbnail" />
+    <Mapping Property="AlbumArtLarge" Source="LargeThumbnail" />
+    <Mapping Property="AlbumArtSuperLarge" Source="SuperLargeThumbnail" />
+    <Mapping Property="ThumbnailPath" Source="ThumbnailPath" />
+    <Mapping Property="ReleaseDate" Source="WM/Year" />
+    <Mapping Property="DateAdded"  Source="DateAdded" />
+    <Mapping Property="ContributingArtistCount" Source="ContributingArtistCount"/>
+    <Mapping Property="DisplayArtistCount" Source="DisplayArtistCount"/>
+  </DataMapping>
+
+  <DataMapping TargetType="Track" Provider="Library">
+    <Mapping Property="Type"      DefaultValue="Track" />
+    <Mapping Property="LibraryId" Source="UniqueID" />
+    <Mapping Property="AlbumLibraryId" Source="AlbumID" />
+    <Mapping Property="ArtistLibraryId" Source="CPArtistID" />
+    <Mapping Property="AlbumArtistLibraryId" Source="AlbumArtistID" />
+    <Mapping Property="ArtistName" Source="DisplayArtist" />
+    <Mapping Property="ContributingArtistNames" Source="ContributingArtists" />
+    <Mapping Property="AlbumArtistName" Source="WM/AlbumArtist" />
+    <Mapping Property="AlbumName" Source="WM/AlbumTitle" />
+    <Mapping Property="ReleaseDate" Source="WM/Year" />
+    <Mapping Property="Genre"    Source="WM/Genre" />
+    <Mapping Property="Title"    Source="Title" />
+    <Mapping Property="TrackNumber" Source="WM/TrackNumber" />
+    <Mapping Property="Duration" Source="Duration" />
+    <Mapping Property="FileName" Source="FileName" />
+    <Mapping Property="FilePath" Source="SourceURL" />
+    <Mapping Property="UserRating" Source="UserRating" />
+    <Mapping Property="NowPlaying" DefaultValue="false" /> 
+    <Mapping Property="InLibrary" Source="InLibrary" DefaultValue="false" />
+    <Mapping Property="DateLastPlayed" Source="UserLastPlayedDate" />
+    <Mapping Property="PlayCount" Source="UserPlayCount" />
+    <Mapping Property="FileSize" Source="FileSize" DefaultValue="0"/>
+    <Mapping Property="DeviceFileSize" Source="DeviceFileSize" />
+    <Mapping Property="ComposerName" Source="WM/Composer" />
+    <Mapping Property="ConductorName" Source="WM/Conductor" />
+    <Mapping Property="IsProtected" Source="Is_Protected" DefaultValue="-1" />
+    <Mapping Property="DateAdded" Source="DateAdded" />
+    <Mapping Property="SyncState" Source="SyncState" />
+    <Mapping Property="Bitrate" Source="Bitrate" />
+    <Mapping Property="MediaType" Source="FileType"/>
+    <Mapping Property="DiscNumber" Source="DiscIndex"/>
+    <Mapping Property="ContributingArtistCount" Source="ContributingArtistCount"/>
+    <Mapping Property="DateAlbumAdded" Source="DateAlbumAdded"/>
+  </DataMapping>
+  
+  
+
+
+  <Query Name="Media" Provider="Library" ResultType="MediaList">
+    <Parameter Name="Sort" Type="String" />
+    <Parameter Name="Keywords" Type="String" />
+    <Parameter Name="AutoRefresh"  Type="Boolean" DefaultValue="true"/>
+    <Parameter Name="UserId" Type="Int32" />
+    <Parameter Name="AntialiasImageEdges" Type="Boolean" DefaultValue="false"/>
+    <Parameter Name="ThumbnailFallbackImageUrl" Type="String"/>
+  </Query>
+
+  <Type Name="MediaList">
+    <Property Name="Items" Type="List" UnderlyingCollectionType="Media" />
+    <Property Name="IsEmpty" Type="Boolean"/>
+  </Type>
+
+  <Query Name="DeviceMedia" Base="Media" Provider="Library" ResultType="MediaList">
+    <Parameter Name="DeviceId" Type="Int32"/>
+    <Parameter Name="ShowDeviceContents" Type="Boolean"/>
+    <Parameter Name="RulesOnly" Type="Boolean"/>
+  </Query>
+  
+  
+
+
+  <Query Name="Artist" Base="DeviceMedia" Provider="Library" ResultType="ArtistList"> 
+  </Query>
+
+  <Type Name="ArtistList" Base="MediaList" Provider="Library">
+    <Property Name="Items" Type="List" UnderlyingCollectionType="Artist" />
+  </Type>
+  
+  
+
+
+  <Query Name="Album" Base="DeviceMedia" Provider="Library" ResultType="AlbumList">
+    <Parameter Name="ArtistId" Type="Int32" DefaultValue="-1" />
+    <Parameter Name="MultiSelect" Type="Boolean" DefaultValue="false" />
+    <Parameter Name="ArtistIds"  Type="col:IList" UnderlyingCollectionType="Int32" />
+  </Query>
+
+  <Type Name="AlbumList" Base="MediaList" Provider="Library">
+    <Property Name="Items" Type="List" UnderlyingCollectionType="Album" />
+  </Type>
+
+  
+
+
+  <Query Name="Track" Base="DeviceMedia" Provider="Library" ResultType="TrackList">
+    <Parameter Name="DiscMediaView" Type="Boolean" DefaultValue="false" />
+    <Parameter Name="MultiSelect" Type="Boolean" DefaultValue="false" />
+    <Parameter Name="AlbumId" Type="Int32" DefaultValue="-1" />
+    <Parameter Name="ArtistId" Type="Int32" DefaultValue="-1" />
+    <Parameter Name="Detailed" Type="Boolean" DefaultValue="false" />
+    <Parameter Name="ArtistIds"  Type="col:IList" UnderlyingCollectionType="Int32" />
+    <Parameter Name="AlbumIds"  Type="col:IList" UnderlyingCollectionType="Int32" />
+  </Query>
+
+  <Type Name="TrackList" Base="MediaList" Provider="Library">
+    <Property Name="Items" Type="List" UnderlyingCollectionType="Track" />
+  </Type>
+
+  
+
+
+  <Type Name="PodcastSeries" Base="Media">
+    <Property Name="FeedUrl"          Type="String" />
+    <Property Name="HomeUrl"          Type="String" />
+    <Property Name="ArtUrl"           Type="String" />
+    <Property Name="Description"      Type="String" />
+    <Property Name="Explicit"         Type="Boolean" />
+    <Property Name="Copyright"        Type="String" />
+    <Property Name="Author"           Type="String" />
+    <Property Name="OwnerName"        Type="String" />
+    <Property Name="SeriesState"      Type="Int32" />
+    <Property Name="ErrorCode"        Type="Int32" />
+    <Property Name="NumberOfEpisodes" Type="Int32" />
+  </Type>
+
+  <DataMapping TargetType="PodcastSeries" Provider="Library">
+    <Mapping Property="LibraryId"       Source="UniqueID"/>
+    <Mapping Property="Title"           Source="Title" />
+    <Mapping Property="Type"            DefaultValue="PodcastSeries"/>
+    <Mapping Property="FeedUrl"         Source="FeedURL" />
+    <Mapping Property="HomeUrl"         Source="ProviderURL" />
+    <Mapping Property="ArtUrl"          Source="ProviderLogoURL" />
+    <Mapping Property="Description"     Source="Description" />
+    <Mapping Property="Explicit"        Source="Explicit" />
+    <Mapping Property="Copyright"       Source="Copyright" />
+    <Mapping Property="Author"          Source="Author" />
+    <Mapping Property="OwnerName"       Source="OwnerName" />
+    <Mapping Property="SeriesState"     Source="SeriesState" />
+    <Mapping Property="ErrorCode"       Source="ErrorCode" />
+    <Mapping Property="NumberOfEpisodes"  Source="SeriesEpisodeCount" />
+  </DataMapping>
+
+  <DataMapping TargetType="PodcastSeries" Provider="DynamicRssView">
+    <Mapping Property="LibraryId"       Source="LibraryId"/>
+    <Mapping Property="Title"           Source="Title" />
+    <Mapping Property="Type"            DefaultValue="PodcastSeries"/>
+    <Mapping Property="FeedUrl"         Source="FeedUrl" />
+    <Mapping Property="HomeUrl"         Source="HomeUrl" />
+    <Mapping Property="ArtUrl"          Source="ArtUrl" />
+    <Mapping Property="Description"     Source="Description" />
+    <Mapping Property="Explicit"        Source="Explicit" />
+    <Mapping Property="Copyright"       Source="Copyright" />
+    <Mapping Property="Author"          Source="Author" />
+    <Mapping Property="OwnerName"       Source="OwnerName" />
+    <Mapping Property="SeriesState"     Source="SeriesState" />
+    <Mapping Property="ErrorCode"       Source="ErrorCode" />
+    <Mapping Property="NumberOfEpisodes"  Source="NumberOfEpisodes" />
+  </DataMapping>
+
+  <Query Name="PodcastSeries" Base="DeviceMedia" Provider="Library" ResultType="PodcastSeriesList">
+  </Query>
+
+  <Type Name="PodcastSeriesList" Base="MediaList" Provider="Library">
+    <Property Name="Items" Type="List" UnderlyingCollectionType="PodcastSeries" />
+  </Type>
+
+  
+
+
+  <Type Name="PodcastEpisode" Base="Media">
+    <Property Name="Description"        Type="String" />
+    <Property Name="Duration"           Type="TimeSpan" />
+    <Property Name="ReleaseDate"        Type="DateTime" />
+    <Property Name="Explicit"           Type="Boolean" />
+    <Property Name="Author"             Type="String" />
+    <Property Name="SourceUrl"          Type="String" />
+    <Property Name="EnclosureUrl"       Type="String" />
+    <Property Name="EpisodeMediaType"   Type="Int32" />
+    <Property Name="DownloadType"       Type="Int32" />
+    <Property Name="DownloadState"      Type="Int32" />
+    <Property Name="DownloadErrorCode"  Type="Int32" />
+    <Property Name="SeriesId"           Type="Int32" />
+    <Property Name="SeriesTitle"        Type="String" />
+    <Property Name="SeriesHomeUrl"      Type="String" />
+    <Property Name="SeriesFeedUrl"      Type="String" />
+    <Property Name="SeriesState"        Type="Int32" />
+    <Property Name="PlayedStatus"       Type="Int32" />
+    <Property Name="Bookmark"           Type="Int64" />
+    <Property Name="FileSize"           Type="Int64" />
+    <Property Name="FileName"           Type="String" />
+    <Property Name="FolderName"         Type="String" />
+    <Property Name="Bitrate"            Type="Int32" />
+    <Property Name="MediaType"          Type="String" />
+  </Type>
+
+  <DataMapping TargetType="PodcastEpisode" Provider="Library">
+    <Mapping Property="LibraryId"         Source="UniqueID" />
+    <Mapping Property="Title"             Source="Title" />
+    <Mapping Property="Type"              DefaultValue="PodcastEpisode"/>
+    <Mapping Property="Description"       Source="Description" />
+    <Mapping Property="Duration"          Source="Duration" />
+    <Mapping Property="ReleaseDate"       Source="ReleaseDate" />
+    <Mapping Property="Explicit"          Source="Explicit" />
+    <Mapping Property="Author"            Source="Author" />
+    <Mapping Property="SourceUrl"         Source="SourceURL" />
+    <Mapping Property="EnclosureUrl"      Source="LinkedFileURL" />
+    <Mapping Property="EpisodeMediaType"  Source="EpisodeMediaType" />
+    <Mapping Property="DownloadType"      Source="DownloadType" />
+    <Mapping Property="DownloadState"     Source="DownloadState" />
+    <Mapping Property="DownloadErrorCode" Source="DownloadErrorCode" />
+    <Mapping Property="SeriesId"          Source="SeriesID" />
+    <Mapping Property="SeriesTitle"       Source="SeriesTitle" />
+    <Mapping Property="SeriesHomeUrl"     Source="ProviderURL" />
+    <Mapping Property="SeriesFeedUrl"     Source="FeedURL" />
+    <Mapping Property="SeriesState"       Source="SeriesState" />
+    <Mapping Property="SyncState"         Source="SyncState" />
+    <Mapping Property="PlayedStatus"      Source="PlayedStatus" />
+    <Mapping Property="Bookmark"          Source="Bookmark" />
+    <Mapping Property="DeviceFileSize"    Source="DeviceFileSize" />
+    <Mapping Property="FileSize"          Source="FileSize" />
+    <Mapping Property="Bitrate"           Source="Bitrate" />
+    <Mapping Property="MediaType"         Source="FileType"/>
+    <Mapping Property="FileName"          Source="FileName"/>
+    <Mapping Property="FolderName"        Source="FolderName"/>
+  </DataMapping>
+
+  <DataMapping TargetType="PodcastEpisode" Provider="DynamicRssView">
+    <Mapping Property="LibraryId"         Source="EpisodeId" />
+    <Mapping Property="Title"             Source="Title" />
+    <Mapping Property="Type"              DefaultValue="PodcastEpisode"/>
+    <Mapping Property="Description"       Source="Description" />
+    <Mapping Property="Duration"          Source="Duration" />
+    <Mapping Property="ReleaseDate"       Source="ReleaseDate" />
+    <Mapping Property="Explicit"          Source="Explicit" />
+    <Mapping Property="Author"            Source="Author" />
+    <Mapping Property="SourceUrl"         Source="SourceUrl" />
+    <Mapping Property="EnclosureUrl"      Source="EnclosureUrl" />
+    <Mapping Property="EpisodeMediaType"  Source="EpisodeMediaType" />
+    <Mapping Property="DownloadType"      Source="DownloadType" />
+    <Mapping Property="DownloadState"     Source="DownloadState" />
+    <Mapping Property="DownloadErrorCode" Source="DownloadErrorCode" />
+    <Mapping Property="SeriesId"          Source="SeriesID" />
+    <Mapping Property="SeriesTitle"       Source="SeriesTitle" />
+    <Mapping Property="SeriesHomeUrl"     Source="SeriesHomeUrl" />
+    <Mapping Property="SeriesState"       Source="SeriesState" />
+    <Mapping Property="SeriesFeedUrl"     Source="SeriesFeedUrl" />
+    <Mapping Property="SyncState"         Source="SyncState" />
+    <Mapping Property="PlayedStatus"      Source="PlayedStatus" />
+    <Mapping Property="Bookmark"          Source="Bookmark" />
+    <Mapping Property="DeviceFileSize"    Source="DeviceFileSize" />
+    <Mapping Property="FileSize"          Source="FileSize" />
+    <Mapping Property="Bitrate"           Source="Bitrate" />
+    <Mapping Property="MediaType"         Source="MediaType"/>
+    <Mapping Property="FileName"          Source="FileName"/>
+    <Mapping Property="FolderName"        Source="FolderName"/>
+  </DataMapping>
+
+  <Query Name="PodcastEpisode" Base="DeviceMedia" Provider="Library" ResultType="PodcastEpisodeList">
+    <Parameter Name="SeriesId" Type="Int32" DefaultValue="-1" />
+  </Query>
+
+  <Query Name="PodcastEpisode" Provider="DynamicRssView" ResultType="DynamicRssSeries">
+    <Parameter Name="FeedUrl" Type="String" />
+    <Parameter Name="Sort" Type="String" />
+  </Query>
+
+  <Type Name="PodcastEpisodeList" Base="MediaList" Provider="Library">
+    <Property Name="Items" Type="List" UnderlyingCollectionType="PodcastEpisode" />
+  </Type>
+
+  <Type Name="DynamicRssSeries" Provider="DynamicRssView">
+    <Property Name="PodcastSeriesInfo" Type="PodcastSeries" />
+    <Property Name="Items" Type="List" UnderlyingCollectionType="PodcastEpisode" />
+  </Type>
+
+  
+
+
+  <Type Name="Video" Base="RateableMedia">
+    <Property Name="Description"    Type="String" />
+    <Property Name="Duration"       Type="TimeSpan" />
+    <Property Name="DateAdded"      Type="DateTime" />
+    <Property Name="Explicit"       Type="Boolean" />
+    <Property Name="Thumbnail"      Type="Image" />
+    <Property Name="FileName"       Type="String" />
+    <Property Name="FolderName"     Type="String" />
+    <Property Name="FilePath"       Type="String" />
+    <Property Name="ArtistName"     Type="String" />
+    <Property Name="Width"          Type="Int32" />
+    <Property Name="Height"         Type="Int32" />
+    <Property Name="Bitrate"        Type="Int32" />
+    <Property Name="MediaType"      Type="String" />
+    <Property Name="FileSize"       Type="Int64" />
+  </Type>
+
+  <DataMapping TargetType="Video" Provider="Library">
+    <Mapping Property="Type"           DefaultValue="Video" />
+    <Mapping Property="LibraryId"      Source="UniqueID" />
+    <Mapping Property="Title"          Source="Title" />
+    <Mapping Property="Description"    Source="Description" />
+    <Mapping Property="Duration"       Source="Duration" />
+    <Mapping Property="DateAdded"      Source="DateAdded" />
+    <Mapping Property="Explicit"       Source="Explicit" />
+    <Mapping Property="SyncState"      Source="SyncState" />
+    <Mapping Property="Thumbnail"      Source="Thumbnail" />
+    <Mapping Property="FileName"       Source="FileName" />
+    <Mapping Property="FilePath"       Source="SourceURL" />
+    <Mapping Property="UserRating"     Source="UserRating" />
+    <Mapping Property="DeviceFileSize" Source="DeviceFileSize" />
+    <Mapping Property="ArtistName"     Source="DisplayArtist" />
+    <Mapping Property="Width"          Source="WM/VideoWidth" />
+    <Mapping Property="Height"         Source="WM/VideoHeight" />
+    <Mapping Property="Bitrate"        Source="Bitrate" />
+    <Mapping Property="MediaType"      Source="FileType" />
+    <Mapping Property="FileSize"       Source="FileSize" />
+  </DataMapping>
+
+  <Query Name="Video" Base="DeviceMedia" Provider="Library" ResultType="VideoList">
+  </Query>
+
+  <Type Name="VideoList" Base="MediaList" Provider="Library">
+    <Property Name="Items" Type="List" UnderlyingCollectionType="Video" />
+  </Type>
+
+  
+
+
+  <Type Name="Photo" Base="RateableMedia">
+    <Property Name="ImagePath"            Type="String" />
+    <Property Name="Thumbnail"            Type="Image" />
+    <Property Name="DateTaken"            Type="DateTime" />
+    <Property Name="Author"               Type="String" />
+    <Property Name="Comment"              Type="String" />
+    <Property Name="CameraManufacturer"   Type="String" />
+    <Property Name="CameraModel"          Type="String" />
+    <Property Name="Width"                Type="Int32" />
+    <Property Name="Height"               Type="Int32" />
+    <Property Name="MediaType"            Type="String" />
+    <Property Name="FolderName"           Type="String" />
+    <Property Name="FileName"             Type="String" />
+  </Type>
+
+  <DataMapping TargetType="Photo" Provider="Library">
+    <Mapping Property="Type"               DefaultValue="Photo" />
+    <Mapping Property="LibraryId"          Source="UniqueID" />
+    <Mapping Property="Title"              Source="Title" />
+    <Mapping Property="ImagePath"          Source="SourceURL" />
+    <Mapping Property="Thumbnail"          Source="Thumbnail" />
+    <Mapping Property="DateTaken"          Source="DateTaken" />
+    <Mapping Property="Author"             Source="Author" />
+    <Mapping Property="Comment"            Source="Comment" />
+    <Mapping Property="CameraManufacturer" Source="CameraManufacturer" />
+    <Mapping Property="CameraModel"        Source="CameraModel" />
+    <Mapping Property="SyncState"          Source="SyncState"/>
+    <Mapping Property="UserRating"         Source="UserRating" />
+    <Mapping Property="DeviceFileSize"     Source="DeviceFileSize" />
+    <Mapping Property="Width"              Source="PhotoWidth" />
+    <Mapping Property="Height"             Source="PhotoHeight" />
+    <Mapping Property="MediaType"          Source="FileType" />
+    <Mapping Property="FileName"           Source="FileName" />
+  </DataMapping>
+  
+  
+
+
+  <Query Name="Photo" Base="DeviceMedia" Provider="Library" ResultType="PhotoList">
+    <Parameter Name="FolderId" Type="Int32" DefaultValue="0" />
+  </Query>
+
+  <Type Name="PhotoList" Base="MediaList" Provider="Library">
+    <Property Name="Items" Type="List" UnderlyingCollectionType="Photo" />
+  </Type>
+    
+  
+
+
+  <Type Name="MediaFolder" Base="Media">
+    <Property Name="ParentId"             Type="Int32" />
+    <Property Name="FolderPath"           Type="String" />
+    <Property Name="Count"                Type="Int32"/>
+    <Property Name="TotalCount"           Type="Int32"/>
+    <Property Name="Thumbnail"            Type="Image" />
+  </Type>
+
+  <DataMapping TargetType="MediaFolder" Provider="Library">
+    <Mapping Property="Type"              DefaultValue="MediaFolder" />
+    <Mapping Property="LibraryId"         Source="UniqueID" />
+    <Mapping Property="Title"             Source="FileName" />
+    <Mapping Property="FolderPath"        Source="SourceURL" />
+    <Mapping Property="ParentId"          Source="ParentId" />
+    <Mapping Property="SyncState"         DefaultValue="-1"/> 
+    <Mapping Property="DeviceFileSize"    DefaultValue="0"/>
+    <Mapping Property="Count"             Source="Count"/>
+    <Mapping Property="TotalCount"        Source="TotalCount"/>
+    <Mapping Property="Thumbnail"         Source="Thumbnail" />
+  </DataMapping>
+
+  
+
+
+  <Query Name="MediaFolder" Base="DeviceMedia" Provider="Library" ResultType="MediaFolderList">
+    <Parameter Name="FolderId" Type="Int32" DefaultValue="0" />
+    <Parameter Name="FolderMediaType" Type="String" />
+  </Query>
+
+  <Type Name="MediaFolderList" Base="MediaList" Provider="Library">
+    <Property Name="Items" Type="List" UnderlyingCollectionType="MediaFolder" />
+  </Type>
+
+
+  
+
+
+  <Query Name="AlbumByTOC" Provider="Library" ResultType="AlbumList">
+    <Parameter Name="Sort" Type="String" />
+    <Parameter Name="TOC" Type="String" />
+    <Parameter Name="DiscMediaView" Type="Boolean" DefaultValue="true" />
+  </Query>
+
+
+  
+
+
+
+
+
+  <Type Name="SyncItem">
+    <Property Name="LibraryId"  Type="Int32" />
+    <Property Name="MediaType"  Type="Int32" />
+    <Property Name="Title"      Type="String" />
+    <Property Name="ArtistName" Type="String" />
+    <Property Name="AlbumName"  Type="String" />
+    <Property Name="Folder"     Type="String" />
+    <Property Name="Series"     Type="String" />
+    <Property Name="DateAdded"  Type="DateTime" />
+    <Property Name="DateTaken"  Type="DateTime" />
+    <Property Name="Error"      Type="Int32" />
+    <Property Name="Duration"   Type="TimeSpan" />
+  </Type>
+
+  <DataMapping TargetType="SyncItem" Provider="Library">
+    <Mapping Property="LibraryId"  Source="UniqueID" />
+    <Mapping Property="MediaType"  Source="MediaType" />
+    <Mapping Property="Title"      Source="Title" />
+    <Mapping Property="ArtistName" Source="DisplayArtist" />
+    <Mapping Property="AlbumName"  Source="WM/AlbumTitle" />
+    <Mapping Property="Folder"     Source="Title" />
+    <Mapping Property="Series"     Source="SeriesTitle" />
+    <Mapping Property="DateAdded"  Source="DateAdded" />
+    <Mapping Property="DateTaken"  Source="DateTaken" />
+    <Mapping Property="Error"      Source="ErrorCode" />
+    <Mapping Property="Duration"   Source="Duration" />
+  </DataMapping>
+
+  
+
+
+  <Query Name="SyncItem" Base="Media"  Provider="Library" ResultType="SyncItemList">
+    <Parameter Name="DeviceId"  Type="Int32" />
+    <Parameter Name="Remaining"  Type="Boolean" DefaultValue="false" />
+    <Parameter Name="Complete" Type="Boolean" DefaultValue="false" />
+    <Parameter Name="Failed" Type="Boolean" DefaultValue="false" />
+    <Parameter Name="Operation" Type="Int32" DefaultValue="0" />
+    <Parameter Name="InitTime"  Type="String"/>
+    <Parameter Name="MediaType" Type="Int32" />
+  </Query>
+
+  <Type Name="SyncItemList" Base="MediaList"  Provider="Library">
+    <Property Name="Items" Type="List" UnderlyingCollectionType="SyncItem" />
+  </Type>
+
+
+  
+
+
+  <Type Name="Playlist" Base="Media">
+  </Type>
+
+  <DataMapping TargetType="Playlist" Provider="Library">
+    <Mapping Property="Type"       DefaultValue="Playlist" />
+    <Mapping Property="Title"      Source="Title" />
+    <Mapping Property="LibraryId"  Source="UniqueID" />
+    <Mapping Property="SyncState"  Source="SyncState" />
+  </DataMapping>
+  
+
+  
+
+
+  <Query Name="Playlist" Base="DeviceMedia"  Provider="Library" ResultType="PlaylistList">
+  </Query>
+
+  <Type Name="PlaylistList" Base="MediaList"  Provider="Library">
+    <Property Name="Items" Type="List" UnderlyingCollectionType="Playlist" />
+  </Type>
+
+
+  
+
+
+  <Type Name="PlaylistContentItem" Base="RateableMedia">
+    <Property Name="MediaId"    Type="Int32"/>
+    <Property Name="MediaType"  Type="Int32"/>
+    <Property Name="Ordinal"    Type="Int32"/>
+    <Property Name="ArtistName" Type="String"/>
+    <Property Name="AlbumName"  Type="String"/>
+    <Property Name="AlbumLibraryId" Type="Int32" />
+    <Property Name="AlbumArtistLibraryId" Type="Int32" />
+    <Property Name="FilePath" Type="String" />
+    <Property Name="Duration"   Type="TimeSpan" />
+    <Property Name="FileSize" Type="Int64"/>
+    <Property Name="ServiceId" Type="Guid"/>
+  </Type>
+
+  <DataMapping TargetType="PlaylistContentItem" Provider="Library">
+    <Mapping Property="Type"       DefaultValue="PlaylistContentItem" />
+    <Mapping Property="LibraryId"  Source="UniqueID"/>
+    <Mapping Property="Ordinal"    Source="WM/TrackNumber"/>
+    <Mapping Property="Title"      Source="Title" />
+    <Mapping Property="ArtistName" Source="DisplayArtist"/>
+    <Mapping Property="AlbumName"  Source="WM/AlbumTitle"/>
+    <Mapping Property="AlbumLibraryId" Source="AlbumID" />
+    <Mapping Property="AlbumArtistLibraryId" Source="AlbumArtistID" />
+    <Mapping Property="FilePath"   Source="SourceURL" />
+    <Mapping Property="Duration"   Source="Duration"/>
+    <Mapping Property="FileSize"   Source="FileSize" DefaultValue="0"/>
+    <Mapping Property="DeviceFileSize" Source="DeviceFileSize" DefaultValue="0"/>
+    <Mapping Property="UserRating" Source="UserRating"/>
+    <Mapping Property="SyncState"  DefaultValue="-1"/> 
+
+    <Mapping Property="MediaId"    Source="MediaID" DefaultValue="-1"/> 
+    <Mapping Property="MediaType"  Source="MediaType" DefaultValue="-1"/>
+    <Mapping Property="ServiceId"  Source="ZuneMediaID"/>
+  </DataMapping>
+
+  
+
+
+  <Query Name="PlaylistContent" Base="DeviceMedia" Provider="Library" ResultType="PlaylistContentList">
+    <Parameter Name="PlaylistId" Type="Int32" DefaultValue="-1" />
+  </Query>
+
+  <Type Name="PlaylistContentList" Base="MediaList"  Provider="Library">
+    <Property Name="Items" Type="List" UnderlyingCollectionType="PlaylistContentItem" />
+  </Type>
+  
+
+</DataSchema>
