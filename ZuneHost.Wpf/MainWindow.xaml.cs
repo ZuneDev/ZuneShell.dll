@@ -13,7 +13,7 @@ namespace ZuneHost.Wpf
     /// </summary>
     public partial class MainWindow : Window
     {
-        string _zuneProgramFolder;
+        DirectoryInfo _zuneProgramDir;
         string decompResultDir = Path.Combine(Environment.CurrentDirectory, "DecompileResults");
         string dataMapDir = Path.Combine(Environment.CurrentDirectory, "DataMappings");
 
@@ -33,25 +33,28 @@ namespace ZuneHost.Wpf
             string strArgs = string.Join(" ", args.ToArray());
 
             // Make sure that ZuneDBApi can find all the Zune native libraries
-            _zuneProgramFolder = Path.Combine(
+            _zuneProgramDir = new(Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
-                "Zune");
-            foreach (var info in new DirectoryInfo(_zuneProgramFolder).GetFileSystemInfos())
+                "Zune"));
+            if (_zuneProgramDir.Exists)
             {
-                if (info is DirectoryInfo dirInfo)
+                foreach (var info in _zuneProgramDir.GetFileSystemInfos())
                 {
-                    CopyAll(dirInfo, new DirectoryInfo(Path.Combine(Environment.CurrentDirectory, dirInfo.Name)));
-                }
-                else if (info is FileInfo fileInfo)
-                {
-                    string fileName = fileInfo.Name;
-                    if (fileInfo.Extension == ".dll")
+                    if (info is DirectoryInfo dirInfo)
                     {
-                        string targetPath = Path.Combine(Environment.CurrentDirectory, fileName);
-                        if (!File.Exists(targetPath) || fileName == "ZuneDbApi.dll")
-                            fileInfo.CopyTo(targetPath);
+                        CopyAll(dirInfo, new DirectoryInfo(Path.Combine(Environment.CurrentDirectory, dirInfo.Name)));
                     }
-                }
+                    else if (info is FileInfo fileInfo)
+                    {
+                        string fileName = fileInfo.Name;
+                        if (fileInfo.Extension == ".dll")
+                        {
+                            string targetPath = Path.Combine(Environment.CurrentDirectory, fileName);
+                            if (!File.Exists(targetPath) || fileName == "ZuneDbApi.dll")
+                                fileInfo.CopyTo(targetPath);
+                        }
+                    }
+                } 
             }
 
             IrisApp.DebugSettings.UseDecompiler = false;
