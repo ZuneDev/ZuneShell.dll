@@ -6,8 +6,9 @@
         <OutputType>Library</OutputType>
         <AssemblyName>ZuneImpl</AssemblyName>
         <ApplicationVersion>4.8.0.0</ApplicationVersion>
+        <LangVersion>latest</LangVersion>
 
-        <TargetFrameworks>net35;net40;net6.0</TargetFrameworks>
+        <TargetFrameworks>net35;net40;netstandard2.0;net6.0</TargetFrameworks>
         <Platforms>x64;x86</Platforms>
         <RootNamespace>Microsoft.Zune</RootNamespace>
 
@@ -30,9 +31,19 @@
         <ProjectReference Include="..\libs\MicrosoftIris\UIX\UIX.csproj" />
     </ItemGroup>
 
-    <PropertyGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
-        <UseOpenZune>True</UseOpenZune>
-    </PropertyGroup>
+    <Choose>
+        <When Condition=" '$(TargetFramework)' == 'net6.0' ">
+            <PropertyGroup>
+                <UseOpenZune>True</UseOpenZune>
+                <DefineConstants>$(DefineConstants);NETSTANDARD2_1_OR_GREATER</DefineConstants>
+            </PropertyGroup>
+        </When>
+        <When Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
+            <PropertyGroup>
+                <UseOpenZune>True</UseOpenZune>
+            </PropertyGroup>
+        </When>
+    </Choose>
 
     <ItemGroup Condition="$(UseOpenZune)">
         <PackageReference Include="StrixMusic.Sdk" Version="0.0.3-alpha" />
