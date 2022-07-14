@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
 using System.Security.Permissions;
 
 [assembly: AssemblyCompany("Microsoft Corporation")]
@@ -16,4 +17,11 @@ using System.Security.Permissions;
 #else
 [assembly: AssemblyFileVersion("4.8.2345.0")]
 [assembly: AssemblyVersion("4.7.0.0")]
+#endif
+
+// Workaround for CA1416
+#if WINDOWS10
+[assembly: SupportedOSPlatform("windows10.0.10240")]
+#elif WINDOWS8_0_OR_GREATER
+[assemby: SupportedOSPlatform("windows8.0.0")]
 #endif

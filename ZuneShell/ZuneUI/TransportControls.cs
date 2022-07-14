@@ -824,6 +824,21 @@ namespace ZuneUI
                     if (this.PlaybackStopped != null)
                         this.PlaybackStopped(this, null);
                 }
+
+#if WINDOWS
+                if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.Media.SystemMediaTransportControls"))
+                {
+                    // On Windows 8.1 / 10 / 11
+                    var _systemMediaTransportControls = Windows.Media.SystemMediaTransportControlsInterop.GetForWindow(Application.Window.Handle);
+                    _systemMediaTransportControls.PlaybackStatus = stateNew switch
+                    {
+                        PlayerState.Stopped => Windows.Media.MediaPlaybackStatus.Stopped,
+                        PlayerState.Playing => Windows.Media.MediaPlaybackStatus.Playing,
+                        PlayerState.Paused => Windows.Media.MediaPlaybackStatus.Paused,
+                        _ => throw new NotImplementedException(),
+                    };
+                }
+#endif
             }
             this.UpdatePropertiesAndCommands();
             this.ReportStreamingAction(playerState);
@@ -1505,7 +1520,7 @@ namespace ZuneUI
             {
 #if OPENZUNE
                 var playbackHandler = Microsoft.Zune.Shell.ZuneApplication.PlaybackHandler;
-                if (playbackHandler != null)
+                if (playbackHandler != null && playbackHandler.NextItems.Count > 0)
                 {
                     await playbackHandler.NextAsync();
                 }
@@ -1752,11 +1767,61 @@ namespace ZuneUI
                         break;
                     case MCTransportState.Playing:
                         PerfTrace.TraceUICollectionEvent(UICollectionEvent.PlayRequestComplete, "");
+
+                        // Use SMTC when available
+#if WINDOWS
+                        if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.Media.SystemMediaTransportControls"))
+                        {
+                            // On Windows 8.1 / 10 / 11
+                            var _systemMediaTransportControls = Windows.Media.SystemMediaTransportControlsInterop.GetForWindow(Application.Window.Handle);
+                            _systemMediaTransportControls.IsPlayEnabled = true;
+                            _systemMediaTransportControls.IsPauseEnabled = true;
+                            _systemMediaTransportControls.IsStopEnabled = true;
+                            _systemMediaTransportControls.IsNextEnabled = true;
+                            _systemMediaTransportControls.IsPreviousEnabled = true;
+
+                            if (!isInit)
+                            {
+                                isInit = true;
+                                _systemMediaTransportControls.ButtonPressed += (e, args) =>
+                                {
+                                    Action<object, EventArgs> method = args.Button switch
+                                    {
+                                        Windows.Media.SystemMediaTransportControlsButton.Play => OnPlayClicked,
+                                        Windows.Media.SystemMediaTransportControlsButton.Pause => OnPauseClicked,
+                                        Windows.Media.SystemMediaTransportControlsButton.Stop => OnStopClicked,
+                                        Windows.Media.SystemMediaTransportControlsButton.Next => OnForwardClicked,
+                                        Windows.Media.SystemMediaTransportControlsButton.Previous => OnBackClicked,
+
+                                        _ => throw new NotImplementedException()
+                                    };
+
+                                    Application.DeferredInvoke(_ => method(null, null), null);
+                                };
+                            }
+
+                            // Get the updater
+                            Windows.Media.SystemMediaTransportControlsDisplayUpdater updater = _systemMediaTransportControls.DisplayUpdater;
+
+                            // Music metadata
+                            updater.Type = _lastKnownPlaybackTrack.MediaType == MediaType.Video
+                                ? Windows.Media.MediaPlaybackType.Video
+                                : Windows.Media.MediaPlaybackType.Music;
+                            updater.MusicProperties.Title = _lastKnownPlaybackTrack.Title;
+                            if (_lastKnownPlaybackTrack is LibraryPlaybackTrack track)
+                            {
+                                updater.MusicProperties.Artist = track.DisplayArtist;
+                            }
+
+                            updater.Update();
+                        }
+#endif
                         break;
                 }
             }
             this._lastKnownTransportState = mcTransportState;
         }
+        bool isInit = false;
 
         private void DeferredTransportPositionChanged(object obj)
         {

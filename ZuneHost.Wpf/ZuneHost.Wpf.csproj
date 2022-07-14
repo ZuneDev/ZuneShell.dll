@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
-        <TargetFramework>net6.0-windows</TargetFramework>
+        <TargetFramework>net6.0-windows10.0.22000</TargetFramework>
         <UseWPF>true</UseWPF>
         <ApplicationIcon>Assets\ZuneFluentGem.ico</ApplicationIcon>
     </PropertyGroup>
