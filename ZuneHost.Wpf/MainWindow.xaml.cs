@@ -60,7 +60,8 @@ namespace ZuneHost.Wpf
             IrisApp.DebugSettings.UseDecompiler = false;
             if (IrisApp.DebugSettings.UseDecompiler)
             {
-                Directory.Delete(decompResultDir, true);
+                if (Directory.Exists(decompResultDir))
+                    Directory.Delete(decompResultDir, true);
                 Directory.CreateDirectory(decompResultDir);
                 IrisApp.DebugSettings.DecompileResults.CollectionChanged += DecompileResults_CollectionChanged;
                 IrisApp.DebugSettings.Bridge.InterpreterStep += Bridge_InterpreterStep;
@@ -69,7 +70,8 @@ namespace ZuneHost.Wpf
             IrisApp.DebugSettings.GenerateDataMappingModels = false;
             if (IrisApp.DebugSettings.GenerateDataMappingModels)
             {
-                Directory.Delete(dataMapDir, true);
+                if (Directory.Exists(dataMapDir))
+                    Directory.Delete(dataMapDir, true);
                 Directory.CreateDirectory(dataMapDir);
                 IrisApp.DebugSettings.DataMappingModels.CollectionChanged += DataMappingModels_CollectionChanged;
             }
