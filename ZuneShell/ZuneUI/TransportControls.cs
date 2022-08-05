@@ -826,8 +826,11 @@ namespace ZuneUI
                 }
 
 #if WINDOWS
-                if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.Media.SystemMediaTransportControls"))
+                if (Microsoft.WinRT.ApiInformation.IsTypePresent("Windows.Media.SystemMediaTransportControls")
+                    && !OSVersion.IsLessThanWin10())
                 {
+                    // Windows 8.1 doesn't seem to support non-Metro apps using this API.
+
                     // On Windows 8.1 / 10 / 11
                     var _systemMediaTransportControls = Windows.Media.SystemMediaTransportControlsInterop.GetForWindow(Application.Window.Handle);
                     _systemMediaTransportControls.PlaybackStatus = stateNew switch
@@ -1770,7 +1773,7 @@ namespace ZuneUI
 
                         // Use SMTC when available
 #if WINDOWS
-                        if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.Media.SystemMediaTransportControls"))
+                        if (Microsoft.WinRT.ApiInformation.IsTypePresent("Windows.Media.SystemMediaTransportControls"))
                         {
                             // On Windows 8.1 / 10 / 11
                             var _systemMediaTransportControls = Windows.Media.SystemMediaTransportControlsInterop.GetForWindow(Application.Window.Handle);
