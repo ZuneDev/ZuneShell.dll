@@ -1773,7 +1773,8 @@ namespace ZuneUI
 
                         // Use SMTC when available
 #if WINDOWS
-                        if (Microsoft.WinRT.ApiInformation.IsTypePresent("Windows.Media.SystemMediaTransportControls"))
+                        if (Microsoft.WinRT.ApiInformation.IsTypePresent("Windows.Media.SystemMediaTransportControls")
+                            && !OSVersion.IsLessThanWin10())
                         {
                             // On Windows 8.1 / 10 / 11
                             var _systemMediaTransportControls = Windows.Media.SystemMediaTransportControlsInterop.GetForWindow(Application.Window.Handle);
