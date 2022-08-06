@@ -8,7 +8,7 @@
         <ApplicationVersion>4.8.0.0</ApplicationVersion>
         <LangVersion>latest</LangVersion>
 
-        <TargetFrameworks>net35;net40;netstandard2.0;net6.0</TargetFrameworks>
+        <TargetFrameworks>net35;net40;netstandard2.0;net6.0;net6.0-windows</TargetFrameworks>
         <Platforms>x64;x86</Platforms>
         <RootNamespace>Microsoft.Zune</RootNamespace>
 
@@ -32,7 +32,7 @@
     </ItemGroup>
 
     <Choose>
-        <When Condition=" '$(TargetFramework)' == 'net6.0' ">
+        <When Condition=" $(TargetFramework.StartsWith('net6.0')) ">
             <PropertyGroup>
                 <UseOpenZune>True</UseOpenZune>
                 <DefineConstants>$(DefineConstants);NETSTANDARD2_1_OR_GREATER</DefineConstants>
@@ -48,6 +48,9 @@
     <ItemGroup Condition="$(UseOpenZune)">
         <PackageReference Include="StrixMusic.Sdk" Version="0.0.11-alpha" />
         <PackageReference Include="StrixMusic.Cores.LocalFiles" Version="1.0.0" />
+
+        <PackageReference Include="LibVLCSharp" Version="3.6.6" />
+
         <PackageReference Include="Meziantou.Framework.Win32.CredentialManager" Version="1.4.2" />
     </ItemGroup>
 
@@ -58,6 +61,10 @@
 
     <ItemGroup Condition="!$(UseOpenZune)">
         <ProjectReference Include="..\libs\Meziantou.Framework.Win32.CredentialManager\Meziantou.Framework.Win32.CredentialManager.csproj" />
+    </ItemGroup>
+
+    <ItemGroup Condition=" $(TargetFramework.StartsWith('net6.0-windows')) ">
+        <PackageReference Include="VideoLAN.LibVLC.Windows" Version="3.0.17.4" />
     </ItemGroup>
 
 </Project>

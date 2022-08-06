@@ -189,7 +189,7 @@ namespace Microsoft.Zune.Shell
                 // Add plugins
                 string mfAudioServiceId = Guid.NewGuid().ToString();
                 PlaybackHandler = new PlaybackHandlerService();
-                PlaybackHandler.RegisterAudioPlayer(MediaFoundationAudioService.Instance, localCore.InstanceId);
+                PlaybackHandler.RegisterAudioPlayer(VlcAudioService.Instance, localCore.InstanceId);
 
                 DataRoot = new StrixDataRootPluginWrapper(mergedLayer,
                     new PlaybackHandlerPlugin(PlaybackHandler)
@@ -205,7 +205,7 @@ namespace Microsoft.Zune.Shell
 
                     DataRoot.Library.TracksChanged += LibraryTracksChanged;
 
-                    //await DataRoot.Library.PlayTrackCollectionAsync();
+                    await DataRoot.Library.PlayTrackCollectionAsync();
                 });
 #endif
 
