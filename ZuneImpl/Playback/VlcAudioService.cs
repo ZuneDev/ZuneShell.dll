@@ -48,7 +48,7 @@ namespace Microsoft.Zune.Playback
             }
         }
 
-        public TimeSpan Position { get; private set; }
+        public TimeSpan Position => TimeSpan.FromMilliseconds(m_player.Time);
 
         public StrixPlaybackState PlaybackState => m_player.State switch
         {
@@ -115,7 +115,7 @@ namespace Microsoft.Zune.Playback
             if (CurrentSource != sourceConfig)
                 await Preload(sourceConfig, cancellationToken);
 
-            m_player.Play(m_media);
+            m_player.Play();
         }
 
         public async Task Preload(PlaybackItem sourceConfig, CancellationToken cancellationToken = default)
@@ -134,6 +134,7 @@ namespace Microsoft.Zune.Playback
             }
 
             await m_media.Parse(MediaParseOptions.ParseNetwork | MediaParseOptions.ParseLocal, cancellationToken: cancellationToken);
+            m_player.Media = m_media;
         }
 
         public Task ResumeAsync(CancellationToken cancellationToken = default)
@@ -144,6 +145,9 @@ namespace Microsoft.Zune.Playback
 
         public Task SeekAsync(TimeSpan position, CancellationToken cancellationToken = default)
         {
+            if (m_player.IsSeekable)
+                m_player.SeekTo(position);
+
             return Task.CompletedTask;
         }
     }
