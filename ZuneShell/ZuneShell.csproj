@@ -88,7 +88,7 @@
     </ItemGroup>
 
     <ItemGroup Condition=" $(UseOpenZune) ">
-        <PackageReference Include="StrixMusic.Sdk" Version="0.0.3-alpha" />
+        <!--<PackageReference Include="StrixMusic.Sdk" Version="0.0.3-alpha" /-->
         <PackageReference Include="StrixMusic.Cores.LocalFiles" Version="1.0.0" />
     </ItemGroup>
 

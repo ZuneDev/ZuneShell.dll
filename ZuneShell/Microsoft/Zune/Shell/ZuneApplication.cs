@@ -167,14 +167,14 @@ namespace Microsoft.Zune.Shell
                 OwlCore.AbstractStorage.SystemIOFolderData settingsFolder =
                     new(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Microsoft\Zune\OpenZune"));
                 settingsFolder.EnsureExists().Wait();
-                StrixMusic.Cores.LocalFiles.Services.LocalFilesCoreSettings settings = new(settingsFolder)
+                StrixMusic.Cores.LocalFiles.Settings.LocalFilesCoreSettings settings = new(settingsFolder)
                 {
                     InitWithEmptyMetadataRepos = true,
                     ScanWithTagLib = true,
                 };
 
                 var localCore = new StrixMusic.Cores.LocalFiles.LocalFilesCore(
-                    id, settings, fileService, null);
+                    id, settings, fileService, null, null);
 
                 var prefs = new MergedCollectionConfig
                 {
