@@ -1,6 +1,4 @@
-﻿#if !OPENZUNE
-
-using System.Net;
+﻿using System.Net;
 
 namespace Microsoft.Zune.Service
 {
@@ -26,5 +24,3 @@ namespace Microsoft.Zune.Service
         }
     }
 }
-
-#endif

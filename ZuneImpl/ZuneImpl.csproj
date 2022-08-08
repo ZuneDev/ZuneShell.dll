@@ -29,6 +29,18 @@
         <PackageReference Include="Zune.Xml" Version="0.1.0" />
 
         <ProjectReference Include="..\libs\MicrosoftIris\UIX\UIX.csproj" />
+
+        <None Include="**\*.lg.cs" Exclude="bin\**\*.lg.cs;obj\**\*.lg.cs" />
+        <Compile Remove="**\*.lg.cs" />
+        <Compile Include="**\*.lg.cs"
+                 Exclude="bin\**\*.lg.cs;obj\**\*.lg.cs"
+                 Condition="!$(UseOpenZune)" />
+
+        <None Include="**\*.oz.cs" Exclude="bin\**\*.oz.cs;obj\**\*.oz.cs" />
+        <Compile Remove="**\*.oz.cs" />
+        <Compile Include="**\*.oz.cs"
+                 Exclude="bin\**\*.oz.cs;obj\**\*.oz.cs"
+                 Condition="$(UseOpenZune)" />
     </ItemGroup>
 
     <Choose>

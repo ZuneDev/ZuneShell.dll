@@ -2,8 +2,6 @@
 using System;
 using System.Collections;
 using System.Globalization;
-using System.Linq;
-using System.Text;
 using ZuneUI;
 
 namespace Microsoft.Zune.Service

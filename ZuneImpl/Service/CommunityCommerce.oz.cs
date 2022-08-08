@@ -1,6 +1,4 @@
-﻿#if OPENZUNE
-
-using System.Net.Http;
+﻿using System.Net.Http;
 using ZuneUI;
 
 namespace Microsoft.Zune.Service
@@ -46,5 +44,3 @@ namespace Microsoft.Zune.Service
         }
     }
 }
-
-#endif
