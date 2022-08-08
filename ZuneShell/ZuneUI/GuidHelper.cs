@@ -12,8 +12,15 @@ namespace ZuneUI
     {
         public static Guid CreateFromString(string value)
         {
+#if NET40_OR_GREATER || OPENZUNE
+            if (Guid.TryParse(value, out var guid))
+                return guid;
+            
+            return Guid.Empty;
+#else
             if (string.IsNullOrEmpty(value))
                 return Guid.Empty;
+
             Guid guid = Guid.Empty;
             try
             {
@@ -23,6 +30,7 @@ namespace ZuneUI
             {
             }
             return guid;
+#endif
         }
 
         public static bool IsEmpty(Guid guid) => guid == Guid.Empty;
