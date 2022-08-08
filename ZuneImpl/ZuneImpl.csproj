@@ -8,7 +8,7 @@
         <ApplicationVersion>4.8.0.0</ApplicationVersion>
         <LangVersion>latest</LangVersion>
 
-        <TargetFrameworks>net35;net40;netstandard2.0;net6.0;net6.0-windows</TargetFrameworks>
+        <TargetFrameworks>netstandard2.0;net35;net40;net6.0;net6.0-windows</TargetFrameworks>
         <Platforms>x64;x86</Platforms>
         <RootNamespace>Microsoft.Zune</RootNamespace>
 
