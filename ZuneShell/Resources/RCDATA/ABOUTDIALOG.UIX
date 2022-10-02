@@ -73,7 +73,7 @@
             </Layout>
             <Children>
 
-              <Graphic Content="res://ZuneShellResources!Icon.Zune.About.png" StretchingPolicy="Uniform"  SizingPolicy="SizeToContent"/>
+              <Graphic Content="clr-res://ZuneShell!Icon.Zune.About.png" StretchingPolicy="Uniform"  SizingPolicy="SizeToContent"/>
 
               <Panel Margins="10">
                 <Layout>
