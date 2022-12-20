@@ -64,7 +64,9 @@ namespace ZuneHost.Wpf
                     Directory.Delete(decompResultDir, true);
                 Directory.CreateDirectory(decompResultDir);
                 IrisApp.DebugSettings.DecompileResults.CollectionChanged += DecompileResults_CollectionChanged;
+#if NET6_0_OR_GREATER || NETCOREAPP3_1_OR_GREATER
                 IrisApp.DebugSettings.Bridge.InterpreterStep += Bridge_InterpreterStep;
+#endif
             }
 
             IrisApp.DebugSettings.GenerateDataMappingModels = false;
@@ -76,8 +78,11 @@ namespace ZuneHost.Wpf
                 IrisApp.DebugSettings.DataMappingModels.CollectionChanged += DataMappingModels_CollectionChanged;
             }
 
+            // Set decompiler for marketplace track preview menu item
+            IrisApp.DebugSettings.Breakpoints.Add("res://ZuneMarketplaceResources!SelectionActions.uix (121, 14)");
+
             IntPtr hWnd = new System.Windows.Interop.WindowInteropHelper(this).Handle;
-            Thread zuneThread = new Thread(new ThreadStart(() =>
+            Thread zuneThread = new(new ThreadStart(() =>
             {
                 IrisApp.Initialized += delegate
                 {
@@ -94,7 +99,7 @@ namespace ZuneHost.Wpf
             foreach (var result in e.NewItems.Cast<Microsoft.Iris.Debug.DecompilationResult>())
             {
                 int count = 0;
-                string ctx = Path.GetFileName(result.Context[(result.Context.LastIndexOf('/') + 1)..]);
+                string ctx = Path.GetFileName(result.Context.Substring(result.Context.LastIndexOf('/') + 1));
 
                 FileInfo file = new(Path.Combine(decompResultDir, ctx + ".uix"));
                 while (file.Exists)

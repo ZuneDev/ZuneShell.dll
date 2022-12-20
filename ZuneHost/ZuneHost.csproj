@@ -2,8 +2,9 @@
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFrameworks>net6.0-windows10.0.22000;net6.0</TargetFrameworks>
+        <TargetFrameworks>net6.0-windows10.0.22000;net6.0;net40</TargetFrameworks>
         <Platforms>AnyCPU;x64;x86;ARM32</Platforms>
+		<LangVersion>11.0</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>
