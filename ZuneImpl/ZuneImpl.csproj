@@ -1,22 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-        <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
         <OutputType>Library</OutputType>
         <AssemblyName>ZuneImpl</AssemblyName>
-        <ApplicationVersion>4.8.0.0</ApplicationVersion>
-        <LangVersion>latest</LangVersion>
-
-        <TargetFrameworks>netstandard2.0;net35;net40;net6.0;net6.0-windows</TargetFrameworks>
-        <Platforms>x64;x86</Platforms>
         <RootNamespace>Microsoft.Zune</RootNamespace>
-
-        <SignAssembly>True</SignAssembly>
-        <AssemblyOriginatorKeyFile>..\libs\MicrosoftIris\36MSApp1024.snk</AssemblyOriginatorKeyFile>
-        <DelaySign>True</DelaySign>
-
-        <UseOpenZune>False</UseOpenZune>
     </PropertyGroup>
 
     <ItemGroup>
@@ -29,47 +16,30 @@
         <PackageReference Include="Zune.Xml" Version="0.1.0" />
 
         <ProjectReference Include="..\libs\MicrosoftIris\UIX\UIX.csproj" />
+    </ItemGroup>
 
-        <None Include="**\*.lg.cs" Exclude="bin\**\*.lg.cs;obj\**\*.lg.cs" />
-        <Compile Remove="**\*.lg.cs" />
-        <Compile Include="**\*.lg.cs"
+	<ItemGroup>
+		<None Include="**\*.lg.cs" Exclude="bin\**\*.lg.cs;obj\**\*.lg.cs" />
+		<Compile Remove="**\*.lg.cs" />
+		<Compile Include="**\*.lg.cs"
                  Exclude="bin\**\*.lg.cs;obj\**\*.lg.cs"
                  Condition="!$(UseOpenZune)" />
 
-        <None Include="**\*.oz.cs" Exclude="bin\**\*.oz.cs;obj\**\*.oz.cs" />
-        <Compile Remove="**\*.oz.cs" />
-        <Compile Include="**\*.oz.cs"
+		<None Include="**\*.oz.cs" Exclude="bin\**\*.oz.cs;obj\**\*.oz.cs" />
+		<Compile Remove="**\*.oz.cs" />
+		<Compile Include="**\*.oz.cs"
                  Exclude="bin\**\*.oz.cs;obj\**\*.oz.cs"
                  Condition="$(UseOpenZune)" />
-    </ItemGroup>
-
-    <Choose>
-        <When Condition=" $(TargetFramework.StartsWith('net6.0')) ">
-            <PropertyGroup>
-                <UseOpenZune>True</UseOpenZune>
-                <DefineConstants>$(DefineConstants);NETSTANDARD2_1_OR_GREATER</DefineConstants>
-            </PropertyGroup>
-        </When>
-        <When Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
-            <PropertyGroup>
-                <UseOpenZune>True</UseOpenZune>
-            </PropertyGroup>
-        </When>
-    </Choose>
+	</ItemGroup>
 
     <ItemGroup Condition="$(UseOpenZune)">
-        <PackageReference Include="StrixMusic.Sdk" Version="0.0.11-alpha" />
-        <PackageReference Include="StrixMusic.Cores.LocalFiles" Version="1.0.0" />
+        <PackageReference Include="StrixMusic.Sdk" Version="0.0.12-alpha" />
+        <PackageReference Include="StrixMusic.Cores.LocalFiles" Version="0.0.12-alpha" />
 
         <PackageReference Include="LibVLCSharp" Version="3.6.6" />
 
         <PackageReference Include="Meziantou.Framework.Win32.CredentialManager" Version="1.4.2" />
     </ItemGroup>
-
-    <PropertyGroup Condition="$(UseOpenZune)">
-        <ApplicationVersion>5.0.0.0</ApplicationVersion>
-        <DefineConstants>$(DefineConstants);OPENZUNE</DefineConstants>
-    </PropertyGroup>
 
     <ItemGroup Condition="!$(UseOpenZune)">
         <ProjectReference Include="..\libs\Meziantou.Framework.Win32.CredentialManager\Meziantou.Framework.Win32.CredentialManager.csproj" />

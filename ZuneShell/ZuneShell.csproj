@@ -2,14 +2,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <!--Project was exported from assembly: C:\Program Files\Zune\ZuneShell.dll-->
     <PropertyGroup>
-        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-        <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
         <ProjectGuid>{E93CFFA3-1EEB-4E71-9E83-7377C1422119}</ProjectGuid>
         <OutputType>Library</OutputType>
         <AssemblyName>ZuneShell</AssemblyName>
-        <ApplicationVersion>4.7.0.0</ApplicationVersion>
-        <AssemblyVersion>$(ApplicationVersion)</AssemblyVersion>
-        <FileVersion>$(ApplicationVersion)</FileVersion>
 
         <TargetFrameworks>net6.0;net6.0-windows10.0.22000;net35;net40</TargetFrameworks>
         <Platforms>x64;x86</Platforms>
@@ -17,11 +12,6 @@
         <FileAlignment>512</FileAlignment>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-        <SignAssembly>True</SignAssembly>
-        <AssemblyOriginatorKeyFile>..\libs\MicrosoftIris\36MSApp1024.snk</AssemblyOriginatorKeyFile>
-        <DelaySign>True</DelaySign>
-
-        <UseOpenZune>False</UseOpenZune>
     </PropertyGroup>
 
     <ItemGroup>
@@ -40,45 +30,21 @@
         <Reference Include="ZuneDBApi">
             <HintPath>C:\Program Files\Zune\ZuneDBApi.dll</HintPath>
         </Reference>
+    </ItemGroup>
 
-        <None Include="**\*.lg.cs" Exclude="bin\**\*.lg.cs;obj\**\*.lg.cs" />
-        <Compile Remove="**\*.lg.cs" />
-        <Compile Include="**\*.lg.cs"
+	<ItemGroup>
+		<None Include="**\*.lg.cs" Exclude="bin\**\*.lg.cs;obj\**\*.lg.cs" />
+		<Compile Remove="**\*.lg.cs" />
+		<Compile Include="**\*.lg.cs"
                  Exclude="bin\**\*.lg.cs;obj\**\*.lg.cs"
                  Condition="!$(UseOpenZune)" />
 
-        <None Include="**\*.oz.cs" Exclude="bin\**\*.oz.cs;obj\**\*.oz.cs" />
-        <Compile Remove="**\*.oz.cs" />
-        <Compile Include="**\*.oz.cs"
+		<None Include="**\*.oz.cs" Exclude="bin\**\*.oz.cs;obj\**\*.oz.cs" />
+		<Compile Remove="**\*.oz.cs" />
+		<Compile Include="**\*.oz.cs"
                  Exclude="bin\**\*.oz.cs;obj\**\*.oz.cs"
                  Condition="$(UseOpenZune)" />
-    </ItemGroup>
-
-    <Choose>
-        <When Condition=" $(TargetFramework.StartsWith('net6.0-windows')) ">
-            <PropertyGroup>
-                <UseOpenZune>True</UseOpenZune>
-                
-                <DefineConstants Condition="$(TargetFramework.StartsWith('net6.0-windows10'))">$(DefineConstants);WINDOWS10</DefineConstants>
-                <DefineConstants Condition="$(TargetFramework.StartsWith('net6.0-windows8'))">$(DefineConstants);WINDOWS8</DefineConstants>
-            </PropertyGroup>
-        </When>
-
-        <When Condition=" $(TargetFramework.StartsWith('net6.0')) ">
-            <PropertyGroup>
-                <UseOpenZune>True</UseOpenZune>
-            </PropertyGroup>
-        </When>
-
-        <!--
-            .NET Core 3.1 is only used to target Windows 8/8.1
-        -->
-        <When Condition=" $(TargetFramework.StartsWith('netcoreapp')) ">
-            <PropertyGroup>
-                <UseOpenZune>True</UseOpenZune>
-            </PropertyGroup>
-        </When>
-    </Choose>
+	</ItemGroup>
 
     <PropertyGroup Condition=" '$(TargetFramework)' == 'net35' ">
         <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
@@ -101,13 +67,8 @@
 
     <ItemGroup Condition=" $(UseOpenZune) ">
         <!--<PackageReference Include="StrixMusic.Sdk" Version="0.0.3-alpha" /-->
-        <PackageReference Include="StrixMusic.Cores.LocalFiles" Version="1.0.0" />
+        <PackageReference Include="StrixMusic.Cores.LocalFiles" Version="0.0.12-alpha" />
     </ItemGroup>
-
-    <PropertyGroup Condition=" $(UseOpenZune) ">
-        <ApplicationVersion>5.0.0.0</ApplicationVersion>
-        <DefineConstants>$(DefineConstants);OPENZUNE</DefineConstants>
-    </PropertyGroup>
 
     <ItemGroup Condition=" !$(UseOpenZune) ">
         <Folder Remove="\StrixMusic\**" />

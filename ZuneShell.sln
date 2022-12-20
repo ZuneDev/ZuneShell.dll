@@ -20,6 +20,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZuneImpl", "ZuneImpl\ZuneIm
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Meziantou.Framework.Win32.CredentialManager", "libs\Meziantou.Framework.Win32.CredentialManager\Meziantou.Framework.Win32.CredentialManager.csproj", "{90A89707-927E-48D2-BFEB-84F95F531258}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D02FE08B-4832-4822-AD7F-AF4B3D21D118}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -98,10 +103,10 @@ Global
 		{4041A91F-EF2A-4C47-9EBE-F4E862532345}.Release|x86.Build.0 = Release|x86
 		{1FEAC59B-F012-4ACC-9F11-E7ADF4C77593}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1FEAC59B-F012-4ACC-9F11-E7ADF4C77593}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1FEAC59B-F012-4ACC-9F11-E7ADF4C77593}.Debug|ARM32.ActiveCfg = Debug|Any CPU
-		{1FEAC59B-F012-4ACC-9F11-E7ADF4C77593}.Debug|ARM32.Build.0 = Debug|Any CPU
-		{1FEAC59B-F012-4ACC-9F11-E7ADF4C77593}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{1FEAC59B-F012-4ACC-9F11-E7ADF4C77593}.Debug|x64.Build.0 = Debug|Any CPU
+		{1FEAC59B-F012-4ACC-9F11-E7ADF4C77593}.Debug|ARM32.ActiveCfg = Debug|x64
+		{1FEAC59B-F012-4ACC-9F11-E7ADF4C77593}.Debug|ARM32.Build.0 = Debug|x64
+		{1FEAC59B-F012-4ACC-9F11-E7ADF4C77593}.Debug|x64.ActiveCfg = Debug|x64
+		{1FEAC59B-F012-4ACC-9F11-E7ADF4C77593}.Debug|x64.Build.0 = Debug|x64
 		{1FEAC59B-F012-4ACC-9F11-E7ADF4C77593}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{1FEAC59B-F012-4ACC-9F11-E7ADF4C77593}.Debug|x86.Build.0 = Debug|Any CPU
 		{1FEAC59B-F012-4ACC-9F11-E7ADF4C77593}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -116,8 +121,8 @@ Global
 		{8479F68C-4234-425E-93E7-71597AF528E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8479F68C-4234-425E-93E7-71597AF528E9}.Debug|ARM32.ActiveCfg = Debug|Any CPU
 		{8479F68C-4234-425E-93E7-71597AF528E9}.Debug|ARM32.Build.0 = Debug|Any CPU
-		{8479F68C-4234-425E-93E7-71597AF528E9}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{8479F68C-4234-425E-93E7-71597AF528E9}.Debug|x64.Build.0 = Debug|Any CPU
+		{8479F68C-4234-425E-93E7-71597AF528E9}.Debug|x64.ActiveCfg = Debug|x64
+		{8479F68C-4234-425E-93E7-71597AF528E9}.Debug|x64.Build.0 = Debug|x64
 		{8479F68C-4234-425E-93E7-71597AF528E9}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{8479F68C-4234-425E-93E7-71597AF528E9}.Debug|x86.Build.0 = Debug|Any CPU
 		{8479F68C-4234-425E-93E7-71597AF528E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
