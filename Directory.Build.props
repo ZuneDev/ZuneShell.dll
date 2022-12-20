@@ -11,7 +11,7 @@
         <TargetFrameworks>netstandard2.0;net35;net40;net6.0;net6.0-windows</TargetFrameworks>
         <Platforms>x64;x86</Platforms>
 
-        <SignAssembly>True</SignAssembly>
+        <SignAssembly>False</SignAssembly>
         <AssemblyOriginatorKeyFile>$(SolutionDir)\libs\MicrosoftIris\36MSApp1024.snk</AssemblyOriginatorKeyFile>
         <DelaySign>True</DelaySign>
 
