@@ -9,6 +9,7 @@ namespace Microsoft.Zune.Service
             var request = WebRequest.Create(ESCARGOT_NOTRST_URL);
             request.Headers.Add(HEADER_X_USER, username);
             request.Headers.Add(HEADER_X_PASS, password);
+            request.Method = "POST";
 
             try
             {
