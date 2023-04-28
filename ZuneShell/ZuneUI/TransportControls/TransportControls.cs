@@ -24,7 +24,7 @@ using UIXControls;
 
 namespace ZuneUI
 {
-    public class TransportControls : SingletonModelItem<TransportControls>
+    public partial class TransportControls : SingletonModelItem<TransportControls>
     {
         internal const long c_TicksPerSecond = 10000000;
         private const long _rewindDelay = 50000000;
@@ -825,23 +825,7 @@ namespace ZuneUI
                         this.PlaybackStopped(this, null);
                 }
 
-#if WINDOWS
-                if (Microsoft.WinRT.ApiInformation.IsTypePresent("Windows.Media.SystemMediaTransportControls")
-                    && !OSVersion.IsLessThanWin10())
-                {
-                    // Windows 8.1 doesn't seem to support non-Metro apps using this API.
-
-                    // On Windows 8.1 / 10 / 11
-                    var _systemMediaTransportControls = Windows.Media.SystemMediaTransportControlsInterop.GetForWindow(Application.Window.Handle);
-                    _systemMediaTransportControls.PlaybackStatus = stateNew switch
-                    {
-                        PlayerState.Stopped => Windows.Media.MediaPlaybackStatus.Stopped,
-                        PlayerState.Playing => Windows.Media.MediaPlaybackStatus.Playing,
-                        PlayerState.Paused => Windows.Media.MediaPlaybackStatus.Paused,
-                        _ => throw new NotImplementedException(),
-                    };
-                }
-#endif
+                UpdateSmtcState(stateNew);
             }
             this.UpdatePropertiesAndCommands();
             this.ReportStreamingAction(playerState);
@@ -1378,176 +1362,6 @@ namespace ZuneUI
         {
         }
 
-        private
-#if OPENZUNE
-            async
-#endif
-            void OnPlayClicked(object sender, EventArgs e)
-        {
-            if (!this._play.Available)
-                return;
-            SQMLog.Log(SQMDataId.PlayClicks, 1);
-
-            if (this.Playing || this._playlistCurrent == null)
-                return;
-            if (this._lastKnownPlayerState != MCPlayerState.Closed)
-            {
-                this.SetPlayerState(PlayerState.Playing);
-
-#if OPENZUNE
-                var playbackHandler = Microsoft.Zune.Shell.ZuneApplication.PlaybackHandler;
-                if (playbackHandler != null)
-                {
-                    await playbackHandler.ResumeAsync();
-                }
-#else
-                this._playbackWrapper.Play();
-#endif
-
-                if (!this.PlayingVideo || this._playlistCurrent.PlayNavigationOptions != PlayNavigationOptions.NavigateVideosToNowPlaying)
-                    return;
-                NowPlayingLand.NavigateToLand();
-            }
-            else
-            {
-                if (this._playlistPending != null)
-                    this._playlistPending.Dispose();
-                this._playlistPending = this._playlistCurrent;
-                this.PlayPendingList();
-            }
-        }
-
-        private
-#if OPENZUNE
-            async
-#endif
-            void OnPauseClicked(object sender, EventArgs e)
-        {
-            if (!this._pause.Available)
-                return;
-            SQMLog.Log(SQMDataId.PauseClicks, 1);
-
-            if (!this.Playing)
-                return;
-
-            this.SetPlayerState(PlayerState.Paused);
-
-#if OPENZUNE
-            var playbackHandler = Microsoft.Zune.Shell.ZuneApplication.PlaybackHandler;
-            if (playbackHandler != null)
-            {
-                await playbackHandler.PauseAsync();
-            }
-#else
-            this._playbackWrapper.Pause();
-#endif
-        }
-
-        private
-#if OPENZUNE
-            async
-#endif
-            void OnStopClicked(object sender, EventArgs e)
-        {
-            if (!this._stop.Available)
-                return;
-            SQMLog.Log(SQMDataId.StopClicks, 1);
-            if (this._playlistPending != null)
-                this._playlistPending.Dispose();
-            this._playlistPending = null;
-            if (this._playlistCurrent != null)
-                this._playlistCurrent.Dispose();
-            this._playlistCurrent = null;
-            if (this._playerState != PlayerState.Stopped)
-            {
-                this.SetPlayerState(PlayerState.Stopped);
-#if OPENZUNE
-                var playbackHandler = Microsoft.Zune.Shell.ZuneApplication.PlaybackHandler;
-                if (playbackHandler != null)
-                {
-                    await playbackHandler.PauseAsync();
-                    await playbackHandler.SeekAsync(TimeSpan.Zero);
-                }
-#else
-                this._playbackWrapper.Stop();
-#endif
-            }
-            else
-                this.UpdatePropertiesAndCommands();
-        }
-
-        private
-#if OPENZUNE
-            async
-#endif
-            void OnBackClicked(object sender, EventArgs e)
-        {
-            if (!this._back.Available || this._playlistCurrent == null)
-                return;
-            SQMLog.Log(SQMDataId.SkipBackwardClicks, 1);
-
-            if (this._lastKnownPosition > 50000000L || !this._playlistCurrent.CanRetreat)
-            {
-                this._playbackWrapper.SeekToAbsolutePosition(0L);
-            }
-            else
-            {
-#if OPENZUNE
-                var playbackHandler = Microsoft.Zune.Shell.ZuneApplication.PlaybackHandler;
-                if (playbackHandler != null)
-                {
-                    await playbackHandler.PreviousAsync();
-                }
-#else
-                this._playlistCurrent.Retreat();
-#endif
-                this.SetUriOnPlayer();
-            }
-        }
-
-        private
-#if OPENZUNE
-            async
-#endif
-            void OnForwardClicked(object sender, EventArgs e)
-        {
-            if (!this._forward.Available || this._playlistCurrent == null)
-                return;
-            SQMLog.Log(SQMDataId.SkipForwardClicks, 1);
-
-            if (this._currentTrack != null && this._currentTrack.IsVideo)
-                return;
-            if (this._lastKnownPlaybackTrack != null)
-                this._lastKnownPlaybackTrack.OnSkip();
-            if (this._playlistCurrent.CanAdvance)
-            {
-#if OPENZUNE
-                var playbackHandler = Microsoft.Zune.Shell.ZuneApplication.PlaybackHandler;
-                if (playbackHandler != null && playbackHandler.NextItems.Count > 0)
-                {
-                    await playbackHandler.NextAsync();
-                }
-#else
-                this._playlistCurrent.Advance();
-#endif
-                this.SetUriOnPlayer();
-            }
-            else
-            {
-                this.SetPlayerState(PlayerState.Stopped);
-#if OPENZUNE
-                var playbackHandler = Microsoft.Zune.Shell.ZuneApplication.PlaybackHandler;
-                if (playbackHandler != null)
-                {
-                    await playbackHandler.PauseAsync();
-                    await playbackHandler.SeekAsync(TimeSpan.Zero);
-                }
-#else
-                this._playbackWrapper.Stop();
-#endif
-            }
-        }
-
         private void OnFastforwardingChanged(object sender, EventArgs e)
         {
             if ((this._currentTrack == null || !this._currentTrack.IsVideo || this._playbackWrapper.CanChangeVideoRate) && this._fastforwarding.Value)
@@ -1770,62 +1584,91 @@ namespace ZuneUI
                         break;
                     case MCTransportState.Playing:
                         PerfTrace.TraceUICollectionEvent(UICollectionEvent.PlayRequestComplete, "");
-
-                        // Use SMTC when available
-#if WINDOWS
-                        if (Microsoft.WinRT.ApiInformation.IsTypePresent("Windows.Media.SystemMediaTransportControls")
-                            && !OSVersion.IsLessThanWin10())
-                        {
-                            // On Windows 8.1 / 10 / 11
-                            var _systemMediaTransportControls = Windows.Media.SystemMediaTransportControlsInterop.GetForWindow(Application.Window.Handle);
-                            _systemMediaTransportControls.IsPlayEnabled = true;
-                            _systemMediaTransportControls.IsPauseEnabled = true;
-                            _systemMediaTransportControls.IsStopEnabled = true;
-                            _systemMediaTransportControls.IsNextEnabled = true;
-                            _systemMediaTransportControls.IsPreviousEnabled = true;
-
-                            if (!isInit)
-                            {
-                                isInit = true;
-                                _systemMediaTransportControls.ButtonPressed += (e, args) =>
-                                {
-                                    Action<object, EventArgs> method = args.Button switch
-                                    {
-                                        Windows.Media.SystemMediaTransportControlsButton.Play => OnPlayClicked,
-                                        Windows.Media.SystemMediaTransportControlsButton.Pause => OnPauseClicked,
-                                        Windows.Media.SystemMediaTransportControlsButton.Stop => OnStopClicked,
-                                        Windows.Media.SystemMediaTransportControlsButton.Next => OnForwardClicked,
-                                        Windows.Media.SystemMediaTransportControlsButton.Previous => OnBackClicked,
-
-                                        _ => throw new NotImplementedException()
-                                    };
-
-                                    Application.DeferredInvoke(_ => method(null, null), null);
-                                };
-                            }
-
-                            // Get the updater
-                            Windows.Media.SystemMediaTransportControlsDisplayUpdater updater = _systemMediaTransportControls.DisplayUpdater;
-
-                            // Music metadata
-                            updater.Type = _lastKnownPlaybackTrack.MediaType == MediaType.Video
-                                ? Windows.Media.MediaPlaybackType.Video
-                                : Windows.Media.MediaPlaybackType.Music;
-                            updater.MusicProperties.Title = _lastKnownPlaybackTrack.Title;
-                            if (_lastKnownPlaybackTrack is LibraryPlaybackTrack track)
-                            {
-                                updater.MusicProperties.Artist = track.DisplayArtist;
-                            }
-
-                            updater.Update();
-                        }
-#endif
+                        UseSmtc();
                         break;
                 }
             }
             this._lastKnownTransportState = mcTransportState;
         }
+
         bool isInit = false;
+        private void UseSmtc()
+        {
+            // Use SMTC when available
+#if WINDOWS
+            if (Microsoft.WinRT.ApiInformation.IsTypePresent("Windows.Media.SystemMediaTransportControls")
+                && !OSVersion.IsLessThanWin10())
+            {
+                // On Windows 8.1 / 10 / 11
+                var _systemMediaTransportControls = Windows.Media.SystemMediaTransportControlsInterop.GetForWindow(Application.Window.Handle);
+                _systemMediaTransportControls.IsPlayEnabled = true;
+                _systemMediaTransportControls.IsPauseEnabled = true;
+                _systemMediaTransportControls.IsStopEnabled = true;
+                _systemMediaTransportControls.IsNextEnabled = true;
+                _systemMediaTransportControls.IsPreviousEnabled = true;
+
+                if (!isInit)
+                {
+                    isInit = true;
+                    _systemMediaTransportControls.ButtonPressed += (e, args) =>
+                    {
+                        Action<object, EventArgs> method = args.Button switch
+                        {
+                            Windows.Media.SystemMediaTransportControlsButton.Play => OnPlayClicked,
+                            Windows.Media.SystemMediaTransportControlsButton.Pause => OnPauseClicked,
+                            Windows.Media.SystemMediaTransportControlsButton.Stop => OnStopClicked,
+                            Windows.Media.SystemMediaTransportControlsButton.Next => OnForwardClicked,
+                            Windows.Media.SystemMediaTransportControlsButton.Previous => OnBackClicked,
+
+                            _ => throw new NotImplementedException()
+                        };
+
+                        Application.DeferredInvoke(_ => method(null, null), null);
+                    };
+                }
+
+                // Get the updater
+                Windows.Media.SystemMediaTransportControlsDisplayUpdater updater = _systemMediaTransportControls.DisplayUpdater;
+
+                // Music metadata
+                if (_lastKnownPlaybackTrack != null)
+                {
+                    updater.Type = _lastKnownPlaybackTrack.MediaType == MediaType.Video
+                        ? Windows.Media.MediaPlaybackType.Video
+                        : Windows.Media.MediaPlaybackType.Music;
+                    updater.MusicProperties.Title = _lastKnownPlaybackTrack.Title;
+
+                    if (_lastKnownPlaybackTrack is LibraryPlaybackTrack track)
+                    {
+                        updater.MusicProperties.Artist = track.DisplayArtist;
+                    }
+                }
+
+                updater.Update();
+            }
+#endif
+        }
+
+        private void UpdateSmtcState(PlayerState stateNew)
+        {
+#if WINDOWS
+                if (Microsoft.WinRT.ApiInformation.IsTypePresent("Windows.Media.SystemMediaTransportControls")
+                    && !OSVersion.IsLessThanWin10())
+                {
+                    // Windows 8.1 doesn't seem to support non-Metro apps using this API.
+
+                    // On Windows 8.1 / 10 / 11
+                    var _systemMediaTransportControls = Windows.Media.SystemMediaTransportControlsInterop.GetForWindow(Application.Window.Handle);
+                    _systemMediaTransportControls.PlaybackStatus = stateNew switch
+                    {
+                        PlayerState.Stopped => Windows.Media.MediaPlaybackStatus.Stopped,
+                        PlayerState.Playing => Windows.Media.MediaPlaybackStatus.Playing,
+                        PlayerState.Paused => Windows.Media.MediaPlaybackStatus.Paused,
+                        _ => throw new NotImplementedException(),
+                    };
+                }
+#endif
+        }
 
         private void DeferredTransportPositionChanged(object obj)
         {
