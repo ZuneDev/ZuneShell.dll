@@ -1,12 +1,8 @@
 ﻿#if OPENZUNE
 
 using LibVLCSharp.Shared;
-using NAudio.Wave;
 using StrixMusic.Sdk.MediaPlayback;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -20,12 +16,13 @@ namespace Microsoft.Zune.Playback
         readonly MediaPlayer m_player;
         private Media m_media;
         private PlaybackItem m_currentSource;
+        private TimeSpan m_position;
 
         public static VlcAudioService Instance => new();
 
         private VlcAudioService()
         {
-            Core.Initialize();
+            Core.Initialize(@"C:\Program Files\VideoLAN\VLC");
 
             bool debug =
 #if DEBUG
@@ -36,6 +33,8 @@ namespace Microsoft.Zune.Playback
 
             m_vlc = new(enableDebugLogs: debug);
             m_player = new(m_vlc);
+
+            m_player.TimeChanged += (sender, e) => Position = TimeSpan.FromMilliseconds(e.Time);
         }
 
         public PlaybackItem CurrentSource
@@ -48,7 +47,15 @@ namespace Microsoft.Zune.Playback
             }
         }
 
-        public TimeSpan Position => TimeSpan.FromMilliseconds(m_player.Time);
+        public TimeSpan Position
+        {
+            get => m_position;
+            set
+            {
+                m_position = value;
+                PositionChanged?.Invoke(this, value);
+            }
+        }
 
         public StrixPlaybackState PlaybackState => m_player.State switch
         {
@@ -107,6 +114,10 @@ namespace Microsoft.Zune.Playback
         public Task PauseAsync(CancellationToken cancellationToken = default)
         {
             m_player.Pause();
+
+            if (m_player.Media != null)
+                PlaybackStateChanged?.Invoke(this, PlaybackState);
+
             return Task.CompletedTask;
         }
 
@@ -115,11 +126,14 @@ namespace Microsoft.Zune.Playback
             if (CurrentSource != sourceConfig)
                 await Preload(sourceConfig, cancellationToken);
 
-            m_player.Play();
+            if (m_player.Play())
+                PlaybackStateChanged?.Invoke(this, PlaybackState);
         }
 
         public async Task Preload(PlaybackItem sourceConfig, CancellationToken cancellationToken = default)
         {
+            PlaybackStateChanged?.Invoke(this, StrixPlaybackState.Loading);
+
             CurrentSource = sourceConfig;
             var uri = sourceConfig.MediaConfig.MediaSourceUri;
             var stream = sourceConfig.MediaConfig.FileStreamSource;
@@ -133,7 +147,12 @@ namespace Microsoft.Zune.Playback
                 m_media = new(m_vlc, new StreamMediaInput(stream));
             }
 
-            await m_media.Parse(MediaParseOptions.ParseNetwork | MediaParseOptions.ParseLocal, cancellationToken: cancellationToken);
+            var parseStatus = await m_media.Parse(MediaParseOptions.ParseNetwork | MediaParseOptions.ParseLocal, cancellationToken: cancellationToken);
+            if (parseStatus == MediaParsedStatus.Failed || parseStatus == MediaParsedStatus.Timeout)
+                PlaybackStateChanged?.Invoke(this, StrixPlaybackState.Failed);
+            else if (parseStatus == MediaParsedStatus.Done || parseStatus == MediaParsedStatus.Skipped)
+                PlaybackStateChanged?.Invoke(this, PlaybackState);
+
             m_player.Media = m_media;
         }
 
