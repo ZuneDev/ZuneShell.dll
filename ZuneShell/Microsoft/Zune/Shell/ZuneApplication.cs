@@ -174,7 +174,10 @@ namespace Microsoft.Zune.Shell
                 };
 
                 var localCore = new StrixMusic.Cores.LocalFiles.LocalFilesCore(
-                    id, settings, fileService, null, null);
+                    id, settings, fileService, null, null)
+                {
+                    ScannerWaitBehavior = StrixMusic.Cores.Files.ScannerWaitBehavior.AlwaysWait
+                };
 
                 var prefs = new MergedCollectionConfig
                 {
@@ -222,7 +225,7 @@ namespace Microsoft.Zune.Shell
             {
                 library.TracksChanged -= LibraryTracksChanged;
 
-                ITrack firstTrack = addedItems[0].Data;
+                ITrack firstTrack = addedItems[1].Data;
 
                 await firstTrack.PlayArtistCollectionAsync();
             }
@@ -230,6 +233,7 @@ namespace Microsoft.Zune.Shell
 
         private static async void LibraryTracksAdded(object sender, int count)
         {
+            return;
             if (sender is ILibrary library && count > 0)
             {
                 library.TracksCountChanged -= LibraryTracksAdded;
