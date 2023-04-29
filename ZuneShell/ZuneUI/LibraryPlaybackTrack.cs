@@ -698,11 +698,6 @@ namespace ZuneUI
         {
             return Task.FromResult(false);
         }
-
-        ValueTask IAsyncDisposable.DisposeAsync()
-        {
-            return ValueTask.CompletedTask;
-        }
 #endif
 
     }
