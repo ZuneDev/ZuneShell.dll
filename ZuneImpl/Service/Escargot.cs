@@ -5,7 +5,7 @@ namespace Microsoft.Zune.Service
 {
     internal static partial class Escargot
     {
-        const string ESCARGOT_NOTRST_URL = "https://login.zunes.me/NotRST.srf";
+        const string ESCARGOT_NOTRST_URL = "http://login.zunes.me/NotRST.srf";
         const string HEADER_X_USER = "X-User";
         const string HEADER_X_PASS = "X-Password";
         const string HEADER_X_TOKEN = "X-Token";
