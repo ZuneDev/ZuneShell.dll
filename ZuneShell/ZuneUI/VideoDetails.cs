@@ -78,7 +78,7 @@ namespace ZuneUI
             IList list = new List<string>();
             foreach (UIDevice uiDevice in SingletonModelItem<UIDeviceList>.Instance)
             {
-                if (ZuneApplication.Service.InCompleteCollection(zuneMediaId, EContentType.Video, uiDevice.EndpointId))
+                if (ZuneApplication.Service2.InCompleteCollection(zuneMediaId, EContentType.Video, uiDevice.EndpointId))
                     list.Add(string.Format(_deviceRentalFormat, uiDevice.Name.ToUpper()));
             }
             return list;
@@ -99,7 +99,7 @@ namespace ZuneUI
                 case 26:
                     if (!string.IsNullOrEmpty(fileName))
                     {
-                        DRMInfo drmInfo = fileType != 43 ? ZuneApplication.Service.GetFileDRMInfo(fileName) : ZuneApplication.Service.GetMediaDRMInfo(zuneMediaId, EContentType.Video);
+                        DRMInfo drmInfo = fileType != 43 ? ZuneApplication.Service2.GetFileDRMInfo(fileName) : ZuneApplication.Service2.GetMediaDRMInfo(zuneMediaId, EContentType.Video);
                         if (drmInfo != null)
                         {
                             if (drmInfo.ValidLicense && drmInfo.HasExpiryDate)

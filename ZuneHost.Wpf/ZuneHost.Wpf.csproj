@@ -2,8 +2,10 @@
 
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
-        <TargetFramework>net6.0-windows</TargetFramework>
+        <TargetFrameworks>net6.0-windows10.0.22000;net40</TargetFrameworks>
+        <LangVersion>11.0</LangVersion>
         <UseWPF>true</UseWPF>
+        <ApplicationIcon>Assets\ZuneFluentGem.ico</ApplicationIcon>
     </PropertyGroup>
 
     <ItemGroup>
@@ -11,7 +13,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <None Remove="Assets\ZuneFluentWordmark.png" />
+        <Content Include="Assets\ZuneFluentGem.ico" />
         <Resource Include="Assets\ZuneFluentWordmark.png" />
     </ItemGroup>
 

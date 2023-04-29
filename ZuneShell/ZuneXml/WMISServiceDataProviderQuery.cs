@@ -36,7 +36,7 @@ namespace ZuneXml
 
         private void BackgroundInitializeWMISEndpointCollection(object unused)
         {
-            HRESULT hresult = ZuneApplication.Service.InitializeWMISEndpointCollection();
+            HRESULT hresult = ZuneApplication.Service2.InitializeWMISEndpointCollection();
             if (hresult.IsSuccess)
             {
                 this._endpointsInitialized = true;
@@ -87,7 +87,7 @@ namespace ZuneXml
                 Guid.NewGuid();
                 this.m_strPostBody = string.Empty;
             }
-            string wmisEndPointUri = ZuneApplication.Service.GetWMISEndPointUri(strEndPointName);
+            string wmisEndPointUri = ZuneApplication.Service2.GetWMISEndPointUri(strEndPointName);
             if (string.IsNullOrEmpty(wmisEndPointUri))
                 return null;
             UriBuilder uriBuilder = new UriBuilder(wmisEndPointUri);

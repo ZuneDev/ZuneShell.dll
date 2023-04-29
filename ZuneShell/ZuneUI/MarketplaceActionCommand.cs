@@ -35,11 +35,11 @@ namespace ZuneUI
 
         public virtual bool CanFindInCollection => this.m_collectionId >= 0;
 
-        public virtual bool CanFindInCollectionShortcut => this.m_collectionId >= 0 && ZuneApplication.Service.GetMediaStatus(this.Id, this.ContentType) == EMediaStatus.StatusInCollectionShortcut;
+        public virtual bool CanFindInCollectionShortcut => this.m_collectionId >= 0 && ZuneApplication.Service2.GetMediaStatus(this.Id, this.ContentType) == EMediaStatus.StatusInCollectionShortcut;
 
-        public virtual bool CanFindInCollectionOwned => this.m_collectionId >= 0 && ZuneApplication.Service.GetMediaStatus(this.Id, this.ContentType) == EMediaStatus.StatusInCollectionOwned;
+        public virtual bool CanFindInCollectionOwned => this.m_collectionId >= 0 && ZuneApplication.Service2.GetMediaStatus(this.Id, this.ContentType) == EMediaStatus.StatusInCollectionOwned;
 
-        public virtual bool CanFindInHiddenCollection => ZuneApplication.Service.InHiddenCollection(this.Id, this.ContentType);
+        public virtual bool CanFindInHiddenCollection => ZuneApplication.Service2.InHiddenCollection(this.Id, this.ContentType);
 
         public virtual bool ShowHiddenProgress
         {
@@ -132,18 +132,18 @@ namespace ZuneUI
             if (this.AllowDownload)
             {
                 int dbMediaId;
-                if (ZuneApplication.Service.InVisibleCollection(this.Id, this.ContentType, out dbMediaId))
+                if (ZuneApplication.Service2.InVisibleCollection(this.Id, this.ContentType, out dbMediaId))
                 {
                     this.Description = Shell.LoadString(StringId.IDS_INCOLLECTION);
                     this.Available = true;
                     this.CollectionId = dbMediaId;
                 }
-                else if (ZuneApplication.Service.InHiddenCollection(this.Id, this.ContentType))
+                else if (ZuneApplication.Service2.InHiddenCollection(this.Id, this.ContentType))
                 {
                     this.Description = Shell.LoadString(this.AddToCollectionStringId);
                     this.Available = true;
                 }
-                else if (ZuneApplication.Service.IsDownloading(this.Id, this.ContentType, out fIsDownloadPending, out fIsHidden) && (!fIsHidden || this.ShowHiddenProgress))
+                else if (ZuneApplication.Service2.IsDownloading(this.Id, this.ContentType, out fIsDownloadPending, out fIsHidden) && (!fIsHidden || this.ShowHiddenProgress))
                 {
                     this.Downloading = true;
                     this.Available = true;

@@ -29,7 +29,7 @@ namespace ZuneXml
             string property1 = (string)this.Query.GetProperty("Prefix");
             if (!Search.Instance.IsValidKeyword(property1))
                 return null;
-            string endPointUri = Microsoft.Zune.Service.Service2.GetEndPointUri(this._endPoint);
+            string endPointUri = Microsoft.Zune.Shell.ZuneApplication.Service2.GetEndPointUri(this._endPoint);
             StringBuilder stringBuilder = new StringBuilder(128);
             stringBuilder.Append(endPointUri);
             stringBuilder.Append("/?prefix=");

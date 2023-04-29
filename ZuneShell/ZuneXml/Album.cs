@@ -47,7 +47,7 @@ namespace ZuneXml
             {
                 bool flag = false;
                 if (this.Id != Guid.Empty)
-                    flag = ZuneApplication.Service.InVisibleCollection(this.Id, EContentType.MusicAlbum, out int _);
+                    flag = ZuneApplication.Service2.InVisibleCollection(this.Id, EContentType.MusicAlbum, out int _);
                 return flag;
             }
         }
@@ -59,7 +59,7 @@ namespace ZuneXml
                 int dbMediaId = -1;
                 if (this.Id != Guid.Empty)
                 {
-                    ZuneApplication.Service.InVisibleCollection(this.Id, EContentType.MusicAlbum, out dbMediaId);
+                    ZuneApplication.Service2.InVisibleCollection(this.Id, EContentType.MusicAlbum, out dbMediaId);
                     if (dbMediaId == -1)
                         dbMediaId = this._dbMediaId;
                 }

@@ -29,20 +29,20 @@ namespace ZuneUI
         public void GetSubscriptionOffers()
         {
             this.ErrorCode = HRESULT._S_OK;
-            ZuneApplication.Service.GetSubscriptionOffers(new GetBillingOffersCompleteCallback(this.OnGetSubscriptionsComplete), new GetBillingOffersErrorCallback(this.OnGetSubscriptionsError));
+            ZuneApplication.Service2.GetSubscriptionOffers(new GetBillingOffersCompleteCallback(this.OnGetSubscriptionsComplete), new GetBillingOffersErrorCallback(this.OnGetSubscriptionsError));
         }
 
         public void GetPointsOffers()
         {
             this.ErrorCode = HRESULT._S_OK;
-            ZuneApplication.Service.GetPointsOffers(new GetBillingOffersCompleteCallback(this.OnGetPointsOffersComplete), new GetBillingOffersErrorCallback(this.OnGetPointsOffersError));
+            ZuneApplication.Service2.GetPointsOffers(new GetBillingOffersCompleteCallback(this.OnGetPointsOffersComplete), new GetBillingOffersErrorCallback(this.OnGetPointsOffersError));
         }
 
         public void GetCurrentSubscription()
         {
             this.ErrorCode = HRESULT._S_OK;
             if (SignIn.Instance.SignedInWithSubscription)
-                ZuneApplication.Service.GetSubscriptionDetails(SignIn.Instance.SubscriptionId, new GetBillingOffersCompleteCallback(this.OnGetCurrentSubscriptionComplete), new GetBillingOffersErrorCallback(this.OnGetCurrentSubscriptionError));
+                ZuneApplication.Service2.GetSubscriptionDetails(SignIn.Instance.SubscriptionId, new GetBillingOffersCompleteCallback(this.OnGetCurrentSubscriptionComplete), new GetBillingOffersErrorCallback(this.OnGetCurrentSubscriptionError));
             else
                 this.CurrentSubscription = null;
         }
@@ -52,7 +52,7 @@ namespace ZuneUI
             this.ErrorCode = HRESULT._S_OK;
             ulong subscriptionRenewalId = SignIn.Instance.SubscriptionRenewalId;
             if (SignIn.Instance.SignedInWithSubscription && subscriptionRenewalId != 0UL)
-                ZuneApplication.Service.GetSubscriptionDetails(subscriptionRenewalId, new GetBillingOffersCompleteCallback(this.OnGetRenewalSubscriptionComplete), new GetBillingOffersErrorCallback(this.OnGetRenewalSubscriptionError));
+                ZuneApplication.Service2.GetSubscriptionDetails(subscriptionRenewalId, new GetBillingOffersCompleteCallback(this.OnGetRenewalSubscriptionComplete), new GetBillingOffersErrorCallback(this.OnGetRenewalSubscriptionError));
             else
                 this.RenewalSubscription = null;
         }
@@ -63,13 +63,13 @@ namespace ZuneUI
             if (billingOffer == null)
                 return;
             AsyncCompleteHandler callback = billingOffer.OfferType != EBillingOfferType.Points ? new AsyncCompleteHandler(this.OnPurchaseSubscriptionComplete) : new AsyncCompleteHandler(this.OnPurchasePointsComplete);
-            ZuneApplication.Service.PurchaseBillingOffer(billingOffer, paymentInstrument, callback);
+            ZuneApplication.Service2.PurchaseBillingOffer(billingOffer, paymentInstrument, callback);
         }
 
         public static bool IsSubscribed(BillingOffer offer)
         {
             bool flag = false;
-            if (offer != null && ZuneApplication.Service.IsSignedInWithSubscription())
+            if (offer != null && ZuneApplication.Service2.IsSignedInWithSubscription())
                 flag = (long)SignIn.Instance.SubscriptionId == (long)offer.Id;
             return flag;
         }
@@ -77,7 +77,7 @@ namespace ZuneUI
         public static bool IsSubscriptionChanging()
         {
             bool flag = false;
-            if (ZuneApplication.Service.IsSignedInWithSubscription())
+            if (ZuneApplication.Service2.IsSignedInWithSubscription())
                 flag = (long)SignIn.Instance.SubscriptionRenewalId != (long)SignIn.Instance.SubscriptionId;
             return flag;
         }

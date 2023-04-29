@@ -1,18 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
+using IrisApp = Microsoft.Iris.Application;
 
 namespace ZuneHost.Wpf
 {
@@ -21,7 +13,9 @@ namespace ZuneHost.Wpf
     /// </summary>
     public partial class MainWindow : Window
     {
-        private string _zuneProgramFolder;
+        DirectoryInfo _zuneProgramDir;
+        string decompResultDir = Path.Combine(Environment.CurrentDirectory, "DecompileResults");
+        string dataMapDir = Path.Combine(Environment.CurrentDirectory, "DataMappings");
 
         public MainWindow()
         {
@@ -39,31 +33,101 @@ namespace ZuneHost.Wpf
             string strArgs = string.Join(" ", args.ToArray());
 
             // Make sure that ZuneDBApi can find all the Zune native libraries
-            _zuneProgramFolder = Path.Combine(
+            _zuneProgramDir = new(Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
-                "Zune");
-            foreach (var info in new DirectoryInfo(_zuneProgramFolder).GetFileSystemInfos())
+                "Zune"));
+            if (_zuneProgramDir.Exists)
             {
-                if (info is DirectoryInfo dirInfo)
+                foreach (var info in _zuneProgramDir.GetFileSystemInfos())
                 {
-                    CopyAll(dirInfo, new DirectoryInfo(Path.Combine(Environment.CurrentDirectory, dirInfo.Name)));
-                }
-                else if (info is FileInfo fileInfo)
-                {
-                    string fileName = fileInfo.Name;
-                    if (fileInfo.Extension == ".dll")
+                    if (info is DirectoryInfo dirInfo)
                     {
-                        string targetPath = Path.Combine(Environment.CurrentDirectory, fileName);
-                        if (!File.Exists(targetPath) || fileName == "ZuneDbApi.dll")
-                            fileInfo.CopyTo(targetPath);
+                        CopyAll(dirInfo, new DirectoryInfo(Path.Combine(Environment.CurrentDirectory, dirInfo.Name)));
                     }
-                }
+                    else if (info is FileInfo fileInfo)
+                    {
+                        string fileName = fileInfo.Name;
+                        if (fileInfo.Extension == ".dll")
+                        {
+                            string targetPath = Path.Combine(Environment.CurrentDirectory, fileName);
+                            if (!File.Exists(targetPath) || fileName == "ZuneDbApi.dll")
+                                fileInfo.CopyTo(targetPath);
+                        }
+                    }
+                } 
             }
 
+            IrisApp.DebugSettings.UseDecompiler = false;
+            if (IrisApp.DebugSettings.UseDecompiler)
+            {
+                if (Directory.Exists(decompResultDir))
+                    Directory.Delete(decompResultDir, true);
+                Directory.CreateDirectory(decompResultDir);
+                IrisApp.DebugSettings.DecompileResults.CollectionChanged += DecompileResults_CollectionChanged;
+#if NET6_0_OR_GREATER || NETCOREAPP3_1_OR_GREATER
+                IrisApp.DebugSettings.Bridge.InterpreterStep += Bridge_InterpreterStep;
+#endif
+            }
+
+            IrisApp.DebugSettings.GenerateDataMappingModels = false;
+            if (IrisApp.DebugSettings.GenerateDataMappingModels)
+            {
+                if (Directory.Exists(dataMapDir))
+                    Directory.Delete(dataMapDir, true);
+                Directory.CreateDirectory(dataMapDir);
+                IrisApp.DebugSettings.DataMappingModels.CollectionChanged += DataMappingModels_CollectionChanged;
+            }
+
+            // Set decompiler for marketplace track preview menu item
+            IrisApp.DebugSettings.Breakpoints.Add("res://ZuneMarketplaceResources!SelectionActions.uix (121, 14)");
+
             IntPtr hWnd = new System.Windows.Interop.WindowInteropHelper(this).Handle;
-            Thread zuneThread = new Thread(new ThreadStart(() =>
-                Microsoft.Zune.Shell.ZuneApplication.Launch(strArgs, hWnd)));
+            Thread zuneThread = new(new ThreadStart(() =>
+            {
+                IrisApp.Initialized += delegate
+                {
+                    IrisApp.AddImportRedirect("res://ZuneShellResources!", "clr-res://ZuneShell!");
+                };
+
+                Microsoft.Zune.Shell.ZuneApplication.Launch(strArgs, hWnd);
+            }));
             zuneThread.Start();
+        }
+
+        private void DecompileResults_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            foreach (var result in e.NewItems.Cast<Microsoft.Iris.Debug.DecompilationResult>())
+            {
+                int count = 0;
+                string ctx = Path.GetFileName(result.Context.Substring(result.Context.LastIndexOf('/') + 1));
+
+                FileInfo file = new(Path.Combine(decompResultDir, ctx + ".uix"));
+                while (file.Exists)
+                    file = new(Path.Combine(decompResultDir, $"{ctx}_{++count}.uix"));
+
+                using var stream = file.OpenWrite();
+                result.Doc.Save(stream);
+                stream.Flush();
+            }
+        }
+
+        private void Bridge_InterpreterStep(object sender, Microsoft.Iris.Debug.Data.InterpreterEntry e)
+        {
+            Debug.WriteLine(e.ToString());
+        }
+
+        private void DataMappingModels_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            foreach (var item in e.NewItems.Cast<Microsoft.Iris.Debug.DataMappingModel>())
+            {
+                FileInfo file = new(Path.Combine(dataMapDir, $"{item.Provider}_{item.Type}.cs"));
+                if (file.Exists) file.Delete();
+
+                using var stream = file.Open(FileMode.Create);
+                using var writer = new StreamWriter(stream);
+                writer.Write(item.GeneratedCode);
+                writer.Flush();
+            }
         }
 
         public static void CopyAll(DirectoryInfo source, DirectoryInfo target)

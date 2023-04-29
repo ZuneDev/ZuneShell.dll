@@ -30,7 +30,7 @@ namespace ZuneUI
             bool fIsHidden = false;
             if (this.AllowDownload)
             {
-                if (ZuneApplication.Service.IsDownloading(this.Id, this.ContentType, out fIsDownloadPending, out fIsHidden))
+                if (ZuneApplication.Service2.IsDownloading(this.Id, this.ContentType, out fIsDownloadPending, out fIsHidden))
                 {
                     this.Downloading = true;
                     if (fIsDownloadPending)

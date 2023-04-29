@@ -57,10 +57,11 @@ namespace ZuneUI
         public override HRESULT GetURI(out string uri)
         {
             string uriOut = null;
-            if (ZuneApplication.Service.InCompleteCollection(this._zuneMediaId, Microsoft.Zune.Service.EContentType.MusicTrack))
-                ZuneApplication.Service.GetContentUri(this._zuneMediaId, Microsoft.Zune.Service.EContentType.MusicTrack, Microsoft.Zune.Service.EContentUriFlags.FallbackToPreview, out uriOut, out Guid _);
+            if (ZuneApplication.Service2.InCompleteCollection(this._zuneMediaId, Microsoft.Zune.Service.EContentType.MusicTrack))
+                ZuneApplication.Service2.GetContentUri(this._zuneMediaId, Microsoft.Zune.Service.EContentType.MusicTrack, Microsoft.Zune.Service.EContentUriFlags.FallbackToPreview, out uriOut, out Guid _);
             if (string.IsNullOrEmpty(uriOut))
-                uriOut = "vnd.ms.zunecp://CP/?ContentPartnerKeyName=zune&StreamType=Music&TrackID=" + this._zuneMediaId.ToString();
+                uriOut = "http://catalog.zunes.me/stream/music/" + this._zuneMediaId.ToString();
+                //uriOut = "vnd.ms.zunecp://CP/?ContentPartnerKeyName=zune&StreamType=Music&TrackID=" + this._zuneMediaId.ToString();
             uri = uriOut;
             return HRESULT._S_OK;
         }

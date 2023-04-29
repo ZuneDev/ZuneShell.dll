@@ -24,13 +24,13 @@ namespace ZuneUI
             this.m_defaultPaymentInstrument = null;
             this.m_creditCards = null;
             this.ErrorCode = HRESULT._S_OK;
-            ZuneApplication.Service.GetPaymentInstruments(new GetPaymentInstrumentsCompleteCallback(this.OnGetPaymentInstrumentsSuccess), new GetPaymentInstrumentsErrorCallback(this.OnGetPaymentInstrumnetsError));
+            ZuneApplication.Service2.GetPaymentInstruments(new GetPaymentInstrumentsCompleteCallback(this.OnGetPaymentInstrumentsSuccess), new GetPaymentInstrumentsErrorCallback(this.OnGetPaymentInstrumnetsError));
         }
 
         public void AddPaymentInstrument(PaymentInstrument paymentInstrument)
         {
             this.ErrorCode = HRESULT._S_OK;
-            ZuneApplication.Service.AddPaymentInstrument(paymentInstrument, new AddPaymentInstrumentCompleteCallback(this.OnAddPaymentInstrumentSuccess), new AddPaymentInstrumentErrorCallback(this.OnAddPaymentInstrumnetError));
+            ZuneApplication.Service2.AddPaymentInstrument(paymentInstrument, new AddPaymentInstrumentCompleteCallback(this.OnAddPaymentInstrumentSuccess), new AddPaymentInstrumentErrorCallback(this.OnAddPaymentInstrumnetError));
         }
 
         public IList CreditCards => this.m_creditCards == null ? null : this.m_creditCards.Items;

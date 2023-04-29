@@ -2,23 +2,49 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <!--Project was exported from assembly: C:\Program Files\Zune\ZuneShell.dll-->
     <PropertyGroup>
-        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-        <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
         <ProjectGuid>{E93CFFA3-1EEB-4E71-9E83-7377C1422119}</ProjectGuid>
         <OutputType>Library</OutputType>
         <AssemblyName>ZuneShell</AssemblyName>
-        <ApplicationVersion>4.7.0.0</ApplicationVersion>
 
-        <TargetFrameworks>net35;net40;net6.0</TargetFrameworks>
+        <TargetFrameworks>net6.0;net6.0-windows10.0.22000;net35;net40</TargetFrameworks>
         <Platforms>x64;x86</Platforms>
 
         <FileAlignment>512</FileAlignment>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-        <SignAssembly>True</SignAssembly>
-        <AssemblyOriginatorKeyFile>..\libs\MicrosoftIris\36MSApp1024.snk</AssemblyOriginatorKeyFile>
-        <DelaySign>True</DelaySign>
     </PropertyGroup>
+
+    <ItemGroup>
+        <EmbeddedResource Include="Resources\**\*.*" />
+
+        <Reference Include="UIXControls">
+            <HintPath>C:\Program Files\Zune\UIXcontrols.dll</HintPath>
+        </Reference>
+        <ProjectReference Include="..\libs\MicrosoftIris\UIX\UIX.csproj" />
+
+        <!--
+            Reference both the real and proxy ZuneDBApi, to make sure we have all the types.
+            Use the version from ZuneImpl when available.
+        -->
+        <ProjectReference Include="..\ZuneImpl\ZuneImpl.csproj" />
+        <Reference Include="ZuneDBApi">
+            <HintPath>C:\Program Files\Zune\ZuneDBApi.dll</HintPath>
+        </Reference>
+    </ItemGroup>
+
+	<ItemGroup>
+		<None Include="**\*.lg.cs" Exclude="bin\**\*.lg.cs;obj\**\*.lg.cs" />
+		<Compile Remove="**\*.lg.cs" />
+		<Compile Include="**\*.lg.cs"
+                 Exclude="bin\**\*.lg.cs;obj\**\*.lg.cs"
+                 Condition="!$(UseOpenZune)" />
+
+		<None Include="**\*.oz.cs" Exclude="bin\**\*.oz.cs;obj\**\*.oz.cs" />
+		<Compile Remove="**\*.oz.cs" />
+		<Compile Include="**\*.oz.cs"
+                 Exclude="bin\**\*.oz.cs;obj\**\*.oz.cs"
+                 Condition="$(UseOpenZune)" />
+	</ItemGroup>
 
     <PropertyGroup Condition=" '$(TargetFramework)' == 'net35' ">
         <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
@@ -35,13 +61,17 @@
         <Reference Include="Accessibility" />
     </ItemGroup>
 
-    <ItemGroup>
-        <Reference Include="ZuneDBApi">
-            <HintPath>C:\Program Files\Zune\ZuneDBApi.dll</HintPath>
-        </Reference>
-        <Reference Include="UIXControls">
-            <HintPath>C:\Program Files\Zune\UIXcontrols.dll</HintPath>
-        </Reference>
-        <ProjectReference Include="..\libs\MicrosoftIris\UIX\UIX.csproj" />
+    <ItemGroup Condition=" $(TargetFramework.StartsWith('netcoreapp')) ">
+        <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="10.0.22621.1" />
+    </ItemGroup>
+
+    <ItemGroup Condition=" $(UseOpenZune) ">
+        <!--<PackageReference Include="StrixMusic.Sdk" Version="0.0.3-alpha" /-->
+        <PackageReference Include="StrixMusic.Cores.LocalFiles" Version="0.0.12-alpha" />
+    </ItemGroup>
+
+    <ItemGroup Condition=" !$(UseOpenZune) ">
+        <Folder Remove="\StrixMusic\**" />
+        <Compile Remove="\StrixMusic\**" />
     </ItemGroup>
 </Project>

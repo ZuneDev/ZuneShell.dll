@@ -40,7 +40,7 @@ namespace ZuneUI
 
         public bool Send(Attachment attachment)
         {
-            string endPointUri = Microsoft.Zune.Service.Service2.GetEndPointUri(Microsoft.Zune.Service.EServiceEndpointId.SEID_Messaging);
+            string endPointUri = Microsoft.Zune.Shell.ZuneApplication.Service2.GetEndPointUri(Microsoft.Zune.Service.EServiceEndpointId.SEID_Messaging);
             string zuneTag = SignIn.Instance.ZuneTag;
             Uri.EscapeDataString(",");
             string errorMessage = null;
@@ -211,7 +211,8 @@ namespace ZuneUI
         {
             if (string.IsNullOrEmpty(zuneTagOrGuid))
                 return null;
-            string endPointUri = Microsoft.Zune.Service.Service2.GetEndPointUri(operation == "comments" ? Microsoft.Zune.Service.EServiceEndpointId.SEID_Comments : Microsoft.Zune.Service.EServiceEndpointId.SEID_SocialApi);
+            string endPointUri = Microsoft.Zune.Shell.ZuneApplication.Service2.GetEndPointUri(
+                operation == "comments" ? Microsoft.Zune.Service.EServiceEndpointId.SEID_Comments : Microsoft.Zune.Service.EServiceEndpointId.SEID_SocialApi);
             if (string.IsNullOrEmpty(endPointUri))
                 return null;
             zuneTagOrGuid = Uri.EscapeUriString(zuneTagOrGuid);

@@ -169,10 +169,10 @@ namespace ZuneUI
             string uriOut = null;
             if (this.m_videoOffers[0] is VideoOffer videoOffer)
             {
-                if (!ZuneApplication.Service.InCompleteCollection(videoOffer.Id, EContentType.Video) && !string.IsNullOrEmpty(this.m_uri))
+                if (!ZuneApplication.Service2.InCompleteCollection(videoOffer.Id, EContentType.Video) && !string.IsNullOrEmpty(this.m_uri))
                     uriOut = this.m_uri;
                 else
-                    ZuneApplication.Service.GetContentUri(videoOffer.Id, EContentType.Video, EContentUriFlags.BypassLicense | EContentUriFlags.IgnoreCollection, videoOffer.IsHD, videoOffer.IsRental, out uriOut);
+                    ZuneApplication.Service2.GetContentUri(videoOffer.Id, EContentType.Video, EContentUriFlags.BypassLicense | EContentUriFlags.IgnoreCollection, videoOffer.IsHD, videoOffer.IsRental, out uriOut);
             }
             return uriOut;
         }

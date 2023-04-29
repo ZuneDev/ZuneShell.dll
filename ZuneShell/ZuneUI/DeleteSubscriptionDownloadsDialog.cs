@@ -20,7 +20,7 @@ namespace ZuneUI
 
         public static void ShowDialog()
         {
-            string subscriptionDirectory = ZuneApplication.Service.GetSubscriptionDirectory();
+            string subscriptionDirectory = ZuneApplication.Service2.GetSubscriptionDirectory();
             if (string.IsNullOrEmpty(subscriptionDirectory))
                 MessageBox.Show(Shell.LoadString(StringId.IDS_ACCOUNT_CLEAR_SUB_FAIL_TITLE), Shell.LoadString(StringId.IDS_ACCOUNT_CLEAR_SUB_NO_DIRECTORY), null);
             else
@@ -62,7 +62,7 @@ namespace ZuneUI
             if (!this.Enabled)
                 return;
             this.Enabled = false;
-            ZuneApplication.Service.DeleteSubscriptionDownloads(new AsyncCompleteHandler(this.OnDeleteComplete));
+            ZuneApplication.Service2.DeleteSubscriptionDownloads(new AsyncCompleteHandler(this.OnDeleteComplete));
         }
 
         private void OnDeleteComplete(HRESULT hr) => Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredDeleteCompleteEvent), hr);

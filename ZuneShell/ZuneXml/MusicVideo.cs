@@ -74,7 +74,7 @@ namespace ZuneXml
 
         internal override bool IsDownloading => this.GetIsDownloading();
 
-        internal override bool IsParentallyBlocked => this.Explicit && ZuneApplication.Service.BlockExplicitContent();
+        internal override bool IsParentallyBlocked => this.Explicit && ZuneApplication.Service2.BlockExplicitContent();
 
         internal static XmlDataProviderObject ConstructMusicVideoObject(
           DataProviderQuery owner,

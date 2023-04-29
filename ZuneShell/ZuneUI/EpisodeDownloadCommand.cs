@@ -59,7 +59,7 @@ namespace ZuneUI
                     PodcastLibraryPage.FindInCollection((int)this.m_episode.GetProperty("SeriesId"), (int)this.m_episode.GetProperty("LibraryId"));
                     break;
                 default:
-                    if (this.m_requireSignIn && !SignIn.Instance.SignedIn || this.m_explicit && ZuneApplication.Service.BlockExplicitContent())
+                    if (this.m_requireSignIn && !SignIn.Instance.SignedIn || this.m_explicit && ZuneApplication.Service2.BlockExplicitContent())
                         break;
                     DownloadEpisode(this.m_episode);
                     this.Refresh();

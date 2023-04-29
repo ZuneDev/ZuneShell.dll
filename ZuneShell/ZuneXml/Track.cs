@@ -27,25 +27,25 @@ namespace ZuneXml
                 if (!flag)
                     flag = this.CanSubscriptionPlay;
                 if (!flag && this.Id != Guid.Empty)
-                    flag = ZuneApplication.Service.InVisibleCollection(this.Id, EContentType.MusicTrack);
+                    flag = ZuneApplication.Service2.InVisibleCollection(this.Id, EContentType.MusicTrack);
                 return flag;
             }
         }
 
         internal virtual bool CanPreview => this.Rights.HasRights(MediaRightsEnum.Preview, AudioEncodingEnum.WMA);
 
-        internal virtual bool CanSubscriptionPlay => this.Rights.HasRights(MediaRightsEnum.SubscriptionStream, AudioEncodingEnum.WMA) && ZuneApplication.Service.IsSignedInWithSubscription();
+        internal virtual bool CanSubscriptionPlay => this.Rights.HasRights(MediaRightsEnum.SubscriptionStream, AudioEncodingEnum.WMA) && ZuneApplication.Service2.IsSignedInWithSubscription();
 
         internal virtual bool CanDownload
         {
             get
             {
                 bool flag = false;
-                if (ZuneApplication.Service.CanDownloadSubscriptionContent())
+                if (ZuneApplication.Service2.CanDownloadSubscriptionContent())
                 {
                     bool fIsDownloadPending = false;
                     bool fIsHidden = false;
-                    if (this.Id != Guid.Empty && (!ZuneApplication.Service.IsDownloading(this.Id, EContentType.MusicTrack, out fIsDownloadPending, out fIsHidden) || fIsHidden) && !ZuneApplication.Service.InVisibleCollection(this.Id, EContentType.MusicTrack))
+                    if (this.Id != Guid.Empty && (!ZuneApplication.Service2.IsDownloading(this.Id, EContentType.MusicTrack, out fIsDownloadPending, out fIsHidden) || fIsHidden) && !ZuneApplication.Service2.InVisibleCollection(this.Id, EContentType.MusicTrack))
                         flag = this.Rights.HasRights(MediaRightsEnum.SubscriptionDownload, AudioEncodingEnum.WMA);
                 }
                 return flag && !this.IsParentallyBlocked;
@@ -95,7 +95,7 @@ namespace ZuneXml
             get
             {
                 Right offer;
-                return ZuneApplication.Service.GetSubscriptionFreeTrackBalance() > 0 && (this.Rights.HasOfferRights(MediaRightsEnum.SubscriptionFreePurchase, AudioEncodingEnum.WMA, PriceTypeEnum.Points, out offer) || this.Rights.HasOfferRights(MediaRightsEnum.SubscriptionFreePurchase, AudioEncodingEnum.MP3, PriceTypeEnum.Points, out offer));
+                return ZuneApplication.Service2.GetSubscriptionFreeTrackBalance() > 0 && (this.Rights.HasOfferRights(MediaRightsEnum.SubscriptionFreePurchase, AudioEncodingEnum.WMA, PriceTypeEnum.Points, out offer) || this.Rights.HasOfferRights(MediaRightsEnum.SubscriptionFreePurchase, AudioEncodingEnum.MP3, PriceTypeEnum.Points, out offer));
             }
         }
 
@@ -179,13 +179,13 @@ namespace ZuneXml
             }
         }
 
-        internal virtual bool IsParentallyBlocked => this.Explicit && ZuneApplication.Service.BlockExplicitContent();
+        internal virtual bool IsParentallyBlocked => this.Explicit && ZuneApplication.Service2.BlockExplicitContent();
 
         protected bool GetInCollection()
         {
             bool flag = false;
             if (this.Id != Guid.Empty)
-                flag = ZuneApplication.Service.InVisibleCollection(this.Id, EContentType.MusicTrack, out int _);
+                flag = ZuneApplication.Service2.InVisibleCollection(this.Id, EContentType.MusicTrack, out int _);
             return flag;
         }
 
@@ -196,7 +196,7 @@ namespace ZuneXml
             {
                 bool fIsDownloadPending = false;
                 bool fIsHidden = false;
-                flag = ZuneApplication.Service.IsDownloading(this.Id, EContentType.MusicTrack, out fIsDownloadPending, out fIsHidden);
+                flag = ZuneApplication.Service2.IsDownloading(this.Id, EContentType.MusicTrack, out fIsDownloadPending, out fIsHidden);
             }
             return flag;
         }
@@ -205,7 +205,7 @@ namespace ZuneXml
         {
             int dbMediaId = -1;
             if (this.Id != Guid.Empty)
-                ZuneApplication.Service.InVisibleCollection(this.Id, EContentType.MusicTrack, out dbMediaId);
+                ZuneApplication.Service2.InVisibleCollection(this.Id, EContentType.MusicTrack, out dbMediaId);
             return dbMediaId;
         }
 

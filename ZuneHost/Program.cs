@@ -1,46 +1,71 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Threading;
 
 namespace ZuneHost
 {
     internal class Program
     {
-        static string _zuneProgramFolder;
+        static DirectoryInfo _zuneProgramDir;
 
         [STAThread]
         static int Main(string[] args)
         {
-            Console.WriteLine("Creating splash window...");
-
             string strArgs = string.Join(" ", args);
 
-            // Make sure that ZuneDBApi can find all the Zune native libraries
-            Console.WriteLine("Copying Zune files...");
-            _zuneProgramFolder = Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
-                "Zune");
-            foreach (var info in new DirectoryInfo(_zuneProgramFolder).GetFileSystemInfos())
+#if NETFRAMEWORK
+            Console.WriteLine("Running legacy build on .NET Framework. If your OS supports .NET Core, please use OpenZune.");
+#endif
+
+            if (args.Contains("--copyFiles", StringComparer.InvariantCultureIgnoreCase))
             {
-                if (info is DirectoryInfo dirInfo)
+                // Make sure that ZuneDBApi can find all the Zune native libraries
+                Console.WriteLine("Copying Zune files...");
+                _zuneProgramDir = new(Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
+                    "Zune"));
+                if (_zuneProgramDir.Exists)
                 {
-                    CopyAll(dirInfo, new DirectoryInfo(Path.Combine(Environment.CurrentDirectory, dirInfo.Name)));
-                }
-                else if (info is FileInfo fileInfo)
-                {
-                    string fileName = fileInfo.Name;
-                    if (fileInfo.Extension == ".dll")
+                    foreach (var info in _zuneProgramDir.GetFileSystemInfos())
                     {
-                        string targetPath = Path.Combine(Environment.CurrentDirectory, fileName);
-                        if (!File.Exists(targetPath) || fileName == "ZuneDbApi.dll")
-                            fileInfo.CopyTo(targetPath);
+                        if (info is DirectoryInfo dirInfo)
+                        {
+                            CopyAll(dirInfo, new DirectoryInfo(Path.Combine(Environment.CurrentDirectory, dirInfo.Name)));
+                        }
+                        else if (info is FileInfo fileInfo)
+                        {
+                            string fileName = fileInfo.Name;
+                            if (fileInfo.Extension == ".dll")
+                            {
+                                string targetPath = Path.Combine(Environment.CurrentDirectory, fileName);
+                                if (!File.Exists(targetPath) || fileName == "ZuneDbApi.dll")
+                                    fileInfo.CopyTo(targetPath);
+                            }
+                        }
                     }
                 }
             }
 
             Console.WriteLine("Starting Zune...");
 
-            return Microsoft.Zune.Shell.ZuneApplication.Launch(strArgs, IntPtr.Zero);
+            try
+            {
+                return Microsoft.Zune.Shell.ZuneApplication.Launch(strArgs, IntPtr.Zero);
+            }
+            catch (FileNotFoundException ex)
+            {
+                Console.WriteLine(ex.FileName);
+                throw;
+            }
+            catch
+            {
+                Debugger.Launch();
+                Debugger.Break();
+
+                throw;
+            }
         }
 
         public static void CopyAll(DirectoryInfo source, DirectoryInfo target)

@@ -24,6 +24,18 @@ using System.Threading;
 using UIXControls;
 using ZuneUI;
 using ZuneXml;
+using System.Linq;
+
+#if OPENZUNE
+using Microsoft.Zune.Playback;
+using OwlCore.Events;
+using StrixMusic.Sdk.AdapterModels;
+using StrixMusic.Sdk.AppModels;
+using StrixMusic.Sdk.CoreModels;
+using StrixMusic.Sdk.MediaPlayback;
+using StrixMusic.Sdk.PluginModels;
+using StrixMusic.Sdk.Plugins.PlaybackHandler;
+#endif
 
 namespace Microsoft.Zune.Shell
 {
@@ -52,9 +64,36 @@ namespace Microsoft.Zune.Shell
 
         public static string DefaultCommandLineParameterSwitch => "PlayMedia";
 
+        public static Version Version => typeof(ZuneApplication).Assembly.GetName().Version;
+
         public static ZuneLibrary ZuneLibrary => _zuneLibrary;
 
-        public static Service.Service2 Service => Zune.Service.Service2.Instance;
+        public static Service.Service Service => Zune.Service.Service.Instance;
+        public static IService Service2 => Zune.Service.Service2.Instance;
+
+        public static bool IsStrixCompatible
+        {
+            get
+            {
+#if OPENZUNE
+                return true;
+#else
+                return false;
+#endif
+            }
+        }
+
+        public static Version StrixSdkVersion =>
+#if OPENZUNE
+                typeof(ICore).Assembly.GetName().Version;
+#else
+                null;
+#endif
+
+#if OPENZUNE
+        public static IStrixDataRoot DataRoot { get; private set; }
+        public static IPlaybackHandlerService PlaybackHandler { get; private set; }
+#endif
 
         public static event EventHandler Closing;
 
@@ -90,7 +129,7 @@ namespace Microsoft.Zune.Shell
             else
             {
                 SingletonModelItem<WindowSnapSimulator>.Instance.Phase3Init();
-                Service.Phase3Initialize();
+                Service2.Phase3Initialize();
                 SignIn.Instance.Phase3Init();
                 MetadataNotifications.Instance.Phase2Init();
                 SingletonModelItem<UIDeviceList>.Instance.Phase2Init();
@@ -120,9 +159,91 @@ namespace Microsoft.Zune.Shell
                 Telemetry.Instance.StartUpload();
                 FeaturesChanged.Instance.StartUp();
                 CultureHelper.CheckValidRegionAndLanguage();
+
+#if OPENZUNE
+                string id = Guid.NewGuid().ToString();
+
+                var fileService = new OwlCore.AbstractStorage.Win32FileSystemService(@"D:\Music\Zune\Test");
+                OwlCore.AbstractStorage.SystemIOFolderData settingsFolder =
+                    new(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Microsoft\Zune\OpenZune"));
+                settingsFolder.EnsureExists().Wait();
+                StrixMusic.Cores.LocalFiles.Settings.LocalFilesCoreSettings settings = new(settingsFolder)
+                {
+                    InitWithEmptyMetadataRepos = true,
+                    ScanWithTagLib = true,
+                };
+
+                var localCore = new StrixMusic.Cores.LocalFiles.LocalFilesCore(
+                    id, settings, fileService, null, null)
+                {
+                    ScannerWaitBehavior = StrixMusic.Cores.Files.ScannerWaitBehavior.AlwaysWait
+                };
+
+                var prefs = new MergedCollectionConfig
+                {
+                    CoreRanking = new string[]
+                    {
+                        localCore.InstanceId
+                    }
+                };
+                var mergedLayer = new MergedCore(new ICore[] { localCore }, prefs);
+
+                // Perform any async initialization needed. Authenticating, connecting to database, etc.
+                // Add plugins
+                string mfAudioServiceId = Guid.NewGuid().ToString();
+                PlaybackHandler = new PlaybackHandlerService();
+                PlaybackHandler.RegisterAudioPlayer(VlcAudioService.Instance, localCore.InstanceId);
+
+                DataRoot = new StrixDataRootPluginWrapper(mergedLayer,
+                    new PlaybackHandlerPlugin(PlaybackHandler)
+                );
+
+                DataRoot.InitAsync().ContinueWith(async task =>
+                {
+                    if (task.Status == System.Threading.Tasks.TaskStatus.Faulted)
+                    {
+                        Debug.WriteLine(task.Exception);
+                        return;
+                    }
+
+                    DataRoot.Library.TracksChanged += LibraryTracksChanged;
+
+                    await DataRoot.Library.PlayTrackCollectionAsync();
+                });
+#endif
+
                 ((ZuneUI.Shell)ZuneShell.DefaultInstance).ApplicationInitializationIsComplete = true;
             }
         }
+
+#if OPENZUNE
+        private static async void LibraryTracksChanged(object sender,
+            IReadOnlyList<CollectionChangedItem<ITrack>> addedItems,
+            IReadOnlyList<CollectionChangedItem<ITrack>> removedItems)
+        {
+            if (sender is ILibrary library && addedItems.Count > 0)
+            {
+                library.TracksChanged -= LibraryTracksChanged;
+
+                ITrack firstTrack = addedItems[1].Data;
+
+                await firstTrack.PlayArtistCollectionAsync();
+            }
+        }
+
+        private static async void LibraryTracksAdded(object sender, int count)
+        {
+            return;
+            if (sender is ILibrary library && count > 0)
+            {
+                library.TracksCountChanged -= LibraryTracksAdded;
+
+                ITrack firstTrack = await library.GetTracksAsync(limit: 1, offset: 0).FirstOrDefaultAsync();
+
+                await firstTrack.PlayArtistCollectionAsync();
+            }
+        }
+#endif
 
         private static void Phase2InitializationUIStage(object arg)
         {
@@ -348,7 +469,11 @@ namespace Microsoft.Zune.Shell
             DialogHelper.DialogNo = ZuneUI.Shell.LoadString(StringId.IDS_DIALOG_NO);
             DialogHelper.DialogOk = ZuneUI.Shell.LoadString(StringId.IDS_DIALOG_OK);
             XmlDataProviders.Register();
+#if false//OPENZUNE
+            Library.StrixLibraryDataProvider.Register();
+#else
             LibraryDataProvider.Register();
+#endif
             SubscriptionDataProvider.Register();
             StaticLibraryDataProvider.Register();
             AggregateDataProviderQuery.Register();

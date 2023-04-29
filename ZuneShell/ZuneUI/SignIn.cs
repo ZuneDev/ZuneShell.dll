@@ -297,7 +297,7 @@ namespace ZuneUI
 
         private void UpdatePointsBalance()
         {
-            int pointsBalance = ZuneApplication.Service.GetPointsBalance();
+            int pointsBalance = ZuneApplication.Service2.GetPointsBalance();
             if (pointsBalance == this.m_pointsBalance)
                 return;
             this.m_pointsBalance = pointsBalance;
@@ -360,14 +360,14 @@ namespace ZuneUI
             }
         }
 
-        public void UpdateSubscriptionFreeTrackBalance() => this.SubscriptionFreeTrackBalance = ZuneApplication.Service.GetSubscriptionFreeTrackBalance();
+        public void UpdateSubscriptionFreeTrackBalance() => this.SubscriptionFreeTrackBalance = ZuneApplication.Service2.GetSubscriptionFreeTrackBalance();
 
         public IList PersistedUsernames
         {
             get
             {
                 if (this.m_persistedUsernames == null)
-                    this.m_persistedUsernames = ZuneApplication.Service.GetPersistedUsernames();
+                    this.m_persistedUsernames = ZuneApplication.Service2.GetPersistedUsernames();
                 return this.m_persistedUsernames;
             }
             set
@@ -751,9 +751,9 @@ namespace ZuneUI
             this.UpdateMaxWindowsPhoneVersion();
         }
 
-        public bool PasswordRequired(string strUsername) => ZuneApplication.Service.SignInPasswordRequired(strUsername);
+        public bool PasswordRequired(string strUsername) => ZuneApplication.Service2.SignInPasswordRequired(strUsername);
 
-        public bool SignInAtStartup(string strUsername) => ZuneApplication.Service.SignInAtStartup(strUsername);
+        public bool SignInAtStartup(string strUsername) => ZuneApplication.Service2.SignInAtStartup(strUsername);
 
         public bool RememberUsername(string strUsername)
         {
@@ -765,9 +765,9 @@ namespace ZuneUI
 
         public void RefreshAccount()
         {
-            if (!ZuneApplication.Service.IsSignedIn())
+            if (!ZuneApplication.Service2.IsSignedIn())
                 return;
-            ZuneApplication.Service.RefreshAccount(new AsyncCompleteHandler(this.OnManualSignIn));
+            ZuneApplication.Service2.RefreshAccount(new AsyncCompleteHandler(this.OnManualSignIn));
         }
 
         public void SignInUser(string strUsername, string strPassword)
@@ -786,12 +786,12 @@ namespace ZuneUI
           bool fSignInAtStartup)
         {
             if (this.SigningIn)
-                ZuneApplication.Service.CancelSignIn();
+                ZuneApplication.Service2.CancelSignIn();
             else if (this.SignedIn)
-                ZuneApplication.Service.SignOut();
+                ZuneApplication.Service2.SignOut();
             if (strPassword == null || strPassword == this.PseudoPassword)
                 strPassword = string.Empty;
-            ZuneApplication.Service.SignIn(strUsername, strPassword, fRememberUsername, fRememberPassword, fSignInAtStartup, new AsyncCompleteHandler(this.OnManualSignIn));
+            ZuneApplication.Service2.SignIn(strUsername, strPassword, fRememberUsername, fRememberPassword, fSignInAtStartup, new AsyncCompleteHandler(this.OnManualSignIn));
             this.UpdateState();
         }
 
@@ -799,12 +799,12 @@ namespace ZuneUI
         {
             Guid guidFromPassportId = GetGuidFromPassportId(strUsername);
             int iUserId = 0;
-            if (!ZuneApplication.Service.SetLastSignedInUserGuid(ref guidFromPassportId, out iUserId))
+            if (!ZuneApplication.Service2.SetLastSignedInUserGuid(ref guidFromPassportId, out iUserId))
                 return;
             if (this.SigningIn)
-                ZuneApplication.Service.CancelSignIn();
+                ZuneApplication.Service2.CancelSignIn();
             else if (this.SignedIn)
-                ZuneApplication.Service.SignOut();
+                ZuneApplication.Service2.SignOut();
             this.LastSignedInUserId = iUserId;
             this.LastSignedInUserGuid = guidFromPassportId;
             this.UpdateState();
@@ -812,7 +812,7 @@ namespace ZuneUI
 
         public void CancelSignIn()
         {
-            ZuneApplication.Service.CancelSignIn();
+            ZuneApplication.Service2.CancelSignIn();
             this.UpdateState();
         }
 
@@ -820,7 +820,7 @@ namespace ZuneUI
 
         private void SignOut(bool forget)
         {
-            ZuneApplication.Service.SignOut();
+            ZuneApplication.Service2.SignOut();
             if (forget)
                 this.ClearLastSignedIdUser();
             this.UpdateState();
@@ -830,7 +830,7 @@ namespace ZuneUI
 
         public void RemovePersistedUsername(string persistedUsername)
         {
-            ZuneApplication.Service.RemovePersistedUsername(persistedUsername);
+            ZuneApplication.Service2.RemovePersistedUsername(persistedUsername);
             int idFromPassportId = GetUserIdFromPassportId(persistedUsername);
             if (idFromPassportId > 0)
                 UserManager.Instance.CleanupUserData(idFromPassportId);
@@ -953,13 +953,13 @@ namespace ZuneUI
 
         internal void UpdateState()
         {
-            this.SubscriptionMachineCountExceeded = ZuneApplication.Service.IsSignedInWithSubscription() && !ZuneApplication.Service.CanDownloadSubscriptionContent();
-            this.SubscriptionBillingViolation = ZuneApplication.Service.IsSignedInWithSubscription() && ZuneApplication.Service.HasSignInBillingViolation();
-            this.ShowLabelTakedownWarning = ZuneApplication.Service.HasSignInLabelTakedown();
-            this.SignedIn = ZuneApplication.Service.IsSignedIn();
-            this.SigningIn = !this.SignedIn && ZuneApplication.Service.IsSigningIn();
-            this.SignedInUsername = ZuneApplication.Service.GetSignedInUsername();
-            this.SignedInGeoId = ZuneApplication.Service.GetSignedInGeoId();
+            this.SubscriptionMachineCountExceeded = ZuneApplication.Service2.IsSignedInWithSubscription() && !ZuneApplication.Service2.CanDownloadSubscriptionContent();
+            this.SubscriptionBillingViolation = ZuneApplication.Service2.IsSignedInWithSubscription() && ZuneApplication.Service2.HasSignInBillingViolation();
+            this.ShowLabelTakedownWarning = ZuneApplication.Service2.HasSignInLabelTakedown();
+            this.SignedIn = ZuneApplication.Service2.IsSignedIn();
+            this.SigningIn = !this.SignedIn && ZuneApplication.Service2.IsSigningIn();
+            this.SignedInUsername = ZuneApplication.Service2.GetSignedInUsername();
+            this.SignedInGeoId = ZuneApplication.Service2.GetSignedInGeoId();
             this.SignInErrorMessage = null;
             this.SignInErrorWebHelpUrl = null;
             this.SignInError = HRESULT._S_OK;
@@ -969,7 +969,7 @@ namespace ZuneUI
             this.SignInHttpGoneError = false;
             this.SignInCredentialsError = false;
             this.SignInNoZuneAccountError = false;
-            this.UserGuid = (Guid)ZuneApplication.Service.GetUserGuid();
+            this.UserGuid = (Guid)ZuneApplication.Service2.GetUserGuid();
             this.UpdatePointsBalance();
             this.UpdateSubscriptionFreeTrackBalance();
             this.UpdateSubscriptionFreeTrackExpiration();
@@ -980,13 +980,13 @@ namespace ZuneUI
             {
                 int iUserId;
                 Guid guidUserGuid;
-                ZuneApplication.Service.GetLastSignedInUserGuid(out iUserId, out guidUserGuid);
+                ZuneApplication.Service2.GetLastSignedInUserGuid(out iUserId, out guidUserGuid);
                 this.LastSignedInUserId = iUserId;
                 this.LastSignedInUserGuid = guidUserGuid;
-                this.ZuneTag = ZuneApplication.Service.GetZuneTag();
-                this.IsParentallyControlled = ZuneApplication.Service.IsParentallyControlled();
-                this.IsLightWeight = ZuneApplication.Service.IsLightWeight();
-                string locale = ZuneApplication.Service.GetLocale();
+                this.ZuneTag = ZuneApplication.Service2.GetZuneTag();
+                this.IsParentallyControlled = ZuneApplication.Service2.IsParentallyControlled();
+                this.IsLightWeight = ZuneApplication.Service2.IsLightWeight();
+                string locale = ZuneApplication.Service2.GetLocale();
                 if (!string.IsNullOrEmpty(locale))
                 {
                     string[] strArray = locale.Split('-');
@@ -1058,7 +1058,7 @@ namespace ZuneUI
             DateTime maxValue2 = DateTime.MaxValue;
             if (this.SignedIn)
             {
-                dateTime1 = ZuneApplication.Service.GetSubscriptionFreeTrackExpiration();
+                dateTime1 = ZuneApplication.Service2.GetSubscriptionFreeTrackExpiration();
                 DateTime dateTime2 = !(dateTime1 >= DateTime.MinValue.Add(s_subscriptionFreeTrackFirstExpireWarning)) ? DateTime.MinValue : dateTime1.Subtract(s_subscriptionFreeTrackFirstExpireWarning);
                 DateTime dateTime3 = !(dateTime1 >= DateTime.MinValue.Add(s_subscriptionFreeTrackSecondExpireWarning)) ? DateTime.MinValue : dateTime1.Subtract(s_subscriptionFreeTrackSecondExpireWarning);
                 flag1 = dateTime2 <= DateTime.UtcNow;
@@ -1074,14 +1074,14 @@ namespace ZuneUI
             bool flag1 = false;
             bool flag2 = false;
             DateTime dateTime = DateTime.MaxValue;
-            this.SignedInWithSubscription = ZuneApplication.Service.IsSignedInWithSubscription();
+            this.SignedInWithSubscription = ZuneApplication.Service2.IsSignedInWithSubscription();
             if (this.SignedIn)
             {
                 this.LastSignedInUserHadActiveSubscription = this.SignedInWithSubscription;
-                this.SubscriptionEndDate = ZuneApplication.Service.GetSubscriptionEndDate();
-                this.SubscriptionId = ZuneApplication.Service.GetSubscriptionOfferId();
-                this.SubscriptionRenewalId = ZuneApplication.Service.GetSubscriptionRenewalOfferId();
-                if (ZuneApplication.Service.SubscriptionPendingCancel() || this.SubscriptionRenewalId == 0UL)
+                this.SubscriptionEndDate = ZuneApplication.Service2.GetSubscriptionEndDate();
+                this.SubscriptionId = ZuneApplication.Service2.GetSubscriptionOfferId();
+                this.SubscriptionRenewalId = ZuneApplication.Service2.GetSubscriptionRenewalOfferId();
+                if (ZuneApplication.Service2.SubscriptionPendingCancel() || this.SubscriptionRenewalId == 0UL)
                 {
                     dateTime = !(this.SubscriptionEndDate >= DateTime.MinValue.Add(s_subscriptionEndingWarning)) ? DateTime.MinValue : this.SubscriptionEndDate.Subtract(s_subscriptionEndingWarning);
                     flag1 = !this.SignedInWithSubscription && this.SubscriptionHasEndDate && this.SubscriptionEndDate <= DateTime.Today;
@@ -1092,7 +1092,7 @@ namespace ZuneUI
             {
                 bool activeSubscription;
                 ulong subscriptionId;
-                ZuneApplication.Service.GetLastSignedInUserSubscriptionState(out activeSubscription, out subscriptionId);
+                ZuneApplication.Service2.GetLastSignedInUserSubscriptionState(out activeSubscription, out subscriptionId);
                 this.LastSignedInUserHadActiveSubscription = activeSubscription;
                 this.SubscriptionId = subscriptionId;
                 this.SubscriptionEndDate = DateTime.MaxValue;
@@ -1147,11 +1147,11 @@ namespace ZuneUI
         private bool AutomaticSignIn()
         {
             bool flag = false;
-            string atStartupUsername = ZuneApplication.Service.GetSignInAtStartupUsername();
+            string atStartupUsername = ZuneApplication.Service2.GetSignInAtStartupUsername();
             if (atStartupUsername != null)
             {
                 flag = true;
-                ZuneApplication.Service.SignIn(atStartupUsername, "", true, true, true, new AsyncCompleteHandler(this.OnAutomaticSignIn));
+                ZuneApplication.Service2.SignIn(atStartupUsername, "", true, true, true, new AsyncCompleteHandler(this.OnAutomaticSignIn));
             }
             return flag;
         }
@@ -1166,12 +1166,12 @@ namespace ZuneUI
         {
             if (!(this.m_lastSignedInUserGuid == Guid.Empty) && this.m_iLastSignedInUserId != 0)
                 return;
-            ZuneApplication.Service.GetLastSignedInUserGuid(out this.m_iLastSignedInUserId, out this.m_lastSignedInUserGuid);
+            ZuneApplication.Service2.GetLastSignedInUserGuid(out this.m_iLastSignedInUserId, out this.m_lastSignedInUserGuid);
         }
 
         private void ClearLastSignedIdUser()
         {
-            if (!ZuneApplication.Service.ClearLastSignedInUser())
+            if (!ZuneApplication.Service2.ClearLastSignedInUser())
                 return;
             this.m_lastSignedInUserGuid = Guid.Empty;
             this.m_iLastSignedInUserId = 0;

@@ -30,7 +30,7 @@ namespace ZuneXml
             string property2 = (string)this.Query.GetProperty("Keywords");
             if (string.IsNullOrEmpty(property1) || string.IsNullOrEmpty(property2))
                 return null;
-            string endPointUri = Microsoft.Zune.Service.Service2.GetEndPointUri(this._endPoint);
+            string endPointUri = ZuneApplication.Service2.GetEndPointUri(this._endPoint);
             StringBuilder stringBuilder = new StringBuilder(128);
             stringBuilder.Append(endPointUri);
             stringBuilder.Append("/");
@@ -50,7 +50,7 @@ namespace ZuneXml
                 stringBuilder.Append(property4);
             }
             string timeTravel = ClientConfiguration.Service.TimeTravel;
-            if (!string.IsNullOrEmpty(timeTravel) && ZuneApplication.Service.IsSignedIn())
+            if (!string.IsNullOrEmpty(timeTravel) && ZuneApplication.Service2.IsSignedIn())
             {
                 stringBuilder.Append("&instant=");
                 stringBuilder.Append(Uri.EscapeDataString(timeTravel));
