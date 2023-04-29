@@ -74,7 +74,7 @@ namespace ZuneUI
         public ZunePage CurrentPage => (ZunePage)this._pageStack.CurrentPage;
 
         public bool CanNavigateBack => this._pageStack.CanNavigateBack;
-
+            
         public bool NavigationLocked
         {
             get => this._navigationLocked;
