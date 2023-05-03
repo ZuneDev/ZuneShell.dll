@@ -33,8 +33,7 @@
 	</ItemGroup>
 
     <ItemGroup Condition="$(UseOpenZune)">
-        <PackageReference Include="StrixMusic.Sdk" Version="0.0.12-alpha" />
-        <PackageReference Include="StrixMusic.Cores.LocalFiles" Version="0.0.12-alpha" />
+        <PackageReference Include="StrixMusic.Sdk" Version="0.1.0-alpha" />
 
         <PackageReference Include="LibVLCSharp" Version="3.6.6" />
 

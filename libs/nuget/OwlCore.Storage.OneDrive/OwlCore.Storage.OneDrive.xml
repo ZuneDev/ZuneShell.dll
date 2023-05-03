@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>OwlCore.Storage.OneDrive</name>
+    </assembly>
+    <members>
+        <member name="T:OwlCore.Storage.OneDrive.OneDriveFile">
+            <summary>
+            A file implementation that interacts with a file in OneDrive.
+            </summary>
+        </member>
+        <member name="M:OwlCore.Storage.OneDrive.OneDriveFile.#ctor(Microsoft.Graph.GraphServiceClient,Microsoft.Graph.Models.DriveItem)">
+            <summary>
+            Creates a new instance of <see cref="T:OwlCore.Storage.OneDrive.OneDriveFile"/>.
+            </summary>
+        </member>
+        <member name="P:OwlCore.Storage.OneDrive.OneDriveFile.DriveItem">
+            <summary>
+            The graph item that was provided as the backing implementation for this file.
+            </summary>
+        </member>
+        <member name="P:OwlCore.Storage.OneDrive.OneDriveFile.Id">
+            <inheritdoc />
+        </member>
+        <member name="P:OwlCore.Storage.OneDrive.OneDriveFile.Name">
+            <inheritdoc />
+        </member>
+        <member name="M:OwlCore.Storage.OneDrive.OneDriveFile.GetParentAsync(System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:OwlCore.Storage.OneDrive.OneDriveFile.OpenStreamAsync(System.IO.FileAccess,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:OwlCore.Storage.OneDrive.OneDriveFolder">
+            <summary>
+            A folder implementation that interacts with a folder in OneDrive.
+            </summary>
+        </member>
+        <member name="M:OwlCore.Storage.OneDrive.OneDriveFolder.#ctor(Microsoft.Graph.GraphServiceClient,Microsoft.Graph.Models.DriveItem)">
+            <summary>
+            Creates a new instance of <see cref="T:OwlCore.Storage.OneDrive.OneDriveFolder"/>.
+            </summary>
+        </member>
+        <member name="P:OwlCore.Storage.OneDrive.OneDriveFolder.Id">
+            <inheritdoc />
+        </member>
+        <member name="P:OwlCore.Storage.OneDrive.OneDriveFolder.Name">
+            <inheritdoc />
+        </member>
+        <member name="P:OwlCore.Storage.OneDrive.OneDriveFolder.DriveItem">
+            <summary>
+            The graph item that was provided as the backing implementation for this file.
+            </summary>
+        </member>
+        <member name="M:OwlCore.Storage.OneDrive.OneDriveFolder.GetItemsAsync(OwlCore.Storage.StorableType,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:OwlCore.Storage.OneDrive.OneDriveFolder.GetItemRecursiveAsync(System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:OwlCore.Storage.OneDrive.OneDriveFolder.GetItemAsync(System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:OwlCore.Storage.OneDrive.OneDriveFolder.GetParentAsync(System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+    </members>
+</doc>

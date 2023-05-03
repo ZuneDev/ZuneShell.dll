@@ -32,19 +32,19 @@
         </Reference>
     </ItemGroup>
 
-	<ItemGroup>
-		<None Include="**\*.lg.cs" Exclude="bin\**\*.lg.cs;obj\**\*.lg.cs" />
-		<Compile Remove="**\*.lg.cs" />
-		<Compile Include="**\*.lg.cs"
+    <ItemGroup>
+        <None Include="**\*.lg.cs" Exclude="bin\**\*.lg.cs;obj\**\*.lg.cs" />
+        <Compile Remove="**\*.lg.cs" />
+        <Compile Include="**\*.lg.cs"
                  Exclude="bin\**\*.lg.cs;obj\**\*.lg.cs"
                  Condition="!$(UseOpenZune)" />
 
-		<None Include="**\*.oz.cs" Exclude="bin\**\*.oz.cs;obj\**\*.oz.cs" />
-		<Compile Remove="**\*.oz.cs" />
-		<Compile Include="**\*.oz.cs"
+        <None Include="**\*.oz.cs" Exclude="bin\**\*.oz.cs;obj\**\*.oz.cs" />
+        <Compile Remove="**\*.oz.cs" />
+        <Compile Include="**\*.oz.cs"
                  Exclude="bin\**\*.oz.cs;obj\**\*.oz.cs"
                  Condition="$(UseOpenZune)" />
-	</ItemGroup>
+    </ItemGroup>
 
     <PropertyGroup Condition=" '$(TargetFramework)' == 'net35' ">
         <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
@@ -66,8 +66,13 @@
     </ItemGroup>
 
     <ItemGroup Condition=" $(UseOpenZune) ">
-        <!--<PackageReference Include="StrixMusic.Sdk" Version="0.0.3-alpha" /-->
-        <PackageReference Include="StrixMusic.Cores.LocalFiles" Version="0.0.12-alpha" />
+        <PackageReference Include="StrixMusic.Sdk" Version="0.1.0-alpha" />
+		<Reference Include="StrixMusic.Cores.Storage">
+			<HintPath>..\libs\nuget\StrixMusic.Cores.Storage\StrixMusic.Cores.Storage.dll</HintPath>
+		</Reference>
+		<Reference Include="OwlCore.Storage.OneDrive">
+			<HintPath>..\libs\nuget\OwlCore.Storage.OneDrive\OwlCore.Storage.OneDrive.dll</HintPath>
+		</Reference>
     </ItemGroup>
 
     <ItemGroup Condition=" !$(UseOpenZune) ">

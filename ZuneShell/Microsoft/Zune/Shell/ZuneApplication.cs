@@ -28,7 +28,7 @@ using System.Linq;
 
 #if OPENZUNE
 using Microsoft.Zune.Playback;
-using OwlCore.Events;
+using OwlCore.ComponentModel;
 using StrixMusic.Sdk.AdapterModels;
 using StrixMusic.Sdk.AppModels;
 using StrixMusic.Sdk.CoreModels;
@@ -161,22 +161,14 @@ namespace Microsoft.Zune.Shell
                 CultureHelper.CheckValidRegionAndLanguage();
 
 #if OPENZUNE
-                string id = Guid.NewGuid().ToString();
+                DirectoryInfo cacheFolderPath = new(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Microsoft\Zune\OpenZune\LocalCoreCache"));
+                cacheFolderPath.Create();
+                OwlCore.Storage.SystemIO.SystemFolder cacheFolder = new(cacheFolderPath);
 
-                var fileService = new OwlCore.AbstractStorage.Win32FileSystemService(@"D:\Music\Zune\Test");
-                OwlCore.AbstractStorage.SystemIOFolderData settingsFolder =
-                    new(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Microsoft\Zune\OpenZune"));
-                settingsFolder.EnsureExists().Wait();
-                StrixMusic.Cores.LocalFiles.Settings.LocalFilesCoreSettings settings = new(settingsFolder)
+                OwlCore.Storage.SystemIO.SystemFolder musicFolder = new(@"D:\Music\Zune\Test");
+                var localCore = new StrixMusic.Cores.Storage.StorageCore(musicFolder, cacheFolder, "Local Test")
                 {
-                    InitWithEmptyMetadataRepos = true,
-                    ScanWithTagLib = true,
-                };
-
-                var localCore = new StrixMusic.Cores.LocalFiles.LocalFilesCore(
-                    id, settings, fileService, null, null)
-                {
-                    ScannerWaitBehavior = StrixMusic.Cores.Files.ScannerWaitBehavior.AlwaysWait
+                    ScannerWaitBehavior = StrixMusic.Cores.Storage.ScannerWaitBehavior.AlwaysWait,
                 };
 
                 var prefs = new MergedCollectionConfig
