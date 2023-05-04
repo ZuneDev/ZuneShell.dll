@@ -470,9 +470,7 @@ namespace Microsoft.Zune.Service
 
             if (hr.IsSuccess)
             {
-#if OPENZUNE
                 hr = CommunityCommerce.TrySignIn();
-#endif
 
                 if (hr.IsSuccess)
                 {

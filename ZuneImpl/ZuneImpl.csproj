@@ -14,38 +14,14 @@
         <!-- This is the last version of NAudio to support net35 and net6.0 -->
         <PackageReference Include="NAudio" Version="1.10.0" />
         <PackageReference Include="Zune.Xml" Version="0.1.0" />
+		<PackageReference Include="StrixMusic.Sdk" Version="0.1.0-alpha" />
+		<PackageReference Include="LibVLCSharp" Version="3.6.6" />
+		<PackageReference Include="Meziantou.Framework.Win32.CredentialManager" Version="1.4.2" />
 
-        <ProjectReference Include="..\libs\MicrosoftIris\UIX\UIX.csproj" />
-    </ItemGroup>
-
-	<ItemGroup>
-		<None Include="**\*.lg.cs" Exclude="bin\**\*.lg.cs;obj\**\*.lg.cs" />
-		<Compile Remove="**\*.lg.cs" />
-		<Compile Include="**\*.lg.cs"
-                 Exclude="bin\**\*.lg.cs;obj\**\*.lg.cs"
-                 Condition="!$(UseOpenZune)" />
-
-		<None Include="**\*.oz.cs" Exclude="bin\**\*.oz.cs;obj\**\*.oz.cs" />
-		<Compile Remove="**\*.oz.cs" />
-		<Compile Include="**\*.oz.cs"
-                 Exclude="bin\**\*.oz.cs;obj\**\*.oz.cs"
-                 Condition="$(UseOpenZune)" />
+		<ProjectReference Include="..\libs\MicrosoftIris\UIX\UIX.csproj" />
 	</ItemGroup>
 
-    <ItemGroup Condition="$(UseOpenZune)">
-        <PackageReference Include="StrixMusic.Sdk" Version="0.0.12-alpha" />
-        <PackageReference Include="StrixMusic.Cores.LocalFiles" Version="0.0.12-alpha" />
-
-        <PackageReference Include="LibVLCSharp" Version="3.6.6" />
-
-        <PackageReference Include="Meziantou.Framework.Win32.CredentialManager" Version="1.4.2" />
-    </ItemGroup>
-
-    <ItemGroup Condition="!$(UseOpenZune)">
-        <ProjectReference Include="..\libs\Meziantou.Framework.Win32.CredentialManager\Meziantou.Framework.Win32.CredentialManager.csproj" />
-    </ItemGroup>
-
-    <ItemGroup Condition=" $(TargetFramework.StartsWith('net6.0-windows')) ">
+    <ItemGroup Condition=" $(TargetFramework.StartsWith('net6.0-windows')) Or $(TargetFramework.StartsWith('net4')) ">
         <PackageReference Include="VideoLAN.LibVLC.Windows" Version="3.0.17.4" PrivateAssets="analyzers;build" />
     </ItemGroup>
 

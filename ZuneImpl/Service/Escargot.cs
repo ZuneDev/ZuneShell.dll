@@ -1,5 +1,8 @@
 ﻿using Meziantou.Framework.Win32;
+using System.Linq;
+using System.Net.Http;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace Microsoft.Zune.Service
 {
@@ -10,6 +13,7 @@ namespace Microsoft.Zune.Service
         const string HEADER_X_PASS = "X-Password";
         const string HEADER_X_TOKEN = "X-Token";
 
+        internal static readonly HttpClient _client = new();
         private static string _token;
 
         /// <summary>
@@ -49,6 +53,38 @@ namespace Microsoft.Zune.Service
         {
             _token = null;
             Username = null;
+        }
+
+        public static bool TrySignIn(string username, string password)
+        {
+            HttpRequestMessage request = new(HttpMethod.Post, ESCARGOT_NOTRST_URL);
+            request.Headers.TryAddWithoutValidation(HEADER_X_USER, username);
+            request.Headers.TryAddWithoutValidation(HEADER_X_PASS, password);
+
+            try
+            {
+                var response =
+#if NET5_0_OR_GREATER
+                    _client.Send(request);
+#else
+                    Task.Run(() => _client.SendAsync(request)).Result;
+#endif
+
+                response.EnsureSuccessStatusCode();
+
+                string token = response.Headers.GetValues(HEADER_X_TOKEN).FirstOrDefault();
+
+                return TrySetCredentials(token, username);
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public static void AuthenticateRequest(HttpRequestMessage request)
+        {
+            request.Headers.Authorization = new("Bearer", _token);
         }
 
         private static bool TrySetCredentials(string token, string username)
