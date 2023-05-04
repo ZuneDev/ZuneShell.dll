@@ -51,22 +51,10 @@ namespace Microsoft.Zune.Service
 
                 Escargot.AuthenticateRequest(request);
 
-                var response =
-#if NET5_0_OR_GREATER
-                    _client.Send(request);
-#else
-                    Task.Run(() => _client.SendAsync(request)).Result;
-#endif
-
+                var response = _client.Send(request);
                 response.EnsureSuccessStatusCode();
 
-                System.IO.Stream responseStream =
-#if NET5_0_OR_GREATER
-                    response.Content.ReadAsStream();
-#else
-                    Task.Run(response.Content.ReadAsStreamAsync).Result;
-#endif
-
+                Stream responseStream = response.Content.ReadAsStream();
                 var responseObj = ReadSignInResponse(responseStream);
 
                 uint? errorCode = responseObj?.AccountState?.SignInErrorCode;

@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Net.Http;
 using System.Reflection;
-using System.Threading.Tasks;
 
 namespace Microsoft.Zune.Service
 {
@@ -63,13 +62,7 @@ namespace Microsoft.Zune.Service
 
             try
             {
-                var response =
-#if NET5_0_OR_GREATER
-                    _client.Send(request);
-#else
-                    Task.Run(() => _client.SendAsync(request)).Result;
-#endif
-
+                var response = _client.Send(request);
                 response.EnsureSuccessStatusCode();
 
                 string token = response.Headers.GetValues(HEADER_X_TOKEN).FirstOrDefault();
