@@ -6,6 +6,9 @@ namespace ZuneUI
 {
     partial class TransportControls
     {
+        private void OnInit() { }
+        private void OnUninit() { }
+
         private void OnPlayClicked(object sender, EventArgs e)
         {
             if (!this._play.Available)

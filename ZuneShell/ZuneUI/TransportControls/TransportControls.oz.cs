@@ -1,4 +1,6 @@
-﻿using Microsoft.Zune.Util;
+﻿using Microsoft.Iris;
+using Microsoft.Zune.Shell;
+using Microsoft.Zune.Util;
 using MicrosoftZunePlayback;
 using StrixMusic.Sdk.MediaPlayback;
 using System;
@@ -7,7 +9,18 @@ namespace ZuneUI
 {
     partial class TransportControls
     {
-        private readonly IPlaybackHandlerService _playbackHandler = Microsoft.Zune.Shell.ZuneApplication.PlaybackHandler;
+        private IPlaybackHandlerService _playbackHandler;
+
+        private void OnInit()
+        {
+            _playbackHandler = ZuneApplication.PlaybackHandler;
+            _playbackHandler.CurrentItemChanged += PlaybackHandler_CurrentItemChanged;
+        }
+
+        private void OnUninit()
+        {
+            _playbackHandler.CurrentItemChanged -= PlaybackHandler_CurrentItemChanged;
+        }
 
         private async void OnPlayClicked(object sender, EventArgs e)
         {
@@ -130,6 +143,26 @@ namespace ZuneUI
                     await _playbackHandler.SeekAsync(TimeSpan.Zero);
                 }
             }
+        }
+
+        private async void PlaybackHandler_CurrentItemChanged(object sender, PlaybackItem e)
+        {
+            // NOTE: This currently does not work. Perhaps something to do with
+            // the lack of a valid media ID?
+
+            string title = $"[Strix] {e.Track.Name}";
+            int num = e.Track.TrackNumber ?? 0;
+            string album = e.Track.Album?.Name ?? string.Empty;
+
+            string artist = string.Empty;
+            await foreach (var artistItem in e.Track.GetArtistItemsAsync(1, 0))
+                artist = artistItem.Name;
+
+            Application.DeferredInvoke(new DeferredInvokeHandler(delegate
+            {
+                Microsoft.Zune.Util.Notification.ResetNowPlaying();
+                Microsoft.Zune.Util.Notification.BroadcastNowPlaying(EMediaTypes.eMediaTypeAudio, album, artist, title, num, Guid.NewGuid());
+            }), DeferredInvokePriority.Normal);
         }
     }
 }

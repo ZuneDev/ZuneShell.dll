@@ -182,9 +182,9 @@ namespace Microsoft.Zune.Shell
 
                 // Perform any async initialization needed. Authenticating, connecting to database, etc.
                 // Add plugins
-                string mfAudioServiceId = Guid.NewGuid().ToString();
                 PlaybackHandler = new PlaybackHandlerService();
                 PlaybackHandler.RegisterAudioPlayer(VlcAudioService.Instance, localCore.InstanceId);
+                //PlaybackHandler.RegisterAudioPlayer(PlayerInteropAudioService.Instance, localCore.InstanceId);
 
                 DataRoot = new StrixDataRootPluginWrapper(mergedLayer,
                     new PlaybackHandlerPlugin(PlaybackHandler)
@@ -219,7 +219,7 @@ namespace Microsoft.Zune.Shell
 
                 ITrack firstTrack = addedItems[1].Data;
 
-                await firstTrack.PlayArtistCollectionAsync();
+                //await firstTrack.PlayArtistCollectionAsync();
             }
         }
 
