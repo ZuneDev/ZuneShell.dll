@@ -64,9 +64,7 @@ namespace ZuneHost.Wpf
                     Directory.Delete(decompResultDir, true);
                 Directory.CreateDirectory(decompResultDir);
                 IrisApp.DebugSettings.DecompileResults.CollectionChanged += DecompileResults_CollectionChanged;
-#if NET6_0_OR_GREATER || NETCOREAPP3_1_OR_GREATER
                 IrisApp.DebugSettings.Bridge.InterpreterStep += Bridge_InterpreterStep;
-#endif
             }
 
             IrisApp.DebugSettings.GenerateDataMappingModels = false;

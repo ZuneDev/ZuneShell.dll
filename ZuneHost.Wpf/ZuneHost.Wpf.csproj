@@ -2,10 +2,11 @@
 
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
-        <TargetFrameworks>net6.0-windows10.0.22000;net40</TargetFrameworks>
+        <TargetFrameworks>net461;net6.0-windows10.0.22000</TargetFrameworks>
         <LangVersion>11.0</LangVersion>
         <UseWPF>true</UseWPF>
         <ApplicationIcon>Assets\ZuneFluentGem.ico</ApplicationIcon>
+		<AppConfig>App.config</AppConfig>
     </PropertyGroup>
 
     <ItemGroup>

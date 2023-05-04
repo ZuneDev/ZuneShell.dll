@@ -99,14 +99,24 @@ namespace Microsoft.Zune.Playback
 
                 System.Net.Http.HttpClient client = new();
 
-                var httpStream = await client.GetStreamAsync(uri, cancellationToken);
+                var httpStream = await client.GetStreamAsync(uri
+#if NET5_0_OR_GREATER
+                    , cancellationToken);
+#else
+                    );
+#endif
                 cancellationToken.ThrowIfCancellationRequested();
 
                 // NAudio requires some fancy stuff to stream from the web. This is
                 // a relatively simple workaround that downloads the entire file
                 // into memory before playing.
                 stream = new System.IO.MemoryStream();
-                await httpStream.CopyToAsync(stream, cancellationToken);
+                await httpStream.CopyToAsync(stream
+#if NET5_0_OR_GREATER
+                    , cancellationToken);
+#else
+                    );
+#endif
                 cancellationToken.ThrowIfCancellationRequested();
 
                 reader = new StreamMediaFoundationReader(stream);

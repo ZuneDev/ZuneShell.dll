@@ -11,13 +11,8 @@ using System.Security.Permissions;
 //[assembly: AssemblyDelaySign(true)]
 [assembly: SecurityPermission(SecurityAction.RequestMinimum, SkipVerification = true)]
 
-#if OPENZUNE
 [assembly: AssemblyFileVersion("5.0.0.0")]
 [assembly: AssemblyVersion("5.0.0.0")]
-#else
-[assembly: AssemblyFileVersion("4.8.2345.0")]
-[assembly: AssemblyVersion("4.7.0.0")]
-#endif
 
 // Workaround for CA1416
 #if WINDOWS10

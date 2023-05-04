@@ -8,26 +8,11 @@ using Microsoft.Iris;
 using Microsoft.Win32;
 using Microsoft.Zune.Configuration;
 using Microsoft.Zune.Messaging;
+using Microsoft.Zune.Playback;
 using Microsoft.Zune.Service;
 using Microsoft.Zune.Subscription;
 using Microsoft.Zune.Util;
 using MicrosoftZuneLibrary;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Globalization;
-using System.IO;
-using System.Text.RegularExpressions;
-using System.Threading;
-using UIXControls;
-using ZuneUI;
-using ZuneXml;
-using System.Linq;
-
-#if OPENZUNE
-using Microsoft.Zune.Playback;
 using OwlCore.ComponentModel;
 using StrixMusic.Sdk.AdapterModels;
 using StrixMusic.Sdk.AppModels;
@@ -35,7 +20,19 @@ using StrixMusic.Sdk.CoreModels;
 using StrixMusic.Sdk.MediaPlayback;
 using StrixMusic.Sdk.PluginModels;
 using StrixMusic.Sdk.Plugins.PlaybackHandler;
-#endif
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Threading;
+using UIXControls;
+using ZuneUI;
+using ZuneXml;
 
 namespace Microsoft.Zune.Shell
 {
@@ -71,29 +68,12 @@ namespace Microsoft.Zune.Shell
         public static Service.Service Service => Zune.Service.Service.Instance;
         public static IService Service2 => Zune.Service.Service2.Instance;
 
-        public static bool IsStrixCompatible
-        {
-            get
-            {
-#if OPENZUNE
-                return true;
-#else
-                return false;
-#endif
-            }
-        }
+        public static bool IsStrixCompatible => true;
 
-        public static Version StrixSdkVersion =>
-#if OPENZUNE
-                typeof(ICore).Assembly.GetName().Version;
-#else
-                null;
-#endif
+        public static Version StrixSdkVersion => typeof(ICore).Assembly.GetName().Version;
 
-#if OPENZUNE
         public static IStrixDataRoot DataRoot { get; private set; }
         public static IPlaybackHandlerService PlaybackHandler { get; private set; }
-#endif
 
         public static event EventHandler Closing;
 
@@ -160,7 +140,6 @@ namespace Microsoft.Zune.Shell
                 FeaturesChanged.Instance.StartUp();
                 CultureHelper.CheckValidRegionAndLanguage();
 
-#if OPENZUNE
                 DirectoryInfo cacheFolderPath = new(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Microsoft\Zune\OpenZune\LocalCoreCache"));
                 cacheFolderPath.Create();
                 OwlCore.Storage.SystemIO.SystemFolder cacheFolder = new(cacheFolderPath);
@@ -202,13 +181,11 @@ namespace Microsoft.Zune.Shell
 
                     await DataRoot.Library.PlayTrackCollectionAsync();
                 });
-#endif
 
                 ((ZuneUI.Shell)ZuneShell.DefaultInstance).ApplicationInitializationIsComplete = true;
             }
         }
 
-#if OPENZUNE
         private static async void LibraryTracksChanged(object sender,
             IReadOnlyList<CollectionChangedItem<ITrack>> addedItems,
             IReadOnlyList<CollectionChangedItem<ITrack>> removedItems)
@@ -235,7 +212,6 @@ namespace Microsoft.Zune.Shell
                 await firstTrack.PlayArtistCollectionAsync();
             }
         }
-#endif
 
         private static void Phase2InitializationUIStage(object arg)
         {
@@ -461,11 +437,8 @@ namespace Microsoft.Zune.Shell
             DialogHelper.DialogNo = ZuneUI.Shell.LoadString(StringId.IDS_DIALOG_NO);
             DialogHelper.DialogOk = ZuneUI.Shell.LoadString(StringId.IDS_DIALOG_OK);
             XmlDataProviders.Register();
-#if false//OPENZUNE
-            Library.StrixLibraryDataProvider.Register();
-#else
+            //Library.StrixLibraryDataProvider.Register();
             LibraryDataProvider.Register();
-#endif
             SubscriptionDataProvider.Register();
             StaticLibraryDataProvider.Register();
             AggregateDataProviderQuery.Register();
