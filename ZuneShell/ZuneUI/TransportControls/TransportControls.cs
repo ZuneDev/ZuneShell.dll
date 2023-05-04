@@ -66,8 +66,8 @@ namespace ZuneUI
         private float _downloadProgress;
         private PlaybackTrack _lastKnownPreparedTrack;
         private PlaybackTrack _lastKnownPlaybackTrack;
-        private List<PlaybackTrack> _tracksSubmittedToPlayer = new List<PlaybackTrack>(2);
-        private Dictionary<PlaybackTrack, int> _errors = new Dictionary<PlaybackTrack, int>();
+        private List<PlaybackTrack> _tracksSubmittedToPlayer = new(2);
+        private Dictionary<PlaybackTrack, int> _errors = new();
         private int _consecutiveErrors;
         private bool _showErrors = true;
         private int _lastKnownSetUriCallID;
@@ -105,81 +105,81 @@ namespace ZuneUI
 
         public TransportControls()
         {
-            this._playbackWrapper = PlayerInterop.Instance;
-            this._taskbarPlayer = TaskbarPlayer.Instance;
-            this._videoStream = new VideoStream();
-            if (!this.CanRender3DVideo)
-                this._videoStream.DisplayDetailsChanged += OnVideoDetailsChanged;
-            this._shuffling = new BooleanChoice(this);
-            this._shuffling.Value = ClientConfiguration.Playback.ModeShuffle;
-            this._shuffling.ChosenChanged += OnShufflingChanged;
-            this.UpdateShufflingDescription();
-            this._repeating = new BooleanChoice(this);
-            this._repeating.Value = ClientConfiguration.Playback.ModeLoop;
-            this._repeating.ChosenChanged += OnRepeatingChanged;
-            this.UpdateRepeatingDescription();
-            this._muted = new BooleanChoice(this);
-            this._muted.Value = ClientConfiguration.Playback.Mute;
-            this._muted.ChosenChanged += OnMutingChanged;
-            this.UpdateMutingDescription();
-            this._showTotalTime = new BooleanChoice(this);
-            this._showTotalTime.Value = ClientConfiguration.Playback.ShowTotalTime;
-            this._showTotalTime.ChosenChanged += OnShowTotalTimeChanged;
-            this._showNowPlayingList = new BooleanChoice(this);
-            this._showNowPlayingList.Value = ClientConfiguration.Playback.ShowNowPlayingList;
-            this._showNowPlayingList.ChosenChanged += OnShowNowPlayingListChanged;
-            this.UpdateShowNowPlayingListDescription();
-            this._fastforwarding = new BooleanChoice(this);
-            this._fastforwarding.ChosenChanged += OnFastforwardingChanged;
-            this._rewinding = new BooleanChoice(this);
-            this._rewinding.ChosenChanged += OnRewindingChanged;
+            _playbackWrapper = PlayerInterop.Instance;
+            _taskbarPlayer = TaskbarPlayer.Instance;
+            _videoStream = new VideoStream();
+            if (!CanRender3DVideo)
+                _videoStream.DisplayDetailsChanged += OnVideoDetailsChanged;
+            _shuffling = new BooleanChoice(this);
+            _shuffling.Value = ClientConfiguration.Playback.ModeShuffle;
+            _shuffling.ChosenChanged += OnShufflingChanged;
+            UpdateShufflingDescription();
+            _repeating = new BooleanChoice(this);
+            _repeating.Value = ClientConfiguration.Playback.ModeLoop;
+            _repeating.ChosenChanged += OnRepeatingChanged;
+            UpdateRepeatingDescription();
+            _muted = new BooleanChoice(this);
+            _muted.Value = ClientConfiguration.Playback.Mute;
+            _muted.ChosenChanged += OnMutingChanged;
+            UpdateMutingDescription();
+            _showTotalTime = new BooleanChoice(this);
+            _showTotalTime.Value = ClientConfiguration.Playback.ShowTotalTime;
+            _showTotalTime.ChosenChanged += OnShowTotalTimeChanged;
+            _showNowPlayingList = new BooleanChoice(this);
+            _showNowPlayingList.Value = ClientConfiguration.Playback.ShowNowPlayingList;
+            _showNowPlayingList.ChosenChanged += OnShowNowPlayingListChanged;
+            UpdateShowNowPlayingListDescription();
+            _fastforwarding = new BooleanChoice(this);
+            _fastforwarding.ChosenChanged += OnFastforwardingChanged;
+            _rewinding = new BooleanChoice(this);
+            _rewinding.ChosenChanged += OnRewindingChanged;
             float num = ClientConfiguration.Playback.Volume;
             if (num < 0.0 || num > 100.0)
                 num = 50f;
-            this._volume = new RangedValue(this);
-            this._volume.MinValue = 0.0f;
-            this._volume.MaxValue = 100f;
-            this._volume.Value = num;
-            this._volume.PropertyChanged += OnVolumeControlChanged;
-            this._play = new Command(this, Shell.LoadString(StringId.IDS_PLAY), OnPlayClicked);
-            this._play.Available = false;
-            this._pause = new Command(this, Shell.LoadString(StringId.IDS_PAUSE), OnPauseClicked);
-            this._pause.Available = false;
-            this._back = new Command(this, Shell.LoadString(StringId.IDS_PREVIOUS), OnBackClicked);
-            this._back.Available = false;
-            this._forward = new Command(this, Shell.LoadString(StringId.IDS_NEXT), OnForwardClicked);
-            this._forward.Available = false;
-            this._stop = new Command(this, Shell.LoadString(StringId.IDS_STOP), OnStopClicked);
-            this._stop.Available = false;
-            this._fastforwardhotkey = new Command(this, new EventHandler(this.OnFastforwardHotkeyPressed));
-            this._rewindhotkey = new Command(this, new EventHandler(this.OnRewindHotkeyPressed));
-            this._playbackWrapper.StatusChanged += OnPlaybackStatusChanged;
-            this._playbackWrapper.TransportStatusChanged += OnTransportStatusChanged;
-            this._playbackWrapper.TransportPositionChanged += OnTransportPositionChanged;
-            this._playbackWrapper.UriSet += OnUriSet;
-            this._playbackWrapper.AlertSent += OnAlertSent;
-            this._playbackWrapper.PlayerPropertyChanged += OnPlayerPropertyChanged;
-            this._playbackWrapper.PlayerBandwithUpdate += OnBandwidthCapacityUpdate;
-            this._lastKnownPlayerState = this._playbackWrapper.State;
-            this._lastKnownTransportState = this._playbackWrapper.TransportState;
-            this._lastKnownPosition = this._playbackWrapper.Position;
-            this._shellInstance = (Shell)ZuneShell.DefaultInstance;
-            this._shellInstance.PropertyChanged += OnShellPropertyChanged;
-            this._timerDelayedConfigPersist = new Microsoft.Iris.Timer();
-            this._timerDelayedConfigPersist.Interval = 500;
-            this._timerDelayedConfigPersist.AutoRepeat = false;
-            this._timerDelayedConfigPersist.Tick += OnDelayedConfigPersistTimerTick;
-            this._playerState = PlayerState.Stopped;
-            this._spectrumConfigList = new List<SpectrumOutputConfig>();
-            this._isSpectrumAvailable = false;
-            this.IsSeekEnabled = this._playbackWrapper.CanSeek;
+            _volume = new RangedValue(this);
+            _volume.MinValue = 0.0f;
+            _volume.MaxValue = 100f;
+            _volume.Value = num;
+            _volume.PropertyChanged += OnVolumeControlChanged;
+            _play = new Command(this, Shell.LoadString(StringId.IDS_PLAY), OnPlayClicked);
+            _play.Available = false;
+            _pause = new Command(this, Shell.LoadString(StringId.IDS_PAUSE), OnPauseClicked);
+            _pause.Available = false;
+            _back = new Command(this, Shell.LoadString(StringId.IDS_PREVIOUS), OnBackClicked);
+            _back.Available = false;
+            _forward = new Command(this, Shell.LoadString(StringId.IDS_NEXT), OnForwardClicked);
+            _forward.Available = false;
+            _stop = new Command(this, Shell.LoadString(StringId.IDS_STOP), OnStopClicked);
+            _stop.Available = false;
+            _fastforwardhotkey = new Command(this, new EventHandler(OnFastforwardHotkeyPressed));
+            _rewindhotkey = new Command(this, new EventHandler(OnRewindHotkeyPressed));
+            _playbackWrapper.StatusChanged += OnPlaybackStatusChanged;
+            _playbackWrapper.TransportStatusChanged += OnTransportStatusChanged;
+            _playbackWrapper.TransportPositionChanged += OnTransportPositionChanged;
+            _playbackWrapper.UriSet += OnUriSet;
+            _playbackWrapper.AlertSent += OnAlertSent;
+            _playbackWrapper.PlayerPropertyChanged += OnPlayerPropertyChanged;
+            _playbackWrapper.PlayerBandwithUpdate += OnBandwidthCapacityUpdate;
+            _lastKnownPlayerState = _playbackWrapper.State;
+            _lastKnownTransportState = _playbackWrapper.TransportState;
+            _lastKnownPosition = _playbackWrapper.Position;
+            _shellInstance = (Shell)ZuneShell.DefaultInstance;
+            _shellInstance.PropertyChanged += OnShellPropertyChanged;
+            _timerDelayedConfigPersist = new Microsoft.Iris.Timer();
+            _timerDelayedConfigPersist.Interval = 500;
+            _timerDelayedConfigPersist.AutoRepeat = false;
+            _timerDelayedConfigPersist.Tick += OnDelayedConfigPersistTimerTick;
+            _playerState = PlayerState.Stopped;
+            _spectrumConfigList = new List<SpectrumOutputConfig>();
+            _isSpectrumAvailable = false;
+            IsSeekEnabled = _playbackWrapper.CanSeek;
             Download.Instance.DownloadProgressEvent += OnDownloadProgressed;
-            this._lastKnownCurrentTrackRating = -1;
-            this._currentTrackRatingChangedEventHandler = OnCurrentTrackRatingChanged;
-            this._isStreamingTimeoutTimer = new Microsoft.Iris.Timer(this);
-            this._isStreamingTimeoutTimer.Interval = 30000;
-            this._isStreamingTimeoutTimer.AutoRepeat = false;
-            this._isStreamingTimeoutTimer.Tick += OnIsStreamingTimeout;
+            _lastKnownCurrentTrackRating = -1;
+            _currentTrackRatingChangedEventHandler = OnCurrentTrackRatingChanged;
+            _isStreamingTimeoutTimer = new Microsoft.Iris.Timer(this);
+            _isStreamingTimeoutTimer.Interval = 30000;
+            _isStreamingTimeoutTimer.AutoRepeat = false;
+            _isStreamingTimeoutTimer.Tick += OnIsStreamingTimeout;
             SignIn.Instance.SignInStatusUpdatedEvent += OnSignInEvent;
         }
 
@@ -188,10 +188,10 @@ namespace ZuneUI
             base.OnDispose(fDisposing);
             if (!fDisposing)
                 return;
-            this.DisconnectAllSpectrumAnimationSources();
-            this._isSpectrumAvailable = false;
+            DisconnectAllSpectrumAnimationSources();
+            _isSpectrumAvailable = false;
             Microsoft.Zune.Util.Notification.ResetNowPlaying();
-            if (this.WillSaveCurrentPlaylistOnShutdown())
+            if (WillSaveCurrentPlaylistOnShutdown())
             {
                 try
                 {
@@ -212,77 +212,77 @@ namespace ZuneUI
                 {
                 }
             }
-            if (this._lastKnownPlaybackTrack != null)
-                this._lastKnownPlaybackTrack.OnEndPlayback(false);
-            this._playbackWrapper.StatusChanged -= OnPlaybackStatusChanged;
-            this._playbackWrapper.TransportStatusChanged -= OnTransportStatusChanged;
-            this._playbackWrapper.TransportPositionChanged -= OnTransportPositionChanged;
-            this._playbackWrapper.UriSet -= OnUriSet;
-            this._playbackWrapper.AlertSent -= OnAlertSent;
-            this._playbackWrapper.PlayerPropertyChanged -= OnPlayerPropertyChanged;
-            if (this._videoStream != null && !this.CanRender3DVideo)
-                this._videoStream.DisplayDetailsChanged -= OnVideoDetailsChanged;
+            _lastKnownPlaybackTrack?.OnEndPlayback(false);
+            _playbackWrapper.StatusChanged -= OnPlaybackStatusChanged;
+            _playbackWrapper.TransportStatusChanged -= OnTransportStatusChanged;
+            _playbackWrapper.TransportPositionChanged -= OnTransportPositionChanged;
+            _playbackWrapper.UriSet -= OnUriSet;
+            _playbackWrapper.AlertSent -= OnAlertSent;
+            _playbackWrapper.PlayerPropertyChanged -= OnPlayerPropertyChanged;
+            if (_videoStream != null && !CanRender3DVideo)
+                _videoStream.DisplayDetailsChanged -= OnVideoDetailsChanged;
             PlayerInterop.Instance.Dispose();
-            if (this._videoStream != null)
+            if (_videoStream != null)
             {
-                this._videoStream.Dispose();
-                this._videoStream = null;
+                _videoStream.Dispose();
+                _videoStream = null;
             }
-            if (this._timerDelayedConfigPersist != null)
+            if (_timerDelayedConfigPersist != null)
             {
-                this._timerDelayedConfigPersist.Tick -= OnDelayedConfigPersistTimerTick;
-                this._timerDelayedConfigPersist.Dispose();
-                this._timerDelayedConfigPersist = null;
+                _timerDelayedConfigPersist.Tick -= OnDelayedConfigPersistTimerTick;
+                _timerDelayedConfigPersist.Dispose();
+                _timerDelayedConfigPersist = null;
             }
-            this._shellInstance.PropertyChanged -= OnShellPropertyChanged;
+            _shellInstance.PropertyChanged -= OnShellPropertyChanged;
             Download.Instance.DownloadProgressEvent -= OnDownloadProgressed;
-            if (this._currentTrack != null)
-                this._currentTrack.RatingChanged.Invoked -= this._currentTrackRatingChangedEventHandler;
+            if (_currentTrack != null)
+                _currentTrack.RatingChanged.Invoked -= _currentTrackRatingChangedEventHandler;
             SignIn.Instance.SignInStatusUpdatedEvent -= OnSignInEvent;
+
+            OnUninit();
         }
 
         private void OnSignInEvent(object sender, EventArgs args)
         {
-            if (this._playlistCurrent != null)
-                this._playlistCurrent.UpdateTracks();
-            if (this._playlistPending == null)
-                return;
-            this._playlistPending.UpdateTracks();
+            _playlistCurrent?.UpdateTracks();
+            _playlistPending?.UpdateTracks();
         }
 
         private void PersistSettings()
         {
-            if (this._timerDelayedConfigPersist == null)
+            if (_timerDelayedConfigPersist == null)
                 return;
-            this._timerDelayedConfigPersist.Stop();
-            this._timerDelayedConfigPersist.Start();
+
+            _timerDelayedConfigPersist.Stop();
+            _timerDelayedConfigPersist.Start();
         }
 
         private void OnDelayedConfigPersistTimerTick(object sender, EventArgs args)
         {
-            ClientConfiguration.Playback.ModeShuffle = this._shuffling.Value;
-            ClientConfiguration.Playback.ModeLoop = this._repeating.Value;
-            ClientConfiguration.Playback.Mute = this._muted.Value;
-            ClientConfiguration.Playback.Volume = (int)this._volume.Value;
-            ClientConfiguration.Playback.ShowTotalTime = this._showTotalTime.Value;
-            ClientConfiguration.Playback.ShowNowPlayingList = this._showNowPlayingList.Value;
+            ClientConfiguration.Playback.ModeShuffle = _shuffling.Value;
+            ClientConfiguration.Playback.ModeLoop = _repeating.Value;
+            ClientConfiguration.Playback.Mute = _muted.Value;
+            ClientConfiguration.Playback.Volume = (int)_volume.Value;
+            ClientConfiguration.Playback.ShowTotalTime = _showTotalTime.Value;
+            ClientConfiguration.Playback.ShowNowPlayingList = _showNowPlayingList.Value;
         }
 
         private void OnCurrentTrackRatingChanged(object sender, EventArgs args)
         {
             int num = -1;
-            if (this.CurrentTrack != null && this.CurrentTrack.CanRate)
-                num = this.CurrentTrackRating;
-            if (num == this._lastKnownCurrentTrackRating)
+            if (CurrentTrack != null && CurrentTrack.CanRate)
+                num = CurrentTrackRating;
+            if (num == _lastKnownCurrentTrackRating)
                 return;
-            this.FirePropertyChanged("CurrentTrackRating");
-            this._lastKnownCurrentTrackRating = num;
+            FirePropertyChanged("CurrentTrackRating");
+            _lastKnownCurrentTrackRating = num;
         }
 
         public void TrackRatingUpdatedExternally(int mediaID, int newRating)
         {
-            if (this.CurrentPlaylist == null)
+            if (CurrentPlaylist == null)
                 return;
+
             foreach (PlaybackTrack playbackTrack in CurrentPlaylist)
             {
                 if (playbackTrack is LibraryPlaybackTrack libraryPlaybackTrack && libraryPlaybackTrack.MediaId == mediaID)
@@ -290,13 +290,12 @@ namespace ZuneUI
             }
         }
 
-        private void OnIsStreamingTimeout(object sender, EventArgs args) => this.SupressDownloads = false;
+        private void OnIsStreamingTimeout(object sender, EventArgs args) => SupressDownloads = false;
 
         private void DeserializeNowPlayingList(object arg)
         {
-            string path = arg as string;
             object args = null;
-            if (path != null)
+            if (arg is string path)
             {
                 if (File.Exists(path))
                 {
@@ -305,284 +304,282 @@ namespace ZuneUI
                         using (Stream serializationStream = File.OpenRead(path))
                             args = new BinaryFormatter().Deserialize(serializationStream);
                     }
-                    catch (Exception ex)
+                    catch
                     {
                     }
                 }
             }
-            if (args == null)
-                return;
-            Application.DeferredInvoke(new DeferredInvokeHandler(this.DeserializationComplete), args);
+
+            if (args != null)
+                Application.DeferredInvoke(new DeferredInvokeHandler(DeserializationComplete), args);
         }
 
         private void DeserializationComplete(object arg)
         {
-            NowPlayingList nowPlayingList = arg as NowPlayingList;
-            if (this._playlistCurrent != null || nowPlayingList == null)
+            if (_playlistCurrent != null || arg is not NowPlayingList nowPlayingList)
                 return;
-            this._playlistCurrent = nowPlayingList;
-            this.ShowNotification();
-            this.UpdatePropertiesAndCommands();
-            if (!this._resumeLastNowPlayingRequested)
-                return;
-            this.Play.Invoke();
+            _playlistCurrent = nowPlayingList;
+            ShowNotification();
+            UpdatePropertiesAndCommands();
+            if (_resumeLastNowPlayingRequested)
+                Play.Invoke();
         }
 
         public bool IsInitialized
         {
-            get => this._isInitialized;
+            get => _isInitialized;
             private set
             {
-                if (this._isInitialized == value)
+                if (_isInitialized == value)
                     return;
-                this._isInitialized = value;
-                this.FirePropertyChanged(nameof(IsInitialized));
+                _isInitialized = value;
+                FirePropertyChanged(nameof(IsInitialized));
             }
         }
 
         public bool HasPlayed
         {
-            get => this._hasPlayed;
+            get => _hasPlayed;
             private set
             {
-                if (this._hasPlayed == value)
+                if (_hasPlayed == value)
                     return;
-                this._hasPlayed = value;
-                this.FirePropertyChanged(nameof(HasPlayed));
+                _hasPlayed = value;
+                FirePropertyChanged(nameof(HasPlayed));
             }
         }
 
         public event EventHandler PlaybackStopped;
 
-        public BooleanChoice Shuffling => this._shuffling;
+        public BooleanChoice Shuffling => _shuffling;
 
-        public BooleanChoice Repeating => this._repeating;
+        public BooleanChoice Repeating => _repeating;
 
-        public BooleanChoice Muted => this._muted;
+        public BooleanChoice Muted => _muted;
 
-        public BooleanChoice ShowTotalTime => this._showTotalTime;
+        public BooleanChoice ShowTotalTime => _showTotalTime;
 
-        public BooleanChoice ShowNowPlayingList => this._showNowPlayingList;
+        public BooleanChoice ShowNowPlayingList => _showNowPlayingList;
 
-        public BooleanChoice Fastforwarding => this._fastforwarding;
+        public BooleanChoice Fastforwarding => _fastforwarding;
 
-        public BooleanChoice Rewinding => this._rewinding;
+        public BooleanChoice Rewinding => _rewinding;
 
-        public RangedValue Volume => this._volume;
+        public RangedValue Volume => _volume;
 
-        public Command Play => this._play;
+        public Command Play => _play;
 
-        public Command Pause => this._pause;
+        public Command Pause => _pause;
 
-        public Command Stop => this._stop;
+        public Command Stop => _stop;
 
-        public Command Back => this._back;
+        public Command Back => _back;
 
-        public Command Forward => this._forward;
+        public Command Forward => _forward;
 
         public bool Opening
         {
-            get => this._opening;
+            get => _opening;
             private set
             {
-                if (this._opening == value)
+                if (_opening == value)
                     return;
-                this._opening = value;
-                this.FirePropertyChanged(nameof(Opening));
+                _opening = value;
+                FirePropertyChanged(nameof(Opening));
             }
         }
 
         public bool Buffering
         {
-            get => this._buffering;
+            get => _buffering;
             private set
             {
-                if (this._buffering == value)
+                if (_buffering == value)
                     return;
-                this._buffering = value;
-                this.FirePropertyChanged(nameof(Buffering));
+                _buffering = value;
+                FirePropertyChanged(nameof(Buffering));
             }
         }
 
         public bool IsSeekEnabled
         {
-            get => this._seekEnabled;
+            get => _seekEnabled;
             private set
             {
-                if (this._seekEnabled == value)
+                if (_seekEnabled == value)
                     return;
-                this._seekEnabled = value;
-                this.FirePropertyChanged(nameof(IsSeekEnabled));
+                _seekEnabled = value;
+                FirePropertyChanged(nameof(IsSeekEnabled));
             }
         }
 
         public bool IsStreamingVideo
         {
-            get => this._isStreamingVideo;
+            get => _isStreamingVideo;
             private set
             {
-                if (this._isStreamingVideo == value)
+                if (_isStreamingVideo == value)
                     return;
-                this._isStreamingVideo = value;
-                this.FirePropertyChanged(nameof(IsStreamingVideo));
+                _isStreamingVideo = value;
+                FirePropertyChanged(nameof(IsStreamingVideo));
             }
         }
 
         public bool SupressDownloads
         {
-            get => this._supressDownloads;
+            get => _supressDownloads;
             private set
             {
-                if (this._supressDownloads == value)
+                if (_supressDownloads == value)
                     return;
-                this._supressDownloads = value;
-                this.FirePropertyChanged(nameof(SupressDownloads));
+                _supressDownloads = value;
+                FirePropertyChanged(nameof(SupressDownloads));
             }
         }
 
         public int ZoomScaleFactor
         {
-            get => this._zoomScaleFactor;
+            get => _zoomScaleFactor;
             set
             {
-                this._zoomScaleFactor = value;
-                this.FirePropertyChanged(nameof(ZoomScaleFactor));
+                _zoomScaleFactor = value;
+                FirePropertyChanged(nameof(ZoomScaleFactor));
             }
         }
 
-        public bool Playing => this._isPlaying;
+        public bool Playing => _isPlaying;
 
         public bool PlayingVideo
         {
-            get => this._playingVideo;
+            get => _playingVideo;
             private set
             {
-                if (this._playingVideo == value)
+                if (_playingVideo == value)
                     return;
-                this._playingVideo = value;
-                this.FirePropertyChanged(nameof(PlayingVideo));
+                _playingVideo = value;
+                FirePropertyChanged(nameof(PlayingVideo));
             }
         }
 
-        public Command FastforwardHotkey => this._fastforwardhotkey;
+        public Command FastforwardHotkey => _fastforwardhotkey;
 
-        public Command RewindHotkey => this._rewindhotkey;
+        public Command RewindHotkey => _rewindhotkey;
 
-        public int CurrentTrackIndex => this._currentTrackIndex;
+        public int CurrentTrackIndex => _currentTrackIndex;
 
-        public bool WillSaveCurrentPlaylistOnShutdown() => this._playlistCurrent != null && this._playlistCurrent.CurrentTrack != null && !this._playlistCurrent.CurrentTrack.IsVideo && this._playlistCurrent.QuickMixSession == null;
+        public bool WillSaveCurrentPlaylistOnShutdown() => _playlistCurrent != null && _playlistCurrent.CurrentTrack != null && !_playlistCurrent.CurrentTrack.IsVideo && _playlistCurrent.QuickMixSession == null;
 
         public void StartPlayingAt(PlaybackTrack track)
         {
-            if (this._playlistCurrent == null || this._playlistCurrent.TrackList == null)
+            if (_playlistCurrent == null || _playlistCurrent.TrackList == null)
                 return;
-            int newCurrentIndex = this._playlistCurrent.TrackList.IndexOf(track);
+            int newCurrentIndex = _playlistCurrent.TrackList.IndexOf(track);
             if (newCurrentIndex <= -1)
                 return;
-            this.StartPlayingAt(newCurrentIndex);
+            StartPlayingAt(newCurrentIndex);
         }
 
         public void StartPlayingAt(int newCurrentIndex)
         {
-            if (this._playlistCurrent == null)
+            if (_playlistCurrent == null)
                 return;
-            this._playlistCurrent.MoveToTrackIndex(newCurrentIndex);
-            if (this._playerState == PlayerState.Playing)
+
+            _playlistCurrent.MoveToTrackIndex(newCurrentIndex);
+            if (_playerState == PlayerState.Playing)
             {
-                this.SetUriOnPlayer();
+                SetUriOnPlayer();
             }
             else
             {
-                this._playlistPending = this._playlistCurrent;
-                if (this._playerState == PlayerState.Paused)
-                    this._playbackWrapper.Stop();
+                _playlistPending = _playlistCurrent;
+                if (_playerState == PlayerState.Paused)
+                    _playbackWrapper.Stop();
                 else
-                    this.PlayPendingList();
+                    PlayPendingList();
             }
         }
 
-        public void CloseCurrentSession() => this.Stop.Invoke();
+        public void CloseCurrentSession() => Stop.Invoke();
 
         public void SeekToPosition(float value)
         {
             long offsetIn100nsUnits = (long)(value * 10000000.0);
-            if (this._playbackWrapper != null)
-                this._playbackWrapper.SeekToAbsolutePosition(offsetIn100nsUnits);
-            this._rewinding.Value = false;
-            this._fastforwarding.Value = false;
+            _playbackWrapper?.SeekToAbsolutePosition(offsetIn100nsUnits);
+            _rewinding.Value = false;
+            _fastforwarding.Value = false;
         }
 
         public float CurrentTrackDuration
         {
-            get => this._currentTrackDuration;
+            get => _currentTrackDuration;
             private set
             {
                 if (_currentTrackDuration == (double)value)
                     return;
-                this._currentTrackDuration = value;
-                this.FirePropertyChanged(nameof(CurrentTrackDuration));
+                _currentTrackDuration = value;
+                FirePropertyChanged(nameof(CurrentTrackDuration));
             }
         }
 
         public float CurrentTrackPosition
         {
-            get => this._currentTrackPosition;
+            get => _currentTrackPosition;
             private set
             {
                 if (_currentTrackPosition == (double)value)
                     return;
-                this._currentTrackPosition = value;
-                this.FirePropertyChanged(nameof(CurrentTrackPosition));
+                _currentTrackPosition = value;
+                FirePropertyChanged(nameof(CurrentTrackPosition));
             }
         }
 
         public float CurrentTrackDownloadProgress
         {
-            get => this._downloadProgress;
+            get => _downloadProgress;
             private set
             {
                 if (_downloadProgress == (double)value)
                     return;
-                this._downloadProgress = value;
-                this.FirePropertyChanged(nameof(CurrentTrackDownloadProgress));
+                _downloadProgress = value;
+                FirePropertyChanged(nameof(CurrentTrackDownloadProgress));
             }
         }
 
-        public PlaybackTrack CurrentTrack => this._currentTrack;
+        public PlaybackTrack CurrentTrack => _currentTrack;
 
-        public int CurrentTrackRating => this.CurrentTrack == null || !this.CurrentTrack.CanRate ? 0 : this.CurrentTrack.UserRating;
+        public int CurrentTrackRating => CurrentTrack == null || !CurrentTrack.CanRate ? 0 : CurrentTrack.UserRating;
 
         public bool ShowErrors
         {
-            get => this._showErrors;
+            get => _showErrors;
             set
             {
-                if (this._showErrors == value)
+                if (_showErrors == value)
                     return;
-                this._showErrors = value;
-                this.FirePropertyChanged(nameof(ShowErrors));
+                _showErrors = value;
+                FirePropertyChanged(nameof(ShowErrors));
             }
         }
 
         public void ClearAllErrors()
         {
-            if (this._errors.Count <= 0)
+            if (_errors.Count <= 0)
                 return;
-            this._errors.Clear();
-            this.FirePropertyChanged("ErrorCount");
+            _errors.Clear();
+            FirePropertyChanged("ErrorCount");
         }
 
         public bool IsCurrentTrack(Guid zuneMediaId)
         {
-            PlaybackTrack currentTrack = this.CurrentTrack;
+            PlaybackTrack currentTrack = CurrentTrack;
             return currentTrack != null && !GuidHelper.IsEmpty(currentTrack.ZuneMediaId) && currentTrack.ZuneMediaId == zuneMediaId;
         }
 
         public int GetErrorCode(Guid zuneMediaId)
         {
-            if (this._errors.Count > 0)
+            if (_errors.Count > 0)
             {
-                foreach (KeyValuePair<PlaybackTrack, int> error in this._errors)
+                foreach (KeyValuePair<PlaybackTrack, int> error in _errors)
                 {
                     PlaybackTrack key = error.Key;
                     if (key != null && key.ZuneMediaId == zuneMediaId)
@@ -594,16 +591,16 @@ namespace ZuneUI
 
         public bool IsCurrentTrack(int id, MediaType type, Guid zuneMediaId)
         {
-            if (!(this.CurrentTrack is LibraryPlaybackTrack currentTrack))
-                return this.IsCurrentTrack(zuneMediaId);
+            if (CurrentTrack is not LibraryPlaybackTrack currentTrack)
+                return IsCurrentTrack(zuneMediaId);
             return currentTrack.MediaId == id && currentTrack.MediaType == type;
         }
 
         public int GetLibraryErrorCode(int id, MediaType type)
         {
-            if (this._errors.Count > 0)
+            if (_errors.Count > 0)
             {
-                foreach (KeyValuePair<PlaybackTrack, int> error in this._errors)
+                foreach (KeyValuePair<PlaybackTrack, int> error in _errors)
                 {
                     if (error.Key is LibraryPlaybackTrack key && key.MediaId == id && key.MediaType == type)
                         return error.Value;
@@ -612,38 +609,33 @@ namespace ZuneUI
             return 0;
         }
 
-        public int GetLibraryErrorCode(PlaybackTrack track)
-        {
-            int num;
-            return this._errors.TryGetValue(track, out num) ? num : 0;
-        }
+        public int GetLibraryErrorCode(PlaybackTrack track) => _errors.TryGetValue(track, out int num) ? num : 0;
 
         internal void ClearError(PlaybackTrack track)
         {
-            if (!this._errors.Remove(track))
-                return;
-            this.FirePropertyChanged("ErrorCount");
+            if (_errors.Remove(track))
+                FirePropertyChanged("ErrorCount");
         }
 
-        public int ErrorCount => this._errors.Count;
+        public int ErrorCount => _errors.Count;
 
-        public VideoStream VideoStream => this._videoStream;
+        public VideoStream VideoStream => _videoStream;
 
         public bool CanRender3DVideo => Application.RenderingType != RenderingType.GDI;
 
-        public bool HasPlaylist => this._hasPlaylist;
+        public bool HasPlaylist => _hasPlaylist;
 
-        public bool PlaylistSupportsShuffle => this._playlistSupportsShuffle;
+        public bool PlaylistSupportsShuffle => _playlistSupportsShuffle;
 
-        public ArrayListDataSet CurrentPlaylist => this._currentPlaylist;
+        public ArrayListDataSet CurrentPlaylist => _currentPlaylist;
 
         public string QuickMixTitle
         {
             get
             {
                 string str = string.Empty;
-                if (this._playlistCurrent != null)
-                    str = this._playlistCurrent.QuickMixTitle;
+                if (_playlistCurrent != null)
+                    str = _playlistCurrent.QuickMixTitle;
                 return str;
             }
         }
@@ -653,25 +645,25 @@ namespace ZuneUI
             get
             {
                 EQuickMixType equickMixType = EQuickMixType.eQuickMixTypeInvalid;
-                if (this._playlistCurrent != null)
-                    equickMixType = this._playlistCurrent.QuickMixType;
+                if (_playlistCurrent != null)
+                    equickMixType = _playlistCurrent.QuickMixType;
                 return equickMixType;
             }
         }
 
         public bool DontPlayMarketplaceTracks
         {
-            get => this._dontPlayMarketplaceTracks;
+            get => _dontPlayMarketplaceTracks;
             set
             {
-                if (value == this._dontPlayMarketplaceTracks)
+                if (value == _dontPlayMarketplaceTracks)
                     return;
-                this._dontPlayMarketplaceTracks = value;
-                if (this._playlistCurrent != null)
-                    this._playlistCurrent.DontPlayMarketplaceTracks = this._dontPlayMarketplaceTracks;
-                if (this._playlistPending == null)
+                _dontPlayMarketplaceTracks = value;
+                if (_playlistCurrent != null)
+                    _playlistCurrent.DontPlayMarketplaceTracks = _dontPlayMarketplaceTracks;
+                if (_playlistPending == null)
                     return;
-                this._playlistPending.DontPlayMarketplaceTracks = this._dontPlayMarketplaceTracks;
+                _playlistPending.DontPlayMarketplaceTracks = _dontPlayMarketplaceTracks;
             }
         }
 
@@ -680,63 +672,63 @@ namespace ZuneUI
             get
             {
                 QuickMixSession quickMixSession = null;
-                if (this._playlistCurrent != null)
-                    quickMixSession = this._playlistCurrent.QuickMixSession;
+                if (_playlistCurrent != null)
+                    quickMixSession = _playlistCurrent.QuickMixSession;
                 return quickMixSession;
             }
         }
 
-        public bool IsPlaybackContextCompatible => this._isContextCompatible;
+        public bool IsPlaybackContextCompatible => _isContextCompatible;
 
         public JumpListPin RequestedJumpListPin
         {
-            get => !this.IsInitialized ? null : this._requestedJumpListPin;
+            get => !IsInitialized ? null : _requestedJumpListPin;
             set
             {
-                if (this._requestedJumpListPin == value)
+                if (_requestedJumpListPin == value)
                     return;
-                this._requestedJumpListPin = value;
-                if (!this.IsInitialized)
+                _requestedJumpListPin = value;
+                if (!IsInitialized)
                     return;
-                this.FirePropertyChanged(nameof(RequestedJumpListPin));
+                FirePropertyChanged(nameof(RequestedJumpListPin));
             }
         }
 
         public bool ShuffleAllRequested
         {
-            get => this.IsInitialized && this._shuffleAllRequested;
+            get => IsInitialized && _shuffleAllRequested;
             set
             {
-                if (this._shuffleAllRequested == value)
+                if (_shuffleAllRequested == value)
                     return;
-                this._shuffleAllRequested = value;
-                if (!this.IsInitialized)
+                _shuffleAllRequested = value;
+                if (!IsInitialized)
                     return;
-                this.FirePropertyChanged(nameof(ShuffleAllRequested));
+                FirePropertyChanged(nameof(ShuffleAllRequested));
             }
         }
 
         public int BandwidthCapacity
         {
-            get => this._bandwidthCapacity;
+            get => _bandwidthCapacity;
             private set
             {
-                this._bandwidthCapacity = value;
-                this.FirePropertyChanged(nameof(BandwidthCapacity));
+                _bandwidthCapacity = value;
+                FirePropertyChanged(nameof(BandwidthCapacity));
             }
         }
 
         public BandwidthUpdateArgs BandwidthUpdateInfo
         {
-            get => this._bandwidthUpdateInfo;
+            get => _bandwidthUpdateInfo;
             private set
             {
-                this._bandwidthUpdateInfo = value;
-                this.FirePropertyChanged(nameof(BandwidthUpdateInfo));
+                _bandwidthUpdateInfo = value;
+                FirePropertyChanged(nameof(BandwidthUpdateInfo));
             }
         }
 
-        private void OnBandwidthCapacityUpdate(object sender, BandwidthUpdateArgs args) => Application.DeferredInvoke(new DeferredInvokeHandler(this.OnBandwidthCapacityUpdateOnApp), args);
+        private void OnBandwidthCapacityUpdate(object sender, BandwidthUpdateArgs args) => Application.DeferredInvoke(new DeferredInvokeHandler(OnBandwidthCapacityUpdateOnApp), args);
 
         private void OnBandwidthCapacityUpdateOnApp(object obj)
         {
@@ -745,8 +737,8 @@ namespace ZuneUI
             BandwidthUpdateArgs bandwidthUpdateArgs = (BandwidthUpdateArgs)obj;
             if (bandwidthUpdateArgs == null || bandwidthUpdateArgs.currentState != MBRHeuristicState.Playback)
                 return;
-            this.BandwidthCapacity = bandwidthUpdateArgs.RecentAverageBandwidth;
-            this.BandwidthUpdateInfo = bandwidthUpdateArgs;
+            BandwidthCapacity = bandwidthUpdateArgs.RecentAverageBandwidth;
+            BandwidthUpdateInfo = bandwidthUpdateArgs;
         }
 
         private void OnStreamingRestrictionResponse(HRESULT hr)
@@ -760,75 +752,74 @@ namespace ZuneUI
             else
                 description = Shell.LoadString(StringId.IDS_PLAYBACK_UNKNOWN_CONCURRENT_STREAMING_RESTRICTION);
             Application.DeferredInvoke(delegate
-           {
-               this.Stop.Invoke();
-               MessageBox.Show(title, description, null);
-           }, DeferredInvokePriority.Low);
+            {
+                Stop.Invoke();
+                MessageBox.Show(title, description, null);
+            }, DeferredInvokePriority.Low);
         }
 
         private void ReportStreamingAction(PlayerState previousPlayerState)
         {
-            if (this.CurrentTrack != null && this.CurrentTrack.IsVideo && this.CurrentTrack.IsStreaming)
+            if (CurrentTrack != null && CurrentTrack.IsVideo && CurrentTrack.IsStreaming)
             {
-                Guid zuneMediaId = this.CurrentTrack.ZuneMediaId;
-                if (zuneMediaId != this._streamingReportMediaId && this._streamingReportIsOpen)
+                Guid zuneMediaId = CurrentTrack.ZuneMediaId;
+                if (zuneMediaId != _streamingReportMediaId && _streamingReportIsOpen)
                 {
-                    this._streamingReportIsOpen = false;
+                    _streamingReportIsOpen = false;
                     previousPlayerState = PlayerState.Stopped;
-                    Service.Instance.ReportStreamingAction(EStreamingActionType.Stop, this._streamingReportMediaInstanceId, new AsyncCompleteHandler(this.OnStreamingRestrictionResponse));
+                    Service.Instance.ReportStreamingAction(EStreamingActionType.Stop, _streamingReportMediaInstanceId, new AsyncCompleteHandler(OnStreamingRestrictionResponse));
                 }
-                if (previousPlayerState == PlayerState.Stopped && this._playerState == PlayerState.Playing)
+                if (previousPlayerState == PlayerState.Stopped && _playerState == PlayerState.Playing)
                 {
-                    this._streamingReportMediaInstanceId = this.CurrentTrack.ZuneMediaInstanceId;
-                    if (!(this._streamingReportMediaInstanceId != Guid.Empty))
+                    _streamingReportMediaInstanceId = CurrentTrack.ZuneMediaInstanceId;
+                    if (!(_streamingReportMediaInstanceId != Guid.Empty))
                         return;
-                    this._streamingReportIsOpen = true;
-                    this._streamingReportMediaId = zuneMediaId;
-                    Service.Instance.ReportStreamingAction(EStreamingActionType.Start, this._streamingReportMediaInstanceId, new AsyncCompleteHandler(this.OnStreamingRestrictionResponse));
+                    _streamingReportIsOpen = true;
+                    _streamingReportMediaId = zuneMediaId;
+                    Service.Instance.ReportStreamingAction(EStreamingActionType.Start, _streamingReportMediaInstanceId, new AsyncCompleteHandler(OnStreamingRestrictionResponse));
                 }
-                else if (previousPlayerState == PlayerState.Paused && this._playerState == PlayerState.Playing)
-                    Service.Instance.ReportStreamingAction(EStreamingActionType.Resume, this._streamingReportMediaInstanceId, new AsyncCompleteHandler(this.OnStreamingRestrictionResponse));
-                else if (this._playerState == PlayerState.Paused)
+                else if (previousPlayerState == PlayerState.Paused && _playerState == PlayerState.Playing)
+                    Service.Instance.ReportStreamingAction(EStreamingActionType.Resume, _streamingReportMediaInstanceId, new AsyncCompleteHandler(OnStreamingRestrictionResponse));
+                else if (_playerState == PlayerState.Paused)
                 {
-                    Service.Instance.ReportStreamingAction(EStreamingActionType.Pause, this._streamingReportMediaInstanceId, new AsyncCompleteHandler(this.OnStreamingRestrictionResponse));
+                    Service.Instance.ReportStreamingAction(EStreamingActionType.Pause, _streamingReportMediaInstanceId, new AsyncCompleteHandler(OnStreamingRestrictionResponse));
                 }
                 else
                 {
-                    if (this._playerState != PlayerState.Stopped)
+                    if (_playerState != PlayerState.Stopped)
                         return;
-                    this._streamingReportIsOpen = false;
-                    Service.Instance.ReportStreamingAction(EStreamingActionType.Stop, this._streamingReportMediaInstanceId, new AsyncCompleteHandler(this.OnStreamingRestrictionResponse));
+                    _streamingReportIsOpen = false;
+                    Service.Instance.ReportStreamingAction(EStreamingActionType.Stop, _streamingReportMediaInstanceId, new AsyncCompleteHandler(OnStreamingRestrictionResponse));
                 }
             }
             else
             {
-                if (!this._streamingReportIsOpen)
+                if (!_streamingReportIsOpen)
                     return;
-                this._streamingReportIsOpen = false;
-                Service.Instance.ReportStreamingAction(EStreamingActionType.Stop, this._streamingReportMediaInstanceId, new AsyncCompleteHandler(this.OnStreamingRestrictionResponse));
+                _streamingReportIsOpen = false;
+                Service.Instance.ReportStreamingAction(EStreamingActionType.Stop, _streamingReportMediaInstanceId, new AsyncCompleteHandler(OnStreamingRestrictionResponse));
             }
         }
 
         private void SetPlayerState(PlayerState stateNew)
         {
-            PlayerState playerState = this._playerState;
-            if (stateNew != this._playerState)
+            PlayerState playerState = _playerState;
+            if (stateNew != _playerState)
             {
-                this._playerState = stateNew;
-                if (this._playerState == PlayerState.Stopped)
+                _playerState = stateNew;
+                if (_playerState == PlayerState.Stopped)
                 {
-                    this._rewinding.Value = false;
-                    this._fastforwarding.Value = false;
-                    ++this._lastKnownSetUriCallID;
-                    this.FirePropertyChanged("PlaybackStopped");
-                    if (this.PlaybackStopped != null)
-                        this.PlaybackStopped(this, null);
+                    _rewinding.Value = false;
+                    _fastforwarding.Value = false;
+                    ++_lastKnownSetUriCallID;
+                    FirePropertyChanged("PlaybackStopped");
+                    PlaybackStopped?.Invoke(this, null);
                 }
 
                 UpdateSmtcState(stateNew);
             }
-            this.UpdatePropertiesAndCommands();
-            this.ReportStreamingAction(playerState);
+            UpdatePropertiesAndCommands();
+            ReportStreamingAction(playerState);
         }
 
         public void PlayItem(
@@ -836,37 +827,43 @@ namespace ZuneUI
           PlayNavigationOptions playNavigationOptions,
           PlaybackContext playbackContext)
         {
-            ArrayListDataSet arrayListDataSet = new ArrayListDataSet();
-            arrayListDataSet.Add(item);
-            this.PlayItemsWorker(arrayListDataSet, -1, true, playNavigationOptions, playbackContext, null);
+            ArrayListDataSet arrayListDataSet = new()
+            {
+                item
+            };
+            PlayItemsWorker(arrayListDataSet, -1, true, playNavigationOptions, playbackContext, null);
         }
 
-        public void PlayItem(object item) => this.PlayItem(item, PlayNavigationOptions.NavigateVideosToNowPlaying);
+        public void PlayItem(object item) => PlayItem(item, PlayNavigationOptions.NavigateVideosToNowPlaying);
 
         public void PlayItem(object item, PlayNavigationOptions playNavigationOptions)
         {
-            ArrayListDataSet arrayListDataSet = new ArrayListDataSet();
-            arrayListDataSet.Add(item);
-            this.PlayItemsWorker(arrayListDataSet, -1, true, playNavigationOptions, null);
+            ArrayListDataSet arrayListDataSet = new()
+            {
+                item
+            };
+            PlayItemsWorker(arrayListDataSet, -1, true, playNavigationOptions, null);
         }
 
         public void PlayItem(object item, PlaybackContext playbackContext)
         {
-            ArrayListDataSet arrayListDataSet = new ArrayListDataSet();
-            arrayListDataSet.Add(item);
-            this.PlayItemsWorker(arrayListDataSet, -1, true, PlayNavigationOptions.NavigateVideosToNowPlaying, playbackContext, null);
+            ArrayListDataSet arrayListDataSet = new()
+            {
+                item
+            };
+            PlayItemsWorker(arrayListDataSet, -1, true, PlayNavigationOptions.NavigateVideosToNowPlaying, playbackContext, null);
         }
 
-        public void PlayItems(IList items) => this.PlayItemsWorker(items, -1, true, PlayNavigationOptions.NavigateVideosToNowPlaying, null);
+        public void PlayItems(IList items) => PlayItemsWorker(items, -1, true, PlayNavigationOptions.NavigateVideosToNowPlaying, null);
 
-        public void PlayItems(IList items, PlayNavigationOptions playNavigationOptions) => this.PlayItemsWorker(items, -1, true, playNavigationOptions, null);
+        public void PlayItems(IList items, PlayNavigationOptions playNavigationOptions) => PlayItemsWorker(items, -1, true, playNavigationOptions, null);
 
         public void PlayItems(
           IList items,
           PlayNavigationOptions playNavigationOptions,
           ContainerPlayMarker containerPlayMarker)
         {
-            this.PlayItemsWorker(items, -1, true, playNavigationOptions, containerPlayMarker);
+            PlayItemsWorker(items, -1, true, playNavigationOptions, containerPlayMarker);
         }
 
         public void PlayItems(
@@ -874,12 +871,12 @@ namespace ZuneUI
           PlayNavigationOptions playNavigationOptions,
           PlaybackContext playbackContext)
         {
-            this.PlayItemsWorker(items, -1, true, playNavigationOptions, playbackContext, null);
+            PlayItemsWorker(items, -1, true, playNavigationOptions, playbackContext, null);
         }
 
-        public void PlayItems(IList items, PlaybackContext playbackContext) => this.PlayItemsWorker(items, -1, true, PlayNavigationOptions.NavigateVideosToNowPlaying, playbackContext, null);
+        public void PlayItems(IList items, PlaybackContext playbackContext) => PlayItemsWorker(items, -1, true, PlayNavigationOptions.NavigateVideosToNowPlaying, playbackContext, null);
 
-        public void PlayItems(IList items, int startIndex) => this.PlayItemsWorker(items, startIndex, true, PlayNavigationOptions.NavigateVideosToNowPlaying, null);
+        public void PlayItems(IList items, int startIndex) => PlayItemsWorker(items, startIndex, true, PlayNavigationOptions.NavigateVideosToNowPlaying, null);
 
         public void PlayItems(
           IList items,
@@ -887,15 +884,14 @@ namespace ZuneUI
           PlayNavigationOptions playNavigationOptions,
           ContainerPlayMarker containerPlayMarker)
         {
-            this.PlayItemsWorker(items, startIndex, true, PlayNavigationOptions.NavigateVideosToNowPlaying, containerPlayMarker);
+            PlayItemsWorker(items, startIndex, true, PlayNavigationOptions.NavigateVideosToNowPlaying, containerPlayMarker);
         }
 
         public void AddToNowPlaying(IList items)
         {
-            int count = this.PlayItemsWorker(items, -1, false, PlayNavigationOptions.NavigateVideosToNowPlaying, null);
-            if (count <= 0)
-                return;
-            PlaylistManager.Instance.NotifyItemsAdded(-1, count);
+            int count = PlayItemsWorker(items, -1, false, PlayNavigationOptions.NavigateVideosToNowPlaying, null);
+            if (count > 0)
+                PlaylistManager.Instance.NotifyItemsAdded(-1, count);
         }
 
         private int PlayItemsWorker(
@@ -905,7 +901,7 @@ namespace ZuneUI
           PlayNavigationOptions playNavigationOptions,
           ContainerPlayMarker containerPlayMarker)
         {
-            return this.PlayItemsWorker(items, startIndex, clearQueue, playNavigationOptions, this._shellInstance.CurrentPage.PlaybackContext, containerPlayMarker);
+            return PlayItemsWorker(items, startIndex, clearQueue, playNavigationOptions, _shellInstance.CurrentPage.PlaybackContext, containerPlayMarker);
         }
 
         private int PlayItemsWorker(
@@ -917,143 +913,131 @@ namespace ZuneUI
           ContainerPlayMarker containerPlayMarker)
         {
             PerfTrace.TraceUICollectionEvent(UICollectionEvent.PlayRequestIssued, "");
-            bool flag = this._playlistCurrent != null;
+            bool flag = _playlistCurrent != null;
             int num;
             if (clearQueue || !flag)
             {
-                if (clearQueue || this._playlistPending == null)
+                if (clearQueue || _playlistPending == null)
                 {
-                    if (this._playlistPending != null)
-                        this._playlistPending.Dispose();
-                    this._playlistPending = new NowPlayingList(items, startIndex, playbackContext, playNavigationOptions, this._shuffling.Value, containerPlayMarker, this._dontPlayMarketplaceTracks);
-                    num = this._playlistPending.Count;
+                    _playlistPending?.Dispose();
+                    _playlistPending = new NowPlayingList(items, startIndex, playbackContext, playNavigationOptions, _shuffling.Value, containerPlayMarker, _dontPlayMarketplaceTracks);
+                    num = _playlistPending.Count;
                 }
                 else
-                    num = this._playlistPending.AddItems(items);
+                    num = _playlistPending.AddItems(items);
                 if (playbackContext == PlaybackContext.QuickMix)
                 {
-                    if (this._lastKnownTransportState == MCTransportState.Playing || this._lastKnownTransportState == MCTransportState.Paused)
-                        this._playbackWrapper.Stop();
+                    if (_lastKnownTransportState == MCTransportState.Playing || _lastKnownTransportState == MCTransportState.Paused)
+                        _playbackWrapper.Stop();
                     else
-                        this._playlistPending.PlayWhenReady = true;
+                        _playlistPending.PlayWhenReady = true;
                 }
-                else if (this._playlistPending.Count == 0)
+                else if (_playlistPending.Count == 0)
                 {
-                    this._playlistPending.Dispose();
-                    this._playlistPending = null;
-                    this.Stop.Invoke();
+                    _playlistPending.Dispose();
+                    _playlistPending = null;
+                    Stop.Invoke();
                 }
-                else if (flag && (this._lastKnownTransportState == MCTransportState.Playing || this._lastKnownTransportState == MCTransportState.Paused))
-                    this._playbackWrapper.Stop();
+                else if (flag && (_lastKnownTransportState == MCTransportState.Playing || _lastKnownTransportState == MCTransportState.Paused))
+                    _playbackWrapper.Stop();
                 else
-                    this.PlayPendingList();
+                    PlayPendingList();
             }
             else
             {
-                num = this._playlistCurrent.AddItems(items);
-                if (this._playlistPending != null)
-                    this._playlistPending.Dispose();
-                this._playlistPending = null;
-                this.UpdateNextTrack();
+                num = _playlistCurrent.AddItems(items);
+                _playlistPending?.Dispose();
+                _playlistPending = null;
+                UpdateNextTrack();
             }
             return num;
         }
 
         internal void PlayPendingList()
         {
-            if (this._playlistPending == null)
+            if (_playlistPending == null)
                 return;
-            if (this._playlistCurrent != null && this._playlistCurrent != this._playlistPending)
-                this._playlistCurrent.Dispose();
-            this._playlistCurrent = this._playlistPending;
-            this._playlistPending = null;
-            this._playlistCurrent.SetShuffling(this._shuffling.Value);
-            this._playlistCurrent.SetRepeating(this._repeating.Value);
-            this._consecutiveErrors = 0;
-            if (this._errors.Count > 0)
+            if (_playlistCurrent != null && _playlistCurrent != _playlistPending)
+                _playlistCurrent.Dispose();
+            _playlistCurrent = _playlistPending;
+            _playlistPending = null;
+            _playlistCurrent.SetShuffling(_shuffling.Value);
+            _playlistCurrent.SetRepeating(_repeating.Value);
+            _consecutiveErrors = 0;
+            if (_errors.Count > 0)
             {
-                this.FirePropertyChanged("ErrorCount");
-                this._errors.Clear();
+                FirePropertyChanged("ErrorCount");
+                _errors.Clear();
             }
-            this.SetPlayerState(PlayerState.Playing);
-            this.SetUriOnPlayer();
-            bool flag1 = false;
-            if (this._playlistCurrent != null)
+            SetPlayerState(PlayerState.Playing);
+            SetUriOnPlayer();
+            bool isCurrentVideo = false;
+            if (_playlistCurrent != null)
             {
-                PlaybackTrack currentTrack = this._playlistCurrent.CurrentTrack;
-                PlayNavigationOptions navigationOptions = this._playlistCurrent.PlayNavigationOptions;
-                bool flag2 = false;
+                PlaybackTrack currentTrack = _playlistCurrent.CurrentTrack;
+                PlayNavigationOptions navigationOptions = _playlistCurrent.PlayNavigationOptions;
+                bool navigate = false;
                 if (currentTrack != null && currentTrack.IsVideo)
-                    flag1 = true;
+                    isCurrentVideo = true;
                 switch (navigationOptions)
                 {
                     case PlayNavigationOptions.None:
-                        if (flag2)
-                        {
+                        if (navigate)
                             NowPlayingLand.NavigateToLand(navigationOptions == PlayNavigationOptions.NavigateToNowPlayingWithMix, true);
-                            break;
-                        }
                         break;
+
                     case PlayNavigationOptions.NavigateVideosToNowPlaying:
-                        if (flag1)
-                        {
-                            flag2 = true;
-                            goto case PlayNavigationOptions.None;
-                        }
-                        else
-                            goto case PlayNavigationOptions.None;
+                        if (isCurrentVideo)
+                            navigate = true;
+                        goto case PlayNavigationOptions.None;
+
                     default:
-                        flag2 = true;
-                        this._playlistCurrent.PlayNavigationOptions = PlayNavigationOptions.NavigateVideosToNowPlaying;
+                        navigate = true;
+                        _playlistCurrent.PlayNavigationOptions = PlayNavigationOptions.NavigateVideosToNowPlaying;
                         goto case PlayNavigationOptions.None;
                 }
             }
-            this.PlayingVideo = flag1;
+            PlayingVideo = isCurrentVideo;
         }
 
         public void RemoveFromNowPlaying(IList indices)
         {
-            if (this._playlistCurrent == null)
+            if (_playlistCurrent == null)
                 return;
-            bool flag = this._playlistCurrent.Remove(indices);
-            if (this._playlistCurrent.Count == 0)
-                this.Stop.Invoke();
-            else if (flag)
-                this.SetUriOnPlayer();
+
+            bool removed = _playlistCurrent.Remove(indices);
+            if (_playlistCurrent.Count == 0)
+                Stop.Invoke();
+            else if (removed)
+                SetUriOnPlayer();
             else
-                this.UpdateNextTrack();
+                UpdateNextTrack();
         }
 
         public void ReorderNowPlaying(IList indices, int targetIndex)
         {
-            if (this._playlistCurrent == null)
+            if (_playlistCurrent == null)
                 return;
-            this._playlistCurrent.Reorder(indices, targetIndex);
-            this.UpdateNextTrack();
+            _playlistCurrent.Reorder(indices, targetIndex);
+            UpdateNextTrack();
         }
 
-        public IList GetNextTracks(int count)
-        {
-            IList list = null;
-            if (this._playlistCurrent != null)
-                list = this._playlistCurrent.GetNextTracks(count);
-            return list;
-        }
+        public IList GetNextTracks(int count) => _playlistCurrent?.GetNextTracks(count);
 
         public IList CreateAlbumListForBackground(IList allAlbums, int totalDesired)
         {
-            List<object> objectList1 = new List<object>(totalDesired);
-            Dictionary<int, object> dictionary = new Dictionary<int, object>();
-            if (this._playlistCurrent != null)
+            List<object> objectList1 = new(totalDesired);
+            Dictionary<int, object> dictionary = new();
+            if (_playlistCurrent != null)
             {
-                int num = Math.Min(this._playlistCurrent.Count, totalDesired);
+                int num = Math.Min(_playlistCurrent.Count, totalDesired);
                 for (int itemIndex = 0; itemIndex < num; ++itemIndex)
                 {
-                    if (this._playlistCurrent.TrackList[itemIndex] is LibraryPlaybackTrack track && track.MediaType == MediaType.Track)
+                    if (_playlistCurrent.TrackList[itemIndex] is LibraryPlaybackTrack track && track.MediaType == MediaType.Track)
                         dictionary[track.AlbumLibraryId] = null;
                 }
             }
-            List<object> objectList2 = new List<object>(totalDesired);
+            List<object> objectList2 = new(totalDesired);
             for (int index = 0; index < allAlbums.Count; ++index)
             {
                 DataProviderObject allAlbum = (DataProviderObject)allAlbums[index];
@@ -1073,11 +1057,11 @@ namespace ZuneUI
             if (objectList1.Count == 0)
                 return null;
             foreach (object album in objectList1)
-                this.DisableSlowDataThumbnailExtraction(album);
+                DisableSlowDataThumbnailExtraction(album);
             int num1 = 0;
             while (objectList1.Count < totalDesired)
                 objectList1.Add(objectList1[num1++]);
-            Random random = new Random();
+            Random random = new();
             for (int index1 = objectList1.Count - 1; index1 > 0; --index1)
             {
                 int index2 = random.Next(index1 + 1);
@@ -1090,40 +1074,40 @@ namespace ZuneUI
 
         public void DisableSlowDataThumbnailExtraction(object album)
         {
-            if (!(album is LibraryDataProviderItemBase providerItemBase))
-                return;
-            providerItemBase.SetSlowDataThumbnailExtraction(false);
+            if (album is LibraryDataProviderItemBase providerItemBase)
+                providerItemBase.SetSlowDataThumbnailExtraction(false);
         }
 
         public void Phase2Init()
         {
-            if (!this.CanRender3DVideo)
-                this._playbackWrapper.WindowHandle = Application.Window.Handle;
+            if (!CanRender3DVideo)
+                _playbackWrapper.WindowHandle = Application.Window.Handle;
             else
-                this._playbackWrapper.DynamicImage = this._videoStream.StreamID;
-            ThreadPool.QueueUserWorkItem(new WaitCallback(this.AsyncPhase2Init), null);
+                _playbackWrapper.DynamicImage = _videoStream.StreamID;
+            ThreadPool.QueueUserWorkItem(new WaitCallback(AsyncPhase2Init), null);
         }
 
         private void AsyncPhase2Init(object arg)
         {
-            this._playbackWrapper.Initialize();
-            Application.DeferredInvoke(new DeferredInvokeHandler(this.CompletePhase2Init), null);
+            _playbackWrapper.Initialize();
+            Application.DeferredInvoke(new DeferredInvokeHandler(CompletePhase2Init), null);
         }
 
         private void CompletePhase2Init(object obj)
         {
-            this._playbackWrapper.Volume = (int)this._volume.Value;
-            this._playbackWrapper.Mute = this._muted.Value;
-            this._isSpectrumAvailable = true;
-            this.ConnectAllSpectrumAnimationSources();
-            this._taskbarPlayer.Initialize(Application.Window.Handle, new TaskbarPlayerCommandHandler(this.OnTaskbarPlayerCommand));
-            this.IsInitialized = true;
-            ThreadPool.QueueUserWorkItem(new WaitCallback(this.DeserializeNowPlayingList), _savedNowPlayingFilename);
-            if (this.RequestedJumpListPin != null)
-                this.FirePropertyChanged("RequestedJumpListPin");
-            if (!this.ShuffleAllRequested)
-                return;
-            this.FirePropertyChanged("ShuffleAllRequested");
+            _playbackWrapper.Volume = (int)_volume.Value;
+            _playbackWrapper.Mute = _muted.Value;
+            _isSpectrumAvailable = true;
+            ConnectAllSpectrumAnimationSources();
+            _taskbarPlayer.Initialize(Application.Window.Handle, new TaskbarPlayerCommandHandler(OnTaskbarPlayerCommand));
+            IsInitialized = true;
+            ThreadPool.QueueUserWorkItem(new WaitCallback(DeserializeNowPlayingList), _savedNowPlayingFilename);
+            if (RequestedJumpListPin != null)
+                FirePropertyChanged("RequestedJumpListPin");
+            if (ShuffleAllRequested)
+                FirePropertyChanged("ShuffleAllRequested");
+
+            OnInit();
         }
 
         private void OnTaskbarPlayerCommand(ETaskbarPlayerCommand command, int value)
@@ -1131,55 +1115,55 @@ namespace ZuneUI
             switch (command)
             {
                 case ETaskbarPlayerCommand.PC_Connect:
-                    this.UpdateTaskbarPlayer();
+                    UpdateTaskbarPlayer();
                     break;
                 case ETaskbarPlayerCommand.PC_Play:
-                    this.Play.Invoke();
+                    Play.Invoke();
                     break;
                 case ETaskbarPlayerCommand.PC_Pause:
-                    this.Pause.Invoke();
+                    Pause.Invoke();
                     break;
                 case ETaskbarPlayerCommand.PC_Forward:
-                    this.Forward.Invoke();
+                    Forward.Invoke();
                     break;
                 case ETaskbarPlayerCommand.PC_Back:
-                    this.Back.Invoke();
+                    Back.Invoke();
                     break;
                 case ETaskbarPlayerCommand.PC_Rate:
-                    if (this.CurrentTrack == null || !this.CurrentTrack.CanRate)
+                    if (CurrentTrack == null || !CurrentTrack.CanRate)
                         break;
                     switch ((ETaskbarPlayerState)value)
                     {
                         case ETaskbarPlayerState.PS_RatingNotRated:
-                            this.CurrentTrack.UserRating = 0;
+                            CurrentTrack.UserRating = 0;
                             break;
                         case ETaskbarPlayerState.PS_RatingLoveIt:
-                            this.CurrentTrack.UserRating = 8;
+                            CurrentTrack.UserRating = 8;
                             break;
                         case ETaskbarPlayerState.PS_RatingHateIt:
-                            this.CurrentTrack.UserRating = 2;
+                            CurrentTrack.UserRating = 2;
                             break;
                     }
-                    this.UpdateTaskbarPlayer();
+                    UpdateTaskbarPlayer();
                     break;
             }
         }
 
         private void UpdateTaskbarPlayer()
         {
-            ETaskbarPlayerState etaskbarPlayerState1 = (ETaskbarPlayerState)(0 | (this._playerState == PlayerState.Playing ? 2 : 0) | (this._playerState == PlayerState.Paused ? 4 : 0) | (this._playerState == PlayerState.Stopped ? 1 : 0));
+            ETaskbarPlayerState etaskbarPlayerState1 = (ETaskbarPlayerState)(0 | (_playerState == PlayerState.Playing ? 2 : 0) | (_playerState == PlayerState.Paused ? 4 : 0) | (_playerState == PlayerState.Stopped ? 1 : 0));
             ETaskbarPlayerState etaskbarPlayerState2;
-            if (this.CurrentTrack != null && this.CurrentTrack.CanRate)
+            if (CurrentTrack != null && CurrentTrack.CanRate)
             {
-                RatingConstants userRating = (RatingConstants)this.CurrentTrack.UserRating;
+                RatingConstants userRating = (RatingConstants)CurrentTrack.UserRating;
                 etaskbarPlayerState2 = userRating != RatingConstants.Unrated ? (userRating > RatingConstants.MaxHateIt ? etaskbarPlayerState1 | ETaskbarPlayerState.PS_RatingLoveIt : etaskbarPlayerState1 | ETaskbarPlayerState.PS_RatingHateIt) : etaskbarPlayerState1 | ETaskbarPlayerState.PS_RatingNotRated;
             }
             else
                 etaskbarPlayerState2 = etaskbarPlayerState1 | ETaskbarPlayerState.PS_RatingNotRated;
-            ETaskbarPlayerState state = etaskbarPlayerState2 | (this.Play.Available ? ETaskbarPlayerState.PS_CanPlay : 0) | (this.Pause.Available ? ETaskbarPlayerState.PS_CanPause : 0) | (this.Forward.Available ? ETaskbarPlayerState.PS_CanForward : 0) | (this.Back.Available ? ETaskbarPlayerState.PS_CanBack : 0);
-            if (this.CurrentTrack != null && this.CurrentTrack.CanRate)
+            ETaskbarPlayerState state = etaskbarPlayerState2 | (Play.Available ? ETaskbarPlayerState.PS_CanPlay : 0) | (Pause.Available ? ETaskbarPlayerState.PS_CanPause : 0) | (Forward.Available ? ETaskbarPlayerState.PS_CanForward : 0) | (Back.Available ? ETaskbarPlayerState.PS_CanBack : 0);
+            if (CurrentTrack != null && CurrentTrack.CanRate)
                 state |= ETaskbarPlayerState.PS_CanRate;
-            this._taskbarPlayer.UpdateToolbar(state);
+            _taskbarPlayer.UpdateToolbar(state);
         }
 
         public int CreateSpectrumAnimationSource(
@@ -1188,45 +1172,47 @@ namespace ZuneUI
           bool outputWaveformData,
           bool enableStereoOutput)
         {
-            Dictionary<string, int> dictionary = new Dictionary<string, int>();
+            Dictionary<string, int> dictionary = new();
             for (int index = 0; index < numBands; ++index)
             {
                 if (outputFrequencyData)
                 {
                     if (!enableStereoOutput)
                     {
-                        dictionary[string.Format("Frequency{0}", index)] = index;
+                        dictionary[$"Frequency{index}"] = index;
                     }
                     else
                     {
-                        dictionary[string.Format("FrequencyL{0}", index)] = index;
-                        dictionary[string.Format("FrequencyR{0}", index)] = index + 1024;
+                        dictionary[$"FrequencyL{index}"] = index;
+                        dictionary[$"FrequencyR{index}"] = index + 1024;
                     }
                 }
                 if (outputWaveformData)
                 {
                     if (!enableStereoOutput)
                     {
-                        dictionary[string.Format("Waveform{0}", index)] = index + 2048;
+                        dictionary[$"Waveform{index}"] = index + 2048;
                     }
                     else
                     {
-                        dictionary[string.Format("WaveformL{0}", index)] = index + 2048;
-                        dictionary[string.Format("WaveformR{0}", index)] = index + 3072;
+                        dictionary[$"WaveformL{index}"] = index + 2048;
+                        dictionary[$"WaveformR{index}"] = index + 3072;
                     }
                 }
             }
             int externalAnimationInput = Application.CreateExternalAnimationInput(dictionary);
-            SpectrumOutputConfig spectrumOutputConfig = new SpectrumOutputConfig();
-            spectrumOutputConfig.SourceId = (uint)externalAnimationInput;
-            spectrumOutputConfig.NumBands = (uint)numBands;
-            spectrumOutputConfig.Frequency = outputFrequencyData;
-            spectrumOutputConfig.Waveform = outputWaveformData;
-            spectrumOutputConfig.Stereo = enableStereoOutput;
-            spectrumOutputConfig.IsConnected = this._isSpectrumAvailable;
-            this._spectrumConfigList.Add(spectrumOutputConfig);
-            if (this._isSpectrumAvailable)
-                this._playbackWrapper.ConnectAnimationsToSpectrumAnalyzer(spectrumOutputConfig.SourceId, spectrumOutputConfig.NumBands, spectrumOutputConfig.Frequency, spectrumOutputConfig.Waveform, spectrumOutputConfig.Stereo);
+            SpectrumOutputConfig spectrumOutputConfig = new()
+            {
+                SourceId = (uint)externalAnimationInput,
+                NumBands = (uint)numBands,
+                Frequency = outputFrequencyData,
+                Waveform = outputWaveformData,
+                Stereo = enableStereoOutput,
+                IsConnected = _isSpectrumAvailable
+            };
+            _spectrumConfigList.Add(spectrumOutputConfig);
+            if (_isSpectrumAvailable)
+                _playbackWrapper.ConnectAnimationsToSpectrumAnalyzer(spectrumOutputConfig.SourceId, spectrumOutputConfig.NumBands, spectrumOutputConfig.Frequency, spectrumOutputConfig.Waveform, spectrumOutputConfig.Stereo);
             return externalAnimationInput;
         }
 
@@ -1234,18 +1220,18 @@ namespace ZuneUI
         {
             if (inputSourceId <= 0)
                 return;
-            for (int index = 0; index < this._spectrumConfigList.Count; ++index)
+            for (int index = 0; index < _spectrumConfigList.Count; ++index)
             {
-                SpectrumOutputConfig spectrumConfig = this._spectrumConfigList[index];
+                SpectrumOutputConfig spectrumConfig = _spectrumConfigList[index];
                 if (spectrumConfig.SourceId == inputSourceId)
                 {
                     if (spectrumConfig.IsConnected)
                     {
-                        this._playbackWrapper.DisconnectAnimationsFromSpectrumAnalyzer(spectrumConfig.SourceId);
+                        _playbackWrapper.DisconnectAnimationsFromSpectrumAnalyzer(spectrumConfig.SourceId);
                         spectrumConfig.IsConnected = false;
                     }
                     Application.DisposeExternalAnimationInput(inputSourceId);
-                    this._spectrumConfigList.RemoveAt(index);
+                    _spectrumConfigList.RemoveAt(index);
                     break;
                 }
             }
@@ -1253,110 +1239,108 @@ namespace ZuneUI
 
         public void ConnectAllSpectrumAnimationSources()
         {
-            for (int index = 0; index < this._spectrumConfigList.Count; ++index)
+            for (int index = 0; index < _spectrumConfigList.Count; ++index)
             {
-                SpectrumOutputConfig spectrumConfig = this._spectrumConfigList[index];
+                SpectrumOutputConfig spectrumConfig = _spectrumConfigList[index];
                 if (!spectrumConfig.IsConnected)
                 {
-                    this._playbackWrapper.ConnectAnimationsToSpectrumAnalyzer(spectrumConfig.SourceId, spectrumConfig.NumBands, spectrumConfig.Frequency, spectrumConfig.Waveform, spectrumConfig.Stereo);
+                    _playbackWrapper.ConnectAnimationsToSpectrumAnalyzer(spectrumConfig.SourceId, spectrumConfig.NumBands, spectrumConfig.Frequency, spectrumConfig.Waveform, spectrumConfig.Stereo);
                     spectrumConfig.IsConnected = true;
-                    this._spectrumConfigList[index] = spectrumConfig;
+                    _spectrumConfigList[index] = spectrumConfig;
                 }
             }
         }
 
         public void DisconnectAllSpectrumAnimationSources()
         {
-            if (!this._isSpectrumAvailable)
+            if (!_isSpectrumAvailable)
                 return;
-            for (int index = 0; index < this._spectrumConfigList.Count; ++index)
+            for (int index = 0; index < _spectrumConfigList.Count; ++index)
             {
-                SpectrumOutputConfig spectrumConfig = this._spectrumConfigList[index];
+                SpectrumOutputConfig spectrumConfig = _spectrumConfigList[index];
                 if (spectrumConfig.IsConnected)
                 {
-                    this._playbackWrapper.DisconnectAnimationsFromSpectrumAnalyzer(spectrumConfig.SourceId);
+                    _playbackWrapper.DisconnectAnimationsFromSpectrumAnalyzer(spectrumConfig.SourceId);
                     spectrumConfig.IsConnected = false;
-                    this._spectrumConfigList[index] = spectrumConfig;
+                    _spectrumConfigList[index] = spectrumConfig;
                 }
             }
         }
 
         public void ResumeLastNowPlayingHandler()
         {
-            if (!this.IsInitialized)
+            if (!IsInitialized)
             {
-                this._resumeLastNowPlayingRequested = true;
+                _resumeLastNowPlayingRequested = true;
             }
-            else
+            else if(!_isPlaying)
             {
-                if (this._isPlaying)
-                    return;
-                this.Play.Invoke();
+                Play.Invoke();
             }
         }
 
         private void OnShellPropertyChanged(object sender, PropertyChangedEventArgs args)
         {
-            if (!(args.PropertyName == "CurrentPage"))
+            if (args.PropertyName != "CurrentPage")
                 return;
-            this._pagePlaybackContext = this._shellInstance.CurrentPage.PlaybackContext;
-            this.UpdatePropertiesAndCommands();
+            _pagePlaybackContext = _shellInstance.CurrentPage.PlaybackContext;
+            UpdatePropertiesAndCommands();
         }
 
         private void OnDownloadProgressed(Guid zuneMediaId, float percent)
         {
-            if (this.CurrentTrack == null || !(this.CurrentTrack.ZuneMediaId == zuneMediaId))
+            if (CurrentTrack == null || !(CurrentTrack.ZuneMediaId == zuneMediaId))
                 return;
-            this.CurrentTrackDownloadProgress = percent;
+            CurrentTrackDownloadProgress = percent;
         }
 
         private void OnShufflingChanged(object sender, EventArgs e)
         {
-            if (this._playlistCurrent != null)
+            if (_playlistCurrent != null)
             {
-                this._playlistCurrent.SetShuffling(this._shuffling.Value);
-                this.UpdateNextTrack();
+                _playlistCurrent.SetShuffling(_shuffling.Value);
+                UpdateNextTrack();
             }
-            this.UpdateShufflingDescription();
-            this.PersistSettings();
+            UpdateShufflingDescription();
+            PersistSettings();
             SQMLog.Log(SQMDataId.ShuffleClicks, 1);
         }
 
-        private void UpdateShufflingDescription() => this._shuffling.Description = Shell.LoadString(!this._shuffling.Value ? StringId.IDS_SHUFFLE_ON : StringId.IDS_SHUFFLE_OFF);
+        private void UpdateShufflingDescription() => _shuffling.Description = Shell.LoadString(!_shuffling.Value ? StringId.IDS_SHUFFLE_ON : StringId.IDS_SHUFFLE_OFF);
 
         private void OnRepeatingChanged(object sender, EventArgs e)
         {
-            if (this._playlistCurrent != null)
+            if (_playlistCurrent != null)
             {
-                this._playlistCurrent.SetRepeating(this._repeating.Value);
-                this.UpdateNextTrack();
+                _playlistCurrent.SetRepeating(_repeating.Value);
+                UpdateNextTrack();
             }
             SQMLog.Log(SQMDataId.RepeatClicks, 1);
-            this.UpdateRepeatingDescription();
-            this.PersistSettings();
+            UpdateRepeatingDescription();
+            PersistSettings();
         }
 
-        private void UpdateRepeatingDescription() => this._repeating.Description = Shell.LoadString(!this._repeating.Value ? StringId.IDS_REPEAT_ON : StringId.IDS_REPEAT_OFF);
+        private void UpdateRepeatingDescription() => _repeating.Description = Shell.LoadString(!_repeating.Value ? StringId.IDS_REPEAT_ON : StringId.IDS_REPEAT_OFF);
 
         private void OnMutingChanged(object sender, EventArgs e)
         {
-            this.UpdateMutingDescription();
-            this._playbackWrapper.Mute = this._muted.Value;
+            UpdateMutingDescription();
+            _playbackWrapper.Mute = _muted.Value;
             SQMLog.Log(SQMDataId.VolumeMuteClicks, 1);
-            this.PersistSettings();
+            PersistSettings();
         }
 
-        private void UpdateMutingDescription() => this._muted.Description = Shell.LoadString(!this._muted.Value ? StringId.IDS_MUTE : StringId.IDS_UNMUTE);
+        private void UpdateMutingDescription() => _muted.Description = Shell.LoadString(!_muted.Value ? StringId.IDS_MUTE : StringId.IDS_UNMUTE);
 
-        private void OnShowTotalTimeChanged(object sender, EventArgs e) => this.PersistSettings();
+        private void OnShowTotalTimeChanged(object sender, EventArgs e) => PersistSettings();
 
         private void OnShowNowPlayingListChanged(object sender, EventArgs e)
         {
-            this.UpdateShowNowPlayingListDescription();
-            this.PersistSettings();
+            UpdateShowNowPlayingListDescription();
+            PersistSettings();
         }
 
-        private void UpdateShowNowPlayingListDescription() => this._showNowPlayingList.Description = Shell.LoadString(!this._showNowPlayingList.Value ? StringId.IDS_NOWPLAYINGLIST_ON : StringId.IDS_NOWPLAYINGLIST_OFF);
+        private void UpdateShowNowPlayingListDescription() => _showNowPlayingList.Description = Shell.LoadString(!_showNowPlayingList.Value ? StringId.IDS_NOWPLAYINGLIST_ON : StringId.IDS_NOWPLAYINGLIST_OFF);
 
         private void OnPlayingChanged(object sender, EventArgs e)
         {
@@ -1364,90 +1348,86 @@ namespace ZuneUI
 
         private void OnFastforwardingChanged(object sender, EventArgs e)
         {
-            if ((this._currentTrack == null || !this._currentTrack.IsVideo || this._playbackWrapper.CanChangeVideoRate) && this._fastforwarding.Value)
+            if ((_currentTrack == null || !_currentTrack.IsVideo || _playbackWrapper.CanChangeVideoRate) && _fastforwarding.Value)
             {
-                this._rewinding.Value = false;
-                this._playbackWrapper.Rate = 5f;
+                _rewinding.Value = false;
+                _playbackWrapper.Rate = 5f;
             }
             else
-                this._playbackWrapper.Rate = 1f;
+                _playbackWrapper.Rate = 1f;
         }
 
         private void OnRewindingChanged(object sender, EventArgs e)
         {
-            if ((this._currentTrack == null || !this._currentTrack.IsVideo || this._playbackWrapper.CanChangeVideoRate) && this._rewinding.Value)
+            if ((_currentTrack == null || !_currentTrack.IsVideo || _playbackWrapper.CanChangeVideoRate) && _rewinding.Value)
             {
-                this._fastforwarding.Value = false;
-                this._playbackWrapper.Rate = -5f;
+                _fastforwarding.Value = false;
+                _playbackWrapper.Rate = -5f;
             }
             else
-                this._playbackWrapper.Rate = 1f;
+                _playbackWrapper.Rate = 1f;
         }
 
-        private void OnFastforwardHotkeyPressed(object sender, EventArgs e) => this._fastforwarding.Value = !this._fastforwarding.Value;
+        private void OnFastforwardHotkeyPressed(object sender, EventArgs e) => _fastforwarding.Value = !_fastforwarding.Value;
 
-        private void OnRewindHotkeyPressed(object sender, EventArgs e) => this._rewinding.Value = !this._rewinding.Value;
+        private void OnRewindHotkeyPressed(object sender, EventArgs e) => _rewinding.Value = !_rewinding.Value;
 
-        private void OnPlaybackStatusChanged(object sender, EventArgs e) => Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredPlaybackStatusChanged), new object[2]
+        private void OnPlaybackStatusChanged(object sender, EventArgs e) => Application.DeferredInvoke(new DeferredInvokeHandler(DeferredPlaybackStatusChanged), new object[2]
         {
        _playbackWrapper.State,
        _playbackWrapper.EndOfMedia
         });
 
-        private void OnTransportStatusChanged(object sender, EventArgs e) => Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredTransportStatusChanged), new object[3]
+        private void OnTransportStatusChanged(object sender, EventArgs e) => Application.DeferredInvoke(new DeferredInvokeHandler(DeferredTransportStatusChanged), new object[3]
         {
-       _playbackWrapper.TransportState,
-       _playbackWrapper.EndOfMedia,
-       _playbackWrapper.CanSeek
+           _playbackWrapper.TransportState,
+           _playbackWrapper.EndOfMedia,
+           _playbackWrapper.CanSeek
         });
 
-        private void OnTransportPositionChanged(object sender, EventArgs e) => Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredTransportPositionChanged), _playbackWrapper.Position);
+        private void OnTransportPositionChanged(object sender, EventArgs e) => Application.DeferredInvoke(new DeferredInvokeHandler(DeferredTransportPositionChanged), _playbackWrapper.Position);
 
-        private void OnUriSet(object sender, EventArgs e) => Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredUriSet), new object[2]
+        private void OnUriSet(object sender, EventArgs e) => Application.DeferredInvoke(new DeferredInvokeHandler(DeferredUriSet), new object[2]
         {
-       _playbackWrapper.CurrentUri,
-       _playbackWrapper.CurrentUriID
+           _playbackWrapper.CurrentUri,
+           _playbackWrapper.CurrentUriID
         });
 
-        private void OnAlertSent(Announcement alert) => Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredAlertHandler), alert);
+        private void OnAlertSent(Announcement alert) => Application.DeferredInvoke(new DeferredInvokeHandler(DeferredAlertHandler), alert);
 
         private void OnPlayerPropertyChanged(object sender, PlayerPropertyChangedEventArgs e)
         {
             if (e.Key == "presentationinfo")
-                Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredPresentationInfoChangedHandler), e.Value);
+                Application.DeferredInvoke(new DeferredInvokeHandler(DeferredPresentationInfoChangedHandler), e.Value);
             else if (e.Key == "volumeinfo")
-            {
-                Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredVolumeInfoChangedHandler), e.Value);
-            }
-            else
-            {
-                if (!(e.Key == "canchangevideorate"))
-                    return;
-                Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredCanChangeVideoRateHandler), e.Value);
-            }
+                Application.DeferredInvoke(new DeferredInvokeHandler(DeferredVolumeInfoChangedHandler), e.Value);
+            else if (e.Key == "canchangevideorate")
+                Application.DeferredInvoke(new DeferredInvokeHandler(DeferredCanChangeVideoRateHandler), e.Value);
         }
 
         private void OnVolumeControlChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (!(e.PropertyName == "Value"))
+            if (e.PropertyName != "Value")
                 return;
-            this._muted.Value = false;
-            this._playbackWrapper.Mute = false;
-            this._playbackWrapper.Volume = (int)this._volume.Value;
+
+            _muted.Value = false;
+            _playbackWrapper.Mute = false;
+            _playbackWrapper.Volume = (int)_volume.Value;
             SQMLog.Log(SQMDataId.VolumeAdjustmentClicks, 1);
-            this.PersistSettings();
+            PersistSettings();
         }
 
         private void OnVideoDetailsChanged(object sender, EventArgs args)
         {
-            this._playbackWrapper.VideoPosition = new VideoWindow(this._videoStream.DisplayPosition.X, this._videoStream.DisplayPosition.Y, this._videoStream.DisplayPosition.X + this._videoStream.DisplaySize.Width, this._videoStream.DisplayPosition.Y + this._videoStream.DisplaySize.Height);
-            this._playbackWrapper.ShowGDIVideo = this._videoStream.DisplayVisibility;
+            _playbackWrapper.VideoPosition = new VideoWindow(_videoStream.DisplayPosition.X, _videoStream.DisplayPosition.Y, _videoStream.DisplayPosition.X + _videoStream.DisplaySize.Width, _videoStream.DisplayPosition.Y + _videoStream.DisplaySize.Height);
+            _playbackWrapper.ShowGDIVideo = _videoStream.DisplayVisibility;
         }
 
         private void DeferredPlaybackStatusChanged(object obj)
         {
-            if (this.IsDisposed)
+            if (IsDisposed)
                 return;
+
             object[] objArray = (object[])obj;
             MCPlayerState mcPlayerState = (MCPlayerState)objArray[0];
             bool endOfMedia = (bool)objArray[1];
@@ -1455,132 +1435,130 @@ namespace ZuneUI
             switch (mcPlayerState)
             {
                 case MCPlayerState.Closed:
-                    if (this.Playing)
+                    if (Playing)
                     {
-                        this.SetUriOnPlayer();
+                        SetUriOnPlayer();
                         break;
                     }
                     break;
                 case MCPlayerState.Open:
-                    this._rewinding.Value = false;
-                    this._fastforwarding.Value = false;
+                    _rewinding.Value = false;
+                    _fastforwarding.Value = false;
                     flag = true;
                     break;
                 case MCPlayerState.Built:
-                    if (this.Playing && this._lastKnownPlaybackTrack != null)
+                    if (Playing && _lastKnownPlaybackTrack != null)
                     {
-                        this._lastKnownPlaybackTrack.OnEndPlayback(endOfMedia);
-                        this._lastKnownPlaybackTrack = this._lastKnownPreparedTrack;
-                        this._lastKnownPreparedTrack = null;
-                        if (this._lastKnownPlaybackTrack != null)
-                            this._lastKnownPlaybackTrack.OnBeginPlayback(this._playbackWrapper);
+                        _lastKnownPlaybackTrack.OnEndPlayback(endOfMedia);
+                        _lastKnownPlaybackTrack = _lastKnownPreparedTrack;
+                        _lastKnownPreparedTrack = null;
+                        _lastKnownPlaybackTrack?.OnBeginPlayback(_playbackWrapper);
                     }
-                    this.CurrentTrackDuration = this._playbackWrapper.Duration >= 0L ? _playbackWrapper.Duration / 1E+07f : 0.0f;
+                    CurrentTrackDuration = _playbackWrapper.Duration >= 0L ? _playbackWrapper.Duration / 1E+07f : 0.0f;
                     break;
             }
-            this._lastKnownPlayerState = mcPlayerState;
-            if (this._opening == flag)
+            _lastKnownPlayerState = mcPlayerState;
+            if (_opening == flag)
                 return;
-            this.Opening = flag;
+            Opening = flag;
         }
 
         private void ShowNotification()
         {
-            if (this._nowPlayingNotification == null)
+            if (_nowPlayingNotification == null)
             {
-                this._nowPlayingNotification = new NowPlayingNotification();
-                NotificationArea.Instance.Add(this._nowPlayingNotification);
+                _nowPlayingNotification = new NowPlayingNotification();
+                NotificationArea.Instance.Add(_nowPlayingNotification);
             }
             else
-                NotificationArea.Instance.ForceToFront(this._nowPlayingNotification);
+                NotificationArea.Instance.ForceToFront(_nowPlayingNotification);
         }
 
         private void HideNotification()
         {
-            if (this._nowPlayingNotification == null)
+            if (_nowPlayingNotification == null)
                 return;
-            NotificationArea.Instance.Remove(this._nowPlayingNotification);
-            this._nowPlayingNotification = null;
+            NotificationArea.Instance.Remove(_nowPlayingNotification);
+            _nowPlayingNotification = null;
         }
 
         public void ShowPreparingNotification()
         {
-            this.HideNotification();
-            this.HidePreparingNotification(false);
+            HideNotification();
+            HidePreparingNotification(false);
             NotificationArea.Instance.Add(new PreparingPlayNotification());
         }
 
-        public void HidePreparingNotification() => this.HidePreparingNotification(true);
+        public void HidePreparingNotification() => HidePreparingNotification(true);
 
         private void HidePreparingNotification(bool restoreNowPlayingNotification)
         {
             NotificationArea.Instance.RemoveAll(NotificationTask.PreparingPlay, NotificationState.Normal);
-            if (!restoreNowPlayingNotification || this._playlistCurrent == null)
+            if (!restoreNowPlayingNotification || _playlistCurrent == null)
                 return;
-            this.ShowNotification();
+            ShowNotification();
         }
 
         private void DeferredTransportStatusChanged(object obj)
         {
-            if (this.IsDisposed)
+            if (IsDisposed)
                 return;
             object[] objArray = (object[])obj;
             MCTransportState mcTransportState = (MCTransportState)objArray[0];
             bool endOfMedia = (bool)objArray[1];
-            this.IsSeekEnabled = (bool)objArray[2];
+            IsSeekEnabled = (bool)objArray[2];
             if (mcTransportState == MCTransportState.Buffering)
             {
-                this.Buffering = true;
-                this.UpdatePropertiesAndCommands();
+                Buffering = true;
+                UpdatePropertiesAndCommands();
             }
             else
             {
-                if (this.Buffering)
+                if (Buffering)
                 {
-                    this.Buffering = false;
-                    this.UpdatePropertiesAndCommands();
+                    Buffering = false;
+                    UpdatePropertiesAndCommands();
                 }
                 switch (mcTransportState)
                 {
                     case MCTransportState.Stopped:
-                        bool flag = this._playlistCurrent != null && this._playlistCurrent.Count == 1 && this._repeating.Value && endOfMedia;
-                        if (this._lastKnownPlaybackTrack != null)
+                        bool flag = _playlistCurrent != null && _playlistCurrent.Count == 1 && _repeating.Value && endOfMedia;
+                        if (_lastKnownPlaybackTrack != null)
                         {
-                            this._lastKnownPlaybackTrack.OnEndPlayback(endOfMedia);
+                            _lastKnownPlaybackTrack.OnEndPlayback(endOfMedia);
                             if (!flag)
-                                this._lastKnownPlaybackTrack = null;
+                                _lastKnownPlaybackTrack = null;
                         }
-                        if (this._playlistPending != null)
+                        if (_playlistPending != null)
                         {
-                            if (this._playlistPending.TrackList != null && this._playlistPending.TrackList.Count > 0)
+                            if (_playlistPending.TrackList != null && _playlistPending.TrackList.Count > 0)
                             {
-                                this.PlayPendingList();
+                                PlayPendingList();
                                 break;
                             }
-                            this.SetPlayerState(PlayerState.Stopped);
-                            this._playlistPending.PlayWhenReady = true;
+                            SetPlayerState(PlayerState.Stopped);
+                            _playlistPending.PlayWhenReady = true;
                             break;
                         }
-                        if (this._lastKnownPreparedTrack != null)
+                        if (_lastKnownPreparedTrack != null)
                         {
-                            this._lastKnownPlaybackTrack = this._lastKnownPreparedTrack;
-                            this._lastKnownPlaybackTrack.OnBeginPlayback(this._playbackWrapper);
-                            if (this.Playing)
-                                this._playbackWrapper.Play();
-                            this._lastKnownPreparedTrack = null;
+                            _lastKnownPlaybackTrack = _lastKnownPreparedTrack;
+                            _lastKnownPlaybackTrack.OnBeginPlayback(_playbackWrapper);
+                            if (Playing)
+                                _playbackWrapper.Play();
+                            _lastKnownPreparedTrack = null;
                             break;
                         }
-                        if (flag && this._lastKnownPlaybackTrack != null)
+                        if (flag && _lastKnownPlaybackTrack != null)
                         {
-                            this._lastKnownPlaybackTrack.OnBeginPlayback(this._playbackWrapper);
-                            this._playbackWrapper.SeekToAbsolutePosition(0L);
-                            this._playbackWrapper.Play();
+                            _lastKnownPlaybackTrack.OnBeginPlayback(_playbackWrapper);
+                            _playbackWrapper.SeekToAbsolutePosition(0L);
+                            _playbackWrapper.Play();
                             break;
                         }
-                        if (this._playlistCurrent != null)
-                            this._playlistCurrent.ResetForReplay();
-                        this.SetPlayerState(PlayerState.Stopped);
-                        this._playbackWrapper.Close();
+                        _playlistCurrent?.ResetForReplay();
+                        SetPlayerState(PlayerState.Stopped);
+                        _playbackWrapper.Close();
                         break;
                     case MCTransportState.Playing:
                         PerfTrace.TraceUICollectionEvent(UICollectionEvent.PlayRequestComplete, "");
@@ -1588,7 +1566,7 @@ namespace ZuneUI
                         break;
                 }
             }
-            this._lastKnownTransportState = mcTransportState;
+            _lastKnownTransportState = mcTransportState;
         }
 
         bool isInit = false;
@@ -1672,88 +1650,86 @@ namespace ZuneUI
 
         private void DeferredTransportPositionChanged(object obj)
         {
-            if (this.IsDisposed)
+            if (IsDisposed)
                 return;
-            this._lastKnownPosition = (long)obj;
-            this.CurrentTrackPosition = _lastKnownPosition / 1E+07f;
-            if (this._lastKnownPlaybackTrack == null)
+            _lastKnownPosition = (long)obj;
+            CurrentTrackPosition = _lastKnownPosition / 1E+07f;
+            if (_lastKnownPlaybackTrack == null)
                 return;
-            if (this._lastKnownPosition > 0L)
-                this._consecutiveErrors = 0;
-            this._lastKnownPlaybackTrack.OnPositionChanged(this._lastKnownPosition);
+            if (_lastKnownPosition > 0L)
+                _consecutiveErrors = 0;
+            _lastKnownPlaybackTrack.OnPositionChanged(_lastKnownPosition);
         }
 
         private void DeferredUriSet(object obj)
         {
-            if (this.IsDisposed)
+            if (IsDisposed)
                 return;
             object[] objArray = (object[])obj;
             string str = (string)objArray[0];
             int num1 = (int)objArray[1];
-            this._lastKnownPreparedTrack = null;
+            _lastKnownPreparedTrack = null;
             int num2;
-            for (num2 = 0; num2 < this._tracksSubmittedToPlayer.Count; ++num2)
+            for (num2 = 0; num2 < _tracksSubmittedToPlayer.Count; ++num2)
             {
-                PlaybackTrack playbackTrack = this._tracksSubmittedToPlayer[num2];
+                PlaybackTrack playbackTrack = _tracksSubmittedToPlayer[num2];
                 if (playbackTrack.PlaybackID == num1)
                 {
-                    this._lastKnownPreparedTrack = playbackTrack;
+                    _lastKnownPreparedTrack = playbackTrack;
                     ++num2;
                     break;
                 }
             }
-            this._tracksSubmittedToPlayer.RemoveRange(0, num2);
-            if (this._lastKnownPreparedTrack == null || this._tracksSubmittedToPlayer.Count != 0)
+            _tracksSubmittedToPlayer.RemoveRange(0, num2);
+            if (_lastKnownPreparedTrack == null || _tracksSubmittedToPlayer.Count != 0)
                 return;
-            if (this._playlistCurrent != null)
-                this._playlistCurrent.SyncCurrentTrackTo(this._lastKnownPreparedTrack);
-            this.UpdateNextTrack();
+            _playlistCurrent?.SyncCurrentTrackTo(_lastKnownPreparedTrack);
+            UpdateNextTrack();
         }
 
         private void DeferredAlertHandler(object obj)
         {
-            if (this.IsDisposed || !(obj is Announcement announcement))
+            if (IsDisposed || obj is not Announcement announcement)
                 return;
             PlaybackTrack playbackTrack = null;
-            if (this.CurrentTrack != null && this.CurrentTrack.PlaybackID == announcement.PlaybackID)
+            if (CurrentTrack != null && CurrentTrack.PlaybackID == announcement.PlaybackID)
             {
-                playbackTrack = this.CurrentTrack;
+                playbackTrack = CurrentTrack;
             }
             else
             {
-                for (int index = this._tracksSubmittedToPlayer.Count - 1; index >= 0; --index)
+                for (int index = _tracksSubmittedToPlayer.Count - 1; index >= 0; --index)
                 {
-                    if (this._tracksSubmittedToPlayer[index].PlaybackID == announcement.PlaybackID)
+                    if (_tracksSubmittedToPlayer[index].PlaybackID == announcement.PlaybackID)
                     {
-                        playbackTrack = this._tracksSubmittedToPlayer[index];
+                        playbackTrack = _tracksSubmittedToPlayer[index];
                         break;
                     }
                 }
             }
             if (playbackTrack != null)
             {
-                ++this._consecutiveErrors;
-                this._errors[playbackTrack] = announcement.HResult;
-                if (this._playlistCurrent != null)
-                    this._playlistCurrent.SyncCurrentTrackTo(playbackTrack);
-                this.FirePropertyChanged("ErrorCount");
+                ++_consecutiveErrors;
+                _errors[playbackTrack] = announcement.HResult;
+                _playlistCurrent?.SyncCurrentTrackTo(playbackTrack);
+                FirePropertyChanged("ErrorCount");
             }
             bool flag = announcement.HResult == HRESULT._NS_E_CD_BUSY;
-            if (this._consecutiveErrors < 5 && !flag && this.Playing && (this._playlistCurrent != null && this._playlistCurrent.CanAdvance))
+            if (_consecutiveErrors < 5 && !flag && Playing && (_playlistCurrent != null && _playlistCurrent.CanAdvance))
             {
-                this._playlistCurrent.Advance();
-                this._playbackWrapper.Close();
+                _playlistCurrent.Advance();
+                _playbackWrapper.Close();
             }
             else
             {
-                this.SetPlayerState(PlayerState.Stopped);
-                this._playbackWrapper.Close();
-                if (this._lastKnownPlaybackTrack != null)
+                SetPlayerState(PlayerState.Stopped);
+                _playbackWrapper.Close();
+                if (_lastKnownPlaybackTrack != null)
                 {
-                    this._lastKnownPlaybackTrack.OnEndPlayback(false);
-                    this._lastKnownPlaybackTrack = null;
+                    _lastKnownPlaybackTrack.OnEndPlayback(false);
+                    _lastKnownPlaybackTrack = null;
                 }
-                if (flag || !this.ShowErrors)
+                if (flag || !ShowErrors)
                     return;
                 ErrorDialogInfo.Show(announcement.HResult, Shell.LoadString(StringId.IDS_PLAYBACK_ERROR));
             }
@@ -1761,266 +1737,270 @@ namespace ZuneUI
 
         private void DeferredPresentationInfoChangedHandler(object obj)
         {
-            if (this.IsDisposed || this._videoStream == null)
+            if (IsDisposed || _videoStream == null)
                 return;
             PresentationInfo presentationInfo = (PresentationInfo)obj;
-            this._videoStream.ContentWidth = presentationInfo.ContentWidth;
-            this._videoStream.ContentHeight = presentationInfo.ContentHeight;
-            this._videoStream.ContentAspectWidth = presentationInfo.ContentAspectWidth;
-            this._videoStream.ContentAspectHeight = presentationInfo.ContentAspectHeight;
-            this._videoStream.ContentOverscanPercent = presentationInfo.NeedOverscan ? 0.1f : 0.0f;
-            this.FirePropertyChanged("VideoStream");
+            _videoStream.ContentWidth = presentationInfo.ContentWidth;
+            _videoStream.ContentHeight = presentationInfo.ContentHeight;
+            _videoStream.ContentAspectWidth = presentationInfo.ContentAspectWidth;
+            _videoStream.ContentAspectHeight = presentationInfo.ContentAspectHeight;
+            _videoStream.ContentOverscanPercent = presentationInfo.NeedOverscan ? 0.1f : 0.0f;
+            FirePropertyChanged("VideoStream");
         }
 
         private void DeferredVolumeInfoChangedHandler(object obj)
         {
-            this._volume.Value = _playbackWrapper.Volume;
-            this.FirePropertyChanged("Volume");
-            this._muted.Value = this._playbackWrapper.Mute;
-            this.FirePropertyChanged("Mute");
+            _volume.Value = _playbackWrapper.Volume;
+            FirePropertyChanged("Volume");
+            _muted.Value = _playbackWrapper.Mute;
+            FirePropertyChanged("Mute");
         }
 
         private void DeferredCanChangeVideoRateHandler(object obj)
         {
-            if (this._currentTrack == null || !this._currentTrack.IsVideo)
+            if (_currentTrack == null || !_currentTrack.IsVideo)
                 return;
-            this._forward.Available = this._playbackWrapper.CanChangeVideoRate;
+            _forward.Available = _playbackWrapper.CanChangeVideoRate;
         }
 
         private void SetUriOnPlayer()
         {
             PlaybackTrack track = null;
-            if (this._playlistCurrent != null)
-                track = this._playlistCurrent.CurrentTrack;
+            if (_playlistCurrent != null)
+                track = _playlistCurrent.CurrentTrack;
             PlaybackTrack nextTrack = null;
-            if (this._playlistCurrent != null && this._playlistCurrent.Count > 1)
-                nextTrack = this._playlistCurrent.NextTrack;
+            if (_playlistCurrent != null && _playlistCurrent.Count > 1)
+                nextTrack = _playlistCurrent.NextTrack;
             if (track != null)
             {
-                this.SetUrisOnPlayerAsync(track, nextTrack);
+                SetUrisOnPlayerAsync(track, nextTrack);
             }
             else
             {
-                this.SetPlayerState(PlayerState.Stopped);
-                this._playbackWrapper.Close();
-                this.UpdatePropertiesAndCommands();
+                SetPlayerState(PlayerState.Stopped);
+                _playbackWrapper.Close();
+                UpdatePropertiesAndCommands();
             }
         }
 
         private void SetNextUriOnPlayer()
         {
             PlaybackTrack nextTrack = null;
-            if (this._playlistCurrent != null)
-                nextTrack = this._playlistCurrent.NextTrack;
-            if (nextTrack != null && this._playlistCurrent.Count > 1)
-                this.SetUrisOnPlayerAsync(null, nextTrack);
+            if (_playlistCurrent != null)
+                nextTrack = _playlistCurrent.NextTrack;
+            if (nextTrack != null && _playlistCurrent.Count > 1)
+                SetUrisOnPlayerAsync(null, nextTrack);
             else
-                this._playbackWrapper.CancelNext();
+                _playbackWrapper.CancelNext();
         }
 
         private void SetUrisOnPlayerAsync(PlaybackTrack track, PlaybackTrack nextTrack)
         {
-            int myID = ++this._lastKnownSetUriCallID;
+            int myID = ++_lastKnownSetUriCallID;
             ThreadPool.QueueUserWorkItem(args =>
             {
                 if (track != null)
                 {
                     string trackUri;
-                    HRESULT uri = track.GetURI(out trackUri);
+                    HRESULT hr = track.GetURI(out trackUri);
                     if (string.IsNullOrEmpty(trackUri))
                         trackUri = ".:* INVALID URI *:.";
-                    if (uri.IsSuccess)
+                    if (hr.IsSuccess)
                         Application.DeferredInvoke(delegate
                         {
-                            if (this.IsDisposed || myID != this._lastKnownSetUriCallID)
+                            if (IsDisposed || myID != _lastKnownSetUriCallID)
                                 return;
-                            this._playbackWrapper.SetUri(trackUri, 0L, track.PlaybackID);
-                            this.ReportStreamingAction(PlayerState.Stopped);
-                            this._tracksSubmittedToPlayer.Remove(track);
-                            this._tracksSubmittedToPlayer.Add(track);
+
+                            _playbackWrapper.SetUri(trackUri, 0L, track.PlaybackID);
+
+                            ReportStreamingAction(PlayerState.Stopped);
+                            _tracksSubmittedToPlayer.Remove(track);
+                            _tracksSubmittedToPlayer.Add(track);
                             if (nextTrack != null)
                                 return;
-                            this._playbackWrapper.CancelNext();
-                            this.UpdatePropertiesAndCommands();
+                            _playbackWrapper.CancelNext();
+                            UpdatePropertiesAndCommands();
                         }, null);
                     else
-                        this.OnAlertSent(new Announcement()
+                        OnAlertSent(new Announcement()
                         {
-                            HResult = uri.Int,
+                            HResult = hr.Int,
                             PlaybackID = track.PlaybackID
                         });
                 }
+
                 if (nextTrack == null)
                     return;
-                string nextTrackUri;
-                HRESULT uri1 = nextTrack.GetURI(out nextTrackUri);
+
+                HRESULT nextTrackHr = nextTrack.GetURI(out string nextTrackUri);
                 if (string.IsNullOrEmpty(nextTrackUri))
                     nextTrackUri = ".:* INVALID URI *:.";
-                if (!uri1.IsSuccess)
+                if (!nextTrackHr.IsSuccess)
                     return;
+
                 Application.DeferredInvoke(delegate
                 {
-                    if (this.IsDisposed || myID != this._lastKnownSetUriCallID)
+                    if (IsDisposed || myID != _lastKnownSetUriCallID)
                         return;
-                    this._playbackWrapper.SetNextUri(nextTrackUri, 0L, nextTrack.PlaybackID);
-                    this._tracksSubmittedToPlayer.Remove(nextTrack);
-                    this._tracksSubmittedToPlayer.Add(nextTrack);
-                    this.UpdatePropertiesAndCommands();
+
+                    _playbackWrapper.SetNextUri(nextTrackUri, 0L, nextTrack.PlaybackID);
+
+                    _tracksSubmittedToPlayer.Remove(nextTrack);
+                    _tracksSubmittedToPlayer.Add(nextTrack);
+                    UpdatePropertiesAndCommands();
                 }, null);
             }, null);
         }
 
         private void UpdateNextTrack()
         {
-            this.SetNextUriOnPlayer();
-            this.UpdatePropertiesAndCommands();
+            SetNextUriOnPlayer();
+            UpdatePropertiesAndCommands();
         }
 
         private bool AreContextsCompatible(PlaybackContext contextCurrent, PlaybackContext contextNext) => contextCurrent == PlaybackContext.None || contextNext == contextCurrent;
 
         public bool IsCurrentPlaylistContextCompatible(PlaybackContext context)
         {
-            bool flag = true;
-            if (this._playlistCurrent != null)
-                flag = this.AreContextsCompatible(context, this._playlistCurrent.PlaybackContext);
-            return flag;
+            return _playlistCurrent != null && AreContextsCompatible(context, _playlistCurrent.PlaybackContext);
         }
 
         private void UpdatePropertiesAndCommands()
         {
-            bool isPlaying = this._playerState == PlayerState.Playing;
+            bool isPlaying = _playerState == PlayerState.Playing;
             ArrayListDataSet arrayListDataSet;
             bool isPlaylist;
-            bool flag3;
+            bool isContextCompatible;
             PlaybackTrack playbackTrack;
-            int num;
+            int currentTrackIndex;
             bool supportsShuffle;
-            if (this._playlistCurrent != null)
+            if (_playlistCurrent != null)
             {
-                arrayListDataSet = this._playlistCurrent.TrackList;
+                arrayListDataSet = _playlistCurrent.TrackList;
                 isPlaylist = true;
-                flag3 = this.IsCurrentPlaylistContextCompatible(this._pagePlaybackContext);
-                playbackTrack = this._playlistCurrent.CurrentTrack;
-                num = this._playlistCurrent.ListIndexOfCurrentTrack;
-                supportsShuffle = this._playlistCurrent.QuickMixSession == null;
+                isContextCompatible = IsCurrentPlaylistContextCompatible(_pagePlaybackContext);
+                playbackTrack = _playlistCurrent.CurrentTrack;
+                currentTrackIndex = _playlistCurrent.ListIndexOfCurrentTrack;
+                supportsShuffle = _playlistCurrent.QuickMixSession == null;
             }
             else
             {
                 isPlaylist = false;
                 arrayListDataSet = null;
-                flag3 = true;
+                isContextCompatible = true;
                 playbackTrack = null;
-                num = -1;
-                this.PlayingVideo = false;
+                currentTrackIndex = -1;
+                PlayingVideo = false;
                 supportsShuffle = true;
             }
-            if (arrayListDataSet != this._currentPlaylist)
+
+            if (arrayListDataSet != _currentPlaylist)
             {
-                this._currentPlaylist = arrayListDataSet;
-                this.FirePropertyChanged("CurrentPlaylist");
+                _currentPlaylist = arrayListDataSet;
+                FirePropertyChanged("CurrentPlaylist");
             }
-            if (isPlaylist != this._hasPlaylist)
+            if (isPlaylist != _hasPlaylist)
             {
-                this._hasPlaylist = isPlaylist;
-                this.FirePropertyChanged("HasPlaylist");
+                _hasPlaylist = isPlaylist;
+                FirePropertyChanged("HasPlaylist");
             }
-            if (supportsShuffle != this._playlistSupportsShuffle)
+            if (supportsShuffle != _playlistSupportsShuffle)
             {
-                this._playlistSupportsShuffle = supportsShuffle;
-                this.FirePropertyChanged("PlaylistSupportsShuffle");
+                _playlistSupportsShuffle = supportsShuffle;
+                FirePropertyChanged("PlaylistSupportsShuffle");
             }
-            if (isPlaying != this._isPlaying)
+            if (isPlaying != _isPlaying)
             {
-                this._isPlaying = isPlaying;
-                this.FirePropertyChanged("Playing");
-                if (this._isPlaying)
+                _isPlaying = isPlaying;
+                FirePropertyChanged("Playing");
+                if (_isPlaying)
                 {
-                    this.HasPlayed = true;
-                    this._currentPlayStartTime = DateTime.Now;
+                    HasPlayed = true;
+                    _currentPlayStartTime = DateTime.Now;
                 }
-                else if (this._currentPlayStartTime != DateTime.MinValue)
+                else if (_currentPlayStartTime != DateTime.MinValue)
                 {
-                    Telemetry.Instance.ReportPlaybackTime((int)DateTime.Now.Subtract(this._currentPlayStartTime).TotalSeconds);
-                    this._currentPlayStartTime = DateTime.MinValue;
+                    Telemetry.Instance.ReportPlaybackTime((int)DateTime.Now.Subtract(_currentPlayStartTime).TotalSeconds);
+                    _currentPlayStartTime = DateTime.MinValue;
                 }
             }
-            if (num != this._currentTrackIndex)
+            if (currentTrackIndex != _currentTrackIndex)
             {
-                if (this._currentPlayStartTime != DateTime.MinValue)
+                if (_currentPlayStartTime != DateTime.MinValue)
                 {
-                    Telemetry.Instance.ReportPlaybackTime((int)DateTime.Now.Subtract(this._currentPlayStartTime).TotalSeconds);
-                    this._currentPlayStartTime = DateTime.Now;
+                    Telemetry.Instance.ReportPlaybackTime((int)DateTime.Now.Subtract(_currentPlayStartTime).TotalSeconds);
+                    _currentPlayStartTime = DateTime.Now;
                 }
-                this._currentTrackIndex = num;
-                this.FirePropertyChanged("CurrentTrackIndex");
+                _currentTrackIndex = currentTrackIndex;
+                FirePropertyChanged("CurrentTrackIndex");
             }
             if (!ReferenceEquals(playbackTrack, _currentTrack))
             {
-                if (this._currentTrack != null)
-                    this._currentTrack.RatingChanged.Invoked -= this._currentTrackRatingChangedEventHandler;
-                this._currentTrack = playbackTrack;
-                if (this._currentTrack != null)
-                    this._currentTrack.RatingChanged.Invoked += this._currentTrackRatingChangedEventHandler;
-                this.FirePropertyChanged("CurrentTrack");
-                this.OnCurrentTrackRatingChanged(this, null);
-                this.CurrentTrackDownloadProgress = 0.0f;
-                if (this._currentTrack != null)
-                    this.ShowNotification();
+                if (_currentTrack != null)
+                    _currentTrack.RatingChanged.Invoked -= _currentTrackRatingChangedEventHandler;
+                _currentTrack = playbackTrack;
+                if (_currentTrack != null)
+                    _currentTrack.RatingChanged.Invoked += _currentTrackRatingChangedEventHandler;
+                FirePropertyChanged("CurrentTrack");
+                OnCurrentTrackRatingChanged(this, null);
+                CurrentTrackDownloadProgress = 0.0f;
+                if (_currentTrack != null)
+                    ShowNotification();
                 else
-                    this.HideNotification();
-                this.ZoomScaleFactor = 0;
+                    HideNotification();
+                ZoomScaleFactor = 0;
             }
-            if (flag3 != this._isContextCompatible)
+            if (isContextCompatible != _isContextCompatible)
             {
-                this._isContextCompatible = flag3;
-                this.FirePropertyChanged("IsPlaybackContextCompatible");
+                _isContextCompatible = isContextCompatible;
+                FirePropertyChanged("IsPlaybackContextCompatible");
             }
-            this.UpdateAvailabilityOfCommands();
-            if (this.Playing && this.CurrentTrack != null && (this.CurrentTrack.IsVideo && this.CurrentTrack.IsStreaming))
+            UpdateAvailabilityOfCommands();
+            if (Playing && CurrentTrack != null && (CurrentTrack.IsVideo && CurrentTrack.IsStreaming))
             {
-                this._isStreamingTimeoutTimer.Enabled = false;
-                this.IsStreamingVideo = true;
-                this.SupressDownloads = true;
+                _isStreamingTimeoutTimer.Enabled = false;
+                IsStreamingVideo = true;
+                SupressDownloads = true;
             }
             else
             {
-                if (this.SupressDownloads)
-                    this._isStreamingTimeoutTimer.Enabled = true;
-                this.IsStreamingVideo = false;
+                if (SupressDownloads)
+                    _isStreamingTimeoutTimer.Enabled = true;
+                IsStreamingVideo = false;
             }
         }
 
         private void UpdateAvailabilityOfCommands()
         {
-            bool playing = this.Playing;
-            bool flag = this._playlistCurrent != null;
-            this._play.Available = !playing && flag && !this.Buffering;
-            this._pause.Available = playing && !this.Buffering;
-            this._stop.Available = flag;
-            if (this._playerState == PlayerState.Stopped || this.Buffering)
+            bool playing = Playing;
+            bool hasPlaylist = _playlistCurrent != null;
+            _play.Available = !playing && hasPlaylist && !Buffering;
+            _pause.Available = playing && !Buffering;
+            _stop.Available = hasPlaylist;
+            if (_playerState == PlayerState.Stopped || Buffering)
             {
-                this._forward.Available = false;
-                this._back.Available = false;
+                _forward.Available = false;
+                _back.Available = false;
             }
-            else if (this._playerState == PlayerState.Playing)
+            else if (_playerState == PlayerState.Playing)
             {
-                if (this._currentTrack == null)
+                if (_currentTrack == null)
                 {
-                    this._forward.Available = false;
-                    this._back.Available = false;
+                    _forward.Available = false;
+                    _back.Available = false;
                 }
                 else
                 {
-                    this._forward.Available = !this._currentTrack.IsVideo || this._playbackWrapper.CanChangeVideoRate;
-                    this._back.Available = true;
+                    _forward.Available = !_currentTrack.IsVideo || _playbackWrapper.CanChangeVideoRate;
+                    _back.Available = true;
                 }
             }
             else
             {
-                this._forward.Available = this._currentTrack == null ? this._playlistCurrent != null : this._playlistCurrent != null && !this._currentTrack.IsVideo;
-                this._back.Available = this._playlistCurrent != null && this._playlistCurrent.CanRetreat;
+                _forward.Available = _currentTrack == null ? _playlistCurrent != null : _playlistCurrent != null && !_currentTrack.IsVideo;
+                _back.Available = _playlistCurrent != null && _playlistCurrent.CanRetreat;
             }
-            this.UpdateTaskbarPlayer();
+            UpdateTaskbarPlayer();
         }
 
         public static string FormatDuration(float seconds, bool prefixWithNegative) => Shell.TimeSpanToString(new TimeSpan(0, 0, (int)seconds), prefixWithNegative);
