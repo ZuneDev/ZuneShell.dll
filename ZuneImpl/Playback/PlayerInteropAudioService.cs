@@ -91,8 +91,11 @@ namespace Microsoft.Zune.Playback
 
         private void PlaybackWrapper_UriSet(object sender, EventArgs e)
         {
-            _playbackWrapper.UriSet -= PlaybackWrapper_UriSet;
-            _playbackWrapper.Play();
+            Iris.Application.DeferredInvoke(new Iris.DeferredInvokeHandler(delegate
+            {
+                _playbackWrapper.UriSet -= PlaybackWrapper_UriSet;
+                _playbackWrapper.Play();
+            }), Iris.DeferredInvokePriority.Normal);
         }
 
         public async Task Preload(PlaybackItem sourceConfig, CancellationToken cancellationToken = default)
