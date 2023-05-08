@@ -20,8 +20,8 @@
                 <LinearGradientBrush.RelativeTransform>
                     <TranslateTransform x:Name="ZuneGradientTransform" X="0" Y="0"/>
                 </LinearGradientBrush.RelativeTransform>
-                <GradientStop Color="#EE0B77" Offset="0"/>
-                <GradientStop Color="#F37122" Offset="1"/>
+                <GradientStop Color="#F37122" Offset="0"/>
+                <GradientStop Color="#EE0B77" Offset="1"/>
             </LinearGradientBrush>
         </Border.BorderBrush>
 

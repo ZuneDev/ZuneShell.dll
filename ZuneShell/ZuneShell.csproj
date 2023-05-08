@@ -31,13 +31,13 @@
             <HintPath>C:\Program Files\Zune\ZuneDBApi.dll</HintPath>
         </Reference>
 
-		<PackageReference Include="StrixMusic.Sdk" Version="0.1.0-alpha" />
-		<Reference Include="StrixMusic.Cores.Storage">
-			<HintPath>..\libs\nuget\StrixMusic.Cores.Storage\StrixMusic.Cores.Storage.dll</HintPath>
-		</Reference>
-		<Reference Include="OwlCore.Storage.OneDrive">
-			<HintPath>..\libs\nuget\OwlCore.Storage.OneDrive\OwlCore.Storage.OneDrive.dll</HintPath>
-		</Reference>
+        <PackageReference Include="StrixMusic.Sdk" Version="0.1.0-alpha" />
+        <Reference Include="StrixMusic.Cores.Storage">
+            <HintPath>..\libs\nuget\StrixMusic.Cores.Storage\StrixMusic.Cores.Storage.dll</HintPath>
+        </Reference>
+        <Reference Include="OwlCore.Storage.OneDrive">
+            <HintPath>..\libs\nuget\OwlCore.Storage.OneDrive\OwlCore.Storage.OneDrive.dll</HintPath>
+        </Reference>
     </ItemGroup>
 
     <ItemGroup Condition=" '$(TargetFramework)' == 'net4' ">
