@@ -18,6 +18,7 @@ namespace Microsoft.Zune.Playback
         private readonly IModifiableFolder _tempFolder;
         private PlaybackItem m_currentSource;
         private int _playbackId = 0;
+        private TimeSpan _position;
 
         public PlayerInteropAudioService(IModifiableFolder tempFolder) : this()
         {
@@ -36,6 +37,8 @@ namespace Microsoft.Zune.Playback
         private PlayerInteropAudioService()
         {
             _playbackWrapper.Initialize();
+
+            _playbackWrapper.TransportPositionChanged += PlaybackWrapper_TransportPositionChanged;
         }
 
         public static PlayerInteropAudioService Instance => new();
@@ -52,7 +55,15 @@ namespace Microsoft.Zune.Playback
             }
         }
 
-        public TimeSpan Position => new(_playbackWrapper.Position);
+        public TimeSpan Position
+        {
+            get => _position;
+            set
+            {
+                _position = value;
+                PositionChanged?.Invoke(this, value);
+            }
+        }
 
         public PlaybackState PlaybackState => _playbackWrapper.TransportState switch
         {
@@ -187,6 +198,11 @@ namespace Microsoft.Zune.Playback
 
             public string Uri { get; }
             public int Id { get; }
+        }
+
+        private void PlaybackWrapper_TransportPositionChanged(object sender, EventArgs e)
+        {
+            Position = new(_playbackWrapper.Position);
         }
     }
 }
