@@ -179,7 +179,7 @@ namespace Microsoft.Zune.Shell
 
                     DataRoot.Library.TracksChanged += LibraryTracksChanged;
 
-                    await DataRoot.Library.PlayTrackCollectionAsync();
+                    //await DataRoot.Library.PlayTrackCollectionAsync();
                 });
 
                 ((ZuneUI.Shell)ZuneShell.DefaultInstance).ApplicationInitializationIsComplete = true;

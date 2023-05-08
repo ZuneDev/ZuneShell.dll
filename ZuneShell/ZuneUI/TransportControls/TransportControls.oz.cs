@@ -1,7 +1,6 @@
 ﻿using Microsoft.Iris;
-using Microsoft.Zune.Shell;
+using Microsoft.Zune.Playback;
 using Microsoft.Zune.Util;
-using MicrosoftZunePlayback;
 using StrixMusic.Sdk.MediaPlayback;
 using System;
 
@@ -9,19 +8,6 @@ namespace ZuneUI
 {
     partial class TransportControls
     {
-        private IPlaybackHandlerService _playbackHandler;
-
-        private void OnInit()
-        {
-            _playbackHandler = ZuneApplication.PlaybackHandler;
-            _playbackHandler.CurrentItemChanged += PlaybackHandler_CurrentItemChanged;
-        }
-
-        private void OnUninit()
-        {
-            _playbackHandler.CurrentItemChanged -= PlaybackHandler_CurrentItemChanged;
-        }
-
         private async void OnPlayClicked(object sender, EventArgs e)
         {
             if (!_play.Available)
@@ -30,13 +16,13 @@ namespace ZuneUI
 
             if (Playing || _playlistCurrent == null)
                 return;
-            if (_lastKnownPlayerState != MCPlayerState.Closed)
+            if (_player.PlaybackState != PlaybackState.None)
             {
                 SetPlayerState(PlayerState.Playing);
 
-                if (_playbackHandler != null)
+                if (_player != null)
                 {
-                    await _playbackHandler.ResumeAsync();
+                    await _player.ResumeAsync();
                 }
 
                 if (!PlayingVideo || _playlistCurrent.PlayNavigationOptions != PlayNavigationOptions.NavigateVideosToNowPlaying)
@@ -45,8 +31,7 @@ namespace ZuneUI
             }
             else
             {
-                if (_playlistPending != null)
-                    _playlistPending.Dispose();
+                _playlistPending?.Dispose();
                 _playlistPending = _playlistCurrent;
                 PlayPendingList();
             }
@@ -63,9 +48,9 @@ namespace ZuneUI
 
             SetPlayerState(PlayerState.Paused);
 
-            if (_playbackHandler != null)
+            if (_player != null)
             {
-                await _playbackHandler.PauseAsync();
+                await _player.PauseAsync();
             }
         }
 
@@ -84,10 +69,10 @@ namespace ZuneUI
             {
                 SetPlayerState(PlayerState.Stopped);
 
-                if (_playbackHandler != null)
+                if (_player != null)
                 {
-                    await _playbackHandler.PauseAsync();
-                    await _playbackHandler.SeekAsync(TimeSpan.Zero);
+                    await _player.PauseAsync();
+                    await _player.SeekAsync(TimeSpan.Zero);
                 }
             }
             else
@@ -102,13 +87,14 @@ namespace ZuneUI
 
             if (_lastKnownPosition > 50000000L || !_playlistCurrent.CanRetreat)
             {
-                await _playbackHandler.SeekAsync(TimeSpan.Zero);
+                await _player.SeekAsync(TimeSpan.Zero);
             }
             else
             {
-                if (_playbackHandler != null)
+                if (_player != null)
                 {
-                    await _playbackHandler.PreviousAsync();
+                    // TODO: Play previous track
+                    //await _player.PreviousAsync();
                 }
                 SetUriOnPlayer();
             }
@@ -122,14 +108,15 @@ namespace ZuneUI
 
             if (_currentTrack != null && _currentTrack.IsVideo)
                 return;
-            if (_lastKnownPlaybackTrack != null)
-                _lastKnownPlaybackTrack.OnSkip();
+            _lastKnownPlaybackTrack?.OnSkip();
+
             if (_playlistCurrent.CanAdvance)
             {
-                if (_playbackHandler != null && _playbackHandler.NextItems.Count > 0)
-                {
-                    await _playbackHandler.NextAsync();
-                }
+                // TODO: Play next track
+                //if (_player != null && _player.NextItems.Count > 0)
+                //{
+                //    await _player.NextAsync();
+                //}
 
                 SetUriOnPlayer();
             }
@@ -137,18 +124,18 @@ namespace ZuneUI
             {
                 SetPlayerState(PlayerState.Stopped);
 
-                if (_playbackHandler != null)
-                {
-                    await _playbackHandler.PauseAsync();
-                    await _playbackHandler.SeekAsync(TimeSpan.Zero);
-                }
+                if (_player != null)
+                    await _player.StopAsync();
             }
         }
 
-        private async void PlaybackHandler_CurrentItemChanged(object sender, PlaybackItem e)
+        private async void Player_CurrentItemChanged(object sender, PlaybackItem e)
         {
             // NOTE: This currently does not work. Perhaps something to do with
             // the lack of a valid media ID?
+
+            if (e.Track is null)
+                return;
 
             string title = $"[Strix] {e.Track.Name}";
             int num = e.Track.TrackNumber ?? 0;

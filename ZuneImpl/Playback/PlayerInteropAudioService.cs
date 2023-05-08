@@ -19,19 +19,28 @@ namespace Microsoft.Zune.Playback
         private PlaybackItem m_currentSource;
         private int _playbackId = 0;
 
-        public PlayerInteropAudioService(IModifiableFolder tempFolder)
+        public PlayerInteropAudioService(IModifiableFolder tempFolder) : this()
         {
             _tempFolder = tempFolder;
         }
 
-        public PlayerInteropAudioService()
+        public PlayerInteropAudioService(string? path = null) : this()
         {
-            DirectoryInfo cacheFolderPath = new(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Microsoft\Zune\OpenZune\PlayerInteropTemp"));
+            path ??= Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Microsoft\Zune\OpenZune\PlayerInteropTemp");
+
+            DirectoryInfo cacheFolderPath = new(path);
             cacheFolderPath.Create();
             _tempFolder = new SystemFolder(cacheFolderPath);
         }
 
+        private PlayerInteropAudioService()
+        {
+            _playbackWrapper.Initialize();
+        }
+
         public static PlayerInteropAudioService Instance => new();
+
+        public PlayerInterop PlaybackWrapper => _playbackWrapper;
 
         public PlaybackItem CurrentSource
         {
@@ -45,7 +54,17 @@ namespace Microsoft.Zune.Playback
 
         public TimeSpan Position => new(_playbackWrapper.Position);
 
-        public PlaybackState PlaybackState => throw new NotImplementedException();
+        public PlaybackState PlaybackState => _playbackWrapper.TransportState switch
+        {
+            MCTransportState.Playing => PlaybackState.Playing,
+
+            MCTransportState.Paused or
+            MCTransportState.Stopped => PlaybackState.Paused,
+
+            MCTransportState.Buffering => PlaybackState.Loading,
+
+            MCTransportState.Invalid or _ => PlaybackState.None,
+        };
 
         public double Volume => _playbackWrapper.Volume / 100d;
 
@@ -147,7 +166,13 @@ namespace Microsoft.Zune.Playback
                 }
             }
 
-            return new(url, ++_playbackId);
+            int playbackId;
+            if (mediaConfig is ZuneMediaSourceConfig zuneSrcCfg)
+                playbackId = zuneSrcCfg.PlaybackId;
+            else
+                playbackId = ++_playbackId;
+
+            return new(url, playbackId);
         }
 
         private static bool IsValidUri(string? url) => Uri.TryCreate(url, UriKind.Absolute, out _);
