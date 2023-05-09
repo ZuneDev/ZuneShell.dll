@@ -28,7 +28,7 @@ namespace ZuneHost.Wpf
             // Construct a single string of args. Be sure to skip executing path.
             var args = Environment.GetCommandLineArgs().Skip(1);
 #if DEBUG
-            args.Concat(new[] { "-debug:true" });
+            args = args.Concat(new[] { "-debug:true" });
 #endif
             string strArgs = string.Join(" ", args.ToArray());
 
@@ -76,8 +76,9 @@ namespace ZuneHost.Wpf
                 IrisApp.DebugSettings.DataMappingModels.CollectionChanged += DataMappingModels_CollectionChanged;
             }
 
-            // Set decompiler for marketplace track preview menu item
-            IrisApp.DebugSettings.Breakpoints.Add("res://ZuneMarketplaceResources!SelectionActions.uix (121, 14)");
+            // Set decompiler breakponts
+            IrisApp.DebugSettings.Breakpoints.Add(new("clr-res://ZuneMarketplaceResources!SelectionActions.uix", 121, 14));
+            IrisApp.DebugSettings.Breakpoints.Add(new("clr-res://ZuneShell!Quickplay.uix", 917, 62));
 
             IntPtr hWnd = new System.Windows.Interop.WindowInteropHelper(this).Handle;
             Thread zuneThread = new(new ThreadStart(() =>
