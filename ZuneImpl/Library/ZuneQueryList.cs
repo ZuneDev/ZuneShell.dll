@@ -1,26 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace Microsoft.Zune.Library
+namespace Microsoft.Zune.Library;
+
+public class ZuneQueryList : List<object>, IDisposable
 {
-    public class ZuneQueryList : IDisposable
+    internal ZuneQueryList(EQueryType queryType = EQueryType.eQueryTypeInvalid)
     {
-        internal ZuneQueryList(EQueryType queryType)
-        {
+        QueryType = queryType;
+    }
 
-        }
+    public bool IsEmpty => Count == 0;
 
-        public bool IsEmpty { get; protected set; }
+    public bool IsDisposed { get; protected set; }
 
-        public bool IsDisposed { get; protected set; }
+    public EQueryType QueryType { get; set; }
 
-        public int Count { get; protected set; }
-
-        public void Dispose()
-        {
-            IsDisposed = true;
-        }
+    public void Dispose()
+    {
+        IsDisposed = true;
     }
 }

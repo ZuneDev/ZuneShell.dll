@@ -140,50 +140,53 @@ namespace Microsoft.Zune.Shell
                 FeaturesChanged.Instance.StartUp();
                 CultureHelper.CheckValidRegionAndLanguage();
 
-                DirectoryInfo cacheFolderPath = new(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Microsoft\Zune\OpenZune\LocalCoreCache"));
-                cacheFolderPath.Create();
-                OwlCore.Storage.SystemIO.SystemFolder cacheFolder = new(cacheFolderPath);
-
-                OwlCore.Storage.SystemIO.SystemFolder musicFolder = new(@"D:\Music\Zune\Test");
-                var localCore = new StrixMusic.Cores.Storage.StorageCore(musicFolder, cacheFolder, "Local Test")
-                {
-                    ScannerWaitBehavior = StrixMusic.Cores.Storage.ScannerWaitBehavior.AlwaysWait,
-                };
-
-                var prefs = new MergedCollectionConfig
-                {
-                    CoreRanking = new string[]
-                    {
-                        localCore.InstanceId
-                    }
-                };
-                var mergedLayer = new MergedCore(new ICore[] { localCore }, prefs);
-
-                // Perform any async initialization needed. Authenticating, connecting to database, etc.
-                // Add plugins
-                PlaybackHandler = new PlaybackHandlerService();
-                PlaybackHandler.RegisterAudioPlayer(VlcAudioService.Instance, localCore.InstanceId);
-                //PlaybackHandler.RegisterAudioPlayer(PlayerInteropAudioService.Instance, localCore.InstanceId);
-
-                DataRoot = new StrixDataRootPluginWrapper(mergedLayer,
-                    new PlaybackHandlerPlugin(PlaybackHandler)
-                );
-
-                DataRoot.InitAsync().ContinueWith(async task =>
-                {
-                    if (task.Status == System.Threading.Tasks.TaskStatus.Faulted)
-                    {
-                        Debug.WriteLine(task.Exception);
-                        return;
-                    }
-
-                    DataRoot.Library.TracksChanged += LibraryTracksChanged;
-
-                    //await DataRoot.Library.PlayTrackCollectionAsync();
-                });
-
                 ((ZuneUI.Shell)ZuneShell.DefaultInstance).ApplicationInitializationIsComplete = true;
             }
+        }
+
+        private static void InitStrixSdk()
+        {
+            DirectoryInfo cacheFolderPath = new(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Microsoft\Zune\OpenZune\LocalCoreCache"));
+            cacheFolderPath.Create();
+            OwlCore.Storage.SystemIO.SystemFolder cacheFolder = new(cacheFolderPath);
+
+            OwlCore.Storage.SystemIO.SystemFolder musicFolder = new(@"D:\Music\Zune\Test");
+            var localCore = new StrixMusic.Cores.Storage.StorageCore(musicFolder, cacheFolder, "Local Test")
+            {
+                ScannerWaitBehavior = StrixMusic.Cores.Storage.ScannerWaitBehavior.AlwaysWait,
+            };
+
+            var prefs = new MergedCollectionConfig
+            {
+                CoreRanking = new string[]
+                {
+                    localCore.InstanceId
+                }
+            };
+            var mergedLayer = new MergedCore(new ICore[] { localCore }, prefs);
+
+            // Perform any async initialization needed. Authenticating, connecting to database, etc.
+            // Add plugins
+            PlaybackHandler = new PlaybackHandlerService();
+            PlaybackHandler.RegisterAudioPlayer(VlcAudioService.Instance, localCore.InstanceId);
+            //PlaybackHandler.RegisterAudioPlayer(PlayerInteropAudioService.Instance, localCore.InstanceId);
+
+            DataRoot = new StrixDataRootPluginWrapper(mergedLayer,
+                new PlaybackHandlerPlugin(PlaybackHandler)
+            );
+
+            DataRoot.InitAsync().ContinueWith(async task =>
+            {
+                if (task.Status == System.Threading.Tasks.TaskStatus.Faulted)
+                {
+                    Debug.WriteLine(task.Exception);
+                    return;
+                }
+
+                DataRoot.Library.TracksChanged += LibraryTracksChanged;
+
+                //await DataRoot.Library.PlayTrackCollectionAsync();
+            });
         }
 
         private static async void LibraryTracksChanged(object sender,
@@ -437,8 +440,12 @@ namespace Microsoft.Zune.Shell
             DialogHelper.DialogNo = ZuneUI.Shell.LoadString(StringId.IDS_DIALOG_NO);
             DialogHelper.DialogOk = ZuneUI.Shell.LoadString(StringId.IDS_DIALOG_OK);
             XmlDataProviders.Register();
-            //Library.StrixLibraryDataProvider.Register();
-            LibraryDataProvider.Register();
+
+            InitStrixSdk();
+            Library.StrixLibraryDataProvider.DataRoot = DataRoot;
+            Library.StrixLibraryDataProvider.Register();
+            //LibraryDataProvider.Register();
+
             SubscriptionDataProvider.Register();
             StaticLibraryDataProvider.Register();
             AggregateDataProviderQuery.Register();

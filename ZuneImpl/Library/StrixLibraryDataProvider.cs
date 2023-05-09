@@ -1,21 +1,19 @@
-﻿#if OPENZUNE
+﻿using Microsoft.Iris;
+using StrixMusic.Sdk.AppModels;
 
-using Microsoft.Iris;
+namespace Microsoft.Zune.Library;
 
-namespace Microsoft.Zune.Library
+public static class StrixLibraryDataProvider
 {
-    public static class StrixLibraryDataProvider
-    {
-        public static void Register()
-        {
-            Application.RegisterDataProvider("Library", new DataProviderQueryFactory(ConstructQuery));
-        }
+    public static IStrixDataRoot DataRoot { get; set; }
 
-        private static DataProviderQuery ConstructQuery(object queryTypeCookie)
-        {
-            return new StrixLibraryDataProviderQuery(queryTypeCookie);
-        }
+    public static void Register()
+    {
+        Application.RegisterDataProvider("Library", new DataProviderQueryFactory(ConstructQuery));
+    }
+
+    private static DataProviderQuery ConstructQuery(object queryTypeCookie)
+    {
+        return new StrixLibraryDataProviderQuery(queryTypeCookie, DataRoot);
     }
 }
-
-#endif
