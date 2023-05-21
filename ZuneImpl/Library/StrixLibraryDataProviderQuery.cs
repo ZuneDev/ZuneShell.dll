@@ -1,8 +1,10 @@
 ﻿using Microsoft.Iris;
+using Microsoft.Iris.Drawing;
 using Microsoft.Iris.Markup;
-using Microsoft.Iris.UI;
+using Microsoft.Iris.OS;
+using Microsoft.Iris.Render;
 using Microsoft.Zune.Playlist;
-using MicrosoftZuneLibrary;
+using OwlCore.Extensions;
 using StrixMusic.Sdk.AppModels;
 using System;
 using System.Collections.Generic;
@@ -16,19 +18,83 @@ namespace Microsoft.Zune.Library
         private bool m_disposed = false;
         private int m_requestGeneration;
         private string m_thumbnailFallbackImageUrl;
-        private MarkupDataTypeSchema m_dataType;
+        private MarkupTypeSchema m_dataType;
 
         private readonly IStrixDataRoot m_dataRoot;
 
         public StrixLibraryDataProviderQuery(object typeCookie, IStrixDataRoot dataRoot) : base(typeCookie)
         {
             m_dataRoot = dataRoot;
-            m_dataType = (MarkupDataTypeSchema)((MarkupDataTypeSchema)ResultTypeCookie).Properties[0].AlternateType;
+            m_dataType = (MarkupTypeSchema)((MarkupTypeSchema)ResultTypeCookie).Properties[0].AlternateType;
+
+            if (Application.DebugSettings.GenerateDataMappingModels)
+                GenerateModelCode(m_dataType);
+        }
+
+        private static bool IsBasicType(TypeSchema type) =>
+            type == null || type.RuntimeType.Assembly.FullName.Contains("CoreLib") || type.Properties.Length == 0;
+
+        private void GenerateModelCode(TypeSchema dataType)
+        {
+            string code =
+                "using Microsoft.Iris.Markup;\r\n\r\n" +
+                "namespace Microsoft.Zune.Schemas;\r\n\r\n" +
+                "public class " + dataType.Name;
+
+            if (!IsBasicType(dataType.Base))
+            {
+                code += $" : {dataType.Base.Name}";
+                GenerateModelCode(dataType.Base);
+            }
+            else
+            {
+                code += $" : MarkupDataType";
+            }
+
+            code += "\r\n{\r\n";
+            code += $"    public {dataType.Name}(MarkupTypeSchema schema) : base(schema)\r\n";
+            code += "    {\r\n";
+            code += "    }\r\n\r\n";
+
+            foreach (var prop in dataType.Properties)
+            {
+                string propType = prop.PropertyType.AlternateName ?? prop.PropertyType.Name;
+
+                code += $"    public {propType} {prop.Name}\r\n";
+                code += "    {\r\n";
+                code += $"        get => GetProperty<{propType}>();\r\n";
+                code += $"        set => SetProperty(value);\r\n";
+                code += "    }\r\n\r\n";
+
+                if (!IsBasicType(prop.PropertyType) && !Application.DebugSettings.DataMappingModels.Any(m => m.Type == propType))
+                    GenerateModelCode(prop.PropertyType);
+            }
+
+            code += "}";
+
+            Application.DebugSettings.DataMappingModels.Add(new(dataType.RuntimeType.Name, dataType.Name, code));
         }
 
         public bool GetSortAttributes(out string[] sorts, out bool[] ascendings)
         {
-            return LibraryDataProvider.GetSortAttributes((string)GetProperty("Sort"), out sorts, out ascendings);
+            if (!TryGetProperty("Sort", out string sortStr) || sortStr == null)
+            {
+                sorts = null;
+                ascendings = null;
+                return false;
+            }
+
+            var options = sortStr.Split(',');
+            sorts = new string[options.Length];
+            ascendings = new bool[options.Length];
+
+            for (int i = 0; i < options.Length; i++)
+            {
+                sorts[i] = options[i].Substring(1);
+                ascendings[i] = options[i][0] != '-';
+            }
+
+            return true;
         }
 
         protected override void BeginExecute()
@@ -302,6 +368,43 @@ namespace Microsoft.Zune.Library
                 else if (text == "Artist")
                 {
                     equeryType = EQueryType.eQueryTypeAllAlbumArtists;
+
+                    var stArtists = m_dataRoot.Library.GetArtistItemsAsync(int.MaxValue, 0).ToEnumerable();
+                    foreach (var stPlayableArtist in stArtists)
+                    {
+                        var stArtist = stPlayableArtist as IArtist;
+
+                        UriImage image = null;
+                        var stImage = stArtist?.GetImagesAsync(1, 0).ToEnumerable().FirstOrDefault();
+                        if (stImage != null && stImage.Sources.Count > 0)
+                        {
+                            var imageSource = stImage.Sources[0];
+                            using var imageStream = AsyncHelper.Run(imageSource.OpenStreamAsync);
+                            var imageBytes = AsyncHelper.Run(imageStream.ToBytesAsync);
+
+                            BytesResource imageResource = new(stArtist.Id, imageBytes, stArtist.Id, false);
+                            image = new(imageResource, stArtist.Id + "_img", Inset.Zero, new Size(int.MaxValue, int.MaxValue), true);
+                        }
+
+                        Schemas.Artist artist = new(m_dataType)
+                        {
+                            Copyright = "©",
+                            DateLastPlayed = stPlayableArtist.LastPlayed ?? DateTime.Now,
+                            DeviceFileSize = 0L,
+                            DrmStateMask = 0,
+                            Image = image,
+                            LibraryId = stPlayableArtist.Id.HashToInt32(),
+                            NumberOfAlbums = stArtist?.TotalAlbumItemsCount ?? 0,
+                            QuickMixState = 0,
+                            SyncState = 0,
+                            Title = stPlayableArtist.Name,
+                            Type = "artist",
+                            UserRating = 0,
+                            ZuneMediaId = stPlayableArtist.Id.HashToGuid()
+                        };
+
+                        queryList.Add(artist.Item);
+                    }
                 }
                 else if (text == "Genres")
                 {
@@ -310,30 +413,112 @@ namespace Microsoft.Zune.Library
 
                     equeryType = EQueryType.eQueryTypeAllGenres;
 
-                    object genre = new Class(m_dataType);
-                    m_dataType.FindPropertyDeep("LibraryId").SetValue(ref genre, 1);
-                    m_dataType.FindPropertyDeep("Title").SetValue(ref genre, "OpenZune");
-                    m_dataType.FindPropertyDeep("SyncState").SetValue(ref genre, 0);
-                    m_dataType.FindPropertyDeep("Type").SetValue(ref genre, "genre");
-                    m_dataType.FindPropertyDeep("DeviceFileSize").SetValue(ref genre, 0L);
-                    m_dataType.FindPropertyDeep("Copyright").SetValue(ref genre, "Copyright no-one");
-                    m_dataType.FindPropertyDeep("DateLastPlayed").SetValue(ref genre, DateTime.Now);
-                    queryList.Add(genre);
+                    // Strix doesn't support getting a list of genres, so we'll
+                    // instead get a list of all children and create a set of
+                    // genres from that.
+                    var stChildren = m_dataRoot.Library.GetTracksAsync(int.MaxValue, 0).ToEnumerable();
+                    HashSet<string> knownGenres = new();
+                    foreach (var stChild in stChildren)
+                    {
+                        if (stChild is not IGenreCollection stGenreCollection)
+                            continue;
+
+                        var genreNames = stGenreCollection.GetGenresAsync(int.MaxValue, 0)
+                            .ToEnumerable().Select(g => g.Name);
+                        foreach (var genreName in genreNames)
+                        {
+                            if (knownGenres.Contains(genreName))
+                                continue;
+
+                            knownGenres.Add(genreName);
+                            Schemas.Genre genre = new(m_dataType)
+                            {
+                                LibraryId = genreName.HashToInt32(),
+                                Title = genreName,
+                                SyncState = 0,
+                                Type = "genre",
+                                DeviceFileSize = 0L,
+                                Copyright = "©",
+                                DateLastPlayed = DateTime.Now
+                            };
+
+                            queryList.Add(genre.Item);
+                        }
+                    }
                 }
                 else if (text == "Album")
                 {
-                    if (TryGetProperty("ArtistId", out int artistId) && artistId != -1)// || queryPropertyBag.IsSet("ArtistIds"))
-                    {
+                    int artistId = -1, genreId = -1;
+                    if (TryGetProperty("ArtistId", out artistId) && artistId != -1)// || queryPropertyBag.IsSet("ArtistIds"))
                         equeryType = EQueryType.eQueryTypeAlbumsForAlbumArtistId;
-                    }
+                    else if ((TryGetProperty("GenreId", out genreId) && genreId != -1))// || queryPropertyBag.IsSet("GenreIds"))
+                        equeryType = EQueryType.eQueryTypeAlbumsByGenreId;
                     else
-                    {
-                        if ((TryGetProperty("GenreId", out int genreId) && genreId != -1))// || queryPropertyBag.IsSet("GenreIds"))
-                            equeryType = EQueryType.eQueryTypeAlbumsByGenreId;
-                        else
-                            equeryType = EQueryType.eQueryTypeAllAlbums;
-                    }
+                        equeryType = EQueryType.eQueryTypeAllAlbums;
+
                     retainedList = true;
+
+                    var stAlbums = m_dataRoot.Library.GetAlbumItemsAsync(int.MaxValue, 0).ToEnumerable();
+                    foreach (var stAlbumItem in stAlbums)
+                    {
+                        var stAlbum = stAlbumItem as IAlbum;
+                        var stAlbumArtist = stAlbum?.GetArtistItemsAsync(int.MaxValue, 0).ToEnumerable().FirstOrDefault();
+
+                        // Handle filters
+                        var currentArtistId = stAlbumArtist?.Id.HashToInt32() ?? -1;
+                        if (equeryType == EQueryType.eQueryTypeAlbumsForAlbumArtistId && currentArtistId != artistId)
+                        {
+                            // Ignore all other artists
+                            continue;
+                        }
+                        else if (equeryType == EQueryType.eQueryTypeAlbumsByGenreId)
+                        {
+                            var containsCurrentGenre = stAlbum.GetGenresAsync(int.MaxValue, 0)
+                                .ToEnumerable()
+                                .Select(g => g.Name.HashToInt32())
+                                .Any(g => g == genreId);
+
+                            if (!containsCurrentGenre)
+                                continue;
+                        }
+
+                        Schemas.Album album = new(m_dataType)
+                        {
+                            ArtistLibraryId = currentArtistId,
+                            ArtistName = stAlbumArtist?.Name,
+                            DateAdded = DateTime.Now,
+                            ContributingArtistCount = 0,
+                            Copyright = "",
+                            DateLastPlayed = stAlbumArtist.LastPlayed ?? DateTime.Now,
+                            DeviceFileSize = 0L,
+                            DisplayArtistCount = 0,
+                            DrmStateMask = 0,
+                            ReleaseDate = stAlbum.DatePublished ?? DateTime.Now,
+                            HasAlbumArt = true,
+                            LibraryId = stAlbumItem.Id.HashToInt32(),
+                            QuickMixState = 0,
+                            SyncState = 0,
+                            ThumbnailPath = null,
+                            Title = stAlbumItem.Name,
+                            Type = "album",
+                            ZuneMediaId = stAlbumItem.Id.HashToGuid(),
+                        };
+
+                        UriImage image = null;
+                        var stImage = stAlbum?.GetImagesAsync(1, 0).ToEnumerable().FirstOrDefault();
+                        if (stImage != null && stImage.Sources.Count > 0)
+                        {
+                            var imageSource = stImage.Sources[0];
+                            using var imageStream = AsyncHelper.Run(imageSource.OpenStreamAsync);
+                            var imageBytes = AsyncHelper.Run(imageStream.ToBytesAsync);
+
+                            BytesResource imageResource = new(stAlbum.Id, imageBytes, stAlbum.Id, false);
+                            image = new(imageResource, stAlbum.Id + "_img", Inset.Zero, new Size(int.MaxValue, int.MaxValue), true);
+                        }
+                        album.AlbumArtSmall = album.AlbumArtLarge = album.AlbumArtSuperLarge = image;
+
+                        queryList.Add(album.Item);
+                    }
                 }
                 else if (text == "Track")
                 {
@@ -383,16 +568,52 @@ namespace Microsoft.Zune.Library
                     var stTracks = m_dataRoot.Library.GetTracksAsync(int.MaxValue, 0).ToEnumerable();
                     foreach (var stTrack in stTracks)
                     {
-                        object track = new Class(m_dataType);
+                        Schemas.Track track = new(m_dataType)
+                        {
+                            AlbumName = stTrack.Album?.Name,
+                            AlbumLibraryId = stTrack.Album?.Id.HashToInt32() ?? 0,
 
-                        m_dataType.FindProperty("AlbumName").SetValue(ref track, stTrack.Album?.Name);
-                        m_dataType.FindProperty("AlbumLibraryId").SetValue(ref track, stTrack.Album?.Id.HashToInt32() ?? 0);
+                            TitleYomi = stTrack.Name,
+                            ReleaseDate = DateTime.Now,
+                            ZuneMediaId = stTrack.Id.HashToGuid(),
+                            TrackNumber = stTrack.TrackNumber ?? 0,
+                            Duration = stTrack.Duration,
+                            ComponentId = "strix",
+                            FileName = System.IO.Path.GetFileName(stTrack.Id),
+                            FolderName = System.IO.Path.GetDirectoryName(stTrack.Id),
+                            FilePath = stTrack.Id,
+                            NowPlaying = false,
+                            InLibrary = true,
+                            DateLastPlayed = stTrack.LastPlayed ?? DateTime.MinValue,
+                            PlayCount = 0,
+                            FileSize = 0,
+                            ComposerName = null,
+                            ConductorName = null,
+                            IsProtected = 0,
+                            DateAdded = stTrack.AddedAt ?? DateTime.Now,
+                            Bitrate = 0,
+                            MediaType = "track",
+                            DiscNumber = stTrack.DiscNumber ?? 0,
+                            DateAlbumAdded = DateTime.Now,
+                            FileCount = 1L,
+                            DrmState = 0,
+                            DrmStateMask = 0L,
+                            QuickMixState = 0,
+
+                            LibraryId = stTrack.Id.HashToInt32(),
+                            Title = stTrack.Name,
+                            SyncState = 0,
+                            Type = "track",
+                            DeviceFileSize = 0L,
+
+                            UserRating = 0,
+                        };
 
                         var stAlbumArtist = stTrack.Album != null
                             ? AsyncHelper.Run(() => stTrack.Album.GetArtistItemsAsync(1, 0).FirstOrDefaultAsync().AsTask())
                             : null;
-                        m_dataType.FindProperty("AlbumArtistName").SetValue(ref track, stAlbumArtist?.Name);
-                        m_dataType.FindProperty("AlbumArtistLibraryId").SetValue(ref track, stAlbumArtist?.Id.HashToInt32() ?? 0);
+                        track.AlbumArtistName = stAlbumArtist?.Name;
+                        track.AlbumArtistLibraryId = stAlbumArtist?.Id.HashToInt32() ?? 0;
 
                         var stArtists = stTrack.GetArtistItemsAsync(int.MaxValue, 0).ToEnumerable();
                         bool setPrimaryArtist = false;
@@ -401,9 +622,9 @@ namespace Microsoft.Zune.Library
                         {
                             if (!setPrimaryArtist)
                             {
-                                m_dataType.FindProperty("ArtistLibraryId").SetValue(ref track, stArtist.Id.HashToInt32());
-                                m_dataType.FindProperty("ArtistName").SetValue(ref track, stArtist.Name);
-                                m_dataType.FindProperty("ArtistNameYomi").SetValue(ref track, stArtist.Name);
+                                track.ArtistLibraryId = stArtist.Id.HashToInt32();
+                                track.ArtistName = stArtist.Name;
+                                track.ArtistNameYomi = stArtist.Name;
                                 setPrimaryArtist = true;
                             }
                             else if (!string.IsNullOrEmpty(stArtist.Name))
@@ -411,57 +632,21 @@ namespace Microsoft.Zune.Library
                                 contributingArtists.Add(stArtist.Name);
                             }
                         }
-                        m_dataType.FindProperty("ContributingArtistCount").SetValue(ref track, contributingArtists.Count);
-                        m_dataType.FindProperty("ContributingArtistNames").SetValue(ref track, contributingArtists);
+                        track.ContributingArtistCount = contributingArtists.Count;
+                        track.ContributingArtistNames = contributingArtists;
 
                         // No artists
                         if (!setPrimaryArtist)
                         {
-                            m_dataType.FindProperty("ArtistLibraryId").SetValue(ref track, 0);
-                            m_dataType.FindProperty("ArtistName").SetValue(ref track, null);
-                            m_dataType.FindProperty("ArtistNameYomi").SetValue(ref track, null);
+                            track.ArtistLibraryId = 0;
+                            track.ArtistName = null;
+                            track.ArtistNameYomi = null;
                         }
 
                         var stGenre = AsyncHelper.Run(() => stTrack.GetGenresAsync(1, 0).FirstOrDefaultAsync().AsTask());
-                        m_dataType.FindProperty("Genre").SetValue(ref track, stGenre?.Name);
+                        track.Genre = stGenre?.Name;
 
-                        m_dataType.FindProperty("TitleYomi").SetValue(ref track, stTrack.Name);
-                        m_dataType.FindProperty("ReleaseDate").SetValue(ref track, DateTime.Now);
-                        m_dataType.FindProperty("ZuneMediaId").SetValue(ref track, stTrack.Id.HashToGuid());
-                        m_dataType.FindProperty("TrackNumber").SetValue(ref track, stTrack.TrackNumber);
-                        m_dataType.FindProperty("Duration").SetValue(ref track, stTrack.Duration);
-                        m_dataType.FindProperty("ComponentId").SetValue(ref track, "strix");
-                        m_dataType.FindProperty("FileName").SetValue(ref track, System.IO.Path.GetFileName(stTrack.Id));
-                        m_dataType.FindProperty("FolderName").SetValue(ref track, System.IO.Path.GetDirectoryName(stTrack.Id));
-                        m_dataType.FindProperty("FilePath").SetValue(ref track, stTrack.Id);
-                        m_dataType.FindProperty("NowPlaying").SetValue(ref track, false);
-                        m_dataType.FindProperty("InLibrary").SetValue(ref track, true);
-                        m_dataType.FindProperty("DateLastPlayed").SetValue(ref track, stTrack.LastPlayed);
-                        m_dataType.FindProperty("PlayCount").SetValue(ref track, 0);
-                        m_dataType.FindProperty("FileSize").SetValue(ref track, 0);
-                        m_dataType.FindProperty("ComposerName").SetValue(ref track, (string)null);
-                        m_dataType.FindProperty("ConductorName").SetValue(ref track, (string)null);
-                        m_dataType.FindProperty("IsProtected").SetValue(ref track, 0);
-                        m_dataType.FindProperty("DateAdded").SetValue(ref track, stTrack.AddedAt);
-                        m_dataType.FindProperty("Bitrate").SetValue(ref track, 0);
-                        m_dataType.FindProperty("MediaType").SetValue(ref track, "track");
-                        m_dataType.FindProperty("DiscNumber").SetValue(ref track, stTrack.DiscNumber);
-                        m_dataType.FindProperty("DateAlbumAdded").SetValue(ref track, DateTime.Now);
-                        m_dataType.FindProperty("FileCount").SetValue(ref track, 1L);
-                        m_dataType.FindProperty("DrmState").SetValue(ref track, 0);
-                        m_dataType.FindProperty("DrmStateMask").SetValue(ref track, 0L);
-                        m_dataType.FindProperty("QuickMixState").SetValue(ref track, 0);
-
-                        m_dataType.FindPropertyDeep("LibraryId").SetValue(ref track, stTrack.Id.HashToInt32());
-                        m_dataType.FindPropertyDeep("Title").SetValue(ref track, stTrack.Name);
-                        m_dataType.FindPropertyDeep("SyncState").SetValue(ref track, 0);
-                        m_dataType.FindPropertyDeep("Type").SetValue(ref track, "track");
-                        m_dataType.FindPropertyDeep("DeviceFileSize").SetValue(ref track, 0L);
-                        m_dataType.FindPropertyDeep("DateAdded").SetValue(ref track, DateTime.Now);
-
-                        m_dataType.FindPropertyDeep("UserRating").SetValue(ref track, 0);
-
-                        queryList.Add(track);
+                        queryList.Add(track.Item);
                     }
                 }
                 else if (text == "AlbumByTOC")
@@ -549,18 +734,20 @@ namespace Microsoft.Zune.Library
                         epinType = (EPinType)property19;
                     }
 
-                    object pin = new Class(m_dataType);
-                    m_dataType.FindProperty("PinId").SetValue(ref pin, 42);
-                    m_dataType.FindProperty("PinType").SetValue(ref pin, 1);
-                    m_dataType.FindProperty("Ordinal").SetValue(ref pin, 1);
-                    m_dataType.FindProperty("Description").SetValue(ref pin, "Haha! Get rekt scrub, not even UIB will stop OpenZune.");
-                    m_dataType.FindProperty("MediaId").SetValue(ref pin, 1);
-                    m_dataType.FindProperty("MediaType").SetValue(ref pin, 1);
-                    m_dataType.FindProperty("ZuneMediaRef").SetValue(ref pin, "ZuneSomethingHehe");
-                    m_dataType.FindProperty("UserId").SetValue(ref pin, 0);
-                    m_dataType.FindProperty("DateModified").SetValue(ref pin, DateTime.Now);
-                    m_dataType.FindPropertyDeep("ZuneMediaType").SetValue(ref pin, 0);
-                    queryList.Add(pin);
+                    Schemas.Pin pin = new(m_dataType)
+                    {
+                        PinId = 42,
+                        PinType = 1,
+                        Ordinal = 1,
+                        Description = "An OpenZune pin",
+                        MediaId = 1,
+                        MediaType = 1,
+                        ZuneMediaRef = "ZuneSomethingHehe",
+                        UserId = 0,
+                        DateModified = DateTime.Now,
+                        ZuneMediaType = 0,
+                    };
+                    queryList.Add(pin.Item);
                 }
                 else
                 {
