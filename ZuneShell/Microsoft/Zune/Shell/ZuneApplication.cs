@@ -538,7 +538,7 @@ namespace Microsoft.Zune.Shell
                 }
             }
             if (num > 0)
-                throw new ZuneShellException("Internal Zune Shell error", string.Format("Scripting errors encountered (Process ID) = {0}\n\n{1}", Process.GetCurrentProcess().Id.ToString(CultureInfo.InvariantCulture), str));
+                throw new ZuneShellException("Internal Zune Shell error", $"Scripting errors encountered (Process ID) = {Process.GetCurrentProcess().Id.ToString(CultureInfo.InvariantCulture)}\n\n{str}");
         }
 
         internal static bool CanAddMedia(IList filenames, MediaType mediaType, CanAddMediaArgs args)
