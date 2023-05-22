@@ -479,7 +479,16 @@ namespace Microsoft.Zune.Library
                                 .Any(g => g == genreId);
 
                             if (!containsCurrentGenre)
-                                continue;
+                            {
+                                // If the album doesn't have the genre, the tracks might.
+                                containsCurrentGenre = stAlbum.GetTracksAsync(int.MaxValue, 0)
+                                    .ToEnumerable()
+                                    .SelectMany(t => t.GetGenresAsync(int.MaxValue, 0).ToEnumerable())
+                                    .Select(g => g.Name.HashToInt32())
+                                    .Any(g => g == genreId);
+
+                                if (!containsCurrentGenre) continue;
+                            }
                         }
 
                         Schemas.Album album = new(m_dataType)
@@ -525,41 +534,40 @@ namespace Microsoft.Zune.Library
                     if (GetProperty("RulesOnly") is bool queryAllTracks)
                         equeryType = EQueryType.eQueryTypeAllTracks;
 
-                    if ((TryGetProperty<int>("AlbumId", out var albumId) && albumId != -1))// || queryPropertyBag.IsSet("AlbumIds"))
+                    int albumId = -1, albumArtistId = -1, artistId = -1, genreId = -1;
+                    bool detailed = false;
+                    string toc = null;
+                    if (TryGetProperty("AlbumId", out albumId) && albumId != -1)
                     {
-                        if ((TryGetProperty<int>("ArtistId", out var artistId) && artistId != -1))// || queryPropertyBag.IsSet("ArtistIds"))
+                        if (TryGetProperty("ArtistId", out albumArtistId) && albumArtistId != -1)
                             equeryType = EQueryType.eQueryTypeTracksForAlbumArtistId;
                         else
                             equeryType = EQueryType.eQueryTypeTracksForAlbumId;
                     }
                     else
                     {
-                        if ((TryGetProperty<int>("ArtistId", out var artistId) && artistId != -1))// || queryPropertyBag.IsSet("ArtistIds"))
+                        if (TryGetProperty("ArtistId", out artistId) && artistId != -1)
                         {
                             equeryType = EQueryType.eQueryTypeTracksForAlbumArtistId;
                         }
                         else
                         {
-                            if ((TryGetProperty<int>("GenreId", out var genreId) && genreId != -1))// || queryPropertyBag.IsSet("GenreIds"))
+                            if (TryGetProperty("GenreId", out genreId) && genreId != -1)
                             {
                                 equeryType = EQueryType.eQueryTypeTracksByGenreId;
                             }
                             else
                             {
-                                if (TryGetProperty<bool>("Detailed", out var detailed) && detailed)
+                                if (TryGetProperty("Detailed", out detailed) && detailed)
                                 {
                                     equeryType = EQueryType.eQueryTypeAllTracksDetailed;
                                 }
                                 else
                                 {
-                                    if (TryGetProperty<string>("TOC", out var toc) && !string.IsNullOrEmpty(toc))
-                                    {
+                                    if (TryGetProperty("TOC", out toc) && !string.IsNullOrEmpty(toc))
                                         equeryType = EQueryType.eQueryTypeTracksForTOC;
-                                    }
                                     else
-                                    {
                                         equeryType = EQueryType.eQueryTypeAllTracks;
-                                    }
                                 }
                             }
                         }
@@ -568,6 +576,41 @@ namespace Microsoft.Zune.Library
                     var stTracks = m_dataRoot.Library.GetTracksAsync(int.MaxValue, 0).ToEnumerable();
                     foreach (var stTrack in stTracks)
                     {
+                        var stAlbum = stTrack.Album;
+                        var stAlbumArtist = stAlbum != null
+                            ? AsyncHelper.Run(() => stAlbum.GetArtistItemsAsync(1, 0).FirstOrDefaultAsync().AsTask())
+                            : null;
+
+                        // Handle filters
+                        if (equeryType == EQueryType.eQueryTypeTracksForAlbumId)
+                        {
+                            var currentAlbumId = stAlbum?.Id.HashToInt32();
+                            if (currentAlbumId != albumId) continue;
+                        }
+                        else if (equeryType == EQueryType.eQueryTypeTracksForAlbumArtistId)
+                        {
+                            var currentAlbumArtistId = stAlbumArtist?.Id.HashToInt32();
+                            if (currentAlbumArtistId != albumArtistId) continue;
+                        }
+                        else if (equeryType == EQueryType.eQueryTypeTracksByGenreId)
+                        {
+                            var containsCurrentGenre = stTrack.GetGenresAsync(int.MaxValue, 0)
+                                .ToEnumerable()
+                                .Select(g => g.Name.HashToInt32())
+                                .Any(g => g == genreId);
+
+                            if (!containsCurrentGenre && stAlbum != null)
+                            {
+                                // If the track doesn't have the genre, the album might.
+                                containsCurrentGenre = stAlbum.GetGenresAsync(int.MaxValue, 0)
+                                    .ToEnumerable()
+                                    .Select(g => g.Name.HashToInt32())
+                                    .Any(g => g == genreId);
+                            }
+                            
+                            if (!containsCurrentGenre) continue;
+                        }
+
                         Schemas.Track track = new(m_dataType)
                         {
                             AlbumName = stTrack.Album?.Name,
@@ -607,13 +650,10 @@ namespace Microsoft.Zune.Library
                             DeviceFileSize = 0L,
 
                             UserRating = 0,
-                        };
 
-                        var stAlbumArtist = stTrack.Album != null
-                            ? AsyncHelper.Run(() => stTrack.Album.GetArtistItemsAsync(1, 0).FirstOrDefaultAsync().AsTask())
-                            : null;
-                        track.AlbumArtistName = stAlbumArtist?.Name;
-                        track.AlbumArtistLibraryId = stAlbumArtist?.Id.HashToInt32() ?? 0;
+                            AlbumArtistName = stAlbumArtist?.Name,
+                            AlbumArtistLibraryId = stAlbumArtist?.Id.HashToInt32() ?? 0
+                        };
 
                         var stArtists = stTrack.GetArtistItemsAsync(int.MaxValue, 0).ToEnumerable();
                         bool setPrimaryArtist = false;
