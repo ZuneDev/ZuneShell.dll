@@ -175,7 +175,7 @@ namespace Microsoft.Zune.Shell
                 new PlaybackHandlerPlugin(PlaybackHandler)
             );
 
-            DataRoot.InitAsync().ContinueWith(async task =>
+            DataRoot.InitAsync().ContinueWith(task =>
             {
                 if (task.Status == System.Threading.Tasks.TaskStatus.Faulted)
                 {
@@ -238,6 +238,12 @@ namespace Microsoft.Zune.Shell
 
         private static void Phase2InitializationWorker(object arg)
         {
+            var rootView = Application.Window.Form.Zone.RootViewItem;
+            rootView.DeepLayoutChange += (object? sender, EventArgs e) =>
+            {
+
+            };
+
             if (_hWndSplashScreen != IntPtr.Zero)
                 Win32Window.Close(_hWndSplashScreen);
 
