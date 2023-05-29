@@ -12,6 +12,7 @@ using System.Threading;
 
 namespace ZuneUI
 {
+    [Serializable]
     public class MousePosition : ModelItem
     {
         private int _x;
@@ -97,6 +98,8 @@ namespace ZuneUI
             else
                 x = y = 0;
         }
+
+        public override string ToString() => $"{{MousePosition ({X}, {Y})}}";
 
         [DllImport("User32.dll")]
         private static extern bool GetCursorPos(out POINT lpPoint);

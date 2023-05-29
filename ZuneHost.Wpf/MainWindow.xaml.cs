@@ -95,7 +95,7 @@ namespace ZuneHost.Wpf
 
         private void DecompileResults_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            foreach (var result in e.NewItems.Cast<Microsoft.Iris.Debug.DecompilationResult>())
+            foreach (var result in e.NewItems.Cast<Microsoft.Iris.Debug.Data.DecompilationResult>())
             {
                 int count = 0;
                 string ctx = Path.GetFileName(result.Context.Substring(result.Context.LastIndexOf('/') + 1));
@@ -117,7 +117,7 @@ namespace ZuneHost.Wpf
 
         private void DataMappingModels_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            foreach (var item in e.NewItems.Cast<Microsoft.Iris.Debug.DataMappingModel>())
+            foreach (var item in e.NewItems.Cast<Microsoft.Iris.Debug.Data.DataMappingModel>())
             {
                 FileInfo file = new(Path.Combine(dataMapDir, $"{item.Provider}_{item.Type}.cs"));
                 if (file.Exists) file.Delete();
