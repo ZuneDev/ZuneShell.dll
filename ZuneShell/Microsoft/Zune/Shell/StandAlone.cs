@@ -19,8 +19,8 @@ namespace Microsoft.Zune.Shell
         {
             WindowSize windowSize = new WindowSize(1012, 693);
             string str = null;
-            bool flag1 = false;
-            bool flag2 = false;
+            bool useNativeFrame = false;
+            bool minimized = false;
             Hashtable hashtable = new Hashtable();
             bool flag3 = false;
             if (args != null)
@@ -55,10 +55,10 @@ namespace Microsoft.Zune.Shell
                                 break;
                             }
                         case "minimized":
-                            flag2 = true;
+                            minimized = true;
                             break;
                         case "nativeframe":
-                            flag1 = true;
+                            useNativeFrame = true;
                             break;
                         case "animations":
                             try
@@ -70,11 +70,8 @@ namespace Microsoft.Zune.Shell
                             {
                                 break;
                             }
-                        case "uixdebugpipe":
-                            //Application.DebugSettings.OpenDebugPipe = true;
-                            break;
-                        case "uixdecomp":
-                            //Application.DebugSettings.UseDecompiler = true;
+                        case "uixdebuguri":
+                            Application.DebugSettings.DebugConnectionUri = commandLineArgument.Value ?? Iris.Debug.DebugRemoting.DEFAULT_TCP_URI.OriginalString;
                             break;
                         case "uixtrace":
                             try
@@ -92,7 +89,7 @@ namespace Microsoft.Zune.Shell
                                     level = 1;
                                     cat = (Iris.Debug.TraceCategory)Enum.Parse(typeof(Iris.Debug.TraceCategory), commandLineArgument.Value);
                                 }
-                                //Application.DebugSettings.TraceSettings.SetCategoryLevel(cat, level);
+                                Application.DebugSettings.TraceSettings.SetCategoryLevel(cat, level);
                                 break;
                             }
                             catch (FormatException ex)
@@ -130,29 +127,29 @@ namespace Microsoft.Zune.Shell
             object obj = Registry.GetValue(ZuneUI.Shell.SettingsRegistryPath, "WindowPosition", null);
             if (obj != null)
             {
-                if (obj is string)
+                if (obj is string initialPos)
                 {
                     try
                     {
-                        if (!flag2)
-                            Application.Window.SetSavedInitialPosition((string)obj);
+                        if (!minimized)
+                            Application.Window.SetSavedInitialPosition(initialPos);
                         else
-                            Application.Window.SetSavedInitialPosition((string)obj, WindowState.Minimized);
+                            Application.Window.SetSavedInitialPosition(initialPos, WindowState.Minimized);
                     }
-                    catch (ArgumentException ex)
+                    catch (ArgumentException)
                     {
                     }
                 }
             }
             Application.Window.RespectsStartupSettings = true;
             Application.Window.InitialPositionPolicy = WindowPositionPolicy.CenterOnWorkArea | WindowPositionPolicy.ConstrainToWorkArea;
-            Application.Window.ShowWindowFrame = flag1;
+            Application.Window.ShowWindowFrame = useNativeFrame;
             Application.Window.SetBackgroundColor(ZuneUI.Shell.WindowColorFromRGB(ClientConfiguration.Shell.BackgroundColor));
-            if (!flag2)
+            if (!minimized)
                 Application.DeferredInvoke(delegate
-               {
-                   Windowing.ForceSetForegroundWindow(Application.Window.Handle);
-               }, DeferredInvokePriority.Low);
+                {
+                    Windowing.ForceSetForegroundWindow(Application.Window.Handle);
+                }, DeferredInvokePriority.Low);
             return hashtable;
         }
 

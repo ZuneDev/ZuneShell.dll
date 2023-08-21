@@ -28,7 +28,7 @@ namespace ZuneHost.Wpf
             // Construct a single string of args. Be sure to skip executing path.
             var args = Environment.GetCommandLineArgs().Skip(1);
 #if DEBUG
-            args = args.Concat(new[] { "-debug:true" });
+            args = args.Concat(new[] { $"-uixdebuguri", });
 #endif
             string strArgs = string.Join(" ", args.ToArray());
 
@@ -76,7 +76,7 @@ namespace ZuneHost.Wpf
             }
 
             // Set decompiler breakponts
-            IrisApp.DebugSettings.DebugConnectionUri = "tcp://127.0.0.1:5556";
+            IrisApp.DebugSettings.Breakpoints.Add(new("clr-res://ZuneShell!QuickplayStrip.uix", 172, 25, false));
             IrisApp.DebugSettings.Breakpoints.Add(new("clr-res://ZuneMarketplaceResources!SelectionActions.uix", 121, 14, false));
             IrisApp.DebugSettings.Breakpoints.Add(new("clr-res://ZuneShell!Quickplay.uix", 917, 62, false));
 
