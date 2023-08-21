@@ -9,6 +9,7 @@ using StrixMusic.Sdk.AppModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Microsoft.Zune.Library
 {
@@ -18,9 +19,12 @@ namespace Microsoft.Zune.Library
         private bool m_disposed = false;
         private int m_requestGeneration;
         private string m_thumbnailFallbackImageUrl;
-        private MarkupTypeSchema m_dataType;
 
+        private readonly MarkupTypeSchema m_dataType;
         private readonly IStrixDataRoot m_dataRoot;
+        private readonly Dictionary<int, string> m_albumIdMap = new();
+        private readonly Dictionary<int, string> m_artistIdMap = new();
+        private readonly Dictionary<int, string> m_trackIdMap = new();
 
         public StrixLibraryDataProviderQuery(object typeCookie, IStrixDataRoot dataRoot) : base(typeCookie)
         {
@@ -28,51 +32,7 @@ namespace Microsoft.Zune.Library
             m_dataType = (MarkupTypeSchema)((MarkupTypeSchema)ResultTypeCookie).Properties[0].AlternateType;
 
             if (Application.DebugSettings.GenerateDataMappingModels)
-                GenerateModelCode(m_dataType);
-        }
-
-        private static bool IsBasicType(TypeSchema type) =>
-            type == null || type.RuntimeType.Assembly.FullName.Contains("CoreLib") || type.Properties.Length == 0;
-
-        private void GenerateModelCode(TypeSchema dataType)
-        {
-            string code =
-                "using Microsoft.Iris.Markup;\r\n\r\n" +
-                "namespace Microsoft.Zune.Schemas;\r\n\r\n" +
-                "public class " + dataType.Name;
-
-            if (!IsBasicType(dataType.Base))
-            {
-                code += $" : {dataType.Base.Name}";
-                GenerateModelCode(dataType.Base);
-            }
-            else
-            {
-                code += $" : MarkupDataType";
-            }
-
-            code += "\r\n{\r\n";
-            code += $"    public {dataType.Name}(MarkupTypeSchema schema) : base(schema)\r\n";
-            code += "    {\r\n";
-            code += "    }\r\n\r\n";
-
-            foreach (var prop in dataType.Properties)
-            {
-                string propType = prop.PropertyType.AlternateName ?? prop.PropertyType.Name;
-
-                code += $"    public {propType} {prop.Name}\r\n";
-                code += "    {\r\n";
-                code += $"        get => GetProperty<{propType}>();\r\n";
-                code += $"        set => SetProperty(value);\r\n";
-                code += "    }\r\n\r\n";
-
-                if (!IsBasicType(prop.PropertyType) && !Application.DebugSettings.DataMappingModels.Any(m => m.Type == propType))
-                    GenerateModelCode(prop.PropertyType);
-            }
-
-            code += "}";
-
-            Application.DebugSettings.DataMappingModels.Add(new(dataType.RuntimeType.Name, dataType.Name, code));
+                TypeSchema.GenerateModelCode(m_dataType);
         }
 
         public bool GetSortAttributes(out string[] sorts, out bool[] ascendings)
@@ -99,26 +59,25 @@ namespace Microsoft.Zune.Library
 
         protected override void BeginExecute()
         {
-            LibraryVirtualList virtualListResultSet = m_virtualListResultSet;
-            if (virtualListResultSet != null)
-            {
-                ((IDisposable)virtualListResultSet).Dispose();
-                m_virtualListResultSet = null;
-            }
+            if (m_virtualListResultSet is IDisposable disposableResultSet)
+                disposableResultSet.Dispose();
+
+            m_virtualListResultSet = null;
             m_thumbnailFallbackImageUrl = null;
             m_requestGeneration++;
+
             Status = DataProviderQueryStatus.RequestingData;
-            BeginExecuteWorker(m_requestGeneration);
+
+            ExecuteWorker(m_requestGeneration).ConfigureAwait(true);
         }
 
-        private void BeginExecuteWorker(object state)
+        private async Task ExecuteWorker(object state)
         {
             bool[] sortAscendings = null;
             string[] sortStrings = null;
-            string str = null;
             int num = (int)state;
 
-            if (num == this.m_requestGeneration)
+            if (num == m_requestGeneration)
             {
                 ZuneQueryList queryList = new();
 
@@ -129,190 +88,122 @@ namespace Microsoft.Zune.Library
                 {
 
                 }
-                object property = GetProperty("ArtistIds");
-                if (property != null)
-                {
 
+                if (TryGetProperty<object>("ArtistIds", out var artistIds))
+                {
                 }
-                object property2 = GetProperty("GenreIds");
-                if (property2 != null)
+                if (TryGetProperty<object>("GenreIds", out var genreIds))
                 {
-
                 }
-                object property3 = GetProperty("AlbumIds");
-                if (property3 != null)
+                if (TryGetProperty<object>("AlbumIds", out var albumIds))
                 {
-
                 }
-                object property4 = GetProperty("UserCardIds");
-                if (property4 != null)
+                if (TryGetProperty<object>("UserCardIds", out var userCardIds))
                 {
-
                 }
-                object property5 = GetProperty("DeviceId");
-                if (property5 != null)
+                if (TryGetProperty<object>("DeviceId", out var deviceId))
                 {
-
                 }
                 else
                 {
-
                 }
-                object property6 = GetProperty("SyncMappedError");
-                if (property6 != null)
+                if (TryGetProperty<object>("SyncMappedError", out var syncMappedError))
                 {
-
                 }
-                property6 = GetProperty("UserId");
-                if (property6 != null)
+                if (TryGetProperty<object>("UserId", out var userId))
                 {
-
                 }
                 else
                 {
-
                 }
-                object property7 = GetProperty("InLibrary");
-                if (property7 != null)
+                if (TryGetProperty<bool>("InLibrary", out var inLibrary))
                 {
-
                 }
+
                 //object obj13 = calli(System.Int32 modopt(System.Runtime.CompilerServices.IsLong) modopt(System.Runtime.CompilerServices.CallConvCdecl)(System.IntPtr, EQueryPropertyBagProp, System.Int32), iqueryPropertyBag, 2, 0, *(*(long*)iqueryPropertyBag + 56L));
                 EQueryTypeView equeryTypeView = EQueryTypeView.eQueryTypeLibraryView;
-                object property8 = GetProperty("ShowDeviceContents");
-                if (property8 != null)
+                if (TryGetProperty("ShowDeviceContents", out bool showDeviceContents))
+                    equeryTypeView = showDeviceContents ? EQueryTypeView.eQueryTypeDeviceView : equeryTypeView;
+                if (TryGetProperty("DiscMediaView", out bool discMediaView))
+                    equeryTypeView = discMediaView ? EQueryTypeView.eQueryTypeDiscMediaView : equeryTypeView;
+                if (TryGetProperty("Remaining", out bool remaining))
+                    equeryTypeView = remaining ? EQueryTypeView.eQueryTypeSyncRemaining : equeryTypeView;
+                if (TryGetProperty("Complete", out bool complete))
+                    equeryTypeView = complete ? EQueryTypeView.eQueryTypeSyncSucceeded : equeryTypeView;
+                if (TryGetProperty("Failed", out bool failed))
+                    equeryTypeView = failed ? EQueryTypeView.eQueryTypeSyncFailed : equeryTypeView;
+                if (TryGetProperty("MultiSelect", out bool multiSelect))
                 {
-                    equeryTypeView = (((bool)property8) ? EQueryTypeView.eQueryTypeDeviceView : equeryTypeView);
+                    equeryTypeView = (EQueryTypeView.eQueryTypeDeviceView == equeryTypeView)
+                        ? EQueryTypeView.eQueryTypeDeviceMultiSelectView
+                        : EQueryTypeView.eQueryTypeLibraryMultiSelectView;
                 }
-                property8 = GetProperty("DiscMediaView");
-                if (property8 != null)
-                {
-                    equeryTypeView = (((bool)property8) ? EQueryTypeView.eQueryTypeDiscMediaView : equeryTypeView);
-                }
-                property8 = GetProperty("Remaining");
-                if (property8 != null)
-                {
-                    equeryTypeView = (((bool)property8) ? EQueryTypeView.eQueryTypeSyncRemaining : equeryTypeView);
-                }
-                property8 = GetProperty("Complete");
-                if (property8 != null)
-                {
-                    equeryTypeView = (((bool)property8) ? EQueryTypeView.eQueryTypeSyncSucceeded : equeryTypeView);
-                }
-                property8 = GetProperty("Failed");
-                if (property8 != null)
-                {
-                    equeryTypeView = (((bool)property8) ? EQueryTypeView.eQueryTypeSyncFailed : equeryTypeView);
-                }
-                property8 = GetProperty("MultiSelect");
-                if (property8 != null && (bool)property8)
-                {
-                    equeryTypeView = ((EQueryTypeView.eQueryTypeDeviceView == equeryTypeView) ? EQueryTypeView.eQueryTypeDeviceMultiSelectView : EQueryTypeView.eQueryTypeLibraryMultiSelectView);
-                }
-                object property9 = GetProperty("RulesOnly");
-                if (property9 != null)
-                {
-                    equeryTypeView = (((bool)property9) ? EQueryTypeView.eQueryTypeDeviceSyncRuleView : equeryTypeView);
-                }
+                if (TryGetProperty("RulesOnly", out bool rulesOnly))
+                    equeryTypeView = rulesOnly ? EQueryTypeView.eQueryTypeDeviceSyncRuleView : equeryTypeView;
+
+                #region Unhandled properties
                 //object obj14 = calli(System.Int32 modopt(System.Runtime.CompilerServices.IsLong) modopt(System.Runtime.CompilerServices.CallConvCdecl)(System.IntPtr, EQueryPropertyBagProp, System.Int32), iqueryPropertyBag, 15, equeryTypeView, *(*(long*)iqueryPropertyBag + 56L));
-                object keywordsProp = GetProperty("Keywords");
-                if (keywordsProp != null)
+                if (TryGetProperty("Keywords", out string keywords))
                 {
-
                 }
-                object property11 = GetProperty("ContributingArtistId");
-                if (property11 != null)
+                if (TryGetProperty("ContributingArtistId", out int contributingArtistId))
                 {
-
                 }
-                property11 = GetProperty("ArtistId");
-                if (property11 != null)
+                if (TryGetProperty("ArtistId", out int artistId))
                 {
-
                 }
-                property11 = GetProperty("GenreId");
-                if (property11 != null)
+                if (TryGetProperty("GenreId", out int genreId))
                 {
-
                 }
-                property11 = GetProperty("AlbumId");
-                if (property11 != null)
+                if (TryGetProperty("AlbumId", out int albumId))
                 {
-
                 }
-                property11 = GetProperty("FolderId");
-                if (property11 != null)
+                if (TryGetProperty("FolderId", out int folderId))
                 {
-
                 }
-                property11 = GetProperty("RecurseIntoFolders");
-                if (property11 != null && (int)property11 != 0)
+                if (TryGetProperty("RecurseIntoFolder", out int recurseIntoFolders) && recurseIntoFolders != 0)
                 {
-
                 }
-                object property12 = GetProperty("FolderMediaType");
-                if (property12 != null)
+                if (TryGetProperty("FolderMediaType", out string folderMediaType))
                 {
-                    //EMediaTypes emediaTypes = LibraryDataProvider.NameToMediaType((string)property12);
-
+                    //EMediaTypes emediaTypes = LibraryDataProvider.NameToMediaType(folderMediaType);
                 }
-                object property13 = GetProperty("MediaType");
-                if (property13 != null)
+                if (TryGetProperty("MediaType", out string mediaType))
                 {
-
                 }
-                object property14 = GetProperty("TOC");
-                if (property14 != null)
+                if (TryGetProperty("TOC", out string toc))
                 {
-
                 }
-                object property15 = GetProperty("SeriesId");
-                if (property15 != null)
+                if (TryGetProperty("SeriesId", out int seriesId))
                 {
-
                 }
-                property15 = GetProperty("WatchType");
-                if (property15 != null)
+                if (TryGetProperty("WatchType", out string watchType))
                 {
-
                 }
-                if (GetProperty("ExpiresOnly") != null)
+                if (TryGetProperty("ExpiresOnly", out object expiresOnly) && expiresOnly != null)
                 {
-
                 }
-                object property16 = GetProperty("Operation");
-                if (property16 != null)
+                if (TryGetProperty("Operation", out object operation))
                 {
-
                 }
-                property16 = GetProperty("InitTime");
-                if (property16 != null)
+                if (TryGetProperty("InitTime", out object initTime))
                 {
-
                 }
-                object property17 = GetProperty("PlaylistId");
-                if (property17 != null)
+                if (TryGetProperty("PlaylistId", out int playlistId))
                 {
-
                 }
-                property17 = GetProperty("CategoryId");
-                if (property17 != null)
+                if (TryGetProperty("CategoryId", out int categoryId))
                 {
-
                 }
-                property17 = GetProperty("PlaylistType");
-                if (property17 != null && !string.IsNullOrEmpty((string)property17))
+                if (TryGetProperty("PlaylistType", out string playlistTypeStr) && !string.IsNullOrEmpty(playlistTypeStr))
                 {
-                    PlaylistType playlistType = (PlaylistType)Enum.Parse(typeof(PlaylistType), (string)property17);
+                    PlaylistType playlistType = (PlaylistType)Enum.Parse(typeof(PlaylistType), playlistTypeStr);
                     //object obj32 = calli(System.Int32 modopt(System.Runtime.CompilerServices.IsLong) modopt(System.Runtime.CompilerServices.CallConvCdecl)(System.IntPtr, EQueryPropertyBagProp, System.Int32), iqueryPropertyBag, 24, playlistType, *(*(long*)iqueryPropertyBag + 56L));
                 }
-                object property18 = GetProperty("PlaylistTypeMask");
-                if (property18 != null)
+                if (TryGetProperty("PlaylistTypeMask", out int playlistTypeMask))
                 {
-                    int num9 = (int)property18;
-                    if (num9 != 0)
+                    if (playlistTypeMask != 0)
                     {
-
                     }
                 }
                 if (!TryGetProperty("MaxResultCount", out int maxResultCount))
@@ -320,70 +211,74 @@ namespace Microsoft.Zune.Library
                     maxResultCount = int.MaxValue;
                 }
                 var property19 = GetProperty("DrmStateMask");
-                if (property19 != null)
+                if (TryGetProperty("DrmStateMask", out ulong drmStateMask))
                 {
-                    ulong num10 = (ulong)((long)property19);
-                    if (num10 != 0UL)
+                    if (drmStateMask != 0UL)
                     {
-
                     }
                 }
+#endregion
+
                 string text = (string)GetProperty("QueryType");
-                EQueryType equeryType = EQueryType.eQueryTypeInvalid;
-                if (keywordsProp != null)//queryPropertyBag.IsSet("Keywords"))
+                EQueryType queryType = EQueryType.eQueryTypeInvalid;
+
+                if (keywords != null)//queryPropertyBag.IsSet("Keywords"))
                 {
                     if (text == "Artist")
                     {
-                        equeryType = EQueryType.eQueryTypeArtistsWithKeyword;
+                        queryType = EQueryType.eQueryTypeArtistsWithKeyword;
                     }
                     else if (text == "Album")
                     {
-                        equeryType = EQueryType.eQueryTypeAlbumsWithKeyword;
+                        queryType = EQueryType.eQueryTypeAlbumsWithKeyword;
                     }
                     else if (text == "Track")
                     {
-                        equeryType = EQueryType.eQueryTypeTracksWithKeyword;
+                        queryType = EQueryType.eQueryTypeTracksWithKeyword;
                     }
                     else if (text == "Playlist")
                     {
-                        equeryType = EQueryType.eQueryTypePlaylistsWithKeyword;
+                        queryType = EQueryType.eQueryTypePlaylistsWithKeyword;
                     }
                     else if (text == "Photo")
                     {
-                        equeryType = EQueryType.eQueryTypePhotosWithKeyword;
+                        queryType = EQueryType.eQueryTypePhotosWithKeyword;
                     }
                     else if (text == "PodcastSeries")
                     {
-                        equeryType = EQueryType.eQueryTypeSubscriptionsSeriesWithKeyword;
+                        queryType = EQueryType.eQueryTypeSubscriptionsSeriesWithKeyword;
                     }
                     else if (text == "PodcastEpisode")
                     {
-                        equeryType = EQueryType.eQueryTypeSubscriptionsEpisodesWithKeyword;
+                        queryType = EQueryType.eQueryTypeSubscriptionsEpisodesWithKeyword;
                     }
                     else if (text == "Video")
                     {
-                        equeryType = EQueryType.eQueryTypeVideoWithKeyword;
+                        queryType = EQueryType.eQueryTypeVideoWithKeyword;
                     }
                 }
                 else if (text == "Artist")
                 {
-                    equeryType = EQueryType.eQueryTypeAllAlbumArtists;
+                    queryType = EQueryType.eQueryTypeAllAlbumArtists;
 
-                    var stArtists = m_dataRoot.Library.GetArtistItemsAsync(int.MaxValue, 0).ToEnumerable();
-                    foreach (var stPlayableArtist in stArtists)
+                    var stArtists = m_dataRoot.Library.GetArtistItemsAsync(int.MaxValue, 0);
+                    await foreach (var stPlayableArtist in stArtists)
                     {
                         var stArtist = stPlayableArtist as IArtist;
 
                         UriImage image = null;
-                        var stImage = stArtist?.GetImagesAsync(1, 0).ToEnumerable().FirstOrDefault();
-                        if (stImage != null && stImage.Sources.Count > 0)
+                        if (stArtist != null)
                         {
-                            var imageSource = stImage.Sources[0];
-                            using var imageStream = AsyncHelper.Run(imageSource.OpenStreamAsync);
-                            var imageBytes = AsyncHelper.Run(imageStream.ToBytesAsync);
+                            var stImage = await stArtist.GetImagesAsync(1, 0).FirstOrDefaultAsync();
+                            if (stImage != null && stImage.Sources.Count > 0)
+                            {
+                                var imageSource = stImage.Sources[0];
+                                using var imageStream = await imageSource.OpenStreamAsync();
+                                var imageBytes = await imageStream.ToBytesAsync();
 
-                            BytesResource imageResource = new(stArtist.Id, imageBytes, stArtist.Id, false);
-                            image = new(imageResource, stArtist.Id + "_img", Inset.Zero, new Size(int.MaxValue, int.MaxValue), true);
+                                BytesResource imageResource = new(stArtist.Id, imageBytes, stArtist.Id, false);
+                                image = new(imageResource, stArtist.Id + "_img", Inset.Zero, new Size(int.MaxValue, int.MaxValue), true);
+                            }
                         }
 
                         Schemas.Artist artist = new(m_dataType)
@@ -411,21 +306,21 @@ namespace Microsoft.Zune.Library
                     if (GetProperty("MediaType") is not int genreMediaType)
                         genreMediaType = 3;
 
-                    equeryType = EQueryType.eQueryTypeAllGenres;
+                    queryType = EQueryType.eQueryTypeAllGenres;
 
                     // Strix doesn't support getting a list of genres, so we'll
                     // instead get a list of all children and create a set of
                     // genres from that.
-                    var stChildren = m_dataRoot.Library.GetTracksAsync(int.MaxValue, 0).ToEnumerable();
+                    var stChildren = m_dataRoot.Library.GetTracksAsync(int.MaxValue, 0);
                     HashSet<string> knownGenres = new();
-                    foreach (var stChild in stChildren)
+                    await foreach (var stChild in stChildren)
                     {
                         if (stChild is not IGenreCollection stGenreCollection)
                             continue;
 
                         var genreNames = stGenreCollection.GetGenresAsync(int.MaxValue, 0)
-                            .ToEnumerable().Select(g => g.Name);
-                        foreach (var genreName in genreNames)
+                            .Select(g => g.Name);
+                        await foreach (var genreName in genreNames)
                         {
                             if (knownGenres.Contains(genreName))
                                 continue;
@@ -448,44 +343,43 @@ namespace Microsoft.Zune.Library
                 }
                 else if (text == "Album")
                 {
-                    int artistId = -1, genreId = -1;
-                    if (TryGetProperty("ArtistId", out artistId) && artistId != -1)// || queryPropertyBag.IsSet("ArtistIds"))
-                        equeryType = EQueryType.eQueryTypeAlbumsForAlbumArtistId;
-                    else if ((TryGetProperty("GenreId", out genreId) && genreId != -1))// || queryPropertyBag.IsSet("GenreIds"))
-                        equeryType = EQueryType.eQueryTypeAlbumsByGenreId;
+                    if (TryGetProperty("ArtistId", out artistId) && artistId != -1)
+                        queryType = EQueryType.eQueryTypeAlbumsForAlbumArtistId;
+                    else if (TryGetProperty("GenreId", out genreId) && genreId != -1)
+                        queryType = EQueryType.eQueryTypeAlbumsByGenreId;
                     else
-                        equeryType = EQueryType.eQueryTypeAllAlbums;
+                        queryType = EQueryType.eQueryTypeAllAlbums;
 
                     retainedList = true;
 
-                    var stAlbums = m_dataRoot.Library.GetAlbumItemsAsync(int.MaxValue, 0).ToEnumerable();
-                    foreach (var stAlbumItem in stAlbums)
+                    var stAlbums = m_dataRoot.Library.GetAlbumItemsAsync(int.MaxValue, 0);
+                    await foreach (var stAlbumItem in stAlbums)
                     {
                         var stAlbum = stAlbumItem as IAlbum;
-                        var stAlbumArtist = stAlbum?.GetArtistItemsAsync(int.MaxValue, 0).ToEnumerable().FirstOrDefault();
+                        var stAlbumArtist = stAlbum != null
+                            ? await stAlbum.GetArtistItemsAsync(int.MaxValue, 0).FirstOrDefaultAsync()
+                            : null;
 
                         // Handle filters
                         var currentArtistId = stAlbumArtist?.Id.HashToInt32() ?? -1;
-                        if (equeryType == EQueryType.eQueryTypeAlbumsForAlbumArtistId && currentArtistId != artistId)
+                        if (queryType == EQueryType.eQueryTypeAlbumsForAlbumArtistId && currentArtistId != artistId)
                         {
                             // Ignore all other artists
                             continue;
                         }
-                        else if (equeryType == EQueryType.eQueryTypeAlbumsByGenreId)
+                        else if (queryType == EQueryType.eQueryTypeAlbumsByGenreId)
                         {
-                            var containsCurrentGenre = stAlbum.GetGenresAsync(int.MaxValue, 0)
-                                .ToEnumerable()
+                            var containsCurrentGenre = await stAlbum.GetGenresAsync(int.MaxValue, 0)
                                 .Select(g => g.Name.HashToInt32())
-                                .Any(g => g == genreId);
+                                .AnyAsync(g => g == genreId);
 
                             if (!containsCurrentGenre)
                             {
                                 // If the album doesn't have the genre, the tracks might.
-                                containsCurrentGenre = stAlbum.GetTracksAsync(int.MaxValue, 0)
-                                    .ToEnumerable()
-                                    .SelectMany(t => t.GetGenresAsync(int.MaxValue, 0).ToEnumerable())
+                                containsCurrentGenre = await stAlbum.GetTracksAsync(int.MaxValue, 0)
+                                    .SelectMany(t => t.GetGenresAsync(int.MaxValue, 0))
                                     .Select(g => g.Name.HashToInt32())
-                                    .Any(g => g == genreId);
+                                    .AnyAsync(g => g == genreId);
 
                                 if (!containsCurrentGenre) continue;
                             }
@@ -514,15 +408,18 @@ namespace Microsoft.Zune.Library
                         };
 
                         UriImage image = null;
-                        var stImage = stAlbum?.GetImagesAsync(1, 0).ToEnumerable().FirstOrDefault();
-                        if (stImage != null && stImage.Sources.Count > 0)
+                        if (stAlbum != null)
                         {
-                            var imageSource = stImage.Sources[0];
-                            using var imageStream = AsyncHelper.Run(imageSource.OpenStreamAsync);
-                            var imageBytes = AsyncHelper.Run(imageStream.ToBytesAsync);
+                            var stImage = await stAlbum.GetImagesAsync(1, 0).FirstOrDefaultAsync();
+                            if (stImage != null && stImage.Sources.Count > 0)
+                            {
+                                var imageSource = stImage.Sources[0];
+                                using var imageStream = await imageSource.OpenStreamAsync();
+                                var imageBytes = await imageStream.ToBytesAsync();
 
-                            BytesResource imageResource = new(stAlbum.Id, imageBytes, stAlbum.Id, false);
-                            image = new(imageResource, stAlbum.Id + "_img", Inset.Zero, new Size(int.MaxValue, int.MaxValue), true);
+                                BytesResource imageResource = new(stAlbum.Id, imageBytes, stAlbum.Id, false);
+                                image = new(imageResource, stAlbum.Id + "_img", Inset.Zero, new Size(int.MaxValue, int.MaxValue), true);
+                            }
                         }
                         album.AlbumArtSmall = album.AlbumArtLarge = album.AlbumArtSuperLarge = image;
 
@@ -532,80 +429,77 @@ namespace Microsoft.Zune.Library
                 else if (text == "Track")
                 {
                     if (GetProperty("RulesOnly") is bool queryAllTracks)
-                        equeryType = EQueryType.eQueryTypeAllTracks;
+                        queryType = EQueryType.eQueryTypeAllTracks;
 
-                    int albumId = -1, albumArtistId = -1, artistId = -1, genreId = -1;
+                    int albumArtistId = -1;
                     bool detailed = false;
-                    string toc = null;
                     if (TryGetProperty("AlbumId", out albumId) && albumId != -1)
                     {
                         if (TryGetProperty("ArtistId", out albumArtistId) && albumArtistId != -1)
-                            equeryType = EQueryType.eQueryTypeTracksForAlbumArtistId;
+                            queryType = EQueryType.eQueryTypeTracksForAlbumArtistId;
                         else
-                            equeryType = EQueryType.eQueryTypeTracksForAlbumId;
+                            queryType = EQueryType.eQueryTypeTracksForAlbumId;
                     }
                     else
                     {
                         if (TryGetProperty("ArtistId", out artistId) && artistId != -1)
                         {
-                            equeryType = EQueryType.eQueryTypeTracksForAlbumArtistId;
+                            queryType = EQueryType.eQueryTypeTracksForAlbumArtistId;
                         }
                         else
                         {
                             if (TryGetProperty("GenreId", out genreId) && genreId != -1)
                             {
-                                equeryType = EQueryType.eQueryTypeTracksByGenreId;
+                                queryType = EQueryType.eQueryTypeTracksByGenreId;
                             }
                             else
                             {
                                 if (TryGetProperty("Detailed", out detailed) && detailed)
                                 {
-                                    equeryType = EQueryType.eQueryTypeAllTracksDetailed;
+                                    queryType = EQueryType.eQueryTypeAllTracksDetailed;
                                 }
                                 else
                                 {
                                     if (TryGetProperty("TOC", out toc) && !string.IsNullOrEmpty(toc))
-                                        equeryType = EQueryType.eQueryTypeTracksForTOC;
+                                        queryType = EQueryType.eQueryTypeTracksForTOC;
                                     else
-                                        equeryType = EQueryType.eQueryTypeAllTracks;
+                                        queryType = EQueryType.eQueryTypeAllTracks;
                                 }
                             }
                         }
                     }
 
-                    var stTracks = m_dataRoot.Library.GetTracksAsync(int.MaxValue, 0).ToEnumerable();
-                    foreach (var stTrack in stTracks)
+                    var stTracks = m_dataRoot.Library.GetTracksAsync(int.MaxValue, 0);
+                    await foreach (var stTrack in stTracks)
                     {
                         var stAlbum = stTrack.Album;
                         var stAlbumArtist = stAlbum != null
-                            ? AsyncHelper.Run(() => stAlbum.GetArtistItemsAsync(1, 0).FirstOrDefaultAsync().AsTask())
+                            ? await stAlbum.GetArtistItemsAsync(1, 0).FirstOrDefaultAsync()
                             : null;
 
                         // Handle filters
-                        if (equeryType == EQueryType.eQueryTypeTracksForAlbumId)
+                        if (queryType == EQueryType.eQueryTypeTracksForAlbumId)
                         {
                             var currentAlbumId = stAlbum?.Id.HashToInt32();
                             if (currentAlbumId != albumId) continue;
                         }
-                        else if (equeryType == EQueryType.eQueryTypeTracksForAlbumArtistId)
+                        else if (queryType == EQueryType.eQueryTypeTracksForAlbumArtistId)
                         {
                             var currentAlbumArtistId = stAlbumArtist?.Id.HashToInt32();
                             if (currentAlbumArtistId != albumArtistId) continue;
                         }
-                        else if (equeryType == EQueryType.eQueryTypeTracksByGenreId)
+                        else if (queryType == EQueryType.eQueryTypeTracksByGenreId)
                         {
-                            var containsCurrentGenre = stTrack.GetGenresAsync(int.MaxValue, 0)
-                                .ToEnumerable()
+                            var containsCurrentGenre = await stTrack.GetGenresAsync(int.MaxValue, 0)
                                 .Select(g => g.Name.HashToInt32())
-                                .Any(g => g == genreId);
+                                .AnyAsync(g => g == genreId);
 
                             if (!containsCurrentGenre && stAlbum != null)
                             {
                                 // If the track doesn't have the genre, the album might.
-                                containsCurrentGenre = stAlbum.GetGenresAsync(int.MaxValue, 0)
-                                    .ToEnumerable()
+                                containsCurrentGenre = await stAlbum.GetGenresAsync(int.MaxValue, 0)
                                     .Select(g => g.Name.HashToInt32())
-                                    .Any(g => g == genreId);
+                                    .AnyAsync(g => g == genreId);
                             }
                             
                             if (!containsCurrentGenre) continue;
@@ -655,10 +549,10 @@ namespace Microsoft.Zune.Library
                             AlbumArtistLibraryId = stAlbumArtist?.Id.HashToInt32() ?? 0
                         };
 
-                        var stArtists = stTrack.GetArtistItemsAsync(int.MaxValue, 0).ToEnumerable();
+                        var stArtists = stTrack.GetArtistItemsAsync(int.MaxValue, 0);
                         bool setPrimaryArtist = false;
                         List<string> contributingArtists = new();
-                        foreach (var stArtist in stArtists)
+                        await foreach (var stArtist in stArtists)
                         {
                             if (!setPrimaryArtist)
                             {
@@ -683,7 +577,7 @@ namespace Microsoft.Zune.Library
                             track.ArtistNameYomi = null;
                         }
 
-                        var stGenre = AsyncHelper.Run(() => stTrack.GetGenresAsync(1, 0).FirstOrDefaultAsync().AsTask());
+                        var stGenre = await stTrack.GetGenresAsync(1, 0).FirstOrDefaultAsync();
                         track.Genre = stGenre?.Name;
 
                         queryList.Add(track.Item);
@@ -691,7 +585,7 @@ namespace Microsoft.Zune.Library
                 }
                 else if (text == "AlbumByTOC")
                 {
-                    equeryType = EQueryType.eQueryTypeAlbumsByTOC;
+                    queryType = EQueryType.eQueryTypeAlbumsByTOC;
                     //if (!queryPropertyBag.IsSet("TOC"))
                     //{
                     //	equeryType = EQueryType.eQueryTypeInvalid;
@@ -699,80 +593,71 @@ namespace Microsoft.Zune.Library
                 }
                 else if (text == "Photo")
                 {
-                    equeryType = ((equeryTypeView == EQueryTypeView.eQueryTypeDeviceSyncRuleView) ? EQueryType.eQueryTypeAllPhotos : EQueryType.eQueryTypePhotosByFolderId);
+                    queryType = (equeryTypeView == EQueryTypeView.eQueryTypeDeviceSyncRuleView)
+                        ? EQueryType.eQueryTypeAllPhotos
+                        : EQueryType.eQueryTypePhotosByFolderId;
                 }
                 else if (text == "MediaFolder")
                 {
-                    equeryType = EQueryType.eQueryTypeMediaFolders;
+                    queryType = EQueryType.eQueryTypeMediaFolders;
                 }
                 else if (text == "Video")
                 {
-                    property19 = GetProperty("CategoryId");
-                    if (property19 != null && (int)property19 != -1)
-                    {
-                        equeryType = EQueryType.eQueryTypeVideosByCategoryId;
-                    }
+                    if (TryGetProperty("CategoryId", out categoryId) && categoryId != -1)
+                        queryType = EQueryType.eQueryTypeVideosByCategoryId;
                     else
-                    {
-                        equeryType = EQueryType.eQueryTypeAllVideos;
-                    }
+                        queryType = EQueryType.eQueryTypeAllVideos;
                 }
                 else if (text == "PodcastSeries")
                 {
-                    equeryType = EQueryType.eQueryTypeAllPodcastSeries;
+                    queryType = EQueryType.eQueryTypeAllPodcastSeries;
                 }
                 else if (text == "PodcastEpisode")
                 {
-                    property19 = GetProperty("SeriesId");
-                    if (property19 != null && (int)property19 != -1)
-                    {
-                        equeryType = EQueryType.eQueryTypeEpisodesForSeriesId;
-                    }
+                    if (TryGetProperty("SeriesId", out seriesId) && seriesId != -1)
+                        queryType = EQueryType.eQueryTypeEpisodesForSeriesId;
                     else
-                    {
-                        equeryType = EQueryType.eQueryTypeAllPodcastEpisodes;
-                    }
+                        queryType = EQueryType.eQueryTypeAllPodcastEpisodes;
                 }
                 else if (text == "SyncItem")
                 {
-                    equeryType = EQueryType.eQueryTypeSyncProgress;
+                    queryType = EQueryType.eQueryTypeSyncProgress;
                 }
                 else if (text == "Playlist")
                 {
-                    equeryType = EQueryType.eQueryTypeAllPlaylists;
+                    queryType = EQueryType.eQueryTypeAllPlaylists;
                 }
                 else if (text == "PlaylistContent")
                 {
-                    equeryType = EQueryType.eQueryTypePlaylistContentByPlaylistId;
+                    queryType = EQueryType.eQueryTypePlaylistContentByPlaylistId;
                 }
                 else if (text == "UserCard")
                 {
-                    equeryType = EQueryType.eQueryTypeUserCards;
+                    queryType = EQueryType.eQueryTypeUserCards;
                 }
                 else if (text == "Person")
                 {
-                    equeryType = EQueryType.eQueryTypePersonsByTypeId;
-                    EMediaTypes emediaTypes2 = EMediaTypes.eMediaTypePersonArtist;
-                    emediaTypes2 = (((string)GetProperty("PersonType") == "Composer") ? EMediaTypes.eMediaTypePersonComposer : emediaTypes2);
+                    queryType = EQueryType.eQueryTypePersonsByTypeId;
 
+                    EMediaTypes personType = EMediaTypes.eMediaTypePersonArtist;
+                    personType = ((string)GetProperty("PersonType") == "Composer")
+                        ? EMediaTypes.eMediaTypePersonComposer
+                        : personType;
                 }
                 else if (text == "ArtistsRanking")
                 {
-                    equeryType = EQueryType.eQueryTypeArtistsRanking;
+                    queryType = EQueryType.eQueryTypeArtistsRanking;
                 }
                 else if (text == "TVSeries")
                 {
-                    equeryType = EQueryType.eQueryTypeVideoSeriesTitles;
+                    queryType = EQueryType.eQueryTypeVideoSeriesTitles;
                 }
                 else if (text == "Pin")
                 {
-                    equeryType = EQueryType.eQueryTypePinsByPinType;
-                    EPinType epinType = EPinType.ePinTypeGeneric;
-                    property19 = GetProperty("PinType");
-                    if (property19 != null)
-                    {
-                        epinType = (EPinType)property19;
-                    }
+                    queryType = EQueryType.eQueryTypePinsByPinType;
+
+                    if (!TryGetProperty("PinType", out EPinType pinType))
+                        pinType = EPinType.ePinTypeGeneric;
 
                     Schemas.Pin pin = new(m_dataType)
                     {
@@ -787,14 +672,14 @@ namespace Microsoft.Zune.Library
                         DateModified = DateTime.Now,
                         ZuneMediaType = 0,
                     };
-                    queryList.Add(pin.Item);
+                    //queryList.Add(pin.Item);
                 }
-                else
+                else if (text == "App")
                 {
-                    equeryType = ((text == "App") ? EQueryType.eQueryTypeAllApps : equeryType);
+                    queryType = EQueryType.eQueryTypeAllApps;
                 }
 
-                queryList.QueryType = equeryType;
+                queryList.QueryType = queryType;
                 DeferredSetResult(new DeferredSetResultArgs(num, queryList, false));// retainedList));
             }
         }
@@ -805,27 +690,27 @@ namespace Microsoft.Zune.Library
             bool isEmpty = true;
             if (deferredSetResultArgs.QueryList != null)
             {
-                object property = GetProperty("AutoRefresh");
-                bool autoRefresh = property == null || (bool)property;
+                if (!TryGetProperty("AutoRefresh", out bool autoRefresh))
+                    autoRefresh = true;
 
-                object property2 = GetProperty("AntialiasImageEdges");
-                bool antialiasEdges = property2 != null && (bool)property2;
-
+                if (!TryGetProperty("AntialiasImageEdges", out bool antialiasEdges))
+                    antialiasEdges = false;
+                
                 m_thumbnailFallbackImageUrl = (string)GetProperty("ThumbnailFallbackImageUrl");
 
-                LibraryVirtualList virtualListResultSet = m_virtualListResultSet;
-                (virtualListResultSet as IDisposable)?.Dispose();
+                (m_virtualListResultSet as IDisposable)?.Dispose();
 
-                LibraryVirtualList libraryVirtualList = new(this, deferredSetResultArgs.QueryList, autoRefresh, antialiasEdges);
-                m_virtualListResultSet = libraryVirtualList;
-
-                ReleaseBehavior visualReleaseBehavior = deferredSetResultArgs.RetainedList ? ReleaseBehavior.KeepReference : ReleaseBehavior.ReleaseReference;
-                libraryVirtualList.VisualReleaseBehavior = visualReleaseBehavior;
+                m_virtualListResultSet = new(this, deferredSetResultArgs.QueryList, autoRefresh, antialiasEdges)
+                {
+                    VisualReleaseBehavior = deferredSetResultArgs.RetainedList
+                        ? ReleaseBehavior.KeepReference
+                        : ReleaseBehavior.ReleaseReference
+                };
 
                 isEmpty = deferredSetResultArgs.QueryList.IsEmpty;
             }
 
-            StrixLibraryDataProviderQueryResult libraryDataProviderQueryResult = new(this, m_virtualListResultSet, base.ResultTypeCookie);
+            StrixLibraryDataProviderQueryResult libraryDataProviderQueryResult = new(this, m_virtualListResultSet, ResultTypeCookie);
             libraryDataProviderQueryResult.SetIsEmpty(isEmpty);
             Result = libraryDataProviderQueryResult;
             Status = DataProviderQueryStatus.Complete;
