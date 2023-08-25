@@ -3,6 +3,7 @@
 using LibVLCSharp.Shared;
 using StrixMusic.Sdk.MediaPlayback;
 using System;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -22,7 +23,17 @@ namespace Microsoft.Zune.Playback
 
         private VlcAudioService()
         {
-            Core.Initialize(@"C:\Program Files\VideoLAN\VLC");
+            var vlcInstallDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
+                "VideoLAN", "VLC");
+
+            try
+            {
+                Core.Initialize(vlcInstallDir);
+            }
+            catch
+            {
+                Core.Initialize();
+            }
 
             bool debug =
 #if DEBUG
