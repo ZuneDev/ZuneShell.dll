@@ -217,7 +217,9 @@ namespace Microsoft.Zune.Library
                     {
                     }
                 }
-#endregion
+                #endregion
+
+                var filterIds = (albumId, artistId, genreId);
 
                 string text = (string)GetProperty("QueryType");
                 EQueryType queryType = EQueryType.eQueryTypeInvalid;
@@ -470,7 +472,11 @@ namespace Microsoft.Zune.Library
                     }
 
                     var stTracks = m_dataRoot.Library.GetTracksAsync(int.MaxValue, 0);
-                    
+                    await foreach (var stTrack in stTracks)
+                    {
+                        var track = await CreateTrack(stTrack, queryType, filterIds);
+                        queryList.Add(track.Item);
+                    }
                 }
                 else if (text == "AlbumByTOC")
                 {
@@ -607,121 +613,118 @@ namespace Microsoft.Zune.Library
             Status = DataProviderQueryStatus.Complete;
         }
 
-        private Schemas.Track CreateTrack(ZuneQueryList queryList, )
+        private async Task<Schemas.Track> CreateTrack(ITrack stTrack, EQueryType queryType, (int? album, int? albumArtist, int? genre) filterIds)
         {
-            await foreach (var stTrack in stTracks)
+            var stAlbum = stTrack.Album;
+            var stAlbumArtist = stAlbum != null
+                ? await stAlbum.GetArtistItemsAsync(1, 0).FirstOrDefaultAsync()
+                : null;
+
+            // Handle filters
+            if (queryType == EQueryType.eQueryTypeTracksForAlbumId)
             {
-                var stAlbum = stTrack.Album;
-                var stAlbumArtist = stAlbum != null
-                    ? await stAlbum.GetArtistItemsAsync(1, 0).FirstOrDefaultAsync()
-                    : null;
+                var currentAlbumId = stAlbum?.Id.HashToInt32();
+                if (currentAlbumId != filterIds.album) return null;
+            }
+            else if (queryType == EQueryType.eQueryTypeTracksForAlbumArtistId)
+            {
+                var currentAlbumArtistId = stAlbumArtist?.Id.HashToInt32();
+                if (currentAlbumArtistId != filterIds.albumArtist) return null;
+            }
+            else if (queryType == EQueryType.eQueryTypeTracksByGenreId)
+            {
+                var containsCurrentGenre = await stTrack.GetGenresAsync(int.MaxValue, 0)
+                    .Select(g => g.Name.HashToInt32())
+                    .AnyAsync(g => g == filterIds.genre);
 
-                // Handle filters
-                if (queryType == EQueryType.eQueryTypeTracksForAlbumId)
+                if (!containsCurrentGenre && stAlbum != null)
                 {
-                    var currentAlbumId = stAlbum?.Id.HashToInt32();
-                    if (currentAlbumId != albumId) continue;
-                }
-                else if (queryType == EQueryType.eQueryTypeTracksForAlbumArtistId)
-                {
-                    var currentAlbumArtistId = stAlbumArtist?.Id.HashToInt32();
-                    if (currentAlbumArtistId != albumArtistId) continue;
-                }
-                else if (queryType == EQueryType.eQueryTypeTracksByGenreId)
-                {
-                    var containsCurrentGenre = await stTrack.GetGenresAsync(int.MaxValue, 0)
+                    // If the track doesn't have the genre, the album might.
+                    containsCurrentGenre = await stAlbum.GetGenresAsync(int.MaxValue, 0)
                         .Select(g => g.Name.HashToInt32())
-                        .AnyAsync(g => g == genreId);
-
-                    if (!containsCurrentGenre && stAlbum != null)
-                    {
-                        // If the track doesn't have the genre, the album might.
-                        containsCurrentGenre = await stAlbum.GetGenresAsync(int.MaxValue, 0)
-                            .Select(g => g.Name.HashToInt32())
-                            .AnyAsync(g => g == genreId);
-                    }
-
-                    if (!containsCurrentGenre) continue;
+                        .AnyAsync(g => g == filterIds.genre);
                 }
 
-                Schemas.Track track = new(m_dataType)
-                {
-                    AlbumName = stTrack.Album?.Name,
-                    AlbumLibraryId = stTrack.Album?.Id.HashToInt32() ?? 0,
+                if (!containsCurrentGenre) return null;
+            }
 
-                    TitleYomi = stTrack.Name,
-                    ReleaseDate = DateTime.Now,
-                    ZuneMediaId = stTrack.Id.HashToGuid(),
-                    TrackNumber = stTrack.TrackNumber ?? 0,
-                    Duration = stTrack.Duration,
-                    ComponentId = "strix",
-                    FileName = System.IO.Path.GetFileName(stTrack.Id),
-                    FolderName = System.IO.Path.GetDirectoryName(stTrack.Id),
-                    FilePath = stTrack.Id,
-                    NowPlaying = false,
-                    InLibrary = true,
-                    DateLastPlayed = stTrack.LastPlayed ?? DateTime.MinValue,
-                    PlayCount = 0,
-                    FileSize = 0,
-                    ComposerName = null,
-                    ConductorName = null,
-                    IsProtected = 0,
-                    DateAdded = stTrack.AddedAt ?? DateTime.Now,
-                    Bitrate = 0,
-                    MediaType = "track",
-                    DiscNumber = stTrack.DiscNumber ?? 0,
-                    DateAlbumAdded = DateTime.Now,
-                    FileCount = 1L,
-                    DrmState = 0,
-                    DrmStateMask = 0L,
-                    QuickMixState = 0,
+            Schemas.Track track = new(m_dataType)
+            {
+                AlbumName = stTrack.Album?.Name,
+                AlbumLibraryId = stTrack.Album?.Id.HashToInt32() ?? 0,
 
-                    LibraryId = stTrack.Id.HashToInt32(),
-                    Title = stTrack.Name,
-                    SyncState = 0,
-                    Type = "track",
-                    DeviceFileSize = 0L,
+                TitleYomi = stTrack.Name,
+                ReleaseDate = DateTime.Now,
+                ZuneMediaId = stTrack.Id.HashToGuid(),
+                TrackNumber = stTrack.TrackNumber ?? 0,
+                Duration = stTrack.Duration,
+                ComponentId = "strix",
+                FileName = System.IO.Path.GetFileName(stTrack.Id),
+                FolderName = System.IO.Path.GetDirectoryName(stTrack.Id),
+                FilePath = stTrack.Id,
+                NowPlaying = false,
+                InLibrary = true,
+                DateLastPlayed = stTrack.LastPlayed ?? DateTime.MinValue,
+                PlayCount = 0,
+                FileSize = 0,
+                ComposerName = null,
+                ConductorName = null,
+                IsProtected = 0,
+                DateAdded = stTrack.AddedAt ?? DateTime.Now,
+                Bitrate = 0,
+                MediaType = "track",
+                DiscNumber = stTrack.DiscNumber ?? 0,
+                DateAlbumAdded = DateTime.Now,
+                FileCount = 1L,
+                DrmState = 0,
+                DrmStateMask = 0L,
+                QuickMixState = 0,
 
-                    UserRating = 0,
+                LibraryId = stTrack.Id.HashToInt32(),
+                Title = stTrack.Name,
+                SyncState = 0,
+                Type = "track",
+                DeviceFileSize = 0L,
 
-                    AlbumArtistName = stAlbumArtist?.Name,
-                    AlbumArtistLibraryId = stAlbumArtist?.Id.HashToInt32() ?? 0
-                };
+                UserRating = 0,
 
-                var stArtists = stTrack.GetArtistItemsAsync(int.MaxValue, 0);
-                bool setPrimaryArtist = false;
-                List<string> contributingArtists = new();
-                await foreach (var stArtist in stArtists)
-                {
-                    if (!setPrimaryArtist)
-                    {
-                        track.ArtistLibraryId = stArtist.Id.HashToInt32();
-                        track.ArtistName = stArtist.Name;
-                        track.ArtistNameYomi = stArtist.Name;
-                        setPrimaryArtist = true;
-                    }
-                    else if (!string.IsNullOrEmpty(stArtist.Name))
-                    {
-                        contributingArtists.Add(stArtist.Name);
-                    }
-                }
-                track.ContributingArtistCount = contributingArtists.Count;
-                track.ContributingArtistNames = contributingArtists;
+                AlbumArtistName = stAlbumArtist?.Name,
+                AlbumArtistLibraryId = stAlbumArtist?.Id.HashToInt32() ?? 0
+            };
 
-                // No artists
+            var stArtists = stTrack.GetArtistItemsAsync(int.MaxValue, 0);
+            bool setPrimaryArtist = false;
+            List<string> contributingArtists = new();
+            await foreach (var stArtist in stArtists)
+            {
                 if (!setPrimaryArtist)
                 {
-                    track.ArtistLibraryId = 0;
-                    track.ArtistName = null;
-                    track.ArtistNameYomi = null;
+                    track.ArtistLibraryId = stArtist.Id.HashToInt32();
+                    track.ArtistName = stArtist.Name;
+                    track.ArtistNameYomi = stArtist.Name;
+                    setPrimaryArtist = true;
                 }
-
-                var stGenre = await stTrack.GetGenresAsync(1, 0).FirstOrDefaultAsync();
-                track.Genre = stGenre?.Name;
-
-                track.Item.Storage["StrixItem"] = stTrack;
-                queryList.Add(track.Item);
+                else if (!string.IsNullOrEmpty(stArtist.Name))
+                {
+                    contributingArtists.Add(stArtist.Name);
+                }
             }
+            track.ContributingArtistCount = contributingArtists.Count;
+            track.ContributingArtistNames = contributingArtists;
+
+            // No artists
+            if (!setPrimaryArtist)
+            {
+                track.ArtistLibraryId = 0;
+                track.ArtistName = null;
+                track.ArtistNameYomi = null;
+            }
+
+            var stGenre = await stTrack.GetGenresAsync(1, 0).FirstOrDefaultAsync();
+            track.Genre = stGenre?.Name;
+
+            track.Item.Storage["StrixItem"] = stTrack;
+            return track;
         }
     }
 
