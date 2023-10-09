@@ -3,6 +3,7 @@
 using LibVLCSharp.Shared;
 using StrixMusic.Sdk.MediaPlayback;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,6 +17,7 @@ namespace Microsoft.Zune.Playback
         readonly LibVLC m_vlc;
         readonly MediaPlayer m_player;
         private Media m_media, m_nextMedia;
+        private Stack<IDisposable> m_toDisposeOnEnd = new(2);
         private PlaybackItem m_currentSource;
         private TimeSpan m_position;
 
@@ -46,6 +48,11 @@ namespace Microsoft.Zune.Playback
             m_player = new(m_vlc);
 
             m_player.TimeChanged += (sender, e) => Position = TimeSpan.FromMilliseconds(e.Time);
+            m_player.EndReached += (sender, e) =>
+            {
+                while (m_toDisposeOnEnd.TryPop(out var item))
+                    item.Dispose();
+            };
         }
 
         public PlaybackItem CurrentSource
@@ -179,12 +186,24 @@ namespace Microsoft.Zune.Playback
             var uri = sourceConfig.MediaConfig.MediaSourceUri;
             var stream = sourceConfig.MediaConfig.FileStreamSource;
 
+            Media media = null;
             if (uri != null)
-                return new(m_vlc, uri);
+            {
+                media = new(m_vlc, uri);
+            }
             else if (stream != null)
-                return new(m_vlc, new StreamMediaInput(stream));
-            
-            throw new NotImplementedException();
+            {
+                StreamMediaInput streamInput = new(stream);
+                media = new(m_vlc, streamInput);
+
+                m_toDisposeOnEnd.Push(streamInput);
+            }
+
+            if (media is null)
+                throw new NotImplementedException();
+
+            m_toDisposeOnEnd.Push(media);
+            return media;
         }
     }
 }

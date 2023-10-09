@@ -150,7 +150,7 @@ namespace Microsoft.Zune.Shell
             cacheFolderPath.Create();
             OwlCore.Storage.SystemIO.SystemFolder cacheFolder = new(cacheFolderPath);
 
-            OwlCore.Storage.SystemIO.SystemFolder musicFolder = new(@"D:\Music\Zune\Test");
+            OwlCore.Storage.SystemIO.SystemFolder musicFolder = new(@"C:\Users\jjask\OneDrive\Music\Rush");
             var localCore = new StrixMusic.Cores.Storage.StorageCore(musicFolder, cacheFolder, "Local Test")
             {
                 ScannerWaitBehavior = StrixMusic.Cores.Storage.ScannerWaitBehavior.AlwaysWait,

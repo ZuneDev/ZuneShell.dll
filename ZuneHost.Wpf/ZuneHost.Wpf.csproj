@@ -6,11 +6,15 @@
         <LangVersion>11.0</LangVersion>
         <UseWPF>true</UseWPF>
         <ApplicationIcon>Assets\ZuneFluentGem.ico</ApplicationIcon>
-		<AppConfig>App.config</AppConfig>
+        <AppConfig>App.config</AppConfig>
     </PropertyGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\ZuneShell\ZuneShell.csproj" />
+    </ItemGroup>
+
+    <ItemGroup Condition=" $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows' ">
+        <PackageReference Include="VideoLAN.LibVLC.Windows" Version="3.0.18" />
     </ItemGroup>
 
     <ItemGroup>

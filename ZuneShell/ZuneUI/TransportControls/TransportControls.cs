@@ -24,6 +24,7 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
 using UIXControls;
+using ZuneUI.Strix;
 
 namespace ZuneUI
 {
@@ -1838,20 +1839,19 @@ namespace ZuneUI
             int myID = ++_lastKnownSetUriCallID;
             ThreadPool.QueueUserWorkItem(args =>
             {
+                var dataRoot = Microsoft.Zune.Shell.ZuneApplication.DataRoot;
                 if (track != null)
                 {
-                    HRESULT hr = track.GetURI(out string trackUri);
-                    if (string.IsNullOrEmpty(trackUri))
-                        trackUri = ".:* INVALID URI *:.";
+                    try
+                    {
+                        var stTrack = ((StrixPlaybackTrack)track).Track;
 
-                    if (hr.IsSuccess)
                         Application.DeferredInvoke(delegate
                         {
                             if (IsDisposed || myID != _lastKnownSetUriCallID)
                                 return;
 
-                            PlaybackItem item = ZuneMediaSourceConfig.CreatePlaybackItem(trackUri, track.PlaybackID);
-                            _player.PlaySync(item);
+                            AsyncHelper.Run(dataRoot.Library.PlayTrackCollectionAsync(stTrack));
 
                             ReportStreamingAction(PlayerState.Stopped);
                             _tracksSubmittedToPlayer.Remove(track);
@@ -1862,35 +1862,40 @@ namespace ZuneUI
                             // TODO: _playbackWrapper.CancelNext();
                             UpdatePropertiesAndCommands();
                         }, null);
-                    else
+                    }
+                    catch (Exception ex)
+                    {
                         OnAlertSent(new Announcement()
                         {
-                            HResult = hr.Int,
+                            HResult = ex.HResult,
                             PlaybackID = track.PlaybackID
                         });
+                    }
                 }
 
                 if (nextTrack == null)
                     return;
 
-                HRESULT nextTrackHr = nextTrack.GetURI(out string nextTrackUri);
-                if (string.IsNullOrEmpty(nextTrackUri))
-                    nextTrackUri = ".:* INVALID URI *:.";
-                if (!nextTrackHr.IsSuccess)
-                    return;
-
-                Application.DeferredInvoke(delegate
+                try
                 {
-                    if (IsDisposed || myID != _lastKnownSetUriCallID)
-                        return;
+                    var stTrack = ((StrixPlaybackTrack)nextTrack).Track;
 
-                    PlaybackItem item = ZuneMediaSourceConfig.CreatePlaybackItem(nextTrackUri, track.PlaybackID);
-                    _player.PreloadSync(item);
+                    Application.DeferredInvoke(delegate
+                    {
+                        if (IsDisposed || myID != _lastKnownSetUriCallID)
+                            return;
 
-                    _tracksSubmittedToPlayer.Remove(nextTrack);
-                    _tracksSubmittedToPlayer.Add(nextTrack);
-                    UpdatePropertiesAndCommands();
-                }, null);
+                        // Preload track
+                        //AsyncHelper.Run(dataRoot.Library.PlayTrackCollectionAsync(stTrack));
+
+                        _tracksSubmittedToPlayer.Remove(nextTrack);
+                        _tracksSubmittedToPlayer.Add(nextTrack);
+                        UpdatePropertiesAndCommands();
+                    }, null);
+                }
+                catch
+                {
+                }
             }, null);
         }
 

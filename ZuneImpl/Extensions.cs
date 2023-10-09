@@ -5,6 +5,8 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Security.Cryptography;
 using System.Text;
+using System.Diagnostics.CodeAnalysis;
+using System.Collections.Generic;
 
 namespace Microsoft.Zune;
 
@@ -49,5 +51,30 @@ internal static class Extensions
     {
         MD5 md5 = MD5.Create();
         return md5.ComputeHash(Encoding.Default.GetBytes(id));
+    }
+
+    /// <summary>
+    /// Returns a value that indicates whether there is an object at the top of the System.Collections.Generic.Stack`1,
+    /// and if one is present, copies it to the result parameter, and removes it from
+    /// the System.Collections.Generic.Stack`1.
+    /// </summary>
+    /// <param name="result">
+    /// If present, the object at the top of the System.Collections.Generic.Stack`1;
+    /// otherwise, the default value of T.
+    /// </param>
+    /// <returns>
+    /// true if there is an object at the top of the System.Collections.Generic.Stack`1;
+    /// false if the System.Collections.Generic.Stack`1 is empty.
+    /// </returns>
+    public static bool TryPop<T>(this Stack<T> stack, [MaybeNullWhen(false)] out T result)
+    {
+        if (stack.Count > 0)
+        {
+            result = stack.Pop();
+            return true;
+        }
+
+        result = default;
+        return false;
     }
 }

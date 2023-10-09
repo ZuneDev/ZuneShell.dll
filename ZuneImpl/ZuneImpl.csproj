@@ -21,8 +21,4 @@
         <ProjectReference Include="..\libs\MicrosoftIris\UIX\UIX.csproj" />
     </ItemGroup>
 
-    <ItemGroup Condition=" $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows' ">
-        <PackageReference Include="VideoLAN.LibVLC.Windows" Version="3.0.18" />
-    </ItemGroup>
-
 </Project>

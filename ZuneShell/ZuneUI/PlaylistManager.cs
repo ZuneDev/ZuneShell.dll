@@ -465,8 +465,17 @@ namespace ZuneUI
                             case QuickMixItem _:
                                 AddQuickMixItemToTrackList((QuickMixItem)obj, tracks, containerPlayMarkerOverride);
                                 continue;
+
+#if OPENZUNE
+                            case Microsoft.Iris.UI.Class ozMediaItem:
+                                var stTrack = (StrixMusic.Sdk.AppModels.ITrack)ozMediaItem.Storage["StrixItem"];
+                                var zuneMediaId = (Guid)ozMediaItem.Storage["ZuneMediaId"];
+                                tracks.Add(new Strix.StrixPlaybackTrack(stTrack, zuneMediaId));
+                                break;
+#endif
+
                             default:
-                                continue;
+                                 continue;
                         }
                     }
                 }

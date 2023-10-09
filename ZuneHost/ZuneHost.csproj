@@ -1,21 +1,25 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<PropertyGroup>
-		<OutputType>Exe</OutputType>
-		<TargetFrameworks>net461;net6.0-windows10.0.22000;net6.0;</TargetFrameworks>
-		<Platforms>AnyCPU;x64;x86;ARM32</Platforms>
-		<LangVersion>11.0</LangVersion>
-		<AppConfig>App.config</AppConfig>
-	</PropertyGroup>
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFrameworks>net461;net6.0-windows10.0.22000;net6.0;</TargetFrameworks>
+        <Platforms>AnyCPU;x64;x86;ARM32</Platforms>
+        <LangVersion>11.0</LangVersion>
+        <AppConfig>App.config</AppConfig>
+    </PropertyGroup>
 
-	<ItemGroup>
-		<Compile Remove="build\**" />
-		<EmbeddedResource Remove="build\**" />
-		<None Remove="build\**" />
-	</ItemGroup>
+    <ItemGroup>
+        <Compile Remove="build\**" />
+        <EmbeddedResource Remove="build\**" />
+        <None Remove="build\**" />
+    </ItemGroup>
 
-	<ItemGroup>
-		<ProjectReference Include="..\ZuneShell\ZuneShell.csproj" />
-	</ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\ZuneShell\ZuneShell.csproj" />
+    </ItemGroup>
+
+    <ItemGroup Condition=" $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows' ">
+        <PackageReference Include="VideoLAN.LibVLC.Windows" Version="3.0.18" />
+    </ItemGroup>
 
 </Project>
