@@ -1,4 +1,4 @@
-﻿#if WINDOWS
+﻿#if WINDOWS8
 
 using Microsoft.Win32;
 using System;

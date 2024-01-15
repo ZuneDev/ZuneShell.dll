@@ -17,6 +17,10 @@
         <PackageReference Include="StrixMusic.Sdk" Version="0.1.0-alpha" />
         <PackageReference Include="LibVLCSharp" Version="3.6.6" />
         <PackageReference Include="Meziantou.Framework.Win32.CredentialManager" Version="1.4.2" />
+        <PackageReference Include="PolySharp" Version="1.13.2">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime;build;native;contentfiles;analyzers</IncludeAssets>
+        </PackageReference>
 
         <ProjectReference Include="..\libs\MicrosoftIris\UIX\UIX.csproj" />
     </ItemGroup>

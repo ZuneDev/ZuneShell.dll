@@ -21,14 +21,14 @@
     <Choose>
         <When Condition=" $(TargetFramework.StartsWith('net6.0-windows')) ">
             <PropertyGroup>
-                <DefineConstants Condition="$(TargetFramework.StartsWith('net6.0-windows10'))">$(DefineConstants);WINDOWS10</DefineConstants>
+                <DefineConstants Condition="$(TargetFramework.StartsWith('net6.0-windows10'))">$(DefineConstants);WINDOWS8;WINDOWS10</DefineConstants>
                 <DefineConstants Condition="$(TargetFramework.StartsWith('net6.0-windows8'))">$(DefineConstants);WINDOWS8</DefineConstants>
             </PropertyGroup>
         </When>
 		
         <When Condition=" $(TargetFramework.StartsWith('net4')) ">
             <PropertyGroup>
-                <DefineConstants>$(DefineConstants);NETSTANDARD1_0_OR_GREATER;NETSTANDARD2_0_OR_GREATER</DefineConstants>
+                <DefineConstants>$(DefineConstants);WINDOWS;NETSTANDARD1_0_OR_GREATER;NETSTANDARD2_0_OR_GREATER</DefineConstants>
             </PropertyGroup>
         </When>
     </Choose>

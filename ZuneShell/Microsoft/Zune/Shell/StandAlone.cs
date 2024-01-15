@@ -18,11 +18,11 @@ namespace Microsoft.Zune.Shell
         public static Hashtable Startup(string[] args, string defaultCommandLineSwitch)
         {
             WindowSize windowSize = new WindowSize(1012, 693);
-            string str = null;
+            string textDirectionOption = null;
             bool useNativeFrame = false;
             bool minimized = false;
             Hashtable hashtable = new Hashtable();
-            bool flag3 = false;
+            bool overrideRenderSettings = false;
             if (args != null)
             {
                 foreach (CommandLineArgument commandLineArgument in CommandLineArgument.ParseArgs(args, defaultCommandLineSwitch))
@@ -31,29 +31,23 @@ namespace Microsoft.Zune.Shell
                     {
                         case "gdi":
                             Application.RenderingType = RenderingType.GDI;
-                            flag3 = true;
+                            overrideRenderSettings = true;
                             break;
                         case "switchtogdi":
                             ClientConfiguration.GeneralSettings.RenderingType = 0;
                             break;
                         case "dx9":
                             Application.RenderingType = RenderingType.DX9;
-                            flag3 = true;
+                            overrideRenderSettings = true;
                             break;
                         case "size":
                             try
                             {
                                 windowSize = ParseSize(commandLineArgument.Value);
-                                break;
                             }
-                            catch (FormatException ex)
-                            {
-                                break;
-                            }
-                            catch (ArgumentException ex)
-                            {
-                                break;
-                            }
+                            catch (FormatException) { }
+                            catch (ArgumentException) { }
+                            break;
                         case "minimized":
                             minimized = true;
                             break;
@@ -64,12 +58,9 @@ namespace Microsoft.Zune.Shell
                             try
                             {
                                 Application.AnimationsEnabled = bool.Parse(commandLineArgument.Value);
-                                break;
                             }
-                            catch (FormatException ex)
-                            {
-                                break;
-                            }
+                            catch (FormatException) { }
+                            break;
                         case "uixdebuguri":
                             Application.DebugSettings.DebugConnectionUri = commandLineArgument.Value ?? Iris.Debug.DebugRemoting.DEFAULT_TCP_URI.OriginalString;
                             break;
@@ -90,12 +81,8 @@ namespace Microsoft.Zune.Shell
                                     cat = (Iris.Debug.TraceCategory)Enum.Parse(typeof(Iris.Debug.TraceCategory), commandLineArgument.Value);
                                 }
                                 Application.DebugSettings.TraceSettings.SetCategoryLevel(cat, level);
-                                break;
                             }
-                            catch (FormatException ex)
-                            {
-                                break;
-                            }
+                            catch (FormatException) { }
                             break;
 
                         default:
@@ -104,30 +91,49 @@ namespace Microsoft.Zune.Shell
                     }
                 }
             }
+
             if (ClientConfiguration.GeneralSettings.UseGDI)
             {
                 ClientConfiguration.GeneralSettings.RenderingType = 0;
                 ClientConfiguration.GeneralSettings.UseGDI = false;
             }
-            if (!flag3)
+
+            if (!overrideRenderSettings)
             {
                 Application.RenderingType = (RenderingType)ClientConfiguration.GeneralSettings.RenderingType;
                 Application.RenderingQuality = (RenderingQuality)ClientConfiguration.GeneralSettings.RenderingQuality;
+                Application.AnimationsEnabled = ClientConfiguration.GeneralSettings.AnimationsEnabled;
+
+#if WINDOWS
+                unsafe
+                {
+                    Vanara.BOOL systemAnimationsEnabled;
+                    IntPtr pSystemAnimationsEnabled = new(&systemAnimationsEnabled);
+                    if (Vanara.PInvoke.User32.SystemParametersInfo(Vanara.PInvoke.User32.SPI.SPI_GETCLIENTAREAANIMATION, pvParam: pSystemAnimationsEnabled)
+                        && !systemAnimationsEnabled)
+                    {
+                        Application.AnimationsEnabled = systemAnimationsEnabled;
+                    }
+                }
+#endif
             }
-            if (str != null)
+
+            if (textDirectionOption != null)
             {
-                if (str == "ltr")
+                if (textDirectionOption == "ltr")
                     Application.IsRTL = false;
-                else if (str == "rtl")
+                else if (textDirectionOption == "rtl")
                     Application.IsRTL = true;
             }
-            Application.AnimationsEnabled = ClientConfiguration.GeneralSettings.AnimationsEnabled;
+
             Application.Initialize();
             Application.Window.InitialClientSize = windowSize;
-            object obj = Registry.GetValue(ZuneUI.Shell.SettingsRegistryPath, "WindowPosition", null);
-            if (obj != null)
+
+#if WINDOWS
+            object regWindowPosition = Registry.GetValue(ZuneUI.Shell.SettingsRegistryPath, "WindowPosition", null);
+            if (regWindowPosition != null)
             {
-                if (obj is string initialPos)
+                if (regWindowPosition is string initialPos)
                 {
                     try
                     {
@@ -142,6 +148,8 @@ namespace Microsoft.Zune.Shell
                 }
             }
             Application.Window.RespectsStartupSettings = true;
+#endif
+
             Application.Window.InitialPositionPolicy = WindowPositionPolicy.CenterOnWorkArea | WindowPositionPolicy.ConstrainToWorkArea;
             Application.Window.ShowWindowFrame = useNativeFrame;
             Application.Window.SetBackgroundColor(ZuneUI.Shell.WindowColorFromRGB(ClientConfiguration.Shell.BackgroundColor));
@@ -171,7 +179,10 @@ namespace Microsoft.Zune.Shell
             Application.Run(initialLoadComplete);
             if (TaskbarPlayer.Instance.ToolbarVisible)
                 return;
+
+#if WINDOWS
             Registry.SetValue(ZuneUI.Shell.SettingsRegistryPath, "WindowPosition", Application.Window.GetSavedPosition(true));
+#endif
         }
 
         public static void Shutdown() => Application.Shutdown();

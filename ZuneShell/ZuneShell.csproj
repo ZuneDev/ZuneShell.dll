@@ -17,6 +17,8 @@
     <ItemGroup>
         <EmbeddedResource Include="Resources\**\*.*" />
 
+        <PackageReference Include="Vanara.PInvoke.User32" Version="3.4.17" />
+
         <Reference Include="UIXControls">
             <HintPath>C:\Program Files\Zune\UIXcontrols.dll</HintPath>
         </Reference>
