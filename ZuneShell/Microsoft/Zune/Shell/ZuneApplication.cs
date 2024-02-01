@@ -484,9 +484,13 @@ namespace Microsoft.Zune.Shell
             string source = "res://ZuneShellResources!Frame.uix#Frame";
             _hWndSplashScreen = hWndSplashScreen;
             _initializationFailsafe = new InitializationFailsafe();
+
+            Iris.Markup.MarkupSystem.NewMarkupLoaded += MarkupSystem_NewMarkupLoaded;
+
             PerfTrace.PerfTrace.PERFTRACE_LAUNCHEVENT(PerfTrace.PerfTrace.LAUNCH_EVENT.REQUEST_UI_LOAD, 0U);
             Application.Window.RequestLoad(source);
             PerfTrace.PerfTrace.PERFTRACE_LAUNCHEVENT(PerfTrace.PerfTrace.LAUNCH_EVENT.REQUEST_UI_LOAD_COMPLETE, 0U);
+
             CallbackOnUIThread callbackOnUiThread = new CallbackOnUIThread();
             _appInitializationSequencer = new AppInitializationSequencer(new CorePhase2ReadyCallback(CorePhase3Ready));
             _zuneLibrary = new ZuneLibrary();
@@ -529,6 +533,15 @@ namespace Microsoft.Zune.Shell
             }
             _zuneLibrary.Dispose();
             return num.Int;
+        }
+
+        private static void MarkupSystem_NewMarkupLoaded(object sender, Iris.Markup.LoadResult e)
+        {
+            if (e is not Iris.Markup.MarkupLoadResult loadResult)
+                return;
+
+            var dis = Iris.Asm.Disassembler.Load(loadResult);
+            var source = dis.Write();
         }
 
         private static void ErrorReportHandler(Error[] errors)
