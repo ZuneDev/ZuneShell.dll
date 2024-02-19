@@ -540,8 +540,11 @@ namespace Microsoft.Zune.Shell
             if (e is not Iris.Markup.MarkupLoadResult loadResult)
                 return;
 
+            var watch = Stopwatch.StartNew();
             var dis = Iris.Asm.Disassembler.Load(loadResult);
             var source = dis.Write();
+            watch.Stop();
+            File.WriteAllText(@"D:\Documents\REProj\Zune\UIXA\" + Path.GetFileNameWithoutExtension(e.Uri) + ".uixa", source);
         }
 
         private static void ErrorReportHandler(Error[] errors)
