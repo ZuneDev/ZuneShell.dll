@@ -10,7 +10,7 @@ using System.Collections.Generic;
 
 namespace Microsoft.Zune;
 
-internal static class Extensions
+public static class Extensions
 {
 #if NETSTANDARD2_0_OR_GREATER && !NET5_0_OR_GREATER
     public static Stream ReadAsStream(this HttpContent content)

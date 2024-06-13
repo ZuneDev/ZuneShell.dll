@@ -12,12 +12,12 @@ using StrixPlaybackState = StrixMusic.Sdk.MediaPlayback.PlaybackState;
 
 namespace Microsoft.Zune.Playback
 {
-    public class VlcAudioService : IAudioPlayerService
+    public class VlcAudioService : IAudioPlayerService, IDisposable
     {
         readonly LibVLC m_vlc;
         readonly MediaPlayer m_player;
+        readonly Stack<IDisposable> m_toDisposeOnEnd = new(2);
         private Media m_media, m_nextMedia;
-        private Stack<IDisposable> m_toDisposeOnEnd = new(2);
         private PlaybackItem m_currentSource;
         private TimeSpan m_position;
 
@@ -48,11 +48,7 @@ namespace Microsoft.Zune.Playback
             m_player = new(m_vlc);
 
             m_player.TimeChanged += (sender, e) => Position = TimeSpan.FromMilliseconds(e.Time);
-            m_player.EndReached += (sender, e) =>
-            {
-                while (m_toDisposeOnEnd.TryPop(out var item))
-                    item.Dispose();
-            };
+            m_player.EndReached += (sender, e) => DisposeOnEnded();
         }
 
         public PlaybackItem CurrentSource
@@ -183,6 +179,8 @@ namespace Microsoft.Zune.Playback
 
         private Media CreateMedia(PlaybackItem sourceConfig)
         {
+            DisposeOnEnded();
+
             var uri = sourceConfig.MediaConfig.MediaSourceUri;
             var stream = sourceConfig.MediaConfig.FileStreamSource;
 
@@ -204,6 +202,21 @@ namespace Microsoft.Zune.Playback
 
             m_toDisposeOnEnd.Push(media);
             return media;
+        }
+
+        private void DisposeOnEnded()
+        {
+            while (m_toDisposeOnEnd.TryPop(out var item))
+                item.Dispose();
+        }
+
+        public void Dispose()
+        {
+            DisposeOnEnded();
+            m_media?.Dispose();
+            m_nextMedia?.Dispose();
+            m_player?.Dispose();
+            m_vlc?.Dispose();
         }
     }
 }

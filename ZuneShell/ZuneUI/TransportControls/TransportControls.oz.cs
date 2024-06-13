@@ -96,6 +96,8 @@ namespace ZuneUI
                     // TODO: Play previous track
                     //await _player.PreviousAsync();
                 }
+
+                _playlistCurrent.Retreat();
                 SetUriOnPlayer();
             }
         }
@@ -118,6 +120,7 @@ namespace ZuneUI
                 //    await _player.NextAsync();
                 //}
 
+                _playlistCurrent.Advance();
                 SetUriOnPlayer();
             }
             else
@@ -125,7 +128,7 @@ namespace ZuneUI
                 SetPlayerState(PlayerState.Stopped);
 
                 if (_player != null)
-                    await _player.StopAsync();
+                    await _player.PauseAsync();
             }
         }
 
