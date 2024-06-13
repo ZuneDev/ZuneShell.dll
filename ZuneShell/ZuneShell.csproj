@@ -12,6 +12,8 @@
         <FileAlignment>512</FileAlignment>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+        
+        <DefineConstants>$(DefineConstants);DEBUG_TRANSPORT</DefineConstants>
     </PropertyGroup>
 
     <ItemGroup>
@@ -22,6 +24,7 @@
         <Reference Include="UIXControls">
             <HintPath>C:\Program Files\Zune\UIXcontrols.dll</HintPath>
         </Reference>
+
         <ProjectReference Include="..\libs\MicrosoftIris\UIX\UIX.csproj" />
 
         <!--
@@ -33,7 +36,8 @@
             <HintPath>C:\Program Files\Zune\ZuneDBApi.dll</HintPath>
         </Reference>
 
-        <PackageReference Include="UIX.Asm" Version="0.0.1-beta" />
+        <ProjectReference Include="..\..\..\yoshiask\ZuneUIXTools\libs\UIX.Asm\UIX.Asm.csproj" />
+        <!--<PackageReference Include="UIX.Asm" Version="0.0.2-beta" />-->
         
         <PackageReference Include="StrixMusic.Sdk" Version="0.1.0-alpha" />
         <Reference Include="StrixMusic.Cores.Storage">
