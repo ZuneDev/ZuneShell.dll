@@ -76,9 +76,9 @@ namespace ZuneHost.Wpf
             }
 
             // Set decompiler breakponts
-            IrisApp.DebugSettings.Breakpoints.Add(new("clr-res://ZuneShell!QuickplayStrip.uix", 172, 25, false));
-            IrisApp.DebugSettings.Breakpoints.Add(new("clr-res://ZuneMarketplaceResources!SelectionActions.uix", 121, 14, false));
-            IrisApp.DebugSettings.Breakpoints.Add(new("clr-res://ZuneShell!Quickplay.uix", 917, 62, false));
+            //IrisApp.DebugSettings.Breakpoints.Add(new("clr-res://ZuneShell!QuickplayStrip.uix", 172, 25, false));
+            //IrisApp.DebugSettings.Breakpoints.Add(new("clr-res://ZuneMarketplaceResources!SelectionActions.uix", 121, 14, false));
+            //IrisApp.DebugSettings.Breakpoints.Add(new("clr-res://ZuneShell!Quickplay.uix", 917, 62, false));
 
             IntPtr hWnd = new System.Windows.Interop.WindowInteropHelper(this).Handle;
             Thread zuneThread = new(new ThreadStart(() =>
