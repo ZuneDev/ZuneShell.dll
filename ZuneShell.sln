@@ -23,7 +23,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Directory.Build.props = Directory.Build.props
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UIX.Asm", "..\..\yoshiask\ZuneUIXTools\libs\UIX.Asm\UIX.Asm.csproj", "{9589AAC1-D006-4985-87BD-960F90867482}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UIX.Asm", "..\..\ZuneDev\ZuneUIXTools\libs\UIX.Asm\UIX.Asm.csproj", "{9589AAC1-D006-4985-87BD-960F90867482}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

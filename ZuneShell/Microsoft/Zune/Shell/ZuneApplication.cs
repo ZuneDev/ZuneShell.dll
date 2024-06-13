@@ -544,7 +544,10 @@ namespace Microsoft.Zune.Shell
             var dis = Iris.Asm.Disassembler.Load(loadResult);
             var source = dis.Write();
             watch.Stop();
-            File.WriteAllText(@"D:\Documents\REProj\Zune\UIXA\" + Path.GetFileNameWithoutExtension(e.Uri) + ".uixa", source);
+
+            string disasmPath = @"C:\Users\jjask\Documents\Dump\Zune\" + Path.GetFileNameWithoutExtension(e.Uri) + ".uixa";
+            Debug.WriteLine($"Took {watch.ElapsedMilliseconds} ms to write to {disasmPath}");
+            File.WriteAllText(disasmPath, source);
         }
 
         private static void ErrorReportHandler(Error[] errors)
