@@ -38,6 +38,7 @@ namespace Microsoft.Zune.Shell
 {
     public class ZuneApplication
     {
+        private const bool UseUixa = true;
         private const string ResourceDllName = "ZuneShellResources.dll";
         private const int ApplicationIconResourceId = 1;
         private static ZuneLibrary _zuneLibrary;
@@ -481,7 +482,9 @@ namespace Microsoft.Zune.Shell
             Application.Window.CloseRequested += new WindowCloseRequestedHandler(CodeDialogManager.Instance.OnWindowCloseRequested);
             CodeDialogManager.Instance.WindowCloseNotBlocked += new EventHandler(OnWindowCloseNotBlocked);
             Application.Window.SessionConnected += new SessionConnectedHandler(OnSessionConnected);
-            string source = "res://ZuneShellResources!Frame.uix#Frame";
+            string source = UseUixa
+                ? "clr-res://ZuneShell!Frame.uixa#Frame"
+                : "res://ZuneShellResources!Frame.uix#Frame";
             _hWndSplashScreen = hWndSplashScreen;
             _initializationFailsafe = new InitializationFailsafe();
 
@@ -537,6 +540,7 @@ namespace Microsoft.Zune.Shell
 
         private static void MarkupSystem_NewMarkupLoaded(object sender, Iris.Markup.LoadResult e)
         {
+            return;
             if (e is not Iris.Markup.MarkupLoadResult loadResult)
                 return;
 

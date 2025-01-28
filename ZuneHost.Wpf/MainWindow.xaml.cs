@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Iris.Session;
+using System;
+using System.Collections;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -21,15 +23,24 @@ namespace ZuneHost.Wpf
         {
             InitializeComponent();
             Loaded += MainWindow_Loaded;
+            AppDomain.CurrentDomain.UnhandledException += DumpErrorsOnEvent;
+        }
+
+        private void DumpErrorsOnEvent(object sender, EventArgs e)
+        {
+            PrintErrors(ErrorManager.GetErrors());
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            var debug = false;
+
             // Construct a single string of args. Be sure to skip executing path.
             var args = Environment.GetCommandLineArgs().Skip(1);
-#if DEBUG
-            args = args.Concat(new[] { $"-uixdebuguri", });
-#endif
+
+            if (debug)
+                args = args.Concat(new[] { $"-uixdebuguri", });
+
             string strArgs = string.Join(" ", args.ToArray());
 
             // Make sure that ZuneDBApi can find all the Zune native libraries
@@ -75,10 +86,15 @@ namespace ZuneHost.Wpf
                 IrisApp.DebugSettings.DataMappingModels.CollectionChanged += DataMappingModels_CollectionChanged;
             }
 
-            // Set decompiler breakponts
-            //IrisApp.DebugSettings.Breakpoints.Add(new("clr-res://ZuneShell!QuickplayStrip.uix", 172, 25, false));
-            //IrisApp.DebugSettings.Breakpoints.Add(new("clr-res://ZuneMarketplaceResources!SelectionActions.uix", 121, 14, false));
-            //IrisApp.DebugSettings.Breakpoints.Add(new("clr-res://ZuneShell!Quickplay.uix", 917, 62, false));
+            if (debug)
+            {
+                // Set decompiler breakponts
+                IrisApp.DebugSettings.Breakpoints.Add(new("clr-res://ZuneShell!QuickplayStrip.uix", 172, 25, false));
+                IrisApp.DebugSettings.Breakpoints.Add(new("clr-res://ZuneMarketplaceResources!SelectionActions.uix", 121, 14, false));
+                IrisApp.DebugSettings.Breakpoints.Add(new("clr-res://ZuneShell!Quickplay.uix", 917, 62, false));
+            }
+
+            ErrorManager.OnErrors += PrintErrors;
 
             IntPtr hWnd = new System.Windows.Interop.WindowInteropHelper(this).Handle;
             Thread zuneThread = new(new ThreadStart(() =>
@@ -86,6 +102,7 @@ namespace ZuneHost.Wpf
                 IrisApp.Initialized += delegate
                 {
                     IrisApp.AddImportRedirect("res://ZuneShellResources!", "clr-res://ZuneShell!");
+                    Microsoft.Iris.Asm.Assembler.RegisterLoader();
                 };
 
                 Microsoft.Zune.Shell.ZuneApplication.Launch(strArgs, hWnd);
@@ -149,6 +166,17 @@ namespace ZuneHost.Wpf
             {
                 DirectoryInfo nextTargetDir = target.CreateSubdirectory(diSourceDir.Name);
                 CopyAll(diSourceDir, nextTargetDir);
+            }
+        }
+
+        private static void PrintErrors(IEnumerable errors)
+        {
+            foreach (var error in errors.OfType<ErrorRecord>())
+            {
+                if (error.Warning) continue;
+
+                Debug.Write(error.Warning ? "WARNING: " : "ERROR: ");
+                Debug.WriteLine(error.Message);
             }
         }
     }
