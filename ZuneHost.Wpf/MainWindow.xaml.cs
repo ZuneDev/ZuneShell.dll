@@ -88,7 +88,7 @@ namespace ZuneHost.Wpf
 
             if (debug)
             {
-                // Set decompiler breakponts
+                // Set decompiler breakpoints
                 IrisApp.DebugSettings.Breakpoints.Add(new("clr-res://ZuneShell!QuickplayStrip.uix", 172, 25, false));
                 IrisApp.DebugSettings.Breakpoints.Add(new("clr-res://ZuneMarketplaceResources!SelectionActions.uix", 121, 14, false));
                 IrisApp.DebugSettings.Breakpoints.Add(new("clr-res://ZuneShell!Quickplay.uix", 917, 62, false));
@@ -102,7 +102,6 @@ namespace ZuneHost.Wpf
                 IrisApp.Initialized += delegate
                 {
                     IrisApp.AddImportRedirect("res://ZuneShellResources!", "clr-res://ZuneShell!");
-                    Microsoft.Iris.Asm.Assembler.RegisterLoader();
                 };
 
                 Microsoft.Zune.Shell.ZuneApplication.Launch(strArgs, hWnd);
