@@ -1854,40 +1854,47 @@ namespace ZuneUI
                 {
                     try
                     {
-                        var stTrack = ((StrixPlaybackTrack)track).Track;
 
-                        Application.DeferredInvoke(delegate
+                        if (!IsDisposed && myID == _lastKnownSetUriCallID)
                         {
-                            if (IsDisposed || myID != _lastKnownSetUriCallID)
-                                return;
-
+                            var stTrack = ((StrixPlaybackTrack)track).Track;
                             var source = ((StrixMusic.Sdk.AdapterModels.IMerged<StrixMusic.Sdk.CoreModels.ICoreTrack>)stTrack)
                                 .Sources[0];
-                            var mediaConfig = AsyncHelper.Run(() => source.SourceCore.GetMediaSourceAsync(source));
 
-                            // This should set URIs, not necessarily begin playback
-                            PlaybackItem playbackItem = new()
+                            source.SourceCore.GetMediaSourceAsync(source).ContinueWith(task =>
                             {
-                                Track = stTrack,
-                                MediaConfig = mediaConfig,
-                            };
-                            ph.InsertNext(0, playbackItem);
-                            ph.PlayFromNext(0);
-                            //AsyncHelper.Run(dataRoot.Library.PlayTrackCollectionAsync(stTrack));
+                                if (!task.IsCompleted || task.IsFaulted)
+                                    return;
 
-                            if (mediaConfig.FileStreamSource != null)
-                                _toDisposeOnEnd.Push(mediaConfig.FileStreamSource);
+                                Application.DeferredInvoke(arg =>
+                                {
+                                    var mediaConfig = (IMediaSourceConfig?)arg;
 
-                            ReportStreamingAction(PlayerState.Stopped);
-                            _tracksSubmittedToPlayer.Remove(track);
-                            _tracksSubmittedToPlayer.Add(track);
-                            if (nextTrack != null)
-                                return;
+                                    // This should set URIs, not necessarily begin playback
+                                    PlaybackItem playbackItem = new()
+                                    {
+                                        Track = stTrack,
+                                        MediaConfig = mediaConfig,
+                                    };
+                                    ph.InsertNext(0, playbackItem);
+                                    ph.PlayFromNext(0);
+                                    //AsyncHelper.Run(dataRoot.Library.PlayTrackCollectionAsync(stTrack));
 
-                            // TODO: _playbackWrapper.CancelNext();
-                            //ph.ClearNext();
-                            UpdatePropertiesAndCommands();
-                        }, null);
+                                    if (mediaConfig.FileStreamSource != null)
+                                        _toDisposeOnEnd.Push(mediaConfig.FileStreamSource);
+
+                                    ReportStreamingAction(PlayerState.Stopped);
+                                    _tracksSubmittedToPlayer.Remove(track);
+                                    _tracksSubmittedToPlayer.Add(track);
+                                    if (nextTrack != null)
+                                        return;
+
+                                    // TODO: _playbackWrapper.CancelNext();
+                                    //ph.ClearNext();
+                                    UpdatePropertiesAndCommands();
+                                }, task.Result);
+                            });
+                        }
                     }
                     catch (Exception ex)
                     {

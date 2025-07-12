@@ -15,12 +15,12 @@ public static class AsyncHelper
         t.Wait();
     }
 
-    public static TResult Run<TResult>(Func<Task<TResult>> action)
-    {
-        Guard.IsNotNull(action);
+    public static TResult Run<TResult>(Func<Task<TResult>> action) => Run(action());
 
-        var t = Task.Run(action);
-        t.Wait();
-        return t.Result;
+    public static TResult Run<TResult>(Task<TResult> task)
+    {
+        Guard.IsNotNull(task);
+
+        return task.GetAwaiter().GetResult();
     }
 }
