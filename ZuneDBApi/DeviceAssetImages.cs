@@ -1,0 +1,27 @@
+public enum DeviceAssetImages
+{
+	eDeviceAssetImageCount = 23,
+	eDeviceAssetImageBackground = 22,
+	eDeviceAssetImageMediumUnsupported = 21,
+	eDeviceAssetImageMediumDefault = 20,
+	eDeviceAssetImageLargeDisconnected = 19,
+	eDeviceAssetImageLargeDefault = 18,
+	eDeviceAssetImageDisconnectedDragDark = 17,
+	eDeviceAssetImageDisconnectedClickDark = 16,
+	eDeviceAssetImageDisconnectedHoverDark = 15,
+	eDeviceAssetImageDisconnectedDefaultDark = 14,
+	eDeviceAssetImageDisconnectedDrag = 13,
+	eDeviceAssetImageDisconnectedClick = 12,
+	eDeviceAssetImageDisconnectedHover = 11,
+	eDeviceAssetImageDisconnectedDefault = 10,
+	eDeviceAssetImageConnectedSyncingDark = 9,
+	eDeviceAssetImageConnectedDragDark = 8,
+	eDeviceAssetImageConnectedClickDark = 7,
+	eDeviceAssetImageConnectedHoverDark = 6,
+	eDeviceAssetImageConnectedDefaultDark = 5,
+	eDeviceAssetImageConnectedSyncing = 4,
+	eDeviceAssetImageConnectedDrag = 3,
+	eDeviceAssetImageConnectedClick = 2,
+	eDeviceAssetImageConnectedHover = 1,
+	eDeviceAssetImageConnectedDefault = 0
+}
