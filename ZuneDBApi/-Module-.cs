@@ -23,6 +23,7 @@ using Microsoft.Zune.UserCredential;
 using Microsoft.Zune.Util;
 using MicrosoftZuneLibrary;
 using MicrosoftZunePlayback;
+using ZuneDBApi.Interop;
 using ZuneUI;
 
 internal class _003CModule_003E
@@ -243,7 +244,8 @@ internal class _003CModule_003E
 
 	internal static __s_GUID _GUID_223a83b5_e8ac_4aad_882a_14ee6634fc33/* Not supported: data(B5 83 3A 22 AC E8 AD 4A 88 2A 14 EE 66 34 FC 33) */;
 
-	internal static __s_GUID _GUID_00000000_0000_0000_c000_000000000046/* Not supported: data(00 00 00 00 00 00 00 00 C0 00 00 00 00 00 00 46) */;
+    // 00000000-0000-0000-C000-000000000046
+    internal static __s_GUID _IID_IUnknown/* Not supported: data(00 00 00 00 00 00 00 00 C0 00 00 00 00 00 00 46) */;
 
 	internal static _0024ArrayType_0024_0024_0024BY05Q6AXXZ _003F_003F_7GetAccountCallbackWrapper_0040Service_0040Zune_0040Microsoft_0040_00406B_0040/* Not supported: data(90 61 11 80 01 00 00 00 B0 61 11 80 01 00 00 00 D0 61 11 80 01 00 00 00 F0 61 11 80 01 00 00 00 10 62 11 80 01 00 00 00 00 00 00 00 00 00 00 00) */;
 
@@ -4115,123 +4117,6 @@ internal class _003CModule_003E
 		return num;
 	}
 
-	internal unsafe static GetAccountCallbackWrapper* Microsoft_002EZune_002EService_002EGetAccountCallbackWrapper_002E_007Bctor_007D(GetAccountCallbackWrapper* P_0, GetAccountCompleteCallback completeCallback, AccountManagementErrorCallback errorCallback)
-	{
-		//IL_000d: Expected I, but got I8
-		//IL_0049: Expected I, but got I8
-		//IL_005c: Expected I, but got I8
-		//IL_001a: Expected I, but got I8
-		*(long*)P_0 = (nint)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003F_003F_7GetAccountCallbackWrapper_0040Service_0040Zune_0040Microsoft_0040_00406B_0040);
-		GetAccountCallbackWrapper* ptr = (GetAccountCallbackWrapper*)((ulong)(nint)P_0 + 16uL);
-		gcroot_003CMicrosoft_003A_003AZune_003A_003AService_003A_003AGetAccountCompleteCallback_0020_005E_003E_002E_007Bctor_007D((gcroot_003CMicrosoft_003A_003AZune_003A_003AService_003A_003AGetAccountCompleteCallback_0020_005E_003E*)ptr);
-		try
-		{
-			GetAccountCallbackWrapper* ptr2 = (GetAccountCallbackWrapper*)((ulong)(nint)P_0 + 24uL);
-			gcroot_003CMicrosoft_003A_003AZune_003A_003AService_003A_003AAccountManagementErrorCallback_0020_005E_003E_002E_007Bctor_007D((gcroot_003CMicrosoft_003A_003AZune_003A_003AService_003A_003AAccountManagementErrorCallback_0020_005E_003E*)ptr2);
-			try
-			{
-				*(int*)((ulong)(nint)P_0 + 8uL) = 1;
-				gcroot_003CMicrosoft_003A_003AZune_003A_003AService_003A_003AGetAccountCompleteCallback_0020_005E_003E_002E_003D((gcroot_003CMicrosoft_003A_003AZune_003A_003AService_003A_003AGetAccountCompleteCallback_0020_005E_003E*)ptr, completeCallback);
-				gcroot_003CMicrosoft_003A_003AZune_003A_003AService_003A_003AAccountManagementErrorCallback_0020_005E_003E_002E_003D((gcroot_003CMicrosoft_003A_003AZune_003A_003AService_003A_003AAccountManagementErrorCallback_0020_005E_003E*)ptr2, errorCallback);
-				return P_0;
-			}
-			catch
-			{
-				//try-fault
-				___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<gcroot_003CMicrosoft_003A_003AZune_003A_003AService_003A_003AAccountManagementErrorCallback_0020_005E_003E*, void>)(&gcroot_003CMicrosoft_003A_003AZune_003A_003AService_003A_003AAccountManagementErrorCallback_0020_005E_003E_002E_007Bdtor_007D), (void*)((ulong)(nint)P_0 + 24uL));
-				throw;
-			}
-		}
-		catch
-		{
-			//try-fault
-			___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<gcroot_003CMicrosoft_003A_003AZune_003A_003AService_003A_003AGetAccountCompleteCallback_0020_005E_003E*, void>)(&gcroot_003CMicrosoft_003A_003AZune_003A_003AService_003A_003AGetAccountCompleteCallback_0020_005E_003E_002E_007Bdtor_007D), (void*)((ulong)(nint)P_0 + 16uL));
-			throw;
-		}
-	}
-
-	internal unsafe static void Microsoft_002EZune_002EService_002EGetAccountCallbackWrapper_002E_007Bdtor_007D(GetAccountCallbackWrapper* P_0)
-	{
-		//IL_0023: Expected I, but got I8
-		//IL_0011: Expected I, but got I8
-		//IL_002e: Expected I, but got I8
-		*(long*)P_0 = (nint)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _003F_003F_7GetAccountCallbackWrapper_0040Service_0040Zune_0040Microsoft_0040_00406B_0040);
-		try
-		{
-			gcroot_003CMicrosoft_003A_003AZune_003A_003AService_003A_003AAccountManagementErrorCallback_0020_005E_003E_002E_007Bdtor_007D((gcroot_003CMicrosoft_003A_003AZune_003A_003AService_003A_003AAccountManagementErrorCallback_0020_005E_003E*)((ulong)(nint)P_0 + 24uL));
-		}
-		catch
-		{
-			//try-fault
-			___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<gcroot_003CMicrosoft_003A_003AZune_003A_003AService_003A_003AGetAccountCompleteCallback_0020_005E_003E*, void>)(&gcroot_003CMicrosoft_003A_003AZune_003A_003AService_003A_003AGetAccountCompleteCallback_0020_005E_003E_002E_007Bdtor_007D), (void*)((ulong)(nint)P_0 + 16uL));
-			throw;
-		}
-		gcroot_003CMicrosoft_003A_003AZune_003A_003AService_003A_003AGetAccountCompleteCallback_0020_005E_003E_002E_007Bdtor_007D((gcroot_003CMicrosoft_003A_003AZune_003A_003AService_003A_003AGetAccountCompleteCallback_0020_005E_003E*)((ulong)(nint)P_0 + 16uL));
-	}
-
-	internal unsafe static int Microsoft_002EZune_002EService_002EGetAccountCallbackWrapper_002EQueryInterface(GetAccountCallbackWrapper* P_0, _GUID* riid, void** ppUnknown)
-	{
-		//IL_0023: Expected I8, but got I
-		//IL_002f: Expected I, but got I8
-		if (IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_00000000_0000_0000_c000_000000000046)) == 0 && IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_223a83b5_e8ac_4aad_882a_14ee6634fc33)) == 0)
-		{
-			return -2147467262;
-		}
-		*(long*)ppUnknown = (nint)P_0;
-		((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint>)(*(ulong*)(*(long*)P_0 + 8)))((nint)P_0);
-		return 0;
-	}
-
-	internal unsafe static uint Microsoft_002EZune_002EService_002EGetAccountCallbackWrapper_002EAddRef(GetAccountCallbackWrapper* P_0)
-	{
-		return (uint)Interlocked.Increment(ref *(int*)((long)(nint)P_0 + 8L));
-	}
-
-	internal unsafe static uint Microsoft_002EZune_002EService_002EGetAccountCallbackWrapper_002ERelease(GetAccountCallbackWrapper* P_0)
-	{
-		int num = Interlocked.Decrement(ref *(int*)((long)(nint)P_0 + 8L));
-		if (num == 0 && P_0 != null)
-		{
-			Microsoft_002EZune_002EService_002EGetAccountCallbackWrapper_002E__delDtor(P_0, 1u);
-		}
-		return (uint)num;
-	}
-
-	internal unsafe static void* Microsoft_002EZune_002EService_002EGetAccountCallbackWrapper_002E__delDtor(GetAccountCallbackWrapper* P_0, uint P_1)
-	{
-		Microsoft_002EZune_002EService_002EGetAccountCallbackWrapper_002E_007Bdtor_007D(P_0);
-		if ((P_1 & 1) != 0)
-		{
-			delete(P_0);
-		}
-		return P_0;
-	}
-
-	internal unsafe static int Microsoft_002EZune_002EService_002EGetAccountCallbackWrapper_002EOnSuccess(GetAccountCallbackWrapper* P_0, IAccountUser* pAccountUser)
-	{
-		//IL_0016: Expected I, but got I8
-		AccountUser accountUser = null;
-		if (pAccountUser != null)
-		{
-			accountUser = new AccountUser(pAccountUser);
-		}
-		gcroot_003CMicrosoft_003A_003AZune_003A_003AService_003A_003AGetAccountCompleteCallback_0020_005E_003E_002E_002EPE_0024AAVGetAccountCompleteCallback_0040Service_0040Zune_0040Microsoft_0040_0040((gcroot_003CMicrosoft_003A_003AZune_003A_003AService_003A_003AGetAccountCompleteCallback_0020_005E_003E*)((ulong)(nint)P_0 + 16uL))(accountUser);
-		return 0;
-	}
-
-	internal unsafe static int Microsoft_002EZune_002EService_002EGetAccountCallbackWrapper_002EOnError(GetAccountCallbackWrapper* P_0, int hr, IServiceError* pServiceError)
-	{
-		//IL_001d: Expected I, but got I8
-		ServiceError serviceError = null;
-		if (pServiceError != null)
-		{
-			serviceError = new ServiceError(pServiceError);
-		}
-		HRESULT hr2 = hr;
-		gcroot_003CMicrosoft_003A_003AZune_003A_003AService_003A_003AAccountManagementErrorCallback_0020_005E_003E_002E_002EPE_0024AAVAccountManagementErrorCallback_0040Service_0040Zune_0040Microsoft_0040_0040((gcroot_003CMicrosoft_003A_003AZune_003A_003AService_003A_003AAccountManagementErrorCallback_0020_005E_003E*)((ulong)(nint)P_0 + 24uL))(hr2, serviceError);
-		return 0;
-	}
-
 	[DebuggerStepThrough]
 	internal unsafe static gcroot_003CMicrosoft_003A_003AZune_003A_003AService_003A_003AGetAccountCompleteCallback_0020_005E_003E* gcroot_003CMicrosoft_003A_003AZune_003A_003AService_003A_003AGetAccountCompleteCallback_0020_005E_003E_002E_007Bctor_007D(gcroot_003CMicrosoft_003A_003AZune_003A_003AService_003A_003AGetAccountCompleteCallback_0020_005E_003E* P_0)
 	{
@@ -4776,7 +4661,7 @@ internal class _003CModule_003E
 	{
 		//IL_0023: Expected I8, but got I
 		//IL_002f: Expected I, but got I8
-		if (IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_00000000_0000_0000_c000_000000000046)) == 0 && IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_f5fcfd66_9e9a_436a_8b10_aeb4d6ce2b3d)) == 0)
+		if (IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _IID_IUnknown)) == 0 && IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_f5fcfd66_9e9a_436a_8b10_aeb4d6ce2b3d)) == 0)
 		{
 			return -2147467262;
 		}
@@ -5162,7 +5047,7 @@ internal class _003CModule_003E
 			return -2147467261;
 		}
 		*(long*)ppv = 0L;
-		if (IsEqualGUID(iid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_00000000_0000_0000_c000_000000000046)) != 0)
+		if (IsEqualGUID(iid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _IID_IUnknown)) != 0)
 		{
 			((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint>)(*(ulong*)(*(long*)P_0 + 8)))((nint)P_0);
 			*(long*)ppv = (nint)P_0;
@@ -6191,7 +6076,7 @@ internal class _003CModule_003E
 			return -2147467261;
 		}
 		*(long*)ppv = 0L;
-		if (IsEqualGUID(iid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_00000000_0000_0000_c000_000000000046)) != 0)
+		if (IsEqualGUID(iid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _IID_IUnknown)) != 0)
 		{
 			((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint>)(*(ulong*)(*(long*)P_0 + 8)))((nint)P_0);
 			*(long*)ppv = (nint)P_0;
@@ -6520,7 +6405,7 @@ internal class _003CModule_003E
 			return -2147467261;
 		}
 		*(long*)ppv = 0L;
-		if (IsEqualGUID(iid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_00000000_0000_0000_c000_000000000046)) != 0)
+		if (IsEqualGUID(iid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _IID_IUnknown)) != 0)
 		{
 			((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint>)(*(ulong*)(*(long*)P_0 + 8)))((nint)P_0);
 			*(long*)ppv = (nint)P_0;
@@ -8306,7 +8191,7 @@ internal class _003CModule_003E
 	{
 		//IL_0023: Expected I8, but got I
 		//IL_002f: Expected I, but got I8
-		if (IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_00000000_0000_0000_c000_000000000046)) == 0 && IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_f5fcfd66_9e9a_436a_8b10_aeb4d6ce2b3d)) == 0)
+		if (IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _IID_IUnknown)) == 0 && IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_f5fcfd66_9e9a_436a_8b10_aeb4d6ce2b3d)) == 0)
 		{
 			return -2147467262;
 		}
@@ -9282,7 +9167,7 @@ internal class _003CModule_003E
 		int num2;
 		if (*(byte*)((ulong)(nint)P_0 + 16uL) == 0)
 		{
-			num2 = ZuneLibraryExports_002EGetMappedErrorDescriptionAndUrl(*(int*)((ulong)(nint)P_0 + 12uL), eErrorCondition.eEC_None, &num, (ushort**)((ulong)(nint)P_0 + 24uL), (ushort**)((ulong)(nint)P_0 + 40uL));
+			num2 = ZuneLibraryExports.GetMappedErrorDescriptionAndUrl(*(int*)((ulong)(nint)P_0 + 12uL), eErrorCondition.eEC_None, &num, (ushort**)((ulong)(nint)P_0 + 24uL), (ushort**)((ulong)(nint)P_0 + 40uL));
 			int num3 = ((num2 >= 0) ? 1 : 0);
 			*(sbyte*)((ulong)(nint)P_0 + 16uL) = (sbyte)num3;
 		}
@@ -10142,7 +10027,7 @@ internal class _003CModule_003E
 	{
 		//IL_0023: Expected I8, but got I
 		//IL_002f: Expected I, but got I8
-		if (IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_00000000_0000_0000_c000_000000000046)) == 0 && IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_a3138a7c_be4e_4aa1_999f_f2fdd4b3f428)) == 0)
+		if (IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _IID_IUnknown)) == 0 && IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_a3138a7c_be4e_4aa1_999f_f2fdd4b3f428)) == 0)
 		{
 			return -2147467262;
 		}
@@ -10550,7 +10435,7 @@ internal class _003CModule_003E
 	{
 		//IL_0023: Expected I8, but got I
 		//IL_002f: Expected I, but got I8
-		if (IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_00000000_0000_0000_c000_000000000046)) == 0 && IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_7f89b907_d770_41d1_9fd7_5fd3777649b9)) == 0)
+		if (IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _IID_IUnknown)) == 0 && IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_7f89b907_d770_41d1_9fd7_5fd3777649b9)) == 0)
 		{
 			return -2147467262;
 		}
@@ -10662,7 +10547,7 @@ internal class _003CModule_003E
 		//IL_0027: Expected I8, but got I
 		//IL_0033: Expected I, but got I8
 		int result = 0;
-		if (IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_00000000_0000_0000_c000_000000000046)) == 0 && IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_e4f957fa_2742_4393_9518_c2705fb5c517)) == 0)
+		if (IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _IID_IUnknown)) == 0 && IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_e4f957fa_2742_4393_9518_c2705fb5c517)) == 0)
 		{
 			result = -2147467262;
 		}
@@ -10878,7 +10763,7 @@ internal class _003CModule_003E
 		//IL_001c: Expected I, but got I8
 		//IL_002f: Expected I8, but got I
 		//IL_003b: Expected I, but got I8
-		if (IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_00000000_0000_0000_c000_000000000046)) != 0)
+		if (IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _IID_IUnknown)) != 0)
 		{
 			*(long*)ppUnknown = (nint)P_0;
 			((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint>)(*(ulong*)(*(long*)P_0 + 8)))((nint)P_0);
@@ -10998,7 +10883,7 @@ internal class _003CModule_003E
 		//IL_001c: Expected I, but got I8
 		//IL_002f: Expected I8, but got I
 		//IL_003b: Expected I, but got I8
-		if (IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_00000000_0000_0000_c000_000000000046)) != 0)
+		if (IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _IID_IUnknown)) != 0)
 		{
 			*(long*)ppUnknown = (nint)P_0;
 			((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint>)(*(ulong*)(*(long*)P_0 + 8)))((nint)P_0);
@@ -11193,7 +11078,7 @@ internal class _003CModule_003E
 		}
 		else
 		{
-			if (IsEqualGUID(iid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_00000000_0000_0000_c000_000000000046)) == 0)
+			if (IsEqualGUID(iid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _IID_IUnknown)) == 0)
 			{
 				*(long*)ppv = 0L;
 				return -2147467262;
@@ -11837,7 +11722,7 @@ internal class _003CModule_003E
 		//IL_002f: Expected I, but got I8
 		//IL_0037: Expected I8, but got I
 		//IL_0043: Expected I, but got I8
-		if (IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_00000000_0000_0000_c000_000000000046)) == 0 && IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_576ef3d5_d89e_482e_ad2c_889c8e504983)) == 0)
+		if (IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _IID_IUnknown)) == 0 && IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_576ef3d5_d89e_482e_ad2c_889c8e504983)) == 0)
 		{
 			if (IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_b1d19423_6060_493c_90cd_c6e39f0fa760)) != 0)
 			{
@@ -12283,7 +12168,7 @@ internal class _003CModule_003E
 		//IL_002f: Expected I, but got I8
 		//IL_0037: Expected I8, but got I
 		//IL_0043: Expected I, but got I8
-		if (IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_00000000_0000_0000_c000_000000000046)) == 0 && IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_588d1e9b_4619_4520_ad4d_f4880b74a506)) == 0)
+		if (IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _IID_IUnknown)) == 0 && IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_588d1e9b_4619_4520_ad4d_f4880b74a506)) == 0)
 		{
 			if (IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_e76e9fcf_b179_412c_b12e_e1a454c9bfbb)) != 0)
 			{
@@ -12559,7 +12444,7 @@ internal class _003CModule_003E
 			return -2147467261;
 		}
 		*(long*)ppv = 0L;
-		if (IsEqualGUID(iid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_00000000_0000_0000_c000_000000000046)) != 0)
+		if (IsEqualGUID(iid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _IID_IUnknown)) != 0)
 		{
 			((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint>)(*(ulong*)(*(long*)P_0 + 8)))((nint)P_0);
 			*(long*)ppv = (nint)P_0;
@@ -12799,7 +12684,7 @@ internal class _003CModule_003E
 	{
 		//IL_0023: Expected I8, but got I
 		//IL_002f: Expected I, but got I8
-		if (IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_00000000_0000_0000_c000_000000000046)) == 0 && IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_9e9b9023_b31c_47ed_b609_58361bdae7d3)) == 0)
+		if (IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _IID_IUnknown)) == 0 && IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_9e9b9023_b31c_47ed_b609_58361bdae7d3)) == 0)
 		{
 			return -2147467262;
 		}
@@ -12879,7 +12764,7 @@ internal class _003CModule_003E
 	{
 		//IL_0023: Expected I8, but got I
 		//IL_002f: Expected I, but got I8
-		if (IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_00000000_0000_0000_c000_000000000046)) == 0 && IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_0714c405_844f_457c_b141_7664765cb87a)) == 0)
+		if (IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _IID_IUnknown)) == 0 && IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_0714c405_844f_457c_b141_7664765cb87a)) == 0)
 		{
 			return -2147467262;
 		}
@@ -13143,7 +13028,7 @@ internal class _003CModule_003E
 	{
 		//IL_0023: Expected I8, but got I
 		//IL_002f: Expected I, but got I8
-		if (IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_00000000_0000_0000_c000_000000000046)) == 0 && IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_f5fcfd66_9e9a_436a_8b10_aeb4d6ce2b3d)) == 0)
+		if (IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _IID_IUnknown)) == 0 && IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_f5fcfd66_9e9a_436a_8b10_aeb4d6ce2b3d)) == 0)
 		{
 			return -2147467262;
 		}
@@ -13277,7 +13162,7 @@ internal class _003CModule_003E
 	{
 		//IL_0023: Expected I8, but got I
 		//IL_002f: Expected I, but got I8
-		if (IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_00000000_0000_0000_c000_000000000046)) == 0 && IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_f5fcfd66_9e9a_436a_8b10_aeb4d6ce2b3d)) == 0)
+		if (IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _IID_IUnknown)) == 0 && IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_f5fcfd66_9e9a_436a_8b10_aeb4d6ce2b3d)) == 0)
 		{
 			return -2147467262;
 		}
@@ -13460,7 +13345,7 @@ internal class _003CModule_003E
 	{
 		//IL_0023: Expected I8, but got I
 		//IL_002f: Expected I, but got I8
-		if (IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_00000000_0000_0000_c000_000000000046)) == 0 && IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_f5fcfd66_9e9a_436a_8b10_aeb4d6ce2b3d)) == 0)
+		if (IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _IID_IUnknown)) == 0 && IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_f5fcfd66_9e9a_436a_8b10_aeb4d6ce2b3d)) == 0)
 		{
 			return -2147467262;
 		}
@@ -13726,7 +13611,7 @@ internal class _003CModule_003E
 	{
 		//IL_0023: Expected I8, but got I
 		//IL_002f: Expected I, but got I8
-		if (IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_00000000_0000_0000_c000_000000000046)) == 0 && IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_f5fcfd66_9e9a_436a_8b10_aeb4d6ce2b3d)) == 0)
+		if (IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _IID_IUnknown)) == 0 && IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_f5fcfd66_9e9a_436a_8b10_aeb4d6ce2b3d)) == 0)
 		{
 			return -2147467262;
 		}
@@ -13835,7 +13720,7 @@ internal class _003CModule_003E
 	{
 		//IL_0023: Expected I8, but got I
 		//IL_002f: Expected I, but got I8
-		if (IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_00000000_0000_0000_c000_000000000046)) == 0 && IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_f5fcfd66_9e9a_436a_8b10_aeb4d6ce2b3d)) == 0)
+		if (IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _IID_IUnknown)) == 0 && IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_f5fcfd66_9e9a_436a_8b10_aeb4d6ce2b3d)) == 0)
 		{
 			return -2147467262;
 		}
@@ -13970,7 +13855,7 @@ internal class _003CModule_003E
 	{
 		//IL_0023: Expected I8, but got I
 		//IL_002f: Expected I, but got I8
-		if (IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_00000000_0000_0000_c000_000000000046)) == 0 && IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_f5fcfd66_9e9a_436a_8b10_aeb4d6ce2b3d)) == 0)
+		if (IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _IID_IUnknown)) == 0 && IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_f5fcfd66_9e9a_436a_8b10_aeb4d6ce2b3d)) == 0)
 		{
 			return -2147467262;
 		}
@@ -14054,7 +13939,7 @@ internal class _003CModule_003E
 	{
 		//IL_0023: Expected I8, but got I
 		//IL_002f: Expected I, but got I8
-		if (IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_00000000_0000_0000_c000_000000000046)) == 0 && IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_0629124a_eb99_447e_9537_f10628f23b78)) == 0)
+		if (IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _IID_IUnknown)) == 0 && IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_0629124a_eb99_447e_9537_f10628f23b78)) == 0)
 		{
 			return -2147467262;
 		}
@@ -14183,7 +14068,7 @@ internal class _003CModule_003E
 	{
 		//IL_0023: Expected I8, but got I
 		//IL_002f: Expected I, but got I8
-		if (IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_00000000_0000_0000_c000_000000000046)) == 0 && IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_2644d109_c175_4da3_b051_4085b4254c83)) == 0)
+		if (IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _IID_IUnknown)) == 0 && IsEqualGUID(riid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_2644d109_c175_4da3_b051_4085b4254c83)) == 0)
 		{
 			return -2147467262;
 		}
@@ -15287,7 +15172,7 @@ internal class _003CModule_003E
 			return -2147467261;
 		}
 		*(long*)ppv = 0L;
-		if (IsEqualGUID(iid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_00000000_0000_0000_c000_000000000046)) != 0)
+		if (IsEqualGUID(iid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _IID_IUnknown)) != 0)
 		{
 			((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint>)(*(ulong*)(*(long*)P_0 + 8)))((nint)P_0);
 			*(long*)ppv = (nint)P_0;
@@ -15648,7 +15533,7 @@ internal class _003CModule_003E
 		int num;
 		try
 		{
-			num = ZuneLibraryExports_002EGetFieldValues(iSubType, EListType.eSubscriptionList, 2, (DBPropertyRequestStruct*)(&_0024ArrayType_0024_0024_0024BY01UDBPropertyRequestStruct_0040_0040), null);
+			num = ZuneLibraryExports.GetFieldValues(iSubType, EListType.eSubscriptionList, 2, (DBPropertyRequestStruct*)(&_0024ArrayType_0024_0024_0024BY01UDBPropertyRequestStruct_0040_0040), null);
 			if (0 == num && 0 == System.Runtime.CompilerServices.Unsafe.As<_0024ArrayType_0024_0024_0024BY01UDBPropertyRequestStruct_0040_0040, int>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY01UDBPropertyRequestStruct_0040_0040, 4)) && 0 == System.Runtime.CompilerServices.Unsafe.As<_0024ArrayType_0024_0024_0024BY01UDBPropertyRequestStruct_0040_0040, int>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY01UDBPropertyRequestStruct_0040_0040, 36)))
 			{
 				if (*(int*)((ulong)(nint)P_0 + 60uL) == System.Runtime.CompilerServices.Unsafe.As<_0024ArrayType_0024_0024_0024BY01UDBPropertyRequestStruct_0040_0040, int>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY01UDBPropertyRequestStruct_0040_0040, 16)) && *(int*)((ulong)(nint)P_0 + 64uL) == System.Runtime.CompilerServices.Unsafe.As<_0024ArrayType_0024_0024_0024BY01UDBPropertyRequestStruct_0040_0040, int>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY01UDBPropertyRequestStruct_0040_0040, 48)))
@@ -15691,7 +15576,7 @@ internal class _003CModule_003E
 			return -2147467261;
 		}
 		*(long*)ppv = 0L;
-		if (IsEqualGUID(iid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_00000000_0000_0000_c000_000000000046)) != 0)
+		if (IsEqualGUID(iid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _IID_IUnknown)) != 0)
 		{
 			((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint>)(*(ulong*)(*(long*)P_0 + 8)))((nint)P_0);
 			*(long*)ppv = (nint)P_0;
@@ -15872,7 +15757,7 @@ internal class _003CModule_003E
 			return -2147467261;
 		}
 		*(long*)ppv = 0L;
-		if (IsEqualGUID(iid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_00000000_0000_0000_c000_000000000046)) != 0)
+		if (IsEqualGUID(iid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _IID_IUnknown)) != 0)
 		{
 			((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint>)(*(ulong*)(*(long*)P_0 + 8)))((nint)P_0);
 			*(long*)ppv = (nint)P_0;
@@ -16438,7 +16323,7 @@ internal class _003CModule_003E
 			return -2147467261;
 		}
 		*(long*)ppv = 0L;
-		if (IsEqualGUID(iid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_00000000_0000_0000_c000_000000000046)) != 0)
+		if (IsEqualGUID(iid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _IID_IUnknown)) != 0)
 		{
 			((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint>)(*(ulong*)(*(long*)P_0 + 8)))((nint)P_0);
 			*(long*)ppv = (nint)P_0;
@@ -16680,7 +16565,7 @@ internal class _003CModule_003E
 			return -2147467261;
 		}
 		*(long*)ppv = 0L;
-		if (IsEqualGUID(iid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_00000000_0000_0000_c000_000000000046)) != 0)
+		if (IsEqualGUID(iid, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _IID_IUnknown)) != 0)
 		{
 			((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint>)(*(ulong*)(*(long*)P_0 + 8)))((nint)P_0);
 			*(long*)ppv = (nint)P_0;
@@ -18216,11 +18101,6 @@ internal class _003CModule_003E
 	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
 	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
 	[SuppressUnmanagedCodeSecurity]
-	public unsafe static extern void ZuneLibraryExports_002EShipAssert(uint P_0, uint P_1, ushort* P_2);
-
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
 	public static extern int _purecall();
 
 	[MethodImpl(MethodImplOptions.Unmanaged | MethodImplOptions.PreserveSig, MethodCodeType = MethodCodeType.Native)]
@@ -18268,27 +18148,7 @@ internal class _003CModule_003E
 	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
 	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
 	[SuppressUnmanagedCodeSecurity]
-	public unsafe static extern int ZuneLibraryExports_002EPhase3Initialization(IAsyncCallback* P_0);
-
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
-	public unsafe static extern int ZuneLibraryExports_002EAddItemToPlaylist(int P_0, int P_1, IPlaylist* P_2);
-
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
 	public unsafe static extern int PropVariantClear(tagPROPVARIANT* P_0);
-
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
-	public unsafe static extern int ZuneLibraryExports_002ECreateEmptyPlaylist(IPlaylist** P_0);
-
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
-	public unsafe static extern int ZuneLibraryExports_002EQueryDatabase(EQueryType P_0, IQueryPropertyBag* P_1, IDatabaseQueryResults** P_2, ushort** P_3);
 
 	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
 	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
@@ -18363,21 +18223,6 @@ internal class _003CModule_003E
 	[SuppressUnmanagedCodeSecurity]
 	public unsafe static extern int GetConfigurationManagerInstance(IConfigurationManager** P_0);
 
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
-	public unsafe static extern int ZuneLibraryExports_002ECreateContentRefreshTask(IAsyncCallback* P_0, IContentRefreshTask** P_1);
-
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
-	public unsafe static extern int ZuneLibraryExports_002EDestroyDataObjectEnum(IDataObjectEnumerator* P_0);
-
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
-	public unsafe static extern int ZuneLibraryExports_002ECreateDataObjectEnum(IDataObjectEnumerator** P_0);
-
 	[MethodImpl(MethodImplOptions.Unmanaged | MethodImplOptions.PreserveSig, MethodCodeType = MethodCodeType.Native)]
 	[SuppressUnmanagedCodeSecurity]
 	public unsafe static extern void WString_002ESysFreeString(ushort** P_0);
@@ -18419,24 +18264,9 @@ internal class _003CModule_003E
 	[SuppressUnmanagedCodeSecurity]
 	public unsafe static extern void InitializeCriticalSection(_RTL_CRITICAL_SECTION* P_0);
 
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
-	public unsafe static extern int ZuneLibraryExports_002ECreateDRMQuery(IDRMQuery** P_0);
-
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
-	public unsafe static extern int ZuneLibraryExports_002EGetMappedErrorDescriptionAndUrl(int P_0, eErrorCondition P_1, int* P_2, ushort** P_3, ushort** P_4);
-
 	[MethodImpl(MethodImplOptions.Unmanaged | MethodImplOptions.PreserveSig, MethodCodeType = MethodCodeType.Native)]
 	[SuppressUnmanagedCodeSecurity]
 	public unsafe static extern void WString_002EAttachBSTR(WString* P_0, ushort* P_1);
-
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
-	public unsafe static extern int ZuneLibraryExports_002ECreateNativeFileAssociationHandler(void** P_0);
 
 	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
 	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
@@ -18446,16 +18276,6 @@ internal class _003CModule_003E
 	[MethodImpl(MethodImplOptions.Unmanaged | MethodImplOptions.PreserveSig, MethodCodeType = MethodCodeType.Native)]
 	[SuppressUnmanagedCodeSecurity]
 	public unsafe static extern int WString_002EAllocateBSTR(WString* P_0, ushort** P_1);
-
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
-	public unsafe static extern int ZuneLibraryExports_002EGetFieldValues(int P_0, EListType P_1, int P_2, DBPropertyRequestStruct* P_3, IQueryPropertyBag* P_4);
-
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
-	public unsafe static extern int ZuneLibraryExports_002EUserCardsForMedia(_GUID P_0, EMediaTypes P_1, int P_2, int P_3, int P_4, int* P_5, int** P_6, int** P_7);
 
 	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
 	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
@@ -18502,34 +18322,9 @@ internal class _003CModule_003E
 	[SuppressUnmanagedCodeSecurity]
 	public unsafe static extern int CreateHMESettings(IHMESettings** P_0);
 
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
-	public static extern int ZuneLibraryExports_002EInteropNotifyUnAdvise(ulong P_0);
-
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
-	public unsafe static extern int ZuneLibraryExports_002EInteropNotifyAdvise(IInteropNotify* P_0, ulong* P_1);
-
 	[MethodImpl(MethodImplOptions.Unmanaged | MethodImplOptions.PreserveSig, MethodCodeType = MethodCodeType.Native)]
 	[SuppressUnmanagedCodeSecurity]
 	public unsafe static extern CSchemaMap._SCHEMAMAPENTRY* CSchemaMap_002EGetEntry(ushort* P_0);
-
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
-	public unsafe static extern int ZuneLibraryExports_002ELocateArt(int P_0, EMediaTypes P_1, [MarshalAs(UnmanagedType.U1)] bool P_2, ushort** P_3);
-
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
-	public unsafe static extern int ZuneLibraryExports_002ESetAlbumArt(int P_0, HBITMAP__* P_1);
-
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
-	public unsafe static extern int ZuneLibraryExports_002ESetAlbumArt(int P_0, ushort* P_1);
 
 	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
 	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
@@ -18539,37 +18334,7 @@ internal class _003CModule_003E
 	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
 	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
 	[SuppressUnmanagedCodeSecurity]
-	public unsafe static extern int ZuneLibraryExports_002EDeleteMedia(EMediaTypes P_0, int* P_1, int P_2, int P_3, int P_4);
-
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
 	public unsafe static extern int MBRBandwidthTest_CreateInstance(IZuneMBRBandwidthTest** P_0);
-
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
-	public unsafe static extern int ZuneLibraryExports_002ECreatePropertySet(_GUID* P_0, uint P_1, IMSMediaSchemaPropertySet** P_2);
-
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
-	public unsafe static extern int ZuneLibraryExports_002ECreatePropertySetList(_GUID* P_0, uint P_1, IMSMediaSchemaPropertyList** P_2);
-
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
-	public unsafe static extern int ZuneLibraryExports_002ECreateTrackPropSet(_GUID P_0, _GUID P_1, int P_2, ushort* P_3, int P_4, ushort* P_5, ushort* P_6, ushort* P_7, IMSMediaSchemaPropertySet** P_8);
-
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
-	public static extern int ZuneLibraryExports_002EMetadataChangeUnAdvise(ulong P_0);
-
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
-	public unsafe static extern int ZuneLibraryExports_002EMetadataChangeAdvise(IMetadataChangeNotify* P_0, ulong* P_1);
 
 	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
 	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
@@ -18594,17 +18359,7 @@ internal class _003CModule_003E
 	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
 	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
 	[SuppressUnmanagedCodeSecurity]
-	public unsafe static extern int ZuneLibraryExports_002ECreateMultiSortAttributes(int P_0, IMultiSortAttributes** P_1);
-
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
 	public unsafe static extern int _wcsicmp(ushort* P_0, ushort* P_1);
-
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
-	public unsafe static extern int ZuneLibraryExports_002ECreatePropertyBag(IQueryPropertyBag** P_0);
 
 	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
 	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
@@ -18615,16 +18370,6 @@ internal class _003CModule_003E
 	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
 	[SuppressUnmanagedCodeSecurity]
 	public unsafe static extern int DeleteObject(void* P_0);
-
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
-	public unsafe static extern int ZuneLibraryExports_002EGetThumbnailBitmapData(ushort* P_0, int* P_1, int* P_2, void** P_3, HBITMAP__** P_4);
-
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
-	public unsafe static extern int ZuneLibraryExports_002ECopyThumbnailBitmapData(HBITMAP__* P_0, int P_1, int P_2, int P_3, int P_4, int P_5, int P_6, HBITMAP__** P_7, void** P_8);
 
 	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
 	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
@@ -18657,42 +18402,7 @@ internal class _003CModule_003E
 	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
 	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
 	[SuppressUnmanagedCodeSecurity]
-	public unsafe static extern int ZuneLibraryExports_002ESetFieldValues(int P_0, EListType P_1, int P_2, DBPropertySubmitStruct* P_3, IQueryPropertyBag* P_4);
-
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
 	public unsafe static extern int PropVariantCopy(tagPROPVARIANT* P_0, tagPROPVARIANT* P_1);
-
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
-	public unsafe static extern int ZuneLibraryExports_002ECreateNativeSubscriptionViewer(void** P_0);
-
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
-	public unsafe static extern int ZuneLibraryExports_002EGetSyncRuleForMedia(int P_0, EMediaTypes P_1, int P_2, EDeviceSyncRuleType* P_3);
-
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
-	public unsafe static extern int ZuneLibraryExports_002EDeleteDeviceSyncRules(EDeviceSyncRuleType P_0, int P_1, EMediaTypes P_2, int* P_3, int P_4, [MarshalAs(UnmanagedType.U1)] bool P_5);
-
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
-	public static extern int ZuneLibraryExports_002EAddDeviceSyncRule(EDeviceSyncRuleType P_0, [MarshalAs(UnmanagedType.U1)] bool P_1, int P_2, EMediaTypes P_3, int P_4);
-
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
-	public unsafe static extern int ZuneLibraryExports_002EGetSyncRuleValueForMedia(EDeviceSyncRuleType P_0, int P_1, EMediaTypes P_2, int P_3, int* P_4);
-
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
-	public static extern int ZuneLibraryExports_002EAddDeviceSyncRuleWithValue(EDeviceSyncRuleType P_0, int P_1, EMediaTypes P_2, int P_3, int P_4);
 
 	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
 	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
@@ -18877,147 +18587,7 @@ internal class _003CModule_003E
 	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
 	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
 	[SuppressUnmanagedCodeSecurity]
-	public unsafe static extern int ZuneLibraryExports_002ECopyThumbnailBitmapData(HBITMAP__* P_0, HBITMAP__** P_1, void** P_2);
-
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
-	public unsafe static extern int ZuneLibraryExports_002EDoesFileExist(ushort* P_0, int* P_1);
-
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
-	public unsafe static extern int ZuneLibraryExports_002ECompareWithoutArticles(ushort* P_0, ushort* P_1, int* P_2);
-
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
-	public static extern int ZuneLibraryExports_002ESplitAudioTrack(int P_0);
-
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
-	public unsafe static extern int ZuneLibraryExports_002EGetAlbumMetadataForAlbumId(long P_0, int P_1, IAlbumInfo* P_2, IWMISGetAlbumForAlbumIdCallback* P_3);
-
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
-	public unsafe static extern int ZuneLibraryExports_002EUpdateAlbumMetadata(int P_0, IAlbumInfo* P_1);
-
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
-	public unsafe static extern int ZuneLibraryExports_002EGetAlbumMetadata(int P_0, [MarshalAs(UnmanagedType.U1)] bool P_1, IAlbumInfo** P_2);
-
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
-	public unsafe static extern int ZuneLibraryExports_002EGetLocalizedPathOfFolder(ushort* P_0, [MarshalAs(UnmanagedType.U1)] bool P_1, ushort** P_2);
-
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
-	public unsafe static extern int ZuneLibraryExports_002EGetKnownFolders(DynamicArray_003Cunsigned_0020short_0020_002A_003E* P_0, DynamicArray_003Cunsigned_0020short_0020_002A_003E* P_1, DynamicArray_003Cunsigned_0020short_0020_002A_003E* P_2, DynamicArray_003Cunsigned_0020short_0020_002A_003E* P_3, DynamicArray_003Cunsigned_0020short_0020_002A_003E* P_4, ushort** P_5, ushort** P_6, ushort** P_7, ushort** P_8, ushort** P_9);
-
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
-	public static extern int ZuneLibraryExports_002EExportUserRatings(int P_0, EMediaTypes P_1);
-
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
-	public static extern int ZuneLibraryExports_002EImportSharedRatingsForUser(int P_0, EMediaTypes P_1);
-
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
-	public static extern int ZuneLibraryExports_002EScanAndClearDeletedMedia();
-
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
-	public static extern int ZuneLibraryExports_002EDeleteFSFolder(int P_0, EMediaTypes P_1);
-
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
-	public unsafe static extern int ZuneLibraryExports_002EDeleteRootFolder(ushort* P_0, EMediaTypes P_1);
-
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
-	public static extern int ZuneLibraryExports_002EMarkAllDRMFilesAsNeedingLicenseRefresh();
-
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
-	public static extern int ZuneLibraryExports_002ECleanupTransientMedia();
-
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
-	public unsafe static extern int ZuneLibraryExports_002EAddTransientMedia(ushort* P_0, EMediaTypes P_1, int* P_2);
-
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
-	public unsafe static extern int ZuneLibraryExports_002ECreateAlbumPropSet(_GUID P_0, ushort* P_1, ushort* P_2, IMSMediaSchemaPropertySet** P_3);
-
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
-	public unsafe static extern int ZuneLibraryExports_002ECreateVideoPropSet(_GUID P_0, ushort* P_1, int P_2, IMSMediaSchemaPropertySet** P_3);
-
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
-	public unsafe static extern int ZuneLibraryExports_002EAddMedia(IMSMediaSchemaPropertySet* P_0, EMediaTypes P_1, int* P_2);
-
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
-	public unsafe static extern int ZuneLibraryExports_002EAddMedia(ushort* P_0, EMediaTypes P_1, uint P_2, bool* P_3, int* P_4);
-
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
-	public unsafe static extern int ZuneLibraryExports_002EAddGrovelerScanDirectory(ushort* P_0, EMediaTypes P_1);
-
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
-	public unsafe static extern int ZuneLibraryExports_002ECanAddMedia(ushort* P_0, EMediaTypes P_1);
-
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
-	public unsafe static extern int ZuneLibraryExports_002ECanAddFromFolder(ushort* P_0);
-
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
-	public unsafe static extern int ZuneLibraryExports_002EGetCDDeviceList(IWMPCDDeviceList** P_0);
-
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
 	public unsafe static extern int LoadStringW(HINSTANCE__* P_0, uint P_1, ushort* P_2, int P_3);
-
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
-	public unsafe static extern HINSTANCE__* ZuneLibraryExports_002EGetLocResourceInstance();
-
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
-	public static extern int ZuneLibraryExports_002EPhase2Initialization();
-
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
-	public unsafe static extern int ZuneLibraryExports_002EStartupZuneNativeLib(ushort* P_0, int* P_1);
 
 	[MethodImpl(MethodImplOptions.Unmanaged | MethodImplOptions.PreserveSig, MethodCodeType = MethodCodeType.Native)]
 	[SuppressUnmanagedCodeSecurity]
@@ -19026,16 +18596,6 @@ internal class _003CModule_003E
 	[MethodImpl(MethodImplOptions.Unmanaged | MethodImplOptions.PreserveSig, MethodCodeType = MethodCodeType.Native)]
 	[SuppressUnmanagedCodeSecurity]
 	public static extern int ZuneEtwShutdown();
-
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
-	public static extern int ZuneLibraryExports_002EShutdownZuneNativeLib();
-
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
-	public static extern int ZuneLibraryExports_002EStopGroveler([MarshalAs(UnmanagedType.U1)] bool P_0);
 
 	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
 	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
@@ -19081,11 +18641,6 @@ internal class _003CModule_003E
 	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
 	[SuppressUnmanagedCodeSecurity]
 	public unsafe static extern uint SafeArrayGetDim(tagSAFEARRAY* P_0);
-
-	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
-	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]
-	[SuppressUnmanagedCodeSecurity]
-	public unsafe static extern int ZuneLibraryExports_002EZunePropVariantChangeType(tagPROPVARIANT* P_0, tagPROPVARIANT* P_1, ushort P_2, ushort P_3);
 
 	[DllImport("", CallingConvention = CallingConvention.Cdecl, SetLastError = true)]
 	[MethodImpl(MethodImplOptions.Unmanaged, MethodCodeType = MethodCodeType.Native)]

@@ -2,6 +2,7 @@ using System;
 using System.Runtime.InteropServices;
 using Microsoft.Iris;
 using Microsoft.Zune.Util;
+using ZuneDBApi.Interop;
 using ZuneUI;
 
 namespace MicrosoftZuneLibrary;
@@ -37,7 +38,7 @@ public class AppInitializationSequencer
 		int num2;
 		if (ptr2 != null)
 		{
-			int num = global::_003CModule_003E.ZuneLibraryExports_002EPhase3Initialization((IAsyncCallback*)ptr2);
+			int num = ZuneLibraryExports.Phase3Initialization((IAsyncCallback*)ptr2);
 			((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint>)(*(ulong*)(*(long*)ptr2 + 16)))((nint)ptr2);
 			if (num >= 0)
 			{

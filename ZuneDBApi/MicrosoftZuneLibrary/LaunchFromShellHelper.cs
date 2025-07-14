@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading;
 using Microsoft.Iris;
+using ZuneDBApi.Interop;
 
 namespace MicrosoftZuneLibrary;
 
@@ -85,7 +86,7 @@ public class LaunchFromShellHelper
 		{
 			FileFoundCallback fileFoundCallback = FileFound;
 			delegate* unmanaged[Cdecl, Cdecl]<ushort*, EMediaTypes, void> delegate_002A = (delegate* unmanaged[Cdecl, Cdecl]<ushort*, EMediaTypes, void>)Marshal.GetFunctionPointerForDelegate(fileFoundCallback).ToPointer();
-			int num = global::_003CModule_003E.ZuneLibraryExports_002ECreateDataObjectEnum(&ptr);
+			int num = ZuneLibraryExports.CreateDataObjectEnum(&ptr);
 			try
 			{
 				if (num >= 0)
@@ -130,7 +131,7 @@ public class LaunchFromShellHelper
 			{
 				if (ptr != null)
 				{
-					global::_003CModule_003E.ZuneLibraryExports_002EDestroyDataObjectEnum(ptr);
+					ZuneLibraryExports.DestroyDataObjectEnum(ptr);
 					ptr = null;
 				}
 			}

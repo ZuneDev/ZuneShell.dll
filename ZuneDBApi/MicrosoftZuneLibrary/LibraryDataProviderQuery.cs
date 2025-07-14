@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using Microsoft.Iris;
 using Microsoft.Zune.Playlist;
 using MicrosoftZuneInterop;
+using ZuneDBApi.Interop;
 
 namespace MicrosoftZuneLibrary;
 
@@ -568,7 +569,7 @@ internal class LibraryDataProviderQuery : DataProviderQuery
 			if (eQueryType != EQueryType.eQueryTypeInvalid)
 			{
 				ushort* ptr6 = null;
-				num13 = global::_003CModule_003E.ZuneLibraryExports_002EQueryDatabase(eQueryType, iQueryPropertyBag, &ptr5, &ptr6);
+				num13 = ZuneLibraryExports.QueryDatabase(eQueryType, iQueryPropertyBag, &ptr5, &ptr6);
 				text = new string((char*)ptr6);
 				global::_003CModule_003E.SysFreeString(ptr6);
 			}

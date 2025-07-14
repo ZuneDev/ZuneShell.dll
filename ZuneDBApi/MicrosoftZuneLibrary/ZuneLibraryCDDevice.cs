@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using MicrosoftZuneInterop;
+using ZuneDBApi.Interop;
 using ZuneUI;
 
 namespace MicrosoftZuneLibrary;
@@ -498,10 +499,10 @@ public unsafe class ZuneLibraryCDDevice(IWMPCDDevice* pDevice) : IDisposable
 		((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EQueryPropertyBagProp, int, int>)(*(ulong*)(*(long*)iQueryPropertyBag + 56)))((nint)iQueryPropertyBag, (EQueryPropertyBagProp)21, 437);
 		IPlaylist* ptr = null;
 		IDatabaseQueryResults* ptr2 = null;
-		int num = global::_003CModule_003E.ZuneLibraryExports_002EQueryDatabase(EQueryType.eQueryTypePlaylistContentByPlaylistId, iQueryPropertyBag, &ptr2, null);
+		int num = ZuneLibraryExports.QueryDatabase(EQueryType.eQueryTypePlaylistContentByPlaylistId, iQueryPropertyBag, &ptr2, null);
 		if (num >= 0)
 		{
-			num = global::_003CModule_003E.ZuneLibraryExports_002ECreateEmptyPlaylist(&ptr);
+			num = ZuneLibraryExports.CreateEmptyPlaylist(&ptr);
 		}
 		uint num2 = 0u;
 		if (num >= 0)
@@ -530,7 +531,7 @@ public unsafe class ZuneLibraryCDDevice(IWMPCDDevice* pDevice) : IDisposable
 									num = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint, uint, tagPROPVARIANT*, int>)(*(ulong*)(*(long*)ptr2 + 48)))((nint)ptr2, num3, 234u, (tagPROPVARIANT*)(&cComPropVariant2));
 									if (num >= 0)
 									{
-										num = global::_003CModule_003E.ZuneLibraryExports_002EAddItemToPlaylist(System.Runtime.CompilerServices.Unsafe.As<CComPropVariant, int>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref cComPropVariant, 8)), System.Runtime.CompilerServices.Unsafe.As<CComPropVariant, int>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref cComPropVariant2, 8)), ptr);
+										num = ZuneLibraryExports.AddItemToPlaylist(System.Runtime.CompilerServices.Unsafe.As<CComPropVariant, int>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref cComPropVariant, 8)), System.Runtime.CompilerServices.Unsafe.As<CComPropVariant, int>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref cComPropVariant2, 8)), ptr);
 									}
 								}
 							}

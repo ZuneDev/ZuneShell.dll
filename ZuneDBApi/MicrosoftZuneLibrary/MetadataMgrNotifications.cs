@@ -1,6 +1,7 @@
 using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using ZuneDBApi.Interop;
 
 namespace MicrosoftZuneLibrary;
 
@@ -263,7 +264,7 @@ public class MetadataMgrNotifications : IDisposable
 		{
 			try
 			{
-				if (global::_003CModule_003E.ZuneLibraryExports_002EMetadataChangeAdvise(ptr3, ptr4) >= 0)
+				if (ZuneLibraryExports.MetadataChangeAdvise(ptr3, ptr4) >= 0)
 				{
 					m_fAdvised = true;
 				}
@@ -290,7 +291,7 @@ public class MetadataMgrNotifications : IDisposable
 		{
 			if (m_fAdvised)
 			{
-				global::_003CModule_003E.ZuneLibraryExports_002EMetadataChangeUnAdvise(m_AdviseCookie);
+				ZuneLibraryExports.MetadataChangeUnAdvise(m_AdviseCookie);
 				m_fAdvised = false;
 			}
 			m_disposed = true;

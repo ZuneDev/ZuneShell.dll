@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using Microsoft.Iris;
+using ZuneDBApi.Interop;
 
 namespace MicrosoftZuneLibrary;
 
@@ -103,7 +104,7 @@ public class LibraryDataProvider
 					{
 						try
 						{
-							flag = (byte)(((global::_003CModule_003E.ZuneLibraryExports_002EDeleteMedia(mediaType, ptr, list.Count, ((DeleteFromLibraryEventArgs)args).DeleteFromDisk ? 1 : 0, 1) >= 0) ? 1u : 0u) & 1u) != 0;
+							flag = (byte)(((ZuneLibraryExports.DeleteMedia(mediaType, ptr, list.Count, ((DeleteFromLibraryEventArgs)args).DeleteFromDisk ? 1 : 0, 1) >= 0) ? 1u : 0u) & 1u) != 0;
 						}
 						catch
 						{

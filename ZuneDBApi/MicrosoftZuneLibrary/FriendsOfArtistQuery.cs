@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using _003CCppImplementationDetails_003E;
 using Microsoft.Iris;
+using ZuneDBApi.Interop;
 
 namespace MicrosoftZuneLibrary;
 
@@ -135,7 +136,7 @@ public class FriendsOfArtistQuery : ModelItem, IDisposable
 		int* ptr = null;
 		int* ptr2 = null;
 		int num2 = ((!asyncQueryParams.GetFriends) ? 1 : 100);
-		if (global::_003CModule_003E.ZuneLibraryExports_002EUserCardsForMedia(global::_003CModule_003E.GuidToGUID(asyncQueryParams.ArtistId), EMediaTypes.eMediaTypePersonArtist, asyncQueryParams.UserId, 14, num2, &num, &ptr, &ptr2) >= 0)
+		if (ZuneLibraryExports.UserCardsForMedia(global::_003CModule_003E.GuidToGUID(asyncQueryParams.ArtistId), EMediaTypes.eMediaTypePersonArtist, asyncQueryParams.UserId, 14, num2, &num, &ptr, &ptr2) >= 0)
 		{
 			bool flag = num > 0;
 			IList list = null;
@@ -162,7 +163,7 @@ public class FriendsOfArtistQuery : ModelItem, IDisposable
 							global::_003CModule_003E.DBPropertyRequestStruct_002E_007Bctor_007D((DBPropertyRequestStruct*)(&_0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040), 187u);
 							try
 							{
-								if (global::_003CModule_003E.ZuneLibraryExports_002EGetFieldValues(*(int*)(num4 + (nint)ptr), EListType.eUserCardList, 1, (DBPropertyRequestStruct*)(&_0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040), null) >= 0 && System.Runtime.CompilerServices.Unsafe.As<_0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040, int>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040, 4)) >= 0 && System.Runtime.CompilerServices.Unsafe.As<_0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040, ushort>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040, 8)) == 8)
+								if (ZuneLibraryExports.GetFieldValues(*(int*)(num4 + (nint)ptr), EListType.eUserCardList, 1, (DBPropertyRequestStruct*)(&_0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040), null) >= 0 && System.Runtime.CompilerServices.Unsafe.As<_0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040, int>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040, 4)) >= 0 && System.Runtime.CompilerServices.Unsafe.As<_0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040, ushort>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040, 8)) == 8)
 								{
 									friendOfArtist.ZuneTag = new string((char*)System.Runtime.CompilerServices.Unsafe.As<_0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040, ulong>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040, 16)));
 								}

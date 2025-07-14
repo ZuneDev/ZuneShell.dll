@@ -148,7 +148,7 @@ public class SubscriptionManager : IDisposable
 			{
 				if (eSubscriptionMediaType == EMediaTypes.eMediaTypePodcastSeries && 72 == *(ushort*)(&tagPROPVARIANT))
 				{
-					num = global::_003CModule_003E.ZuneLibraryExports_002ECreatePropertySet((_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref global::_003CModule_003E.ID_MS_MEDIA_SCHEMA_SERIES), 3229616385u, &ptr);
+					num = ZuneLibraryExports.CreatePropertySet((_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref global::_003CModule_003E.ID_MS_MEDIA_SCHEMA_SERIES), 3229616385u, &ptr);
 					if (num < 0)
 					{
 						goto IL_027f;
@@ -176,7 +176,7 @@ public class SubscriptionManager : IDisposable
 							EPlaylistType nSrc = (isPersonalChannel ? ((EPlaylistType)6) : ((EPlaylistType)5));
 							global::_003CModule_003E.CComPropVariant_002E_003D(&cComPropVariant, (int)nSrc);
 							global::_003CModule_003E.CComPropVariant_002E_003D(&cComPropVariant3, lastSignedInUserId);
-							num = global::_003CModule_003E.ZuneLibraryExports_002ECreatePropertySet((_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref global::_003CModule_003E.ID_MS_MEDIA_SCHEMA_PLAYLIST), 3229617665u, &ptr);
+							num = ZuneLibraryExports.CreatePropertySet((_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref global::_003CModule_003E.ID_MS_MEDIA_SCHEMA_PLAYLIST), 3229617665u, &ptr);
 							if (num >= 0)
 							{
 								int num3;
@@ -719,7 +719,7 @@ public class SubscriptionManager : IDisposable
 		}
 		try
 		{
-			num = global::_003CModule_003E.ZuneLibraryExports_002EGetFieldValues(subscriptionMediaId, EListType.ePlaylistList, 1, &dBPropertyRequestStruct, null);
+			num = ZuneLibraryExports.GetFieldValues(subscriptionMediaId, EListType.ePlaylistList, 1, &dBPropertyRequestStruct, null);
 		}
 		catch
 		{
@@ -734,7 +734,7 @@ public class SubscriptionManager : IDisposable
 		IL_004b:
 		try
 		{
-			num = global::_003CModule_003E.ZuneLibraryExports_002EGetFieldValues(subscriptionMediaId, EListType.ePodcastList, 1, &dBPropertyRequestStruct, null);
+			num = ZuneLibraryExports.GetFieldValues(subscriptionMediaId, EListType.ePodcastList, 1, &dBPropertyRequestStruct, null);
 		}
 		catch
 		{

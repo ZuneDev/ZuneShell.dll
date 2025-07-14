@@ -1,6 +1,7 @@
 using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using ZuneDBApi.Interop;
 
 namespace Microsoft.Zune.Util;
 
@@ -11,7 +12,7 @@ public class DRMCanDoQuery : IDisposable
 	public unsafe DRMCanDoQuery()
 	{
 		System.Runtime.CompilerServices.Unsafe.SkipInit(out IDRMQuery* pDRMQuery);
-		int num = global::_003CModule_003E.ZuneLibraryExports_002ECreateDRMQuery(&pDRMQuery);
+		int num = ZuneLibraryExports.CreateDRMQuery(&pDRMQuery);
 		if (num < 0)
 		{
 			throw new ApplicationException(global::_003CModule_003E.GetErrorDescription(num));

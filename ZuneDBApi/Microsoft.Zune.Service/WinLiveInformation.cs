@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Runtime.InteropServices;
 using MicrosoftZuneLibrary;
+using ZuneDBApi.Interop;
 
 namespace Microsoft.Zune.Service;
 
@@ -88,7 +89,7 @@ public class WinLiveInformation : IDisposable
 					num = (((long)(nint)ptr == 0) ? (-2147467259) : num);
 					HBITMAP__* ptr2 = null;
 					void* pData = null;
-					if (num >= 0 && global::_003CModule_003E.ZuneLibraryExports_002ECopyThumbnailBitmapData(ptr, &ptr2, &pData) >= 0)
+					if (num >= 0 && ZuneLibraryExports.CopyThumbnailBitmapData(ptr, &ptr2, &pData) >= 0)
 					{
 						try
 						{

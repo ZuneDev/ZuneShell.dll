@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading;
 using Microsoft.Iris;
+using ZuneDBApi.Interop;
 
 namespace MicrosoftZuneLibrary;
 
@@ -183,7 +184,7 @@ public class LibraryDataProviderItemBase : DataProviderObject, IDatabaseMedia
 		//IL_0003: Expected I, but got I8
 		ushort* ptr = null;
 		EMediaTypes eMediaTypes = LibraryDataProvider.NameToMediaType(typeName);
-		if (global::_003CModule_003E.ZuneLibraryExports_002ELocateArt(MediaId, eMediaTypes, fCacheOnly, &ptr) >= 0)
+		if (ZuneLibraryExports.LocateArt(MediaId, eMediaTypes, fCacheOnly, &ptr) >= 0)
 		{
 			string result = new string((char*)ptr);
 			global::_003CModule_003E.SysFreeString(ptr);
@@ -233,7 +234,7 @@ public class LibraryDataProviderItemBase : DataProviderObject, IDatabaseMedia
 			{
 				try
 				{
-					num = global::_003CModule_003E.ZuneLibraryExports_002ESetAlbumArt(num2, ptr);
+					num = ZuneLibraryExports.SetAlbumArt(num2, ptr);
 					if (num < 0)
 					{
 						global::_003CModule_003E.SQMAddNumbersToStream("IgnoredErrorEvent", 1u, (uint)num);
@@ -268,7 +269,7 @@ public class LibraryDataProviderItemBase : DataProviderObject, IDatabaseMedia
 		{
 			int num2 = (int)GetFieldValue(typeof(int), 355u, -1);
 			void* ptr = (void*)safeBitmap.DangerousGetHandle();
-			num = global::_003CModule_003E.ZuneLibraryExports_002ESetAlbumArt(num2, (HBITMAP__*)ptr);
+			num = ZuneLibraryExports.SetAlbumArt(num2, (HBITMAP__*)ptr);
 			if (num < 0)
 			{
 				global::_003CModule_003E.SQMAddNumbersToStream("IgnoredErrorEvent", 1u, (uint)num);

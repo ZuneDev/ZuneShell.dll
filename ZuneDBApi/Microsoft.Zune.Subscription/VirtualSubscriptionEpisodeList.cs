@@ -94,7 +94,7 @@ public class VirtualSubscriptionEpisodeList : VirtualList, IDisposable
 		UpdateQueryStatus(DataProviderQueryStatus.RequestingData);
 		ISubscriptionViewer* ptr = null;
 		VirtualSubscriptionEpisodeListProxy* ptr2 = null;
-		int num = global::_003CModule_003E.ZuneLibraryExports_002ECreateNativeSubscriptionViewer((void**)(&ptr));
+		int num = ZuneLibraryExports.CreateNativeSubscriptionViewer((void**)(&ptr));
 		if (num >= 0)
 		{
 			VirtualSubscriptionEpisodeListProxy* ptr3 = (VirtualSubscriptionEpisodeListProxy*)global::_003CModule_003E.@new(40uL);

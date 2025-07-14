@@ -1,4 +1,5 @@
 using System;
+using ZuneDBApi.Interop;
 
 namespace Microsoft.Zune.Configuration;
 
@@ -13,7 +14,7 @@ public class FileAssociationHandlerFactory
 		global::IFileAssociationHandler* ptr = null;
 		try
 		{
-			int num = global::_003CModule_003E.ZuneLibraryExports_002ECreateNativeFileAssociationHandler((void**)(&ptr));
+			int num = ZuneLibraryExports.CreateNativeFileAssociationHandler((void**)(&ptr));
 			if (num >= 0)
 			{
 				fileAssociationHandlerWrapper = new FileAssociationHandlerWrapper(ptr);

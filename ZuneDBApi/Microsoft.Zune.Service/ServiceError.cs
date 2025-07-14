@@ -86,7 +86,7 @@ public class ServiceError : IDisposable
 		}
 	}
 
-	public void _007EServiceError()
+	~ServiceError()
 	{
 	}
 
@@ -106,7 +106,7 @@ public class ServiceError : IDisposable
 		Finalize();
 	}
 
-	public virtual sealed void Dispose()
+	public virtual void Dispose()
 	{
 		Dispose(true);
 		GC.SuppressFinalize(this);

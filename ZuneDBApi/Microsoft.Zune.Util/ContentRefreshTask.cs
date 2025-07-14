@@ -1,5 +1,6 @@
 using System;
 using System.Runtime.InteropServices;
+using ZuneDBApi.Interop;
 using ZuneUI;
 
 namespace Microsoft.Zune.Util;
@@ -80,7 +81,7 @@ public class ContentRefreshTask : IDisposable
 		IContentRefreshTask* ptr3 = null;
 		if (num >= 0)
 		{
-			num = global::_003CModule_003E.ZuneLibraryExports_002ECreateContentRefreshTask((IAsyncCallback*)ptr2, &ptr3);
+			num = ZuneLibraryExports.CreateContentRefreshTask((IAsyncCallback*)ptr2, &ptr3);
 			if (num >= 0)
 			{
 				if (0L != (nint)ptr3)

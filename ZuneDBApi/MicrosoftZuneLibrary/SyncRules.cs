@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using ZuneDBApi.Interop;
 
 namespace MicrosoftZuneLibrary;
 
@@ -151,7 +152,7 @@ public class SyncRules : IDisposable
 		{
 			while (num >= 0)
 			{
-				num = global::_003CModule_003E.ZuneLibraryExports_002EAddDeviceSyncRuleWithValue(EDeviceSyncRuleType.eDeviceSyncRuleTypeSyncEpisodesCount, m_iDeviceID, EMediaTypes.eMediaTypePodcastSeries, rgIds[num2], value);
+				num = ZuneLibraryExports.AddDeviceSyncRuleWithValue(EDeviceSyncRuleType.eDeviceSyncRuleTypeSyncEpisodesCount, m_iDeviceID, EMediaTypes.eMediaTypePodcastSeries, rgIds[num2], value);
 				if (num < 0)
 				{
 					break;
@@ -239,7 +240,7 @@ public class SyncRules : IDisposable
 	public unsafe int GetSyncRuleForMedia(EMediaTypes mediaType, int iMediaItemId, ref EDeviceSyncRuleType ruleType)
 	{
 		System.Runtime.CompilerServices.Unsafe.SkipInit(out EDeviceSyncRuleType eDeviceSyncRuleType);
-		int num = global::_003CModule_003E.ZuneLibraryExports_002EGetSyncRuleForMedia(m_iDeviceID, mediaType, iMediaItemId, &eDeviceSyncRuleType);
+		int num = ZuneLibraryExports.GetSyncRuleForMedia(m_iDeviceID, mediaType, iMediaItemId, &eDeviceSyncRuleType);
 		if (num >= 0)
 		{
 			ruleType = eDeviceSyncRuleType;
@@ -250,7 +251,7 @@ public class SyncRules : IDisposable
 	public unsafe int GetSyncRuleValueForMedia(int iMediaItemId, ref int iValue)
 	{
 		System.Runtime.CompilerServices.Unsafe.SkipInit(out int num2);
-		int num = global::_003CModule_003E.ZuneLibraryExports_002EGetSyncRuleValueForMedia(EDeviceSyncRuleType.eDeviceSyncRuleTypeSyncEpisodesCount, m_iDeviceID, EMediaTypes.eMediaTypePodcastSeries, iMediaItemId, &num2);
+		int num = ZuneLibraryExports.GetSyncRuleValueForMedia(EDeviceSyncRuleType.eDeviceSyncRuleTypeSyncEpisodesCount, m_iDeviceID, EMediaTypes.eMediaTypePodcastSeries, iMediaItemId, &num2);
 		if (num >= 0)
 		{
 			iValue = num2;
@@ -442,7 +443,7 @@ public class SyncRules : IDisposable
 		{
 			while (num >= 0)
 			{
-				num = global::_003CModule_003E.ZuneLibraryExports_002EAddDeviceSyncRule(ruleType, fAutoSelectRuleType, m_iDeviceID, mediaType, rgIds[num2]);
+				num = ZuneLibraryExports.AddDeviceSyncRule(ruleType, fAutoSelectRuleType, m_iDeviceID, mediaType, rgIds[num2]);
 				if (num < 0)
 				{
 					break;
@@ -475,7 +476,7 @@ public class SyncRules : IDisposable
 				try
 				{
 					int* ptr2 = ptr;
-					num = global::_003CModule_003E.ZuneLibraryExports_002EDeleteDeviceSyncRules(ruleType, m_iDeviceID, mediaType, ptr2, rgIds.Length, fDeviceFolderIds);
+					num = ZuneLibraryExports.DeleteDeviceSyncRules(ruleType, m_iDeviceID, mediaType, ptr2, rgIds.Length, fDeviceFolderIds);
 				}
 				catch
 				{

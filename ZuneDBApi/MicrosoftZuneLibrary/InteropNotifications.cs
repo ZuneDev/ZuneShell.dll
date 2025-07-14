@@ -1,6 +1,7 @@
 using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using ZuneDBApi.Interop;
 
 namespace MicrosoftZuneLibrary;
 
@@ -53,7 +54,7 @@ public class InteropNotifications : IDisposable
 		{
 			try
 			{
-				if (global::_003CModule_003E.ZuneLibraryExports_002EInteropNotifyAdvise(ptr3, ptr4) >= 0)
+				if (ZuneLibraryExports.InteropNotifyAdvise(ptr3, ptr4) >= 0)
 				{
 					m_fAdvised = true;
 				}
@@ -81,7 +82,7 @@ public class InteropNotifications : IDisposable
 			m_fDisposed = true;
 			if (m_fAdvised)
 			{
-				global::_003CModule_003E.ZuneLibraryExports_002EInteropNotifyUnAdvise(m_AdviseCookie);
+				ZuneLibraryExports.InteropNotifyUnAdvise(m_AdviseCookie);
 				m_fAdvised = false;
 			}
 		}

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using MicrosoftZuneInterop;
+using ZuneDBApi.Interop;
 using ZuneUI;
 
 namespace MicrosoftZuneLibrary;
@@ -29,8 +30,8 @@ public class ZuneLibrary : IDisposable
 			throw;
 		}
 		((IDisposable)managedLock).Dispose();
-		global::_003CModule_003E.ZuneLibraryExports_002EStopGroveler(false);
-		global::_003CModule_003E.ZuneLibraryExports_002EShutdownZuneNativeLib();
+		ZuneLibraryExports.StopGroveler(false);
+		ZuneLibraryExports.ShutdownZuneNativeLib();
 		global::_003CModule_003E.WppCleanupUm();
 		global::_003CModule_003E.ZuneEtwShutdown();
 	}
@@ -45,7 +46,7 @@ public class ZuneLibrary : IDisposable
 		fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref global::_003CModule_003E.PtrToStringChars(path)))
 		{
 			int num = 0;
-			int result = global::_003CModule_003E.ZuneLibraryExports_002EStartupZuneNativeLib(ptr, &num);
+			int result = ZuneLibraryExports.StartupZuneNativeLib(ptr, &num);
 			bool flag = ((num != 0) ? true : false);
 			dbRebuilt = flag;
 			return result;
@@ -56,12 +57,12 @@ public class ZuneLibrary : IDisposable
 	public bool Phase2Initialization(out int hr)
 	{
 		hr = 0;
-		return (hr = global::_003CModule_003E.ZuneLibraryExports_002EPhase2Initialization()) >= 0;
+		return (hr = ZuneLibraryExports.Phase2Initialization()) >= 0;
 	}
 
 	public unsafe static string LoadStringFromResource(uint dwResourceNumber)
 	{
-		HINSTANCE__* ptr = global::_003CModule_003E.ZuneLibraryExports_002EGetLocResourceInstance();
+		HINSTANCE__* ptr = ZuneLibraryExports.GetLocResourceInstance();
 		if (ptr == null)
 		{
 			return null;
@@ -100,7 +101,7 @@ public class ZuneLibrary : IDisposable
 			}
 			else
 			{
-				int num = global::_003CModule_003E.ZuneLibraryExports_002ECreatePropertyBag((IQueryPropertyBag**)(&cComPtrNtv_003CIQueryPropertyBag_003E));
+				int num = ZuneLibraryExports.CreatePropertyBag((IQueryPropertyBag**)(&cComPtrNtv_003CIQueryPropertyBag_003E));
 				if (num < 0)
 				{
 					result = null;
@@ -120,7 +121,7 @@ public class ZuneLibrary : IDisposable
 			((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EQueryPropertyBagProp, int, int>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CIQueryPropertyBag_003E)) + 56)))((nint)(*(long*)(&cComPtrNtv_003CIQueryPropertyBag_003E)), (EQueryPropertyBagProp)21, (int)SortAtom);
 			((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EQueryPropertyBagProp, int, int>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CIQueryPropertyBag_003E)) + 56)))((nint)(*(long*)(&cComPtrNtv_003CIQueryPropertyBag_003E)), (EQueryPropertyBagProp)22, (int)SortType);
 			((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EQueryPropertyBagProp, int, int>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CIQueryPropertyBag_003E)) + 56)))((nint)(*(long*)(&cComPtrNtv_003CIQueryPropertyBag_003E)), (EQueryPropertyBagProp)15, LibraryView);
-			int num = global::_003CModule_003E.ZuneLibraryExports_002EQueryDatabase(QueryType, (IQueryPropertyBag*)(*(ulong*)(&cComPtrNtv_003CIQueryPropertyBag_003E)), &ptr, null);
+			int num = ZuneLibraryExports.QueryDatabase(QueryType, (IQueryPropertyBag*)(*(ulong*)(&cComPtrNtv_003CIQueryPropertyBag_003E)), &ptr, null);
 			if (num >= 0)
 			{
 				result2 = new ZuneQueryList(ptr, "*** Test Only ***");
@@ -161,7 +162,7 @@ public class ZuneLibrary : IDisposable
 		//IL_0003: Expected I, but got I8
 		//IL_0021: Expected I, but got I8
 		IWMPCDDeviceList* ptr = null;
-		if (global::_003CModule_003E.ZuneLibraryExports_002EGetCDDeviceList(&ptr) >= 0)
+		if (ZuneLibraryExports.GetCDDeviceList(&ptr) >= 0)
 		{
 			ZuneLibraryCDDeviceList zuneLibraryCDDeviceList = new ZuneLibraryCDDeviceList(ptr);
 			IWMPCDDeviceList* intPtr = ptr;
@@ -201,7 +202,7 @@ public class ZuneLibrary : IDisposable
 		//IL_0090: Expected I, but got I8
 		IDatabaseQueryResults* ptr = null;
 		System.Runtime.CompilerServices.Unsafe.SkipInit(out IQueryPropertyBag* ptr2);
-		if (global::_003CModule_003E.ZuneLibraryExports_002ECreatePropertyBag(&ptr2) < 0)
+		if (ZuneLibraryExports.CreatePropertyBag(&ptr2) < 0)
 		{
 			return null;
 		}
@@ -209,7 +210,7 @@ public class ZuneLibrary : IDisposable
 		((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EQueryPropertyBagProp, int, int>)(*(ulong*)(*(long*)ptr2 + 56)))((nint)ptr2, (EQueryPropertyBagProp)21, (int)SortAtom);
 		((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EQueryPropertyBagProp, int, int>)(*(ulong*)(*(long*)ptr2 + 56)))((nint)ptr2, (EQueryPropertyBagProp)22, (int)SortOrder);
 		((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EQueryPropertyBagProp, int, int>)(*(ulong*)(*(long*)ptr2 + 56)))((nint)ptr2, (EQueryPropertyBagProp)15, LibraryView);
-		int num = global::_003CModule_003E.ZuneLibraryExports_002EQueryDatabase(EQueryType.eQueryTypeTracksForAlbumArtistId, ptr2, &ptr, null);
+		int num = ZuneLibraryExports.QueryDatabase(EQueryType.eQueryTypeTracksForAlbumArtistId, ptr2, &ptr, null);
 		if (0L != (nint)ptr2)
 		{
 			IQueryPropertyBag* intPtr = ptr2;
@@ -240,7 +241,7 @@ public class ZuneLibrary : IDisposable
 		//IL_0093: Expected I, but got I8
 		IDatabaseQueryResults* ptr = null;
 		IQueryPropertyBag* ptr2 = null;
-		if (global::_003CModule_003E.ZuneLibraryExports_002ECreatePropertyBag(&ptr2) < 0)
+		if (ZuneLibraryExports.CreatePropertyBag(&ptr2) < 0)
 		{
 			return null;
 		}
@@ -248,7 +249,7 @@ public class ZuneLibrary : IDisposable
 		((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EQueryPropertyBagProp, int, int>)(*(ulong*)(*(long*)ptr2 + 56)))((nint)ptr2, (EQueryPropertyBagProp)21, (int)SortAtom);
 		((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EQueryPropertyBagProp, int, int>)(*(ulong*)(*(long*)ptr2 + 56)))((nint)ptr2, (EQueryPropertyBagProp)22, (int)SortOrder);
 		((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EQueryPropertyBagProp, int, int>)(*(ulong*)(*(long*)ptr2 + 56)))((nint)ptr2, (EQueryPropertyBagProp)15, LibraryView);
-		int num = global::_003CModule_003E.ZuneLibraryExports_002EQueryDatabase(EQueryType.eQueryTypeTracksForAlbumId, ptr2, &ptr, null);
+		int num = ZuneLibraryExports.QueryDatabase(EQueryType.eQueryTypeTracksForAlbumId, ptr2, &ptr, null);
 		if (0L != (nint)ptr2)
 		{
 			IQueryPropertyBag* intPtr = ptr2;
@@ -293,7 +294,7 @@ public class ZuneLibrary : IDisposable
 		//IL_0079: Expected I, but got I8
 		//IL_0094: Expected I, but got I8
 		IQueryPropertyBag* ptr = null;
-		if (global::_003CModule_003E.ZuneLibraryExports_002ECreatePropertyBag(&ptr) < 0)
+		if (ZuneLibraryExports.CreatePropertyBag(&ptr) < 0)
 		{
 			return null;
 		}
@@ -302,7 +303,7 @@ public class ZuneLibrary : IDisposable
 		((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EQueryPropertyBagProp, int, int>)(*(ulong*)(*(long*)ptr + 56)))((nint)ptr, (EQueryPropertyBagProp)22, (int)SortOrder);
 		((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EQueryPropertyBagProp, int, int>)(*(ulong*)(*(long*)ptr + 56)))((nint)ptr, (EQueryPropertyBagProp)15, LibraryView);
 		IDatabaseQueryResults* ptr2 = null;
-		int num = global::_003CModule_003E.ZuneLibraryExports_002EQueryDatabase(EQueryType.eQueryTypePlaylistContentByPlaylistId, ptr, &ptr2, null);
+		int num = ZuneLibraryExports.QueryDatabase(EQueryType.eQueryTypePlaylistContentByPlaylistId, ptr, &ptr2, null);
 		if (0L != (nint)ptr)
 		{
 			IQueryPropertyBag* intPtr = ptr;
@@ -334,7 +335,7 @@ public class ZuneLibrary : IDisposable
 		//IL_0003: Expected I, but got I8
 		//IL_002f: Expected I, but got I8
 		IAlbumInfo* ptr = null;
-		int num = global::_003CModule_003E.ZuneLibraryExports_002EGetAlbumMetadata(iAlbumId, true, &ptr);
+		int num = ZuneLibraryExports.GetAlbumMetadata(iAlbumId, true, &ptr);
 		if (num != 0)
 		{
 			throw new COMException("IAlbumInfo::GetAlbumMetadata failed", num);
@@ -352,7 +353,7 @@ public class ZuneLibrary : IDisposable
 			throw new COMException("UpdateAlbumMetadata: albumMetadata is null", -2147024809);
 		}
 		IAlbumInfo* albumInfo = albumMetadata.AlbumInfo;
-		int num = global::_003CModule_003E.ZuneLibraryExports_002EUpdateAlbumMetadata(iAlbumId, albumInfo);
+		int num = ZuneLibraryExports.UpdateAlbumMetadata(iAlbumId, albumInfo);
 		if (num != 0)
 		{
 			throw new COMException("IAlbumInfo::UpdateAlbumMetadata failed", num);
@@ -383,14 +384,14 @@ public class ZuneLibrary : IDisposable
 			{
 				ptr3 = dbAlbumMetadata.AlbumInfo;
 			}
-			global::_003CModule_003E.ZuneLibraryExports_002EGetAlbumMetadataForAlbumId(WMISAlbumId, WMISVolume, ptr3, (IWMISGetAlbumForAlbumIdCallback*)ptr2);
+			ZuneLibraryExports.GetAlbumMetadataForAlbumId(WMISAlbumId, WMISVolume, ptr3, (IWMISGetAlbumForAlbumIdCallback*)ptr2);
 			((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint>)(*(ulong*)(*(long*)ptr2 + 16)))((nint)ptr2);
 		}
 	}
 
 	public static void SplitAudioTrack(int iTrackMediaId)
 	{
-		int num = global::_003CModule_003E.ZuneLibraryExports_002ESplitAudioTrack(iTrackMediaId);
+		int num = ZuneLibraryExports.SplitAudioTrack(iTrackMediaId);
 		if (num < 0)
 		{
 			throw new COMException("ZuneLibraryExports::SplitAudioTrack failed", num);
@@ -412,7 +413,7 @@ public class ZuneLibrary : IDisposable
 				{
 					try
 					{
-						result = global::_003CModule_003E.ZuneLibraryExports_002ECanAddFromFolder(ptr) == 0;
+						result = ZuneLibraryExports.CanAddFromFolder(ptr) == 0;
 					}
 					catch
 					{
@@ -452,7 +453,7 @@ public class ZuneLibrary : IDisposable
 				{
 					try
 					{
-						result = (byte)((global::_003CModule_003E.ZuneLibraryExports_002ECanAddMedia(ptr, mediaType) != 0) ? 1u : 0u) != 0;
+						result = (byte)((ZuneLibraryExports.CanAddMedia(ptr, mediaType) != 0) ? 1u : 0u) != 0;
 					}
 					catch
 					{
@@ -492,7 +493,7 @@ public class ZuneLibrary : IDisposable
 				{
 					try
 					{
-						result = global::_003CModule_003E.ZuneLibraryExports_002EAddGrovelerScanDirectory(ptr, mediaType) == 0;
+						result = ZuneLibraryExports.AddGrovelerScanDirectory(ptr, mediaType) == 0;
 					}
 					catch
 					{
@@ -537,7 +538,7 @@ public class ZuneLibrary : IDisposable
 				{
 					try
 					{
-						num2 = global::_003CModule_003E.ZuneLibraryExports_002EAddMedia(ptr, EMediaTypes.eMediaTypeInvalid, 0u, null, &num);
+						num2 = ZuneLibraryExports.AddMedia(ptr, EMediaTypes.eMediaTypeInvalid, 0u, null, &num);
 					}
 					catch
 					{
@@ -593,9 +594,9 @@ public class ZuneLibrary : IDisposable
 						int num = (int)duration.TotalMilliseconds;
 						IMSMediaSchemaPropertySet* ptr5 = null;
 						_GUID gUID = global::_003CModule_003E.GuidToGUID(guidAlbumServiceMediaId);
-						if (global::_003CModule_003E.ZuneLibraryExports_002ECreateTrackPropSet(global::_003CModule_003E.GuidToGUID(guidTrackServiceMediaId), gUID, iTrackNumber, ptr, num, ptr2, ptr3, ptr4, &ptr5) >= 0)
+						if (ZuneLibraryExports.CreateTrackPropSet(global::_003CModule_003E.GuidToGUID(guidTrackServiceMediaId), gUID, iTrackNumber, ptr, num, ptr2, ptr3, ptr4, &ptr5) >= 0)
 						{
-							global::_003CModule_003E.ZuneLibraryExports_002EAddMedia(ptr5, EMediaTypes.eMediaTypeAudio, &result);
+							ZuneLibraryExports.AddMedia(ptr5, EMediaTypes.eMediaTypeAudio, &result);
 						}
 						if (ptr5 != null)
 						{
@@ -621,9 +622,9 @@ public class ZuneLibrary : IDisposable
 			int result;
 			try
 			{
-				if (global::_003CModule_003E.ZuneLibraryExports_002ECreateVideoPropSet(global::_003CModule_003E.GuidToGUID(guidVideoMediaId), ptr, num2, (IMSMediaSchemaPropertySet**)(&cComPtrNtv_003CIMSMediaSchemaPropertySet_003E)) >= 0)
+				if (ZuneLibraryExports.CreateVideoPropSet(global::_003CModule_003E.GuidToGUID(guidVideoMediaId), ptr, num2, (IMSMediaSchemaPropertySet**)(&cComPtrNtv_003CIMSMediaSchemaPropertySet_003E)) >= 0)
 				{
-					global::_003CModule_003E.ZuneLibraryExports_002EAddMedia((IMSMediaSchemaPropertySet*)(*(ulong*)(&cComPtrNtv_003CIMSMediaSchemaPropertySet_003E)), EMediaTypes.eMediaTypeVideo, &num);
+					ZuneLibraryExports.AddMedia((IMSMediaSchemaPropertySet*)(*(ulong*)(&cComPtrNtv_003CIMSMediaSchemaPropertySet_003E)), EMediaTypes.eMediaTypeVideo, &num);
 				}
 				result = num;
 			}
@@ -648,9 +649,9 @@ public class ZuneLibrary : IDisposable
 			fixed (ushort* ptr2 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref global::_003CModule_003E.PtrToStringChars(strArtist)))
 			{
 				IMSMediaSchemaPropertySet* ptr3 = null;
-				if (global::_003CModule_003E.ZuneLibraryExports_002ECreateAlbumPropSet(global::_003CModule_003E.GuidToGUID(guidServiceMediaId), ptr, ptr2, &ptr3) >= 0)
+				if (ZuneLibraryExports.CreateAlbumPropSet(global::_003CModule_003E.GuidToGUID(guidServiceMediaId), ptr, ptr2, &ptr3) >= 0)
 				{
-					global::_003CModule_003E.ZuneLibraryExports_002EAddMedia(ptr3, EMediaTypes.eMediaTypeAudioAlbum, &result);
+					ZuneLibraryExports.AddMedia(ptr3, EMediaTypes.eMediaTypeAudioAlbum, &result);
 				}
 				if (ptr3 != null)
 				{
@@ -670,7 +671,7 @@ public class ZuneLibrary : IDisposable
 		{
 			fixed (int* ptr2 = &libraryID)
 			{
-				int num = global::_003CModule_003E.ZuneLibraryExports_002EAddTransientMedia(ptr, mediaType, ptr2);
+				int num = ZuneLibraryExports.AddTransientMedia(ptr, mediaType, ptr2);
 				if (num < 0)
 				{
 					global::_003CModule_003E.SQMAddNumbersToStream("IgnoredErrorEvent", 1u, (uint)num);
@@ -684,7 +685,7 @@ public class ZuneLibrary : IDisposable
 
 	public void CleanupTransientMedia()
 	{
-		int num = global::_003CModule_003E.ZuneLibraryExports_002ECleanupTransientMedia();
+		int num = ZuneLibraryExports.CleanupTransientMedia();
 		if (num < 0)
 		{
 			global::_003CModule_003E.SQMAddNumbersToStream("IgnoredErrorEvent", 1u, (uint)num);
@@ -693,7 +694,7 @@ public class ZuneLibrary : IDisposable
 
 	public void MarkAllDRMFilesAsNeedingLicenseRefresh()
 	{
-		int num = global::_003CModule_003E.ZuneLibraryExports_002EMarkAllDRMFilesAsNeedingLicenseRefresh();
+		int num = ZuneLibraryExports.MarkAllDRMFilesAsNeedingLicenseRefresh();
 		if (num < 0)
 		{
 			global::_003CModule_003E.SQMAddNumbersToStream("IgnoredErrorEvent", 1u, (uint)num);
@@ -709,7 +710,7 @@ public class ZuneLibrary : IDisposable
 		}
 		fixed (int* ptr = &mediaIds[0])
 		{
-			return global::_003CModule_003E.ZuneLibraryExports_002EDeleteMedia(mediaType, ptr, mediaIds.Length, fDeleteFileOnDisk ? 1 : 0, 1) >= 0;
+			return ZuneLibraryExports.DeleteMedia(mediaType, ptr, mediaIds.Length, fDeleteFileOnDisk ? 1 : 0, 1) >= 0;
 		}
 	}
 
@@ -718,7 +719,7 @@ public class ZuneLibrary : IDisposable
 	{
 		fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref global::_003CModule_003E.PtrToStringChars(folderName)))
 		{
-			int num = global::_003CModule_003E.ZuneLibraryExports_002EDeleteRootFolder(ptr, mediaType);
+			int num = ZuneLibraryExports.DeleteRootFolder(ptr, mediaType);
 			if (num < 0)
 			{
 				global::_003CModule_003E.SQMAddNumbersToStream("IgnoredErrorEvent", 1u, (uint)num);
@@ -730,12 +731,12 @@ public class ZuneLibrary : IDisposable
 	[return: MarshalAs(UnmanagedType.U1)]
 	public bool DeleteFilesystemFolder(int folderId, EMediaTypes mediaType)
 	{
-		return global::_003CModule_003E.ZuneLibraryExports_002EDeleteFSFolder(folderId, mediaType) == 0;
+		return ZuneLibraryExports.DeleteFSFolder(folderId, mediaType) == 0;
 	}
 
 	public static void ScanAndClearDeletedMedia()
 	{
-		int num = global::_003CModule_003E.ZuneLibraryExports_002EScanAndClearDeletedMedia();
+		int num = ZuneLibraryExports.ScanAndClearDeletedMedia();
 		if (num < 0)
 		{
 			global::_003CModule_003E.SQMAddNumbersToStream("IgnoredErrorEvent", 1u, (uint)num);
@@ -745,13 +746,13 @@ public class ZuneLibrary : IDisposable
 	[return: MarshalAs(UnmanagedType.U1)]
 	public static bool ImportSharedRatingsForUser(int iUserId, EMediaTypes mediaType)
 	{
-		return global::_003CModule_003E.ZuneLibraryExports_002EImportSharedRatingsForUser(iUserId, mediaType) >= 0;
+		return ZuneLibraryExports.ImportSharedRatingsForUser(iUserId, mediaType) >= 0;
 	}
 
 	[return: MarshalAs(UnmanagedType.U1)]
 	public static bool ExportUserRatings(int iUserId, EMediaTypes mediaType)
 	{
-		return global::_003CModule_003E.ZuneLibraryExports_002EExportUserRatings(iUserId, mediaType) >= 0;
+		return ZuneLibraryExports.ExportUserRatings(iUserId, mediaType) >= 0;
 	}
 
 	public static HRESULT GetFieldValues(int iMediaId, EListType eList, int cValues, int[] columnIndexes, object[] fieldValues, QueryPropertyBag propertyBag)
@@ -809,7 +810,7 @@ public class ZuneLibrary : IDisposable
 					*(int*)((long)i * 32L + (nint)ptr4) = columnIndexes[i];
 				}
 				IQueryPropertyBag* ptr5 = (IQueryPropertyBag*)(*(ulong*)(&cComPtrNtv_003CIQueryPropertyBag_003E));
-				num = global::_003CModule_003E.ZuneLibraryExports_002EGetFieldValues(iMediaId, eList, cValues, ptr4, (IQueryPropertyBag*)(*(ulong*)(&cComPtrNtv_003CIQueryPropertyBag_003E)));
+				num = ZuneLibraryExports.GetFieldValues(iMediaId, eList, cValues, ptr4, (IQueryPropertyBag*)(*(ulong*)(&cComPtrNtv_003CIQueryPropertyBag_003E)));
 				if (num >= 0)
 				{
 					for (int j = 0; j < cValues; j++)
@@ -958,7 +959,7 @@ public class ZuneLibrary : IDisposable
 					ZuneQueryList.ConvertTypeToPropVariant(null, fieldValues[i], (tagPROPVARIANT*)ptr10);
 					*(long*)((ulong)(nint)ptr9 + 8uL) = (nint)ptr10;
 				}
-				global::_003CModule_003E.ZuneLibraryExports_002ESetFieldValues(iMediaId, eList, cValues, ptr4, (IQueryPropertyBag*)(*(ulong*)(&cComPtrNtv_003CIQueryPropertyBag_003E)));
+				ZuneLibraryExports.SetFieldValues(iMediaId, eList, cValues, ptr4, (IQueryPropertyBag*)(*(ulong*)(&cComPtrNtv_003CIQueryPropertyBag_003E)));
 			}
 			finally
 			{
@@ -1014,7 +1015,7 @@ public class ZuneLibrary : IDisposable
 							ushort* ptr3 = null;
 							ushort* ptr4 = null;
 							ushort* ptr5 = null;
-							result = global::_003CModule_003E.ZuneLibraryExports_002EGetKnownFolders(&obj, &obj2, &obj3, &obj4, &obj5, &ptr, &ptr2, &ptr3, &ptr4, &ptr5);
+							result = ZuneLibraryExports.GetKnownFolders(&obj, &obj2, &obj3, &obj4, &obj5, &ptr, &ptr2, &ptr3, &ptr4, &ptr5);
 							music = global::_003CModule_003E.BstrArrayToStringArray(&obj);
 							videos = global::_003CModule_003E.BstrArrayToStringArray(&obj2);
 							pictures = global::_003CModule_003E.BstrArrayToStringArray(&obj3);
@@ -1079,7 +1080,7 @@ public class ZuneLibrary : IDisposable
 		ushort* ptr = null;
 		fixed (ushort* ptr2 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref global::_003CModule_003E.PtrToStringChars(physicalPath)))
 		{
-			int num = global::_003CModule_003E.ZuneLibraryExports_002EGetLocalizedPathOfFolder(ptr2, fNetworkPathsAllowed, &ptr);
+			int num = ZuneLibraryExports.GetLocalizedPathOfFolder(ptr2, fNetworkPathsAllowed, &ptr);
 			if (num >= 0)
 			{
 				localizedPath = new string((char*)ptr);
@@ -1095,7 +1096,7 @@ public class ZuneLibrary : IDisposable
 		{
 			fixed (ushort* ptr2 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref global::_003CModule_003E.PtrToStringChars(@string)))
 			{
-				int num = ((global::_003CModule_003E.ZuneLibraryExports_002ECompareWithoutArticles(ptr, ptr2, &num) != 0) ? (-1) : num);
+				int num = ((ZuneLibraryExports.CompareWithoutArticles(ptr, ptr2, &num) != 0) ? (-1) : num);
 				return num;
 			}
 		}
@@ -1107,7 +1108,7 @@ public class ZuneLibrary : IDisposable
 		fixed (ushort* ptr = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref global::_003CModule_003E.PtrToStringChars(path)))
 		{
 			int num = 0;
-			int num2 = ((global::_003CModule_003E.ZuneLibraryExports_002EDoesFileExist(ptr, &num) >= 0 && num != 0) ? 1 : 0);
+			int num2 = ((ZuneLibraryExports.DoesFileExist(ptr, &num) >= 0 && num != 0) ? 1 : 0);
 			return (byte)num2 != 0;
 		}
 	}
@@ -1200,7 +1201,7 @@ public class ZuneLibrary : IDisposable
 					((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EQueryPropertyBagProp, int, int>)(*(ulong*)(*(long*)(*(ulong*)(&cComPtrNtv_003CIQueryPropertyBag_003E)) + 56)))((nint)(*(long*)(&cComPtrNtv_003CIQueryPropertyBag_003E)), (EQueryPropertyBagProp)0, num4);
 				}
 			}
-			int num5 = global::_003CModule_003E.ZuneLibraryExports_002EQueryDatabase(eQueryType, (IQueryPropertyBag*)(*(ulong*)(&cComPtrNtv_003CIQueryPropertyBag_003E)), &ptr, null);
+			int num5 = ZuneLibraryExports.QueryDatabase(eQueryType, (IQueryPropertyBag*)(*(ulong*)(&cComPtrNtv_003CIQueryPropertyBag_003E)), &ptr, null);
 			((IDisposable)queryPropertyBag)?.Dispose();
 			if (num5 >= 0)
 			{

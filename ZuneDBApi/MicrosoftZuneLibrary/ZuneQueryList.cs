@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading;
 using _003CCppImplementationDetails_003E;
+using ZuneDBApi.Interop;
 
 namespace MicrosoftZuneLibrary;
 
@@ -470,7 +471,7 @@ public class ZuneQueryList : IDisposable
 		{
 			if (*(ushort*)propVariant == 72)
 			{
-				global::_003CModule_003E.ZuneLibraryExports_002EZunePropVariantChangeType(propVariant, propVariant, 0, 8);
+				ZuneLibraryExports.ZunePropVariantChangeType(propVariant, propVariant, 0, 8);
 			}
 			if (*(ushort*)propVariant == 8)
 			{

@@ -193,7 +193,7 @@ public class SubscriptionDataProviderItem : DataProviderObject
 			System.Runtime.CompilerServices.Unsafe.SkipInit(out DBPropertySubmitStruct dBPropertySubmitStruct);
 			*(int*)(&dBPropertySubmitStruct) = 144;
 			System.Runtime.CompilerServices.Unsafe.As<DBPropertySubmitStruct, long>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref dBPropertySubmitStruct, 8)) = (nint)(&tagVARIANT);
-			int num = global::_003CModule_003E.ZuneLibraryExports_002ESetFieldValues(m_nEpisodeId, EListType.ePodcastEpisodeList, 1, &dBPropertySubmitStruct, null);
+			int num = ZuneLibraryExports.SetFieldValues(m_nEpisodeId, EListType.ePodcastEpisodeList, 1, &dBPropertySubmitStruct, null);
 			if (0 == num)
 			{
 				FirePropertyChanged(propertyName);
@@ -380,13 +380,13 @@ public class SubscriptionDataProviderItem : DataProviderObject
 		{
 			if (num2 >= 0)
 			{
-				num2 = global::_003CModule_003E.ZuneLibraryExports_002ECreatePropertyBag(&ptr2);
+				num2 = ZuneLibraryExports.CreatePropertyBag(&ptr2);
 				if (num2 >= 0)
 				{
 					num2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, EQueryPropertyBagProp, int, int>)(*(ulong*)(*(long*)ptr2 + 56)))((nint)ptr2, (EQueryPropertyBagProp)0, num);
 					if (num2 >= 0)
 					{
-						num2 = global::_003CModule_003E.ZuneLibraryExports_002EGetFieldValues(nMediaId, EListType.ePodcastEpisodeList, 1, &dBPropertyRequestStruct, ptr2);
+						num2 = ZuneLibraryExports.GetFieldValues(nMediaId, EListType.ePodcastEpisodeList, 1, &dBPropertyRequestStruct, ptr2);
 						if (num2 >= 0)
 						{
 							num2 = ((System.Runtime.CompilerServices.Unsafe.As<DBPropertyRequestStruct, int>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref dBPropertyRequestStruct, 4)) < 0) ? System.Runtime.CompilerServices.Unsafe.As<DBPropertyRequestStruct, int>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref dBPropertyRequestStruct, 4)) : global::_003CModule_003E.PropVariantCopy(pvarValue, (tagPROPVARIANT*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref dBPropertyRequestStruct, 8))));

@@ -1,4 +1,5 @@
 using System.Runtime.CompilerServices;
+using ZuneDBApi.Interop;
 
 namespace MicrosoftZuneLibrary;
 
@@ -25,7 +26,7 @@ public class ZuneLibraryUtils
 			}
 			// IL initblk instruction
 			System.Runtime.CompilerServices.Unsafe.InitBlock(ref cComPropVariant, 0, 24);
-			num = global::_003CModule_003E.ZuneLibraryExports_002EZunePropVariantChangeType((tagPROPVARIANT*)(&cComPropVariant), pPropVariant, 1, 8);
+			num = ZuneLibraryExports.ZunePropVariantChangeType((tagPROPVARIANT*)(&cComPropVariant), pPropVariant, 1, 8);
 			if (num >= 0)
 			{
 				ptr = (tagPROPVARIANT*)(&cComPropVariant);
@@ -64,7 +65,7 @@ public class ZuneLibraryUtils
 			}
 			// IL initblk instruction
 			System.Runtime.CompilerServices.Unsafe.InitBlock(ref cComPropVariant, 0, 24);
-			if (global::_003CModule_003E.ZuneLibraryExports_002EZunePropVariantChangeType((tagPROPVARIANT*)(&cComPropVariant), pPropVariant, 1, 3) >= 0)
+			if (ZuneLibraryExports.ZunePropVariantChangeType((tagPROPVARIANT*)(&cComPropVariant), pPropVariant, 1, 3) >= 0)
 			{
 				ptr = (tagPROPVARIANT*)(&cComPropVariant);
 				goto IL_002d;

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Microsoft.Iris;
+using ZuneDBApi.Interop;
 
 namespace Microsoft.Zune.Messaging;
 
@@ -66,7 +67,7 @@ public class PlaylistMessageData : IPropertySetMessageData
 			return -2147467261;
 		}
 		IMSMediaSchemaPropertyList* ptr = null;
-		int num = global::_003CModule_003E.ZuneLibraryExports_002ECreatePropertySetList((_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref global::_003CModule_003E.ID_MS_MEDIA_SCHEMA_PLAYLIST), 3229617665u, &ptr);
+		int num = ZuneLibraryExports.CreatePropertySetList((_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref global::_003CModule_003E.ID_MS_MEDIA_SCHEMA_PLAYLIST), 3229617665u, &ptr);
 		if (num >= 0)
 		{
 			num = AddTracksToPropList(ptr);
@@ -74,7 +75,7 @@ public class PlaylistMessageData : IPropertySetMessageData
 		IMSMediaSchemaPropertySet* ptr2 = null;
 		if (num >= 0)
 		{
-			num = global::_003CModule_003E.ZuneLibraryExports_002ECreatePropertySet((_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref global::_003CModule_003E.ID_MS_MEDIA_SCHEMA_PLAYLIST), 3229617665u, &ptr2);
+			num = ZuneLibraryExports.CreatePropertySet((_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref global::_003CModule_003E.ID_MS_MEDIA_SCHEMA_PLAYLIST), 3229617665u, &ptr2);
 		}
 		fixed (ushort* ptr3 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref global::_003CModule_003E.PtrToStringChars(m_title)))
 		{
@@ -212,7 +213,7 @@ public class PlaylistMessageData : IPropertySetMessageData
 								fixed (ushort* ptr3 = &System.Runtime.CompilerServices.Unsafe.As<char, ushort>(ref global::_003CModule_003E.PtrToStringChars((!(text3 == null)) ? text3 : "")))
 								{
 									IMSMediaSchemaPropertySet* ptr4 = null;
-									num = global::_003CModule_003E.ZuneLibraryExports_002ECreateTrackPropSet(gUID, global::_003CModule_003E.GUID_NULL, 0, ptr, 0, ptr3, ptr2, (ushort*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref global::_003CModule_003E._003F_003F_C_0040_11LOCGONAA_0040_003F_0024AA_003F_0024AA_0040), &ptr4);
+									num = ZuneLibraryExports.CreateTrackPropSet(gUID, global::_003CModule_003E.GUID_NULL, 0, ptr, 0, ptr3, ptr2, (ushort*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref global::_003CModule_003E._003F_003F_C_0040_11LOCGONAA_0040_003F_0024AA_003F_0024AA_0040), &ptr4);
 									if (num >= 0)
 									{
 										// IL initblk instruction

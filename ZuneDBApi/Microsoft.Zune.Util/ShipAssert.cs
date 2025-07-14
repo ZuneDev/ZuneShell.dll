@@ -1,6 +1,6 @@
 using System.Diagnostics;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using ZuneDBApi.Interop;
 
 namespace Microsoft.Zune.Util;
 
@@ -11,7 +11,7 @@ public class ShipAssert
 		//IL_000c: Expected I, but got I8
 		if (!condition)
 		{
-			global::_003CModule_003E.ZuneLibraryExports_002EShipAssert(id, param, null);
+			ZuneLibraryExports.ShipAssert(id, param, null);
 		}
 	}
 
@@ -20,7 +20,7 @@ public class ShipAssert
 		//IL_000c: Expected I, but got I8
 		if (!condition)
 		{
-			global::_003CModule_003E.ZuneLibraryExports_002EShipAssert(id, param, null);
+			ZuneLibraryExports.ShipAssert(id, param, null);
 		}
 	}
 
@@ -34,7 +34,7 @@ public class ShipAssert
 		{
 			try
 			{
-				global::_003CModule_003E.ZuneLibraryExports_002EShipAssert(id, param, ptr);
+				ZuneLibraryExports.ShipAssert(id, param, ptr);
 			}
 			catch
 			{
@@ -55,7 +55,7 @@ public class ShipAssert
 		{
 			try
 			{
-				global::_003CModule_003E.ZuneLibraryExports_002EShipAssert(id, param, ptr);
+				ZuneLibraryExports.ShipAssert(id, param, ptr);
 			}
 			catch
 			{
@@ -80,7 +80,7 @@ public class ShipAssert
 				num = ((uint)(array[1] & 0xFF) | ((uint)array[0] << 8)) << 16;
 			}
 			num |= (uint)(frame.GetILOffset() & 0xFFFF);
-			global::_003CModule_003E.ZuneLibraryExports_002EShipAssert(1006u, num, null);
+			ZuneLibraryExports.ShipAssert(1006u, num, null);
 		}
 	}
 }

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using _003CCppImplementationDetails_003E;
+using ZuneDBApi.Interop;
 
 namespace MicrosoftZuneInterop;
 
@@ -13,7 +14,7 @@ public class QueryPropertyBag : IDisposable
 	public unsafe QueryPropertyBag()
 	{
 		System.Runtime.CompilerServices.Unsafe.SkipInit(out IQueryPropertyBag* pPropertyBag);
-		global::_003CModule_003E.ZuneLibraryExports_002ECreatePropertyBag(&pPropertyBag);
+		ZuneLibraryExports.CreatePropertyBag(&pPropertyBag);
 		m_pPropertyBag = pPropertyBag;
 	}
 
@@ -198,7 +199,7 @@ public class QueryPropertyBag : IDisposable
 		int* ptr = null;
 		int* ptr2 = null;
 		System.Runtime.CompilerServices.Unsafe.SkipInit(out IMultiSortAttributes* ptr3);
-		if (global::_003CModule_003E.ZuneLibraryExports_002ECreateMultiSortAttributes(num, &ptr3) >= 0)
+		if (ZuneLibraryExports.CreateMultiSortAttributes(num, &ptr3) >= 0)
 		{
 			IMultiSortAttributes* intPtr = ptr3;
 			ptr = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int*>)(*(ulong*)(*(long*)intPtr + 32)))((nint)intPtr);

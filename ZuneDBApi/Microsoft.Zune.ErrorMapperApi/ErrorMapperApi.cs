@@ -1,3 +1,5 @@
+using ZuneDBApi.Interop;
+
 namespace Microsoft.Zune.ErrorMapperApi;
 
 public class ErrorMapperApi
@@ -10,7 +12,7 @@ public class ErrorMapperApi
 		ushort* ptr = null;
 		ushort* ptr2 = null;
 		int hr = 0;
-		if (global::_003CModule_003E.ZuneLibraryExports_002EGetMappedErrorDescriptionAndUrl(hrOrig, eCondition, &hr, &ptr, &ptr2) < 0)
+		if (ZuneLibraryExports.GetMappedErrorDescriptionAndUrl(hrOrig, eCondition, &hr, &ptr, &ptr2) < 0)
 		{
 			errorMapperResult.Hr = hrOrig;
 			errorMapperResult.Description = "";

@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 using _003CCppImplementationDetails_003E;
 using Microsoft.Iris;
 using Microsoft.Zune.Util;
+using ZuneDBApi.Interop;
 using ZuneUI;
 
 namespace Microsoft.Zune.Service;
@@ -3798,7 +3799,7 @@ public class Service : IDisposable
 				global::_003CModule_003E.DBPropertyRequestStruct_002E_007Bctor_007D((DBPropertyRequestStruct*)(&_0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040), 177u);
 				try
 				{
-					if (global::_003CModule_003E.ZuneLibraryExports_002EGetFieldValues(dbMediaId, ContentTypeToListType(EContentType.Video), 1, (DBPropertyRequestStruct*)(&_0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040), null) >= 0 && System.Runtime.CompilerServices.Unsafe.As<_0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040, int>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040, 4)) >= 0)
+					if (ZuneLibraryExports.GetFieldValues(dbMediaId, ContentTypeToListType(EContentType.Video), 1, (DBPropertyRequestStruct*)(&_0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040), null) >= 0 && System.Runtime.CompilerServices.Unsafe.As<_0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040, int>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040, 4)) >= 0)
 					{
 						eMediaTypes = ((System.Runtime.CompilerServices.Unsafe.As<_0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040, ushort>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040, 8)) == 3) ? System.Runtime.CompilerServices.Unsafe.As<_0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040, EMediaTypes>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040, 16)) : eMediaTypes);
 					}
@@ -3828,7 +3829,7 @@ public class Service : IDisposable
 			global::_003CModule_003E.DBPropertyRequestStruct_002E_007Bctor_007D((DBPropertyRequestStruct*)(&_0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_00402), 149u);
 			try
 			{
-				if (global::_003CModule_003E.ZuneLibraryExports_002EGetFieldValues(dbMediaId, ContentTypeToListType(eContentType), 1, (DBPropertyRequestStruct*)(&_0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_00402), null) < 0 || System.Runtime.CompilerServices.Unsafe.As<_0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040, int>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_00402, 4)) < 0 || System.Runtime.CompilerServices.Unsafe.As<_0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040, ushort>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_00402, 8)) != 3)
+				if (ZuneLibraryExports.GetFieldValues(dbMediaId, ContentTypeToListType(eContentType), 1, (DBPropertyRequestStruct*)(&_0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_00402), null) < 0 || System.Runtime.CompilerServices.Unsafe.As<_0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040, int>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_00402, 4)) < 0 || System.Runtime.CompilerServices.Unsafe.As<_0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_0040, ushort>(ref System.Runtime.CompilerServices.Unsafe.AddByteOffset(ref _0024ArrayType_0024_0024_0024BY00UDBPropertyRequestStruct_0040_00402, 8)) != 3)
 				{
 					goto IL_0118;
 				}

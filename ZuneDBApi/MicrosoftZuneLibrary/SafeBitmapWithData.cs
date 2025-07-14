@@ -6,6 +6,7 @@ using System.Runtime.ConstrainedExecution;
 using System.Runtime.InteropServices;
 using System.Security.Permissions;
 using Microsoft.Iris;
+using ZuneDBApi.Interop;
 
 namespace MicrosoftZuneLibrary;
 
@@ -133,7 +134,7 @@ public class SafeBitmapWithData : SafeBitmap
 		object result = null;
 		HBITMAP__* hBitmap = null;
 		void* pData = null;
-		if (global::_003CModule_003E.ZuneLibraryExports_002ECopyThumbnailBitmapData((HBITMAP__*)handle.ToInt64(), srcX, srcY, srcWidth, srcHeight, dstWidth, dstHeight, &hBitmap, &pData) >= 0)
+		if (ZuneLibraryExports.CopyThumbnailBitmapData((HBITMAP__*)handle.ToInt64(), srcX, srcY, srcWidth, srcHeight, dstWidth, dstHeight, &hBitmap, &pData) >= 0)
 		{
 			result = new SafeBitmapWithData(dstHeight, dstWidth, pData, hBitmap);
 		}
@@ -149,7 +150,7 @@ public class SafeBitmapWithData : SafeBitmap
 			System.Runtime.CompilerServices.Unsafe.SkipInit(out int iHeight);
 			System.Runtime.CompilerServices.Unsafe.SkipInit(out void* pData);
 			System.Runtime.CompilerServices.Unsafe.SkipInit(out HBITMAP__* hBitmap);
-			if (global::_003CModule_003E.ZuneLibraryExports_002EGetThumbnailBitmapData(ptr, &iWidth, &iHeight, &pData, &hBitmap) >= 0)
+			if (ZuneLibraryExports.GetThumbnailBitmapData(ptr, &iWidth, &iHeight, &pData, &hBitmap) >= 0)
 			{
 				result = new SafeBitmapWithData(iHeight, iWidth, pData, hBitmap);
 			}
