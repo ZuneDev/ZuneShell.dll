@@ -238,14 +238,13 @@ internal class _003CModule_003E
 
 	internal static _s__RTTICompleteObjectLocator2 _003F_003F_R4MusicTrackMetadata_0040_00406B_0040/* Not supported: data(01 00 00 00 00 00 00 00 00 00 00 00 E8 92 11 00 08 B7 0B 00 E0 B6 0B 00 00 00 00 00 00 00 00 00 00 00 00 00) */;
 
-	internal static __s_GUID _GUID_a2506604_f033_4182_8bbe_a2bc722c568e/* Not supported: data(04 66 50 A2 33 F0 82 41 8B BE A2 BC 72 2C 56 8E) */;
+	internal static Guid _GUID_a2506604_f033_4182_8bbe_a2bc722c568e = new(0xa2506604, 0xf033, 0x4182, 0x8b, 0xbe, 0xa2, 0xbc, 0x72, 0x2c, 0x56, 0x8e);
 
-	internal static __s_GUID _GUID_bb2d1edd_1bd5_4be1_8d38_36d4f0849911/* Not supported: data(DD 1E 2D BB D5 1B E1 4B 8D 38 36 D4 F0 84 99 11) */;
+	internal static Guid _GUID_bb2d1edd_1bd5_4be1_8d38_36d4f0849911 = new(0xbb2d1edd, 0x1bd5, 0x4be1, 0x8d, 0x38, 0x36, 0xd4, 0xf0, 0x84, 0x99, 0x11);
 
-	internal static __s_GUID _GUID_223a83b5_e8ac_4aad_882a_14ee6634fc33/* Not supported: data(B5 83 3A 22 AC E8 AD 4A 88 2A 14 EE 66 34 FC 33) */;
+	internal static Guid _IID_223a83b5_e8ac_4aad_882a_14ee6634fc33 = new(0x223a83b5, 0xe8ac, 0x4aad, 0x88, 0x2a, 0x14, 0xee, 0x66, 0x34, 0xfc, 0x33);
 
-    // 00000000-0000-0000-C000-000000000046
-    internal static __s_GUID _IID_IUnknown/* Not supported: data(00 00 00 00 00 00 00 00 C0 00 00 00 00 00 00 46) */;
+    internal static Guid _IID_IUnknown = new(0x00000000, 0x0000, 0x0000, 0xC0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x46);
 
 	internal static _0024ArrayType_0024_0024_0024BY05Q6AXXZ _003F_003F_7GetAccountCallbackWrapper_0040Service_0040Zune_0040Microsoft_0040_00406B_0040/* Not supported: data(90 61 11 80 01 00 00 00 B0 61 11 80 01 00 00 00 D0 61 11 80 01 00 00 00 F0 61 11 80 01 00 00 00 10 62 11 80 01 00 00 00 00 00 00 00 00 00 00 00) */;
 
@@ -4431,7 +4430,7 @@ internal class _003CModule_003E
 		return ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, void**, int>)(*(ulong*)(*(ulong*)num)))((nint)num, (_GUID*)System.Runtime.CompilerServices.Unsafe.AsPointer(ref _GUID_a2506604_f033_4182_8bbe_a2bc722c568e), (void**)pp);
 	}
 
-	internal unsafe static int IsEqualGUID(_GUID* rguid1, _GUID* rguid2)
+	internal unsafe static bool IsEqualGUID(_GUID* rguid1, _GUID* rguid2)
 	{
 		//IL_0028: Expected I, but got I8
 		ulong num = 16uL;
@@ -4455,10 +4454,10 @@ internal class _003CModule_003E
 					}
 					continue;
 				}
-				return 1;
+				return true;
 			}
 		}
-		return 0;
+		return false;
 	}
 
 	internal unsafe static int SafeSysAllocString(ushort** bstr, ushort* pwsz)

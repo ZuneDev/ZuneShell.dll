@@ -21,6 +21,10 @@ public struct HRESULT
 
 	public static HRESULT _E_ACCESSDENIED;
 
+	public static HRESULT _E_NOINTERFACE = new(0x80004002);
+
+	public static HRESULT _E_POINTER = new(0x80004003);
+
 	public static HRESULT _ERROR_SERVICE_DISABLED;
 
 	public static HRESULT _NS_E_WMP_UNKNOWN_ERROR;
@@ -252,6 +256,11 @@ public struct HRESULT
 		this.hr = hr;
 	}
 
+	public HRESULT(uint hr)
+	{
+		this.hr = unchecked((int)hr);
+	}
+
 	[return: MarshalAs(UnmanagedType.U1)]
 	public static bool operator ==(HRESULT hrA, HRESULT hrB)
 	{
@@ -271,19 +280,21 @@ public struct HRESULT
 		return result;
 	}
 
-	[return: MarshalAs(UnmanagedType.U1)]
-	public sealed override bool Equals(object oCompare)
+    public static implicit operator int(HRESULT hr) => hr.hr;
+
+    [return: MarshalAs(UnmanagedType.U1)]
+	public override bool Equals(object oCompare)
 	{
 		int num = ((oCompare is HRESULT && hr == ((HRESULT)(HRESULT)oCompare).hr) ? 1 : 0);
 		return (byte)num != 0;
 	}
 
-	public sealed override int GetHashCode()
+	public override int GetHashCode()
 	{
 		return hr;
 	}
 
-	public sealed override string ToString()
+	public override string ToString()
 	{
 		int num = hr;
 		return "hr:" + num.ToString("X");
