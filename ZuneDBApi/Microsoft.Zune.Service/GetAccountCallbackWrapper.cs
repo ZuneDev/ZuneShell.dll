@@ -21,64 +21,33 @@ internal unsafe struct GetAccountCallbackWrapper
     public int _refCount;
 
     // +16
-    public gcroot_003CMicrosoft_003A_003AZune_003A_003AService_003A_003AGetAccountCompleteCallback_0020_005E_003E* _completeCallback;
+    public gcroot<GetAccountCompleteCallback>* _completeCallback;
 
     // +24
-    public gcroot_003CMicrosoft_003A_003AZune_003A_003AService_003A_003AAccountManagementErrorCallback_0020_005E_003E* _errorCallback;
+    public gcroot<AccountManagementErrorCallback>* _errorCallback;
 
     // {ctor}
     internal static GetAccountCallbackWrapper* _007Bctor_007D(GetAccountCallbackWrapper* P_0, GetAccountCompleteCallback completeCallback, AccountManagementErrorCallback errorCallback)
     {
-        //IL_000d: Expected I, but got I8
-        //IL_0049: Expected I, but got I8
-        //IL_005c: Expected I, but got I8
-        //IL_001a: Expected I, but got I8
         *(long*)P_0 = (nint)Unsafe.AsPointer(ref _003F_003F_7GetAccountCallbackWrapper_0040Service_0040Zune_0040Microsoft_0040_00406B_0040);
-        gcroot_003CMicrosoft_003A_003AZune_003A_003AService_003A_003AGetAccountCompleteCallback_0020_005E_003E_002E_007Bctor_007D(P_0->_completeCallback);
         
-        try
-        {
-            gcroot_003CMicrosoft_003A_003AZune_003A_003AService_003A_003AAccountManagementErrorCallback_0020_005E_003E_002E_007Bctor_007D(P_0->_errorCallback);
-            try
-            {
-                P_0->_refCount = 1;
-                gcroot_003CMicrosoft_003A_003AZune_003A_003AService_003A_003AGetAccountCompleteCallback_0020_005E_003E_002E_003D(P_0->_completeCallback, completeCallback);
-                gcroot_003CMicrosoft_003A_003AZune_003A_003AService_003A_003AAccountManagementErrorCallback_0020_005E_003E_002E_003D(P_0->_errorCallback, errorCallback);
-                return P_0;
-            }
-            catch
-            {
-                //try-fault
-                ___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<gcroot_003CMicrosoft_003A_003AZune_003A_003AService_003A_003AAccountManagementErrorCallback_0020_005E_003E*, void>)(&gcroot_003CMicrosoft_003A_003AZune_003A_003AService_003A_003AAccountManagementErrorCallback_0020_005E_003E_002E_007Bdtor_007D), P_0->_errorCallback);
-                throw;
-            }
-        }
-        catch
-        {
-            //try-fault
-            ___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<gcroot_003CMicrosoft_003A_003AZune_003A_003AService_003A_003AGetAccountCompleteCallback_0020_005E_003E*, void>)(&gcroot_003CMicrosoft_003A_003AZune_003A_003AService_003A_003AGetAccountCompleteCallback_0020_005E_003E_002E_007Bdtor_007D), P_0->_completeCallback);
-            throw;
-        }
+        gcroot<GetAccountCompleteCallback>.Create(P_0->_completeCallback);
+        gcroot<AccountManagementErrorCallback>.Create(P_0->_errorCallback);
+
+        P_0->_refCount = 1;
+        P_0->_completeCallback->Assign(completeCallback);
+        P_0->_errorCallback->Assign(errorCallback);
+
+        return P_0;
     }
 
     // {dtor}
     internal static void _007Bdtor_007D(GetAccountCallbackWrapper* P_0)
     {
-        //IL_0023: Expected I, but got I8
-        //IL_0011: Expected I, but got I8
-        //IL_002e: Expected I, but got I8
         *(long*)P_0 = (nint)Unsafe.AsPointer(ref _003F_003F_7GetAccountCallbackWrapper_0040Service_0040Zune_0040Microsoft_0040_00406B_0040);
-        try
-        {
-            gcroot_003CMicrosoft_003A_003AZune_003A_003AService_003A_003AAccountManagementErrorCallback_0020_005E_003E_002E_007Bdtor_007D((gcroot_003CMicrosoft_003A_003AZune_003A_003AService_003A_003AAccountManagementErrorCallback_0020_005E_003E*)((ulong)(nint)P_0 + 24uL));
-        }
-        catch
-        {
-            //try-fault
-            ___CxxCallUnwindDtor((delegate*<void*, void>)(delegate*<gcroot_003CMicrosoft_003A_003AZune_003A_003AService_003A_003AGetAccountCompleteCallback_0020_005E_003E*, void>)(&gcroot_003CMicrosoft_003A_003AZune_003A_003AService_003A_003AGetAccountCompleteCallback_0020_005E_003E_002E_007Bdtor_007D), (void*)((ulong)(nint)P_0 + 16uL));
-            throw;
-        }
-        gcroot_003CMicrosoft_003A_003AZune_003A_003AService_003A_003AGetAccountCompleteCallback_0020_005E_003E_002E_007Bdtor_007D((gcroot_003CMicrosoft_003A_003AZune_003A_003AService_003A_003AGetAccountCompleteCallback_0020_005E_003E*)((ulong)(nint)P_0 + 16uL));
+
+        P_0->_errorCallback->Dispose();
+        P_0->_completeCallback->Dispose();
     }
 
     internal static int QueryInterface(GetAccountCallbackWrapper* P_0, _GUID* riid, void** ppUnknown)
@@ -123,26 +92,29 @@ internal unsafe struct GetAccountCallbackWrapper
 
     internal static int OnSuccess(GetAccountCallbackWrapper* P_0, IAccountUser* pAccountUser)
     {
-        //IL_0016: Expected I, but got I8
         AccountUser accountUser = null;
         if (pAccountUser != null)
         {
             accountUser = new AccountUser(pAccountUser);
         }
-        gcroot_003CMicrosoft_003A_003AZune_003A_003AService_003A_003AGetAccountCompleteCallback_0020_005E_003E_002E_002EPE_0024AAVGetAccountCompleteCallback_0040Service_0040Zune_0040Microsoft_0040_0040((gcroot_003CMicrosoft_003A_003AZune_003A_003AService_003A_003AGetAccountCompleteCallback_0020_005E_003E*)((ulong)(nint)P_0 + 16uL))(accountUser);
+
+        var callback = P_0->_completeCallback->Get();
+        callback(accountUser);
+
         return 0;
     }
 
     internal static int OnError(GetAccountCallbackWrapper* P_0, int hr, IServiceError* pServiceError)
     {
-        //IL_001d: Expected I, but got I8
         ServiceError serviceError = null;
         if (pServiceError != null)
         {
             serviceError = new ServiceError(pServiceError);
         }
-        HRESULT hr2 = hr;
-        gcroot_003CMicrosoft_003A_003AZune_003A_003AService_003A_003AAccountManagementErrorCallback_0020_005E_003E_002E_002EPE_0024AAVAccountManagementErrorCallback_0040Service_0040Zune_0040Microsoft_0040_0040((gcroot_003CMicrosoft_003A_003AZune_003A_003AService_003A_003AAccountManagementErrorCallback_0020_005E_003E*)((ulong)(nint)P_0 + 24uL))(hr2, serviceError);
+
+        var callback = P_0->_errorCallback->Get();
+        callback((HRESULT)hr, serviceError);
+
         return 0;
     }
 }
