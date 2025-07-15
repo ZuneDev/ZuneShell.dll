@@ -15,7 +15,7 @@ namespace Microsoft.Zune.Service;
 internal unsafe struct GetAccountCallbackWrapper
 {
     // +0
-    private long _003Calignment_0020member_003E;
+    private vtable* _vtable;
 
     // +8
     public int _refCount;
@@ -52,16 +52,15 @@ internal unsafe struct GetAccountCallbackWrapper
 
     internal static int QueryInterface(GetAccountCallbackWrapper* P_0, _GUID* riid, void** ppUnknown)
     {
-        //IL_0023: Expected I8, but got I
-        //IL_002f: Expected I, but got I8
-        if (IsEqualGUID(riid, (_GUID*)Unsafe.AsPointer(ref _IID_IUnknown)) == 0 && IsEqualGUID(riid, (_GUID*)Unsafe.AsPointer(ref _GUID_223a83b5_e8ac_4aad_882a_14ee6634fc33)) == 0)
+        if (!IsEqualGUID(riid, (_GUID*)Unsafe.AsPointer(ref _IID_IUnknown)) && !IsEqualGUID(riid, (_GUID*)Unsafe.AsPointer(ref _IID_223a83b5_e8ac_4aad_882a_14ee6634fc33)))
         {
-            return unchecked((int)0x80004002);
+            return HRESULT._E_NOINTERFACE;
         }
 
         *(long*)ppUnknown = (nint)P_0;
-        var pFunc = (delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint>)(*(ulong*)(*(long*)P_0 + 8));
-        pFunc((nint)P_0);
+
+        AddRef(P_0);
+
         return 0;
     }
 
@@ -116,5 +115,13 @@ internal unsafe struct GetAccountCallbackWrapper
         callback((HRESULT)hr, serviceError);
 
         return 0;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct vtable
+    {
+        delegate* unmanaged[Cdecl, Cdecl]<IntPtr, IntPtr, IntPtr, uint> _queryInterface;
+        delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint> _addRef;
+        delegate* unmanaged[Cdecl, Cdecl]<IntPtr, uint> _release;
     }
 }
