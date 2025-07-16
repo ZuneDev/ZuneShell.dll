@@ -8,7 +8,7 @@
 
     <ItemGroup>
         <Reference Include="ZuneDBApi">
-            <HintPath>C:\Program Files\Zune\ZuneDBApi.dll</HintPath>
+            <HintPath>..\ZuneShell\lib\ZuneDBApi.dll</HintPath>
         </Reference>
 
         <!-- This is the last version of NAudio to support net35 and net6.0 -->
