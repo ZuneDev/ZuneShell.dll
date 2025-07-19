@@ -19,9 +19,7 @@
 
         <PackageReference Include="Vanara.PInvoke.User32" Version="3.4.17" />
 
-        <Reference Include="UIXControls">
-            <HintPath>C:\Program Files\Zune\UIXcontrols.dll</HintPath>
-        </Reference>
+        <ProjectReference Include="..\libs\MicrosoftIris\UIXcontrols\UIXcontrols.csproj" />
         <ProjectReference Include="..\libs\MicrosoftIris\UIX\UIX.csproj" />
 
         <!--
@@ -30,7 +28,7 @@
         -->
         <ProjectReference Include="..\ZuneImpl\ZuneImpl.csproj" />
         <Reference Include="ZuneDBApi">
-            <HintPath>C:\Program Files\Zune\ZuneDBApi.dll</HintPath>
+            <HintPath>.\libs\ZuneDBApi.dll</HintPath>
         </Reference>
 
         <PackageReference Include="StrixMusic.Sdk" Version="0.1.0-alpha" />
