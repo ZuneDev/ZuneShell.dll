@@ -5,6 +5,7 @@
 // Assembly location: C:\Program Files\Zune\ZuneShell.dll
 
 using Microsoft.Iris;
+using Microsoft.Iris.Debug;
 using Microsoft.Win32;
 using Microsoft.Zune.Configuration;
 using Microsoft.Zune.Util;
@@ -15,7 +16,9 @@ namespace Microsoft.Zune.Shell
 {
     internal class StandAlone
     {
-        public static Hashtable Startup(string[] args, string defaultCommandLineSwitch)
+        public static Hashtable Startup(string[] args, string defaultCommandLineSwitch) => Startup(args, defaultCommandLineSwitch, null);
+
+        public static Hashtable Startup(string[] args, string defaultCommandLineSwitch, Func<IDebuggerServer> debuggerFactory)
         {
             WindowSize windowSize = new WindowSize(1012, 693);
             string textDirectionOption = null;
@@ -62,23 +65,24 @@ namespace Microsoft.Zune.Shell
                             catch (FormatException) { }
                             break;
                         case "uixdebuguri":
-                            Application.DebugSettings.DebugConnectionUri = commandLineArgument.Value ?? Iris.Debug.DebugRemoting.DEFAULT_TCP_URI.OriginalString;
+                            var debugConnectionUri = commandLineArgument.Value ?? DebugRemoting.DEFAULT_TCP_URI.OriginalString;
+                            debuggerFactory = () => new Iris.Debug.SystemNet.NetDebuggerServer(debugConnectionUri);
                             break;
                         case "uixtrace":
                             try
                             {
                                 int idx = commandLineArgument.Value.IndexOf(':');
                                 byte level;
-                                Iris.Debug.TraceCategory cat;
+                                TraceCategory cat;
                                 if (idx != -1)
                                 {
                                     level = byte.Parse(commandLineArgument.Value.Substring(idx + 1));
-                                    cat = (Iris.Debug.TraceCategory)Enum.Parse(typeof(Iris.Debug.TraceCategory), commandLineArgument.Value.Substring(0, idx));
+                                    cat = (TraceCategory)Enum.Parse(typeof(TraceCategory), commandLineArgument.Value.Substring(0, idx));
                                 }
                                 else
                                 {
                                     level = 1;
-                                    cat = (Iris.Debug.TraceCategory)Enum.Parse(typeof(Iris.Debug.TraceCategory), commandLineArgument.Value);
+                                    cat = (TraceCategory)Enum.Parse(typeof(TraceCategory), commandLineArgument.Value);
                                 }
                                 Application.DebugSettings.TraceSettings.SetCategoryLevel(cat, level);
                             }
@@ -126,7 +130,7 @@ namespace Microsoft.Zune.Shell
                     Application.IsRTL = true;
             }
 
-            Application.Initialize();
+            Application.Initialize(debuggerFactory);
             Application.Window.InitialClientSize = windowSize;
 
 #if WINDOWS

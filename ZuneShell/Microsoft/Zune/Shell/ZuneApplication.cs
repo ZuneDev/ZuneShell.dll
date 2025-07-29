@@ -5,6 +5,7 @@
 // Assembly location: C:\Program Files\Zune\ZuneShell.dll
 
 using Microsoft.Iris;
+using Microsoft.Iris.Debug;
 using Microsoft.Win32;
 using Microsoft.Zune.Configuration;
 using Microsoft.Zune.Messaging;
@@ -431,11 +432,14 @@ namespace Microsoft.Zune.Shell
         }
 
         [STAThread]
-        public static int Launch(string strArgs, IntPtr hWndSplashScreen)
+        public static int Launch(string strArgs, IntPtr hWndSplashScreen) => Launch(strArgs, hWndSplashScreen, null);
+
+        [STAThread]
+        public static int Launch(string strArgs, IntPtr hWndSplashScreen, Func<IDebuggerServer> debuggerFactory)
         {
             PerfTrace.PerfTrace.PERFTRACE_LAUNCHEVENT(PerfTrace.PerfTrace.LAUNCH_EVENT.IN_MANAGED_LAUNCH, 0U);
             Application.ErrorReport += new ErrorReportHandler(ErrorReportHandler);
-            Hashtable hashtable = StandAlone.Startup(SplitCommandLineArguments(strArgs), DefaultCommandLineParameterSwitch);
+            Hashtable hashtable = StandAlone.Startup(SplitCommandLineArguments(strArgs), DefaultCommandLineParameterSwitch, debuggerFactory);
             if (hashtable != null)
             {
                 _unprocessedAppArgs = new List<Hashtable>();
