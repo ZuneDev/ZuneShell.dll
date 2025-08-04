@@ -547,8 +547,12 @@ namespace Microsoft.Zune.Shell
                     ++num;
                 }
             }
+
             if (num > 0)
+            {
+                Debug.WriteLine(str);
                 throw new ZuneShellException("Internal Zune Shell error", $"Scripting errors encountered (Process ID) = {Process.GetCurrentProcess().Id.ToString(CultureInfo.InvariantCulture)}\n\n{str}");
+            }
         }
 
         internal static bool CanAddMedia(IList filenames, MediaType mediaType, CanAddMediaArgs args)
