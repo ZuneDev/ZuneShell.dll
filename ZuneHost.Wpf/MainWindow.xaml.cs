@@ -87,7 +87,7 @@ namespace ZuneHost.Wpf
             {
                 IrisApp.Initialized += delegate
                 {
-                    IrisApp.AddImportRedirect("res://ZuneShellResources!", "clr-res://ZuneShell!");
+                    UIXControls.Helpers.AddResourceRedirect("res://ZuneShellResources!", "clr-res://ZuneShell!");
                     UIXControls.Helpers.AddUIXControlsClrRedirect();
                 };
 
