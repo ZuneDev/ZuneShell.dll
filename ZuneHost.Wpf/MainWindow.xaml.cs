@@ -78,8 +78,6 @@ namespace ZuneHost.Wpf
             // Set decompiler breakpoints
             IrisApp.DebugSettings.Breakpoints.Add(new("clr-res://ZuneShell!AddToCollection.uix", 325, true));
             IrisApp.DebugSettings.Breakpoints.Add(new("clr-res://ZuneShell!Styles.uix", 0x83, true));
-            IrisApp.DebugSettings.Breakpoints.Add(new("clr-res://ZuneShell!NowPlayingLand.uix", 2104, 28, true));
-            IrisApp.DebugSettings.Breakpoints.Add(new("clr-res://ZuneShell!NowPlayingLand.uix", 0x336C, true));
             IrisApp.DebugSettings.Breakpoints.Add(new("clr-res://ZuneShell!QuickplayStrip.uix", 172, 25, false));
             IrisApp.DebugSettings.Breakpoints.Add(new("clr-res://ZuneMarketplaceResources!SelectionActions.uix", 121, 14, false));
             IrisApp.DebugSettings.Breakpoints.Add(new("clr-res://ZuneShell!Quickplay.uix", 917, 62, false));
