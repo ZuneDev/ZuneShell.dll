@@ -32,10 +32,10 @@
                         <DoubleAnimationUsingKeyFrames
                             Storyboard.TargetName="ZuneGradientTransform"
                             Storyboard.TargetProperty="X"
-                            Duration="0:0:3">
+                            Duration="0:0:1">
                             <LinearDoubleKeyFrame KeyTime="0:0:0.0" Value="0"/>
-                            <LinearDoubleKeyFrame KeyTime="0:0:1.5" Value="1"/>
-                            <LinearDoubleKeyFrame KeyTime="0:0:3.0" Value="2"/>
+                            <LinearDoubleKeyFrame KeyTime="0:0:0.5" Value="1"/>
+                            <LinearDoubleKeyFrame KeyTime="0:0:1.0" Value="2"/>
                         </DoubleAnimationUsingKeyFrames>
                     </Storyboard>
                 </BeginStoryboard>
