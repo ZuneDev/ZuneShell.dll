@@ -1,54 +1,53 @@
-<!-- Copyright (C) Microsoft Corporation. All rights reserved. -->
-<UIX 
-  xmlns="http://schemas.microsoft.com/2007/uix"
-  xmlns:iris="assembly://UIX/Microsoft.Iris" 
-  xmlns:zune="assembly://ZuneShell/ZuneUI"
-  xmlns:zshell="assembly://ZuneShell/Microsoft.Zune.Shell"
-  xmlns:styles="res://ZuneShellResources!Styles.uix"
-  xmlns:dialog="res://ZuneShellResources!Dialog.uix"
-  xmlns:core="res://ZuneShellResources!Controls.uix"
-  xmlns:linkButtons="res://ZuneShellResources!LinkButtons.uix" 
-  xmlns:me="Me"
-  >
-
-  
-  
-  
-
-  
-  
-  
+<?xml version="1.0" encoding="utf-8"?>
+<UIX xmlns="http://schemas.microsoft.com/2007/uix"
+     xmlns:iris="assembly://UIX/Microsoft.Iris"
+     xmlns:zuneUI="assembly://ZuneShell/ZuneUI"
+     xmlns:styles="res://ZuneShellResources!Styles.uix"
+     xmlns:linkButtons="res://ZuneShellResources!LinkButtons.uix"
+     xmlns:label="res://UIXControls!Label.uix"
+     xmlns:dialog="res://UIXControls!Dialog.uix"
+     xmlns:zshell="assembly://ZuneShell/Microsoft.Zune.Shell"
+     xmlns:me="Me">
+    
   <Class Name="AboutDialog" Base="dialog:Dialog">
     <Properties>
-      <String Name="ContentUI" String="res://ZuneShellResources!AboutDialog.uix#AboutDialogContentUI"/>
-      <iris:Command Name="Cancel" Description="{zune:Shell.LoadString(zune:StringId.IDS_DIALOG_OK)}"/> 
-      <zune:WebHelpCommand Name="TechSupportLink" 
-        Description="{zune:Shell.LoadString(zune:StringId.IDS_ABOUTDIALOG_TECHNICAL_SUPPORT_INFORMATION)}"
-        Url="http://zunes.me/"
-        />
-      <zune:WebHelpCommand Name="SourceLink" 
+      <String String="res://ZuneShellResources!AboutDialog.uix#AboutDialogContentUI"
+        Name="ContentUI" />
+      <iris:Command Description="{zuneUI:Shell.LoadString(zuneUI:StringId.IDS_DIALOG_OK)}"
+        Name="Cancel" />
+      <zuneUI:WebHelpCommand
+        Description="{zuneUI:Shell.LoadString(zuneUI:StringId.IDS_ABOUTDIALOG_TECHNICAL_SUPPORT_INFORMATION)}"
+        Url="{zuneUI:CultureHelper.GetHelpUrl()}" Name="TechSupportLink" />
+      <zuneUI:WebHelpCommand
         Description="source code"
-        Url="http://github.com/ZuneDev/ZuneShell.dll"
-        />
-      <String Name="AccessibleDescription" String="{zune:Shell.LoadString(zune:StringId.IDS_ABOUTDIALOG_TITLE)}"/>
+        Url="http://github.com/ZuneDev/ZuneShell.dll" Name="SourceLink" />
+      <String String="{zuneUI:Shell.LoadString(zuneUI:StringId.IDS_ABOUTDIALOG_TITLE)}"
+        Name="AccessibleDescription" />
     </Properties>
   </Class>
-  
-
-  
-  
-  
+    
   <UI Name="AboutDialogContentUI" Base="dialog:DialogContentUI">
     <Properties>
-      <me:AboutDialog Name="Dialog" AboutDialog="$Required"/>      
+      <me:AboutDialog Name="Dialog" AboutDialog="$Required" />
     </Properties>
+      
     <Scripts>
+      <Script>
+        DialogTitle = zuneUI:Shell.LoadString(zuneUI:StringId.IDS_ABOUTDIALOG_TITLE);
+      </Script>
+      <Script>
+        ButtonCommands = new List();
+        ButtonCommands.Add(Dialog.Cancel);
+        DefaultButtonModel = Dialog.Cancel;
+        ButtonModelToFocus = Dialog.Cancel;
+      </Script>
       <Script>
         if (iris:Application.RenderingType == iris:RenderingType.GDI)
         {
-           GDIModeLabel.Visible = true;
-           GDIModeLabel.Content = zune:Shell.LoadString(zune:StringId.IDS_ABOUTDIALOG_GDI_MODE_NOTICE);
-        }           
+          GDIModeLabel.Visible = true;
+          GDIModeLabel.Content =
+          zuneUI:Shell.LoadString(zuneUI:StringId.IDS_ABOUTDIALOG_GDI_MODE_NOTICE);
+        }
       </Script>
       <Script>
         if (zshell:ZuneApplication.IsStrixCompatible)
@@ -58,90 +57,72 @@
         }           
       </Script>
     </Scripts>
+      
     <Content>
-      <Panel Navigation="ContainAll,WrapAll" MaximumSize="400,0">
-        <Layout>
-          <FlowLayout StripAlignment="Near" Orientation="Vertical"/>
-        </Layout>
+      <Panel Layout="VerticalFlow" MaximumSize="360, 0">
         <Children>
-
-          <core:Label Content="{zune:Shell.LoadString(zune:StringId.IDS_ABOUTDIALOG_TITLE)}" Style="{styles:SharedStyles.DialogLargeHeaderStyle}" WordWrap="true"/>
-
-          <Panel Margins="10">
-            <Layout>
-              <FlowLayout Orientation="Horizontal"/>
-            </Layout>
+          <Panel Layout="HorizontalFlow" Margins="10">
             <Children>
-
-              <Graphic Content="clr-res://ZuneShell!Icon.Zune.About.png" StretchingPolicy="Uniform"  SizingPolicy="SizeToContent"/>
-
-              <Panel Margins="10">
-                <Layout>
-                  <DockLayout DefaultLayoutInput="Top"/>
-                </Layout>
+              <Graphic Content="{styles:Styles.IconZuneAbout}" StretchingPolicy="Uniform"
+                SizingPolicy="SizeToContent" />
+              <Panel Layout="VerticalFlow" Margins="10, 10, 0, 10">
                 <Children>
-                  
-                  <core:Label Content="{zune:Shell.LoadString(zune:StringId.IDS_ABOUTDIALOG_COPYRIGHT_LINE1)}" Style="{styles:SharedStyles.DialogTextStyle}"/>
-
-                  <core:Label Content="{zune:Shell.LoadString(zune:StringId.IDS_ABOUTDIALOG_COPYRIGHT_LINE2)}" Style="{styles:SharedStyles.DialogTextStyle}"/>
-
-                  <core:Label Content="{zune:Shell.LoadString(zune:StringId.IDS_ABOUTDIALOG_COPYRIGHT_LINE3)}" Style="{styles:SharedStyles.DialogTextStyle}"/>
-
+                  <label:Label
+                    Content="{zuneUI:Shell.LoadString(zuneUI:StringId.IDS_ABOUTDIALOG_COPYRIGHT_LINE1)}"
+                    Style="{styles:SharedStyles.DialogTextStyle}" />
+                  <label:Label
+                    Content="{zuneUI:Shell.LoadString(zuneUI:StringId.IDS_ABOUTDIALOG_COPYRIGHT_LINE2)}"
+                    Style="{styles:SharedStyles.DialogTextStyle}" />
+                  <label:Label
+                    Content="{zuneUI:Shell.LoadString(zuneUI:StringId.IDS_ABOUTDIALOG_COPYRIGHT_LINE3)}"
+                    Style="{styles:SharedStyles.DialogTextStyle}" />
                   <Panel Layout="HorizontalFlow">
                     <Children>
-                      
-                      <core:Label Content="{zune:Shell.LoadString(zune:StringId.IDS_ABOUTDIALOG_VERSION_HEADER)}" Style="{styles:SharedStyles.DialogTextStyle}"/>
-
-                      <core:Label Content="{zshell:ZuneApplication.Version.ToString()}" Margins="5,0,0,0" Style="{styles:SharedStyles.DialogTextStyle}"/>
-                      
+                      <label:Label
+                        Content="{zuneUI:Shell.LoadString(zuneUI:StringId.IDS_ABOUTDIALOG_VERSION_HEADER)}"
+                        Style="{styles:SharedStyles.DialogTextStyle}" />
+                      <label:Label
+                        Content="{zshell:ZuneApplication.Version.ToString()}"
+                        Margins="5, 0, 0, 0" Style="{styles:SharedStyles.DialogTextStyle}" />
                     </Children>
                   </Panel>
-                  
                   <Panel Layout="HorizontalFlow">
                     <Children>
-
-                      <core:Label Content="{zune:Shell.LoadString(zune:StringId.IDS_ABOUTDIALOG_PRODUCT_ID)}" Style="{styles:SharedStyles.DialogTextStyle}"/>
-
-                      <core:Label Content="{zune:SoftwareUpdates.PID}" Margins="5,0,0,0" Style="{styles:SharedStyles.DialogTextStyle}"/>
-                      
+                      <label:Label
+                        Content="{zuneUI:Shell.LoadString(zuneUI:StringId.IDS_ABOUTDIALOG_PRODUCT_ID)}"
+                        Style="{styles:SharedStyles.DialogTextStyle}" />
+                      <label:Label Content="{zuneUI:SoftwareUpdates.PID}" Margins="5, 0, -100, 0"
+                        Style="{styles:SharedStyles.DialogTextStyle}" />
                     </Children>
                   </Panel>
                   
                   <Panel Name="StrixVersionPanel" Layout="HorizontalFlow" Visible="false">
                     <Children>
 
-                      <core:Label Content="Strix SDK:" Style="{styles:SharedStyles.DialogTextStyle}"/>
+                      <label:Label Content="Strix SDK:" Style="{styles:SharedStyles.DialogTextStyle}"/>
 
-                      <core:Label Name="StrixVersionLabel" Margins="5,0,0,0" Style="{styles:SharedStyles.DialogTextStyle}"/>
+                      <label:Label Name="StrixVersionLabel" Margins="5,0,0,0" Style="{styles:SharedStyles.DialogTextStyle}"/>
                       
                     </Children>
                   </Panel>
 
-                  <core:Label Name="GDIModeLabel" Visible="false" Style="{styles:SharedStyles.DialogTextStyle}"/>
-
+                  <label:Label Name="GDIModeLabel" Visible="false"
+                    Style="{styles:SharedStyles.DialogTextStyle}" />
                 </Children>
               </Panel>
             </Children>
           </Panel>
+
+          <label:Label Content="OpenZune is an open-source version of the Zune software aiming to revive Social and Marketplace features and continue development past the last official release from Microsoft (v4.8.2345)."
+                       Style="{styles:SharedStyles.DialogTextStyle}" WordWrap="true" />
           
-          <core:Label Content="OpenZune is an open-source version of the Zune software aiming to revive Social and Marketplace features and continue development past the last official release from Microsoft (v4.8.2345)."
-                      Style="{styles:SharedStyles.DialogTextStyle}" WordWrap="true" />
+          <label:Label Content="{zuneUI:Shell.LoadString(zuneUI:StringId.IDS_ABOUTDIALOG_WARNING)}"
+            Style="{styles:SharedStyles.DialogTextStyle}" WordWrap="true" Margins="0, 10, 0, 0" />
 
-          <core:Label Margins="0,10,0,0" Content="{zune:Shell.LoadString(zune:StringId.IDS_ABOUTDIALOG_WARNING)}" Style="{styles:SharedStyles.DialogTextStyle}" WordWrap="true"/>
-          
-          <Panel Layout ="VerticalFlow" Margins="0,10,0,0">           
-            <Children>
-              
-              <linkButtons:ExternalLink Model="{Dialog.TechSupportLink}" ToolTipEnabled="false" TileMinSize="160,16"/>
-              <linkButtons:ExternalLink Model="{Dialog.SourceLink}" ToolTipEnabled="false" TileMinSize="160,16"/>
-              <core:BigActionButton Model="{Dialog.Cancel}" Margins="0,10,0,0" ToolTipEnabled="false" FocusOrder="0"/>
-
-            </Children>
-          </Panel>
-
+          <linkButtons:ExternalLink Model="{Dialog.TechSupportLink}" ToolTipEnabled="false" TileMinSize="160, 16" Margins="0, 10, 0, 0" />
+          <linkButtons:ExternalLink Model="{Dialog.SourceLink}" ToolTipEnabled="false" TileMinSize="160,16" />
         </Children>
       </Panel>
     </Content>
   </UI>
-
-</UIX> 
+</UIX>
