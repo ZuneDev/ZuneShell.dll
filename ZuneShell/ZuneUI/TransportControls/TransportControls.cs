@@ -5,16 +5,13 @@
 // Assembly location: C:\Program Files\Zune\ZuneShell.dll
 
 using Microsoft.Iris;
-using Microsoft.Zune;
 using Microsoft.Zune.Configuration;
 using Microsoft.Zune.PerfTrace;
-using Microsoft.Zune.Playback;
 using Microsoft.Zune.QuickMix;
 using Microsoft.Zune.Service;
 using Microsoft.Zune.Util;
 using MicrosoftZuneLibrary;
 using MicrosoftZunePlayback;
-using StrixMusic.Sdk.MediaPlayback;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -24,7 +21,6 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
 using UIXControls;
-using ZuneUI.Strix;
 
 namespace ZuneUI
 {
@@ -36,7 +32,7 @@ namespace ZuneUI
         private const int c_maxConsecutiveErrors = 5;
         private const int c_ratingUnrated = -1;
         private const string c_knownInvalidUri = ".:* INVALID URI *:.";
-        private IAudioPlayerService _player;
+        private PlayerInterop _playbackWrapper;
         private BooleanChoice _shuffling;
         private BooleanChoice _repeating;
         private BooleanChoice _muted;
@@ -61,8 +57,8 @@ namespace ZuneUI
         private NowPlayingList _playlistCurrent;
         private Microsoft.Iris.Timer _timerDelayedConfigPersist;
         private VideoStream _videoStream;
-        private PlaybackState _lastKnownPlayerState;
-        private PlaybackState _lastKnownTransportState;
+        private MCPlayerState _lastKnownPlayerState;
+        private MCTransportState _lastKnownTransportState;
         private long _lastKnownPosition;
         private Notification _nowPlayingNotification;
         private float _currentTrackDuration;
@@ -109,7 +105,7 @@ namespace ZuneUI
 
         public TransportControls()
         {
-            _player = PlayerInteropAudioService.Instance;
+            _playbackWrapper = PlayerInterop.Instance;
             _taskbarPlayer = TaskbarPlayer.Instance;
             _videoStream = new VideoStream();
             if (!CanRender3DVideo)
@@ -157,13 +153,16 @@ namespace ZuneUI
             _stop.Available = false;
             _fastforwardhotkey = new Command(this, new EventHandler(OnFastforwardHotkeyPressed));
             _rewindhotkey = new Command(this, new EventHandler(OnRewindHotkeyPressed));
-            _player.CurrentSourceChanged += Player_CurrentItemChanged;
-            _player.PlaybackStateChanged += OnPlaybackStatusChanged;
-            _player.PositionChanged += OnTransportPositionChanged;
-            // TODO: _player.VolumeChanged += OnVolumeControlChanged;
-            _lastKnownPlayerState = _player.PlaybackState;
-            _lastKnownTransportState = _player.PlaybackState;
-            _lastKnownPosition = _player.Position.Ticks;
+            _playbackWrapper.StatusChanged += OnPlaybackStatusChanged;
+            _playbackWrapper.TransportStatusChanged += OnTransportStatusChanged;
+            _playbackWrapper.TransportPositionChanged += OnTransportPositionChanged;
+            _playbackWrapper.UriSet += OnUriSet;
+            _playbackWrapper.AlertSent += OnAlertSent;
+            _playbackWrapper.PlayerPropertyChanged += OnPlayerPropertyChanged;
+            _playbackWrapper.PlayerBandwithUpdate += OnBandwidthCapacityUpdate;
+            _lastKnownPlayerState = _playbackWrapper.State;
+            _lastKnownTransportState = _playbackWrapper.TransportState;
+            _lastKnownPosition = _playbackWrapper.Position;
             _shellInstance = (Shell)ZuneShell.DefaultInstance;
             _shellInstance.PropertyChanged += OnShellPropertyChanged;
             _timerDelayedConfigPersist = new Microsoft.Iris.Timer();
@@ -173,8 +172,7 @@ namespace ZuneUI
             _playerState = PlayerState.Stopped;
             _spectrumConfigList = new List<SpectrumOutputConfig>();
             _isSpectrumAvailable = false;
-            // TODO: Handle audio services that can't seek
-            IsSeekEnabled = true;// _playbackWrapper.CanSeek;
+            IsSeekEnabled = _playbackWrapper.CanSeek;
             Download.Instance.DownloadProgressEvent += OnDownloadProgressed;
             _lastKnownCurrentTrackRating = -1;
             _currentTrackRatingChangedEventHandler = OnCurrentTrackRatingChanged;
@@ -183,18 +181,6 @@ namespace ZuneUI
             _isStreamingTimeoutTimer.AutoRepeat = false;
             _isStreamingTimeoutTimer.Tick += OnIsStreamingTimeout;
             SignIn.Instance.SignInStatusUpdatedEvent += OnSignInEvent;
-        }
-
-        private bool TryGetPlayerInterop(out PlayerInterop playerInterop)
-        {
-            if (_player is PlayerInteropAudioService pias)
-            {
-                playerInterop = pias.PlaybackWrapper;
-                return true;
-            }
-
-            playerInterop = null;
-            return false;
         }
 
         protected override void OnDispose(bool fDisposing)
@@ -227,10 +213,12 @@ namespace ZuneUI
                 }
             }
             _lastKnownPlaybackTrack?.OnEndPlayback(false);
-            _player.CurrentSourceChanged -= Player_CurrentItemChanged;
-            _player.PlaybackStateChanged -= OnPlaybackStatusChanged;
-            _player.PositionChanged -= OnTransportPositionChanged;
-            // TODO: _player.VolumeChanged -= OnVolumeControlChanged;
+            _playbackWrapper.StatusChanged -= OnPlaybackStatusChanged;
+            _playbackWrapper.TransportStatusChanged -= OnTransportStatusChanged;
+            _playbackWrapper.TransportPositionChanged -= OnTransportPositionChanged;
+            _playbackWrapper.UriSet -= OnUriSet;
+            _playbackWrapper.AlertSent -= OnAlertSent;
+            _playbackWrapper.PlayerPropertyChanged -= OnPlayerPropertyChanged;
             if (_videoStream != null && !CanRender3DVideo)
                 _videoStream.DisplayDetailsChanged -= OnVideoDetailsChanged;
             PlayerInterop.Instance.Dispose();
@@ -489,7 +477,7 @@ namespace ZuneUI
             StartPlayingAt(newCurrentIndex);
         }
 
-        public async void StartPlayingAt(int newCurrentIndex)
+        public void StartPlayingAt(int newCurrentIndex)
         {
             if (_playlistCurrent == null)
                 return;
@@ -503,7 +491,7 @@ namespace ZuneUI
             {
                 _playlistPending = _playlistCurrent;
                 if (_playerState == PlayerState.Paused)
-                    await _player.StopAsync();
+                    _playbackWrapper.Stop();
                 else
                     PlayPendingList();
             }
@@ -513,8 +501,8 @@ namespace ZuneUI
 
         public void SeekToPosition(float value)
         {
-            var position = TimeSpan.FromTicks((long)(value * 10000000.0));
-            AsyncHelper.Run(_player?.SeekAsync(position));
+            long offsetIn100nsUnits = (long)(value * 10000000.0);
+            _playbackWrapper?.SeekToAbsolutePosition(offsetIn100nsUnits);
             _rewinding.Value = false;
             _fastforwarding.Value = false;
         }
@@ -923,9 +911,9 @@ namespace ZuneUI
           ContainerPlayMarker containerPlayMarker)
         {
             PerfTrace.TraceUICollectionEvent(UICollectionEvent.PlayRequestIssued, "");
-            bool hasPlaylist = _playlistCurrent != null;
+            bool flag = _playlistCurrent != null;
             int num;
-            if (clearQueue || !hasPlaylist)
+            if (clearQueue || !flag)
             {
                 if (clearQueue || _playlistPending == null)
                 {
@@ -937,8 +925,8 @@ namespace ZuneUI
                     num = _playlistPending.AddItems(items);
                 if (playbackContext == PlaybackContext.QuickMix)
                 {
-                    if (_lastKnownTransportState == PlaybackState.Playing || _lastKnownTransportState == PlaybackState.Paused)
-                        _player.Stop();
+                    if (_lastKnownTransportState == MCTransportState.Playing || _lastKnownTransportState == MCTransportState.Paused)
+                        _playbackWrapper.Stop();
                     else
                         _playlistPending.PlayWhenReady = true;
                 }
@@ -948,8 +936,8 @@ namespace ZuneUI
                     _playlistPending = null;
                     Stop.Invoke();
                 }
-                else if (hasPlaylist && (_lastKnownTransportState == PlaybackState.Playing || _lastKnownTransportState == PlaybackState.Paused))
-                    _player.Stop();
+                else if (flag && (_lastKnownTransportState == MCTransportState.Playing || _lastKnownTransportState == MCTransportState.Paused))
+                    _playbackWrapper.Stop();
                 else
                     PlayPendingList();
             }
@@ -1090,29 +1078,27 @@ namespace ZuneUI
 
         public void Phase2Init()
         {
-            if (TryGetPlayerInterop(out var playbackWrapper))
-            {
-                if (!CanRender3DVideo)
-                    playbackWrapper.WindowHandle = Application.Window.Handle;
-                else
-                    playbackWrapper.DynamicImage = _videoStream.StreamID;
-            }
+            if (!CanRender3DVideo)
+                _playbackWrapper.WindowHandle = Application.Window.Handle;
+            else
+                _playbackWrapper.DynamicImage = _videoStream.StreamID;
             ThreadPool.QueueUserWorkItem(new WaitCallback(AsyncPhase2Init), null);
         }
 
-        private void AsyncPhase2Init(object arg) => Application.DeferredInvoke(new DeferredInvokeHandler(CompletePhase2Init), arg);
+        private void AsyncPhase2Init(object arg)
+        {
+            _playbackWrapper.Initialize();
+            Application.DeferredInvoke(new DeferredInvokeHandler(CompletePhase2Init), null);
+        }
 
         private void CompletePhase2Init(object obj)
         {
-            AsyncHelper.Run(_player.ChangeVolumeAsync(_volume.Value / 100d));
-            
+            _playbackWrapper.Volume = (int)_volume.Value;
+            _playbackWrapper.Mute = _muted.Value;
             _isSpectrumAvailable = true;
             ConnectAllSpectrumAnimationSources();
-
             _taskbarPlayer.Initialize(Application.Window.Handle, new TaskbarPlayerCommandHandler(OnTaskbarPlayerCommand));
-
             IsInitialized = true;
-
             ThreadPool.QueueUserWorkItem(new WaitCallback(DeserializeNowPlayingList), _savedNowPlayingFilename);
             if (RequestedJumpListPin != null)
                 FirePropertyChanged("RequestedJumpListPin");
@@ -1221,10 +1207,8 @@ namespace ZuneUI
                 IsConnected = _isSpectrumAvailable
             };
             _spectrumConfigList.Add(spectrumOutputConfig);
-
-            if (_isSpectrumAvailable && TryGetPlayerInterop(out var playbackWrapper))
-                playbackWrapper.ConnectAnimationsToSpectrumAnalyzer(spectrumOutputConfig.SourceId, spectrumOutputConfig.NumBands, spectrumOutputConfig.Frequency, spectrumOutputConfig.Waveform, spectrumOutputConfig.Stereo);
-            
+            if (_isSpectrumAvailable)
+                _playbackWrapper.ConnectAnimationsToSpectrumAnalyzer(spectrumOutputConfig.SourceId, spectrumOutputConfig.NumBands, spectrumOutputConfig.Frequency, spectrumOutputConfig.Waveform, spectrumOutputConfig.Stereo);
             return externalAnimationInput;
         }
 
@@ -1237,12 +1221,11 @@ namespace ZuneUI
                 SpectrumOutputConfig spectrumConfig = _spectrumConfigList[index];
                 if (spectrumConfig.SourceId == inputSourceId)
                 {
-                    if (spectrumConfig.IsConnected && TryGetPlayerInterop(out var playbackWrapper))
+                    if (spectrumConfig.IsConnected)
                     {
-                        playbackWrapper.DisconnectAnimationsFromSpectrumAnalyzer(spectrumConfig.SourceId);
+                        _playbackWrapper.DisconnectAnimationsFromSpectrumAnalyzer(spectrumConfig.SourceId);
                         spectrumConfig.IsConnected = false;
                     }
-
                     Application.DisposeExternalAnimationInput(inputSourceId);
                     _spectrumConfigList.RemoveAt(index);
                     break;
@@ -1255,9 +1238,9 @@ namespace ZuneUI
             for (int index = 0; index < _spectrumConfigList.Count; ++index)
             {
                 SpectrumOutputConfig spectrumConfig = _spectrumConfigList[index];
-                if (!spectrumConfig.IsConnected && TryGetPlayerInterop(out var playbackWrapper))
+                if (!spectrumConfig.IsConnected)
                 {
-                    playbackWrapper.ConnectAnimationsToSpectrumAnalyzer(spectrumConfig.SourceId, spectrumConfig.NumBands, spectrumConfig.Frequency, spectrumConfig.Waveform, spectrumConfig.Stereo);
+                    _playbackWrapper.ConnectAnimationsToSpectrumAnalyzer(spectrumConfig.SourceId, spectrumConfig.NumBands, spectrumConfig.Frequency, spectrumConfig.Waveform, spectrumConfig.Stereo);
                     spectrumConfig.IsConnected = true;
                     _spectrumConfigList[index] = spectrumConfig;
                 }
@@ -1271,9 +1254,9 @@ namespace ZuneUI
             for (int index = 0; index < _spectrumConfigList.Count; ++index)
             {
                 SpectrumOutputConfig spectrumConfig = _spectrumConfigList[index];
-                if (spectrumConfig.IsConnected && TryGetPlayerInterop(out var playbackWrapper))
+                if (spectrumConfig.IsConnected)
                 {
-                    playbackWrapper.DisconnectAnimationsFromSpectrumAnalyzer(spectrumConfig.SourceId);
+                    _playbackWrapper.DisconnectAnimationsFromSpectrumAnalyzer(spectrumConfig.SourceId);
                     spectrumConfig.IsConnected = false;
                     _spectrumConfigList[index] = spectrumConfig;
                 }
@@ -1286,7 +1269,7 @@ namespace ZuneUI
             {
                 _resumeLastNowPlayingRequested = true;
             }
-            else if(!_isPlaying)
+            else if (!_isPlaying)
             {
                 Play.Invoke();
             }
@@ -1338,12 +1321,7 @@ namespace ZuneUI
         private void OnMutingChanged(object sender, EventArgs e)
         {
             UpdateMutingDescription();
-
-            if (_muted.Value)
-                _player.Mute();
-            else
-                AsyncHelper.Run(_player.ChangeVolumeAsync(0.5));
-
+            _playbackWrapper.Mute = _muted.Value;
             SQMLog.Log(SQMDataId.VolumeMuteClicks, 1);
             PersistSettings();
         }
@@ -1366,59 +1344,50 @@ namespace ZuneUI
 
         private void OnFastforwardingChanged(object sender, EventArgs e)
         {
-            if (_fastforwarding.Value && (_currentTrack == null || !_currentTrack.IsVideo
-                || (TryGetPlayerInterop(out var playbackWrapper) && playbackWrapper.CanChangeVideoRate)))
+            if ((_currentTrack == null || !_currentTrack.IsVideo || _playbackWrapper.CanChangeVideoRate) && _fastforwarding.Value)
             {
                 _rewinding.Value = false;
-                AsyncHelper.Run(_player.ChangePlaybackSpeedAsync(5.0));
+                _playbackWrapper.Rate = 5f;
             }
             else
-                AsyncHelper.Run(_player.ChangePlaybackSpeedAsync(1.0));
+                _playbackWrapper.Rate = 1f;
         }
 
         private void OnRewindingChanged(object sender, EventArgs e)
         {
-            if (_fastforwarding.Value && (_currentTrack == null || !_currentTrack.IsVideo
-                || (TryGetPlayerInterop(out var playbackWrapper) && playbackWrapper.CanChangeVideoRate)))
+            if ((_currentTrack == null || !_currentTrack.IsVideo || _playbackWrapper.CanChangeVideoRate) && _rewinding.Value)
             {
-                _rewinding.Value = false;
-                AsyncHelper.Run(_player.ChangePlaybackSpeedAsync(-5.0));
+                _fastforwarding.Value = false;
+                _playbackWrapper.Rate = -5f;
             }
             else
-                AsyncHelper.Run(_player.ChangePlaybackSpeedAsync(1.0));
+                _playbackWrapper.Rate = 1f;
         }
 
         private void OnFastforwardHotkeyPressed(object sender, EventArgs e) => _fastforwarding.Value = !_fastforwarding.Value;
 
         private void OnRewindHotkeyPressed(object sender, EventArgs e) => _rewinding.Value = !_rewinding.Value;
 
-        private void OnPlaybackStatusChanged(object sender, PlaybackState e) => Application.DeferredInvoke(new DeferredInvokeHandler(DeferredPlaybackStatusChanged), new object[2]
+        private void OnPlaybackStatusChanged(object sender, EventArgs e) => Application.DeferredInvoke(new DeferredInvokeHandler(DeferredPlaybackStatusChanged), new object[2]
         {
-           _player.PlaybackState,
-           false    // EndOfMedia
+       _playbackWrapper.State,
+       _playbackWrapper.EndOfMedia
         });
 
         private void OnTransportStatusChanged(object sender, EventArgs e) => Application.DeferredInvoke(new DeferredInvokeHandler(DeferredTransportStatusChanged), new object[3]
         {
-           _player.PlaybackState,
-           false, // _playbackWrapper.EndOfMedia,
-           true // _playbackWrapper.CanSeek
+           _playbackWrapper.TransportState,
+           _playbackWrapper.EndOfMedia,
+           _playbackWrapper.CanSeek
         });
 
-        private void OnTransportPositionChanged(object sender, TimeSpan e) => Application.DeferredInvoke(new DeferredInvokeHandler(DeferredTransportPositionChanged), e);
+        private void OnTransportPositionChanged(object sender, EventArgs e) => Application.DeferredInvoke(new DeferredInvokeHandler(DeferredTransportPositionChanged), _playbackWrapper.Position);
 
-        private void OnUriSet(object sender, EventArgs e)
+        private void OnUriSet(object sender, EventArgs e) => Application.DeferredInvoke(new DeferredInvokeHandler(DeferredUriSet), new object[2]
         {
-            if (_player.CurrentSource?.MediaConfig is ZuneMediaSourceConfig zuneSrcCfg)
-            {
-                var args = new object[2]
-                {
-                   zuneSrcCfg.MediaSourceUri,
-                   0, // TODO: playbackWrapper.CurrentUriID
-                };
-                Application.DeferredInvoke(new DeferredInvokeHandler(DeferredUriSet), args);
-            }
-        }
+           _playbackWrapper.CurrentUri,
+           _playbackWrapper.CurrentUriID
+        });
 
         private void OnAlertSent(Announcement alert) => Application.DeferredInvoke(new DeferredInvokeHandler(DeferredAlertHandler), alert);
 
@@ -1438,18 +1407,16 @@ namespace ZuneUI
                 return;
 
             _muted.Value = false;
-            _player.ChangeVolumeAsync(_volume.Value / 100f);
+            _playbackWrapper.Mute = false;
+            _playbackWrapper.Volume = (int)_volume.Value;
             SQMLog.Log(SQMDataId.VolumeAdjustmentClicks, 1);
             PersistSettings();
         }
 
         private void OnVideoDetailsChanged(object sender, EventArgs args)
         {
-            if (TryGetPlayerInterop(out var playbackWrapper))
-            {
-                playbackWrapper.VideoPosition = new VideoWindow(_videoStream.DisplayPosition.X, _videoStream.DisplayPosition.Y, _videoStream.DisplayPosition.X + _videoStream.DisplaySize.Width, _videoStream.DisplayPosition.Y + _videoStream.DisplaySize.Height);
-                playbackWrapper.ShowGDIVideo = _videoStream.DisplayVisibility;
-            }
+            _playbackWrapper.VideoPosition = new VideoWindow(_videoStream.DisplayPosition.X, _videoStream.DisplayPosition.Y, _videoStream.DisplayPosition.X + _videoStream.DisplaySize.Width, _videoStream.DisplayPosition.Y + _videoStream.DisplaySize.Height);
+            _playbackWrapper.ShowGDIVideo = _videoStream.DisplayVisibility;
         }
 
         private void DeferredPlaybackStatusChanged(object obj)
@@ -1458,43 +1425,38 @@ namespace ZuneUI
                 return;
 
             object[] objArray = (object[])obj;
-            var playerState = (PlaybackState)objArray[0];
+            MCPlayerState mcPlayerState = (MCPlayerState)objArray[0];
             bool endOfMedia = (bool)objArray[1];
-            bool startedOpening = false;
-            switch (playerState)
+            bool flag = false;
+            switch (mcPlayerState)
             {
-                case PlaybackState.None:
+                case MCPlayerState.Closed:
                     if (Playing)
                     {
                         SetUriOnPlayer();
                         break;
                     }
                     break;
-
-                case PlaybackState.Loading:
+                case MCPlayerState.Open:
                     _rewinding.Value = false;
                     _fastforwarding.Value = false;
-                    startedOpening = true;
+                    flag = true;
                     break;
-
-                case PlaybackState.Loaded:
+                case MCPlayerState.Built:
                     if (Playing && _lastKnownPlaybackTrack != null)
                     {
                         _lastKnownPlaybackTrack.OnEndPlayback(endOfMedia);
                         _lastKnownPlaybackTrack = _lastKnownPreparedTrack;
                         _lastKnownPreparedTrack = null;
-                        _lastKnownPlaybackTrack?.OnBeginPlayback(null);
+                        _lastKnownPlaybackTrack?.OnBeginPlayback(_playbackWrapper);
                     }
-
-                    // TODO: Get duration of track
-                    CurrentTrackDuration = 0f; // _playbackWrapper.Duration >= 0L ? _playbackWrapper.Duration / 1E+07f : 0.0f;
+                    CurrentTrackDuration = _playbackWrapper.Duration >= 0L ? _playbackWrapper.Duration / 1E+07f : 0.0f;
                     break;
             }
-
-            _lastKnownPlayerState = playerState;
-            if (_opening == startedOpening)
+            _lastKnownPlayerState = mcPlayerState;
+            if (_opening == flag)
                 return;
-            Opening = startedOpening;
+            Opening = flag;
         }
 
         private void ShowNotification()
@@ -1538,10 +1500,10 @@ namespace ZuneUI
             if (IsDisposed)
                 return;
             object[] objArray = (object[])obj;
-            var playerState = (PlaybackState)objArray[0];
+            MCTransportState mcTransportState = (MCTransportState)objArray[0];
             bool endOfMedia = (bool)objArray[1];
             IsSeekEnabled = (bool)objArray[2];
-            if (playerState == PlaybackState.Loading)
+            if (mcTransportState == MCTransportState.Buffering)
             {
                 Buffering = true;
                 UpdatePropertiesAndCommands();
@@ -1553,14 +1515,14 @@ namespace ZuneUI
                     Buffering = false;
                     UpdatePropertiesAndCommands();
                 }
-                switch (playerState)
+                switch (mcTransportState)
                 {
-                    case PlaybackState.Paused:
-                        bool endOfQueue = _playlistCurrent != null && _playlistCurrent.Count == 1 && _repeating.Value && endOfMedia;
+                    case MCTransportState.Stopped:
+                        bool flag = _playlistCurrent != null && _playlistCurrent.Count == 1 && _repeating.Value && endOfMedia;
                         if (_lastKnownPlaybackTrack != null)
                         {
                             _lastKnownPlaybackTrack.OnEndPlayback(endOfMedia);
-                            if (!endOfQueue)
+                            if (!flag)
                                 _lastKnownPlaybackTrack = null;
                         }
                         if (_playlistPending != null)
@@ -1577,38 +1539,37 @@ namespace ZuneUI
                         if (_lastKnownPreparedTrack != null)
                         {
                             _lastKnownPlaybackTrack = _lastKnownPreparedTrack;
-                            _lastKnownPlaybackTrack.OnBeginPlayback(null);
+                            _lastKnownPlaybackTrack.OnBeginPlayback(_playbackWrapper);
                             if (Playing)
-                                _player.Resume();
+                                _playbackWrapper.Play();
                             _lastKnownPreparedTrack = null;
                             break;
                         }
-                        if (endOfQueue && _lastKnownPlaybackTrack != null)
+                        if (flag && _lastKnownPlaybackTrack != null)
                         {
-                            _lastKnownPlaybackTrack.OnBeginPlayback(null);
-                            AsyncHelper.Run(_player.SeekAsync(TimeSpan.Zero));
-                            _player.Resume();
+                            _lastKnownPlaybackTrack.OnBeginPlayback(_playbackWrapper);
+                            _playbackWrapper.SeekToAbsolutePosition(0L);
+                            _playbackWrapper.Play();
                             break;
                         }
                         _playlistCurrent?.ResetForReplay();
                         SetPlayerState(PlayerState.Stopped);
-                        // TODO: _playbackWrapper.Close();
+                        _playbackWrapper.Close();
                         break;
-
-                    case PlaybackState.Playing:
+                    case MCTransportState.Playing:
                         PerfTrace.TraceUICollectionEvent(UICollectionEvent.PlayRequestComplete, "");
                         UseSmtc();
                         break;
                 }
             }
-            _lastKnownTransportState = playerState;
+            _lastKnownTransportState = mcTransportState;
         }
 
         bool isInit = false;
         private void UseSmtc()
         {
             // Use SMTC when available
-#if WINDOWS8
+#if WINDOWS
             if (Microsoft.WinRT.ApiInformation.IsTypePresent("Windows.Media.SystemMediaTransportControls")
                 && !OSVersion.IsLessThanWin10())
             {
@@ -1664,7 +1625,7 @@ namespace ZuneUI
 
         private void UpdateSmtcState(PlayerState stateNew)
         {
-#if WINDOWS8
+#if WINDOWS
                 if (Microsoft.WinRT.ApiInformation.IsTypePresent("Windows.Media.SystemMediaTransportControls")
                     && !OSVersion.IsLessThanWin10())
                 {
@@ -1685,18 +1646,14 @@ namespace ZuneUI
 
         private void DeferredTransportPositionChanged(object obj)
         {
-            if (IsDisposed || obj is not TimeSpan position)
+            if (IsDisposed)
                 return;
-
-            _lastKnownPosition = position.Ticks;
+            _lastKnownPosition = (long)obj;
             CurrentTrackPosition = _lastKnownPosition / 1E+07f;
-
             if (_lastKnownPlaybackTrack == null)
                 return;
-
             if (_lastKnownPosition > 0L)
                 _consecutiveErrors = 0;
-
             _lastKnownPlaybackTrack.OnPositionChanged(_lastKnownPosition);
         }
 
@@ -1757,12 +1714,12 @@ namespace ZuneUI
             if (_consecutiveErrors < 5 && !flag && Playing && (_playlistCurrent != null && _playlistCurrent.CanAdvance))
             {
                 _playlistCurrent.Advance();
-                // TODO: _playbackWrapper.Close();
+                _playbackWrapper.Close();
             }
             else
             {
                 SetPlayerState(PlayerState.Stopped);
-                //_playbackWrapper.Close();
+                _playbackWrapper.Close();
                 if (_lastKnownPlaybackTrack != null)
                 {
                     _lastKnownPlaybackTrack.OnEndPlayback(false);
@@ -1789,9 +1746,9 @@ namespace ZuneUI
 
         private void DeferredVolumeInfoChangedHandler(object obj)
         {
-            _volume.Value = (float)(_player.Volume * 100);
+            _volume.Value = _playbackWrapper.Volume;
             FirePropertyChanged("Volume");
-            _muted.Value = _player.Volume == 0;
+            _muted.Value = _playbackWrapper.Mute;
             FirePropertyChanged("Mute");
         }
 
@@ -1799,8 +1756,7 @@ namespace ZuneUI
         {
             if (_currentTrack == null || !_currentTrack.IsVideo)
                 return;
-
-            _forward.Available = !TryGetPlayerInterop(out var playbackWrapper) && playbackWrapper.CanChangeVideoRate;
+            _forward.Available = _playbackWrapper.CanChangeVideoRate;
         }
 
         private void SetUriOnPlayer()
@@ -1818,7 +1774,7 @@ namespace ZuneUI
             else
             {
                 SetPlayerState(PlayerState.Stopped);
-                //_playbackWrapper.Close();
+                _playbackWrapper.Close();
                 UpdatePropertiesAndCommands();
             }
         }
@@ -1830,8 +1786,8 @@ namespace ZuneUI
                 nextTrack = _playlistCurrent.NextTrack;
             if (nextTrack != null && _playlistCurrent.Count > 1)
                 SetUrisOnPlayerAsync(null, nextTrack);
-            //else
-            //    _playbackWrapper.CancelNext();
+            else
+                _playbackWrapper.CancelNext();
         }
 
         private void SetUrisOnPlayerAsync(PlaybackTrack track, PlaybackTrack nextTrack)
@@ -1839,63 +1795,56 @@ namespace ZuneUI
             int myID = ++_lastKnownSetUriCallID;
             ThreadPool.QueueUserWorkItem(args =>
             {
-                var dataRoot = Microsoft.Zune.Shell.ZuneApplication.DataRoot;
                 if (track != null)
                 {
-                    try
-                    {
-                        var stTrack = ((StrixPlaybackTrack)track).Track;
-
+                    string trackUri;
+                    HRESULT hr = track.GetURI(out trackUri);
+                    if (string.IsNullOrEmpty(trackUri))
+                        trackUri = ".:* INVALID URI *:.";
+                    if (hr.IsSuccess)
                         Application.DeferredInvoke(delegate
                         {
                             if (IsDisposed || myID != _lastKnownSetUriCallID)
                                 return;
 
-                            AsyncHelper.Run(dataRoot.Library.PlayTrackCollectionAsync(stTrack));
+                            _playbackWrapper.SetUri(trackUri, 0L, track.PlaybackID);
 
                             ReportStreamingAction(PlayerState.Stopped);
                             _tracksSubmittedToPlayer.Remove(track);
                             _tracksSubmittedToPlayer.Add(track);
                             if (nextTrack != null)
                                 return;
-
-                            // TODO: _playbackWrapper.CancelNext();
+                            _playbackWrapper.CancelNext();
                             UpdatePropertiesAndCommands();
                         }, null);
-                    }
-                    catch (Exception ex)
-                    {
+                    else
                         OnAlertSent(new Announcement()
                         {
-                            HResult = ex.HResult,
+                            HResult = hr.Int,
                             PlaybackID = track.PlaybackID
                         });
-                    }
                 }
 
                 if (nextTrack == null)
                     return;
 
-                try
+                HRESULT nextTrackHr = nextTrack.GetURI(out string nextTrackUri);
+                if (string.IsNullOrEmpty(nextTrackUri))
+                    nextTrackUri = ".:* INVALID URI *:.";
+                if (!nextTrackHr.IsSuccess)
+                    return;
+
+                Application.DeferredInvoke(delegate
                 {
-                    var stTrack = ((StrixPlaybackTrack)nextTrack).Track;
+                    if (IsDisposed || myID != _lastKnownSetUriCallID)
+                        return;
 
-                    Application.DeferredInvoke(delegate
-                    {
-                        if (IsDisposed || myID != _lastKnownSetUriCallID)
-                            return;
+                    _playbackWrapper.SetNextUri(nextTrackUri, 0L, nextTrack.PlaybackID);
 
-                        // Preload track
-                        //AsyncHelper.Run(dataRoot.Library.PlayTrackCollectionAsync(stTrack));
-
-                        _tracksSubmittedToPlayer.Remove(nextTrack);
-                        _tracksSubmittedToPlayer.Add(nextTrack);
-                        UpdatePropertiesAndCommands();
-                    }, null);
-                }
-                catch
-                {
-                }
+                    _tracksSubmittedToPlayer.Remove(nextTrack);
+                    _tracksSubmittedToPlayer.Add(nextTrack);
+                    UpdatePropertiesAndCommands();
+                }, null);
             }, null);
         }
 
@@ -2038,7 +1987,7 @@ namespace ZuneUI
                 }
                 else
                 {
-                    _forward.Available = !_currentTrack.IsVideo || (TryGetPlayerInterop(out var playbackWrapper) && playbackWrapper.CanChangeVideoRate);
+                    _forward.Available = !_currentTrack.IsVideo || _playbackWrapper.CanChangeVideoRate;
                     _back.Available = true;
                 }
             }
