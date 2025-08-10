@@ -460,9 +460,9 @@ namespace Microsoft.Zune.Shell
             StaticLibraryDataProvider.Register();
             AggregateDataProviderQuery.Register();
             ZuneUI.Shell.InitializeInstance();
-            Application.Name = "Zune";
-            Application.Window.Caption = "Zune";
-            Application.Window.SetIcon("ZuneShellResources.dll", 1);
+            Application.Name = "OpenZune";
+            Application.Window.Caption = "OpenZune";
+            //Application.Window.SetIcon("ZuneShellResources.dll", 1);
             Application.Window.AlwaysOnTop = true;
             if (!hashtable.Contains("noshadow"))
             {
