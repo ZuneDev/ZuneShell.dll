@@ -76,11 +76,11 @@ namespace ZuneHost.Wpf
             }
 
             // Set decompiler breakpoints
-            IrisApp.DebugSettings.Breakpoints.Add(new("clr-res://ZuneShell!AddToCollection.uix", 325, true));
-            IrisApp.DebugSettings.Breakpoints.Add(new("clr-res://ZuneShell!Styles.uix", 0x83, true));
-            IrisApp.DebugSettings.Breakpoints.Add(new("clr-res://ZuneShell!QuickplayStrip.uix", 172, 25, false));
-            IrisApp.DebugSettings.Breakpoints.Add(new("clr-res://ZuneMarketplaceResources!SelectionActions.uix", 121, 14, false));
-            IrisApp.DebugSettings.Breakpoints.Add(new("clr-res://ZuneShell!Quickplay.uix", 917, 62, false));
+            //IrisApp.DebugSettings.Breakpoints.Add(new("clr-res://ZuneShell!AddToCollection.uix", 325, true));
+            //IrisApp.DebugSettings.Breakpoints.Add(new("clr-res://ZuneShell!Styles.uix", 0x83, true));
+            //IrisApp.DebugSettings.Breakpoints.Add(new("clr-res://ZuneShell!QuickplayStrip.uix", 172, 25, false));
+            //IrisApp.DebugSettings.Breakpoints.Add(new("clr-res://ZuneMarketplaceResources!SelectionActions.uix", 121, 14, false));
+            //IrisApp.DebugSettings.Breakpoints.Add(new("clr-res://ZuneShell!Quickplay.uix", 917, 62, false));
 
             IntPtr hWnd = new System.Windows.Interop.WindowInteropHelper(this).Handle;
             Thread zuneThread = new(new ThreadStart(() =>
@@ -93,8 +93,12 @@ namespace ZuneHost.Wpf
 
                 Microsoft.Zune.Shell.ZuneApplication.Launch(strArgs, hWnd, () =>
                 {
-                    var debugger = new Microsoft.Iris.Debug.InProcDebugger();
-                    //debugger.InterpreterExecute += Bridge_InterpreterStep;
+                    var debugger = new Microsoft.Iris.DebugAdapter.Server.IrisDebugAdapterServer(new()
+                    {
+                        ConnectionString = @"\\.\pipe\IrisUIX_OpenZune_WPFHost",
+                        SymbolDir = @"E:\Repos\ZuneDev\ZuneUIXTools\test\syms",
+                        SourceDir = @"E:\Repos\ZuneDev\ZuneUIXTools\test",
+                    });
                     return debugger;
                 });
             }));

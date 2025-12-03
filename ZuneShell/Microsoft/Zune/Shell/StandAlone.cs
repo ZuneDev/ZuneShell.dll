@@ -65,7 +65,7 @@ namespace Microsoft.Zune.Shell
                             catch (FormatException) { }
                             break;
                         case "uixdebuguri":
-                            var debugConnectionUri = commandLineArgument.Value ?? DebugRemoting.DEFAULT_TCP_URI.OriginalString;
+                            var debugConnectionUri = new Uri(commandLineArgument.Value) ?? DebugRemoting.DEFAULT_TCP_URI;
                             debuggerFactory = () => new Iris.Debug.SystemNet.NetDebuggerServer(debugConnectionUri);
                             break;
                         case "uixtrace":
