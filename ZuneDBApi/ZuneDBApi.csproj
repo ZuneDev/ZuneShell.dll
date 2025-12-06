@@ -13,6 +13,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\libs\MicrosoftIris\UIX\UIX.csproj" />
+        <ProjectReference Include="..\libs\MicrosoftIris\UIX\UIX.csproj" />
+        <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.1.2" />
     </ItemGroup>
 </Project>
