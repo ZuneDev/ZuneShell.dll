@@ -10,6 +10,8 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\libs\ZuneUIXTools\DebugAdapter\UIX.DebugAdapter.Server\UIX.DebugAdapter.Server.csproj" />
+        <ProjectReference Include="..\libs\ZuneUIXTools\libs\MicrosoftIris\UIX\UIX.csproj" />
         <ProjectReference Include="..\ZuneShell\ZuneShell.csproj" />
     </ItemGroup>
 

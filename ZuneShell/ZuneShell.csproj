@@ -6,7 +6,7 @@
         <OutputType>Library</OutputType>
         <AssemblyName>ZuneShell</AssemblyName>
 
-        <TargetFrameworks>net6.0;net6.0-windows10.0.22000;net461</TargetFrameworks>
+        <TargetFrameworks>net6.0;net6.0-windows10.0.22000;net472</TargetFrameworks>
         <Platforms>x64;x86</Platforms>
 
         <FileAlignment>512</FileAlignment>
@@ -15,13 +15,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <EmbeddedResource Include="Resources\**\*.*" />
-
         <PackageReference Include="Vanara.PInvoke.User32" Version="3.4.17" />
+        <PackageReference Include="SixLabors.ImageSharp" Version="2.1.11" />
 
-        <ProjectReference Include="..\libs\MicrosoftIris\UIXcontrols\UIXcontrols.csproj" />
-        <ProjectReference Include="..\libs\MicrosoftIris\UIX\UIX.csproj" />
-
+        <ProjectReference Include="..\libs\ZuneUIXTools\libs\MicrosoftIris\UIXcontrols\UIXcontrols.csproj" />
+        <ProjectReference Include="..\libs\ZuneUIXTools\libs\MicrosoftIris\UIX\UIX.csproj" />
         <!--
             Reference both the real and proxy ZuneDBApi, to make sure we have all the types.
             Use the version from ZuneImpl when available.
@@ -46,5 +44,26 @@
 
     <ItemGroup Condition=" $(TargetFramework.StartsWith('netcoreapp')) ">
         <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="10.0.22621.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <EmbeddedResource Update="Resources\RCDATA.resx">
+            <Generator></Generator>
+            <LogicalName>RCDATA.resources</LogicalName>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\RCDATA.DARK.resx">
+            <Generator></Generator>
+            <LogicalName>RCDATA.DARK.resources</LogicalName>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources\RCDATA.CONTROLS.DARK.resx">
+            <Generator></Generator>
+            <LogicalName>RCDATA.CONTROLS.DARK.resources</LogicalName>
+        </EmbeddedResource>
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="lib\OpenZuneResources.dll">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 </Project>

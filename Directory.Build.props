@@ -26,7 +26,7 @@
             </PropertyGroup>
         </When>
         
-        <When Condition=" $(TargetFramework.StartsWith('net46')) ">
+        <When Condition=" $(TargetFramework.StartsWith('net4')) ">
             <PropertyGroup>
                 <DefineConstants>$(DefineConstants);WINDOWS;NETSTANDARD1_0_OR_GREATER;NETSTANDARD2_0_OR_GREATER</DefineConstants>
             </PropertyGroup>
