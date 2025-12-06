@@ -4,13 +4,10 @@
         <OutputType>Library</OutputType>
         <AssemblyName>ZuneImpl</AssemblyName>
         <RootNamespace>Microsoft.Zune</RootNamespace>
+		<TargetFrameworks>$(MinimalTargetFrameworks)</TargetFrameworks>
     </PropertyGroup>
 
     <ItemGroup>
-        <Reference Include="ZuneDBApi">
-            <HintPath>C:\Program Files\Zune\ZuneDBApi.dll</HintPath>
-        </Reference>
-
         <!-- This is the last version of NAudio to support net35 and net6.0 -->
         <PackageReference Include="NAudio" Version="1.10.0" />
         <PackageReference Include="Zune.Xml" Version="0.1.1" />
@@ -23,6 +20,7 @@
         </PackageReference>
 
         <ProjectReference Include="..\libs\MicrosoftIris\UIX\UIX.csproj" />
+        <ProjectReference Include="..\ZuneDBApi\ZuneDBApi.csproj" />
     </ItemGroup>
 
 </Project>

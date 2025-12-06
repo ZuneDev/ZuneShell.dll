@@ -5,6 +5,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZuneShell", "ZuneShell\ZuneShell.csproj", "{E93CFFA3-1EEB-4E71-9E83-7377C1422119}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "libs", "libs", "{7640D6FE-600E-44BE-A59F-E90602FA7754}"
+	ProjectSection(SolutionItems) = preProject
+		libs\MicrosoftIris\Directory.Build.props = libs\MicrosoftIris\Directory.Build.props
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UIX", "libs\MicrosoftIris\UIX\UIX.csproj", "{78A8B08C-C0E9-4BAC-9AF6-58D3A55C05C9}"
 EndProject
