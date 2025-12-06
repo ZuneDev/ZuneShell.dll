@@ -30,6 +30,15 @@ namespace ZuneHost.Wpf
 #if DEBUG
             //args = args.Concat(new[] { $"-uixdebuguri", });
 #endif
+
+            const string ARG_DBGCONSTR = "--dbgconstr=";
+            var connectionString = "std";
+            var dbgconstrArg = args.FirstOrDefault(a => a.StartsWith(ARG_DBGCONSTR));
+            if (dbgconstrArg is not null)
+            {
+                connectionString = dbgconstrArg[ARG_DBGCONSTR.Length..].Trim();
+            }
+
             string strArgs = string.Join(" ", args.ToArray());
 
             // Make sure that ZuneDBApi can find all the Zune native libraries
@@ -95,7 +104,7 @@ namespace ZuneHost.Wpf
                 {
                     var debugger = new Microsoft.Iris.DebugAdapter.Server.IrisDebugAdapterServer(new()
                     {
-                        ConnectionString = @"\\.\pipe\IrisUIX_OpenZune_WPFHost",
+                        ConnectionString = connectionString,
                         SymbolDir = @"E:\Repos\ZuneDev\ZuneUIXTools\test\syms",
                         SourceDir = @"E:\Repos\ZuneDev\ZuneUIXTools\test",
                     });
