@@ -2,7 +2,8 @@
     <PropertyGroup>
         <AssemblyName>ZuneDBApi</AssemblyName>
         <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
-        <TargetFrameworks>$(MinimalTargetFrameworks)</TargetFrameworks>
+        <TargetFrameworks>net6.0-windows</TargetFrameworks>
+        <!--<TargetFrameworks>$(MinimalTargetFrameworks)</TargetFrameworks>-->
         <PlatformTarget>x64</PlatformTarget>
         <LangVersion>12.0</LangVersion>
         <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
@@ -15,5 +16,6 @@
     <ItemGroup>
         <ProjectReference Include="..\libs\MicrosoftIris\UIX\UIX.csproj" />
         <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.1.2" />
+        <!--<PackageReference Include="Vanara.PInvoke.Ole" Version="4.2.1" />-->
     </ItemGroup>
 </Project>
