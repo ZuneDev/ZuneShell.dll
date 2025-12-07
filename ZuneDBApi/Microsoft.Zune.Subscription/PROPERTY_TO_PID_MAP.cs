@@ -8,7 +8,8 @@ namespace Microsoft.Zune.Subscription;
 [NativeCppClass]
 [DebugInfoInPDB]
 [MiscellaneousBits(65)]
-internal struct PROPERTY_TO_PID_MAP
+internal unsafe struct PROPERTY_TO_PID_MAP
 {
-	private long _003Calignment_0020member_003E;
+	public ushort* propertyName;
+	public uint propertyId;
 }

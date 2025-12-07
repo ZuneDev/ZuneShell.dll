@@ -8,5 +8,12 @@ using Microsoft.VisualC;
 [DebugInfoInPDB]
 internal struct tagPROPVARIANT
 {
-	private long _003Calignment_0020member_003E;
+    public VARTYPE vt;
+
+    private ushort _alignment1;
+    private ushort _alignment2;
+    private ushort _alignment3;
+
+    public long val1;
+    public long val2;
 }
