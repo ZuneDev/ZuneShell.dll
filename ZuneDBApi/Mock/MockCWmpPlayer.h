@@ -24,7 +24,7 @@ public:
     int Initialize(int) override;
 
     // Inherited via IMCPlayer
-    int Initialize(HWND*, unsigned int, IMCPlayerEvents*) override;
+    int Initialize(HWND* pHWND, unsigned int p1, IMCPlayerEvents* pEvents) override;
 
     // Inherited via IMCTransport
     int SetTransportEvents(IMCTransportEvents* events) override;

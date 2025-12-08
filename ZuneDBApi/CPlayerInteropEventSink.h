@@ -1,11 +1,9 @@
 #pragma once
 
-private struct CPlayerInteropEventSink : public IMCPlayerEvents, public IMCTransportEvents
+private struct CPlayerInteropEventSink
 {
-private:
-    void* _alignment1;
-
 public:
+    IMCPlayerEvents* playerEvents;
     IMCTransportEvents* transportEvents;
     IMCPlayerSetUriEvents* playerSetUriEvents;
 };

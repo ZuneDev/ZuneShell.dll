@@ -106,7 +106,8 @@ void MicrosoftZunePlayback::PlayerInterop::Initialize()
 
     _uEventSink = new CPlayerInteropEventSink();
 
-    num = _uPlayer->Initialize((HWND*)_windowHandle.ToPointer(), 0, _uEventSink);
+    IMCPlayerEvents* ptr8 = _uEventSink->playerEvents;
+    num = _uPlayer->Initialize((HWND*)_windowHandle.ToPointer(), 0, ptr8);
     if (num < 0)
     {
         throw gcnew COMException("PlayerInterop failed to initialize IMCPlayer", num);
