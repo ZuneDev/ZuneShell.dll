@@ -1,12 +1,9 @@
-using System.Runtime.CompilerServices;
+using System;
 using System.Runtime.InteropServices;
-using Microsoft.VisualC;
 
-[StructLayout(LayoutKind.Sequential, Size = 8)]
-[MiscellaneousBits(65)]
-[NativeCppClass]
-[DebugInfoInPDB]
-internal static struct IService
+[StructLayout(LayoutKind.Explicit)]
+internal unsafe struct IService
 {
-	private long _003Calignment_0020member_003E;
+    [FieldOffset(384)]
+    public delegate* unmanaged[Cdecl, Cdecl]<IntPtr, _GUID*, int*, int> _method1;
 }

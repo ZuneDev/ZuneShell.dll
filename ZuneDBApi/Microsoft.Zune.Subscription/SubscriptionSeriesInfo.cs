@@ -29,52 +29,52 @@ public class SubscriptionSeriesInfo : DataProviderObject
         [
             new()
             {
-                propertyName = (ushort*)Unsafe.AsPointer(ref _003CModule_003E.PROPNAME_FeedUrl),
+                propertyName = VCString.AsPtr(ref _003CModule_003E.PROPNAME_FeedUrl),
                 propertyId = 0x8000103
             },
             new()
             {
-                propertyName = (ushort*)Unsafe.AsPointer(ref _003CModule_003E.PROPNAME_ErrorCode),
+                propertyName = VCString.AsPtr(ref _003CModule_003E.PROPNAME_ErrorCode),
                 propertyId = 0x600010A
             },
             new()
             {
-                propertyName = (ushort*)Unsafe.AsPointer(ref _003CModule_003E.PROPNAME_Title),
+                propertyName = VCString.AsPtr(ref _003CModule_003E.PROPNAME_Title),
                 propertyId = PROPID_Title
             },
             new()
             {
-                propertyName = (ushort*)Unsafe.AsPointer(ref _003CModule_003E.PROPNAME_HomeUrl),
+                propertyName = VCString.AsPtr(ref _003CModule_003E.PROPNAME_HomeUrl),
                 propertyId = 0x800600C
             },
             new()
             {
-                propertyName = (ushort*)Unsafe.AsPointer(ref _003CModule_003E.PROPNAME_ArtUrl),
+                propertyName = VCString.AsPtr(ref _003CModule_003E.PROPNAME_ArtUrl),
                 propertyId = 0x800600D
             },
             new()
             {
-                propertyName = (ushort*)Unsafe.AsPointer(ref _003CModule_003E.PROPNAME_Description),
+                propertyName = VCString.AsPtr(ref _003CModule_003E.PROPNAME_Description),
                 propertyId = 0x8006002
             },
             new()
             {
-                propertyName = (ushort*)Unsafe.AsPointer(ref _003CModule_003E.PROPNAME_Explicit),
+                propertyName = VCString.AsPtr(ref _003CModule_003E.PROPNAME_Explicit),
                 propertyId = 0x5006006
             },
             new()
             {
-                propertyName = (ushort*)Unsafe.AsPointer(ref _003CModule_003E.PROPNAME_Copyright),
+                propertyName = VCString.AsPtr(ref _003CModule_003E.PROPNAME_Copyright),
                 propertyId = 0x1006009
             },
             new()
             {
-                propertyName = (ushort*)Unsafe.AsPointer(ref _003CModule_003E.PROPNAME_Author),
+                propertyName = VCString.AsPtr(ref _003CModule_003E.PROPNAME_Author),
                 propertyId = 0x1006004
             },
             new()
             {
-                propertyName = (ushort*)Unsafe.AsPointer(ref _003CModule_003E.PROPNAME_OwnerName),
+                propertyName = VCString.AsPtr(ref _003CModule_003E.PROPNAME_OwnerName),
                 propertyId = 0x1006007
             },
         ];
@@ -87,9 +87,9 @@ public class SubscriptionSeriesInfo : DataProviderObject
         {
             fixed (ushort* pPropertyName = VCString.ToWide(propertyName))
             {
-                if (_003CModule_003E._wcsicmp(pPropertyName, (ushort*)Unsafe.AsPointer(ref _003CModule_003E.PROPNAME_LibraryId)) != 0
-                    && _003CModule_003E._wcsicmp(pPropertyName, (ushort*)Unsafe.AsPointer(ref _003CModule_003E.PROPNAME_SeriesState)) != 0
-                    && _003CModule_003E._wcsicmp(pPropertyName, (ushort*)Unsafe.AsPointer(ref _003CModule_003E.PROPNAME_NumberOfEpisodes)) != 0
+                if (_003CModule_003E._wcsicmp(pPropertyName, VCString.AsPtr(ref _003CModule_003E.PROPNAME_LibraryId)) != 0
+                    && _003CModule_003E._wcsicmp(pPropertyName, VCString.AsPtr(ref _003CModule_003E.PROPNAME_SeriesState)) != 0
+                    && _003CModule_003E._wcsicmp(pPropertyName, VCString.AsPtr(ref _003CModule_003E.PROPNAME_NumberOfEpisodes)) != 0
                     && m_pSeriesPropertySet != null)
                 {
                     for (int currentMapIndex = 0; currentMapIndex < propertyToPidMaps.Length; currentMapIndex++)

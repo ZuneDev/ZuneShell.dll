@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace ZuneDBApi.Interop;
@@ -23,4 +24,7 @@ internal static class VCString
 
         return array;
     }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static unsafe ushort* AsPtr(ref ushort[] str) => (ushort*)Unsafe.AsPointer(ref str);
 }

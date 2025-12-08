@@ -1,19 +1,14 @@
-using Microsoft.VisualC;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-[StructLayout(LayoutKind.Sequential, Size = 24)]
-[NativeCppClass]
-[DebugInfoInPDB]
-[MiscellaneousBits(64)]
+[StructLayout(LayoutKind.Explicit, Size = 24)]
 internal struct CComPropVariant
 {
+	[FieldOffset(0)]
 	public VARTYPE vt;
 
-	public ushort wReserved1;
-	public ushort wReserved2;
-	public ushort wReserved3;
-
+	[FieldOffset(8)]
 	public ulong val1;
+
+	[FieldOffset(16)]
 	public ulong val2;
 }
