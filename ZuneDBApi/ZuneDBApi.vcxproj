@@ -25,7 +25,8 @@
     <Keyword>NetCoreCProj</Keyword>
     <RootNamespace>ZuneDBApi</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
+    <WindowsTargetPlatformMinVersion>7.0</WindowsTargetPlatformMinVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -120,18 +121,36 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CPlayerInteropEventSink.h" />
+    <ClInclude Include="IMCDynamicImage.h" />
+    <ClInclude Include="IMCPlayer.h" />
+    <ClInclude Include="IMCTransport.h" />
+    <ClInclude Include="IMCVolumeControl.h" />
+    <ClInclude Include="IZuneSpectrumMgr.h" />
+    <ClInclude Include="Mock\MockCWmpPlayer.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="PlayerInterop.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="zunecore.h" />
     <ClInclude Include="ZuneDBApi.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
+    <ClCompile Include="CPlayerInteropEventSink.cpp" />
+    <ClCompile Include="IMCDynamicImage.cpp" />
+    <ClCompile Include="IMCPlayer.cpp" />
+    <ClCompile Include="IMCTransport.cpp" />
+    <ClCompile Include="IMCVolumeControl.cpp" />
+    <ClCompile Include="IZuneSpectrumMgr.cpp" />
+    <ClCompile Include="Mock\MockCWmpPlayer.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="PlayerInterop.cpp" />
+    <ClCompile Include="zunecore.cpp" />
     <ClCompile Include="ZuneDBApi.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -13,6 +13,18 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\MicrosoftZunePlayback">
+      <UniqueIdentifier>{9be38ff7-595f-464e-a2bf-889c1274244c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\MicrosoftZunePlayback">
+      <UniqueIdentifier>{e79d317f-1416-4b4e-bfd1-105283ff84f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Mock">
+      <UniqueIdentifier>{f0d0169a-0f70-4f80-87a4-4473ab1f0940}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Mock">
+      <UniqueIdentifier>{d3be4ac5-c2aa-477f-9bd5-f0c6fe7a9f03}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ZuneDBApi.h">
@@ -24,6 +36,33 @@
     <ClInclude Include="pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerInterop.h">
+      <Filter>Header Files\MicrosoftZunePlayback</Filter>
+    </ClInclude>
+    <ClInclude Include="IMCPlayer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IMCTransport.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="zunecore.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IMCVolumeControl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IZuneSpectrumMgr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Mock\MockCWmpPlayer.h">
+      <Filter>Header Files\Mock</Filter>
+    </ClInclude>
+    <ClInclude Include="IMCDynamicImage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlayerInteropEventSink.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ZuneDBApi.cpp">
@@ -33,6 +72,33 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerInterop.cpp">
+      <Filter>Source Files\MicrosoftZunePlayback</Filter>
+    </ClCompile>
+    <ClCompile Include="IMCPlayer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IMCTransport.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="zunecore.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IMCVolumeControl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IZuneSpectrumMgr.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Mock\MockCWmpPlayer.cpp">
+      <Filter>Source Files\Mock</Filter>
+    </ClCompile>
+    <ClCompile Include="IMCDynamicImage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayerInteropEventSink.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

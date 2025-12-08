@@ -1,0 +1,10 @@
+#pragma once
+
+#include <objbase.h>
+
+const GUID IID_IMCVolumeControl = { 0xf6ba930c, 0x78c3, 0x488c, { 0x92, 0x4d, 0x2d, 0x3f, 0xc1, 0xe8, 0xfb, 0x70 } };
+
+private class IMCVolumeControl : public IUnknown
+{
+};
+
