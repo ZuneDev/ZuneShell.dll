@@ -1569,7 +1569,7 @@ namespace ZuneUI
         private void UseSmtc()
         {
             // Use SMTC when available
-#if WINDOWS
+#if WINDOWS8
             if (Microsoft.WinRT.ApiInformation.IsTypePresent("Windows.Media.SystemMediaTransportControls")
                 && !OSVersion.IsLessThanWin10())
             {
@@ -1625,7 +1625,7 @@ namespace ZuneUI
 
         private void UpdateSmtcState(PlayerState stateNew)
         {
-#if WINDOWS
+#if WINDOWS8
                 if (Microsoft.WinRT.ApiInformation.IsTypePresent("Windows.Media.SystemMediaTransportControls")
                     && !OSVersion.IsLessThanWin10())
                 {

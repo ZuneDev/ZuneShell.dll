@@ -36,7 +36,7 @@ namespace ZuneHost.Wpf
             var dbgconstrArg = args.FirstOrDefault(a => a.StartsWith(ARG_DBGCONSTR));
             if (dbgconstrArg is not null)
             {
-                connectionString = dbgconstrArg[ARG_DBGCONSTR.Length..].Trim();
+                connectionString = dbgconstrArg.Substring(ARG_DBGCONSTR.Length).Trim();
             }
 
             string strArgs = string.Join(" ", args.ToArray());
@@ -96,7 +96,7 @@ namespace ZuneHost.Wpf
             {
                 IrisApp.Initialized += delegate
                 {
-                    UIXControls.Helpers.AddResourceRedirect("res://ZuneShellResources!", "clr-res://ZuneShell!");
+                    IrisApp.AddResourceRedirect("res://ZuneShellResources!", "clr-res://ZuneShell!");
                     UIXControls.Helpers.AddUIXControlsClrRedirect();
                 };
 

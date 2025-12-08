@@ -27,7 +27,7 @@ namespace Microsoft.WinRT
         {
             if (Environment.OSVersion.Version >= Win10Version)
             {
-                return global::Windows.Foundation.Metadata.ApiInformation.IsTypePresent(typeName);
+                return Windows.Foundation.Metadata.ApiInformation.IsTypePresent(typeName);
             }
             else
             {

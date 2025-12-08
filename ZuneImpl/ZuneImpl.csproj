@@ -22,7 +22,7 @@
             <IncludeAssets>runtime;build;native;contentfiles;analyzers</IncludeAssets>
         </PackageReference>
 
-        <ProjectReference Include="..\libs\MicrosoftIris\UIX\UIX.csproj" />
+        <ProjectReference Include="..\libs\ZuneUIXTools\libs\MicrosoftIris\UIX\UIX.csproj" />
     </ItemGroup>
 
 </Project>
