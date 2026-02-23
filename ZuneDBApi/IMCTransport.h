@@ -8,10 +8,10 @@ private class IMCTransport : public IUnknown
 {
 public:
     // 24
-    virtual int SetTransportEvents(IMCTransportEvents* events) = 0;
+    STDMETHOD(SetTransportEvents(IMCTransportEvents* events));
 
     // 96
-    virtual int SetPositionEventInterval(unsigned int intervalMilliseconds) = 0;
+    STDMETHOD(SetPositionEventInterval(unsigned int intervalMilliseconds));
 };
 
 private struct IMCTransportEvents

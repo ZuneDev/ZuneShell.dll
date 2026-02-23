@@ -7,6 +7,6 @@ const GUID IID_IMCDynamicImage = { 0x102e281e, 0x28ad, 0x4688, { 0xaa, 0xff, 0xf
 private struct IMCDynamicImage : public IUnknown
 {
 public:
-    virtual int Initialize(int) = 0;
+    STDMETHOD(Initialize(int));
 };
 

@@ -7,9 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Reference Include="ZuneDBApi">
-            <HintPath>..\ZuneShell\lib\ZuneDBApi.dll</HintPath>
-        </Reference>
+        <ProjectReference Include="..\ZuneDBApi\ZuneDBApi.vcxproj" />
 
         <!-- This is the last version of NAudio to support net35 and net6.0 -->
         <PackageReference Include="NAudio" Version="1.10.0" />

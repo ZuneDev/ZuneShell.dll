@@ -7,14 +7,18 @@ const GUID IID_IMCPlayerSetUri = { 0x58864c93, 0x45f9, 0x4c6d, { 0xaa, 0x3f, 0x8
 struct IMCPlayer : public IUnknown
 {
 public:
-    virtual int Initialize(HWND* pHWND, unsigned int p1, IMCPlayerEvents* pEvents) = 0;
+    STDMETHOD(Initialize(HWND hWnd, unsigned int p1, IMCPlayerEvents* pEvents));
+
+    STDMETHOD(Method32(void));
+    STDMETHOD(Method40(void));
+    STDMETHOD(Method64(void));
 };
 
 struct IMCPlayerSetUri : public IUnknown
 {
 public:
     // TODO: Is this the same method as IMCTransport.SetTransportEvents?
-    virtual int SetPlayerSetUriEvents(IMCPlayerSetUriEvents* events) = 0;
+    STDMETHOD(SetPlayerSetUriEvents(IMCPlayerSetUriEvents* events));
 };
 
 struct IMCPlayerEvents

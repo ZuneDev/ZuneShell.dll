@@ -143,5 +143,26 @@ void MicrosoftZunePlayback::PlayerInterop::Uninitialize()
     if (_uPlayer != NULL)
     {
         _fShuttingDown = true;
+
+        _uPlayer->Method40();
+        WaitForSingleObject(_gotStateCloseEvent, 5000);
+
+        _uPlayer->Method32();
+        bool condition = WaitForSingleObject(_gotStateUninitializeEvent, 5000) == 0
+            && _state == MCPlayerState.Uninitialized;
+        flag = _state != MCPlayerState.Uninitialized || flag;
+
+        _uPlayer->Method64();
+    }
+
+    CloseHandle(_gotStateCloseEvent);
+    _gotStateCloseEvent = nullptr;
+
+    CloseHandle(_gotStateUninitializeEvent);
+    _gotStateUninitializeEvent = nullptr;
+
+    if (!flag)
+    {
+
     }
 }

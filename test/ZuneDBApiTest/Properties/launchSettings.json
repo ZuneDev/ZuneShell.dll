@@ -1,0 +1,9 @@
+{
+    "profiles": {
+        "ZuneDBApiTest": {
+            "commandName": "Project",
+            "workingDirectory": "C:\\Program Files\\Zune",
+            "nativeDebugging": true
+        }
+    }
+}

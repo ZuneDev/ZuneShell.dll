@@ -32,27 +32,27 @@ ULONG __stdcall MockCWmpPlayer::Release(void)
     return count;
 }
 
-int MockCWmpPlayer::Initialize(int n)
+HRESULT MockCWmpPlayer::Initialize(int n)
 {
     return 0;
 }
 
-int MockCWmpPlayer::Initialize(HWND* pHWND, unsigned int p1, IMCPlayerEvents* pEvents)
+HRESULT MockCWmpPlayer::Initialize(HWND hWnd, unsigned int p1, IMCPlayerEvents* pEvents)
 {
     return 0;
 }
 
-int MockCWmpPlayer::SetTransportEvents(IMCTransportEvents* events)
+HRESULT MockCWmpPlayer::SetTransportEvents(IMCTransportEvents* events)
 {
     return 0;
 }
 
-int MockCWmpPlayer::SetPositionEventInterval(unsigned int intervalMilliseconds)
+HRESULT MockCWmpPlayer::SetPositionEventInterval(unsigned int intervalMilliseconds)
 {
     return 0;
 }
 
-int MockCWmpPlayer::SetPlayerSetUriEvents(IMCPlayerSetUriEvents* events)
+HRESULT MockCWmpPlayer::SetPlayerSetUriEvents(IMCPlayerSetUriEvents* events)
 {
     return 0;
 }

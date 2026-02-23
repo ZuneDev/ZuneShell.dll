@@ -21,16 +21,16 @@ public:
     ULONG __stdcall Release(void) override;
 
     // Inherited via IMCDynamicImage
-    int Initialize(int) override;
+    HRESULT Initialize(int) override;
 
     // Inherited via IMCPlayer
-    int Initialize(HWND* pHWND, unsigned int p1, IMCPlayerEvents* pEvents) override;
+    HRESULT Initialize(HWND hWnd, unsigned int p1, IMCPlayerEvents* pEvents) override;
 
     // Inherited via IMCTransport
-    int SetTransportEvents(IMCTransportEvents* events) override;
-    int SetPositionEventInterval(unsigned int intervalMilliseconds) override;
+    HRESULT SetTransportEvents(IMCTransportEvents* events) override;
+    HRESULT SetPositionEventInterval(unsigned int intervalMilliseconds) override;
 
     // Inherited via IMCPlayerSetUri
-    int SetPlayerSetUriEvents(IMCPlayerSetUriEvents* events) override;
+    HRESULT SetPlayerSetUriEvents(IMCPlayerSetUriEvents* events) override;
 };
 
