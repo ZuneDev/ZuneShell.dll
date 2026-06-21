@@ -10,25 +10,33 @@
 
         <DefineConstants>$(DefineConstants);OPENZUNE</DefineConstants>
 
-        <TargetFrameworks>net472;net6.0;net6.0-windows</TargetFrameworks>
+        <TargetFrameworks>net8.0</TargetFrameworks>
         <Platforms>x64;x86</Platforms>
 
         <SignAssembly>False</SignAssembly>
         <AssemblyOriginatorKeyFile>$(SolutionDir)\libs\MicrosoftIris\36MSApp1024.snk</AssemblyOriginatorKeyFile>
         <DelaySign>True</DelaySign>
     </PropertyGroup>
+    
+    <PropertyGroup Condition=" $([MSBuild]::IsOsPlatform('Windows')) ">
+        <TargetFrameworks>net472;$(TargetFrameworks);net8.0-windows</TargetFrameworks>
+    </PropertyGroup>
 
     <Choose>
         <When Condition=" $(TargetFramework.StartsWith('net6.0-windows')) ">
             <PropertyGroup>
-                <DefineConstants Condition="$(TargetFramework.StartsWith('net6.0-windows10'))">$(DefineConstants);WINDOWS8;WINDOWS10</DefineConstants>
-                <DefineConstants Condition="$(TargetFramework.StartsWith('net6.0-windows8'))">$(DefineConstants);WINDOWS8</DefineConstants>
+                <DefineConstants Condition="$(TargetFramework.StartsWith('net6.0-windows10'))">$(DefineConstants);WINDOWS;WINDOWS8;WINDOWS10</DefineConstants>
+                <DefineConstants Condition="$(TargetFramework.StartsWith('net6.0-windows8'))">$(DefineConstants);WINDOWS;WINDOWS8</DefineConstants>
             </PropertyGroup>
         </When>
         
         <When Condition=" $(TargetFramework.StartsWith('net4')) ">
             <PropertyGroup>
-                <DefineConstants>$(DefineConstants);WINDOWS;NETSTANDARD1_0_OR_GREATER;NETSTANDARD2_0_OR_GREATER</DefineConstants>
+                <DefineConstants>$(DefineConstants);WINDOWS</DefineConstants>
+                
+                <DefineConstants Condition=" !$(TargetFramework.StartsWith('net40')) ">
+                    $(DefineConstants);NETSTANDARD1_0_OR_GREATER;NETSTANDARD2_0_OR_GREATER
+                </DefineConstants>
             </PropertyGroup>
         </When>
     </Choose>

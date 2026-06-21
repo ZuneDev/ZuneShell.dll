@@ -195,8 +195,9 @@ namespace ZuneUI
             {
                 try
                 {
-                    using (Stream serializationStream = File.Create(_savedNowPlayingFilename))
-                        new BinaryFormatter().Serialize(serializationStream, _playlistCurrent);
+                    // TODO: Use anything but BinaryFormatter
+                    // using (Stream serializationStream = File.Create(_savedNowPlayingFilename))
+                    //     new BinaryFormatter().Serialize(serializationStream, _playlistCurrent);
                 }
                 catch (Exception ex)
                 {
@@ -299,8 +300,9 @@ namespace ZuneUI
                 {
                     try
                     {
-                        using (Stream serializationStream = File.OpenRead(path))
-                            args = new BinaryFormatter().Deserialize(serializationStream);
+                        // TODO: Use anything but BinaryFormatter
+                        // using (Stream serializationStream = File.OpenRead(path))
+                        //     args = new BinaryFormatter().Deserialize(serializationStream);
                     }
                     catch
                     {
