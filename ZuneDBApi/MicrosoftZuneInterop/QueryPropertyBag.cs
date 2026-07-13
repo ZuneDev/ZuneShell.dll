@@ -1,40 +1,99 @@
 using System;
+using System.Collections;
 using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.Marshalling;
 
 namespace MicrosoftZuneInterop;
 
+// Native COM interface IMultiSortAttributes — vtable layout (x64, IUnknown = slots 0–2):
+//   [3]  GetSortOrders()     -> EQuerySortType*   (parallel array of sort directions)
+//   [4]  GetSortAttributes() -> int*              (parallel array of SchemaMap indices)
+//
+// Native struct IDList (16 bytes):
+//   int   Count
+//   (4 bytes padding)
+//   int*  Ids   (heap-allocated array of Count media IDs; freed by the native caller)
+
 public class QueryPropertyBag : IDisposable
 {
-    private readonly object m_pBag; // Stub for IQueryPropertyBag*
-    private bool _disposed;
+    private IQueryPropertyBag? _bag;
 
-    public IQueryPropertyBag* GetIQueryPropertyBag()
+    public QueryPropertyBag()
     {
-        return (IQueryPropertyBag*)m_pBag;
+        // TODO: P/Invoke ZuneLibraryExports.CreatePropertyBag to get an IQueryPropertyBag* pointer,
+        // then wrap it:
+        //   IntPtr ptr = ...; // from CreatePropertyBag
+        //   _bag = (IQueryPropertyBag)StrategyBasedComWrappers.Instance
+        //              .GetOrCreateObjectForComInstance(ptr, CreateObjectFlags.None);
     }
 
-    internal QueryPropertyBag()
+    public void SetValue(string propertyName, object? value)
     {
-    }
-
-    protected virtual void Dispose([MarshalAs(UnmanagedType.U1)] bool P_0)
-    {
-        if (P_0)
-        {
-            _disposed = true;
+        EQueryPropertyBagProp prop = MapNameToProp(propertyName);
+        if (prop == (EQueryPropertyBagProp)(-1) || value is null)
             return;
-        }
-        try
+
+        int hr = value switch
         {
-            _disposed = true;
-        }
-        finally
-        {
-            base.Finalize();
-        }
+            int i    => _bag!.SetInt(prop, i),
+            bool b   => _bag!.SetInt(prop, b ? 1 : 0),
+            string s => _bag!.SetString(prop, s),
+            _        => throw new ApplicationException($"Unsupported property value type: {value.GetType()}")
+        };
+
+        if (hr < 0)
+            throw new ApplicationException($"SetValue failed: HRESULT 0x{hr:X8}");
     }
 
-    public virtual sealed void Dispose()
+    public bool IsSet(string propertyName)
+    {
+        EQueryPropertyBagProp prop = MapNameToProp(propertyName);
+        if (prop == (EQueryPropertyBagProp)(-1))
+            return false;
+
+        _bag!.IsSet(prop, out int result);
+        return result == 1;
+    }
+
+    public EQueryPropertyBagProp MapNameToProp(string propertyName)
+    {
+        // TODO: recover the 37-entry kPropIdMap table from the native binary
+        // (case-insensitive wchar_t* → EQueryPropertyBagProp, stored as PropIdMapEntry[37]
+        // at MicrosoftZuneInterop.?A0x52c37a46.kPropIdMap; each entry is 16 bytes:
+        //   [0..7]  wchar_t* name, [8..11] EQueryPropertyBagProp id, [12..15] padding)
+        throw new NotImplementedException();
+    }
+
+    // Returns the underlying COM pointer for callers that pass it to native query APIs.
+    public IntPtr GetIQueryPropertyBag()
+    {
+        if (_bag is null) return IntPtr.Zero;
+        return StrategyBasedComWrappers.Instance.GetOrCreateComInterfaceForObject(_bag, CreateComInterfaceFlags.None);
+    }
+
+    // Packs multiIds into a native IDList: { int Count; int* Ids }.
+    // The returned IntPtr is unmanaged heap memory; the native caller is responsible for freeing it.
+    public IntPtr PackIDList(IList multiIds)
+    {
+        throw new NotImplementedException();
+    }
+
+    // Packs parallel sort-direction/attribute arrays into a native IMultiSortAttributes COM object.
+    // Requires CSchemaMap.GetIndex to map attribute name strings to schema indices,
+    // and a native ZuneLibraryExports.CreateMultiSortAttributes factory.
+    public IntPtr PackMultiSortAttributes(string[] sortStrings, bool[] sortAscendings)
+    {
+        throw new NotImplementedException();
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (disposing)
+            (_bag as IDisposable)?.Dispose();
+        _bag = null;
+    }
+
+    public void Dispose()
     {
         Dispose(true);
         GC.SuppressFinalize(this);

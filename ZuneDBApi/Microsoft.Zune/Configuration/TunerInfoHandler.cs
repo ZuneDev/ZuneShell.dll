@@ -5,11 +5,7 @@ namespace Microsoft.Zune.Configuration
 {
     internal class TunerInfoHandler : ITunerInfoHandler, IDisposable
     {
-        public event EventHandler OnChanged
-        {
-            add { OnChanged += value; }
-            remove { OnChanged -= value; }
-        }
+        public event EventHandler? OnChanged;
 
         private IList<TunerInfo> m_PCsList = new List<TunerInfo>();
         private IList<TunerInfo> m_devicesList = new List<TunerInfo>();
@@ -18,8 +14,6 @@ namespace Microsoft.Zune.Configuration
         private DateTime m_nextSubscriptionDeviceDeregistrationDate;
         private DateTime m_nextAppStoreDeviceDeregistrationDate;
 
-        public TunerInfoHandler() { }
-        ~TunerInfoHandler() { }
         public virtual bool CanQueryTunerList() { throw new NotImplementedException(); }
         public virtual IList<TunerInfo> GetPCsList() { return m_PCsList; }
         public virtual IList<TunerInfo> GetDevicesList() { return m_devicesList; }

@@ -17,11 +17,7 @@ namespace Microsoft.Zune.Configuration
 
         public string ConfigurationPath => m_basePath != null ? m_basePath + "\\" + m_instance : m_instance;
 
-        public event ConfigurationChangeEventHandler OnConfigurationChanged
-        {
-            add { lock (m_lock) { OnConfigurationChanged += value; } }
-            remove { lock (m_lock) { OnConfigurationChanged -= value; } }
-        }
+        public event ConfigurationChangeEventHandler OnConfigurationChanged;
 
         public CConfigurationManagedBase(RegistryHive hive, string basePath, string instance)
         {
