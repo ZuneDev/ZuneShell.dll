@@ -6,8 +6,9 @@ using System.Runtime.InteropServices.Marshalling;
 namespace MicrosoftZuneInterop;
 
 // Native COM interface IMultiSortAttributes — vtable layout (x64, IUnknown = slots 0–2):
-//   [3]  GetSortOrders()     -> EQuerySortType*   (parallel array of sort directions)
-//   [4]  GetSortAttributes() -> int*              (parallel array of SchemaMap indices)
+//   [3]  unknown
+//   [4]  GetSortAttributes() -> int*   (parallel array of SchemaMap indices)
+//   [5]  GetSortOrders()     -> int*   (parallel array of EQuerySortType values)
 //
 // Native struct IDList (16 bytes):
 //   int   Count
@@ -71,11 +72,25 @@ public class QueryPropertyBag : IDisposable
         return StrategyBasedComWrappers.Instance.GetOrCreateComInterfaceForObject(_bag, CreateComInterfaceFlags.None);
     }
 
-    // Packs multiIds into a native IDList: { int Count; int* Ids }.
-    // The returned IntPtr is unmanaged heap memory; the native caller is responsible for freeing it.
-    public IntPtr PackIDList(IList multiIds)
+    // Packs multiIds into a native IDList: { int Count; (4 pad); int* Ids }.
+    // The returned IntPtr points to native heap memory; the native caller is responsible for freeing it.
+    public unsafe IntPtr PackIDList(IList multiIds)
     {
-        throw new NotImplementedException();
+        int count = multiIds.Count;
+
+        // Allocate the 16-byte IDList struct and zero the Ids pointer slot before filling it,
+        // so the struct is never in a half-initialized state if AllocHGlobal below throws.
+        IntPtr listPtr = Marshal.AllocHGlobal(16);
+        *(int*)listPtr = count;
+        *(long*)(listPtr + 8) = 0L;
+
+        IntPtr idsPtr = Marshal.AllocHGlobal(count * sizeof(int));
+        *(IntPtr*)(listPtr + 8) = idsPtr;
+
+        for (int i = 0; i < count; i++)
+            *(int*)(idsPtr + i * sizeof(int)) = (int)multiIds[i]!;
+
+        return listPtr;
     }
 
     // Packs parallel sort-direction/attribute arrays into a native IMultiSortAttributes COM object.

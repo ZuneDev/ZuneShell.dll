@@ -91,3 +91,29 @@ The original constructor calls `global::<Module>.ZuneLibraryExports.CreateProper
 **File:** `ZuneDBApi/MicrosoftZuneInterop/QueryPropertyBag.cs` (previous `IntPtr`-based draft)
 
 The ILSpy decompilation shows `delegate* unmanaged[Cdecl, Cdecl]` for the vtable dispatch (the double `Cdecl` appears to be an ILSpy artifact of C++/CLI compilation). Standard COM uses `__stdcall` on x86 and the platform ABI on x64 (where Cdecl and Stdcall converge). The current implementation uses `[GeneratedComInterface]` which handles this, but if raw vtable dispatch is ever needed (e.g. for the unknown slots), the calling convention should be verified against the native binary.
+
+---
+
+## 2026-07-12 — IMultiSortAttributes vtable slot correction
+
+**File:** `ZuneDBApi/MicrosoftZuneInterop/QueryPropertyBag.cs`
+
+The original comment had `GetSortOrders` at slot 3 and `GetSortAttributes` at slot 4. This was wrong. The correct assignment was determined by reading the full ILSpy decompilation of `PackMultiSortAttributes`:
+
+```csharp
+// ptr  ← call at *(vtable + 32)  (slot 4, assuming IUnknown at slots 0–2)
+ptr  = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int*>)(*(ulong*)(*(long*)intPtr  + 32)))((nint)intPtr);
+// ptr2 ← call at *(vtable + 40)  (slot 5)
+ptr2 = ((delegate* unmanaged[Cdecl, Cdecl]<IntPtr, int*>)(*(ulong*)(*(long*)intPtr2 + 40)))((nint)intPtr2);
+```
+
+Then in the fill loop:
+- `*ptr4 = (int)eQuerySortType` where `ptr4` starts at `ptr2` and advances by 4 each iteration → `ptr2` receives **EQuerySortType** values → slot 5 = `GetSortOrders()`
+- `*(int*)((byte*)ptr5 + (nuint)ptr4) = num5` where `ptr5 = ptr - ptr2`, which simplifies to writing `num5` (the schema index from `CSchemaMap.GetIndex`) into `ptr[i]` → `ptr` receives **schema indices** → slot 4 = `GetSortAttributes()`
+
+Slot 3 (offset 24) is not called in `PackMultiSortAttributes` and remains unknown.
+
+**Corrected layout:**
+- `[3]`  unknown
+- `[4]`  `GetSortAttributes()` → `int*`  (parallel array of SchemaMap indices)
+- `[5]`  `GetSortOrders()`     → `int*`  (parallel array of EQuerySortType values)
