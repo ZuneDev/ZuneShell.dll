@@ -81,10 +81,7 @@ document.
 follow this procedure:
 
 1. **Log your question.** Use `LOG.md` in the repo root to log any questions
-or confusions. This document will be reviewed by the human: provide any
-useful context for your query. Do not log guesses or hunches; only observations
-and unknowns. Most importantly, **do not edit previous questions**; the log
-file is *append-only*.
+or confusions. Follow the instructions in *Logging*.
 2. **Ask the human.** They've been working on Zune longer than you have. They may
 have an immediate answer for you, or at least can narrow down your search.
 3. **Search the Wiki.** Some information has already been documented in the
@@ -211,3 +208,22 @@ classes are Windows-only; this is expected since the original Zune client was
 Windows-only, but keep cross-platform buildability in mind for the `net8.0`
 (non-`-windows`) TFM. When working on stage 3, avoid adding new Windows-only
 APIs outside what's already used.
+
+### Logging
+
+You are expected to log your thought process in the `logs` directory in the
+repo root. You may create any subdirectories and as many different log files
+as you see fit. These logs must contain your thought process for everything.
+This document will be reviewed by the human: provide any and all useful context
+for your query. Most importantly, **do not edit previous content**; all log
+files are
+*append-only*.
+
+If you were unable to figure something out using the procedure in *Dealing with
+unknowns and uncertainty*, log your observations and unknowns; **do not log
+guesses or hunches**.
+
+If you confidently made a change, explain why the change was warranted and back
+it up with references to documentation or other known-good sources. **Do not**
+depend on sources that themselves contain uncertainty. This propagates and
+compounds errors, making development unnecessarily difficult.
