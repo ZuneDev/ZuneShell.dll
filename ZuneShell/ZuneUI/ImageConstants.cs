@@ -5,6 +5,7 @@
 // Assembly location: C:\Program Files\Zune\ZuneShell.dll
 
 using Microsoft.Zune.Util;
+using System.Drawing;
 
 namespace ZuneUI
 {

@@ -48,7 +48,7 @@ public class Address
         set { m_street1 = value; }
     }
 
-    internal Address()
+    public Address()
     {
     }
 

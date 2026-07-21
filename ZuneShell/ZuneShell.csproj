@@ -29,9 +29,6 @@
             Use the version from ZuneImpl when available.
         -->
         <ProjectReference Include="..\ZuneImpl\ZuneImpl.csproj" />
-        <Reference Include="ZuneDBApi">
-            <HintPath>.\libs\ZuneDBApi.dll</HintPath>
-        </Reference>
 
         <PackageReference Include="StrixMusic.Sdk" Version="0.1.0-alpha" />
         <Reference Include="StrixMusic.Cores.Storage">

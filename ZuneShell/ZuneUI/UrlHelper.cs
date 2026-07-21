@@ -8,6 +8,7 @@ using Microsoft.Zune.Service;
 using Microsoft.Zune.Util;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Text;
 using System.Text.RegularExpressions;
 

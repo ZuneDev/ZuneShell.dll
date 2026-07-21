@@ -6,6 +6,7 @@
 
 using Microsoft.Zune.Util;
 using MicrosoftZuneLibrary;
+using System.Drawing;
 
 namespace ZuneUI
 {

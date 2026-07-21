@@ -46,7 +46,7 @@ public class AccountSettings
         set { m_emailFormat = value; }
     }
 
-    internal AccountSettings()
+    public AccountSettings()
     {
     }
 }

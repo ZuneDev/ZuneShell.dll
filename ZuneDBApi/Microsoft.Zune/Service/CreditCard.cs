@@ -106,7 +106,7 @@ public class CreditCard : PaymentInstrument
         set { m_address = value; }
     }
 
-    internal CreditCard()
+    public CreditCard()
         : base(null, PaymentType.CreditCard)
     {
         m_address = new Address();

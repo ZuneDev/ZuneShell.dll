@@ -101,6 +101,8 @@ have already been reimplemented (see stage 2 of *Project Goals*), including
 `ZuneShell.dll` and `Microsoft.Iris`, but all of the original native
 libraries are stuck at the start of stage 1.
 
+Avoid opaque pointer arithmetic; prefer defining internal structs.
+
 #### Managed assemblies
 
 Pure managed assemblies, such as those written in C#, can be inspected using
