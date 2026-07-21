@@ -215,6 +215,8 @@ classes are Windows-only; this is expected since the original Zune client was
 Windows-only, but keep cross-platform buildability in mind for the `net8.0`
 (non-`-windows`) TFM. When working on stage 3, avoid adding new Windows-only
 APIs outside what's already used.
+- Prefer using auto-properties when available, or at least use lambda
+expressions for property getters/setters.
 
 ### Logging
 
