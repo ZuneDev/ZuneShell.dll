@@ -17,6 +17,11 @@ namespace MicrosoftZuneInterop;
 
 public class QueryPropertyBag : IDisposable
 {
+    // StrategyBasedComWrappers has no singleton `Instance`/`Default` (unlike some other
+    // ComWrappers-derived types) — it has a public parameterless constructor and is meant
+    // to be instantiated once and reused, so it's cached here.
+    private static readonly StrategyBasedComWrappers s_comWrappers = new();
+
     private IQueryPropertyBag? _bag;
 
     public QueryPropertyBag()
@@ -24,7 +29,7 @@ public class QueryPropertyBag : IDisposable
         // TODO: P/Invoke ZuneLibraryExports.CreatePropertyBag to get an IQueryPropertyBag* pointer,
         // then wrap it:
         //   IntPtr ptr = ...; // from CreatePropertyBag
-        //   _bag = (IQueryPropertyBag)StrategyBasedComWrappers.Instance
+        //   _bag = (IQueryPropertyBag)s_comWrappers
         //              .GetOrCreateObjectForComInstance(ptr, CreateObjectFlags.None);
     }
 
@@ -69,7 +74,7 @@ public class QueryPropertyBag : IDisposable
     public IntPtr GetIQueryPropertyBag()
     {
         if (_bag is null) return IntPtr.Zero;
-        return StrategyBasedComWrappers.Instance.GetOrCreateComInterfaceForObject(_bag, CreateComInterfaceFlags.None);
+        return s_comWrappers.GetOrCreateComInterfaceForObject(_bag, CreateComInterfaceFlags.None);
     }
 
     // Packs multiIds into a native IDList: { int Count; (4 pad); int* Ids }.

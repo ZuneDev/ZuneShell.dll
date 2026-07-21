@@ -4,6 +4,59 @@ Append-only. Do not edit previous entries.
 
 ---
 
+## 2026-07-20 — StrategyBasedComWrappers.Instance does not exist
+
+**Task:** build error `CS0117: 'StrategyBasedComWrappers' does not contain a
+definition for 'Instance'` on the two call sites in this file (constructor
+TODO comment and `GetIQueryPropertyBag`).
+
+**Verification:** fetched the official API reference
+(`learn.microsoft.com/.../system.runtime.interopservices.marshalling.strategybasedcomwrappers`)
+rather than guessing at the correct member name. Confirmed `StrategyBasedComWrappers`
+has no static `Instance`/`Default`/singleton member of any kind — only a public
+parameterless constructor plus instance methods/properties inherited from
+`ComWrappers`. This differs from the assumption baked into the code as written
+(that it exposed a singleton like many other `ComWrappers`-derived helper types
+do by convention).
+
+**Fix:** added a `private static readonly StrategyBasedComWrappers s_comWrappers = new();`
+field and replaced both `StrategyBasedComWrappers.Instance` references with it.
+`ComWrappers`-derived types are meant to be instantiated once and reused for
+the process lifetime (per the same doc page's remarks on `ComWrappers`), so a
+single cached static instance is the correct usage pattern here, not a
+per-call `new()`.
+
+## 2026-07-20 — EQueryPropertyBagProp placeholder declaration
+
+**Task:** `dotnet build` failed because `EQueryPropertyBagProp` (referenced by
+`IQueryPropertyBag.cs` and this file) did not exist as a type anywhere in the
+project — only documented as an unknown in the 2026-07-12 entries below.
+
+**Verification via ILSpy:** re-checked via `mcp__ilspy__get_type_members` on
+`EQueryPropertyBagProp` in `ZuneShell/lib/ZuneDBApi.dll` — confirms the
+2026-07-12 finding still holds: the type exists in the assembly (`Kind: Enum`,
+`Namespace: ` empty) but exposes only the implicit `value__` backing field, no
+named members. This is consistent with it being a native-only C++ enum from
+an anonymous namespace that ILSpy cannot recover members for.
+
+**Action:** declared `public enum EQueryPropertyBagProp { }` (no members) in
+`MicrosoftZuneInterop/EQueryPropertyBagProp.cs`, in the global namespace to
+match the original metadata's empty namespace. An empty C# enum still allows
+arbitrary values via cast — e.g. `(EQueryPropertyBagProp)(-1)` in
+`QueryPropertyBag.MapNameToProp`'s sentinel check — so this is sufficient to
+unblock compilation without guessing at names/values that remain genuinely
+unrecoverable without Ghidra (per *Dealing with unknowns and uncertainty*,
+step 4: this is the assumption with fewest predicates, documented via
+`// TODO` in the new file rather than guessed).
+
+**Also observed:** after this type existed, the previously-reported
+`SYSLIB1051` diagnostic on `IQueryPropertyBag.SetString`/`SetInt`/`IsSet`
+(prop parameter) disappeared. That diagnostic was a downstream symptom of the
+missing type (the source generator couldn't reason about a parameter type
+that didn't resolve), not a real marshalling limitation of `EQueryPropertyBagProp`
+itself — a plain `int`-backed enum is blittable and needs no special handling
+for `[GeneratedComInterface]`.
+
 ## 2026-07-12 — Decompilation
 
 **Source:** ILSpy decompilation of `MicrosoftZuneInterop.QueryPropertyBag` in
