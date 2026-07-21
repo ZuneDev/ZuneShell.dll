@@ -1,6 +1,5 @@
-using System;
-using System.Collections.Generic;
 using Microsoft.Win32;
+using ZuneDBApi.Abstractions;
 
 namespace Microsoft.Zune.Configuration
 {
@@ -9,6 +8,7 @@ namespace Microsoft.Zune.Configuration
         private string m_basePath;
         private string m_instance;
         private object m_lock;
+        private readonly IRegistryProvider m_registry;
 
         public string ConfigurationAbsolutePath
         {
@@ -24,6 +24,7 @@ namespace Microsoft.Zune.Configuration
             m_basePath = basePath;
             m_instance = instance;
             m_lock = new object();
+            m_registry = RegistryProviderFactory.Create(hive, ConfigurationPath);
         }
 
         ~CConfigurationManagedBase()
@@ -31,22 +32,85 @@ namespace Microsoft.Zune.Configuration
             Dispose(false);
         }
 
-        public virtual bool GetBoolProperty(string propertyName, bool defaultValue) { return defaultValue; }
-        public virtual void SetBoolProperty(string propertyName, bool value) { }
-        public virtual int GetIntProperty(string propertyName, int defaultValue) { return defaultValue; }
-        public virtual void SetIntProperty(string propertyName, int value) { }
-        public virtual long GetInt64Property(string propertyName, long defaultValue) { return defaultValue; }
-        public virtual void SetInt64Property(string propertyName, long value) { }
-        public virtual double GetDoubleProperty(string propertyName, double defaultValue) { return defaultValue; }
-        public virtual void SetDoubleProperty(string propertyName, double value) { }
-        public virtual DateTime GetDateTimeProperty(string propertyName, DateTime defaultValue) { return defaultValue; }
-        public virtual void SetDateTimeProperty(string propertyName, DateTime value) { }
-        public virtual string GetStringProperty(string propertyName, string defaultValue) { return defaultValue; }
-        public virtual void SetStringProperty(string propertyName, string value) { }
-        public virtual IList<string> GetStringListProperty(string propertyName) { return null; }
-        public virtual void SetStringListProperty(string propertyName, IList<string> value) { }
-        public virtual byte[] GetBinaryProperty(string propertyName) { return null; }
-        public virtual void SetBinaryProperty(string propertyName, byte[] value) { }
+        public virtual bool GetBoolProperty(string propertyName, bool defaultValue)
+        {
+            lock (m_lock) return m_registry.GetBoolValue(propertyName, defaultValue);
+        }
+
+        public virtual void SetBoolProperty(string propertyName, bool value)
+        {
+            lock (m_lock) m_registry.SetBoolValue(propertyName, value);
+        }
+
+        public virtual int GetIntProperty(string propertyName, int defaultValue)
+        {
+            lock (m_lock) return m_registry.GetIntValue(propertyName, defaultValue);
+        }
+
+        public virtual void SetIntProperty(string propertyName, int value)
+        {
+            lock (m_lock) m_registry.SetIntValue(propertyName, value);
+        }
+
+        public virtual long GetInt64Property(string propertyName, long defaultValue)
+        {
+            lock (m_lock) return m_registry.GetInt64Value(propertyName, defaultValue);
+        }
+
+        public virtual void SetInt64Property(string propertyName, long value)
+        {
+            lock (m_lock) m_registry.SetInt64Value(propertyName, value);
+        }
+
+        public virtual double GetDoubleProperty(string propertyName, double defaultValue)
+        {
+            lock (m_lock) return m_registry.GetDoubleValue(propertyName, defaultValue);
+        }
+
+        public virtual void SetDoubleProperty(string propertyName, double value)
+        {
+            lock (m_lock) m_registry.SetDoubleValue(propertyName, value);
+        }
+
+        public virtual DateTime GetDateTimeProperty(string propertyName, DateTime defaultValue)
+        {
+            lock (m_lock) return m_registry.GetDateTimeValue(propertyName, defaultValue);
+        }
+
+        public virtual void SetDateTimeProperty(string propertyName, DateTime value)
+        {
+            lock (m_lock) m_registry.SetDateTimeValue(propertyName, value);
+        }
+
+        public virtual string GetStringProperty(string propertyName, string defaultValue)
+        {
+            lock (m_lock) return m_registry.GetStringValue(propertyName, defaultValue);
+        }
+
+        public virtual void SetStringProperty(string propertyName, string value)
+        {
+            lock (m_lock) m_registry.SetStringValue(propertyName, value);
+        }
+
+        public virtual IList<string> GetStringListProperty(string propertyName)
+        {
+            lock (m_lock) return m_registry.GetStringListValue(propertyName);
+        }
+
+        public virtual void SetStringListProperty(string propertyName, IList<string> value)
+        {
+            lock (m_lock) m_registry.SetStringListValue(propertyName, value);
+        }
+
+        public virtual byte[] GetBinaryProperty(string propertyName)
+        {
+            lock (m_lock) return m_registry.GetBinaryValue(propertyName);
+        }
+
+        public virtual void SetBinaryProperty(string propertyName, byte[] value)
+        {
+            lock (m_lock) m_registry.SetBinaryValue(propertyName, value);
+        }
 
         public virtual void raise_OnConfigurationChanged(object sender, ConfigurationChangeEventArgs args)
         {
@@ -57,7 +121,7 @@ namespace Microsoft.Zune.Configuration
         {
             if (disposing)
             {
-                // Cleanup managed resources
+                m_registry.Dispose();
             }
             // Cleanup unmanaged resources
         }
