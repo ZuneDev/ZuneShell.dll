@@ -59,7 +59,7 @@ replacement for the original libraries. The project at this stage is more
 manageable but naturally has the similar requirements and limitations to the
 original.
 3. **Enhancement:** adding new features such as additional platform support
-or OS intergration. This may require extending existing abstractions or
+or OS integration. This may require extending existing abstractions or
 creating new ones for the sake of modularity.
 
 **Strict adherence to these phases is required**. To ensure stability and
@@ -111,8 +111,10 @@ decompilations are suitable starting points for stages 2 and 3.
 #### Native assemblies
 
 Native or unmanaged assemblies, such as those written in C or C++, can be
-inspected using Ghidra. Decompilations from these assemblies should not be used
-verbatim, as their outputs are usually low-quality and are not readable.
+inspected using Ghidra or the `ghidra-mcp` tools. Decompilations from these
+assemblies should not be used verbatim, as their outputs are usually
+low-quality and are not readable, but information can be extracted from
+them.
 
 #### Mixed-mode assemblies
 
@@ -121,7 +123,7 @@ and unmanaged code. ILSpy and its corresponding MCP tools may be used to
 inspect the public surface of these assemblies, but implementation details
 are likely to be missing. A combination of Ghidra and ILSpy may be required
 to fully reverse engineer such assemblies. Decompilations of mixed-mode
-aseemblies should only be used as-is if the specific code does not touch any
+assemblies should only be used as-is if the specific code does not touch any
 native or unmanaged code, either internally or externally.
 
 ### STAGE 2: Implementation
@@ -129,7 +131,10 @@ native or unmanaged code, either internally or externally.
 All initial implementations must be backwards-compatible with the original
 API surfaces. This means reimplemented modules must have the same public
 type/method/property signatures as the original (so dependent code compiles
-and links correctly). The actual body of these surfaces can follow one of the
+and links correctly). Searching through the existing codebase to justify
+changing the signature is **expressly forbidden**, as there are additional
+dependencies that will not be obvious. You are required to match the original
+API. The actual body of these surfaces can follow one of the
 following conventions:
 
 - **Pure no-op stub** — method sets `out` params to defaults and returns a
@@ -137,7 +142,7 @@ success result, typically `HRESULT._S_OK`.
 - **Real working logic** — logic is implemented and matches the original
 behavior.
 
-Whenever possible, the latter is preferred over the former: stubs require
+Whenever possible, real logic is preferred over the former: stubs require
 more work in the future by a human, which can make the revival effort take
 longer to become useful. Real, working business logic makes future work much
 easier because the code is much more self-documenting, requiring less
@@ -214,10 +219,10 @@ APIs outside what's already used.
 You are expected to log your thought process in the `logs` directory in the
 repo root. You may create any subdirectories and as many different log files
 as you see fit. These logs must contain your thought process for everything.
-This document will be reviewed by the human: provide any and all useful context
+The human will review this document: provide any and all useful context
 for your query. Most importantly, **do not edit previous content**; all log
-files are
-*append-only*.
+files are *prepend-only*. This also means your log will be in reverse
+chronological order.
 
 If you were unable to figure something out using the procedure in *Dealing with
 unknowns and uncertainty*, log your observations and unknowns; **do not log

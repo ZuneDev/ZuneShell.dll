@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
@@ -48,7 +47,7 @@ public class QueryPropertyBag : IDisposable
         };
 
         if (hr < 0)
-            throw new ApplicationException($"SetValue failed: HRESULT 0x{hr:X8}");
+            throw new ApplicationException(GetErrorDescription(hr));
     }
 
     public bool IsSet(string propertyName)
@@ -61,13 +60,93 @@ public class QueryPropertyBag : IDisposable
         return result == 1;
     }
 
+    // Reimplements the native kPropIdMap linear scan (37 entries, case-insensitive
+    // wchar_t* name -> EQueryPropertyBagProp) as a managed lookup table. The original
+    // walks the array with _wcsicmp and throws on no match rather than returning a
+    // sentinel (verified via ILSpy decompilation of the original MapNameToProp IL —
+    // see logs/MicrosoftZuneInterop/QueryPropertyBag.md); a Dictionary with an
+    // ordinal case-insensitive comparer reproduces both behaviors without needing
+    // to replicate the native array's raw memory layout.
+    private static readonly Dictionary<string, EQueryPropertyBagProp> s_propIdMap = new(StringComparer.OrdinalIgnoreCase)
+    {
+        ["UserId"] = EQueryPropertyBagProp.eQueryPropertyBagPropUserId,
+        ["DeviceId"] = EQueryPropertyBagProp.eQueryPropertyBagPropDeviceId,
+        ["RuleTypeId"] = EQueryPropertyBagProp.eQueryPropertyBagPropRuleTypeId,
+        ["ArtistId"] = EQueryPropertyBagProp.eQueryPropertyBagPropArtistId,
+        ["ArtistIds"] = EQueryPropertyBagProp.eQueryPropertyBagPropArtistIds,
+        ["ContributingArtistId"] = EQueryPropertyBagProp.eQueryPropertyBagPropContributingArtistId,
+        ["AlbumId"] = EQueryPropertyBagProp.eQueryPropertyBagPropAlbumId,
+        ["AlbumIds"] = EQueryPropertyBagProp.eQueryPropertyBagPropAlbumIds,
+        ["SeriesId"] = EQueryPropertyBagProp.eQueryPropertyBagPropSeriesId,
+        ["FolderID"] = EQueryPropertyBagProp.eQueryPropertyBagPropFolderId,
+        ["PlaylistId"] = EQueryPropertyBagProp.eQueryPropertyBagPropPlaylistId,
+        ["GenreId"] = EQueryPropertyBagProp.eQueryPropertyBagPropGenreId,
+        ["GenreIds"] = EQueryPropertyBagProp.eQueryPropertyBagPropGenreIds,
+        ["MediaType"] = EQueryPropertyBagProp.eQueryPropertyBagPropMediaType,
+        ["QueryType"] = EQueryPropertyBagProp.eQueryPropertyBagPropQueryType,
+        ["QueryView"] = EQueryPropertyBagProp.eQueryPropertyBagPropQueryView,
+        ["Operation"] = EQueryPropertyBagProp.eQueryPropertyBagPropOperation,
+        ["InitTime"] = EQueryPropertyBagProp.eQueryPropertyBagPropInitTime,
+        ["SyncMappedError"] = EQueryPropertyBagProp.eQueryPropertyBagPropSyncMappedError,
+        ["Keywords"] = EQueryPropertyBagProp.eQueryPropertyBagPropKeywords,
+        ["TOC"] = EQueryPropertyBagProp.eQueryPropertyBagPropTOC,
+        ["SortColumnId"] = EQueryPropertyBagProp.eQueryPropertyBagPropSortColumnId,
+        ["SortTypeId"] = EQueryPropertyBagProp.eQueryPropertyBagPropSortTypeId,
+        ["SortAttributesId"] = EQueryPropertyBagProp.eQueryPropertyBagPropSortAttributesId,
+        ["PlaylistType"] = EQueryPropertyBagProp.eQueryPropertyBagPropPlaylistType,
+        ["PlaylistTypeMask"] = EQueryPropertyBagProp.eQueryPropertyBagPropPlaylistTypeMask,
+        ["InLibrary"] = EQueryPropertyBagProp.eQueryPropertyBagPropInLibrary,
+        ["CategoryId"] = EQueryPropertyBagProp.eQueryPropertyBagPropCategoryId,
+        ["PersonType"] = EQueryPropertyBagProp.eQueryPropertyBagPropPersonType,
+        ["MediaId"] = EQueryPropertyBagProp.eQueryPropertyBagPropMediaId,
+        ["UserCardIds"] = EQueryPropertyBagProp.eQueryPropertyBagPropUserCardIds,
+        ["MaxResultCount"] = EQueryPropertyBagProp.eQueryPropertyBagPropMaxResultCount,
+        ["WatchType"] = EQueryPropertyBagProp.eQueryPropertyBagPropWatchType,
+        ["ExpiresOnly"] = EQueryPropertyBagProp.eQueryPropertyBagPropExpiresOnly,
+        ["DrmStateMask"] = EQueryPropertyBagProp.eQueryPropertyBagPropDrmStateMask,
+        ["PinType"] = EQueryPropertyBagProp.eQueryPropertyBagPropPinType,
+        ["Recursive"] = EQueryPropertyBagProp.eQueryPropertyBagPropRecursive,
+    };
+
     public EQueryPropertyBagProp MapNameToProp(string propertyName)
     {
-        // TODO: recover the 37-entry kPropIdMap table from the native binary
-        // (case-insensitive wchar_t* → EQueryPropertyBagProp, stored as PropIdMapEntry[37]
-        // at MicrosoftZuneInterop.?A0x52c37a46.kPropIdMap; each entry is 16 bytes:
-        //   [0..7]  wchar_t* name, [8..11] EQueryPropertyBagProp id, [12..15] padding)
-        throw new NotImplementedException();
+        if (s_propIdMap.TryGetValue(propertyName, out EQueryPropertyBagProp prop))
+            return prop;
+
+        throw new ArgumentException("Invalid property name: " + propertyName, nameof(propertyName));
+    }
+
+    // Mirrors the original <Module>.GetErrorDescription helper (FormatMessage over
+    // the Win32 facility of the HRESULT). Windows-only by nature of FormatMessage;
+    // see the class-level TODO for the non-Windows fallback.
+#if WINDOWS
+    [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+    private static extern int FormatMessageW(uint dwFlags, IntPtr lpSource, uint dwMessageId, uint dwLanguageId, out IntPtr lpBuffer, uint nSize, IntPtr Arguments);
+
+    [DllImport("kernel32.dll")]
+    private static extern IntPtr LocalFree(IntPtr hMem);
+#endif
+
+    private static string GetErrorDescription(int hr)
+    {
+#if WINDOWS
+        const uint FORMAT_MESSAGE_ALLOCATE_BUFFER = 0x100;
+        const uint FORMAT_MESSAGE_FROM_SYSTEM = 0x1000;
+        const uint FORMAT_MESSAGE_IGNORE_INSERTS = 0x200;
+
+        if (FormatMessageW(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+                IntPtr.Zero, (uint)(hr & 0xFFFF), 0, out IntPtr buffer, 0, IntPtr.Zero) == 0)
+        {
+            return $"Unknown Error: 0x{hr:x}";
+        }
+
+        string message = Marshal.PtrToStringUni(buffer) ?? string.Empty;
+        LocalFree(buffer);
+        return $"{message} Error: 0x{hr:x}";
+#else
+        // TODO: implement HRESULT-to-string mapping for non-Windows platforms.
+        return $"Error: 0x{hr:x}";
+#endif
     }
 
     // Returns the underlying COM pointer for callers that pass it to native query APIs.

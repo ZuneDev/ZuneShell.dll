@@ -4,6 +4,110 @@ Append-only. Do not edit previous entries.
 
 ---
 
+## 2026-07-21 — kPropIdMap recovered; EQueryPropertyBagProp fully populated; MapNameToProp implemented
+
+**Task:** resolve Unknowns Q3/Q4 from the 2026-07-12 entry (below) — the 37-entry
+native `kPropIdMap` table (name strings + `EQueryPropertyBagProp` ids) that
+`MapNameToProp` needs, now that the Ghidra MCP connection was available.
+
+**Method:**
+
+1. Confirmed `ZuneDBApi.dll` was already open in Ghidra
+   (`/home/yoshiask/repos/ZuneDev/windows/shared/zune-x64/Zune/ZuneDBApi.dll`).
+   `search_functions` located `MapNameToProp @ 1800f3ec4`, but `decompile_function`
+   / `disassemble_function` on it produced garbage ("WARNING: Control flow
+   encountered bad instruction data", `.NET CLR Managed Code` marker) — this
+   address is the *IL* method body (C++/CLI without unmanaged constructs compiles
+   straight to IL with unsafe pointer ops, not real x86), which Ghidra's plain PE
+   loader has no disassembler for. `list_globals`/`search_strings` for
+   `kPropIdMap` inside Ghidra also came back empty — no symbol exists for it.
+
+2. Re-decompiled `MapNameToProp` via ILSpy directly (`mcp__ilspy__decompile_method`,
+   assemblyPath `ZuneShell/lib/ZuneDBApi.dll`) to get the precise original body.
+   This **corrected** a detail from the 2026-07-12 entry: the original does not
+   return a `-1` sentinel for an unmapped name — it throws
+   `ArgumentException("Invalid property name: " + propertyName, "propertyName")`
+   after scanning all 37 entries without a match. (The `-1` checks already
+   present in `SetValue`/`IsSet` are themselves faithfully-preserved dead code
+   from the original — decompiling those two methods confirmed the original C++/CLI
+   compiler emits the same always-true-when-matched `!= -1` check before ever
+   returning from the loop, so no change was needed there.)
+
+3. `MapNameToProp`'s IL directly indexes a static field
+   `<Module>.MicrosoftZuneInterop.?A0x52c37a46.kPropIdMap` — a native aggregate
+   (not a real .NET field), so its data lives at a **FieldRVA** in the PE, which
+   .NET metadata records explicitly. Wrote a throwaway console app
+   (`System.Reflection.Metadata`/`System.Reflection.PortableExecutable`, both
+   in the BCL, no NuGet needed) that opened the native DLL directly, enumerated
+   `MetadataReader.FieldDefinitions` for a name containing "PropIdMap", and read
+   `FieldDefinition.GetRelativeVirtualAddress()`. Result: RVA `0x9910` (file
+   offset `0x8D10`, i.e. VA `0x180009910` given the image base `0x180000000`
+   Ghidra reported for this binary).
+
+4. Extended the same program to read 37 × 16-byte `PropIdMapEntry` records
+   directly from the file at that offset (8-byte name pointer VA, 4-byte id,
+   4-byte padding — layout per the 2026-07-12 entry), resolving each name
+   pointer to a null-terminated UTF-16LE string in the same file. This produced
+   the complete, verified table (`id` 0–36, in table order: UserId, DeviceId,
+   RuleTypeId, ArtistId, ArtistIds, ContributingArtistId, AlbumId, AlbumIds,
+   SeriesId, FolderID, PlaylistId, GenreId, GenreIds, MediaType, QueryType,
+   QueryView, Operation, InitTime, SyncMappedError, Keywords, TOC, SortColumnId,
+   SortTypeId, SortAttributesId, PlaylistType, PlaylistTypeMask, InLibrary,
+   CategoryId, PersonType, MediaId, UserCardIds, MaxResultCount, WatchType,
+   ExpiresOnly, DrmStateMask, PinType, Recursive).
+
+   Cross-check: `ZuneImpl/Library/StrixLibraryDataProviderQuery.cs` (a stage-3
+   file, unrelated to this decompilation) retains three commented-out
+   `calli(...)` lines from an ILSpy decompilation of the *original* ZuneImpl
+   binary, passing raw ids `2`, `15`, and `24` to `IQueryPropertyBag::SetInt`.
+   These land exactly on `RuleTypeId` (2), `QueryView` (15), and `PlaylistType`
+   (24) in the recovered table — and each call site's surrounding code
+   contextually matches (id 15 is set from an `EQueryTypeView` right after
+   computing it; id 24 is set from a freshly-parsed `PlaylistType` value). This
+   independent source agreeing on 3 of 37 ids is strong corroboration the table
+   was read correctly.
+
+   Also found, while scanning nearby: a Ghidra `read_memory` dump of the
+   `.rdata` area around this table showed the property-name strings sitting in
+   a pool interleaved with unrelated string literals and raw GUID blobs from
+   other translation units (e.g. podcast-episode schema field names, MTP device
+   property names) — a reminder that "nearby in `.rdata`" is not a reliable
+   signal for what belongs to a given table; only the FieldRVA-driven,
+   pointer-following read above should be trusted.
+
+**Unknown (still open) — enum member identifiers:** the native enum is in an
+anonymous C++ namespace and carries no member names anywhere recoverable (not
+in .NET metadata, not in native symbols, not in the ZuneDev Wiki — checked via
+`gh api search/code` and a full recursive tree listing of `ZuneDev/Wiki`, no
+hits for `EQueryPropertyBagProp`). Per *Dealing with unknowns and uncertainty*
+step 4, applied the fewest-predicates assumption: reused the `e<TypeName><Member>`
+convention already established by `EMediaTypes`/`EQueryType` in this codebase
+(e.g. `eQueryPropertyBagPropUserId`), built directly from the *verified* kPropIdMap
+key strings. This is documented as a TODO in `EQueryPropertyBagProp.cs` — only
+the identifier text is a guess; the underlying `int` values and the string keys
+`MapNameToProp` matches against are verified, not guessed.
+
+**Changes:**
+- `EQueryPropertyBagProp.cs`: populated with all 37 members (see above).
+- `PropIdMapEntry.cs`: deleted. It existed only to mirror the native array's raw
+  memory layout for a since-abandoned unsafe-pointer-walk implementation; once
+  `MapNameToProp` is reimplemented as a managed `Dictionary<string, EQueryPropertyBagProp>`
+  lookup (an equivalent-behavior, more maintainable stage-2 implementation per
+  CLAUDE.md — the original's raw-pointer table walk was only ever a symptom of
+  its native origin, not part of the public API surface), nothing referenced the
+  struct anymore (verified via repo-wide grep before deleting).
+- `QueryPropertyBag.MapNameToProp`: implemented as a dictionary lookup with an
+  ordinal case-insensitive comparer (matching `_wcsicmp`'s case-insensitivity),
+  throwing `ArgumentException` on no match per the verified original behavior.
+- `QueryPropertyBag.SetValue`: replaced the placeholder
+  `$"SetValue failed: HRESULT 0x{hr:X8}"` message with a `GetErrorDescription`
+  helper mirroring the original's `<Module>.GetErrorDescription` (confirmed via
+  ILSpy: `FormatMessage` over the low 16 bits of the HRESULT). `FormatMessage`/
+  `LocalFree` are Win32-only, so this is gated behind `#if WINDOWS` per CLAUDE.md,
+  with a `// TODO` fallback message for the non-Windows `net8.0` TFM.
+- Verified with `dotnet build ZuneDBApi/ZuneDBApi.csproj`: 0 errors (150
+  pre-existing warnings, unrelated to this file, unchanged).
+
 ## 2026-07-20 — StrategyBasedComWrappers.Instance does not exist
 
 **Task:** build error `CS0117: 'StrategyBasedComWrappers' does not contain a
