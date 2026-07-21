@@ -4,32 +4,40 @@ namespace Microsoft.Zune.Service;
 
 public class PriceInfo
 {
-    private int m_pointsPrice;
-    private double m_currencyPrice;
-    private bool m_hasPoints = true;
-    private bool m_hasCurrency;
-    private string m_displayPrice;
-    private string m_currencyCode;
-
-    public string CurrencyCode => m_currencyCode;
-
-    public string DisplayPrice => m_displayPrice;
-
-    public bool HasCurrency
+    // Reads every recovered IPriceInfo slot (see IPriceInfo.cs) — matches the original
+    // PriceInfo.Init(IPriceInfo*) decompiled body exactly (ILSpy decompilation of
+    // Microsoft.Zune.Service.PriceInfo in ZuneShell/lib/ZuneDBApi.dll): points price,
+    // currency price, HasPoints/HasCurrency, then display price and currency code as
+    // BSTR out-params. A null pPriceInfo (the "free" case) keeps the original's
+    // defaults: HasPoints = true, HasCurrency = false, both prices zero.
+    internal PriceInfo(IPriceInfo? pPriceInfo)
+        : this()
     {
-        [return: MarshalAs(UnmanagedType.U1)]
-        get { return m_hasCurrency; }
+        if (pPriceInfo is null)
+            return;
+
+        PointsPrice = pPriceInfo.GetPointsPrice();
+        CurrencyPrice = pPriceInfo.GetCurrencyPrice();
+        HasPoints = pPriceInfo.HasPoints() != 0;
+        HasCurrency = pPriceInfo.HasCurrency() != 0;
+
+        if (pPriceInfo.GetDisplayPrice(out string displayPrice) >= 0)
+            DisplayPrice = displayPrice;
+        if (pPriceInfo.GetCurrencyCode(out string currencyCode) >= 0)
+            CurrencyCode = currencyCode;
     }
 
-    public bool HasPoints
-    {
-        [return: MarshalAs(UnmanagedType.U1)]
-        get { return m_hasPoints; }
-    }
+    public string CurrencyCode { get; }
 
-    public double CurrencyPrice => m_currencyPrice;
+    public string DisplayPrice { get; private set; }
 
-    public int PointsPrice => m_pointsPrice;
+    public bool HasCurrency { [return: MarshalAs(UnmanagedType.U1)] get; }
+
+    public bool HasPoints { [return: MarshalAs(UnmanagedType.U1)] get; } = true;
+
+    public double CurrencyPrice { get; private set; }
+
+    public int PointsPrice { get; private set; }
 
     internal PriceInfo()
     {
@@ -37,14 +45,14 @@ public class PriceInfo
 
     public PriceInfo(int pointsPrice)
     {
-        m_pointsPrice = pointsPrice;
+        PointsPrice = pointsPrice;
     }
 
     public void MakeFree()
     {
-        m_pointsPrice = 0;
-        m_currencyPrice = 0.0;
-        m_displayPrice = null;
+        PointsPrice = 0;
+        CurrencyPrice = 0.0;
+        DisplayPrice = null;
     }
 
     public static PriceInfo FreeWithPoints()
