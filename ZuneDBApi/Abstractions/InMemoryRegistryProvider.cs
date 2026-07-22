@@ -7,6 +7,7 @@ namespace ZuneDBApi.Abstractions
     internal sealed class InMemoryRegistryProvider : IRegistryProvider
     {
         private readonly Dictionary<string, object> m_values = new(StringComparer.OrdinalIgnoreCase);
+        private readonly Dictionary<string, InMemoryRegistryProvider> m_subKeys = new(StringComparer.OrdinalIgnoreCase);
 
         public bool GetBoolValue(string valueName, bool defaultValue) => Get(valueName, defaultValue);
         public void SetBoolValue(string valueName, bool value) => Set(valueName, value);
@@ -31,6 +32,25 @@ namespace ZuneDBApi.Abstractions
 
         public byte[]? GetBinaryValue(string valueName) => Get<byte[]?>(valueName, null);
         public void SetBinaryValue(string valueName, byte[] value) => Set(valueName, value);
+
+        public IEnumerable<string> GetSubKeyNames()
+        {
+            lock (m_subKeys)
+                return m_subKeys.Keys.ToList();
+        }
+
+        // Auto-vivifies, unlike the real registry: this store has no concept of
+        // key existence independent of a value being set, so "open" and
+        // "create" collapse into the same operation here.
+        public IRegistryProvider OpenSubKey(string name, bool writable = false)
+        {
+            lock (m_subKeys)
+            {
+                if (!m_subKeys.TryGetValue(name, out InMemoryRegistryProvider? sub))
+                    m_subKeys[name] = sub = new InMemoryRegistryProvider();
+                return sub;
+            }
+        }
 
         private T Get<T>(string valueName, T defaultValue)
         {

@@ -1,7 +1,9 @@
-﻿using Microsoft.Zune.Util;
+﻿using Microsoft.Win32;
+using Microsoft.Zune.Util;
 using System;
 using System.Collections;
 using System.Globalization;
+using ZuneDBApi.Abstractions;
 using ZuneUI;
 
 namespace Microsoft.Zune.Service
@@ -50,9 +52,9 @@ namespace Microsoft.Zune.Service
         {
             // Allow override from registry, like the internal dogfood version did
             string keyName = eServiceEndpointId.ToString().Substring(5) + "Endpoint";
-            var key = Win32.Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Zune\Service");
-            var keyVal = key?.GetValue(keyName);
-            if (keyVal is string keyValUri)
+            using IRegistryProvider key = RegistryProviderFactory.TryOpen(RegistryHive.CurrentUser, @"Software\Microsoft\Zune\Service");
+            string keyValUri = key?.GetStringValue(keyName, null);
+            if (keyValUri != null)
                 return keyValUri;
 
             string uri = null;

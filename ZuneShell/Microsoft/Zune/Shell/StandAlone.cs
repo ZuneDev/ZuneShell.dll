@@ -6,7 +6,6 @@
 
 using Microsoft.Iris;
 using Microsoft.Iris.Debug;
-using Microsoft.Win32;
 using Microsoft.Zune.Configuration;
 using Microsoft.Zune.Util;
 using System;
@@ -134,21 +133,18 @@ namespace Microsoft.Zune.Shell
             Application.Window.InitialClientSize = windowSize;
 
 #if WINDOWS
-            object regWindowPosition = Registry.GetValue(ZuneUI.Shell.SettingsRegistryPath, "WindowPosition", null);
-            if (regWindowPosition != null)
+            string? initialPos = ZuneUI.Shell.SettingsRegistry.GetStringValue("WindowPosition", null);
+            if (initialPos != null)
             {
-                if (regWindowPosition is string initialPos)
+                try
                 {
-                    try
-                    {
-                        if (!minimized)
-                            Application.Window.SetSavedInitialPosition(initialPos);
-                        else
-                            Application.Window.SetSavedInitialPosition(initialPos, WindowState.Minimized);
-                    }
-                    catch (ArgumentException)
-                    {
-                    }
+                    if (!minimized)
+                        Application.Window.SetSavedInitialPosition(initialPos);
+                    else
+                        Application.Window.SetSavedInitialPosition(initialPos, WindowState.Minimized);
+                }
+                catch (ArgumentException)
+                {
                 }
             }
             Application.Window.RespectsStartupSettings = true;
@@ -185,7 +181,7 @@ namespace Microsoft.Zune.Shell
                 return;
 
 #if WINDOWS
-            Registry.SetValue(ZuneUI.Shell.SettingsRegistryPath, "WindowPosition", Application.Window.GetSavedPosition(true));
+            ZuneUI.Shell.SettingsRegistry.SetStringValue("WindowPosition", Application.Window.GetSavedPosition(true));
 #endif
         }
 

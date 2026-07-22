@@ -17,6 +17,7 @@ using System.Globalization;
 using System.Net;
 using System.Text;
 using System.Threading;
+using ZuneDBApi.Abstractions;
 
 namespace ZuneUI
 {
@@ -200,7 +201,7 @@ namespace ZuneUI
         {
             if (MachineConfiguration.Setup.CodecInfoSent)
                 return;
-            RegistryKey registryKey = Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\Zune");
+            using IRegistryProvider registryKey = RegistryProviderFactory.TryOpen(RegistryHive.LocalMachine, "SOFTWARE\\Microsoft\\Zune");
             DateTime utcNow = DateTime.UtcNow;
             DateTime localTime = utcNow.ToLocalTime();
             long totalMilliseconds = (long)localTime.Subtract(new DateTime(1970, 1, 1)).TotalMilliseconds;
@@ -213,7 +214,7 @@ namespace ZuneUI
             string ietfLanguageTag = CultureInfo.CurrentUICulture.IetfLanguageTag;
             string installationSource = MachineConfiguration.Setup.InstallationSource;
             string pid = PID;
-            string version1 = (string)registryKey.GetValue("CurrentVersion");
+            string version1 = registryKey.GetStringValue("CurrentVersion", null);
             string oldVersion = MachineConfiguration.Setup.OldVersion;
             string str6 = string.Empty;
             string str7 = "New";

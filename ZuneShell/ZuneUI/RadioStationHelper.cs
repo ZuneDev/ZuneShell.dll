@@ -8,12 +8,12 @@ using Microsoft.Iris;
 using Microsoft.Win32;
 using Microsoft.Zune.Util;
 using System.Collections;
+using ZuneDBApi.Abstractions;
 
 namespace ZuneUI
 {
     public class RadioStationHelper : ModelItem
     {
-        private const string _rootKeyPath = "Software\\Microsoft\\Zune\\Radio";
         private static RadioStationHelper _instance;
         private ArrayList stationList;
 
@@ -69,18 +69,15 @@ namespace ZuneUI
         private void RefreshStationList()
         {
             this.stationList = new ArrayList();
-            RegistryKey registryKey = Registry.CurrentUser.OpenSubKey("Software\\Microsoft\\Zune\\Radio");
-            if (registryKey == null)
-            {
-                Registry.CurrentUser.CreateSubKey("Software\\Microsoft\\Zune\\Radio");
-            }
-            else
+            // Create(...) opens-or-creates, so a freshly-created key simply
+            // yields no subkeys below, matching the original's create-and-skip branch.
+            using (IRegistryProvider registryKey = RegistryProviderFactory.Create(RegistryHive.CurrentUser, "Radio"))
             {
                 foreach (string subKeyName in registryKey.GetSubKeyNames())
                 {
-                    string keyName = "HKEY_CURRENT_USER\\Software\\Microsoft\\Zune\\Radio\\" + subKeyName;
-                    string SourceURL = (string)Registry.GetValue(keyName, "SourceURL", "");
-                    string ImagePath = (string)Registry.GetValue(keyName, "Image", "");
+                    using IRegistryProvider stationKey = registryKey.OpenSubKey(subKeyName);
+                    string SourceURL = stationKey?.GetStringValue("SourceURL", "") ?? "";
+                    string ImagePath = stationKey?.GetStringValue("Image", "") ?? "";
                     this.stationList.Add(new RadioStation(subKeyName, SourceURL, ImagePath));
                 }
             }

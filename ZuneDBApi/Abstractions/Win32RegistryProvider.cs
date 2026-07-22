@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Win32;
 
-namespace Microsoft.Zune.Configuration
+namespace ZuneDBApi.Abstractions
 {
     /// <summary>
     /// Real <see cref="IRegistryProvider"/> implementation that passes through
@@ -14,11 +14,23 @@ namespace Microsoft.Zune.Configuration
     {
         private readonly RegistryKey m_key;
 
-        public Win32RegistryProvider(RegistryHive hive, string subKeyPath)
+        private Win32RegistryProvider(RegistryKey key)
+        {
+            m_key = key;
+        }
+
+        /// <summary>
+        /// Opens (or, if <paramref name="createIfMissing"/>, creates) <paramref name="subKeyPath"/>
+        /// under <paramref name="hive"/>. Returns <see langword="null"/> if it
+        /// doesn't exist and <paramref name="createIfMissing"/> is <see langword="false"/>.
+        /// </summary>
+        internal static Win32RegistryProvider? Open(RegistryHive hive, string subKeyPath, bool writable, bool createIfMissing)
         {
             using RegistryKey root = RegistryKey.OpenBaseKey(hive, RegistryView.Default);
-            m_key = root.CreateSubKey(subKeyPath, writable: true)
-                ?? throw new InvalidOperationException($"Unable to open or create registry key '{subKeyPath}'.");
+            RegistryKey? key = createIfMissing
+                ? root.CreateSubKey(subKeyPath, writable: true)
+                : root.OpenSubKey(subKeyPath, writable);
+            return key is null ? null : new Win32RegistryProvider(key);
         }
 
         public bool GetBoolValue(string valueName, bool defaultValue) =>
@@ -72,6 +84,14 @@ namespace Microsoft.Zune.Configuration
 
         public void SetBinaryValue(string valueName, byte[] value) =>
             m_key.SetValue(valueName, value, RegistryValueKind.Binary);
+
+        public IEnumerable<string> GetSubKeyNames() => m_key.GetSubKeyNames();
+
+        public IRegistryProvider? OpenSubKey(string name, bool writable = false)
+        {
+            RegistryKey? sub = m_key.OpenSubKey(name, writable);
+            return sub is null ? null : new Win32RegistryProvider(sub);
+        }
 
         public void Dispose() => m_key.Dispose();
     }

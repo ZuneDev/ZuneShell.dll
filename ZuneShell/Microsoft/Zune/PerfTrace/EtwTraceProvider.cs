@@ -8,6 +8,7 @@ using Microsoft.Win32;
 using System;
 using System.Globalization;
 using System.Runtime.InteropServices;
+using ZuneDBApi.Abstractions;
 
 namespace Microsoft.Zune.PerfTrace
 {
@@ -28,12 +29,8 @@ namespace Microsoft.Zune.PerfTrace
             this._enabled = false;
             this._traceHandle = 0UL;
             this._registrationHandle = 0UL;
-            RegistryKey registryKey = Registry.LocalMachine.OpenSubKey(regPath);
-            int num = 1;
-            if (registryKey != null && registryKey.GetValue("EtwEnabled") is int val)
-            {
-                num = val;
-            }
+            using IRegistryProvider? registryKey = RegistryProviderFactory.TryOpen(RegistryHive.LocalMachine, regPath);
+            int num = registryKey?.GetIntValue("EtwEnabled", 1) ?? 1;
             if (num <= 0)
             {
                 this._enabled = false;

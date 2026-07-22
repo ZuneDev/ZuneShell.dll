@@ -20,6 +20,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using UIXControls;
+using ZuneDBApi.Abstractions;
 
 namespace ZuneUI
 {
@@ -681,9 +682,17 @@ namespace ZuneUI
 
         public static string SettingsRegistryPath => "HKEY_CURRENT_USER\\Software\\Microsoft\\Zune\\Shell";
 
-        public static void SaveInt(string keyName, int value) => Registry.SetValue(SettingsRegistryPath, keyName, value);
+        internal static readonly IRegistryProvider SettingsRegistry = RegistryProviderFactory.Create(RegistryHive.CurrentUser, "Shell");
 
-        public static int GetInt(string keyName, int min, int max, int defaultValue) => string.IsNullOrEmpty(keyName) || (!(Registry.GetValue(SettingsRegistryPath, keyName, defaultValue) is int num) || num < min || num > max) ? defaultValue : num;
+        public static void SaveInt(string keyName, int value) => SettingsRegistry.SetIntValue(keyName, value);
+
+        public static int GetInt(string keyName, int min, int max, int defaultValue)
+        {
+            if (string.IsNullOrEmpty(keyName))
+                return defaultValue;
+            int num = SettingsRegistry.GetIntValue(keyName, defaultValue);
+            return num < min || num > max ? defaultValue : num;
+        }
 
         private static void SaveList(string keyName, IList values, ToStringer toString)
         {
@@ -694,7 +703,7 @@ namespace ZuneUI
                     stringBuilder.Append(';');
                 stringBuilder.Append(toString(obj));
             }
-            Registry.SetValue(SettingsRegistryPath, keyName, stringBuilder.ToString());
+            SettingsRegistry.SetStringValue(keyName, stringBuilder.ToString());
         }
 
         public static void SaveIntList(string keyName, IList values) => SaveList(keyName, values, value => ((int)value).ToString(NumberFormatInfo.InvariantInfo));
@@ -703,7 +712,7 @@ namespace ZuneUI
 
         private static IList GetList(string keyName, int expectedCount, TryParser tryParse)
         {
-            string str = Registry.GetValue(SettingsRegistryPath, keyName, null) as string;
+            string str = SettingsRegistry.GetStringValue(keyName, null);
             if (string.IsNullOrEmpty(str))
                 return null;
             string[] strArray = str.Split(';');

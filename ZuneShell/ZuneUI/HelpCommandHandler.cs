@@ -8,11 +8,16 @@ using Microsoft.Win32;
 using Microsoft.Zune.Service;
 using Microsoft.Zune.Shell;
 using System.Collections;
+using ZuneDBApi.Abstractions;
 
 namespace ZuneUI
 {
     public class HelpCommandHandler : ICommandHandler
     {
-        public void Execute(string command, IDictionary commandArgs) => ZuneApplication.Service2.LaunchBrowserForExternalUrl((string)Registry.LocalMachine.OpenSubKey("Software\\Microsoft\\Zune").GetValue("Installation Directory") + command, EPassportPolicyId.None);
+        public void Execute(string command, IDictionary commandArgs)
+        {
+            using IRegistryProvider registryKey = RegistryProviderFactory.TryOpen(RegistryHive.LocalMachine, "Software\\Microsoft\\Zune");
+            ZuneApplication.Service2.LaunchBrowserForExternalUrl(registryKey.GetStringValue("Installation Directory", null) + command, EPassportPolicyId.None);
+        }
     }
 }

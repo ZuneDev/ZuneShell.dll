@@ -2,6 +2,7 @@
 
 using Microsoft.Win32;
 using System;
+using ZuneDBApi.Abstractions;
 
 namespace Microsoft.WinRT
 {
@@ -31,7 +32,7 @@ namespace Microsoft.WinRT
             }
             else
             {
-                var key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\WindowsRuntime\ActivatableClassId\" + typeName, false);
+                using IRegistryProvider? key = RegistryProviderFactory.TryOpen(RegistryHive.LocalMachine, @"SOFTWARE\Microsoft\WindowsRuntime\ActivatableClassId\" + typeName);
                 return key != null;
             }
         }

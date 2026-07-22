@@ -14,6 +14,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Xml;
+using ZuneDBApi.Abstractions;
 
 namespace ZuneUI
 {
@@ -58,7 +59,10 @@ namespace ZuneUI
                 string str = string.Empty;
                 try
                 {
-                    string path1 = (string)((Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\Windows Live\\Movie Maker") ?? Registry.LocalMachine.OpenSubKey("SOFTWARE\\Wow6432Node\\Microsoft\\Windows Live\\Movie Maker")) ?? throw new Exception("Could not open registry key")).GetValue("InstallLocation", string.Empty);
+                    using IRegistryProvider registryKey = RegistryProviderFactory.TryOpen(RegistryHive.LocalMachine, "SOFTWARE\\Microsoft\\Windows Live\\Movie Maker")
+                        ?? RegistryProviderFactory.TryOpen(RegistryHive.LocalMachine, "SOFTWARE\\Wow6432Node\\Microsoft\\Windows Live\\Movie Maker")
+                        ?? throw new Exception("Could not open registry key");
+                    string path1 = registryKey.GetStringValue("InstallLocation", string.Empty);
                     if (!string.IsNullOrEmpty(path1))
                         str = Path.Combine(path1, "MovieMaker.exe");
                 }

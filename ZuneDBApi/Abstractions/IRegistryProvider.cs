@@ -34,5 +34,13 @@ namespace ZuneDBApi.Abstractions
 
         byte[]? GetBinaryValue(string valueName);
         void SetBinaryValue(string valueName, byte[] value);
+
+        IEnumerable<string> GetSubKeyNames();
+
+        /// <summary>
+        /// Opens a direct child of this key, or returns <see langword="null"/>
+        /// if it does not exist (never creates one).
+        /// </summary>
+        IRegistryProvider? OpenSubKey(string name, bool writable = false);
     }
 }

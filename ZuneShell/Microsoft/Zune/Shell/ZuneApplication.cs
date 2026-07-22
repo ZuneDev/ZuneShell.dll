@@ -15,6 +15,7 @@ using Microsoft.Zune.Subscription;
 using Microsoft.Zune.Util;
 using MicrosoftZuneLibrary;
 using OwlCore.ComponentModel;
+using ZuneDBApi.Abstractions;
 using StrixMusic.Sdk.AdapterModels;
 using StrixMusic.Sdk.AppModels;
 using StrixMusic.Sdk.CoreModels;
@@ -85,9 +86,9 @@ namespace Microsoft.Zune.Shell
                 SetupInstallContext setupInstallContext = SetupInstallContext.Zune;
                 try
                 {
-                    RegistryKey registryKey = Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\Zune\\Setup");
+                    using IRegistryProvider registryKey = RegistryProviderFactory.TryOpen(RegistryHive.LocalMachine, "SOFTWARE\\Microsoft\\Zune\\Setup");
                     if (registryKey != null)
-                        setupInstallContext = (SetupInstallContext)registryKey.GetValue("WindowsPhonePresent");
+                        setupInstallContext = (SetupInstallContext)registryKey.GetIntValue("WindowsPhonePresent", (int)SetupInstallContext.Zune);
                 }
                 catch (Exception ex)
                 {
