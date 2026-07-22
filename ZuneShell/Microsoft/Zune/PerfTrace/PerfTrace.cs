@@ -26,7 +26,7 @@ namespace Microsoft.Zune.PerfTrace
           Flags flag,
           Level level)
         {
-            return (uint)level <= provider.Level && provider.IsEnabled && (flag & (Flags)provider.Flags) > ~Flags.All;
+            return provider.IsEnabled && provider.IsLevelEnabled((byte)level, (uint)flag);
         }
 
         internal static bool IsEnabled(Flags flags, Level level) => IsEnabled(_EventProvider, flags, level);
