@@ -18,5 +18,5 @@ using System.Security.Permissions;
 #if WINDOWS10
 [assembly: SupportedOSPlatform("windows10.0.10240")]
 #elif WINDOWS8_0_OR_GREATER
-[assemby: SupportedOSPlatform("windows8.0.0")]
+[assembly: SupportedOSPlatform("windows8.0.0")]
 #endif

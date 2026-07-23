@@ -47,18 +47,19 @@ namespace ZuneHost.Wpf
                 "Zune"));
             if (_zuneProgramDir.Exists)
             {
+                var openZuneExeDir = AppDomain.CurrentDomain.BaseDirectory;
                 foreach (var info in _zuneProgramDir.GetFileSystemInfos())
                 {
                     if (info is DirectoryInfo dirInfo)
                     {
-                        CopyAll(dirInfo, new DirectoryInfo(Path.Combine(Environment.CurrentDirectory, dirInfo.Name)));
+                        CopyAll(dirInfo, new DirectoryInfo(Path.Combine(openZuneExeDir, dirInfo.Name)));
                     }
                     else if (info is FileInfo fileInfo)
                     {
                         string fileName = fileInfo.Name;
                         if (fileInfo.Extension == ".dll")
                         {
-                            string targetPath = Path.Combine(Environment.CurrentDirectory, fileName);
+                            string targetPath = Path.Combine(openZuneExeDir, fileName);
                             if (!File.Exists(targetPath) || fileName == "ZuneDbApi.dll")
                                 fileInfo.CopyTo(targetPath);
                         }
@@ -100,7 +101,9 @@ namespace ZuneHost.Wpf
                     UIXControls.Helpers.AddUIXControlsClrRedirect();
                 };
 
-                Microsoft.Zune.Shell.ZuneApplication.Launch(strArgs, hWnd, () =>
+                Microsoft.Zune.Shell.ZuneApplication.Launch(strArgs, hWnd, null);
+
+                Microsoft.Iris.Debug.IDebuggerServer CreateDebugger()
                 {
                     var debugger = new Microsoft.Iris.DebugAdapter.Server.IrisDebugAdapterServer(new()
                     {
@@ -109,7 +112,7 @@ namespace ZuneHost.Wpf
                         SourceDir = @"E:\Repos\ZuneDev\ZuneUIXTools\test",
                     });
                     return debugger;
-                });
+                }
             }));
             zuneThread.Start();
         }
