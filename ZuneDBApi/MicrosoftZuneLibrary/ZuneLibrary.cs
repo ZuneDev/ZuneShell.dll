@@ -19,16 +19,18 @@ public class ZuneLibrary : IDisposable
     public int Initialize(string path, out bool dbRebuilt)
     {
         dbRebuilt = false;
-        return unchecked((int)0x80004005);
+        // return unchecked((int)0x80004005);
+        return HRESULT._S_OK;
     }
 
     public bool Phase2Initialization(out int hr)
     {
-        hr = unchecked((int)0x80004005);
+        // hr = unchecked((int)0x80004005);
+        hr = HRESULT._S_OK;
         return false;
     }
 
-    public static string LoadStringFromResource(uint dwResourceNumber) => null;
+    public static string LoadStringFromResource(uint dwResourceNumber) => "todo";
 
     public ZuneQueryList QueryDatabase(EQueryType queryType, int libraryView, EQuerySortType sortType, uint sortAtom, QueryPropertyBag propertyBag) => new();
 
@@ -120,9 +122,18 @@ public class ZuneLibrary : IDisposable
 
     public int GetKnownFolders(out string[] music, out string[] videos, out string[] pictures, out string[] podcasts, out string[] applications, out string ripFolder, out string videoMediaFolder, out string photoMediaFolder, out string podcastMediaFolder, out string applicationsFolder)
     {
-        music = Array.Empty<string>();
-        videos = Array.Empty<string>();
-        pictures = Array.Empty<string>();
+        music = [
+            Environment.GetFolderPath(Environment.SpecialFolder.CommonMusic),
+            Environment.GetFolderPath(Environment.SpecialFolder.MyMusic),
+        ];
+        videos = [
+            Environment.GetFolderPath(Environment.SpecialFolder.CommonVideos),
+            Environment.GetFolderPath(Environment.SpecialFolder.MyVideos),
+        ];
+        pictures = [
+            Environment.GetFolderPath(Environment.SpecialFolder.CommonPictures),
+            Environment.GetFolderPath(Environment.SpecialFolder.MyPictures),
+        ];
         podcasts = Array.Empty<string>();
         applications = Array.Empty<string>();
         ripFolder = null;
@@ -130,7 +141,8 @@ public class ZuneLibrary : IDisposable
         photoMediaFolder = null;
         podcastMediaFolder = null;
         applicationsFolder = null;
-        return unchecked((int)0x80004005);
+        // return unchecked((int)0x80004005);
+        return HRESULT._S_OK;
     }
 
     public int GetLocalizedPathOfFolder(string physicalPath, bool fNetworkPathsAllowed, out string localizedPath)
@@ -141,7 +153,7 @@ public class ZuneLibrary : IDisposable
 
     public static int CompareWithoutArticles(string prefix, string value) => string.Compare(prefix, value, StringComparison.CurrentCultureIgnoreCase);
 
-    public static bool DoesFileExist(string path) => System.IO.File.Exists(path);
+    public static bool DoesFileExist(string path) => File.Exists(path);
 
     protected virtual void Dispose(bool disposing)
     {

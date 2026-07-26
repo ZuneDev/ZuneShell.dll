@@ -143,6 +143,7 @@ public struct HRESULT
     public static bool operator !=(HRESULT hrA, HRESULT hrB) => hrA.hr != hrB.hr;
 
     public static implicit operator HRESULT(int hr) => new(hr);
+    public static implicit operator int(HRESULT hr) => hr.Int;
 
     [return: MarshalAs(UnmanagedType.U1)]
     public override readonly bool Equals(object? oCompare) => oCompare is HRESULT other && hr == other.hr;

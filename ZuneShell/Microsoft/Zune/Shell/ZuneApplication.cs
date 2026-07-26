@@ -452,10 +452,10 @@ namespace Microsoft.Zune.Shell
             DialogHelper.DialogOk = ZuneUI.Shell.LoadString(StringId.IDS_DIALOG_OK);
             XmlDataProviders.Register();
 
-            InitStrixSdk();
-            Library.StrixLibraryDataProvider.DataRoot = DataRoot;
-            Library.StrixLibraryDataProvider.Register();
-            //LibraryDataProvider.Register();
+            //InitStrixSdk();
+            //Library.StrixLibraryDataProvider.DataRoot = DataRoot;
+            //Library.StrixLibraryDataProvider.Register();
+            LibraryDataProvider.Register();
 
             SubscriptionDataProvider.Register();
             StaticLibraryDataProvider.Register();

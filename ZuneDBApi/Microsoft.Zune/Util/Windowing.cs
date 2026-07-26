@@ -9,6 +9,6 @@ public class Windowing
     {
         // Stub: Original used SendInput and SetForegroundWindow from user32.dll
         // This is a placeholder implementation
-        throw new PlatformNotSupportedException("Windowing.ForceSetForegroundWindow requires native interop stubs");
+        //throw new PlatformNotSupportedException("Windowing.ForceSetForegroundWindow requires native interop stubs");
     }
 }
