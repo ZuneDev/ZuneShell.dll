@@ -4,6 +4,188 @@ Append-only. Do not edit previous entries.
 
 ---
 
+## 2026-07-27 — Relocated: the question-log entries below
+
+**Housekeeping note:** the next two entries were originally logged in a standalone
+`LOG.md` (briefly `logs/LOG.md`), per *Dealing with unknowns and uncertainty*'s old
+wording, which named one central file for all questions. Per feedback, questions should
+be categorized the same as every other log entry — filed under the type/namespace they
+concern, same as research notes — so they're relocated here verbatim, with only their
+now-redundant `logs/MicrosoftZuneLibrary/ZuneLibrary.md` cross-references (which were
+pointing at this same file from outside it) reworded to point within this file instead.
+`CLAUDE.md`'s *Dealing with unknowns* section has been generalized accordingly (no longer
+names one specific log file).
+
+---
+
+## 2026-07-27 — RESOLVED: the question below
+
+Answered by inspecting the on-disk resource DLLs directly with `wrestool` (icoutils)
+instead of chasing the native function further in Ghidra: the strings live in
+`windows/shared/zune-x64/Zune/en-US/ZuneResources.dll.mui`, a real Win32 MUI satellite
+resource module with 302 `RT_STRING` blocks in the standard `STRINGTABLE` binary format.
+Full writeup: the "Resolved" entry below. `ZuneDBApi.dll`'s own `GetLocResourceInstance()`
+native internals (exactly which `LoadLibraryEx` call loads it) remain unconfirmed but are
+no longer the open question — that was module identity and string format, both now known.
+
+---
+
+## 2026-07-27 — `ZuneLibrary.LoadStringFromResource`: what does `GetLocResourceInstance()` return?
+
+**Context:** researching `MicrosoftZuneLibrary.ZuneLibrary.LoadStringFromResource` (full
+research notes: the "Researched" entry below). The managed method is fully understood —
+it's a thin wrapper around Win32 `LoadStringW` — but it depends on a native-only helper,
+`ZuneLibraryExports.GetLocResourceInstance()`, which returns the `HINSTANCE` of whatever
+module holds the localized string table.
+
+**Question:** which physical module does `GetLocResourceInstance()` actually resolve to at
+runtime — `ZuneDBApi.dll` itself, or a separate satellite resource DLL (e.g.
+`ZuneResources.dll` or `ZuneMarketplaceResources.dll`, both present in
+`windows/shared/zune-x64/Zune/` alongside `ZuneDBApi.dll`)? `ZuneDBApi.dll`'s own `.rsrc`
+section is only ~2 KB (too small for a real string table), which points toward a separate
+module, but this is circumstantial — the native function itself (VA `0x1800148c2` in
+`ZuneDBApi.dll`, per Ghidra) isn't disassembling to recognizable code yet (no function
+defined there, raw bytes look like data), so it hasn't been confirmed by disassembly.
+
+**Status:** unresolved. Not blocking — `ZuneLibrary.LoadStringFromResource` stays a stub
+(`ZuneUI` code doesn't yet depend on real localized strings), so no `// TODO` was needed in
+code for this pass. Logged here per *Dealing with unknowns and uncertainty* in case the human
+already knows which module holds Zune's loc resource strings, which would save a Ghidra
+deep-dive.
+
+---
+
+## 2026-07-27 — Resolved: where `LoadStringFromResource`'s strings actually live
+
+**Follow-up to the entry below**, prompted by a direct question ("where do the strings come
+from, what format are they stored in?"). The `GetLocResourceInstance()` gap noted below is
+now settled — **not** by further Ghidra work on the native function, but by directly
+inspecting the candidate satellite resource DLLs on disk with `wrestool` (icoutils).
+
+**Source module confirmed:** `windows/shared/zune-x64/Zune/en-US/ZuneResources.dll.mui`.
+`wrestool -l` on it shows **302 `RT_STRING` (`--type=6`) resource blocks**, plus a
+single `RT_MUI` (`--type='MUI'`) resource — this is a genuine Win32 MUI (Multilingual User
+Interface) satellite resource-only module, the standard mechanism where a language-neutral
+binary (here `ZuneResources.dll` itself, sitting directly in `Zune/`) has its actual
+resources split out into a same-named `.mui` file under a BCP-47 locale subfolder
+(`en-US\`). This lines up exactly with the earlier finding that `ZuneDBApi.dll`'s own
+`.rsrc` is too small and that it imports `LoadLibraryW`/`GetProcAddress` — it's loading
+*this* file (almost certainly via `LoadLibraryExW` with `LOAD_LIBRARY_AS_DATAFILE`, the
+standard way to open a MUI purely for resource access, though the exact call wasn't
+re-confirmed in Ghidra this pass). `ZuneResources.dll` (the LN/language-neutral binary
+next to it) itself carries no `RT_STRING` resources — its own `wrestool -l` shows only
+`BINARY`/icon/version/`MUI` entries, no `--type=6` — confirming the neutral binary is a
+stub and the `.mui` is where the real string table lives, exactly as MUI architecture
+predicts. `ZuneMarketplaceResources.dll` was a red herring — it holds only `RCDATA`
+(compiled `.uix` markup), no strings.
+
+**Format confirmed byte-for-byte** by extracting block 1 (`wrestool --raw -x --type=6
+--name=1 --language=1033`) and reading the raw bytes: this is the plain, well-documented
+Win32 `STRINGTABLE` binary layout —
+- Each numbered resource block (`--name=N`) holds up to 16 consecutive string IDs:
+  `blockNumber = (stringId >> 4) + 1`, `indexInBlock = stringId & 0xF`.
+- Within a block: back-to-back records, each `WORD charCount` immediately followed by
+  `charCount` **UTF-16LE code units with no null terminator** (an unused slot is just a
+  `WORD` value of `0`).
+- Verified two real entries against the extracted bytes: string id 1 (block 1, index 1) is
+  `0018` (=24) followed by 24 UTF-16LE chars spelling `"Starts the Zune software"`; string
+  id 4 is `002C` (=44) followed by 44 chars spelling
+  `"http://go.microsoft.com/fwlink/?LinkID=97902"`. Both char counts match their strings
+  exactly — format is not in doubt.
+
+This is exactly what `LoadStringW(hInstance, dwResourceNumber, (LPWSTR)&buf, 0)` (see entry
+below) is built to read: the OS/CRT loader locates the `(dwResourceNumber >> 4) + 1`-th
+`RT_STRING` block inside whatever module `hInstance` refers to, walks the length-prefixed
+records to the `dwResourceNumber & 0xF`-th slot, and — because `cchBufferMax` is `0` — hands
+back a pointer straight at that slot's inline character data plus its `WORD` length, which
+is exactly what `ZuneLibrary.LoadStringFromResource` then wraps in
+`Marshal.PtrToStringUni`.
+
+**Still open, lower priority:** the exact `LoadLibraryEx`/flags call inside
+`GetLocResourceInstance()` and how it locates the `en-US` subfolder at runtime (fixed
+relative path vs. `GetThreadPreferredUILanguages`-style lookup) — not re-investigated this
+pass since the module/format question (the thing actually asked) is now fully answered.
+Marking the `LOG.md` question resolved.
+
+---
+
+## 2026-07-27 — Researched `ZuneLibrary.LoadStringFromResource`
+
+**Trigger:** explicit request to research how `MicrosoftZuneLibrary.ZuneLibrary.LoadStringFromResource`
+works. Current stub (`ZuneLibrary.cs:33`): `public static string LoadStringFromResource(uint dwResourceNumber) => "todo";`.
+
+**Source:** `mcp__ilspy__decompile_method` on `MicrosoftZuneLibrary.ZuneLibrary.LoadStringFromResource`
+in the real `windows/shared/zune-x64/Zune/ZuneDBApi.dll` (this method was apparently never
+actually decompiled/inspected during the original bulk pass below — it was stubbed sight-unseen
+along with everything else in the file).
+
+**Finding: `ZuneDBApi.dll` is mixed-mode (C++/CLI), and this specific method is not pure IL.**
+Its decompiled body:
+
+```csharp
+public unsafe static string LoadStringFromResource(uint dwResourceNumber)
+{
+    HINSTANCE__* ptr = global::<Module>.ZuneLibraryExports.GetLocResourceInstance();
+    if (ptr == null) return null;
+    object result = null;
+    IntPtr intPtr = default(IntPtr);
+    int len = global::<Module>.LoadStringW(ptr, dwResourceNumber, (ushort*)(&intPtr), 0);
+    if (intPtr != IntPtr.Zero)
+        result = Marshal.PtrToStringUni(intPtr, len);
+    return (string)result;
+}
+```
+
+Algorithm:
+1. Calls the module-internal native export `ZuneLibraryExports.GetLocResourceInstance()` to get
+   an `HINSTANCE` for a localized-resource module. If that's null (resource module not loaded),
+   returns `null`.
+2. Calls the real Win32 `User32`/`Kernel32` `LoadStringW(hInstance, dwResourceNumber, (LPWSTR)&buf, 0)`
+   — the classic **zero-`cchBufferMax` idiom**: when the buffer-size argument is `0`,
+   `LoadStringW` treats the out-param as `LPWSTR*` and writes back a pointer *directly into the
+   module's own resource section* (no allocation, no copy) instead of copying into a
+   caller-supplied buffer. The return value is the string's character length (no null terminator).
+3. If that pointer is non-null, `Marshal.PtrToStringUni(ptr, len)` copies exactly `len` UTF-16
+   characters starting at that native pointer into a new managed `string`.
+4. Returns the result, or `null` on any failure path (module not loaded, or resource ID not found —
+   `LoadStringW` returns `len == 0` and a null/garbage buffer pointer in that case too).
+
+So this is a genuine (small) resource-string lookup, not something with real "business logic" of
+its own beyond marshaling.
+
+**Unresolved — where `GetLocResourceInstance()`'s `HINSTANCE` actually points:** followed the
+export into Ghidra (`ZuneDBApi.dll` already open in the shared instance). The exported thunk
+(`ZuneLibraryExports.GetLocResourceInstance @ 180111b98`) is a single tail-jump,
+`jmp qword ptr [0x180001518]`, through a local function-pointer slot — i.e. the real
+implementation is a separate internal function, not an imported one (confirmed absent from
+`mcp__ghidra__list_imports`). The slot's stored value resolves to VA `0x1800148c2`, which falls
+inside `.text` (`180001000`–`1801155ff` per `list_segments`), but Ghidra has no function defined
+there, and neither `decompile_function` nor `disassemble_bytes` recognize valid instructions
+starting exactly at that address — the raw bytes read there (`inspect_memory_content`) look like a
+data table, not code. Did not push further (would need manual function creation/re-analysis in
+Ghidra, out of scope for a research-and-log pass) — logging as a genuine gap per
+*Dealing with unknowns* rather than guessing at the internals.
+
+**Weak supporting evidence for "separate satellite resource DLL" (not confirmed):**
+`ZuneDBApi.dll`'s own `.rsrc` section (`180136000`–`1801367ff`, ~2 KB) is far too small to hold a
+real `RT_STRING` table with many localized entries, and the module imports `LoadLibraryW`/
+`GetProcAddress` (per `list_imports`). This is consistent with `GetLocResourceInstance()` lazily
+loading and caching an `HINSTANCE` for a companion resource-only module — e.g. one of
+`ZuneResources.dll` / `ZuneMarketplaceResources.dll`, both present alongside `ZuneDBApi.dll` in
+`windows/shared/zune-x64/Zune/` — rather than `ZuneDBApi.dll`'s own module handle. This is
+circumstantial, not verified by disassembly.
+
+**Searched `github.com/ZuneDev/Wiki`** (via `gh search code` scoped to that repo) for
+`LoadStringFromResource` and `GetLocResourceInstance` — no hits, nothing documented there yet.
+
+**Stub status flagged, not changed this pass:** the current `=> "todo"` body doesn't match this
+file's own header convention (every other no-op stub returns the same default the original
+would produce when the native dependency is unavailable — here that's `null`, matching this
+method's own `ptr == null` early-return path). Left as-is since this pass was research/logging
+only per the request; worth fixing to `=> null` in a follow-up implementation pass.
+
+---
+
 ## 2026-07-21 — Bulk reconstruction of the MicrosoftZuneLibrary namespace
 
 **Trigger:** continuation of "decompile the missing types in ZuneShell.csproj" after

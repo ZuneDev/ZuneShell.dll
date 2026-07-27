@@ -20,11 +20,11 @@ namespace ZuneUI
 
         public List<string> Fonts
         {
-            get => this._fonts;
+            get => _fonts;
             set
             {
-                this._fonts = value;
-                this.QueueFontLoading();
+                _fonts = value;
+                QueueFontLoading();
             }
         }
 
@@ -32,31 +32,37 @@ namespace ZuneUI
         {
             set
             {
-                this._resourceDll = value;
-                this.QueueFontLoading();
+                _resourceDll = value;
+                QueueFontLoading();
             }
         }
 
         private void QueueFontLoading()
         {
-            if (this._loaded)
+            if (_loaded)
                 throw new InvalidOperationException("This is a one trick pony, sorry.");
-            if (this._loadQueued)
+            if (_loadQueued)
                 return;
-            Application.DeferredInvoke(new DeferredInvokeHandler(this.LoadFonts), null);
-            this._loadQueued = true;
+            
+            Application.DeferredInvoke(LoadFonts, null);
+            
+            _loadQueued = true;
         }
 
         private void LoadFonts(object args)
         {
-            this._loadQueued = false;
-            if (this._fonts == null || this._fonts.Count == 0)
+            _loadQueued = false;
+            if (_fonts == null || _fonts.Count == 0)
                 return;
-            if (this._resourceDll == null)
+            if (_resourceDll == null)
                 throw new InvalidOperationException("Must specify a Resource to retrieve the fonts from.");
-            foreach (string font in this._fonts)
-                MemoryFonts.TryLoadFromResource(this._resourceDll, font);
-            this._loaded = true;
+            
+#if WINDOWS
+            foreach (var font in _fonts)
+                MemoryFonts.TryLoadFromResource(_resourceDll, font);
+#endif
+            
+            _loaded = true;
         }
     }
 }

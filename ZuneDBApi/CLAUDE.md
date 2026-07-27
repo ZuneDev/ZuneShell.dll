@@ -82,7 +82,7 @@ document.
 **Do not make assumptions**. If you have a question about something,
 follow this procedure:
 
-1. **Log your question.** Use `LOG.md` in the repo root to log any questions
+1. **Log your question.** Use log files to document any questions
 or confusions. Follow the instructions in *Logging*.
 2. **Ask the human.** They've been working on Zune longer than you have. They may
 have an immediate answer for you, or at least can narrow down your search.
@@ -92,8 +92,8 @@ http://github.com/ZuneDev/Wiki
 4. **Move on.** If you still haven't gotten a concrete, verifiable answer,
 you may make whatever assumption is both likely and has the fewest predicates,
 **if and only if you document this assumption in the code**, using `// TODO`
-comments. You are also required to log this assumption and its corresponding
-rationale in `LOG.md`.
+comments. You are also required to log this assumption and the rationale behind
+it.
 
 ### STAGE 1: Decompilation
 
