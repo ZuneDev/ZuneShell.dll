@@ -551,8 +551,7 @@ namespace Microsoft.Zune.Shell
 
             if (num > 0)
             {
-                Debug.WriteLine(str);
-                throw new ZuneShellException("Internal Zune Shell error", $"Scripting errors encountered (Process ID) = {Process.GetCurrentProcess().Id.ToString(CultureInfo.InvariantCulture)}\n\n{str}");
+                throw new ZuneShellException("Internal Zune Shell error", $"Scripting errors encountered (Process ID) = {Environment.ProcessId.ToString(CultureInfo.InvariantCulture)}\n\n{str}");
             }
         }
 

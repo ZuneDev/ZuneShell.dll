@@ -21,6 +21,8 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using UIXControls;
 using ZuneDBApi.Abstractions;
+using Point = Microsoft.Zune.Util.Point;
+using Size = Microsoft.Zune.Util.Size;
 
 namespace ZuneUI
 {

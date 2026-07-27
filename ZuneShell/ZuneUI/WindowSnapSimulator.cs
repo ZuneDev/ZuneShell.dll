@@ -5,11 +5,10 @@
 // Assembly location: C:\Program Files\Zune\ZuneShell.dll
 
 using Microsoft.Iris;
-using Microsoft.Zune.Util;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
+using Microsoft.Zune.Util;
 
 namespace ZuneUI
 {

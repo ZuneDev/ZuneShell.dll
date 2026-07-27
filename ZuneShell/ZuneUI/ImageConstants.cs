@@ -4,7 +4,6 @@
 // MVID: FC8028F3-A47B-4FB4-B35B-11D1752D8264
 // Assembly location: C:\Program Files\Zune\ZuneShell.dll
 
-using Microsoft.Zune.Util;
 using System.Drawing;
 
 namespace ZuneUI

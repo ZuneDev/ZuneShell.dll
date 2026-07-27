@@ -5,7 +5,6 @@
 // Assembly location: C:\Program Files\Zune\ZuneShell.dll
 
 using Microsoft.Zune.Service;
-using Microsoft.Zune.Util;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
