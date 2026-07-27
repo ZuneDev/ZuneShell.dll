@@ -47,6 +47,8 @@ namespace ZuneHost
                     }
                 }
             }
+            
+            Application.ErrorReport += ApplicationOnErrorReport;
 
             Application.Initialized += delegate
             {
@@ -73,6 +75,12 @@ namespace ZuneHost
 
                 throw;
             }
+        }
+
+        private static void ApplicationOnErrorReport(Error[] errors)
+        {
+            foreach (var error in errors)
+                Console.WriteLine(error);
         }
 
         public static void CopyAll(DirectoryInfo source, DirectoryInfo target)
