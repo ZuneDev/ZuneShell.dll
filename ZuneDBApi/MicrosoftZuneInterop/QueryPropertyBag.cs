@@ -23,6 +23,13 @@ public class QueryPropertyBag : IDisposable
 
     private IQueryPropertyBag? _bag;
 
+    // Tracks every value passed to SetValue/SetIDList, independent of whether a real
+    // native _bag is attached. IsSet/GetProperty-style logic in LibraryDataProviderQuery
+    // is pure C# business logic with no native dependency of its own; the native bag is
+    // only needed for the final QueryDatabase call, so this keeps that logic correct and
+    // testable even before ZuneLibraryExports.CreatePropertyBag is wired up.
+    private readonly Dictionary<EQueryPropertyBagProp, object> _localValues = new();
+
     public QueryPropertyBag()
     {
         // TODO: P/Invoke ZuneLibraryExports.CreatePropertyBag to get an IQueryPropertyBag* pointer,
@@ -38,14 +45,52 @@ public class QueryPropertyBag : IDisposable
         if (prop == (EQueryPropertyBagProp)(-1) || value is null)
             return;
 
+        _localValues[prop] = value;
+
+        if (_bag is null)
+            return;
+
         int hr = value switch
         {
-            int i    => _bag!.SetInt(prop, i),
-            bool b   => _bag!.SetInt(prop, b ? 1 : 0),
-            string s => _bag!.SetString(prop, s),
+            int i    => _bag.SetInt(prop, i),
+            bool b   => _bag.SetInt(prop, b ? 1 : 0),
+            string s => _bag.SetString(prop, s),
+            ulong u  => _bag.SetInt64(prop, u),
             _        => throw new ApplicationException($"Unsupported property value type: {value.GetType()}")
         };
 
+        if (hr < 0)
+            throw new ApplicationException(GetErrorDescription(hr));
+    }
+
+    // ArtistIds/GenreIds/AlbumIds/UserCardIds are packed as a native IDList rather than
+    // going through SetValue's plain int/bool/string switch — see PackIDList below.
+    public void SetIDList(string propertyName, IList ids)
+    {
+        EQueryPropertyBagProp prop = MapNameToProp(propertyName);
+        if (prop == (EQueryPropertyBagProp)(-1) || ids is null)
+            return;
+
+        _localValues[prop] = ids;
+
+        if (_bag is null)
+            return;
+
+        int hr = _bag.SetIDList(prop, PackIDList(ids));
+        if (hr < 0)
+            throw new ApplicationException(GetErrorDescription(hr));
+    }
+
+    // "Sort" itself isn't a property-bag entry (LibraryDataProviderQuery reads it off the
+    // query object, not the bag) — only the packed IMultiSortAttributes result is stored,
+    // always under the fixed SortAttributesId slot.
+    public void SetMultiSortAttributes(string[] sortStrings, bool[] sortAscendings)
+    {
+        if (_bag is null)
+            return;
+
+        IntPtr sortAttributes = PackMultiSortAttributes(sortStrings, sortAscendings);
+        int hr = _bag.SetMultiSortAttributes(EQueryPropertyBagProp.eQueryPropertyBagPropSortAttributesId, sortAttributes);
         if (hr < 0)
             throw new ApplicationException(GetErrorDescription(hr));
     }
@@ -56,8 +101,13 @@ public class QueryPropertyBag : IDisposable
         if (prop == (EQueryPropertyBagProp)(-1))
             return false;
 
-        _bag!.IsSet(prop, out int result);
-        return result == 1;
+        if (_bag != null)
+        {
+            _bag.IsSet(prop, out int result);
+            return result == 1;
+        }
+
+        return _localValues.ContainsKey(prop);
     }
 
     // Reimplements the native kPropIdMap linear scan (37 entries, case-insensitive

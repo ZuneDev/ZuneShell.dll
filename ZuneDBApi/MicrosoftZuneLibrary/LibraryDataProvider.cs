@@ -8,9 +8,10 @@ public class LibraryDataProvider
 {
     public static void Register()
     {
+        Application.RegisterDataProvider("Library", ConstructQuery);
     }
 
-    public static DataProviderQuery ConstructQuery(object queryTypeCookie) => null;
+    public static DataProviderQuery ConstructQuery(object queryTypeCookie) => new LibraryDataProviderQuery(queryTypeCookie);
 
     // Original also updates sync rules / performs the actual library mutation for each
     // BulkItemAction via the native database — not reverse engineered (see

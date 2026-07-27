@@ -12,7 +12,6 @@ using Microsoft.Zune.Util;
 using MicrosoftZuneLibrary;
 using System;
 using System.Collections;
-using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Security;
