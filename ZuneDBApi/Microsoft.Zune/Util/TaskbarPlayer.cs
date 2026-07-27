@@ -32,9 +32,9 @@ public class TaskbarPlayer : ModelItem, IDisposable
         }
     }
 
-    public Size PopupSize { get; private set; }
+    public Size PopupSize { get; private set; } = new(200, 400);
 
-    public Point PopupPosition { get; private set; }
+    public Point PopupPosition { get; private set; } = new(0, 0);
 
     private bool m_fPopupVisible;
 

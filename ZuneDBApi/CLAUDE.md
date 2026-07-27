@@ -13,6 +13,8 @@ desktop software. The dependency chain is:
 ZuneDBApi (this project) → ZuneImpl → ZuneShell.dll → ZuneHost / ZuneHost.Wpf (entry points)
 ```
 
+The original DLL is currently located at `../../windows/shared/zune-x64/Zune/ZuneDBApi.dll`.
+
 Note that Iris UI files (both `.uix` and `.uib`) can load arbitrary assemblies.
 This meaans that `ZuneShell.dll` has a direct dependency on `ZuneDBApi`, even
 though according to the C# project system, `ZuneDBApi` is only a transitive
