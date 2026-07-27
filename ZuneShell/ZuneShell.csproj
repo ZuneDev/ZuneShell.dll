@@ -55,6 +55,10 @@
             <Generator></Generator>
             <LogicalName>RCDATA.CONTROLS.DARK.resources</LogicalName>
         </EmbeddedResource>
+        <EmbeddedResource Update="Resources\RCDATA.Marketplace.resx">
+            <Generator></Generator>
+            <LogicalName>RCDATA.Marketplace.resources</LogicalName>
+        </EmbeddedResource>
     </ItemGroup>
 
     <ItemGroup>

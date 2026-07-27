@@ -10,7 +10,7 @@ using System.Runtime.Serialization;
 namespace Microsoft.Zune.Shell
 {
     [Serializable]
-    internal class ZuneShellException : InvalidOperationException
+    public class ZuneShellException : InvalidOperationException
     {
         private string _context;
 

@@ -1,7 +1,8 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using Microsoft.Iris;
+using Microsoft.Zune.Shell;
 
 namespace ZuneHost
 {
@@ -47,21 +48,28 @@ namespace ZuneHost
                 }
             }
 
+            Application.Initialized += delegate
+            {
+                Application.AddResourceRedirect("res://ZuneShellResources!", "clr-res://ZuneShell!RCDATA/");
+                Application.AddResourceRedirect("res://ZuneMarketplaceResources!", "clr-res://ZuneShell!RCDATA.Marketplace/");
+                UIXControls.Helpers.AddUIXControlsClrRedirect();
+            };
+            
             Console.WriteLine("Starting Zune...");
 
             try
             {
-                return Microsoft.Zune.Shell.ZuneApplication.Launch(strArgs, IntPtr.Zero);
+                return ZuneApplication.Launch(strArgs, IntPtr.Zero);
             }
             catch (FileNotFoundException ex)
             {
                 Console.WriteLine(ex.FileName);
                 throw;
             }
-            catch
+            catch (Exception ex)
             {
-                Debugger.Launch();
-                Debugger.Break();
+                if (ex is ZuneShellException zException)
+                    Console.WriteLine(zException.Context);
 
                 throw;
             }
