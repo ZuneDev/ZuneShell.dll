@@ -30,7 +30,11 @@ public class ZuneLibrary : IDisposable
         return false;
     }
 
-    public static string LoadStringFromResource(uint dwResourceNumber) => "todo";
+    public static string LoadStringFromResource(uint dwResourceNumber)
+    {
+        ZuneLibraryResources.Strings.TryGetValue(dwResourceNumber, out var result);
+        return result ?? "STRING NOT FOUND!!!!";
+    }
 
     public ZuneQueryList QueryDatabase(EQueryType queryType, int libraryView, EQuerySortType sortType, uint sortAtom, QueryPropertyBag propertyBag) => new();
 
