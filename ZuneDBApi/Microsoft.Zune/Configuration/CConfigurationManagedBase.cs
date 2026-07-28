@@ -1,5 +1,5 @@
+using Microsoft.Iris.Data.Registry;
 using Microsoft.Win32;
-using ZuneDBApi.Abstractions;
 
 namespace Microsoft.Zune.Configuration
 {

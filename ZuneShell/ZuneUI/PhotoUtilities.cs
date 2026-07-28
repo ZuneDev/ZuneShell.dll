@@ -14,7 +14,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Xml;
-using ZuneDBApi.Abstractions;
+using Microsoft.Iris.Data.Registry;
 
 namespace ZuneUI
 {

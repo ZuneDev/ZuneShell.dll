@@ -8,7 +8,7 @@ using Microsoft.Win32;
 using Microsoft.Zune.Service;
 using Microsoft.Zune.Shell;
 using System.Collections;
-using ZuneDBApi.Abstractions;
+using Microsoft.Iris.Data.Registry;
 
 namespace ZuneUI
 {

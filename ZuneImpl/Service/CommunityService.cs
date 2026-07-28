@@ -3,7 +3,7 @@ using Microsoft.Zune.Util;
 using System;
 using System.Collections;
 using System.Globalization;
-using ZuneDBApi.Abstractions;
+using Microsoft.Iris.Data.Registry;
 using ZuneUI;
 
 namespace Microsoft.Zune.Service

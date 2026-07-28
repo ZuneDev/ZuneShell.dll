@@ -15,7 +15,7 @@ using Microsoft.Win32;
 using System;
 using System.Diagnostics.Tracing;
 using System.Globalization;
-using ZuneDBApi.Abstractions;
+using Microsoft.Iris.Data.Registry;
 
 namespace Microsoft.Zune.PerfTrace
 {
