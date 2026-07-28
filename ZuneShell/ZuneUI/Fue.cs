@@ -10,7 +10,6 @@ using Microsoft.Zune.Shell;
 using Microsoft.Zune.Util;
 using MicrosoftZuneLibrary;
 using System;
-using System.Collections.Generic;
 
 namespace ZuneUI
 {
@@ -19,11 +18,10 @@ namespace ZuneUI
         private const int RenderPromptIntervalInitValue = 120000;
         private const int RenderPromptIntervalPostValue = 120000;
         private bool _proxyDefaultPathsComplete;
-        private bool _autoFUE;
         private string errorMessage;
         private static Fue singletonInstance;
         private bool fileTypeAssociationsAreSet;
-        private int _renderPromptInterval = 120000;
+        private int _renderPromptInterval = RenderPromptIntervalInitValue;
         private Timer _renderPromptTimer;
 
         public static Fue Instance
@@ -36,22 +34,18 @@ namespace ZuneUI
             }
         }
 
-        public bool IsFirstLaunch
-        {
-            get
-            {
-                bool flag = ClientConfiguration.FUE.ShowFirstLaunchVideo && FeatureEnablement.IsFeatureEnabled(Features.eFirstLaunchIntroVideo);
-                return ClientConfiguration.FUE.ShowFUE || flag;
-            }
-        }
+        public bool IsFirstLaunch =>
+            ClientConfiguration.FUE.ShowFUE
+            || ClientConfiguration.FUE.ShowFirstLaunchVideo
+            && FeatureEnablement.IsFeatureEnabled(Features.eFirstLaunchIntroVideo);
 
         public string ErrorMessage
         {
-            get => this.errorMessage;
+            get => errorMessage;
             set
             {
-                this.errorMessage = value;
-                Shell.ShowErrorDialog(0, this.errorMessage);
+                errorMessage = value;
+                Shell.ShowErrorDialog(0, errorMessage);
             }
         }
 
@@ -63,19 +57,15 @@ namespace ZuneUI
 
         public void StartJobs()
         {
-            this.InitializeDefaultPaths();
-            this.UpdateNSS();
+            InitializeDefaultPaths();
+            UpdateNSS();
         }
 
-        public bool AutoFUE
-        {
-            get => this._autoFUE;
-            set => this._autoFUE = value;
-        }
+        public bool AutoFUE { get; set; }
 
         public void MigrateLegacyConfiguration() => ClientConfiguration.FUE.SettingsVersion = ZuneApplication.ZuneCurrentSettingsVersion;
 
-        public void SetFileTypeAssociationsAreSet() => this.fileTypeAssociationsAreSet = true;
+        public void SetFileTypeAssociationsAreSet() => fileTypeAssociationsAreSet = true;
 
         public void InitializeQuickplayConfig()
         {
@@ -92,42 +82,30 @@ namespace ZuneUI
         {
             ClientConfiguration.FUE.ShowFUE = false;
             ClientConfiguration.FUE.ShowArtistChooser = FeatureEnablement.IsFeatureEnabled(Features.eQuickMixLocal) && (FeatureEnablement.IsFeatureEnabled(Features.eQuickplay) || FeatureEnablement.IsFeatureEnabled(Features.ePicks));
-            this.InitializeQuickplayConfig();
-            if (!this.fileTypeAssociationsAreSet)
+            InitializeQuickplayConfig();
+            if (!fileTypeAssociationsAreSet)
                 ZuneShell.DefaultInstance.Management.SaveFileTypesAsDefault();
             ZuneShell.DefaultInstance.NavigateBack();
             SQMLog.LogToStream(SQMDataId.LanguageLocale, Shell.LoadString(StringId.IDS_ZUNECLIENT_LOCALE));
             SQMLog.Log(SQMDataId.DXModeEnabled, Application.RenderingType == RenderingType.DX9 ? 1 : 0);
             ClientConfiguration.SQM.SQMLaunchIndex = 0;
-            this.StartJobs();
-            if (FUECompleted == null)
-                return;
-            FUECompleted(Instance, EventArgs.Empty);
+            StartJobs();
+            FUECompleted?.Invoke(Instance, EventArgs.Empty);
         }
 
         public void CompleteMigration()
         {
-            this.InitializeQuickplayConfig();
+            InitializeQuickplayConfig();
             ZuneShell.DefaultInstance.NavigateBack();
-            if (FUECompleted == null)
-                return;
-            FUECompleted(Instance, EventArgs.Empty);
+            FUECompleted?.Invoke(Instance, EventArgs.Empty);
         }
 
         public void ProxyDefaultPaths()
         {
-            if (this._proxyDefaultPathsComplete)
+            if (_proxyDefaultPathsComplete)
                 return;
-            Management management = ZuneShell.DefaultInstance.Management;
-            string[] music;
-            string[] videos;
-            string[] pictures;
-            string[] podcasts;
-            string ripFolder;
-            string videoMediaFolder;
-            string photoMediaFolder;
-            string podcastMediaFolder;
-            HRESULT knownFolders = ZuneApplication.ZuneLibrary.GetKnownFolders(out music, out videos, out pictures, out podcasts, out string[] _, out ripFolder, out videoMediaFolder, out photoMediaFolder, out podcastMediaFolder, out string _);
+            var management = ZuneShell.DefaultInstance.Management;
+            HRESULT knownFolders = ZuneApplication.ZuneLibrary.GetKnownFolders(out var music, out var videos, out var pictures, out var podcasts, out string[] _, out var ripFolder, out var videoMediaFolder, out var photoMediaFolder, out var podcastMediaFolder, out string _);
             if (ClientConfiguration.Groveler.MonitoredAudioFolders == null)
             {
                 for (int index = 0; index < music.Length; ++index)
@@ -153,20 +131,12 @@ namespace ZuneUI
             management.PhotoMediaFolder = string.IsNullOrEmpty(ClientConfiguration.Groveler.PhotoMediaFolder) ? photoMediaFolder : ClientConfiguration.Groveler.PhotoMediaFolder;
             management.PodcastMediaFolder = string.IsNullOrEmpty(ClientConfiguration.Groveler.PodcastMediaFolder) ? podcastMediaFolder : ClientConfiguration.Groveler.PodcastMediaFolder;
             management.SaveMonitoredFolders(false);
-            this._proxyDefaultPathsComplete = true;
+            _proxyDefaultPathsComplete = true;
         }
 
         public void InitializeDefaultPaths()
         {
-            string[] music;
-            string[] videos;
-            string[] pictures;
-            string[] podcasts;
-            string ripFolder;
-            string videoMediaFolder;
-            string photoMediaFolder;
-            string podcastMediaFolder;
-            HRESULT knownFolders = ZuneApplication.ZuneLibrary.GetKnownFolders(out music, out videos, out pictures, out podcasts, out string[] _, out ripFolder, out videoMediaFolder, out photoMediaFolder, out podcastMediaFolder, out string _);
+            HRESULT knownFolders = ZuneApplication.ZuneLibrary.GetKnownFolders(out var music, out var videos, out var pictures, out var podcasts, out string[] _, out var ripFolder, out var videoMediaFolder, out var photoMediaFolder, out var podcastMediaFolder, out string _);
             if (ClientConfiguration.Groveler.MonitoredAudioFolders == null)
                 ClientConfiguration.Groveler.MonitoredAudioFolders = music;
             if (ClientConfiguration.Groveler.MonitoredPhotoFolders == null)
@@ -188,7 +158,7 @@ namespace ZuneUI
 
         public void UpdateNSS()
         {
-            HMESettings hmeSettings = new HMESettings();
+            var hmeSettings = new HMESettings();
             if (((HRESULT)hmeSettings.Init()).IsError || !hmeSettings.VelaSharingEnabled)
                 return;
             hmeSettings.EnableSharingForUser();
@@ -199,13 +169,13 @@ namespace ZuneUI
 
         public int RenderPromptInterval
         {
-            get => this._renderPromptInterval;
+            get => _renderPromptInterval;
             set
             {
-                if (this._renderPromptInterval == value)
+                if (_renderPromptInterval == value)
                     return;
-                this._renderPromptInterval = value;
-                this.FirePropertyChanged(nameof(RenderPromptInterval));
+                _renderPromptInterval = value;
+                FirePropertyChanged(nameof(RenderPromptInterval));
             }
         }
 
@@ -213,14 +183,14 @@ namespace ZuneUI
         {
             get
             {
-                if (this._renderPromptTimer == null)
+                if (_renderPromptTimer == null)
                 {
-                    this._renderPromptTimer = new Timer(this);
-                    this._renderPromptTimer.Interval = this.RenderPromptInterval;
-                    this._renderPromptTimer.AutoRepeat = false;
-                    this._renderPromptTimer.Tick += new EventHandler(this.RenderPromptTimeout);
+                    _renderPromptTimer = new Timer(this);
+                    _renderPromptTimer.Interval = RenderPromptInterval;
+                    _renderPromptTimer.AutoRepeat = false;
+                    _renderPromptTimer.Tick += RenderPromptTimeout;
                 }
-                return this._renderPromptTimer;
+                return _renderPromptTimer;
             }
         }
 
@@ -241,7 +211,7 @@ namespace ZuneUI
                 switch ((int)args)
                 {
                     case 6:
-                        RenderPromptInterval = 120000;
+                        RenderPromptInterval = RenderPromptIntervalPostValue;
                         break;
                     case 7:
                         ClientConfiguration.GeneralSettings.RenderingType = 0;
