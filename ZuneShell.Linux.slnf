@@ -1,0 +1,17 @@
+﻿{
+  "solution": {
+    "path": "ZuneShell.sln",
+    "projects": [
+      "libs\\ZuneUIXTools\\DebugAdapter\\UIX.DebugAdapter.Server\\UIX.DebugAdapter.Server.csproj",
+      "libs\\ZuneUIXTools\\DebugAdapter\\UIX.DebugAdapter.Shared\\UIX.DebugAdapter.Shared.csproj",
+      "libs\\ZuneUIXTools\\libs\\MicrosoftIris\\UIX.RenderApi.OpenGL\\UIX.RenderApi.OpenGL.csproj",
+      "libs\\ZuneUIXTools\\libs\\MicrosoftIris\\UIX.RenderApi\\UIX.RenderApi.csproj",
+      "libs\\ZuneUIXTools\\libs\\MicrosoftIris\\UIXcontrols\\UIXcontrols.csproj",
+      "libs\\ZuneUIXTools\\libs\\MicrosoftIris\\UIX\\UIX.csproj",
+      "ZuneDBApi\\ZuneDBApi.csproj",
+      "ZuneHost\\ZuneHost.csproj",
+      "ZuneImpl\\ZuneImpl.csproj",
+      "ZuneShell\\ZuneShell.csproj"
+    ]
+  }
+}
