@@ -8,6 +8,7 @@ using Microsoft.Iris;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using Microsoft.Iris.Render.Monitors;
 using Microsoft.Zune.Util;
 
 namespace ZuneUI
@@ -45,13 +46,7 @@ namespace ZuneUI
         private void InitializeMonitors()
         {
             _monitors = [];
-            var monitorDetector =
-#if WINDOWS
-                new Win32MonitorDetector();
-#else
-                new GlfwMonitorDetector();
-#endif
-            foreach (var detectMonitor in monitorDetector.DetectMonitors())
+            foreach (var detectMonitor in MonitorSystem.Instance.DetectMonitors())
             {
                 var monitor = new Monitor(detectMonitor);
                 var width = Math.Max((monitor.Right - monitor.Left + 1) / 2, Shell.MinimumWindowWidth);

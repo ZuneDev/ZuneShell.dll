@@ -46,7 +46,7 @@ namespace ZuneUI
             object[] objArray = (object[])arg;
             int num1 = (int)objArray[0];
             int num2 = (int)objArray[1];
-            RECT lpRect;
+            Vanara.PInvoke.RECT lpRect;
             if (!GetWindowRect(ZuneApplication.GetRenderWindow(), out lpRect))
             {
                 lpRect.Left = 0;
@@ -105,7 +105,7 @@ namespace ZuneUI
         private static extern bool GetCursorPos(out POINT lpPoint);
 
         [DllImport("User32.dll")]
-        private static extern bool GetWindowRect(IntPtr hwnd, out RECT lpRect);
+        private static extern bool GetWindowRect(IntPtr hwnd, out Vanara.PInvoke.RECT lpRect);
 
         private struct POINT
         {
