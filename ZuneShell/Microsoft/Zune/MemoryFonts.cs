@@ -1,66 +1,36 @@
-﻿// Decompiled with JetBrains decompiler
-// Type: Microsoft.Zune.MemoryFonts
-// Assembly: ZuneShell, Version=4.7.0.0, Culture=neutral, PublicKeyToken=ddd0da4d3e678217
-// MVID: FC8028F3-A47B-4FB4-B35B-11D1752D8264
-// Assembly location: C:\Program Files\Zune\ZuneShell.dll
+using Microsoft.Iris.Data;
+using Microsoft.Iris.Render.Text;
 
-using System;
-using System.Runtime.InteropServices;
+namespace Microsoft.Zune;
 
-namespace Microsoft.Zune
+public abstract class MemoryFonts
 {
-    internal class MemoryFonts
+    private static readonly MemoryFonts Impl =
+#if WINDOWS
+        new Win32MemoryFonts();
+#else
+        new SixLaborsMemoryFonts();
+#endif
+    
+    public abstract bool TryLoadFromResourceCore(string resourceDllName, string fontResourceName);
+
+    public static bool TryLoadFromResource(string resourceDllName, string fontResourceName) =>
+        Impl.TryLoadFromResourceCore(resourceDllName, fontResourceName);
+}
+
+internal class SixLaborsMemoryFonts : MemoryFonts
+{
+    public override bool TryLoadFromResourceCore(string resourceDllName, string fontResourceName)
     {
-        public const uint LOAD_LIBRARY_AS_DATAFILE = 2;
-        public const int RT_DATA = 10;
+        var resourceAssemblyName = resourceDllName[..^".dll".Length];
+        var loaded = FontResourceLoader.LoadFromModuleResource(resourceAssemblyName, fontResourceName);
 
-        public static bool TryLoadFromResource(string resourceDllName, string fontResourceName)
-        {
-            IntPtr instanceHandle = IntPtr.Zero;
-            try
-            {
-                instanceHandle = LoadLibraryEx(resourceDllName, IntPtr.Zero, 2U);
-                if (instanceHandle == IntPtr.Zero)
-                    return false;
-                IntPtr resource = FindResource(instanceHandle, fontResourceName, (IntPtr)10);
-                if (resource == IntPtr.Zero)
-                    return false;
-                IntPtr resourceHandle = LoadResource(instanceHandle, resource);
-                return !(resourceHandle == IntPtr.Zero) && !(AddFontMemResourceEx(LockResource(resourceHandle), SizeofResource(instanceHandle, resource), IntPtr.Zero, out uint _) == IntPtr.Zero);
-            }
-            finally
-            {
-                if (instanceHandle != IntPtr.Zero)
-                    FreeLibrary(instanceHandle);
-            }
-        }
+        if (loaded)
+            return true;
+        
+        var resource = ResourceManager.AcquireResource($"res://{resourceAssemblyName}!{fontResourceName}");
+        loaded = FontResourceLoader.LoadFromBuffer(resource.Buffer, (int)resource.Length);
 
-        [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
-        public static extern IntPtr LoadLibraryEx(string moduleName, IntPtr reserved, uint flags);
-
-        [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
-        public static extern bool FreeLibrary(IntPtr instanceHandle);
-
-        [DllImport("kernel32.dll", EntryPoint = "FindResourceW", CharSet = CharSet.Unicode)]
-        public static extern IntPtr FindResource(
-          IntPtr instanceHandle,
-          string resource,
-          IntPtr type);
-
-        [DllImport("kernel32.dll")]
-        public static extern IntPtr LoadResource(IntPtr instanceHandle, IntPtr resourceHandle);
-
-        [DllImport("kernel32.dll")]
-        public static extern int SizeofResource(IntPtr instanceHandle, IntPtr resourceHandle);
-
-        [DllImport("kernel32.dll")]
-        public static extern IntPtr LockResource(IntPtr resourceHandle);
-
-        [DllImport("gdi32.dll")]
-        public static extern IntPtr AddFontMemResourceEx(
-          IntPtr fontBuffer,
-          int fontButtonSize,
-          IntPtr reserved,
-          out uint fontsInstalled);
+        return loaded;
     }
 }

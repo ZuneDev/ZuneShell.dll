@@ -57,10 +57,8 @@ namespace ZuneUI
             if (_resourceDll == null)
                 throw new InvalidOperationException("Must specify a Resource to retrieve the fonts from.");
             
-#if WINDOWS
             foreach (var font in _fonts)
                 MemoryFonts.TryLoadFromResource(_resourceDll, font);
-#endif
             
             _loaded = true;
         }
