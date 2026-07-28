@@ -24,7 +24,7 @@ namespace Microsoft.Zune.Configuration
             m_basePath = basePath;
             m_instance = instance;
             m_lock = new object();
-            m_registry = RegistryProviderFactory.Create(hive, ConfigurationPath);
+            m_registry = ZuneConfigurationRegistry.Open(hive, ConfigurationPath);
         }
 
         ~CConfigurationManagedBase()

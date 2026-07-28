@@ -683,7 +683,7 @@ namespace ZuneUI
 
         public static string SettingsRegistryPath => "HKEY_CURRENT_USER\\Software\\Microsoft\\Zune\\Shell";
 
-        internal static readonly IRegistryProvider SettingsRegistry = RegistryProviderFactory.Create(RegistryHive.CurrentUser, "Shell");
+        internal static readonly IRegistryProvider SettingsRegistry = ZuneConfigurationRegistry.Open(RegistryHive.CurrentUser, "Shell");
 
         public static void SaveInt(string keyName, int value) => SettingsRegistry.SetIntValue(keyName, value);
 

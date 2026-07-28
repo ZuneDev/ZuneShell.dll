@@ -2,7 +2,7 @@
 
 using Microsoft.Win32;
 using System;
-using ZuneDBApi.Abstractions;
+using Microsoft.Iris.Data.Registry;
 
 namespace Microsoft.WinRT
 {

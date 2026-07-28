@@ -4,6 +4,102 @@ Append-only. Do not edit previous entries.
 
 ---
 
+## 2026-07-28 — Redesign so UIXControls.RegistryHelper shares the abstraction
+
+**Task:** user asked to redesign `Microsoft.Iris.Data.Registry` so both
+`ZuneDBApi`'s `Microsoft.Zune.Configuration.*` classes and `UIXControls`'s
+`RegistryHelper` (`libs/ZuneUIXTools/.../UIXcontrols/RegistryHelper.cs`) can
+use it cleanly, following ZuneDBApi/CLAUDE.md's procedures.
+
+**State found before changing anything** (this repo's HEAD already includes a
+prior commit, "Move registry abstraction to UIX", that relocated
+`IRegistryProvider`/`InMemoryRegistryProvider`/`RegistryProviderFactory`/
+`Win32RegistryProvider` from `ZuneDBApi/Abstractions/` into
+`libs/ZuneUIXTools/libs/MicrosoftIris/UIX/Microsoft/Iris/Data/Registry/`, i.e.
+the generic `UIX.csproj`, precisely so other Iris/UIX consumers could reach
+it):
+
+- **Latent bug:** `Win32RegistryProvider.cs` was moved into the
+  `Microsoft/Iris/Data/Registry/` folder but still declared
+  `namespace ZuneDBApi.Abstractions` (not `Microsoft.Iris.Data.Registry`),
+  with no compensating `using`. Invisible on this Linux box because the whole
+  file body is `#if WINDOWS`-gated and default SDK globbing pulls the file
+  into the `UIX` assembly regardless of namespace — nothing forced the
+  mismatch to surface without a Windows TFM build. Same stale-namespace using
+  (`using ZuneDBApi.Abstractions;`) was also found, independently, in
+  `ZuneShell/Microsoft/WinRT/ApiInformation.cs` (whole file `#if WINDOWS8`-gated,
+  same invisibility reason, and this file wasn't touched by the prior "Move"
+  commit at all).
+- `RegistryProviderFactory.Create(RegistryHive, string)` hardcoded the Zune
+  product root (`Software\Microsoft\Zune`) inside what is now a generic Iris
+  library — a layering violation once other, non-Zune consumers (like
+  `UIXControls.RegistryHelper`, which is not Zune-specific) need the same
+  abstraction. `RegistryProviderFactory.TryOpen(RegistryHive, string)` did
+  *not* apply the Zune root (took an absolute path directly) — already
+  inconsistent with `Create` before this session's changes.
+- `UIXControls.RegistryHelper` was still calling `Microsoft.Win32.Registry
+  .GetValue`/`.SetValue` directly against its single flat `SettingsRegistryPath`
+  string (e.g. `"HKEY_CURRENT_USER\Software\Microsoft\Zune\Shell"`, set by
+  `ZuneShell/ZuneUI/Shell.cs`), not gated by `#if WINDOWS` at all — would throw
+  `PlatformNotSupportedException` on non-Windows the moment any of its static
+  methods were called. It had an unused `using Microsoft.Iris.Data.Registry;`
+  already sitting at the top (dead import, never wired up).
+
+**Redesign:**
+
+- Fixed `Win32RegistryProvider.cs`'s namespace to `Microsoft.Iris.Data.Registry`
+  and `ApiInformation.cs`'s stale using to match.
+- `Microsoft.Iris.Data.Registry.RegistryProviderFactory` is now fully
+  product-agnostic: `Open(hive, subKeyPath, writable=true)` (create-or-open),
+  `TryOpen(hive, subKeyPath, writable=false)` (open-only, no Zune-root
+  assumption — this was already its behavior), and a new
+  `TryOpen(string fullPath, writable=false, createIfMissing=false)` overload
+  that parses a single absolute path string (`HKEY_CURRENT_USER\...` etc, the
+  same convention `Microsoft.Win32.Registry.GetValue`/`SetValue` accept) into
+  a hive + subkey pair — added specifically so `RegistryHelper`, which only
+  ever tracks one flat path string, doesn't need to be taught the hive/subkey
+  split just to use this abstraction.
+- The Zune-root-prefixing convenience (formerly `Create`) moved to a new
+  `Microsoft.Zune.Configuration.ZuneConfigurationRegistry.Open(hive,
+  subKeyPath)` in `ZuneDBApi` — the "Software\Microsoft\Zune" convention is a
+  Zune product concept, not a generic Iris one, so it has no business living
+  in `UIX.csproj`. `CConfigurationManagedBase`, `ZuneShell/ZuneUI/Shell.cs`,
+  and `ZuneShell/ZuneUI/RadioStationHelper.cs` (the only 3 former callers of
+  `RegistryProviderFactory.Create`) were repointed at it; ZuneShell can see
+  ZuneDBApi's public types since the dependency chain is
+  ZuneDBApi → ZuneImpl → ZuneShell.
+- `InMemoryRegistryProvider` (the non-Windows fallback) previously handed out
+  a brand-new, disconnected instance on every `Create`/`TryOpen` call. That
+  was harmless for `CConfigurationManagedBase` (which opens one instance and
+  holds it for the object's lifetime), but would have silently broken
+  `RegistryHelper` on non-Windows: `RegistryHelper` opens and closes a key
+  per call (mirroring how the real `Registry.GetValue`/`SetValue` open/close
+  a handle per call, since the OS-backed registry persists independently of
+  any handle), so every `Get*`/`Save*` would have gotten an empty store with
+  nothing another call had written. Fixed by keying a static
+  `(RegistryHive, string)` → instance dictionary in `InMemoryRegistryProvider`
+  (`GetOrCreate`/`TryGet`), so repeated opens of the same path share state for
+  the life of the process — the same persistence envelope the previous
+  design already documented as a known limitation (TODO: back with a real
+  file-backed store), just now actually reachable through the open-per-call
+  pattern instead of only through a cached instance.
+- `RegistryHelper.cs`: replaced every `Registry.GetValue`/`SetValue` call with
+  `RegistryProviderFactory.TryOpen(SettingsRegistryPath, ...)` +
+  `IRegistryProvider.Get*Value`/`Set*Value`, preserving the original's
+  open/close-per-call semantics and its "no-op if `SettingsRegistryPath` is
+  unset" guard. Removed the `using Microsoft.Win32;` dependency entirely.
+
+**Verified:** `dotnet build` with 0 errors on net8.0 for `ZuneDBApi.csproj`,
+`UIX.csproj`, `UIXcontrols.csproj`, `ZuneImpl.csproj`, `ZuneShell.csproj`,
+`ZuneHost.csproj`. The `#if WINDOWS`-gated code paths (the actual
+`Win32RegistryProvider` namespace fix, the `ApiInformation.cs` fix) could not
+be exercised by a build on this Linux box — `net8.0-windows`/`net472` aren't
+restorable here (`Directory.Build.props` only adds those TFMs when
+`MSBuild.IsOsPlatform('Windows')`) — so those two fixes are reviewed by
+inspection only, not build-verified.
+
+---
+
 ## 2026-07-21 — IRegistryProvider abstraction + Win32 pass-through (stage 3, one-off)
 
 **Task:** user explicitly asked to temporarily step into stage 3 for this

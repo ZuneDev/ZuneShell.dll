@@ -6,6 +6,7 @@
 
 using Microsoft.Iris;
 using Microsoft.Win32;
+using Microsoft.Zune.Configuration;
 using Microsoft.Zune.Util;
 using System.Collections;
 using Microsoft.Iris.Data.Registry;
@@ -71,7 +72,7 @@ namespace ZuneUI
             this.stationList = new ArrayList();
             // Create(...) opens-or-creates, so a freshly-created key simply
             // yields no subkeys below, matching the original's create-and-skip branch.
-            using (IRegistryProvider registryKey = RegistryProviderFactory.Create(RegistryHive.CurrentUser, "Radio"))
+            using (IRegistryProvider registryKey = ZuneConfigurationRegistry.Open(RegistryHive.CurrentUser, "Radio"))
             {
                 foreach (string subKeyName in registryKey.GetSubKeyNames())
                 {
