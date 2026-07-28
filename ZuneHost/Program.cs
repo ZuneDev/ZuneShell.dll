@@ -28,19 +28,20 @@ namespace ZuneHost
                     "Zune"));
                 if (_zuneProgramDir.Exists)
                 {
+                    var targetDirectory = AppDomain.CurrentDomain.BaseDirectory;
                     foreach (var info in _zuneProgramDir.GetFileSystemInfos())
                     {
                         if (info is DirectoryInfo dirInfo)
                         {
-                            CopyAll(dirInfo, new DirectoryInfo(Path.Combine(Environment.CurrentDirectory, dirInfo.Name)));
+                            CopyAll(dirInfo, new DirectoryInfo(Path.Combine(targetDirectory, dirInfo.Name)));
                         }
                         else if (info is FileInfo fileInfo)
                         {
                             string fileName = fileInfo.Name;
                             if (fileInfo.Extension == ".dll")
                             {
-                                string targetPath = Path.Combine(Environment.CurrentDirectory, fileName);
-                                if (!File.Exists(targetPath) || fileName == "ZuneDbApi.dll")
+                                string targetPath = Path.Combine(targetDirectory, fileName);
+                                if (!File.Exists(targetPath))
                                     fileInfo.CopyTo(targetPath);
                             }
                         }
@@ -87,15 +88,11 @@ namespace ZuneHost
         {
             // Check if the target directory exists
             if (Directory.Exists(target.FullName) == false)
-            {
                 Directory.CreateDirectory(target.FullName);
-            }
 
             // Copy all the files into the new directory
-            foreach (FileInfo fi in source.GetFiles())
-            {
+            foreach (var fi in source.GetFiles().Where(fi => !fi.Exists))
                 fi.CopyTo(Path.Combine(target.ToString(), fi.Name), true);
-            }
 
 
             // Copy all the sub directories using recursion

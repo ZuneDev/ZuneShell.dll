@@ -6,22 +6,12 @@
         <OutputType>Library</OutputType>
         <AssemblyName>ZuneShell</AssemblyName>
 
-        <TargetFrameworks>net8.0</TargetFrameworks>
-        <Platforms>x64;x86</Platforms>
-
         <FileAlignment>512</FileAlignment>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     </PropertyGroup>
 
-    <PropertyGroup Condition=" $([MSBuild]::IsOsPlatform('Windows')) ">
-        <TargetFrameworks>$(TargetFrameworks);net8.0-windows10.0.22000;net472</TargetFrameworks>
-    </PropertyGroup>
-
     <ItemGroup>
-        <PackageReference Include="NativeMessageBox" Version="12.0.0" />
-        <PackageReference Include="Vanara.PInvoke.User32" Version="3.4.17" />
-
         <ProjectReference Include="..\libs\ZuneUIXTools\libs\MicrosoftIris\UIXcontrols\UIXcontrols.csproj" />
         <ProjectReference Include="..\libs\ZuneUIXTools\libs\MicrosoftIris\UIX\UIX.csproj" />
         <ProjectReference Include="..\ZuneImpl\ZuneImpl.csproj" />
@@ -41,6 +31,11 @@
 
     <ItemGroup Condition=" $(TargetFramework.StartsWith('netcoreapp')) ">
         <PackageReference Include="Microsoft.Windows.SDK.Contracts" Version="10.0.22621.1" />
+    </ItemGroup>
+
+    <ItemGroup Condition=" $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows' ">
+        <PackageReference Include="NativeMessageBox" Version="12.0.0" />
+        <PackageReference Include="Vanara.PInvoke.User32" Version="3.4.17" />
     </ItemGroup>
 
     <ItemGroup>

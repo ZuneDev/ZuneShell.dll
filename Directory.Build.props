@@ -11,15 +11,11 @@
         <DefineConstants>$(DefineConstants);OPENZUNE</DefineConstants>
 
         <TargetFrameworks>net8.0</TargetFrameworks>
-        <Platforms>x64;x86</Platforms>
-
-        <SignAssembly>False</SignAssembly>
-        <AssemblyOriginatorKeyFile>$(SolutionDir)\libs\MicrosoftIris\36MSApp1024.snk</AssemblyOriginatorKeyFile>
-        <DelaySign>True</DelaySign>
+        <Platforms>AnyCPU;x64;x86</Platforms>
     </PropertyGroup>
-    
+
     <PropertyGroup Condition=" $([MSBuild]::IsOsPlatform('Windows')) ">
-        <TargetFrameworks>net472;$(TargetFrameworks);net8.0-windows</TargetFrameworks>
+        <TargetFrameworks>$(TargetFrameworks);net8.0-windows10.0.22000;net48</TargetFrameworks>
     </PropertyGroup>
 
     <Choose>
@@ -27,26 +23,18 @@
             <PropertyGroup>
                 <DefineConstants>$(DefineConstants);WINDOWS</DefineConstants>
                 <TargetWindowsVersion>$([MSBuild]::GetTargetPlatformVersion($(TargetFramework)))</TargetWindowsVersion>
-                
-                <DefineConstants Condition="$([MSBuild]::VersionGreaterThanOrEquals($(TargetWindowsVersion), '7.0'))">
-                    $(DefineConstants);WINDOWS7
-                </DefineConstants>
-                <DefineConstants Condition="$([MSBuild]::VersionGreaterThanOrEquals($(TargetWindowsVersion), '8.0'))">
-                    $(DefineConstants);WINDOWS8
-                </DefineConstants>
-                <DefineConstants Condition="$([MSBuild]::VersionGreaterThanOrEquals($(TargetWindowsVersion), '10.0'))">
-                    $(DefineConstants);WINDOWS10
-                </DefineConstants>
+
+                <DefineConstants Condition="$([MSBuild]::VersionGreaterThanOrEquals($(TargetWindowsVersion), '7.0'))">$(DefineConstants);WINDOWS7</DefineConstants>
+                <DefineConstants Condition="$([MSBuild]::VersionGreaterThanOrEquals($(TargetWindowsVersion), '8.0'))">$(DefineConstants);WINDOWS8</DefineConstants>
+                <DefineConstants Condition="$([MSBuild]::VersionGreaterThanOrEquals($(TargetWindowsVersion), '10.0'))">$(DefineConstants);WINDOWS10</DefineConstants>
             </PropertyGroup>
         </When>
 
         <When Condition=" $(TargetFramework.StartsWith('net4')) ">
             <PropertyGroup>
                 <DefineConstants>$(DefineConstants);WINDOWS</DefineConstants>
-                
-                <DefineConstants Condition=" !$(TargetFramework.StartsWith('net40')) ">
-                    $(DefineConstants);NETSTANDARD1_0_OR_GREATER;NETSTANDARD2_0_OR_GREATER
-                </DefineConstants>
+
+                <DefineConstants Condition=" !$(TargetFramework.StartsWith('net40')) ">$(DefineConstants);NETSTANDARD1_0_OR_GREATER;NETSTANDARD2_0_OR_GREATER</DefineConstants>
             </PropertyGroup>
         </When>
     </Choose>
