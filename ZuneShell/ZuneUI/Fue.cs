@@ -228,19 +228,30 @@ namespace ZuneUI
         {
             if (Application.RenderingType == RenderingType.GDI)
                 return;
-            Win32MessageBox.Show(Shell.LoadString(StringId.IDS_RENDER_PROMPT), Shell.LoadString(StringId.IDS_RENDER_PROMPT_CAPTION), Win32MessageBoxType.MB_YESNO | Win32MessageBoxType.MB_ICONQUESTION, args =>
-           {
-               switch ((int)args)
-               {
-                   case 6:
-                       this.RenderPromptInterval = 120000;
-                       break;
-                   case 7:
-                       ClientConfiguration.GeneralSettings.RenderingType = 0;
-                       Win32MessageBox.Show(Shell.LoadString(StringId.IDS_RENDER_PROMPT_RESTART), Shell.LoadString(StringId.IDS_RENDER_PROMPT_CAPTION), Win32MessageBoxType.MB_ICONASTERISK, args2 => Application.Window.Close());
-                       break;
-               }
-           });
+
+            Win32MessageBox.Show(
+                Shell.LoadString(StringId.IDS_RENDER_PROMPT),
+                Shell.LoadString(StringId.IDS_RENDER_PROMPT_CAPTION),
+                Win32MessageBoxType.MB_YESNO | Win32MessageBoxType.MB_ICONQUESTION,
+                Callback);
+            return;
+            
+            void Callback(object args)
+            {
+                switch ((int)args)
+                {
+                    case 6:
+                        RenderPromptInterval = 120000;
+                        break;
+                    case 7:
+                        ClientConfiguration.GeneralSettings.RenderingType = 0;
+                        Win32MessageBox.Show(
+                            Shell.LoadString(StringId.IDS_RENDER_PROMPT_RESTART),
+                            Shell.LoadString(StringId.IDS_RENDER_PROMPT_CAPTION),
+                            Win32MessageBoxType.MB_ICONASTERISK, _ => Application.Window.Close());
+                        break;
+                }
+            }
         }
     }
 }

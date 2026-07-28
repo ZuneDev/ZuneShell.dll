@@ -19,6 +19,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="NativeMessageBox" Version="12.0.0" />
         <PackageReference Include="Vanara.PInvoke.User32" Version="3.4.17" />
 
         <ProjectReference Include="..\libs\ZuneUIXTools\libs\MicrosoftIris\UIXcontrols\UIXcontrols.csproj" />
