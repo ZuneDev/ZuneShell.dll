@@ -33,7 +33,7 @@ namespace ZuneUI
             Win7ShellManager.Instance.OnMonitorChange += new MonitorChangeHandler(this.OnMonitorChangeDetected);
             if (OSVersion.IsWin7())
                 Win7ShellManager.Instance.OnWindowPositionKeyPress += new WindowPositionKeyPressHandler(this.OnWin7KeypressDetected);
-            Shell defaultInstance = (Shell)ZuneShell.DefaultInstance;
+            var defaultInstance = (Shell)ZuneShell.DefaultInstance;
             if (defaultInstance.NormalWindowSize == null)
                 defaultInstance.NormalWindowSize = new Size(this._window.ClientSize.Width, this._window.ClientSize.Height);
             if (defaultInstance.NormalWindowPosition == null)
@@ -44,21 +44,27 @@ namespace ZuneUI
 
         private void InitializeMonitors()
         {
-            this._monitors = new List<Monitor>();
-            foreach (MonitorSize detectMonitor in new MonitorDetector().DetectMonitors())
+            _monitors = [];
+            var monitorDetector =
+#if WINDOWS
+                new Win32MonitorDetector();
+#else
+                new GlfwMonitorDetector();
+#endif
+            foreach (var detectMonitor in monitorDetector.DetectMonitors())
             {
-                Monitor monitor = new Monitor(detectMonitor);
-                int width = Math.Max((monitor.Right - monitor.Left + 1) / 2, Shell.MinimumWindowWidth);
-                int height = Math.Max(monitor.Bottom - monitor.Top + 1, Shell.MinimumWindowHeight);
+                var monitor = new Monitor(detectMonitor);
+                var width = Math.Max((monitor.Right - monitor.Left + 1) / 2, Shell.MinimumWindowWidth);
+                var height = Math.Max(monitor.Bottom - monitor.Top + 1, Shell.MinimumWindowHeight);
                 monitor.LeftSnap.Position = new WindowPosition(monitor.Left, monitor.Top);
                 monitor.LeftSnap.Size = new WindowSize(width, height);
                 monitor.RightSnap.Position = new WindowPosition(monitor.Right - width, monitor.Top);
                 monitor.RightSnap.Size = new WindowSize(width, height);
-                this._monitors.Add(monitor);
+                _monitors.Add(monitor);
             }
-            this._monitors.Sort();
-            foreach (Monitor monitor in this._monitors)
-                monitor.InitializeHotspots(this._monitors, 0.015f);
+            _monitors.Sort();
+            foreach (var monitor in _monitors)
+                monitor.InitializeHotspots(_monitors, 0.015f);
         }
 
         public bool IsSnapping
@@ -114,7 +120,7 @@ namespace ZuneUI
                 return;
             if (this._window.WindowState == WindowState.Maximized)
                 this._window.WindowState = WindowState.Normal;
-            Monitor windowMonitor = this.GetWindowMonitor();
+            var windowMonitor = this.GetWindowMonitor();
             switch (this.GetWindowSnappedness(windowMonitor))
             {
                 case WindowSnappedness.Unsnapped:
@@ -135,7 +141,7 @@ namespace ZuneUI
                 return;
             if (this._window.WindowState == WindowState.Maximized)
                 this._window.WindowState = WindowState.Normal;
-            Monitor windowMonitor = this.GetWindowMonitor();
+            var windowMonitor = this.GetWindowMonitor();
             switch (this.GetWindowSnappedness(windowMonitor))
             {
                 case WindowSnappedness.Unsnapped:
@@ -154,8 +160,8 @@ namespace ZuneUI
         {
             if (!this.IsInitialized)
                 return;
-            Monitor windowMonitor = this.GetWindowMonitor();
-            WindowSnappedness windowSnappedness = this.GetWindowSnappedness(windowMonitor);
+            var windowMonitor = this.GetWindowMonitor();
+            var windowSnappedness = this.GetWindowSnappedness(windowMonitor);
             Monitor destinationMonitor = null;
             if (!OSVersion.IsWin7())
                 destinationMonitor = this.FindPreviousMonitor(windowMonitor);
@@ -189,8 +195,8 @@ namespace ZuneUI
         {
             if (!this.IsInitialized)
                 return;
-            Monitor windowMonitor = this.GetWindowMonitor();
-            WindowSnappedness windowSnappedness = this.GetWindowSnappedness(windowMonitor);
+            var windowMonitor = this.GetWindowMonitor();
+            var windowSnappedness = this.GetWindowSnappedness(windowMonitor);
             Monitor destinationMonitor = null;
             if (!OSVersion.IsWin7())
                 destinationMonitor = this.FindNextMonitor(windowMonitor);
@@ -231,8 +237,8 @@ namespace ZuneUI
         {
             if (this.IsInitialized)
             {
-                int x = 0;
-                int y = 0;
+                var x = 0;
+                var y = 0;
                 MousePosition.GetCursorScreenPosition(out x, out y);
                 this._currentHotspot = this.GetWindowMonitor(x, y).GetHotspotForCursor(x, y);
             }
@@ -245,8 +251,8 @@ namespace ZuneUI
             IHotspot hotspot = null;
             if (this.IsInitialized)
             {
-                int x = 0;
-                int y = 0;
+                var x = 0;
+                var y = 0;
                 MousePosition.GetCursorScreenPosition(out x, out y);
                 hotspot = this.GetWindowMonitor(x, y).GetHotspotForCursor(x, y);
                 if (hotspot != this._currentHotspot)
@@ -267,7 +273,7 @@ namespace ZuneUI
         public void SetWindowPosition(int left, int top, int width, int height)
         {
             this.Initialize();
-            Monitor windowMonitor = this.GetWindowMonitor(left + width / 2, top + height / 2);
+            var windowMonitor = this.GetWindowMonitor(left + width / 2, top + height / 2);
             if (windowMonitor != null)
             {
                 if (width > windowMonitor.Right - windowMonitor.Left)
@@ -299,10 +305,10 @@ namespace ZuneUI
         {
             if (!this.IsSnapping || !this.IsInitialized)
                 return;
-            Shell defaultInstance = (Shell)ZuneShell.DefaultInstance;
-            WindowPosition windowPosition = new WindowPosition(defaultInstance.NormalWindowPosition.X, defaultInstance.NormalWindowPosition.Y);
-            WindowSize size = new WindowSize(defaultInstance.NormalWindowSize.Width, defaultInstance.NormalWindowSize.Height);
-            Monitor windowMonitor = this.GetWindowMonitor(windowPosition, size);
+            var defaultInstance = (Shell)ZuneShell.DefaultInstance;
+            var windowPosition = new WindowPosition(defaultInstance.NormalWindowPosition.X, defaultInstance.NormalWindowPosition.Y);
+            var size = new WindowSize(defaultInstance.NormalWindowSize.Width, defaultInstance.NormalWindowSize.Height);
+            var windowMonitor = this.GetWindowMonitor(windowPosition, size);
             if (monitor == windowMonitor)
                 this._window.Position = windowPosition;
             else
@@ -315,15 +321,15 @@ namespace ZuneUI
           WindowPosition currentPosition,
           Monitor destinationMonitor)
         {
-            int num1 = destinationMonitor.Left - currentMonitor.Left;
-            int num2 = destinationMonitor.Top - currentMonitor.Top;
+            var num1 = destinationMonitor.Left - currentMonitor.Left;
+            var num2 = destinationMonitor.Top - currentMonitor.Top;
             this._window.Position = new WindowPosition(currentPosition.X + num1, currentPosition.Y + num2);
         }
 
         private Monitor FindNextMonitor(
           Monitor monitor)
         {
-            int index = this._monitors.IndexOf(monitor) + 1;
+            var index = this._monitors.IndexOf(monitor) + 1;
             if (index >= this._monitors.Count)
                 index = 0;
             return this._monitors[index];
@@ -332,7 +338,7 @@ namespace ZuneUI
         private Monitor FindPreviousMonitor(
           Monitor monitor)
         {
-            int index = this._monitors.IndexOf(monitor) - 1;
+            var index = this._monitors.IndexOf(monitor) - 1;
             if (index < 0)
                 index = this._monitors.Count - 1;
             return this._monitors[index];
@@ -341,7 +347,7 @@ namespace ZuneUI
         private WindowSnappedness GetWindowSnappedness(
           Monitor monitor)
         {
-            WindowSnappedness windowSnappedness = WindowSnappedness.Ineligible;
+            var windowSnappedness = WindowSnappedness.Ineligible;
             if (this.IsInitialized && this._window.WindowState != WindowState.Maximized && this._window.WindowState != WindowState.Minimized)
                 windowSnappedness = !(this._window.Position == monitor.LeftSnap.Position) || !(this._window.ClientSize == monitor.LeftSnap.Size) ? (!(this._window.Position == monitor.RightSnap.Position) || !(this._window.ClientSize == monitor.RightSnap.Size) ? WindowSnappedness.Unsnapped : WindowSnappedness.Right) : WindowSnappedness.Left;
             return windowSnappedness;
@@ -369,11 +375,11 @@ namespace ZuneUI
             {
                 if (this._monitors.Count > 1)
                 {
-                    int num1 = int.MaxValue;
-                    foreach (Monitor monitor2 in this._monitors)
+                    var num1 = int.MaxValue;
+                    foreach (var monitor2 in this._monitors)
                     {
-                        int num2 = 0;
-                        int num3 = 0;
+                        var num2 = 0;
+                        var num3 = 0;
                         if (x < monitor2.Left)
                             num2 = monitor2.Left - x;
                         else if (x > monitor2.Right)
@@ -382,7 +388,7 @@ namespace ZuneUI
                             num3 = monitor2.Top - y;
                         else if (y > monitor2.Bottom)
                             num3 = y - monitor2.Bottom;
-                        int num4 = num2 + num3;
+                        var num4 = num2 + num3;
                         if (num4 < num1)
                         {
                             monitor1 = monitor2;
@@ -398,7 +404,7 @@ namespace ZuneUI
 
         private void UpdateIsSnapping()
         {
-            bool flag = false;
+            var flag = false;
             if (this._window.WindowState == WindowState.Normal)
             {
                 switch (this.GetWindowSnappedness(this.GetWindowMonitor()))
@@ -517,12 +523,12 @@ namespace ZuneUI
               float hotspotSizePercentage)
             {
                 this._hotspotSize = (int)((this.Right - this.Left + 1 + (this.Bottom - this.Top + 1)) / 2 * (double)hotspotSizePercentage);
-                bool flag1 = true;
-                bool flag2 = true;
-                bool flag3 = true;
-                foreach (Monitor monitor in monitorList)
+                var flag1 = true;
+                var flag2 = true;
+                var flag3 = true;
+                foreach (var monitor in monitorList)
                 {
-                    RECT totalArea = monitor._dimensions.TotalArea;
+                    var totalArea = monitor._dimensions.TotalArea;
                     if (totalArea.Top + 1 == this.Top)
                         flag1 = false;
                     if (totalArea.Right + 1 == this.Left)
@@ -555,7 +561,7 @@ namespace ZuneUI
 
             public int CompareTo(Monitor other)
             {
-                int num = this.Top.CompareTo(other.Top);
+                var num = this.Top.CompareTo(other.Top);
                 return num == 0 ? this.Left.CompareTo(other.Left) : num;
             }
         }

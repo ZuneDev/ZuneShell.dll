@@ -10,16 +10,16 @@ using System.Runtime.InteropServices;
 
 namespace ZuneUI
 {
-    internal class MonitorDetector
+    internal class Win32MonitorDetector : IMonitorDetector
     {
         private List<MonitorSize> _listInProgress;
 
         public List<MonitorSize> DetectMonitors()
         {
-            List<MonitorSize> monitorSizeList = new List<MonitorSize>();
-            this._listInProgress = monitorSizeList;
-            EnumDisplayMonitors(IntPtr.Zero, IntPtr.Zero, new MonitorEnumProc(this.MonitorEnumerated), IntPtr.Zero);
-            this._listInProgress = null;
+            List<MonitorSize> monitorSizeList = [];
+            _listInProgress = monitorSizeList;
+            EnumDisplayMonitors(IntPtr.Zero, IntPtr.Zero, MonitorEnumerated, IntPtr.Zero);
+            _listInProgress = null;
             return monitorSizeList;
         }
 
@@ -37,7 +37,7 @@ namespace ZuneUI
                 --lpmi.rcMonitor.Bottom;
                 --lpmi.rcWorkArea.Right;
                 --lpmi.rcWorkArea.Bottom;
-                this._listInProgress.Add(new MonitorSize(lpmi.rcMonitor, lpmi.rcWorkArea));
+                _listInProgress.Add(new MonitorSize(lpmi.rcMonitor, lpmi.rcWorkArea));
             }
             return true;
         }
