@@ -29,8 +29,24 @@ namespace ZuneUI
 
         protected override void OnInvoked()
         {
-            if (this._url != null)
-                ShellExecute(IntPtr.Zero, "open", this._url, null, null, 1);
+            if (_url != null)
+            {
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                {
+                    ShellExecute(IntPtr.Zero, "open", _url, null, null, 1);
+                }
+                else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                {
+                    // Linux relies on the xdg-open command-line utility
+                    System.Diagnostics.Process.Start("xdg-open", _url);
+                }
+                else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                {
+                    // macOS uses the native open tool
+                    System.Diagnostics.Process.Start("open", _url);
+                }
+                
+            }
             base.OnInvoked();
         }
 
