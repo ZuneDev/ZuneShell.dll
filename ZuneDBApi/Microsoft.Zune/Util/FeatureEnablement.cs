@@ -10,7 +10,7 @@ public class FeatureEnablement
     {
     }
 
-    public static string GetRegion() => null;
+    public static string GetRegion() => nameof(GetRegion);
 
     public static uint GetGeoId() => GetInvalidGeoId();
 
@@ -18,11 +18,11 @@ public class FeatureEnablement
 
     public static bool HasValidRegionAndLanguage() => false;
 
-    public static string GetMarketplaceCulture() => null;
+    public static string GetMarketplaceCulture() => nameof(GetMarketplaceCulture);
 
-    public static string GetLynxCulture() => null;
+    public static string GetLynxCulture() => nameof(GetLynxCulture);
 
-    public static string GetTaxString() => null;
+    public static string GetTaxString() => nameof(GetTaxString);
 
-    public static string GetCreditCardValidationString() => null;
+    public static string GetCreditCardValidationString() => nameof(GetCreditCardValidationString);
 }

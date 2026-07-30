@@ -4,11 +4,9 @@
 // MVID: FC8028F3-A47B-4FB4-B35B-11D1752D8264
 // Assembly location: C:\Program Files\Zune\ZuneShell.dll
 
-using Microsoft.Iris;
-using Microsoft.Zune.Shell;
 using System;
-using System.Runtime.InteropServices;
-using System.Threading;
+using Microsoft.Iris;
+using Timer = System.Threading.Timer;
 
 namespace ZuneUI
 {
@@ -17,76 +15,64 @@ namespace ZuneUI
     {
         private int _x;
         private int _y;
-        private System.Threading.Timer _checkPostion;
+        private Timer _checkPosition;
         private bool _invokeOutstanding;
 
         public MousePosition()
         {
-            this._invokeOutstanding = false;
-            this._checkPostion = new System.Threading.Timer(new TimerCallback(this.CheckPosition), null, 0, 16);
+            _invokeOutstanding = false;
+            _checkPosition = new Timer(CheckPosition, null, 0, 16);
         }
 
         private void CheckPosition(object state)
         {
-            if (this._invokeOutstanding)
+            if (_invokeOutstanding)
                 return;
-            this._invokeOutstanding = true;
-            int x;
-            int y;
-            GetCursorScreenPosition(out x, out y);
-            Application.DeferredInvoke(new DeferredInvokeHandler(this.DeferredUpdatePosition), new object[2]
-            {
-         x,
-         y
-            });
+            _invokeOutstanding = true;
+            GetCursorScreenPosition(out var x, out var y);
+            Application.DeferredInvoke(DeferredUpdatePosition, new object[] { x, y });
         }
 
         private void DeferredUpdatePosition(object arg)
         {
-            object[] objArray = (object[])arg;
-            int num1 = (int)objArray[0];
-            int num2 = (int)objArray[1];
-            Vanara.PInvoke.RECT lpRect;
-            if (!GetWindowRect(ZuneApplication.GetRenderWindow(), out lpRect))
-            {
-                lpRect.Left = 0;
-                lpRect.Top = 0;
-                lpRect.Right = 1;
-                lpRect.Bottom = 1;
-            }
-            int num3 = num1 < lpRect.Left ? lpRect.Left : num1;
-            int num4 = num3 >= lpRect.Right ? lpRect.Right - 1 : num3;
-            int num5 = num2 < lpRect.Top ? lpRect.Top : num2;
-            int num6 = num5 >= lpRect.Bottom ? lpRect.Bottom - 1 : num5;
-            this.X = num4 - lpRect.Left;
-            this.Y = num6 - lpRect.Top;
-            this._invokeOutstanding = false;
+            var objArray = (object[])arg;
+            var num1 = (int)objArray[0];
+            var num2 = (int)objArray[1];
+            GetWindowRect(out var left, out var top, out var right, out var bottom);
+            var num3 = num1 < left ? left : num1;
+            var num4 = num3 >= right ? right - 1 : num3;
+            var num5 = num2 < top ? top : num2;
+            var num6 = num5 >= bottom ? bottom - 1 : num5;
+            X = num4 - left;
+            Y = num6 - top;
+            _invokeOutstanding = false;
         }
 
         public int X
         {
-            get => this._x;
+            get => _x;
             private set
             {
-                if (value == this._x)
+                if (value == _x)
                     return;
-                this._x = value;
-                this.FirePropertyChanged(nameof(X));
+                _x = value;
+                FirePropertyChanged(nameof(X));
             }
         }
 
         public int Y
         {
-            get => this._y;
+            get => _y;
             private set
             {
-                if (value == this._y)
+                if (value == _y)
                     return;
-                this._y = value;
-                this.FirePropertyChanged(nameof(Y));
+                _y = value;
+                FirePropertyChanged(nameof(Y));
             }
         }
 
+#if WINDOWS
         public static void GetCursorScreenPosition(out int x, out int y)
         {
             POINT lpPoint;
@@ -99,7 +85,21 @@ namespace ZuneUI
                 x = y = 0;
         }
 
-        public override string ToString() => $"{{MousePosition ({X}, {Y})}}";
+        private static void GetWindowRect(out int left, out int top, out int right, out int bottom)
+        {
+            if (GetWindowRect(ZuneApplication.GetRenderWindow(), out Vanara.PInvoke.RECT lpRect))
+            {
+                left = lpRect.Left;
+                top = lpRect.Top;
+                right = lpRect.Right;
+                bottom = lpRect.Bottom;
+            }
+            else
+            {
+                left = top = 0;
+                right = bottom = 1;
+            }
+        }
 
         [DllImport("User32.dll")]
         private static extern bool GetCursorPos(out POINT lpPoint);
@@ -112,5 +112,22 @@ namespace ZuneUI
             public int X;
             public int Y;
         }
+#else
+        // TODO(stage 3): no cross-platform cursor-position/window-rect abstraction exists
+        // yet (Iris's IRenderWindow has no screen-space cursor query). Stubbed to a no-op
+        // so MousePosition compiles and no-ops on non-Windows rather than needing a raw,
+        // ungated User32 P/Invoke (which never worked outside Windows in the first place --
+        // this file was never touched since the original decompile). Logged in
+        // logs/ZuneUI/BuildFixes.md.
+        public static void GetCursorScreenPosition(out int x, out int y) => x = y = 0;
+
+        private static void GetWindowRect(out int left, out int top, out int right, out int bottom)
+        {
+            left = top = 0;
+            right = bottom = 1;
+        }
+#endif
+
+        public override string ToString() => $"{{MousePosition ({X}, {Y})}}";
     }
 }

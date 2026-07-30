@@ -130,6 +130,42 @@ to fully reverse engineer such assemblies. Decompilations of mixed-mode
 assemblies should only be used as-is if the specific code does not touch any
 native or unmanaged code, either internally or externally.
 
+#### UI code
+
+The vast majority of the UI is implemented in custom UI layout files. The
+original source would have been written in an XML-based format with a custom
+scripting language embedded within. Starting with some builds of Zune 3.x and
+all Zune 4.x builds (including 4.8.2345.0, which this project is based on)
+compile the UIX XML source to UIB, a custom binary format. If you want to read
+these files, you must use the `UIXC` command line tool in `libs/ZuneUIXTools`.
+For the purposes of this project, follow these rules when running UIXC
+commands:
+
+1. Use `dotnet run` in the `libs/ZuneUIXTools/UIXC` directory
+2. Specify additional assemblies you wish to load using `-A {dllPath}`;
+unlike the real runtime, `UIXC` does not yet load assemblies dynamically.
+3. Set import redirects using `--ir {matchPrefix}>{replacement}` to ensure
+resources are loaded using modern mechanisms from the correct files.
+4. Set the output directory using `-o {outPath}`, typically a temporary
+directory. You may request temporary directories from your agent harness.
+5. Set the target language to UIX XML using `-l xml`.
+
+This sample command decompiles `MINIMODE.UIX` from the new `ZuneShell`
+assembly (originally in `ZuneShellResources.dll`):
+```bash
+ZUNEHOST_BIN="~/repos/ZuneDev/ZuneShell.dll/ZuneHost/bin/x64/Debug" \
+dotnet run -- decompile clr-res://ZuneShell!RCDATA/MINIMODE.UIX -l xml \
+    -A $ZUNEHOST_BIN/ZuneShell.dll -A $ZUNEHOST_BIN/UIXControls.dll \
+	-A $ZUNEHOST_BIN/ZuneDBApi.dll -A $ZUNEHOST_BIN/StrixMusic.Sdk.dll \
+	-o /tmp/UIXC/decomp \
+	--ir res://ZuneShellResources!>clr-res://ZuneShell!RCDATA/
+	--ir res://ZuneMarketplaceResources!>clr-res://ZuneShell!RCDATA.Marketplace/
+	--ir res://UIXControls!>clr-res://UIXControls!
+```
+
+These input redirections and assembly loads in are sufficient for all existing
+UIB files. Do not remove or add any.
+
 ### STAGE 2: Implementation
 
 All initial implementations must be backwards-compatible with the original

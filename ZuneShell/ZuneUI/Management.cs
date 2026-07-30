@@ -15,6 +15,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using UIXControls;
 
@@ -40,16 +41,16 @@ namespace ZuneUI
         private ProxySettingDelegate[] _actionsToCommitOnLibraryIntegrate;
         private Choice _podcastDefaultKeepEpisodesChoice;
         private Choice _podcastPlaybackChoice;
-        private string[] _defaultFileTypeExtensions = new string[7]
-        {
-      ".mp3",
-      ".m4a",
-      ".mp4",
-      ".m4b",
-      ".m4v",
-      ".mbr",
-      ".zpl"
-        };
+        private string[] _defaultFileTypeExtensions =
+        [
+            ".mp3",
+            ".m4a",
+            ".mp4",
+            ".m4b",
+            ".m4v",
+            ".mbr",
+            ".zpl"
+        ];
         private IFileAssociationHandler _fileAssocHandler;
         private IList<BooleanInputChoice> _allFileTypes;
         private IList<BooleanInputChoice> _audioFileTypes;
@@ -100,132 +101,121 @@ namespace ZuneUI
         private BooleanChoice _applyRatingsChoice;
         private Choice _startupPageChoice;
         private bool _autoLaunchZuneOnConnect;
-        private object mylock = new object();
+        private object mylock = new();
 
         public Management()
         {
-            this._autoLaunchZuneOnConnect = ClientConfiguration.Devices.AutoLaunchZuneOnConnect;
-            ClientConfiguration.Groveler.OnConfigurationChanged += new ConfigurationChangeEventHandler(this.OnGrovelerConfigurationChanged);
-            this._actionsToCommitOnLibraryIntegrate = new ProxySettingDelegate[5]
-            {
-        new ProxySettingDelegate(this.OnMonitoredFoldersCommit),
-        new ProxySettingDelegate(this.OnMediaFolderCommit),
-        new ProxySettingDelegate(this.OnVideoMediaFolderCommit),
-        new ProxySettingDelegate(this.OnPhotoMediaFolderCommit),
-        new ProxySettingDelegate(this.OnPodcastMediaFolderCommit)
-            };
+            _autoLaunchZuneOnConnect = ClientConfiguration.Devices.AutoLaunchZuneOnConnect;
+            ClientConfiguration.Groveler.OnConfigurationChanged += OnGrovelerConfigurationChanged;
+            _actionsToCommitOnLibraryIntegrate =
+            [
+                OnMonitoredFoldersCommit,
+                OnMediaFolderCommit,
+                OnVideoMediaFolderCommit,
+                OnPhotoMediaFolderCommit,
+                OnPodcastMediaFolderCommit
+            ];
         }
 
         protected override void OnDispose(bool disposing)
         {
             if (disposing)
             {
-                this.DisposeDeviceManagement(true);
-                ClientConfiguration.Groveler.OnConfigurationChanged -= new ConfigurationChangeEventHandler(this.OnGrovelerConfigurationChanged);
+                DisposeDeviceManagement(true);
+                ClientConfiguration.Groveler.OnConfigurationChanged -= OnGrovelerConfigurationChanged;
             }
-            if (this._fileAssocHandler != null)
+            if (_fileAssocHandler != null)
             {
-                ((IDisposable)this._fileAssocHandler).Dispose();
-                this._fileAssocHandler = null;
+                // Not all file association handlers are disposable
+                (_fileAssocHandler as IDisposable)?.Dispose();
+                _fileAssocHandler = null;
             }
             base.OnDispose(disposing);
         }
 
-        private IFileAssociationHandler FileAssocHandler
-        {
-            get
-            {
-                if (this._fileAssocHandler == null)
-                    this._fileAssocHandler = FileAssociationHandlerFactory.CreateFileAssociationHandler();
-                return this._fileAssocHandler;
-            }
-        }
+        private IFileAssociationHandler FileAssocHandler =>
+            _fileAssocHandler ??= FileAssociationHandlerFactory.CreateFileAssociationHandler();
 
         public DeviceManagement DeviceManagement
         {
             get
             {
-                if (this._deviceManagement == null && !this.DeviceManagementLocked)
-                    this._deviceManagement = new DeviceManagement();
-                return this._deviceManagement;
+                if (_deviceManagement == null && !DeviceManagementLocked)
+                    _deviceManagement = new DeviceManagement();
+                return _deviceManagement;
             }
         }
 
         public bool DeviceManagementLocked
         {
-            get => this._deviceManagementLocked;
+            get => _deviceManagementLocked;
             private set
             {
-                if (this._deviceManagementLocked == value)
+                if (_deviceManagementLocked == value)
                     return;
-                this._deviceManagementLocked = value;
-                this.FirePropertyChanged(nameof(DeviceManagementLocked));
+                _deviceManagementLocked = value;
+                FirePropertyChanged(nameof(DeviceManagementLocked));
             }
         }
 
         public void DisposeDeviceManagement(bool deviceManagementLocked)
         {
-            this.DeviceManagementLocked = deviceManagementLocked;
-            if (this._deviceManagement == null)
+            DeviceManagementLocked = deviceManagementLocked;
+            if (_deviceManagement == null)
                 return;
-            UIDevice currentDeviceOverride = SyncControls.Instance.CurrentDeviceOverride;
+            var currentDeviceOverride = SyncControls.Instance.CurrentDeviceOverride;
             if (currentDeviceOverride.IsValid)
             {
-                this.CommitList.RemoveByIntValue(currentDeviceOverride.IsGuest ? -1 : currentDeviceOverride.ID);
-                this.CommitList.RemoveByStringValue("OnSyncPartnershipCommit");
+                CommitList.RemoveByIntValue(currentDeviceOverride.IsGuest ? -1 : currentDeviceOverride.ID);
+                CommitList.RemoveByStringValue("OnSyncPartnershipCommit");
             }
             else
-                this.CommitList.RemoveByIntValue(-1);
-            this._deviceManagement.Dispose();
-            this._deviceManagement = null;
-            this.FirePropertyChanged("DeviceManagementChanged");
+                CommitList.RemoveByIntValue(-1);
+            _deviceManagement.Dispose();
+            _deviceManagement = null;
+            FirePropertyChanged("DeviceManagementChanged");
         }
 
         public bool DeviceManagementChanged => true;
 
         public CommitListHashtable CommitList
         {
-            get
-            {
-                if (this._commitList == null)
-                    this._commitList = new CommitListHashtable();
-                return this._commitList;
-            }
+            get => _commitList ??= new CommitListHashtable();
             set
             {
-                if (this._commitList == value)
+                if (_commitList == value)
                     return;
-                this._commitList = value;
-                this.FirePropertyChanged(nameof(CommitList));
+                _commitList = value;
+                FirePropertyChanged(nameof(CommitList));
                 if (value != null)
                     return;
-                this.HasPendingCommits = false;
+                HasPendingCommits = false;
             }
         }
 
         public bool HasPendingCommits
         {
-            get => this._hasPendingCommits;
+            get => _hasPendingCommits;
             internal set
             {
-                if (this._hasPendingCommits == value)
+                if (_hasPendingCommits == value)
                     return;
-                this._hasPendingCommits = value;
-                this.FirePropertyChanged(nameof(HasPendingCommits));
+                _hasPendingCommits = value;
+                FirePropertyChanged(nameof(HasPendingCommits));
             }
         }
 
-        public bool ActiveDeviceHasPendingCommits => this.CommitList.ContainsIntValue(SyncControls.Instance.CurrentDevice.ID);
+        public bool ActiveDeviceHasPendingCommits => CommitList.ContainsIntValue(SyncControls.Instance.CurrentDevice.ID);
 
         public bool ChangeRequiresElevation
         {
-            get => this._changeRequiresElevation;
+            get => _changeRequiresElevation;
             set
             {
-                if (this._changeRequiresElevation == value)
+                if (_changeRequiresElevation == value)
                     return;
-                this._changeRequiresElevation = value;
-                this.FirePropertyChanged(nameof(ChangeRequiresElevation));
+                _changeRequiresElevation = value;
+                FirePropertyChanged(nameof(ChangeRequiresElevation));
             }
         }
 
@@ -235,97 +225,97 @@ namespace ZuneUI
         {
             get
             {
-                if (this._recordMode == null)
+                if (_recordMode == null)
                 {
-                    this._wmaRate = new Choice(this);
-                    this._wmaRate.Options = (new NamedIntOption[6]
+                    _wmaRate = new Choice(this);
+                    _wmaRate.Options = new NamedIntOption[]
                     {
-            new NamedIntOption( null, Shell.LoadString(StringId.IDS_RIP_WMA_48), 48000),
-            new NamedIntOption( null, Shell.LoadString(StringId.IDS_RIP_WMA_64), 64000),
-            new NamedIntOption( null, Shell.LoadString(StringId.IDS_RIP_WMA_96), 96000),
-            new NamedIntOption( null, Shell.LoadString(StringId.IDS_RIP_WMA_128), 128000),
-            new NamedIntOption( null, Shell.LoadString(StringId.IDS_RIP_WMA_160), 160000),
-            new NamedIntOption( null, Shell.LoadString(StringId.IDS_RIP_WMA_192), 192000)
-                    });
-                    NamedIntOption.SelectOptionByValue(this._wmaRate, ClientConfiguration.Recorder.WMARecordRate);
-                    this._wmaRate.ChosenChanged += (sender, args) => this.CommitList[new ProxySettingDelegate(this.OnWmaRateCommit)] = null;
-                    this._wmavRate = new Choice(this);
-                    this._wmavRate.Options = (new NamedIntOption[5]
+                        new(null, Shell.LoadString(StringId.IDS_RIP_WMA_48), 48000),
+                        new(null, Shell.LoadString(StringId.IDS_RIP_WMA_64), 64000),
+                        new(null, Shell.LoadString(StringId.IDS_RIP_WMA_96), 96000),
+                        new(null, Shell.LoadString(StringId.IDS_RIP_WMA_128), 128000),
+                        new(null, Shell.LoadString(StringId.IDS_RIP_WMA_160), 160000),
+                        new(null, Shell.LoadString(StringId.IDS_RIP_WMA_192), 192000)
+                    };
+                    NamedIntOption.SelectOptionByValue(_wmaRate, ClientConfiguration.Recorder.WMARecordRate);
+                    _wmaRate.ChosenChanged += (sender, args) => CommitList[new ProxySettingDelegate(OnWmaRateCommit)] = null;
+                    _wmavRate = new Choice(this);
+                    _wmavRate.Options = new NamedIntOption[]
                     {
-            new NamedIntOption( null, Shell.LoadString(StringId.IDS_RIP_WMAV_25), 25),
-            new NamedIntOption( null, Shell.LoadString(StringId.IDS_RIP_WMAV_50), 50),
-            new NamedIntOption( null, Shell.LoadString(StringId.IDS_RIP_WMAV_75), 75),
-            new NamedIntOption( null, Shell.LoadString(StringId.IDS_RIP_WMAV_90), 90),
-            new NamedIntOption( null, Shell.LoadString(StringId.IDS_RIP_WMAV_98), 98)
-                    });
-                    NamedIntOption.SelectOptionByValue(this._wmavRate, ClientConfiguration.Recorder.WMAVBRRecordQuality);
-                    this._wmavRate.ChosenChanged += (sender, args) => this.CommitList[new ProxySettingDelegate(this.OnWmavRateCommit)] = null;
-                    this._mp3Rate = new Choice(this);
-                    this._mp3Rate.Options = (new NamedIntOption[4]
+                        new(null, Shell.LoadString(StringId.IDS_RIP_WMAV_25), 25),
+                        new(null, Shell.LoadString(StringId.IDS_RIP_WMAV_50), 50),
+                        new(null, Shell.LoadString(StringId.IDS_RIP_WMAV_75), 75),
+                        new(null, Shell.LoadString(StringId.IDS_RIP_WMAV_90), 90),
+                        new(null, Shell.LoadString(StringId.IDS_RIP_WMAV_98), 98)
+                    };
+                    NamedIntOption.SelectOptionByValue(_wmavRate, ClientConfiguration.Recorder.WMAVBRRecordQuality);
+                    _wmavRate.ChosenChanged += (sender, args) => CommitList[new ProxySettingDelegate(OnWmavRateCommit)] = null;
+                    _mp3Rate = new Choice(this);
+                    _mp3Rate.Options = new NamedIntOption[]
                     {
-            new NamedIntOption( null, Shell.LoadString(StringId.IDS_RIP_MP3_128), 128000),
-            new NamedIntOption( null, Shell.LoadString(StringId.IDS_RIP_MP3_192), 192000),
-            new NamedIntOption( null, Shell.LoadString(StringId.IDS_RIP_MP3_256), 256000),
-            new NamedIntOption( null, Shell.LoadString(StringId.IDS_RIP_MP3_320), 320000)
-                    });
-                    NamedIntOption.SelectOptionByValue(this._mp3Rate, ClientConfiguration.Recorder.MP3RecordRate);
-                    this._mp3Rate.ChosenChanged += (sender, args) => this.CommitList[new ProxySettingDelegate(this.OnMp3RateCommit)] = null;
-                    this._recordMode = new Choice(this);
-                    this._recordMode.Options = (new RecordModeOption[4]
+                        new(null, Shell.LoadString(StringId.IDS_RIP_MP3_128), 128000),
+                        new(null, Shell.LoadString(StringId.IDS_RIP_MP3_192), 192000),
+                        new(null, Shell.LoadString(StringId.IDS_RIP_MP3_256), 256000),
+                        new(null, Shell.LoadString(StringId.IDS_RIP_MP3_320), 320000)
+                    };
+                    NamedIntOption.SelectOptionByValue(_mp3Rate, ClientConfiguration.Recorder.MP3RecordRate);
+                    _mp3Rate.ChosenChanged += (sender, args) => CommitList[new ProxySettingDelegate(OnMp3RateCommit)] = null;
+                    _recordMode = new Choice(this);
+                    _recordMode.Options = new RecordModeOption[]
                     {
-            new RecordModeOption( null, Shell.LoadString(StringId.IDS_WMA_OPTION), 0, this._wmaRate),
-            new RecordModeOption( null, Shell.LoadString(StringId.IDS_WMA_VARIABLE_OPTION), 3, this._wmavRate),
-            new RecordModeOption( null, Shell.LoadString(StringId.IDS_WMA_LOSSLESS_OPTION), 1,  null),
-            new RecordModeOption( null, Shell.LoadString(StringId.IDS_MP3_OPTION), 2, this._mp3Rate)
-                    });
-                    NamedIntOption.SelectOptionByValue(this._recordMode, ClientConfiguration.Recorder.RecordMode);
-                    this._recordMode.ChosenChanged += (sender, args) =>
-                   {
-                       this.CommitList[new ProxySettingDelegate(this.OnRecordModeCommit)] = null;
-                       this.RecordRate = ((RecordModeOption)this._recordMode.ChosenValue).BitRate;
-                   };
-                    this.RecordRate = ((RecordModeOption)this._recordMode.ChosenValue).BitRate;
+                        new(null, Shell.LoadString(StringId.IDS_WMA_OPTION), 0, _wmaRate),
+                        new(null, Shell.LoadString(StringId.IDS_WMA_VARIABLE_OPTION), 3, _wmavRate),
+                        new(null, Shell.LoadString(StringId.IDS_WMA_LOSSLESS_OPTION), 1,  null),
+                        new(null, Shell.LoadString(StringId.IDS_MP3_OPTION), 2, _mp3Rate)
+                    };
+                    NamedIntOption.SelectOptionByValue(_recordMode, ClientConfiguration.Recorder.RecordMode);
+                    _recordMode.ChosenChanged += (sender, args) =>
+                    {
+                        CommitList[new ProxySettingDelegate(OnRecordModeCommit)] = null;
+                        RecordRate = ((RecordModeOption)_recordMode.ChosenValue).BitRate;
+                    };
+                    RecordRate = ((RecordModeOption)_recordMode.ChosenValue).BitRate;
                 }
-                return this._recordMode;
+                return _recordMode;
             }
         }
 
-        private void OnWmaRateCommit(object data) => ClientConfiguration.Recorder.WMARecordRate = ((NamedIntOption)this._wmaRate.ChosenValue).Value;
+        private void OnWmaRateCommit(object data) => ClientConfiguration.Recorder.WMARecordRate = ((NamedIntOption)_wmaRate.ChosenValue).Value;
 
-        private void OnWmavRateCommit(object data) => ClientConfiguration.Recorder.WMAVBRRecordQuality = ((NamedIntOption)this._wmavRate.ChosenValue).Value;
+        private void OnWmavRateCommit(object data) => ClientConfiguration.Recorder.WMAVBRRecordQuality = ((NamedIntOption)_wmavRate.ChosenValue).Value;
 
-        private void OnMp3RateCommit(object data) => ClientConfiguration.Recorder.MP3RecordRate = ((NamedIntOption)this._mp3Rate.ChosenValue).Value;
+        private void OnMp3RateCommit(object data) => ClientConfiguration.Recorder.MP3RecordRate = ((NamedIntOption)_mp3Rate.ChosenValue).Value;
 
-        private void OnRecordModeCommit(object data) => ClientConfiguration.Recorder.RecordMode = ((NamedIntOption)this._recordMode.ChosenValue).Value;
+        private void OnRecordModeCommit(object data) => ClientConfiguration.Recorder.RecordMode = ((NamedIntOption)_recordMode.ChosenValue).Value;
 
         public Choice RecordRate
         {
-            get => this._recordRate;
+            get => _recordRate;
             private set
             {
-                if (this._recordRate == value)
+                if (_recordRate == value)
                     return;
-                this._recordRate = value;
-                this.FirePropertyChanged(nameof(RecordRate));
+                _recordRate = value;
+                FirePropertyChanged(nameof(RecordRate));
             }
         }
 
         public Category AlertedDeviceCategory
         {
-            get => this._alertedDeviceCategory;
+            get => _alertedDeviceCategory;
             set
             {
-                if (this._alertedDeviceCategory == value)
+                if (_alertedDeviceCategory == value)
                     return;
-                if (_currentCategoryPage != null && value != null && this._alertedDeviceCategory != null)
+                if (_currentCategoryPage != null && value != null && _alertedDeviceCategory != null)
                 {
-                    _currentCategoryPage.CurrentCategory = this._alertedDeviceCategory;
-                    this._alertedDeviceCategory = null;
+                    _currentCategoryPage.CurrentCategory = _alertedDeviceCategory;
+                    _alertedDeviceCategory = null;
                 }
                 else
                 {
-                    this._alertedDeviceCategory = value;
-                    this.FirePropertyChanged(nameof(AlertedDeviceCategory));
+                    _alertedDeviceCategory = value;
+                    FirePropertyChanged(nameof(AlertedDeviceCategory));
                 }
             }
         }
@@ -338,7 +328,7 @@ namespace ZuneUI
                 if (_currentCategoryPage == value)
                     return;
                 _currentCategoryPage = value;
-                this.FirePropertyChanged(nameof(CurrentCategoryPage));
+                FirePropertyChanged(nameof(CurrentCategoryPage));
             }
         }
 
@@ -353,56 +343,53 @@ namespace ZuneUI
 
         public static void NavigateAwayFromCategory(Command confirmed)
         {
-            Management management = ZuneShell.DefaultInstance.Management;
+            var management = ZuneShell.DefaultInstance.Management;
             if (management.HasPendingCommits)
             {
-                Command yesCommand = new Command(null, Shell.LoadString(StringId.IDS_DIALOG_YES), null);
+                var yesCommand = new Command(null, Shell.LoadString(StringId.IDS_DIALOG_YES), null);
                 yesCommand.Invoked += (sender, args) =>
-               {
-                   management.CommitListSave();
-                   NavigateAwayFromCategory(confirmed);
-               };
-                Command noCommand = new Command(null, Shell.LoadString(StringId.IDS_DIALOG_NO), null);
+                {
+                    management.CommitListSave();
+                    NavigateAwayFromCategory(confirmed);
+                };
+                var noCommand = new Command(null, Shell.LoadString(StringId.IDS_DIALOG_NO), null);
                 noCommand.Invoked += (sender, args) =>
-               {
-                   management.CommitList = null;
-                   NavigateAwayFromCategory(confirmed);
-               };
+                {
+                    management.CommitList = null;
+                    NavigateAwayFromCategory(confirmed);
+                };
                 MessageBox.Show(Shell.LoadString(StringId.IDS_SAVE_CHANGES_DIALOG_TITLE), Shell.LoadString(StringId.IDS_SAVE_CHANGES_ON_BACK_DIALOG_TEXT), yesCommand, noCommand, null);
             }
             else
             {
                 if (Shell.SettingsFrame.IsCurrent && !Shell.SettingsFrame.Wizard.FUE.IsCurrent && management.CurrentCategoryPage != null)
                     management.CurrentCategoryPage.CancelAndExit();
-                Application.DeferredInvoke(delegate
-               {
-                   confirmed?.Invoke();
-               }, null);
+                Application.DeferredInvoke(args => confirmed?.Invoke(), null);
             }
         }
 
         public void CommitListSave()
         {
-            this.CheckForAutomatedRequirements();
-            this.CommitList.Save();
+            CheckForAutomatedRequirements();
+            CommitList.Save();
         }
 
         public void CheckForAutomatedRequirements()
         {
             if (DeviceManagement.SetupDevice == null)
                 return;
-            this.DeviceManagement.CheckForAutomatedRequirements();
+            DeviceManagement.CheckForAutomatedRequirements();
         }
 
         public bool CanFileAssociationBeChanged
         {
-            get => this._canFileAssociationBeChanged;
+            get => _canFileAssociationBeChanged;
             private set
             {
-                if (this._canFileAssociationBeChanged == value)
+                if (_canFileAssociationBeChanged == value)
                     return;
-                this._canFileAssociationBeChanged = value;
-                this.FirePropertyChanged(nameof(CanFileAssociationBeChanged));
+                _canFileAssociationBeChanged = value;
+                FirePropertyChanged(nameof(CanFileAssociationBeChanged));
             }
         }
 
@@ -413,7 +400,7 @@ namespace ZuneUI
           string title,
           ESubscriptionSource source)
         {
-            return this.SubscribeToFeed(feedUrl, title, channelId, isPersonalChannel, source, EMediaTypes.eMediaTypePlaylist, Shell.LoadString(StringId.IDS_PLAYLIST_SUBSCRIPTION_ERROR));
+            return SubscribeToFeed(feedUrl, title, channelId, isPersonalChannel, source, EMediaTypes.eMediaTypePlaylist, Shell.LoadString(StringId.IDS_PLAYLIST_SUBSCRIPTION_ERROR));
         }
 
         public SubscriptionState SubscribeToPodcastFeed(
@@ -421,7 +408,7 @@ namespace ZuneUI
           string title,
           ESubscriptionSource source)
         {
-            return this.SubscribeToPodcastFeed(feedUrl, title, Guid.Empty, source);
+            return SubscribeToPodcastFeed(feedUrl, title, Guid.Empty, source);
         }
 
         public SubscriptionState SubscribeToPodcastFeed(
@@ -430,7 +417,7 @@ namespace ZuneUI
           Guid serviceId,
           ESubscriptionSource source)
         {
-            return this.SubscribeToFeed(feedUrl, title, serviceId, false, source, EMediaTypes.eMediaTypePodcastSeries, Shell.LoadString(StringId.IDS_PODCAST_SUBSCRIPTION_ERROR));
+            return SubscribeToFeed(feedUrl, title, serviceId, false, source, EMediaTypes.eMediaTypePodcastSeries, Shell.LoadString(StringId.IDS_PODCAST_SUBSCRIPTION_ERROR));
         }
 
         private SubscriptionState SubscribeToFeed(
@@ -442,9 +429,8 @@ namespace ZuneUI
           EMediaTypes mediaType,
           string errorDialogHeader)
         {
-            int subscriptionMediaId = 0;
             SubscriptionState subscriptionState = null;
-            HRESULT hresult = SubscriptionManager.Instance.Subscribe(feedUrl, title, serviceId, isPersonalChannel, mediaType, source, out subscriptionMediaId);
+            HRESULT hresult = SubscriptionManager.Instance.Subscribe(feedUrl, title, serviceId, isPersonalChannel, mediaType, source, out var subscriptionMediaId);
             if (hresult.IsSuccess)
                 subscriptionState = new SubscriptionState(true, true, subscriptionMediaId);
             else
@@ -460,9 +446,7 @@ namespace ZuneUI
                 return null;
             try
             {
-                int subscriptionMediaId = -1;
-                bool isSubscribed;
-                bool byUrl = SubscriptionManager.Instance.FindByUrl(feedURL, subscriptionType, out subscriptionMediaId, out isSubscribed);
+                var byUrl = SubscriptionManager.Instance.FindByUrl(feedURL, subscriptionType, out var subscriptionMediaId, out var isSubscribed);
                 return new SubscriptionState(isSubscribed, byUrl, subscriptionMediaId);
             }
             catch (ApplicationException ex)
@@ -479,9 +463,7 @@ namespace ZuneUI
                 return null;
             try
             {
-                int subscriptionMediaId = -1;
-                bool isSubscribed;
-                bool byServiceId = SubscriptionManager.Instance.FindByServiceId(serviceId, subscriptionType, out subscriptionMediaId, out isSubscribed);
+                var byServiceId = SubscriptionManager.Instance.FindByServiceId(serviceId, subscriptionType, out var subscriptionMediaId, out var isSubscribed);
                 return new SubscriptionState(isSubscribed, byServiceId, subscriptionMediaId);
             }
             catch (ApplicationException ex)
@@ -492,57 +474,57 @@ namespace ZuneUI
 
         private void OnGrovelerConfigurationChanged(object sender, ConfigurationChangeEventArgs e) => Application.DeferredInvoke(delegate
        {
-           if (!this.UsingWin7Libraries)
+           if (!UsingWin7Libraries)
                return;
            if (e.PropertyName == "RipDirectory" || e.PropertyName == "MonitoredAudioFolders")
            {
-               if (this._monitoredAudioFolders != null)
+               if (_monitoredAudioFolders != null)
                {
-                   this._monitoredAudioFolders = null;
-                   this.FirePropertyChanged("MonitoredAudioFolders");
+                   _monitoredAudioFolders = null;
+                   FirePropertyChanged("MonitoredAudioFolders");
                }
-               if (this._mediaFolder == null)
+               if (_mediaFolder == null)
                    return;
-               this._mediaFolder = null;
-               this.FirePropertyChanged("MediaFolder");
+               _mediaFolder = null;
+               FirePropertyChanged("MediaFolder");
            }
            else if (e.PropertyName == "PhotoMediaFolder" || e.PropertyName == "MonitoredPhotoFolders")
            {
-               if (this._monitoredPhotoFolders != null)
+               if (_monitoredPhotoFolders != null)
                {
-                   this._monitoredPhotoFolders = null;
-                   this.FirePropertyChanged("MonitoredPhotoFolders");
+                   _monitoredPhotoFolders = null;
+                   FirePropertyChanged("MonitoredPhotoFolders");
                }
-               if (this._photoMediaFolder == null)
+               if (_photoMediaFolder == null)
                    return;
-               this._photoMediaFolder = null;
-               this.FirePropertyChanged("PhotoMediaFolder");
+               _photoMediaFolder = null;
+               FirePropertyChanged("PhotoMediaFolder");
            }
            else if (e.PropertyName == "PodcastMediaFolder" || e.PropertyName == "MonitoredPodcastFolders")
            {
-               if (this._monitoredPodcastFolders != null)
+               if (_monitoredPodcastFolders != null)
                {
-                   this._monitoredPodcastFolders = null;
-                   this.FirePropertyChanged("MonitoredPodcastFolders");
+                   _monitoredPodcastFolders = null;
+                   FirePropertyChanged("MonitoredPodcastFolders");
                }
-               if (this._podcastMediaFolder == null)
+               if (_podcastMediaFolder == null)
                    return;
-               this._podcastMediaFolder = null;
-               this.FirePropertyChanged("PodcastMediaFolder");
+               _podcastMediaFolder = null;
+               FirePropertyChanged("PodcastMediaFolder");
            }
            else
            {
-               if (!(e.PropertyName == "VideoMediaFolder") && !(e.PropertyName == "MonitoredVideoFolders"))
+               if (e.PropertyName != "VideoMediaFolder" && e.PropertyName != "MonitoredVideoFolders")
                    return;
-               if (this._monitoredVideoFolders != null)
+               if (_monitoredVideoFolders != null)
                {
-                   this._monitoredVideoFolders = null;
-                   this.FirePropertyChanged("MonitoredVideoFolders");
+                   _monitoredVideoFolders = null;
+                   FirePropertyChanged("MonitoredVideoFolders");
                }
-               if (this._videoMediaFolder == null)
+               if (_videoMediaFolder == null)
                    return;
-               this._videoMediaFolder = null;
-               this.FirePropertyChanged("VideoMediaFolder");
+               _videoMediaFolder = null;
+               FirePropertyChanged("VideoMediaFolder");
            }
        }, null);
 
@@ -550,14 +532,13 @@ namespace ZuneUI
         {
             get
             {
-                if (this._monitoredAudioFolders == null)
+                if (_monitoredAudioFolders == null)
                 {
-                    if (this.UsingWin7Libraries)
-                        this._monitoredAudioFolders = this.StringsToListDataSet(ClientConfiguration.Groveler.RipDirectory, ClientConfiguration.Groveler.MonitoredAudioFolders);
-                    else
-                        this._monitoredAudioFolders = this.StringsToListDataSet((object)ClientConfiguration.Groveler.MonitoredAudioFolders);
+                    _monitoredAudioFolders = UsingWin7Libraries
+                        ? StringsToListDataSet(ClientConfiguration.Groveler.RipDirectory, ClientConfiguration.Groveler.MonitoredAudioFolders)
+                        : StringsToListDataSet((object)ClientConfiguration.Groveler.MonitoredAudioFolders);
                 }
-                return this._monitoredAudioFolders;
+                return _monitoredAudioFolders;
             }
         }
 
@@ -565,14 +546,13 @@ namespace ZuneUI
         {
             get
             {
-                if (this._monitoredPhotoFolders == null)
+                if (_monitoredPhotoFolders == null)
                 {
-                    if (this.UsingWin7Libraries)
-                        this._monitoredPhotoFolders = this.StringsToListDataSet(ClientConfiguration.Groveler.PhotoMediaFolder, ClientConfiguration.Groveler.MonitoredPhotoFolders);
-                    else
-                        this._monitoredPhotoFolders = this.StringsToListDataSet((object)ClientConfiguration.Groveler.MonitoredPhotoFolders);
+                    _monitoredPhotoFolders = UsingWin7Libraries
+                        ? StringsToListDataSet(ClientConfiguration.Groveler.PhotoMediaFolder, ClientConfiguration.Groveler.MonitoredPhotoFolders)
+                        : StringsToListDataSet((object)ClientConfiguration.Groveler.MonitoredPhotoFolders);
                 }
-                return this._monitoredPhotoFolders;
+                return _monitoredPhotoFolders;
             }
         }
 
@@ -580,14 +560,13 @@ namespace ZuneUI
         {
             get
             {
-                if (this._monitoredPodcastFolders == null)
+                if (_monitoredPodcastFolders == null)
                 {
-                    if (this.UsingWin7Libraries)
-                        this._monitoredPodcastFolders = this.StringsToListDataSet(ClientConfiguration.Groveler.PodcastMediaFolder, ClientConfiguration.Groveler.MonitoredPodcastFolders);
-                    else
-                        this._monitoredPodcastFolders = this.StringsToListDataSet((object)ClientConfiguration.Groveler.MonitoredPodcastFolders);
+                    _monitoredPodcastFolders = UsingWin7Libraries
+                        ? StringsToListDataSet(ClientConfiguration.Groveler.PodcastMediaFolder, ClientConfiguration.Groveler.MonitoredPodcastFolders)
+                        : StringsToListDataSet(ClientConfiguration.Groveler.MonitoredPodcastFolders);
                 }
-                return this._monitoredPodcastFolders;
+                return _monitoredPodcastFolders;
             }
         }
 
@@ -595,45 +574,44 @@ namespace ZuneUI
         {
             get
             {
-                if (this._monitoredVideoFolders == null)
+                if (_monitoredVideoFolders == null)
                 {
-                    if (this.UsingWin7Libraries)
-                        this._monitoredVideoFolders = this.StringsToListDataSet(ClientConfiguration.Groveler.VideoMediaFolder, ClientConfiguration.Groveler.MonitoredVideoFolders);
-                    else
-                        this._monitoredVideoFolders = this.StringsToListDataSet((object)ClientConfiguration.Groveler.MonitoredVideoFolders);
+                    _monitoredVideoFolders = UsingWin7Libraries
+                        ? StringsToListDataSet(ClientConfiguration.Groveler.VideoMediaFolder, ClientConfiguration.Groveler.MonitoredVideoFolders)
+                        : StringsToListDataSet(ClientConfiguration.Groveler.MonitoredVideoFolders);
                 }
-                return this._monitoredVideoFolders;
+                return _monitoredVideoFolders;
             }
         }
 
         public bool Win7LibrariesAreAvailable => OSVersion.IsWin7();
 
-        public bool UsingWin7Libraries => this.Win7LibrariesAreAvailable && ClientConfiguration.Groveler.LibrarySync != -1;
+        public bool UsingWin7Libraries => Win7LibrariesAreAvailable && ClientConfiguration.Groveler.LibrarySync != -1;
 
         public void UseWin7Libraries()
         {
-            foreach (ProxySettingDelegate proxySettingDelegate in this._actionsToCommitOnLibraryIntegrate)
+            foreach (var proxySettingDelegate in _actionsToCommitOnLibraryIntegrate)
             {
-                if (this.CommitList.ContainsKey(proxySettingDelegate))
-                {
-                    this.CommitList.Remove(proxySettingDelegate);
-                    proxySettingDelegate(null);
-                }
+                if (!CommitList.ContainsKey(proxySettingDelegate))
+                    continue;
+                
+                CommitList.Remove(proxySettingDelegate);
+                proxySettingDelegate(null);
             }
             SQMLog.Log(SQMDataId.ZuneWin7LibraryOpt, 0);
-            this.SetWin7LibrariesUsage(Win7LibrariesUsage.BeginIntegration);
+            SetWin7LibrariesUsage(Win7LibrariesUsage.BeginIntegration);
         }
 
         public void DoNotUseWin7Libraries()
         {
             SQMLog.Log(SQMDataId.ZuneWin7LibraryOpt, 1);
-            this.SetWin7LibrariesUsage(Win7LibrariesUsage.DoNotIntegrate);
+            SetWin7LibrariesUsage(Win7LibrariesUsage.DoNotIntegrate);
         }
 
         private void SetWin7LibrariesUsage(Win7LibrariesUsage usage)
         {
             ClientConfiguration.Groveler.LibrarySync = (int)usage;
-            this.FirePropertyChanged("UsingWin7Libraries");
+            FirePropertyChanged("UsingWin7Libraries");
         }
 
         private ListDataSet StringsToListDataSet(params object[] source)
@@ -641,31 +619,22 @@ namespace ZuneUI
             ListDataSet listDataSet = new ArrayListDataSet(this);
             if (source != null && source.Length > 0)
             {
-                Dictionary<string, object> dictionary = new Dictionary<string, object>();
-                foreach (object obj in source)
+                var dictionary = new Dictionary<string, object>();
+                foreach (var obj in source)
                 {
-                    if (obj != null)
+                    if (obj == null)
+                        continue;
+                    
+                    if (obj is not IEnumerable<string> strings)
+                        strings = [obj.ToString()];
+
+                    foreach (var str in strings)
                     {
-                        if (!(obj is IEnumerable<string> strings))
-                            strings = (new string[1]
-                            {
-                obj.ToString()
-                            });
-                        if (strings != null)
-                        {
-                            foreach (string str in strings)
-                            {
-                                if (!string.IsNullOrEmpty(str))
-                                {
-                                    string lower = str.ToLower();
-                                    if (!dictionary.ContainsKey(lower))
-                                    {
-                                        dictionary.Add(lower, null);
-                                        listDataSet.Add(str);
-                                    }
-                                }
-                            }
-                        }
+                        if (string.IsNullOrEmpty(str))
+                            continue;
+                        var lower = str.ToLower();
+                        if (dictionary.TryAdd(lower, null))
+                            listDataSet.Add(str);
                     }
                 }
             }
@@ -677,21 +646,18 @@ namespace ZuneUI
         {
             if (listDataSet == null)
                 return new List<string>();
-            IList<string> stringList = new List<string>(listDataSet.Count);
-            for (int itemIndex = 0; itemIndex < listDataSet.Count; ++itemIndex)
-                stringList.Add((string)listDataSet[itemIndex]);
+            
+            var stringList = new List<string>(listDataSet.Count);
+            stringList.AddRange(listDataSet.Cast<string>());
+
             return stringList;
         }
 
         internal bool IsMonitored(ListDataSet monitoredFolders, string path)
         {
-            DirectoryInfo directoryInfo = new DirectoryInfo(path);
-            foreach (string monitoredFolder in monitoredFolders)
-            {
-                if (this.IsSubfolder(monitoredFolder, path))
-                    return true;
-            }
-            return false;
+            return monitoredFolders
+                .Cast<string>()
+                .Any(monitoredFolder => IsSubfolder(monitoredFolder, path));
         }
 
         private bool IsSubfolder(string root, string subfolder)
@@ -717,35 +683,28 @@ namespace ZuneUI
        {
            if (args == null)
                return;
-           string str = (string)args;
+           var str = (string)args;
            if (ZuneApplication.ZuneLibrary.CanAddFromFolder(str))
-               this.AddMonitoredFolder(monitoredFolders, str, false);
+               AddMonitoredFolder(monitoredFolders, str, false);
            else
                MessageBox.Show(Shell.LoadString(StringId.IDS_INVALID_MONITORED_FOLDER_TITLE), Shell.LoadString(StringId.IDS_INVALID_MONITORED_FOLDER_MESSAGE), null);
        });
 
         public void AddMonitoredFolder(ListDataSet monitoredFolders, string path, bool commit)
         {
-            bool flag = false;
-            for (int itemIndex = 0; itemIndex < monitoredFolders.Count; ++itemIndex)
-            {
-                if (monitoredFolders[itemIndex].Equals(path))
-                {
-                    flag = true;
-                    break;
-                }
-            }
-            if (!flag)
+            var isAlreadyMonitored = monitoredFolders.Cast<string>().Contains(path);
+            if (!isAlreadyMonitored)
                 monitoredFolders.Add(path);
-            this.SaveMonitoredFolders(commit);
+            
+            SaveMonitoredFolders(commit);
         }
 
-        public void OpenMediaFile() => FileOpenDialog.Show(Shell.LoadString(StringId.IDS_OPEN_FILE_DIALOG_TITLE), this.MediaFolder, args => { });
+        public void OpenMediaFile() => FileOpenDialog.Show(Shell.LoadString(StringId.IDS_OPEN_FILE_DIALOG_TITLE), MediaFolder, args => { });
 
         public bool RemoveChildMonitoredFolders(string path, bool commit)
         {
-            bool flag = false | this.RemoveChildMonitoredFolders(this.MonitoredAudioFolders, EMediaTypes.eMediaTypeAudio, path) | this.RemoveChildMonitoredFolders(this.MonitoredPhotoFolders, EMediaTypes.eMediaTypeImage, path) | this.RemoveChildMonitoredFolders(this.MonitoredPodcastFolders, EMediaTypes.eMediaTypePodcastEpisode, path) | this.RemoveChildMonitoredFolders(this.MonitoredVideoFolders, EMediaTypes.eMediaTypeVideo, path);
-            this.SaveMonitoredFolders(commit);
+            var flag = false | RemoveChildMonitoredFolders(MonitoredAudioFolders, EMediaTypes.eMediaTypeAudio, path) | RemoveChildMonitoredFolders(MonitoredPhotoFolders, EMediaTypes.eMediaTypeImage, path) | RemoveChildMonitoredFolders(MonitoredPodcastFolders, EMediaTypes.eMediaTypePodcastEpisode, path) | RemoveChildMonitoredFolders(MonitoredVideoFolders, EMediaTypes.eMediaTypeVideo, path);
+            SaveMonitoredFolders(commit);
             return flag;
         }
 
@@ -772,159 +731,156 @@ namespace ZuneUI
                 default:
                     return false;
             }
-            List<int> intList = new List<int>();
-            for (int itemIndex = 0; itemIndex < monitoredFolders.Count; ++itemIndex)
+            var intList = new List<int>();
+            for (var itemIndex = 0; itemIndex < monitoredFolders.Count; ++itemIndex)
             {
-                if (this.IsSubfolder(path, (string)monitoredFolders[itemIndex]))
+                if (IsSubfolder(path, (string)monitoredFolders[itemIndex]))
                     intList.Add(itemIndex);
             }
-            foreach (int num in intList)
+            foreach (var num in intList)
             {
-                if (this.UsingWin7Libraries)
-                    Win7ShellManager.Instance.RemoveLocationFromLibrary(libraryKind, out bool _, (string)monitoredFolders[num]);
+                if (UsingWin7Libraries)
+                    Win7ShellManager.Instance.RemoveLocationFromLibrary(libraryKind, out var _, (string)monitoredFolders[num]);
                 else
-                    this.RemoveMonitoredFolder(monitoredFolders, num, type);
+                    RemoveMonitoredFolder(monitoredFolders, num, type);
             }
             return intList.Count > 0;
         }
 
         public void RemoveMonitoredFolder(ListDataSet monitoredFolders, string path, bool commit)
         {
-            for (int index = 0; index < monitoredFolders.Count; ++index)
+            for (var index = 0; index < monitoredFolders.Count; ++index)
             {
-                if (path.Equals((string)monitoredFolders[index], StringComparison.OrdinalIgnoreCase))
-                {
-                    this.RemoveMonitoredFolder(monitoredFolders, index, commit);
-                    break;
-                }
+                if (!path.Equals((string)monitoredFolders[index], StringComparison.OrdinalIgnoreCase))
+                    continue;
+                RemoveMonitoredFolder(monitoredFolders, index, commit);
+                break;
             }
         }
 
-        private void RemoveMonitoredFolder(ListDataSet monitoredFolders, int index) => this.RemoveMonitoredFolder(monitoredFolders, index, false);
+        private void RemoveMonitoredFolder(ListDataSet monitoredFolders, int index) => RemoveMonitoredFolder(monitoredFolders, index, false);
 
         public void RemoveMonitoredFolder(
           ListDataSet monitoredFolders,
           int index,
           EMediaTypes mediaType)
         {
-            if (this._removedMonitoredFoldersToRemoveFromCollection == null)
-                this._removedMonitoredFoldersToRemoveFromCollection = new List<MonitoredFolder>();
-            this._removedMonitoredFoldersToRemoveFromCollection.Add(new MonitoredFolder((string)monitoredFolders[index], mediaType));
-            this.RemoveMonitoredFolder(monitoredFolders, index, false);
+            _removedMonitoredFoldersToRemoveFromCollection ??= [];
+            _removedMonitoredFoldersToRemoveFromCollection.Add(new MonitoredFolder((string)monitoredFolders[index], mediaType));
+            RemoveMonitoredFolder(monitoredFolders, index, false);
         }
 
         private void RemoveMonitoredFolder(ListDataSet monitoredFolders, int index, bool commit)
         {
             monitoredFolders.RemoveAt(index);
-            this.SaveMonitoredFolders(commit);
+            SaveMonitoredFolders(commit);
         }
 
-        private void SaveMonitoredFolders() => this.SaveMonitoredFolders(false);
+        private void SaveMonitoredFolders() => SaveMonitoredFolders(false);
 
         public void SaveMonitoredFolders(bool commit)
         {
             if (commit)
-                this.OnMonitoredFoldersCommit(null);
+                OnMonitoredFoldersCommit(null);
             else
-                this.CommitList[new ProxySettingDelegate(this.OnMonitoredFoldersCommit)] = null;
+                CommitList[new ProxySettingDelegate(OnMonitoredFoldersCommit)] = null;
         }
 
         public void OpenLibraryDialog(EMediaTypes mediaType)
         {
-            IntPtr winHandle = Application.Window.Handle;
-            Thread thread = new Thread(args =>
-           {
-               EWin7LibraryKind libraryKind = EWin7LibraryKind.eMusicLibrary;
-               switch (mediaType)
-               {
-                   case EMediaTypes.eMediaTypeAudio:
-                       libraryKind = EWin7LibraryKind.eMusicLibrary;
-                       break;
-                   case EMediaTypes.eMediaTypeVideo:
-                       libraryKind = EWin7LibraryKind.eVideoLibrary;
-                       break;
-                   case EMediaTypes.eMediaTypeImage:
-                       libraryKind = EWin7LibraryKind.ePicturesLibrary;
-                       break;
-                   case EMediaTypes.eMediaTypePodcastEpisode:
-                       libraryKind = EWin7LibraryKind.ePodcastLibrary;
-                       break;
-               }
-               Win7ShellManager.Instance.ShowLibraryDialog(libraryKind, winHandle, null, null);
-           });
+            var winHandle = Application.Window.Handle;
+            var thread = new Thread(args =>
+            {
+                var libraryKind = EWin7LibraryKind.eMusicLibrary;
+                switch (mediaType)
+                {
+                    case EMediaTypes.eMediaTypeAudio:
+                        libraryKind = EWin7LibraryKind.eMusicLibrary;
+                        break;
+                    case EMediaTypes.eMediaTypeVideo:
+                        libraryKind = EWin7LibraryKind.eVideoLibrary;
+                        break;
+                    case EMediaTypes.eMediaTypeImage:
+                        libraryKind = EWin7LibraryKind.ePicturesLibrary;
+                        break;
+                    case EMediaTypes.eMediaTypePodcastEpisode:
+                        libraryKind = EWin7LibraryKind.ePodcastLibrary;
+                        break;
+                }
+                Win7ShellManager.Instance.ShowLibraryDialog(libraryKind, winHandle, null, null);
+            });
             thread.TrySetApartmentState(ApartmentState.STA);
             thread.Start();
         }
 
         private void OnMonitoredFoldersCommit(object data)
         {
-            SQMLog.LogToStream(SQMDataId.MonitoredAudioFolders, (uint)this.MonitoredAudioFolders.Count);
-            SQMLog.LogToStream(SQMDataId.MonitoredPhotoFolders, (uint)this.MonitoredPhotoFolders.Count);
-            SQMLog.LogToStream(SQMDataId.MonitoredPodcastFolders, (uint)this.MonitoredPodcastFolders.Count);
-            SQMLog.LogToStream(SQMDataId.MonitoredVideoFolders, (uint)this.MonitoredVideoFolders.Count);
-            if (!this.UsingWin7Libraries)
+            SQMLog.LogToStream(SQMDataId.MonitoredAudioFolders, (uint)MonitoredAudioFolders.Count);
+            SQMLog.LogToStream(SQMDataId.MonitoredPhotoFolders, (uint)MonitoredPhotoFolders.Count);
+            SQMLog.LogToStream(SQMDataId.MonitoredPodcastFolders, (uint)MonitoredPodcastFolders.Count);
+            SQMLog.LogToStream(SQMDataId.MonitoredVideoFolders, (uint)MonitoredVideoFolders.Count);
+            if (!UsingWin7Libraries)
             {
-                if (this._removedMonitoredFoldersToRemoveFromCollection != null)
-                {
-                    foreach (MonitoredFolder foldersToRemoveFrom in this._removedMonitoredFoldersToRemoveFromCollection)
+                if (_removedMonitoredFoldersToRemoveFromCollection != null)
+                    foreach (var foldersToRemoveFrom in _removedMonitoredFoldersToRemoveFromCollection)
                         ZuneApplication.ZuneLibrary.DeleteRootFolder(foldersToRemoveFrom.Path, foldersToRemoveFrom.Schema);
-                }
-                ClientConfiguration.Groveler.MonitoredAudioFolders = this.ListDataSetToIList(this.MonitoredAudioFolders);
-                ClientConfiguration.Groveler.MonitoredPhotoFolders = this.ListDataSetToIList(this.MonitoredPhotoFolders);
-                ClientConfiguration.Groveler.MonitoredPodcastFolders = this.ListDataSetToIList(this.MonitoredPodcastFolders);
-                ClientConfiguration.Groveler.MonitoredVideoFolders = this.ListDataSetToIList(this.MonitoredVideoFolders);
-                this._removedMonitoredFoldersToRemoveFromCollection = null;
-                this._monitoredAudioFolders = null;
-                this._monitoredPhotoFolders = null;
-                this._monitoredPodcastFolders = null;
-                this._monitoredVideoFolders = null;
+                
+                ClientConfiguration.Groveler.MonitoredAudioFolders = ListDataSetToIList(MonitoredAudioFolders);
+                ClientConfiguration.Groveler.MonitoredPhotoFolders = ListDataSetToIList(MonitoredPhotoFolders);
+                ClientConfiguration.Groveler.MonitoredPodcastFolders = ListDataSetToIList(MonitoredPodcastFolders);
+                ClientConfiguration.Groveler.MonitoredVideoFolders = ListDataSetToIList(MonitoredVideoFolders);
+                _removedMonitoredFoldersToRemoveFromCollection = null;
+                _monitoredAudioFolders = null;
+                _monitoredPhotoFolders = null;
+                _monitoredPodcastFolders = null;
+                _monitoredVideoFolders = null;
             }
-            if (!this.HME.SharingEnabled)
+            if (!HME.SharingEnabled)
                 return;
-            this.HME.SetSharedFoldersList(true);
+            HME.SetSharedFoldersList(true);
         }
 
         public BooleanChoice AutoCopyCD
         {
             get
             {
-                if (this._autoCopyCD == null)
+                if (_autoCopyCD == null)
                 {
-                    this._autoCopyCD = new BooleanChoice(this, Shell.LoadString(StringId.IDS_AUTO_RIP));
-                    this._autoCopyCD.Value = ClientConfiguration.Recorder.AutoCopyCD != 0;
-                    this._autoCopyCD.ChosenChanged += (sender, args) => this.CommitList[new ProxySettingDelegate(this.OnAutoCopyCDCommit)] = null;
+                    _autoCopyCD = new BooleanChoice(this, Shell.LoadString(StringId.IDS_AUTO_RIP));
+                    _autoCopyCD.Value = ClientConfiguration.Recorder.AutoCopyCD != 0;
+                    _autoCopyCD.ChosenChanged += (sender, args) => CommitList[new ProxySettingDelegate(OnAutoCopyCDCommit)] = null;
                 }
-                return this._autoCopyCD;
+                return _autoCopyCD;
             }
         }
 
-        private void OnAutoCopyCDCommit(object data) => ClientConfiguration.Recorder.AutoCopyCD = this._autoCopyCD.Value ? 1 : 0;
+        private void OnAutoCopyCDCommit(object data) => ClientConfiguration.Recorder.AutoCopyCD = _autoCopyCD.Value ? 1 : 0;
 
         public BooleanChoice AutoEjectCD
         {
             get
             {
-                if (this._autoEjectCD == null)
+                if (_autoEjectCD == null)
                 {
-                    this._autoEjectCD = new BooleanChoice(this, Shell.LoadString(StringId.IDS_EJECT_AFTER_RIP));
-                    this._autoEjectCD.Value = ClientConfiguration.Recorder.AutoEjectCD != 0;
-                    this._autoEjectCD.ChosenChanged += (sender, args) => this.CommitList[new ProxySettingDelegate(this.OnAutoEjectCDCommit)] = null;
+                    _autoEjectCD = new BooleanChoice(this, Shell.LoadString(StringId.IDS_EJECT_AFTER_RIP));
+                    _autoEjectCD.Value = ClientConfiguration.Recorder.AutoEjectCD != 0;
+                    _autoEjectCD.ChosenChanged += (sender, args) => CommitList[new ProxySettingDelegate(OnAutoEjectCDCommit)] = null;
                 }
-                return this._autoEjectCD;
+                return _autoEjectCD;
             }
         }
 
-        private void OnAutoEjectCDCommit(object data) => ClientConfiguration.Recorder.AutoEjectCD = this._autoEjectCD.Value ? 1 : 0;
+        private void OnAutoEjectCDCommit(object data) => ClientConfiguration.Recorder.AutoEjectCD = _autoEjectCD.Value ? 1 : 0;
 
         public bool MediaFolderHasSharedPathWithMonitoredFolder(
           string monitoredFolder,
           string mediaFolder)
         {
-            bool flag = false;
+            var flag = false;
             if (!string.IsNullOrEmpty(monitoredFolder) && !string.IsNullOrEmpty(mediaFolder))
             {
-                string localizedFolderPath1 = LocalizationHelper.GetLocalizedFolderPath(monitoredFolder);
-                string localizedFolderPath2 = LocalizationHelper.GetLocalizedFolderPath(mediaFolder);
+                var localizedFolderPath1 = LocalizationHelper.GetLocalizedFolderPath(monitoredFolder);
+                var localizedFolderPath2 = LocalizationHelper.GetLocalizedFolderPath(mediaFolder);
                 if (localizedFolderPath1[localizedFolderPath1.Length - 1] != Path.PathSeparator)
                     localizedFolderPath1 += (string)(object)Path.PathSeparator;
                 if (localizedFolderPath2[localizedFolderPath2.Length - 1] != Path.PathSeparator)
@@ -936,205 +892,193 @@ namespace ZuneUI
 
         public string MediaFolder
         {
-            get
-            {
-                if (this._mediaFolder == null)
-                    this._mediaFolder = LocalizationHelper.GetLocalizedFolderPath(ClientConfiguration.Groveler.RipDirectory);
-                return this._mediaFolder;
-            }
+            get =>
+                _mediaFolder ??= LocalizationHelper.GetLocalizedFolderPath(ClientConfiguration.Groveler.RipDirectory);
             set
             {
-                if (!(this._mediaFolder != value))
+                if (_mediaFolder == value)
                     return;
-                this.CommitList[new ProxySettingDelegate(this.OnMediaFolderCommit)] = null;
-                this._mediaFolder = value;
-                this.FirePropertyChanged(nameof(MediaFolder));
+                CommitList[new ProxySettingDelegate(OnMediaFolderCommit)] = null;
+                _mediaFolder = value;
+                FirePropertyChanged(nameof(MediaFolder));
             }
         }
 
         private void OnMediaFolderCommit(object data)
         {
-            if (this.UsingWin7Libraries)
+            if (UsingWin7Libraries)
                 return;
-            ClientConfiguration.Groveler.RipDirectory = this._mediaFolder;
-            this.UpdateSharedFoldersList();
-            this._mediaFolder = null;
+            ClientConfiguration.Groveler.RipDirectory = _mediaFolder;
+            UpdateSharedFoldersList();
+            _mediaFolder = null;
         }
 
         public string VideoMediaFolder
         {
             get
             {
-                if (this._videoMediaFolder == null)
+                if (_videoMediaFolder == null)
                 {
-                    this._videoMediaFolder = ClientConfiguration.Groveler.VideoMediaFolder;
-                    string[] strArray;
-                    string str;
-                    string videoMediaFolder;
-                    if (string.IsNullOrEmpty(this._videoMediaFolder) && ((HRESULT)ZuneApplication.ZuneLibrary.GetKnownFolders(out strArray, out strArray, out strArray, out strArray, out strArray, out str, out videoMediaFolder, out str, out str, out str)).IsSuccess)
-                        this._videoMediaFolder = LocalizationHelper.GetLocalizedFolderPath(videoMediaFolder);
+                    _videoMediaFolder = ClientConfiguration.Groveler.VideoMediaFolder;
+                    if (string.IsNullOrEmpty(_videoMediaFolder) && ((HRESULT)ZuneApplication.ZuneLibrary.GetKnownFolders(out _, out _, out _, out _, out _, out _, out var videoMediaFolder, out _, out _, out _)).IsSuccess)
+                        _videoMediaFolder = LocalizationHelper.GetLocalizedFolderPath(videoMediaFolder);
                 }
-                return this._videoMediaFolder;
+                return _videoMediaFolder;
             }
             set
             {
-                if (!(this._videoMediaFolder != value))
+                if (_videoMediaFolder == value)
                     return;
-                this.CommitList[new ProxySettingDelegate(this.OnVideoMediaFolderCommit)] = null;
-                this._videoMediaFolder = value;
-                this.FirePropertyChanged(nameof(VideoMediaFolder));
+                CommitList[new ProxySettingDelegate(OnVideoMediaFolderCommit)] = null;
+                _videoMediaFolder = value;
+                FirePropertyChanged(nameof(VideoMediaFolder));
             }
         }
 
         private void OnVideoMediaFolderCommit(object data)
         {
-            if (this.UsingWin7Libraries)
+            if (UsingWin7Libraries)
                 return;
-            ClientConfiguration.Groveler.VideoMediaFolder = this._videoMediaFolder;
-            this.UpdateSharedFoldersList();
-            this._videoMediaFolder = null;
+            ClientConfiguration.Groveler.VideoMediaFolder = _videoMediaFolder;
+            UpdateSharedFoldersList();
+            _videoMediaFolder = null;
         }
 
         public string PhotoMediaFolder
         {
             get
             {
-                if (this._photoMediaFolder == null)
+                if (_photoMediaFolder == null)
                 {
-                    this._photoMediaFolder = ClientConfiguration.Groveler.PhotoMediaFolder;
-                    string[] strArray;
-                    string str;
-                    string photoMediaFolder;
-                    if (string.IsNullOrEmpty(this._photoMediaFolder) && ((HRESULT)ZuneApplication.ZuneLibrary.GetKnownFolders(out strArray, out strArray, out strArray, out strArray, out strArray, out str, out str, out photoMediaFolder, out str, out str)).IsSuccess)
-                        this._photoMediaFolder = LocalizationHelper.GetLocalizedFolderPath(photoMediaFolder);
+                    _photoMediaFolder = ClientConfiguration.Groveler.PhotoMediaFolder;
+                    if (string.IsNullOrEmpty(_photoMediaFolder) && ((HRESULT)ZuneApplication.ZuneLibrary.GetKnownFolders(out _, out _, out _, out _, out _, out _, out _, out var photoMediaFolder, out _, out _)).IsSuccess)
+                        _photoMediaFolder = LocalizationHelper.GetLocalizedFolderPath(photoMediaFolder);
                 }
-                return this._photoMediaFolder;
+                return _photoMediaFolder;
             }
             set
             {
-                if (!(this._photoMediaFolder != value))
+                if (_photoMediaFolder == value)
                     return;
-                this.CommitList[new ProxySettingDelegate(this.OnPhotoMediaFolderCommit)] = null;
-                this._photoMediaFolder = value;
-                this.FirePropertyChanged(nameof(PhotoMediaFolder));
+                CommitList[new ProxySettingDelegate(OnPhotoMediaFolderCommit)] = null;
+                _photoMediaFolder = value;
+                FirePropertyChanged(nameof(PhotoMediaFolder));
             }
         }
 
         private void OnPhotoMediaFolderCommit(object data)
         {
-            if (this.UsingWin7Libraries)
+            if (UsingWin7Libraries)
                 return;
-            ClientConfiguration.Groveler.PhotoMediaFolder = this._photoMediaFolder;
-            this.UpdateSharedFoldersList();
-            this._photoMediaFolder = null;
+            ClientConfiguration.Groveler.PhotoMediaFolder = _photoMediaFolder;
+            UpdateSharedFoldersList();
+            _photoMediaFolder = null;
         }
 
         public string PodcastMediaFolder
         {
             get
             {
-                if (this._podcastMediaFolder == null)
+                if (_podcastMediaFolder == null)
                 {
-                    this._podcastMediaFolder = ClientConfiguration.Groveler.PodcastMediaFolder;
-                    string[] strArray;
-                    string str;
-                    string podcastMediaFolder;
-                    if (string.IsNullOrEmpty(this._podcastMediaFolder) && ((HRESULT)ZuneApplication.ZuneLibrary.GetKnownFolders(out strArray, out strArray, out strArray, out strArray, out strArray, out str, out str, out str, out podcastMediaFolder, out str)).IsSuccess)
-                        this._podcastMediaFolder = LocalizationHelper.GetLocalizedFolderPath(podcastMediaFolder);
+                    _podcastMediaFolder = ClientConfiguration.Groveler.PodcastMediaFolder;
+                    if (string.IsNullOrEmpty(_podcastMediaFolder) && ((HRESULT)ZuneApplication.ZuneLibrary.GetKnownFolders(out _, out _, out _, out _, out _, out _, out _, out _, out var podcastMediaFolder, out _)).IsSuccess)
+                        _podcastMediaFolder = LocalizationHelper.GetLocalizedFolderPath(podcastMediaFolder);
                 }
-                return this._podcastMediaFolder;
+                return _podcastMediaFolder;
             }
             set
             {
-                if (!(this._podcastMediaFolder != value))
+                if (_podcastMediaFolder == value)
                     return;
-                this.CommitList[new ProxySettingDelegate(this.OnPodcastMediaFolderCommit)] = null;
-                this._podcastMediaFolder = value;
-                this.FirePropertyChanged(nameof(PodcastMediaFolder));
+                CommitList[new ProxySettingDelegate(OnPodcastMediaFolderCommit)] = null;
+                _podcastMediaFolder = value;
+                FirePropertyChanged(nameof(PodcastMediaFolder));
             }
         }
 
         private void OnPodcastMediaFolderCommit(object data)
         {
-            if (this.UsingWin7Libraries)
+            if (UsingWin7Libraries)
                 return;
-            ClientConfiguration.Groveler.PodcastMediaFolder = this._podcastMediaFolder;
-            this.UpdateSharedFoldersList();
-            this._podcastMediaFolder = null;
+            ClientConfiguration.Groveler.PodcastMediaFolder = _podcastMediaFolder;
+            UpdateSharedFoldersList();
+            _podcastMediaFolder = null;
         }
 
         private void UpdateSharedFoldersList()
         {
-            if (!this.HME.SharingEnabled)
+            if (!HME.SharingEnabled)
                 return;
-            this.HME.SetSharedFoldersList(true);
+            HME.SetSharedFoldersList(true);
         }
 
         public void ChooseMediaFolder(MediaType mediaType) => FolderBrowseDialog.Show(Shell.LoadString(StringId.IDS_CHANGE_MEDIA_FOLDER_DIALOG_TITLE), args =>
-       {
-           string folder = (string)args;
-           if (folder == null)
-               return;
-           if (FolderBrowseDialog.CanWriteToFolder(folder) && ZuneApplication.ZuneLibrary.CanAddFromFolder(folder))
-           {
-               switch (mediaType)
-               {
-                   case MediaType.Track:
-                       this.MediaFolder = folder;
-                       break;
-                   case MediaType.Video:
-                       this.VideoMediaFolder = folder;
-                       break;
-                   case MediaType.Photo:
-                       this.PhotoMediaFolder = folder;
-                       break;
-                   case MediaType.Podcast:
-                       this.PodcastMediaFolder = folder;
-                       break;
-               }
-           }
-           else
-               MessageBox.Show(Shell.LoadString(StringId.IDS_INVALID_MEDIA_FOLDER_TITLE), Shell.LoadString(StringId.IDS_INVALID_MEDIA_FOLDER_MESSAGE), null);
-       }, true);
+        {
+            var folder = (string)args;
+            if (folder == null)
+                return;
+            if (FolderBrowseDialog.CanWriteToFolder(folder) && ZuneApplication.ZuneLibrary.CanAddFromFolder(folder))
+            {
+                switch (mediaType)
+                {
+                    case MediaType.Track:
+                        MediaFolder = folder;
+                        break;
+                    case MediaType.Video:
+                        VideoMediaFolder = folder;
+                        break;
+                    case MediaType.Photo:
+                        PhotoMediaFolder = folder;
+                        break;
+                    case MediaType.Podcast:
+                        PodcastMediaFolder = folder;
+                        break;
+                }
+            }
+            else
+                MessageBox.Show(Shell.LoadString(StringId.IDS_INVALID_MEDIA_FOLDER_TITLE),
+                    Shell.LoadString(StringId.IDS_INVALID_MEDIA_FOLDER_MESSAGE), null);
+        }, true);
 
         public BooleanChoice AutoEjectCDAfterBurn
         {
             get
             {
-                if (this._autoEjectCDAfterBurn == null)
+                if (_autoEjectCDAfterBurn == null)
                 {
-                    this._autoEjectCDAfterBurn = new BooleanChoice(this, Shell.LoadString(StringId.IDS_BURN_AUTO_EJECT_CHECK));
-                    this._autoEjectCDAfterBurn.Value = ClientConfiguration.CDBurn.AutoEject;
-                    this._autoEjectCDAfterBurn.ChosenChanged += (sender, args) => this.CommitList[new ProxySettingDelegate(this.OnAutoEjectCDAfterBurnCommit)] = null;
+                    _autoEjectCDAfterBurn = new BooleanChoice(this, Shell.LoadString(StringId.IDS_BURN_AUTO_EJECT_CHECK));
+                    _autoEjectCDAfterBurn.Value = ClientConfiguration.CDBurn.AutoEject;
+                    _autoEjectCDAfterBurn.ChosenChanged += (sender, args) => CommitList[new ProxySettingDelegate(OnAutoEjectCDAfterBurnCommit)] = null;
                 }
-                return this._autoEjectCDAfterBurn;
+                return _autoEjectCDAfterBurn;
             }
         }
 
-        private void OnAutoEjectCDAfterBurnCommit(object data) => ClientConfiguration.CDBurn.AutoEject = this._autoEjectCDAfterBurn.Value;
+        private void OnAutoEjectCDAfterBurnCommit(object data) => ClientConfiguration.CDBurn.AutoEject = _autoEjectCDAfterBurn.Value;
 
         public Choice BurnFormat
         {
             get
             {
-                if (this._burnDiscFormat == null)
+                if (_burnDiscFormat == null)
                 {
-                    this._burnDiscFormat = new Choice(this);
-                    this._burnDiscFormat.Options = (new NamedIntOption[2]
+                    _burnDiscFormat = new Choice(this);
+                    _burnDiscFormat.Options = new NamedIntOption[]
                     {
-            new NamedIntOption( null, Shell.LoadString(StringId.IDS_BURN_AUDIO_OPTION), 0),
-            new NamedIntOption( null, Shell.LoadString(StringId.IDS_BURN_DATA_OPTION), 1)
-                    });
-                    NamedIntOption.SelectOptionByValue(this._burnDiscFormat, ClientConfiguration.CDBurn.DiscFormat);
-                    this._burnDiscFormat.ChosenChanged += (sender, args) => this.CommitList[new ProxySettingDelegate(this.OnBurnDiscFormatCommit)] = null;
+                        new(null, Shell.LoadString(StringId.IDS_BURN_AUDIO_OPTION), 0),
+                        new(null, Shell.LoadString(StringId.IDS_BURN_DATA_OPTION), 1)
+                    };
+                    NamedIntOption.SelectOptionByValue(_burnDiscFormat, ClientConfiguration.CDBurn.DiscFormat);
+                    _burnDiscFormat.ChosenChanged += (sender, args) => CommitList[new ProxySettingDelegate(OnBurnDiscFormatCommit)] = null;
                 }
-                return this._burnDiscFormat;
+                return _burnDiscFormat;
             }
         }
 
         private void OnBurnDiscFormatCommit(object data)
         {
-            ClientConfiguration.CDBurn.DiscFormat = ((NamedIntOption)this._burnDiscFormat.ChosenValue).Value;
+            ClientConfiguration.CDBurn.DiscFormat = ((NamedIntOption)_burnDiscFormat.ChosenValue).Value;
             CDAccess.Instance.UpdateIsAudioBurn();
         }
 
@@ -1142,43 +1086,43 @@ namespace ZuneUI
         {
             get
             {
-                if (this._burnSpeed == null)
+                if (_burnSpeed == null)
                 {
-                    this._burnSpeed = new Choice(this);
-                    this._burnSpeed.Options = (new NamedIntOption[4]
+                    _burnSpeed = new Choice(this);
+                    _burnSpeed.Options = new NamedIntOption[]
                     {
-            new NamedIntOption( null, Shell.LoadString(StringId.IDS_BURN_FASTEST_OPTION), 0),
-            new NamedIntOption( null, Shell.LoadString(StringId.IDS_BURN_FAST_OPTION), 1),
-            new NamedIntOption( null, Shell.LoadString(StringId.IDS_BURN_MEDIUM_OPTION), 2),
-            new NamedIntOption( null, Shell.LoadString(StringId.IDS_BURN_SLOW_OPTION), 3)
-                    });
-                    NamedIntOption.SelectOptionByValue(this._burnSpeed, ClientConfiguration.CDBurn.BurnSpeed);
-                    this._burnSpeed.ChosenChanged += (sender, args) => this.CommitList[new ProxySettingDelegate(this.OnBurnSpeedCommit)] = null;
+                        new(null, Shell.LoadString(StringId.IDS_BURN_FASTEST_OPTION), 0),
+                        new(null, Shell.LoadString(StringId.IDS_BURN_FAST_OPTION), 1),
+                        new(null, Shell.LoadString(StringId.IDS_BURN_MEDIUM_OPTION), 2),
+                        new(null, Shell.LoadString(StringId.IDS_BURN_SLOW_OPTION), 3)
+                    };
+                    NamedIntOption.SelectOptionByValue(_burnSpeed, ClientConfiguration.CDBurn.BurnSpeed);
+                    _burnSpeed.ChosenChanged += (sender, args) => CommitList[new ProxySettingDelegate(OnBurnSpeedCommit)] = null;
                 }
-                return this._burnSpeed;
+                return _burnSpeed;
             }
         }
 
-        private void OnBurnSpeedCommit(object data) => ClientConfiguration.CDBurn.BurnSpeed = ((NamedIntOption)this._burnSpeed.ChosenValue).Value;
+        private void OnBurnSpeedCommit(object data) => ClientConfiguration.CDBurn.BurnSpeed = ((NamedIntOption)_burnSpeed.ChosenValue).Value;
 
         public BooleanChoice MediaInfoChoice
         {
             get
             {
-                if (this._mediaInfoChoice == null)
+                if (_mediaInfoChoice == null)
                 {
-                    StringId stringId = StringId.IDS_UPDATE_METADATA_CHECK;
+                    var stringId = StringId.IDS_UPDATE_METADATA_CHECK;
                     if (FeatureEnablement.IsFeatureEnabled(Features.eQuickMixZmp) || FeatureEnablement.IsFeatureEnabled(Features.eQuickMixLocal))
                         stringId = !FeatureEnablement.IsFeatureEnabled(Features.eMixview) ? StringId.IDS_UPDATE_METADATA_QUICKMIX_CHECK : StringId.IDS_UPDATE_METADATA_FEATURES_CHECK;
-                    this._mediaInfoChoice = new BooleanChoice(this, Shell.LoadString(stringId));
-                    this._mediaInfoChoice.Value = ClientConfiguration.MediaStore.ConnectToInternetForAlbumMetadata;
-                    this._mediaInfoChoice.ChosenChanged += (sender, args) => this.CommitList[new ProxySettingDelegate(this.OnMediaInfoChoiceCommit)] = null;
+                    _mediaInfoChoice = new BooleanChoice(this, Shell.LoadString(stringId));
+                    _mediaInfoChoice.Value = ClientConfiguration.MediaStore.ConnectToInternetForAlbumMetadata;
+                    _mediaInfoChoice.ChosenChanged += (sender, args) => CommitList[new ProxySettingDelegate(OnMediaInfoChoiceCommit)] = null;
                 }
-                return this._mediaInfoChoice;
+                return _mediaInfoChoice;
             }
         }
 
-        private void OnMediaInfoChoiceCommit(object data) => ClientConfiguration.MediaStore.ConnectToInternetForAlbumMetadata = this._mediaInfoChoice.Value;
+        private void OnMediaInfoChoiceCommit(object data) => ClientConfiguration.MediaStore.ConnectToInternetForAlbumMetadata = _mediaInfoChoice.Value;
 
         public void ScanAndClearDeletedMedia() => ZuneLibrary.ScanAndClearDeletedMedia();
 
@@ -1186,86 +1130,86 @@ namespace ZuneUI
         {
             get
             {
-                if (this._sqmChoice == null)
+                if (_sqmChoice == null)
                 {
-                    this._sqmChoice = new BooleanChoice(this, Shell.LoadString(StringId.IDS_USAGE_DATA_CHECK));
-                    this._sqmChoice.Value = ClientConfiguration.SQM.UsageTracking;
-                    this._sqmChoice.ChosenChanged += (sender, args) => this.CommitList[new ProxySettingDelegate(this.OnSqmChoiceCommit)] = null;
+                    _sqmChoice = new BooleanChoice(this, Shell.LoadString(StringId.IDS_USAGE_DATA_CHECK));
+                    _sqmChoice.Value = ClientConfiguration.SQM.UsageTracking;
+                    _sqmChoice.ChosenChanged += (sender, args) => CommitList[new ProxySettingDelegate(OnSqmChoiceCommit)] = null;
                 }
-                return this._sqmChoice;
+                return _sqmChoice;
             }
         }
 
         private void OnSqmChoiceCommit(object data)
         {
-            ClientConfiguration.SQM.UsageTracking = this._sqmChoice.Value;
-            ClientConfiguration.FUE.AcceptedPrivacyStatement = this._sqmChoice.Value;
+            ClientConfiguration.SQM.UsageTracking = _sqmChoice.Value;
+            ClientConfiguration.FUE.AcceptedPrivacyStatement = _sqmChoice.Value;
         }
 
         public Choice PodcastDefaultKeepEpisodesChoice
         {
             get
             {
-                if (this._podcastDefaultKeepEpisodesChoice == null)
+                if (_podcastDefaultKeepEpisodesChoice == null)
                 {
-                    Choice choice = new Choice(this);
+                    var choice = new Choice(this);
                     choice.Options = NamedIntOption.PodcastKeepOptions;
                     NamedIntOption.SelectOptionByValue(choice, ClientConfiguration.Series.PodcastDefaultKeepEpisodes);
-                    this._podcastDefaultKeepEpisodesChoice = choice;
-                    choice.ChosenChanged += (sender, args) => this.CommitList[new ProxySettingDelegate(this.OnPodcastDefaultKeepEpisodesChoiceCommit)] = null;
+                    _podcastDefaultKeepEpisodesChoice = choice;
+                    choice.ChosenChanged += (sender, args) => CommitList[new ProxySettingDelegate(OnPodcastDefaultKeepEpisodesChoiceCommit)] = null;
                 }
-                return this._podcastDefaultKeepEpisodesChoice;
+                return _podcastDefaultKeepEpisodesChoice;
             }
         }
 
-        private void OnPodcastDefaultKeepEpisodesChoiceCommit(object data) => ClientConfiguration.Series.PodcastDefaultKeepEpisodes = ((NamedIntOption)this._podcastDefaultKeepEpisodesChoice.ChosenValue).Value;
+        private void OnPodcastDefaultKeepEpisodesChoiceCommit(object data) => ClientConfiguration.Series.PodcastDefaultKeepEpisodes = ((NamedIntOption)_podcastDefaultKeepEpisodesChoice.ChosenValue).Value;
 
         public Choice PodcastPlaybackChoice
         {
             get
             {
-                if (this._podcastPlaybackChoice == null)
+                if (_podcastPlaybackChoice == null)
                 {
-                    this._podcastPlaybackChoice = new Choice(this);
-                    this._podcastPlaybackChoice.Options = NamedIntOption.PodcastPlaybackOptions;
-                    NamedIntOption.SelectOptionByValue(this._podcastPlaybackChoice, ClientConfiguration.Series.PodcastDefaultPlaybackOrder);
-                    this._podcastPlaybackChoice.ChosenChanged += (sender, args) => this.CommitList[new ProxySettingDelegate(this.OnPodcastPlaybackChoiceCommit)] = null;
+                    _podcastPlaybackChoice = new Choice(this);
+                    _podcastPlaybackChoice.Options = NamedIntOption.PodcastPlaybackOptions;
+                    NamedIntOption.SelectOptionByValue(_podcastPlaybackChoice, ClientConfiguration.Series.PodcastDefaultPlaybackOrder);
+                    _podcastPlaybackChoice.ChosenChanged += (sender, args) => CommitList[new ProxySettingDelegate(OnPodcastPlaybackChoiceCommit)] = null;
                 }
-                return this._podcastPlaybackChoice;
+                return _podcastPlaybackChoice;
             }
         }
 
-        private void OnPodcastPlaybackChoiceCommit(object data) => ClientConfiguration.Series.PodcastDefaultPlaybackOrder = ((NamedIntOption)this._podcastPlaybackChoice.ChosenValue).Value;
+        private void OnPodcastPlaybackChoiceCommit(object data) => ClientConfiguration.Series.PodcastDefaultPlaybackOrder = ((NamedIntOption)_podcastPlaybackChoice.ChosenValue).Value;
 
         public BooleanChoice MetadataChoice
         {
             get
             {
-                if (this._metadataChoice == null)
+                if (_metadataChoice == null)
                 {
-                    Command[] commandArray = new Command[2];
-                    Command command1 = new Command(this, Shell.LoadString(StringId.IDS_MISSING_METADATA), null);
-                    commandArray[0] = command1;
-                    Command command2 = new Command(this, Shell.LoadString(StringId.IDS_OVERWRITE_METADATA), null);
-                    commandArray[1] = command2;
-                    this._metadataChoice = new BooleanChoice(this);
-                    this._metadataChoice.Options = commandArray;
-                    this._metadataChoice.Value = ClientConfiguration.MediaStore.OverwriteAllMetadata;
-                    this._metadataChoice.ChosenChanged += (sender, args) => this.CommitList[new ProxySettingDelegate(this.OnMetadataChoiceCommit)] = null;
+                    var commandArray = new Command[]
+                    {
+                        new(this, Shell.LoadString(StringId.IDS_MISSING_METADATA), null),
+                        new(this, Shell.LoadString(StringId.IDS_OVERWRITE_METADATA), null)
+                    };
+                    _metadataChoice = new BooleanChoice(this);
+                    _metadataChoice.Options = commandArray;
+                    _metadataChoice.Value = ClientConfiguration.MediaStore.OverwriteAllMetadata;
+                    _metadataChoice.ChosenChanged += (sender, args) => CommitList[new ProxySettingDelegate(OnMetadataChoiceCommit)] = null;
                 }
-                return this._metadataChoice;
+                return _metadataChoice;
             }
         }
 
-        private void OnMetadataChoiceCommit(object data) => ClientConfiguration.MediaStore.OverwriteAllMetadata = this._metadataChoice.Value;
+        private void OnMetadataChoiceCommit(object data) => ClientConfiguration.MediaStore.OverwriteAllMetadata = _metadataChoice.Value;
 
         public IList AudioFileTypes
         {
             get
             {
-                if (this._audioFileTypes == null)
-                    this.PopulateFileTypes();
-                return (IList)this._audioFileTypes;
+                if (_audioFileTypes == null)
+                    PopulateFileTypes();
+                return (IList)_audioFileTypes;
             }
         }
 
@@ -1273,55 +1217,57 @@ namespace ZuneUI
         {
             get
             {
-                if (this._videoFileTypes == null)
-                    this.PopulateFileTypes();
-                return (IList)this._videoFileTypes;
+                if (_videoFileTypes == null)
+                    PopulateFileTypes();
+                return (IList)_videoFileTypes;
             }
         }
 
         private void PopulateFileTypes()
         {
-            if (this._audioFileTypes != null && this._videoFileTypes != null)
+            if (_audioFileTypes != null && _videoFileTypes != null)
                 return;
-            this._allFileTypes = new List<BooleanInputChoice>();
-            this._audioFileTypes = new List<BooleanInputChoice>();
-            this._videoFileTypes = new List<BooleanInputChoice>();
-            HRESULT associationInfoList = this.FileAssocHandler.GetFileAssociationInfoList(out this._fileAssociationInfoList);
+            _allFileTypes = new List<BooleanInputChoice>();
+            _audioFileTypes = new List<BooleanInputChoice>();
+            _videoFileTypes = new List<BooleanInputChoice>();
+            HRESULT associationInfoList = FileAssocHandler.GetFileAssociationInfoList(out _fileAssociationInfoList);
             if (associationInfoList.IsSuccess)
             {
-                this.CanFileAssociationBeChanged = this.FileAssocHandler.CanAssociationBeChanged();
-                string format = Shell.LoadString(StringId.IDS_FILE_TYPES_DESCRIPTION_FORMAT);
-                for (int index = 0; index < this._fileAssociationInfoList.Count; ++index)
+                CanFileAssociationBeChanged = FileAssocHandler.CanAssociationBeChanged();
+                var format = Shell.LoadString(StringId.IDS_FILE_TYPES_DESCRIPTION_FORMAT);
+                foreach (var fileAssociation in _fileAssociationInfoList)
                 {
-                    string extension = this._fileAssociationInfoList[index].Extension;
-                    BooleanInputChoice booleanInputChoice = new BooleanInputChoice(this, string.Format(format, extension.Substring(1), _fileAssociationInfoList[index].Description), this.CanFileAssociationBeChanged);
-                    if (ClientConfiguration.FUE.ShowFUE && this.CanFileAssociationBeChanged && Array.IndexOf(this._defaultFileTypeExtensions, extension) >= 0)
-                        this._fileAssociationInfoList[index].IsCurrentlyOwned = true;
-                    booleanInputChoice.Value = this._fileAssociationInfoList[index].IsCurrentlyOwned;
-                    booleanInputChoice.ChosenChanged += (sender, args) => this.CommitList[new ProxySettingDelegate(this.OnFileTypesCommit)] = null;
-                    switch (this._fileAssociationInfoList[index].MediaType)
+                    var extension = fileAssociation.Extension;
+                    var booleanInputChoice = new BooleanInputChoice(this, string.Format(format, extension.Substring(1), fileAssociation.Description), CanFileAssociationBeChanged);
+                    if (ClientConfiguration.FUE.ShowFUE && CanFileAssociationBeChanged && Array.IndexOf(_defaultFileTypeExtensions, extension) >= 0)
+                        fileAssociation.IsCurrentlyOwned = true;
+                    booleanInputChoice.Value = fileAssociation.IsCurrentlyOwned;
+                    booleanInputChoice.ChosenChanged += (sender, args) => CommitList[new ProxySettingDelegate(OnFileTypesCommit)] = null;
+                    switch (fileAssociation.MediaType)
                     {
                         case EMediaTypes.eMediaTypeAudio:
-                            this._audioFileTypes.Add(booleanInputChoice);
+                            _audioFileTypes.Add(booleanInputChoice);
                             break;
                         case EMediaTypes.eMediaTypeVideo:
-                            this._videoFileTypes.Add(booleanInputChoice);
+                            _videoFileTypes.Add(booleanInputChoice);
                             break;
                     }
-                    this._allFileTypes.Add(booleanInputChoice);
+                    _allFileTypes.Add(booleanInputChoice);
                 }
             }
             else
+            {
                 ErrorDialogInfo.Show(associationInfoList.Int, Shell.LoadString(StringId.IDS_FILE_TYPES_ERROR_DIALOG_TITLE));
+            }
         }
 
         private void OnFileTypesCommit(object data)
         {
-            if (this.FileAssocHandler == null || !this.CanFileAssociationBeChanged)
+            if (FileAssocHandler == null || !CanFileAssociationBeChanged)
                 return;
-            for (int index = 0; index < this._allFileTypes.Count; ++index)
-                this._fileAssociationInfoList[index].IsCurrentlyOwned = this._allFileTypes[index].Value;
-            HRESULT hresult = this.FileAssocHandler.SetFileAssociationInfo(this._fileAssociationInfoList);
+            for (var index = 0; index < _allFileTypes.Count; ++index)
+                _fileAssociationInfoList[index].IsCurrentlyOwned = _allFileTypes[index].Value;
+            HRESULT hresult = FileAssocHandler.SetFileAssociationInfo(_fileAssociationInfoList);
             if (hresult.IsError)
                 ErrorDialogInfo.Show(hresult.Int, Shell.LoadString(StringId.IDS_FILE_TYPES_ERROR_DIALOG_TITLE));
             if (!Shell.SettingsFrame.Wizard.IsCurrent)
@@ -1331,32 +1277,29 @@ namespace ZuneUI
 
         public void SelectAllFileTypes()
         {
-            if (!this.CanFileAssociationBeChanged)
+            if (!CanFileAssociationBeChanged)
                 return;
-            for (int index = 0; index < this._allFileTypes.Count; ++index)
-                this._allFileTypes[index].Value = true;
+            foreach (var fileTypeChoice in _allFileTypes)
+                fileTypeChoice.Value = true;
         }
 
         public void SaveFileTypesAsDefault()
         {
-            if (!this.FileAssocHandler.CanAssociationBeChanged())
+            if (!FileAssocHandler.CanAssociationBeChanged())
                 return;
-            IList<FileAssociationInfo> fileAssociationInfoList;
-            HRESULT hresult = this.FileAssocHandler.GetFileAssociationInfoList(out fileAssociationInfoList);
+            HRESULT hresult = FileAssocHandler.GetFileAssociationInfoList(out var fileAssociationInfoList);
             if (hresult.IsSuccess)
             {
-                for (int index = 0; index < fileAssociationInfoList.Count; ++index)
-                {
-                    if (Array.IndexOf(this._defaultFileTypeExtensions, fileAssociationInfoList[index].Extension) >= 0)
-                        fileAssociationInfoList[index].IsCurrentlyOwned = true;
-                }
-                hresult = this.FileAssocHandler.SetFileAssociationInfo(fileAssociationInfoList);
+                foreach (var fileAssociation in fileAssociationInfoList)
+                    if (Array.IndexOf(_defaultFileTypeExtensions, fileAssociation.Extension) >= 0)
+                        fileAssociation.IsCurrentlyOwned = true;
+                
+                hresult = FileAssocHandler.SetFileAssociationInfo(fileAssociationInfoList);
                 if (!hresult.IsError)
                     return;
-                ErrorDialogInfo.Show(hresult.Int, Shell.LoadString(StringId.IDS_FILE_TYPES_ERROR_DIALOG_TITLE));
             }
-            else
-                ErrorDialogInfo.Show(hresult.Int, Shell.LoadString(StringId.IDS_FILE_TYPES_ERROR_DIALOG_TITLE));
+
+            ErrorDialogInfo.Show(hresult.Int, Shell.LoadString(StringId.IDS_FILE_TYPES_ERROR_DIALOG_TITLE));
         }
 
         public void ResetWarningMessages()
@@ -1386,7 +1329,7 @@ namespace ZuneUI
             ClientConfiguration.QuickMix.OnlyEnableItemsWithQuickMix = false;
             ClientConfiguration.Devices.ShowExcludeFromSyncWarning = true;
             ClientConfiguration.Devices.ShowSyncInstructionsToast = true;
-            foreach (UIDevice uiDevice in SingletonModelItem<UIDeviceList>.Instance)
+            foreach (var uiDevice in SingletonModelItem<UIDeviceList>.Instance)
                 uiDevice.PromptForAccountLinkage = true;
         }
 
@@ -1484,9 +1427,9 @@ namespace ZuneUI
         {
             get
             {
-                if (this._registeredDevicesModelList == null)
-                    this.InitRegisteredTuners();
-                return this._registeredDevicesModelList;
+                if (_registeredDevicesModelList == null)
+                    InitRegisteredTuners();
+                return _registeredDevicesModelList;
             }
         }
 
@@ -1494,9 +1437,9 @@ namespace ZuneUI
         {
             get
             {
-                if (this._registeredAppStoreDevicesModelList == null)
-                    this.InitRegisteredTuners();
-                return this._registeredAppStoreDevicesModelList;
+                if (_registeredAppStoreDevicesModelList == null)
+                    InitRegisteredTuners();
+                return _registeredAppStoreDevicesModelList;
             }
         }
 
@@ -1504,45 +1447,45 @@ namespace ZuneUI
         {
             get
             {
-                if (this._registeredComputersModelList == null)
-                    this.InitRegisteredTuners();
-                return this._registeredComputersModelList;
+                if (_registeredComputersModelList == null)
+                    InitRegisteredTuners();
+                return _registeredComputersModelList;
             }
         }
 
         public string NextPCDeregistrationDate
         {
-            get => this._nextPCDeregistrationDate;
+            get => _nextPCDeregistrationDate;
             private set
             {
-                if (!(this._nextPCDeregistrationDate != value))
+                if (_nextPCDeregistrationDate == value)
                     return;
-                this._nextPCDeregistrationDate = value;
-                this.FirePropertyChanged(nameof(NextPCDeregistrationDate));
+                _nextPCDeregistrationDate = value;
+                FirePropertyChanged(nameof(NextPCDeregistrationDate));
             }
         }
 
         public string NextSubscriptionDeviceDeregistrationDate
         {
-            get => this._nextSubscriptionDeviceDeregistrationDate;
+            get => _nextSubscriptionDeviceDeregistrationDate;
             private set
             {
-                if (!(this._nextSubscriptionDeviceDeregistrationDate != value))
+                if (_nextSubscriptionDeviceDeregistrationDate == value)
                     return;
-                this._nextSubscriptionDeviceDeregistrationDate = value;
-                this.FirePropertyChanged(nameof(NextSubscriptionDeviceDeregistrationDate));
+                _nextSubscriptionDeviceDeregistrationDate = value;
+                FirePropertyChanged(nameof(NextSubscriptionDeviceDeregistrationDate));
             }
         }
 
         public string NextAppStoreDeviceDeregistrationDate
         {
-            get => this._nextAppStoreDeviceDeregistrationDate;
+            get => _nextAppStoreDeviceDeregistrationDate;
             private set
             {
-                if (!(this._nextAppStoreDeviceDeregistrationDate != value))
+                if (_nextAppStoreDeviceDeregistrationDate == value)
                     return;
-                this._nextAppStoreDeviceDeregistrationDate = value;
-                this.FirePropertyChanged(nameof(NextAppStoreDeviceDeregistrationDate));
+                _nextAppStoreDeviceDeregistrationDate = value;
+                FirePropertyChanged(nameof(NextAppStoreDeviceDeregistrationDate));
             }
         }
 
@@ -1550,192 +1493,193 @@ namespace ZuneUI
         {
             get
             {
-                if (this._tunerHandler == null)
-                    this.InitRegisteredTuners();
-                return this._tunerHandler.CanQueryTunerList();
+                if (_tunerHandler == null)
+                    InitRegisteredTuners();
+                return _tunerHandler.CanQueryTunerList();
             }
         }
 
         public void RemoveTuner(TunerInfo tunerInfo)
         {
-            if (this._tunerHandler == null)
-                this.InitRegisteredTuners();
-            this._tunerHandler.DeregisterTuner(tunerInfo);
+            if (_tunerHandler == null)
+                InitRegisteredTuners();
+            _tunerHandler.DeregisterTuner(tunerInfo);
         }
 
         public void RefreshTunerList()
         {
-            if (!this._tunerHandler.CanQueryTunerList())
+            if (!_tunerHandler.CanQueryTunerList())
                 return;
-            this._tunerHandler.RefreshTunerList();
+            _tunerHandler.RefreshTunerList();
         }
 
         private void OnTunerInfoChanged(object oSenderUNUSED, EventArgs eargs)
         {
             if (eargs != null && eargs.GetType() == typeof(EventArgsHR) && ((EventArgsHR)eargs).HResult == HRESULT._ZEST_E_TOO_MANY_DEREGISTRATIONS_WITHIN_MONTH)
-                Application.DeferredInvoke(new DeferredInvokeHandler(this.DisplayServiceErrorMessage), eargs);
+                Application.DeferredInvoke(DisplayServiceErrorMessage, eargs);
             else
-                Application.DeferredInvoke(new DeferredInvokeHandler(this.UpdateRegisteredTunersList), DeferredInvokePriority.Normal);
+                Application.DeferredInvoke(UpdateRegisteredTunersList, DeferredInvokePriority.Normal);
         }
 
         private void DisplayServiceErrorMessage(object eargs) => Shell.ShowErrorDialog(((EventArgsHR)eargs).HResult, StringId.IDS_REGDEVICES_CANT_REMOVE);
 
         private void UpdateRegisteredTunersList(object argsUNUSED)
         {
-            if (this._registeredComputersModelList == null || this._registeredDevicesModelList == null || this._registeredAppStoreDevicesModelList == null)
+            if (_registeredComputersModelList == null || _registeredDevicesModelList == null || _registeredAppStoreDevicesModelList == null)
                 return;
-            int count1 = this._registeredComputersModelList.Count;
-            int count2 = this._registeredDevicesModelList.Count;
-            int count3 = this._registeredAppStoreDevicesModelList.Count;
-            this._registeredComputersModelList.Clear();
-            this._registeredDevicesModelList.Clear();
-            this._registeredAppStoreDevicesModelList.Clear();
-            foreach (object pcs in this._tunerHandler.GetPCsList())
-                this._registeredComputersModelList.Add(pcs);
-            foreach (object devices in this._tunerHandler.GetDevicesList())
-                this._registeredDevicesModelList.Add(devices);
-            foreach (object appStoreDevices in this._tunerHandler.GetAppStoreDevicesList())
-                this._registeredAppStoreDevicesModelList.Add(appStoreDevices);
-            DateTime deregistrationDate1 = this._tunerHandler.GetNextPCDeregistrationDate();
-            this.NextPCDeregistrationDate = !(deregistrationDate1 != DateTime.MinValue) || !(deregistrationDate1 > DateTime.Now) ? null : deregistrationDate1.AddDays(1.0).ToShortDateString();
-            DateTime deregistrationDate2 = this._tunerHandler.GetNextSubscriptionDeviceDeregistrationDate();
-            this.NextSubscriptionDeviceDeregistrationDate = !(deregistrationDate2 != DateTime.MinValue) || !(deregistrationDate2 > DateTime.Now) ? null : deregistrationDate2.AddDays(1.0).ToShortDateString();
-            DateTime deregistrationDate3 = this._tunerHandler.GetNextAppStoreDeviceDeregistrationDate();
-            this.NextAppStoreDeviceDeregistrationDate = !(deregistrationDate3 != DateTime.MinValue) || !(deregistrationDate3 > DateTime.Now) ? null : deregistrationDate3.AddDays(1.0).ToShortDateString();
-            if (this._registeredComputersModelList.Count >= count1 && this._registeredDevicesModelList.Count >= count2 && this._registeredAppStoreDevicesModelList.Count >= count3)
+            var count1 = _registeredComputersModelList.Count;
+            var count2 = _registeredDevicesModelList.Count;
+            var count3 = _registeredAppStoreDevicesModelList.Count;
+            _registeredComputersModelList.Clear();
+            _registeredDevicesModelList.Clear();
+            _registeredAppStoreDevicesModelList.Clear();
+            foreach (var pcs in _tunerHandler.GetPCsList())
+                _registeredComputersModelList.Add(pcs);
+            foreach (var devices in _tunerHandler.GetDevicesList())
+                _registeredDevicesModelList.Add(devices);
+            foreach (var appStoreDevices in _tunerHandler.GetAppStoreDevicesList())
+                _registeredAppStoreDevicesModelList.Add(appStoreDevices);
+            var deregistrationDate1 = _tunerHandler.GetNextPCDeregistrationDate();
+            NextPCDeregistrationDate = !(deregistrationDate1 != DateTime.MinValue) || !(deregistrationDate1 > DateTime.Now) ? null : deregistrationDate1.AddDays(1.0).ToShortDateString();
+            var deregistrationDate2 = _tunerHandler.GetNextSubscriptionDeviceDeregistrationDate();
+            NextSubscriptionDeviceDeregistrationDate = !(deregistrationDate2 != DateTime.MinValue) || !(deregistrationDate2 > DateTime.Now) ? null : deregistrationDate2.AddDays(1.0).ToShortDateString();
+            var deregistrationDate3 = _tunerHandler.GetNextAppStoreDeviceDeregistrationDate();
+            NextAppStoreDeviceDeregistrationDate = !(deregistrationDate3 != DateTime.MinValue) || !(deregistrationDate3 > DateTime.Now) ? null : deregistrationDate3.AddDays(1.0).ToShortDateString();
+            if (_registeredComputersModelList.Count >= count1 && _registeredDevicesModelList.Count >= count2 && _registeredAppStoreDevicesModelList.Count >= count3)
                 return;
             SignIn.Instance.RefreshAccount();
         }
 
         private void InitRegisteredTuners()
         {
-            this._tunerHandler = TunerInfoHandlerFactory.CreateTunerInfoHandler();
-            this._tunerHandler.OnChanged += new EventHandler(this.OnTunerInfoChanged);
-            this._registeredComputersModelList = new ArrayListDataSet();
-            this._registeredDevicesModelList = new ArrayListDataSet();
-            this._registeredAppStoreDevicesModelList = new ArrayListDataSet();
-            this._nextPCDeregistrationDate = null;
-            this._nextSubscriptionDeviceDeregistrationDate = null;
-            this._nextAppStoreDeviceDeregistrationDate = null;
-            if (!this._tunerHandler.CanQueryTunerList())
+            _tunerHandler = TunerInfoHandlerFactory.CreateTunerInfoHandler();
+            _tunerHandler.OnChanged += OnTunerInfoChanged;
+            _registeredComputersModelList = new ArrayListDataSet();
+            _registeredDevicesModelList = new ArrayListDataSet();
+            _registeredAppStoreDevicesModelList = new ArrayListDataSet();
+            _nextPCDeregistrationDate = null;
+            _nextSubscriptionDeviceDeregistrationDate = null;
+            _nextAppStoreDeviceDeregistrationDate = null;
+            if (!_tunerHandler.CanQueryTunerList())
                 return;
-            this._tunerHandler.RefreshTunerList();
+            _tunerHandler.RefreshTunerList();
         }
 
         public IntRangedValue SlideShowSpeed
         {
             get
             {
-                if (this._slideShowSpeed == null)
+                if (_slideShowSpeed == null)
                 {
-                    this._slideShowSpeed = new IntRangedValue(this);
-                    this._slideShowSpeed.MinValue = 3000;
-                    this._slideShowSpeed.MaxValue = 10000;
-                    this._slideShowSpeed.Step = 1000;
-                    this._slideShowSpeed.Value = ClientConfiguration.GeneralSettings.SlideShowSpeed;
-                    this._slideShowSpeed.PropertyChanged += (sender, args) => this.CommitList[new ProxySettingDelegate(this.OnSlideShowSpeedCommit)] = null;
+                    _slideShowSpeed = new IntRangedValue(this);
+                    _slideShowSpeed.MinValue = 3000;
+                    _slideShowSpeed.MaxValue = 10000;
+                    _slideShowSpeed.Step = 1000;
+                    _slideShowSpeed.Value = ClientConfiguration.GeneralSettings.SlideShowSpeed;
+                    _slideShowSpeed.PropertyChanged += (sender, args) => CommitList[new ProxySettingDelegate(OnSlideShowSpeedCommit)] = null;
                 }
-                return this._slideShowSpeed;
+                return _slideShowSpeed;
             }
         }
 
-        private void OnSlideShowSpeedCommit(object data) => ClientConfiguration.GeneralSettings.SlideShowSpeed = this._slideShowSpeed.Value;
+        private void OnSlideShowSpeedCommit(object data) => ClientConfiguration.GeneralSettings.SlideShowSpeed = _slideShowSpeed.Value;
 
         public HMESettings HME
         {
             get
             {
-                if (this._HME == null)
+                if (_HME == null)
                 {
-                    lock (this.mylock)
+                    lock (mylock)
                     {
-                        if (this._HME == null)
+                        if (_HME == null)
                         {
-                            HMESettings hmeSettings = new HMESettings();
-                            int num = ((HRESULT)hmeSettings.Init()).IsError ? 1 : 0;
-                            this._sharingAllDevicesEnabled = hmeSettings.GetAllDevicesEnabled();
-                            this._HME = hmeSettings;
+                            var hmeSettings = new HMESettings();
+                            var num = ((HRESULT)hmeSettings.Init()).IsError ? 1 : 0;
+                            _sharingAllDevicesEnabled = hmeSettings.GetAllDevicesEnabled();
+                            _HME = hmeSettings;
                         }
                     }
                 }
-                return this._HME;
+                return _HME;
             }
         }
 
-        public bool UserCanModifySharing => Environment.OSVersion.Version.Major >= 6 || !this.SharingEnableRequiresElevation || this.SharingEnabled;
+        public bool UserCanModifySharing => Environment.OSVersion.Version.Major >= 6 || !SharingEnableRequiresElevation || SharingEnabled;
 
-        public bool SharingEnableRequiresElevation => Environment.OSVersion.Version.Major < 6 ? this.HME.SharingEnableRequiresLoginAsAdmin : this.HME.SharingEnableRequiresElevation;
+        public bool SharingEnableRequiresElevation => Environment.OSVersion.Version.Major < 6 ? HME.SharingEnableRequiresLoginAsAdmin : HME.SharingEnableRequiresElevation;
 
-        public bool SharingEnabled => this.HME.SharingEnabled;
+        public bool SharingEnabled => HME.SharingEnabled;
 
         private void SetSharingEnabledForAllMediaTypes(bool music, bool video, bool pictures)
         {
-            this.HME.SetSharingEnabledForMediaType(EMediaTypes.eMediaTypeAudio, music);
-            this.HME.SetSharingEnabledForMediaType(EMediaTypes.eMediaTypeVideo, video);
-            this.HME.SetSharingEnabledForMediaType(EMediaTypes.eMediaTypeImage, pictures);
+            HME.SetSharingEnabledForMediaType(EMediaTypes.eMediaTypeAudio, music);
+            HME.SetSharingEnabledForMediaType(EMediaTypes.eMediaTypeVideo, video);
+            HME.SetSharingEnabledForMediaType(EMediaTypes.eMediaTypeImage, pictures);
         }
 
         private void OnMediaSharingUpdate(object data)
         {
-            if (this.HME == null)
+            if (HME == null)
                 return;
-            bool flag = this._sharingEnableMusic.Value || this._sharingEnableVideo.Value || this._sharingEnablePhoto.Value;
-            HRESULT hresult1 = 0;
-            if (flag)
+            
+            HRESULT hr;
+            if (_sharingEnableMusic.Value || _sharingEnableVideo.Value || _sharingEnablePhoto.Value)
             {
-                if (((HRESULT)this.HME.EnableSharingForUser()).IsSuccess)
-                    this.SetSharingEnabledForAllMediaTypes(this._sharingEnableMusic.Value, this._sharingEnableVideo.Value, this._sharingEnablePhoto.Value);
+                hr = HME.EnableSharingForUser();
+                if (hr.IsSuccess)
+                    SetSharingEnabledForAllMediaTypes(_sharingEnableMusic.Value, _sharingEnableVideo.Value, _sharingEnablePhoto.Value);
                 else
-                    this.SetSharingEnabledForAllMediaTypes(false, false, false);
+                    SetSharingEnabledForAllMediaTypes(false, false, false);
             }
             else
             {
-                HRESULT hresult2 = this.HME.DisableSharingForMachine();
-                if (hresult2.IsSuccess)
-                    hresult2 = this.HME.DisableSharingForUser();
-                if (hresult2.IsSuccess)
-                    this.SetSharingEnabledForAllMediaTypes(false, false, false);
+                hr = HME.DisableSharingForMachine();
+                if (hr.IsSuccess)
+                    hr = HME.DisableSharingForUser();
+                if (hr.IsSuccess)
+                    SetSharingEnabledForAllMediaTypes(false, false, false);
             }
-            this.HME.SetAllDevicesEnabled(this._sharingAllDevicesEnabled);
-            if (!this._sharingAllDevicesEnabled)
-                this.HME.EnableDevice(this._sharingDeviceIndex, true);
-            this.HME.SetDisplayName(this._sharingDisplayName);
+            HME.SetAllDevicesEnabled(_sharingAllDevicesEnabled);
+            if (!_sharingAllDevicesEnabled)
+                HME.EnableDevice(_sharingDeviceIndex, true);
+            HME.SetDisplayName(_sharingDisplayName);
         }
 
         public string SharingDisplayName
         {
             get
             {
-                if (this._sharingDisplayName == null)
-                    this.HME.GetDisplayName(ref this._sharingDisplayName);
-                return this._sharingDisplayName;
+                if (_sharingDisplayName == null)
+                    HME.GetDisplayName(ref _sharingDisplayName);
+                return _sharingDisplayName;
             }
             set
             {
                 if (string.IsNullOrEmpty(value))
                 {
-                    this.SharingError = Shell.LoadString(StringId.IDS_SHARE_NAME_EMPTY);
+                    SharingError = Shell.LoadString(StringId.IDS_SHARE_NAME_EMPTY);
                 }
                 else
                 {
-                    if (!(this._sharingDisplayName != value))
+                    if (_sharingDisplayName == value)
                         return;
-                    this.SharingError = string.Empty;
-                    this._sharingDisplayName = value;
-                    this.CommitList[new ProxySettingDelegate(this.OnMediaSharingUpdate)] = null;
+                    SharingError = string.Empty;
+                    _sharingDisplayName = value;
+                    CommitList[new ProxySettingDelegate(OnMediaSharingUpdate)] = null;
                 }
             }
         }
 
         public string SharingError
         {
-            get => this._sharingError;
+            get => _sharingError;
             set
             {
-                if (!(this._sharingError != value))
+                if (_sharingError == value)
                     return;
-                this._sharingError = value;
-                this.FirePropertyChanged(nameof(SharingError));
+                _sharingError = value;
+                FirePropertyChanged(nameof(SharingError));
             }
         }
 
@@ -1743,19 +1687,19 @@ namespace ZuneUI
         {
             get
             {
-                if (this._sharingEnableMusic == null)
+                if (_sharingEnableMusic == null)
                 {
-                    this._sharingEnableMusic = new BooleanChoice(this, Shell.LoadString(StringId.IDS_SHARE_MUSIC_CHECK));
-                    this._sharingEnableMusic.Value = this.HME.GetSharingEnabledForMediaType(EMediaTypes.eMediaTypeAudio);
-                    this._sharingEnableMusic.ChosenChanged += (sender, args) =>
-                   {
-                       this.CommitList[new ProxySettingDelegate(this.OnMediaSharingUpdate)] = null;
-                       if (!this.SharingEnableRequiresElevation)
-                           return;
-                       this.ChangeRequiresElevation = true;
-                   };
+                    _sharingEnableMusic = new BooleanChoice(this, Shell.LoadString(StringId.IDS_SHARE_MUSIC_CHECK));
+                    _sharingEnableMusic.Value = HME.GetSharingEnabledForMediaType(EMediaTypes.eMediaTypeAudio);
+                    _sharingEnableMusic.ChosenChanged += (sender, args) =>
+                    {
+                        CommitList[new ProxySettingDelegate(OnMediaSharingUpdate)] = null;
+                        if (!SharingEnableRequiresElevation)
+                            return;
+                        ChangeRequiresElevation = true;
+                    };
                 }
-                return this._sharingEnableMusic;
+                return _sharingEnableMusic;
             }
         }
 
@@ -1763,19 +1707,19 @@ namespace ZuneUI
         {
             get
             {
-                if (this._sharingEnableVideo == null)
+                if (_sharingEnableVideo == null)
                 {
-                    this._sharingEnableVideo = new BooleanChoice(this, Shell.LoadString(StringId.IDS_SHARE_VIDEOS_CHECK));
-                    this._sharingEnableVideo.Value = this.HME.GetSharingEnabledForMediaType(EMediaTypes.eMediaTypeVideo);
-                    this._sharingEnableVideo.ChosenChanged += (sender, args) =>
-                   {
-                       this.CommitList[new ProxySettingDelegate(this.OnMediaSharingUpdate)] = null;
-                       if (!this.SharingEnableRequiresElevation)
-                           return;
-                       this.ChangeRequiresElevation = true;
-                   };
+                    _sharingEnableVideo = new BooleanChoice(this, Shell.LoadString(StringId.IDS_SHARE_VIDEOS_CHECK));
+                    _sharingEnableVideo.Value = HME.GetSharingEnabledForMediaType(EMediaTypes.eMediaTypeVideo);
+                    _sharingEnableVideo.ChosenChanged += (sender, args) =>
+                    {
+                        CommitList[new ProxySettingDelegate(OnMediaSharingUpdate)] = null;
+                        if (!SharingEnableRequiresElevation)
+                            return;
+                        ChangeRequiresElevation = true;
+                    };
                 }
-                return this._sharingEnableVideo;
+                return _sharingEnableVideo;
             }
         }
 
@@ -1783,19 +1727,19 @@ namespace ZuneUI
         {
             get
             {
-                if (this._sharingEnablePhoto == null)
+                if (_sharingEnablePhoto == null)
                 {
-                    this._sharingEnablePhoto = new BooleanChoice(this, Shell.LoadString(StringId.IDS_SHARE_PICTURES_CHECK));
-                    this._sharingEnablePhoto.Value = this.HME.GetSharingEnabledForMediaType(EMediaTypes.eMediaTypeImage);
-                    this._sharingEnablePhoto.ChosenChanged += (sender, args) =>
-                   {
-                       this.CommitList[new ProxySettingDelegate(this.OnMediaSharingUpdate)] = null;
-                       if (!this.SharingEnableRequiresElevation)
-                           return;
-                       this.ChangeRequiresElevation = true;
-                   };
+                    _sharingEnablePhoto = new BooleanChoice(this, Shell.LoadString(StringId.IDS_SHARE_PICTURES_CHECK));
+                    _sharingEnablePhoto.Value = HME.GetSharingEnabledForMediaType(EMediaTypes.eMediaTypeImage);
+                    _sharingEnablePhoto.ChosenChanged += (sender, args) =>
+                    {
+                        CommitList[new ProxySettingDelegate(OnMediaSharingUpdate)] = null;
+                        if (!SharingEnableRequiresElevation)
+                            return;
+                        ChangeRequiresElevation = true;
+                    };
                 }
-                return this._sharingEnablePhoto;
+                return _sharingEnablePhoto;
             }
         }
 
@@ -1803,34 +1747,34 @@ namespace ZuneUI
         {
             get
             {
-                if (this._sharingSelectDeviceChoice == null)
+                if (_sharingSelectDeviceChoice == null)
                 {
-                    this._sharingSelectDeviceOptions = new List<Command>();
-                    Command command1 = new Command(this, Shell.LoadString(StringId.IDS_GLOBAL_SHARING_OPTION), null);
+                    _sharingSelectDeviceOptions = new List<Command>();
+                    var command1 = new Command(this, Shell.LoadString(StringId.IDS_GLOBAL_SHARING_OPTION), null);
                     command1.Data.Add("value", true);
-                    this._sharingSelectDeviceOptions.Add(command1);
-                    Command command2 = new Command(this, Shell.LoadString(StringId.IDS_SELECTIVE_SHARING_OPTION), null);
+                    _sharingSelectDeviceOptions.Add(command1);
+                    var command2 = new Command(this, Shell.LoadString(StringId.IDS_SELECTIVE_SHARING_OPTION), null);
                     command2.Data.Add("value", false);
-                    command2.Available = this.SharingEnabled;
-                    this._sharingSelectDeviceOptions.Add(command2);
-                    this._sharingSelectDeviceChoice = new Choice(this);
-                    this._sharingSelectDeviceChoice.Options = (IList)this._sharingSelectDeviceOptions;
-                    this._sharingSelectDeviceChoice.ChosenChanged += (sender, args) => this.SharingAllDevicesEnabled = (bool)this._sharingSelectDeviceOptions[((Choice)sender).ChosenIndex].Data["value"];
+                    command2.Available = SharingEnabled;
+                    _sharingSelectDeviceOptions.Add(command2);
+                    _sharingSelectDeviceChoice = new Choice(this);
+                    _sharingSelectDeviceChoice.Options = (IList)_sharingSelectDeviceOptions;
+                    _sharingSelectDeviceChoice.ChosenChanged += (sender, args) => SharingAllDevicesEnabled = (bool)_sharingSelectDeviceOptions[((Choice)sender).ChosenIndex].Data["value"];
                 }
-                return this._sharingSelectDeviceChoice;
+                return _sharingSelectDeviceChoice;
             }
         }
 
         public bool SharingAllDevicesEnabled
         {
-            get => this._sharingAllDevicesEnabled;
+            get => _sharingAllDevicesEnabled;
             set
             {
-                if (this._sharingAllDevicesEnabled == value)
+                if (_sharingAllDevicesEnabled == value)
                     return;
-                this._sharingAllDevicesEnabled = value;
-                this.CommitList[new ProxySettingDelegate(this.OnMediaSharingUpdate)] = null;
-                this.FirePropertyChanged(nameof(SharingAllDevicesEnabled));
+                _sharingAllDevicesEnabled = value;
+                CommitList[new ProxySettingDelegate(OnMediaSharingUpdate)] = null;
+                FirePropertyChanged(nameof(SharingAllDevicesEnabled));
             }
         }
 
@@ -1838,54 +1782,53 @@ namespace ZuneUI
         {
             get
             {
-                if (this._sharingDeviceList == null)
-                    this._sharingDeviceList = this.CreateSharingDeviceList();
-                return (IList)this._sharingDeviceList;
+                _sharingDeviceList ??= CreateSharingDeviceList();
+                return (IList)_sharingDeviceList;
             }
         }
 
         private IList<BooleanInputChoice> CreateSharingDeviceList()
         {
             IList<BooleanInputChoice> booleanInputChoiceList = new List<BooleanInputChoice>();
-            uint deviceCount = this.HME.GetDeviceCount();
-            string strName = "";
-            string strMAC = "";
-            string strSerialNumber = "";
+            var deviceCount = HME.GetDeviceCount();
+            var strName = "";
+            var strMAC = "";
+            var strSerialNumber = "";
             for (uint dwIndex = 0; dwIndex < deviceCount; ++dwIndex)
             {
-                this.HME.GetDeviceProps(dwIndex, ref strName, ref strMAC, ref strSerialNumber);
-                BooleanInputChoice booleanInputChoice = new BooleanInputChoice(this, deviceCount > 1U ? string.Format(Shell.LoadString(StringId.IDS_XBOX360_NAME_AND_SERIAL_NUMBER), strName, strSerialNumber) : strName, true);
+                HME.GetDeviceProps(dwIndex, ref strName, ref strMAC, ref strSerialNumber);
+                var booleanInputChoice = new BooleanInputChoice(this, deviceCount > 1U ? string.Format(Shell.LoadString(StringId.IDS_XBOX360_NAME_AND_SERIAL_NUMBER), strName, strSerialNumber) : strName, true);
                 booleanInputChoice.Data["index"] = dwIndex;
-                booleanInputChoice.Value = this.HME.GetDeviceEnabled(dwIndex);
-                booleanInputChoice.ChosenChanged += new EventHandler(this.HandleSharingDeviceListValueChanged);
+                booleanInputChoice.Value = HME.GetDeviceEnabled(dwIndex);
+                booleanInputChoice.ChosenChanged += HandleSharingDeviceListValueChanged;
                 booleanInputChoiceList.Add(booleanInputChoice);
             }
-            if (!this._nssDeviceListChangeEventAdded)
+            if (!_nssDeviceListChangeEventAdded)
             {
-                this.HME.NSSDeviceListChangeEvent += new NSSDeviceListChangeHandler(this.HandleNSSDeviceListChangeEvent);
-                this._nssDeviceListChangeEventAdded = true;
+                HME.NSSDeviceListChangeEvent += HandleNSSDeviceListChangeEvent;
+                _nssDeviceListChangeEventAdded = true;
             }
             return booleanInputChoiceList;
         }
 
         public void RemoveNSSDeviceListChangeEvent()
         {
-            if (!this._nssDeviceListChangeEventAdded)
+            if (!_nssDeviceListChangeEventAdded)
                 return;
-            this.HME.NSSDeviceListChangeEvent -= new NSSDeviceListChangeHandler(this.HandleNSSDeviceListChangeEvent);
-            this._nssDeviceListChangeEventAdded = false;
-            this._sharingDeviceList = null;
+            HME.NSSDeviceListChangeEvent -= HandleNSSDeviceListChangeEvent;
+            _nssDeviceListChangeEventAdded = false;
+            _sharingDeviceList = null;
         }
 
         private void HandleNSSDeviceListChangeEvent() => Application.DeferredInvoke(delegate
-       {
-           if (this._sharingDeviceList == null)
-               return;
-           this._sharingDeviceList = this.CreateSharingDeviceList();
-           this.FirePropertyChanged("SharingDeviceList");
-       }, null);
+        {
+            if (_sharingDeviceList == null)
+                return;
+            _sharingDeviceList = CreateSharingDeviceList();
+            FirePropertyChanged("SharingDeviceList");
+        }, null);
 
-        private void HandleSharingDeviceListValueChanged(object sender, EventArgs args) => this._sharingDeviceIndex = (uint)((ModelItem)sender).Data["index"];
+        private void HandleSharingDeviceListValueChanged(object sender, EventArgs args) => _sharingDeviceIndex = (uint)((ModelItem)sender).Data["index"];
 
         public bool ReevaluateVideoSettings
         {
@@ -1893,7 +1836,7 @@ namespace ZuneUI
             set
             {
                 ClientConfiguration.GeneralSettings.ReevaluateVideoSettings = value;
-                this.FirePropertyChanged(nameof(ReevaluateVideoSettings));
+                FirePropertyChanged(nameof(ReevaluateVideoSettings));
             }
         }
 
@@ -1901,7 +1844,7 @@ namespace ZuneUI
         {
             get
             {
-                RenderingType renderingType = (RenderingType)ClientConfiguration.GeneralSettings.RenderingType;
+                var renderingType = (RenderingType)ClientConfiguration.GeneralSettings.RenderingType;
                 if (renderingType == RenderingType.Default)
                     renderingType = Application.RenderingType;
                 return renderingType;
@@ -1909,12 +1852,12 @@ namespace ZuneUI
             set
             {
                 ClientConfiguration.GeneralSettings.RenderingType = (int)value;
-                this.ReevaluateVideoSettings = Application.RenderingType != RenderingType.DX9 && value == RenderingType.DX9;
-                this.FirePropertyChanged(nameof(RequestedRenderingType));
+                ReevaluateVideoSettings = Application.RenderingType != RenderingType.DX9 && value == RenderingType.DX9;
+                FirePropertyChanged(nameof(RequestedRenderingType));
             }
         }
 
-        private void ReevaluateVideoAcceleration(object sender, EventArgs args) => this.RequestedRenderingType = RenderingType.DX9;
+        private void ReevaluateVideoAcceleration(object sender, EventArgs args) => RequestedRenderingType = RenderingType.DX9;
 
         public RenderingQuality RequestedRenderingQuality
         {
@@ -1922,7 +1865,7 @@ namespace ZuneUI
             set
             {
                 ClientConfiguration.GeneralSettings.RenderingQuality = (int)value;
-                this.FirePropertyChanged(nameof(RequestedRenderingQuality));
+                FirePropertyChanged(nameof(RequestedRenderingQuality));
             }
         }
 
@@ -1932,7 +1875,7 @@ namespace ZuneUI
             set
             {
                 ClientConfiguration.GeneralSettings.AnimationsEnabled = value;
-                this.FirePropertyChanged(nameof(AnimationsEnabled));
+                FirePropertyChanged(nameof(AnimationsEnabled));
             }
         }
 
@@ -1940,47 +1883,53 @@ namespace ZuneUI
         {
             get
             {
-                if (this._screenGraphicsSlider == null)
+                if (_screenGraphicsSlider == null)
                 {
-                    Choice choice = new Choice(this);
+                    var choice = new Choice(this);
                     choice.Options = NamedIntOption.ScreenGraphicsOptions;
-                    ScreenGraphics screenGraphics = Application.RenderingType != RenderingType.GDI ? (Application.RenderingQuality != RenderingQuality.MaxQuality ? (!Application.AnimationsEnabled ? ScreenGraphics.Advanced : ScreenGraphics.AdvancedWithAnimation) : ScreenGraphics.Premium) : ScreenGraphics.Basic;
+                    var screenGraphics = Application.RenderingType != RenderingType.GDI
+                        ? Application.RenderingQuality != RenderingQuality.MaxQuality
+                            ? !Application.AnimationsEnabled
+                                ? ScreenGraphics.Advanced
+                                : ScreenGraphics.AdvancedWithAnimation
+                            : ScreenGraphics.Premium
+                        : ScreenGraphics.Basic;
                     NamedIntOption.SelectOptionByValue(choice, (int)screenGraphics);
-                    this._screenGraphicsSlider = choice;
-                    choice.ChosenChanged += (sender, args) => this.CommitList[new ProxySettingDelegate(this.OnScreenGraphicsSliderCommit)] = null;
+                    _screenGraphicsSlider = choice;
+                    choice.ChosenChanged += (sender, args) => CommitList[new ProxySettingDelegate(OnScreenGraphicsSliderCommit)] = null;
                 }
-                return this._screenGraphicsSlider;
+                return _screenGraphicsSlider;
             }
         }
 
         private void OnScreenGraphicsSliderCommit(object data)
         {
-            ScreenGraphics screenGraphics = (ScreenGraphics)((NamedIntOption)this._screenGraphicsSlider.ChosenValue).Value;
-            RenderingType requestedRenderingType = this.RequestedRenderingType;
+            var screenGraphics = (ScreenGraphics)((NamedIntOption)_screenGraphicsSlider.ChosenValue).Value;
+            var requestedRenderingType = RequestedRenderingType;
             switch (screenGraphics)
             {
                 case ScreenGraphics.Basic:
-                    this.RequestedRenderingType = RenderingType.GDI;
-                    this.RequestedRenderingQuality = RenderingQuality.MinQuality;
-                    this.AnimationsEnabled = false;
+                    RequestedRenderingType = RenderingType.GDI;
+                    RequestedRenderingQuality = RenderingQuality.MinQuality;
+                    AnimationsEnabled = false;
                     break;
                 case ScreenGraphics.Advanced:
-                    this.RequestedRenderingType = RenderingType.DX9;
-                    this.RequestedRenderingQuality = RenderingQuality.MinQuality;
-                    this.AnimationsEnabled = false;
+                    RequestedRenderingType = RenderingType.DX9;
+                    RequestedRenderingQuality = RenderingQuality.MinQuality;
+                    AnimationsEnabled = false;
                     break;
                 case ScreenGraphics.AdvancedWithAnimation:
-                    this.RequestedRenderingType = RenderingType.DX9;
-                    this.RequestedRenderingQuality = RenderingQuality.MinQuality;
-                    this.AnimationsEnabled = true;
+                    RequestedRenderingType = RenderingType.DX9;
+                    RequestedRenderingQuality = RenderingQuality.MinQuality;
+                    AnimationsEnabled = true;
                     break;
                 case ScreenGraphics.Premium:
-                    this.RequestedRenderingType = RenderingType.DX9;
-                    this.RequestedRenderingQuality = RenderingQuality.MaxQuality;
-                    this.AnimationsEnabled = true;
+                    RequestedRenderingType = RenderingType.DX9;
+                    RequestedRenderingQuality = RenderingQuality.MaxQuality;
+                    AnimationsEnabled = true;
                     break;
             }
-            if (requestedRenderingType == RenderingType.GDI && this.RequestedRenderingType == RenderingType.DX9)
+            if (requestedRenderingType == RenderingType.GDI && RequestedRenderingType == RenderingType.DX9)
                 MessageBox.Show(Shell.LoadString(StringId.IDS_SCREEN_GRAPHICS_TITLE), Shell.LoadString(StringId.IDS_ACCELERATION_PROMPT_TEXT), null);
             else
                 MessageBox.Show(Shell.LoadString(StringId.IDS_SCREEN_GRAPHICS_TITLE), Shell.LoadString(StringId.IDS_ACCELERATION_RESTART_TEXT), null);
@@ -1988,53 +1937,48 @@ namespace ZuneUI
 
         public string BackgroundImage
         {
-            get
-            {
-                if (this._backgroundImage == null)
-                    this._backgroundImage = ClientConfiguration.Shell.BackgroundImage;
-                return this._backgroundImage;
-            }
+            get => _backgroundImage ??= ClientConfiguration.Shell.BackgroundImage;
             set
             {
-                if (!(this._backgroundImage != value))
+                if (_backgroundImage == value)
                     return;
-                this.CommitList[new ProxySettingDelegate(this.OnBackgroundImageCommit)] = null;
-                this._backgroundImage = value;
-                this.FirePropertyChanged(nameof(BackgroundImage));
+                CommitList[new ProxySettingDelegate(OnBackgroundImageCommit)] = null;
+                _backgroundImage = value;
+                FirePropertyChanged(nameof(BackgroundImage));
             }
         }
 
         public WindowColor BackgroundColor
         {
-            get => this._backgroundColor;
-            set => this._backgroundColor = value;
+            get => _backgroundColor;
+            set => _backgroundColor = value;
         }
 
         private void OnBackgroundImageCommit(object data)
         {
-            ClientConfiguration.Shell.BackgroundImage = this._backgroundImage;
-            ClientConfiguration.Shell.BackgroundColor = Shell.WindowColorToRGB(this._backgroundColor);
-            ((Shell)ZuneShell.DefaultInstance).BackgroundImage = this._backgroundImage;
-            Application.Window.SetBackgroundColor(this._backgroundColor);
+            ClientConfiguration.Shell.BackgroundImage = _backgroundImage;
+            ClientConfiguration.Shell.BackgroundColor = Shell.WindowColorToRGB(_backgroundColor);
+            ((Shell)ZuneShell.DefaultInstance).BackgroundImage = _backgroundImage;
+            Application.Window.SetBackgroundColor(_backgroundColor);
         }
 
         public BooleanChoice ShowNowPlayingBackgroundOnIdle
         {
             get
             {
-                if (this._showNowPlayingBackgroundOnIdle == null)
+                if (_showNowPlayingBackgroundOnIdle == null)
                 {
-                    this._showNowPlayingBackgroundOnIdle = new BooleanChoice(this, Shell.LoadString(StringId.IDS_SHOW_NOWPLAYING_ON_IDLE_DESCRIPTION));
-                    this._showNowPlayingBackgroundOnIdle.Value = ClientConfiguration.Shell.ShowNowPlayingBackgroundOnIdleTimeout > 0;
-                    this._showNowPlayingBackgroundOnIdle.ChosenChanged += (sender, args) => this.CommitList[new ProxySettingDelegate(this.OnShowNowPlayingBackgroundOnIdleCommit)] = null;
+                    _showNowPlayingBackgroundOnIdle = new BooleanChoice(this, Shell.LoadString(StringId.IDS_SHOW_NOWPLAYING_ON_IDLE_DESCRIPTION));
+                    _showNowPlayingBackgroundOnIdle.Value = ClientConfiguration.Shell.ShowNowPlayingBackgroundOnIdleTimeout > 0;
+                    _showNowPlayingBackgroundOnIdle.ChosenChanged += (sender, args) => CommitList[new ProxySettingDelegate(OnShowNowPlayingBackgroundOnIdleCommit)] = null;
                 }
-                return this._showNowPlayingBackgroundOnIdle;
+                return _showNowPlayingBackgroundOnIdle;
             }
         }
 
         private void OnShowNowPlayingBackgroundOnIdleCommit(object data)
         {
-            int num = this._showNowPlayingBackgroundOnIdle.Value ? 90 : 0;
+            var num = _showNowPlayingBackgroundOnIdle.Value ? 90 : 0;
             ClientConfiguration.Shell.ShowNowPlayingBackgroundOnIdleTimeout = num;
             ((Shell)ZuneShell.DefaultInstance).ShowNowPlayingBackgroundOnIdleTimeout = num;
         }
@@ -2043,40 +1987,40 @@ namespace ZuneUI
         {
             get
             {
-                if (this._playSounds == null)
+                if (_playSounds == null)
                 {
-                    this._playSounds = new BooleanChoice(this, Shell.LoadString(StringId.IDS_SOUNDS_DESCRIPTION));
-                    this._playSounds.Value = ClientConfiguration.Shell.Sounds;
-                    this._playSounds.ChosenChanged += (sender, args) => this.CommitList[new ProxySettingDelegate(this.OnPlaySoundsCommit)] = null;
+                    _playSounds = new BooleanChoice(this, Shell.LoadString(StringId.IDS_SOUNDS_DESCRIPTION));
+                    _playSounds.Value = ClientConfiguration.Shell.Sounds;
+                    _playSounds.ChosenChanged += (sender, args) => CommitList[new ProxySettingDelegate(OnPlaySoundsCommit)] = null;
                 }
-                return this._playSounds;
+                return _playSounds;
             }
         }
 
         private void OnPlaySoundsCommit(object data)
         {
-            ClientConfiguration.Shell.Sounds = this._playSounds.Value;
-            ((Shell)ZuneShell.DefaultInstance).PlaySounds = this._playSounds.Value;
+            ClientConfiguration.Shell.Sounds = _playSounds.Value;
+            ((Shell)ZuneShell.DefaultInstance).PlaySounds = _playSounds.Value;
         }
 
         public BooleanChoice CompactModeAlwaysOnTop
         {
             get
             {
-                if (this._compactModeAlwaysOnTop == null)
+                if (_compactModeAlwaysOnTop == null)
                 {
-                    this._compactModeAlwaysOnTop = new BooleanChoice(this, Shell.LoadString(StringId.IDS_COMPACT_MODE_ALWAYS_ON_TOP));
-                    this._compactModeAlwaysOnTop.Value = ClientConfiguration.GeneralSettings.CompactModeAlwaysOnTop;
-                    this._compactModeAlwaysOnTop.ChosenChanged += (sender, args) => this.CommitList[new ProxySettingDelegate(this.OnCompactModeAlwaysOnTopCommit)] = null;
+                    _compactModeAlwaysOnTop = new BooleanChoice(this, Shell.LoadString(StringId.IDS_COMPACT_MODE_ALWAYS_ON_TOP));
+                    _compactModeAlwaysOnTop.Value = ClientConfiguration.GeneralSettings.CompactModeAlwaysOnTop;
+                    _compactModeAlwaysOnTop.ChosenChanged += (sender, args) => CommitList[new ProxySettingDelegate(OnCompactModeAlwaysOnTopCommit)] = null;
                 }
-                return this._compactModeAlwaysOnTop;
+                return _compactModeAlwaysOnTop;
             }
         }
 
         private void OnCompactModeAlwaysOnTopCommit(object data)
         {
-            ClientConfiguration.GeneralSettings.CompactModeAlwaysOnTop = this._compactModeAlwaysOnTop.Value;
-            ((Shell)ZuneShell.DefaultInstance).CompactModeAlwaysOnTop = this._compactModeAlwaysOnTop.Value;
+            ClientConfiguration.GeneralSettings.CompactModeAlwaysOnTop = _compactModeAlwaysOnTop.Value;
+            ((Shell)ZuneShell.DefaultInstance).CompactModeAlwaysOnTop = _compactModeAlwaysOnTop.Value;
             SQMLog.Log(SQMDataId.CompactModeOnTopSetting, 1);
         }
 
@@ -2084,26 +2028,26 @@ namespace ZuneUI
         {
             get
             {
-                if (this._ratingsChoice == null)
+                if (_ratingsChoice == null)
                 {
-                    Command[] commandArray = new Command[2]
+                    var commandArray = new Command[2]
                     {
-             new RichLayoutCommand( this, Shell.LoadString(StringId.IDS_COMMON_RATINGS_ALL_USERS_OPTION), true),
-             new RichLayoutCommand( this, Shell.LoadString(StringId.IDS_PERSONAL_RATINGS_EACH_USER_OPTION), false)
+                        new RichLayoutCommand(this, Shell.LoadString(StringId.IDS_COMMON_RATINGS_ALL_USERS_OPTION), true),
+                        new RichLayoutCommand( this, Shell.LoadString(StringId.IDS_PERSONAL_RATINGS_EACH_USER_OPTION), false)
                     };
-                    this._ratingsChoice = new BooleanChoice(this);
-                    this._ratingsChoice.Options = commandArray;
-                    this._ratingsChoice.Value = !ClientConfiguration.MediaStore.SharedUserRatings;
-                    this._ratingsChoice.ChosenChanged += (sender, args) => this.CommitList[new ProxySettingDelegate(this.OnRatingsCommit)] = null;
+                    _ratingsChoice = new BooleanChoice(this);
+                    _ratingsChoice.Options = commandArray;
+                    _ratingsChoice.Value = !ClientConfiguration.MediaStore.SharedUserRatings;
+                    _ratingsChoice.ChosenChanged += (sender, args) => CommitList[new ProxySettingDelegate(OnRatingsCommit)] = null;
                 }
-                return this._ratingsChoice;
+                return _ratingsChoice;
             }
         }
 
         private void OnRatingsCommit(object data)
         {
-            ClientConfiguration.MediaStore.SharedUserRatings = !this._ratingsChoice.Value;
-            if (!this._applyRatingsChoice.Value || this._ratingsChoice.Value)
+            ClientConfiguration.MediaStore.SharedUserRatings = !_ratingsChoice.Value;
+            if (!_applyRatingsChoice.Value || _ratingsChoice.Value)
                 return;
             ZuneLibrary.ExportUserRatings(SignIn.Instance.LastSignedInUserId, EMediaTypes.eMediaTypeAudio);
         }
@@ -2112,13 +2056,13 @@ namespace ZuneUI
         {
             get
             {
-                if (this._applyRatingsChoice == null)
+                if (_applyRatingsChoice == null)
                 {
-                    this._applyRatingsChoice = new BooleanChoice(this, Shell.LoadString(StringId.IDS_APPLY_RATINGS_DIALOG_DESCRIPTION));
-                    this._applyRatingsChoice.Value = false;
-                    this._applyRatingsChoice.ChosenChanged += (sender, args) => this.CommitList[new ProxySettingDelegate(this.OnRatingsCommit)] = null;
+                    _applyRatingsChoice = new BooleanChoice(this, Shell.LoadString(StringId.IDS_APPLY_RATINGS_DIALOG_DESCRIPTION));
+                    _applyRatingsChoice.Value = false;
+                    _applyRatingsChoice.ChosenChanged += (sender, args) => CommitList[new ProxySettingDelegate(OnRatingsCommit)] = null;
                 }
-                return this._applyRatingsChoice;
+                return _applyRatingsChoice;
             }
         }
 
@@ -2126,9 +2070,9 @@ namespace ZuneUI
         {
             get
             {
-                if (this._startupPageChoice == null)
+                if (_startupPageChoice == null)
                 {
-                    List<Command> commandList = new List<Command>();
+                    var commandList = new List<Command>();
                     if (FeatureEnablement.IsFeatureEnabled(Features.eQuickplay))
                         commandList.Add(new NamedStringOption(Shell.LoadString(StringId.IDS_VIEW_STARTUPPAGE_QUICKPLAY_CHOICE), Shell.MainFrame.Quickplay.DefaultUIPath));
                     commandList.Add(new NamedStringOption(Shell.LoadString(StringId.IDS_VIEW_STARTUPPAGE_COLLECTION_CHOICE), Shell.MainFrame.Collection.DefaultUIPath));
@@ -2136,42 +2080,43 @@ namespace ZuneUI
                         commandList.Add(new NamedStringOption(Shell.LoadString(StringId.IDS_VIEW_STARTUPPAGE_MARKETPLACE_CHOICE), Shell.MainFrame.Marketplace.DefaultUIPath));
                     if (FeatureEnablement.IsFeatureEnabled(Features.eSocial))
                         commandList.Add(new NamedStringOption(Shell.LoadString(StringId.IDS_VIEW_STARTUPPAGE_SOCIAL_CHOICE), Shell.MainFrame.Social.DefaultUIPath));
-                    this._startupPageChoice = new Choice(this);
-                    this._startupPageChoice.Options = commandList;
-                    foreach (NamedStringOption namedStringOption in commandList)
+                    _startupPageChoice = new Choice(this);
+                    _startupPageChoice.Options = commandList;
+                    foreach (var command in commandList)
                     {
-                        if (namedStringOption.Value == ClientConfiguration.Shell.StartupPage)
-                        {
-                            this._startupPageChoice.ChosenValue = namedStringOption;
-                            break;
-                        }
+                        var namedStringOption = (NamedStringOption)command;
+                        if (namedStringOption.Value != ClientConfiguration.Shell.StartupPage)
+                            continue;
+                        
+                        _startupPageChoice.ChosenValue = namedStringOption;
+                        break;
                     }
-                    this._startupPageChoice.ChosenChanged += (sender, args) => this.CommitList[new ProxySettingDelegate(this.OnStartupPageCommit)] = null;
+                    _startupPageChoice.ChosenChanged += (sender, args) => CommitList[new ProxySettingDelegate(OnStartupPageCommit)] = null;
                 }
-                return this._startupPageChoice;
+                return _startupPageChoice;
             }
         }
 
         private void OnStartupPageCommit(object data)
         {
-            ClientConfiguration.Shell.StartupPage = ((NamedStringOption)this._startupPageChoice.ChosenValue).Value;
+            ClientConfiguration.Shell.StartupPage = ((NamedStringOption)_startupPageChoice.ChosenValue).Value;
             ClientConfiguration.Quickplay.CheckUseCount = false;
         }
 
         public bool AutoLaunchZuneOnConnect
         {
-            get => this._autoLaunchZuneOnConnect;
+            get => _autoLaunchZuneOnConnect;
             set
             {
-                if (this._autoLaunchZuneOnConnect == value)
+                if (_autoLaunchZuneOnConnect == value)
                     return;
-                this._autoLaunchZuneOnConnect = value;
-                this.CommitList[new ProxySettingDelegate(this.OnAutoLaunchZuneOnConnectCommit)] = null;
-                this.FirePropertyChanged(nameof(AutoLaunchZuneOnConnect));
+                _autoLaunchZuneOnConnect = value;
+                CommitList[new ProxySettingDelegate(OnAutoLaunchZuneOnConnectCommit)] = null;
+                FirePropertyChanged(nameof(AutoLaunchZuneOnConnect));
             }
         }
 
-        private void OnAutoLaunchZuneOnConnectCommit(object data) => ClientConfiguration.Devices.AutoLaunchZuneOnConnect = this._autoLaunchZuneOnConnect;
+        private void OnAutoLaunchZuneOnConnectCommit(object data) => ClientConfiguration.Devices.AutoLaunchZuneOnConnect = _autoLaunchZuneOnConnect;
 
         private struct MonitoredFolder
         {
@@ -2180,8 +2125,8 @@ namespace ZuneUI
 
             public MonitoredFolder(string path, EMediaTypes schema)
             {
-                this.Path = path;
-                this.Schema = schema;
+                Path = path;
+                Schema = schema;
             }
         }
     }
